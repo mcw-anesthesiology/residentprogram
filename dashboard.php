@@ -1,5 +1,10 @@
-<?php session_start(); ini_set('display_errors', 1); ini_set('error_reporting', E_ALL); error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE); ?>
-<?php if(empty($_SESSION["id"])){ header("Location: index.php"); }?>
+<?php 
+	session_start(); 
+	ini_set('display_errors', 1); ini_set('error_reporting', E_ALL); error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
+	if(empty($_SESSION["username"])){ 
+		header("Location: index.php"); 
+	}
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
