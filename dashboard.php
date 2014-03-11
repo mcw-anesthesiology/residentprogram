@@ -1,4 +1,5 @@
-
+<?php session_start(); ini_set('display_errors', 1); ini_set('error_reporting', E_ALL); error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE); ?>
+<?php if(empty($_SESSION["id"])){ header("Location: index.php"); }?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,7 +10,7 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
 
-    <title><?php echo ucfirst($_SESSION["type"]) . " Dashboard" ?></title>
+    <title><?php echo ucfirst($_SESSION["type"])." Dashboard"; ?></title>
 
     <!-- Bootstrap core CSS -->
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -41,14 +42,12 @@
           <a class="navbar-brand" href="#">Resident Evaluation System</a>
         </div>
         <div class="navbar-collapse collapse">
-          <form class="navbar-form navbar-right">
-            <input type="text" class="form-control" placeholder="Search...">
-          </form>
           <ul class="nav navbar-nav navbar-right">
             <li><a href="#">Request Evaluation</a></li>
             <li><a href="#">Complete Evaluation</a></li>
             <li><a href="#">View Evaluation</a></li>
-            <li><a href="#">Login</a></li>
+            <li><a href="logout.php">Logout</a></li>
+            <li><a href="#">Welcome, <?php echo ucfirst($_SESSION["fname"])." ".ucfirst($_SESSION["lname"]); ?></a></li>
           </ul>
         </div>
       </div>

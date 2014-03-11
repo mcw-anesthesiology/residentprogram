@@ -1,5 +1,6 @@
 <?php
 	ini_set('display_errors', 1); ini_set('error_reporting', E_ALL); error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
+	session_destroy();
 	$mysqli = new mysqli("localhost", "mcw", "BobbyLite", "mcw");
 	if($mysqli->connect_errno){
 		echo "Failed to connect to MySQL: " . $mysqli->connect_errno . " ) " . $mysqli->connect_error;
@@ -14,8 +15,9 @@
 	if($num == 1){
 		session_start();
 		$_SESSION["username"] = $username;
-		$_SESSION["password"] = $password;
 		$_SESSION["type"] = $row["type"];
+		$_SESSION["fname"] = "First";
+		$_SESSION["lname"] = "Last";
 		header("Location: dashboard.php");
 	}
 	else{
