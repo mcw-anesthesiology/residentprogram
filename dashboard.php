@@ -48,19 +48,89 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
+          <?php 
+            if($_SESSION["type"] == "admin"){
+          ?>
             <li><a href="#">Request Evaluation</a></li>
+            <li><a href="#">View Evaluation</a></li>
+            <li><a href="#">Manage Evaluations</a></li>
+            <li><a href="#">Manage Accounts</a></li>
+            <li><a href="#">Generate Reports</a></li>
+            <li><a href="logout.php">Logout</a></li>
+          <?php 
+            } else if($_SESSION["type"] == "faculty"){
+          ?>
             <li><a href="#">Complete Evaluation</a></li>
             <li><a href="#">View Evaluation</a></li>
             <li><a href="logout.php">Logout</a></li>
-            <li><a href="#">Welcome, <?php echo ucfirst($_SESSION["fname"])." ".ucfirst($_SESSION["lname"]); ?></a></li>
+          <?php 
+            } else if($_SESSION["type"] == "resident"){
+          ?>
+            <li><a href="#">Request Evaluation</a></li>
+            <li><a href="#">View Evaluation</a></li>
+            <li><a href="logout.php">Logout</a></li>
+          <?php
+            }
+          ?>
+
+          <li><a href="#">Welcome, <?php echo ucfirst($_SESSION["fname"])." ".ucfirst($_SESSION["lname"]); ?>
+          <?php 
+            if($_SESSION["type"] == "faculty"){
+          ?>
+            <span class="badge">42</span>
+          <?php 
+            }
+          ?>
+            </a></li>
           </ul>
         </div>
       </div>
     </div>
-
+<?php 
+  if($_SESSION["type"] == "admin"){
+?>
     <div class="container-fluid">
       <div class="row">
-          <h2 class="sub-header">Pending Evaluations</h2>
+          <h2 class="sub-header">All Requests</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Header</th>
+                  <th>Header</th>
+                  <th>Header</th>
+                  <th>Header</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1,001</td>
+                  <td>Lorem</td>
+                  <td>ipsum</td>
+                  <td>dolor</td>
+                  <td>sit</td>
+                </tr>
+                <tr>
+                  <td>1,002</td>
+                  <td>amet</td>
+                  <td>consectetur</td>
+                  <td>adipiscing</td>
+                  <td>elit</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+<?php 
+  }
+  else{
+?>
+    <div class="container-fluid">
+      <div class="row">
+          <h2 class="sub-header">Pending Requests</h2>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
@@ -96,7 +166,7 @@
 
     <div class="container-fluid">
       <div class="row">
-          <h2 class="sub-header">Completed Evaluations</h2>
+          <h2 class="sub-header">Completed Requests</h2>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
@@ -227,7 +297,9 @@
         </div>
       </div>
     </div>
-
+<?php 
+  }
+?>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
