@@ -52,7 +52,15 @@
             <li><a href="#">Complete Evaluation</a></li>
             <li><a href="#">View Evaluation</a></li>
             <li><a href="logout.php">Logout</a></li>
-            <li><a href="#">Welcome, <?php echo ucfirst($_SESSION["fname"])." ".ucfirst($_SESSION["lname"]); ?></a></li>
+            <li><a href="#">Welcome, <?php echo ucfirst($_SESSION["fname"])." ".ucfirst($_SESSION["lname"]); ?>
+              <?php
+                if($_SESSION["type"] == "faculty"){
+                  <span class="badge">42</span>
+              ?>
+              <?php
+                }
+              ?>
+            </a></li>
           </ul>
         </div>
       </div>
@@ -62,7 +70,7 @@
     ?>
     <div class="container-fluid">
       <div class="row">
-          <h2 class="sub-header">Pending Evaluations</h2>
+          <h2 class="sub-header">All Evaluations</h2>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
