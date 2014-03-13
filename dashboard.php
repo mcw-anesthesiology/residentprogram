@@ -52,15 +52,15 @@
             <li><a href="#">Complete Evaluation</a></li>
             <li><a href="#">View Evaluation</a></li>
             <li><a href="logout.php">Logout</a></li>
-            <li><a href="#">Welcome, <?php echo ucfirst($_SESSION["fname"])." ".ucfirst($_SESSION["lname"]); ?>
-              <?php
-                if($_SESSION["type"] == "faculty"){
-                  <span class="badge">42</span>
-              ?>
-              <?php
-                }
-              ?>
-            </a></li>
+            <li><a href="#">Welcome, <?php echo ucfirst($_SESSION["fname"])." ".ucfirst($_SESSION["lname"]); ?></a></li>
+            <?php
+                if($_SESSION["type"] == "faculty"){ 
+			?>
+                  <li><span class="badge">42</span></li>
+			  <?php
+				}
+			  ?>
+            
           </ul>
         </div>
       </div>
