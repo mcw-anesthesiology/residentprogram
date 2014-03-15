@@ -41,14 +41,14 @@
       <div class="row">
         <h2 class="sub-header">Complete Evaluation</h2>
       </div>
-      <form role="form">
+      <form role="form" method="post" action="process_completion.php">
         <div class="table-responsive">
           <table class="table">
             <tbody>
               <tr>
                 <td>The resident demonstrates a commitment to the institution, themselves and society by maintaining personal, emotional, physical and mental health.</td>
                 <td>
-                <div class="btn-group" id="q1">
+                <div class="btn-group" name="q1">
                   <button type="button" class="btn btn-default">Yes</button>
                   <button type="button" class="btn btn-default">No</button>
                   <button type="button" class="btn btn-default">Did No Obesrve</button>
@@ -58,7 +58,7 @@
               <tr>
                 <td>This resident completed safe, thorough and comprehensive handoffs.</td>
                 <td>
-                <div class="btn-group" id="q2">
+                <div class="btn-group" name="q2">
                   <button type="button" class="btn btn-default">Yes</button>
                   <button type="button" class="btn btn-default">No</button>
                   <button type="button" class="btn btn-default">Did No Obesrve</button>
