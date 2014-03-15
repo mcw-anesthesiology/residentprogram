@@ -11,12 +11,12 @@
 	}
 	
 	$faculty = $_POST["faculty"];
-	$evaluationForm = $_POST["evaluationForm"];
+	$evaluationForm = htmlspecialchars($_POST["evaluationForm"]);
 	
 	if($_SESSION["type"] == "admin")
-		$resident = $_POST["resident"];
+		$resident = htmlspecialchars($_POST["resident"]);
 	else
-		$resident = $_SESSION["username"];
+		$resident = htmlspecialchars($_SESSION["username"]);
 		
 		
 	 $ipaddress = "";
