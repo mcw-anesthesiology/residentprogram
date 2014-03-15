@@ -38,5 +38,7 @@
 	$requestDate = date("Y-m-d H:i:s");
 	
 	$mysqli->query("insert into `requests` (requestedBy, requestedTo, status, requestDate, ip) values ('{$resident}', '{$faculty}', 'active', '{$requestDate}', '{$ipaddress}');");
+	
+	header("Location: dashboard.php");
 
 ?>
