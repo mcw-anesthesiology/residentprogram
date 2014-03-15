@@ -4,6 +4,14 @@
 	if(empty($_SESSION["username"])){ 
 		header("Location: index.php"); 
 	}
+	
+	$mysqli = new mysqli("localhost", "mcw", "BobbyLite", "mcw");
+	if($mysqli->connect_errno){
+		echo "Failed to connect to MySQL: " . $mysqli->connect_errno . " ) " . $mysqli->connect_error;
+	}
+	
+	$faculty = $mysqli->query("select id, firstName, lastName from users where type='faculty';");
+	$facultyRow = $faculty->fetch_assoc();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,18 +48,21 @@
     <div class="container-fluid">
       <div class="row">
           <h2 class="sub-header">Request Evaluation</h2>
-            <form role="form">
+            <form role="form" action="process_request.php" method="post">
 <?php 
   if($_SESSION["type"] == "admin"){
+	  $residents = $mysqli->query("select id, firstName, lastName from users where type='resident';");
+	  $residentRow = $residents->fetch_assoc();
 ?>
               <div class="form-group">
                 <label for="resident">Resident</label>
-                <select class="form-control" id="resident">
-                  <option>One One</option>
-                  <option>Two Two</option>
-                  <option>Three Three</option>
-                  <option>Four Four</option>
-                  <option>Five Five</option>
+                <select class="form-control" name="resident">
+					<?php
+						while(!is_null($residentRow)){
+							echo "<option value=\"{$residentRow["id"]}\">{$residentRow["firstName"]} {$residentRow["lastName"]}</option>";
+							$residentRow = $residents->fetch_assoc();
+						}
+					?>
                 </select>
               </div>
 <?php
@@ -59,17 +70,18 @@
 ?>
               <div class="form-group">
                 <label for="facultyMember">Faculty Member</label>
-                <select class="form-control" id="facultyMember">
-                  <option>Dr. One</option>
-                  <option>Dr. Two</option>
-                  <option>Dr. Three</option>
-                  <option>Dr. Four</option>
-                  <option>Dr. Five</option>
+                <select class="form-control" name="faculty">
+					<?php
+						while(!is_null($facultyRow)){
+							echo "<option value=\"{$facultyRow["id"]}\">{$facultyRow["firstName"]} {$facultyRow["lastName"]}</option>";
+							$facultyRow = $faculty->fetch_assoc();
+						}
+					?>
                 </select>
               </div>
               <div class="form-group">
                 <label for="evaluationForm">Evaluation Form</label>
-                <select class="form-control" id="evaluationForm">
+                <select class="form-control" name="evaluationForm">
                   <option>Option 1</option>
                   <option>Option 2</option>
                   <option>Option 3</option>
