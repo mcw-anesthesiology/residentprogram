@@ -45,4 +45,6 @@
 		echo "insert into `responses` (`requestId`, `formId`, `questionId`, `response`) values ('{$requestId}', '{$formId}', '{$question}', '{$response}');";
 	}
 	
+	header("Location: dashboard.php");
+	
 ?>
