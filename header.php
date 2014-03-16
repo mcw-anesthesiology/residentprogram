@@ -38,12 +38,13 @@
 
       <li><a href="dashboard.php">Welcome, <?php echo ucfirst($_SESSION["fname"])." ".ucfirst($_SESSION["lname"]); ?>
       <?php 
-        require "init.php";
-		
-		$requests = $mysqli->query("select * from requests where requestedTo='{$_SESSION["username"]}' and status='active' and completeDate is null;");
-		$num = $requests->num_rows;
-      ?>
-        <span class="badge"><?= $num ?></span>
+        if($_SESSION["type"] == "faculty"){
+			require "init.php";
+			
+			$requests = $mysqli->query("select * from requests where requestedTo='{$_SESSION["username"]}' and status='active' and completeDate is null;");
+			$num = $requests->num_rows;
+	  ?>
+			<span class="badge"><?= $num ?></span>
       <?php 
         }
       ?>
