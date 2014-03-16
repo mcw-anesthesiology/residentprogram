@@ -4,6 +4,11 @@
 	if(empty($_SESSION["username"])){ 
 		header("Location: index.php"); 
 	}
+	
+	$mysqli = new mysqli("localhost", "mcw", "BobbyLite", "mcw");
+	if($mysqli->connect_errno){
+		echo "Failed to connect to MySQL: " . $mysqli->connect_errno . " ) " . $mysqli->connect_error;
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,7 +43,9 @@
 <?php require 'header.php'; ?>
 
 <?php 
-  if($_SESSION["type"] == "admin"){
+  if($_SESSION["type"] == "admin"){				// ************************************ ADMIN ***********************************************************************
+	  $requests = $mysqli->query("select * from requests;");
+	  $requestRow = $requests->fetch_assoc();	  
 ?>
     <div class="container-fluid">
       <div class="row">
@@ -48,27 +55,30 @@
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                  <th>Header</th>
+                  <th>Resident</th>
+                  <th>Faculty</th>
+                  <th>Request Date</th>
+                  <th>Complete Date</th>
+                  <th>Status</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td><a href="view_specific.php">CLICK</a></td>
-                  <td>Lorem</td>
-                  <td>ipsum</td>
-                  <td>dolor</td>
-                  <td>sit</td>
-                </tr>
-                <tr>
-                  <td><a href="view_specific.php">CLICK</a></td>
-                  <td>amet</td>
-                  <td>consectetur</td>
-                  <td>adipiscing</td>
-                  <td>elit</td>
-                </tr>
+				  <?php
+					while(!is_null($requestRow)){
+				  ?>
+						<tr>
+						  <td><a href="complete_specific.php?request=<?= $requestRow["id"] ?>"><?= $requestRow["id"] ?></a></td>
+						  <td><?= $requestRow["requestedBy"] ?></td>
+						  <td><?= $requestRow["requestedTo"] ?></td>
+						  <td><?= $requestRow["requestDate"] ?></td>
+						  <td><?= $requestRow["completeDate"] ?></td>
+						  <td><?= $requestRow["status"] ?></td>
+						</tr>
+						
+                <?php
+						$requestRow = $requests->fetch_assoc();
+					}
+                ?>
               </tbody>
             </table>
           </div>
@@ -77,7 +87,9 @@
     </div>
 <?php 
   }
-  else{
+  else if($_SESSION["type"] == "faculty"){  	// ************************************ FACULTY ***********************************************************************
+	  $requests = $mysqli->query("select * from requests where requestedTo='{$_SESSION["username"]}' and status='active' and completeDate is null;");
+	  $requestRow = $requests->fetch_assoc();
 ?>
     <div class="container-fluid">
       <div class="row">
@@ -87,34 +99,33 @@
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                  <th>Header</th>
+                  <th>Resident</th>
+                  <th>Date</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td><a href="complete_specific.php">CLICK</a></td>
-                  <td>Lorem</td>
-                  <td>ipsum</td>
-                  <td>dolor</td>
-                  <td>sit</td>
-                </tr>
-                <tr>
-                  <td><a href="complete_specific.php">CLICK</a></td>
-                  <td>amet</td>
-                  <td>consectetur</td>
-                  <td>adipiscing</td>
-                  <td>elit</td>
-                </tr>
+				  <?php
+						while(!is_null($requestRow)){
+				  ?>
+							<tr>
+							  <td><a href="complete_specific.php?request=<?= $requestRow["id"] ?>"><?= $requestRow["id"] ?></a></td>
+							  <td><?= $requestRow["requestedBy"] ?></td>
+							  <td><?= $requestRow["requestDate"] ?></td>
+							</tr>
+					<?php
+						$requestRow = $requests->fetch_assoc();
+						}
+					?>
               </tbody>
             </table>
           </div>
         </div>
       </div>
     </div>
-
+<?php
+		$requests = $mysqli->query("select * from requests where requestedTo='{$_SESSION["username"]}' and status='active' and completeDate is not null;");
+		$requestRow = $requests->fetch_assoc();
+?>
     <div class="container-fluid">
       <div class="row">
           <h2 class="sub-header">Completed Requests</h2>
@@ -123,27 +134,97 @@
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                  <th>Header</th>
+                  <th>Resident</th>
+                  <th>Request Date</th>
+                  <th>Completion Date</th>
                 </tr>
               </thead>
               <tbody>
+				  <?php
+						while(!is_null($requestRow)){
+				  ?>
+							<tr>
+							  <td><a href="view_specific.php?request=<?= $requestRow["id"] ?>"><?= $requestRow["id"] ?></a></td>
+							  <td><?= $requestRow["requestedBy"] ?></td>
+							  <td><?= $requestRow["requestDate"] ?></td>
+							  <td><?= $requestRow["completeDate"] ?></td>
+							</tr>
+					<?php
+						$requestRow = $requests->fetch_assoc();
+						}
+					?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+<?php 
+  }
+  else if($_SESSION["type"] == "resident"){			// ************************************ RESIDENT ***********************************************************************
+	  $requests = $mysqli->query("select * from requests where requestedBy='{$_SESSION["username"]}' and status='active' and completeDate is null;");
+	  $requestRow = $requests->fetch_assoc();
+?>
+    <div class="container-fluid">
+      <div class="row">
+          <h2 class="sub-header">Pending Requests</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
                 <tr>
-                  <td><a href="view_specific.php">CLICK</a></td>
-                  <td>Lorem</td>
-                  <td>ipsum</td>
-                  <td>dolor</td>
-                  <td>sit</td>
+                  <th>#</th>
+                  <th>Faculty</th>
+                  <th>Date</th>
                 </tr>
+              </thead>
+              <tbody>
+				   <?php
+						while(!is_null($requestRow)){
+				  ?>
+							<tr>
+							  <td><a href="view_specific.php?request=<?= $requestRow["id"] ?>"><?= $requestRow["id"] ?></a></td>
+							  <td><?= $requestRow["requestedTo"] ?></td>
+							  <td><?= $requestRow["requestDate"] ?></td>
+							</tr>
+					<?php
+						$requestRow = $requests->fetch_assoc();
+						}
+					?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+<?php
+		$requests = $mysqli->query("select * from requests where requestedBy='{$_SESSION["username"]}' and status='active' and completeDate is not null;");
+		$requestRow = $requests->fetch_assoc();
+?>
+    <div class="container-fluid">
+      <div class="row">
+          <h2 class="sub-header">Completed Requests</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
                 <tr>
-                  <td><a href="view_specific.php">CLICK</a></td>
-                  <td>amet</td>
-                  <td>consectetur</td>
-                  <td>adipiscing</td>
-                  <td>elit</td>
+                  <th>#</th>
+                  <th>Faculty</th>
+                  <th>Date</th>
                 </tr>
+              </thead>
+              <tbody>
+				  <?php
+						while(!is_null($requestRow)){
+				  ?>
+							<tr>
+							  <td><a href="view_specific.php?request=<?= $requestRow["id"] ?>"><?= $requestRow["id"] ?></a></td>
+							  <td><?= $requestRow["requestedTo"] ?></td>
+							  <td><?= $requestRow["requestDate"] ?></td>
+							</tr>
+					<?php
+						$requestRow = $requests->fetch_assoc();
+						}
+					?>				
               </tbody>
             </table>
           </div>
