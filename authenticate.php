@@ -1,5 +1,6 @@
 <?php
 	require "init.php";
+	session_destroy();
 	
 	$username = htmlspecialchars($_POST["username"]);
 	$password = md5(htmlspecialchars($_POST["password"])); //have to encrypt this better
