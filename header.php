@@ -23,7 +23,7 @@
       <?php 
         } else if($_SESSION["type"] == "faculty"){
       ?>
-        <li><a href="complete_specific.php">Complete Evaluation</a></li>
+        <li><a href="request.php">Complete Evaluation</a></li>
         <li><a href="dashboard.php">View Evaluation</a></li>
         <li><a href="logout.php">Logout</a></li>
       <?php 

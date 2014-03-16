@@ -10,13 +10,19 @@
 		echo "Failed to connect to MySQL: " . $mysqli->connect_errno . " ) " . $mysqli->connect_error;
 	}
 	
-	$faculty = $_POST["faculty"];
+	
 	$evaluationForm = htmlspecialchars($_POST["evaluationForm"]);
 	
-	if($_SESSION["type"] == "admin")
-		$resident = htmlspecialchars($_POST["resident"]);
-	else
+		
+	if($_SESSION["type"] == "resident")
 		$resident = htmlspecialchars($_SESSION["username"]);
+	else
+		$resident = htmlspecialchars($_POST["resident"]);
+		
+	if($_SESSION["type"] == "faculty")
+		$faculty = htmlspecialchars($_SESSION["username"]);
+	else
+		$faculty = htmlspecialchars($_POST["faculty"]);
 		
 		
 	 $ipaddress = "";
@@ -38,7 +44,12 @@
 	$requestDate = date("Y-m-d H:i:s");
 	
 	$mysqli->query("insert into `requests` (requestedBy, requestedTo, status, requestDate, ip) values ('{$resident}', '{$faculty}', 'active', '{$requestDate}', '{$ipaddress}');");
+	$requestId = $mysqli->insert_id;
 	
-	header("Location: dashboard.php");
+	if($_SESSION["type"] == "faculty"){
+		header("Location: complete_specific.php?request={$requestId}");
+	}
+	else
+		header("Location: dashboard.php");
 
 ?>

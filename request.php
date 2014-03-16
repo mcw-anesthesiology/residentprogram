@@ -50,7 +50,7 @@
           <h2 class="sub-header">Request Evaluation</h2>
             <form role="form" action="process_request.php" method="post">
 <?php 
-  if($_SESSION["type"] == "admin"){
+  if($_SESSION["type"] == "admin" || $_SESSION["type"] == "faculty"){
 	  $residents = $mysqli->query("select id, firstName, lastName from users where type='resident';");
 	  $residentRow = $residents->fetch_assoc();
 ?>
@@ -67,6 +67,7 @@
               </div>
 <?php
   }
+  if($_SESSION["type"] != "faculty"){
 ?>
               <div class="form-group">
                 <label for="facultyMember">Faculty Member</label>
@@ -79,6 +80,9 @@
 					?>
                 </select>
               </div>
+<?php
+	}
+?>
               <div class="form-group">
                 <label for="evaluationForm">Evaluation Form</label>
                 <select class="form-control" name="evaluationForm">
