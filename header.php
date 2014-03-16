@@ -38,11 +38,7 @@
 
       <li><a href="dashboard.php">Welcome, <?php echo ucfirst($_SESSION["fname"])." ".ucfirst($_SESSION["lname"]); ?>
       <?php 
-        if($_SESSION["type"] == "faculty"){
-			$mysqli = new mysqli("localhost", "mcw", "BobbyLite", "mcw");
-		if($mysqli->connect_errno){
-			echo "Failed to connect to MySQL: " . $mysqli->connect_errno . " ) " . $mysqli->connect_error;
-		}
+        require "init.php";
 		
 		$requests = $mysqli->query("select * from requests where requestedTo='{$_SESSION["username"]}' and status='active' and completeDate is null;");
 		$num = $requests->num_rows;

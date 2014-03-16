@@ -1,19 +1,11 @@
 <?php
 	//TODO: make sure evaluation not already completed before doing thigns
-	session_start(); 
-	ini_set('display_errors', 1); ini_set('error_reporting', E_ALL); error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
-	if(empty($_SESSION["username"])){ 
-		header("Location: index.php"); 
-	}
+	require "init.php";
+	
 	if(!isset($_GET["request"]))
 		header("Location: dashboard.php");
 	else
 		$requestId = $_GET["request"];
-
-	$mysqli = new mysqli("localhost", "mcw", "BobbyLite", "mcw");
-	if($mysqli->connect_errno){
-		echo "Failed to connect to MySQL: " . $mysqli->connect_errno . " ) " . $mysqli->connect_error;
-	}
 
 	$formId = "1"; //obviously only for now
 	
