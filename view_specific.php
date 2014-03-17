@@ -15,6 +15,13 @@
 		$questionRow = $questionQuery->fetch_assoc();
 	}
 	
+	$textResponseQuery = $mysqli->query("select `questionId`, `response` from `textResponses` where requestId='{$requestId}';");
+	$textResponseRow = $textResponseQuery->fetch_assoc();
+	while(!is_null($textResponseRow)){
+		$textResponses[] = $textResponseRow["response"];
+		$textResponseRow = $textResponseQuery->fetch_assoc();
+	}
+	
 	$request = $mysqli->query("select * from requests where requestId='{$requestId}';")->fetch_assoc();
 	$evaluation = $mysqli->query("select * from evaluations where requestId='{$requestId}';")->fetch_assoc();
 ?>
@@ -184,9 +191,11 @@
               </tr>
               <tr>
 					<td>Comments on the resident's performance -- their strengths and weaknesses. Be sure to explain all "unacceptable" and "needs improvement" ratings from the previous questions.</td>
+					<td><textarea name="t1"><?= $textResponses[0] ?></textarea></td>
               </tr>
               <tr>
 					<td>Recommendations for future development of this resident.</td>
+					<td><textarea name="t2"><?= $textResponses[1] ?></textarea></td>
 				</tr>
             </tbody>
           </table>

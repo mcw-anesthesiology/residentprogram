@@ -152,9 +152,11 @@
               </tr>
               <tr>
 					<td>Comments on the resident's performance -- their strengths and weaknesses. Be sure to explain all "unacceptable" and "needs improvement" ratings from the previous questions.</td>
+					<td><textarea name="t1"></textarea></td>
               </tr>
               <tr>
 					<td>Recommendations for future development of this resident.</td>
+					<td><textarea name="t2"></textarea></td>
 				</tr>
             </tbody>
           </table>

@@ -36,7 +36,12 @@
 	$mysqli->query("update `requests` set `completeDate`='{$evaluationDate}', status='complete' where `requestId`='{$requestId}';");
 
 	foreach ($_POST as $question => $response){
-		$mysqli->query("insert into `responses` (`requestId`, `formId`, `questionId`, `response`) values ('{$requestId}', '{$formId}', '{$question}', '{$response}');");
+		if(strpos($question, "q") === 0){
+			$mysqli->query("insert into `responses` (`requestId`, `formId`, `questionId`, `response`) values ('{$requestId}', '{$formId}', '{$question}', '{$response}');");
+		}
+		else if(strpos($question, "t") === 0){
+			$mysqli->query("insert into `textResponses` (`requestId`, `formId`, `questionId`, `response`) values ('{$requestId}', '{$formId}', '{$question}', '{$response}');");
+		}
 	}
 	
 	header("Location: dashboard.php");
