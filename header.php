@@ -16,8 +16,8 @@
       ?>
         <li><a href="request.php">Request Evaluation</a></li>
         <li><a href="dashboard.php">View Evaluation</a></li>
-        <li><a href="#">Manage Evaluations</a></li>
-        <li><a href="#">Manage Accounts</a></li>
+        <li><a href="manage_evaluations.php">Manage Evaluations</a></li>
+        <li><a href="manage_accounts.php">Manage Accounts</a></li>
         <li><a href="#">Generate Reports</a></li>
         <li><a href="logout.php">Logout</a></li>
       <?php 

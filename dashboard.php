@@ -1,6 +1,10 @@
 <?php 
 	session_start();
 	require "init.php";
+
+  $stats_One = $mysqli->query("select status, count(status) as total from requests group by status;");
+  $stats_Two = $mysqli->query("select u.firstName, u.lastName, count(r.status) as pending from users u, requests r where u.username = r.faculty and r.status = 'pending' order by pending  limit 3;");
+  $stats_Three = $mysqli->query("select u.firstName, u.lastName, r.completeDate from users u, requests r where u.username = r.resident and r.status not in ('pending','disabled') group by u.userName order by r.completeDate limit 3;");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,6 +45,79 @@
 ?>
     <div class="container-fluid">
       <div class="row">
+        <div class="col-md-12 visible-md visible-lg">
+          <div class="col-md-4">
+            <h4 class="sub-header">Evaluation Statistics</h4>
+            <table class="table table-striped">
+              <tbody>
+  <?php
+  $oneRow = $stats_One->fetch_assoc();
+  while(!is_null($oneRow)){
+    if($oneRow["status"] == "pending"){
+      $msg = "Total Pending:";
+    }
+    else if($oneRow["status"] == "complete"){
+      $msg = "Total Completed:";
+    }
+    else if($oneRow["status"] == "disabled"){
+      $msg = "Total Disabled:";
+    }
+  ?>
+                <tr>
+                  <td><?= $msg ?></td>
+                  <td><?= $oneRow["total"] ?></td>
+                </tr>
+  <?php
+  $oneRow = $stats_One->fetch_assoc();
+  }
+  ?>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="col-md-4">
+            <h4 class="sub-header">Top 3 Most Pending Evaluations  <small><a href="#">view all</a></small></h4>
+            <table class="table table-striped">
+              <tbody>
+  <?php
+  $twoRow = $stats_Two->fetch_assoc();
+  while(!is_null($twoRow)){
+  ?>
+                <tr>
+                  <td><?php echo $twoRow["firstName"]." ".$twoRow["lastName"]; ?></td>
+                  <td><?= $twoRow["pending"] ?></td>
+                </tr>
+  <?php
+  $twoRow = $stats_Two->fetch_assoc();
+  }
+  ?>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="col-md-4">
+            <h4 class="sub-header">Most Recent Evaluation  <small><a href="#">view all</a></small></h4>
+            <table class="table table-striped">
+              <tbody>
+
+  <?php
+  $threeRow = $stats_Three->fetch_assoc();
+  while(!is_null($threeRow)){
+  ?>
+                <tr>
+                  <td><?php echo $threeRow["firstName"]." ".$threeRow["lastName"]; ?></td>
+                  <td><?= $threeRow["completeDate"] ?></td>
+                </tr>
+  <?php
+  $threeRow = $stats_Three->fetch_assoc();
+  }
+  ?>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+
           <h2 class="sub-header">All Requests</h2>
           <div class="table-responsive">
             <table class="table table-striped">
