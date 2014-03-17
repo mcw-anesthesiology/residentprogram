@@ -8,8 +8,6 @@
 	else
 		$requestId = $_GET["request"];
 
-	//$formId = "1"; //obviously only for now
-	
 	$ipaddress = "";
 	if ($_SERVER["HTTP_CLIENT_IP"])
 		$ipaddress = $_SERVER["HTTP_CLIENT_IP"];
@@ -28,11 +26,11 @@
 		 
 	$evaluationDate = date("Y-m-d H:i:s");
 	
-	//$currentTrainingLevel = "CA-1"; //MUST REPLACE THIS WHEN I REDO THE USERS TABLE
 	
-	$user = $mysqli->query("select trainingLevel from users where username='{$_SESSION["username"]}';")->fetch_assoc();
-	$request = $mysqli->query("select formId from requests where requestId='{$requestId}';")->fetch_assoc();
+	$request = $mysqli->query("select resident, formId from requests where requestId='{$requestId}';")->fetch_assoc();
+	$user = $mysqli->query("select trainingLevel from users where username='{$request["resident"]}';")->fetch_assoc();
 	$formId = $request["formId"];
+	$currentTrainingLevel = $user["trainingLevel"];
 	
 	$mysqli->query("insert into `evaluations` (`requestId`, `ipAddress`, `currentTrainingLevel`) values ('{$requestId}', '{$ipaddress}', '{$user["trainingLevel"]}');");
 	$mysqli->query("update `requests` set `completeDate`='{$evaluationDate}', status='complete' where `requestId`='{$requestId}';");
