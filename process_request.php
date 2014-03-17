@@ -1,4 +1,5 @@
 <?php 
+	session_start();
 	require "init.php";
 	
 	
@@ -34,7 +35,7 @@
 		 
 	$requestDate = date("Y-m-d H:i:s");
 	
-	$mysqli->query("insert into `requests` (requestedBy, requestedTo, status, requestDate, ip) values ('{$resident}', '{$faculty}', 'active', '{$requestDate}', '{$ipaddress}');");
+	$mysqli->query("insert into `requests` (formId, resident, faculty, requestedBy, status, requestDate, ipAddress) values ('{$evaluationForm}', '{$resident}', '{$faculty}', '{$_SESSION["username"]}', 'pending', '{$requestDate}', '{$ipaddress}');");
 	$requestId = $mysqli->insert_id;
 	
 	if($_SESSION["type"] == "faculty"){

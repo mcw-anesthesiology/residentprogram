@@ -1,8 +1,12 @@
 <?php 
+	session_start();
 	require "init.php";
 	
-	$faculty = $mysqli->query("select id, firstName, lastName from users where type='faculty';");
+	$faculty = $mysqli->query("select username, firstName, lastName from users where type='faculty';");
 	$facultyRow = $faculty->fetch_assoc();
+	
+	$forms = $mysqli->query("select * from forms;");
+	$formsRow = $forms->fetch_assoc();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,7 +46,7 @@
             <form role="form" action="process_request.php" method="post">
 <?php 
   if($_SESSION["type"] == "admin" || $_SESSION["type"] == "faculty"){
-	  $residents = $mysqli->query("select id, firstName, lastName from users where type='resident';");
+	  $residents = $mysqli->query("select username, firstName, lastName from users where type='resident';");
 	  $residentRow = $residents->fetch_assoc();
 ?>
               <div class="form-group">
@@ -50,7 +54,7 @@
                 <select class="form-control" name="resident">
 					<?php
 						while(!is_null($residentRow)){
-							echo "<option value=\"{$residentRow["id"]}\">{$residentRow["firstName"]} {$residentRow["lastName"]}</option>";
+							echo "<option value=\"{$residentRow["username"]}\">{$residentRow["firstName"]} {$residentRow["lastName"]}</option>";
 							$residentRow = $residents->fetch_assoc();
 						}
 					?>
@@ -65,7 +69,7 @@
                 <select class="form-control" name="faculty">
 					<?php
 						while(!is_null($facultyRow)){
-							echo "<option value=\"{$facultyRow["id"]}\">{$facultyRow["firstName"]} {$facultyRow["lastName"]}</option>";
+							echo "<option value=\"{$facultyRow["username"]}\">{$facultyRow["firstName"]} {$facultyRow["lastName"]}</option>";
 							$facultyRow = $faculty->fetch_assoc();
 						}
 					?>
@@ -77,11 +81,7 @@
               <div class="form-group">
                 <label for="evaluationForm">Evaluation Form</label>
                 <select class="form-control" name="evaluationForm">
-                  <option>Option 1</option>
-                  <option>Option 2</option>
-                  <option>Option 3</option>
-                  <option>Option 4</option>
-                  <option>Option 5</option>
+                  <option value="1">Form 1</option>
                 </select>
               </div>
               <button type="submit" class="btn btn-default">Submit</button>

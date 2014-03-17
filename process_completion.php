@@ -1,5 +1,6 @@
 <?php
 	//TODO: make sure evaluation not already completed before doing thigns
+	session_start();
 	require "init.php";
 	
 	if(!isset($_GET["request"]))
@@ -7,7 +8,7 @@
 	else
 		$requestId = $_GET["request"];
 
-	$formId = "1"; //obviously only for now
+	//$formId = "1"; //obviously only for now
 	
 	$ipaddress = "";
 	if ($_SERVER["HTTP_CLIENT_IP"])
@@ -27,14 +28,17 @@
 		 
 	$evaluationDate = date("Y-m-d H:i:s");
 	
-	$currentCA = "CA-1"; //MUST REPLACE THIS WHEN I REDO THE USERS TABLE
+	//$currentTrainingLevel = "CA-1"; //MUST REPLACE THIS WHEN I REDO THE USERS TABLE
 	
-	$mysqli->query("insert into `evaluations` (`requestId`, `formId`, `ip`, `evaluationDate`, `currentCALevel`) values ('{$requestId}', '{$formId}', '{$ipaddress}', '{$evaluationDate}', '{$currentCA}');");
-	$mysqli->query("update `requests` set `completeDate`='{$evaluationDate}' where `id`='{$requestId}';");
+	$user = $mysqli->query("select trainingLevel from users where username='{$_SESSION["username"]}';")->fetch_assoc();
+	$request = $mysqli->query("select formId from requests where requestId='{$requestId}';")->fetch_assoc();
+	$formId = $request["formId"];
+	
+	$mysqli->query("insert into `evaluations` (`requestId`, `ipAddress`, `currentTrainingLevel`) values ('{$requestId}', '{$ipaddress}', '{$user["trainingLevel"]}');");
+	$mysqli->query("update `requests` set `completeDate`='{$evaluationDate}', status='complete' where `requestId`='{$requestId}';");
 
 	foreach ($_POST as $question => $response){
 		$mysqli->query("insert into `responses` (`requestId`, `formId`, `questionId`, `response`) values ('{$requestId}', '{$formId}', '{$question}', '{$response}');");
-		echo "insert into `responses` (`requestId`, `formId`, `questionId`, `response`) values ('{$requestId}', '{$formId}', '{$question}', '{$response}');";
 	}
 	
 	header("Location: dashboard.php");

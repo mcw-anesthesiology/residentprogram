@@ -41,7 +41,7 @@
         if($_SESSION["type"] == "faculty"){
 			require "init.php";
 			
-			$requests = $mysqli->query("select * from requests where requestedTo='{$_SESSION["username"]}' and status='active' and completeDate is null;");
+			$requests = $mysqli->query("select * from requests where faculty='{$_SESSION["username"]}' and status='pending';");
 			$num = $requests->num_rows;
 	  ?>
 			<span class="badge"><?= $num ?></span>

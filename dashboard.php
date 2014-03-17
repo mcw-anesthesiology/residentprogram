@@ -1,4 +1,5 @@
 <?php 
+	session_start();
 	require "init.php";
 ?>
 <!DOCTYPE html>
@@ -58,9 +59,9 @@
 					while(!is_null($requestRow)){
 				  ?>
 						<tr>
-						  <td><a href="complete_specific.php?request=<?= $requestRow["id"] ?>"><?= $requestRow["id"] ?></a></td>
-						  <td><?= $requestRow["requestedBy"] ?></td>
-						  <td><?= $requestRow["requestedTo"] ?></td>
+						  <td><a href="complete_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
+						  <td><?= $requestRow["resident"] ?></td>
+						  <td><?= $requestRow["faculty"] ?></td>
 						  <td><?= $requestRow["requestDate"] ?></td>
 						  <td><?= $requestRow["completeDate"] ?></td>
 						  <td><?= $requestRow["status"] ?></td>
@@ -79,7 +80,7 @@
 <?php 
   }
   else if($_SESSION["type"] == "faculty"){  	// ************************************ FACULTY ***********************************************************************
-	  $requests = $mysqli->query("select * from requests where requestedTo='{$_SESSION["username"]}' and status='active' and completeDate is null;");
+	  $requests = $mysqli->query("select * from requests where faculty='{$_SESSION["username"]}' and status='pending';");
 	  $requestRow = $requests->fetch_assoc();
 ?>
     <div class="container-fluid">
@@ -99,8 +100,8 @@
 						while(!is_null($requestRow)){
 				  ?>
 							<tr>
-							  <td><a href="complete_specific.php?request=<?= $requestRow["id"] ?>"><?= $requestRow["id"] ?></a></td>
-							  <td><?= $requestRow["requestedBy"] ?></td>
+							  <td><a href="complete_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
+							  <td><?= $requestRow["resident"] ?></td>
 							  <td><?= $requestRow["requestDate"] ?></td>
 							</tr>
 					<?php
@@ -114,7 +115,7 @@
       </div>
     </div>
 <?php
-		$requests = $mysqli->query("select * from requests where requestedTo='{$_SESSION["username"]}' and status='active' and completeDate is not null;");
+		$requests = $mysqli->query("select * from requests where faculty='{$_SESSION["username"]}' and status='complete';");
 		$requestRow = $requests->fetch_assoc();
 ?>
     <div class="container-fluid">
@@ -135,8 +136,8 @@
 						while(!is_null($requestRow)){
 				  ?>
 							<tr>
-							  <td><a href="view_specific.php?request=<?= $requestRow["id"] ?>"><?= $requestRow["id"] ?></a></td>
-							  <td><?= $requestRow["requestedBy"] ?></td>
+							  <td><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
+							  <td><?= $requestRow["resident"] ?></td>
 							  <td><?= $requestRow["requestDate"] ?></td>
 							  <td><?= $requestRow["completeDate"] ?></td>
 							</tr>
@@ -153,7 +154,7 @@
 <?php 
   }
   else if($_SESSION["type"] == "resident"){			// ************************************ RESIDENT ***********************************************************************
-	  $requests = $mysqli->query("select * from requests where requestedBy='{$_SESSION["username"]}' and status='active' and completeDate is null;");
+	  $requests = $mysqli->query("select * from requests where resident='{$_SESSION["username"]}' and status='pending';");
 	  $requestRow = $requests->fetch_assoc();
 ?>
     <div class="container-fluid">
@@ -173,8 +174,8 @@
 						while(!is_null($requestRow)){
 				  ?>
 							<tr>
-							  <td><a href="view_specific.php?request=<?= $requestRow["id"] ?>"><?= $requestRow["id"] ?></a></td>
-							  <td><?= $requestRow["requestedTo"] ?></td>
+							  <td><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
+							  <td><?= $requestRow["faculty"] ?></td>
 							  <td><?= $requestRow["requestDate"] ?></td>
 							</tr>
 					<?php
@@ -188,7 +189,7 @@
       </div>
     </div>
 <?php
-		$requests = $mysqli->query("select * from requests where requestedBy='{$_SESSION["username"]}' and status='active' and completeDate is not null;");
+		$requests = $mysqli->query("select * from requests where resident='{$_SESSION["username"]}' and status='complete';");
 		$requestRow = $requests->fetch_assoc();
 ?>
     <div class="container-fluid">
@@ -208,8 +209,8 @@
 						while(!is_null($requestRow)){
 				  ?>
 							<tr>
-							  <td><a href="view_specific.php?request=<?= $requestRow["id"] ?>"><?= $requestRow["id"] ?></a></td>
-							  <td><?= $requestRow["requestedTo"] ?></td>
+							  <td><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
+							  <td><?= $requestRow["faculty"] ?></td>
 							  <td><?= $requestRow["requestDate"] ?></td>
 							</tr>
 					<?php
