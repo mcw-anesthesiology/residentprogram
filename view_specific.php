@@ -191,11 +191,11 @@
               </tr>
               <tr>
 					<td>Comments on the resident's performance -- their strengths and weaknesses. Be sure to explain all "unacceptable" and "needs improvement" ratings from the previous questions.</td>
-					<td><textarea name="t1"><?= $textResponses[0] ?></textarea></td>
+					<td><textarea name="t1" readonly><?= $textResponses[0] ?></textarea></td>
               </tr>
               <tr>
 					<td>Recommendations for future development of this resident.</td>
-					<td><textarea name="t2"><?= $textResponses[1] ?></textarea></td>
+					<td><textarea name="t2" readonly><?= $textResponses[1] ?></textarea></td>
 				</tr>
             </tbody>
           </table>
