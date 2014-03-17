@@ -7,13 +7,16 @@
 	else
 		$requestId = $_GET["request"];
 	
-	$questionQuery = $mysqli->query("select `questionId`, `response` from responses;");
+	$questionQuery = $mysqli->query("select `questionId`, `response` from responses where requestId='{$requestId}';");
 	$questionRow = $questionQuery->fetch_assoc();
 	while(!is_null($questionRow)){
 		$questions[] = $questionRow["questionId"];
 		$responses[] = $questionRow["response"];
 		$questionRow = $questionQuery->fetch_assoc();
 	}
+	
+	$request = $mysqli->query("select * from requests where requestId='{$requestId}';")->fetch_assoc();
+	$evaluation = $mysqli->query("select * from evaluations where requestId='{$requestId}';")->fetch_assoc();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -52,6 +55,30 @@
         <h2 class="sub-header">View Evaluation</h2>
       </div>
         <div class="table-responsive">
+			<table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Resident</th>
+                  <th>Faculty</th>
+                  <th>Request Date</th>
+                  <th>Complete Date</th>
+                  <th>Status</th>
+                  <th>Training Level</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><?= $requestId ?></td>
+                  <td><?= $request["resident"] ?></td>
+                  <td><?= $request["faculty"] ?></td>
+                  <td><?= $request["requestDate"] ?></td>
+                  <td><?= $request["completeDate"] ?></td>
+                  <td><?= $request["status"] ?></td>
+                  <td><?= $evaluation["currentTrainingLevel"] ?></td>
+                </tr>				  
+			  </tbody>
+		  </table>
           <table class="table">
             <tbody>
               <tr>
@@ -172,5 +199,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="../../assets/js/docs.min.js"></script>
+    <script>
+		<?php
+			for($i = 0; $i < count($responses); $i++){
+				echo "$(\"input[name='{$questions[$i]}'][value='{$responses[$i]}']\").prop(\"checked\", true);";
+			}
+		?>
+		$(':radio:not(:checked)').prop('disabled', true);
+    </script>
   </body>
 </html>
