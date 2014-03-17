@@ -49,12 +49,7 @@
 ?>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-11">
-          <h2 class="sub-header">Manage Evaluations</h2>
-        </div>
-        <div class="col-md-1">
-          <button type="button" class="btn btn-default">New</button>
-        </div>
+        <h2 class="sub-header">Manage Evaluations</h2>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
@@ -65,7 +60,7 @@
                   <th>Request Date</th>
                   <th>Complete Date</th>
                   <th>Status</th>
-                  <th>Disable</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -79,7 +74,7 @@
               <td><?= $requestRow["requestDate"] ?></td>
               <td><?= $requestRow["completeDate"] ?></td>
               <td><?= $requestRow["status"] ?></td>
-              <td><input type="checkbox" value=""></td>
+              <td><a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Disable</a></td>
             </tr>
             
                 <?php
@@ -89,8 +84,7 @@
               </tbody>
             </table>
           </div>
-        </div>
-        <button type="button" class="btn btn-default">Save</button>  
+        </div> 
       </div>
     </div>
 <?php 
