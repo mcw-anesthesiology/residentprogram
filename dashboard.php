@@ -36,7 +36,7 @@
 
 <?php 
   if($_SESSION["type"] == "admin"){				// ************************************ ADMIN ***********************************************************************
-	  $requests = $mysqli->query("select * from requests;");
+	  $requests = $mysqli->query("select * from requests order by requestId desc;");
 	  $requestRow = $requests->fetch_assoc();	  
 ?>
     <div class="container-fluid">
@@ -80,7 +80,7 @@
 <?php 
   }
   else if($_SESSION["type"] == "faculty"){  	// ************************************ FACULTY ***********************************************************************
-	  $requests = $mysqli->query("select * from requests where faculty='{$_SESSION["username"]}' and status='pending';");
+	  $requests = $mysqli->query("select * from requests where faculty='{$_SESSION["username"]}' and status='pending' order by requestId asc;");
 	  $requestRow = $requests->fetch_assoc();
 ?>
     <div class="container-fluid">
@@ -115,7 +115,7 @@
       </div>
     </div>
 <?php
-		$requests = $mysqli->query("select * from requests where faculty='{$_SESSION["username"]}' and status='complete';");
+		$requests = $mysqli->query("select * from requests where faculty='{$_SESSION["username"]}' and status='complete' order by requestId desc;");
 		$requestRow = $requests->fetch_assoc();
 ?>
     <div class="container-fluid">
@@ -154,7 +154,7 @@
 <?php 
   }
   else if($_SESSION["type"] == "resident"){			// ************************************ RESIDENT ***********************************************************************
-	  $requests = $mysqli->query("select * from requests where resident='{$_SESSION["username"]}' and status='pending';");
+	  $requests = $mysqli->query("select * from requests where resident='{$_SESSION["username"]}' and status='pending' order by requestId asc;");
 	  $requestRow = $requests->fetch_assoc();
 ?>
     <div class="container-fluid">
@@ -189,7 +189,7 @@
       </div>
     </div>
 <?php
-		$requests = $mysqli->query("select * from requests where resident='{$_SESSION["username"]}' and status='complete';");
+		$requests = $mysqli->query("select * from requests where resident='{$_SESSION["username"]}' and status='complete' order by requestId desc;");
 		$requestRow = $requests->fetch_assoc();
 ?>
     <div class="container-fluid">
