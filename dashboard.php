@@ -192,7 +192,7 @@
       </div>
     </div>
 <?php
-		$requests = $mysqli->query("select * from requests where faculty='{$_SESSION["username"]}' and status='complete' order by requestId desc;");
+		$requests = $mysqli->query("select * from requests where faculty='{$_SESSION["username"]}' and status='complete' order by completeDate desc;");
 		$requestRow = $requests->fetch_assoc();
 ?>
     <div class="container-fluid">
@@ -266,7 +266,7 @@
       </div>
     </div>
 <?php
-		$requests = $mysqli->query("select * from requests where resident='{$_SESSION["username"]}' and status='complete' order by requestId desc;");
+		$requests = $mysqli->query("select * from requests where resident='{$_SESSION["username"]}' and status='complete' order by completeDate desc;");
 		$requestRow = $requests->fetch_assoc();
 ?>
     <div class="container-fluid">
