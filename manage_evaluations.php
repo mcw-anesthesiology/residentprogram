@@ -74,7 +74,19 @@
               <td><?= $requestRow["requestDate"] ?></td>
               <td><?= $requestRow["completeDate"] ?></td>
               <td><?= $requestRow["status"] ?></td>
-              <td><a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Disable</a></td>
+              <?php
+                if($requestRow["status"] == "disabled"){
+              ?>
+                <td><a href="#" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-ok"></span> Enable</a></td>
+              <?php
+                }
+                else{
+              ?>
+                <td><a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Disable</a></td>
+              <?php
+                }
+              ?>
+            </tr>
             </tr>
             
                 <?php

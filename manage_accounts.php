@@ -72,8 +72,18 @@
 						  <td><?= $requestRow["lastName"] ?></td>
 						  <td><?= $requestRow["createdDate"] ?></td>
 						  <td><?= $requestRow["status"] ?></td>
-              <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Disable</a></td>
-
+              <?php
+                if($requestRow["status"] == "disabled"){
+              ?>
+                <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-ok"></span> Enable</a></td>
+              <?php
+                }
+                else{
+              ?>
+                <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Disable</a></td>
+              <?php
+                }
+              ?>
 						</tr>
 						
                 <?php
