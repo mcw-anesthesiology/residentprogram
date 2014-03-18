@@ -72,24 +72,23 @@
 						  <td><?= $requestRow["lastName"] ?></td>
 						  <td><?= $requestRow["createdDate"] ?></td>
 						  <td><?= $requestRow["status"] ?></td>
-              <?php
-                if($requestRow["status"] == "disabled"){
-              ?>
-                <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-ok"></span> Enable</a></td>
-              <?php
-                }
-                else{
-              ?>
-                <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Disable</a></td>
-              <?php
-                }
-              ?>
-						</tr>
-						
-                <?php
-						$requestRow = $requests->fetch_assoc();
-					}
-                ?>
+<?php
+if($requestRow["status"] == "disabled"){
+?>
+                <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <button class="btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm"><span class="glyphicon glyphicon-ok"></span> Enable</button></td>
+<?php
+}
+else{
+?>
+                <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <button class="btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm"><span class="glyphicon glyphicon-remove"></span> Disable</button></td>
+<?php
+}
+?>
+            </tr>            
+<?php
+$requestRow = $requests->fetch_assoc();
+}
+?>
               </tbody>
             </table>
           </div>
@@ -130,13 +129,23 @@
               <td><?= $requestRow["lastName"] ?></td>
               <td><?= $requestRow["createdDate"] ?></td>
               <td><?= $requestRow["status"] ?></td>
-              <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Disable</a></td>
-            </tr>
-            
-                <?php
-            $requestRow = $requests->fetch_assoc();
-          }
-                ?>
+<?php
+if($requestRow["status"] == "disabled"){
+?>
+                <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <button class="btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm"><span class="glyphicon glyphicon-ok"></span> Enable</button></td>
+<?php
+}
+else{
+?>
+                <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <button class="btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm"><span class="glyphicon glyphicon-remove"></span> Disable</button></td>
+<?php
+}
+?>
+            </tr>            
+<?php
+$requestRow = $requests->fetch_assoc();
+}
+?>
               </tbody>
             </table>
           </div>
@@ -146,6 +155,44 @@
 <?php 
   }
 ?>
+
+<!-- Disable Modal -->
+<div class="modal fade bs-disable-modal-sm" tabindex="-1" role="dialog" aria-labelledby="modalDisable" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalDisable">Disable Evaluation</h4>
+      </div>
+      <div class="modal-body">
+        You have selected to <b>disable</b> the selected evaluation. Would you like to continue?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Enable Modal -->
+<div class="modal fade bs-enable-modal-sm" tabindex="-1" role="dialog" aria-labelledby="modalEnable" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalEnable">Enable Evaluation</h4>
+      </div>
+      <div class="modal-body">
+        You have selected to <b>enable</b> the selected evaluation. Would you like to continue?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
