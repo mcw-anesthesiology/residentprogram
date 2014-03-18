@@ -1,14 +1,6 @@
 <?php 
 	session_start(); 
-	ini_set('display_errors', 1); ini_set('error_reporting', E_ALL); error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
-	if(empty($_SESSION["username"])){ 
-		header("Location: index.php"); 
-	}
-	
-	$mysqli = new mysqli("www.mischka.info", "mcw", "BobbyLite", "mcw");
-	if($mysqli->connect_errno){
-		echo "Failed to connect to MySQL: " . $mysqli->connect_errno . " ) " . $mysqli->connect_error;
-	}
+	require "init.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,8 +36,8 @@
 
 <?php 
   if($_SESSION["type"] == "admin"){				// ************************************ ADMIN ***********************************************************************
-	  $requests = $mysqli->query("select * from users where type = 'resident';");
-	  $requestRow = $requests->fetch_assoc();	  
+	  $users = $mysqli->query("select * from users where type = 'resident';");
+	  $user = $users->fetch_assoc();	  
 ?>
     <div class="container-fluid">
       <div class="row">
@@ -64,29 +56,29 @@
               </thead>
               <tbody>
 				  <?php
-					while(!is_null($requestRow)){
+					while(!is_null($user)){
 				  ?>
 						<tr>
-						  <td><?= $requestRow["username"] ?></td>
-						  <td><?= $requestRow["firstName"] ?></td>
-						  <td><?= $requestRow["lastName"] ?></td>
-						  <td><?= $requestRow["createdDate"] ?></td>
-						  <td><?= $requestRow["status"] ?></td>
+						  <td><?= $user["username"] ?></td>
+						  <td><?= $user["firstName"] ?></td>
+						  <td><?= $user["lastName"] ?></td>
+						  <td><?= $user["createdDate"] ?></td>
+						  <td><?= $user["status"] ?></td>
 <?php
-if($requestRow["status"] == "disabled"){
+if($user["status"] == "disabled"){
 ?>
-                <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <button class="btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm"><span class="glyphicon glyphicon-ok"></span> Enable</button></td>
+                <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <button class="enableUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button></td>
 <?php
 }
 else{
 ?>
-                <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <button class="btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm"><span class="glyphicon glyphicon-remove"></span> Disable</button></td>
+                <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <button class="disableUser btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button></td>
 <?php
 }
 ?>
             </tr>            
 <?php
-$requestRow = $requests->fetch_assoc();
+$user = $users->fetch_assoc();
 }
 ?>
               </tbody>
@@ -96,13 +88,8 @@ $requestRow = $requests->fetch_assoc();
       </div>
     </div>
 <?php 
-  }
-?>
-
-<?php 
-  if($_SESSION["type"] == "admin"){       // ************************************ ADMIN ***********************************************************************
-    $requests = $mysqli->query("select * from users where type = 'faculty';");
-    $requestRow = $requests->fetch_assoc();   
+    $users = $mysqli->query("select * from users where type = 'faculty';");
+    $user = $users->fetch_assoc();   
 ?>
     <div class="container-fluid">
       <div class="row">
@@ -121,29 +108,29 @@ $requestRow = $requests->fetch_assoc();
               </thead>
               <tbody>
           <?php
-          while(!is_null($requestRow)){
+          while(!is_null($user)){
           ?>
             <tr>
-              <td><?= $requestRow["username"] ?></td>
-              <td><?= $requestRow["firstName"] ?></td>
-              <td><?= $requestRow["lastName"] ?></td>
-              <td><?= $requestRow["createdDate"] ?></td>
-              <td><?= $requestRow["status"] ?></td>
+              <td><?= $user["username"] ?></td>
+              <td><?= $user["firstName"] ?></td>
+              <td><?= $user["lastName"] ?></td>
+              <td><?= $user["createdDate"] ?></td>
+              <td><?= $user["status"] ?></td>
 <?php
-if($requestRow["status"] == "disabled"){
+if($user["status"] == "disabled"){
 ?>
-                <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <button class="btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm"><span class="glyphicon glyphicon-ok"></span> Enable</button></td>
+                <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <button class="enableUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button></td>
 <?php
 }
 else{
 ?>
-                <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <button class="btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm"><span class="glyphicon glyphicon-remove"></span> Disable</button></td>
+                <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <button class="disableUser btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button></td>
 <?php
 }
 ?>
             </tr>            
 <?php
-$requestRow = $requests->fetch_assoc();
+$user = $users->fetch_assoc();
 }
 ?>
               </tbody>
@@ -167,9 +154,11 @@ $requestRow = $requests->fetch_assoc();
       <div class="modal-body">
         You have selected to <b>disable</b> the selected evaluation. Would you like to continue?
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger">Confirm</button>
+      <div class="modal-footer modal-disable">
+		<form method="post" action="disable_account.php">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="submit" class="btn btn-danger" id="username" name="username" value="">Confirm</button>
+        </form>
       </div>
     </div>
   </div>
@@ -186,9 +175,11 @@ $requestRow = $requests->fetch_assoc();
       <div class="modal-body">
         You have selected to <b>enable</b> the selected evaluation. Would you like to continue?
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-success">Confirm</button>
+      <div class="modal-footer modal-enable">
+		<form method="post" action="enable_account.php">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-success" id="username" name="username" value="">Confirm</button>
+        </form>
       </div>
     </div>
   </div>
@@ -199,5 +190,16 @@ $requestRow = $requests->fetch_assoc();
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="../../assets/js/docs.min.js"></script>
+    <script>
+		$(document).on("click", ".disableUser", function(){
+			var username = $(this).data('id');
+			$(".modal-disable #username").val(username);
+		});
+		
+		$(document).on("click", ".enableUser", function(){
+			var username = $(this).data('id');
+			$(".modal-enable #username").val(username);
+		});
+    </script>
   </body>
 </html>

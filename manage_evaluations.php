@@ -1,14 +1,6 @@
 <?php 
   session_start(); 
-  ini_set('display_errors', 1); ini_set('error_reporting', E_ALL); error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
-  if(empty($_SESSION["username"])){ 
-    header("Location: index.php"); 
-  }
-  
-  $mysqli = new mysqli("www.mischka.info", "mcw", "BobbyLite", "mcw");
-  if($mysqli->connect_errno){
-    echo "Failed to connect to MySQL: " . $mysqli->connect_errno . " ) " . $mysqli->connect_error;
-  }
+  require "init.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,7 +37,7 @@
 <?php 
   if($_SESSION["type"] == "admin"){       // ************************************ ADMIN ***********************************************************************
     $requests = $mysqli->query("select * from requests;");
-    $requestRow = $requests->fetch_assoc();   
+    $request = $requests->fetch_assoc();   
 ?>
     <div class="container-fluid">
       <div class="row">
@@ -65,30 +57,30 @@
               </thead>
               <tbody>
           <?php
-          while(!is_null($requestRow)){
+          while(!is_null($request)){
           ?>
             <tr>
-              <td><a href="complete_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
-              <td><?= $requestRow["requestedBy"] ?></td>
-              <td><?= $requestRow["faculty"] ?></td>
-              <td><?= $requestRow["requestDate"] ?></td>
-              <td><?= $requestRow["completeDate"] ?></td>
-              <td><?= $requestRow["status"] ?></td>
+              <td><a href="complete_specific.php?request=<?= $request["requestId"] ?>"><?= $request["requestId"] ?></a></td>
+              <td><?= $request["requestedBy"] ?></td>
+              <td><?= $request["faculty"] ?></td>
+              <td><?= $request["requestDate"] ?></td>
+              <td><?= $request["completeDate"] ?></td>
+              <td><?= $request["status"] ?></td>
               <?php
-                if($requestRow["status"] == "disabled"){
+                if($request["status"] == "disabled"){
               ?>
-                <td><button class="btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm"><span class="glyphicon glyphicon-ok"></span> Enable</button></td>
+                <td><button class="enableEval btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $request["requestId"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button></td>
               <?php
                 }
                 else{
               ?>
-                <td><button class="btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm"><span class="glyphicon glyphicon-remove"></span> Disable</button></td>
+                <td><button class="disableEval btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $request["requestId"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button></td>
               <?php
                 }
               ?>
             </tr>
 <?php
-$requestRow = $requests->fetch_assoc();
+$request = $requests->fetch_assoc();
 }
 ?>
               </tbody>
@@ -112,9 +104,11 @@ $requestRow = $requests->fetch_assoc();
       <div class="modal-body">
         You have selected to <b>disable</b> the selected evaluation. Would you like to continue?
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger">Confirm</button>
+      <div class="modal-footer modal-disable">
+		<form method="post" action="disable_evaluation.php">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="submit" class="btn btn-danger" id="requestId" name="requestId" value="">Confirm</button>
+        </form>
       </div>
     </div>
   </div>
@@ -131,9 +125,11 @@ $requestRow = $requests->fetch_assoc();
       <div class="modal-body">
         You have selected to <b>enable</b> the selected evaluation. Would you like to continue?
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-success">Confirm</button>
+      <div class="modal-footer modal-enable">
+		<form method="post" action="enable_evaluation.php">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="submit" class="btn btn-success" id="requestId" name="requestId" value="">Confirm</button>
+        </form>
       </div>
     </div>
   </div>
@@ -145,5 +141,16 @@ $requestRow = $requests->fetch_assoc();
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="../../assets/js/docs.min.js"></script>
+    <script>
+		$(document).on("click", ".disableEval", function(){
+			var requestId = $(this).data('id');
+			$(".modal-disable #requestId").val(requestId);
+		});
+		
+		$(document).on("click", ".enableEval", function(){
+			var requestId = $(this).data('id');
+			$(".modal-enable #requestId").val(requestId);
+		});		
+    </script>
   </body>
 </html>
