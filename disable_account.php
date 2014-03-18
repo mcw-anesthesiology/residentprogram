@@ -3,7 +3,6 @@
 	require "init.php";
 	
 	$username = $_POST["username"];
-	$query = "update users set status = 'inactive' where username = '$username'";
-	mysqli_query($mysqli,$query);
+	$mysqli->query("update users set status='inactive' where username='{$username}'");
 	header("Location: manage_accounts.php");
 ?>

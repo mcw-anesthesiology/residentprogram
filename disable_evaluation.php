@@ -3,7 +3,6 @@
 	require "init.php";
 	
 	$requestId = $_POST["requestId"];
-	$query = "update requests set status = 'disabled' where requestId = $requestId";
-	mysqli_query($mysqli,$query);
+	$mysqli->query("update requests set status='disabled' where requestId='{$requestId}'");
 	header("Location: manage_evaluations.php");
 ?>

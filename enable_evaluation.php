@@ -4,7 +4,7 @@
 	
 	$requestId = $_POST["requestId"];
 	
-	$resultComplete = $mysqli->query("select completeDate from requests where requestId = $requestId");
+	$resultComplete = $mysqli->query("select completeDate from requests where requestId='{$requestId}'");
 	$row = $resultComplete->fetch_assoc();
 
 	if(is_null($row["completeDate"])){
@@ -14,7 +14,6 @@
 		$status = "complete";
 	}
 
-	$query = "update requests set status = '$status' where requestId = $requestId";
-	mysqli_query($mysqli,$query);
+	$mysqli->query("update requests set status='{$status}' where requestId='{$requestId}'";
 	header("Location: manage_evaluations.php");
 ?>
