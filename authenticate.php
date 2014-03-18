@@ -5,8 +5,9 @@
 	$username = htmlspecialchars($_POST["username"]);
 	$password = md5(htmlspecialchars($_POST["password"])); //have to encrypt this better
 	
-	$user = $mysqli->query("select username, password, type, firstName, lastName from users where username='{$username}' and password='{$password}' and status='active'")->fetch_assoc();
-	$num = $user->num_rows;
+	$users = $mysqli->query("select username, password, type, firstName, lastName from users where username='{$username}' and password='{$password}' and status='active'");
+	$user = $users->fetch_assoc();
+	$num = $users->num_rows;
 	if($num == 1){
 		session_start();
 		$_SESSION["username"] = $username;
