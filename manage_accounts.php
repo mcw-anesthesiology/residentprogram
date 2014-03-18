@@ -65,7 +65,7 @@
 						  <td><?= $user["createdDate"] ?></td>
 						  <td><?= $user["status"] ?></td>
 <?php
-if($user["status"] == "disabled"){
+if($user["status"] == "inactive"){
 ?>
                 <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <button class="enableUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button></td>
 <?php
@@ -117,7 +117,7 @@ $user = $users->fetch_assoc();
               <td><?= $user["createdDate"] ?></td>
               <td><?= $user["status"] ?></td>
 <?php
-if($user["status"] == "disabled"){
+if($user["status"] == "inactive"){
 ?>
                 <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <button class="enableUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button></td>
 <?php
@@ -178,7 +178,7 @@ $user = $users->fetch_assoc();
       <div class="modal-footer modal-enable">
 		<form method="post" action="enable_account.php">
 			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			<button type="button" class="btn btn-success" id="username" name="username" value="">Confirm</button>
+			<button type="submit" class="btn btn-success" id="username" name="username" value="">Confirm</button>
         </form>
       </div>
     </div>
