@@ -41,9 +41,9 @@
 ?>
     <div class="container-fluid">
       <div class="row">
-          <h2 class="sub-header">Residents</h2>
+        <h2 class="sub-header">Residents  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
           <div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped user-table">
               <thead>
                 <tr>
                   <th>Username</th>
@@ -59,20 +59,20 @@
 					while(!is_null($user)){
 				  ?>
 						<tr>
-						  <td><?= $user["username"] ?></td>
-						  <td><?= $user["firstName"] ?></td>
-						  <td><?= $user["lastName"] ?></td>
-						  <td><?= $user["createdDate"] ?></td>
-						  <td><?= $user["status"] ?></td>
+              <td id="UN"><?= $user["username"] ?></td>
+              <td id="FN"><?= $user["firstName"] ?></td>
+              <td id="LN"><?= $user["lastName"] ?></td>
+              <td id="CD"><?= $user["createdDate"] ?></td>
+              <td id="ST"><?= $user["status"] ?></td>
 <?php
 if($user["status"] == "inactive"){
 ?>
-                <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <button class="enableUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button></td>
+                <td><button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> <button class="enableUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button></td>
 <?php
 }
 else{
 ?>
-                <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <button class="disableUser btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button></td>
+                <td><button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> <button class="disableUser btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button></td>
 <?php
 }
 ?>
@@ -93,9 +93,9 @@ $user = $users->fetch_assoc();
 ?>
     <div class="container-fluid">
       <div class="row">
-          <h2 class="sub-header">Faculty</h2>
+        <h2 class="sub-header">Faculty  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
           <div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped user-table">
               <thead>
                 <tr>
                   <th>Username</th>
@@ -111,20 +111,20 @@ $user = $users->fetch_assoc();
           while(!is_null($user)){
           ?>
             <tr>
-              <td><?= $user["username"] ?></td>
-              <td><?= $user["firstName"] ?></td>
-              <td><?= $user["lastName"] ?></td>
-              <td><?= $user["createdDate"] ?></td>
-              <td><?= $user["status"] ?></td>
+              <td id="UN"><?= $user["username"] ?></td>
+              <td id="FN"><?= $user["firstName"] ?></td>
+              <td id="LN"><?= $user["lastName"] ?></td>
+              <td id="CD"><?= $user["createdDate"] ?></td>
+              <td id="ST"><?= $user["status"] ?></td>
 <?php
 if($user["status"] == "inactive"){
 ?>
-                <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <button class="enableUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button></td>
+                <td><button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> <button class="enableUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button></td>
 <?php
 }
 else{
 ?>
-                <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <button class="disableUser btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button></td>
+                <td><button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> <button class="disableUser btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button></td>
 <?php
 }
 ?>
@@ -184,6 +184,83 @@ $user = $users->fetch_assoc();
     </div>
   </div>
 </div>
+
+<!-- Edit Modal -->
+<div class="modal fade bs-edit-modal" tabindex="-1" role="dialog" aria-labelledby="modalEdit" aria-hidden="true" id="editModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalEdit">Edit Account</h4>
+      </div>
+      <form method="post" action="edit_account.php">
+        <div class="modal-body modal-edit">
+          <div class="form-group">
+            <label for="usernameInput">Username</label>
+            <input type="text" class="form-control" id="usernameInput" name="username" readonly>
+          </div>
+          <div class="form-group">
+            <label for="firstNameInput">First Name</label>
+            <input type="text" class="form-control" id="firstNameInput" name="firstName">
+          </div>
+          <div class="form-group">
+            <label for="lastNameInput">Last Name</label>
+            <input type="text" class="form-control" id="lastNameInput" name="lastName">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success" value="">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Add Modal -->
+<div class="modal fade bs-add-modal" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalAdd">Add Account</h4>
+      </div>
+      <form method="post" action="add_account.php">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="usernameInput">Username</label>
+            <input type="text" class="form-control" id="usernameInput" name="username" placeholder="Username">
+          </div>
+          <div class="form-group">
+            <label for="passwordInput">Password</label>
+            <input type="password" class="form-control" id="passwordInput" name="password" placeholder="Password">
+          </div>
+          <div class="form-group">
+            <label for="firstNameInput">First Name</label>
+            <input type="text" class="form-control" id="firstNameInput" name="firstName" placeholder="First Name">
+          </div>
+          <div class="form-group">
+            <label for="lastNameInput">Last Name</label>
+            <input type="text" class="form-control" id="lastNameInput" name="lastName" placeholder="Last Name">
+          </div>
+          <div class="form-group">
+            <label for="accountTypeInput">Account Type</label>
+            <select class="form-control" id="accountTypeInput" name="accountType">
+              <option disabled selected value="">Select an account type</option>
+              <option value="resident">Resident</option>
+              <option value="faculty">Faculty</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success" value="">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -200,6 +277,16 @@ $user = $users->fetch_assoc();
 			var username = $(this).data('id');
 			$(".modal-enable #username").val(username);
 		});
+
+    $(".user-table").on('click', '#editBtn', function (){
+      var username = $(this).closest("tr").find("#UN").text();
+      var firstName = $(this).closest("tr").find("#FN").text();
+      var lastName = $(this).closest("tr").find("#LN").text();
+
+      $(".modal-edit #usernameInput").val(username);
+      $(".modal-edit #firstNameInput").val(firstName);
+      $(".modal-edit #lastNameInput").val(lastName);
+    });
     </script>
   </body>
 </html>
