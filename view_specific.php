@@ -241,6 +241,28 @@
 					</tr>
 				</tbody>
 			</table>
+			<!-- Question 10 -->
+			<table class="table table-striped">
+				<tbody>
+              		<tr>
+						<td>Comments on the resident's performance -- their strengths and weaknesses. Be sure to explain all "unacceptable" and "needs improvement" ratings from the previous questions.</td>
+              		</tr>
+              		<tr>
+						<td><textarea name="t1" disabled><?= $textResponses[0] ?></textarea></td>
+              		</tr>
+				</tbody>
+			</table>
+		<!-- Question 10 -->
+			<table class="table table-striped">
+				<tbody>
+              		<tr>
+						<td>Recommendations for future development of this resident.</td>
+              		</tr>
+              		<tr>
+						<td><textarea name="t2" disabled><?= $textResponses[1] ?></textarea></td>
+					</tr>
+            	</tbody>
+          	</table>
         </div>
     </div>
 

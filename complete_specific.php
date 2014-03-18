@@ -57,9 +57,9 @@
 						<td colspan="3"><b>Q1:</b> I am evaluating the resident</td>
 					</tr>
 					<tr>	
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q1" value="1"><br>based on one case</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q1" value="2"><br>based on one day</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q1" value="3"><br>for the rotation month</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q1" value="1"><br>based on one case</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q1" value="2"><br>based on one day</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q1" value="3"><br>for the rotation month</label></td>
 					</tr>
 				</tbody>
 			</table>
@@ -70,14 +70,14 @@
 						<td colspan="8"><b>Q2:</b> Based upon my work with this resident, I feel that they are performing at the following training level.</td>
 					</tr>
 					<tr>	
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q2" value="1"><br>Intern</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q2" value="2"><br></label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q2" value="3"><br>CA-1</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q2" value="4"><br></label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q2" value="5"><br>CA-2</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q2" value="6"><br></label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q2" value="7"><br>CA-3</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q2" value="8"><br>Attending</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q2" value="1"><br>Intern</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q2" value="2"><br></label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q2" value="3"><br>CA-1</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q2" value="4"><br></label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q2" value="5"><br>CA-2</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q2" value="6"><br></label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q2" value="7"><br>CA-3</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q2" value="8"><br>Attending</label></td>
 					</tr>
 				</tbody>
 			</table>
@@ -88,14 +88,14 @@
 						<td colspan="8"><b>Q3:</b> This resident communicates effectively with patient, family, colleagues, staff; a team player.</td>
 					</tr>
 					<tr>	
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q3" value="1"><br>Intern</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q3" value="2"><br></label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q3" value="3"><br>CA-1</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q3" value="4"><br></label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q3" value="5"><br>CA-2</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q3" value="6"><br></label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q3" value="7"><br>CA-3</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q3" value="8"><br>Attending</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q3" value="1"><br>Intern</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q3" value="2"><br></label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q3" value="3"><br>CA-1</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q3" value="4"><br></label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q3" value="5"><br>CA-2</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q3" value="6"><br></label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q3" value="7"><br>CA-3</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q3" value="8"><br>Attending</label></td>
 					</tr>
 				</tbody>
 			</table>
@@ -106,9 +106,9 @@
 						<td colspan="3"><b>Q4:</b> The resident demonstrates a commitment to the institution, themselves and society by maintaining personal, emothional, physical and mental health.</td>
 					</tr>
 					<tr>	
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q4" value="1"><br>Yes</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q4" value="2"><br>No</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q4" value="3"><br>Did Not Obesrve</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q4" value="1"><br>Yes</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q4" value="2"><br>No</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q4" value="3"><br>Did Not Obesrve</label></td>
 					</tr>
 				</tbody>
 			</table>
@@ -119,14 +119,14 @@
 						<td colspan="8"><b>Q5:</b> This resident demonstrated procedural skills appropriate for the following level of training.</td>
 					</tr>
 					<tr>	
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q5" value="1"><br>Intern</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q5" value="2"><br></label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q5" value="3"><br>CA-1</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q5" value="4"><br></label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q5" value="5"><br>CA-2</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q5" value="6"><br></label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q5" value="7"><br>CA-3</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q5" value="8"><br>Attending</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q5" value="1"><br>Intern</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q5" value="2"><br></label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q5" value="3"><br>CA-1</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q5" value="4"><br></label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q5" value="5"><br>CA-2</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q5" value="6"><br></label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q5" value="7"><br>CA-3</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q5" value="8"><br>Attending</label></td>
 					</tr>
 				</tbody>
 			</table>
@@ -137,14 +137,14 @@
 						<td colspan="8"><b>Q6:</b> This resident possesses a fund of knowledge appropriate for the following level of training; they are able to apply knowledge to clinical situations appropriate to the level of training indicated below.</td>
 					</tr>
 					<tr>	
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q6" value="1"><br>Intern</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q6" value="2"><br></label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q6" value="3"><br>CA-1</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q6" value="4"><br></label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q6" value="5"><br>CA-2</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q6" value="6"><br></label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q6" value="7"><br>CA-3</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q6" value="8"><br>Attending</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q6" value="1"><br>Intern</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q6" value="2"><br></label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q6" value="3"><br>CA-1</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q6" value="4"><br></label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q6" value="5"><br>CA-2</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q6" value="6"><br></label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q6" value="7"><br>CA-3</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q6" value="8"><br>Attending</label></td>
 					</tr>
 				</tbody>
 			</table>
@@ -155,14 +155,14 @@
 						<td colspan="8"><b>Q7:</b> This resident responded rapidly and appropriately to critical situations; they demonstrated sound clinical judgment reflective of the following level of training.</td>
 					</tr>
 					<tr>	
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q7" value="1"><br>Intern</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q7" value="2"><br></label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q7" value="3"><br>CA-1</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q7" value="4"><br></label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q7" value="5"><br>CA-2</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q7" value="6"><br></label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q7" value="7"><br>CA-3</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q7" value="8"><br>Attending</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q7" value="1"><br>Intern</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q7" value="2"><br></label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q7" value="3"><br>CA-1</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q7" value="4"><br></label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q7" value="5"><br>CA-2</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q7" value="6"><br></label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q7" value="7"><br>CA-3</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q7" value="8"><br>Attending</label></td>
 					</tr>
 				</tbody>
 			</table>
@@ -173,9 +173,9 @@
 						<td colspan="3"><b>Q8:</b> This resident completed safe, thorough and comprehensive handoffs.</td>
 					</tr>
 					<tr>	
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q8" value="1"><br>Yes</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q8" value="2"><br>No</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q8" value="3"><br>Did Not Obesrve</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q8" value="1"><br>Yes</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q8" value="2"><br>No</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q8" value="3"><br>Did Not Obesrve</label></td>
 					</tr>
 				</tbody>
 			</table>
@@ -186,14 +186,14 @@
 						<td colspan="8"><b>Q9:</b> This resident was appropriately able to locate, appraise and assimilate evidence. They effectively used sources to support own learning. They appear motivated to read literature and apply knowledge to case discussion and management.</td>
 					</tr>
 					<tr>	
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q9" value="1"><br>Intern</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q9" value="2"><br></label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q9" value="3"><br>CA-1</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q9" value="4"><br></label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q9" value="5"><br>CA-2</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q9" value="6"><br></label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q9" value="7"><br>CA-3</label></td>
-						<td class="tdRdoBtn" colspan="1"><label><input disabled type="radio" name="q9" value="8"><br>Attending</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q9" value="1"><br>Intern</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q9" value="2"><br></label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q9" value="3"><br>CA-1</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q9" value="4"><br></label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q9" value="5"><br>CA-2</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q9" value="6"><br></label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q9" value="7"><br>CA-3</label></td>
+						<td class="tdRdoBtn" colspan="1"><label><input type="radio" name="q9" value="8"><br>Attending</label></td>
 					</tr>
 				</tbody>
 			</table>
