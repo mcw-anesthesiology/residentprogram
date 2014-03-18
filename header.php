@@ -19,36 +19,38 @@
         <li><a href="manage_evaluations.php">Manage Evaluations</a></li>
         <li><a href="manage_accounts.php">Manage Accounts</a></li>
         <li><a href="#">Generate Reports</a></li>
-        <li><a href="logout.php">Logout</a></li>
       <?php 
         } else if($_SESSION["type"] == "faculty"){
       ?>
         <li><a href="request.php">Complete Evaluation</a></li>
         <li><a href="dashboard.php">View Evaluation</a></li>
-        <li><a href="logout.php">Logout</a></li>
       <?php 
         } else if($_SESSION["type"] == "resident"){
       ?>
         <li><a href="request.php">Request Evaluation</a></li>
         <li><a href="dashboard.php">View Evaluation</a></li>
-        <li><a href="logout.php">Logout</a></li>
       <?php
         }
       ?>
-
-      <li><a href="dashboard.php">Welcome, <?php echo ucfirst($_SESSION["fname"])." ".ucfirst($_SESSION["lname"]); ?>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, <?php echo ucfirst($_SESSION["fname"])." ".ucfirst($_SESSION["lname"]); ?> 
       <?php 
         if($_SESSION["type"] == "faculty"){
-			require "init.php";
-			
-			$requests = $mysqli->query("select * from requests where faculty='{$_SESSION["username"]}' and status='pending';");
-			$num = $requests->num_rows;
-	  ?>
-			<span class="badge"><?= $num ?></span>
+      require "init.php";
+      $requests = $mysqli->query("select * from requests where faculty='{$_SESSION["username"]}' and status='pending';");
+      $num = $requests->num_rows;
+    ?>
+      <span class="badge"><?= $num ?></span>
       <?php 
         }
       ?>
-        </a></li>
+          <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="dashboard.php">Home</a></li>
+            <li class="divider"></li>
+            <li><a href="logout.php">Logout</a></li>
+          </ul>
+        </li>
       </ul>
     </div>
   </div>
