@@ -59,6 +59,7 @@
                   <th>Last Name</th>
                   <th>Created</th>
                   <th>Status</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -71,6 +72,8 @@
 						  <td><?= $requestRow["lastName"] ?></td>
 						  <td><?= $requestRow["createdDate"] ?></td>
 						  <td><?= $requestRow["status"] ?></td>
+              <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Disable</a></td>
+
 						</tr>
 						
                 <?php
@@ -104,6 +107,7 @@
                   <th>Last Name</th>
                   <th>Created</th>
                   <th>Status</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -116,6 +120,7 @@
               <td><?= $requestRow["lastName"] ?></td>
               <td><?= $requestRow["createdDate"] ?></td>
               <td><?= $requestRow["status"] ?></td>
+              <td><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Disable</a></td>
             </tr>
             
                 <?php
