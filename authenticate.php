@@ -11,9 +11,9 @@
 	if($num == 1){
 		session_start();
 		$_SESSION["username"] = $username;
-		$_SESSION["type"] = $row["type"];
-		$_SESSION["fname"] = $row["firstName"];
-		$_SESSION["lname"] = $row["lastName"];
+		$_SESSION["type"] = $user["type"];
+		$_SESSION["fname"] = $user["firstName"];
+		$_SESSION["lname"] = $user["lastName"];
 		header("Location: dashboard.php");
 	}
 	else{
