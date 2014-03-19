@@ -111,3 +111,39 @@ body {
     box-shadow: 3px 3px 0px transparent;
     transition: 0.5s;
     }
+
+#keywordsAll thead tr th.headerSortUp span {
+  background-image: url('bootstrap/css/sort_asc.png');
+}
+#keywordsAll thead tr th.headerSortDown span {
+  background-image: url('bootstrap/css/sort_desc.png');
+}
+#keywordsAll thead tr th span { 
+  padding-right: 20px;
+  background-repeat: no-repeat;
+  background-position: 100% 100%;
+}
+
+#keywordsPending thead tr th.headerSortUp span {
+  background-image: url('bootstrap/css/sort_asc.png');
+}
+#keywordsPending thead tr th.headerSortDown span {
+  background-image: url('bootstrap/css/sort_desc.png');
+}
+#keywordsPending thead tr th span { 
+  padding-right: 20px;
+  background-repeat: no-repeat;
+  background-position: 100% 100%;
+}
+
+#keywordsComplete thead tr th.headerSortUp span {
+  background-image: url('bootstrap/css/sort_asc.png');
+}
+#keywordsComplete thead tr th.headerSortDown span {
+  background-image: url('bootstrap/css/sort_desc.png');
+}
+#keywordsComplete thead tr th span { 
+  padding-right: 20px;
+  background-repeat: no-repeat;
+  background-position: 100% 100%;
+}

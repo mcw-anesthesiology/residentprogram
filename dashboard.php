@@ -2,7 +2,7 @@
 	session_start();
 	require "init.php";
 
-  $stats_One = $mysqli->query("select status, count(status) as total from requests group by status;");
+  $stats_One = $mysqli->query("select status, count(status) as total from requests where status in ('complete','pending','disabled') group by status;");
   $stats_Two = $mysqli->query("select u.firstName, u.lastName, count(r.status) as pending from users u, requests r where u.username = r.faculty and r.status = 'pending' group by u.username order by pending desc limit 3;");
   $stats_Three = $mysqli->query("select u.firstName, u.lastName, r.completeDate from users u, requests r where u.username = r.resident and r.status not in ('pending','disabled') group by u.userName order by r.completeDate limit 3;");
 ?>
@@ -120,15 +120,15 @@
 
           <h2 class="sub-header">All Requests</h2>
           <div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped" id="keywordsAll" cellspacing="0" cellpadding="0">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Resident</th>
-                  <th>Faculty</th>
-                  <th>Request Date</th>
-                  <th>Complete Date</th>
-                  <th>Status</th>
+                  <th class="headerSortUp"><span>#</span></th>
+                  <th><span>Resident</span></th>
+                  <th><span>Faculty</span></th>
+                  <th><span>Request Date</span></th>
+                  <th><span>Complete Date</span></th>
+                  <th><span>Status</span></th>
                 </tr>
               </thead>
               <tbody>
@@ -136,7 +136,7 @@
 					while(!is_null($requestRow)){
 				  ?>
 						<tr>
-						  <td><a href="complete_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
+						  <td class="lalign"><a href="complete_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
 						  <td><?= $requestRow["resident"] ?></td>
 						  <td><?= $requestRow["faculty"] ?></td>
 						  <td><?= $requestRow["requestDate"] ?></td>
@@ -164,12 +164,13 @@
       <div class="row">
           <h2 class="sub-header">Pending Requests</h2>
           <div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped" id="keywordsPending" cellspacing="0" cellpadding="0">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Resident</th>
-                  <th>Date</th>
+                  <th class="headerSortUp"><span>#</span></th>
+                  <th><span>Resident</span></th>
+                  <th><span>Date</span></th>
+                  <th><span>Action</span></th>
                 </tr>
               </thead>
               <tbody>
@@ -177,9 +178,10 @@
 						while(!is_null($requestRow)){
 				  ?>
 							<tr>
-							  <td><a href="complete_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
+							  <td class="lalign"><a href="complete_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
 							  <td><?= $requestRow["resident"] ?></td>
 							  <td><?= $requestRow["requestDate"] ?></td>
+                <td><button class="cancelEvalFaculty btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-cancel-faculty-modal-sm" data-id="<?= $requestRow["requestId"] ?>"><span class="glyphicon glyphicon-remove"></span> Cancel</button></td>
 							</tr>
 					<?php
 						$requestRow = $requests->fetch_assoc();
@@ -199,13 +201,13 @@
       <div class="row">
           <h2 class="sub-header">Completed Requests</h2>
           <div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped" id="keywordsComplete" cellspacing="0" cellpadding="0">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Resident</th>
-                  <th>Request Date</th>
-                  <th>Completion Date</th>
+                  <th class="headerSortUp"><span>#</span></th>
+                  <th><span>Resident</span></th>
+                  <th><span>Request Date</span></th>
+                  <th><span>Completion Date</span></th>
                 </tr>
               </thead>
               <tbody>
@@ -213,7 +215,7 @@
 						while(!is_null($requestRow)){
 				  ?>
 							<tr>
-							  <td><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
+							  <td class="lalign"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
 							  <td><?= $requestRow["resident"] ?></td>
 							  <td><?= $requestRow["requestDate"] ?></td>
 							  <td><?= $requestRow["completeDate"] ?></td>
@@ -238,12 +240,13 @@
       <div class="row">
           <h2 class="sub-header">Pending Requests</h2>
           <div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped" id="keywordsPending" cellspacing="0" cellpadding="0">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Faculty</th>
-                  <th>Date</th>
+                  <th class="headerSortDown"><span>#</span></th>
+                  <th><span>Faculty</span></th>
+                  <th><span>Date</span></th>
+                  <th><span>Action</span></th>
                 </tr>
               </thead>
               <tbody>
@@ -251,9 +254,10 @@
 						while(!is_null($requestRow)){
 				  ?>
 							<tr>
-							  <td><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
+							  <td class="lalign"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
 							  <td><?= $requestRow["faculty"] ?></td>
 							  <td><?= $requestRow["requestDate"] ?></td>
+                <td><button class="cancelEvalResident btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-cancel-resident-modal-sm" data-id="<?= $requestRow["requestId"] ?>"><span class="glyphicon glyphicon-remove"></span> Cancel</button></td>
 							</tr>
 					<?php
 						$requestRow = $requests->fetch_assoc();
@@ -273,12 +277,12 @@
       <div class="row">
           <h2 class="sub-header">Completed Requests</h2>
           <div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped" id="keywordsComplete" cellspacing="0" cellpadding="0">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Faculty</th>
-                  <th>Date</th>
+                  <th class="headerSortUp"><span>#</span></th>
+                  <th><span>Faculty</span></th>
+                  <th><span>Date</span></th>
                 </tr>
               </thead>
               <tbody>
@@ -286,7 +290,7 @@
 						while(!is_null($requestRow)){
 				  ?>
 							<tr>
-							  <td><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
+							  <td class="lalign"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
 							  <td><?= $requestRow["faculty"] ?></td>
 							  <td><?= $requestRow["requestDate"] ?></td>
 							</tr>
@@ -303,11 +307,78 @@
 <?php 
   }
 ?>
+
+<!-- Canceled Modal Resident-->
+<div class="modal fade bs-cancel-resident-modal-sm" tabindex="-1" role="dialog" aria-labelledby="modalCancelResident" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalCancelResident">Cancel Evaluation</h4>
+      </div>
+      <div class="modal-body">
+        You have selected to <b>cancel</b> the selected evaluation. Would you like to continue?
+      </div>
+      <div class="modal-footer modal-cancel-resident">
+    <form method="post" action="cancel_evaluation_resident.php">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <button type="submit" class="btn btn-danger" id="requestId" name="requestId" value="">Confirm</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Canceled Modal Faculty-->
+<div class="modal fade bs-cancel-faculty-modal-sm" tabindex="-1" role="dialog" aria-labelledby="modalCancelFaculty" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalCancelFaculty">Cancel Evaluation</h4>
+      </div>
+      <div class="modal-body">
+        You have selected to <b>cancel</b> the selected evaluation. Would you like to continue?
+      </div>
+      <div class="modal-footer modal-cancel-faculty">
+    <form method="post" action="cancel_evaluation_faculty.php">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <button type="submit" class="btn btn-danger" id="requestId" name="requestId" value="">Confirm</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="../../assets/js/docs.min.js"></script>
+    <script type="text/javascript" src="bootstrap/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="bootstrap/js/jquery.tablesorter.min.js"></script>
+    <script>
+    $(document).on("click", ".cancelEvalResident", function(){
+      var requestId = $(this).data('id');
+      $(".modal-cancel-resident #requestId").val(requestId);
+    });
+    
+    $(document).on("click", ".cancelEvalFaculty", function(){
+      var requestId = $(this).data('id');
+      $(".modal-cancel-faculty #requestId").val(requestId);
+    }); 
+
+    $(function(){
+      $('#keywordsAll').tablesorter(); 
+    });
+
+    $(function(){
+      $('#keywordsPending').tablesorter(); 
+    });
+
+    $(function(){
+      $('#keywordsComplete').tablesorter(); 
+    });
+    </script>
   </body>
 </html>
