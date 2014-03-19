@@ -141,7 +141,23 @@
 						  <td><?= $requestRow["faculty"] ?></td>
 						  <td><?= $requestRow["requestDate"] ?></td>
 						  <td><?= $requestRow["completeDate"] ?></td>
-						  <td><?= $requestRow["status"] ?></td>
+<?php
+  if($requestRow["status"] == "complete"){
+?>
+						  <td><span class="badge badge-complete"><?= $requestRow["status"] ?></span></td>
+<?php
+  }
+  else if($requestRow["status"] == "pending"){
+?>
+              <td><span class="badge badge-pending"><?= $requestRow["status"] ?></span></td>
+<?php
+  }
+  else{
+?>
+              <td><span class="badge badge-disabled"><?= $requestRow["status"] ?></span></td>
+<?php
+  }
+?>
 						</tr>
 						
                 <?php
@@ -355,7 +371,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="../../assets/js/docs.min.js"></script>
-    <script type="text/javascript" src="bootstrap/js/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="bootstrap/js/jquery.tablesorter.min.js"></script>
     <script>
     $(document).on("click", ".cancelEvalResident", function(){

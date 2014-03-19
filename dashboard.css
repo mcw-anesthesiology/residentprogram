@@ -147,3 +147,13 @@ body {
   background-repeat: no-repeat;
   background-position: 100% 100%;
 }
+
+.badge-complete {
+  background-color: #468847;
+}
+.badge-pending {
+  background-color: #f89406;
+}
+.badge-disabled {
+  background-color: #b94a48;
+}

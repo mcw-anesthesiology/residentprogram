@@ -43,16 +43,16 @@
       <div class="row">
         <h2 class="sub-header">Manage Evaluations</h2>
           <div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped" id="keywordsAll" cellspacing="0" cellpadding="0">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Resident</th>
-                  <th>Faculty</th>
-                  <th>Request Date</th>
-                  <th>Complete Date</th>
-                  <th>Status</th>
-                  <th>Action</th>
+                  <th class="headerSortDown"><span>#</span></th>
+                  <th><span>Resident</span></th>
+                  <th><span>Faculty</span></th>
+                  <th><span>Request Date</span></th>
+                  <th><span>Complete Date</span></th>
+                  <th><span>Status</span></th>
+                  <th><span>Action</span></th>
                 </tr>
               </thead>
               <tbody>
@@ -65,7 +65,23 @@
               <td><?= $request["faculty"] ?></td>
               <td><?= $request["requestDate"] ?></td>
               <td><?= $request["completeDate"] ?></td>
-              <td><?= $request["status"] ?></td>
+<?php
+  if($request["status"] == "complete"){
+?>
+              <td><span class="badge badge-complete"><?= $request["status"] ?></span></td>
+<?php
+  }
+  else if($request["status"] == "pending"){
+?>
+              <td><span class="badge badge-pending"><?= $request["status"] ?></span></td>
+<?php
+  }
+  else{
+?>
+              <td><span class="badge badge-disabled"><?= $request["status"] ?></span></td>
+<?php
+  }
+?>
               <?php
                 if($request["status"] == "disabled"){
               ?>
@@ -141,6 +157,7 @@ $request = $requests->fetch_assoc();
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="../../assets/js/docs.min.js"></script>
+    <script type="text/javascript" src="bootstrap/js/jquery.tablesorter.min.js"></script>
     <script>
 		$(document).on("click", ".disableEval", function(){
 			var requestId = $(this).data('id');
@@ -150,7 +167,11 @@ $request = $requests->fetch_assoc();
 		$(document).on("click", ".enableEval", function(){
 			var requestId = $(this).data('id');
 			$(".modal-enable #requestId").val(requestId);
-		});		
+		});	
+
+    $(function(){
+      $('#keywordsAll').tablesorter(); 
+    });	
     </script>
   </body>
 </html>
