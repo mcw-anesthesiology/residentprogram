@@ -136,7 +136,7 @@
 					while(!is_null($requestRow)){
 				  ?>
 						<tr>
-						  <td class="lalign"><a href="complete_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
+						  <td class="lalign"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
 						  <td><?= $requestRow["resident"] ?></td>
 						  <td><?= $requestRow["faculty"] ?></td>
 						  <td><?= $requestRow["requestDate"] ?></td>
