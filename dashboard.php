@@ -197,7 +197,9 @@
 							  <td class="lalign"><a href="complete_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
 							  <td><?= $requestRow["resident"] ?></td>
 							  <td><?= $requestRow["requestDate"] ?></td>
-                <td><button class="cancelEvalFaculty btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-cancel-faculty-modal-sm" data-id="<?= $requestRow["requestId"] ?>"><span class="glyphicon glyphicon-remove"></span> Cancel</button></td>
+							  <?php if($requestRow["requestedBy"] == $_SESSION["username"]){?>
+								<td><button class="cancelEvalFaculty btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-cancel-faculty-modal-sm" data-id="<?= $requestRow["requestId"] ?>"><span class="glyphicon glyphicon-remove"></span> Cancel</button></td>
+							  <?php } else echo "<td></td>"; ?>
 							</tr>
 					<?php
 						$requestRow = $requests->fetch_assoc();
@@ -273,7 +275,9 @@
 							  <td class="lalign"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
 							  <td><?= $requestRow["faculty"] ?></td>
 							  <td><?= $requestRow["requestDate"] ?></td>
-                <td><button class="cancelEvalResident btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-cancel-resident-modal-sm" data-id="<?= $requestRow["requestId"] ?>"><span class="glyphicon glyphicon-remove"></span> Cancel</button></td>
+							  <?php if($requestRow["requestedBy"] == $_SESSION["username"]){?>
+								<td><button class="cancelEvalResident btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-cancel-resident-modal-sm" data-id="<?= $requestRow["requestId"] ?>"><span class="glyphicon glyphicon-remove"></span> Cancel</button></td>
+							  <?php } else echo "<td></td>"; ?>
 							</tr>
 					<?php
 						$requestRow = $requests->fetch_assoc();
