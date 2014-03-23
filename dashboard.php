@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+    <link rel="shortcut icon" href="favicon.ico">
 
     <title><?php echo ucfirst($_SESSION["type"])." Dashboard"; ?></title>
 
@@ -136,7 +136,7 @@
 					while(!is_null($requestRow)){
 				  ?>
 						<tr>
-						  <td class="lalign"><a href="complete_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
+						  <td class="lalign"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
 						  <td><?= $requestRow["resident"] ?></td>
 						  <td><?= $requestRow["faculty"] ?></td>
 						  <td><?= $requestRow["requestDate"] ?></td>
