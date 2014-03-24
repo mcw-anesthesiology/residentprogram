@@ -41,7 +41,7 @@
 ?>
     <div class="container-fluid">
       <div class="row">
-        <h2 class="sub-header">Residents  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+        <h2 class="sub-header">Residents  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="resident" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
           <div class="table-responsive">
             <table class="table table-striped user-table">
               <thead>
@@ -93,7 +93,7 @@ $user = $users->fetch_assoc();
 ?>
     <div class="container-fluid">
       <div class="row">
-        <h2 class="sub-header">Faculty  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+        <h2 class="sub-header">Faculty  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="faculty" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
           <div class="table-responsive">
             <table class="table table-striped user-table">
               <thead>
@@ -218,7 +218,7 @@ $user = $users->fetch_assoc();
 </div>
 
 <!-- Add Modal -->
-<div class="modal fade bs-add-modal" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true">
+<div class="modal fade bs-add-modal" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true" id="addModal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -226,7 +226,7 @@ $user = $users->fetch_assoc();
         <h4 class="modal-title" id="myModalAdd">Add Account</h4>
       </div>
       <form method="post" action="add_account.php">
-        <div class="modal-body">
+        <div class="modal-body modal-add">
           <div class="form-group">
             <label for="usernameInput">Username</label>
             <input type="text" class="form-control" id="usernameInput" name="username" placeholder="Username">
@@ -234,6 +234,11 @@ $user = $users->fetch_assoc();
           <div class="form-group">
             <label for="passwordInput">Password</label>
             <input type="password" class="form-control" id="passwordInput" name="password" placeholder="Password">
+          </div>
+          <div class="form-group has-feedback" id="confirmPassword">
+            <label for="passwordInput2">Re-Enter Password</label>
+            <input type="password" class="form-control" id="passwordInput2" name="password2" placeholder="Re-Enter Password">
+            <span class="glyphicon form-control-feedback" id="confirmIcon"></span>
           </div>
           <div class="form-group">
             <label for="firstNameInput">First Name</label>
@@ -245,11 +250,7 @@ $user = $users->fetch_assoc();
           </div>
           <div class="form-group">
             <label for="accountTypeInput">Account Type</label>
-            <select class="form-control" id="accountTypeInput" name="accountType">
-              <option disabled selected value="">Select an account type</option>
-              <option value="resident">Resident</option>
-              <option value="faculty">Faculty</option>
-            </select>
+            <input type="text" class="form-control" id="accountTypeInput" name="accountType" disabled>
           </div>
         </div>
         <div class="modal-footer">
@@ -286,6 +287,26 @@ $user = $users->fetch_assoc();
       $(".modal-edit #usernameInput").val(username);
       $(".modal-edit #firstNameInput").val(firstName);
       $(".modal-edit #lastNameInput").val(lastName);
+    });
+
+    $(document).on("click", ".addUser", function(){
+      var type = $(this).data('id');
+      $(".modal-add #accountTypeInput").val(type);
+    });
+
+    $(document).ready(function(){
+      $("#passwordInput2").keyup(function(){
+        var password1 = $("#passwordInput").val();
+        var password2 = $("#passwordInput2").val();
+        if(password1 == password2){
+          $("#confirmPassword").attr("class","form-group has-success has-feedback");
+          $("#confirmIcon").attr("class","glyphicon glyphicon-ok form-control-feedback");
+        }
+        else{
+          $("#confirmPassword").attr("class","form-group has-error has-feedback");
+          $("#confirmIcon").attr("class","glyphicon glyphicon-remove form-control-feedback");
+        }
+      });
     });
     </script>
   </body>

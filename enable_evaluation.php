@@ -14,6 +14,6 @@
 		$status = "complete";
 	}
 
-	$mysqli->query("update requests set status='{$status}' where requestId='{$requestId}'";
+	$mysqli->query("update requests set status='{$status}' where requestId='{$requestId}'");
 	header("Location: manage_evaluations.php");
 ?>
