@@ -3,10 +3,10 @@
 	session_start();
 	require "init.php";
 	
-	if(!isset($_GET["request"]))
+	if(!isset($_POST["requestId"]))
 		header("Location: dashboard.php");
 	else
-		$requestId = $_GET["request"];
+		$requestId = $_POST["requestId"];
 
 	$ipaddress = "";
 	if ($_SERVER["HTTP_CLIENT_IP"])

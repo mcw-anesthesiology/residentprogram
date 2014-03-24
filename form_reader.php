@@ -1,6 +1,5 @@
 <?php
 
-	echo "<html><body>"; //only for testing purposes
 	$form = "evaluation_forms/eval1.xml"; //only for testing purposes
 	
 	$questionType = "";
@@ -11,21 +10,21 @@
 		global $questionType, $questionName;
 				
 		if($name == "question"){
-			echo "<tr>";
+			echo "<table class='table table-striped'>";
 			$questionType = $attrs["type"];
 			$questionName = $attrs["name"];
 			
 		}
 		else if($name == "option"){
 			if($questionType == "radio"){
-				echo "<td><input type='radio' name='{$questionName}' value='{$attrs["value"]}' />";
+				echo "<td class='tdRdoBtn'><label><input type='radio' name='{$questionName}' value='{$attrs["value"]}' /><br />";
 			}
 		}
 		else if($name == "text"){
-			echo "<td>";
+			echo "<tr><td colspan='10'><b>".strtoupper($questionName).": </b>"; 
 		}
 		else if($name == "form"){
-			echo "<form method='post' action='process_completion.php'><table class='table table-striped'>";
+			
 		}
 		
 	}
@@ -35,7 +34,7 @@
 		global $questionType, $questionName;
 		
 		if($name == "form"){
-			echo "</table></form>";
+			
 		}
 		else if($name == "question"){
 			
@@ -43,13 +42,13 @@
 				echo "<td><textarea name='{$questionName}'></textarea></td>";
 			}
 			
-			echo "</tr>";
+			echo "</tr></tbody></table>";
 		}
 		else if($name == "option"){
-			echo "</td>";
+			echo "</label></td>";
 		}
 		else if($name == "text"){
-			echo "</td>";
+			echo "</td></tr><tr>";
 		}
 		
 	}
@@ -73,5 +72,4 @@
 	}
 	xml_parser_free($formParser);
 	
-	echo "</body></html>"; //only for testing purposes
 ?>
