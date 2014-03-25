@@ -2,10 +2,8 @@
 	session_start();
 	require "init.php";
 	
-	$faculty = $mysqli->query("select username, firstName, lastName from users where type='faculty';");
-	$facultyRow = $faculty->fetch_assoc();
 	
-	$forms = $mysqli->query("select * from forms;");
+	$forms = $mysqli->query("select `formId`, `title` from `forms`;"); //active status
 	$formsRow = $forms->fetch_assoc();
 ?>
 <!DOCTYPE html>
@@ -63,6 +61,8 @@
 <?php
   }
   if($_SESSION["type"] != "faculty"){
+	$faculty = $mysqli->query("select username, firstName, lastName from users where type='faculty';");
+	$facultyRow = $faculty->fetch_assoc();
 ?>
               <div class="form-group">
                 <label for="facultyMember">Faculty Member</label>
@@ -81,7 +81,12 @@
               <div class="form-group">
                 <label for="evaluationForm">Evaluation Form</label>
                 <select class="form-control" name="evaluationForm">
-                  <option value="1">Form 1</option>
+					<?php
+						while(!is_null($formsRow)){
+							echo "<option value=\"{$formsRow["formId"]}\">{$formsRow["title"]}</option>";
+							$formsRow = $forms->fetch_assoc();
+						}
+					?>
                 </select>
               </div>
               <button type="submit" class="btn btn-default">Submit</button>
