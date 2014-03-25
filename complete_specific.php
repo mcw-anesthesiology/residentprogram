@@ -5,6 +5,9 @@
 		header("Location: dashboard.php");
 	else
 		$requestId = $_GET["request"];
+		
+	$form = $mysqli->query("select formId from requests where requestId='{$requestId}';")->fetch_assoc();
+	$formId = $form["formId"];
 ?>
 <!DOCTYPE html>
 <html lang="en">

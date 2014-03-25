@@ -1,6 +1,7 @@
 <?php
 
-	$form = "evaluation_forms/eval1.xml"; //only for testing purposes
+	$form = $mysqli->query("select location from forms where formId='{$formId}'")->fetch_assoc();
+	$formLocation = $form["location"];
 	
 	$questionType = "";
 	$questionName = "";
@@ -61,7 +62,7 @@
 	xml_parser_set_option($formParser, XML_OPTION_CASE_FOLDING, false);
 	xml_set_element_handler($formParser, "startElement", "endElement");
 	xml_set_character_data_handler($formParser, "characterData");
-	if(!($fp = fopen($form, "r"))){
+	if(!($fp = fopen($formLocation, "r"))){
 		die("could not open XMl input");
 	}
 	
