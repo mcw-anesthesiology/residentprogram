@@ -7,8 +7,8 @@
 	else
 		$requestId = $_GET["request"];
 		
-	$form = $mysqli->query("select formId from requests where requestId='{$requestId}';")->fetch_assoc();
-	$formId = $form["formId"];
+	$form = $mysqli->query("select location from forms inner join requests on forms.formId=requests.formId where requestId='{$requestId}';")->fetch_assoc(); //do a join and select formLocation straight up
+	$formLocation = $form["location"];
 	
 	$questionQuery = $mysqli->query("select `questionId`, `response` from responses where requestId='{$requestId}';");
 	$questionRow = $questionQuery->fetch_assoc();

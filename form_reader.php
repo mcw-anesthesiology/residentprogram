@@ -1,7 +1,4 @@
 <?php
-
-	$form = $mysqli->query("select location from forms where formId='{$formId}'")->fetch_assoc();
-	$formLocation = $form["location"];
 	
 	$questionType = "";
 	$questionName = "";
