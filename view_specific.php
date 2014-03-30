@@ -7,10 +7,11 @@
 	else
 		$requestId = $_GET["request"];
 		
-	$form = $mysqli->query("select location from forms inner join requests on forms.formId=requests.formId where requestId='{$requestId}';")->fetch_assoc(); //do a join and select formLocation straight up
+	$form = $mysqli->query("select forms.formId, location from forms inner join requests on forms.formId=requests.formId where requestId='{$requestId}';")->fetch_assoc(); //do a join and select formLocation straight up
 	$formLocation = $form["location"];
+	$formId = $form["formId"];
 	
-	$questionQuery = $mysqli->query("select `questionId`, `response` from responses where requestId='{$requestId}';");
+	$questionQuery = $mysqli->query("select `questionId`, `response` from `responsesForm{$formId}` where requestId='{$requestId}';");
 	$questionRow = $questionQuery->fetch_assoc();
 	while(!is_null($questionRow)){
 		$questions[] = $questionRow["questionId"];
@@ -18,7 +19,7 @@
 		$questionRow = $questionQuery->fetch_assoc();
 	}
 	
-	$textResponseQuery = $mysqli->query("select `questionId`, `response` from `textResponses` where requestId='{$requestId}';");
+	$textResponseQuery = $mysqli->query("select `questionId`, `response` from `textResponsesForm{$formId}` where requestId='{$requestId}';");
 	$textResponseRow = $textResponseQuery->fetch_assoc();
 	while(!is_null($textResponseRow)){
 		$textQuestions[] = $textResponseRow["questionId"];

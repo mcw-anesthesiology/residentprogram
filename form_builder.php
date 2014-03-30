@@ -2,7 +2,9 @@
 	session_start(); 
 	require "init.php";
 	
-	$formLocation = "evaluation_forms/" //some random unique string
+	if($_SESSION["type"] !== "admin"){
+		header("Location: dashboard.php");
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">

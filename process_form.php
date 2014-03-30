@@ -2,9 +2,11 @@
 	session_start();
 	require "init.php";
 	
-	if(!isset($_POST["formTitle"])){
+	if(!isset($_POST["formTitle"]) || $_SESSION["type"] !== "admin"){
 		header("Location: form_builder.php");
 	}
+	
+	$formLocation = "evaluation_forms/".uniqid().".xml";
 	
 	$form = new SimpleXmlElement("<form></form>");
 	
@@ -23,6 +25,7 @@
 		}
 		else if($key == "formTitle"){
 			$form->addChild("text", $value);
+			$formTitle = $value;
 		}
 		else{
 			$optionValue = substr($key, strpos($key, ":")+1);
@@ -31,10 +34,13 @@
 			
 		}
 	}
+	$form->asXML($formLocation);
 	
-	$xml = $form->asXML();
-	$xml = str_replace("&", "&amp;", $xml);
-	$xml = str_replace("<", "&lt;", $xml);
-	$xml = str_replace(">", "&gt;", $xml);
-	echo "<p>".$xml."</p>";
+	$mysqli->query("insert into `forms` (`title`, `location`) values ('{$formTitle}', '{$formLocation}');");
+	$formId = $mysqli->insert_id;
+	
+	$mysqli->query("create table `responsesForm{$formId}` select * from `responses` where 1=2;");
+	$mysqli->query("create table `textResponsesForm{$formId}` select * from `textResponses` where 1=2;");
+	
+	header("Location: dashboard.php");
 ?>

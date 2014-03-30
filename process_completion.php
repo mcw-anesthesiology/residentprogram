@@ -37,10 +37,10 @@
 
 	foreach ($_POST as $question => $response){
 		if(is_numeric($response)){
-			$mysqli->query("insert into `responses` (`requestId`, `formId`, `questionId`, `response`) values ('{$requestId}', '{$formId}', '{$question}', '{$response}');");
+			$mysqli->query("insert into `responsesForm{$formId}` (`requestId`, `formId`, `questionId`, `response`) values ('{$requestId}', '{$formId}', '{$question}', '{$response}');");
 		}
 		else{
-			$mysqli->query("insert into `textResponses` (`requestId`, `formId`, `questionId`, `response`) values ('{$requestId}', '{$formId}', '{$question}', '{$response}');");
+			$mysqli->query("insert into `textResponsesForm{$formId}` (`requestId`, `formId`, `questionId`, `response`) values ('{$requestId}', '{$formId}', '{$question}', '{$response}');");
 		}
 	}
 	
