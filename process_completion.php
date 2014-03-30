@@ -1,5 +1,5 @@
 <?php
-	//TODO: make sure evaluation not already completed before doing thigns
+	//TODO: make sure evaluation not already completed before doing thigns, not simply parse questionName to determine text or not
 	session_start();
 	require "init.php";
 	
@@ -36,10 +36,10 @@
 	$mysqli->query("update `requests` set `completeDate`='{$evaluationDate}', status='complete' where `requestId`='{$requestId}';");
 
 	foreach ($_POST as $question => $response){
-		if(strpos($question, "q") === 0){
+		if(is_numeric($response)){
 			$mysqli->query("insert into `responses` (`requestId`, `formId`, `questionId`, `response`) values ('{$requestId}', '{$formId}', '{$question}', '{$response}');");
 		}
-		else if(strpos($question, "t") === 0){
+		else{
 			$mysqli->query("insert into `textResponses` (`requestId`, `formId`, `questionId`, `response`) values ('{$requestId}', '{$formId}', '{$question}', '{$response}');");
 		}
 	}

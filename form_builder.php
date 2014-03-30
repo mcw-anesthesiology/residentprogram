@@ -50,6 +50,7 @@
     <script src="../../assets/js/docs.min.js"></script>
     <script>
 		var radioHtml = "<td class='tdRdoBtn'><label><input type='radio' disabled/><br /><input class='form-input form-option form-option-text' placeholder='Option Text'><br /><input class='form-input form-option form-option-value' type='number' placeholder='Option Value'></label></td>";
+		var textHtml = "<td><textarea disabled></textarea></td>";
 		var questionHtml = "<table class='table table-striped form-input form-question'><tr><td colspan='10'><b class='form-question-name'></b><input type='text' class='form-input form-question-text' placeholder='Question Text' /></td></tr><tr><td colspan='10'><p>Question Type</p><select class='form-control form-question-type'><option value='radio'>Radio</option><option value='text'>Text</option></select></td></tr><tr class='form-options'>"+radioHtml+"</tr><tr><td colspan='10'><button class='form-question-delete'>Delete Question</button></td></tr></table>";
 		
 		$(document).ready(function(){
@@ -59,11 +60,9 @@
 		$(".form").on("change", ".form-question-type", function(){
 			if($(this).val() === "radio"){
 				$(this).parent().parent().next(".form-options").html(radioHtml);
-				//$(this).parents(".form-question").attr("id", "q1").find(".form-question-name").html("Q1:");
 			}
 			else if($(this).val() === "text"){
-				$(this).parent().parent().next(".form-options").html("<td><textarea disabled></textarea></td>");
-				//$(this).parents(".form-question").attr("id", "t1").find(".form-question-name").html("T1:");
+				$(this).parent().parent().next(".form-options").html(textHtml);
 				var questionId = $(this).parents(".form-question").attr("id");
 				$(this).parents(".form-question").find("textarea").attr("name", questionId+":textResponse");
 			}
