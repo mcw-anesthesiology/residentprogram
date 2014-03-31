@@ -24,7 +24,7 @@
 			$question->addAttribute("type", $value);
 		}
 		else if($key == "formTitle"){
-			$form->addChild("text", $value);
+			$form->addChild("title", $value);
 			$formTitle = $value;
 		}
 		else{

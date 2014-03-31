@@ -24,6 +24,9 @@
 		else if($name == "form"){
 			
 		}
+		else if($name == "title"){
+			echo "<h3>";
+		}
 		
 	}
 	
@@ -47,6 +50,9 @@
 		}
 		else if($name == "text"){
 			echo "</td></tr><tr>";
+		}
+		else if($name == "title"){
+			echo "</h3>";
 		}
 		
 	}
