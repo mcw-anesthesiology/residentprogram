@@ -1,6 +1,9 @@
 <?php 
   session_start(); 
   require "init.php";
+
+  $forms = $mysqli->query("select `formId`, `title` from `forms`;");
+  $formsRow = $forms->fetch_assoc();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,7 +44,7 @@
 ?>
     <div class="container-fluid">
       <div class="row">
-        <h2 class="sub-header">Manage Evaluations</h2>
+        <h2 class="sub-header">Manage Evaluations <button class="addEval btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="eval" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
           <div class="table-responsive">
             <table class="table table-striped" id="keywordsAll" cellspacing="0" cellpadding="0">
               <thead>
@@ -150,7 +153,52 @@ $request = $requests->fetch_assoc();
     </div>
   </div>
 </div>
-    
+
+<!-- Add Modal -->
+<div class="modal fade bs-add-modal" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true" id="addModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalAdd">Evaluation Builder</h4>
+      </div>
+      <form method="post">
+        <div class="modal-body modal-add">
+
+          <div class="form-group">
+            <label for="evaluationForm">Please select a form to modify</label>
+            <select class="form-control" name="evaluationForm">
+<?php
+while(!is_null($formsRow)){
+echo "<option value=\"{$formsRow["formId"]}\">{$formsRow["title"]}</option>";
+$formsRow = $forms->fetch_assoc();
+}
+?>
+            </select>
+          </div>
+
+          <div class="select-or">
+            <hr class="hr-or">
+            <span class="span-or">or</span>
+          </div>
+
+          <div class="form-group">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox"> <b>Create a new evaluation form from scratch</b>
+              </label>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success" value="">Choose</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>    
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

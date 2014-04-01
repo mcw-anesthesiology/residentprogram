@@ -139,6 +139,59 @@ $user = $users->fetch_assoc();
         </div>
       </div>
     </div>
+
+<?php 
+    $users = $mysqli->query("select * from users where type = 'admin';");
+    $user = $users->fetch_assoc();   
+?>
+    <div class="container-fluid">
+      <div class="row">
+        <h2 class="sub-header">Administrator  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="admin" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+          <div class="table-responsive">
+            <table class="table table-striped user-table">
+              <thead>
+                <tr>
+                  <th>Username</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Created</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+          <?php
+          while(!is_null($user)){
+          ?>
+            <tr>
+              <td id="UN"><?= $user["username"] ?></td>
+              <td id="FN"><?= $user["firstName"] ?></td>
+              <td id="LN"><?= $user["lastName"] ?></td>
+              <td id="CD"><?= $user["createdDate"] ?></td>
+              <td id="ST"><?= $user["status"] ?></td>
+<?php
+if($user["status"] == "inactive"){
+?>
+                <td><button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> <button class="enableUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button></td>
+<?php
+}
+else{
+?>
+                <td><button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> <button class="disableUser btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button></td>
+<?php
+}
+?>
+            </tr>            
+<?php
+$user = $users->fetch_assoc();
+}
+?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
 <?php 
   }
 ?>

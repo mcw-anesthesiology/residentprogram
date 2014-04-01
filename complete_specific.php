@@ -5,7 +5,9 @@
 		header("Location: dashboard.php");
 	else
 		$requestId = $_GET["request"];
-		
+	
+  $request = $mysqli->query("select * from requests where requestId='{$requestId}';")->fetch_assoc();
+  $evaluation = $mysqli->query("select * from evaluations where requestId='{$requestId}';")->fetch_assoc();
 	$form = $mysqli->query("select location from forms inner join requests on forms.formId=requests.formId where requestId='{$requestId}';")->fetch_assoc(); //do a join and select formLocation straight up
 	$formLocation = $form["location"];
 ?>
@@ -47,9 +49,38 @@
 
 <?php include 'header.php'; ?>
 
-    <div class="container-fluid">
-      <div class="row">
-        <h2 class="sub-header">Complete Evaluation</h2>
+  <div class="container-fluid">
+    <div class="row">
+      <h2 class="sub-header">Complete Evaluation</h2>
+    </div>
+    <div class="table-responsive">
+      <h4 class="sub-header">Currently Completing</h4>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Resident</th>
+              <th>Faculty</th>
+              <th>Request Date</th>
+              <th>Complete Date</th>
+              <th>Status</th>
+              <th>Training Level</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><?= $requestId ?></td>
+              <td><?= $request["resident"] ?></td>
+              <td><?= $request["faculty"] ?></td>
+              <td><?= $request["requestDate"] ?></td>
+              <td><?= $request["completeDate"] ?></td>
+              <td><?= $request["status"] ?></td>
+              <td><?= $evaluation["currentTrainingLevel"] ?></td>
+            </tr>         
+          </tbody>
+        </table>
+        <br>
+        <h4 class="sub-header">Evaluation</h4>
       </div>
       <form role="form" method="post" action="process_completion.php">
         <div class="table-responsive">
