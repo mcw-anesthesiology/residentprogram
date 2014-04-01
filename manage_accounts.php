@@ -344,6 +344,12 @@ $user = $users->fetch_assoc();
 
     $(document).on("click", ".addUser", function(){
       var type = $(this).data('id');
+
+      $(".modal-add #usernameInput").val("");
+      $(".modal-add #passwordInput").val("");
+      $(".modal-add #passwordInput2").val("");
+      $(".modal-add #firstNameInput").val("");
+      $(".modal-add #lastNameInput").val("");
       $(".modal-add #accountTypeInput").val(type);
     });
 
