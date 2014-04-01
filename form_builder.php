@@ -32,17 +32,25 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+	<style>
+		textarea{
+			width:100%;
+			resize: none;
+		}
+	</style>
   </head>
 
   <body>
 	<?php require 'header.php'; ?>
+	<h2 class="sub-header">Form Builder</h2>
 	<form method="post" action="process_form.php">
-		<h3 class="sub-header form-input"><input type="text" id="formTitle" name="formTitle" placeholder="Form Title" /></h3>
-		<button type="submit">Submit Form</button>
+		<h3 class="form-input"><input type="text" id="formTitle" class="form-control input-lg" name="formTitle" placeholder="Form Title" /></h3>
 		<div class="form">
 		</div>
-		<button type="button" id="addQuestion">Add Question</button>
+		<button type="button" class="btn btn-info" id="addQuestion">Add Question</button>
+		<button type="submit" class="btn btn-success">Submit Form</button>
 	</form>
+	<br />
 	
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -51,9 +59,42 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="../../assets/js/docs.min.js"></script>
     <script>
-		var radioHtml = "<td class='tdRdoBtn'><label><input type='radio' disabled/><br /><input class='form-input form-option form-option-text' placeholder='Option Text'><br /><input class='form-input form-option form-option-value' type='number' placeholder='Option Value'></label></td>";
-		var textHtml = "<td><textarea disabled></textarea></td>";
-		var questionHtml = "<table class='table table-striped form-input form-question'><tr><td colspan='10'><b class='form-question-name'></b><input type='text' class='form-input form-question-text' placeholder='Question Text' /></td></tr><tr><td colspan='10'><p>Question Type</p><select class='form-control form-question-type'><option value='radio'>Radio</option><option value='text'>Text</option></select></td></tr><tr class='form-options'>"+radioHtml+"</tr><tr><td colspan='10'><button class='form-question-delete'>Delete Question</button></td></tr></table>";
+		var radioHtml = "<td class='tdRdoBtn'> \
+							<label> \
+								<input type='radio' disabled/><br /> \
+								<input class='form-input form-option form-option-text form-control' placeholder='Option Text'><br /> \
+								<input class='form-input form-option form-option-value form-control' type='number' placeholder='Option Value'> \
+							</label> \
+						</td>";
+
+		var textHtml = "<td> \
+							<textarea disabled> \
+							</textarea> \
+						</td>";
+
+		var questionHtml = "<table class='table table-striped form-input form-question'> \
+								<tr> \
+									<td colspan='10'> \
+										<label class='form-question-name' for='questionText'></label> \
+										<input type='text' class='form-input form-question-text form-control' name='questionText' placeholder='Question Text' /> \
+									</td> \
+								</tr> \
+								<tr> \
+									<td colspan='10'> \
+										<label for='questionType'>Question Type:</label> \
+            							<select class='form-control form-question-type' name='questionType'> \
+											<option value='radio'>Radio</option> \
+											<option value='text'>Text</option> \
+										</select> \
+									</td> \
+								</tr> \
+								<tr class='form-options'>"+radioHtml+"</tr> \
+								<tr> \
+									<td colspan='10'> \
+										<button class='form-question-delete btn btn-danger'>Delete Question</button> \
+									</td> \
+								</tr> \
+							</table>";
 		
 		$(document).ready(function(){
 			addQuestion();
@@ -92,7 +133,7 @@
 		$(".form").on("click", ".form-question-delete", function(){
 			$(this).parents(".form-question").remove();
 		});
-		
+
 		$("#addQuestion").click(function(){
 			addQuestion();
 		});
