@@ -13,6 +13,7 @@
       <ul class="nav navbar-nav navbar-right">
       <?php 
         if($_SESSION["type"] == "admin"){
+			//TODO: Make a bit thinner so it doesn't span across two lines before collapsing 
       ?>
         <li><a href="request.php">Request Evaluation</a></li>
         <li><a href="dashboard.php">View Evaluation</a></li>
@@ -22,7 +23,7 @@
       <?php 
         } else if($_SESSION["type"] == "faculty"){
       ?>
-        <li><a href="request.php">Complete Evaluation</a></li>
+        <li><a href="request.php">Create Evaluation</a></li>
         <li><a href="dashboard.php">View Evaluation</a></li>
       <?php 
         } else if($_SESSION["type"] == "resident"){

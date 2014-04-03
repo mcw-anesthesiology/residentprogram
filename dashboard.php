@@ -1,5 +1,7 @@
 <?php 
 	//TODO: Change favicon links to favicon.png or change filename to favicon.ico
+	//TODO: Change usernames in evaluation rows to actual names
+	
 	session_start();
 	require "init.php";
 

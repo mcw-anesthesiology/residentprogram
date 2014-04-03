@@ -1,4 +1,7 @@
 <?php 
+	//TODO: Make copying and modifying an existing evaluation form work when creating a new form
+	//TODO: Add milestones/competencies to questions both in xml and database
+	
 	session_start(); 
 	require "init.php";
 	
