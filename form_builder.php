@@ -5,6 +5,13 @@
 	if($_SESSION["type"] !== "admin"){
 		header("Location: dashboard.php");
 	}
+	
+	if(isset($_POST["evaluationForm"])){
+		$evaluationForm = $_POST["evaluationForm"];
+	}
+	else{
+		$evaluationForm = "";
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,7 +55,7 @@
 		<div class="form">
 		</div>
 		<button type="button" class="btn btn-info" id="addQuestion">Add Question</button>
-		<button type="submit" class="btn btn-success">Submit Form</button>
+		<button type="submit" class="btn btn-success" name="evaluationForm" value="">Submit Form</button>
 	</form>
 	<br />
 	

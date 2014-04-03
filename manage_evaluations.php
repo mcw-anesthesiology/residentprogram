@@ -162,19 +162,23 @@ $request = $requests->fetch_assoc();
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalAdd">Evaluation Builder</h4>
       </div>
-      <form method="post">
+      <form action="form_builder.php">
         <div class="modal-body modal-add">
 
           <div class="form-group">
-            <label for="evaluationForm">Please select a form to modify</label>
+            <label for="evaluationForm">Please select a form to duplicate and modify</label>
             <select class="form-control" name="evaluationForm">
-<?php
-while(!is_null($formsRow)){
-echo "<option value=\"{$formsRow["formId"]}\">{$formsRow["title"]}</option>";
-$formsRow = $forms->fetch_assoc();
-}
-?>
+				<?php
+				while(!is_null($formsRow)){
+				echo "<option value=\"{$formsRow["formId"]}\">{$formsRow["title"]}</option>";
+				$formsRow = $forms->fetch_assoc();
+				}
+				?>
             </select>
+            <br />
+              <div class="span7 text-center">
+				<button type="submit" class="btn btn-success" formmethod="post">Choose</button>
+			  </div>
           </div>
 
           <div class="select-or">
@@ -183,17 +187,14 @@ $formsRow = $forms->fetch_assoc();
           </div>
 
           <div class="form-group">
-            <div class="checkbox">
-              <label>
-                <input type="checkbox"> <b>Create a new evaluation form from scratch</b>
-              </label>
-            </div>
+			<div class="span7 text-center">
+				<button type="submit" class="btn btn-success" formmethod="get">Create new from scratch</button>
+			</div>
           </div>
 
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-success" value="">Choose</button>
         </div>
       </form>
     </div>
