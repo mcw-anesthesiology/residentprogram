@@ -111,16 +111,22 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="../../assets/js/docs.min.js"></script>
     <script>
-		<?php
-			for($i = 0; $i < count($responses); $i++){
-				echo "$(\"input[name='{$questions[$i]}'][value='{$responses[$i]}']\").prop(\"checked\", true);";
-			}
-			for($i = 0; $i < count($textResponses); $i++){
-				echo "$(\"textarea[name='{$textQuestions[$i]}']\").val(\"{$textResponses[$i]}\");";
-			}
-		?>
-		$("input").prop("disabled", true);
-		$("textarea").prop("disabled", true);
+		$(document).ready(function(){
+			<?php
+				if(isset($responses)){
+					for($i = 0; $i < count($responses); $i++){
+						echo "$(\"input[name='{$questions[$i]}'][value='{$responses[$i]}']\").prop(\"checked\", true);";
+					}
+				}
+				if(isset($textResponses)){
+					for($i = 0; $i < count($textResponses); $i++){
+						echo "$(\"textarea[name='{$textQuestions[$i]}']\").val(\"{$textResponses[$i]}\");";
+					}
+				}
+			?>
+			$("input").prop("disabled", true);
+			$("textarea").prop("disabled", true);
+		});
     </script>
   </body>
 </html>
