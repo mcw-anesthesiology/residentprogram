@@ -35,16 +35,18 @@
       ?>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, <?php echo ucfirst($_SESSION["fname"])." ".ucfirst($_SESSION["lname"]); ?> 
-      <?php 
-        if($_SESSION["type"] == "faculty"){
-      require "init.php";
-      $requests = $mysqli->query("select * from requests where faculty='{$_SESSION["username"]}' and status='pending';");
-      $num = $requests->num_rows;
-    ?>
-      <span class="badge"><?= $num ?></span>
-      <?php 
-        }
-      ?>
+        <?php 
+			if($_SESSION["type"] == "faculty"){
+			  require "init.php";
+			  $requests = $mysqli->query("select * from requests where faculty='{$_SESSION["username"]}' and status='pending';");
+			  $num = $requests->num_rows;
+			  if($num > 0){
+				?>
+					<span class="badge"><?= $num ?></span>
+			    <?php 
+			  }
+			}
+        ?>
           <b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><a href="dashboard.php">Home</a></li>
