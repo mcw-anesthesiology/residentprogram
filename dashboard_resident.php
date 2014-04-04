@@ -1,5 +1,5 @@
 <?php
-	  $requests = $mysqli->query("select * from requests left join forms on requests.formId=forms.formId where resident='{$_SESSION["username"]}' and status='pending' order by requestId asc;");
+	  $requests = $mysqli->query("select * from requests left join forms on requests.formId=forms.formId left join users on requests.faculty=users.username where requests.resident='{$_SESSION["username"]}' and requests.status='pending' order by requestId asc;");
 	  $requestRow = $requests->fetch_assoc();
 ?>
     <div class="container-fluid">
@@ -22,7 +22,7 @@
 				  ?>
 							<tr>
 							  <td class="lalign"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
-							  <td><?= $requestRow["faculty"] ?></td>
+							  <td><?= $requestRow["firstName"] ?> <?= $requestRow["lastName"] ?></td>
 							  <td><?= $requestRow["title"] ?></td>
 							  <td><?= $requestRow["requestDate"] ?></td>
 							  <?php if($requestRow["requestedBy"] == $_SESSION["username"]){?>
@@ -40,7 +40,7 @@
       </div>
     </div>
 <?php
-		$requests = $mysqli->query("select * from requests left join forms on requests.formId=forms.formId where resident='{$_SESSION["username"]}' and status='complete' order by completeDate desc;");
+		$requests = $mysqli->query("select * from requests left join forms on requests.formId=forms.formId left join users on requests.faculty=users.username where resident='{$_SESSION["username"]}' and requests.status='complete' order by completeDate desc;");
 		$requestRow = $requests->fetch_assoc();
 ?>
     <div class="container-fluid">
@@ -63,7 +63,7 @@
 				  ?>
 							<tr>
 							  <td class="lalign"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
-							  <td><?= $requestRow["faculty"] ?></td>
+							  <td><?= $requestRow["firstName"] ?> <?= $requestRow["lastName"] ?></td>
 							  <td><?= $requestRow["title"] ?></td>
 							  <td><?= $requestRow["requestDate"] ?></td>
 							  <td><?= $requestRow["completeDate"] ?></td>
