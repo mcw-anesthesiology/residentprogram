@@ -218,12 +218,12 @@ $request = $requests->fetch_assoc();
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalAdd">Evaluation Builder</h4>
       </div>
-      <form action="form_builder.php">
+      <form action="form_builder.php" method="post">
         <div class="modal-body modal-add">
 
           <div class="form-group">
             <label for="evaluationForm">Please select a form to duplicate and modify</label>
-            <select class="form-control" name="evaluationForm">
+            <select class="form-control">
 				<?php
 				while(!is_null($formsRow)){
 				echo "<option value=\"{$formsRow["formId"]}\">{$formsRow["title"]}</option>";
@@ -233,7 +233,7 @@ $request = $requests->fetch_assoc();
             </select>
             <br />
               <div class="span7 text-center">
-				<button type="submit" class="btn btn-success" formmethod="post">Choose</button>
+				<button type="submit" class="btn btn-success">Choose</button>
 			  </div>
           </div>
 
@@ -244,7 +244,7 @@ $request = $requests->fetch_assoc();
 
           <div class="form-group">
 			<div class="span7 text-center">
-				<button type="submit" class="btn btn-success" formmethod="get">Create new from scratch</button>
+				<button type="submit" class="btn btn-success">Create new from scratch</button>
 			</div>
           </div>
 
