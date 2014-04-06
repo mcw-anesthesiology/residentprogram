@@ -166,11 +166,11 @@ $request = $requests->fetch_assoc();
       <div class="modal-body modal-msc">
         <div class="form-group">
           <label for="title">Title</label>
-          <input type="text" class="form-control" id="title" name="title" placeholder="Milestone title">
+          <input type="text" class="form-control" id="milestoneTitle" name="milestoneTitle" placeholder="Milestone title">
         </div>
         <div class="form-group">
           <label for="description">Description</label>
-          <input type="text" class="form-control" id="description" name="description" placeholder="Milestone description">
+          <input type="text" class="form-control" id="milestoneDescription" name="milestoneDescription" placeholder="Milestone description">
         </div>
       </div>
       <div class="modal-footer modal-msc">
@@ -194,11 +194,11 @@ $request = $requests->fetch_assoc();
       <div class="modal-body modal-msc">
         <div class="form-group">
           <label for="title">Title</label>
-          <input type="text" class="form-control" id="title" name="title" placeholder="Competency title">
+          <input type="text" class="form-control" id="competencyTitle" name="competencyTitle" placeholder="Competency title">
         </div>
         <div class="form-group">
           <label for="description">Description</label>
-          <input type="text" class="form-control" id="description" name="description" placeholder="Competency description">
+          <input type="text" class="form-control" id="competencyDescription" name="competencyDescription" placeholder="Competency description">
         </div>
       </div>
       <div class="modal-footer modal-msc">
