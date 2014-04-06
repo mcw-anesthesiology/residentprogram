@@ -44,7 +44,7 @@
 ?>
     <div class="container-fluid">
       <div class="row">
-        <h2 class="sub-header">Manage Evaluations <button class="addEval btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="eval" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+        <h2 class="sub-header">Manage Evaluations <button class="addEval btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="eval" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button> <button class="addMSC btn btn-success btn-xs" data-toggle="modal" data-target=".bs-msc-modal" data-id="eval" id="addMSCBtn"><span class="glyphicon glyphicon-plus"></span> New Milestone/Competency</button></h2>
           <div class="table-responsive">
             <table class="table table-striped" id="keywordsAll" cellspacing="0" cellpadding="0">
               <thead>
@@ -149,6 +149,47 @@ $request = $requests->fetch_assoc();
 			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 			<button type="submit" class="btn btn-success" id="requestId" name="requestId" value="">Confirm</button>
         </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Milestone/Competency Modal -->
+<div class="modal fade bs-msc-modal" tabindex="-1" role="dialog" aria-labelledby="modalMSC" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalMSC">New Milestone/Competency</h4>
+      </div>
+      <form method="post" action="#">
+      <div class="modal-body modal-msc">
+        <div class="radio">
+          <label>
+          <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+           Milestone
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+          <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+            Competency
+          </label>
+        </div>
+        <hr>
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" class="form-control" id="title" placeholder="Enter title">
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <input type="text" class="form-control" id="description" placeholder="Enter description">
+        </div>
+      </div>
+      <div class="modal-footer modal-msc">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-success" id="requestId" name="requestId" value="">Add</button>
+      </form>
       </div>
     </div>
   </div>
