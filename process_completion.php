@@ -1,5 +1,5 @@
 <?php
-	//TODO: make sure evaluation not already completed before doing thigns
+	//TODO: make sure evaluation not already completed before doing thigns, client-side error checking to make sure every question is answered
 	session_start();
 	require "init.php";
 	
@@ -56,6 +56,7 @@
 		}
 		else if(is_numeric($response)){
 			$responseStmt->execute();
+			$questionWeight = "";
 		}
 		else{
 			$textStmt->execute();

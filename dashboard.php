@@ -1,5 +1,6 @@
 <?php 
 	//TODO: Change favicon links to favicon.png or change filename to favicon.ico
+	//TODO: Better sql security, parsing inputs and prepared statements
 	
 	session_start();
 	require "init.php";
@@ -98,27 +99,27 @@
     <script src="../../assets/js/docs.min.js"></script>
     <script type="text/javascript" src="bootstrap/js/jquery.tablesorter.min.js"></script>
     <script>
-    $(document).on("click", ".cancelEvalResident", function(){
-      var requestId = $(this).data('id');
-      $(".modal-cancel-resident #requestId").val(requestId);
-    });
-    
-    $(document).on("click", ".cancelEvalFaculty", function(){
-      var requestId = $(this).data('id');
-      $(".modal-cancel-faculty #requestId").val(requestId);
-    }); 
+		$(document).on("click", ".cancelEvalResident", function(){
+		  var requestId = $(this).data('id');
+		  $(".modal-cancel-resident #requestId").val(requestId);
+		});
+		
+		$(document).on("click", ".cancelEvalFaculty", function(){
+		  var requestId = $(this).data('id');
+		  $(".modal-cancel-faculty #requestId").val(requestId);
+		}); 
 
-    $(function(){
-      $('#keywordsAll').tablesorter(); 
-    });
+		$(function(){
+		  $('#keywordsAll').tablesorter(); 
+		});
 
-    $(function(){
-      $('#keywordsPending').tablesorter(); 
-    });
+		$(function(){
+		  $('#keywordsPending').tablesorter(); 
+		});
 
-    $(function(){
-      $('#keywordsComplete').tablesorter(); 
-    });
+		$(function(){
+		  $('#keywordsComplete').tablesorter(); 
+		});
     </script>
   </body>
 </html>

@@ -1,4 +1,5 @@
 <?php
+	//TODO: Client side error checking to make sure all corresponding fields are submitted
 	session_start();
 	require "init.php";
 	

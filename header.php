@@ -49,8 +49,6 @@
         ?>
           <b class="caret"></b></a>
           <ul class="dropdown-menu">
-            <li><a href="dashboard.php">Home</a></li>
-            <li class="divider"></li>
             <li><a href="logout.php">Logout</a></li>
           </ul>
         </li>
