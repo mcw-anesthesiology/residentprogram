@@ -2,6 +2,7 @@
 	
 	$questionType = "";
 	$questionName = "";
+	$questionWeight = "";
 	
 	function startElement($parser, $name, $attrs){
 		
@@ -11,6 +12,8 @@
 			echo "<table class='table table-striped'>";
 			$questionType = $attrs["type"];
 			$questionName = $attrs["name"];
+			$questionWeight = $attrs["weight"];
+			echo "<input type='hidden' name='{$questionName}:weight' value='{$questionWeight}'";
 			
 		}
 		else if($name == "option"){

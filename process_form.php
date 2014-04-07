@@ -29,6 +29,9 @@
 		else if(strpos($key, "competency") !== false){
 			$competencies[$questionName] = $value;
 		}
+		else if(strpos($key, "weight") !== false){
+			$question->addAttribute("weight", $value);
+		}
 		else if($key == "formTitle"){
 			$form->addChild("title", $value);
 			$formTitle = $value;
@@ -80,5 +83,5 @@
 	}
 	
 	
-	header("Location: form_builder.php");
+	header("Location: manage_evaluations.php");
 ?>

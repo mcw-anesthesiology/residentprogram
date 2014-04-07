@@ -126,6 +126,12 @@
 								"</tr>"+
 								"<tr>" +
 									"<td colspan='10'>" +
+										"<label>Question Weight</label>" +
+										"<input class='form-input form-control form-question-weight' type='number' min='0' max='200' value='100' />" +
+									"</td>" +
+								"</tr>"+								
+								"<tr>" +
+									"<td colspan='10'>" +
 										"<label for='questionType'>Question Type:</label>" +
             							"<select class='form-control form-question-type' name='questionType'>" +
 											"<option value='radio'>Radio</option>" +
@@ -201,6 +207,7 @@
 			$(".form").children().last().find(".form-question-type").attr("name", questionId+":type");
 			$(".form").children().last().find(".form-question-milestone").attr("name", questionId+":milestone");
 			$(".form").children().last().find(".form-question-competency").attr("name", questionId+":competency");
+			$(".form").children().last().find(".form-question-weight").attr("name", questionId+":weight");
 		}
     </script>
   </body>
