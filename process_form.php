@@ -32,6 +32,9 @@
 		else if(strpos($key, "weight") !== false){
 			$question->addAttribute("weight", $value);
 		}
+		else if(strpos($key, "description") !== false){
+			$option->addAttribute("description", $value);
+		}
 		else if($key == "formTitle"){
 			$form->addChild("title", $value);
 			$formTitle = $value;

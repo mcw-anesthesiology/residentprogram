@@ -1,6 +1,5 @@
 <?php 
 	//TODO: Make copying and modifying an existing evaluation form work when creating a new form
-	//TODO: Add milestones/competencies to questions both in xml and database
 	
 	session_start(); 
 	require "init.php";
@@ -58,8 +57,8 @@
   <body>
 	<?php require 'header.php'; ?>
 	<h2 class="sub-header">Form Builder</h2>
-	<form method="post" action="process_form.php">
-		<h3 class="form-input"><input type="text" id="formTitle" class="form-control input-lg" name="formTitle" placeholder="Form Title" /></h3>
+	<form method="post" action="process_form.php" onsubmit="return checkForm()">
+		<h3 class="form-input"><input type="text" id="formTitle" class="form-control input-lg" name="formTitle" placeholder="Form Title" required /></h3>
 		<div class="form">
 		</div>
 		<button type="button" class="btn btn-info" id="addQuestion">Add Question</button>
@@ -77,8 +76,9 @@
 		var radioHtml = "<td class='tdRdoBtn'>" +
 							"<label>" +
 								"<input type='radio' disabled/><br />" +
-								"<input class='form-input form-option form-option-text form-control' placeholder='Option Text'><br />" +
-								"<input class='form-input form-option form-option-value form-control' type='number' placeholder='Option Value'>" +
+								"<input class='form-input form-option form-option-text form-control' placeholder='Option Text' /><br />" +
+								"<input class='form-input form-option form-option-value form-control' type='number' placeholder='Option Value' /><br />" +
+								"<input class='form-input form-option form-option-description form-control' type='text' placeholder='Hover Option Description' />" +
 							"</label>" +
 						"</td>";
 
@@ -111,7 +111,7 @@
 								"<tr>" +
 									"<td colspan='10'>" +
 										"<label class='form-question-name' for='questionText'></label>" +
-										"<input type='text' class='form-input form-question-text form-control' name='questionText' placeholder='Question Text' />" +
+										"<input type='text' class='form-input form-question-text form-control' name='questionText' placeholder='Question Text' required />" +
 									"</td>" +
 								"</tr>" +
 								"<tr>" +
@@ -178,6 +178,7 @@
 			var optionValue = $(this).val();
 			
 			$(this).parent().find(".form-option-text").attr("name", questionId+":"+optionValue);
+			$(this).parent().find(".form-option-description").attr("name", questionId+":"+optionValue+":description");
 			
 		});
 		
@@ -208,6 +209,10 @@
 			$(".form").children().last().find(".form-question-milestone").attr("name", questionId+":milestone");
 			$(".form").children().last().find(".form-question-competency").attr("name", questionId+":competency");
 			$(".form").children().last().find(".form-question-weight").attr("name", questionId+":weight");
+		}
+		
+		function checkForm(){
+			
 		}
     </script>
   </body>

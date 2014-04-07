@@ -18,7 +18,7 @@
 		}
 		else if($name == "option"){
 			if($questionType == "radio"){
-				echo "<td class='tdRdoBtn'><label><input type='radio' name='{$questionName}' value='{$attrs["value"]}' /><br />";
+				echo "<td class='tdRdoBtn'><label><span title='{$attrs["description"]}'><input type='radio' name='{$questionName}' value='{$attrs["value"]}' /></span><br />";
 			}
 		}
 		else if($name == "text"){
