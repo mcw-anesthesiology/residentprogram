@@ -55,10 +55,10 @@
 		
 		$formId = $mysqli->insert_id;
 		
-		$mysqli->query("create table `responsesForm{$formId}` select * from `responses` where 1=2;");
-		$mysqli->query("create table `textResponsesForm{$formId}` select * from `textResponses` where 1=2;");
+		$mysqli->query("create table `responsesForm{$formId}`(requestId int not null, questionId varchar(255) not null, response int not null, weight int not null, primary key(requestId, questionId), foreign key(requestId) references requests(requestId));");
+		$mysqli->query("create table `textResponsesForm{$formId}`(requestId int not null, questionId varchar(255) not null, response text not null, primary key(requestId, questionId), foreign key(requestId) references requests(requestId));");
 		
-		if($mysqli->query("create table `milestonesForm{$formId}` select * from `milestonesForm` where 1=2;")){
+		if($mysqli->query("create table `milestonesForm{$formId}`(`questionId` varchar(255) not null, `milestoneId` int not null, primary key(questionId, milestoneId), foreign key(milestoneId) references `milestones`(milestoneId));")){
 			if($stmt = $mysqli->prepare("insert into `milestonesForm{$formId}`(questionId, milestoneId) values (?, ?)")){
 				if($stmt->bind_param("si", $questionId, $milestoneId)){
 					foreach($milestones as $questionId => $milestoneId){
@@ -71,7 +71,7 @@
 			}
 		}	
 		
-		if($mysqli->query("create table `competenciesForm{$formId}` select * from `competenciesForm` where 1=2;")){
+		if($mysqli->query("create table `competenciesForm{$formId}`(`questionId` varchar(255) not null, `competencyId` int not null, primary key(questionId, competencyId), foreign key(competencyId) references `competencies`(competencyId));")){
 			if($stmt = $mysqli->prepare("insert into `competenciesForm{$formId}`(questionId, competencyId) values (?, ?)")){
 				if($stmt->bind_param("si", $questionId, $competencyId)){
 					foreach($competencies as $questionId => $competencyId){
