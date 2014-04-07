@@ -1,5 +1,5 @@
 <?php
-	//TODO: make sure evaluation not already completed before doing thigns, not simply parse questionName to determine text or not
+	//TODO: make sure evaluation not already completed before doing thigns
 	session_start();
 	require "init.php";
 	
@@ -27,7 +27,10 @@
 	$evaluationDate = date("Y-m-d H:i:s");
 	
 	
-	$request = $mysqli->query("select resident, formId from requests where requestId='{$requestId}';")->fetch_assoc();
+	$request = $mysqli->query("select resident, formId, status from requests where requestId='{$requestId}';")->fetch_assoc();
+	if($request["status"] == "complete"){
+		header("Location: dashboard.php");
+	}
 	$user = $mysqli->query("select trainingLevel from users where username='{$request["resident"]}';")->fetch_assoc();
 	$formId = $mysqli->escape_string($request["formId"]);
 	$currentTrainingLevel = $user["trainingLevel"];
