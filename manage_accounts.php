@@ -359,16 +359,16 @@ $user = $users->fetch_assoc();
       var firstName = $(this).closest("tr").find("#FN").text();
       var lastName = $(this).closest("tr").find("#LN").text();
       var currentTrainingLevel = $(this).closest("tr").find("#TL").text();
-
+      
       $(".modal-edit #usernameInput").val(username);
       $(".modal-edit #firstNameInput").val(firstName);
       $(".modal-edit #lastNameInput").val(lastName);
-      if(currentTrainingLevel !== null){
-		  $(".modal-add #trainingLevelDiv").show();
-		  $(".modal-add #trainingLevelInput").val(currentTrainingLevel);
+      if($(this).closest("tr").find("#TL").text() !== ""){
+		  $(".modal-edit #trainingLevelDiv").show();
+		  $(".modal-edit #trainingLevelInput").val(currentTrainingLevel);
 	  }
 	  else{
-		  $(".modal-add #trainingLevelDiv").hide();
+		  $(".modal-edit #trainingLevelDiv").hide();
 	  }
     });
 
