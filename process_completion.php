@@ -35,14 +35,18 @@
 	$formId = $mysqli->escape_string($request["formId"]);
 	$currentTrainingLevel = $user["trainingLevel"];
 	
-	$mysqli->query("insert into `evaluations` (`requestId`, `ipAddress`, `currentTrainingLevel`) values ('{$requestId}', '{$ipaddress}', '{$user["trainingLevel"]}');");
+	if($stmt = $mysqli->prepare("insert into `evaluations` (`requestId`, `ipAddress`, `currentTrainingLevel`) values (?, ?, ?);")){
+		$stmt->bind_param("iss", $requestId, $ipaddress, $currentTrainingLevel);
+	}
 	$mysqli->query("update `requests` set `completeDate`='{$evaluationDate}', status='complete' where `requestId`='{$requestId}';");
 	
-	if($responseStmt = $mysqli->prepare("insert into `responsesForm{$formId}` (`requestId`, `formId`, `questionId`, `response`, `weight`) values (?, ?, ?, ?, ?);"))
-		$responseStmt->bind_param("iisii", $requestId, $formId, $question, $response, $questionWeight);
+	if($responseStmt = $mysqli->prepare("insert into `responsesForm{$formId}` (`requestId`, `questionId`, `response`, `weight`) values (?, ?, ?, ?);"))
+		$responseStmt->bind_param("isii", $requestId, $question, $response, $questionWeight);
+	else echo $mysqli->error;
 	
-	if($textStmt = $mysqli->query("insert into `textResponsesForm{$formId}` (`requestId`, `formId`, `questionId`, `response`) values (?, ?, ?, ?);"))
-		$textStmt->bind_param("iiss", $requestId, $formId, $question, $response);
+	if($textStmt = $mysqli->prepare("insert into `textResponsesForm{$formId}` (`requestId`, `questionId`, `response`) values (?, ?, ?);"))
+		$textStmt->bind_param("iss", $requestId, $question, $response);
+	else echo $mysqli->error;
 
 	foreach ($_POST as $question => $response){
 		$question = $mysqli->escape_string($question);
