@@ -229,7 +229,7 @@
 			});
 			$(".form-option-value").each(function(){
 				var name = $(this).attr("name");
-				if($(this).siblings(".form-option-text").val() !== "" || $(this).siblings(".form-option-description").val() !== ""){
+				if($(this).val() === "" && ($(this).siblings(".form-option-text").val() !== "" || $(this).siblings(".form-option-description").val() !== "")){
 					$(this).focus();
 					alertText = "An option cannot be submitted without a value. Please either assign a value or remove the option text and description for the selected option.";
 					validForm = false;
