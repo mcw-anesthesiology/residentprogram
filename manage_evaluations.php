@@ -39,7 +39,7 @@
 
 <?php 
   if($_SESSION["type"] == "admin"){       // ************************************ ADMIN ***********************************************************************
-    $requests = $mysqli->query("select * from requests;");
+    $requests = $mysqli->query("select requestId, resident, faculty, requestDate, completeDate, requestedBy, requests.status, title, residentUsers.firstName as residentFirst, residentUsers.lastName as residentLast, facultyUsers.firstName as facultyFirst, facultyUsers.lastName as facultyLast, requestedByUsers.firstName as requestedByFirst, requestedByUsers.lastName as requestedByLast from requests left join forms on requests.formId=forms.formId left join users residentUsers on resident=residentUsers.username left join users facultyUsers on faculty=facultyUsers.username left join users requestedByUsers on requestedBy=requestedByUsers.username order by requestId desc;");
     $request = $requests->fetch_assoc();   
 ?>
     <div class="container-fluid">
@@ -50,6 +50,7 @@
               <thead>
                 <tr>
                   <th class="headerSortDown"><span>#</span></th>
+                  <th><span>Requested By</span></th>
                   <th><span>Resident</span></th>
                   <th><span>Faculty</span></th>
                   <th><span>Request Date</span></th>
@@ -64,8 +65,9 @@
           ?>
             <tr>
               <td><a href="complete_specific.php?request=<?= $request["requestId"] ?>"><?= $request["requestId"] ?></a></td>
-              <td><?= $request["requestedBy"] ?></td>
-              <td><?= $request["faculty"] ?></td>
+              <td><?= $request["requestedByFirst"] ?> <?= $request["requestedByLast"] ?></td>
+              <td><?= $request["residentFirst"] ?> <?= $request["residentLast"] ?></td>
+              <td><?= $request["facultyFirst"] ?> <?= $request["facultyLast"] ?></td>
               <td><?= $request["requestDate"] ?></td>
               <td><?= $request["completeDate"] ?></td>
 <?php
