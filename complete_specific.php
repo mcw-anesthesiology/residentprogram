@@ -6,8 +6,8 @@
 	else
 		$requestId = $_GET["request"];
 	
-  $request = $mysqli->query("select * from requests where requestId='{$requestId}';")->fetch_assoc();
-  $evaluation = $mysqli->query("select * from evaluations where requestId='{$requestId}';")->fetch_assoc();
+	$request = $mysqli->query("select * from requests left join users on requests.resident=users.username where requestId='{$requestId}';")->fetch_assoc();
+	$evaluation = $mysqli->query("select * from evaluations where requestId='{$requestId}';")->fetch_assoc();
 	$form = $mysqli->query("select location from forms inner join requests on forms.formId=requests.formId where requestId='{$requestId}';")->fetch_assoc(); 
 	$formLocation = $form["location"];
 ?>
@@ -60,22 +60,16 @@
             <tr>
               <th>#</th>
               <th>Resident</th>
-              <th>Faculty</th>
               <th>Request Date</th>
-              <th>Complete Date</th>
-              <th>Status</th>
               <th>Training Level</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><?= $requestId ?></td>
-              <td><?= $request["resident"] ?></td>
-              <td><?= $request["faculty"] ?></td>
+              <td><?= $request["firstName"] ?> <?= $request["lastName"] ?></td>
               <td><?= $request["requestDate"] ?></td>
-              <td><?= $request["completeDate"] ?></td>
-              <td><?= $request["status"] ?></td>
-              <td><?= $evaluation["currentTrainingLevel"] ?></td>
+              <td><?= $request["trainingLevel"] ?></td>
             </tr>         
           </tbody>
         </table>
