@@ -49,6 +49,7 @@
                   <th>Username</th>
                   <th>First Name</th>
                   <th>Last Name</th>
+                  <th>Training Level</th>
                   <th>Created</th>
                   <th>Status</th>
                   <th>Action</th>
@@ -62,6 +63,7 @@
               <td id="UN"><?= $user["username"] ?></td>
               <td id="FN"><?= $user["firstName"] ?></td>
               <td id="LN"><?= $user["lastName"] ?></td>
+              <td id="TL"><?= strtoupper($user["trainingLevel"]) ?></td>
               <td id="CD"><?= $user["createdDate"] ?></td>
               <td id="ST"><?= $user["status"] ?></td>
 <?php
@@ -255,11 +257,20 @@ $user = $users->fetch_assoc();
           </div>
           <div class="form-group">
             <label for="firstNameInput">First Name</label>
-            <input type="text" class="form-control" id="firstNameInput" name="firstName">
+            <input type="text" class="form-control" id="firstNameInput" name="firstName" required>
           </div>
           <div class="form-group">
             <label for="lastNameInput">Last Name</label>
-            <input type="text" class="form-control" id="lastNameInput" name="lastName">
+            <input type="text" class="form-control" id="lastNameInput" name="lastName" required>
+          </div>
+          <div class="form-group" id="trainingLevelDiv">
+            <label for="trainingLevelInput">Training Level</label>
+            <select class="form-control" id="trainingLevelInput" name="trainingLevel">
+				<option value="intern">Intern</option>
+				<option value="ca-1">CA-1</option>
+				<option value="ca-2">CA-2</option>
+				<option value="ca-3">CA-3</option>
+			</select>
           </div>
         </div>
         <div class="modal-footer">
@@ -284,28 +295,37 @@ $user = $users->fetch_assoc();
         <div class="modal-body modal-add">
           <div class="form-group">
             <label for="usernameInput">Username</label>
-            <input type="text" class="form-control" id="usernameInput" name="username" placeholder="Username">
+            <input type="text" class="form-control" id="usernameInput" name="username" placeholder="Username" required>
           </div>
           <div class="form-group">
             <label for="passwordInput">Password</label>
-            <input type="password" class="form-control" id="passwordInput" name="password" placeholder="Password">
+            <input type="password" class="form-control" id="passwordInput" name="password" placeholder="Password" required>
           </div>
           <div class="form-group has-feedback" id="confirmPassword">
             <label for="passwordInput2">Re-Enter Password</label>
-            <input type="password" class="form-control" id="passwordInput2" name="password2" placeholder="Re-Enter Password">
+            <input type="password" class="form-control" id="passwordInput2" name="password2" placeholder="Re-Enter Password" required>
             <span class="glyphicon form-control-feedback" id="confirmIcon"></span>
           </div>
           <div class="form-group">
             <label for="firstNameInput">First Name</label>
-            <input type="text" class="form-control" id="firstNameInput" name="firstName" placeholder="First Name">
+            <input type="text" class="form-control" id="firstNameInput" name="firstName" placeholder="First Name" required>
           </div>
           <div class="form-group">
             <label for="lastNameInput">Last Name</label>
-            <input type="text" class="form-control" id="lastNameInput" name="lastName" placeholder="Last Name">
+            <input type="text" class="form-control" id="lastNameInput" name="lastName" placeholder="Last Name" required>
+          </div>
+          <div class="form-group" id="trainingLevelDiv">
+            <label for="trainingLevelInput">Training Level</label>
+            <select class="form-control" id="trainingLevelInput" name="trainingLevel">
+				<option value="intern">Intern</option>
+				<option value="ca-1">CA-1</option>
+				<option value="ca-2">CA-2</option>
+				<option value="ca-3">CA-3</option>
+			</select>
           </div>
           <div class="form-group">
             <label for="accountTypeInput">Account Type</label>
-            <input type="text" class="form-control" id="accountTypeInput" name="accountType" disabled>
+            <input type="text" class="form-control" id="accountTypeInput" name="accountType" readonly>
           </div>
         </div>
         <div class="modal-footer">
@@ -338,10 +358,18 @@ $user = $users->fetch_assoc();
       var username = $(this).closest("tr").find("#UN").text();
       var firstName = $(this).closest("tr").find("#FN").text();
       var lastName = $(this).closest("tr").find("#LN").text();
+      var currentTrainingLevel = $(this).closest("tr").find("#TL").text();
 
       $(".modal-edit #usernameInput").val(username);
       $(".modal-edit #firstNameInput").val(firstName);
       $(".modal-edit #lastNameInput").val(lastName);
+      if(currentTrainingLevel !== null){
+		  $(".modal-add #trainingLevelDiv").show();
+		  $(".modal-add #trainingLevelInput").val(currentTrainingLevel);
+	  }
+	  else{
+		  $(".modal-add #trainingLevelDiv").hide();
+	  }
     });
 
     $(document).on("click", ".addUser", function(){
@@ -353,6 +381,12 @@ $user = $users->fetch_assoc();
       $(".modal-add #firstNameInput").val("");
       $(".modal-add #lastNameInput").val("");
       $(".modal-add #accountTypeInput").val(type);
+      if(type == "resident"){
+		  $(".modal-add #trainingLevelDiv").show();
+	  }
+	  else{
+		  $(".modal-add #trainingLevelDiv").hide();
+	  }
     });
 
     $(document).ready(function(){
