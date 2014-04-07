@@ -15,6 +15,11 @@
 	else{
 		$evaluationForm = "";
 	}
+	
+	$milestones = $mysqli->query("select * from milestones;");
+	$milestone = $milestones->fetch_assoc();
+	$competencies = $mysqli->query("select * from competencies;");
+	$competency = $competencies->fetch_assoc();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,7 +63,7 @@
 		<div class="form">
 		</div>
 		<button type="button" class="btn btn-info" id="addQuestion">Add Question</button>
-		<button type="submit" class="btn btn-success" name="evaluationForm" value="">Submit Form</button>
+		<button type="submit" class="btn btn-success">Submit Form</button>
 	</form>
 	<br />
 	
@@ -69,42 +74,72 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="../../assets/js/docs.min.js"></script>
     <script>
-		var radioHtml = "<td class='tdRdoBtn'> \
-							<label> \
-								<input type='radio' disabled/><br /> \
-								<input class='form-input form-option form-option-text form-control' placeholder='Option Text'><br /> \
-								<input class='form-input form-option form-option-value form-control' type='number' placeholder='Option Value'> \
-							</label> \
-						</td>";
+		var radioHtml = "<td class='tdRdoBtn'>" +
+							"<label>" +
+								"<input type='radio' disabled/><br />" +
+								"<input class='form-input form-option form-option-text form-control' placeholder='Option Text'><br />" +
+								"<input class='form-input form-option form-option-value form-control' type='number' placeholder='Option Value'>" +
+							"</label>" +
+						"</td>";
 
-		var textHtml = "<td> \
-							<textarea disabled> \
-							</textarea> \
-						</td>";
+		var textHtml = "<td>" +
+							"<textarea disabled>" +
+							"</textarea>" +
+						"</td>";
+						
+		var milestoneHtml = "<label>Question Milestone</label>" +
+							"<select class='form-control form-question-milestone' name=''>" +
+								<?php
+									while(!is_null($milestone)){
+										echo "\"<option value='{$milestone["milestoneId"]}'>{$milestone["title"]}</option>\" +";
+										$milestone = $milestones->fetch_assoc();
+									}
+								?>							
+							"</select>";
+							
+		var competencyHtml = "<label>Question Competency</label>" + 
+							"<select class='form-control form-question-competency' name=''>" +
+								<?php
+									while(!is_null($competency)){
+										echo "\"<option value='{$competency["competencyId"]}'>{$competency["title"]}</option>\" +";
+										$competency = $competencies->fetch_assoc();
+									}
+								?>							
+							"</select>";
 
-		var questionHtml = "<table class='table table-striped form-input form-question'> \
-								<tr> \
-									<td colspan='10'> \
-										<label class='form-question-name' for='questionText'></label> \
-										<input type='text' class='form-input form-question-text form-control' name='questionText' placeholder='Question Text' /> \
-									</td> \
-								</tr> \
-								<tr> \
-									<td colspan='10'> \
-										<label for='questionType'>Question Type:</label> \
-            							<select class='form-control form-question-type' name='questionType'> \
-											<option value='radio'>Radio</option> \
-											<option value='text'>Text</option> \
-										</select> \
-									</td> \
-								</tr> \
-								<tr class='form-options'>"+radioHtml+"</tr> \
-								<tr> \
-									<td colspan='10'> \
-										<button class='form-question-delete btn btn-danger'>Delete Question</button> \
-									</td> \
-								</tr> \
-							</table>";
+		var questionHtml = "<table class='table table-striped form-input form-question'>" +
+								"<tr>" +
+									"<td colspan='10'>" +
+										"<label class='form-question-name' for='questionText'></label>" +
+										"<input type='text' class='form-input form-question-text form-control' name='questionText' placeholder='Question Text' />" +
+									"</td>" +
+								"</tr>" +
+								"<tr>" +
+									"<td colspan='10'>" +
+										milestoneHtml +
+									"</td>" +
+								"</tr>"+
+								"<tr>" +
+									"<td colspan='10'>" +
+										competencyHtml +
+									"</td>" +
+								"</tr>"+
+								"<tr>" +
+									"<td colspan='10'>" +
+										"<label for='questionType'>Question Type:</label>" +
+            							"<select class='form-control form-question-type' name='questionType'>" +
+											"<option value='radio'>Radio</option>" +
+											"<option value='text'>Text</option>" +
+										"</select>" +
+									"</td>" +
+								"</tr>" +
+								"<tr class='form-options'>"+radioHtml+"</tr>" +
+								"<tr>" +
+									"<td colspan='10'>" +
+										"<button class='form-question-delete btn btn-danger'>Delete Question</button>" +
+									"</td>" +
+								"</tr>" +
+							"</table>";
 		
 		$(document).ready(function(){
 			addQuestion();
@@ -164,6 +199,8 @@
 			$(".form").children().last().find(".form-question-name").html(questionId.toUpperCase()+": ");
 			$(".form").children().last().find(".form-question-text").attr("name", questionId+":name");
 			$(".form").children().last().find(".form-question-type").attr("name", questionId+":type");
+			$(".form").children().last().find(".form-question-milestone").attr("name", questionId+":milestone");
+			$(".form").children().last().find(".form-question-competency").attr("name", questionId+":competency");
 		}
     </script>
   </body>
