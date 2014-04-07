@@ -57,7 +57,7 @@
   <body>
 	<?php require 'header.php'; ?>
 	<h2 class="sub-header">Form Builder</h2>
-	<form method="post" action="process_form.php" onsubmit="return checkForm()">
+	<form method="post" action="process_form.php">
 		<h3 class="form-input"><input type="text" id="formTitle" class="form-control input-lg" name="formTitle" placeholder="Form Title" required /></h3>
 		<div class="form">
 		</div>
@@ -127,7 +127,7 @@
 								"<tr>" +
 									"<td colspan='10'>" +
 										"<label>Question Weight</label>" +
-										"<input class='form-input form-control form-question-weight' type='number' min='0' max='200' value='100' />" +
+										"<input class='form-input form-control form-question-weight' type='number' min='0' max='200' value='100' step='1' />" +
 									"</td>" +
 								"</tr>"+								
 								"<tr>" +
@@ -169,7 +169,7 @@
 				}
 			}
 			else{
-				if($(this).parent().parent().prev().find(".form-option-value").val() == "" || $(this).parent().parent().next().find(".form-option-value").val() == ""){
+				if(($(this).parent().parent().prev().find(".form-option-value").val() == "" || $(this).parent().parent().next().find(".form-option-value").val() == "") && $(this).parent().find(".form-option-text").val() == "" && $(this).parent().find(".form-option-description").val() == ""){
 					$(this).parent().parent().remove();
 				}
 			}
@@ -211,8 +211,34 @@
 			$(".form").children().last().find(".form-question-weight").attr("name", questionId+":weight");
 		}
 		
+		$("form").submit(checkForm);
+		
 		function checkForm(){
+			var validForm = true;
+			var alertText = "";
+			if($("#formTitle").val() === ""){
+				$("#formTitle").focus();
+				alertText = "Please enter a title for the evaluation form.";
+				validForm = false;
+			}
+			$(".form-question-text").each(function(){
+				if($(this).val() === ""){
+					alertText = "Please enter a question text for each question.";
+					validForm = false;
+				}
+			});
+			$(".form-option-value").each(function(){
+				var name = $(this).attr("name");
+				if($(this).siblings(".form-option-text").val() !== "" || $(this).siblings(".form-option-description").val() !== ""){
+					$(this).focus();
+					alertText = "An option cannot be submitted without a value. Please either assign a value or remove the option text and description for the selected option.";
+					validForm = false;
+				}
+			});
+			if(!validForm)
+				alert(alertText);
 			
+			return validForm;
 		}
     </script>
   </body>

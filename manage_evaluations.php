@@ -44,7 +44,7 @@
 ?>
     <div class="container-fluid">
       <div class="row">
-        <h2 class="sub-header">Manage Evaluations <button class="addEval btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="eval" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button> <button class="addMSC btn btn-success btn-xs" data-toggle="modal" data-target=".bs-milestone-modal" data-id="eval" id="addMSCBtn"><span class="glyphicon glyphicon-plus"></span> New Milestone</button> <button class="addMSC btn btn-success btn-xs" data-toggle="modal" data-target=".bs-competency-modal" data-id="eval" id="addMSCBtn"><span class="glyphicon glyphicon-plus"></span> New Competency</button></h2>
+        <h2 class="sub-header">Manage Evaluations <button class="addEval btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="eval" id="addBtn"><span class="glyphicon glyphicon-plus"></span> New Evaluation Form</button> <button class="addMSC btn btn-success btn-xs" data-toggle="modal" data-target=".bs-milestone-modal" data-id="eval" id="addMSCBtn"><span class="glyphicon glyphicon-plus"></span> New Milestone</button> <button class="addMSC btn btn-success btn-xs" data-toggle="modal" data-target=".bs-competency-modal" data-id="eval" id="addMSCBtn"><span class="glyphicon glyphicon-plus"></span> New Competency</button></h2>
           <div class="table-responsive">
             <table class="table table-striped" id="keywordsAll" cellspacing="0" cellpadding="0">
               <thead>
@@ -220,15 +220,15 @@ $request = $requests->fetch_assoc();
       </div>
       <form action="form_builder.php" method="post">
         <div class="modal-body modal-add">
-
+		  <!--
           <div class="form-group">
             <label for="evaluationForm">Please select a form to duplicate and modify</label>
             <select class="form-control">
 				<?php
-				while(!is_null($formsRow)){
-				echo "<option value=\"{$formsRow["formId"]}\">{$formsRow["title"]}</option>";
-				$formsRow = $forms->fetch_assoc();
-				}
+			//	while(!is_null($formsRow)){
+			//	echo "<option value=\"{$formsRow["formId"]}\">{$formsRow["title"]}</option>";
+			//	$formsRow = $forms->fetch_assoc();
+			//	}
 				?>
             </select>
             <br />
@@ -241,10 +241,10 @@ $request = $requests->fetch_assoc();
             <hr class="hr-or">
             <span class="span-or">or</span>
           </div>
-
+		  -->
           <div class="form-group">
 			<div class="span7 text-center">
-				<button type="submit" class="btn btn-success">Create new from scratch</button>
+				<button type="submit" class="btn btn-success">Create new evaluation form</button>
 			</div>
           </div>
 

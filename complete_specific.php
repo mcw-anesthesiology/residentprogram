@@ -8,7 +8,7 @@
 	
   $request = $mysqli->query("select * from requests where requestId='{$requestId}';")->fetch_assoc();
   $evaluation = $mysqli->query("select * from evaluations where requestId='{$requestId}';")->fetch_assoc();
-	$form = $mysqli->query("select location from forms inner join requests on forms.formId=requests.formId where requestId='{$requestId}';")->fetch_assoc(); //do a join and select formLocation straight up
+	$form = $mysqli->query("select location from forms inner join requests on forms.formId=requests.formId where requestId='{$requestId}';")->fetch_assoc(); 
 	$formLocation = $form["location"];
 ?>
 <!DOCTYPE html>
@@ -96,5 +96,31 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="../../assets/js/docs.min.js"></script>
+    <script>
+		$("form").submit(checkForm);
+		
+		function checkForm(){
+			var validForm = true;
+			var alertText = "";
+			$("input:radio").each(function(){
+				var name = $(this).attr("name");
+				if($("input:radio[name="+name+"]:checked").length == 0){
+					$(this).focus();
+					alertText = "Please complete each question";
+					validForm = false;
+				}
+			});
+			$("textarea").each(function(){
+				if(this.value === ""){
+					$(this).focus();
+					alertText = "Please complete each question";
+					validForm = false;
+				}
+			});
+			if(!validForm)
+				alert(alertText);
+			return validForm;
+		}
+    </script>
   </body>
 </html>
