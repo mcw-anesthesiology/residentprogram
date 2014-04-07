@@ -27,7 +27,7 @@
 		$textResponseRow = $textResponseQuery->fetch_assoc();
 	}
 	
-	$request = $mysqli->query("select * from requests where requestId='{$requestId}';")->fetch_assoc();
+	$request = $mysqli->query("select requestDate, completeDate, requests.status, residentUsers.firstName as residentFirst, residentUsers.lastName as residentLast, facultyUsers.firstName as facultyFirst, facultyUsers.lastName as facultyLast from requests left join users as residentUsers on requests.resident=residentUsers.username left join users as facultyUsers on requests.faculty=facultyUsers.username where requestId='{$requestId}';")->fetch_assoc();
 	$evaluation = $mysqli->query("select * from evaluations where requestId='{$requestId}';")->fetch_assoc();
 ?>
 <!DOCTYPE html>
@@ -89,8 +89,8 @@
               <tbody>
                 <tr>
                   <td><?= $requestId ?></td>
-                  <td><?= $request["resident"] ?></td>
-                  <td><?= $request["faculty"] ?></td>
+                  <td><?= $request["residentFirst"] ?> <?= $request["residentLast"] ?></td>
+                  <td><?= $request["facultyFirst"] ?> <?= $request["facultyLast"] ?></td>
                   <td><?= $request["requestDate"] ?></td>
                   <td><?= $request["completeDate"] ?></td>
                   <td><?= $request["status"] ?></td>
