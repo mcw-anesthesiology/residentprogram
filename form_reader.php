@@ -19,7 +19,7 @@
 		else if($name == "option"){
 			if($questionType == "radio"){
 				if(isset($attrs["description"]))
-					$description = $attrs["description"];
+					$description = htmlspecialchars($attrs["description"], ENT_QUOTES);
 				else
 					$description = "";
 				echo "<td class='tdRdoBtn'><label><span title='{$description}'><input type='radio' name='{$questionName}' value='{$attrs["value"]}' required /><br />";
