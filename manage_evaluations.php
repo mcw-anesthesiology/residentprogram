@@ -64,7 +64,7 @@
           while(!is_null($request)){
           ?>
             <tr>
-              <td><a href="complete_specific.php?request=<?= $request["requestId"] ?>"><?= $request["requestId"] ?></a></td>
+              <td><a href="view_specific.php?request=<?= $request["requestId"] ?>"><?= $request["requestId"] ?></a></td>
               <td><?= $request["requestedByFirst"] ?> <?= $request["requestedByLast"] ?></td>
               <td><?= $request["residentFirst"] ?> <?= $request["residentLast"] ?></td>
               <td><?= $request["facultyFirst"] ?> <?= $request["facultyLast"] ?></td>
