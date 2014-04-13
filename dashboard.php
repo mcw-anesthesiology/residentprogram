@@ -33,7 +33,8 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style>
-		.view, .complete { cursor: pointer }
+		.view, .complete, span { cursor: pointer }
+		
     </style>
   </head>
 
