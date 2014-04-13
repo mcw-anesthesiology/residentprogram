@@ -63,7 +63,7 @@
           <?php
           while(!is_null($request)){
           ?>
-            <tr>
+            <tr class="view" data-id="<?= $request["requestId"] ?>">
               <td><a href="view_specific.php?request=<?= $request["requestId"] ?>"><?= $request["requestId"] ?></a></td>
               <td><?= $request["requestedByFirst"] ?> <?= $request["requestedByLast"] ?></td>
               <td><?= $request["residentFirst"] ?> <?= $request["residentLast"] ?></td>
@@ -275,10 +275,15 @@ $request = $requests->fetch_assoc();
 			var requestId = $(this).data('id');
 			$(".modal-enable #requestId").val(requestId);
 		});	
+		
+		$("tbody").on("click", ".view", function(){
+			var requestId = $(this).data("id");
+			window.location.href = "view_specific.php?request="+requestId;
+		});
 
-    $(function(){
-      $('#keywordsAll').tablesorter(); 
-    });	
+		$(function(){
+		  $('#keywordsAll').tablesorter(); 
+		});	
     </script>
   </body>
 </html>

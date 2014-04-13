@@ -96,39 +96,39 @@
                 </tr>
               </thead>
               <tbody>
-				  <?php
-					while(!is_null($requestRow)){
-				  ?>
-						<tr>
-						  <td class="lalign"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
-						  <td><?= $requestRow["residentFirst"] ?> <?= $requestRow["residentLast"] ?></td>
-						  <td><?= $requestRow["facultyFirst"] ?> <?= $requestRow["facultyLast"] ?></td>
-						  <td><?= $requestRow["title"] ?></td>
-						  <td><?= $requestRow["requestDate"] ?></td>
-						  <td><?= $requestRow["completeDate"] ?></td>
-<?php
-  if($requestRow["status"] == "complete"){
-?>
-						  <td><span class="badge badge-complete"><?= $requestRow["status"] ?></span></td>
-<?php
-  }
-  else if($requestRow["status"] == "pending"){
-?>
-              <td><span class="badge badge-pending"><?= $requestRow["status"] ?></span></td>
-<?php
-  }
-  else{
-?>
-              <td><span class="badge badge-disabled"><?= $requestRow["status"] ?></span></td>
-<?php
-  }
-?>
-						</tr>
+					<?php
+						while(!is_null($requestRow)){
+					?>
+							<tr class="view" data-id="<?= $requestRow["requestId"] ?>">
+							  <td class="lalign"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
+							  <td><?= $requestRow["residentFirst"] ?> <?= $requestRow["residentLast"] ?></td>
+							  <td><?= $requestRow["facultyFirst"] ?> <?= $requestRow["facultyLast"] ?></td>
+							  <td><?= $requestRow["title"] ?></td>
+							  <td><?= $requestRow["requestDate"] ?></td>
+							  <td><?= $requestRow["completeDate"] ?></td>
+							<?php
+							  if($requestRow["status"] == "complete"){
+							?>
+													  <td><span class="badge badge-complete"><?= $requestRow["status"] ?></span></td>
+							<?php
+							  }
+							  else if($requestRow["status"] == "pending"){
+							?>
+										  <td><span class="badge badge-pending"><?= $requestRow["status"] ?></span></td>
+							<?php
+							  }
+							  else{
+							?>
+										  <td><span class="badge badge-disabled"><?= $requestRow["status"] ?></span></td>
+							<?php
+							  }
+							?>
+							</tr>
 						
-                <?php
-						$requestRow = $requests->fetch_assoc();
-					}
-                ?>
+					<?php
+							$requestRow = $requests->fetch_assoc();
+						}
+					?>
               </tbody>
             </table>
           </div>

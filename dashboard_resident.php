@@ -20,7 +20,7 @@
 				   <?php
 						while(!is_null($requestRow)){
 				  ?>
-							<tr>
+							<tr class="view" data-id="<?= $requestRow["requestId"] ?>">
 							  <td class="lalign"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
 							  <td><?= $requestRow["firstName"] ?> <?= $requestRow["lastName"] ?></td>
 							  <td><?= $requestRow["title"] ?></td>
@@ -61,7 +61,7 @@
 				  <?php
 						while(!is_null($requestRow)){
 				  ?>
-							<tr>
+							<tr class="view" data-id="<?= $requestRow["requestId"] ?>">
 							  <td class="lalign"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
 							  <td><?= $requestRow["firstName"] ?> <?= $requestRow["lastName"] ?></td>
 							  <td><?= $requestRow["title"] ?></td>

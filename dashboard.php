@@ -32,6 +32,9 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+		.view, .complete { cursor: pointer }
+    </style>
   </head>
 
   <body>
@@ -108,6 +111,16 @@
 		  var requestId = $(this).data('id');
 		  $(".modal-cancel-faculty #requestId").val(requestId);
 		}); 
+		
+		$("tbody").on("click", ".view", function(){
+			var requestId = $(this).data("id");
+			window.location.href = "view_specific.php?request="+requestId;
+		});
+		
+		$("tbody").on("click", ".complete", function(){
+			var requestId = $(this).data("id");
+			window.location.href = "complete_specific.php?request="+requestId;
+		});
 
 		$(function(){
 		  $('#keywordsAll').tablesorter(); 
