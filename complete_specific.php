@@ -1,4 +1,5 @@
 <?php 
+	//TODO: Make button to show hover text when on a mobile device.
 	session_start(); 
 	require "init.php";
 	if(!isset($_GET["request"]))

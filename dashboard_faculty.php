@@ -1,4 +1,5 @@
 <?php
+	//TODO: show mentee information for faculty mentors appropriately
 	  $requests = $mysqli->query("select * from requests left join forms on requests.formId=forms.formId left join users on requests.resident=users.username where faculty='{$_SESSION["username"]}' and requests.status='pending' order by requestId asc;");
 	  $requestRow = $requests->fetch_assoc();
 ?>

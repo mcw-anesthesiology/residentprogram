@@ -1,5 +1,5 @@
 <?php
-	//TODO: make sure evaluation not already completed before doing thigns, client-side error checking to make sure every question is answered
+	//TODO: make sure evaluation not already completed before doing thigns, server-side error checking to make sure every question is answered
 	session_start();
 	require "init.php";
 	

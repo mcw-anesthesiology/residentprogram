@@ -1,6 +1,9 @@
 <?php 
 	//TODO: Change favicon links to favicon.png or change filename to favicon.ico
 	//TODO: Better sql security, parsing inputs and prepared statements
+	//TODO: Email notification functionality
+	//TODO: Show evaluation title and training level in all request tables
+	//TODO: REPORTING
 	
 	session_start();
 	require "init.php";

@@ -241,7 +241,6 @@ $user = $users->fetch_assoc();
 </div>
 
 <!-- Edit Modal -->
-<!-- TODO: Be able to edit training level -->
 <div class="modal fade bs-edit-modal" tabindex="-1" role="dialog" aria-labelledby="modalEdit" aria-hidden="true" id="editModal">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -283,7 +282,6 @@ $user = $users->fetch_assoc();
 </div>
 
 <!-- Add Modal -->
-<!-- TODO: Be able to set training level -->
 <div class="modal fade bs-add-modal" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true" id="addModal">
   <div class="modal-dialog">
     <div class="modal-content">
