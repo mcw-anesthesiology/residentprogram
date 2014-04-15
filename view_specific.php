@@ -1,5 +1,5 @@
 <?php 
-	//TODO: Make button to show hover text when on a mobile device.
+	//TODO: Make button to show hover text when on a mobile device look better
 	session_start();
 	require "init.php";
 	
@@ -8,7 +8,7 @@
 	else
 		$requestId = $_GET["request"];
 		
-	$form = $mysqli->query("select forms.formId, location from forms inner join requests on forms.formId=requests.formId where requestId='{$requestId}';")->fetch_assoc(); //do a join and select formLocation straight up
+	$form = $mysqli->query("select forms.formId, location from forms inner join requests on forms.formId=requests.formId where requestId='{$requestId}';")->fetch_assoc(); 
 	$formLocation = $form["location"];
 	$formId = $form["formId"];
 	

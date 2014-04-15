@@ -4,6 +4,7 @@
 	//TODO: Email notification functionality
 	//TODO: Show evaluation title and training level in all request tables
 	//TODO: REPORTING
+	//TODO: Include in all header statements a success/failure get attribute
 	
 	session_start();
 	require "init.php";

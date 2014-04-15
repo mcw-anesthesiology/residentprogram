@@ -1,5 +1,4 @@
 <?php
-	//TODO: Make page for admins to assign mentors/mentees
 	  $requests = $mysqli->query("select requestId, resident, faculty, requestDate, completeDate, requests.status, title, residentUsers.firstName as residentFirst, residentUsers.lastName as residentLast, facultyUsers.firstName as facultyFirst, facultyUsers.lastName as facultyLast from requests left join forms on requests.formId=forms.formId left join users residentUsers on resident=residentUsers.username left join users facultyUsers on faculty=facultyUsers.username order by requestId desc;");
 	  $requestRow = $requests->fetch_assoc();
 	  

@@ -1,7 +1,12 @@
 <?php 
-	//TODO: Make button to show hover text when on a mobile device.
+	//TODO: Make button to show hover text when on a mobile device look better.
 	session_start(); 
 	require "init.php";
+	
+	if($_SESSION["type"] !== "faculty"){
+		header("Location: dashboard.php");
+	}
+	
 	if(!isset($_GET["request"]))
 		header("Location: dashboard.php");
 	else
