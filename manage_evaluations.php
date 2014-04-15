@@ -36,6 +36,9 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+		.view { cursor: pointer }
+    </style>
   </head>
 
   <body>
@@ -67,30 +70,30 @@
           <?php
           while(!is_null($request)){
           ?>
-            <tr class="view" data-id="<?= $request["requestId"] ?>">
-              <td><a href="view_specific.php?request=<?= $request["requestId"] ?>"><?= $request["requestId"] ?></a></td>
-              <td><?= $request["requestedByFirst"] ?> <?= $request["requestedByLast"] ?></td>
-              <td><?= $request["residentFirst"] ?> <?= $request["residentLast"] ?></td>
-              <td><?= $request["facultyFirst"] ?> <?= $request["facultyLast"] ?></td>
-              <td><?= $request["requestDate"] ?></td>
-              <td><?= $request["completeDate"] ?></td>
-<?php
-  if($request["status"] == "complete"){
-?>
-              <td><span class="badge badge-complete"><?= $request["status"] ?></span></td>
-<?php
-  }
-  else if($request["status"] == "pending"){
-?>
-              <td><span class="badge badge-pending"><?= $request["status"] ?></span></td>
-<?php
-  }
-  else{
-?>
-              <td><span class="badge badge-disabled"><?= $request["status"] ?></span></td>
-<?php
-  }
-?>
+            <tr data-id="<?= $request["requestId"] ?>">
+              <td class="view"><a href="view_specific.php?request=<?= $request["requestId"] ?>"><?= $request["requestId"] ?></a></td>
+              <td class="view"><?= $request["requestedByFirst"] ?> <?= $request["requestedByLast"] ?></td>
+              <td class="view"><?= $request["residentFirst"] ?> <?= $request["residentLast"] ?></td>
+              <td class="view"><?= $request["facultyFirst"] ?> <?= $request["facultyLast"] ?></td>
+              <td class="view"><?= $request["requestDate"] ?></td>
+              <td class="view"><?= $request["completeDate"] ?></td>
+			<?php
+			  if($request["status"] == "complete"){
+			?>
+              <td class="view"><span class="badge badge-complete"><?= $request["status"] ?></span></td>
+			<?php
+			  }
+			  else if($request["status"] == "pending"){
+			?>
+              <td class="view"><span class="badge badge-pending"><?= $request["status"] ?></span></td>
+			<?php
+			  }
+			  else{
+			?>
+              <td class="view"><span class="badge badge-disabled"><?= $request["status"] ?></span></td>
+			<?php
+			  }
+			?>
               <?php
                 if($request["status"] == "disabled"){
               ?>
@@ -104,10 +107,10 @@
                 }
               ?>
             </tr>
-<?php
-$request = $requests->fetch_assoc();
-}
-?>
+				<?php
+				$request = $requests->fetch_assoc();
+				}
+				?>
               </tbody>
             </table>
           </div>
@@ -278,7 +281,7 @@ $request = $requests->fetch_assoc();
 		});	
 		
 		$("tbody").on("click", ".view", function(){
-			var requestId = $(this).data("id");
+			var requestId = $(this).parent().data("id");
 			window.location.href = "view_specific.php?request="+requestId;
 		});
 
