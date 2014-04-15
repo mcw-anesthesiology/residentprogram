@@ -49,8 +49,9 @@
 	}
 	$form->asXML($formLocation);
 	$formTitle = $mysqli->escape_string($formTitle);
-	if($stmt = $mysqli->prepare("insert into `forms` (`title`, `location`) values (?, ?);")){
-		$stmt->bind_param("ss", $formTitle, $formLocation);
+	$formStatus = "active";
+	if($stmt = $mysqli->prepare("insert into `forms` (`title`, `location`, `status`) values (?, ?, ?);")){
+		$stmt->bind_param("sss", $formTitle, $formLocation, $formStatus);
 		$stmt->execute();
 		$stmt->close();
 		

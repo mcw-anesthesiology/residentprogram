@@ -3,7 +3,7 @@
 	require "init.php";
 	
 	
-	$forms = $mysqli->query("select `formId`, `title` from `forms`;"); //active status
+	$forms = $mysqli->query("select `formId`, `title` from `forms` where `status`='active';"); //active status
 	$formsRow = $forms->fetch_assoc();
 ?>
 <!DOCTYPE html>
