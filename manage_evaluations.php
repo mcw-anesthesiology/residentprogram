@@ -2,8 +2,13 @@
   session_start(); 
   require "init.php";
 
+ 	if($_SESSION["type"] !== "admin"){
+		header("Location: dashboard.php");
+	}
+
   $forms = $mysqli->query("select `formId`, `title` from `forms`;");
   $formsRow = $forms->fetch_assoc();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,7 +43,6 @@
 <?php require 'header.php'; ?>
 
 <?php 
-  if($_SESSION["type"] == "admin"){       // ************************************ ADMIN ***********************************************************************
     $requests = $mysqli->query("select requestId, resident, faculty, requestDate, completeDate, requestedBy, requests.status, title, residentUsers.firstName as residentFirst, residentUsers.lastName as residentLast, facultyUsers.firstName as facultyFirst, facultyUsers.lastName as facultyLast, requestedByUsers.firstName as requestedByFirst, requestedByUsers.lastName as requestedByLast from requests left join forms on requests.formId=forms.formId left join users residentUsers on resident=residentUsers.username left join users facultyUsers on faculty=facultyUsers.username left join users requestedByUsers on requestedBy=requestedByUsers.username order by requestId desc;");
     $request = $requests->fetch_assoc();   
 ?>
@@ -110,9 +114,6 @@ $request = $requests->fetch_assoc();
         </div> 
       </div>
     </div>
-<?php 
-  }
-?>
 
 <!-- Disable Modal -->
 <div class="modal fade bs-disable-modal-sm" tabindex="-1" role="dialog" aria-labelledby="modalDisable" aria-hidden="true">

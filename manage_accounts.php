@@ -1,6 +1,9 @@
 <?php 
 	session_start(); 
 	require "init.php";
+	if($_SESSION["type"] !== "admin"){
+		header("Location: dashboard.php");
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
