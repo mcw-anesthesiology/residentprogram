@@ -43,6 +43,7 @@
 			width:100%;
 			resize: none;
 		}
+		.description{ background-color: #FFDDAA; }
     </style>
   </head>
 
@@ -116,6 +117,11 @@
 				alert(alertText);
 			return validForm;
 		}
+		
+		$(".toggleDescriptions").click(function(){
+			var questionName = $(this).data("id");
+			$("."+questionName).toggle();
+		});
     </script>
   </body>
 </html>

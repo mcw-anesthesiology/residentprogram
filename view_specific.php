@@ -62,6 +62,7 @@
         width:100%;
         resize: none;
       }
+      .description{ background-color: #FFDDAA; }
     </style>
   </head>
 
@@ -127,6 +128,11 @@
 			?>
 			$("input").prop("disabled", true);
 			$("textarea").prop("disabled", true);
+		});
+		
+		$(".toggleDescriptions").click(function(){
+			var questionName = $(this).data("id");
+			$("."+questionName).toggle();
 		});
     </script>
   </body>

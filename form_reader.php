@@ -3,10 +3,11 @@
 	$questionType = "";
 	$questionName = "";
 	$questionWeight = "";
+	$description = "";
 	
 	function startElement($parser, $name, $attrs){
 		
-		global $questionType, $questionName;
+		global $questionType, $questionName, $description;
 				
 		if($name == "question"){
 			echo "<table class='table table-striped'>";
@@ -18,8 +19,9 @@
 		}
 		else if($name == "option"){
 			if($questionType == "radio"){
-				if(isset($attrs["description"]))
+				if(isset($attrs["description"])){
 					$description = htmlspecialchars($attrs["description"], ENT_QUOTES);
+				}
 				else
 					$description = "";
 				echo "<td class='tdRdoBtn'><label><span title='{$description}'><input type='radio' name='{$questionName}' value='{$attrs["value"]}' required /><br />";
@@ -39,7 +41,7 @@
 	
 	function endElement($parser, $name){
 		
-		global $questionType, $questionName;
+		global $questionType, $questionName, $description;
 		
 		if($name == "form"){
 			
@@ -49,11 +51,16 @@
 			if($questionType == "text"){
 				echo "<td><textarea name='{$questionName}' required></textarea></td>";
 			}
+			else if($questionType == "radio"){
+				echo "</tr><tr colspan='10'><span class='toggleDescriptions' data-id='{$questionName}'>Show Descriptions</span>";
+			}
 			
 			echo "</tr></tbody></table>";
 		}
 		else if($name == "option"){
-			echo "</span></label></td>";
+			echo "</span></label>";
+			echo "<br/><label><span class='description {$questionName}' hidden>Description: {$description}</span></label>";
+			echo "</td>";
 		}
 		else if($name == "text"){
 			echo "</td></tr><tr>";

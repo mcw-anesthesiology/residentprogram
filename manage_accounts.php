@@ -35,7 +35,7 @@
 <?php require 'header.php'; ?>
 
 <?php 
-  if($_SESSION["type"] == "admin"){				// ************************************ ADMIN ***********************************************************************
+  if($_SESSION["type"] == "admin"){				// ************************************ RESIDENT ***********************************************************************
 	  $users = $mysqli->query("select * from users where type = 'resident';");
 	  $user = $users->fetch_assoc();	  
 ?>
@@ -90,7 +90,7 @@ $user = $users->fetch_assoc();
       </div>
     </div>
 <?php 
-    $users = $mysqli->query("select * from users where type = 'faculty';");
+    $users = $mysqli->query("select * from users where type = 'faculty';"); // ************************************ FACULTY ***********************************************************************
     $user = $users->fetch_assoc();   
 ?>
     <div class="container-fluid">
@@ -143,7 +143,7 @@ $user = $users->fetch_assoc();
     </div>
 
 <?php 
-    $users = $mysqli->query("select * from users where type = 'admin';");
+    $users = $mysqli->query("select * from users where type = 'admin';"); // ************************************ ADMIN ***********************************************************************
     $user = $users->fetch_assoc();   
 ?>
     <div class="container-fluid">
