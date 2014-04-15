@@ -16,9 +16,17 @@
 			//TODO: Make a bit thinner so it doesn't span across two lines before collapsing 
       ?>
         <li><a href="request.php">Request Evaluation</a></li>
-        <li><a href="dashboard.php">View Evaluation</a></li>
-        <li><a href="manage_evaluations.php">Manage Evaluations</a></li>
-        <li><a href="manage_accounts.php">Manage Accounts</a></li>
+        <li class="dropdown">
+			<a href="#" data-toggle="dropdown">Manage<b class="caret"></b></a>
+			<ul class="dropdown-menu">
+				<li><a href="manage_evaluations.php">Evaluations</a></li>
+				<li><a href="manage_accounts.php">Accounts</a></li>
+				<li><a href="manage_forms.php">Forms</a></li>
+				<li><a href="manage_forms.php">Milestones/Competencies</a></li>
+				<li><a href="manage_forms.php">Mentors</a></li>
+			</ul>
+        </li>
+        
         <li><a href="#">Generate Reports</a></li>
       <?php 
         } else if($_SESSION["type"] == "faculty"){
