@@ -99,7 +99,7 @@
       <div class="modal-footer modal-disable">
     <form method="post" action="disable_form.php">
       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      <button type="submit" class="btn btn-danger" id="requestId" name="requestId" value="">Confirm</button>
+      <button type="submit" class="btn btn-danger" id="formId" name="formId" value="">Confirm</button>
         </form>
       </div>
     </div>
@@ -120,7 +120,7 @@
       <div class="modal-footer modal-enable">
     <form method="post" action="enable_form.php">
       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      <button type="submit" class="btn btn-success" id="requestId" name="requestId" value="">Confirm</button>
+      <button type="submit" class="btn btn-success" id="formId" name="formId" value="">Confirm</button>
         </form>
       </div>
     </div>
