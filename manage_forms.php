@@ -97,7 +97,7 @@
         You have selected to <b>disable</b> the selected form. Would you like to continue?
       </div>
       <div class="modal-footer modal-disable">
-    <form method="post" action="disable_evaluation.php">
+    <form method="post" action="disable_form.php">
       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       <button type="submit" class="btn btn-danger" id="requestId" name="requestId" value="">Confirm</button>
         </form>
@@ -118,7 +118,7 @@
         You have selected to <b>enable</b> the selected form. Would you like to continue?
       </div>
       <div class="modal-footer modal-enable">
-    <form method="post" action="enable_evaluation.php">
+    <form method="post" action="enable_form.php">
       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       <button type="submit" class="btn btn-success" id="requestId" name="requestId" value="">Confirm</button>
         </form>
