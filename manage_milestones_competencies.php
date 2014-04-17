@@ -59,8 +59,9 @@
     while(!is_null($milestone)){
 ?>
             <tr>
-              <td><?= $milestone["title"] ?></td>
-              <td><?= $milestone["description"] ?></td>  
+              <td class="title"><?= $milestone["title"] ?></td>
+              <td class="description"><?= $milestone["description"] ?></td>  
+              <td><button class="editMilestone btn btn-info btn-xs" data-toggle="modal" data-target=".bs-editMS-modal" data-id="<?= $milestone["milestoneId"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button></td>  
             </tr>         
 <?php
       $milestone = $milestones->fetch_assoc();
@@ -89,8 +90,9 @@
     while(!is_null($competency)){
 ?>
             <tr>
-              <td><?= $competency["title"] ?></td>
-              <td><?= $competency["description"] ?></td>  
+              <td class="title"><?= $competency["title"] ?></td>
+              <td class="description"><?= $competency["description"] ?></td>
+              <td><button class="editCompetency btn btn-info btn-xs" data-toggle="modal" data-target=".bs-editC-modal" data-id="<?= $competency["competencyId"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button></td>  
             </tr>         
 <?php
       $competency = $competencies->fetch_assoc();
@@ -132,6 +134,34 @@
   </div>
 </div>
 
+<!-- Edit Milestone Modal -->
+<div class="modal fade bs-editMS-modal" tabindex="-1" role="dialog" aria-labelledby="modalAddMS" aria-hidden="true" id="editMSModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalAddMS">Add Milestone</h4>
+      </div>
+      <form method="post" action="edit_milestone.php">
+        <div class="modal-body modal-addMS">
+          <div class="form-group">
+            <label for="milestoneTitle">Milestone Title</label>
+            <input type="text" class="form-control" id="milestoneTitle" name="milestoneTitle" placeholder="Title" required>
+          </div>
+          <div class="form-group">
+            <label for="milestoneDescription">Milestone Description</label>
+            <input type="text" class="form-control" id="milestoneDescription" name="milestoneDescription" placeholder="Description" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success" id="submit" name="milestoneId" value="">Edit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <!-- Add Competency Modal -->
 <div class="modal fade bs-addC-modal" tabindex="-1" role="dialog" aria-labelledby="modalAddC" aria-hidden="true" id="addCModal">
   <div class="modal-dialog">
@@ -160,11 +190,64 @@
   </div>
 </div>
 
+<!-- Edit Competency Modal -->
+<div class="modal fade bs-editC-modal" tabindex="-1" role="dialog" aria-labelledby="modalAddC" aria-hidden="true" id="editCModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalAddC">Edit Competency</h4>
+      </div>
+      <form method="post" action="edit_competency.php">
+        <div class="modal-body modal-addC">
+          <div class="form-group">
+            <label for="competencyTitle">Competency Title</label>
+            <input type="text" class="form-control" id="competencyTitle" name="competencyTitle" placeholder="Title" required>
+          </div>
+          <div class="form-group">
+            <label for="competencyDescription">Competency Description</label>
+            <input type="text" class="form-control" id="competencyDescription" name="competencyDescription" placeholder="Description" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success" id="submit" name="competencyId" value="">Edit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <script src="../../assets/js/docs.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$(".editMilestone").click(function(){
+			var milestoneId = $(this).data("id");
+			var milestoneTitle = $(this).parent().siblings(".title")[0].innerHTML;
+			var milestoneDescription = $(this).parent().siblings(".description")[0].innerHTML;
+			
+			$("#editMSModal").find("#submit").val(milestoneId);
+			$("#editMSModal").find("#milestoneTitle").val(milestoneTitle);
+			$("#editMSModal").find("#milestoneDescription").val(milestoneDescription);
+		});
+		
+		$(".editCompetency").click(function(){
+			var competencyId = $(this).data("id");
+			var competencyTitle = $(this).parent().siblings(".title")[0].innerHTML;
+			var competencyDescription = $(this).parent().siblings(".description")[0].innerHTML;
+			
+			$("#editCModal").find("#submit").val(competencyId);
+			$("#editCModal").find("#competencyTitle").val(competencyTitle);
+			$("#editCModal").find("#competencyDescription").val(competencyDescription);			
+		});
+	});
+</script>
 </body>
 </html>
