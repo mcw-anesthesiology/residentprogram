@@ -22,7 +22,7 @@
 				<li><a href="manage_evaluations.php">Evaluations</a></li>
 				<li><a href="manage_accounts.php">Accounts</a></li>
 				<li><a href="manage_forms.php">Forms</a></li>
-				<li><a href="manage_forms.php">Milestones/Competencies</a></li>
+				<li><a href="manage_milestones_competencies.php">Milestones/Competencies</a></li>
 				<li><a href="manage_forms.php">Mentors</a></li>
 			</ul>
         </li>

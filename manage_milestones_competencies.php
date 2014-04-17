@@ -1,13 +1,11 @@
 <?php 
-	//TODO: Make page work
-	session_start(); 
-	require "init.php";
-
-	if($_SESSION["type"] !== "admin"){
-		header("Location: dashboard.php");
-	}
-
+  session_start(); 
+  require "init.php";
+  if($_SESSION["type"] !== "admin"){
+    header("Location: dashboard.php");
+  }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -22,7 +20,6 @@
 
     <!-- Bootstrap core CSS -->
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
     <!-- Custom styles for this template -->
     <link href="dashboard.css" rel="stylesheet">
 
@@ -31,214 +28,143 @@
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-
   <body>
 
 <?php require 'header.php'; ?>
 
 <?php 
-    $requests = $mysqli->query("select requestId, resident, faculty, requestDate, completeDate, requestedBy, requests.status, title, residentUsers.firstName as residentFirst, residentUsers.lastName as residentLast, facultyUsers.firstName as facultyFirst, facultyUsers.lastName as facultyLast, requestedByUsers.firstName as requestedByFirst, requestedByUsers.lastName as requestedByLast from requests left join forms on requests.formId=forms.formId left join users residentUsers on resident=residentUsers.username left join users facultyUsers on faculty=facultyUsers.username left join users requestedByUsers on requestedBy=requestedByUsers.username order by requestId desc;");
-    $request = $requests->fetch_assoc();   
+  if($_SESSION["type"] == "admin"){       // ************************************ RESIDENT ***********************************************************************
+    $milestones = $mysqli->query("select * from milestones;");
+    $competencies = $mysqli->query("select * from competencies;");
+    $milestone = $milestones->fetch_assoc(); 
+    $competency = $competencies->fetch_assoc();    
 ?>
-    <div class="container-fluid">
-      <div class="row">
-        <h2 class="sub-header">Manage Evaluations <button class="addEval btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="eval" id="addBtn"><span class="glyphicon glyphicon-plus"></span> New Evaluation Form</button> <button class="addMSC btn btn-success btn-xs" data-toggle="modal" data-target=".bs-milestone-modal" data-id="eval" id="addMSCBtn"><span class="glyphicon glyphicon-plus"></span> New Milestone</button> <button class="addMSC btn btn-success btn-xs" data-toggle="modal" data-target=".bs-competency-modal" data-id="eval" id="addMSCBtn"><span class="glyphicon glyphicon-plus"></span> New Competency</button></h2>
-          <div class="table-responsive">
-            <table class="table table-striped" id="keywordsAll" cellspacing="0" cellpadding="0">
-              <thead>
-                <tr>
-                  <th class="headerSortDown"><span>#</span></th>
-                  <th><span>Requested By</span></th>
-                  <th><span>Resident</span></th>
-                  <th><span>Faculty</span></th>
-                  <th><span>Request Date</span></th>
-                  <th><span>Complete Date</span></th>
-                  <th><span>Status</span></th>
-                  <th><span>Action</span></th>
-                </tr>
-              </thead>
-              <tbody>
-          <?php
-          while(!is_null($request)){
-          ?>
-            <tr class="view" data-id="<?= $request["requestId"] ?>">
-              <td><a href="view_specific.php?request=<?= $request["requestId"] ?>"><?= $request["requestId"] ?></a></td>
-              <td><?= $request["requestedByFirst"] ?> <?= $request["requestedByLast"] ?></td>
-              <td><?= $request["residentFirst"] ?> <?= $request["residentLast"] ?></td>
-              <td><?= $request["facultyFirst"] ?> <?= $request["facultyLast"] ?></td>
-              <td><?= $request["requestDate"] ?></td>
-              <td><?= $request["completeDate"] ?></td>
-<?php
-  if($request["status"] == "complete"){
-?>
-              <td><span class="badge badge-complete"><?= $request["status"] ?></span></td>
-<?php
-  }
-  else if($request["status"] == "pending"){
-?>
-              <td><span class="badge badge-pending"><?= $request["status"] ?></span></td>
-<?php
-  }
-  else{
-?>
-              <td><span class="badge badge-disabled"><?= $request["status"] ?></span></td>
-<?php
-  }
-?>
-              <?php
-                if($request["status"] == "disabled"){
-              ?>
-                <td><button class="enableEval btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $request["requestId"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button></td>
-              <?php
-                }
-                else{
-              ?>
-                <td><button class="disableEval btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $request["requestId"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button></td>
-              <?php
-                }
-              ?>
+  <div class="container-fluid">
+    <div class="row">
+      <h2 class="sub-header">Milestones  <button class="addMSModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-addMS-modal" data-id="Milestone" id="addMSBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+      <div class="table-responsive">
+        <table class="table table-striped user-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
             </tr>
+          </thead>
+          <tbody>
 <?php
-$request = $requests->fetch_assoc();
-}
+    while(!is_null($milestone)){
 ?>
-              </tbody>
-            </table>
-          </div>
-        </div> 
-      </div>
-    </div>
-
-<!-- Disable Modal -->
-<div class="modal fade bs-disable-modal-sm" tabindex="-1" role="dialog" aria-labelledby="modalDisable" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalDisable">Disable Evaluation</h4>
-      </div>
-      <div class="modal-body">
-        You have selected to <b>disable</b> the selected evaluation. Would you like to continue?
-      </div>
-      <div class="modal-footer modal-disable">
-		<form method="post" action="disable_evaluation.php">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			<button type="submit" class="btn btn-danger" id="requestId" name="requestId" value="">Confirm</button>
-        </form>
+            <tr>
+              <td><?= $milestone["title"] ?></td>
+              <td><?= $milestone["description"] ?></td>  
+            </tr>         
+<?php
+      $milestone = $milestones->fetch_assoc();
+    }
+?>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Enable Modal -->
-<div class="modal fade bs-enable-modal-sm" tabindex="-1" role="dialog" aria-labelledby="modalEnable" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalEnable">Enable Evaluation</h4>
-      </div>
-      <div class="modal-body">
-        You have selected to <b>enable</b> the selected evaluation. Would you like to continue?
-      </div>
-      <div class="modal-footer modal-enable">
-		<form method="post" action="enable_evaluation.php">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			<button type="submit" class="btn btn-success" id="requestId" name="requestId" value="">Confirm</button>
-        </form>
+  <div class="container-fluid">
+    <div class="row">
+      <h2 class="sub-header">Competencies  <button class="addCModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-addC-modal" data-id="Competency" id="addCBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+      <div class="table-responsive">
+        <table class="table table-striped user-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+<?php
+    while(!is_null($competency)){
+?>
+            <tr>
+              <td><?= $competency["title"] ?></td>
+              <td><?= $competency["description"] ?></td>  
+            </tr>         
+<?php
+      $competency = $competencies->fetch_assoc();
+    }
+  }
+?>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Milestone Modal -->
-<div class="modal fade bs-milestone-modal" tabindex="-1" role="dialog" aria-labelledby="modalMSC" aria-hidden="true">
+<!-- Add Milestone Modal -->
+<div class="modal fade bs-addMS-modal" tabindex="-1" role="dialog" aria-labelledby="modalAddMS" aria-hidden="true" id="addMSModal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalMSC">New Milestone</h4>
+        <h4 class="modal-title" id="myModalAddMS">Add Milestone</h4>
       </div>
       <form method="post" action="process_milestone.php">
-      <div class="modal-body modal-msc">
-        <div class="form-group">
-          <label for="title">Title</label>
-          <input type="text" class="form-control" id="milestoneTitle" name="milestoneTitle" placeholder="Milestone title">
+        <div class="modal-body modal-addMS">
+          <div class="form-group">
+            <label for="milestoneTitle">Milestone Title</label>
+            <input type="text" class="form-control" id="milestoneTitle" name="milestoneTitle" placeholder="Title" required>
+          </div>
+          <div class="form-group">
+            <label for="milestoneDescription">Milestone Description</label>
+            <input type="text" class="form-control" id="milestoneDescription" name="milestoneDescription" placeholder="Description" required>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="description">Description</label>
-          <input type="text" class="form-control" id="milestoneDescription" name="milestoneDescription" placeholder="Milestone description">
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success" value="">Add</button>
         </div>
-      </div>
-      <div class="modal-footer modal-msc">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-success" id="" name="" value="">Add</button>
       </form>
-      </div>
     </div>
   </div>
 </div>
 
-<!-- Competency Modal -->
-<div class="modal fade bs-competency-modal" tabindex="-1" role="dialog" aria-labelledby="modalMSC" aria-hidden="true">
+<!-- Add Competency Modal -->
+<div class="modal fade bs-addC-modal" tabindex="-1" role="dialog" aria-labelledby="modalAddC" aria-hidden="true" id="addCModal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalMSC">New Competency</h4>
+        <h4 class="modal-title" id="myModalAddC">Add Competency</h4>
       </div>
       <form method="post" action="process_competency.php">
-      <div class="modal-body modal-msc">
-        <div class="form-group">
-          <label for="title">Title</label>
-          <input type="text" class="form-control" id="competencyTitle" name="competencyTitle" placeholder="Competency title">
+        <div class="modal-body modal-addC">
+          <div class="form-group">
+            <label for="competencyTitle">Competency Title</label>
+            <input type="text" class="form-control" id="competencyTitle" name="competencyTitle" placeholder="Title" required>
+          </div>
+          <div class="form-group">
+            <label for="competencyDescription">Competency Description</label>
+            <input type="text" class="form-control" id="competencyDescription" name="competencyDescription" placeholder="Description" required>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="description">Description</label>
-          <input type="text" class="form-control" id="competencyDescription" name="competencyDescription" placeholder="Competency description">
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success" value="">Add</button>
         </div>
-      </div>
-      <div class="modal-footer modal-msc">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-success" id="" name="" value="">Add</button>
       </form>
-      </div>
     </div>
   </div>
 </div>
 
-<!--TODO: edit modal -->
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <script src="../../assets/js/docs.min.js"></script>
-    <script type="text/javascript" src="bootstrap/js/jquery.tablesorter.min.js"></script>
-    <script>
-		$(document).on("click", ".disableEval", function(){
-			var requestId = $(this).data('id');
-			$(".modal-disable #requestId").val(requestId);
-		});
-		
-		$(document).on("click", ".enableEval", function(){
-			var requestId = $(this).data('id');
-			$(".modal-enable #requestId").val(requestId);
-		});	
-		
-		$("tbody").on("click", ".view", function(){
-			var requestId = $(this).data("id");
-			window.location.href = "view_specific.php?request="+requestId;
-		});
-
-		$(function(){
-		  $('#keywordsAll').tablesorter(); 
-		});	
-    </script>
-  </body>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="../../assets/js/docs.min.js"></script>
+</body>
 </html>

@@ -9,6 +9,6 @@
 		}
 	}
 	
-	header("Location: manage_evaluations.php");
+	header("Location: manage_milestones_competencies.php");
 
 ?>
