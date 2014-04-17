@@ -51,7 +51,7 @@
 ?>
     <div class="container-fluid">
       <div class="row">
-        <h2 class="sub-header">Manage Evaluations <button class="addEval btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="eval" id="addBtn"><span class="glyphicon glyphicon-plus"></span> New Evaluation Form</button> <button class="addMSC btn btn-success btn-xs" data-toggle="modal" data-target=".bs-milestone-modal" data-id="eval" id="addMSCBtn"><span class="glyphicon glyphicon-plus"></span> New Milestone</button> <button class="addMSC btn btn-success btn-xs" data-toggle="modal" data-target=".bs-competency-modal" data-id="eval" id="addMSCBtn"><span class="glyphicon glyphicon-plus"></span> New Competency</button></h2>
+        <h2 class="sub-header">Manage Evaluations <button class="addEval btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="eval" id="addBtn"><span class="glyphicon glyphicon-plus"></span> New Evaluation Form</button></h2>
           <div class="table-responsive">
             <table class="table table-striped" id="keywordsAll" cellspacing="0" cellpadding="0">
               <thead>
@@ -155,62 +155,6 @@
 			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 			<button type="submit" class="btn btn-success" id="requestId" name="requestId" value="">Confirm</button>
         </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Milestone Modal -->
-<div class="modal fade bs-milestone-modal" tabindex="-1" role="dialog" aria-labelledby="modalMSC" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalMSC">New Milestone</h4>
-      </div>
-      <form method="post" action="process_milestone.php">
-      <div class="modal-body modal-msc">
-        <div class="form-group">
-          <label for="title">Title</label>
-          <input type="text" class="form-control" id="milestoneTitle" name="milestoneTitle" placeholder="Milestone title">
-        </div>
-        <div class="form-group">
-          <label for="description">Description</label>
-          <input type="text" class="form-control" id="milestoneDescription" name="milestoneDescription" placeholder="Milestone description">
-        </div>
-      </div>
-      <div class="modal-footer modal-msc">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-success" id="" name="" value="">Add</button>
-      </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Competency Modal -->
-<div class="modal fade bs-competency-modal" tabindex="-1" role="dialog" aria-labelledby="modalMSC" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalMSC">New Competency</h4>
-      </div>
-      <form method="post" action="process_competency.php">
-      <div class="modal-body modal-msc">
-        <div class="form-group">
-          <label for="title">Title</label>
-          <input type="text" class="form-control" id="competencyTitle" name="competencyTitle" placeholder="Competency title">
-        </div>
-        <div class="form-group">
-          <label for="description">Description</label>
-          <input type="text" class="form-control" id="competencyDescription" name="competencyDescription" placeholder="Competency description">
-        </div>
-      </div>
-      <div class="modal-footer modal-msc">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-success" id="" name="" value="">Add</button>
-      </form>
       </div>
     </div>
   </div>
