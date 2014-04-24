@@ -1,12 +1,9 @@
 <?php 
-	//TODO: Make page work
 	session_start(); 
 	require "init.php";
-  
-  	if($_SESSION["type"] !== "admin"){
+	if($_SESSION["type"] !== "admin"){
 		header("Location: dashboard.php");
 	}
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,126 +37,129 @@
 
 <?php require 'header.php'; ?>
 
+
 <?php 
-    $requests = $mysqli->query("select requestId, resident, faculty, requestDate, completeDate, requestedBy, requests.status, title, residentUsers.firstName as residentFirst, residentUsers.lastName as residentLast, facultyUsers.firstName as facultyFirst, facultyUsers.lastName as facultyLast, requestedByUsers.firstName as requestedByFirst, requestedByUsers.lastName as requestedByLast from requests left join forms on requests.formId=forms.formId left join users residentUsers on resident=residentUsers.username left join users facultyUsers on faculty=facultyUsers.username left join users requestedByUsers on requestedBy=requestedByUsers.username order by requestId desc;");
-    $request = $requests->fetch_assoc();   
+    $mentorships = $mysqli->query("select mentorships.mentorshipId, mentorships.createdDate as mentorshipCreatedDate, faculty.username as facultyUsername, faculty.firstName as facultyFirst, faculty.lastName as facultyLast, resident.username as residentUsername, resident.firstName as residentFirst, resident.lastName as residentLast from mentorships join users faculty on mentorships.faculty=faculty.username join users resident on mentorships.resident=resident.username where faculty.type = 'faculty' and faculty.status='active' group by faculty.username;"); // ************************************ FACULTY ***********************************************************************
+    $mentorship = $mentorships->fetch_assoc();
+    $facultyUsername = "";
+    $faculties = $mysqli->query("select * from users where type='faculty';");
+	$faculty = $faculties->fetch_assoc();
+    $residents = $mysqli->query("select * from users where type='resident';");
+    $resident = $residents->fetch_assoc();
 ?>
     <div class="container-fluid">
       <div class="row">
-        <h2 class="sub-header">Manage Evaluations <button class="addEval btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="eval" id="addBtn"><span class="glyphicon glyphicon-plus"></span> New Evaluation Form</button> <button class="addMSC btn btn-success btn-xs" data-toggle="modal" data-target=".bs-milestone-modal" data-id="eval" id="addMSCBtn"><span class="glyphicon glyphicon-plus"></span> New Milestone</button> <button class="addMSC btn btn-success btn-xs" data-toggle="modal" data-target=".bs-competency-modal" data-id="eval" id="addMSCBtn"><span class="glyphicon glyphicon-plus"></span> New Competency</button></h2>
+        <h2 class="sub-header">Mentorships <button class="btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
           <div class="table-responsive">
-            <table class="table table-striped" id="keywordsAll" cellspacing="0" cellpadding="0">
+            <table class="table table-striped user-table">
               <thead>
                 <tr>
-                  <th class="headerSortDown"><span>#</span></th>
-                  <th><span>Requested By</span></th>
-                  <th><span>Resident</span></th>
-                  <th><span>Faculty</span></th>
-                  <th><span>Request Date</span></th>
-                  <th><span>Complete Date</span></th>
-                  <th><span>Status</span></th>
-                  <th><span>Action</span></th>
+                  <th>Faculty</th>
+                  <th>Resident</th>
+                  <th>Created</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-          <?php
-          while(!is_null($request)){
-          ?>
-            <tr class="view" data-id="<?= $request["requestId"] ?>">
-              <td><a href="view_specific.php?request=<?= $request["requestId"] ?>"><?= $request["requestId"] ?></a></td>
-              <td><?= $request["requestedByFirst"] ?> <?= $request["requestedByLast"] ?></td>
-              <td><?= $request["residentFirst"] ?> <?= $request["residentLast"] ?></td>
-              <td><?= $request["facultyFirst"] ?> <?= $request["facultyLast"] ?></td>
-              <td><?= $request["requestDate"] ?></td>
-              <td><?= $request["completeDate"] ?></td>
+			  <tr>
 <?php
-  if($request["status"] == "complete"){
+	while(!is_null($mentorship)){
+		if ($facultyUsername != $mentorship["facultyUsername"]){
+			$facultyUsername = $mentorship["facultyUsername"];
 ?>
-              <td><span class="badge badge-complete"><?= $request["status"] ?></span></td>
+				<td>
 <?php
-  }
-  else if($request["status"] == "pending"){
+		}
+		else{
 ?>
-              <td><span class="badge badge-pending"><?= $request["status"] ?></span></td>
+				<td hidden>
 <?php
-  }
-  else{
+		}
 ?>
-              <td><span class="badge badge-disabled"><?= $request["status"] ?></span></td>
+					<?= $mentorship["facultyFirst"]." ".$mentorship["facultyLast"] ?></td>
+				<td><?= $mentorship["residentFirst"]." ".$mentorship["residentLast"] ?></td>
+				<td><?= $mentorship["mentorshipCreatedDate"] ?></td>
+				<td><button class="removeMentorship btn btn-success btn-xs" data-toggle="modal" data-target=".bs-remove-modal" id="rmvBtn" data-id=<?= $mentorship["mentorshipId"] ?>><span class="glyphicon glyphicon-plus"></span> Remove</button></td>
+            </tr>            
 <?php
-  }
-?>
-              <?php
-                if($request["status"] == "disabled"){
-              ?>
-                <td><button class="enableEval btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $request["requestId"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button></td>
-              <?php
-                }
-                else{
-              ?>
-                <td><button class="disableEval btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $request["requestId"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button></td>
-              <?php
-                }
-              ?>
-            </tr>
-<?php
-$request = $requests->fetch_assoc();
-}
+	$mentorship = $mentorships->fetch_assoc();
+	}
 ?>
               </tbody>
             </table>
           </div>
-        </div> 
+        </div>
       </div>
     </div>
 
-<!-- Disable Modal -->
-<div class="modal fade bs-disable-modal-sm" tabindex="-1" role="dialog" aria-labelledby="modalDisable" aria-hidden="true">
+<!-- Add Modal -->
+<div class="modal fade bs-add-modal-sm" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalDisable">Disable Evaluation</h4>
+          <h4 class="modal-title" id="myModalAdd">Disable Account</h4>
       </div>
-      <div class="modal-body">
-        You have selected to <b>disable</b> the selected evaluation. Would you like to continue?
-      </div>
-      <div class="modal-footer modal-disable">
-		<form method="post" action="disable_evaluation.php">
+      <form method="post" action="process_mentorship.php">
+        <div class="modal-body">
+			<select name="faculty">
+				<?php
+					while(!is_null($faculty)){
+						echo "<option value='{$faculty["username"]}'>{$faculty["firstName"]} {$faculty["lastName"]}</option>"
+						$faculty = $faculties->fetch_assoc();
+					}
+				?>
+			</select>
+			<select name="resident">
+				<?php
+					while(!is_null($resident)){
+						echo "<option value='{$resident["username"]}'>{$resident["firstName"]} {$resident["lastName"]}</option>"
+						$resident = $residents->fetch_assoc();
+					}
+				?>
+			</select>
+          </div>
+        <div class="modal-footer modal-disable">
 			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			<button type="submit" class="btn btn-danger" id="requestId" name="requestId" value="">Confirm</button>
+			<button type="submit" class="btn btn-success">Confirm</button>
         </form>
       </div>
     </div>
   </div>
 </div>
-   
+
+<!-- Remove Modal -->
+<div class="modal fade bs-remove-modal-sm" tabindex="-1" role="dialog" aria-labelledby="modalRemove" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalRemove">Disable Account</h4>
+      </div>
+      <div class="modal-body">
+        You have selected to <b>remove</b> the selected mentorship. Would you like to continue?
+      </div>
+      <div class="modal-footer modal-disable">
+		<form method="post" action="process_mentorship.php">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="submit" class="btn btn-danger" id="mentorshipId" name="mentorshipId" value="">Confirm</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="../../assets/js/docs.min.js"></script>
-    <script type="text/javascript" src="bootstrap/js/jquery.tablesorter.min.js"></script>
     <script>
-		$(document).on("click", ".disableEval", function(){
-			var requestId = $(this).data('id');
-			$(".modal-disable #requestId").val(requestId);
+		$(":table").on("click", ".removeMentorship", function(){
+			var mentorshipId = $(this).data("id");
+			$("#mentorshipId").val(mentorshipId);
 		});
-		
-		$(document).on("click", ".enableEval", function(){
-			var requestId = $(this).data('id');
-			$(".modal-enable #requestId").val(requestId);
-		});	
-		
-		$("tbody").on("click", ".view", function(){
-			var requestId = $(this).data("id");
-			window.location.href = "view_specific.php?request="+requestId;
-		});
-
-		$(function(){
-		  $('#keywordsAll').tablesorter(); 
-		});	
     </script>
   </body>
 </html>
