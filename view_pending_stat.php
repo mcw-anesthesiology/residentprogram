@@ -2,7 +2,7 @@
 	session_start();
 	require "init.php";
 
-  $pending = $mysqli->query("select u.username, u.firstName, u.lastName, u.status, count(r.status) as pending from users u, requests r where u.username = r.faculty and r.status = 'pending' order by pending;");
+  $pending = $mysqli->query("select u.username, u.firstName, u.lastName, u.status, count(r.status) as pending from users u, requests r where u.username = r.faculty and r.status = 'pending' group by username order by pending desc;");
 
 ?>
 <!DOCTYPE html>
