@@ -39,12 +39,12 @@
 
 
 <?php 
-    $mentorships = $mysqli->query("select mentorships.mentorshipId, mentorships.createdDate as mentorshipCreatedDate, faculty.username as facultyUsername, faculty.firstName as facultyFirst, faculty.lastName as facultyLast, resident.username as residentUsername, resident.firstName as residentFirst, resident.lastName as residentLast from mentorships join users faculty on mentorships.faculty=faculty.username join users resident on mentorships.resident=resident.username where faculty.type = 'faculty' and faculty.status='active' group by faculty.username;"); // ************************************ FACULTY ***********************************************************************
+    $mentorships = $mysqli->query("select mentorships.mentorshipId, mentorships.createdDate as mentorshipCreatedDate, faculty.username as facultyUsername, faculty.firstName as facultyFirst, faculty.lastName as facultyLast, resident.username as residentUsername, resident.firstName as residentFirst, resident.lastName as residentLast from mentorships join users faculty on mentorships.faculty=faculty.username join users resident on mentorships.resident=resident.username where faculty.type='faculty' and faculty.status='active' and mentorships.status='active' order by faculty.username;"); // ************************************ FACULTY ***********************************************************************
     $mentorship = $mentorships->fetch_assoc();
     $facultyUsername = "";
-    $faculties = $mysqli->query("select * from users where type='faculty';");
+    $faculties = $mysqli->query("select * from users where type='faculty' and status='active';");
 	$faculty = $faculties->fetch_assoc();
-    $residents = $mysqli->query("select * from users where type='resident';");
+    $residents = $mysqli->query("select * from users where type='resident' and status='active';");
     $resident = $residents->fetch_assoc();
 ?>
     <div class="container-fluid">
@@ -54,6 +54,7 @@
             <table class="table table-striped user-table">
               <thead>
                 <tr>
+				  <th>#</th>
                   <th>Faculty</th>
                   <th>Resident</th>
                   <th>Created</th>
@@ -64,22 +65,12 @@
 			  <tr>
 <?php
 	while(!is_null($mentorship)){
-		if ($facultyUsername != $mentorship["facultyUsername"]){
-			$facultyUsername = $mentorship["facultyUsername"];
 ?>
-				<td>
-<?php
-		}
-		else{
-?>
-				<td hidden>
-<?php
-		}
-?>
-					<?= $mentorship["facultyFirst"]." ".$mentorship["facultyLast"] ?></td>
+				<td><?= $mentorship["mentorshipId"] ?></td>
+				<td><?= $mentorship["facultyFirst"]." ".$mentorship["facultyLast"] ?></td>	
 				<td><?= $mentorship["residentFirst"]." ".$mentorship["residentLast"] ?></td>
 				<td><?= $mentorship["mentorshipCreatedDate"] ?></td>
-				<td><button class="removeMentorship btn btn-success btn-xs" data-toggle="modal" data-target=".bs-remove-modal" id="rmvBtn" data-id=<?= $mentorship["mentorshipId"] ?>><span class="glyphicon glyphicon-plus"></span> Remove</button></td>
+				<td><button class="removeMentorship btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-remove-modal" id="rmvBtn" data-id=<?= $mentorship["mentorshipId"] ?>><span class="glyphicon glyphicon-remove"></span> Remove</button></td>
             </tr>            
 <?php
 	$mentorship = $mentorships->fetch_assoc();
@@ -93,7 +84,7 @@
     </div>
 
 <!-- Add Modal -->
-<div class="modal fade bs-add-modal-sm" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true">
+<div class="modal fade bs-add-modal" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
@@ -102,18 +93,18 @@
       </div>
       <form method="post" action="process_mentorship.php">
         <div class="modal-body">
-			<select name="faculty">
+			<select class="form-control" name="faculty">
 				<?php
 					while(!is_null($faculty)){
-						echo "<option value='{$faculty["username"]}'>{$faculty["firstName"]} {$faculty["lastName"]}</option>"
+						echo "<option value='{$faculty["username"]}'>{$faculty["firstName"]} {$faculty["lastName"]}</option>";
 						$faculty = $faculties->fetch_assoc();
 					}
 				?>
 			</select>
-			<select name="resident">
+			<select class="form-control" name="resident">
 				<?php
 					while(!is_null($resident)){
-						echo "<option value='{$resident["username"]}'>{$resident["firstName"]} {$resident["lastName"]}</option>"
+						echo "<option value='{$resident["username"]}'>{$resident["firstName"]} {$resident["lastName"]}</option>";
 						$resident = $residents->fetch_assoc();
 					}
 				?>
@@ -129,7 +120,7 @@
 </div>
 
 <!-- Remove Modal -->
-<div class="modal fade bs-remove-modal-sm" tabindex="-1" role="dialog" aria-labelledby="modalRemove" aria-hidden="true">
+<div class="modal fade bs-remove-modal" tabindex="-1" role="dialog" aria-labelledby="modalRemove" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
@@ -156,7 +147,7 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="../../assets/js/docs.min.js"></script>
     <script>
-		$(":table").on("click", ".removeMentorship", function(){
+		$("table").on("click", ".removeMentorship", function(){
 			var mentorshipId = $(this).data("id");
 			$("#mentorshipId").val(mentorshipId);
 		});

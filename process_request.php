@@ -35,6 +35,7 @@
 		 
 	$requestDate = date("Y-m-d H:i:s");
 	
+	//TODO: Change to paramatarized
 	$mysqli->query("insert into `requests` (formId, resident, faculty, requestedBy, status, requestDate, ipAddress) values ('{$evaluationForm}', '{$resident}', '{$faculty}', '{$_SESSION["username"]}', 'pending', '{$requestDate}', '{$ipaddress}');");
 	$requestId = $mysqli->insert_id;
 	
