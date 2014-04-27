@@ -41,14 +41,14 @@
       </div>
     </div>
 <?php
-		$menteeRequests = $mysqli->query("select * from requests join forms on requests.formId=forms.formId join users on requests.resident=users.username join mentorships on mentorships.resident=requests.resident where mentorships.faculty='{$_SESSION["username"]}' and mentorships.status='active' and requests.status!='disabled' order by requestId asc;");
+		$menteeRequests = $mysqli->query("select requestId, title, requestDate, completeDate, requests.status, requests.resident, faculty.firstName as facultyFirst, faculty.lastName as facultyLast, resident.firstName as residentFirst, resident.lastName as residentLast from requests join forms on requests.formId=forms.formId join users as resident on requests.resident=resident.username join users as faculty on requests.faculty=faculty.username join mentorships on mentorships.resident=requests.resident where mentorships.faculty='{$_SESSION["username"]}' and mentorships.status='active' and requests.status!='disabled' order by requestId asc;");
 		$menteeRequest = $menteeRequests->fetch_assoc();
 		while(!is_null($menteeRequest)){
 			$mentee = $menteeRequest["resident"];
 ?>
 	<div class="container-fluid">
       <div class="row">
-          <h2 class="sub-header">Requests -- <?= $menteeRequest["firstName"] ?> <?= $menteeRequest["lastName"] ?></h2>
+          <h2 class="sub-header">Requests -- <?= $menteeRequest["residentFirst"] ?> <?= $menteeRequest["residentLast"] ?></h2>
           <div class="table-responsive">
             <table class="table table-striped" id="keywordsComplete" cellspacing="0" cellpadding="0">
               <thead>
@@ -67,7 +67,7 @@
 				  ?>
 							<tr class="view" data-id="<?= $menteeRequest["requestId"] ?>">
 							  <td class="lalign"><a href="view_specific.php?request=<?= $menteeRequest["requestId"] ?>"><?= $menteeRequest["requestId"] ?></a></td>
-							  <td><?= $menteeRequest["firstName"] ?> <?= $menteeRequest["lastName"] ?></td>
+							  <td><?= $menteeRequest["facultyFirst"] ?> <?= $menteeRequest["facultyLast"] ?></td>
 							  <td><?= $menteeRequest["title"] ?></td>
 							  <td><?= $menteeRequest["requestDate"] ?></td>
 							  <td><?= $menteeRequest["completeDate"] ?></td>

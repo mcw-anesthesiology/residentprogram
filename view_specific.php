@@ -1,5 +1,6 @@
 <?php 
 	//TODO: Make button to show hover text when on a mobile device look better
+	//TODO: NEED TO MAKE SURE USER HAS SUFFICIENT RIGHTS TO VIEW THE EVAL BEFORE LETTING THEM VIEW IT
 	session_start();
 	require "init.php";
 	
