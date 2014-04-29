@@ -40,11 +40,11 @@
 	}
 	$mysqli->query("update `requests` set `completeDate`='{$evaluationDate}', status='complete' where `requestId`='{$requestId}';");
 	
-	if($responseStmt = $mysqli->prepare("insert into `responsesForm{$formId}` (`requestId`, `questionId`, `response`, `weight`) values (?, ?, ?, ?);"))
+	if($responseStmt = $mysqli->prepare("insert into `responses` (`requestId`, `questionId`, `response`, `weight`) values (?, ?, ?, ?);"))
 		$responseStmt->bind_param("isii", $requestId, $question, $response, $questionWeight);
 	else echo $mysqli->error;
 	
-	if($textStmt = $mysqli->prepare("insert into `textResponsesForm{$formId}` (`requestId`, `questionId`, `response`) values (?, ?, ?);"))
+	if($textStmt = $mysqli->prepare("insert into `textResponses` (`requestId`, `questionId`, `response`) values (?, ?, ?);"))
 		$textStmt->bind_param("iss", $requestId, $question, $response);
 	else echo $mysqli->error;
 

@@ -3,17 +3,32 @@
 	session_destroy();
 	
 	$username = htmlspecialchars($_POST["username"]);
-	$password = md5(htmlspecialchars($_POST["password"])); //have to encrypt this better--password_hash()
+	$password = htmlspecialchars($_POST["password"]); 
 	
-	$users = $mysqli->query("select username, password, type, firstName, lastName from users where username='{$username}' and password='{$password}' and status='active';");
-	$user = $users->fetch_assoc();
-	$num = $users->num_rows;
-	if($num == 1){
+	if($stmt = $mysqli->prepare("select password, type, firstName, lastName from users where username=? and status='active';")){
+		if($stmt->bind_param("s", $username)){
+			if($stmt->execute()){
+				$stmt->bind_result($passwordHash, $type, $firstName, $lastName);
+				$stmt->fetch();
+			}
+			else{
+				print $stmt->error;
+			}
+		}
+		else{
+			print $stmt->error;
+		}
+	}
+	else{
+		print $mysqli->error;
+	}
+	
+	if(password_verify($password, $passwordHash)){
 		session_start();
 		$_SESSION["username"] = $username;
-		$_SESSION["type"] = $user["type"];
-		$_SESSION["fname"] = $user["firstName"];
-		$_SESSION["lname"] = $user["lastName"];
+		$_SESSION["type"] = $type;
+		$_SESSION["fname"] = $firstName;
+		$_SESSION["lname"] = $lastName;
 		header("Location: dashboard.php");
 	}
 	else{

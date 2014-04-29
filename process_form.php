@@ -50,40 +50,34 @@
 	$form->asXML($formLocation);
 	$formTitle = $mysqli->escape_string($formTitle);
 	$formStatus = "active";
-	if($stmt = $mysqli->prepare("insert into `forms` (`title`, `location`, `status`) values (?, ?, ?);")){
-		$stmt->bind_param("sss", $formTitle, $formLocation, $formStatus);
+	$createdDate = date("Y-m-d H:i:s");
+	if($stmt = $mysqli->prepare("insert into `forms` (`title`, `location`, `status`, `createdDate`) values (?, ?, ?, ?);")){
+		$stmt->bind_param("ssss", $formTitle, $formLocation, $formStatus, $createdDate);
 		$stmt->execute();
 		$stmt->close();
 		
 		$formId = $mysqli->insert_id;
 		
-		$mysqli->query("create table `responsesForm{$formId}`(requestId int not null, questionId varchar(255) not null, response int not null, weight int not null, primary key(requestId, questionId), foreign key(requestId) references requests(requestId));");
-		$mysqli->query("create table `textResponsesForm{$formId}`(requestId int not null, questionId varchar(255) not null, response text not null, primary key(requestId, questionId), foreign key(requestId) references requests(requestId));");
-		
-		if($mysqli->query("create table `milestonesForm{$formId}`(`questionId` varchar(255) not null, `milestoneId` int not null, primary key(questionId, milestoneId), foreign key(milestoneId) references `milestones`(milestoneId));")){
-			if($stmt = $mysqli->prepare("insert into `milestonesForm{$formId}`(questionId, milestoneId) values (?, ?)")){
-				if($stmt->bind_param("si", $questionId, $milestoneId)){
-					foreach($milestones as $questionId => $milestoneId){
-						$questionId = $mysqli->escape_string($questionId);
-						$milestoneId = $mysqli->escape_string($milestoneId);
-						$stmt->execute();
-					}
+		if($stmt = $mysqli->prepare("insert into `milestones_questions`(formId, questionId, milestoneId) values (?, ?, ?)")){
+			if($stmt->bind_param("isi", $formId, $questionId, $milestoneId)){
+				foreach($milestones as $questionId => $milestoneId){
+					$questionId = $mysqli->escape_string($questionId);
+					$milestoneId = $mysqli->escape_string($milestoneId);
+					$stmt->execute();
 				}
-				$stmt->close();				
 			}
-		}	
-		
-		if($mysqli->query("create table `competenciesForm{$formId}`(`questionId` varchar(255) not null, `competencyId` int not null, primary key(questionId, competencyId), foreign key(competencyId) references `competencies`(competencyId));")){
-			if($stmt = $mysqli->prepare("insert into `competenciesForm{$formId}`(questionId, competencyId) values (?, ?)")){
-				if($stmt->bind_param("si", $questionId, $competencyId)){
-					foreach($competencies as $questionId => $competencyId){
-						$questionId = $mysqli->escape_string($questionId);
-						$competencyId = $mysqli->escape_string($competencyId);
-						$stmt->execute();
-					}
+			$stmt->close();				
+		}
+	
+		if($stmt = $mysqli->prepare("insert into `competencies_questions`(formId, questionId, competencyId) values (?, ?, ?)")){
+			if($stmt->bind_param("isi", $formId, $questionId, $competencyId)){
+				foreach($competencies as $questionId => $competencyId){
+					$questionId = $mysqli->escape_string($questionId);
+					$competencyId = $mysqli->escape_string($competencyId);
+					$stmt->execute();
 				}
-				$stmt->close();
 			}
+			$stmt->close();
 		}
 	}
 	

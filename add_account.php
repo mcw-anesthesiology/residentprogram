@@ -7,8 +7,8 @@
 	}
 	
 	$username = $mysqli->escape_string($_POST["username"]);
-	$password = md5(htmlspecialchars($_POST["password"]));
-	$password2 = md5(htmlspecialchars($_POST["password2"]));
+	$password = password_hash(htmlspecialchars($_POST["password"]), PASSWORD_DEFAULT);
+	$password2 = password_hash(htmlspecialchars($_POST["password2"]), PASSWORD_DEFAULT);
 	$firstName = $mysqli->escape_string($_POST["firstName"]);
 	$lastName = $mysqli->escape_string($_POST["lastName"]);
 	$accountType = $mysqli->escape_string($_POST["accountType"]);

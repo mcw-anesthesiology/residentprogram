@@ -13,7 +13,7 @@
 	$formLocation = $form["location"];
 	$formId = $form["formId"];
 	
-	$questionQuery = $mysqli->query("select `questionId`, `response` from `responsesForm{$formId}` where requestId='{$requestId}';");
+	$questionQuery = $mysqli->query("select `questionId`, `response` from `responses` where requestId='{$requestId}';");
 	$questionRow = $questionQuery->fetch_assoc();
 	while(!is_null($questionRow)){
 		$questions[] = $questionRow["questionId"];
@@ -21,7 +21,7 @@
 		$questionRow = $questionQuery->fetch_assoc();
 	}
 	
-	$textResponseQuery = $mysqli->query("select `questionId`, `response` from `textResponsesForm{$formId}` where requestId='{$requestId}';");
+	$textResponseQuery = $mysqli->query("select `questionId`, `response` from `textResponses` where requestId='{$requestId}';");
 	$textResponseRow = $textResponseQuery->fetch_assoc();
 	while(!is_null($textResponseRow)){
 		$textQuestions[] = $textResponseRow["questionId"];
