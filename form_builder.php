@@ -138,30 +138,36 @@
 												"</div>" +
 												"<div class='hr-question'></div>" +
 												"<div class='row'>" +
-													"<div class='col-md-4'>" +
-														"<b>Question Milestone</b>" +
+													"<div class='col-md-3'>" +
+														"<b>Question Milestone 1</b>" +
 													"</div>" +
-													"<div class='col-md-4'>" +
+													"<div class='col-md-3'>" +
+														"<b>Question Milestone 2</b>" +
+													"</div>" +
+													"<div class='col-md-3'>" +
 														"<b>Question Competency</b>" +
 													"</div>" +
 													"<div class='col-md-2'>" +
 														"<b>Question Type</b>" +
 													"</div>" +
-													"<div class='col-md-2'>" +
-														"<b>Question Weight</b>" +
+													"<div class='col-md-1'>" +
+														"<b>Weight</b>" +
 													"</div>" +
 												"</div>" +
 												"<div class='row'>" +
-													"<div class='col-md-4'>" +
+													"<div class='col-md-3'>" +
 														milestoneHtml +
 													"</div>" +
-													"<div class='col-md-4'>" +
+													"<div class='col-md-3'>" +
+														milestoneHtml +
+													"</div>" +
+													"<div class='col-md-3'>" +
 														competencyHtml +
 													"</div>" +
 													"<div class='col-md-2'>" +
 														typeHtml +
 													"</div>" +
-													"<div class='col-md-2'>" +
+													"<div class='col-md-1'>" +
 														"<input class='form-input form-control form-question-weight' type='number' min='0' max='200' value='100' step='1' />" +
 													"</div>" +
 												"</div>" +
