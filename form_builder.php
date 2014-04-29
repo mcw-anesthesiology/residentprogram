@@ -69,7 +69,6 @@
 				</div>
 			</div>
 		</h3>
-		<div class='hr-question'></div>
 		<div class="form">
 		</div>
 		<div id='footer'>
@@ -123,13 +122,18 @@
 
 		var questionHtml = "<div class='container-fluid form-question'>" +
 												"<div class='row' style='margin-top:5px;'>" +
-													"<div class='col-md-12'>" +
+													"<div class='col-md-11'>" +
 														"<b>Question Text</b>" +
 													"</div>" +
 												"</div>" +
 												"<div class='row'>" +
-													"<div class='col-md-12'>" +
+													"<div class='col-md-11'>" +
 														"<input type='text' class='form-input form-question-text form-control' name='questionText' placeholder='Question Text' required />" +
+													"</div>" +
+													"<div class='col-md-1'>" +
+														"<button class='form-question-delete btn btn-danger del-btn' type='button'>" +
+															"Delete" +
+														"</button>" +
 													"</div>" +
 												"</div>" +
 												"<div class='hr-question'></div>" +
@@ -162,19 +166,10 @@
 													"</div>" +
 												"</div>" +
 												"<div class='hr-question'></div>" +
-												"<div class='row form-options'>" +
+												"<div class='row form-options' style='margin-bottom:5px;'>" +
 													radioHtml +
 												"</div>" +
-												"<div class='hr-question'></div>" +
-												"<div class='row'>" +
-													"<div class='col-md-2'>" +
-														"<button class='form-question-delete btn btn-danger' style='margin-bottom:5px;'>" +
-															"Delete Question" +
-														"</button>" +
-													"</div>" +
-												"</div>" +
-											"</div>" +
-											"<div class='hr-question'></div>";
+											"</div>";
 		
 		$(document).ready(function(){
 			addQuestion();

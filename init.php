@@ -4,7 +4,7 @@
 		header("Location: index.php"); 
 	}
 	
-	$mysqli = new mysqli("localhost", "mcw", "BobbyLite", "mcw_2");
+	$mysqli = new mysqli("www.mischka.info", "mcw", "BobbyLite", "mcw_2");
 	if($mysqli->connect_errno){
 		echo "Failed to connect to MySQL: " . $mysqli->connect_errno . " ) " . $mysqli->connect_error;
 	}
