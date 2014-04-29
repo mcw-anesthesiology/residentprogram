@@ -180,10 +180,10 @@
 		
 		$(".form").on("change", ".form-question-type", function(){
 			if($(this).val() === "radio"){
-				$(this).parent().parent().next(".form-options").html(radioHtml);
+				$(this).parents(".form-question").find(".form-options").html(radioHtml);
 			}
 			else if($(this).val() === "text"){
-				$(this).parent().parent().next(".form-options").html(textHtml);
+				$(this).parents(".form-question").find(".form-options").html(textHtml);
 				var questionId = $(this).parents(".form-question").attr("id");
 				$(this).parents(".form-question").find("textarea").attr("name", questionId+":textResponse");
 			}
@@ -222,20 +222,20 @@
 				questionId = "q1";
 			}
 			else{
-				var questionId = $(".form").children().last().attr("id");
+				var questionId = $(".form").children(".form-question").last().attr("id");
 				var questionIdNum = parseFloat(questionId.substring(1));
 				questionIdNum++;
 				questionId = questionId.substring(0, 1)+questionIdNum;
 			}
 			
 			$(".form").append(questionHtml);
-			$(".form").children().last().attr("id", questionId);
-			$(".form").children().last().find(".form-question-name").html(questionId.toUpperCase()+": ");
-			$(".form").children().last().find(".form-question-text").attr("name", questionId+":name");
-			$(".form").children().last().find(".form-question-type").attr("name", questionId+":type");
-			$(".form").children().last().find(".form-question-milestone").attr("name", questionId+":milestone");
-			$(".form").children().last().find(".form-question-competency").attr("name", questionId+":competency");
-			$(".form").children().last().find(".form-question-weight").attr("name", questionId+":weight");
+			$(".form").children(".form-question").last().attr("id", questionId);
+			$(".form").children(".form-question").last().find(".form-question-name").html(questionId.toUpperCase()+": ");
+			$(".form").children(".form-question").last().find(".form-question-text").attr("name", questionId+":name");
+			$(".form").children(".form-question").last().find(".form-question-type").attr("name", questionId+":type");
+			$(".form").children(".form-question").last().find(".form-question-milestone").attr("name", questionId+":milestone");
+			$(".form").children(".form-question").last().find(".form-question-competency").attr("name", questionId+":competency");
+			$(".form").children(".form-question").last().find(".form-question-weight").attr("name", questionId+":weight");
 		}
 		
 		$("form").submit(checkForm);
