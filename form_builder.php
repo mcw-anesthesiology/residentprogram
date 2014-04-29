@@ -58,11 +58,22 @@
 	<?php require 'header.php'; ?>
 	<h2 class="sub-header">Form Builder</h2>
 	<form method="post" action="process_form.php">
-		<h3 class="form-input"><input type="text" id="formTitle" class="form-control input-lg" name="formTitle" placeholder="Form Title" required /></h3>
+		<h3 class="form-input">
+			<div class='container-fluid'>
+				<div class='row'>
+					<div class='col-md-12'>
+						<input type="text" id="formTitle" class="form-control input-lg" name="formTitle" placeholder="Form Title" required />
+					</div>
+				</div>
+			</div>
+		</h3>
+		<div class='hr-question'></div>
 		<div class="form">
 		</div>
-		<button type="button" class="btn btn-info" id="addQuestion">Add Question</button>
-		<button type="submit" class="btn btn-success">Submit Form</button>
+		<div id='footer'>
+			<button type="button" class="btn btn-info" id="addQuestion">Add Question</button>
+			<button type="submit" class="btn btn-success">Submit Form</button>
+		</div>	
 	</form>
 	<br />
 	
@@ -73,79 +84,95 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="../../assets/js/docs.min.js"></script>
     <script>
-		var radioHtml = "<td class='tdRdoBtn'>" +
-							"<label>" +
-								"<input type='radio' disabled/><br />" +
-								"<input class='form-input form-option form-option-text form-control' placeholder='Option Text' /><br />" +
-								"<input class='form-input form-option form-option-value form-control' type='number' placeholder='Option Value' /><br />" +
-								"<input class='form-input form-option form-option-description form-control' type='text' placeholder='Hover Option Description' />" +
-							"</label>" +
-						"</td>";
+		var radioHtml = "<div class='col-md-2 ctr-contents tdRdoBtn'>" +
+											"<input type='radio' disabled/>" +
+											"<input class='form-input form-option form-option-text form-control' placeholder='Option Text' />" +
+											"<input class='form-input form-option form-option-value form-control' type='number' placeholder='Option Value' />" +
+											"<input class='form-input form-option form-option-description form-control' type='text' placeholder='Hover Description' />" +
+										"</div>";
 
-		var textHtml = "<td>" +
-							"<textarea disabled>" +
-							"</textarea>" +
-						"</td>";
+		var textHtml = "<div class='col-md-10'>" +
+										 "<textarea disabled>" +
+										 "</textarea>" +
+									 "</div>";
 						
-		var milestoneHtml = "<label>Question Milestone</label>" +
-							"<select class='form-control form-question-milestone' name=''>" +
-								<?php
-									while(!is_null($milestone)){
-										echo "\"<option value='{$milestone["milestoneId"]}'>{$milestone["title"]}</option>\" +";
-										$milestone = $milestones->fetch_assoc();
-									}
-								?>							
-							"</select>";
+		var milestoneHtml = "<select class='form-control form-question-milestone' name=''>" +
+													<?php
+														while(!is_null($milestone)){
+															echo "\"<option value='{$milestone["milestoneId"]}'>{$milestone["title"]}</option>\" +";
+															$milestone = $milestones->fetch_assoc();
+														}
+													?>							
+												"</select>";
 							
-		var competencyHtml = "<label>Question Competency</label>" + 
-							"<select class='form-control form-question-competency' name=''>" +
-								<?php
-									while(!is_null($competency)){
-										echo "\"<option value='{$competency["competencyId"]}'>{$competency["title"]}</option>\" +";
-										$competency = $competencies->fetch_assoc();
-									}
-								?>							
-							"</select>";
+		var competencyHtml = "<select class='form-control form-question-competency' name=''>" +
+														<?php
+															while(!is_null($competency)){
+																echo "\"<option value='{$competency["competencyId"]}'>{$competency["title"]}</option>\" +";
+																$competency = $competencies->fetch_assoc();
+															}
+													  ?>							
+												 "</select>";
 
-		var questionHtml = "<table class='table table-striped form-input form-question'>" +
-								"<tr>" +
-									"<td colspan='10'>" +
-										"<label class='form-question-name' for='questionText'></label>" +
-										"<input type='text' class='form-input form-question-text form-control' name='questionText' placeholder='Question Text' required />" +
-									"</td>" +
-								"</tr>" +
-								"<tr>" +
-									"<td colspan='10'>" +
-										milestoneHtml +
-									"</td>" +
-								"</tr>"+
-								"<tr>" +
-									"<td colspan='10'>" +
-										competencyHtml +
-									"</td>" +
-								"</tr>"+
-								"<tr>" +
-									"<td colspan='10'>" +
-										"<label>Question Weight</label>" +
-										"<input class='form-input form-control form-question-weight' type='number' min='0' max='200' value='100' step='1' />" +
-									"</td>" +
-								"</tr>"+								
-								"<tr>" +
-									"<td colspan='10'>" +
-										"<label for='questionType'>Question Type:</label>" +
-            							"<select class='form-control form-question-type' name='questionType'>" +
-											"<option value='radio'>Radio</option>" +
-											"<option value='text'>Text</option>" +
-										"</select>" +
-									"</td>" +
-								"</tr>" +
-								"<tr class='form-options'>"+radioHtml+"</tr>" +
-								"<tr>" +
-									"<td colspan='10'>" +
-										"<button class='form-question-delete btn btn-danger'>Delete Question</button>" +
-									"</td>" +
-								"</tr>" +
-							"</table>";
+		var typeHtml = "<select class='form-control form-question-type' name='questionType'>" +
+										 "<option value='radio'>Radio</option>" +
+										 "<option value='text'>Text</option>" +
+									 "</select>";
+
+		var questionHtml = "<div class='container-fluid form-question'>" +
+												"<div class='row' style='margin-top:5px;'>" +
+													"<div class='col-md-12'>" +
+														"<b>Question Text</b>" +
+													"</div>" +
+												"</div>" +
+												"<div class='row'>" +
+													"<div class='col-md-12'>" +
+														"<input type='text' class='form-input form-question-text form-control' name='questionText' placeholder='Question Text' required />" +
+													"</div>" +
+												"</div>" +
+												"<div class='hr-question'></div>" +
+												"<div class='row'>" +
+													"<div class='col-md-4'>" +
+														"<b>Question Milestone</b>" +
+													"</div>" +
+													"<div class='col-md-4'>" +
+														"<b>Question Competency</b>" +
+													"</div>" +
+													"<div class='col-md-2'>" +
+														"<b>Question Type</b>" +
+													"</div>" +
+													"<div class='col-md-2'>" +
+														"<b>Question Weight</b>" +
+													"</div>" +
+												"</div>" +
+												"<div class='row'>" +
+													"<div class='col-md-4'>" +
+														milestoneHtml +
+													"</div>" +
+													"<div class='col-md-4'>" +
+														competencyHtml +
+													"</div>" +
+													"<div class='col-md-2'>" +
+														typeHtml +
+													"</div>" +
+													"<div class='col-md-2'>" +
+														"<input class='form-input form-control form-question-weight' type='number' min='0' max='200' value='100' step='1' />" +
+													"</div>" +
+												"</div>" +
+												"<div class='hr-question'></div>" +
+												"<div class='row form-options'>" +
+													radioHtml +
+												"</div>" +
+												"<div class='hr-question'></div>" +
+												"<div class='row'>" +
+													"<div class='col-md-2'>" +
+														"<button class='form-question-delete btn btn-danger' style='margin-bottom:5px;'>" +
+															"Delete Question" +
+														"</button>" +
+													"</div>" +
+												"</div>" +
+											"</div>" +
+											"<div class='hr-question'></div>";
 		
 		$(document).ready(function(){
 			addQuestion();
@@ -164,13 +191,13 @@
 		
 		$(".form").on("change", ".form-option-value", function(){
 			if($(this).val() != ""){
-				if($(this).parent().parent().next().length == 0){
-					$(this).parent().parent().parent().append(radioHtml);
+				if($(this).parent().next().length == 0){
+					$(this).parent().parent().append(radioHtml);
 				}
 			}
 			else{
-				if(($(this).parent().parent().prev().find(".form-option-value").val() == "" || $(this).parent().parent().next().find(".form-option-value").val() == "") && $(this).parent().find(".form-option-text").val() == "" && $(this).parent().find(".form-option-description").val() == ""){
-					$(this).parent().parent().remove();
+				if(($(this).parent().prev().find(".form-option-value").val() == "" || $(this).parent().next().find(".form-option-value").val() == "") && $(this).parent().find(".form-option-text").val() == "" && $(this).parent().find(".form-option-description").val() == ""){
+					$(this).parent().remove();
 				}
 			}
 			
