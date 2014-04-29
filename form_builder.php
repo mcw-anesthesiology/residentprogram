@@ -1,5 +1,7 @@
 <?php 
 	//TODO: Make copying and modifying an existing evaluation form work when creating a new form
+	//TODO: Remove weight/milestone/etc options for text questions
+	//TODO: Add another milestone selector box
 	
 	session_start(); 
 	require "init.php";
