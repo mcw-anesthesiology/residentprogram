@@ -82,5 +82,5 @@
 	}
 	
 	
-	header("Location: manage_evaluations.php");
+	header("Location: manage_forms.php");
 ?>

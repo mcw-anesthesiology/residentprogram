@@ -37,6 +37,7 @@
 	
 	if($stmt = $mysqli->prepare("insert into `evaluations` (`requestId`, `ipAddress`, `currentTrainingLevel`) values (?, ?, ?);")){
 		$stmt->bind_param("iss", $requestId, $ipaddress, $currentTrainingLevel);
+		$stmt->execute();
 	}
 	$mysqli->query("update `requests` set `completeDate`='{$evaluationDate}', status='complete' where `requestId`='{$requestId}';");
 	
