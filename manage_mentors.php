@@ -84,61 +84,67 @@
     </div>
 
 <!-- Add Modal -->
-<div class="modal fade bs-add-modal" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalAdd">Disable Account</h4>
-      </div>
-      <form method="post" action="process_mentorship.php">
+  <div class="modal fade bs-add-modal" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalAdd">Add Mentorship</h4>
+        </div>
+        <form method="post" action="process_mentorship.php">
         <div class="modal-body">
-			<select class="form-control" name="faculty">
-				<?php
-					while(!is_null($faculty)){
-						echo "<option value='{$faculty["username"]}'>{$faculty["firstName"]} {$faculty["lastName"]}</option>";
-						$faculty = $faculties->fetch_assoc();
-					}
-				?>
-			</select>
-			<select class="form-control" name="resident">
-				<?php
-					while(!is_null($resident)){
-						echo "<option value='{$resident["username"]}'>{$resident["firstName"]} {$resident["lastName"]}</option>";
-						$resident = $residents->fetch_assoc();
-					}
-				?>
-			</select>
+          <div class="form-group">
+            <label for="faculty">Faculty</label>
+            <select class="form-control" id="faculty" name="faculty">
+            <?php
+              while(!is_null($faculty)){
+                echo "<option value='{$faculty["username"]}'>{$faculty["firstName"]} {$faculty["lastName"]}</option>";
+                $faculty = $faculties->fetch_assoc();
+              }
+            ?>
+            </select>
           </div>
+          <div class="form-group">
+            <label for="resident">Resident</label>
+            <select class="form-control" id="resident" name="resident">
+            <?php
+              while(!is_null($resident)){
+                echo "<option value='{$resident["username"]}'>{$resident["firstName"]} {$resident["lastName"]}</option>";
+                $resident = $residents->fetch_assoc();
+              }
+            ?>
+            </select>
+          </div>
+        </div>
         <div class="modal-footer modal-disable">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			<button type="submit" class="btn btn-success">Confirm</button>
-        </form>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success">Confirm</button>
+        </div>
+      </form>
       </div>
     </div>
   </div>
-</div>
 
 <!-- Remove Modal -->
-<div class="modal fade bs-remove-modal" tabindex="-1" role="dialog" aria-labelledby="modalRemove" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalRemove">Disable Account</h4>
-      </div>
-      <div class="modal-body">
-        You have selected to <b>remove</b> the selected mentorship. Would you like to continue?
-      </div>
-      <div class="modal-footer modal-disable">
-		<form method="post" action="process_mentorship.php">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			<button type="submit" class="btn btn-danger" id="mentorshipId" name="mentorshipId" value="">Confirm</button>
-        </form>
+    <div class="modal fade bs-remove-modal" tabindex="-1" role="dialog" aria-labelledby="modalRemove" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalRemove">Disable Mentorship</h4>
+          </div>
+          <div class="modal-body">
+            You have selected to <b>remove</b> the selected mentorship. Would you like to continue?
+          </div>
+          <div class="modal-footer modal-disable">
+            <form method="post" action="process_mentorship.php">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-danger" id="mentorshipId" name="mentorshipId" value="">Confirm</button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
