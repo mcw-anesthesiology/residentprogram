@@ -65,6 +65,7 @@
 		
 		if(empty($requests)){
 			echo "<h3>No completed evaluations found with the selected parameters. Please adjust your inputs and try again.</h3>";
+			return;
 		}
 		
 		echo "<table class='table'>";
@@ -214,6 +215,7 @@
 		
 		if(empty($requests)){
 			echo "<h3>No completed evaluations found with the selected parameters. Please adjust your inputs and try again.</h3>";
+			return;
 		}
 		
 		foreach (array_unique($milestones) as $milestone){
