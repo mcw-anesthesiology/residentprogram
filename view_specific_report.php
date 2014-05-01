@@ -8,7 +8,24 @@
 	$trainingLevel = $_POST["trainingLevel"];
 	$resident = $_POST["resident"];
 	
-	
+	if($stmt = $mysqli->prepare("select firstName, lastName, trainingLevel, createdDate from users where username=?;")){
+		if($stmt->bind_param("s", $resident)){
+			if($stmt->execute()){
+				$stmt->bind_result($firstName, $lastName, $currentTrainingLevel, $createdDate);
+				$stmt->fetch();
+				$stmt->close();
+			}
+			else{
+				print $stmt->error;
+			}
+		}
+		else{
+			print $stmt->error;
+		}
+	}
+	else{
+		print $mysqli->error;
+	}
 	
 	
 ?>
@@ -48,6 +65,27 @@
 
   <body>
 	<?php require 'header.php'; ?>
+	
+	<table class="table">
+		<thead>
+			<tr>
+				<td>Username</td>
+				<td>First Name</td>
+				<td>Last Name</td>
+				<td>Current Training Level</td>
+				<td>Created</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><?= $resident ?></td>
+				<td><?= $firstName ?></td>
+				<td><?= $lastName ?></td>
+				<td><?= $currentTrainingLevel ?></td>
+				<td><?= $createdDate ?></td>
+			</tr>
+		</tbody>
+	</table>
 	
 	<?php drawIndividualGraphs($resident, $trainingLevel, $startDate, $endDate); ?>
 	
