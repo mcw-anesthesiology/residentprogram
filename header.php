@@ -12,6 +12,20 @@
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
       <?php 
+        if($_SESSION["type"] == "faculty"){
+      ?>
+        <li><a href="request.php">Create Evaluation</a></li>
+        <li><a href="dashboard.php">View Evaluation</a></li>
+      <?php 
+        } else if($_SESSION["type"] == "resident"){
+      ?>
+        <li><a href="request.php">Request Evaluation</a></li>
+        <li><a href="dashboard.php">View Evaluation</a></li>
+      <?php
+        }
+      ?>
+      
+      <?php 
         if($_SESSION["type"] == "admin"){
 			//TODO: Make a bit thinner so it doesn't span across two lines before collapsing 
       ?>
@@ -26,27 +40,23 @@
           <li><a href="manage_mentors.php">Mentors</a></li>
         </ul>
       </li>
-
+	<?php
+		}
+	?>
       <li class="dropdown">
         <a href="#" data-toggle="dropdown">Reports<b class="caret"></b></a>
         <ul class="dropdown-menu">
+		<?php
+			if($_SESSION["type"] == "admin"){
+		?>
           <li><a class="viewAggRpt" data-toggle="modal" data-target=".bs-aggRpt-modal" id="viewAggRpt">Generate Aggregate</a></li>
+        <?php
+			}
+        ?>
           <li><a class="viewSpecRpt" data-toggle="modal" data-target=".bs-specRpt-modal" id="viewSpecRpt">Generate Specific</a></li>
         </ul>
       </li>
-      <?php 
-        } else if($_SESSION["type"] == "faculty"){
-      ?>
-        <li><a href="request.php">Create Evaluation</a></li>
-        <li><a href="dashboard.php">View Evaluation</a></li>
-      <?php 
-        } else if($_SESSION["type"] == "resident"){
-      ?>
-        <li><a href="request.php">Request Evaluation</a></li>
-        <li><a href="dashboard.php">View Evaluation</a></li>
-      <?php
-        }
-      ?>
+
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, <?php echo ucfirst($_SESSION["fname"])." ".ucfirst($_SESSION["lname"]); ?> 
         <?php 
@@ -136,20 +146,39 @@
             </select>
           </div>
           <?php 
-            if($_SESSION["type"] == "admin"){
-            $residents = $mysqli->query("select username, firstName, lastName from users where type='resident';");
-            $residentRow = $residents->fetch_assoc();
+			if($_SESSION["type"] == "admin" || $_SESSION["type"] == "faculty"){
+				if($_SESSION["type"] == "admin"){
+					$query = "select username, firstName, lastName from users where type='resident';";
+				}
+				else if($_SESSION["type"] == "faculty"){
+					$query = "select username, firstName, lastName, from users, mentors where type='resident' and faculty='{$_SESSION["username"]}';";
+				}
+				$residents = $mysqli->query($query);
+				$residentRow = $residents->fetch_assoc();
+			  ?>
+			  <div class="form-group">
+				<label for="resident">Resident</label>
+				<select class="form-control" name="resident">
+			  <?php
+				  while(!is_null($residentRow)){
+					echo "<option value=\"{$residentRow["username"]}\">{$residentRow["firstName"]} {$residentRow["lastName"]}</option>";
+					$residentRow = $residents->fetch_assoc();
+				  }
+			}
+			else if($_SESSION["type"] == "resident"){
+				//TODO: need error checking for this yet
+				?>
+					<div class="form-group">
+						<label for="resident">Resident</label>
+						<select class="form-control" name="resident">
+							<option value="<?= $_SESSION["username"] ?>">
+								<?= $_SESSION["fname"]." ".$_SESSION["lname"] ?>
+							</option>
+						</select>
+				<?php
+			}
           ?>
-          <div class="form-group">
-            <label for="resident">Resident</label>
-            <select class="form-control" name="resident">
-          <?php
-              while(!is_null($residentRow)){
-                echo "<option value=\"{$residentRow["username"]}\">{$residentRow["firstName"]} {$residentRow["lastName"]}</option>";
-                $residentRow = $residents->fetch_assoc();
-              }
-            }
-          ?>
+          
             </select>
           </div>
         </div>
