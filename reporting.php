@@ -22,7 +22,7 @@
 		$yellowStandardDeviation = 0.75;
 		$greenStandardDeviation = 0.5;
 		
-		$query = "select requests.resident, responses.requestId, responses.questionId, responses.response, responses.weight, milestones.milestoneId, milestones.title, competencies.competencyId, competencies.title from responses join requests on requests.requestId=responses.requestId join milestones_questions on responses.questionId=milestones_questions.questionId and requests.formId=milestones_questions.formId join milestones on milestones_questions.milestoneId=milestones.milestoneId join competencies_questions on responses.questionId=competencies_questions.questionId and requests.formId=competencies_questions.formId join competencies on competencies_questions.competencyId=competencies.competencyId join evaluations on evaluations.requestId=requests.requestId where requests.requestDate>? and requests.requestDate<? and evaluations.currentTrainingLevel=?;";
+		$query = "select requests.resident, responses.requestId, responses.questionId, responses.response, responses.weight, milestones.milestoneId, milestones.title, competencies.competencyId, competencies.title from responses join requests on requests.requestId=responses.requestId join milestones_questions on responses.questionId=milestones_questions.questionId and requests.formId=milestones_questions.formId join milestones on milestones_questions.milestoneId=milestones.milestoneId join competencies_questions on responses.questionId=competencies_questions.questionId and requests.formId=competencies_questions.formId join competencies on competencies_questions.competencyId=competencies.competencyId join evaluations on evaluations.requestId=requests.requestId where requests.status='complete' and requests.requestDate>? and requests.requestDate<? and evaluations.currentTrainingLevel=?;";
 		
 		if($responsesStmt = $mysqli->prepare($query)){
 			if($responsesStmt->bind_param("sss", $startDate, $endDate, $trainingLevel)){
@@ -34,6 +34,7 @@
 							$competencies[] = $competencyId;
 							$competencyTitles[$competencyId] = $competencyTitle;
 							$residents[] = $requestResident;
+							$requests[] = $requestId;
 							
 							$averageWeightedResponsesMilestones[$milestoneId][] = (floatval($response)*floatval($weight));
 							$averageWeightedResponsesMilestonesDenominator[$milestoneId][] = floatval($weight);
@@ -60,6 +61,10 @@
 		}
 		else{
 			echo $mysqli->error;
+		}
+		
+		if(empty($requests)){
+			echo "<h3>No completed evaluations found with the selected parameters. Please adjust your inputs and try again.</h3>";
 		}
 		
 		echo "<table class='table'>";
@@ -161,7 +166,7 @@
 		$responseBaseline = 10; //assuming this for now idk
 		$responseMax = 10;
 		
-		$query = "select requests.resident, responses.requestId, responses.questionId, responses.response, responses.weight, milestones.milestoneId, milestones.title, competencies.competencyId, competencies.title from responses join requests on requests.requestId=responses.requestId join milestones_questions on responses.questionId=milestones_questions.questionId and requests.formId=milestones_questions.formId join milestones on milestones_questions.milestoneId=milestones.milestoneId join competencies_questions on responses.questionId=competencies_questions.questionId and requests.formId=competencies_questions.formId join competencies on competencies_questions.competencyId=competencies.competencyId join evaluations on evaluations.requestId=requests.requestId where requests.requestDate>? and requests.requestDate<? and evaluations.currentTrainingLevel=?;";
+		$query = "select requests.resident, responses.requestId, responses.questionId, responses.response, responses.weight, milestones.milestoneId, milestones.title, competencies.competencyId, competencies.title from responses join requests on requests.requestId=responses.requestId join milestones_questions on responses.questionId=milestones_questions.questionId and requests.formId=milestones_questions.formId join milestones on milestones_questions.milestoneId=milestones.milestoneId join competencies_questions on responses.questionId=competencies_questions.questionId and requests.formId=competencies_questions.formId join competencies on competencies_questions.competencyId=competencies.competencyId join evaluations on evaluations.requestId=requests.requestId where requests.status='complete' and requests.requestDate>? and requests.requestDate<? and evaluations.currentTrainingLevel=?;";
 		
 		if($responsesStmt = $mysqli->prepare($query)){
 			if($responsesStmt->bind_param("sss", $startDate, $endDate, $trainingLevel)){
@@ -169,7 +174,7 @@
 					if($responsesStmt->execute()){
 						while($responsesStmt->fetch()){
 							$residents[] = $requestResident;
-							$requestIds[] = $requestId;
+							$requests[] = $requestId;
 							$questionIds[] = $questionId;
 							$milestones[] = $milestoneId;
 							$milestoneTitles[$milestoneId] = $milestoneTitle;
@@ -205,6 +210,10 @@
 		}
 		else{
 			echo $mysqli->error;
+		}
+		
+		if(empty($requests)){
+			echo "<h3>No completed evaluations found with the selected parameters. Please adjust your inputs and try again.</h3>";
 		}
 		
 		foreach (array_unique($milestones) as $milestone){
