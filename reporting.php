@@ -149,7 +149,6 @@
 		echo "</tbody>";
 		echo "</table>";
 		
-		//var_dump($weightedResponsesMilestones);
 	}
 	
 	function drawAllGraphs($trainingLevel, $startDate, $endDate){
@@ -162,12 +161,7 @@
 		$responseBaseline = 10; //assuming this for now idk
 		$responseMax = 10;
 		
-		//if(!is_null($resident)){
-		//	$query = "select responses.requestId, responses.questionId, responses.response, responses.weight, milestones.milestoneId, milestones.title, competencies.competencyId, competencies.title from responses join requests on requests.requestId=responses.requestId join milestones_questions on responses.questionId=milestones_questions.questionId and requests.formId=milestones_questions.formId join milestones on milestones_questions.milestoneId=milestones.milestoneId join competencies_questions on responses.questionId=competencies_questions.questionId and requests.formId=competencies_questions.formId join competencies on competencies_questions.competencyId=competencies.competencyId join evaluations on evaluations.requestId=requests.requestId where requests.resident=? and requests.requestDate>? and requests.requestDate<? and evaluations.currentTrainingLevel=?;";
-		//}
-		//else{
 		$query = "select requests.resident, responses.requestId, responses.questionId, responses.response, responses.weight, milestones.milestoneId, milestones.title, competencies.competencyId, competencies.title from responses join requests on requests.requestId=responses.requestId join milestones_questions on responses.questionId=milestones_questions.questionId and requests.formId=milestones_questions.formId join milestones on milestones_questions.milestoneId=milestones.milestoneId join competencies_questions on responses.questionId=competencies_questions.questionId and requests.formId=competencies_questions.formId join competencies on competencies_questions.competencyId=competencies.competencyId join evaluations on evaluations.requestId=requests.requestId where requests.requestDate>? and requests.requestDate<? and evaluations.currentTrainingLevel=?;";
-		//}
 		
 		if($responsesStmt = $mysqli->prepare($query)){
 			if($responsesStmt->bind_param("sss", $startDate, $endDate, $trainingLevel)){
@@ -184,23 +178,16 @@
 							$responses[] = $response;
 							$weights[] = $weight;
 							
-							//$weightedResponsesMilestones[$requestResident][$milestoneId][] = (floatval($response)*floatval($weight))/$responseBaseline*floatval($weight);
-							//$weightedResponsesCompetencies[$requestResident][$competencyId][] = (floatval($response)*floatval($weight))/$responseBaseline*floatval($weight);
 							
 							$averageWeightedResponsesMilestones[$milestoneId][] = (floatval($response)*floatval($weight));
 							$averageWeightedResponsesMilestonesDenominator[$milestoneId][] = floatval($weight);
 							$averageWeightedResponsesCompetencies[$competencyId][] = (floatval($response)*floatval($weight));
 							$averageWeightedResponsesCompetenciesDenominator[$competencyId][] = floatval($weight);
-							//if($requestResident === $resident){
-								$residentWeightedResponsesMilestones[$requestResident][$milestoneId][] = (floatval($response)*floatval($weight));
-								$residentWeightedResponsesMilestonesDenominator[$requestResident][$milestoneId][] = floatval($weight);
-								$residentWeightedResponsesCompetencies[$requestResident][$competencyId][] = (floatval($response)*floatval($weight));
-								$residentWeightedResponsesCompetenciesDenominator[$requestResident][$competencyId][] = floatval($weight);
-								//$residentMilestones[] = $milestonesId;
-								//$residentMilestoneTitles[$milestoneId] = $milestoneTitle;
-								//$residentCompetencies[] = $competencyId;
-								//$residentCompetencyTitles[$competencyId] = $competencyTitle;
-							//}
+								
+							$residentWeightedResponsesMilestones[$requestResident][$milestoneId][] = (floatval($response)*floatval($weight));
+							$residentWeightedResponsesMilestonesDenominator[$requestResident][$milestoneId][] = floatval($weight);
+							$residentWeightedResponsesCompetencies[$requestResident][$competencyId][] = (floatval($response)*floatval($weight));
+							$residentWeightedResponsesCompetenciesDenominator[$requestResident][$competencyId][] = floatval($weight);
 							
 						}
 					}
@@ -242,9 +229,11 @@
 					$residentWeightedResponsesCompetenciesAverage[$resident][$competency] = round(($residentWeightedResponsesCompetenciesSum[$resident][$competency]), 1);
 				}
 				
+				echo "<div class='graphs'>";
 				drawRadar($residentWeightedResponsesMilestonesAverage[$resident], $averageWeightedResponsesMilestonesAverage, $milestoneTitles, "Milestones", $resident." Milestone Graph ".$trainingLevel, $responseMax);
+				echo "&nbsp;&nbsp;";
 				drawRadar($residentWeightedResponsesCompetenciesAverage[$resident], $averageWeightedResponsesCompetenciesAverage, $competencyTitles, "Competencies", $resident." Competency Graph ".$trainingLevel, $responseMax);
-				echo "<br/>";
+				echo "</div><br/>";
 			}
 		}
 		else{
@@ -257,18 +246,13 @@
 				$residentWeightedResponsesCompetenciesSum[$resident][$competency] = (array_sum($residentWeightedResponsesCompetencies[$resident][$competency])/array_sum($residentWeightedResponsesCompetenciesDenominator[$resident][$competency]));
 				$residentWeightedResponsesCompetenciesAverage[$resident][$competency] = round(($residentWeightedResponsesCompetenciesSum[$resident][$competency]), 1);
 			}
-			
-			drawRadar($residentWeightedResponsesMilestonesAverage[$resident], $averageWeightedResponsesMilestonesAverage, $milestoneTitles, "Milestones", $resident." Milestone Graph ".$trainingLevel, $responseMax);
-			drawRadar($residentWeightedResponsesCompetenciesAverage[$resident], $averageWeightedResponsesCompetenciesAverage, $competencyTitles, "Competencies", $resident." Competency Graph ".$trainingLevel, $responseMax);
+				
+				echo "<div class='graphs'>";
+				drawRadar($residentWeightedResponsesMilestonesAverage[$resident], $averageWeightedResponsesMilestonesAverage, $milestoneTitles, "Milestones", $resident." Milestone Graph ".$trainingLevel, $responseMax);
+				echo "&nbsp;&nbsp;";
+				drawRadar($residentWeightedResponsesCompetenciesAverage[$resident], $averageWeightedResponsesCompetenciesAverage, $competencyTitles, "Competencies", $resident." Competency Graph ".$trainingLevel, $responseMax);
+				echo "</div><br/>";
 		}
-
-		
-		//var_dump($weightedResponsesMilestones);
-		//var_dump($weightedResponsesMilestonesAverage);
-		//var_dump($weightedResponsesCompetenciesAverage);
-		//var_dump($milestoneTitles);
-		//var_dump(array_unique($competencies));
-		//var_dump($competencyTitles);
 
 	}
 	
