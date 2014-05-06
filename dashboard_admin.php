@@ -39,7 +39,7 @@
           </div>
 
           <div class="col-md-4">
-            <h4 class="sub-header">Top 3: Most Pending Evaluations  <small><a href="view_pending_stat.php">view all</a></small></h4>
+            <h4 class="sub-header">Top 3: Most Pending Evaluations</h4>
             <table class="table table-striped">
               <tbody>
   <?php
@@ -59,7 +59,7 @@
           </div>
 
           <div class="col-md-4">
-            <h4 class="sub-header">Top 3: Need Evaluation  <small><a href="view_recent_stat.php">view all</a></small></h4>
+            <h4 class="sub-header">Top 3: Need Evaluation</h4>
             <table class="table table-striped">
               <tbody>
 
