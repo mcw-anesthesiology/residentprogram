@@ -89,7 +89,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalAggRpt">Generate Aggregate Report</h4>
       </div>
-      <form method="post" action="view_aggregate_report.php">
+      <form class="report" method="post" action="view_aggregate_report.php">
         <div class="modal-body modal-aggRpt">
           <div class="form-group">
             <label for="startDate">Start Date:</label>
@@ -126,7 +126,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalSpecRpt">Generate Specific Report</h4>
       </div>
-      <form method="post" action="view_specific_report.php">
+      <form class="report" method="post" action="view_specific_report.php">
         <div class="modal-body modal-specRpt">
           <div class="form-group">
             <label for="startDate">Start Date:</label>
@@ -190,3 +190,29 @@
     </div>
   </div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>
+	function checkReportQuery(){
+		dateError = false;
+		$("input").each(function(){
+			if($(this).attr("type") == "date"){
+				var date = $(this).val();
+				if(!date.match("\d\d\d\d[-]\d\d[-]\d\d")){
+					dateError = true;
+				}
+			}
+		});
+		
+		if(dateError){
+			alert("Please enter a valid date. If your browser does not support the date selector, date must be formatted YYYY-MM-DD");
+		}
+		
+		return !dateError;
+	}
+	
+	$(document).ready(function(){
+		$(".report").submit(checkReportQuery);
+		
+	});
+</script>
