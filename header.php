@@ -151,7 +151,7 @@
 					$query = "select username, firstName, lastName from users where type='resident';";
 				}
 				else if($_SESSION["type"] == "faculty"){
-					$query = "select username, firstName, lastName, from users, mentors where type='resident' and faculty='{$_SESSION["username"]}';";
+					$query = "select username, firstName, lastName from mentorships, users where resident=username and faculty='{$_SESSION["username"]}' and mentorships.status='active'";
 				}
 				$residents = $mysqli->query($query);
 				$residentRow = $residents->fetch_assoc();
