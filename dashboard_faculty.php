@@ -7,7 +7,7 @@
       <div class="row">
           <h2 class="sub-header">Pending Requests</h2>
           <div class="table-responsive">
-            <table class="table table-striped" id="keywordsPending" cellspacing="0" cellpadding="0">
+            <table class="table table-striped datatable" id="keywordsPending" cellspacing="0" cellpadding="0">
               <thead>
                 <tr>
                   <th class="headerSortUp"><span>#</span></th>
@@ -50,7 +50,7 @@
       <div class="row">
           <h2 class="sub-header">Requests -- <?= $menteeRequest["residentFirst"] ?> <?= $menteeRequest["residentLast"] ?></h2>
           <div class="table-responsive">
-            <table class="table table-striped" id="keywordsComplete" cellspacing="0" cellpadding="0">
+            <table class="table table-striped datatable" cellspacing="0" cellpadding="0">
               <thead>
                 <tr>
                   <th class="headerSortUp"><span>#</span></th>
@@ -93,7 +93,7 @@
       <div class="row">
           <h2 class="sub-header">Completed Requests</h2>
           <div class="table-responsive">
-            <table class="table table-striped" id="keywordsComplete" cellspacing="0" cellpadding="0">
+            <table class="table table-striped datatable" id="keywordsComplete" cellspacing="0" cellpadding="0">
               <thead>
                 <tr>
                   <th class="headerSortUp"><span>#</span></th>

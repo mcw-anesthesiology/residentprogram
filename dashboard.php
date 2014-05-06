@@ -27,6 +27,7 @@
 
     <!-- Custom styles for this template -->
     <link href="dashboard.css" rel="stylesheet">
+    <link href="http://cdn.datatables.net/1.10.0/css/jquery.dataTables.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -105,7 +106,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="../../assets/js/docs.min.js"></script>
-    <script type="text/javascript" src="bootstrap/js/jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="http://cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
     <script>
 		$(document).on("click", ".cancelEvalResident", function(){
 		  var requestId = $(this).data('id');
@@ -127,16 +128,13 @@
 			window.location.href = "complete_specific.php?request="+requestId;
 		});
 
-		$(function(){
-		  $('#keywordsAll').tablesorter(); 
-		});
-
-		$(function(){
-		  $('#keywordsPending').tablesorter(); 
-		});
-
-		$(function(){
-		  $('#keywordsComplete').tablesorter(); 
+		$(document).ready(function(){
+		  //$('#keywordsAll').dataTable();
+		  //$('#keywordsPending').dataTable(); 
+		  //$('#keywordsComplete').dataTable();
+		  $(".datatable").each(function(){
+			$(this).dataTable(); 
+		  });
 		});
     </script>
   </body>

@@ -83,7 +83,7 @@
 
           <h2 class="sub-header">All Requests</h2>
           <div class="table-responsive">
-            <table class="table table-striped" id="keywordsAll" cellspacing="0" cellpadding="0">
+            <table class="table table-striped datatable" id="keywordsAll" cellspacing="0" cellpadding="0">
               <thead>
                 <tr>
                   <th class="headerSortUp"><span>#</span></th>

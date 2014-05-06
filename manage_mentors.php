@@ -22,6 +22,7 @@
 
     <!-- Custom styles for this template -->
     <link href="dashboard.css" rel="stylesheet">
+    <link href="http://cdn.datatables.net/1.10.0/css/jquery.dataTables.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -51,7 +52,7 @@
       <div class="row">
         <h2 class="sub-header">Mentorships <button class="btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
           <div class="table-responsive">
-            <table class="table table-striped user-table">
+            <table class="table table-striped user-table datatable">
               <thead>
                 <tr>
 				  <th>#</th>
@@ -152,10 +153,17 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="../../assets/js/docs.min.js"></script>
+    <script type="text/javascript" src="http://cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
     <script>
 		$("table").on("click", ".removeMentorship", function(){
 			var mentorshipId = $(this).data("id");
 			$("#mentorshipId").val(mentorshipId);
+		});
+		
+		$(document).ready(function(){
+		  $(".datatable").each(function(){
+			$(this).dataTable(); 
+		  });
 		});
     </script>
   </body>

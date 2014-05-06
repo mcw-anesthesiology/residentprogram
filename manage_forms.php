@@ -22,6 +22,7 @@
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="dashboard.css" rel="stylesheet">
+    <link href="http://cdn.datatables.net/1.10.0/css/jquery.dataTables.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -45,7 +46,7 @@
     <div class="row">
       <h2 class="sub-header">Forms  <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
       <div class="table-responsive">
-        <table class="table table-striped user-table">
+        <table class="table table-striped user-table datatable" id="keywordsAll">
           <thead>
             <tr>
               <th>Title</th>
@@ -180,6 +181,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <script src="../../assets/js/docs.min.js"></script>
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
 <script>
     $(document).on("click", ".disableEval", function(){
       var formId = $(this).data('id');
@@ -189,7 +191,13 @@
     $(document).on("click", ".enableEval", function(){
       var formId = $(this).data('id');
       $(".modal-enable #formId").val(formId);
-    }); 
+    });
+    
+    $(document).ready(function(){
+		  $(".datatable").each(function(){
+			$(this).dataTable(); 
+		  });
+	});		 
 </script>
 </body>
 </html>

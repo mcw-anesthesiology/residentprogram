@@ -22,6 +22,7 @@
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="dashboard.css" rel="stylesheet">
+    <link href="http://cdn.datatables.net/1.10.0/css/jquery.dataTables.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -37,7 +38,7 @@
 <?php require 'header.php'; ?>
 
 <?php 
-  if($_SESSION["type"] == "admin"){       // ************************************ RESIDENT ***********************************************************************
+  if($_SESSION["type"] == "admin"){       
     $milestones = $mysqli->query("select * from milestones;");
     $competencies = $mysqli->query("select * from competencies;");
     $milestone = $milestones->fetch_assoc(); 
@@ -47,11 +48,12 @@
     <div class="row">
       <h2 class="sub-header">Milestones  <button class="addMSModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-addMS-modal" data-id="Milestone" id="addMSBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
       <div class="table-responsive">
-        <table class="table table-striped user-table">
+        <table class="table table-striped user-table datatable">
           <thead>
             <tr>
               <th>Title</th>
               <th>Description</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -78,11 +80,12 @@
     <div class="row">
       <h2 class="sub-header">Competencies  <button class="addCModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-addC-modal" data-id="Competency" id="addCBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
       <div class="table-responsive">
-        <table class="table table-striped user-table">
+        <table class="table table-striped user-table datatable">
           <thead>
             <tr>
               <th>Title</th>
               <th>Description</th>
+              <td>Action</td>
             </tr>
           </thead>
           <tbody>
@@ -226,6 +229,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <script src="../../assets/js/docs.min.js"></script>
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
 <script>
 	$(document).ready(function(){
 		$(".editMilestone").click(function(){
@@ -246,6 +250,10 @@
 			$("#editCModal").find("#submit").val(competencyId);
 			$("#editCModal").find("#competencyTitle").val(competencyTitle);
 			$("#editCModal").find("#competencyDescription").val(competencyDescription);			
+		});
+		
+		$(".datatable").each(function(){
+			$(this).dataTable(); 
 		});
 	});
 </script>

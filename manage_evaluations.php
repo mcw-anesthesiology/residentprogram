@@ -27,6 +27,7 @@
 
     <!-- Custom styles for this template -->
     <link href="dashboard.css" rel="stylesheet">
+    <link href="http://cdn.datatables.net/1.10.0/css/jquery.dataTables.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -53,7 +54,7 @@
       <div class="row">
         <h2 class="sub-header">Manage Evaluations <button class="addEval btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="eval" id="addBtn"><span class="glyphicon glyphicon-plus"></span> New Evaluation Form</button></h2>
           <div class="table-responsive">
-            <table class="table table-striped" id="keywordsAll" cellspacing="0" cellpadding="0">
+            <table class="table table-striped datatable" cellspacing="0" cellpadding="0">
               <thead>
                 <tr>
                   <th class="headerSortDown"><span>#</span></th>
@@ -212,7 +213,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="../../assets/js/docs.min.js"></script>
-    <script type="text/javascript" src="bootstrap/js/jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="http://cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
     <script>
 		$(document).on("click", ".disableEval", function(){
 			var requestId = $(this).data('id');
@@ -229,8 +230,10 @@
 			window.location.href = "view_specific.php?request="+requestId;
 		});
 
-		$(function(){
-		  $('#keywordsAll').tablesorter(); 
+		$(document).ready(function(){
+		  $(".datatable").each(function(){
+			$(this).dataTable(); 
+		  });
 		});	
     </script>
   </body>
