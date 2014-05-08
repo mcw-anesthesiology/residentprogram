@@ -195,10 +195,11 @@
 <script>
 	function checkReportQuery(){
 		dateError = false;
-		$("input").each(function(){
+		$(this).find("input").each(function(){
 			if($(this).attr("type") == "date"){
 				var date = $(this).val();
-				if(!date.match("\d\d\d\d[-]\d\d[-]\d\d")){
+				var regex = /^\d\d\d\d-\d\d-\d\d$/;
+				if(!new RegExp(regex).test(date)){
 					dateError = true;
 				}
 			}
