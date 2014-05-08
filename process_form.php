@@ -25,7 +25,13 @@
 			$question->addAttribute("type", $value);
 		}
 		else if(strpos($key, "milestone") !== false){
-			$milestones[$questionName] = $value;
+			if(strpos($key, "milestone2") !== false){
+				if($value != -1 && isset($milestones[$questionName]) && $milestones[$questionName] !== $value)
+					$milestones2[$questionName] = $value;
+			}
+			else{
+				$milestones[$questionName] = $value;
+			}
 		}
 		else if(strpos($key, "competency") !== false){
 			$competencies[$questionName] = $value;
@@ -61,6 +67,11 @@
 		if($stmt = $mysqli->prepare("insert into `milestones_questions`(formId, questionId, milestoneId) values (?, ?, ?)")){
 			if($stmt->bind_param("isi", $formId, $questionId, $milestoneId)){
 				foreach($milestones as $questionId => $milestoneId){
+					$questionId = $mysqli->escape_string($questionId);
+					$milestoneId = $mysqli->escape_string($milestoneId);
+					$stmt->execute();
+				}
+				foreach($milestones2 as $questionId => $milestoneId){
 					$questionId = $mysqli->escape_string($questionId);
 					$milestoneId = $mysqli->escape_string($milestoneId);
 					$stmt->execute();

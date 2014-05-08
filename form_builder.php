@@ -97,14 +97,21 @@
 										 "</textarea>" +
 									 "</div>";
 						
-		var milestoneHtml = "<select class='form-control form-question-milestone' name=''>" +
-													<?php
-														while(!is_null($milestone)){
-															echo "\"<option value='{$milestone["milestoneId"]}'>{$milestone["title"]}</option>\" +";
-															$milestone = $milestones->fetch_assoc();
-														}
-													?>							
-												"</select>";
+		var milestoneOptionsHtml = <?php
+										while(!is_null($milestone)){
+											echo "\"<option value='{$milestone["milestoneId"]}'>{$milestone["title"]}</option>\" +";
+											$milestone = $milestones->fetch_assoc();
+										}
+									?>"";
+		
+		var milestoneHtml = 	"<select class='form-control form-question-milestone' name=''>" +
+									milestoneOptionsHtml +							
+								"</select>";
+												
+		var secondMilestoneHtml = 	"<select class='form-control form-question-milestone-2' name=''>" +
+										"<option value='-1'>(None)</option>" +
+										milestoneOptionsHtml +
+									"</select>";
 							
 		var competencyHtml = "<select class='form-control form-question-competency' name=''>" +
 														<?php
@@ -159,7 +166,7 @@
 														milestoneHtml +
 													"</div>" +
 													"<div class='col-md-3'>" +
-														milestoneHtml +
+														secondMilestoneHtml +
 													"</div>" +
 													"<div class='col-md-3'>" +
 														competencyHtml +
@@ -237,6 +244,7 @@
 			$(".form").children(".form-question").last().find(".form-question-text").attr("name", questionId+":name");
 			$(".form").children(".form-question").last().find(".form-question-type").attr("name", questionId+":type");
 			$(".form").children(".form-question").last().find(".form-question-milestone").attr("name", questionId+":milestone");
+			$(".form").children(".form-question").last().find(".form-question-milestone-2").attr("name", questionId+":milestone2");
 			$(".form").children(".form-question").last().find(".form-question-competency").attr("name", questionId+":competency");
 			$(".form").children(".form-question").last().find(".form-question-weight").attr("name", questionId+":weight");
 		}
