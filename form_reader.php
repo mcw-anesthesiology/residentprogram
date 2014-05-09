@@ -59,7 +59,7 @@
 		}
 		else if($name == "option"){
 			echo "</span></label>";
-			echo "<br/><label><span class='description {$questionName}' hidden>Description: {$description}</span></label>";
+			echo "<br/><label><span class='description {$questionName}' hidden>{$description}</span></label>";
 			echo "</td>";
 		}
 		else if($name == "text"){
