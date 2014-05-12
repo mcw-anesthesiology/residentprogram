@@ -1,5 +1,6 @@
 <?php 
 	//TODO: Make button to show hover text when on a mobile device look better.
+	//TODO: Make sure faculty is the correct one for the request before actually doing anything
 	session_start(); 
 	require "init.php";
 	

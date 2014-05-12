@@ -1,5 +1,7 @@
 <?php
 	//TODO: add proposed ideal average level for graph
+	//TODO: try to remove numbers from graph and replace with "ca-1", etc
+	//TODO: make the graph not look so ugly
 	
 	
 	function sd_square($x, $mean) { 

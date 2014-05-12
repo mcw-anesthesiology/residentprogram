@@ -3,7 +3,6 @@
 	//TODO: Better sql security, parsing inputs and prepared statements
 	//TODO: Email notification functionality
 	//TODO: Show evaluation title and training level in all request tables
-	//TODO: REPORTING
 	//TODO: Include in all header statements a success/failure get attribute
 	
 	session_start();
@@ -48,6 +47,7 @@
 <?php require 'header.php'; ?>
 
 <?php 
+	//Main dashboard code is split into a separate file unique to each user type
   if($_SESSION["type"] == "admin"){
 	require "dashboard_admin.php";
   }

@@ -1,7 +1,6 @@
 <?php 
 	//TODO: Make copying and modifying an existing evaluation form work when creating a new form
 	//TODO: Remove weight/milestone/etc options for text questions
-	//TODO: Add another milestone selector box
 	
 	session_start(); 
 	require "init.php";
@@ -239,6 +238,8 @@
 			}
 			
 			$(".form").append(questionHtml);
+			
+			// Changes the input name attributes for the newly added question to correctly reflect its questionId
 			$(".form").children(".form-question").last().attr("id", questionId);
 			$(".form").children(".form-question").last().find(".form-question-name").html(questionId.toUpperCase()+": ");
 			$(".form").children(".form-question").last().find(".form-question-text").attr("name", questionId+":name");
@@ -252,6 +253,7 @@
 		$("form").submit(checkForm);
 		
 		function checkForm(){
+			// Checks to make sure that the form has a title, each question has a title, and each option has a value. Option text and option description are both optional.
 			var validForm = true;
 			var alertText = "";
 			if($("#formTitle").val() === ""){
