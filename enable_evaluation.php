@@ -4,6 +4,8 @@
 	
 	$requestId = $_POST["requestId"];
 	
+	$success = "false";
+	
 	$resultComplete = $mysqli->query("select completeDate from requests where requestId='{$requestId}'");
 	$row = $resultComplete->fetch_assoc();
 
@@ -14,6 +16,22 @@
 		$status = "complete";
 	}
 
-	$mysqli->query("update requests set status='{$status}' where requestId='{$requestId}'");
-	header("Location: manage_evaluations.php");
+	if($stmt = $mysqli->prepare("update requests set status=? where requestId=?")){
+		if($stmt->bind_param("ss", $status, $requestId)){
+			if($stmt->execute()){
+				$success = "true";
+			}
+			else{
+				print $stmt->error;
+			}
+		}
+		else{
+			print $stmt->error;
+		}
+	}
+	else{
+		print $mysqli->error;
+	}
+	
+	header("Location: manage_evaluations.php?success={$success}");
 ?>

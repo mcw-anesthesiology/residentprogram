@@ -6,6 +6,8 @@
 	$milestoneTitle = $mysqli->escape_string($_POST["milestoneTitle"]);
 	$milestoneDescription = $mysqli->escape_string($_POST["milestoneDescription"]);
 	
+	$success = "false";
+	
 	
 	foreach($_POST as $value){
 		if($value == "")
@@ -13,8 +15,20 @@
 	}
 
 	if($stmt = $mysqli->prepare("update `milestones` set title=?, description=? where milestoneId=?;")){
-		$stmt->bind_param("ssi", $milestoneTitle, $milestoneDescription, $milestoneId);
-		$stmt->execute();
+		if($stmt->bind_param("ssi", $milestoneTitle, $milestoneDescription, $milestoneId)){
+			if($stmt->execute()){
+				$success = "true";
+			}
+			else{
+				print $stmt->error;
+			}
+		}
+		else{
+			print $stmt->error;
+		}
 	}
-	header("Location: manage_milestones_competencies.php");
+	else{
+		print $mysqli->error;
+	}
+	header("Location: manage_milestones_competencies.php?success={$success}");
 ?>

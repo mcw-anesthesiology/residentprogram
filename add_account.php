@@ -16,27 +16,47 @@
 	$evaluationDate = date("Y-m-d H:i:s");
 	$status = "active";
 	
+	$success = "false";
+	
 	foreach ($_POST as $value){
 		if($value == "")
-			header("Location: manage_accounts.php");
+			header("Location: manage_accounts.php?success=false");
 	}
 	
 	if($accountType == "resident"){
 		if($stmt = $mysqli->prepare("insert into users (username, password, firstName, lastName, type, status, createdDate, trainingLevel) values (?, ?, ?, ?, ?, ?, ?, ?);")){
 			if($stmt->bind_param("ssssssss", $username, $password, $firstName, $lastName, $accountType, $status, $evaluationDate, $trainingLevel))
-				$stmt->execute();
-			else echo $mysqli->errno;
+				if($stmt->execute()){
+					$success = "true";
+				}
+				else{
+					print $stmt->error;
+				}
+			else{
+				print $stmt->error;
+			}
 		}
-		else echo $mysqli->errno;
+		else{
+			print $mysqli->error;
+		}
 	}
 	else{
 		if($stmt = $mysqli->prepare("insert into users (username, password, firstName, lastName, type, status, createdDate) values (?, ?, ?, ?, ?, ?, ?);")){
 			if($stmt->bind_param("sssssss", $username, $password, $firstName, $lastName, $accountType, $status, $evaluationDate))
-				$stmt->execute();
-			else echo $mysqli->errno;
+				if($stmt->execute()){
+					$success = "true";
+				}
+				else{
+					print $stmt->error;
+				}
+			else{
+				print $stmt->error;
+			}
 		}
-		else echo $mysqli->errno;
+		else{
+			print $mysqli->error;
+		}
 	}
 	
-	header("Location: manage_accounts.php");
+	header("Location: manage_accounts.php?success={$success}");
 ?>
