@@ -44,7 +44,7 @@
             <form role="form" action="process_request.php" method="post">
 <?php 
   if($_SESSION["type"] == "admin" || $_SESSION["type"] == "faculty"){
-	  $residents = $mysqli->query("select username, firstName, lastName from users where type='resident';");
+	  $residents = $mysqli->query("select username, firstName, lastName from users where type='resident' and status='active';");
 	  $residentRow = $residents->fetch_assoc();
 ?>
               <div class="form-group">
@@ -61,7 +61,7 @@
 <?php
   }
   if($_SESSION["type"] != "faculty"){
-	$faculty = $mysqli->query("select username, firstName, lastName from users where type='faculty';");
+	$faculty = $mysqli->query("select username, firstName, lastName from users where type='faculty' and status='active';");
 	$facultyRow = $faculty->fetch_assoc();
 ?>
               <div class="form-group">
