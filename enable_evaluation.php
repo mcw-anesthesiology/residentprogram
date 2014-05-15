@@ -1,4 +1,5 @@
 <?php
+	//This page enables a specified evaluation. It is called by manage_evaluations.php and returns there afterward with a success value ("true" or "false")
 	session_start();
 	require "init.php";
 	

@@ -1,4 +1,9 @@
 <?php 
+	//This page is used to enable/disable evaluations. It contains a single table that displays every single evaluation in the system.
+	//Each row represents an evaluation, and contains information about that request/evaluation as well as a button to enable/disable it. 
+	
+	//TODO: Remove the New Evaluation Form button
+
   session_start(); 
   require "init.php";
 

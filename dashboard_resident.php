@@ -1,4 +1,6 @@
 <?php
+	//This page is the main dashboard for all resident users. It is included by dashboard.php and includes a table for all pending evaluations for the resident,
+	//and another table for all completed evaluations for the resident.
 	  $requests = $mysqli->query("select * from requests left join forms on requests.formId=forms.formId left join users on requests.faculty=users.username where requests.resident='{$_SESSION["username"]}' and requests.status='pending' order by requestId asc;");
 	  $requestRow = $requests->fetch_assoc();
 ?>

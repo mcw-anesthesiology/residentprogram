@@ -1,4 +1,6 @@
 <?php 
+	//This page is used to create/enable/disable evaluation forms. It contains a button to create a new form, and a single table that represents all forms present in the system. 
+	
   session_start(); 
   require "init.php";
   if($_SESSION["type"] !== "admin"){

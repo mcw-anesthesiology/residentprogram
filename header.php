@@ -1,3 +1,11 @@
+<?php
+	//This PHP page represents the header that is common to all pages for all users. This header contains various links to navigate the pages depending on which user type is currently logged in. 
+	//For all users, the "Resident Evaluation System" title furthest to the left brings the user back to their dashboard. The user's name is also displayed in a welcome message. This message drops down to reveal a link to logout.php
+	//Residents are given links to request.php, dashboard.php, and view_specific_report.php
+	//Faculty are given links to request.php, dashboard.php, and view_specific_report.php, and also can see a notification badge near their name representing the number of pending requests for them to complete
+	//Administrators are given links to request.php, manage_evaluations.php, manage_accounts.php, manage_forms.php, manage_milestones_competencies.php, manage_mentorships.php, view_aggregate_report.php, and view_specific_report.php
+	
+?>
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -60,6 +68,7 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, <?php echo ucfirst($_SESSION["fname"])." ".ucfirst($_SESSION["lname"]); ?> 
         <?php 
+			//Notification badge displaying number of pending requests for the user
 			if($_SESSION["type"] == "faculty"){
 			  require "init.php";
 			  $requests = $mysqli->query("select * from requests where faculty='{$_SESSION["username"]}' and status='pending';");
@@ -194,6 +203,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script>
 	function checkReportQuery(){
+	//Checks the report queries to make sure the entered date is of the correct format because not all browsers support the html5 datepicker being used.
 		dateError = false;
 		$(this).find("input").each(function(){
 			if($(this).attr("type") == "date"){

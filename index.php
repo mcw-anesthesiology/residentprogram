@@ -1,4 +1,7 @@
 <?php
+	//This is the login page. If there is no user currently logged in, it displays boxes to enter username and password.
+	//Otherwise, it simply redirects to the user's dashboard. 
+	
 	session_start();
 	if(isset($_SESSION["username"])){
 		header("Location: dashboard.php");

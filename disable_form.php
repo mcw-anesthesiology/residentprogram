@@ -1,4 +1,5 @@
 <?php
+	//This page disables a specified evaluation form. It is called by manage_forms.php and returns there afterward with a success value ("true" or "false")
 	session_start();
 	require "init.php";
 	

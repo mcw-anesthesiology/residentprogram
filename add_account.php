@@ -1,4 +1,6 @@
 <?php
+	//This page adds a new account to the users table. It is called by manage_users.php and returns there afterward with a success GET attribute which is either "true" or "false".
+	//TODO: Ensure that both password entries are the same before doing anything, no idea why this wasn't done yet. 
 	session_start();
 	require "init.php";
 	
@@ -23,6 +25,7 @@
 			header("Location: manage_accounts.php?success=false");
 	}
 	
+	//The only difference between the two following cases is the trainingLevel attribute, it's null if not a resident
 	if($accountType == "resident"){
 		if($stmt = $mysqli->prepare("insert into users (username, password, firstName, lastName, type, status, createdDate, trainingLevel) values (?, ?, ?, ?, ?, ?, ?, ?);")){
 			if($stmt->bind_param("ssssssss", $username, $password, $firstName, $lastName, $accountType, $status, $evaluationDate, $trainingLevel))

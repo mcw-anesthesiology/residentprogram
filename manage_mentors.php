@@ -1,4 +1,6 @@
 <?php 
+	//This page is used to add/remove/view mentorships between faculty and residents. It contains a button to add a new mentorship, and a single table that represents all mentorships in the system.
+
 	session_start(); 
 	require "init.php";
 	if($_SESSION["type"] !== "admin"){

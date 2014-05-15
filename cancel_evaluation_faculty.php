@@ -1,4 +1,5 @@
 <?php
+	//This page cancels a request by a faculty member. Called from dashboard_faculty.php, returns to dashboard.php (dashboard_faculty.php) afterward. 
 	session_start();
 	require "init.php";
 	

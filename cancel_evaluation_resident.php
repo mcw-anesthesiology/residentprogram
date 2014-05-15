@@ -1,4 +1,5 @@
 <?php
+	//This page cancels a request by a resident. Called from dashboard_resident.php, returns to dashboard.php (dashboard_resident.php) afterward. 
 	session_start();
 	require "init.php";
 	

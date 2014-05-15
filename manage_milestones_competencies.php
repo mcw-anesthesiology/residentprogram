@@ -1,4 +1,6 @@
 <?php 
+	//This page is used to add/edit milestones and competencies. It contains a button to add a new milestone and a table representing all milestones in the system, and likewise for competencies.
+
   session_start(); 
   require "init.php";
   if($_SESSION["type"] !== "admin"){

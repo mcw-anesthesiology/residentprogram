@@ -1,10 +1,13 @@
 <?php 
+	//This page is used by a faculty member to complete an evaluation. It sets $formLocation which is used by form_reader.php to read the form's XML file and render the questions. 
+	//If all questions are completed, sends form to process_completion.php to add the responses to the database.
+	
 	//TODO: Make button to show hover text when on a mobile device look better.
 	//TODO: Make sure faculty is the correct one for the request before actually doing anything
 	session_start(); 
 	require "init.php";
 	
-	if($_SESSION["type"] !== "faculty"){
+	if($_SESSION["type"] !== "faculty"){ //makes sure it's a faculty member, as only faculty can complete evaluations
 		header("Location: dashboard.php");
 	}
 	
@@ -84,7 +87,7 @@
         <br>
         <h4 class="sub-header">Evaluation</h4>
       </div>
-      <form role="form" method="post" action="process_completion.php">
+      <form id="evaluation" role="form" method="post" action="process_completion.php">
         <div class="table-responsive">
  		<?php require "form_reader.php"; ?>
  		</div>
@@ -99,9 +102,10 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="../../assets/js/docs.min.js"></script>
     <script>
-		$("form").submit(checkForm);
+		$("#evaluation").submit(checkForm);
 		
 		function checkForm(){
+			//Checks the evaluation to make sure every question is answered before submitting the form
 			var validForm = true;
 			var alertText = "";
 			$("input:radio").each(function(){
@@ -125,6 +129,7 @@
 		}
 		
 		$(".toggleDescriptions").click(function(){
+			//Used to display the radio button option descriptions for touch devices
 			var questionName = $(this).data("id");
 			$("."+questionName).toggle();
 		});

@@ -1,4 +1,13 @@
 <?php 
+	//This page is used to create an evaluation form. It contains a single form that can contain an arbitrary number of questions.
+	//Each question can be either type "radio" or "text" to ask for responses for multiple-choice questions and open-ended questions respectively.
+	//Each radio question can have an arbitrary number of options. Each option must contain a numeric option value, and may contain an option text and an option description.
+	//Option descriptions are hidden text that are displayed when hovering over options on a mouse-based device, and can also be seen on a touch-based device via a "Show Descriptions" button. 
+	//Each radio question must be associated with a milestone and a competency, and may be associated with a second milestone as well.
+	//Each radio question must be given a weight value which is a percentage that weights questions more or less heavily based on the discretion of the administrator. 
+	//Weight defaults to 100%, and can be between 0 and 200.
+	//Milestone, competency, and weight attributes mean absolutely nothing for a text question, even though the selection boxes are still there. 
+
 	//TODO: Make copying and modifying an existing evaluation form work when creating a new form
 	//TODO: Remove weight/milestone/etc options for text questions
 	
@@ -58,7 +67,7 @@
   <body>
 	<?php require 'header.php'; ?>
 	<h2 class="sub-header">Form Builder</h2>
-	<form method="post" action="process_form.php">
+	<form id="evaluation-form" method="post" action="process_form.php">
 		<h3 class="form-input">
 			<div class='container-fluid'>
 				<div class='row'>
@@ -188,6 +197,7 @@
 		});
 		
 		$(".form").on("change", ".form-question-type", function(){
+		//Changes the radio options for a single textarea when selecting text, or vice versa when selecting radio
 			if($(this).val() === "radio"){
 				$(this).parents(".form-question").find(".form-options").html(radioHtml);
 			}
@@ -199,6 +209,7 @@
 		});
 		
 		$(".form").on("change", ".form-option-value", function(){
+		//Adds input boxes for a new option when giving the current option a numeric value
 			if($(this).val() != ""){
 				if($(this).parent().next().length == 0){
 					$(this).parent().parent().append(radioHtml);
@@ -219,6 +230,7 @@
 		});
 		
 		$(".form").on("click", ".form-question-delete", function(){
+		//Removes the selected question
 			$(this).parents(".form-question").remove();
 		});
 
@@ -227,6 +239,7 @@
 		});
 		
 		function addQuestion(){
+		//Adds a question to the end of the form
 			if($(".form").children().length == 0){
 				questionId = "q1";
 			}
@@ -250,10 +263,10 @@
 			$(".form").children(".form-question").last().find(".form-question-weight").attr("name", questionId+":weight");
 		}
 		
-		$("form").submit(checkForm);
+		$("#evaluation-form").submit(checkForm);
 		
 		function checkForm(){
-			// Checks to make sure that the form has a title, each question has a title, and each option has a value. Option text and option description are both optional.
+		// Checks to make sure that the form has a title, each question has a title, and each option has a value. Option text and option description are both optional.
 			var validForm = true;
 			var alertText = "";
 			if($("#formTitle").val() === ""){

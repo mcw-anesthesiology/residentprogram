@@ -1,4 +1,5 @@
 <?php
+	//This page reads the XML file at $fileLocation and converts it to XML to be displayed to the user on either view_specific.php or complete_specific.php, which sets $fileLocation prior to calling this page.
 	
 	$questionType = "";
 	$questionName = "";

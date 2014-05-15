@@ -1,4 +1,5 @@
 <?php
+	//This page edits a specified competency with the values it receives from the edit competency modal that calls it on manage_milestones_competencies.php, where it returns afterwards with a success value ("true" or "false")
 	session_start();
 	require "init.php";
 	

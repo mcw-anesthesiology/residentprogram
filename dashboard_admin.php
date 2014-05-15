@@ -1,4 +1,6 @@
 <?php
+	//This page is the main dashboard for all admin users. It is included by dashboard.php and includes 3 simple metric tables at the top, and then a table of every request present in the database
+	
 	  $requests = $mysqli->query("select requestId, resident, faculty, requestDate, completeDate, requests.status, title, residentUsers.firstName as residentFirst, residentUsers.lastName as residentLast, facultyUsers.firstName as facultyFirst, facultyUsers.lastName as facultyLast from requests left join forms on requests.formId=forms.formId left join users residentUsers on resident=residentUsers.username left join users facultyUsers on faculty=facultyUsers.username order by requestId desc;");
 	  $requestRow = $requests->fetch_assoc();
 	  
@@ -75,13 +77,14 @@
   <?php
   $threeRow = $stats_Three->fetch_assoc();
   }
+  // ends 3 metrics tables
   ?>
 
               </tbody>
             </table>
           </div>
         </div>
-
+			<!-- Displays every single request regardless of status -->
           <h2 class="sub-header">All Requests</h2>
           <div class="table-responsive">
             <table class="table table-striped datatable" id="keywordsAll" cellspacing="0" cellpadding="0">

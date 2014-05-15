@@ -1,4 +1,6 @@
 <?php
+	//This page is used to destroy the current session and log the current user out of the system.
+
 	session_start();
 	$_SESSION = array();
 	

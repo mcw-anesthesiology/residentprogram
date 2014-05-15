@@ -1,4 +1,5 @@
 <?php
+	//This page edits a specified user with the values it receives from the edit user modal that calls it on manage_accounts.php, where it returns afterwards with a success value ("true" or "false")
 	session_start();
 	require "init.php";
 	

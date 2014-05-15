@@ -1,4 +1,6 @@
 <?php 
+	//This page is included on virtually every page and is used to ensure a user is logged in and to initialize the mysql connection
+
 	//The following line should be used for debugging purposes only, and should be removed or commented out during actual use (especially important for reporting pages)
 	//ini_set('display_errors', 1); ini_set('error_reporting', E_ALL); error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 	
