@@ -1,4 +1,7 @@
 <?php
+	//This page displays aggregate reporting information for a single resident. It contains a table at the upper portion of the screen giving basic information about the resident,
+	//and contains two radar graphs below that, one for milestones and one for competencies in relation to all residents during the specified time period. 
+
 	session_start();
 	require "init.php";
 	require "reporting.php";

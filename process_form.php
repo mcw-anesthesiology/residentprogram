@@ -1,4 +1,6 @@
 <?php
+	//This page creates an XML file to be used to store an evaluation form. It is called by form_builder.php and returns to manage_forms.php afterward. 
+
 	//TODO: Server side error checking to make sure all corresponding fields are submitted
 	session_start();
 	require "init.php";
@@ -7,7 +9,7 @@
 		header("Location: form_builder.php");
 	}
 	
-	$formLocation = "evaluation_forms/".uniqid().".xml";
+	$formLocation = "evaluation_forms/".uniqid().".xml"; //creates new unique filename for the form
 	
 	$form = new SimpleXmlElement("<form></form>");
 	
@@ -26,7 +28,7 @@
 		}
 		else if(strpos($key, "milestone") !== false){
 			if(strpos($key, "milestone2") !== false){
-				if($value != -1 && isset($milestones[$questionName]) && $milestones[$questionName] !== $value)
+				if($value != -1 && isset($milestones[$questionName]) && $milestones[$questionName] !== $value) //don't add second milestone if it isn't set or if it's the same as the first
 					$milestones2[$questionName] = $value;
 			}
 			else{
@@ -57,6 +59,7 @@
 	$formTitle = $mysqli->escape_string($formTitle);
 	$formStatus = "active";
 	$createdDate = date("Y-m-d H:i:s");
+	//Inserts form title, location, status, and createdDate into table forms
 	if($stmt = $mysqli->prepare("insert into `forms` (`title`, `location`, `status`, `createdDate`) values (?, ?, ?, ?);")){
 		$stmt->bind_param("ssss", $formTitle, $formLocation, $formStatus, $createdDate);
 		$stmt->execute();
@@ -64,6 +67,7 @@
 		
 		$formId = $mysqli->insert_id;
 		
+		//Inserts milestone-question mapping into milestones_questions table
 		if($stmt = $mysqli->prepare("insert into `milestones_questions`(formId, questionId, milestoneId) values (?, ?, ?)")){
 			if($stmt->bind_param("isi", $formId, $questionId, $milestoneId)){
 				foreach($milestones as $questionId => $milestoneId){
@@ -79,7 +83,8 @@
 			}
 			$stmt->close();				
 		}
-	
+		
+		//Inserts competency-question mapping into competencies_questions
 		if($stmt = $mysqli->prepare("insert into `competencies_questions`(formId, questionId, competencyId) values (?, ?, ?)")){
 			if($stmt->bind_param("isi", $formId, $questionId, $competencyId)){
 				foreach($competencies as $questionId => $competencyId){

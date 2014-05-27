@@ -1,4 +1,6 @@
 <?php 
+	//This page is used to request a new evaluation to be completed by a faculty member for a resident. It calls process_request.php once the user selects the proper faculty, resident, and form information and submits it.
+	
 	session_start();
 	require "init.php";
 	

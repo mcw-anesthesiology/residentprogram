@@ -1,4 +1,7 @@
 <?php
+	//This page displays aggregate reporting information for all residents. It contains a table at the upper portion of the screen giving numeric data in regards to resident averages and number of standard deviations from the mean of resident averages.
+	//For each resident that has completed evaluations during the specified time period and training level, it contains two radar graphs below that, one for milestones and one for competencies in relation to all residents during the specified time period and training level. 
+
 	session_start();
 	require "init.php";
 	require "reporting.php";

@@ -1,4 +1,7 @@
 <?php 
+	//This page is used to view an evaluation. If the evaluation has already been completed, it pulls saved response and textResponse information for the evaluation and displays the faculty input in read-only mode.
+	//Otherwise, it simply displays the form's questions in read-only mode.
+
 	//TODO: Make button to show hover text when on a mobile device look better
 	//TODO: NEED TO MAKE SURE USER HAS SUFFICIENT RIGHTS TO VIEW THE EVAL BEFORE LETTING THEM VIEW IT
 	session_start();

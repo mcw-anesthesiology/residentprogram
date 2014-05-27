@@ -1,4 +1,8 @@
 <?php 
+	//This page requests a new evaluation for a specified faculty member to complete in regards to a specified resident. It is called by request.php
+	//If requested by a faculty member, it brings the user to the the complete_specific page
+	//for the newly created request. Otherwise, it returns the user to the dashboard with a success GET attribute ("true" or "false")
+
 	session_start();
 	require "init.php";
 	
@@ -33,16 +37,22 @@
 	 else
 		 $ipaddress = "UNKNOWN";
 		 
+	$success = "false";
+		 
 	$requestDate = date("Y-m-d H:i:s");
+	$status = "pending";
 	
-	//TODO: Change to paramatarized
-	$mysqli->query("insert into `requests` (formId, resident, faculty, requestedBy, status, requestDate, ipAddress) values ('{$evaluationForm}', '{$resident}', '{$faculty}', '{$_SESSION["username"]}', 'pending', '{$requestDate}', '{$ipaddress}');");
-	$requestId = $mysqli->insert_id;
+	if($stmt = $mysqli->prepare("insert into `requests` (formId, resident, faculty, requestedBy, status, requestDate, ipAddress) values (?, ?, ?, ?, ?, ?, ?);"))
+		if($stmt->bind_param("issssss", $evaluationForm, $resident, $faculty, $_SESSION["username"], $status, $requestDate, $ipaddress))
+			if($stmt->execute())
+				$success = "true";
+				
+	$requestId = $stmt->insert_id;
 	
 	if($_SESSION["type"] == "faculty"){
 		header("Location: complete_specific.php?request={$requestId}");
 	}
 	else
-		header("Location: dashboard.php");
+		header("Location: dashboard.php?success={$success}");
 
 ?>

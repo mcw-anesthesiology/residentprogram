@@ -1,4 +1,6 @@
 <?php
+	//This page adds a new mentorship relationship between a resident and a faculty member. It is called by manage_mentors.php and returns there afterward with a success GET attribute ("true" or "false")
+	
 	session_start();
 	require "init.php";
 	

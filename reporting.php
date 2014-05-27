@@ -1,23 +1,26 @@
 <?php
+	//This page is used to define functions used in generating reports for users. 
+
 	//TODO: add proposed ideal average level for graph
 	//TODO: try to remove numbers from graph and replace with "ca-1", etc
 	//TODO: make the graph not look so ugly
 	
 	
 	function sd_square($x, $mean) { 
+	// Function to calculate square of value - mean
 		return pow($x - $mean,2); 
 	}
-	// Function to calculate square of value - mean
-
+	
 	
 	function sd($array) {
-		// Function to calculate standard deviation (uses sd_square)    
+	// Function to calculate standard deviation (uses sd_square)    
 		
 		// square root of sum of squares devided by N-1
 		return sqrt(array_sum(array_map("sd_square", $array, array_fill(0,count($array), (array_sum($array) / count($array)) ) ) ) / (count($array)-1) );
 	}
 	
 	function createReportTable($trainingLevel, $startDate, $endDate){
+	//Creates the report table that is displayed in aggregate reports that displays resident milestone/competency averages and number of standard deviations from the mean of resident milestone/competency averages.
 		global $mysqli;
 		
 		$redStandardDeviation = 1;
@@ -101,7 +104,7 @@
 		
 		foreach (array_unique($residents) as $resident){
 			echo "<tr>";
-			echo "<td>{$resident}</td>"; //TODO: change to name
+			echo "<td>{$resident}</td>"; //TODO: change to name instead of username
 			foreach(array_unique($milestones) as $milestone){
 				if(!array_key_exists($milestone, $residentWeightedResponsesMilestones[$resident]) || !array_key_exists($milestone, $residentWeightedResponsesMilestonesDenominator[$resident])){
 					$milestoneResidentAverage = "x";
@@ -160,10 +163,13 @@
 	}
 	
 	function drawAllGraphs($trainingLevel, $startDate, $endDate){
+	//Simply a convenience class to call drawIndividualGraphs and print all graphs instead of the graphs for just one resident
 		drawIndividualGraphs(null, $trainingLevel, $startDate, $endDate);
 	}
 	
 	function drawIndividualGraphs($resident, $trainingLevel, $startDate, $endDate){
+	//Pulls responses for all residents with evaluations completed within the specified trainingLevel and between startDate and endDate. Data for all residents is averaged, and
+	//the drawRadar function is called to draw the radar graphs for each resident selected.
 		global $mysqli;
 		
 		$responseBaseline = 10; //assuming this for now idk
@@ -275,6 +281,8 @@
 	}
 	
 	function drawRadar($residentValues, $averageValues, $indeces, $indecesLabel, $title, $max){
+	//Uses pChart (http://www.pchart.net/) to display radar graphs for resident milestones/competencies in regards to the average of resident milestones/competencies
+		
 		//TODO: need to also remove image files after a certain amount of time to save disk space
 		require_once "pChart2.1.4/class/pData.class.php";
 		require_once "pChart2.1.4/class/pDraw.class.php";
@@ -326,6 +334,7 @@
 	}
 	
 	function clearCache(){
+	//Clears the chart cache
 		require_once "pChart2.1.4/class/pCache.class.php";
 		$myCache = new pCache();
 		$myCache->removeOlderThan(60*60*24);
