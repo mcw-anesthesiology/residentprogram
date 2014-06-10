@@ -82,6 +82,7 @@
         ?>
           <b class="caret"></b></a>
           <ul class="dropdown-menu">
+            <li><a href="manage_user.php">Manage Account</a></li>
             <li><a href="logout.php">Logout</a></li>
           </ul>
         </li>

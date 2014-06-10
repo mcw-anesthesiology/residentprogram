@@ -10,6 +10,7 @@
 	}
 	
 	//initializes the mysql connection on each page
+	//TODO: CHANGE TO LOCALHOST LOL
 	$mysqli = new mysqli("www.mischka.info", "mcw", "BobbyLite", "mcw_2");
 	if($mysqli->connect_errno){
 		echo "Failed to connect to MySQL: " . $mysqli->connect_errno . " ) " . $mysqli->connect_error;
