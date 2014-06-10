@@ -57,13 +57,14 @@
 		</div>
 		<?php
 			if($_SESSION["type"] === "faculty"){
+				$emailPreferences = $mysqli->query("select reminderFrequency, evalNotifications from users where username='{$_SESSION["username"]}';")->fetch_assoc();
 		?>
 		<div class="container-fluid">
 			<h3 class="sub-header">Email Notification Preferences</h3>
 			<form id="email-form" action="email_preferences.php" method="post">
 				<div class="form-group">
-					<label for="reminder-frequency">How often do you want to receive reminder emails regarding evaluations?</label>
-					<select id="reminder-frequency" class="form-control">
+					<label for="reminderFrequency">How often do you want to receive reminder emails regarding evaluations?</label>
+					<select id="reminderFrequency" name="reminderFrequency" class="form-control">
 						<option value="daily">Daily</option>
 						<option value="weekly">Weekly</option>
 						<option value="biweekly">Every two weeks</option>
@@ -71,8 +72,8 @@
 				</div>
 				<div class="form-group">
 					<label>Would you like to receive a notification every time a resident requests an evaluation?</label><br />
-					<input id="yesNotification" type="radio" name="evalNotification" value="yes"> <label for="yesNotification">Yes</label><br />
-					<input id="noNotification" type="radio" name="evalNotification" value="no"> <label for="noNotification">No</label><br /><br />
+					<input id="yesNotifications" type="radio" name="evalNotifications" value="yes"> <label for="yesNotifications">Yes</label><br />
+					<input id="noNotifications" type="radio" name="evalNotifications" value="no"> <label for="noNotifications">No</label><br /><br />
 				</div>
 				<button type="submit" class="btn btn-default">Update Email Preferences</button>
 			</form>
@@ -85,6 +86,15 @@
 		<script src="../../assets/js/docs.min.js"></script>
 		<script>
 			$(document).ready(function(){
+				<?php
+					if(isset($emailPreferences)){
+				?>
+						$("option[value=<?= $emailPreferences["reminderFrequency"] ?>]").prop("selected", true);
+						$("#<?= $emailPreferences["evalNotifications"] ?>Notifications").prop("checked", true);
+				<?php
+					}
+				?>
+				
 				$("#newPassword2").keyup(function(){
 					var password1 = $("#newPassword").val();
 					var password2 = $("#newPassword2").val();

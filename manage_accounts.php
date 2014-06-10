@@ -1,8 +1,7 @@
 <?php 
 	//This page is is used to add/edit/disable users. It displays three tables, one for each user type. Each row contains the account information for a user, as well as edit and enable/disable buttons.
 	
-	//TODO: Add email field for all users
-	
+	//TODO: reset password functionality
 	session_start(); 
 	require "init.php";
 	if($_SESSION["type"] !== "admin"){

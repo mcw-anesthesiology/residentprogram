@@ -1,4 +1,5 @@
 <?php
+	//TODO: documentation
 	
 	session_start();
 	require "init.php";
