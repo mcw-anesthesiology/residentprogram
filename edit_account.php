@@ -8,6 +8,7 @@
 	}
 	
 	$username = $mysqli->escape_string($_POST["username"]);
+	$email = $_POST["email"];
 	$firstName = $mysqli->escape_string($_POST["firstName"]);
 	$lastName = $mysqli->escape_string($_POST["lastName"]);
 	$trainingLevel = $mysqli->escape_string($_POST["trainingLevel"]);
@@ -19,9 +20,13 @@
 		if($value == "")
 			header("Location: manage_accounts.php");
 	}
+	
+	if(filter_var($email, FILTER_VALIDATE_EMAIL)){
+		header("Location: manage_accounts.php?success=false");
+	}
 
-	if($stmt = $mysqli->prepare("update users set firstName=?, lastName=?, trainingLevel=?, modifiedDate=? where username=?;")){
-		if($stmt->bind_param("sssss", $firstName, $lastName, $trainingLevel, $modifiedDate, $username)){
+	if($stmt = $mysqli->prepare("update users set email=?, firstName=?, lastName=?, trainingLevel=?, modifiedDate=? where username=?;")){
+		if($stmt->bind_param("ssssss", $email, $firstName, $lastName, $trainingLevel, $modifiedDate, $username)){
 			if($stmt->execute()){
 				$success = "true";
 			}

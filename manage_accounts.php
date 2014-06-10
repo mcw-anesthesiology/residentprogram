@@ -1,6 +1,8 @@
 <?php 
 	//This page is is used to add/edit/disable users. It displays three tables, one for each user type. Each row contains the account information for a user, as well as edit and enable/disable buttons.
 	
+	//TODO: Add email field for all users
+	
 	session_start(); 
 	require "init.php";
 	if($_SESSION["type"] !== "admin"){
@@ -53,6 +55,7 @@
               <thead>
                 <tr>
                   <th>Username</th>
+                  <th>Email</th>
                   <th>First Name</th>
                   <th>Last Name</th>
                   <th>Training Level</th>
@@ -67,6 +70,7 @@
 				  ?>
 						<tr>
               <td id="UN"><?= $user["username"] ?></td>
+              <td id="EM"><?= $user["email"] ?></td>
               <td id="FN"><?= $user["firstName"] ?></td>
               <td id="LN"><?= $user["lastName"] ?></td>
               <td id="TL"><?= strtoupper($user["trainingLevel"]) ?></td>
@@ -107,6 +111,7 @@ $user = $users->fetch_assoc();
               <thead>
                 <tr>
                   <th>Username</th>
+                  <th>Email</th>
                   <th>First Name</th>
                   <th>Last Name</th>
                   <th>Created</th>
@@ -120,6 +125,7 @@ $user = $users->fetch_assoc();
           ?>
             <tr>
               <td id="UN"><?= $user["username"] ?></td>
+              <td id="EM"><?= $user["email"] ?></td>
               <td id="FN"><?= $user["firstName"] ?></td>
               <td id="LN"><?= $user["lastName"] ?></td>
               <td id="CD"><?= $user["createdDate"] ?></td>
@@ -160,6 +166,7 @@ $user = $users->fetch_assoc();
               <thead>
                 <tr>
                   <th>Username</th>
+                  <th>Email</th>
                   <th>First Name</th>
                   <th>Last Name</th>
                   <th>Created</th>
@@ -173,6 +180,7 @@ $user = $users->fetch_assoc();
           ?>
             <tr>
               <td id="UN"><?= $user["username"] ?></td>
+              <td id="EM"><?= $user["email"] ?></td>
               <td id="FN"><?= $user["firstName"] ?></td>
               <td id="LN"><?= $user["lastName"] ?></td>
               <td id="CD"><?= $user["createdDate"] ?></td>
@@ -261,6 +269,10 @@ $user = $users->fetch_assoc();
             <input type="text" class="form-control" id="usernameInput" name="username" readonly>
           </div>
           <div class="form-group">
+			<label for="emailInput">Email</label>
+			<input type="text" class="form-control" id="emailInput" name="email" required>
+          </div>
+          <div class="form-group">
             <label for="firstNameInput">First Name</label>
             <input type="text" class="form-control" id="firstNameInput" name="firstName" required>
           </div>
@@ -300,6 +312,10 @@ $user = $users->fetch_assoc();
           <div class="form-group">
             <label for="usernameInput">Username</label>
             <input type="text" class="form-control" id="usernameInput" name="username" placeholder="Username" required>
+          </div>
+          <div class="form-group">
+			<label for="emailInput">Email</label>
+			<input type="text" class="form-control" id="emailInput" name="email" required>
           </div>
           <div class="form-group">
             <label for="passwordInput">Password</label>
@@ -367,11 +383,13 @@ $user = $users->fetch_assoc();
 
     $(".user-table").on('click', '#editBtn', function (){
       var username = $(this).closest("tr").find("#UN").text();
+      var email = $(this).closest("tr").find("#EM").text();
       var firstName = $(this).closest("tr").find("#FN").text();
       var lastName = $(this).closest("tr").find("#LN").text();
       var currentTrainingLevel = $(this).closest("tr").find("#TL").text();
       
       $(".modal-edit #usernameInput").val(username);
+      $(".modal-edit #emailInput").val(email);
       $(".modal-edit #firstNameInput").val(firstName);
       $(".modal-edit #lastNameInput").val(lastName);
       if($(this).closest("tr").find("#TL").text() !== ""){
@@ -387,6 +405,7 @@ $user = $users->fetch_assoc();
       var type = $(this).data('id');
 
       $(".modal-add #usernameInput").val("");
+      $(".modal-add #emailInput").val("");
       $(".modal-add #passwordInput").val("");
       $(".modal-add #passwordInput2").val("");
       $(".modal-add #firstNameInput").val("");
