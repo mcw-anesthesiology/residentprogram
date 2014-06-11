@@ -50,6 +50,7 @@
 		}
 		else{
 			$optionValue = substr($key, strpos($key, ":")+1);
+			$optionValue = substr($optionValue, 0, strpos($optionValue, ":"));
 			$option = $question->addChild("option", $value);
 			$option->addAttribute("value", $optionValue);
 			

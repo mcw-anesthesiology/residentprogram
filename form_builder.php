@@ -223,8 +223,9 @@
 			
 			var questionId = $(this).parents(".form-question").attr("id");
 			var optionValue = $(this).val();
+			var optionNumber = $(this).parents(".form-options").children().length;
 			
-			$(this).parent().find(".form-option-text").attr("name", questionId+":"+optionValue);
+			$(this).parent().find(".form-option-text").attr("name", questionId+":"+optionValue+":"+optionNumber);
 			$(this).parent().find(".form-option-description").attr("name", questionId+":"+optionValue+":description");
 			
 		});
