@@ -3,7 +3,6 @@
 	//If all questions are completed, sends form to process_completion.php to add the responses to the database.
 	
 	//TODO: Make button to show hover text when on a mobile device look better.
-	//TODO: Make sure faculty is the correct one for the request before actually doing anything
 	session_start(); 
 	require "init.php";
 	
@@ -20,6 +19,10 @@
 	$evaluation = $mysqli->query("select * from evaluations where requestId='{$requestId}';")->fetch_assoc();
 	$form = $mysqli->query("select location from forms inner join requests on forms.formId=requests.formId where requestId='{$requestId}';")->fetch_assoc(); 
 	$formLocation = $form["location"];
+	
+	if($_SESSION["username"] !== $request["faculty"]){
+		header("Location: dashboard.php");
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">

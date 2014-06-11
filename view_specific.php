@@ -3,7 +3,6 @@
 	//Otherwise, it simply displays the form's questions in read-only mode.
 
 	//TODO: Make button to show hover text when on a mobile device look better
-	//TODO: NEED TO MAKE SURE USER HAS SUFFICIENT RIGHTS TO VIEW THE EVAL BEFORE LETTING THEM VIEW IT
 	session_start();
 	require "init.php";
 	
@@ -32,8 +31,12 @@
 		$textResponseRow = $textResponseQuery->fetch_assoc();
 	}
 	
-	$request = $mysqli->query("select requestDate, completeDate, requests.status, residentUsers.firstName as residentFirst, residentUsers.lastName as residentLast, facultyUsers.firstName as facultyFirst, facultyUsers.lastName as facultyLast from requests left join users as residentUsers on requests.resident=residentUsers.username left join users as facultyUsers on requests.faculty=facultyUsers.username where requestId='{$requestId}';")->fetch_assoc();
+	$request = $mysqli->query("select resident, faculty, requestDate, completeDate, requests.status, residentUsers.firstName as residentFirst, residentUsers.lastName as residentLast, facultyUsers.firstName as facultyFirst, facultyUsers.lastName as facultyLast from requests left join users as residentUsers on requests.resident=residentUsers.username left join users as facultyUsers on requests.faculty=facultyUsers.username where requestId='{$requestId}';")->fetch_assoc();
 	$evaluation = $mysqli->query("select * from evaluations where requestId='{$requestId}';")->fetch_assoc();
+	
+	if($_SESSION["username"] !== $request["resident"] && $_SESSION["username"] !== $request["faculty"] && $_SESSION["type"] !== "admin"){
+		header("Location: dashboard.php");
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
