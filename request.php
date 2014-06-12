@@ -5,7 +5,7 @@
 	require "init.php";
 	
 	
-	$forms = $mysqli->query("select `formId`, `title` from `forms` where `status`='active';"); //active status
+	$forms = $mysqli->query("select `formId`, `title` from `forms` where `status`='active' order by title;"); //active status
 	$formsRow = $forms->fetch_assoc();
 ?>
 <!DOCTYPE html>
@@ -46,7 +46,7 @@
             <form role="form" action="process_request.php" method="post">
 <?php 
   if($_SESSION["type"] == "admin" || $_SESSION["type"] == "faculty"){
-	  $residents = $mysqli->query("select username, firstName, lastName from users where type='resident' and status='active';");
+	  $residents = $mysqli->query("select username, firstName, lastName from users where type='resident' and status='active' order by lastName;");
 	  $residentRow = $residents->fetch_assoc();
 ?>
               <div class="form-group">
@@ -54,7 +54,7 @@
                 <select class="form-control" name="resident">
 					<?php
 						while(!is_null($residentRow)){
-							echo "<option value=\"{$residentRow["username"]}\">{$residentRow["firstName"]} {$residentRow["lastName"]}</option>";
+							echo "<option value=\"{$residentRow["username"]}\">{$residentRow["lastName"]}, {$residentRow["firstName"]}</option>";
 							$residentRow = $residents->fetch_assoc();
 						}
 					?>
@@ -63,7 +63,7 @@
 <?php
   }
   if($_SESSION["type"] != "faculty"){
-	$faculty = $mysqli->query("select username, firstName, lastName from users where type='faculty' and status='active';");
+	$faculty = $mysqli->query("select username, firstName, lastName from users where type='faculty' and status='active' order by lastName;");
 	$facultyRow = $faculty->fetch_assoc();
 ?>
               <div class="form-group">
@@ -71,7 +71,7 @@
                 <select class="form-control" name="faculty">
 					<?php
 						while(!is_null($facultyRow)){
-							echo "<option value=\"{$facultyRow["username"]}\">{$facultyRow["firstName"]} {$facultyRow["lastName"]}</option>";
+							echo "<option value=\"{$facultyRow["username"]}\">{$facultyRow["lastName"]}, {$facultyRow["firstName"]}</option>";
 							$facultyRow = $faculty->fetch_assoc();
 						}
 					?>
