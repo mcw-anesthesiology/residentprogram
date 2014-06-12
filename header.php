@@ -19,6 +19,7 @@
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
+		<li><a href="bb/">MCW Forum</a></li>
       <?php 
         if($_SESSION["type"] == "faculty"){
       ?>
