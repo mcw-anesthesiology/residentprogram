@@ -25,9 +25,9 @@
 		$evaluationForm = "";
 	}
 	
-	$milestones = $mysqli->query("select * from milestones;");
+	$milestones = $mysqli->query("select * from milestones order by title;");
 	$milestone = $milestones->fetch_assoc();
-	$competencies = $mysqli->query("select * from competencies;");
+	$competencies = $mysqli->query("select * from competencies order by title;");
 	$competency = $competencies->fetch_assoc();
 ?>
 <!DOCTYPE html>
