@@ -56,7 +56,12 @@
 			
 		}
 	}
-	$form->asXML($formLocation);
+	$dom - new DOMDocument('1.0');
+	$dom->preserveWhiteSpace = false;
+	$dom->formatOuput = true;
+	$dom->loadXML($simpleXml->asXML());
+	$dom->saveXML($formLocation);
+	//$form->asXML($formLocation);
 	$formTitle = $mysqli->escape_string($formTitle);
 	$formStatus = "active";
 	$createdDate = date("Y-m-d H:i:s");

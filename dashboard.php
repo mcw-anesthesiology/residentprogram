@@ -61,6 +61,7 @@
   else if($_SESSION["type"] == "resident"){	
 	require "dashboard_resident.php";
   }
+  //print $user->data['username'];
 ?>
 
 <!-- Canceled Modal Resident-->

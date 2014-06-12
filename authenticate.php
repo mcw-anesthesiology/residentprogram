@@ -2,8 +2,10 @@
 	//This page checks a user's credentials against the database and creates a session and logs the user in if a user with such credentials exist. 
 	//It is called from index.php and sends the user to dashboard.php upon successful login.
 	require "init.php";
+	
 	session_destroy();
 	
+        include_once("phpbbconf.php");
 	$username = htmlspecialchars($_POST["username"]);
 	$password = htmlspecialchars($_POST["password"]); 
 	
@@ -31,7 +33,9 @@
 		$_SESSION["type"] = $type;
 		$_SESSION["fname"] = $firstName;
 		$_SESSION["lname"] = $lastName;
+		$auth->login($username,$password,0,1,0);
 		header("Location: dashboard.php");
+		print $user->data['username'] ;
 	}
 	else{
 		header("Location: index.php");
