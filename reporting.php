@@ -77,6 +77,9 @@
 		echo "<thead><tr>";
 		echo "<th>Resident</th>";
 		
+		sort($milestones);
+		sort($competencies);
+		
 		foreach(array_unique($milestones) as $milestone){
 			$milestoneClassAverages[$milestone] = array_sum($averageWeightedResponsesMilestones[$milestone])/array_sum($averageWeightedResponsesMilestonesDenominator[$milestone]);
 			foreach ($residents as $resident){
@@ -118,13 +121,13 @@
 				$colorClass = "";
 				
 				if($deviations === "x" || abs($deviations) > $redStandardDeviation){
-					$colorClass = "red";
+					//$colorClass = "red";
 				}
 				else if(abs($deviations) > $yellowStandardDeviation){
-					$colorClass = "yellow";
+					//$colorClass = "yellow";
 				}
 				else if(abs($deviations) < $greenStandardDeviation){
-					$colorClass = "green";
+					//$colorClass = "green";
 				}
 				
 				echo "<td>{$milestoneResidentAverage}</td>";
@@ -143,13 +146,13 @@
 				$colorClass = "";
 				
 				if($deviations === "x" || abs($deviations) > $redStandardDeviation){
-					$colorClass = "red";
+					//$colorClass = "red";
 				}
 				else if(abs($deviations) > $yellowStandardDeviation){
-					$colorClass = "yellow";
+					//$colorClass = "yellow";
 				}
 				else if(abs($deviations) < $greenStandardDeviation){
-					$colorClass = "green";
+					//$colorClass = "green";
 				}				
 				
 				echo "<td>{$competencyResidentAverage}</td>";
