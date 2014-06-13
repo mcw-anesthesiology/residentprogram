@@ -44,8 +44,23 @@
 	
 	if($stmt = $mysqli->prepare("insert into `requests` (formId, resident, faculty, requestedBy, status, requestDate, ipAddress) values (?, ?, ?, ?, ?, ?, ?);"))
 		if($stmt->bind_param("issssss", $evaluationForm, $resident, $faculty, $_SESSION["username"], $status, $requestDate, $ipaddress))
-			if($stmt->execute())
+			if($stmt->execute()){
 				$success = "true";
+				if($_SESSION["type"] == "resident"){
+					//**************email notification code here****************
+				}
+			}
+			else{
+				print $stmt->error;
+			}
+		}
+		else{
+			print $stmt->error;
+		}
+	}
+	else{
+		$mysqli->error;
+	}
 				
 	$requestId = $stmt->insert_id;
 	
