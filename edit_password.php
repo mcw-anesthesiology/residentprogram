@@ -3,7 +3,6 @@
 	
 	session_start();
 	require "init.php";
-	include "bb/common.php";
 	
 	$username = $_SESSION["username"];
 	$oldPassword = htmlspecialchars($_POST["oldPassword"]);
@@ -22,6 +21,8 @@
 	if(isset($user)){
 		$newPasswordPhpBB = phpbb_hash($newPassword2);
 		$userIdPhpBB = $user->data["user_id"];
+		print $userIdPhpBB."<br />";
+		print $newPasswordPhpBB."<br />";
 		
 		$mysqliPhpBB = new mysqli("localhost", "phpbbuser", "m^fvaD3MpA9-GwoL@6", "phpbb");
 		if($stmtPhpBB = $mysqliPhpBB->prepare("update phpbb_users set user_password=? where user_id=?")){
