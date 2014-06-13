@@ -27,7 +27,7 @@
 		if($stmtPhpBB = $mysqliPhpBB->prepare("update phpbb_users set user_password=? where user_id=?")){
 			if($stmtPhpBB->bind_param("ss", $newPasswordPhpBB, $userIdPhpBB)){
 				if($stmtPhpBB->execute()){
-					
+					print "phpBB user password successfully changed";
 				}
 				else{
 					print $stmtPhpBB->error;
