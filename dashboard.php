@@ -125,13 +125,13 @@
 		
 		$("tbody").on("click", ".view", function(){
 			//Sets entire table rows clickable instead of just the ID hyperlink on the leftmost columns
-			var requestId = $(this).data("id");
+			var requestId = $(this).parent().data("id");
 			window.location.href = "view_specific.php?request="+requestId;
 		});
 		
 		$("tbody").on("click", ".complete", function(){
 			//Sets entire table rows clickable instead of just the ID hyperlink on the leftmost columns
-			var requestId = $(this).data("id");
+			var requestId = $(this).parent().data("id");
 			window.location.href = "complete_specific.php?request="+requestId;
 		});
 

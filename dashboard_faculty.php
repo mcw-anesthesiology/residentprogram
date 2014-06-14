@@ -27,11 +27,11 @@
 							$requestDate = new DateTime($request["requestDate"]);
 							$requestDate->setTimezone(new DateTimeZone("America/Chicago"));
 				  ?>
-							<tr class="complete" data-id="<?= $requestRow["requestId"] ?>">
-							  <td class="lalign"><a href="complete_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
-							  <td><?= $requestRow["firstName"] ?> <?= $requestRow["lastName"] ?></td>
-							  <td><?= $requestRow["title"] ?></td>
-							  <td><?= $requestDate->format("Y-m-d H:i:s") ?></td>
+							<tr data-id="<?= $requestRow["requestId"] ?>">
+							  <td class="lalign complete"><a href="complete_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
+							  <td class="complete"><?= $requestRow["firstName"] ?> <?= $requestRow["lastName"] ?></td>
+							  <td class="complete"><?= $requestRow["title"] ?></td>
+							  <td class="complete"><?= $requestDate->format("Y-m-d H:i:s") ?></td>
 							  <?php if($requestRow["requestedBy"] == $_SESSION["username"]){?>
 								<td><button class="cancelEvalFaculty btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-cancel-faculty-modal-sm" data-id="<?= $requestRow["requestId"] ?>"><span class="glyphicon glyphicon-remove"></span> Cancel</button></td>
 							  <?php } else echo "<td></td>"; ?>
@@ -76,13 +76,13 @@
 				  <?php
 						while($menteeRequest["resident"] == $mentee){
 				  ?>
-							<tr class="view" data-id="<?= $menteeRequest["requestId"] ?>">
-							  <td class="lalign"><a href="view_specific.php?request=<?= $menteeRequest["requestId"] ?>"><?= $menteeRequest["requestId"] ?></a></td>
-							  <td><?= $menteeRequest["facultyFirst"] ?> <?= $menteeRequest["facultyLast"] ?></td>
-							  <td><?= $menteeRequest["title"] ?></td>
-							  <td><?= $requestDate->format("Y-m-d H:i:s") ?></td>
-							  <td><?= $completeDate->format("Y-m-d H:i:s") ?></td>
-							  <td><?= $menteeRequest["status"] ?></td>
+							<tr data-id="<?= $menteeRequest["requestId"] ?>">
+							  <td class="lalign view"><a href="view_specific.php?request=<?= $menteeRequest["requestId"] ?>"><?= $menteeRequest["requestId"] ?></a></td>
+							  <td class="view"><?= $menteeRequest["facultyFirst"] ?> <?= $menteeRequest["facultyLast"] ?></td>
+							  <td class="view"><?= $menteeRequest["title"] ?></td>
+							  <td class="view"><?= $requestDate->format("Y-m-d H:i:s") ?></td>
+							  <td class="view"><?= $completeDate->format("Y-m-d H:i:s") ?></td>
+							  <td class="view"><?= $menteeRequest["status"] ?></td>
 							</tr>
 					<?php
 						$menteeRequest = $menteeRequests->fetch_assoc();
@@ -124,12 +124,12 @@
 				  <?php
 						while(!is_null($requestRow)){
 				  ?>
-							<tr class="view" data-id="<?= $requestRow["requestId"] ?>">
-							  <td class="lalign"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
-							  <td><?= $requestRow["firstName"] ?> <?= $requestRow["lastName"] ?></td>
-							  <td><?= $requestRow["title"] ?></td>
-							  <td><?= $requestDate->format("Y-m-d H:i:s") ?></td>
-							  <td><?= $completeDate->format("Y-m-d H:i:s") ?></td>
+							<tr data-id="<?= $requestRow["requestId"] ?>">
+							  <td class="lalign view"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
+							  <td class="view"><?= $requestRow["firstName"] ?> <?= $requestRow["lastName"] ?></td>
+							  <td class="view"><?= $requestRow["title"] ?></td>
+							  <td class="view"><?= $requestDate->format("Y-m-d H:i:s") ?></td>
+							  <td class="view"><?= $completeDate->format("Y-m-d H:i:s") ?></td>
 							</tr>
 					<?php
 						$requestRow = $requests->fetch_assoc();

@@ -109,13 +109,13 @@
 							$completeDate = new DateTime($requestRow["completeDate"]);
 							$completeDate->setTimezone(new DateTimeZone("America/Chicago"));
 					?>
-							<tr class="view" data-id="<?= $requestRow["requestId"] ?>">
-							  <td class="lalign"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
-							  <td><?= $requestRow["residentFirst"] ?> <?= $requestRow["residentLast"] ?></td>
-							  <td><?= $requestRow["facultyFirst"] ?> <?= $requestRow["facultyLast"] ?></td>
-							  <td><?= $requestRow["title"] ?></td>
-							  <td><?= $requestDate->format("Y-m-d H:i:s"); ?></td>
-							  <td><?= $completeDate->format("Y-m-d H:i:s"); ?></td>
+							<tr data-id="<?= $requestRow["requestId"] ?>">
+							  <td class="lalign view"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
+							  <td class="view"><?= $requestRow["residentFirst"] ?> <?= $requestRow["residentLast"] ?></td>
+							  <td class="view"><?= $requestRow["facultyFirst"] ?> <?= $requestRow["facultyLast"] ?></td>
+							  <td class="view"><?= $requestRow["title"] ?></td>
+							  <td class="view"><?= $requestDate->format("Y-m-d H:i:s"); ?></td>
+							  <td class="view"><?= $completeDate->format("Y-m-d H:i:s"); ?></td>
 							<?php
 							  if($requestRow["status"] == "complete"){
 							?>

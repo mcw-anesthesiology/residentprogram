@@ -25,11 +25,11 @@
 				   <?php
 						while(!is_null($requestRow)){
 				  ?>
-							<tr class="view" data-id="<?= $requestRow["requestId"] ?>">
-							  <td class="lalign"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
-							  <td><?= $requestRow["firstName"] ?> <?= $requestRow["lastName"] ?></td>
-							  <td><?= $requestRow["title"] ?></td>
-							  <td><?= $requestDate->format("Y-m-d H:i:s") ?></td>
+							<tr data-id="<?= $requestRow["requestId"] ?>">
+							  <td class="lalign view"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
+							  <td class="view"><?= $requestRow["firstName"] ?> <?= $requestRow["lastName"] ?></td>
+							  <td class="view"><?= $requestRow["title"] ?></td>
+							  <td class="view"><?= $requestDate->format("Y-m-d H:i:s") ?></td>
 							  <?php if($requestRow["requestedBy"] == $_SESSION["username"]){?>
 								<td><button class="cancelEvalResident btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-cancel-resident-modal-sm" data-id="<?= $requestRow["requestId"] ?>"><span class="glyphicon glyphicon-remove"></span> Cancel</button></td>
 							  <?php } else echo "<td></td>"; ?>
@@ -71,12 +71,12 @@
 				  <?php
 						while(!is_null($requestRow)){
 				  ?>
-							<tr class="view" data-id="<?= $requestRow["requestId"] ?>">
-							  <td class="lalign"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
-							  <td><?= $requestRow["firstName"] ?> <?= $requestRow["lastName"] ?></td>
-							  <td><?= $requestRow["title"] ?></td>
-							  <td><?= $requestDate->format("Y-m-d H:i:s") ?></td>
-							  <td><?= $completeDate->format("Y-m-d H:i:s") ?></td>
+							<tr data-id="<?= $requestRow["requestId"] ?>">
+							  <td class="lalign view"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
+							  <td class="view"><?= $requestRow["firstName"] ?> <?= $requestRow["lastName"] ?></td>
+							  <td class="view"><?= $requestRow["title"] ?></td>
+							  <td class="view"><?= $requestDate->format("Y-m-d H:i:s") ?></td>
+							  <td class="view"><?= $completeDate->format("Y-m-d H:i:s") ?></td>
 							</tr>
 					<?php
 						$requestRow = $requests->fetch_assoc();
