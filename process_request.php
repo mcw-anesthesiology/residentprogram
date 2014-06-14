@@ -42,8 +42,8 @@
 	$requestDate = date("Y-m-d H:i:s");
 	$status = "pending";
 	
-	if($stmt = $mysqli->prepare("insert into `requests` (formId, resident, faculty, requestedBy, status, requestDate, ipAddress) values (?, ?, ?, ?, ?, ?, ?);"))
-		if($stmt->bind_param("issssss", $evaluationForm, $resident, $faculty, $_SESSION["username"], $status, $requestDate, $ipaddress))
+	if($stmt = $mysqli->prepare("insert into `requests` (formId, resident, faculty, requestedBy, status, requestDate, ipAddress) values (?, ?, ?, ?, ?, ?, ?);")){
+		if($stmt->bind_param("issssss", $evaluationForm, $resident, $faculty, $_SESSION["username"], $status, $requestDate, $ipaddress)){
 			if($stmt->execute()){
 				$success = "true";
 				if($_SESSION["type"] == "resident"){
@@ -71,3 +71,4 @@
 		header("Location: dashboard.php?success={$success}");
 
 ?>
+
