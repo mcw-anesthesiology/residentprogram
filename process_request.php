@@ -44,8 +44,7 @@
 	
 	if($stmt = $mysqli->prepare("insert into `requests` (formId, resident, faculty, requestedBy, status, requestDate, ipAddress) values (?, ?, ?, ?, ?, ?, ?);")){
 		if($stmt->bind_param("issssss", $evaluationForm, $resident, $faculty, $_SESSION["username"], $status, $requestDate, $ipaddress)){
-			if(1){
-			//	$stmt->execute()){
+			if($stmt->execute()){
 				$success = "true";
 				$requestId = $stmt->insert_id;
 				if($_SESSION["type"] == "resident"){
@@ -67,11 +66,13 @@
                                         $email_from = "eval_system@residentprogram.com";
                                         $email_subject = "New " . $form_name . " Evaluation Request from " .  $_SESSION["fname"] . " " . $_SESSION["lname"];
                                         $email_txt="Dear Dr. " . $faculty_lastname . ":\n\n";
-                                        $email_txt.="A new evaluation request, titled " . $form_name . " has been requested by Dr. " . $_SESSION["fname"] . " " . $_SESSION["lname"] . ". ";
+                                        $email_txt.="A resident has requested that you complete an evaluation of their performance.\n\n";
+										$email_txt.="Requesting Resident: " . $_SESSION["fname"] . " " . $_SESSION["lname"] . "\n";
+										$email_txt.="Subject: " . $form_name . "\n\n";
                                         $email_txt.="Please log into the evaluation system at http://residentprogram.com to complete this evaluation at your earliest convenience.\n\n---------\n";
                                         $email_txt.="This email address is not monitored; responses to this email will not be read.  If you require assistance, please email kjenner@mcw.edu\n\n";
                                         $email_txt.="AUTOMATICALLY GENERATED MESSAGE SERVICE AT RESIDENTPROGRAM.COM";
-                                        $email_txt = wordwrap($email_txt, 70, "\n");
+                                        $email_txt = wordwrap($email_txt, 80, "\n");
                                         $email_headers = 'From: ' . $email_from . "\n" . 'X-Mailer: PHP/5.5';
                                         mail($faculty_email, $email_subject, $email_txt, $email_headers);
                                 }
@@ -102,11 +103,11 @@
 				
 	
 	if($_SESSION["type"] == "faculty"){
-		//header("Location: complete_specific.php?request={$requestId}");
+		header("Location: complete_specific.php?request={$requestId}");
 	}
 	else{
-		//header("Location: dashboard.php?success={$success}");
+		header("Location: dashboard.php?success={$success}");
 	}
-	print "complete.";
+	//print "complete.";
 ?>
 
