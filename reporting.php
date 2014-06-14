@@ -86,6 +86,8 @@
 		echo "<thead><tr>";
 		echo "<th>Resident</th>";
 		
+		$tsv = "Resident\t";
+		
 		sort($milestones);
 		sort($competencies);
 		
@@ -96,8 +98,8 @@
 			}
 			$milestoneClassStandardDevations[$milestone] = sd($milestoneClassAveragesResidents[$milestone]);
 			
-			echo "<th>{$milestone}</th>";
-			echo "<th>D{$milestone}</th>";
+			echo "<th>{$milestone}</th>"; $tsv .= $milestone."\t";
+			echo "<th>D{$milestone}</th>"; $tsv .= "D".$milestone."\t";
 		}
 		
 		foreach(array_unique($competencies) as $competency){
@@ -107,16 +109,18 @@
 			}
 			$competencyClassStandardDevations[$competency] = sd($competencyClassAveragesResidents[$competency]);
 			
-			echo "<th>{$competency}-C</th>";
-			echo "<th>D{$competency}-C</th>";
+			echo "<th>{$competency}-C</th>"; $tsv .= $competency."-C\t";
+			echo "<th>D{$competency}-C</th>"; $tsv .= "D".$competency."-C\t";
 		}
 		
 		echo "</tr></thead>";
 		echo "<tbody>";		
+		$tsv .= "\n";
 		
 		foreach (array_unique($residents) as $resident){
 			echo "<tr>";
 			echo "<td>{$resident}</td>"; //TODO: change to name instead of username
+			$tsv .= $resident."\t";
 			foreach(array_unique($milestones) as $milestone){
 				if(!array_key_exists($milestone, $residentWeightedResponsesMilestones[$resident]) || !array_key_exists($milestone, $residentWeightedResponsesMilestonesDenominator[$resident])){
 					$milestoneResidentAverage = "x";
@@ -127,6 +131,7 @@
 					$deviations = round(($milestoneResidentAverage-$milestoneClassAverages[$milestone])/$milestoneClassStandardDevations[$milestone], 3);
 				}
 				
+				/*
 				$colorClass = "";
 				
 				if($deviations === "x" || abs($deviations) > $redStandardDeviation){
@@ -138,9 +143,10 @@
 				else if(abs($deviations) < $greenStandardDeviation){
 					//$colorClass = "green";
 				}
+				*/
 				
-				echo "<td>{$milestoneResidentAverage}</td>";
-				echo "<td class='{$colorClass}'>{$deviations}</td>";
+				echo "<td>{$milestoneResidentAverage}</td>"; $tsv .= $milestoneResidentAverage."\t";
+				echo "<td class='{$colorClass}'>{$deviations}</td>"; $tsv .= $deviations."\t";
 			}
 			foreach(array_unique($competencies) as $competency){
 				if(!array_key_exists($competency, $residentWeightedResponsesCompetencies[$resident]) || !array_key_exists($competency, $residentWeightedResponsesCompetenciesDenominator[$resident])){
@@ -152,6 +158,7 @@
 					$deviations = round(($competencyResidentAverage-$competencyClassAverages[$competency])/$competencyClassStandardDevations[$competency], 3);
 				}
 				
+				/*
 				$colorClass = "";
 				
 				if($deviations === "x" || abs($deviations) > $redStandardDeviation){
@@ -162,15 +169,19 @@
 				}
 				else if(abs($deviations) < $greenStandardDeviation){
 					//$colorClass = "green";
-				}				
+				}
+				*/				
 				
-				echo "<td>{$competencyResidentAverage}</td>";
-				echo "<td class='{$colorClass}'>{$deviations}</td>";
+				echo "<td>{$competencyResidentAverage}</td>"; $tsv .= $competencyResidentAverage."\t";
+				echo "<td class='{$colorClass}'>{$deviations}</td>"; $tsv .= $deviations."\t";
 			}
-			echo "</tr>";
+			echo "</tr>"; $tsv .= "\n";
 		}
 		echo "</tbody>";
 		echo "</table>";
+		
+		echo "<form target='_blank' method='post' action='save_table.php'><button type='submit' class='btn btn-default' name='tsv' value='{$tsv}'>Save as TSV</button></form>";
+		echo "<br />";
 		
 	}
 	
