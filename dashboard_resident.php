@@ -3,6 +3,9 @@
 	//and another table for all completed evaluations for the resident.
 	  $requests = $mysqli->query("select * from requests left join forms on requests.formId=forms.formId left join users on requests.faculty=users.username where requests.resident='{$_SESSION["username"]}' and requests.status='pending' order by requestId asc;");
 	  $requestRow = $requests->fetch_assoc();
+	  
+	  $requestDate = new DateTime($requestRow["requestDate"]);
+	  $requestDate->setTimezone(new DateTimeZone("America/Chicago"));
 ?>
     <div class="container-fluid">
       <div class="row">
@@ -26,7 +29,7 @@
 							  <td class="lalign"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
 							  <td><?= $requestRow["firstName"] ?> <?= $requestRow["lastName"] ?></td>
 							  <td><?= $requestRow["title"] ?></td>
-							  <td><?= $requestRow["requestDate"] ?></td>
+							  <td><?= $requestDate->format("Y-m-d H:i:s") ?></td>
 							  <?php if($requestRow["requestedBy"] == $_SESSION["username"]){?>
 								<td><button class="cancelEvalResident btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-cancel-resident-modal-sm" data-id="<?= $requestRow["requestId"] ?>"><span class="glyphicon glyphicon-remove"></span> Cancel</button></td>
 							  <?php } else echo "<td></td>"; ?>
@@ -44,6 +47,11 @@
 <?php
 		$requests = $mysqli->query("select * from requests left join forms on requests.formId=forms.formId left join users on requests.faculty=users.username where resident='{$_SESSION["username"]}' and requests.status='complete' order by completeDate desc;");
 		$requestRow = $requests->fetch_assoc();
+		
+		$requestDate = new DateTime($requestRow["requestDate"]);
+		$requestDate->setTimezone(new DateTimeZone("America/Chicago"));
+		$completeDate = new DateTime($requestRow["completeDate"]);
+		$completeDate->setTimezone(new DateTimeZone("America/Chicago"));
 ?>
     <div class="container-fluid">
       <div class="row">
@@ -67,8 +75,8 @@
 							  <td class="lalign"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
 							  <td><?= $requestRow["firstName"] ?> <?= $requestRow["lastName"] ?></td>
 							  <td><?= $requestRow["title"] ?></td>
-							  <td><?= $requestRow["requestDate"] ?></td>
-							  <td><?= $requestRow["completeDate"] ?></td>
+							  <td><?= $requestDate->format("Y-m-d H:i:s") ?></td>
+							  <td><?= $completeDate->format("Y-m-d H:i:s") ?></td>
 							</tr>
 					<?php
 						$requestRow = $requests->fetch_assoc();

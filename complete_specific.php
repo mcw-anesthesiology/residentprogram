@@ -20,6 +20,10 @@
 	$form = $mysqli->query("select location from forms inner join requests on forms.formId=requests.formId where requestId='{$requestId}';")->fetch_assoc(); 
 	$formLocation = $form["location"];
 	
+	$requestDate = new DateTime($request["requestDate"]);
+	$requestDate->setTimezone(new DateTimeZone("America/Chicago"));
+	
+	
 	if($_SESSION["username"] !== $request["faculty"]){
 		header("Location: dashboard.php");
 	}
@@ -82,7 +86,7 @@
             <tr>
               <td><?= $requestId ?></td>
               <td><?= $request["firstName"] ?> <?= $request["lastName"] ?></td>
-              <td><?= $request["requestDate"] ?></td>
+              <td><?= $requestDate->format("Y-m-d H:i:s"); ?></td>
               <td><?= $request["trainingLevel"] ?></td>
             </tr>         
           </tbody>

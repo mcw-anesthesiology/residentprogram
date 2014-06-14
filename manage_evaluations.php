@@ -54,6 +54,11 @@
 <?php 
     $requests = $mysqli->query("select requestId, resident, faculty, requestDate, completeDate, requestedBy, requests.status, title, residentUsers.firstName as residentFirst, residentUsers.lastName as residentLast, facultyUsers.firstName as facultyFirst, facultyUsers.lastName as facultyLast, requestedByUsers.firstName as requestedByFirst, requestedByUsers.lastName as requestedByLast from requests left join forms on requests.formId=forms.formId left join users residentUsers on resident=residentUsers.username left join users facultyUsers on faculty=facultyUsers.username left join users requestedByUsers on requestedBy=requestedByUsers.username order by requestId desc;");
     $request = $requests->fetch_assoc();   
+    
+    $requestDate = new DateTime($request["requestDate"]);
+	$requestDate->setTimezone(new DateTimeZone("America/Chicago"));
+	$completeDate = new DateTime($request["completeDate"]);
+	$completeDate->setTimezone(new DateTimeZone("America/Chicago"));
 ?>
     <div class="container-fluid">
       <div class="row">
@@ -81,8 +86,8 @@
               <td class="view"><?= $request["requestedByFirst"] ?> <?= $request["requestedByLast"] ?></td>
               <td class="view"><?= $request["residentFirst"] ?> <?= $request["residentLast"] ?></td>
               <td class="view"><?= $request["facultyFirst"] ?> <?= $request["facultyLast"] ?></td>
-              <td class="view"><?= $request["requestDate"] ?></td>
-              <td class="view"><?= $request["completeDate"] ?></td>
+              <td class="view"><?= $requestDate->format("Y-m-d H:i:s") ?></td>
+              <td class="view"><?= $completeDate->format("Y-m-d H:i:s") ?></td>
 			<?php
 			  if($request["status"] == "complete"){
 			?>

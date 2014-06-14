@@ -23,6 +23,15 @@
 	//Creates the report table that is displayed in aggregate reports that displays resident milestone/competency averages and number of standard deviations from the mean of resident milestone/competency averages.
 		global $mysqli;
 		
+		//$startDateCentral = $startDate;
+		$startDateCentral = new DateTime($startDate, new DateTimeZone("America/Chicago"));
+		$startDateCentral->setTimezone("UTC");
+		$startDate = $startDateCentral->format("Y-m-d H:i:s");
+		
+		$endDateCentral = new DateTime($endDate, new DateTimeZone("America/Chicago"));
+		$endDateCentral->setTimezone("UTC");
+		$endDate = $endDateCentral->format("Y-m-d H:i:s");
+				
 		$redStandardDeviation = 1;
 		$yellowStandardDeviation = 0.75;
 		$greenStandardDeviation = 0.5;

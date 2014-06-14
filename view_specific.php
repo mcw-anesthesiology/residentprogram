@@ -37,6 +37,11 @@
 	if($_SESSION["username"] !== $request["resident"] && $_SESSION["username"] !== $request["faculty"] && $_SESSION["type"] !== "admin"){
 		header("Location: dashboard.php");
 	}
+	
+	$requestDate = new DateTime($request["requestDate"]);
+	$requestDate->setTimezone(new DateTimeZone("America/Chicago"));
+	$completeDate = new DateTime($request["completeDate"]);
+	$completeDate->setTimezone(new DateTimeZone("America/Chicago"));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -100,8 +105,8 @@
                   <td><?= $requestId ?></td>
                   <td><?= $request["residentFirst"] ?> <?= $request["residentLast"] ?></td>
                   <td><?= $request["facultyFirst"] ?> <?= $request["facultyLast"] ?></td>
-                  <td><?= $request["requestDate"] ?></td>
-                  <td><?= $request["completeDate"] ?></td>
+                  <td><?= $requestDate->format("Y-m-d H:i:s"); ?></td>
+                  <td><?= $completeDate->format("Y-m-d H:i:s"); ?></td>
                   <td><?= $request["status"] ?></td>
                   <td><?= $evaluation["currentTrainingLevel"] ?></td>
                 </tr>				  

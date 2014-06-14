@@ -69,10 +69,12 @@
   <?php
   $threeRow = $stats_Three->fetch_assoc();
   while(!is_null($threeRow)){
+	$completeDate = new DateTime($threeRow["completeDate"]);
+	$completeDate->setTimezone(new DateTimeZone("America/Chicago"));
   ?>
                 <tr>
                   <td><?php echo $threeRow["firstName"]." ".$threeRow["lastName"]; ?></td>
-                  <td><?= $threeRow["completeDate"] ?></td>
+                  <td><?= $completeDate->format("Y-m-d H:i:s") ?></td>
                 </tr>
   <?php
   $threeRow = $stats_Three->fetch_assoc();
@@ -102,14 +104,18 @@
               <tbody>
 					<?php
 						while(!is_null($requestRow)){
+							$requestDate = new DateTime($requestRow["requestDate"]);
+							$requestDate->setTimezone(new DateTimeZone("America/Chicago"));
+							$completeDate = new DateTime($requestRow["completeDate"]);
+							$completeDate->setTimezone(new DateTimeZone("America/Chicago"));
 					?>
 							<tr class="view" data-id="<?= $requestRow["requestId"] ?>">
 							  <td class="lalign"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
 							  <td><?= $requestRow["residentFirst"] ?> <?= $requestRow["residentLast"] ?></td>
 							  <td><?= $requestRow["facultyFirst"] ?> <?= $requestRow["facultyLast"] ?></td>
 							  <td><?= $requestRow["title"] ?></td>
-							  <td><?= $requestRow["requestDate"] ?></td>
-							  <td><?= $requestRow["completeDate"] ?></td>
+							  <td><?= $requestDate->format("Y-m-d H:i:s"); ?></td>
+							  <td><?= $completeDate->format("Y-m-d H:i:s"); ?></td>
 							<?php
 							  if($requestRow["status"] == "complete"){
 							?>

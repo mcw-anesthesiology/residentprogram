@@ -24,12 +24,14 @@
               <tbody>
 				  <?php
 						while(!is_null($requestRow)){
+							$requestDate = new DateTime($request["requestDate"]);
+							$requestDate->setTimezone(new DateTimeZone("America/Chicago"));
 				  ?>
 							<tr class="complete" data-id="<?= $requestRow["requestId"] ?>">
 							  <td class="lalign"><a href="complete_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
 							  <td><?= $requestRow["firstName"] ?> <?= $requestRow["lastName"] ?></td>
 							  <td><?= $requestRow["title"] ?></td>
-							  <td><?= $requestRow["requestDate"] ?></td>
+							  <td><?= $requestDate->format("Y-m-d H:i:s") ?></td>
 							  <?php if($requestRow["requestedBy"] == $_SESSION["username"]){?>
 								<td><button class="cancelEvalFaculty btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-cancel-faculty-modal-sm" data-id="<?= $requestRow["requestId"] ?>"><span class="glyphicon glyphicon-remove"></span> Cancel</button></td>
 							  <?php } else echo "<td></td>"; ?>
@@ -49,6 +51,10 @@
 		$menteeRequest = $menteeRequests->fetch_assoc();
 		while(!is_null($menteeRequest)){
 			$mentee = $menteeRequest["resident"];
+			$requestDate = new DateTime($menteeRequest["requestDate"]);
+			$requestDate->setTimezone(new DateTimeZone("America/Chicago"));
+			$completeDate = new DateTime($menteeRequest["completeDate"]);
+			$completeDate->setTimezone(new DateTimeZone("America/Chicago"));
 ?>
 	<!-- *********************************** MENTEE EVALUATIONS ****************************** -->
 	<div class="container-fluid">
@@ -74,8 +80,8 @@
 							  <td class="lalign"><a href="view_specific.php?request=<?= $menteeRequest["requestId"] ?>"><?= $menteeRequest["requestId"] ?></a></td>
 							  <td><?= $menteeRequest["facultyFirst"] ?> <?= $menteeRequest["facultyLast"] ?></td>
 							  <td><?= $menteeRequest["title"] ?></td>
-							  <td><?= $menteeRequest["requestDate"] ?></td>
-							  <td><?= $menteeRequest["completeDate"] ?></td>
+							  <td><?= $requestDate->format("Y-m-d H:i:s") ?></td>
+							  <td><?= $completeDate->format("Y-m-d H:i:s") ?></td>
 							  <td><?= $menteeRequest["status"] ?></td>
 							</tr>
 					<?php
@@ -93,6 +99,11 @@
 		}
 		$requests = $mysqli->query("select * from requests left join forms on requests.formId=forms.formId left join users on requests.resident=users.username where faculty='{$_SESSION["username"]}' and requests.status='complete' order by completeDate desc;");
 		$requestRow = $requests->fetch_assoc();
+		
+		$requestDate = new DateTime($requestRow["requestDate"]);
+		$requestDate->setTimezone(new DateTimeZone("America/Chicago"));
+		$completeDate = new DateTime($requestRow["completeDate"]);
+		$completeDate->setTimezone(new DateTimeZone("America/Chicago"));
 ?>
 	<!-- *********************************** FACULTY EVALUATIONS ****************************** -->
     <div class="container-fluid">
@@ -117,8 +128,8 @@
 							  <td class="lalign"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
 							  <td><?= $requestRow["firstName"] ?> <?= $requestRow["lastName"] ?></td>
 							  <td><?= $requestRow["title"] ?></td>
-							  <td><?= $requestRow["requestDate"] ?></td>
-							  <td><?= $requestRow["completeDate"] ?></td>
+							  <td><?= $requestDate->format("Y-m-d H:i:s") ?></td>
+							  <td><?= $completeDate->format("Y-m-d H:i:s") ?></td>
 							</tr>
 					<?php
 						$requestRow = $requests->fetch_assoc();
