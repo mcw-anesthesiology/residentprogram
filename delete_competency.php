@@ -10,7 +10,7 @@
 	
 	if($numCompetenciesQuestions === 0){
 		if($stmt = $mysqli->prepare("delete from competencies where competencyId=?;")){
-			if($stmt->bind_param("s", $competencyId)){
+			if($stmt->bind_param("i", $competencyId)){
 				if($stmt->execute()){
 					$success = "true";
 				}

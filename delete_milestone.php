@@ -10,7 +10,7 @@
 	
 	if($numMilestonesQuestions === 0){
 		if($stmt = $mysqli->prepare("delete from milestones where milestoneId=?;")){
-			if($stmt->bind_param("s", $milestoneId)){
+			if($stmt->bind_param("i", $milestoneId)){
 				if($stmt->execute()){
 					$success = "true";
 				}

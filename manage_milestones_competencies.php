@@ -72,7 +72,7 @@
 					<?php
 						if($numMilestonesQuestions === 0){
 					?>
-						<button class="deleteMilestone btn btn-info btn-xs" data-toggle="modal" data-target=".bs-deleteMS-modal" data-id="<?= $milestone["milestoneId"] ?>" id="deleteBtn"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+						<button class="deleteMilestone btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-deleteMS-modal" data-id="<?= $milestone["milestoneId"] ?>" id="deleteBtn"><span class="glyphicon glyphicon-remove"></span> Delete</button>
 					<?php
 						}
 					?>
@@ -114,7 +114,7 @@
 				  <?php
 						if($numCompetenciesQuestions === 0){
 					?>
-						<button class="deleteCompetency btn btn-info btn-xs" data-toggle="modal" data-target=".bs-deleteC-modal" data-id="<?= $competency["competencyId"] ?>" id="deleteBtn"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+						<button class="deleteCompetency btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-deleteC-modal" data-id="<?= $competency["competencyId"] ?>" id="deleteBtn"><span class="glyphicon glyphicon-remove"></span> Delete</button>
 					<?php
 						}
 					?>
@@ -315,6 +315,16 @@
 			$("#editCModal").find("#submit").val(competencyId);
 			$("#editCModal").find("#competencyTitle").val(competencyTitle);
 			$("#editCModal").find("#competencyDescription").val(competencyDescription);			
+		});
+		
+		$(".deleteMilestone").click(function(){
+			var milestoneId = $(this).data("id");
+			$("#deleteMSModal").find("#submit").val(milestoneId);
+		});
+		
+		$(".deleteCompetency").click(function(){
+			var competencyId = $(this).data("id");
+			$("#deleteCModal").find("#submit").val(competencyId);
 		});
 		
 		$(".datatable").each(function(){
