@@ -61,11 +61,22 @@
           <tbody>
 <?php
     while(!is_null($milestone)){
+		$numMilestonesQuestions = $mysqli->query("select * from milestones_questions where milestoneId='{$milestone["milestoneId"]}';")->num_rows;
+		
 ?>
             <tr>
               <td class="title"><?= $milestone["title"] ?></td>
               <td class="description"><?= $milestone["description"] ?></td>  
-              <td><button class="editMilestone btn btn-info btn-xs" data-toggle="modal" data-target=".bs-editMS-modal" data-id="<?= $milestone["milestoneId"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button></td>  
+              <td>
+				<button class="editMilestone btn btn-info btn-xs" data-toggle="modal" data-target=".bs-editMS-modal" data-id="<?= $milestone["milestoneId"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button>
+					<?php
+						if($numMilestonesQuestions === 0){
+					?>
+						<button class="deleteMilestone btn btn-info btn-xs" data-toggle="modal" data-target=".bs-deleteMS-modal" data-id="<?= $milestone["milestoneId"] ?>" id="deleteBtn"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+					<?php
+						}
+					?>
+              </td>  
             </tr>         
 <?php
       $milestone = $milestones->fetch_assoc();
@@ -93,11 +104,21 @@
           <tbody>
 <?php
     while(!is_null($competency)){
+		$numCompetenciesQuestions = $mysqli->query("select * from competencies_questions where competencyId='{$competency["competencyId"]}';")->num_rows;
 ?>
             <tr>
               <td class="title"><?= $competency["title"] ?></td>
               <td class="description"><?= $competency["description"] ?></td>
-              <td><button class="editCompetency btn btn-info btn-xs" data-toggle="modal" data-target=".bs-editC-modal" data-id="<?= $competency["competencyId"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button></td>  
+              <td>
+				  <button class="editCompetency btn btn-info btn-xs" data-toggle="modal" data-target=".bs-editC-modal" data-id="<?= $competency["competencyId"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button>
+				  <?php
+						if($numCompetenciesQuestions === 0){
+					?>
+						<button class="deleteCompetency btn btn-info btn-xs" data-toggle="modal" data-target=".bs-deleteC-modal" data-id="<?= $competency["competencyId"] ?>" id="deleteBtn"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+					<?php
+						}
+					?>
+              </td>  
             </tr>         
 <?php
       $competency = $competencies->fetch_assoc();
@@ -145,7 +166,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalAddMS">Add Milestone</h4>
+        <h4 class="modal-title" id="myModalEditMS">Edit Milestone</h4>
       </div>
       <form method="post" action="edit_milestone.php">
         <div class="modal-body modal-addMS">
@@ -161,6 +182,27 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-success" id="submit" name="milestoneId" value="">Edit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Milestone Modal -->
+<div class="modal fade bs-deleteMS-modal" tabindex="-1" role="dialog" aria-labelledby="modalAddMS" aria-hidden="true" id="deleteMSModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalDeleteMS">Delete Milestone</h4>
+      </div>
+      <form method="post" action="delete_milestone.php">
+        <div class="modal-body modal-addMS">
+          Are you sure you want to delete this milestone? This cannot be undone.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-danger" id="submit" name="milestoneId" value="">Delete</button>
         </div>
       </form>
     </div>
@@ -196,15 +238,15 @@
 </div>
 
 <!-- Edit Competency Modal -->
-<div class="modal fade bs-editC-modal" tabindex="-1" role="dialog" aria-labelledby="modalAddC" aria-hidden="true" id="editCModal">
+<div class="modal fade bs-editC-modal" tabindex="-1" role="dialog" aria-labelledby="modalEditC" aria-hidden="true" id="editCModal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalAddC">Edit Competency</h4>
+        <h4 class="modal-title" id="myModalEditC">Edit Competency</h4>
       </div>
       <form method="post" action="edit_competency.php">
-        <div class="modal-body modal-addC">
+        <div class="modal-body modal-EditC">
           <div class="form-group">
             <label for="competencyTitle">Competency Title</label>
             <input type="text" class="form-control" id="competencyTitle" name="competencyTitle" placeholder="Title" required>
@@ -217,6 +259,27 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-success" id="submit" name="competencyId" value="">Edit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Competency Modal -->
+<div class="modal fade bs-deleteC-modal" tabindex="-1" role="dialog" aria-labelledby="modalDeleteC" aria-hidden="true" id="deleteCModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalDeleteC">Edit Competency</h4>
+      </div>
+      <form method="post" action="delete_competency.php">
+        <div class="modal-body modal-deleteC">
+			Are you sure you want to delete this competency? This cannot be undone.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-danger" id="submit" name="competencyId" value="">Delete</button>
         </div>
       </form>
     </div>
