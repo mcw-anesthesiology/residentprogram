@@ -3,9 +3,9 @@
 	session_start();
 	require "init.php";
 	
-	$milestoneId = $mysqli->escape_string($_POST["milestoneId"]);
-	$milestoneTitle = $mysqli->escape_string($_POST["milestoneTitle"]);
-	$milestoneDescription = $mysqli->escape_string($_POST["milestoneDescription"]);
+	$milestoneId = $_POST["milestoneId"];
+	$milestoneTitle = $_POST["milestoneTitle"];
+	$milestoneDescription = $_POST["milestoneDescription"];
 	
 	$success = "false";
 	

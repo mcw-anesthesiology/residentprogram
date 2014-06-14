@@ -8,14 +8,14 @@
 		header("Location: dashboard.php");
 	}
 	
-	$username = $mysqli->escape_string($_POST["username"]);
+	$username = $_POST["username"];
 	$email = $_POST["email"];
 	$password = password_hash(htmlspecialchars($_POST["password"]), PASSWORD_DEFAULT);
 	$password2 = password_hash(htmlspecialchars($_POST["password2"]), PASSWORD_DEFAULT);
-	$firstName = $mysqli->escape_string($_POST["firstName"]);
-	$lastName = $mysqli->escape_string($_POST["lastName"]);
-	$accountType = $mysqli->escape_string($_POST["accountType"]);
-	$trainingLevel = $mysqli->escape_string($_POST["trainingLevel"]);
+	$firstName = $_POST["firstName"];
+	$lastName = $_POST["lastName"];
+	$accountType = $_POST["accountType"];
+	$trainingLevel = $_POST["trainingLevel"];
 	$evaluationDate = date("Y-m-d H:i:s");
 	$status = "active";
 	

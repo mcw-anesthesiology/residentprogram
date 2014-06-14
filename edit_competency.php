@@ -3,9 +3,9 @@
 	session_start();
 	require "init.php";
 	
-	$competencyId = $mysqli->escape_string($_POST["competencyId"]);
-	$competencyTitle = $mysqli->escape_string($_POST["competencyTitle"]);
-	$competencyDescription = $mysqli->escape_string($_POST["competencyDescription"]);
+	$competencyId = $_POST["competencyId"];
+	$competencyTitle = $_POST["competencyTitle"];
+	$competencyDescription = $_POST["competencyDescription"];
 	
 	$success = "false";
 	

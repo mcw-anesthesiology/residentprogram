@@ -8,7 +8,10 @@
 	//very simplistic means of making sure a user is logged in before displaying anything
 	include_once("phpbbconf.php");
 	if(empty($_SESSION["username"])){ 
+		//print "Error - Not Logged in, redirecting to login page.";
+		//sleep 3;
 		header("Location: index.php"); 
+		//print "from init: NOT LOGGED IN.";
 	}
 	
 	//initializes the mysql connection on each page

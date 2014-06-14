@@ -62,7 +62,7 @@
 	$dom->loadXML($simpleXml->asXML());
 	$dom->saveXML($formLocation);
 	//$form->asXML($formLocation);
-	$formTitle = $mysqli->escape_string($formTitle);
+	$formTitle = $formTitle;
 	$formStatus = "active";
 	$createdDate = date("Y-m-d H:i:s");
 	//Inserts form title, location, status, and createdDate into table forms
@@ -77,13 +77,13 @@
 		if($stmt = $mysqli->prepare("insert into `milestones_questions`(formId, questionId, milestoneId) values (?, ?, ?)")){
 			if($stmt->bind_param("isi", $formId, $questionId, $milestoneId)){
 				foreach($milestones as $questionId => $milestoneId){
-					$questionId = $mysqli->escape_string($questionId);
-					$milestoneId = $mysqli->escape_string($milestoneId);
+					$questionId = $questionId;
+					$milestoneId = $milestoneId;
 					$stmt->execute();
 				}
 				foreach($milestones2 as $questionId => $milestoneId){
-					$questionId = $mysqli->escape_string($questionId);
-					$milestoneId = $mysqli->escape_string($milestoneId);
+					$questionId = $questionId;
+					$milestoneId = $milestoneId;
 					$stmt->execute();
 				}
 			}
@@ -94,8 +94,8 @@
 		if($stmt = $mysqli->prepare("insert into `competencies_questions`(formId, questionId, competencyId) values (?, ?, ?)")){
 			if($stmt->bind_param("isi", $formId, $questionId, $competencyId)){
 				foreach($competencies as $questionId => $competencyId){
-					$questionId = $mysqli->escape_string($questionId);
-					$competencyId = $mysqli->escape_string($competencyId);
+					$questionId = $questionId;
+					$competencyId = $competencyId;
 					$stmt->execute();
 				}
 			}

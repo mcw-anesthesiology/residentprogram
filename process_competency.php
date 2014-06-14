@@ -8,7 +8,7 @@
 	
 	if(isset($_POST["competencyTitle"]) && isset($_POST["competencyDescription"])){
 		if($stmt = $mysqli->prepare("insert into `competencies`(title, description) values (?, ?);")){
-			if($stmt->bind_param("ss", $mysqli->escape_string($_POST["competencyTitle"]), $mysqli->escape_string($_POST["competencyDescription"]))){
+			if($stmt->bind_param("ss", $_POST["competencyTitle"], $_POST["competencyDescription"])){
 				if($stmt->execute()){
 					$success = "true";
 				}

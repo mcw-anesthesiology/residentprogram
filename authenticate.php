@@ -35,10 +35,12 @@
 		$_SESSION["lname"] = $lastName;
 		$auth->login($username,$password,0,1,0);
 		header("Location: dashboard.php");
-		print $user->data['username'] ;
+		//print "<br />From Authenticate.php: Login apparently successful.  Details follow.<br />" . "PHPBB Username: " . $user->data['username'] . "<br />" . "Eval System User Name: " . $_SESSION["username"];
+		
 	}
 	else{
 		header("Location: index.php");
+		
 	}
-
+	//include("init.php");
 ?>

@@ -7,11 +7,11 @@
 		header("Location: dashboard.php");
 	}
 	
-	$username = $mysqli->escape_string($_POST["username"]);
+	$username = $_POST["username"];
 	$email = $_POST["email"];
-	$firstName = $mysqli->escape_string($_POST["firstName"]);
-	$lastName = $mysqli->escape_string($_POST["lastName"]);
-	$trainingLevel = $mysqli->escape_string($_POST["trainingLevel"]);
+	$firstName = $_POST["firstName"];
+	$lastName = $_POST["lastName"];
+	$trainingLevel = $_POST["trainingLevel"];
 	$modifiedDate = date("Y-m-d H:i:s");
 	
 	$success = "false";
