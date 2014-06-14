@@ -32,7 +32,7 @@
 	
 	//The only difference between the two following cases is the trainingLevel attribute, it's null if not a resident
 	if($accountType == "resident"){
-		if($stmt = $mysqli->prepare("insert into users (username, password, email, firstName, lastName, type, status, createdDate, trainingLevel) values (?, ?, ?, ?, ?, ?, ?, ?);")){
+		if($stmt = $mysqli->prepare("insert into users (username, password, email, firstName, lastName, type, status, createdDate, trainingLevel) values (?, ?, ?, ?, ?, ?, ?, ?, ?);")){
 			if($stmt->bind_param("sssssssss", $username, $password, $email, $firstName, $lastName, $accountType, $status, $evaluationDate, $trainingLevel))
 				if($stmt->execute()){
 					$success = "true";
@@ -49,7 +49,7 @@
 		}
 	}
 	else{
-		if($stmt = $mysqli->prepare("insert into users (username, password, email, firstName, lastName, type, status, createdDate) values (?, ?, ?, ?, ?, ?, ?);")){
+		if($stmt = $mysqli->prepare("insert into users (username, password, email, firstName, lastName, type, status, createdDate) values (?, ?, ?, ?, ?, ?, ?, ?);")){
 			if($stmt->bind_param("ssssssss", $username, $password, $firstName, $email, $lastName, $accountType, $status, $evaluationDate))
 				if($stmt->execute()){
 					$success = "true";
