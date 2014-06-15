@@ -6,9 +6,9 @@
 	require "init.php";
 	require "reporting.php";
 	
-	$startDate = $_POST["startDate"];
-	$endDate = $_POST["endDate"];
-	$trainingLevel = $_POST["trainingLevel"];
+	$startDate = "2014-01-01"; // = $_POST["startDate"];
+	$endDate = "2014-06-01"; //$_POST["endDate"];
+	$trainingLevel = "CA-1"; //$_POST["trainingLevel"];
 	
 	
 	
@@ -55,8 +55,9 @@
 	<?php require 'header.php'; ?>
 	
 	<?php createReportTable($trainingLevel, $startDate, $endDate); ?>
-	
+	<div style="text-align:center;">
 	<?php drawAllGraphs($trainingLevel, $startDate, $endDate); ?>
+	</div>
   </body>
     <!-- Bootstrap core JavaScript
     ================================================== -->

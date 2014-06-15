@@ -4,6 +4,7 @@
 	//TODO: add proposed ideal average level for graph
 	//TODO: try to remove numbers from graph and replace with "ca-1", etc
 	//TODO: make the graph not look so ugly
+	//TODO: graph keys
 	
 	
 	function sd_square($x, $mean) { 
@@ -98,8 +99,8 @@
 			}
 			$milestoneClassStandardDevations[$milestone] = sd($milestoneClassAveragesResidents[$milestone]);
 			
-			echo "<th>{$milestone}</th>"; $tsv .= $milestone."\t";
-			echo "<th>D{$milestone}</th>"; $tsv .= "D".$milestone."\t";
+			echo "<th nowrap>{$milestone}</th>"; $tsv .= $milestone."\t";
+			echo "<th nowrap>D{$milestone}</th>"; $tsv .= "D".$milestone."\t";
 		}
 		
 		foreach(array_unique($competencies) as $competency){
@@ -109,8 +110,8 @@
 			}
 			$competencyClassStandardDevations[$competency] = sd($competencyClassAveragesResidents[$competency]);
 			
-			echo "<th>{$competency}-C</th>"; $tsv .= $competency."-C\t";
-			echo "<th>D{$competency}-C</th>"; $tsv .= "D".$competency."-C\t";
+			echo "<th nowrap>{$competency}-C</th>"; $tsv .= $competency."-C\t";
+			echo "<th nowrap>D{$competency}-C</th>"; $tsv .= "D".$competency."-C\t";
 		}
 		
 		echo "</tr></thead>";
@@ -180,7 +181,7 @@
 		echo "</tbody>";
 		echo "</table>";
 		
-		echo "<form target='_blank' method='post' action='save_table.php'><button type='submit' class='btn btn-default' name='tsv' value='{$tsv}'>Save as TSV</button></form>";
+		echo "<form style='text-align:center;' target='_blank' method='post' action='save_table.php'><button type='submit' class='btn btn-default' name='tsv' value='{$tsv}'>Save as TSV</button></form>";
 		echo "<br />";
 		
 	}
@@ -272,9 +273,10 @@
 				}
 				
 				echo "<div class='graphs'>";
-				drawRadar($residentWeightedResponsesMilestonesAverage[$resident], $averageWeightedResponsesMilestonesAverage, $milestoneTitles, "Milestones", $resident." Milestone Graph ".$trainingLevel, $responseMax);
-				echo "&nbsp;&nbsp;";
-				drawRadar($residentWeightedResponsesCompetenciesAverage[$resident], $averageWeightedResponsesCompetenciesAverage, $competencyTitles, "Competencies", $resident." Competency Graph ".$trainingLevel, $responseMax);
+				drawRadar($residentWeightedResponsesMilestonesAverage[$resident], $averageWeightedResponsesMilestonesAverage, $milestoneTitles, $residentWeightedResponsesCompetenciesAverage[$resident], $averageWeightedResponsesCompetenciesAverage, $competencyTitles, $resident, $trainingLevel, $responseMax);
+				//drawRadar($residentWeightedResponsesMilestonesAverage[$resident], $averageWeightedResponsesMilestonesAverage, $milestoneTitles, "Milestones", $resident." Milestone Graph ".$trainingLevel, $responseMax);
+				//echo "&nbsp;&nbsp;";
+				//drawRadar($residentWeightedResponsesCompetenciesAverage[$resident], $averageWeightedResponsesCompetenciesAverage, $competencyTitles, "Competencies", $resident." Competency Graph ".$trainingLevel, $responseMax);
 				echo "</div><br/>";
 			}
 		}
@@ -290,9 +292,9 @@
 			}
 				
 				echo "<div class='graphs'>";
-				drawRadar($residentWeightedResponsesMilestonesAverage[$resident], $averageWeightedResponsesMilestonesAverage, $milestoneTitles, "Milestones", $resident." Milestone Graph ".$trainingLevel, $responseMax);
-				echo "&nbsp;&nbsp;";
-				drawRadar($residentWeightedResponsesCompetenciesAverage[$resident], $averageWeightedResponsesCompetenciesAverage, $competencyTitles, "Competencies", $resident." Competency Graph ".$trainingLevel, $responseMax);
+				drawRadar($residentWeightedResponsesMilestonesAverage[$resident], $averageWeightedResponsesMilestonesAverage, $milestoneTitles, $residentWeightedResponsesCompetenciesAverage[$resident], $averageWeightedResponsesCompetenciesAverage, $competencyTitles, $resident, $trainingLevel, $responseMax);
+				//echo "&nbsp;&nbsp;";
+				//drawRadar($residentWeightedResponsesCompetenciesAverage[$resident], $averageWeightedResponsesCompetenciesAverage, $competencyTitles, "Competencies", $resident." Competency Graph ".$trainingLevel, $responseMax);
 				echo "</div><br/>";
 		}
 
@@ -303,7 +305,7 @@
 		
 	}
 	
-	function drawRadar($residentValues, $averageValues, $indeces, $indecesLabel, $title, $max){
+	function drawRadar($milestoneResidentValues, $milestoneAverageValues, $milestoneTitles, $competencyResidentValues, $competencyAverageValues, $competencyTitles, $resident, $trainingLevel, $max){
 	//Uses pChart (http://www.pchart.net/) to display radar graphs for resident milestones/competencies in regards to the average of resident milestones/competencies
 		
 		//TODO: need to also remove image files after a certain amount of time to save disk space
@@ -314,15 +316,25 @@
 		require_once "pChart2.1.4/class/pCache.class.php";
 		
 		
-		$myData = new pData();
-		$myData->addPoints($averageValues, "Average");
-		$myData->addPoints($residentValues, "Resident");
-		$myData->setSerieDescription("Resident", "Individual Performance");
-		$myData->setSerieDescription("Average", "Average Resident Performance");
-		$myData->setPalette("Resident", array("R"=>157, "G"=>196, "B"=>22));
-		$myData->setPalette("Average", array("R"=>255, "G"=>165, "B"=>0));
-		$myData->addPoints($indeces, $indecesLabel);
-		$myData->setAbscissa($indecesLabel);
+		$milestoneData = new pData();
+		$milestoneData->addPoints($milestoneAverageValues, "Average");
+		$milestoneData->addPoints($milestoneResidentValues, "Resident");
+		$milestoneData->setSerieDescription("Resident", "Individual Performance");
+		$milestoneData->setSerieDescription("Average", "Average Resident Performance");
+		$milestoneData->setPalette("Resident", array("R"=>227, "G"=>0, "B"=>0));
+		$milestoneData->setPalette("Average", array("R"=>227, "G"=>227, "B"=>0));
+		$milestoneData->addPoints($milestoneTitles, "Milestones");
+		$milestoneData->setAbscissa("Milestones");
+		
+		$competencyData = new pData();
+		$competencyData->addPoints($competencyAverageValues, "Average");
+		$competencyData->addPoints($competencyResidentValues, "Resident");
+		$competencyData->setSerieDescription("Resident", "Individual Performance");
+		$competencyData->setSerieDescription("Average", "Average Resident Performance");
+		$competencyData->setPalette("Resident", array("R"=>227, "G"=>0, "B"=>0));
+		$competencyData->setPalette("Average", array("R"=>227, "G"=>227, "B"=>0));
+		$competencyData->addPoints($competencyTitles, "Competencies");
+		$competencyData->setAbscissa("Competencies");
 		
 		$myCache = new pCache();
 		$chartHash = $myCache->getHash($myData);
@@ -332,23 +344,46 @@
 			$myCache->saveFromCache($chartHash, $output);
 		}
 		else{		
-			$myPicture = new pImage(500, 500, $myData);
-			$myPicture->drawGradientArea(0,0,500,500,DIRECTION_VERTICAL,array("StartR"=>200,"StartG"=>200,"StartB"=>200,"EndR"=>240,"EndG"=>240,"EndB"=>240,"Alpha"=>100));
-			$myPicture->drawGradientArea(0,0,500,20,DIRECTION_HORIZONTAL,array("StartR"=>30,"StartG"=>30,"StartB"=>30,"EndR"=>100,"EndG"=>100,"EndB"=>100,"Alpha"=>100));
-			$myPicture->drawLine(0,20,500,20,array("R"=>255,"G"=>255,"B"=>255));
+			$myPicture = new pImage(1800, 600, $milestoneData);
+			$myPicture->drawGradientArea(0,0,1800,600,DIRECTION_VERTICAL,array("StartR"=>200,"StartG"=>200,"StartB"=>200,"EndR"=>240,"EndG"=>240,"EndB"=>240,"Alpha"=>100));
+			$myPicture->drawGradientArea(0,0,1800,20,DIRECTION_HORIZONTAL,array("StartR"=>30,"StartG"=>30,"StartB"=>30,"EndR"=>100,"EndG"=>100,"EndB"=>100,"Alpha"=>100));
+			$myPicture->drawLine(0,20,1800,20,array("R"=>255,"G"=>255,"B"=>255));
 			
 			$myPicture->setFontProperties(array("FontName"=>"pChart2.1.4/fonts/verdana.ttf","FontSize"=>8));
-			$myPicture->drawText(10,13,$title,array("R"=>255,"G"=>255,"B"=>255));
+			$myPicture->drawText(10,13,$resident." Milestone ".$trainingLevel,array("R"=>255,"G"=>255,"B"=>255));
+			$myPicture->drawText(910,13,$resident." Competency ".$trainingLevel,array("R"=>255,"G"=>255,"B"=>255));
+			
+			$myPicture->drawLine(900, 0, 900, 600, array("R"=>255,"G"=>255,"B"=>255));
 			
 			$myChart = new pRadar();
-			$myPicture->setGraphArea(10, 25, 490, 490);
-			$myOptions = array("DrawPoly"=>TRUE,"WriteValues"=>TRUE,"ValueFontSize"=>8,"Layout"=>RADAR_LAYOUT_CIRCLE,"BackgroundGradient"=>array("StartR"=>255,"StartG"=>255,"StartB"=>255,"StartAlpha"=>100,"EndR"=>207,"EndG"=>227,"EndB"=>125,"EndAlpha"=>50));
+			
+			$myOptions = array("DrawAxisValues"=>FALSE,"WriteValues"=>FALSE,"WriteValuesInBubble"=>FALSE,"DrawPoly"=>TRUE,"Layout"=>RADAR_LAYOUT_CIRCLE,"BackgroundGradient"=>array("StartR"=>255,"StartG"=>255,"StartB"=>255,"StartAlpha"=>100,"EndR"=>6,"EndG"=>85,"EndB"=>144,"EndAlpha"=>50), "LabelPos"=>RADAR_LABELS_HORIZONTAL);
 			
 			$segments = 5;
 			$myOptions["Segments"] = $segments;
 			$myOptions["SegmentHeight"] = $max/$segments;
 			
-			$myChart->drawRadar($myPicture, $myData, $myOptions);
+			$myPicture->setGraphArea(200, 50, 700, 550);
+			$myChart->drawRadar($myPicture, $milestoneData, $myOptions);
+
+			$myOptions["BackgroundGradient"] = array("StartR"=>255,"StartG"=>255,"StartB"=>255,"StartAlpha"=>100,"EndR"=>1,"EndG"=>108,"EndB"=>100,"EndAlpha"=>50);
+			
+			$myPicture->setGraphArea(1100, 50, 1600, 550);
+			$myChart->drawRadar($myPicture, $competencyData, $myOptions);
+			
+			$myPicture->drawText(435, 275, "CA-0", array("R"=>0,"G"=>0,"B"=>0));
+			$myPicture->drawText(435, 225, "CA-1", array("R"=>0,"G"=>0,"B"=>0));
+			$myPicture->drawText(435, 175, "CA-2", array("R"=>0,"G"=>0,"B"=>0));
+			$myPicture->drawText(435, 125, "CA-3", array("R"=>0,"G"=>0,"B"=>0));
+			$myPicture->drawText(420, 75, "Attending", array("R"=>0,"G"=>0,"B"=>0));
+			
+			$myPicture->drawText(1335, 275, "CA-0", array("R"=>0,"G"=>0,"B"=>0));
+			$myPicture->drawText(1335, 225, "CA-1", array("R"=>0,"G"=>0,"B"=>0));
+			$myPicture->drawText(1335, 175, "CA-2", array("R"=>0,"G"=>0,"B"=>0));
+			$myPicture->drawText(1335, 125, "CA-3", array("R"=>0,"G"=>0,"B"=>0));
+			$myPicture->drawText(1320, 75, "Attending", array("R"=>0,"G"=>0,"B"=>0));
+			
+			$myPicture->drawLegend(750, 550, array("Style"=>LEGEND_BOX, "Mode"=>LEGEND_HORIZONTAL));
 			
 			$myPicture->render($output);
 		}
