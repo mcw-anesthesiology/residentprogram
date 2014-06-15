@@ -6,9 +6,9 @@
 	require "init.php";
 	require "reporting.php";
 	
-	$startDate = "2014-01-01"; // = $_POST["startDate"];
-	$endDate = "2014-06-01"; //$_POST["endDate"];
-	$trainingLevel = "CA-1"; //$_POST["trainingLevel"];
+	$startDate = $_POST["startDate"];
+	$endDate = $_POST["endDate"];
+	$trainingLevel = $_POST["trainingLevel"];
 	
 	
 	
