@@ -383,7 +383,7 @@
 			$myPicture->drawText(1335, 125, "CA-3", array("R"=>0,"G"=>0,"B"=>0));
 			$myPicture->drawText(1320, 75, "Attending", array("R"=>0,"G"=>0,"B"=>0));
 			
-			$myPicture->drawLegend(750, 550, array("Style"=>LEGEND_BOX, "Mode"=>LEGEND_HORIZONTAL));
+			$myPicture->drawLegend(737, 550, array("Style"=>LEGEND_BOX, "Mode"=>LEGEND_HORIZONTAL));
 			
 			$myPicture->render($output);
 		}
