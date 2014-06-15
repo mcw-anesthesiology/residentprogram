@@ -300,8 +300,37 @@
 
 	}
 	
-	function averageMilestonesCompetencies($resident, $milestones, $competencies, $responseMax, $residentWeightedResponsesMilestones, $residentWeightedResponsesMilestonesDenominator, $residentWeightedResponsesCompetencies, $residentWeightedResponsesCompetenciesDenominator){
+	function writeTextResponses($resident, $trainingLevel, $startDate, $endDate){
 		
+		global $mysqli;
+		
+		$query = "select response from textResponses join requests on textResponses.requestId=requests.requestId join users on requests.resident=users.username where resident=? and trainingLevel=? and requestDate>? and requestDate<? and requests.status='complete';";
+		
+		if($stmt = $mysqli->prepare($query)){
+			if($stmt->bind_param("ssss", $resident, $trainingLevel, $startDate, $endDate)){
+				if($stmt->bind_result($response)){
+					if($stmt->execute()){
+						while($stmt->fetch()){
+							echo "<p>";
+							echo $response;
+							echo "</p>";
+						}
+					}
+					else{
+						print $stmt->error;
+					}
+				}
+				else{
+					print $stmt->error;
+				}
+			}
+			else{
+				print $stmt->error;
+			}
+		}
+		else{
+			print $mysqli->error;
+		}
 		
 	}
 	

@@ -97,6 +97,11 @@
 				drawIndividualGraphs($resident, $trainingLevel, $startDate, $endDate); 
 		?>
 	</div>
+	<br /><br />
+	<h3 class="sub-header">Text Responses</h3>
+	<div class="textResponses">
+		<?php writeTextResponses($resident, $trainingLevel, $startDate, $endDate) ?>
+	</div>
 	
   </body>
     <!-- Bootstrap core JavaScript
