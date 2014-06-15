@@ -91,7 +91,9 @@
 		</tbody>
 	</table>
 	
-	<?php drawIndividualGraphs($resident, $trainingLevel, $startDate, $endDate); ?>
+	<div style="text-align:center;">
+		<?php drawIndividualGraphs($resident, $trainingLevel, $startDate, $endDate); ?>
+	</div>
 	
   </body>
     <!-- Bootstrap core JavaScript

@@ -55,8 +55,9 @@
 	<?php require 'header.php'; ?>
 	
 	<?php createReportTable($trainingLevel, $startDate, $endDate); ?>
+	
 	<div style="text-align:center;">
-	<?php drawAllGraphs($trainingLevel, $startDate, $endDate); ?>
+		<?php drawAllGraphs($trainingLevel, $startDate, $endDate); ?>
 	</div>
   </body>
     <!-- Bootstrap core JavaScript
