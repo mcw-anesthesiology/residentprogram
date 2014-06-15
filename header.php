@@ -162,10 +162,10 @@
           <?php 
 			if($_SESSION["type"] == "admin" || $_SESSION["type"] == "faculty"){
 				if($_SESSION["type"] == "admin"){
-					$query = "select username, firstName, lastName from users where type='resident';";
+					$query = "select username, firstName, lastName from users where type='resident' order by lastName;";
 				}
 				else if($_SESSION["type"] == "faculty"){
-					$query = "select username, firstName, lastName from mentorships, users where resident=username and faculty='{$_SESSION["username"]}' and mentorships.status='active'";
+					$query = "select username, firstName, lastName from mentorships, users where resident=username and faculty='{$_SESSION["username"]}' and mentorships.status='active' order by lastName";
 				}
 				$residents = $mysqli->query($query);
 				$residentRow = $residents->fetch_assoc();
@@ -175,7 +175,7 @@
 				<select class="form-control" name="resident">
 			  <?php
 				  while(!is_null($residentRow)){
-					echo "<option value=\"{$residentRow["username"]}\">{$residentRow["firstName"]} {$residentRow["lastName"]}</option>";
+					echo "<option value=\"{$residentRow["username"]}\">{$residentRow["lastName"]}, {$residentRow["firstName"]}</option>";
 					$residentRow = $residents->fetch_assoc();
 				  }
 			}
