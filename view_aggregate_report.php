@@ -57,7 +57,10 @@
 	<?php createReportTable($trainingLevel, $startDate, $endDate); ?>
 	
 	<div style="text-align:center;">
-		<?php drawAllGraphs($trainingLevel, $startDate, $endDate); ?>
+		<?php 
+			if(isset($_POST["graphs"]) && $_POST["graphs"] == "yes")
+				drawAllGraphs($trainingLevel, $startDate, $endDate); 
+		?>
 	</div>
   </body>
     <!-- Bootstrap core JavaScript

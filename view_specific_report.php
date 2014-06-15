@@ -92,7 +92,10 @@
 	</table>
 	
 	<div style="text-align:center;">
-		<?php drawIndividualGraphs($resident, $trainingLevel, $startDate, $endDate); ?>
+		<?php 
+			if(isset($_POST["graphs"]) && $_POST["graphs"] == "yes")
+				drawIndividualGraphs($resident, $trainingLevel, $startDate, $endDate); 
+		?>
 	</div>
 	
   </body>

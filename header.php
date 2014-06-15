@@ -119,6 +119,9 @@
               <option value="ca-3">CA-3</option>
             </select>
           </div>
+          <div class="form-group">
+			<input type="checkbox" id="graphs" name="graphs" value="yes" checked /><label for="graphs">Generate Graphs</label>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -191,6 +194,9 @@
           ?>
           
             </select>
+          </div>
+          <div class="form-group">
+			<input type="checkbox" id="graphs" name="graphs" value="yes" checked /><label for="graphs">Generate Graphs</label>
           </div>
         </div>
         <div class="modal-footer">
