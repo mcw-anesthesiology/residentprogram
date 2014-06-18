@@ -59,7 +59,10 @@
 			width:100%;
 			resize: none;
 		}
-		.description{ background-color: #FFDDAA; }
+		.description{ 
+			background-color: #FFDDAA; 
+			padding: 5px;
+		}
     </style>
   </head>
 

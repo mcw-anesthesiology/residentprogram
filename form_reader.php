@@ -5,31 +5,36 @@
 	$questionName = "";
 	$questionWeight = "";
 	$description = "";
+	$questionHasDescriptions = false;
 	
 	function startElement($parser, $name, $attrs){
 		
-		global $questionType, $questionName, $description;
+		global $questionType, $questionName, $description, $questionHasDescriptions;
 				
 		if($name == "question"){
 			echo "<table class='table table-striped'>";
 			$questionType = $attrs["type"];
 			$questionName = $attrs["name"];
 			$questionWeight = $attrs["weight"];
+			$questionHasDescriptions = false;
 			echo "<input type='hidden' name='{$questionName}:weight' value='{$questionWeight}'";
 			
 		}
 		else if($name == "option"){
 			if($questionType == "radio"){
-				if(isset($attrs["description"])){
+				if(isset($attrs["description"]))
 					$description = htmlspecialchars($attrs["description"], ENT_QUOTES);
-				}
 				else
 					$description = "";
+					
+				if($description != "")
+					$questionHasDescriptions = true;
+					
 				echo "<td class='tdRdoBtn'><label><span title='{$description}'><input type='radio' name='{$questionName}' value='{$attrs["value"]}' required /><br />";
 			}
 		}
 		else if($name == "text"){
-			echo "<tr><td colspan='10'><b>".strtoupper($questionName).": </b>"; 
+			echo "<tr><td colspan='10'><b>".strtoupper($questionName).": </b>";
 		}
 		else if($name == "form"){
 			
@@ -42,7 +47,7 @@
 	
 	function endElement($parser, $name){
 		
-		global $questionType, $questionName, $description;
+		global $questionType, $questionName, $description, $questionHasDescriptions;
 		
 		if($name == "form"){
 			
@@ -53,14 +58,18 @@
 				echo "<td><textarea name='{$questionName}' required></textarea></td>";
 			}
 			else if($questionType == "radio"){
-				echo "</tr><tr colspan='10'><span class='toggleDescriptions' data-id='{$questionName}'>Show Descriptions</span>";
+				if($questionHasDescriptions){
+					echo "<tr></tr><tr><td colspan='10' style='text-align:center;'>";
+					echo "<button class='toggleDescriptions btn btn-info' data-id='{$questionName}'>Show Descriptions</button>"; 
+					echo "</td></tr>";
+				}
 			}
 			
 			echo "</tr></tbody></table>";
 		}
 		else if($name == "option"){
 			echo "</span></label>";
-			echo "<br/><label><span class='description {$questionName}' hidden>{$description}</span></label>";
+			echo "<br/><label><div class='description {$questionName}' hidden>{$description}</div></label>";
 			echo "</td>";
 		}
 		else if($name == "text"){
