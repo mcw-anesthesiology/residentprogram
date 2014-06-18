@@ -60,7 +60,7 @@
 			resize: none;
 		}
 		.description{ 
-			background-color: #FFDDAA; 
+			background-color: #FFECCF; 
 			padding: 5px;
 		}
     </style>
