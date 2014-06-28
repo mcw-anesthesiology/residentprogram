@@ -1,6 +1,6 @@
 <?php
 	//This page creates an XML file to be used to store an evaluation form. It is called by form_builder.php and returns to manage_forms.php afterward. 
-
+error_reporting(-1);
 	//TODO: Server side error checking to make sure all corresponding fields are submitted
 	session_start();
 	require "init.php";
@@ -8,7 +8,6 @@
 	if(!isset($_POST["formTitle"]) || $_SESSION["type"] !== "admin"){
 		header("Location: form_builder.php");
 	}
-	
 	$formLocation = "evaluation_forms/".uniqid().".xml"; //creates new unique filename for the form
 	
 	$form = new SimpleXmlElement("<form></form>");
@@ -16,12 +15,14 @@
 	$questionName = "";
 	
 	foreach ($_POST as $key => $value){
+		//$value = htmlspecialchars($value);
+		//$key = htmlspecialchars($key);
 		
 		$questionName = substr($key, 0, strpos($key, ":"));
 		if(strpos($key, "name") !== false){
 			$question = $form->addChild("question");
 			$question->addAttribute("name", $questionName);
-			$question->addChild("text", $value);
+			$question->addChild("text", htmlspecialchars($value));
 		}
 		else if(strpos($key, "type") !== false){
 			$question->addAttribute("type", $value);
@@ -45,28 +46,31 @@
 			$option->addAttribute("description", $value);
 		}
 		else if($key == "formTitle"){
-			$form->addChild("title", $value);
+			$form->addChild("title", htmlspecialchars($value));
 			$formTitle = $value;
 		}
 		else{
 			$optionValue = substr($key, strpos($key, ":")+1);
 			$optionValue = substr($optionValue, 0, strpos($optionValue, ":"));
-			$option = $question->addChild("option", $value);
+			$option = $question->addChild("option", htmlspecialchars($value));
 			$option->addAttribute("value", $optionValue);
 			
 		}
 	}
-	$dom - new DOMDocument('1.0');
+	
+	$dom = new DOMDocument('1.0');
 	$dom->preserveWhiteSpace = false;
 	$dom->formatOuput = true;
-	$dom->loadXML($simpleXml->asXML());
-	$dom->saveXML($formLocation);
+	$dom->loadXML($form->asXML());
+	$dom->save($formLocation);
 	//$form->asXML($formLocation);
 	$formTitle = $formTitle;
 	$formStatus = "active";
 	$createdDate = date("Y-m-d H:i:s");
+	
 	//Inserts form title, location, status, and createdDate into table forms
 	if($stmt = $mysqli->prepare("insert into `forms` (`title`, `location`, `status`, `createdDate`) values (?, ?, ?, ?);")){
+		//print "In here.";
 		$stmt->bind_param("ssss", $formTitle, $formLocation, $formStatus, $createdDate);
 		$stmt->execute();
 		$stmt->close();
