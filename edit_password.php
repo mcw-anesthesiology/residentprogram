@@ -11,6 +11,11 @@
 	
 	$success = "false";
 	
+	foreach($_POST as $value){
+		if($value == "")
+			header("Location: manage_user.php?success=false");
+	}
+	
 	if($newPassword !== $newPassword2){
 		print "New passwords do not match";
 		header("Location: manage_user.php?success=false");

@@ -78,12 +78,12 @@
 <?php
 if($user["status"] == "inactive"){
 ?>
-                <td><button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> <button class="enableUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button></td>
+                <td><button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> <button class="editPassword btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-password-modal" data-id="<?= $user["username"] ?>" id="editPasswordBtn"><span class="glyphicon glyphicon-edit"></span> Edit Password</button> <button class="enableUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button></td>
 <?php
 }
 else{
 ?>
-                <td><button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> <button class="disableUser btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button></td>
+                <td><button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> <button class="editPassword btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-password-modal" data-id="<?= $user["username"] ?>" id="editPasswordBtn"><span class="glyphicon glyphicon-edit"></span> Edit Password</button> <button class="disableUser btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button></td>
 <?php
 }
 ?>
@@ -132,12 +132,12 @@ $user = $users->fetch_assoc();
 <?php
 if($user["status"] == "inactive"){
 ?>
-                <td><button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> <button class="enableUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button></td>
+                <td><button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> <button class="editPassword btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-password-modal" data-id="<?= $user["username"] ?>" id="editPasswordBtn"><span class="glyphicon glyphicon-edit"></span> Edit Password</button> <button class="enableUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button></td>
 <?php
 }
 else{
 ?>
-                <td><button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> <button class="disableUser btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button></td>
+                <td><button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> <button class="editPassword btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-password-modal" data-id="<?= $user["username"] ?>" id="editPasswordBtn"><span class="glyphicon glyphicon-edit"></span> Edit Password</button> <button class="disableUser btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button></td>
 <?php
 }
 ?>
@@ -187,12 +187,12 @@ $user = $users->fetch_assoc();
 <?php
 if($user["status"] == "inactive"){
 ?>
-                <td><button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> <button class="enableUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button></td>
+                <td><button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> <button class="editPassword btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-password-modal" data-id="<?= $user["username"] ?>" id="editPasswordBtn"><span class="glyphicon glyphicon-edit"></span> Edit Password</button> <button class="enableUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button></td>
 <?php
 }
 else{
 ?>
-                <td><button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> <button class="disableUser btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button></td>
+                <td><button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> <button class="editPassword btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-password-modal" data-id="<?= $user["username"] ?>" id="editPasswordBtn"><span class="glyphicon glyphicon-edit"></span> Edit Password</button> <button class="disableUser btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button></td>
 <?php
 }
 ?>
@@ -356,6 +356,42 @@ $user = $users->fetch_assoc();
   </div>
 </div>
 
+<!-- Edit Password Modal -->
+<div class="modal fade bs-edit-password-modal" tabindex="-1" role="dialog" aria-labelledby="modalEditPassword" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalEditPassword">Edit Password</h4>
+      </div>
+      <div class="modal-body modal-edit-password">
+        <form method="post" action="edit_password_admin.php">
+			<div class="form-group">
+				<label for="usernameInput">Username</label>
+				<input type="text" class="form-control" id="username" name="username" placeholder="Username" required readonly>
+			</div>
+			<div class="form-group">
+				<label for="password1">User Password</label>
+				<input type="password" class="form-control" id="password1" name="newPassword" placeholder="New Password" required>
+			</div>
+			<div class="form-group">
+				<label for="password2">Verify User Password</label>
+				<input type="password" class="form-control" id="password2" name="newPassword2" placeholder="Verify New Password" required>
+			</div>
+			<div class="form-group">
+				<label for="adminPassword">Verify Admin Password</label>
+				<input type="password" class="form-control" id="adminPassword" name="adminPassword" placeholder="Verify Admin Password" required>
+			</div>
+		  </div>
+		  <div class="modal-footer modal-enable">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-success">Confirm</button>
+		  </div>
+		</form>
+    </div>
+  </div>
+</div>
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -399,6 +435,11 @@ $user = $users->fetch_assoc();
 		  $(".modal-edit #trainingLevelDiv").hide();
 	  }
     });
+    
+    $(".user-table").on("click", "#editPasswordBtn", function(){
+		var username = $(this).data("id");
+		$(".modal-edit-password #username").val(username);
+	});
 
     $(document).on("click", ".addUser", function(){
       var type = $(this).data('id');
