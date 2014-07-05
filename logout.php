@@ -2,6 +2,13 @@
 	//This page is used to destroy the current session and log the current user out of the system.
 
 	session_start();
+	include_once("phpbbconf.php");
+	
+	if(isset($user)){
+		$user->session_kill();
+		$user->session_begin();
+	}
+	
 	$_SESSION = array();
 	
 	if (ini_get("session.use_cookies")) {
