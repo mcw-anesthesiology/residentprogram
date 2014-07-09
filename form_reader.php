@@ -40,9 +40,9 @@
 		}
 		else if($name == "text"){
 			if($required == "required")
-				echo "<tr><td colspan='10'><b style='color: red;'>".strtoupper($questionName)."*: </b>";
+				echo "<tr><td colspan='50'><b style='color: red;'>".strtoupper($questionName)."*: </b>";
 			else
-				echo "<tr><td colspan='10'><b>".strtoupper($questionName).": </b>";
+				echo "<tr><td colspan='50'><b>".strtoupper($questionName).": </b>";
 		}
 		else if($name == "form"){
 			
@@ -67,7 +67,7 @@
 			}
 			else if($questionType == "radio"){
 				if($questionHasDescriptions){
-					echo "<tr></tr><tr><td colspan='10' style='text-align:center;'>";
+					echo "<tr></tr><tr><td colspan='50' style='text-align:center;'>";
 					echo "<button class='toggleDescriptions btn btn-info' data-id='{$questionName}'>Show Descriptions</button>"; 
 					echo "</td></tr>";
 				}
