@@ -71,7 +71,8 @@
 			$questionWeight = "";
 		}
 		else{
-			$textStmt->execute();
+			if($response !== "")
+				$textStmt->execute();
 		}
 	}
 	

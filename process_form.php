@@ -27,6 +27,10 @@ error_reporting(-1);
 		else if(strpos($key, "type") !== false){
 			$question->addAttribute("type", $value);
 		}
+		else if(strpos($key, "required") !== false){
+			if($value == "required")
+				$question->addAttribute("required", "required");
+		}
 		else if(strpos($key, "milestone") !== false){
 			if(strpos($key, "milestone2") !== false){
 				if($value != -1 && isset($milestones[$questionName]) && $milestones[$questionName] !== $value) //don't add second milestone if it isn't set or if it's the same as the first

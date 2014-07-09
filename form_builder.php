@@ -162,11 +162,14 @@
 													"<div class='col-md-3'>" +
 														"<b>Question Competency</b>" +
 													"</div>" +
-													"<div class='col-md-2'>" +
+													"<div class='col-md-1'>" +
 														"<b>Question Type</b>" +
 													"</div>" +
 													"<div class='col-md-1'>" +
 														"<b>Weight</b>" +
+													"</div>" +
+													"<div class='col-md-1'>" +
+														"<b>Required</b>" +
 													"</div>" +
 												"</div>" +
 												"<div class='row'>" +
@@ -179,11 +182,14 @@
 													"<div class='col-md-3'>" +
 														competencyHtml +
 													"</div>" +
-													"<div class='col-md-2'>" +
+													"<div class='col-md-1'>" +
 														typeHtml +
 													"</div>" +
 													"<div class='col-md-1'>" +
 														"<input class='form-input form-control form-question-weight' type='number' min='0' max='200' value='100' step='1' />" +
+													"</div>" +
+													"<div class='col-md-1'>" +
+														"<input type='checkbox' class='form-control form-question-required' name='' value='required' />" +
 													"</div>" +
 												"</div>" +
 												"<div class='hr-question'></div>" +
@@ -262,6 +268,7 @@
 			$(".form").children(".form-question").last().find(".form-question-milestone-2").attr("name", questionId+":milestone2");
 			$(".form").children(".form-question").last().find(".form-question-competency").attr("name", questionId+":competency");
 			$(".form").children(".form-question").last().find(".form-question-weight").attr("name", questionId+":weight");
+			$(".form").children(".form-question").last().find(".form-question-required").attr("name", questionId+":required");
 		}
 		
 		$("#evaluation-form").submit(checkForm);

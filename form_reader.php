@@ -5,17 +5,22 @@
 	$questionName = "";
 	$questionWeight = "";
 	$description = "";
+	$required = "";
 	$questionHasDescriptions = false;
 	
 	function startElement($parser, $name, $attrs){
 		
-		global $questionType, $questionName, $description, $questionHasDescriptions;
+		global $questionType, $questionName, $description, $questionHasDescriptions, $required;
 				
 		if($name == "question"){
 			echo "<table class='table table-striped'>";
 			$questionType = $attrs["type"];
 			$questionName = $attrs["name"];
 			$questionWeight = $attrs["weight"];
+			if(isset($attrs["required"]))
+				$required = "required";
+			else
+				$required = "";
 			$questionHasDescriptions = false;
 			echo "<input type='hidden' name='{$questionName}:weight' value='{$questionWeight}'";
 			
@@ -30,11 +35,14 @@
 				if($description != "")
 					$questionHasDescriptions = true;
 					
-				echo "<td class='tdRdoBtn'><label><span title='{$description}'><input type='radio' name='{$questionName}' value='{$attrs["value"]}' required /><br />";
+				echo "<td class='tdRdoBtn'><label><span title='{$description}'><input type='radio' name='{$questionName}' value='{$attrs["value"]}' {$required} /><br />";
 			}
 		}
 		else if($name == "text"){
-			echo "<tr><td colspan='10'><b>".strtoupper($questionName).": </b>";
+			if($required == "required")
+				echo "<tr><td colspan='10'><b style='color: red;'>".strtoupper($questionName)."*: </b>";
+			else
+				echo "<tr><td colspan='10'><b>".strtoupper($questionName).": </b>";
 		}
 		else if($name == "form"){
 			
@@ -47,7 +55,7 @@
 	
 	function endElement($parser, $name){
 		
-		global $questionType, $questionName, $description, $questionHasDescriptions;
+		global $questionType, $questionName, $description, $questionHasDescriptions, $required;
 		
 		if($name == "form"){
 			
@@ -55,7 +63,7 @@
 		else if($name == "question"){
 			
 			if($questionType == "text"){
-				echo "<td><textarea name='{$questionName}' required></textarea></td>";
+				echo "<td><textarea name='{$questionName}' {$required}></textarea></td>";
 			}
 			else if($questionType == "radio"){
 				if($questionHasDescriptions){

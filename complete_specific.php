@@ -24,7 +24,7 @@
 	$requestDate->setTimezone(new DateTimeZone("America/Chicago"));
 	
 	
-	if($_SESSION["username"] !== $request["faculty"]){
+	if($_SESSION["username"] !== $request["faculty"]){ //TODO: check to make sure it's not already completed
 		header("Location: dashboard.php");
 	}
 ?>
@@ -96,6 +96,7 @@
         </table>
         <br>
         <h4 class="sub-header">Evaluation</h4>
+        <p style="text-align: center;"><b style="color: red;">*</b> : required</p>
       </div>
       <form id="evaluation" role="form" method="post" action="process_completion.php">
         <div class="table-responsive">
@@ -103,6 +104,7 @@
  		</div>
         <button type="submit" name="requestId" value="<?= $requestId ?>" class="btn btn-default">Submit</button>
       </form>
+      <br/>
     </div>
 
     <!-- Bootstrap core JavaScript
@@ -120,14 +122,14 @@
 			var alertText = "";
 			$("input:radio").each(function(){
 				var name = $(this).attr("name");
-				if($("input:radio[name="+name+"]:checked").length == 0){
+				if($(this).attr("required") == "required" && $("input:radio[name="+name+"]:checked").length == 0){
 					$(this).focus();
 					alertText = "Please complete each question";
 					validForm = false;
 				}
 			});
 			$("textarea").each(function(){
-				if(this.value === ""){
+				if($(this).attr("required") == "required" && this.value === ""){
 					$(this).focus();
 					alertText = "Please complete each question";
 					validForm = false;
