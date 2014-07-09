@@ -15,7 +15,7 @@
 	else
 		$requestId = $_GET["request"];
 	
-	$request = $mysqli->query("select * from requests left join users on requests.resident=users.username where requestId='{$requestId}';")->fetch_assoc();
+	$request = $mysqli->query("select requestDate, faculty, requests.status as requestStatus, firstName, lastName, trainingLevel from requests left join users on requests.resident=users.username where requestId='{$requestId}';")->fetch_assoc();
 	$evaluation = $mysqli->query("select * from evaluations where requestId='{$requestId}';")->fetch_assoc();
 	$form = $mysqli->query("select location from forms inner join requests on forms.formId=requests.formId where requestId='{$requestId}';")->fetch_assoc(); 
 	$formLocation = $form["location"];
@@ -24,8 +24,11 @@
 	$requestDate->setTimezone(new DateTimeZone("America/Chicago"));
 	
 	
-	if($_SESSION["username"] !== $request["faculty"]){ //TODO: check to make sure it's not already completed
+	if($_SESSION["username"] !== $request["faculty"]){ 
 		header("Location: dashboard.php");
+	}
+	if($request["requestStatus"] !== "pending" && $request["requestStatus"] !== "saved"){
+		header("Location: view_specific.php?request={$requestId}");
 	}
 ?>
 <!DOCTYPE html>
@@ -124,14 +127,14 @@
 				var name = $(this).attr("name");
 				if($(this).attr("required") == "required" && $("input:radio[name="+name+"]:checked").length == 0){
 					$(this).focus();
-					alertText = "Please complete each question";
+					alertText = "Please complete each required question";
 					validForm = false;
 				}
 			});
 			$("textarea").each(function(){
 				if($(this).attr("required") == "required" && this.value === ""){
 					$(this).focus();
-					alertText = "Please complete each question";
+					alertText = "Please complete each required question";
 					validForm = false;
 				}
 			});
