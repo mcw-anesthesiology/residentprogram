@@ -2,7 +2,7 @@
 	//This page is used to view an evaluation. If the evaluation has already been completed, it pulls saved response and textResponse information for the evaluation and displays the faculty input in read-only mode.
 	//Otherwise, it simply displays the form's questions in read-only mode.
 
-	//TODO: Make button to show hover text when on a mobile device look better
+	//TODO: Make sure saved but not submitted evaluations aren't being grabbed for others to see
 	session_start();
 	require "init.php";
 	
@@ -15,24 +15,26 @@
 	$formLocation = $form["location"];
 	$formId = $form["formId"];
 	
-	$questionQuery = $mysqli->query("select `questionId`, `response` from `responses` where requestId='{$requestId}';");
-	$questionRow = $questionQuery->fetch_assoc();
-	while(!is_null($questionRow)){
-		$questions[] = $questionRow["questionId"];
-		$responses[] = $questionRow["response"];
-		$questionRow = $questionQuery->fetch_assoc();
-	}
-	
-	$textResponseQuery = $mysqli->query("select `questionId`, `response` from `textResponses` where requestId='{$requestId}';");
-	$textResponseRow = $textResponseQuery->fetch_assoc();
-	while(!is_null($textResponseRow)){
-		$textQuestions[] = $textResponseRow["questionId"];
-		$textResponses[] = $textResponseRow["response"];
-		$textResponseRow = $textResponseQuery->fetch_assoc();
-	}
-	
 	$request = $mysqli->query("select resident, faculty, requestDate, completeDate, requests.status, residentUsers.firstName as residentFirst, residentUsers.lastName as residentLast, facultyUsers.firstName as facultyFirst, facultyUsers.lastName as facultyLast from requests left join users as residentUsers on requests.resident=residentUsers.username left join users as facultyUsers on requests.faculty=facultyUsers.username where requestId='{$requestId}';")->fetch_assoc();
 	$evaluation = $mysqli->query("select * from evaluations where requestId='{$requestId}';")->fetch_assoc();
+	
+	if($request["status"] === "complete"){
+		$questionQuery = $mysqli->query("select `questionId`, `response` from `responses` where requestId='{$requestId}';");
+		$questionRow = $questionQuery->fetch_assoc();
+		while(!is_null($questionRow)){
+			$questions[] = $questionRow["questionId"];
+			$responses[] = $questionRow["response"];
+			$questionRow = $questionQuery->fetch_assoc();
+		}
+		
+		$textResponseQuery = $mysqli->query("select `questionId`, `response` from `textResponses` where requestId='{$requestId}';");
+		$textResponseRow = $textResponseQuery->fetch_assoc();
+		while(!is_null($textResponseRow)){
+			$textQuestions[] = $textResponseRow["questionId"];
+			$textResponses[] = $textResponseRow["response"];
+			$textResponseRow = $textResponseQuery->fetch_assoc();
+		}
+	}
 	
 	if($_SESSION["username"] !== $request["resident"] && $_SESSION["username"] !== $request["faculty"] && $_SESSION["type"] !== "admin"){
 		header("Location: dashboard.php");

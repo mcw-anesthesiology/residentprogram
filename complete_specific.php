@@ -2,7 +2,6 @@
 	//This page is used by a faculty member to complete an evaluation. It sets $formLocation which is used by form_reader.php to read the form's XML file and render the questions. 
 	//If all questions are completed, sends form to process_completion.php to add the responses to the database.
 	
-	//TODO: Make button to show hover text when on a mobile device look better.
 	session_start(); 
 	require "init.php";
 	
@@ -20,16 +19,31 @@
 	$form = $mysqli->query("select location from forms inner join requests on forms.formId=requests.formId where requestId='{$requestId}';")->fetch_assoc(); 
 	$formLocation = $form["location"];
 	
-	$requestDate = new DateTime($request["requestDate"]);
-	$requestDate->setTimezone(new DateTimeZone("America/Chicago"));
-	
-	
 	if($_SESSION["username"] !== $request["faculty"]){ 
 		header("Location: dashboard.php");
 	}
-	if($request["requestStatus"] !== "pending" && $request["requestStatus"] !== "saved"){
+	if($request["requestStatus"] !== "pending"){
 		header("Location: view_specific.php?request={$requestId}");
 	}
+	
+	$responsesQuery = $mysqli->query("select `questionId`, `response` from `responses` where requestId='{$requestId}';");
+	$response = $responsesQuery->fetch_assoc();
+	while(!is_null($response)){
+		$questions[] = $response["questionId"];
+		$responses[] = $response["response"];
+		$response = $responsesQuery->fetch_assoc();
+	}
+	
+	$textResponsesQuery = $mysqli->query("select `questionId`, `response` from `textResponses` where requestId='{$requestId}';");
+	$textResponse = $textResponsesQuery->fetch_assoc();
+	while(!is_null($textResponse)){
+		$textQuestions[] = $textResponse["questionId"];
+		$textResponses[] = $textResponse["response"];
+		$textResponse = $textResponsesQuery->fetch_assoc();
+	}
+	
+	$requestDate = new DateTime($request["requestDate"]);
+	$requestDate->setTimezone(new DateTimeZone("America/Chicago"));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -106,6 +120,7 @@
  		<?php require "form_reader.php"; ?>
  		</div>
         <button type="submit" name="requestId" value="<?= $requestId ?>" class="btn btn-default">Submit</button>
+        <button type="submit" id="saveForm" name="requestIdSaved" value="<?= $requestId ?>" class="btn btn-default" formnovalidate>Save</button>
       </form>
       <br/>
     </div>
@@ -117,10 +132,30 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="../../assets/js/docs.min.js"></script>
     <script>
+		
+		$(document).ready(function(){
+			<?php
+				if(isset($responses)){
+					for($i = 0; $i < count($responses); $i++){
+						echo "$(\"input[name='{$questions[$i]}'][value='{$responses[$i]}']\").prop(\"checked\", true);";
+					}
+				}
+				if(isset($textResponses)){
+					for($i = 0; $i < count($textResponses); $i++){
+						echo "$(\"textarea[name='{$textQuestions[$i]}']\").val(\"{$textResponses[$i]}\");";
+					}
+				}
+			?>
+		});
+		
+		var saveForm = false;
 		$("#evaluation").submit(checkForm);
 		
-		function checkForm(){
+		function checkForm(event){
 			//Checks the evaluation to make sure every question is answered before submitting the form
+			if(saveForm)
+				return true;
+			
 			var validForm = true;
 			var alertText = "";
 			$("input:radio").each(function(){
@@ -147,6 +182,10 @@
 			//Used to display the radio button option descriptions for touch devices
 			var questionName = $(this).data("id");
 			$("."+questionName).toggle();
+		});
+		
+		$("#saveForm").click(function(){
+			saveForm = true;
 		});
     </script>
   </body>

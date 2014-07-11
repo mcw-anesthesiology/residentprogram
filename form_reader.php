@@ -22,7 +22,7 @@
 			else
 				$required = "";
 			$questionHasDescriptions = false;
-			echo "<input type='hidden' name='{$questionName}:weight' value='{$questionWeight}'";
+			echo "<input type='hidden' name='{$questionName}:weight' value='{$questionWeight}' />";
 			
 		}
 		else if($name == "option"){
@@ -77,7 +77,8 @@
 		}
 		else if($name == "option"){
 			echo "</span></label>";
-			echo "<br/><label><div class='description {$questionName}' hidden>{$description}</div></label>";
+			if($description != "")
+				echo "<br/><label><div class='description {$questionName}' hidden>{$description}</div></label>";
 			echo "</td>";
 		}
 		else if($name == "text"){

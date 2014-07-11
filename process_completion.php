@@ -8,8 +8,15 @@
 	
 	if(!isset($_POST["requestId"]))
 		header("Location: dashboard.php");
-	else
+	
+	if(isset($_POST["requestId"])){ //TODO: make sure required fields are completed when submitting completed form
+		$status = "complete";
 		$requestId = $mysqli->escape_string($_POST["requestId"]);
+	}
+	else if(isset($_POST["requestIdSaved"])){
+		$status = "pending";
+		$requestId = $mysqli->escape_string($_POST["requestIdSaved"]);
+	}
 
 	$ipaddress = "";
 	if ($_SERVER["HTTP_CLIENT_IP"])
@@ -44,35 +51,48 @@
 		$stmt->bind_param("iss", $requestId, $ipaddress, $currentTrainingLevel);
 		$stmt->execute();
 	}
-	$mysqli->query("update `requests` set `completeDate`='{$evaluationDate}', status='complete' where `requestId`='{$requestId}';");
+	$mysqli->query("update `requests` set `completeDate`='{$evaluationDate}', status='{$status}' where `requestId`='{$requestId}';");
 	
 	//Record numeric response
 	if($responseStmt = $mysqli->prepare("insert into `responses` (`requestId`, `questionId`, `response`, `weight`) values (?, ?, ?, ?);"))
 		$responseStmt->bind_param("isii", $requestId, $question, $response, $questionWeight);
 	else echo $mysqli->error;
 	
+	//Update numeric response
+	if($updateResponseStmt = $mysqli->prepare("update `responses` set `response`=?,`weight`=? where `requestId`=? and `questionId`=?;"))
+		$updateResponseStmt->bind_param("iiis", $response, $questionWeight, $requestId, $question);
+	else echo $mysqli->error;
+	
 	//Record textual response
 	if($textStmt = $mysqli->prepare("insert into `textResponses` (`requestId`, `questionId`, `response`) values (?, ?, ?);"))
 		$textStmt->bind_param("iss", $requestId, $question, $response);
+	else echo $mysqli->error;
+	
+	//Update textual response
+	if($updateTextStmt = $mysqli->prepare("update `textResponses` set `response`=? where `requestId`=? and `questionId`=?;"))
+		$updateTextStmt->bind_param("sis", $response, $requestId, $question);
 	else echo $mysqli->error;
 
 	foreach ($_POST as $question => $response){
 		$question = $mysqli->escape_string($question);
 		$response = $mysqli->escape_string($response);
 		
-		if($question == "requestId"){
+		if($question == "requestId" || $question == "requestIdSaved"){
 			
 		}
 		else if(strpos($question, "weight") !== false){
 			$questionWeight = $response;
 		}
 		else if(is_numeric($response)){
-			$responseStmt->execute();
+			if(!$responseStmt->execute())
+				$updateResponseStmt->execute();
+				
 			$questionWeight = "";
 		}
 		else{
 			if($response !== "")
-				$textStmt->execute();
+				if(!$textStmt->execute())
+					$updateTextStmt->execute();
 		}
 	}
 	
