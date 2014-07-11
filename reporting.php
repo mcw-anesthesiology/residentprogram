@@ -274,9 +274,6 @@
 				
 				echo "<div class='graphs'>";
 				drawRadar($residentWeightedResponsesMilestonesAverage[$resident], $averageWeightedResponsesMilestonesAverage, $milestoneTitles, $residentWeightedResponsesCompetenciesAverage[$resident], $averageWeightedResponsesCompetenciesAverage, $competencyTitles, $resident, $trainingLevel, $responseMax);
-				//drawRadar($residentWeightedResponsesMilestonesAverage[$resident], $averageWeightedResponsesMilestonesAverage, $milestoneTitles, "Milestones", $resident." Milestone Graph ".$trainingLevel, $responseMax);
-				//echo "&nbsp;&nbsp;";
-				//drawRadar($residentWeightedResponsesCompetenciesAverage[$resident], $averageWeightedResponsesCompetenciesAverage, $competencyTitles, "Competencies", $resident." Competency Graph ".$trainingLevel, $responseMax);
 				echo "</div><br/>";
 			}
 		}
@@ -293,8 +290,6 @@
 				
 				echo "<div class='graphs'>";
 				drawRadar($residentWeightedResponsesMilestonesAverage[$resident], $averageWeightedResponsesMilestonesAverage, $milestoneTitles, $residentWeightedResponsesCompetenciesAverage[$resident], $averageWeightedResponsesCompetenciesAverage, $competencyTitles, $resident, $trainingLevel, $responseMax);
-				//echo "&nbsp;&nbsp;";
-				//drawRadar($residentWeightedResponsesCompetenciesAverage[$resident], $averageWeightedResponsesCompetenciesAverage, $competencyTitles, "Competencies", $resident." Competency Graph ".$trainingLevel, $responseMax);
 				echo "</div><br/>";
 		}
 
@@ -366,7 +361,7 @@
 		$competencyData->setAbscissa("Competencies");
 		
 		$myCache = new pCache();
-		$chartHash = $myCache->getHash($myData);
+		$chartHash = $myCache->getHash($milestoneData);
 		$output = "graphs/".$chartHash.".png";
 		
 		if($myCache->isInCache($chartHash)){
