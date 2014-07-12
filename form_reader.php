@@ -68,7 +68,7 @@
 			else if($questionType == "radio"){
 				if($questionHasDescriptions){
 					echo "<tr></tr><tr><td colspan='50' style='text-align:center;'>";
-					echo "<button class='toggleDescriptions btn btn-info' data-id='{$questionName}'>Show Descriptions</button>"; 
+					echo "<button type='button' class='toggleDescriptions btn btn-info' data-id='{$questionName}'>Show Descriptions</button>"; 
 					echo "</td></tr>";
 				}
 			}
