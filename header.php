@@ -110,6 +110,9 @@
             <label for="endDate">End Date:</label>
             <input type="date" class="form-control" id="endDate" name="endDate">
           </div>
+          <div class="form-group" style="text-align: center;">
+			<button type="button" id="lastSixMonths" class="btn lastSixMonths">Last Six Months</button>
+          </div>
           <div class="form-group">
             <label for="trainingLevelInput">Training Level</label>
             <select class="form-control" id="trainingLevelInput" name="trainingLevel">
@@ -119,7 +122,7 @@
               <option value="ca-3">CA-3</option>
             </select>
           </div>
-          <div class="form-group">
+          <div class="form-group" style="text-align: center;">
 			<input type="checkbox" id="graphs" name="graphs" value="yes" checked /><label for="graphs">Generate Graphs</label>
           </div>
         </div>
@@ -149,6 +152,9 @@
           <div class="form-group">
             <label for="endDate">End Date:</label>
             <input type="date" class="form-control" id="endDate" name="endDate">
+          </div>
+          <div class="form-group" style="text-align: center;">
+			<button type="button" id="lastSixMonths" class="btn lastSixMonths">Last Six Months</button>
           </div>
           <div class="form-group">
             <label for="trainingLevelInput">Training Level</label>
@@ -195,7 +201,7 @@
           
             </select>
           </div>
-          <div class="form-group">
+          <div class="form-group" style="text-align: center;">
 			<input type="checkbox" id="graphs" name="graphs" value="yes" checked /><label for="graphs">Generate Graphs</label>
           </div>
         </div>
@@ -230,8 +236,29 @@
 		return !dateError;
 	}
 	
+	function lastSixMonths(){
+		var d = new Date();
+		var day = d.getDate();
+		day = ("0"+day).slice(-2); //converts possible D dates to DD format
+		var month = d.getMonth()+1;
+		month = ("0"+month).slice(-2); //converts possible M months to MM format
+		var year = d.getFullYear();
+		var date = year+"-"+month+"-"+day;
+		$(this).parents(".report").find("#endDate").val(date);
+		
+		d.setMonth(d.getMonth()-6);
+		day = d.getDate();
+		day = ("0"+day).slice(-2);
+		month = d.getMonth()+1;
+		month = ("0"+month).slice(-2);
+		year = d.getFullYear();
+		date = year+"-"+month+"-"+day;
+		$(this).parents(".report").find("#startDate").val(date);
+	}
+	
 	$(document).ready(function(){
 		$(".report").submit(checkReportQuery);
+		$(".lastSixMonths").click(lastSixMonths);
 		
 	});
 </script>
