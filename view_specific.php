@@ -119,7 +119,9 @@
 		  </table>
 		  <br>
 		  <h4 class="sub-header">Evaluation</h4>
-			<?php require "form_reader.php"; ?>
+			<div id="form">
+				<?php require "form_reader.php"; ?>
+			</div>
         </div>
     </div>
 
@@ -143,8 +145,8 @@
 					}
 				}
 			?>
-			$("input").prop("disabled", true);
-			$("textarea").prop("disabled", true);
+			$("#form input").prop("disabled", true);
+			$("#form textarea").prop("disabled", true);
 		});
 		
 		$(".toggleDescriptions").click(function(){
