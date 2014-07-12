@@ -158,7 +158,7 @@
           </div>
           <div class="form-group">
             <label for="trainingLevelInput">Training Level</label>
-            <select class="form-control" id="trainingLevelInput" name="trainingLevel">
+            <select class="form-control" id="trainingLevelInput" name="trainingLevel"> <!-- TODO: add ALL option -->
               <option value="intern">Intern</option>
               <option value="ca-1">CA-1</option>
               <option value="ca-2">CA-2</option>

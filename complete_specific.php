@@ -103,7 +103,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr> <!-- TODO: add resident selfie -->
               <td><?= $requestId ?></td>
               <td><?= $request["firstName"] ?> <?= $request["lastName"] ?></td>
               <td><?= $requestDate->format("Y-m-d H:i:s"); ?></td>

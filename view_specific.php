@@ -2,7 +2,6 @@
 	//This page is used to view an evaluation. If the evaluation has already been completed, it pulls saved response and textResponse information for the evaluation and displays the faculty input in read-only mode.
 	//Otherwise, it simply displays the form's questions in read-only mode.
 
-	//TODO: Make sure saved but not submitted evaluations aren't being grabbed for others to see
 	session_start();
 	require "init.php";
 	

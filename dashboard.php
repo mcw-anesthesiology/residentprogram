@@ -1,11 +1,9 @@
 <?php 
 	//This is the main homepage for all users. For compartmentalization purposes, the user-type specific code is stored in dashboard_[user-type].php. 
 
-	//TODO: Change favicon links to favicon.png or change filename to favicon.ico
-	//TODO: Better sql security, parsing inputs and prepared statements
 	//TODO: Email notification functionality
 	//TODO: Show evaluation title and training level in all request tables
-	//TODO: Include in all header statements a success/failure get attribute
+	//TODO: Error messages corresponding to success attributes
 	//TODO:	Store question weight in a new table and not in xml so it can be changed whenever
 	//TODO: Adjust datatable pagination so that every single request isn't queried at once
 	

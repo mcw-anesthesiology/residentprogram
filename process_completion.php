@@ -1,7 +1,6 @@
 <?php
 	//This page stores a completed evaluation in the system. It is called by complete_specific.php and directs the user to dashboard.php afterward. 
 
-	//TODO: make sure evaluation not already completed before doing thigns, server-side error checking to make sure every question is answered
 	//TODO: Don't store weights in the responses table, put them in their own table
 	session_start();
 	require "init.php";

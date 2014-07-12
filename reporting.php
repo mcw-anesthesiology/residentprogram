@@ -1,12 +1,6 @@
 <?php
 	//This page is used to define functions used in generating reports for users. 
 
-	//TODO: add proposed ideal average level for graph
-	//TODO: try to remove numbers from graph and replace with "ca-1", etc
-	//TODO: make the graph not look so ugly
-	//TODO: graph keys
-	
-	
 	function sd_square($x, $mean) { 
 	// Function to calculate square of value - mean
 		return pow($x - $mean,2); 
