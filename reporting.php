@@ -316,10 +316,10 @@
 		global $mysqli;
 		
 		if($trainingLevel == "all"){
-			$query = "select response from textResponses join requests on textResponses.requestId=requests.requestId join users on requests.resident=users.username join users on requests.resident=users.username where users.status='active' and resident=? and requestDate>? and requestDate<? and requests.status='complete';";
+			$query = "select response from textResponses join requests on textResponses.requestId=requests.requestId join users on requests.resident=users.username where users.status='active' and resident=? and requestDate>? and requestDate<? and requests.status='complete';";
 		}
 		else{
-			$query = "select response from textResponses join requests on textResponses.requestId=requests.requestId join users on requests.resident=users.username join users on requests.resident=users.username where users.status='active' and resident=? and trainingLevel=? and requestDate>? and requestDate<? and requests.status='complete';";
+			$query = "select response from textResponses join requests on textResponses.requestId=requests.requestId join users on requests.resident=users.username where users.status='active' and resident=? and trainingLevel=? and requestDate>? and requestDate<? and requests.status='complete';";
 		}
 		
 		if($stmt = $mysqli->prepare($query)){
