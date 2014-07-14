@@ -170,10 +170,10 @@
           <?php 
 			if($_SESSION["type"] == "admin" || $_SESSION["type"] == "faculty"){
 				if($_SESSION["type"] == "admin"){
-					$query = "select username, firstName, lastName from users where type='resident' order by lastName;";
+					$query = "select username, firstName, lastName from users where type='resident' and status='active' order by lastName;";
 				}
 				else if($_SESSION["type"] == "faculty"){
-					$query = "select username, firstName, lastName from mentorships, users where resident=username and faculty='{$_SESSION["username"]}' and mentorships.status='active' order by lastName";
+					$query = "select username, firstName, lastName from mentorships, users where resident=username and faculty='{$_SESSION["username"]}' and users.status='active' and mentorships.status='active' order by lastName";
 				}
 				$residents = $mysqli->query($query);
 				$residentRow = $residents->fetch_assoc();
