@@ -31,10 +31,21 @@
 		$yellowStandardDeviation = 0.75;
 		$greenStandardDeviation = 0.5;
 		
-		$query = "select requests.resident, responses.requestId, responses.questionId, responses.response, responses.weight, milestones.milestoneId, milestones.title, competencies.competencyId, competencies.title from responses join requests on requests.requestId=responses.requestId join milestones_questions on responses.questionId=milestones_questions.questionId and requests.formId=milestones_questions.formId join milestones on milestones_questions.milestoneId=milestones.milestoneId join competencies_questions on responses.questionId=competencies_questions.questionId and requests.formId=competencies_questions.formId join competencies on competencies_questions.competencyId=competencies.competencyId join evaluations on evaluations.requestId=requests.requestId where requests.status='complete' and requests.requestDate>? and requests.requestDate<? and evaluations.currentTrainingLevel=?;";
+		if($trainingLevel == "all"){
+			$query = "select requests.resident, responses.requestId, responses.questionId, responses.response, responses.weight, milestones.milestoneId, milestones.title, competencies.competencyId, competencies.title from responses join requests on requests.requestId=responses.requestId join milestones_questions on responses.questionId=milestones_questions.questionId and requests.formId=milestones_questions.formId join milestones on milestones_questions.milestoneId=milestones.milestoneId join competencies_questions on responses.questionId=competencies_questions.questionId and requests.formId=competencies_questions.formId join competencies on competencies_questions.competencyId=competencies.competencyId join evaluations on evaluations.requestId=requests.requestId join users on requests.resident=users.username where users.status='active' and requests.status='complete' and requests.requestDate>? and requests.requestDate<?;";
+		}
+		else{
+			$query = "select requests.resident, responses.requestId, responses.questionId, responses.response, responses.weight, milestones.milestoneId, milestones.title, competencies.competencyId, competencies.title from responses join requests on requests.requestId=responses.requestId join milestones_questions on responses.questionId=milestones_questions.questionId and requests.formId=milestones_questions.formId join milestones on milestones_questions.milestoneId=milestones.milestoneId join competencies_questions on responses.questionId=competencies_questions.questionId and requests.formId=competencies_questions.formId join competencies on competencies_questions.competencyId=competencies.competencyId join evaluations on evaluations.requestId=requests.requestId join users on requests.resident=users.username where users.status='active' and requests.status='complete' and requests.requestDate>? and requests.requestDate<? and evaluations.currentTrainingLevel=?;";
+		}
 		
 		if($responsesStmt = $mysqli->prepare($query)){
-			if($responsesStmt->bind_param("sss", $startDate, $endDate, $trainingLevel)){
+			if($trainingLevel == "all"){
+				$bindParamSuccess = $responsesStmt->bind_param("ss", $startDate, $endDate);
+			}
+			else{
+				$bindParamSuccess = $responsesStmt->bind_param("sss", $startDate, $endDate, $trainingLevel);
+			}
+			if($bindParamSuccess){
 				if($responsesStmt->bind_result($requestResident, $requestId, $questionId, $response, $weight, $milestoneId, $milestoneTitle, $competencyId, $competencyTitle)){
 					if($responsesStmt->execute()){
 						while($responsesStmt->fetch()){
@@ -193,10 +204,21 @@
 		$responseBaseline = 10; //assuming this for now idk
 		$responseMax = 10;
 		
-		$query = "select requests.resident, responses.requestId, responses.questionId, responses.response, responses.weight, milestones.milestoneId, milestones.title, competencies.competencyId, competencies.title from responses join requests on requests.requestId=responses.requestId join milestones_questions on responses.questionId=milestones_questions.questionId and requests.formId=milestones_questions.formId join milestones on milestones_questions.milestoneId=milestones.milestoneId join competencies_questions on responses.questionId=competencies_questions.questionId and requests.formId=competencies_questions.formId join competencies on competencies_questions.competencyId=competencies.competencyId join evaluations on evaluations.requestId=requests.requestId where requests.status='complete' and requests.requestDate>? and requests.requestDate<? and evaluations.currentTrainingLevel=?;";
+		if($trainingLevel == "all"){
+			$query = "select requests.resident, responses.requestId, responses.questionId, responses.response, responses.weight, milestones.milestoneId, milestones.title, competencies.competencyId, competencies.title from responses join requests on requests.requestId=responses.requestId join milestones_questions on responses.questionId=milestones_questions.questionId and requests.formId=milestones_questions.formId join milestones on milestones_questions.milestoneId=milestones.milestoneId join competencies_questions on responses.questionId=competencies_questions.questionId and requests.formId=competencies_questions.formId join competencies on competencies_questions.competencyId=competencies.competencyId join evaluations on evaluations.requestId=requests.requestId join users on requests.resident=users.username where users.status='active' and requests.status='complete' and requests.requestDate>? and requests.requestDate<?;";
+		}
+		else{
+			$query = "select requests.resident, responses.requestId, responses.questionId, responses.response, responses.weight, milestones.milestoneId, milestones.title, competencies.competencyId, competencies.title from responses join requests on requests.requestId=responses.requestId join milestones_questions on responses.questionId=milestones_questions.questionId and requests.formId=milestones_questions.formId join milestones on milestones_questions.milestoneId=milestones.milestoneId join competencies_questions on responses.questionId=competencies_questions.questionId and requests.formId=competencies_questions.formId join competencies on competencies_questions.competencyId=competencies.competencyId join evaluations on evaluations.requestId=requests.requestId join users on requests.resident=users.username where users.status='active' and requests.status='complete' and requests.requestDate>? and requests.requestDate<? and evaluations.currentTrainingLevel=?;";
+		}
 		
 		if($responsesStmt = $mysqli->prepare($query)){
-			if($responsesStmt->bind_param("sss", $startDate, $endDate, $trainingLevel)){
+			if($trainingLevel == "all"){
+				$bindParamSuccess = $responsesStmt->bind_param("ss", $startDate, $endDate);
+			}
+			else{
+				$bindParamSuccess = $responsesStmt->bind_param("sss", $startDate, $endDate, $trainingLevel);
+			}
+			if($bindParamSuccess){
 				if($responsesStmt->bind_result($requestResident, $requestId, $questionId, $response, $weight, $milestoneId, $milestoneTitle, $competencyId, $competencyTitle)){
 					if($responsesStmt->execute()){
 						while($responsesStmt->fetch()){
@@ -293,10 +315,21 @@
 		
 		global $mysqli;
 		
-		$query = "select response from textResponses join requests on textResponses.requestId=requests.requestId join users on requests.resident=users.username where resident=? and trainingLevel=? and requestDate>? and requestDate<? and requests.status='complete';";
+		if($trainingLevel == "all"){
+			$query = "select response from textResponses join requests on textResponses.requestId=requests.requestId join users on requests.resident=users.username join users on requests.resident=users.username where users.status='active' and resident=? and requestDate>? and requestDate<? and requests.status='complete';";
+		}
+		else{
+			$query = "select response from textResponses join requests on textResponses.requestId=requests.requestId join users on requests.resident=users.username join users on requests.resident=users.username where users.status='active' and resident=? and trainingLevel=? and requestDate>? and requestDate<? and requests.status='complete';";
+		}
 		
 		if($stmt = $mysqli->prepare($query)){
-			if($stmt->bind_param("ssss", $resident, $trainingLevel, $startDate, $endDate)){
+			if($trainingLevel == "all"){
+				$bindParamSuccess = $stmt->bind_param("sss", $resident, $startDate, $endDate);
+			}
+			else{
+				$bindParamSuccess = $stmt->bind_param("ssss", $resident, $trainingLevel, $startDate, $endDate);
+			}
+			if($bindParamSuccess){
 				if($stmt->bind_result($response)){
 					if($stmt->execute()){
 						while($stmt->fetch()){
