@@ -14,7 +14,7 @@
 	else
 		$requestId = $_GET["request"];
 	
-	$request = $mysqli->query("select requestDate, faculty, requests.status as requestStatus, firstName, lastName, trainingLevel from requests left join users on requests.resident=users.username where requestId='{$requestId}';")->fetch_assoc();
+	$request = $mysqli->query("select requestDate, faculty, requests.status as requestStatus, firstName, lastName, trainingLevel, photo from requests left join users on requests.resident=users.username where requestId='{$requestId}';")->fetch_assoc();
 	$evaluation = $mysqli->query("select * from evaluations where requestId='{$requestId}';")->fetch_assoc();
 	$form = $mysqli->query("select location from forms inner join requests on forms.formId=requests.formId where requestId='{$requestId}';")->fetch_assoc(); 
 	$formLocation = $form["location"];
@@ -108,6 +108,11 @@
               <td><?= $request["firstName"] ?> <?= $request["lastName"] ?></td>
               <td><?= $requestDate->format("Y-m-d H:i:s"); ?></td>
               <td><?= $request["trainingLevel"] ?></td>
+              <?php
+					if(!is_null($request["photo"]) && $request["photo"] != ""){
+						echo "<td><img src='{$request["photo"]}' style='width: 100%;' /></td>";
+					}
+              ?>
             </tr>         
           </tbody>
         </table>
