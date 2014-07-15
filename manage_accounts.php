@@ -78,12 +78,12 @@
 <?php
 if($user["status"] == "inactive"){
 ?>
-                <td><button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> <button class="editPassword btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-password-modal" data-id="<?= $user["username"] ?>" id="editPasswordBtn"><span class="glyphicon glyphicon-edit"></span> Edit Password</button> <button class="enableUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button></td>
+                <td><button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" data-photo="<?= $user["photo"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> <button class="editPassword btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-password-modal" data-id="<?= $user["username"] ?>" id="editPasswordBtn"><span class="glyphicon glyphicon-edit"></span> Edit Password</button> <button class="enableUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button></td>
 <?php
 }
 else{
 ?>
-                <td><button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> <button class="editPassword btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-password-modal" data-id="<?= $user["username"] ?>" id="editPasswordBtn"><span class="glyphicon glyphicon-edit"></span> Edit Password</button> <button class="disableUser btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button></td>
+                <td><button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" data-photo="<?= $user["photo"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> <button class="editPassword btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-password-modal" data-id="<?= $user["username"] ?>" id="editPasswordBtn"><span class="glyphicon glyphicon-edit"></span> Edit Password</button> <button class="disableUser btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button></td>
 <?php
 }
 ?>
@@ -261,7 +261,7 @@ $user = $users->fetch_assoc();
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalEdit">Edit Account</h4>
       </div>
-      <form method="post" action="edit_account.php">
+      <form enctype="multipart/form-data" method="post" action="edit_account.php">
         <div class="modal-body modal-edit">
           <div class="form-group">
             <label for="usernameInput">Username</label>
@@ -288,6 +288,12 @@ $user = $users->fetch_assoc();
 				<option value="ca-3">CA-3</option>
 			</select>
           </div>
+          <div class="form-group" id="photoDiv">
+			<label for="photoInput">Photo</label>
+			<input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+			<input type="file" accept="image/*" class="form-control" id="photoInput" name="photo" />
+			<img id="photoPreview" src="" width="150px" />
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -306,7 +312,7 @@ $user = $users->fetch_assoc();
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalAdd">Add Account</h4>
       </div>
-      <form method="post" action="add_account.php">
+      <form enctype="multipart/form-data" method="post" action="add_account.php">
         <div class="modal-body modal-add">
           <div class="form-group">
             <label for="usernameInput">Username</label>
@@ -341,6 +347,11 @@ $user = $users->fetch_assoc();
 				<option value="ca-2">CA-2</option>
 				<option value="ca-3">CA-3</option>
 			</select>
+          </div>
+          <div class="form-group" id="photoDiv">
+			<label for="photoInput">Photo</label>
+			<input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+			<input type="file" accept="image/*" class="form-control" id="photoInput" name="photo" />
           </div>
           <div class="form-group">
             <label for="accountTypeInput">Account Type</label>
@@ -421,7 +432,8 @@ $user = $users->fetch_assoc();
       var email = $(this).closest("tr").find("#EM").text();
       var firstName = $(this).closest("tr").find("#FN").text();
       var lastName = $(this).closest("tr").find("#LN").text();
-      var currentTrainingLevel = $(this).closest("tr").find("#TL").text();
+      var currentTrainingLevel = $(this).closest("tr").find("#TL").text().toLowerCase();
+      var photoPath = $(this).data("photo");
       
       $(".modal-edit #usernameInput").val(username);
       $(".modal-edit #emailInput").val(email);
@@ -430,9 +442,13 @@ $user = $users->fetch_assoc();
       if($(this).closest("tr").find("#TL").text() !== ""){
 		  $(".modal-edit #trainingLevelDiv").show();
 		  $(".modal-edit #trainingLevelInput").val(currentTrainingLevel);
+		  $(".modal-edit #photoDiv").show();
+		  $(".modal-edit #photoPreview").attr("src", photoPath);
 	  }
 	  else{
 		  $(".modal-edit #trainingLevelDiv").hide();
+		  $(".modal-edit #photoDiv").hide();
+		  $(".modal-edit #photoPreview").attr("src", "");
 	  }
     });
     
@@ -453,9 +469,11 @@ $user = $users->fetch_assoc();
       $(".modal-add #accountTypeInput").val(type);
       if(type == "resident"){
 		  $(".modal-add #trainingLevelDiv").show();
+		  $(".modal-add #photoDiv").show();
 	  }
 	  else{
 		  $(".modal-add #trainingLevelDiv").hide();
+		  $(".modal-add #photoDiv").hide();
 	  }
     });
 

@@ -24,9 +24,18 @@
 	if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 		header("Location: manage_accounts.php?success=false");
 	}
+	
+	$photoPath = "";
+	
+	if($_FILES["photo"]["error"] === UPLOAD_ERR_OK){
+		if($_FILES["photo"]["type"] == "image/jpg" || $_FILES["photo"]["type"] == "image/jpeg" || $_FILES["photo"]["type"] == "image/png"){
+			$photoPath = "photos/".uniqid().".".pathinfo($_FILES["photo"]["name"], PATHINFO_EXTENSION);
+			move_uploaded_file($_FILES["photo"]["tmp_name"], $photoPath);
+		}
+	}
 
-	if($stmt = $mysqli->prepare("update users set email=?, firstName=?, lastName=?, trainingLevel=?, modifiedDate=? where username=?;")){
-		if($stmt->bind_param("ssssss", $email, $firstName, $lastName, $trainingLevel, $modifiedDate, $username)){
+	if($stmt = $mysqli->prepare("update users set email=?, firstName=?, lastName=?, trainingLevel=?, modifiedDate=?, photo=? where username=?;")){
+		if($stmt->bind_param("sssssss", $email, $firstName, $lastName, $trainingLevel, $modifiedDate, $photoPath, $username)){
 			if($stmt->execute()){
 				$success = "true";
 			}

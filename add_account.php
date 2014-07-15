@@ -30,10 +30,19 @@
 		header("Location: manage_accounts.php?success=false");
 	}
 	
+	$photoPath = "";
+	
+	if($accountType == "resident" && $_FILES["photo"]["error"] === UPLOAD_ERR_OK){
+		if($_FILES["photo"]["type"] == "image/jpg" || $_FILES["photo"]["type"] == "image/jpeg" || $_FILES["photo"]["type"] == "image/png"){
+			$photoPath = "photos/".uniqid().".".pathinfo($_FILES["photo"]["name"], PATHINFO_EXTENSION);
+			move_uploaded_file($_FILES["photo"]["tmp_name"], $photoPath);
+		}
+	}
+	
 	//The only difference between the two following cases is the trainingLevel attribute, it's null if not a resident
 	if($accountType == "resident"){
-		if($stmt = $mysqli->prepare("insert into users (username, password, email, firstName, lastName, type, status, createdDate, trainingLevel) values (?, ?, ?, ?, ?, ?, ?, ?, ?);")){
-			if($stmt->bind_param("sssssssss", $username, $password, $email, $firstName, $lastName, $accountType, $status, $evaluationDate, $trainingLevel))
+		if($stmt = $mysqli->prepare("insert into users (username, password, email, firstName, lastName, type, status, createdDate, trainingLevel, photo) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);")){
+			if($stmt->bind_param("ssssssssss", $username, $password, $email, $firstName, $lastName, $accountType, $status, $evaluationDate, $trainingLevel, $photoPath))
 				if($stmt->execute()){
 					$success = "true";
 				}
