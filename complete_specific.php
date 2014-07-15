@@ -110,7 +110,7 @@
               <td><?= $request["trainingLevel"] ?></td>
               <?php
 					if(!is_null($request["photo"]) && $request["photo"] != ""){
-						echo "<td><img src='{$request["photo"]}' style='width: 100%;' /></td>";
+						echo "<td><img src='{$request["photo"]}' style='width: 150px; height: 150px;' /></td>";
 					}
               ?>
             </tr>         
