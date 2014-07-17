@@ -63,6 +63,13 @@
 			}
         ?>
           <li><a class="viewSpecRpt" data-toggle="modal" data-target=".bs-specRpt-modal" id="viewSpecRpt">Generate Specific</a></li>
+        <?php
+			if($_SESSION["type"] == "admin"){
+        ?>
+		  <li><a href="view_needs_evaluations_report.php">Needs Evaluations</a></li>
+        <?php
+			}
+        ?>
         </ul>
       </li>
 

@@ -205,6 +205,123 @@
 		
 	}
 	
+	function createRequiresEvaluationTable(){
+		global $mysqli;
+		
+		$trainingLevel = "all"; //in case you want to only search certain trainingLevels in the future
+		
+		$endDateCentral = new DateTime(null, new DateTimeZone("America/Chicago"));
+		$startDateCentral = new DateTime(null, new DateTimeZone("America/Chicago"));
+		$startDateCentral->sub(new DateInterval("P6M"));
+		
+		$startDate = $startDateCentral->format("Y-m-d H:i:s");
+		$endDate = $endDateCentral->format("Y-m-d H:i:s");
+				
+		if($trainingLevel == "all"){
+			$query = "select requests.resident, responses.requestId, responses.questionId, responses.response, responses.weight, milestones.milestoneId, milestones.title, competencies.competencyId, competencies.title from responses join requests on requests.requestId=responses.requestId join milestones_questions on responses.questionId=milestones_questions.questionId and requests.formId=milestones_questions.formId join milestones on milestones_questions.milestoneId=milestones.milestoneId join competencies_questions on responses.questionId=competencies_questions.questionId and requests.formId=competencies_questions.formId join competencies on competencies_questions.competencyId=competencies.competencyId join evaluations on evaluations.requestId=requests.requestId join users on requests.resident=users.username where users.status='active' and requests.status='complete' and requests.requestDate>? and requests.requestDate<?;";
+		}
+		else{
+			$query = "select requests.resident, responses.requestId, responses.questionId, responses.response, responses.weight, milestones.milestoneId, milestones.title, competencies.competencyId, competencies.title from responses join requests on requests.requestId=responses.requestId join milestones_questions on responses.questionId=milestones_questions.questionId and requests.formId=milestones_questions.formId join milestones on milestones_questions.milestoneId=milestones.milestoneId join competencies_questions on responses.questionId=competencies_questions.questionId and requests.formId=competencies_questions.formId join competencies on competencies_questions.competencyId=competencies.competencyId join evaluations on evaluations.requestId=requests.requestId join users on requests.resident=users.username where users.status='active' and requests.status='complete' and requests.requestDate>? and requests.requestDate<? and evaluations.currentTrainingLevel=?;";
+		}
+		
+		$milestonesQuery = $mysqli->query("select milestoneId, title from milestones;");
+		$milestonesRow = $milestonesQuery->fetch_assoc();
+		while(!is_null($milestonesRow)){
+			$milestones[] = $milestonesRow["milestoneId"];
+			$milestoneTitles[$milestonesRow["milestoneId"]] = $milestonesRow["title"];
+			$milestonesRow = $milestonesQuery->fetch_assoc();
+		}
+		
+		$residentsQuery = $mysqli->query("select username from users where type='resident' and status='active';");
+		$residentsRow = $residentsQuery->fetch_assoc();
+		while(!is_null($residentsRow)){
+			$residents[] = $residentsRow["username"];
+			$residentsRow = $residentsQuery->fetch_assoc();
+		}
+		
+		
+		if($responsesStmt = $mysqli->prepare($query)){
+			if($trainingLevel == "all"){
+				$bindParamSuccess = $responsesStmt->bind_param("ss", $startDate, $endDate);
+			}
+			else{
+				$bindParamSuccess = $responsesStmt->bind_param("sss", $startDate, $endDate, $trainingLevel);
+			}
+			if($bindParamSuccess){
+				if($responsesStmt->bind_result($requestResident, $requestId, $questionId, $response, $weight, $milestoneId, $milestoneTitle, $competencyId, $competencyTitle)){
+					if($responsesStmt->execute()){
+						while($responsesStmt->fetch()){
+							//$milestones[] = $milestoneId;
+							//$milestoneTitles[$milestoneId] = $milestoneTitle;
+							//$competencies[] = $competencyId;
+							//$competencyTitles[$competencyId] = $competencyTitle;
+							//$residents[] = $requestResident;
+							$milestonesResidents[$milestoneId][$requestResident] = true;
+							$requests[] = $requestId;
+							
+						}
+					}
+					else{
+						echo $responsesStmt->error;
+					}
+				}
+				else{
+					echo $responsesStmt->error;
+				}
+			}
+			else{
+				echo $responsesStmt->error;
+			}
+		}
+		else{
+			echo $mysqli->error;
+		}
+		
+		
+		if(empty($requests)){
+			echo "<h3>No completed evaluations found with the selected parameters. Please adjust your inputs and try again.</h3>";
+			return;
+		}
+		
+		echo "<table class='table'>";
+		echo "<thead><tr>";
+		echo "<th>Resident</th>";
+		
+		$tsv = "Resident\t";
+		
+		sort($milestones);
+		sort($competencies);
+		
+		foreach(array_unique($milestones) as $milestone){
+			echo "<th nowrap>{$milestoneTitles[$milestone]}</th>"; $tsv .= $milestoneTitles[$milestone]."\t";
+		}
+		
+		echo "</tr></thead>";
+		echo "<tbody>";		
+		$tsv .= "\n";
+		
+		foreach(array_unique($residents) as $resident){
+			echo "<tr><td>{$resident}</td>"; $tsv .= $resident."\t";
+			foreach(array_unique($milestones) as $milestone){
+				if(isset($milestonesResidents[$milestone][$resident])){
+					echo "<td class='y'></td>"; $tsv .= "Y\t";
+				}
+				else{
+					echo "<td class='n'></td>"; $tsv .= "N\t";
+				}
+			}
+			echo "</tr>"; $tsv .= "\n";
+		}
+		
+		echo "</tbody></table>";
+		echo "<br/>";
+		echo "<form style='text-align:center;' target='_blank' method='post' action='save_table.php'><button type='submit' class='btn btn-default' name='tsv' value='{$tsv}'>Save as TSV</button></form>";
+		echo "<br/>";
+		
+		$responsesStmt->close();
+	}
+	
+	
 	function drawAllGraphs($trainingLevel, $startDate, $endDate){
 	//Simply a convenience class to call drawIndividualGraphs and print all graphs instead of the graphs for just one resident
 		drawIndividualGraphs(null, $trainingLevel, $startDate, $endDate);
@@ -462,6 +579,7 @@
 		$myCache = new pCache();
 		$myCache->removeOlderThan(60*60*24);
 	}
+	
 	
 	
 
