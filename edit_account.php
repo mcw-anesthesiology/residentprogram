@@ -15,6 +15,7 @@
 	$modifiedDate = date("Y-m-d H:i:s");
 	
 	$success = "false";
+	$photoSuccess = "false";
 	
 	foreach($_POST as $value){
 		if($value == "")
@@ -27,17 +28,32 @@
 	
 	$photoPath = "";
 	
-	if($_FILES["photo"]["error"] === UPLOAD_ERR_OK){
+	if($_FILES["photo"]["error"] === UPLOAD_ERR_OK && $_FILES["photo"]["size"] > 0){
 		if($_FILES["photo"]["type"] == "image/jpg" || $_FILES["photo"]["type"] == "image/jpeg" || $_FILES["photo"]["type"] == "image/png"){
 			$photoPath = "photos/".uniqid().".".pathinfo($_FILES["photo"]["name"], PATHINFO_EXTENSION);
 			move_uploaded_file($_FILES["photo"]["tmp_name"], $photoPath);
+			$photoSuccess = "true";
 		}
 	}
+	
+	if($photoStmt = $mysqli->prepare("select photo from users where username=?;")){
+		if($photoStmt->bind_param("s", $username)){
+			if($photoStmt->execute()){
+				$photoStmt->bind_result($oldPhotoPath);
+				$photoStmt->fetch();
+			}
+		}
+	}
+	$photoStmt->close();
+	if($photoPath === "")
+		$photoPath = $oldPhotoPath;
 
 	if($stmt = $mysqli->prepare("update users set email=?, firstName=?, lastName=?, trainingLevel=?, modifiedDate=?, photo=? where username=?;")){
 		if($stmt->bind_param("sssssss", $email, $firstName, $lastName, $trainingLevel, $modifiedDate, $photoPath, $username)){
 			if($stmt->execute()){
 				$success = "true";
+				if(isset($oldPhotoPath) && $photoPath !== $oldPhotoPath)
+					unlink($oldPhotoPath);
 			}
 			else{
 				print $stmt->error;
@@ -51,5 +67,5 @@
 		print $mysqli->error;
 	}
 	
-	header("Location: manage_accounts.php?success={$success}");
+	header("Location: manage_accounts.php?success={$success}&photoSuccess={$photoSuccess}");
 ?>
