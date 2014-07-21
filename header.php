@@ -127,6 +127,7 @@
               <option value="ca-1">CA-1</option>
               <option value="ca-2">CA-2</option>
               <option value="ca-3">CA-3</option>
+              <option value="fellow">Fellow</option>
               <option value="all">All</option>
             </select>
           </div>
@@ -171,6 +172,7 @@
               <option value="ca-1">CA-1</option>
               <option value="ca-2">CA-2</option>
               <option value="ca-3">CA-3</option>
+              <option value="fellow">Fellow</option>
               <option value="all">All</option>
             </select>
           </div>
