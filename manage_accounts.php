@@ -81,7 +81,7 @@ if($user["status"] == "inactive"){
                 <td>
 					<button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" data-photo="<?= $user["photo"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> 
 					<button class="editPassword btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-password-modal" data-id="<?= $user["username"] ?>" id="editPasswordBtn"><span class="glyphicon glyphicon-edit"></span> Edit Password</button> 
-					<button class="residentToFaculty btn btn-info btn-xs" data-toggle="modal" data-target=".bs-resident-to-faculty-modal-sm" data-id="<?= $user["username"] ?>" id="residentToFacultyBtn"><span class="glyphicon glyphicon-edit"></span> Change to Faculty</button>
+					<button class="residentToFaculty btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-resident-to-faculty-modal-sm" data-id="<?= $user["username"] ?>" id="residentToFacultyBtn"><span class="glyphicon glyphicon-edit"></span> Change to Faculty</button>
 					<button class="enableUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button>
 				</td>
 <?php
@@ -91,7 +91,7 @@ else{
                 <td>
 					<button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" data-photo="<?= $user["photo"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> 
 					<button class="editPassword btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-password-modal" data-id="<?= $user["username"] ?>" id="editPasswordBtn"><span class="glyphicon glyphicon-edit"></span> Edit Password</button> 
-					<button class="residentToFaculty btn btn-info btn-xs" data-toggle="modal" data-target=".bs-resident-to-faculty-modal-sm" data-id="<?= $user["username"] ?>" id="residentToFacultyBtn"><span class="glyphicon glyphicon-edit"></span> Change to Faculty</button>
+					<button class="residentToFaculty btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-resident-to-faculty-modal-sm" data-id="<?= $user["username"] ?>" id="residentToFacultyBtn"><span class="glyphicon glyphicon-edit"></span> Change to Faculty</button>
 					<button class="disableUser btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button>
 				</td>
 <?php
