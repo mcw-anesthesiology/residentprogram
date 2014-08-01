@@ -21,7 +21,7 @@
 
 		<!-- Custom styles for this template -->
 		<link href="dashboard.css" rel="stylesheet">
-		<link href="http://cdn.datatables.net/1.10.0/css/jquery.dataTables.css" rel="stylesheet">
+		<link href="https://cdn.datatables.net/1.10.1/css/jquery.dataTables.css" rel="stylesheet">
 
 		<!-- Just for debugging purposes. Don't actually copy this line! -->
 		<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
