@@ -137,13 +137,16 @@
 
 		var questionHtml = "<div class='container-fluid form-question'>" +
 												"<div class='row' style='margin-top:5px;'>" +
-													"<div class='col-md-11'>" +
+													"<div class='col-md-9'>" +
 														"<b>Question Text</b>" +
 													"</div>" +
 												"</div>" +
 												"<div class='row'>" +
-													"<div class='col-md-11'>" +
+													"<div class='col-md-9'>" +
 														"<input type='text' class='form-input form-question-text form-control' name='questionText' placeholder='Question Text' required />" +
+													"</div>" +
+													"<div class='col-md-2'>" +
+														"<button class='form-question-standard-options btn btn-info' type='button'>Standard Options</button>" +
 													"</div>" +
 													"<div class='col-md-1'>" +
 														"<button class='form-question-delete btn btn-danger del-btn' type='button'>" +
@@ -239,6 +242,41 @@
 		$(".form").on("click", ".form-question-delete", function(){
 		//Removes the selected question
 			$(this).parents(".form-question").remove();
+		});
+		
+		$(".form").on("click", ".form-question-standard-options", function(){
+			var formOptionText = "";
+			var formOptions = $(this).parents(".form-question").find(".form-options");
+			formOptions.html("");
+			var formOption = "";
+			for(formOptionValue = 0; formOptionValue <= 10; formOptionValue++){
+				formOption = formOptions.append(radioHtml).children().last();
+				formOption.find(".form-option-value").val(formOptionValue);
+				
+				if(formOptionValue%2 == 0){
+					if(formOptionValue == 0){
+						formOptionText = "Not at PGY-1";
+						formOption.find(".form-option-description").val("Not at PGY-1");
+					}
+					else if(formOptionValue == 2){
+						formOptionText = "PGY-1";
+					}
+					else if(formOptionValue == 4){
+						formOptionText = "CA-1";
+					}
+					else if(formOptionValue == 6){
+						formOptionText = "CA-2";
+					}
+					else if(formOptionValue == 8){
+						formOptionText = "CA-3";
+					}
+					else if(formOptionValue == 10){
+						formOptionText = "Attending";
+					}
+					formOption.find(".form-option-text").val(formOptionText);
+				}				
+				
+			}
 		});
 
 		$("#addQuestion").click(function(){
