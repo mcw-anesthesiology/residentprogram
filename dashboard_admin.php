@@ -6,8 +6,8 @@
 	  
 	  //the following three queries are used to populate the metric data on the top of the admin dashboard
 	  $stats_One = $mysqli->query("select status, count(status) as total from requests where status in ('complete','pending','disabled') group by status;");
-	  $stats_Two = $mysqli->query("select u.firstName, u.lastName, count(r.status) as pending from users u, requests r where u.username = r.faculty and r.status = 'pending' group by u.username order by pending desc limit 3;");
-	  $stats_Three = $mysqli->query("select u.firstName, u.lastName, r.completeDate from users u, requests r where u.username = r.resident and r.status not in ('pending','disabled') group by u.userName order by r.completeDate limit 3;");	 
+	  $stats_Two = $mysqli->query("select u.firstName, u.lastName, count(r.status) as pending from users u, requests r where u.username = r.faculty and r.status = 'pending' group by u.username order by pending desc limit 5;");
+	  $stats_Three = $mysqli->query("select u.firstName, u.lastName, r.completeDate from users u, requests r where u.username = r.resident and r.status='complete' group by u.userName order by r.completeDate limit 5;");	 
 ?>
     <div class="container-fluid">
       <div class="row">
@@ -42,7 +42,7 @@
           </div>
 
           <div class="col-md-4">
-            <h4 class="sub-header">Top 3: Most Pending Evaluations</h4>
+            <h4 class="sub-header">Most Pending Evaluations</h4>
             <table class="table table-striped">
               <tbody>
   <?php
@@ -62,7 +62,7 @@
           </div>
 
           <div class="col-md-4">
-            <h4 class="sub-header">Top 3: Need Evaluation</h4>
+            <h4 class="sub-header">Resident's Last Completed Evaluation</h4>
             <table class="table table-striped">
               <tbody>
 
