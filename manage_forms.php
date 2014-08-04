@@ -130,6 +130,27 @@
   </div>
 </div>
 
+<!-- Edit Modal -->
+<div class="modal fade bs-enable-modal-sm" tabindex="-1" role="dialog" aria-labelledby="modalEnable" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalEnable">Enable Form</h4>
+      </div>
+      <div class="modal-body">
+        You have selected to <b>enable</b> the selected form. Would you like to continue?
+      </div>
+      <div class="modal-footer modal-enable">
+    <form method="post" action="enable_form.php">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <button type="submit" class="btn btn-success" id="formId" name="formId" value="">Confirm</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Add Modal -->
 <div class="modal fade bs-add-modal" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true" id="addModal">
   <div class="modal-dialog">
