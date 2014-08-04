@@ -104,8 +104,8 @@
 			}
 			$milestoneClassStandardDevations[$milestone] = sd($milestoneClassAveragesResidents[$milestone]);
 			
-			echo "<th nowrap>{$milestone}</th>"; $tsv .= $milestone."\t";
-			echo "<th nowrap>D{$milestone}</th>"; $tsv .= "D".$milestone."\t";
+			echo "<th nowrap>{$milestone}</th>"; $tsv .= $milestoneTitles[$milestone]."\t";
+			echo "<th nowrap>D{$milestone}</th>"; $tsv .= $milestoneTitles[$milestone]." # of Standard Deviations\t";
 		}
 		
 		foreach(array_unique($competencies) as $competency){
@@ -115,8 +115,8 @@
 			}
 			$competencyClassStandardDevations[$competency] = sd($competencyClassAveragesResidents[$competency]);
 			
-			echo "<th nowrap>{$competency}-C</th>"; $tsv .= $competency."-C\t";
-			echo "<th nowrap>D{$competency}-C</th>"; $tsv .= "D".$competency."-C\t";
+			echo "<th nowrap>{$competency}-C</th>"; $tsv .= $competencyTitles[$competency]."\t";
+			echo "<th nowrap>D{$competency}-C</th>"; $tsv .= $competencyTitles[$competency]." # of Standard Deviations\t";
 		}
 		
 		echo "</tr></thead>";
@@ -186,19 +186,19 @@
 		echo "</tbody>";
 		echo "</table>";
 		
-		echo "<div>"; $tsv .= "\n";
-		echo "<h3>Milestones Key</h3>"; $tsv .= "Milestones Key\n";
+		echo "<div>";
+		echo "<h3>Milestones Key</h3>";
 		foreach(array_unique($milestones) as $milestone){
-			echo "<span style='white-space: nowrap;'><b>".$milestone."</b>&nbsp;=&nbsp;".$milestoneTitles[$milestone]."&nbsp;&nbsp;&nbsp;&nbsp;</span> "; $tsv .= $milestone." = ".$milestoneTitles[$milestone]."\t";
+			echo "<span style='white-space: nowrap;'><b>".$milestone."</b>&nbsp;=&nbsp;".$milestoneTitles[$milestone]."&nbsp;&nbsp;&nbsp;&nbsp;</span> ";
 		}
-		echo "</div>"; $tsv .= "\n";
+		echo "</div>";
 		
-		echo "<div>"; $tsv .= "\n";
-		echo "<h3>Competencies Key</h3>"; $tsv .= "Competencies Key\n";
+		echo "<div>";
+		echo "<h3>Competencies Key</h3>";
 		foreach(array_unique($competencies) as $competency){
-			echo "<span style='white-space: nowrap;'><b>".$competency."</b>&nbsp;=&nbsp;".$competencyTitles[$competency]."&nbsp;&nbsp;&nbsp;&nbsp;</span> "; $tsv .= $competency." = ".$competencyTitles[$competency]."\t";
+			echo "<span style='white-space: nowrap;'><b>".$competency."</b>&nbsp;=&nbsp;".$competencyTitles[$competency]."&nbsp;&nbsp;&nbsp;&nbsp;</span> ";
 		}
-		echo "</div>"; $tsv .= "\n";
+		echo "</div>";
 		
 		echo "<form style='text-align:center;' target='_blank' method='post' action='save_table.php'><button type='submit' class='btn btn-default' name='tsv' value='{$tsv}'>Save as TSV</button></form>";
 		echo "<br />";
