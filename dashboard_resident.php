@@ -4,8 +4,7 @@
 	  $requests = $mysqli->query("select * from requests left join forms on requests.formId=forms.formId left join users on requests.faculty=users.username where requests.resident='{$_SESSION["username"]}' and requests.status='pending' order by requestId asc;");
 	  $requestRow = $requests->fetch_assoc();
 	  
-	  $requestDate = new DateTime($requestRow["requestDate"]);
-	  $requestDate->setTimezone(new DateTimeZone("America/Chicago"));
+	  
 ?>
     <div class="container-fluid">
       <div class="row">
@@ -24,6 +23,8 @@
               <tbody>
 				   <?php
 						while(!is_null($requestRow)){
+							$requestDate = new DateTime($requestRow["requestDate"]);
+							$requestDate->setTimezone(new DateTimeZone("America/Chicago"));
 				  ?>
 							<tr data-id="<?= $requestRow["requestId"] ?>">
 							  <td class="lalign view"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
@@ -48,10 +49,7 @@
 		$requests = $mysqli->query("select * from requests left join forms on requests.formId=forms.formId left join users on requests.faculty=users.username where resident='{$_SESSION["username"]}' and requests.status='complete' order by completeDate desc;");
 		$requestRow = $requests->fetch_assoc();
 		
-		$requestDate = new DateTime($requestRow["requestDate"]);
-		$requestDate->setTimezone(new DateTimeZone("America/Chicago"));
-		$completeDate = new DateTime($requestRow["completeDate"]);
-		$completeDate->setTimezone(new DateTimeZone("America/Chicago"));
+
 ?>
     <div class="container-fluid">
       <div class="row">
@@ -70,13 +68,23 @@
               <tbody>
 				  <?php
 						while(!is_null($requestRow)){
+							$requestDate = new DateTime($requestRow["requestDate"]);
+							$requestDate->setTimezone(new DateTimeZone("America/Chicago"));
+							if(!is_null($requestRow["completeDate"]) && $requestRow["status"] == "complete"){
+								$completeDate = new DateTime($requestRow["completeDate"]);
+								$completeDate->setTimezone(new DateTimeZone("America/Chicago"));
+								$completeDateText = $completeDate->format("Y-m-d H:i:s");
+							}
+							else{
+								$completeDateText = "";
+							}
 				  ?>
 							<tr data-id="<?= $requestRow["requestId"] ?>">
 							  <td class="lalign view"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
 							  <td class="view"><?= $requestRow["firstName"] ?> <?= $requestRow["lastName"] ?></td>
 							  <td class="view"><?= $requestRow["title"] ?></td>
 							  <td class="view"><?= $requestDate->format("Y-m-d H:i:s") ?></td>
-							  <td class="view"><?= $completeDate->format("Y-m-d H:i:s") ?></td>
+							  <td class="view"><?= $completeDateText ?></td>
 							</tr>
 					<?php
 						$requestRow = $requests->fetch_assoc();

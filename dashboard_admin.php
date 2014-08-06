@@ -69,12 +69,18 @@
   <?php
   $threeRow = $stats_Three->fetch_assoc();
   while(!is_null($threeRow)){
-	$completeDate = new DateTime($threeRow["completeDate"]);
-	$completeDate->setTimezone(new DateTimeZone("America/Chicago"));
+	if(!is_null($threeRow["completeDate"])){
+		$completeDate = new DateTime($threeRow["completeDate"]);
+		$completeDate->setTimezone(new DateTimeZone("America/Chicago"));
+		$completeDateText = $completeDate->format("Y-m-d H:i:s");
+	}
+	else{
+		$completeDateText = "";
+	}
   ?>
                 <tr>
                   <td><?php echo $threeRow["firstName"]." ".$threeRow["lastName"]; ?></td>
-                  <td><?= $completeDate->format("Y-m-d H:i:s") ?></td>
+                  <td><?= $completeDateText ?></td>
                 </tr>
   <?php
   $threeRow = $stats_Three->fetch_assoc();
@@ -106,8 +112,14 @@
 						while(!is_null($requestRow)){
 							$requestDate = new DateTime($requestRow["requestDate"]);
 							$requestDate->setTimezone(new DateTimeZone("America/Chicago"));
-							$completeDate = new DateTime($requestRow["completeDate"]);
-							$completeDate->setTimezone(new DateTimeZone("America/Chicago"));
+							if(!is_null($requestRow["completeDate"]) && $requestRow["status"] == "complete"){
+								$completeDate = new DateTime($requestRow["completeDate"]);
+								$completeDate->setTimezone(new DateTimeZone("America/Chicago"));
+								$completeDateText = $completeDate->format("Y-m-d H:i:s");
+							}
+							else{
+								$completeDateText = "";
+							}
 					?>
 							<tr data-id="<?= $requestRow["requestId"] ?>">
 							  <td class="lalign view"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
@@ -115,7 +127,7 @@
 							  <td class="view"><?= $requestRow["facultyFirst"] ?> <?= $requestRow["facultyLast"] ?></td>
 							  <td class="view"><?= $requestRow["title"] ?></td>
 							  <td class="view"><?= $requestDate->format("Y-m-d H:i:s"); ?></td>
-							  <td class="view"><?= $completeDate->format("Y-m-d H:i:s"); ?></td>
+							  <td class="view"><?= $completeDateText ?></td>
 							<?php
 							  if($requestRow["status"] == "complete"){
 							?>
