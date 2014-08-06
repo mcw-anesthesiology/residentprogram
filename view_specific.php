@@ -41,8 +41,15 @@
 	
 	$requestDate = new DateTime($request["requestDate"]);
 	$requestDate->setTimezone(new DateTimeZone("America/Chicago"));
-	$completeDate = new DateTime($request["completeDate"]);
-	$completeDate->setTimezone(new DateTimeZone("America/Chicago"));
+	if(!is_null($request["completeDate"]) && $request["status"] == "complete"){
+		$completeDate = new DateTime($request["completeDate"]);
+		$completeDate->setTimezone(new DateTimeZone("America/Chicago"));
+		$completeDateText = $completeDate->format("Y-m-d H:i:s");
+	}
+	else{
+		$completeDateText = "";
+	}
+	
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -110,7 +117,7 @@
                   <td><?= $request["residentFirst"] ?> <?= $request["residentLast"] ?></td>
                   <td><?= $request["facultyFirst"] ?> <?= $request["facultyLast"] ?></td>
                   <td><?= $requestDate->format("Y-m-d H:i:s"); ?></td>
-                  <td><?= $completeDate->format("Y-m-d H:i:s"); ?></td>
+                  <td><?= $completeDateText ?></td>
                   <td><?= $request["status"] ?></td>
                   <td><?= $evaluation["currentTrainingLevel"] ?></td>
                 </tr>				  
