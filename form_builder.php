@@ -274,7 +274,13 @@
 						formOptionText = "Attending";
 					}
 					formOption.find(".form-option-text").val(formOptionText);
-				}				
+				}
+				
+				var questionId = formOption.parents(".form-question").attr("id");
+				var optionNumber = formOption.parents(".form-options").children().length;
+				
+				formOption.find(".form-option-text").attr("name", questionId+":"+formOptionValue+":"+optionNumber);
+				formOption.find(".form-option-description").attr("name", questionId+":"+formOptionValue+":description");				
 				
 			}
 		});
