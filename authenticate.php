@@ -9,10 +9,10 @@
 	$username = htmlspecialchars($_POST["username"]);
 	$password = htmlspecialchars($_POST["password"]); 
 	
-	if($stmt = $mysqli->prepare("select password, type, firstName, lastName from users where username=? and status='active';")){
+	if($stmt = $mysqli->prepare("select username, password, type, firstName, lastName from users where username=? and status='active';")){
 		if($stmt->bind_param("s", $username)){
 			if($stmt->execute()){
-				$stmt->bind_result($passwordHash, $type, $firstName, $lastName);
+				$stmt->bind_result($databaseUsername, $passwordHash, $type, $firstName, $lastName);
 				$stmt->fetch();
 			}
 			else{
@@ -29,7 +29,7 @@
 	
 	if(password_verify($password, $passwordHash)){
 		session_start();
-		$_SESSION["username"] = trim(strtolower($username));
+		$_SESSION["username"] = $databaseUsername;
 		$_SESSION["type"] = $type;
 		$_SESSION["fname"] = $firstName;
 		$_SESSION["lname"] = $lastName;
