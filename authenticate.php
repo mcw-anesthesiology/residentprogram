@@ -29,7 +29,7 @@
 	
 	if(password_verify($password, $passwordHash)){
 		session_start();
-		$_SESSION["username"] = $username;
+		$_SESSION["username"] = trim(strtolower($username));
 		$_SESSION["type"] = $type;
 		$_SESSION["fname"] = $firstName;
 		$_SESSION["lname"] = $lastName;
