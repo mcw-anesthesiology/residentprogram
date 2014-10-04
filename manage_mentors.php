@@ -45,9 +45,9 @@
     $mentorships = $mysqli->query("select mentorships.mentorshipId, mentorships.createdDate as mentorshipCreatedDate, faculty.username as facultyUsername, faculty.firstName as facultyFirst, faculty.lastName as facultyLast, resident.username as residentUsername, resident.firstName as residentFirst, resident.lastName as residentLast from mentorships join users faculty on mentorships.faculty=faculty.username join users resident on mentorships.resident=resident.username where faculty.type='faculty' and faculty.status='active' and mentorships.status='active' order by faculty.username;"); // ************************************ FACULTY ***********************************************************************
     $mentorship = $mentorships->fetch_assoc();
     $facultyUsername = "";
-    $faculties = $mysqli->query("select * from users where type='faculty' and status='active';");
+    $faculties = $mysqli->query("select * from users where type='faculty' and status='active' order by lastName;");
 	$faculty = $faculties->fetch_assoc();
-    $residents = $mysqli->query("select * from users where type='resident' and status='active';");
+    $residents = $mysqli->query("select * from users where type='resident' and status='active' order by lastName;");
     $resident = $residents->fetch_assoc();
 ?>
     <div class="container-fluid">
@@ -101,7 +101,7 @@
             <select class="form-control" id="faculty" name="faculty">
             <?php
               while(!is_null($faculty)){
-                echo "<option value='{$faculty["username"]}'>{$faculty["firstName"]} {$faculty["lastName"]}</option>";
+                echo "<option value='{$faculty["username"]}'>{$faculty["lastName"]}, {$faculty["firstName"]}</option>";
                 $faculty = $faculties->fetch_assoc();
               }
             ?>
@@ -112,7 +112,7 @@
             <select class="form-control" id="resident" name="resident">
             <?php
               while(!is_null($resident)){
-                echo "<option value='{$resident["username"]}'>{$resident["firstName"]} {$resident["lastName"]}</option>";
+                echo "<option value='{$resident["username"]}'>{$resident["lastName"]}, {$resident["firstName"]}</option>";
                 $resident = $residents->fetch_assoc();
               }
             ?>
