@@ -43,7 +43,7 @@
     <div class="container-fluid">
       <div class="row">
           <h2 class="sub-header">Request Evaluation</h2>
-            <form role="form" action="process_request.php" method="post">
+            <form id="form" role="form" action="process_request.php" method="post">
 <?php 
   if($_SESSION["type"] == "admin" || $_SESSION["type"] == "faculty"){
 	  $residents = $mysqli->query("select username, firstName, lastName from users where type='resident' and status='active' order by lastName;");
@@ -51,7 +51,8 @@
 ?>
               <div class="form-group">
                 <label for="resident">Resident</label>
-                <select class="form-control" name="resident">
+                <select class="form-control request-select" name="resident">
+					<option value="-1">-- Select Resident --</option>
 					<?php
 						while(!is_null($residentRow)){
 							echo "<option value=\"{$residentRow["username"]}\">{$residentRow["lastName"]}, {$residentRow["firstName"]}</option>";
@@ -68,7 +69,8 @@
 ?>
               <div class="form-group">
                 <label for="facultyMember">Faculty Member</label>
-                <select class="form-control" name="faculty">
+                <select class="form-control request-select" name="faculty">
+					<option value="-1">-- Select Faculty --</option>
 					<?php
 						while(!is_null($facultyRow)){
 							echo "<option value=\"{$facultyRow["username"]}\">{$facultyRow["lastName"]}, {$facultyRow["firstName"]}</option>";
@@ -82,7 +84,8 @@
 ?>
               <div class="form-group">
                 <label for="evaluationForm">Evaluation Form</label>
-                <select class="form-control" name="evaluationForm">
+                <select class="form-control request-select" name="evaluationForm">
+					<option value="-1">-- Select Form --</option>
 					<?php
 						while(!is_null($formsRow)){
 							echo "<option value=\"{$formsRow["formId"]}\">{$formsRow["title"]}</option>";
@@ -103,5 +106,21 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="../../assets/js/docs.min.js"></script>
+    <script>
+		function checkSelectValues(){
+			var optionsSelected = true;
+			$(".request-select").each(function(){
+				if($(this).val() == -1 || $(this).val() == "-1"){
+					optionsSelected = false;
+				}
+			});
+			if(!optionsSelected){
+				alert("Please complete all selections");
+			}
+			return optionsSelected;
+		}
+		
+		$("#form").submit(checkSelectValues);
+    </script>
   </body>
 </html>
