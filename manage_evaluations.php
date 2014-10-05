@@ -121,10 +121,16 @@
                 }
                 else{
               ?>
-                <td><button class="disableEval btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $request["requestId"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button></td>
+                <td><button class="disableEval btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $request["requestId"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button>
               <?php
                 }
+                if($request["status"] == "pending"){
+			  ?>
+				<button class="cancelEval btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-cancel-modal-sm" data-id="<?= $request["requestId"] ?>"><span class="glyphicon glyphicon-remove"></span> Cancel</button></td>
+			  <?php 
+				}
               ?>
+				</td>
             </tr>
 				<?php
 				$request = $requests->fetch_assoc();
@@ -173,6 +179,27 @@
 		<form method="post" action="enable_evaluation.php">
 			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 			<button type="submit" class="btn btn-success" id="requestId" name="requestId" value="">Confirm</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cancel Modal -->
+<div class="modal fade bs-cancel-modal-sm" tabindex="-1" role="dialog" aria-labelledby="modalCancel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalCancel">Cancel Evaluation</h4>
+      </div>
+      <div class="modal-body">
+        You have selected to <b>cancel</b> the selected evaluation. Would you like to continue?
+      </div>
+      <div class="modal-footer modal-cancel">
+		<form method="post" action="cancel_evaluation_admin.php">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="submit" class="btn btn-danger" id="requestId" name="requestId" value="">Confirm</button>
         </form>
       </div>
     </div>
@@ -242,6 +269,11 @@
 			var requestId = $(this).data('id');
 			$(".modal-enable #requestId").val(requestId);
 		});	
+		
+		$(document).on("click", ".cancelEval", function(){
+			var requestId = $(this).data('id');
+			$(".modal-cancel #requestId").val(requestId);
+		});
 		
 		$("tbody").on("click", ".view", function(){
 			var requestId = $(this).parent().data("id");
