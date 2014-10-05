@@ -16,7 +16,11 @@
 	
 	$request = $mysqli->query("select resident, faculty, requestDate, completeDate, requests.status, residentUsers.firstName as residentFirst, residentUsers.lastName as residentLast, facultyUsers.firstName as facultyFirst, facultyUsers.lastName as facultyLast from requests left join users as residentUsers on requests.resident=residentUsers.username left join users as facultyUsers on requests.faculty=facultyUsers.username where requestId='{$requestId}';")->fetch_assoc();
 	$evaluation = $mysqli->query("select * from evaluations where requestId='{$requestId}';")->fetch_assoc();
-	$mentorship = $mysqli->query("select faculty from mentorships where resident='{$request["resident"]}' and status='active';")->fetch_assoc();
+	$mentor = false;
+	if($_SESSION["type"] == "faculty"){
+		if($mysqli->query("select faculty from mentorships where resident='{$request["resident"]}' and faculty='{$_SESSION["username"]}' and status='active';")->num_rows > 0)
+			$mentor = true;
+	}
 	
 	if($request["status"] === "complete"){
 		$questionQuery = $mysqli->query("select `questionId`, `response` from `responses` where requestId='{$requestId}';");
@@ -36,7 +40,7 @@
 		}
 	}
 	
-	if($_SESSION["username"] !== $request["resident"] && $_SESSION["username"] !== $request["faculty"] && $_SESSION["type"] !== "admin" && $_SESSION["username"] !== $mentorship["faculty"]){
+	if($_SESSION["username"] !== $request["resident"] && $_SESSION["username"] !== $request["faculty"] && $_SESSION["type"] !== "admin" && !$mentor){
 		header("Location: dashboard.php");
 	}
 	
