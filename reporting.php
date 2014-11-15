@@ -26,7 +26,7 @@
 		$endDateCentral = new DateTime($endDate, new DateTimeZone("America/Chicago"));
 		$endDateCentral->setTimezone("UTC");
 		$endDate = $endDateCentral->format("Y-m-d H:i:s");
-				
+		
 		$redStandardDeviation = 1;
 		$yellowStandardDeviation = 0.75;
 		$greenStandardDeviation = 0.5;
@@ -55,6 +55,7 @@
 							$competencyTitles[$competencyId] = $competencyTitle;
 							$residents[] = $requestResident;
 							$requests[] = $requestId;
+							$requestsResidents[$requestResident][] = $requestId;
 							
 							$averageWeightedResponsesMilestones[$milestoneId][] = (floatval($response)*floatval($weight));
 							$averageWeightedResponsesMilestonesDenominator[$milestoneId][] = floatval($weight);
@@ -106,6 +107,7 @@
 			
 			echo "<th nowrap>{$milestone}</th>"; $tsv .= $milestoneTitles[$milestone]."\t";
 			echo "<th nowrap>D{$milestone}</th>"; $tsv .= $milestoneTitles[$milestone]." # of Standard Deviations\t";
+			echo "<th nowrap># {$milestone}</th>";
 		}
 		
 		foreach(array_unique($competencies) as $competency){
@@ -117,7 +119,10 @@
 			
 			echo "<th nowrap>{$competency}-C</th>"; $tsv .= $competencyTitles[$competency]."\t";
 			echo "<th nowrap>D{$competency}-C</th>"; $tsv .= $competencyTitles[$competency]." # of Standard Deviations\t";
+			echo "<th nowrap># {$competency}-C</th>";
 		}
+		
+		echo "<th># Evals</th>";
 		
 		echo "</tr></thead>";
 		echo "<tbody>";		
@@ -153,6 +158,7 @@
 				
 				echo "<td>{$milestoneResidentAverage}</td>"; $tsv .= $milestoneResidentAverage."\t";
 				echo "<td class='{$colorClass}'>{$deviations}</td>"; $tsv .= $deviations."\t";
+				echo "<td>".count($residentWeightedResponsesMilestones[$resident][$milestone])."</td>";
 			}
 			foreach(array_unique($competencies) as $competency){
 				if(!array_key_exists($competency, $residentWeightedResponsesCompetencies[$resident]) || !array_key_exists($competency, $residentWeightedResponsesCompetenciesDenominator[$resident])){
@@ -180,7 +186,9 @@
 				
 				echo "<td>{$competencyResidentAverage}</td>"; $tsv .= $competencyResidentAverage."\t";
 				echo "<td class='{$colorClass}'>{$deviations}</td>"; $tsv .= $deviations."\t";
+				echo "<td>".count($residentWeightedResponsesCompetencies[$resident][$competency])."</td>";
 			}
+			echo "<td>".count(array_unique($requestsResidents[$resident]))."</td>";
 			echo "</tr>"; $tsv .= "\n";
 		}
 		echo "</tbody>";
@@ -331,6 +339,7 @@
 	//Pulls responses for all residents with evaluations completed within the specified trainingLevel and between startDate and endDate. Data for all residents is averaged, and
 	//the drawRadar function is called to draw the radar graphs for each resident selected.
 		global $mysqli;
+		$resident = strtolower($resident);
 		
 		$responseBaseline = 10; //assuming this for now idk
 		$responseMax = 10;
