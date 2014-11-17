@@ -118,8 +118,8 @@
             <input type="date" class="form-control" id="endDate" name="endDate">
           </div>
           <div class="form-group" style="text-align: center;">
-			<button type="button" id="lastSixMonths" class="btn lastSixMonths">Last Six Months</button>
 			<button type="button" id="lastThreeMonths" class="btn lastThreeMonths">Last Three Months</button>
+			<button type="button" id="lastSixMonths" class="btn lastSixMonths">Last Six Months</button>
           </div>
           <div class="form-group">
             <label for="trainingLevelInput">Training Level</label>
@@ -164,8 +164,8 @@
             <input type="date" class="form-control" id="endDate" name="endDate">
           </div>
           <div class="form-group" style="text-align: center;">
-			<button type="button" id="lastSixMonths" class="btn lastSixMonths">Last Six Months</button>
 			<button type="button" id="lastThreeMonths" class="btn lastThreeMonths">Last Three Months</button>
+			<button type="button" id="lastSixMonths" class="btn lastSixMonths">Last Six Months</button>
           </div>
           <div class="form-group">
             <label for="trainingLevelInput">Training Level</label>
@@ -192,6 +192,7 @@
 			  <div class="form-group">
 				<label for="resident">Resident</label>
 				<select class="form-control" name="resident">
+					<option value="-1">-- Select Resident --</option>
 			  <?php
 				  while(!is_null($residentRow)){
 					echo "<option value=\"{$residentRow["username"]}\">{$residentRow["lastName"]}, {$residentRow["firstName"]}</option>";
