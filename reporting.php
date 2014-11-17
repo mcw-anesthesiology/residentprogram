@@ -589,6 +589,198 @@
 		$myCache->removeOlderThan(60*60*24);
 	}
 	
+	function facultyStats(){
+		totalCompletedEvaluations();
+		echo "<br /><br />";
+		facultyWithoutEvals();
+		echo "<br /><br />";
+		averageEvaluationCompletionTime();
+		echo "<br /><br />";
+		lastCompletedEvaluations();
+	}
 	
+	function facultyWithoutEvals(){
+		global $mysqli;
+		
+		$facultyMembers = $mysqli->query("select username from users where type='faculty'");
+		$requests = $mysqli->query("select faculty from requests where status='pending' or status='complete' or status='disabled'");
+		$evaluations = $mysqli->query("select faculty from requests where status='complete' and requestedBy!=faculty");
+		
+		while($facultyMember = $facultyMembers->fetch_assoc()){
+			$allFaculty[] = $facultyMember["username"];
+		}
+		while($request = $requests->fetch_assoc()){
+			$requestedEvals[] = $request["faculty"];
+		}
+		while($evaluation = $evaluations->fetch_assoc()){
+			$completedEvals[] = $evaluation["faculty"];
+		}
+		
+		foreach(array_unique($allFaculty) as $faculty){
+			if(!in_array($faculty, $requestedEvals))
+				$facultyWithoutRequests[] = $faculty;
+			
+			if(!in_array($faculty, $completedEvals) && !in_array($faculty, $facultyWithoutRequests))
+				$facultyWithoutCompletedEvals[] = $faculty;
+		}
+		
+		//print them out
+		echo "<h3>Never received a request nor completed an evaluation</h3>";
+		echo "<p>";
+		foreach($facultyWithoutRequests as $faculty){
+			echo $faculty."&nbsp;&nbsp;&nbsp;&nbsp;";
+		}
+		echo "</p>";
+		echo "<br /><br />";
+		
+		echo "<h3>Received requests but have not completed any evaluations</h3>";
+		echo "<p>";
+		foreach($facultyWithoutCompletedEvals as $faculty){
+			echo $faculty."&nbsp;&nbsp;&nbsp;&nbsp;";
+		}
+		echo "</p>";
+	}
 	
+	function averageEvaluationCompletionTime(){
+		global $mysqli;
+		
+		$requests = $mysqli->query("select requestDate, completeDate, faculty from requests where status='complete'");
+		
+		$totalTotalTime = 0;
+		$totalNumRequests = 0;		
+		
+		while($request = $requests->fetch_assoc()){
+			$requestDate = DateTime::createFromFormat("Y-m-d H:i:s", $request["requestDate"]);
+			$completeDate = DateTime::createFromFormat("Y-m-d H:i:s", $request["completeDate"]);
+			$elapsedTime = $completeDate->getTimestamp()-$requestDate->getTimestamp();
+			if(!isset($totalTime[$request["faculty"]])){
+				$totalTime[$request["faculty"]] = $elapsedTime;
+				$numRequests[$request["faculty"]] = 1;
+			}
+			else{
+				$totalTime[$request["faculty"]] += $elapsedTime;
+				$numRequests[$request["faculty"]]++;
+			}
+			$totalTotalTime += $elapsedTime;
+			$totalNumRequests++;
+		}
+		echo "<h3>Average evaluation completion time</h3>";
+		echo "<table class='table'>";
+		echo "<tr>";
+		
+		ksort($totalTime);
+		
+		foreach($totalTime as $faculty => $time){
+			echo "<th>{$faculty}</th>";
+			$averageTime[$faculty] = $time/$numRequests[$faculty];
+			$d1 = new DateTime();
+			$d2 = new DateTime();
+			$d2->add(new DateInterval("PT".round($averageTime[$faculty])."S"));
+			$interval = $d2->diff($d1);
+			$averageDateTime[$faculty] = $interval->format("%a days %H hours");
+		}
+		echo "<th>Total</th>";
+		echo "</tr>";
+		$totalAverageTime = $totalTotalTime/$totalNumRequests;
+		$d1 = new DateTime();
+		$d2 = new DateTime();
+		$d2->add(new DateInterval("PT".round($totalAverageTime)."S"));
+		$interval = $d2->diff($d1);
+		$totalAverageDateTime = $interval->format("%a days %H hours");
+		
+		echo "<tr>";
+		foreach($averageDateTime as $avg){
+			echo "<td>{$avg}</td>";
+		}
+		echo "<td>{$totalAverageDateTime}</td>";
+		echo "</tr>";
+		
+		echo "</table>";
+		
+	}
+	
+	function lastCompletedEvaluations(){
+		global $mysqli;
+		
+		$requests = $mysqli->query("select faculty, completeDate from requests where status='complete'");
+		
+		while($request = $requests->fetch_assoc()){
+			if(!isset($evaluations[$request["faculty"]]) || $request["completeDate"] > $evaluations[$request["faculty"]]){
+				$evaluations[$request["faculty"]] = $request["completeDate"];
+			}
+		}
+		ksort($evaluations);
+		//print out
+		echo "<h3>Last completed evaluations</h3>";
+		echo "<table class='table'>";
+		echo "<tr>";
+		foreach($evaluations as $faculty => $date){
+			echo "<th>{$faculty}</th>";
+		}
+		echo "</tr>";
+		echo "<tr>";
+		foreach($evaluations as $faculty => $date){
+			echo "<td>{$date}</td>";
+		}
+		echo "</tr>";
+		echo "</table>";
+	}
+	
+	function totalCompletedEvaluations(){
+		global $mysqli;
+		
+		$requests = $mysqli->query("select faculty, status from requests");
+		
+		while($request = $requests->fetch_assoc()){
+			$allFaculty[] = $request["faculty"];
+			if(!isset($numRequests[$request["faculty"]]))
+				$numRequests[$request["faculty"]] = 1;
+			else
+				$numRequests[$request["faculty"]]++;
+			
+			if($request["status"] == "complete"){
+				if(!isset($numCompletedEvals[$request["faculty"]]))
+					$numCompletedEvals[$request["faculty"]] = 1;
+				else
+					$numCompletedEvals[$request["faculty"]]++;
+			}
+		}
+		
+		$allFaculty = array_unique($allFaculty);
+		asort($allFaculty);
+		
+		//print out
+		echo "<h3>Evaluation Statistics</h3>";
+		echo "<table class='table'>";
+		echo "<tr>";
+		echo "<th></th>";
+		foreach($allFaculty as $faculty){
+			echo "<th>{$faculty}</th>";
+		}
+		echo "</tr>";
+		
+		echo "<tr>";
+		echo "<th>Completed</th>";
+		foreach($allFaculty as $faculty){
+			echo "<td>{$numCompletedEvals[$faculty]}</td>";
+		}
+		echo "</tr>";
+		
+		echo "<tr>";
+		echo "<th>Requests</th>";
+		foreach($allFaculty as $faculty){
+			echo "<td>{$numRequests[$faculty]}</td>";
+		}
+		echo "</tr>";
+		
+		echo "<tr>";
+		echo "<th>Ratio</th>";
+		foreach($allFaculty as $faculty){
+			$percentage = round(($numCompletedEvals[$faculty]/$numRequests[$faculty])*100);
+			echo "<td>{$percentage}%</td>";
+		}
+		echo "</tr>";
+		
+		echo "</table>";
+	}
 

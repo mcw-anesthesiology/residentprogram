@@ -67,6 +67,7 @@
 			if($_SESSION["type"] == "admin"){
         ?>
 		  <li><a href="view_needs_evaluations_report.php">Needs Evaluations</a></li>
+		  <li><a href="faculty_stats.php">Faculty Statistics</a></li>
         <?php
 			}
         ?>
