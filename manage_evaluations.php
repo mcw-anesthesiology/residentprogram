@@ -59,7 +59,7 @@
 ?>
     <div class="container-fluid">
       <div class="row">
-        <h2 class="sub-header">Manage Evaluations <button class="addEval btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="eval" id="addBtn"><span class="glyphicon glyphicon-plus"></span> New Evaluation Form</button></h2>
+        <h2 class="sub-header">Manage Evaluations <button class="addEval btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-bulk-disable-modal" data-id="eval" id="bulkDisableBtn"><span class="glyphicon glyphicon-remove"></span> Disable Evals</button></h2>
           <div class="table-responsive">
             <table class="table table-striped datatable" cellspacing="0" cellpadding="0">
               <thead>
@@ -252,6 +252,33 @@
     </div>
   </div>
 </div>    
+
+<!-- Bulk Disable Modal -->
+<div class="modal fade bs-bulk-disable-modal" tabindex="-1" role="dialog" aria-labelledby="modalBulkDisable" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalBulkDisable">Bulk Disable Evaluations</h4>
+      </div>
+      <form method="post" action="bulk_disable_evaluation.php">
+		  <div class="modal-body">
+			<label for="endDate">Disable evaluations older than</label>
+			<input type="date" class="form-control" id="bulkDisableDate" name="bulkDisableDate">
+		  </div>
+		  <div class="form-group" style="text-align: center;">
+			<button type="button" id="lastThreeMonthsDisable" class="btn lastThreeMonthsDisable">Three Months</button>
+			<button type="button" id="lastSixMonthsDisable" class="btn lastSixMonthsDisable">Six Months</button>
+		  </div>
+		  <div class="modal-footer modal-bulk-disable">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="submit" class="btn btn-danger">Confirm</button>
+		  </div>
+      </form>
+    </div>
+  </div>
+</div>
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -279,11 +306,38 @@
 			var requestId = $(this).parent().data("id");
 			window.location.href = "view_specific.php?request="+requestId;
 		});
+		
+		function lastThreeMonthsDisable(){
+			var d = new Date();
+			var day = d.getDate();
+			d.setMonth(d.getMonth()-3);
+			day = ("0"+day).slice(-2); //converts possible D dates to DD format
+			var month = d.getMonth()+1;
+			month = ("0"+month).slice(-2); //converts possible M months to MM format
+			var year = d.getFullYear();
+			var date = year+"-"+month+"-"+day;
+			$(document).find("#bulkDisableDate").val(date);
+		}
+		
+		function lastSixMonthsDisable(){
+			var d = new Date();
+			d.setMonth(d.getMonth()-6);
+			var day = d.getDate();
+			day = ("0"+day).slice(-2); //converts possible D dates to DD format
+			var month = d.getMonth()+1;
+			month = ("0"+month).slice(-2); //converts possible M months to MM format
+			var year = d.getFullYear();
+			var date = year+"-"+month+"-"+day;
+			$(document).find("#bulkDisableDate").val(date);
+		}
 
 		$(document).ready(function(){
 		  $(".datatable").each(function(){
 			$(this).dataTable(); 
 		  });
+		  
+		  $("#lastSixMonthsDisable").click(lastSixMonthsDisable);
+		  $("#lastThreeMonthsDisable").click(lastThreeMonthsDisable);
 		});	
     </script>
   </body>
