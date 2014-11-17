@@ -122,7 +122,25 @@
       </div>
       <form id="evaluation" role="form" method="post" action="process_completion.php">
         <div class="table-responsive">
- 		<?php require "form_reader.php"; ?>
+			<?php 
+				$evaluationDate = new DateTime();
+				$evaluationDate->setDate($evaluationDate->format("Y"), $evaluationDate->format("m"), 1);
+				$evaluationDate->setTime(0, 0, 0);
+				$numMonths = 3;
+				echo "<label for='evaluationDate'>For what month are you evaluating this resident?</label>";
+				echo "<select class='form-control' id='evaluationDate' name='evaluationDate'>";
+					for($i = 0; $i < $numMonths; $i++){
+						echo "<option value='".$evaluationDate->format("Y-m-d H:i:s")."'>".$evaluationDate->format("F")."</option>";
+						if($evaluationDate->format("m") == "01"){
+							$evaluationDate->setDate($evaluationDate->format("Y"), 12, 0);
+						}
+						else{
+							$evaluationDate->setDate($evaluationDate->format("Y"), ($evaluationDate->format("m")-1), 1);
+						}
+					}
+				echo "</select>";
+				require "form_reader.php"; 
+			?>
  		</div>
         <button type="submit" name="requestId" value="<?= $requestId ?>" class="btn btn-default">Submit</button>
         <button type="submit" id="saveForm" name="requestIdSaved" value="<?= $requestId ?>" class="btn btn-default" formnovalidate>Save</button>

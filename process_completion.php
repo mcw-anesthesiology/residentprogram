@@ -33,7 +33,8 @@
 	else
 		$ipaddress = "UNKNOWN";
 		 
-	$evaluationDate = date("Y-m-d H:i:s");
+	$completeDate = date("Y-m-d H:i:s");
+	$evaluationDate = $_POST["evaluationDate"];
 	
 	//Set request status to complete
 	$request = $mysqli->query("select resident, formId, status from requests where requestId='{$requestId}';")->fetch_assoc();
@@ -50,7 +51,10 @@
 		$stmt->bind_param("iss", $requestId, $ipaddress, $currentTrainingLevel);
 		$stmt->execute();
 	}
-	$mysqli->query("update `requests` set `completeDate`='{$evaluationDate}', status='{$status}' where `requestId`='{$requestId}';");
+	if($requestStmt = $mysqli->prepare("update `requests` set `completeDate`=?, `evaluationDate`=?, status=? where `requestId`=?;")){
+		$requestStmt->bind_param("sssi", $completeDate, $evaluationDate, $status, $requestId);
+		$requestStmt->execute();
+	}
 	
 	//Record numeric response
 	if($responseStmt = $mysqli->prepare("insert into `responses` (`requestId`, `questionId`, `response`, `weight`) values (?, ?, ?, ?);"))
