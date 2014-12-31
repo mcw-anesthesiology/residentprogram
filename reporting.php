@@ -503,6 +503,77 @@
 		
 	}
 	
+	function drawEvaluationMilestoneCompetencyTable(){
+		global $mysqli;
+		
+		echo "<table>";
+		$formsRequest = $mysqli->query("select * from forms where status='active'");
+		while($form = $formsRequest->fetch_assoc()){
+			$forms[$form["formId"]] = $form["title"];
+		}
+		$milestonesRequest = $mysqli->query("select * from milestones");
+		while($milestone = $milestonesRequest->fetch_assoc()){
+			$milestones[$milestone["milestoneId"]] = $milestone["title"];
+		}
+		$competenciesRequest = $mysqli->query("select * from competencies");
+		while($competency = $competenciesRequest->fetch_assoc()){
+			$competencies[$competency["competencyId"]] = $competency["title"];
+		}
+		
+		$formsMilestonesRequest = $mysqli->query("select * from milestones_questions");
+		while($fm = $formsMilestonesRequest->fetch_assoc()){
+			$formsMilestones[$fm["formId"]][$fm["milestoneId"]] = 1;
+		}
+		$formsCompetenciesRequest = $mysqli->query("select * from competencies_questions");
+		while($fc = $formsCompetenciesRequest->fetch_assoc()){
+			$formsCompetencies[$fc["formId"]][$fc["competencyId"]] = 1;
+		}
+		echo "<tr><th>Milestones</th>";
+		foreach($forms as $formId => $formTitle){
+			echo "<th>{$formTitle}</th>";
+		}
+		echo "</tr>";
+		foreach($milestones as $milestoneId => $milestoneTitle){
+			echo "<tr>";
+			echo "<td>{$milestoneTitle}</td>";
+			foreach($forms as $formId => $formTitle){
+				if($formsMilestones[$formId][$milestoneId] == 1)
+					$class = "y";
+				else
+					$class = "n";
+					
+				echo "<td class='{$class}'></td>";
+			}
+			echo "</tr>";
+		}
+		echo "</table>";
+		
+		
+		echo "<table>";
+		echo "<tr><th>Competencies</th>";
+		foreach($forms as $formId => $formTitle){
+			echo "<th>{$formTitle}</th>";
+		}
+		echo "</tr>";
+		foreach($competencies as $competencyId => $competencyTitle){
+			echo "<tr>";
+			echo "<td>{$competencyTitle}</td>";
+			foreach($forms as $formId => $formTitle){
+				if($formsCompetencies[$formId][$competencyId] == 1)
+					$class = "y";
+				else
+					$class = "n";
+					
+				echo "<td class='{$class}'></td>";
+			}
+			echo "</tr>";
+		}
+		
+		echo "</table>";
+		
+		
+	}
+	
 	function drawRadar($milestoneResidentValues, $milestoneAverageValues, $milestoneTitles, $competencyResidentValues, $competencyAverageValues, $competencyTitles, $resident, $trainingLevel, $max){
 	//Uses pChart (http://www.pchart.net/) to display radar graphs for resident milestones/competencies in regards to the average of resident milestones/competencies
 		
