@@ -63,6 +63,9 @@
 			width:100%;
 			resize: none;
 		}
+		td{
+			padding: 10px;
+		}
 	</style>
   </head>
 

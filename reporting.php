@@ -456,10 +456,10 @@
 		global $mysqli;
 		
 		if($trainingLevel == "all"){
-			$query = "select response from textResponses join requests on textResponses.requestId=requests.requestId join users on requests.resident=users.username where users.status='active' and resident=? and requestDate>? and requestDate<? and requests.status='complete';";
+			$query = "select response, requests.faculty from textResponses join requests on textResponses.requestId=requests.requestId join users on requests.resident=users.username where users.status='active' and resident=? and requestDate>? and requestDate<? and requests.status='complete';";
 		}
 		else{
-			$query = "select response from textResponses join requests on textResponses.requestId=requests.requestId join users on requests.resident=users.username where users.status='active' and resident=? and trainingLevel=? and requestDate>? and requestDate<? and requests.status='complete';";
+			$query = "select response, requests.faculty from textResponses join requests on textResponses.requestId=requests.requestId join users on requests.resident=users.username where users.status='active' and resident=? and trainingLevel=? and requestDate>? and requestDate<? and requests.status='complete';";
 		}
 		
 		if($stmt = $mysqli->prepare($query)){
@@ -470,13 +470,20 @@
 				$bindParamSuccess = $stmt->bind_param("ssss", $resident, $trainingLevel, $startDate, $endDate);
 			}
 			if($bindParamSuccess){
-				if($stmt->bind_result($response)){
+				if($stmt->bind_result($response, $faculty)){
 					if($stmt->execute()){
+						echo "<table>";
 						while($stmt->fetch()){
-							echo "<p>";
+							echo "<tr>";
+							echo "<td><b>";
+							echo $faculty;
+							echo "</b></td>";
+							echo "<td>";
 							echo $response;
-							echo "</p>";
+							echo "</td>";
+							echo "</tr>";
 						}
+						echo "</table>";
 					}
 					else{
 						print $stmt->error;
