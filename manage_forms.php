@@ -62,19 +62,22 @@
 ?>
             <tr>
               <td><?= $form["title"] ?></td>
-              <td><?= $form["createdDate"] ?></td> 
+              <td><?= $form["createdDate"] ?></td>
+              <td><form action="view_form.php" target="_blank" method="post">
 <?php
   if($form["status"] == "inactive"){
 ?>
-              <td><button class="enableEval btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $form["formId"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button></td>
+              <button type="button" class="enableEval btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $form["formId"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button>
 <?php
   }
   else{
 ?>
-              <td><button class="disableEval btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $form["formId"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button></td>
+              <button type="button" class="disableEval btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $form["formId"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button>
 <?php
   }
 ?> 
+			  <button type="submit" class="printEval btn btn-xs" name="formLocation" value="<?= $form["location"] ?>">View Form</button>
+			  </form></td>
             </tr>         
 <?php
       $form = $forms->fetch_assoc();
@@ -131,7 +134,7 @@
 </div>
 
 <!-- Edit Modal -->
-<div class="modal fade bs-enable-modal-sm" tabindex="-1" role="dialog" aria-labelledby="modalEnable" aria-hidden="true">
+<div class="modal fade bs-edit-modal-sm" tabindex="-1" role="dialog" aria-labelledby="modalEdit" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
