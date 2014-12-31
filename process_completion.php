@@ -93,7 +93,7 @@
 			$questionWeight = "";
 		}
 		else{
-			if($response !== "")
+			if($response !== "" && $question != "evaluationDate")
 				if(!$textStmt->execute())
 					$updateTextStmt->execute();
 		}
