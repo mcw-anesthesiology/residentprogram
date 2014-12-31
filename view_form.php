@@ -35,7 +35,6 @@
   </head>
 
   <body>
-	<?php require 'header.php'; ?>
 	<div id="form">
 	<?php include "form_reader.php"; ?>
 	</div>
