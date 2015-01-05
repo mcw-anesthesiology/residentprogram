@@ -42,6 +42,9 @@
 	$requestDate = date("Y-m-d H:i:s");
 	$status = "pending";
 	
+	$resident = strtolower($resident);
+	$faculty = strtolower($faculty);
+	
 	if($stmt = $mysqli->prepare("insert into `requests` (formId, resident, faculty, requestedBy, status, requestDate, ipAddress) values (?, ?, ?, ?, ?, ?, ?);")){
 		if($stmt->bind_param("issssss", $evaluationForm, $resident, $faculty, $_SESSION["username"], $status, $requestDate, $ipaddress)){
 			if($stmt->execute()){

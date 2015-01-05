@@ -132,7 +132,7 @@
 					for($i = 0; $i < $numMonths; $i++){
 						echo "<option value='".$evaluationDate->format("Y-m-d H:i:s")."'>".$evaluationDate->format("F")."</option>";
 						if($evaluationDate->format("m") == "01"){
-							$evaluationDate->setDate($evaluationDate->format("Y"), 12, 0);
+							$evaluationDate->setDate(($evaluationDate->format("Y")-1), 12, 1);
 						}
 						else{
 							$evaluationDate->setDate($evaluationDate->format("Y"), ($evaluationDate->format("m")-1), 1);

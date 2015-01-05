@@ -45,6 +45,9 @@
         <input type="password" class="form-control" placeholder="Password" name="password" required>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
       </form>
+      <form method="post" action="recover_password.php">
+		<button class="btn btn-lg btn-block" type="submit">Forgot Password</button>
+      </form>
 
     </div> <!-- /container -->
 
