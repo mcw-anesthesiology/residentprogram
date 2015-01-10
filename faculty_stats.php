@@ -39,6 +39,9 @@
 			width:100%;
 			resize: none;
 		}
+		span{
+			margin-right: 10px;
+		}
 	</style>
   </head>
 

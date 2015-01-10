@@ -668,13 +668,13 @@
 	}
 	
 	function facultyStats(){
-		totalCompletedEvaluations();
+		totalCompletedEvaluationsFaculty();
 		echo "<br /><br />";
 		facultyWithoutEvals();
 		echo "<br /><br />";
-		averageEvaluationCompletionTime();
+		averageEvaluationCompletionTimeFaculty();
 		echo "<br /><br />";
-		lastCompletedEvaluations();
+		lastCompletedEvaluationsFaculty();
 	}
 	
 	function facultyWithoutEvals(){
@@ -698,28 +698,41 @@
 			if(!in_array($faculty, $requestedEvals))
 				$facultyWithoutRequests[] = $faculty;
 			
-			if(!in_array($faculty, $completedEvals) && !in_array($faculty, $facultyWithoutRequests))
+			if(!in_array($faculty, $completedEvals))
 				$facultyWithoutCompletedEvals[] = $faculty;
 		}
 		
 		//print them out
-		echo "<h3>Never received a request nor completed an evaluation</h3>";
-		echo "<p>";
+		echo "<h3>Never received a request</h3>";
+		echo "<table class='table'><tr>";
+		$i = 0;
 		foreach($facultyWithoutRequests as $faculty){
-			echo $faculty."&nbsp;&nbsp;&nbsp;&nbsp;";
+			if($i == 15){
+				echo "</tr><tr>";
+				$i = 0;
+			}
+			echo "<td>".$faculty."</td>";
+			$i += 1;
 		}
-		echo "</p>";
+		echo "</tr></table>";
 		echo "<br /><br />";
 		
-		echo "<h3>Received requests but have not completed any evaluations</h3>";
-		echo "<p>";
+		echo "<h3>Not completed any evaluations</h3>";
+		echo "<table class='table'><tr>";
+		$i = 0;
 		foreach($facultyWithoutCompletedEvals as $faculty){
-			echo $faculty."&nbsp;&nbsp;&nbsp;&nbsp;";
+			if($i == 15){
+				echo "</tr><tr>";
+				$i = 0;
+			}
+			echo "<td>".$faculty."</td>";
+			$i += 1;
 		}
+		echo "</tr></table>";
 		echo "</p>";
 	}
 	
-	function averageEvaluationCompletionTime(){
+	function averageEvaluationCompletionTimeFaculty(){
 		global $mysqli;
 		
 		$requests = $mysqli->query("select requestDate, completeDate, faculty from requests where status='complete'");
@@ -755,7 +768,7 @@
 			$d2 = new DateTime();
 			$d2->add(new DateInterval("PT".round($averageTime[$faculty])."S"));
 			$interval = $d2->diff($d1);
-			$averageDateTime[$faculty] = $interval->format("%a days %H hours");
+			$averageDateTime[$faculty] = $interval->format("%a days<br />%H hours");
 		}
 		echo "<th>Total</th>";
 		echo "</tr>";
@@ -764,7 +777,7 @@
 		$d2 = new DateTime();
 		$d2->add(new DateInterval("PT".round($totalAverageTime)."S"));
 		$interval = $d2->diff($d1);
-		$totalAverageDateTime = $interval->format("%a days %H hours");
+		$totalAverageDateTime = $interval->format("%a days<br />%H hours");
 		
 		echo "<tr>";
 		foreach($averageDateTime as $avg){
@@ -777,7 +790,7 @@
 		
 	}
 	
-	function lastCompletedEvaluations(){
+	function lastCompletedEvaluationsFaculty(){
 		global $mysqli;
 		
 		$requests = $mysqli->query("select faculty, completeDate from requests where status='complete'");
@@ -804,7 +817,7 @@
 		echo "</table>";
 	}
 	
-	function totalCompletedEvaluations(){
+	function totalCompletedEvaluationsFaculty(){
 		global $mysqli;
 		
 		$requests = $mysqli->query("select faculty, status from requests");
