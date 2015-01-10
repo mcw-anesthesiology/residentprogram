@@ -6,11 +6,12 @@
 	}
 	
 	$date = $_POST["bulkDisableDate"];
+	$archiveDate = date("Y-m-d H:i:s");
 	
 	$success = "false";
 	
-	if($stmt = $mysqli->prepare("update requests set status='disabled' where completeDate<? and status='complete'")){
-		if($stmt->bind_param("s", $date)){
+	if($stmt = $mysqli->prepare("update requests set status='archived', archiveDate=? where completeDate<? and status='complete'")){
+		if($stmt->bind_param("ss", $archiveDate, $date)){
 			if($stmt->execute()){
 				$success = "true";
 			}

@@ -59,7 +59,7 @@
 ?>
     <div class="container-fluid">
       <div class="row">
-        <h2 class="sub-header">Manage Evaluations <button class="addEval btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-bulk-disable-modal" data-id="eval" id="bulkDisableBtn"><span class="glyphicon glyphicon-remove"></span> Disable Evals</button></h2>
+        <h2 class="sub-header">Manage Evaluations <button class="addEval btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-bulk-disable-modal" data-id="eval" id="bulkDisableBtn"><span class="glyphicon glyphicon-remove"></span> Archive Evals</button></h2>
           <div class="table-responsive">
             <table class="table table-striped datatable" cellspacing="0" cellpadding="0">
               <thead>
@@ -259,11 +259,11 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalBulkDisable">Bulk Disable Evaluations</h4>
+          <h4 class="modal-title" id="myModalBulkDisable">Archive Evaluations</h4>
       </div>
       <form method="post" action="bulk_disable_evaluation.php">
 		  <div class="modal-body">
-			<label for="endDate">Disable evaluations older than</label>
+			<label for="endDate">Archive evaluations older than</label>
 			<input type="date" class="form-control" id="bulkDisableDate" name="bulkDisableDate">
 		  </div>
 		  <div class="form-group" style="text-align: center;">
