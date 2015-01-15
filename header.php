@@ -1,10 +1,10 @@
 <?php
-	//This PHP page represents the header that is common to all pages for all users. This header contains various links to navigate the pages depending on which user type is currently logged in. 
+	//This PHP page represents the header that is common to all pages for all users. This header contains various links to navigate the pages depending on which user type is currently logged in.
 	//For all users, the "Resident Evaluation System" title furthest to the left brings the user back to their dashboard. The user's name is also displayed in a welcome message. This message drops down to reveal a link to logout.php
 	//Residents are given links to request.php, dashboard.php, and view_specific_report.php
 	//Faculty are given links to request.php, dashboard.php, and view_specific_report.php, and also can see a notification badge near their name representing the number of pending requests for them to complete
 	//Administrators are given links to request.php, manage_evaluations.php, manage_accounts.php, manage_forms.php, manage_milestones_competencies.php, manage_mentorships.php, view_aggregate_report.php, and view_specific_report.php
-	
+
 ?>
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container-fluid">
@@ -20,12 +20,12 @@
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
 		<li><a href="bb/">MCW Forum</a></li>
-      <?php 
+      <?php
         if($_SESSION["type"] == "faculty"){
       ?>
         <li><a href="request.php">Create Evaluation</a></li>
         <li><a href="dashboard.php">View Evaluation</a></li>
-      <?php 
+      <?php
         } else if($_SESSION["type"] == "resident"){
       ?>
         <li><a href="request.php">Request Evaluation</a></li>
@@ -33,10 +33,10 @@
       <?php
         }
       ?>
-      
-      <?php 
+
+      <?php
         if($_SESSION["type"] == "admin"){
-			//TODO: Make a bit thinner so it doesn't span across two lines before collapsing 
+			//TODO: Make a bit thinner so it doesn't span across two lines before collapsing
       ?>
       <li><a href="request.php">Request Evaluation</a></li>
       <li class="dropdown">
@@ -68,6 +68,7 @@
         ?>
 		  <li><a href="view_needs_evaluations_report.php">Needs Evaluations</a></li>
 		  <li><a href="faculty_stats.php">Faculty Statistics</a></li>
+		  <li><a href="resident_stats.php">Resident Statistics</a></li>
 		  <li><a href="milestones_competencies_forms_report.php">Milestones/Competencies - Forms</a></li>
         <?php
 			}
@@ -76,8 +77,8 @@
       </li>
 
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, <?php echo ucfirst($_SESSION["fname"])." ".ucfirst($_SESSION["lname"]); ?> 
-        <?php 
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, <?php echo ucfirst($_SESSION["fname"])." ".ucfirst($_SESSION["lname"]); ?>
+        <?php
 			//Notification badge displaying number of pending requests for the user
 			if($_SESSION["type"] == "faculty"){
 			  require "init.php";
@@ -86,7 +87,7 @@
 			  if($num > 0){
 				?>
 					<span class="badge"><?= $num ?></span>
-			    <?php 
+			    <?php
 			  }
 			}
         ?>
@@ -180,7 +181,7 @@
               <option value="all">All</option>
             </select>
           </div>
-          <?php 
+          <?php
 			if($_SESSION["type"] == "admin" || $_SESSION["type"] == "faculty"){
 				if($_SESSION["type"] == "admin"){
 					$query = "select username, firstName, lastName from users where type='resident' and status='active' order by lastName;";
@@ -214,7 +215,7 @@
 				<?php
 			}
           ?>
-          
+
             </select>
           </div>
           <div class="form-group" style="text-align: center;">
@@ -244,14 +245,14 @@
 				}
 			}
 		});
-		
+
 		if(dateError){
 			alert("Please enter a valid date. If your browser does not support the date selector, date must be formatted YYYY-MM-DD");
 		}
-		
+
 		return !dateError;
 	}
-	
+
 	function lastSixMonths(){
 		var d = new Date();
 		var day = d.getDate();
@@ -261,7 +262,7 @@
 		var year = d.getFullYear();
 		var date = year+"-"+month+"-"+day;
 		$(this).parents(".report").find("#endDate").val(date);
-		
+
 		d.setMonth(d.getMonth()-6);
 		day = d.getDate();
 		day = ("0"+day).slice(-2);
@@ -271,7 +272,7 @@
 		date = year+"-"+month+"-"+day;
 		$(this).parents(".report").find("#startDate").val(date);
 	}
-	
+
 	function lastThreeMonths(){
 		var d = new Date();
 		var day = d.getDate();
@@ -281,7 +282,7 @@
 		var year = d.getFullYear();
 		var date = year+"-"+month+"-"+day;
 		$(this).parents(".report").find("#endDate").val(date);
-		
+
 		d.setMonth(d.getMonth()-3);
 		day = d.getDate();
 		day = ("0"+day).slice(-2);
@@ -291,11 +292,11 @@
 		date = year+"-"+month+"-"+day;
 		$(this).parents(".report").find("#startDate").val(date);
 	}
-	
+
 	$(document).ready(function(){
 		$(".report").submit(checkReportQuery);
 		$(".lastSixMonths").click(lastSixMonths);
 		$(".lastThreeMonths").click(lastThreeMonths);
-		
+
 	});
 </script>
