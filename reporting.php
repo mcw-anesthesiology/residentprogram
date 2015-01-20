@@ -455,11 +455,11 @@
 
 		global $mysqli;
 
-		if($trainingLevel == "all"){
-			$query = "select response, requests.faculty from textResponses join requests on textResponses.requestId=requests.requestId join users on requests.resident=users.username where users.status='active' and resident=? and requestDate>? and requestDate<? and requests.status='complete';";
+		$query = "select response, requests.faculty, evaluationDate, requestDate, forms.title from textResponses join requests on textResponses.requestId=requests.requestId join users on requests.resident=users.username join forms on requests.formId=forms.formId where users.status='active' and resident=? and requestDate>? and requestDate<? and requests.status='complete'";
+		if($trainingLevel != "all"){
+			$query .= " and trainingLevel=?";
 		}
 		else{
-			$query = "select response, requests.faculty from textResponses join requests on textResponses.requestId=requests.requestId join users on requests.resident=users.username where users.status='active' and resident=? and trainingLevel=? and requestDate>? and requestDate<? and requests.status='complete';";
 		}
 
 		if($stmt = $mysqli->prepare($query)){
@@ -467,21 +467,39 @@
 				$bindParamSuccess = $stmt->bind_param("sss", $resident, $startDate, $endDate);
 			}
 			else{
-				$bindParamSuccess = $stmt->bind_param("ssss", $resident, $trainingLevel, $startDate, $endDate);
+				$bindParamSuccess = $stmt->bind_param("ssss", $resident, $startDate, $endDate, $trainingLevel);
 			}
 			if($bindParamSuccess){
-				if($stmt->bind_result($response, $faculty)){
+				$evaluationDate = "";
+				if($stmt->bind_result($response, $faculty, $evaluationDate, $requestDate, $formTitle)){
 					if($stmt->execute()){
+						if($evaluationDate != "")
+							$yearMonth = substr($evaluationDate, 0, 7);
+						else
+							$yearMonth = substr($requestDate, 0, 7);
 						echo "<table>";
+						echo "<tr>";
+						echo "<th><b>Faculty</b></th>";
+						echo "<th>Date</th>";
+						echo "<th>Evaluation</th>";
+						echo "<th>Comment</th>";
+						echo "</tr>";
 						while($stmt->fetch()){
 							echo "<tr>";
 							echo "<td><b>";
 							echo $faculty;
 							echo "</b></td>";
 							echo "<td>";
+							echo $yearMonth;
+							echo "</td>";
+							echo "<td>";
+							echo $formTitle;
+							echo "</td>";
+							echo "<td>";
 							echo $response;
 							echo "</td>";
 							echo "</tr>";
+							$evaluationDate = "";
 						}
 						echo "</table>";
 					}
