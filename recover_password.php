@@ -38,7 +38,7 @@
       <form class="form-signin" role="form" method="post" action="process_recovery.php">
         <h2 class="form-signin-heading">Recover Password</h2>
         <input class="form-control" placeholder="Email Address" name="email" required autofocus>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Send Recovery Password</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" name="action" value="recoverPassword">Send Recovery Password</button>
       </form>
 
     </div> <!-- /container -->

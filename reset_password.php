@@ -37,10 +37,10 @@ session_start();
 
         <form class="form-signin" role="form" method="post" action="edit_password.php">
             <h2 class="form-signin-heading">Recover Password</h2>
-            <input class="form-control" placeholder="New Password" name="newPassword" required autofocus>
-            <input class="form-control" placeholder="Confirm Password" name="newPassword2" required>
+            <input class="form-control" type="password" placeholder="New Password" name="newPassword" required autofocus>
+            <input class="form-control" type="password" placeholder="Confirm Password" name="newPassword2" required>
             <input type="hidden" name="hash" value="<?= $_GET["hash"] ?>">
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Change Password</button>
+            <button class="btn btn-lg btn-primary btn-block" type="submit" name="action" value="recoverPassword">Change Password</button>
         </form>
 
     </div> <!-- /container -->

@@ -10,26 +10,24 @@
 	$hourDateTime->sub(new DateInterval("PT1H"));
 	$hourDate = $hourDateTime->format("Y-m-d H:i:s");
 
-	$ipaddress = "";
 	if ($_SERVER["HTTP_CLIENT_IP"])
-	$ipaddress = $_SERVER["HTTP_CLIENT_IP"];
+		$ipaddress = $_SERVER["HTTP_CLIENT_IP"];
 	else if($_SERVER["HTTP_X_FORWARDED_FOR"])
-	$ipaddress = $_SERVER["HTTP_X_FORWARDED_FOR"];
+		$ipaddress = $_SERVER["HTTP_X_FORWARDED_FOR"];
 	else if($_SERVER["HTTP_X_FORWARDED"])
-	$ipaddress = $_SERVER["HTTP_X_FORWARDED"];
+		$ipaddress = $_SERVER["HTTP_X_FORWARDED"];
 	else if($_SERVER["HTTP_FORWARDED_FOR"])
-	$ipaddress = $_SERVER["HTTP_FORWARDED_FOR"];
+		$ipaddress = $_SERVER["HTTP_FORWARDED_FOR"];
 	else if($_SERVER["HTTP_FORWARDED"])
-	$ipaddress = $_SERVER["HTTP_FORWARDED"];
+		$ipaddress = $_SERVER["HTTP_FORWARDED"];
 	else if($_SERVER["REMOTE_ADDR"])
-	$ipaddress = $_SERVER["REMOTE_ADDR"];
+		$ipaddress = $_SERVER["REMOTE_ADDR"];
 	else
-	$ipaddress = "UNKNOWN";
+		$ipaddress = "UNKNOWN";
 
-	$failedAttempts = $mysqli->query("select attemptId from reset_attempts where ipAddress='{$ipAddress}' and date>'{$hourDate}'");
-	if($failedAttempts->num_rows > 3){
-		header("Location: recover_password.php?success=false");
-	}
+	echo $hourDate;
+	echo $ipaddress;
+
 
 
 	if($stmt = $mysqli->prepare("select username, email from users where email=?;")){
@@ -51,9 +49,20 @@
 		else{
 
 		}
+		$stmt->close();
 	}
 	else{
 
+	}
+
+	if($username == ""){
+		//log incorrect email for ip address
+		$mysqli->query("insert into reset_attempts(ipAddress, date) values('{$ipAddress}', '{$date}')");
+	}
+
+	$failedAttempts = $mysqli->query("select attemptId from reset_attempts where ipAddress='{$ipAddress}' and date>'{$hourDate}'");
+	if($failedAttempts->num_rows > 3){
+		header("Location: recover_password.php?success=false");
 	}
 
 	if($username !== ""){
@@ -62,7 +71,9 @@
 		$length = 15;
 		$bytes = openssl_random_pseudo_bytes($length);
 		$hex = bin2hex($bytes);
-		$user = $mysqli->query("select firstName, lastName from users where username='{$username}'")->fetch_assoc();
+
+		$userRequest = $mysqli->query("select firstName, lastName from users where username='faculty'");
+		$user = $userRequest->fetch_assoc();
 		$url = "http://www.residentprogram.com/reset_password.php?hash=".$hex;
 
 		$email_from = "password@residentprogram.com";
@@ -77,6 +88,7 @@
 		$email_headers = 'From: ' . $email_from . "\n" . 'X-Mailer: PHP/5.5';
 		mail($dbEmail, $email_subject, $email_txt, $email_headers);
 
+		$mysqli->query("delete from reset_password where username='{$username}'");
 		if($stmt = $mysqli->prepare("insert into reset_password(username, hash) values(?, ?)")){
 			if($stmt->bind_param("ss", $username, $hex)){
 				if($stmt->execute()){
@@ -85,10 +97,9 @@
 			}
 		}
 	}
-	else{
-		//log incorrect email for ip address
-		$mysqli->query("insert into reset_attempts(ipAddress, date) values('{$ipAddress}', '{$date}')");
-	}
+
+
+
 
 	header("Location: recover_password.php?success={$success}");
 

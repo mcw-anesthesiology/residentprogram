@@ -1,7 +1,7 @@
 <?php
 	//This is the login page. If there is no user currently logged in, it displays boxes to enter username and password.
-	//Otherwise, it simply redirects to the user's dashboard. 
-	
+	//Otherwise, it simply redirects to the user's dashboard.
+
 	session_start();
 	if(isset($_SESSION["username"])){
 		header("Location: dashboard.php");
@@ -45,7 +45,7 @@
         <input type="password" class="form-control" placeholder="Password" name="password" required>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
       </form>
-      <form method="post" action="recover_password.php">
+      <form class="form" role="form" method="post" action="recover_password.php">
 		<button class="btn btn-lg btn-block" type="submit">Forgot Password</button>
       </form>
 
