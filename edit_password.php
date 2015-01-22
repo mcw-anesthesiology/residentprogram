@@ -5,6 +5,7 @@
 	require "init.php";
 
 	if(isset($_POST["hash"])){
+		$hash = $_POST["hash"];
 		$user = $mysqli->query("select username from reset_password where hash='{$hash}'")->fetch_assoc();
 		$username = $user["username"];
 		$oldPassword = "";
@@ -12,8 +13,6 @@
 	else{
 		$username = $_SESSION["username"];
 		$oldPassword = htmlspecialchars($_POST["oldPassword"]);
-		if($oldPassword == "")
-			$oldPassword = "null";
 	}
 
 	$newPassword = htmlspecialchars($_POST["newPassword"]);
@@ -81,11 +80,13 @@
 
 	$modifiedDate = date("Y-m-d H:i:s");
 
-	if($oldPassword == "" || password_verify($oldPassword, $passwordHash)){
+	if(isset($hash) || password_verify($oldPassword, $passwordHash)){
 		if($stmt = $mysqli->prepare("update users set password=?, modifiedDate=? where username=?")){
 			if($stmt->bind_param("sss", $newPassword, $modifiedDate, $username)){
 				if($stmt->execute()){
 					$success = "true";
+					if(isset($hash))
+						$mysqli->query("delete from password_reset where hash='{$hash}'");
 				}
 				else{
 					print $stmt->error;
