@@ -86,7 +86,7 @@
 				if($stmt->execute()){
 					$success = "true";
 					if(isset($hash))
-						$mysqli->query("delete from password_reset where hash='{$hash}'");
+						$mysqli->query("delete from reset_password where hash='{$hash}'");
 				}
 				else{
 					print $stmt->error;

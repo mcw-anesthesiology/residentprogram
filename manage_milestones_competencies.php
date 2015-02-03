@@ -1,7 +1,7 @@
-<?php 
+<?php
 	//This page is used to add/edit milestones and competencies. It contains a button to add a new milestone and a table representing all milestones in the system, and likewise for competencies.
 
-  session_start(); 
+  session_start();
   require "init.php";
   if($_SESSION["type"] !== "admin"){
     header("Location: dashboard.php");
@@ -11,40 +11,20 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="shortcut icon" href="favicon.ico">
-
-    <title><?php echo ucfirst($_SESSION["type"])." Dashboard"; ?></title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom styles for this template -->
-    <link href="dashboard.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/1.10.1/css/jquery.dataTables.css" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy this line! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <?php
+        include "head.html";
+    ?>
   </head>
   <body>
 
 <?php require 'header.php'; ?>
 
-<?php 
-  if($_SESSION["type"] == "admin"){       
+<?php
+  if($_SESSION["type"] == "admin"){
     $milestones = $mysqli->query("select * from milestones;");
     $competencies = $mysqli->query("select * from competencies;");
-    $milestone = $milestones->fetch_assoc(); 
-    $competency = $competencies->fetch_assoc();    
+    $milestone = $milestones->fetch_assoc();
+    $competency = $competencies->fetch_assoc();
 ?>
   <div class="container-fluid">
     <div class="row">
@@ -62,11 +42,11 @@
 <?php
     while(!is_null($milestone)){
 		$numMilestonesQuestions = $mysqli->query("select * from milestones_questions where milestoneId='{$milestone["milestoneId"]}';")->num_rows;
-		
+
 ?>
             <tr>
               <td class="title"><?= $milestone["title"] ?></td>
-              <td class="description"><?= $milestone["description"] ?></td>  
+              <td class="description"><?= $milestone["description"] ?></td>
               <td>
 				<button class="editMilestone btn btn-info btn-xs" data-toggle="modal" data-target=".bs-editMS-modal" data-id="<?= $milestone["milestoneId"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button>
 					<?php
@@ -76,8 +56,8 @@
 					<?php
 						}
 					?>
-              </td>  
-            </tr>         
+              </td>
+            </tr>
 <?php
       $milestone = $milestones->fetch_assoc();
     }
@@ -118,8 +98,8 @@
 					<?php
 						}
 					?>
-              </td>  
-            </tr>         
+              </td>
+            </tr>
 <?php
       $competency = $competencies->fetch_assoc();
     }
@@ -288,47 +268,43 @@
 
 
 
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
-<script src="../../assets/js/docs.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.1/js/jquery.dataTables.js"></script>
+<?php
+    include "scripts.html";
+?>
 <script>
 	$(document).ready(function(){
 		$(".editMilestone").click(function(){
 			var milestoneId = $(this).data("id");
 			var milestoneTitle = $(this).parent().siblings(".title")[0].innerHTML;
 			var milestoneDescription = $(this).parent().siblings(".description")[0].innerHTML;
-			
+
 			$("#editMSModal").find("#submit").val(milestoneId);
 			$("#editMSModal").find("#milestoneTitle").val(milestoneTitle);
 			$("#editMSModal").find("#milestoneDescription").val(milestoneDescription);
 		});
-		
+
 		$(".editCompetency").click(function(){
 			var competencyId = $(this).data("id");
 			var competencyTitle = $(this).parent().siblings(".title")[0].innerHTML;
 			var competencyDescription = $(this).parent().siblings(".description")[0].innerHTML;
-			
+
 			$("#editCModal").find("#submit").val(competencyId);
 			$("#editCModal").find("#competencyTitle").val(competencyTitle);
-			$("#editCModal").find("#competencyDescription").val(competencyDescription);			
+			$("#editCModal").find("#competencyDescription").val(competencyDescription);
 		});
-		
+
 		$(".deleteMilestone").click(function(){
 			var milestoneId = $(this).data("id");
 			$("#deleteMSModal").find("#submit").val(milestoneId);
 		});
-		
+
 		$(".deleteCompetency").click(function(){
 			var competencyId = $(this).data("id");
 			$("#deleteCModal").find("#submit").val(competencyId);
 		});
-		
+
 		$(".datatable").each(function(){
-			$(this).dataTable(); 
+			$(this).dataTable();
 		});
 	});
 </script>

@@ -1,10 +1,10 @@
-<?php 
+<?php
 	//This page is used to enable/disable evaluations. It contains a single table that displays every single evaluation in the system.
-	//Each row represents an evaluation, and contains information about that request/evaluation as well as a button to enable/disable it. 
-	
+	//Each row represents an evaluation, and contains information about that request/evaluation as well as a button to enable/disable it.
+
 	//TODO: Remove the New Evaluation Form button
 
-  session_start(); 
+  session_start();
   require "init.php";
 
  	if($_SESSION["type"] !== "admin"){
@@ -18,30 +18,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="shortcut icon" href="favicon.ico">
-
-    <title><?php echo ucfirst($_SESSION["type"])." Dashboard"; ?></title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="dashboard.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/1.10.1/css/jquery.dataTables.css" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy this line! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <?php
+		include "head.html";
+	?>
     <style>
 		.view { cursor: pointer }
     </style>
@@ -51,10 +30,10 @@
 
 <?php require 'header.php'; ?>
 
-<?php 
+<?php
     $requests = $mysqli->query("select requestId, resident, faculty, requestDate, completeDate, requestedBy, requests.status, title, residentUsers.firstName as residentFirst, residentUsers.lastName as residentLast, facultyUsers.firstName as facultyFirst, facultyUsers.lastName as facultyLast, requestedByUsers.firstName as requestedByFirst, requestedByUsers.lastName as requestedByLast from requests left join forms on requests.formId=forms.formId left join users residentUsers on resident=residentUsers.username left join users facultyUsers on faculty=facultyUsers.username left join users requestedByUsers on requestedBy=requestedByUsers.username order by requestId desc;");
-    $request = $requests->fetch_assoc();   
-    
+    $request = $requests->fetch_assoc();
+
 
 ?>
     <div class="container-fluid">
@@ -87,7 +66,7 @@
 				else{
 					$completeDateText = "";
 				}
-				
+
           ?>
             <tr data-id="<?= $request["requestId"] ?>">
               <td class="view"><a href="view_specific.php?request=<?= $request["requestId"] ?>"><?= $request["requestId"] ?></a></td>
@@ -127,7 +106,7 @@
                 if($request["status"] == "pending"){
 			  ?>
 				<button class="cancelEval btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-cancel-modal-sm" data-id="<?= $request["requestId"] ?>"><span class="glyphicon glyphicon-remove"></span> Cancel</button></td>
-			  <?php 
+			  <?php
 				}
               ?>
 				</td>
@@ -139,7 +118,7 @@
               </tbody>
             </table>
           </div>
-        </div> 
+        </div>
       </div>
     </div>
 
@@ -251,7 +230,7 @@
       </form>
     </div>
   </div>
-</div>    
+</div>
 
 <!-- Bulk Disable Modal -->
 <div class="modal fade bs-bulk-disable-modal" tabindex="-1" role="dialog" aria-labelledby="modalBulkDisable" aria-hidden="true">
@@ -291,22 +270,22 @@
 			var requestId = $(this).data('id');
 			$(".modal-disable #requestId").val(requestId);
 		});
-		
+
 		$(document).on("click", ".enableEval", function(){
 			var requestId = $(this).data('id');
 			$(".modal-enable #requestId").val(requestId);
-		});	
-		
+		});
+
 		$(document).on("click", ".cancelEval", function(){
 			var requestId = $(this).data('id');
 			$(".modal-cancel #requestId").val(requestId);
 		});
-		
+
 		$("tbody").on("click", ".view", function(){
 			var requestId = $(this).parent().data("id");
 			window.location.href = "view_specific.php?request="+requestId;
 		});
-		
+
 		function lastThreeMonthsDisable(){
 			var d = new Date();
 			var day = d.getDate();
@@ -318,7 +297,7 @@
 			var date = year+"-"+month+"-"+day;
 			$(document).find("#bulkDisableDate").val(date);
 		}
-		
+
 		function lastSixMonthsDisable(){
 			var d = new Date();
 			d.setMonth(d.getMonth()-6);
@@ -333,12 +312,12 @@
 
 		$(document).ready(function(){
 		  $(".datatable").each(function(){
-			$(this).dataTable(); 
+			$(this).dataTable();
 		  });
-		  
+
 		  $("#lastSixMonthsDisable").click(lastSixMonthsDisable);
 		  $("#lastThreeMonthsDisable").click(lastThreeMonthsDisable);
-		});	
+		});
     </script>
   </body>
 </html>

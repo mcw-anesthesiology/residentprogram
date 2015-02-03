@@ -1,8 +1,8 @@
-<?php 
+<?php
 	//This page is is used to add/edit/disable users. It displays three tables, one for each user type. Each row contains the account information for a user, as well as edit and enable/disable buttons.
-	
+
 	//TODO: reset password functionality
-	session_start(); 
+	session_start();
 	require "init.php";
 	if($_SESSION["type"] !== "admin"){
 		header("Location: dashboard.php");
@@ -11,40 +11,19 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="shortcut icon" href="favicon.ico">
-
-    <title><?php echo ucfirst($_SESSION["type"])." Dashboard"; ?></title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="dashboard.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/1.10.1/css/jquery.dataTables.css" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy this line! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <?php
+		include "head.html";
+	?>
   </head>
 
   <body>
 
 <?php require 'header.php'; ?>
 
-<?php 
+<?php
   if($_SESSION["type"] == "admin"){				// ************************************ RESIDENT ***********************************************************************
 	  $users = $mysqli->query("select * from users where type = 'resident';");
-	  $user = $users->fetch_assoc();	  
+	  $user = $users->fetch_assoc();
 ?>
     <div class="container-fluid">
       <div class="row">
@@ -79,8 +58,8 @@
 if($user["status"] == "inactive"){
 ?>
                 <td>
-					<button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" data-photo="<?= $user["photo"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> 
-					<button class="editPassword btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-password-modal" data-id="<?= $user["username"] ?>" id="editPasswordBtn"><span class="glyphicon glyphicon-edit"></span> Edit Password</button> 
+					<button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" data-photo="<?= $user["photo"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button>
+					<button class="editPassword btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-password-modal" data-id="<?= $user["username"] ?>" id="editPasswordBtn"><span class="glyphicon glyphicon-edit"></span> Edit Password</button>
 					<button class="residentToFaculty btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-resident-to-faculty-modal-sm" data-id="<?= $user["username"] ?>" id="residentToFacultyBtn"><span class="glyphicon glyphicon-edit"></span> Change to Faculty</button>
 					<button class="enableUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button>
 				</td>
@@ -89,15 +68,15 @@ if($user["status"] == "inactive"){
 else{
 ?>
                 <td>
-					<button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" data-photo="<?= $user["photo"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> 
-					<button class="editPassword btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-password-modal" data-id="<?= $user["username"] ?>" id="editPasswordBtn"><span class="glyphicon glyphicon-edit"></span> Edit Password</button> 
+					<button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" data-photo="<?= $user["photo"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button>
+					<button class="editPassword btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-password-modal" data-id="<?= $user["username"] ?>" id="editPasswordBtn"><span class="glyphicon glyphicon-edit"></span> Edit Password</button>
 					<button class="residentToFaculty btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-resident-to-faculty-modal-sm" data-id="<?= $user["username"] ?>" id="residentToFacultyBtn"><span class="glyphicon glyphicon-edit"></span> Change to Faculty</button>
 					<button class="disableUser btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button>
 				</td>
 <?php
 }
 ?>
-            </tr>            
+            </tr>
 <?php
 $user = $users->fetch_assoc();
 }
@@ -108,9 +87,9 @@ $user = $users->fetch_assoc();
         </div>
       </div>
     </div>
-<?php 
+<?php
     $users = $mysqli->query("select * from users where type = 'faculty';"); // ************************************ FACULTY ***********************************************************************
-    $user = $users->fetch_assoc();   
+    $user = $users->fetch_assoc();
 ?>
     <div class="container-fluid">
       <div class="row">
@@ -143,8 +122,8 @@ $user = $users->fetch_assoc();
 if($user["status"] == "inactive"){
 ?>
                 <td>
-					<button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> 
-					<button class="editPassword btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-password-modal" data-id="<?= $user["username"] ?>" id="editPasswordBtn"><span class="glyphicon glyphicon-edit"></span> Edit Password</button> 
+					<button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button>
+					<button class="editPassword btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-password-modal" data-id="<?= $user["username"] ?>" id="editPasswordBtn"><span class="glyphicon glyphicon-edit"></span> Edit Password</button>
 					<button class="enableUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button>
 				</td>
 <?php
@@ -152,14 +131,14 @@ if($user["status"] == "inactive"){
 else{
 ?>
                 <td>
-					<button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> 
-					<button class="editPassword btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-password-modal" data-id="<?= $user["username"] ?>" id="editPasswordBtn"><span class="glyphicon glyphicon-edit"></span> Edit Password</button> 
+					<button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button>
+					<button class="editPassword btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-password-modal" data-id="<?= $user["username"] ?>" id="editPasswordBtn"><span class="glyphicon glyphicon-edit"></span> Edit Password</button>
 					<button class="disableUser btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button>
 				</td>
 <?php
 }
 ?>
-            </tr>            
+            </tr>
 <?php
 $user = $users->fetch_assoc();
 }
@@ -171,9 +150,9 @@ $user = $users->fetch_assoc();
       </div>
     </div>
 
-<?php 
+<?php
     $users = $mysqli->query("select * from users where type = 'admin';"); // ************************************ ADMIN ***********************************************************************
-    $user = $users->fetch_assoc();   
+    $user = $users->fetch_assoc();
 ?>
     <div class="container-fluid">
       <div class="row">
@@ -206,8 +185,8 @@ $user = $users->fetch_assoc();
 if($user["status"] == "inactive"){
 ?>
                 <td>
-					<button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> 
-					<button class="editPassword btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-password-modal" data-id="<?= $user["username"] ?>" id="editPasswordBtn"><span class="glyphicon glyphicon-edit"></span> Edit Password</button> 
+					<button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button>
+					<button class="editPassword btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-password-modal" data-id="<?= $user["username"] ?>" id="editPasswordBtn"><span class="glyphicon glyphicon-edit"></span> Edit Password</button>
 					<button class="enableUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button>
 				</td>
 <?php
@@ -215,14 +194,14 @@ if($user["status"] == "inactive"){
 else{
 ?>
                 <td>
-					<button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button> 
-					<button class="editPassword btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-password-modal" data-id="<?= $user["username"] ?>" id="editPasswordBtn"><span class="glyphicon glyphicon-edit"></span> Edit Password</button> 
+					<button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button>
+					<button class="editPassword btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-password-modal" data-id="<?= $user["username"] ?>" id="editPasswordBtn"><span class="glyphicon glyphicon-edit"></span> Edit Password</button>
 					<button class="disableUser btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button>
 				</td>
 <?php
 }
 ?>
-            </tr>            
+            </tr>
 <?php
 $user = $users->fetch_assoc();
 }
@@ -233,7 +212,7 @@ $user = $users->fetch_assoc();
         </div>
       </div>
     </div>
-<?php 
+<?php
   }
 ?>
 
@@ -440,8 +419,8 @@ $user = $users->fetch_assoc();
           <h4 class="modal-title" id="myModalResidentToFaculty">Disable Account</h4>
       </div>
       <div class="modal-body modal-resident-to-faculty">
-        <p>You have selected to convert the resident <b id="residentUsername"></b> to a faculty member.</p> 
-        <p><b>This cannot be undone.</b></p> 
+        <p>You have selected to convert the resident <b id="residentUsername"></b> to a faculty member.</p>
+        <p><b>This cannot be undone.</b></p>
         <p>Would you like to continue?</p>
       </div>
       <div class="modal-footer modal-resident-to-faculty">
@@ -464,15 +443,15 @@ $user = $users->fetch_assoc();
     <script>
 		$(document).ready(function(){
 		  $(".datatable").each(function(){
-			$(this).dataTable(); 
+			$(this).dataTable();
 		  });
-		});	
-		
+		});
+
 		$(document).on("click", ".disableUser", function(){
 			var username = $(this).data('id');
 			$(".modal-disable #username").val(username);
 		});
-		
+
 		$(document).on("click", ".enableUser", function(){
 			var username = $(this).data('id');
 			$(".modal-enable #username").val(username);
@@ -485,7 +464,7 @@ $user = $users->fetch_assoc();
       var lastName = $(this).closest("tr").find("#LN").text();
       var currentTrainingLevel = $(this).closest("tr").find("#TL").text().toLowerCase();
       var photoPath = $(this).data("photo");
-      
+
       $(".modal-edit #usernameInput").val(username);
       $(".modal-edit #emailInput").val(email);
       $(".modal-edit #firstNameInput").val(firstName);
@@ -502,7 +481,7 @@ $user = $users->fetch_assoc();
 		  $(".modal-edit #photoPreview").attr("src", "");
 	  }
     });
-    
+
     $(".user-table").on("click", "#editPasswordBtn", function(){
 		var username = $(this).data("id");
 		$(".modal-edit-password #username").val(username);
@@ -527,10 +506,10 @@ $user = $users->fetch_assoc();
 		  $(".modal-add #photoDiv").hide();
 	  }
     });
-    
+
     $(".user-table").on("click", ".residentToFaculty", function(){
 		var username = $(this).data("id");
-		
+
 		$(".modal-resident-to-faculty #username").val(username);
 		$(".modal-resident-to-faculty #residentUsername").html(username);
 	});

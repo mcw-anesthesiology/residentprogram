@@ -1,30 +1,30 @@
-<?php 
+<?php
 	//This page is used to create an evaluation form. It contains a single form that can contain an arbitrary number of questions.
 	//Each question can be either type "radio" or "text" to ask for responses for multiple-choice questions and open-ended questions respectively.
 	//Each radio question can have an arbitrary number of options. Each option must contain a numeric option value, and may contain an option text and an option description.
-	//Option descriptions are hidden text that are displayed when hovering over options on a mouse-based device, and can also be seen on a touch-based device via a "Show Descriptions" button. 
+	//Option descriptions are hidden text that are displayed when hovering over options on a mouse-based device, and can also be seen on a touch-based device via a "Show Descriptions" button.
 	//Each radio question must be associated with a milestone and a competency, and may be associated with a second milestone as well.
-	//Each radio question must be given a weight value which is a percentage that weights questions more or less heavily based on the discretion of the administrator. 
+	//Each radio question must be given a weight value which is a percentage that weights questions more or less heavily based on the discretion of the administrator.
 	//Weight defaults to 100%, and can be between 0 and 200.
-	//Milestone, competency, and weight attributes mean absolutely nothing for a text question, even though the selection boxes are still there. 
+	//Milestone, competency, and weight attributes mean absolutely nothing for a text question, even though the selection boxes are still there.
 
 	//TODO: Make copying and modifying an existing evaluation form work when creating a new form
 	//TODO: Remove weight/milestone/etc options for text questions
-	
-	session_start(); 
+
+	session_start();
 	require "init.php";
-	
+
 	if($_SESSION["type"] !== "admin"){
 		header("Location: dashboard.php");
 	}
-	
+
 	if(isset($_POST["evaluationForm"])){
 		$evaluationForm = $_POST["evaluationForm"];
 	}
 	else{
 		$evaluationForm = "";
 	}
-	
+
 	$milestones = $mysqli->query("select * from milestones order by title;");
 	$milestone = $milestones->fetch_assoc();
 	$competencies = $mysqli->query("select * from competencies order by title;");
@@ -33,29 +33,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="shortcut icon" href="favicon.ico">
-
-    <title><?php echo ucfirst($_SESSION["type"])." Dashboard"; ?></title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="dashboard.css" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy this line! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+	<?php
+		include "head.html";
+	?>
 	<style>
 		textarea{
 			width:100%;
@@ -82,17 +62,14 @@
 		<div id='footer'>
 			<button type="button" class="btn btn-info" id="addQuestion">Add Question</button>
 			<button type="submit" class="btn btn-success">Submit Form</button>
-		</div>	
+		</div>
 	</form>
 	<br />
-	
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <script src="../../assets/js/docs.min.js"></script>
-    <script>
+
+	<?php
+		include "scripts.html";
+	?>
+	<script>
 		var radioHtml = "<div class='col-md-2 ctr-contents tdRdoBtn'>" +
 											"<input type='radio' disabled/>" +
 											"<input class='form-input form-option form-option-text form-control' placeholder='Option Text' />" +
@@ -104,30 +81,30 @@
 										 "<textarea disabled>" +
 										 "</textarea>" +
 									 "</div>";
-						
+
 		var milestoneOptionsHtml = <?php
 										while(!is_null($milestone)){
 											echo "\"<option value='{$milestone["milestoneId"]}'>{$milestone["title"]}</option>\" +";
 											$milestone = $milestones->fetch_assoc();
 										}
 									?>"";
-		
+
 		var milestoneHtml = 	"<select class='form-control form-question-milestone' name=''>" +
-									milestoneOptionsHtml +							
+									milestoneOptionsHtml +
 								"</select>";
-												
+
 		var secondMilestoneHtml = 	"<select class='form-control form-question-milestone-2' name=''>" +
 										"<option value='-1'>(None)</option>" +
 										milestoneOptionsHtml +
 									"</select>";
-							
+
 		var competencyHtml = "<select class='form-control form-question-competency' name=''>" +
 														<?php
 															while(!is_null($competency)){
 																echo "\"<option value='{$competency["competencyId"]}'>{$competency["title"]}</option>\" +";
 																$competency = $competencies->fetch_assoc();
 															}
-													  ?>							
+													  ?>
 												 "</select>";
 
 		var typeHtml = "<select class='form-control form-question-type' name='questionType'>" +
@@ -200,11 +177,11 @@
 													radioHtml +
 												"</div>" +
 											"</div>";
-		
+
 		$(document).ready(function(){
 			addQuestion();
 		});
-		
+
 		$(".form").on("change", ".form-question-type", function(){
 		//Changes the radio options for a single textarea when selecting text, or vice versa when selecting radio
 			if($(this).val() === "radio"){
@@ -216,7 +193,7 @@
 				$(this).parents(".form-question").find("textarea").attr("name", questionId+":textResponse");
 			}
 		});
-		
+
 		$(".form").on("change", ".form-option-value", function(){
 		//Adds input boxes for a new option when giving the current option a numeric value
 			if($(this).val() != ""){
@@ -229,21 +206,21 @@
 					$(this).parent().remove();
 				}
 			}
-			
+
 			var questionId = $(this).parents(".form-question").attr("id");
 			var optionValue = $(this).val();
 			var optionNumber = $(this).parents(".form-options").children().length;
-			
+
 			$(this).parent().find(".form-option-text").attr("name", questionId+":"+optionValue+":"+optionNumber);
 			$(this).parent().find(".form-option-description").attr("name", questionId+":"+optionValue+":description");
-			
+
 		});
-		
+
 		$(".form").on("click", ".form-question-delete", function(){
 		//Removes the selected question
 			$(this).parents(".form-question").remove();
 		});
-		
+
 		$(".form").on("click", ".form-question-standard-options", function(){
 			var formOptionText = "";
 			var formOptions = $(this).parents(".form-question").find(".form-options");
@@ -252,7 +229,7 @@
 			for(formOptionValue = 0; formOptionValue <= 10; formOptionValue++){
 				formOption = formOptions.append(radioHtml).children().last();
 				formOption.find(".form-option-value").val(formOptionValue);
-				
+
 				if(formOptionValue%2 == 0){
 					if(formOptionValue == 0){
 						formOptionText = "Not at PGY-1";
@@ -275,20 +252,20 @@
 					}
 					formOption.find(".form-option-text").val(formOptionText);
 				}
-				
+
 				var questionId = formOption.parents(".form-question").attr("id");
 				var optionNumber = formOption.parents(".form-options").children().length;
-				
+
 				formOption.find(".form-option-text").attr("name", questionId+":"+formOptionValue+":"+optionNumber);
-				formOption.find(".form-option-description").attr("name", questionId+":"+formOptionValue+":description");				
-				
+				formOption.find(".form-option-description").attr("name", questionId+":"+formOptionValue+":description");
+
 			}
 		});
 
 		$("#addQuestion").click(function(){
 			addQuestion();
 		});
-		
+
 		function addQuestion(){
 		//Adds a question to the end of the form
 			if($(".form").children().length == 0){
@@ -300,9 +277,9 @@
 				questionIdNum++;
 				questionId = questionId.substring(0, 1)+questionIdNum;
 			}
-			
+
 			$(".form").append(questionHtml);
-			
+
 			// Changes the input name attributes for the newly added question to correctly reflect its questionId
 			$(".form").children(".form-question").last().attr("id", questionId);
 			$(".form").children(".form-question").last().find(".form-question-name").html(questionId.toUpperCase()+": ");
@@ -314,9 +291,9 @@
 			$(".form").children(".form-question").last().find(".form-question-weight").attr("name", questionId+":weight");
 			$(".form").children(".form-question").last().find(".form-question-required").attr("name", questionId+":required");
 		}
-		
+
 		$("#evaluation-form").submit(checkForm);
-		
+
 		function checkForm(){
 		// Checks to make sure that the form has a title, each question has a title, and each option has a value. Option text and option description are both optional.
 			var validForm = true;
@@ -342,7 +319,7 @@
 			});
 			if(!validForm)
 				alert(alertText);
-			
+
 			return validForm;
 		}
     </script>
