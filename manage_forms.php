@@ -1,7 +1,7 @@
-<?php 
-	//This page is used to create/enable/disable evaluation forms. It contains a button to create a new form, and a single table that represents all forms present in the system. 
-	
-  session_start(); 
+<?php
+	//This page is used to create/enable/disable evaluation forms. It contains a button to create a new form, and a single table that represents all forms present in the system.
+
+  session_start();
   require "init.php";
   if($_SESSION["type"] !== "admin"){
     header("Location: dashboard.php");
@@ -11,38 +11,18 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="shortcut icon" href="favicon.ico">
-
-    <title><?php echo ucfirst($_SESSION["type"])." Dashboard"; ?></title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom styles for this template -->
-    <link href="dashboard.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/1.10.1/css/jquery.dataTables.css" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy this line! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <?php
+		include "head.html";
+	?>
   </head>
   <body>
 
 <?php require 'header.php'; ?>
 
-<?php 
+<?php
   if($_SESSION["type"] == "admin"){       // ************************************ RESIDENT ***********************************************************************
     $forms = $mysqli->query("select * from forms;");
-    $form = $forms->fetch_assoc();    
+    $form = $forms->fetch_assoc();
 ?>
   <div class="container-fluid">
     <div class="row">
@@ -75,10 +55,10 @@
               <button type="button" class="disableEval btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $form["formId"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button>
 <?php
   }
-?> 
+?>
 			  <button type="submit" class="printEval btn btn-xs" name="formLocation" value="<?= $form["location"] ?>">View Form</button>
 			  </form></td>
-            </tr>         
+            </tr>
 <?php
       $form = $forms->fetch_assoc();
     }
@@ -213,17 +193,17 @@
       var formId = $(this).data('id');
       $(".modal-disable #formId").val(formId);
     });
-    
+
     $(document).on("click", ".enableEval", function(){
       var formId = $(this).data('id');
       $(".modal-enable #formId").val(formId);
     });
-    
+
     $(document).ready(function(){
 		  $(".datatable").each(function(){
-			$(this).dataTable(); 
+			$(this).dataTable();
 		  });
-	});		 
+	});
 </script>
 </body>
 </html>

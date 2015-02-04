@@ -74,7 +74,7 @@
 
 		$userRequest = $mysqli->query("select firstName, lastName from users where username='faculty'");
 		$user = $userRequest->fetch_assoc();
-		$url = "http://residentprogram.com/reset_password.php?hash=".$hex;
+		$url = "http://www.residentprogram.com/reset_password.php?hash=".$hex;
 
 		$email_from = "password@residentprogram.com";
 		$email_subject = "Password Reset Requested";
