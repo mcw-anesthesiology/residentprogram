@@ -51,21 +51,25 @@
 						while($responsesStmt->fetch()){
 							$milestones[] = $milestoneId;
 							$milestoneTitles[$milestoneId] = $milestoneTitle;
-							$competencies[] = $competencyId;
-							$competencyTitles[$competencyId] = $competencyTitle;
 							$residents[] = $requestResident;
 							$requests[] = $requestId;
 							$requestsResidents[$requestResident][] = $requestId;
 
 							$averageWeightedResponsesMilestones[$milestoneId][] = (floatval($response)*floatval($weight));
 							$averageWeightedResponsesMilestonesDenominator[$milestoneId][] = floatval($weight);
+							$residentWeightedResponsesMilestones[$requestResident][$milestoneId][] = (floatval($response)*floatval($weight));
+							$residentWeightedResponsesMilestonesDenominator[$requestResident][$milestoneId][] = floatval($weight);
+
+							if($competencyQuestions[$requestId][$questionId] == 1)
+								continue;
+							$competencies[] = $competencyId;
+							$competencyTitles[$competencyId] = $competencyTitle;
+							$residentWeightedResponsesCompetencies[$requestResident][$competencyId][] = (floatval($response)*floatval($weight));
+							$residentWeightedResponsesCompetenciesDenominator[$requestResident][$competencyId][] = floatval($weight);
 							$averageWeightedResponsesCompetencies[$competencyId][] = (floatval($response)*floatval($weight));
 							$averageWeightedResponsesCompetenciesDenominator[$competencyId][] = floatval($weight);
 
-							$residentWeightedResponsesMilestones[$requestResident][$milestoneId][] = (floatval($response)*floatval($weight));
-							$residentWeightedResponsesMilestonesDenominator[$requestResident][$milestoneId][] = floatval($weight);
-							$residentWeightedResponsesCompetencies[$requestResident][$competencyId][] = (floatval($response)*floatval($weight));
-							$residentWeightedResponsesCompetenciesDenominator[$requestResident][$competencyId][] = floatval($weight);
+							$competencyQuestions[$requestId][$questionId] = 1;
 						}
 					}
 					else{
@@ -345,7 +349,7 @@
 		$responseMax = 10;
 
 		$query = "select requests.resident, responses.requestId, responses.questionId, responses.response, responses.weight, milestones.milestoneId, milestones.title, competencies.competencyId, competencies.title from responses join requests on requests.requestId=responses.requestId join milestones_questions on responses.questionId=milestones_questions.questionId and requests.formId=milestones_questions.formId join milestones on milestones_questions.milestoneId=milestones.milestoneId join competencies_questions on responses.questionId=competencies_questions.questionId and requests.formId=competencies_questions.formId join competencies on competencies_questions.competencyId=competencies.competencyId join evaluations on evaluations.requestId=requests.requestId join users on requests.resident=users.username where users.status='active' and users.type='resident' and requests.status='complete' and requests.evaluationDate>? and requests.evaluationDate<?";
-		
+
 		if($trainingLevel != "all"){
 			$query .= " and evaluations.currentTrainingLevel=?";
 		}
