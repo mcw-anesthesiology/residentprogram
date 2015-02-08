@@ -33,7 +33,7 @@
             <tr>
               <th>Title</th>
               <th>Created Date</th>
-              <th>Status</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -44,19 +44,21 @@
               <td><?= $form["title"] ?></td>
               <td><?= $form["createdDate"] ?></td>
               <td><form action="view_form.php" target="_blank" method="post">
+                  <span>
 <?php
   if($form["status"] == "inactive"){
 ?>
-              <button type="button" class="enableEval btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $form["formId"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button>
+              <button type="button" class="enableEval btn btn-success btn-xs" data-id="<?= $form["formId"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button>
 <?php
   }
   else{
 ?>
-              <button type="button" class="disableEval btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $form["formId"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button>
+              <button type="button" class="disableEval btn btn-danger btn-xs" data-id="<?= $form["formId"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button>
 <?php
   }
 ?>
-			  <button type="submit" class="printEval btn btn-xs" name="formLocation" value="<?= $form["location"] ?>">View Form</button>
+			     </span>
+              <button type="submit" class="printEval btn btn-xs" name="formLocation" value="<?= $form["location"] ?>">View Form</button>
 			  </form></td>
             </tr>
 <?php
@@ -190,20 +192,38 @@
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.1/js/jquery.dataTables.js"></script>
 <script>
     $(document).on("click", ".disableEval", function(){
-      var formId = $(this).data('id');
-      $(".modal-disable #formId").val(formId);
+        var formId = $(this).data('id');
+        var span = $(this).parent();
+        $.ajax({
+            type: "post",
+            url: "disable_form.php",
+            data: "formId=" + formId,
+            success: function(response){
+                if (response == "true")
+                    span.html("<button type='button' class='enableEval btn btn-success btn-xs' data-id='" + formId + "'><span class='glyphicon glyphicon-ok'></span> Enable</button>");
+            }
+        });
     });
 
     $(document).on("click", ".enableEval", function(){
-      var formId = $(this).data('id');
-      $(".modal-enable #formId").val(formId);
+        var formId = $(this).data('id');
+        var span = $(this).parent();
+        $.ajax({
+            type: "post",
+            url: "enable_form.php",
+            data: "formId=" + formId,
+            success: function(response){
+                if (response == "true")
+                    span.html("<button type='button' class='disableEval btn btn-danger btn-xs' data-id='" + formId + "'><span class='glyphicon glyphicon-remove'></span> Disable</button>");
+            }
+        });
     });
 
     $(document).ready(function(){
-		  $(".datatable").each(function(){
-			$(this).dataTable();
-		  });
-	});
+        $(".datatable").each(function(){
+            $(this).dataTable();
+        });
+    });
 </script>
 </body>
 </html>
