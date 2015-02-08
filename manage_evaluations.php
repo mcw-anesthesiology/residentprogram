@@ -78,37 +78,42 @@
 			<?php
 			  if($request["status"] == "complete"){
 			?>
-              <td class="view"><span class="badge badge-complete"><?= $request["status"] ?></span></td>
+              <td class="view status"><span class="badge badge-complete"><?= $request["status"] ?></span></td>
 			<?php
 			  }
 			  else if($request["status"] == "pending"){
 			?>
-              <td class="view"><span class="badge badge-pending"><?= $request["status"] ?></span></td>
+              <td class="view status"><span class="badge badge-pending"><?= $request["status"] ?></span></td>
 			<?php
 			  }
 			  else{
 			?>
-              <td class="view"><span class="badge badge-disabled"><?= $request["status"] ?></span></td>
+              <td class="view status"><span class="badge badge-disabled"><?= $request["status"] ?></span></td>
 			<?php
 			  }
 			?>
+            <td>
               <?php
                 if($request["status"] == "disabled"){
               ?>
-                <td><button class="enableEval btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $request["requestId"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button></td>
+                <span><button class="enableEval btn btn-success btn-xs" data-id="<?= $request["requestId"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button></span>
               <?php
                 }
                 else{
               ?>
-                <td><button class="disableEval btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $request["requestId"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button>
+                <span><button class="disableEval btn btn-danger btn-xs" data-id="<?= $request["requestId"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button></span>
               <?php
                 }
+                ?>
+                <span class="cancel">
+                <?php
                 if($request["status"] == "pending"){
 			  ?>
-				<button class="cancelEval btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-cancel-modal-sm" data-id="<?= $request["requestId"] ?>"><span class="glyphicon glyphicon-remove"></span> Cancel</button></td>
+				<button class="cancelEval btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-cancel-modal-sm" data-id="<?= $request["requestId"] ?>"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
 			  <?php
 				}
               ?>
+                </span>
 				</td>
             </tr>
 				<?php
@@ -176,10 +181,8 @@
         You have selected to <b>cancel</b> the selected evaluation. Would you like to continue?
       </div>
       <div class="modal-footer modal-cancel">
-		<form method="post" action="cancel_evaluation_admin.php">
 			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			<button type="submit" class="btn btn-danger" id="requestId" name="requestId" value="">Confirm</button>
-        </form>
+			<button type="submit" class="btn btn-danger" data-dismiss="modal" id="requestId" value="">Confirm</button>
       </div>
     </div>
   </div>
@@ -268,18 +271,68 @@
     <script>
 		$(document).on("click", ".disableEval", function(){
 			var requestId = $(this).data('id');
-			$(".modal-disable #requestId").val(requestId);
+            var span = $(this).parent();
+            var status = $(this).parents("tr").find(".status");
+			$.ajax({
+                type: "post",
+                url: "disable_evaluation.php",
+                data: "requestId=" + requestId,
+                success: function(response){
+                    if (response != "false"){
+                        span.html("<button class='enableEval btn btn-success btn-xs' data-id='" + requestId + "'><span class='glyphicon glyphicon-ok'></span> Enable</button>");
+                        status.html(response);
+                    }
+                }
+            });
 		});
 
 		$(document).on("click", ".enableEval", function(){
-			var requestId = $(this).data('id');
-			$(".modal-enable #requestId").val(requestId);
+            var requestId = $(this).data('id');
+            var span = $(this).parent();
+            var status = $(this).parents("tr").find(".status");
+            var cancel = $(this).parents("tr").find(".cancel");
+            $.ajax({
+                type: "post",
+                url: "enable_evaluation.php",
+                data: "requestId=" + requestId,
+                success: function(response){
+                    if (response != "false") {
+                        span.html("<button class='disableEval btn btn-danger btn-xs' data-id='" + requestId + "'><span class='glyphicon glyphicon-remove'></span> Disable</button>");
+                        if (response == "pending") {
+                            status.html("<span class='badge badge-pending'>pending</span>");
+                            cancel.html("<button class='cancelEval btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-cancel-modal-sm' data-id='" + requestId + "'><span class='glyphicon glyphicon-remove'></span> Cancel</button>");
+                        }
+                        else if (response == "complete") {
+                            status.html("<span class='badge badge-complete'>complete</span>");
+                        }
+                    }
+                }
+            });
 		});
 
 		$(document).on("click", ".cancelEval", function(){
 			var requestId = $(this).data('id');
-			$(".modal-cancel #requestId").val(requestId);
+            var span = $(this).parent();
+            var status = $(this).parents("tr").find(".status");
+			$(".modal-cancel #requestId").val(requestId).data("span", span).data("status", status);
 		});
+
+        $(".modal-cancel").on("click", "#requestId", function(){
+            var requestId = $(this).val();
+            var span = $(this).data("span");
+            var status = $(this).data("status");
+            $.ajax({
+                type: "post",
+                url: "cancel_evaluation_admin.php",
+                data: "requestId=" + requestId,
+                success: function(response){
+                    if (response == "true") {
+                        span.html("");
+                        status.html("<span class='badge badge-disabled'>canceled by admin</span>");
+                    }
+                }
+            });
+        });
 
 		$("tbody").on("click", ".view", function(){
 			var requestId = $(this).parent().data("id");
