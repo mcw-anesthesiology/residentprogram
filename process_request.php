@@ -42,9 +42,6 @@
 	$requestDate = date("Y-m-d H:i:s");
 	$status = "pending";
 	
-	$resident = strtolower($resident);
-	$faculty = strtolower($faculty);
-	
 	if($stmt = $mysqli->prepare("insert into `requests` (formId, resident, faculty, requestedBy, status, requestDate, ipAddress) values (?, ?, ?, ?, ?, ?, ?);")){
 		if($stmt->bind_param("issssss", $evaluationForm, $resident, $faculty, $_SESSION["username"], $status, $requestDate, $ipaddress)){
 			if($stmt->execute()){
@@ -70,8 +67,8 @@
                                         $email_subject = "New " . $form_name . " Evaluation Request from " .  $_SESSION["fname"] . " " . $_SESSION["lname"];
                                         $email_txt="Dear Dr. " . $faculty_lastname . ":\n\n";
                                         $email_txt.="A resident has requested that you complete an evaluation of their performance.\n\n";
-										$email_txt.="Requesting Resident: " . $_SESSION["fname"] . " " . $_SESSION["lname"] . "\n";
-										$email_txt.="Subject: " . $form_name . "\n\n";
+					$email_txt.="Requesting Resident: " . $_SESSION["fname"] . " " . $_SESSION["lname"] . "\n";
+					$email_txt.="Subject: " . $form_name . "\n\n";
                                         $email_txt.="Please log into the evaluation system at http://residentprogram.com to complete this evaluation at your earliest convenience.\n\n---------\n";
                                         $email_txt.="This email address is not monitored; responses to this email will not be read.  If you require assistance, please email kjenner@mcw.edu\n\n";
                                         $email_txt.="AUTOMATICALLY GENERATED MESSAGE SERVICE AT RESIDENTPROGRAM.COM";
