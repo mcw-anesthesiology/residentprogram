@@ -22,7 +22,7 @@
 
 <?php
   if($_SESSION["type"] == "admin"){				// ************************************ RESIDENT ***********************************************************************
-	  $users = $mysqli->query("select * from users where type = 'resident';");
+	  $users = $mysqli->query("select * from users where type='resident' and trainingLevel!='fellow';");
 	  $user = $users->fetch_assoc();
 ?>
     <div class="container-fluid">
@@ -87,6 +87,71 @@ $user = $users->fetch_assoc();
         </div>
       </div>
     </div>
+<?php
+$users = $mysqli->query("select * from users where type='resident' and trainingLevel='fellow';"); /********************************* FELLOW ***********************************************/
+$user = $users->fetch_assoc();
+?>
+<div class="container-fluid">
+	<div class="row">
+		<h2 class="sub-header">Fellows  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="fellow" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+		<div class="table-responsive">
+			<table class="table table-striped user-table datatable">
+				<thead>
+					<tr>
+						<th>Username</th>
+						<th>Email</th>
+						<th>First Name</th>
+						<th>Last Name</th>
+						<th style="display: none">Training Level</th>
+						<th>Created</th>
+						<th>Status</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+		<?php
+		while(!is_null($user)){
+		?>
+					<tr>
+						<td id="UN"><?= $user["username"] ?></td>
+						<td id="EM"><?= $user["email"] ?></td>
+						<td id="FN"><?= $user["firstName"] ?></td>
+						<td id="LN"><?= $user["lastName"] ?></td>
+						<td id="TL" style="display: none"><?= strtoupper($user["trainingLevel"]) ?></td>
+						<td id="CD"><?= $user["createdDate"] ?></td>
+						<td id="ST"><?= $user["status"] ?></td>
+<?php
+if($user["status"] == "inactive"){
+?>
+						<td>
+							<button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" data-photo="<?= $user["photo"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button>
+							<button class="editPassword btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-password-modal" data-id="<?= $user["username"] ?>" id="editPasswordBtn"><span class="glyphicon glyphicon-edit"></span> Edit Password</button>
+							<button class="residentToFaculty btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-resident-to-faculty-modal-sm" data-id="<?= $user["username"] ?>" id="residentToFacultyBtn"><span class="glyphicon glyphicon-edit"></span> Change to Faculty</button>
+							<button class="enableUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-enable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button>
+						</td>
+<?php
+}
+else{
+?>
+						<td>
+							<button class="editUser btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-modal" data-id="<?= $user["username"] ?>" data-photo="<?= $user["photo"] ?>" id="editBtn"><span class="glyphicon glyphicon-edit"></span> Edit</button>
+							<button class="editPassword btn btn-info btn-xs" data-toggle="modal" data-target=".bs-edit-password-modal" data-id="<?= $user["username"] ?>" id="editPasswordBtn"><span class="glyphicon glyphicon-edit"></span> Edit Password</button>
+							<button class="residentToFaculty btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-resident-to-faculty-modal-sm" data-id="<?= $user["username"] ?>" id="residentToFacultyBtn"><span class="glyphicon glyphicon-edit"></span> Change to Faculty</button>
+							<button class="disableUser btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-disable-modal-sm" data-id="<?= $user["username"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button>
+						</td>
+<?php
+}
+?>
+					</tr>
+<?php
+$user = $users->fetch_assoc();
+}
+?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
 <?php
     $users = $mysqli->query("select * from users where type = 'faculty';"); // ************************************ FACULTY ***********************************************************************
     $user = $users->fetch_assoc();
@@ -496,14 +561,21 @@ $user = $users->fetch_assoc();
       $(".modal-add #passwordInput2").val("");
       $(".modal-add #firstNameInput").val("");
       $(".modal-add #lastNameInput").val("");
-      $(".modal-add #accountTypeInput").val(type);
       if(type == "resident"){
 		  $(".modal-add #trainingLevelDiv").show();
 		  $(".modal-add #photoDiv").show();
+		  $(".modal-add #accountTypeInput").val(type);
+	  }
+	  else if(type == "fellow"){
+		  $(".modal-add #trainingLevelInput").val("fellow");
+		  $(".modal-add #trainingLevelInput").attr("readonly");
+		  $(".modal-add #photoDiv").show();
+		  $(".modal-add #accountTypeInput").val("resident");
 	  }
 	  else{
 		  $(".modal-add #trainingLevelDiv").hide();
 		  $(".modal-add #photoDiv").hide();
+		  $(".modal-add #accountTypeInput").val(type);
 	  }
     });
 
