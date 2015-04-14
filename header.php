@@ -6,6 +6,7 @@
 	//Administrators are given links to request.php, manage_evaluations.php, manage_accounts.php, manage_forms.php, manage_milestones_competencies.php, manage_mentorships.php, view_aggregate_report.php, and view_specific_report.php
 
 ?>
+
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -157,66 +158,50 @@
         <h4 class="modal-title" id="myModalSpecRpt">Generate Specific Report</h4>
       </div>
       <form class="report" method="post" action="view_specific_report.php">
-        <div class="modal-body modal-specRpt">
-          <div class="form-group">
-            <label for="startDate">Start Date:</label>
-            <input type="date" class="form-control" id="startDate" name="startDate">
-          </div>
-          <div class="form-group">
-            <label for="endDate">End Date:</label>
-            <input type="date" class="form-control" id="endDate" name="endDate">
+        <div class="modal-body">
+          <div class="modal-specRpt">
+              <?php
+                if($_SESSION["type"] == "admin" || $_SESSION["type"] == "faculty"){
+                    if($_SESSION["type"] == "admin"){
+                        $query = "select username, firstName, lastName from users where type='resident' and status='active' order by lastName;";
+                    }
+                    else if($_SESSION["type"] == "faculty"){
+                        $query = "select username, firstName, lastName from mentorships, users where resident=username and faculty='{$_SESSION["username"]}' and users.status='active' and mentorships.status='active' order by lastName";
+                    }
+                    $residents = $mysqli->query($query);
+                    $residentRow = $residents->fetch_assoc();
+                  ?>
+                  <div class="form-group">
+                    <label for="resident">Resident</label>
+                    <select class="form-control" name="resident">
+                        <option value="-1">-- Select Resident --</option>
+                  <?php
+                      while(!is_null($residentRow)){
+                        echo "<option value=\"{$residentRow["username"]}\">{$residentRow["lastName"]}, {$residentRow["firstName"]}</option>";
+                        $residentRow = $residents->fetch_assoc();
+                      }
+                   ?>
+                    </select>
+                   </div>
+                 <?php
+                }
+                else if($_SESSION["type"] == "resident"){
+                    //TODO: need error checking for this yet
+                    ?>
+                        <div class="form-group">
+                            <label for="resident">Resident</label>
+                            <select class="form-control" name="resident">
+                                <option value="<?= $_SESSION["username"] ?>">
+                                    <?= $_SESSION["fname"]." ".$_SESSION["lname"] ?>
+                                </option>
+                            </select>
+                        </div>
+                    <?php
+                }
+              ?>
           </div>
           <div class="form-group" style="text-align: center;">
-			<button type="button" id="lastThreeMonths" class="btn lastThreeMonths">Last Three Months</button>
-			<button type="button" id="lastSixMonths" class="btn lastSixMonths">Last Six Months</button>
-          </div>
-          <div class="form-group">
-            <label for="trainingLevelInput">Training Level</label>
-            <select class="form-control" id="trainingLevelInput" name="trainingLevel">
-              <option value="intern">Intern</option>
-              <option value="ca-1">CA-1</option>
-              <option value="ca-2">CA-2</option>
-              <option value="ca-3">CA-3</option>
-              <option value="fellow">Fellow</option>
-              <option value="all">All</option>
-            </select>
-          </div>
-          <?php
-			if($_SESSION["type"] == "admin" || $_SESSION["type"] == "faculty"){
-				if($_SESSION["type"] == "admin"){
-					$query = "select username, firstName, lastName from users where type='resident' and status='active' order by lastName;";
-				}
-				else if($_SESSION["type"] == "faculty"){
-					$query = "select username, firstName, lastName from mentorships, users where resident=username and faculty='{$_SESSION["username"]}' and users.status='active' and mentorships.status='active' order by lastName";
-				}
-				$residents = $mysqli->query($query);
-				$residentRow = $residents->fetch_assoc();
-			  ?>
-			  <div class="form-group">
-				<label for="resident">Resident</label>
-				<select class="form-control" name="resident">
-					<option value="-1">-- Select Resident --</option>
-			  <?php
-				  while(!is_null($residentRow)){
-					echo "<option value=\"{$residentRow["username"]}\">{$residentRow["lastName"]}, {$residentRow["firstName"]}</option>";
-					$residentRow = $residents->fetch_assoc();
-				  }
-			}
-			else if($_SESSION["type"] == "resident"){
-				//TODO: need error checking for this yet
-				?>
-					<div class="form-group">
-						<label for="resident">Resident</label>
-						<select class="form-control" name="resident">
-							<option value="<?= $_SESSION["username"] ?>">
-								<?= $_SESSION["fname"]." ".$_SESSION["lname"] ?>
-							</option>
-						</select>
-				<?php
-			}
-          ?>
-
-            </select>
+              <button type="button" class="btn" id="addNewSpecificReport">Add Report</button>
           </div>
           <div class="form-group" style="text-align: center;">
 			<input type="checkbox" id="graphs" name="graphs" value="yes" checked /><label for="graphs">Generate Graphs</label>
@@ -233,7 +218,48 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script>
-	function checkReportQuery(){
+    var numSpecificReports = 0;
+	function reportHtml(i) {
+        return '<div class="report-options">'+
+        '<button type="button" class="close remove-report-group" aria-hidden="true">&times;</button>'+
+        '<h3>Report</h3>'+
+     '<div class="form-group">'+
+       '<label for="startDate">Start Date:</label>'+
+       '<input type="date" class="form-control" id="startDate" name="startDate'+i+'">'+
+     '</div>'+
+     '<div class="form-group">'+
+       '<label for="endDate">End Date:</label>'+
+       '<input type="date" class="form-control" id="endDate" name="endDate'+i+'">'+
+     '</div>'+
+     '<div class="form-group" style="text-align: center;">'+
+       '<button type="button" id="lastThreeMonths" class="btn lastThreeMonths">Last Three Months</button>'+
+       '<button type="button" id="lastSixMonths" class="btn lastSixMonths">Last Six Months</button>'+
+     '</div>'+
+     '<div class="form-group">'+
+       '<label for="trainingLevelInput">Training Level</label>'+
+       '<select class="form-control" id="trainingLevelInput" name="trainingLevel'+i+'">'+
+         '<option value="intern">Intern</option>'+
+         '<option value="ca-1">CA-1</option>'+
+         '<option value="ca-2">CA-2</option>'+
+         '<option value="ca-3">CA-3</option>'+
+         '<option value="fellow">Fellow</option>'+
+         '<option value="all">All</option>'+
+       '</select>'+
+     '</div>'+
+     '<hr /><br />'+
+     '</div>';
+    }
+
+     $(".modal-specRpt").append(reportHtml(0));
+     $("#addNewSpecificReport").click(function(){
+        $(".modal-specRpt").append(reportHtml(++numSpecificReports));
+     });
+
+     $(".modal-specRpt").on("click", ".remove-report-group", function(){
+        $(this).parent().remove();
+     });
+
+    function checkReportQuery(){
 	//Checks the report queries to make sure the entered date is of the correct format because not all browsers support the html5 datepicker being used.
 		dateError = false;
 		$(this).find("input").each(function(){
@@ -261,7 +287,7 @@
 		month = ("0"+month).slice(-2); //converts possible M months to MM format
 		var year = d.getFullYear();
 		var date = year+"-"+month+"-"+day;
-		$(this).parents(".report").find("#endDate").val(date);
+		$(this).parents(".report-options").find("#endDate").val(date);
 
 		d.setMonth(d.getMonth()-6);
 		day = d.getDate();
@@ -270,7 +296,7 @@
 		month = ("0"+month).slice(-2);
 		year = d.getFullYear();
 		date = year+"-"+month+"-"+day;
-		$(this).parents(".report").find("#startDate").val(date);
+		$(this).parents(".report-options").find("#startDate").val(date);
 	}
 
 	function lastThreeMonths(){
@@ -281,7 +307,7 @@
 		month = ("0"+month).slice(-2); //converts possible M months to MM format
 		var year = d.getFullYear();
 		var date = year+"-"+month+"-"+day;
-		$(this).parents(".report").find("#endDate").val(date);
+		$(this).parents(".report-options").find("#endDate").val(date);
 
 		d.setMonth(d.getMonth()-3);
 		day = d.getDate();
@@ -290,13 +316,12 @@
 		month = ("0"+month).slice(-2);
 		year = d.getFullYear();
 		date = year+"-"+month+"-"+day;
-		$(this).parents(".report").find("#startDate").val(date);
+		$(this).parents(".report-options").find("#startDate").val(date);
 	}
 
 	$(document).ready(function(){
 		$(".report").submit(checkReportQuery);
-		$(".lastSixMonths").click(lastSixMonths);
-		$(".lastThreeMonths").click(lastThreeMonths);
-
+        $(".report").on("click", ".lastSixMonths", lastSixMonths);
+        $(".report").on("click", ".lastThreeMonths", lastThreeMonths);
 	});
 </script>
