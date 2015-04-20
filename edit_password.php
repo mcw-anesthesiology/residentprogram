@@ -38,7 +38,7 @@
 		//print $userIdPhpBB."<br />";
 		//print $newPasswordPhpBB."<br />";
 
-		$mysqliPhpBB = new mysqli("localhost", "phpbbuser", "m^fvaD3MpA9-GwoL@6", "phpbb");
+		$mysqliPhpBB = new mysqli("localhost", "ab49752_phpbb", "m^fvaD3MpA9-GwoL@6", "ab49752_phpbb");
 		if($stmtPhpBB = $mysqliPhpBB->prepare("update phpbb_users set user_password=? where user_id=?")){
 			if($stmtPhpBB->bind_param("ss", $newPasswordPhpBB, $userIdPhpBB)){
 				if($stmtPhpBB->execute()){
