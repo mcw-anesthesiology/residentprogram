@@ -1,9 +1,9 @@
 <?php
 	//This page adds a new account to the users table. It is called by manage_users.php and returns there afterward with a success GET attribute which is either "true" or "false".
-	//TODO: Ensure that both password entries are the same before doing anything, no idea why this wasn't done yet. 
+	//TODO: Ensure that both password entries are the same before doing anything, no idea why this wasn't done yet.
 	session_start();
 	require "init.php";
-	
+
 	if($_SESSION["type"] !== "admin"){
 		header("Location: dashboard.php");
 	}
@@ -71,7 +71,7 @@
 		$message.= "Thank you for your patience as we continue to roll out the new evaluation system.  If your department or area does not yet have an evaluation built into the Milestones system, continue to use New Innovations to evaluate residents on your service.  Please report any suggestions or bugs detected in the system directly to me at kjenner@mcw.edu.\n\n";
 
 		$message.= "Regards,\nKevin Jenner";
-	
+
 		$from_email = "eval_system@residentprogram.com";
 		$subject = "Welcome to the new Milestones Evaluation System (ResidentProgram.com)";
 		$to = $email_address;
@@ -79,7 +79,7 @@
 		if(mail($to,$subject,$message,$headers)){ return 1; }
 		else{ return 0; }
 	}
-	
+
 	$username = $_POST["username"];
 	$email = $_POST["email"];
 	$original_password = $_POST["password"];
@@ -91,27 +91,27 @@
 	$trainingLevel = $_POST["trainingLevel"];
 	$evaluationDate = date("Y-m-d H:i:s");
 	$status = "active";
-	
+
 	$success = "false";
-	
+
 	foreach ($_POST as $value){
 		if($value == "")
 			header("Location: manage_accounts.php?success=false");
 	}
-	
+
 	if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 		header("Location: manage_accounts.php?success=false");
 	}
-	
+
 	$photoPath = "";
-	
+
 	if($accountType == "resident" && $_FILES["photo"]["error"] === UPLOAD_ERR_OK){
 		if($_FILES["photo"]["type"] == "image/jpg" || $_FILES["photo"]["type"] == "image/jpeg" || $_FILES["photo"]["type"] == "image/png"){
 			$photoPath = "photos/".uniqid().".".pathinfo($_FILES["photo"]["name"], PATHINFO_EXTENSION);
 			move_uploaded_file($_FILES["photo"]["tmp_name"], $photoPath);
 		}
 	}
-	
+
 	//The only difference between the two following cases is the trainingLevel attribute, it's null if not a resident
 	if($accountType == "resident"){
 		if($stmt = $mysqli->prepare("insert into users (username, password, email, firstName, lastName, type, status, createdDate, trainingLevel, photo) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);")){
@@ -149,7 +149,6 @@
 			print $mysqli->error;
 		}
 	}
-	
-	//header("Location: manage_accounts.php?success={$success}");
+
+	header("Location: manage_accounts.php?success={$success}");
 ?>
-:q
