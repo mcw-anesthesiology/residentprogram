@@ -88,7 +88,7 @@
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Resident</th>
+                  <th>Resident/Fellow</th>
                   <th>Faculty</th>
                   <th>Request Date</th>
                   <th>Complete Date</th>

@@ -1,13 +1,13 @@
 <?php
 	//This page is the main dashboard for all admin users. It is included by dashboard.php and includes 3 simple metric tables at the top, and then a table of every request present in the database
-	
+
 	  $requests = $mysqli->query("select requestId, resident, faculty, requestDate, completeDate, requests.status, title, residentUsers.firstName as residentFirst, residentUsers.lastName as residentLast, facultyUsers.firstName as facultyFirst, facultyUsers.lastName as facultyLast from requests left join forms on requests.formId=forms.formId left join users residentUsers on resident=residentUsers.username left join users facultyUsers on faculty=facultyUsers.username order by requestId desc;");
 	  $requestRow = $requests->fetch_assoc();
-	  
+
 	  //the following three queries are used to populate the metric data on the top of the admin dashboard
 	  $stats_One = $mysqli->query("select status, count(status) as total from requests where status in ('complete','pending','disabled') group by status;");
 	  $stats_Two = $mysqli->query("select u.firstName, u.lastName, count(r.status) as pending from users u, requests r where u.username = r.faculty and r.status = 'pending' group by u.username order by pending desc limit 5;");
-	  $stats_Three = $mysqli->query("select u.firstName, u.lastName, r.completeDate from users u, requests r where u.username = r.resident and r.status='complete' group by u.userName order by r.completeDate limit 5;");	 
+	  $stats_Three = $mysqli->query("select u.firstName, u.lastName, r.completeDate from users u, requests r where u.username = r.resident and r.status='complete' and u.username != 'resident' group by u.userName order by r.completeDate limit 5;");
 ?>
     <div class="container-fluid">
       <div class="row">
@@ -62,7 +62,7 @@
           </div>
 
           <div class="col-md-4">
-            <h4 class="sub-header">Resident's Last Completed Evaluation</h4>
+            <h4 class="sub-header">Oldest Completed Evaluation</h4>
             <table class="table table-striped">
               <tbody>
 
@@ -99,7 +99,7 @@
               <thead>
                 <tr>
                   <th class="headerSortUp"><span>#</span></th>
-                  <th><span>Resident</span></th>
+                  <th><span>Resident/Fellow</span></th>
                   <th><span>Faculty</span></th>
                   <th><span>Evaluation Form</span></th>
                   <th><span>Request Date</span></th>
@@ -146,7 +146,7 @@
 							  }
 							?>
 							</tr>
-						
+
 					<?php
 							$requestRow = $requests->fetch_assoc();
 						}

@@ -95,9 +95,9 @@
 
 		echo "<table class='table'>";
 		echo "<thead><tr>";
-		echo "<th>Resident</th>";
+		echo "<th>Resident/Faculty</th>";
 
-		$tsv = "Resident\t";
+		$tsv = "Resident/Faculty\t";
 
 		sort($milestones);
 		sort($competencies);
@@ -297,9 +297,9 @@
 
 		echo "<table class='table'>";
 		echo "<thead><tr>";
-		echo "<th>Resident</th>";
+		echo "<th>Resident/Faculty</th>";
 
-		$tsv = "Resident\t";
+		$tsv = "Resident/Faculty\t";
 
 		sort($milestones);
 		sort($competencies);

@@ -1,10 +1,10 @@
 <?php
 	//This page is the main dashboard for all faculty users. It is included by dashboard.php and includes a table of all pending requests for the logged in user at the top.
 	//Below that, it shows a table of evaluations for each of the user's mentees. Finally, it shows a table for all non-disabled evaluations completed by the user.
-	
+
 	  $requests = $mysqli->query("select * from requests left join forms on requests.formId=forms.formId left join users on requests.resident=users.username where faculty='{$_SESSION["username"]}' and requests.status='pending' order by requestId asc;");
 	  $requestRow = $requests->fetch_assoc();
-	  
+
 ?>
 	<!-- *********************************** PENDING REQUESTS ****************************** -->
     <div class="container-fluid">
@@ -15,7 +15,7 @@
               <thead>
                 <tr>
                   <th class="headerSortUp"><span>#</span></th>
-                  <th><span>Resident</span></th>
+                  <th><span>Resident/Fellow</span></th>
                   <th><span>Evaluation Form</span></th>
                   <th><span>Request Date</span></th>
                   <th><span>Action</span></th>
@@ -100,15 +100,15 @@
           </div>
         </div>
       </div>
-    </div>	
+    </div>
 
 <?php
 		}
 		$requests = $mysqli->query("select * from requests left join forms on requests.formId=forms.formId left join users on requests.resident=users.username where faculty='{$_SESSION["username"]}' and requests.status='complete' order by completeDate desc;");
 		$requestRow = $requests->fetch_assoc();
-		
 
-		
+
+
 ?>
 	<!-- *********************************** FACULTY EVALUATIONS ****************************** -->
     <div class="container-fluid">
@@ -119,7 +119,7 @@
               <thead>
                 <tr>
                   <th class="headerSortUp"><span>#</span></th>
-                  <th><span>Resident</span></th>
+                  <th><span>Resident/Fellow</span></th>
                   <th><span>Evaluation Form</span></th>
                   <th><span>Request Date</span></th>
                   <th><span>Completion Date</span></th>

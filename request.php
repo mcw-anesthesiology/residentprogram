@@ -30,7 +30,7 @@
 	  $residentRow = $residents->fetch_assoc();
 ?>
               <div class="form-group">
-                <label for="resident">Resident</label>
+                <label for="resident">Resident/Fellow</label>
                 <select class="form-control request-select" name="resident">
 					<option value="-1">-- Select Resident --</option>
 					<?php
