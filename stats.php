@@ -128,7 +128,8 @@ function averageEvaluationCompletionTimeFaculty($username, $startDate, $endDate)
         $interval = $d2->diff($d1);
         $averageDateTime[$faculty] = $interval->format("%a days<br />%H hours");
     }
-    $out .= "<th>Total</th>";
+    if($resident == "all")
+        $out .= "<th>Total</th>";
     $out .= "</tr>";
     $totalAverageTime = $totalTotalTime/$totalNumRequests;
     $d1 = new DateTime();
@@ -141,7 +142,8 @@ function averageEvaluationCompletionTimeFaculty($username, $startDate, $endDate)
     foreach($averageDateTime as $avg){
         $out .= "<td>{$avg}</td>";
     }
-    $out .= "<td>{$totalAverageDateTime}</td>";
+    if($resident == "all")
+        $out .= "<td>{$totalAverageDateTime}</td>";
     $out .= "</tr>";
 
     $out .= "</table>";
