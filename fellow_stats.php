@@ -7,7 +7,7 @@
 	}
 	require "init.php";
 
-	$residents = $mysqli->query("select firstName, lastName, username from users where type='resident' and trainingLevel!='fellow'");
+	$fellows = $mysqli->query("select firstName, lastName, username from users where type='resident' and trainingLevel='fellow'");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,10 +37,10 @@
 		</div>
 		<div class="form-group col-sm-8">
 			<select id="username" class="form-control">
-				<option value="all">All Residents</option>
+				<option value="all">All Fellows</option>
 			<?php
-				foreach($residents as $resident){
-					echo "<option value='{$resident["username"]}'>{$resident["lastName"]}, {$resident["firstName"]}</option>";
+				foreach($fellows as $fellow){
+					echo "<option value='{$fellow["username"]}'>{$fellow["lastName"]}, {$fellow["firstName"]}</option>";
 				}
 			?>
 			</select>
@@ -59,7 +59,7 @@
 			var username = $("#username").val();
 			var startDate = $("#statsStartDate").val();
 			var endDate = $("#statsEndDate").val();
-			var type = "resident";
+			var type = "fellow";
 			var data = {};
 			data.username = username;
 			data.startDate = startDate;

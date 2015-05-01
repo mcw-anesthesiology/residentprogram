@@ -70,6 +70,7 @@
 		  <li><a href="view_needs_evaluations_report.php">Needs Evaluations</a></li>
 		  <li><a href="faculty_stats.php">Faculty Statistics</a></li>
 		  <li><a href="resident_stats.php">Resident Statistics</a></li>
+          <li><a href="fellow_stats.php">Fellow Statistics</a></li>
 		  <li><a href="milestones_competencies_forms_report.php">Milestones/Competencies - Forms</a></li>
         <?php
 			}
