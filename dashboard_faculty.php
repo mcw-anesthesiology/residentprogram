@@ -8,7 +8,6 @@
 ?>
 	<!-- *********************************** PENDING REQUESTS ****************************** -->
     <div class="container-fluid">
-      <div class="row">
           <h2 class="sub-header">Pending Requests</h2>
           <div class="table-responsive">
             <table class="table table-striped datatable" id="keywordsPending" cellspacing="0" cellpadding="0">
@@ -31,7 +30,7 @@
 							  <td class="lalign complete"><a href="complete_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
 							  <td class="complete"><?= $requestRow["firstName"] ?> <?= $requestRow["lastName"] ?></td>
 							  <td class="complete"><?= $requestRow["title"] ?></td>
-							  <td class="complete"><?= $requestDate->format("Y-m-d H:i:s") ?></td>
+							  <td class="complete"><?= $requestDate->format("d-m-Y g:i A") ?></td>
 							  <?php if($requestRow["requestedBy"] == $_SESSION["username"]){?>
 								<td><button class="cancelEvalFaculty btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-cancel-faculty-modal-sm" data-id="<?= $requestRow["requestId"] ?>"><span class="glyphicon glyphicon-remove"></span> Cancel</button></td>
 							  <?php } else echo "<td></td>"; ?>
@@ -58,7 +57,7 @@
       <div class="row">
           <h2 class="sub-header">Requests -- <?= $menteeRequest["residentFirst"] ?> <?= $menteeRequest["residentLast"] ?></h2>
           <div class="table-responsive">
-            <table class="table table-striped datatable" cellspacing="0" cellpadding="0">
+			<table class="table table-striped datatable" id="mentee-<?= $mentee ?>" cellspacing="0" cellpadding="0">
               <thead>
                 <tr>
                   <th class="headerSortUp"><span>#</span></th>
@@ -77,7 +76,7 @@
 							if(!is_null($menteeRequest["completeDate"]) && $menteeRequest["status"] == "complete"){
 								$completeDate = new DateTime($menteeRequest["completeDate"]);
 								$completeDate->setTimezone(new DateTimeZone("America/Chicago"));
-								$completeDateText = $completeDate->format("Y-m-d H:i:s");
+								$completeDateText = $completeDate->format("d-m-Y g:i A");
 							}
 							else{
 								$completeDateText = "";
@@ -87,7 +86,7 @@
 							  <td class="lalign view"><a href="view_specific.php?request=<?= $menteeRequest["requestId"] ?>"><?= $menteeRequest["requestId"] ?></a></td>
 							  <td class="view"><?= $menteeRequest["facultyFirst"] ?> <?= $menteeRequest["facultyLast"] ?></td>
 							  <td class="view"><?= $menteeRequest["title"] ?></td>
-							  <td class="view"><?= $requestDate->format("Y-m-d H:i:s") ?></td>
+							  <td class="view"><?= $requestDate->format("d-m-Y g:i A") ?></td>
 							  <td class="view"><?= $completeDateText ?></td>
 							  <td class="view"><?= $menteeRequest["status"] ?></td>
 							</tr>
@@ -133,7 +132,7 @@
 							if(!is_null($requestRow["completeDate"]) && $requestRow["status"] == "complete"){
 								$completeDate = new DateTime($requestRow["completeDate"]);
 								$completeDate->setTimezone(new DateTimeZone("America/Chicago"));
-								$completeDateText = $completeDate->format("Y-m-d H:i:s");
+								$completeDateText = $completeDate->format("d-m-Y g:i A");
 							}
 							else{
 								$completeDateText = "";
@@ -143,7 +142,7 @@
 							  <td class="lalign view"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
 							  <td class="view"><?= $requestRow["firstName"] ?> <?= $requestRow["lastName"] ?></td>
 							  <td class="view"><?= $requestRow["title"] ?></td>
-							  <td class="view"><?= $requestDate->format("Y-m-d H:i:s") ?></td>
+							  <td class="view"><?= $requestDate->format("d-m-Y g:i A") ?></td>
 							  <td class="view"><?= $completeDateText ?></td>
 							</tr>
 					<?php
@@ -154,5 +153,4 @@
             </table>
           </div>
         </div>
-      </div>
     </div>

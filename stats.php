@@ -14,23 +14,24 @@ function facultyStats($username, $startDate, $endDate){
 
 function facultyWithoutEvals($username, $startDate, $endDate){
     global $mysqli;
-    $out = "";
+	$out = "";
     $usernameSql = "";
-    $dateSql = "";
-    if($username != "all"){
+	$dateSql = "";
+	$userSql = "";
+	if($username != "all"){
+		$userSql = " and username='{$username}'";
         $usernameSql = " and faculty='{$username}'";
-        $allFaculty[] = $username;
     }
     if(!empty($startDate) && !empty($endDate))
         $dateSql = " and requestDate>='{$startDate}' and requestDate<='{$endDate}'";
 
-    if($username == "all")
-        $facultyMembers = $mysqli->query("select username from users where type='faculty'");
+    $facultyMembers = $mysqli->query("select username, firstName, lastName from users where type='faculty' and status='active'".$userSql);
     $requests = $mysqli->query("select faculty from requests where status='pending' or status='complete' or status='disabled'".$usernameSql.$dateSql);
     $evaluations = $mysqli->query("select faculty from requests where status='complete' and requestedBy!=faculty".$usernameSql.$dateSql);
 
-    while($username == "all" && $facultyMember = $facultyMembers->fetch_assoc()){
-        $allFaculty[] = $facultyMember["username"];
+    while($facultyMember = $facultyMembers->fetch_assoc()){
+		$allFaculty[] = $facultyMember["username"];
+		$facultyName[$facultyMember["username"]] = $facultyMember["lastName"].", ".$facultyMember["firstName"];
     }
     while($request = $requests->fetch_assoc()){
         $requestedEvals[] = $request["faculty"];
@@ -52,32 +53,45 @@ function facultyWithoutEvals($username, $startDate, $endDate){
         $out .= "<h3>Never received a request</h3>";
         $out .= "<table class='table'><tr>";
         $i = 0;
-
+		$tsv = "";
         foreach($facultyWithoutRequests as $faculty){
-            if($i == 15){
+            if($i == 3){
                 $out .= "</tr><tr>";
                 $i = 0;
             }
-            $out .= "<td>".$faculty."</td>";
+			$out .= "<td>".$facultyName[$faculty]."</td>";
+			$tsv .= $facultyName[$faculty]."\n";
             $i += 1;
-        }
-        $out .= "</tr></table>";
+		}
+		while($i < 3){
+			$out .= "<td></td>";
+			$i += 1;
+		}
+		$out .= "</tr></table>";
+		$out .= "<form style='text-align:center;' target='_blank' method='post' action='save_table.php'><input type='hidden' name='filename' value='Faculty Without Requests' /><button type='submit' class='btn btn-default' name='tsv' value=\"{$tsv}\">Save as TSV</button></form>";
         $out .= "<br /><br />";
     }
 
     if(isset($facultyWithoutCompletedEvals)){
         $out .= "<h3>Not completed any evaluations</h3>";
         $out .= "<table class='table'><tr>";
-        $i = 0;
+		$i = 0;
+		$tsv = "";
         foreach($facultyWithoutCompletedEvals as $faculty){
-            if($i == 15){
+            if($i == 3){
                 $out .= "</tr><tr>";
                 $i = 0;
             }
-            $out .= "<td>".$faculty."</td>";
+			$out .= "<td>".$facultyName[$faculty]."</td>";
+			$tsv .= $facultyName[$faculty]."\n";
             $i += 1;
-        }
-        $out .= "</tr></table>";
+		}
+		while($i < 3){
+			$out .= "<td></td>";
+			$i += 1;
+		}
+		$out .= "</tr></table>";
+		$out .= "<form style='text-align:center;' target='_blank' method='post' action='save_table.php'><input type='hidden' name='filename' value='Faculty Without Completed' /><button type='submit' class='btn btn-default' name='tsv' value=\"{$tsv}\">Save as TSV</button></form>";
     }
 
     return $out;
@@ -87,11 +101,20 @@ function averageEvaluationCompletionTimeFaculty($username, $startDate, $endDate)
     global $mysqli;
     $out = "";
     $usernameSql = "";
-    $dateSql = "";
-    if($username != "all")
-        $usernameSql = " and faculty='{$username}'";
+	$dateSql = "";
+	$userSql = "";
+    if($username != "all"){
+		$usernameSql = " and faculty='{$username}'";
+		$userSql = " and username='{$username}'";
+	}
     if(!empty($startDate) && !empty($endDate))
-        $dateSql = " and requestDate>='{$startDate}' and requestDate<='{$endDate}'";
+		$dateSql = " and requestDate>='{$startDate}' and requestDate<='{$endDate}'";
+
+	$facultyMembers = $mysqli->query("select username, firstName, lastName from users where type='faculty' and status='active'".$userSql);
+
+	foreach($facultyMembers as $facultyMember){
+		$facultyName[$facultyMember["username"]] = $facultyMember["lastName"].", ".$facultyMember["firstName"];
+	}
 
     $requests = $mysqli->query("select requestDate, completeDate, faculty from requests where status='complete'".$usernameSql.$dateSql);
 
@@ -114,39 +137,46 @@ function averageEvaluationCompletionTimeFaculty($username, $startDate, $endDate)
         $totalNumRequests++;
     }
     $out .= "<h3>Average evaluation completion time</h3>";
-    $out .= "<table class='table'>";
-    $out .= "<tr>";
+	$out .= "<table class='table table-striped datatable'>";
+	$out .= "<thead><tr><th>User</th><th>Time</th></tr></thead>";
+	$out .= "<tbody>";
+	$tsv = "User\tTime\n";
 
     ksort($totalTime);
 
-    foreach($totalTime as $faculty => $time){
-        $out .= "<th>{$faculty}</th>";
-        $averageTime[$faculty] = $time/$numRequests[$faculty];
+	foreach($totalTime as $faculty => $time){
+		if(!isset($facultyName[$faculty]))
+			continue;
+		$out .= "<tr>";
+		$out .= "<th>{$facultyName[$faculty]}</th>";
+		$tsv .= $facultyName[$faculty]."\t";
+        $averageTime = $time/$numRequests[$faculty];
         $d1 = new DateTime();
         $d2 = new DateTime();
-        $d2->add(new DateInterval("PT".round($averageTime[$faculty])."S"));
-        $interval = $d2->diff($d1);
-        $averageDateTime[$faculty] = $interval->format("%a days<br />%H hours");
+        $d2->add(new DateInterval("PT".round($averageTime)."S"));
+		$interval = $d2->diff($d1);
+		$period = $interval->format("%a days<br />%H hours");
+		$out .= "<td>".$period."</td>";
+		$tsv .= $period."\n";
+		$out .= "</tr>";
     }
-    if($resident == "all")
-        $out .= "<th>Total</th>";
-    $out .= "</tr>";
-    $totalAverageTime = $totalTotalTime/$totalNumRequests;
-    $d1 = new DateTime();
-    $d2 = new DateTime();
-    $d2->add(new DateInterval("PT".round($totalAverageTime)."S"));
-    $interval = $d2->diff($d1);
-    $totalAverageDateTime = $interval->format("%a days<br />%H hours");
-
-    $out .= "<tr>";
-    foreach($averageDateTime as $avg){
-        $out .= "<td>{$avg}</td>";
-    }
-    if($resident == "all")
-        $out .= "<td>{$totalAverageDateTime}</td>";
-    $out .= "</tr>";
-
-    $out .= "</table>";
+	if($username == "all"){
+		$out .= "<tr>";
+		$out .= "<th>Total</th>";
+		$tsv .= "Total\t";
+    	$totalAverageTime = $totalTotalTime/$totalNumRequests;
+   		$d1 = new DateTime();
+    	$d2 = new DateTime();
+    	$d2->add(new DateInterval("PT".round($totalAverageTime)."S"));
+		$interval = $d2->diff($d1);
+		$period = $interval->format("%a days<br />%H hours");
+		$out .= "<td>".$period."</td>";
+		$tsv .= $period."\n";
+		$out .= "</tr>";
+	}
+	$out .= "</tbody>";
+	$out .= "</table>";
+	$out .= "<form style='text-align:center;' target='_blank' method='post' action='save_table.php'><input type='hidden' name='filename' value='Faculty Completion Time' /><button type='submit' class='btn btn-default' name='tsv' value=\"{$tsv}\">Save as TSV</button></form>";
     return $out;
 }
 
@@ -154,11 +184,20 @@ function lastCompletedEvaluationsFaculty($username, $startDate, $endDate){
     global $mysqli;
     $out = "";
     $usernameSql = "";
-    $dateSql = "";
-    if($username != "all")
-        $usernameSql = " and faculty='{$username}'";
+	$dateSql = "";
+	$userSql = "";
+    if($username != "all"){
+		$usernameSql = " and faculty='{$username}'";
+		$userSql = " and username='{$username}'";
+	}
     if(!empty($startDate) && !empty($endDate))
         $dateSql = " and requestDate>='{$startDate}' and requestDate<='{$endDate}'";
+
+	$facultyMembers = $mysqli->query("select username, firstName, lastName from users where type='faculty' and status='active'".$userSql);
+
+	foreach($facultyMembers as $facultyMember){
+		$facultyName[$facultyMember["username"]] = $facultyMember["lastName"].", ".$facultyMember["firstName"];
+	}
 
     $requests = $mysqli->query("select faculty, completeDate from requests where status='complete'".$usernameSql.$dateSql);
 
@@ -171,18 +210,26 @@ function lastCompletedEvaluationsFaculty($username, $startDate, $endDate){
         ksort($evaluations);
         //print out
         $out .= "<h3>Last completed evaluations</h3>";
-        $out .= "<table class='table'>";
-        $out .= "<tr>";
-        foreach($evaluations as $faculty => $date){
-            $out .= "<th>{$faculty}</th>";
+		$out .= "<table class='table table-striped datatable'>";
+		$out .= "<thead><tr><th>User</th><th>Date</th></tr></thead>";
+		$tsv = "User\tDate\n";
+		$out .= "<tbody>";
+		foreach($evaluations as $faculty => $date){
+			if(!isset($facultyName[$faculty]))
+				continue;
+			$evaluationDate = new DateTime($date);
+			$evaluationDate->setTimezone(new DateTimeZone("America/Chicago"));
+        	$out .= "<tr>";
+			$out .= "<th>{$facultyName[$faculty]}</th>";
+			$out .= "<td>".$evaluationDate->format("d-m-Y g:i A")."</th>";
+			$tsv .= $facultyname[$faculty]."\t";
+			$tsv .= $date."\n";
+        	$out .= "</tr>";
         }
-        $out .= "</tr>";
-        $out .= "<tr>";
-        foreach($evaluations as $faculty => $date){
-            $out .= "<td>{$date}</td>";
-        }
-        $out .= "</tr>";
-        $out .= "</table>";
+		$out .= "</tbody>";
+		$out .= "</table>";
+		$out .= "<form style='text-align:center;' target='_blank' method='post' action='save_table.php'><input type='hidden' name='filename' value='Last Faculty Evaluations' /><button type='submit' class='btn btn-default' name='tsv' value=\"{$tsv}\">Save as TSV</button></form>";
+		
     }
     return $out;
 }
@@ -191,11 +238,20 @@ function totalCompletedEvaluationsFaculty($username, $startDate, $endDate){
     global $mysqli;
     $out = "";
     $usernameSql = "";
-    $dateSql = "";
-    if($username != "all")
-        $usernameSql = " and faculty='{$username}'";
+	$dateSql = "";
+	$userSql = "";
+    if($username != "all"){
+		$usernameSql = " and faculty='{$username}'";
+		$userSql = " and username='{$username}'";
+	}
     if(!empty($startDate) && !empty($endDate))
-        $dateSql = " and requestDate>='{$startDate}' and requestDate<='{$endDate}'";
+		$dateSql = " and requestDate>='{$startDate}' and requestDate<='{$endDate}'";
+
+	$facultyMembers = $mysqli->query("select username, firstName, lastName from users where type='faculty' and status='active'".$userSql);
+
+	foreach($facultyMembers as $facultyMember){
+		$facultyName[$facultyMember["username"]] = $facultyMember["lastName"].", ".$facultyMember["firstName"];
+	}
 
     $requests = $mysqli->query("select faculty, status from requests where 1=1".$usernameSql.$dateSql);
 
@@ -220,37 +276,28 @@ function totalCompletedEvaluationsFaculty($username, $startDate, $endDate){
 
         //print out
         $out .= "<h3>Evaluation Statistics</h3>";
-        $out .= "<table class='table'>";
-        $out .= "<tr>";
-        $out .= "<th></th>";
-        foreach($allFaculty as $faculty){
-            $out .= "<th>{$faculty}</th>";
-        }
-        $out .= "</tr>";
-
-        $out .= "<tr>";
-        $out .= "<th>Completed</th>";
-        foreach($allFaculty as $faculty){
-            $out .= "<td>{$numCompletedEvals[$faculty]}</td>";
-        }
-        $out .= "</tr>";
-
-        $out .= "<tr>";
-        $out .= "<th>Requests</th>";
-        foreach($allFaculty as $faculty){
-            $out .= "<td>{$numRequests[$faculty]}</td>";
-        }
-        $out .= "</tr>";
-
-        $out .= "<tr>";
-        $out .= "<th>Ratio</th>";
-        foreach($allFaculty as $faculty){
+		$out .= "<table class='table table-striped datatable'>";
+		$out .= "<thead><tr><th>User</th><th>Completed</th><th>Requests</th><th>Ratio</th></tr></thead>";
+		$tsv = "User\tCompleted\tRequests\tRatio\n";
+		$out .= "<tbody>";
+		foreach($allFaculty as $faculty){
+			if(!isset($facultyName[$faculty]))
+				continue;
+			$out .= "<tr>";
+			$out .= "<th>{$facultyName[$faculty]}</th>";
+			$out .= "<td>{$numCompletedEvals[$faculty]}</td>";
+			$out .= "<td>{$numRequests[$faculty]}</td>";
             $percentage = round(($numCompletedEvals[$faculty]/$numRequests[$faculty])*100);
-            $out .= "<td>{$percentage}%</td>";
-        }
-        $out .= "</tr>";
-
-        $out .= "</table>";
+			$out .= "<td>{$percentage}%</td>";
+			$out .= "</tr>";
+			$tsv .= $facultyName[$faculty]."\t";
+			$tsv .= $numCompletedEvals[$faculty]."\t";
+			$tsv .= $numRequests[$faculty]."\t";
+			$tsv .= $percentage."%\n";
+		}
+		$out .= "</tbody>";
+		$out .= "</table>";
+		$out .= "<form style='text-align:center;' target='_blank' method='post' action='save_table.php'><input type='hidden' name='filename' value='Faculty Evaluation Statistics' /><button type='submit' class='btn btn-default' name='tsv' value=\"{$tsv}\">Save as TSV</button></form>";
     }
     return $out;
 }
@@ -269,25 +316,26 @@ function residentsWithoutEvals($username, $startDate, $endDate, $type){
     global $mysqli;
     $out = "";
     $usernameSql = "";
-    $dateSql = "";
+	$dateSql = "";
+	$userSql = "";
     if($type == "fellow")
         $typeSql = " and trainingLevel='fellow'";
     else
         $typeSql = " and trainingLevel!='fellow'";
-    if($username != "all"){
+	if($username != "all"){
+		$userSql = " and username='{$username}'";
         $usernameSql = " and resident='{$username}'";
-        $allResidents[] = $username;
     }
     if(!empty($startDate) && !empty($endDate))
         $dateSql = " and requestDate>='{$startDate}' and requestDate<='{$endDate}'";
 
-    if($username == "all")
-        $residents = $mysqli->query("select username from users where type='resident'".$typeSql);
+    $residents = $mysqli->query("select username, firstName, lastName from users where type='resident' and status='active'".$typeSql.$userSql);
     $requests = $mysqli->query("select resident from requests join users on requests.resident=users.username where requests.status='pending' or requests.status='complete' or requests.status='disabled'".$typeSql.$usernameSql.$dateSql);
     $evaluations = $mysqli->query("select resident from requests join users on requests.resident=users.username where requests.status='complete'".$typeSql.$usernameSql.$dateSql);
 
-    while($username == "all" && $resident = $residents->fetch_assoc()){
-        $allResidents[] = $resident["username"];
+    while($resident = $residents->fetch_assoc()){
+		$allResidents[] = $resident["username"];
+		$residentName[$resident["username"]] = $resident["lastName"].", ".$resident["firstName"];
     }
     while($request = $requests->fetch_assoc()){
         $requestedEvals[] = $request["resident"];
@@ -309,16 +357,22 @@ function residentsWithoutEvals($username, $startDate, $endDate, $type){
         $out .= "<h3>Never received a request</h3>";
         $out .= "<table class='table'><tr>";
         $i = 0;
-
+		$tsv = "";
         foreach($residentsWithoutRequests as $resident){
-            if($i == 15){
+            if($i == 3){
                 $out .= "</tr><tr>";
                 $i = 0;
             }
-            $out .= "<td>".$resident."</td>";
+			$out .= "<td>".$residentName[$resident]."</td>";
+			$tsv .= $residentName[$resident]."\n";
             $i += 1;
-        }
-        $out .= "</tr></table>";
+		}
+		while($i < 3){
+			$out .= "<td></td>";
+			$i += 1;
+		}
+		$out .= "</tr></table>";
+		$out .= "<form style='text-align:center;' target='_blank' method='post' action='save_table.php'><input type='hidden' name='filename' value='Residents Without Requests' /><button type='submit' class='btn btn-default' name='tsv' value=\"{$tsv}\">Save as TSV</button></form>";
         $out .= "<br /><br />";
     }
 
@@ -326,16 +380,22 @@ function residentsWithoutEvals($username, $startDate, $endDate, $type){
         $out .= "<h3>No evaluations completed</h3>";
         $out .= "<table class='table'><tr>";
         $i = 0;
-
+		$tsv = "";
         foreach($residentsWithoutCompletedEvals as $resident){
-            if($i == 15){
+            if($i == 3){
                 $out .= "</tr><tr>";
                 $i = 0;
-            }
-            $out .= "<td>".$resident."</td>";
+			}
+			$out .= "<td>".$residentName[$resident]."</td>";
+			$tsv .= $residentName[$resident]."\n";
             $i += 1;
-        }
+		}
+		while($i < 3){
+			$out .= "<td></td>";
+			$i += 1;
+		}
         $out .= "</tr></table>";
+		$out .= "<form style='text-align:center;' target='_blank' method='post' action='save_table.php'><input type='hidden' name='filename' value='Residents Without Completed' /><button type='submit' class='btn btn-default' name='tsv' value=\"{$tsv}\">Save as TSV</button></form>";
     }
     return $out;
 }
@@ -344,16 +404,25 @@ function lastCompletedEvaluationsResident($username, $startDate, $endDate, $type
     global $mysqli;
     $out = "";
     $usernameSql = "";
-    $dateSql = "";
+	$dateSql = "";
+	$userSql = "";
     if($type == "fellow")
         $typeSql = " and trainingLevel='fellow'";
     else
         $typeSql = " and trainingLevel!='fellow'";
-    if($username != "all")
-        $usernameSql = " and resident='{$username}'";
+    if($username != "all"){
+		$usernameSql = " and resident='{$username}'";
+		$userSql = " and username='{$username}'";
+	}
     if(!empty($startDate) && !empty($endDate)){
         $dateSql = " and requestDate>='{$startDate}' and requestDate<='{$endDate}'";
-    }
+	}
+
+	$residents = $mysqli->query("select username, firstName, lastName from users where type='resident' and status='active'".$userSql);
+
+	foreach($residents as $resident){
+		$residentName[$resident["username"]] = $resident["lastName"].", ".$resident["firstName"];
+	}
 
     $requests = $mysqli->query("select resident, completeDate from requests join users on requests.resident=users.username where requests.status='complete'".$typeSql.$usernameSql.$dateSql);
 
@@ -366,18 +435,25 @@ function lastCompletedEvaluationsResident($username, $startDate, $endDate, $type
         ksort($evaluations);
         //print out
         $out .= "<h3>Last completed evaluations</h3>";
-        $out .= "<table class='table'>";
-        $out .= "<tr>";
-        foreach($evaluations as $resident => $date){
-            $out .= "<th>{$resident}</th>";
+        $out .= "<table class='table table-striped datatable'>";
+		$out .= "<thead><tr><th>User</th><th>Date</th></tr></thead>";
+		$tsv = "User\tDate\n";
+        $out .= "<tbody>";
+		foreach($evaluations as $resident => $date){
+			if(!isset($residentName[$resident]))
+				continue;
+			$evaluationDate = new DateTime($date);
+			$evaluationDate->setTimezone(new DateTimeZone("America/Chicago"));
+			$out .= "<tr>";
+			$out .= "<th>{$residentName[$resident]}</th>";
+			$out .= "<td>".$evaluationDate->format("d-m-Y g:i A")."</th>";
+			$tsv .= $facultyName[$resident]."\t";
+			$tsv .= $date."\n";
+			$out .= "</tr>";
         }
-        $out .= "</tr>";
-        $out .= "<tr>";
-        foreach($evaluations as $resident => $date){
-            $out .= "<td>{$date}</td>";
-        }
-        $out .= "</tr>";
+        $out .= "</tbody>";
         $out .= "</table>";
+		$out .= "<form style='text-align:center;' target='_blank' method='post' action='save_table.php'><input type='hidden' name='filename' value='Last Resident Evaluations' /><button type='submit' class='btn btn-default' name='tsv' value=\"{$tsv}\">Save as TSV</button></form>";
     }
     return $out;
 }
@@ -386,22 +462,29 @@ function totalCompletedEvaluationsResident($username, $startDate, $endDate, $typ
     global $mysqli;
     $out = "";
     $usernameSql = "";
-    $dateSql = "";
+	$dateSql = "";
+	$userSql = "";
     if($type == "fellow")
         $typeSql = " and trainingLevel='fellow'";
     else
         $typeSql = " and trainingLevel!='fellow'";
-    if($username != "all")
-        $usernameSql = " and resident='{$username}'";
+    if($username != "all"){
+		$usernameSql = " and resident='{$username}'";
+		$userSql = " and username='{$username}'";
+	}
     if(!empty($startDate) && !empty($endDate)){
         $dateSql = " and requestDate>='{$startDate}' and requestDate<='{$endDate}'";
     }
 
+	$residents = $mysqli->query("select username, firstName, lastName from users where type='resident' and status='active'".$userSql);
+
+	foreach($residents as $resident){
+		$residentName[$resident["username"]] = $resident["lastName"].", ".$resident["firstName"];
+	}
+
     $requests = $mysqli->query("select resident, requests.status from requests join users on requests.resident=users.username where 1=1".$typeSql.$usernameSql.$dateSql);
 
     while($request = $requests->fetch_assoc()){
-        if(!isset($numCompletedEvals[$request["resident"]]))
-            $numCompletedEvals[$request["resident"]] = 1;
         $allResidents[] = $request["resident"];
         if(!isset($numRequests[$request["resident"]]))
         $numRequests[$request["resident"]] = 1;
@@ -409,7 +492,10 @@ function totalCompletedEvaluationsResident($username, $startDate, $endDate, $typ
         $numRequests[$request["resident"]]++;
 
         if($request["status"] == "complete"){
-            $numCompletedEvals[$request["resident"]]++;
+			if(!isset($numCompletedEvals[$request["resident"]]))
+				$numCompletedEvals[$request["resident"]] = 1;
+			else
+				$numCompletedEvals[$request["resident"]]++;
         }
     }
 
@@ -419,37 +505,28 @@ function totalCompletedEvaluationsResident($username, $startDate, $endDate, $typ
 
         //print out
         $out .= "<h3>Evaluation Statistics</h3>";
-        $out .= "<table class='table'>";
-        $out .= "<tr>";
-        $out .= "<th></th>";
-        foreach($allResidents as $resident){
-            $out .= "<th>{$resident}</th>";
-        }
-        $out .= "</tr>";
-
-        $out .= "<tr>";
-        $out .= "<th>Completed</th>";
-        foreach($allResidents as $resident){
-            $out .= "<td>{$numCompletedEvals[$resident]}</td>";
-        }
-        $out .= "</tr>";
-
-        $out .= "<tr>";
-        $out .= "<th>Requests</th>";
-        foreach($allResidents as $resident){
-            $out .= "<td>{$numRequests[$resident]}</td>";
-        }
-        $out .= "</tr>";
-
-        $out .= "<tr>";
-        $out .= "<th>Ratio</th>";
-        foreach($allResidents as $resident){
+        $out .= "<table class='table table-striped datatable'>";
+		$out .= "<thead><tr><th>User</th><th>Completed</th><th>Requests</th><th>Ratio</th></tr></thead>";
+		$tsv .= "User\tCompleted\tRequests\tRatio\n";
+        $out .= "<tbody>";
+		foreach($allResidents as $resident){
+			if(!isset($residentName[$resident]))
+				continue;
+			$out .= "<tr>";
+			$out .= "<th>{$residentName[$resident]}</th>";
+			$out .= "<td>{$numCompletedEvals[$resident]}</td>";
+			$out .= "<td>{$numRequests[$resident]}</td>";
             $percentage = round(($numCompletedEvals[$resident]/$numRequests[$resident])*100);
-            $out .= "<td>{$percentage}%</td>";
-        }
-        $out .= "</tr>";
-
+			$out .= "<td>{$percentage}%</td>";
+			$out .= "</tr>";
+			$tsv .= $residentName[$resident]."\t";
+			$tsv .= $numCompletedEvals[$resident]."\t";
+			$tsv .= $numRequests[$resident]."\t";
+			$tsv .= $percentage."%\n";
+		}
+        $out .= "</tbody>";
         $out .= "</table>";
+		$out .= "<form style='text-align:center;' target='_blank' method='post' action='save_table.php'><input type='hidden' name='filename' value='Resident Evaluation Statistics' /><button type='submit' class='btn btn-default' name='tsv' value=\"{$tsv}\">Save as TSV</button></form>";
     }
     return $out;
 }

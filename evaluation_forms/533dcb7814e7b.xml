@@ -1,0 +1,2 @@
+<?xml version="1.0"?>
+<form><title>Central Line Test</title><question name="q1" type="radio"><text>Did they bleed to death?</text><option value="1">Yes</option><option value="0">No</option></question><question name="q2" type="text"><text>How long did it take in hours?</text></question></form>

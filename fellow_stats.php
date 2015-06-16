@@ -20,9 +20,6 @@
 			width:100%;
 			resize: none;
 		}
-		span{
-			margin-right: 10px;
-		}
 	</style>
   </head>
 
@@ -30,10 +27,10 @@
 	<?php require 'header.php'; ?>
 	<div class="container-fluid">
 		<div class="form-group col-sm-6">
-			<label for="statsStartDate">Start Date</label><input type="date" id="statsStartDate" class="form-control" />
+			<label for="statsStartDate">Start Date</label><input type="text" id="statsStartDate" class="form-control datepicker" />
 		</div>
 		<div class="form-group col-sm-6">
-			<label for="statsEndDate">End Date</label><input type="date" id="statsEndDate" class="form-control" />
+			<label for="statsEndDate">End Date</label><input type="text" id="statsEndDate" class="form-control datepicker" />
 		</div>
 		<div class="form-group col-sm-8">
 			<select id="username" class="form-control">

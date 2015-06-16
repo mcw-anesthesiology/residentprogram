@@ -1,16 +1,12 @@
 <?php
 	//This page is the main dashboard for all admin users. It is included by dashboard.php and includes 3 simple metric tables at the top, and then a table of every request present in the database
 
-	  $requests = $mysqli->query("select requestId, resident, faculty, requestDate, completeDate, requests.status, title, residentUsers.firstName as residentFirst, residentUsers.lastName as residentLast, facultyUsers.firstName as facultyFirst, facultyUsers.lastName as facultyLast from requests left join forms on requests.formId=forms.formId left join users residentUsers on resident=residentUsers.username left join users facultyUsers on faculty=facultyUsers.username order by requestId desc;");
-	  $requestRow = $requests->fetch_assoc();
-
 	  //the following three queries are used to populate the metric data on the top of the admin dashboard
 	  $stats_One = $mysqli->query("select status, count(status) as total from requests where status in ('complete','pending','disabled') group by status;");
-	  $stats_Two = $mysqli->query("select u.firstName, u.lastName, count(r.status) as pending from users u, requests r where u.username = r.faculty and r.status = 'pending' group by u.username order by pending desc limit 5;");
-	  $stats_Three = $mysqli->query("select u.firstName, u.lastName, r.completeDate from users u, requests r where u.username = r.resident and r.status='complete' and u.username != 'resident' group by u.userName order by r.completeDate limit 5;");
+	  $stats_Two = $mysqli->query("select u.firstName, u.lastName, count(r.status) as pending from users u, requests r where u.username = r.faculty and r.status = 'pending' and u.status='active' and u.type='faculty' group by u.username order by pending desc limit 5;");
+	  $stats_Three = $mysqli->query("select u.firstName, u.lastName, count(r.status) as pending from users u, requests r where u.username = r.resident and r.status = 'pending' and u.status='active' and u.type='resident' group by u.username order by pending desc limit 5;");
 ?>
     <div class="container-fluid">
-      <div class="row">
         <div class="col-md-12 visible-md visible-lg">
           <div class="col-md-4">
             <h4 class="sub-header">Evaluation Statistics</h4>
@@ -42,7 +38,7 @@
           </div>
 
           <div class="col-md-4">
-            <h4 class="sub-header">Most Pending Evaluations</h4>
+            <h4 class="sub-header">Most Pending (Faculty)</h4>
             <table class="table table-striped">
               <tbody>
   <?php
@@ -62,25 +58,17 @@
           </div>
 
           <div class="col-md-4">
-            <h4 class="sub-header">Oldest Completed Evaluation</h4>
+            <h4 class="sub-header">Most Pending (Resident)</h4>
             <table class="table table-striped">
               <tbody>
 
   <?php
   $threeRow = $stats_Three->fetch_assoc();
   while(!is_null($threeRow)){
-	if(!is_null($threeRow["completeDate"])){
-		$completeDate = new DateTime($threeRow["completeDate"]);
-		$completeDate->setTimezone(new DateTimeZone("America/Chicago"));
-		$completeDateText = $completeDate->format("Y-m-d H:i:s");
-	}
-	else{
-		$completeDateText = "";
-	}
   ?>
                 <tr>
                   <td><?php echo $threeRow["firstName"]." ".$threeRow["lastName"]; ?></td>
-                  <td><?= $completeDateText ?></td>
+                  <td><?= $threeRow["pending"] ?></td>
                 </tr>
   <?php
   $threeRow = $stats_Three->fetch_assoc();
@@ -95,7 +83,7 @@
 			<!-- Displays every single request regardless of status -->
           <h2 class="sub-header">All Requests</h2>
           <div class="table-responsive">
-            <table class="table table-striped datatable" id="keywordsAll" cellspacing="0" cellpadding="0">
+            <table class="table table-striped datatable-admin" id="keywordsAll" cellspacing="0" cellpadding="0">
               <thead>
                 <tr>
                   <th class="headerSortUp"><span>#</span></th>
@@ -107,53 +95,7 @@
                   <th><span>Status</span></th>
                 </tr>
               </thead>
-              <tbody>
-					<?php
-						while(!is_null($requestRow)){
-							$requestDate = new DateTime($requestRow["requestDate"]);
-							$requestDate->setTimezone(new DateTimeZone("America/Chicago"));
-							if(!is_null($requestRow["completeDate"]) && $requestRow["status"] == "complete"){
-								$completeDate = new DateTime($requestRow["completeDate"]);
-								$completeDate->setTimezone(new DateTimeZone("America/Chicago"));
-								$completeDateText = $completeDate->format("Y-m-d H:i:s");
-							}
-							else{
-								$completeDateText = "";
-							}
-					?>
-							<tr data-id="<?= $requestRow["requestId"] ?>">
-							  <td class="lalign view"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
-							  <td class="view"><?= $requestRow["residentFirst"] ?> <?= $requestRow["residentLast"] ?></td>
-							  <td class="view"><?= $requestRow["facultyFirst"] ?> <?= $requestRow["facultyLast"] ?></td>
-							  <td class="view"><?= $requestRow["title"] ?></td>
-							  <td class="view"><?= $requestDate->format("Y-m-d H:i:s"); ?></td>
-							  <td class="view"><?= $completeDateText ?></td>
-							<?php
-							  if($requestRow["status"] == "complete"){
-							?>
-													  <td><span class="badge badge-complete"><?= $requestRow["status"] ?></span></td>
-							<?php
-							  }
-							  else if($requestRow["status"] == "pending"){
-							?>
-										  <td><span class="badge badge-pending"><?= $requestRow["status"] ?></span></td>
-							<?php
-							  }
-							  else{
-							?>
-										  <td><span class="badge badge-disabled"><?= $requestRow["status"] ?></span></td>
-							<?php
-							  }
-							?>
-							</tr>
-
-					<?php
-							$requestRow = $requests->fetch_assoc();
-						}
-					?>
-              </tbody>
             </table>
           </div>
         </div>
-      </div>
     </div>

@@ -38,11 +38,13 @@
           </thead>
           <tbody>
 <?php
-    while(!is_null($form)){
+	while(!is_null($form)){
+		$createdDate = new DateTime($form["createdDate"]);
+		$createdDate->setTimezone(new DateTimeZone("America/Chicago"));
 ?>
             <tr>
               <td><?= $form["title"] ?></td>
-              <td><?= $form["createdDate"] ?></td>
+              <td><?= $createdDate->format("d-m-Y g:i A") ?></td>
               <td><form action="view_form.php" target="_blank" method="post">
                   <span>
 <?php
@@ -183,13 +185,9 @@
   </div>
 </div>
 
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
-<script src="../../assets/js/docs.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.1/js/jquery.dataTables.js"></script>
+<?php
+	include "scripts.html";
+?>
 <script>
     $(document).on("click", ".disableEval", function(){
         var formId = $(this).data('id');
@@ -221,7 +219,9 @@
 
     $(document).ready(function(){
         $(".datatable").each(function(){
-            $(this).dataTable();
+			$(this).dataTable({
+				stateSave: true	
+			});
         });
     });
 </script>

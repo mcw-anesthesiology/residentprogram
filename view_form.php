@@ -6,6 +6,7 @@
     <?php
 		include "head.html";
 	?>
+	<link rel="stylesheet" href="print.css" type="text/css" media="print" />
 	<style>
 		textarea{
 			width:100%;
@@ -26,6 +27,10 @@
 		$(document).ready(function(){
 			$("#form input").prop("disabled", true);
 			$("#form textarea").prop("disabled", true);
+			$("#form button").each(function(){
+				$(this).addClass("noprint");
+			});
+			$("#form textarea").addClass("noprint");
 		});
 
 		$(".toggleDescriptions").click(function(){

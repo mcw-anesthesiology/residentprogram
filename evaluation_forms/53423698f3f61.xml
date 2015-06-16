@@ -1,0 +1,2 @@
+<?xml version="1.0"?>
+<form><title>Test Weight Form 1</title><question name="q1" weight="100" type="radio"><text>Does this weight work? </text><option value="1">yes</option><option value="0">No</option></question><question name="q2" weight="150" type="radio"><text>How about this one?</text><option value="1">Yup</option><option value="0">No</option></question></form>

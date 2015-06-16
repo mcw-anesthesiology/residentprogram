@@ -16,6 +16,6 @@
 		}
 	}
 	
-	header("Location: manage_milestones_competencies.php?success={$success}");
+	header("Location: manage_milestones_competencies.php?competency={$success}");
 
 ?>

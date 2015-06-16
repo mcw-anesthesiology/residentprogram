@@ -1,0 +1,15 @@
+[29-Mar-2015 20:35:17 America/Chicago] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in /home4/ab49752/public_html/authenticate.php on line 9
+[29-Mar-2015 20:53:46 America/Chicago] PHP Parse error:  syntax error, unexpected '->' (T_OBJECT_OPERATOR) in /home4/ab49752/public_html/mysql_test.php on line 7
+[29-Mar-2015 20:54:20 America/Chicago] PHP Parse error:  syntax error, unexpected '->' (T_OBJECT_OPERATOR) in /home4/ab49752/public_html/mysql_test.php on line 7
+[29-Mar-2015 20:54:22 America/Chicago] PHP Parse error:  syntax error, unexpected '->' (T_OBJECT_OPERATOR) in /home4/ab49752/public_html/mysql_test.php on line 7
+[29-Mar-2015 20:54:25 America/Chicago] PHP Parse error:  syntax error, unexpected '->' (T_OBJECT_OPERATOR) in /home4/ab49752/public_html/mysql_test.php on line 7
+[29-Mar-2015 20:56:00 America/Chicago] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in /home4/ab49752/public_html/authenticate.php on line 9
+[29-Mar-2015 20:56:54 America/Chicago] PHP Fatal error:  Call to a member function fetch_assoc() on a non-object in /home4/ab49752/public_html/mysql_test.php on line 7
+[29-Mar-2015 20:57:04 America/Chicago] PHP Fatal error:  Call to a member function fetch_assoc() on a non-object in /home4/ab49752/public_html/mysql_test.php on line 7
+[28-May-2015 19:37:10 America/Chicago] PHP Parse error:  syntax error, unexpected '<' in /home4/ab49752/public_html/reporting.php on line 588
+[30-May-2015 02:20:58 America/Chicago] PHP Parse error:  syntax error, unexpected '}' in /home4/ab49752/public_html/dashboard.php on line 131
+[01-Jun-2015 03:28:03 America/Chicago] PHP Parse error:  syntax error, unexpected ')', expecting ']' in /home4/ab49752/public_html/manage_accounts.php on line 622
+[08-Jun-2015 20:53:30 America/Chicago] PHP Fatal error:  'continue' operator with non-constant operand is no longer supported in /home4/ab49752/public_html/stats.php on line 144
+[09-Jun-2015 01:32:42 America/Chicago] PHP Parse error:  syntax error, unexpected '$facultyMembers' (T_VARIABLE) in /home4/ab49752/public_html/stats.php on line 219
+[09-Jun-2015 01:38:19 America/Chicago] PHP Parse error:  syntax error, unexpected '$facultyMembers' (T_VARIABLE) in /home4/ab49752/public_html/stats.php on line 219
+[12-Jun-2015 17:39:58 America/Chicago] PHP Parse error:  syntax error, unexpected '"'>Milestones</th>"' (T_CONSTANT_ENCAPSED_STRING), expecting ',' or ';' in /home4/ab49752/public_html/reporting.php on line 106

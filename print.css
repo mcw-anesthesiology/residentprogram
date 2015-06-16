@@ -1,0 +1,14 @@
+.print{
+	display: block;
+	overflow: visible;
+	white-space: pre;
+	white-space: pre-wrap;
+}
+
+.noprint{
+	display: none;
+}
+
+table{
+	width: 100%;
+}

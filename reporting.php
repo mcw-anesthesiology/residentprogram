@@ -32,10 +32,10 @@
 		$greenStandardDeviation = 0.5;
 
 		if($trainingLevel == "all"){
-			$query = "select requests.resident, responses.requestId, responses.questionId, responses.response, responses.weight, milestones.milestoneId, milestones.title, competencies.competencyId, competencies.title from responses join requests on requests.requestId=responses.requestId join milestones_questions on responses.questionId=milestones_questions.questionId and requests.formId=milestones_questions.formId join milestones on milestones_questions.milestoneId=milestones.milestoneId join competencies_questions on responses.questionId=competencies_questions.questionId and requests.formId=competencies_questions.formId join competencies on competencies_questions.competencyId=competencies.competencyId join evaluations on evaluations.requestId=requests.requestId join users on requests.resident=users.username where users.status='active' and users.type='resident' and requests.status='complete' and requests.requestDate>? and requests.requestDate<?;";
+			$query = "select requests.resident, users.firstName, users.lastName, responses.requestId, responses.questionId, responses.response, responses.weight, milestones.milestoneId, milestones.title, competencies.competencyId, competencies.title from responses join requests on requests.requestId=responses.requestId join milestones_questions on responses.questionId=milestones_questions.questionId and requests.formId=milestones_questions.formId join milestones on milestones_questions.milestoneId=milestones.milestoneId join competencies_questions on responses.questionId=competencies_questions.questionId and requests.formId=competencies_questions.formId join competencies on competencies_questions.competencyId=competencies.competencyId join evaluations on evaluations.requestId=requests.requestId join users on requests.resident=users.username where users.status='active' and users.type='resident' and requests.status='complete' and requests.requestDate>? and requests.requestDate<?;";
 		}
 		else{
-			$query = "select requests.resident, responses.requestId, responses.questionId, responses.response, responses.weight, milestones.milestoneId, milestones.title, competencies.competencyId, competencies.title from responses join requests on requests.requestId=responses.requestId join milestones_questions on responses.questionId=milestones_questions.questionId and requests.formId=milestones_questions.formId join milestones on milestones_questions.milestoneId=milestones.milestoneId join competencies_questions on responses.questionId=competencies_questions.questionId and requests.formId=competencies_questions.formId join competencies on competencies_questions.competencyId=competencies.competencyId join evaluations on evaluations.requestId=requests.requestId join users on requests.resident=users.username where users.status='active' and users.type='resident' and requests.status='complete' and requests.requestDate>? and requests.requestDate<? and evaluations.currentTrainingLevel=?;";
+			$query = "select requests.resident, users.firstName, users.lastName, responses.requestId, responses.questionId, responses.response, responses.weight, milestones.milestoneId, milestones.title, competencies.competencyId, competencies.title from responses join requests on requests.requestId=responses.requestId join milestones_questions on responses.questionId=milestones_questions.questionId and requests.formId=milestones_questions.formId join milestones on milestones_questions.milestoneId=milestones.milestoneId join competencies_questions on responses.questionId=competencies_questions.questionId and requests.formId=competencies_questions.formId join competencies on competencies_questions.competencyId=competencies.competencyId join evaluations on evaluations.requestId=requests.requestId join users on requests.resident=users.username where users.status='active' and users.type='resident' and requests.status='complete' and requests.requestDate>? and requests.requestDate<? and evaluations.currentTrainingLevel=?;";
 		}
 
 		if($responsesStmt = $mysqli->prepare($query)){
@@ -46,12 +46,13 @@
 				$bindParamSuccess = $responsesStmt->bind_param("sss", $startDate, $endDate, $trainingLevel);
 			}
 			if($bindParamSuccess){
-				if($responsesStmt->bind_result($requestResident, $requestId, $questionId, $response, $weight, $milestoneId, $milestoneTitle, $competencyId, $competencyTitle)){
+				if($responsesStmt->bind_result($requestResident, $firstName, $lastName, $requestId, $questionId, $response, $weight, $milestoneId, $milestoneTitle, $competencyId, $competencyTitle)){
 					if($responsesStmt->execute()){
 						while($responsesStmt->fetch()){
 							$milestones[] = $milestoneId;
 							$milestoneTitles[$milestoneId] = $milestoneTitle;
 							$residents[] = $requestResident;
+							$residentName[$requestResident] = $lastName.", ".$firstName;
 							$requests[] = $requestId;
 							$requestsResidents[$requestResident][] = $requestId;
 
@@ -93,14 +94,20 @@
 			return;
 		}
 
-		echo "<table class='table'>";
+		echo "<table class='table table-striped table-bordered datatable' id='report-table'>";
 		echo "<thead><tr>";
-		echo "<th>Resident/Faculty</th>";
+		echo "<th rowspan='3'>Resident/Fellow</th>";
 
-		$tsv = "Resident/Faculty\t";
+		$tsv = "Resident/Fellow\t";
 
 		sort($milestones);
 		sort($competencies);
+		$milestoneColspan = 3*count(array_unique($milestones));
+		$competencyColspan = 3*count(array_unique($competencies));
+		echo "<th colspan='{$milestoneColspan}'>Milestones</th>";
+		echo "<th colspan='{$competencyColspan}'>Competencies</th>";
+		echo "<th>All</th>";
+		echo "</tr><tr>";
 
 		foreach(array_unique($milestones) as $milestone){
 			$milestoneClassAverages[$milestone] = array_sum($averageWeightedResponsesMilestones[$milestone])/array_sum($averageWeightedResponsesMilestonesDenominator[$milestone]);
@@ -109,9 +116,12 @@
 			}
 			$milestoneClassStandardDevations[$milestone] = sd($milestoneClassAveragesResidents[$milestone]);
 
-			echo "<th nowrap>{$milestone}</th>"; $tsv .= $milestoneTitles[$milestone]."\t";
-			echo "<th nowrap>D{$milestone}</th>"; $tsv .= $milestoneTitles[$milestone]." # of Standard Deviations\t";
-			echo "<th nowrap># {$milestone}</th>";
+			//echo "<th nowrap>{$milestone}</th>"; 
+			$tsv .= $milestoneTitles[$milestone]."\t";
+			//echo "<th nowrap>D{$milestone}</th>"; 
+			$tsv .= $milestoneTitles[$milestone]." # of Standard Deviations\t";
+			//echo "<th nowrap># {$milestone}</th>";\
+			echo "<th colspan='3'>{$milestoneTitles[$milestone]}</th>";
 		}
 
 		foreach(array_unique($competencies) as $competency){
@@ -121,21 +131,36 @@
 			}
 			$competencyClassStandardDevations[$competency] = sd($competencyClassAveragesResidents[$competency]);
 
-			echo "<th nowrap>{$competency}-C</th>"; $tsv .= $competencyTitles[$competency]."\t";
-			echo "<th nowrap>D{$competency}-C</th>"; $tsv .= $competencyTitles[$competency]." # of Standard Deviations\t";
-			echo "<th nowrap># {$competency}-C</th>";
+			//echo "<th nowrap>{$competency}-C</th>"; 
+			$tsv .= $competencyTitles[$competency]."\t";
+			//echo "<th nowrap>D{$competency}-C</th>"; 
+			$tsv .= $competencyTitles[$competency]." # of Standard Deviations\t";
+			//echo "<th nowrap># {$competency}-C</th>";
+			echo "<th colspan='3'>{$competencyTitles[$competency]}</th>";
 		}
 
-		echo "<th># Evals</th>";
+		echo "<th>Total</th>";
+		echo "</tr><tr>";
 
+		foreach(array_unique($milestones) as $milestone){
+			echo "<th>Average</th>";
+			echo "<th>Std. Dev.</th>";
+			echo "<th>#</th>";
+		}
+		foreach(array_unique($competencies) as $competency){
+			echo "<th>Average</th>";
+			echo "<th>Std. Dev.</th>";
+			echo "<th>#</th>";
+		}
+		echo "<th># Evals</th>";
 		echo "</tr></thead>";
 		echo "<tbody>";
 		$tsv .= "\n";
 
 		foreach (array_unique($residents) as $resident){
 			echo "<tr>";
-			echo "<td>{$resident}</td>"; //TODO: change to name instead of username
-			$tsv .= $resident."\t";
+			echo "<td>{$residentName[$resident]}</td>"; //TODO: change to name instead of username
+			$tsv .= $residentName[$resident]."\t";
 			foreach(array_unique($milestones) as $milestone){
 				if(!array_key_exists($milestone, $residentWeightedResponsesMilestones[$resident]) || !array_key_exists($milestone, $residentWeightedResponsesMilestonesDenominator[$resident])){
 					$milestoneResidentAverage = "x";
@@ -198,19 +223,19 @@
 		echo "</tbody>";
 		echo "</table>";
 
-		echo "<div>";
-		echo "<h3>Milestones Key</h3>";
-		foreach(array_unique($milestones) as $milestone){
-			echo "<span style='white-space: nowrap;'><b>".$milestone."</b>&nbsp;=&nbsp;".$milestoneTitles[$milestone]."&nbsp;&nbsp;&nbsp;&nbsp;</span> ";
-		}
-		echo "</div>";
-
-		echo "<div>";
-		echo "<h3>Competencies Key</h3>";
-		foreach(array_unique($competencies) as $competency){
-			echo "<span style='white-space: nowrap;'><b>".$competency."</b>&nbsp;=&nbsp;".$competencyTitles[$competency]."&nbsp;&nbsp;&nbsp;&nbsp;</span> ";
-		}
-		echo "</div>";
+//		echo "<div>";
+//		echo "<h3>Milestones Key</h3>";
+//		foreach(array_unique($milestones) as $milestone){
+//			echo "<span style='white-space: nowrap;'><b>".$milestone."</b>&nbsp;=&nbsp;".$milestoneTitles[$milestone]."&nbsp;&nbsp;&nbsp;&nbsp;</span> ";
+//		}
+//		echo "</div>";
+//
+//		echo "<div>";
+//		echo "<h3>Competencies Key</h3>";
+//		foreach(array_unique($competencies) as $competency){
+//			echo "<span style='white-space: nowrap;'><b>".$competency."</b>&nbsp;=&nbsp;".$competencyTitles[$competency]."&nbsp;&nbsp;&nbsp;&nbsp;</span> ";
+//		}
+//		echo "</div>";
 
 		echo "<form style='text-align:center;' target='_blank' method='post' action='save_table.php'><button type='submit' class='btn btn-default' name='tsv' value='{$tsv}'>Save as TSV</button></form>";
 		echo "<br />";
@@ -244,10 +269,11 @@
 			$milestonesRow = $milestonesQuery->fetch_assoc();
 		}
 
-		$residentsQuery = $mysqli->query("select username from users where type='resident' and status='active';");
+		$residentsQuery = $mysqli->query("select username, firstName, lastName from users where type='resident' and status='active';");
 		$residentsRow = $residentsQuery->fetch_assoc();
 		while(!is_null($residentsRow)){
 			$residents[] = $residentsRow["username"];
+			$residentName[$residentsRow["username"]] = $residentsRow["lastName"].", ".$residentsRow["firstName"];
 			$residentsRow = $residentsQuery->fetch_assoc();
 		}
 
@@ -295,11 +321,11 @@
 			return;
 		}
 
-		echo "<table class='table'>";
+		echo "<table class='table table-striped table-bordered datatable'>";
 		echo "<thead><tr>";
-		echo "<th>Resident/Faculty</th>";
+		echo "<th>Resident/Fellow</th>";
 
-		$tsv = "Resident/Faculty\t";
+		$tsv = "Resident/Fellow\t";
 
 		sort($milestones);
 		sort($competencies);
@@ -313,13 +339,13 @@
 		$tsv .= "\n";
 
 		foreach(array_unique($residents) as $resident){
-			echo "<tr><td>{$resident}</td>"; $tsv .= $resident."\t";
+			echo "<tr><td>{$residentName[$resident]}</td>"; $tsv .= $residentName[$resident]."\t";
 			foreach(array_unique($milestones) as $milestone){
 				if(isset($milestonesResidents[$milestone][$resident])){
-					echo "<td class='y'></td>"; $tsv .= "Y\t";
+					echo "<td class='y' data-order='y'></td>"; $tsv .= "Y\t";
 				}
 				else{
-					echo "<td class='n'></td>"; $tsv .= "N\t";
+					echo "<td class='n' data-order='n'></td>"; $tsv .= "N\t";
 				}
 			}
 			echo "</tr>"; $tsv .= "\n";
@@ -327,7 +353,7 @@
 
 		echo "</tbody></table>";
 		echo "<br/>";
-		echo "<form style='text-align:center;' target='_blank' method='post' action='save_table.php'><button type='submit' class='btn btn-default' name='tsv' value='{$tsv}'>Save as TSV</button></form>";
+		echo "<form style='text-align:center;' target='_blank' method='post' action='save_table.php'><input type='hidden' name='filename' value='Aggregate Report' /><button type='submit' class='btn btn-default' name='tsv' value='{$tsv}'>Save as TSV</button></form>";
 		echo "<br/>";
 
 		$responsesStmt->close();
@@ -527,7 +553,7 @@
 	function drawEvaluationMilestoneCompetencyTable(){
 		global $mysqli;
 
-		echo "<table>";
+		echo "<table class='table table-striped table-bordered datatable'>";
 		$formsRequest = $mysqli->query("select * from forms where status='active'");
 		while($form = $formsRequest->fetch_assoc()){
 			$forms[$form["formId"]] = $form["title"];
@@ -549,11 +575,13 @@
 		while($fc = $formsCompetenciesRequest->fetch_assoc()){
 			$formsCompetencies[$fc["formId"]][$fc["competencyId"]] = 1;
 		}
+		echo "<thead>";
 		echo "<tr><th>Milestones</th>";
 		foreach($forms as $formId => $formTitle){
 			echo "<th>{$formTitle}</th>";
 		}
 		echo "</tr>";
+		echo "</thead><tbody>";
 		foreach($milestones as $milestoneId => $milestoneTitle){
 			echo "<tr>";
 			echo "<td>{$milestoneTitle}</td>";
@@ -563,19 +591,23 @@
 				else
 					$class = "n";
 
-				echo "<td class='{$class}'></td>";
+				echo "<td class='{$class}' data-order='{$class}'></td>";
 			}
 			echo "</tr>";
 		}
+		echo "</tbody>";
 		echo "</table>";
+		
+		echo "<br/>";
 
-
-		echo "<table>";
+		echo "<table class='table table-striped table-bordered datatable'>";
+		echo "<thead>";
 		echo "<tr><th>Competencies</th>";
 		foreach($forms as $formId => $formTitle){
 			echo "<th>{$formTitle}</th>";
 		}
 		echo "</tr>";
+		echo "</thead><tbody>";
 		foreach($competencies as $competencyId => $competencyTitle){
 			echo "<tr>";
 			echo "<td>{$competencyTitle}</td>";
@@ -585,11 +617,11 @@
 				else
 					$class = "n";
 
-				echo "<td class='{$class}'></td>";
+				echo "<td class='{$class}' data-order='{$class}'></td>";
 			}
 			echo "</tr>";
 		}
-
+		echo "</tbody>";
 		echo "</table>";
 
 

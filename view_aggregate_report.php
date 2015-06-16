@@ -33,17 +33,30 @@
 
   <body>
 	<?php require 'header.php'; ?>
+	<div class="container-fluid">
 
-	<?php createReportTable($trainingLevel, $startDate, $endDate); ?>
+		<?php createReportTable($trainingLevel, $startDate, $endDate); ?>
 
-	<div style="text-align:center;">
-		<?php
-			if(isset($_POST["graphs"]) && $_POST["graphs"] == "yes")
-				drawAllGraphs($trainingLevel, $startDate, $endDate);
-		?>
+		<div style="text-align:center; overflow:scroll;">
+			<?php
+				if(isset($_POST["graphs"]) && $_POST["graphs"] == "yes")
+					drawAllGraphs($trainingLevel, $startDate, $endDate);
+			?>
+		</div>
 	</div>
 	<?php
 		include "scripts.html";
 	?>
+	<script>
+		$(window).load(function(){
+			var table = $("#report-table").DataTable({
+				"scrollX": true,
+				"scrollY": "500px",
+				"paging": false,
+				"scrollCollapse": true	
+			});
+			new $.fn.DataTable.FixedColumns( table );
+		});
+	</script>
   </body>
 </html>

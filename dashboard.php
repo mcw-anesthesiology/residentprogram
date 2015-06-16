@@ -82,6 +82,25 @@
     </div>
   </div>
 </div>
+
+
+<!-- Request Error Modal -->
+    <div class="modal fade bs-request-error-modal" tabindex="-1" role="dialog" aria-labelledby="modalError" aria-hidden="true" id="errorRequestModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header alert alert-danger">
+					<h3><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Request Error</h3>   					
+				</div>
+				<div class="modal-body">
+					There was an error processing the request. Please try again.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+            </div>
+        </div>
+    </div>
+
     <?php
 		include "scripts.html";
 	?>
@@ -96,24 +115,65 @@
 		  $(".modal-cancel-faculty #requestId").val(requestId);
 		});
 
-		$("tbody").on("click", ".view", function(){
+		$("table").on("click", ".view", function(){
 			//Sets entire table rows clickable instead of just the ID hyperlink on the leftmost columns
-			var requestId = $(this).parent().data("id");
+			var requestId = $(this).parents("tr").children("td").eq(0).children("a").html();
+	//		var table = $(this).parents("table").attr("id");
+	//		var filter = $("#"+table+"_filter").find("input").val();
+	//		var page = $(this).parents("table").DataTable().page();
+	//		document.cookie = "filter="+filter;
+	//		document.cookie = "table="+table;
+	//		document.cookie = "tablePage="+page;
 			window.location.href = "view_specific.php?request="+requestId;
 		});
 
-		$("tbody").on("click", ".complete", function(){
+		$("table").on("click", ".complete", function(){
 			//Sets entire table rows clickable instead of just the ID hyperlink on the leftmost columns
-			var requestId = $(this).parent().data("id");
+			var requestId = $(this).parents("tr").children("td").eq(0).children("a").html();
 			window.location.href = "complete_specific.php?request="+requestId;
 		});
 
 		$(document).ready(function(){
 		  $(".datatable").each(function(){
 			  //Enables the datatable functionality that supports the sorting and searching functionality in the tables
-			$(this).dataTable();
+			  $(this).DataTable({
+				"order": [[0, "desc"]],
+				stateSave: true  		
+			  });
 		  });
+<?php if($_SESSION["type"] == "admin"){ ?>
+		  $(".datatable-admin").DataTable({
+				"ajax": "dashboard_json_admin.php",
+					deferRedering: true,
+					"order": [[0, "desc"]],
+					stateSave: true,
+					"createdRow": function(row, data, index){
+						$("td", row).addClass("view");
+					}
+		  });
+<?php } ?>
 		});
+
+//		$(window).load(function(){
+//		  var table = document.cookie.replace(/(?:(?:^|.*;\s* )table\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+//		  var filter = document.cookie.replace(/(?:(?:^|.*;\s* )filter\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+//		  var page = parseInt(document.cookie.replace(/(?:(?:^|.*;\s* )tablePage\s*\=\s*([^;]*).*$)|^.*$/, "$1"));
+//		  alert(page);
+//		  $("#"+table).DataTable().search(filter).page(page).draw(false);
+//		  document.cookie = "filter=;expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+//		  document.cookie = "table=;expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+//		  document.cookie = "tablePage=;expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+//		});
+
+<?php
+	if(isset($_GET["request"]) && $_GET["request"] == "false"){
+?>
+	$(window).load(function(){
+		$("#errorRequestModal").modal("show");
+	});
+<?php
+	}
+?>
     </script>
   </body>
 </html>

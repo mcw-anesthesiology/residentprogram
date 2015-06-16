@@ -67,7 +67,7 @@
       </div>
     </div>
   </div>
-</div>
+
 
   <div class="container-fluid">
     <div class="row">
@@ -111,6 +111,41 @@
     </div>
   </div>
 </div>
+
+<!-- Milestone Error Modal -->
+    <div class="modal fade bs-milestone-error-modal" tabindex="-1" role="dialog" aria-labelledby="modalError" aria-hidden="true" id="errorMSModal">
+        <div class="modal-dialog">
+            <div class="modal-content">	
+				<div class="modal-header alert alert-danger">
+					<h3><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Request Error</h3>   					
+				</div>
+				<div class="modal-body">
+					<p>There was an error adding the milestone. Please try again.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+            </div>
+        </div>
+	</div>
+
+
+<!-- Competency Error Modal -->
+    <div class="modal fade bs-competency-error-modal" tabindex="-1" role="dialog" aria-labelledby="modalError" aria-hidden="true" id="errorCModal">
+        <div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header alert alert-danger">
+					<h3><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Request Error</h3>   					
+				</div>
+				<div class="modal-body">
+					<p>There was an error adding the competency. Please try again.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+            </div>
+        </div>
+    </div>
 
 <!-- Add Milestone Modal -->
 <div class="modal fade bs-addMS-modal" tabindex="-1" role="dialog" aria-labelledby="modalAddMS" aria-hidden="true" id="addMSModal">
@@ -304,9 +339,31 @@
 		});
 
 		$(".datatable").each(function(){
-			$(this).dataTable();
+			$(this).dataTable({
+				stateSave: true	
+			});
 		});
 	});
+
+<?php
+	if(!is_null($_GET["milestone"]) && $_GET["milestone"] == "false"){
+?>
+	$(window).load(function(){
+		$("#errorMSModal").modal("show");	
+	});
+<?php
+	}
+?>
+
+<?php
+	if(!is_null($_GET["competency"]) && $_GET["competency"] == "false"){
+?>
+	$(window).load(function(){
+		$("#errorCModal").modal("show");
+	});
+<?php
+	}
+?>
 </script>
 </body>
 </html>

@@ -1,0 +1,2 @@
+<?xml version="1.0"?>
+<form><title>Test Form Milestone Competency Final I hope</title><question name="q1" type="radio"><text>Do milestones work?</text><option value="1">Yes</option><option value="0">No</option></question><question name="q2" type="radio"><text>Do competencies work?</text><option value="1">yes</option><option value="0">no</option></question></form>

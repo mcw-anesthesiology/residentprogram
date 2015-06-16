@@ -1,9 +1,14 @@
 <?php
+	session_start();
+	session_destroy();
+	session_start();
 	//This page checks a user's credentials against the database and creates a session and logs the user in if a user with such credentials exist. 
 	//It is called from index.php and sends the user to dashboard.php upon successful login.
-	require "init.php";
+	$mysqli = new mysqli("localhost", "ab49752_resprog", "imsdcnj239jcDKgpw34Fv1", "ab49752_resprogdata");
+	if($mysqli->connect_errno){
+		echo "Failed to connect to MySQL: " . $mysqli->connect_errno . " ) " . $mysqli->connect_error;
+	}
 	
-	session_destroy();
 	
         include_once("phpbbconf.php");
 	$username = htmlspecialchars($_POST["username"]);
@@ -28,7 +33,7 @@
 	}
 	
 	if(password_verify($password, $passwordHash)){
-		session_start();
+		//session_start();
 		$_SESSION["username"] = $databaseUsername;
 		$_SESSION["type"] = $type;
 		$_SESSION["fname"] = $firstName;
@@ -38,7 +43,7 @@
 		//print "<br />From Authenticate.php: Login apparently successful.  Details follow.<br />" . "PHPBB Username: " . $user->data['username'] . "<br />" . "Eval System User Name: " . $_SESSION["username"];
 		
 	}
-	else{
+	else{	
 		header("Location: index.php");
 		
 	}

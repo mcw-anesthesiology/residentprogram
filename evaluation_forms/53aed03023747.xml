@@ -1,0 +1,2 @@
+<?xml version="1.0"?>
+<form><title>TEST</title><question name="q1" type="radio" weight="100"><text>Do ampersands (&amp;) &amp; work? &gt;&lt; $%&amp;#@#$*!(@!)!@#*!@)#!)(&amp;*!*(@</text><option value="1" description="%&amp;amp;$#&amp;amp;#&amp;lt;&amp;gt;">yes</option><option value="0" description="">no</option></question></form>

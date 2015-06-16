@@ -1,0 +1,2 @@
+<?xml version="1.0"?>
+<form><title>Form hover test</title><question name="q1" weight="200" type="radio"><text>Does the hover work? </text><option value="1" description="This should also be some hover text">work?</option><option value="0">no?</option></question></form>

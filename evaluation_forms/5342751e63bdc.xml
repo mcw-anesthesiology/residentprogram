@@ -1,0 +1,2 @@
+<?xml version="1.0"?>
+<form><title>Process_form refactoring test form 2</title><question name="q1" weight="100" type="radio"><text>This time?</text><option value="1" description="pls">Yes?</option></question></form>

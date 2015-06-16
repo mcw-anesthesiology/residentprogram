@@ -4,7 +4,7 @@
 
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
-  padding-top: 50px;
+  padding-top: 55px;
   padding-bottom: 40px;
 }
 
@@ -209,4 +209,20 @@ body {
 
 .form-question:nth-child(odd){
   background-color: #e0e0e0;
+}
+
+.container-fluid{
+}
+
+.row{
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.print{
+	display: none;
+}
+
+.pointer{
+	cursor: pointer;
 }

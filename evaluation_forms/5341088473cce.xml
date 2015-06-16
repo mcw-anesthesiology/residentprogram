@@ -1,0 +1,2 @@
+<?xml version="1.0"?>
+<form><title>Milestone Competency Test 2</title><question name="q1" type="text"><text>Why was that there?</text></question><question name="q2" type="radio"><text>Is it going to be there again? </text><option value="1">Yes</option><option value="0">no</option><option value="valuationForm"/></question></form>

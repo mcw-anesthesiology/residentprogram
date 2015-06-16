@@ -86,7 +86,7 @@
             <tr>
               <td><?= $requestId ?></td>
               <td><?= $request["firstName"] ?> <?= $request["lastName"] ?></td>
-              <td><?= $requestDate->format("Y-m-d H:i:s"); ?></td>
+              <td><?= $requestDate->format("d-m-Y g:i A"); ?></td>
               <td><?= $request["trainingLevel"] ?></td>
               <?php
 					if(!is_null($request["photo"]) && $request["photo"] != ""){
@@ -110,7 +110,7 @@
 				echo "<label for='evaluationDate'>For what month are you evaluating this resident?</label>";
 				echo "<select class='form-control' id='evaluationDate' name='evaluationDate'>";
 					for($i = 0; $i < $numMonths; $i++){
-						echo "<option value='".$evaluationDate->format("Y-m-d H:i:s")."'>".$evaluationDate->format("F")."</option>";
+						echo "<option value='".$evaluationDate->format("d-m-Y g:i A")."'>".$evaluationDate->format("F")."</option>";
 						if($evaluationDate->format("m") == "01"){
 							$evaluationDate->setDate(($evaluationDate->format("Y")-1), 12, 1);
 						}

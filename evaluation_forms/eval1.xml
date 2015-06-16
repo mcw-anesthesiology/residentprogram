@@ -1,0 +1,109 @@
+<form>
+	<question type="radio" name="q1">
+		<text>I am evaluating the resident</text>
+		<option value="1">based on one case</option>
+		<option value="2">based on one day</option>
+		<option value="3">for the rotation month</option>
+	</question>
+	<question type="radio" name="q2">
+		<text>Based upon my work with this resident, I feel that they are performing at the following training level.</text>
+		<option value="1">Intern</option>
+		<option value="2"></option>
+		<option value="3">CA-1</option>
+		<option value="4"></option>
+		<option value="5">CA-2</option>
+		<option value="6"></option>
+		<option value="7">CA-3</option>
+		<option value="8">Attending</option>
+	</question>
+	<question type="radio" name="q3">
+		<text>This resident communicates effectively with patient, family, colleagues, staff; a team player.</text>
+		<option value="1">Intern</option>
+		<option value="2"></option>
+		<option value="3">CA-1</option>
+		<option value="4"></option>
+		<option value="5">CA-2</option>
+		<option value="6"></option>
+		<option value="7">CA-3</option>
+		<option value="8">Attending</option>
+	</question>
+	<question type="radio" name="q4">
+		<text>The resident demonstrates a commitment to the institution, themselves and society by maintaining personal, emothional, physical and mental health.</text>
+		<option value="1">Yes</option>
+		<option value="2">No</option>
+		<option value="3">Did not observe</option>
+	</question>
+	<question type="radio" name="q5">
+		<text>This resident demonstrated procedural skills appropriate for the following level of training.</text>
+		<option value="1">Intern</option>
+		<option value="2"></option>
+		<option value="3">CA-1</option>
+		<option value="4"></option>
+		<option value="5">CA-2</option>
+		<option value="6"></option>
+		<option value="7">CA-3</option>
+		<option value="8">Attending</option>
+	</question>
+	<question type="radio" name="q6">
+		<text>This resident possesses a fund of knowledge appropriate for the following level of training; they are able to apply knowledge to clinical situations appropriate to the level of training indicated below.</text>
+		<option value="1">Intern</option>
+		<option value="2"></option>
+		<option value="3">CA-1</option>
+		<option value="4"></option>
+		<option value="5">CA-2</option>
+		<option value="6"></option>
+		<option value="7">CA-3</option>
+		<option value="8">Attending</option>
+	</question>
+	<question type="radio" name="q7">
+		<text>This resident responded rapidly and appropriately to critical situations; they demonstrated sound clinical judgment reflective of the following level of training.</text>
+		<option value="1">Intern</option>
+		<option value="2"></option>
+		<option value="3">CA-1</option>
+		<option value="4"></option>
+		<option value="5">CA-2</option>
+		<option value="6"></option>
+		<option value="7">CA-3</option>
+		<option value="8">Attending</option>
+	</question>
+	<question type="radio" name="q8">
+		<text>This resident completed safe, thorough and comprehensive handoffs</text>
+		<option value="1">Yes</option>
+		<option value="2">No</option>
+		<option value="3">Did not observe</option>
+	</question>
+	<question type="radio" name="q9">
+		<text>This resident was appropriately able to locate, appraise and assimilate evidence. They effectively used sources to support own learning. They appear motivated to read literature and apply knowledge to case discussion and management.</text>
+		<option value="1">Intern</option>
+		<option value="2"></option>
+		<option value="3">CA-1</option>
+		<option value="4"></option>
+		<option value="5">CA-2</option>
+		<option value="6"></option>
+		<option value="7">CA-3</option>
+		<option value="8">Attending</option>
+	</question>
+	<question type="radio" name="q10">
+		<text>The resident easily adapted to new rotations, systems, situations and practices reflective of the following level of training. Demonstrated the ability to effectively call on system resources to coordinate optimal patient care. Practiced cost-effective health care that does not compromise the quality of patient care.</text>
+		<option value="1">Intern</option>
+		<option value="2"></option>
+		<option value="3">CA-1</option>
+		<option value="4"></option>
+		<option value="5">CA-2</option>
+		<option value="6"></option>
+		<option value="7">CA-3</option>
+		<option value="8">Attending</option>
+	</question>
+	<question type="radio" name="q11">
+		<text>The resident has met the goals and objectives of the rotation relative to their level of training.</text>
+		<option value="1">Yes, met expectations</option>
+		<option value="2">Met expectations with concerns</option>
+		<option value="3">Did not meet expectations</option>
+	</question>
+	<question type="text" name="t1">
+		<text>Comments on the resident's performance -- their strengths and weaknesses. Be sure to explain all "unacceptable" and "needs improvement" ratings from the previous questions.</text>
+	</question>
+	<question type="text" name="t2">
+		<text>Recommendations for future development of this resident.</text>
+	</question>
+</form>

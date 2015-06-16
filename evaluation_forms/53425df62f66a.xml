@@ -1,0 +1,2 @@
+<?xml version="1.0"?>
+<form><title>Form hover test 2</title><question name="q1" weight="150" type="radio"><text>Do these radio buttons have hover text? </text><option value="1" description="I hope this works!">Will this work? </option><option value="2" description="Please">Yes</option></question></form>

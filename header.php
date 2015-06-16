@@ -59,11 +59,11 @@
 		<?php
 			if($_SESSION["type"] == "admin"){
 		?>
-          <li><a class="viewAggRpt" data-toggle="modal" data-target=".bs-aggRpt-modal" id="viewAggRpt">Generate Aggregate</a></li>
+          <li><a class="viewAggRpt pointer" data-toggle="modal" data-target=".bs-aggRpt-modal" id="viewAggRpt">Generate Aggregate</a></li>
         <?php
 			}
         ?>
-          <li><a class="viewSpecRpt" data-toggle="modal" data-target=".bs-specRpt-modal" id="viewSpecRpt">Generate Specific</a></li>
+          <li><a class="viewSpecRpt pointer" data-toggle="modal" data-target=".bs-specRpt-modal" id="viewSpecRpt">Generate Specific</a></li>
         <?php
 			if($_SESSION["type"] == "admin"){
         ?>
@@ -113,14 +113,14 @@
         <h4 class="modal-title" id="myModalAggRpt">Generate Aggregate Report</h4>
       </div>
       <form class="report" method="post" action="view_aggregate_report.php">
-        <div class="modal-body modal-aggRpt">
+        <div class="modal-body modal-aggRpt report-options">
           <div class="form-group">
             <label for="startDate">Start Date:</label>
-            <input type="date" class="form-control" id="startDate" name="startDate">
+            <input type="text" class="form-control datepicker startDate" id="startDate" name="startDate">
           </div>
           <div class="form-group">
             <label for="endDate">End Date:</label>
-            <input type="date" class="form-control" id="endDate" name="endDate">
+            <input type="text" class="form-control datepicker endDate" id="endDate" name="endDate">
           </div>
           <div class="form-group" style="text-align: center;">
 			<button type="button" id="lastThreeMonths" class="btn lastThreeMonths">Last Three Months</button>
@@ -226,11 +226,11 @@
         '<h3>Report</h3>'+
      '<div class="form-group">'+
        '<label for="startDate">Start Date:</label>'+
-       '<input type="date" class="form-control" id="startDate" name="startDate'+i+'">'+
+       '<input type="text" class="form-control datepicker startDate" id="startDate'+i+'" name="startDate'+i+'">'+
      '</div>'+
      '<div class="form-group">'+
        '<label for="endDate">End Date:</label>'+
-       '<input type="date" class="form-control" id="endDate" name="endDate'+i+'">'+
+       '<input type="text" class="form-control datepicker endDate" id="endDate'+i+'" name="endDate'+i+'">'+
      '</div>'+
      '<div class="form-group" style="text-align: center;">'+
        '<button type="button" id="lastThreeMonths" class="btn lastThreeMonths">Last Three Months</button>'+
@@ -253,7 +253,10 @@
 
      $(".modal-specRpt").append(reportHtml(0));
      $("#addNewSpecificReport").click(function(){
-        $(".modal-specRpt").append(reportHtml(++numSpecificReports));
+		 $(".modal-specRpt").append(reportHtml(++numSpecificReports));
+		 $(".datepicker").datepicker({
+			 dateFormat: "yy-mm-dd" 
+		 });
      });
 
      $(".modal-specRpt").on("click", ".remove-report-group", function(){
@@ -288,7 +291,7 @@
 		month = ("0"+month).slice(-2); //converts possible M months to MM format
 		var year = d.getFullYear();
 		var date = year+"-"+month+"-"+day;
-		$(this).parents(".report-options").find("#endDate").val(date);
+		$(this).parents(".report-options").find(".endDate").val(date);
 
 		d.setMonth(d.getMonth()-6);
 		day = d.getDate();
@@ -297,7 +300,7 @@
 		month = ("0"+month).slice(-2);
 		year = d.getFullYear();
 		date = year+"-"+month+"-"+day;
-		$(this).parents(".report-options").find("#startDate").val(date);
+		$(this).parents(".report-options").find(".startDate").val(date);
 	}
 
 	function lastThreeMonths(){
@@ -308,7 +311,7 @@
 		month = ("0"+month).slice(-2); //converts possible M months to MM format
 		var year = d.getFullYear();
 		var date = year+"-"+month+"-"+day;
-		$(this).parents(".report-options").find("#endDate").val(date);
+		$(this).parents(".report-options").find(".endDate").val(date);
 
 		d.setMonth(d.getMonth()-3);
 		day = d.getDate();
@@ -317,7 +320,7 @@
 		month = ("0"+month).slice(-2);
 		year = d.getFullYear();
 		date = year+"-"+month+"-"+day;
-		$(this).parents(".report-options").find("#startDate").val(date);
+		$(this).parents(".report-options").find(".startDate").val(date);
 	}
 
 	$(document).ready(function(){

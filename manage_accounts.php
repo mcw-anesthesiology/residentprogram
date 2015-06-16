@@ -29,7 +29,7 @@
       <div class="row">
         <h2 class="sub-header">Residents  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="resident" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
           <div class="table-responsive">
-            <table class="table table-striped user-table datatable">
+            <table class="table table-striped datatable">
               <thead>
                 <tr>
                   <th>Username</th>
@@ -44,7 +44,9 @@
               </thead>
               <tbody>
 				  <?php
-					while(!is_null($user)){
+	  				while(!is_null($user)){
+						$createdDate = new DateTime($user["createdDate"]);
+						$createdDate->setTimezone(new DateTimeZone("America/Chicago"));
 				  ?>
 						<tr>
               <td id="UN"><?= $user["username"] ?></td>
@@ -52,7 +54,7 @@
               <td id="FN"><?= $user["firstName"] ?></td>
               <td id="LN"><?= $user["lastName"] ?></td>
               <td id="TL"><?= strtoupper($user["trainingLevel"]) ?></td>
-              <td id="CD"><?= $user["createdDate"] ?></td>
+              <td id="CD"><?= $createdDate->format("d-m-Y g:i A") ?></td>
               <td id="ST"><?= $user["status"] ?></td>
 <?php
 if($user["status"] == "inactive"){
@@ -111,6 +113,8 @@ $user = $users->fetch_assoc();
 				<tbody>
 		<?php
 		while(!is_null($user)){
+				$createdDate = new DateTime($user["createdDate"]);
+				$createdDate->setTimezone(new DateTimeZone("America/Chicago"));
 		?>
 					<tr>
 						<td id="UN"><?= $user["username"] ?></td>
@@ -118,7 +122,7 @@ $user = $users->fetch_assoc();
 						<td id="FN"><?= $user["firstName"] ?></td>
 						<td id="LN"><?= $user["lastName"] ?></td>
 						<td id="TL" style="display: none"><?= strtoupper($user["trainingLevel"]) ?></td>
-						<td id="CD"><?= $user["createdDate"] ?></td>
+						<td id="CD"><?= $createdDate->format("d-m-Y g:i A") ?></td>
 						<td id="ST"><?= $user["status"] ?></td>
 <?php
 if($user["status"] == "inactive"){
@@ -174,14 +178,16 @@ $user = $users->fetch_assoc();
               </thead>
               <tbody>
           <?php
-          while(!is_null($user)){
+			while(!is_null($user)){
+				$createdDate = new DateTime($user["createdDate"]);
+				$createdDate->setTimezone(new DateTimeZone("America/Chicago"));
           ?>
             <tr>
               <td id="UN"><?= $user["username"] ?></td>
               <td id="EM"><?= $user["email"] ?></td>
               <td id="FN"><?= $user["firstName"] ?></td>
               <td id="LN"><?= $user["lastName"] ?></td>
-              <td id="CD"><?= $user["createdDate"] ?></td>
+              <td id="CD"><?= $createdDate->format("d-m-Y g:i A") ?></td>
               <td id="ST"><?= $user["status"] ?></td>
 <?php
 if($user["status"] == "inactive"){
@@ -238,13 +244,15 @@ $user = $users->fetch_assoc();
               <tbody>
           <?php
           while(!is_null($user)){
+				$createdDate = new DateTime($user["createdDate"]);
+				$createdDate->setTimezone(new DateTimeZone("America/Chicago"));
           ?>
             <tr>
               <td id="UN"><?= $user["username"] ?></td>
               <td id="EM"><?= $user["email"] ?></td>
               <td id="FN"><?= $user["firstName"] ?></td>
               <td id="LN"><?= $user["lastName"] ?></td>
-              <td id="CD"><?= $user["createdDate"] ?></td>
+              <td id="CD"><?= $createdDate->format("d-m-Y g:i A") ?></td>
               <td id="ST"><?= $user["status"] ?></td>
 <?php
 if($user["status"] == "inactive"){
@@ -498,17 +506,67 @@ $user = $users->fetch_assoc();
   </div>
 </div>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <script src="../../assets/js/docs.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.1/js/jquery.dataTables.js"></script>
+
+<!-- Add Error Modal -->
+    <div class="modal fade bs-add-error-modal" tabindex="-1" role="dialog" aria-labelledby="modalError" aria-hidden="true" id="errorAddModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header alert alert-danger">
+					<h3><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Account Error</h3>
+				</div>
+				<div class="modal-body">
+					There was an error adding the account. Please try again.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+            </div>
+        </div>
+    </div>
+
+<!-- Edit Error Modal -->
+    <div class="modal fade bs-edit-error-modal" tabindex="-1" role="dialog" aria-labelledby="modalError" aria-hidden="true" id="errorEditModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header alert alert-danger">
+					<h3><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Account Error</h3>
+				</div>
+				<div class="modal-body">
+					There was an error editing the account. Please try again.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+            </div>
+        </div>
+	</div>
+
+
+<!-- Password Error Modal -->
+    <div class="modal fade bs-password-error-modal" tabindex="-1" role="dialog" aria-labelledby="modalError" aria-hidden="true" id="errorPasswordModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header alert alert-danger">
+					<h3><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Account Error</h3>
+				</div>
+				<div class="modal-body">
+					There was an error editing the password. Please try again.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+            </div>
+        </div>
+    </div>
+<?php
+	include "scripts.html";
+?>
     <script>
 		$(document).ready(function(){
 		  $(".datatable").each(function(){
-			$(this).dataTable();
+			  $(this).dataTable({
+				stateSave: true	  
+			  });
 		  });
 		});
 
@@ -599,7 +657,36 @@ $user = $users->fetch_assoc();
           $("#confirmIcon").attr("class","glyphicon glyphicon-remove form-control-feedback");
         }
       });
-    });
+	});
+
+<?php
+	if(isset($_GET["edit"]) && $_GET["edit"] == "false"){
+?>
+	$(window).load(function(){
+		$("#errorEditModal").modal("show");
+	});
+<?php
+	}
+?>
+<?php
+	if(isset($_GET["add"]) && $_GET["add"] == "false"){
+?>
+	$(window).load(function(){
+		$("#errorAddModal").modal("show");
+	});
+<?php
+	}
+?>
+
+<?php
+	if(isset($_GET["password"]) && $_GET["password"] == "false"){
+?>
+	$(window).load(function(){
+		$("#errorPasswordModal").modal("show");
+	});
+<?php
+	}
+?>
     </script>
   </body>
 </html>

@@ -67,5 +67,5 @@
 		print $mysqli->error;
 	}
 	
-	header("Location: manage_accounts.php?success={$success}&photoSuccess={$photoSuccess}");
+	header("Location: manage_accounts.php?edit={$success}&editPhoto={$photoSuccess}");
 ?>

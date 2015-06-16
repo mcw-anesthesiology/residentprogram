@@ -1,0 +1,167 @@
+<?xml version="1.0"?>
+<form>
+  <title>OB Anesthesia</title>
+  <question name="q1" type="radio" weight="100" required="required">
+    <text>Rate the overall performance of this resident</text>
+    <option value="0" description="Not yet at PGY1 level">Not at PGY-1 Level</option>
+    <option value="1" description=""></option>
+    <option value="2" description="At PGY1 level">PGY-1 Level</option>
+    <option value="3" description=""></option>
+    <option value="4" description="At CA-1 level">CA-1 Level</option>
+    <option value="5" description=""></option>
+    <option value="6" description="At CA-2 level">CA-2 Level</option>
+    <option value="7" description=""></option>
+    <option value="8" description="At CA-3 level">CA-3 Level</option>
+    <option value="9" description=""></option>
+    <option value="10" description="At attending level">Attending Level</option>
+  </question>
+  <question name="q2" type="radio" weight="100">
+    <text>In the subspecialty of OB anesthesia, prevention and timely, appropriate treatment of complications is necessary for the well-being of both mother and fetus.  Complications can be related to the labor/delivery process itself, or any method of analgesia used (general anesthesia; regional/neuraxial blocks; PCA&#x2019;s).</text>
+    <option value="0" description="Not yet at PGY1 level.">Not at PGY1</option>
+    <option value="1" description=""></option>
+    <option value="2" description="Can describe and identify complications and begin initial management with direct supervision. Performs accurate neurologic exam to assess for sensory/motor deficits or block function;  thoroughly documents pre-existing neurologic issues/exam findings.">PGY1</option>
+    <option value="3" description=""></option>
+    <option value="4" description="Performs post-anesthetic exam, identifies basic complications, and begins assessment with direct supervision. Recognizes patient features/conditions associated with difficult block placement/failed block; addresses inadequate block with direct supervision. Able to recognize complications (wet tap, PDPH, positive TD) and begin initial management with direct supervision.">CA1</option>
+    <option value="5" description=""></option>
+    <option value="6" description="Identifies and manages peri-anesthetic complications for both healthy and medically complex patients.   Manages less-complex complications (inadequate block, initial PDPH management) with indirect supervision. Incorporates into the post op eval: contribution of the delivery itself, likely site of injury (central v. peripheral), and pts. with conditions that increase the likelihood of cx.">CA2</option>
+    <option value="7" description=""></option>
+    <option value="8" description="Identifies and manages all peri-anesthetic complications with conditional independence.  Assumes team leadership when complications require intensive ongoing efforts (e.g. high/total spinal; local anesthetic toxicity).   Takes responsibility for follow-up with patient/family, obstetric team and involved consultants.">CA3</option>
+    <option value="9" description=""></option>
+    <option value="10" description="Independently identifies and manages complications of neuraxial anesthesia.  Interacts positively with members of other disciplines in a team approach to management of the complication.">Attending</option>
+  </question>
+  <question name="q3" type="radio" weight="100">
+    <text>During the obstetric anesthesia rotation the resident will have exposure to crises that may threaten the lives of both mother and fetus (e.g.  intra-partum bleeding, cord prolapse, amniotic fluid embolus, pre-eclampsia/eclampsia); many of these crises are unforeseen and must be managed promptly to achieve optimal outcomes.</text>
+    <option value="0" description="Not yet at PGY1 level.">Not at PGY1</option>
+    <option value="1" description=""></option>
+    <option value="2" description="Recognizes acutely ill or medically deteriorating patients; initiates basic medical care for common acute events;  calls for help appropriately.">PGY1</option>
+    <option value="3" description=""></option>
+    <option value="4" description="Constructs prioritized differential diagnosis that includes the likeliest etiologies for acute clinical deterioration; initiates treatment with indirect supervision and seeks direct supervision appropriately. Communicates with surgical colleagues to keep them apprised of the patient&#x2019;s condition and response to treatments. Refers to treatment/management algorithms when available.">CA1</option>
+    <option value="5" description=""></option>
+    <option value="6" description="Identifies and manages clinical crises with indirect supervision; may require direct supervision in complex situations.  Describes crises unique to OB anesthesia (ex: post-partum hemorrhage; eclampsia; fetal distress) and begins proper treatment.  Recognizes patient conditions that predispose to crisis and tailors preparation, care and monitoring accordingly (e.g. twins/multiples; prior Cesarean delivery; grand multiparity). Includes consideration of family members who may be present at the time of crisis.">CA2</option>
+    <option value="7" description=""></option>
+    <option value="8" description="Identifies and manages clinical crises appropriately with conditional independence; assumes increasing responsibility for leadership of crisis response team.">CA3</option>
+    <option value="9" description=""></option>
+    <option value="10" description="Coordinates crisis team response;  involved in programs (e.g. drills, educational presentations) to educate other health care team members about crisis management. Initiates debriefings following crises for purpose of improving team response to crises. Serves as resource to peers during patient crises.">Attending</option>
+  </question>
+  <question name="q4" type="radio" weight="100">
+    <text>Performance of regional and specifically neuraxial anesthetic techniques is a critical part of the subspecialty.  Learning to perform such blocks sterilely, safely, and efficiently is essential to the successful resident.</text>
+    <option value="0" description="Not yet at PGY1 level.">Not at PGY1</option>
+    <option value="1" description=""></option>
+    <option value="2" description="Prepares sterile field. Administers infiltrative local anesthesia under direct supervision.">PGY1</option>
+    <option value="3" description=""></option>
+    <option value="4" description="Applies appropriate monitors and prepares resuscitative equipment prior to procedures. Performs spinal and epidural anesthesia under direct supervision.">CA1</option>
+    <option value="5" description=""></option>
+    <option value="6" description="Performs peripheral nerve blocks and regional anesthesia under direct supervision. Uses US techniques appropriately.">CA2</option>
+    <option value="7" description=""></option>
+    <option value="8" description="Performs epidural and peripheral nerve blocks with conditional independence. Supervises junior residents in performing regional anesthetics, and other health care providers on issues related to regional anesthesia.">CA3</option>
+    <option value="9" description=""></option>
+    <option value="10" description="Independently performs peripheral and regional anesthesia techniques.">Attending</option>
+  </question>
+  <question name="q5" type="radio" weight="100">
+    <text>Medical knowledge of both obstetrics and anesthesiology is important to safe practice.  Please evaluate the resident&#x2019;s medical knowledge as relates to the subspecialty of anesthesiology.</text>
+    <option value="0" description="Not yet at PGY1 level.">Not at PGY1</option>
+    <option value="1" description=""></option>
+    <option value="2" description="Develops knowledge as a PGY1.  Basic exam skills, basic medical knowledge as pertains to disease processes.">PGY1</option>
+    <option value="3" description=""></option>
+    <option value="4" description="Develops knowledge suitable for a CA1 that is preparing and prepared for the ABA Part 1 exam.  Knowledge of disease processes, anesthetics and their complications is emphasized.  Basic knowledge of OB Anesthesia and Obstetrics, e.g. causes of bleeding, local anesthetic knowledge also required if on OB service.">CA1</option>
+    <option value="5" description=""></option>
+    <option value="6" description="At the CA2 level, the resident should have passed the ABA Part one exam of basic anesthesia principals, and should be studying the subspecialties in earnest.  Greater knowledge of the subspecialty of OB Anesthesia is required.  Specifics regarding medical concerns as they apply to OB.  Possible topics of might include pre-eclampsia or post-dural puncture headache or platelet concerns.">CA2</option>
+    <option value="7" description=""></option>
+    <option value="8" description="At the CA3 level, the resident is preparing for the ABA Part 2 exam, and should be developing knowledge for independent practice.  Should be able to explain/justify their anesthetic plan through well-thought knowledge. Topics might include medical management of severe PIH, complications of post-partum headache, complex coagulopathies and their anesthetic interactions.">CA3</option>
+    <option value="9" description=""></option>
+    <option value="10" description="Passes the ABA Part 2 Exam and begins MOCA.  Has an in-depth knowledge of OB Anesthesia, including complex situations.  Imparts that knowledge to others.">Attending</option>
+  </question>
+  <question name="q6" type="radio" weight="100">
+    <text>Truthful, ethical collaboration with patients, families, and other care providers is a key element of successful OB Anesthesia practice.  Please rate the resident on the continuum below.</text>
+    <option value="0" description="Not yet at PGY1 level.">Not at PGY1</option>
+    <option value="1" description=""></option>
+    <option value="2" description="Is truthful in all forms of communication Addresses ethical issues relevant to entry-level rotations with direct supervision Takes responsibility for the care they provide and seeks help appropriately.">PGY1</option>
+    <option value="3" description=""></option>
+    <option value="4" description="No concerns regarding truthfulness or integrity. Completes all paperwork and takes direction well Addresses ethical issues common to anesthesiology with direct supervision (e.g., a modestly difficult family).">CA1</option>
+    <option value="5" description=""></option>
+    <option value="6" description="Truthful, honest, complete in paperwork.  Addresses ethical issues in more complex circumstances, with indirect supervision.  E.g., a Jehovah's Witness or tubal ligation concerns.">CA2</option>
+    <option value="7" description=""></option>
+    <option value="8" description="Develops a systematic approach to managing ethical dilemmas in clinical care settings with conditional independence.  You would allow them to discuss an issue with a family and feel very comfortable about it.">CA3</option>
+    <option value="9" description=""></option>
+    <option value="10" description="Serves as a role model and mentors others about bioethical principles; works within the team setting to develop a systematic approach to managing ethical dilemmas">Attending</option>
+  </question>
+  <question name="q7" type="radio" weight="100">
+    <text>Feedback is key to successful lifelong learning.  Learning to accept and give appropriate feedback is the hallmark of a successful leader of the anesthetic team.</text>
+    <option value="0" description="Not yet at PGY1 level.">Not at PGY1</option>
+    <option value="1" description=""></option>
+    <option value="2" description="Listens to constructive feedback, but occasionally demonstrates resistance to feedback while providing patient care.">PGY1</option>
+    <option value="3" description=""></option>
+    <option value="4" description="Provides constructive feedback in a tactful and supportive way to medical students to enhance patient care Accepts feedback from faculty members and incorporates suggestions into practice.">CA1</option>
+    <option value="5" description=""></option>
+    <option value="6" description="Consistently seeks feedback, correlates it with self-reflection, and incorporates it into lifelong learning to enhance patient care Seeks out feedback from faculty members and other members of the care team, and clearly uses feedback to improve care.">CA2</option>
+    <option value="7" description=""></option>
+    <option value="8" description="Continues to seek feedback for self.  In addition, provides constructive feedback in a tactful and supportive way to physician and non-physician members of the patient care team to enhance patient care.">CA3</option>
+    <option value="9" description=""></option>
+    <option value="10" description="Continues to seek feedback for self.  Effectively provides feedback in challenging situations (e.g. when there is resistance, there are adverse outcomes , or an experienced practitioner is involved).">Attending</option>
+  </question>
+  <question name="q8" type="radio" weight="100">
+    <text>To help our colleagues and patients, we must first help ourselves; keeping our own selves well.  How is this resident doing with keeping themselves well?</text>
+    <option value="0" description="Not yet at PGY1 level.">Not at PGY1</option>
+    <option value="1" description=""></option>
+    <option value="2" description="Reporting for work rested and prepared, with appropriate professional attire Demonstrates knowledge of fatigue management and physician impairment. Recognizes the need to balance patient, personal, institutional, and societal needs when providing health care.">PGY1</option>
+    <option value="3" description=""></option>
+    <option value="4" description="Knows about fatigue management, impaired physician, balanced life skills as for previous level. On this level, the resident clearly demonstrates his/her ability to incorporate these skills into his/her own life, not just talk about or repeat them.">CA1</option>
+    <option value="5" description=""></option>
+    <option value="6" description="All of the previous level, demonstrating skills for health and well being, and is able to interact with others positively in this regard. For example, reports concerns about the health or well-being of colleagues to a more experienced individual.">CA2</option>
+    <option value="7" description=""></option>
+    <option value="8" description="All of the previous levels, plus is able to reinforce, demonstrate, and teach skills to junior colleagues, emphasizing the importance of compliance with systems to prevent impairment.">CA3</option>
+    <option value="9" description=""></option>
+    <option value="10" description="Serves as a resource for the development of organizational policies regarding professional responsibilities, work-life balance, and impaired physicians. Assists with or leads management of suspected impaired colleagues. Serves as monitor/resource for colleagues returning from treatment for impairment.">Attending</option>
+  </question>
+  <question name="q9" type="radio" weight="100">
+    <text>While on Labor and Delivery, difficult situations and/or conflicts occur with patients and families.  Learning to negotiate those conflicts is critical to assisting the L and D Patient.  Examples might be discussing a needed epidural with a patient who desires natural childbirth or coping with the angry family member who wants to be present at an epidural placement or who does not like the care being given.</text>
+    <option value="0" description="Does not recognize that they are &quot;over their head&quot; in a communication problem.">Not at PGY1</option>
+    <option value="1" description=""></option>
+    <option value="2" description="Questionable negotiation of simple conflicts, but recognizes situations where communication of information requires the assistance of another individual and asks for help.">PGY1</option>
+    <option value="3" description=""></option>
+    <option value="4" description="Negotiates simple patient and family conflicts.  Anything &quot;&quot;difficult&quot;&quot; and you handle it with them. Ensures that communication of information requiring the assistance of an attending occurs in a timely and effective manner.">CA1</option>
+    <option value="5" description=""></option>
+    <option value="6" description="Communicates challenging information and addresses complex circumstances with indirect supervision.  You'd stay close by, and check afterward to make sure the resident did what you thought that they would.">CA2</option>
+    <option value="7" description=""></option>
+    <option value="8" description="Communication challenges handled with conditional independence.  This is the resident that you would send to interview a patient that the nurses say is &quot;difficult&quot; or &quot;very nervous&quot; and you feel confident the resident can handle it.">CA3</option>
+    <option value="9" description=""></option>
+    <option value="10" description="Consistently ensures effective communication not just with their own concerns, but those of the anesthesiology team. Independently negotiates and manages patient and family conflicts in all situations.">Attending</option>
+  </question>
+  <question name="q10" type="radio" weight="100">
+    <text>The obstetric anesthesia rotation is unique in that often high-risk patients are followed over the duration of their pregnancy for planning purposes; this places the anesthesia residents in a position to be active in coordination of care for these patients.  In addition, obstetric anesthesia is unique in that the resident is responsible for multiple patients simultaneously, making priority-setting especially critical.</text>
+    <option value="0" description="Not yet at PGY1 level.">Not at PGY1</option>
+    <option value="1" description=""></option>
+    <option value="2" description="Identifies the roles of patients, families, health care providers and systems in health care delivery and outcome.  Identifies priorities when caring for multiple patients.  Coordinates care of an individual patient within the health care system effectively and safely with supervision.">PGY1</option>
+    <option value="3" description=""></option>
+    <option value="4" description="Prioritizes multiple patient care activities with indirect supervision for routine procedures such as pre-ops and simple labor analgesia. Uses system resources to facilitate cost-effective and safe non-specialty anesthesia care.">CA1</option>
+    <option value="5" description=""></option>
+    <option value="6" description="Prioritizes multiple patient care activities with indirect supervision on Labor and Delivery. Recognizes need to shift priorities (e.g. interrupt placement of epidural to tend to crisis elsewhere on unit); and safely transitions without compromising patient care. Uses systems resources (e.g. calling for more help) to facilitate cost-effective and safe subspecialty anesthesia care. Communicates with other providers and families regarding regular patient care -- e.g. concerns regarding placement, neuraxial analgesia not functioning properly, etc.">CA2</option>
+    <option value="7" description=""></option>
+    <option value="8" description="Manages multiple patient care activities with conditional independence. Recognizes and utilizes systems resources unique to the obstetric setting (e.g. nurse midwives, labor doulas, perinatologists/neonatologists).  Communicates with obstetricians/patients/families regarding both complex anesthetic situations and contingency plans in event that initial plan cannot be followed (e.g. patient with planned C/S presents in labor prior to planned surgery date).">CA3</option>
+    <option value="9" description=""></option>
+    <option value="10" description="Effectively coordinates the management of multiple patient care activities. Educates residents regarding coordination of care through activities such as interdisciplinary rounds and  care team meetings for coordination of care of high-risk patients. Recognizes and addresses gaps or inefficiencies in the system that are opportunities for system improvement efforts. Serves as departmental and institutional resource for optimizing system-based care.">Attending</option>
+  </question>
+  <question name="q11" type="radio" weight="100">
+    <text>In obstetric anesthesia the type of cases are limited (e.g. performance of neuraxial blocks, Cesarean deliveries), with a large number of similar procedures performed;  this type of practice lends itself well to efforts for quality/safety initiates;  the large number of similar cases and limited team make-up (obstetricians/anesthesiologists/L-and-D Nurses) makes for rapid assess-plan-intervene-evaluate cycles, which form one of the core elements of quality improvement.</text>
+    <option value="0" description="Not yet at PGY1 level.">Not at PGY1</option>
+    <option value="1" description=""></option>
+    <option value="2" description="Describes common causes of errors. Describes team-based actions and techniques designed to enhance patient safety. Participates in established institutional safety initiatives. Follows institutional safety policies, including reporting of problematic behaviors or processes, errors, near misses and complications.">PGY1</option>
+    <option value="3" description=""></option>
+    <option value="4" description="Uses the safety features of medical devices.  Participates in team-based actions designed to enhance patient safety (e.g. briefings, closed-loop communication).  Identifies problems in the quality of health care delivery within one&#x2019;s institution and brings this to the attention of supervisors.  Recognizes that health care providers at any level may express safety concerns; not afraid to tactfully speak up about concerns prior to an event; listens the safety concerns of others. Incorporates anesthesiology-specific national standards and guidelines into patient care.">CA1</option>
+    <option value="5" description=""></option>
+    <option value="6" description="Describes and participates in systems and procedures that promote patient safety.  Identifies departmental and/or institutional opportunities to improve quality of care. Participates in quality improvement activities as a member of an inter-professional team to improve patient outcomes.  Takes patient preferences into consideration while promoting cost-effective patient care that improves outcomes. Recognizes and reconciles potential conflicts between goals of cost-effectiveness and patient safety.">CA2</option>
+    <option value="7" description=""></option>
+    <option value="8" description="Applies advanced team techniques designed to enhance patient safety (e.g. &#x201C;assertiveness&#x201D;, TEAM-STEPPS).  Participates in formal analysis (e.g. root cause analysis, failure mode effects analysis) of medical errors and sentinel events with direct supervision.  Conducts personal reflection, using mentor/faculty as needed, when involved in sentinel event or near miss. Identifies opportunities in the continuum of care to improve patient outcomes and reduce costs.">CA3</option>
+    <option value="9" description=""></option>
+    <option value="10" description="Leads multidisciplinary teams (e.g. human factors engineers, social scientists, consultants) to address safety issues. Provides consultation to organizations to improve personal and patient safety. Proactively participates in educational sessions prior to using new advanced medical devices for patient care. Defines and constructs process and outcome measures and leads quality improvement efforts. Effectively addresses areas in anesthesiology practice that pose potential dangers to patients.">Attending</option>
+  </question>
+  <question name="q12" type="radio" weight="100" required="required">
+    <text>Overall assessment for this time period.  Based on the current level (e.g. CA1 or CA2), I feel that this resident:</text>
+    <option value="0" description="Did not meet expectations.">Did not meet expectations</option>
+    <option value="1" description="Please indicate concerns below.">Met expectations with concerns</option>
+    <option value="2" description="Met all expectations.">Met expectations</option>
+  </question>
+  <question name="q13" type="text" weight="100">
+    <text>Please include any comments, concerns, or recommendations you have for this resident.</text>
+  </question>
+</form>

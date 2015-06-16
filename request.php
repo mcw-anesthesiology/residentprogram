@@ -21,7 +21,6 @@
 <?php include 'header.php'; ?>
 
     <div class="container-fluid">
-      <div class="row">
           <h2 class="sub-header">Request Evaluation</h2>
             <form id="form" role="form" action="process_request.php" method="post">
 <?php
@@ -77,7 +76,6 @@
               <button type="submit" class="btn btn-default">Submit</button>
             </form>
         </div>
-      </div>
     </div>
 
 	<?php

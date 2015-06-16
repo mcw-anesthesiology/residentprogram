@@ -106,7 +106,7 @@
 		header("Location: complete_specific.php?request={$requestId}");
 	}
 	else{
-		header("Location: dashboard.php?success={$success}");
+		header("Location: dashboard.php?request={$success}");
 	}
 	//print "complete.";
 ?>

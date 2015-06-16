@@ -47,11 +47,13 @@
 			  <tr>
 <?php
 	while(!is_null($mentorship)){
+		$createdDate = new DateTime($mentorship["mentorshipCreatedDate"]);
+		$createdDate->setTimezone(new DateTimeZone("America/Chicago"));
 ?>
 				<td><?= $mentorship["mentorshipId"] ?></td>
 				<td><?= $mentorship["facultyFirst"]." ".$mentorship["facultyLast"] ?></td>
 				<td><?= $mentorship["residentFirst"]." ".$mentorship["residentLast"] ?></td>
-				<td><?= $mentorship["mentorshipCreatedDate"] ?></td>
+				<td><?= $createdDate->format("d-m-Y g:i A") ?></td>
 				<td><button class="removeMentorship btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-remove-modal" id="rmvBtn" data-id=<?= $mentorship["mentorshipId"] ?>><span class="glyphicon glyphicon-remove"></span> Remove</button></td>
             </tr>
 <?php
@@ -139,7 +141,10 @@
 
 		$(document).ready(function(){
 		  $(".datatable").each(function(){
-			$(this).dataTable();
+			  $(this).dataTable({
+				  "order": [[0, "desc"]],
+				stateSave: true	  
+			  });
 		  });
 		});
     </script>

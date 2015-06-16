@@ -1,0 +1,2 @@
+<?xml version="1.0"?>
+<form><title>Walkthrough 3</title><question name="q2" type="radio" weight="100"><text>Is this a sample question?</text><option value="1" description="you selected yes">yes</option><option value="2" description="you selected no">no</option><option value="3" description="">maybe?</option></question></form>

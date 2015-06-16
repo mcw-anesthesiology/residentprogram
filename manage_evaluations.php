@@ -30,14 +30,7 @@
 
 <?php require 'header.php'; ?>
 
-<?php
-    $requests = $mysqli->query("select requestId, resident, faculty, requestDate, completeDate, requestedBy, requests.status, title, residentUsers.firstName as residentFirst, residentUsers.lastName as residentLast, facultyUsers.firstName as facultyFirst, facultyUsers.lastName as facultyLast, requestedByUsers.firstName as requestedByFirst, requestedByUsers.lastName as requestedByLast from requests left join forms on requests.formId=forms.formId left join users residentUsers on resident=residentUsers.username left join users facultyUsers on faculty=facultyUsers.username left join users requestedByUsers on requestedBy=requestedByUsers.username order by requestId desc;");
-    $request = $requests->fetch_assoc();
-
-
-?>
     <div class="container-fluid">
-      <div class="row">
         <h2 class="sub-header">Manage Evaluations <button class="addEval btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-bulk-disable-modal" data-id="eval" id="bulkDisableBtn"><span class="glyphicon glyphicon-remove"></span> Archive Evals</button></h2>
           <div class="table-responsive">
             <table class="table table-striped datatable" cellspacing="0" cellpadding="0">
@@ -54,77 +47,10 @@
                 </tr>
               </thead>
               <tbody>
-          <?php
-          while(!is_null($request)){
-				$requestDate = new DateTime($request["requestDate"]);
-				$requestDate->setTimezone(new DateTimeZone("America/Chicago"));
-				if(!is_null($request["completeDate"]) && $request["status"] == "complete"){
-					$completeDate = new DateTime($request["completeDate"]);
-					$completeDate->setTimezone(new DateTimeZone("America/Chicago"));
-					$completeDateText = $completeDate->format("Y-m-d H:i:s");
-				}
-				else{
-					$completeDateText = "";
-				}
-
-          ?>
-            <tr data-id="<?= $request["requestId"] ?>">
-              <td class="view"><a href="view_specific.php?request=<?= $request["requestId"] ?>"><?= $request["requestId"] ?></a></td>
-              <td class="view"><?= $request["requestedByFirst"] ?> <?= $request["requestedByLast"] ?></td>
-              <td class="view"><?= $request["residentFirst"] ?> <?= $request["residentLast"] ?></td>
-              <td class="view"><?= $request["facultyFirst"] ?> <?= $request["facultyLast"] ?></td>
-              <td class="view"><?= $requestDate->format("Y-m-d H:i:s") ?></td>
-              <td class="view"><?= $completeDateText ?></td>
-			<?php
-			  if($request["status"] == "complete"){
-			?>
-              <td class="view status"><span class="badge badge-complete"><?= $request["status"] ?></span></td>
-			<?php
-			  }
-			  else if($request["status"] == "pending"){
-			?>
-              <td class="view status"><span class="badge badge-pending"><?= $request["status"] ?></span></td>
-			<?php
-			  }
-			  else{
-			?>
-              <td class="view status"><span class="badge badge-disabled"><?= $request["status"] ?></span></td>
-			<?php
-			  }
-			?>
-            <td>
-              <?php
-                if($request["status"] == "disabled"){
-              ?>
-                <span><button class="enableEval btn btn-success btn-xs" data-id="<?= $request["requestId"] ?>"><span class="glyphicon glyphicon-ok"></span> Enable</button></span>
-              <?php
-                }
-                else{
-              ?>
-                <span><button class="disableEval btn btn-danger btn-xs" data-id="<?= $request["requestId"] ?>"><span class="glyphicon glyphicon-remove"></span> Disable</button></span>
-              <?php
-                }
-                ?>
-                <span class="cancel">
-                <?php
-                if($request["status"] == "pending"){
-			  ?>
-				<button class="cancelEval btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-cancel-modal-sm" data-id="<?= $request["requestId"] ?>"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-			  <?php
-				}
-              ?>
-                </span>
-				</td>
-            </tr>
-				<?php
-				$request = $requests->fetch_assoc();
-				}
-				?>
               </tbody>
             </table>
           </div>
         </div>
-      </div>
     </div>
 
 <!-- Disable Modal -->
@@ -261,13 +187,9 @@
   </div>
 </div>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <script src="../../assets/js/docs.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.1/js/jquery.dataTables.js"></script>
+<?php
+	include "scripts.html";
+?>
     <script>
 		$(document).on("click", ".disableEval", function(){
 			var requestId = $(this).data('id');
@@ -365,7 +287,12 @@
 
 		$(document).ready(function(){
 		  $(".datatable").each(function(){
-			$(this).dataTable();
+			  $(this).DataTable({
+				"ajax": "manage_evaluations_json.php",
+					deferRendering: true,
+					stateSave: true,
+					"order": [[0, "desc"]]
+			  });
 		  });
 
 		  $("#lastSixMonthsDisable").click(lastSixMonthsDisable);

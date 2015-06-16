@@ -49,7 +49,7 @@
 	if(!is_null($request["completeDate"]) && $request["status"] == "complete"){
 		$completeDate = new DateTime($request["completeDate"]);
 		$completeDate->setTimezone(new DateTimeZone("America/Chicago"));
-		$completeDateText = $completeDate->format("Y-m-d H:i:s");
+		$completeDateText = $completeDate->format("d-m-y g:i A");
 	}
 	else{
 		$completeDateText = "";
@@ -62,6 +62,7 @@
     <?php
 		include "head.html";
 	?>
+	<link rel="stylesheet" href="print.css" type="text/css" media="print" />
     <style>
       textarea{
         width:100%;
@@ -101,7 +102,7 @@
                   <td><?= $requestId ?></td>
                   <td><?= $request["residentFirst"] ?> <?= $request["residentLast"] ?></td>
                   <td><?= $request["facultyFirst"] ?> <?= $request["facultyLast"] ?></td>
-                  <td><?= $requestDate->format("Y-m-d H:i:s"); ?></td>
+                  <td><?= $requestDate->format("d-m-Y g:i A"); ?></td>
                   <td><?= $completeDateText ?></td>
                   <td><?= $request["status"] ?></td>
                   <td><?= $evaluation["currentTrainingLevel"] ?></td>
@@ -134,7 +135,13 @@
 				}
 			?>
 			$("#form input").prop("disabled", true);
-			$("#form textarea").prop("disabled", true);
+			$("#form textarea").prop("readonly", true);
+			$("#form textarea").height($("#form textarea")[0].scrollHeight);
+			$("#form textarea").addClass("noprint");
+			$("#form textarea").parents("td").append("<div class='print'>"+$("#form textarea").val()+"</div>");
+			$("#form button").each(function(){
+				$(this).addClass("noprint");
+			});
 		});
 
 		$(".toggleDescriptions").click(function(){
