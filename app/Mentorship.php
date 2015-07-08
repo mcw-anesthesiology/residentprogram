@@ -9,5 +9,9 @@ class Mentorship extends Model
     //
     protected $table = "mentorships";
 
-    protected $fillable = ["mentor_id", "mentee_id", "status"];
+    protected $fillable = [
+        "mentor_id",
+        "mentee_id",
+        "status"
+    ];
 }

@@ -9,5 +9,10 @@ class Response extends Model
     //
     protected $table = "responses";
 
-    protected $fillable = ["evaluation_id", "question_id", "response", "weight"];
+    protected $fillable = [
+        "evaluation_id",
+        "question_id",
+        "response",
+        "weight"
+    ];
 }

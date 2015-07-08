@@ -9,5 +9,9 @@ class Form extends Model
     //
     protected $table = "forms";
 
-    protected $fillable = ["title", "xml_path", "status"];
+    protected $fillable = [
+        "title",
+        "xml_path",
+        "status"
+    ];
 }

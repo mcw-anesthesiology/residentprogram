@@ -9,5 +9,8 @@ class Milestone extends Model
     //
     protected $table = "milestones";
 
-    protected $fillable = ["title", "description"];
+    protected $fillable = [
+        "title",
+        "description"
+    ];
 }
