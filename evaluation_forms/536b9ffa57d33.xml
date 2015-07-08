@@ -1,2 +1,0 @@
-<?xml version="1.0"?>
-<form><title>Two milestone test form</title><question name="q1" type="radio" weight="100"><text>does a single milestone still work?</text><option value="1" description="pls">Yes?</option><option value="0" description="fk">No?</option></question><question name="q2" type="radio" weight="100"><text>do two milestones work?</text><option value="1" description="">Yes?</option><option value="0" description="">No?</option></question></form>
