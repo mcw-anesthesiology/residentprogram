@@ -1,2 +1,0 @@
-<?xml version="1.0"?>
-<form><title>Test Form</title><question name="q1" type="radio" weight="100"><text>Test Question</text><option value="3" description="Will this work"/></question></form>
