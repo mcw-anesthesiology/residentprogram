@@ -13,7 +13,7 @@ class CreateBlockAssignments extends Migration
     public function up()
     {
         Schema::create('block_assignments', function (Blueprint $table) {
-            $table->increments("assignment_id");
+            $table->increments("id");
             $table->integer("block_id");
             $table->integer("user_id");
             $table->string("location");

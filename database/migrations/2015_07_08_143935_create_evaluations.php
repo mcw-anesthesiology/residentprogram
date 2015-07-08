@@ -13,7 +13,7 @@ class CreateEvaluations extends Migration
     public function up()
     {
         Schema::create('evaluations', function (Blueprint $table) {
-            $table->increments('evaluation_id');
+            $table->increments('id');
             $table->integer("form_id");
             $table->integer("evaluator_id");
             $table->integer("subject_id");
