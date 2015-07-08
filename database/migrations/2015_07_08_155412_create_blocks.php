@@ -13,7 +13,7 @@ class CreateBlocks extends Migration
     public function up()
     {
         Schema::create('blocks', function (Blueprint $table) {
-            $table->increments("block_id");
+            $table->increments("id");
             $table->string("year");
             $table->integer("block_number");
             $table->string("block_name");

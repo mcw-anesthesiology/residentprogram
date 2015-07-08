@@ -13,7 +13,7 @@ class CreateMentorships extends Migration
     public function up()
     {
         Schema::create('mentorships', function (Blueprint $table) {
-            $table->increments("mentorship_id");
+            $table->increments("id");
             $table->integer("mentor_id");
             $table->integer("mentee_id");
             $table->string("status");

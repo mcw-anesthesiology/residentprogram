@@ -13,7 +13,7 @@ class CreateForms extends Migration
     public function up()
     {
         Schema::create('forms', function (Blueprint $table) {
-            $table->increments('form_id');
+            $table->increments('id');
             $table->string("title");
             $table->binary("xml_path");
             $table->string("status");

@@ -13,7 +13,7 @@ class CreateResponses extends Migration
     public function up()
     {
         Schema::create('responses', function (Blueprint $table) {
-            $table->increments("response_id");
+            $table->increments("id");
             $table->integer("evaluation_id");
             $table->string("question_id");
             $table->integer("response");
