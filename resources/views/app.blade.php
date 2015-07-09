@@ -42,15 +42,15 @@
 			    <div class="navbar-collapse collapse">
 			      <ul class="nav navbar-nav navbar-right">
 
-			        @if($userType == "faculty")
+			        @if($user->type == "faculty")
 			            <li><a href="request">Create Evaluation</a></li>
 			            <li><a href="dashboard">View Evaluation</a></li>
-			        @elseif($userType == "resident")
+			        @elseif($user->type == "resident")
 			            <li><a href="request">Request Evaluation</a></li>
 			            <li><a href="dashboard">View Evaluation</a></li>
 			        @endif
 
-			      @if($userType == "admin")
+			      @if($user->type == "admin")
 			      <li><a href="request">Request Evaluation</a></li>
 			      <li class="dropdown">
 			        <a href="#" data-toggle="dropdown">Manage<b class="caret"></b></a>
@@ -66,11 +66,11 @@
 			      <li class="dropdown">
 			        <a href="#" data-toggle="dropdown">Reports<b class="caret"></b></a>
 			        <ul class="dropdown-menu">
-					@if($userType == "admin")
+					@if($user->type == "admin")
 			          <li><a class="viewAggRpt pointer" data-toggle="modal" data-target=".bs-aggRpt-modal" id="viewAggRpt">Generate Aggregate</a></li>
 			        @endif
 			          <li><a class="viewSpecRpt pointer" data-toggle="modal" data-target=".bs-specRpt-modal" id="viewSpecRpt">Generate Specific</a></li>
-					@if($userType == "admin")
+					@if($user->type == "admin")
 					  <li><a href="view_needs_evaluations_report">Needs Evaluations</a></li>
 					  <li><a href="faculty_stats">Faculty Statistics</a></li>
 					  <li><a href="resident_stats">Resident Statistics</a></li>
@@ -82,8 +82,8 @@
 
 			        <li class="dropdown">
 			          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-			              Welcome, {{ ucfirst($firstName) }} {{ucfirst($lastName)}}
-			    		@if($userType == "faculty")
+			              Welcome, {{ ucfirst($user->first_name) }} {{ucfirst($user->last_name)}}
+			    		@if($user->type == "faculty")
 			    			 @if($numPendingRequests > 0)
 			    				<span class="badge">{{ $numPendingRequests }}</span>
 			                 @endif
@@ -173,13 +173,11 @@
 		                    @endforeach
 		                </select>
 		               </div>
-		            @if($userType == "resident")
+		            @if($user->type == "resident")
 		                <div class="form-group">
 		                    <label for="resident">Resident</label>
 		                    <select class="form-control" name="resident">
-		                        <option value="{{ $username }}">
-		                            {{ $firstName }} {{ $lastName }}
-		                        </option>
+		                        <option value="{{ $username }}">{{ $lastName }}, {{ $firstName }}</option>
 		                    </select>
 		                </div>
 		            @endif

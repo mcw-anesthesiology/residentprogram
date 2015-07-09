@@ -3,31 +3,38 @@
 @section("body")
 	<h2 class="sub-header">Request Evaluation</h2>
 
-	@if($userType == "resident" || $userType == "faculty")
+	@if($user->type == "resident" || $user->type == "faculty")
 		<div class="form-group">
 			<label for="block">Block</label>
 			<select class="form-control" id="block">
-				<option value="none">Select from all {{ $selectTypes[$userType] }}</option>
+				<option value="none">Select from all {{ $selectTypes[$user->type] }}</option>
 				@foreach($blocks as $block)
 					<option value="{{ $block->block_name }}">{{ $block->year }} {{ $block->block_name }}</option>
 				@endforeach
 			</select>
 		</div>
 	@endif
+	<form id="form" role="form" action="#" method="POST">
+		<input type="hidden" name="_token" value="{{ csrf_token() }}" />
+		<div id="form-contents">
+		</div>
+	</form>
 @stop
 
 @section("script")
 	<script>
 		function selectBlock(){
-			var block = $("#block").val();
-			$("#form").html("");
+			var data = {};
+			data.block = $("#block").val();
+			data._token = "{{ csrf_token() }}";
+			$("#form-contents").html("");
 			$.ajax({
 				"method": "post",
-				"data": "block="+block,
+				"data": data,
 				"url": "request/get-block",
 				"success": function(response){
 					if(response != "")
-						$("#form").html(response);
+						$("#form-contents").html(response);
 				}
 
 			});

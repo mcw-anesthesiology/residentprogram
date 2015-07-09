@@ -1,4 +1,4 @@
-@if($userType != "resident")
+@if($user->type != "resident")
 	<div class="form-group">
 		<label for="resident">Resident/Fellow</label>
 		<select class="form-control request-select" name="resident">
@@ -10,7 +10,7 @@
 	</div>
 @endif
 
-@if($userType != "faculty")
+@if($user->type != "faculty")
 	<div class="form-group">
 		<label for="faculty">Faculty</label>
 		<select class="form-control request-select" name="faculty">

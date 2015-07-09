@@ -1,5 +1,8 @@
 <?php
 
+use App\Block;
+use App\User;
+
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -25,7 +28,7 @@ $factory->define(App\User::class, function ($faker) {
     ];
 });
 
-$factory->defineAs(App\User::class, "faculty", function($faker){
+$factory->defineAs(App\User::class, "faculty", function($faker) use ($factory){
     $user = $factory->raw(App\User::class);
 
     return array_merge($user, ["type" => "faculty"]);
@@ -53,7 +56,7 @@ $factory->define(App\Evaluation::class, function($faker){
     ];
 });
 
-$factory->defineAs(App\Evaluation::class, "complete", function($faker){
+$factory->defineAs(App\Evaluation::class, "complete", function($faker) use ($factory){
     $evaluation = $factory->raw(App\Evaluation::class);
     $trainingLevels = User::all()->lists("training_level");
     return array_merge($evaluation, [
@@ -120,11 +123,9 @@ $factory->define(App\Block::class, function($faker){
 });
 
 $factory->define(App\BlockAssignment::class, function($faker){
-    $blocks = Block::all()->lists("id");
-    $users = User::all()->lists("id");
     return [
-        "block_id" => $faker->randomElement($blocks),
-        "user_id" => $faker->randomElement($users),
+        "block_id" => Block::all()->random()->id,
+        "user_id" => User::all()->random()->id,
         "location" => $faker->word
     ];
 });
