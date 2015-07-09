@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->binary("first_name");
             $table->binary("last_name");
             $table->binary('email')->unique();
-            $table->binary("photo_path");
+            $table->binary("photo_path")->nullable();
             $table->string('password', 60);
             $table->rememberToken();
             $table->timestamps();

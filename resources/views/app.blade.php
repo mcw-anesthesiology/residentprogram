@@ -15,7 +15,7 @@
 		<link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet">
 
 		<!-- Custom styles for this template -->
-		<link href="main.css" rel="stylesheet">
+		<link href="css/main.css" rel="stylesheet">
 		<!-- <link href="https://cdn.datatables.net/1.10.1/css/jquery.dataTables.css" rel="stylesheet"> -->
 		<link href="https://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet">
 
@@ -37,29 +37,29 @@
 			        <span class="icon-bar"></span>
 			        <span class="icon-bar"></span>
 			      </button>
-			      <a class="navbar-brand" href="dashboard.php">Resident Evaluation System</a>
+			      <a class="navbar-brand" href="dashboard">Resident Evaluation System</a>
 			    </div>
 			    <div class="navbar-collapse collapse">
 			      <ul class="nav navbar-nav navbar-right">
 
 			        @if($userType == "faculty")
-			            <li><a href="request.php">Create Evaluation</a></li>
-			            <li><a href="dashboard.php">View Evaluation</a></li>
+			            <li><a href="request">Create Evaluation</a></li>
+			            <li><a href="dashboard">View Evaluation</a></li>
 			        @elseif($userType == "resident")
-			            <li><a href="request.php">Request Evaluation</a></li>
-			            <li><a href="dashboard.php">View Evaluation</a></li>
+			            <li><a href="request">Request Evaluation</a></li>
+			            <li><a href="dashboard">View Evaluation</a></li>
 			        @endif
 
 			      @if($userType == "admin")
-			      <li><a href="request.php">Request Evaluation</a></li>
+			      <li><a href="request">Request Evaluation</a></li>
 			      <li class="dropdown">
 			        <a href="#" data-toggle="dropdown">Manage<b class="caret"></b></a>
 			        <ul class="dropdown-menu">
-			          <li><a href="manage_evaluations.php">Evaluations</a></li>
-			          <li><a href="manage_accounts.php">Accounts</a></li>
-			          <li><a href="manage_forms.php">Forms</a></li>
-			          <li><a href="manage_milestones_competencies.php">Milestones/Competencies</a></li>
-			          <li><a href="manage_mentors.php">Mentors</a></li>
+			          <li><a href="manage_evaluations">Evaluations</a></li>
+			          <li><a href="manage_accounts">Accounts</a></li>
+			          <li><a href="manage_forms">Forms</a></li>
+			          <li><a href="manage_milestones_competencies">Milestones/Competencies</a></li>
+			          <li><a href="manage_mentors">Mentors</a></li>
 			        </ul>
 			      </li>
 			      @endif
@@ -71,11 +71,11 @@
 			        @endif
 			          <li><a class="viewSpecRpt pointer" data-toggle="modal" data-target=".bs-specRpt-modal" id="viewSpecRpt">Generate Specific</a></li>
 					@if($userType == "admin")
-					  <li><a href="view_needs_evaluations_report.php">Needs Evaluations</a></li>
-					  <li><a href="faculty_stats.php">Faculty Statistics</a></li>
-					  <li><a href="resident_stats.php">Resident Statistics</a></li>
-			          <li><a href="fellow_stats.php">Fellow Statistics</a></li>
-					  <li><a href="milestones_competencies_forms_report.php">Milestones/Competencies - Forms</a></li>
+					  <li><a href="view_needs_evaluations_report">Needs Evaluations</a></li>
+					  <li><a href="faculty_stats">Faculty Statistics</a></li>
+					  <li><a href="resident_stats">Resident Statistics</a></li>
+			          <li><a href="fellow_stats">Fellow Statistics</a></li>
+					  <li><a href="milestones_competencies_forms_report">Milestones/Competencies - Forms</a></li>
 			        @endif
 			        </ul>
 			      </li>
@@ -91,8 +91,8 @@
 			              <b class="caret"></b>
 			          </a>
 			          <ul class="dropdown-menu">
-			            <li><a href="manage_user.php">Manage Account</a></li>
-			            <li><a href="logout.php">Logout</a></li>
+			            <li><a href="manage_user">Manage Account</a></li>
+			            <li><a href="logout">Logout</a></li>
 			          </ul>
 			        </li>
 			      </ul>
@@ -103,7 +103,7 @@
 			@yield("body")
 
 			<div class="footer">
-				<a href="contact.php">Contact</a>
+				<a href="contact">Contact</a>
 			</div>
 		</div>
 
@@ -115,7 +115,7 @@
 		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		        <h4 class="modal-title" id="myModalAggRpt">Generate Aggregate Report</h4>
 		      </div>
-		      <form class="report" method="post" action="view_aggregate_report.php">
+		      <form class="report" method="post" action="view_aggregate_report">
 		        <div class="modal-body modal-aggRpt report-options">
 		          <div class="form-group">
 		            <label for="startDate">Start Date:</label>
@@ -161,7 +161,7 @@
 		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		        <h4 class="modal-title" id="myModalSpecRpt">Generate Specific Report</h4>
 		      </div>
-		      <form class="report" method="post" action="view_specific_report.php">
+		      <form class="report" method="post" action="view_specific_report">
 		        <div class="modal-body">
 		          <div class="modal-specRpt">
 		              <div class="form-group">
@@ -169,7 +169,7 @@
 		                <select class="form-control" name="resident">
 		                    <option value="-1">-- Select Resident --</option>
 		                    @foreach($residents as $resident){
-		                        <option value="{{ $resident["username"] }}">{{ $resident["lastName"] }}, {{ $resident["firstName"] }}</option>
+		                        <option value="{{ $resident->username }}">{{ $resident->last_name }}, {{ $resident->first_name }}</option>
 		                    @endforeach
 		                </select>
 		               </div>
@@ -177,8 +177,8 @@
 		                <div class="form-group">
 		                    <label for="resident">Resident</label>
 		                    <select class="form-control" name="resident">
-		                        <option value="<?= $_SESSION["username"] ?>">
-		                            <?= $_SESSION["fname"]." ".$_SESSION["lname"] ?>
+		                        <option value="{{ $username }}">
+		                            {{ $firstName }} {{ $lastName }}
 		                        </option>
 		                    </select>
 		                </div>

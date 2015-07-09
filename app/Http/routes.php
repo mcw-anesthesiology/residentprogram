@@ -11,6 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get("/", "MainController@dashboard");
+Route::get("dashboard", "MainController@dashboard");
+Route::get("request", "MainController@request");
+Route::post("request/get-block", "MainController@requestBlock")
