@@ -18,9 +18,9 @@
 				$completeDateText = "";
 			}
 			$result .= "\"<a href='view_specific.php?request={$request["requestId"]}'>{$request["requestId"]}</a>\",";
-			$result .= "\"{$request["requestedByFirst"]} {$request["requestedByLast"]}\",";
-			$result .= "\"{$request["residentFirst"]} {$request["residentLast"]}\",";
-			$result .= "\"{$request["facultyFirst"]} {$request["facultyLast"]}\",";
+			$result .= "\"{$request["requestedByLast"]}, {$request["requestedByFirst"]}\",";
+			$result .= "\"{$request["residentLast"]}, {$request["residentFirst"]}\",";
+			$result .= "\"{$request["facultyLast"]}, {$request["facultyFirst"]}\",";
 			$result .= "\"".$requestDate->format("d-m-Y g:i A")."\",";
 			$result .= "\"{$completeDateText}\",";
 			if($request["status"] == "complete"){

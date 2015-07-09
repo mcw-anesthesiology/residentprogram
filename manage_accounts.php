@@ -29,7 +29,7 @@
       <div class="row">
         <h2 class="sub-header">Residents  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="resident" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
           <div class="table-responsive">
-            <table class="table table-striped datatable">
+            <table class="table table-striped user-table datatable">
               <thead>
                 <tr>
                   <th>Username</th>
@@ -565,7 +565,8 @@ $user = $users->fetch_assoc();
 		$(document).ready(function(){
 		  $(".datatable").each(function(){
 			  $(this).dataTable({
-				stateSave: true	  
+				stateSave: true, 
+				"dom": "lfprtip"
 			  });
 		  });
 		});
@@ -580,7 +581,7 @@ $user = $users->fetch_assoc();
 			$(".modal-enable #username").val(username);
 		});
 
-    $(".user-table").on('click', '#editBtn', function (){
+    $(".user-table").on('click', '.editUser', function (){
       var username = $(this).closest("tr").find("#UN").text();
       var email = $(this).closest("tr").find("#EM").text();
       var firstName = $(this).closest("tr").find("#FN").text();
@@ -605,7 +606,7 @@ $user = $users->fetch_assoc();
 	  }
     });
 
-    $(".user-table").on("click", "#editPasswordBtn", function(){
+    $(".user-table").on("click", ".editPassword", function(){
 		var username = $(this).data("id");
 		$(".modal-edit-password #username").val(username);
 	});

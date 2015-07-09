@@ -13,3 +13,11 @@
 [09-Jun-2015 01:32:42 America/Chicago] PHP Parse error:  syntax error, unexpected '$facultyMembers' (T_VARIABLE) in /home4/ab49752/public_html/stats.php on line 219
 [09-Jun-2015 01:38:19 America/Chicago] PHP Parse error:  syntax error, unexpected '$facultyMembers' (T_VARIABLE) in /home4/ab49752/public_html/stats.php on line 219
 [12-Jun-2015 17:39:58 America/Chicago] PHP Parse error:  syntax error, unexpected '"'>Milestones</th>"' (T_CONSTANT_ENCAPSED_STRING), expecting ',' or ';' in /home4/ab49752/public_html/reporting.php on line 106
+[18-Jun-2015 17:15:55 America/Chicago] PHP Parse error:  syntax error, unexpected ')', expecting ']' in /home4/ab49752/public_html/process_request.php on line 42
+[18-Jun-2015 17:16:01 America/Chicago] PHP Parse error:  syntax error, unexpected ')', expecting ']' in /home4/ab49752/public_html/process_request.php on line 42
+[18-Jun-2015 19:18:22 America/Chicago] PHP Parse error:  syntax error, unexpected ')', expecting ']' in /home4/ab49752/public_html/process_request.php on line 42
+[18-Jun-2015 20:16:54 America/Chicago] PHP Parse error:  syntax error, unexpected ')', expecting ']' in /home4/ab49752/public_html/process_request.php on line 42
+[02-Jul-2015 10:25:07 America/Chicago] PHP Parse error:  syntax error, unexpected '{' in /home4/ab49752/public_html/process_block.php on line 6
+[07-Jul-2015 09:46:34 America/Chicago] PHP Parse error:  syntax error, unexpected ';' in /home4/ab49752/public_html/request_ajax.php on line 32
+[07-Jul-2015 09:46:37 America/Chicago] PHP Parse error:  syntax error, unexpected ';' in /home4/ab49752/public_html/request_ajax.php on line 32
+[07-Jul-2015 09:48:00 America/Chicago] PHP Parse error:  syntax error, unexpected ';' in /home4/ab49752/public_html/request_ajax.php on line 32

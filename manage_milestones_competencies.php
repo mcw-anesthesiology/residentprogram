@@ -340,6 +340,7 @@
 
 		$(".datatable").each(function(){
 			$(this).dataTable({
+				"dom": "lfprtip",
 				stateSave: true	
 			});
 		});

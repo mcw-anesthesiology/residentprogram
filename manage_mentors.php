@@ -143,6 +143,7 @@
 		  $(".datatable").each(function(){
 			  $(this).dataTable({
 				  "order": [[0, "desc"]],
+				"dom": "lfprtip",
 				stateSave: true	  
 			  });
 		  });

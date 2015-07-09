@@ -291,7 +291,8 @@
 				"ajax": "manage_evaluations_json.php",
 					deferRendering: true,
 					stateSave: true,
-					"order": [[0, "desc"]]
+					"order": [[0, "desc"]],
+					"dom": "lfprtip"
 			  });
 		  });
 

@@ -27,7 +27,7 @@
 				  ?>
 							<tr data-id="<?= $requestRow["requestId"] ?>">
 							  <td class="lalign view"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
-							  <td class="view"><?= $requestRow["firstName"] ?> <?= $requestRow["lastName"] ?></td>
+							  <td class="view"><?= $requestRow["lastName"] ?>, <?= $requestRow["firstName"] ?></td>
 							  <td class="view"><?= $requestRow["title"] ?></td>
 							  <td class="view"><?= $requestDate->format("d-m-Y g:i A") ?></td>
 							  <?php if($requestRow["requestedBy"] == $_SESSION["username"]){?>
@@ -80,7 +80,7 @@
 				  ?>
 							<tr data-id="<?= $requestRow["requestId"] ?>">
 							  <td class="lalign view"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
-							  <td class="view"><?= $requestRow["firstName"] ?> <?= $requestRow["lastName"] ?></td>
+							  <td class="view"><?= $requestRow["lastName"] ?>, <?= $requestRow["firstName"] ?></td>
 							  <td class="view"><?= $requestRow["title"] ?></td>
 							  <td class="view"><?= $requestDate->format("d-m-Y g:i A") ?></td>
 							  <td class="view"><?= $completeDateText ?></td>

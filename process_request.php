@@ -39,7 +39,11 @@
 		 
 	$success = "false";
 		 
-	$requestDate = date("Y-m-d H:i:s");
+	if(isset($_POST["requestDate"]))
+		$requestDate = $_POST["requestDate"];
+	else
+		$requestDate = date("Y-m-d H:i:s");
+
 	$status = "pending";
 	
 	if($stmt = $mysqli->prepare("insert into `requests` (formId, resident, faculty, requestedBy, status, requestDate, ipAddress) values (?, ?, ?, ?, ?, ?, ?);")){

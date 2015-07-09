@@ -2,7 +2,7 @@
 	//This page is the main dashboard for all faculty users. It is included by dashboard.php and includes a table of all pending requests for the logged in user at the top.
 	//Below that, it shows a table of evaluations for each of the user's mentees. Finally, it shows a table for all non-disabled evaluations completed by the user.
 
-	  $requests = $mysqli->query("select * from requests left join forms on requests.formId=forms.formId left join users on requests.resident=users.username where faculty='{$_SESSION["username"]}' and requests.status='pending' order by requestId asc;");
+	  $requests = $mysqli->query("select * from requests left join forms on requests.formId=forms.formId left join users on requests.resident=users.username where faculty='{$_SESSION["username"]}' and requests.status='pending' and requestDate<=NOW() order by requestId asc;");
 	  $requestRow = $requests->fetch_assoc();
 
 ?>
@@ -28,7 +28,7 @@
 				  ?>
 							<tr data-id="<?= $requestRow["requestId"] ?>">
 							  <td class="lalign complete"><a href="complete_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
-							  <td class="complete"><?= $requestRow["firstName"] ?> <?= $requestRow["lastName"] ?></td>
+							  <td class="complete"><?= $requestRow["lastName"] ?>, <?= $requestRow["firstName"] ?></td>
 							  <td class="complete"><?= $requestRow["title"] ?></td>
 							  <td class="complete"><?= $requestDate->format("d-m-Y g:i A") ?></td>
 							  <?php if($requestRow["requestedBy"] == $_SESSION["username"]){?>
@@ -46,7 +46,7 @@
       </div>
     </div>
 <?php
-		$menteeRequests = $mysqli->query("select requestId, title, requestDate, completeDate, requests.status, requests.resident, faculty.firstName as facultyFirst, faculty.lastName as facultyLast, resident.firstName as residentFirst, resident.lastName as residentLast from requests join forms on requests.formId=forms.formId join users as resident on requests.resident=resident.username join users as faculty on requests.faculty=faculty.username join mentorships on mentorships.resident=requests.resident where mentorships.faculty='{$_SESSION["username"]}' and mentorships.status='active' and requests.status!='disabled' order by mentorships.resident, requestId asc;");
+		$menteeRequests = $mysqli->query("select requestId, title, requestDate, completeDate, requests.status, requests.resident, faculty.firstName as facultyFirst, faculty.lastName as facultyLast, resident.firstName as residentFirst, resident.lastName as residentLast from requests join forms on requests.formId=forms.formId join users as resident on requests.resident=resident.username join users as faculty on requests.faculty=faculty.username join mentorships on mentorships.resident=requests.resident where mentorships.faculty='{$_SESSION["username"]}' and mentorships.status='active' and requests.status='complete' order by mentorships.resident, requestId asc;");
 		$menteeRequest = $menteeRequests->fetch_assoc();
 		while(!is_null($menteeRequest)){
 			$mentee = $menteeRequest["resident"];
@@ -84,7 +84,7 @@
 				  ?>
 							<tr data-id="<?= $menteeRequest["requestId"] ?>">
 							  <td class="lalign view"><a href="view_specific.php?request=<?= $menteeRequest["requestId"] ?>"><?= $menteeRequest["requestId"] ?></a></td>
-							  <td class="view"><?= $menteeRequest["facultyFirst"] ?> <?= $menteeRequest["facultyLast"] ?></td>
+							  <td class="view"><?= $menteeRequest["facultyLast"] ?>, <?= $menteeRequest["facultyFirst"] ?></td>
 							  <td class="view"><?= $menteeRequest["title"] ?></td>
 							  <td class="view"><?= $requestDate->format("d-m-Y g:i A") ?></td>
 							  <td class="view"><?= $completeDateText ?></td>
@@ -140,7 +140,7 @@
 				  ?>
 							<tr data-id="<?= $requestRow["requestId"] ?>">
 							  <td class="lalign view"><a href="view_specific.php?request=<?= $requestRow["requestId"] ?>"><?= $requestRow["requestId"] ?></a></td>
-							  <td class="view"><?= $requestRow["firstName"] ?> <?= $requestRow["lastName"] ?></td>
+							  <td class="view"><?= $requestRow["lastName"] ?>, <?= $requestRow["firstName"] ?></td>
 							  <td class="view"><?= $requestRow["title"] ?></td>
 							  <td class="view"><?= $requestDate->format("d-m-Y g:i A") ?></td>
 							  <td class="view"><?= $completeDateText ?></td>

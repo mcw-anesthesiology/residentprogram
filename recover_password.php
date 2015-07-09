@@ -9,11 +9,15 @@
     <?php
 		include "head.html";
 	?>
+	<link href="signin.css" rel="stylesheet">
+	<style>
+		button { margin-top: 10px }
+	</style>
   </head>
 
   <body>
 
-    <div class="container">
+	<div class="container-fluid">
 
       <form class="form-signin" role="form" method="post" action="process_recovery.php">
         <h2 class="form-signin-heading">Recover Password</h2>

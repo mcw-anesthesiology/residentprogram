@@ -25,11 +25,6 @@
 	else
 		$ipaddress = "UNKNOWN";
 
-	echo $hourDate;
-	echo $ipaddress;
-
-
-
 	if($stmt = $mysqli->prepare("select username, email from users where email=?;")){
 		if($stmt->bind_param("s", $email)){
 			if($stmt->bind_result($username, $dbEmail)){

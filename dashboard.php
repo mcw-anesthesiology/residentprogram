@@ -138,6 +138,7 @@
 			  //Enables the datatable functionality that supports the sorting and searching functionality in the tables
 			  $(this).DataTable({
 				"order": [[0, "desc"]],
+				"dom": "lfprtip",
 				stateSave: true  		
 			  });
 		  });
@@ -147,6 +148,7 @@
 					deferRedering: true,
 					"order": [[0, "desc"]],
 					stateSave: true,
+					"dom": "lfprtip",
 					"createdRow": function(row, data, index){
 						$("td", row).addClass("view");
 					}
