@@ -54,6 +54,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     public function mentees(){
-        return $this->hasMany("App\User", "mentorships", "mentor_id", "mentee_id");
+        return $this->belongsToMany("App\User", "mentorships", "mentor_id", "mentee_id");
     }
 }

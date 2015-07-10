@@ -2,6 +2,7 @@
 
 use App\Block;
 use App\User;
+use App\Form;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,13 +44,13 @@ $factory->define(App\Form::class, function($faker){
 });
 
 $factory->define(App\Evaluation::class, function($faker){
-    $forms = Form::all()->lists("id");
-    $users = User::all()->lists("id");
+    $evaluator = User::where("type", "faculty")->get()->random()->id;
+    $subject = User::where("type", "resident")->get()->random()->id;
     return [
-        "form_id" => $faker->randomElement($forms),
-        "evaluator_id" => $faker->randomElement($users),
-        "subject_id" => $faker->randomElement($users),
-        "requested_by_id" => $faker->randomElement($users),
+        "form_id" => Form::all()->random()->id,
+        "evaluator_id" => $evaluator,
+        "subject_id" => $subject,
+        "requested_by_id" => $subject,
         "status" => "pending",
         "request_date" => $faker->date,
         "request_ip" => str_random(10)
@@ -58,10 +59,10 @@ $factory->define(App\Evaluation::class, function($faker){
 
 $factory->defineAs(App\Evaluation::class, "complete", function($faker) use ($factory){
     $evaluation = $factory->raw(App\Evaluation::class);
-    $trainingLevels = User::all()->lists("training_level");
+    $trainingLevel = "ca-1";
     return array_merge($evaluation, [
         "status" => "complete",
-        "training_level" => $faker->randomElement($trainingLevels),
+        "training_level" => $trainingLevel,
         "complete_date" => $faker->date,
         "evaluation_date" => $faker->date,
         "complete_ip" => str_random(10)
@@ -84,30 +85,25 @@ $factory->define(App\Competency::class, function($faker){
 });
 
 $factory->define(App\MilestoneQuestion::class, function($faker){
-    $forms = Form::all()->lists("id");
-    $milestones = Milesone::all()->lists("id");
     return [
-        "form_id" => $faker->randomElement($forms),
+        "form_id" => Form::all()->random()->id,
         "question_id" => str_random(3),
-        "milestone_id" => $faker->randomElement($milestones)
+        "milestone_id" => Milestone::all()->random()->id
     ];
 });
 
 $factory->define(App\CompetencyQuestion::class, function($faker){
-    $forms = Form::all()->lists("id");
-    $competencies = Competency::all()->lists("id");
     return [
-        "form_id" => $faker->randomElement($forms),
+        "form_id" => Form::all()->random()->id,
         "question_id" => str_random(3),
-        "milestone_id" => $faker->randomElement($competencies)
+        "competency_id" => Competency::all()->random()->id
     ];
 });
 
 $factory->define(App\Mentorship::class, function($faker){
-    $users = User::all()->lists("id");
     return [
-        "mentor_id" => $faker->randomElement($users),
-        "mentee_id" => $faker->randomElement($users),
+        "mentor_id" => User::where("type", "faculty")->get()->random()->id,
+        "mentee_id" => User::where("type", "resident")->get()->random()->id,
         "status" => "active"
     ];
 });

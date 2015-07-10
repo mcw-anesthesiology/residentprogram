@@ -177,7 +177,7 @@
 		                <div class="form-group">
 		                    <label for="resident">Resident</label>
 		                    <select class="form-control" name="resident">
-		                        <option value="{{ $username }}">{{ $lastName }}, {{ $firstName }}</option>
+		                        <option value="{{ $user->username }}">{{ $user->last_name }}, {{ $user->first_name }}</option>
 		                    </select>
 		                </div>
 		            @endif
