@@ -17,7 +17,7 @@ use App\Mentorship;
 class MainController extends Controller
 {
     public function dashboard(){
-        $user = User::where("type", "faculty")->first();
+        $user = User::where("type", "admin")->first();
 
         $residents = User::where("type", "resident")->get();
         if($user->type == "faculty"){
@@ -29,7 +29,7 @@ class MainController extends Controller
     }
 
     public function request(){
-        $user = User::where("type", "resident")->first();
+        $user = User::where("type", "admin")->first();
 
         $residents = User::where("type", "resident")->get();
         $blocks = Block::all();
@@ -55,8 +55,19 @@ class MainController extends Controller
         return view("evaluations.request-block", compact("user", "block", "residents", "faculty", "forms"));
     }
 
+    public function createRequest(Request $request){
+        $user = User::where("type", "admin")->first();
+        $request = new Evaluation($request->all());
+        $request->requested_by_id = $user->id;
+        $request->status = "pending";
+        $request->request_date = "2015-03-02";
+        $request->request_ip = $_SERVER["REMOTE_ADDR"];
+        $request->save();
+        return redirect("dashboard");
+    }
+
     public function evaluations(Request $request){
-        $user = User::where("type", "resident")->first();
+        $user = User::where("type", "admin")->first();
         $results["data"] = [];
         if($user->type == "admin"){
             $evaluations = Evaluation::all();
