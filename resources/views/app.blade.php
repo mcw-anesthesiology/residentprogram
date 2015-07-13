@@ -15,7 +15,7 @@
 		<link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet">
 
 		<!-- Custom styles for this template -->
-		<link href="css/main.css" rel="stylesheet">
+		<link href="/css/main.css" rel="stylesheet">
 		<!-- <link href="https://cdn.datatables.net/1.10.1/css/jquery.dataTables.css" rel="stylesheet"> -->
 		<link href="https://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet">
 
@@ -43,15 +43,15 @@
 			      <ul class="nav navbar-nav navbar-right">
 
 			        @if($user->type == "faculty")
-			            <li><a href="request">Create Evaluation</a></li>
-			            <li><a href="dashboard">View Evaluation</a></li>
+			            <li><a href="/request">Create Evaluation</a></li>
+			            <li><a href="/dashboard">View Evaluation</a></li>
 			        @elseif($user->type == "resident")
-			            <li><a href="request">Request Evaluation</a></li>
-			            <li><a href="dashboard">View Evaluation</a></li>
+			            <li><a href="/request">Request Evaluation</a></li>
+			            <li><a href="/dashboard">View Evaluation</a></li>
 			        @endif
 
 			      @if($user->type == "admin")
-			      <li><a href="request">Request Evaluation</a></li>
+			      <li><a href="/request">Request Evaluation</a></li>
 			      <li class="dropdown">
 			        <a href="#" data-toggle="dropdown">Manage<b class="caret"></b></a>
 			        <ul class="dropdown-menu">
@@ -92,7 +92,7 @@
 			          </a>
 			          <ul class="dropdown-menu">
 			            <li><a href="manage_user">Manage Account</a></li>
-			            <li><a href="logout">Logout</a></li>
+			            <li><a href="/logout">Logout</a></li>
 			          </ul>
 			        </li>
 			      </ul>
@@ -103,7 +103,7 @@
 			@yield("body")
 
 			<div class="footer">
-				<a href="contact">Contact</a>
+				<a href="/contact">Contact</a>
 			</div>
 		</div>
 

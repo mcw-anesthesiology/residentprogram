@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             "first_name" => "Jacob",
             "last_name" => "Mischka",
             "email" => "jmischka@mcw.edu",
-            "password" => "noodles"
+            "password" => bcrypt("noodles")
         ]);
         $residents = factory("App\User", 10)->create();
         $faculty = factory("App\User", "faculty", 10)->create();

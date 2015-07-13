@@ -15,7 +15,7 @@ class CreateForms extends Migration
         Schema::create('forms', function (Blueprint $table) {
             $table->increments('id');
             $table->string("title");
-            $table->binary("xml_path");
+            $table->string("xml_path");
             $table->string("status");
             $table->timestamps();
         });

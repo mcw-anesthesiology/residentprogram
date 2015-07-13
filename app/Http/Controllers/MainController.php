@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Helpers\FormReader;
+
+use Auth;
+
 use App\User;
 use App\Block;
 use App\BlockAssignment;
@@ -16,8 +20,12 @@ use App\Mentorship;
 
 class MainController extends Controller
 {
+    public function __construct(){
+        $this->middleware("auth");
+    }
+
     public function dashboard(){
-        $user = User::where("type", "admin")->first();
+        $user = Auth::user();
 
         $residents = User::where("type", "resident")->get();
         if($user->type == "faculty"){
@@ -29,7 +37,7 @@ class MainController extends Controller
     }
 
     public function request(){
-        $user = User::where("type", "admin")->first();
+        $user = Auth::user();
 
         $residents = User::where("type", "resident")->get();
         $blocks = Block::all();
@@ -44,7 +52,7 @@ class MainController extends Controller
     }
 
     public function requestBlock(Request $request){
-        $user = User::where("username", "jmischka")->first();
+        $user = Auth::user();
 
         //$blockId = $request->input("block");
         //$assignments = Block::where("id", $blockId)->assignments();
@@ -56,7 +64,7 @@ class MainController extends Controller
     }
 
     public function createRequest(Request $request){
-        $user = User::where("type", "admin")->first();
+        $user = Auth::user();
         $request = new Evaluation($request->all());
         $request->requested_by_id = $user->id;
         $request->status = "pending";
@@ -66,8 +74,17 @@ class MainController extends Controller
         return redirect("dashboard");
     }
 
+    public function evaluation(Request $request, $id){
+        $user = Auth::user();
+        $residents = User::where("type", "resident")->get();
+        $evaluation = Evaluation::find($id);
+        $evaluation->form->xml_path = "evaluation_forms/53baacaf543cc.xml";
+
+        return view("evaluations.evaluation", compact("user", "residents", "evaluation"));
+    }
+
     public function evaluations(Request $request){
-        $user = User::where("type", "admin")->first();
+        $user = Auth::user();
         $results["data"] = [];
         if($user->type == "admin"){
             $evaluations = Evaluation::all();
