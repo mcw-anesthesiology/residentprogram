@@ -37,7 +37,7 @@
 			        <span class="icon-bar"></span>
 			        <span class="icon-bar"></span>
 			      </button>
-			      <a class="navbar-brand" href="dashboard">Resident Evaluation System</a>
+			      <a class="navbar-brand" href="/dashboard">Resident Evaluation System</a>
 			    </div>
 			    <div class="navbar-collapse collapse">
 			      <ul class="nav navbar-nav navbar-right">
@@ -84,8 +84,8 @@
 			          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 			              Welcome, {{ ucfirst($user->first_name) }} {{ucfirst($user->last_name)}}
 			    		@if($user->type == "faculty")
-			    			 @if($numPendingRequests > 0)
-			    				<span class="badge">{{ $numPendingRequests }}</span>
+			    			 @if($user->evaluatorEvaluations->where("status", "pending")->count() > 0)
+			    				<span class="badge">{{ $user->evaluatorEvaluations->where("status", "pending")->count() }}</span>
 			                 @endif
 			            @endif
 			              <b class="caret"></b>

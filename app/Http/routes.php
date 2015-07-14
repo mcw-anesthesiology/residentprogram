@@ -22,6 +22,7 @@ Route::get("dashboard/evaluations", "MainController@evaluations");
 Route::post("dashboard/evaluations", "MainController@evaluations");
 
 Route::get("evaluation/{id}", "MainController@evaluation");
+Route::post("evaluation/{id}", "MainController@saveEvaluation");
 
 Route::get("request", "MainController@request");
 Route::post("request", "MainController@createRequest");

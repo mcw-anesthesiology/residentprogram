@@ -51,22 +51,19 @@
 @section("script")
 	<script>
 		$(document).ready(function(){
-			@if(isset($evaluation->responses))
-				@foreach($evaluation->responses as $response)
-					$("input[name='{{ $response->question_id }}'][value='{{ $response->response }}']").prop("checked", true);
-				@endforeach
-			@endif
+			@foreach($evaluation->responses as $response)
+				$("input[name='{{ $response->question_id }}'][value='{{ $response->response }}']").prop("checked", true);
+			@endforeach
 
-			@if(isset($evaluation->textResponses))
-				@foreach($evaluation->textResponses as $response)
-					$("textarea[name='{{ $response->question_id }}']").val({{ $response->response }});
-				@endforeach
-			@endif
+			@foreach($evaluation->textResponses as $response)
+				$("textarea[name='{{ $response->question_id }}']").val("{{ $response->response }}");
+			@endforeach
 
-			@if($evaluation->status == "complete" || $user->id == $evaluation->evaluator_id)
+			@if($evaluation->status == "complete" || $user->id != $evaluation->evaluator_id)
 				$("#form input").prop("disabled", true);
 				$("#form textarea").prop("readonly", true);
 			@endif
+			$("#form textarea").width("90%");
 			$("#form textarea").height($("#form textarea")[0].scrollHeight);
 			$("#form textarea").addClass("noprint");
 			$("#form textarea").parents("td").append("<div class='print'>"+$("#form textarea").val()+"</div>");

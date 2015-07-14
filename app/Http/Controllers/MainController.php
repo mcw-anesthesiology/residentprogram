@@ -29,10 +29,9 @@ class MainController extends Controller
 
         $residents = User::where("type", "resident")->get();
         if($user->type == "faculty"){
-            $numPendingRequests = $user->evaluatorEvaluations->where("status", "pending")->count();
             $mentees = $user->mentees->where("status", "active")->unique();
         }
-        $data = compact("user", "residents", "numPendingRequests", "mentees");
+        $data = compact("user", "residents", "mentees");
         return view("dashboard.".$user->type, $data);
     }
 
@@ -68,7 +67,7 @@ class MainController extends Controller
         $request = new Evaluation($request->all());
         $request->requested_by_id = $user->id;
         $request->status = "pending";
-        $request->request_date = "2015-03-02";
+        $request->request_date = "2015-03-02"; //TODO: Carbon
         $request->request_ip = $_SERVER["REMOTE_ADDR"];
         $request->save();
         return redirect("dashboard");
@@ -78,9 +77,25 @@ class MainController extends Controller
         $user = Auth::user();
         $residents = User::where("type", "resident")->get();
         $evaluation = Evaluation::find($id);
-        $evaluation->form->xml_path = "evaluation_forms/53baacaf543cc.xml";
 
         return view("evaluations.evaluation", compact("user", "residents", "evaluation"));
+    }
+
+    public function saveEvaluation(Request $request, $id){
+        $eval = Evaluation::find($id);
+        if($eval->status == "pending"){
+            if($request->input("evaluation_id")){
+                $eval->status = "complete";
+                $eval->complete_date = ""; //TODO: Carbon
+            }
+            $eval->complete_ip = $_SERVER["REMOTE_ADDR"];
+            $eval->evaluation_date = $request->input("evaluationDate");
+
+            $input = $request->all();
+            foreach($input as $question => $response){
+                
+            }
+        }
     }
 
     public function evaluations(Request $request){
