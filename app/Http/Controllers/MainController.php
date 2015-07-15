@@ -30,8 +30,7 @@ class MainController extends Controller
 
     public function dashboard(){
         $user = Auth::user();
-
-        $residents = User::where("type", "resident")->get();
+        $residents = User::where("type", "resident")->get(); //TODO: abstract this, residents only get themselves
         if($user->type == "faculty"){
             $mentees = $user->mentees->where("status", "active")->unique();
         }
@@ -92,7 +91,7 @@ class MainController extends Controller
 
     public function saveEvaluation(Request $request, $id){
         $eval = Evaluation::find($id);
-        if($eval->status == "pending"){
+        if($eval->status == "pending" && $eval->evaluator_id == $user->id){ //TODO: middleware
             if($request->input("evaluation_id")){
                 $eval->status = "complete";
                 $eval->complete_date = Carbon::now();
@@ -107,11 +106,19 @@ class MainController extends Controller
                         $weight = $value;
                     else{
                         if(is_numeric($value)){
-                            $response = new Response();
+                            if(Response::where("evaluation_id", $id)->where("question_id", $question)->exists())
+                                $response = Response::where("evaluation_id", $id)->where("question_id", $question)->first();
+                            else
+                                $response = new Response();
+
                             $response->weight = $weight;
                         }
-                        else
-                            $response = new TextResponse();
+                        else{
+                            if(TextResponse::where("evaluation_id", $id)->where("question_id", $question)->exists())
+                                $response = TextResponse::where("evaluation_id", $id)->where("question_id", $question)->first();
+                            else
+                                $response = new TextResponse();
+                        }
 
                         $response->question_id = $question;
                         $response->response = $value;

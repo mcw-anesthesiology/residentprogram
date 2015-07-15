@@ -28,6 +28,20 @@ Route::get("request", "MainController@request");
 Route::post("request", "MainController@createRequest");
 Route::post("request/get-block", "MainController@requestBlock");
 
+Route::get("manage/evaluations", "ManageController@evaluations");
+// Route::post("manage/evaluations", "ManageController@evaluations");
+Route::get("manage/evaluations/get", "ManageController@getEvaluations");
+Route::post("manage/evaluations/{id}", "ManageController@editEvaluation");
+Route::get("manage/accounts", "ManageController@accounts");
+// Route::post("manage/accounts", "ManageController@accounts");
+Route::get("manage/forms", "ManageController@forms");
+// Route::post("manage/forms", "ManageController@forms");
+Route::get("manage/miletones-competencies", "ManageController@miletonesCompetencies");
+// Route::post("manage/miletones-competencies", "ManageController@miletonesCompetencies");
+Route::get("manage/mentors", "ManageController@mentors");
+// Route::post("manage/mentors", "ManageController@mentors");
+
+
 // Route::controllers([
 // 	"auth" => "Auth\AuthController",
 // 	"password" => "Auth\PasswordController"

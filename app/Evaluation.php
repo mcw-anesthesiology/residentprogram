@@ -31,7 +31,7 @@ class Evaluation extends Model
         return $this->belongsTo("App\User", "subject_id");
     }
 
-    public function requestedBy(){
+    public function requestor(){
         return $this->belongsTo("App\User", "requested_by_id");
     }
 

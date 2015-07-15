@@ -55,11 +55,11 @@
 			      <li class="dropdown">
 			        <a href="#" data-toggle="dropdown">Manage<b class="caret"></b></a>
 			        <ul class="dropdown-menu">
-			          <li><a href="manage_evaluations">Evaluations</a></li>
-			          <li><a href="manage_accounts">Accounts</a></li>
-			          <li><a href="manage_forms">Forms</a></li>
-			          <li><a href="manage_milestones_competencies">Milestones/Competencies</a></li>
-			          <li><a href="manage_mentors">Mentors</a></li>
+			          <li><a href="manage/evaluations">Evaluations</a></li>
+			          <li><a href="manage/accounts">Accounts</a></li>
+			          <li><a href="manage/forms">Forms</a></li>
+			          <li><a href="manage/milestones-competencies">Milestones/Competencies</a></li>
+			          <li><a href="manage/mentors">Mentors</a></li>
 			        </ul>
 			      </li>
 			      @endif
@@ -91,7 +91,7 @@
 			              <b class="caret"></b>
 			          </a>
 			          <ul class="dropdown-menu">
-			            <li><a href="manage_user">Manage Account</a></li>
+			            <li><a href="manage/user">Manage Account</a></li>
 			            <li><a href="/logout">Logout</a></li>
 			          </ul>
 			        </li>
