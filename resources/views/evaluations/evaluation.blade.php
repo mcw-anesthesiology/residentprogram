@@ -22,21 +22,36 @@
 				<tr>
 					<td>{{ $evaluation->id }}</td>
 					<td>{{ $evaluation->subject->last_name }}, {{ $evaluation->subject->first_name }}</td>
+				@if($evaluation->status == "complete")
 					<td>{{ $evaluation->evaluator->last_name }}, {{ $evaluation->evaluator->first_name }}</td>
+				@endif
 					<td>{{ $evaluation->request_date }}</td>
+				@if($evaluation->status == "complete")
 					<td>{{ $evaluation->complete_date }}</td>
 					<td>{{ $evaluation->status }}</td>
+				@endif
 					<td>{{ $evaluation->training_level }}</td>
 				</tr>
 			</tbody>
 		</table>
+		@if($evaluation->subject->photo_path)
+			<div style="text-align: center;">
+				<td><img src="{{ $evaluation->subject->photo_path }}" width="300px" /></td>
+			</div>
+		@endif
 		<br />
 		<h4 class="sub-header">Evaluation</h4>
 		<div id="form">
 			@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id)
 				<form id="evaluation" role="form" method="post" action="#">
 					{!! csrf_field() !!}
-
+					<label for="evaluation_date">What month is this evaluation for?</label>
+					<select class="form-control" id="evaluation_date" name="evaluation_date">
+					<?php $month = Carbon\Carbon::parse("first day of this month"); ?>
+						@for($i = 0; $i < 3; $i++, $month->subMonth())
+							<option value="{{ $month }}">{{ $month->format("F") }}</option>
+						@endfor
+					</select>
 			@endif
 			{!! App\Helpers\FormReader::read($evaluation->form->xml_path) !!}
 			@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id)

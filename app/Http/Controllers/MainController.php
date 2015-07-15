@@ -11,12 +11,16 @@ use App\Helpers\FormReader;
 
 use Auth;
 
+use Carbon\Carbon;
+
 use App\User;
 use App\Block;
 use App\BlockAssignment;
 use App\Form;
 use App\Evaluation;
 use App\Mentorship;
+use App\Response;
+use App\TextResponse;
 
 class MainController extends Controller
 {
@@ -65,9 +69,14 @@ class MainController extends Controller
     public function createRequest(Request $request){
         $user = Auth::user();
         $request = new Evaluation($request->all());
+        if(!$request->evaluator_id)
+            $request->evaluator_id = $user->id;
+        elseif(!$request->subject_id)
+            $request->subject_id = $user->id;
+
         $request->requested_by_id = $user->id;
         $request->status = "pending";
-        $request->request_date = "2015-03-02"; //TODO: Carbon
+        $request->request_date = Carbon::now();
         $request->request_ip = $_SERVER["REMOTE_ADDR"];
         $request->save();
         return redirect("dashboard");
@@ -86,16 +95,34 @@ class MainController extends Controller
         if($eval->status == "pending"){
             if($request->input("evaluation_id")){
                 $eval->status = "complete";
-                $eval->complete_date = ""; //TODO: Carbon
+                $eval->complete_date = Carbon::now();
             }
             $eval->complete_ip = $_SERVER["REMOTE_ADDR"];
-            $eval->evaluation_date = $request->input("evaluationDate");
+            $eval->evaluation_date = $request->input("evaluation_date");
 
             $input = $request->all();
-            foreach($input as $question => $response){
-                
+            foreach($input as $question => $value){
+                if(strpos($question, "evaluation_id") === false && strpos($question, "evaluation_date") === false && $question !== "_token"){
+                    if(strpos($question, "weight"))
+                        $weight = $value;
+                    else{
+                        if(is_numeric($value)){
+                            $response = new Response();
+                            $response->weight = $weight;
+                        }
+                        else
+                            $response = new TextResponse();
+
+                        $response->question_id = $question;
+                        $response->response = $value;
+                        $response->evaluation_id = $id;
+                        $response->save();
+                    }
+                }
             }
+            $eval->save();
         }
+        return redirect("dashboard");
     }
 
     public function evaluations(Request $request){

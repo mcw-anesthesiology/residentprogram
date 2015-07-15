@@ -22,7 +22,7 @@ class CreateEvaluations extends Migration
             $table->string("training_level")->nullable();
             $table->dateTime("request_date");
             $table->dateTime("complete_date")->nullable();
-            $table->dateTime("evaluation_date")->nullable();
+            $table->date("evaluation_date")->nullable();
             $table->dateTime("archive_date")->nullable();
             $table->string("request_ip");
             $table->string("complete_ip")->nullable();
