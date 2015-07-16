@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description" content="">
 		<meta name="author" content="">
-		<link rel="shortcut icon" href="favicon.ico">
+		<link rel="shortcut icon" href="/favicon.ico">
 
 		<title>Resident Program Evaluation System</title>
 
@@ -55,11 +55,11 @@
 			      <li class="dropdown">
 			        <a href="#" data-toggle="dropdown">Manage<b class="caret"></b></a>
 			        <ul class="dropdown-menu">
-			          <li><a href="manage/evaluations">Evaluations</a></li>
-			          <li><a href="manage/accounts">Accounts</a></li>
-			          <li><a href="manage/forms">Forms</a></li>
-			          <li><a href="manage/milestones-competencies">Milestones/Competencies</a></li>
-			          <li><a href="manage/mentors">Mentors</a></li>
+			          <li><a href="/manage/evaluations">Evaluations</a></li>
+			          <li><a href="/manage/accounts">Accounts</a></li>
+			          <li><a href="/manage/forms">Forms</a></li>
+			          <li><a href="/manage/milestones-competencies">Milestones/Competencies</a></li>
+			          <li><a href="/manage/mentors">Mentors</a></li>
 			        </ul>
 			      </li>
 			      @endif

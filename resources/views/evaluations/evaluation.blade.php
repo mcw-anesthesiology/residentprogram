@@ -91,5 +91,39 @@
 			var questionName = $(this).data("id");
 			$("."+questionName).toggle();
 		});
+
+		var saveForm = false;
+		$("#evaluation").submit(checkForm);
+
+		function checkForm(event){
+			//Checks the evaluation to make sure every question is answered before submitting the form
+			if(saveForm)
+				return true;
+
+			var validForm = true;
+			var alertText = "";
+			$("input:radio").each(function(){
+				var name = $(this).attr("name");
+				if($(this).attr("required") == "required" && $("input:radio[name="+name+"]:checked").length == 0){
+					$(this).focus();
+					alertText = "Please complete each required question";
+					validForm = false;
+				}
+			});
+			$("textarea").each(function(){
+				if($(this).attr("required") == "required" && this.value === ""){
+					$(this).focus();
+					alertText = "Please complete each required question";
+					validForm = false;
+				}
+			});
+			if(!validForm)
+				alert(alertText);
+			return validForm;
+		}
+
+		$("#saveForm").click(function(){
+			saveForm = true;
+		});
 	</script>
 @stop

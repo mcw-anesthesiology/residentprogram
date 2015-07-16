@@ -35,11 +35,21 @@ Route::post("manage/evaluations/{id}", "ManageController@editEvaluation");
 Route::get("manage/accounts", "ManageController@accounts");
 // Route::post("manage/accounts", "ManageController@accounts");
 Route::get("manage/forms", "ManageController@forms");
-// Route::post("manage/forms", "ManageController@forms");
-Route::get("manage/miletones-competencies", "ManageController@miletonesCompetencies");
-// Route::post("manage/miletones-competencies", "ManageController@miletonesCompetencies");
+Route::get("manage/forms/get", "ManageController@getForms");
+Route::get("manage/forms/add", "ManageController@formBuilder");
+Route::post("manage/forms/add", "ManageController@addForm");
+Route::get("manage/forms/{id}", "ManageController@viewForm");
+Route::post("manage/forms/{id}", "ManageController@editForm");
+Route::get("manage/milestones-competencies", "ManageController@milestonesCompetencies");
+Route::get("manage/milestones/get", "ManageController@getMilestones");
+Route::post("manage/milestones/{action}", "ManageController@milestone");
+Route::get("manage/competencies/get", "ManageController@getCompetencies");
+Route::post("manage/competencies/{action}", "ManageController@competency");
+// Route::post("manage/milestones-competencies", "ManageController@milestonesCompetencies");
 Route::get("manage/mentors", "ManageController@mentors");
 // Route::post("manage/mentors", "ManageController@mentors");
+Route::get("manage/mentors/get", "ManageController@getMentors");
+Route::post("manage/mentors/{action}", "ManageController@mentor");
 
 
 // Route::controllers([

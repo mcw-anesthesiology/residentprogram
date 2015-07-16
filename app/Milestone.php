@@ -11,6 +11,6 @@ class Milestone extends Model
     protected $fillable = ["title", "description"];
 
     public function forms(){
-        return $this->belongsToMany("App\Form", "milestones_forms");
+        return $this->belongsToMany("App\Form", "milestones_questions");
     }
 }
