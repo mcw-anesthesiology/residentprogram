@@ -29,6 +29,9 @@ Route::get("request", "MainController@request");
 Route::post("request", "MainController@createRequest");
 Route::post("request/get-block", "MainController@requestBlock");
 
+Route::get("user", "MainController@user");
+Route::post("user", "MainController@saveUser");
+
 Route::get("manage/evaluations", "ManageController@evaluations");
 // Route::post("manage/evaluations", "ManageController@evaluations");
 Route::get("manage/evaluations/get", "ManageController@getEvaluations");

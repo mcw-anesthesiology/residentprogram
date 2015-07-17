@@ -201,4 +201,20 @@ class MainController extends Controller
         return json_encode($results);
     }
 
+    public function user(){
+        $user = Auth::user();
+        $residents = User::where("type", "resident")->get();
+        $data = compact("user", "residents");
+        return view("dashboard.user", $data);
+    }
+
+    public function saveUser(Request $request){
+        $user = Auth::user();
+        if($request->input("new_password") == $request->input("new_password_confirm") && password_verify($request->input("old_password"), $user->password)){
+            $user->password = bcrypt($request->input("new_password"));
+            $user->save();
+        }
+        return redirect("dashboard");
+    }
+
 }
