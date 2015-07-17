@@ -21,6 +21,7 @@ use App\Evaluation;
 use App\Mentorship;
 use App\Response;
 use App\TextResponse;
+use App\Contact;
 
 class MainController extends Controller
 {
@@ -215,6 +216,30 @@ class MainController extends Controller
             $user->save();
         }
         return redirect("dashboard");
+    }
+
+    public function contact(){
+        $user = Auth::user();
+        $residents = User::where("type", "resident")->get();
+        $data = compact("user", "residents");
+        return view("dashboard.contact", $data);
+    }
+
+    public function saveContact(Request $request){
+        $user = Auth::user();
+        $adminEmail = "jmischka@mcw.edu";
+        $contact = new Contact();
+        $contact->user_id = $user->id;
+        $contact->subject = $request->input("subject");
+        $contact->body = $request->input("body");
+        $contact->save();
+
+        $emailFrom = "contact@residentprogram.com";
+		$emailSubject = "ResidentProgram: ".$contact->subject;
+		$emailBody = $contact->body."\n".$user->first_name." ".$user->last_name."\n".$user->email;
+		$emailHeaders = "From: ".$emailFrom."\n"."X-Mailer: PHP/5.5";
+		mail($adminEmail, $emailSubject, $emailBody, $emailHeaders);
+        return "success";
     }
 
 }
