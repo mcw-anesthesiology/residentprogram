@@ -12,6 +12,7 @@ use SimpleXmlElement;
 use DOMDocument;
 
 use App\Helpers\FormReader;
+use App\Helpers\Mail;
 
 use App\Evaluation;
 use App\User;
@@ -120,8 +121,124 @@ class ManageController extends Controller
         return view("manage.accounts", $data);
     }
 
+    public function account(Request $request, $action){
+        switch($action){
+            case "add":
+                if($request->input("password") != $request->input("password2") || !filter_var($request->input("email"), FILTER_VALIDATE_EMAIL))
+                    return redirect("manage/accounts");
+                $user = new User();
+                $user->username = $request->input("username");
+                $user->email = $request->input("email");
+                $user->password = bcrypt($request->input("password"));
+                $user->first_name = $request->input("firstName");
+                $user->last_name = $request->input("lastName");
+                $user->status = "active";
+                if($request->input("accountType") == "resident"){
+                    $user->type = $request->input("accountType");
+                    $user->training_level = $request->input("trainingLevel");
+                    $photoName = uniqid().".".$request->file("photo")->getExtension();
+                    $request->file("photo")->move("/public/photos/", $photoName);
+                    $user->photo_path = "photos/".$photoName;
+                } else if($request->input("accountType") == "fellow"){
+                    $user->type = "resident";
+                    $user->training_level = "fellow";
+                } else{
+                    $user->type = $request->input("accountType");
+                }
+                $user->save();
+                if($user->type == "resident")
+                    Mail::email_new_ruser($user->username, $request->input("password"), $user->first_name, $user->last_name, $user->email);
+                else
+                    Mail::email_new_fuser($user->username, $request->input("password"), $user->first_name, $user->last_name, $user->email);
+                return redirect("manage/accounts");
+                break;
+            case "edit":
+                $user = User::find($request->input("id"));
+                if(filter_var($request->input("email"), FILTER_VALIDATE_EMAIL))
+                    $user->email = $request->input("email");
+                $user->first_name = $request->input("firstName");
+                $user->last_name = $request->input("lastName");
+                if($user->type == "resident"){
+                    $user->training_level = $request->input("trainingLevel");
+                    if($request->hasFile("photo") && $request->file("photo")->isValid()){
+                        $photoName = uniqid().".".$request->file("photo")->getExtension();
+                        $request->file("photo")->move("/public/photos/", $photoName);
+                        unlink("/public/".$user->photo_path);
+                        $user->photo_path = "photos/".$photoName;
+                    }
+                }
+                $user->save();
+                return redirect("manage/accounts");
+                break;
+            case "enable":
+                $user = User::find($request->input("id"));
+                $user->status = "active";
+                $user->save();
+                return "true";
+                break;
+            case "disable":
+                $user = User::find($request->input("id"));
+                $user->status = "inactive";
+                $user->save();
+                return "true";
+                break;
+            case "password":
+                if($request->input("newPassword") == $request->input("newPassword2") && password_verify($request->input("adminPassword"), Auth::user()->password)){
+                    $user = User::find($request->input("id"));
+                    $user->password = bcrypt($request->input("newPassword"));
+                    $user->save();
+                }
+                return redirect("manage/accounts"); //TODO: errors
+                break;
+            case "to-faculty":
+                $user = User::find($request->input("id"));
+                if($user->type == "resident")
+                    $user->type = "faculty";
+                $user->save();
+                return redirect("manage/accounts");
+                break;
+            default:
+                return redirect("manage/accounts");
+                break;
+        }
+    }
+
     public function getAccounts($type){
-        
+        $results["data"] = [];
+        if($type == "fellow")
+            $users = User::where("type", "resident")->where("training_level", "fellow")->get();
+        elseif($type == "resident")
+            $users = User::where("type", "resident")->where("training_level", "!=", "fellow")->get();
+        else
+            $users = User::where("type", $type)->get();
+        foreach($users as $user){
+            $result = [];
+            $result[] = $user->last_name.", ".$user->first_name;
+            $result[] = $user->username;
+            $result[] = $user->email;
+            if($type == "resident")
+                $result[] = $user->training_level;
+            $result[] = $user->status;
+            $action = "<button class='editUser btn btn-info btn-xs' data-toggle='modal' data-target='.bs-edit-modal' data-type='{$type}' data-id='{$user->id}' data-username='{$user->username}' data-email='{$user->email}' data-first='{$user->first_name}' data-last='{$user->last_name}' data-trainingLevel='{$user->training_level}' data-photo='{$user->photo_path}' id='editBtn'><span class='glyphicon glyphicon-edit'></span> Edit</button>";
+			$action .= "<button class='editPassword btn btn-info btn-xs' data-toggle='modal' data-target='.bs-edit-password-modal' data-id='{$user->id}' id='editPasswordBtn'><span class='glyphicon glyphicon-edit'></span> Edit Password</button>";
+            if($type == "resident" || $type == "fellow")
+			         $action .= "<button class='residentToFaculty btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-resident-to-faculty-modal-sm' data-id='{$user->id}' data-name='{$user->first_name} {$user->last_name}' id='residentToFacultyBtn'><span class='glyphicon glyphicon-edit'></span> Change to Faculty</button>";
+            if($user->status == "inactive"){
+                $buttonClass = "enableUser";
+                $buttonType = "success";
+                $glyphicon = "ok";
+                $buttonText = "Enable";
+            } else{
+                $buttonClass = "disableUser";
+                $buttonType = "danger";
+                $glyphicon = "remove";
+                $buttonText = "Disable";
+            }
+			$action .= "<span class='enableDisableButton'><button class='{$buttonClass} btn btn-{$buttonType} btn-xs' data-id='{$user->id}'><span class='glyphicon glyphicon-{$glyphicon}'></span> {$buttonText}</button></span>";
+            $result[] = $action;
+            $results["data"][] = $result;
+        }
+        return json_encode($results);
     }
 
     public function forms(){

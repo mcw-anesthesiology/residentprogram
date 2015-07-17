@@ -58,6 +58,11 @@
 
 @section("script")
 	<script>
+		$(".table").on("click", ".cancelEval", function(){
+			var id = $(this).data("id");
+			$(".modal-cancel #id").val(id);
+		});
+
 		$(document).ready(function(){
 			var data = {};
 			data._token = "{{ csrf_token() }}";

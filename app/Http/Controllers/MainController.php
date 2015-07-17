@@ -60,7 +60,7 @@ class MainController extends Controller
         //$assignments = Block::where("id", $blockId)->assignments();
         $residents = User::where("type", "resident")->get();
         $faculty = User::where("type", "faculty")->get();
-        $forms = Form::all();
+        $forms = Form::where("status", "active")->get();
 
         return view("evaluations.request-block", compact("user", "block", "residents", "faculty", "forms"));
     }
@@ -87,6 +87,15 @@ class MainController extends Controller
         $evaluation = Evaluation::find($id);
 
         return view("evaluations.evaluation", compact("user", "residents", "evaluation"));
+    }
+
+    public function cancelEvaluation(Request $request){
+        $eval = Evaluation::find($request->input("id"));
+        if($eval->requestor == Auth::user()){
+            $eval->status = "canceled by ".$eval->requestor->type;
+        }
+        $eval->save();
+        return redirect("dashboard");
     }
 
     public function saveEvaluation(Request $request, $id){

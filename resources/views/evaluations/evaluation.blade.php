@@ -22,14 +22,10 @@
 				<tr>
 					<td>{{ $evaluation->id }}</td>
 					<td>{{ $evaluation->subject->last_name }}, {{ $evaluation->subject->first_name }}</td>
-				@if($evaluation->status == "complete")
 					<td>{{ $evaluation->evaluator->last_name }}, {{ $evaluation->evaluator->first_name }}</td>
-				@endif
 					<td>{{ $evaluation->request_date }}</td>
-				@if($evaluation->status == "complete")
 					<td>{{ $evaluation->complete_date }}</td>
 					<td>{{ $evaluation->status }}</td>
-				@endif
 					<td>{{ $evaluation->training_level }}</td>
 				</tr>
 			</tbody>

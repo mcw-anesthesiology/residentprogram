@@ -39,10 +39,18 @@
 	<div id="test">
 
 	</div>
+
+	@include("dashboard.modals")
+
 @stop
 
 @section("script")
 	<script>
+		$(".table").on("click", ".cancelEval", function(){
+			var id = $(this).data("id");
+			$(".modal-cancel #id").val(id);
+		});
+
 		$(document).ready(function(){
 			var data = {};
 			data.type = "pending";
@@ -72,15 +80,6 @@
 				"dom": "lfprtip",
 				"createdRow": function(row, data, index){
 					$("td", row).addClass("view");
-				}
-			});
-
-			$.ajax({
-				"url": "dashboard/evaluations",
-				"data": data,
-				"method": "post",
-				success: function(response){
-					console.log(response);
 				}
 			});
 		});

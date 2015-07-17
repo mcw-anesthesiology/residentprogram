@@ -21,6 +21,7 @@ Route::get("dashboard", "MainController@dashboard");
 Route::get("dashboard/evaluations", "MainController@evaluations");
 Route::post("dashboard/evaluations", "MainController@evaluations");
 
+Route::post("evaluation/cancel", "MainController@cancelEvaluation");
 Route::get("evaluation/{id}", "MainController@evaluation");
 Route::post("evaluation/{id}", "MainController@saveEvaluation");
 
@@ -33,6 +34,8 @@ Route::get("manage/evaluations", "ManageController@evaluations");
 Route::get("manage/evaluations/get", "ManageController@getEvaluations");
 Route::post("manage/evaluations/{id}", "ManageController@editEvaluation");
 Route::get("manage/accounts", "ManageController@accounts");
+Route::get("manage/accounts/get/{type}", "ManageController@getAccounts");
+Route::post("manage/accounts/{action}", "ManageController@account");
 // Route::post("manage/accounts", "ManageController@accounts");
 Route::get("manage/forms", "ManageController@forms");
 Route::get("manage/forms/get", "ManageController@getForms");
