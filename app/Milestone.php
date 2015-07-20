@@ -13,4 +13,8 @@ class Milestone extends Model
     public function forms(){
         return $this->belongsToMany("App\Form", "milestones_questions");
     }
+
+    public function milestonesQuestions(){
+        return $this->hasMany("App\MilestonesQuestions");
+    }
 }

@@ -27,43 +27,42 @@ class MainController extends Controller
 {
     public function __construct(){
         $this->middleware("auth");
+        $this->middleware("shared");
     }
 
     public function dashboard(){
         $user = Auth::user();
-        $residents = User::where("type", "resident")->get(); //TODO: abstract this, residents only get themselves
         if($user->type == "faculty"){
             $mentees = $user->mentees->where("status", "active")->unique();
         }
-        $data = compact("user", "residents", "mentees");
+        $data = compact("mentees");
         return view("dashboard.".$user->type, $data);
     }
 
     public function request(){
-        $user = Auth::user();
-
-        $residents = User::where("type", "resident")->get();
         $blocks = Block::all();
-
         $selectTypes = [
             "resident" => "faculty",
             "faculty" => "residents",
             "admin" => "users"
         ];
 
-        return view("evaluations.request", compact("user", "residents", "blocks", "selectTypes"));
+        $data = compact("blocks", "selectTypes");
+
+        return view("evaluations.request", $data);
     }
 
     public function requestBlock(Request $request){
-        $user = Auth::user();
-
+        //TODO: schedule-based
         //$blockId = $request->input("block");
         //$assignments = Block::where("id", $blockId)->assignments();
         $residents = User::where("type", "resident")->get();
         $faculty = User::where("type", "faculty")->get();
         $forms = Form::where("status", "active")->get();
 
-        return view("evaluations.request-block", compact("user", "block", "residents", "faculty", "forms"));
+        $data = compact("user", "block", "residents", "faculty", "forms");
+
+        return view("evaluations.request-block", $data);
     }
 
     public function createRequest(Request $request){
@@ -83,11 +82,9 @@ class MainController extends Controller
     }
 
     public function evaluation(Request $request, $id){
-        $user = Auth::user();
-        $residents = User::where("type", "resident")->get();
         $evaluation = Evaluation::find($id);
 
-        return view("evaluations.evaluation", compact("user", "residents", "evaluation"));
+        return view("evaluations.evaluation", compact("evaluation"));
     }
 
     public function cancelEvaluation(Request $request){
@@ -203,10 +200,7 @@ class MainController extends Controller
     }
 
     public function user(){
-        $user = Auth::user();
-        $residents = User::where("type", "resident")->get();
-        $data = compact("user", "residents");
-        return view("dashboard.user", $data);
+        return view("dashboard.user");
     }
 
     public function saveUser(Request $request){
@@ -219,10 +213,7 @@ class MainController extends Controller
     }
 
     public function contact(){
-        $user = Auth::user();
-        $residents = User::where("type", "resident")->get();
-        $data = compact("user", "residents");
-        return view("dashboard.contact", $data);
+        return view("dashboard.contact");
     }
 
     public function saveContact(Request $request){

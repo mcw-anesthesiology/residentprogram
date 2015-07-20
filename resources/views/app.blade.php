@@ -71,11 +71,11 @@
 			        @endif
 			          <li><a class="viewSpecRpt pointer" data-toggle="modal" data-target=".bs-specRpt-modal" id="viewSpecRpt">Generate Specific</a></li>
 					@if($user->type == "admin")
-					  <li><a href="view_needs_evaluations_report">Needs Evaluations</a></li>
-					  <li><a href="faculty_stats">Faculty Statistics</a></li>
-					  <li><a href="resident_stats">Resident Statistics</a></li>
-			          <li><a href="fellow_stats">Fellow Statistics</a></li>
-					  <li><a href="milestones_competencies_forms_report">Milestones/Competencies - Forms</a></li>
+					  <li><a href="/report/needs-eval">Needs Evaluations</a></li>
+					  <li><a href="/report/faculty">Faculty Statistics</a></li>
+					  <li><a href="/report/resident">Resident Statistics</a></li>
+			          <li><a href="/report/fellow">Fellow Statistics</a></li>
+					  <li><a href="/report/milestones-competencies-forms">Milestones/Competencies - Forms</a></li>
 			        @endif
 			        </ul>
 			      </li>
@@ -115,7 +115,8 @@
 		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		        <h4 class="modal-title" id="myModalAggRpt">Generate Aggregate Report</h4>
 		      </div>
-		      <form class="report" method="post" action="view_aggregate_report">
+		      <form class="report" method="post" action="/report/aggregate">
+				  {!! csrf_field() !!}
 		        <div class="modal-body modal-aggRpt report-options">
 		          <div class="form-group">
 		            <label for="startDate">Start Date:</label>
@@ -161,26 +162,30 @@
 		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		        <h4 class="modal-title" id="myModalSpecRpt">Generate Specific Report</h4>
 		      </div>
-		      <form class="report" method="post" action="view_specific_report">
+		      <form class="report" method="post" action="/report/specific">
+				  {!! csrf_field() !!}
 		        <div class="modal-body">
 		          <div class="modal-specRpt">
 		              <div class="form-group">
-		                <label for="resident">Resident</label>
-		                <select class="form-control" name="resident">
-		                    <option value="-1">-- Select Resident --</option>
-		                    @foreach($residents as $resident){
-		                        <option value="{{ $resident->username }}">{{ $resident->last_name }}, {{ $resident->first_name }}</option>
-		                    @endforeach
-		                </select>
-		               </div>
-		            @if($user->type == "resident")
-		                <div class="form-group">
-		                    <label for="resident">Resident</label>
-		                    <select class="form-control" name="resident">
-		                        <option value="{{ $user->username }}">{{ $user->last_name }}, {{ $user->first_name }}</option>
-		                    </select>
-		                </div>
-		            @endif
+		            @if($user->type == "faculty")
+						<label for="resident">Resident</label>
+						<select class="form-control" name="resident">
+							<option value="-1">-- Select Resident --</option>
+							@foreach($user->mentees as $resident){
+								<option value="{{ $resident->username }}">{{ $resident->last_name }}, {{ $resident->first_name }}</option>
+							@endforeach
+						</select>
+					   </div>
+					@elseif($user->type == "admin")
+						<label for="resident">Resident</label>
+						<select class="form-control" name="resident">
+							<option value="-1">-- Select Resident --</option>
+							@foreach($residents as $resident){
+								<option value="{{ $resident->username }}">{{ $resident->last_name }}, {{ $resident->first_name }}</option>
+							@endforeach
+						</select>
+					   </div>
+					@endif
 		          </div>
 		          <div class="form-group" style="text-align: center;">
 		              <button type="button" class="btn" id="addNewSpecificReport">Add Report</button>

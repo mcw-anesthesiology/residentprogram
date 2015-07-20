@@ -60,6 +60,9 @@ Route::get("manage/mentors", "ManageController@mentors");
 Route::get("manage/mentors/get", "ManageController@getMentors");
 Route::post("manage/mentors/{action}", "ManageController@mentor");
 
+Route::get("/report/needs-eval", "ReportController@needsEvaluations");
+Route::get("/report/needs-eval/get", "ReportController@getNeedsEvaluations");
+
 
 // Route::controllers([
 // 	"auth" => "Auth\AuthController",

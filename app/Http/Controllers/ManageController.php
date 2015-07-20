@@ -27,14 +27,12 @@ class ManageController extends Controller
 {
     public function __construct(){
         $this->middleware("auth");
+        $this->middleware("shared");
         $this->middleware("type:admin");
     }
 
     public function evaluations(){
-        $user = Auth::user();
-        $residents = User::where("type", "resident")->get(); //TODO: abstract this, residents only get themselves
-        $data = compact("user", "residents");
-        return view("manage.evaluations", $data);
+        return view("manage.evaluations");
     }
 
     public function getEvaluations(){
@@ -115,10 +113,7 @@ class ManageController extends Controller
     }
 
     public function accounts(){
-        $user = Auth::user();
-        $residents = User::where("type", "resident")->get(); //TODO: abstract this, residents only get themselves
-        $data = compact("user", "residents");
-        return view("manage.accounts", $data);
+        return view("manage.accounts");
     }
 
     public function account(Request $request, $action){
@@ -242,10 +237,7 @@ class ManageController extends Controller
     }
 
     public function forms(){
-        $user = Auth::user();
-        $residents = User::where("type", "resident")->get(); //TODO: abstract this, residents only get themselves
-        $data = compact("user", "residents");
-        return view("manage.forms.all", $data);
+        return view("manage.forms.all");
     }
 
     public function getForms(Request $request){
@@ -408,18 +400,13 @@ class ManageController extends Controller
     }
 
     public function viewForm($id){
-        $user = Auth::user();
-        $residents = User::where("type", "resident")->get(); //TODO: abstract this, residents only get themselves
         $form = Form::find($id);
-        $data = compact("user", "residents", "form");
+        $data = compact("form");
         return view("manage.forms.view", $data);
     }
 
     public function milestonesCompetencies(){
-        $user = Auth::user();
-        $residents = User::where("type", "resident")->get(); //TODO: abstract this, residents only get themselves
-        $data = compact("user", "residents");
-        return view("manage.milestones-competencies", $data);
+        return view("manage.milestones-competencies");
     }
 
     public function getMilestones(){
@@ -505,10 +492,8 @@ class ManageController extends Controller
     }
 
     public function mentors(){
-        $user = Auth::user();
-        $residents = User::where("type", "resident")->get(); //TODO: abstract this, residents only get themselves
         $faculty = User::where("type", "faculty")->get();
-        $data = compact("user", "residents", "faculty");
+        $data = compact("faculty");
         return view("manage.mentors", $data);
     }
 
