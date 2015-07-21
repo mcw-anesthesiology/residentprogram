@@ -4,7 +4,9 @@
 	<style>
 		.n { background-color: pink !important; }
 		.y { background-color: lightgreen !important; }
-		td { border: solid 1px black; }
+		.glyphicon-ok { color: green !important; }
+		.glyphicon-remove { color: red !important; }
+		td { border: solid 1px black; text-align: center; }
 	</style>
 @stop
 
@@ -19,16 +21,20 @@
 			</tr>
 		</thead>
 	</table>
+
+	<form style="text-align: center;" method="get" target="_blank" action="/report/needs-eval/tsv">
+		<button class="btn btn-default" type="submit">Export TSV</button>
+	</form>
 @stop
 
 @section("script")
 	<script>
 		var table = $(".datatable").DataTable({
-			"ajax": "/manage/needs-eval/get",
+			"ajax": "/report/needs-eval/get",
 			"paging": false,
 			"scrollX": true,
 			"scrollY": "700px",
-			"scrollCollapse": true
+			"scrollCollapse": true,
 		});
 		new $.fn.DataTable.FixedColumns(table);
 	</script>
