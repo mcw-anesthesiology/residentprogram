@@ -60,9 +60,15 @@ Route::get("manage/mentors", "ManageController@mentors");
 Route::get("manage/mentors/get", "ManageController@getMentors");
 Route::post("manage/mentors/{action}", "ManageController@mentor");
 
-Route::get("/report/needs-eval", "ReportController@needsEvaluations");
-Route::get("/report/needs-eval/get", "ReportController@getNeedsEvaluationsJSON");
-Route::get("/report/needs-eval/tsv", "ReportController@getNeedsEvaluationsTSV");
+Route::post("report/export", "ReportController@getTSV");
+Route::get("report/needs-eval", "ReportController@needsEvaluations");
+Route::get("report/needs-eval/get", "ReportController@getNeedsEvaluationsJSON");
+Route::get("report/needs-eval/tsv", "ReportController@getNeedsEvaluationsTSV");
+Route::get("report/milestones-competencies-forms", "ReportController@milestonesCompetenciesForms");
+Route::get("report/milestones-competencies-forms/{type}", "ReportController@getMilestonesCompetenciesForms");
+Route::get("report/{type}", "ReportController@stats");
+Route::post("report/{type}", "ReportController@getStats");
+
 
 
 // Route::controllers([

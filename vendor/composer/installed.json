@@ -3013,5 +3013,48 @@
             "testing",
             "tests"
         ]
+    },
+    {
+        "name": "szymach/c-pchart",
+        "version": "1.1.3",
+        "version_normalized": "1.1.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/szymach/c-pchart.git",
+            "reference": "90d2d0a35be7457cbb9c6daa4c3c2b2b61277a34"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/szymach/c-pchart/zipball/90d2d0a35be7457cbb9c6daa4c3c2b2b61277a34",
+            "reference": "90d2d0a35be7457cbb9c6daa4c3c2b2b61277a34",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "time": "2014-10-26 10:01:11",
+        "type": "project",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "CpChart\\": "src/"
+            },
+            "files": [
+                "src/Resources/data/constants.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "description": "Port of \"pChart\" library into PHP5 standards with composer.phar support.",
+        "homepage": "https://github.com/szymach/c-pchart",
+        "keywords": [
+            "c-pChart",
+            "charts",
+            "composer",
+            "pchart",
+            "statistics"
+        ]
     }
 ]

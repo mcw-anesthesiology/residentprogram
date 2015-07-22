@@ -42,15 +42,15 @@
 			    <div class="navbar-collapse collapse">
 			      <ul class="nav navbar-nav navbar-right">
 
-			        @if($user->type == "faculty")
+			        @if(Auth::user()->type == "faculty")
 			            <li><a href="/request">Create Evaluation</a></li>
 			            <li><a href="/dashboard">View Evaluation</a></li>
-			        @elseif($user->type == "resident")
+			        @elseif(Auth::user()->type == "resident")
 			            <li><a href="/request">Request Evaluation</a></li>
 			            <li><a href="/dashboard">View Evaluation</a></li>
 			        @endif
 
-			      @if($user->type == "admin")
+			      @if(Auth::user()->type == "admin")
 			      <li><a href="/request">Request Evaluation</a></li>
 			      <li class="dropdown">
 			        <a href="#" data-toggle="dropdown">Manage<b class="caret"></b></a>
@@ -66,11 +66,11 @@
 			      <li class="dropdown">
 			        <a href="#" data-toggle="dropdown">Reports<b class="caret"></b></a>
 			        <ul class="dropdown-menu">
-					@if($user->type == "admin")
+					@if(Auth::user()->type == "admin")
 			          <li><a class="viewAggRpt pointer" data-toggle="modal" data-target=".bs-aggRpt-modal" id="viewAggRpt">Generate Aggregate</a></li>
 			        @endif
 			          <li><a class="viewSpecRpt pointer" data-toggle="modal" data-target=".bs-specRpt-modal" id="viewSpecRpt">Generate Specific</a></li>
-					@if($user->type == "admin")
+					@if(Auth::user()->type == "admin")
 					  <li><a href="/report/needs-eval">Needs Evaluations</a></li>
 					  <li><a href="/report/faculty">Faculty Statistics</a></li>
 					  <li><a href="/report/resident">Resident Statistics</a></li>
@@ -82,10 +82,10 @@
 
 			        <li class="dropdown">
 			          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-			              Welcome, {{ ucfirst($user->first_name) }} {{ucfirst($user->last_name)}}
-			    		@if($user->type == "faculty")
-			    			 @if($user->evaluatorEvaluations->where("status", "pending")->count() > 0)
-			    				<span class="badge">{{ $user->evaluatorEvaluations->where("status", "pending")->count() }}</span>
+			              Welcome, {{ ucfirst(Auth::user()->first_name) }} {{ucfirst(Auth::user()->last_name)}}
+			    		@if(Auth::user()->type == "faculty")
+			    			 @if(Auth::user()->evaluatorEvaluations->where("status", "pending")->count() > 0)
+			    				<span class="badge">{{ Auth::user()->evaluatorEvaluations->where("status", "pending")->count() }}</span>
 			                 @endif
 			            @endif
 			              <b class="caret"></b>
@@ -167,16 +167,16 @@
 		        <div class="modal-body">
 		          <div class="modal-specRpt">
 		              <div class="form-group">
-		            @if($user->type == "faculty")
+		            @if(Auth::user()->type == "faculty")
 						<label for="resident">Resident</label>
 						<select class="form-control" name="resident">
 							<option value="-1">-- Select Resident --</option>
-							@foreach($user->mentees as $resident){
+							@foreach(Auth::user()->mentees as $resident){
 								<option value="{{ $resident->username }}">{{ $resident->last_name }}, {{ $resident->first_name }}</option>
 							@endforeach
 						</select>
 					   </div>
-					@elseif($user->type == "admin")
+					@elseif(Auth::user()->type == "admin")
 						<label for="resident">Resident</label>
 						<select class="form-control" name="resident">
 							<option value="-1">-- Select Resident --</option>

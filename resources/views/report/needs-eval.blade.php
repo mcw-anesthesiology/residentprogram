@@ -6,7 +6,7 @@
 		.y { background-color: lightgreen !important; }
 		.glyphicon-ok { color: green !important; }
 		.glyphicon-remove { color: red !important; }
-		td { border: solid 1px black; text-align: center; }
+		td { text-align: center; }
 	</style>
 @stop
 
@@ -35,6 +35,10 @@
 			"scrollX": true,
 			"scrollY": "700px",
 			"scrollCollapse": true,
+			"columnDefs": [{
+				"targets": 0,
+				"cellType": "th"
+			}]
 		});
 		new $.fn.DataTable.FixedColumns(table);
 	</script>

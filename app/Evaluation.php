@@ -23,6 +23,8 @@ class Evaluation extends Model
         "complete_ip"
     ];
 
+    protected $dates = ["created_at", "updated_at", "request_date", "complete_date", "evaluation_date", "archive_date"];
+
     public function evaluator(){
         return $this->belongsTo("App\User", "evaluator_id");
     }

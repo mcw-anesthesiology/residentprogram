@@ -27,6 +27,7 @@ return array(
     'Illuminate\\' => array($vendorDir . '/laravel/framework/src/Illuminate'),
     'Faker\\' => array($vendorDir . '/fzaninotto/faker/src/Faker'),
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
+    'CpChart\\' => array($vendorDir . '/szymach/c-pchart/src'),
     'ClassPreloader\\' => array($vendorDir . '/classpreloader/classpreloader/src'),
     'App\\' => array($baseDir . '/app'),
 );

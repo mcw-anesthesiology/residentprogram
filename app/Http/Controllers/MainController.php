@@ -76,7 +76,7 @@ class MainController extends Controller
         $request->requested_by_id = $user->id;
         $request->status = "pending";
         $request->request_date = Carbon::now();
-        $request->request_ip = $_SERVER["REMOTE_ADDR"];
+        $request->request_ip = $request->ip();
         $request->save();
         return redirect("dashboard");
     }
@@ -103,7 +103,7 @@ class MainController extends Controller
                 $eval->status = "complete";
                 $eval->complete_date = Carbon::now();
             }
-            $eval->complete_ip = $_SERVER["REMOTE_ADDR"];
+            $eval->complete_ip = $request->ip();
             $eval->evaluation_date = $request->input("evaluation_date");
 
             $input = $request->all();
