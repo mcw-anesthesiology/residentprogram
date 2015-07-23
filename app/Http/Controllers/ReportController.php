@@ -98,7 +98,7 @@ class ReportController extends Controller
             ->where("users.type", "resident")
             ->where("evaluations.status", "complete")
             ->where("evaluations.request_date", "<", Carbon::now())
-            ->where("evaluations.request_date", ">", Carbon::now()->subMonths(6))
+            ->where("evaluations.request_date", ">", Carbon::now()->subMonths(6)) //TODO: what
             ->select("subject_id", "milestone_id")
             ->orderBy("milestone_id", "asc")
             ->chunk(200, function($responses) use (&$results){
@@ -197,5 +197,162 @@ class ReportController extends Controller
         }
 
         return json_encode($results);
+    }
+
+    function sd_square($x, $mean) {
+	// Function to calculate square of value - mean
+		return pow($x - $mean,2);
+	}
+
+
+	function sd($array) {
+	// Function to calculate standard deviation (uses sd_square)
+
+		// square root of sum of squares devided by N-1
+		return sqrt(array_sum(array_map("sd_square", $array, array_fill(0,count($array), (array_sum($array) / count($array)) ) ) ) / (count($array)-1) );
+	}
+
+    public function aggregate(Request $request){
+        $startDate = Carbon::parse($request->input("startDate"));
+        $startDate->timezone = "America/Chicago";
+        $endDate = Carbon::parse($request->input("endDate"));
+        $endDate->timezone = "America/Chicago";
+
+        // $redStd = 1;
+        // $yellowStd = 0.75;
+        // $greenStd = 0.5;
+
+        $query = DB::table("responses")
+            ->join("evaluations", "evaluations.id", "=", "evaluation_id")
+            ->join("milestones_questions", function($join){
+                $join->on("milestones_questions.question_id", "=", "responses.question_id")
+                    ->on("milestones_questions.form_id", "=", "evaluations.form_id");
+            })
+            ->join("milestones", "milestones.id", "=", "milestones_questions.milestone_id")
+            ->join("competencies_questions", function($join){
+                $join->on("competencies_questions.question_id", "=", "responses.question_id")
+                    ->on("competencies_questions.form_id", "=", "evaluations.form_id");
+            })
+            ->join("competencies", "competencies.id", "=", "competencies_questions.competency_id")
+            ->join("users", "users.id", "=", "evaluations.subject_id")
+            // ->where("users.status", "active")
+            ->where("users.type", "resident")
+            ->where("evaluations.status", "complete")
+            ->where("evaluations.evaluation_date", ">", $startDate)
+            ->where("evaluations.evaluation_date", "<", $endDate);
+
+        if($request->input("trainingLevel") != "all")
+            $query->where("users.training_level", $request->input("trainingLevel"));
+
+        $averageMilestone = [];
+        $averageMilestoneDenom = [];
+        $milestoneStd = [];
+        $averageCompetency = [];
+        $averageCompetencyDenom = [];
+        $competencyStd = [];
+
+        $subjectMilestone = [];
+        $subjectMilestoneDenom = [];
+        $subjectCompetency = [];
+        $subjectCompetencyDenom = [];
+
+        $milestones = [];
+        $competencies = [];
+        $subjectRequests = [];
+        $competencyQuestions = [];
+
+        $subjects = $query->select("subject_id")->get();
+        foreach($subjects as $subject){
+            $subjectRequests[$subject->subject_id] = 0;
+        }
+
+        $query->select("milestone_id")->get()->each(function($response, $key) use(&$averageMilestone, &$averageMilestoneDenom){
+            $averageMilestone[$response->milestone_id] = 0;
+            $averageMilestoneDenom[$response->milestone_id] = 0;
+            foreach($subjects as $subject){
+                $subjectMilestone[$subject->subject_id][$response->milestone_id] = 0;
+                $subjectMilestoneDenom[$subject->subject_id][$response->milestone_id] = 0;
+            }
+        });
+
+        $query->select("competency_id")->get()->each(function($response, $key) use(&$averageCompetency, &$averageCompetencyDenom){
+            $averageCompetency[$response->competency_id] = 0;
+            $averageCompetencyDenom[$response->competency_id] = 0;
+            foreach($subjects as $subject){
+                $subjectCompetency[$subject->subject_id][$response->competency_id] = 0;
+                $subjectCompetencyDenom[$subject->subject_id][$response->competency_id] = 0;
+            }
+        });
+
+        $subjects = [];
+
+        $query->select("milestone_id", "milestones.title as milestone_title", "competency_id", "competencies.title as competency_title")
+            ->addSelect("subject_id", "first_name", "last_name", "evaluation_id", "response", "weight", "question_id");
+
+        $query->chunk(200, function($responses) use (&$milestones, &$subjects, &$milestones, &$competencies, &$subjectRequests, &$averageMilestone, &$averageMilestoneDenom, &$averageCompetency, &$averageCompetencyDenom, &$subjectMilestone, &$subjectMilestoneDenom, &$subjectCompetency, &$subjectCompetencyDenom, &$competencyQuestions){
+            foreach($responses as $response){
+                $subjects[$response->subject_id] = $response->last_name.", ".$response->first_name;
+                $subjectRequests[$response->subject_id]++;
+
+                $milestones[$response->milestone_id] = $response->milestone_title;
+                $averageMilestone[$response->milestone_id] += (floatval($response->response)*floatval($response->weight));
+                $averageMilestoneDenom[$response->milestone_id] += floatval($response->weight);
+                $subjectMilestone[$response->subject_id][$response->milestone_id] += (floatval($response->response)*floatval($response->weight));
+                $subjectMilestoneDenom[$response->subject_id][$response->milestone_id] += floatval($response->weight);
+
+                if($competencyQuestions[$response->evaluation_id][$response->question_id] == 1)
+                    continue;
+                $competencies[$response->competency_id] = $response->competency_title;
+                $averageCompetency[$response->competency_id] += (floatval($response->response)*floatval($response->weight));
+                $averageCompetencyDenom[$response->competency_id] += floatval($response->weight);
+                $subjectCompetency[$response->subject_id][$response->competency_id] += (floatval($response->response)*floatval($response->weight));
+                $subjectCompetencyDenom[$response->subject_id][$response->competency_id] += floatval($response->weight);
+            }
+        });
+
+        foreach($milestones as $milestone => $title){
+            if($averageMilestoneDenom[$milestone]){
+                $averageMilestone[$milestone] = $averageMilestone[$milestone]/$averageMilestoneDenom[$milestone];
+            } else {
+                $averageMilestone[$milestone] = 0;
+
+            }
+
+            foreach($subjects as $subject => $name){
+                if($subjectMilestoneDenom[$subject][$milestone])
+                    $subjectMilestone[$subject][$milestone] = $milestoneSubject[$milestone][$subject] = $subjectMilestone[$subject][$milestone]/$subjectMilestoneDenom[$subject][$milestone];
+                else
+                    $subjectMilestone[$subject][$milestone] = $milestoneSubject[$milestone][$subject] = 0;
+            }
+            $milestoneStd[$milestone] = sd($milestoneSubject[$milestone]);
+            foreach($subjects as $subject => $name){
+                $subjectMilestoneDeviations[$subject][$milestone] = round(($subjectMilestone[$subject][$milestone]-$averageMilestone[$milestone])/$milestoneStd[$milestone]);
+            }
+        }
+
+        foreach($competencies as $competency => $title){
+            if($averageCompetencyDenom[$competency])
+                $averageCompetency[$competency] = $averageCompetency[$competency]/$averageCompetencyDenom[$competency];
+            else
+                $averageCompetency[$competency] = 0;
+
+            foreach($subjects as $subject => $name){
+                if($subjectCompetencyDenom[$subject][$competency])
+                    $subjectCompetency[$subject][$competency] = $competencySubject[$competency][$subject] = $subjectCompetency[$subject][$competency]/$subjectCompetencyDenom[$subject][$competency];
+                else
+                    $subjectCompetency[$subject][$competency] = $competencySubject[$competency][$subject] = 0;
+
+
+            }
+            $competencyStd[$competency] = sd($competencySubject[$competency]);
+            foreach($subjects as $subject => $name){
+                $subjectCompetencyDeviations[$subject][$competency] = round(($subjectCompetency[$subject][$competency]-$averageCompetency[$competency])/$competencyStd[$competency]);
+            }
+        }
+
+    }
+
+    public function specific(Request $request){
+
     }
 }

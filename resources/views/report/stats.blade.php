@@ -12,8 +12,8 @@
 	<div class="form-group col-sm-8">
 		<select id="stats-user" class="form-control">
 			<option value="all">All {{ ucfirst($type) }}</option>
-			@foreach($users as $user)
-				<option value="{{ $user->id }}">{{ $user->last_name }}, {{ $user->first_name }}</option>
+			@foreach($users as $statUser)
+				<option value="{{ $statUser->id }}">{{ $statUser->last_name }}, {{ $statUser->first_name }}</option>
 			@endforeach
 		</select>
 	</div>

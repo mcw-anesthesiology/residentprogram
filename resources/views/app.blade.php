@@ -4,8 +4,8 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="description" content="">
-		<meta name="author" content="">
+		<meta name="description" content="Milestone and competency based evaluation system for health care professionals">
+		<meta name="author" content="Jacob Mischka">
 		<link rel="shortcut icon" href="/favicon.ico">
 
 		<title>Resident Program Evaluation System</title>
@@ -42,15 +42,15 @@
 			    <div class="navbar-collapse collapse">
 			      <ul class="nav navbar-nav navbar-right">
 
-			        @if(Auth::user()->type == "faculty")
+			        @if($user->type == "faculty")
 			            <li><a href="/request">Create Evaluation</a></li>
 			            <li><a href="/dashboard">View Evaluation</a></li>
-			        @elseif(Auth::user()->type == "resident")
+			        @elseif($user->type == "resident")
 			            <li><a href="/request">Request Evaluation</a></li>
 			            <li><a href="/dashboard">View Evaluation</a></li>
 			        @endif
 
-			      @if(Auth::user()->type == "admin")
+			      @if($user->type == "admin")
 			      <li><a href="/request">Request Evaluation</a></li>
 			      <li class="dropdown">
 			        <a href="#" data-toggle="dropdown">Manage<b class="caret"></b></a>
@@ -66,11 +66,11 @@
 			      <li class="dropdown">
 			        <a href="#" data-toggle="dropdown">Reports<b class="caret"></b></a>
 			        <ul class="dropdown-menu">
-					@if(Auth::user()->type == "admin")
+					@if($user->type == "admin")
 			          <li><a class="viewAggRpt pointer" data-toggle="modal" data-target=".bs-aggRpt-modal" id="viewAggRpt">Generate Aggregate</a></li>
 			        @endif
 			          <li><a class="viewSpecRpt pointer" data-toggle="modal" data-target=".bs-specRpt-modal" id="viewSpecRpt">Generate Specific</a></li>
-					@if(Auth::user()->type == "admin")
+					@if($user->type == "admin")
 					  <li><a href="/report/needs-eval">Needs Evaluations</a></li>
 					  <li><a href="/report/faculty">Faculty Statistics</a></li>
 					  <li><a href="/report/resident">Resident Statistics</a></li>
@@ -82,10 +82,10 @@
 
 			        <li class="dropdown">
 			          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-			              Welcome, {{ ucfirst(Auth::user()->first_name) }} {{ucfirst(Auth::user()->last_name)}}
-			    		@if(Auth::user()->type == "faculty")
-			    			 @if(Auth::user()->evaluatorEvaluations->where("status", "pending")->count() > 0)
-			    				<span class="badge">{{ Auth::user()->evaluatorEvaluations->where("status", "pending")->count() }}</span>
+			              Welcome, {{ ucfirst($user->first_name) }} {{ucfirst($user->last_name)}}
+			    		@if($user->type == "faculty")
+			    			 @if($user->evaluatorEvaluations->where("status", "pending")->count() > 0)
+			    				<span class="badge">{{ $user->evaluatorEvaluations->where("status", "pending")->count() }}</span>
 			                 @endif
 			            @endif
 			              <b class="caret"></b>
@@ -167,16 +167,16 @@
 		        <div class="modal-body">
 		          <div class="modal-specRpt">
 		              <div class="form-group">
-		            @if(Auth::user()->type == "faculty")
+		            @if($user->type == "faculty")
 						<label for="resident">Resident</label>
 						<select class="form-control" name="resident">
 							<option value="-1">-- Select Resident --</option>
-							@foreach(Auth::user()->mentees as $resident){
+							@foreach($user->mentees as $resident){
 								<option value="{{ $resident->username }}">{{ $resident->last_name }}, {{ $resident->first_name }}</option>
 							@endforeach
 						</select>
 					   </div>
-					@elseif(Auth::user()->type == "admin")
+					@elseif($user->type == "admin")
 						<label for="resident">Resident</label>
 						<select class="form-control" name="resident">
 							<option value="-1">-- Select Resident --</option>
@@ -280,9 +280,14 @@
 				var d = new Date();
 				var day = d.getDate();
 				day = ("0"+day).slice(-2); //converts possible D dates to DD format
-				var month = d.g;
-				day = ("0"+day).slice(-2);
-				month = d.getMont;
+				var month = d.getMonth()+1;
+				month = ("0"+month).slice(-2); //converts possible M months to MM format
+				var year = d.getFullYear();
+				var date = year+"-"+month+"-"+day;
+				$(this).parents(".report-options").find(".endDate").val(date);
+
+				d.setMonth(d.getMonth()-6);
+				day = d.getDate();
 				day = ("0"+day).slice(-2);
 				month = d.getMonth()+1;
 				month = ("0"+month).slice(-2);

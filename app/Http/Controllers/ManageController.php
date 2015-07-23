@@ -45,9 +45,9 @@ class ManageController extends Controller
             $result[] = $eval->evaluator->last_name.", ".$eval->evaluator->first_name;
             $result[] = $eval->requestor->last_name.", ".$eval->requestor->first_name;
             $result[] = $eval->form->title;
-            $result[] = $eval->request_date;
+            $result[] = $eval->request_date->toDateTimeString();
             if($eval->complete_date)
-                $result[] = $eval->complete_date;
+                $result[] = $eval->complete_date->toDateTimeString();
             else
                 $result[] = "";
 

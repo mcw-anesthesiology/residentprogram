@@ -60,6 +60,8 @@ Route::get("manage/mentors", "ManageController@mentors");
 Route::get("manage/mentors/get", "ManageController@getMentors");
 Route::post("manage/mentors/{action}", "ManageController@mentor");
 
+Route::post("report/aggregate", "ReportController@aggregate");
+Route::post("report/specific", "ReportController@specific");
 Route::post("report/export", "ReportController@getTSV");
 Route::get("report/needs-eval", "ReportController@needsEvaluations");
 Route::get("report/needs-eval/get", "ReportController@getNeedsEvaluationsJSON");

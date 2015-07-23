@@ -97,6 +97,7 @@ class MainController extends Controller
     }
 
     public function saveEvaluation(Request $request, $id){
+        $user = Auth::user();
         $eval = Evaluation::find($id);
         if($eval->status == "pending" && $eval->evaluator_id == $user->id){ //TODO: middleware
             if($request->input("evaluation_id")){
@@ -150,9 +151,9 @@ class MainController extends Controller
                 $result[] = $eval->subject->last_name.", ".$eval->subject->first_name;
                 $result[] = $eval->evaluator->last_name.", ".$eval->evaluator->first_name;
                 $result[] = $eval->form->title;
-                $result[] = $eval->request_date;
+                $result[] = $eval->request_date->toDateTimeString();
                 if($eval->complete_date)
-                    $result[] = $eval->complete_date;
+                    $result[] = $eval->complete_date->toDateTimeString();
                 else
                     $result[] = "";
                 if($eval->status == "complete")
@@ -183,9 +184,9 @@ class MainController extends Controller
                 else
                     $result[] = $eval->subject->last_name.", ".$eval->subject->first_name;
                 $result[] = $eval->form->title;
-                $result[] = $eval->request_date;
+                $result[] = $eval->request_date->toDateTimeString();
                 if($type == "complete" || $type == "mentor")
-                    $result[] = $eval->complete_date;
+                    $result[] = $eval->complete_date->toDateTimeString();
                 if($type == "pending" && $eval->requested_by_id == $user->id){
                     $result[] = "<button class='cancelEval btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-cancel-modal-sm' data-id='{$eval->id}'>".
                     "<span class='glyphicon glyphicon-remove'></span> Cancel</button>";
