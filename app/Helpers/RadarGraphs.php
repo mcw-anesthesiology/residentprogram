@@ -14,7 +14,8 @@ class RadarGraphs{
 
 		$milestoneData = $factory->newData();
 		$milestoneData->addPoints($averageMilestone, "Average");
-		$milestoneData->addPoints($subjectMilestone, "Resident");
+		if(!is_null($subjectMilestone))
+			$milestoneData->addPoints($subjectMilestone, "Resident");
 		$milestoneData->setSerieDescription("Resident", "Individual Performance");
 		$milestoneData->setSerieDescription("Average", "Average Resident Performance");
 		$milestoneData->setPalette("Resident", array("R"=>227, "G"=>0, "B"=>0));
@@ -24,7 +25,8 @@ class RadarGraphs{
 
 		$competencyData = $factory->newData();
 		$competencyData->addPoints($averageCompetency, "Average");
-		$competencyData->addPoints($subjectCompetency, "Resident");
+		if(!is_null($subjectCompetency))
+			$competencyData->addPoints($subjectCompetency, "Resident");
 		$competencyData->setSerieDescription("Resident", "Individual Performance");
 		$competencyData->setSerieDescription("Average", "Average Resident Performance");
 		$competencyData->setPalette("Resident", array("R"=>227, "G"=>0, "B"=>0));
@@ -48,7 +50,7 @@ class RadarGraphs{
 
 			$picture->setFontProperties(array("FontName"=>"verdana.ttf","FontSize"=>8));
 			$picture->drawText(10,13,$subject.": ".$trainingLevel." Milestones",array("R"=>255,"G"=>255,"B"=>255));
-			$picture->drawText(910,13,$subject.": "$trainingLevel." Competencies",array("R"=>255,"G"=>255,"B"=>255));
+			$picture->drawText(910,13,$subject.": ".$trainingLevel." Competencies",array("R"=>255,"G"=>255,"B"=>255));
 
 			$picture->drawLine(900, 0, 900, 600, array("R"=>255,"G"=>255,"B"=>255));
 

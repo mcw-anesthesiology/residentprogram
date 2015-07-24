@@ -142,7 +142,14 @@
 		            </select>
 		          </div>
 		          <div class="form-group" style="text-align: center;">
-					<input type="checkbox" id="graphs" name="graphs" value="yes" checked /><label for="graphs">Generate Graphs</label>
+					<label for="graphs_yes">Average Graphs Only</label>
+					<input type="radio" id="graphs_yes" name="graphs" value="average" checked />
+					<br />
+					<label for="graphs_all">All Graphs</label>
+					<input type="radio" id="graphs_all" name="graphs" value="all" />
+					<br />
+					<label for="graphs_none">No Graphs</label>
+					<input type="radio" id="graphs_none" name="graphs" value="none" />
 		          </div>
 		        </div>
 		        <div class="modal-footer">
@@ -172,7 +179,7 @@
 						<select class="form-control" name="resident">
 							<option value="-1">-- Select Resident --</option>
 							@foreach($user->mentees as $resident){
-								<option value="{{ $resident->username }}">{{ $resident->last_name }}, {{ $resident->first_name }}</option>
+								<option value="{{ $resident->id }}">{{ $resident->last_name }}, {{ $resident->first_name }}</option>
 							@endforeach
 						</select>
 					   </div>
@@ -181,7 +188,7 @@
 						<select class="form-control" name="resident">
 							<option value="-1">-- Select Resident --</option>
 							@foreach($residents as $resident){
-								<option value="{{ $resident->username }}">{{ $resident->last_name }}, {{ $resident->first_name }}</option>
+								<option value="{{ $resident->id }}">{{ $resident->last_name }}, {{ $resident->first_name }}</option>
 							@endforeach
 						</select>
 					   </div>
@@ -191,7 +198,7 @@
 		              <button type="button" class="btn" id="addNewSpecificReport">Add Report</button>
 		          </div>
 		          <div class="form-group" style="text-align: center;">
-					<input type="checkbox" id="graphs" name="graphs" value="yes" checked /><label for="graphs">Generate Graphs</label>
+					<input type="checkbox" id="graphs" name="graphs" value="all" checked /><label for="graphs">Generate Graphs</label>
 		          </div>
 		        </div>
 		        <div class="modal-footer">

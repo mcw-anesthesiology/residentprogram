@@ -214,10 +214,10 @@ class ReportController extends Controller
 		return sqrt(array_sum(array_map(array($this, "sd_square"), $array, array_fill(0,count($array), (array_sum($array) / count($array)) ) ) ) / (count($array)-1) );
 	}
 
-    public function aggregate(Request $request){
-        $startDate = Carbon::parse($request->input("startDate"));
+    public function report($startDate, $endDate, $trainingLevel, $graphOption, $reportSubject){
+        $startDate = Carbon::parse($startDate);
         $startDate->timezone = "America/Chicago";
-        $endDate = Carbon::parse($request->input("endDate"));
+        $endDate = Carbon::parse($endDate);
         $endDate->timezone = "America/Chicago";
 
         // $redStd = 1;
@@ -225,7 +225,7 @@ class ReportController extends Controller
         // $greenStd = 0.5;
 
         $query = DB::table("responses")
-            ->join("evaluations", "evaluations.id", "=", "evaluation_id")
+            ->join("evaluations", "evaluations.id", "=", "responses.evaluation_id")
             ->join("milestones_questions", function($join){
                 $join->on("milestones_questions.question_id", "=", "responses.question_id")
                     ->on("milestones_questions.form_id", "=", "evaluations.form_id");
@@ -243,8 +243,8 @@ class ReportController extends Controller
             ->where("evaluations.evaluation_date", ">", $startDate)
             ->where("evaluations.evaluation_date", "<", $endDate);
 
-        if($request->input("trainingLevel") != "all")
-            $query->where("users.training_level", $request->input("trainingLevel"));
+        if($trainingLevel != "all")
+            $query->where("users.training_level", $trainingLevel);
 
         $averageMilestone = [];
         $averageMilestoneDenom = [];
@@ -255,20 +255,24 @@ class ReportController extends Controller
 
         $subjectMilestone = [];
         $subjectMilestoneDenom = [];
+        $subjectMilestoneEvals = [];
         $subjectCompetency = [];
         $subjectCompetencyDenom = [];
+        $subjectCompetencyEvals = [];
 
         $milestones = [];
         $competencies = [];
-        $subjectRequests = [];
+        $subjectEvals = [];
         $competencyQuestions = [];
 
         $subjects = [];
-
-        $subjectModels = $query->select("subject_id", "first_name", "last_name")->get();
+        if(is_null($reportSubject))
+            $subjectModels = $query->select("subject_id", "first_name", "last_name")->get();
+        else
+            $subjectModels = User::find($reportSubject)->get();
         foreach($subjectModels as $subject){
             $subjects[$subject->subject_id] = $subject->last_name.", ".$subject->first_name;
-            $subjectRequests[$subject->subject_id] = 0;
+            $subjectEvals[$subject->subject_id] = 0;
         }
 
         // Initialize arrays to 0
@@ -278,6 +282,7 @@ class ReportController extends Controller
             foreach($subjects as $subject_id => $name){
                 $subjectMilestone[$subject_id][$response->milestone_id] = 0;
                 $subjectMilestoneDenom[$subject_id][$response->milestone_id] = 0;
+                $subjectMilestoneEvals[$subject_id][$response->milestone_id] = 0;
             }
         };
 
@@ -287,16 +292,19 @@ class ReportController extends Controller
             foreach($subjects as $subject_id => $name){
                 $subjectCompetency[$subject_id][$response->competency_id] = 0;
                 $subjectCompetencyDenom[$subject_id][$response->competency_id] = 0;
+                $subjectCompetencyEvals[$subject_id][$response->competency_id] = 0;
             }
         };
 
         $query->select("milestone_id", "milestones.title as milestone_title", "competency_id", "competencies.title as competency_title")
             ->addSelect("subject_id", "evaluation_id", "response", "weight", "responses.question_id as question_id");
 
-        $query->chunk(200, function($responses) use (&$milestones, &$subjects, &$milestones, &$competencies, &$subjectRequests, &$averageMilestone, &$averageMilestoneDenom, &$averageCompetency, &$averageCompetencyDenom, &$subjectMilestone, &$subjectMilestoneDenom, &$subjectCompetency, &$subjectCompetencyDenom, &$competencyQuestions){
+        $query->chunk(200, function($responses) use (&$milestones, &$subjects, &$milestones, &$competencies, &$subjectEvals, &$averageMilestone, &$averageMilestoneDenom, &$averageCompetency, &$averageCompetencyDenom, &$subjectMilestone, &$subjectMilestoneDenom, &$subjectMilestoneEvals, &$subjectCompetency, &$subjectCompetencyDenom, &$subjectCompetencyEvals, &$competencyQuestions){
             foreach($responses as $response){
                 // $subjects[$response->subject_id] = $response->last_name.", ".$response->first_name;
-                $subjectRequests[$response->subject_id]++;
+                $subjectEvals[$response->subject_id]++;
+                $subjectMilestoneEvals[$response->subject_id][$response->milestone_id]++;
+                $subjectCompetencyEvals[$response->subject_id][$response->competency_id]++;
 
                 // Weighted average = sum(response*weight)/sum(weight)
                 $milestones[$response->milestone_id] = $response->milestone_title;
@@ -333,7 +341,7 @@ class ReportController extends Controller
             $milestoneStd[$milestone] = $this->sd($milestoneSubject[$milestone]);
             foreach($subjects as $subject => $name){
                 // Num standard deviations = ((subject weighted average)-(milestone weighted average))/(standard deviation of subject averages)
-                $subjectMilestoneDeviations[$subject][$milestone] = round(($subjectMilestone[$subject][$milestone]-$averageMilestone[$milestone])/$milestoneStd[$milestone]);
+                $subjectMilestoneDeviations[$subject][$milestone] = ($subjectMilestone[$subject][$milestone]-$averageMilestone[$milestone])/$milestoneStd[$milestone];
             }
         }
 
@@ -355,19 +363,78 @@ class ReportController extends Controller
             $competencyStd[$competency] = $this->sd($competencySubject[$competency]);
             foreach($subjects as $subject => $name){
                 // Num standard deviations = ((subject weighted average)-(competency weighted average))/(standard deviation of subject averages)
-                $subjectCompetencyDeviations[$subject][$competency] = round(($subjectCompetency[$subject][$competency]-$averageCompetency[$competency])/$competencyStd[$competency]);
+                $subjectCompetencyDeviations[$subject][$competency] = ($subjectCompetency[$subject][$competency]-$averageCompetency[$competency])/$competencyStd[$competency];
             }
         }
 
         $graphs = [];
         $maxResponse = 10; // assuming
-        foreach($subjects as $subject => $subject_name){
-            $graphs[] = RadarGraphs::draw($subjectMilestone[$subject], $averageMilestone, $milestones, $subjectCompetency[$subject], $averageCompetency, $competencies, $subject_name, $request->input("trainingLevel"), $maxResponse);
+        switch($graphOption){
+            case "all":
+                foreach($subjects as $subject => $subject_name){
+                    $graphs[] = RadarGraphs::draw($subjectMilestone[$subject], $averageMilestone, $milestones, $subjectCompetency[$subject], $averageCompetency, $competencies, $subject_name, $trainingLevel, $maxResponse);
+                }
+                break;
+            case "average":
+                $graphs[] = RadarGraphs::draw(null, $averageMilestone, $milestones, null, $averageCompetency, $competencies, "Average", $trainingLevel, $maxResponse);
+                break;
         }
 
+        $data = compact("milestones", "competencies", "subjectMilestone", "subjectMilestoneDeviations", "subjectMilestoneEvals", "subjectCompetency", "subjectCompetencyDeviations", "subjectCompetencyEvals", "subjectEvals", "graphs", "subjects");
+
+        if(!is_null($reportSubject)){
+            $subjectTextResponses = [];
+
+            $textQuery = DB::table("text_responses")
+                ->join("evaluations", "evaluations.id", "=", "evaluation_id")
+                ->join("users as evaluators", "users.id", "=", "evaluations.evaluator_id")
+                ->where("users.type", "resident")
+                ->where("evaluations.status", "complete")
+                ->where("evaluations.evaluation_date", ">", $startDate)
+                ->where("evaluations.evaluation_date", "<", $endDate)
+                ->whereIn("evaluations.subject_id", array_keys($subjects));
+
+            if($trainingLevel != "all")
+                $textQuery->where("users.training_level", $trainingLevel);
+
+            $textQuery->select("subject_id", "first_name", "last_name", "response");
+
+            $textQuery->chunk(200, function($response) use (&$subjectTextResponses){
+                $subjectTextResponses[$subject_id][$response->last_name.", ".$response->first_name][] = $response->response;
+            });
+
+            $data["subjectTextResponses"] = $subjectTextResponses;
+        }
+
+        return $data;
+    }
+
+    public function aggregate(Request $request){
+        $data = $this->report($request->input("startDate"), $request->input("endDate"), $request->input("trainingLevel"), $request->input("graphs"), null);
+        $data["reportType"] = "aggregate";
+
+        return view("report.report", $data);
     }
 
     public function specific(Request $request){
+        $data = [];
 
+        $input = $request->all();
+        foreach($input as $key => $value){
+            if(strpos($key, "startDate") !== FALSE){
+                $startDates[] = $value;
+            } elseif(strpos($key, "endDate") !== FALSE){
+                $endDates[] = $value;
+            } elseif(strpos($key, "trainingLevel") !== FALSE){
+                $trainingLevels[] = $value;
+            }
+        }
+
+        for($i = 0; $i < count($startDates); $i++){
+            $data = array_merge_recursive($data, $this->report($startDates[$i], $endDates[$i], $trainingLevels[$i], $request->input("graphs"), $request->input("resident")));
+        }
+
+        $data["reportType"] = "specific";
+        return view("report.report", $data);
     }
 }
