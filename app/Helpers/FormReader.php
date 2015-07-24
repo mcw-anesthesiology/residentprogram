@@ -111,7 +111,7 @@ class FormReader{
 		$questionHasDescriptions = false;
 		$result = "";
 
-		$formLocation = storage_path("app")."/".$formPath;
+		$formLocation = storage_path("app/".$formPath);
 		$formParser = xml_parser_create();
 		xml_parser_set_option($formParser, XML_OPTION_CASE_FOLDING, false);
 		xml_set_element_handler($formParser, array("App\Helpers\FormReader", "startElement"), array("App\Helpers\FormReader", "endElement"));

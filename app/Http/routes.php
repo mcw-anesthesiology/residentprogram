@@ -35,6 +35,8 @@ Route::post("user", "MainController@saveUser");
 Route::get("contact", "MainController@contact");
 Route::post("contact", "MainController@saveContact");
 
+Route::get("graph/{filename}", "FileController@getGraph");
+
 Route::get("manage/evaluations", "ManageController@evaluations");
 // Route::post("manage/evaluations", "ManageController@evaluations");
 Route::get("manage/evaluations/get", "ManageController@getEvaluations");

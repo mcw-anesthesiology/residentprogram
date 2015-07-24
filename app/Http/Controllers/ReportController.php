@@ -14,6 +14,8 @@ use DB;
 use DateTime;
 use DateInterval;
 
+use App\Helpers\RadarGraphs;
+
 use App\Milestone;
 use App\Competency;
 use App\User;
@@ -209,7 +211,7 @@ class ReportController extends Controller
 	// Function to calculate standard deviation (uses sd_square)
 
 		// square root of sum of squares devided by N-1
-		return sqrt(array_sum(array_map("sd_square", $array, array_fill(0,count($array), (array_sum($array) / count($array)) ) ) ) / (count($array)-1) );
+		return sqrt(array_sum(array_map(array($this, "sd_square"), $array, array_fill(0,count($array), (array_sum($array) / count($array)) ) ) ) / (count($array)-1) );
 	}
 
     public function aggregate(Request $request){
@@ -261,47 +263,52 @@ class ReportController extends Controller
         $subjectRequests = [];
         $competencyQuestions = [];
 
-        $subjects = $query->select("subject_id")->get();
-        foreach($subjects as $subject){
+        $subjects = [];
+
+        $subjectModels = $query->select("subject_id", "first_name", "last_name")->get();
+        foreach($subjectModels as $subject){
+            $subjects[$subject->subject_id] = $subject->last_name.", ".$subject->first_name;
             $subjectRequests[$subject->subject_id] = 0;
         }
 
-        $query->select("milestone_id")->get()->each(function($response, $key) use(&$averageMilestone, &$averageMilestoneDenom){
+        // Initialize arrays to 0
+        foreach($query->select("milestone_id")->get() as $key => $response){
             $averageMilestone[$response->milestone_id] = 0;
             $averageMilestoneDenom[$response->milestone_id] = 0;
-            foreach($subjects as $subject){
-                $subjectMilestone[$subject->subject_id][$response->milestone_id] = 0;
-                $subjectMilestoneDenom[$subject->subject_id][$response->milestone_id] = 0;
+            foreach($subjects as $subject_id => $name){
+                $subjectMilestone[$subject_id][$response->milestone_id] = 0;
+                $subjectMilestoneDenom[$subject_id][$response->milestone_id] = 0;
             }
-        });
+        };
 
-        $query->select("competency_id")->get()->each(function($response, $key) use(&$averageCompetency, &$averageCompetencyDenom){
+        foreach($query->select("competency_id")->get() as $key => $response){
             $averageCompetency[$response->competency_id] = 0;
             $averageCompetencyDenom[$response->competency_id] = 0;
-            foreach($subjects as $subject){
-                $subjectCompetency[$subject->subject_id][$response->competency_id] = 0;
-                $subjectCompetencyDenom[$subject->subject_id][$response->competency_id] = 0;
+            foreach($subjects as $subject_id => $name){
+                $subjectCompetency[$subject_id][$response->competency_id] = 0;
+                $subjectCompetencyDenom[$subject_id][$response->competency_id] = 0;
             }
-        });
-
-        $subjects = [];
+        };
 
         $query->select("milestone_id", "milestones.title as milestone_title", "competency_id", "competencies.title as competency_title")
-            ->addSelect("subject_id", "first_name", "last_name", "evaluation_id", "response", "weight", "question_id");
+            ->addSelect("subject_id", "evaluation_id", "response", "weight", "responses.question_id as question_id");
 
         $query->chunk(200, function($responses) use (&$milestones, &$subjects, &$milestones, &$competencies, &$subjectRequests, &$averageMilestone, &$averageMilestoneDenom, &$averageCompetency, &$averageCompetencyDenom, &$subjectMilestone, &$subjectMilestoneDenom, &$subjectCompetency, &$subjectCompetencyDenom, &$competencyQuestions){
             foreach($responses as $response){
-                $subjects[$response->subject_id] = $response->last_name.", ".$response->first_name;
+                // $subjects[$response->subject_id] = $response->last_name.", ".$response->first_name;
                 $subjectRequests[$response->subject_id]++;
 
+                // Weighted average = sum(response*weight)/sum(weight)
                 $milestones[$response->milestone_id] = $response->milestone_title;
                 $averageMilestone[$response->milestone_id] += (floatval($response->response)*floatval($response->weight));
                 $averageMilestoneDenom[$response->milestone_id] += floatval($response->weight);
                 $subjectMilestone[$response->subject_id][$response->milestone_id] += (floatval($response->response)*floatval($response->weight));
                 $subjectMilestoneDenom[$response->subject_id][$response->milestone_id] += floatval($response->weight);
 
-                if($competencyQuestions[$response->evaluation_id][$response->question_id] == 1)
+                // Ensure questions with multiple milestones aren't counted twice for competencies
+                if(isset($competencyQuestions[$response->evaluation_id][$response->question_id]))
                     continue;
+                $competencyQuestions[$response->evaluation_id][$response->question_id] = true;
                 $competencies[$response->competency_id] = $response->competency_title;
                 $averageCompetency[$response->competency_id] += (floatval($response->response)*floatval($response->weight));
                 $averageCompetencyDenom[$response->competency_id] += floatval($response->weight);
@@ -311,21 +318,21 @@ class ReportController extends Controller
         });
 
         foreach($milestones as $milestone => $title){
-            if($averageMilestoneDenom[$milestone]){
+            if($averageMilestoneDenom[$milestone])
                 $averageMilestone[$milestone] = $averageMilestone[$milestone]/$averageMilestoneDenom[$milestone];
-            } else {
+            else
                 $averageMilestone[$milestone] = 0;
 
-            }
-
             foreach($subjects as $subject => $name){
+                // Standard deviation uses array[milestone][resident] while graph uses array[resident][milestone]
                 if($subjectMilestoneDenom[$subject][$milestone])
                     $subjectMilestone[$subject][$milestone] = $milestoneSubject[$milestone][$subject] = $subjectMilestone[$subject][$milestone]/$subjectMilestoneDenom[$subject][$milestone];
                 else
                     $subjectMilestone[$subject][$milestone] = $milestoneSubject[$milestone][$subject] = 0;
             }
-            $milestoneStd[$milestone] = sd($milestoneSubject[$milestone]);
+            $milestoneStd[$milestone] = $this->sd($milestoneSubject[$milestone]);
             foreach($subjects as $subject => $name){
+                // Num standard deviations = ((subject weighted average)-(milestone weighted average))/(standard deviation of subject averages)
                 $subjectMilestoneDeviations[$subject][$milestone] = round(($subjectMilestone[$subject][$milestone]-$averageMilestone[$milestone])/$milestoneStd[$milestone]);
             }
         }
@@ -337,6 +344,7 @@ class ReportController extends Controller
                 $averageCompetency[$competency] = 0;
 
             foreach($subjects as $subject => $name){
+                // Standard deviation uses array[competency][resident] while graph uses array[resident][competency]
                 if($subjectCompetencyDenom[$subject][$competency])
                     $subjectCompetency[$subject][$competency] = $competencySubject[$competency][$subject] = $subjectCompetency[$subject][$competency]/$subjectCompetencyDenom[$subject][$competency];
                 else
@@ -344,10 +352,17 @@ class ReportController extends Controller
 
 
             }
-            $competencyStd[$competency] = sd($competencySubject[$competency]);
+            $competencyStd[$competency] = $this->sd($competencySubject[$competency]);
             foreach($subjects as $subject => $name){
+                // Num standard deviations = ((subject weighted average)-(competency weighted average))/(standard deviation of subject averages)
                 $subjectCompetencyDeviations[$subject][$competency] = round(($subjectCompetency[$subject][$competency]-$averageCompetency[$competency])/$competencyStd[$competency]);
             }
+        }
+
+        $graphs = [];
+        $maxResponse = 10; // assuming
+        foreach($subjects as $subject => $subject_name){
+            $graphs[] = RadarGraphs::draw($subjectMilestone[$subject], $averageMilestone, $milestones, $subjectCompetency[$subject], $averageCompetency, $competencies, $subject_name, $request->input("trainingLevel"), $maxResponse);
         }
 
     }

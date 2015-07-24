@@ -72,6 +72,7 @@
 		<div class="container-fluid">
 			<form class="form-signin" role="form" method="post" action="/login">
 				{!! csrf_field() !!}
+				<h2>Resident Program</h2>
 				<div class="form-group">
 					<label for="username">Username</label>
 					<input class="form-control" placeholder="Username" name="username" required autofocus />
@@ -80,8 +81,11 @@
 					<label for="password">Password</label>
 					<input class="form-control" type="password" placeholder="Password" name="password" required />
 				</div>
-				<button class="btn btn-lg btn-primary" type="submit">Sign in</button>
-
+				<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+			</form>
+			<form class="form-signin" method="post" action="/password/email">
+				{!! csrf_field() !!}
+				<button class="btn btn-lg btn-block" type="submit">Forgot Password?</button>
 			</form>
 		</div>
 		<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
