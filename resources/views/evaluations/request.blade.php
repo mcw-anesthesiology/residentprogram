@@ -33,10 +33,11 @@
 				"data": data,
 				"url": "request/get-block",
 				"success": function(response){
-					if(response != "")
+					if(response != ""){
 						$("#form-contents").html(response);
+						$(".request-select").select2();
+					}
 				}
-
 			});
 		}
 

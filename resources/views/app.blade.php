@@ -14,6 +14,9 @@
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
 		<link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet">
 
+		<!-- Select2 -->
+		<link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
+
 		<!-- Custom styles for this template -->
 		<link href="/css/main.css" rel="stylesheet">
 		<!-- <link href="https://cdn.datatables.net/1.10.1/css/jquery.dataTables.css" rel="stylesheet"> -->
@@ -108,7 +111,7 @@
 		</div>
 
 		<!-- Aggregate Report Modal -->
-		<div class="modal fade bs-aggRpt-modal" tabindex="-1" role="dialog" aria-labelledby="modalAggRpt" aria-hidden="true" id="aggRptModal">
+		<div class="modal fade bs-aggRpt-modal" role="dialog" aria-labelledby="modalAggRpt" aria-hidden="true" id="aggRptModal">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
 		      <div class="modal-header">
@@ -132,7 +135,7 @@
 		          </div>
 		          <div class="form-group">
 		            <label for="trainingLevelInput">Training Level</label>
-		            <select class="form-control" id="trainingLevelInput" name="trainingLevel">
+		            <select class="form-control select2" id="trainingLevelInput" name="trainingLevel" style="width: 100%">
 		              <option value="intern">Intern</option>
 		              <option value="ca-1">CA-1</option>
 		              <option value="ca-2">CA-2</option>
@@ -162,7 +165,7 @@
 		</div>
 
 		<!-- Specific Report Modal -->
-		<div class="modal fade bs-specRpt-modal" tabindex="-1" role="dialog" aria-labelledby="modalSpecRpt" aria-hidden="true" id="specRptModal">
+		<div class="modal fade bs-specRpt-modal" role="dialog" aria-labelledby="modalSpecRpt" aria-hidden="true" id="specRptModal">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
 		      <div class="modal-header">
@@ -176,16 +179,18 @@
 		              <div class="form-group">
 		            @if($user->type == "faculty")
 						<label for="resident">Resident</label>
-						<select class="form-control" name="resident">
+						<select class="form-control select2" name="resident" style="width: 100%">
 							<option value="-1">-- Select Resident --</option>
 							@foreach($user->mentees as $resident){
 								<option value="{{ $resident->id }}">{{ $resident->last_name }}, {{ $resident->first_name }}</option>
 							@endforeach
 						</select>
 					   </div>
+					@elseif($user->type == "resident")
+						<input type="hidden" name="resident" value="{{ $user->id }}" />
 					@elseif($user->type == "admin")
 						<label for="resident">Resident</label>
-						<select class="form-control" name="resident">
+						<select class="form-control select2" name="resident" style="width: 100%">
 							<option value="-1">-- Select Resident --</option>
 							@foreach($residents as $resident){
 								<option value="{{ $resident->id }}">{{ $resident->last_name }}, {{ $resident->first_name }}</option>
@@ -218,6 +223,7 @@
 		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
 		<script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 		<script>
 		    var numSpecificReports = 0;
 			function reportHtml(i) {
@@ -238,7 +244,7 @@
 		     '</div>'+
 		     '<div class="form-group">'+
 		       '<label for="trainingLevelInput">Training Level</label>'+
-		       '<select class="form-control" id="trainingLevelInput" name="trainingLevel'+i+'">'+
+		       '<select class="form-control select2" id="trainingLevelInput" name="trainingLevel'+i+'" style="width: 100%">'+
 		         '<option value="intern">Intern</option>'+
 		         '<option value="ca-1">CA-1</option>'+
 		         '<option value="ca-2">CA-2</option>'+
@@ -330,6 +336,8 @@
 				$(".datepicker").datepicker({
 					dateFormat: "yy-mm-dd"
 				});
+
+				$(".select2").select2();
 			});
 		</script>
 		@yield("script")

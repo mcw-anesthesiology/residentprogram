@@ -154,7 +154,7 @@ class ReportController extends Controller
             $tsv .= "\n";
         }
 
-        $filename = "Needs Evaluations ".Carbon::now()->toDateTimeString();
+        $filename = "Needs Evaluations ".Carbon::now()->toDateTimeString().".tsv";
 
         return response($data)
             ->header("Content-Type", "text/tab-separated-values")
@@ -162,7 +162,7 @@ class ReportController extends Controller
     }
 
     public function getTSV(Request $request){
-        $filename = $request->input("name")." ".Carbon::now()->toDateTimeString();
+        $filename = $request->input("name")." ".Carbon::now()->toDateTimeString().".tsv";
 
         return response($request->input("data"))
             ->header("Content-Type", "text/tab-separated-values")
@@ -266,10 +266,8 @@ class ReportController extends Controller
         $competencyQuestions = [];
 
         $subjects = [];
-        if(is_null($reportSubject))
-            $subjectModels = $query->select("subject_id", "first_name", "last_name")->get();
-        else
-            $subjectModels = User::find($reportSubject)->get();
+
+        $subjectModels = $query->select("subject_id", "first_name", "last_name")->get();
         foreach($subjectModels as $subject){
             $subjects[$subject->subject_id] = $subject->last_name.", ".$subject->first_name;
             $subjectEvals[$subject->subject_id] = 0;
@@ -297,7 +295,8 @@ class ReportController extends Controller
         };
 
         $query->select("milestone_id", "milestones.title as milestone_title", "competency_id", "competencies.title as competency_title")
-            ->addSelect("subject_id", "evaluation_id", "response", "weight", "responses.question_id as question_id");
+            ->addSelect("subject_id", "evaluation_id", "response", "weight", "responses.question_id as question_id")
+            ->orderBy("milestones.title")->orderBy("competencies.title");
 
         $query->chunk(200, function($responses) use (&$milestones, &$subjects, &$milestones, &$competencies, &$subjectEvals, &$averageMilestone, &$averageMilestoneDenom, &$averageCompetency, &$averageCompetencyDenom, &$subjectMilestone, &$subjectMilestoneDenom, &$subjectMilestoneEvals, &$subjectCompetency, &$subjectCompetencyDenom, &$subjectCompetencyEvals, &$competencyQuestions){
             foreach($responses as $response){
@@ -367,6 +366,12 @@ class ReportController extends Controller
             }
         }
 
+        if(isset($reportSubject)){
+            $subjects = [];
+            $subject = User::find($reportSubject);
+            $subjects[$subject->id] = $subject->last_name.", ".$subject->first_name;
+        }
+
         $graphs = [];
         $maxResponse = 10; // assuming
         switch($graphOption){
@@ -387,20 +392,22 @@ class ReportController extends Controller
 
             $textQuery = DB::table("text_responses")
                 ->join("evaluations", "evaluations.id", "=", "evaluation_id")
-                ->join("users as evaluators", "users.id", "=", "evaluations.evaluator_id")
-                ->where("users.type", "resident")
+                ->join("users", "users.id", "=", "evaluations.evaluator_id")
+                ->join("forms", "evaluations.form_id", "=", "forms.id")
+                ->where("users.type", "faculty")
                 ->where("evaluations.status", "complete")
                 ->where("evaluations.evaluation_date", ">", $startDate)
                 ->where("evaluations.evaluation_date", "<", $endDate)
-                ->whereIn("evaluations.subject_id", array_keys($subjects));
+                ->where("evaluations.subject_id", $reportSubject);
 
             if($trainingLevel != "all")
                 $textQuery->where("users.training_level", $trainingLevel);
 
-            $textQuery->select("subject_id", "first_name", "last_name", "response");
+            $textQuery->select("subject_id", "first_name", "last_name", "forms.title as form_title", "evaluation_date", "response");
 
-            $textQuery->chunk(200, function($response) use (&$subjectTextResponses){
-                $subjectTextResponses[$subject_id][$response->last_name.", ".$response->first_name][] = $response->response;
+            $textQuery->chunk(200, function($responses) use (&$subjectTextResponses){
+                foreach($responses as $response)
+                    $subjectTextResponses[] = $response;
             });
 
             $data["subjectTextResponses"] = $subjectTextResponses;
@@ -432,9 +439,12 @@ class ReportController extends Controller
 
         for($i = 0; $i < count($startDates); $i++){
             $data = array_merge_recursive($data, $this->report($startDates[$i], $endDates[$i], $trainingLevels[$i], $request->input("graphs"), $request->input("resident")));
+            // dd($data);
         }
 
         $data["reportType"] = "specific";
+        $data["numReports"] = count($startDates);
+        // dd($data);
         return view("report.report", $data);
     }
 }
