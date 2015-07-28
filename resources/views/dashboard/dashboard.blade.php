@@ -39,6 +39,11 @@
 			$(".modal-cancel #id").val(id);
 		});
 
+		$(".table").on("click", ".view", function(){
+			var requestId = $(this).parents("tr").children("td").eq(0).children("a").html();
+			window.location.href = "/evaluation/"+requestId;
+		});
+
 		$(document).ready(function(){
 			$(".datatable-all").DataTable({
 				"ajax": "dashboard/evaluations",

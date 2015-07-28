@@ -14,8 +14,7 @@
 		</div>
 		<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
 	</form>
-	<form class="form-signin" method="post" action="/password/email">
-		{!! csrf_field() !!}
+	<form class="form-signin" method="get" action="/password/email">
 		<button class="btn btn-lg btn-block" type="submit">Forgot Password?</button>
 	</form>
 @stop

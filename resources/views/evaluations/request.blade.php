@@ -3,7 +3,8 @@
 @section("body")
 	<h2 class="sub-header">Request Evaluation</h2>
 
-	@if($user->type == "resident" || $user->type == "faculty")
+	@if(false)
+	<!-- $user->type == "resident" || $user->type == "faculty" -->
 		<div class="form-group">
 			<label for="block">Block</label>
 			<select class="form-control select2" id="block">

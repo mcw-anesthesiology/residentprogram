@@ -56,8 +56,8 @@ class MainController extends Controller
         //TODO: schedule-based
         //$blockId = $request->input("block");
         //$assignments = Block::where("id", $blockId)->assignments();
-        $residents = User::where("type", "resident")->get();
-        $faculty = User::where("type", "faculty")->get();
+        $residents = User::where("type", "resident")->where("status", "active")->get();
+        $faculty = User::where("type", "faculty")->where("status", "active")->get();
         $forms = Form::where("status", "active")->get();
 
         $data = compact("user", "block", "residents", "faculty", "forms");
