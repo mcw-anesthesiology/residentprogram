@@ -17,6 +17,11 @@ Route::get("login", "Auth\AuthController@getLogin");
 Route::post("login", "Auth\AuthController@postLogin");
 Route::get("logout", "Auth\AuthController@getLogout");
 
+Route::get("password/email", "Auth\PasswordController@getEmail");
+Route::post("password/email", "Auth\PasswordController@postEmail");
+Route::get("password/reset/{token}", "Auth\PasswordController@getReset");
+Route::post("password/reset", "Auth\PasswordController@postReset");
+
 Route::get("dashboard", "MainController@dashboard");
 Route::get("dashboard/evaluations", "MainController@evaluations");
 Route::post("dashboard/evaluations", "MainController@evaluations");
@@ -38,7 +43,7 @@ Route::post("contact", "MainController@saveContact");
 Route::get("graph/{filename}", "FileController@getGraph");
 
 Route::get("manage/evaluations", "ManageController@evaluations");
-// Route::post("manage/evaluations", "ManageController@evaluations");
+Route::post("manage/evaluations", "ManageController@archive");
 Route::get("manage/evaluations/get", "ManageController@getEvaluations");
 Route::post("manage/evaluations/{id}", "ManageController@editEvaluation");
 Route::get("manage/accounts", "ManageController@accounts");
@@ -69,6 +74,7 @@ Route::get("report/needs-eval", "ReportController@needsEvaluations");
 Route::get("report/needs-eval/get", "ReportController@getNeedsEvaluationsJSON");
 Route::get("report/needs-eval/tsv", "ReportController@getNeedsEvaluationsTSV");
 Route::get("report/milestones-competencies-forms", "ReportController@milestonesCompetenciesForms");
+Route::get("report/milestones-competencies-forms/export/{type}", "ReportController@exportMilestonesCompetenciesForms");
 Route::get("report/milestones-competencies-forms/{type}", "ReportController@getMilestonesCompetenciesForms");
 Route::get("report/{type}", "ReportController@stats");
 Route::post("report/{type}", "ReportController@getStats");

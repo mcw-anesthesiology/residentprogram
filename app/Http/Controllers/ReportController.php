@@ -201,6 +201,33 @@ class ReportController extends Controller
         return json_encode($results);
     }
 
+    public function exportMilestonesCompetenciesForms($type){
+        $forms = Form::where("status", "active")->get();
+        if($type == "milestones")
+            $things = Milestone::all();
+        elseif($type == "competencies")
+            $things = Competency::all();
+
+        $tsv = ucfirst($type)."\t";
+        foreach($forms as $form){
+            $tsv .= $form->title."\t";
+        }
+        foreach($things as $thing){
+            $tsv .= "\n".$thing->title."\t";
+            $thingForms = $thing->forms;
+            foreach($forms as $form){
+                if($thingForms->contains($form))
+                    $tsv .= "Y\t";
+                else
+                    $tsv .= "N\t";
+            }
+        }
+        $filename = ucfirst($type)."-Forms ".Carbon::now()->toDateTimeString().".tsv";
+        return response($tsv)
+            ->header("Content-Type", "text/tab-separated-values")
+            ->header("Content-Disposition", "attachment; filename={$filename}");
+    }
+
     function sd_square($x, $mean) {
 	// Function to calculate square of value - mean
 		return pow($x - $mean,2);

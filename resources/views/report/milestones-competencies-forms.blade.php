@@ -19,7 +19,12 @@
 			</tr>
 		</thead>
 	</table>
+	<form action="/report/milestones-competencies-forms/export/milestones" style="text-align: center">
+		{!! csrf_field() !!}
+		<button type="submit" class="btn">Export TSV</button>
+	</form>
 
+	<hr />
 	<table class="table table-striped table-bordered datatable-competencies">
 		<thead>
 			<tr>
@@ -30,6 +35,10 @@
 			</tr>
 		</thead>
 	</table>
+	<form action="/report/milestones-competencies-forms/export/competencies" style="text-align: center">
+		{!! csrf_field() !!}
+		<button type="submit" class="btn">Export TSV</button>
+	</form>
 @stop
 
 @section("script")
@@ -39,7 +48,7 @@
 				"ajax": "/report/milestones-competencies-forms/milestones",
 				"paging": false,
 				"scrollX": true,
-				"scrollY": "700px",
+				"scrollY": "500px",
 				"scrollCollapse": true,
 				"columnDefs": [{
 					"targets": 0,
@@ -52,7 +61,7 @@
 				"ajax": "/report/milestones-competencies-forms/competencies",
 				"paging": false,
 				"scrollX": true,
-				"scrollY": "700px",
+				"scrollY": "500px",
 				"scrollCollapse": true,
 				"columnDefs": [{
 					"targets": 0,

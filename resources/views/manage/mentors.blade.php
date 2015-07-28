@@ -19,7 +19,7 @@
 	</div>
 
 <!-- Add Modal -->
-  <div class="modal fade bs-add-modal" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true">
+  <div class="modal fade bs-add-modal" role="dialog" aria-labelledby="modalAdd" aria-hidden="true">
     <div class="modal-dialog modal-sm">
       <div class="modal-content">
         <div class="modal-header">
@@ -31,7 +31,7 @@
         <div class="modal-body">
           <div class="form-group">
             <label for="faculty">Faculty</label>
-            <select class="form-control" id="faculty" name="faculty">
+            <select class="form-control select2" id="faculty" name="faculty" style="width: 100%">
             @foreach($faculty as $facultyMember)
                 <option value="{{ $facultyMember->id }}">{{ $facultyMember->last_name }}, {{ $facultyMember->first_name }}</option>
             @endforeach
@@ -39,7 +39,7 @@
           </div>
           <div class="form-group">
             <label for="resident">Resident</label>
-            <select class="form-control" id="resident" name="resident">
+            <select class="form-control select2" id="resident" name="resident" style="width: 100%">
             @foreach($residents as $resident)
                 <option value="{{ $resident->id }}">{{ $resident->last_name }}, {{ $resident->first_name }}</option>
             @endforeach

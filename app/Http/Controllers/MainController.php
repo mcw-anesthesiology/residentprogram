@@ -36,7 +36,7 @@ class MainController extends Controller
             $mentees = $user->mentees->where("status", "active")->unique();
         }
         $data = compact("mentees");
-        return view("dashboard.".$user->type, $data);
+        return view("dashboard.dashboard", $data);
     }
 
     public function request(){
@@ -67,17 +67,19 @@ class MainController extends Controller
 
     public function createRequest(Request $request){
         $user = Auth::user();
-        $request = new Evaluation($request->all());
-        if(!$request->evaluator_id)
-            $request->evaluator_id = $user->id;
-        elseif(!$request->subject_id)
-            $request->subject_id = $user->id;
+        $eval = new Evaluation($request->all());
+        if(!$eval->evaluator_id)
+            $eval->evaluator_id = $user->id;
+        elseif(!$eval->subject_id)
+            $eval->subject_id = $user->id;
 
-        $request->requested_by_id = $user->id;
-        $request->status = "pending";
-        $request->request_date = Carbon::now();
-        $request->request_ip = $request->ip();
-        $request->save();
+        $eval->requested_by_id = $user->id;
+        $eval->status = "pending";
+        $eval->request_date = Carbon::now();
+        $eval->request_ip = $request->ip();
+        $eval->save();
+        if($user->id == $eval->evaluator_id)
+            return redirect("evaluation/".$eval->id);
         return redirect("dashboard");
     }
 
@@ -169,8 +171,10 @@ class MainController extends Controller
         } else{
             $type = $request->input("type");
             if($type == "mentor"){
-                $mentorshipId = $request->input("mentorship_id");
-                $evaluations = Mentorship::where("id", $mentorshipId)->first()->mentee->subjectEvaluations->all();
+                $menteeId = $request->input("mentee_id");
+                $mentee = User::find($menteeId);
+                if($mentee->mentors->contains($user))
+                    $evaluations = User::find($menteeId)->subjectEvaluations;
             }
             else
                 $evaluations = Evaluation::where("status", $type)->where(function($query) use ($user){
@@ -179,14 +183,16 @@ class MainController extends Controller
             foreach($evaluations as $eval){
                 $result = [];
                 $result[] = "<a href='evaluation/{$eval->id}'>{$eval->id}</a>";
-                if($eval->subject_id == $user->id)
+                if($eval->subject_id == $user->id || $type == "mentor")
                     $result[] = $eval->evaluator->last_name.", ".$eval->evaluator->first_name;
                 else
                     $result[] = $eval->subject->last_name.", ".$eval->subject->first_name;
                 $result[] = $eval->form->title;
                 $result[] = $eval->request_date->toDateTimeString();
-                if($type == "complete" || $type == "mentor")
+                if($type == "complete")
                     $result[] = $eval->complete_date->toDateTimeString();
+                elseif($type == "mentor")
+                    $result[] = "";
                 if($type == "pending" && $eval->requested_by_id == $user->id){
                     $result[] = "<button class='cancelEval btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-cancel-modal-sm' data-id='{$eval->id}'>".
                     "<span class='glyphicon glyphicon-remove'></span> Cancel</button>";

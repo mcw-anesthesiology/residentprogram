@@ -66,23 +66,25 @@
 			        </ul>
 			      </li>
 			      @endif
-			      <li class="dropdown">
-			        <a href="#" data-toggle="dropdown">Reports<b class="caret"></b></a>
-			        <ul class="dropdown-menu">
-					@if($user->type == "admin")
-			          <li><a class="viewAggRpt pointer" data-toggle="modal" data-target=".bs-aggRpt-modal" id="viewAggRpt">Generate Aggregate</a></li>
-			        @endif
-			          <li><a class="viewSpecRpt pointer" data-toggle="modal" data-target=".bs-specRpt-modal" id="viewSpecRpt">Generate Specific</a></li>
-					@if($user->type == "admin")
-					  <li><a href="/report/needs-eval">Needs Evaluations</a></li>
-					  <li><a href="/report/faculty">Faculty Statistics</a></li>
-					  <li><a href="/report/resident">Resident Statistics</a></li>
-			          <li><a href="/report/fellow">Fellow Statistics</a></li>
-					  <li><a href="/report/milestones-competencies-forms">Milestones/Competencies - Forms</a></li>
-			        @endif
-			        </ul>
-			      </li>
-
+				  @if($user->type == "admin" || $user->type == "resident" || ($user->type == "faculty" && $user->mentees()->count() > 0))
+			      	<li class="dropdown">
+			        	<a href="#" data-toggle="dropdown">Reports<b class="caret"></b></a>
+			        	<ul class="dropdown-menu">
+							@if($user->type == "admin")
+			          	<li><a class="viewAggRpt pointer" data-toggle="modal" data-target=".bs-aggRpt-modal" id="viewAggRpt">Generate Aggregate</a></li>
+			        	@endif
+			          	<li><a class="viewSpecRpt pointer" data-toggle="modal" data-target=".bs-specRpt-modal" id="viewSpecRpt">Generate Specific</a></li>
+						@if($user->type == "admin")
+					  	<li><a href="/report/needs-eval">Needs Evaluations</a></li>
+					  	<li><a href="/report/faculty">Faculty Statistics</a></li>
+					  	<li><a href="/report/resident">Resident Statistics</a></li>
+			          	<li><a href="/report/fellow">Fellow Statistics</a></li>
+					  	<li><a href="/report/milestones-competencies-forms">Milestones/Competencies - Forms</a></li>
+			        	@endif
+			        	</ul>
+			      	</li>
+				  @endif
+				    <li><a href="/contact">Contact</a></li>
 			        <li class="dropdown">
 			          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 			              Welcome, {{ ucfirst($user->first_name) }} {{ucfirst($user->last_name)}}
@@ -104,10 +106,6 @@
 			</div>
 
 			@yield("body")
-
-			<div class="footer">
-				<a href="/contact">Contact</a>
-			</div>
 		</div>
 
 		<!-- Aggregate Report Modal -->

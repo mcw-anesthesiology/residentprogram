@@ -6,7 +6,7 @@
 	@if($user->type == "resident" || $user->type == "faculty")
 		<div class="form-group">
 			<label for="block">Block</label>
-			<select class="form-control" id="block">
+			<select class="form-control select2" id="block">
 				<option value="none">Select from all {{ $selectTypes[$user->type] }}</option>
 				@foreach($blocks as $block)
 					<option value="{{ $block->block_name }}">{{ $block->year }} {{ $block->block_name }}</option>

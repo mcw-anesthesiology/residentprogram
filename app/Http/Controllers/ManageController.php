@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Auth;
+use Carbon\Carbon;
 use SimpleXmlElement;
 use DOMDocument;
 
@@ -32,7 +33,7 @@ class ManageController extends Controller
     }
 
     public function evaluations(){
-        return view("manage.evaluations");
+        return view("manage/evaluations");
     }
 
     public function getEvaluations(){
@@ -40,7 +41,7 @@ class ManageController extends Controller
         $evaluations = Evaluation::all();
         foreach($evaluations as $eval){
             $result = [];
-            $result[] = "<a href='evaluation/{$eval->id}'>{$eval->id}</a>";
+            $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
             $result[] = $eval->subject->last_name.", ".$eval->subject->first_name;
             $result[] = $eval->evaluator->last_name.", ".$eval->evaluator->first_name;
             $result[] = $eval->requestor->last_name.", ".$eval->requestor->first_name;
@@ -108,8 +109,14 @@ class ManageController extends Controller
         }
     }
 
-    public function bulkDisable(Request $request){ //TODO
-
+    public function archive(Request $request){
+        $evals = Evaluation::where("complete_date", "<", $request->input("archive_date"))->where("status", "complete")->get();
+        foreach($evals as $eval){
+            $eval->status = "archived";
+            $eval->archive_date = Carbon::now();
+            $eval->save();
+        }
+        return redirect("manage.evaluations");
     }
 
     public function accounts(){

@@ -1,7 +1,7 @@
 @extends("app")
 
 @section("body")
-	<h2 class="sub-header">Manage Evaluations <button class="addEval btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-bulk-disable-modal" data-id="eval" id="bulkDisableBtn"><span class="glyphicon glyphicon-remove"></span> Archive Evals</button></h2>
+	<h2 class="sub-header">Manage Evaluations <button class="archiveEval btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-archive-modal" id="archiveBtn"><span class="glyphicon glyphicon-remove"></span> Archive Evals</button></h2>
 	  <div class="table-responsive">
 		<table class="table table-striped datatable" cellspacing="0" cellpadding="0">
 		  <thead>
@@ -24,23 +24,24 @@
 	</div>
 
 	<!-- Bulk Disable Modal -->
-	<div class="modal fade bs-bulk-disable-modal" tabindex="-1" role="dialog" aria-labelledby="modalBulkDisable" aria-hidden="true">
+	<div class="modal fade bs-archive-modal" tabindex="-1" role="dialog" aria-labelledby="modalArchive" aria-hidden="true">
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	          <h4 class="modal-title" id="myModalBulkDisable">Archive Evaluations</h4>
+	          <h4 class="modal-title" id="myModalArchive">Archive Evaluations</h4>
 	      </div>
-	      <form method="post" action="bulk_disable_evaluation.php">
+	      <form method="post" action="#">
+			  {!! csrf_field() !!}
 			  <div class="modal-body">
 				<label for="endDate">Archive evaluations older than</label>
-				<input type="text" class="form-control datepicker" id="bulkDisableDate" name="bulkDisableDate">
+				<input type="text" class="form-control datepicker" id="archive-date" name="archive_date">
 			  </div>
 			  <div class="form-group" style="text-align: center;">
 				<button type="button" id="lastThreeMonthsDisable" class="btn lastThreeMonthsDisable">Three Months</button>
 				<button type="button" id="lastSixMonthsDisable" class="btn lastSixMonthsDisable">Six Months</button>
 			  </div>
-			  <div class="modal-footer modal-bulk-disable">
+			  <div class="modal-footer modal-bulk-archive">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				<button type="submit" class="btn btn-danger">Confirm</button>
 			  </div>

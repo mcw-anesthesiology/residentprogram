@@ -10,7 +10,7 @@
 	</thead>
 	<tbody>
 <?php
-$tsv = "User\tRequests\tCompleted\tRatio\n";
+	$tsv = "User\tRequests\tCompleted\tRatio\n";
 ?>
 		@foreach($users as $statUser)
 <?php
@@ -47,39 +47,56 @@ $tsv = "User\tRequests\tCompleted\tRatio\n";
 <hr />
 
 <h3>No Requests</h3>
+<?php $tsv = ""; ?>
 <ul class="list-group row">
 	@foreach($users as $statUser)
 		@if($type == "faculty")
 			@if($statUser->evaluatorEvaluations->count() == 0)
 				<li class="list-group-item col-xs-6">{{ $statUser->last_name }}, {{ $statUser->first_name }}</li>
+<?php $tsv .= $statUser->last_name.", ".$statUser->first_name."\n"; ?>
 			@endif
 		@else
 			@if($statUser->subjectEvaluations->count() == 0)
 				<li class="list-group-item col-xs-6">{{ $statUser->last_name }}, {{ $statUser->first_name }}</li>
+<?php $tsv .= $statUser->last_name.", ".$statUser->first_name."\n"; ?>
 			@endif
 		@endif
 	@endforeach
 </ul>
+<form method="post" target="_blank" action="/report/export" style="text-align: center">
+	{!! csrf_field() !!}
+	<input type="hidden" name="name" value="No Requests" />
+	<button class="btn" type="submit" name="data" value="{{ $tsv }}">Export</button>
+</form>
 <hr />
 
 <h3>None Completed</h3>
+<?php $tsv = ""; ?>
 <ul class="list-group row">
 	@foreach($users as $statUser)
 		@if($type == "faculty")
 			@if($statUser->evaluatorEvaluations()->where("status", "complete")->count() == 0)
 				<li class="list-group-item col-xs-6">{{ $statUser->last_name }}, {{ $statUser->first_name }}</li>
+<?php $tsv .= $statUser->last_name.", ".$statUser->first_name."\n"; ?>
 			@endif
 		@else
 			@if($statUser->subjectEvaluations()->where("status", "complete")->count() == 0)
 				<li class="list-group-item col-xs-6">{{ $statUser->last_name }}, {{ $statUser->first_name }}</li>
+<?php $tsv .= $statUser->last_name.", ".$statUser->first_name."\n"; ?>
 			@endif
 		@endif
 	@endforeach
 </ul>
+<form method="post" target="_blank" action="/report/export" style="text-align: center">
+	{!! csrf_field() !!}
+	<input type="hidden" name="name" value="None Completed" />
+	<button class="btn" type="submit" name="data" value="{{ $tsv }}">Export</button>
+</form>
 <hr />
 
 @if($type == "faculty")
 	<h3>Average Completion Time</h3>
+<?php $tsv = "User\tTime\n"; ?>
 	<table class="table table-striped datatable" width="100%">
 		<thead>
 			<tr>
@@ -94,14 +111,21 @@ $tsv = "User\tRequests\tCompleted\tRatio\n";
 						<td>{{ $users[$i]->last_name }}, {{ $users[$i]->first_name }}</td>
 						<td>{{ $times[$i] }}</td>
 					</tr>
+<?php $tsv .= $users[$i]->last_name.", ".$users[$i]->first_name."\t".$times[$i]."\n"; ?>
 				@endif
 			@endfor
 		</tbody>
 	</table>
+	<form method="post" target="_blank" action="/report/export" style="text-align: center">
+		{!! csrf_field() !!}
+		<input type="hidden" name="name" value="Average Completion Time" />
+		<button class="btn" type="submit" name="data" value="{{ $tsv }}">Export</button>
+	</form>
 	<hr />
 @endif
 
 <h3>Last Completed Evaluations</h3>
+<?php $tsv = "User\tDate\n"; ?>
 <table class="table table-striped datatable" width="100%">
 	<thead>
 		<tr>
@@ -123,7 +147,13 @@ $tsv = "User\tRequests\tCompleted\tRatio\n";
 					<th>{{ $statUser->last_name }}, {{ $statUser->first_name }}</th>
 					<td>{{ $lastCompleted->complete_date }}</td>
 				</tr>
+<?php $tsv .= $statUser->last_name.", ".$statUser->first_name."\t".$lastCompleted->complete_date."\n"; ?>
 			@endif
 		@endforeach
 	</tbody>
 </table>
+<form method="post" target="_blank" action="/report/export" style="text-align: center">
+	{!! csrf_field() !!}
+	<input type="hidden" name="name" value="Last Completed Evaluations" />
+	<button class="btn" type="submit" name="data" value="{{ $tsv }}">Export</button>
+</form>
