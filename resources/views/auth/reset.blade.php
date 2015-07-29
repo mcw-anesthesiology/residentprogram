@@ -1,7 +1,7 @@
 @extends("auth.master")
 
 @section("body")
-	<form method="post" action="/password/reset">
+	<form class="form-signin" method="post" action="/password/reset">
 		{!! csrf_field() !!}
 		<input type="hidden" name="token" value="{{ $token }}" />
 		<div class="form-group">

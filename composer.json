@@ -8,7 +8,9 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.1.*",
         "fzaninotto/faker": "^1.5",
-        "szymach/c-pchart": "^1.1"
+        "szymach/c-pchart": "^1.1",
+        "maximebf/debugbar": "^1.10",
+        "barryvdh/laravel-debugbar": "^2.0"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",

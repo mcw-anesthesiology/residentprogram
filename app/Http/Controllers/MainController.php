@@ -146,7 +146,7 @@ class MainController extends Controller
         $user = Auth::user();
         $results["data"] = [];
         if($user->type == "admin"){
-            $evaluations = Evaluation::all();
+            $evaluations = Evaluation::with("subject", "evaluator", "form")->get();
             foreach($evaluations as $eval){
                 $result = [];
                 $result[] = "<a href='evaluation/{$eval->id}'>{$eval->id}</a>";
@@ -174,12 +174,12 @@ class MainController extends Controller
                 $menteeId = $request->input("mentee_id");
                 $mentee = User::find($menteeId);
                 if($mentee->mentors->contains($user))
-                    $evaluations = User::find($menteeId)->subjectEvaluations;
+                    $evaluations = User::find($menteeId)->subjectEvaluations()->with("subject", "evaluator", "form")->get();
             }
             else
                 $evaluations = Evaluation::where("status", $type)->where(function($query) use ($user){
                     $query->where("evaluator_id", $user->id)->orWhere("subject_id", $user->id);
-                })->get();
+                })->with("subject", "evaluator", "form")->get();
             foreach($evaluations as $eval){
                 $result = [];
                 $result[] = "<a href='evaluation/{$eval->id}'>{$eval->id}</a>";

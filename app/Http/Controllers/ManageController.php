@@ -38,7 +38,7 @@ class ManageController extends Controller
 
     public function getEvaluations(){
         $results["data"] = [];
-        $evaluations = Evaluation::all();
+        $evaluations = Evaluation::with("subject", "evaluator", "form")->get();
         foreach($evaluations as $eval){
             $result = [];
             $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";

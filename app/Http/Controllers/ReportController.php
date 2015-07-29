@@ -13,6 +13,7 @@ use DB;
 
 use DateTime;
 use DateInterval;
+use Debugbar;
 
 use App\Helpers\RadarGraphs;
 
@@ -51,7 +52,7 @@ class ReportController extends Controller
         } else{
             switch($type){
                 case "faculty":
-                    $users = User::where("status", "active")->where("type", "faculty")->get();
+                    $users = User::where("status", "active")->where("type", "faculty")->with("evaluatorEvaluations")->get();
                     $times = $users->map(function($user, $key){
                         $time = 0;
                         foreach($user->evaluatorEvaluations()->where("status", "complete")->get() as $eval){
@@ -67,10 +68,10 @@ class ReportController extends Controller
                     });
                     break;
                 case "resident":
-                    $users = User::where("status", "active")->where("type", "resident")->where("training_level", "!=", "fellow")->get();
+                    $users = User::where("status", "active")->where("type", "resident")->where("training_level", "!=", "fellow")->with("subjectEvaluations")->get();
                     break;
                 case "fellow":
-                    $users = User::where("status", "active")->where("type", "resident")->where("training_level", "fellow")->get();
+                    $users = User::where("status", "active")->where("type", "resident")->where("training_level", "fellow")->with("subjectEvaluations")->get();
                     break;
             }
         }
@@ -103,7 +104,7 @@ class ReportController extends Controller
             ->where("evaluations.request_date", ">", Carbon::now()->subMonths(6)) //TODO: what
             ->select("subject_id", "milestone_id")
             ->orderBy("milestone_id", "asc")
-            ->chunk(200, function($responses) use (&$results){
+            ->chunk(10000, function($responses) use (&$results){
                 foreach($responses as $response){
                     $results[$response->subject_id][$response->milestone_id] = true;
                 }
@@ -177,9 +178,9 @@ class ReportController extends Controller
 
     public function getMilestonesCompetenciesForms($type){
         if($type == "milestones")
-            $things = Milestone::all();
+            $things = Milestone::with("forms")->get();
         elseif($type == "competencies")
-            $things = Competency::all();
+            $things = Competency::with("forms")->get();
 
         $forms = Form::where("status", "active")->get();
 
@@ -204,9 +205,9 @@ class ReportController extends Controller
     public function exportMilestonesCompetenciesForms($type){
         $forms = Form::where("status", "active")->get();
         if($type == "milestones")
-            $things = Milestone::all();
+            $things = Milestone::with("forms")->get();
         elseif($type == "competencies")
-            $things = Competency::all();
+            $things = Competency::with("forms")->get();
 
         $tsv = ucfirst($type)."\t";
         foreach($forms as $form){
@@ -294,40 +295,41 @@ class ReportController extends Controller
 
         $subjects = [];
 
-        $subjectModels = $query->select("subject_id", "first_name", "last_name")->get();
-        foreach($subjectModels as $subject){
-            $subjects[$subject->subject_id] = $subject->last_name.", ".$subject->first_name;
-            $subjectEvals[$subject->subject_id] = 0;
-        }
-
-        // Initialize arrays to 0
-        foreach($query->select("milestone_id")->get() as $key => $response){
-            $averageMilestone[$response->milestone_id] = 0;
-            $averageMilestoneDenom[$response->milestone_id] = 0;
-            foreach($subjects as $subject_id => $name){
-                $subjectMilestone[$subject_id][$response->milestone_id] = 0;
-                $subjectMilestoneDenom[$subject_id][$response->milestone_id] = 0;
-                $subjectMilestoneEvals[$subject_id][$response->milestone_id] = 0;
-            }
-        };
-
-        foreach($query->select("competency_id")->get() as $key => $response){
-            $averageCompetency[$response->competency_id] = 0;
-            $averageCompetencyDenom[$response->competency_id] = 0;
-            foreach($subjects as $subject_id => $name){
-                $subjectCompetency[$subject_id][$response->competency_id] = 0;
-                $subjectCompetencyDenom[$subject_id][$response->competency_id] = 0;
-                $subjectCompetencyEvals[$subject_id][$response->competency_id] = 0;
-            }
-        };
-
         $query->select("milestone_id", "milestones.title as milestone_title", "competency_id", "competencies.title as competency_title")
-            ->addSelect("subject_id", "evaluation_id", "response", "weight", "responses.question_id as question_id")
+            ->addSelect("subject_id", "last_name", "first_name", "evaluation_id", "response", "weight", "responses.question_id as question_id")
             ->orderBy("milestones.title")->orderBy("competencies.title");
-
-        $query->chunk(200, function($responses) use (&$milestones, &$subjects, &$milestones, &$competencies, &$subjectEvals, &$averageMilestone, &$averageMilestoneDenom, &$averageCompetency, &$averageCompetencyDenom, &$subjectMilestone, &$subjectMilestoneDenom, &$subjectMilestoneEvals, &$subjectCompetency, &$subjectCompetencyDenom, &$subjectCompetencyEvals, &$competencyQuestions){
+        $query->chunk(10000, function($responses) use (&$milestones, &$subjects, &$milestones, &$competencies, &$subjectEvals, &$averageMilestone, &$averageMilestoneDenom, &$averageCompetency, &$averageCompetencyDenom, &$subjectMilestone, &$subjectMilestoneDenom, &$subjectMilestoneEvals, &$subjectCompetency, &$subjectCompetencyDenom, &$subjectCompetencyEvals, &$competencyQuestions){
             foreach($responses as $response){
-                // $subjects[$response->subject_id] = $response->last_name.", ".$response->first_name;
+                if($response->milestone_id == 1 && $response->subject_id == 32)
+                    Debugbar::addMessage($response);
+
+                if(!isset($subjects[$response->subject_id]))
+                    $subjects[$response->subject_id] = $response->last_name.", ".$response->first_name;
+                if(!isset($subjectEvals[$response->subject_id]))
+                    $subjectEvals[$response->subject_id] = 0;
+                if(!isset($subjectMilestoneEvals[$response->subject_id][$response->milestone_id]))
+                    $subjectMilestoneEvals[$response->subject_id][$response->milestone_id] = 0;
+                if(!isset($subjectCompetencyEvals[$response->subject_id][$response->competency_id]))
+                    $subjectCompetencyEvals[$response->subject_id][$response->competency_id] = 0;
+
+                if(!isset($averageMilestone[$response->milestone_id]))
+                    $averageMilestone[$response->milestone_id] = 0;
+                if(!isset($averageMilestoneDenom[$response->milestone_id]))
+                    $averageMilestoneDenom[$response->milestone_id] = 0;
+                if(!isset($subjectMilestone[$response->subject_id][$response->milestone_id]))
+                    $subjectMilestone[$response->subject_id][$response->milestone_id] = 0;
+                if(!isset($subjectMilestoneDenom[$response->subject_id][$response->milestone_id]))
+                    $subjectMilestoneDenom[$response->subject_id][$response->milestone_id] = 0;
+
+                if(!isset($averageCompetency[$response->competency_id]))
+                    $averageCompetency[$response->competency_id] = 0;
+                if(!isset($averageCompetencyDenom[$response->competency_id]))
+                    $averageCompetencyDenom[$response->competency_id] = 0;
+                if(!isset($subjectCompetency[$response->subject_id][$response->competency_id]))
+                    $subjectCompetency[$response->subject_id][$response->competency_id] = 0;
+                if(!isset($subjectCompetencyDenom[$response->subject_id][$response->competency_id]))
+                    $subjectCompetencyDenom[$response->subject_id][$response->competency_id] = 0;
+
                 $subjectEvals[$response->subject_id]++;
                 $subjectMilestoneEvals[$response->subject_id][$response->milestone_id]++;
                 $subjectCompetencyEvals[$response->subject_id][$response->competency_id]++;
@@ -359,7 +361,7 @@ class ReportController extends Controller
 
             foreach($subjects as $subject => $name){
                 // Standard deviation uses array[milestone][resident] while graph uses array[resident][milestone]
-                if($subjectMilestoneDenom[$subject][$milestone])
+                if(isset($subjectMilestoneDenom[$subject][$milestone]) && $subjectMilestoneDenom[$subject][$milestone])
                     $subjectMilestone[$subject][$milestone] = $milestoneSubject[$milestone][$subject] = $subjectMilestone[$subject][$milestone]/$subjectMilestoneDenom[$subject][$milestone];
                 else
                     $subjectMilestone[$subject][$milestone] = $milestoneSubject[$milestone][$subject] = 0;
@@ -379,7 +381,7 @@ class ReportController extends Controller
 
             foreach($subjects as $subject => $name){
                 // Standard deviation uses array[competency][resident] while graph uses array[resident][competency]
-                if($subjectCompetencyDenom[$subject][$competency])
+                if(isset($subjectCompetencyDenom[$subject][$competency]) && $subjectCompetencyDenom[$subject][$competency])
                     $subjectCompetency[$subject][$competency] = $competencySubject[$competency][$subject] = $subjectCompetency[$subject][$competency]/$subjectCompetencyDenom[$subject][$competency];
                 else
                     $subjectCompetency[$subject][$competency] = $competencySubject[$competency][$subject] = 0;
@@ -401,9 +403,18 @@ class ReportController extends Controller
 
         $graphs = [];
         $maxResponse = 10; // assuming
+
+        ksort($averageMilestone);
+        ksort($milestones);
+        ksort($averageCompetency);
+        ksort($competencies);
+
         switch($graphOption){
             case "all":
                 foreach($subjects as $subject => $subject_name){
+                    ksort($subjectMilestone[$subject]);
+                    ksort($subjectCompetency[$subject]);
+                    Debugbar::addMessage($subjectMilestone[$subject]);
                     $graphs[] = RadarGraphs::draw($subjectMilestone[$subject], $averageMilestone, $milestones, $subjectCompetency[$subject], $averageCompetency, $competencies, $subject_name, $trainingLevel, $maxResponse);
                 }
                 break;
@@ -432,7 +443,7 @@ class ReportController extends Controller
 
             $textQuery->select("subject_id", "first_name", "last_name", "forms.title as form_title", "evaluation_date", "response");
 
-            $textQuery->chunk(200, function($responses) use (&$subjectTextResponses){
+            $textQuery->chunk(10000, function($responses) use (&$subjectTextResponses){
                 foreach($responses as $response)
                     $subjectTextResponses[] = $response;
             });
@@ -466,12 +477,10 @@ class ReportController extends Controller
 
         for($i = 0; $i < count($startDates); $i++){
             $data = array_merge_recursive($data, $this->report($startDates[$i], $endDates[$i], $trainingLevels[$i], $request->input("graphs"), $request->input("resident")));
-            // dd($data);
         }
 
         $data["reportType"] = "specific";
         $data["numReports"] = count($startDates);
-        // dd($data);
         return view("report.report", $data);
     }
 }
