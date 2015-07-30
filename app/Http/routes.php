@@ -66,6 +66,10 @@ Route::get("manage/mentors", "ManageController@mentors");
 // Route::post("manage/mentors", "ManageController@mentors");
 Route::get("manage/mentors/get", "ManageController@getMentors");
 Route::post("manage/mentors/{action}", "ManageController@mentor");
+Route::get("manage/block-assignments", "ManageController@blockAssignments");
+Route::post("manage/block-assignments", "ManageController@saveBlockAssignments");
+Route::post("manage/block-assignments/table", "ManageController@blockAssignmentsTable");
+Route::post("manage/block-assignments/get", "ManageController@getBlockAssignments");
 
 Route::post("report/aggregate", "ReportController@aggregate");
 Route::post("report/specific", "ReportController@specific");

@@ -11,6 +11,8 @@ use Auth;
 use Carbon\Carbon;
 use SimpleXmlElement;
 use DOMDocument;
+use DB;
+use Debugbar;
 
 use App\Helpers\FormReader;
 use App\Helpers\Mail;
@@ -23,6 +25,8 @@ use App\Competency;
 use App\Mentorship;
 use App\MilestoneQuestion;
 use App\CompetencyQuestion;
+use App\Block;
+use App\BlockAssignment;
 
 class ManageController extends Controller
 {
@@ -537,5 +541,161 @@ class ManageController extends Controller
                 break;
         }
         return redirect("manage/mentors");
+    }
+
+    public function blockAssignments(){
+        $years = DB::table("blocks")->distinct()->select("year")->get();
+        $data = compact("years");
+
+        return view("manage.block-assignments", $data);
+    }
+
+    public function blockAssignmentsTable(Request $request){
+        // DB::table("blocks")->join("block_assignments", "blocks.id", "=", "block_id")->where("year", $request->input("year"))
+        //     ->orderBy("block_number")->get();
+        $blocks = Block::where("year", $request->input("year"))->orderBy("block_number")->get();
+        $data = compact("blocks");
+
+        return view("manage.block-assignments-table", $data);
+    }
+
+    public function getBlockAssignments(Request $request){
+        $data["data"] = [];
+        $blockUsers = User::has("blockAssignments")->with("blockAssignments.block")->get();
+
+        $numBlocks = Block::where("year", $request->input("year"))->orderBy("block_number")->count();
+        $lastBlock = 0;
+        foreach($blockUsers as $blockUser){
+            $row = [];
+            $row[] = $blockUser->last_name.", ".$blockUser->first_name;
+            if($blockUser->last_name == "Kahn")
+                dd($blockUser->blockAssignments->where("block.year", $request->input("year"))->sortBy("block.block_number"));
+            foreach($blockUser->blockAssignments->where("block.year", $request->input("year"))->sortBy("block.block_number") as $assignment){
+                if($assignment->block->block_number == $lastBlock){
+                    $cell .= "<br />".$assignment->location;
+                } elseif($assignment->block->block_number == $lastBlock+1){
+                    if($lastBlock)
+                        $row[] = $cell;
+                    $cell = $assignment->location;
+                } else{
+                    $row[] = $cell;
+                    for($i = $lastBlock+1; $i < $assignment->block->block_number; $i++)
+                        $row[] = "";
+                }
+                $lastBlock = $assignment->block->block_number;
+            }
+            if($lastBlock != $numBlocks){
+                for(; $lastBlock < $numBlocks; $lastBlock++){
+                    $row[] = "";
+                }
+            }
+            $lastBlock = 0;
+            $data["data"][] = $row;
+        }
+
+        dd($data);
+    }
+
+    public function saveBlockAssignments(Request $request){
+        $users = User::where("status", "active")->get();
+        if(!$request->hasFile("schedule") || !$request->file("schedule")->isValid() || !$request->has("year"))
+            return redirect("manage/block-assignments");
+
+        foreach($users as $user){
+            $usernames[$user->id] = preg_replace("/\W/", "", strtolower($user->last_name.",".substr($user->first_name, 0, 1)));
+        }
+
+        libxml_use_internal_errors(true);
+
+        $dom = new DOMDocument;
+        $dom->loadHTMLFile($request->file("schedule"));
+
+        // for exported "xls" file
+        $trs = $dom->getElementsByTagName("table")->item(0)->childNodes;
+
+        // for html webcrawling
+        //$trs = $dom->getElementById("ctl04_grdReport")->childNodes;
+
+        for($i = 1; $i < $trs->item(0)->childNodes->length; $i++){
+        	$blocks[$i] = trim($trs->item(0)->childNodes->item($i)->nodeValue);
+        	preg_match("/\((\d\d\/\d\d\/\d\d\d\d) \- (\d\d\/\d\d\/\d\d\d\d)\)/", $blocks[$i], $matches);
+        	if(count($matches) == 3){
+        		$blockStart[$i] = $matches[1];
+        		$blockEnd[$i] = $matches[2];
+        	}
+        }
+
+        //var_dump($blocks);
+        //var_dump($blockStart);
+        //var_dump($blockEnd);
+
+        $hits = 0;
+        $misses = 0;
+
+        for($i = 1; $i < $trs->length; $i++){
+        	if($trs->item($i)->getAttribute("style") == "background-color:LightSteelBlue;")
+        		continue;
+
+        	$tds = $trs->item($i)->childNodes;
+        	$user = preg_replace("/\W/", "", strtolower($tds->item(0)->nodeValue));
+
+        	for($j = 1; $j < $tds->length; $j++){
+        		if($tds->item($j)->nodeType == 3)
+        			continue;
+        		$entries = $tds->item($j)->getElementsByTagName("td");
+        		foreach($entries as $entry){
+        			$location = trim(preg_replace("/\(.*\)/", "", $entry->nodeValue));
+        			if(in_array($user, $usernames)){
+        				$user_id = array_search($user, $usernames);
+        				$assignments[$j][$user_id][] = $location;
+        				$hits++;
+        			} else{
+        				$misses++;
+        			}
+        		}
+        	}
+        }
+
+        $year = $request->input("year");
+        if($year == "new")
+            $year = $request->input("new_year");
+
+        foreach($blocks as $blockNumber => $blockName){
+            if($blockName == "")
+                continue;
+
+            $block = Block::firstOrNew(["year" => $year, "block_number" => $blockNumber]);
+
+            $block->block_name = $blockName;
+
+            if(isset($blockStart[$blockNumber])){
+                $nums = explode("/", $blockStart[$blockNumber]);
+                $block->start_date = $nums[2]."-".$nums[0]."-".$nums[1];
+            }
+            if(isset($blockEnd[$blockNumber])){
+                $nums = explode("/", $blockEnd[$blockNumber]);
+                $block->end_date = $nums[2]."-".$nums[0]."-".$nums[1];
+            }
+            $block->save();
+            $blockIds[$blockNumber] = $block->id;
+        }
+        DB::delete("delete block_assignments from block_assignments join blocks on blocks.id=block_assignments.block_id where year=?", [$year]);
+        $pdo = DB::getPdo();
+        $stmt = $pdo->prepare("insert into block_assignments(block_id, user_id, location) values(?, ?, ?)");
+        $stmt->bindParam(1, $block_id);
+        $stmt->bindParam(2, $user_id);
+        $stmt->bindParam(3, $location);
+
+        foreach($assignments as $blockNumber => $blockAssignments){
+            $blockName = $blocks[$blockNumber];
+            foreach($blockAssignments as $user_id => $userAssignments){
+                // BlockAssignment::join("blocks", "block_id", "=", "blocks.id")->where("year", $year)
+                foreach($userAssignments as $location){
+                    $block_id = $blockIds[$blockNumber];
+                    $stmt->execute();
+                }
+            }
+        }
+        return redirect("manage/block-assignments");
     }
 }
