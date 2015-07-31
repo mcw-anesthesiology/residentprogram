@@ -63,6 +63,7 @@
 			          <li><a href="/manage/forms">Forms</a></li>
 			          <li><a href="/manage/milestones-competencies">Milestones/Competencies</a></li>
 			          <li><a href="/manage/mentors">Mentors</a></li>
+					  <li><a href="/manage/block-assignments">Block Assignments</a></li>
 			        </ul>
 			      </li>
 			      @endif
@@ -179,7 +180,7 @@
 						<label for="resident">Resident</label>
 						<select class="form-control select2" name="resident" style="width: 100%">
 							<option value="-1">-- Select Resident --</option>
-							@foreach($user->mentees as $resident){
+							@foreach($user->mentees as $resident)
 								<option value="{{ $resident->id }}">{{ $resident->last_name }}, {{ $resident->first_name }}</option>
 							@endforeach
 						</select>
@@ -190,7 +191,7 @@
 						<label for="resident">Resident</label>
 						<select class="form-control select2" name="resident" style="width: 100%">
 							<option value="-1">-- Select Resident --</option>
-							@foreach($residents as $resident){
+							@foreach($residents as $resident)
 								<option value="{{ $resident->id }}">{{ $resident->last_name }}, {{ $resident->first_name }}</option>
 							@endforeach
 						</select>

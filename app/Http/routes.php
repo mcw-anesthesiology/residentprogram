@@ -32,7 +32,6 @@ Route::post("evaluation/{id}", "MainController@saveEvaluation");
 
 Route::get("request", "MainController@request");
 Route::post("request", "MainController@createRequest");
-Route::post("request/get-block", "MainController@requestBlock");
 
 Route::get("user", "MainController@user");
 Route::post("user", "MainController@saveUser");

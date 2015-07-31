@@ -1,6 +1,7 @@
 @extends("app")
 
 @section("body")
+	<h3>Upload Block Schedule</h3>
 	<form enctype="multipart/form-data" id="form" method="post">
 		{!! csrf_field() !!}
 		<div class="form-group">
@@ -24,12 +25,14 @@
 		<button class="btn btn-primary" type="submit">Submit</button>
 		<hr />
 		<div id="block-assignments">
-			<label for="select-year">Year</label>
-			<select class="form-control select2" id="select-year">
-				@foreach($years as $year)
-					<option value="{{ $year->year }}">{{ $year->year }}</option>
-				@endforeach
-			</select>
+			<div class="form-group">
+				<label for="select-year">Year</label>
+				<select class="form-control select2" id="select-year">
+					@foreach($years as $year)
+						<option value="{{ $year->year }}">{{ $year->year }}</option>
+					@endforeach
+				</select>
+			</div>
 			<br />
 			<div id="table-container"></div>
 		</div>
@@ -59,7 +62,11 @@
 							"scrollX": true,
 							"scrollY": "500px",
 							"scrollCollapse": true,
-							stateSave: true
+							stateSave: true,
+							"columnDefs": [{
+								"targets": 0,
+								"cellType": "th"
+							}]
 						});
 						new $.fn.DataTable.FixedColumns(table);
 					}

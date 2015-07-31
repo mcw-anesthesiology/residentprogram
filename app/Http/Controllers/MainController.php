@@ -40,29 +40,64 @@ class MainController extends Controller
     }
 
     public function request(){
-        $blocks = Block::all();
+        $user = Auth::user();
+
+        if($user->type == "resident" || $user->type == "faculty"){
+            $blocks = Block::where("start_date", "<", Carbon::now())->with("assignments.user")->limit(3)->get();
+            foreach($blocks as $block){
+                $userLocations = $block->assignments->where("user_id", $user->id)->map(function ($item, $key){
+                    return $item->location;
+                });
+                foreach($userLocations as $location){
+                    foreach($block->assignments->where("location", $location) as $assignment){
+                        if($user->type == "faculty"){
+                            if($assignment->user_id != $user->id && $assignment->user->type == "faculty"){
+                                $faculty[$block->id][] = ["id" => $assignment->user_id, "name" => $assignment->user->last_name.", ".$assignment->user->first_name];
+                            }
+                        }
+                        elseif($user->type == "resident"){
+                            if($assignment->user_id != $user->id && $assignment->user->type == "resident"){
+                                $residents[$block->id][] = ["id" => $assignment->user_id, "name" => $assignment->user->last_name.", ".$assignment->user->first_name];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if($user->type == "admin" || $user->type == "faculty"){
+            $residentModels = User::where("type", "resident")->where("status", "active")->get();
+            foreach($residentModels as $resident)
+                $residents[0][] = ["id" => $resident->id, "name" => $resident->last_name.", ".$resident->first_name];
+        }
+        if($user->type == "admin" || $user->type == "resident"){
+            $facultyModels = User::where("type", "faculty")->where("status", "active")->get();
+            foreach($facultyModels as $fac)
+                $faculty[0][] = ["id" => $fac->id, "name" => $fac->last_name.", ".$fac->first_name];
+        }
+
+
+
         $selectTypes = [
             "resident" => "faculty",
             "faculty" => "residents",
             "admin" => "users"
         ];
-
-        $data = compact("blocks", "selectTypes");
-
-        return view("evaluations.request", $data);
-    }
-
-    public function requestBlock(Request $request){
-        //TODO: schedule-based
-        //$blockId = $request->input("block");
-        //$assignments = Block::where("id", $blockId)->assignments();
-        $residents = User::where("type", "resident")->where("status", "active")->get();
-        $faculty = User::where("type", "faculty")->where("status", "active")->get();
         $forms = Form::where("status", "active")->get();
 
-        $data = compact("user", "block", "residents", "faculty", "forms");
+        $data = compact("selectTypes", "forms");
 
-        return view("evaluations.request-block", $data);
+        if(isset($residents)){
+            $residents = json_encode($residents);
+            $data["requestResidents"] = str_replace("'", "", $residents);
+        }
+        if(isset($faculty)){
+            $faculty = json_encode($faculty);
+            $data["requestFaculty"] = str_replace("'", "", $faculty);
+        }
+        if(isset($blocks))
+            $data["blocks"] = $blocks;
+
+        return view("evaluations.request", $data);
     }
 
     public function createRequest(Request $request){

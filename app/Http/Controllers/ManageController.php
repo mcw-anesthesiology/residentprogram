@@ -566,34 +566,21 @@ class ManageController extends Controller
         $numBlocks = Block::where("year", $request->input("year"))->orderBy("block_number")->count();
         $lastBlock = 0;
         foreach($blockUsers as $blockUser){
-            $row = [];
-            $row[] = $blockUser->last_name.", ".$blockUser->first_name;
-            if($blockUser->last_name == "Kahn")
-                dd($blockUser->blockAssignments->where("block.year", $request->input("year"))->sortBy("block.block_number"));
+            $row = array_fill(0, 14, "");
+            $row[0] = $blockUser->last_name.", ".$blockUser->first_name;
+            // if($blockUser->last_name == "Kahn")
+                // dd($blockUser->blockAssignments->where("block.year", $request->input("year"))->sortBy("block.block_number"));
             foreach($blockUser->blockAssignments->where("block.year", $request->input("year"))->sortBy("block.block_number") as $assignment){
-                if($assignment->block->block_number == $lastBlock){
-                    $cell .= "<br />".$assignment->location;
-                } elseif($assignment->block->block_number == $lastBlock+1){
-                    if($lastBlock)
-                        $row[] = $cell;
-                    $cell = $assignment->location;
-                } else{
-                    $row[] = $cell;
-                    for($i = $lastBlock+1; $i < $assignment->block->block_number; $i++)
-                        $row[] = "";
-                }
-                $lastBlock = $assignment->block->block_number;
+                if($row[$assignment->block->block_number] != "")
+                    $row[$assignment->block->block_number] .= "<br />".$assignment->location;
+                else
+                    $row[$assignment->block->block_number] = $assignment->location;
             }
-            if($lastBlock != $numBlocks){
-                for(; $lastBlock < $numBlocks; $lastBlock++){
-                    $row[] = "";
-                }
-            }
-            $lastBlock = 0;
+
             $data["data"][] = $row;
         }
 
-        dd($data);
+        return json_encode($data);
     }
 
     public function saveBlockAssignments(Request $request){
