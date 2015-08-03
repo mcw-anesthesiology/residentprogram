@@ -1,7 +1,29 @@
 @extends("app")
 
+@section("head")
+	<style>
+		.graph {
+			width: 100%;
+		}
+	</style>
+@stop
+
 @section("body")
-	@if($reportType == "aggregate" || ($reportType == "specific" && $numReports == 1))
+	@if($reportType == "specific")
+		<table class="table table striped">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Training Level</th>
+				</tr>
+			</thead>
+			<tbody>
+					<td>{{ $specificSubject->last_name }}, {{ $specificSubject->first_name }}</td>
+					<td>{{ $specificSubject->training_level }}</td>
+			</tbody>
+		</table>
+	@endif
+	@if($reportType == "aggregate" || ($reportType == "specific" && $numReports == 1 && isset($subjectEvals[key($subjects)])))
 <?php $tsv = ""; ?>
 		<table class="table table-striped table-bordered datatable" id="report-table" width="100%">
 			<thead>
@@ -90,13 +112,18 @@
 	@endif
 
 	<hr />
-	<div id="graphs">
-		@foreach($graphs as $graph)
-			<img class="graph" src="/graph/{{ $graph }}" /><br />
-		@endforeach
-	</div>
-	@if($reportType == "specific")
-		<hr />
+	@if(count($graphs) > 0)
+		<div id="graphs">
+			@foreach($graphs as $graph)
+				<img class="graph" src="/graph/{{ $graph }}" /><br />
+			@endforeach
+		</div>
+	@else
+		<h4>No graphs to show</h4>
+	@endif
+
+	<hr />
+	@if($reportType == "specific" && count($subjectTextResponses) > 0)
 		<table class="table table-striped table-bordered datatable" id="text-responses-table" width="100%">
 			<thead>
 				<tr>
@@ -117,6 +144,8 @@
 				@endforeach
 			</tbody>
 		</table>
+	@else
+		<h4>No text responses to show</h4>
 	@endif
 @stop
 
@@ -139,7 +168,8 @@
 				"scrollCollapse": true,
 				"paging": false
 			});
-			new $.fn.DataTable.FixedColumns(reportTable);
+			if(reportTable.length > 0)
+				new $.fn.DataTable.FixedColumns(reportTable);
 		});
 	</script>
 @stop

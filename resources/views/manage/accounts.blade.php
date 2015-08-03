@@ -107,7 +107,7 @@
 				<option value="fellow">Fellow</option>
 			</select>
           </div>
-          <div class="form-group" id="photoDiv">
+          <div class="form-group" id="photoDiv" style="text-align: center;">
 			<label for="photoInput">Photo</label>
 			<input type="hidden" name="MAX_FILE_SIZE" value="500000" />
 			<input type="file" accept="image/*" class="form-control" id="photoInput" name="photo" />
@@ -244,59 +244,6 @@
     </div>
   </div>
 </div>
-
-
-<!-- Add Error Modal -->
-    <div class="modal fade bs-add-error-modal" tabindex="-1" role="dialog" aria-labelledby="modalError" aria-hidden="true" id="errorAddModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header alert alert-danger">
-					<h3><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Account Error</h3>
-				</div>
-				<div class="modal-body">
-					There was an error adding the account. Please try again.</p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				</div>
-            </div>
-        </div>
-    </div>
-
-<!-- Edit Error Modal -->
-    <div class="modal fade bs-edit-error-modal" tabindex="-1" role="dialog" aria-labelledby="modalError" aria-hidden="true" id="errorEditModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header alert alert-danger">
-					<h3><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Account Error</h3>
-				</div>
-				<div class="modal-body">
-					There was an error editing the account. Please try again.</p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				</div>
-            </div>
-        </div>
-	</div>
-
-
-<!-- Password Error Modal -->
-    <div class="modal fade bs-password-error-modal" tabindex="-1" role="dialog" aria-labelledby="modalError" aria-hidden="true" id="errorPasswordModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header alert alert-danger">
-					<h3><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Account Error</h3>
-				</div>
-				<div class="modal-body">
-					There was an error editing the password. Please try again.</p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				</div>
-            </div>
-        </div>
-    </div>
 @stop
 
 @section("script")
@@ -307,13 +254,14 @@
 			data._token = "{{ csrf_token() }}";
 			data.id = $(this).data("id");
 			var span = $(this).parent();
+			var status = $(this).parent().parent().siblings().last();
 			$.ajax({
 				"method": "post",
 				"url": "/manage/accounts/disable",
 				"data": data,
 				"success": function(response){
-					//TODO: status
 					span.html("<button class='enableUser btn btn-success btn-xs' data-id='"+data.id+"'><span class='glyphicon glyphicon-ok'></span> Enable</button>");
+					status.html("inactive");
 				}
 			});
 		});
@@ -322,13 +270,14 @@
 			data._token = "{{ csrf_token() }}";
 			data.id = $(this).data("id");
 			var span = $(this).parent();
+			var status = $(this).parent().parent().siblings().last();
 			$.ajax({
 				"method": "post",
 				"url": "/manage/accounts/enable",
 				"data": data,
 				"success": function(response){
-					//TODO: status
 					span.html("<button class='disableUser btn btn-danger btn-xs' data-id='"+data.id+"'><span class='glyphicon glyphicon-remove'></span> Disable</button>");
+					status.html("active");
 				}
 			});
 		});
@@ -352,7 +301,7 @@
 				$("#editModal #trainingLevelDiv").show();
 				$("#editModal #trainingLevelInput").val(trainingLevel);
 				$("#editModal #photoDiv").show();
-				$("#editModal #photoPreview").attr("src", photoPath);
+				$("#editModal #photoPreview").attr("src", "/"+photoPath);
 			}
 			else if(type == "fellow"){
 				$("#editModal #trainingLevelDiv").hide();
@@ -367,7 +316,7 @@
 			}
 		});
 
-		$(".table").on("click", ".addUser", function(){
+		$(".addUser").on("click", function(){
 			var type = $(this).data('id');
 
 			$("#addModal #usernameInput").val("");

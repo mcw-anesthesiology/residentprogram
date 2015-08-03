@@ -39,6 +39,7 @@ Route::post("user", "MainController@saveUser");
 Route::get("contact", "MainController@contact");
 Route::post("contact", "MainController@saveContact");
 
+Route::get("photos/{filename}", "FileController@getPhoto");
 Route::get("graph/{filename}", "FileController@getGraph");
 
 Route::get("manage/evaluations", "ManageController@evaluations");
@@ -81,10 +82,3 @@ Route::get("report/milestones-competencies-forms/export/{type}", "ReportControll
 Route::get("report/milestones-competencies-forms/{type}", "ReportController@getMilestonesCompetenciesForms");
 Route::get("report/{type}", "ReportController@stats");
 Route::post("report/{type}", "ReportController@getStats");
-
-
-
-// Route::controllers([
-// 	"auth" => "Auth\AuthController",
-// 	"password" => "Auth\PasswordController"
-// ]);

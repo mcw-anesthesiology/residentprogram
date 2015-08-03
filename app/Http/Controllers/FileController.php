@@ -17,4 +17,9 @@ class FileController extends Controller
         $path = "app/graphs/".$filename;
         return response()->download(storage_path($path), null, [], null);
     }
+
+    public function getPhoto($filename){
+        $path = "app/photos/".$filename;
+        return response()->download(storage_path($path), null, [], null);
+    }
 }

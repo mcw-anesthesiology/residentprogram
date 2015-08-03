@@ -2,7 +2,7 @@
 
 @section("head")
 	<style>
-		.view, .complete { cursor: pointer }
+		.view, .complete { cursor: pointer; }
 	</style>
 @stop
 
@@ -34,9 +34,12 @@
 
 @section("script")
 	<script>
-		$(".table").on("click", ".cancelEval", function(){
+		$(".table").on("click", ".cancelEval", function(event){
+			// event.preventDefault();
 			var id = $(this).data("id");
 			$(".modal-cancel #id").val(id);
+			$(".bs-cancel-modal-sm").modal();
+			event.stopPropagation();
 		});
 
 		$(".table").on("click", ".view", function(){

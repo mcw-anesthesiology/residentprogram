@@ -30,7 +30,7 @@ class MainController extends Controller
         $this->middleware("shared");
     }
 
-    public function dashboard(){
+    public function dashboard(Request $request){
         $user = Auth::user();
         if($user->type == "faculty"){
             $mentees = $user->mentees->where("status", "active")->unique();
@@ -39,7 +39,7 @@ class MainController extends Controller
         return view("dashboard.dashboard", $data);
     }
 
-    public function request(){
+    public function request(Request $request){
         $user = Auth::user();
 
         if($user->type == "resident" || $user->type == "faculty"){
@@ -128,8 +128,8 @@ class MainController extends Controller
         $eval = Evaluation::find($request->input("id"));
         if($eval->requestor == Auth::user()){
             $eval->status = "canceled by ".$eval->requestor->type;
+            $eval->save();
         }
-        $eval->save();
         return redirect("dashboard");
     }
 
@@ -151,18 +151,11 @@ class MainController extends Controller
                         $weight = $value;
                     else{
                         if(is_numeric($value)){
-                            if(Response::where("evaluation_id", $id)->where("question_id", $question)->exists())
-                                $response = Response::where("evaluation_id", $id)->where("question_id", $question)->first();
-                            else
-                                $response = new Response();
-
+                            $response = Response::where("evaluation_id", $id)->where("question_id", $question)->firstOrNew();
                             $response->weight = $weight;
                         }
                         else{
-                            if(TextResponse::where("evaluation_id", $id)->where("question_id", $question)->exists())
-                                $response = TextResponse::where("evaluation_id", $id)->where("question_id", $question)->first();
-                            else
-                                $response = new TextResponse();
+                            $response = TextResponse::where("evaluation_id", $id)->where("question_id", $question)->firstOrNew();
                         }
 
                         $response->question_id = $question;
@@ -188,9 +181,9 @@ class MainController extends Controller
                 $result[] = $eval->subject->last_name.", ".$eval->subject->first_name;
                 $result[] = $eval->evaluator->last_name.", ".$eval->evaluator->first_name;
                 $result[] = $eval->form->title;
-                $result[] = $eval->request_date->toDateTimeString();
+                $result[] = (string)$eval->request_date;
                 if($eval->complete_date)
-                    $result[] = $eval->complete_date->toDateTimeString();
+                    $result[] = (string)$eval->complete_date;
                 else
                     $result[] = "";
                 if($eval->status == "complete")
@@ -223,9 +216,9 @@ class MainController extends Controller
                 else
                     $result[] = $eval->subject->last_name.", ".$eval->subject->first_name;
                 $result[] = $eval->form->title;
-                $result[] = $eval->request_date->toDateTimeString();
+                $result[] = (string)$eval->request_date;
                 if($type == "complete")
-                    $result[] = $eval->complete_date->toDateTimeString();
+                    $result[] = (string)$eval->complete_date;
                 elseif($type == "mentor")
                     $result[] = "";
                 if($type == "pending" && $eval->requested_by_id == $user->id){
@@ -241,7 +234,7 @@ class MainController extends Controller
         return json_encode($results);
     }
 
-    public function user(){
+    public function user(Request $request){
         return view("dashboard.user");
     }
 
@@ -250,8 +243,15 @@ class MainController extends Controller
         if($request->input("new_password") == $request->input("new_password_confirm") && password_verify($request->input("old_password"), $user->password)){
             $user->password = bcrypt($request->input("new_password"));
             $user->save();
+            return redirect("dashboard");
+        } else{
+            if($request->input("new_password") != $request->input("new_password_confirm"))
+                $error = "New passwords did not match";
+            elseif(!password_verify($request->input("old_password"), $user->password))
+                $error = "Current password verification failed";
+
+            return redirect("user")->with("error", $error);
         }
-        return redirect("dashboard");
     }
 
     public function contact(){

@@ -42,7 +42,7 @@ class ManageController extends Controller
 
     public function getEvaluations(){
         $results["data"] = [];
-        $evaluations = Evaluation::with("subject", "evaluator", "form")->get();
+        $evaluations = Evaluation::with("subject", "evaluator", "requestor", "form")->get();
         foreach($evaluations as $eval){
             $result = [];
             $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
@@ -50,9 +50,9 @@ class ManageController extends Controller
             $result[] = $eval->evaluator->last_name.", ".$eval->evaluator->first_name;
             $result[] = $eval->requestor->last_name.", ".$eval->requestor->first_name;
             $result[] = $eval->form->title;
-            $result[] = $eval->request_date->toDateTimeString();
+            $result[] = (string)$eval->request_date;
             if($eval->complete_date)
-                $result[] = $eval->complete_date->toDateTimeString();
+                $result[] = (string)$eval->complete_date;
             else
                 $result[] = "";
 
@@ -130,8 +130,12 @@ class ManageController extends Controller
     public function account(Request $request, $action){
         switch($action){
             case "add":
-                if($request->input("password") != $request->input("password2") || !filter_var($request->input("email"), FILTER_VALIDATE_EMAIL))
-                    return redirect("manage/accounts");
+                if($request->input("password") != $request->input("password2"))
+                    return redirect("manage/accounts")->with("error", "Passwords do not match for new user");
+                elseif(!filter_var($request->input("email"), FILTER_VALIDATE_EMAIL))
+                    return redirect("manage/accounts")->with("error", "Email appears invalid");
+                elseif($request->input("accountType") == "resident" && !($request->hasFile("photo") && $request->file("photo")->isValid()))
+                    return redirect("manage/accounts")->with("error", "Problem with photo");
                 $user = new User();
                 $user->username = $request->input("username");
                 $user->email = $request->input("email");
@@ -159,19 +163,20 @@ class ManageController extends Controller
                 return redirect("manage/accounts");
                 break;
             case "edit":
+                if(!filter_var($request->input("email"), FILTER_VALIDATE_EMAIL))
+                    return redirect("manage/accounts")->with("error", "Email appears invalid");
                 $user = User::find($request->input("id"));
-                if(filter_var($request->input("email"), FILTER_VALIDATE_EMAIL))
-                    $user->email = $request->input("email");
+                if($user->type == "resident" && !($request->hasFile("photo") && $request->file("photo")->isValid()))
+                    return redirect("manage/accounts")->with("error", "Problem with photo");
+                $user->email = $request->input("email");
                 $user->first_name = $request->input("firstName");
                 $user->last_name = $request->input("lastName");
                 if($user->type == "resident"){
                     $user->training_level = $request->input("trainingLevel");
-                    if($request->hasFile("photo") && $request->file("photo")->isValid()){
-                        $photoName = uniqid().".".$request->file("photo")->getExtension();
-                        $request->file("photo")->move("/public/photos/", $photoName);
-                        unlink("/public/".$user->photo_path);
-                        $user->photo_path = "photos/".$photoName;
-                    }
+                    $photoName = uniqid().".".$request->file("photo")->getExtension();
+                    $request->file("photo")->move("/public/photos/", $photoName);
+                    unlink("/public/".$user->photo_path);
+                    $user->photo_path = "photos/".$photoName;
                 }
                 $user->save();
                 return redirect("manage/accounts");
@@ -189,19 +194,26 @@ class ManageController extends Controller
                 return "true";
                 break;
             case "password":
-                if($request->input("newPassword") == $request->input("newPassword2") && password_verify($request->input("adminPassword"), Auth::user()->password)){
+                if($request->input("newPassword") != $request->input("newPassword2"))
+                    return redirect("manage/accounts")->with("error", "New passwords do not match");
+                elseif(password_verify($request->input("adminPassword"), Auth::user()->password))
+                    return redirect("manage/accounts")->with("error", "Administrator password verification failed");
+                else{
                     $user = User::find($request->input("id"));
                     $user->password = bcrypt($request->input("newPassword"));
                     $user->save();
                 }
-                return redirect("manage/accounts"); //TODO: errors
+                return redirect("manage/accounts");
                 break;
             case "to-faculty":
                 $user = User::find($request->input("id"));
-                if($user->type == "resident")
+                if($user->type == "resident"){
                     $user->type = "faculty";
-                $user->save();
-                return redirect("manage/accounts");
+                    $user->save();
+                    return redirect("manage/accounts");
+                }
+                else
+                    return redirect("manage/accounts")->with("error", "User not resident");
                 break;
             default:
                 return redirect("manage/accounts");
@@ -257,7 +269,7 @@ class ManageController extends Controller
         foreach($forms as $form){
             $result = [];
             $result[] = $form->title;
-            $result[] = $form->created_at->toDateTimeString();
+            $result[] = (string)$form->created_at;
             if($form->status == "inactive"){
                 $buttonClass = "enableEval";
                 $buttonType = "success";
@@ -280,11 +292,9 @@ class ManageController extends Controller
     }
 
     public function formBuilder(){
-        $user = Auth::user();
-        $residents = User::where("type", "resident")->get(); //TODO: abstract this, residents only get themselves
         $milestones = Milestone::all();
         $competencies = Competency::all();
-        $data = compact("user", "residents", "milestones", "competencies");
+        $data = compact("milestones", "competencies");
         return view("manage.forms.builder", $data);
     }
 
@@ -300,8 +310,6 @@ class ManageController extends Controller
     	foreach ($input as $key => $value){
             if($key == "_token")
                 continue;
-    		//$value = htmlspecialchars($value);
-    		//$key = htmlspecialchars($key);
 
     		$questionName = substr($key, 0, strpos($key, ":"));
     		if(strpos($key, "name") !== false){
@@ -352,7 +360,6 @@ class ManageController extends Controller
     	$dom->formatOuput = true;
     	$dom->loadXML($form->asXML());
     	$dom->save(storage_path("app")."/".$formLocation);
-    	//$form->asXML($formLocation);
     	$formTitle = $formTitle;
     	$formStatus = "active";
     	$createdDate = date("Y-m-d H:i:s");
@@ -392,8 +399,8 @@ class ManageController extends Controller
     }
 
     public function editForm(Request $request, $id){
-        $form = Form::find($id);
         if($request->input("action")){
+            $form = Form::find($id);
             switch($request->input("action")){
                 case "disable":
                     $form->status = "inactive";
@@ -516,7 +523,7 @@ class ManageController extends Controller
             $result[] = $mentorship->id;
             $result[] = $mentorship->mentor->last_name.", ".$mentorship->mentor->first_name;
             $result[] = $mentorship->mentee->last_name.", ".$mentorship->mentee->first_name;
-            $result[] = $mentorship->created_at->toDateTimeString();
+            $result[] = (string)$mentorship->created_at;
             $result[] = "<button class='removeMentorship btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-remove-modal' id='rmvBtn' data-id='{$mentorship->id}'><span class='glyphicon glyphicon-remove'></span> Remove</button>";
             $results["data"][] = $result;
         }
@@ -551,8 +558,6 @@ class ManageController extends Controller
     }
 
     public function blockAssignmentsTable(Request $request){
-        // DB::table("blocks")->join("block_assignments", "blocks.id", "=", "block_id")->where("year", $request->input("year"))
-        //     ->orderBy("block_number")->get();
         $blocks = Block::where("year", $request->input("year"))->orderBy("block_number")->get();
         $data = compact("blocks");
 
@@ -566,10 +571,8 @@ class ManageController extends Controller
         $numBlocks = Block::where("year", $request->input("year"))->orderBy("block_number")->count();
         $lastBlock = 0;
         foreach($blockUsers as $blockUser){
-            $row = array_fill(0, 14, "");
+            $row = array_fill(0, $numBlocks+1, "");
             $row[0] = $blockUser->last_name.", ".$blockUser->first_name;
-            // if($blockUser->last_name == "Kahn")
-                // dd($blockUser->blockAssignments->where("block.year", $request->input("year"))->sortBy("block.block_number"));
             foreach($blockUser->blockAssignments->where("block.year", $request->input("year"))->sortBy("block.block_number") as $assignment){
                 if($row[$assignment->block->block_number] != "")
                     $row[$assignment->block->block_number] .= "<br />".$assignment->location;
@@ -611,10 +614,6 @@ class ManageController extends Controller
         		$blockEnd[$i] = $matches[2];
         	}
         }
-
-        //var_dump($blocks);
-        //var_dump($blockStart);
-        //var_dump($blockEnd);
 
         $hits = 0;
         $misses = 0;
@@ -676,7 +675,6 @@ class ManageController extends Controller
         foreach($assignments as $blockNumber => $blockAssignments){
             $blockName = $blocks[$blockNumber];
             foreach($blockAssignments as $user_id => $userAssignments){
-                // BlockAssignment::join("blocks", "block_id", "=", "blocks.id")->where("year", $year)
                 foreach($userAssignments as $location){
                     $block_id = $blockIds[$blockNumber];
                     $stmt->execute();

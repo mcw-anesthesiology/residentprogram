@@ -8,7 +8,7 @@ use CpChart\Classes\pRadar;
 
 class RadarGraphs{
 
-	static function draw($subjectMilestone, $averageMilestone, $milestones, $subjectCompetency, $averageCompetency, $competencies, $subject, $trainingLevel, $max){
+	static function draw($subjectMilestone, $averageMilestone, $milestones, $subjectCompetency, $averageCompetency, $competencies, $subject, $startDate, $endDate, $trainingLevel, $max){
 
 		$factory = new pChartFactory();
 
@@ -49,8 +49,8 @@ class RadarGraphs{
 			$picture->drawLine(0,20,1800,20,array("R"=>255,"G"=>255,"B"=>255));
 
 			$picture->setFontProperties(array("FontName"=>"verdana.ttf","FontSize"=>8));
-			$picture->drawText(10,13,$subject.": ".$trainingLevel." Milestones",array("R"=>255,"G"=>255,"B"=>255));
-			$picture->drawText(910,13,$subject.": ".$trainingLevel." Competencies",array("R"=>255,"G"=>255,"B"=>255));
+			$picture->drawText(10,13,$subject.": ".$startDate->toDateString()." - ".$endDate->toDateString()." ".$trainingLevel." Milestones",array("R"=>255,"G"=>255,"B"=>255));
+			$picture->drawText(910,13,$subject.": ".$startDate->toDateString()." - ".$endDate->toDateString()." ".$trainingLevel." Competencies",array("R"=>255,"G"=>255,"B"=>255));
 
 			$picture->drawLine(900, 0, 900, 600, array("R"=>255,"G"=>255,"B"=>255));
 

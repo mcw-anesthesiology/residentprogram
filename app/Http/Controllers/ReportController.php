@@ -300,9 +300,6 @@ class ReportController extends Controller
             ->orderBy("milestones.title")->orderBy("competencies.title");
         $query->chunk(10000, function($responses) use (&$milestones, &$subjects, &$milestones, &$competencies, &$subjectEvals, &$averageMilestone, &$averageMilestoneDenom, &$averageCompetency, &$averageCompetencyDenom, &$subjectMilestone, &$subjectMilestoneDenom, &$subjectMilestoneEvals, &$subjectCompetency, &$subjectCompetencyDenom, &$subjectCompetencyEvals, &$competencyQuestions){
             foreach($responses as $response){
-                if($response->milestone_id == 1 && $response->subject_id == 32)
-                    Debugbar::addMessage($response);
-
                 if(!isset($subjects[$response->subject_id]))
                     $subjects[$response->subject_id] = $response->last_name.", ".$response->first_name;
                 if(!isset($subjectEvals[$response->subject_id]))
@@ -366,10 +363,12 @@ class ReportController extends Controller
                 else
                     $subjectMilestone[$subject][$milestone] = $milestoneSubject[$milestone][$subject] = 0;
             }
-            $milestoneStd[$milestone] = $this->sd($milestoneSubject[$milestone]);
-            foreach($subjects as $subject => $name){
-                // Num standard deviations = ((subject weighted average)-(milestone weighted average))/(standard deviation of subject averages)
-                $subjectMilestoneDeviations[$subject][$milestone] = ($subjectMilestone[$subject][$milestone]-$averageMilestone[$milestone])/$milestoneStd[$milestone];
+            if(count($milestoneSubject[$milestone]) > 1){
+                $milestoneStd[$milestone] = $this->sd($milestoneSubject[$milestone]);
+                foreach($subjects as $subject => $name){
+                    // Num standard deviations = ((subject weighted average)-(milestone weighted average))/(standard deviation of subject averages)
+                    $subjectMilestoneDeviations[$subject][$milestone] = ($subjectMilestone[$subject][$milestone]-$averageMilestone[$milestone])/$milestoneStd[$milestone];
+                }
             }
         }
 
@@ -388,10 +387,12 @@ class ReportController extends Controller
 
 
             }
-            $competencyStd[$competency] = $this->sd($competencySubject[$competency]);
-            foreach($subjects as $subject => $name){
-                // Num standard deviations = ((subject weighted average)-(competency weighted average))/(standard deviation of subject averages)
-                $subjectCompetencyDeviations[$subject][$competency] = ($subjectCompetency[$subject][$competency]-$averageCompetency[$competency])/$competencyStd[$competency];
+            if(count($competencySubject[$competency]) > 1){
+                $competencyStd[$competency] = $this->sd($competencySubject[$competency]);
+                foreach($subjects as $subject => $name){
+                    // Num standard deviations = ((subject weighted average)-(competency weighted average))/(standard deviation of subject averages)
+                    $subjectCompetencyDeviations[$subject][$competency] = ($subjectCompetency[$subject][$competency]-$averageCompetency[$competency])/$competencyStd[$competency];
+                }
             }
         }
 
@@ -412,10 +413,11 @@ class ReportController extends Controller
         switch($graphOption){
             case "all":
                 foreach($subjects as $subject => $subject_name){
+                    if(!isset($subjectMilestone[$subject]) || !isset($subjectCompetency[$subject]))
+                        continue;
                     ksort($subjectMilestone[$subject]);
                     ksort($subjectCompetency[$subject]);
-                    Debugbar::addMessage($subjectMilestone[$subject]);
-                    $graphs[] = RadarGraphs::draw($subjectMilestone[$subject], $averageMilestone, $milestones, $subjectCompetency[$subject], $averageCompetency, $competencies, $subject_name, $trainingLevel, $maxResponse);
+                    $graphs[] = RadarGraphs::draw($subjectMilestone[$subject], $averageMilestone, $milestones, $subjectCompetency[$subject], $averageCompetency, $competencies, $subject_name, $startDate, $endDate, $trainingLevel, $maxResponse);
                 }
                 break;
             case "average":
@@ -481,6 +483,7 @@ class ReportController extends Controller
 
         $data["reportType"] = "specific";
         $data["numReports"] = count($startDates);
+        $data["specificSubject"] = User::find($request->input("resident"));
         return view("report.report", $data);
     }
 }
