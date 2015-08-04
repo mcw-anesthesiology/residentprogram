@@ -50,10 +50,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     public function mentors(){
-        return $this->belongsToMany("App\User", "mentorships", "mentee_id", "mentor_id");
+        return $this->belongsToMany("App\User", "mentorships", "mentee_id", "mentor_id")->where("mentorships.status", "active");
     }
 
     public function mentees(){
-        return $this->belongsToMany("App\User", "mentorships", "mentor_id", "mentee_id");
+        return $this->belongsToMany("App\User", "mentorships", "mentor_id", "mentee_id")->where("mentorships.status", "active");
     }
 }

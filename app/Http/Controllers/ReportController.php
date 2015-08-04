@@ -14,6 +14,7 @@ use DB;
 use DateTime;
 use DateInterval;
 use Debugbar;
+use Auth;
 
 use App\Helpers\RadarGraphs;
 
@@ -464,6 +465,11 @@ class ReportController extends Controller
     }
 
     public function specific(Request $request){
+        $user = Auth::user();
+        $resident = User::find($request->input("resident"));
+        if(!($resident == $user || $user->type == "admin" || $user->mentees->contains($resident)))
+            return redirect("dashboard")->with("error", "Requested report not authorized");
+            
         $data = [];
 
         $input = $request->all();

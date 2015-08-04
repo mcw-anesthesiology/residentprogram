@@ -45,14 +45,14 @@
 					<select class="form-control" id="evaluation_date" name="evaluation_date">
 					<?php $month = Carbon\Carbon::parse("first day of this month"); ?>
 						@for($i = 0; $i < 3; $i++, $month->subMonth())
-							<option value="{{ $month }}">{{ $month->format("F") }}</option>
+							<option value="{{ $month->toDateString() }}">{{ $month->format("F") }}</option>
 						@endfor
 					</select>
 			@endif
 			{!! App\Helpers\FormReader::read($evaluation->form->xml_path) !!}
 			@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id)
-					<button type="submit" name="evaluation_id" value="{{ $evaluation->id }}" class="btn btn-primary">Submit</button>
-					<button type="submit" name="evaluation_id_saved" value="{{ $evaluation->id }}" class="btn btn-default" formnovalidate>Save</button>
+					<button type="submit" id="complete-form" name="evaluation_id" value="{{ $evaluation->id }}" class="btn btn-primary">Submit</button>
+					<button type="submit" id="save-form" name="evaluation_id_saved" value="{{ $evaluation->id }}" class="btn btn-default" formnovalidate>Save</button>
 				</form>
 			@endif
 		</div>
@@ -62,13 +62,19 @@
 @section("script")
 	<script>
 		$(document).ready(function(){
-			@foreach($evaluation->responses as $response)
-				$("input[name='{{ $response->question_id }}'][value='{{ $response->response }}']").prop("checked", true);
-			@endforeach
+			@if($evaluation->status == "complete" || $user->id == $evaluation->evaluator_id)
+				@foreach($evaluation->responses as $response)
+					$("input[name='{{ $response->question_id }}'][value='{{ $response->response }}']").prop("checked", true);
+				@endforeach
 
-			@foreach($evaluation->textResponses as $response)
-				$("textarea[name='{{ $response->question_id }}']").val("{{ $response->response }}");
-			@endforeach
+				@foreach($evaluation->textResponses as $response)
+					$("textarea[name='{{ $response->question_id }}']").val("{{ $response->response }}");
+				@endforeach
+			@endif
+
+			@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id)
+				$("#evaluation_date option[value='{{ $evaluation->evaluation_date->toDateString() }}']").prop("selected", true);
+			@endif
 
 			@if($evaluation->status == "complete" || $user->id != $evaluation->evaluator_id)
 				$("#form input").prop("disabled", true);
@@ -118,7 +124,11 @@
 			return validForm;
 		}
 
-		$("#saveForm").click(function(){
+		$("#complete-form").click(function(){
+			saveForm = false;
+		});
+
+		$("#save-form").click(function(){
 			saveForm = true;
 		});
 	</script>

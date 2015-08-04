@@ -15,11 +15,21 @@ class FileController extends Controller
 
     public function getGraph($filename){
         $path = "app/graphs/".$filename;
-        return response()->download(storage_path($path), null, [], null);
+        try{
+            return response()->download(storage_path($path), null, [], null);
+        }
+        catch(\Exception $e){
+
+        }
     }
 
     public function getPhoto($filename){
         $path = "app/photos/".$filename;
-        return response()->download(storage_path($path), null, [], null);
+        try{
+            return response()->download(storage_path($path), null, [], null);
+        }
+        catch(\Exception $e){
+
+        }
     }
 }

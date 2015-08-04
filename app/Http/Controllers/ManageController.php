@@ -143,6 +143,8 @@ class ManageController extends Controller
                 $user->first_name = $request->input("firstName");
                 $user->last_name = $request->input("lastName");
                 $user->status = "active";
+                $user->reminder_frequency = "weekly";
+                $user->notifications = "no";
                 if($request->input("accountType") == "resident"){
                     $user->type = $request->input("accountType");
                     $user->training_level = $request->input("trainingLevel");
@@ -196,7 +198,7 @@ class ManageController extends Controller
             case "password":
                 if($request->input("newPassword") != $request->input("newPassword2"))
                     return redirect("manage/accounts")->with("error", "New passwords do not match");
-                elseif(password_verify($request->input("adminPassword"), Auth::user()->password))
+                elseif(!password_verify($request->input("adminPassword"), Auth::user()->password))
                     return redirect("manage/accounts")->with("error", "Administrator password verification failed");
                 else{
                     $user = User::find($request->input("id"));

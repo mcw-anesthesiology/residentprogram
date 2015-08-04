@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Helpers\FormReader;
 
 use Auth;
+use Debugbar;
 
 use Carbon\Carbon;
 
@@ -48,14 +49,16 @@ class MainController extends Controller
                 $userLocations = $block->assignments->where("user_id", $user->id)->map(function ($item, $key){
                     return $item->location;
                 });
+                Debugbar::addMessage($userLocations);
                 foreach($userLocations as $location){
                     foreach($block->assignments->where("location", $location) as $assignment){
-                        if($user->type == "faculty"){
+                        Debugbar::addMessage($assignment);
+                        if($user->type == "resident"){
                             if($assignment->user_id != $user->id && $assignment->user->type == "faculty"){
                                 $faculty[$block->id][] = ["id" => $assignment->user_id, "name" => $assignment->user->last_name.", ".$assignment->user->first_name];
                             }
                         }
-                        elseif($user->type == "resident"){
+                        elseif($user->type == "faculty"){
                             if($assignment->user_id != $user->id && $assignment->user->type == "resident"){
                                 $residents[$block->id][] = ["id" => $assignment->user_id, "name" => $assignment->user->last_name.", ".$assignment->user->first_name];
                             }
@@ -115,22 +118,46 @@ class MainController extends Controller
         $eval->save();
         if($user->id == $eval->evaluator_id)
             return redirect("evaluation/".$eval->id);
+        else{
+            if($eval->evaluator->notifications == "yes"){
+                $email = $eval->evaluator->email;
+                $evaluationId = $eval->id;
+                $data = compact("evaluationId");
+                Mail::send("emails.notification", $data, function($message) use($email){
+                    $message->to($email);
+                    $message->from("notifications@residentprogram.com", "ResidentProgram Notifications");
+                    $message->replyTo("jmischka@mcw.edu");
+                    $message->subject("Evaluation Request Notification");
+                });
+            }
+        }
+
         return redirect("dashboard");
     }
 
     public function evaluation(Request $request, $id){
+        $user = Auth::user();
         $evaluation = Evaluation::find($id);
-
-        return view("evaluations.evaluation", compact("evaluation"));
+        if($evaluation->subject_id == $user->id || $evaluation->evaluator_id == $user->id || $user->type == "admin" || $user->mentees->contains($evaluation->subject))
+            return view("evaluations.evaluation", compact("evaluation"));
+        else
+            return redirect("dashboard")->with("error", "Insufficient permissions to view the requested evaluation");
     }
 
     public function cancelEvaluation(Request $request){
+        $user = Auth::user();
         $eval = Evaluation::find($request->input("id"));
-        if($eval->requestor == Auth::user()){
+        if(($eval->requestor == $user || $user->type == "admin") && $eval->status == "pending"){
             $eval->status = "canceled by ".$eval->requestor->type;
             $eval->save();
+            return redirect("dashboard");
         }
-        return redirect("dashboard");
+        else{
+            if(!($eval->requestor == $user || $user->type == "admin"))
+                return redirect("dashboard")->with("error", "Only the requestor or an administrator can cancel an evaluation");
+            elseif($eval->status != "pending")
+                return redirect("dashboard")->with("error", "Only pending evaluations can be canceled");
+        }
     }
 
     public function saveEvaluation(Request $request, $id){
@@ -151,23 +178,30 @@ class MainController extends Controller
                         $weight = $value;
                     else{
                         if(is_numeric($value)){
-                            $response = Response::where("evaluation_id", $id)->where("question_id", $question)->firstOrNew();
+                            $response = Response::firstOrNew(["evaluation_id" => $id, "question_id" => $question]);
                             $response->weight = $weight;
                         }
                         else{
-                            $response = TextResponse::where("evaluation_id", $id)->where("question_id", $question)->firstOrNew();
+                            $response = TextResponse::firstOrNew(["evaluation_id" => $id, "question_id" => $question]);
                         }
 
-                        $response->question_id = $question;
+                        // $response->question_id = $question;
                         $response->response = $value;
-                        $response->evaluation_id = $id;
+                        // $response->evaluation_id = $id;
                         $response->save();
                     }
                 }
             }
             $eval->save();
+            return redirect("dashboard");
         }
-        return redirect("dashboard");
+        else{
+            if($eval->status != "pending")
+                return redirect("dashboard")->with("error", "Cannot complete a non-pending evaluation");
+            elseif($eval->evaluator_id != $user->id)
+                return redirect("dashboard")->with("error", "Only the evaluator can complete an evaluation");
+        }
+
     }
 
     public function evaluations(Request $request){
@@ -252,6 +286,20 @@ class MainController extends Controller
 
             return redirect("user")->with("error", $error);
         }
+    }
+
+    public function saveUserReminders(Request $request){
+        $user = Auth::user();
+        $user->reminder_frequency = $request->input("frequency");
+        $user->save();
+        return redirect("user")->with("success", "Reminder preferences saved successfully!");
+    }
+
+    public function saveUserNotifications(Request $request){
+        $user = Auth::user();
+        $user->notifications = $request->input("notifications");
+        $user->save();
+        return redirect("user")->with("success", "Notifications preferences saved successfully!");
     }
 
     public function contact(){

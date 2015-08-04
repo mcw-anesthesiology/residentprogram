@@ -13,7 +13,7 @@
 				@endforeach
 			</select>
 		</div>
-		<div class="form-group">
+		<div class="form-group" id="new-year-group">
 			<label for="new-year">Year Name</label>
 			<input type="text" class="form-control" name="new_year" id="new-year" />
 		</div>
@@ -74,10 +74,13 @@
 			});
 		}
 		$("#year").change(function(){
-			if($(this).val() == "new")
+			if($(this).val() == "new"){
 				$("#new-year").prop("disabled", false).show();
+				$("#new-year-group").show();
+			}
 			else
 				$("#new-year").prop("disabled", true).hide();
+				$("#new-year-group").hide();
 		});
 		$("#select-year").change(loadBlock);
 		$(document).ready(loadBlock);

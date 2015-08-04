@@ -7,6 +7,9 @@
 			<label for="email">Email</label>
 			<input type="email" class="form-control" name="email" id="email" placeholder="Email" required />
 		</div>
-		<button type="submit" class="btn btn-primary">Send Reset Email</button>
+		<div class="form-group">
+			<button type="submit" class="btn btn-primary">Send Reset Email</button>
+			<button id="home-button" type="button" class="btn">Back to login</button>			
+		</div>
 	</form>
 @stop

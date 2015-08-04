@@ -16,8 +16,39 @@
 			<label for="new-password-confirm">Confirm New Password <span class="glyphicon form-control-feedback" id="confirm-icon"></span></label>
 			<input type="password" class="form-control" id="new-password-confirm" name="new_password_confirm" placeholder="Confirm New Password" required />
 		</div>
-		<button type="submit" class="btn btn-default">Update Password</button>
+		<button type="submit" class="btn btn-primary">Update Password</button>
 	</form>
+
+	@if($user->type == "faculty")
+		<hr />
+		<form role="form" id="reminders-form" action="/user/reminders" method="post">
+			{!! csrf_field() !!}
+			<h3 class="sub-header">Reminders</h3>
+			<div class="form-group">
+				<label for="frequency">Frequency</label>
+				<select class="form-control" id="frequency" name="frequency">
+					<option value="daily">Daily</option>
+					<option value="weekly">Weekly</option>
+					<option value="biweekly">Biweekly</option>
+					<option value="none">None</option>
+				</select>
+			</div>
+			<button type="submit" class="btn btn-primary">Update Reminder Preferences</button>
+		</form>
+
+		<hr />
+		<form role="form" id="notifications-form" action="/user/notifications" method="post">
+			{!! csrf_field() !!}
+			<h3 class="sub-header">Notifications</h3>
+			<div class="form-group">
+				<select class="form-control" id="notifications" name="notifications">
+					<option value="yes">Enabled</option>
+					<option value="no">Disabled</option>
+				</select>
+			</div>
+			<button type="submit" class="btn btn-primary">Update Notification Preferences</button>
+		</form>
+	@endif
 @stop
 
 @section("script")

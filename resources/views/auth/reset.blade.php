@@ -6,16 +6,22 @@
 		<input type="hidden" name="token" value="{{ $token }}" />
 		<div class="form-group">
 			<label for="email">Email</label>
-			<input type="email" id="email" name="email" value="{{ old("email") }}" />
+			<input type="email" class="form-control" id="email" name="email" value="{{ old("email") }}" />
 		</div>
 		<div class="form-group">
 			<label for="password">Password</label>
-			<input type="password" id="password" name="password" />
+			<input type="password" class="form-control" id="password" name="password" />
+			<p>
+				Passwords must be at least 6 characters in length
+			</p>
 		</div>
 		<div class="form-group">
 			<label for="password-confirm">Confirm Password</label>
-			<input type="password" id="password-confirm" name="password_confirmation" />
+			<input type="password" class="form-control" id="password-confirm" name="password_confirmation" />
 		</div>
-		<button type="submit">Reset Password</button>
+		<div class="form-group">
+			<button type="submit" class="btn btn-primary">Reset Password</button>
+			<button id="home-button" type="button" class="btn">Back to login</button>
+		</div>
 	</form>
 @stop

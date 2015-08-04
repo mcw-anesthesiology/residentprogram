@@ -35,6 +35,8 @@ Route::post("request", "MainController@createRequest");
 
 Route::get("user", "MainController@user");
 Route::post("user", "MainController@saveUser");
+Route::post("user/reminders", "MainController@saveUserReminders");
+Route::post("user/notifications", "MainController@saveUserNotifications");
 
 Route::get("contact", "MainController@contact");
 Route::post("contact", "MainController@saveContact");
