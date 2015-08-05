@@ -22,7 +22,7 @@ class SharedVariables
         View::share("user", Auth::user());
 
         if(Auth::user()->type == "admin")
-            View::share("residents", User::where("type", "resident")->where("status", "active")->orderBy("last_name")->get());
+            View::share("residents", User::where("type", "resident")->orderBy("last_name")->get());
 
         return $next($request);
     }

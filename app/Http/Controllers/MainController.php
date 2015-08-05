@@ -31,7 +31,7 @@ class MainController extends Controller
         $this->middleware("shared");
     }
 
-    public function dashboard(Request $request){
+    public function dashboard(){
         $user = Auth::user();
         if($user->type == "faculty"){
             $mentees = $user->mentees->where("status", "active")->unique();
@@ -51,8 +51,7 @@ class MainController extends Controller
                 });
                 Debugbar::addMessage($userLocations);
                 foreach($userLocations as $location){
-                    foreach($block->assignments->where("location", $location) as $assignment){
-                        Debugbar::addMessage($assignment);
+                    foreach($block->assignments->where("location", $location)->sortBy("user.last_name") as $assignment){
                         if($user->type == "resident"){
                             if($assignment->user_id != $user->id && $assignment->user->type == "faculty"){
                                 $faculty[$block->id][] = ["id" => $assignment->user_id, "name" => $assignment->user->last_name.", ".$assignment->user->first_name];
@@ -68,12 +67,12 @@ class MainController extends Controller
             }
         }
         if($user->type == "admin" || $user->type == "faculty"){
-            $residentModels = User::where("type", "resident")->where("status", "active")->get();
+            $residentModels = User::where("type", "resident")->where("status", "active")->orderBy("last_name")->get();
             foreach($residentModels as $resident)
                 $residents[0][] = ["id" => $resident->id, "name" => $resident->last_name.", ".$resident->first_name];
         }
         if($user->type == "admin" || $user->type == "resident"){
-            $facultyModels = User::where("type", "faculty")->where("status", "active")->get();
+            $facultyModels = User::where("type", "faculty")->where("status", "active")->orderBy("last_name")->get();
             foreach($facultyModels as $fac)
                 $faculty[0][] = ["id" => $fac->id, "name" => $fac->last_name.", ".$fac->first_name];
         }
@@ -268,7 +267,7 @@ class MainController extends Controller
         return json_encode($results);
     }
 
-    public function user(Request $request){
+    public function user(){
         return view("dashboard.user");
     }
 
@@ -277,7 +276,7 @@ class MainController extends Controller
         if($request->input("new_password") == $request->input("new_password_confirm") && password_verify($request->input("old_password"), $user->password)){
             $user->password = bcrypt($request->input("new_password"));
             $user->save();
-            return redirect("dashboard");
+            return redirect("dashboard")->with("success", "Password changed successfully!");
         } else{
             if($request->input("new_password") != $request->input("new_password_confirm"))
                 $error = "New passwords did not match";

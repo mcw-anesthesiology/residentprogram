@@ -422,7 +422,7 @@ class ReportController extends Controller
                 }
                 break;
             case "average":
-                $graphs[] = RadarGraphs::draw(null, $averageMilestone, $milestones, null, $averageCompetency, $competencies, "Average", $trainingLevel, $maxResponse);
+                $graphs[] = RadarGraphs::draw(null, $averageMilestone, $milestones, null, $averageCompetency, $competencies, "Average", $startDate, $endDate, $trainingLevel, $maxResponse);
                 break;
         }
 
@@ -469,7 +469,7 @@ class ReportController extends Controller
         $resident = User::find($request->input("resident"));
         if(!($resident == $user || $user->type == "admin" || $user->mentees->contains($resident)))
             return redirect("dashboard")->with("error", "Requested report not authorized");
-            
+
         $data = [];
 
         $input = $request->all();
