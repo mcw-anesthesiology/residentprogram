@@ -101,8 +101,8 @@ class ReportController extends Controller
             ->where("users.status", "active")
             ->where("users.type", "resident")
             ->where("evaluations.status", "complete")
-            ->where("evaluations.request_date", "<", Carbon::now())
-            ->where("evaluations.request_date", ">", Carbon::now()->subMonths(6)) //TODO: what
+            ->where("evaluations.evaluation_date", "<", Carbon::now())
+            ->where("evaluations.evaluation_date", ">", Carbon::now()->subMonths(6)) //TODO: what
             ->select("subject_id", "milestone_id")
             ->orderBy("milestone_id", "asc")
             ->chunk(10000, function($responses) use (&$results){

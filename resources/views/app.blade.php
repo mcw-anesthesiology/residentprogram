@@ -146,12 +146,12 @@
 		          <div class="form-group">
 		            <label for="trainingLevelInput">Training Level</label>
 		            <select class="form-control select2" id="trainingLevelInput" name="trainingLevel" style="width: 100%">
-		              <option value="intern">Intern</option>
+		              <option value="all">All</option>
+					  <option value="intern">Intern</option>
 		              <option value="ca-1">CA-1</option>
 		              <option value="ca-2">CA-2</option>
 		              <option value="ca-3">CA-3</option>
 		              <option value="fellow">Fellow</option>
-		              <option value="all">All</option>
 		            </select>
 		          </div>
 		          <div class="form-group" style="text-align: center;">
@@ -189,8 +189,7 @@
 		              <div class="form-group">
 		            @if($user->type == "faculty")
 						<label for="resident">Resident</label>
-						<select class="form-control select2" name="resident" style="width: 100%">
-							<option value="-1">-- Select Resident --</option>
+						<select class="form-control select2" name="resident" style="width: 100%" required>
 							@foreach($user->mentees as $resident)
 								<option value="{{ $resident->id }}">{{ $resident->last_name }}, {{ $resident->first_name }}</option>
 							@endforeach
@@ -200,8 +199,7 @@
 						<input type="hidden" name="resident" value="{{ $user->id }}" />
 					@elseif($user->type == "admin")
 						<label for="resident">Resident</label>
-						<select class="form-control select2" name="resident" style="width: 100%">
-							<option value="-1">-- Select Resident --</option>
+						<select class="form-control select2" name="resident" style="width: 100%" required>
 							@foreach($residents as $resident)
 								<option value="{{ $resident->id }}">{{ $resident->last_name }}, {{ $resident->first_name }}</option>
 							@endforeach
@@ -233,7 +231,8 @@
 		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
 		<script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-		<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+		<script type="text/javascript" src="/js/placeholders.jquery.min.js"></script>
 		<script>
 		    var numSpecificReports = 0;
 			function reportHtml(i) {
@@ -254,13 +253,13 @@
 		     '</div>'+
 		     '<div class="form-group">'+
 		       '<label for="trainingLevelInput">Training Level</label>'+
-		       '<select class="form-control select2" id="trainingLevelInput" name="trainingLevel'+i+'" style="width: 100%">'+
-		         '<option value="intern">Intern</option>'+
+		       '<select class="form-control select2" id="trainingLevelInput" name="trainingLevel'+i+'" style="width: 100%" required>'+
+ 		         '<option value="all">All</option>'+
+				 '<option value="intern">Intern</option>'+
 		         '<option value="ca-1">CA-1</option>'+
 		         '<option value="ca-2">CA-2</option>'+
 		         '<option value="ca-3">CA-3</option>'+
 		         '<option value="fellow">Fellow</option>'+
-		         '<option value="all">All</option>'+
 		       '</select>'+
 		     '</div>'+
 		     '<hr /><br />'+
@@ -283,7 +282,7 @@
 			//Checks the report queries to make sure the entered date is of the correct format because not all browsers support the html5 datepicker being used.
 				dateError = false;
 				$(this).find("input").each(function(){
-					if($(this).attr("type") == "date"){
+					if($(this).attr("type") == "date" || $(this).hasClass("datepicker")){
 						var date = $(this).val();
 						var regex = /^\d\d\d\d-\d\d-\d\d$/;
 						if(!new RegExp(regex).test(date)){
@@ -347,7 +346,9 @@
 					dateFormat: "yy-mm-dd"
 				});
 
-				$(".select2").select2();
+				$(".select2").val(null).select2({
+					placeholder: "Please select"
+				});
 			});
 		</script>
 		@yield("script")

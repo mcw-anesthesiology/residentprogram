@@ -21,7 +21,7 @@
 		@if($user->type != "resident")
 			<div class="form-group">
 				<label for="resident">Resident/Fellow</label>
-				<select class="form-control request-select select2" name="subject_id" id="resident">
+				<select class="form-control request-select" name="subject_id" id="resident" required>
 				</select>
 			</div>
 		@endif
@@ -29,14 +29,14 @@
 		@if($user->type != "faculty")
 			<div class="form-group">
 				<label for="faculty">Faculty</label>
-				<select class="form-control request-select select2" name="evaluator_id" id="faculty">
+				<select class="form-control request-select" name="evaluator_id" id="faculty" required>
 				</select>
 			</div>
 		@endif
 
 		<div class="form-group">
 			<label for="evaluation-form">Evaluation Form</label>
-			<select class="form-control request-select select2" name="form_id" name="evaluation-form">
+			<select class="form-control request-select" name="form_id" id="evaluation-form" required>
 				@foreach($forms as $form)
 					<option value="{{ $form->id }}">{{ $form->title }}</option>
 				@endforeach
@@ -74,7 +74,9 @@
 						facultySelect.appendChild(option);
 					}
 				}
-				$("#faculty").trigger("change");
+				$("#faculty").val(null).select2({
+					placeholder: "Select Faculty"
+				});
 			}
 			if(type == "faculty" || type == "admin"){
 				var residentSelect = document.getElementById("resident");
@@ -88,7 +90,9 @@
 						residentSelect.appendChild(option);
 					}
 				}
-				$("#resident").trigger("change");
+				$("#resident").val(null).select2({
+					placeholder: "Select Resident/Fellow"
+				});
 			}
 		}
 
@@ -97,12 +101,15 @@
 		$(document).ready(function(){
 			$("#block option:eq(1)").prop("selected", true).trigger("change");
 			selectBlock();
+			$("#evaluation-form").val(null).select2({
+				placeholder: "Select Form"
+			});
 		});
 
 		function checkSelectValues(){
 			var optionsSelected = true;
 			$(".request-select").each(function(){
-				if($(this).val() == -1 || $(this).val() == "-1"){
+				if($(this).val() == null){
 					optionsSelected = false;
 				}
 			});
@@ -113,5 +120,6 @@
 		}
 
 		$("#form").submit(checkSelectValues);
+
 	</script>
 @stop
