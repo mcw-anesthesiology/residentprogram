@@ -1,0 +1,57 @@
+<?php
+
+namespace App\Console\Commands;
+
+use Illuminate\Console\Command;
+
+use App\User;
+use Mail;
+
+class SendEmails extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'emails:send {frequency}';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Sends reminder emails to faculty.';
+
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
+     * Execute the console command.
+     *
+     * @return mixed
+     */
+    public function handle()
+    {
+        $frequency = $this->argument("frequency");
+        $data = compact("frequency");
+        $users = User::where("status", "active")->where("reminder_frequency", $frequency)->with("evaluatorEvaluations")->get();
+        foreach($users as $emailUser){
+            $numPending = $emailUser->evaluatorEvaluations->where("status", "pending")->count();
+            $data["numPending"] = $numPending;
+            Mail::send("emails.reminder", $data, function($message) use ($emailUser){
+                $message->from("reminders@residentprogram.com", "ResidentProgram Reminders");
+                $message->to($emailUser->email);
+                $message->replyTo("jmischka@mcw.edu");
+                $message->subject("Evaluation Reminder");
+            });
+        }
+    }
+}

@@ -1,2 +1,0 @@
-<?xml version="1.0"?>
-<form><title>This is a new evaluation form</title><question name="q1" weight="200" type="radio"><text>This is the first question of the new form</text><option value="1" description="This is the option description that can be seen when hovering over the option">This is the visible text of the first option</option><option value="5" description="">Likewise for the second option</option><option value="6" description=""/></question><question name="q2" weight="100" type="text"><text>This is the second question</text></question></form>

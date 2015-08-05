@@ -1,2 +1,0 @@
-<?xml version="1.0"?>
-<form><title>Test Form</title><question name="q1" type="radio" weight="25"><text>Should you be declared insane for programming computers?</text><option value="5" description="This is the right answer">yes</option><option value="0" description="Do not pick this">no</option></question></form>

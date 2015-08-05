@@ -1,2 +1,0 @@
-<?xml version="1.0"?>
-<form><title>Process_form refactoring test form</title><question name="q1" weight="100" type="radio"><text>did this work?</text><option value="1" description="I think?">Looks like it</option></question></form>

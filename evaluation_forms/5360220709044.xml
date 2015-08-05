@@ -1,2 +1,0 @@
-<?xml version="1.0"?>
-<form><title>TEst form fixed maybe</title><question name="q1" type="text" weight="100"><text>Does a text quesiton work? </text></question><question name="q2" type="radio" weight="75"><text>Does more than one question work? </text><option value="1" description="">Yes</option><option value="0" description="">No</option></question></form>
