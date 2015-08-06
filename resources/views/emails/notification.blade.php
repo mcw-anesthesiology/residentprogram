@@ -1,7 +1,7 @@
 <h3>Hello!</h3>
 <br />
 <p>
-	You have received a <a href="{{ url("/evaluation".$evaluationId) }}">new evaluation request</a>! Please complete it at your earliest convenience.
+	You have received a <a href="{{ url("/evaluation/".$evaluationId) }}">new evaluation request</a>! Please complete it at your earliest convenience.
 </p>
 
 <p>
