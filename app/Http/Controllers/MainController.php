@@ -85,7 +85,10 @@ class MainController extends Controller
             "faculty" => "residents",
             "admin" => "users"
         ];
-        $forms = Form::where("status", "active")->get();
+        if($request->is("request/faculty") && $user->type == "resident")
+            $forms = Form::where("status", "active")->where("type", "faculty")->get();
+        else
+            $forms = Form::where("status", "active")->where("type", "resident")->get();
 
         $data = compact("selectTypes", "forms");
 
@@ -105,12 +108,34 @@ class MainController extends Controller
 
     public function createRequest(Request $request){
         $user = Auth::user();
-        $eval = new Evaluation($request->all());
-        if(!$eval->evaluator_id)
-            $eval->evaluator_id = $user->id;
-        elseif(!$eval->subject_id)
-            $eval->subject_id = $user->id;
+        $eval = new Evaluation();
+        if($request->is("request")){
+            if($request->has("resident_id"))
+                $eval->subject_id = $request->input("resident_id");
+            elseif($user->type == "resident")
+                $eval->subject_id = $user->id;
 
+            if($request->has("faculty_id"))
+                $eval->evaluator_id = $request->input("faculty_id");
+            elseif($user->type == "faculty")
+                $eval->evaluator_id = $user->id;
+        }
+        elseif($request->is("request/faculty")){
+            if($user->type == "faculty")
+                return redirect("dashboard")->with("error", "Faculty cannot request faculty evaluations");
+
+            if($request->has("resident_id"))
+                $eval->evaluator_id = $request->input("resident_id");
+            elseif($user->type == "resident")
+                $eval->evaluator_id = $user->id;
+
+            if($request->has("faculty_id"))
+                $eval->subject_id = $request->input("faculty_id");
+            else
+                return back()->withInput()->with("error", "Please select a faculty to be evaluated");
+        }
+
+        $eval->form_id = $request->input("form_id");
         $eval->requested_by_id = $user->id;
         $eval->status = "pending";
         $eval->request_date = Carbon::now();

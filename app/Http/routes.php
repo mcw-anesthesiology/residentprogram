@@ -30,6 +30,8 @@ Route::post("evaluation/cancel", "MainController@cancelEvaluation");
 Route::get("evaluation/{id}", "MainController@evaluation");
 Route::post("evaluation/{id}", "MainController@saveEvaluation");
 
+Route::get("request/faculty", "MainController@request");
+Route::post("request/faculty", "MainController@createRequest");
 Route::get("request", "MainController@request");
 Route::post("request", "MainController@createRequest");
 
