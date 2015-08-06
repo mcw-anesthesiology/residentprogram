@@ -21,7 +21,7 @@
 		@if($user->type != "resident")
 			<div class="form-group">
 				<label for="resident">Resident/Fellow</label>
-				<select class="form-control request-select" name="subject_id" id="resident" required>
+				<select class="form-control request-select" name="resident_id" id="resident" required>
 				</select>
 			</div>
 		@endif
@@ -29,7 +29,7 @@
 		@if($user->type != "faculty")
 			<div class="form-group">
 				<label for="faculty">Faculty</label>
-				<select class="form-control request-select" name="evaluator_id" id="faculty" required>
+				<select class="form-control request-select" name="faculty_id" id="faculty" required>
 				</select>
 			</div>
 		@endif

@@ -134,7 +134,7 @@ class ManageController extends Controller
                     return redirect("manage/accounts")->with("error", "Passwords do not match for new user");
                 elseif(!filter_var($request->input("email"), FILTER_VALIDATE_EMAIL))
                     return redirect("manage/accounts")->with("error", "Email appears invalid");
-                elseif($request->input("accountType") == "resident" && !($request->hasFile("photo") && $request->file("photo")->isValid()))
+                elseif($request->hasFile("photo") && !$request->file("photo")->isValid())
                     return redirect("manage/accounts")->with("error", "Problem with photo");
                 $user = new User();
                 $user->username = $request->input("username");
@@ -145,12 +145,14 @@ class ManageController extends Controller
                 $user->status = "active";
                 $user->reminder_frequency = "weekly";
                 $user->notifications = "no";
-                if($request->input("accountType") == "resident"){
-                    $user->type = $request->input("accountType");
-                    $user->training_level = $request->input("trainingLevel");
+                if($request->hasFile("photo")){
                     $photoName = uniqid().".".$request->file("photo")->getExtension();
                     $request->file("photo")->move("/public/photos/", $photoName);
                     $user->photo_path = "photos/".$photoName;
+                }
+                if($request->input("accountType") == "resident"){
+                    $user->type = $request->input("accountType");
+                    $user->training_level = $request->input("trainingLevel");
                 } else if($request->input("accountType") == "fellow"){
                     $user->type = "resident";
                     $user->training_level = "fellow";
@@ -182,6 +184,9 @@ class ManageController extends Controller
                     unlink("/public/".$user->photo_path);
                     $user->photo_path = "photos/".$photoName;
                 }
+                if($user->type == "resident")
+                    $user->training_level = $request->input("trainingLevel");
+
                 $user->save();
                 return redirect("manage/accounts");
                 break;
@@ -592,6 +597,7 @@ class ManageController extends Controller
 
     public function saveBlockAssignments(Request $request){
         $users = User::where("status", "active")->get();
+        $now = Carbon::now()->toDateTimeString();
         if(!$request->hasFile("schedule") || !$request->file("schedule")->isValid() || !$request->has("year"))
             return redirect("manage/block-assignments");
 
@@ -671,10 +677,12 @@ class ManageController extends Controller
         }
         DB::delete("delete block_assignments from block_assignments join blocks on blocks.id=block_assignments.block_id where year=?", [$year]);
         $pdo = DB::getPdo();
-        $stmt = $pdo->prepare("insert into block_assignments(block_id, user_id, location) values(?, ?, ?)");
+        $stmt = $pdo->prepare("insert into block_assignments(block_id, user_id, location, created_at, updated_at) values(?, ?, ?, ?, ?)");
         $stmt->bindParam(1, $block_id);
         $stmt->bindParam(2, $user_id);
         $stmt->bindParam(3, $location);
+        $stmt->bindParam(4, $now);
+        $stmt->bindParam(5, $now);
 
         foreach($assignments as $blockNumber => $blockAssignments){
             $blockName = $blocks[$blockNumber];
