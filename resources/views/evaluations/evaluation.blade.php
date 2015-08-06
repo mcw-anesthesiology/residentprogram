@@ -72,7 +72,7 @@
 				@endforeach
 			@endif
 
-			@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id)
+			@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id && isset($evaluation->evaluation_date))
 				$("#evaluation_date option[value='{{ $evaluation->evaluation_date->toDateString() }}']").prop("selected", true);
 			@endif
 

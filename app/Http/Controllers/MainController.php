@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Helpers\FormReader;
 
 use Auth;
+use Mail;
 use Debugbar;
 
 use Carbon\Carbon;
