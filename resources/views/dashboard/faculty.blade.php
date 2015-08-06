@@ -15,6 +15,8 @@
 </div>
 
 @foreach($mentees as $mentee)
+</div>
+<div class="container body-block">
 	<h2 class="sub-header">{{ $mentee->last_name }}, {{ $mentee->first_name }}</h2>
 	<div class="table-responsive">
 		<table class="table table-striped datatable-mentee" data-id="{{ $mentee->id }}" width="100%">
@@ -32,6 +34,8 @@
 	</div>
 @endforeach
 
+</div>
+<div class="container body-block">
 <h2 class="sub-header">Evaluations</h2>
 <div class="table-responsive">
 	<table class="table table-striped datatable-complete" width="100%">

@@ -13,6 +13,8 @@
 	</table>
 </div>
 
+</div>
+<div class="container body-block">
 <h2 class="sub-header">Completed Evaluations</h2>
 <div class="table-responsive">
 	<table class="table table-striped datatable-complete" id="keywordsComplete" width="100%">

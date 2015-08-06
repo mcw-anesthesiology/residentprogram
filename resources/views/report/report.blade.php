@@ -111,7 +111,8 @@
 		</form>
 	@endif
 
-	<hr />
+</div>
+<div class="container body-block">
 	@if(count($graphs) > 0)
 		<div id="graphs">
 			@foreach($graphs as $graph)
@@ -122,7 +123,8 @@
 		<h4>No graphs to show</h4>
 	@endif
 
-	<hr />
+</div>
+<div class="container body-block">
 	@if($reportType == "specific" && count($subjectTextResponses) > 0)
 		<table class="table table-striped table-bordered datatable" id="text-responses-table" width="100%">
 			<thead>

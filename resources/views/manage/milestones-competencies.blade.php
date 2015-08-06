@@ -15,7 +15,8 @@
 		  	</table>
 		</div>
 	</div>
-
+</div>
+<div class="container body-block">
 	<div class="row">
 		<h2 class="sub-header">Competencies  <button class="addCModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-addC-modal" data-id="Competency" id="addCBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">

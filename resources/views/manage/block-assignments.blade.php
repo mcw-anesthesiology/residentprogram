@@ -6,7 +6,7 @@
 		{!! csrf_field() !!}
 		<div class="form-group">
 			<label for="year">Year</label>
-			<select class="form-control select2" name="year" id="year">
+			<select class="form-control" name="year" id="year">
 				<option value="new">New Year</option>
 				@foreach($years as $year)
 					<option value="{{ $year->year }}">{{ $year->year }}</option>
@@ -23,11 +23,13 @@
 			<input type="file" class="form-control" name="schedule" id="schedule" />
 		</div>
 		<button class="btn btn-primary" type="submit">Submit</button>
-		<hr />
+		
+	</div>
+	<div class="container body-block">
 		<div id="block-assignments">
 			<div class="form-group">
 				<label for="select-year">Year</label>
-				<select class="form-control select2" id="select-year">
+				<select class="form-control" id="select-year">
 					@foreach($years as $year)
 						<option value="{{ $year->year }}">{{ $year->year }}</option>
 					@endforeach
@@ -83,6 +85,10 @@
 				$("#new-year-group").hide();
 		});
 		$("#select-year").change(loadBlock);
-		$(document).ready(loadBlock);
+		$(document).ready(function(){
+			$("#year").select2();
+			$("#select-year").select2();
+			loadBlock();
+		});
 	</script>
 @stop

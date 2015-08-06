@@ -20,6 +20,7 @@
 	<div class="form-group col-sm-4">
 		<button type="button" class="btn" id="get-stats">Get Statistics</button>
 	</div>
+</div>
 	<div id="stats"></div>
 @stop
 
