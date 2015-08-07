@@ -10,7 +10,9 @@
 			<thead>
 				<tr>
 					<th>#</th>
+				@if($evaluation->subject->type != "faculty")
 					<th>Resident/Fellow</th>
+				@endif
 					<th>Faculty</th>
 					<th>Requested</th>
 					<th>Completed</th>
@@ -22,7 +24,9 @@
 				<tr>
 					<td>{{ $evaluation->id }}</td>
 					<td>{{ $evaluation->subject->last_name }}, {{ $evaluation->subject->first_name }}</td>
+				@if($evaluation->subject->type != "faculty")
 					<td>{{ $evaluation->evaluator->last_name }}, {{ $evaluation->evaluator->first_name }}</td>
+				@endif
 					<td>{{ $evaluation->request_date }}</td>
 					<td>{{ $evaluation->complete_date }}</td>
 					<td>{{ $evaluation->status }}</td>

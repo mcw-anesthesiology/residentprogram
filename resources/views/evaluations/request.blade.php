@@ -6,7 +6,7 @@
 	@if($user->type == "resident" || $user->type == "faculty")
 		<div class="form-group">
 			<label for="block">Block</label>
-			<select class="form-control select2" id="block">
+			<select class="form-control" id="block">
 				<option value="0">Select from all {{ $selectTypes[$user->type] }}</option>
 				@foreach($blocks as $block)
 					@if($block->assignments->contains("user_id", $user->id))
@@ -104,6 +104,7 @@
 			$("#evaluation-form").val(null).select2({
 				placeholder: "Select Form"
 			});
+			$("#block").select2();
 		});
 
 		function checkSelectValues(){

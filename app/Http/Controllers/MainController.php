@@ -41,6 +41,10 @@ class MainController extends Controller
         return view("dashboard.dashboard", $data);
     }
 
+    public function dashboardFaculty(){
+        return view("dashboard.faculty.dashboard");
+    }
+
     public function request(Request $request){
         $user = Auth::user();
 
@@ -233,7 +237,9 @@ class MainController extends Controller
         $user = Auth::user();
         $results["data"] = [];
         if($user->type == "admin"){
-            $evaluations = Evaluation::with("subject", "evaluator", "form")->get();
+            $evaluations = Evaluation::with("subject", "evaluator", "form")->whereHas("subject", function($query){
+                $query->where("type", "resident");
+            })->get();
             foreach($evaluations as $eval){
                 $result = [];
                 $result[] = "<a href='evaluation/{$eval->id}'>{$eval->id}</a>";
@@ -266,7 +272,9 @@ class MainController extends Controller
             else
                 $evaluations = Evaluation::where("status", $type)->where(function($query) use ($user){
                     $query->where("evaluator_id", $user->id)->orWhere("subject_id", $user->id);
-                })->with("subject", "evaluator", "form")->get();
+                })->with("subject", "evaluator", "form")->whereHas("subject", function($query){
+                    $query->where("type", "resident");
+                })->get();
             foreach($evaluations as $eval){
                 $result = [];
                 $result[] = "<a href='evaluation/{$eval->id}'>{$eval->id}</a>";
@@ -291,7 +299,34 @@ class MainController extends Controller
                 $results["data"][] = $result;
             }
         }
+        return json_encode($results);
+    }
 
+    public function facultyEvaluations(Request $request){
+        $user = Auth::user();
+        $results["data"] = [];
+        if($user->type == "admin")
+            $evaluations = Evaluation::with("subject", "evaluator", "form")->whereHas("subject", function($query){
+                $query->where("type", "faculty");
+            })->get();
+        elseif($user->type == "faculty")
+            $evaluations = Evaluation::where("subject_id", $user->id)->where("status", "complete")->get();
+
+        foreach($evaluations as $eval){
+            $result = [];
+            $result[] = "<a href='evaluation/{$eval->id}'>{$eval->id}</a>";
+            if($user->type == "admin"){
+                $result[] = $eval->subject->last_name.", ".$eval->subject->first_name;
+                $result[] = $eval->evaluator->last_name.", ".$eval->evaluator->first_name;
+            }
+            $result[] = (string)$eval->request_date;
+            $result[] = (string)$eval->complete_date;
+            if($user->type == "admin"){
+                $result[] = "";
+            }
+
+            $results["data"][] = $result;
+        }
         return json_encode($results);
     }
 
