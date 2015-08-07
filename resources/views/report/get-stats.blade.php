@@ -1,3 +1,4 @@
+<div class="container body-block">
 <h3>Evaluation Statistics</h3>
 <table class="table table-striped datatable" width="100%">
 	<thead>
@@ -44,7 +45,8 @@
 	<input type="hidden" name="name" value="Evaluation Statistics" />
 	<button class="btn" type="submit" name="data" value="{{ $tsv }}">Export</button>
 </form>
-<hr />
+</div>
+<div class="container body-block">
 
 <h3>No Requests</h3>
 <?php $tsv = ""; ?>
@@ -68,7 +70,8 @@
 	<input type="hidden" name="name" value="No Requests" />
 	<button class="btn" type="submit" name="data" value="{{ $tsv }}">Export</button>
 </form>
-<hr />
+</div>
+<div class="container body-block">
 
 <h3>None Completed</h3>
 <?php $tsv = ""; ?>
@@ -92,7 +95,8 @@
 	<input type="hidden" name="name" value="None Completed" />
 	<button class="btn" type="submit" name="data" value="{{ $tsv }}">Export</button>
 </form>
-<hr />
+</div>
+<div class="container body-block">
 
 @if($type == "faculty")
 	<h3>Average Completion Time</h3>
@@ -121,7 +125,8 @@
 		<input type="hidden" name="name" value="Average Completion Time" />
 		<button class="btn" type="submit" name="data" value="{{ $tsv }}">Export</button>
 	</form>
-	<hr />
+</div>
+<div class="container body-block">
 @endif
 
 <h3>Last Completed Evaluations</h3>

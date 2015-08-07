@@ -20,7 +20,8 @@
 	</form>
 
 	@if($user->type == "faculty")
-		<hr />
+</div>
+<div class="container body-block">
 		<form role="form" id="reminders-form" action="/user/reminders" method="post">
 			{!! csrf_field() !!}
 			<h3 class="sub-header">Reminders</h3>
@@ -36,7 +37,8 @@
 			<button type="submit" class="btn btn-primary">Update Reminder Preferences</button>
 		</form>
 
-		<hr />
+</div>
+<div class="container body-block">
 		<form role="form" id="notifications-form" action="/user/notifications" method="post">
 			{!! csrf_field() !!}
 			<h3 class="sub-header">Notifications</h3>

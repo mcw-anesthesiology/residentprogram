@@ -19,6 +19,8 @@
 		</div>
 	</div>
 
+</div>
+<div class="container body-block">
 	<div class="row">
 		<h2 class="sub-header">Fellows  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="fellow" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
@@ -36,6 +38,8 @@
 		</div>
 	</div>
 
+</div>
+<div class="container body-block">
 	<div class="row">
 		<h2 class="sub-header">Faculty  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="faculty" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
@@ -53,6 +57,8 @@
 		</div>
 	</div>
 
+</div>
+<div class="container body-block">
 	<div class="row">
 		<h2 class="sub-header">Administrator  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="admin" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">

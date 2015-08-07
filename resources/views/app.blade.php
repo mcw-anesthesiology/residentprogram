@@ -117,7 +117,9 @@
 					<strong>Error: </strong>{{ session("error") }}
 				</div>
 			@endif
-			@yield("body")
+			<div class="container body-block">
+				@yield("body")
+			</div>
 		</div>
 
 		<!-- Aggregate Report Modal -->

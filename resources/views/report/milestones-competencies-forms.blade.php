@@ -9,6 +9,7 @@
 @stop
 
 @section("body")
+  <h2 class="sub-header">Milestones</h2>
 	<table class="table table-striped table-bordered datatable-milestones">
 		<thead>
 			<tr>
@@ -24,7 +25,9 @@
 		<button type="submit" class="btn">Export TSV</button>
 	</form>
 
-	<hr />
+</div>
+<div class="container body-block">
+	<h2 class="sub-header">Competencies</h2>
 	<table class="table table-striped table-bordered datatable-competencies">
 		<thead>
 			<tr>
