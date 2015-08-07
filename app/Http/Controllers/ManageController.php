@@ -269,9 +269,9 @@ class ManageController extends Controller
         return view("manage.forms.all");
     }
 
-    public function getForms(Request $request){
+    public function getForms(Request $request, $type){
         $results["data"] = [];
-        $forms = Form::all();
+        $forms = Form::where("type", $type)->get();
         foreach($forms as $form){
             $result = [];
             $result[] = $form->title;
@@ -316,6 +316,16 @@ class ManageController extends Controller
     	foreach ($input as $key => $value){
             if($key == "_token")
                 continue;
+            if($key == "form_type"){
+                $formType = $value;
+                continue;
+            }
+            if($key == "formTitle"){
+    			$form->addChild("title", htmlspecialchars($value));
+    			$formTitle = $value;
+                continue;
+    		}
+
 
     		$questionName = substr($key, 0, strpos($key, ":"));
     		if(strpos($key, "name") !== false){
@@ -348,10 +358,6 @@ class ManageController extends Controller
     		else if(strpos($key, "description") !== false){
     			$option->addAttribute("description", $value);
     		}
-    		else if($key == "formTitle"){
-    			$form->addChild("title", htmlspecialchars($value));
-    			$formTitle = $value;
-    		}
     		else{
     			$optionValue = substr($key, strpos($key, ":")+1);
     			$optionValue = substr($optionValue, 0, strpos($optionValue, ":"));
@@ -366,39 +372,41 @@ class ManageController extends Controller
     	$dom->formatOuput = true;
     	$dom->loadXML($form->asXML());
     	$dom->save(storage_path("app")."/".$formLocation);
-    	$formTitle = $formTitle;
     	$formStatus = "active";
     	$createdDate = date("Y-m-d H:i:s");
 
         $newForm = new Form();
         $newForm->title = $formTitle;
+        $newForm->type = $formType;
         $newForm->xml_path = $formLocation;
         $newForm->status = $formStatus;
         $newForm->save();
 
-        foreach($milestones as $questionId => $milestoneId){
-            $mq = new MilestoneQuestion();
-            $mq->form_id = $newForm->id;
-            $mq->question_id = $questionId;
-            $mq->milestone_id = $milestoneId;
-            $mq->save();
-        }
-        if(isset($milestones2)){
-            foreach($milestones2 as $questionId => $milestoneId){
+        if($newForm->type != "faculty"){
+            foreach($milestones as $questionId => $milestoneId){
                 $mq = new MilestoneQuestion();
                 $mq->form_id = $newForm->id;
                 $mq->question_id = $questionId;
                 $mq->milestone_id = $milestoneId;
                 $mq->save();
             }
-        }
+            if(isset($milestones2)){
+                foreach($milestones2 as $questionId => $milestoneId){
+                    $mq = new MilestoneQuestion();
+                    $mq->form_id = $newForm->id;
+                    $mq->question_id = $questionId;
+                    $mq->milestone_id = $milestoneId;
+                    $mq->save();
+                }
+            }
 
-        foreach($competencies as $questionId => $milestoneId){
-            $cq = new CompetencyQuestion();
-            $cq->form_id = $newForm->id;
-            $cq->question_id = $questionId;
-            $cq->competency_id = $milestoneId;
-            $cq->save();
+            foreach($competencies as $questionId => $milestoneId){
+                $cq = new CompetencyQuestion();
+                $cq->form_id = $newForm->id;
+                $cq->question_id = $questionId;
+                $cq->competency_id = $milestoneId;
+                $cq->save();
+            }
         }
 
         return redirect("manage/forms");

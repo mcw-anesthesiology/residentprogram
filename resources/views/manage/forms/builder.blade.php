@@ -4,15 +4,20 @@
 	<h2 class="sub-header">Form Builder</h2>
 	<form id="evaluation-form" method="post" action="#">
 		{!! csrf_field() !!}
-		<h3 class="form-input">
 			<div class='container-fluid'>
 				<div class='row'>
-					<div class='col-md-12'>
+					<div class='col-md-8'>
 						<input type="text" id="formTitle" class="form-control input-lg" name="formTitle" placeholder="Form Title" required />
+					</div>
+					<div class="col-md-4">
+						<label for="form-type">Form type</label>
+						<select class="form-control" id="form-type" name="form_type" style="margin-bottom: 5px;">
+							<option value="resident">Resident/Fellow/Intern</option>
+							<option value="faculty">Faculty</option>
+						</select>
 					</div>
 				</div>
 			</div>
-		</h3>
 		<div class="form">
 		</div>
 		<div id='footer'>
@@ -85,13 +90,13 @@
 												"<div class='hr-question'></div>" +
 												"<div class='row'>" +
 													"<div class='col-md-3'>" +
-														"<b>Question Milestone 1</b>" +
+														"<b class='milestone-competency-label'>Question Milestone 1</b>" +
 													"</div>" +
 													"<div class='col-md-3'>" +
-														"<b>Question Milestone 2</b>" +
+														"<b class='milestone-competency-label'>Question Milestone 2</b>" +
 													"</div>" +
 													"<div class='col-md-3'>" +
-														"<b>Question Competency</b>" +
+														"<b class='milestone-competency-label'>Question Competency</b>" +
 													"</div>" +
 													"<div class='col-md-1'>" +
 														"<b>Question Type</b>" +
@@ -131,6 +136,22 @@
 
 		$(document).ready(function(){
 			addQuestion();
+		});
+
+		$("#form-type").change(function(){
+			var type = $(this).val();
+			if(type == "faculty"){
+				$(".form-question-milestone").hide().prop("disabled", true);
+				$(".form-question-milestone-2").hide().prop("disabled", true);
+				$(".form-question-competency").hide().prop("disabled", true);
+				$(".milestone-competency-label").hide();
+			}
+			else{
+				$(".form-question-milestone").show().prop("disabled", false);
+				$(".form-question-milestone-2").show().prop("disabled", false);
+				$(".form-question-competency").show().prop("disabled", false);
+				$(".milestone-competency-label").show();
+			}
 		});
 
 		$(".form").on("change", ".form-question-type", function(){
@@ -219,6 +240,7 @@
 
 		function addQuestion(){
 		//Adds a question to the end of the form
+			var type = $("#form-type").val();
 			if($(".form").children().length == 0){
 				questionId = "q1";
 			}
@@ -241,6 +263,13 @@
 			$(".form").children(".form-question").last().find(".form-question-competency").attr("name", questionId+":competency");
 			$(".form").children(".form-question").last().find(".form-question-weight").attr("name", questionId+":weight");
 			$(".form").children(".form-question").last().find(".form-question-required").attr("name", questionId+":required");
+
+			if(type == "faculty"){
+				$(".form-question-milestone").hide().prop("disabled", true);
+				$(".form-question-milestone-2").hide().prop("disabled", true);
+				$(".form-question-competency").hide().prop("disabled", true);
+				$(".milestone-competency-label").hide();
+			}
 		}
 
 		$("#evaluation-form").submit(checkForm);

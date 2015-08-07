@@ -1,4 +1,3 @@
-
 <h2 class="sub-header">Requests</h2>
 <div class="table-responsive">
 	<table class="table table-striped datatable-pending" id="keywordsPending" width="100%">
