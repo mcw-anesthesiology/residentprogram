@@ -25,7 +25,6 @@
 					<th>Evaluation Form</th>
 					<th>Requested</th>
 					<th>Completed</th>
-					<th>Status</th>
 				</tr>
 			</thead>
 		</table>

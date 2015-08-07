@@ -236,7 +236,7 @@ class MainController extends Controller
                 $menteeId = $request->input("mentee_id");
                 $mentee = User::find($menteeId);
                 if($mentee->mentors->contains($user))
-                    $evaluations = User::find($menteeId)->subjectEvaluations()->with("subject", "evaluator", "form")->get();
+                    $evaluations = User::find($menteeId)->subjectEvaluations()->where("status", "complete")->with("subject", "evaluator", "form")->get();
             }
             else
                 $evaluations = Evaluation::where("status", $type)->where(function($query) use ($user){
@@ -251,15 +251,17 @@ class MainController extends Controller
                     $result[] = $eval->subject->last_name.", ".$eval->subject->first_name;
                 $result[] = $eval->form->title;
                 $result[] = (string)$eval->request_date;
-                if($type == "complete")
+                if($type == "complete" || $type == "mentor")
                     $result[] = (string)$eval->complete_date;
-                elseif($type == "mentor")
-                    $result[] = "";
-                if($type == "pending" && $eval->requested_by_id == $user->id){
-                    $result[] = "<button class='cancelEval btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-cancel-modal-sm' data-id='{$eval->id}'>".
-                    "<span class='glyphicon glyphicon-remove'></span> Cancel</button>";
+                if($type == "pending"){
+                    if($eval->requested_by_id == $user->id){
+                        $result[] = "<button class='cancelEval btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-cancel-modal-sm' data-id='{$eval->id}'>".
+                        "<span class='glyphicon glyphicon-remove'></span> Cancel</button>";
+                    }
+                    else
+                        $result[] = "";
                 } else{
-                    $result[] = "";
+
                 }
                 $results["data"][] = $result;
             }
