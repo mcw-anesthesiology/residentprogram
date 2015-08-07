@@ -14,9 +14,9 @@ body {
     -webkit-box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.5);
     -moz-box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.5);
     box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.5);
-    border-radius: 2px 2px 2px 2px;
     -moz-border-radius: 2px 2px 2px 2px;
     -webkit-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
     border: 0px solid #000000;
     padding: 20px;
     margin-top: 10px;
@@ -248,9 +248,13 @@ body {
 .description{
     background-color: #FFECCF;
     padding: 5px;
-    -webkit-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
-    box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
+    -moz-border-radius: 1px 1px 1px 1px;
+    -webkit-border-radius: 1px 1px 1px 1px;
+    border-radius: 1px 1px 1px 1px;
+    border: 0px solid #000000;
 }
 
 @media print {
