@@ -250,7 +250,7 @@
 		       '<input type="text" class="form-control datepicker endDate" id="endDate'+i+'" name="endDate'+i+'">'+
 		     '</div>'+
 		     '<div class="form-group" style="text-align: center;">'+
-		       '<button type="button" id="lastThreeMonths" class="btn lastThreeMonths">Last Three Months</button>'+
+		       '<button type="button" id="lastThreeMonths" class="btn lastThreeMonths">Last Three Months</button> '+
 		       '<button type="button" id="lastSixMonths" class="btn lastSixMonths">Last Six Months</button>'+
 		     '</div>'+
 		     '<div class="form-group">'+
