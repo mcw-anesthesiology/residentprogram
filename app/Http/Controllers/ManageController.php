@@ -167,14 +167,16 @@ class ManageController extends Controller
             case "edit":
                 if(!filter_var($request->input("email"), FILTER_VALIDATE_EMAIL))
                     return redirect("manage/accounts")->with("error", "Email appears invalid");
-                $user = User::find($request->input("id"));
-                if($user->type == "resident" && !($request->hasFile("photo") && $request->file("photo")->isValid()))
+                if($request->hasFile("photo") && !$request->file("photo")->isValid())
                     return redirect("manage/accounts")->with("error", "Problem with photo");
+                $user = User::find($request->input("id"));
                 $user->email = $request->input("email");
                 $user->first_name = $request->input("firstName");
                 $user->last_name = $request->input("lastName");
                 if($user->type == "resident"){
                     $user->training_level = $request->input("trainingLevel");
+                }
+                if($request->hasFile("photo") && $request->fild("photo")->isValid()){
                     $photoName = uniqid().".".$request->file("photo")->getExtension();
                     $request->file("photo")->move("/public/photos/", $photoName);
                     unlink("/public/".$user->photo_path);
