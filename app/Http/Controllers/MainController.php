@@ -322,7 +322,7 @@ class MainController extends Controller
 		$emailBody = $contact->body."\n".$user->first_name." ".$user->last_name."\n".$user->email;
 		$emailHeaders = "From: ".$emailFrom."\n"."X-Mailer: PHP/5.5";
 		mail($adminEmail, $emailSubject, $emailBody, $emailHeaders);
-        return "success";
+        return redirect("dashboard")->with("success", "Thank you! Your message has been receieved and I will get back to you shortly");
     }
 
 }
