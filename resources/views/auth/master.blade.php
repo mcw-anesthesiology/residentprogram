@@ -5,8 +5,8 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="sitelock-site-verification" content="1956" />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="description" content="">
-		<meta name="author" content="">
+		<meta name="description" content="Resident evaluation system">
+		<meta name="author" content="Jacob Mischka">
 		<link rel="shortcut icon" href="favicon.ico">
 
 		<title>Resident Program Evaluation System</title>
