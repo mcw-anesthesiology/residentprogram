@@ -237,7 +237,7 @@ class MainController extends Controller
         $user = Auth::user();
         $results["data"] = [];
         if($user->type == "admin"){
-            $evaluations = Evaluation::with("subject", "evaluator", "form")->whereHas("subject", function($query){
+            $evaluations = Evaluation::with("subject", "evaluator", "form")->whereHas("form", function($query){
                 $query->where("type", "resident");
             })->get();
             foreach($evaluations as $eval){
@@ -272,7 +272,7 @@ class MainController extends Controller
             else
                 $evaluations = Evaluation::where("status", $type)->where(function($query) use ($user){
                     $query->where("evaluator_id", $user->id)->orWhere("subject_id", $user->id);
-                })->with("subject", "evaluator", "form")->whereHas("subject", function($query){
+                })->with("subject", "evaluator", "form")->whereHas("form", function($query){
                     $query->where("type", "resident");
                 })->get();
             foreach($evaluations as $eval){
@@ -304,7 +304,7 @@ class MainController extends Controller
         $user = Auth::user();
         $results["data"] = [];
         if($user->type == "admin")
-            $evaluations = Evaluation::with("subject", "evaluator", "form")->whereHas("subject", function($query){
+            $evaluations = Evaluation::with("subject", "evaluator", "form")->whereHas("form", function($query){
                 $query->where("type", "faculty");
             })->get();
         elseif($user->type == "faculty")
