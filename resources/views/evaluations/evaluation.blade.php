@@ -17,7 +17,9 @@
 					<th>Requested</th>
 					<th>Completed</th>
 					<th>Status</th>
+				@if($evaluation->subject->type != "faculty")
 					<th>Training Level</th>
+				@endif
 				</tr>
 			</thead>
 			<tbody>
@@ -30,7 +32,9 @@
 					<td>{{ $evaluation->request_date }}</td>
 					<td>{{ $evaluation->complete_date }}</td>
 					<td>{{ $evaluation->status }}</td>
+				@if($evaluation->subject->type != "faculty")
 					<td>{{ $evaluation->training_level }}</td>
+				@endif
 				</tr>
 			</tbody>
 		</table>
