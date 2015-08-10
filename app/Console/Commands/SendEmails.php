@@ -42,7 +42,7 @@ class SendEmails extends Command
     {
         $frequency = $this->argument("frequency");
         $data = compact("frequency");
-        $users = User::where("status", "active")->where("reminder_frequency", $frequency)->with("evaluatorEvaluations")->get();
+        $users = User::where("type", "faculty")->where("status", "active")->where("reminder_frequency", $frequency)->with("evaluatorEvaluations")->get();
         foreach($users as $emailUser){
             $numPending = $emailUser->evaluatorEvaluations->where("status", "pending")->count();
             $data["numPending"] = $numPending;
