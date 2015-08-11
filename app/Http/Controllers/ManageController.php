@@ -145,12 +145,14 @@ class ManageController extends Controller
                 $user->status = "active";
                 $user->reminder_frequency = "weekly";
                 $user->notifications = "no";
+                if($request->hasFile("photo") && $request->file("photo")->isValid()){
+                    $photoName = uniqid().".".$request->file("photo")->getExtension();
+                    $request->file("photo")->move(storage_path("app/photos/"), $photoName);
+                    $user->photo_path = "photos/".$photoName;
+                }
                 if($request->input("accountType") == "resident"){
                     $user->type = $request->input("accountType");
                     $user->training_level = $request->input("trainingLevel");
-                    $photoName = uniqid().".".$request->file("photo")->getExtension();
-                    $request->file("photo")->move("/public/photos/", $photoName);
-                    $user->photo_path = "photos/".$photoName;
                 } else if($request->input("accountType") == "fellow"){
                     $user->type = "resident";
                     $user->training_level = "fellow";
@@ -176,10 +178,10 @@ class ManageController extends Controller
                 if($user->type == "resident"){
                     $user->training_level = $request->input("trainingLevel");
                 }
-                if($request->hasFile("photo") && $request->fild("photo")->isValid()){
+                if($request->hasFile("photo") && $request->file("photo")->isValid()){
                     $photoName = uniqid().".".$request->file("photo")->getExtension();
-                    $request->file("photo")->move("/public/photos/", $photoName);
-                    unlink("/public/".$user->photo_path);
+                    $request->file("photo")->move(storage_path("app/photos/"), $photoName);
+                    unlink(storage_path("app/".$user->photo_path));
                     $user->photo_path = "photos/".$photoName;
                 }
                 $user->save();
