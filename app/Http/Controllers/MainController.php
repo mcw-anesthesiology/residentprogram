@@ -12,6 +12,7 @@ use App\Helpers\FormReader;
 use Auth;
 use Mail;
 use Debugbar;
+use Setting;
 
 use Carbon\Carbon;
 
@@ -167,7 +168,16 @@ class MainController extends Controller
     public function evaluation(Request $request, $id){
         $user = Auth::user();
         $evaluation = Evaluation::find($id);
-        if($evaluation->subject_id == $user->id || $evaluation->evaluator_id == $user->id || $user->type == "admin" || $user->mentees->contains($evaluation->subject))
+        if($evaluation->subject_id == $user->id && $user->type == "faculty"){
+            $threshold = Setting::get("facultyEvalThreshold");
+            $evaluations = Evaluation::where("subject_id", $user->id)->where("status", "complete")->orderBy("id", "desc")->get();
+            $evaluations = $evaluations->splice($evaluations->count()%$threshold);
+            if($evaluations->contains($evaluation))
+                return view("evaluations.evaluation", compact("evaluation"));
+            else
+                return redirect("dashboard")->with("error", "Insufficient permissions to view the requested evaluation");
+        }
+        elseif($evaluation->subject_id == $user->id || $evaluation->evaluator_id == $user->id || $user->type == "admin" || $user->mentees->contains($evaluation->subject))
             return view("evaluations.evaluation", compact("evaluation"));
         else
             return redirect("dashboard")->with("error", "Insufficient permissions to view the requested evaluation");
@@ -309,8 +319,11 @@ class MainController extends Controller
             $evaluations = Evaluation::with("subject", "evaluator", "form")->whereHas("form", function($query){
                 $query->where("type", "faculty");
             })->get();
-        elseif($user->type == "faculty")
-            $evaluations = Evaluation::where("subject_id", $user->id)->where("status", "complete")->get();
+        elseif($user->type == "faculty"){
+            $threshold = Setting::get("facultyEvalThreshold");
+            $evaluations = Evaluation::where("subject_id", $user->id)->where("status", "complete")->orderBy("id", "desc")->get();
+            $evaluations = $evaluations->splice($evaluations->count()%$threshold);
+        }
 
         foreach($evaluations as $eval){
             $result = [];

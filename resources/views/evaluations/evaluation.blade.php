@@ -40,7 +40,7 @@
 		</table>
 		@if($evaluation->subject->photo_path)
 			<div style="text-align: center;">
-				<td><img src="/{{ $evaluation->subject->photo_path }}" width="300px" /></td>
+				<img src="/{{ $evaluation->subject->photo_path }}" width="300px" />
 			</div>
 		@endif
 		<br />

@@ -43,8 +43,9 @@ class ManageController extends Controller
     }
 
     public function saveSettings(Request $request){
-        Setting::set("requiredFacultyEvals", $request->input("required_faculty_evals"));
+        Setting::set("facultyEvalThreshold", $request->input("required_faculty_evals"));
         Setting::save();
+        return redirect("dashboard");
     }
 
     public function evaluations(){

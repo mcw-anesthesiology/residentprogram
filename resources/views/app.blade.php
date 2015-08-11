@@ -44,28 +44,27 @@
 			    </div>
 			    <div class="navbar-collapse collapse">
 			      <ul class="nav navbar-nav navbar-right">
-
-			        @if($user->type == "faculty")
-			            <li><a href="/request">Create Evaluation</a></li>
-			            <li><a href="/dashboard">View Evaluation</a></li>
-			        @elseif($user->type == "resident")
-			            <li><a href="/request">Request Evaluation</a></li>
-			            <li><a href="/dashboard">View Evaluation</a></li>
-			        @endif
-
-			      @if($user->type == "admin")
-			      <li><a href="/request">Request Evaluation</a></li>
-			      <li class="dropdown">
-			        <a href="#" data-toggle="dropdown">Manage<b class="caret"></b></a>
-			        <ul class="dropdown-menu">
-			          <li><a href="/manage/evaluations">Evaluations</a></li>
-			          <li><a href="/manage/accounts">Accounts</a></li>
-			          <li><a href="/manage/forms">Forms</a></li>
-			          <li><a href="/manage/milestones-competencies">Milestones/Competencies</a></li>
-			          <li><a href="/manage/mentors">Mentors</a></li>
-					  <li><a href="/manage/block-assignments">Block Assignments</a></li>
-			        </ul>
-			      </li>
+		          @if($user->type == "faculty")
+		            <li><a href="/request">Create Evaluation</a></li>
+		            <li><a href="/dashboard">View Evaluations</a></li>
+					<li><a href="/dashboard/faculty">View Faculty Evaluations</a></li>
+		          @elseif($user->type == "resident")
+		            <li><a href="/request">Request Evaluation</a></li>
+					<li><a href="/request/faculty">Evaluate Faculty</a></li>
+		            <li><a href="/dashboard">View Evaluations</a></li>
+			      @elseif($user->type == "admin")
+			        <li><a href="/request">Request Evaluation</a></li>
+			        <li class="dropdown">
+			          <a href="#" data-toggle="dropdown">Manage<b class="caret"></b></a>
+			          <ul class="dropdown-menu">
+			            <li><a href="/manage/evaluations">Evaluations</a></li>
+			            <li><a href="/manage/accounts">Accounts</a></li>
+			            <li><a href="/manage/forms">Forms</a></li>
+			            <li><a href="/manage/milestones-competencies">Milestones/Competencies</a></li>
+			            <li><a href="/manage/mentors">Mentors</a></li>
+			  		    <li><a href="/manage/block-assignments">Block Assignments</a></li>
+			          </ul>
+			        </li>
 			      @endif
 				  @if($user->type == "admin" || $user->type == "resident" || ($user->type == "faculty" && $user->mentees()->count() > 0))
 			      	<li class="dropdown">
