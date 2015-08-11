@@ -13,6 +13,7 @@ use SimpleXmlElement;
 use DOMDocument;
 use DB;
 use Debugbar;
+use Setting;
 
 use App\Helpers\FormReader;
 use App\Helpers\Mail;
@@ -34,6 +35,16 @@ class ManageController extends Controller
         $this->middleware("auth");
         $this->middleware("shared");
         $this->middleware("type:admin");
+    }
+
+    public function settings(){
+        $settings = Setting::all();
+        return view("manage.settings", $settings);
+    }
+
+    public function saveSettings(Request $request){
+        Setting::set("requiredFacultyEvals", $request->input("required_faculty_evals"));
+        Setting::save();
     }
 
     public function evaluations(){

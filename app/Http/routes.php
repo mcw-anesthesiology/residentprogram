@@ -49,6 +49,8 @@ Route::post("contact", "MainController@saveContact");
 Route::get("photos/{filename}", "FileController@getPhoto");
 Route::get("graph/{filename}", "FileController@getGraph");
 
+Route::get("manage/settings", "ManageController@settings");
+Route::post("manage/settings", "ManageController@saveSettings");
 Route::get("manage/evaluations", "ManageController@evaluations");
 Route::post("manage/evaluations", "ManageController@archive");
 Route::get("manage/evaluations/get", "ManageController@getEvaluations");
