@@ -49,7 +49,7 @@ class SendEmails extends Command
             Mail::send("emails.reminder", $data, function($message) use ($emailUser){
                 $message->from("reminders@residentprogram.com", "ResidentProgram Reminders");
                 $message->to($emailUser->email);
-                $message->replyTo("jmischka@mcw.edu");
+                $message->replyTo(env("ADMIN_EMAIL"));
                 $message->subject("Evaluation Reminder");
             });
         }

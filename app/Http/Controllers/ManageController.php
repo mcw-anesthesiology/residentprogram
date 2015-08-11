@@ -13,9 +13,9 @@ use SimpleXmlElement;
 use DOMDocument;
 use DB;
 use Debugbar;
+use Mail;
 
 use App\Helpers\FormReader;
-use App\Helpers\Mail;
 
 use App\Evaluation;
 use App\User;
@@ -160,10 +160,18 @@ class ManageController extends Controller
                     $user->type = $request->input("accountType");
                 }
                 $user->save();
-                if($user->type == "resident")
-                    Mail::email_new_ruser($user->username, $request->input("password"), $user->first_name, $user->last_name, $user->email);
-                else
-                    Mail::email_new_fuser($user->username, $request->input("password"), $user->first_name, $user->last_name, $user->email);
+                $data = [];
+                $data["firstName"] = $user->first_name;
+                $data["lastName"] = $user->last_name;
+                $data["username"] = $user->username;
+                $data["password"] = $request->input("password");
+                $view = "emails.new-".$user->type;
+                Mail::send($view, $data, function($message) use ($user){
+                    $message->from("admin@residentprogram.com", "ResidentProgram");
+                    $message->to($user->email);
+                    $message->replyTo(env("ADMIN_EMAIL"));
+                    $message->subject("Welcome!");
+                });
                 return redirect("manage/accounts");
                 break;
             case "edit":

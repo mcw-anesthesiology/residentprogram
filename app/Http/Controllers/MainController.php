@@ -126,7 +126,7 @@ class MainController extends Controller
                 Mail::send("emails.notification", $data, function($message) use($email){
                     $message->to($email);
                     $message->from("notifications@residentprogram.com", "ResidentProgram Notifications");
-                    $message->replyTo("jmischka@mcw.edu");
+                    $message->replyTo(env("ADMIN_EMAIL"));
                     $message->subject("Evaluation Request Notification");
                 });
             }
@@ -311,19 +311,24 @@ class MainController extends Controller
 
     public function saveContact(Request $request){
         $user = Auth::user();
-        $adminEmail = "jmischka@mcw.edu";
         $contact = new Contact();
         $contact->user_id = $user->id;
         $contact->subject = $request->input("subject");
         $contact->body = $request->input("body");
         $contact->save();
 
-        $emailFrom = "contact@residentprogram.com";
-		$emailSubject = "ResidentProgram: ".$contact->subject;
-		$emailBody = $contact->body."\n".$user->first_name." ".$user->last_name."\n".$user->email;
-		$emailHeaders = "From: ".$emailFrom."\n"."X-Mailer: PHP/5.5";
-		mail($adminEmail, $emailSubject, $emailBody, $emailHeaders);
-        return redirect("dashboard")->with("success", "Thank you! Your message has been receieved and I will get back to you shortly");
+        $data = [];
+        $data["body"] = $contact->body;
+        $data["email"] = $user->email;
+        $data["firstName"] = $user->first_name;
+        $data["lastName"] = $user->last_name;
+        $subject = $contact->subject;
+        Mail::send("emails.contact", $data, function($message) use($subject){
+            $message->to(env("ADMIN_EMAIL"));
+            $message->from("contact@residentprogram.com");
+            $message->subject($subject);
+        });
+        return "success";
     }
 
 }
