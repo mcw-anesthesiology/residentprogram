@@ -7,6 +7,7 @@ use View;
 use Auth;
 
 use App\User;
+use App\Form;
 
 class SharedVariables
 {
@@ -21,8 +22,10 @@ class SharedVariables
     {
         View::share("user", Auth::user());
 
-        if(Auth::user()->type == "admin")
+        if(Auth::user()->type == "admin"){
             View::share("residents", User::where("type", "resident")->orderBy("last_name")->get());
+            View::share("facultyForms", Form::where("type", "faculty")->get());
+        }
 
         return $next($request);
     }

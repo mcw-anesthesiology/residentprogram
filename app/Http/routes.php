@@ -81,7 +81,9 @@ Route::post("manage/block-assignments/table", "ManageController@blockAssignments
 Route::post("manage/block-assignments/get", "ManageController@getBlockAssignments");
 
 Route::post("report/aggregate", "ReportController@aggregate");
+Route::post("report/aggregate/faculty", "ReportController@facultyAggregate");
 Route::post("report/specific", "ReportController@specific");
+Route::post("report/specific/faculty", "ReportController@facultySpecific");
 Route::post("report/export", "ReportController@getTSV");
 Route::get("report/needs-eval", "ReportController@needsEvaluations");
 Route::get("report/needs-eval/get", "ReportController@getNeedsEvaluationsJSON");

@@ -492,4 +492,134 @@ class ReportController extends Controller
         $data["specificSubject"] = User::find($request->input("resident"));
         return view("report.report", $data);
     }
+
+    public function facultyReport($startDate, $endDate, $reportForm, $graphOption, $reportSubject){
+        $startDate = Carbon::parse($startDate);
+        $startDate->timezone = "America/Chicago";
+        $endDate = Carbon::parse($endDate);
+        $endDate->timezone = "America/Chicago";
+
+        $query = DB::table("responses")
+            ->join("evaluations", "evaluations.id", "=", "responses.evaluation_id")
+            ->join("users", "users.id", "=", "evaluations.subject_id")
+            ->join("forms", "forms.id", "=", "evaluations.form_id")
+            ->where("forms.id", $reportForm)
+            ->where("forms.type", "faculty")
+            ->where("evaluations.status", "complete")
+            ->where("evaluations.evaluation_date", ">", $startDate)
+            ->where("evaluations.evaluation_date", "<", $endDate);
+
+        $averageResponse = [];
+        $averageResponseDenom = [];
+        $responseStd = [];
+
+        $subjectResponse = [];
+        $subjectResponseDenom = [];
+        $subjectResponseEvals = [];
+
+        $subjectEvals = [];
+        $subjects = [];
+        $questions = [];
+
+        $query->select("subject_id", "last_name", "first_name", "evaluation_id")
+            ->addSelect("question_id", "response", "weight")
+            ->orderBy("question_id");
+        $query->chunk(10000, function($responses) use (&$averageResponse, &$averageResponseDenom, &$responseStd, &$subjectResponse, &$subjectResponseDenom, &$subjectResponseEvals, &$subjectEvals, &$subjects, &$questions){
+            foreach($responses as $response){
+                if(!isset($subjects[$response->subject_id]))
+                    $subjects[$response->subject_id] = $response->last_name.", ".$response->first_name;
+                if(!isset($subjectEvals[$response->subject_id]))
+                    $subjectEvals[$response->subject_id] = 0;
+                if(!isset($questions[$response->question_id]))
+                    $questions[$response->question_id] = 1;
+
+                if(!isset($subjectResponse[$response->subject_id][$response->question_id]))
+                    $subjectResponse[$response->subject_id][$response->question_id] = 0;
+                if(!isset($subjectResponseDenom[$response->subject_id][$response->question_id]))
+                    $subjectResponseDenom[$response->subject_id][$response->question_id] = 0;
+                if(!isset($subjectResponseEvals[$response->subject_id][$response->question_id]))
+                    $subjectResponseEvals[$response->subject_id][$response->question_id] = 0;
+
+                if(!isset($averageResponse[$response->question_id]))
+                    $averageResponse[$response->question_id] = 0;
+                if(!isset($averageResponseDenom[$response->question_id]))
+                    $averageResponseDenom[$response->question_id] = 0;
+
+                $subjectEvals[$response->subject_id]++;
+                $subjectResponseEvals[$response->subject_id][$response->question_id]++;
+
+                $averageResponse[$response->question_id] += (floatval($response->response)*floatval($response->weight));
+                $averageResponseDenom[$response->question_id] += floatval($response->weight);
+
+                $subjectResponse[$response->subject_id][$response->question_id] += (floatval($response->response)*floatval($response->weight));
+                $subjectResponseDenom[$response->subject_id][$response->question_id] += floatval($response->weight);
+            }
+        });
+
+        foreach($questions as $question => $nothing){
+            if($averageResponseDenom[$question])
+                $averageResponse[$question] = $averageResponse[$question]/$averageResponseDenom[$question];
+            else
+                $averageResponse[$question] = 0;
+
+            foreach($subjects as $subject => $name){
+                if(isset($subjectResponseDenom[$subject][$question]) && $subjectResponseDenom[$subject][$question])
+                    $subjectResponse[$subject][$question] = $responseSubject[$question][$subject] = $subjectResponse[$subject][$question]/$subjectResponseDenom[$subject][$question];
+                else
+                    $subjectResponse[$subject][$question] = $responseSubject[$question][$subject] = 0;
+            }
+            if(count($responseSubject[$question]) > 1){
+                $responseStd[$question] = $this->sd($responseSubject[$question]);
+                foreach($subjects as $subject => $name){
+                    $subjectResponseDeviations[$subject][$question] = ($subjectResponse[$subject][$question]-$averageResponse[$question])/$responseStd[$question];
+                }
+            }
+        }
+
+        if(isset($reportSubject)){
+            $subjects = [];
+            $subject = User::find($reportSubject);
+            $subjects[$subject->id] = $subject->last_name.", ".$subject->first_name;
+        }
+
+        $graphs = [];
+        $maxResponse = 10;
+        ksort($averageResponse);
+        ksort($questions);
+
+        Debugbar::addMessage($questions);
+
+        $data = compact("questions", "subjects", "subjectResponse", "subjectResponseDeviations", "subjectResponseEvals", "subjectEvals");
+
+        return $data;
+
+        // switch($graphOption){
+        //     case "all":
+        //         foreach($subjects as $subject => $subject_name){
+        //             if(!isset($subjectResponse[$subject]))
+        //                 continue;
+        //             ksort($subjectResponse[$subject]);
+        //             $graphs[] = RadarGraphs::draw($subjectResponse[$subject], $average)
+        //         }
+        //         break;
+        //     case "average":
+        //         break;
+        // }
+
+        // if(!is_null($reportSubject)){
+        //     $subjectTextResponses
+        // }
+
+    }
+
+    public function facultyAggregate(Request $request){
+        $data = $this->facultyReport($request->input("startDate"), $request->input("endDate"), $request->input("form_id"), $request->input("graphs"), null);
+        $data["reportType"] = "aggregate";
+
+        return view("report.faculty-report", $data);
+    }
+
+    public function facultySpecific(Request $request){
+
+    }
 }

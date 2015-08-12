@@ -54,6 +54,7 @@
 		            <li><a href="/dashboard">View Evaluations</a></li>
 			      @elseif($user->type == "admin")
 			        <li><a href="/request">Request Evaluation</a></li>
+					<li><a href="/dashboard/faculty">Faculty Evaluations</a></li>
 			        <li class="dropdown">
 			          <a href="#" data-toggle="dropdown">Manage<b class="caret"></b></a>
 			          <ul class="dropdown-menu">
@@ -70,11 +71,12 @@
 			      	<li class="dropdown">
 			        	<a href="#" data-toggle="dropdown">Reports<b class="caret"></b></a>
 			        	<ul class="dropdown-menu">
-							@if($user->type == "admin")
+						@if($user->type == "admin")
 			          	<li><a class="viewAggRpt pointer" data-toggle="modal" data-target=".bs-aggRpt-modal" id="viewAggRpt">Generate Aggregate</a></li>
 			        	@endif
 			          	<li><a class="viewSpecRpt pointer" data-toggle="modal" data-target=".bs-specRpt-modal" id="viewSpecRpt">Generate Specific</a></li>
 						@if($user->type == "admin")
+						<li><a class="viewAggFacultyRpt pointer" data-toggle="modal" data-target=".bs-aggFacultyRpt-modal" id="viewAggFacultyRpt">Faculty Aggregate</a></li>
 					  	<li><a href="/report/needs-eval">Needs Evaluations</a></li>
 					  	<li><a href="/report/faculty">Faculty Statistics</a></li>
 					  	<li><a href="/report/resident">Resident Statistics</a></li>
@@ -223,6 +225,59 @@
 		    </div>
 		  </div>
 		</div>
+
+		@if($user->type == "admin")
+		<!-- Aggregate Faculty Report Modal -->
+		<div class="modal fade bs-aggFacultyRpt-modal" role="dialog" aria-labelledby="modalAggFacultyRpt" aria-hidden="true" id="aggFacultyRptModal">
+		  <div class="modal-dialog">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalAggFacultyRpt">Aggregate Faculty Report</h4>
+			  </div>
+			  <form class="report" method="post" action="/report/aggregate/faculty">
+				  {!! csrf_field() !!}
+				<div class="modal-body modal-aggFacultyRpt report-options">
+				  <div class="form-group">
+					<label for="startDate">Start Date:</label>
+					<input type="text" class="form-control datepicker startDate" id="startDate" name="startDate">
+				  </div>
+				  <div class="form-group">
+					<label for="endDate">End Date:</label>
+					<input type="text" class="form-control datepicker endDate" id="endDate" name="endDate">
+				  </div>
+				  <div class="form-group" style="text-align: center;">
+					<button type="button" id="lastThreeMonths" class="btn lastThreeMonths">Last Three Months</button>
+					<button type="button" id="lastSixMonths" class="btn lastSixMonths">Last Six Months</button>
+				  </div>
+				  <div class="form-group">
+				  	<label for="form-id">Form</label>
+					<select class="form-control select2" id="form-id" name="form_id" style="width: 100%">
+				@foreach($facultyForms as $facultyForm)
+						<option value="{{ $facultyForm->id }}">{{ $facultyForm->title }}</option>
+				@endforeach
+					</select>
+				  </div>
+				  <div class="form-group" style="text-align: center;">
+					<label for="graphs_yes">Average Graphs Only</label>
+					<input type="radio" id="graphs_yes" name="graphs" value="average" checked />
+					<br />
+					<label for="graphs_all">All Graphs</label>
+					<input type="radio" id="graphs_all" name="graphs" value="all" />
+					<br />
+					<label for="graphs_none">No Graphs</label>
+					<input type="radio" id="graphs_none" name="graphs" value="none" />
+				  </div>
+				</div>
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				  <button type="submit" class="btn btn-success" value="">Generate</button>
+				</div>
+			  </form>
+			</div>
+		  </div>
+		</div>
+		@endif
 		<!-- Bootstrap core JavaScript
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
