@@ -119,16 +119,21 @@ class MainController extends Controller
         if($user->id == $eval->evaluator_id)
             return redirect("evaluation/".$eval->id);
         else{
-            if($eval->evaluator->notifications == "yes"){
-                $email = $eval->evaluator->email;
-                $evaluationId = $eval->id;
-                $data = compact("evaluationId");
-                Mail::send("emails.notification", $data, function($message) use($email){
-                    $message->to($email);
-                    $message->from("notifications@residentprogram.com", "ResidentProgram Notifications");
-                    $message->replyTo(env("ADMIN_EMAIL"));
-                    $message->subject("Evaluation Request Notification");
-                });
+            if($eval->evaluator->notifications == "yes" && filter_var($eval->evaluator->email, FILTER_VALIDATE_EMAIL)){
+                try{
+                    $email = $eval->evaluator->email;
+                    $evaluationId = $eval->id;
+                    $data = compact("evaluationId");
+                    Mail::send("emails.notification", $data, function($message) use($email){
+                        $message->to($email);
+                        $message->from("notifications@residentprogram.com", "ResidentProgram Notifications");
+                        $message->replyTo(env("ADMIN_EMAIL"));
+                        $message->subject("Evaluation Request Notification");
+                    });
+                }
+                catch (\Exception $e){
+                    Log::error($e);
+                }
             }
         }
 
