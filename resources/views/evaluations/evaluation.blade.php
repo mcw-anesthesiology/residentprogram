@@ -68,7 +68,7 @@
 				@endforeach
 
 				@foreach($evaluation->textResponses as $response)
-					$("textarea[name='{{ $response->question_id }}']").val("{{ $response->response }}");
+					$("textarea[name='{{ $response->question_id }}']").val("{{ str_replace(["\n", "\r"], ["\\n", "\\r"], $response->response) }}");
 				@endforeach
 			@endif
 
