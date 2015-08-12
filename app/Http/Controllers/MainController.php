@@ -328,7 +328,7 @@ class MainController extends Controller
             $message->from("contact@residentprogram.com");
             $message->subject($subject);
         });
-        return "success";
+        return redirect("dashboard")->with("success", "Thank you! Your message has been receieved and I will get back to you shortly");
     }
 
 }

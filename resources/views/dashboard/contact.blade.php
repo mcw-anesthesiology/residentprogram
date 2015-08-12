@@ -9,7 +9,8 @@
 @section("body")
 	<h3 class="sub-header">Problems? Questions? Suggestions?</h3>
 	<p>Please fill out the form below or email me at <a href="mailto:{{ env('ADMIN_EMAIL') }}">{{ env('ADMIN_EMAIL') }}</a> and I will get back to you!</p>
-	<div id="form">
+	<form id="form" method="post" action="#">
+		{!! csrf_field() !!}
 		<div class="form-group">
 			<label for="subject">What is this about?</label>
 			<input type="text" class="form-control" id="subject" name="subject" />
