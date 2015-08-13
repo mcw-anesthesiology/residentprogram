@@ -43,6 +43,43 @@
 	@endforeach
 		</tbody>
 	</table>
+
+</div>
+<div class="container body-block">
+	@if(count($graphs) > 0)
+		<div id="graphs">
+			@foreach($graphs as $graph)
+				<img class="graph" src="/graph/{{ $graph }}" /><br />
+			@endforeach
+		</div>
+	@else
+		<h4>No graphs to show</h4>
+	@endif
+
+</div>
+<div class="container body-block">
+	@if($reportType == "specific" && count($subjectTextResponses) > 0)
+		<table class="table table-striped table-bordered datatable" id="text-responses-table" width="100%">
+			<thead>
+				<tr>
+					<th>Resident</th>
+					<th>Evaluation Date</th>
+					<th>Comment</th>
+				</tr>
+			</thead>
+			<tbody>
+		@foreach($subjectTextResponses as $response)
+				<tr>
+					<th>{{ $response->last_name }}, {{ $response->first_name }}</th>
+					<td>{{ $response->evaluation_date }}</td>
+					<td>{{ $response->response }}</td>
+				</tr>
+		@endforeach
+			</tbody>
+		</table>
+	@else
+		<h4>No text responses to show</h4>
+	@endif
 @stop
 
 @section("script")

@@ -446,10 +446,7 @@ class ReportController extends Controller
 
             $textQuery->select("subject_id", "first_name", "last_name", "forms.title as form_title", "evaluation_date", "response");
 
-            $textQuery->chunk(10000, function($responses) use (&$subjectTextResponses){
-                foreach($responses as $response)
-                    $subjectTextResponses[] = $response;
-            });
+            $subjectTextResponses[] = $textQuery->get();
 
             $data["subjectTextResponses"] = $subjectTextResponses;
         }
@@ -589,27 +586,45 @@ class ReportController extends Controller
 
         Debugbar::addMessage($questions);
 
+
+
+        switch($graphOption){
+            case "all":
+                foreach($subjects as $subject => $subject_name){
+                    if(!isset($subjectResponse[$subject]))
+                        continue;
+                    ksort($subjectResponse[$subject]);
+                    $graphs[] = RadarGraphs::draw($subjectResponse[$subject], $averageResponse, $questions, null, null, null, $subject_name, $startDate, $endDate, "", $maxResponse);
+                }
+                break;
+            case "average":
+                $graphs[] = RadarGraphs::draw(null, $averageResponse, $questions, null, null, null, "Average", $startDate, $endDate, "", $maxResponse);
+                break;
+        }
+
         $data = compact("questions", "subjects", "subjectResponse", "subjectResponseDeviations", "subjectResponseEvals", "subjectEvals");
 
+        if(!is_null($reportSubject)){
+            $subjectTextResponses = [];
+
+            $textQuery = DB::table("text_responses")
+                ->join("evaluations", "evaluations.id", "=", "evaluation_id")
+                ->join("users", "users.id", "=", "evaluations.evaluator_id")
+                ->join("forms", "evaluations.form_id", "=", "forms.id")
+                ->where("users.type", "resident")
+                ->where("forms.type", "faculty")
+                ->where("evaluations.status", "complete")
+                ->where("evaluations.evaluation_date", ">", $startDate)
+                ->where("evaluations.evaluation_date", "<", $endDate)
+                ->where("evaluations.subject_id", $reportSubject);
+
+            $textQuery->select("subject_id", "first_name", "last_name", "forms.title as form_title", "evaluation_date", "response");
+
+            $subjectTextResponses = $textQuery->get();
+            $data["subjectTextResponses"] = $subjectTextResponses;
+        }
+
         return $data;
-
-        // switch($graphOption){
-        //     case "all":
-        //         foreach($subjects as $subject => $subject_name){
-        //             if(!isset($subjectResponse[$subject]))
-        //                 continue;
-        //             ksort($subjectResponse[$subject]);
-        //             $graphs[] = RadarGraphs::draw($subjectResponse[$subject], $average)
-        //         }
-        //         break;
-        //     case "average":
-        //         break;
-        // }
-
-        // if(!is_null($reportSubject)){
-        //     $subjectTextResponses
-        // }
-
     }
 
     public function facultyAggregate(Request $request){
@@ -620,6 +635,9 @@ class ReportController extends Controller
     }
 
     public function facultySpecific(Request $request){
+        $data = $this->facultyReport($request->input("startDate"), $request->input("endDate"), $request->input("form_id"), $request->input("graphs"), $request->input("faculty"));
+        $data["reportType"] = "specific";
 
+        return view("report.faculty-report", $data);
     }
 }
