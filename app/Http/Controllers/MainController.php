@@ -83,7 +83,7 @@ class MainController extends Controller
 
         $selectTypes = [
             "resident" => "faculty",
-            "faculty" => "residents",
+            "faculty" => "interns/residents/fellows",
             "admin" => "users"
         ];
         $forms = Form::where("status", "active")->get();
