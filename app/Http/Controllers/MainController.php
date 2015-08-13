@@ -12,6 +12,7 @@ use App\Helpers\FormReader;
 use Auth;
 use Mail;
 use Debugbar;
+use Log;
 
 use Carbon\Carbon;
 

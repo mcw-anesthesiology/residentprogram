@@ -483,6 +483,15 @@ class ReportController extends Controller
             }
         }
 
+        if(!isset($startDates))
+            return back()->with("error", "Please select a starting date for the report");
+        if(!isset($endDates))
+            return back()->with("error", "Please select an ending date for the report");
+        if(!isset($trainingLevels))
+            return back()->with("error", "Please select a training level for the report");
+        if(!(count($startDates) == count($endDates) && count($endDates) == count($trainingLevels)))
+            return back()->with("error", "Please be sure to complete all fields for each report");
+
         for($i = 0; $i < count($startDates); $i++){
             $data = array_merge_recursive($data, $this->report($startDates[$i], $endDates[$i], $trainingLevels[$i], $request->input("graphs"), $request->input("resident")));
         }
