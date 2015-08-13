@@ -6,7 +6,7 @@
 	@if($user->type == "resident" || $user->type == "faculty")
 		<div class="form-group">
 			<label for="block">Filter By Block</label>
-			<select class="form-control select2" id="block">
+			<select class="form-control" id="block">
 				<option value="0">Select from all {{ $selectTypes[$user->type] }}</option>
 				@foreach($blocks as $block)
 					@if($block->assignments->contains("user_id", $user->id))
@@ -116,6 +116,7 @@
 		$("#block").change(selectBlock);
 
 		$(document).ready(function(){
+			$("#block").select2();
 			$("#block option:eq(1)").prop("selected", true).trigger("change");
 			selectBlock();
 			$("#evaluation-form").val(null).select2({
