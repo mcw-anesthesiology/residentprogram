@@ -44,7 +44,8 @@
 		</div>
 		<button type="submit" class="btn btn-primary">Submit</button>
 	</form>
-
+	
+	@if($user->type != "admin")
 </div>
 <div class="container body-block">
 	<h3 class="sub-header">Block Information</h3>
@@ -54,7 +55,7 @@
 	elseif($user->type == "faculty")
 		$selectUserType = "interns, residents, and fellows";
 ?>
-	@if($user->type != "admin")
+
 	<p>
 		Selecting a block is used to filter the list of {{ $selectUserType }} to others who are scheduled in the same locations as you.
 		If the doctor you are looking for is missing after selecting a block, or an entire block is missing for you from the list, please select "select from all" for the block.
