@@ -329,11 +329,16 @@ class MainController extends Controller
         $data["firstName"] = $user->first_name;
         $data["lastName"] = $user->last_name;
         $subject = $contact->subject;
-        Mail::send("emails.contact", $data, function($message) use($subject){
-            $message->to(env("ADMIN_EMAIL"));
-            $message->from("contact@residentprogram.com");
-            $message->subject($subject);
-        });
+        try{
+            Mail::send("emails.contact", $data, function($message) use($subject){
+                $message->to(env("ADMIN_EMAIL"));
+                $message->from("contact@residentprogram.com");
+                $message->subject($subject);
+            });
+        }
+        catch(\Exception $e){
+
+        }
         return redirect("dashboard")->with("success", "Thank you! Your message has been receieved and I will get back to you shortly");
     }
 

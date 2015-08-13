@@ -6,6 +6,9 @@ use Exception;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
+use Illuminate\Session\TokenMismatchException;
+
+
 class Handler extends ExceptionHandler
 {
     /**
@@ -39,6 +42,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        if($e instanceof TokenMismatchException){
+            return back()->withInput($request->except("_token"))->with("error", "It looks like the session expired after being inactive for too long. Please try again.");
+        }
+
         return parent::render($request, $e);
     }
 }
