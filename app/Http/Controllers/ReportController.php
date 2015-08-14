@@ -556,6 +556,8 @@ class ReportController extends Controller
             }
         });
 
+        Debugbar::addMessage($subjects);
+
         foreach($questions as $question => $nothing){
             if($averageResponseDenom[$question])
                 $averageResponse[$question] = $averageResponse[$question]/$averageResponseDenom[$question];
@@ -600,7 +602,6 @@ class ReportController extends Controller
                 $graphs[] = RadarGraphs::drawFaculty(null, $averageResponse, $questions, "Average", $startDate, $endDate, $maxResponse);
                 break;
         }
-        Debugbar::addMessage($subjectResponses);
         foreach($subjects as $subject => $subject_name){
             foreach($subjectResponses[$subject]["q".count($questions)] as $v){
                 if($v == 10){

@@ -41,9 +41,9 @@
 				<td></td>
 				<td>0</td>
 			@else
-				<td>{{ round($subjectResponse[$subject_id][$question], 2) }}</td>
-				<td>{{ round($subjectResponseDeviations[$subject_id][$question], 2) }}</td>
-				<td>{{ $subjectResponseEvals[$subject_id][$question] }}</td>
+				<td>{{ round($subjectResponse[$subject_id][$question], 2) or "" }}</td>
+				<td>{{ isset($subjectResponseDeviations) ? round($subjectResponseDeviations[$subject_id][$question], 2) : "" }}</td>
+				<td>{{ $subjectResponseEvals[$subject_id][$question] or 0 }}</td>
 			@endif
 		@endforeach
 				<td>{{ $recommendations[$subject_id]["yes"] or 0 }}</td>

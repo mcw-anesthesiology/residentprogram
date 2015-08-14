@@ -38,7 +38,7 @@
 				</tr>
 			</tbody>
 		</table>
-		@if($evaluation->subject->photo_path)
+		@if($evaluation->subject->photo_path && $evaluation->subject_id != $user->id)
 			<div style="text-align: center;">
 				<img src="/{{ $evaluation->subject->photo_path }}" width="300px" />
 			</div>
