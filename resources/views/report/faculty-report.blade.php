@@ -16,6 +16,7 @@
 	@foreach($questions as $question => $nothing)
 				<th colspan="3">{{ $question }}</th>
 	@endforeach
+				<th colspan="3">Recommendation</th>
 				<th>Total</th>
 			</tr>
 			<tr>
@@ -24,6 +25,9 @@
 				<th>Std. Dev.</th>
 				<th>#</th>
 	@endfor
+				<th>Yes</th>
+				<th>No</th>
+				<th>%</th>
 				<th># Evals</th>
 			</tr>
 		</thead>
@@ -42,6 +46,9 @@
 				<td>{{ $subjectResponseEvals[$subject_id][$question] }}</td>
 			@endif
 		@endforeach
+				<td>{{ $recommendations[$subject_id]["yes"] or 0 }}</td>
+				<td>{{ $recommendations[$subject_id]["no"] or 0 }}</td>
+				<td>{{ isset($recommendations[$subject_id]["yes"]) ? round(($recommendations[$subject_id]["yes"]/count($subjectEvals[$subject_id])*100), 2) : 0 }}%</td>
 				<td>{{ count($subjectEvals[$subject_id]) }}</td>
 			</tr>
 	@endforeach

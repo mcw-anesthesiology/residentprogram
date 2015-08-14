@@ -514,6 +514,7 @@ class ReportController extends Controller
         $subjectResponseDenom = [];
         $subjectResponseEvals = [];
 
+        $subjectResponses = [];
         $subjectEvals = [];
         $subjects = [];
         $questions = [];
@@ -521,12 +522,14 @@ class ReportController extends Controller
         $query->select("subject_id", "last_name", "first_name", "evaluation_id")
             ->addSelect("question_id", "response", "weight")
             ->orderBy("question_id");
-        $query->chunk(10000, function($responses) use (&$averageResponse, &$averageResponseDenom, &$responseStd, &$subjectResponse, &$subjectResponseDenom, &$subjectResponseEvals, &$subjectEvals, &$subjects, &$questions){
+        $query->chunk(10000, function($responses) use (&$averageResponse, &$averageResponseDenom, &$responseStd, &$subjectResponse, &$subjectResponseDenom, &$subjectResponseEvals, &$subjectResponses, &$subjectEvals, &$subjects, &$questions){
             foreach($responses as $response){
                 if(!isset($subjects[$response->subject_id]))
                     $subjects[$response->subject_id] = $response->last_name.", ".$response->first_name;
                 if(!isset($subjectEvals[$response->subject_id][$response->evaluation_id]))
-                    $subjectEvals[$response->subject_id][$response->evaluation_id] = 0;
+                    $subjectEvals[$response->subject_id][$response->evaluation_id] = 1;
+                if(!isset($subjectResponses[$response->subject_id][$response->question_id]))
+                    $subjectResponses[$response->subject_id][$response->question_id] = [];
                 if(!isset($questions[$response->question_id]))
                     $questions[$response->question_id] = $response->question_id;
 
@@ -542,7 +545,7 @@ class ReportController extends Controller
                 if(!isset($averageResponseDenom[$response->question_id]))
                     $averageResponseDenom[$response->question_id] = 0;
 
-                $subjectEvals[$response->subject_id][$response->evaluation_id]++;
+                $subjectResponses[$response->subject_id][$response->question_id][] = $response->response;
                 $subjectResponseEvals[$response->subject_id][$response->question_id]++;
 
                 $averageResponse[$response->question_id] += (floatval($response->response)*floatval($response->weight));
@@ -584,10 +587,6 @@ class ReportController extends Controller
         ksort($averageResponse);
         ksort($questions);
 
-        Debugbar::addMessage($questions);
-
-
-
         switch($graphOption){
             case "all":
                 foreach($subjects as $subject => $subject_name){
@@ -601,8 +600,23 @@ class ReportController extends Controller
                 $graphs[] = RadarGraphs::drawFaculty(null, $averageResponse, $questions, "Average", $startDate, $endDate, $maxResponse);
                 break;
         }
+        Debugbar::addMessage($subjectResponses);
+        foreach($subjects as $subject => $subject_name){
+            foreach($subjectResponses[$subject]["q".count($questions)] as $v){
+                if($v == 10){
+                    if(!isset($recommendations[$subject]["yes"]))
+                        $recommendations[$subject]["yes"] = 0;
+                    $recommendations[$subject]["yes"]++;
+                }
+                elseif($v == 0){
+                    if(!isset($recommendations[$subject]["no"]))
+                        $recommendations[$subject]["no"] = 0;
+                    $recommendations[$subject]["no"]++;
+                }
+            }
+        }
 
-        $data = compact("questions", "subjects", "subjectResponse", "subjectResponseDeviations", "subjectResponseEvals", "subjectEvals", "graphs");
+        $data = compact("questions", "subjects", "subjectResponse", "subjectResponseDeviations", "subjectResponseEvals", "recommendations", "subjectEvals", "graphs");
 
         if(!is_null($reportSubject)){
             $subjectTextResponses = [];
@@ -623,7 +637,6 @@ class ReportController extends Controller
             $subjectTextResponses = $textQuery->get();
             $data["subjectTextResponses"] = $subjectTextResponses;
         }
-
         return $data;
     }
 
