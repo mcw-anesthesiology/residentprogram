@@ -42,6 +42,10 @@
 										 "</textarea>" +
 									 "</div>";
 
+		var numberHtml = "<div class='col-md-8' ctr-contents tdRdoBtn'>" +
+								"<input type='number' placeholder='Number' disabled />" +
+								"</div>";
+
 		var milestoneOptionsHtml =
 									@foreach($milestones as $milestone)
 											"<option value='{{ $milestone->id }}'>{{ $milestone->title }}</option>" +
@@ -66,6 +70,7 @@
 		var typeHtml = "<select class='form-control form-question-type' name='questionType'>" +
 										 "<option value='radio'>Radio</option>" +
 										 "<option value='text'>Text</option>" +
+										 "<option value='number'>Number</option>" +
 									 "</select>";
 
 		var questionHtml = "<div class='container-fluid form-question'>" +
@@ -164,6 +169,11 @@
 				var questionId = $(this).parents(".form-question").attr("id");
 				$(this).parents(".form-question").find("textarea").attr("name", questionId+":textResponse");
 			}
+			else if($(this).val() === "number"){
+				$(this).parents(".form-question").find(".form-options").html(numberHtml);
+				var questionId = $(this).parents(".form-question").attr("id");
+				$(this).parents(".form-question").find(".form-options :input[type='number']").attr("name", questionId+":numberResponse");
+			}
 		});
 
 		$(".form").on("change", ".form-option-value", function(){
@@ -194,42 +204,44 @@
 		});
 
 		$(".form").on("click", ".form-question-standard-options", function(){
+			var formType = $("#form-type").val();
 			var formOptionText = "";
 			var formOptions = $(this).parents(".form-question").find(".form-options");
 			formOptions.html("");
 			var formOption = "";
-			for(formOptionValue = 0; formOptionValue <= 10; formOptionValue++){
+			if(formType == "resident"){
+				var options = [
+					{value: 0, text: "Not at PGY-1"},
+					{value: 1, text: ""},
+					{value: 2, text: "PGY-1"},
+					{value: 3, text: ""},
+					{value: 4, text: "CA-1"},
+					{value: 5, text: ""},
+					{value: 6, text: "CA-2"},
+					{value: 7, text: ""},
+					{value: 8, text: "CA-3"},
+					{value: 9, text: ""},
+					{value: 10, text: "Attending"}
+				];
+			}
+			else if(formType == "faculty"){
+				var options = [
+					{value: 0, text: "Strongly Disagree"},
+					{value: 2, text: "Disagree"},
+					{value: 5, text: "Undecided"},
+					{value: 8, text: "Agree"},
+					{value: 10, text: "Strongly Agree"}
+				];
+			}
+
+			for(var i = 0; i < options.length; i++){
 				formOption = formOptions.append(radioHtml).children().last();
-				formOption.find(".form-option-value").val(formOptionValue);
-
-				if(formOptionValue%2 == 0){
-					if(formOptionValue == 0){
-						formOptionText = "Not at PGY-1";
-						formOption.find(".form-option-description").val("Not at PGY-1");
-					}
-					else if(formOptionValue == 2){
-						formOptionText = "PGY-1";
-					}
-					else if(formOptionValue == 4){
-						formOptionText = "CA-1";
-					}
-					else if(formOptionValue == 6){
-						formOptionText = "CA-2";
-					}
-					else if(formOptionValue == 8){
-						formOptionText = "CA-3";
-					}
-					else if(formOptionValue == 10){
-						formOptionText = "Attending";
-					}
-					formOption.find(".form-option-text").val(formOptionText);
-				}
-
+				formOption.find(".form-option-value").val(options[i].value);
+				formOption.find(".form-option-text").val(options[i].text);
 				var questionId = formOption.parents(".form-question").attr("id");
 				var optionNumber = formOption.parents(".form-options").children().length;
-
-				formOption.find(".form-option-text").attr("name", questionId+":"+formOptionValue+":"+optionNumber);
-				formOption.find(".form-option-description").attr("name", questionId+":"+formOptionValue+":description");
+				formOption.find(".form-option-text").attr("name", questionId+":"+options[i].value+":"+optionNumber);
+				formOption.find(".form-option-description").attr("name", questionId+":"+options[i].value+":description");
 
 			}
 		});

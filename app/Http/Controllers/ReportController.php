@@ -303,8 +303,8 @@ class ReportController extends Controller
             foreach($responses as $response){
                 if(!isset($subjects[$response->subject_id]))
                     $subjects[$response->subject_id] = $response->last_name.", ".$response->first_name;
-                if(!isset($subjectEvals[$response->subject_id]))
-                    $subjectEvals[$response->subject_id] = 0;
+                if(!isset($subjectEvals[$response->subject_id][$response->evaluation_id]))
+                    $subjectEvals[$response->subject_id][$response->evaluation_id] = 0;
                 if(!isset($subjectMilestoneEvals[$response->subject_id][$response->milestone_id]))
                     $subjectMilestoneEvals[$response->subject_id][$response->milestone_id] = 0;
                 if(!isset($subjectCompetencyEvals[$response->subject_id][$response->competency_id]))
@@ -328,7 +328,7 @@ class ReportController extends Controller
                 if(!isset($subjectCompetencyDenom[$response->subject_id][$response->competency_id]))
                     $subjectCompetencyDenom[$response->subject_id][$response->competency_id] = 0;
 
-                $subjectEvals[$response->subject_id]++;
+                $subjectEvals[$response->subject_id][$response->evaluation_id]++;
                 $subjectMilestoneEvals[$response->subject_id][$response->milestone_id]++;
                 $subjectCompetencyEvals[$response->subject_id][$response->competency_id]++;
 
@@ -525,10 +525,10 @@ class ReportController extends Controller
             foreach($responses as $response){
                 if(!isset($subjects[$response->subject_id]))
                     $subjects[$response->subject_id] = $response->last_name.", ".$response->first_name;
-                if(!isset($subjectEvals[$response->subject_id]))
-                    $subjectEvals[$response->subject_id] = 0;
+                if(!isset($subjectEvals[$response->subject_id][$response->evaluation_id]))
+                    $subjectEvals[$response->subject_id][$response->evaluation_id] = 0;
                 if(!isset($questions[$response->question_id]))
-                    $questions[$response->question_id] = 1;
+                    $questions[$response->question_id] = $response->question_id;
 
                 if(!isset($subjectResponse[$response->subject_id][$response->question_id]))
                     $subjectResponse[$response->subject_id][$response->question_id] = 0;
@@ -542,7 +542,7 @@ class ReportController extends Controller
                 if(!isset($averageResponseDenom[$response->question_id]))
                     $averageResponseDenom[$response->question_id] = 0;
 
-                $subjectEvals[$response->subject_id]++;
+                $subjectEvals[$response->subject_id][$response->evaluation_id]++;
                 $subjectResponseEvals[$response->subject_id][$response->question_id]++;
 
                 $averageResponse[$response->question_id] += (floatval($response->response)*floatval($response->weight));
@@ -594,15 +594,15 @@ class ReportController extends Controller
                     if(!isset($subjectResponse[$subject]))
                         continue;
                     ksort($subjectResponse[$subject]);
-                    $graphs[] = RadarGraphs::draw($subjectResponse[$subject], $averageResponse, $questions, null, null, null, $subject_name, $startDate, $endDate, "", $maxResponse);
+                    $graphs[] = RadarGraphs::drawFaculty($subjectResponse[$subject], $averageResponse, $questions, $subject_name, $startDate, $endDate, $maxResponse);
                 }
                 break;
             case "average":
-                $graphs[] = RadarGraphs::draw(null, $averageResponse, $questions, null, null, null, "Average", $startDate, $endDate, "", $maxResponse);
+                $graphs[] = RadarGraphs::drawFaculty(null, $averageResponse, $questions, "Average", $startDate, $endDate, $maxResponse);
                 break;
         }
 
-        $data = compact("questions", "subjects", "subjectResponse", "subjectResponseDeviations", "subjectResponseEvals", "subjectEvals");
+        $data = compact("questions", "subjects", "subjectResponse", "subjectResponseDeviations", "subjectResponseEvals", "subjectEvals", "graphs");
 
         if(!is_null($reportSubject)){
             $subjectTextResponses = [];
@@ -612,7 +612,7 @@ class ReportController extends Controller
                 ->join("users", "users.id", "=", "evaluations.evaluator_id")
                 ->join("forms", "evaluations.form_id", "=", "forms.id")
                 ->where("users.type", "resident")
-                ->where("forms.type", "faculty")
+                ->where("forms.id", $reportForm)
                 ->where("evaluations.status", "complete")
                 ->where("evaluations.evaluation_date", ">", $startDate)
                 ->where("evaluations.evaluation_date", "<", $endDate)

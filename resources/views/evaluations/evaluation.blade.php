@@ -72,7 +72,10 @@
 		$(document).ready(function(){
 			@if($evaluation->status == "complete" || $user->id == $evaluation->evaluator_id)
 				@foreach($evaluation->responses as $response)
-					$("input[name='{{ $response->question_id }}'][value='{{ $response->response }}']").prop("checked", true);
+					if($("input[name='{{ $response->question_id }}']").attr("type") == "radio")
+						$("input[name='{{ $response->question_id }}'][value='{{ $response->response }}']").prop("checked", true);
+					else if($("input[name='{{ $response->question_id }}']").attr("type") == "number")
+						$("input[name='{{ $response->question_id }}']").val({{ $response->response }});
 				@endforeach
 
 				@foreach($evaluation->textResponses as $response)
@@ -88,10 +91,12 @@
 				$("#form input").prop("disabled", true);
 				$("#form textarea").prop("readonly", true);
 			@endif
-			$("#form textarea").width("90%");
-			$("#form textarea").height($("#form textarea")[0].scrollHeight);
-			$("#form textarea").addClass("noprint");
-			$("#form textarea").parents("td").append("<div class='print'>"+$("#form textarea").val()+"</div>");
+			if($("#form textarea").length > 0){
+				$("#form textarea").width("90%");
+				$("#form textarea").height($("#form textarea")[0].scrollHeight);
+				$("#form textarea").addClass("noprint");
+				$("#form textarea").parents("td").append("<div class='print'>"+$("#form textarea").val()+"</div>");
+			}
 			$("#form button").each(function(){
 				$(this).addClass("noprint");
 			});

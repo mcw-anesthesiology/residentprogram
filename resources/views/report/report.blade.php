@@ -97,7 +97,7 @@
 ?>
 							@endif
 						@endforeach
-						<td>{{ $subjectEvals[$subject_id] }}</td>
+						<td>{{ count($subjectEvals[$subject_id]) }}</td>
 <?php $tsv .= $subjectEvals[$subject_id]."\n"; ?>
 					</tr>
 				@endforeach

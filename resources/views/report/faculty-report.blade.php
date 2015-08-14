@@ -1,7 +1,11 @@
 @extends("app")
 
 @section("head")
-
+	<style>
+		.graph {
+			width: 100%;
+		}
+	</style>
 @stop
 
 @section("body")
@@ -38,7 +42,7 @@
 				<td>{{ $subjectResponseEvals[$subject_id][$question] }}</td>
 			@endif
 		@endforeach
-				<td>{{ $subjectEvals[$subject_id] }}</td>
+				<td>{{ count($subjectEvals[$subject_id]) }}</td>
 			</tr>
 	@endforeach
 		</tbody>

@@ -70,6 +70,9 @@ class FormReader{
 			if($questionType == "text"){
 				$result .= "<td><textarea name='{$questionName}' {$required}></textarea></td>";
 			}
+			elseif($questionType == "number"){
+				$result .= "<td><input type='number' name='{$questionName}' {$required} /></td>";
+			}
 			else if($questionType == "radio"){
 				if($questionHasDescriptions){
 					$result .= "<tr></tr><tr><td colspan='50' style='text-align:center;'>";
