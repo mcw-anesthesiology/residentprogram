@@ -292,14 +292,15 @@ class ReportController extends Controller
         $milestones = [];
         $competencies = [];
         $subjectEvals = [];
+        $subjectEvaluators = [];
         $competencyQuestions = [];
 
         $subjects = [];
 
         $query->select("milestone_id", "milestones.title as milestone_title", "competency_id", "competencies.title as competency_title")
-            ->addSelect("subject_id", "last_name", "first_name", "evaluation_id", "response", "weight", "responses.question_id as question_id")
+            ->addSelect("subject_id", "evaluator_id", "last_name", "first_name", "evaluation_id", "response", "weight", "responses.question_id as question_id")
             ->orderBy("milestones.title")->orderBy("competencies.title");
-        $query->chunk(10000, function($responses) use (&$milestones, &$subjects, &$milestones, &$competencies, &$subjectEvals, &$averageMilestone, &$averageMilestoneDenom, &$averageCompetency, &$averageCompetencyDenom, &$subjectMilestone, &$subjectMilestoneDenom, &$subjectMilestoneEvals, &$subjectCompetency, &$subjectCompetencyDenom, &$subjectCompetencyEvals, &$competencyQuestions){
+        $query->chunk(10000, function($responses) use (&$milestones, &$subjects, &$milestones, &$competencies, &$subjectEvals, &$averageMilestone, &$averageMilestoneDenom, &$averageCompetency, &$averageCompetencyDenom, &$subjectMilestone, &$subjectMilestoneDenom, &$subjectMilestoneEvals, &$subjectCompetency, &$subjectCompetencyDenom, &$subjectCompetencyEvals, &$competencyQuestions, &$subjectEvaluators){
             foreach($responses as $response){
                 if(!isset($subjects[$response->subject_id]))
                     $subjects[$response->subject_id] = $response->last_name.", ".$response->first_name;
@@ -309,6 +310,8 @@ class ReportController extends Controller
                     $subjectMilestoneEvals[$response->subject_id][$response->milestone_id] = 0;
                 if(!isset($subjectCompetencyEvals[$response->subject_id][$response->competency_id]))
                     $subjectCompetencyEvals[$response->subject_id][$response->competency_id] = 0;
+                if(!isset($subjectEvaluators[$response->subject_id][$response->evaluator_id]))
+                    $subjectEvaluators[$response->subject_id][$response->evaluator_id] = 1;
 
                 if(!isset($averageMilestone[$response->milestone_id]))
                     $averageMilestone[$response->milestone_id] = 0;
@@ -426,7 +429,7 @@ class ReportController extends Controller
                 break;
         }
 
-        $data = compact("milestones", "competencies", "subjectMilestone", "subjectMilestoneDeviations", "subjectMilestoneEvals", "subjectCompetency", "subjectCompetencyDeviations", "subjectCompetencyEvals", "subjectEvals", "graphs", "subjects");
+        $data = compact("milestones", "competencies", "subjectMilestone", "subjectMilestoneDeviations", "subjectMilestoneEvals", "subjectCompetency", "subjectCompetencyDeviations", "subjectCompetencyEvals", "subjectEvals", "graphs", "subjects", "subjectEvaluators");
 
         if(!is_null($reportSubject)){
             $subjectTextResponses = [];
@@ -495,6 +498,7 @@ class ReportController extends Controller
         $startDate->timezone = "America/Chicago";
         $endDate = Carbon::parse($endDate);
         $endDate->timezone = "America/Chicago";
+        $reportFormTitle = Form::find($reportForm)->title;
 
         $query = DB::table("responses")
             ->join("evaluations", "evaluations.id", "=", "responses.evaluation_id")
@@ -516,13 +520,14 @@ class ReportController extends Controller
 
         $subjectResponses = [];
         $subjectEvals = [];
+        $subjectEvaluators = [];
         $subjects = [];
         $questions = [];
 
-        $query->select("subject_id", "last_name", "first_name", "evaluation_id")
+        $query->select("subject_id", "last_name", "first_name", "evaluation_id", "evaluator_id")
             ->addSelect("question_id", "response", "weight")
             ->orderBy("question_id");
-        $query->chunk(10000, function($responses) use (&$averageResponse, &$averageResponseDenom, &$responseStd, &$subjectResponse, &$subjectResponseDenom, &$subjectResponseEvals, &$subjectResponses, &$subjectEvals, &$subjects, &$questions){
+        $query->chunk(10000, function($responses) use (&$averageResponse, &$averageResponseDenom, &$responseStd, &$subjectResponse, &$subjectResponseDenom, &$subjectResponseEvals, &$subjectResponses, &$subjectEvals, &$subjectEvaluators, &$subjects, &$questions){
             foreach($responses as $response){
                 if(!isset($subjects[$response->subject_id]))
                     $subjects[$response->subject_id] = $response->last_name.", ".$response->first_name;
@@ -532,6 +537,8 @@ class ReportController extends Controller
                     $subjectResponses[$response->subject_id][$response->question_id] = [];
                 if(!isset($questions[$response->question_id]))
                     $questions[$response->question_id] = $response->question_id;
+                if(!isset($subjectEvaluators[$response->subject_id][$response->evaluator_id]))
+                    $subjectEvaluators[$response->subject_id][$response->evaluator_id] = 1;
 
                 if(!isset($subjectResponse[$response->subject_id][$response->question_id]))
                     $subjectResponse[$response->subject_id][$response->question_id] = 0;
@@ -586,8 +593,15 @@ class ReportController extends Controller
 
         $graphs = [];
         $maxResponse = 10;
-        ksort($averageResponse);
-        ksort($questions);
+
+        $ignoreQ = function($a, $b){
+            $a = substr($a, 1);
+            $b = substr($b, 1);
+            return $a > $b;
+        };
+
+        uksort($averageResponse, $ignoreQ);
+        uksort($questions, $ignoreQ);
 
         switch($graphOption){
             case "all":
@@ -617,27 +631,27 @@ class ReportController extends Controller
             }
         }
 
-        $data = compact("questions", "subjects", "subjectResponse", "subjectResponseDeviations", "subjectResponseEvals", "recommendations", "subjectEvals", "graphs");
+        $data = compact("questions", "subjects", "subjectResponse", "subjectResponseDeviations", "subjectResponseEvals", "recommendations", "subjectEvals", "subjectEvaluators", "graphs", "reportForm", "reportFormTitle", "startDate", "endDate");
 
-        if(!is_null($reportSubject)){
-            $subjectTextResponses = [];
+        $subjectTextResponses = [];
 
-            $textQuery = DB::table("text_responses")
-                ->join("evaluations", "evaluations.id", "=", "evaluation_id")
-                ->join("users", "users.id", "=", "evaluations.evaluator_id")
-                ->join("forms", "evaluations.form_id", "=", "forms.id")
-                ->where("users.type", "resident")
-                ->where("forms.id", $reportForm)
-                ->where("evaluations.status", "complete")
-                ->where("evaluations.evaluation_date", ">", $startDate)
-                ->where("evaluations.evaluation_date", "<", $endDate)
-                ->where("evaluations.subject_id", $reportSubject);
+        $textQuery = DB::table("text_responses")
+            ->join("evaluations", "evaluations.id", "=", "evaluation_id")
+            ->join("users as evaluators", "evaluators.id", "=", "evaluations.evaluator_id")
+            ->join("users as subjects", "subjects.id", "=", "evaluations.subject_id")
+            ->join("forms", "evaluations.form_id", "=", "forms.id")
+            ->where("evaluators.type", "resident")
+            ->where("forms.id", $reportForm)
+            ->where("evaluations.status", "complete")
+            ->where("evaluations.evaluation_date", ">", $startDate)
+            ->where("evaluations.evaluation_date", "<", $endDate);
 
-            $textQuery->select("subject_id", "first_name", "last_name", "forms.title as form_title", "evaluation_date", "response");
+        $textQuery->select("subject_id", "evaluators.first_name as evaluator_first", "evaluators.last_name as evaluator_last", "subjects.first_name as subject_first", "subjects.last_name as subject_last", "forms.title as form_title", "evaluation_date", "response", "question_id", "evaluation_id")
+            ->orderBy("subject_id")->orderBy("evaluation_id")->orderBy("question_id");
 
-            $subjectTextResponses = $textQuery->get();
-            $data["subjectTextResponses"] = $subjectTextResponses;
-        }
+        $subjectTextResponses = $textQuery->get();
+        $data["subjectTextResponses"] = $subjectTextResponses;
+
         return $data;
     }
 

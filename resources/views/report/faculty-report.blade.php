@@ -9,15 +9,28 @@
 @stop
 
 @section("body")
+	<table class="table">
+		<thead>
+			<th>Start Date</th>
+			<th>End Date</th>
+			<th>Report Form</th>
+		</thead>
+		<tbody>
+			<td>{{ $startDate->format("d-M-Y") }}</td>
+			<td>{{ $endDate->format("d-M-Y") }}</td>
+			<td><a href="{{ url("/manage/forms/".$reportForm) }}" target="_blank">{{ $reportFormTitle }}</a></td>
+		</tbody>
+	</table>
+
 	<table class="table table-striped table-bordered datatable" id="report-table" width="100%">
 		<thead>
 			<tr>
 				<th rowspan="2">Faculty</th>
 	@foreach($questions as $question => $nothing)
-				<th colspan="3">{{ $question }}</th>
+				<th colspan="3">{{ ucfirst($question) }}</th>
 	@endforeach
 				<th colspan="3">Recommendation</th>
-				<th>Total</th>
+				<th colspan="2">Total</th>
 			</tr>
 			<tr>
 	@for($i = 0; $i < count($questions); $i++)
@@ -28,6 +41,7 @@
 				<th>Yes</th>
 				<th>No</th>
 				<th>%</th>
+				<th># Residents</th>
 				<th># Evals</th>
 			</tr>
 		</thead>
@@ -35,20 +49,21 @@
 	@foreach($subjects as $subject_id => $subject_name)
 			<tr>
 				<td>{{ $subject_name }}</td>
-		@foreach($questions as $question => $nothing)
+		@foreach($questions as $question)
 			@if(!isset($subjectResponse[$subject_id][$question]) || !$subjectResponse[$subject_id][$question])
 				<td></td>
 				<td></td>
 				<td>0</td>
 			@else
-				<td>{{ round($subjectResponse[$subject_id][$question], 2) or "" }}</td>
+				<td>{{ round($subjectResponse[$subject_id][$question], 2) }}</td>
 				<td>{{ isset($subjectResponseDeviations) ? round($subjectResponseDeviations[$subject_id][$question], 2) : "" }}</td>
-				<td>{{ $subjectResponseEvals[$subject_id][$question] or 0 }}</td>
+				<td>{{ $subjectResponseEvals[$subject_id][$question] }}</td>
 			@endif
 		@endforeach
 				<td>{{ $recommendations[$subject_id]["yes"] or 0 }}</td>
 				<td>{{ $recommendations[$subject_id]["no"] or 0 }}</td>
 				<td>{{ isset($recommendations[$subject_id]["yes"]) ? round(($recommendations[$subject_id]["yes"]/count($subjectEvals[$subject_id])*100), 2) : 0 }}%</td>
+				<td>{{ count($subjectEvaluators[$subject_id]) }}</td>
 				<td>{{ count($subjectEvals[$subject_id]) }}</td>
 			</tr>
 	@endforeach
@@ -69,11 +84,14 @@
 
 </div>
 <div class="container body-block">
-	@if($reportType == "specific" && count($subjectTextResponses) > 0)
+	@if(isset($subjectTextResponses))
 		<table class="table table-striped table-bordered datatable" id="text-responses-table" width="100%">
 			<thead>
 				<tr>
+					<th>Evaluation</th>
+					<th>Faculty</th>
 					<th>Resident</th>
+					<th>Question</th>
 					<th>Evaluation Date</th>
 					<th>Comment</th>
 				</tr>
@@ -81,7 +99,10 @@
 			<tbody>
 		@foreach($subjectTextResponses as $response)
 				<tr>
-					<th>{{ $response->last_name }}, {{ $response->first_name }}</th>
+					<th><a href="{{ url("/evaluation/".$response->evaluation_id) }}">{{ $response->evaluation_id }}</a></th>
+					<th>{{ $response->subject_last }}, {{ $response->subject_first }}</th>
+					<td>{{ $response->evaluator_last }}, {{ $response->evaluator_first }}</td>
+					<td>{{ ucfirst($response->question_id) }}</td>
 					<td>{{ $response->evaluation_date }}</td>
 					<td>{{ $response->response }}</td>
 				</tr>
