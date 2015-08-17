@@ -31,7 +31,7 @@ class FormReader{
 
 		}
 		else if($name == "option"){
-			if($questionType == "radio"){
+			if($questionType == "radio" || $questionType == "radiononnumeric"){
 				if(isset($attrs["description"]))
 					$description = htmlspecialchars($attrs["description"], ENT_QUOTES);
 				else

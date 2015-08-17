@@ -37,6 +37,13 @@
 											"<input class='form-input form-option form-option-description form-control' type='text' placeholder='Hover Description' />" +
 										"</div>";
 
+		var radioNonNumericHtml = "<div class='col-md-2 ctr-contents tdRdoBtn'>" +
+											"<input type='radio' disabled/>" +
+											"<input class='form-input form-option form-option-text form-control' placeholder='Option Text' />" +
+											"<input class='form-input form-option form-option-value form-control' type='text' placeholder='Option Value' />" +
+											"<input class='form-input form-option form-option-description form-control' type='text' placeholder='Hover Description' />" +
+										"</div>";
+
 		var textHtml = "<div class='col-md-10'>" +
 										 "<textarea disabled>" +
 										 "</textarea>" +
@@ -70,6 +77,7 @@
 		var typeHtml = "<select class='form-control form-question-type' name='questionType'>" +
 										 "<option value='radio'>Radio</option>" +
 										 "<option value='text'>Text</option>" +
+										 "<option value='radiononnumeric'>Radio (non-numeric)</option>" +
 										 "<option value='number'>Number</option>" +
 									 "</select>";
 
@@ -164,6 +172,9 @@
 			if($(this).val() === "radio"){
 				$(this).parents(".form-question").find(".form-options").html(radioHtml);
 			}
+			else if($(this).val() === "radiononnumeric"){
+				$(this).parents(".form-question").find(".form-options").html(radioNonNumericHtml);
+			}
 			else if($(this).val() === "text"){
 				$(this).parents(".form-question").find(".form-options").html(textHtml);
 				var questionId = $(this).parents(".form-question").attr("id");
@@ -180,7 +191,10 @@
 		//Adds input boxes for a new option when giving the current option a numeric value
 			if($(this).val() != ""){
 				if($(this).parent().next().length == 0){
-					$(this).parent().parent().append(radioHtml);
+					if($(".form-question-type").val() == "radio")
+						$(this).parent().parent().append(radioHtml);
+					else if($(".form-question-type").val() == "radiononnumeric")
+						$(this).parent().parent().append(radioNonNumericHtml);
 				}
 			}
 			else{

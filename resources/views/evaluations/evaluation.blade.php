@@ -79,7 +79,10 @@
 				@endforeach
 
 				@foreach($evaluation->textResponses as $response)
-					$("textarea[name='{{ $response->question_id }}']").val("{{ $response->response }}");
+					if($("textarea[name='{{ $response->question_id }}']").length > 0)
+						$("textarea[name='{{ $response->question_id }}']").val("{{ $response->response }}");
+					if($("input[name='{{ $response->question_id }}']").length > 0)
+						$("input[name='{{ $response->question_id }}'][value='{{ $response->response }}']").prop("checked", true);
 				@endforeach
 			@endif
 

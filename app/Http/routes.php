@@ -58,7 +58,6 @@ Route::post("manage/evaluations/{id}", "ManageController@editEvaluation");
 Route::get("manage/accounts", "ManageController@accounts");
 Route::get("manage/accounts/get/{type}", "ManageController@getAccounts");
 Route::post("manage/accounts/{action}", "ManageController@account");
-// Route::post("manage/accounts", "ManageController@accounts");
 Route::get("manage/forms", "ManageController@forms");
 Route::get("manage/forms/get/{type}", "ManageController@getForms");
 Route::get("manage/forms/add", "ManageController@formBuilder");
@@ -70,9 +69,7 @@ Route::get("manage/milestones/get", "ManageController@getMilestones");
 Route::post("manage/milestones/{action}", "ManageController@milestone");
 Route::get("manage/competencies/get", "ManageController@getCompetencies");
 Route::post("manage/competencies/{action}", "ManageController@competency");
-// Route::post("manage/milestones-competencies", "ManageController@milestonesCompetencies");
 Route::get("manage/mentors", "ManageController@mentors");
-// Route::post("manage/mentors", "ManageController@mentors");
 Route::get("manage/mentors/get", "ManageController@getMentors");
 Route::post("manage/mentors/{action}", "ManageController@mentor");
 Route::get("manage/block-assignments", "ManageController@blockAssignments");
@@ -81,9 +78,8 @@ Route::post("manage/block-assignments/table", "ManageController@blockAssignments
 Route::post("manage/block-assignments/get", "ManageController@getBlockAssignments");
 
 Route::post("report/aggregate", "ReportController@aggregate");
-Route::post("report/aggregate/faculty", "ReportController@facultyAggregate");
 Route::post("report/specific", "ReportController@specific");
-Route::post("report/specific/faculty", "ReportController@facultySpecific");
+Route::post("report/faculty", "ReportController@facultyReport");
 Route::post("report/export", "ReportController@getTSV");
 Route::get("report/needs-eval", "ReportController@needsEvaluations");
 Route::get("report/needs-eval/get", "ReportController@getNeedsEvaluationsJSON");

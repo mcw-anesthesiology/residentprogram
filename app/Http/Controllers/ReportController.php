@@ -492,176 +492,96 @@ class ReportController extends Controller
         return view("report.report", $data);
     }
 
-    public function facultyReport($startDate, $endDate, $reportForm, $graphOption, $reportSubject){
-        $startDate = Carbon::parse($startDate);
+    public function facultyReport(Request $request){
+        $startDate = Carbon::parse($request->input("startDate"));
         $startDate->timezone = "America/Chicago";
-        $endDate = Carbon::parse($endDate);
+        $endDate = Carbon::parse($request->input("endDate"));
         $endDate->timezone = "America/Chicago";
-        $reportFormTitle = Form::find($reportForm)->title;
 
-        $query = DB::table("responses")
-            ->join("evaluations", "evaluations.id", "=", "responses.evaluation_id")
-            ->join("users", "users.id", "=", "evaluations.subject_id")
-            ->join("forms", "forms.id", "=", "evaluations.form_id")
-            ->where("forms.id", $reportForm)
-            ->where("forms.type", "faculty")
+        $query = DB::table("text_responses")
+            ->join("evaluations", "evaluations.id", "=", "evaluation_id")
+            ->join("users as evaluators", "evaluators.id", "=", "evaluator_id")
+            ->join("users as subjects", "subjects.id", "=", "subject_id")
+            ->join("forms", "forms.id", "=", "form_id")
             ->where("evaluations.status", "complete")
-            ->where("evaluations.evaluation_date", ">", $startDate)
-            ->where("evaluations.evaluation_date", "<", $endDate);
-
-        $averageResponse = [];
-        $averageResponseDenom = [];
-        $responseStd = [];
-
-        $subjectResponse = [];
-        $subjectResponseDenom = [];
-        $subjectResponseEvals = [];
+            ->where("forms.type", "faculty")
+            ->where("evaluators.type", "resident")
+            ->where("forms.id", $request->input("form_id"))
+            ->where("evaluation_date", ">", $startDate)
+            ->where("evaluation_date", "<", $endDate);
 
         $subjectResponses = [];
         $subjectEvals = [];
-        $subjectEvaluators = [];
+        $averageResponses = [];
+        $averageEvals = [];
         $subjects = [];
         $questions = [];
+        $questionResponses = [];
 
-        $query->select("subject_id", "last_name", "first_name", "evaluation_id", "evaluator_id")
-            ->addSelect("question_id", "response", "weight")
-            ->orderBy("question_id");
-        $query->chunk(10000, function($responses) use (&$averageResponse, &$averageResponseDenom, &$responseStd, &$subjectResponse, &$subjectResponseDenom, &$subjectResponseEvals, &$subjectResponses, &$subjectEvals, &$subjectEvaluators, &$subjects, &$questions){
+        $query->select("evaluation_id", "evaluator_id", "subject_id", "response", "question_id");
+
+    $query->chunk(10000, function($responses) use(&$subjectResponses, &$subjectEvals, &$averageResponses, &$averageEvals, &$subjects, &$questions, &$questionResponses){
             foreach($responses as $response){
-                if(!isset($subjects[$response->subject_id]))
-                    $subjects[$response->subject_id] = $response->last_name.", ".$response->first_name;
+                if(!isset($subjectResponses[$response->subject_id][$response->question_id][$response->response]))
+                    $subjectResponses[$response->subject_id][$response->question_id][$response->response] = 0;
+                if(!isset($averageResponses[$response->question_id][$response->response]))
+                    $averageResponses[$response->question_id][$response->response] = 0;
+
                 if(!isset($subjectEvals[$response->subject_id][$response->evaluation_id]))
                     $subjectEvals[$response->subject_id][$response->evaluation_id] = 1;
-                if(!isset($subjectResponses[$response->subject_id][$response->question_id]))
-                    $subjectResponses[$response->subject_id][$response->question_id] = [];
+                if(!isset($averageEvals[$response->evaluation_id]))
+                    $averageEvals[$response->evaluation_id] = 1;
+
+                if(!isset($subjects[$response->subject_id]))
+                    $subjects[$response->subject_id] = 1;
                 if(!isset($questions[$response->question_id]))
-                    $questions[$response->question_id] = $response->question_id;
-                if(!isset($subjectEvaluators[$response->subject_id][$response->evaluator_id]))
-                    $subjectEvaluators[$response->subject_id][$response->evaluator_id] = 1;
+                    $questions[$response->question_id] = 1;
+                if(!isset($questionResponses[$response->question_id][$response->response]))
+                    $questionResponses[$response->question_id][$response->response] = 1;
 
-                if(!isset($subjectResponse[$response->subject_id][$response->question_id]))
-                    $subjectResponse[$response->subject_id][$response->question_id] = 0;
-                if(!isset($subjectResponseDenom[$response->subject_id][$response->question_id]))
-                    $subjectResponseDenom[$response->subject_id][$response->question_id] = 0;
-                if(!isset($subjectResponseEvals[$response->subject_id][$response->question_id]))
-                    $subjectResponseEvals[$response->subject_id][$response->question_id] = 0;
-
-                if(!isset($averageResponse[$response->question_id]))
-                    $averageResponse[$response->question_id] = 0;
-                if(!isset($averageResponseDenom[$response->question_id]))
-                    $averageResponseDenom[$response->question_id] = 0;
-
-                $subjectResponses[$response->subject_id][$response->question_id][] = $response->response;
-                $subjectResponseEvals[$response->subject_id][$response->question_id]++;
-
-                $averageResponse[$response->question_id] += (floatval($response->response)*floatval($response->weight));
-                $averageResponseDenom[$response->question_id] += floatval($response->weight);
-
-                $subjectResponse[$response->subject_id][$response->question_id] += (floatval($response->response)*floatval($response->weight));
-                $subjectResponseDenom[$response->subject_id][$response->question_id] += floatval($response->weight);
+                $subjectResponses[$response->subject_id][$response->question_id][$response->response]++;
+                $averageResponses[$response->question_id][$response->response]++;
             }
         });
 
-        Debugbar::addMessage($subjects);
+        foreach($subjectEvals as $subject_id => $null){
+            $subjectEvals[$subject_id] = count($subjectEvals[$subject_id]);
+        }
+        $averageEvals = count($averageEvals);
+        $subjects = array_keys($subjects);
+        $questions = array_keys($questions);
+        foreach($questions as $question_id){
+            $questionResponses[$question_id] = array_keys($questionResponses[$question_id]);
+        }
 
-        foreach($questions as $question => $nothing){
-            if($averageResponseDenom[$question])
-                $averageResponse[$question] = $averageResponse[$question]/$averageResponseDenom[$question];
-            else
-                $averageResponse[$question] = 0;
-
-            foreach($subjects as $subject => $name){
-                if(isset($subjectResponseDenom[$subject][$question]) && $subjectResponseDenom[$subject][$question])
-                    $subjectResponse[$subject][$question] = $responseSubject[$question][$subject] = $subjectResponse[$subject][$question]/$subjectResponseDenom[$subject][$question];
-                else
-                    $subjectResponse[$subject][$question] = $responseSubject[$question][$subject] = 0;
-            }
-            if(count($responseSubject[$question]) > 1){
-                $responseStd[$question] = $this->sd($responseSubject[$question]);
-                foreach($subjects as $subject => $name){
-                    $subjectResponseDeviations[$subject][$question] = ($subjectResponse[$subject][$question]-$averageResponse[$question])/$responseStd[$question];
+        foreach($questions as $question_id){
+            foreach($questionResponses[$question_id] as $response){
+                $averagePercentages[$question_id][$response] = round(($averageResponses[$question_id][$response]/$averageEvals)*100);
+                foreach($subjects as $subject_id){
+                    $subjectPercentages[$subject_id][$question_id][$response] = round(($subjectResponses[$subject_id][$question_id][$response]/$subjectEvals[$subject_id])*100);
                 }
             }
         }
 
-        if(isset($reportSubject)){
-            $subjects = [];
-            $subject = User::find($reportSubject);
-            $subjects[$subject->id] = $subject->last_name.", ".$subject->first_name;
-        }
 
-        $graphs = [];
-        $maxResponse = 10;
+        $formPath = Form::find($request->input("form_id"))->xml_path;
+        $subjectPercentages = json_encode($subjectPercentages);
+        str_replace("'", "", $subjectPercentages);
+        $subjectEvals = json_encode($subjectEvals);
+        str_replace("'", "", $subjectEvals);
+        $averagePercentages = json_encode($averagePercentages);
+        str_replace("'", "", $averagePercentages);
+        $averageEvals = json_encode($averageEvals);
+        str_replace("'", "", $averageEvals);
+        $subjects = json_encode($subjects);
+        str_replace("'", "", $subjects);
+        $questions = json_encode($questions);
+        str_replace("'", "", $questions);
+        $questionResponses = json_encode($questionResponses);
+        str_replace("'", "", $questionResponses);
 
-        $ignoreQ = function($a, $b){
-            $a = substr($a, 1);
-            $b = substr($b, 1);
-            return $a > $b;
-        };
-
-        uksort($averageResponse, $ignoreQ);
-        uksort($questions, $ignoreQ);
-
-        switch($graphOption){
-            case "all":
-                foreach($subjects as $subject => $subject_name){
-                    if(!isset($subjectResponse[$subject]))
-                        continue;
-                    ksort($subjectResponse[$subject]);
-                    $graphs[] = RadarGraphs::drawFaculty($subjectResponse[$subject], $averageResponse, $questions, $subject_name, $startDate, $endDate, $maxResponse);
-                }
-                break;
-            case "average":
-                $graphs[] = RadarGraphs::drawFaculty(null, $averageResponse, $questions, "Average", $startDate, $endDate, $maxResponse);
-                break;
-        }
-        foreach($subjects as $subject => $subject_name){
-            foreach($subjectResponses[$subject]["q".count($questions)] as $v){
-                if($v == 10){
-                    if(!isset($recommendations[$subject]["yes"]))
-                        $recommendations[$subject]["yes"] = 0;
-                    $recommendations[$subject]["yes"]++;
-                }
-                elseif($v == 0){
-                    if(!isset($recommendations[$subject]["no"]))
-                        $recommendations[$subject]["no"] = 0;
-                    $recommendations[$subject]["no"]++;
-                }
-            }
-        }
-
-        $data = compact("questions", "subjects", "subjectResponse", "subjectResponseDeviations", "subjectResponseEvals", "recommendations", "subjectEvals", "subjectEvaluators", "graphs", "reportForm", "reportFormTitle", "startDate", "endDate");
-
-        $textQuery = DB::table("text_responses")
-            ->join("evaluations", "evaluations.id", "=", "evaluation_id")
-            ->join("users as evaluators", "evaluators.id", "=", "evaluations.evaluator_id")
-            ->join("users as subjects", "subjects.id", "=", "evaluations.subject_id")
-            ->join("forms", "evaluations.form_id", "=", "forms.id")
-            ->where("evaluators.type", "resident")
-            ->where("forms.id", $reportForm)
-            ->where("evaluations.status", "complete")
-            ->where("evaluations.evaluation_date", ">", $startDate)
-            ->where("evaluations.evaluation_date", "<", $endDate);
-
-        $textQuery->select("subject_id", "evaluators.first_name as evaluator_first", "evaluators.last_name as evaluator_last", "subjects.first_name as subject_first", "subjects.last_name as subject_last", "forms.title as form_title", "evaluation_date", "response", "question_id", "evaluation_id")
-            ->orderBy("subject_id")->orderBy("evaluation_id")->orderBy("question_id");
-
-        $subjectTextResponses = $textQuery->get();
-        $data["subjectTextResponses"] = $subjectTextResponses;
-
-        return $data;
-    }
-
-    public function facultyAggregate(Request $request){
-        $data = $this->facultyReport($request->input("startDate"), $request->input("endDate"), $request->input("form_id"), $request->input("graphs"), null);
-        $data["reportType"] = "aggregate";
-
-        return view("report.faculty-report", $data);
-    }
-
-    public function facultySpecific(Request $request){
-        $data = $this->facultyReport($request->input("startDate"), $request->input("endDate"), $request->input("form_id"), $request->input("graphs"), $request->input("faculty"));
-        $data["reportType"] = "specific";
+        $subjectId = $request->input("faculty");
+        $data = compact("subjectResponses", "formPath", "subjectEvals", "averageEvals", "subjectPercentages", "averagePercentages", "subjectId", "subjects", "questions", "questionResponses");
 
         return view("report.faculty-report", $data);
     }
