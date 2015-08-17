@@ -252,7 +252,7 @@ class MainController extends Controller
             })->get();
             foreach($evaluations as $eval){
                 $result = [];
-                $result[] = "<a href='evaluation/{$eval->id}'>{$eval->id}</a>";
+                $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
                 $result[] = $eval->subject->last_name.", ".$eval->subject->first_name;
                 $result[] = $eval->evaluator->last_name.", ".$eval->evaluator->first_name;
                 $result[] = $eval->form->title;
@@ -287,7 +287,7 @@ class MainController extends Controller
                 })->get();
             foreach($evaluations as $eval){
                 $result = [];
-                $result[] = "<a href='evaluation/{$eval->id}'>{$eval->id}</a>";
+                $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
                 if($eval->subject_id == $user->id || $type == "mentor")
                     $result[] = $eval->evaluator->last_name.", ".$eval->evaluator->first_name;
                 else
@@ -327,7 +327,7 @@ class MainController extends Controller
 
         foreach($evaluations as $eval){
             $result = [];
-            $result[] = "<a href='evaluation/{$eval->id}'>{$eval->id}</a>";
+            $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
             if($user->type == "admin"){
                 $result[] = $eval->subject->last_name.", ".$eval->subject->first_name;
                 $result[] = $eval->evaluator->last_name.", ".$eval->evaluator->first_name;

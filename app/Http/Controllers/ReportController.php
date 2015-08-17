@@ -432,8 +432,6 @@ class ReportController extends Controller
         $data = compact("milestones", "competencies", "subjectMilestone", "subjectMilestoneDeviations", "subjectMilestoneEvals", "subjectCompetency", "subjectCompetencyDeviations", "subjectCompetencyEvals", "subjectEvals", "graphs", "subjects", "subjectEvaluators");
 
         if(!is_null($reportSubject)){
-            $subjectTextResponses = [];
-
             $textQuery = DB::table("text_responses")
                 ->join("evaluations", "evaluations.id", "=", "evaluation_id")
                 ->join("users", "users.id", "=", "evaluations.evaluator_id")
@@ -449,7 +447,8 @@ class ReportController extends Controller
 
             $textQuery->select("subject_id", "first_name", "last_name", "forms.title as form_title", "evaluation_date", "response");
 
-            $subjectTextResponses[] = $textQuery->get();
+            $subjectTextResponses = $textQuery->get();
+            Debugbar::addMessage($subjectTextResponses);
 
             $data["subjectTextResponses"] = $subjectTextResponses;
         }
@@ -632,8 +631,6 @@ class ReportController extends Controller
         }
 
         $data = compact("questions", "subjects", "subjectResponse", "subjectResponseDeviations", "subjectResponseEvals", "recommendations", "subjectEvals", "subjectEvaluators", "graphs", "reportForm", "reportFormTitle", "startDate", "endDate");
-
-        $subjectTextResponses = [];
 
         $textQuery = DB::table("text_responses")
             ->join("evaluations", "evaluations.id", "=", "evaluation_id")

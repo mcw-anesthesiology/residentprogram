@@ -215,7 +215,8 @@
 		              <button type="button" class="btn" id="addNewSpecificReport">Add Report</button>
 		          </div>
 		          <div class="form-group" style="text-align: center;">
-					<input type="checkbox" id="graphs" name="graphs" value="all" checked /><label for="graphs">Generate Graphs</label>
+					<input type="checkbox" id="graphs" name="graphs" value="all" checked />
+					<label for="graphs">Generate Graphs</label>
 		          </div>
 		        </div>
 		        <div class="modal-footer">
@@ -319,15 +320,9 @@
 					</select>
 				  </div>
 				  <div class="form-group" style="text-align: center;">
-					<label for="graphs_yes">Average Graphs Only</label>
-					<input type="radio" id="graphs_yes" name="graphs" value="average" checked />
-					<br />
-					<label for="graphs_all">All Graphs</label>
-					<input type="radio" id="graphs_all" name="graphs" value="all" />
-					<br />
-					<label for="graphs_none">No Graphs</label>
-					<input type="radio" id="graphs_none" name="graphs" value="none" />
-				  </div>
+					<input type="checkbox" id="graphs" name="graphs" value="all" checked />
+					<label for="graphs">Generate Graphs</label>
+		          </div>
 				</div>
 				<div class="modal-footer">
 				  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
