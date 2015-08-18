@@ -576,22 +576,14 @@ class ReportController extends Controller
         $subjectEvals = $subjectEvals[$subjectId];
         $subjectResponseValues = $subjectResponseValues[$subjectId];
 
-        $subjectPercentages = addslashes(json_encode($subjectPercentages));
-        str_replace("'", "", $subjectPercentages);
-        $subjectResponseValues = addslashes(json_encode($subjectResponseValues));
-        str_replace("'", "", $subjectPercentages);
-        $subjectEvals = addslashes(json_encode($subjectEvals));
-        str_replace("'", "", $subjectEvals);
-        $averagePercentages = addslashes(json_encode($averagePercentages));
-        str_replace("'", "", $averagePercentages);
-        $averageEvals = addslashes(json_encode($averageEvals));
-        str_replace("'", "", $averageEvals);
-        $subjects = addslashes(json_encode($subjects));
-        str_replace("'", "", $subjects);
-        $questions = addslashes(json_encode($questions));
-        str_replace("'", "", $questions);
-        $questionResponses = addslashes(json_encode($questionResponses));
-        str_replace("'", "", $questionResponses);
+        $subjectPercentages = $this->encodeAndStrip($subjectPercentages);
+        $subjectResponseValues = $this->encodeAndStrip($subjectResponseValues);
+        $subjectEvals = $this->encodeAndStrip($subjectEvals);
+        $averagePercentages = $this->encodeAndStrip($averagePercentages);
+        $averageEvals = $this->encodeAndStrip($averageEvals);
+        $subjects = $this->encodeAndStrip($subjects);
+        $questions = $this->encodeAndStrip($questions);
+        $questionResponses = $this->encodeAndStrip($questionResponses);
 
         $subject = User::find($subjectId);
         $subjectName = $subject->last_name.", ".$subject->first_name;
@@ -600,5 +592,11 @@ class ReportController extends Controller
         $data = compact("subjectResponses", "formPath", "subjectEvals", "averageEvals", "subjectPercentages", "averagePercentages", "subjectId", "subjects", "questions", "questionResponses", "subjectResponseValues", "subjectName", "formTitle", "startDate", "endDate");
 
         return view("report.faculty-report", $data);
+    }
+
+    private function encodeAndStrip($array){
+        $array = addslashes(json_encode($array));
+        str_replace("'", "", $array);
+        return $array;
     }
 }
