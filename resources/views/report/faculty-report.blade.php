@@ -5,9 +5,33 @@
 @stop
 
 @section("body")
+	<table class="table" width="100%">
+		<thead>
+			<tr>
+				<th>Faculty</th>
+				<th>Start Date</th>
+				<th>End Date</th>
+				<th>Form</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>{{ $subjectName }}</td>
+				<td>{{ $startDate->format("d-M-Y") }}</td>
+				<td>{{ $endDate->format("d-M-Y") }}</td>
+				<td>{{ $formTitle }}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="container body-block">
 	<div id="form">
 		{!! App\Helpers\FormReader::read($formPath) !!}
 	</div>
+</div>
+<div class="container body-block">
+	<h4 class="sub-header">Evaluations Included in Report</h4>
+	<ul id="evaluations" class="list-group row"></ul>
 @stop
 
 @section("script")
@@ -24,7 +48,7 @@
 		$(document).ready(function(){
 			$("#form input").prop("disabled", true).hide();
 
-			questions.forEach(function(questionId, c, d){
+			questions.forEach(function(questionId){
 				if($("textarea[name='"+questionId+"']").length > 0){
 					if(subjectResponses[questionId]){
 						var textarea = $("textarea[name='"+questionId+"']");
@@ -69,7 +93,7 @@
 					}
 				}
 				else{
-					responses[questionId].forEach(function(response, e, f){
+					responses[questionId].forEach(function(response){
 						if($("input[name='"+questionId+"'][value='"+response+"']").length > 0){
 							var parent = $("input[name='"+questionId+"'][value='"+response+"']").parents("td")[0];
 							var table = document.createElement("table");
@@ -100,6 +124,19 @@
 					});
 				}
 			});
+
+			var ul = document.getElementById("evaluations");
+			var li, a, text;
+			$.each(subjectResponses[questions[0]], function(evaluationId, textResponse){
+				li = document.createElement("li");
+				a = document.createElement("a");
+				text = document.createTextNode(evaluationId);
+				li.className = "list-group-item col-md-6";
+				a.href = "/evaluation/"+evaluationId;
+				a.target = "_blank";
+				a.appendChild(text); li.appendChild(a); ul.appendChild(li);
+			});
+
 		});
 	</script>
 @stop

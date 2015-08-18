@@ -570,7 +570,8 @@ class ReportController extends Controller
 
 
         $subjectId = $request->input("faculty");
-        $formPath = Form::find($request->input("form_id"))->xml_path;
+        $form = Form::find($request->input("form_id"));
+        $formPath = $form->xml_path;
         $subjectPercentages = $subjectPercentages[$subjectId];
         $subjectEvals = $subjectEvals[$subjectId];
         $subjectResponseValues = $subjectResponseValues[$subjectId];
@@ -592,7 +593,11 @@ class ReportController extends Controller
         $questionResponses = addslashes(json_encode($questionResponses));
         str_replace("'", "", $questionResponses);
 
-        $data = compact("subjectResponses", "formPath", "subjectEvals", "averageEvals", "subjectPercentages", "averagePercentages", "subjectId", "subjects", "questions", "questionResponses", "subjectResponseValues");
+        $subject = User::find($subjectId);
+        $subjectName = $subject->last_name.", ".$subject->first_name;
+        $formTitle = $form->title;
+
+        $data = compact("subjectResponses", "formPath", "subjectEvals", "averageEvals", "subjectPercentages", "averagePercentages", "subjectId", "subjects", "questions", "questionResponses", "subjectResponseValues", "subjectName", "formTitle", "startDate", "endDate");
 
         return view("report.faculty-report", $data);
     }
