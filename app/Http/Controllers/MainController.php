@@ -91,9 +91,9 @@ class MainController extends Controller
             "admin" => "users"
         ];
         if($request->is("request/faculty") && $user->type == "resident")
-            $forms = Form::where("status", "active")->where("type", "faculty")->get();
+            $forms = Form::where("status", "active")->where("type", "faculty")->orderBy("title")->get();
         else
-            $forms = Form::where("status", "active")->where("type", "resident")->get();
+            $forms = Form::where("status", "active")->where("type", "resident")->orderBy("title")->get();
 
         $data = compact("selectTypes", "forms");
 

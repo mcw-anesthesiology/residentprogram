@@ -517,10 +517,11 @@ class ReportController extends Controller
         $subjects = [];
         $questions = [];
         $questionResponses = [];
+        $subjectResponseValues = [];
 
         $query->select("evaluation_id", "evaluator_id", "subject_id", "response", "question_id");
 
-    $query->chunk(10000, function($responses) use(&$subjectResponses, &$subjectEvals, &$averageResponses, &$averageEvals, &$subjects, &$questions, &$questionResponses){
+    $query->chunk(10000, function($responses) use(&$subjectResponses, &$subjectEvals, &$averageResponses, &$averageEvals, &$subjects, &$questions, &$questionResponses, &$subjectResponseValues){
             foreach($responses as $response){
                 if(!isset($subjectResponses[$response->subject_id][$response->question_id][$response->response]))
                     $subjectResponses[$response->subject_id][$response->question_id][$response->response] = 0;
@@ -540,6 +541,7 @@ class ReportController extends Controller
                     $questionResponses[$response->question_id][$response->response] = 1;
 
                 $subjectResponses[$response->subject_id][$response->question_id][$response->response]++;
+                $subjectResponseValues[$response->subject_id][$response->question_id][$response->evaluation_id] = $response->response;
                 $averageResponses[$response->question_id][$response->response]++;
             }
         });
@@ -558,30 +560,39 @@ class ReportController extends Controller
             foreach($questionResponses[$question_id] as $response){
                 $averagePercentages[$question_id][$response] = round(($averageResponses[$question_id][$response]/$averageEvals)*100);
                 foreach($subjects as $subject_id){
-                    $subjectPercentages[$subject_id][$question_id][$response] = round(($subjectResponses[$subject_id][$question_id][$response]/$subjectEvals[$subject_id])*100);
+                    if(isset($subjectResponses[$subject_id][$question_id][$response]))
+                        $subjectPercentages[$subject_id][$question_id][$response] = round(($subjectResponses[$subject_id][$question_id][$response]/$subjectEvals[$subject_id])*100);
+                    else
+                        $subjectPercentages[$subject_id][$question_id][$response] = 0;
                 }
             }
         }
 
 
+        $subjectId = $request->input("faculty");
         $formPath = Form::find($request->input("form_id"))->xml_path;
-        $subjectPercentages = json_encode($subjectPercentages);
+        $subjectPercentages = $subjectPercentages[$subjectId];
+        $subjectEvals = $subjectEvals[$subjectId];
+        $subjectResponseValues = $subjectResponseValues[$subjectId];
+
+        $subjectPercentages = addslashes(json_encode($subjectPercentages));
         str_replace("'", "", $subjectPercentages);
-        $subjectEvals = json_encode($subjectEvals);
+        $subjectResponseValues = addslashes(json_encode($subjectResponseValues));
+        str_replace("'", "", $subjectPercentages);
+        $subjectEvals = addslashes(json_encode($subjectEvals));
         str_replace("'", "", $subjectEvals);
-        $averagePercentages = json_encode($averagePercentages);
+        $averagePercentages = addslashes(json_encode($averagePercentages));
         str_replace("'", "", $averagePercentages);
-        $averageEvals = json_encode($averageEvals);
+        $averageEvals = addslashes(json_encode($averageEvals));
         str_replace("'", "", $averageEvals);
-        $subjects = json_encode($subjects);
+        $subjects = addslashes(json_encode($subjects));
         str_replace("'", "", $subjects);
-        $questions = json_encode($questions);
+        $questions = addslashes(json_encode($questions));
         str_replace("'", "", $questions);
-        $questionResponses = json_encode($questionResponses);
+        $questionResponses = addslashes(json_encode($questionResponses));
         str_replace("'", "", $questionResponses);
 
-        $subjectId = $request->input("faculty");
-        $data = compact("subjectResponses", "formPath", "subjectEvals", "averageEvals", "subjectPercentages", "averagePercentages", "subjectId", "subjects", "questions", "questionResponses");
+        $data = compact("subjectResponses", "formPath", "subjectEvals", "averageEvals", "subjectPercentages", "averagePercentages", "subjectId", "subjects", "questions", "questionResponses", "subjectResponseValues");
 
         return view("report.faculty-report", $data);
     }

@@ -12,23 +12,93 @@
 
 @section("script")
 	<script>
-		var subjectEvals = $.parseJSON('{!! $subjectEvals !!}');
+		var subjectEvals = {{ $subjectEvals }};
 		var averageEvals = {{ $averageEvals }};
 		var subjectPercentages = $.parseJSON('{!! $subjectPercentages !!}');
 		var averagePercentages = $.parseJSON('{!! $averagePercentages !!}');
+		var subjectResponses = $.parseJSON('{!! $subjectResponseValues !!}');
 		var subjects = $.parseJSON('{!! $subjects !!}');
 		var questions = $.parseJSON('{!! $questions !!}');
 		var responses = $.parseJSON('{!! $questionResponses !!}');
+		var subjectId = {{ $subjectId }};
 		$(document).ready(function(){
 			$("#form input").prop("disabled", true).hide();
 
-			subjects.forEach(function(subjectId, a, b){
-				questions.forEach(function(questionId, c, d){
+			questions.forEach(function(questionId, c, d){
+				if($("textarea[name='"+questionId+"']").length > 0){
+					if(subjectResponses[questionId]){
+						var textarea = $("textarea[name='"+questionId+"']");
+						var parent = textarea.parents("td")[0];
+						var table = document.createElement("table");
+						var thead = table.createTHead();
+						var tbody = document.createElement("tbody");
+						var tr, th, td, a;
+
+						tr = document.createElement("tr");
+						th = document.createElement("th");
+						text = document.createTextNode("Evaluation");
+						th.appendChild(text); tr.appendChild(th);
+						th = document.createElement("th");
+						text = document.createTextNode("Response");
+						th.appendChild(text); tr.appendChild(th); thead.appendChild(tr);
+						textarea = textarea[0];
+						parent.removeChild(textarea);
+						console.log(questionId);
+						$.each(subjectResponses[questionId], function(evaluationId, textResponse){
+							if(textResponse.trim() != ""){
+								tr = document.createElement("tr");
+								td = document.createElement("td");
+								a = document.createElement("a");
+								a.href = "/evaluation/"+evaluationId;
+								a.target = "_blank";
+								text = document.createTextNode(evaluationId);
+								a.appendChild(text);
+								td.appendChild(a);
+								tr.appendChild(td);
+								td = document.createElement("td");
+								text = document.createTextNode(textResponse);
+								td.appendChild(text);
+								tr.appendChild(td);
+								tbody.appendChild(tr);
+							}
+						});
+						table.appendChild(tbody);
+						parent.appendChild(table);
+						table.className = "table table-bordered";
+						table.style.whiteSpace = "pre-wrap";
+					}
+				}
+				else{
 					responses[questionId].forEach(function(response, e, f){
-						if($("input[name='"+questionId+"'][value='"+response+"']").length > 0)
-							$("input[name='"+questionId+"'][value='"+response+"']").parents("td").append(subjectPercentages[subjectId][questionId][response]+"%<br />"+averagePercentages[questionId][response]+"%")[0].style.textAlign = "center";
+						if($("input[name='"+questionId+"'][value='"+response+"']").length > 0){
+							var parent = $("input[name='"+questionId+"'][value='"+response+"']").parents("td")[0];
+							var table = document.createElement("table");
+							var thead = table.createTHead();
+							var tr = document.createElement("tr");
+							var th = document.createElement("th");
+							var text = document.createTextNode("Faculty");
+							var td = document.createElement("td");
+							th.appendChild(text); tr.appendChild(th);
+							text = document.createTextNode(subjectPercentages[questionId][response]+"%");
+							td.appendChild(text); tr.appendChild(td); thead.appendChild(tr);
+
+							tr = document.createElement("tr");
+							th = document.createElement("th");
+							text = document.createTextNode("Average");
+							th.appendChild(text); tr.appendChild(th);
+							td = document.createElement("td");
+							text = document.createTextNode(averagePercentages[questionId][response]+"%");
+							td.appendChild(text); tr.appendChild(td); thead.appendChild(tr);
+
+							table.className = "table table-bordered";
+							table.style.width = "40%";
+							table.style.marginLeft = "auto";
+							table.style.marginRight = "auto";
+							parent.style.textAlign = "center";
+							parent.appendChild(table);
+						}
 					});
-				});
+				}
 			});
 		});
 	</script>

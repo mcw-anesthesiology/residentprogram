@@ -80,9 +80,9 @@
 
 				@foreach($evaluation->textResponses as $response)
 					if($("textarea[name='{{ $response->question_id }}']").length > 0)
-						$("textarea[name='{{ $response->question_id }}']").val("{{ $response->response }}");
+						$("textarea[name='{{ $response->question_id }}']").val("{!! str_replace(["\n", "\r"], ["\\n", "\\r"], addslashes($response->response)) !!}");
 					if($("input[name='{{ $response->question_id }}']").length > 0)
-						$("input[name='{{ $response->question_id }}'][value='{{ $response->response }}']").prop("checked", true);
+						$("input[name='{{ $response->question_id }}'][value='{{ str_replace(["\n", "\r"], ["\\n", "\\r"], addslashes($response->response)) }}']").prop("checked", true);
 				@endforeach
 			@endif
 
