@@ -589,7 +589,10 @@ class ReportController extends Controller
         $subjectName = $subject->last_name.", ".$subject->first_name;
         $formTitle = $form->title;
 
-        $data = compact("subjectResponses", "formPath", "subjectEvals", "averageEvals", "subjectPercentages", "averagePercentages", "subjectId", "subjects", "questions", "questionResponses", "subjectResponseValues", "subjectName", "formTitle", "startDate", "endDate");
+        $data = compact("subjectResponses", "formPath", "subjectEvals", "averageEvals",
+        "subjectPercentages", "averagePercentages", "subjectId", "subjects", "questions",
+        "questionResponses", "subjectResponseValues", "subjectName", "formTitle",
+        "startDate", "endDate");
 
         return view("report.faculty-report", $data);
     }
