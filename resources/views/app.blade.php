@@ -47,10 +47,10 @@
 		          @if($user->type == "faculty")
 		            <li><a href="/request">Create Evaluation</a></li>
 		            <li><a href="/dashboard">View Evaluations</a></li>
-					<li><a href="/dashboard/faculty">View Faculty Evaluations</a></li>
+					<!-- <li><a href="/dashboard/faculty">View Faculty Evaluations</a></li> -->
 		          @elseif($user->type == "resident")
 		            <li><a href="/request">Request Evaluation</a></li>
-					<li><a href="/request/faculty">Evaluate Faculty</a></li>
+					<!-- <li><a href="/request/faculty">Evaluate Faculty</a></li> -->
 		            <li><a href="/dashboard">View Evaluations</a></li>
 			      @elseif($user->type == "admin")
 			        <li><a href="/request">Request Evaluation</a></li>
@@ -119,7 +119,7 @@
 					<div class="alert alert-danger alert-dismissable" role="alert">
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						<strong>Error: </strong>{{ session("error") }}
-					</div>					
+					</div>
 				</div>
 			@endif
 			<div class="container body-block">
