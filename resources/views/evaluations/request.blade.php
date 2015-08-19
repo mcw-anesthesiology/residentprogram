@@ -90,7 +90,7 @@
 		var faculty = $.parseJSON('{!! $requestFaculty !!}');
 	@endif
 	@if(isset($requestResidents))
-		var residents = $.parseJSON('{!! $requestResidents !!}')
+		var residents = $.parseJSON('{!! $requestResidents !!}');
 	@endif
 
 	@if($user->type == "resident" && $requestType == "faculty")
@@ -103,10 +103,11 @@
 		var type = "{{ $user->type }}";
 
 		function selectBlock(){
+			var block;
 			if($("#block").length)
-				var block = $("#block").val();
+				block = $("#block").val();
 			else
-				var block = 0;
+				block = 0;
 			if(type == "resident" || type == "admin"){
 				var facultySelect = document.getElementById("faculty");
 				while(facultySelect.firstChild)
