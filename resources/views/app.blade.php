@@ -44,38 +44,39 @@
 			    </div>
 			    <div class="navbar-collapse collapse">
 			      <ul class="nav navbar-nav navbar-right">
-
-			        @if($user->type == "faculty")
-			            <li><a href="/request">Create Evaluation</a></li>
-			            <li><a href="/dashboard">View Evaluation</a></li>
-			        @elseif($user->type == "resident")
-			            <li><a href="/request">Request Evaluation</a></li>
-			            <li><a href="/dashboard">View Evaluation</a></li>
-			        @endif
-
-			      @if($user->type == "admin")
-			      <li><a href="/request">Request Evaluation</a></li>
-			      <li class="dropdown">
-			        <a href="#" data-toggle="dropdown">Manage<b class="caret"></b></a>
-			        <ul class="dropdown-menu">
-			          <li><a href="/manage/evaluations">Evaluations</a></li>
-			          <li><a href="/manage/accounts">Accounts</a></li>
-			          <li><a href="/manage/forms">Forms</a></li>
-			          <li><a href="/manage/milestones-competencies">Milestones/Competencies</a></li>
-			          <li><a href="/manage/mentors">Mentors</a></li>
-					  <li><a href="/manage/block-assignments">Block Assignments</a></li>
-			        </ul>
-			      </li>
+		          @if($user->type == "faculty")
+		            <li><a href="/request">Create Evaluation</a></li>
+		            <li><a href="/dashboard">View Evaluations</a></li>
+					<li><a href="/dashboard/faculty">View Faculty Evaluations</a></li>
+		          @elseif($user->type == "resident")
+		            <li><a href="/request">Request Evaluation</a></li>
+					<li><a href="/request/faculty">Evaluate Faculty</a></li>
+		            <li><a href="/dashboard">View Evaluations</a></li>
+			      @elseif($user->type == "admin")
+			        <li><a href="/request">Request Evaluation</a></li>
+					<li><a href="/dashboard/faculty">Faculty Evaluations</a></li>
+			        <li class="dropdown">
+			          <a href="#" data-toggle="dropdown">Manage<b class="caret"></b></a>
+			          <ul class="dropdown-menu">
+			            <li><a href="/manage/evaluations">Evaluations</a></li>
+			            <li><a href="/manage/accounts">Accounts</a></li>
+			            <li><a href="/manage/forms">Forms</a></li>
+			            <li><a href="/manage/milestones-competencies">Milestones/Competencies</a></li>
+			            <li><a href="/manage/mentors">Mentors</a></li>
+			  		    <li><a href="/manage/block-assignments">Block Assignments</a></li>
+			          </ul>
+			        </li>
 			      @endif
 				  @if($user->type == "admin" || $user->type == "resident" || ($user->type == "faculty" && $user->mentees()->count() > 0))
 			      	<li class="dropdown">
 			        	<a href="#" data-toggle="dropdown">Reports<b class="caret"></b></a>
 			        	<ul class="dropdown-menu">
-							@if($user->type == "admin")
+						@if($user->type == "admin")
 			          	<li><a class="viewAggRpt pointer" data-toggle="modal" data-target=".bs-aggRpt-modal" id="viewAggRpt">Generate Aggregate</a></li>
 			        	@endif
 			          	<li><a class="viewSpecRpt pointer" data-toggle="modal" data-target=".bs-specRpt-modal" id="viewSpecRpt">Generate Specific</a></li>
 						@if($user->type == "admin")
+						<li><a class="viewSpecFacultyRpt pointer" data-toggle="modal" data-target=".bs-specFacultyRpt-modal" id="viewSpecFacultyRpt">Faculty</a></li>
 					  	<li><a href="/report/needs-eval">Needs Evaluations</a></li>
 					  	<li><a href="/report/faculty">Faculty Statistics</a></li>
 					  	<li><a href="/report/resident">Resident Statistics</a></li>
@@ -217,7 +218,8 @@
 		              <button type="button" class="btn" id="addNewSpecificReport">Add Report</button>
 		          </div>
 		          <div class="form-group" style="text-align: center;">
-					<input type="checkbox" id="graphs" name="graphs" value="all" checked /><label for="graphs">Generate Graphs</label>
+					<input type="checkbox" id="graphs" name="graphs" value="all" checked />
+					<label for="graphs">Generate Graphs</label>
 		          </div>
 		        </div>
 		        <div class="modal-footer">
@@ -228,6 +230,57 @@
 		    </div>
 		  </div>
 		</div>
+
+		@if($user->type == "admin")
+		<!-- Faculty Report Modal -->
+		<div class="modal fade bs-specFacultyRpt-modal" role="dialog" aria-labelledby="modalSpecFacultyRpt" aria-hidden="true" id="specFacultyRptModal">
+		  <div class="modal-dialog">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalSpecFacultyRpt">Specific Faculty Report</h4>
+			  </div>
+			  <form class="report" method="post" action="/report/faculty">
+				  {!! csrf_field() !!}
+				<div class="modal-body modal-specFacultyRpt report-options">
+			 	  <div class="form-group">
+					<label for="specific-faculty">Faculty</label>
+					<select class="form-control select2" id="specific-faculty" name="faculty" style="width: 100%;" required>
+						@foreach($specificFaculty as $faculty)
+							<option value="{{ $faculty->id }}">{{ $faculty->last_name }}, {{ $faculty->first_name }}</option>
+						@endforeach
+					</select>
+				  </div>
+				  <div class="form-group">
+					<label for="startDate">Start Date:</label>
+					<input type="text" class="form-control datepicker startDate" id="startDate" name="startDate" required>
+				  </div>
+				  <div class="form-group">
+					<label for="endDate">End Date:</label>
+					<input type="text" class="form-control datepicker endDate" id="endDate" name="endDate" required>
+				  </div>
+				  <div class="form-group" style="text-align: center;">
+					<button type="button" id="lastThreeMonths" class="btn lastThreeMonths">Last Three Months</button>
+					<button type="button" id="lastSixMonths" class="btn lastSixMonths">Last Six Months</button>
+				  </div>
+				  <div class="form-group">
+				  	<label for="form-id">Form</label>
+					<select class="form-control select2" id="form-id" name="form_id" style="width: 100%" required>
+				@foreach($facultyForms as $facultyForm)
+						<option value="{{ $facultyForm->id }}">{{ $facultyForm->title }}</option>
+				@endforeach
+					</select>
+				  </div>
+				</div>
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				  <button type="submit" class="btn btn-success" value="">Generate</button>
+				</div>
+			  </form>
+			</div>
+		  </div>
+		</div>
+		@endif
 		<!-- Bootstrap core JavaScript
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->

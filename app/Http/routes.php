@@ -25,11 +25,16 @@ Route::post("password/reset", "Auth\PasswordController@postReset");
 Route::get("dashboard", "MainController@dashboard");
 Route::get("dashboard/evaluations", "MainController@evaluations");
 Route::post("dashboard/evaluations", "MainController@evaluations");
+Route::get("dashboard/faculty", "MainController@dashboardFaculty");
+Route::get("dashboard/faculty/evaluations", "MainController@facultyEvaluations");
+Route::post("dashboard/faculty/evaluations", "MainController@facultyEvaluations");
 
 Route::post("evaluation/cancel", "MainController@cancelEvaluation");
 Route::get("evaluation/{id}", "MainController@evaluation");
 Route::post("evaluation/{id}", "MainController@saveEvaluation");
 
+Route::get("request/faculty", "MainController@request");
+Route::post("request/faculty", "MainController@createRequest");
 Route::get("request", "MainController@request");
 Route::post("request", "MainController@createRequest");
 
@@ -44,6 +49,8 @@ Route::post("contact", "MainController@saveContact");
 Route::get("photos/{filename}", "FileController@getPhoto");
 Route::get("graph/{filename}", "FileController@getGraph");
 
+Route::get("manage/settings", "ManageController@settings");
+Route::post("manage/settings", "ManageController@saveSettings");
 Route::get("manage/evaluations", "ManageController@evaluations");
 Route::post("manage/evaluations", "ManageController@archive");
 Route::get("manage/evaluations/get", "ManageController@getEvaluations");
@@ -51,9 +58,8 @@ Route::post("manage/evaluations/{id}", "ManageController@editEvaluation");
 Route::get("manage/accounts", "ManageController@accounts");
 Route::get("manage/accounts/get/{type}", "ManageController@getAccounts");
 Route::post("manage/accounts/{action}", "ManageController@account");
-// Route::post("manage/accounts", "ManageController@accounts");
 Route::get("manage/forms", "ManageController@forms");
-Route::get("manage/forms/get", "ManageController@getForms");
+Route::get("manage/forms/get/{type}", "ManageController@getForms");
 Route::get("manage/forms/add", "ManageController@formBuilder");
 Route::post("manage/forms/add", "ManageController@addForm");
 Route::get("manage/forms/{id}", "ManageController@viewForm");
@@ -63,9 +69,7 @@ Route::get("manage/milestones/get", "ManageController@getMilestones");
 Route::post("manage/milestones/{action}", "ManageController@milestone");
 Route::get("manage/competencies/get", "ManageController@getCompetencies");
 Route::post("manage/competencies/{action}", "ManageController@competency");
-// Route::post("manage/milestones-competencies", "ManageController@milestonesCompetencies");
 Route::get("manage/mentors", "ManageController@mentors");
-// Route::post("manage/mentors", "ManageController@mentors");
 Route::get("manage/mentors/get", "ManageController@getMentors");
 Route::post("manage/mentors/{action}", "ManageController@mentor");
 Route::get("manage/block-assignments", "ManageController@blockAssignments");
@@ -75,6 +79,7 @@ Route::post("manage/block-assignments/get", "ManageController@getBlockAssignment
 
 Route::post("report/aggregate", "ReportController@aggregate");
 Route::post("report/specific", "ReportController@specific");
+Route::post("report/faculty", "ReportController@facultyReport");
 Route::post("report/export", "ReportController@getTSV");
 Route::get("report/needs-eval", "ReportController@needsEvaluations");
 Route::get("report/needs-eval/get", "ReportController@getNeedsEvaluationsJSON");

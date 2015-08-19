@@ -4,15 +4,20 @@
 	<h2 class="sub-header">Form Builder</h2>
 	<form id="evaluation-form" method="post" action="#">
 		{!! csrf_field() !!}
-		<h3 class="form-input">
 			<div class='container-fluid'>
 				<div class='row'>
-					<div class='col-md-12'>
+					<div class='col-md-8'>
 						<input type="text" id="formTitle" class="form-control input-lg" name="formTitle" placeholder="Form Title" required />
+					</div>
+					<div class="col-md-4">
+						<label for="form-type">Form type</label>
+						<select class="form-control" id="form-type" name="form_type" style="margin-bottom: 5px;">
+							<option value="resident">Resident/Fellow/Intern</option>
+							<option value="faculty">Faculty</option>
+						</select>
 					</div>
 				</div>
 			</div>
-		</h3>
 		<div class="form">
 		</div>
 		<div id='footer'>
@@ -32,10 +37,21 @@
 											"<input class='form-input form-option form-option-description form-control' type='text' placeholder='Hover Description' />" +
 										"</div>";
 
+		var radioNonNumericHtml = "<div class='col-md-2 ctr-contents tdRdoBtn'>" +
+											"<input type='radio' disabled/>" +
+											"<input class='form-input form-option form-option-text form-control' placeholder='Option Text' />" +
+											"<input class='form-input form-option form-option-value form-control' type='text' placeholder='Option Value' />" +
+											"<input class='form-input form-option form-option-description form-control' type='text' placeholder='Hover Description' />" +
+										"</div>";
+
 		var textHtml = "<div class='col-md-10'>" +
 										 "<textarea disabled>" +
 										 "</textarea>" +
 									 "</div>";
+
+		var numberHtml = "<div class='col-md-8' ctr-contents tdRdoBtn'>" +
+								"<input type='number' placeholder='Number' disabled />" +
+								"</div>";
 
 		var milestoneOptionsHtml =
 									@foreach($milestones as $milestone)
@@ -61,6 +77,8 @@
 		var typeHtml = "<select class='form-control form-question-type' name='questionType'>" +
 										 "<option value='radio'>Radio</option>" +
 										 "<option value='text'>Text</option>" +
+										 "<option value='radiononnumeric'>Radio (non-numeric)</option>" +
+										 "<option value='number'>Number</option>" +
 									 "</select>";
 
 		var questionHtml = "<div class='container-fluid form-question'>" +
@@ -85,13 +103,13 @@
 												"<div class='hr-question'></div>" +
 												"<div class='row'>" +
 													"<div class='col-md-3'>" +
-														"<b>Question Milestone 1</b>" +
+														"<b class='milestone-competency-label'>Question Milestone 1</b>" +
 													"</div>" +
 													"<div class='col-md-3'>" +
-														"<b>Question Milestone 2</b>" +
+														"<b class='milestone-competency-label'>Question Milestone 2</b>" +
 													"</div>" +
 													"<div class='col-md-3'>" +
-														"<b>Question Competency</b>" +
+														"<b class='milestone-competency-label'>Question Competency</b>" +
 													"</div>" +
 													"<div class='col-md-1'>" +
 														"<b>Question Type</b>" +
@@ -133,15 +151,41 @@
 			addQuestion();
 		});
 
+		$("#form-type").change(function(){
+			var type = $(this).val();
+			if(type == "faculty"){
+				$(".form-question-milestone").hide().prop("disabled", true);
+				$(".form-question-milestone-2").hide().prop("disabled", true);
+				$(".form-question-competency").hide().prop("disabled", true);
+				$(".form-question-type").val("radiononnumeric").change();
+				$(".form-question-required").prop("checked", true);
+				$(".milestone-competency-label").hide();
+			}
+			else{
+				$(".form-question-milestone").show().prop("disabled", false);
+				$(".form-question-milestone-2").show().prop("disabled", false);
+				$(".form-question-competency").show().prop("disabled", false);
+				$(".milestone-competency-label").show();
+			}
+		});
+
 		$(".form").on("change", ".form-question-type", function(){
 		//Changes the radio options for a single textarea when selecting text, or vice versa when selecting radio
 			if($(this).val() === "radio"){
 				$(this).parents(".form-question").find(".form-options").html(radioHtml);
 			}
+			else if($(this).val() === "radiononnumeric"){
+				$(this).parents(".form-question").find(".form-options").html(radioNonNumericHtml);
+			}
 			else if($(this).val() === "text"){
 				$(this).parents(".form-question").find(".form-options").html(textHtml);
 				var questionId = $(this).parents(".form-question").attr("id");
 				$(this).parents(".form-question").find("textarea").attr("name", questionId+":textResponse");
+			}
+			else if($(this).val() === "number"){
+				$(this).parents(".form-question").find(".form-options").html(numberHtml);
+				var questionId = $(this).parents(".form-question").attr("id");
+				$(this).parents(".form-question").find(".form-options :input[type='number']").attr("name", questionId+":numberResponse");
 			}
 		});
 
@@ -149,7 +193,10 @@
 		//Adds input boxes for a new option when giving the current option a numeric value
 			if($(this).val() != ""){
 				if($(this).parent().next().length == 0){
-					$(this).parent().parent().append(radioHtml);
+					if($(".form-question-type").val() == "radio")
+						$(this).parent().parent().append(radioHtml);
+					else if($(".form-question-type").val() == "radiononnumeric")
+						$(this).parent().parent().append(radioNonNumericHtml);
 				}
 			}
 			else{
@@ -173,42 +220,53 @@
 		});
 
 		$(".form").on("click", ".form-question-standard-options", function(){
+			var formType = $("#form-type").val();
+			var questionType = $(this).parents(".form-question").find(".form-question-type").val();
 			var formOptionText = "";
 			var formOptions = $(this).parents(".form-question").find(".form-options");
 			formOptions.html("");
 			var formOption = "";
-			for(formOptionValue = 0; formOptionValue <= 10; formOptionValue++){
-				formOption = formOptions.append(radioHtml).children().last();
-				formOption.find(".form-option-value").val(formOptionValue);
+			var options;
+			if(formType == "resident"){
+				options = [
+					{value: 0, text: "Not at PGY-1"},
+					{value: 1, text: ""},
+					{value: 2, text: "PGY-1"},
+					{value: 3, text: ""},
+					{value: 4, text: "CA-1"},
+					{value: 5, text: ""},
+					{value: 6, text: "CA-2"},
+					{value: 7, text: ""},
+					{value: 8, text: "CA-3"},
+					{value: 9, text: ""},
+					{value: 10, text: "Attending"}
+				];
+			}
+			else if(formType == "faculty" && questionType == "radiononnumeric"){
+				options = [
+					{value: "strongly-disagree", text: "Strongly Disagree"},
+					{value: "disagree", text: "Disagree"},
+					{value: "undecided", text: "Undecided"},
+					{value: "agree", text: "Agree"},
+					{value: "strongly-agree", text: "Strongly Agree"},
+					{value: "n-a", text: "N/A"}
+				];
+				console.log(options);
+			}
+			console.log(formType);
+			console.log(questionType);
 
-				if(formOptionValue%2 == 0){
-					if(formOptionValue == 0){
-						formOptionText = "Not at PGY-1";
-						formOption.find(".form-option-description").val("Not at PGY-1");
-					}
-					else if(formOptionValue == 2){
-						formOptionText = "PGY-1";
-					}
-					else if(formOptionValue == 4){
-						formOptionText = "CA-1";
-					}
-					else if(formOptionValue == 6){
-						formOptionText = "CA-2";
-					}
-					else if(formOptionValue == 8){
-						formOptionText = "CA-3";
-					}
-					else if(formOptionValue == 10){
-						formOptionText = "Attending";
-					}
-					formOption.find(".form-option-text").val(formOptionText);
-				}
-
+			for(var i = 0; i < options.length; i++){
+				if(questionType == "radio")
+					formOption = formOptions.append(radioHtml).children().last();
+				else if(questionType == "radiononnumeric")
+					formOption = formOptions.append(radioNonNumericHtml).children().last();
+				formOption.find(".form-option-value").val(options[i].value);
+				formOption.find(".form-option-text").val(options[i].text);
 				var questionId = formOption.parents(".form-question").attr("id");
 				var optionNumber = formOption.parents(".form-options").children().length;
-
-				formOption.find(".form-option-text").attr("name", questionId+":"+formOptionValue+":"+optionNumber);
-				formOption.find(".form-option-description").attr("name", questionId+":"+formOptionValue+":description");
+				formOption.find(".form-option-text").attr("name", questionId+":"+options[i].value+":"+optionNumber);
+				formOption.find(".form-option-description").attr("name", questionId+":"+options[i].value+":description");
 
 			}
 		});
@@ -219,6 +277,7 @@
 
 		function addQuestion(){
 		//Adds a question to the end of the form
+			var type = $("#form-type").val();
 			if($(".form").children().length == 0){
 				questionId = "q1";
 			}
@@ -231,16 +290,26 @@
 
 			$(".form").append(questionHtml);
 
+			var newQuestion = $(".form").children(".form-question").last();
 			// Changes the input name attributes for the newly added question to correctly reflect its questionId
-			$(".form").children(".form-question").last().attr("id", questionId);
-			$(".form").children(".form-question").last().find(".form-question-name").html(questionId.toUpperCase()+": ");
-			$(".form").children(".form-question").last().find(".form-question-text").attr("name", questionId+":name");
-			$(".form").children(".form-question").last().find(".form-question-type").attr("name", questionId+":type");
-			$(".form").children(".form-question").last().find(".form-question-milestone").attr("name", questionId+":milestone");
-			$(".form").children(".form-question").last().find(".form-question-milestone-2").attr("name", questionId+":milestone2");
-			$(".form").children(".form-question").last().find(".form-question-competency").attr("name", questionId+":competency");
-			$(".form").children(".form-question").last().find(".form-question-weight").attr("name", questionId+":weight");
-			$(".form").children(".form-question").last().find(".form-question-required").attr("name", questionId+":required");
+			newQuestion.attr("id", questionId);
+			newQuestion.find(".form-question-name").html(questionId.toUpperCase()+": ");
+			newQuestion.find(".form-question-text").attr("name", questionId+":name");
+			newQuestion.find(".form-question-type").attr("name", questionId+":type");
+			newQuestion.find(".form-question-milestone").attr("name", questionId+":milestone");
+			newQuestion.find(".form-question-milestone-2").attr("name", questionId+":milestone2");
+			newQuestion.find(".form-question-competency").attr("name", questionId+":competency");
+			newQuestion.find(".form-question-weight").attr("name", questionId+":weight");
+			newQuestion.find(".form-question-required").attr("name", questionId+":required");
+
+			if(type == "faculty"){
+				$(".form-question-milestone").hide().prop("disabled", true);
+				$(".form-question-milestone-2").hide().prop("disabled", true);
+				$(".form-question-competency").hide().prop("disabled", true);
+				$(".milestone-competency-label").hide();
+				newQuestion.find(".form-question-type").val("radiononnumeric").change();
+				newQuestion.find(".form-question-required").prop("checked", true);
+			}
 		}
 
 		$("#evaluation-form").submit(checkForm);

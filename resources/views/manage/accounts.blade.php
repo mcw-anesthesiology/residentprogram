@@ -84,7 +84,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalEdit">Edit Account</h4>
       </div>
-      <form enctype="multipart/form-data" method="post" action="/manage/accounts/edit">
+      <form id="edit-form" enctype="multipart/form-data" method="post" action="/manage/accounts/edit">
 		  {!! csrf_field() !!}
         <div class="modal-body modal-edit">
           <div class="form-group">
@@ -113,11 +113,13 @@
 				<option value="fellow">Fellow</option>
 			</select>
           </div>
-          <div class="form-group" id="photoDiv" style="text-align: center;">
+          <div class="form-group" id="photoDiv">
 			<label for="photoInput">Photo</label>
 			<input type="hidden" name="MAX_FILE_SIZE" value="500000" />
 			<input type="file" accept="image/*" class="form-control" id="photoInput" name="photo" />
-			<img id="photoPreview" src="" width="150px" />
+			<div  style="text-align: center;">
+				<img id="photoPreview" src="" width="150px" />
+			</div>
           </div>
         </div>
         <div class="modal-footer">
@@ -137,7 +139,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalAdd">Add Account</h4>
       </div>
-      <form enctype="multipart/form-data" method="post" action="/manage/accounts/add">
+      <form id="add-form" enctype="multipart/form-data" method="post" action="/manage/accounts/add">
 		  {!! csrf_field() !!}
         <div class="modal-body modal-add">
           <div class="form-group">
@@ -203,7 +205,7 @@
           <h4 class="modal-title" id="myModalEditPassword">Edit Password</h4>
       </div>
       <div class="modal-body modal-edit-password">
-        <form method="post" action="/manage/accounts/password">
+        <form id="password-form" method="post" action="/manage/accounts/password">
 			{!! csrf_field() !!}
 			<div class="form-group">
 				<label for="password1">User Password</label>
@@ -298,47 +300,40 @@
 			var trainingLevel = $(this).data("traininglevel");
 			var photoPath = $(this).data("photo");
 
+			$("#edit-form")[0].reset();
 			$("#editModal #usernameInput").val(username);
 			$("#editModal #emailInput").val(email);
 			$("#editModal #firstNameInput").val(firstName);
 			$("#editModal #lastNameInput").val(lastName);
 			$("#editModal #id").val(id);
+			if(photoPath == "")
+				$("#editModal #photoPreview").hide();
+			else{
+				$("#editModal #photoPreview").attr("src", "/"+photoPath);
+				$("#editModal #photoPreview").show();
+			}
 			if(type == "resident"){
 				$("#editModal #trainingLevelDiv").show();
 				$("#editModal #trainingLevelInput").val(trainingLevel);
-				$("#editModal #photoDiv").show();
-				$("#editModal #photoPreview").attr("src", "/"+photoPath);
-			}
-			else if(type == "fellow"){
-				$("#editModal #trainingLevelDiv").hide();
-				$("#editModal #trainingLevelInput").val(trainingLevel);
-				$("#editModal #photoDiv").hide();
-				$("#editModal #photoPreview").attr("src", "");
 			}
 			else{
+				if(type == "fellow")
+					$("#editModal #trainingLevelInput").val("fellow");
 				$("#editModal #trainingLevelDiv").hide();
-				$("#editModal #photoDiv").hide();
-				$("#editModal #photoPreview").attr("src", "");
 			}
 		});
 
 		$(".addUser").on("click", function(){
 			var type = $(this).data('id');
-
-			$("#addModal #usernameInput").val("");
-			$("#addModal #emailInput").val("");
-			$("#addModal #passwordInput").val("");
-			$("#addModal #passwordInput2").val("");
-			$("#addModal #firstNameInput").val("");
-			$("#addModal #lastNameInput").val("");
+			$("#add-form")[0].reset();
 			$("#addModal #accountTypeInput").val(type);
 			if(type == "resident"){
 				$("#addModal #trainingLevelDiv").show();
-				$("#addModal #photoDiv").show();
 			}
 			else{
+				if(type == "fellow")
+					$("#addModal #trainingLevelInput").val("fellow");
 				$("#addModal #trainingLevelDiv").hide();
-				$("#addModal #photoDiv").hide();
 			}
 		});
 

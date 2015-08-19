@@ -88,4 +88,56 @@ class RadarGraphs{
 		}
 		return $chartHash.$extension;
 	}
+
+	static function drawFaculty($subjectResponse, $averageResponse, $questions, $subject_name, $startDate, $endDate, $max){
+		$factory = new pChartFactory();
+
+		$subjectData = $factory->newData();
+		$subjectData->addPoints($averageResponse, "Average");
+		if(!is_null($subjectResponse))
+			$subjectData->addPoints($subjectResponse, "Faculty");
+		$subjectData->setSerieDescription("Faculty", "Individual Performance");
+		$subjectData->setSerieDescription("Average", "Average Faculty Performance");
+		$subjectData->setPalette("Faculty", array("R"=>227, "G"=>0, "B"=>0));
+		$subjectData->setPalette("Average", array("R"=>227, "G"=>227, "B"=>0));
+		$subjectData->addPoints($questions, "Questions");
+		$subjectData->setAbscissa("Questions");
+
+
+		$cache = new pCache();
+		$chartHash = $cache->getHash($subjectData);
+		$extension = ".png";
+		$output = storage_path("app/graphs/".$chartHash.$extension);
+
+		if($cache->isInCache($chartHash)){
+			$cache->saveFromCache($chartHash, $output);
+		}
+		else{
+			$picture = $factory->newImage(800, 600, $subjectData);
+			$picture->drawGradientArea(0,0,800,600,DIRECTION_VERTICAL,array("StartR"=>200,"StartG"=>200,"StartB"=>200,"EndR"=>240,"EndG"=>240,"EndB"=>240,"Alpha"=>100));
+			$picture->drawGradientArea(0,0,800,20,DIRECTION_HORIZONTAL,array("StartR"=>30,"StartG"=>30,"StartB"=>30,"EndR"=>100,"EndG"=>100,"EndB"=>100,"Alpha"=>100));
+			$picture->drawLine(0,20,1800,20,array("R"=>255,"G"=>255,"B"=>255));
+
+			$picture->setFontProperties(array("FontName"=>"verdana.ttf","FontSize"=>8));
+			$picture->drawText(10,13,$subject_name.": ".$startDate->toDateString()." - ".$endDate->toDateString(),array("R"=>255,"G"=>255,"B"=>255));
+
+			$chart = new pRadar();
+
+			$options = array("DrawAxisValues"=>FALSE,"WriteValues"=>FALSE,"WriteValuesInBubble"=>FALSE,"DrawPoly"=>TRUE,"Layout"=>RADAR_LAYOUT_CIRCLE,"BackgroundGradient"=>array("StartR"=>255,"StartG"=>255,"StartB"=>255,"StartAlpha"=>100,"EndR"=>6,"EndG"=>85,"EndB"=>144,"EndAlpha"=>50), "LabelPos"=>RADAR_LABELS_HORIZONTAL);
+
+			$segments = 5;
+			$options["Segments"] = $segments;
+			$options["SegmentHeight"] = $max/$segments;
+
+			$picture->setGraphArea(125, 50, 650, 525);
+			$chart->drawRadar($picture, $subjectData, $options);
+
+			$options["BackgroundGradient"] = array("StartR"=>255,"StartG"=>255,"StartB"=>255,"StartAlpha"=>100,"EndR"=>1,"EndG"=>108,"EndB"=>100,"EndAlpha"=>50);
+
+			$picture->drawLegend(237, 550, array("Style"=>LEGEND_BOX, "Mode"=>LEGEND_HORIZONTAL));
+
+			$picture->render($output);
+		}
+		return $chartHash.$extension;
+	}
 }

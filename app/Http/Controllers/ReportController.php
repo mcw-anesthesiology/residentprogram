@@ -292,23 +292,26 @@ class ReportController extends Controller
         $milestones = [];
         $competencies = [];
         $subjectEvals = [];
+        $subjectEvaluators = [];
         $competencyQuestions = [];
 
         $subjects = [];
 
         $query->select("milestone_id", "milestones.title as milestone_title", "competency_id", "competencies.title as competency_title")
-            ->addSelect("subject_id", "last_name", "first_name", "evaluation_id", "response", "weight", "responses.question_id as question_id")
+            ->addSelect("subject_id", "evaluator_id", "last_name", "first_name", "evaluation_id", "response", "weight", "responses.question_id as question_id")
             ->orderBy("milestones.title")->orderBy("competencies.title");
-        $query->chunk(10000, function($responses) use (&$milestones, &$subjects, &$milestones, &$competencies, &$subjectEvals, &$averageMilestone, &$averageMilestoneDenom, &$averageCompetency, &$averageCompetencyDenom, &$subjectMilestone, &$subjectMilestoneDenom, &$subjectMilestoneEvals, &$subjectCompetency, &$subjectCompetencyDenom, &$subjectCompetencyEvals, &$competencyQuestions){
+        $query->chunk(10000, function($responses) use (&$milestones, &$subjects, &$milestones, &$competencies, &$subjectEvals, &$averageMilestone, &$averageMilestoneDenom, &$averageCompetency, &$averageCompetencyDenom, &$subjectMilestone, &$subjectMilestoneDenom, &$subjectMilestoneEvals, &$subjectCompetency, &$subjectCompetencyDenom, &$subjectCompetencyEvals, &$competencyQuestions, &$subjectEvaluators){
             foreach($responses as $response){
                 if(!isset($subjects[$response->subject_id]))
                     $subjects[$response->subject_id] = $response->last_name.", ".$response->first_name;
-                if(!isset($subjectEvals[$response->subject_id]))
-                    $subjectEvals[$response->subject_id] = 0;
+                if(!isset($subjectEvals[$response->subject_id][$response->evaluation_id]))
+                    $subjectEvals[$response->subject_id][$response->evaluation_id] = 0;
                 if(!isset($subjectMilestoneEvals[$response->subject_id][$response->milestone_id]))
                     $subjectMilestoneEvals[$response->subject_id][$response->milestone_id] = 0;
                 if(!isset($subjectCompetencyEvals[$response->subject_id][$response->competency_id]))
                     $subjectCompetencyEvals[$response->subject_id][$response->competency_id] = 0;
+                if(!isset($subjectEvaluators[$response->subject_id][$response->evaluator_id]))
+                    $subjectEvaluators[$response->subject_id][$response->evaluator_id] = 1;
 
                 if(!isset($averageMilestone[$response->milestone_id]))
                     $averageMilestone[$response->milestone_id] = 0;
@@ -328,7 +331,7 @@ class ReportController extends Controller
                 if(!isset($subjectCompetencyDenom[$response->subject_id][$response->competency_id]))
                     $subjectCompetencyDenom[$response->subject_id][$response->competency_id] = 0;
 
-                $subjectEvals[$response->subject_id]++;
+                $subjectEvals[$response->subject_id][$response->evaluation_id]++;
                 $subjectMilestoneEvals[$response->subject_id][$response->milestone_id]++;
                 $subjectCompetencyEvals[$response->subject_id][$response->competency_id]++;
 
@@ -426,11 +429,9 @@ class ReportController extends Controller
                 break;
         }
 
-        $data = compact("milestones", "competencies", "subjectMilestone", "subjectMilestoneDeviations", "subjectMilestoneEvals", "subjectCompetency", "subjectCompetencyDeviations", "subjectCompetencyEvals", "subjectEvals", "graphs", "subjects");
+        $data = compact("milestones", "competencies", "subjectMilestone", "subjectMilestoneDeviations", "subjectMilestoneEvals", "subjectCompetency", "subjectCompetencyDeviations", "subjectCompetencyEvals", "subjectEvals", "graphs", "subjects", "subjectEvaluators");
 
         if(!is_null($reportSubject)){
-            $subjectTextResponses = [];
-
             $textQuery = DB::table("text_responses")
                 ->join("evaluations", "evaluations.id", "=", "evaluation_id")
                 ->join("users", "users.id", "=", "evaluations.evaluator_id")
@@ -446,10 +447,8 @@ class ReportController extends Controller
 
             $textQuery->select("subject_id", "first_name", "last_name", "forms.title as form_title", "evaluation_date", "response");
 
-            $textQuery->chunk(10000, function($responses) use (&$subjectTextResponses){
-                foreach($responses as $response)
-                    $subjectTextResponses[] = $response;
-            });
+            $subjectTextResponses = $textQuery->get();
+            Debugbar::addMessage($subjectTextResponses);
 
             $data["subjectTextResponses"] = $subjectTextResponses;
         }
@@ -500,5 +499,120 @@ class ReportController extends Controller
         $data["numReports"] = count($startDates);
         $data["specificSubject"] = User::find($request->input("resident"));
         return view("report.report", $data);
+    }
+
+    public function facultyReport(Request $request){
+        $startDate = Carbon::parse($request->input("startDate"));
+        $startDate->timezone = "America/Chicago";
+        $endDate = Carbon::parse($request->input("endDate"));
+        $endDate->timezone = "America/Chicago";
+
+        $query = DB::table("text_responses")
+            ->join("evaluations", "evaluations.id", "=", "evaluation_id")
+            ->join("users as evaluators", "evaluators.id", "=", "evaluator_id")
+            ->join("users as subjects", "subjects.id", "=", "subject_id")
+            ->join("forms", "forms.id", "=", "form_id")
+            ->where("evaluations.status", "complete")
+            ->where("forms.type", "faculty")
+            ->where("evaluators.type", "resident")
+            ->where("forms.id", $request->input("form_id"))
+            ->where("evaluation_date", ">", $startDate)
+            ->where("evaluation_date", "<", $endDate);
+
+        $subjectResponses = [];
+        $subjectEvals = [];
+        $averageResponses = [];
+        $averageEvals = [];
+        $subjects = [];
+        $questions = [];
+        $questionResponses = [];
+        $subjectResponseValues = [];
+
+        $query->select("evaluation_id", "evaluator_id", "subject_id", "response", "question_id");
+
+    $query->chunk(10000, function($responses) use(&$subjectResponses, &$subjectEvals, &$averageResponses, &$averageEvals, &$subjects, &$questions, &$questionResponses, &$subjectResponseValues){
+            foreach($responses as $response){
+                if(!isset($subjectResponses[$response->subject_id][$response->question_id][$response->response]))
+                    $subjectResponses[$response->subject_id][$response->question_id][$response->response] = 0;
+                if(!isset($averageResponses[$response->question_id][$response->response]))
+                    $averageResponses[$response->question_id][$response->response] = 0;
+
+                if(!isset($subjectEvals[$response->subject_id][$response->evaluation_id]))
+                    $subjectEvals[$response->subject_id][$response->evaluation_id] = 1;
+                if(!isset($averageEvals[$response->evaluation_id]))
+                    $averageEvals[$response->evaluation_id] = 1;
+
+                if(!isset($subjects[$response->subject_id]))
+                    $subjects[$response->subject_id] = 1;
+                if(!isset($questions[$response->question_id]))
+                    $questions[$response->question_id] = 1;
+                if(!isset($questionResponses[$response->question_id][$response->response]))
+                    $questionResponses[$response->question_id][$response->response] = 1;
+
+                $subjectResponses[$response->subject_id][$response->question_id][$response->response]++;
+                $subjectResponseValues[$response->subject_id][$response->question_id][$response->evaluation_id] = $response->response;
+                $averageResponses[$response->question_id][$response->response]++;
+            }
+        });
+
+        foreach($subjectEvals as $subject_id => $null){
+            $subjectEvals[$subject_id] = count($subjectEvals[$subject_id]);
+        }
+        $averageEvals = count($averageEvals);
+        $subjects = array_keys($subjects);
+        $questions = array_keys($questions);
+        foreach($questions as $question_id){
+            $questionResponses[$question_id] = array_keys($questionResponses[$question_id]);
+        }
+
+        foreach($questions as $question_id){
+            foreach($questionResponses[$question_id] as $response){
+                $averagePercentages[$question_id][$response] = round(($averageResponses[$question_id][$response]/$averageEvals)*100);
+                foreach($subjects as $subject_id){
+                    if(isset($subjectResponses[$subject_id][$question_id][$response]))
+                        $subjectPercentages[$subject_id][$question_id][$response] = round(($subjectResponses[$subject_id][$question_id][$response]/$subjectEvals[$subject_id])*100);
+                    else{
+                        $subjectResponses[$subject_id][$question_id][$response] = 0;
+                        $subjectPercentages[$subject_id][$question_id][$response] = 0;
+                    }
+                }
+            }
+        }
+
+
+        $subjectId = $request->input("faculty");
+        $form = Form::find($request->input("form_id"));
+        $formPath = $form->xml_path;
+        $subjectResponses = $subjectResponses[$subjectId];
+        $subjectPercentages = $subjectPercentages[$subjectId];
+        $subjectEvals = $subjectEvals[$subjectId];
+        $subjectResponseValues = $subjectResponseValues[$subjectId];
+
+        $subjectResponses = $this->encodeAndStrip($subjectResponses);
+        $subjectPercentages = $this->encodeAndStrip($subjectPercentages);
+        $subjectResponseValues = $this->encodeAndStrip($subjectResponseValues);
+        $subjectEvals = $this->encodeAndStrip($subjectEvals);
+        $averagePercentages = $this->encodeAndStrip($averagePercentages);
+        $averageEvals = $this->encodeAndStrip($averageEvals);
+        $subjects = $this->encodeAndStrip($subjects);
+        $questions = $this->encodeAndStrip($questions);
+        $questionResponses = $this->encodeAndStrip($questionResponses);
+
+        $subject = User::find($subjectId);
+        $subjectName = $subject->last_name.", ".$subject->first_name;
+        $formTitle = $form->title;
+
+        $data = compact("subjectResponses", "formPath", "subjectEvals", "averageEvals",
+        "subjectPercentages", "averagePercentages", "subjectId", "subjects", "questions",
+        "questionResponses", "subjectResponseValues", "subjectName", "formTitle",
+        "startDate", "endDate");
+
+        return view("report.faculty-report", $data);
+    }
+
+    private function encodeAndStrip($array){
+        $array = addslashes(json_encode($array));
+        str_replace("'", "", $array);
+        return $array;
     }
 }

@@ -2,9 +2,9 @@
 
 @section("body")
 	<div class="row">
-		<h2 class="sub-header">Forms <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+		<h2 class="sub-header">Evaluation Forms <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
-			<table class="table table-striped datatable">
+			<table class="table table-striped" id="resident-forms">
 				<thead>
 					<tr>
 						<th>Title</th>
@@ -17,6 +17,25 @@
 			</table>
 		</div>
 	</div>
+
+	<hr />
+	<div class="row">
+		<h2 class="sub-header">Faculty Evaluation Forms <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+		<div class="table-responsive">
+			<table class="table table-striped" id="faculty-forms">
+				<thead>
+					<tr>
+						<th>Title</th>
+						<th>Created</th>
+						<th>Status</th>
+						<th>View</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+
 
 	<!-- Add Modal -->
 	<div class="modal fade bs-add-modal" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true" id="addModal">
@@ -109,12 +128,15 @@
 		});
 
 		$(document).ready(function(){
-			$(".datatable").each(function(){
-				$(this).dataTable({
-					"ajax": "/manage/forms/get",
-					"dom": "lfprtip",
-					stateSave: true
-				});
+			$("#resident-forms").DataTable({
+				"ajax": "/manage/forms/get/resident",
+				"dom": "lfprtip",
+				stateSave: true
+			});
+			$("#faculty-forms").DataTable({
+				"ajax": "/manage/forms/get/faculty",
+				"dom": "lfprtip",
+				stateSave: true
 			});
 		});
 	</script>

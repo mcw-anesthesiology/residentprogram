@@ -1,5 +1,11 @@
 @extends("app")
 
+@section("head")
+	<style>
+		.view, .complete { cursor: pointer; }
+	</style>
+@stop
+
 @section("body")
 	<h2 class="sub-header">Request Evaluation</h2>
 
@@ -21,7 +27,7 @@
 		@if($user->type != "resident")
 			<div class="form-group">
 				<label for="resident">Resident/Fellow</label>
-				<select class="form-control request-select" name="subject_id" id="resident" required>
+				<select class="form-control request-select" name="resident_id" id="resident" required>
 				</select>
 			</div>
 		@endif
@@ -29,7 +35,7 @@
 		@if($user->type != "faculty")
 			<div class="form-group">
 				<label for="faculty">Faculty</label>
-				<select class="form-control request-select" name="evaluator_id" id="faculty" required>
+				<select class="form-control request-select" name="faculty_id" id="faculty" required>
 				</select>
 			</div>
 		@endif
@@ -44,7 +50,7 @@
 		</div>
 		<button type="submit" class="btn btn-primary">Submit</button>
 	</form>
-	
+
 	@if($user->type != "admin")
 </div>
 <div class="container body-block">
@@ -62,16 +68,37 @@
 		You will then be able to select from the entire list of {{ $selectUserType }}.
 	</p>
 	@endif
+	@if($user->type == "resident" && $requestType == "faculty" && $pendingEvalCount > 0)
+</div>
+<div class="container body-block">
+	<h3 class="sub-header">Evaluations in progress</h3>
+	<table class="table table-striped" id="pending-faculty-evals" width="100%">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Faculty</th>
+				<th>Started</th>
+			</tr>
+		</thead>
+	</table>
+	@endif
 @stop
 
 @section("script")
 	<script>
-		@if(isset($requestFaculty))
-			var faculty = $.parseJSON('{!! $requestFaculty !!}');
-		@endif
-		@if(isset($requestResidents))
-			var residents = $.parseJSON('{!! $requestResidents !!}')
-		@endif
+	@if(isset($requestFaculty))
+		var faculty = $.parseJSON('{!! $requestFaculty !!}');
+	@endif
+	@if(isset($requestResidents))
+		var residents = $.parseJSON('{!! $requestResidents !!}')
+	@endif
+
+	@if($user->type == "resident" && $requestType == "faculty")
+		$(".table").on("click", ".view", function(){
+			var requestId = $(this).parents("tr").children("td").eq(0).children("a").html();
+			window.location.href = "/evaluation/"+requestId;
+		});
+	@endif
 
 		var type = "{{ $user->type }}";
 
@@ -117,18 +144,33 @@
 		$("#block").change(selectBlock);
 
 		$(document).ready(function(){
+
+	@if($user->type == "resident" && $requestType == "faculty")
 			$("#block").select2();
+			$("#pending-faculty-evals").DataTable({
+				"ajax": "/dashboard/faculty/evaluations",
+				deferRendering: true,
+				"order": [[0, "desc"]],
+				stateSave: true,
+				"dom": "lfprtip",
+				"createdRow": function(row, data, index){
+					$("td", row).addClass("view");
+				}
+			});
+	@endif
+
 			$("#block option:eq(1)").prop("selected", true).trigger("change");
 			selectBlock();
 			$("#evaluation-form").val(null).select2({
 				placeholder: "Select Form"
 			});
+			$("#block").select2();
 		});
 
 		function checkSelectValues(){
 			var optionsSelected = true;
 			$(".request-select").each(function(){
-				if($(this).val() == null){
+				if($(this).val() === null){
 					optionsSelected = false;
 				}
 			});

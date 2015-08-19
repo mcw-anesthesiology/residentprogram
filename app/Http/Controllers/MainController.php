@@ -13,6 +13,7 @@ use Auth;
 use Mail;
 use Debugbar;
 use Log;
+use Setting;
 
 use Carbon\Carbon;
 
@@ -40,6 +41,10 @@ class MainController extends Controller
         }
         $data = compact("mentees");
         return view("dashboard.dashboard", $data);
+    }
+
+    public function dashboardFaculty(){
+        return view("dashboard.faculty.dashboard");
     }
 
     public function request(Request $request){
@@ -86,9 +91,25 @@ class MainController extends Controller
             "faculty" => "interns/residents/fellows",
             "admin" => "users"
         ];
-        $forms = Form::where("status", "active")->get();
+        if($request->is("request/faculty") && $user->type == "resident")
+            $forms = Form::where("status", "active")->where("type", "faculty")->orderBy("title")->get();
+        else
+            $forms = Form::where("status", "active")->where("type", "resident")->orderBy("title")->get();
 
-        $data = compact("selectTypes", "forms");
+        if($request->is("request/faculty"))
+            $requestType = "faculty";
+        else
+            $requestType = "resident";
+
+        $data = compact("selectTypes", "forms", "requestType");
+
+        if($user->type == "resident" && $requestType == "faculty"){
+            $pendingEvalCount = Evaluation::with("subject", "evaluator", "form")->where("status", "pending")->where("evaluator_id", $user->id)->whereHas("form", function($query){
+                $query->where("type", "faculty");
+            })->count();
+            $data["pendingEvalCount"] = $pendingEvalCount;
+        }
+
 
         if(isset($residents)){
             $residents = json_encode($residents);
@@ -106,12 +127,34 @@ class MainController extends Controller
 
     public function createRequest(Request $request){
         $user = Auth::user();
-        $eval = new Evaluation($request->all());
-        if(!$eval->evaluator_id)
-            $eval->evaluator_id = $user->id;
-        elseif(!$eval->subject_id)
-            $eval->subject_id = $user->id;
+        $eval = new Evaluation();
+        if($request->is("request")){
+            if($request->has("resident_id"))
+                $eval->subject_id = $request->input("resident_id");
+            elseif($user->type == "resident")
+                $eval->subject_id = $user->id;
 
+            if($request->has("faculty_id"))
+                $eval->evaluator_id = $request->input("faculty_id");
+            elseif($user->type == "faculty")
+                $eval->evaluator_id = $user->id;
+        }
+        elseif($request->is("request/faculty")){
+            if($user->type == "faculty")
+                return redirect("dashboard")->with("error", "Faculty cannot request faculty evaluations");
+
+            if($request->has("resident_id"))
+                $eval->evaluator_id = $request->input("resident_id");
+            elseif($user->type == "resident")
+                $eval->evaluator_id = $user->id;
+
+            if($request->has("faculty_id"))
+                $eval->subject_id = $request->input("faculty_id");
+            else
+                return back()->withInput()->with("error", "Please select a faculty to be evaluated");
+        }
+
+        $eval->form_id = $request->input("form_id");
         $eval->requested_by_id = $user->id;
         $eval->status = "pending";
         $eval->request_date = Carbon::now();
@@ -144,7 +187,16 @@ class MainController extends Controller
     public function evaluation(Request $request, $id){
         $user = Auth::user();
         $evaluation = Evaluation::find($id);
-        if($evaluation->subject_id == $user->id || $evaluation->evaluator_id == $user->id || $user->type == "admin" || $user->mentees->contains($evaluation->subject))
+        if($evaluation->subject_id == $user->id && $user->type == "faculty"){
+            $threshold = Setting::get("facultyEvalThreshold");
+            $evaluations = Evaluation::where("subject_id", $user->id)->where("status", "complete")->orderBy("id", "desc")->get();
+            $evaluations = $evaluations->splice($evaluations->count()%$threshold);
+            if($evaluations->contains($evaluation))
+                return view("evaluations.evaluation", compact("evaluation"));
+            else
+                return redirect("dashboard")->with("error", "Insufficient permissions to view the requested evaluation");
+        }
+        elseif($evaluation->subject_id == $user->id || $evaluation->evaluator_id == $user->id || $user->type == "admin" || $user->mentees->contains($evaluation->subject))
             return view("evaluations.evaluation", compact("evaluation"));
         else
             return redirect("dashboard")->with("error", "Insufficient permissions to view the requested evaluation");
@@ -215,10 +267,12 @@ class MainController extends Controller
         $user = Auth::user();
         $results["data"] = [];
         if($user->type == "admin"){
-            $evaluations = Evaluation::with("subject", "evaluator", "form")->get();
+            $evaluations = Evaluation::with("subject", "evaluator", "form")->whereHas("form", function($query){
+                $query->where("type", "resident");
+            })->get();
             foreach($evaluations as $eval){
                 $result = [];
-                $result[] = "<a href='evaluation/{$eval->id}'>{$eval->id}</a>";
+                $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
                 $result[] = $eval->subject->last_name.", ".$eval->subject->first_name;
                 $result[] = $eval->evaluator->last_name.", ".$eval->evaluator->first_name;
                 $result[] = $eval->form->title;
@@ -248,10 +302,12 @@ class MainController extends Controller
             else
                 $evaluations = Evaluation::where("status", $type)->where(function($query) use ($user){
                     $query->where("evaluator_id", $user->id)->orWhere("subject_id", $user->id);
-                })->with("subject", "evaluator", "form")->get();
+                })->with("subject", "evaluator", "form")->whereHas("form", function($query){
+                    $query->where("type", "resident");
+                })->get();
             foreach($evaluations as $eval){
                 $result = [];
-                $result[] = "<a href='evaluation/{$eval->id}'>{$eval->id}</a>";
+                $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
                 if($eval->subject_id == $user->id || $type == "mentor")
                     $result[] = $eval->evaluator->last_name.", ".$eval->evaluator->first_name;
                 else
@@ -273,7 +329,52 @@ class MainController extends Controller
                 $results["data"][] = $result;
             }
         }
+        return json_encode($results);
+    }
 
+    public function facultyEvaluations(Request $request){
+        $user = Auth::user();
+        $results["data"] = [];
+        if($user->type == "admin")
+            $evaluations = Evaluation::with("subject", "evaluator", "form")->whereHas("form", function($query){
+                $query->where("type", "faculty");
+            })->get();
+        elseif($user->type == "faculty"){
+            $threshold = Setting::get("facultyEvalThreshold");
+            $evaluations = Evaluation::where("subject_id", $user->id)->where("status", "complete")->orderBy("id", "desc")->get();
+            $evaluations = $evaluations->splice($evaluations->count()%$threshold);
+        }
+        elseif($user->type == "resident"){
+            $evaluations = Evaluation::with("subject", "evaluator", "form")->where("status", "pending")->where("evaluator_id", $user->id)->whereHas("form", function($query){
+                $query->where("type", "faculty");
+            })->get();
+        }
+
+        foreach($evaluations as $eval){
+            $result = [];
+            $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
+            if($user->type == "admin"){
+                $result[] = $eval->subject->last_name.", ".$eval->subject->first_name;
+                $result[] = $eval->evaluator->last_name.", ".$eval->evaluator->first_name;
+                $result[] = (string)$eval->request_date;
+                $result[] = (string)$eval->complete_date;
+            }
+            elseif($user->type == "resident"){
+                $result[] = $eval->subject->last_name.", ".$eval->subject->first_name;
+                $result[] = (string)$eval->request_date;
+            }
+            if($user->type == "admin" || $user->type == "faculty"){
+                if(isset($eval->evaluation_date))
+                    $result[] = $eval->evaluation_date->format("F Y");
+                else
+                    $result[] = "";
+            }
+            if($user->type == "admin"){
+                $result[] = "";
+            }
+
+            $results["data"][] = $result;
+        }
         return json_encode($results);
     }
 

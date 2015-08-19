@@ -31,7 +31,7 @@ class FormReader{
 
 		}
 		else if($name == "option"){
-			if($questionType == "radio"){
+			if($questionType == "radio" || $questionType == "radiononnumeric"){
 				if(isset($attrs["description"]))
 					$description = htmlspecialchars($attrs["description"], ENT_QUOTES);
 				else
@@ -69,6 +69,9 @@ class FormReader{
 
 			if($questionType == "text"){
 				$result .= "<td><textarea name='{$questionName}' {$required}></textarea></td>";
+			}
+			elseif($questionType == "number"){
+				$result .= "<td><input type='number' name='{$questionName}' {$required} /></td>";
 			}
 			else if($questionType == "radio"){
 				if($questionHasDescriptions){

@@ -10,29 +10,47 @@
 			<thead>
 				<tr>
 					<th>#</th>
+				@if($evaluation->subject->type != "faculty")
 					<th>Resident/Fellow</th>
+				@endif
 					<th>Faculty</th>
+				@if($evaluation->status == "complete")
+					<th>Evaluation Date</th>
+				@endif
+				@if(!($evaluation->subject->type == "faculty" && $user->id == $evaluation->subject_id))
 					<th>Requested</th>
 					<th>Completed</th>
+				@endif
 					<th>Status</th>
+				@if($evaluation->subject->type != "faculty")
 					<th>Training Level</th>
+				@endif
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
 					<td>{{ $evaluation->id }}</td>
 					<td>{{ $evaluation->subject->last_name }}, {{ $evaluation->subject->first_name }}</td>
+				@if($evaluation->subject->type != "faculty")
 					<td>{{ $evaluation->evaluator->last_name }}, {{ $evaluation->evaluator->first_name }}</td>
+				@endif
+				@if($evaluation->status == "complete")
+					<td>{{ $evaluation->evaluation_date->format("F Y") }}</td>
+				@endif
+				@if(!($evaluation->subject->type == "faculty" && $user->id == $evaluation->subject_id))
 					<td>{{ $evaluation->request_date }}</td>
 					<td>{{ $evaluation->complete_date }}</td>
-					<td>{{ $evaluation->status }}</td>
-					<td>{{ $evaluation->training_level }}</td>
+				@endif
+					<td>{{ ucfirst($evaluation->status) }}</td>
+				@if($evaluation->subject->type != "faculty")
+					<td>{{ strtoupper($evaluation->training_level) }}</td>
+				@endif
 				</tr>
 			</tbody>
 		</table>
-		@if($evaluation->subject->photo_path)
+		@if($evaluation->subject->photo_path && $evaluation->subject_id != $user->id)
 			<div style="text-align: center;">
-				<td><img src="/{{ $evaluation->subject->photo_path }}" width="300px" /></td>
+				<img src="/{{ $evaluation->subject->photo_path }}" width="300px" />
 			</div>
 		@endif
 		<br />
@@ -64,11 +82,17 @@
 		$(document).ready(function(){
 			@if($evaluation->status == "complete" || $user->id == $evaluation->evaluator_id)
 				@foreach($evaluation->responses as $response)
-					$("input[name='{{ $response->question_id }}'][value='{{ $response->response }}']").prop("checked", true);
+					if($("input[name='{{ $response->question_id }}']").attr("type") == "radio")
+						$("input[name='{{ $response->question_id }}'][value='{{ $response->response }}']").prop("checked", true);
+					else if($("input[name='{{ $response->question_id }}']").attr("type") == "number")
+						$("input[name='{{ $response->question_id }}']").val({{ $response->response }});
 				@endforeach
 
 				@foreach($evaluation->textResponses as $response)
-					$("textarea[name='{{ $response->question_id }}']").val("{!! str_replace(["\n", "\r"], ["\\n", "\\r"], addslashes($response->response)) !!}");
+					if($("textarea[name='{{ $response->question_id }}']").length > 0)
+						$("textarea[name='{{ $response->question_id }}']").val("{!! str_replace(["\n", "\r"], ["\\n", "\\r"], addslashes($response->response)) !!}");
+					if($("input[name='{{ $response->question_id }}']").length > 0)
+						$("input[name='{{ $response->question_id }}'][value='{{ str_replace(["\n", "\r"], ["\\n", "\\r"], addslashes($response->response)) }}']").prop("checked", true);
 				@endforeach
 			@endif
 
@@ -80,10 +104,12 @@
 				$("#form input").prop("disabled", true);
 				$("#form textarea").prop("readonly", true);
 			@endif
-			$("#form textarea").width("90%");
-			$("#form textarea").height($("#form textarea")[0].scrollHeight);
-			$("#form textarea").addClass("noprint");
-			$("#form textarea").parents("td").append("<div class='print'>"+$("#form textarea").val()+"</div>");
+			if($("#form textarea").length > 0){
+				$("#form textarea").width("90%");
+				$("#form textarea").height($("#form textarea")[0].scrollHeight);
+				$("#form textarea").addClass("noprint");
+				$("#form textarea").parents("td").append("<div class='print'>"+$("#form textarea").val()+"</div>");
+			}
 			$("#form button").each(function(){
 				$(this).addClass("noprint");
 			});
