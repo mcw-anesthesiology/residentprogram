@@ -1,5 +1,11 @@
 @extends("app")
 
+@section("head")
+	<style>
+		.view, .complete { cursor: pointer; }
+	</style>
+@stop
+
 @section("body")
 	<h2 class="sub-header">Request Evaluation</h2>
 
@@ -44,16 +50,38 @@
 		</div>
 		<button type="submit" class="btn btn-primary">Submit</button>
 	</form>
+
+	@if($user->type == "resident" && $requestType == "faculty" && $pendingEvalCount > 0)
+</div>
+<div class="container body-block">
+	<h3 class="sub-header">Evaluations in progress</h3>
+	<table class="table table-striped" id="pending-faculty-evals" width="100%">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Faculty</th>
+				<th>Started</th>
+			</tr>
+		</thead>
+	</table>
+	@endif
 @stop
 
 @section("script")
 	<script>
-		@if(isset($requestFaculty))
-			var faculty = $.parseJSON('{!! $requestFaculty !!}');
-		@endif
-		@if(isset($requestResidents))
-			var residents = $.parseJSON('{!! $requestResidents !!}')
-		@endif
+	@if(isset($requestFaculty))
+		var faculty = $.parseJSON('{!! $requestFaculty !!}');
+	@endif
+	@if(isset($requestResidents))
+		var residents = $.parseJSON('{!! $requestResidents !!}')
+	@endif
+
+	@if($user->type == "resident" && $requestType == "faculty")
+		$(".table").on("click", ".view", function(){
+			var requestId = $(this).parents("tr").children("td").eq(0).children("a").html();
+			window.location.href = "/evaluation/"+requestId;
+		});
+	@endif
 
 		var type = "{{ $user->type }}";
 
@@ -99,6 +127,20 @@
 		$("#block").change(selectBlock);
 
 		$(document).ready(function(){
+
+	@if($user->type == "resident" && $requestType == "faculty")
+			$("#pending-faculty-evals").DataTable({
+				"ajax": "/dashboard/faculty/evaluations",
+				deferRendering: true,
+				"order": [[0, "desc"]],
+				stateSave: true,
+				"dom": "lfprtip",
+				"createdRow": function(row, data, index){
+					$("td", row).addClass("view");
+				}
+			});
+	@endif
+
 			$("#block option:eq(1)").prop("selected", true).trigger("change");
 			selectBlock();
 			$("#evaluation-form").val(null).select2({

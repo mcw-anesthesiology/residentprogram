@@ -157,6 +157,8 @@
 				$(".form-question-milestone").hide().prop("disabled", true);
 				$(".form-question-milestone-2").hide().prop("disabled", true);
 				$(".form-question-competency").hide().prop("disabled", true);
+				$(".form-question-type").val("radiononnumeric").change();
+				$(".form-question-required").prop("checked", true);
 				$(".milestone-competency-label").hide();
 			}
 			else{
@@ -219,12 +221,14 @@
 
 		$(".form").on("click", ".form-question-standard-options", function(){
 			var formType = $("#form-type").val();
+			var questionType = $(this).parents(".form-question").find(".form-question-type").val();
 			var formOptionText = "";
 			var formOptions = $(this).parents(".form-question").find(".form-options");
 			formOptions.html("");
 			var formOption = "";
+			var options;
 			if(formType == "resident"){
-				var options = [
+				options = [
 					{value: 0, text: "Not at PGY-1"},
 					{value: 1, text: ""},
 					{value: 2, text: "PGY-1"},
@@ -238,18 +242,25 @@
 					{value: 10, text: "Attending"}
 				];
 			}
-			else if(formType == "faculty"){
-				var options = [
-					{value: 0, text: "Strongly Disagree"},
-					{value: 2, text: "Disagree"},
-					{value: 5, text: "Undecided"},
-					{value: 8, text: "Agree"},
-					{value: 10, text: "Strongly Agree"}
+			else if(formType == "faculty" && questionType == "radiononnumeric"){
+				options = [
+					{value: "strongly-disagree", text: "Strongly Disagree"},
+					{value: "disagree", text: "Disagree"},
+					{value: "undecided", text: "Undecided"},
+					{value: "agree", text: "Agree"},
+					{value: "strongly-agree", text: "Strongly Agree"},
+					{value: "n-a", text: "N/A"}
 				];
+				console.log(options);
 			}
+			console.log(formType);
+			console.log(questionType);
 
 			for(var i = 0; i < options.length; i++){
-				formOption = formOptions.append(radioHtml).children().last();
+				if(questionType == "radio")
+					formOption = formOptions.append(radioHtml).children().last();
+				else if(questionType == "radiononnumeric")
+					formOption = formOptions.append(radioNonNumericHtml).children().last();
 				formOption.find(".form-option-value").val(options[i].value);
 				formOption.find(".form-option-text").val(options[i].text);
 				var questionId = formOption.parents(".form-question").attr("id");
@@ -279,22 +290,25 @@
 
 			$(".form").append(questionHtml);
 
+			var newQuestion = $(".form").children(".form-question").last();
 			// Changes the input name attributes for the newly added question to correctly reflect its questionId
-			$(".form").children(".form-question").last().attr("id", questionId);
-			$(".form").children(".form-question").last().find(".form-question-name").html(questionId.toUpperCase()+": ");
-			$(".form").children(".form-question").last().find(".form-question-text").attr("name", questionId+":name");
-			$(".form").children(".form-question").last().find(".form-question-type").attr("name", questionId+":type");
-			$(".form").children(".form-question").last().find(".form-question-milestone").attr("name", questionId+":milestone");
-			$(".form").children(".form-question").last().find(".form-question-milestone-2").attr("name", questionId+":milestone2");
-			$(".form").children(".form-question").last().find(".form-question-competency").attr("name", questionId+":competency");
-			$(".form").children(".form-question").last().find(".form-question-weight").attr("name", questionId+":weight");
-			$(".form").children(".form-question").last().find(".form-question-required").attr("name", questionId+":required");
+			newQuestion.attr("id", questionId);
+			newQuestion.find(".form-question-name").html(questionId.toUpperCase()+": ");
+			newQuestion.find(".form-question-text").attr("name", questionId+":name");
+			newQuestion.find(".form-question-type").attr("name", questionId+":type");
+			newQuestion.find(".form-question-milestone").attr("name", questionId+":milestone");
+			newQuestion.find(".form-question-milestone-2").attr("name", questionId+":milestone2");
+			newQuestion.find(".form-question-competency").attr("name", questionId+":competency");
+			newQuestion.find(".form-question-weight").attr("name", questionId+":weight");
+			newQuestion.find(".form-question-required").attr("name", questionId+":required");
 
 			if(type == "faculty"){
 				$(".form-question-milestone").hide().prop("disabled", true);
 				$(".form-question-milestone-2").hide().prop("disabled", true);
 				$(".form-question-competency").hide().prop("disabled", true);
 				$(".milestone-competency-label").hide();
+				newQuestion.find(".form-question-type").val("radiononnumeric").change();
+				newQuestion.find(".form-question-required").prop("checked", true);
 			}
 		}
 

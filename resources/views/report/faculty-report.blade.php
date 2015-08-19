@@ -9,6 +9,8 @@
 		<thead>
 			<tr>
 				<th>Faculty</th>
+				<th>Subject Evaluations</th>
+				<th>Total Evaluations</th>
 				<th>Start Date</th>
 				<th>End Date</th>
 				<th>Form</th>
@@ -17,6 +19,8 @@
 		<tbody>
 			<tr>
 				<td>{{ $subjectName }}</td>
+				<td>{{ $subjectEvals }}</td>
+				<td>{{ $averageEvals }}</td>
 				<td>{{ $startDate->format("d-M-Y") }}</td>
 				<td>{{ $endDate->format("d-M-Y") }}</td>
 				<td>{{ $formTitle }}</td>
@@ -38,9 +42,10 @@
 	<script>
 		var subjectEvals = {{ $subjectEvals }};
 		var averageEvals = {{ $averageEvals }};
+		var subjectResponses = $.parseJSON('{!! $subjectResponses !!}');
 		var subjectPercentages = $.parseJSON('{!! $subjectPercentages !!}');
 		var averagePercentages = $.parseJSON('{!! $averagePercentages !!}');
-		var subjectResponses = $.parseJSON('{!! $subjectResponseValues !!}');
+		var subjectResponseValues = $.parseJSON('{!! $subjectResponseValues !!}');
 		var subjects = $.parseJSON('{!! $subjects !!}');
 		var questions = $.parseJSON('{!! $questions !!}');
 		var responses = $.parseJSON('{!! $questionResponses !!}');
@@ -50,7 +55,7 @@
 
 			questions.forEach(function(questionId){
 				if($("textarea[name='"+questionId+"']").length > 0){
-					if(subjectResponses[questionId]){
+					if(subjectResponseValues[questionId]){
 						var textarea = $("textarea[name='"+questionId+"']");
 						var parent = textarea.parents("td")[0];
 						var table = document.createElement("table");
@@ -68,7 +73,7 @@
 						textarea = textarea[0];
 						parent.removeChild(textarea);
 						console.log(questionId);
-						$.each(subjectResponses[questionId], function(evaluationId, textResponse){
+						$.each(subjectResponseValues[questionId], function(evaluationId, textResponse){
 							if(textResponse.trim() != ""){
 								tr = document.createElement("tr");
 								td = document.createElement("td");
@@ -100,9 +105,17 @@
 							var thead = table.createTHead();
 							var tr = document.createElement("tr");
 							var th = document.createElement("th");
-							var text = document.createTextNode("Faculty");
+							var text = document.createTextNode("Responses");
 							var td = document.createElement("td");
 							th.appendChild(text); tr.appendChild(th);
+							text = document.createTextNode(subjectResponses[questionId][response]);
+							td.appendChild(text); tr.appendChild(td); thead.appendChild(tr);
+
+							tr = document.createElement("tr");
+							th = document.createElement("th");
+							text = document.createTextNode("Percentage");
+							th.appendChild(text); tr.appendChild(th);
+							td= document.createElement("td");
 							text = document.createTextNode(subjectPercentages[questionId][response]+"%");
 							td.appendChild(text); tr.appendChild(td); thead.appendChild(tr);
 
@@ -127,7 +140,7 @@
 
 			var ul = document.getElementById("evaluations");
 			var li, a, text;
-			$.each(subjectResponses[questions[0]], function(evaluationId, textResponse){
+			$.each(subjectResponseValues[questions[0]], function(evaluationId, textResponse){
 				li = document.createElement("li");
 				a = document.createElement("a");
 				text = document.createTextNode(evaluationId);

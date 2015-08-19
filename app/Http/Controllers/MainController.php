@@ -95,7 +95,20 @@ class MainController extends Controller
         else
             $forms = Form::where("status", "active")->where("type", "resident")->orderBy("title")->get();
 
-        $data = compact("selectTypes", "forms");
+        if($request->is("request/faculty"))
+            $requestType = "faculty";
+        else
+            $requestType = "resident";
+
+        $data = compact("selectTypes", "forms", "requestType");
+
+        if($user->type == "resident" && $requestType == "faculty"){
+            $pendingEvalCount = Evaluation::with("subject", "evaluator", "form")->where("status", "pending")->where("evaluator_id", $user->id)->whereHas("form", function($query){
+                $query->where("type", "faculty");
+            })->count();
+            $data["pendingEvalCount"] = $pendingEvalCount;
+        }
+
 
         if(isset($residents)){
             $residents = json_encode($residents);
@@ -324,6 +337,11 @@ class MainController extends Controller
             $evaluations = Evaluation::where("subject_id", $user->id)->where("status", "complete")->orderBy("id", "desc")->get();
             $evaluations = $evaluations->splice($evaluations->count()%$threshold);
         }
+        elseif($user->type == "resident"){
+            $evaluations = Evaluation::with("subject", "evaluator", "form")->where("status", "pending")->where("evaluator_id", $user->id)->whereHas("form", function($query){
+                $query->where("type", "faculty");
+            })->get();
+        }
 
         foreach($evaluations as $eval){
             $result = [];
@@ -331,9 +349,19 @@ class MainController extends Controller
             if($user->type == "admin"){
                 $result[] = $eval->subject->last_name.", ".$eval->subject->first_name;
                 $result[] = $eval->evaluator->last_name.", ".$eval->evaluator->first_name;
+                $result[] = (string)$eval->request_date;
+                $result[] = (string)$eval->complete_date;
             }
-            $result[] = (string)$eval->request_date;
-            $result[] = (string)$eval->complete_date;
+            elseif($user->type == "resident"){
+                $result[] = $eval->subject->last_name.", ".$eval->subject->first_name;
+                $result[] = (string)$eval->request_date;
+            }
+            if($user->type == "admin" || $user->type == "faculty"){
+                if(isset($eval->evaluation_date))
+                    $result[] = $eval->evaluation_date->format("F Y");
+                else
+                    $result[] = "";
+            }
             if($user->type == "admin"){
                 $result[] = "";
             }

@@ -4,8 +4,7 @@
 		<thead>
 			<tr>
 				<th>#</th>
-				<th>Requested</th>
-				<th>Completed</th>
+				<th>Evaluation Date</th>
 			</tr>
 		</thead>
 	</table>

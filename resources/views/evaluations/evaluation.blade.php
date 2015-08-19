@@ -14,8 +14,13 @@
 					<th>Resident/Fellow</th>
 				@endif
 					<th>Faculty</th>
+				@if($evaluation->status == "complete")
+					<th>Evaluation Date</th>
+				@endif
+				@if(!($evaluation->subject->type == "faculty" && $user->id == $evaluation->subject_id))
 					<th>Requested</th>
 					<th>Completed</th>
+				@endif
 					<th>Status</th>
 				@if($evaluation->subject->type != "faculty")
 					<th>Training Level</th>
@@ -29,11 +34,16 @@
 				@if($evaluation->subject->type != "faculty")
 					<td>{{ $evaluation->evaluator->last_name }}, {{ $evaluation->evaluator->first_name }}</td>
 				@endif
+				@if($evaluation->status == "complete")
+					<td>{{ $evaluation->evaluation_date->format("F Y") }}</td>
+				@endif
+				@if(!($evaluation->subject->type == "faculty" && $user->id == $evaluation->subject_id))
 					<td>{{ $evaluation->request_date }}</td>
 					<td>{{ $evaluation->complete_date }}</td>
-					<td>{{ $evaluation->status }}</td>
+				@endif
+					<td>{{ ucfirst($evaluation->status) }}</td>
 				@if($evaluation->subject->type != "faculty")
-					<td>{{ $evaluation->training_level }}</td>
+					<td>{{ strtoupper($evaluation->training_level) }}</td>
 				@endif
 				</tr>
 			</tbody>

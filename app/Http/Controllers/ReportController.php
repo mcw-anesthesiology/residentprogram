@@ -562,8 +562,10 @@ class ReportController extends Controller
                 foreach($subjects as $subject_id){
                     if(isset($subjectResponses[$subject_id][$question_id][$response]))
                         $subjectPercentages[$subject_id][$question_id][$response] = round(($subjectResponses[$subject_id][$question_id][$response]/$subjectEvals[$subject_id])*100);
-                    else
+                    else{
+                        $subjectResponses[$subject_id][$question_id][$response] = 0;
                         $subjectPercentages[$subject_id][$question_id][$response] = 0;
+                    }
                 }
             }
         }
@@ -572,10 +574,12 @@ class ReportController extends Controller
         $subjectId = $request->input("faculty");
         $form = Form::find($request->input("form_id"));
         $formPath = $form->xml_path;
+        $subjectResponses = $subjectResponses[$subjectId];
         $subjectPercentages = $subjectPercentages[$subjectId];
         $subjectEvals = $subjectEvals[$subjectId];
         $subjectResponseValues = $subjectResponseValues[$subjectId];
 
+        $subjectResponses = $this->encodeAndStrip($subjectResponses);
         $subjectPercentages = $this->encodeAndStrip($subjectPercentages);
         $subjectResponseValues = $this->encodeAndStrip($subjectResponseValues);
         $subjectEvals = $this->encodeAndStrip($subjectEvals);
