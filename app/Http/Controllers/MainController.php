@@ -56,7 +56,6 @@ class MainController extends Controller
                 $userLocations = $block->assignments->where("user_id", $user->id)->map(function ($item, $key){
                     return $item->location;
                 });
-                Debugbar::addMessage($userLocations);
                 foreach($userLocations as $location){
                     foreach($block->assignments->where("location", $location)->sortBy("user.last_name") as $assignment){
                         if($user->type == "resident"){
