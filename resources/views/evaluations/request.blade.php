@@ -7,7 +7,11 @@
 @stop
 
 @section("body")
+	@if( $requestType == "faculty" )
+	<h2 class="sub-header">Evaluate Faculty</h2>
+	@else
 	<h2 class="sub-header">Request Evaluation</h2>
+	@endif
 
 	@if($user->type == "resident" || $user->type == "faculty")
 		<div class="form-group">

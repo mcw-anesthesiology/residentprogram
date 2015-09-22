@@ -47,10 +47,10 @@
 		          @if($user->type == "faculty")
 		            <li><a href="/request">Create Evaluation</a></li>
 		            <li><a href="/dashboard">View Evaluations</a></li>
-					<!-- <li><a href="/dashboard/faculty">View Faculty Evaluations</a></li> -->
+					<li><a href="/dashboard/faculty">View Faculty Evaluations</a></li>
 		          @elseif($user->type == "resident")
 		            <li><a href="/request">Request Evaluation</a></li>
-					<!-- <li><a href="/request/faculty">Evaluate Faculty</a></li> -->
+					<li><a href="/request/faculty">Evaluate Faculty</a></li>
 		            <li><a href="/dashboard">View Evaluations</a></li>
 			      @elseif($user->type == "admin")
 			        <li><a href="/request">Request Evaluation</a></li>

@@ -18,7 +18,8 @@
 		</div>
 	</div>
 
-	<hr />
+</div>
+<div class="container body-block">
 	<div class="row">
 		<h2 class="sub-header">Faculty Evaluation Forms <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
