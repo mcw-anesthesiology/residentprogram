@@ -166,9 +166,14 @@
 
 			$("#block option:eq(1)").prop("selected", true).trigger("change");
 			selectBlock();
+	@if($requestType == "faculty")
+			$("#evaluation-form option:eq(0)").prop("selected", true).trigger("change");
+			$("#evaluation-form").select2();
+	@else
 			$("#evaluation-form").val(null).select2({
 				placeholder: "Select Form"
 			});
+	@endif
 			$("#block").select2();
 		});
 
