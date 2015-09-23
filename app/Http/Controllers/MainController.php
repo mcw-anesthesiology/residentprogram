@@ -51,7 +51,7 @@ class MainController extends Controller
         $user = Auth::user();
 
         if($user->type == "resident" || $user->type == "faculty"){
-            $blocks = Block::where("start_date", "<", Carbon::now())->with("assignments.user")->limit(3)->get();
+            $blocks = Block::where("start_date", "<", Carbon::now())->with("assignments.user")->orderBy("block_number", "desc")->limit(3)->get();
             foreach($blocks as $block){
                 $userLocations = $block->assignments->where("user_id", $user->id)->map(function ($item, $key){
                     return $item->location;

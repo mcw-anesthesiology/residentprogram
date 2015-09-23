@@ -67,7 +67,7 @@
 ?>
 
 	<p>
-		Selecting a block is used to filter the list of {{ $selectUserType }} to others who are scheduled in the same locations as you.
+		Selecting a block is used to filter the list of {{ $selectUserType }} to others who are scheduled in the same locations as you. This filter is not perfect.
 		If the doctor you are looking for is missing after selecting a block, or an entire block is missing for you from the list, please select "select from all" for the block.
 		You will then be able to select from the entire list of {{ $selectUserType }}.
 	</p>
