@@ -12,8 +12,11 @@ return array(
     $vendorDir . '/swiftmailer/swiftmailer/lib/swift_required.php',
     $vendorDir . '/psy/psysh/src/Psy/functions.php',
     $vendorDir . '/danielstjules/stringy/src/Create.php',
+    $vendorDir . '/guzzlehttp/promises/src/functions_include.php',
+    $vendorDir . '/guzzlehttp/psr7/src/functions_include.php',
     $vendorDir . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
     $vendorDir . '/laravel/framework/src/Illuminate/Support/helpers.php',
     $vendorDir . '/szymach/c-pchart/src/Resources/data/constants.php',
     $vendorDir . '/barryvdh/laravel-debugbar/src/helpers.php',
+    $vendorDir . '/guzzlehttp/guzzle/src/functions_include.php',
 );

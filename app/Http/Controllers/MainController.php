@@ -166,11 +166,13 @@ class MainController extends Controller
                 try{
                     $email = $eval->evaluator->email;
                     $evaluationId = $eval->id;
-					$timestamp = Carbon::now()->toDateTimeString();
-                    $data = compact("evaluationId", "timestamp");
+					$evaluatorLast = $eval->evaluator->last_name;
+					$subjectLast = $eval->subject->last_name;
+					$formTitle = $eval->form->title;
+                    $data = compact("evaluationId", "evaluatorLast", "subjectLast", "formTitle");
                     Mail::send("emails.notification", $data, function($message) use($email){
                         $message->to($email);
-                        $message->from("notifications@residentprogram.com", "ResidentProgram Notifications");
+                        $message->from("notifications@residentprogram.com", "Resident Program Notifications");
                         $message->replyTo(env("ADMIN_EMAIL"));
                         $message->subject("Evaluation Request Notification");
                     });

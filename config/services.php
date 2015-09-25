@@ -15,8 +15,8 @@ return [
     */
 
     'mailgun' => [
-        'domain' => '',
-        'secret' => '',
+        'domain' => 'mg.residentprogram.com',
+        'secret' => 'key-1db065f2fb4b174e8727c57b87e049f4',
     ],
 
     'mandrill' => [
