@@ -61,5 +61,10 @@
 			else
 				$("#confirm-icon").attr("class", "glyphicon glyphicon-remove form-control-feedback");
 		});
+
+		$(document).ready(function(){
+			$("#frequency").val("{{ $frequency }}");
+			$("#notifications").val("{{ $notifications }}");
+		});
 	</script>
 @stop

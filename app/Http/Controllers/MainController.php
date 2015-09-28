@@ -381,7 +381,11 @@ class MainController extends Controller
     }
 
     public function user(){
-        return view("dashboard.user");
+		$user = Auth::user();
+		$frequency = $user->reminder_frequency;
+		$notifications = $user->notifications;
+		$data = compact("frequency", "notifications");
+        return view("dashboard.user", $data);
     }
 
     public function saveUser(Request $request){
