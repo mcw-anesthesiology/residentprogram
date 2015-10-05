@@ -43,7 +43,11 @@
 				@endif
 					<td>{{ ucfirst($evaluation->status) }}</td>
 				@if($evaluation->subject->type != "faculty")
-					<td>{{ strtoupper($evaluation->training_level) }}</td>
+					@if($evaluation->status == "complete")
+						<td>{{ strtoupper($evaluation->training_level) }}</td>
+					@else
+						<td>{{ strtoupper($evaluation->subject->training_level) }}</td>
+					@endif
 				@endif
 				</tr>
 			</tbody>
