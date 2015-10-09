@@ -47,6 +47,9 @@ class SendEmails extends Command
         foreach($users as $emailUser){
             try{
                 $numPending = $emailUser->evaluatorEvaluations->where("status", "pending")->count();
+				if($emailUser->remind_only_if_pending && $emailUser->remind_only_if_pending == "yes" && $numPending == 0){
+					continue;
+				}
                 $data["numPending"] = $numPending;
                 Mail::send("emails.reminder", $data, function($message) use ($emailUser){
                     $message->from("reminders@residentprogram.com", "ResidentProgram Reminders");

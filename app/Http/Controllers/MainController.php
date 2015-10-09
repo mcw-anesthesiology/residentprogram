@@ -383,8 +383,9 @@ class MainController extends Controller
     public function user(){
 		$user = Auth::user();
 		$frequency = $user->reminder_frequency;
+		$onlyIfPending = $user->remind_only_if_pending;
 		$notifications = $user->notifications;
-		$data = compact("frequency", "notifications");
+		$data = compact("frequency", "onlyIfPending", "notifications");
         return view("dashboard.user", $data);
     }
 
@@ -407,6 +408,10 @@ class MainController extends Controller
     public function saveUserReminders(Request $request){
         $user = Auth::user();
         $user->reminder_frequency = $request->input("frequency");
+		if($request->has("only_if_pending"))
+			$user->remind_only_if_pending = $request->input("only_if_pending");
+		else
+			$user->remind_only_if_pending = "no";
         $user->save();
         return redirect("user")->with("success", "Reminder preferences saved successfully!");
     }

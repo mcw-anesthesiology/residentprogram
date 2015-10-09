@@ -34,6 +34,10 @@
 					<option value="none">None</option>
 				</select>
 			</div>
+			<div class="form-group">
+				<input type="checkbox" value="yes" id="only-if-pending" name="only_if_pending" />
+				<label for="only-if-pending">Only send reminders if pending evaluations</label>
+			</div>
 			<button type="submit" class="btn btn-primary">Update Reminder Preferences</button>
 		</form>
 
@@ -65,6 +69,8 @@
 		$(document).ready(function(){
 			$("#frequency").val("{{ $frequency }}");
 			$("#notifications").val("{{ $notifications }}");
+			if("{{ $onlyIfPending }}" == "yes")
+				$("#only-if-pending").prop("checked", true);
 		});
 	</script>
 @stop
