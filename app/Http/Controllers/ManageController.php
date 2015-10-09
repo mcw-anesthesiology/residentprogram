@@ -182,7 +182,7 @@ class ManageController extends Controller
                     Mail::send($view, $data, function($message) use ($user){
                         $message->from("admin@residentprogram.com", "ResidentProgram");
                         $message->to($user->email);
-                        // $message->replyTo(env("ADMIN_EMAIL"));
+                        $message->replyTo(env("ADMIN_EMAIL"));
                         $message->subject("Welcome!");
                     });
                 }
