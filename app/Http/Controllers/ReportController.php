@@ -15,6 +15,7 @@ use DateTime;
 use DateInterval;
 use Debugbar;
 use Auth;
+use PDF;
 
 use App\Helpers\RadarGraphs;
 
@@ -171,6 +172,17 @@ class ReportController extends Controller
             ->header("Content-Disposition", "attachment; filename={$filename}");
     }
 
+	public function getPDF(Request $request){
+		$filename = $request->input("name").".tsv";
+
+		dd($request->session()->get("individualReportData"));
+
+		$data["print"] = true;
+		dd($data);
+		//
+		// return PDF::loadView("report.".$request->input("view"), $data)->download($filename);
+	}
+
     public function milestonesCompetenciesForms(){
         $forms = Form::where("status", "active")->get();
         $data = compact("forms");
@@ -243,7 +255,7 @@ class ReportController extends Controller
 		return sqrt(array_sum(array_map(array($this, "sd_square"), $array, array_fill(0,count($array), (array_sum($array) / count($array)) ) ) ) / (count($array)-1) );
 	}
 
-    public function report($startDate, $endDate, $trainingLevel, $graphOption, $reportSubject){
+    public function report($startDate, $endDate, $trainingLevel, $graphOption, $graphOrientation, $reportSubject){
         $startDate = Carbon::parse($startDate);
         $startDate->timezone = "America/Chicago";
         $endDate = Carbon::parse($endDate);
@@ -300,7 +312,7 @@ class ReportController extends Controller
         $query->select("milestone_id", "milestones.title as milestone_title", "competency_id", "competencies.title as competency_title")
             ->addSelect("subject_id", "evaluator_id", "last_name", "first_name", "evaluation_id", "response", "weight", "responses.question_id as question_id")
             ->orderBy("milestones.title")->orderBy("competencies.title");
-        $query->chunk(10000, function($responses) use (&$milestones, &$subjects, &$milestones, &$competencies, &$subjectEvals, &$averageMilestone, &$averageMilestoneDenom, &$averageCompetency, &$averageCompetencyDenom, &$subjectMilestone, &$subjectMilestoneDenom, &$subjectMilestoneEvals, &$subjectCompetency, &$subjectCompetencyDenom, &$subjectCompetencyEvals, &$competencyQuestions, &$subjectEvaluators){
+        $query->chunk(20000, function($responses) use (&$milestones, &$subjects, &$milestones, &$competencies, &$subjectEvals, &$averageMilestone, &$averageMilestoneDenom, &$averageCompetency, &$averageCompetencyDenom, &$subjectMilestone, &$subjectMilestoneDenom, &$subjectMilestoneEvals, &$subjectCompetency, &$subjectCompetencyDenom, &$subjectCompetencyEvals, &$competencyQuestions, &$subjectEvaluators){
             foreach($responses as $response){
                 if(!isset($subjects[$response->subject_id]))
                     $subjects[$response->subject_id] = $response->last_name.", ".$response->first_name;
@@ -421,11 +433,11 @@ class ReportController extends Controller
                         continue;
                     ksort($subjectMilestone[$subject]);
                     ksort($subjectCompetency[$subject]);
-                    $graphs[] = RadarGraphs::draw($subjectMilestone[$subject], $averageMilestone, $milestones, $subjectCompetency[$subject], $averageCompetency, $competencies, $subject_name, $startDate, $endDate, $trainingLevel, $maxResponse);
+                    $graphs[] = RadarGraphs::draw($subjectMilestone[$subject], $averageMilestone, $milestones, $subjectCompetency[$subject], $averageCompetency, $competencies, $subject_name, $startDate, $endDate, $trainingLevel, $maxResponse, $graphOrientation);
                 }
                 break;
             case "average":
-                $graphs[] = RadarGraphs::draw(null, $averageMilestone, $milestones, null, $averageCompetency, $competencies, "Average", $startDate, $endDate, $trainingLevel, $maxResponse);
+                $graphs[] = RadarGraphs::draw(null, $averageMilestone, $milestones, null, $averageCompetency, $competencies, "Average", $startDate, $endDate, $trainingLevel, $maxResponse, $graphOrientation);
                 break;
         }
 
@@ -457,8 +469,7 @@ class ReportController extends Controller
     }
 
     public function aggregate(Request $request){
-        $data = $this->report($request->input("startDate"), $request->input("endDate"), $request->input("trainingLevel"), $request->input("graphs"), null);
-        $data["reportType"] = "aggregate";
+        $data = $this->report($request->input("startDate"), $request->input("endDate"), $request->input("trainingLevel"), $request->input("graphs"), "horizontal", null);
 
         return view("report.report", $data);
     }
@@ -492,13 +503,18 @@ class ReportController extends Controller
             return back()->with("error", "Please be sure to complete all fields for each report");
 
         for($i = 0; $i < count($startDates); $i++){
-            $data = array_merge_recursive($data, $this->report($startDates[$i], $endDates[$i], $trainingLevels[$i], $request->input("graphs"), $request->input("resident")));
+            $data["reportData"][$i] = $this->report($startDates[$i], $endDates[$i], $trainingLevels[$i], $request->input("graphs"), "vertical", $request->input("resident"));
+			$data["reportData"][$i]["startDate"] = Carbon::parse($startDates[$i]);
+			$data["reportData"][$i]["endDate"] = Carbon::parse($endDates[$i]);
+			$data["reportData"][$i]["trainingLevel"] = $trainingLevels[$i];
         }
 
-        $data["reportType"] = "specific";
         $data["numReports"] = count($startDates);
         $data["specificSubject"] = User::find($request->input("resident"));
-        return view("report.report", $data);
+
+		$request->session()->put("individualReportData", $data);
+
+        return view("report.individual", $data);
     }
 
     public function facultyReport(Request $request){
@@ -603,9 +619,9 @@ class ReportController extends Controller
         $formTitle = $form->title;
 
         $data = compact("subjectResponses", "formPath", "subjectEvals", "averageEvals",
-        "subjectPercentages", "averagePercentages", "subjectId", "subjects", "questions",
-        "questionResponses", "subjectResponseValues", "subjectName", "formTitle",
-        "startDate", "endDate");
+        	"subjectPercentages", "averagePercentages", "subjectId", "subjects",
+			"questions", "questionResponses", "subjectResponseValues", "subjectName",
+			"formTitle", "startDate", "endDate");
 
         return view("report.faculty-report", $data);
     }

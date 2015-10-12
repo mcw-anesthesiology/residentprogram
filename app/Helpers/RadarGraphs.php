@@ -8,7 +8,7 @@ use CpChart\Classes\pRadar;
 
 class RadarGraphs{
 
-	static function draw($subjectMilestone, $averageMilestone, $milestones, $subjectCompetency, $averageCompetency, $competencies, $subject, $startDate, $endDate, $trainingLevel, $max){
+	static function draw($subjectMilestone, $averageMilestone, $milestones, $subjectCompetency, $averageCompetency, $competencies, $subject, $startDate, $endDate, $trainingLevel, $max, $graphOrientation){
 
 		$factory = new pChartFactory();
 
@@ -43,16 +43,24 @@ class RadarGraphs{
 			$cache->saveFromCache($chartHash, $output);
 		}
 		else{
-			$picture = $factory->newImage(1800, 600, $milestoneData);
-			$picture->drawGradientArea(0,0,1800,600,DIRECTION_VERTICAL,array("StartR"=>200,"StartG"=>200,"StartB"=>200,"EndR"=>240,"EndG"=>240,"EndB"=>240,"Alpha"=>100));
-			$picture->drawGradientArea(0,0,1800,20,DIRECTION_HORIZONTAL,array("StartR"=>30,"StartG"=>30,"StartB"=>30,"EndR"=>100,"EndG"=>100,"EndB"=>100,"Alpha"=>100));
-			$picture->drawLine(0,20,1800,20,array("R"=>255,"G"=>255,"B"=>255));
+			if(!is_null($graphOrientation) && $graphOrientation == "vertical"){
+				$horizontalOffset = 0;
+				$verticalOffset = 600;
+			} else {
+				$horizontalOffset = 900;
+				$verticalOffset = 0;
+			}
+			$picture = $factory->newImage(900 + $horizontalOffset, 600 + $verticalOffset, $milestoneData);
+			$picture->drawGradientArea(0,0,900 + $horizontalOffset,1200 + $verticalOffset,DIRECTION_VERTICAL,array("StartR"=>200,"StartG"=>200,"StartB"=>200,"EndR"=>240,"EndG"=>240,"EndB"=>240,"Alpha"=>100));
+			$picture->drawGradientArea(0,0,900,20,DIRECTION_HORIZONTAL,array("StartR"=>30,"StartG"=>30,"StartB"=>30,"EndR"=>100,"EndG"=>100,"EndB"=>100,"Alpha"=>100));
+			$picture->drawGradientArea($horizontalOffset,$verticalOffset,900 + $horizontalOffset,20 + $verticalOffset,DIRECTION_HORIZONTAL,array("StartR"=>30,"StartG"=>30,"StartB"=>30,"EndR"=>100,"EndG"=>100,"EndB"=>100,"Alpha"=>100));
+			$picture->drawLine(0,20,900 + $horizontalOffset,20,array("R"=>255,"G"=>255,"B"=>255));
 
 			$picture->setFontProperties(array("FontName"=>"verdana.ttf","FontSize"=>8));
 			$picture->drawText(10,13,$subject.": ".$startDate->toDateString()." - ".$endDate->toDateString()." ".$trainingLevel." Milestones",array("R"=>255,"G"=>255,"B"=>255));
-			$picture->drawText(910,13,$subject.": ".$startDate->toDateString()." - ".$endDate->toDateString()." ".$trainingLevel." Competencies",array("R"=>255,"G"=>255,"B"=>255));
+			$picture->drawText(10 + $horizontalOffset,13 + $verticalOffset,$subject.": ".$startDate->toDateString()." - ".$endDate->toDateString()." ".$trainingLevel." Competencies",array("R"=>255,"G"=>255,"B"=>255));
 
-			$picture->drawLine(900, 0, 900, 600, array("R"=>255,"G"=>255,"B"=>255));
+			$picture->drawLine($horizontalOffset, $verticalOffset, 900, 600, array("R"=>255,"G"=>255,"B"=>255));
 
 			$chart = new pRadar();
 
@@ -67,7 +75,7 @@ class RadarGraphs{
 
 			$options["BackgroundGradient"] = array("StartR"=>255,"StartG"=>255,"StartB"=>255,"StartAlpha"=>100,"EndR"=>1,"EndG"=>108,"EndB"=>100,"EndAlpha"=>50);
 
-			$picture->setGraphArea(1100, 50, 1600, 550);
+			$picture->setGraphArea(200 + $horizontalOffset, 50 + $verticalOffset, 700 + $horizontalOffset, 550 + $verticalOffset);
 			$chart->drawRadar($picture, $competencyData, $options);
 
 			$picture->drawText(435, 275, "CA-0", array("R"=>0,"G"=>0,"B"=>0));
@@ -76,13 +84,13 @@ class RadarGraphs{
 			$picture->drawText(435, 125, "CA-3", array("R"=>0,"G"=>0,"B"=>0));
 			$picture->drawText(420, 75, "Attending", array("R"=>0,"G"=>0,"B"=>0));
 
-			$picture->drawText(1335, 275, "CA-0", array("R"=>0,"G"=>0,"B"=>0));
-			$picture->drawText(1335, 225, "CA-1", array("R"=>0,"G"=>0,"B"=>0));
-			$picture->drawText(1335, 175, "CA-2", array("R"=>0,"G"=>0,"B"=>0));
-			$picture->drawText(1335, 125, "CA-3", array("R"=>0,"G"=>0,"B"=>0));
-			$picture->drawText(1320, 75, "Attending", array("R"=>0,"G"=>0,"B"=>0));
+			$picture->drawText(435 + $horizontalOffset, 275 + $verticalOffset, "CA-0", array("R"=>0,"G"=>0,"B"=>0));
+			$picture->drawText(435 + $horizontalOffset, 225 + $verticalOffset, "CA-1", array("R"=>0,"G"=>0,"B"=>0));
+			$picture->drawText(435 + $horizontalOffset, 175 + $verticalOffset, "CA-2", array("R"=>0,"G"=>0,"B"=>0));
+			$picture->drawText(435 + $horizontalOffset, 125 + $verticalOffset, "CA-3", array("R"=>0,"G"=>0,"B"=>0));
+			$picture->drawText(420 + $horizontalOffset, 75 + $verticalOffset, "Attending", array("R"=>0,"G"=>0,"B"=>0));
 
-			$picture->drawLegend(737, 550, array("Style"=>LEGEND_BOX, "Mode"=>LEGEND_HORIZONTAL));
+			$picture->drawLegend(287 + ($horizontalOffset/2), 575 + $verticalOffset, array("Style"=>LEGEND_BOX, "Mode"=>LEGEND_HORIZONTAL));
 
 			$picture->render($output);
 		}

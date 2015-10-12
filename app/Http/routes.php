@@ -81,6 +81,7 @@ Route::post("report/aggregate", "ReportController@aggregate");
 Route::post("report/specific", "ReportController@specific");
 Route::post("report/faculty", "ReportController@facultyReport");
 Route::post("report/export", "ReportController@getTSV");
+Route::post("report/pdf", "ReportController@getPDF");
 Route::get("report/needs-eval", "ReportController@needsEvaluations");
 Route::get("report/needs-eval/get", "ReportController@getNeedsEvaluationsJSON");
 Route::get("report/needs-eval/tsv", "ReportController@getNeedsEvaluationsTSV");

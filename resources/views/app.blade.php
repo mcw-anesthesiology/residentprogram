@@ -72,9 +72,9 @@
 			        	<a href="#" data-toggle="dropdown">Reports<b class="caret"></b></a>
 			        	<ul class="dropdown-menu">
 						@if($user->type == "admin")
-			          	<li><a class="viewAggRpt pointer" data-toggle="modal" data-target=".bs-aggRpt-modal" id="viewAggRpt">Generate Aggregate</a></li>
+			          	<li><a class="viewAggRpt pointer" data-toggle="modal" data-target=".bs-aggRpt-modal" id="viewAggRpt">Aggregate</a></li>
 			        	@endif
-			          	<li><a class="viewSpecRpt pointer" data-toggle="modal" data-target=".bs-specRpt-modal" id="viewSpecRpt">Generate Specific</a></li>
+			          	<li><a class="viewSpecRpt pointer" data-toggle="modal" data-target=".bs-specRpt-modal" id="viewSpecRpt">Individual</a></li>
 						@if($user->type == "admin")
 						<li><a class="viewSpecFacultyRpt pointer" data-toggle="modal" data-target=".bs-specFacultyRpt-modal" id="viewSpecFacultyRpt">Faculty</a></li>
 					  	<li><a href="/report/needs-eval">Needs Evaluations</a></li>
@@ -147,8 +147,8 @@
 		            <input type="text" class="form-control datepicker endDate" id="endDate" name="endDate">
 		          </div>
 		          <div class="form-group" style="text-align: center;">
-					<button type="button" id="lastThreeMonths" class="btn lastThreeMonths">Last Three Months</button>
-					<button type="button" id="lastSixMonths" class="btn lastSixMonths">Last Six Months</button>
+					<button type="button" class="btn lastThreeMonths">Last Three Months</button>
+					<button type="button" class="btn lastSixMonths">Last Six Months</button>
 		          </div>
 		          <div class="form-group">
 		            <label for="trainingLevelInput">Training Level</label>
@@ -202,7 +202,7 @@
 							@endforeach
 						</select>
 					@elseif($user->type == "resident")
-						<input type="hidden" name="resident" value="{{ $user->id }}" />		
+						<input type="hidden" name="resident" value="{{ $user->id }}" />
 					@elseif($user->type == "admin")
 						<label for="resident">Resident</label>
 						<select class="form-control select2" name="resident" style="width: 100%" required>
@@ -259,8 +259,8 @@
 					<input type="text" class="form-control datepicker endDate" id="endDate" name="endDate" required>
 				  </div>
 				  <div class="form-group" style="text-align: center;">
-					<button type="button" id="lastThreeMonths" class="btn lastThreeMonths">Last Three Months</button>
-					<button type="button" id="lastSixMonths" class="btn lastSixMonths">Last Six Months</button>
+					<button type="button" class="btn lastThreeMonths">Last Three Months</button>
+					<button type="button" class="btn lastSixMonths">Last Six Months</button>
 				  </div>
 				  <div class="form-group">
 				  	<label for="form-id">Form</label>
@@ -298,7 +298,7 @@
 		        '<button type="button" class="close remove-report-group" aria-hidden="true">&times;</button>'+
 		        '<h3>Report</h3>'+
 		     '<div class="form-group">'+
-		       '<label for="startDate">Start Date:</label>'+
+		       '<label for="startDate'+i+'">Start Date:</label>'+
 		       '<input type="text" class="form-control datepicker startDate" id="startDate'+i+'" name="startDate'+i+'">'+
 		     '</div>'+
 		     '<div class="form-group">'+
@@ -306,12 +306,12 @@
 		       '<input type="text" class="form-control datepicker endDate" id="endDate'+i+'" name="endDate'+i+'">'+
 		     '</div>'+
 		     '<div class="form-group" style="text-align: center;">'+
-		       '<button type="button" id="lastThreeMonths" class="btn lastThreeMonths">Last Three Months</button> '+
-		       '<button type="button" id="lastSixMonths" class="btn lastSixMonths">Last Six Months</button>'+
+		       '<button type="button" class="btn lastThreeMonths">Last Three Months</button> '+
+		       '<button type="button" class="btn lastSixMonths">Last Six Months</button>'+
 		     '</div>'+
 		     '<div class="form-group">'+
-		       '<label for="trainingLevelInput">Training Level</label>'+
-		       '<select class="form-control select2" id="trainingLevelInput" name="trainingLevel'+i+'" style="width: 100%" required>'+
+		       '<label for="trainingLevelInput'+i+'">Training Level</label>'+
+		       '<select class="form-control select2" id="trainingLevelInput'+i+'" name="trainingLevel'+i+'" style="width: 100%" required>'+
  		         '<option value="all">All</option>'+
 				 '<option value="intern">Intern</option>'+
 		         '<option value="ca-1">CA-1</option>'+
