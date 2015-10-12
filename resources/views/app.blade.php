@@ -201,9 +201,8 @@
 								<option value="{{ $resident->id }}">{{ $resident->last_name }}, {{ $resident->first_name }}</option>
 							@endforeach
 						</select>
-					   </div>
 					@elseif($user->type == "resident")
-						<input type="hidden" name="resident" value="{{ $user->id }}" />
+						<input type="hidden" name="resident" value="{{ $user->id }}" />		
 					@elseif($user->type == "admin")
 						<label for="resident">Resident</label>
 						<select class="form-control select2" name="resident" style="width: 100%" required>
@@ -211,8 +210,8 @@
 								<option value="{{ $resident->id }}">{{ $resident->last_name }}, {{ $resident->first_name }}</option>
 							@endforeach
 						</select>
-					   </div>
 					@endif
+					</div>
 		          </div>
 		          <div class="form-group" style="text-align: center;">
 		              <button type="button" class="btn" id="addNewSpecificReport">Add Report</button>
