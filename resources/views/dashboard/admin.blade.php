@@ -1,4 +1,4 @@
-<h2 class="sub-header">All Requests</h2>
+<h2 class="sub-header"><span class="glyphicon glyphicon-list"></span> All Evaluations</h2>
 <div class="table-responsive">
 	<table class="table table-striped datatable-all" id="keywordsAll" width="100%">
 		<thead>

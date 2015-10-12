@@ -1,5 +1,5 @@
 @if($user->subjectEvaluations()->where("status", "pending")->count() > 0)
-	<h2 class="sub-header">Requests</h2>
+	<h2 class="sub-header"><span class="glyphicon glyphicon-inbox"></span> Requests</h2>
 	<div class="table-responsive">
 		<table class="table table-striped datatable-pending" id="keywordsPending" width="100%">
 			<thead>
@@ -19,7 +19,7 @@
 
 </div>
 <div class="container body-block">
-	<h2 class="sub-header">Completed Evaluations</h2>
+	<h2 class="sub-header"><span class="glyphicon glyphicon-check"></span> Completed Evaluations</h2>
 	<div class="table-responsive">
 		<table class="table table-striped datatable-complete" id="keywordsComplete" width="100%">
 			<thead>
