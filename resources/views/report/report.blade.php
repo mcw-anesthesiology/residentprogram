@@ -24,7 +24,7 @@
 		</table>
 	@endif
 	@if($reportType == "aggregate" || ($reportType == "specific" && $numReports == 1 && isset($subjectEvals[key($subjects)])))
-<?php $tsv = "Resident/Fellow"; ?>
+<?php $tsv = "Resident/Fellow\t"; ?>
 		<table class="table table-striped table-bordered datatable" id="report-table" width="100%">
 			<thead>
 				<tr>
