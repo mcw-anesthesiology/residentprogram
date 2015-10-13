@@ -1,14 +1,30 @@
 @extends("app")
 
 @section("head")
+<?php
+	ob_start();
+?>
 	<style>
-		.graph, .report-table, .text-responses-table {
-			width: 100%;
+		.graphs {
+			text-align: center;
+			page-break-after: always;
+		}
+		.graph {
+			width: 90%;
+		}
+		th {
+			text-align: left;
 		}
 	</style>
+<?php
+	$html = ob_get_flush();
+?>
 @stop
 
 @section("body")
+<?php
+	ob_start();
+?>
 	<table class="table table striped">
 		<thead>
 			<tr>
@@ -23,18 +39,6 @@
 			</tr>
 		</tbody>
 	</table>
-
-	@if(!isset($print) || is_null($print) || !$print)
-<?php
-	Session::reflash();
-	Session::save();
-?>
-		<form method="post" target="_blank" action="/report/pdf">
-			{{ csrf_field() }}
-			<button type="submit" class="btn" name="name">Export PDF</button>
-			<input type="hidden" name="view" value="individual" />
-		</form>
-	@endif
 
 	@foreach($reportData as $report)
 </div>
@@ -100,13 +104,13 @@
 				</tbody>
 			</table>
 		</div>
+
 		<div class="graphs">
 		@if(count($report["graphs"] > 0))
 			<img class="graph" src="/graph/{{ $report['graphs'][0] }}" />
 		@endif
 		</div>
 	@endforeach
-
 </div>
 <div class="container body-block">
 <?php
@@ -116,6 +120,7 @@
 	}
 ?>
 	@if(count($subjectTextResponses) > 0)
+		<h2 class="sub-header">Comments</h2>
 		<table class="table table-striped table-bordered datatable text-responses-table" width="100%">
 			<thead>
 				<tr>
@@ -139,7 +144,18 @@
 	@else
 		<h4>No text responses to show</h4>
 	@endif
+<?php
+	$html .= ob_get_flush();
+	Debugbar::info($html);
+?>
 
+	<form method="post" target="_blank" action="/report/pdf">
+		{{ csrf_field() }}
+		<input type="hidden" name="view" value="individual" />
+		<input type="hidden" name="data" value="{{ json_encode($html) }}" />
+		<button type="submit" class="btn" name="name"
+			value="Individual Report {{ $specificSubject->last_name }}, {{ $specificSubject->first_name}}">Export PDF</button>
+	</form>
 @stop
 
 @section("script")
@@ -148,23 +164,13 @@
 			$(".text-responses-table").DataTable({
 				"order": [[0, "asc"]],
 				stateSave: true,
-			@if(!isset($print) || is_null($print) || !$print)
 				"dom": "lfprtip",
-			@else
-				"dom": "t",
-				"paging": false
-			@endif
 			});
 
 			$(".report-table").DataTable({
 				"order": [[0, "asc"]],
 				stateSave: true,
-			@if(!isset($print) || is_null($print) || !$print)
 				"dom": "lfprtip",
-			@else
-				"dom": "t",
-				"paging": false
-			@endif
 			});
 		});
 	</script>

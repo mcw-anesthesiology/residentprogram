@@ -173,14 +173,13 @@ class ReportController extends Controller
     }
 
 	public function getPDF(Request $request){
-		$filename = $request->input("name").".tsv";
+		$filename = $request->input("name").".pdf";
 
-		dd($request->session()->get("individualReportData"));
+		$data = json_decode($request->input("data"));
+		$data = str_replace("/graph/", storage_path("app/graphs/"), $data);
+		$data = '<div class="container body-block">'. $data . '</div>';
 
-		$data["print"] = true;
-		dd($data);
-		//
-		// return PDF::loadView("report.".$request->input("view"), $data)->download($filename);
+		return PDF::loadHTML($data)->download($filename);
 	}
 
     public function milestonesCompetenciesForms(){
