@@ -594,9 +594,15 @@ class ReportController extends Controller
             }
         }
 
+		$subjectId = $request->input("faculty");
+		$form = Form::find($request->input("form_id"));
+		$subject = User::find($subjectId);
+        $subjectName = $subject->last_name.", ".$subject->first_name;
+        $formTitle = $form->title;
 
-        $subjectId = $request->input("faculty");
-        $form = Form::find($request->input("form_id"));
+		if(!isset($subjectEvals[$subjectId]))
+			return back()->with("error", "No completed evaluations for {$subjectName} between {$startDate} and {$endDate} for form {$formTitle}");
+
         $formPath = $form->xml_path;
         $subjectResponses = $subjectResponses[$subjectId];
         $subjectPercentages = $subjectPercentages[$subjectId];
@@ -612,10 +618,6 @@ class ReportController extends Controller
         $subjects = $this->encodeAndStrip($subjects);
         $questions = $this->encodeAndStrip($questions);
         $questionResponses = $this->encodeAndStrip($questionResponses);
-
-        $subject = User::find($subjectId);
-        $subjectName = $subject->last_name.", ".$subject->first_name;
-        $formTitle = $form->title;
 
         $data = compact("subjectResponses", "formPath", "subjectEvals", "averageEvals",
         	"subjectPercentages", "averagePercentages", "subjectId", "subjects",

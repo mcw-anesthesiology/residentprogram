@@ -149,7 +149,6 @@
 	@endif
 <?php
 	$html .= ob_get_flush();
-	Debugbar::info($html);
 ?>
 
 	<form method="post" target="_blank" action="/report/pdf" class="pdf-form">
