@@ -88,5 +88,5 @@ Route::get("report/needs-eval/tsv", "ReportController@getNeedsEvaluationsTSV");
 Route::get("report/milestones-competencies-forms", "ReportController@milestonesCompetenciesForms");
 Route::get("report/milestones-competencies-forms/export/{type}", "ReportController@exportMilestonesCompetenciesForms");
 Route::get("report/milestones-competencies-forms/{type}", "ReportController@getMilestonesCompetenciesForms");
-Route::get("report/{type}", "ReportController@stats");
-Route::post("report/{type}", "ReportController@getStats");
+Route::get("report/stats/{type}", "ReportController@stats");
+Route::post("report/stats/{type}", "ReportController@getStats");
