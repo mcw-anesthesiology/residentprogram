@@ -15,6 +15,9 @@
 		th {
 			text-align: left;
 		}
+		.pdf-form {
+			text-align: center;
+		}
 	</style>
 <?php
 	$html = ob_get_flush();
@@ -149,7 +152,7 @@
 	Debugbar::info($html);
 ?>
 
-	<form method="post" target="_blank" action="/report/pdf">
+	<form method="post" target="_blank" action="/report/pdf" class="pdf-form">
 		{{ csrf_field() }}
 		<input type="hidden" name="view" value="individual" />
 		<input type="hidden" name="data" value="{{ json_encode($html) }}" />
