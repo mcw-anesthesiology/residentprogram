@@ -381,10 +381,17 @@ class ReportController extends Controller
             if(count($milestoneSubject[$milestone]) > 1){
                 $milestoneStd[$milestone] = $this->sd($milestoneSubject[$milestone]);
                 foreach($subjects as $subject => $name){
-                    // Num standard deviations = ((subject weighted average)-(milestone weighted average))/(standard deviation of subject averages)
-                    $subjectMilestoneDeviations[$subject][$milestone] = ($subjectMilestone[$subject][$milestone]-$averageMilestone[$milestone])/$milestoneStd[$milestone];
+					if($milestoneStd[$milestone] == 0)
+						$subjectMilestoneDeviations[$subject][$milestone] = 0;
+                    else // Num standard deviations = ((subject weighted average)-(milestone weighted average))/(standard deviation of subject averages)
+                    	$subjectMilestoneDeviations[$subject][$milestone] = ($subjectMilestone[$subject][$milestone]-$averageMilestone[$milestone])/$milestoneStd[$milestone];
                 }
             }
+			else{
+				foreach($subjects as $subject => $name){
+					$subjectMilestoneDeviations[$subject][$milestone] = 0;
+				}
+			}
         }
 
         foreach($competencies as $competency => $title){
@@ -405,10 +412,17 @@ class ReportController extends Controller
             if(count($competencySubject[$competency]) > 1){
                 $competencyStd[$competency] = $this->sd($competencySubject[$competency]);
                 foreach($subjects as $subject => $name){
-                    // Num standard deviations = ((subject weighted average)-(competency weighted average))/(standard deviation of subject averages)
-                    $subjectCompetencyDeviations[$subject][$competency] = ($subjectCompetency[$subject][$competency]-$averageCompetency[$competency])/$competencyStd[$competency];
+					if($competencyStd[$competency] == 0)
+						$subjectCompetencyDeviations[$subject][$competency] = 0;
+					else // Num standard deviations = ((subject weighted average)-(competency weighted average))/(standard deviation of subject averages)
+                    	$subjectCompetencyDeviations[$subject][$competency] = ($subjectCompetency[$subject][$competency]-$averageCompetency[$competency])/$competencyStd[$competency];
                 }
             }
+			else{
+				foreach($subjects as $subject => $name){
+					$subjectCompetencyDeviations[$subject][$competency] = 0;
+				}
+			}
         }
 
         if(isset($reportSubject)){

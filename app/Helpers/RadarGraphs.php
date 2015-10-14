@@ -17,7 +17,7 @@ class RadarGraphs{
 		if(!is_null($subjectMilestone))
 			$milestoneData->addPoints($subjectMilestone, "Resident");
 		$milestoneData->setSerieDescription("Resident", "Individual Performance");
-		$milestoneData->setSerieDescription("Average", "Average Resident Performance");
+		$milestoneData->setSerieDescription("Average", "Average Performance");
 		$milestoneData->setPalette("Resident", array("R"=>227, "G"=>0, "B"=>0));
 		$milestoneData->setPalette("Average", array("R"=>227, "G"=>227, "B"=>0));
 		$milestoneData->addPoints($milestones, "Milestones");
@@ -28,7 +28,7 @@ class RadarGraphs{
 		if(!is_null($subjectCompetency))
 			$competencyData->addPoints($subjectCompetency, "Resident");
 		$competencyData->setSerieDescription("Resident", "Individual Performance");
-		$competencyData->setSerieDescription("Average", "Average Resident Performance");
+		$competencyData->setSerieDescription("Average", "Average Performance");
 		$competencyData->setPalette("Resident", array("R"=>227, "G"=>0, "B"=>0));
 		$competencyData->setPalette("Average", array("R"=>227, "G"=>227, "B"=>0));
 		$competencyData->addPoints($competencies, "Competencies");
@@ -90,7 +90,7 @@ class RadarGraphs{
 			$picture->drawText(435 + $horizontalOffset, 125 + $verticalOffset, "CA-3", array("R"=>0,"G"=>0,"B"=>0));
 			$picture->drawText(420 + $horizontalOffset, 75 + $verticalOffset, "Attending", array("R"=>0,"G"=>0,"B"=>0));
 
-			$picture->drawLegend(287 + ($horizontalOffset/2), 575 + $verticalOffset, array("Style"=>LEGEND_BOX, "Mode"=>LEGEND_HORIZONTAL));
+			$picture->drawLegend(320 + ($horizontalOffset/2), 575 + $verticalOffset, array("Style"=>LEGEND_BOX, "Mode"=>LEGEND_HORIZONTAL));
 
 			$picture->render($output);
 		}

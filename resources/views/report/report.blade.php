@@ -58,18 +58,11 @@
 <?php $tsv .= "0\t0\t0\t"; ?>
 						@else
 							<td>{{ round($subjectMilestone[$subject_id][$milestone_id], 2) }}</td>
-						@if(!empty($subjectMilestoneDeviations))
 							<td> {{ round($subjectMilestoneDeviations[$subject_id][$milestone_id], 2) }}</td>
-						@else
-							<td>0</td>
-						@endif
 							<td>{{ $subjectMilestoneEvals[$subject_id][$milestone_id] }}</td>
 <?php
 	$tsv .= round($subjectMilestone[$subject_id][$milestone_id], 2)."\t";
-	if(!empty($subjectMilestoneDeviations))
-		$tsv .= round($subjectMilestoneDeviations[$subject_id][$milestone_id], 2)."\t";
-	else
-		$tsv .= 0;
+	$tsv .= round($subjectMilestoneDeviations[$subject_id][$milestone_id], 2)."\t";
 	$tsv .= $subjectMilestoneEvals[$subject_id][$milestone_id]."\t";
 ?>
 						@endif
@@ -82,18 +75,11 @@
 <?php $tsv .= "0\t0\t0\t"; ?>
 						@else
 							<td>{{ round($subjectCompetency[$subject_id][$competency_id], 2) }}</td>
-						@if(!empty($subjectCompetencyDeviations))
 							<td>{{ round($subjectCompetencyDeviations[$subject_id][$competency_id], 2) }}</td>
-						@else
-							<td>0</td>
-						@endif
 							<td>{{ $subjectCompetencyEvals[$subject_id][$competency_id] }}</td>
 <?php
 	$tsv .= round($subjectCompetency[$subject_id][$competency_id], 2)."\t";
-	if(!empty($subjectCompetencyDeviations))
-		$tsv .= round($subjectCompetencyDeviations[$subject_id][$competency_id], 2)."\t";
-	else
-		$tsv .= 0;
+	$tsv .= round($subjectCompetencyDeviations[$subject_id][$competency_id], 2)."\t";
 	$tsv .= $subjectCompetencyEvals[$subject_id][$competency_id]."\t";
 ?>
 						@endif
