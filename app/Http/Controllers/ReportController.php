@@ -284,7 +284,7 @@ class ReportController extends Controller
             ->where("evaluations.evaluation_date", "<", $endDate);
 
         if($trainingLevel != "all")
-            $query->where("users.training_level", $trainingLevel);
+            $query->where("evaluations.training_level", $trainingLevel);
 
         $averageMilestone = [];
         $averageMilestoneDenom = [];
@@ -344,7 +344,8 @@ class ReportController extends Controller
 
                 $subjectEvals[$response->subject_id][$response->evaluation_id]++;
                 $subjectMilestoneEvals[$response->subject_id][$response->milestone_id]++;
-                $subjectCompetencyEvals[$response->subject_id][$response->competency_id]++;
+				if(!isset($competencyEvals[$response->competency_id][$response->evaluation_id]))
+                	$subjectCompetencyEvals[$response->subject_id][$response->competency_id]++;
 
                 // Weighted average = sum(response*weight)/sum(weight)
                 $milestones[$response->milestone_id] = $response->milestone_title;
@@ -356,7 +357,8 @@ class ReportController extends Controller
                 // Ensure questions with multiple milestones aren't counted twice for competencies
                 if(isset($competencyQuestions[$response->evaluation_id][$response->question_id]))
                     continue;
-                $competencyQuestions[$response->evaluation_id][$response->question_id] = true;
+				$competencyQuestions[$response->evaluation_id][$response->question_id] = true;
+				$competencyEvals[$response->competency_id][$response->evaluation_id] = true;
                 $competencies[$response->competency_id] = $response->competency_title;
                 $averageCompetency[$response->competency_id] += (floatval($response->response)*floatval($response->weight));
                 $averageCompetencyDenom[$response->competency_id] += floatval($response->weight);
@@ -468,7 +470,7 @@ class ReportController extends Controller
                 ->where("evaluations.subject_id", $reportSubject);
 
             if($trainingLevel != "all")
-                $textQuery->where("users.training_level", $trainingLevel);
+                $textQuery->where("evaluations.training_level", $trainingLevel);
 
             $textQuery->select("subject_id", "first_name", "last_name", "forms.title as form_title", "evaluation_date", "response");
 
