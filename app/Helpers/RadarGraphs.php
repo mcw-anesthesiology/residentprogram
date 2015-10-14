@@ -59,8 +59,11 @@ class RadarGraphs{
 			$picture->setFontProperties(array("FontName"=>"verdana.ttf","FontSize"=>8));
 			$picture->drawText(10,13,$subject.": ".$startDate->toDateString()." - ".$endDate->toDateString()." ".$trainingLevel." Milestones",array("R"=>255,"G"=>255,"B"=>255));
 			$picture->drawText(10 + $horizontalOffset,13 + $verticalOffset,$subject.": ".$startDate->toDateString()." - ".$endDate->toDateString()." ".$trainingLevel." Competencies",array("R"=>255,"G"=>255,"B"=>255));
-
 			$picture->drawLine($horizontalOffset, $verticalOffset, 900, 600, array("R"=>255,"G"=>255,"B"=>255));
+			$picture->drawLegend(320 + ($horizontalOffset/2), 575 + $verticalOffset, array("Style"=>LEGEND_BOX, "Mode"=>LEGEND_HORIZONTAL));
+
+			$picture->setFontProperties(array("FontName"=>"verdana.ttf","FontSize"=>6));
+
 
 			$chart = new pRadar();
 
@@ -78,19 +81,36 @@ class RadarGraphs{
 			$picture->setGraphArea(200 + $horizontalOffset, 50 + $verticalOffset, 700 + $horizontalOffset, 550 + $verticalOffset);
 			$chart->drawRadar($picture, $competencyData, $options);
 
-			$picture->drawText(435, 275, "CA-0", array("R"=>0,"G"=>0,"B"=>0));
-			$picture->drawText(435, 225, "CA-1", array("R"=>0,"G"=>0,"B"=>0));
-			$picture->drawText(435, 175, "CA-2", array("R"=>0,"G"=>0,"B"=>0));
-			$picture->drawText(435, 125, "CA-3", array("R"=>0,"G"=>0,"B"=>0));
-			$picture->drawText(420, 75, "Attending", array("R"=>0,"G"=>0,"B"=>0));
+			if($trainingLevel == "fellow"){
+				$picture->setFontProperties(array("FontName"=>"verdana.ttf","FontSize"=>6));
 
-			$picture->drawText(435 + $horizontalOffset, 275 + $verticalOffset, "CA-0", array("R"=>0,"G"=>0,"B"=>0));
-			$picture->drawText(435 + $horizontalOffset, 225 + $verticalOffset, "CA-1", array("R"=>0,"G"=>0,"B"=>0));
-			$picture->drawText(435 + $horizontalOffset, 175 + $verticalOffset, "CA-2", array("R"=>0,"G"=>0,"B"=>0));
-			$picture->drawText(435 + $horizontalOffset, 125 + $verticalOffset, "CA-3", array("R"=>0,"G"=>0,"B"=>0));
-			$picture->drawText(420 + $horizontalOffset, 75 + $verticalOffset, "Attending", array("R"=>0,"G"=>0,"B"=>0));
+				$picture->drawText(420, 275, "Fellow Level 1", array("R"=>0,"G"=>0,"B"=>0));
+				$picture->drawText(420, 225, "Fellow Level 2", array("R"=>0,"G"=>0,"B"=>0));
+				$picture->drawText(420, 175, "Fellow Level 3", array("R"=>0,"G"=>0,"B"=>0));
+				$picture->drawText(420, 125, "Fellow Level 4", array("R"=>0,"G"=>0,"B"=>0));
+				$picture->drawText(420, 75, "Fellow Level 5", array("R"=>0,"G"=>0,"B"=>0));
 
-			$picture->drawLegend(320 + ($horizontalOffset/2), 575 + $verticalOffset, array("Style"=>LEGEND_BOX, "Mode"=>LEGEND_HORIZONTAL));
+				$picture->drawText(420 + $horizontalOffset, 275 + $verticalOffset, "Fellow Level 1", array("R"=>0,"G"=>0,"B"=>0));
+				$picture->drawText(420 + $horizontalOffset, 225 + $verticalOffset, "Fellow Level 2", array("R"=>0,"G"=>0,"B"=>0));
+				$picture->drawText(420 + $horizontalOffset, 175 + $verticalOffset, "Fellow Level 3", array("R"=>0,"G"=>0,"B"=>0));
+				$picture->drawText(420 + $horizontalOffset, 125 + $verticalOffset, "Fellow Level 4", array("R"=>0,"G"=>0,"B"=>0));
+				$picture->drawText(420 + $horizontalOffset, 75 + $verticalOffset, "Fellow Level 5", array("R"=>0,"G"=>0,"B"=>0));
+			}
+			else{
+				$picture->setFontProperties(array("FontName"=>"verdana.ttf","FontSize"=>8));
+
+				$picture->drawText(435, 275, "CA-0", array("R"=>0,"G"=>0,"B"=>0));
+				$picture->drawText(435, 225, "CA-1", array("R"=>0,"G"=>0,"B"=>0));
+				$picture->drawText(435, 175, "CA-2", array("R"=>0,"G"=>0,"B"=>0));
+				$picture->drawText(435, 125, "CA-3", array("R"=>0,"G"=>0,"B"=>0));
+				$picture->drawText(420, 75, "Attending", array("R"=>0,"G"=>0,"B"=>0));
+
+				$picture->drawText(435 + $horizontalOffset, 275 + $verticalOffset, "CA-0", array("R"=>0,"G"=>0,"B"=>0));
+				$picture->drawText(435 + $horizontalOffset, 225 + $verticalOffset, "CA-1", array("R"=>0,"G"=>0,"B"=>0));
+				$picture->drawText(435 + $horizontalOffset, 175 + $verticalOffset, "CA-2", array("R"=>0,"G"=>0,"B"=>0));
+				$picture->drawText(435 + $horizontalOffset, 125 + $verticalOffset, "CA-3", array("R"=>0,"G"=>0,"B"=>0));
+				$picture->drawText(420 + $horizontalOffset, 75 + $verticalOffset, "Attending", array("R"=>0,"G"=>0,"B"=>0));
+			}
 
 			$picture->render($output);
 		}
