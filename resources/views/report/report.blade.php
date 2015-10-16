@@ -2,8 +2,8 @@
 
 @section("head")
 	<style>
-		.graph {
-			width: 100%;
+		#graphs:nth-child(odd){
+			background-color: #f9f9f9;
 		}
 	</style>
 @stop
@@ -101,21 +101,77 @@
 
 </div>
 <div class="container body-block">
-	@if(count($graphs) > 0)
-		<div id="graphs">
-			@foreach($graphs as $graph)
-				<img class="graph" src="/graph/{{ $graph }}" /><br />
-			@endforeach
-		</div>
-	@else
-		<h4>No graphs to show</h4>
-	@endif
-
-</div>
+	<div id="graphs"></div>
 @stop
 
 @section("script")
+	<script src="/js/underscore-min.js"></script>
+	<script src="/js/Chart.js"></script>
 	<script>
+	@if($graphOption != "none")
+		var subjects = {!! json_encode($subjects) !!};
+		@if($graphOption == "all")
+		var subjectMilestone = {!! json_encode($subjectMilestone) !!};
+		var subjectCompetency = {!! json_encode($subjectCompetency) !!};
+		@endif
+		var averageMilestone = {!! json_encode($averageMilestone) !!};
+		var averageCompetency = {!! json_encode($averageCompetency) !!};
+		var milestones = {!! json_encode($milestones) !!};
+		var competencies = {!! json_encode($competencies) !!};
+		var milestoneLabels = _.values(milestones);
+		var averageMilestones = _.values(averageMilestone);
+		var competencyLabels = _.values(competencies);
+		var averageCompetencies = _.values(averageCompetency);
+
+		var options = {
+			responsive: true,
+			// datasetStrokeWidth: 3,
+			angleLineWidth: 2,
+			// angleLineColor: "rgba(0,0,0,0.85)",
+			// scaleLineColor: "rgba(0,0,0,0.85)",
+			scaleShowLabels: true,
+			scaleOverride: true,
+			scaleLineWidth: 2,
+			scaleSteps: 5,
+			scaleStepWidth: 2,
+			scaleStartValue: 0,
+			scaleLabel: function(values){
+				var scaleLabels = ["", "PGY-1", "CA-1", "CA-2", "CA-3", "Attending"];
+				return scaleLabels[values.value/2];
+			}
+		};
+
+		function drawGraphs(milestoneData, competencyData, title){
+			var graphs = document.getElementById("graphs");
+			var row = document.createElement("div");
+			row.className = "graph-container";
+			var h3 = document.createElement("h3");
+			h3.appendChild(document.createTextNode(title));
+			row.appendChild(h3);
+
+			var milestoneGraph = document.createElement("div");
+			milestoneGraph.className = "graph milestone-graph";
+			var milestoneCanvas = document.createElement("canvas");
+			milestoneCanvas.width = 800;
+			milestoneCanvas.height = 400;
+			milestoneGraph.appendChild(milestoneCanvas);
+			row.appendChild(milestoneGraph);
+
+			var competencyGraph = document.createElement("div");
+			competencyGraph.className = "graph competency-graph";
+			var competencyCanvas = document.createElement("canvas");
+			competencyCanvas.width = 800;
+			competencyCanvas.height = 400;
+			competencyGraph.appendChild(competencyCanvas);
+			row.appendChild(competencyGraph);
+
+			graphs.appendChild(row);
+
+			var mRadar = new Chart(milestoneCanvas.getContext("2d")).Radar(milestoneData, options);
+			var cRadar = new Chart(competencyCanvas.getContext("2d")).Radar(competencyData, options);
+		}
+	@endif
+
 		$(document).ready(function(){
 			var reportTable = $("#report-table").DataTable({
 				"order": [[0, "asc"]],
@@ -128,6 +184,90 @@
 			});
 			if(reportTable.length > 0)
 				new $.fn.DataTable.FixedColumns(reportTable);
+
+
+	@if($graphOption != "none")
+
+			var averageMilestoneDataset = {
+				label: "Average Performance",
+				fillColor: "rgba(227,227,0,0.2)",
+				strokeColor: "rgba(227,227,0,1)",
+				pointColor: "rgba(227,227,0,1)",
+				pointStrokeColor: "#fff",
+				pointHighlightFill: "#fff",
+				pointHighlightStroke: "rgba(227,227,0,1)",
+				data: averageMilestones
+			};
+
+			var averageCompetencyDataset = {
+				label: "Average Performance",
+				fillColor: "rgba(227,227,0,0.2)",
+				strokeColor: "rgba(227,227,0,1)",
+				pointColor: "rgba(227,227,0,1)",
+				pointStrokeColor: "#fff",
+				pointHighlightFill: "#fff",
+				pointHighlightStroke: "rgba(227,227,0,1)",
+				data: averageCompetencies
+			};
+
+		@if($graphOption == "average")
+			var milestoneData = {
+				labels: milestoneLabels,
+				datasets: [
+					averageMilestoneDataset
+				]
+			};
+
+			var competencyData = {
+				labels: competencyLabels,
+				datasets: [
+					averageCompetencyDataset
+				]
+			}
+
+			drawGraphs(milestoneData, competencyData, "Title");
+
+		@elseif($graphOption == "all")
+			for(subjectId in subjects){
+				var milestoneData = {
+					labels: milestoneLabels,
+					datasets: [
+						averageMilestoneDataset,
+						{
+							label: "Individual Performance",
+							fillColor: "rgba(227,0,0,0.2)",
+							strokeColor: "rgba(227,0,0,1)",
+							pointColor: "rgba(227,0,0,1)",
+							pointStrokeColor: "#fff",
+							pointHighlightFill: "#fff",
+							pointHighlightStroke: "rgba(227,0,0,1)",
+							data: _.values(subjectMilestone[subjectId])
+						}
+					]
+				};
+
+				var competencyData = {
+					labels: competencyLabels,
+					datasets: [
+						averageCompetencyDataset,
+						{
+							label: "Individual Performance",
+							fillColor: "rgba(227,0,0,0.2)",
+							strokeColor: "rgba(227,0,0,1)",
+							pointColor: "rgba(227,0,0,1)",
+							pointStrokeColor: "#fff",
+							pointHighlightFill: "#fff",
+							pointHighlightStroke: "rgba(227,0,0,1)",
+							data: _.values(subjectCompetency[subjectId])
+						}
+					]
+				};
+
+				drawGraphs(milestoneData, competencyData, subjects[subjectId]);
+			}
+		@endif
+	@endif
+
 		});
 	</script>
 @stop
