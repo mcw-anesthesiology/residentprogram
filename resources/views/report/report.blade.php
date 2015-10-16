@@ -4,6 +4,7 @@
 	<style>
 		#graphs:nth-child(odd){
 			background-color: #f9f9f9;
+			padding: 10px;
 		}
 	</style>
 @stop
