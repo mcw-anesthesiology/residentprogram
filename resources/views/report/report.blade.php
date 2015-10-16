@@ -1,12 +1,9 @@
 @extends("app")
 
 @section("head")
-	<style>
-		#graphs:nth-child(odd){
-			background-color: #f9f9f9;
-			padding: 10px;
-		}
-	</style>
+	<!--[if lte IE 8]><script type="text/javascript" src="/js/excanvas.js"></script><![endif]-->
+	<link href="/css/bootstrap-switch.min.css" rel="stylesheet" />
+	<link href="/css/report-chartjs.css" rel="stylesheet" />
 @stop
 
 @section("body")
@@ -102,14 +99,54 @@
 
 </div>
 <div class="container body-block">
+	@if(count($graphs) > 0)
+	<div class="form-horizontal new-graphs-container">
+		<div class="form-group">
+			<label for="new-graphs" class="col-sm-2 col-sm-offset-4">Use new graphs</label>
+			<div class="col-sm-2">
+				<input type="checkbox" id="new-graphs" checked />
+			</div>
+		</div>
+		<br />
+		<div class="form-group graph-type-container">
+			<label for="graph-type" class="col-sm-2 col-sm-offset-4">Graph type</label>
+			<div class="col-sm-2">
+				<select id="graph-type" class="form-control">
+					<option value="radar">Radar</option>
+					<option value="line">Line</option>
+					<option value="bar">Bar</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group graph-layout-container">
+			<label for="graph-layout" class="col-sm-2 col-sm-offset-4">Graph Layout</label>
+			<div class="col-sm-2">
+				<input type="checkbox" id="graph-layout" data-on-text="Vertical" data-off-text="Horizontal"
+					data-on-color="primary" data-off-color="primary" />
+			</div>
+		</div>
+	</div>
+	<div id="img-graphs">
+		@foreach($graphs as $graph)
+			<img class="img-graph" src="/graph/{{ $graph }}" /><br />
+		@endforeach
+	</div>
 	<div id="graphs"></div>
+	@else
+		<h4>No graphs to show</h4>
+	@endif
 @stop
 
 @section("script")
+	<script src="/js/mdn-round.js"></script>
 	<script src="/js/underscore-min.js"></script>
 	<script src="/js/Chart.js"></script>
+	<script src="/js/bootstrap-switch.min.js"></script>
 	<script>
 	@if($graphOption != "none")
+		var graphs = [];
+		var graphOption = "{{ $graphOption }}";
+		var trainingLevel = "{{ $trainingLevel }}"
 		var subjects = {!! json_encode($subjects) !!};
 		@if($graphOption == "all")
 		var subjectMilestone = {!! json_encode($subjectMilestone) !!};
@@ -123,54 +160,6 @@
 		var averageMilestones = _.values(averageMilestone);
 		var competencyLabels = _.values(competencies);
 		var averageCompetencies = _.values(averageCompetency);
-
-		var options = {
-			responsive: true,
-			// datasetStrokeWidth: 3,
-			angleLineWidth: 2,
-			// angleLineColor: "rgba(0,0,0,0.85)",
-			// scaleLineColor: "rgba(0,0,0,0.85)",
-			scaleShowLabels: true,
-			scaleOverride: true,
-			scaleLineWidth: 2,
-			scaleSteps: 5,
-			scaleStepWidth: 2,
-			scaleStartValue: 0,
-			scaleLabel: function(values){
-				var scaleLabels = ["", "PGY-1", "CA-1", "CA-2", "CA-3", "Attending"];
-				return scaleLabels[values.value/2];
-			}
-		};
-
-		function drawGraphs(milestoneData, competencyData, title){
-			var graphs = document.getElementById("graphs");
-			var row = document.createElement("div");
-			row.className = "graph-container";
-			var h3 = document.createElement("h3");
-			h3.appendChild(document.createTextNode(title));
-			row.appendChild(h3);
-
-			var milestoneGraph = document.createElement("div");
-			milestoneGraph.className = "graph milestone-graph";
-			var milestoneCanvas = document.createElement("canvas");
-			milestoneCanvas.width = 800;
-			milestoneCanvas.height = 400;
-			milestoneGraph.appendChild(milestoneCanvas);
-			row.appendChild(milestoneGraph);
-
-			var competencyGraph = document.createElement("div");
-			competencyGraph.className = "graph competency-graph";
-			var competencyCanvas = document.createElement("canvas");
-			competencyCanvas.width = 800;
-			competencyCanvas.height = 400;
-			competencyGraph.appendChild(competencyCanvas);
-			row.appendChild(competencyGraph);
-
-			graphs.appendChild(row);
-
-			var mRadar = new Chart(milestoneCanvas.getContext("2d")).Radar(milestoneData, options);
-			var cRadar = new Chart(competencyCanvas.getContext("2d")).Radar(competencyData, options);
-		}
 	@endif
 
 		$(document).ready(function(){
@@ -183,92 +172,34 @@
 				"scrollCollapse": true,
 				"paging": false
 			});
-			if(reportTable.length > 0)
-				new $.fn.DataTable.FixedColumns(reportTable);
 
+			new $.fn.DataTable.FixedColumns(reportTable);
 
-	@if($graphOption != "none")
+			$("#img-graphs").hide();
 
-			var averageMilestoneDataset = {
-				label: "Average Performance",
-				fillColor: "rgba(227,227,0,0.2)",
-				strokeColor: "rgba(227,227,0,1)",
-				pointColor: "rgba(227,227,0,1)",
-				pointStrokeColor: "#fff",
-				pointHighlightFill: "#fff",
-				pointHighlightStroke: "rgba(227,227,0,1)",
-				data: averageMilestones
-			};
+			$("#new-graphs").bootstrapSwitch();
+			$("#graph-layout").bootstrapSwitch();
 
-			var averageCompetencyDataset = {
-				label: "Average Performance",
-				fillColor: "rgba(227,227,0,0.2)",
-				strokeColor: "rgba(227,227,0,1)",
-				pointColor: "rgba(227,227,0,1)",
-				pointStrokeColor: "#fff",
-				pointHighlightFill: "#fff",
-				pointHighlightStroke: "rgba(227,227,0,1)",
-				data: averageCompetencies
-			};
+			$("#new-graphs").on("switchChange.bootstrapSwitch", function(){
+				$(".graph-type-container").toggle();
+				$(".graph-layout-container").toggle();
+				$("#img-graphs").toggle();
+				$("#graphs").toggle();
+			});
 
-		@if($graphOption == "average")
-			var milestoneData = {
-				labels: milestoneLabels,
-				datasets: [
-					averageMilestoneDataset
-				]
-			};
+			$("#graph-layout").on("switchChange.bootstrapSwitch", function(){
+				$(".graph").toggleClass("col-sm-6");
+				Chart.helpers.each(Chart.instances,function(instance){
+					instance.resize(instance.render, true);
+				});
+			});
 
-			var competencyData = {
-				labels: competencyLabels,
-				datasets: [
-					averageCompetencyDataset
-				]
-			}
-
-			drawGraphs(milestoneData, competencyData, "Title");
-
-		@elseif($graphOption == "all")
-			for(subjectId in subjects){
-				var milestoneData = {
-					labels: milestoneLabels,
-					datasets: [
-						averageMilestoneDataset,
-						{
-							label: "Individual Performance",
-							fillColor: "rgba(227,0,0,0.2)",
-							strokeColor: "rgba(227,0,0,1)",
-							pointColor: "rgba(227,0,0,1)",
-							pointStrokeColor: "#fff",
-							pointHighlightFill: "#fff",
-							pointHighlightStroke: "rgba(227,0,0,1)",
-							data: _.values(subjectMilestone[subjectId])
-						}
-					]
-				};
-
-				var competencyData = {
-					labels: competencyLabels,
-					datasets: [
-						averageCompetencyDataset,
-						{
-							label: "Individual Performance",
-							fillColor: "rgba(227,0,0,0.2)",
-							strokeColor: "rgba(227,0,0,1)",
-							pointColor: "rgba(227,0,0,1)",
-							pointStrokeColor: "#fff",
-							pointHighlightFill: "#fff",
-							pointHighlightStroke: "rgba(227,0,0,1)",
-							data: _.values(subjectCompetency[subjectId])
-						}
-					]
-				};
-
-				drawGraphs(milestoneData, competencyData, subjects[subjectId]);
-			}
-		@endif
-	@endif
+			if(graphOption == "average")
+				drawAverageGraphs();
+			else if(graphOption == "all")
+				drawAllGraphs();
 
 		});
 	</script>
+	<script src="/js/report-chartjs.js"></script>
 @stop

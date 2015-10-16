@@ -457,7 +457,11 @@ class ReportController extends Controller
                 break;
         }
 
-        $data = compact("milestones", "competencies", "subjectMilestone", "subjectMilestoneDeviations", "subjectMilestoneEvals", "subjectCompetency", "subjectCompetencyDeviations", "subjectCompetencyEvals", "subjectEvals", "graphs", "subjects", "subjectEvaluators", "averageMilestone", "averageCompetency", "graphOption");
+        $data = compact("milestones", "competencies", "subjectMilestone",
+			"subjectMilestoneDeviations", "subjectMilestoneEvals", "subjectCompetency",
+			"subjectCompetencyDeviations", "subjectCompetencyEvals", "subjectEvals",
+			"graphs", "subjects", "subjectEvaluators", "averageMilestone",
+			"averageCompetency", "graphOption", "trainingLevel");
 
         if(!is_null($reportSubject)){
             $textQuery = DB::table("text_responses")
