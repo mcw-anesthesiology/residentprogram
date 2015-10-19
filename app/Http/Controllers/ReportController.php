@@ -280,7 +280,7 @@ class ReportController extends Controller
             // ->where("users.status", "active")
             ->where("users.type", "resident")
             ->where("evaluations.status", "complete")
-            ->where("evaluations.evaluation_date", ">", $startDate)
+            ->where("evaluations.evaluation_date", ">=", $startDate)
             ->where("evaluations.evaluation_date", "<", $endDate);
 
         if($trainingLevel != "all")
