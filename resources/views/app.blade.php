@@ -290,6 +290,8 @@
 		<script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
 		<script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
+		<script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.9/sorting/datetime-moment.js"></script>
 		<script type="text/javascript" src="/js/placeholders.jquery.min.js"></script>
 		<script>
 		    var numSpecificReports = 0;
@@ -397,6 +399,8 @@
 			}
 
 			$(document).ready(function(){
+				$.fn.dataTable.moment( "DD-MMM-YYYY h:mm A" );
+
 				$(".report").submit(checkReportQuery);
 		        $(".report").on("click", ".lastSixMonths", lastSixMonths);
 		        $(".report").on("click", ".lastThreeMonths", lastThreeMonths);
