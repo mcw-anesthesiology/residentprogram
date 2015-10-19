@@ -529,7 +529,8 @@ class ReportController extends Controller
 			$data["reportData"][$i]["trainingLevel"] = $trainingLevels[$i];
         }
 
-        $data["numReports"] = count($startDates);
+		$data["graphOption"] = $request->input("graphs");
+		$data["numReports"] = count($startDates);
         $data["specificSubject"] = User::find($request->input("resident"));
 
 		$request->session()->put("individualReportData", $data);

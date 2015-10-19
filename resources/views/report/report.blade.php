@@ -126,12 +126,12 @@
 			</div>
 		</div>
 	</div>
-	<div id="img-graphs">
+	<div class="img-graphs">
 		@foreach($graphs as $graph)
 			<img class="img-graph" src="/graph/{{ $graph }}" /><br />
 		@endforeach
 	</div>
-	<div id="graphs"></div>
+	<div class="graphs"></div>
 	@else
 		<h4>No graphs to show</h4>
 	@endif
@@ -144,22 +144,19 @@
 	<script src="/js/bootstrap-switch.min.js"></script>
 	<script>
 	@if($graphOption != "none")
-		var graphs = [];
+		var reportData = [];
+		reportData[0] = {};
 		var graphOption = "{{ $graphOption }}";
-		var trainingLevel = "{{ $trainingLevel }}"
-		var subjects = {!! json_encode($subjects) !!};
+		reportData[0].trainingLevel = "{{ $trainingLevel }}";
+		reportData[0].subjects = {!! json_encode($subjects) !!};
 		@if($graphOption == "all")
-		var subjectMilestone = {!! json_encode($subjectMilestone) !!};
-		var subjectCompetency = {!! json_encode($subjectCompetency) !!};
+		reportData[0].subjectMilestone = {!! json_encode($subjectMilestone) !!};
+		reportData[0].subjectCompetency = {!! json_encode($subjectCompetency) !!};
 		@endif
-		var averageMilestone = {!! json_encode($averageMilestone) !!};
-		var averageCompetency = {!! json_encode($averageCompetency) !!};
-		var milestones = {!! json_encode($milestones) !!};
-		var competencies = {!! json_encode($competencies) !!};
-		var milestoneLabels = _.values(milestones);
-		var averageMilestones = _.values(averageMilestone);
-		var competencyLabels = _.values(competencies);
-		var averageCompetencies = _.values(averageCompetency);
+		reportData[0].averageMilestone = {!! json_encode($averageMilestone) !!};
+		reportData[0].averageCompetency = {!! json_encode($averageCompetency) !!};
+		reportData[0].milestones = {!! json_encode($milestones) !!};
+		reportData[0].competencies = {!! json_encode($competencies) !!};
 	@endif
 
 		$(document).ready(function(){
@@ -175,7 +172,7 @@
 
 			new $.fn.DataTable.FixedColumns(reportTable);
 
-			$("#img-graphs").hide();
+			$(".img-graphs").hide();
 
 			$("#new-graphs").bootstrapSwitch();
 			$("#graph-layout").bootstrapSwitch();
@@ -183,8 +180,8 @@
 			$("#new-graphs").on("switchChange.bootstrapSwitch", function(){
 				$(".graph-type-container").toggle();
 				$(".graph-layout-container").toggle();
-				$("#img-graphs").toggle();
-				$("#graphs").toggle();
+				$(".img-graphs").toggle();
+				$(".graphs").toggle();
 			});
 
 			$("#graph-layout").on("switchChange.bootstrapSwitch", function(){
