@@ -27,9 +27,9 @@ var options = {
 	scaleSteps: 5,
 	scaleStepWidth: 2,
 	scaleStartValue: 0,
-	// scaleLabel: function(values){
-	// 	return scaleLabels[values.value/2];
-	// }
+	scaleLabel: function(values){
+		return scaleLabels[values.value/2];
+	}
 };
 
 function drawGraphs(milestoneData, competencyData, title, index){
@@ -104,103 +104,47 @@ $("#graph-type").change(function(){
 	drawAllGraphs();
 });
 
-// function drawAllGraphs(){
-// 	subjectIds.forEach(function(subjectId){
-// 		var milestoneData = {
-// 			labels: milestoneLabels,
-// 			datasets: [
-// 				averageMilestoneDataset,
-// 				{
-// 					label: "Individual Performance",
-// 					fillColor: individualFillColor,
-// 					strokeColor: individualSolidColor,
-// 					pointColor: individualSolidColor,
-// 					pointStrokeColor: "#fff",
-// 					pointHighlightFill: "#fff",
-// 					pointHighlightStroke: individualSolidColor,
-// 					data: _.values(subjectMilestone[subjectId])
-// 				}
-// 			]
-// 		};
-//
-// 		var competencyData = {
-// 			labels: competencyLabels,
-// 			datasets: [
-// 				averageCompetencyDataset,
-// 				{
-// 					label: "Individual Performance",
-// 					fillColor: individualFillColor,
-// 					strokeColor: individualSolidColor,
-// 					pointColor: individualSolidColor,
-// 					pointStrokeColor: "#fff",
-// 					pointHighlightFill: "#fff",
-// 					pointHighlightStroke: individualSolidColor,
-// 					data: _.values(subjectCompetency[subjectId])
-// 				}
-// 			]
-// 		};
-//
-// 		drawGraphs(milestoneData, competencyData, subjects[subjectId]);
-// 	});
-// }
+$("#new-graphs").on("switchChange.bootstrapSwitch", function(){
+	$(".graph-type-container").toggle();
+	$(".graph-layout-container").toggle();
+	$(".img-graphs").toggle();
+	$(".graphs").toggle();
+});
+
+$("#graph-layout").on("switchChange.bootstrapSwitch", function(){
+	$(".graph").toggleClass("col-sm-6");
+	Chart.helpers.each(Chart.instances,function(instance){
+		instance.resize(instance.render, true);
+	});
+});
 
 function drawAverageGraphs(){
-	var milestoneData = {
-		labels: milestoneLabels,
-		datasets: [
-			averageMilestoneDataset
-		]
-	};
+	reportData.forEach(function(report, index){
 
-	var competencyData = {
-		labels: competencyLabels,
-		datasets: [
-			averageCompetencyDataset
-		]
-	}
+		prepareReport(report);
 
-	drawGraphs(milestoneData, competencyData, "Title");
+		var milestoneData = {
+			labels: report.milestoneLabels,
+			datasets: [
+				report.averageMilestoneDataset
+			]
+		};
+
+		var competencyData = {
+			labels: report.competencyLabels,
+			datasets: [
+				report.averageCompetencyDataset
+			]
+		}
+
+		drawGraphs(milestoneData, competencyData, "Average");
+	});
 }
 
 function drawAllGraphs(){
 	reportData.forEach(function(report, index){
-		// Sort subject ids by subject name
-		report.subjectIds = _.keys(report.subjects).sort(function(a, b){return report.subjects[a].localeCompare(report.subjects[b]);})
 
-		if(report.trainingLevel == "fellow")
-			var scaleLabels = ["", "Fellow Level 1", "Fellow Level 2", "Fellow Level 3", "Fellow Level 4", "Fellow Level 5"];
-		else
-			var scaleLabels = ["", "PGY-1", "CA-1", "CA-2", "CA-3", "Attending"];
-
-		options.scaleLabel = function(values){
-			return scaleLabels[values.value/2];
-		};
-
-		report.milestoneLabels = _.values(report.milestones);
-		report.averageMilestones = _.values(report.averageMilestone);
-		report.competencyLabels = _.values(report.competencies);
-		report.averageCompetencies = _.values(report.averageCompetency);
-		report.averageMilestoneDataset = {
-			label: "Average Performance",
-			fillColor: averageFillColor,
-			strokeColor: averageSolidColor,
-			pointColor: averageSolidColor,
-			pointStrokeColor: "#fff",
-			pointHighlightFill: "#fff",
-			pointHighlightStroke: averageSolidColor,
-			data: report.averageMilestones
-		};
-
-		report.averageCompetencyDataset = {
-			label: "Average Performance",
-			fillColor: averageFillColor,
-			strokeColor: averageSolidColor,
-			pointColor: averageSolidColor,
-			pointStrokeColor: "#fff",
-			pointHighlightFill: "#fff",
-			pointHighlightStroke: averageSolidColor,
-			data: report.averageCompetencies
-		};
+		prepareReport(report);
 
 		report.subjectIds.forEach(function(subjectId){
 			var milestoneData = {
@@ -240,4 +184,44 @@ function drawAllGraphs(){
 			drawGraphs(milestoneData, competencyData, report.subjects[subjectId], index);
 		});
 	});
+}
+
+function prepareReport(report){
+	// Sort subject ids by subject name
+	report.subjectIds = _.keys(report.subjects).sort(function(a, b){return report.subjects[a].localeCompare(report.subjects[b]);})
+
+	if(report.trainingLevel == "fellow")
+		report.scaleLabels = ["", "Fellow Level 1", "Fellow Level 2", "Fellow Level 3", "Fellow Level 4", "Fellow Level 5"];
+	else
+		report.scaleLabels = ["", "PGY-1", "CA-1", "CA-2", "CA-3", "Attending"];
+
+	options.scaleLabel = function(values){
+		return report.scaleLabels[values.value/2];
+	};
+
+	report.milestoneLabels = _.values(report.milestones);
+	report.averageMilestones = _.values(report.averageMilestone);
+	report.competencyLabels = _.values(report.competencies);
+	report.averageCompetencies = _.values(report.averageCompetency);
+	report.averageMilestoneDataset = {
+		label: "Average Performance",
+		fillColor: averageFillColor,
+		strokeColor: averageSolidColor,
+		pointColor: averageSolidColor,
+		pointStrokeColor: "#fff",
+		pointHighlightFill: "#fff",
+		pointHighlightStroke: averageSolidColor,
+		data: report.averageMilestones
+	};
+
+	report.averageCompetencyDataset = {
+		label: "Average Performance",
+		fillColor: averageFillColor,
+		strokeColor: averageSolidColor,
+		pointColor: averageSolidColor,
+		pointStrokeColor: "#fff",
+		pointHighlightFill: "#fff",
+		pointHighlightStroke: averageSolidColor,
+		data: report.averageCompetencies
+	};
 }

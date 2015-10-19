@@ -461,7 +461,7 @@ class ReportController extends Controller
 			"subjectMilestoneDeviations", "subjectMilestoneEvals", "subjectCompetency",
 			"subjectCompetencyDeviations", "subjectCompetencyEvals", "subjectEvals",
 			"graphs", "subjects", "subjectEvaluators", "averageMilestone",
-			"averageCompetency", "graphOption", "trainingLevel");
+			"averageCompetency", "graphOption", "trainingLevel", "startDate", "endDate");
 
         if(!is_null($reportSubject)){
             $textQuery = DB::table("text_responses")

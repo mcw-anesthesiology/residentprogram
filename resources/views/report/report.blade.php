@@ -7,6 +7,22 @@
 @stop
 
 @section("body")
+	<table class="table" width="100%">
+		<thead>
+			<tr>
+				<th>Start Date</th>
+				<th>End Date</th>
+				<th>Training Level</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>{{ $startDate->toFormattedDateString() }}</td>
+				<td>{{ $endDate->toFormattedDateString() }}</td>
+				<td>{{ $trainingLevel }}</td>
+			</tr>
+		</tbody>
+	</table>
 <?php $tsv = "Resident/Fellow\t"; ?>
 	<table class="table table-striped table-bordered datatable" id="report-table" width="100%">
 		<thead>
@@ -102,7 +118,7 @@
 	@if(count($graphs) > 0)
 	<div class="form-horizontal new-graphs-container">
 		<div class="form-group">
-			<label for="new-graphs" class="col-sm-2 col-sm-offset-4">Use new graphs</label>
+			<label for="new-graphs" class="col-sm-2 col-sm-offset-4">Interactive graphs</label>
 			<div class="col-sm-2">
 				<input type="checkbox" id="new-graphs" checked />
 			</div>
@@ -119,7 +135,7 @@
 			</div>
 		</div>
 		<div class="form-group graph-layout-container">
-			<label for="graph-layout" class="col-sm-2 col-sm-offset-4">Graph Layout</label>
+			<label for="graph-layout" class="col-sm-2 col-sm-offset-4">Graph layout</label>
 			<div class="col-sm-2">
 				<input type="checkbox" id="graph-layout" data-on-text="Vertical" data-off-text="Horizontal"
 					data-on-color="primary" data-off-color="primary" />
@@ -176,20 +192,6 @@
 
 			$("#new-graphs").bootstrapSwitch();
 			$("#graph-layout").bootstrapSwitch();
-
-			$("#new-graphs").on("switchChange.bootstrapSwitch", function(){
-				$(".graph-type-container").toggle();
-				$(".graph-layout-container").toggle();
-				$(".img-graphs").toggle();
-				$(".graphs").toggle();
-			});
-
-			$("#graph-layout").on("switchChange.bootstrapSwitch", function(){
-				$(".graph").toggleClass("col-sm-6");
-				Chart.helpers.each(Chart.instances,function(instance){
-					instance.resize(instance.render, true);
-				});
-			});
 
 			if(graphOption == "average")
 				drawAverageGraphs();

@@ -156,7 +156,7 @@
 ?>
 	<div class="form-horizontal new-graphs-container">
 		<div class="form-group">
-			<label for="new-graphs" class="col-sm-2 col-sm-offset-4">Use new graphs</label>
+			<label for="new-graphs" class="col-sm-2 col-sm-offset-4">Interactive graphs</label>
 			<div class="col-sm-2">
 				<input type="checkbox" id="new-graphs" checked />
 			</div>
@@ -173,7 +173,7 @@
 			</div>
 		</div>
 		<div class="form-group graph-layout-container">
-			<label for="graph-layout" class="col-sm-2 col-sm-offset-4">Graph Layout</label>
+			<label for="graph-layout" class="col-sm-2 col-sm-offset-4">Graph layout</label>
 			<div class="col-sm-2">
 				<input type="checkbox" id="graph-layout" data-on-text="Vertical" data-off-text="Horizontal"
 					data-on-color="primary" data-off-color="primary" />
@@ -198,7 +198,6 @@
 	@if($graphOption != "none")
 		var graphOption = "{{ $graphOption }}";
 		var reportData = {!! json_encode($reportData) !!};
-		// var subjectId = {{ $specificSubject->id }};
 	@endif
 		$(document).ready(function(){
 			$(".text-responses-table").DataTable({
@@ -217,20 +216,6 @@
 
 			$("#new-graphs").bootstrapSwitch();
 			$("#graph-layout").bootstrapSwitch();
-
-			$("#new-graphs").on("switchChange.bootstrapSwitch", function(){
-				$(".graph-type-container").toggle();
-				$(".graph-layout-container").toggle();
-				$(".img-graphs").toggle();
-				$(".graphs").toggle();
-			});
-
-			$("#graph-layout").on("switchChange.bootstrapSwitch", function(){
-				$(".graph").toggleClass("col-sm-6");
-				Chart.helpers.each(Chart.instances,function(instance){
-					instance.resize(instance.render, true);
-				});
-			});
 
 			if(graphOption == "average")
 				drawAverageGraphs();
