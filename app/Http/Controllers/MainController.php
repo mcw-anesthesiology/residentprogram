@@ -44,7 +44,11 @@ class MainController extends Controller
     }
 
     public function dashboardFaculty(){
-        return view("dashboard.faculty.dashboard");
+		$user = Auth::user();
+		$threshold = Setting::get("facultyEvalThreshold");
+		$noEvaluations = (Evaluation::where("subject_id", $user->id)->where("status", "complete")->count() < $threshold);
+		$data = compact("noEvaluations");
+        return view("dashboard.faculty.dashboard", $data);
     }
 
     public function request(Request $request){
@@ -344,7 +348,8 @@ class MainController extends Controller
         elseif($user->type == "faculty"){
             $threshold = Setting::get("facultyEvalThreshold");
             $evaluations = Evaluation::where("subject_id", $user->id)->where("status", "complete")->orderBy("id", "desc")->get();
-            $evaluations = $evaluations->splice($evaluations->count()%$threshold);
+			if($evaluations->count() > 0)
+            	$evaluations = $evaluations->splice($evaluations->count()%$threshold);
         }
         elseif($user->type == "resident"){
             $evaluations = Evaluation::with("subject", "evaluator", "form")->where("status", "pending")->where("evaluator_id", $user->id)->whereHas("form", function($query){
