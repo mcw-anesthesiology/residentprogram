@@ -1,6 +1,9 @@
 @extends("app")
 
 @section("head")
+	<!--[if lte IE 8]>
+		<script type="text/javascript" src="/js/excanvas.js"></script>
+	<![endif]-->
 	<link href="/css/bootstrap-switch.min.css" rel="stylesheet" />
 	<link href="/css/report-chartjs.css" rel="stylesheet" />
 <?php
@@ -120,6 +123,32 @@
 	@endforeach
 </div>
 <div class="container body-block">
+	<div class="form-horizontal new-graphs-container">
+		<div class="form-group">
+			<label for="new-graphs" class="col-sm-2 col-sm-offset-4">Interactive graphs</label>
+			<div class="col-sm-2">
+				<input type="checkbox" id="new-graphs" checked />
+			</div>
+		</div>
+		<br />
+		<div class="form-group graph-type-container">
+			<label for="graph-type" class="col-sm-2 col-sm-offset-4">Graph type</label>
+			<div class="col-sm-2">
+				<select id="graph-type" class="form-control">
+					<option value="radar">Radar</option>
+					<option value="line">Line</option>
+					<option value="bar">Bar</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group graph-layout-container">
+			<label for="graph-layout" class="col-sm-2 col-sm-offset-4">Graph layout</label>
+			<div class="col-sm-2">
+				<input type="checkbox" id="graph-layout" data-on-text="Vertical" data-off-text="Horizontal"
+					data-on-color="primary" data-off-color="primary" checked />
+			</div>
+		</div>
+	</div>
 <?php
 	$subjectTextResponses = [];
 	foreach($reportData as $report){
@@ -154,32 +183,6 @@
 <?php
 	$html .= ob_get_flush();
 ?>
-	<div class="form-horizontal new-graphs-container">
-		<div class="form-group">
-			<label for="new-graphs" class="col-sm-2 col-sm-offset-4">Interactive graphs</label>
-			<div class="col-sm-2">
-				<input type="checkbox" id="new-graphs" checked />
-			</div>
-		</div>
-		<br />
-		<div class="form-group graph-type-container">
-			<label for="graph-type" class="col-sm-2 col-sm-offset-4">Graph type</label>
-			<div class="col-sm-2">
-				<select id="graph-type" class="form-control">
-					<option value="radar">Radar</option>
-					<option value="line">Line</option>
-					<option value="bar">Bar</option>
-				</select>
-			</div>
-		</div>
-		<div class="form-group graph-layout-container">
-			<label for="graph-layout" class="col-sm-2 col-sm-offset-4">Graph layout</label>
-			<div class="col-sm-2">
-				<input type="checkbox" id="graph-layout" data-on-text="Vertical" data-off-text="Horizontal"
-					data-on-color="primary" data-off-color="primary" />
-			</div>
-		</div>
-	</div>
 	<form method="post" target="_blank" action="/report/pdf" class="pdf-form">
 		{{ csrf_field() }}
 		<input type="hidden" name="view" value="individual" />
@@ -191,7 +194,7 @@
 
 @section("script")
 	<script src="/js/mdn-round.js"></script>
-	<script src="/js/underscore-min.js"></script>
+	<script src="/js/lodash.min.js"></script>
 	<script src="/js/Chart.js"></script>
 	<script src="/js/bootstrap-switch.min.js"></script>
 	<script>

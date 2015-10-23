@@ -1,7 +1,9 @@
 @extends("app")
 
 @section("head")
-	<!--[if lte IE 8]><script type="text/javascript" src="/js/excanvas.js"></script><![endif]-->
+	<!--[if lte IE 8]>
+		<script type="text/javascript" src="/js/excanvas.js"></script>
+	<![endif]-->
 	<link href="/css/bootstrap-switch.min.css" rel="stylesheet" />
 	<link href="/css/report-chartjs.css" rel="stylesheet" />
 @stop
@@ -155,7 +157,7 @@
 
 @section("script")
 	<script src="/js/mdn-round.js"></script>
-	<script src="/js/underscore-min.js"></script>
+	<script src="/js/lodash.min.js"></script>
 	<script src="/js/Chart.js"></script>
 	<script src="/js/bootstrap-switch.min.js"></script>
 	<script>

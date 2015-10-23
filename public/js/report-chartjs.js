@@ -79,17 +79,20 @@ function drawGraphs(milestoneData, competencyData, title, index){
 		competencyGraph.className += " col-sm-6";
 	}
 
+	var mCtx = milestoneCanvas.getContext("2d");
+	var cCtx = competencyCanvas.getContext("2d");
+
 	if(graphType == "radar"){
-		var mGraph = new Chart(milestoneCanvas.getContext("2d")).Radar(milestoneData, options);
-		var cGraph = new Chart(competencyCanvas.getContext("2d")).Radar(competencyData, options);
+		var mGraph = new Chart(mCtx).Radar(milestoneData, options);
+		var cGraph = new Chart(cCtx).Radar(competencyData, options);
 	}
 	else if(graphType == "bar"){
-		var mGraph = new Chart(milestoneCanvas.getContext("2d")).Bar(milestoneData, options);
-		var cGraph = new Chart(competencyCanvas.getContext("2d")).Bar(competencyData, options);
+		var mGraph = new Chart(mCtx).Bar(milestoneData, options);
+		var cGraph = new Chart(cCtx).Bar(competencyData, options);
 	}
 	else if(graphType == "line"){
-		var mGraph = new Chart(milestoneCanvas.getContext("2d")).Line(milestoneData, options);
-		var cGraph = new Chart(competencyCanvas.getContext("2d")).Line(competencyData, options);
+		var mGraph = new Chart(mCtx).Line(milestoneData, options);
+		var cGraph = new Chart(cCtx).Line(competencyData, options);
 	}
 
 	var legend = mGraph.generateLegend();
@@ -203,6 +206,12 @@ function prepareReport(report){
 	report.averageMilestones = _.values(report.averageMilestone);
 	report.competencyLabels = _.values(report.competencies);
 	report.averageCompetencies = _.values(report.averageCompetency);
+
+	for(var i = 0; i < report.milestoneLabels.length; i++){
+		report.milestoneLabels[i] = report.milestoneLabels[i].replace("Anes Fellow ", "");
+		report.milestoneLabels[i] = report.milestoneLabels[i].replace("and", "&");
+	}
+
 	report.averageMilestoneDataset = {
 		label: "Average Performance",
 		fillColor: averageFillColor,
