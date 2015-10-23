@@ -1,0 +1,40 @@
+.img-graph {
+	width: 100%;
+}
+
+.graph-container {
+	padding: 10px;
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.graph {
+	padding: 10px;
+}
+
+.graph-container:nth-child(odd) {
+	background-color: #f9f9f9;
+}
+
+.graph-container:nth-child(even) {
+	background-color: #f5f5f5;
+}
+
+.graph {
+	margin-bottom: 20px;
+}
+
+.legend {
+	display: table;
+	list-style: none;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin: 0px auto;
+	background-color: #bbbbbb;
+}
+
+.new-graphs-container {
+	margin-bottom: 20px;
+}

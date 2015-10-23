@@ -1,14 +1,30 @@
 @extends("app")
 
 @section("head")
-	<style>
-		.graph {
-			width: 100%;
-		}
-	</style>
+	<!--[if lte IE 8]>
+		<script type="text/javascript" src="/js/excanvas.js"></script>
+	<![endif]-->
+	<link href="/css/bootstrap-switch.min.css" rel="stylesheet" />
+	<link href="/css/report-chartjs.css" rel="stylesheet" />
 @stop
 
 @section("body")
+	<table class="table" width="100%">
+		<thead>
+			<tr>
+				<th>Start Date</th>
+				<th>End Date</th>
+				<th>Training Level</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>{{ $startDate->toFormattedDateString() }}</td>
+				<td>{{ $endDate->toFormattedDateString() }}</td>
+				<td>{{ $trainingLevel }}</td>
+			</tr>
+		</tbody>
+	</table>
 <?php $tsv = "Resident/Fellow\t"; ?>
 	<table class="table table-striped table-bordered datatable" id="report-table" width="100%">
 		<thead>
@@ -102,20 +118,65 @@
 </div>
 <div class="container body-block">
 	@if(count($graphs) > 0)
-		<div id="graphs">
-			@foreach($graphs as $graph)
-				<img class="graph" src="/graph/{{ $graph }}" /><br />
-			@endforeach
+	<div class="form-horizontal new-graphs-container">
+		<div class="form-group">
+			<label for="new-graphs" class="col-sm-2 col-sm-offset-4">Interactive graphs</label>
+			<div class="col-sm-2">
+				<input type="checkbox" id="new-graphs" checked />
+			</div>
 		</div>
+		<br />
+		<div class="form-group graph-type-container">
+			<label for="graph-type" class="col-sm-2 col-sm-offset-4">Graph type</label>
+			<div class="col-sm-2">
+				<select id="graph-type" class="form-control">
+					<option value="radar">Radar</option>
+					<option value="line">Line</option>
+					<option value="bar">Bar</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group graph-layout-container">
+			<label for="graph-layout" class="col-sm-2 col-sm-offset-4">Graph layout</label>
+			<div class="col-sm-2">
+				<input type="checkbox" id="graph-layout" data-on-text="Vertical" data-off-text="Horizontal"
+					data-on-color="primary" data-off-color="primary" />
+			</div>
+		</div>
+	</div>
+	<div class="img-graphs">
+		@foreach($graphs as $graph)
+			<img class="img-graph" src="/graph/{{ $graph }}" /><br />
+		@endforeach
+	</div>
+	<div class="graphs"></div>
 	@else
 		<h4>No graphs to show</h4>
 	@endif
-
-</div>
 @stop
 
 @section("script")
+	<script src="/js/mdn-round.js"></script>
+	<script src="/js/lodash.min.js"></script>
+	<script src="/js/Chart.js"></script>
+	<script src="/js/bootstrap-switch.min.js"></script>
 	<script>
+	@if($graphOption != "none")
+		var reportData = [];
+		reportData[0] = {};
+		var graphOption = "{{ $graphOption }}";
+		reportData[0].trainingLevel = "{{ $trainingLevel }}";
+		reportData[0].subjects = {!! json_encode($subjects) !!};
+		@if($graphOption == "all")
+		reportData[0].subjectMilestone = {!! json_encode($subjectMilestone) !!};
+		reportData[0].subjectCompetency = {!! json_encode($subjectCompetency) !!};
+		@endif
+		reportData[0].averageMilestone = {!! json_encode($averageMilestone) !!};
+		reportData[0].averageCompetency = {!! json_encode($averageCompetency) !!};
+		reportData[0].milestones = {!! json_encode($milestones) !!};
+		reportData[0].competencies = {!! json_encode($competencies) !!};
+	@endif
+
 		$(document).ready(function(){
 			var reportTable = $("#report-table").DataTable({
 				"order": [[0, "asc"]],
@@ -126,8 +187,20 @@
 				"scrollCollapse": true,
 				"paging": false
 			});
-			if(reportTable.length > 0)
-				new $.fn.DataTable.FixedColumns(reportTable);
+
+			new $.fn.DataTable.FixedColumns(reportTable);
+
+			$(".img-graphs").hide();
+
+			$("#new-graphs").bootstrapSwitch();
+			$("#graph-layout").bootstrapSwitch();
+
+			if(graphOption == "average")
+				drawAverageGraphs();
+			else if(graphOption == "all")
+				drawAllGraphs();
+
 		});
 	</script>
+	<script src="/js/report-chartjs.js"></script>
 @stop

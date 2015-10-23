@@ -436,7 +436,8 @@ class ReportController extends Controller
         $graphs = [];
         $maxResponse = 10; // assuming
 
-        ksort($averageMilestone);
+		asort($subjects);
+		ksort($averageMilestone);
         ksort($milestones);
         ksort($averageCompetency);
         ksort($competencies);
@@ -456,7 +457,11 @@ class ReportController extends Controller
                 break;
         }
 
-        $data = compact("milestones", "competencies", "subjectMilestone", "subjectMilestoneDeviations", "subjectMilestoneEvals", "subjectCompetency", "subjectCompetencyDeviations", "subjectCompetencyEvals", "subjectEvals", "graphs", "subjects", "subjectEvaluators");
+        $data = compact("milestones", "competencies", "subjectMilestone",
+			"subjectMilestoneDeviations", "subjectMilestoneEvals", "subjectCompetency",
+			"subjectCompetencyDeviations", "subjectCompetencyEvals", "subjectEvals",
+			"graphs", "subjects", "subjectEvaluators", "averageMilestone",
+			"averageCompetency", "graphOption", "trainingLevel", "startDate", "endDate");
 
         if(!is_null($reportSubject)){
             $textQuery = DB::table("text_responses")
@@ -524,7 +529,8 @@ class ReportController extends Controller
 			$data["reportData"][$i]["trainingLevel"] = $trainingLevels[$i];
         }
 
-        $data["numReports"] = count($startDates);
+		$data["graphOption"] = $request->input("graphs");
+		$data["numReports"] = count($startDates);
         $data["specificSubject"] = User::find($request->input("resident"));
 
 		$request->session()->put("individualReportData", $data);
