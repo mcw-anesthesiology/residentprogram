@@ -7,6 +7,10 @@
 		.glyphicon-ok { color: green !important; }
 		.glyphicon-remove { color: red !important; }
 		td { text-align: center; }
+		.labelless-button {
+			margin-top: 25px;
+			text-align: center;
+		}
 	</style>
 @stop
 
