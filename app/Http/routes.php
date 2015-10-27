@@ -85,6 +85,8 @@ Route::post("report/pdf", "ReportController@getPDF");
 Route::get("report/needs-eval", "ReportController@needsEvaluations");
 Route::get("report/needs-eval/get", "ReportController@getNeedsEvaluationsJSON");
 Route::get("report/needs-eval/tsv", "ReportController@getNeedsEvaluationsTSV");
+Route::get("report/number-evals", "ReportController@numberOfEvaluations");
+Route::post("report/number-evals", "ReportController@getNumberOfEvaluations");
 Route::get("report/milestones-competencies-forms", "ReportController@milestonesCompetenciesForms");
 Route::get("report/milestones-competencies-forms/export/{type}", "ReportController@exportMilestonesCompetenciesForms");
 Route::get("report/milestones-competencies-forms/{type}", "ReportController@getMilestonesCompetenciesForms");

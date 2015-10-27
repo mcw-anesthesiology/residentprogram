@@ -241,6 +241,14 @@ class ReportController extends Controller
             ->header("Content-Disposition", "attachment; filename={$filename}");
     }
 
+	public function numberOfEvaluations(){
+		return view("report.number-evals");
+	}
+
+	public function getNumberOfEvaluations(Request $request){
+
+	}
+
     function sd_square($x, $mean) {
 	// Function to calculate square of value - mean
 		return pow($x - $mean,2);
