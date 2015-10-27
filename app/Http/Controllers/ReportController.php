@@ -89,9 +89,15 @@ class ReportController extends Controller
         return view("report.needs-eval", $data);
     }
 
-    public function getNeedsEvaluations(){
+    public function getNeedsEvaluations(Request $request){
+		$startDate = Carbon::parse($request->input("startDate"));
+		$startDate->timezone = "America/Chicago";
+        $endDate = Carbon::parse($request->input("endDate"));
+        $endDate->timezone = "America/Chicago";
+		$trainingLevel = $request->input("trainingLevel");
+
         $results = [];
-        DB::table("responses")
+        $query = DB::table("responses")
             ->join("evaluations", "responses.evaluation_id", "=", "evaluations.id")
             ->join("milestones_questions", function($join){
                 $join->on("milestones_questions.form_id", "=", "evaluations.form_id")
@@ -102,9 +108,13 @@ class ReportController extends Controller
             ->where("users.status", "active")
             ->where("users.type", "resident")
             ->where("evaluations.status", "complete")
-            ->where("evaluations.evaluation_date", "<", Carbon::now())
-            ->where("evaluations.evaluation_date", ">", Carbon::now()->subMonths(6)) //TODO: what
-            ->select("subject_id", "milestone_id")
+            ->where("evaluations.evaluation_date", ">=", $startDate)
+            ->where("evaluations.evaluation_date", "<", $endDate);
+
+		if($trainingLevel != "all")
+			$query->where("evaluations.training_level", $trainingLevel);
+
+		$query->select("subject_id", "milestone_id")
             ->orderBy("milestone_id", "asc")
             ->chunk(10000, function($responses) use (&$results){
                 foreach($responses as $response){
@@ -115,11 +125,14 @@ class ReportController extends Controller
         return $results;
     }
 
-    public function getNeedsEvaluationsJSON(){
+    public function getNeedsEvaluationsJSON(Request $request){
         $milestones = Milestone::lists("id");
-        $residents = User::where("type", "resident")->where("status", "active")->get();
+        $residentsQuery = User::where("type", "resident")->where("status", "active");
+		if($request->input("trainingLevel") != "all")
+			$residentsQuery->where("training_level", $request->input("trainingLevel"));
+		$residents = $residentsQuery->get();
         $results["data"] = [];
-        $evaluations = $this->getNeedsEvaluations();
+        $evaluations = $this->getNeedsEvaluations($request);
         foreach($residents as $resident){
             $result = [];
             $result[] = $resident->last_name.", ".$resident->first_name;
@@ -135,11 +148,14 @@ class ReportController extends Controller
         return json_encode($results);
     }
 
-    public function getNeedsEvaluationsTSV(){
+    public function getNeedsEvaluationsTSV(Request $request){
         $tsv = "";
         $milestones = Milestone::all();
-        $residents = User::where("type", "resident")->where("status", "active")->get();
-        $evaluations = $this->getNeedsEvaluations();
+		$residentsQuery = User::where("type", "resident")->where("status", "active");
+		if($request->input("trainingLevel") != "all")
+			$residentsQuery->where("training_level", $request->input("trainingLevel"));
+		$residents = $residentsQuery->get();
+        $evaluations = $this->getNeedsEvaluations($request);
         $tsv .= "Resident/Fellow\t";
         foreach($milestones as $milestone)
             $tsv .= $milestone->title."\t";
@@ -159,7 +175,7 @@ class ReportController extends Controller
 
         $filename = "Needs Evaluations ".Carbon::now()->toDateTimeString().".tsv";
 
-        return response($data)
+        return response($tsv)
             ->header("Content-Type", "text/tab-separated-values")
             ->header("Content-Disposition", "attachment; filename={$filename}");
     }
