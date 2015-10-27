@@ -1,4 +1,4 @@
-@extend("app")
+@extends("app")
 
 @section("head")
 	<style>
@@ -10,6 +10,7 @@
 @stop
 
 @section("body")
+	<h2 class="header">Number of Evaluations</h2>
 	<div id="number-evals-form" class="form-horizontal report report-options">
 		<div class="form-group">
 			<div class="col-md-4">
@@ -18,7 +19,7 @@
 			</div>
 			<div class="col-md-4">
 				<label for="number-end-date">End Date</label>
-				<input type="text" class="form-control datepicker startDate" id="number-end-date" />
+				<input type="text" class="form-control datepicker endDate" id="number-end-date" />
 			</div>
 			<div class="col-md-4 labelless-button">
 				<button type="button" class="btn lastThreeMonths">Last 3 months</button>
@@ -37,7 +38,7 @@
 					<option value="fellow">Fellow</option>
 				</select>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-6 labelless-button">
 				<button type="button" class="btn btn-primary" id="number-evals-submit">Submit</button>
 			</div>
 		</div>
@@ -56,10 +57,8 @@
 
 @section("script")
 	<script>
-		var table;
-
 		$(document).ready(function(){
-			$("#number-evals-form").find(".lastThreemonths").trigger("click");
+			$("#number-evals-form").find(".lastThreeMonths").trigger("click");
 			submitNumberEvals();
 		});
 
@@ -72,16 +71,17 @@
 			data.endDate = $("#number-end-date").val();
 			data.trainingLevel = $("#number-training-level").val();
 
-			table = $("#number-evals-table").DataTable({
+			var table = $("#number-evals-table").DataTable({
 				"ajax": {
 					"url": "#",
 					"type": "post",
 					"data": data
 				},
 				deferRendering: true,
-				"order": [[0, "desc"]],
+				"order": [[1, "asc"]],
 				stateSave: true,
-				"dom": "lfprtip"
+				"dom": "lfprtip",
+				"destroy": true
 			});
 		}
 	</script>

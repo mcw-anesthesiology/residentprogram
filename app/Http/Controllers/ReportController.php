@@ -246,7 +246,52 @@ class ReportController extends Controller
 	}
 
 	public function getNumberOfEvaluations(Request $request){
+		$startDate = Carbon::parse($request->input("startDate"));
+		$startDate->timezone = "America/Chicago";
+        $endDate = Carbon::parse($request->input("endDate"));
+        $endDate->timezone = "America/Chicago";
+		$trainingLevel = $request->input("trainingLevel");
 
+		$query = DB::table("evaluations")
+			->join("users", "users.id", "=", "evaluations.subject_id")
+			->where("users.status", "active")
+			->where("users.type", "resident")
+			->where("evaluations.status", "complete")
+			->where("evaluations.evaluation_date", ">=", $startDate)
+			->where("evaluations.evaluation_date", "<", $endDate);
+
+		if($trainingLevel != "all")
+			$query->where("evaluations.training_level", $trainingLevel);
+
+		$subjects = [];
+		$evals = [];
+
+		$query->select("users.id as subjectId", "users.first_name as subjectFirst", "users.last_name as subjectLast", "evaluations.id as evaluationId");
+		$query->chunk(20000, function($responses) use (&$subjects, &$evals){
+			foreach($responses as $response){
+				if(empty($subjects[$response->subjectId]))
+					$subjects[$response->subjectId] = $response->subjectLast . ", " . $response->subjectFirst;
+				if(empty($evals[$response->subjectId]))
+					$evals[$response->subjectId] = 0;
+
+				$evals[$response->subjectId]++;
+			}
+		});
+
+		asort($evals);
+
+		$results["data"] = [];
+
+		Debugbar::addMessage($evals);
+
+		foreach($evals as $subjectId => $numEvals){
+			$result = [];
+			$result[] = $subjects[$subjectId];
+			$result[] = $numEvals;
+			$results["data"][] = $result;
+		}
+
+		return json_encode($results);
 	}
 
     function sd_square($x, $mean) {
