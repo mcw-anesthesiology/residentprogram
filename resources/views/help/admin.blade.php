@@ -1,33 +1,14 @@
-<p>
-	Dear {{ $firstName }} {{ $lastName }}
-</p>
-<p>
-	A new administrator user account has been created for you on the resident evaluation system, ResidentProgram.com. We hope you find the system simple and easy to use.
-</p>
-<table>
-	<thead>
-		<tr>
-			<td>www.residentprogram.com</td>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>Username</td>
-			<td>{{ $username }}</td>
-		</tr>
-		<tr>
-			<td>Password</td>
-			<td>{{ $password }}</td>
-		</tr>
-	</tbody>
-</table>
+<h3>Viewing Evaluations</h3>
 <p>
 	The <a href="{{ url("/dashboard") }}">dashboard</a> will allow you to view all evaluations in the system.
 </p>
+
+<h3>Requesting Evaluations</h3>
 <p>
 	To create a new evaluation request, click <a href="{{ url("/request") }}">Request Evaluation</a> in the navbar.
 </p>
-<h4>Manage</h4>
+
+<h3>Manage</h3>
 <ul>
 	<li>
 		The <a href="{{ url("/manage/evaluations") }}">manage evaluations</a> page will allow you to disable problematic evaluations, as well as cancel incomplete evaluation requests.
@@ -49,7 +30,7 @@
 	</li>
 </ul>
 
-<h4>Reports</h4>
+<h3>Reports</h3>
 <ul>
 	<li>
 		The Aggregate and Specific reports will allow you to generate a report for a given time span and training level. For an aggregate report and a specific report with only one time span, a table will be created showing the user(s)' average scores for each milestone and competency, and compare them to the average of users in the given time span and training level. Multiple training levels and dates may be selected for a specific report. Radar graphs can be generated for each report.
@@ -64,9 +45,13 @@
 		The <a href="{{ url("/report/milestones-competencies-forms") }}">milestones/competencies - forms report</a> page will allow you to see milestones and competencies are evaluated on in each form.
 	</li>
 </ul>
+
+<h3>Account Management</h3>
 <p>
-	We strongly recommend you change your password immediately after logging in for the first time. You can do so via the <a href="{{ url("/user") }}">account management page</a>, which can be found by clicking on your name in the navigation bar in the upper right. Here you can also customize notification and reminder email preferences.
+	We strongly recommend you change your password immediately after logging in for the first time. You can do so via the <a href="{{ url("/user") }}">account management page</a>, which can be found by clicking on your name in the navigation bar in the upper right.
 </p>
+
+<h3>Further Help</h3>
 <p>
 	If you ever encounter any issues or have any questions about the system, please let me know. You can contact me through the <a href="{{ url("/contact") }}">contact page</a>, or by emailing me directly at <a href="mailto:{{ env('ADMIN_EMAIL') }}">{{ env('ADMIN_EMAIL') }}</a>.
 </p>

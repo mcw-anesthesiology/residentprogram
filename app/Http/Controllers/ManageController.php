@@ -176,10 +176,10 @@ class ManageController extends Controller
                 $data["firstName"] = $user->first_name;
                 $data["lastName"] = $user->last_name;
                 $data["username"] = $user->username;
+				$data["userType"] = $user->type;
                 $data["password"] = $request->input("password");
-                $view = "emails.new-".$user->type;
                 try{
-                    Mail::send($view, $data, function($message) use ($user){
+                    Mail::send("emails.new-account", $data, function($message) use ($user){
                         $message->from("admin@residentprogram.com", "ResidentProgram");
                         $message->to($user->email);
                         $message->replyTo(env("ADMIN_EMAIL"));
