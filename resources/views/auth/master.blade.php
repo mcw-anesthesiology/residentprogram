@@ -7,7 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description" content="Resident evaluation system">
 		<meta name="author" content="Jacob Mischka">
-		<link rel="shortcut icon" href="favicon.ico">
+		<link rel="shortcut icon" href="/favicon.ico">
 
 		<title>Resident Program Evaluation System</title>
 
@@ -65,6 +65,20 @@
 				margin-bottom: 10px;
 				border-top-left-radius: 0;
 				border-top-right-radius: 0;
+			}
+
+			#info {
+				margin: auto;
+				text-align: center;
+				width: 50%;
+			}
+
+			.btn-50 {
+				width: 45%;
+			}
+
+			#home-button {
+				float: right;
 			}
 		</style>
 		@yield("head")
