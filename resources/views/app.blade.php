@@ -31,7 +31,7 @@
 	</head>
 	<body>
 		<div class="container-fluid">
-			<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div id="main-navbar" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 			  <div class="container-fluid">
 			    <div class="navbar-header">
 			      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -430,6 +430,12 @@
 				$(".select2").val(null).select2({
 					placeholder: "Please select"
 				});
+
+				$("body").css("padding-top", $("#main-navbar").height()+5);
+			});
+
+			$(window).resize(function(){
+				$("body").css("padding-top", $("#main-navbar").height()+5);
 			});
 		</script>
 		@yield("script")
