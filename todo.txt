@@ -1,0 +1,19 @@
+Nonfaculty evaluations
+Anonymous evaluations
+Self evaluations
+More customizable permissions
+Departments/categories for evaluations
+
+Ask evaluation date on request +Request
+
+Numbers of evaluations by resident/faculty +Report
+Separate report average selector +Report
+
+Mark as invalid/request deletion +Complete
+Tardy evaluations +Complete
+
+EPIC spreadsheet parsing +Schedule
+
+Glyphicons +Design
+
+Unit tests +Testing
