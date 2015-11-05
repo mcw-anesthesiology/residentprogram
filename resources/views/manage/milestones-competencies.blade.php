@@ -277,7 +277,5 @@
 				stateSave: true
 			});
 		});
-
-		//TODO: error modals
 	</script>
 @stop

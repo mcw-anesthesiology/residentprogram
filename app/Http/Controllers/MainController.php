@@ -227,7 +227,7 @@ class MainController extends Controller
     public function saveEvaluation(Request $request, $id){
         $user = Auth::user();
         $eval = Evaluation::find($id);
-        if($eval->status == "pending" && $eval->evaluator_id == $user->id){ //TODO: middleware
+        if($eval->status == "pending" && $eval->evaluator_id == $user->id){
             if($request->input("evaluation_id")){
                 $eval->status = "complete";
                 $eval->complete_date = Carbon::now();
