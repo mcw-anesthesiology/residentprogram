@@ -49,6 +49,15 @@ class ReportController extends Controller
     }
 
     public function getStats(Request $request, $type){
+		if($request->has("startDate")){
+			$startDate = Carbon::parse($request->input("startDate"));
+			$startDate->timezone = "America/Chicago";
+		}
+		if($request->has("endDate")){
+	        $endDate = Carbon::parse($request->input("endDate"));
+	        $endDate->timezone = "America/Chicago";
+		}
+
         if($request->input("user") && $request->input("user") != "all"){
             $users = User::where("id", $request->input("user"))->get();
         } else{
@@ -64,14 +73,21 @@ class ReportController extends Controller
                     break;
             }
         }
-        $data = compact("users", "type");
+        $data = compact("users", "type", "startDate", "endDate");
         if($type == "faculty"){
 			$times = $users->map(function($user, $key){
 				$time = 0;
-				foreach($user->evaluatorEvaluations()->where("status", "complete")->get() as $eval){
+				$userEvaluations = $user->evaluatorEvaluations();
+				if(!empty($startDate))
+					$userEvaluations->where("evaluation_date", ">=", $startDate);
+				if(!empty($endDate))
+					$userEvaluations->where("evaluation_date", "<", $endDate);
+
+				$userEvaluations = $userEvaluations->get();
+				foreach($userEvaluations as $eval){
 					$time += $eval->complete_date->getTimestamp()-$eval->request_date->getTimestamp();
 				}
-				$num = $user->evaluatorEvaluations()->where("status", "complete")->count();
+				$num = $userEvaluations->where("status", "complete")->count();
 				if($time > 0 && $num > 0)
 					$time = round($time/$num);
 				$d1 = new DateTime();
@@ -257,59 +273,6 @@ class ReportController extends Controller
             ->header("Content-Type", "text/tab-separated-values")
             ->header("Content-Disposition", "attachment; filename={$filename}");
     }
-
-	public function numberOfEvaluations(){
-		return view("report.number-evals");
-	}
-
-	public function getNumberOfEvaluations(Request $request){
-		$startDate = Carbon::parse($request->input("startDate"));
-		$startDate->timezone = "America/Chicago";
-        $endDate = Carbon::parse($request->input("endDate"));
-        $endDate->timezone = "America/Chicago";
-		$trainingLevel = $request->input("trainingLevel");
-
-		$query = DB::table("evaluations")
-			->join("users", "users.id", "=", "evaluations.subject_id")
-			->where("users.status", "active")
-			->where("users.type", "resident")
-			->where("evaluations.status", "complete")
-			->where("evaluations.evaluation_date", ">=", $startDate)
-			->where("evaluations.evaluation_date", "<", $endDate);
-
-		if($trainingLevel != "all")
-			$query->where("evaluations.training_level", $trainingLevel);
-
-		$subjects = [];
-		$evals = [];
-
-		$query->select("users.id as subjectId", "users.first_name as subjectFirst", "users.last_name as subjectLast", "evaluations.id as evaluationId");
-		$query->chunk(20000, function($responses) use (&$subjects, &$evals){
-			foreach($responses as $response){
-				if(empty($subjects[$response->subjectId]))
-					$subjects[$response->subjectId] = $response->subjectLast . ", " . $response->subjectFirst;
-				if(empty($evals[$response->subjectId]))
-					$evals[$response->subjectId] = 0;
-
-				$evals[$response->subjectId]++;
-			}
-		});
-
-		asort($evals);
-
-		$results["data"] = [];
-
-		Debugbar::addMessage($evals);
-
-		foreach($evals as $subjectId => $numEvals){
-			$result = [];
-			$result[] = $subjects[$subjectId];
-			$result[] = $numEvals;
-			$results["data"][] = $result;
-		}
-
-		return json_encode($results);
-	}
 
     function sd_square($x, $mean) {
 	// Function to calculate square of value - mean

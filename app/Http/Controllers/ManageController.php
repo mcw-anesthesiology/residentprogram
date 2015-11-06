@@ -592,6 +592,23 @@ class ManageController extends Controller
         return redirect("manage/mentors");
     }
 
+	public function blocks(){
+		return view("manage.blocks");
+	}
+
+	public function getBlocks(Request $request){
+		$results["data"] = [];
+		$blocks = Block::where("start_date", "<=", Carbon::now());
+		foreach($blocks as $block){
+			$result = [];
+			$result[] = $block->year;
+			$result[] = $block->block_number;
+			$result[] = $block->block_name;
+			$result[] = $block->start_date;
+			$result[] = $block->end_date;
+		}
+	}
+
     public function blockAssignments(){
         $years = DB::table("blocks")->distinct()->select("year")->get();
         $data = compact("years");

@@ -4,38 +4,49 @@
 	<thead>
 		<tr>
 			<th>User</th>
-			<th>Requests</th>
-			<th>Completed</th>
-			<th>Ratio</th>
+			<th>Requested</th>
+			<th>Total Requests</th>
+			<th>Total Completed</th>
+			<th>Total Ratio</th>
 		</tr>
 	</thead>
 	<tbody>
 <?php
-	$tsv = "User\tRequests\tCompleted\tRatio\n";
+	$tsv = "User\tRequested\tTotal Requests\tTotal Completed\tTotal Ratio\n";
 ?>
 		@foreach($users as $statUser)
 <?php
-	if($type == "faculty"){
-		$requests = $statUser->evaluatorEvaluations->count();
-		$completed = $statUser->evaluatorEvaluations->where("status", "complete")->count();
-	} else{
-		$requests = $statUser->subjectEvaluations->count();
-		$completed = $statUser->subjectEvaluations->where("status", "complete")->count();
-	}
-	if($requests != 0)
-		$ratio = number_format(($completed/$requests) * 100, 0);
+	if($type == "faculty")
+		$userEvaluations = $statUser->evaluatorEvaluations();
+	else
+		$userEvaluations = $statUser->subjectEvaluations();
+	if(!empty($startDate))
+		$userEvaluations->where("evaluation_date", ">=", $startDate);
+	if(!empty($endDate))
+		$userEvaluations->where("evaluation_date", "<", $endDate);
+
+	$userEvaluations = $userEvaluations->get();
+
+	$totalRequests = $userEvaluations->count();
+	$requested = $userEvaluations->where("requested_by_id", $statUser->id)->count();
+	$completed = $userEvaluations->where("status", "complete")->count();
+	if($totalRequests != 0)
+		$ratio = number_format(($completed/$totalRequests) * 100, 0);
 	else
 		$ratio = 0;
 
-	$tsv .= $requests."\t";
+	$tsv .= $statUser->last_name.", ".$statUser->first_name."\t";
+	$tsv .= $requested."\t";
+	$tsv .= $totalRequests."\t";
 	$tsv .= $completed."\t";
 	$tsv .= $ratio."\n";
 ?>
 			<tr>
-					<th>{{ $statUser->last_name }}, {{ $statUser->first_name }}</th>
-					<td>{{ $requests }}</td>
-					<td>{{ $completed }}</td>
-					<td>{{ $ratio }}%</td>
+				<th>{{ $statUser->last_name }}, {{ $statUser->first_name }}</th>
+				<td>{{ $requested }}</td>
+				<td>{{ $totalRequests }}</td>
+				<td>{{ $completed }}</td>
+				<td>{{ $ratio }}%</td>
 			</tr>
 		@endforeach
 	</tbody>
