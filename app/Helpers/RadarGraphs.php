@@ -99,13 +99,13 @@ class RadarGraphs{
 			else{
 				$picture->setFontProperties(array("FontName"=>"verdana.ttf","FontSize"=>8));
 
-				$picture->drawText(435, 275, "CA-0", array("R"=>0,"G"=>0,"B"=>0));
+				$picture->drawText(435, 275, "CBY", array("R"=>0,"G"=>0,"B"=>0));
 				$picture->drawText(435, 225, "CA-1", array("R"=>0,"G"=>0,"B"=>0));
 				$picture->drawText(435, 175, "CA-2", array("R"=>0,"G"=>0,"B"=>0));
 				$picture->drawText(435, 125, "CA-3", array("R"=>0,"G"=>0,"B"=>0));
 				$picture->drawText(420, 75, "Attending", array("R"=>0,"G"=>0,"B"=>0));
 
-				$picture->drawText(435 + $horizontalOffset, 275 + $verticalOffset, "CA-0", array("R"=>0,"G"=>0,"B"=>0));
+				$picture->drawText(435 + $horizontalOffset, 275 + $verticalOffset, "CBY", array("R"=>0,"G"=>0,"B"=>0));
 				$picture->drawText(435 + $horizontalOffset, 225 + $verticalOffset, "CA-1", array("R"=>0,"G"=>0,"B"=>0));
 				$picture->drawText(435 + $horizontalOffset, 175 + $verticalOffset, "CA-2", array("R"=>0,"G"=>0,"B"=>0));
 				$picture->drawText(435 + $horizontalOffset, 125 + $verticalOffset, "CA-3", array("R"=>0,"G"=>0,"B"=>0));

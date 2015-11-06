@@ -196,7 +196,7 @@ function prepareReport(report){
 	if(report.trainingLevel == "fellow")
 		report.scaleLabels = ["", "Fellow Level 1", "Fellow Level 2", "Fellow Level 3", "Fellow Level 4", "Fellow Level 5"];
 	else
-		report.scaleLabels = ["", "PGY-1", "CA-1", "CA-2", "CA-3", "Attending"];
+		report.scaleLabels = ["", "CBY", "CA-1", "CA-2", "CA-3", "Attending"];
 
 	options.scaleLabel = function(values){
 		return report.scaleLabels[values.value/2];

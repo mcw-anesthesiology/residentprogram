@@ -229,9 +229,9 @@
 			var options;
 			if(formType == "resident"){
 				options = [
-					{value: 0, text: "Not at PGY-1"},
+					{value: 0, text: "Not at CBY"},
 					{value: 1, text: ""},
-					{value: 2, text: "PGY-1"},
+					{value: 2, text: "CBY"},
 					{value: 3, text: ""},
 					{value: 4, text: "CA-1"},
 					{value: 5, text: ""},
