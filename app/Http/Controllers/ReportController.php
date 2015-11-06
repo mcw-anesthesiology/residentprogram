@@ -55,19 +55,6 @@ class ReportController extends Controller
             switch($type){
                 case "faculty":
                     $users = User::where("status", "active")->where("type", "faculty")->with("evaluatorEvaluations")->get();
-                    $times = $users->map(function($user, $key){
-                        $time = 0;
-                        foreach($user->evaluatorEvaluations()->where("status", "complete")->get() as $eval){
-                            $time += $eval->complete_date->getTimestamp()-$eval->request_date->getTimestamp();
-                        }
-                        $num = $user->evaluatorEvaluations()->where("status", "complete")->count();
-                        if($time > 0 && $num > 0)
-                            $time = round($time/$num);
-                        $d1 = new DateTime();
-                        $d2 = new DateTime();
-                        $d2->add(new DateInterval("PT".$time."S"));
-                        return $d2->diff($d1)->format("%a days %H hours");
-                    });
                     break;
                 case "resident":
                     $users = User::where("status", "active")->where("type", "resident")->where("training_level", "!=", "fellow")->with("subjectEvaluations")->get();
@@ -78,8 +65,22 @@ class ReportController extends Controller
             }
         }
         $data = compact("users", "type");
-        if($type == "faculty")
+        if($type == "faculty"){
+			$times = $users->map(function($user, $key){
+				$time = 0;
+				foreach($user->evaluatorEvaluations()->where("status", "complete")->get() as $eval){
+					$time += $eval->complete_date->getTimestamp()-$eval->request_date->getTimestamp();
+				}
+				$num = $user->evaluatorEvaluations()->where("status", "complete")->count();
+				if($time > 0 && $num > 0)
+					$time = round($time/$num);
+				$d1 = new DateTime();
+				$d2 = new DateTime();
+				$d2->add(new DateInterval("PT".$time."S"));
+				return $d2->diff($d1)->format("%a days %H hours");
+			});
             $data["times"] = $times;
+		}
         return view("report.get-stats", $data);
     }
 
