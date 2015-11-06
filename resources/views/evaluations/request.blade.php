@@ -26,35 +26,60 @@
 			</select>
 		</div>
 	@endif
-	<form id="form" role="form" action="#" method="POST">
+	<form id="form" role="form" action="#" method="POST" class="form-horizontal">
 		<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 		@if($user->type != "resident")
 			<div class="form-group">
-				<label for="resident">Resident/Fellow</label>
-				<select class="form-control request-select" name="resident_id" id="resident" required>
-					<option value="">Select Resident/Fellow</option>
-				</select>
+				<div class="col-md-offset-2 col-md-8">
+					<label for="resident">Resident/Fellow</label>
+					<select class="form-control request-select" name="resident_id" id="resident" required>
+						<option value="">Select Resident/Fellow</option>
+					</select>
+				</div>
 			</div>
 		@endif
 
 		@if($user->type != "faculty")
 			<div class="form-group">
-				<label for="faculty">Faculty</label>
-				<select class="form-control request-select" name="faculty_id" id="faculty" required>
-					<option value="">Select Faculty</option>
-				</select>
+				<div class="col-md-offset-2 col-md-8">
+					<label for="faculty">Faculty</label>
+					<select class="form-control request-select" name="faculty_id" id="faculty" required>
+						<option value="">Select Faculty</option>
+					</select>
+				</div>
 			</div>
 		@endif
 
 		<div class="form-group">
-			<label for="evaluation-form">Evaluation Form</label>
-			<select class="form-control request-select" name="form_id" id="evaluation-form" required>
-				<option value="">Select Form</option>
-				@foreach($forms as $form)
+			<div class="col-md-offset-2 col-md-8">
+				<label for="evaluation-form">Evaluation Form</label>
+				<select class="form-control request-select" name="form_id" id="evaluation-form" required>
+					<option value="">Select Form</option>
+			@foreach($forms as $form)
 					<option value="{{ $form->id }}">{{ $form->title }}</option>
-				@endforeach
-			</select>
+			@endforeach
+				</select>
+			</div>
 		</div>
+
+		<h3 class="sub-heading">When is this evaluation for?</h3>
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-6">
+				<label for="evaluation-month">Month</label>
+				<select class="form-control" id="evaluation-month" required>
+						<option value="" disabled selected>Select a month</option>
+					@foreach($months as $date => $monthName)
+						<option value="{{ $date }}">{{ $monthName }}</option>
+					@endforeach
+				</select>
+			</div>
+			<div id="evaluation-day-div" class="collapse col-md-2">
+				<label for="evaluation-day">Date (optional)</label>
+				<input type="text" class="form-control" id="evaluation-day" />
+			</div>
+			<input type="hidden" id="evaluation-date" name="evaluation_date" required />
+		</div>
+
 		<button type="submit" class="btn btn-primary">Submit</button>
 	</form>
 
@@ -108,6 +133,27 @@
 	@endif
 
 		var type = "{{ $user->type }}";
+		var endOfMonth = {!! json_encode($endOfMonth) !!};
+
+		$("#evaluation-month").change(function(){
+			var date = $(this).val();
+			var year = 0, month = 1, day = 2;
+			var start = date.split("-");
+			var end = endOfMonth[date].split("-");
+			$("#evaluation-day-div").show();
+			$("#evaluation-day").datepicker("setDate", "");
+			$("#evaluation-day").datepicker("option", "minDate", new Date(start[year], start[month] - 1, start[day]));
+			$("#evaluation-day").datepicker("option", "maxDate", new Date(end[year], end[month] - 1, end[day]));
+			$("#evaluation-date").val(date);
+		});
+
+		$("#evaluation-day").change(function(){
+			var date = $("#evaluation-month").val();
+			var day = $("#evaluation-day").val();
+			if(day.trim() == "")
+				day = "01";
+			$("#evaluation-date").val(date.substring(0, date.length-2)+day);
+		});
 
 		function selectBlock(){
 			var block;
@@ -164,6 +210,10 @@
 		$("#block").change(selectBlock);
 
 		$(document).ready(function(){
+
+			$("#evaluation-day").datepicker({
+				dateFormat: "dd"
+			});
 
 	@if($user->type == "resident" && $requestType == "faculty")
 			$("#block").select2();
