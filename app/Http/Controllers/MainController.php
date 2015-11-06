@@ -55,7 +55,7 @@ class MainController extends Controller
         $user = Auth::user();
 
         if($user->type == "resident" || $user->type == "faculty"){
-            $blocks = Block::where("start_date", "<", Carbon::now())->with("assignments.user")->orderBy("block_number", "desc")->limit(3)->get();
+            $blocks = Block::where("start_date", "<", Carbon::now())->with("assignments.user")->orderBy("year", "desc")->orderBy("block_number", "desc")->limit(3)->get();
             foreach($blocks as $block){
                 $userLocations = $block->assignments->where("user_id", $user->id)->map(function ($item, $key){
                     return $item->location;
@@ -104,7 +104,13 @@ class MainController extends Controller
         else
             $requestType = "resident";
 
-        $data = compact("selectTypes", "forms", "requestType");
+		for($dt = Carbon::now(), $i = 0; $i < 3; $dt->subMonths(1), $i++){
+			$date = $dt->format("Y-m-01");
+			$months[$date] = $dt->format("F");
+			$endOfMonth[$date] = $dt->format("Y-m-t");
+		}
+
+        $data = compact("selectTypes", "forms", "requestType", "months", "endOfMonth");
 
         if($user->type == "resident" && $requestType == "faculty"){
             $pendingEvalCount = Evaluation::with("subject", "evaluator", "form")->where("status", "pending")->where("evaluator_id", $user->id)->whereHas("form", function($query){
