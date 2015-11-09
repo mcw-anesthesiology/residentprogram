@@ -469,7 +469,19 @@ class ManageController extends Controller
     }
 
     public function milestonesCompetencies(){
-        return view("manage.milestones-competencies");
+		$milestoneTypes = [];
+		$milestoneTrainingLevels = [];
+		Milestone::all()->each(function($milestone) use ($milestoneTypes){
+			if(!empty($milestone->type))
+				$milestoneTypes[$milestone->type] = true;
+			if(!empty($milestone->training_level))
+				$milestoneTrainingLevels[$milestone->training_level] = true;
+		});
+		$milestoneTypes = array_keys($milestoneTypes);
+		$milestoneTrainingLevels = array_keys($milestoneTrainingLevels);
+
+		$data = compact("milestoneTypes", "milestoneTrainingLevels");
+        return view("manage.milestones-competencies", $data);
     }
 
     public function getMilestones(){
@@ -478,6 +490,8 @@ class ManageController extends Controller
         foreach($milestones as $milestone){
             $result = [];
             $result[] = $milestone->title;
+			$result[] = $milestone->type;
+			$result[] = $milestone->training_level;
             $result[] = $milestone->description;
             $action = "<button class='editMilestone btn btn-info btn-xs' data-toggle='modal' data-target='.bs-editMS-modal' data-id='{$milestone->id}' id='editBtn'><span class='glyphicon glyphicon-edit'></span> Edit</button>";
             if($milestone->forms->count() === 0)
@@ -509,12 +523,16 @@ class ManageController extends Controller
             case "add":
                 $milestone = new Milestone();
                 $milestone->title = $request->input("milestone_title");
+				$milestone->type = $resquest->input("milestone_type");
+				$milestone->training_level = $request->input("milestone_training_level");
                 $milestone->description = $request->input("milestone_description");
                 $milestone->save();
                 break;
             case "edit":
                 $milestone = Milestone::find($request->input("milestone_id"));
                 $milestone->title = $request->input("milestone_title");
+				$milestone->type = $request->input("milestone_type");
+				$milestone->training_level = $request->input("milestone_training_level");
                 $milestone->description = $request->input("milestone_description");
                 $milestone->save();
                 break;

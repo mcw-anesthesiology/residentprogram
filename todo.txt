@@ -1,6 +1,3 @@
-Fadeout on removes +Animations
-Fadein on adds +Animations
-
 Mark if viewed by evaluator +Complete
 
 Replace form submissions with ajax +Usability
@@ -10,6 +7,7 @@ Split fellow
 Optgroups in select for resident vs fellow
 Change all name calls to use full_name
 Blocks instead of months
+Add type and training level/subspecialty for milestones
 Nonfaculty evaluations
 Anonymous evaluations
 Self evaluations
@@ -18,6 +16,8 @@ Departments/categories for evaluations
 Cancel requests that are too old
 Maybe account profile page?
 Validation
+Encryption?
+Add type and training level/subspecialty for milestones
 
 Ask evaluation date on request +Request
 
@@ -27,6 +27,10 @@ Tardy evaluations +Complete
 Evaluations completed too long after requested +Complete
 
 Manage Blocks +Manage
+Advance training level at year start +Manage
+Manage evaluation types +Manage
+Manage settings +Manage
+Milestone grouping +Manage
 
 EPIC spreadsheet parsing +Schedule
 

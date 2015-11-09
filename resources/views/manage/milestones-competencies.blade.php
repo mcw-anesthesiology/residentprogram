@@ -3,16 +3,18 @@
 @section("body")
 	<div class="row">
 		<h2 class="sub-header">Milestones  <button class="addMSModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-addMS-modal" data-id="Milestone" id="addMSBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
-      	<div class="table-responsive">
+    	<div class="table-responsive">
         	<table class="table table-striped datatable-milestones">
-          		<thead>
+        		<thead>
             		<tr>
 		            	<th>Title</th>
+						<th>Type</th>
+						<th>Subspecialty</th>
 		            	<th>Description</th>
-		              	<th>Action</th>
+		            	<th>Action</th>
             		</tr>
-          		</thead>
-		  	</table>
+        		</thead>
+			</table>
 		</div>
 	</div>
 </div>
@@ -32,41 +34,6 @@
 		</div>
 	</div>
 
-	<!-- Milestone Error Modal -->
-    <div class="modal fade bs-milestone-error-modal" tabindex="-1" role="dialog" aria-labelledby="modalError" aria-hidden="true" id="errorMSModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-				<div class="modal-header alert alert-danger">
-					<h3><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Request Error</h3>
-				</div>
-				<div class="modal-body">
-					<p>There was an error adding the milestone. Please try again.</p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				</div>
-            </div>
-        </div>
-	</div>
-
-
-	<!-- Competency Error Modal -->
-    <div class="modal fade bs-competency-error-modal" tabindex="-1" role="dialog" aria-labelledby="modalError" aria-hidden="true" id="errorCModal">
-        <div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header alert alert-danger">
-					<h3><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Request Error</h3>
-				</div>
-				<div class="modal-body">
-					<p>There was an error adding the competency. Please try again.</p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				</div>
-            </div>
-        </div>
-    </div>
-
 	<!-- Add Milestone Modal -->
 	<div class="modal fade bs-addMS-modal" tabindex="-1" role="dialog" aria-labelledby="modalAddMS" aria-hidden="true" id="addMSModal">
 	  <div class="modal-dialog">
@@ -82,6 +49,24 @@
 	            <label for="milestone_title">Milestone Title</label>
 	            <input type="text" class="form-control" id="milestone_title" name="milestone_title" placeholder="Title" required>
 	          </div>
+			  <div class="form-group">
+				<label for="milestone-type">Milestone Type</label>
+				<input type="text" class="form-control" id="milestone-type" name="milestone_type" list="milestone-type-list" placeholder="Type" value="resident" required />
+				<datalist id="milestone-type-list">
+	@foreach($milestoneTypes as $milestoneType)
+					<option value="{{ $milestoneType }}" />
+	@endforeach
+				</datalist>
+			  </div>
+			  <div class="form-group">
+				<label for="milestone-training-level">Subspecialty (optional)</label>
+				<input type="text" class="form-control" id="milestone-training-level" name="milestone_training_level" list="milestone-training-level-list" placeholder="Subspecialty (optional)" />
+				<datalist id="milestone-training-level-list">
+	@foreach($milestoneTrainingLevels as $milestoneTrainingLevel)
+					<option value="{{ $milestoneTrainingLevel }}" />
+	@endforeach
+				</datalist>
+			  </div>
 	          <div class="form-group">
 	            <label for="milestone_description">Milestone Description</label>
 	            <input type="text" class="form-control" id="milestone_description" name="milestone_description" placeholder="Description" required>
@@ -109,11 +94,19 @@
 	        <div class="modal-body modal-addMS">
 	          <div class="form-group">
 	            <label for="milestone_title">Milestone Title</label>
-	            <input type="text" class="form-control" id="milestone_title" name="milestone_title" placeholder="Title" required>
+	            <input type="text" class="form-control" id="milestone_title" name="milestone_title" placeholder="Title" required />
 	          </div>
+			  <div class="form-group">
+				<label for="milestone-type">Milestone Type</label>
+				<input type="text" class="form-control" id="milestone-type" name="milestone_type" list="milestone-type-list" placeholder="Type" value="resident" required />
+			  </div>
+			  <div class="form-group">
+				<label for="milestone-training-level">Subspecialty</label>
+				<input type="text" class="form-control" id="milestone-training-level" name="milestone_training_level" list="milestone-training-level-list" />
+			  </div>
 	          <div class="form-group">
 	            <label for="milestone_description">Milestone Description</label>
-	            <input type="text" class="form-control" id="milestone_description" name="milestone_description" placeholder="Description" required>
+	            <input type="text" class="form-control" id="milestone_description" name="milestone_description" placeholder="Description" required />
 	          </div>
 	        </div>
 	        <div class="modal-footer">
@@ -231,13 +224,18 @@
 @section("script")
 	<script>
 		$(".datatable-milestones").on("click", ".editMilestone", function(){
-			var milestone_id = $(this).data("id");
-			var milestone_title = $(this).parent().siblings()[0].innerHTML;
-			var milestone_description = $(this).parent().siblings()[1].innerHTML;
+			var milestoneId = $(this).data("id");
+			var siblings = $(this).parent().siblings();
+			var milestoneTitle = siblings[0].innerHTML;
+			var milestoneType = siblings[1].innerHTML;
+			var milestoneTrainingLevel = siblings[2].innerHTML;
+			var milestoneDescription = siblings[3].innerHTML;
 
-			$("#editMSModal").find("#submit").val(milestone_id);
-			$("#editMSModal").find("#milestone_title").val(milestone_title);
-			$("#editMSModal").find("#milestone_description").val(milestone_description);
+			$("#editMSModal").find("#submit").val(milestoneId);
+			$("#editMSModal").find("#milestone_title").val(milestoneTitle);
+			$("#editMSModal").find("#milestone-type").val(milestoneType);
+			$("#editMSModal").find("#milestone-training-level").val(milestoneTrainingLevel);
+			$("#editMSModal").find("#milestone_description").val(milestoneDescription);
 		});
 
 		$(".datatable-competencies").on("click", ".editCompetency", function(){
