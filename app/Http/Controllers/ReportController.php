@@ -77,17 +77,17 @@ class ReportController extends Controller
         if($type == "faculty"){
 			$times = $users->map(function($user, $key){
 				$time = 0;
-				$userEvaluations = $user->evaluatorEvaluations();
+				$userEvaluations = $user->evaluatorEvaluations()->where("status", "complete");
 				if(!empty($startDate))
-					$userEvaluations->where("evaluation_date", ">=", $startDate);
+					$userEvaluations->where("request_date", ">=", $startDate);
 				if(!empty($endDate))
-					$userEvaluations->where("evaluation_date", "<", $endDate);
+					$userEvaluations->where("request_date", "<", $endDate);
 
 				$userEvaluations = $userEvaluations->get();
 				foreach($userEvaluations as $eval){
 					$time += $eval->complete_date->getTimestamp()-$eval->request_date->getTimestamp();
 				}
-				$num = $userEvaluations->where("status", "complete")->count();
+				$num = $userEvaluations->count();
 				if($time > 0 && $num > 0)
 					$time = round($time/$num);
 				$d1 = new DateTime();

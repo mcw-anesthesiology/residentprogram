@@ -29,7 +29,7 @@
 		<div class="form-group">
 			<div class="col-md-6">
 				<label for="stats-user">{{ ucfirst($type) }}</label>
-				<select id="stats-user" class="form-control">
+				<select id="stats-user" class="form-control select2">
 					<option value="all">All {{ ucfirst($type) }}</option>
 					@foreach($users as $statUser)
 						<option value="{{ $statUser->id }}">{{ $statUser->last_name }}, {{ $statUser->first_name }}</option>
@@ -37,7 +37,7 @@
 				</select>
 			</div>
 			<div class="col-md-6 labelless-button">
-				<button type="button" class="btn" id="get-stats">Get Statistics</button>
+				<button type="button" class="btn btn-primary" id="get-stats">Get Statistics</button>
 			</div>
 		</div>
 	</div>

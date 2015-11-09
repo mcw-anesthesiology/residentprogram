@@ -78,7 +78,6 @@
 						@if($user->type == "admin")
 						<li><a class="viewSpecFacultyRpt pointer" data-toggle="modal" data-target=".bs-specFacultyRpt-modal" id="viewSpecFacultyRpt">Faculty</a></li>
 					  	<li><a href="/report/needs-eval">Needs Evaluations</a></li>
-						<li><a href="/report/number-evals">Number of Evaluations</a></li>
 					  	<li><a href="/report/stats/faculty">Faculty Statistics</a></li>
 					  	<li><a href="/report/stats/resident">Resident Statistics</a></li>
 			          	<li><a href="/report/stats/fellow">Fellow Statistics</a></li>

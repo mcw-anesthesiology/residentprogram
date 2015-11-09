@@ -21,11 +21,11 @@
 	else
 		$userEvaluations = $statUser->subjectEvaluations();
 	if(!empty($startDate))
-		$userEvaluations->where("evaluation_date", ">=", $startDate);
+		$userEvaluations->where("request_date", ">=", $startDate);
 	if(!empty($endDate))
-		$userEvaluations->where("evaluation_date", "<", $endDate);
+		$userEvaluations->where("request_date", "<", $endDate);
 
-	$userEvaluations = $userEvaluations->get();
+	$userEvaluations = $userEvaluations->whereIn("status", ["pending", "complete"])->get();
 
 	$totalRequests = $userEvaluations->count();
 	$requested = $userEvaluations->where("requested_by_id", $statUser->id)->count();

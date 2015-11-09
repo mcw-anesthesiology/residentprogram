@@ -44,7 +44,7 @@
 				</select>
 			</div>
 			<div class="col-md-6 labelless-button">
-				<button type="button" class="btn btn-primary" id="needs-evals-submit">Submit</button>
+				<button type="button" class="btn btn-primary" id="needs-evals-submit">Get report</button>
 			</div>
 		</div>
 	</div>
