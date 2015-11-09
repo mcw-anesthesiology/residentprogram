@@ -32,6 +32,7 @@
 			<div class="form-group">
 				<label for="resident">Resident/Fellow</label>
 				<select class="form-control request-select" name="resident_id" id="resident" required>
+					<option value="">Select Resident/Fellow</option>
 				</select>
 			</div>
 		@endif
@@ -40,6 +41,7 @@
 			<div class="form-group">
 				<label for="faculty">Faculty</label>
 				<select class="form-control request-select" name="faculty_id" id="faculty" required>
+					<option value="">Select Faculty</option>
 				</select>
 			</div>
 		@endif
@@ -47,6 +49,7 @@
 		<div class="form-group">
 			<label for="evaluation-form">Evaluation Form</label>
 			<select class="form-control request-select" name="form_id" id="evaluation-form" required>
+				<option value="">Select Form</option>
 				@foreach($forms as $form)
 					<option value="{{ $form->id }}">{{ $form->title }}</option>
 				@endforeach
@@ -116,6 +119,12 @@
 				var facultySelect = document.getElementById("faculty");
 				while(facultySelect.firstChild)
 					facultySelect.removeChild(facultySelect.firstChild);
+
+				var option = document.createElement("option");
+				option.value = "";
+				option.textContent = "Select Faculty";
+				facultySelect.appendChild(option);
+
 				if(typeof(faculty[block]) != "undefined"){
 					for(var i = 0; i < faculty[block].length; i++){
 						var option = document.createElement("option");
@@ -132,6 +141,12 @@
 				var residentSelect = document.getElementById("resident");
 				while(residentSelect.firstChild)
 					residentSelect.removeChild(residentSelect.firstChild);
+
+				var option = document.createElement("option");
+				option.value = "";
+				option.textContent = "Select Resident/Fellow";
+				residentSelect.appendChild(option);
+
 				if(typeof(residents[block]) != "undefined"){
 					for(var i = 0; i < residents[block].length; i++){
 						var option = document.createElement("option");
