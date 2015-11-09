@@ -84,7 +84,7 @@
 @section("script")
 	<script>
 		$(document).ready(function(){
-			@if($evaluation->status == "complete" || $user->id == $evaluation->evaluator_id)
+			@if($evaluation->status == "complete" || $user->id == $evaluation->evaluator_id || $user->type == "admin")
 				@foreach($evaluation->responses as $response)
 					if($("input[name='{{ $response->question_id }}']").attr("type") == "radio")
 						$("input[name='{{ $response->question_id }}'][value='{{ $response->response }}']").prop("checked", true);
