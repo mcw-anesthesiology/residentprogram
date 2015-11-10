@@ -115,7 +115,7 @@
           </div>
           <div class="form-group" id="photoDiv">
 			<label for="photoInput">Photo</label>
-			<input type="hidden" name="MAX_FILE_SIZE" value="500000" />
+			<input type="hidden" name="MAX_FILE_SIZE" value="5000000" />
 			<input type="file" accept="image/*" class="form-control" id="photoInput" name="photo" />
 			<div  style="text-align: center;">
 				<img id="photoPreview" src="" width="150px" />
@@ -179,7 +179,7 @@
           </div>
           <div class="form-group" id="photoDiv">
 			<label for="photoInput">Photo</label>
-			<input type="hidden" name="MAX_FILE_SIZE" value="500000" />
+			<input type="hidden" name="MAX_FILE_SIZE" value="5000000" />
 			<input type="file" accept="image/*" class="form-control" id="photoInput" name="photo" />
           </div>
           <div class="form-group">
