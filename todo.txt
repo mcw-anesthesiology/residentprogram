@@ -1,3 +1,6 @@
+(A) Mark as invalid/request deletion +Complete
+Change eval information if pending? 
+
 Blocks instead of months
 Nonfaculty evaluations
 Anonymous evaluations
@@ -5,6 +8,7 @@ Self evaluations
 More customizable permissions
 Departments/categories for evaluations
 Cancel requests that are too old
+Maybe account profile page?
 
 Ask evaluation date on request +Request
 
@@ -12,7 +16,6 @@ Numbers of evaluations by resident/faculty +Report
 Number of evaluations requested by resident/faculty +Report
 Separate report average selector +Report
 
-Mark as invalid/request deletion +Complete
 Tardy evaluations +Complete
 Evaluations completed too long after requested +Complete
 
