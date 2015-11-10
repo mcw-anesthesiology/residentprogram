@@ -1,5 +1,5 @@
 (A) Mark as invalid/request deletion +Complete
-Change eval information if pending? 
+Change eval information if pending?
 
 Blocks instead of months
 Nonfaculty evaluations
@@ -9,6 +9,7 @@ More customizable permissions
 Departments/categories for evaluations
 Cancel requests that are too old
 Maybe account profile page?
+Validation
 
 Ask evaluation date on request +Request
 

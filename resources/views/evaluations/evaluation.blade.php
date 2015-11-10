@@ -1,11 +1,39 @@
 @extends("app")
 
+@section("head")
+	<style>
+		#evaluation-comment-alert {
+			margin-top: 20px;
+		}
+
+		#flag-evaluation-requested-action-group label {
+			font-weight: normal;
+		}
+
+		#flag-evaluation-requested-action-group input[type="radio"] {
+			margin-left: 10px;
+		}
+	</style>
+@stop
+
 @section("body")
 	<div class="row">
+	@if($evaluation->status == "pending" && $user->id == $evaluation->evaluator->id)
+		<h2 class="sub-header">Complete Evaluation</h2>
+	@else
 		<h2 class="sub-header">View Evaluation</h2>
+	@endif
+		<div id="evaluation-controls" class="noprint">
+			<button class="btn btn-primary" data-toggle="modal" data-target="#evaluation-comment-modal" id="comment-evaluation"><span class="glyphicon glyphicon-pencil"></span> Evaluation comment</button>
+			<button class="btn btn-info" data-toggle="modal" data-target="#edit-evaluation-modal" id="edit-evaluation"><span class="glyphicon glyphicon-edit"></span> Edit evaluation</button>
+			<button class="btn btn-warning" data-toggle="modal" data-target="#flag-evaluation-modal" id="mark-evaluation"><span class="glyphicon glyphicon-flag"></span> Problem with evaluation?</button>
+			<a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" placement="left" title="Controls information" class="close" id="evaluation-controls-info">
+				<span class="glyphicon glyphicon-info-sign"></span>
+			</a>
+		</div>
 	</div>
 	<div class="table-responsive">
-		<h4 class="sub-header">Currently Viewing</h4>
+		<h4 class="sub-header">Evaluation Information</h4>
 		<table class="table">
 			<thead>
 				<tr>
@@ -79,6 +107,101 @@
 			@endif
 		</div>
 	</div>
+
+	<!-- Evaluation comment modal -->
+	<div class="modal fade" id="evaluation-comment-modal" tabindex="-1" role="dialog" aria-labelledby="evaluation-comment-label">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="evaluation-comment-label">Evaluation comment</h4>
+				</div>
+				<div class="modal-body">
+					<label for="evaluation-comment">Comment</label>
+					<textarea class="form-control" id="evaluation-comment">{{ $evaluation->comment }}</textarea>
+					<div class="alert" role="alert" id="evaluation-comment-alert">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-primary" id="submit-evaluation-comment">Save comment</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Edit evaluation modal -->
+	<div class="modal fade" id="edit-evaluation-modal" tabindex="-1" role="dialog" aria-labelledby="edit-evaluation-label">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<form method="post" action="{{ Request::url() }}/edit" role="form">
+					{!! csrf_field() !!}
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="edit-evaluation-label">Edit evaluation</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="evaluation-subject">Evaluation subject</label>
+							<select class="form-control select2" id="evaluation-subject" name="evaluation_subject" style="width: 100%">
+								<option value="">Select subject</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="evaluation-form">Evaluation form</label>
+							<select class="form-control select2" id="evaluation-form" name="evaluation_form" style="width: 100%">
+								<option value="">Select form</option>
+							</select>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+						<button type="submit" class="btn btn-info">Edit evaluation</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Flag evaluation modal -->
+	<div class="modal fade" id="flag-evaluation-modal" tabindex="-1" role="dialog" aria-labelledby="flag-evaluation-label">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<form method="post" action="{{ Request::url() }}/flag" role="form">
+					{!! csrf_field() !!}
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="flag-evaluation-label">Flag evaluation</h4>
+					</div>
+					<div class="modal-body">
+						<label>What should be done to the evaluation?</label>
+						<div class="form-group" id="flag-evaluation-requested-action-group">
+							<label>
+								<input type="radio" name="requested_action" value="delete" required /> Delete evaluation
+							</label>
+							<label>
+								<input type="radio" name="requested_action" value="form" required /> Change form
+							</label>
+							<label>
+								<input type="radio" name="requested_action" value="subject" required /> Change subject
+							</label>
+							<label>
+								<input type="radio" name="requested_action" value="response" required /> Adjust responses
+							</label>
+						</div>
+						<div class="form-group">
+							<label for="flag-evaluation-reason">What's wrong?</label>
+							<textarea class="form-control" id="flag-evaluation-reason" name="reason" required></textarea>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+						<button type="submit" class="btn btn-warning">Flag evaluation</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 @stop
 
 @section("script")
@@ -116,6 +239,16 @@
 			}
 			$("#form button").each(function(){
 				$(this).addClass("noprint");
+			});
+
+			$("#evaluation-controls-info").popover({
+				placement: "left",
+				html: "true",
+				content: "<ul>" +
+						"<li><b>Evaluation comment:</b> Add explanatory comment or clarification about evaluation, not to be seen by evaluation subject</li>" +
+						"<li><b>Edit evaluation:</b> If evaluation is incomplete, modify subject or evaluation form</li>" +
+						"<li><b>Flag evaluation:</b> Request that this evaluation be removed or modified by an administrator</li>" +
+					"</ul>"
 			});
 		});
 
@@ -160,6 +293,35 @@
 
 		$("#save-form").click(function(){
 			saveForm = true;
+		});
+
+		$("#submit-evaluation-comment").click(function(){
+			var data = {};
+			data.comment = $("#evaluation-comment").val();
+			data._token = "{{ csrf_token() }}";
+			var url = $(location).attr("href");
+			var alert = $("#evaluation-comment-alert");
+			$.post(url + "/comment", data, function(){
+				alert.show();
+				alert.removeClass("alert-success alert-danger").addClass("alert-info");
+				alert.html('<img src="/ajax-loader.gif" />');
+			}).done(function(result){
+				if(result == "success"){
+					alert.removeClass("alert-danger alert-info").addClass("alert-success");
+					alert.html("Comment saved!");
+				}
+				else{
+					alert.removeClass("alert-success alert-info").addClass("alert-danger");
+					alert.html("The comment cannot be saved at this time");
+				}
+			}).fail(function(){
+				alert.removeClass("alert-success alert-info").addClass("alert-danger");
+				alert.html("There was an error saving the comment");
+			});
+		});
+
+		$("#evaluation-comment-modal").on("show.bs.modal", function(){
+			$("#evaluation-comment-alert").hide();
 		});
 	</script>
 @stop

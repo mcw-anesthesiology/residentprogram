@@ -32,6 +32,8 @@ Route::post("dashboard/faculty/evaluations", "MainController@facultyEvaluations"
 Route::post("evaluation/cancel", "MainController@cancelEvaluation");
 Route::get("evaluation/{id}", "MainController@evaluation");
 Route::post("evaluation/{id}", "MainController@saveEvaluation");
+Route::post("evaluation/{id}/comment", "MainController@evaluationComment");
+Route::post("evaluation/{id}/flag", "MainController@flagEvaluation");
 
 Route::get("request/faculty", "MainController@request");
 Route::post("request/faculty", "MainController@createRequest");

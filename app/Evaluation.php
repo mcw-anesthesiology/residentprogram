@@ -48,4 +48,8 @@ class Evaluation extends Model
     public function textResponses(){
         return $this->hasMany("App\TextResponse");
     }
+
+	public function flag(){
+		return $this->hasOne("App\FlaggedEvaluation");
+	}
 }

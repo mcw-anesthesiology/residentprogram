@@ -22,6 +22,7 @@ use App\Block;
 use App\BlockAssignment;
 use App\Form;
 use App\Evaluation;
+use App\FlaggedEvaluation;
 use App\Mentorship;
 use App\Response;
 use App\TextResponse;
@@ -268,6 +269,31 @@ class MainController extends Controller
         }
 
     }
+
+	public function evaluationComment($id, Request $request){
+		$user = Auth::user();
+		$eval = Evaluation::find($id);
+		if($eval->evaluator_id == $user->id && in_array($eval->status, ["complete", "pending"])){
+			$eval->comment = $request->input("comment");
+			$eval->save();
+			return "success";
+		}
+		return "failure";
+	}
+
+	public function flagEvaluation($id, Request $request){
+		$user = Auth::user();
+		$eval = Evaluation::find($id);
+		if($eval->evaluator_id == $user->id && in_array($eval->status, ["complete", "pending"])
+				&& $request->has("requested_action") && $request->has("reason")){
+			$flag = FlaggedEvaluation::firstOrNew(["evaluation_id" => $eval->id]);
+			$flag->requested_action = $request->input("requested_action");
+			$flag->reason = $request->input("reason");
+			$flag->save();
+			return back()->with("success", "Your request has been saved, an administrator will review the evaluation shortly");
+		}
+		return back()->with("error", "There was an error saving your request");
+	}
 
     public function evaluations(Request $request){
         $user = Auth::user();
