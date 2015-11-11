@@ -203,8 +203,26 @@ class MainController extends Controller
             else
                 return redirect("dashboard")->with("error", "Insufficient permissions to view the requested evaluation");
         }
-        elseif($evaluation->subject_id == $user->id || $evaluation->evaluator_id == $user->id || $user->type == "admin" || $user->mentees->contains($evaluation->subject))
-            return view("evaluations.evaluation", compact("evaluation"));
+        elseif($evaluation->subject_id == $user->id || $evaluation->evaluator_id == $user->id || $user->type == "admin" || $user->mentees->contains($evaluation->subject)){
+			$data = compact("evaluation");
+			if($evaluation->evaluator_id == $user->id){
+				switch($user->type){
+					case "faculty":
+						$subjectType = "Resident/Fellow";
+						$possibleSubjects = User::where("type", "resident")->orWhere("type", "fellow")->where("status", "active")->orderBy("last_name")->get();
+						$possibleForms = Form::where("type", "resident")->orWhere("type", "fellow")->where("status", "active")->orderBy("title")->get();
+						break;
+					case "resident":
+					case "fellow":
+						$subjectType = "Faculty";
+						$possibleSubjects = User::where("type", "faculty")->where("status", "active")->orderBy("last_name")->get();
+						$possibleForms = Form::where("type", "faculty")->where("status", "active")->orderBy("title")->get();
+						break;
+				}
+				$data += compact("subjectType", "possibleSubjects", "possibleForms");
+			}
+            return view("evaluations.evaluation", $data);
+		}
         else
             return redirect("dashboard")->with("error", "Insufficient permissions to view the requested evaluation");
     }
@@ -281,6 +299,66 @@ class MainController extends Controller
 		return "failure";
 	}
 
+	public function editEvaluation($id, Request $request){
+		$user = Auth::user();
+		$eval = Evaluation::find($id);
+		if($eval == null)
+			return back()->with("error", "That evaluation does not exist");
+
+		$errors = "";
+		$successes = "";
+
+		if($user->type == "admin"){
+			if($request->has("evaluation_evaluator") && $request->input("evaluation_evaluator") != ""){
+				$newEvaluator = User::find($request->input("evaluation_evaluator"));
+				if($newEvaluator == null)
+					$errors .= "Evaluator does not exist. ";
+				elseif($newEvaluator->type != $eval->evaluator->type)
+					$errors .= "Evaluator is not correct account type. ";
+				else{
+					$eval->evaluator_id = $newEvaluator->id;
+					$eval->save();
+					$successes .= "Evaluator changed successfully. ";
+				}
+			}
+		}
+
+		if($user->type == "admin" || ($eval->evaluator_id == $user->id && $eval->status == "pending")){
+			if($request->has("evaluation_subject") && $request->input("evaluation_subject") != ""){
+				$newSubject = User::find($request->input("evaluation_subject"));
+				if($newSubject == null)
+					$errors .= "Subject does not exist. ";
+				elseif($newSubject->type != $eval->form->type)
+					$errors .= "Subject is not correct account type. ";
+				else{
+					$eval->subject_id = $newSubject->id;
+					$eval->save();
+					$successes .= "Subject changed successfully. ";
+				}
+			}
+
+			if($request->has("evaluation_form") && $request->input("evaluation_form") != ""){
+				$newForm = Form::find($request->input("evaluation_form"));
+				if($newForm == null)
+					$errors .= "Form does not exist. ";
+				elseif($newForm->type != $eval->form->type)
+					$errors .= "Form is not correct type. ";
+				elseif($eval->responses->count() != 0 || $eval->textResponses->count() != 0)
+					$errors .= "Cannot change form for evaluation with saved responses. Please create a new evaluation. ";
+				else{
+					$eval->form_id = $newForm->id;
+					$eval->save();
+					$successes .= "Form changed successfully. ";
+				}
+			}
+			if($successes == "" && $errors == "")
+				return back()->with("info", "There is nothing to be done.");
+
+			return back()->with("success", $successes)->with("error", $errors);
+		}
+		return back()->with("error", "You do not have permission to edit this evaluation.");
+	}
+
 	public function flagEvaluation($id, Request $request){
 		$user = Auth::user();
 		$eval = Evaluation::find($id);
@@ -290,9 +368,25 @@ class MainController extends Controller
 			$flag->requested_action = $request->input("requested_action");
 			$flag->reason = $request->input("reason");
 			$flag->save();
-			return back()->with("success", "Your request has been saved, an administrator will review the evaluation shortly");
+			try{
+				$data = [];
+				$data["flaggerName"] = $user->full_name;
+				$data["evaluationId"] = $eval->id;
+				$data["requestedAction"] = $flag->requested_action;
+				$data["reason"] = $flag->reason;
+				$data["now"] = Carbon::now();
+
+				Mail::send("emails.flag", $data, function($message){
+					$message->to(env("ADMIN_EMAIL"));
+					$message->from("flag@residentprogram.com");
+					$message->subject("Flagged evaluation");
+				});
+			} catch (\Exception $e){
+
+			}
+			return back()->with("success", "Your request has been saved, an administrator will review the evaluation shortly.");
 		}
-		return back()->with("error", "There was an error saving your request");
+		return back()->with("error", "There was an error saving your request.");
 	}
 
     public function evaluations(Request $request){

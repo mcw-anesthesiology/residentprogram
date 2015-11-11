@@ -23,14 +23,17 @@
 	@else
 		<h2 class="sub-header">View Evaluation</h2>
 	@endif
+
+	@if($evaluation->evaluator_id == $user->id)
 		<div id="evaluation-controls" class="noprint">
 			<button class="btn btn-primary" data-toggle="modal" data-target="#evaluation-comment-modal" id="comment-evaluation"><span class="glyphicon glyphicon-pencil"></span> Evaluation comment</button>
-			<button class="btn btn-info" data-toggle="modal" data-target="#edit-evaluation-modal" id="edit-evaluation"><span class="glyphicon glyphicon-edit"></span> Edit evaluation</button>
+			<button class="btn btn-info" data-toggle="modal" data-target="#edit-evaluation-modal" id="edit-evaluation" @if($evaluation->status != "pending") disabled title="Completed evaluations cannot be edited" @endif><span class="glyphicon glyphicon-edit"></span> Edit evaluation</button>
 			<button class="btn btn-warning" data-toggle="modal" data-target="#flag-evaluation-modal" id="mark-evaluation"><span class="glyphicon glyphicon-flag"></span> Problem with evaluation?</button>
 			<a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" placement="left" title="Controls information" class="close" id="evaluation-controls-info">
 				<span class="glyphicon glyphicon-info-sign"></span>
 			</a>
 		</div>
+	@endif
 	</div>
 	<div class="table-responsive">
 		<h4 class="sub-header">Evaluation Information</h4>
@@ -108,6 +111,7 @@
 		</div>
 	</div>
 
+	@if($evaluation->evaluator_id == $user->id)
 	<!-- Evaluation comment modal -->
 	<div class="modal fade" id="evaluation-comment-modal" tabindex="-1" role="dialog" aria-labelledby="evaluation-comment-label">
 		<div class="modal-dialog" role="document">
@@ -117,8 +121,13 @@
 					<h4 class="modal-title" id="evaluation-comment-label">Evaluation comment</h4>
 				</div>
 				<div class="modal-body">
-					<label for="evaluation-comment">Comment</label>
-					<textarea class="form-control" id="evaluation-comment">{{ $evaluation->comment }}</textarea>
+					<p>
+						Add explanatory comment or clarification about evaluation, not to be seen by {{ strtolower($subjectType) }}.
+					</p>
+					<div class="form-group">
+						<label for="evaluation-comment">Comment</label>
+						<textarea class="form-control" id="evaluation-comment">{{ $evaluation->comment }}</textarea>
+					</div>
 					<div class="alert" role="alert" id="evaluation-comment-alert">
 					</div>
 				</div>
@@ -130,27 +139,37 @@
 		</div>
 	</div>
 
+	@if($evaluation->status == "pending")
 	<!-- Edit evaluation modal -->
 	<div class="modal fade" id="edit-evaluation-modal" tabindex="-1" role="dialog" aria-labelledby="edit-evaluation-label">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<form method="post" action="{{ Request::url() }}/edit" role="form">
+				<form method="post" action="{{ Request::url() }}/edit" role="form" id="edit-evaluation-form">
 					{!! csrf_field() !!}
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
 						<h4 class="modal-title" id="edit-evaluation-label">Edit evaluation</h4>
 					</div>
 					<div class="modal-body">
+						<p>
+							Modify subject or evaluation form.
+						</p>
 						<div class="form-group">
-							<label for="evaluation-subject">Evaluation subject</label>
-							<select class="form-control select2" id="evaluation-subject" name="evaluation_subject" style="width: 100%">
+							<label for="evaluation-subject">{{ $subjectType }}</label>
+							<select class="form-control edit-evaluation-select2" id="evaluation-subject" name="evaluation_subject" style="width: 100%">
 								<option value="">Select subject</option>
+		@foreach($possibleSubjects as $possibleSubject)
+								<option value="{{ $possibleSubject->id }}">{{ $possibleSubject->full_name }}</option>
+		@endforeach
 							</select>
 						</div>
 						<div class="form-group">
 							<label for="evaluation-form">Evaluation form</label>
-							<select class="form-control select2" id="evaluation-form" name="evaluation_form" style="width: 100%">
+							<select class="form-control edit-evaluation-select2" id="evaluation-form" name="evaluation_form" style="width: 100%" @if($evaluation->responses->count() != 0 || $evaluation->textResponses->count() != 0) disabled title="Cannot change form for evaluations with saved responses." @endif>
 								<option value="">Select form</option>
+		@foreach($possibleForms as $possibleForm)
+								<option value="{{ $possibleForm->id }}">{{ $possibleForm->title }}</option>
+		@endforeach
 							</select>
 						</div>
 					</div>
@@ -162,6 +181,7 @@
 			</div>
 		</div>
 	</div>
+	@endif
 
 	<!-- Flag evaluation modal -->
 	<div class="modal fade" id="flag-evaluation-modal" tabindex="-1" role="dialog" aria-labelledby="flag-evaluation-label">
@@ -174,6 +194,9 @@
 						<h4 class="modal-title" id="flag-evaluation-label">Flag evaluation</h4>
 					</div>
 					<div class="modal-body">
+						<p>
+							Request that this evaluation be removed or modified by an administrator.
+						</p>
 						<label>What should be done to the evaluation?</label>
 						<div class="form-group" id="flag-evaluation-requested-action-group">
 							<label>
@@ -183,7 +206,7 @@
 								<input type="radio" name="requested_action" value="form" required /> Change form
 							</label>
 							<label>
-								<input type="radio" name="requested_action" value="subject" required /> Change subject
+								<input type="radio" name="requested_action" value="subject" required /> Change {{ strtolower($subjectType) }}
 							</label>
 							<label>
 								<input type="radio" name="requested_action" value="response" required /> Adjust responses
@@ -191,7 +214,7 @@
 						</div>
 						<div class="form-group">
 							<label for="flag-evaluation-reason">What's wrong?</label>
-							<textarea class="form-control" id="flag-evaluation-reason" name="reason" required></textarea>
+							<textarea class="form-control" id="flag-evaluation-reason" name="reason" required>@if($evaluation->flag){{ $evaluation->flag->reason }}@endif</textarea>
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -202,6 +225,7 @@
 			</div>
 		</div>
 	</div>
+	@endif
 @stop
 
 @section("script")
@@ -240,16 +264,25 @@
 			$("#form button").each(function(){
 				$(this).addClass("noprint");
 			});
-
+	@if($evaluation->evaluator_id == $user->id)
 			$("#evaluation-controls-info").popover({
 				placement: "left",
 				html: "true",
 				content: "<ul>" +
-						"<li><b>Evaluation comment:</b> Add explanatory comment or clarification about evaluation, not to be seen by evaluation subject</li>" +
+						"<li><b>Evaluation comment:</b> Add explanatory comment or clarification about evaluation, not to be seen by {{ strtolower($subjectType) }}</li>" +
 						"<li><b>Edit evaluation:</b> If evaluation is incomplete, modify subject or evaluation form</li>" +
 						"<li><b>Flag evaluation:</b> Request that this evaluation be removed or modified by an administrator</li>" +
 					"</ul>"
 			});
+
+		@if($evaluation->flag)
+			$("#flag-evaluation-requested-action-group").find("input[name='requested_action'][value='{{ $evaluation->flag->requested_action }}']").prop("checked", true);
+		@endif
+
+			$(".edit-evaluation-select2").select2({
+				placeholder: "Unchanged"
+			});
+	@endif
 		});
 
 		$(".toggleDescriptions").click(function(){
@@ -295,6 +328,7 @@
 			saveForm = true;
 		});
 
+	@if($evaluation->evaluator_id == $user->id)
 		$("#submit-evaluation-comment").click(function(){
 			var data = {};
 			data.comment = $("#evaluation-comment").val();
@@ -323,5 +357,14 @@
 		$("#evaluation-comment-modal").on("show.bs.modal", function(){
 			$("#evaluation-comment-alert").hide();
 		});
+
+		$("#edit-evaluation-form").on("submit", function(){
+			if($("#evaluation-subject").val() == "" && $("#evaluation-form").val() == ""){
+				alert("Please select something to change");
+				return false;
+			}
+			return true;
+		});
+	@endif
 	</script>
 @stop

@@ -1,6 +1,9 @@
 (A) Mark as invalid/request deletion +Complete
 Change eval information if pending?
 
+Split fellow
+Optgroups in select for resident vs fellow
+Change all name calls to use full_name
 Blocks instead of months
 Nonfaculty evaluations
 Anonymous evaluations
