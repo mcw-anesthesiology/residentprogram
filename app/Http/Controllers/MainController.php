@@ -37,10 +37,11 @@ class MainController extends Controller
 
     public function dashboard(){
         $user = Auth::user();
-        if($user->type == "faculty"){
+        if($user->type == "faculty")
             $mentees = $user->mentees->where("status", "active")->unique();
-        }
-        $data = compact("mentees");
+		elseif($user->type == "admin")
+			$numFlagged = Evaluation::has("flag")->count();
+        $data = compact("mentees", "numFlagged");
         return view("dashboard.dashboard", $data);
     }
 
@@ -369,10 +370,17 @@ class MainController extends Controller
 			$flag->reason = $request->input("reason");
 			$flag->save();
 			try{
+				$actionText = [
+					"delete" => "Delete evaluation",
+					"form" => "Change form",
+					"subject" => "Change subject",
+					"response" => "Change responses"
+				];
+
 				$data = [];
 				$data["flaggerName"] = $user->full_name;
 				$data["evaluationId"] = $eval->id;
-				$data["requestedAction"] = $flag->requested_action;
+				$data["requestedAction"] = $actionText[$flag->requested_action];
 				$data["reason"] = $flag->reason;
 				$data["now"] = Carbon::now();
 
@@ -457,6 +465,31 @@ class MainController extends Controller
         }
         return json_encode($results);
     }
+
+	public function flaggedEvaluations(Request $request){
+		$user = Auth::user();
+		$results["data"] = [];
+		$evaluations = Evaluation::has("flag")->with("flag")->get();
+
+		$actionText = [
+			"delete" => "Delete evaluation",
+			"form" => "Change form",
+			"subject" => "Change subject",
+			"response" => "Change responses"
+		];
+
+		foreach($evaluations as $eval){
+			$result = [];
+			$result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
+			$result[] = $eval->evaluator->full_name;
+			$result[] = $eval->subject->full_name;
+			$result[] = $actionText[$eval->flag->requested_action];
+			$result[] = $eval->flag->reason;
+			$results["data"][] = $result;
+		}
+
+		return json_encode($results);
+	}
 
     public function facultyEvaluations(Request $request){
         $user = Auth::user();

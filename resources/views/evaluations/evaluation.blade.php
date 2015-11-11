@@ -36,7 +36,7 @@
 	@endif
 	</div>
 	<div class="table-responsive">
-		<h4 class="sub-header">Evaluation Information</h4>
+		<h3 class="sub-header">Evaluation Information</h3>
 		<table class="table">
 			<thead>
 				<tr>
@@ -83,13 +83,18 @@
 				</tr>
 			</tbody>
 		</table>
-		@if($evaluation->subject->photo_path && $evaluation->subject_id != $user->id)
-			<div style="text-align: center;">
-				<img src="/{{ $evaluation->subject->photo_path }}" width="300px" />
-			</div>
-		@endif
-		<br />
-		<h4 class="sub-header">Evaluation</h4>
+	@if($evaluation->subject->photo_path && $evaluation->subject_id != $user->id)
+		<div style="text-align: center;">
+			<img src="/{{ $evaluation->subject->photo_path }}" width="300px" />
+		</div>
+	@endif
+	@if($user->type == "admin" && $evaluation->comment)
+		<h3 class="sub-header">Evaluation Comment</h3>
+		<p>
+			{{ $evaluation->comment }}
+		</p>
+	@endif
+		<h3 class="sub-header">Evaluation</h3>
 		<div id="form">
 			@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id)
 				<form id="evaluation" role="form" method="post" action="#">
@@ -132,7 +137,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 					<button type="button" class="btn btn-primary" id="submit-evaluation-comment">Save comment</button>
 				</div>
 			</div>

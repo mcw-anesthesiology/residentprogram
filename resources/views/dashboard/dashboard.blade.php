@@ -48,6 +48,24 @@
 		});
 
 		$(document).ready(function(){
+			var data = {};
+			data._token = "{{ csrf_token() }}";
+
+			$(".datatable-flagged").DataTable({
+				"ajax": {
+					"url": "dashboard/evaluations/flagged",
+					"data": data,
+					"type": "post"
+				},
+				deferRendering: true,
+				"order": [[0, "desc"]],
+				stateSave: true,
+				"dom": "lfprtip",
+				"createdRow": function(row, data, index){
+					$("td", row).addClass("view");
+				}
+			});
+
 			$(".datatable-all").DataTable({
 				"ajax": "dashboard/evaluations",
 				deferRendering: true,
@@ -59,8 +77,6 @@
 				}
 			});
 
-			var data = {};
-			data._token = "{{ csrf_token() }}";
 			data.type = "pending";
 			$(".datatable-pending").DataTable({
 				"ajax": {
