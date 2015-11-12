@@ -36,6 +36,7 @@ Route::post("evaluation/{id}", "MainController@saveEvaluation");
 Route::post("evaluation/{id}/comment", "MainController@evaluationComment");
 Route::post("evaluation/{id}/edit", "MainController@editEvaluation");
 Route::post("evaluation/{id}/flag", "MainController@flagEvaluation");
+Route::post("evaluation/flag/remove", "MainController@removeFlag");
 
 Route::get("request/faculty", "MainController@request");
 Route::post("request/faculty", "MainController@createRequest");

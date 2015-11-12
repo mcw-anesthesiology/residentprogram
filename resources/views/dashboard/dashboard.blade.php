@@ -42,6 +42,31 @@
 			event.stopPropagation();
 		});
 
+		$(".table").on("click", ".remove-flag", function(event){
+			var data = {};
+			data._token = "{{ csrf_token() }}";
+			data.id = $(this).data("id");
+
+			var row = $(this).parents("tr");
+
+			$.post("/evaluation/flag/remove", data, function(result){
+				if(result == "success")
+					if(row.siblings().length == 0)
+						row.parents(".body-block").fadeOut(300, function(){
+							$(this).remove();
+						});
+					else
+						row.fadeOut(300, function(){
+							$(this).remove();
+						});
+				else
+					alert("Error: " + result);
+			}).fail(function(){
+				alert("Error removing flag");
+			});
+			event.stopPropagation();
+		});
+
 		$(".table").on("click", ".view", function(){
 			var requestId = $(this).parents("tr").children("td").eq(0).children("a").html();
 			window.location.href = "/evaluation/"+requestId;

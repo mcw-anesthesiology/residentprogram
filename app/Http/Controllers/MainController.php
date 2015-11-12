@@ -220,7 +220,8 @@ class MainController extends Controller
 						$possibleForms = Form::where("type", "faculty")->where("status", "active")->orderBy("title")->get();
 						break;
 				}
-				$data += compact("subjectType", "possibleSubjects", "possibleForms");
+				$flaggedActions = Setting::get("flaggedActions");
+				$data += compact("subjectType", "possibleSubjects", "possibleForms", "flaggedActions");
 			}
             return view("evaluations.evaluation", $data);
 		}
@@ -370,12 +371,7 @@ class MainController extends Controller
 			$flag->reason = $request->input("reason");
 			$flag->save();
 			try{
-				$actionText = [
-					"delete" => "Delete evaluation",
-					"form" => "Change form",
-					"subject" => "Change subject",
-					"response" => "Change responses"
-				];
+				$flaggedActions = Setting::get("flaggedActions");
 
 				$data = [];
 				$data["flaggerName"] = $user->full_name;
@@ -395,6 +391,19 @@ class MainController extends Controller
 			return back()->with("success", "Your request has been saved, an administrator will review the evaluation shortly.");
 		}
 		return back()->with("error", "There was an error saving your request.");
+	}
+
+	public function removeFlag(Request $request){
+		$user = Auth::user();
+		if(!$request->has("id"))
+			return "Flag does not exist";
+		$flag = FlaggedEvaluation::find($request->input("id"));
+		if($user->type == "admin" && $flag != null){
+			$flag->delete();
+			return "success";
+		}
+
+		return "Error removing flag";
 	}
 
     public function evaluations(Request $request){
@@ -471,20 +480,16 @@ class MainController extends Controller
 		$results["data"] = [];
 		$evaluations = Evaluation::has("flag")->with("flag")->get();
 
-		$actionText = [
-			"delete" => "Delete evaluation",
-			"form" => "Change form",
-			"subject" => "Change subject",
-			"response" => "Change responses"
-		];
+		$flaggedActions = Setting::get("flaggedActions");
 
 		foreach($evaluations as $eval){
 			$result = [];
 			$result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
 			$result[] = $eval->evaluator->full_name;
 			$result[] = $eval->subject->full_name;
-			$result[] = $actionText[$eval->flag->requested_action];
+			$result[] = $flaggedActions[$eval->flag->requested_action];
 			$result[] = $eval->flag->reason;
+			$result[] = "<button type='button' class='remove-flag btn btn-primary btn-xs' data-id='{$eval->flag->id}'><span class='glyphicon glyphicon-ok'></span> Complete</button>";
 			$results["data"][] = $result;
 		}
 

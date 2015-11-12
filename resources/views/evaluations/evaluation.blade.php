@@ -33,6 +33,8 @@
 				<span class="glyphicon glyphicon-info-sign"></span>
 			</a>
 		</div>
+	@elseif($user->type == "admin")
+		<button class="btn btn-info" data-toggle="modal" data-target="#edit-evaluation-modal" id="edit-evaluation"><span class="glyphicon glyphicon-edit"></span> Edit evaluation</button>
 	@endif
 	</div>
 	<div class="table-responsive">
@@ -144,7 +146,7 @@
 		</div>
 	</div>
 
-	@if($evaluation->status == "pending")
+		@if($evaluation->status == "pending")
 	<!-- Edit evaluation modal -->
 	<div class="modal fade" id="edit-evaluation-modal" tabindex="-1" role="dialog" aria-labelledby="edit-evaluation-label">
 		<div class="modal-dialog" role="document">
@@ -163,18 +165,18 @@
 							<label for="evaluation-subject">{{ $subjectType }}</label>
 							<select class="form-control edit-evaluation-select2" id="evaluation-subject" name="evaluation_subject" style="width: 100%">
 								<option value="">Select subject</option>
-		@foreach($possibleSubjects as $possibleSubject)
+			@foreach($possibleSubjects as $possibleSubject)
 								<option value="{{ $possibleSubject->id }}">{{ $possibleSubject->full_name }}</option>
-		@endforeach
+			@endforeach
 							</select>
 						</div>
 						<div class="form-group">
 							<label for="evaluation-form">Evaluation form</label>
 							<select class="form-control edit-evaluation-select2" id="evaluation-form" name="evaluation_form" style="width: 100%" @if($evaluation->responses->count() != 0 || $evaluation->textResponses->count() != 0) disabled title="Cannot change form for evaluations with saved responses." @endif>
 								<option value="">Select form</option>
-		@foreach($possibleForms as $possibleForm)
+			@foreach($possibleForms as $possibleForm)
 								<option value="{{ $possibleForm->id }}">{{ $possibleForm->title }}</option>
-		@endforeach
+			@endforeach
 							</select>
 						</div>
 					</div>
@@ -186,7 +188,7 @@
 			</div>
 		</div>
 	</div>
-	@endif
+		@endif
 
 	<!-- Flag evaluation modal -->
 	<div class="modal fade" id="flag-evaluation-modal" tabindex="-1" role="dialog" aria-labelledby="flag-evaluation-label">
@@ -204,18 +206,11 @@
 						</p>
 						<label>What should be done to the evaluation?</label>
 						<div class="form-group" id="flag-evaluation-requested-action-group">
+		@foreach($flaggedActions as $key => $text)
 							<label>
-								<input type="radio" name="requested_action" value="delete" required /> Delete evaluation
+								<input type="radio" name="requested_action" value="{{ $key }}" required /> {{ $text }}
 							</label>
-							<label>
-								<input type="radio" name="requested_action" value="form" required /> Change form
-							</label>
-							<label>
-								<input type="radio" name="requested_action" value="subject" required /> Change {{ strtolower($subjectType) }}
-							</label>
-							<label>
-								<input type="radio" name="requested_action" value="response" required /> Adjust responses
-							</label>
+		@endforeach
 						</div>
 						<div class="form-group">
 							<label for="flag-evaluation-reason">What's wrong?</label>
@@ -340,11 +335,12 @@
 			data._token = "{{ csrf_token() }}";
 			var url = $(location).attr("href");
 			var alert = $("#evaluation-comment-alert");
-			$.post(url + "/comment", data, function(){
-				alert.show();
-				alert.removeClass("alert-success alert-danger").addClass("alert-info");
-				alert.html('<img src="/ajax-loader.gif" />');
-			}).done(function(result){
+
+			alert.show();
+			alert.removeClass("alert-success alert-danger").addClass("alert-info");
+			alert.html('<img src="/ajax-loader.gif" />');
+
+			$.post(url + "/comment", data, function(result){
 				if(result == "success"){
 					alert.removeClass("alert-danger alert-info").addClass("alert-success");
 					alert.html("Comment saved!");

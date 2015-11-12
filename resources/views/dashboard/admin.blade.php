@@ -9,6 +9,7 @@
 					<th>Subject</th>
 					<th>Requested Action</th>
 					<th>Reason</th>
+					<th></th>
 				</tr>
 			</thead>
 		</table>

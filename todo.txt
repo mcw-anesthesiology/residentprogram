@@ -1,6 +1,11 @@
 (A) Mark as invalid/request deletion +Complete
 Change eval information if pending?
 
+Fadeout on removes +Animations
+Fadein on adds +Animations
+
+Replace form submissions with ajax
+
 Split fellow
 Optgroups in select for resident vs fellow
 Change all name calls to use full_name
