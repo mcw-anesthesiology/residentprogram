@@ -14,7 +14,7 @@
 		</table>
 	</div>
 @else
-	<h2 class="sub-header">You have no pending evaluations!</h2>
+	<h2>You have no pending evaluations</h2>
 @endif
 
 @foreach($mentees as $mentee)
@@ -38,17 +38,17 @@
 
 </div>
 <div class="container body-block">
-<h2 class="sub-header"><span class="glyphicon glyphicon-check"></span> Completed Evaluations</h2>
-<div class="table-responsive">
-	<table class="table table-striped datatable-complete" width="100%">
-		<thead>
-			<tr>
-				<th>#</th>
-				<th>Resident/Fellow</th>
-				<th>Evaluation Form</th>
-				<th>Requested</th>
-				<th>Completed</th>
-			</tr>
-		</thead>
-	</table>
-</div>
+	<h2 class="sub-header"><span class="glyphicon glyphicon-check"></span> Completed Evaluations</h2>
+	<div class="table-responsive">
+		<table class="table table-striped datatable-complete" width="100%">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Resident/Fellow</th>
+					<th>Evaluation Form</th>
+					<th>Requested</th>
+					<th>Completed</th>
+				</tr>
+			</thead>
+		</table>
+	</div>

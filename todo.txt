@@ -1,10 +1,10 @@
-(A) Mark as invalid/request deletion +Complete
-Change eval information if pending?
-
 Fadeout on removes +Animations
 Fadein on adds +Animations
 
-Replace form submissions with ajax
+Mark if viewed by evaluator +Complete
+
+Replace form submissions with ajax +Usability
+Glyphicons +Design
 
 Split fellow
 Optgroups in select for resident vs fellow
@@ -21,8 +21,6 @@ Validation
 
 Ask evaluation date on request +Request
 
-Numbers of evaluations by resident/faculty +Report
-Number of evaluations requested by resident/faculty +Report
 Separate report average selector +Report
 
 Tardy evaluations +Complete
@@ -31,7 +29,5 @@ Evaluations completed too long after requested +Complete
 Manage Blocks +Manage
 
 EPIC spreadsheet parsing +Schedule
-
-Glyphicons +Design
 
 Unit tests +Testing

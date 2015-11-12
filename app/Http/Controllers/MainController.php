@@ -206,12 +206,12 @@ class MainController extends Controller
         }
         elseif($evaluation->subject_id == $user->id || $evaluation->evaluator_id == $user->id || $user->type == "admin" || $user->mentees->contains($evaluation->subject)){
 			$data = compact("evaluation");
-			if($evaluation->evaluator_id == $user->id){
-				switch($user->type){
+			if($evaluation->evaluator_id == $user->id || $user->type == "admin"){
+				switch($evaluation->evaluator->type){
 					case "faculty":
 						$subjectType = "Resident/Fellow";
-						$possibleSubjects = User::where("type", "resident")->orWhere("type", "fellow")->where("status", "active")->orderBy("last_name")->get();
-						$possibleForms = Form::where("type", "resident")->orWhere("type", "fellow")->where("status", "active")->orderBy("title")->get();
+						$possibleSubjects = User::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("last_name")->get();
+						$possibleForms = Form::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("title")->get();
 						break;
 					case "resident":
 					case "fellow":
@@ -235,13 +235,13 @@ class MainController extends Controller
         if(($eval->requestor == $user || $user->type == "admin") && $eval->status == "pending"){
             $eval->status = "canceled by ".$eval->requestor->type;
             $eval->save();
-            return redirect("dashboard");
+            return "success";
         }
         else{
             if(!($eval->requestor == $user || $user->type == "admin"))
-                return redirect("dashboard")->with("error", "Only the requestor or an administrator can cancel an evaluation");
+                return "Only the requestor or an administrator can cancel an evaluation";
             elseif($eval->status != "pending")
-                return redirect("dashboard")->with("error", "Only pending evaluations can be canceled");
+                return "Only pending evaluations can be canceled";
         }
     }
 
@@ -461,7 +461,7 @@ class MainController extends Controller
                     $result[] = (string)$eval->complete_date;
                 if($type == "pending"){
                     if($eval->requested_by_id == $user->id){
-                        $result[] = "<button class='cancelEval btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-cancel-modal-sm' data-id='{$eval->id}'>".
+                        $result[] = "<button id='cancel-{$eval->id}' class='cancelEval btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-cancel-modal-sm' data-id='{$eval->id}'>".
                         "<span class='glyphicon glyphicon-remove'></span> Cancel</button>";
                     }
                     else

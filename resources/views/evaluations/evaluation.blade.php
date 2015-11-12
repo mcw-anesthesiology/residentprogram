@@ -118,7 +118,7 @@
 		</div>
 	</div>
 
-	@if($evaluation->evaluator_id == $user->id)
+	@if($evaluation->evaluator_id == $user->id || $user->type == "admin")
 	<!-- Evaluation comment modal -->
 	<div class="modal fade" id="evaluation-comment-modal" tabindex="-1" role="dialog" aria-labelledby="evaluation-comment-label">
 		<div class="modal-dialog" role="document">
@@ -146,7 +146,7 @@
 		</div>
 	</div>
 
-		@if($evaluation->status == "pending")
+		@if($evaluation->status == "pending" || $user->type == "admin")
 	<!-- Edit evaluation modal -->
 	<div class="modal fade" id="edit-evaluation-modal" tabindex="-1" role="dialog" aria-labelledby="edit-evaluation-label">
 		<div class="modal-dialog" role="document">
@@ -264,7 +264,7 @@
 			$("#form button").each(function(){
 				$(this).addClass("noprint");
 			});
-	@if($evaluation->evaluator_id == $user->id)
+	@if($evaluation->evaluator_id == $user->id || $user->type == "admin")
 			$("#evaluation-controls-info").popover({
 				placement: "left",
 				html: "true",
@@ -287,7 +287,7 @@
 
 		$(".toggleDescriptions").click(function(){
 			var questionName = $(this).data("id");
-			$("."+questionName).toggle();
+			$("."+questionName).slideToggle();
 		});
 
 		var saveForm = false;
@@ -328,7 +328,7 @@
 			saveForm = true;
 		});
 
-	@if($evaluation->evaluator_id == $user->id)
+	@if($evaluation->evaluator_id == $user->id || $user->type == "admin")
 		$("#submit-evaluation-comment").click(function(){
 			var data = {};
 			data.comment = $("#evaluation-comment").val();
@@ -336,7 +336,7 @@
 			var url = $(location).attr("href");
 			var alert = $("#evaluation-comment-alert");
 
-			alert.show();
+			alert.fadeIn();
 			alert.removeClass("alert-success alert-danger").addClass("alert-info");
 			alert.html('<img src="/ajax-loader.gif" />');
 

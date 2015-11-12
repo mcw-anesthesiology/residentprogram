@@ -14,7 +14,7 @@
 		</table>
 	</div>
 @else
-	<h2 class="sub-header">You have no pending evaluations!</h2>
+	<h2>You have no pending evaluations</h2>
 @endif
 
 </div>

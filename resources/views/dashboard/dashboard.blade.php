@@ -21,11 +21,8 @@
 	        You have selected to <b>cancel</b> this evaluation. Would you like to continue?
 	      </div>
 	      <div class="modal-footer modal-cancel">
-	    <form method="post" action="/evaluation/cancel">
-			{!! csrf_field() !!}
-	      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	      <button type="submit" class="btn btn-danger" id="id" name="id" value="">Confirm</button>
-	        </form>
+	      	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	      	<button type="button" class="btn btn-danger" id="submit-cancel-eval" value="">Confirm</button>
 	      </div>
 	    </div>
 	  </div>
@@ -35,11 +32,41 @@
 @section("script")
 	<script>
 		$(".table").on("click", ".cancelEval", function(event){
-			// event.preventDefault();
 			var id = $(this).data("id");
-			$(".modal-cancel #id").val(id);
-			$(".bs-cancel-modal-sm").modal();
+			$(".modal-cancel #submit-cancel-eval").val(id);
+			$(".bs-cancel-modal-sm").modal("toggle");
 			event.stopPropagation();
+		});
+
+		$("#submit-cancel-eval").click(function(){
+			var data = {};
+			data._token = "{{ csrf_token() }}";
+			data.id = $(this).val();
+
+			var row = $("#cancel-" + data.id).parents("tr");
+
+			$.post("/evaluation/cancel", data, function(result){
+				if(result == "success"){
+					if(row.siblings().length == 0){
+						var bodyBlock = row.parents(".body-block");
+						bodyBlock.fadeOut(function(){
+							bodyBlock.html("<h2>You have no pending evaluations</h2>");
+							bodyBlock.fadeIn();
+						});
+					}
+					else{
+						row.fadeOut(function(){
+							$(this).remove();
+						});
+					}
+				}
+				else
+					alert(result);
+			}).fail(function(){
+				alert("Error removing evaluation.")
+			});
+
+			$(".bs-cancel-modal-sm").modal("toggle");
 		});
 
 		$(".table").on("click", ".remove-flag", function(event){
@@ -52,11 +79,11 @@
 			$.post("/evaluation/flag/remove", data, function(result){
 				if(result == "success")
 					if(row.siblings().length == 0)
-						row.parents(".body-block").fadeOut(300, function(){
+						row.parents(".body-block").fadeOut(function(){
 							$(this).remove();
 						});
 					else
-						row.fadeOut(300, function(){
+						row.fadeOut(function(){
 							$(this).remove();
 						});
 				else
