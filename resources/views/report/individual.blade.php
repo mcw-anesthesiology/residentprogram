@@ -115,7 +115,7 @@
 		</div>
 
 		<div class="img-graphs">
-		@if(count($report["graphs"] > 0))
+		@if(count($report["graphs"]) > 0)
 			<img class="img-graph" src="/graph/{{ $report['graphs'][0] }}" />
 		@endif
 		</div>
