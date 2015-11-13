@@ -28,7 +28,7 @@
 
 		$(".toggleDescriptions").click(function(){
 			var questionName = $(this).data("id");
-			$("."+questionName).toggle();
+			$("."+questionName).slideToggle();
 		});
 	</script>
 @stop

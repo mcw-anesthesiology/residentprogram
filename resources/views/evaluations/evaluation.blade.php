@@ -349,9 +349,9 @@
 			var url = $(location).attr("href");
 			var alert = $("#evaluation-comment-alert");
 
-			alert.fadeIn();
 			alert.removeClass("alert-success alert-danger").addClass("alert-info");
 			alert.html('<img src="/ajax-loader.gif" />');
+			alert.fadeIn();
 
 			$.post(url + "/comment", data, function(result){
 				if(result == "success"){
