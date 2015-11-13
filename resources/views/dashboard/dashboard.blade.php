@@ -15,14 +15,14 @@
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	          <h4 class="modal-title" id="myModalCancel">Cancel Evaluation</h4>
+	          <h4 class="modal-title" id="myModalCancel">Cancel evaluation</h4>
 	      </div>
 	      <div class="modal-body">
-	        You have selected to <b>cancel</b> this evaluation. Would you like to continue?
+	        Are you sure you want to cancel this evaluation?
 	      </div>
 	      <div class="modal-footer modal-cancel">
 	      	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	      	<button type="button" class="btn btn-danger" id="submit-cancel-eval" value="">Confirm</button>
+	      	<button type="button" class="btn btn-danger" id="submit-cancel-eval" value="">Cancel evaluation</button>
 	      </div>
 	    </div>
 	  </div>

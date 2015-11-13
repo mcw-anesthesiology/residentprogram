@@ -166,6 +166,8 @@ class MainController extends Controller
         }
 
         $eval->form_id = $request->input("form_id");
+		$eval->evaluation_date = $request->input("evaluation_date");
+		$eval->training_level = $eval->subject->training_level;
         $eval->requested_by_id = $user->id;
         $eval->status = "pending";
         $eval->request_date = Carbon::now();
@@ -258,10 +260,12 @@ class MainController extends Controller
             if($request->input("evaluation_id")){
                 $eval->status = "complete";
                 $eval->complete_date = Carbon::now();
-                $eval->training_level = $eval->subject->training_level;
+				if(!$eval->training_level)
+                	$eval->training_level = $eval->subject->training_level;
             }
             $eval->complete_ip = $request->ip();
-            $eval->evaluation_date = $request->input("evaluation_date");
+			if(!$eval->evaluation_date)
+            	$eval->evaluation_date = $request->input("evaluation_date");
 
             $input = $request->all();
             foreach($input as $question => $value){

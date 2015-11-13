@@ -13,6 +13,10 @@
 		#flag-evaluation-requested-action-group input[type="radio"] {
 			margin-left: 10px;
 		}
+
+		#evaluation-date-info {
+			float: none !important;
+		}
 	</style>
 @stop
 
@@ -76,7 +80,7 @@
 				@endif
 					<td>{{ ucfirst($evaluation->status) }}</td>
 				@if($evaluation->subject->type != "faculty")
-					@if($evaluation->status == "complete")
+					@if($evaluation->training_level)
 						<td>{{ strtoupper($evaluation->training_level) }}</td>
 					@else
 						<td>{{ strtoupper($evaluation->subject->training_level) }}</td>
@@ -98,23 +102,32 @@
 	@endif
 		<h3 class="sub-header">Evaluation</h3>
 		<div id="form">
-			@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id)
+	@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id)
 				<form id="evaluation" role="form" method="post" action="#">
 					{!! csrf_field() !!}
-					<label for="evaluation_date">What month is this evaluation for?</label>
+					<label for="evaluation_date">What month is this evaluation for? </label>
+		@if($evaluation->evaluation_date)
+						<a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" placement="left" title="Evaluation date" class="close" id="evaluation-date-info">
+							<span class="glyphicon glyphicon-question-sign"></span>
+						</a>
+					<input type="text" class="form-control" readonly id="evaluation_date" name="evaluation_date" value="{{ $evaluation->evaluation_date->format("F") }}" />
+		@else
 					<select class="form-control" id="evaluation_date" name="evaluation_date">
-					<?php $month = Carbon\Carbon::parse("first day of this month"); ?>
-						@for($i = 0; $i < 3; $i++, $month->subMonth())
-							<option value="{{ $month->toDateString() }}">{{ $month->format("F") }}</option>
-						@endfor
+<?php $month = Carbon\Carbon::parse("first day of this month"); ?>
+			@for($i = 0; $i < 3; $i++, $month->subMonth())
+						<option value="{{ $month->toDateString() }}">{{ $month->format("F") }}</option>
+			@endfor
 					</select>
-			@endif
-			{!! App\Helpers\FormReader::read($evaluation->form->xml_path) !!}
-			@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id)
-					<button type="submit" id="complete-form" name="evaluation_id" value="{{ $evaluation->id }}" class="btn btn-primary">Submit</button>
-					<button type="submit" id="save-form" name="evaluation_id_saved" value="{{ $evaluation->id }}" class="btn btn-default" formnovalidate>Save</button>
+		@endif
+	@endif
+					{!! App\Helpers\FormReader::read($evaluation->form->xml_path) !!}
+	@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id)
+					<div class="submit-container text-center">
+						<button type="submit" id="complete-form" name="evaluation_id" value="{{ $evaluation->id }}" class="btn btn-primary btn-lg">Complete evaluation</button>
+						<button type="submit" id="save-form" name="evaluation_id_saved" value="{{ $evaluation->id }}" class="btn btn-default btn-lg" formnovalidate>Save evaluation</button>
+					</div>
 				</form>
-			@endif
+	@endif
 		</div>
 	</div>
 
@@ -365,6 +378,14 @@
 				return false;
 			}
 			return true;
+		});
+
+		$("#evaluation-date-info").popover({
+			html: true,
+			content: "<p>Evaluation dates are now entered when an evaluation is requested or created. </p>" +
+				"<p>If you don't want to complete this evaluation for this date, please request " +
+				"an administrator change the date or remove the evaluation with the " +
+				"<span class='text-warning'>Problem with evaluation?</span> button above.</p>"
 		});
 	@endif
 	</script>
