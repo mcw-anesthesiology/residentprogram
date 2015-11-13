@@ -300,7 +300,7 @@
 
 			var validForm = true;
 			var alertText = "";
-			$("input:radio").each(function(){
+			$("#evaluation input:radio").each(function(){
 				var name = $(this).attr("name");
 				if($(this).attr("required") == "required" && $("input:radio[name="+name+"]:checked").length == 0){
 					$(this).focus();
@@ -308,7 +308,7 @@
 					validForm = false;
 				}
 			});
-			$("textarea").each(function(){
+			$("#evaluation textarea").each(function(){
 				if($(this).attr("required") == "required" && this.value === ""){
 					$(this).focus();
 					alertText = "Please complete each required question";
