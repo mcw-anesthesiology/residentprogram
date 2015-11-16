@@ -195,7 +195,7 @@
 		function checkSelectValues(){
 			var optionsSelected = true;
 			$(".request-select").each(function(){
-				if($(this).val() === null){
+				if($(this).val() === null || $(this).val() == "" || $(this).val() == 0){
 					optionsSelected = false;
 				}
 			});
