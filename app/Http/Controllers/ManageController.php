@@ -176,7 +176,10 @@ class ManageController extends Controller
                 $data["firstName"] = $user->first_name;
                 $data["lastName"] = $user->last_name;
                 $data["username"] = $user->username;
-				$data["userType"] = $user->type;
+				if($user->type == "resident" && $user->training_level == "fellow")
+					$data["userType"] = "fellow";
+				else
+					$data["userType"] = $user->type;
                 $data["password"] = $request->input("password");
                 try{
                     Mail::send("emails.new-account", $data, function($message) use ($user){
