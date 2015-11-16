@@ -161,9 +161,24 @@ class MainController extends Controller
 
         $eval->form_id = $request->input("form_id");
         $eval->requested_by_id = $user->id;
-        $eval->status = "pending";
+		$eval->status = "pending";
         $eval->request_date = Carbon::now();
         $eval->request_ip = $request->ip();
+
+		if(empty($eval->subject_id) || empty($eval->evaluator_id) || empty($eval->form_id) || empty($eval->requested_by_id)){ // TODO: try/catch
+			$errors = "";
+			if(empty($eval->subject_id))
+				$errors .= "Please select an evaluation subject. ";
+			if(empty($eval->evaluator_id))
+				$errors .= "Please select an evaluator. ";
+			if(empty($eval->form_id))
+				$errors .= "Please select a form. ";
+			if(empty($eval->requested_by_id))
+				$errors .= "There was a problem with your account, please try logging out and back in. ";
+
+			return back()->with("error", $errors);
+		}
+
         $eval->save();
         if($user->id == $eval->evaluator_id)
             return redirect("evaluation/".$eval->id);
