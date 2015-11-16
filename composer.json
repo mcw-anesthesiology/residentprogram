@@ -14,7 +14,8 @@
         "anlutro/l4-settings": "^0.4.0",
         "guzzlehttp/guzzle": "^6.1",
         "dompdf/dompdf": "^0.6.1",
-        "barryvdh/laravel-dompdf": "^0.6.0"
+        "barryvdh/laravel-dompdf": "^0.6.0",
+        "doctrine/dbal": "^2.5"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",
