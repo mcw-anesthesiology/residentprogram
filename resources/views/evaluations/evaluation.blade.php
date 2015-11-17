@@ -27,7 +27,7 @@
 	@if($evaluation->evaluator_id == $user->id)
 		<div id="evaluation-controls" class="noprint">
 			<button class="btn btn-primary" data-toggle="modal" data-target="#evaluation-comment-modal" id="comment-evaluation"><span class="glyphicon glyphicon-pencil"></span> Evaluation comment</button>
-			<button class="btn btn-info" data-toggle="modal" data-target="#edit-evaluation-modal" id="edit-evaluation" @if($evaluation->status != "pending") disabled title="Completed evaluations cannot be edited" @endif><span class="glyphicon glyphicon-edit"></span> Edit evaluation</button>
+			<button class="btn btn-info" data-toggle="modal" data-target="#edit-evaluation-modal" id="edit-evaluation" @if($evaluation->status != "pending") disabled title="Completed evaluations cannot be edited" @elseif($user->id != $evaluation->requested_by_id) disabled title="You can only edit evaluations you created" @endif><span class="glyphicon glyphicon-edit"></span> Edit evaluation</button>
 			<button class="btn btn-warning" data-toggle="modal" data-target="#flag-evaluation-modal" id="mark-evaluation"><span class="glyphicon glyphicon-flag"></span> Problem with evaluation?</button>
 			<a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" placement="left" title="Controls information" class="close" id="evaluation-controls-info">
 				<span class="glyphicon glyphicon-info-sign"></span>
@@ -146,7 +146,7 @@
 		</div>
 	</div>
 
-		@if($evaluation->status == "pending" || $user->type == "admin")
+		@if(($evaluation->status == "pending" && $user->id == $evaluation->requested_by_id) || $user->type == "admin")
 	<!-- Edit evaluation modal -->
 	<div class="modal fade" id="edit-evaluation-modal" tabindex="-1" role="dialog" aria-labelledby="edit-evaluation-label">
 		<div class="modal-dialog" role="document">
