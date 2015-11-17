@@ -4,13 +4,12 @@
 </p>
 
 <p>
-	You currently have <b>{{ $numPending }}</b> pending evaluations.
-	@if($numPending)
-		Please complete them at your earliest convenience, as well as additional evaluations for others you may have worked with.
-	@else
-		Great job! Please do not forget to complete evaluations for residents or fellows you may have worked with.
-	@endif
-	A list of people you may have worked with should be available upon selection of a block when <a href="{{ url("/request") }}">creating an evaluation</a>, or you can still select from the entire list if you wish.
+	You currently have <b>{{ $numPending }}</b> pending evaluation requests from residents or fellows.
+</p>
+
+<p>
+	Please consider completing evaluations for trainees that you have worked with in the recently completed 4 week academic block.
+	A list of people you may have worked with should be available upon selection of a block when <a href="{{ url("/request") }}">creating an evaluation</a>, or you can select from the entire list.
 </p>
 
 <p>
