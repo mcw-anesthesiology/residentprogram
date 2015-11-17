@@ -57,7 +57,7 @@ class MainController extends Controller
         $user = Auth::user();
 
         if($user->type == "resident" || $user->type == "faculty"){
-            $blocks = Block::where("start_date", "<", Carbon::now())->with("assignments.user")->orderBy("block_number", "desc")->limit(3)->get();
+            $blocks = Block::where("start_date", "<", Carbon::now())->with("assignments.user")->orderBy("year", "desc")->orderBy("block_number", "desc")->limit(3)->get();
             foreach($blocks as $block){
                 $userLocations = $block->assignments->where("user_id", $user->id)->map(function ($item, $key){
                     return $item->location;
@@ -106,7 +106,13 @@ class MainController extends Controller
         else
             $requestType = "resident";
 
-        $data = compact("selectTypes", "forms", "requestType");
+		for($dt = Carbon::now(), $i = 0; $i < 3; $dt->subMonths(1), $i++){
+			$date = $dt->format("Y-m-01");
+			$months[$date] = $dt->format("F");
+			$endOfMonth[$date] = $dt->format("Y-m-t");
+		}
+
+        $data = compact("selectTypes", "forms", "requestType", "months", "endOfMonth");
 
         if($user->type == "resident" && $requestType == "faculty"){
             $pendingEvalCount = Evaluation::with("subject", "evaluator", "form")->where("status", "pending")->where("evaluator_id", $user->id)->whereHas("form", function($query){
@@ -160,6 +166,8 @@ class MainController extends Controller
         }
 
         $eval->form_id = $request->input("form_id");
+		$eval->evaluation_date = $request->input("evaluation_date");
+		$eval->training_level = $eval->subject->training_level;
         $eval->requested_by_id = $user->id;
 		$eval->status = "pending";
         $eval->request_date = Carbon::now();
@@ -267,10 +275,12 @@ class MainController extends Controller
             if($request->input("evaluation_id")){
                 $eval->status = "complete";
                 $eval->complete_date = Carbon::now();
-                $eval->training_level = $eval->subject->training_level;
+				if(!$eval->training_level)
+                	$eval->training_level = $eval->subject->training_level;
             }
             $eval->complete_ip = $request->ip();
-            $eval->evaluation_date = $request->input("evaluation_date");
+			if(!$eval->evaluation_date)
+            	$eval->evaluation_date = $request->input("evaluation_date");
 
             $input = $request->all();
             foreach($input as $question => $value){

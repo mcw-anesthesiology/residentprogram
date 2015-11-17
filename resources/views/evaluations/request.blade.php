@@ -3,6 +3,18 @@
 @section("head")
 	<style>
 		.view, .complete { cursor: pointer; }
+
+		.date-heading {
+			margin-top: 40px;
+		}
+
+		.submit-container {
+			margin-top: 40px;
+		}
+
+		#evaluation-date-info {
+			float: none !important;
+		}
 	</style>
 @stop
 
@@ -13,49 +25,88 @@
 	<h2 class="sub-header">Request Evaluation</h2>
 	@endif
 
+	<form id="form" role="form" action="#" method="POST" class="form-horizontal">
 	@if($user->type == "resident" || $user->type == "faculty")
 		<div class="form-group">
-			<label for="block">Filter By Block</label>
-			<select class="form-control" id="block">
-				<option value="0">Select from all {{ $selectTypes[$user->type] }}</option>
-				@foreach($blocks as $block)
-					@if($block->assignments->contains("user_id", $user->id))
-						<option value="{{ $block->id }}">{{ $block->year }} {{ $block->block_name }}</option>
-					@endif
-				@endforeach
-			</select>
+			<div class="col-md-offset-2 col-md-8">
+				<label for="block">Filter By Block</label>
+				<select class="form-control" id="block">
+					<option value="0">Select from all {{ $selectTypes[$user->type] }}</option>
+					@foreach($blocks as $block)
+						@if($block->assignments->contains("user_id", $user->id))
+							<option value="{{ $block->id }}">{{ $block->year }} {{ $block->block_name }}</option>
+						@endif
+					@endforeach
+				</select>
+			</div>
 		</div>
 	@endif
-	<form id="form" role="form" action="#" method="POST">
 		<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 		@if($user->type != "resident")
 			<div class="form-group">
-				<label for="resident">Resident/Fellow</label>
-				<select class="form-control request-select" name="resident_id" id="resident" required>
-					<option value="">Select Resident/Fellow</option>
-				</select>
+				<div class="col-md-offset-2 col-md-8">
+					<label for="resident">Resident/Fellow</label>
+					<select class="form-control request-select" name="resident_id" id="resident" required>
+						<option value="">Select Resident/Fellow</option>
+					</select>
+				</div>
 			</div>
 		@endif
 
 		@if($user->type != "faculty")
 			<div class="form-group">
-				<label for="faculty">Faculty</label>
-				<select class="form-control request-select" name="faculty_id" id="faculty" required>
-					<option value="">Select Faculty</option>
-				</select>
+				<div class="col-md-offset-2 col-md-8">
+					<label for="faculty">Faculty</label>
+					<select class="form-control request-select" name="faculty_id" id="faculty" required>
+						<option value="">Select Faculty</option>
+					</select>
+				</div>
 			</div>
 		@endif
 
 		<div class="form-group">
-			<label for="evaluation-form">Evaluation Form</label>
-			<select class="form-control request-select" name="form_id" id="evaluation-form" required>
-				<option value="">Select Form</option>
-				@foreach($forms as $form)
+			<div class="col-md-offset-2 col-md-8">
+				<label for="evaluation-form">Evaluation Form</label>
+				<select class="form-control request-select" name="form_id" id="evaluation-form" required>
+					<option value="">Select Form</option>
+			@foreach($forms as $form)
 					<option value="{{ $form->id }}">{{ $form->title }}</option>
-				@endforeach
-			</select>
+			@endforeach
+				</select>
+			</div>
 		</div>
-		<button type="submit" class="btn btn-primary">Submit</button>
+
+		<h2 class="date-heading">When is this evaluation for?
+			<a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" placement="left" title="Evaluation date" class="close" id="evaluation-date-info">
+				<span class="glyphicon glyphicon-question-sign"></span>
+			</a>
+		</h2>
+
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-6">
+				<label for="evaluation-month">Month</label>
+				<select class="form-control request-select" id="evaluation-month" required>
+						<option value="" disabled selected>Select a month</option>
+					@foreach($months as $date => $monthName)
+						<option value="{{ $date }}">{{ $monthName }}</option>
+					@endforeach
+				</select>
+			</div>
+			<div id="evaluation-day-div" class="collapse col-md-2">
+				<label for="evaluation-day" class="text-muted">Date (optional)</label>
+				<input type="text" class="form-control" id="evaluation-day" />
+			</div>
+			<input type="hidden" id="evaluation-date" name="evaluation_date" required />
+		</div>
+		<div class="submit-container text-center">
+			<button type="submit" class="btn btn-primary btn-lg">
+		@if((in_array($user->type, ["resident", "fellow"]) && $requestType == "faculty") || ($user->type == "faculty" && $requestType == "resident"))
+				Create Evaluation
+		@else
+				Request Evaluation
+		@endif
+			</button>
+		</div>
 	</form>
 
 	@if($user->type != "admin")
@@ -108,6 +159,27 @@
 	@endif
 
 		var type = "{{ $user->type }}";
+		var endOfMonth = {!! json_encode($endOfMonth) !!};
+
+		$("#evaluation-month").change(function(){
+			var date = $(this).val();
+			var year = 0, month = 1, day = 2;
+			var start = date.split("-");
+			var end = endOfMonth[date].split("-");
+			$("#evaluation-day-div").show();
+			$("#evaluation-day").datepicker("setDate", "");
+			$("#evaluation-day").datepicker("option", "minDate", new Date(start[year], start[month] - 1, start[day]));
+			$("#evaluation-day").datepicker("option", "maxDate", new Date(end[year], end[month] - 1, end[day]));
+			$("#evaluation-date").val(date);
+		});
+
+		$("#evaluation-day").change(function(){
+			var date = $("#evaluation-month").val();
+			var day = $("#evaluation-day").val();
+			if(day.trim() == "")
+				day = "01";
+			$("#evaluation-date").val(date.substring(0, date.length-2)+day);
+		});
 
 		function selectBlock(){
 			var block;
@@ -165,6 +237,10 @@
 
 		$(document).ready(function(){
 
+			$("#evaluation-day").datepicker({
+				dateFormat: "dd"
+			});
+
 	@if($user->type == "resident" && $requestType == "faculty")
 			$("#block").select2();
 			$("#pending-faculty-evals").DataTable({
@@ -190,6 +266,10 @@
 			});
 	@endif
 			$("#block").select2();
+
+			$("#evaluation-month").select2({
+				placeholder: "Select a month"
+			})
 		});
 
 		function checkSelectValues(){
@@ -206,6 +286,15 @@
 		}
 
 		$("#form").submit(checkSelectValues);
+
+		$("#evaluation-date-info").popover({
+			html: true,
+			content: "<p>Please enter the month that this evaluation is for. " +
+				"If this evaluation is for a specific date, you may enter that as well.</p>" +
+				"<p>Previously, evaluation dates were entered when the " +
+				"evaluations were completed instead of when they were created. " +
+				"This caused some occasionally inaccurate dates.</p>"
+		});
 
 	</script>
 @stop
