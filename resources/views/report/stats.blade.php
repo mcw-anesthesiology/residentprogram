@@ -53,17 +53,25 @@
 			data.startDate = $("#stats-start-date").val();
 			data.endDate = $("#stats-end-date").val();
 			data.user = $("#stats-user").val();
-			$.ajax({
-				type: "post",
-				url: "#",
-				data: data,
-				success: function(response){
-					if(response == -1)
-						$("#stats").html("<p>Error retrieving statistics</p>");
-					else
-						$("#stats").html(response);
 
-					$(".datatable").DataTable();
+			$("#stats").fadeOut(function(){
+				$(this).html('<div class="container body-block text-center"><img src="/ajax-loader.gif" /></div>');
+				$(this).fadeIn();
+			});
+
+			$.post("#", data, function(response){
+				if(response == -1){
+					$("#stats").fadeOut(function(){
+						$(this).html("<p>Error retrieving statistics</p>");
+						$(this).fadeIn();
+					});
+				}
+				else{
+					$("#stats").fadeOut(function(){
+						$(this).html(response);
+						$(".datatable").DataTable();
+						$(this).fadeIn();
+					});
 				}
 			});
 		});

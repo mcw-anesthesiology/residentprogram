@@ -43,7 +43,7 @@
 			  </div>
 			  <div class="modal-footer modal-bulk-archive">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<button type="submit" class="btn btn-danger">Confirm</button>
+				<button type="submit" class="btn btn-danger">Disable evaluations</button>
 			  </div>
 	      </form>
 	    </div>
@@ -66,8 +66,15 @@
                 data: data,
                 success: function(response){
                     if (response != "false"){
-                        span.html("<button class='enableEval btn btn-success btn-xs' data-id='" + requestId + "'><span class='glyphicon glyphicon-ok'></span> Enable</button>");
-                        status.html("<span class='badge badge-disabled'>disabled</span>");
+                        span.fadeOut(function(){
+							$(this).html("<button class='enableEval btn btn-success btn-xs' data-id='" + requestId + "'><span class='glyphicon glyphicon-ok'></span> Enable</button>");
+							$(this).fadeIn();
+						});
+                        status.fadeOut(function(){
+							$(this).html("<span class='badge badge-disabled'>disabled</span>");
+							$(this).fadeIn();
+						});
+
                     }
                 }
             });
@@ -87,13 +94,26 @@
                 data: data,
                 success: function(response){
                     if (response != "false") {
-                        span.html("<button class='disableEval btn btn-danger btn-xs' data-id='" + requestId + "'><span class='glyphicon glyphicon-remove'></span> Disable</button>");
+                        span.fadeOut(function(){
+							$(this).html("<button class='disableEval btn btn-danger btn-xs' data-id='" + requestId + "'><span class='glyphicon glyphicon-remove'></span> Disable</button>");
+							$(this).fadeIn();
+						});
                         if (response == "pending") {
-                            status.html("<span class='badge badge-pending'>"+response+"</span>");
-                            cancel.html("<button class='cancelEval btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-cancel-modal-sm' data-id='" + requestId + "'><span class='glyphicon glyphicon-remove'></span> Cancel</button>");
+                            status.fadeOut(function(){
+								$(this).html("<span class='badge badge-pending'>"+response+"</span>");
+								$(this).fadeIn();
+							});
+
+                        	cancel.fadeOut(function(){
+								$(this).html("<button class='cancelEval btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-cancel-modal-sm' data-id='" + requestId + "'><span class='glyphicon glyphicon-remove'></span> Cancel</button>");
+								$(this).fadeIn();
+							});
                         }
                         else if (response == "complete") {
-                            status.html("<span class='badge badge-complete'>complete</span>");
+                            status.fadeOut(function(){
+								$(this).html("<span class='badge badge-complete'>complete</span>");
+								$(this).fadeIn();
+							});
                         }
                     }
                 }
@@ -113,8 +133,13 @@
                 data: data,
                 success: function(response){
                     if (response != "false") {
-						span.html("");
-                        status.html("<span class='badge badge-disabled'>canceled by admin</span>");
+						span.fadeOut(function(){
+							$(this).html("");
+						});
+                        status.fadeOut(function(){
+							$(this).html("<span class='badge badge-disabled'>canceled by admin</span>");
+							$(this).fadeIn();
+						});
                     }
                 }
             });

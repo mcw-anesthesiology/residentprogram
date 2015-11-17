@@ -101,8 +101,14 @@
 				data: data,
 				success: function(response){
 					if (response == "true"){
-						span.html("<button type='button' class='enableEval btn btn-success btn-xs' data-id='" + formId + "'><span class='glyphicon glyphicon-ok'></span> Enable</button>");
-						status.html("<span class='badge badge-disabled'>inactive</span>");
+						span.fadeOut(function(){
+							$(this).html("<button type='button' class='enableEval btn btn-success btn-xs' data-id='" + formId + "'><span class='glyphicon glyphicon-ok'></span> Enable</button>");
+							$(this).fadeIn();
+						});
+						status.fadeOut(function(){
+							$(this).html("<span class='badge badge-disabled'>inactive</span>");
+							$(this).fadeIn();
+						});
 					}
 				}
 			});
@@ -121,8 +127,14 @@
 				data: data,
 				success: function(response){
 					if (response == "true"){
-						span.html("<button type='button' class='disableEval btn btn-danger btn-xs' data-id='" + formId + "'><span class='glyphicon glyphicon-remove'></span> Disable</button>");
-						status.html("<span class='badge badge-complete'>active</span>");
+						span.fadeOut(function(){
+							$(this).html("<button type='button' class='disableEval btn btn-danger btn-xs' data-id='" + formId + "'><span class='glyphicon glyphicon-remove'></span> Disable</button>");
+							$(this).fadeIn();
+						});
+						status.fadeOut(function(){
+							$(this).html("<span class='badge badge-complete'>active</span>");
+							$(this).fadeIn();
+						});
 					}
 				}
 			});

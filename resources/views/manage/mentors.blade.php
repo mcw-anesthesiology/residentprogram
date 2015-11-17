@@ -64,13 +64,13 @@
             <h4 class="modal-title" id="myModalRemove">Disable Mentorship</h4>
           </div>
           <div class="modal-body">
-            You have selected to <b>remove</b> the selected mentorship. Would you like to continue?
+            You have selected to <b>remove</b> this mentorship, are you sure?
           </div>
           <div class="modal-footer modal-disable">
             <form method="post" action="/manage/mentors/delete">
 				{{ csrf_field() }}
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-danger" id="mentorshipId" name="mentorshipId" value="">Confirm</button>
+              <button type="submit" class="btn btn-danger" id="mentorshipId" name="mentorshipId" value="">Remove</button>
             </form>
           </div>
         </div>

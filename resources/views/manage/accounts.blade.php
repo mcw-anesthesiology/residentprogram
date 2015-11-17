@@ -124,7 +124,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-success" id="id" name="id" value="">Save Changes</button>
+          <button type="submit" class="btn btn-success" id="id" name="id" value="">Edit account</button>
         </div>
       </form>
     </div>
@@ -189,7 +189,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-success">Save Changes</button>
+          <button type="submit" class="btn btn-primary">Create account</button>
         </div>
       </form>
     </div>
@@ -222,7 +222,7 @@
 		  </div>
 		  <div class="modal-footer modal-edit-password">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<button type="submit" class="btn btn-success" id="id" name="id">Confirm</button>
+				<button type="submit" class="btn btn-primary" id="id" name="id">Change password</button>
 		  </div>
 		</form>
     </div>
@@ -246,7 +246,7 @@
 		<form method="post" action="/manage/accounts/to-faculty">
 			{!! csrf_field() !!}
 			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			<button type="submit" class="btn btn-danger" id="id" name="id" value="">Confirm</button>
+			<button type="submit" class="btn btn-warning" id="id" name="id" value="">Move to faculty</button>
         </form>
       </div>
     </div>
@@ -268,8 +268,14 @@
 				"url": "/manage/accounts/disable",
 				"data": data,
 				"success": function(response){
-					span.html("<button class='enableUser btn btn-success btn-xs' data-id='"+data.id+"'><span class='glyphicon glyphicon-ok'></span> Enable</button>");
-					status.html("inactive");
+					span.fadeOut(function(){
+						$(this).html("<button class='enableUser btn btn-success btn-xs' data-id='"+data.id+"'><span class='glyphicon glyphicon-ok'></span> Enable</button>");
+						$(this).fadeIn();
+					});
+					status.fadeOut(function(){
+						$(this).html("inactive");
+						$(this).fadeIn();
+					});
 				}
 			});
 		});
@@ -284,8 +290,14 @@
 				"url": "/manage/accounts/enable",
 				"data": data,
 				"success": function(response){
-					span.html("<button class='disableUser btn btn-danger btn-xs' data-id='"+data.id+"'><span class='glyphicon glyphicon-remove'></span> Disable</button>");
-					status.html("active");
+					span.fadeOut(function(){
+						$(this).html("<button class='disableUser btn btn-danger btn-xs' data-id='"+data.id+"'><span class='glyphicon glyphicon-remove'></span> Disable</button>");
+						$(this).fadeIn();
+					});
+					status.fadeOut(function(){
+						$(this).html("active");
+						$(this).fadeIn();
+					});
 				}
 			});
 		});
