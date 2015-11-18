@@ -16,6 +16,7 @@
 
 		<!-- Select2 -->
 		<link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
+		<link href="/css/select2-bootstrap.min.css" rel="stylesheet" />
 
 		<!-- Custom styles for this template -->
 		<link href="/css/main.css" rel="stylesheet">
@@ -433,6 +434,8 @@
 				$(".datepicker").datepicker({
 					dateFormat: "yy-mm-dd"
 				});
+
+				$.fn.select2.defaults.set("theme", "bootstrap");
 
 				$(".select2").val(null).select2({
 					placeholder: "Please select"

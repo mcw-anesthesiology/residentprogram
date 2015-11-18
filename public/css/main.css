@@ -257,6 +257,24 @@ body {
     border: 0px solid #000000;
 }
 
+.select2-results__options--nested>.select2-results__option {
+	padding-left: 24px !important;
+}
+
+.select2-results__option {
+	padding-top: 4px !important;
+	padding-bottom: 4px !important;
+}
+
+.select2-results__group {
+	color: #222 !important;
+	font-size: 16px !important;
+}
+
+.select2-container--bootstrap .select2-results>.select2-results__options {
+	max-height: 400px;
+}
+
 @media print {
     .print{
     	display: block;

@@ -19,19 +19,21 @@
 @stop
 
 @section("body")
-	@if( $requestType == "faculty" )
-	<h2 class="sub-header">Evaluate Faculty</h2>
+	@if($requestType == "faculty")
+	<h2 class="sub-header">Evaluate faculty</h2>
+	@elseif($user->type == $evaluatorTypeText)
+	<h2 class="sub-header">Create evaluation</h2>
 	@else
-	<h2 class="sub-header">Request Evaluation</h2>
+	<h2 class="sub-header">Request evaluation</h2>
 	@endif
 
 	<form id="form" role="form" action="#" method="POST" class="form-horizontal">
-	@if($user->type == "resident" || $user->type == "faculty")
+	@if(!empty($blocks))
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-8">
-				<label for="block">Filter By Block</label>
+				<label for="block">Filter by block</label>
 				<select class="form-control" id="block">
-					<option value="0">Select from all {{ $selectTypes[$user->type] }}</option>
+					<option value="0">Select from all {{ $subjectTypeTextPlural }}</option>
 					@foreach($blocks as $block)
 						@if($block->assignments->contains("user_id", $user->id))
 							<option value="{{ $block->id }}">{{ $block->year }} {{ $block->block_name }}</option>
@@ -42,33 +44,52 @@
 		</div>
 	@endif
 		<input type="hidden" name="_token" value="{{ csrf_token() }}" />
-		@if($user->type != "resident")
-			<div class="form-group">
-				<div class="col-md-offset-2 col-md-8">
-					<label for="resident">Resident/Fellow</label>
-					<select class="form-control request-select" name="resident_id" id="resident" required>
-						<option value="">Select Resident/Fellow</option>
-					</select>
-				</div>
-			</div>
-		@endif
 
-		@if($user->type != "faculty")
-			<div class="form-group">
-				<div class="col-md-offset-2 col-md-8">
-					<label for="faculty">Faculty</label>
-					<select class="form-control request-select" name="faculty_id" id="faculty" required>
-						<option value="">Select Faculty</option>
-					</select>
-				</div>
-			</div>
+	@if(!empty($subjects))
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-8">
+				<label for="subject">{{ ucfirst($subjectTypeText) }}</label>
+		@if(!empty($groupSubjects))
+				<div class="input-group select2-bootstrap-append">
 		@endif
+					<select class="form-control request-select" name="subject_id" id="subject" required>
+						<option value="">Select {{ $subjectTypeText }}</option>
+					</select>
+		@if(!empty($groupSubjects))
+					<span class="input-group-addon">
+						<input type="checkbox" id="group-subjects" checked /> Group
+					</span>
+				</div>
+		@endif
+			</div>
+		</div>
+	@endif
+
+	@if(!empty($evaluators))
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-8">
+				<label for="evaluator">{{ ucfirst($evaluatorTypeText) }}</label>
+		@if(!empty($groupEvaluators))
+				<div class="input-group select2-bootstrap-append">
+		@endif
+					<select class="form-control request-select" name="evaluator_id" id="evaluator" required>
+						<option value="">Select {{ $evaluatorTypeText }}</option>
+					</select>
+		@if(!empty($groupEvaluators))
+					<span class="input-group-addon">
+						<input type="checkbox" id="group-subjects" checked /> Group
+					</span>
+				</div>
+		@endif
+			</div>
+		</div>
+	@endif
 
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-8">
-				<label for="evaluation-form">Evaluation Form</label>
+				<label for="evaluation-form">Evaluation form</label>
 				<select class="form-control request-select" name="form_id" id="evaluation-form" required>
-					<option value="">Select Form</option>
+					<option value="">Select form</option>
 			@foreach($forms as $form)
 					<option value="{{ $form->id }}">{{ $form->title }}</option>
 			@endforeach
@@ -112,18 +133,11 @@
 	@if($user->type != "admin")
 </div>
 <div class="container body-block">
-	<h3 class="sub-header">Block Information</h3>
-<?php
-	if($user->type == "resident")
-		$selectUserType = "faculty";
-	elseif($user->type == "faculty")
-		$selectUserType = "interns, residents, and fellows";
-?>
-
+	<h3 class="sub-header">Block information</h3>
 	<p>
-		Selecting a block is used to filter the list of {{ $selectUserType }} to others who are scheduled in the same locations as you. This filter is not perfect.
+		Selecting a block is used to filter the list of {{ $subjectTypeTextPlural }} to others who are scheduled in the same locations as you. This filter is not perfect.
 		If the doctor you are looking for is missing after selecting a block, or an entire block is missing for you from the list, please select "select from all" for the block.
-		You will then be able to select from the entire list of {{ $selectUserType }}.
+		You will then be able to select from the entire list of {{ $subjectTypeTextPlural }}.
 	</p>
 	@endif
 	@if($user->type == "resident" && $requestType == "faculty" && $pendingEvalCount > 0)
@@ -144,11 +158,11 @@
 
 @section("script")
 	<script>
-	@if(isset($requestFaculty))
-		var faculty = $.parseJSON('{!! $requestFaculty !!}');
+	@if(!empty($evaluators))
+		var evaluators = $.parseJSON('{!! $evaluators !!}');
 	@endif
-	@if(isset($requestResidents))
-		var residents = $.parseJSON('{!! $requestResidents !!}');
+	@if(!empty($subjects))
+		var subjects = $.parseJSON('{!! $subjects !!}');
 	@endif
 
 	@if($user->type == "resident" && $requestType == "faculty")
@@ -166,7 +180,7 @@
 			var year = 0, month = 1, day = 2;
 			var start = date.split("-");
 			var end = endOfMonth[date].split("-");
-			$("#evaluation-day-div").show();
+			$("#evaluation-day-div").fadeIn();
 			$("#evaluation-day").datepicker("setDate", "");
 			$("#evaluation-day").datepicker("option", "minDate", new Date(start[year], start[month] - 1, start[day]));
 			$("#evaluation-day").datepicker("option", "maxDate", new Date(end[year], end[month] - 1, end[day]));
@@ -176,8 +190,13 @@
 		$("#evaluation-day").change(function(){
 			var date = $("#evaluation-month").val();
 			var day = $("#evaluation-day").val();
-			if(day.trim() == "")
+			if(day.trim() == ""){
 				day = "01";
+				$("label[for='evaluation-day']").addClass("text-muted");
+			}
+			else
+				$("label[for='evaluation-day']").removeClass("text-muted");
+
 			$("#evaluation-date").val(date.substring(0, date.length-2)+day);
 		});
 
@@ -187,48 +206,84 @@
 				block = $("#block").val();
 			else
 				block = 0;
-			if(type == "resident" || type == "admin"){
-				var facultySelect = document.getElementById("faculty");
-				while(facultySelect.firstChild)
-					facultySelect.removeChild(facultySelect.firstChild);
+			if(typeof(evaluators) != "undefined"){
+				var evaluatorSelect = document.getElementById("evaluator");
+				while(evaluatorSelect.firstChild)
+					evaluatorSelect.removeChild(evaluatorSelect.firstChild);
 
 				var option = document.createElement("option");
 				option.value = "";
-				option.textContent = "Select Faculty";
-				facultySelect.appendChild(option);
+				option.textContent = "Select {{ $evaluatorTypeText }}";
+				evaluatorSelect.appendChild(option);
 
-				if(typeof(faculty[block]) != "undefined"){
-					for(var i = 0; i < faculty[block].length; i++){
+				if(typeof(evaluators[block]) != "undefined"){
+					if(evaluators.groups){
+						var optGroups = {};
+						for(group in evaluators.groups){
+							optGroups[group] = document.createElement("optgroup");
+							optGroups[group].label = evaluators.groups[group];
+						}
+					}
+
+					for(var i = 0; i < evaluators[block].length; i++){
 						var option = document.createElement("option");
-						option.value = faculty[block][i].id;
-						option.textContent = faculty[block][i].name;
-						facultySelect.appendChild(option);
+						option.value = evaluators[block][i].id;
+						option.textContent = evaluators[block][i].name;
+						if(evaluators.groups)
+							optGroups[evaluators[block][i].group].appendChild(option);
+						else
+							evaluatorSelect.appendChild(option);
+					}
+
+					if(evaluators.groups){
+						for(group in optGroups){
+							evaluatorSelect.appendChild(optGroups[group]);
+						}
 					}
 				}
-				$("#faculty").val(null).select2({
-					placeholder: "Select Faculty"
+				$("#evaluator").val(null).select2({
+					placeholder: "Select {{ $evaluatorTypeText }}"
 				});
 			}
-			if(type == "faculty" || type == "admin"){
-				var residentSelect = document.getElementById("resident");
-				while(residentSelect.firstChild)
-					residentSelect.removeChild(residentSelect.firstChild);
+			if(typeof(subjects) != "undefined"){
+				var subjectSelect = document.getElementById("subject");
+				while(subjectSelect.firstChild)
+					subjectSelect.removeChild(subjectSelect.firstChild);
+
+				var groupSubjects = $("#group-subjects").prop("checked");
 
 				var option = document.createElement("option");
 				option.value = "";
-				option.textContent = "Select Resident/Fellow";
-				residentSelect.appendChild(option);
+				option.textContent = "Select {{ $subjectTypeText }}";
+				subjectSelect.appendChild(option);
 
-				if(typeof(residents[block]) != "undefined"){
-					for(var i = 0; i < residents[block].length; i++){
+				if(typeof(subjects[block]) != "undefined"){
+					if(subjects.groups && groupSubjects){
+						var optGroups = {};
+						for(group in subjects.groups){
+							optGroups[group] = document.createElement("optgroup");
+							optGroups[group].label = subjects.groups[group];
+						}
+					}
+
+					for(var i = 0; i < subjects[block].length; i++){
 						var option = document.createElement("option");
-						option.value = residents[block][i].id;
-						option.textContent = residents[block][i].name;
-						residentSelect.appendChild(option);
+						option.value = subjects[block][i].id;
+						option.textContent = subjects[block][i].name;
+						if(subjects.groups && groupSubjects)
+							optGroups[subjects[block][i].group].appendChild(option);
+						else
+							subjectSelect.appendChild(option);
+					}
+
+					if(subjects.groups && groupSubjects){
+						for(group in optGroups){
+							subjectSelect.appendChild(optGroups[group]);
+						}
 					}
 				}
-				$("#resident").val(null).select2({
-					placeholder: "Select Resident/Fellow"
+				$("#subject").val(null).select2({
+					placeholder: "Select {{ $subjectTypeText }}"
 				});
 			}
 		}
@@ -262,7 +317,7 @@
 			$("#evaluation-form").select2();
 	@else
 			$("#evaluation-form").val(null).select2({
-				placeholder: "Select Form"
+				placeholder: "Select form"
 			});
 	@endif
 			$("#block").select2();
@@ -295,6 +350,21 @@
 				"evaluations were completed instead of when they were created. " +
 				"This caused some occasionally inaccurate dates.</p>"
 		});
+
+		function remakeSelects(){
+			var subject = $("#subject").val();
+			var evaluator = $("#evaluator").val();
+
+			selectBlock();
+
+			if(subject && subject != "")
+				$("#subject").val(subject).trigger("change");
+			if(evaluator && evaluator != "")
+				$("#evaluator").val(evaluator).trigger("change");
+		}
+
+		$("#group-subjects").change(remakeSelects);
+		$("#group-evaluators").change(remakeSelects);
 
 	</script>
 @stop

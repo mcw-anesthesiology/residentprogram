@@ -56,6 +56,11 @@ class MainController extends Controller
     public function request(Request $request){
         $user = Auth::user();
 
+		if($request->is("request/faculty"))
+			$requestType = "faculty";
+		else
+			$requestType = "resident";
+
         if($user->type == "resident" || $user->type == "faculty"){
             $blocks = Block::where("start_date", "<", Carbon::now())->with("assignments.user")->orderBy("year", "desc")->orderBy("block_number", "desc")->limit(3)->get();
             foreach($blocks as $block){
@@ -66,45 +71,58 @@ class MainController extends Controller
                     foreach($block->assignments->where("location", $location)->sortBy("user.last_name") as $assignment){
                         if($user->type == "resident"){
                             if($assignment->user_id != $user->id && $assignment->user->type == "faculty"){
-                                $faculty[$block->id][] = ["id" => $assignment->user_id, "name" => $assignment->user->last_name.", ".$assignment->user->first_name];
+                                $faculty[$block->id][] = ["id" => $assignment->user_id, "name" => $assignment->user->full_name, "group" => $assignment->user->training_level];
                             }
                         }
                         elseif($user->type == "faculty"){
                             if($assignment->user_id != $user->id && $assignment->user->type == "resident"){
-                                $residents[$block->id][] = ["id" => $assignment->user_id, "name" => $assignment->user->last_name.", ".$assignment->user->first_name];
+                                $residents[$block->id][] = ["id" => $assignment->user_id, "name" => $assignment->user->full_name];
                             }
                         }
                     }
                 }
             }
         }
-        if($user->type == "admin" || $user->type == "faculty"){
+        if($user->type != "resident"){
             $residentModels = User::where("type", "resident")->where("status", "active")->orderBy("last_name")->get();
             foreach($residentModels as $resident)
-                $residents[0][] = ["id" => $resident->id, "name" => $resident->last_name.", ".$resident->first_name];
+                $residents[0][] = ["id" => $resident->id, "name" => $resident->full_name, "group" => $resident->training_level];
         }
-        if($user->type == "admin" || $user->type == "resident"){
+        if($user->type != "faculty"){
             $facultyModels = User::where("type", "faculty")->where("status", "active")->orderBy("last_name")->get();
             foreach($facultyModels as $fac)
-                $faculty[0][] = ["id" => $fac->id, "name" => $fac->last_name.", ".$fac->first_name];
+                $faculty[0][] = ["id" => $fac->id, "name" => $fac->full_name];
         }
 
+		switch($requestType){
+			case "resident":
+				if($user->type != "resident"){
+					$subjects = $residents;
+					$subjects["groups"] = ["intern" => "Intern", "ca-1" => "CA-1", "ca-2" => "CA-2", "ca-3" => "CA-3", "fellow" => "Fellow"];
+					$groupSubjects = true;
+				}
+				if($user->type != "faculty")
+					$evaluators = $faculty;
 
+				$subjectTypeText = "intern, resident, or fellow";
+				$subjectTypeTextPlural = "interns, residents, and fellows";
+				$evaluatorTypeText = "faculty";
+				$forms = Form::where("status", "active")->where("type", "resident")->orderBy("title")->get();
+				break;
+			case "faculty":
+				if($user->type != "resident")
+					return back()->with("error", "Only residents or fellows can create faculty evaluations");
+				$subjects = $faculty;
+				$pendingEvalCount = Evaluation::with("subject", "evaluator", "form")->where("status", "pending")->where("evaluator_id", $user->id)->whereHas("form", function($query){
+	                $query->where("type", "faculty");
+	            })->count();
 
-        $selectTypes = [
-            "resident" => "faculty",
-            "faculty" => "interns/residents/fellows",
-            "admin" => "users"
-        ];
-        if($request->is("request/faculty") && $user->type == "resident")
-            $forms = Form::where("status", "active")->where("type", "faculty")->orderBy("title")->get();
-        else
-            $forms = Form::where("status", "active")->where("type", "resident")->orderBy("title")->get();
-
-        if($request->is("request/faculty"))
-            $requestType = "faculty";
-        else
-            $requestType = "resident";
+				$subjectTypeText = "faculty";
+				$subjectTypeTextPlural = "faculty";
+				$evaluatorTypeText = "resident";
+				$forms = Form::where("status", "active")->where("type", "faculty")->orderBy("title")->get();
+				break;
+		}
 
 		for($dt = Carbon::now(), $i = 0; $i < 3; $dt->subMonths(1), $i++){
 			$date = $dt->format("Y-m-01");
@@ -112,26 +130,13 @@ class MainController extends Controller
 			$endOfMonth[$date] = $dt->format("Y-m-t");
 		}
 
-        $data = compact("selectTypes", "forms", "requestType", "months", "endOfMonth");
+		if(!empty($subjects))
+			$subjects = str_replace("'", "", json_encode($subjects));
+		if(!empty($evaluators))
+			$evaluators = str_replace("'", "", json_encode($evaluators));
 
-        if($user->type == "resident" && $requestType == "faculty"){
-            $pendingEvalCount = Evaluation::with("subject", "evaluator", "form")->where("status", "pending")->where("evaluator_id", $user->id)->whereHas("form", function($query){
-                $query->where("type", "faculty");
-            })->count();
-            $data["pendingEvalCount"] = $pendingEvalCount;
-        }
-
-
-        if(isset($residents)){
-            $residents = json_encode($residents);
-            $data["requestResidents"] = str_replace("'", "", $residents);
-        }
-        if(isset($faculty)){
-            $faculty = json_encode($faculty);
-            $data["requestFaculty"] = str_replace("'", "", $faculty);
-        }
-        if(isset($blocks))
-            $data["blocks"] = $blocks;
+        $data = compact("forms", "requestType", "months", "endOfMonth", "pendingEvalCount",
+			"subjects", "evaluators", "subjectTypeText", "subjectTypeTextPlural", "evaluatorTypeText", "blocks", "groupSubjects");
 
         return view("evaluations.request", $data);
     }
@@ -140,38 +145,34 @@ class MainController extends Controller
         $user = Auth::user();
         $eval = new Evaluation();
         if($request->is("request")){
-            if($request->has("resident_id"))
-                $eval->subject_id = $request->input("resident_id");
-            elseif($user->type == "resident")
+            if($user->type == "resident")
                 $eval->subject_id = $user->id;
+            elseif($request->has("subject_id"))
+                $eval->subject_id = $request->input("subject_id");
 
-            if($request->has("faculty_id"))
-                $eval->evaluator_id = $request->input("faculty_id");
-            elseif($user->type == "faculty")
+            if($user->type == "faculty")
                 $eval->evaluator_id = $user->id;
+            elseif($request->has("evaluator_id"))
+                $eval->evaluator_id = $request->input("evaluator_id");
         }
         elseif($request->is("request/faculty")){
             if($user->type == "faculty")
                 return redirect("dashboard")->with("error", "Faculty cannot request faculty evaluations");
 
-            if($request->has("resident_id"))
-                $eval->evaluator_id = $request->input("resident_id");
-            elseif($user->type == "resident")
+            if($user->type == "resident")
                 $eval->evaluator_id = $user->id;
+            elseif($request->has("evaluator_id"))
+                $eval->evaluator_id = $request->input("evaluator_id");
 
-            if($request->has("faculty_id"))
-                $eval->subject_id = $request->input("faculty_id");
+            if($request->has("subject_id"))
+                $eval->subject_id = $request->input("subject_id");
             else
                 return back()->withInput()->with("error", "Please select a faculty to be evaluated");
         }
 
         $eval->form_id = $request->input("form_id");
-		$eval->evaluation_date = $request->input("evaluation_date");
-		$eval->training_level = $eval->subject->training_level;
         $eval->requested_by_id = $user->id;
-		$eval->status = "pending";
-        $eval->request_date = Carbon::now();
-        $eval->request_ip = $request->ip();
+		$eval->evaluation_date = $request->input("evaluation_date");
 
 		if(empty($eval->subject_id) || empty($eval->evaluator_id) || empty($eval->form_id) || empty($eval->requested_by_id)){ // TODO: try/catch
 			$errors = "";
@@ -186,6 +187,11 @@ class MainController extends Controller
 
 			return back()->with("error", $errors);
 		}
+
+		$eval->training_level = $eval->subject->training_level;
+		$eval->status = "pending";
+        $eval->request_date = Carbon::now();
+        $eval->request_ip = $request->ip();
 
         $eval->save();
         if($user->id == $eval->evaluator_id)
