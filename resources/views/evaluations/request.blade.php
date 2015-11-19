@@ -57,7 +57,7 @@
 					</select>
 		@if(!empty($groupSubjects))
 					<span class="input-group-addon">
-						<input type="checkbox" id="group-subjects" checked /> Group
+						<label><input type="checkbox" id="group-subjects" checked /> Group</label>
 					</span>
 				</div>
 		@endif
@@ -77,7 +77,7 @@
 					</select>
 		@if(!empty($groupEvaluators))
 					<span class="input-group-addon">
-						<input type="checkbox" id="group-subjects" checked /> Group
+						<label><input type="checkbox" id="group-evaluators" checked /> Group</label>
 					</span>
 				</div>
 		@endif
@@ -88,12 +88,18 @@
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-8">
 				<label for="evaluation-form">Evaluation form</label>
-				<select class="form-control request-select" name="form_id" id="evaluation-form" required>
-					<option value="">Select form</option>
-			@foreach($forms as $form)
-					<option value="{{ $form->id }}">{{ $form->title }}</option>
-			@endforeach
-				</select>
+		@if(!empty($groupForms))
+				<div class="input-group select2-bootstrap-append">
+		@endif
+					<select class="form-control request-select" name="form_id" id="evaluation-form" required>
+						<option value="">Select form</option>
+					</select>
+		@if(!empty($groupForms))
+					<span class="input-group-addon">
+						<label><input type="checkbox" id="group-forms" checked /> Group</label>
+					</span>
+				</div>
+		@endif
 			</div>
 		</div>
 
@@ -164,6 +170,9 @@
 	@if(!empty($subjects))
 		var subjects = $.parseJSON('{!! $subjects !!}');
 	@endif
+	@if(!empty($forms))
+		var forms = $.parseJSON('{!! $forms !!}');
+	@endif
 
 	@if($user->type == "resident" && $requestType == "faculty")
 		$(".table").on("click", ".view", function(){
@@ -201,90 +210,94 @@
 		});
 
 		function selectBlock(){
-			var block;
-			if($("#block").length)
-				block = $("#block").val();
-			else
-				block = 0;
 			if(typeof(evaluators) != "undefined"){
-				var evaluatorSelect = document.getElementById("evaluator");
-				while(evaluatorSelect.firstChild)
-					evaluatorSelect.removeChild(evaluatorSelect.firstChild);
-
-				var option = document.createElement("option");
-				option.value = "";
-				option.textContent = "Select {{ $evaluatorTypeText }}";
-				evaluatorSelect.appendChild(option);
-
-				if(typeof(evaluators[block]) != "undefined"){
-					if(evaluators.groups){
-						var optGroups = {};
-						for(group in evaluators.groups){
-							optGroups[group] = document.createElement("optgroup");
-							optGroups[group].label = evaluators.groups[group];
-						}
-					}
-
-					for(var i = 0; i < evaluators[block].length; i++){
-						var option = document.createElement("option");
-						option.value = evaluators[block][i].id;
-						option.textContent = evaluators[block][i].name;
-						if(evaluators.groups)
-							optGroups[evaluators[block][i].group].appendChild(option);
-						else
-							evaluatorSelect.appendChild(option);
-					}
-
-					if(evaluators.groups){
-						for(group in optGroups){
-							evaluatorSelect.appendChild(optGroups[group]);
-						}
-					}
-				}
-				$("#evaluator").val(null).select2({
-					placeholder: "Select {{ $evaluatorTypeText }}"
-				});
+				makeEvaluators();
 			}
 			if(typeof(subjects) != "undefined"){
-				var subjectSelect = document.getElementById("subject");
-				while(subjectSelect.firstChild)
-					subjectSelect.removeChild(subjectSelect.firstChild);
+				makeSubjects();
+			}
+		}
 
-				var groupSubjects = $("#group-subjects").prop("checked");
+		function makeEvaluators(){
+			var block = 0;
+			if($("#block").length)
+				block = $("#block").val();
 
-				var option = document.createElement("option");
-				option.value = "";
-				option.textContent = "Select {{ $subjectTypeText }}";
-				subjectSelect.appendChild(option);
+			makeSelect("evaluator", "{{ $evaluatorTypeText }}", evaluators[block], evaluators.group, "group-evaluators");
 
-				if(typeof(subjects[block]) != "undefined"){
-					if(subjects.groups && groupSubjects){
-						var optGroups = {};
-						for(group in subjects.groups){
-							optGroups[group] = document.createElement("optgroup");
-							optGroups[group].label = subjects.groups[group];
-						}
-					}
+			$("#evaluator").val(null).select2({
+				placeholder: "Select {{ $evaluatorTypeText }}"
+			});
+		}
 
-					for(var i = 0; i < subjects[block].length; i++){
-						var option = document.createElement("option");
-						option.value = subjects[block][i].id;
-						option.textContent = subjects[block][i].name;
-						if(subjects.groups && groupSubjects)
-							optGroups[subjects[block][i].group].appendChild(option);
-						else
-							subjectSelect.appendChild(option);
-					}
+		function makeSubjects(){
+			var block = 0;
+			if($("#block").length)
+				block = $("#block").val();
 
-					if(subjects.groups && groupSubjects){
-						for(group in optGroups){
-							subjectSelect.appendChild(optGroups[group]);
-						}
+			makeSelect("subject", "{{ $subjectTypeText }}", subjects[block], subjects.groups, "group-subjects");
+
+			$("#subject").val(null).select2({
+				placeholder: "Select {{ $subjectTypeText }}"
+			});
+		}
+
+		function makeForms(type){
+			var selectId = "evaluation-form";
+			var selectType = "form";
+	@if(!empty($formGroups))
+			var formGroups = {!! $formGroups !!};
+	@endif
+			makeSelect(selectId, selectType, forms, formGroups, "group-forms");
+
+	@if($requestType == "faculty")
+			$("#evaluation-form").select2();
+			$("#evaluation-form option:eq(1)").prop("selected", true).trigger("change");
+	@else
+			$("#evaluation-form").val(null).select2({
+				placeholder: "Select form"
+			});
+	@endif
+		}
+
+		function makeSelect(selectId, selectType, options, groups, groupId){
+			var groupChecked = false;
+			if(typeof(groupId) != "undefined")
+				groupChecked = $("#"+groupId).prop("checked");
+
+			var select = document.getElementById(selectId);
+			while(select.firstChild)
+				select.removeChild(select.firstChild);
+
+			var option = document.createElement("option");
+			option.value = "";
+			option.textContent = "Select " + selectType;
+			select.appendChild(option);
+
+			if(typeof(options) != "undefined"){
+				if(typeof(groups) != "undefined" && groupChecked){
+					var optGroups = {};
+					for(group in groups){
+						optGroups[group] = document.createElement("optgroup");
+						optGroups[group].label = groups[group];
 					}
 				}
-				$("#subject").val(null).select2({
-					placeholder: "Select {{ $subjectTypeText }}"
-				});
+
+				for(var i = 0; i < options.length; i++){
+					var option = document.createElement("option");
+					option.value = options[i].id;
+					option.textContent = options[i].name;
+					if(typeof(groups) != "undefined" && groupChecked)
+						optGroups[options[i].group].appendChild(option);
+					else
+						select.appendChild(option);
+				}
+
+				if(typeof(groups) != "undefined" && groupChecked){
+					for(group in optGroups){
+						select.appendChild(optGroups[group]);
+					}
+				}
 			}
 		}
 
@@ -312,15 +325,9 @@
 
 			$("#block option:eq(0)").prop("selected", true).trigger("change");
 			selectBlock();
-	@if($requestType == "faculty")
-			$("#evaluation-form option:eq(1)").prop("selected", true).trigger("change");
-			$("#evaluation-form").select2();
-	@else
-			$("#evaluation-form").val(null).select2({
-				placeholder: "Select form"
-			});
-	@endif
 			$("#block").select2();
+
+			makeForms();
 
 			$("#evaluation-month").select2({
 				placeholder: "Select a month"
@@ -351,20 +358,24 @@
 				"This caused some occasionally inaccurate dates.</p>"
 		});
 
-		function remakeSelects(){
+
+		$("#group-subjects").change(function(){
 			var subject = $("#subject").val();
+			makeSubjects();
+			$("#subject").val(subject).trigger("change");
+		});
+
+		$("#group-evaluators").change(function(){
 			var evaluator = $("#evaluator").val();
+			makeEvaluators();
+			$("#evaluator").val(evaluator).trigger("change");
+		});
 
-			selectBlock();
-
-			if(subject && subject != "")
-				$("#subject").val(subject).trigger("change");
-			if(evaluator && evaluator != "")
-				$("#evaluator").val(evaluator).trigger("change");
-		}
-
-		$("#group-subjects").change(remakeSelects);
-		$("#group-evaluators").change(remakeSelects);
+		$("#group-forms").change(function(){
+			var form = $("#evaluation-form").val();
+			makeForms();
+			$("#evaluation-form").val(form).trigger("change");
+		});
 
 	</script>
 @stop

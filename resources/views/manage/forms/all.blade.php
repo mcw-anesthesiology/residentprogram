@@ -2,7 +2,7 @@
 
 @section("body")
 	<div class="row">
-		<h2 class="sub-header">Evaluation Forms <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+		<h2 class="sub-header">Evaluation forms <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add new</button></h2>
 		<div class="table-responsive">
 			<table class="table table-striped" id="resident-forms">
 				<thead>
@@ -21,7 +21,26 @@
 </div>
 <div class="container body-block">
 	<div class="row">
-		<h2 class="sub-header">Faculty Evaluation Forms <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+		<h2 class="sub-header">Fellow evaluation forms <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add new</button></h2>
+		<div class="table-responsive">
+			<table class="table table-striped" id="fellow-forms">
+				<thead>
+					<tr>
+						<th>Title</th>
+						<th>Created</th>
+						<th>Status</th>
+						<th>View</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+
+</div>
+<div class="container body-block">
+	<div class="row">
+		<h2 class="sub-header">Faculty evaluation forms <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add new</button></h2>
 		<div class="table-responsive">
 			<table class="table table-striped" id="faculty-forms">
 				<thead>
@@ -148,6 +167,11 @@
 			});
 			$("#faculty-forms").DataTable({
 				"ajax": "/manage/forms/get/faculty",
+				"dom": "lfprtip",
+				stateSave: true
+			});
+			$("#fellow-forms").DataTable({
+				"ajax": "/manage/forms/get/fellow",
 				"dom": "lfprtip",
 				stateSave: true
 			});

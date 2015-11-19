@@ -56,10 +56,16 @@ class MainController extends Controller
     public function request(Request $request){
         $user = Auth::user();
 
-		if($request->is("request/faculty"))
+		if($request->is("request/faculty")){
 			$requestType = "faculty";
-		else
+			$subjectType = "faculty";
+			$evaluatorType = "resident";
+		}
+		else{
 			$requestType = "resident";
+			$subjectType = "resident";
+			$evaluatorType = "faculty";
+		}
 
         if($user->type == "resident" || $user->type == "faculty"){
             $blocks = Block::where("start_date", "<", Carbon::now())->with("assignments.user")->orderBy("year", "desc")->orderBy("block_number", "desc")->limit(3)->get();
@@ -83,12 +89,12 @@ class MainController extends Controller
                 }
             }
         }
-        if($user->type != "resident"){
+        if($user->type != "resident" && in_array("resident", [$subjectType, $evaluatorType])){
             $residentModels = User::where("type", "resident")->where("status", "active")->orderBy("last_name")->get();
             foreach($residentModels as $resident)
                 $residents[0][] = ["id" => $resident->id, "name" => $resident->full_name, "group" => $resident->training_level];
         }
-        if($user->type != "faculty"){
+        if($user->type != "faculty" && in_array("faculty", [$subjectType, $evaluatorType])){
             $facultyModels = User::where("type", "faculty")->where("status", "active")->orderBy("last_name")->get();
             foreach($facultyModels as $fac)
                 $faculty[0][] = ["id" => $fac->id, "name" => $fac->full_name];
@@ -107,7 +113,13 @@ class MainController extends Controller
 				$subjectTypeText = "intern, resident, or fellow";
 				$subjectTypeTextPlural = "interns, residents, and fellows";
 				$evaluatorTypeText = "faculty";
-				$forms = Form::where("status", "active")->where("type", "resident")->orderBy("title")->get();
+
+				$formModels = Form::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("title")->get();
+				foreach($formModels as $form){
+					$forms[] = ["id" => $form->id, "name" => $form->title, "group" => $form->type];
+				}
+				$formGroups = ["resident" => "Resident", "fellow" => "Fellow"];
+				$groupForms = true;
 				break;
 			case "faculty":
 				if($user->type != "resident")
@@ -120,7 +132,11 @@ class MainController extends Controller
 				$subjectTypeText = "faculty";
 				$subjectTypeTextPlural = "faculty";
 				$evaluatorTypeText = "resident";
-				$forms = Form::where("status", "active")->where("type", "faculty")->orderBy("title")->get();
+				$formModels = Form::where("status", "active")->where("type", "faculty")->orderBy("title")->get();
+				foreach($formModels as $form){
+					$forms[] = ["id" => $form->id, "name" => $form->title];
+				}
+				$groupForms = false;
 				break;
 		}
 
@@ -134,9 +150,14 @@ class MainController extends Controller
 			$subjects = str_replace("'", "", json_encode($subjects));
 		if(!empty($evaluators))
 			$evaluators = str_replace("'", "", json_encode($evaluators));
+		if(!empty($forms))
+			$forms = str_replace("'", "", json_encode($forms));
+		if(!empty($formGroups))
+			$formGroups = str_replace("'", "", json_encode($formGroups));
 
         $data = compact("forms", "requestType", "months", "endOfMonth", "pendingEvalCount",
-			"subjects", "evaluators", "subjectTypeText", "subjectTypeTextPlural", "evaluatorTypeText", "blocks", "groupSubjects");
+			"subjects", "evaluators", "subjectTypeText", "subjectTypeTextPlural", "evaluatorTypeText",
+			"blocks", "groupSubjects", "groupEvaluators", "groupForms", "formGroups");
 
         return view("evaluations.request", $data);
     }
@@ -442,13 +463,13 @@ class MainController extends Controller
         $results["data"] = [];
         if($user->type == "admin"){
             $evaluations = Evaluation::with("subject", "evaluator", "form")->whereHas("form", function($query){
-                $query->where("type", "resident");
+                $query->whereIn("type", ["resident", "fellow"]);
             })->get();
             foreach($evaluations as $eval){
                 $result = [];
                 $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
-                $result[] = $eval->subject->last_name.", ".$eval->subject->first_name;
-                $result[] = $eval->evaluator->last_name.", ".$eval->evaluator->first_name;
+                $result[] = $eval->subject->full_name;
+                $result[] = $eval->evaluator->full_name;
                 $result[] = $eval->form->title;
                 $result[] = (string)$eval->request_date;
                 if($eval->complete_date)
@@ -477,15 +498,15 @@ class MainController extends Controller
                 $evaluations = Evaluation::where("status", $type)->where(function($query) use ($user){
                     $query->where("evaluator_id", $user->id)->orWhere("subject_id", $user->id);
                 })->with("subject", "evaluator", "form")->whereHas("form", function($query){
-                    $query->where("type", "resident");
+                    $query->whereIn("type", ["resident", "fellow"]);
                 })->get();
             foreach($evaluations as $eval){
                 $result = [];
                 $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
                 if($eval->subject_id == $user->id || $type == "mentor")
-                    $result[] = $eval->evaluator->last_name.", ".$eval->evaluator->first_name;
+                    $result[] = $eval->evaluator->full_name;
                 else
-                    $result[] = $eval->subject->last_name.", ".$eval->subject->first_name;
+                    $result[] = $eval->subject->full_name;
                 $result[] = $eval->form->title;
                 $result[] = (string)$eval->request_date;
                 if($type == "complete" || $type == "mentor")
