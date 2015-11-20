@@ -7,27 +7,30 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use Auth;
-use Carbon\Carbon;
-use SimpleXmlElement;
+use App\Helpers\FormReader;
+
 use DOMDocument;
+use SimpleXmlElement;
+
+use Auth;
 use DB;
 use Debugbar;
+use Log;
 use Mail;
 use Setting;
 
-use App\Helpers\FormReader;
+use Carbon\Carbon;
 
-use App\Evaluation;
-use App\User;
-use App\Form;
-use App\Milestone;
-use App\Competency;
-use App\Mentorship;
-use App\MilestoneQuestion;
-use App\CompetencyQuestion;
 use App\Block;
 use App\BlockAssignment;
+use App\Competency;
+use App\CompetencyQuestion;
+use App\Evaluation;
+use App\Form;
+use App\Mentorship;
+use App\Milestone;
+use App\MilestoneQuestion;
+use App\User;
 
 class ManageController extends Controller
 {
@@ -56,46 +59,51 @@ class ManageController extends Controller
         $results["data"] = [];
         $evaluations = Evaluation::with("subject", "evaluator", "requestor", "form")->get();
         foreach($evaluations as $eval){
-            $result = [];
-            $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
-            $result[] = $eval->subject->last_name.", ".$eval->subject->first_name;
-            $result[] = $eval->evaluator->last_name.", ".$eval->evaluator->first_name;
-            $result[] = $eval->requestor->last_name.", ".$eval->requestor->first_name;
-            $result[] = $eval->form->title;
-            $result[] = (string)$eval->request_date;
-            if($eval->complete_date)
-                $result[] = (string)$eval->complete_date;
-            else
-                $result[] = "";
+			try{
+	            $result = [];
+	            $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
+	            $result[] = $eval->subject->full_name;
+	            $result[] = $eval->evaluator->full_name;
+	            $result[] = $eval->requestor->full_name;
+	            $result[] = $eval->form->title;
+	            $result[] = (string)$eval->request_date;
+	            if($eval->complete_date)
+	                $result[] = (string)$eval->complete_date;
+	            else
+	                $result[] = "";
 
-            if($eval->status == "complete")
-                $badge = "complete";
-            elseif($eval->status == "pending")
-                $badge = "pending";
-            else
-                $badge = "disabled";
+	            if($eval->status == "complete")
+	                $badge = "complete";
+	            elseif($eval->status == "pending")
+	                $badge = "pending";
+	            else
+	                $badge = "disabled";
 
-            $result[] = "<span class='status'><span class='badge badge-{$badge}'>{$eval->status}</span></span>";
-            if($eval->status == "disabled"){
-                $buttonClass = "enableEval";
-                $buttonType = "success";
-                $glyphicon = "ok";
-                $buttonText = "Enable";
-            }
-            else{
-                $buttonClass = "disableEval";
-                $buttonType = "danger";
-                $glyphicon = "remove";
-                $buttonText = "Disable";
-            }
-            $action = "<span><button class='{$buttonClass} btn btn-{$buttonType} btn-xs' data-id='{$eval->id}'><span class='glyphicon glyphicon-{$glyphicon}'></span> {$buttonText}</button></span>";
-            $action .= "<span class='cancel'>";
-            if($eval->status == "pending"){
-                $action .= "<button class='cancelEval btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-cancel-modal-sm' data-id='{$eval->id}'><span class='glyphicon glyphicon-remove'></span> Cancel</button>";
-            }
-            $action .= "</span>";
-            $result[] = $action;
-            $results["data"][] = $result;
+	            $result[] = "<span class='status'><span class='badge badge-{$badge}'>{$eval->status}</span></span>";
+	            if($eval->status == "disabled"){
+	                $buttonClass = "enableEval";
+	                $buttonType = "success";
+	                $glyphicon = "ok";
+	                $buttonText = "Enable";
+	            }
+	            else{
+	                $buttonClass = "disableEval";
+	                $buttonType = "danger";
+	                $glyphicon = "remove";
+	                $buttonText = "Disable";
+	            }
+	            $action = "<span><button class='{$buttonClass} btn btn-{$buttonType} btn-xs' data-id='{$eval->id}'><span class='glyphicon glyphicon-{$glyphicon}'></span> {$buttonText}</button></span>";
+	            $action .= "<span class='cancel'>";
+	            if($eval->status == "pending"){
+	                $action .= "<button class='cancelEval btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-cancel-modal-sm' data-id='{$eval->id}'><span class='glyphicon glyphicon-remove'></span> Cancel</button>";
+	            }
+	            $action .= "</span>";
+	            $result[] = $action;
+	            $results["data"][] = $result;
+			}
+			catch(\Exception $e){
+				Log::error("Problem with evaluation: ".$e);
+			}
         }
         return json_encode($results);
     }
@@ -190,7 +198,7 @@ class ManageController extends Controller
                     });
                 }
                 catch(\Exception $e){
-
+					Log::error("Problem sending email: ".$e);
                 }
                 return redirect("manage/accounts");
                 break;
@@ -267,31 +275,36 @@ class ManageController extends Controller
         else
             $users = User::where("type", $type)->get();
         foreach($users as $user){
-            $result = [];
-            $result[] = $user->last_name.", ".$user->first_name;
-            $result[] = $user->username;
-            $result[] = $user->email;
-            if($type == "resident")
-                $result[] = $user->training_level;
-            $result[] = $user->status;
-            $action = "<button class='editUser btn btn-info btn-xs' data-toggle='modal' data-target='.bs-edit-modal' data-type='{$type}' data-id='{$user->id}' data-username='{$user->username}' data-email='{$user->email}' data-first='{$user->first_name}' data-last='{$user->last_name}' data-trainingLevel='{$user->training_level}' data-photo='{$user->photo_path}' id='editBtn'><span class='glyphicon glyphicon-edit'></span> Edit</button> ";
-			$action .= "<button class='editPassword btn btn-info btn-xs' data-toggle='modal' data-target='.bs-edit-password-modal' data-id='{$user->id}' id='editPasswordBtn'><span class='glyphicon glyphicon-edit'></span> Password</button> ";
-            // if($type == "resident" || $type == "fellow")
-			//          $action .= "<button class='residentToFaculty btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-resident-to-faculty-modal-sm' data-id='{$user->id}' data-name='{$user->first_name} {$user->last_name}' id='residentToFacultyBtn'><span class='glyphicon glyphicon-edit'></span> Change to Faculty</button>";
-            if($user->status == "inactive"){
-                $buttonClass = "enableUser";
-                $buttonType = "success";
-                $glyphicon = "ok";
-                $buttonText = "Enable";
-            } else{
-                $buttonClass = "disableUser";
-                $buttonType = "danger";
-                $glyphicon = "remove";
-                $buttonText = "Disable";
-            }
-			$action .= "<span class='enableDisableButton'><button class='{$buttonClass} btn btn-{$buttonType} btn-xs' data-id='{$user->id}'><span class='glyphicon glyphicon-{$glyphicon}'></span> {$buttonText}</button></span>";
-            $result[] = $action;
-            $results["data"][] = $result;
+			try{
+	            $result = [];
+	            $result[] = $user->full_name;
+	            $result[] = $user->username;
+	            $result[] = $user->email;
+	            if($type == "resident")
+	                $result[] = $user->training_level;
+	            $result[] = $user->status;
+	            $action = "<button class='editUser btn btn-info btn-xs' data-toggle='modal' data-target='.bs-edit-modal' data-type='{$type}' data-id='{$user->id}' data-username='{$user->username}' data-email='{$user->email}' data-first='{$user->first_name}' data-last='{$user->last_name}' data-trainingLevel='{$user->training_level}' data-photo='{$user->photo_path}' id='editBtn'><span class='glyphicon glyphicon-edit'></span> Edit</button> ";
+				$action .= "<button class='editPassword btn btn-info btn-xs' data-toggle='modal' data-target='.bs-edit-password-modal' data-id='{$user->id}' id='editPasswordBtn'><span class='glyphicon glyphicon-edit'></span> Password</button> ";
+	            // if($type == "resident" || $type == "fellow")
+				//          $action .= "<button class='residentToFaculty btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-resident-to-faculty-modal-sm' data-id='{$user->id}' data-name='{$user->first_name} {$user->last_name}' id='residentToFacultyBtn'><span class='glyphicon glyphicon-edit'></span> Change to Faculty</button>";
+	            if($user->status == "inactive"){
+	                $buttonClass = "enableUser";
+	                $buttonType = "success";
+	                $glyphicon = "ok";
+	                $buttonText = "Enable";
+	            } else{
+	                $buttonClass = "disableUser";
+	                $buttonType = "danger";
+	                $glyphicon = "remove";
+	                $buttonText = "Disable";
+	            }
+				$action .= "<span class='enableDisableButton'><button class='{$buttonClass} btn btn-{$buttonType} btn-xs' data-id='{$user->id}'><span class='glyphicon glyphicon-{$glyphicon}'></span> {$buttonText}</button></span>";
+	            $result[] = $action;
+	            $results["data"][] = $result;
+			}
+			catch(\Exception $e){
+				Log::error("Problem with account: ".$e);
+			}
         }
         return json_encode($results);
     }
@@ -304,26 +317,31 @@ class ManageController extends Controller
         $results["data"] = [];
         $forms = Form::where("type", $type)->get();
         foreach($forms as $form){
-            $result = [];
-            $result[] = $form->title;
-            $result[] = (string)$form->created_at;
-            if($form->status == "inactive"){
-                $buttonClass = "enableEval";
-                $buttonType = "success";
-                $glyphicon = "ok";
-                $buttonText = "Enable";
-                $badge = "disabled";
-            } else{
-                $buttonClass = "disableEval";
-                $buttonType = "danger";
-                $glyphicon = "remove";
-                $buttonText = "Disable";
-                $badge = "complete";
-            }
-            $result[] = "<span class='status'><span class='badge badge-{$badge}'>{$form->status}</span></span>";
-            $result[] = "<a href='/manage/forms/{$form->id}'>View Form</a>";
-            $result[] = "<button type='button' class='{$buttonClass} btn btn-{$buttonType} btn-xs' data-id='{$form->id}'><span class='glyphicon glyphicon-{$glyphicon}'></span> {$buttonText}</button>";
-            $results["data"][] = $result;
+			try{
+	            $result = [];
+	            $result[] = $form->title;
+	            $result[] = (string)$form->created_at;
+	            if($form->status == "inactive"){
+	                $buttonClass = "enableEval";
+	                $buttonType = "success";
+	                $glyphicon = "ok";
+	                $buttonText = "Enable";
+	                $badge = "disabled";
+	            } else{
+	                $buttonClass = "disableEval";
+	                $buttonType = "danger";
+	                $glyphicon = "remove";
+	                $buttonText = "Disable";
+	                $badge = "complete";
+	            }
+	            $result[] = "<span class='status'><span class='badge badge-{$badge}'>{$form->status}</span></span>";
+	            $result[] = "<a href='/manage/forms/{$form->id}'>View Form</a>";
+	            $result[] = "<button type='button' class='{$buttonClass} btn btn-{$buttonType} btn-xs' data-id='{$form->id}'><span class='glyphicon glyphicon-{$glyphicon}'></span> {$buttonText}</button>";
+	            $results["data"][] = $result;
+			}
+			catch(\Exception $e){
+				Log::error("Problem with form: ".$e);
+			}
         }
         return json_encode($results);
     }
@@ -488,16 +506,21 @@ class ManageController extends Controller
         $results["data"] = [];
         $milestones = Milestone::all();
         foreach($milestones as $milestone){
-            $result = [];
-            $result[] = $milestone->title;
-			$result[] = $milestone->type;
-			$result[] = $milestone->training_level;
-            $result[] = $milestone->description;
-            $action = "<button class='editMilestone btn btn-info btn-xs' data-toggle='modal' data-target='.bs-editMS-modal' data-id='{$milestone->id}' id='editBtn'><span class='glyphicon glyphicon-edit'></span> Edit</button>";
-            if($milestone->forms->count() === 0)
-                $action .= "<button class='deleteMilestone btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-deleteMS-modal' data-id='{$milestone->id}' id='deleteBtn'><span class='glyphicon glyphicon-remove'></span> Delete</button>";
-            $result[] = $action;
-            $results["data"][] = $result;
+			try{
+	            $result = [];
+	            $result[] = $milestone->title;
+				$result[] = $milestone->type;
+				$result[] = $milestone->training_level;
+	            $result[] = $milestone->description;
+	            $action = "<button class='editMilestone btn btn-info btn-xs' data-toggle='modal' data-target='.bs-editMS-modal' data-id='{$milestone->id}' id='editBtn'><span class='glyphicon glyphicon-edit'></span> Edit</button>";
+	            if($milestone->forms->count() === 0)
+	                $action .= "<button class='deleteMilestone btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-deleteMS-modal' data-id='{$milestone->id}' id='deleteBtn'><span class='glyphicon glyphicon-remove'></span> Delete</button>";
+	            $result[] = $action;
+	            $results["data"][] = $result;
+			}
+			catch(\Exception $e){
+				Log::error("Problem with milestone: ".$e);
+			}
         }
         return json_encode($results);
     }
@@ -506,14 +529,19 @@ class ManageController extends Controller
         $results["data"] = [];
         $competencies = Competency::all();
         foreach($competencies as $competency){
-            $result = [];
-            $result[] = $competency->title;
-            $result[] = $competency->description;
-            $action = "<button class='editCompetency btn btn-info btn-xs' data-toggle='modal' data-target='.bs-editC-modal' data-id='{$competency->id}' id='editBtn'><span class='glyphicon glyphicon-edit'></span> Edit</button>";
-            if($competency->forms->count() === 0)
-                $action .= "<button class='deleteCompetency btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-deleteC-modal' data-id='{$competency->id}' id='deleteBtn'><span class='glyphicon glyphicon-remove'></span> Delete</button>";
-            $result[] = $action;
-            $results["data"][] = $result;
+			try{
+	            $result = [];
+	            $result[] = $competency->title;
+	            $result[] = $competency->description;
+	            $action = "<button class='editCompetency btn btn-info btn-xs' data-toggle='modal' data-target='.bs-editC-modal' data-id='{$competency->id}' id='editBtn'><span class='glyphicon glyphicon-edit'></span> Edit</button>";
+	            if($competency->forms->count() === 0)
+	                $action .= "<button class='deleteCompetency btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-deleteC-modal' data-id='{$competency->id}' id='deleteBtn'><span class='glyphicon glyphicon-remove'></span> Delete</button>";
+	            $result[] = $action;
+	            $results["data"][] = $result;
+			}
+			catch(\Exception $e){
+				Log::error("Problem with competency: ".$e);
+			}
         }
         return json_encode($results);
     }
@@ -582,13 +610,18 @@ class ManageController extends Controller
         $results["data"] = [];
         $mentorships = Mentorship::where("status", "active")->get();
         foreach($mentorships as $mentorship){
-            $result = [];
-            $result[] = $mentorship->id;
-            $result[] = $mentorship->mentor->last_name.", ".$mentorship->mentor->first_name;
-            $result[] = $mentorship->mentee->last_name.", ".$mentorship->mentee->first_name;
-            $result[] = (string)$mentorship->created_at;
-            $result[] = "<button class='removeMentorship btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-remove-modal' id='rmvBtn' data-id='{$mentorship->id}'><span class='glyphicon glyphicon-remove'></span> Remove</button>";
-            $results["data"][] = $result;
+			try{
+	            $result = [];
+	            $result[] = $mentorship->id;
+	            $result[] = $mentorship->mentor->full_name;
+	            $result[] = $mentorship->mentee->full_name;
+	            $result[] = (string)$mentorship->created_at;
+	            $result[] = "<button class='removeMentorship btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-remove-modal' id='rmvBtn' data-id='{$mentorship->id}'><span class='glyphicon glyphicon-remove'></span> Remove</button>";
+	            $results["data"][] = $result;
+			}
+			catch(\Exception $e){
+				Log::error("Problem with mentor: ".$e);
+			}
         }
         return json_encode($results);
     }
@@ -617,7 +650,7 @@ class ManageController extends Controller
 		return view("manage.blocks");
 	}
 
-	public function getBlocks(Request $request){
+	public function getBlocks(Request $request){ // TODO
 		$results["data"] = [];
 		$blocks = Block::where("start_date", "<=", Carbon::now());
 		foreach($blocks as $block){
@@ -651,18 +684,22 @@ class ManageController extends Controller
         $numBlocks = Block::where("year", $request->input("year"))->orderBy("block_number")->count();
         $lastBlock = 0;
         foreach($blockUsers as $blockUser){
-            $row = array_fill(0, $numBlocks+1, "");
-            $row[0] = $blockUser->last_name.", ".$blockUser->first_name;
-            foreach($blockUser->blockAssignments->where("block.year", $request->input("year"))->sortBy("block.block_number") as $assignment){
-                if($row[$assignment->block->block_number] != "")
-                    $row[$assignment->block->block_number] .= "<br />".$assignment->location;
-                else
-                    $row[$assignment->block->block_number] = $assignment->location;
-            }
+			try{
+	            $row = array_fill(0, $numBlocks+1, "");
+	            $row[0] = $blockUser->last_name.", ".$blockUser->first_name;
+	            foreach($blockUser->blockAssignments->where("block.year", $request->input("year"))->sortBy("block.block_number") as $assignment){
+	                if($row[$assignment->block->block_number] != "")
+	                    $row[$assignment->block->block_number] .= "<br />".$assignment->location;
+	                else
+	                    $row[$assignment->block->block_number] = $assignment->location;
+	            }
 
-            $data["data"][] = $row;
+	            $data["data"][] = $row;
+			}
+			catch(\Exception $e){
+				Log::error("Problem with block assignment: ".$e);
+			}
         }
-
         return json_encode($data);
     }
 

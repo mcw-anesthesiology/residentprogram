@@ -10,23 +10,23 @@ use App\Http\Controllers\Controller;
 use App\Helpers\FormReader;
 
 use Auth;
-use Mail;
 use Debugbar;
 use Log;
+use Mail;
 use Setting;
 
 use Carbon\Carbon;
 
-use App\User;
 use App\Block;
 use App\BlockAssignment;
-use App\Form;
+use App\Contact;
 use App\Evaluation;
 use App\FlaggedEvaluation;
+use App\Form;
 use App\Mentorship;
 use App\Response;
 use App\TextResponse;
-use App\Contact;
+use App\User;
 
 class MainController extends Controller
 {
@@ -234,7 +234,7 @@ class MainController extends Controller
                     });
                 }
                 catch (\Exception $e){
-                    Log::error($e);
+                    Log::error("Problem sending email: ".$e);
                 }
             }
         }
@@ -438,7 +438,7 @@ class MainController extends Controller
 					$message->subject("Flagged evaluation");
 				});
 			} catch (\Exception $e){
-
+				Log::error("Problem sending email: ".$e);
 			}
 			return back()->with("success", "Your request has been saved, an administrator will review the evaluation shortly.");
 		}
@@ -466,25 +466,30 @@ class MainController extends Controller
                 $query->whereIn("type", ["resident", "fellow"]);
             })->get();
             foreach($evaluations as $eval){
-                $result = [];
-                $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
-                $result[] = $eval->subject->full_name;
-                $result[] = $eval->evaluator->full_name;
-                $result[] = $eval->form->title;
-                $result[] = (string)$eval->request_date;
-                if($eval->complete_date)
-                    $result[] = (string)$eval->complete_date;
-                else
-                    $result[] = "";
-                if($eval->status == "complete")
-                    $badge = "complete";
-                elseif($eval->status == "pending")
-                    $badge = "pending";
-                else
-                    $badge = "disabled";
+				try{
+	                $result = [];
+	                $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
+	                $result[] = $eval->subject->full_name;
+	                $result[] = $eval->evaluator->full_name;
+	                $result[] = $eval->form->title;
+	                $result[] = (string)$eval->request_date;
+	                if($eval->complete_date)
+	                    $result[] = (string)$eval->complete_date;
+	                else
+	                    $result[] = "";
+	                if($eval->status == "complete")
+	                    $badge = "complete";
+	                elseif($eval->status == "pending")
+	                    $badge = "pending";
+	                else
+	                    $badge = "disabled";
 
-                $result[] = "<span class='badge badge-{$badge}'>{$eval->status}</span>";
-                $results["data"][] = $result;
+	                $result[] = "<span class='badge badge-{$badge}'>{$eval->status}</span>";
+	                $results["data"][] = $result;
+				}
+				catch(\Exception $e){
+					Log::error("Problem with evaluation: ".$e);
+				}
             }
         } else{
             $type = $request->input("type");
@@ -501,27 +506,32 @@ class MainController extends Controller
                     $query->whereIn("type", ["resident", "fellow"]);
                 })->get();
             foreach($evaluations as $eval){
-                $result = [];
-                $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
-                if($eval->subject_id == $user->id || $type == "mentor")
-                    $result[] = $eval->evaluator->full_name;
-                else
-                    $result[] = $eval->subject->full_name;
-                $result[] = $eval->form->title;
-                $result[] = (string)$eval->request_date;
-                if($type == "complete" || $type == "mentor")
-                    $result[] = (string)$eval->complete_date;
-                if($type == "pending"){
-                    if($eval->requested_by_id == $user->id){
-                        $result[] = "<button id='cancel-{$eval->id}' class='cancelEval btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-cancel-modal-sm' data-id='{$eval->id}'>".
-                        "<span class='glyphicon glyphicon-remove'></span> Cancel</button>";
-                    }
-                    else
-                        $result[] = "";
-                } else{
+				try{
+	                $result = [];
+	                $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
+	                if($eval->subject_id == $user->id || $type == "mentor")
+	                    $result[] = $eval->evaluator->full_name;
+	                else
+	                    $result[] = $eval->subject->full_name;
+	                $result[] = $eval->form->title;
+	                $result[] = (string)$eval->request_date;
+	                if($type == "complete" || $type == "mentor")
+	                    $result[] = (string)$eval->complete_date;
+	                if($type == "pending"){
+	                    if($eval->requested_by_id == $user->id){
+	                        $result[] = "<button id='cancel-{$eval->id}' class='cancelEval btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-cancel-modal-sm' data-id='{$eval->id}'>".
+	                        "<span class='glyphicon glyphicon-remove'></span> Cancel</button>";
+	                    }
+	                    else
+	                        $result[] = "";
+	                } else{
 
-                }
-                $results["data"][] = $result;
+	                }
+	                $results["data"][] = $result;
+				}
+				catch(\Exception $e){
+					Log::error("Problem with evaluation: ".$e);
+				}
             }
         }
         return json_encode($results);
@@ -535,16 +545,20 @@ class MainController extends Controller
 		$flaggedActions = Setting::get("flaggedActions");
 
 		foreach($evaluations as $eval){
-			$result = [];
-			$result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
-			$result[] = $eval->evaluator->full_name;
-			$result[] = $eval->subject->full_name;
-			$result[] = $flaggedActions[$eval->flag->requested_action];
-			$result[] = $eval->flag->reason;
-			$result[] = "<button type='button' class='remove-flag btn btn-primary btn-xs' data-id='{$eval->flag->id}'><span class='glyphicon glyphicon-ok'></span> Complete</button>";
-			$results["data"][] = $result;
+			try{
+				$result = [];
+				$result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
+				$result[] = $eval->evaluator->full_name;
+				$result[] = $eval->subject->full_name;
+				$result[] = $flaggedActions[$eval->flag->requested_action];
+				$result[] = $eval->flag->reason;
+				$result[] = "<button type='button' class='remove-flag btn btn-primary btn-xs' data-id='{$eval->flag->id}'><span class='glyphicon glyphicon-ok'></span> Complete</button>";
+				$results["data"][] = $result;
+			}
+			catch(\Exception $e){
+				Log::error("Problem with flagged evaluation: ".$e);
+			}
 		}
-
 		return json_encode($results);
 	}
 
@@ -568,29 +582,34 @@ class MainController extends Controller
         }
 
         foreach($evaluations as $eval){
-            $result = [];
-            $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
-            if($user->type == "admin"){
-                $result[] = $eval->subject->last_name.", ".$eval->subject->first_name;
-                $result[] = $eval->evaluator->last_name.", ".$eval->evaluator->first_name;
-                $result[] = (string)$eval->request_date;
-                $result[] = (string)$eval->complete_date;
-            }
-            elseif($user->type == "resident"){
-                $result[] = $eval->subject->last_name.", ".$eval->subject->first_name;
-                $result[] = (string)$eval->request_date;
-            }
-            if($user->type == "admin" || $user->type == "faculty"){
-                if(isset($eval->evaluation_date))
-                    $result[] = $eval->evaluation_date->format("F Y");
-                else
-                    $result[] = "";
-            }
-            if($user->type == "admin"){
-                $result[] = "";
-            }
+			try{
+	            $result = [];
+	            $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
+	            if($user->type == "admin"){
+	                $result[] = $eval->subject->last_name.", ".$eval->subject->first_name;
+	                $result[] = $eval->evaluator->last_name.", ".$eval->evaluator->first_name;
+	                $result[] = (string)$eval->request_date;
+	                $result[] = (string)$eval->complete_date;
+	            }
+	            elseif($user->type == "resident"){
+	                $result[] = $eval->subject->last_name.", ".$eval->subject->first_name;
+	                $result[] = (string)$eval->request_date;
+	            }
+	            if($user->type == "admin" || $user->type == "faculty"){
+	                if(isset($eval->evaluation_date))
+	                    $result[] = $eval->evaluation_date->format("F Y");
+	                else
+	                    $result[] = "";
+	            }
+	            if($user->type == "admin"){
+	                $result[] = "";
+	            }
 
-            $results["data"][] = $result;
+	            $results["data"][] = $result;
+			}
+			catch(\Exception $e){
+				Log::error("Problem with faculty evaluation: ".$e);
+			}
         }
         return json_encode($results);
     }
@@ -664,7 +683,7 @@ class MainController extends Controller
             });
         }
         catch(\Exception $e){
-
+			Log::error("Problem sending email: ".$e);
         }
         return redirect("dashboard")->with("success", "Thank you! Your message has been receieved and I will get back to you shortly");
     }
