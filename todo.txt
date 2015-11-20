@@ -1,3 +1,5 @@
+Use datatable row().remove() for removal
+
 Mark if viewed by evaluator +Complete
 
 Replace form submissions with ajax +Usability

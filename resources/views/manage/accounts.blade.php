@@ -204,9 +204,10 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title" id="myModalEditPassword">Edit Password</h4>
       </div>
-      <div class="modal-body modal-edit-password">
         <form id="password-form" method="post" action="/manage/accounts/password">
+    	  <div class="modal-body modal-edit-password">
 			{!! csrf_field() !!}
+			<input type="hidden" id="id" name="id" />
 			<div class="form-group">
 				<label for="password1">User Password</label>
 				<input type="password" class="form-control" id="password1" name="newPassword" placeholder="New Password" required>
@@ -222,7 +223,7 @@
 		  </div>
 		  <div class="modal-footer modal-edit-password">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<button type="submit" class="btn btn-primary" id="id" name="id">Change password</button>
+				<button type="submit" class="btn btn-primary">Change password</button>
 		  </div>
 		</form>
     </div>
@@ -256,6 +257,19 @@
 
 @section("script")
 	<script>
+		$("#password-form").on("submit", function(event){
+			event.preventDefault();
+			var type = $("#password-form-user-type").val();
+			var data = $(this).serialize() + "&ajax=true";
+			$.post($(this).prop("action"), data, function(response){
+				if(response == "true"){
+					$("#editPasswordModal").modal("hide");
+				}
+				else{
+					appendAlert(response, "#editPasswordModal .modal-body");
+				}
+			});
+		});
 
 		$(".table").on("click", ".disableUser", function(){
 			var data = {};

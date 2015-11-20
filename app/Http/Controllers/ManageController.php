@@ -148,14 +148,21 @@ class ManageController extends Controller
     }
 
     public function account(Request $request, $action){
+		$error = NULL;
         switch($action){
             case "add":
-                if($request->input("password") != $request->input("password2"))
-                    return redirect("manage/accounts")->with("error", "Passwords do not match for new user");
-                elseif(!filter_var($request->input("email"), FILTER_VALIDATE_EMAIL))
-                    return redirect("manage/accounts")->with("error", "Email appears invalid");
-                elseif($request->hasFile("photo") && !$request->file("photo")->isValid())
-                    return redirect("manage/accounts")->with("error", "Problem with photo");
+                if($request->input("password") != $request->input("password2")){
+					$error =  "Passwords do not match for new user";
+					break;
+				}
+                elseif(!filter_var($request->input("email"), FILTER_VALIDATE_EMAIL)){
+					$error = "Email appears invalid";
+					break;
+				}
+                elseif($request->hasFile("photo") && !$request->file("photo")->isValid()){
+                    $error = "Problem with photo";
+					break;
+				}
                 $user = new User();
                 $user->username = $request->input("username");
                 $user->email = $request->input("email");
@@ -200,13 +207,16 @@ class ManageController extends Controller
                 catch(\Exception $e){
 					Log::error("Problem sending email: ".$e);
                 }
-                return redirect("manage/accounts");
                 break;
             case "edit":
-                if(!filter_var($request->input("email"), FILTER_VALIDATE_EMAIL))
-                    return redirect("manage/accounts")->with("error", "Email appears invalid");
-                if($request->hasFile("photo") && !$request->file("photo")->isValid())
-                    return redirect("manage/accounts")->with("error", "Problem with photo");
+                if(!filter_var($request->input("email"), FILTER_VALIDATE_EMAIL)){
+                    $error = "Email appears invalid";
+					break;
+				}
+                if($request->hasFile("photo") && !$request->file("photo")->isValid()){
+                    $error =  "Problem with photo";
+					break;
+				}
                 $user = User::find($request->input("id"));
                 $user->email = $request->input("email");
                 $user->first_name = $request->input("firstName");
@@ -224,46 +234,55 @@ class ManageController extends Controller
                     $user->training_level = $request->input("trainingLevel");
 
                 $user->save();
-                return redirect("manage/accounts");
                 break;
             case "enable":
                 $user = User::find($request->input("id"));
                 $user->status = "active";
                 $user->save();
-                return "true";
                 break;
             case "disable":
                 $user = User::find($request->input("id"));
                 $user->status = "inactive";
                 $user->save();
-                return "true";
                 break;
             case "password":
-                if($request->input("newPassword") != $request->input("newPassword2"))
-                    return redirect("manage/accounts")->with("error", "New passwords do not match");
-                elseif(!password_verify($request->input("adminPassword"), Auth::user()->password))
-                    return redirect("manage/accounts")->with("error", "Administrator password verification failed");
+                if($request->input("newPassword") != $request->input("newPassword2")){
+                    $error = "New passwords do not match";
+					break;
+				}
+                elseif(!password_verify($request->input("adminPassword"), Auth::user()->password)){
+                    $error = "Administrator password is incorrect";
+					break;
+				}
                 else{
                     $user = User::find($request->input("id"));
                     $user->password = bcrypt($request->input("newPassword"));
                     $user->save();
                 }
-                return redirect("manage/accounts");
                 break;
             case "to-faculty":
                 $user = User::find($request->input("id"));
                 if($user->type == "resident"){
                     $user->type = "faculty";
                     $user->save();
-                    return redirect("manage/accounts");
                 }
                 else
-                    return redirect("manage/accounts")->with("error", "User not resident");
-                break;
-            default:
-                return redirect("manage/accounts");
+                    $error = "User not resident";
                 break;
         }
+
+		if($request->has("ajax") && $request->input("ajax")){
+			if(empty($error))
+				return "true";
+			else
+				return $error;
+		}
+		else{
+			$response = redirect("manage/accounts");
+			if(!empty($error))
+				$response = $response->with("error", $error);
+			return $response;
+		}
     }
 
     public function getAccounts($type){
@@ -284,7 +303,7 @@ class ManageController extends Controller
 	                $result[] = $user->training_level;
 	            $result[] = $user->status;
 	            $action = "<button class='editUser btn btn-info btn-xs' data-toggle='modal' data-target='.bs-edit-modal' data-type='{$type}' data-id='{$user->id}' data-username='{$user->username}' data-email='{$user->email}' data-first='{$user->first_name}' data-last='{$user->last_name}' data-trainingLevel='{$user->training_level}' data-photo='{$user->photo_path}' id='editBtn'><span class='glyphicon glyphicon-edit'></span> Edit</button> ";
-				$action .= "<button class='editPassword btn btn-info btn-xs' data-toggle='modal' data-target='.bs-edit-password-modal' data-id='{$user->id}' id='editPasswordBtn'><span class='glyphicon glyphicon-edit'></span> Password</button> ";
+				$action .= "<button class='editPassword btn btn-info btn-xs' data-toggle='modal' data-target='.bs-edit-password-modal' data-id='{$user->id}' data-type='{$user->type}' id='editPasswordBtn'><span class='glyphicon glyphicon-edit'></span> Password</button> ";
 	            // if($type == "resident" || $type == "fellow")
 				//          $action .= "<button class='residentToFaculty btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-resident-to-faculty-modal-sm' data-id='{$user->id}' data-name='{$user->first_name} {$user->last_name}' id='residentToFacultyBtn'><span class='glyphicon glyphicon-edit'></span> Change to Faculty</button>";
 	            if($user->status == "inactive"){
@@ -336,7 +355,9 @@ class ManageController extends Controller
 	            }
 	            $result[] = "<span class='status'><span class='badge badge-{$badge}'>{$form->status}</span></span>";
 	            $result[] = "<a href='/manage/forms/{$form->id}'>View Form</a>";
-	            $result[] = "<button type='button' class='{$buttonClass} btn btn-{$buttonType} btn-xs' data-id='{$form->id}'><span class='glyphicon glyphicon-{$glyphicon}'></span> {$buttonText}</button>";
+	            $actionField = "<button type='button' class='{$buttonClass} btn btn-{$buttonType} btn-xs' data-id='{$form->id}'><span class='glyphicon glyphicon-{$glyphicon}'></span> {$buttonText}</button>";
+				$actionField .= " <button type='button' class='edit-form-button btn btn-info btn-xs' data-id='{$form->id}' data-title='{$form->title}' data-type='{$form->type}' data-toggle='modal' data-target='#edit-form-modal'><span class='glyphicon glyphicon-pencil'></span> Edit</button>";
+				$result[] = $actionField;
 	            $results["data"][] = $result;
 			}
 			catch(\Exception $e){
@@ -471,6 +492,9 @@ class ManageController extends Controller
                 case "enable":
                     $form->status = "active";
                     break;
+				case "edit":
+					$form->title = $request->input("title");
+					break;
                 default:
                     return "false";
                     break;

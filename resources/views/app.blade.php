@@ -425,6 +425,31 @@
 				$(this).parents(".report-options").find(".startDate").val(date);
 			}
 
+			function appendAlert(alertText, parent, alertType){
+				alertType = (typeof(alertType) == "undefined" ? "danger" : alertType);
+
+				var alert = document.createElement("div");
+				alert.className = "alert alert-" + alertType + " alert-dismissable";
+				alert.role = "alert";
+
+				var close = document.createElement("button");
+				close.type = "button";
+				close.className = "close";
+				close.dataset.dismiss = "alert";
+				close.setAttribute("aria-label", "Close");
+
+				var innerClose = document.createElement("span");
+				innerClose.setAttribute("aria-hidden", "true");
+				innerClose.innerHTML = "&times;";
+				close.appendChild(innerClose);
+
+				var text = document.createTextNode(alertText);
+				alert.appendChild(close);
+				alert.appendChild(text);
+
+				$(parent).append(alert);
+			}
+
 			$(document).ready(function(){
 				$.fn.dataTable.moment( "DD-MMM-YYYY h:mm A" );
 
