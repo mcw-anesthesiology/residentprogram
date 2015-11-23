@@ -323,7 +323,7 @@
 		<script>
 		    var numSpecificReports = 0;
 			function reportHtml(i) {
-		        return '<div class="report-options">'+
+		        return '<div class="report-options collapse">'+
 		        '<button type="button" class="close remove-report-group" aria-hidden="true">&times;</button>'+
 		        '<h3>Report</h3>'+
 		     '<div class="form-group">'+
@@ -353,16 +353,19 @@
 		     '</div>';
 		    }
 
-		     $(".modal-specRpt").append(reportHtml(0));
-		     $("#addNewSpecificReport").click(function(){
-				 $(".modal-specRpt").append(reportHtml(++numSpecificReports));
-				 $(".datepicker").datepicker({
-					 dateFormat: "yy-mm-dd"
-				 });
-		     });
+
+		    $("#addNewSpecificReport").click(function(){
+				var report = reportHtml(++numSpecificReports);
+				$(report).appendTo(".modal-specRpt").slideDown();
+				$(".datepicker").datepicker({
+					dateFormat: "yy-mm-dd"
+				});
+		    });
 
 		     $(".modal-specRpt").on("click", ".remove-report-group", function(){
-		        $(this).parent().remove();
+		        $(this).parent().slideUp(function(){
+					$(this).remove();
+				});
 		     });
 
 		    function checkReportQuery(){

@@ -86,6 +86,7 @@
       </div>
       <form id="edit-form" enctype="multipart/form-data" method="post" action="/manage/accounts/edit">
 		  {!! csrf_field() !!}
+		<input type="hidden"  id="id" name="id" value="" />
         <div class="modal-body modal-edit">
           <div class="form-group">
             <label for="usernameInput">Username</label>
@@ -121,10 +122,14 @@
 				<img id="photoPreview" src="" width="150px" />
 			</div>
           </div>
+		  <div class="form-group">
+            <label for="accountTypeInput">Account Type</label>
+            <input type="text" class="form-control" id="accountTypeInput" readonly>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-success" id="id" name="id" value="">Edit account</button>
+          <button type="submit" class="btn btn-primary">Edit account</button>
         </div>
       </form>
     </div>
@@ -271,6 +276,40 @@
 			});
 		});
 
+		$("#add-form").on("submit", function(event){
+			event.preventDefault();
+			submitAddEditForm("#addModal", $(this));
+		});
+
+		$("#edit-form").on("submit", function(event){
+			event.preventDefault();
+			submitAddEditForm("#editModal", $(this));
+		})
+
+		function submitAddEditForm(modal, form){
+			var type = $(modal + " #accountTypeInput").val();
+			var fd = new FormData(form.get(0));
+			fd.append("ajax", true);
+			$.ajax({
+				url: form.prop("action"),
+				data: fd,
+				processData: false,
+				contentType: false,
+				type: "POST",
+				success: function(response){
+					if(response == "true"){
+						$(modal).modal("hide");
+						$(".datatable-" + type).DataTable({
+							retrieve: true
+						}).ajax.reload();
+					}
+					else{
+						appendAlert(response, modal + " .modal-body");
+					}
+				}
+			});
+		}
+
 		$(".table").on("click", ".disableUser", function(){
 			var data = {};
 			data._token = "{{ csrf_token() }}";
@@ -332,6 +371,7 @@
 			$("#editModal #firstNameInput").val(firstName);
 			$("#editModal #lastNameInput").val(lastName);
 			$("#editModal #id").val(id);
+			$("#editModal #accountTypeInput").val(type);
 			if(photoPath == "")
 				$("#editModal #photoPreview").hide();
 			else{

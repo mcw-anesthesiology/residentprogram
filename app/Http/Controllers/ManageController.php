@@ -227,7 +227,8 @@ class ManageController extends Controller
                 if($request->hasFile("photo") && $request->file("photo")->isValid()){
                     $photoName = uniqid().".".$request->file("photo")->getExtension();
                     $request->file("photo")->move(storage_path("app/photos/"), $photoName);
-                    unlink(storage_path("app/".$user->photo_path));
+					if(!empty($user->photo_path))
+                    	unlink(storage_path("app/".$user->photo_path));
                     $user->photo_path = "photos/".$photoName;
                 }
                 if($user->type == "resident")
@@ -536,9 +537,9 @@ class ManageController extends Controller
 				$result[] = $milestone->type;
 				$result[] = $milestone->training_level;
 	            $result[] = $milestone->description;
-	            $action = "<button class='editMilestone btn btn-info btn-xs' data-toggle='modal' data-target='.bs-editMS-modal' data-id='{$milestone->id}' id='editBtn'><span class='glyphicon glyphicon-edit'></span> Edit</button>";
+	            $action = "<button id='edit-milestone-button-{$milestone->id}' class='editMilestone btn btn-info btn-xs' data-toggle='modal' data-target='.bs-editMS-modal' data-id='{$milestone->id}'><span class='glyphicon glyphicon-edit'></span> Edit</button>";
 	            if($milestone->forms->count() === 0)
-	                $action .= "<button class='deleteMilestone btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-deleteMS-modal' data-id='{$milestone->id}' id='deleteBtn'><span class='glyphicon glyphicon-remove'></span> Delete</button>";
+	                $action .= "<button id='delete-milestone-button-{$milestone->id}' class='deleteMilestone btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-deleteMS-modal' data-id='{$milestone->id}'><span class='glyphicon glyphicon-remove'></span> Delete</button>";
 	            $result[] = $action;
 	            $results["data"][] = $result;
 			}
@@ -557,9 +558,9 @@ class ManageController extends Controller
 	            $result = [];
 	            $result[] = $competency->title;
 	            $result[] = $competency->description;
-	            $action = "<button class='editCompetency btn btn-info btn-xs' data-toggle='modal' data-target='.bs-editC-modal' data-id='{$competency->id}' id='editBtn'><span class='glyphicon glyphicon-edit'></span> Edit</button>";
+	            $action = "<button id='edit-competency-button-{$competency->id}' class='editCompetency btn btn-info btn-xs' data-toggle='modal' data-target='.bs-editC-modal' data-id='{$competency->id}'><span class='glyphicon glyphicon-edit'></span> Edit</button>";
 	            if($competency->forms->count() === 0)
-	                $action .= "<button class='deleteCompetency btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-deleteC-modal' data-id='{$competency->id}' id='deleteBtn'><span class='glyphicon glyphicon-remove'></span> Delete</button>";
+	                $action .= "<button id='delete-competency-button-{$competency->id}' class='deleteCompetency btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-deleteC-modal' data-id='{$competency->id}'><span class='glyphicon glyphicon-remove'></span> Delete</button>";
 	            $result[] = $action;
 	            $results["data"][] = $result;
 			}
@@ -596,7 +597,10 @@ class ManageController extends Controller
                 return redirect("manage/milestones-competencies");
                 break;
         }
-        return redirect("manage/milestones-competencies");
+		if($request->has("ajax") && !empty($request->input("ajax")))
+			return "true";
+		else
+        	return redirect("manage/milestones-competencies");
     }
 
     public function competency(Request $request, $action){
@@ -621,7 +625,10 @@ class ManageController extends Controller
                 return redirect("manage/milestones-competencies");
                 break;
         }
-        return redirect("manage/milestones-competencies");
+		if($request->has("ajax") && !empty($request->input("ajax")))
+			return "true";
+		else
+        	return redirect("manage/milestones-competencies");
     }
 
     public function mentors(){
