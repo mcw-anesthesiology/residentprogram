@@ -10,7 +10,9 @@
 
 		<title>Resident Program Evaluation System</title>
 
+	@if(App::environment("production"))
 		<script src="/js/google-analytics.js"></script>
+	@endif
 
 		<!-- Bootstrap core CSS -->
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
