@@ -10,6 +10,8 @@
 
 		<title>Resident Program Evaluation System</title>
 
+		<script src="/js/google-analytics.js"></script>
+
 		<!-- Bootstrap core CSS -->
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
 		<link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet">
