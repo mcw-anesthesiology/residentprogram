@@ -245,8 +245,9 @@
 		function makeForms(type){
 			var selectId = "evaluation-form";
 			var selectType = "form";
+			var formGroups;
 	@if(!empty($formGroups))
-			var formGroups = {!! $formGroups !!};
+			formGroups = {!! $formGroups !!};
 	@endif
 			makeSelect(selectId, selectType, forms, formGroups, "group-forms");
 
