@@ -8,6 +8,7 @@
 				<thead>
 					<tr>
 						<th>Title</th>
+						<th>Evaluator Type</th>
 						<th>Created</th>
 						<th>Status</th>
 						<th>View</th>
@@ -27,6 +28,7 @@
 				<thead>
 					<tr>
 						<th>Title</th>
+						<th>Evaluator Type</th>
 						<th>Created</th>
 						<th>Status</th>
 						<th>View</th>
@@ -46,6 +48,7 @@
 				<thead>
 					<tr>
 						<th>Title</th>
+						<th>Evaluator Type</th>
 						<th>Created</th>
 						<th>Status</th>
 						<th>View</th>
