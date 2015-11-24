@@ -208,8 +208,10 @@ class ReportController extends Controller
 	public function getPDF(Request $request){
 		$filename = $request->input("name").".pdf";
 
-		$data = json_decode($request->input("data"));
+
+		$data = $request->input("data");
 		$data = str_replace("/graph/", storage_path("app/graphs/"), $data);
+		$data .= "<style>table { border-collapse: collapse; } table, td, th { border: 1px solid black; }</style>";
 		$data = '<div class="container body-block">'. $data . '</div>';
 
 		return PDF::loadHTML($data)->download($filename);

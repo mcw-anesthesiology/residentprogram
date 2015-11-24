@@ -121,6 +121,9 @@
 		</div>
 		<div class="graphs"></div>
 	@endforeach
+<?php
+	$html .= ob_get_flush();
+?>
 </div>
 <div class="container body-block">
 	<div class="form-horizontal new-graphs-container">
@@ -150,6 +153,8 @@
 		</div>
 	</div>
 <?php
+	ob_start();
+
 	$subjectTextResponses = [];
 	foreach($reportData as $report){
 		$subjectTextResponses = array_merge($report["subjectTextResponses"], $subjectTextResponses);
@@ -182,11 +187,12 @@
 	@endif
 <?php
 	$html .= ob_get_flush();
+	$html = preg_replace("/[\t\n]/", "", $html);
 ?>
 	<form method="post" target="_blank" action="/report/pdf" class="pdf-form">
 		{{ csrf_field() }}
 		<input type="hidden" name="view" value="individual" />
-		<input type="hidden" name="data" value="{{ json_encode($html) }}" />
+		<input type="hidden" name="data" value="{{ $html }}" />
 		<button type="submit" class="btn" name="name"
 			value="Individual Report {{ $specificSubject->last_name }}, {{ $specificSubject->first_name}}">Export PDF</button>
 	</form>
