@@ -33,10 +33,20 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     protected $hidden = ['password', 'remember_token'];
 
-	protected $appends = ["full_name", "specific_type"];
+	protected $appends = ["full_name"];
 
 	public function getFullNameAttribute(){
 		return $this->last_name . ", " . $this->first_name;
+	}
+
+	public function isType($types){
+		if(!is_array($types))
+			$types = [$types];
+		foreach($types as $type){
+			if($this->type == $type || $this->type == "resident" && $this->training_level == $type)
+				return true;
+		}
+		return false;
 	}
 
 	public function getSpecificTypeAttribute(){

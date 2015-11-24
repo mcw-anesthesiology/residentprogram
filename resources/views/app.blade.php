@@ -49,15 +49,18 @@
 			    </div>
 			    <div class="navbar-collapse collapse">
 			      <ul class="nav navbar-nav navbar-right">
-		          @if($user->type == "faculty")
-		            <li><a href="/request">Create Evaluation</a></li>
-		            <li><a href="/dashboard">View Evaluations</a></li>
-					<li><a href="/dashboard/faculty">View Faculty Evaluations</a></li>
-		          @elseif($user->type == "resident")
+		          @if($user->isType("resident"))
 		            <li><a href="/request">Request Evaluation</a></li>
 					<li><a href="/request/faculty">Evaluate Faculty</a></li>
 		            <li><a href="/dashboard">View Evaluations</a></li>
-			      @elseif($user->type == "admin")
+		          @elseif($user->isType("faculty"))
+		            <li><a href="/request">Create Evaluation</a></li>
+		            <li><a href="/dashboard">View Evaluations</a></li>
+					<li><a href="/dashboard/faculty">View Faculty Evaluations</a></li>
+				  @elseif($user->isType("staff"))
+				    <li><a href="/request">Create Evaluation</a></li>
+					<li><a href="/dashboard">View Evaluations</a></li>
+			      @elseif($user->isType("admin"))
 			        <li><a href="/request">Request Evaluation</a></li>
 					<li><a href="/dashboard/faculty">Faculty Evaluations</a></li>
 			        <li class="dropdown">
@@ -437,6 +440,11 @@
 		        $(".report").on("click", ".lastThreeMonths", lastThreeMonths);
 				$(".datepicker").datepicker({
 					dateFormat: "yy-mm-dd"
+				});
+
+				$.extend(true, $.fn.dataTable.defaults, {
+					stateSave: true,
+					"dom": "lfprtip"
 				});
 
 				$.fn.select2.defaults.set("theme", "bootstrap");

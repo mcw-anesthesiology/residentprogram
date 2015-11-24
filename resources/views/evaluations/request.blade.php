@@ -136,7 +136,7 @@
 		</div>
 	</form>
 
-	@if($user->type != "admin")
+	@if($user->isType(["resident", "faculty"]))
 </div>
 <div class="container body-block">
 	<h3 class="sub-header">Block information</h3>
@@ -225,7 +225,7 @@
 
 			makeSelect("evaluator", "{{ $evaluatorTypeText }}", evaluators[block], evaluators.group, "group-evaluators");
 
-			$("#evaluator").val(null).select2({
+			$("#evaluator").val(null).change().select2({
 				placeholder: "Select {{ $evaluatorTypeText }}"
 			});
 		}
@@ -237,7 +237,7 @@
 
 			makeSelect("subject", "{{ $subjectTypeText }}", subjects[block], subjects.groups, "group-subjects");
 
-			$("#subject").val(null).select2({
+			$("#subject").val(null).change().select2({
 				placeholder: "Select {{ $subjectTypeText }}"
 			});
 		}
@@ -255,7 +255,7 @@
 			$("#evaluation-form").select2();
 			$("#evaluation-form option:eq(1)").prop("selected", true).trigger("change");
 	@else
-			$("#evaluation-form").val(null).select2({
+			$("#evaluation-form").val(null).change().select2({
 				placeholder: "Select form"
 			});
 	@endif

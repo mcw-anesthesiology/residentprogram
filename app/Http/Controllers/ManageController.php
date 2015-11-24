@@ -427,12 +427,25 @@ class ManageController extends Controller
 
         $newForm = new Form();
         $newForm->title = $formTitle;
-        $newForm->type = $formType;
+
+        if($formType == "faculty"){
+			$newForm->type = "faculty";
+			$newForm->evaluator_type = "resident";
+		}
+		elseif($formType == "staff"){
+			$newForm->type = "resident";
+			$newForm->evaluator_type = "staff";
+		}
+		else{
+			$newForm->type = "resident";
+			$newForm->evaluator_type = "faculty";
+		}
+
         $newForm->xml_path = $formLocation;
         $newForm->status = $formStatus;
         $newForm->save();
 
-        if($newForm->type != "faculty"){
+        if($formType == "resident"){
             foreach($milestones as $questionId => $milestoneId){
                 $mq = new MilestoneQuestion();
                 $mq->form_id = $newForm->id;

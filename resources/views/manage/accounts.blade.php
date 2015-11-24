@@ -60,6 +60,25 @@
 </div>
 <div class="container body-block">
 	<div class="row">
+		<h2 class="sub-header">Staff  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="staff" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+		<div class="table-responsive">
+			<table class="table table-striped datatable-staff">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Username</th>
+						<th>Email</th>
+						<th>Status</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+
+</div>
+<div class="container body-block">
+	<div class="row">
 		<h2 class="sub-header">Administrator  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="admin" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
 			<table class="table table-striped datatable-admin">
@@ -376,24 +395,19 @@
 		});
 
 		$(".datatable-resident").DataTable({
-			"ajax": "/manage/accounts/get/resident",
-			stateSave: true,
-			"dom": "lfprtip"
+			"ajax": "/manage/accounts/get/resident"
 		});
 		$(".datatable-fellow").DataTable({
-			"ajax": "/manage/accounts/get/fellow",
-			stateSave: true,
-			"dom": "lfprtip"
+			"ajax": "/manage/accounts/get/fellow"
 		});
 		$(".datatable-faculty").DataTable({
-			"ajax": "/manage/accounts/get/faculty",
-			stateSave: true,
-			"dom": "lfprtip"
+			"ajax": "/manage/accounts/get/faculty"
 		});
+		$(".datatable-staff").DataTable({
+			"ajax": "/manage/accounts/get/staff"
+		})
 		$(".datatable-admin").DataTable({
-			"ajax": "/manage/accounts/get/admin",
-			stateSave: true,
-			"dom": "lfprtip"
+			"ajax": "/manage/accounts/get/admin"
 		});
 	</script>
 @stop

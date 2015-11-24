@@ -61,8 +61,10 @@ class MainController extends Controller
 			$subjectTypes = ["faculty"];
 			$evaluatorTypes = ["resident", "fellow"];
 		}
-		elseif($request->is("request/staff")){
-
+		elseif($user->isType("staff")){
+			$requestType = "staff";
+			$subjectTypes = ["resident", "fellow"];
+			$evaluatorTypes = ["staff"];
 		}
 		else{
 			$requestType = "resident";
@@ -72,10 +74,10 @@ class MainController extends Controller
 
 		$evaluationTypes = array_merge($subjectTypes, $evaluatorTypes);
 
-		if(!in_array($user->specific_type, array_merge($evaluationTypes, ["admin"])))
+		if(!$user->isType(array_merge($evaluationTypes, ["admin"])))
 			return back()->with("error", "Your account type is not allowed to create that kind of evaluation.");
 
-        if(in_array($user->type, ["resident", "faculty"])){
+        if($user->isType(["resident", "faculty"])){
             $blocks = Block::where("start_date", "<", Carbon::now())->with("assignments.user")->orderBy("year", "desc")->orderBy("block_number", "desc")->limit(3)->get();
             foreach($blocks as $block){
                 $userLocations = $block->assignments->where("user_id", $user->id)->map(function ($item, $key){
@@ -98,49 +100,51 @@ class MainController extends Controller
             }
         }
 
-        if($user->type != "resident" && in_array("resident", $evaluationTypes)){
+        if(!$user->isType("resident") && in_array("resident", $evaluationTypes)){
             $residentModels = User::where("type", "resident")->where("status", "active")->orderBy("last_name")->get();
             foreach($residentModels as $resident)
                 $residents[0][] = ["id" => $resident->id, "name" => $resident->full_name, "group" => $resident->training_level];
         }
-        if($user->type != "faculty" && in_array("faculty", $evaluationTypes)){
+        if(!$user->isType("faculty") && in_array("faculty", $evaluationTypes)){
             $facultyModels = User::where("type", "faculty")->where("status", "active")->orderBy("last_name")->get();
             foreach($facultyModels as $fac)
                 $faculty[0][] = ["id" => $fac->id, "name" => $fac->full_name, "group" => "faculty"];
         }
-		if($user->type != "staff" && in_array("staff", $evaluationTypes)){
+		if(!$user->isType("staff") && in_array("staff", $evaluationTypes)){
 			$staffModels = User::where("type", "staff")->where("status", "active")->orderBy("last_name")->get();
 			foreach($staffModels as $staff)
 				$staff[0][] = ["id" => $staff->id, "name" => $staff->full_name, "group" => "staff"];
 		}
 
-		if(in_array($user->specific_type, $subjectTypes)){
-			$formModels = Form::where("status", "active")->whereIn("type", $user->specific_type)->whereIn("evaluator_type", $evaluatorTypes)->orderBy("title")->get();
+		if($user->isType($subjectTypes)){
+			$formModels = Form::where("status", "active")->where("type", $user->specific_type)->whereIn("evaluator_type", $evaluatorTypes)->orderBy("title")->get();
 			foreach($formModels as $form){
 				$forms[] = ["id" => $form->id, "name" => $form->title, "group" => $form->type];
 			}
 		}
-		elseif(in_array($user->specific_type, $evaluatorTypes)){
-			$formModels = Form::where("status", "active")->whereIn("type", $subjectTypes)->whereIn("evaluator_type", $user->specific_type)->orderBy("title")->get();
+		elseif($user->isType($evaluatorTypes)){
+			$formModels = Form::where("status", "active")->whereIn("type", $subjectTypes)->where("evaluator_type", $user->specific_type)->orderBy("title")->get();
 			foreach($formModels as $form){
 				$forms[] = ["id" => $form->id, "name" => $form->title, "group" => $form->type];
 			}
 		}
 		else{
-			$formModels = Form::where("status", "active")->whereIn("type", $subjectTypes)->orderBy("title")->get();
+			$formModels = Form::where("status", "active")->whereIn("type", $subjectTypes)->whereIn("evaluator_type", $evaluatorTypes)->orderBy("title")->get();
 			foreach($formModels as $form){
 				$forms[] = ["id" => $form->id, "name" => $form->title, "group" => $form->type];
 			}
 		}
 
+		$residentGroups = ["intern" => "Intern", "ca-1" => "CA-1", "ca-2" => "CA-2", "ca-3" => "CA-3", "fellow" => "Fellow"];
+
 		switch($requestType){
 			case "resident":
-				if(!in_array($user->type, $subjectTypes)){
+				if(!$user->isType($subjectTypes)){
 					$subjects = $residents;
-					$subjects["groups"] = ["intern" => "Intern", "ca-1" => "CA-1", "ca-2" => "CA-2", "ca-3" => "CA-3", "fellow" => "Fellow"];
+					$subjects["groups"] = $residentGroups;
 					$groupSubjects = true;
 				}
-				if(!in_array($user->type, $evaluatorTypes)){
+				if(!$user->isType($evaluatorTypes)){
 					$evaluators = $faculty;
 
 				}
@@ -153,7 +157,7 @@ class MainController extends Controller
 				$groupForms = true;
 				break;
 			case "faculty":
-				if($user->type != "resident")
+				if(!$user->isType("resident"))
 					return back()->with("error", "Only residents or fellows can create faculty evaluations");
 				$subjects = $faculty;
 				$pendingEvalCount = Evaluation::with("subject", "evaluator", "form")->where("status", "pending")->where("evaluator_id", $user->id)->whereHas("form", function($query){
@@ -167,6 +171,18 @@ class MainController extends Controller
 				$groupForms = false;
 				break;
 			case "staff":
+				if(!$user->isType("staff"))
+					return back()->with("error", "Only staff can create staff evaluations");
+				$subjects = $residents;
+				$subjects["groups"] = $residentGroups;
+				$groupSubjects = true;
+
+				$subjectTypeText = "intern, resident, or fellow";
+				$subjectTypeTextPlural = "interns, residents, and fellows";
+				$evaluatorTypeText = "staff";
+
+				$groupForms = false;
+				break;
 		}
 
 		for($dt = Carbon::now(), $i = 0; $i < 3; $dt->subMonths(1), $i++){

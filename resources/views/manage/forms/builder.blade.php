@@ -14,6 +14,7 @@
 						<select class="form-control" id="form-type" name="form_type" style="margin-bottom: 5px;">
 							<option value="resident">Resident/Fellow/Intern</option>
 							<option value="faculty">Faculty</option>
+							<option value="staff">Staff</option>
 						</select>
 					</div>
 				</div>
@@ -153,7 +154,7 @@
 
 		$("#form-type").change(function(){
 			var type = $(this).val();
-			if(type == "faculty"){
+			if(type != "resident"){
 				$(".form-question-milestone").hide().prop("disabled", true);
 				$(".form-question-milestone-2").hide().prop("disabled", true);
 				$(".form-question-competency").hide().prop("disabled", true);
@@ -302,7 +303,7 @@
 			newQuestion.find(".form-question-weight").attr("name", questionId+":weight");
 			newQuestion.find(".form-question-required").attr("name", questionId+":required");
 
-			if(type == "faculty"){
+			if(type != "resident"){
 				$(".form-question-milestone").hide().prop("disabled", true);
 				$(".form-question-milestone-2").hide().prop("disabled", true);
 				$(".form-question-competency").hide().prop("disabled", true);
