@@ -320,6 +320,7 @@ class ManageController extends Controller
 			try{
 	            $result = [];
 	            $result[] = $form->title;
+				$result[] = $form->evaluator_type;
 	            $result[] = (string)$form->created_at;
 	            if($form->status == "inactive"){
 	                $buttonClass = "enableEval";

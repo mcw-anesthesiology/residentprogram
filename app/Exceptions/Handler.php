@@ -46,6 +46,9 @@ class Handler extends ExceptionHandler
             return back()->withInput($request->except("_token"))->with("error", "It looks like the session expired after being inactive for too long. Please try again.");
         }
 
-        return parent::render($request, $e);
+		if(config("app.debug") || $this->isHttpException($e))
+			return parent::render($request, $e);
+
+		return response()->view("errors.500", [], 500);
     }
 }
