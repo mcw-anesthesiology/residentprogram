@@ -3,7 +3,8 @@
     <head>
         <title>Be right back</title>
 
-        <link href="//fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+        <link href="/css/main.css" rel="stylesheet" type="text/css">
+		<link href="//fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
 
         <style>
             html, body {
@@ -15,7 +16,7 @@
                 padding: 0;
                 width: 100%;
                 display: table;
-                font-family: 'Lato';
+				font-family: 'Lato';
             }
 
             .container {
@@ -27,10 +28,12 @@
             .content {
                 text-align: center;
                 display: inline-block;
+				font-size: 24px;
+				margin: 40px;
             }
 
             .title {
-                font-size: 72px;
+                font-size: 48px;
                 margin-bottom: 40px;
             }
         </style>
@@ -38,7 +41,12 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">Resident Program is currently down for maintenance, it will be back up shortly</div>
+                <div class="title">I'm sorry, there seems to have been a problem</div>
+				<p>
+					Please try again.
+					If you continue to experience problems, please let me know via <a href="{{ url("/contact") }}">the contact page</a>
+					if it still works, or by contacting me directly at <a href="mailto:{{ env("ADMIN_EMAIL") }}">{{ env("ADMIN_EMAIL") }}</a>.
+				</p>
             </div>
         </div>
     </body>
