@@ -118,6 +118,19 @@
 				}
 			});
 
+			$(".datatable-staff").DataTable({
+				"ajax": {
+					"url": "dashboard/evaluations/staff",
+					"data": data,
+					"type": "post"
+				},
+				deferRendering: true,
+				"order": [[0, "desc"]],
+				"createdRow": function(row, data, index){
+					$("td", row).addClass("view");
+				}
+			});
+
 			$(".datatable-all").DataTable({
 				"ajax": "dashboard/evaluations",
 				deferRendering: true,

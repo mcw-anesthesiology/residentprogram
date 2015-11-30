@@ -33,6 +33,8 @@ class MainController extends Controller
     public function __construct(){
         $this->middleware("auth");
         $this->middleware("shared");
+
+		$this->middleware("type:admin", ["only" => ["flaggedEvaluations", "staffEvaluations"]]);
     }
 
     public function dashboard(){
@@ -216,7 +218,7 @@ class MainController extends Controller
             elseif($request->has("subject_id"))
                 $eval->subject_id = $request->input("subject_id");
 
-            if($user->type == "faculty")
+            if($user->isType(["faculty", "staff"]))
                 $eval->evaluator_id = $user->id;
             elseif($request->has("evaluator_id"))
                 $eval->evaluator_id = $request->input("evaluator_id");
@@ -314,6 +316,11 @@ class MainController extends Controller
 						$possibleSubjects = User::where("type", "faculty")->where("status", "active")->orderBy("last_name")->get();
 						$possibleForms = Form::where("type", "faculty")->where("status", "active")->orderBy("title")->get();
 						break;
+					case "staff":
+						$subjectType = "Resident/Fellow";
+						$possibleSubjects = User::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("last_name")->get();
+						$possibleForms = Form::where("type", "resident")->where("evaluator_type", "staff")->orderBy("title")->get();
+						break;
 				}
 				$flaggedActions = Setting::get("flaggedActions");
 				$data += compact("subjectType", "possibleSubjects", "possibleForms", "flaggedActions");
@@ -390,7 +397,7 @@ class MainController extends Controller
 	public function evaluationComment($id, Request $request){
 		$user = Auth::user();
 		$eval = Evaluation::find($id);
-		if($eval->evaluator_id == $user->id && in_array($eval->status, ["complete", "pending"])){
+		if($eval->evaluator_id == $user->id){
 			$eval->comment = $request->input("comment");
 			$eval->save();
 			return "success";
@@ -508,7 +515,7 @@ class MainController extends Controller
         $results["data"] = [];
         if($user->type == "admin"){
             $evaluations = Evaluation::with("subject", "evaluator", "form")->whereHas("form", function($query){
-                $query->whereIn("type", ["resident", "fellow"]);
+                $query->whereIn("type", ["resident", "fellow"])->where("evaluator_type", "faculty");
             })->get();
             foreach($evaluations as $eval){
 				try{
@@ -529,7 +536,7 @@ class MainController extends Controller
 	                else
 	                    $badge = "disabled";
 
-	                $result[] = "<span class='badge badge-{$badge}'>{$eval->status}</span>";
+	                $result[] = "<span class='badge badge-{$badge}'>" . ucfirst($eval->status) . "</span>";
 	                $results["data"][] = $result;
 				}
 				catch(\Exception $e){
@@ -581,6 +588,30 @@ class MainController extends Controller
         }
         return json_encode($results);
     }
+
+	public function staffEvaluations(Request $request){
+		$user = Auth::user();
+		$results["data"] = [];
+		$evaluations = Evaluation::with("form")->whereHas("form", function($query){
+			$query->where("evaluator_type", "staff");
+		})->get();
+
+		foreach($evaluations as $eval){
+			try{
+				$result = [];
+				$result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
+				$result[] = $eval->evaluator->full_name;
+				$result[] = $eval->subject->full_name;
+				$result[] = $eval->form->title;
+				$result[] = (string)$eval->form->evaluation_date;
+				$results["data"][] = $result;
+			}
+			catch(\Exception $e){
+				Log::error("Problem with staff evaluation: ".$e);
+			}
+		}
+		return json_encode($results);
+	}
 
 	public function flaggedEvaluations(Request $request){
 		$user = Auth::user();

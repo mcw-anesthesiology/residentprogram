@@ -320,7 +320,8 @@ class ManageController extends Controller
 			try{
 	            $result = [];
 	            $result[] = $form->title;
-				$result[] = $form->evaluator_type;
+				if($form->type == "resident")
+					$result[] = ucfirst($form->evaluator_type);
 	            $result[] = (string)$form->created_at;
 	            if($form->status == "inactive"){
 	                $buttonClass = "enableEval";
@@ -335,7 +336,7 @@ class ManageController extends Controller
 	                $buttonText = "Disable";
 	                $badge = "complete";
 	            }
-	            $result[] = "<span class='status'><span class='badge badge-{$badge}'>{$form->status}</span></span>";
+	            $result[] = "<span class='status'><span class='badge badge-{$badge}'>". ucfirst($form->status) . "</span></span>";
 	            $result[] = "<a href='/manage/forms/{$form->id}'>View Form</a>";
 	            $result[] = "<button type='button' class='{$buttonClass} btn btn-{$buttonType} btn-xs' data-id='{$form->id}'><span class='glyphicon glyphicon-{$glyphicon}'></span> {$buttonText}</button>";
 	            $results["data"][] = $result;

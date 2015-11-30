@@ -251,14 +251,11 @@
 	@endif
 			makeSelect(selectId, selectType, forms, formGroups, "group-forms");
 
-	@if($requestType == "faculty")
-			$("#evaluation-form").select2();
-			$("#evaluation-form option:eq(1)").prop("selected", true).trigger("change");
-	@else
 			$("#evaluation-form").val(null).change().select2({
 				placeholder: "Select form"
 			});
-	@endif
+			if(forms.length == 1)
+				$("#evaluation-form option:eq(1)").prop("selected", true).trigger("change");
 		}
 
 		function makeSelect(selectId, selectType, options, groups, groupId){

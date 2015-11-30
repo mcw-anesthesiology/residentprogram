@@ -28,7 +28,6 @@
 				<thead>
 					<tr>
 						<th>Title</th>
-						<th>Evaluator Type</th>
 						<th>Created</th>
 						<th>Status</th>
 						<th>View</th>
@@ -48,7 +47,6 @@
 				<thead>
 					<tr>
 						<th>Title</th>
-						<th>Evaluator Type</th>
 						<th>Created</th>
 						<th>Status</th>
 						<th>View</th>
@@ -164,19 +162,13 @@
 
 		$(document).ready(function(){
 			$("#resident-forms").DataTable({
-				"ajax": "/manage/forms/get/resident",
-				"dom": "lfprtip",
-				stateSave: true
+				"ajax": "/manage/forms/get/resident"
 			});
 			$("#faculty-forms").DataTable({
-				"ajax": "/manage/forms/get/faculty",
-				"dom": "lfprtip",
-				stateSave: true
+				"ajax": "/manage/forms/get/faculty"
 			});
 			$("#fellow-forms").DataTable({
-				"ajax": "/manage/forms/get/fellow",
-				"dom": "lfprtip",
-				stateSave: true
+				"ajax": "/manage/forms/get/fellow"
 			});
 		});
 	</script>

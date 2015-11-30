@@ -1,8 +1,28 @@
 @extends("app")
 
+@section("head")
+	<style>
+		.jump-to-items {
+			position: fixed;
+			float: left;
+			left: 0px;
+			list-style: none;
+			line-height: 24px;
+		}
+	</style>
+@stop
+
 @section("body")
+		<ul class="jump-to-items body-block">
+			<li><a href="#residents-heading">Residents</a></li>
+			<li><a href="#fellows-heading">Fellows</a></li>
+			<li><a href="#faculty-heading">Faculty</a></li>
+			<li><a href="#staff-heading">Staff</a></li>
+			<li><a href="#admin-heading">Administrator</a></li>
+		</ul>
+
 	<div class="row">
-		<h2 class="sub-header">Residents  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="resident" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+		<h2 class="sub-header" id="residents-heading">Residents  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="resident" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
 			<table class="table table-striped datatable-resident">
 				<thead>
@@ -22,7 +42,7 @@
 </div>
 <div class="container body-block">
 	<div class="row">
-		<h2 class="sub-header">Fellows  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="fellow" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+		<h2 class="sub-header" id="fellows-heading">Fellows  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="fellow" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
 			<table class="table table-striped datatable-fellow">
 				<thead>
@@ -41,7 +61,7 @@
 </div>
 <div class="container body-block">
 	<div class="row">
-		<h2 class="sub-header">Faculty  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="faculty" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+		<h2 class="sub-header" id="faculty-heading">Faculty  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="faculty" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
 			<table class="table table-striped datatable-faculty">
 				<thead>
@@ -60,7 +80,7 @@
 </div>
 <div class="container body-block">
 	<div class="row">
-		<h2 class="sub-header">Staff  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="staff" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+		<h2 class="sub-header" id="staff-heading">Staff  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="staff" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
 			<table class="table table-striped datatable-staff">
 				<thead>
@@ -79,7 +99,7 @@
 </div>
 <div class="container body-block">
 	<div class="row">
-		<h2 class="sub-header">Administrator  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="admin" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+		<h2 class="sub-header" id="admin-heading">Administrator  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="admin" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
 			<table class="table table-striped datatable-admin">
 				<thead>
@@ -275,6 +295,14 @@
 
 @section("script")
 	<script>
+		$(".jump-to-items a").click(function(event){
+			event.preventDefault();
+			console.log($(this));
+			var headerHeight = $("#main-navbar").height();
+			var padding = 5;
+			var scrollto = $($(this).context.hash).parents(".body-block").offset().top - padding - headerHeight;
+			$("html, body").animate({scrollTop: scrollto});
+		});
 
 		$(".table").on("click", ".disableUser", function(){
 			var data = {};

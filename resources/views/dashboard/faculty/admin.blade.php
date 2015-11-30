@@ -6,8 +6,6 @@
 				<th>#</th>
 				<th>Faculty</th>
 				<th>Evaluator</th>
-				<th>Requested</th>
-				<th>Completed</th>
 				<th>Evaluation Date</th>
 				<th></th>
 			</tr>

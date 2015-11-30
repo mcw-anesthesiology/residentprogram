@@ -26,6 +26,7 @@ Route::get("dashboard", "MainController@dashboard");
 Route::get("dashboard/evaluations", "MainController@evaluations");
 Route::post("dashboard/evaluations", "MainController@evaluations");
 Route::post("dashboard/evaluations/flagged", "MainController@flaggedEvaluations");
+Route::post("dashboard/evaluations/staff", "MainController@staffEvaluations");
 Route::get("dashboard/faculty", "MainController@dashboardFaculty");
 Route::get("dashboard/faculty/evaluations", "MainController@facultyEvaluations");
 Route::post("dashboard/faculty/evaluations", "MainController@facultyEvaluations");

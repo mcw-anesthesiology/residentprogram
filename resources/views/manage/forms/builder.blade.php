@@ -159,8 +159,9 @@
 				$(".form-question-milestone-2").hide().prop("disabled", true);
 				$(".form-question-competency").hide().prop("disabled", true);
 				$(".form-question-type").val("radiononnumeric").change();
-				$(".form-question-required").prop("checked", true);
 				$(".milestone-competency-label").hide();
+				if(type == "faculty")
+					$(".form-question-required").prop("checked", true);
 			}
 			else{
 				$(".form-question-milestone").show().prop("disabled", false);
@@ -252,10 +253,7 @@
 					{value: "strongly-agree", text: "Strongly Agree"},
 					{value: "n-a", text: "N/A"}
 				];
-				console.log(options);
 			}
-			console.log(formType);
-			console.log(questionType);
 
 			for(var i = 0; i < options.length; i++){
 				if(questionType == "radio")
@@ -309,7 +307,8 @@
 				$(".form-question-competency").hide().prop("disabled", true);
 				$(".milestone-competency-label").hide();
 				newQuestion.find(".form-question-type").val("radiononnumeric").change();
-				newQuestion.find(".form-question-required").prop("checked", true);
+				if(type == "faculty")
+					newQuestion.find(".form-question-required").prop("checked", true);
 			}
 		}
 
