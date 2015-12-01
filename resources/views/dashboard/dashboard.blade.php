@@ -143,6 +143,34 @@
 			});
 
 			data.type = "pending";
+			$(".datatable-staff-pending").DataTable({
+				"ajax": {
+					"url": "dashboard/evaluations/staff",
+					"data": data,
+					"type": "post"
+				},
+				deferRendering: true,
+				"order": [[0, "desc"]],
+				"createdRow": function(row, data, index){
+					$("td", row).addClass("view");
+				}
+			});
+
+			data.type = "complete";
+			$(".datatable-staff-complete").DataTable({
+				"ajax": {
+					"url": "dashboard/evaluations/staff",
+					"data": data,
+					"type": "post"
+				},
+				deferRendering: true,
+				"order": [[0, "desc"]],
+				"createdRow": function(row, data, index){
+					$("td", row).addClass("view");
+				}
+			});
+
+			data.type = "pending";
 			$(".datatable-pending").DataTable({
 				"ajax": {
 					"url": "dashboard/evaluations",

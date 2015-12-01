@@ -1,3 +1,5 @@
+Remove tables in evaluations
+Change staff report to form report after tables removed
 Mark if viewed by evaluator +Complete
 
 Replace form submissions with ajax +Usability

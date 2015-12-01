@@ -34,7 +34,7 @@ class MainController extends Controller
         $this->middleware("auth");
         $this->middleware("shared");
 
-		$this->middleware("type:admin", ["only" => ["flaggedEvaluations", "staffEvaluations"]]);
+		$this->middleware("type:admin", ["only" => ["flaggedEvaluations"]]);
     }
 
     public function dashboard(){
@@ -555,7 +555,7 @@ class MainController extends Controller
                 $evaluations = Evaluation::where("status", $type)->where(function($query) use ($user){
                     $query->where("evaluator_id", $user->id)->orWhere("subject_id", $user->id);
                 })->with("subject", "evaluator", "form")->whereHas("form", function($query){
-                    $query->whereIn("type", ["resident", "fellow"]);
+                    $query->whereIn("type", ["resident", "fellow"])->where("evaluator_type", "faculty");
                 })->get();
             foreach($evaluations as $eval){
 				try{
@@ -592,9 +592,20 @@ class MainController extends Controller
 	public function staffEvaluations(Request $request){
 		$user = Auth::user();
 		$results["data"] = [];
-		$evaluations = Evaluation::with("form")->whereHas("form", function($query){
-			$query->where("evaluator_type", "staff");
-		})->get();
+
+		if($user->type == "admin"){
+			$evaluations = Evaluation::with("form")->whereHas("form", function($query){
+				$query->where("evaluator_type", "staff");
+			})->get();
+		}
+		else{
+			$type = $request->has("type") ? $request->input("type") : "complete";
+			$evaluations = Evaluation::with("form")->where("status", $type)->where(function($query) use ($user){
+				$query->where("subject_id", $user->id)->orWhere("evaluator_id", $user->id);
+			})->whereHas("form", function($query){
+				$query->where("evaluator_type", "staff");
+			})->get();
+		}
 
 		foreach($evaluations as $eval){
 			try{
