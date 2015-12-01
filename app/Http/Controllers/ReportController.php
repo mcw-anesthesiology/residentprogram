@@ -573,7 +573,7 @@ class ReportController extends Controller
         return view("report.individual", $data);
     }
 
-    public function facultyReport(Request $request){
+    public function formReport(Request $request){
         $startDate = Carbon::parse($request->input("startDate"));
         $startDate->timezone = "America/Chicago";
         $endDate = Carbon::parse($request->input("endDate"));
@@ -585,8 +585,6 @@ class ReportController extends Controller
             ->join("users as subjects", "subjects.id", "=", "subject_id")
             ->join("forms", "forms.id", "=", "form_id")
             ->where("evaluations.status", "complete")
-            ->where("forms.type", "faculty")
-            ->where("evaluators.type", "resident")
             ->where("forms.id", $request->input("form_id"))
             ->where("evaluation_date", ">", $startDate)
             ->where("evaluation_date", "<", $endDate);
@@ -651,7 +649,7 @@ class ReportController extends Controller
             }
         }
 
-		$subjectId = $request->input("faculty");
+		$subjectId = $request->input("subject");
 		$form = Form::find($request->input("form_id"));
 		$subject = User::find($subjectId);
         $subjectName = $subject->last_name.", ".$subject->first_name;

@@ -26,6 +26,7 @@ class SharedVariables
             View::share("residents", User::where("type", "resident")->orderBy("last_name")->get());
             View::share("specificFaculty", User::where("type", "faculty")->orderBy("last_name")->get());
             View::share("facultyForms", Form::where("type", "faculty")->orderBy("title")->get());
+			View::share("residentForms", Form::where("type", "resident")->orderBy("title")->get());
         }
 
         return $next($request);

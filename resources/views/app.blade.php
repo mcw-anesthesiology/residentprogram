@@ -84,7 +84,8 @@
 			        	@endif
 			          	<li><a class="viewSpecRpt pointer" data-toggle="modal" data-target=".bs-specRpt-modal" id="viewSpecRpt">Individual</a></li>
 						@if($user->type == "admin")
-						<li><a class="viewSpecFacultyRpt pointer" data-toggle="modal" data-target=".bs-specFacultyRpt-modal" id="viewSpecFacultyRpt">Faculty</a></li>
+						<li><a class="pointer" data-toggle="modal" data-target="#faculty-report-modal">Faculty</a></li>
+						<li><a class="pointer" data-toggle="modal" data-target="#form-report-modal">Form</a></li>
 					  	<li><a href="/report/needs-eval">Needs Evaluations</a></li>
 					  	<li><a href="/report/stats/faculty">Faculty Statistics</a></li>
 					  	<li><a href="/report/stats/resident">Resident Statistics</a></li>
@@ -215,7 +216,7 @@
 						<label for="resident">Resident</label>
 						<select class="form-control select2" name="resident" style="width: 100%" required>
 							@foreach($user->mentees as $resident)
-								<option value="{{ $resident->id }}">{{ $resident->last_name }}, {{ $resident->first_name }}</option>
+								<option value="{{ $resident->id }}">{{ $resident->full_name }}</option>
 							@endforeach
 						</select>
 					@elseif($user->type == "resident")
@@ -224,7 +225,7 @@
 						<label for="resident">Resident</label>
 						<select class="form-control select2" name="resident" style="width: 100%" required>
 							@foreach($residents as $resident)
-								<option value="{{ $resident->id }}">{{ $resident->last_name }}, {{ $resident->first_name }}</option>
+								<option value="{{ $resident->id }}">{{ $resident->full_name }}</option>
 							@endforeach
 						</select>
 					@endif
@@ -266,21 +267,21 @@
 
 		@if($user->type == "admin")
 		<!-- Faculty Report Modal -->
-		<div class="modal fade bs-specFacultyRpt-modal" role="dialog" aria-labelledby="modalSpecFacultyRpt" aria-hidden="true" id="specFacultyRptModal">
+		<div class="modal fade bs-faculty-report-modal" role="dialog" aria-labelledby="faculty-report-modal-heading" aria-hidden="true" id="faculty-report-modal">
 		  <div class="modal-dialog">
 			<div class="modal-content">
 			  <div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="myModalSpecFacultyRpt">Specific Faculty Report</h4>
+				<h4 class="modal-title" id="faculty-report-modal-heading">Specific Faculty Report</h4>
 			  </div>
-			  <form class="report" method="post" action="/report/faculty">
+			  <form class="report" method="post" action="/report/form">
 				  {!! csrf_field() !!}
 				<div class="modal-body modal-specFacultyRpt report-options">
 			 	  <div class="form-group">
 					<label for="specific-faculty">Faculty</label>
-					<select class="form-control select2" id="specific-faculty" name="faculty" style="width: 100%;" required>
+					<select class="form-control select2" id="specific-faculty" name="subject" style="width: 100%;" required>
 						@foreach($specificFaculty as $faculty)
-							<option value="{{ $faculty->id }}">{{ $faculty->last_name }}, {{ $faculty->first_name }}</option>
+							<option value="{{ $faculty->id }}">{{ $faculty->full_name }}</option>
 						@endforeach
 					</select>
 				  </div>
@@ -301,6 +302,55 @@
 					<select class="form-control select2" id="form-id" name="form_id" style="width: 100%" required>
 				@foreach($facultyForms as $facultyForm)
 						<option value="{{ $facultyForm->id }}">{{ $facultyForm->title }}</option>
+				@endforeach
+					</select>
+				  </div>
+				</div>
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				  <button type="submit" class="btn btn-primary" value="">Generate</button>
+				</div>
+			  </form>
+			</div>
+		  </div>
+		</div>
+
+		<!-- Form Report Modal -->
+		<div class="modal fade bs-form-report-modal" role="dialog" aria-labelledby="form-report-modal-heading" aria-hidden="true" id="form-report-modal">
+		  <div class="modal-dialog">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="form-report-modal-heading">Staff Resident Report</h4>
+			  </div>
+			  <form class="report" method="post" action="/report/form">
+				  {!! csrf_field() !!}
+				<div class="modal-body modal-specFacultyRpt report-options">
+				  <div class="form-group">
+					<label for="form-report-resident"></label>
+					<select class="form-control select2" id="form-report-resident" name="subject" style="width: 100%;" required>
+						@foreach($residents as $resident)
+							<option value="{{ $resident->id }}">{{ $resident->full_name }}</option>
+						@endforeach
+					</select>
+				  </div>
+				  <div class="form-group">
+					<label for="startDate">Start Date:</label>
+					<input type="text" class="form-control datepicker startDate" id="startDate" name="startDate" required>
+				  </div>
+				  <div class="form-group">
+					<label for="endDate">End Date:</label>
+					<input type="text" class="form-control datepicker endDate" id="endDate" name="endDate" required>
+				  </div>
+				  <div class="form-group" style="text-align: center;">
+					<button type="button" class="btn lastThreeMonths">Last Three Months</button>
+					<button type="button" class="btn lastSixMonths">Last Six Months</button>
+				  </div>
+				  <div class="form-group">
+					<label for="form-id">Form</label>
+					<select class="form-control select2" id="form-id" name="form_id" style="width: 100%" required>
+				@foreach($residentForms as $residentForm)
+						<option value="{{ $residentForm->id }}">{{ $residentForm->title }}</option>
 				@endforeach
 					</select>
 				  </div>
