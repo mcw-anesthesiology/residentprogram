@@ -504,6 +504,9 @@
 				});
 
 				$("body").css("padding-top", $("#main-navbar").height()+5);
+
+				$(".question").addClass("table table-striped");
+				
 			});
 
 			$(window).resize(function(){

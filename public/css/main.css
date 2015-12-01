@@ -245,6 +245,34 @@ body {
 	cursor: pointer;
 }
 
+.question {
+	display: table;
+}
+
+.question-option {
+	display: table-cell;
+}
+
+.question-header {
+	display: table-row;
+}
+
+.question-body {
+	display: table-row;
+}
+
+.question-footer {
+	display: table-row;
+}
+
+.question-title {
+	display: table-cell;
+}
+
+.question-description-toggle {
+	display: table-cell;
+}
+
 .description{
     background-color: #FFECCF;
     padding: 5px;

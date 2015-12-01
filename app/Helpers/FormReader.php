@@ -1,6 +1,5 @@
 <?php
 
-//This page reads the XML file at $fileLocation and converts it to XML to be displayed to the user on either view_specific.php or complete_specific.php, which sets $fileLocation prior to calling this page.
 namespace App\Helpers;
 
 class FormReader{
@@ -18,7 +17,7 @@ class FormReader{
 		global $questionType, $questionName, $description, $questionHasDescriptions, $required, $result;
 
 		if($name == "question"){
-			$result .= "<table class='table table-striped'>";
+			$result .= "<div class='question'>";
 			$questionType = $attrs["type"];
 			$questionName = $attrs["name"];
 			$questionWeight = $attrs["weight"];
@@ -31,7 +30,7 @@ class FormReader{
 
 		}
 		else if($name == "option"){
-			if($questionType == "radio" || $questionType == "radiononnumeric"){
+			if(in_array($questionType, ["radio", "radionumeric"])){
 				if(isset($attrs["description"]))
 					$description = htmlspecialchars($attrs["description"], ENT_QUOTES);
 				else
@@ -40,14 +39,14 @@ class FormReader{
 				if($description != "")
 					$questionHasDescriptions = true;
 
-				$result .= "<td class='tdRdoBtn'><label><span title='{$description}'><input type='radio' name='{$questionName}' value='{$attrs["value"]}' {$required} /><br />";
+				$result .= "<div class='tdRdoBtn question-option'><label><span title='{$description}'><input type='radio' name='{$questionName}' value='{$attrs["value"]}' {$required} /><br />";
 			}
 		}
 		else if($name == "text"){
 			if($required == "required")
-				$result .= "<tr><td colspan='50'><b style='color: red;'>".strtoupper($questionName)."*: </b>";
+				$result .= "<div class='question-header'><div class='question-title'><b style='color: red;'>".strtoupper($questionName)."*: </b>";
 			else
-				$result .= "<tr><td colspan='50'><b>".strtoupper($questionName).": </b>";
+				$result .= "<div class='question-header'><div class='question-title'><b>".strtoupper($questionName).": </b>";
 		}
 		else if($name == "form"){
 
@@ -68,29 +67,29 @@ class FormReader{
 		else if($name == "question"){
 
 			if($questionType == "text"){
-				$result .= "<td><textarea name='{$questionName}' {$required}></textarea></td>";
+				$result .= "<div class='question-option'><textarea name='{$questionName}' {$required}></textarea></div>";
 			}
 			elseif($questionType == "number"){
-				$result .= "<td><input type='number' name='{$questionName}' {$required} /></td>";
+				$result .= "<div class='question-option'><input type='number' name='{$questionName}' {$required} /></div>";
 			}
-			else if($questionType == "radio"){
+			else if(in_array($questionType, ["radio", "radionumeric"])){
 				if($questionHasDescriptions){
-					$result .= "<tr></tr><tr><td colspan='50' style='text-align:center;'>";
+					$result .= "<div class='question-footer'><div class='question-description-toggle'>";
 					$result .= "<button type='button' class='toggleDescriptions btn btn-info' data-id='{$questionName}'>Show Descriptions</button>";
-					$result .= "</td></tr>";
+					$result .= "</div></div>"; // .question-description-toggle, .question-footer
 				}
 			}
 
-			$result .= "</tr></tbody></table>";
+			$result .= "</div></div>";
 		}
 		else if($name == "option"){
 			$result .= "</span></label>";
 			if($description != "")
-				$result .= "<br/><label><div class='description {$questionName}' hidden>{$description}</div></label>";
-			$result .= "</td>";
+				$result .= "<br/><label><div class='description {$questionName} collapse'>{$description}</div></label>";
+			$result .= "</div>"; // .question-option
 		}
 		else if($name == "text"){
-			$result .= "</td></tr><tr>";
+			$result .= "</div></div><div class='question-body'>"; // .question-title
 		}
 		else if($name == "title"){
 			$result .= "</h3>";
