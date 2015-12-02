@@ -336,7 +336,26 @@ class ManageController extends Controller
 	                $buttonText = "Disable";
 	                $badge = "complete";
 	            }
-	            $result[] = "<span class='status'><span class='badge badge-{$badge}'>". ucfirst($form->status) . "</span></span>";
+				switch($form->visibility){
+					case "visible":
+						$eyeType = "open";
+						$visBtnType = "btn-info";
+						break;
+					case "anonymous":
+						$eyeType = "close";
+						$visBtnType = "";
+						break;
+					case "hidden":
+						$eyeType = "close";
+						$visBtnType = "btn-default";
+						break;
+				}
+	            $result[] = "<span class='status'><span class='badge badge-{$badge}'>" .
+					ucfirst($form->status) . "</span></span>";
+				$result[] = "<button type='button' " .
+					"class='visibility visibility-{$form->visibility} btn {$visBtnType} btn-xs' " .
+					"data-id='{$form->id}'>" . ucfirst($form->visibility) .
+					" <span class='glyphicon glyphicon-eye-{$eyeType}'></span></button>";
 	            $result[] = "<a href='/manage/forms/{$form->id}'>View Form</a>";
 	            $result[] = "<button type='button' class='{$buttonClass} btn btn-{$buttonType} btn-xs' data-id='{$form->id}'><span class='glyphicon glyphicon-{$glyphicon}'></span> {$buttonText}</button>";
 	            $results["data"][] = $result;
@@ -486,6 +505,9 @@ class ManageController extends Controller
                 case "enable":
                     $form->status = "active";
                     break;
+				case "visibility":
+					$form->visibility = $request->input("visibility");
+					break;
                 default:
                     return "false";
                     break;

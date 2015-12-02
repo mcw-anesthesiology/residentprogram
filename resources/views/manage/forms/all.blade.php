@@ -8,9 +8,10 @@
 				<thead>
 					<tr>
 						<th>Title</th>
-						<th>Evaluator Type</th>
+						<th>Evaluator type</th>
 						<th>Created</th>
 						<th>Status</th>
+						<th>Subject visibility</th>
 						<th>View</th>
 						<th>Action</th>
 					</tr>
@@ -18,8 +19,8 @@
 			</table>
 		</div>
 	</div>
-
 </div>
+
 <div class="container body-block">
 	<div class="row">
 		<h2 class="sub-header">Fellow evaluation forms <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add new</button></h2>
@@ -30,6 +31,7 @@
 						<th>Title</th>
 						<th>Created</th>
 						<th>Status</th>
+						<th>Subject visibility</th>
 						<th>View</th>
 						<th>Action</th>
 					</tr>
@@ -37,8 +39,8 @@
 			</table>
 		</div>
 	</div>
-
 </div>
+
 <div class="container body-block">
 	<div class="row">
 		<h2 class="sub-header">Faculty evaluation forms <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add new</button></h2>
@@ -49,6 +51,7 @@
 						<th>Title</th>
 						<th>Created</th>
 						<th>Status</th>
+						<th>Subject visibility</th>
 						<th>View</th>
 						<th>Action</th>
 					</tr>
@@ -104,6 +107,24 @@
 	    </div>
 	  </div>
 	</div>
+
+	<!-- Visibility Modal -->
+	<!-- <div id="visibility-modal" class="modal fade bs-visibilty-modal-sm" tabindex="-1" role="dialog" aria-labelledby="visibility-modal-heading" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="visibility-modal-heading">Form visibility</h4>
+				</div>
+				<div class="modal-body">
+					<button class="btn btn-info"
+				</div>
+				<div class="modal-footer">
+
+				</div>
+			</div>
+		</div>
+	</div> -->
 @stop
 
 @section("script")
@@ -156,6 +177,53 @@
 							$(this).fadeIn();
 						});
 					}
+				}
+			});
+		});
+
+		$("body").popover({
+			html: true,
+			selector: ".visibility",
+			trigger: "focus",
+			placement: "auto top",
+			title: "Subject visibility",
+			content: function(){
+				var formId = $(this).data("id");
+				return "<button type='button' class='visibility-edit btn btn-info' data-form='" + formId + "' data-visibility='visible'>Visible <span class='glyphicon glyphicon-eye-open'></span></button> " +
+				"<button type='button' class='visibility-edit btn' data-form='" + formId + "' data-visibility='anonymous'>Anonymous <span class='glyphicon glyphicon-eye-close'></span></button> " +
+				"<button type='button' class='visibility-edit btn btn-default' data-form='" + formId + "' data-visibility='hidden'>Hidden <span class='glyphicon glyphicon-eye-close'></span></button> ";
+			}
+		});
+
+		$("body").on("click", ".visibility-edit", function(){
+			var formId = $(this).data("form");
+			var data = {};
+			data._token = "{{ csrf_token() }}";
+			data.action = "visibility";
+			data.visibility = $(this).data("visibility");
+			$.post("/manage/forms/" + formId, data, function(response){
+				if(response == "true"){
+					var button = $(".visibility[data-id='" + formId + "']");
+					button.fadeOut(function(){
+						switch(data.visibility){
+							case "visible":
+								button.removeClass("visibility-anonymous visibility-hidden btn-default");
+								button.addClass("visibility-visible btn-info");
+								button.html("Visible <span class='glyphicon glyphicon-eye-open'></span>");
+								break;
+							case "anonymous":
+								button.removeClass("visibility-visible visibility-hidden btn-info btn-default");
+								button.addClass("visibility-anonymous");
+								button.html("Anonymous <span class='glyphicon glyphicon-eye-close'></span>");
+								break;
+							case "hidden":
+								button.removeClass("visibility-anonymous visibility-visible btn-info");
+								button.addClass("visibility-hidden btn-default");
+								button.html("Hidden <span class='glyphicon glyphicon-eye-close'></span>");
+								break;
+						}
+						button.fadeIn();
+					});
 				}
 			});
 		});
