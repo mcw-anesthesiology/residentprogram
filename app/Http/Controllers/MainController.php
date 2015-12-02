@@ -77,12 +77,12 @@ class MainController extends Controller
                     foreach($block->assignments->where("location", $location)->sortBy("user.last_name") as $assignment){
                         if($user->type == "resident"){
                             if($assignment->user_id != $user->id && $assignment->user->type == "faculty"){
-                                $faculty[$block->id][] = ["id" => $assignment->user_id, "name" => $assignment->user->full_name, "group" => $assignment->user->training_level];
+                                $faculty[$block->id][] = ["id" => $assignment->user_id, "name" => $assignment->user->full_name];
                             }
                         }
                         elseif($user->type == "faculty"){
                             if($assignment->user_id != $user->id && $assignment->user->type == "resident"){
-                                $residents[$block->id][] = ["id" => $assignment->user_id, "name" => $assignment->user->full_name];
+                                $residents[$block->id][] = ["id" => $assignment->user_id, "name" => $assignment->user->full_name, "group" => $assignment->user->training_level];
                             }
                         }
                     }

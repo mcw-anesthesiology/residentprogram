@@ -296,7 +296,8 @@
 
 				if(typeof(groups) != "undefined" && groupChecked){
 					for(group in optGroups){
-						select.appendChild(optGroups[group]);
+						if(optGroups[group].childNodes.length > 0)
+							select.appendChild(optGroups[group]);
 					}
 				}
 			}
