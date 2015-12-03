@@ -1,5 +1,14 @@
 @extends("app")
 
+@section("head")
+	<style>
+		#edit-form-visibility-group label {
+			font-weight: normal;
+			margin-left: 20px;
+		}
+	</style>
+@stop
+
 @section("body")
 	<div class="row">
 		<h2 class="sub-header">Evaluation forms <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add new</button></h2>
@@ -118,10 +127,16 @@
 				</div>
 				<div class="modal-body">
 					<div class="form-group">
-						<label for="form-title">Title</label>
+						<label for="edit-form-title">Title</label>
 						<input type="text" class="form-control" id="edit-form-title" />
 						<input type="hidden" id="edit-form-id" />
 						<input type="hidden" id="edit-form-type" />
+					</div>
+					<label>Subject visibilty</label>
+					<div class="form-group" id="edit-form-visibility-group">
+						<label><input type="radio" name="visibility" value="visible" /> Visible</label><br />
+						<label><input type="radio" name="visibility" value="anonymous" /> Anonymous</label><br />
+						<label><input type="radio" name="visibility" value="hidden" /> Hidden</label>
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -141,6 +156,7 @@
 			var data = {};
 			data._token = "{{ csrf_token() }}";
 			data.title = $("#edit-form-title").val();
+			data.visibility = $("#edit-frm-modal input[name='visibility']").val();
 			data.action = "edit";
 			$.post("/manage/forms/"+formId, data, function(response){
 				if(response == "true"){
@@ -160,10 +176,12 @@
 			var formId = $(this).data("id");
 			var formType = $(this).data("type");
 			var formTitle = $(this).data("title");
+			var visibility = $(this).data("visibility");
 
 			$("#edit-form-id").val(formId);
 			$("#edit-form-type").val(formType);
 			$("#edit-form-title").val(formTitle);
+			$("#edit-form-modal input[value='" + visibility + "']").prop("checked", true);
 		});
 
 		$(document).on("click", ".disableEval", function(){
@@ -240,6 +258,7 @@
 			data.visibility = $(this).data("visibility");
 			$.post("/manage/forms/" + formId, data, function(response){
 				if(response == "true"){
+					$(".edit-form-button[data-id='" + formId + "']").data("visibility", data.visibility);
 					var button = $(".visibility[data-id='" + formId + "']");
 					button.fadeOut(function(){
 						switch(data.visibility){

@@ -553,7 +553,11 @@ class MainController extends Controller
             }
             else
                 $evaluations = Evaluation::where("status", $type)->where(function($query) use ($user){
-                    $query->where("evaluator_id", $user->id)->orWhere("subject_id", $user->id);
+                    $query->where("evaluator_id", $user->id)->orWhere(function($query) use ($user){
+						$query->where("subject_id", $user->id)->whereHas("form", function($query){
+							$query->whereIn("visibility", ["visible", "anonymous"]);
+						});
+					});
                 })->with("subject", "evaluator", "form")->whereHas("form", function($query){
                     $query->whereIn("type", ["resident", "fellow"])->where("evaluator_type", "faculty");
                 })->get();
@@ -561,10 +565,15 @@ class MainController extends Controller
 				try{
 	                $result = [];
 	                $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
-	                if($eval->subject_id == $user->id || $type == "mentor")
-	                    $result[] = $eval->evaluator->full_name;
-	                else
+	                if($eval->subject_id == $user->id || $type == "mentor"){
+						if($eval->form->visibility == "visible")
+							$result[] = $eval->evaluator->full_name;
+						elseif($eval->form->visibility == "anonymous")
+							$result[] = "Anonymous";
+					}
+	                else{
 	                    $result[] = $eval->subject->full_name;
+					}
 	                $result[] = $eval->form->title;
 	                $result[] = (string)$eval->request_date;
 	                if($type == "complete" || $type == "mentor")

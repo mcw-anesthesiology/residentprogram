@@ -378,7 +378,7 @@ class ManageController extends Controller
 					" <span class='glyphicon glyphicon-eye-{$eyeType}'></span></button>";
 	            $result[] = "<a href='/manage/forms/{$form->id}'>View Form</a>";
 	            $actionField = "<button type='button' class='{$buttonClass} btn btn-{$buttonType} btn-xs' data-id='{$form->id}'><span class='glyphicon glyphicon-{$glyphicon}'></span> {$buttonText}</button>";
-				$actionField .= " <button type='button' class='edit-form-button btn btn-info btn-xs' data-id='{$form->id}' data-title='{$form->title}' data-type='{$form->type}' data-toggle='modal' data-target='#edit-form-modal'><span class='glyphicon glyphicon-pencil'></span> Edit</button>";
+				$actionField .= " <button type='button' class='edit-form-button btn btn-info btn-xs' data-id='{$form->id}' data-title='{$form->title}' data-type='{$form->type}' data-visibility='{$form->visibility}' data-toggle='modal' data-target='#edit-form-modal'><span class='glyphicon glyphicon-pencil'></span> Edit</button>";
 				$result[] = $actionField;
 	            $results["data"][] = $result;
 			}
@@ -532,6 +532,7 @@ class ManageController extends Controller
 					break;
 				case "edit":
 					$form->title = $request->input("title");
+					$form->visibility = $request->input("visibility");
 					break;
                 default:
                     return "false";
