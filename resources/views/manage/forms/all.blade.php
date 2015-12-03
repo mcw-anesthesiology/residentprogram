@@ -108,27 +108,64 @@
 	  </div>
 	</div>
 
-	<!-- Visibility Modal -->
-	<!-- <div id="visibility-modal" class="modal fade bs-visibilty-modal-sm" tabindex="-1" role="dialog" aria-labelledby="visibility-modal-heading" aria-hidden="true">
-		<div class="modal-dialog modal-sm">
+	<!-- Edit modal -->
+	<div class="modal fade bs-edit-modal" tabindex="-1" role="dialog" aria-labelledby="edit-form-modal-title" aria-hidden="true" id="edit-form-modal">
+		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="visibility-modal-heading">Form visibility</h4>
+					<h3 class="modal-title" id="edit-form-modal-title">Edit form</h3>
 				</div>
 				<div class="modal-body">
-					<button class="btn btn-info"
+					<div class="form-group">
+						<label for="form-title">Title</label>
+						<input type="text" class="form-control" id="edit-form-title" />
+						<input type="hidden" id="edit-form-id" />
+						<input type="hidden" id="edit-form-type" />
+					</div>
 				</div>
 				<div class="modal-footer">
-
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-info" data-dismiss="modal" id="edit-modal-submit">Save form</button>
 				</div>
 			</div>
 		</div>
-	</div> -->
+	</div>
 @stop
 
 @section("script")
 	<script>
+		$("#edit-modal-submit").click(function(){
+			var formId = $("#edit-form-id").val();
+			var formType = $("#edit-form-type").val();
+			var data = {};
+			data._token = "{{ csrf_token() }}";
+			data.title = $("#edit-form-title").val();
+			data.action = "edit";
+			$.post("/manage/forms/"+formId, data, function(response){
+				if(response == "true"){
+					$("#"+formType+"-forms").DataTable({
+						"retrieve": true
+					}).ajax.reload();
+				}
+				else{
+					alert("Sorry, the form cannot be edited at this time");
+				}
+			}).fail(function(){
+				alert("There was a problem editing the form.");
+			});
+		});
+
+		$(document).on("click", ".edit-form-button", function(){
+			var formId = $(this).data("id");
+			var formType = $(this).data("type");
+			var formTitle = $(this).data("title");
+
+			$("#edit-form-id").val(formId);
+			$("#edit-form-type").val(formType);
+			$("#edit-form-title").val(formTitle);
+		});
+
 		$(document).on("click", ".disableEval", function(){
 			var data = {};
 			data._token = "{{ csrf_token() }}";

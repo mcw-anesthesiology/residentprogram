@@ -117,6 +117,7 @@
       </div>
       <form id="edit-form" enctype="multipart/form-data" method="post" action="/manage/accounts/edit">
 		  {!! csrf_field() !!}
+		<input type="hidden"  id="id" name="id" value="" />
         <div class="modal-body modal-edit">
           <div class="form-group">
             <label for="usernameInput">Username</label>
@@ -152,10 +153,14 @@
 				<img id="photoPreview" src="" width="150px" />
 			</div>
           </div>
+		  <div class="form-group">
+            <label for="accountTypeInput">Account Type</label>
+            <input type="text" class="form-control" id="accountTypeInput" readonly>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-success" id="id" name="id" value="">Edit account</button>
+          <button type="submit" class="btn btn-primary">Edit account</button>
         </div>
       </form>
     </div>
@@ -235,9 +240,10 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title" id="myModalEditPassword">Edit Password</h4>
       </div>
-      <div class="modal-body modal-edit-password">
         <form id="password-form" method="post" action="/manage/accounts/password">
+    	  <div class="modal-body modal-edit-password">
 			{!! csrf_field() !!}
+			<input type="hidden" id="id" name="id" />
 			<div class="form-group">
 				<label for="password1">User Password</label>
 				<input type="password" class="form-control" id="password1" name="newPassword" placeholder="New Password" required>
@@ -253,7 +259,7 @@
 		  </div>
 		  <div class="modal-footer modal-edit-password">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<button type="submit" class="btn btn-primary" id="id" name="id">Change password</button>
+				<button type="submit" class="btn btn-primary">Change password</button>
 		  </div>
 		</form>
     </div>
@@ -295,6 +301,54 @@
 			var scrollto = $(target).parents(".body-block").offset().top - padding - headerHeight;
 			$("html, body").animate({scrollTop: scrollto});
 		});
+
+		$("#password-form").on("submit", function(event){
+			event.preventDefault();
+			var type = $("#password-form-user-type").val();
+			var data = $(this).serialize() + "&ajax=true";
+			$.post($(this).prop("action"), data, function(response){
+				if(response == "true"){
+					$("#editPasswordModal").modal("hide");
+				}
+				else{
+					appendAlert(response, "#editPasswordModal .modal-body");
+				}
+			});
+		});
+
+		$("#add-form").on("submit", function(event){
+			event.preventDefault();
+			submitAddEditForm("#addModal", $(this));
+		});
+
+		$("#edit-form").on("submit", function(event){
+			event.preventDefault();
+			submitAddEditForm("#editModal", $(this));
+		})
+
+		function submitAddEditForm(modal, form){
+			var type = $(modal + " #accountTypeInput").val();
+			var fd = new FormData(form.get(0));
+			fd.append("ajax", true);
+			$.ajax({
+				url: form.prop("action"),
+				data: fd,
+				processData: false,
+				contentType: false,
+				type: "POST",
+				success: function(response){
+					if(response == "true"){
+						$(modal).modal("hide");
+						$(".datatable-" + type).DataTable({
+							retrieve: true
+						}).ajax.reload();
+					}
+					else{
+						appendAlert(response, modal + " .modal-body");
+					}
+				}
+			});
+		}
 
 		$(".table").on("click", ".disableUser", function(){
 			var data = {};
@@ -357,6 +411,7 @@
 			$("#editModal #firstNameInput").val(firstName);
 			$("#editModal #lastNameInput").val(lastName);
 			$("#editModal #id").val(id);
+			$("#editModal #accountTypeInput").val(type);
 			if(photoPath == "")
 				$("#editModal #photoPreview").hide();
 			else{

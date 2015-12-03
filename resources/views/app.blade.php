@@ -380,7 +380,7 @@
 		<script>
 		    var numSpecificReports = 0;
 			function reportHtml(i) {
-		        return '<div class="report-options">'+
+		        return '<div class="report-options collapse">'+
 		        '<button type="button" class="close remove-report-group" aria-hidden="true">&times;</button>'+
 		        '<h3>Report</h3>'+
 		     '<div class="form-group">'+
@@ -410,16 +410,19 @@
 		     '</div>';
 		    }
 
-		     $(".modal-specRpt").append(reportHtml(0));
-		     $("#addNewSpecificReport").click(function(){
-				 $(".modal-specRpt").append(reportHtml(++numSpecificReports));
-				 $(".datepicker").datepicker({
-					 dateFormat: "yy-mm-dd"
-				 });
-		     });
+
+		    $("#addNewSpecificReport").click(function(){
+				var report = reportHtml(++numSpecificReports);
+				$(report).appendTo(".modal-specRpt").slideDown();
+				$(".datepicker").datepicker({
+					dateFormat: "yy-mm-dd"
+				});
+		    });
 
 		     $(".modal-specRpt").on("click", ".remove-report-group", function(){
-		        $(this).parent().remove();
+		        $(this).parent().slideUp(function(){
+					$(this).remove();
+				});
 		     });
 
 		    function checkReportQuery(){
@@ -480,6 +483,31 @@
 				year = d.getFullYear();
 				date = year+"-"+month+"-"+day;
 				$(this).parents(".report-options").find(".startDate").val(date);
+			}
+
+			function appendAlert(alertText, parent, alertType){
+				alertType = (typeof(alertType) == "undefined" ? "danger" : alertType);
+
+				var alert = document.createElement("div");
+				alert.className = "alert alert-" + alertType + " alert-dismissable";
+				alert.role = "alert";
+
+				var close = document.createElement("button");
+				close.type = "button";
+				close.className = "close";
+				close.dataset.dismiss = "alert";
+				close.setAttribute("aria-label", "Close");
+
+				var innerClose = document.createElement("span");
+				innerClose.setAttribute("aria-hidden", "true");
+				innerClose.innerHTML = "&times;";
+				close.appendChild(innerClose);
+
+				var text = document.createTextNode(alertText);
+				alert.appendChild(close);
+				alert.appendChild(text);
+
+				$(parent).append(alert);
 			}
 
 			$(document).ready(function(){

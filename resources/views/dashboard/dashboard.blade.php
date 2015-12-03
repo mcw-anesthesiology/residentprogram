@@ -56,7 +56,9 @@
 					}
 					else{
 						row.fadeOut(function(){
-							$(this).remove();
+							$(".datatable-pending").DataTable({
+								retrieve: true
+							}).row(row).remove().draw();
 						});
 					}
 				}
@@ -84,7 +86,9 @@
 						});
 					else
 						row.fadeOut(function(){
-							$(this).remove();
+							$(".datatable-flagged").DataTable({
+								retrieve: true
+							}).row(row).remove().draw();
 						});
 				else
 					alert("Error: " + result);

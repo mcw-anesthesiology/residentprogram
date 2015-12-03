@@ -12,7 +12,8 @@
 					<div class="col-md-4">
 						<label for="form-type">Form type</label>
 						<select class="form-control" id="form-type" name="form_type" style="margin-bottom: 5px;">
-							<option value="resident">Resident/Fellow/Intern</option>
+							<option value="resident">Resident/Intern</option>
+							<option value="fellow">Fellow</option>
 							<option value="faculty">Faculty</option>
 							<option value="staff">Staff</option>
 						</select>
@@ -242,6 +243,21 @@
 					{value: 8, text: "CA-3"},
 					{value: 9, text: ""},
 					{value: 10, text: "Attending"}
+				];
+			}
+			else if(formType == "fellow"){
+				options = [
+					{value: 0, text: "Not at fellowship level"},
+					{value: 1, text: ""},
+					{value: 2, text: "Fellow - 1"},
+					{value: 3, text: ""},
+					{value: 4, text: "Fellow - 2"},
+					{value: 5, text: ""},
+					{value: 6, text: "Fellow - 3"},
+					{value: 7, text: ""},
+					{value: 8, text: "Fellow - 4"},
+					{value: 9, text: ""},
+					{value: 10, text: "Fellow - 5"}
 				];
 			}
 			else if(formType == "faculty" && questionType == "radiononnumeric"){
