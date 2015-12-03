@@ -47,45 +47,49 @@
 			<thead>
 				<tr>
 					<th>#</th>
-				@if($evaluation->subject->type != "faculty")
-					<th>Resident/Fellow</th>
-				@endif
-					<th>Faculty</th>
-				@if($evaluation->status == "complete")
+	@if($user->id != $evaluation->subject_id)
+					<th>{{ ucfirst($evaluation->subject->type) }}</th>
+	@endif
+	@if($user->isType("admin") || ($user->id != $evaluation->evaluator_id && $evaluation->visibility == "visible"))
+					<th>{{ ucfirst($evaluation->evaluator->type) }}</th>
+	@endif
+	@if($evaluation->status == "complete")
 					<th>Evaluation Date</th>
-				@endif
-				@if(!($evaluation->subject->type == "faculty" && $user->id == $evaluation->subject_id))
+	@endif
+	@if(!($evaluation->subject->type == "faculty" && $user->id == $evaluation->subject_id))
 					<th>Requested</th>
 					<th>Completed</th>
-				@endif
+	@endif
 					<th>Status</th>
-				@if($evaluation->subject->type != "faculty")
+	@if($evaluation->subject->type != "faculty")
 					<th>Training Level</th>
-				@endif
+	@endif
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
 					<td>{{ $evaluation->id }}</td>
-					<td>{{ $evaluation->subject->last_name }}, {{ $evaluation->subject->first_name }}</td>
-				@if($evaluation->subject->type != "faculty")
-					<td>{{ $evaluation->evaluator->last_name }}, {{ $evaluation->evaluator->first_name }}</td>
-				@endif
-				@if($evaluation->status == "complete")
+	@if($user->id != $evaluation->subject_id)
+					<td>{{ $evaluation->subject->full_name }}</td>
+	@endif
+	@if($user->isType("admin") || ($user->id != $evaluation->evaluator_id && $evaluation->visibility == "visible"))
+					<td>{{ $evaluation->evaluator->full_name }}</td>
+	@endif
+	@if($evaluation->status == "complete")
 					<td>{{ $evaluation->evaluation_date->format("F Y") }}</td>
-				@endif
-				@if(!($evaluation->subject->type == "faculty" && $user->id == $evaluation->subject_id))
+	@endif
+	@if(!($evaluation->subject->type == "faculty" && $user->id == $evaluation->subject_id))
 					<td>{{ $evaluation->request_date }}</td>
 					<td>{{ $evaluation->complete_date }}</td>
-				@endif
+	@endif
 					<td>{{ ucfirst($evaluation->status) }}</td>
-				@if($evaluation->subject->type != "faculty")
-					@if($evaluation->training_level)
+	@if($evaluation->subject->type != "faculty")
+		@if($evaluation->training_level)
 						<td>{{ strtoupper($evaluation->training_level) }}</td>
-					@else
+		@else
 						<td>{{ strtoupper($evaluation->subject->training_level) }}</td>
-					@endif
-				@endif
+		@endif
+	@endif
 				</tr>
 			</tbody>
 		</table>

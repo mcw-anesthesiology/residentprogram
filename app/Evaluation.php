@@ -25,6 +25,12 @@ class Evaluation extends Model
 
     protected $dates = ["created_at", "updated_at", "request_date", "complete_date", "evaluation_date", "archive_date"];
 
+	protected $appends = ["visibility"];
+
+	public function getVisibilityAttribute(){
+		return $this->form->visibility;
+	}
+
     public function evaluator(){
         return $this->belongsTo("App\User", "evaluator_id");
     }

@@ -119,13 +119,13 @@ class MainController extends Controller
 		}
 
 		if($user->isType($subjectTypes)){
-			$formModels = Form::where("status", "active")->where("type", $user->specific_type)->whereIn("evaluator_type", $evaluatorTypes)->orderBy("title")->get();
+			$formModels = Form::where("status", "active")->where("type", $user->type)->whereIn("evaluator_type", $evaluatorTypes)->orderBy("title")->get();
 			foreach($formModels as $form){
 				$forms[] = ["id" => $form->id, "name" => $form->title, "group" => $form->type];
 			}
 		}
 		elseif($user->isType($evaluatorTypes)){
-			$formModels = Form::where("status", "active")->whereIn("type", $subjectTypes)->where("evaluator_type", $user->specific_type)->orderBy("title")->get();
+			$formModels = Form::where("status", "active")->whereIn("type", $subjectTypes)->where("evaluator_type", $user->type)->orderBy("title")->get();
 			foreach($formModels as $form){
 				$forms[] = ["id" => $form->id, "name" => $form->title, "group" => $form->type];
 			}
@@ -325,6 +325,8 @@ class MainController extends Controller
 				$flaggedActions = Setting::get("flaggedActions");
 				$data += compact("subjectType", "possibleSubjects", "possibleForms", "flaggedActions");
 			}
+			if($user->id == $evaluation->subject_id && $evaluation->visibility == "hidden")
+				return redirect("dashboard")->with("error", "Insufficient permissions to view the requested evaluation");
             return view("evaluations.evaluation", $data);
 		}
         else
@@ -570,6 +572,8 @@ class MainController extends Controller
 							$result[] = $eval->evaluator->full_name;
 						elseif($eval->form->visibility == "anonymous")
 							$result[] = "Anonymous";
+						else
+							continue;
 					}
 	                else{
 	                    $result[] = $eval->subject->full_name;
