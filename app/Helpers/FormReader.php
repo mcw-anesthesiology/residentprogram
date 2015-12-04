@@ -17,20 +17,20 @@ class FormReader{
 		global $questionType, $questionName, $description, $questionHasDescriptions, $required, $result;
 
 		if($name == "question"){
-			$result .= "<div class='question'>";
 			$questionType = $attrs["type"];
 			$questionName = $attrs["name"];
 			$questionWeight = $attrs["weight"];
 			if(isset($attrs["required"]))
-				$required = "required";
+				$panelType = "panel-danger";
 			else
-				$required = "";
+				$panelType = "panel-default";
+			$result .= "<div class='question panel {$panelType}' id='{$questionName}'>";
 			$questionHasDescriptions = false;
 			$result .= "<input type='hidden' name='{$questionName}:weight' value='{$questionWeight}' />";
 
 		}
 		else if($name == "option"){
-			if(in_array($questionType, ["radio", "radionumeric"])){
+			if(in_array($questionType, ["radio", "radiononnumeric"])){
 				if(isset($attrs["description"]))
 					$description = htmlspecialchars($attrs["description"], ENT_QUOTES);
 				else
@@ -39,14 +39,11 @@ class FormReader{
 				if($description != "")
 					$questionHasDescriptions = true;
 
-				$result .= "<div class='tdRdoBtn question-option'><label><span title='{$description}'><input type='radio' name='{$questionName}' value='{$attrs["value"]}' {$required} /><br />";
+				$result .= "<div class='question-option {$questionName}'><label><span title='{$description}'><input type='radio' name='{$questionName}' value='{$attrs["value"]}' {$required} /><br />";
 			}
 		}
 		else if($name == "text"){
-			if($required == "required")
-				$result .= "<div class='question-header'><div class='question-title'><b style='color: red;'>".strtoupper($questionName)."*: </b>";
-			else
-				$result .= "<div class='question-header'><div class='question-title'><b>".strtoupper($questionName).": </b>";
+				$result .= "<div class='question-header panel-heading'><div class='question-title panel-title'><b>".strtoupper($questionName).": </b>";
 		}
 		else if($name == "form"){
 
@@ -67,16 +64,16 @@ class FormReader{
 		else if($name == "question"){
 
 			if($questionType == "text"){
-				$result .= "<div class='question-option'><textarea name='{$questionName}' {$required}></textarea></div>";
+				$result .= "<div class='question-option {$questionName}'><textarea name='{$questionName}' {$required}></textarea></div>";
 			}
 			elseif($questionType == "number"){
-				$result .= "<div class='question-option'><input type='number' name='{$questionName}' {$required} /></div>";
+				$result .= "<div class='question-option {$questionName}'><input type='number' name='{$questionName}' {$required} /></div>";
 			}
-			else if(in_array($questionType, ["radio", "radionumeric"])){
+			else if(in_array($questionType, ["radio", "radiononnumeric"])){
 				if($questionHasDescriptions){
-					$result .= "<div class='question-footer'><div class='question-description-toggle'>";
+					$result .= "</div><div class='question-footer panel-footer'><div class='question-description-toggle'>";
 					$result .= "<button type='button' class='toggleDescriptions btn btn-info' data-id='{$questionName}'>Show Descriptions</button>";
-					$result .= "</div></div>"; // .question-description-toggle, .question-footer
+					$result .= "</div>"; // .question-description-toggle, .question-footer
 				}
 			}
 
@@ -85,11 +82,11 @@ class FormReader{
 		else if($name == "option"){
 			$result .= "</span></label>";
 			if($description != "")
-				$result .= "<br/><label><div class='description {$questionName} collapse'>{$description}</div></label>";
+				$result .= "<div class='description well collapse'>{$description}</div>";
 			$result .= "</div>"; // .question-option
 		}
 		else if($name == "text"){
-			$result .= "</div></div><div class='question-body'>"; // .question-title
+			$result .= "</div></div><div class='question-body panel-body'>"; // .question-title
 		}
 		else if($name == "title"){
 			$result .= "</h3>";
