@@ -273,7 +273,7 @@
 				$("#form textarea").prop("readonly", true);
 			@endif
 			if($("#form textarea").length > 0){
-				$("#form textarea").width("90%");
+				// $("#form textarea").width("90%");
 				$("#form textarea").height($("#form textarea")[0].scrollHeight);
 				$("#form textarea").addClass("noprint");
 				$("#form textarea").parents("td").append("<div class='print'>"+$("#form textarea").val()+"</div>");
@@ -304,7 +304,8 @@
 
 		$(".toggleDescriptions").click(function(){
 			var questionName = $(this).data("id");
-			$("."+questionName).slideToggle();
+			$("." + questionName + " .description").slideToggle();
+			$("#" + questionName).toggleClass("expanded-descriptions");
 		});
 
 		var saveForm = false;

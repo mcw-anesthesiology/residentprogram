@@ -368,6 +368,7 @@
 		<!-- Bootstrap core JavaScript
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
+		<script type="text/javascript" src="/js/modernizr-custom.js"></script>
 		<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 		<script type="text/javascript" src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
 		<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.0.0/js/dataTables.responsive.min.js"></script>
@@ -539,6 +540,7 @@
 				});
 
 				$("body").css("padding-top", $("#main-navbar").height()+5);
+
 			});
 
 			$(window).resize(function(){
