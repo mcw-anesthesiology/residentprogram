@@ -49,7 +49,7 @@ class FormReader{
 
 		}
 		else if($name == "title"){
-			$result .= "<h3>";
+			$result .= "<h2 class='heading'>";
 		}
 
 	}
@@ -89,7 +89,7 @@ class FormReader{
 			$result .= "</div></div><div class='question-body panel-body'>"; // .question-title
 		}
 		else if($name == "title"){
-			$result .= "</h3>";
+			$result .= "</h2>";
 		}
 
 	}
