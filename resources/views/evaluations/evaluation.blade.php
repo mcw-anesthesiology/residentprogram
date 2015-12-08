@@ -2,6 +2,10 @@
 
 @section("head")
 	<style>
+		#evaluation-controls {
+			margin-bottom: 10px;
+		}
+
 		#evaluation-comment-alert {
 			margin-top: 20px;
 		}
@@ -17,90 +21,119 @@
 		#evaluation-date-info {
 			float: none !important;
 		}
+
+		#evaluation-info-table {
+			margin-bottom: 20px;
+		}
+
+		#evaluation-info-table td, #evaluation-info-table th {
+			word-wrap: break-word;
+		}
+
+		.subject-image {
+			text-align: center;
+		}
+
+		.subject-image img {
+			width: 100%;
+			max-width: 300px;
+		}
 	</style>
 @stop
 
 @section("body")
-	<div class="row">
+	<div>
 	@if($evaluation->status == "pending" && $user->id == $evaluation->evaluator->id)
-		<h2 class="sub-header">Complete Evaluation</h2>
+		<h2 class="header">Complete Evaluation</h2>
 	@else
-		<h2 class="sub-header">View Evaluation</h2>
+		<h2 class="header">View Evaluation</h2>
 	@endif
 
-	@if($evaluation->evaluator_id == $user->id)
 		<div id="evaluation-controls" class="noprint">
+	@if($evaluation->evaluator_id == $user->id)
 			<button class="btn btn-primary" data-toggle="modal" data-target="#evaluation-comment-modal" id="comment-evaluation"><span class="glyphicon glyphicon-pencil"></span> Evaluation comment</button>
 			<button class="btn btn-info" data-toggle="modal" data-target="#edit-evaluation-modal" id="edit-evaluation" @if($evaluation->status != "pending") disabled title="Completed evaluations cannot be edited" @elseif($user->id != $evaluation->requested_by_id) disabled title="You can only edit evaluations you created" @endif><span class="glyphicon glyphicon-edit"></span> Edit evaluation</button>
 			<button class="btn btn-warning" data-toggle="modal" data-target="#flag-evaluation-modal" id="mark-evaluation"><span class="glyphicon glyphicon-flag"></span> Problem with evaluation?</button>
 			<a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" placement="left" title="Controls information" class="close" id="evaluation-controls-info">
 				<span class="glyphicon glyphicon-info-sign"></span>
 			</a>
-		</div>
 	@elseif($user->type == "admin")
-		<button class="btn btn-info" data-toggle="modal" data-target="#edit-evaluation-modal" id="edit-evaluation"><span class="glyphicon glyphicon-edit"></span> Edit evaluation</button>
+			<button class="btn btn-info" data-toggle="modal" data-target="#edit-evaluation-modal" id="edit-evaluation"><span class="glyphicon glyphicon-edit"></span> Edit evaluation</button>
+	@endif
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Evaluation Information</h3>
+		</div>
+		<div class="panel-body table-responsive">
+			<table class="table" id="evaluation-info-table">
+				<thead>
+					<tr>
+						<th>#</th>
+	@if($user->id != $evaluation->subject_id)
+						<th>{{ ucfirst($evaluation->subject->type) }}</th>
+	@endif
+	@if($user->isType("admin") || ($user->id != $evaluation->evaluator_id && $evaluation->visibility == "visible"))
+						<th>{{ ucfirst($evaluation->evaluator->type) }}</th>
+	@endif
+	@if($evaluation->status == "complete")
+						<th>Evaluation Date</th>
+	@endif
+	@if(!($evaluation->subject->type == "faculty" && $user->id == $evaluation->subject_id))
+						<th>Requested</th>
+						<th>Completed</th>
+	@endif
+						<th>Status</th>
+	@if($evaluation->subject->type != "faculty")
+						<th>Training Level</th>
+	@endif
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>{{ $evaluation->id }}</td>
+	@if($user->id != $evaluation->subject_id)
+						<td>{{ $evaluation->subject->full_name }}</td>
+	@endif
+	@if($user->isType("admin") || ($user->id != $evaluation->evaluator_id && $evaluation->visibility == "visible"))
+						<td>{{ $evaluation->evaluator->full_name }}</td>
+	@endif
+	@if($evaluation->status == "complete")
+						<td>{{ $evaluation->evaluation_date->format("F Y") }}</td>
+	@endif
+	@if(!($evaluation->subject->type == "faculty" && $user->id == $evaluation->subject_id))
+						<td>{{ $evaluation->request_date }}</td>
+						<td>{{ $evaluation->complete_date }}</td>
+	@endif
+						<td>{{ ucfirst($evaluation->status) }}</td>
+	@if($evaluation->subject->type != "faculty")
+		@if($evaluation->training_level)
+							<td>{{ strtoupper($evaluation->training_level) }}</td>
+		@else
+							<td>{{ strtoupper($evaluation->subject->training_level) }}</td>
+		@endif
+	@endif
+					</tr>
+				</tbody>
+			</table>
+	@if($evaluation->subject->photo_path && $evaluation->subject_id != $user->id)
+			<div class="subject-image">
+				<img src="/{{ $evaluation->subject->photo_path }}" />
+			</div>
+	@endif
+		</div>
+	@if($user->type == "admin" && $evaluation->comment)
+		<div class="panel-footer">
+			<h3 class="sub-header">Evaluation Comment</h3>
+			<p>
+				{{ $evaluation->comment }}
+			</p>
+		</div>
 	@endif
 	</div>
-	<div class="table-responsive">
-		<h3 class="sub-header">Evaluation Information</h3>
-		<table class="table">
-			<thead>
-				<tr>
-					<th>#</th>
-				@if($evaluation->subject->type != "faculty")
-					<th>Resident/Fellow</th>
-				@endif
-					<th>Faculty</th>
-				@if($evaluation->status == "complete")
-					<th>Evaluation Date</th>
-				@endif
-				@if(!($evaluation->subject->type == "faculty" && $user->id == $evaluation->subject_id))
-					<th>Requested</th>
-					<th>Completed</th>
-				@endif
-					<th>Status</th>
-				@if($evaluation->subject->type != "faculty")
-					<th>Training Level</th>
-				@endif
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>{{ $evaluation->id }}</td>
-					<td>{{ $evaluation->subject->last_name }}, {{ $evaluation->subject->first_name }}</td>
-				@if($evaluation->subject->type != "faculty")
-					<td>{{ $evaluation->evaluator->last_name }}, {{ $evaluation->evaluator->first_name }}</td>
-				@endif
-				@if($evaluation->status == "complete")
-					<td>{{ $evaluation->evaluation_date->format("F Y") }}</td>
-				@endif
-				@if(!($evaluation->subject->type == "faculty" && $user->id == $evaluation->subject_id))
-					<td>{{ $evaluation->request_date }}</td>
-					<td>{{ $evaluation->complete_date }}</td>
-				@endif
-					<td>{{ ucfirst($evaluation->status) }}</td>
-				@if($evaluation->subject->type != "faculty")
-					@if($evaluation->training_level)
-						<td>{{ strtoupper($evaluation->training_level) }}</td>
-					@else
-						<td>{{ strtoupper($evaluation->subject->training_level) }}</td>
-					@endif
-				@endif
-				</tr>
-			</tbody>
-		</table>
-	@if($evaluation->subject->photo_path && $evaluation->subject_id != $user->id)
-		<div style="text-align: center;">
-			<img src="/{{ $evaluation->subject->photo_path }}" width="300px" />
-		</div>
-	@endif
-	@if($user->type == "admin" && $evaluation->comment)
-		<h3 class="sub-header">Evaluation Comment</h3>
-		<p>
-			{{ $evaluation->comment }}
-		</p>
-	@endif
-		<h3 class="sub-header">Evaluation</h3>
+
 		<div id="form">
 	@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id)
 				<form id="evaluation" role="form" method="post" action="#">
@@ -269,7 +302,7 @@
 				$("#form textarea").prop("readonly", true);
 			@endif
 			if($("#form textarea").length > 0){
-				$("#form textarea").width("90%");
+				// $("#form textarea").width("90%");
 				$("#form textarea").height($("#form textarea")[0].scrollHeight);
 				$("#form textarea").addClass("noprint");
 				$("#form textarea").parents("td").append("<div class='print'>"+$("#form textarea").val()+"</div>");
@@ -300,7 +333,8 @@
 
 		$(".toggleDescriptions").click(function(){
 			var questionName = $(this).data("id");
-			$("."+questionName).slideToggle();
+			$("." + questionName + " .description").slideToggle();
+			$("#" + questionName).toggleClass("expanded-descriptions");
 		});
 
 		var saveForm = false;
@@ -379,6 +413,74 @@
 			}
 			return true;
 		});
+
+		var infoTableLayout = "horizontal";
+
+		function resizeInfoTable(){
+			if(infoTableLayout == "horizontal" && $(window).width() < 768){
+				var table = document.getElementById("evaluation-info-table");
+				var headings = $(table).find("th").toArray();
+				var data = $(table).find("td").toArray();
+				while(table.firstChild)
+					table.removeChild(table.firstChild);
+
+				var tbody = document.createElement("tbody");
+				for(var i = 0; i < headings.length || i < data.length; i++){
+					var tr = document.createElement("tr");
+					var th = document.createElement("th");
+					var text = document.createTextNode(headings[i].innerHTML);
+					th.appendChild(text);
+					tr.appendChild(th);
+
+					var td = document.createElement("td");
+					text = document.createTextNode(data[i].innerHTML);
+					td.appendChild(text);
+					tr.appendChild(td);
+					tbody.appendChild(tr);
+				}
+				table.appendChild(tbody);
+				$(table).addClass("table-striped");
+				infoTableLayout = "vertical";
+			}
+
+			if(infoTableLayout == "vertical" && $(window).width() >= 768){
+				var table = document.getElementById("evaluation-info-table");
+				var headings = $(table).find("th").toArray();
+				var data = $(table).find("td").toArray();
+				while(table.firstChild)
+					table.removeChild(table.firstChild);
+
+				var thead = document.createElement("thead");
+				var tbody = document.createElement("tbody");
+				var tr = document.createElement("tr");
+				var th, td, text;
+				for(var i = 0; i < headings.length || i < data.length; i++){
+					th = document.createElement("th");
+					text = document.createTextNode(headings[i].innerHTML);
+					th.appendChild(text);
+					tr.appendChild(th);
+				}
+				thead.appendChild(tr);
+
+				tr = document.createElement("tr");
+				for(var i = 0; i < headings.length || i < data.length; i++){
+					td = document.createElement("td");
+					text = document.createTextNode(data[i].innerHTML);
+					td.appendChild(text);
+					tr.appendChild(td);
+				}
+				tbody.appendChild(tr);
+
+				table.appendChild(thead);
+				table.appendChild(tbody);
+				$(table).removeClass("table-striped");
+				infoTableLayout = "horizontal";
+			}
+		}
+
+		$(document).ready(resizeInfoTable);
+
+		$(window).resize(resizeInfoTable);
 
 		$("#evaluation-date-info").popover({
 			html: true,

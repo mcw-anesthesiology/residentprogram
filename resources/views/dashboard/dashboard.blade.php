@@ -56,7 +56,9 @@
 					}
 					else{
 						row.fadeOut(function(){
-							$(this).remove();
+							$(".datatable-pending").DataTable({
+								retrieve: true
+							}).row(row).remove().draw();
 						});
 					}
 				}
@@ -84,7 +86,9 @@
 						});
 					else
 						row.fadeOut(function(){
-							$(this).remove();
+							$(".datatable-flagged").DataTable({
+								retrieve: true
+							}).row(row).remove().draw();
 						});
 				else
 					alert("Error: " + result);
@@ -118,12 +122,53 @@
 				}
 			});
 
+			$(".datatable-staff").DataTable({
+				"ajax": {
+					"url": "dashboard/evaluations/staff",
+					"data": data,
+					"type": "post"
+				},
+				deferRendering: true,
+				"order": [[0, "desc"]],
+				"createdRow": function(row, data, index){
+					$("td", row).addClass("view");
+				}
+			});
+
 			$(".datatable-all").DataTable({
 				"ajax": "dashboard/evaluations",
 				deferRendering: true,
 				"order": [[0, "desc"]],
 				stateSave: true,
 				"dom": "lfprtip",
+				"createdRow": function(row, data, index){
+					$("td", row).addClass("view");
+				}
+			});
+
+			data.type = "pending";
+			$(".datatable-staff-pending").DataTable({
+				"ajax": {
+					"url": "dashboard/evaluations/staff",
+					"data": data,
+					"type": "post"
+				},
+				deferRendering: true,
+				"order": [[0, "desc"]],
+				"createdRow": function(row, data, index){
+					$("td", row).addClass("view");
+				}
+			});
+
+			data.type = "complete";
+			$(".datatable-staff-complete").DataTable({
+				"ajax": {
+					"url": "dashboard/evaluations/staff",
+					"data": data,
+					"type": "post"
+				},
+				deferRendering: true,
+				"order": [[0, "desc"]],
 				"createdRow": function(row, data, index){
 					$("td", row).addClass("view");
 				}

@@ -7,8 +7,8 @@
 		  <thead>
 			<tr>
 			  <th class="headerSortDown"><span>#</span></th>
-			  <th>Resident</th>
-			  <th>Faculty</th>
+			  <th>Subject</th>
+			  <th>Evaluator</th>
 			  <th>Requested By</th>
 			  <th>Form</th>
 			  <th>Request Date</th>

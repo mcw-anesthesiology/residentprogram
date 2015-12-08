@@ -39,6 +39,16 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		return $this->last_name . ", " . $this->first_name;
 	}
 
+	public function isType($types){
+		if(!is_array($types))
+			$types = [$types];
+		foreach($types as $type){
+			if($this->type == $type || $this->type == "resident" && $this->training_level == $type)
+				return true;
+		}
+		return false;
+	}
+
 	public function getSpecificTypeAttribute(){
 		if($this->type == "resident" && $this->training_level == "fellow")
 			return "fellow";

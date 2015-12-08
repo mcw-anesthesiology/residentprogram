@@ -1,8 +1,20 @@
 @extends("app")
 
 @section("body")
+	<nav class="jump-to-container">
+		<ul class="jump-to-items nav nav-pills nav-justified">
+			<li role="presentation"><a href="#residents-heading">Residents</a></li>
+			<li role="presentation"><a href="#fellows-heading">Fellows</a></li>
+			<li role="presentation"><a href="#faculty-heading">Faculty</a></li>
+			<li role="presentation"><a href="#staff-heading">Staff</a></li>
+			<li role="presentation"><a href="#admin-heading">Administrator</a></li>
+		</ul>
+	</nav>
+</div>
+
+<div class="container body-block">
 	<div class="row">
-		<h2 class="sub-header">Residents  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="resident" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+		<h2 class="sub-header" id="residents-heading">Residents  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="resident" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
 			<table class="table table-striped datatable-resident">
 				<thead>
@@ -18,11 +30,11 @@
 			</table>
 		</div>
 	</div>
-
 </div>
+
 <div class="container body-block">
 	<div class="row">
-		<h2 class="sub-header">Fellows  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="fellow" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+		<h2 class="sub-header" id="fellows-heading">Fellows  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="fellow" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
 			<table class="table table-striped datatable-fellow">
 				<thead>
@@ -37,11 +49,11 @@
 			</table>
 		</div>
 	</div>
-
 </div>
+
 <div class="container body-block">
 	<div class="row">
-		<h2 class="sub-header">Faculty  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="faculty" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+		<h2 class="sub-header" id="faculty-heading">Faculty  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="faculty" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
 			<table class="table table-striped datatable-faculty">
 				<thead>
@@ -56,11 +68,30 @@
 			</table>
 		</div>
 	</div>
-
 </div>
+
 <div class="container body-block">
 	<div class="row">
-		<h2 class="sub-header">Administrator  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="admin" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+		<h2 class="sub-header" id="staff-heading">Staff  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="staff" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+		<div class="table-responsive">
+			<table class="table table-striped datatable-staff">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Username</th>
+						<th>Email</th>
+						<th>Status</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div class="container body-block">
+	<div class="row">
+		<h2 class="sub-header" id="admin-heading">Administrator  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="admin" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
 			<table class="table table-striped datatable-admin">
 				<thead>
@@ -86,6 +117,7 @@
       </div>
       <form id="edit-form" enctype="multipart/form-data" method="post" action="/manage/accounts/edit">
 		  {!! csrf_field() !!}
+		<input type="hidden"  id="id" name="id" value="" />
         <div class="modal-body modal-edit">
           <div class="form-group">
             <label for="usernameInput">Username</label>
@@ -121,10 +153,14 @@
 				<img id="photoPreview" src="" width="150px" />
 			</div>
           </div>
+		  <div class="form-group">
+            <label for="accountTypeInput">Account Type</label>
+            <input type="text" class="form-control" id="accountTypeInput" readonly>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-success" id="id" name="id" value="">Edit account</button>
+          <button type="submit" class="btn btn-primary">Edit account</button>
         </div>
       </form>
     </div>
@@ -204,9 +240,10 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title" id="myModalEditPassword">Edit Password</h4>
       </div>
-      <div class="modal-body modal-edit-password">
         <form id="password-form" method="post" action="/manage/accounts/password">
+    	  <div class="modal-body modal-edit-password">
 			{!! csrf_field() !!}
+			<input type="hidden" id="id" name="id" />
 			<div class="form-group">
 				<label for="password1">User Password</label>
 				<input type="password" class="form-control" id="password1" name="newPassword" placeholder="New Password" required>
@@ -222,7 +259,7 @@
 		  </div>
 		  <div class="modal-footer modal-edit-password">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<button type="submit" class="btn btn-primary" id="id" name="id">Change password</button>
+				<button type="submit" class="btn btn-primary">Change password</button>
 		  </div>
 		</form>
     </div>
@@ -256,6 +293,62 @@
 
 @section("script")
 	<script>
+		$(".jump-to-items a").click(function(event){
+			event.preventDefault();
+			var headerHeight = $("#main-navbar").height();
+			var target = $(this).context.hash;
+			var padding = 5;
+			var scrollto = $(target).parents(".body-block").offset().top - padding - headerHeight;
+			$("html, body").animate({scrollTop: scrollto});
+		});
+
+		$("#password-form").on("submit", function(event){
+			event.preventDefault();
+			var type = $("#password-form-user-type").val();
+			var data = $(this).serialize() + "&ajax=true";
+			$.post($(this).prop("action"), data, function(response){
+				if(response == "true"){
+					$("#editPasswordModal").modal("hide");
+				}
+				else{
+					appendAlert(response, "#editPasswordModal .modal-body");
+				}
+			});
+		});
+
+		$("#add-form").on("submit", function(event){
+			event.preventDefault();
+			submitAddEditForm("#addModal", $(this));
+		});
+
+		$("#edit-form").on("submit", function(event){
+			event.preventDefault();
+			submitAddEditForm("#editModal", $(this));
+		})
+
+		function submitAddEditForm(modal, form){
+			var type = $(modal + " #accountTypeInput").val();
+			var fd = new FormData(form.get(0));
+			fd.append("ajax", true);
+			$.ajax({
+				url: form.prop("action"),
+				data: fd,
+				processData: false,
+				contentType: false,
+				type: "POST",
+				success: function(response){
+					if(response == "true"){
+						$(modal).modal("hide");
+						$(".datatable-" + type).DataTable({
+							retrieve: true
+						}).ajax.reload();
+					}
+					else{
+						appendAlert(response, modal + " .modal-body");
+					}
+				}
+			});
+		}
 
 		$(".table").on("click", ".disableUser", function(){
 			var data = {};
@@ -318,6 +411,7 @@
 			$("#editModal #firstNameInput").val(firstName);
 			$("#editModal #lastNameInput").val(lastName);
 			$("#editModal #id").val(id);
+			$("#editModal #accountTypeInput").val(type);
 			if(photoPath == "")
 				$("#editModal #photoPreview").hide();
 			else{
@@ -376,24 +470,19 @@
 		});
 
 		$(".datatable-resident").DataTable({
-			"ajax": "/manage/accounts/get/resident",
-			stateSave: true,
-			"dom": "lfprtip"
+			"ajax": "/manage/accounts/get/resident"
 		});
 		$(".datatable-fellow").DataTable({
-			"ajax": "/manage/accounts/get/fellow",
-			stateSave: true,
-			"dom": "lfprtip"
+			"ajax": "/manage/accounts/get/fellow"
 		});
 		$(".datatable-faculty").DataTable({
-			"ajax": "/manage/accounts/get/faculty",
-			stateSave: true,
-			"dom": "lfprtip"
+			"ajax": "/manage/accounts/get/faculty"
 		});
+		$(".datatable-staff").DataTable({
+			"ajax": "/manage/accounts/get/staff"
+		})
 		$(".datatable-admin").DataTable({
-			"ajax": "/manage/accounts/get/admin",
-			stateSave: true,
-			"dom": "lfprtip"
+			"ajax": "/manage/accounts/get/admin"
 		});
 	</script>
 @stop

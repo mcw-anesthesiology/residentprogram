@@ -152,7 +152,7 @@ class ReportController extends Controller
         $evaluations = $this->getNeedsEvaluations($request);
         foreach($residents as $resident){
             $result = [];
-            $result[] = $resident->last_name.", ".$resident->first_name;
+            $result[] = $resident->full_name;
             foreach($milestones as $milestone){
                 if(isset($evaluations[$resident->id][$milestone]))
                     $result[] = "<span class='glyphicon glyphicon-ok'></span>";
@@ -180,7 +180,7 @@ class ReportController extends Controller
 
         $milestones = Milestone::lists("id");
         foreach($residents as $resident){
-            $tsv .= $resident->last_name.", ".$resident->first_name."\t";
+            $tsv .= $resident->full_name."\t";
             foreach($milestones as $milestone){
                 if(isset($evaluations[$resident->id][$milestone]))
                     $tsv .= "Y\t";
@@ -573,36 +573,22 @@ class ReportController extends Controller
         return view("report.individual", $data);
     }
 
-    public function facultyReport(Request $request){
+    public function formReport(Request $request){
         $startDate = Carbon::parse($request->input("startDate"));
         $startDate->timezone = "America/Chicago";
         $endDate = Carbon::parse($request->input("endDate"));
         $endDate->timezone = "America/Chicago";
 
-        $query = DB::table("text_responses")
-            ->join("evaluations", "evaluations.id", "=", "evaluation_id")
-            ->join("users as evaluators", "evaluators.id", "=", "evaluator_id")
-            ->join("users as subjects", "subjects.id", "=", "subject_id")
-            ->join("forms", "forms.id", "=", "form_id")
-            ->where("evaluations.status", "complete")
-            ->where("forms.type", "faculty")
-            ->where("evaluators.type", "resident")
-            ->where("forms.id", $request->input("form_id"))
-            ->where("evaluation_date", ">", $startDate)
-            ->where("evaluation_date", "<", $endDate);
+		$subjectResponses = [];
+		$subjectEvals = [];
+		$averageResponses = [];
+		$averageEvals = [];
+		$subjects = [];
+		$questions = [];
+		$questionResponses = [];
+		$subjectResponseValues = [];
 
-        $subjectResponses = [];
-        $subjectEvals = [];
-        $averageResponses = [];
-        $averageEvals = [];
-        $subjects = [];
-        $questions = [];
-        $questionResponses = [];
-        $subjectResponseValues = [];
-
-        $query->select("evaluation_id", "evaluator_id", "subject_id", "response", "question_id");
-
-    $query->chunk(10000, function($responses) use(&$subjectResponses, &$subjectEvals, &$averageResponses, &$averageEvals, &$subjects, &$questions, &$questionResponses, &$subjectResponseValues){
+		$chunkCallback = function($responses) use(&$subjectResponses, &$subjectEvals, &$averageResponses, &$averageEvals, &$subjects, &$questions, &$questionResponses, &$subjectResponseValues){
             foreach($responses as $response){
                 if(!isset($subjectResponses[$response->subject_id][$response->question_id][$response->response]))
                     $subjectResponses[$response->subject_id][$response->question_id][$response->response] = 0;
@@ -625,7 +611,35 @@ class ReportController extends Controller
                 $subjectResponseValues[$response->subject_id][$response->question_id][$response->evaluation_id] = $response->response;
                 $averageResponses[$response->question_id][$response->response]++;
             }
-        });
+        };
+
+		$query = DB::table("responses")
+            ->join("evaluations", "evaluations.id", "=", "evaluation_id")
+            ->join("users as evaluators", "evaluators.id", "=", "evaluator_id")
+            ->join("users as subjects", "subjects.id", "=", "subject_id")
+            ->join("forms", "forms.id", "=", "form_id")
+            ->where("evaluations.status", "complete")
+            ->where("forms.id", $request->input("form_id"))
+            ->where("evaluation_date", ">", $startDate)
+            ->where("evaluation_date", "<", $endDate);
+
+		$query->select("evaluation_id", "evaluator_id", "subject_id", "response", "question_id");
+
+    	$query->chunk(10000, $chunkCallback);
+
+        $textQuery = DB::table("text_responses")
+            ->join("evaluations", "evaluations.id", "=", "evaluation_id")
+            ->join("users as evaluators", "evaluators.id", "=", "evaluator_id")
+            ->join("users as subjects", "subjects.id", "=", "subject_id")
+            ->join("forms", "forms.id", "=", "form_id")
+            ->where("evaluations.status", "complete")
+            ->where("forms.id", $request->input("form_id"))
+            ->where("evaluation_date", ">", $startDate)
+            ->where("evaluation_date", "<", $endDate);
+
+        $textQuery->select("evaluation_id", "evaluator_id", "subject_id", "response", "question_id");
+
+    	$textQuery->chunk(10000, $chunkCallback);
 
         foreach($subjectEvals as $subject_id => $null){
             $subjectEvals[$subject_id] = count($subjectEvals[$subject_id]);
@@ -651,10 +665,10 @@ class ReportController extends Controller
             }
         }
 
-		$subjectId = $request->input("faculty");
+		$subjectId = $request->input("subject");
 		$form = Form::find($request->input("form_id"));
 		$subject = User::find($subjectId);
-        $subjectName = $subject->last_name.", ".$subject->first_name;
+        $subjectName = $subject->full_name;
         $formTitle = $form->title;
 
 		if(!isset($subjectEvals[$subjectId]))
@@ -681,7 +695,7 @@ class ReportController extends Controller
 			"questions", "questionResponses", "subjectResponseValues", "subjectName",
 			"formTitle", "startDate", "endDate");
 
-        return view("report.faculty-report", $data);
+        return view("report.form-report", $data);
     }
 
     private function encodeAndStrip($array){

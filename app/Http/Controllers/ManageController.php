@@ -148,14 +148,21 @@ class ManageController extends Controller
     }
 
     public function account(Request $request, $action){
+		$error = NULL;
         switch($action){
             case "add":
-                if($request->input("password") != $request->input("password2"))
-                    return redirect("manage/accounts")->with("error", "Passwords do not match for new user");
-                elseif(!filter_var($request->input("email"), FILTER_VALIDATE_EMAIL))
-                    return redirect("manage/accounts")->with("error", "Email appears invalid");
-                elseif($request->hasFile("photo") && !$request->file("photo")->isValid())
-                    return redirect("manage/accounts")->with("error", "Problem with photo");
+                if($request->input("password") != $request->input("password2")){
+					$error =  "Passwords do not match for new user";
+					break;
+				}
+                elseif(!filter_var($request->input("email"), FILTER_VALIDATE_EMAIL)){
+					$error = "Email appears invalid";
+					break;
+				}
+                elseif($request->hasFile("photo") && !$request->file("photo")->isValid()){
+                    $error = "Problem with photo";
+					break;
+				}
                 $user = new User();
                 $user->username = $request->input("username");
                 $user->email = $request->input("email");
@@ -200,13 +207,16 @@ class ManageController extends Controller
                 catch(\Exception $e){
 					Log::error("Problem sending email: ".$e);
                 }
-                return redirect("manage/accounts");
                 break;
             case "edit":
-                if(!filter_var($request->input("email"), FILTER_VALIDATE_EMAIL))
-                    return redirect("manage/accounts")->with("error", "Email appears invalid");
-                if($request->hasFile("photo") && !$request->file("photo")->isValid())
-                    return redirect("manage/accounts")->with("error", "Problem with photo");
+                if(!filter_var($request->input("email"), FILTER_VALIDATE_EMAIL)){
+                    $error = "Email appears invalid";
+					break;
+				}
+                if($request->hasFile("photo") && !$request->file("photo")->isValid()){
+                    $error =  "Problem with photo";
+					break;
+				}
                 $user = User::find($request->input("id"));
                 $user->email = $request->input("email");
                 $user->first_name = $request->input("firstName");
@@ -217,53 +227,63 @@ class ManageController extends Controller
                 if($request->hasFile("photo") && $request->file("photo")->isValid()){
                     $photoName = uniqid().".".$request->file("photo")->getExtension();
                     $request->file("photo")->move(storage_path("app/photos/"), $photoName);
-                    unlink(storage_path("app/".$user->photo_path));
+					if(!empty($user->photo_path))
+                    	unlink(storage_path("app/".$user->photo_path));
                     $user->photo_path = "photos/".$photoName;
                 }
                 if($user->type == "resident")
                     $user->training_level = $request->input("trainingLevel");
 
                 $user->save();
-                return redirect("manage/accounts");
                 break;
             case "enable":
                 $user = User::find($request->input("id"));
                 $user->status = "active";
                 $user->save();
-                return "true";
                 break;
             case "disable":
                 $user = User::find($request->input("id"));
                 $user->status = "inactive";
                 $user->save();
-                return "true";
                 break;
             case "password":
-                if($request->input("newPassword") != $request->input("newPassword2"))
-                    return redirect("manage/accounts")->with("error", "New passwords do not match");
-                elseif(!password_verify($request->input("adminPassword"), Auth::user()->password))
-                    return redirect("manage/accounts")->with("error", "Administrator password verification failed");
+                if($request->input("newPassword") != $request->input("newPassword2")){
+                    $error = "New passwords do not match";
+					break;
+				}
+                elseif(!password_verify($request->input("adminPassword"), Auth::user()->password)){
+                    $error = "Administrator password is incorrect";
+					break;
+				}
                 else{
                     $user = User::find($request->input("id"));
                     $user->password = bcrypt($request->input("newPassword"));
                     $user->save();
                 }
-                return redirect("manage/accounts");
                 break;
             case "to-faculty":
                 $user = User::find($request->input("id"));
                 if($user->type == "resident"){
                     $user->type = "faculty";
                     $user->save();
-                    return redirect("manage/accounts");
                 }
                 else
-                    return redirect("manage/accounts")->with("error", "User not resident");
-                break;
-            default:
-                return redirect("manage/accounts");
+                    $error = "User not resident";
                 break;
         }
+
+		if($request->has("ajax") && $request->input("ajax")){
+			if(empty($error))
+				return "true";
+			else
+				return $error;
+		}
+		else{
+			$response = redirect("manage/accounts");
+			if(!empty($error))
+				$response = $response->with("error", $error);
+			return $response;
+		}
     }
 
     public function getAccounts($type){
@@ -284,7 +304,7 @@ class ManageController extends Controller
 	                $result[] = $user->training_level;
 	            $result[] = $user->status;
 	            $action = "<button class='editUser btn btn-info btn-xs' data-toggle='modal' data-target='.bs-edit-modal' data-type='{$type}' data-id='{$user->id}' data-username='{$user->username}' data-email='{$user->email}' data-first='{$user->first_name}' data-last='{$user->last_name}' data-trainingLevel='{$user->training_level}' data-photo='{$user->photo_path}' id='editBtn'><span class='glyphicon glyphicon-edit'></span> Edit</button> ";
-				$action .= "<button class='editPassword btn btn-info btn-xs' data-toggle='modal' data-target='.bs-edit-password-modal' data-id='{$user->id}' id='editPasswordBtn'><span class='glyphicon glyphicon-edit'></span> Password</button> ";
+				$action .= "<button class='editPassword btn btn-info btn-xs' data-toggle='modal' data-target='.bs-edit-password-modal' data-id='{$user->id}' data-type='{$user->type}' id='editPasswordBtn'><span class='glyphicon glyphicon-edit'></span> Password</button> ";
 	            // if($type == "resident" || $type == "fellow")
 				//          $action .= "<button class='residentToFaculty btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-resident-to-faculty-modal-sm' data-id='{$user->id}' data-name='{$user->first_name} {$user->last_name}' id='residentToFacultyBtn'><span class='glyphicon glyphicon-edit'></span> Change to Faculty</button>";
 	            if($user->status == "inactive"){
@@ -320,7 +340,8 @@ class ManageController extends Controller
 			try{
 	            $result = [];
 	            $result[] = $form->title;
-				$result[] = $form->evaluator_type;
+				if($form->type == "resident")
+					$result[] = ucfirst($form->evaluator_type);
 	            $result[] = (string)$form->created_at;
 	            if($form->status == "inactive"){
 	                $buttonClass = "enableEval";
@@ -335,9 +356,30 @@ class ManageController extends Controller
 	                $buttonText = "Disable";
 	                $badge = "complete";
 	            }
-	            $result[] = "<span class='status'><span class='badge badge-{$badge}'>{$form->status}</span></span>";
+				switch($form->visibility){
+					case "visible":
+						$eyeType = "open";
+						$visBtnType = "btn-info";
+						break;
+					case "anonymous":
+						$eyeType = "close";
+						$visBtnType = "";
+						break;
+					case "hidden":
+						$eyeType = "close";
+						$visBtnType = "btn-default";
+						break;
+				}
+	            $result[] = "<span class='status'><span class='badge badge-{$badge}'>" .
+					ucfirst($form->status) . "</span></span>";
+				$result[] = "<button type='button' " .
+					"class='visibility visibility-{$form->visibility} btn {$visBtnType} btn-xs' " .
+					"data-id='{$form->id}'>" . ucfirst($form->visibility) .
+					" <span class='glyphicon glyphicon-eye-{$eyeType}'></span></button>";
 	            $result[] = "<a href='/manage/forms/{$form->id}'>View Form</a>";
-	            $result[] = "<button type='button' class='{$buttonClass} btn btn-{$buttonType} btn-xs' data-id='{$form->id}'><span class='glyphicon glyphicon-{$glyphicon}'></span> {$buttonText}</button>";
+	            $actionField = "<button type='button' class='{$buttonClass} btn btn-{$buttonType} btn-xs' data-id='{$form->id}'><span class='glyphicon glyphicon-{$glyphicon}'></span> {$buttonText}</button>";
+				$actionField .= " <button type='button' class='edit-form-button btn btn-info btn-xs' data-id='{$form->id}' data-title='{$form->title}' data-type='{$form->type}' data-visibility='{$form->visibility}' data-toggle='modal' data-target='#edit-form-modal'><span class='glyphicon glyphicon-pencil'></span> Edit</button>";
+				$result[] = $actionField;
 	            $results["data"][] = $result;
 			}
 			catch(\Exception $e){
@@ -427,12 +469,25 @@ class ManageController extends Controller
 
         $newForm = new Form();
         $newForm->title = $formTitle;
-        $newForm->type = $formType;
+
+        if($formType == "faculty"){
+			$newForm->type = "faculty";
+			$newForm->evaluator_type = "resident";
+		}
+		elseif($formType == "staff"){
+			$newForm->type = "resident";
+			$newForm->evaluator_type = "staff";
+		}
+		else{
+			$newForm->type = "resident";
+			$newForm->evaluator_type = "faculty";
+		}
+
         $newForm->xml_path = $formLocation;
         $newForm->status = $formStatus;
         $newForm->save();
 
-        if($newForm->type != "faculty"){
+        if($formType == "resident"){
             foreach($milestones as $questionId => $milestoneId){
                 $mq = new MilestoneQuestion();
                 $mq->form_id = $newForm->id;
@@ -472,6 +527,13 @@ class ManageController extends Controller
                 case "enable":
                     $form->status = "active";
                     break;
+				case "visibility":
+					$form->visibility = $request->input("visibility");
+					break;
+				case "edit":
+					$form->title = $request->input("title");
+					$form->visibility = $request->input("visibility");
+					break;
                 default:
                     return "false";
                     break;
@@ -513,9 +575,9 @@ class ManageController extends Controller
 				$result[] = $milestone->type;
 				$result[] = $milestone->training_level;
 	            $result[] = $milestone->description;
-	            $action = "<button class='editMilestone btn btn-info btn-xs' data-toggle='modal' data-target='.bs-editMS-modal' data-id='{$milestone->id}' id='editBtn'><span class='glyphicon glyphicon-edit'></span> Edit</button>";
+	            $action = "<button id='edit-milestone-button-{$milestone->id}' class='editMilestone btn btn-info btn-xs' data-toggle='modal' data-target='.bs-editMS-modal' data-id='{$milestone->id}'><span class='glyphicon glyphicon-edit'></span> Edit</button>";
 	            if($milestone->forms->count() === 0)
-	                $action .= "<button class='deleteMilestone btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-deleteMS-modal' data-id='{$milestone->id}' id='deleteBtn'><span class='glyphicon glyphicon-remove'></span> Delete</button>";
+	                $action .= "<button id='delete-milestone-button-{$milestone->id}' class='deleteMilestone btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-deleteMS-modal' data-id='{$milestone->id}'><span class='glyphicon glyphicon-remove'></span> Delete</button>";
 	            $result[] = $action;
 	            $results["data"][] = $result;
 			}
@@ -534,9 +596,9 @@ class ManageController extends Controller
 	            $result = [];
 	            $result[] = $competency->title;
 	            $result[] = $competency->description;
-	            $action = "<button class='editCompetency btn btn-info btn-xs' data-toggle='modal' data-target='.bs-editC-modal' data-id='{$competency->id}' id='editBtn'><span class='glyphicon glyphicon-edit'></span> Edit</button>";
+	            $action = "<button id='edit-competency-button-{$competency->id}' class='editCompetency btn btn-info btn-xs' data-toggle='modal' data-target='.bs-editC-modal' data-id='{$competency->id}'><span class='glyphicon glyphicon-edit'></span> Edit</button>";
 	            if($competency->forms->count() === 0)
-	                $action .= "<button class='deleteCompetency btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-deleteC-modal' data-id='{$competency->id}' id='deleteBtn'><span class='glyphicon glyphicon-remove'></span> Delete</button>";
+	                $action .= "<button id='delete-competency-button-{$competency->id}' class='deleteCompetency btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-deleteC-modal' data-id='{$competency->id}'><span class='glyphicon glyphicon-remove'></span> Delete</button>";
 	            $result[] = $action;
 	            $results["data"][] = $result;
 			}
@@ -573,7 +635,10 @@ class ManageController extends Controller
                 return redirect("manage/milestones-competencies");
                 break;
         }
-        return redirect("manage/milestones-competencies");
+		if($request->has("ajax") && !empty($request->input("ajax")))
+			return "true";
+		else
+        	return redirect("manage/milestones-competencies");
     }
 
     public function competency(Request $request, $action){
@@ -598,7 +663,10 @@ class ManageController extends Controller
                 return redirect("manage/milestones-competencies");
                 break;
         }
-        return redirect("manage/milestones-competencies");
+		if($request->has("ajax") && !empty($request->input("ajax")))
+			return "true";
+		else
+        	return redirect("manage/milestones-competencies");
     }
 
     public function mentors(){

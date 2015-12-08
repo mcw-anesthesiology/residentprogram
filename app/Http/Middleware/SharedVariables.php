@@ -25,7 +25,8 @@ class SharedVariables
         if(Auth::user()->type == "admin"){
             View::share("residents", User::where("type", "resident")->orderBy("last_name")->get());
             View::share("specificFaculty", User::where("type", "faculty")->orderBy("last_name")->get());
-            View::share("facultyForms", Form::where("type", "faculty")->orderBy("title")->get());
+            View::share("facultyForms", Form::where("type", "faculty")->where("status", "active")->orderBy("title")->get());
+			View::share("residentForms", Form::where("type", "resident")->where("evaluator_type", "staff")->where("status", "active")->orderBy("title")->get()); // TODO: All as soon as evaluation tables removed
         }
 
         return $next($request);

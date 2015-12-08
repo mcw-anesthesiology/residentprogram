@@ -23,9 +23,10 @@
 		<link href="/css/select2-bootstrap.min.css" rel="stylesheet" />
 
 		<!-- Custom styles for this template -->
-		<link href="/css/main.css" rel="stylesheet">
+		<link href="/css/main.css" rel="stylesheet" />
 		<!-- <link href="https://cdn.datatables.net/1.10.1/css/jquery.dataTables.css" rel="stylesheet"> -->
-		<link href="https://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet">
+		<link href="https://cdn.datatables.net/responsive/2.0.0/css/responsive.dataTables.min.css" rel="stylesheet" />
+		<link href="https://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" />
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
@@ -49,15 +50,18 @@
 			    </div>
 			    <div class="navbar-collapse collapse">
 			      <ul class="nav navbar-nav navbar-right">
-		          @if($user->type == "faculty")
-		            <li><a href="/request">Create Evaluation</a></li>
-		            <li><a href="/dashboard">View Evaluations</a></li>
-					<li><a href="/dashboard/faculty">View Faculty Evaluations</a></li>
-		          @elseif($user->type == "resident")
+		          @if($user->isType("resident"))
 		            <li><a href="/request">Request Evaluation</a></li>
 					<li><a href="/request/faculty">Evaluate Faculty</a></li>
 		            <li><a href="/dashboard">View Evaluations</a></li>
-			      @elseif($user->type == "admin")
+		          @elseif($user->isType("faculty"))
+		            <li><a href="/request">Create Evaluation</a></li>
+		            <li><a href="/dashboard">View Evaluations</a></li>
+					<li><a href="/dashboard/faculty">View Faculty Evaluations</a></li>
+				  @elseif($user->isType("staff"))
+				    <li><a href="/request">Create Evaluation</a></li>
+					<li><a href="/dashboard">View Evaluations</a></li>
+			      @elseif($user->isType("admin"))
 			        <li><a href="/request">Request Evaluation</a></li>
 					<li><a href="/dashboard/faculty">Faculty Evaluations</a></li>
 			        <li class="dropdown">
@@ -81,7 +85,8 @@
 			        	@endif
 			          	<li><a class="viewSpecRpt pointer" data-toggle="modal" data-target=".bs-specRpt-modal" id="viewSpecRpt">Individual</a></li>
 						@if($user->type == "admin")
-						<li><a class="viewSpecFacultyRpt pointer" data-toggle="modal" data-target=".bs-specFacultyRpt-modal" id="viewSpecFacultyRpt">Faculty</a></li>
+						<li><a class="pointer" data-toggle="modal" data-target="#faculty-report-modal">Faculty</a></li>
+						<li><a class="pointer" data-toggle="modal" data-target="#form-report-modal">Staff</a></li>
 					  	<li><a href="/report/needs-eval">Needs Evaluations</a></li>
 					  	<li><a href="/report/stats/faculty">Faculty Statistics</a></li>
 					  	<li><a href="/report/stats/resident">Resident Statistics</a></li>
@@ -212,7 +217,7 @@
 						<label for="resident">Resident</label>
 						<select class="form-control select2" name="resident" style="width: 100%" required>
 							@foreach($user->mentees as $resident)
-								<option value="{{ $resident->id }}">{{ $resident->last_name }}, {{ $resident->first_name }}</option>
+								<option value="{{ $resident->id }}">{{ $resident->full_name }}</option>
 							@endforeach
 						</select>
 					@elseif($user->type == "resident")
@@ -221,7 +226,7 @@
 						<label for="resident">Resident</label>
 						<select class="form-control select2" name="resident" style="width: 100%" required>
 							@foreach($residents as $resident)
-								<option value="{{ $resident->id }}">{{ $resident->last_name }}, {{ $resident->first_name }}</option>
+								<option value="{{ $resident->id }}">{{ $resident->full_name }}</option>
 							@endforeach
 						</select>
 					@endif
@@ -263,21 +268,21 @@
 
 		@if($user->type == "admin")
 		<!-- Faculty Report Modal -->
-		<div class="modal fade bs-specFacultyRpt-modal" role="dialog" aria-labelledby="modalSpecFacultyRpt" aria-hidden="true" id="specFacultyRptModal">
+		<div class="modal fade bs-faculty-report-modal" role="dialog" aria-labelledby="faculty-report-modal-heading" aria-hidden="true" id="faculty-report-modal">
 		  <div class="modal-dialog">
 			<div class="modal-content">
 			  <div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="myModalSpecFacultyRpt">Specific Faculty Report</h4>
+				<h4 class="modal-title" id="faculty-report-modal-heading">Specific Faculty Report</h4>
 			  </div>
-			  <form class="report" method="post" action="/report/faculty">
+			  <form class="report" method="post" action="/report/form">
 				  {!! csrf_field() !!}
 				<div class="modal-body modal-specFacultyRpt report-options">
 			 	  <div class="form-group">
 					<label for="specific-faculty">Faculty</label>
-					<select class="form-control select2" id="specific-faculty" name="faculty" style="width: 100%;" required>
+					<select class="form-control select2" id="specific-faculty" name="subject" style="width: 100%;" required>
 						@foreach($specificFaculty as $faculty)
-							<option value="{{ $faculty->id }}">{{ $faculty->last_name }}, {{ $faculty->first_name }}</option>
+							<option value="{{ $faculty->id }}">{{ $faculty->full_name }}</option>
 						@endforeach
 					</select>
 				  </div>
@@ -310,12 +315,63 @@
 			</div>
 		  </div>
 		</div>
+
+		<!-- Form Report Modal -->
+		<div class="modal fade bs-form-report-modal" role="dialog" aria-labelledby="form-report-modal-heading" aria-hidden="true" id="form-report-modal">
+		  <div class="modal-dialog">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="form-report-modal-heading">Staff Resident Report</h4>
+			  </div>
+			  <form class="report" method="post" action="/report/form">
+				  {!! csrf_field() !!}
+				<div class="modal-body modal-specFacultyRpt report-options">
+				  <div class="form-group">
+					<label for="form-report-resident"></label>
+					<select class="form-control select2" id="form-report-resident" name="subject" style="width: 100%;" required>
+						@foreach($residents as $resident)
+							<option value="{{ $resident->id }}">{{ $resident->full_name }}</option>
+						@endforeach
+					</select>
+				  </div>
+				  <div class="form-group">
+					<label for="startDate">Start Date:</label>
+					<input type="text" class="form-control datepicker startDate" id="startDate" name="startDate" required>
+				  </div>
+				  <div class="form-group">
+					<label for="endDate">End Date:</label>
+					<input type="text" class="form-control datepicker endDate" id="endDate" name="endDate" required>
+				  </div>
+				  <div class="form-group" style="text-align: center;">
+					<button type="button" class="btn lastThreeMonths">Last Three Months</button>
+					<button type="button" class="btn lastSixMonths">Last Six Months</button>
+				  </div>
+				  <div class="form-group">
+					<label for="form-id">Form</label>
+					<select class="form-control select2" id="form-id" name="form_id" style="width: 100%" required>
+				@foreach($residentForms as $residentForm)
+						<option value="{{ $residentForm->id }}">{{ $residentForm->title }}</option>
+				@endforeach
+					</select>
+				  </div>
+				</div>
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				  <button type="submit" class="btn btn-primary" value="">Generate</button>
+				</div>
+			  </form>
+			</div>
+		  </div>
+		</div>
 		@endif
 		<!-- Bootstrap core JavaScript
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
+		<script type="text/javascript" src="/js/modernizr-custom.js"></script>
 		<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 		<script type="text/javascript" src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.0.0/js/dataTables.responsive.min.js"></script>
 		<script type="text/javascript" src="https://cdn.datatables.net/fixedcolumns/3.0.4/js/dataTables.fixedColumns.min.js"></script>
 		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
@@ -327,7 +383,7 @@
 		<script>
 		    var numSpecificReports = 0;
 			function reportHtml(i) {
-		        return '<div class="report-options">'+
+		        return '<div class="report-options collapse">'+
 		        '<button type="button" class="close remove-report-group" aria-hidden="true">&times;</button>'+
 		        '<h3>Report</h3>'+
 		     '<div class="form-group">'+
@@ -357,16 +413,19 @@
 		     '</div>';
 		    }
 
-		     $(".modal-specRpt").append(reportHtml(0));
-		     $("#addNewSpecificReport").click(function(){
-				 $(".modal-specRpt").append(reportHtml(++numSpecificReports));
-				 $(".datepicker").datepicker({
-					 dateFormat: "yy-mm-dd"
-				 });
-		     });
+
+		    $("#addNewSpecificReport").click(function(){
+				var report = reportHtml(++numSpecificReports);
+				$(report).appendTo(".modal-specRpt").slideDown();
+				$(".datepicker").datepicker({
+					dateFormat: "yy-mm-dd"
+				});
+		    });
 
 		     $(".modal-specRpt").on("click", ".remove-report-group", function(){
-		        $(this).parent().remove();
+		        $(this).parent().slideUp(function(){
+					$(this).remove();
+				});
 		     });
 
 		    function checkReportQuery(){
@@ -429,6 +488,31 @@
 				$(this).parents(".report-options").find(".startDate").val(date);
 			}
 
+			function appendAlert(alertText, parent, alertType){
+				alertType = (typeof(alertType) == "undefined" ? "danger" : alertType);
+
+				var alert = document.createElement("div");
+				alert.className = "alert alert-" + alertType + " alert-dismissable";
+				alert.role = "alert";
+
+				var close = document.createElement("button");
+				close.type = "button";
+				close.className = "close";
+				close.dataset.dismiss = "alert";
+				close.setAttribute("aria-label", "Close");
+
+				var innerClose = document.createElement("span");
+				innerClose.setAttribute("aria-hidden", "true");
+				innerClose.innerHTML = "&times;";
+				close.appendChild(innerClose);
+
+				var text = document.createTextNode(alertText);
+				alert.appendChild(close);
+				alert.appendChild(text);
+
+				$(parent).append(alert);
+			}
+
 			$(document).ready(function(){
 				$.fn.dataTable.moment( "DD-MMM-YYYY h:mm A" );
 
@@ -439,6 +523,16 @@
 					dateFormat: "yy-mm-dd"
 				});
 
+				$.extend(true, $.fn.dataTable.defaults, {
+					stateSave: true,
+					responsive: {
+						details: {
+							type: false
+						}
+					},
+					"dom": "lfprtip"
+				});
+
 				$.fn.select2.defaults.set("theme", "bootstrap");
 
 				$(".select2").val(null).select2({
@@ -446,6 +540,7 @@
 				});
 
 				$("body").css("padding-top", $("#main-navbar").height()+5);
+
 			});
 
 			$(window).resize(function(){

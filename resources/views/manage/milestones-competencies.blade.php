@@ -42,7 +42,7 @@
 	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 	        <h4 class="modal-title" id="myModalAddMS">Add Milestone</h4>
 	      </div>
-	      <form method="post" action="/manage/milestones/add">
+	      <form id="add-milestone-form" method="post" action="/manage/milestones/add">
 			{!! csrf_field() !!}
 	        <div class="modal-body modal-addMS">
 	          <div class="form-group">
@@ -74,7 +74,7 @@
 	        </div>
 	        <div class="modal-footer">
 	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	          <button type="submit" class="btn btn-success" value="">Add</button>
+	          <button type="submit" class="btn btn-success">Add</button>
 	        </div>
 	      </form>
 	    </div>
@@ -89,8 +89,9 @@
 	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 	        <h4 class="modal-title" id="myModalEditMS">Edit Milestone</h4>
 	      </div>
-	      <form method="post" action="/manage/milestones/edit">
-			  {!! csrf_field() !!}
+	      <form id="edit-milestone-form" method="post" action="/manage/milestones/edit">
+			{!! csrf_field() !!}
+			<input type="hidden" id="milestone_id" name="milestone_id" value="" />
 	        <div class="modal-body modal-addMS">
 	          <div class="form-group">
 	            <label for="milestone_title">Milestone Title</label>
@@ -111,7 +112,7 @@
 	        </div>
 	        <div class="modal-footer">
 	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	          <button type="submit" class="btn btn-success" id="submit" name="milestone_id" value="">Edit</button>
+	          <button type="submit" class="btn btn-success">Edit</button>
 	        </div>
 	      </form>
 	    </div>
@@ -126,14 +127,15 @@
 	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 	        <h4 class="modal-title" id="myModalDeleteMS">Delete Milestone</h4>
 	      </div>
-	      <form method="post" action="/manage/milestones/delete">
-			  {!! csrf_field() !!}
+	      <form id="delete-milestone-modal" method="post" action="/manage/milestones/delete">
+			<input type="hidden" id="milestone_id" name="milestone_id" value="" />
+			{!! csrf_field() !!}
 	        <div class="modal-body modal-addMS">
 	          Are you sure you want to delete this milestone? This cannot be undone.
 	        </div>
 	        <div class="modal-footer">
 	          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-	          <button type="submit" class="btn btn-danger" id="submit" name="milestone_id" value="">Delete</button>
+	          <button type="submit" class="btn btn-danger">Delete</button>
 	        </div>
 	      </form>
 	    </div>
@@ -148,8 +150,8 @@
 	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 	        <h4 class="modal-title" id="myModalAddC">Add Competency</h4>
 	      </div>
-	      <form method="post" action="/manage/competencies/add">
-			  {!! csrf_field() !!}
+	      <form id="add-competency-form" method="post" action="/manage/competencies/add">
+			{!! csrf_field() !!}
 	        <div class="modal-body modal-addC">
 	          <div class="form-group">
 	            <label for="competency_title">Competency Title</label>
@@ -162,7 +164,7 @@
 	        </div>
 	        <div class="modal-footer">
 	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	          <button type="submit" class="btn btn-success" value="">Add</button>
+	          <button type="submit" class="btn btn-success">Add</button>
 	        </div>
 	      </form>
 	    </div>
@@ -177,8 +179,9 @@
 	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 	        <h4 class="modal-title" id="myModalEditC">Edit Competency</h4>
 	      </div>
-	      <form method="post" action="/manage/competencies/edit">
-			  {!! csrf_field() !!}
+	      <form id="edit-competency-form" method="post" action="/manage/competencies/edit">
+			<input type="hidden" id="competency_id" name="competency_id" value="" />
+			{!! csrf_field() !!}
 	        <div class="modal-body modal-EditC">
 	          <div class="form-group">
 	            <label for="competency_title">Competency Title</label>
@@ -191,7 +194,7 @@
 	        </div>
 	        <div class="modal-footer">
 	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	          <button type="submit" class="btn btn-success" id="submit" name="competency_id" value="">Edit</button>
+	          <button type="submit" class="btn btn-success">Edit</button>
 	        </div>
 	      </form>
 	    </div>
@@ -206,14 +209,15 @@
 	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 	        <h4 class="modal-title" id="myModalDeleteC">Edit Competency</h4>
 	      </div>
-	      <form method="post" action="/manage/competencies/delete">
-			  {!! csrf_field() !!}
+	      <form id="delete-competency-form" method="post" action="/manage/competencies/delete">
+			<input type="hidden" id="competency_id" name="competency_id" value="" />
+			{!! csrf_field() !!}
 	        <div class="modal-body modal-deleteC">
 				Are you sure you want to delete this competency? This cannot be undone.
 	        </div>
 	        <div class="modal-footer">
 	          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-	          <button type="submit" class="btn btn-danger" id="submit" name="competency_id" value="">Delete</button>
+	          <button type="submit" class="btn btn-danger">Delete</button>
 	        </div>
 	      </form>
 	    </div>
@@ -231,7 +235,7 @@
 			var milestoneTrainingLevel = siblings[2].innerHTML;
 			var milestoneDescription = siblings[3].innerHTML;
 
-			$("#editMSModal").find("#submit").val(milestoneId);
+			$("#editMSModal").find("#milestone_id").val(milestoneId);
 			$("#editMSModal").find("#milestone_title").val(milestoneTitle);
 			$("#editMSModal").find("#milestone-type").val(milestoneType);
 			$("#editMSModal").find("#milestone-training-level").val(milestoneTrainingLevel);
@@ -243,20 +247,77 @@
 			var competency_title = $(this).parent().siblings()[0].innerHTML;
 			var competency_description = $(this).parent().siblings()[1].innerHTML;
 
-			$("#editCModal").find("#submit").val(competency_id);
+			$("#editCModal").find("#competency_id").val(competency_id);
 			$("#editCModal").find("#competency_title").val(competency_title);
 			$("#editCModal").find("#competency_description").val(competency_description);
 		});
 
 		$(".datatable-milestones").on("click", ".deleteMilestone", function(){
 			var milestone_id = $(this).data("id");
-			$("#deleteMSModal").find("#submit").val(milestone_id);
+			$("#deleteMSModal").find("#milestone_id").val(milestone_id);
 		});
 
 		$(".datatable-competencies").on("click", ".deleteCompetency", function(){
 			var competency_id = $(this).data("id");
-			$("#deleteCModal").find("#submit").val(competency_id);
+			$("#deleteCModal").find("#competency_id").val(competency_id);
 		});
+
+		$("#add-milestone-form, #edit-milestone-form").on("submit", function(event){
+			event.preventDefault();
+			addEditAjax(this, ".datatable-milestones");
+		});
+		$("#add-competency-form, #edit-competency-form").on("submit", function(event){
+			event.preventDefault();
+			addEditAjax(this, ".datatable-competencies")
+		});
+
+		function addEditAjax(form, table){
+			var data = $(form).serialize() + "&ajax=true";
+			var modal = $(form).parents(".modal");
+			$.post($(form).prop("action"), data, function(response){
+				if(response == "true"){
+					modal.modal("hide");
+					$(table).DataTable({
+						retrieve: true
+					}).ajax.reload();
+				}
+				else{
+					appendAlert(response, modal.find(".modal-body"));
+				}
+			});
+		}
+
+		$("#delete-competency-form").on("submit", function(event){
+			event.preventDefault();
+			var id = $(this).find("#competency_id").val();
+			var row = $("#delete-competency-button-" + id).parents("tr");
+			deleteAjax(this, ".datatable-competencies", row);
+		});
+
+		$("#delete-milestone-form").on("submit", function(event){
+			event.preventDefault();
+			var id = $(this).find("#milestone_id").val();
+			var row = $("#delete-milestone-button-" + id).parents("tr");
+			deleteAjax(this, ".datatable-milestones", row);
+		});
+
+		function deleteAjax(form, table, row){
+			var data = $(form).serialize() + "&ajax=true";
+			var modal = $(form).parents(".modal");
+			$.post($(form).prop("action"), data, function(response){
+				if(response == "true"){
+					modal.modal("hide");
+					row.fadeOut(function(){
+						$(table).DataTable({
+							retrieve: true
+						}).row(row).remove().draw();
+					});
+				}
+				else{
+					appendAlert(response, modal.find(".modal-body"));
+				}
+			});
+		}
 
 		$(document).ready(function(){
 			$(".datatable-milestones").DataTable({

@@ -12,8 +12,10 @@
 					<div class="col-md-4">
 						<label for="form-type">Form type</label>
 						<select class="form-control" id="form-type" name="form_type" style="margin-bottom: 5px;">
-							<option value="resident">Resident/Fellow/Intern</option>
+							<option value="resident">Resident/Intern</option>
+							<option value="fellow">Fellow</option>
 							<option value="faculty">Faculty</option>
+							<option value="staff">Staff</option>
 						</select>
 					</div>
 				</div>
@@ -153,13 +155,14 @@
 
 		$("#form-type").change(function(){
 			var type = $(this).val();
-			if(type == "faculty"){
+			if(type != "resident"){
 				$(".form-question-milestone").hide().prop("disabled", true);
 				$(".form-question-milestone-2").hide().prop("disabled", true);
 				$(".form-question-competency").hide().prop("disabled", true);
 				$(".form-question-type").val("radiononnumeric").change();
-				$(".form-question-required").prop("checked", true);
 				$(".milestone-competency-label").hide();
+				if(type == "faculty")
+					$(".form-question-required").prop("checked", true);
 			}
 			else{
 				$(".form-question-milestone").show().prop("disabled", false);
@@ -242,6 +245,21 @@
 					{value: 10, text: "Attending"}
 				];
 			}
+			else if(formType == "fellow"){
+				options = [
+					{value: 0, text: "Not at fellowship level"},
+					{value: 1, text: ""},
+					{value: 2, text: "Fellow - 1"},
+					{value: 3, text: ""},
+					{value: 4, text: "Fellow - 2"},
+					{value: 5, text: ""},
+					{value: 6, text: "Fellow - 3"},
+					{value: 7, text: ""},
+					{value: 8, text: "Fellow - 4"},
+					{value: 9, text: ""},
+					{value: 10, text: "Fellow - 5"}
+				];
+			}
 			else if(formType == "faculty" && questionType == "radiononnumeric"){
 				options = [
 					{value: "strongly-disagree", text: "Strongly Disagree"},
@@ -251,10 +269,7 @@
 					{value: "strongly-agree", text: "Strongly Agree"},
 					{value: "n-a", text: "N/A"}
 				];
-				console.log(options);
 			}
-			console.log(formType);
-			console.log(questionType);
 
 			for(var i = 0; i < options.length; i++){
 				if(questionType == "radio")
@@ -302,13 +317,14 @@
 			newQuestion.find(".form-question-weight").attr("name", questionId+":weight");
 			newQuestion.find(".form-question-required").attr("name", questionId+":required");
 
-			if(type == "faculty"){
+			if(type != "resident"){
 				$(".form-question-milestone").hide().prop("disabled", true);
 				$(".form-question-milestone-2").hide().prop("disabled", true);
 				$(".form-question-competency").hide().prop("disabled", true);
 				$(".milestone-competency-label").hide();
 				newQuestion.find(".form-question-type").val("radiononnumeric").change();
-				newQuestion.find(".form-question-required").prop("checked", true);
+				if(type == "faculty")
+					newQuestion.find(".form-question-required").prop("checked", true);
 			}
 		}
 

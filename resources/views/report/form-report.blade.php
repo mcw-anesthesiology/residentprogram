@@ -72,7 +72,6 @@
 						th.appendChild(text); tr.appendChild(th); thead.appendChild(tr);
 						textarea = textarea[0];
 						parent.removeChild(textarea);
-						console.log(questionId);
 						$.each(subjectResponseValues[questionId], function(evaluationId, textResponse){
 							if(textResponse.trim() != ""){
 								tr = document.createElement("tr");

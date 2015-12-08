@@ -33,6 +33,8 @@ class MainController extends Controller
     public function __construct(){
         $this->middleware("auth");
         $this->middleware("shared");
+
+		$this->middleware("type:admin", ["only" => ["flaggedEvaluations"]]);
     }
 
     public function dashboard(){
@@ -61,8 +63,10 @@ class MainController extends Controller
 			$subjectTypes = ["faculty"];
 			$evaluatorTypes = ["resident", "fellow"];
 		}
-		elseif($request->is("request/staff")){
-
+		elseif($user->isType("staff")){
+			$requestType = "staff";
+			$subjectTypes = ["resident", "fellow"];
+			$evaluatorTypes = ["staff"];
 		}
 		else{
 			$requestType = "resident";
@@ -72,10 +76,10 @@ class MainController extends Controller
 
 		$evaluationTypes = array_merge($subjectTypes, $evaluatorTypes);
 
-		if(!in_array($user->specific_type, array_merge($evaluationTypes, ["admin"])))
+		if(!$user->isType(array_merge($evaluationTypes, ["admin"])))
 			return back()->with("error", "Your account type is not allowed to create that kind of evaluation.");
 
-        if(in_array($user->type, ["resident", "faculty"])){
+        if($user->isType(["resident", "faculty"])){
             $blocks = Block::where("start_date", "<", Carbon::now())->with("assignments.user")->orderBy("year", "desc")->orderBy("block_number", "desc")->limit(3)->get();
             foreach($blocks as $block){
                 $userLocations = $block->assignments->where("user_id", $user->id)->map(function ($item, $key){
@@ -98,49 +102,51 @@ class MainController extends Controller
             }
         }
 
-        if($user->type != "resident" && in_array("resident", $evaluationTypes)){
+        if(!$user->isType("resident") && in_array("resident", $evaluationTypes)){
             $residentModels = User::where("type", "resident")->where("status", "active")->orderBy("last_name")->get();
             foreach($residentModels as $resident)
                 $residents[0][] = ["id" => $resident->id, "name" => $resident->full_name, "group" => $resident->training_level];
         }
-        if($user->type != "faculty" && in_array("faculty", $evaluationTypes)){
+        if(!$user->isType("faculty") && in_array("faculty", $evaluationTypes)){
             $facultyModels = User::where("type", "faculty")->where("status", "active")->orderBy("last_name")->get();
             foreach($facultyModels as $fac)
                 $faculty[0][] = ["id" => $fac->id, "name" => $fac->full_name, "group" => "faculty"];
         }
-		if($user->type != "staff" && in_array("staff", $evaluationTypes)){
+		if(!$user->isType("staff") && in_array("staff", $evaluationTypes)){
 			$staffModels = User::where("type", "staff")->where("status", "active")->orderBy("last_name")->get();
 			foreach($staffModels as $staff)
 				$staff[0][] = ["id" => $staff->id, "name" => $staff->full_name, "group" => "staff"];
 		}
 
-		if(in_array($user->specific_type, $subjectTypes)){
-			$formModels = Form::where("status", "active")->whereIn("type", $user->specific_type)->whereIn("evaluator_type", $evaluatorTypes)->orderBy("title")->get();
+		if($user->isType($subjectTypes)){
+			$formModels = Form::where("status", "active")->where("type", $user->type)->whereIn("evaluator_type", $evaluatorTypes)->orderBy("title")->get();
 			foreach($formModels as $form){
 				$forms[] = ["id" => $form->id, "name" => $form->title, "group" => $form->type];
 			}
 		}
-		elseif(in_array($user->specific_type, $evaluatorTypes)){
-			$formModels = Form::where("status", "active")->whereIn("type", $subjectTypes)->whereIn("evaluator_type", $user->specific_type)->orderBy("title")->get();
+		elseif($user->isType($evaluatorTypes)){
+			$formModels = Form::where("status", "active")->whereIn("type", $subjectTypes)->where("evaluator_type", $user->type)->orderBy("title")->get();
 			foreach($formModels as $form){
 				$forms[] = ["id" => $form->id, "name" => $form->title, "group" => $form->type];
 			}
 		}
 		else{
-			$formModels = Form::where("status", "active")->whereIn("type", $subjectTypes)->orderBy("title")->get();
+			$formModels = Form::where("status", "active")->whereIn("type", $subjectTypes)->whereIn("evaluator_type", $evaluatorTypes)->orderBy("title")->get();
 			foreach($formModels as $form){
 				$forms[] = ["id" => $form->id, "name" => $form->title, "group" => $form->type];
 			}
 		}
 
+		$residentGroups = ["intern" => "Intern", "ca-1" => "CA-1", "ca-2" => "CA-2", "ca-3" => "CA-3", "fellow" => "Fellow"];
+
 		switch($requestType){
 			case "resident":
-				if(!in_array($user->type, $subjectTypes)){
+				if(!$user->isType($subjectTypes)){
 					$subjects = $residents;
-					$subjects["groups"] = ["intern" => "Intern", "ca-1" => "CA-1", "ca-2" => "CA-2", "ca-3" => "CA-3", "fellow" => "Fellow"];
+					$subjects["groups"] = $residentGroups;
 					$groupSubjects = true;
 				}
-				if(!in_array($user->type, $evaluatorTypes)){
+				if(!$user->isType($evaluatorTypes)){
 					$evaluators = $faculty;
 
 				}
@@ -153,7 +159,7 @@ class MainController extends Controller
 				$groupForms = true;
 				break;
 			case "faculty":
-				if($user->type != "resident")
+				if(!$user->isType("resident"))
 					return back()->with("error", "Only residents or fellows can create faculty evaluations");
 				$subjects = $faculty;
 				$pendingEvalCount = Evaluation::with("subject", "evaluator", "form")->where("status", "pending")->where("evaluator_id", $user->id)->whereHas("form", function($query){
@@ -163,6 +169,19 @@ class MainController extends Controller
 				$subjectTypeText = "faculty";
 				$subjectTypeTextPlural = "faculty";
 				$evaluatorTypeText = "resident";
+
+				$groupForms = false;
+				break;
+			case "staff":
+				if(!$user->isType("staff"))
+					return back()->with("error", "Only staff can create staff evaluations");
+				$subjects = $residents;
+				$subjects["groups"] = $residentGroups;
+				$groupSubjects = true;
+
+				$subjectTypeText = "intern, resident, or fellow";
+				$subjectTypeTextPlural = "interns, residents, and fellows";
+				$evaluatorTypeText = "staff";
 
 				$groupForms = false;
 				break;
@@ -200,7 +219,7 @@ class MainController extends Controller
             elseif($request->has("subject_id"))
                 $eval->subject_id = $request->input("subject_id");
 
-            if($user->type == "faculty")
+            if($user->isType(["faculty", "staff"]))
                 $eval->evaluator_id = $user->id;
             elseif($request->has("evaluator_id"))
                 $eval->evaluator_id = $request->input("evaluator_id");
@@ -298,10 +317,17 @@ class MainController extends Controller
 						$possibleSubjects = User::where("type", "faculty")->where("status", "active")->orderBy("last_name")->get();
 						$possibleForms = Form::where("type", "faculty")->where("status", "active")->orderBy("title")->get();
 						break;
+					case "staff":
+						$subjectType = "Resident/Fellow";
+						$possibleSubjects = User::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("last_name")->get();
+						$possibleForms = Form::where("type", "resident")->where("evaluator_type", "staff")->orderBy("title")->get();
+						break;
 				}
 				$flaggedActions = Setting::get("flaggedActions");
 				$data += compact("subjectType", "possibleSubjects", "possibleForms", "flaggedActions");
 			}
+			if($user->id == $evaluation->subject_id && $evaluation->visibility == "hidden")
+				return redirect("dashboard")->with("error", "Insufficient permissions to view the requested evaluation");
             return view("evaluations.evaluation", $data);
 		}
         else
@@ -374,7 +400,7 @@ class MainController extends Controller
 	public function evaluationComment($id, Request $request){
 		$user = Auth::user();
 		$eval = Evaluation::find($id);
-		if($eval->evaluator_id == $user->id && in_array($eval->status, ["complete", "pending"])){
+		if($eval->evaluator_id == $user->id){
 			$eval->comment = $request->input("comment");
 			$eval->save();
 			return "success";
@@ -492,7 +518,7 @@ class MainController extends Controller
         $results["data"] = [];
         if($user->type == "admin"){
             $evaluations = Evaluation::with("subject", "evaluator", "form")->whereHas("form", function($query){
-                $query->whereIn("type", ["resident", "fellow"]);
+                $query->whereIn("type", ["resident", "fellow"])->where("evaluator_type", "faculty");
             })->get();
             foreach($evaluations as $eval){
 				try{
@@ -513,7 +539,7 @@ class MainController extends Controller
 	                else
 	                    $badge = "disabled";
 
-	                $result[] = "<span class='badge badge-{$badge}'>{$eval->status}</span>";
+	                $result[] = "<span class='badge badge-{$badge}'>" . ucfirst($eval->status) . "</span>";
 	                $results["data"][] = $result;
 				}
 				catch(\Exception $e){
@@ -530,18 +556,29 @@ class MainController extends Controller
             }
             else
                 $evaluations = Evaluation::where("status", $type)->where(function($query) use ($user){
-                    $query->where("evaluator_id", $user->id)->orWhere("subject_id", $user->id);
+                    $query->where("evaluator_id", $user->id)->orWhere(function($query) use ($user){
+						$query->where("subject_id", $user->id)->whereHas("form", function($query){
+							$query->whereIn("visibility", ["visible", "anonymous"]);
+						});
+					});
                 })->with("subject", "evaluator", "form")->whereHas("form", function($query){
-                    $query->whereIn("type", ["resident", "fellow"]);
+                    $query->whereIn("type", ["resident", "fellow"])->where("evaluator_type", "faculty");
                 })->get();
             foreach($evaluations as $eval){
 				try{
 	                $result = [];
 	                $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
-	                if($eval->subject_id == $user->id || $type == "mentor")
-	                    $result[] = $eval->evaluator->full_name;
-	                else
+	                if($eval->subject_id == $user->id || $type == "mentor"){
+						if($eval->form->visibility == "visible")
+							$result[] = $eval->evaluator->full_name;
+						elseif($eval->form->visibility == "anonymous")
+							$result[] = "Anonymous";
+						else
+							continue;
+					}
+	                else{
 	                    $result[] = $eval->subject->full_name;
+					}
 	                $result[] = $eval->form->title;
 	                $result[] = (string)$eval->request_date;
 	                if($type == "complete" || $type == "mentor")
@@ -565,6 +602,41 @@ class MainController extends Controller
         }
         return json_encode($results);
     }
+
+	public function staffEvaluations(Request $request){
+		$user = Auth::user();
+		$results["data"] = [];
+
+		if($user->type == "admin"){
+			$evaluations = Evaluation::with("form")->whereHas("form", function($query){
+				$query->where("evaluator_type", "staff");
+			})->get();
+		}
+		else{
+			$type = $request->has("type") ? $request->input("type") : "complete";
+			$evaluations = Evaluation::with("form")->where("status", $type)->where(function($query) use ($user){
+				$query->where("subject_id", $user->id)->orWhere("evaluator_id", $user->id);
+			})->whereHas("form", function($query){
+				$query->where("evaluator_type", "staff");
+			})->get();
+		}
+
+		foreach($evaluations as $eval){
+			try{
+				$result = [];
+				$result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
+				$result[] = $eval->evaluator->full_name;
+				$result[] = $eval->subject->full_name;
+				$result[] = $eval->form->title;
+				$result[] = (string)$eval->form->evaluation_date;
+				$results["data"][] = $result;
+			}
+			catch(\Exception $e){
+				Log::error("Problem with staff evaluation: ".$e);
+			}
+		}
+		return json_encode($results);
+	}
 
 	public function flaggedEvaluations(Request $request){
 		$user = Auth::user();
