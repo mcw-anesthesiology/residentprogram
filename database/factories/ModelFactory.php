@@ -3,6 +3,9 @@
 use App\Block;
 use App\User;
 use App\Form;
+use App\Evaluation;
+
+use anlutro\LaravelSettings\Facade as Setting;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +21,7 @@ use App\Form;
 $factory->define(App\User::class, function ($faker) {
     return [
         'username' => $faker->userName,
-        "type" => "resident",
         "status" => "active",
-        "training_level" => "ca-1",
         "first_name" => $faker->firstName,
         "last_name" => $faker->lastName,
         'email' => $faker->email,
@@ -29,18 +30,97 @@ $factory->define(App\User::class, function ($faker) {
     ];
 });
 
+$factory->defineAs(App\User::class, "resident", function($faker) use ($factory){
+    $user = $factory->raw(App\User::class);
+    $resident = [
+        "type" => "resident",
+        "training_level" => "ca-1"
+    ];
+    return array_merge($user, $resident);
+});
+
+$factory->defineAs(App\User::class, "fellow", function($faker) use ($factory){
+    $user = $factory->raw(App\User::class);
+    $fellow = [
+        "type" => "resident",
+        "training_level" => "fellow"
+    ];
+    return array_merge($user, $fellow);
+});
+
 $factory->defineAs(App\User::class, "faculty", function($faker) use ($factory){
     $user = $factory->raw(App\User::class);
+    $faculty = [
+        "type" => "faculty",
+        "notifications" => "yes",
+        "reminder_frequency" => "daily",
+        "remind_only_if_pending" => "no"
+    ];
+    return array_merge($user, $faculty);
+});
 
-    return array_merge($user, ["type" => "faculty"]);
+$factory->defineAs(App\User::class, "staff", function($faker) use ($factory){
+    $user = $factory->raw(App\User::class);
+    $staff = [
+        "type" => "staff",
+    ];
+    return array_merge($user, $staff);
+});
+
+$factory->defineAs(App\User::class, "admin", function($faker) use ($factory){
+    $user = $factory->raw(App\User::class);
+    $admin = [
+        "type" => "admin"
+    ];
+    return array_merge($user, $admin);
 });
 
 $factory->define(App\Form::class, function($faker){
     return [
         "title" => $faker->word,
-        "xml_path" => str_random(10),
+        "xml_path" => "evaluation_forms/".str_random(10).".xml",
         "status" => "active"
     ];
+});
+
+$factory->defineAs(App\Form::class, "resident", function($faker) use ($factory){
+    $form = $factory->raw(App\Form::class);
+    $resident = [
+        "type" => "resident",
+        "evaluator_type" => "faculty",
+        "visibility" => "visible"
+    ];
+    return $array_merge($user, $resident);
+});
+
+$factory->defineAs(App\Form::class, "fellow", function($faker) use ($factory){
+    $form = $factory->raw(App\Form::class);
+    $fellow = [
+        "type" => "fellow",
+        "evaluator_type" => "faculty",
+        "visibility" => "visible"
+    ];
+    return $array_merge($user, $fellow);
+});
+
+$factory->defineAs(App\Form::class, "staff", function($faker) use ($factory){
+    $form = $factory->raw(App\Form::class);
+    $staff = [
+        "type" => "resident",
+        "evaluator_type" => "staff",
+        "visibility" => "hidden"
+    ];
+    return $array_merge($user, $staff);
+});
+
+$factory->defineAs(App\Form::class, "faculty", function($faker) use ($factory){
+    $form = $factory->raw(App\Form::class);
+    $faculty = [
+        "type" => "faculty",
+        "evaluator_type" => "resident",
+        "visibility" => "anonymous"
+    ];
+    return $array_merge($user, $faculty);
 });
 
 $factory->define(App\Evaluation::class, function($faker){
@@ -53,6 +133,7 @@ $factory->define(App\Evaluation::class, function($faker){
         "requested_by_id" => $subject,
         "status" => "pending",
         "request_date" => $faker->date,
+        "evaluation_date" => $faker->date,
         "request_ip" => str_random(10)
     ];
 });
@@ -64,11 +145,17 @@ $factory->defineAs(App\Evaluation::class, "complete", function($faker) use ($fac
         "status" => "complete",
         "training_level" => $trainingLevel,
         "complete_date" => $faker->date,
-        "evaluation_date" => $faker->date,
         "complete_ip" => str_random(10)
     ]);
 });
 
+$factory->define(App\FlaggedEvaluation::class, function($faker){
+    return [
+        "evaluation_id" => Evaluation::all()->random()->id,
+        "requested_action" => array_rand(Setting::get("flaggedActions")),
+        "reason" => $faker->words
+    ];
+});
 
 $factory->define(App\Milestone::class, function($faker){
     return [
