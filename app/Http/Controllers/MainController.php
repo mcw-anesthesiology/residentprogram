@@ -39,11 +39,20 @@ class MainController extends Controller
 
     public function dashboard(){
         $user = Auth::user();
-        if($user->type == "faculty")
-            $mentees = $user->mentees->where("status", "active")->unique();
-		elseif($user->type == "admin")
-			$numFlagged = Evaluation::has("flag")->count();
-        $data = compact("mentees", "numFlagged");
+        switch($user->type){
+            case "resident":
+                $numStaffEvals = $user->subjectEvaluations()->notHidden()->where("status", "complete")->whereHas("form", function($query){
+                    $query->where("evaluator_type", "staff");
+                })->count();
+                break;
+            case "faculty":
+                $mentees = $user->mentees->where("status", "active")->unique();
+                break;
+            case "admin":
+                $numFlagged = Evaluation::has("flag")->count();
+                break;
+        }
+        $data = compact("mentees", "numFlagged", "numStaffEvals");
         return view("dashboard.dashboard", $data);
     }
 
@@ -551,12 +560,12 @@ class MainController extends Controller
                 $menteeId = $request->input("mentee_id");
                 $mentee = User::find($menteeId);
                 if($mentee->mentors->contains($user))
-                    $evaluations = User::find($menteeId)->subjectEvaluations()->where("status", "complete")->with("subject", "evaluator", "form")->get();
+                    $evaluations = $mentee->subjectEvaluations()->notHidden()->where("status", "complete")->with("subject", "evaluator", "form")->get();
             }
             else
                 $evaluations = Evaluation::where("status", $type)->where(function($query) use ($user){
                     $query->where("evaluator_id", $user->id)->orWhere(function($query) use ($user){
-						$query->where("subject_id", $user->id)->ofVisibility(["visible", "anonymous"]);
+						$query->where("subject_id", $user->id)->notHidden();
 					});
                 })->with("subject", "evaluator", "form")->whereHas("form", function($query){
                     $query->whereIn("type", ["resident", "fellow"])->where("evaluator_type", "faculty");
@@ -613,7 +622,7 @@ class MainController extends Controller
 		else{
 			$evaluations = Evaluation::with("form")->where("status", $type)->where(function($query) use ($user){
                 $query->where("evaluator_id", $user->id)->orWhere(function($query) use ($user){
-                    $query->where("subject_id", $user->id)->ofVisibility(["visible", "anonymous"]);
+                    $query->where("subject_id", $user->id)->notHidden();
                 });
 			})->whereHas("form", function($query){
 				$query->where("evaluator_type", "staff");
@@ -624,10 +633,26 @@ class MainController extends Controller
 			try{
 				$result = [];
 				$result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
-                if($eval->evaluator_id != $user->id)
-				    $result[] = $eval->evaluator->full_name;
                 if($eval->subject_id != $user->id)
-				    $result[] = $eval->subject->full_name;
+                    $result[] = $eval->subject->full_name;
+                if($eval->evaluator_id != $user->id){
+                    if($user->id == $eval->subject_id){
+                        switch($eval->visibility){
+                            case "visible":
+                                $result[] = $eval->evaluator->full_name;
+                                break;
+                            case "anonymous":
+                                $result[] = "Anonymous";
+                                break;
+                            case "hidden":
+                            default:
+                                continue;
+                                break;
+                        }
+                    }
+                    else
+                        $result[] = $eval->evaluator->full_name;
+                }
 				$result[] = $eval->form->title;
 				$result[] = $eval->evaluation_date->format("F Y");
                 $result[] = (string)$eval->request_date;
@@ -670,13 +695,14 @@ class MainController extends Controller
     public function facultyEvaluations(Request $request){
         $user = Auth::user();
         $results["data"] = [];
-        if($user->type == "admin")
+        if($user->type == "admin"){
             $evaluations = Evaluation::with("subject", "evaluator", "form")->whereHas("form", function($query){
                 $query->where("type", "faculty");
             })->get();
+        }
         elseif($user->type == "faculty"){
             $threshold = Setting::get("facultyEvalThreshold");
-            $evaluations = Evaluation::where("subject_id", $user->id)->where("status", "complete")->orderBy("id", "desc")->get();
+            $evaluations = Evaluation::where("subject_id", $user->id)->notHidden()->where("status", "complete")->orderBy("id", "desc")->get();
 			if($evaluations->count() > 0)
             	$evaluations = $evaluations->splice($evaluations->count()%$threshold);
         }

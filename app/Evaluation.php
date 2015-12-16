@@ -58,6 +58,10 @@ class Evaluation extends Model
 		return $this->hasOne("App\FlaggedEvaluation");
 	}
 
+    public function scopeNotHidden($query){
+        return $query->ofVisibility(["visible", "anonymous"]);
+    }
+
     public function scopeOfVisibility($query, $visibilities){
         if(!is_array($visibilities))
             $visibilities = [$visibilities];

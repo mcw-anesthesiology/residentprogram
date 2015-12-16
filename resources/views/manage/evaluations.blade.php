@@ -1,5 +1,17 @@
 @extends("app")
 
+@section("head")
+	<style>
+		.visibility {
+			margin-top: 5px;
+		}
+
+		.visibility-edit {
+			margin: 5px;
+		}
+	</style>
+@stop
+
 @section("body")
 	<h2 class="sub-header">Manage Evaluations <button class="archiveEval btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-archive-modal" id="archiveBtn"><span class="glyphicon glyphicon-remove"></span> Archive Evals</button></h2>
 	  <div class="table-responsive">
@@ -173,6 +185,54 @@
 			var date = year+"-"+month+"-"+day;
 			$(document).find("#bulkDisableDate").val(date);
 		}
+
+		$("body").popover({
+			html: true,
+			selector: ".visibility",
+			trigger: "focus",
+			placement: "auto top",
+			title: "Subject visibility",
+			content: function(){
+				var evalId = $(this).data("id");
+				return "<button type='button' class='visibility-edit btn btn-info' data-eval='" + evalId + "' data-visibility='visible'>Visible <span class='glyphicon glyphicon-eye-open'></span></button> " +
+				"<button type='button' class='visibility-edit btn' data-eval='" + evalId + "' data-visibility='anonymous'>Anonymous <span class='glyphicon glyphicon-eye-close'></span></button> " +
+				"<button type='button' class='visibility-edit btn btn-default' data-eval='" + evalId + "' data-visibility='hidden'>Hidden <span class='glyphicon glyphicon-eye-close'></span></button> " +
+				"<button type='button' class='visibility-edit btn btn-primary' data-eval='" + evalId + "' data-visibility='reset'>Reset <span class='glyphicon glyphicon-refresh'></span></button> ";
+			}
+		});
+
+		$("body").on("click", ".visibility-edit", function(){
+			var evalId = $(this).data("eval");
+			var data = {};
+			data._token = "{{ csrf_token() }}";
+			data.action = "visibility";
+			data.visibility = $(this).data("visibility");
+			$.post("/manage/evaluations/" + evalId, data, function(response){
+				if(response != "false"){
+					var button = $(".visibility[data-id='" + evalId + "']");
+					button.fadeOut(function(){
+						switch(response){
+							case "visible":
+								button.removeClass("visibility-anonymous visibility-hidden btn-default");
+								button.addClass("visibility-visible btn-info");
+								button.html("Visible <span class='glyphicon glyphicon-eye-open'></span>");
+								break;
+							case "anonymous":
+								button.removeClass("visibility-visible visibility-hidden btn-info btn-default");
+								button.addClass("visibility-anonymous");
+								button.html("Anonymous <span class='glyphicon glyphicon-eye-close'></span>");
+								break;
+							case "hidden":
+								button.removeClass("visibility-anonymous visibility-visible btn-info");
+								button.addClass("visibility-hidden btn-default");
+								button.html("Hidden <span class='glyphicon glyphicon-eye-close'></span>");
+								break;
+						}
+						button.fadeIn();
+					});
+				}
+			});
+		});
 
 		$(document).ready(function(){
 		  $(".datatable").each(function(){

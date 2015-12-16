@@ -32,7 +32,7 @@
 
 <div class="container body-block">
 	<div class="row">
-		<h2 class="sub-header">Fellow evaluation forms <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add new</button></h2>
+		<h2 class="sub-header">Fellow-specific evaluation forms <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add new</button></h2>
 		<div class="table-responsive">
 			<table class="table table-striped" id="fellow-forms">
 				<thead>

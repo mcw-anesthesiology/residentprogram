@@ -16,6 +16,9 @@ Route::get("/", "MainController@dashboard");
 Route::get("login", "Auth\AuthController@getLogin");
 Route::post("login", "Auth\AuthController@postLogin");
 Route::get("logout", "Auth\AuthController@getLogout");
+Route::get("home", function(){
+	return redirect("dashboard");
+});
 
 Route::get("password/email", "Auth\PasswordController@getEmail");
 Route::post("password/email", "Auth\PasswordController@postEmail");

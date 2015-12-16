@@ -21,7 +21,7 @@
 @section("body")
 	@if($requestType == "faculty")
 	<h2 class="sub-header">Evaluate faculty</h2>
-	@elseif($user->type == $evaluatorTypeText)
+	@elseif($user->isType($evaluatorTypes))
 	<h2 class="sub-header">Create evaluation</h2>
 	@else
 	<h2 class="sub-header">Request evaluation</h2>

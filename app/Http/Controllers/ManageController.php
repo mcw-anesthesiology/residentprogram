@@ -72,14 +72,39 @@ class ManageController extends Controller
 	            else
 	                $result[] = "";
 
-	            if($eval->status == "complete")
-	                $badge = "complete";
-	            elseif($eval->status == "pending")
-	                $badge = "pending";
-	            else
-	                $badge = "disabled";
 
-	            $result[] = "<span class='status'><span class='badge badge-{$badge}'>{$eval->status}</span></span>";
+                switch($eval->status){
+                    case "complete":
+                        $badge = "complete";
+                        break;
+                    case "pending":
+                        $badge = "pending";
+                        break;
+                    default:
+                        $badge = "disabled";
+                        break;
+                }
+	            $status = "<span class='status'><span class='badge badge-{$badge}'>{$eval->status}</span></span>";
+
+                switch($eval->visibility){
+					case "visible":
+						$eyeType = "open";
+						$visBtnType = "btn-info";
+						break;
+					case "anonymous":
+						$eyeType = "close";
+						$visBtnType = "";
+						break;
+					case "hidden":
+						$eyeType = "close";
+						$visBtnType = "btn-default";
+						break;
+				}
+                $status .= "<br /><button type='button' " .
+					"class='visibility visibility-{$eval->visibility} btn {$visBtnType} btn-xs' " .
+					"data-id='{$eval->id}'>" . ucfirst($eval->visibility) .
+					" <span class='glyphicon glyphicon-eye-{$eyeType}'></span></button>";
+                $result[] = $status;
 	            if($eval->status == "disabled"){
 	                $buttonClass = "enableEval";
 	                $buttonType = "success";
@@ -123,6 +148,14 @@ class ManageController extends Controller
                     break;
                 case "cancel":
                     $eval->status = "canceled by admin";
+                    break;
+                case "visibility":
+                    if($request->input("visibility") == "reset")
+                        $eval->visibility = null;
+                    else
+                        $eval->visibility = $request->input("visibility");
+                    $eval->save();
+                    return $eval->visibility;
                     break;
                 default:
                     return "false";
