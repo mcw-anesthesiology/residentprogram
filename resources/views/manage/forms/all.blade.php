@@ -160,7 +160,7 @@
 			var data = {};
 			data._token = "{{ csrf_token() }}";
 			data.title = $("#edit-form-title").val();
-			data.visibility = $("#edit-frm-modal input[name='visibility']").val();
+			data.visibility = $("#edit-form-modal input[name='visibility']:checked").val();
 			data.action = "edit";
 			$.post("/manage/forms/"+formId, data, function(response){
 				if(response == "true"){
