@@ -296,6 +296,12 @@ body {
 	max-height: 400px;
 }
 
+@media (max-width: 768px) {
+	.paginate_button.disabled {
+		display: none;
+	}
+}
+
 @media print {
     .print{
     	display: block;

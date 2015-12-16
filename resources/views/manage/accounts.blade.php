@@ -453,6 +453,7 @@
 
 		$(".table").on("click", ".editPassword", function(){
 			var id = $(this).data("id");
+			$("#editPasswordModal .form-control").val("");
 			$("#editPasswordModal #id").val(id);
 		});
 

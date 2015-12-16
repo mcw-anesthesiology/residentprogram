@@ -127,7 +127,7 @@
 		</div>
 		<div class="submit-container text-center">
 			<button type="submit" class="btn btn-primary btn-lg">
-		@if((in_array($user->type, ["resident", "fellow"]) && $requestType == "faculty") || ($user->type == "faculty" && $requestType == "resident"))
+		@if($user->isType($evaluatorTypes))
 				Create Evaluation
 		@else
 				Request Evaluation

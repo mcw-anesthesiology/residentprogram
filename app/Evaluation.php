@@ -25,10 +25,9 @@ class Evaluation extends Model
 
     protected $dates = ["created_at", "updated_at", "request_date", "complete_date", "evaluation_date", "archive_date"];
 
-	protected $appends = ["visibility"];
 
 	public function getVisibilityAttribute(){
-		return $this->form->visibility;
+        return empty($this->attributes["visibility"]) ? $this->form->visibility : $this->attributes["visibility"];
 	}
 
     public function evaluator(){
@@ -58,4 +57,16 @@ class Evaluation extends Model
 	public function flag(){
 		return $this->hasOne("App\FlaggedEvaluation");
 	}
+
+    public function scopeOfVisibility($query, $visibilities){
+        if(!is_array($visibilities))
+            $visibilities = [$visibilities];
+        return $query->where(function($query) use ($visibilities){
+            $query->whereIn("visibility", $visibilities)->orWhere(function($query) use ($visibilities){
+                $query->whereNull("visibility")->whereHas("form", function($query) use ($visibilities){
+                    $query->whereIn("visibility", $visibilities);
+                });
+            });
+        });
+    }
 }

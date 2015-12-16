@@ -204,8 +204,9 @@ class MainController extends Controller
 			$formGroups = str_replace("'", "", json_encode($formGroups));
 
         $data = compact("forms", "requestType", "months", "endOfMonth", "pendingEvalCount",
-			"subjects", "evaluators", "subjectTypeText", "subjectTypeTextPlural", "evaluatorTypeText",
-			"blocks", "groupSubjects", "groupEvaluators", "groupForms", "formGroups");
+			"subjects", "evaluators", "subjectTypeText", "subjectTypeTextPlural",
+            "evaluatorTypeText", "blocks", "groupSubjects", "groupEvaluators",
+            "groupForms", "formGroups", "evaluatorTypes", "subjectTypes");
 
         return view("evaluations.request", $data);
     }
@@ -302,7 +303,7 @@ class MainController extends Controller
             else
                 return redirect("dashboard")->with("error", "Insufficient permissions to view the requested evaluation");
         }
-        elseif($evaluation->subject_id == $user->id || $evaluation->evaluator_id == $user->id || $user->type == "admin" || $user->mentees->contains($evaluation->subject)){
+        elseif((($evaluation->subject_id == $user->id || $user->mentees->contains($evaluation->subject)) && $evaluation->visibility != "hidden") || $evaluation->evaluator_id == $user->id || $user->type == "admin"){
 			$data = compact("evaluation");
 			if($evaluation->evaluator_id == $user->id || $user->type == "admin"){
 				switch($evaluation->evaluator->type){
@@ -314,20 +315,18 @@ class MainController extends Controller
 					case "resident":
 					case "fellow":
 						$subjectType = "Faculty";
-						$possibleSubjects = User::where("type", "faculty")->where("status", "active")->orderBy("last_name")->get();
-						$possibleForms = Form::where("type", "faculty")->where("status", "active")->orderBy("title")->get();
+						$possibleSubjects = User::where("status", "active")->where("type", "faculty")->orderBy("last_name")->get();
+						$possibleForms = Form::where("status", "active")->where("type", "faculty")->orderBy("title")->get();
 						break;
 					case "staff":
 						$subjectType = "Resident/Fellow";
 						$possibleSubjects = User::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("last_name")->get();
-						$possibleForms = Form::where("type", "resident")->where("evaluator_type", "staff")->orderBy("title")->get();
+						$possibleForms = Form::where("status", "active")->where("type", "resident")->where("evaluator_type", "staff")->orderBy("title")->get();
 						break;
 				}
 				$flaggedActions = Setting::get("flaggedActions");
 				$data += compact("subjectType", "possibleSubjects", "possibleForms", "flaggedActions");
 			}
-			if($user->id == $evaluation->subject_id && $evaluation->visibility == "hidden")
-				return redirect("dashboard")->with("error", "Insufficient permissions to view the requested evaluation");
             return view("evaluations.evaluation", $data);
 		}
         else
@@ -557,9 +556,7 @@ class MainController extends Controller
             else
                 $evaluations = Evaluation::where("status", $type)->where(function($query) use ($user){
                     $query->where("evaluator_id", $user->id)->orWhere(function($query) use ($user){
-						$query->where("subject_id", $user->id)->whereHas("form", function($query){
-							$query->whereIn("visibility", ["visible", "anonymous"]);
-						});
+						$query->where("subject_id", $user->id)->ofVisibility(["visible", "anonymous"]);
 					});
                 })->with("subject", "evaluator", "form")->whereHas("form", function($query){
                     $query->whereIn("type", ["resident", "fellow"])->where("evaluator_type", "faculty");
@@ -569,9 +566,9 @@ class MainController extends Controller
 	                $result = [];
 	                $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
 	                if($eval->subject_id == $user->id || $type == "mentor"){
-						if($eval->form->visibility == "visible")
+						if($eval->visibility == "visible")
 							$result[] = $eval->evaluator->full_name;
-						elseif($eval->form->visibility == "anonymous")
+						elseif($eval->visibility == "anonymous")
 							$result[] = "Anonymous";
 						else
 							continue;
@@ -606,6 +603,7 @@ class MainController extends Controller
 	public function staffEvaluations(Request $request){
 		$user = Auth::user();
 		$results["data"] = [];
+        $type = $request->has("type") ? $request->input("type") : "complete";
 
 		if($user->type == "admin"){
 			$evaluations = Evaluation::with("form")->whereHas("form", function($query){
@@ -613,9 +611,10 @@ class MainController extends Controller
 			})->get();
 		}
 		else{
-			$type = $request->has("type") ? $request->input("type") : "complete";
 			$evaluations = Evaluation::with("form")->where("status", $type)->where(function($query) use ($user){
-				$query->where("subject_id", $user->id)->orWhere("evaluator_id", $user->id);
+                $query->where("evaluator_id", $user->id)->orWhere(function($query) use ($user){
+                    $query->where("subject_id", $user->id)->ofVisibility(["visible", "anonymous"]);
+                });
 			})->whereHas("form", function($query){
 				$query->where("evaluator_type", "staff");
 			})->get();
@@ -625,10 +624,15 @@ class MainController extends Controller
 			try{
 				$result = [];
 				$result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
-				$result[] = $eval->evaluator->full_name;
-				$result[] = $eval->subject->full_name;
+                if($eval->evaluator_id != $user->id)
+				    $result[] = $eval->evaluator->full_name;
+                if($eval->subject_id != $user->id)
+				    $result[] = $eval->subject->full_name;
 				$result[] = $eval->form->title;
-				$result[] = (string)$eval->form->evaluation_date;
+				$result[] = $eval->evaluation_date->format("F Y");
+                $result[] = (string)$eval->request_date;
+                if($type != "pending")
+                    $result[] = (string)$eval->complete_date;
 				$results["data"][] = $result;
 			}
 			catch(\Exception $e){

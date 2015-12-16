@@ -7,8 +7,8 @@
 					<th>#</th>
 					<th>Resident</th>
 					<th>Evaluation Form</th>
-					<th>Requested</th>
-					<th></th>
+					<th>Evaluation Date</th>
+					<th>Created</th>
 				</tr>
 			</thead>
 		</table>
@@ -25,7 +25,8 @@
 					<th>#</th>
 					<th>Resident</th>
 					<th>Evaluation Form</th>
-					<th>Requested</th>
+					<th>Evaluation Date</th>
+					<th>Created</th>
 					<th>Completed</th>
 				</tr>
 			</thead>

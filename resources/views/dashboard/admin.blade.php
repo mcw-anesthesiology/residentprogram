@@ -46,7 +46,9 @@
 					<th>Resident/Fellow</th>
 					<th>Staff</th>
 					<th>Evaluation Form</th>
-					<th>Date</th>
+					<th>Evaluation Date</th>
+					<th>Created</th>
+					<th>Completed</th>
 				</tr>
 			</thead>
 		</table>

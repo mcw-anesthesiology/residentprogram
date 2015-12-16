@@ -38,7 +38,6 @@
 				<thead>
 					<tr>
 						<th>Title</th>
-						<th>Evaluator Type</th>
 						<th>Created</th>
 						<th>Status</th>
 						<th>Subject visibility</th>
@@ -59,7 +58,6 @@
 				<thead>
 					<tr>
 						<th>Title</th>
-						<th>Evaluator Type</th>
 						<th>Created</th>
 						<th>Status</th>
 						<th>Subject visibility</th>

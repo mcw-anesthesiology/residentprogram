@@ -524,6 +524,12 @@
 				});
 
 				$.extend(true, $.fn.dataTable.defaults, {
+					language: {
+						paginate: {
+							previous: "&lt;",
+							next: "&gt;"
+						}
+					},
 					stateSave: true,
 					responsive: {
 						details: {

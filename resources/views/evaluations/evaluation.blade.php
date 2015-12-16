@@ -81,12 +81,12 @@
 	@if($evaluation->status == "complete")
 						<th>Evaluation Date</th>
 	@endif
-	@if(!($evaluation->subject->type == "faculty" && $user->id == $evaluation->subject_id))
+	@if(!($evaluation->subject->isType("faculty") && $user->id == $evaluation->subject_id))
 						<th>Requested</th>
 						<th>Completed</th>
 	@endif
 						<th>Status</th>
-	@if($evaluation->subject->type != "faculty")
+	@if($evaluation->subject->isType("resident"))
 						<th>Training Level</th>
 	@endif
 					</tr>
@@ -103,12 +103,12 @@
 	@if($evaluation->status == "complete")
 						<td>{{ $evaluation->evaluation_date->format("F Y") }}</td>
 	@endif
-	@if(!($evaluation->subject->type == "faculty" && $user->id == $evaluation->subject_id))
+	@if(!($evaluation->subject->isType("faculty") && $user->id == $evaluation->subject_id))
 						<td>{{ $evaluation->request_date }}</td>
 						<td>{{ $evaluation->complete_date }}</td>
 	@endif
 						<td>{{ ucfirst($evaluation->status) }}</td>
-	@if($evaluation->subject->type != "faculty")
+	@if(!$evaluation->subject->isType("faculty"))
 		@if($evaluation->training_level)
 							<td>{{ strtoupper($evaluation->training_level) }}</td>
 		@else

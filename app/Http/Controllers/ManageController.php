@@ -470,18 +470,30 @@ class ManageController extends Controller
         $newForm = new Form();
         $newForm->title = $formTitle;
 
-        if($formType == "faculty"){
-			$newForm->type = "faculty";
-			$newForm->evaluator_type = "resident";
-		}
-		elseif($formType == "staff"){
-			$newForm->type = "resident";
-			$newForm->evaluator_type = "staff";
-		}
-		else{
-			$newForm->type = "resident";
-			$newForm->evaluator_type = "faculty";
-		}
+        switch($formType){
+            case "faculty":
+                $newForm->type = "faculty";
+                $newForm->evaluator_type = "resident";
+                $newForm->visibility = "anonymous";
+                break;
+            case "staff":
+                $newForm->type = "resident";
+                $newForm->evaluator_type = "staff";
+                $newForm->visibility = "hidden";
+                break;
+            case "fellow":
+                $newForm->type = "fellow";
+                $newForm->evaluator_type = "faculty";
+                $newForm->visibility = "visible";
+                break;
+            case "resident":
+            default:
+                $newForm->type = "resident";
+                $newForm->evaluator_type = "faculty";
+                $newForm->visibility = "visible";
+                break;
+        }
+
 
         $newForm->xml_path = $formLocation;
         $newForm->status = $formStatus;
