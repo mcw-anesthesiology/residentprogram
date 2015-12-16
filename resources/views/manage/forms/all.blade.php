@@ -6,6 +6,10 @@
 			font-weight: normal;
 			margin-left: 20px;
 		}
+
+		.visibility-edit {
+			margin: 5px;
+		}
 	</style>
 @stop
 

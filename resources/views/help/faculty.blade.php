@@ -15,7 +15,7 @@
 
 <h3>Completing Evaluations</h3>
 <p>
-	When completing an evaluation, required questions are marked with a <span style="color: red;">red</span> question number. Question options may have descriptions, which you can view by hovering your mouse cursor over the radio buttons, or by clicking the Show Descriptions button for the question. You may save your responses to complete later by pressing the save button, and complete the evaluation with the submit button.
+	When completing an evaluation, required questions are marked with a <span style="color: red;">red</span> question number, text, and border. Question options may have descriptions, which you can view by hovering your mouse cursor over the radio buttons, or by clicking the Show Descriptions button for the question. You may save your responses to complete later by pressing the save button, and complete the evaluation with the submit button.
 </p>
 
 <h3>Mentorships</h3>
