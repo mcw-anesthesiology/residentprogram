@@ -6,6 +6,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ResidentTest extends TestCase
 {
+	use DatabaseMigrations;
+
     public function setUp(){
         parent::setUp();
 
@@ -26,8 +28,8 @@ class ResidentTest extends TestCase
 		$this->actingAs($this->user)
 			->visit("/request")
 			->see("Request evaluation")
-			->type($this->faculty->id, "evaluator_id")
-			->type($this->form->id, "form_id")
+			->select($this->faculty->id, "evaluator_id")
+			->select($this->form->id, "form_id")
 			->type($firstOfMonth->format("Y-m-d"), "evaluation_date")
 			->press("Request Evaluation")
 			->seePageIs("/dashboard")
