@@ -90,7 +90,7 @@ $factory->defineAs(App\Form::class, "resident", function($faker) use ($factory){
         "evaluator_type" => "faculty",
         "visibility" => "visible"
     ];
-    return $array_merge($user, $resident);
+    return array_merge($form, $resident);
 });
 
 $factory->defineAs(App\Form::class, "fellow", function($faker) use ($factory){
@@ -100,7 +100,7 @@ $factory->defineAs(App\Form::class, "fellow", function($faker) use ($factory){
         "evaluator_type" => "faculty",
         "visibility" => "visible"
     ];
-    return $array_merge($user, $fellow);
+    return array_merge($form, $fellow);
 });
 
 $factory->defineAs(App\Form::class, "staff", function($faker) use ($factory){
@@ -110,7 +110,7 @@ $factory->defineAs(App\Form::class, "staff", function($faker) use ($factory){
         "evaluator_type" => "staff",
         "visibility" => "hidden"
     ];
-    return $array_merge($user, $staff);
+    return array_merge($form, $staff);
 });
 
 $factory->defineAs(App\Form::class, "faculty", function($faker) use ($factory){
@@ -120,7 +120,7 @@ $factory->defineAs(App\Form::class, "faculty", function($faker) use ($factory){
         "evaluator_type" => "resident",
         "visibility" => "anonymous"
     ];
-    return $array_merge($user, $faculty);
+    return array_merge($form, $faculty);
 });
 
 $factory->define(App\Evaluation::class, function($faker){
