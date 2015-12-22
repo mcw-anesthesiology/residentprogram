@@ -57,7 +57,7 @@
 				if($("textarea[name='"+questionId+"']").length > 0){
 					if(subjectResponseValues[questionId]){
 						var textarea = $("textarea[name='"+questionId+"']");
-						var parent = textarea.parents("td")[0];
+						var parent = textarea.parents(".question-option")[0];
 						var table = document.createElement("table");
 						var thead = table.createTHead();
 						var tbody = document.createElement("tbody");
@@ -99,7 +99,7 @@
 				else{
 					responses[questionId].forEach(function(response){
 						if($("input[name='"+questionId+"'][value='"+response+"']").length > 0){
-							var parent = $("input[name='"+questionId+"'][value='"+response+"']").parents("td")[0];
+							var parent = $("input[name='"+questionId+"'][value='"+response+"']").parents(".question-option")[0];
 							var table = document.createElement("table");
 							var thead = table.createTHead();
 							var tr = document.createElement("tr");
