@@ -491,7 +491,7 @@ class MainController extends Controller
 				$data = [];
 				$data["flaggerName"] = $user->full_name;
 				$data["evaluationId"] = $eval->id;
-				$data["requestedAction"] = $actionText[$flag->requested_action];
+				$data["requestedAction"] = $flaggedActions[$flag->requested_action];
 				$data["reason"] = $flag->reason;
 				$data["now"] = Carbon::now();
 
