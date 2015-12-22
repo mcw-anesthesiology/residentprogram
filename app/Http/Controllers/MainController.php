@@ -128,13 +128,13 @@ class MainController extends Controller
 		}
 
 		if($user->isType($subjectTypes)){
-			$formModels = Form::where("status", "active")->where("type", $user->type)->whereIn("evaluator_type", $evaluatorTypes)->orderBy("title")->get();
+			$formModels = Form::where("status", "active")->where("type", $user->specific_type)->whereIn("evaluator_type", $evaluatorTypes)->orderBy("title")->get();
 			foreach($formModels as $form){
 				$forms[] = ["id" => $form->id, "name" => $form->title, "group" => $form->type];
 			}
 		}
 		elseif($user->isType($evaluatorTypes)){
-			$formModels = Form::where("status", "active")->whereIn("type", $subjectTypes)->where("evaluator_type", $user->type)->orderBy("title")->get();
+			$formModels = Form::where("status", "active")->whereIn("type", $subjectTypes)->where("evaluator_type", $user->specific_type)->orderBy("title")->get();
 			foreach($formModels as $form){
 				$forms[] = ["id" => $form->id, "name" => $form->title, "group" => $form->type];
 			}
