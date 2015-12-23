@@ -14,6 +14,7 @@ use Debugbar;
 use Log;
 use Mail;
 use Setting;
+use View;
 
 use Carbon\Carbon;
 
@@ -31,8 +32,8 @@ use App\User;
 class MainController extends Controller
 {
     public function __construct(){
-        $this->middleware("auth");
-        $this->middleware("shared");
+        $this->middleware("auth", ["except" => ["evaluationBySingleUseLink", "saveEvaluationBySingleUseLink"]]);
+        $this->middleware("shared", ["except" => ["evaluationBySingleUseLink", "saveEvaluationBySingleUseLink"]]);
 
 		$this->middleware("type:admin", ["only" => ["flaggedEvaluations"]]);
     }
@@ -298,6 +299,27 @@ class MainController extends Controller
         }
 
         return redirect("dashboard");
+    }
+
+    public function evaluationBySingleUseLink(Request $request, $hash){
+        $eval = Evaluation::where("single_use_completion_hash", $hash)->where("status", "pending")->where("hash_expires", "<", Carbon::now())->firstOrFail();
+        Auth::onceUsingId($eval->evaluator_id);
+        View::share("user", Auth::user());
+        View::share("cleanPage", true);
+        return $this->evaluation($request, $eval->id);
+    }
+
+    public function saveEvaluationBySingleUseLink(Request $request, $hash){
+        $eval = Evaluation::where("single_use_completion_hash", $hash)->where("status", "pending")->where("hash_expires", "<", Carbon::now())->firstOrFail();
+        Auth::onceUsingId($eval->evaluator_id);
+        $this->saveEvaluation($request, $eval->id);
+        $eval = Evaluation::find($eval->id); // Need to refresh I think
+        if($eval->status == "complete"){
+            $eval->single_use_completion_hash = null;
+            return view("evaluations.complete");
+        }
+        else
+            return veiw("evaluations.saved");
     }
 
     public function evaluation(Request $request, $id){
