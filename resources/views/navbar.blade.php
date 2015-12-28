@@ -20,7 +20,7 @@
 		<li><a href="/dashboard">View Evaluations</a></li>
 		<li><a href="/dashboard/faculty">View Faculty Evaluations</a></li>
 	  @elseif($user->isType("staff"))
-		<li><a href="/request">Create Evaluation</a></li>
+		<li><a href="/request/staff">Create Evaluation</a></li>
 		<li><a href="/dashboard">View Evaluations</a></li>
 	  @elseif($user->isType("admin"))
 		<li><a href="/request">Request Evaluation</a></li>

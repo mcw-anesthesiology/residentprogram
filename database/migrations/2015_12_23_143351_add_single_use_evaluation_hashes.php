@@ -13,8 +13,8 @@ class AddSingleUseEvaluationHashes extends Migration
     public function up()
     {
         Schema::table('evaluations', function (Blueprint $table) {
-            $table->string("single_use_completion_hash")->unique()->nullable();
-            $table->date("hash_expires")->nullable();
+            $table->string("completion_hash")->unique()->nullable();
+            $table->dateTime("hash_expires")->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ class AddSingleUseEvaluationHashes extends Migration
     public function down()
     {
         Schema::table('evaluations', function (Blueprint $table) {
-            $table->dropColumn("single_use_completion_hash");
+            $table->dropColumn("completion_hash");
             $table->dropColumn("hash_expires");
         });
     }

@@ -28,6 +28,7 @@
 	@endif
 
 	<form id="form" role="form" action="#" method="POST" class="form-horizontal">
+		<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 	@if(!empty($blocks))
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-8">
@@ -43,7 +44,6 @@
 			</div>
 		</div>
 	@endif
-		<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
 	@if(!empty($subjects))
 		<div class="form-group">
@@ -125,6 +125,33 @@
 			</div>
 			<input type="hidden" id="evaluation-date" name="evaluation_date" required />
 		</div>
+
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-8">
+				<div class="panel panel-default">
+					<div class="panel-heading">Admin controls</div>
+					<div class="panel-body">
+						<label>
+							<input type="checkbox" id="force-notification" name="force_notification" value="true" />
+							Force notification
+						</label>
+						<label>
+							<input type="checkbox" id="send-hash" name="send_hash" value="true" />
+							Send personalized completion link
+						</label>
+						<br />
+						<label for="hash-expires-in">Link expiration</label>
+						<select class="form-control" id="hash-expires-in" name="hash_expires_in" />
+							<option value="30">30 days</option>
+							<option value="60">60 days</option>
+							<option value="90">90 days</option>
+							<option value="never">Never expires</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="submit-container text-center">
 			<button type="submit" class="btn btn-primary btn-lg">
 		@if($user->isType($evaluatorTypes))

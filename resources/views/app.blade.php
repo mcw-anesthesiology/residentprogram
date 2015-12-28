@@ -37,7 +37,7 @@
 	</head>
 	<body>
 		<div class="container-fluid">
-	@if(!empty($noNavbar) && !$cleanPage)
+	@if(empty($noNavbar) || !$noNavbar)
 		@include("navbar")
 	@endif
 			@if(session("success"))
@@ -69,7 +69,7 @@
 			</div>
 		</div>
 
-	@if(!empty($noNavbar) && !$cleanPage)
+	@if(empty($noNavbar) || !$noNavbar)
 		@include("modals")
 	@endif
 		<!-- Bootstrap core JavaScript

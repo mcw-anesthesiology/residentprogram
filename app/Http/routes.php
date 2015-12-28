@@ -42,13 +42,11 @@ Route::post("evaluation/{id}/comment", "MainController@evaluationComment");
 Route::post("evaluation/{id}/edit", "MainController@editEvaluation");
 Route::post("evaluation/{id}/flag", "MainController@flagEvaluation");
 
-Route::get("evaluate/{hash}", "MainController@evaluationBySingleUseLink");
-Route::post("evaluate/{hash}", "MainController@saveEvaluationBySingleUseLink");
+Route::get("evaluate/{hash}", "MainController@evaluationByHashLink");
+Route::post("evaluate/{hash}", "MainController@saveEvaluationByHashLink");
 
-Route::get("request/faculty", "MainController@request");
-Route::post("request/faculty", "MainController@createRequest");
-Route::get("request", "MainController@request");
-Route::post("request", "MainController@createRequest");
+Route::get("request/{type?}", "MainController@request");
+Route::post("request/{type?}", "MainController@createRequest");
 
 Route::get("user", "MainController@user");
 Route::post("user", "MainController@saveUser");

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -32,8 +33,8 @@ use App\User;
 class MainController extends Controller
 {
     public function __construct(){
-        $this->middleware("auth", ["except" => ["evaluationBySingleUseLink", "saveEvaluationBySingleUseLink"]]);
-        $this->middleware("shared", ["except" => ["evaluationBySingleUseLink", "saveEvaluationBySingleUseLink"]]);
+        $this->middleware("auth", ["except" => ["evaluationByHashLink", "saveEvaluationByHashLink"]]);
+        $this->middleware("shared", ["except" => ["evaluationByHashLink", "saveEvaluationByHashLink"]]);
 
 		$this->middleware("type:admin", ["only" => ["flaggedEvaluations"]]);
     }
@@ -65,28 +66,29 @@ class MainController extends Controller
         return view("dashboard.faculty.dashboard", $data);
     }
 
-    public function request(Request $request){
+    public function request(Request $request, $requestType = "resident"){
         $user = Auth::user();
-
-		if($request->is("request/faculty")){
-			$requestType = "faculty";
+		if($requestType == "faculty"){
 			$subjectTypes = ["faculty"];
 			$evaluatorTypes = ["resident", "fellow"];
+            $requestorTypes = $evaluatorTypes;
 		}
-		elseif($user->isType("staff")){
+		elseif($requestType == "staff"){
 			$requestType = "staff";
 			$subjectTypes = ["resident", "fellow"];
 			$evaluatorTypes = ["staff"];
+            $requestorTypes = $evaluatorTypes;
 		}
 		else{
 			$requestType = "resident";
 			$subjectTypes = ["resident", "fellow"];
 			$evaluatorTypes = ["faculty"];
+            $requestorTypes = $subjectTypes + $evaluatorTypes;
 		}
 
 		$evaluationTypes = array_merge($subjectTypes, $evaluatorTypes);
 
-		if(!$user->isType(array_merge($evaluationTypes, ["admin"])))
+		if(!$user->isType(array_merge($requestorTypes, ["admin"])))
 			return back()->with("error", "Your account type is not allowed to create that kind of evaluation.");
 
         if($user->isType(["resident", "faculty"])){
@@ -124,8 +126,8 @@ class MainController extends Controller
         }
 		if(!$user->isType("staff") && in_array("staff", $evaluationTypes)){
 			$staffModels = User::where("type", "staff")->where("status", "active")->orderBy("last_name")->get();
-			foreach($staffModels as $staff)
-				$staff[0][] = ["id" => $staff->id, "name" => $staff->full_name, "group" => "staff"];
+			foreach($staffModels as $stf)
+				$staff[0][] = ["id" => $stf->id, "name" => $stf->full_name, "group" => "staff"];
 		}
 
 		if($user->isType($subjectTypes)){
@@ -158,7 +160,6 @@ class MainController extends Controller
 				}
 				if(!$user->isType($evaluatorTypes)){
 					$evaluators = $faculty;
-
 				}
 
 				$subjectTypeText = "intern, resident, or fellow";
@@ -169,9 +170,11 @@ class MainController extends Controller
 				$groupForms = true;
 				break;
 			case "faculty":
-				if(!$user->isType("resident"))
-					return back()->with("error", "Only residents or fellows can create faculty evaluations");
 				$subjects = $faculty;
+                if(!$user->isType("resident")){
+                    $evaluators = $residents;
+                }
+
 				$pendingEvalCount = Evaluation::with("subject", "evaluator", "form")->where("status", "pending")->where("evaluator_id", $user->id)->whereHas("form", function($query){
 	                $query->where("type", "faculty");
 	            })->count();
@@ -183,11 +186,13 @@ class MainController extends Controller
 				$groupForms = false;
 				break;
 			case "staff":
-				if(!$user->isType("staff"))
-					return back()->with("error", "Only staff can create staff evaluations");
 				$subjects = $residents;
 				$subjects["groups"] = $residentGroups;
 				$groupSubjects = true;
+
+                if(!$user->isType("staff")){
+                    $evaluators = $staff;
+                }
 
 				$subjectTypeText = "intern, resident, or fellow";
 				$subjectTypeTextPlural = "interns, residents, and fellows";
@@ -195,7 +200,6 @@ class MainController extends Controller
 
 				$groupForms = false;
 				break;
-			case "staff":
 		}
 
 		for($dt = Carbon::now(), $i = 0; $i < 3; $dt->subMonths(1), $i++){
@@ -221,10 +225,23 @@ class MainController extends Controller
         return view("evaluations.request", $data);
     }
 
-    public function createRequest(Request $request){
+    public function createRequest(Request $request, $requestType = "resident"){
         $user = Auth::user();
         $eval = new Evaluation();
-        if($request->is("request")){
+        if($requestType == "faculty"){
+            if($user->type == "faculty")
+                return redirect("dashboard")->with("error", "Faculty cannot request faculty evaluations");
+            elseif($user->type == "resident")
+                $eval->evaluator_id = $user->id;
+            elseif($request->has("evaluator_id"))
+                $eval->evaluator_id = $request->input("evaluator_id");
+
+            if($request->has("subject_id"))
+                $eval->subject_id = $request->input("subject_id");
+            else
+                return back()->withInput()->with("error", "Please select a faculty to be evaluated");
+        }
+        else{
             if($user->type == "resident")
                 $eval->subject_id = $user->id;
             elseif($request->has("subject_id"))
@@ -234,20 +251,6 @@ class MainController extends Controller
                 $eval->evaluator_id = $user->id;
             elseif($request->has("evaluator_id"))
                 $eval->evaluator_id = $request->input("evaluator_id");
-        }
-        elseif($request->is("request/faculty")){
-            if($user->type == "faculty")
-                return redirect("dashboard")->with("error", "Faculty cannot request faculty evaluations");
-
-            if($user->type == "resident")
-                $eval->evaluator_id = $user->id;
-            elseif($request->has("evaluator_id"))
-                $eval->evaluator_id = $request->input("evaluator_id");
-
-            if($request->has("subject_id"))
-                $eval->subject_id = $request->input("subject_id");
-            else
-                return back()->withInput()->with("error", "Please select a faculty to be evaluated");
         }
 
         $eval->form_id = $request->input("form_id");
@@ -273,53 +276,49 @@ class MainController extends Controller
         $eval->request_date = Carbon::now();
         $eval->request_ip = $request->ip();
 
+        if($request->has("send_hash")){
+            $eval->completion_hash = str_random(40);
+            $eval->hash_expires = Carbon::now()->addDays($request->input("hash_expires_in", 30));
+        }
+
         $eval->save();
         if($user->id == $eval->evaluator_id)
             return redirect("evaluation/".$eval->id);
         else{
-            if($eval->evaluator->notifications == "yes" && filter_var($eval->evaluator->email, FILTER_VALIDATE_EMAIL)){
-                try{
-                    $email = $eval->evaluator->email;
-                    $evaluationId = $eval->id;
-					$evaluatorLast = $eval->evaluator->last_name;
-					$subjectLast = $eval->subject->last_name;
-					$formTitle = $eval->form->title;
-                    $data = compact("evaluationId", "evaluatorLast", "subjectLast", "formTitle");
-                    Mail::send("emails.notification", $data, function($message) use($email){
-                        $message->to($email);
-                        $message->from("notifications@residentprogram.com", "Resident Program Notifications");
-                        $message->replyTo(env("ADMIN_EMAIL"));
-                        $message->subject("Evaluation Request Notification");
-                    });
-                }
-                catch (\Exception $e){
-                    Log::error("Problem sending email: ".$e);
-                }
+            if(($request->has("force_notification") || $eval->evaluator->notifications == "yes") && filter_var($eval->evaluator->email, FILTER_VALIDATE_EMAIL)){
+                $eval->sendNotification();
             }
         }
 
         return redirect("dashboard");
     }
 
-    public function evaluationBySingleUseLink(Request $request, $hash){
-        $eval = Evaluation::where("single_use_completion_hash", $hash)->where("status", "pending")->where("hash_expires", "<", Carbon::now())->firstOrFail();
-        Auth::onceUsingId($eval->evaluator_id);
-        View::share("user", Auth::user());
-        View::share("cleanPage", true);
-        return $this->evaluation($request, $eval->id);
+    public function evaluationByHashLink(Request $request, $hash){
+        try{
+            $eval = Evaluation::where("completion_hash", $hash)->where("status", "pending")->where("hash_expires", "<", Carbon::now())->firstOrFail();
+            Auth::onceUsingId($eval->evaluator_id);
+            return $this->evaluation($request, $eval->id)->with(["noNavbar" => true, "user" => Auth::user()]);
+        } catch (ModelNotFoundException $e){
+            return view("evaluations.invalid-hash-link")->with(["noNavbar" => true]);
+        }
     }
 
-    public function saveEvaluationBySingleUseLink(Request $request, $hash){
-        $eval = Evaluation::where("single_use_completion_hash", $hash)->where("status", "pending")->where("hash_expires", "<", Carbon::now())->firstOrFail();
-        Auth::onceUsingId($eval->evaluator_id);
-        $this->saveEvaluation($request, $eval->id);
-        $eval = Evaluation::find($eval->id); // Need to refresh I think
-        if($eval->status == "complete"){
-            $eval->single_use_completion_hash = null;
-            return view("evaluations.complete");
+    public function saveEvaluationByHashLink(Request $request, $hash){
+        try{
+            $eval = Evaluation::where("completion_hash", $hash)->where("status", "pending")->where("hash_expires", "<", Carbon::now())->firstOrFail();
+            Auth::onceUsingId($eval->evaluator_id);
+            $this->saveEvaluation($request, $eval->id);
+            $eval = $eval->fresh();
+            if($eval->status == "complete"){
+                $eval->completion_hash = null;
+                $eval->save();
+                return view("evaluations.complete")->with(["noNavbar" => true]);
+            }
+            else
+                return view("evaluations.saved")->with(["noNavbar" => true, "evalExpiration" => $eval->hash_expires->toDayDateTimeString()]);
+        } catch (ModelNotFoundException $e){
+            return view("evaluations.invalid-hash-link")->with(["noNavbar" => true]);
         }
-        else
-            return veiw("evaluations.saved");
     }
 
     public function evaluation(Request $request, $id){
