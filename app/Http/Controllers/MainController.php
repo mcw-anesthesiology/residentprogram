@@ -278,24 +278,24 @@ class MainController extends Controller
 
         if($request->has("send_hash")){
             $eval->completion_hash = str_random(40);
-            $eval->hash_expires = Carbon::now()->addDays($request->input("hash_expires_in", 30));
+            $hashExpiresIn = $request->input("hash_expires_in", 30);
+            $eval->hash_expires = $hashExpiresIn == "never" ? "9999-12-31" : Carbon::now()->addDays($hashExpiresIn);
         }
 
         $eval->save();
         if($user->id == $eval->evaluator_id)
             return redirect("evaluation/".$eval->id);
-        else{
-            if(($request->has("force_notification") || $eval->evaluator->notifications == "yes") && filter_var($eval->evaluator->email, FILTER_VALIDATE_EMAIL)){
-                $eval->sendNotification();
-            }
-        }
+        elseif($request->has("send_hash"))
+            $eval->sendHashLink();
+        elseif(($request->has("force_notification") || $eval->evaluator->notifications == "yes") && filter_var($eval->evaluator->email, FILTER_VALIDATE_EMAIL))
+            $eval->sendNotification();
 
-        return redirect("dashboard");
+        return back();
     }
 
     public function evaluationByHashLink(Request $request, $hash){
         try{
-            $eval = Evaluation::where("completion_hash", $hash)->where("status", "pending")->where("hash_expires", "<", Carbon::now())->firstOrFail();
+            $eval = Evaluation::where("completion_hash", $hash)->where("status", "pending")->where("hash_expires", ">", Carbon::now())->firstOrFail();
             Auth::onceUsingId($eval->evaluator_id);
             return $this->evaluation($request, $eval->id)->with(["noNavbar" => true, "user" => Auth::user()]);
         } catch (ModelNotFoundException $e){
@@ -305,7 +305,7 @@ class MainController extends Controller
 
     public function saveEvaluationByHashLink(Request $request, $hash){
         try{
-            $eval = Evaluation::where("completion_hash", $hash)->where("status", "pending")->where("hash_expires", "<", Carbon::now())->firstOrFail();
+            $eval = Evaluation::where("completion_hash", $hash)->where("status", "pending")->where("hash_expires", ">", Carbon::now())->firstOrFail();
             Auth::onceUsingId($eval->evaluator_id);
             $this->saveEvaluation($request, $eval->id);
             $eval = $eval->fresh();

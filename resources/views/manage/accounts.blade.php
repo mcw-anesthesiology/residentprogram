@@ -187,15 +187,6 @@
 			<input type="text" class="form-control" id="emailInput" name="email" placeholder="Email" required>
           </div>
           <div class="form-group">
-            <label for="passwordInput">Password</label>
-            <input type="password" class="form-control" id="passwordInput" name="password" placeholder="Password" required>
-          </div>
-          <div class="form-group has-feedback" id="confirmPassword">
-            <label for="passwordInput2">Re-Enter Password</label>
-            <input type="password" class="form-control" id="passwordInput2" name="password2" placeholder="Re-Enter Password" required>
-            <span class="glyphicon form-control-feedback" id="confirmIcon"></span>
-          </div>
-          <div class="form-group">
             <label for="firstNameInput">First Name</label>
             <input type="text" class="form-control" id="firstNameInput" name="firstName" placeholder="First Name" required>
           </div>
@@ -222,6 +213,12 @@
             <label for="accountTypeInput">Account Type</label>
             <input type="text" class="form-control" id="accountTypeInput" name="accountType" readonly>
           </div>
+		  <div class="form-group">
+			  <label>
+				  <input type="checkbox" id="new-account-email" name="send_email" value="true" checked>
+				  Send welcome email
+			  </label>
+		  </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -244,18 +241,9 @@
     	  <div class="modal-body modal-edit-password">
 			{!! csrf_field() !!}
 			<input type="hidden" id="id" name="id" />
-			<div class="form-group">
-				<label for="password1">User Password</label>
-				<input type="password" class="form-control" id="password1" name="newPassword" placeholder="New Password" required>
-			</div>
-			<div class="form-group">
-				<label for="password2">Verify User Password</label>
-				<input type="password" class="form-control" id="password2" name="newPassword2" placeholder="Verify New Password" required>
-			</div>
-			<div class="form-group">
-				<label for="adminPassword">Verify Admin Password</label>
-				<input type="password" class="form-control" id="adminPassword" name="adminPassword" placeholder="Verify Admin Password" required>
-			</div>
+			<p>
+				Are you sure you want to reset this account's password?
+			</p>
 		  </div>
 		  <div class="modal-footer modal-edit-password">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

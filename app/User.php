@@ -8,6 +8,9 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
+use Log;
+use Mail;
+
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
     use Authenticatable, CanResetPassword;
@@ -78,5 +81,52 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function mentees(){
         return $this->belongsToMany("App\User", "mentorships", "mentor_id", "mentee_id")->where("mentorships.status", "active");
+    }
+
+    public function resetPassword(){
+        $password = str_random(12);
+        $this->password = bcrypt($password);
+        try{
+            $data = [
+                "password" => $password,
+                "lastName" => $this->last_name
+            ];
+            $email = $this->email;
+            Mail::send("emails.manual-password-reset", $data, function($message) use ($email){
+                $message->from("admin@residentprogram.com", "ResidentProgram");
+                $message->to($email);
+                $message->replyTo(env("ADMIN_EMAIL"));
+                $message->subject("Password reset");
+            });
+            $this->save();
+            return true;
+        } catch(\Exception $e){
+            Log::error("Problem resetting password: ".$e);
+        }
+        return false;
+    }
+
+    public function sendNewAccountEmail($password = null){
+        $data = [
+            "firstName" => $this->first_name,
+            "lastName" => $this->last_name,
+            "username" => $this->username,
+            "userType" => $this->specific_type,
+            "password" => $password
+        ];
+        $email = $this->email;
+        try{
+            Mail::send("emails.new-account", $data, function($message) use ($email){
+                $message->from("admin@residentprogram.com", "ResidentProgram");
+                $message->to($email);
+                $message->replyTo(env("ADMIN_EMAIL"));
+                $message->subject("Welcome!");
+            });
+            return true;
+        }
+        catch(\Exception $e){
+            Log::error("Problem sending email: ".$e);
+        }
+        return false;
     }
 }

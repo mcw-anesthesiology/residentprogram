@@ -23,7 +23,14 @@
 		<li><a href="/request/staff">Create Evaluation</a></li>
 		<li><a href="/dashboard">View Evaluations</a></li>
 	  @elseif($user->isType("admin"))
-		<li><a href="/request">Request Evaluation</a></li>
+		<li class="dropdown">
+            <a href="#" data-toggle="dropdown">Request Evaluation<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li><a href="/request">Resident Evaluation</a></li>
+                <li><a href="/request/staff">Staff Evaluation</a></li>
+                <li><a href="/request/faculty">Faculty Evaluation</a></li>
+            </ul>
+        </li>
 		<li><a href="/dashboard/faculty">Faculty Evaluations</a></li>
 		<li class="dropdown">
 		  <a href="#" data-toggle="dropdown">Manage<b class="caret"></b></a>

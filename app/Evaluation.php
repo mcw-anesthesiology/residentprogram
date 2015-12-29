@@ -80,11 +80,12 @@ class Evaluation extends Model
     public function sendNotification(){
         try{
             $email = $this->evaluator->email;
-            $evaluationId = $this->id;
-            $evaluatorLast = $this->evaluator->last_name;
-            $subjectLast = $this->subject->last_name;
-            $formTitle = $this->form->title;
-            $data = compact("evaluationId", "evaluatorLast", "subjectLast", "formTitle");
+            $data = [
+                "evaluationId" => $this->id,
+                "evaluatorLast" => $this->evaluator->last_name,
+                "subjectLast" => $this->subject->last_name,
+                "formTitle" => $this->form->title
+            ];
             Mail::send("emails.notification", $data, function($message) use($email){
                 $message->to($email);
                 $message->from("notifications@residentprogram.com", "Resident Program Notifications");
@@ -104,12 +105,13 @@ class Evaluation extends Model
             if($this->status != "pending")
                 throw new \Exception("Evaluation already complete");
             $email = $this->evaluator->email;
-            $evaluationHash = $this->completion_hash;
-            $hashExpires = $this->hash_expires;
-            $evaluatorName = $this->evaluator->full_name;
-            $subjectLast = $this->subject->last_name;
-            $formTitle = $this->form->title;
-            $data = compact("evaluationHash", "hashExpires", "evaluatorName", "subjectLast", "formTitle");
+            $data = [
+                "evaluationHash" => $this->completion_hash,
+                "hashExpires" => $this->hash_expires,
+                "evaluatorName" => $this->evaluator->full_name,
+                "subjectLast" => $this->subject->last_name,
+                "formTitle" => $this->form->title
+            ];
             Mail::send("emails.hash-link", $data, function($message) use($email){
                 $message->to($email);
                 $message->from("notifications@residentprogram.com", "Resident Program Notifications");

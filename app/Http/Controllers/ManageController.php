@@ -184,11 +184,7 @@ class ManageController extends Controller
 		$error = NULL;
         switch($action){
             case "add":
-                if($request->input("password") != $request->input("password2")){
-					$error =  "Passwords do not match for new user";
-					break;
-				}
-                elseif(!filter_var($request->input("email"), FILTER_VALIDATE_EMAIL)){
+                if(!filter_var($request->input("email"), FILTER_VALIDATE_EMAIL)){
 					$error = "Email appears invalid";
 					break;
 				}
@@ -196,10 +192,11 @@ class ManageController extends Controller
                     $error = "Problem with photo";
 					break;
 				}
+                $password = str_random(12);
                 $user = new User();
                 $user->username = $request->input("username");
                 $user->email = $request->input("email");
-                $user->password = bcrypt($request->input("password"));
+                $user->password = bcrypt($password);
                 $user->first_name = $request->input("firstName");
                 $user->last_name = $request->input("lastName");
                 $user->status = "active";
@@ -220,26 +217,8 @@ class ManageController extends Controller
                     $user->type = $request->input("accountType");
                 }
                 $user->save();
-                $data = [];
-                $data["firstName"] = $user->first_name;
-                $data["lastName"] = $user->last_name;
-                $data["username"] = $user->username;
-				if($user->type == "resident" && $user->training_level == "fellow")
-					$data["userType"] = "fellow";
-				else
-					$data["userType"] = $user->type;
-                $data["password"] = $request->input("password");
-                try{
-                    Mail::send("emails.new-account", $data, function($message) use ($user){
-                        $message->from("admin@residentprogram.com", "ResidentProgram");
-                        $message->to($user->email);
-                        $message->replyTo(env("ADMIN_EMAIL"));
-                        $message->subject("Welcome!");
-                    });
-                }
-                catch(\Exception $e){
-					Log::error("Problem sending email: ".$e);
-                }
+                if($request->has("send_email"))
+                    $user->sendNewAccountEmail($password);
                 break;
             case "edit":
                 if(!filter_var($request->input("email"), FILTER_VALIDATE_EMAIL)){
@@ -280,19 +259,9 @@ class ManageController extends Controller
                 $user->save();
                 break;
             case "password":
-                if($request->input("newPassword") != $request->input("newPassword2")){
-                    $error = "New passwords do not match";
-					break;
-				}
-                elseif(!password_verify($request->input("adminPassword"), Auth::user()->password)){
-                    $error = "Administrator password is incorrect";
-					break;
-				}
-                else{
-                    $user = User::find($request->input("id"));
-                    $user->password = bcrypt($request->input("newPassword"));
-                    $user->save();
-                }
+                $user = User::find($request->input("id"));
+                if(!$user->resetPassword())
+                    $error = "Failed to reset password";
                 break;
             case "to-faculty":
                 $user = User::find($request->input("id"));
