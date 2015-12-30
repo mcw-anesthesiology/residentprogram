@@ -41,6 +41,8 @@ Route::post("evaluation/{id}", "MainController@saveEvaluation");
 Route::post("evaluation/{id}/comment", "MainController@evaluationComment");
 Route::post("evaluation/{id}/edit", "MainController@editEvaluation");
 Route::post("evaluation/{id}/flag", "MainController@flagEvaluation");
+Route::post("evaluation/{id}/hash", "MainController@evaluationHash");
+Route::get("evaluation/{id}/get", "MainController@getEvaluation");
 
 Route::get("evaluate/{hash}", "MainController@evaluationByHashLink");
 Route::post("evaluate/{hash}", "MainController@saveEvaluationByHashLink");

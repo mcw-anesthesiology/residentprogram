@@ -533,7 +533,7 @@ class ReportController extends Controller
         $user = Auth::user();
         $resident = User::find($request->input("resident"));
         if(!($resident == $user || $user->type == "admin" || $user->mentees->contains($resident)))
-            return redirect("dashboard")->with("error", "Requested report not authorized");
+            return back()->with("error", "Requested report not authorized");
 
         $data = [];
 

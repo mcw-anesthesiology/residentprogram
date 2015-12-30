@@ -36,7 +36,7 @@ class MainController extends Controller
         $this->middleware("auth", ["except" => ["evaluationByHashLink", "saveEvaluationByHashLink"]]);
         $this->middleware("shared", ["except" => ["evaluationByHashLink", "saveEvaluationByHashLink"]]);
 
-		$this->middleware("type:admin", ["only" => ["flaggedEvaluations"]]);
+		$this->middleware("type:admin", ["only" => ["flaggedEvaluations", "getEvaluation"]]);
     }
 
     public function dashboard(){
@@ -230,7 +230,7 @@ class MainController extends Controller
         $eval = new Evaluation();
         if($requestType == "faculty"){
             if($user->type == "faculty")
-                return redirect("dashboard")->with("error", "Faculty cannot request faculty evaluations");
+                return back()->with("error", "Faculty cannot request faculty evaluations");
             elseif($user->type == "resident")
                 $eval->evaluator_id = $user->id;
             elseif($request->has("evaluator_id"))
@@ -321,6 +321,32 @@ class MainController extends Controller
         }
     }
 
+    public function evaluationHash(Request $request, $id){
+        $evaluation = Evaluation::find($id);
+        $success = false;
+        if($request->has("action")){
+            switch($request->input("action")){
+                case "void":
+                    $evaluation->completion_hash = null;
+                    $evaluation->hash_expires = null;
+                    $evaluation->save();
+                    $success = true;
+                    break;
+                case "resend":
+                    $success = $evaluation->sendHashLink();
+                    break;
+                case "new":
+                    $evaluation->completion_hash = str_random(40);
+                    $hashExpiresIn = $request->input("hash_expires_in", 30);
+                    $evaluation->hash_expires = $hashExpiresIn == "never" ? "9999-12-31" : Carbon::now()->addDays($hashExpiresIn);
+                    $evaluation->save();
+                    $success = $evaluation->sendHashLink();
+                    break;
+            }
+        }
+        return $success ? "true" : "false";
+    }
+
     public function evaluation(Request $request, $id){
         $user = Auth::user();
         $evaluation = Evaluation::find($id);
@@ -331,7 +357,7 @@ class MainController extends Controller
             if($evaluations->contains($evaluation))
                 return view("evaluations.evaluation", compact("evaluation"));
             else
-                return redirect("dashboard")->with("error", "Insufficient permissions to view the requested evaluation");
+                return back()->with("error", "Insufficient permissions to view the requested evaluation");
         }
         elseif((($evaluation->subject_id == $user->id || $user->mentees->contains($evaluation->subject)) && $evaluation->visibility != "hidden") || $evaluation->evaluator_id == $user->id || $user->type == "admin"){
 			$data = compact("evaluation");
@@ -360,7 +386,11 @@ class MainController extends Controller
             return view("evaluations.evaluation", $data);
 		}
         else
-            return redirect("dashboard")->with("error", "Insufficient permissions to view the requested evaluation");
+            return back()->with("error", "Insufficient permissions to view the requested evaluation");
+    }
+
+    public function getEvaluation($id){
+        return (string)Evaluation::find($id);
     }
 
     public function cancelEvaluation(Request $request){
@@ -419,9 +449,9 @@ class MainController extends Controller
         }
         else{
             if($eval->status != "pending")
-                return redirect("dashboard")->with("error", "Cannot complete a non-pending evaluation");
+                return back()->with("error", "Cannot complete a non-pending evaluation");
             elseif($eval->evaluator_id != $user->id)
-                return redirect("dashboard")->with("error", "Only the evaluator can complete an evaluation");
+                return back()->with("error", "Only the evaluator can complete an evaluation");
         }
 
     }
@@ -780,14 +810,14 @@ class MainController extends Controller
         if($request->input("new_password") == $request->input("new_password_confirm") && password_verify($request->input("old_password"), $user->password)){
             $user->password = bcrypt($request->input("new_password"));
             $user->save();
-            return redirect("dashboard")->with("success", "Password changed successfully!");
+            return back()->with("success", "Password changed successfully!");
         } else{
             if($request->input("new_password") != $request->input("new_password_confirm"))
                 $error = "New passwords did not match";
             elseif(!password_verify($request->input("old_password"), $user->password))
                 $error = "Current password verification failed";
 
-            return redirect("user")->with("error", $error);
+            return back()->with("error", $error);
         }
     }
 
@@ -799,14 +829,14 @@ class MainController extends Controller
 		else
 			$user->remind_only_if_pending = "no";
         $user->save();
-        return redirect("user")->with("success", "Reminder preferences saved successfully!");
+        return back()->with("success", "Reminder preferences saved successfully!");
     }
 
     public function saveUserNotifications(Request $request){
         $user = Auth::user();
         $user->notifications = $request->input("notifications");
         $user->save();
-        return redirect("user")->with("success", "Notifications preferences saved successfully!");
+        return back()->with("success", "Notifications preferences saved successfully!");
     }
 
     public function contact(){

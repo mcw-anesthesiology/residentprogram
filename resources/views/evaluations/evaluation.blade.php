@@ -59,6 +59,7 @@
 			</a>
 	@elseif($user->type == "admin")
 			<button class="btn btn-info" data-toggle="modal" data-target="#edit-evaluation-modal" id="edit-evaluation"><span class="glyphicon glyphicon-edit"></span> Edit evaluation</button>
+			<Button class="btn btn-info" data-toggle="modal" data-target="#evaluation-hash-modal" id="edit-hash"><span class="glyphicon glyphicon-link"></span> Personalized completion link</Button>
 	@endif
 		</div>
 	</div>
@@ -271,11 +272,84 @@
 			</div>
 		</div>
 	</div>
+
+		@if($user->isType("admin"))
+	<!-- Evaluation completion link modal -->
+	<div class="modal fade" id="evaluation-hash-modal" tabindex="-1" role="dialog" aria-labelledby="evaluation-hash-label">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
+					<h3 id="evaluation-hash-label">Evaluation completion link</h3>
+				</div>
+				<div class="modal-body">
+					<p id="evaluation-hash-body-text">
+			@if(is_null($evaluation->completion_hash))
+						There was no completion link sent. Would you like to create a new one?
+			@elseif($evaluation->hash_expires < Carbon\Carbon::now())
+						The link has expired. Would you like to resend it?
+			@else
+						A link has been sent, it expires <b>{{ $evaluation->hash_expires }}</b>. Are you sure you want to resend the completion link?
+			@endif
+					</p>
+					<div class="form-group">
+						<label for="evaluation-hash-expires-in">New link expires</label>
+						<select class="form-control" id="evaluation-hash-expires-in">
+							<option value="30">30 days</option>
+							<option value="60">60 days</option>
+							<option value="90">90 days</option>
+							<option value="never">Never expires</option>
+						</select>
+					</div>
+					<button type="button" class="btn btn-warning evaluation-hash-edit" data-action="new">Create and send new link</button>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-danger evaluation-hash-edit" data-action="void">Void link</button>
+					<button type="button" class="btn btn-primary evaluation-hash-edit" data-action="resend">Resend link</button>
+				</div>
+			</div>
+		</div>
+	</div>
+		@endif
 	@endif
 @stop
 
 @section("script")
 	<script>
+		$(".evaluation-hash-edit").click(function(){
+			var data = {};
+			data._token = "{{ csrf_token() }}";
+			data.action = $(this).data("action");
+			if(data.action == "new")
+				data.hash_expires_in = $("#evaluation-hash-expires-in").val();
+			$.post(window.location.href + "/hash", data)
+				.done(function(response){
+					if(response == "true"){
+						var newBody;
+						switch(data.action){
+							case "new":
+							$.getJSON(window.location.href + "/get", function(eval){
+								$("#evaluation-hash-body-text").html("A link has been sent, it expires <b>" + eval.hash_expires + "</b>. Are you sure you want to resend the completion link?");
+							});
+							break;
+							case "resend":
+							$("#evaluation-hash-body-text").append(" <br /><b>Link successfully resent</b>");
+							break;
+							case "void":
+							$("#evaluation-hash-body-text").html("There was no completion link sent. Would you like to create a new one?");
+							break;
+						}
+					}
+					else{
+						appendAlert("There was a problem modifying or sending the link", "#evaluation-hash-modal .modal-body");
+					}
+
+				}).fail(function(){
+					appendAlert("There was a problem modifying or sending the link", "#evaluation-hash-modal .modal-body");
+				});
+		});
+
 		$(document).ready(function(){
 			@if($evaluation->status == "complete" || $user->id == $evaluation->evaluator_id || $user->type == "admin")
 				@foreach($evaluation->responses as $response)

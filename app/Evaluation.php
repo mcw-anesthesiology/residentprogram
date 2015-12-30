@@ -104,6 +104,8 @@ class Evaluation extends Model
         try{
             if($this->status != "pending")
                 throw new \Exception("Evaluation already complete");
+            if(empty($this->completion_hash))
+                throw new \Exception("No hash");
             $email = $this->evaluator->email;
             $data = [
                 "evaluationHash" => $this->completion_hash,

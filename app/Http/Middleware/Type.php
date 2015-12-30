@@ -16,8 +16,8 @@ class Type
      */
     public function handle($request, Closure $next, $type)
     {
-        if(Auth::user()->type !== $type)
-            return redirect("dashboard");
+        if(!Auth::user()->isType($type))
+            return back();
 
         return $next($request);
     }

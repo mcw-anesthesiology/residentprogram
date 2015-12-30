@@ -120,7 +120,7 @@ class ManageController extends Controller
 	            $action = "<span><button class='{$buttonClass} btn btn-{$buttonType} btn-xs' data-id='{$eval->id}'><span class='glyphicon glyphicon-{$glyphicon}'></span> {$buttonText}</button></span>";
 	            $action .= "<span class='cancel'>";
 	            if($eval->status == "pending"){
-	                $action .= "<button class='cancelEval btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-cancel-modal-sm' data-id='{$eval->id}'><span class='glyphicon glyphicon-remove'></span> Cancel</button>";
+	                $action .= "<button class='cancelEval btn btn-danger btn-xs' data-id='{$eval->id}'><span class='glyphicon glyphicon-remove'></span> Cancel</button>";
 	            }
 	            $action .= "</span>";
 	            $result[] = $action;
@@ -135,7 +135,7 @@ class ManageController extends Controller
 
     public function editEvaluation(Request $request, $id){
         $eval = Evaluation::find($id);
-        if($request->input("action")){
+        if($request->has("action")){
             switch($request->input("action")){
                 case "disable":
                     $eval->status = "disabled";
