@@ -197,8 +197,8 @@ class MainController extends Controller
 			case "staff":
 		}
 
-		for($dt = Carbon::now(), $i = 0; $i < 3; $dt->subMonths(1), $i++){
-			$date = $dt->format("Y-m-01");
+		for($dt = Carbon::now()->firstOfMonth(), $i = 0; $i < 3; $dt->subMonths(1), $i++){
+			$date = $dt->format("Y-m-d");
 			$months[$date] = $dt->format("F");
 			$endOfMonth[$date] = $dt->format("Y-m-t");
 		}
