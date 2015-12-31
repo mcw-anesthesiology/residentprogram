@@ -120,7 +120,7 @@ class ManageController extends Controller
 	            $action = "<span><button class='{$buttonClass} btn btn-{$buttonType} btn-xs' data-id='{$eval->id}'><span class='glyphicon glyphicon-{$glyphicon}'></span> {$buttonText}</button></span>";
 	            $action .= "<span class='cancel'>";
 	            if($eval->status == "pending"){
-	                $action .= "<button class='cancelEval btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-cancel-modal-sm' data-id='{$eval->id}'><span class='glyphicon glyphicon-remove'></span> Cancel</button>";
+	                $action .= "<button class='cancelEval btn btn-danger btn-xs' data-id='{$eval->id}'><span class='glyphicon glyphicon-remove'></span> Cancel</button>";
 	            }
 	            $action .= "</span>";
 	            $result[] = $action;
@@ -135,7 +135,7 @@ class ManageController extends Controller
 
     public function editEvaluation(Request $request, $id){
         $eval = Evaluation::find($id);
-        if($request->input("action")){
+        if($request->has("action")){
             switch($request->input("action")){
                 case "disable":
                     $eval->status = "disabled";
@@ -184,11 +184,7 @@ class ManageController extends Controller
 		$error = NULL;
         switch($action){
             case "add":
-                if($request->input("password") != $request->input("password2")){
-					$error =  "Passwords do not match for new user";
-					break;
-				}
-                elseif(!filter_var($request->input("email"), FILTER_VALIDATE_EMAIL)){
+                if(!filter_var($request->input("email"), FILTER_VALIDATE_EMAIL)){
 					$error = "Email appears invalid";
 					break;
 				}
@@ -196,10 +192,11 @@ class ManageController extends Controller
                     $error = "Problem with photo";
 					break;
 				}
+                $password = str_random(12);
                 $user = new User();
                 $user->username = $request->input("username");
                 $user->email = $request->input("email");
-                $user->password = bcrypt($request->input("password"));
+                $user->password = bcrypt($password);
                 $user->first_name = $request->input("firstName");
                 $user->last_name = $request->input("lastName");
                 $user->status = "active";
@@ -220,26 +217,8 @@ class ManageController extends Controller
                     $user->type = $request->input("accountType");
                 }
                 $user->save();
-                $data = [];
-                $data["firstName"] = $user->first_name;
-                $data["lastName"] = $user->last_name;
-                $data["username"] = $user->username;
-				if($user->type == "resident" && $user->training_level == "fellow")
-					$data["userType"] = "fellow";
-				else
-					$data["userType"] = $user->type;
-                $data["password"] = $request->input("password");
-                try{
-                    Mail::send("emails.new-account", $data, function($message) use ($user){
-                        $message->from("admin@residentprogram.com", "ResidentProgram");
-                        $message->to($user->email);
-                        $message->replyTo(env("ADMIN_EMAIL"));
-                        $message->subject("Welcome!");
-                    });
-                }
-                catch(\Exception $e){
-					Log::error("Problem sending email: ".$e);
-                }
+                if($request->has("send_email"))
+                    $user->sendNewAccountEmail($password);
                 break;
             case "edit":
                 if(!filter_var($request->input("email"), FILTER_VALIDATE_EMAIL)){
@@ -280,19 +259,9 @@ class ManageController extends Controller
                 $user->save();
                 break;
             case "password":
-                if($request->input("newPassword") != $request->input("newPassword2")){
-                    $error = "New passwords do not match";
-					break;
-				}
-                elseif(!password_verify($request->input("adminPassword"), Auth::user()->password)){
-                    $error = "Administrator password is incorrect";
-					break;
-				}
-                else{
-                    $user = User::find($request->input("id"));
-                    $user->password = bcrypt($request->input("newPassword"));
-                    $user->save();
-                }
+                $user = User::find($request->input("id"));
+                if(!$user->resetPassword())
+                    $error = "Failed to reset password";
                 break;
             case "to-faculty":
                 $user = User::find($request->input("id"));
@@ -337,7 +306,7 @@ class ManageController extends Controller
 	                $result[] = $user->training_level;
 	            $result[] = $user->status;
 	            $action = "<button class='editUser btn btn-info btn-xs' data-toggle='modal' data-target='.bs-edit-modal' data-type='{$type}' data-id='{$user->id}' data-username='{$user->username}' data-email='{$user->email}' data-first='{$user->first_name}' data-last='{$user->last_name}' data-trainingLevel='{$user->training_level}' data-photo='{$user->photo_path}' id='editBtn'><span class='glyphicon glyphicon-edit'></span> Edit</button> ";
-				$action .= "<button class='editPassword btn btn-info btn-xs' data-toggle='modal' data-target='.bs-edit-password-modal' data-id='{$user->id}' data-type='{$user->type}' id='editPasswordBtn'><span class='glyphicon glyphicon-edit'></span> Password</button> ";
+				$action .= "<button class='editPassword btn btn-warning btn-xs' data-toggle='modal' data-target='.bs-edit-password-modal' data-id='{$user->id}' data-type='{$user->type}' data-name='{$user->first_name} {$user->last_name}' id='editPasswordBtn'><span class='glyphicon glyphicon-edit'></span> Password</button> ";
 	            // if($type == "resident" || $type == "fellow")
 				//          $action .= "<button class='residentToFaculty btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-resident-to-faculty-modal-sm' data-id='{$user->id}' data-name='{$user->first_name} {$user->last_name}' id='residentToFacultyBtn'><span class='glyphicon glyphicon-edit'></span> Change to Faculty</button>";
 	            if($user->status == "inactive"){

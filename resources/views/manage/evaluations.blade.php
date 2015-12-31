@@ -15,7 +15,7 @@
 @section("body")
 	<h2 class="sub-header">Manage Evaluations <button class="archiveEval btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-archive-modal" id="archiveBtn"><span class="glyphicon glyphicon-remove"></span> Archive Evals</button></h2>
 	  <div class="table-responsive">
-		<table class="table table-striped datatable" cellspacing="0" cellpadding="0">
+		<table class="table table-striped datatable" cellspacing="0" cellpadding="0" width="100%">
 		  <thead>
 			<tr>
 			  <th class="headerSortDown"><span>#</span></th>

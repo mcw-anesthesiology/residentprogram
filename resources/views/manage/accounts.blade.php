@@ -16,7 +16,7 @@
 	<div class="row">
 		<h2 class="sub-header" id="residents-heading">Residents  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="resident" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
-			<table class="table table-striped datatable-resident">
+			<table class="table table-striped datatable-resident" width="100%">
 				<thead>
 					<tr>
 						<th>Name</th>
@@ -36,7 +36,7 @@
 	<div class="row">
 		<h2 class="sub-header" id="fellows-heading">Fellows  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="fellow" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
-			<table class="table table-striped datatable-fellow">
+			<table class="table table-striped datatable-fellow" width="100%">
 				<thead>
 					<tr>
 						<th>Name</th>
@@ -55,7 +55,7 @@
 	<div class="row">
 		<h2 class="sub-header" id="faculty-heading">Faculty  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="faculty" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
-			<table class="table table-striped datatable-faculty">
+			<table class="table table-striped datatable-faculty" width="100%">
 				<thead>
 					<tr>
 						<th>Name</th>
@@ -74,7 +74,7 @@
 	<div class="row">
 		<h2 class="sub-header" id="staff-heading">Staff  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="staff" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
-			<table class="table table-striped datatable-staff">
+			<table class="table table-striped datatable-staff" width="100%">
 				<thead>
 					<tr>
 						<th>Name</th>
@@ -93,7 +93,7 @@
 	<div class="row">
 		<h2 class="sub-header" id="admin-heading">Administrator  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="admin" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
-			<table class="table table-striped datatable-admin">
+			<table class="table table-striped datatable-admin" width="100%">
 				<thead>
 					<tr>
 						<th>Name</th>
@@ -160,7 +160,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Edit account</button>
+          <button type="submit" class="btn btn-info">Edit account</button>
         </div>
       </form>
     </div>
@@ -185,15 +185,6 @@
           <div class="form-group">
 			<label for="emailInput">Email</label>
 			<input type="text" class="form-control" id="emailInput" name="email" placeholder="Email" required>
-          </div>
-          <div class="form-group">
-            <label for="passwordInput">Password</label>
-            <input type="password" class="form-control" id="passwordInput" name="password" placeholder="Password" required>
-          </div>
-          <div class="form-group has-feedback" id="confirmPassword">
-            <label for="passwordInput2">Re-Enter Password</label>
-            <input type="password" class="form-control" id="passwordInput2" name="password2" placeholder="Re-Enter Password" required>
-            <span class="glyphicon form-control-feedback" id="confirmIcon"></span>
           </div>
           <div class="form-group">
             <label for="firstNameInput">First Name</label>
@@ -222,6 +213,12 @@
             <label for="accountTypeInput">Account Type</label>
             <input type="text" class="form-control" id="accountTypeInput" name="accountType" readonly>
           </div>
+		  <div class="form-group">
+			  <label>
+				  <input type="checkbox" id="new-account-email" name="send_email" value="true" checked>
+				  Send welcome email
+			  </label>
+		  </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -243,23 +240,17 @@
         <form id="password-form" method="post" action="/manage/accounts/password">
     	  <div class="modal-body modal-edit-password">
 			{!! csrf_field() !!}
-			<input type="hidden" id="id" name="id" />
-			<div class="form-group">
-				<label for="password1">User Password</label>
-				<input type="password" class="form-control" id="password1" name="newPassword" placeholder="New Password" required>
-			</div>
-			<div class="form-group">
-				<label for="password2">Verify User Password</label>
-				<input type="password" class="form-control" id="password2" name="newPassword2" placeholder="Verify New Password" required>
-			</div>
-			<div class="form-group">
-				<label for="adminPassword">Verify Admin Password</label>
-				<input type="password" class="form-control" id="adminPassword" name="adminPassword" placeholder="Verify Admin Password" required>
-			</div>
+			<input type="hidden" id="edit-password-id" name="id" />
+			<p>
+				Are you sure you want to reset <b id="edit-password-name"></b>'s password?
+			</p>
+			<p>
+				The password will be reset and they will receive an email with a new one.
+			</p>
 		  </div>
 		  <div class="modal-footer modal-edit-password">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<button type="submit" class="btn btn-primary">Change password</button>
+				<button type="submit" class="btn btn-warning">Reset password</button>
 		  </div>
 		</form>
     </div>
@@ -440,6 +431,7 @@
 				if(type == "fellow")
 					$("#addModal #trainingLevelInput").val("fellow");
 				$("#addModal #trainingLevelDiv").hide();
+				$("#new-account-email").prop("checked", (type != "staff"));
 			}
 		});
 
@@ -453,8 +445,10 @@
 
 		$(".table").on("click", ".editPassword", function(){
 			var id = $(this).data("id");
+			var name = $(this).data("name");
 			$("#editPasswordModal .form-control").val("");
-			$("#editPasswordModal #id").val(id);
+			$("#edit-password-id").val(id);
+			$("#edit-password-name").text(name);
 		});
 
 		$("#passwordInput2").keyup(function(){

@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Log;
+use Mail;
+
 class Evaluation extends Model
 {
     protected $table = "evaluations";
@@ -23,7 +26,7 @@ class Evaluation extends Model
         "complete_ip"
     ];
 
-    protected $dates = ["created_at", "updated_at", "request_date", "complete_date", "evaluation_date", "archive_date"];
+    protected $dates = ["created_at", "updated_at", "request_date", "complete_date", "evaluation_date", "archive_date", "hash_expires"];
 
 
 	public function getVisibilityAttribute(){
@@ -72,5 +75,56 @@ class Evaluation extends Model
                 });
             });
         });
+    }
+
+    public function sendNotification(){
+        try{
+            $email = $this->evaluator->email;
+            $data = [
+                "evaluationId" => $this->id,
+                "evaluatorLast" => $this->evaluator->last_name,
+                "subjectLast" => $this->subject->last_name,
+                "formTitle" => $this->form->title
+            ];
+            Mail::send("emails.notification", $data, function($message) use($email){
+                $message->to($email);
+                $message->from("notifications@residentprogram.com", "Resident Program Notifications");
+                $message->replyTo(env("ADMIN_EMAIL"));
+                $message->subject("Evaluation Request Notification");
+            });
+            return true;
+        }
+        catch (\Exception $e){
+            Log::error("Problem sending notification: ".$e);
+        }
+        return false;
+    }
+
+    public function sendHashLink(){
+        try{
+            if($this->status != "pending")
+                throw new \Exception("Evaluation already complete");
+            if(empty($this->completion_hash))
+                throw new \Exception("No hash");
+            $email = $this->evaluator->email;
+            $data = [
+                "evaluationHash" => $this->completion_hash,
+                "hashExpires" => $this->hash_expires,
+                "evaluatorName" => $this->evaluator->full_name,
+                "subjectLast" => $this->subject->last_name,
+                "formTitle" => $this->form->title
+            ];
+            Mail::send("emails.hash-link", $data, function($message) use($email){
+                $message->to($email);
+                $message->from("notifications@residentprogram.com", "Resident Program Notifications");
+                $message->replyTo(env("ADMIN_EMAIL"));
+                $message->subject("Evaluation Completion Link");
+            });
+            return true;
+        }
+        catch (\Exception $e){
+            Log::error("Problem sending hash link: ".$e);
+        }
+        return false;
     }
 }

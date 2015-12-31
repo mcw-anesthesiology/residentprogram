@@ -19,7 +19,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        \App\Console\Commands\SendEmails::class,
+        \App\Console\Commands\SendReminders::class,
     ];
 
     /**
@@ -31,13 +31,13 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // daily reminder emails
-        $schedule->command("emails:send daily")->daily()->at("08:00");
+        $schedule->command("reminders:send daily")->daily()->at("08:00");
 
         // weekly reminder emails
-        $schedule->command("emails:send weekly")->weekly()->mondays()->at("08:00");
+        $schedule->command("reminders:send weekly")->weekly()->mondays()->at("08:00");
 
         // biweekly reminder emails
-        $schedule->command("emails:send biweekly")->weekly()->mondays()->at("08:00")->when(function(){
+        $schedule->command("reminders:send biweekly")->weekly()->mondays()->at("08:00")->when(function(){
             return (Carbon::now()->weekOfYear % 2);
         });
     }

@@ -35,17 +35,20 @@ Route::get("dashboard/faculty/evaluations", "MainController@facultyEvaluations")
 Route::post("dashboard/faculty/evaluations", "MainController@facultyEvaluations");
 
 Route::post("evaluation/cancel", "MainController@cancelEvaluation");
+Route::post("evaluation/flag/remove", "MainController@removeFlag");
 Route::get("evaluation/{id}", "MainController@evaluation");
 Route::post("evaluation/{id}", "MainController@saveEvaluation");
 Route::post("evaluation/{id}/comment", "MainController@evaluationComment");
 Route::post("evaluation/{id}/edit", "MainController@editEvaluation");
 Route::post("evaluation/{id}/flag", "MainController@flagEvaluation");
-Route::post("evaluation/flag/remove", "MainController@removeFlag");
+Route::post("evaluation/{id}/hash", "MainController@evaluationHash");
+Route::get("evaluation/{id}/get", "MainController@getEvaluation");
 
-Route::get("request/faculty", "MainController@request");
-Route::post("request/faculty", "MainController@createRequest");
-Route::get("request", "MainController@request");
-Route::post("request", "MainController@createRequest");
+Route::get("evaluate/{hash}", "MainController@evaluationByHashLink");
+Route::post("evaluate/{hash}", "MainController@saveEvaluationByHashLink");
+
+Route::get("request/{type?}", "MainController@request");
+Route::post("request/{type?}", "MainController@createRequest");
 
 Route::get("user", "MainController@user");
 Route::post("user", "MainController@saveUser");

@@ -15,19 +15,22 @@
 		#evaluation-date-info {
 			float: none !important;
 		}
+
+		.admin-panel-group {
+			margin-bottom: 15px;
+		}
 	</style>
 @stop
 
 @section("body")
-	@if($requestType == "faculty")
-	<h2 class="sub-header">Evaluate faculty</h2>
-	@elseif($user->isType($evaluatorTypes))
-	<h2 class="sub-header">Create evaluation</h2>
+	@if($user->isType($evaluatorTypes))
+	<h2 class="sub-header">Create {{ $requestType }} evaluation</h2>
 	@else
-	<h2 class="sub-header">Request evaluation</h2>
+	<h2 class="sub-header">Request {{ $requestType }} evaluation</h2>
 	@endif
 
 	<form id="form" role="form" action="#" method="POST" class="form-horizontal">
+		<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 	@if(!empty($blocks))
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-8">
@@ -43,7 +46,6 @@
 			</div>
 		</div>
 	@endif
-		<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
 	@if(!empty($subjects))
 		<div class="form-group">
@@ -125,6 +127,46 @@
 			</div>
 			<input type="hidden" id="evaluation-date" name="evaluation_date" required />
 		</div>
+
+	@if($user->isType("admin"))
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-8">
+				<div class="panel panel-default">
+					<div class="panel-heading">Admin controls</div>
+					<div class="panel-body">
+						<div class="admin-panel-group form-horizontal row">
+							<div class="col-sm-12">
+								<label>
+									<input type="checkbox" id="force-notification" name="force_notification" value="true" />
+									Force notification
+								</label>
+							</div>
+						</div>
+						<div class="admin-panel-group form-horizontal row">
+							<div class="col-sm-6">
+								<label>
+									<input type="checkbox" id="send-hash" name="send_hash" value="true" />
+									Send personalized completion link
+								</label>
+							</div>
+							<div class="col-sm-6">
+								<label class="collapse">
+									Hash expires in
+									<select class="form-control" id="hash-expires-in" name="hash_expires_in" />
+										<option value="30">30 days</option>
+										<option value="60">60 days</option>
+										<option value="90">90 days</option>
+										<option value="never">Never expires</option>
+									</select>
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	@endif
+
 		<div class="submit-container text-center">
 			<button type="submit" class="btn btn-primary btn-lg">
 		@if($user->isType($evaluatorTypes))
@@ -164,6 +206,7 @@
 
 @section("script")
 	<script>
+	var requestType = "{{ $requestType }}";
 	@if(!empty($evaluators))
 		var evaluators = $.parseJSON('{!! $evaluators !!}');
 	@endif
@@ -302,7 +345,16 @@
 
 		$("#block").change(selectBlock);
 
+		$("#send-hash").change(function(){
+			$("#hash-expires-in").parent().slideToggle();
+		});
+
 		$(document).ready(function(){
+
+			if(requestType == "staff"){
+				$("#send-hash").prop("checked", true);
+				$("#hash-expires-in").parent().slideDown();
+			}
 
 			$("#evaluation-day").datepicker({
 				dateFormat: "dd"

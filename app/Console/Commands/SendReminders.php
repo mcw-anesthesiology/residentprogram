@@ -8,14 +8,14 @@ use App\User;
 use Mail;
 use Log;
 
-class SendEmails extends Command
+class SendReminders extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'emails:send {frequency}';
+    protected $signature = 'reminders:send {frequency}';
 
     /**
      * The console command description.

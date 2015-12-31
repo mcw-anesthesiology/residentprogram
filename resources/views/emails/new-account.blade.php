@@ -15,10 +15,12 @@
 			<td>Username</td>
 			<td>{{ $username }}</td>
 		</tr>
+@if(!empty($password))
 		<tr>
 			<td>Password</td>
 			<td>{{ $password }}</td>
 		</tr>
+@endif
 	</tbody>
 </table>
 @include("help.".$userType)
