@@ -306,7 +306,7 @@ class ManageController extends Controller
 	                $result[] = $user->training_level;
 	            $result[] = $user->status;
 	            $action = "<button class='editUser btn btn-info btn-xs' data-toggle='modal' data-target='.bs-edit-modal' data-type='{$type}' data-id='{$user->id}' data-username='{$user->username}' data-email='{$user->email}' data-first='{$user->first_name}' data-last='{$user->last_name}' data-trainingLevel='{$user->training_level}' data-photo='{$user->photo_path}' id='editBtn'><span class='glyphicon glyphicon-edit'></span> Edit</button> ";
-				$action .= "<button class='editPassword btn btn-info btn-xs' data-toggle='modal' data-target='.bs-edit-password-modal' data-id='{$user->id}' data-type='{$user->type}' id='editPasswordBtn'><span class='glyphicon glyphicon-edit'></span> Password</button> ";
+				$action .= "<button class='editPassword btn btn-warning btn-xs' data-toggle='modal' data-target='.bs-edit-password-modal' data-id='{$user->id}' data-type='{$user->type}' data-name='{$user->first_name} {$user->last_name}' id='editPasswordBtn'><span class='glyphicon glyphicon-edit'></span> Password</button> ";
 	            // if($type == "resident" || $type == "fellow")
 				//          $action .= "<button class='residentToFaculty btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-resident-to-faculty-modal-sm' data-id='{$user->id}' data-name='{$user->first_name} {$user->last_name}' id='residentToFacultyBtn'><span class='glyphicon glyphicon-edit'></span> Change to Faculty</button>";
 	            if($user->status == "inactive"){

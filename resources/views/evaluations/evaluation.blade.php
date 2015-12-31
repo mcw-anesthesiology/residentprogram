@@ -329,16 +329,16 @@
 						var newBody;
 						switch(data.action){
 							case "new":
-							$.getJSON(window.location.href + "/get", function(eval){
-								$("#evaluation-hash-body-text").html("A link has been sent, it expires <b>" + eval.hash_expires + "</b>. Are you sure you want to resend the completion link?");
-							});
-							break;
+								$.getJSON(window.location.href + "/get", function(eval){
+									$("#evaluation-hash-body-text").html("A link has been sent, it expires <b>" + eval.hash_expires + "</b>. Are you sure you want to resend the completion link?");
+								});
+								break;
 							case "resend":
-							$("#evaluation-hash-body-text").append(" <br /><b>Link successfully resent</b>");
-							break;
+								$("#evaluation-hash-body-text").append(" <br /><b>Link successfully resent</b>");
+								break;
 							case "void":
-							$("#evaluation-hash-body-text").html("There was no completion link sent. Would you like to create a new one?");
-							break;
+								$("#evaluation-hash-body-text").html("There was no completion link sent. Would you like to create a new one?");
+								break;
 						}
 					}
 					else{
