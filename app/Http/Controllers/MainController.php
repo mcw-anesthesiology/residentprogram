@@ -83,7 +83,7 @@ class MainController extends Controller
 			$requestType = "resident";
 			$subjectTypes = ["resident", "fellow"];
 			$evaluatorTypes = ["faculty"];
-            $requestorTypes = $subjectTypes + $evaluatorTypes;
+            $requestorTypes = array_merge($subjectTypes, $evaluatorTypes);
 		}
 
 		$evaluationTypes = array_merge($subjectTypes, $evaluatorTypes);
