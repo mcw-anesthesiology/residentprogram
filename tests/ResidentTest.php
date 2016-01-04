@@ -4,17 +4,29 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
+use Artisan;
+
 class ResidentTest extends TestCase
 {
-	use DatabaseMigrations;
+
+	public static function setUpBeforeClass(){
+		parent::setUpBeforeClass();
+
+		Artisan::exec("migrate:refresh");
+	}
 
     public function setUp(){
         parent::setUp();
 
-        $this->user = factory(App\User::class, "resident")->create();
+		// $this->artisan("migrate");
+		$this->user = factory(App\User::class, "resident")->create();
 		$this->faculty = factory(App\User::class, "faculty")->create();
 		$this->form = factory(App\Form::class, "resident")->create();
     }
+
+	public function tearDown(){
+		// $this->artisan("migrate:reset");
+	}
 
     public function testDashboard(){
         $this->actingAs($this->user)
@@ -24,19 +36,26 @@ class ResidentTest extends TestCase
     }
 
 	public function testRequest(){
-		$firstOfMonth = Carbon\Carbon::parse("first day of this month");
-		$this->actingAs($this->user)
+		$firstOfMonth = Carbon\Carbon::parse("first day of this month")->toDateString();
+		$response = $this->actingAs($this->user)
 			->visit("/request")
-			->see("Request evaluation")
-			->type($this->faculty->id, "evaluator_id")
-			->type($this->form->id, "form_id")
-			->type($firstOfMonth->format("Y-m-d"), "evaluation_date")
-			->press("Request Evaluation")
-			->seePageIs("/dashboard")
-			->seeInDatabase("evaluations", [
-				"subject_id" => $this->user->id,
+			->see("Request resident evaluation")
+			->call("POST", "/request", [
 				"evaluator_id" => $this->faculty->id,
-				"form_id" => $this->form->id
+				"form_id" => $this->form->id,
+				"evaluation_date" => $firstOfMonth,
+				"_token" => csrf_token()
 			]);
+		$this->seeInDatabase("evaluations", [
+			"subject_id" => $this->user->id,
+			"evaluator_id" => $this->faculty->id,
+			"form_id" => $this->form->id,
+			"requested_by_id" => $this->user->id,
+			"evaluation_date" => $firstOfMonth
+		]);
+	}
+
+	public function testView(){
+
 	}
 }

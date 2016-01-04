@@ -14,7 +14,10 @@ class AddTextResponsesForeignKey extends Migration
     {
         Schema::table('text_responses', function (Blueprint $table) {
             $table->integer("evaluation_id")->unsigned()->change();
-			$table->foreign("evaluation_id")->references("id")->on("evaluations");
+        });
+
+        Schema::table('text_responses', function (Blueprint $table) {
+            $table->foreign("evaluation_id")->references("id")->on("evaluations");
         });
     }
 
@@ -27,7 +30,10 @@ class AddTextResponsesForeignKey extends Migration
     {
         Schema::table('text_responses', function (Blueprint $table) {
             $table->dropForeign("text_responses_evaluation_id_foreign");
-			$table->integer("evaluation_id")->signed()->change();
+        });
+
+        Schema::table('text_responses', function (Blueprint $table) {
+            $table->integer("evaluation_id")->signed()->change();
         });
     }
 }

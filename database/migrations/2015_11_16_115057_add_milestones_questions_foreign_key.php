@@ -15,10 +15,13 @@ class AddMilestonesQuestionsForeignKey extends Migration
         Schema::table('milestones_questions', function (Blueprint $table) {
             $table->integer("form_id")->unsigned()->change();
 			$table->integer("milestone_id")->unsigned()->change();
-
-			$table->foreign("form_id")->references("id")->on("forms");
-			$table->foreign("milestone_id")->references("id")->on("milestones");
         });
+
+        Schema::table('milestones_questions', function (Blueprint $table) {
+            $table->foreign("form_id")->references("id")->on("forms");
+            $table->foreign("milestone_id")->references("id")->on("milestones");
+        });
+
     }
 
     /**
@@ -31,9 +34,11 @@ class AddMilestonesQuestionsForeignKey extends Migration
         Schema::table('milestones_questions', function (Blueprint $table) {
             $table->dropForeign("milestones_questions_form_id_foreign");
 			$table->dropForeign("milestones_questions_milestone_id_foreign");
+        });
 
-			$table->integer("form_id")->signed()->change();
-			$table->integer("milestone_id")->signed()->change();
+        Schema::table('milestones_questions', function (Blueprint $table) {
+            $table->integer("form_id")->signed()->change();
+            $table->integer("milestone_id")->signed()->change();
         });
     }
 }
