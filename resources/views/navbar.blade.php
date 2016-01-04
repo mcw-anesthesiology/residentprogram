@@ -77,6 +77,7 @@
 			  <b class="caret"></b>
 		  </a>
 		  <ul class="dropdown-menu">
+            <li><a class="disabled">Account type: {{ $user->specific_type }}</a></li>
 			<li><a href="/user">Manage Account</a></li>
 			<li><a href="/logout">Logout</a></li>
 		  </ul>
