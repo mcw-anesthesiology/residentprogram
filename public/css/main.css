@@ -296,6 +296,17 @@ body {
 	max-height: 400px;
 }
 
+.ms-container {
+    margin: auto;
+}
+
+.ms-container .ms-optgroup-label {
+    font-weight: bold;
+    font-size: large;
+    color: #555;
+    padding: 5px;
+}
+
 @media (max-width: 768px) {
 	.paginate_button.disabled {
 		display: none;

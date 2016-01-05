@@ -20,6 +20,7 @@
 
 		<!-- Select2 -->
 		<link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
+		<link href="/css/multi-select.css" rel="stylesheet" />
 		<link href="/css/select2-bootstrap.min.css" rel="stylesheet" />
 
 		<!-- Custom styles for this template -->
@@ -83,6 +84,7 @@
 		<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
 		<script type="text/javascript" src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="/js/jquery.multi-select.js"></script>
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
 		<script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.9/sorting/datetime-moment.js"></script>
