@@ -289,7 +289,7 @@ class ReportController extends Controller
 		return sqrt(array_sum(array_map(array($this, "sd_square"), $array, array_fill(0,count($array), (array_sum($array) / count($array)) ) ) ) / (count($array)-1) );
 	}
 
-    public function report($startDate, $endDate, $trainingLevel, $graphOption, $graphOrientation, $reportSubject){
+    public function report($startDate, $endDate, $trainingLevel, $graphOption, $graphOrientation, $reportSubject, $milestones){
         $startDate = Carbon::parse($startDate);
         $startDate->timezone = "America/Chicago";
         $endDate = Carbon::parse($endDate);
@@ -317,6 +317,9 @@ class ReportController extends Controller
             ->where("evaluations.status", "complete")
             ->where("evaluations.evaluation_date", ">=", $startDate)
             ->where("evaluations.evaluation_date", "<", $endDate);
+
+        if(!empty($milestones))
+            $query->whereIn("milestones.id", $milestones);
 
         if($trainingLevel != "all")
             $query->where("evaluations.training_level", $trainingLevel);
@@ -524,12 +527,13 @@ class ReportController extends Controller
     }
 
     public function aggregate(Request $request){
-        $data = $this->report($request->input("startDate"), $request->input("endDate"), $request->input("trainingLevel"), $request->input("graphs"), "horizontal", null);
+        $data = $this->report($request->input("startDate"), $request->input("endDate"), $request->input("trainingLevel"), $request->input("graphs"), "horizontal", null, $request->input("milestones"));
 
         return view("report.report", $data);
     }
 
     public function specific(Request $request){
+        Debugbar::info($request->input("milestones"));
         $user = Auth::user();
         $resident = User::find($request->input("resident"));
         if(!($resident == $user || $user->type == "admin" || $user->mentees->contains($resident)))
@@ -558,7 +562,7 @@ class ReportController extends Controller
             return back()->with("error", "Please be sure to complete all fields for each report");
 
         for($i = 0; $i < count($startDates); $i++){
-            $data["reportData"][$i] = $this->report($startDates[$i], $endDates[$i], $trainingLevels[$i], $request->input("graphs"), "vertical", $request->input("resident"));
+            $data["reportData"][$i] = $this->report($startDates[$i], $endDates[$i], $trainingLevels[$i], $request->input("graphs"), "vertical", $request->input("resident"), $request->input("milestones"));
 			$data["reportData"][$i]["startDate"] = Carbon::parse($startDates[$i]);
 			$data["reportData"][$i]["endDate"] = Carbon::parse($endDates[$i]);
 			$data["reportData"][$i]["trainingLevel"] = $trainingLevels[$i];

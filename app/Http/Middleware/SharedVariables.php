@@ -8,6 +8,7 @@ use Auth;
 
 use App\User;
 use App\Form;
+use App\Milestone;
 
 class SharedVariables
 {
@@ -27,6 +28,13 @@ class SharedVariables
             View::share("specificFaculty", User::where("type", "faculty")->orderBy("last_name")->get());
             View::share("facultyForms", Form::where("type", "faculty")->where("status", "active")->orderBy("title")->get());
 			View::share("residentForms", Form::where("type", "resident")->where("evaluator_type", "staff")->where("status", "active")->orderBy("title")->get()); // TODO: All as soon as evaluation tables removed
+
+            $milestones = Milestone::orderBy("title")->get();
+            foreach($milestones as $milestone){
+                $milestoneGroups[ucfirst($milestone->type)." ".$milestone->training_level][] = $milestone;
+            }
+
+            View::share("milestoneGroups", $milestoneGroups);
         }
 
         return $next($request);

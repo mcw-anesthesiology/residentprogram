@@ -87,6 +87,17 @@
 		  <div class="form-group" style="text-align: center;">
 			  <button type="button" class="btn" id="addNewSpecificReport">Add Report</button>
 		  </div>
+          <div class="form-group">
+              <select id="individual-milestones" name="milestones[]" multiple>
+            @foreach(array_keys($milestoneGroups) as $milestoneGroup)
+                <optgroup label="{{ $milestoneGroup }}">
+                @foreach($milestoneGroups[$milestoneGroup] as $milestone)
+                    <option value="{{ $milestone->id }}">{{ $milestone->title }}</option>
+                @endforeach
+                </optgroup>
+            @endforeach
+              </select>
+          </div>
 		  <div class="form-group" style="text-align: center;">
 			<input type="checkbox" id="graphs" name="graphs" value="all" checked />
 			<label for="graphs">Generate Graphs</label>

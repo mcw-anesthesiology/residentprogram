@@ -164,6 +164,10 @@ $(document).ready(function(){
 
 	$("body").css("padding-top", $("#main-navbar").height()+5);
 
+	$("#individual-milestones").multiSelect({
+		selectableOptgroup: true
+	});
+
 });
 
 // https://davidwalsh.name/essential-javascript-functions
