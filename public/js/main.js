@@ -140,6 +140,8 @@ $(document).ready(function(){
 		dateFormat: "yy-mm-dd"
 	});
 
+	$("#addNewSpecificReport").click();
+
 	$.extend(true, $.fn.dataTable.defaults, {
 		language: {
 			paginate: {
@@ -164,7 +166,7 @@ $(document).ready(function(){
 
 	$("body").css("padding-top", $("#main-navbar").height()+5);
 
-	$("#individual-milestones").multiSelect({
+	$("#individual-milestones, #aggregate-milestones").multiSelect({
 		selectableOptgroup: true
 	});
 
@@ -191,3 +193,12 @@ var fixNavbarOffset = debounce(function(){
 }, 100);
 
 $(window).resize(fixNavbarOffset);
+
+$(".report-milestones-info").popover({
+	placement: "left",
+	html: "true",
+	content: "<ul>" +
+			"<li>Leave empty to include all milestones in training level in report</li>" +
+			"<li>Click a milestone type heading to select all milestones of that type</li>" +
+		"</ul>"
+});

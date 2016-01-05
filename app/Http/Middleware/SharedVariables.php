@@ -24,10 +24,23 @@ class SharedVariables
         View::share("user", Auth::user());
 
         if(Auth::user()->type == "admin"){
-            View::share("residents", User::where("type", "resident")->orderBy("last_name")->get());
+            $residents = User::where("type", "resident")->orderBy("training_level", "last_name")->get();
+            $residentGroupNames = ["intern" => "Intern", "ca-1" => "CA-1", "ca-2" => "CA-2", "ca-3" => "CA-3", "fellow" => "Fellow"];
+            $residentGroups = [
+                "Intern" => [],
+                "CA-1" => [],
+                "CA-2" => [],
+                "CA-3" => [],
+                "Fellow" => []
+            ];
+            foreach($residents as $resident){
+                $residentGroups[$residentGroupNames[$resident->training_level]][] = $resident;
+            }
+            View::share("residentGroups", $residentGroups);
+
             View::share("specificFaculty", User::where("type", "faculty")->orderBy("last_name")->get());
             View::share("facultyForms", Form::where("type", "faculty")->where("status", "active")->orderBy("title")->get());
-			View::share("residentForms", Form::where("type", "resident")->where("evaluator_type", "staff")->where("status", "active")->orderBy("title")->get()); // TODO: All as soon as evaluation tables removed
+			View::share("residentForms", Form::where("type", "resident")->where("evaluator_type", "staff")->where("status", "active")->orderBy("title")->get());
 
             $milestones = Milestone::orderBy("title")->get();
             foreach($milestones as $milestone){
@@ -35,6 +48,18 @@ class SharedVariables
             }
 
             View::share("milestoneGroups", $milestoneGroups);
+
+            $rForms = Form::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("title")->get();
+            $formGroups = [];
+            foreach($rForms as $form){
+                if($form->type == "fellow")
+                    $formGroups["fellow"][] = $form;
+                elseif($form->evaluator_type == "staff")
+                    $formGroups["staff"][] = $form;
+                else
+                    $formGroups["resident"][] = $form;
+            }
+			View::share("residentFormGroups", $formGroups);
         }
 
         return $next($request);

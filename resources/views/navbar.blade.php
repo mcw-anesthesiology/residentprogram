@@ -53,8 +53,8 @@
 			@endif
 			<li><a class="viewSpecRpt pointer" data-toggle="modal" data-target=".bs-specRpt-modal" id="viewSpecRpt">Individual</a></li>
 			@if($user->type == "admin")
-			<li><a class="pointer" data-toggle="modal" data-target="#faculty-report-modal">Faculty</a></li>
-			<li><a class="pointer" data-toggle="modal" data-target="#form-report-modal">Staff</a></li>
+            <li><a class="pointer" data-toggle="modal" data-target="#form-report-modal">Form Report</a></li>
+			<li><a class="pointer" data-toggle="modal" data-target="#faculty-report-modal">Faculty Report</a></li>
 			<li><a href="/report/needs-eval">Needs Evaluations</a></li>
 			<li><a href="/report/stats/faculty">Faculty Statistics</a></li>
 			<li><a href="/report/stats/resident">Resident Statistics</a></li>
