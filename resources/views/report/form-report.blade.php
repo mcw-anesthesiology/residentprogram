@@ -51,7 +51,7 @@
 		var responses = $.parseJSON('{!! $questionResponses !!}');
 		var subjectId = {{ $subjectId }};
 		$(document).ready(function(){
-			$("#form input").prop("disabled", true).hide();
+			$("#form input").prop("disabled", true);
 
 			questions.forEach(function(questionId){
 				if($("textarea[name='"+questionId+"']").length > 0){
@@ -149,6 +149,16 @@
 				a.appendChild(text); li.appendChild(a); ul.appendChild(li);
 			});
 
+		});
+
+		$(".toggleDescriptions").click(function(){
+			var questionName = $(this).data("id");
+			var headerHeight = $("#main-navbar").height();
+			var padding = 5;
+			var scrollto = $(this).parents(".question").offset().top - padding - headerHeight;
+			$("html, body").animate({scrollTop: scrollto});
+			$("." + questionName + " .description").slideToggle();
+			$("#" + questionName).toggleClass("expanded-descriptions");
 		});
 	</script>
 @stop

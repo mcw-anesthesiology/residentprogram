@@ -32,6 +32,25 @@
 			  <option value="fellow">Fellow</option>
 			</select>
 		  </div>
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                  Milestone Filter
+                  <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" placement="left" title="Milestones information" class="close report-milestones-info">
+    				<span class="glyphicon glyphicon-info-sign"></span>
+    			  </a>
+              </div>
+              <div class="panel-body">
+                  <select id="aggregate-milestones" name="milestones[]" multiple>
+                @foreach(array_keys($milestoneGroups) as $milestoneGroup)
+                    <optgroup label="{{ $milestoneGroup }}">
+                    @foreach($milestoneGroups[$milestoneGroup] as $milestone)
+                        <option value="{{ $milestone->id }}">{{ $milestone->title }}</option>
+                    @endforeach
+                    </optgroup>
+                @endforeach
+                  </select>
+              </div>
+          </div>
 		  <div class="form-group" style="text-align: center;">
 			<label for="graphs_yes">Average Graphs Only</label>
 			<input type="radio" id="graphs_yes" name="graphs" value="average" checked />
@@ -64,39 +83,53 @@
 		  {!! csrf_field() !!}
 		<div class="modal-body">
 		  <div class="modal-specRpt">
-			  <div class="form-group">
-			@if($user->type == "faculty")
+			<div class="form-group">
+		@if($user->type == "faculty")
 				<label for="resident">Resident</label>
 				<select class="form-control select2" name="resident" style="width: 100%" required>
-					@foreach($user->mentees as $resident)
+			@foreach($user->mentees as $resident)
 						<option value="{{ $resident->id }}">{{ $resident->full_name }}</option>
-					@endforeach
+			@endforeach
 				</select>
-			@elseif($user->type == "resident")
+		@elseif($user->type == "resident")
 				<input type="hidden" name="resident" value="{{ $user->id }}" />
-			@elseif($user->type == "admin")
+		@elseif($user->type == "admin")
 				<label for="resident">Resident</label>
 				<select class="form-control select2" name="resident" style="width: 100%" required>
-					@foreach($residents as $resident)
-						<option value="{{ $resident->id }}">{{ $resident->full_name }}</option>
-					@endforeach
+            @foreach(array_keys($residentGroups) as $residentGroupLabel)
+                @if(count($residentGroups[$residentGroupLabel]) > 0)
+                    <optgroup label="{{ $residentGroupLabel }}">
+                    @foreach($residentGroups[$residentGroupLabel] as $resident)
+    					<option value="{{ $resident->id }}">{{ $resident->full_name }}</option>
+    			    @endforeach
+                    </optgroup>
+                @endif
+            @endforeach
 				</select>
-			@endif
+		@endif
 			</div>
 		  </div>
 		  <div class="form-group" style="text-align: center;">
 			  <button type="button" class="btn" id="addNewSpecificReport">Add Report</button>
 		  </div>
-          <div class="form-group">
-              <select id="individual-milestones" name="milestones[]" multiple>
-            @foreach(array_keys($milestoneGroups) as $milestoneGroup)
-                <optgroup label="{{ $milestoneGroup }}">
-                @foreach($milestoneGroups[$milestoneGroup] as $milestone)
-                    <option value="{{ $milestone->id }}">{{ $milestone->title }}</option>
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                  Milestone Filter
+                  <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" placement="left" title="Milestones information" class="close report-milestones-info">
+    				<span class="glyphicon glyphicon-info-sign"></span>
+    			  </a>
+              </div>
+              <div class="panel-body">
+                  <select id="individual-milestones" name="milestones[]" multiple>
+                @foreach(array_keys($milestoneGroups) as $milestoneGroup)
+                    <optgroup label="{{ $milestoneGroup }}">
+                    @foreach($milestoneGroups[$milestoneGroup] as $milestone)
+                        <option value="{{ $milestone->id }}">{{ $milestone->title }}</option>
+                    @endforeach
+                    </optgroup>
                 @endforeach
-                </optgroup>
-            @endforeach
-              </select>
+                  </select>
+              </div>
           </div>
 		  <div class="form-group" style="text-align: center;">
 			<input type="checkbox" id="graphs" name="graphs" value="all" checked />
@@ -185,17 +218,23 @@
 	<div class="modal-content">
 	  <div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h4 class="modal-title" id="form-report-modal-heading">Staff Resident Report</h4>
+		<h4 class="modal-title" id="form-report-modal-heading">Form Report</h4>
 	  </div>
 	  <form class="report" method="post" action="/report/form">
 		  {!! csrf_field() !!}
 		<div class="modal-body modal-specFacultyRpt report-options">
 		  <div class="form-group">
-			<label for="form-report-resident"></label>
+			<label for="form-report-resident">Resident/Fellow</label>
 			<select class="form-control select2" id="form-report-resident" name="subject" style="width: 100%;" required>
-				@foreach($residents as $resident)
-					<option value="{{ $resident->id }}">{{ $resident->full_name }}</option>
-				@endforeach
+        @foreach(array_keys($residentGroups) as $residentGroupLabel)
+            @if(count($residentGroups[$residentGroupLabel]) > 0)
+                <optgroup label="{{ $residentGroupLabel }}">
+                @foreach($residentGroups[$residentGroupLabel] as $resident)
+                    <option value="{{ $resident->id }}">{{ $resident->full_name }}</option>
+                @endforeach
+                </optgroup>
+            @endif
+        @endforeach
 			</select>
 		  </div>
 		  <div class="form-group">
@@ -213,8 +252,12 @@
 		  <div class="form-group">
 			<label for="form-id">Form</label>
 			<select class="form-control select2" id="form-id" name="form_id" style="width: 100%" required>
-		@foreach($residentForms as $residentForm)
-				<option value="{{ $residentForm->id }}">{{ $residentForm->title }}</option>
+		@foreach(array_keys($residentFormGroups) as $residentFormGroupLabel)
+                <optgroup label="{{ ucfirst($residentFormGroupLabel) }}">
+            @foreach($residentFormGroups[$residentFormGroupLabel] as $residentForm)
+                    <option value="{{ $residentForm->id }}">{{ $residentForm->title }}</option>
+            @endforeach
+                </optgroup>
 		@endforeach
 			</select>
 		  </div>

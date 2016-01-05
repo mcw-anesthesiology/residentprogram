@@ -97,7 +97,7 @@ class FormReader{
 	static function characterData($parser, $data){
 		global $result;
 
-		$result .= $data;
+		$result .= $data == "" ? "&nbsp;" : $data;
 	}
 
 	static function read($formPath){
