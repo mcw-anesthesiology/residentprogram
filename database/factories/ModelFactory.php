@@ -171,13 +171,13 @@ $factory->define(App\FlaggedEvaluation::class, function($faker){
     return [
         // "evaluation_id" => $overrides["evaluation_id"],
         "requested_action" => array_rand(Setting::get("flaggedActions")),
-        "reason" => $faker->words
+        "reason" => $faker->word
     ];
 });
 
 $factory->define(App\Milestone::class, function($faker){
     return [
-        "title" => $faker->words,
+        "title" => $faker->word,
         "description" => $faker->text,
         "type" => "resident"
     ];
@@ -185,7 +185,7 @@ $factory->define(App\Milestone::class, function($faker){
 
 $factory->define(App\Competency::class, function($faker){
     return [
-        "title" => $faker->words,
+        "title" => $faker->word,
         "description" => $faker->text
     ];
 });
