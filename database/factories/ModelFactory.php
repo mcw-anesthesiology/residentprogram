@@ -126,14 +126,12 @@ $factory->defineAs(App\Form::class, "faculty", function($faker) use ($factory){
     return array_merge($form, $faculty);
 });
 
-$factory->define(App\Evaluation::class, function($faker, $overrides){
-    $evaluator = User::where("type", "faculty")->get()->random()->id;
-    $subject = User::where("type", "resident")->get()->random()->id;
+$factory->define(App\Evaluation::class, function($faker){
     return [
-        "form_id" => $overrides["form_id"],
-        "evaluator_id" => $evaluator,
-        "subject_id" => $subject,
-        "requested_by_id" => $subject,
+        // "form_id" => $overrides["form_id"],
+        // "evaluator_id" => $overrides["evaluator_id"],
+        // "subject_id" => $overrides["evaluator_id"],
+        // "requested_by_id" => $overrides["requested_by_id"],
         "status" => "pending",
         "request_date" => $faker->date,
         "evaluation_date" => $faker->date,
@@ -141,8 +139,8 @@ $factory->define(App\Evaluation::class, function($faker, $overrides){
     ];
 });
 
-$factory->defineAs(App\Evaluation::class, "complete", function($faker, $overrides) use ($factory){
-    $evaluation = $factory->raw(App\Evaluation::class, $overrides);
+$factory->defineAs(App\Evaluation::class, "complete", function($faker) use ($factory){
+    $evaluation = $factory->raw(App\Evaluation::class);
     $trainingLevel = "ca-1";
     return array_merge($evaluation, [
         "status" => "complete",
@@ -152,9 +150,26 @@ $factory->defineAs(App\Evaluation::class, "complete", function($faker, $override
     ]);
 });
 
-$factory->define(App\FlaggedEvaluation::class, function($faker, $overrides){
+$factory->define(App\Response::class, function($faker){
     return [
-        "evaluation_id" => $overrides["evaluation_id"],
+        // "evaluation_id" => $overrides["evaluation_id"],
+        // "question_id" => $overrides["question_id"],
+        "response" => $faker->randomDigit,
+        "weight" => 100
+    ];
+});
+
+$factory->define(App\TextResponse::class, function($faker){
+    return [
+        // "evaluation_id" => $overrides["evaluation_id"],
+        // "question_id" => $overrides["question_id"],
+        "response" => $faker->text
+    ];
+});
+
+$factory->define(App\FlaggedEvaluation::class, function($faker){
+    return [
+        // "evaluation_id" => $overrides["evaluation_id"],
         "requested_action" => array_rand(Setting::get("flaggedActions")),
         "reason" => $faker->words
     ];
@@ -163,7 +178,8 @@ $factory->define(App\FlaggedEvaluation::class, function($faker, $overrides){
 $factory->define(App\Milestone::class, function($faker){
     return [
         "title" => $faker->words,
-        "description" => $faker->text
+        "description" => $faker->text,
+        "type" => "resident"
     ];
 });
 
@@ -174,26 +190,26 @@ $factory->define(App\Competency::class, function($faker){
     ];
 });
 
-$factory->define(App\MilestoneQuestion::class, function($faker, $overrides){
+$factory->define(App\MilestoneQuestion::class, function($faker){
     return [
-        "form_id" => $overrides["form_id"],
-        "question_id" => $overrides["question_id"],
-        "milestone_id" => $overrides["milestone_id"]
+        // "form_id" => $overrides["form_id"],
+        // "question_id" => $overrides["question_id"],
+        // "milestone_id" => $overrides["milestone_id"]
     ];
 });
 
-$factory->define(App\CompetencyQuestion::class, function($faker, $overrides){
+$factory->define(App\CompetencyQuestion::class, function($faker){
     return [
-        "form_id" => $overrides["form_id"],
-        "question_id" => $overrides["question_id"],
-        "competency_id" => $overrides["competency_id"]
+        // "form_id" => $overrides["form_id"],
+        // "question_id" => $overrides["question_id"],
+        // "competency_id" => $overrides["competency_id"]
     ];
 });
 
-$factory->define(App\Mentorship::class, function($faker, $overrides){
+$factory->define(App\Mentorship::class, function($faker){
     return [
-        "mentor_id" => $overrides["mentor_id"],
-        "mentee_id" => $overrides["mentee_id"],
+        // "mentor_id" => $overrides["mentor_id"],
+        // "mentee_id" => $overrides["mentee_id"],
         "status" => "active"
     ];
 });
@@ -208,10 +224,10 @@ $factory->define(App\Block::class, function($faker){
     ];
 });
 
-$factory->define(App\BlockAssignment::class, function($faker, $overrides){
+$factory->define(App\BlockAssignment::class, function($faker){
     return [
-        "block_id" => $overrides["block_id"],
-        "user_id" => $overrides["user_id"],
+        // "block_id" => $overrides["block_id"],
+        // "user_id" => $overrides["user_id"],
         "location" => $faker->word
     ];
 });

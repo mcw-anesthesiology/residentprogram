@@ -54,7 +54,7 @@ class SharedVariables
             }
 			View::share("residentFormGroups", $formGroups);
         }
-
+        $milestoneGroups = [];
         $milestones = Milestone::orderBy("title")->get();
         foreach($milestones as $milestone){
             $milestoneGroups[ucfirst($milestone->type)." ".$milestone->training_level][] = $milestone;
