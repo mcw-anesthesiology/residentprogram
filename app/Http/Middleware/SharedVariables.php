@@ -42,13 +42,6 @@ class SharedVariables
             View::share("facultyForms", Form::where("type", "faculty")->where("status", "active")->orderBy("title")->get());
 			View::share("residentForms", Form::where("type", "resident")->where("evaluator_type", "staff")->where("status", "active")->orderBy("title")->get());
 
-            $milestones = Milestone::orderBy("title")->get();
-            foreach($milestones as $milestone){
-                $milestoneGroups[ucfirst($milestone->type)." ".$milestone->training_level][] = $milestone;
-            }
-
-            View::share("milestoneGroups", $milestoneGroups);
-
             $rForms = Form::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("title")->get();
             $formGroups = [];
             foreach($rForms as $form){
@@ -61,6 +54,13 @@ class SharedVariables
             }
 			View::share("residentFormGroups", $formGroups);
         }
+
+        $milestones = Milestone::orderBy("title")->get();
+        foreach($milestones as $milestone){
+            $milestoneGroups[ucfirst($milestone->type)." ".$milestone->training_level][] = $milestone;
+        }
+
+        View::share("milestoneGroups", $milestoneGroups);
 
         return $next($request);
     }
