@@ -16,6 +16,7 @@ class ResidentTest extends TestCase
 		$this->user = factory(App\User::class, "resident")->create();
 		$this->faculty = factory(App\User::class, "faculty")->create();
 		$this->form = factory(App\Form::class, "resident")->create();
+        $this->facultyForm = factory(App\Form::class, "faculty")->create();
 		$this->milestone = factory(App\Milestone::class)->create();
 		$this->competency = factory(App\Competency::class)->create();
 		$this->milestoneQuestions = [
@@ -53,12 +54,13 @@ class ResidentTest extends TestCase
     public function testDashboard(){
         $this->actingAs($this->user)
             ->visit("/")
+            ->see("Resident Evaluation System")
             ->see("Account type: Resident");
     }
 
 	public function testRequest(){
 		$firstOfMonth = Carbon::parse("first day of this month")->toDateString();
-		$response = $this->actingAs($this->user)
+		$this->actingAs($this->user)
 			->visit("/request")
 			->see("Request resident evaluation")
 			->call("POST", "/request", [
@@ -143,4 +145,107 @@ class ResidentTest extends TestCase
 				"graphs" => "all"
 			]);
 	}
+
+    public function testRequestFacultyEval(){
+        $firstOfMonth = Carbon::parse("first day of this month")->toDateString();
+        $this->actingAs($this->user)
+            ->visit("/request/faculty")
+            ->see("Create faculty evaluation");
+
+        $this->actingAs($this->user)
+            ->call("POST", "/request/faculty", [
+                "subject_id" => $this->faculty->id,
+                "form_id" => $this->facultyForm->id,
+                "evaluation_date" => $firstOfMonth,
+                "_token" => csrf_token()
+            ]);
+
+        $this->seeInDatabase("evaluations", [
+            "subject_id" => $this->faculty->id,
+            "evaluator_id" => $this->user->id,
+            "requested_by_id" => $this->user->id,
+            "form_id" => $this->facultyForm->id,
+            "status" => "pending",
+            "evaluation_date" => $firstOfMonth
+        ]);
+    }
+
+    public function testSaveFacultyEval(){
+        $eval = factory(App\Evaluation::class)->create([
+            "form_id" => $this->facultyForm->id,
+            "evaluator_id" => $this->user->id,
+            "subject_id" => $this->faculty->id,
+            "requested_by_id" => $this->user->id
+        ]);
+
+        $this->actingAs($this->user)
+            ->visit("/evaluation/" . $eval->id)
+            ->see("Complete evaluation")
+            ->see($eval->id)
+            ->see("Pending")
+            ->see("Faculty Evaluation Form")
+            ->select("good", "q1")
+            ->type("Have none.", "q3")
+            ->press("Save evaluation");
+
+        $this->seeInDatabase("evaluations", [
+            "id" => $eval->id,
+            "status" => "pending"
+        ]);
+
+        $this->seeInDatabase("text_responses", [
+            "evaluation_id" => $eval->id,
+            "question_id" => "q1",
+            "response" => "good"
+        ]);
+
+        $this->seeInDatabase("text_responses", [
+            "evaluation_id" => $eval->id,
+            "question_id" => "q3",
+            "response" => "Have none."
+        ]);
+    }
+
+    public function testSubmitFacultyEval(){
+        $eval = factory(App\Evaluation::class)->create([
+            "form_id" => $this->facultyForm->id,
+            "evaluator_id" => $this->user->id,
+            "subject_id" => $this->faculty->id,
+            "requested_by_id" => $this->user->id
+        ]);
+
+        $this->actingAs($this->user)
+            ->visit("/evaluation/" . $eval->id)
+            ->see("Complete evaluation")
+            ->see($eval->id)
+            ->see("Pending")
+            ->see("Faculty Evaluation Form")
+            ->select("good", "q1")
+            ->select("yes", "q2")
+            ->type("Have none.", "q3")
+            ->press("Complete evaluation");
+
+        $this->seeInDatabase("evaluations", [
+            "id" => $eval->id,
+            "status" => "complete"
+        ]);
+
+        $this->seeInDatabase("text_responses", [
+            "evaluation_id" => $eval->id,
+            "question_id" => "q1",
+            "response" => "good"
+        ]);
+
+        $this->seeInDatabase("text_responses", [
+            "evaluation_id" => $eval->id,
+            "question_id" => "q2",
+            "response" => "yes"
+        ]);
+
+        $this->seeInDatabase("text_responses", [
+            "evaluation_id" => $eval->id,
+            "question_id" => "q3",
+            "response" => "Have none."
+        ]);
+    }
 }

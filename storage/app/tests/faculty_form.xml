@@ -1,22 +1,19 @@
 <?xml version="1.0"?>
 <form>
-	<title>Test Evaluation Form</title>
-	<question name="q1" required="required" type="radio" weight="100">
-		<text>Rate the overall performance of this resident.</text>
-		<option description="Not at PGY-1" value="0">Not at PGY-1</option><option description="" value="1"/>
-		<option description="PGY-1" value="2">PGY-1</option><option description="" value="3"/>
-		<option description="CA-1" value="4">CA-1</option><option description="" value="5"/>
-		<option description="CA-2" value="6">CA-2</option><option description="" value="7"/>
-		<option description="CA-3" value="8">CA-3</option><option description="" value="9"/>
-		<option description="Attending (aspirational)" value="10">Attending</option>
+	<title>Faculty Evaluation Form</title>
+	<question name="q1" required="required" type="radiononnumeric" weight="100">
+		<text>Rate the overall performance of this faculty.</text>
+		<option description="" value="poor">Poor</option>
+		<option description="" value="moderately-poor">Moderately poor</option>
+		<option description="" value="good">Good</option>
+		<option description="" value="excellent">Excellent</option>
 	</question>
-	<question name="q2" required="required" type="radio" weight="100">
-		<text>Overall assessment for this time period. Based on the resident's current level of training (e.g. CA1, CA2, CA3), I feel that this resident:</text>
-		<option description="Did not meet expectations" value="0">Did not meet expectations</option>
-		<option description="Met expectations with concerns" value="1">Met expectations with concerns</option>
-		<option description="Met expectations" value="2">Met expectations</option>
+	<question name="q2" required="required" type="radiononnumeric" weight="100">
+		<text>Would you recommend they keep teaching?</text>
+		<option description="Yes" value="yes">Yes</option>
+		<option description="No" value="no">No</option>
 	</question>
 	<question name="q3" required="required" type="text" weight="100">
-		<text>Please write any comments, concerns, or recommendations you have for this resident.</text>
+		<text>Please write any comments, concerns, or recommendations you have for this faculty.</text>
 	</question>
 </form>
