@@ -25,7 +25,7 @@ $factory->define(App\User::class, function ($faker) {
         "first_name" => $faker->firstName,
         "last_name" => $faker->lastName,
         'email' => $faker->email,
-        'password' => str_random(10),
+        'password' => $faker->password,
         'remember_token' => str_random(10)
     ];
 });
@@ -135,7 +135,7 @@ $factory->define(App\Evaluation::class, function($faker){
         "status" => "pending",
         "request_date" => $faker->date,
         "evaluation_date" => $faker->date,
-        "request_ip" => str_random(10)
+        "request_ip" => $faker->ipv4
     ];
 });
 

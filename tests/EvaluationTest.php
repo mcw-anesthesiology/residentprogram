@@ -76,7 +76,7 @@ class EvaluationTest extends TestCase
             $scen = $this->actingAs($user)
                 ->visit("/dashboard")
                 ->visit("/evaluation/" . $eval->id);
-            if($user == $subject || $user == $evaluator || $user->type == "admin" || $user->mentees()->contains($subject))
+            if($user == $subject || $user == $evaluator || $user->type == "admin" || $user->mentees->contains($subject))
                 $scen->seePageIs("/evaluation/" . $eval->id)
                     ->see($eval->id)
                     ->see("View Evaluation");

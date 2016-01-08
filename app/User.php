@@ -92,13 +92,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
                 "lastName" => $this->last_name
             ];
             $email = $this->email;
+            $this->save();
             Mail::send("emails.manual-password-reset", $data, function($message) use ($email){
                 $message->from("admin@residentprogram.com", "ResidentProgram");
                 $message->to($email);
                 $message->replyTo(env("ADMIN_EMAIL"));
                 $message->subject("Password reset");
             });
-            $this->save();
             return true;
         } catch(\Exception $e){
             Log::error("Problem resetting password: ".$e);

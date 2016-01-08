@@ -47,11 +47,11 @@
 	        <div class="modal-body modal-addMS">
 	          <div class="form-group">
 	            <label for="milestone_title">Milestone Title</label>
-	            <input type="text" class="form-control" id="milestone_title" name="milestone_title" placeholder="Title" required>
+	            <input type="text" class="form-control" id="milestone_title" name="title" placeholder="Title" required>
 	          </div>
 			  <div class="form-group">
 				<label for="milestone-type">Milestone Type</label>
-				<input type="text" class="form-control" id="milestone-type" name="milestone_type" list="milestone-type-list" placeholder="Type" value="resident" required />
+				<input type="text" class="form-control" id="milestone-type" name="type" list="milestone-type-list" placeholder="Type" value="resident" required />
 				<datalist id="milestone-type-list">
 	@foreach($milestoneTypes as $milestoneType)
 					<option value="{{ $milestoneType }}" />
@@ -60,7 +60,7 @@
 			  </div>
 			  <div class="form-group">
 				<label for="milestone-training-level">Subspecialty (optional)</label>
-				<input type="text" class="form-control" id="milestone-training-level" name="milestone_training_level" list="milestone-training-level-list" placeholder="Subspecialty (optional)" />
+				<input type="text" class="form-control" id="milestone-training-level" name="training_level" list="milestone-training-level-list" placeholder="Subspecialty (optional)" />
 				<datalist id="milestone-training-level-list">
 	@foreach($milestoneTrainingLevels as $milestoneTrainingLevel)
 					<option value="{{ $milestoneTrainingLevel }}" />
@@ -69,7 +69,7 @@
 			  </div>
 	          <div class="form-group">
 	            <label for="milestone_description">Milestone Description</label>
-	            <input type="text" class="form-control" id="milestone_description" name="milestone_description" placeholder="Description" required>
+	            <input type="text" class="form-control" id="milestone_description" name="description" placeholder="Description" required>
 	          </div>
 	        </div>
 	        <div class="modal-footer">
@@ -91,23 +91,23 @@
 	      </div>
 	      <form id="edit-milestone-form" method="post" action="/manage/milestones/edit">
 			{!! csrf_field() !!}
-			<input type="hidden" id="milestone_id" name="milestone_id" value="" />
+			<input type="hidden" id="milestone_id" name="id" value="" />
 	        <div class="modal-body modal-addMS">
 	          <div class="form-group">
 	            <label for="milestone_title">Milestone Title</label>
-	            <input type="text" class="form-control" id="milestone_title" name="milestone_title" placeholder="Title" required />
+	            <input type="text" class="form-control" id="milestone_title" name="title" placeholder="Title" required />
 	          </div>
 			  <div class="form-group">
 				<label for="milestone-type">Milestone Type</label>
-				<input type="text" class="form-control" id="milestone-type" name="milestone_type" list="milestone-type-list" placeholder="Type" value="resident" required />
+				<input type="text" class="form-control" id="milestone-type" name="type" list="milestone-type-list" placeholder="Type" value="resident" required />
 			  </div>
 			  <div class="form-group">
 				<label for="milestone-training-level">Subspecialty</label>
-				<input type="text" class="form-control" id="milestone-training-level" name="milestone_training_level" list="milestone-training-level-list" />
+				<input type="text" class="form-control" id="milestone-training-level" name="training_level" list="milestone-training-level-list" />
 			  </div>
 	          <div class="form-group">
 	            <label for="milestone_description">Milestone Description</label>
-	            <input type="text" class="form-control" id="milestone_description" name="milestone_description" placeholder="Description" required />
+	            <input type="text" class="form-control" id="milestone_description" name="description" placeholder="Description" required />
 	          </div>
 	        </div>
 	        <div class="modal-footer">
@@ -128,7 +128,7 @@
 	        <h4 class="modal-title" id="myModalDeleteMS">Delete Milestone</h4>
 	      </div>
 	      <form id="delete-milestone-modal" method="post" action="/manage/milestones/delete">
-			<input type="hidden" id="milestone_id" name="milestone_id" value="" />
+			<input type="hidden" id="milestone_id" name="id" value="" />
 			{!! csrf_field() !!}
 	        <div class="modal-body modal-addMS">
 	          Are you sure you want to delete this milestone? This cannot be undone.
@@ -155,11 +155,11 @@
 	        <div class="modal-body modal-addC">
 	          <div class="form-group">
 	            <label for="competency_title">Competency Title</label>
-	            <input type="text" class="form-control" id="competency_title" name="competency_title" placeholder="Title" required>
+	            <input type="text" class="form-control" id="competency_title" name="title" placeholder="Title" required>
 	          </div>
 	          <div class="form-group">
 	            <label for="competency_description">Competency Description</label>
-	            <input type="text" class="form-control" id="competency_description" name="competency_description" placeholder="Description" required>
+	            <input type="text" class="form-control" id="competency_description" name="description" placeholder="Description" required>
 	          </div>
 	        </div>
 	        <div class="modal-footer">
@@ -180,16 +180,16 @@
 	        <h4 class="modal-title" id="myModalEditC">Edit Competency</h4>
 	      </div>
 	      <form id="edit-competency-form" method="post" action="/manage/competencies/edit">
-			<input type="hidden" id="competency_id" name="competency_id" value="" />
+			<input type="hidden" id="competency_id" name="id" value="" />
 			{!! csrf_field() !!}
 	        <div class="modal-body modal-EditC">
 	          <div class="form-group">
 	            <label for="competency_title">Competency Title</label>
-	            <input type="text" class="form-control" id="competency_title" name="competency_title" placeholder="Title" required>
+	            <input type="text" class="form-control" id="competency_title" name="title" placeholder="Title" required>
 	          </div>
 	          <div class="form-group">
 	            <label for="competency_description">Competency Description</label>
-	            <input type="text" class="form-control" id="competency_description" name="competency_description" placeholder="Description" required>
+	            <input type="text" class="form-control" id="competency_description" name="description" placeholder="Description" required>
 	          </div>
 	        </div>
 	        <div class="modal-footer">
@@ -210,7 +210,7 @@
 	        <h4 class="modal-title" id="myModalDeleteC">Edit Competency</h4>
 	      </div>
 	      <form id="delete-competency-form" method="post" action="/manage/competencies/delete">
-			<input type="hidden" id="competency_id" name="competency_id" value="" />
+			<input type="hidden" id="competency_id" name="id" value="" />
 			{!! csrf_field() !!}
 	        <div class="modal-body modal-deleteC">
 				Are you sure you want to delete this competency? This cannot be undone.

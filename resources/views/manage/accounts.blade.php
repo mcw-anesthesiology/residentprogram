@@ -117,27 +117,27 @@
       </div>
       <form id="edit-form" enctype="multipart/form-data" method="post" action="/manage/accounts/edit">
 		  {!! csrf_field() !!}
-		<input type="hidden"  id="id" name="id" value="" />
+		<input type="hidden"  id="edit-id" name="id" value="" />
         <div class="modal-body modal-edit">
           <div class="form-group">
-            <label for="usernameInput">Username</label>
-            <input type="text" class="form-control" id="usernameInput" name="username" readonly>
+            <label for="edit-username">Username</label>
+            <input type="text" class="form-control" id="edit-username" name="username" readonly>
           </div>
           <div class="form-group">
-			<label for="emailInput">Email</label>
-			<input type="text" class="form-control" id="emailInput" name="email" required>
+			<label for="edit-email">Email</label>
+			<input type="text" class="form-control" id="edit-email" name="email" required>
           </div>
           <div class="form-group">
-            <label for="firstNameInput">First Name</label>
-            <input type="text" class="form-control" id="firstNameInput" name="firstName" required>
+            <label for="edit-first-name">First Name</label>
+            <input type="text" class="form-control" id="edit-first-name" name="first_name" required>
           </div>
           <div class="form-group">
-            <label for="lastNameInput">Last Name</label>
-            <input type="text" class="form-control" id="lastNameInput" name="lastName" required>
+            <label for="edit-last-name">Last Name</label>
+            <input type="text" class="form-control" id="edit-last-name" name="last_name" required>
           </div>
-          <div class="form-group" id="trainingLevelDiv">
-            <label for="trainingLevelInput">Training Level</label>
-            <select class="form-control" id="trainingLevelInput" name="trainingLevel">
+          <div class="form-group" id="edit-training-level-container">
+            <label for="edit-training-level">Training Level</label>
+            <select class="form-control" id="edit-training-level" name="training_level">
 				<option value="intern">Intern</option>
 				<option value="ca-1">CA-1</option>
 				<option value="ca-2">CA-2</option>
@@ -145,17 +145,17 @@
 				<option value="fellow">Fellow</option>
 			</select>
           </div>
-          <div class="form-group" id="photoDiv">
-			<label for="photoInput">Photo</label>
+          <div class="form-group" id="edit-photo-container">
+			<label for="edit-photo">Photo</label>
 			<input type="hidden" name="MAX_FILE_SIZE" value="5000000" />
-			<input type="file" accept="image/*" class="form-control" id="photoInput" name="photo" />
+			<input type="file" accept="image/*" class="form-control" id="edit-photo" name="photo" />
 			<div  style="text-align: center;">
-				<img id="photoPreview" src="" width="150px" />
+				<img id="photo-preview" src="" width="150px" />
 			</div>
           </div>
 		  <div class="form-group">
-            <label for="accountTypeInput">Account Type</label>
-            <input type="text" class="form-control" id="accountTypeInput" readonly>
+            <label for="edit-type">Account Type</label>
+            <input type="text" class="form-control account-type" id="edit-type" readonly>
           </div>
         </div>
         <div class="modal-footer">
@@ -179,24 +179,24 @@
 		  {!! csrf_field() !!}
         <div class="modal-body modal-add">
           <div class="form-group">
-            <label for="usernameInput">Username</label>
-            <input type="text" class="form-control" id="usernameInput" name="username" placeholder="Username" required>
+            <label for="add-username">Username</label>
+            <input type="text" class="form-control" id="add-username" name="username" placeholder="Username" required>
           </div>
           <div class="form-group">
-			<label for="emailInput">Email</label>
-			<input type="text" class="form-control" id="emailInput" name="email" placeholder="Email" required>
+			<label for="add-email">Email</label>
+			<input type="text" class="form-control" id="add-email" name="email" placeholder="Email" required>
           </div>
           <div class="form-group">
-            <label for="firstNameInput">First Name</label>
-            <input type="text" class="form-control" id="firstNameInput" name="firstName" placeholder="First Name" required>
+            <label for="add-first-name">First Name</label>
+            <input type="text" class="form-control" id="add-first-name" name="first_name" placeholder="First Name" required>
           </div>
           <div class="form-group">
-            <label for="lastNameInput">Last Name</label>
-            <input type="text" class="form-control" id="lastNameInput" name="lastName" placeholder="Last Name" required>
+            <label for="add-last-name">Last Name</label>
+            <input type="text" class="form-control" id="add-last-name" name="last_name" placeholder="Last Name" required>
           </div>
-          <div class="form-group" id="trainingLevelDiv">
-            <label for="trainingLevelInput">Training Level</label>
-            <select class="form-control" id="trainingLevelInput" name="trainingLevel">
+          <div class="form-group" id="add-training-level-container">
+            <label for="add-training-level">Training Level</label>
+            <select class="form-control" id="add-training-level" name="training_level">
 				<option value="intern">Intern</option>
 				<option value="ca-1">CA-1</option>
 				<option value="ca-2">CA-2</option>
@@ -204,14 +204,14 @@
 				<option value="fellow">Fellow</option>
 			</select>
           </div>
-          <div class="form-group" id="photoDiv">
-			<label for="photoInput">Photo</label>
+          <div class="form-group" id="add-photo-container">
+			<label for="add-photo">Photo</label>
 			<input type="hidden" name="MAX_FILE_SIZE" value="5000000" />
-			<input type="file" accept="image/*" class="form-control" id="photoInput" name="photo" />
+			<input type="file" accept="image/*" class="form-control" id="add-photo" name="photo" />
           </div>
           <div class="form-group">
-            <label for="accountTypeInput">Account Type</label>
-            <input type="text" class="form-control" id="accountTypeInput" name="accountType" readonly>
+            <label for="add-type">Account Type</label>
+            <input type="text" class="form-control account-type" id="add-type" name="type" readonly>
           </div>
 		  <div class="form-group">
 			  <label>
@@ -318,7 +318,7 @@
 		})
 
 		function submitAddEditForm(modal, form){
-			var type = $(modal + " #accountTypeInput").val();
+			var type = $(modal + " .account-type").val();
 			var fd = new FormData(form.get(0));
 			fd.append("ajax", true);
 			$.ajax({
@@ -345,6 +345,7 @@
 			var data = {};
 			data._token = "{{ csrf_token() }}";
 			data.id = $(this).data("id");
+			data.ajax = true;
 			var span = $(this).parent();
 			var status = $(this).parent().parent().siblings().last();
 			$.ajax({
@@ -352,14 +353,16 @@
 				"url": "/manage/accounts/disable",
 				"data": data,
 				"success": function(response){
-					span.fadeOut(function(){
-						$(this).html("<button class='enableUser btn btn-success btn-xs' data-id='"+data.id+"'><span class='glyphicon glyphicon-ok'></span> Enable</button>");
-						$(this).fadeIn();
-					});
-					status.fadeOut(function(){
-						$(this).html("inactive");
-						$(this).fadeIn();
-					});
+					if(response === "true"){
+						span.fadeOut(function(){
+							$(this).html("<button class='enableUser btn btn-success btn-xs' data-id='"+data.id+"'><span class='glyphicon glyphicon-ok'></span> Enable</button>");
+							$(this).fadeIn();
+						});
+						status.fadeOut(function(){
+							$(this).html("inactive");
+							$(this).fadeIn();
+						});
+					}
 				}
 			});
 		});
@@ -367,6 +370,7 @@
 			var data = {};
 			data._token = "{{ csrf_token() }}";
 			data.id = $(this).data("id");
+			data.ajax = true;
 			var span = $(this).parent();
 			var status = $(this).parent().parent().siblings().last();
 			$.ajax({
@@ -374,14 +378,16 @@
 				"url": "/manage/accounts/enable",
 				"data": data,
 				"success": function(response){
-					span.fadeOut(function(){
-						$(this).html("<button class='disableUser btn btn-danger btn-xs' data-id='"+data.id+"'><span class='glyphicon glyphicon-remove'></span> Disable</button>");
-						$(this).fadeIn();
-					});
-					status.fadeOut(function(){
-						$(this).html("active");
-						$(this).fadeIn();
-					});
+					if(response === "true"){
+						span.fadeOut(function(){
+							$(this).html("<button class='disableUser btn btn-danger btn-xs' data-id='"+data.id+"'><span class='glyphicon glyphicon-remove'></span> Disable</button>");
+							$(this).fadeIn();
+						});
+						status.fadeOut(function(){
+							$(this).html("active");
+							$(this).fadeIn();
+						});						
+					}
 				}
 			});
 		});
@@ -397,40 +403,40 @@
 			var photoPath = $(this).data("photo");
 
 			$("#edit-form")[0].reset();
-			$("#editModal #usernameInput").val(username);
-			$("#editModal #emailInput").val(email);
-			$("#editModal #firstNameInput").val(firstName);
-			$("#editModal #lastNameInput").val(lastName);
-			$("#editModal #id").val(id);
-			$("#editModal #accountTypeInput").val(type);
+			$("#edit-username").val(username);
+			$("#edit-email").val(email);
+			$("#edit-first-name").val(firstName);
+			$("#edit-last-name").val(lastName);
+			$("#edit-id").val(id);
+			$("#edit-type").val(type);
 			if(photoPath == "")
-				$("#editModal #photoPreview").hide();
+				$("#editModal #photo-preview").hide();
 			else{
-				$("#editModal #photoPreview").attr("src", "/"+photoPath);
-				$("#editModal #photoPreview").show();
+				$("#editModal #photo-preview").attr("src", "/"+photoPath);
+				$("#editModal #photo-preview").show();
 			}
 			if(type == "resident"){
-				$("#editModal #trainingLevelDiv").show();
-				$("#editModal #trainingLevelInput").val(trainingLevel);
+				$("#edit-training-level-container").show();
+				$("#edit-training-level").val(trainingLevel);
 			}
 			else{
 				if(type == "fellow")
-					$("#editModal #trainingLevelInput").val("fellow");
-				$("#editModal #trainingLevelDiv").hide();
+					$("#edit-training-level").val("fellow");
+				$("#edit-training-level-container").hide();
 			}
 		});
 
 		$(".addUser").on("click", function(){
 			var type = $(this).data('id');
 			$("#add-form")[0].reset();
-			$("#addModal #accountTypeInput").val(type);
+			$("#add-type").val(type);
 			if(type == "resident"){
-				$("#addModal #trainingLevelDiv").show();
+				$("#add-training-level").show();
 			}
 			else{
 				if(type == "fellow")
-					$("#addModal #trainingLevelInput").val("fellow");
-				$("#addModal #trainingLevelDiv").hide();
+					$("#add-training-level").val("fellow");
+				$("#add-training-level-container").hide();
 				$("#new-account-email").prop("checked", (type != "staff"));
 			}
 		});
@@ -449,19 +455,6 @@
 			$("#editPasswordModal .form-control").val("");
 			$("#edit-password-id").val(id);
 			$("#edit-password-name").text(name);
-		});
-
-		$("#passwordInput2").keyup(function(){
-			var password1 = $("#passwordInput").val();
-			var password2 = $("#passwordInput2").val();
-			if(password1 == password2){
-				$("#confirmPassword").attr("class","form-group has-success has-feedback");
-				$("#confirmIcon").attr("class","glyphicon glyphicon-ok form-control-feedback");
-			}
-			else{
-				$("#confirmPassword").attr("class","form-group has-error has-feedback");
-				$("#confirmIcon").attr("class","glyphicon glyphicon-remove form-control-feedback");
-			}
 		});
 
 		$(".datatable-resident").DataTable({

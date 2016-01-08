@@ -197,8 +197,8 @@ class ManageController extends Controller
                 $user->username = $request->input("username");
                 $user->email = $request->input("email");
                 $user->password = bcrypt($password);
-                $user->first_name = $request->input("firstName");
-                $user->last_name = $request->input("lastName");
+                $user->first_name = $request->input("first_name");
+                $user->last_name = $request->input("last_name");
                 $user->status = "active";
                 $user->reminder_frequency = "weekly";
                 $user->notifications = "no";
@@ -207,14 +207,14 @@ class ManageController extends Controller
                     $request->file("photo")->move(storage_path("app/photos/"), $photoName);
                     $user->photo_path = "photos/".$photoName;
                 }
-                if($request->input("accountType") == "resident"){
-                    $user->type = $request->input("accountType");
-                    $user->training_level = $request->input("trainingLevel");
-                } else if($request->input("accountType") == "fellow"){
+                if($request->input("type") == "resident"){
+                    $user->type = $request->input("type");
+                    $user->training_level = $request->input("training_level");
+                } else if($request->input("type") == "fellow"){
                     $user->type = "resident";
                     $user->training_level = "fellow";
                 } else{
-                    $user->type = $request->input("accountType");
+                    $user->type = $request->input("type");
                 }
                 $user->save();
                 if($request->has("send_email"))
@@ -231,11 +231,8 @@ class ManageController extends Controller
 				}
                 $user = User::find($request->input("id"));
                 $user->email = $request->input("email");
-                $user->first_name = $request->input("firstName");
-                $user->last_name = $request->input("lastName");
-                if($user->type == "resident"){
-                    $user->training_level = $request->input("trainingLevel");
-                }
+                $user->first_name = $request->input("first_name");
+                $user->last_name = $request->input("last_name");
                 if($request->hasFile("photo") && $request->file("photo")->isValid()){
                     $photoName = uniqid().".".$request->file("photo")->getExtension();
                     $request->file("photo")->move(storage_path("app/photos/"), $photoName);
@@ -244,7 +241,7 @@ class ManageController extends Controller
                     $user->photo_path = "photos/".$photoName;
                 }
                 if($user->type == "resident")
-                    $user->training_level = $request->input("trainingLevel");
+                    $user->training_level = $request->input("training_level");
 
                 $user->save();
                 break;
@@ -627,22 +624,22 @@ class ManageController extends Controller
         switch($action){
             case "add":
                 $milestone = new Milestone();
-                $milestone->title = $request->input("milestone_title");
-				$milestone->type = $resquest->input("milestone_type");
-				$milestone->training_level = $request->input("milestone_training_level");
-                $milestone->description = $request->input("milestone_description");
+                $milestone->title = $request->input("title");
+				$milestone->type = $resquest->input("type");
+				$milestone->training_level = $request->input("training_level");
+                $milestone->description = $request->input("description");
                 $milestone->save();
                 break;
             case "edit":
-                $milestone = Milestone::find($request->input("milestone_id"));
-                $milestone->title = $request->input("milestone_title");
-				$milestone->type = $request->input("milestone_type");
-				$milestone->training_level = $request->input("milestone_training_level");
-                $milestone->description = $request->input("milestone_description");
+                $milestone = Milestone::find($request->input("id"));
+                $milestone->title = $request->input("title");
+				$milestone->type = $request->input("type");
+				$milestone->training_level = $request->input("training_level");
+                $milestone->description = $request->input("description");
                 $milestone->save();
                 break;
             case "delete":
-                $milestone = Milestone::find($request->input("milestone_id"));
+                $milestone = Milestone::find($request->input("id"));
                 $milestone->delete();
                 break;
             default:
@@ -659,18 +656,18 @@ class ManageController extends Controller
         switch($action){
             case "add":
                 $competency = new Competency();
-                $competency->title = $request->input("competency_title");
-                $competency->description = $request->input("competency_description");
+                $competency->title = $request->input("title");
+                $competency->description = $request->input("description");
                 $competency->save();
                 break;
             case "edit":
-                $competency = Competency::find($request->input("competency_id"));
-                $competency->title = $request->input("competency_title");
-                $competency->description = $request->input("competency_description");
+                $competency = Competency::find($request->input("id"));
+                $competency->title = $request->input("title");
+                $competency->description = $request->input("description");
                 $competency->save();
                 break;
             case "delete":
-                $competency = Competency::find($request->input("competency_id"));
+                $competency = Competency::find($request->input("id"));
                 $competency->delete();
                 break;
             default:
