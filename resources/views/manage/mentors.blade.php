@@ -40,9 +40,15 @@
           <div class="form-group">
             <label for="resident">Resident</label>
             <select class="form-control select2" id="resident" name="resident" style="width: 100%">
-            @foreach($residents as $resident)
-                <option value="{{ $resident->id }}">{{ $resident->last_name }}, {{ $resident->first_name }}</option>
-            @endforeach
+		@foreach(array_keys($residentGroups) as $residentGroupLabel)
+			@if(count($residentGroups[$residentGroupLabel]) > 0)
+				<optgroup label="{{ $residentGroupLabel }}">
+				@foreach($residentGroups[$residentGroupLabel] as $resident)
+					<option value="{{ $resident->id }}">{{ $resident->full_name }}</option>
+				@endforeach
+				</optgroup>
+			@endif
+		@endforeach
             </select>
           </div>
         </div>
