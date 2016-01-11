@@ -208,23 +208,18 @@ class AdminTest extends TestCase
     }
 
     public function testResetAccountPassword(){
+        Mail::shouldReceive("send")
+            ->once()
+            ->andReturnUsing(function($view, $params){
+                $user = $this->user->fresh();
+                $this->assertTrue(password_verify($params["password"], $user->password));
+            });
         $this->actingAs($this->user)
             ->visit("/manage/accounts")
             ->post("/manage/accounts/password", [
                 "_token" => csrf_token(),
                 "id" => $this->resident->id
             ]);
-        Mail::shouldReceive("send")
-            ->once()
-            ->with(
-                "emails.manual-password-reset",
-                Mockery::on(function($data){
-                    $user = $this->user->fresh();
-                    $this->assertTrue(password_verify($data["password"]), $user->password);
-                    return true;
-                }),
-                Mockery::any()
-            );
     }
 
     public function testDisableAccount(){
@@ -325,8 +320,8 @@ class AdminTest extends TestCase
                 "action" => "visibility",
                 "visibility" => $newVisibility
             ])
-            ->see("true");
-        $this->seeInDatabase("forms", [
+            ->see("true")
+            ->seeInDatabase("forms", [
             "id" => $this->form->id,
             "visibility" => $newVisibility
         ]);
@@ -337,6 +332,7 @@ class AdminTest extends TestCase
         $milestone = [
             "title" => $faker->words(4, true),
             "type" => "resident",
+            "training_level" => "",
             "description" => $faker->text
         ];
         $this->actingAs($this->user)
@@ -345,8 +341,8 @@ class AdminTest extends TestCase
                 "ajax" => true,
                 "_token" => csrf_token()
             ]))
-            ->see("true");
-        $this->seeInDatabase("milestones", $milestone);
+            ->see("true")
+            ->seeInDatabase("milestones", $milestone);
     }
 
     public function testEditMilestone(){
@@ -363,14 +359,15 @@ class AdminTest extends TestCase
                 "ajax" => true,
                 "_token" => csrf_token()
             ]))
-            ->see("true");
-        $this->seeInDatabase("milestones", $milestone);
+            ->see("true")
+            ->seeInDatabase("milestones", $milestone);
     }
 
     public function testDeleteMilestone(){
         $faker = Faker::create();
+        $newMilestone = factory(App\Milestone::class)->create();
         $milestone = [
-            "id" => $this->milestone->id
+            "id" => $newMilestone->id
         ];
         $this->actingAs($this->user)
             ->visit("/manage/milestones-competencies")
@@ -378,8 +375,8 @@ class AdminTest extends TestCase
                 "ajax" => true,
                 "_token" => csrf_token()
             ]))
-            ->see("true");
-        $this->notSeeInDatabase("milestones", $milestone);
+            ->see("true")
+            ->notSeeInDatabase("milestones", $milestone);
     }
 
     public function testAddCompetency(){
@@ -394,8 +391,8 @@ class AdminTest extends TestCase
                 "_token" => csrf_token(),
                 "ajax" => true
             ]))
-            ->see("true");
-        $this->seeInDatabase("competencies", $competency);
+            ->see("true")
+            ->seeInDatabase("competencies", $competency);
     }
 
     public function testEditCompetency(){
@@ -411,14 +408,15 @@ class AdminTest extends TestCase
                 "_token" => csrf_token(),
                 "ajax" => true
             ]))
-            ->see("true");
-        $this->seeInDatabase("competencies", $competency);
+            ->see("true")
+            ->seeInDatabase("competencies", $competency);
     }
 
     public function testDeleteCompetency(){
         $faker = Faker::create();
+        $newCompetency = factory(App\Competency::class)->create();
         $competency = [
-            "id" => $this->competency->id
+            "id" => $newCompetency->id
         ];
         $this->actingAs($this->user)
             ->visit("/manage/milestones-competencies")
@@ -426,8 +424,8 @@ class AdminTest extends TestCase
                 "_token" => csrf_token(),
                 "ajax" => true
             ]))
-            ->see("true");
-        $this->notSeeInDatabase("competencies", $competency);
+            ->see("true")
+            ->notSeeInDatabase("competencies", $competency);
     }
 
     public function testAddMentorship(){

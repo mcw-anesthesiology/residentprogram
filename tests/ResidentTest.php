@@ -136,6 +136,7 @@ class ResidentTest extends TestCase
 		$startDate = Carbon::now()->subMonths(3);
 		$endDate = Carbon::now();
 		$this->actingAs($this->user)
+            ->visit("/dashboard")
 			->call("POST", "/report/specific", [
 				"_token" => csrf_token(),
 				"resident" => $this->user->id,

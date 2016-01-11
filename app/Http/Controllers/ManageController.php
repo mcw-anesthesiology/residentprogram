@@ -625,7 +625,7 @@ class ManageController extends Controller
             case "add":
                 $milestone = new Milestone();
                 $milestone->title = $request->input("title");
-				$milestone->type = $resquest->input("type");
+				$milestone->type = $request->input("type");
 				$milestone->training_level = $request->input("training_level");
                 $milestone->description = $request->input("description");
                 $milestone->save();
@@ -639,8 +639,7 @@ class ManageController extends Controller
                 $milestone->save();
                 break;
             case "delete":
-                $milestone = Milestone::find($request->input("id"));
-                $milestone->delete();
+                Milestone::destroy($request->input("id"));
                 break;
             default:
                 return redirect("manage/milestones-competencies");
@@ -667,8 +666,7 @@ class ManageController extends Controller
                 $competency->save();
                 break;
             case "delete":
-                $competency = Competency::find($request->input("id"));
-                $competency->delete();
+                Competency::destroy($request->input("id"));
                 break;
             default:
                 return redirect("manage/milestones-competencies");
