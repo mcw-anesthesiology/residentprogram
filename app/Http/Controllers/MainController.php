@@ -462,9 +462,9 @@ class MainController extends Controller
 		if($eval->evaluator_id == $user->id){
 			$eval->comment = $request->input("comment");
 			$eval->save();
-			return "success";
+			return "true";
 		}
-		return "failure";
+		return "false";
 	}
 
 	public function editEvaluation($id, Request $request){

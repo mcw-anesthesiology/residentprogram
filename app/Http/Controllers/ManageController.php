@@ -708,19 +708,21 @@ class ManageController extends Controller
         switch($action){
             case "add":
                 $mentorship = new Mentorship();
-                $mentorship->mentor_id = $request->input("faculty");
-                $mentorship->mentee_id = $request->input("resident");
+                $mentorship->mentor_id = $request->input("mentor_id");
+                $mentorship->mentee_id = $request->input("mentee_id");
                 $mentorship->status = "active";
                 $mentorship->save();
                 break;
             case "delete":
-                $mentorship = Mentorship::find($request->input("mentorshipId"));
+                $mentorship = Mentorship::find($request->input("mentorship_id"));
                 $mentorship->status = "inactive";
                 $mentorship->save();
                 break;
             default:
                 break;
         }
+        if($request->has("ajax") && !empty($request->input("ajax")))
+            return "true";
         return redirect("manage/mentors");
     }
 

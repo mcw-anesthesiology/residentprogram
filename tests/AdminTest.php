@@ -20,32 +20,9 @@ class AdminTest extends TestCase
         $this->staff = factory(App\User::class, "staff")->create();
 		$this->form = factory(App\Form::class, "resident")->create();
         $this->facultyForm = factory(App\Form::class, "faculty")->create();
+        $this->staffForm = factory(App\Form::class, "staff")->create();
 		$this->milestone = factory(App\Milestone::class)->create();
 		$this->competency = factory(App\Competency::class)->create();
-		$this->milestoneQuestions = [
-			factory(App\MilestoneQuestion::class)->create([
-				"form_id" => $this->form->id,
-				"question_id" => "q1",
-				"milestone_id" => $this->milestone->id
-			]),
-			factory(App\MilestoneQuestion::class)->create([
-				"form_id" => $this->form->id,
-				"question_id" => "q2",
-				"milestone_id" => $this->milestone->id
-			])
-		];
-		$this->competencyQuestions = [
-			factory(App\CompetencyQuestion::class)->create([
-				"form_id" => $this->form->id,
-				"question_id" => "q1",
-				"competency_id" => $this->competency->id
-			]),
-			factory(App\CompetencyQuestion::class)->create([
-				"form_id" => $this->form->id,
-				"question_id" => "q2",
-				"competency_id" => $this->competency->id
-			])
-		];
     }
 
 	public function tearDown(){
@@ -53,6 +30,120 @@ class AdminTest extends TestCase
 
 		parent::tearDown();
 	}
+
+    public function testRequestEvaluationWithCompletionHash(){
+        $faker = Faker::create();
+        $evaluationDate = $faker->date();
+        $hashExpiresIn = 30;
+
+        $evalParams = [
+            "subject_id" => $this->resident->id,
+            "evaluator_id" => $this->staff->id,
+            "form_id" => $this->staffForm->id
+        ];
+
+        Mail::shouldReceive("send")
+            ->once()
+            ->andReturnUsing(function($view, $params){
+                $this->assertEquals($view, "emails.hash-link");
+                $this->seeInDatabase("evaluations", [
+                    "completion_hash" => $params["evaluationHash"]
+                ]);
+            });
+
+        $this->actingAs($this->user)
+            ->visit("/request/staff")
+            ->see("Request staff evaluation")
+            ->post("/request/staff", array_merge($evalParams, [
+                "_token" => csrf_token(),
+                "send_hash" => "true",
+                "hash_expires_in" => $hashExpiresIn
+            ]))
+            ->seeInDatabase("evaluations", $evalParams);
+
+        $eval = App\Evaluation::where("subject_id", $evalParams["subject_id"])
+            ->where("evaluator_id", $evalParams["evaluator_id"])
+            ->where("form_id", $evalParams["form_id"])
+            ->orderBy("created_at", "desc")
+            ->first();
+
+        $this->assertNotEmpty($eval->completion_hash)
+            ->assertNotEmpty($eval->hash_expires);
+    }
+
+    public function testSendEvaluationCompletionHash(){
+        $eval = factory(App\Evaluation::class, "with-hash")->create([
+            "subject_id" => $this->resident->id,
+            "evaluator_id" => $this->staff->id,
+            "requested_by_id" => $this->user->id,
+            "form_id" => $this->staffForm->id
+        ]);
+
+        $oldHash = $eval->completion_hash;
+
+        Mail::shouldReceive("send")
+            ->once()
+            ->andReturnUsing(function($view, $params) use ($eval, $oldHash){
+                $eval = $eval->fresh();
+                $this->assertEquals($view, "emails.hash-link");
+                $this->assertEquals($params["evaluationHash"], $eval->completion_hash);
+                $this->assertNotEquals($params["evaluationHash"], $oldHash);
+            });
+
+        $this->actingAs($this->user)
+            ->visit("/evaluation/" . $eval->id)
+            ->post("/evaluation/" . $eval->id . "/hash", [
+                "_token" => csrf_token(),
+                "action" => "new",
+                "hash_expires_in" => 30
+            ])
+            ->see("true");
+    }
+
+    public function testResendEvaluationCompletionHash(){
+        $eval = factory(App\Evaluation::class, "with-hash")->create([
+            "subject_id" => $this->resident->id,
+            "evaluator_id" => $this->staff->id,
+            "requested_by_id" => $this->user->id,
+            "form_id" => $this->staffForm->id
+        ]);
+
+        Mail::shouldReceive("send")
+            ->once()
+            ->andReturnUsing(function($view, $params) use ($eval){
+                $this->assertEquals($view, "emails.hash-link");
+                $this->assertEquals($params["evaluationHash"], $eval->completion_hash);
+            });
+
+        $this->actingAs($this->user)
+            ->visit("/evaluation/" . $eval->id)
+            ->post("/evaluation/" . $eval->id . "/hash", [
+                "_token" => csrf_token(),
+                "action" => "resend"
+            ])
+            ->see("true");
+    }
+
+    public function testVoidEvaluationCompletionHash(){
+        $eval = factory(App\Evaluation::class, "with-hash")->create([
+            "subject_id" => $this->resident->id,
+            "evaluator_id" => $this->staff->id,
+            "requested_by_id" => $this->user->id,
+            "form_id" => $this->staffForm->id
+        ]);
+
+        $this->actingAs($this->user)
+            ->visit("/evaluation/" . $eval->id)
+            ->post("/evaluation/" . $eval->id . "/hash", [
+                "_token" => csrf_token(),
+                "action" => "void"
+            ])
+            ->see("true")
+            ->seeInDatabase("evaluations", [
+                "id" => $eval->id,
+                "completion_hash" => null
+            ]);
+    }
 
     public function testDisableEvaluation(){
         $eval = factory(App\Evaluation::class)->create([
@@ -212,6 +303,7 @@ class AdminTest extends TestCase
             ->once()
             ->andReturnUsing(function($view, $params){
                 $user = $this->user->fresh();
+                $this->assertEquals($view, "emails.manual-password-reset");
                 $this->assertTrue(password_verify($params["password"], $user->password));
             });
         $this->actingAs($this->user)
@@ -429,10 +521,36 @@ class AdminTest extends TestCase
     }
 
     public function testAddMentorship(){
-
+        $mentorship = [
+            "mentor_id" => $this->faculty->id,
+            "mentee_id" => $this->resident->id
+        ];
+        $this->actingAs($this->user)
+            ->visit("/manage/mentors")
+            ->post("/manage/mentors/add", array_merge($mentorship, [
+                "_token" => csrf_token(),
+                "ajax" => true
+            ]))
+            ->see("true")
+            ->seeInDatabase("mentorships", $mentorship);
     }
 
     public function testRemoveMentorship(){
-
+        $mentorship = factory(App\Mentorship::class)->create([
+            "mentor_id" => $this->faculty->id,
+            "mentee_id" => $this->resident->id
+        ]);
+        $this->actingAs($this->user)
+            ->visit("/manage/mentors")
+            ->post("/manage/mentors/delete", [
+                "_token" => csrf_token(),
+                "ajax" => true,
+                "mentorship_id" => $mentorship->id
+            ])
+            ->see("true")
+            ->seeInDatabase("mentorships", [
+                "id" => $mentorship->id,
+                "status" => "inactive"
+            ]);
     }
 }

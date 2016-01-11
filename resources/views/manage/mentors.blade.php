@@ -4,7 +4,7 @@
 	<div class="row">
 		<h2 class="sub-header">Mentorships <button class="btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
-			<table class="table table-striped datatable">
+			<table class="table table-striped datatable" id="mentorships-table">
 				<thead>
 					<tr>
 						<th>#</th>
@@ -26,12 +26,12 @@
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title" id="myModalAdd">Add Mentorship</h4>
         </div>
-        <form method="post" action="/manage/mentors/add">
+        <form method="post" action="/manage/mentors/add" id="add-mentorship-form">
 			{{ csrf_field() }}
         <div class="modal-body">
           <div class="form-group">
             <label for="faculty">Faculty</label>
-            <select class="form-control select2" id="faculty" name="faculty" style="width: 100%">
+            <select class="form-control select2" id="faculty" name="mentor_id" style="width: 100%">
             @foreach($faculty as $facultyMember)
                 <option value="{{ $facultyMember->id }}">{{ $facultyMember->last_name }}, {{ $facultyMember->first_name }}</option>
             @endforeach
@@ -39,7 +39,7 @@
           </div>
           <div class="form-group">
             <label for="resident">Resident</label>
-            <select class="form-control select2" id="resident" name="resident" style="width: 100%">
+            <select class="form-control select2" id="resident" name="mentee_id" style="width: 100%">
 		@foreach(array_keys($residentGroups) as $residentGroupLabel)
 			@if(count($residentGroups[$residentGroupLabel]) > 0)
 				<optgroup label="{{ $residentGroupLabel }}">
@@ -54,7 +54,7 @@
         </div>
         <div class="modal-footer modal-disable">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-success">Confirm</button>
+          <button type="submit" class="btn btn-success">Add mentorship</button>
         </div>
       </form>
       </div>
@@ -73,10 +73,11 @@
             You have selected to <b>remove</b> this mentorship, are you sure?
           </div>
           <div class="modal-footer modal-disable">
-            <form method="post" action="/manage/mentors/delete">
+            <form method="post" action="/manage/mentors/delete" id="remove-mentorship-form">
 				{{ csrf_field() }}
+				<input type="hidden" id="mentorship-id" name="mentorship_id" value="" />
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-danger" id="mentorshipId" name="mentorshipId" value="">Remove</button>
+              <button type="submit" class="btn btn-danger">Delete mentorship</button>
             </form>
           </div>
         </div>
@@ -88,7 +89,45 @@
 	<script>
 		$("table").on("click", ".removeMentorship", function(){
 			var mentorshipId = $(this).data("id");
-			$("#mentorshipId").val(mentorshipId);
+			$("#mentorship-id").val(mentorshipId);
+		});
+
+		$("#add-mentorship-form").submit(function(event){
+			event.preventDefault();
+			var data = $(this).serialize() + "&ajax=true";
+			var modal = $(this).parents(".modal");
+			$.post($(this).prop("action"), data, function(response){
+				if(response === "true"){
+					modal.modal("hide");
+					$("#mentorships-table").DataTable({
+						retrieve: true
+					}).ajax.reload();
+				}
+				else{
+					appendAlert(response, modal.find(".modal-body"));
+				}
+			});
+		});
+
+		$("#remove-mentorship-form").submit(function(event){
+			event.preventDefault();
+			var mentorshipId = $("#mentorship-id").val();
+			var data = $(this).serialize() + "&ajax=true";
+			var modal = $(this).parents(".modal");
+			var row = $("button[data-id='" + mentorshipId + "']").parents("tr");
+			$.post($(this).prop("action"), data, function(response){
+				if(response === "true"){
+					modal.modal("hide");
+					row.fadeOut(function(){
+						$("#mentorships-table").DataTable({
+							retrieve: true
+						}).row(row).remove().draw();
+					});
+				}
+				else{
+					appendAlert(response, modal.find(".modal-body"));
+				}
+			});
 		});
 
 		$(document).ready(function(){

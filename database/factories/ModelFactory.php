@@ -150,6 +150,14 @@ $factory->defineAs(App\Evaluation::class, "complete", function($faker) use ($fac
     ]);
 });
 
+$factory->defineAs(App\Evaluation::class, "with-hash", function($faker) use ($factory){
+    $evaluation = $factory->raw(App\Evaluation::class);
+    return array_merge($evaluation, [
+        "completion_hash" => str_random(40),
+        "hash_expires" => Carbon\Carbon::now()->addDays(60)
+    ]);
+});
+
 $factory->define(App\Response::class, function($faker){
     return [
         // "evaluation_id" => $overrides["evaluation_id"],

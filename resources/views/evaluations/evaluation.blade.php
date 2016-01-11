@@ -229,7 +229,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-						<button type="submit" class="btn btn-info">Edit evaluation</button>
+						<button type="submit" class="btn btn-info">Save changes</button>
 					</div>
 				</form>
 			</div>
@@ -466,7 +466,7 @@
 			alert.fadeIn();
 
 			$.post(url + "/comment", data, function(result){
-				if(result == "success"){
+				if(result == "true"){
 					alert.removeClass("alert-danger alert-info").addClass("alert-success");
 					alert.html("Comment saved!");
 				}
