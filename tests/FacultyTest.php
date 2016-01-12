@@ -330,7 +330,7 @@ class FacultyTest extends TestCase
             ->visit("/evaluation/" . $eval->id)
             ->seePageIs("/evaluation/" . $eval->id)
             ->see("View Evaluation")
-            ->dontSee($this->resident->last_name);
+            ->dontSee($this->resident->last_name . ", " . $this->resident->first_name);
     }
 
     public function testViewMenteeEvals(){

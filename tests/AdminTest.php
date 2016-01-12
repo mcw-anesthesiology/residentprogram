@@ -302,7 +302,7 @@ class AdminTest extends TestCase
         Mail::shouldReceive("send")
             ->once()
             ->andReturnUsing(function($view, $params){
-                $user = $this->user->fresh();
+                $user = $this->resident->fresh();
                 $this->assertEquals($view, "emails.manual-password-reset");
                 $this->assertTrue(password_verify($params["password"], $user->password));
             });
