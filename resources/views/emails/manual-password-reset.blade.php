@@ -5,7 +5,7 @@
 <table>
 	<thead>
 		<tr>
-			<td colspan="2">{{ url() }}</td>
+			<td colspan="2">{{ url("/") }}</td>
 		</tr>
 	</thead>
 	<tbody>
@@ -19,5 +19,5 @@
 	We strongly recommend you change your password immediately after successfully logging in. You can do so via the <a href="{{ url("/user") }}">account management page</a>, which can be found by clicking on your name in the navigation bar in the upper right.
 </p>
 <p>
-	As always, you can contact me through the <a href="{{ url("/contact") }}">contact page</a>, or by emailing me directly at <a href="mailto:{{ env('ADMIN_EMAIL') }}">{{ env('ADMIN_EMAIL') }}</a>.
+	As always, you can contact me through the <a href="{{ url("/contact") }}">contact page</a>, or by emailing me directly at <a href="mailto:{{ config("admin_email") }}">{{ config("admin_email") }}</a>.
 </p>

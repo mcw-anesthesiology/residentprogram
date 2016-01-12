@@ -7,6 +7,8 @@ use App\Evaluation;
 
 use anlutro\LaravelSettings\Facade as Setting;
 
+use Faker\Generator as Faker;
+
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -18,7 +20,7 @@ use anlutro\LaravelSettings\Facade as Setting;
 |
 */
 
-$factory->define(App\User::class, function ($faker) {
+$factory->define(App\User::class, function (Faker $faker) {
     return [
         'username' => $faker->userName,
         "status" => "active",
@@ -30,7 +32,7 @@ $factory->define(App\User::class, function ($faker) {
     ];
 });
 
-$factory->defineAs(App\User::class, "resident", function($faker) use ($factory){
+$factory->defineAs(App\User::class, "resident", function(Faker $faker) use ($factory){
     $user = $factory->raw(App\User::class);
     $resident = [
         "type" => "resident",
@@ -39,7 +41,7 @@ $factory->defineAs(App\User::class, "resident", function($faker) use ($factory){
     return array_merge($user, $resident);
 });
 
-$factory->defineAs(App\User::class, "fellow", function($faker) use ($factory){
+$factory->defineAs(App\User::class, "fellow", function(Faker $faker) use ($factory){
     $user = $factory->raw(App\User::class);
     $fellow = [
         "type" => "resident",
@@ -48,7 +50,7 @@ $factory->defineAs(App\User::class, "fellow", function($faker) use ($factory){
     return array_merge($user, $fellow);
 });
 
-$factory->defineAs(App\User::class, "faculty", function($faker) use ($factory){
+$factory->defineAs(App\User::class, "faculty", function(Faker $faker) use ($factory){
     $user = $factory->raw(App\User::class);
     $faculty = [
         "type" => "faculty",
@@ -59,7 +61,7 @@ $factory->defineAs(App\User::class, "faculty", function($faker) use ($factory){
     return array_merge($user, $faculty);
 });
 
-$factory->defineAs(App\User::class, "staff", function($faker) use ($factory){
+$factory->defineAs(App\User::class, "staff", function(Faker $faker) use ($factory){
     $user = $factory->raw(App\User::class);
     $staff = [
         "type" => "staff",
@@ -67,7 +69,7 @@ $factory->defineAs(App\User::class, "staff", function($faker) use ($factory){
     return array_merge($user, $staff);
 });
 
-$factory->defineAs(App\User::class, "admin", function($faker) use ($factory){
+$factory->defineAs(App\User::class, "admin", function(Faker $faker) use ($factory){
     $user = $factory->raw(App\User::class);
     $admin = [
         "type" => "admin"
@@ -75,14 +77,14 @@ $factory->defineAs(App\User::class, "admin", function($faker) use ($factory){
     return array_merge($user, $admin);
 });
 
-$factory->define(App\Form::class, function($faker){
+$factory->define(App\Form::class, function(Faker $faker){
     return [
         "title" => $faker->word,
         "status" => "active"
     ];
 });
 
-$factory->defineAs(App\Form::class, "resident", function($faker) use ($factory){
+$factory->defineAs(App\Form::class, "resident", function(Faker $faker) use ($factory){
     $form = $factory->raw(App\Form::class);
     $resident = [
         "xml_path" => "tests/resident_form.xml",
@@ -93,7 +95,7 @@ $factory->defineAs(App\Form::class, "resident", function($faker) use ($factory){
     return array_merge($form, $resident);
 });
 
-$factory->defineAs(App\Form::class, "fellow", function($faker) use ($factory){
+$factory->defineAs(App\Form::class, "fellow", function(Faker $faker) use ($factory){
     $form = $factory->raw(App\Form::class);
     $fellow = [
         "xml_path" => "tests/fellow_form.xml",
@@ -104,7 +106,7 @@ $factory->defineAs(App\Form::class, "fellow", function($faker) use ($factory){
     return array_merge($form, $fellow);
 });
 
-$factory->defineAs(App\Form::class, "staff", function($faker) use ($factory){
+$factory->defineAs(App\Form::class, "staff", function(Faker $faker) use ($factory){
     $form = $factory->raw(App\Form::class);
     $staff = [
         "xml_path" => "tests/staff_form.xml",
@@ -115,7 +117,7 @@ $factory->defineAs(App\Form::class, "staff", function($faker) use ($factory){
     return array_merge($form, $staff);
 });
 
-$factory->defineAs(App\Form::class, "faculty", function($faker) use ($factory){
+$factory->defineAs(App\Form::class, "faculty", function(Faker $faker) use ($factory){
     $form = $factory->raw(App\Form::class);
     $faculty = [
         "xml_path" => "tests/faculty_form.xml",
@@ -126,7 +128,7 @@ $factory->defineAs(App\Form::class, "faculty", function($faker) use ($factory){
     return array_merge($form, $faculty);
 });
 
-$factory->define(App\Evaluation::class, function($faker){
+$factory->define(App\Evaluation::class, function(Faker $faker){
     return [
         // "form_id" => $overrides["form_id"],
         // "evaluator_id" => $overrides["evaluator_id"],
@@ -139,7 +141,7 @@ $factory->define(App\Evaluation::class, function($faker){
     ];
 });
 
-$factory->defineAs(App\Evaluation::class, "complete", function($faker) use ($factory){
+$factory->defineAs(App\Evaluation::class, "complete", function(Faker $faker) use ($factory){
     $evaluation = $factory->raw(App\Evaluation::class);
     $trainingLevel = "ca-1";
     return array_merge($evaluation, [
@@ -150,7 +152,7 @@ $factory->defineAs(App\Evaluation::class, "complete", function($faker) use ($fac
     ]);
 });
 
-$factory->defineAs(App\Evaluation::class, "with-hash", function($faker) use ($factory){
+$factory->defineAs(App\Evaluation::class, "with-hash", function(Faker $faker) use ($factory){
     $evaluation = $factory->raw(App\Evaluation::class);
     return array_merge($evaluation, [
         "completion_hash" => str_random(40),
@@ -158,7 +160,7 @@ $factory->defineAs(App\Evaluation::class, "with-hash", function($faker) use ($fa
     ]);
 });
 
-$factory->define(App\Response::class, function($faker){
+$factory->define(App\Response::class, function(Faker $faker){
     return [
         // "evaluation_id" => $overrides["evaluation_id"],
         // "question_id" => $overrides["question_id"],
@@ -167,7 +169,7 @@ $factory->define(App\Response::class, function($faker){
     ];
 });
 
-$factory->define(App\TextResponse::class, function($faker){
+$factory->define(App\TextResponse::class, function(Faker $faker){
     return [
         // "evaluation_id" => $overrides["evaluation_id"],
         // "question_id" => $overrides["question_id"],
@@ -175,7 +177,7 @@ $factory->define(App\TextResponse::class, function($faker){
     ];
 });
 
-$factory->define(App\FlaggedEvaluation::class, function($faker){
+$factory->define(App\FlaggedEvaluation::class, function(Faker $faker){
     return [
         // "evaluation_id" => $overrides["evaluation_id"],
         "requested_action" => array_rand(Setting::get("flaggedActions")),
@@ -183,7 +185,7 @@ $factory->define(App\FlaggedEvaluation::class, function($faker){
     ];
 });
 
-$factory->define(App\Milestone::class, function($faker){
+$factory->define(App\Milestone::class, function(Faker $faker){
     return [
         "title" => $faker->word,
         "description" => $faker->text,
@@ -191,14 +193,14 @@ $factory->define(App\Milestone::class, function($faker){
     ];
 });
 
-$factory->define(App\Competency::class, function($faker){
+$factory->define(App\Competency::class, function(Faker $faker){
     return [
         "title" => $faker->word,
         "description" => $faker->text
     ];
 });
 
-$factory->define(App\MilestoneQuestion::class, function($faker){
+$factory->define(App\MilestoneQuestion::class, function(Faker $faker){
     return [
         // "form_id" => $overrides["form_id"],
         // "question_id" => $overrides["question_id"],
@@ -206,7 +208,7 @@ $factory->define(App\MilestoneQuestion::class, function($faker){
     ];
 });
 
-$factory->define(App\CompetencyQuestion::class, function($faker){
+$factory->define(App\CompetencyQuestion::class, function(Faker $faker){
     return [
         // "form_id" => $overrides["form_id"],
         // "question_id" => $overrides["question_id"],
@@ -214,7 +216,7 @@ $factory->define(App\CompetencyQuestion::class, function($faker){
     ];
 });
 
-$factory->define(App\Mentorship::class, function($faker){
+$factory->define(App\Mentorship::class, function(Faker $faker){
     return [
         // "mentor_id" => $overrides["mentor_id"],
         // "mentee_id" => $overrides["mentee_id"],
@@ -222,7 +224,7 @@ $factory->define(App\Mentorship::class, function($faker){
     ];
 });
 
-$factory->define(App\Block::class, function($faker){
+$factory->define(App\Block::class, function(Faker $faker){
     return [
         "year" => "2014-2015",
         "block_number" => $faker->randomDigit,
@@ -232,7 +234,7 @@ $factory->define(App\Block::class, function($faker){
     ];
 });
 
-$factory->define(App\BlockAssignment::class, function($faker){
+$factory->define(App\BlockAssignment::class, function(Faker $faker){
     return [
         // "block_id" => $overrides["block_id"],
         // "user_id" => $overrides["user_id"],

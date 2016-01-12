@@ -15,24 +15,24 @@ return [
     */
 
     'mailgun' => [
-        'domain' => 'mg.residentprogram.com',
-        'secret' => 'key-1db065f2fb4b174e8727c57b87e049f4',
+        'domain' => env('MAILGUN_DOMAIN'),
+        'secret' => env('MAILGUN_SECRET'),
     ],
 
     'mandrill' => [
-        'secret' => '',
+        'secret' => env('MANDRILL_SECRET'),
     ],
 
     'ses' => [
-        'key'    => '',
-        'secret' => '',
+        'key'    => env('SES_KEY'),
+        'secret' => env('SES_SECRET'),
         'region' => 'us-east-1',
     ],
 
     'stripe' => [
         'model'  => App\User::class,
-        'key'    => '',
-        'secret' => '',
+        'key'    => env('STRIPE_KEY'),
+        'secret' => env('STRIPE_SECRET'),
     ],
 
 ];

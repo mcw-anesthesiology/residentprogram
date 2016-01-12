@@ -198,7 +198,7 @@
 	<div class="modal fade" id="edit-evaluation-modal" tabindex="-1" role="dialog" aria-labelledby="edit-evaluation-label">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<form method="post" action="{{ Request::url() }}/edit" role="form" id="edit-evaluation-form">
+				<form method="post" action="{{ Request::url('/') }}/edit" role="form" id="edit-evaluation-form">
 					{!! csrf_field() !!}
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
@@ -241,7 +241,7 @@
 	<div class="modal fade" id="flag-evaluation-modal" tabindex="-1" role="dialog" aria-labelledby="flag-evaluation-label">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<form method="post" action="{{ Request::url() }}/flag" role="form">
+				<form method="post" action="{{ Request::url('/') }}/flag" role="form">
 					{!! csrf_field() !!}
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>

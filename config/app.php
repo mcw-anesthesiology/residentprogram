@@ -3,7 +3,7 @@
 return [
 
 
-    "admin_email" => env("ADMIN_EMAIL", "jmischka@mcw.edu");
+    "admin_email" => env("ADMIN_EMAIL", "jmischka@mcw.edu"),
 
     /*
     |--------------------------------------------------------------------------

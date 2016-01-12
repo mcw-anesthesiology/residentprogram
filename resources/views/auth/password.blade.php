@@ -17,7 +17,7 @@
 	<br />
 	<div id="info">
 		<p>
-			If you are unable to successfully reset your password, please contact me at <a href="mailto:{{ env('ADMIN_EMAIL') }}">{{ env('ADMIN_EMAIL') }}</a> and I can help you reset it.
+			If you are unable to successfully reset your password, please contact me at <a href="mailto:{{ config("admin_email") }}">{{ config("admin_email") }}</a> and I can help you reset it.
 		</p>
 	</div>
 @stop
