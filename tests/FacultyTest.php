@@ -10,10 +10,11 @@ use Faker\Factory as Faker;
 
 class FacultyTest extends TestCase
 {
+    use DatabaseTransactions;
+
     public function setUp(){
         parent::setUp();
-
-		$this->artisan("migrate");
+        
 		$this->user = factory(App\User::class, "faculty")->create();
 		$this->resident = factory(App\User::class, "resident")->create();
 		$this->form = factory(App\Form::class, "resident")->create();
@@ -45,12 +46,6 @@ class FacultyTest extends TestCase
 			])
 		];
     }
-
-	public function tearDown(){
-		$this->artisan("migrate:reset");
-
-		parent::tearDown();
-	}
 
     public function testDashboard(){
         $this->actingAs($this->user)

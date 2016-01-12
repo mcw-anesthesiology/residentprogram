@@ -8,11 +8,11 @@ use Carbon\Carbon;
 
 class ResidentTest extends TestCase
 {
+    use DatabaseTransactions;
 
     public function setUp(){
         parent::setUp();
 
-		$this->artisan("migrate");
 		$this->user = factory(App\User::class, "resident")->create();
 		$this->faculty = factory(App\User::class, "faculty")->create();
 		$this->form = factory(App\Form::class, "resident")->create();
@@ -44,12 +44,6 @@ class ResidentTest extends TestCase
 			])
 		];
     }
-
-	public function tearDown(){
-		$this->artisan("migrate:reset");
-
-		parent::tearDown();
-	}
 
     public function testDashboard(){
         $this->actingAs($this->user)

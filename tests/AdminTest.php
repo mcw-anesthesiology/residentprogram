@@ -10,10 +10,11 @@ use Faker\Factory as Faker;
 
 class AdminTest extends TestCase
 {
+    use DatabaseTransactions;
+
     public function setUp(){
         parent::setUp();
 
-		$this->artisan("migrate");
 		$this->user = factory(App\User::class, "admin")->create();
         $this->resident = factory(App\User::class, "resident")->create();
 		$this->faculty = factory(App\User::class, "faculty")->create();
@@ -21,15 +22,33 @@ class AdminTest extends TestCase
 		$this->form = factory(App\Form::class, "resident")->create();
         $this->facultyForm = factory(App\Form::class, "faculty")->create();
         $this->staffForm = factory(App\Form::class, "staff")->create();
-		$this->milestone = factory(App\Milestone::class)->create();
-		$this->competency = factory(App\Competency::class)->create();
+		$this->milestones = factory(App\Milestone::class, 2)->create();
+		$this->competencies = factory(App\Competency::class, 2)->create();
+        $this->milestoneQuestions = [
+			factory(App\MilestoneQuestion::class)->create([
+				"form_id" => $this->form->id,
+				"question_id" => "q1",
+				"milestone_id" => $this->milestones[0]->id
+			]),
+			factory(App\MilestoneQuestion::class)->create([
+				"form_id" => $this->form->id,
+				"question_id" => "q2",
+				"milestone_id" => $this->milestones[1]->id
+			])
+		];
+		$this->competencyQuestions = [
+			factory(App\CompetencyQuestion::class)->create([
+				"form_id" => $this->form->id,
+				"question_id" => "q1",
+				"competency_id" => $this->competencies[0]->id
+			]),
+			factory(App\CompetencyQuestion::class)->create([
+				"form_id" => $this->form->id,
+				"question_id" => "q2",
+				"competency_id" => $this->competencies[1]->id
+			])
+		];
     }
-
-	public function tearDown(){
-		$this->artisan("migrate:reset");
-
-		parent::tearDown();
-	}
 
     public function testRequestEvaluationWithCompletionHash(){
         $faker = Faker::create();
@@ -64,11 +83,11 @@ class AdminTest extends TestCase
         $eval = App\Evaluation::where("subject_id", $evalParams["subject_id"])
             ->where("evaluator_id", $evalParams["evaluator_id"])
             ->where("form_id", $evalParams["form_id"])
-            ->orderBy("created_at", "desc")
+            ->orderBy("id", "desc")
             ->first();
 
-        $this->assertNotEmpty($eval->completion_hash)
-            ->assertNotEmpty($eval->hash_expires);
+        $this->assertNotNull($eval->completion_hash);
+        $this->assertNotNull($eval->hash_expires);
     }
 
     public function testSendEvaluationCompletionHash(){
@@ -440,7 +459,7 @@ class AdminTest extends TestCase
     public function testEditMilestone(){
         $faker = Faker::create();
         $milestone = [
-            "id" => $this->milestone->id,
+            "id" => $this->milestones[0]->id,
             "title" => $faker->words(4, true),
             "type" => "resident",
             "description" => $faker->text
@@ -490,7 +509,7 @@ class AdminTest extends TestCase
     public function testEditCompetency(){
         $faker = Faker::create();
         $competency = [
-            "id" => $this->competency->id,
+            "id" => $this->competencies[0]->id,
             "title" => $faker->words(4, true),
             "description" => $faker->text
         ];
@@ -552,5 +571,162 @@ class AdminTest extends TestCase
                 "id" => $mentorship->id,
                 "status" => "inactive"
             ]);
+    }
+
+    public function testIndividualReport(){
+        $evals = factory(App\Evaluation::class, "complete", 2)->create([
+            "form_id" => $this->form->id,
+            "subject_id" => $this->resident->id,
+            "evaluator_id" => $this->faculty->id,
+            "requested_by_id" => $this->user->id
+        ]);
+
+        $responses = [
+            factory(App\Response::class)->create([
+                "evaluation_id" => $evals[0]->id,
+                "question_id" => "q1",
+                "response" => 5
+            ]),
+            factory(App\Response::class)->create([
+                "evaluation_id" => $evals[0]->id,
+                "question_id" => "q2",
+                "response" => 1
+            ]),
+            factory(App\Response::class)->create([
+                "evaluation_id" => $evals[1]->id,
+                "question_id" => "q1",
+                "response" => 7
+            ]),
+            factory(App\Response::class)->create([
+                "evaluation_id" => $evals[1]->id,
+                "question_id" => "q2",
+                "response" => 2
+            ])
+        ];
+
+        $textResponses = [
+            factory(App\TextResponse::class)->create([
+                "evaluation_id" => $evals[0]->id,
+                "question_id" => "q3"
+            ]),
+            factory(App\TextResponse::class)->create([
+                "evaluation_id" => $evals[1]->id,
+                "question_id" => "q3"
+            ]),
+        ];
+
+        $subjectMilestone = [
+            $this->resident->id => [
+                $this->milestones[0]->id => 6,
+                $this->milestones[0]->id =>1.5
+            ]
+        ];
+
+        $subjectCompetency = $subjectMilestone;
+
+        $startDate = Carbon::parse("0001-01-01");
+        $endDate = Carbon::now();
+        $endDate->second = 0;
+
+        $this->actingAs($this->user)
+            ->visit("/dashboard")
+            ->post("/report/specific", [
+                "resident" => $this->resident->id,
+                "startDate1" => $startDate,
+                "endDate1" => $endDate,
+                "trainingLevel1" => "all",
+                "graphs" => "none"
+            ])
+            ->assertViewHas("reportData", [0 => [
+                "trainingLevel" => "all",
+                "graphOption" => "none",
+                "startDate" => $startDate,
+                "endDate" => $endDate,
+                "subjects" => [
+                    $this->resident->id => $this->resident->full_name
+                ],
+                "subjectEvaluators" => [
+                    $this->resident->id => [
+                        $this->faculty->id => 1
+                    ]
+                ],
+                "graphs" => [],
+                "milestones" => [
+                    $this->milestones[0]->id => $this->milestones[0]->title,
+                    $this->milestones[1]->id => $this->milestones[1]->title
+                ],
+                "competencies" => [
+                    $this->competencies[0]->id => $this->competencies[0]->title,
+                    $this->competencies[1]->id => $this->competencies[1]->title,
+                ],
+                "averageMilestone" => [
+                    $this->milestones[0]->id => 6,
+                    $this->milestones[1]->id => 1.5
+                ],
+                "averageCompetency" => [
+                    $this->competencies[0]->id => 6,
+                    $this->competencies[1]->id => 1.5
+                ],
+                "subjectMilestone" => [
+                    $this->resident->id => [
+                        $this->milestones[0]->id => 6,
+                        $this->milestones[1]->id => 1.5
+                    ]
+                ],
+                "subjectCompetency" => [
+                    $this->resident->id => [
+                        $this->competencies[0]->id => 6,
+                        $this->competencies[1]->id => 1.5
+                    ]
+                ],
+                "subjectMilestoneDeviations" => [
+                    $this->resident->id => [
+                        $this->milestones[0]->id => 0,
+                        $this->milestones[1]->id => 0
+                    ]
+                ],
+                "subjectCompetencyDeviations" => [
+                    $this->resident->id => [
+                        $this->competencies[0]->id => 0,
+                        $this->competencies[1]->id => 0
+                    ]
+                ],
+                "subjectMilestoneEvals" => [
+                    $this->resident->id => [
+                        $this->milestones[0]->id => 2,
+                        $this->milestones[1]->id => 2
+                    ]
+                ],
+                "subjectCompetencyEvals" => [
+                    $this->resident->id => [
+                        $this->competencies[0]->id => 2,
+                        $this->competencies[1]->id => 2
+                    ]
+                ],
+                "subjectEvals" => [
+                    $this->resident->id => [
+                        $evals[0]->id => 2,
+                        $evals[1]->id => 2
+                    ]
+                ],
+                "subjectTextResponses" => [
+                    (object)[
+                        "subject_id" => $textResponses[0]->evaluation->subject_id,
+                        "first_name" => $textResponses[0]->evaluation->evaluator->first_name,
+                        "last_name" => $textResponses[0]->evaluation->evaluator->last_name,
+                        "form_title" => $textResponses[0]->evaluation->form->title,
+                        "evaluation_date" => $textResponses[0]->evaluation->evaluation_date->toDateString(),
+                        "response" => $textResponses[0]->response
+                    ],
+                    (object)[
+                        "subject_id" => $textResponses[1]->evaluation->subject_id,
+                        "first_name" => $textResponses[1]->evaluation->evaluator->first_name,
+                        "last_name" => $textResponses[1]->evaluation->evaluator->last_name,
+                        "form_title" => $textResponses[1]->evaluation->form->title,
+                        "evaluation_date" => $textResponses[1]->evaluation->evaluation_date->toDateString(),
+                        "response" => $textResponses[1]->response
+                    ]
+                ],
+            ]]);
     }
 }

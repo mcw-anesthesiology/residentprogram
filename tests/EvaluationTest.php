@@ -6,10 +6,11 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class EvaluationTest extends TestCase
 {
+    use DatabaseTransactions;
+
     public function setUp(){
         parent::setUp();
 
-        $this->artisan("migrate");
         $this->residents = factory(App\User::class, "resident", 2)->create();
         $this->fellow = factory(App\User::class, "resident")->create([
             "training_level" => "fellow"
@@ -57,10 +58,6 @@ class EvaluationTest extends TestCase
 		];
     }
 
-    public function tearDown(){
-        $this->artisan("migrate:reset");
-        parent::tearDown();
-    }
 
     public function testResidentEvaluation(){
         $subject = $this->residents[0];
