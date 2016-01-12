@@ -54,7 +54,7 @@ class SendReminders extends Command
                 Mail::send("emails.reminder", $data, function($message) use ($emailUser){
                     $message->from("reminders@residentprogram.com", "ResidentProgram Reminders");
                     $message->to($emailUser->email);
-                    $message->replyTo(env("ADMIN_EMAIL"));
+                    $message->replyTo(config("app.admin_email"));
                     $message->subject("Evaluation Reminder");
                 });
             }

@@ -45,7 +45,7 @@
 				<p>
 					Please try again.
 					If you continue to experience problems, please let me know via <a href="{{ url("/contact") }}">the contact page</a>
-					if it still works, or by contacting me directly at <a href="mailto:{{ env("ADMIN_EMAIL") }}">{{ env("ADMIN_EMAIL") }}</a>.
+					if it still works, or by contacting me directly at <a href="mailto:{{ config("app.admin_email") }}">{{ config("app.admin_email") }}</a>.
 				</p>
             </div>
         </div>

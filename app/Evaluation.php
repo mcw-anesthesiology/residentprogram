@@ -89,7 +89,7 @@ class Evaluation extends Model
             Mail::send("emails.notification", $data, function($message) use($email){
                 $message->to($email);
                 $message->from("notifications@residentprogram.com", "Resident Program Notifications");
-                $message->replyTo(env("ADMIN_EMAIL"));
+                $message->replyTo(config("app.admin_email"));
                 $message->subject("Evaluation Request Notification");
             });
             return true;
@@ -117,7 +117,7 @@ class Evaluation extends Model
             Mail::send("emails.hash-link", $data, function($message) use($email){
                 $message->to($email);
                 $message->from("notifications@residentprogram.com", "Resident Program Notifications");
-                $message->replyTo(env("ADMIN_EMAIL"));
+                $message->replyTo(config("app.admin_email"));
                 $message->subject("Evaluation Completion Link");
             });
             return true;

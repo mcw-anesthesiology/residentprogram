@@ -547,7 +547,7 @@ class MainController extends Controller
 				$data["now"] = Carbon::now();
 
 				Mail::send("emails.flag", $data, function($message){
-					$message->to(env("ADMIN_EMAIL"));
+					$message->to(config("app.admin_email"));
 					$message->from("flag@residentprogram.com");
 					$message->subject("Flagged evaluation");
 				});
@@ -859,7 +859,7 @@ class MainController extends Controller
         $subject = $contact->subject;
         try{
             Mail::send("emails.contact", $data, function($message) use($subject){
-                $message->to(env("ADMIN_EMAIL"));
+                $message->to(config("app.admin_email"));
                 $message->from("contact@residentprogram.com");
                 $message->subject($subject);
             });

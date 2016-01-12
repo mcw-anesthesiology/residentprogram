@@ -96,7 +96,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             Mail::send("emails.manual-password-reset", $data, function($message) use ($email){
                 $message->from("admin@residentprogram.com", "ResidentProgram");
                 $message->to($email);
-                $message->replyTo(env("ADMIN_EMAIL"));
+                $message->replyTo(config("app.admin_email"));
                 $message->subject("Password reset");
             });
             return true;
@@ -119,7 +119,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             Mail::send("emails.new-account", $data, function($message) use ($email){
                 $message->from("admin@residentprogram.com", "ResidentProgram");
                 $message->to($email);
-                $message->replyTo(env("ADMIN_EMAIL"));
+                $message->replyTo(config("app.admin_email"));
                 $message->subject("Welcome!");
             });
             return true;
