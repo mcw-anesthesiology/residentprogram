@@ -14,40 +14,17 @@
 <?php
 	$tsv = "User\tRequested\tTotal Requests\tTotal Completed\tTotal Ratio\n";
 ?>
-		@foreach($users as $statUser)
-<?php
-	if($type == "faculty")
-		$userEvaluations = $statUser->evaluatorEvaluations();
-	else
-		$userEvaluations = $statUser->subjectEvaluations();
-	if(!empty($startDate))
-		$userEvaluations->where("request_date", ">=", $startDate);
-	if(!empty($endDate))
-		$userEvaluations->where("request_date", "<", $endDate);
-
-	$userEvaluations = $userEvaluations->whereIn("status", ["pending", "complete"])->get();
-
-	$totalRequests = $userEvaluations->count();
-	$requested = $userEvaluations->where("requested_by_id", $statUser->id)->count();
-	$completed = $userEvaluations->where("status", "complete")->count();
-	if($totalRequests != 0)
-		$ratio = number_format(($completed/$totalRequests) * 100, 0);
-	else
-		$ratio = 0;
-
-	$tsv .= $statUser->last_name.", ".$statUser->first_name."\t";
-	$tsv .= $requested."\t";
-	$tsv .= $totalRequests."\t";
-	$tsv .= $completed."\t";
-	$tsv .= $ratio."\n";
-?>
+		@foreach($userStats as $stat)
 			<tr>
-				<th>{{ $statUser->last_name }}, {{ $statUser->first_name }}</th>
-				<td>{{ $requested }}</td>
-				<td>{{ $totalRequests }}</td>
-				<td>{{ $completed }}</td>
-				<td>{{ $ratio }}%</td>
+				<th>{{ $stat["name"] }}</th>
+				<td>{{ $stat["requested"] }}</td>
+				<td>{{ $stat["totalRequests"] }}</td>
+				<td>{{ $stat["completed"] }}</td>
+				<td>{{ $stat["ratio"] }}%</td>
 			</tr>
+<?php
+	$tsv .= join("\t", array_values($stat));
+?>
 		@endforeach
 	</tbody>
 </table>
@@ -62,18 +39,9 @@
 <h3>No Requests</h3>
 <?php $tsv = ""; ?>
 <ul class="list-group row">
-	@foreach($users as $statUser)
-		@if($type == "faculty")
-			@if($statUser->evaluatorEvaluations->count() == 0)
-				<li class="list-group-item col-xs-6">{{ $statUser->last_name }}, {{ $statUser->first_name }}</li>
-<?php $tsv .= $statUser->last_name.", ".$statUser->first_name."\n"; ?>
-			@endif
-		@else
-			@if($statUser->subjectEvaluations->count() == 0)
-				<li class="list-group-item col-xs-6">{{ $statUser->last_name }}, {{ $statUser->first_name }}</li>
-<?php $tsv .= $statUser->last_name.", ".$statUser->first_name."\n"; ?>
-			@endif
-		@endif
+	@foreach($noneRequested as $name)
+	<li class="list-group-item col-xs-6">{{ $name }}</li>
+<?php $tsv .= $name."\n"; ?>
 	@endforeach
 </ul>
 <form method="post" target="_blank" action="/report/export" style="text-align: center">
@@ -87,18 +55,9 @@
 <h3>None Completed</h3>
 <?php $tsv = ""; ?>
 <ul class="list-group row">
-	@foreach($users as $statUser)
-		@if($type == "faculty")
-			@if($statUser->evaluatorEvaluations()->where("status", "complete")->count() == 0)
-				<li class="list-group-item col-xs-6">{{ $statUser->last_name }}, {{ $statUser->first_name }}</li>
-<?php $tsv .= $statUser->last_name.", ".$statUser->first_name."\n"; ?>
-			@endif
-		@else
-			@if($statUser->subjectEvaluations()->where("status", "complete")->count() == 0)
-				<li class="list-group-item col-xs-6">{{ $statUser->last_name }}, {{ $statUser->first_name }}</li>
-<?php $tsv .= $statUser->last_name.", ".$statUser->first_name."\n"; ?>
-			@endif
-		@endif
+	@foreach($noneCompleted as $name)
+	<li class="list-group-item col-xs-6">{{ $name }}</li>
+<?php $tsv .= $name."\n"; ?>
 	@endforeach
 </ul>
 <form method="post" target="_blank" action="/report/export" style="text-align: center">
@@ -120,15 +79,15 @@
 			</tr>
 		</thead>
 		<tbody>
-			@for($i = 0; $i < $users->count(); $i++)
-				@if($times[$i] != "0 days 00 hours")
+			@foreach($averageCompletionTimes as $name => $time)
+				@if($time != "0 days 00 hours")
 					<tr>
-						<td>{{ $users[$i]->last_name }}, {{ $users[$i]->first_name }}</td>
-						<td>{{ $times[$i] }}</td>
+						<td>{{ $name }}</td>
+						<td>{{ $time }}</td>
 					</tr>
-<?php $tsv .= $users[$i]->last_name.", ".$users[$i]->first_name."\t".$times[$i]."\n"; ?>
+<?php $tsv .= $name."\t".$time."\n"; ?>
 				@endif
-			@endfor
+			@endforeach
 		</tbody>
 	</table>
 	<form method="post" target="_blank" action="/report/export" style="text-align: center">
@@ -150,21 +109,12 @@
 		</tr>
 	</thead>
 	<tbody>
-		@foreach($users as $statUser)
-<?php
-	if($type == "faculty"){
-		$lastCompleted = $statUser->evaluatorEvaluations()->where("status", "complete")->orderBy("complete_date", "desc")->first();
-	} else{
-		$lastCompleted = $statUser->subjectEvaluations()->where("status", "complete")->orderBy("complete_date", "desc")->first();
-	}
-?>
-			@if($lastCompleted)
+		@foreach($lastCompleted as $name => $date)
 				<tr>
-					<th>{{ $statUser->last_name }}, {{ $statUser->first_name }}</th>
-					<td>{{ $lastCompleted->complete_date }}</td>
+					<th>{{ $name }}</th>
+					<td>{{ $date }}</td>
 				</tr>
-<?php $tsv .= $statUser->last_name.", ".$statUser->first_name."\t".$lastCompleted->complete_date."\n"; ?>
-			@endif
+<?php $tsv .= $name."\t".$date."\n"; ?>
 		@endforeach
 	</tbody>
 </table>

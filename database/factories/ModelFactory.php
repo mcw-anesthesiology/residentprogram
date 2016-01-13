@@ -147,7 +147,7 @@ $factory->defineAs(App\Evaluation::class, "complete", function(Faker $faker) use
     return array_merge($evaluation, [
         "status" => "complete",
         "training_level" => $trainingLevel,
-        "complete_date" => $faker->date,
+        "complete_date" => $faker->dateTimeBetween($evaluation["request_date"]),
         "complete_ip" => str_random(10)
     ]);
 });

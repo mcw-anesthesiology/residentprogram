@@ -150,11 +150,11 @@ $(document).ready(function(){
 			}
 		},
 		stateSave: true,
-		responsive: {
-			details: {
-				type: false
-			}
-		},
+		// responsive: {
+		// 	details: {
+		// 		type: false
+		// 	}
+		// },
 		"dom": "lfprtip"
 	});
 

@@ -116,6 +116,11 @@
 				deferRendering: true,
 				"order": [[0, "desc"]],
 				stateSave: true,
+				responsive: {
+					details: {
+						type: false
+					}
+				},
 				"dom": "lfprtip",
 				"createdRow": function(row, data, index){
 					$("td", row).addClass("view");
@@ -130,6 +135,11 @@
 				},
 				deferRendering: true,
 				"order": [[0, "desc"]],
+				responsive: {
+					details: {
+						type: false
+					}
+				},
 				"createdRow": function(row, data, index){
 					$("td", row).addClass("view");
 				}
@@ -140,6 +150,11 @@
 				deferRendering: true,
 				"order": [[0, "desc"]],
 				stateSave: true,
+				responsive: {
+					details: {
+						type: false
+					}
+				},
 				"dom": "lfprtip",
 				"createdRow": function(row, data, index){
 					$("td", row).addClass("view");
@@ -155,6 +170,11 @@
 				},
 				deferRendering: true,
 				"order": [[0, "desc"]],
+				responsive: {
+					details: {
+						type: false
+					}
+				},
 				"createdRow": function(row, data, index){
 					$("td", row).addClass("view");
 				}
@@ -169,6 +189,11 @@
 				},
 				deferRendering: true,
 				"order": [[0, "desc"]],
+				responsive: {
+					details: {
+						type: false
+					}
+				},
 				"createdRow": function(row, data, index){
 					$("td", row).addClass("view");
 				}
@@ -184,6 +209,11 @@
 				"order": [[0, "desc"]],
 				stateSave: true,
 				"dom": "lfprtip",
+				responsive: {
+					details: {
+						type: false
+					}
+				},
 				"createdRow": function(row, data, index){
 					$("td", row).addClass("view");
 				}
@@ -199,6 +229,11 @@
 				"order": [[0, "desc"]],
 				stateSave: true,
 				"dom": "lfprtip",
+				responsive: {
+					details: {
+						type: false
+					}
+				},
 				"createdRow": function(row, data, index){
 					$("td", row).addClass("view");
 				}
@@ -216,6 +251,11 @@
 					"order": [[0, "desc"]],
 					stateSave: true,
 					"dom": "lfprtip",
+					responsive: {
+						details: {
+							type: false
+						}
+					},
 					"createdRow": function(row, data, index){
 						$("td", row).addClass("view");
 					}

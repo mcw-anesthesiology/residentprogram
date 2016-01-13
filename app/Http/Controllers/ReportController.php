@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use DB;
+use Log;
 
 use DateTime;
 use DateInterval;
@@ -73,30 +74,69 @@ class ReportController extends Controller
                     break;
             }
         }
-        $data = compact("users", "type", "startDate", "endDate");
-        if($type == "faculty"){
-			$times = $users->map(function($user, $key){
-				$time = 0;
-				$userEvaluations = $user->evaluatorEvaluations()->where("status", "complete");
-				if(!empty($startDate))
-					$userEvaluations->where("request_date", ">=", $startDate);
-				if(!empty($endDate))
-					$userEvaluations->where("request_date", "<", $endDate);
+        foreach($users as $user){
+            try{
+                if($type == "faculty"){
+                    if($user->evaluatorEvaluations->count() == 0)
+                        $noneRequested[] = $user->full_name;
+                    if($user->evaluatorEvaluations()->where("status", "complete")->count() == 0)
+                        $noneCompleted[] = $user->full_name;
+                    $eval = $user->evaluatorEvaluations()->where("status", "complete")
+                        ->orderBy("complete_date", "desc")->first();
+                    if(!empty($eval))
+                        $lastCompleted[$user->full_name] = $eval;
 
-				$userEvaluations = $userEvaluations->get();
-				foreach($userEvaluations as $eval){
-					$time += $eval->complete_date->getTimestamp()-$eval->request_date->getTimestamp();
-				}
-				$num = $userEvaluations->count();
-				if($time > 0 && $num > 0)
-					$time = round($time/$num);
-				$d1 = new DateTime();
-				$d2 = new DateTime();
-				$d2->add(new DateInterval("PT".$time."S"));
-				return $d2->diff($d1)->format("%a days %H hours");
-			});
-            $data["times"] = $times;
-		}
+                        $time = 0;
+        				$userEvaluations = $user->evaluatorEvaluations();
+                }
+                else{
+                    if($statUser->subjectEvaluations->count() == 0)
+                        $noneRequested[] = $user->full_name;
+                    if($user->subjectEvaluations()->where("status", "complete")->count() == 0)
+                        $noneCompleted[] = $user->full_name;
+                        $eval = $user->subjectEvaluations()->where("status", "complete")
+                            ->orderBy("complete_date", "desc")->first();
+                        if(!empty($eval))
+                            $lastCompleted[$user->full_name] = $eval;
+
+                    $userEvaluations = $user->subjectEvaluations();
+                }
+
+                if(!empty($startDate))
+                    $userEvaluations->where("request_date", ">=", $startDate);
+                if(!empty($endDate))
+                    $userEvaluations->where("request_date", "<", $endDate);
+
+                $userEvals = $userEvaluations->whereIn("status", ["pending", "complete"])->get();
+
+                $userStats[] = [
+                    "name" => $user->full_name,
+                    "requested" => $userEvals->where("requested_by_id", $user->id)->count(),
+                    "totalRequests" => $userEvals->count(),
+                    "completed" => $userEvals->where("status", "complete")->count(),
+                    "ratio" => $userEvals->count() == 0 ? 0 : number_format(($userEvals->where("status", "complete")->count()/$userEvals->count()) * 100, 0)
+                ];
+
+                if($type == "faculty"){
+                    $timeEvals = $userEvaluations->where("status", "complete")->get();
+                    foreach($timeEvals as $eval){
+                        $time += $eval->complete_date->getTimestamp()-$eval->request_date->getTimestamp();
+                    }
+                    $num = $timeEvals->count();
+                    if($time > 0 && $num > 0)
+                        $time = round($time/$num);
+                    $d1 = new DateTime();
+                    $d2 = new DateTime();
+                    $d2->add(new DateInterval("PT".$time."S"));
+                    $times[$user->full_name] = $d2->diff($d1)->format("%a days %H hours");
+                }
+            } catch(\Exception $e){
+                Log::error("Problem with user in stats: ".$e);
+            }
+        }
+        $data = compact("users", "type", "startDate", "endDate", "noneRequested", "noneCompleted", "lastCompleted", "userStats");
+        if($type == "faculty")
+            $data["averageCompletionTimes"] = $times;
         return view("report.get-stats", $data);
     }
 
