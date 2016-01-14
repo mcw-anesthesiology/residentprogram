@@ -572,4 +572,117 @@ class AdminTest extends TestCase
                 "status" => "inactive"
             ]);
     }
+
+    public function testAddBlockAssignments(){
+        $resident = factory(App\User::class, "resident")->create([
+            "first_name" => "Test",
+            "last_name" => "Resident"
+        ]);
+        $faculty = factory(App\User::class, "faculty")->create([
+            "first_name" => "Test",
+            "last_name" => "Faculty"
+        ]);
+
+        $this->actingAs($this->user)
+            ->visit("/manage/block-assignments")
+            ->select("new", "year")
+            ->type("Now", "new_year")
+            ->attach(storage_path("app/tests/schedule.xls"), "schedule")
+            ->press("Submit");
+
+        $blocks = App\Block::all();
+
+        $expectedBlocks = [
+            [
+                "year" => "Now",
+                "block_number" => 1,
+                "block_name" => "Block 1 (07/01/2015 - 10/02/2015)",
+                "start_date" => "2015-07-01",
+                "end_date" => "2015-10-02"
+            ],
+            [
+                "year" => "Now",
+                "block_number" => 2,
+                "block_name" => "Block 2 (10/03/2015 - 12/30/2015)",
+                "start_date" => "2015-10-03",
+                "end_date" => "2015-12-30"
+            ],
+            [
+                "year" => "Now",
+                "block_number" => 3,
+                "block_name" => "Block 3 (12/31/2015 - 03/27/2016)",
+                "start_date" => "2015-12-31",
+                "end_date" => "2016-03-27"
+            ],
+            [
+                "year" => "Now",
+                "block_number" => 4,
+                "block_name" => "Block 4 (03/28/2016 - 06/30/2016)",
+                "start_date" => "2016-03-28",
+                "end_date" => "2016-06-30"
+            ],
+        ];
+
+        foreach($expectedBlocks as $block){
+            $this->seeInDatabase("blocks", $block);
+        }
+
+        // $blocks = App\Block::all();
+        //
+        // foreach($blocks as $block){
+        //     var_dump($block->toArray());
+        // }
+
+        $assignments = App\BlockAssignment::all();
+        foreach($assignments as $a){
+            var_dump($a->toArray());
+        }
+
+        $expectedBlockAssignments = [
+            [
+                "block_id" => $blocks[0]->id,
+                "user_id" => $faculty->id,
+                "location" => "Earth"
+            ],
+            [
+                "block_id" => $blocks[1]->id,
+                "user_id" => $faculty->id,
+                "location" => "Moon"
+            ],
+            [
+                "block_id" => $blocks[2]->id,
+                "user_id" => $faculty->id,
+                "location" => "Earth"
+            ],
+            [
+                "block_id" => $blocks[3]->id,
+                "user_id" => $faculty->id,
+                "location" => "Space"
+            ],
+            [
+                "block_id" => $blocks[0]->id,
+                "user_id" => $resident->id,
+                "location" => "Earth"
+            ],
+            [
+                "block_id" => $blocks[1]->id,
+                "user_id" => $resident->id,
+                "location" => "Earth"
+            ],
+            [
+                "block_id" => $blocks[2]->id,
+                "user_id" => $resident->id,
+                "location" => "Earth"
+            ],
+            [
+                "block_id" => $blocks[3]->id,
+                "user_id" => $resident->id,
+                "location" => "Sun"
+            ]
+        ];
+
+        foreach($expectedBlockAssignments as $blockAssignment){
+            $this->seeInDatabase("block_assignments", $blockAssignment);
+        }
+    }
 }

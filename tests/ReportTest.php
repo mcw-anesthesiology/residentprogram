@@ -588,25 +588,145 @@ class ReportTest extends TestCase
             ]);
     }
 
-    public function testStatistics(){
-        $anotherFaculty = factory(App\User::class, "faculty")->create();
-        $anotherEval = factory(App\Evaluation::class)->create([
-            "form_id" => $this->form->id,
-            "subject_id" => $this->residents[0]->id,
-            "evaluator_id" => $this->faculty->id,
-            "requested_by_id" => $this->faculty->id
-        ]);
+    public function testFacultyStatistics(){
+        $moreFaculty = factory(App\User::class, "faculty", 2)->create();
+        $moreEvals = [
+            factory(App\Evaluation::class)->create([
+                "form_id" => $this->form->id,
+                "subject_id" => $this->residents[0]->id,
+                "evaluator_id" => $this->faculty->id,
+                "requested_by_id" => $this->faculty->id
+            ]),
+            factory(App\Evaluation::class)->create([
+                "form_id" => $this->form->id,
+                "subject_id" => $this->residents[1]->id,
+                "evaluator_id" => $moreFaculty[0]->id,
+                "requested_by_id" => $moreFaculty[0]->id
+            ])
+        ];
         $startDate = Carbon::parse("0001-01-01");
         $endDate = Carbon::now();
         $endDate->second = 0;
 
-        $response = $this->actingAs($this->admin)
+        $this->actingAs($this->admin)
             ->post("/report/stats/faculty", [
                 "startDate" => $startDate,
                 "endDate" => $endDate,
                 "user" => "all"
+            ]);
+        $this->assertViewHas("type", "faculty");
+        $this->assertViewHas("startDate", $startDate);
+        $this->assertViewHas("endDate", $endDate);
+        $this->assertViewHas("noneRequested", [$moreFaculty[1]->full_name]);
+        $this->assertViewHas("noneCompleted", [
+            $moreFaculty[0]->full_name,
+            $moreFaculty[1]->full_name
+        ]);
+
+        $this->assertViewHas("lastCompleted", [
+            $this->faculty->full_name => $this->faculty->evaluatorEvaluations
+                ->where("status", "complete")->sortByDesc("complete_date")
+                ->first()->complete_date,
+        ]);
+
+        $this->assertViewHas("userStats", [
+            [
+                "name" => $this->faculty->full_name,
+                "requested" => 1,
+                "totalRequests" => 5,
+                "completed" => 4,
+                "ratio" => 80
+            ],
+            [
+                "name" => $moreFaculty[0]->full_name,
+                "requested" => 1,
+                "totalRequests" => 1,
+                "completed" => 0,
+                "ratio" => 0
+            ],
+            [
+                "name" => $moreFaculty[1]->full_name,
+                "requested" => 0,
+                "totalRequests" => 0,
+                "completed" => 0,
+                "ratio" => 0
+            ]
+        ]);
+    }
+
+    public function testResidentStatistics(){
+        $moreResidents = factory(App\User::class, "resident", 2)->create();
+        $moreEvals = [
+            factory(App\Evaluation::class)->create([
+                "form_id" => $this->form->id,
+                "subject_id" => $this->residents[0]->id,
+                "evaluator_id" => $this->faculty->id,
+                "requested_by_id" => $this->residents[0]->id
+            ]),
+            factory(App\Evaluation::class)->create([
+                "form_id" => $this->form->id,
+                "subject_id" => $moreResidents[0]->id,
+                "evaluator_id" => $this->faculty->id,
+                "requested_by_id" => $moreResidents[0]->id
             ])
-            ->see("{$this->faculty->full_name}\t1\t5\t4\t80")
-            ->see("{$anotherFaculty->full_name}\t0\t0\t0\t0");
+        ];
+        $startDate = Carbon::parse("0001-01-01");
+        $endDate = Carbon::now();
+        $endDate->second = 0;
+
+        $this->actingAs($this->admin)
+            ->post("/report/stats/resident", [
+                "startDate" => $startDate,
+                "endDate" => $endDate,
+                "user" => "all"
+            ]);
+        $this->assertViewHas("type", "resident");
+        $this->assertViewHas("startDate", $startDate);
+        $this->assertViewHas("endDate", $endDate);
+        $this->assertViewHas("noneRequested", [$moreResidents[1]->full_name]);
+        $this->assertViewHas("noneCompleted", [
+            $moreResidents[0]->full_name,
+            $moreResidents[1]->full_name
+        ]);
+
+        $this->assertViewHas("lastCompleted", [
+            $this->residents[0]->full_name => $this->residents[0]->subjectEvaluations
+                ->where("status", "complete")->sortByDesc("complete_date")
+                ->first()->complete_date,
+            $this->residents[1]->full_name => $this->residents[1]->subjectEvaluations
+                ->where("status", "complete")->sortByDesc("complete_date")
+                ->first()->complete_date
+        ]);
+
+        $this->assertViewHas("userStats", [
+            [
+                "name" => $this->residents[0]->full_name,
+                "requested" => 1,
+                "totalRequests" => 3,
+                "completed" => 2,
+                "ratio" => 67
+            ],
+            [
+                "name" => $this->residents[1]->full_name,
+                "requested" => 0,
+                "totalRequests" => 2,
+                "completed" => 2,
+                "ratio" => 100
+            ],
+            [
+                "name" => $moreResidents[0]->full_name,
+                "requested" => 1,
+                "totalRequests" => 1,
+                "completed" => 0,
+                "ratio" => 0
+            ],
+            [
+                "name" => $moreResidents[1]->full_name,
+                "requested" => 0,
+                "totalRequests" => 0,
+                "completed" => 0,
+                "ratio" => 0
+            ],
+        ]);
     }
 }

@@ -84,20 +84,20 @@ class ReportController extends Controller
                     $eval = $user->evaluatorEvaluations()->where("status", "complete")
                         ->orderBy("complete_date", "desc")->first();
                     if(!empty($eval))
-                        $lastCompleted[$user->full_name] = $eval;
+                        $lastCompleted[$user->full_name] = $eval->complete_date;
 
-                        $time = 0;
-        				$userEvaluations = $user->evaluatorEvaluations();
+                    $time = 0;
+    				$userEvaluations = $user->evaluatorEvaluations();
                 }
                 else{
-                    if($statUser->subjectEvaluations->count() == 0)
+                    if($user->subjectEvaluations->count() == 0)
                         $noneRequested[] = $user->full_name;
                     if($user->subjectEvaluations()->where("status", "complete")->count() == 0)
                         $noneCompleted[] = $user->full_name;
-                        $eval = $user->subjectEvaluations()->where("status", "complete")
-                            ->orderBy("complete_date", "desc")->first();
-                        if(!empty($eval))
-                            $lastCompleted[$user->full_name] = $eval;
+                    $eval = $user->subjectEvaluations()->where("status", "complete")
+                        ->orderBy("complete_date", "desc")->first();
+                    if(!empty($eval))
+                        $lastCompleted[$user->full_name] = $eval->complete_date;
 
                     $userEvaluations = $user->subjectEvaluations();
                 }

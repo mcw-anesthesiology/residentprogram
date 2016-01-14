@@ -796,6 +796,7 @@ class ManageController extends Controller
         libxml_use_internal_errors(true);
 
         $dom = new DOMDocument;
+        $dom->preserveWhiteSpace = false;
         $dom->loadHTMLFile($request->file("schedule"));
 
         // for exported "xls" file
