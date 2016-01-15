@@ -164,6 +164,8 @@ return [
 
         anlutro\LaravelSettings\ServiceProvider::class,
 
+        Yangqi\Htmldom\HtmldomServiceProvider::class
+
     ],
 
     /*
@@ -212,6 +214,7 @@ return [
         'Debugbar'  => Barryvdh\Debugbar\Facade::class,
 		'PDF' 		=> Barryvdh\DomPDF\Facade::class,
         'Setting'   => anlutro\LaravelSettings\Facade::class,
+        'Htmldom'   => Yangqi\Htmldom\Htmldom::class
     ],
 
 ];

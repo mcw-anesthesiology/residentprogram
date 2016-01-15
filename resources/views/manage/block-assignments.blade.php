@@ -23,7 +23,7 @@
 			<input type="file" class="form-control" name="schedule" id="schedule" />
 		</div>
 		<button class="btn btn-primary" type="submit">Submit</button>
-		
+
 	</div>
 	<div class="container body-block">
 		<div id="block-assignments">
@@ -77,12 +77,13 @@
 		}
 		$("#year").change(function(){
 			if($(this).val() == "new"){
-				$("#new-year").prop("disabled", false).show();
+				$("#new-year").prop("disabled", false);
 				$("#new-year-group").show();
 			}
-			else
-				$("#new-year").prop("disabled", true).hide();
+			else{
+				$("#new-year").prop("disabled", true);
 				$("#new-year-group").hide();
+			}
 		});
 		$("#select-year").change(loadBlock);
 		$(document).ready(function(){

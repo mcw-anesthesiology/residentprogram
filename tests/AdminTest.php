@@ -574,6 +574,7 @@ class AdminTest extends TestCase
     }
 
     public function testAddBlockAssignments(){
+        // Lots of magic strings from storage/app/tests/schedule.html
         $resident = factory(App\User::class, "resident")->create([
             "first_name" => "Test",
             "last_name" => "Resident"
@@ -587,10 +588,8 @@ class AdminTest extends TestCase
             ->visit("/manage/block-assignments")
             ->select("new", "year")
             ->type("Now", "new_year")
-            ->attach(storage_path("app/tests/schedule.xls"), "schedule")
+            ->attach(storage_path("app/tests/schedule.html"), "schedule")
             ->press("Submit");
-
-        $blocks = App\Block::all();
 
         $expectedBlocks = [
             [
@@ -627,20 +626,16 @@ class AdminTest extends TestCase
             $this->seeInDatabase("blocks", $block);
         }
 
-        // $blocks = App\Block::all();
-        //
-        // foreach($blocks as $block){
-        //     var_dump($block->toArray());
-        // }
-
-        $assignments = App\BlockAssignment::all();
-        foreach($assignments as $a){
-            var_dump($a->toArray());
-        }
+        $blocks = App\Block::all();
 
         $expectedBlockAssignments = [
             [
                 "block_id" => $blocks[0]->id,
+                "user_id" => $faculty->id,
+                "location" => "Earth"
+            ],
+            [
+                "block_id" => $blocks[1]->id,
                 "user_id" => $faculty->id,
                 "location" => "Earth"
             ],
@@ -652,12 +647,17 @@ class AdminTest extends TestCase
             [
                 "block_id" => $blocks[2]->id,
                 "user_id" => $faculty->id,
-                "location" => "Earth"
+                "location" => "Moon"
+            ],
+            [
+                "block_id" => $blocks[2]->id,
+                "user_id" => $faculty->id,
+                "location" => "Space"
             ],
             [
                 "block_id" => $blocks[3]->id,
                 "user_id" => $faculty->id,
-                "location" => "Space"
+                "location" => "Earth"
             ],
             [
                 "block_id" => $blocks[0]->id,

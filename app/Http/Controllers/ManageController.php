@@ -16,6 +16,7 @@ use Auth;
 use DB;
 use Debugbar;
 use Log;
+use Htmldom;
 use Mail;
 use Setting;
 
@@ -793,43 +794,35 @@ class ManageController extends Controller
             $usernames[$user->id] = preg_replace("/\W/", "", strtolower($user->last_name.",".substr($user->first_name, 0, 1)));
         }
 
-        libxml_use_internal_errors(true);
+        $html = new Htmldom($request->file("schedule"));
+        $table = $html->find("table", 0);
+        $th = $table->find("tr", 0)->find("th");
 
-        $dom = new DOMDocument;
-        $dom->preserveWhiteSpace = false;
-        $dom->loadHTMLFile($request->file("schedule"));
-
-        // for exported "xls" file
-        $trs = $dom->getElementsByTagName("table")->item(0)->childNodes;
-
-        // for html webcrawling
-        //$trs = $dom->getElementById("ctl04_grdReport")->childNodes;
-
-        for($i = 1; $i < $trs->item(0)->childNodes->length; $i++){
-        	$blocks[$i] = trim($trs->item(0)->childNodes->item($i)->nodeValue);
-        	preg_match("/\((\d\d\/\d\d\/\d\d\d\d) \- (\d\d\/\d\d\/\d\d\d\d)\)/", $blocks[$i], $matches);
-        	if(count($matches) == 3){
-        		$blockStart[$i] = $matches[1];
-        		$blockEnd[$i] = $matches[2];
-        	}
+        for($i = 1; $i < count($th); $i++){
+            $blocks[$i] = trim($th[$i]->innertext);
+            preg_match("/\((\d\d\/\d\d\/\d\d\d\d) \- (\d\d\/\d\d\/\d\d\d\d)\)/", $blocks[$i], $matches);
+            if(count($matches) == 3){
+                $blockStart[$i] = $matches[1];
+                $blockEnd[$i] = $matches[2];
+            }
         }
 
         $hits = 0;
         $misses = 0;
+        $trs = $table->find("tr");
 
-        for($i = 1; $i < $trs->length; $i++){
-        	if($trs->item($i)->getAttribute("style") == "background-color:LightSteelBlue;")
+        for($i = 1; $i < count($trs); $i++){
+        	if($trs[$i]->style == "background-color:LightSteelBlue;"
+                || $trs[$i]->class == "datagridheaderstyle")
         		continue;
 
-        	$tds = $trs->item($i)->childNodes;
-        	$user = preg_replace("/\W/", "", strtolower($tds->item(0)->nodeValue));
+        	$tds = $trs[$i]->children();
+        	$user = preg_replace("/\W/", "", strtolower($tds[0]->plaintext));
 
-        	for($j = 1; $j < $tds->length; $j++){
-        		if($tds->item($j)->nodeType == 3)
-        			continue;
-        		$entries = $tds->item($j)->getElementsByTagName("td");
+        	for($j = 1; $j < count($tds); $j++){
+        		$entries = $tds[$j]->find("td");
         		foreach($entries as $entry){
-        			$location = trim(preg_replace("/\(.*\)/", "", $entry->nodeValue));
+        			$location = trim(preg_replace("/\(.*\)/", "", $entry->plaintext));
         			if(in_array($user, $usernames)){
         				$user_id = array_search($user, $usernames);
         				$assignments[$j][$user_id][] = $location;
@@ -872,6 +865,9 @@ class ManageController extends Controller
         $stmt->bindParam(3, $location);
         $stmt->bindParam(4, $now);
         $stmt->bindParam(5, $now);
+
+        if(empty($assignments))
+            return back()->with("error", "No matching users found");
 
         foreach($assignments as $blockNumber => $blockAssignments){
             $blockName = $blocks[$blockNumber];
