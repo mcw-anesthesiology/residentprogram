@@ -85,6 +85,14 @@
 	</head>
 	<body>
 		<div class="container-fluid">
+	@if(session("error"))
+			<div class="container">
+				<div class="alert alert-danger alert-dismissable" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					{!! session("error") !!}
+				</div>
+			</div>
+	@endif
 			@yield("body")
 		</div>
 		<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>

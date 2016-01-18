@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
+use Illuminate\Cache\RateLimiter;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
@@ -74,11 +75,21 @@ class AuthController extends Controller
             $this->incrementLoginAttempts($request);
         }
 
-        return redirect($this->loginPath())
+        $attempts = app(RateLimiter::class)->attempts(
+            $this->getThrottleKey($request)
+        );
+
+        $adminEmail = config("app.admin_email");
+
+        $error = "Username or password seems to be incorrect, please try again. ";
+
+        if($attempts > 1)
+            $error .= "If you are unable to login, please try to reset your password with the button below. "
+            . "If you still experience problems, please contact me at <a href='mailto:{$adminEmail}'>{$adminEmail}</a>.";
+
+        return back()
             ->withInput($request->only($this->loginUsername(), 'remember'))
-            ->withErrors([
-                $this->loginUsername() => $this->getFailedLoginMessage(),
-            ]);
+            ->with("error", $error);
     }
 
     /**
