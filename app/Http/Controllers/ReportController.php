@@ -76,36 +76,36 @@ class ReportController extends Controller
         }
         foreach($users as $user){
             try{
+                $userEvaluations = $type == "faculty" ? $user->evaluatorEvaluations() : $user->subjectEvaluations();
+                if(!empty($startDate))
+                    $userEvaluations->where("request_date", ">=", $startDate);
+                if(!empty($endDate))
+                    $userEvaluations->where("request_date", "<", $endDate);
+
                 if($type == "faculty"){
-                    if($user->evaluatorEvaluations->count() == 0)
+                    if($userEvaluations->count() == 0)
                         $noneRequested[] = $user->full_name;
-                    if($user->evaluatorEvaluations()->where("status", "complete")->count() == 0)
+                    if($userEvaluations->where("status", "complete")->count() == 0)
                         $noneCompleted[] = $user->full_name;
-                    $eval = $user->evaluatorEvaluations()->where("status", "complete")
+                    $eval = $userEvaluations->where("status", "complete")
                         ->orderBy("complete_date", "desc")->first();
                     if(!empty($eval))
                         $lastCompleted[$user->full_name] = $eval->complete_date;
 
                     $time = 0;
-    				$userEvaluations = $user->evaluatorEvaluations();
                 }
                 else{
-                    if($user->subjectEvaluations->count() == 0)
+                    if($userEvaluations->count() == 0)
                         $noneRequested[] = $user->full_name;
-                    if($user->subjectEvaluations()->where("status", "complete")->count() == 0)
+                    if($userEvaluations->where("status", "complete")->count() == 0)
                         $noneCompleted[] = $user->full_name;
-                    $eval = $user->subjectEvaluations()->where("status", "complete")
+                    $eval = $userEvaluations->where("status", "complete")
                         ->orderBy("complete_date", "desc")->first();
                     if(!empty($eval))
                         $lastCompleted[$user->full_name] = $eval->complete_date;
-
-                    $userEvaluations = $user->subjectEvaluations();
                 }
 
-                if(!empty($startDate))
-                    $userEvaluations->where("request_date", ">=", $startDate);
-                if(!empty($endDate))
-                    $userEvaluations->where("request_date", "<", $endDate);
+
 
                 $userEvals = $userEvaluations->whereIn("status", ["pending", "complete"])->get();
 
