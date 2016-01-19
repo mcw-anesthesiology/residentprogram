@@ -1,3 +1,4 @@
+@if(!empty($userStats))
 <div class="container body-block">
 <h3>Evaluation Statistics</h3>
 <table class="table table-striped datatable" width="100%">
@@ -34,6 +35,7 @@
 	<button class="btn" type="submit" name="data" value="{{ $tsv }}">Export</button>
 </form>
 </div>
+@endif
 <div class="container body-block">
 
 <h3>No Requests</h3>
@@ -54,6 +56,7 @@
 
 <h3>None Completed</h3>
 <?php $tsv = ""; ?>
+@if(!empty($noneCompleted))
 <ul class="list-group row">
 	@foreach($noneCompleted as $name)
 	<li class="list-group-item col-xs-6">{{ $name }}</li>
@@ -65,10 +68,11 @@
 	<input type="hidden" name="name" value="None Completed" />
 	<button class="btn" type="submit" name="data" value="{{ $tsv }}">Export</button>
 </form>
+@endif
 </div>
 <div class="container body-block">
 
-@if($type == "faculty")
+@if($type == "faculty" && !empty($averageCompletionTimes))
 	<h3>Average Completion Time</h3>
 <?php $tsv = "User\tTime\n"; ?>
 	<table class="table table-striped datatable" width="100%">
@@ -99,6 +103,7 @@
 <div class="container body-block">
 @endif
 
+@if(!empty($lastCompleted))
 <h3>Last Completed Evaluations</h3>
 <?php $tsv = "User\tDate\n"; ?>
 <table class="table table-striped datatable" width="100%">
@@ -123,3 +128,4 @@
 	<input type="hidden" name="name" value="Last Completed Evaluations" />
 	<button class="btn" type="submit" name="data" value="{{ $tsv }}">Export</button>
 </form>
+@endif
