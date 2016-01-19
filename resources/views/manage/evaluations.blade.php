@@ -238,10 +238,7 @@
 		  $(".datatable").each(function(){
 			  $(this).DataTable({
 				"ajax": "/manage/evaluations/get",
-					deferRendering: true,
-					stateSave: true,
-					"order": [[0, "desc"]],
-					"dom": "lfprtip"
+				"order": [[0, "desc"]],
 			  });
 		  });
 

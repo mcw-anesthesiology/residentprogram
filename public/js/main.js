@@ -150,11 +150,7 @@ $(document).ready(function(){
 			}
 		},
 		stateSave: true,
-		// responsive: {
-		// 	details: {
-		// 		type: false
-		// 	}
-		// },
+		"deferRender": true,
 		"dom": "lfprtip"
 	});
 

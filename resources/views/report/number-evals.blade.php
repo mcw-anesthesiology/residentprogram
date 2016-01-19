@@ -77,10 +77,7 @@
 					"type": "post",
 					"data": data
 				},
-				deferRendering: true,
 				"order": [[1, "asc"]],
-				stateSave: true,
-				"dom": "lfprtip",
 				"destroy": true
 			});
 		}

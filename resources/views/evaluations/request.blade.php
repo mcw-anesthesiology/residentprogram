@@ -364,10 +364,7 @@
 			$("#block").select2();
 			$("#pending-faculty-evals").DataTable({
 				"ajax": "/dashboard/faculty/evaluations",
-				deferRendering: true,
 				"order": [[0, "desc"]],
-				stateSave: true,
-				"dom": "lfprtip",
 				"createdRow": function(row, data, index){
 					$("td", row).addClass("view");
 				}

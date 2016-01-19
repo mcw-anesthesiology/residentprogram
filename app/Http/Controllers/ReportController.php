@@ -82,25 +82,27 @@ class ReportController extends Controller
                 if(!empty($endDate))
                     $userEvaluations->where("request_date", "<", $endDate);
 
+                $userEvals = $userEvaluations->get();
+
                 if($type == "faculty"){
-                    if($userEvaluations->count() == 0)
+                    if($userEvals->count() == 0)
                         $noneRequested[] = $user->full_name;
-                    if($userEvaluations->where("status", "complete")->count() == 0)
+                    if($userEvals->where("status", "complete")->count() == 0)
                         $noneCompleted[] = $user->full_name;
-                    $eval = $userEvaluations->where("status", "complete")
-                        ->orderBy("complete_date", "desc")->first();
+                    $eval = $userEvals->where("status", "complete")
+                        ->sortByDesc("complete_date")->first();
                     if(!empty($eval))
                         $lastCompleted[$user->full_name] = $eval->complete_date;
 
                     $time = 0;
                 }
                 else{
-                    if($userEvaluations->count() == 0)
+                    if($userEvals->count() == 0)
                         $noneRequested[] = $user->full_name;
-                    if($userEvaluations->where("status", "complete")->count() == 0)
+                    if($userEvals->where("status", "complete")->count() == 0)
                         $noneCompleted[] = $user->full_name;
-                    $eval = $userEvaluations->where("status", "complete")
-                        ->orderBy("complete_date", "desc")->first();
+                    $eval = $userEvals->where("status", "complete")
+                        ->sortByDesc("complete_date")->first();
                     if(!empty($eval))
                         $lastCompleted[$user->full_name] = $eval->complete_date;
                 }

@@ -118,16 +118,22 @@ class MainController extends Controller
             $residentModels = User::where("type", "resident")->where("status", "active")->orderBy("last_name")->get();
             foreach($residentModels as $resident)
                 $residents[0][] = ["id" => $resident->id, "name" => $resident->full_name, "group" => $resident->training_level];
+            if(empty($residents))
+                return back()->with("error", "There are not any registered resident accounts");
         }
         if(!$user->isType("faculty") && in_array("faculty", $evaluationTypes)){
             $facultyModels = User::where("type", "faculty")->where("status", "active")->orderBy("last_name")->get();
             foreach($facultyModels as $fac)
                 $faculty[0][] = ["id" => $fac->id, "name" => $fac->full_name, "group" => "faculty"];
+            if(empty($faculty))
+                return back()->with("error", "There are not any registered faculty accounts");
         }
 		if(!$user->isType("staff") && in_array("staff", $evaluationTypes)){
 			$staffModels = User::where("type", "staff")->where("status", "active")->orderBy("last_name")->get();
 			foreach($staffModels as $stf)
 				$staff[0][] = ["id" => $stf->id, "name" => $stf->full_name, "group" => "staff"];
+            if(empty($staff))
+                return back()->with("error", "There are not any registered staff accounts");
 		}
 
 		if($user->isType($subjectTypes)){
@@ -148,6 +154,9 @@ class MainController extends Controller
 				$forms[] = ["id" => $form->id, "name" => $form->title, "group" => $form->type];
 			}
 		}
+
+        if(empty($forms))
+            return back()->with("error", "No forms exist for that request type");
 
 		$residentGroups = ["intern" => "Intern", "ca-1" => "CA-1", "ca-2" => "CA-2", "ca-3" => "CA-3", "fellow" => "Fellow"];
 
