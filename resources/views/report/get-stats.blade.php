@@ -40,6 +40,7 @@
 
 <h3>No Requests</h3>
 <?php $tsv = ""; ?>
+@if(!empty($noneRequested))
 <ul class="list-group row">
 	@foreach($noneRequested as $name)
 	<li class="list-group-item col-xs-6">{{ $name }}</li>
@@ -51,6 +52,7 @@
 	<input type="hidden" name="name" value="No Requests" />
 	<button class="btn" type="submit" name="data" value="{{ $tsv }}">Export</button>
 </form>
+@endif
 </div>
 <div class="container body-block">
 
