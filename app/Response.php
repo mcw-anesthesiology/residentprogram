@@ -8,6 +8,13 @@ class Response extends Model
 {
     protected $table = "responses";
 
+    protected $casts = [
+        "id" => "integer",
+        "evaluation_id" => "integer",
+        "response" => "integer",
+        "weight" => "integer"
+    ];
+
     protected $fillable = ["evaluation_id", "question_id", "response", "weight"];
 
     public function evaluation(){

@@ -8,6 +8,10 @@ class Competency extends Model
 {
     protected $table = "competencies";
 
+    protected $casts = [
+        "id" => "integer"
+    ];
+
     protected $fillable = ["title", "description"];
 
     public function forms(){

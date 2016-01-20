@@ -168,13 +168,13 @@ class ManageController extends Controller
     }
 
     public function archive(Request $request){
-        $evals = Evaluation::where("complete_date", "<", $request->input("archive_date"))->where("status", "complete")->get();
+        $evals = Evaluation::where("evaluation_date", "<", $request->input("archive_date"))->where("status", "complete")->get();
         foreach($evals as $eval){
             $eval->status = "archived";
             $eval->archive_date = Carbon::now();
             $eval->save();
         }
-        return redirect("manage.evaluations");
+        return redirect("manage/evaluations");
     }
 
     public function accounts(){

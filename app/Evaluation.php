@@ -11,6 +11,14 @@ class Evaluation extends Model
 {
     protected $table = "evaluations";
 
+    protected $casts = [
+        "id" => "integer",
+        "form_id" => "integer",
+        "evaluator_id" => "integer",
+        "subject_id" => "integer",
+        "requested_by_id" => "integer"
+    ];
+
     protected $fillable = [
         "form_id",
         "evaluator_id",

@@ -8,6 +8,12 @@ class BlockAssignment extends Model
 {
     protected $table = "block_assignments";
 
+    protected $casts = [
+        "id" => "integer",
+        "block_id" => "integer",
+        "user_id" => "integer"
+    ];
+
     protected $fillable = ["block_id", "user_id", "location"];
 
     public function block(){

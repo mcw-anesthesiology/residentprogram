@@ -31,6 +31,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      */
     protected $fillable = ["username", "training_level", "first_name", "last_name", "email", "photo_path"];
 
+    protected $casts = [
+        "id" => "integer"
+    ];
+
     /**
      * The attributes excluded from the model's JSON form.
      *

@@ -8,6 +8,10 @@ class Milestone extends Model
 {
     protected $table = "milestones";
 
+    protected $casts = [
+        "id" => "integer"
+    ];
+
     protected $fillable = ["title", "description"];
 
     public function forms(){

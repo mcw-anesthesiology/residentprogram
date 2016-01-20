@@ -14,6 +14,11 @@ class FlaggedEvaluation extends Model
 		"reason"
 	];
 
+    protected $casts = [
+        "id" => "integer",
+        "evaluation_id" => "integer"
+    ];
+
 	protected $dates = ["created_at", "updated_at"];
 
 	public function evaluation(){

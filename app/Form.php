@@ -8,6 +8,10 @@ class Form extends Model
 {
     protected $table = "forms";
 
+    protected $casts = [
+        "id" => "integer"
+    ];
+
     protected $fillable = ["title", "xml_path", "status"];
 
     public function evaluations(){

@@ -8,6 +8,12 @@ class Mentorship extends Model
 {
     protected $table = "mentorships";
 
+    protected $casts = [
+        "id" => "integer",
+        "mentor_id" => "integer",
+        "mentee_id" => "integer"
+    ];
+
     protected $fillable = ["mentor_id", "mentee_id", "status"];
 
     public function mentor(){
