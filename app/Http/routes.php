@@ -50,6 +50,9 @@ Route::post("evaluate/{hash}", "MainController@saveEvaluationByHashLink");
 Route::get("request/{type?}", "MainController@request");
 Route::post("request/{type?}", "MainController@createRequest");
 
+Route::get("profile/{id}", "MainController@userProfile");
+Route::get("profile/evaluations/{id}/{type?}", "MainController@profileEvaluations");
+
 Route::get("user", "MainController@user");
 Route::post("user", "MainController@saveUser");
 Route::post("user/reminders", "MainController@saveUserReminders");

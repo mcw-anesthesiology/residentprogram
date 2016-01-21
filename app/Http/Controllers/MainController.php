@@ -879,4 +879,104 @@ class MainController extends Controller
         return redirect("dashboard")->with("success", "Thank you! Your message has been receieved and I will get back to you shortly");
     }
 
+    public function userProfile($id){
+        $user = Auth::user();
+        $profileUser = User::findOrFail($id);
+        if(empty($profileUser))
+            return back()->with("error", "That user doesn't exist or have a profile");
+        if(!($user->isType("admin") || $user->mentees->contains($profileUser) || $user->id == $profileUser->id))
+            return back()->with("error", "You are not allowed to see that user's profile");
+
+        $today = Carbon::now();
+        if($today->month >= 7)
+            $yearStart = Carbon::parse("July 1 this year");
+        else
+            $yearStart = Carbon::parse("July 1 last year");
+
+        if($profileUser->isType("resident"))
+            $evaluations = $profileUser->subjectEvaluations();
+        else
+            $evaluations = $profileUser->evaluatorEvaluations();
+
+        $evals = $evaluations->whereIn("status", ["complete", "pending"])->get();
+        $evals = $evals->filter(function($eval) use ($yearStart){
+            return $eval->evaluation_date >= $yearStart;
+        });
+        Debugbar::info($evals);
+        $lastCompleted = $evals->where("status", "complete")->sortByDesc("complete_date")->first()->complete_date;
+        $requests = $evals->where("requested_by_id", $profileUser)->count();
+        $totalRequests = $evals->count();
+        $totalComplete = $evals->where("status", "complete")->count();
+
+        $evalData = $evaluations->get([
+            "id",
+            "request_date",
+            "complete_date",
+            "status"
+        ]);
+
+        $data = compact("profileUser", "yearStart", "lastCompleted", "requests",
+            "totalRequests", "totalComplete", "evalData");
+        return view("dashboard.profile", $data);
+    }
+
+    public function profileEvaluations($id, $type = null){
+        $user = Auth::user();
+        $profileUser = User::find($id);
+        if(empty($profileUser))
+            return;
+        if(!($user->isType("admin") || $user->mentees->contains($profileUser) || $user->id == $profileUser->id))
+            return;
+
+        switch($type){
+            case "subject":
+                $evaluations = $profileUser->subjectEvaluations;
+                break;
+            case "evaluator":
+                $evaluations = $profileUser->evaluatorEvaluations;
+                break;
+            default:
+                if($profileUser->isType("resident"))
+                    $evaluations = $profileUser->subjectEvaluations;
+                else
+                    $evaluations = $profileUser->evaluatorEvaluations;
+                break;
+        }
+
+        if(!$user->isType("admin")){
+            // FIXME: Visibility
+            $evaluations = $evaluations->filter(function($eval){
+                return in_array($eval->status, ["pending", "complete"]);
+            });
+        }
+
+        $results["data"] = [];
+        foreach($evaluations as $eval){
+            $result = [];
+
+            $result[] = "<a href='/evaluation/{$eval->id}'>$eval->id</a>";
+            if($eval->evaluator_id != $profileUser->id)
+                $result[] = $eval->evaluator->full_name;
+            if($eval->subject_id != $profileUser->id)
+                $result[] = $eval->subject->full_name;
+            $result[] = $eval->form->title;
+            $result[] = (string)$eval->evaluation_date;
+            $result[] = (string)$eval->request_date;
+            $result[] = (string)$eval->complete_date;
+
+            if($eval->status == "complete")
+                $badge = "complete";
+            elseif($eval->status == "pending")
+                $badge = "pending";
+            else
+                $badge = "disabled";
+
+            $result[] = "<span class='badge badge-{$badge}'>" . ucfirst($eval->status) . "</span>";
+
+
+            $results["data"][] = $result;
+        }
+
+        return json_encode($results);
+    }
 }

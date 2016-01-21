@@ -114,7 +114,6 @@
 					"type": "post"
 				},
 				"order": [[0, "desc"]],
-				"dom": "lfprtip",
 				"createdRow": function(row, data, index){
 					$("td", row).addClass("view");
 				}
@@ -135,7 +134,6 @@
 			$(".datatable-all").DataTable({
 				"ajax": "dashboard/evaluations",
 				"order": [[0, "desc"]],
-				"dom": "lfprtip",
 				"createdRow": function(row, data, index){
 					$("td", row).addClass("view");
 				}

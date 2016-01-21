@@ -1,18 +1,11 @@
-Remove tables in evaluations
-Change staff report to form report after tables removed
 Visibility to evaluators
 Mark if viewed by evaluator +Complete
 
 Replace form submissions with ajax +Usability
 Glyphicons +Design
 
-Split fellow
-Optgroups in select for resident vs fellow
 Change all name calls to use full_name
-Blocks instead of months
 Add type and training level/subspecialty for milestones
-Nonfaculty evaluations
-Anonymous evaluations
 Self evaluations
 More customizable permissions
 Departments/categories for evaluations
@@ -21,8 +14,6 @@ Maybe account profile page?
 Validation
 Encryption?
 Add type and training level/subspecialty for milestones
-
-Ask evaluation date on request +Request
 
 Separate report average selector +Report
 
