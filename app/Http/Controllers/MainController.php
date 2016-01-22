@@ -359,17 +359,26 @@ class MainController extends Controller
     public function evaluation(Request $request, $id){
         $user = Auth::user();
         $evaluation = Evaluation::find($id);
+        if($user->isType("admin") || $user->mentees->contains($evaluation->subject) || $user->id == $evaluation->subject->id)
+            $subjectString = "<a href='/profile/{$evaluation->subject->id}'>{$evaluation->subject->full_name}</a>";
+        else
+            $subjectString = $evaluation->subject->full_name;
+        if($user->isType("admin") || $user->id == $evaluation->evaluator->id)
+            $evaluatorString = "<a href='/profile/{$evaluation->evaluator->id}'>{$evaluation->evaluator->full_name}</a>";
+        else
+            $evaluatorString = $evaluation->evaluator->full_name;
+
+        $data = compact("evaluation", "subjectString", "evaluatorString");
         if($evaluation->subject_id == $user->id && $user->type == "faculty"){
             $threshold = Setting::get("facultyEvalThreshold");
             $evaluations = Evaluation::where("subject_id", $user->id)->where("status", "complete")->orderBy("id", "desc")->get();
             $evaluations = $evaluations->splice($evaluations->count()%$threshold);
             if($evaluations->contains($evaluation))
-                return view("evaluations.evaluation", compact("evaluation"));
+                return view("evaluations.evaluation", $data);
             else
                 return back()->with("error", "Insufficient permissions to view the requested evaluation");
         }
         elseif((($evaluation->subject_id == $user->id || $user->mentees->contains($evaluation->subject)) && $evaluation->visibility != "hidden") || $evaluation->evaluator_id == $user->id || $user->type == "admin"){
-			$data = compact("evaluation");
 			if($evaluation->evaluator_id == $user->id || $user->type == "admin"){
 				switch($evaluation->evaluator->type){
 					case "faculty":
@@ -881,7 +890,7 @@ class MainController extends Controller
 
     public function userProfile($id){
         $user = Auth::user();
-        $profileUser = User::findOrFail($id);
+        $profileUser = User::find($id);
         if(empty($profileUser))
             return back()->with("error", "That user doesn't exist or have a profile");
         if(!($user->isType("admin") || $user->mentees->contains($profileUser) || $user->id == $profileUser->id))
@@ -902,7 +911,7 @@ class MainController extends Controller
         $evals = $evals->filter(function($eval) use ($yearStart){
             return $eval->evaluation_date >= $yearStart;
         });
-        Debugbar::info($evals);
+
         $lastCompleted = $evals->where("status", "complete")->sortByDesc("complete_date")->first()->complete_date;
         $requests = $evals->where("requested_by_id", $profileUser)->count();
         $totalRequests = $evals->count();
@@ -952,29 +961,34 @@ class MainController extends Controller
 
         $results["data"] = [];
         foreach($evaluations as $eval){
-            $result = [];
+            try{
+                $result = [];
 
-            $result[] = "<a href='/evaluation/{$eval->id}'>$eval->id</a>";
-            if($eval->evaluator_id != $profileUser->id)
-                $result[] = $eval->evaluator->full_name;
-            if($eval->subject_id != $profileUser->id)
-                $result[] = $eval->subject->full_name;
-            $result[] = $eval->form->title;
-            $result[] = (string)$eval->evaluation_date;
-            $result[] = (string)$eval->request_date;
-            $result[] = (string)$eval->complete_date;
+                $result[] = "<a href='/evaluation/{$eval->id}'>$eval->id</a>";
+                if($eval->evaluator_id != $profileUser->id)
+                    $result[] = $eval->evaluator->full_name;
+                if($eval->subject_id != $profileUser->id)
+                    $result[] = $eval->subject->full_name;
+                $result[] = $eval->form->title;
+                $result[] = (string)$eval->evaluation_date;
+                $result[] = (string)$eval->request_date;
+                $result[] = (string)$eval->complete_date;
 
-            if($eval->status == "complete")
-                $badge = "complete";
-            elseif($eval->status == "pending")
-                $badge = "pending";
-            else
-                $badge = "disabled";
+                if($eval->status == "complete")
+                    $badge = "complete";
+                elseif($eval->status == "pending")
+                    $badge = "pending";
+                else
+                    $badge = "disabled";
 
-            $result[] = "<span class='badge badge-{$badge}'>" . ucfirst($eval->status) . "</span>";
+                $result[] = "<span class='badge badge-{$badge}'>" . ucfirst($eval->status) . "</span>";
 
 
-            $results["data"][] = $result;
+                $results["data"][] = $result;
+            }
+            catch(\Exception $e){
+                Log::error("Problem getting profile evaluation: ".$e);
+            }
         }
 
         return json_encode($results);

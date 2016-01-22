@@ -44,7 +44,6 @@ function drawLineChart(canvas, chartData, chartLabels){
 		labels: chartLabels,
 		datasets: datasets
 	}
-
 	evalHistoryChart[canvas] = new Chart(ctx).Line(data, options);
 	$(canvas+"-legend").html(evalHistoryChart[canvas].generateLegend());
 }
@@ -56,13 +55,12 @@ var labelFormats = {
 	day: "MMM D"
 };
 
-function getChartEvalData(evals, range, increment, rangeNum, incrementNum){
-	range = range != undefined ? range : "year";
-	rangeNum = rangeNum != undefined ? rangeNum : 1;
+function getChartEvalData(evals, startDate, endDate, increment, incrementNum){
 	increment = increment != undefined ? increment : "month";
 	incrementNum = incrementNum != undefined ? incrementNum : 1;
+	startDate = startDate != undefined ? startDate : moment().subtract(1, "year").startOf(increment);
+	endDate = endDate != undefined ? endDate : moment();
 
-	var now = moment();
 	var labelFormat = "MMM D";
 	if(labelFormats[increment] != undefined)
 		labelFormat = labelFormats[increment];
@@ -72,7 +70,7 @@ function getChartEvalData(evals, range, increment, rangeNum, incrementNum){
 		Completed: []
 	};
 
-	for(var start = moment().startOf(increment).subtract(rangeNum, range); start < now; start.add(incrementNum, increment)){
+	for(var start = startDate; start < endDate; start.add(incrementNum, increment)){
 		var end = moment(start).add(incrementNum, increment);
 		var r = evals.reduce(function(num, eval){
 			if(eval.request_date != undefined){

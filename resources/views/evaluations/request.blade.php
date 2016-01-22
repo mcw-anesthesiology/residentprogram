@@ -2,8 +2,6 @@
 
 @section("head")
 	<style>
-		.view, .complete { cursor: pointer; }
-
 		.date-heading {
 			margin-top: 40px;
 		}
@@ -217,13 +215,6 @@
 		var forms = $.parseJSON('{!! $forms !!}');
 	@endif
 
-	@if($user->type == "resident" && $requestType == "faculty")
-		$(".table").on("click", ".view", function(){
-			var requestId = $(this).parents("tr").children("td").eq(0).children("a").html();
-			window.location.href = "/evaluation/"+requestId;
-		});
-	@endif
-
 		var type = "{{ $user->type }}";
 		var endOfMonth = {!! json_encode($endOfMonth) !!};
 
@@ -366,7 +357,7 @@
 				"ajax": "/dashboard/faculty/evaluations",
 				"order": [[0, "desc"]],
 				"createdRow": function(row, data, index){
-					$("td", row).addClass("view");
+					$("td", row).addClass("view-evaluation");
 				}
 			});
 	@endif

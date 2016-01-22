@@ -201,12 +201,16 @@ body {
 	margin-right: 0px;
 }
 
-.print{
+.print {
 	display: none;
 }
 
-.pointer{
+.pointer {
 	cursor: pointer;
+}
+
+.view-evaluation {
+    cursor: pointer;
 }
 
 .question {

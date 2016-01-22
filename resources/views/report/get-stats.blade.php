@@ -1,3 +1,9 @@
+@if(!empty($statEvalData))
+<script type="application/json" id="stat-eval-data">
+	{!! $statEvalData->toJson() !!}
+</script>
+@endif
+
 @if(!empty($userStats))
 <div class="container body-block">
 <h3>Evaluation Statistics</h3>
@@ -17,7 +23,7 @@
 ?>
 		@foreach($userStats as $stat)
 			<tr>
-				<th>{{ $stat["name"] }}</th>
+				<th><a href="/profile/{{ $stat['id'] }}">{{ $stat["name"] }}</a></th>
 				<td>{{ $stat["requested"] }}</td>
 				<td>{{ $stat["totalRequests"] }}</td>
 				<td>{{ $stat["completed"] }}</td>
@@ -36,11 +42,30 @@
 </form>
 </div>
 @endif
-<div class="container body-block">
 
+@if(count($userStats) == 1)
+<div class="container body-block">
+	<div class="line-chart-container">
+		<h3>Evaluation History</h3>
+		<canvas id="line-chart"></canvas>
+		<div id="line-chart-legend"></div>
+	</div>
+	<div class="col-sm-4 col-sm-offset-4">
+		<label for="line-chart-set">Chart increment</label>
+		<select class="form-control" id="line-chart-increment">
+			<option value="1-month">Monthly</option>
+			<option value="1-week">Weekly</option>
+			<option value="1-day">Daily</option>
+			<option value="1-year">Yearly</option>
+		</select>
+	</div>
+</div>
+@endif
+
+@if(!empty($noneRequested))
+<div class="container body-block">
 <h3>No Requests</h3>
 <?php $tsv = ""; ?>
-@if(!empty($noneRequested))
 <ul class="list-group row">
 	@foreach($noneRequested as $name)
 	<li class="list-group-item col-xs-6">{{ $name }}</li>
@@ -52,13 +77,13 @@
 	<input type="hidden" name="name" value="No Requests" />
 	<button class="btn" type="submit" name="data" value="{{ $tsv }}">Export</button>
 </form>
-@endif
 </div>
-<div class="container body-block">
+@endif
 
+@if(!empty($noneCompleted))
+<div class="container body-block">
 <h3>None Completed</h3>
 <?php $tsv = ""; ?>
-@if(!empty($noneCompleted))
 <ul class="list-group row">
 	@foreach($noneCompleted as $name)
 	<li class="list-group-item col-xs-6">{{ $name }}</li>
@@ -70,11 +95,11 @@
 	<input type="hidden" name="name" value="None Completed" />
 	<button class="btn" type="submit" name="data" value="{{ $tsv }}">Export</button>
 </form>
-@endif
 </div>
-<div class="container body-block">
+@endif
 
 @if($type == "faculty" && !empty($averageCompletionTimes))
+<div class="container body-block">
 	<h3>Average Completion Time</h3>
 <?php $tsv = "User\tTime\n"; ?>
 	<table class="table table-striped datatable" width="100%">
@@ -102,10 +127,10 @@
 		<button class="btn" type="submit" name="data" value="{{ $tsv }}">Export</button>
 	</form>
 </div>
-<div class="container body-block">
 @endif
 
 @if(!empty($lastCompleted))
+<div class="container body-block">
 <h3>Last Completed Evaluations</h3>
 <?php $tsv = "User\tDate\n"; ?>
 <table class="table table-striped datatable" width="100%">

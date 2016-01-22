@@ -157,11 +157,6 @@
             });
         });
 
-		$("tbody").on("click", ".view", function(){
-			var requestId = $(this).parent().data("id");
-			window.location.href = "view_specific.php?request="+requestId;
-		});
-
 		function lastThreeMonthsDisable(){
 			var d = new Date();
 			var day = d.getDate();
