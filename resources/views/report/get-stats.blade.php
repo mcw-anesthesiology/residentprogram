@@ -1,6 +1,6 @@
 @if(!empty($statEvalData))
 <script type="application/json" id="stat-eval-data">
-	{!! $statEvalData->toJson() !!}
+	{!! json_encode($statEvalData) !!}
 </script>
 @endif
 

@@ -675,7 +675,7 @@ class MainController extends Controller
 				}
             }
         }
-        return json_encode($results);
+        return response()->json($results);
     }
 
 	public function staffEvaluations(Request $request){
@@ -733,7 +733,7 @@ class MainController extends Controller
 				Log::error("Problem with staff evaluation: ".$e);
 			}
 		}
-		return json_encode($results);
+		return response()->json($results);
 	}
 
 	public function flaggedEvaluations(Request $request){
@@ -758,7 +758,7 @@ class MainController extends Controller
 				Log::error("Problem with flagged evaluation: ".$e);
 			}
 		}
-		return json_encode($results);
+		return response()->json($results);
 	}
 
     public function facultyEvaluations(Request $request){
@@ -811,7 +811,7 @@ class MainController extends Controller
 				Log::error("Problem with faculty evaluation: ".$e);
 			}
         }
-        return json_encode($results);
+        return response()->json($results);
     }
 
     public function user(){
@@ -908,12 +908,18 @@ class MainController extends Controller
             $evaluations = $profileUser->evaluatorEvaluations();
 
         $evals = $evaluations->whereIn("status", ["complete", "pending"])->get();
+
+        $lastCompleted = $evals->where("status", "complete")->sortByDesc("complete_date")->first();
+        if(!empty($lastCompleted))
+            $lastCompleted = $lastCompleted->complete_date;
+        else
+            $lastCompleted = "-";
+
         $evals = $evals->filter(function($eval) use ($yearStart){
             return $eval->evaluation_date >= $yearStart;
         });
 
-        $lastCompleted = $evals->where("status", "complete")->sortByDesc("complete_date")->first()->complete_date;
-        $requests = $evals->where("requested_by_id", $profileUser)->count();
+        $requests = $evals->where("requested_by_id", $profileUser->id)->count();
         $totalRequests = $evals->count();
         $totalComplete = $evals->where("status", "complete")->count();
 
@@ -922,7 +928,7 @@ class MainController extends Controller
             "request_date",
             "complete_date",
             "status"
-        ]);
+        ])->toArray();
 
         $data = compact("profileUser", "yearStart", "lastCompleted", "requests",
             "totalRequests", "totalComplete", "evalData");
@@ -991,6 +997,6 @@ class MainController extends Controller
             }
         }
 
-        return json_encode($results);
+        return response()->json($results);
     }
 }

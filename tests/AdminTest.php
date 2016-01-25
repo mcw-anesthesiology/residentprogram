@@ -685,4 +685,106 @@ class AdminTest extends TestCase
             $this->seeInDatabase("block_assignments", $blockAssignment);
         }
     }
+
+    public function testProfile(){
+        $faker = Faker::create();
+        $yearStart = Carbon::now()->gt(Carbon::parse("July 1")) ? Carbon::parse("July 1") : Carbon::parse("July 1 last year");
+        $evals = factory(App\Evaluation::class, "complete", 2)->create([
+            "form_id" => $this->form->id,
+            "subject_id" => $this->resident->id,
+            "evaluator_id" => $this->faculty->id,
+            "requested_by_id" => $this->user->id,
+            "evaluation_date" => $faker->dateTimeBetween($yearStart, "now")
+        ]);
+        $anotherEval = factory(App\Evaluation::class)->create([
+            "form_id" => $this->form->id,
+            "subject_id" => $this->resident->id,
+            "evaluator_id" => $this->faculty->id,
+            "requested_by_id" => $this->resident->id,
+            "evaluation_date" => $faker->dateTimeBetween($yearStart, "now")
+        ]);
+
+        $this->actingAs($this->user)
+            ->visit("/profile/".$this->resident->id);
+        $this->assertViewHas("profileUser", $this->resident->fresh());
+
+        $this->assertViewHas("yearStart", $yearStart);
+
+        $this->assertViewHas("lastCompleted", $this->resident->subjectEvaluations
+            ->where("status", "complete")->sortByDesc("complete_date")
+            ->first()->complete_date);
+
+        $this->assertViewHas("requests", 1);
+        $this->assertViewHas("totalRequests", 3);
+        $this->assertViewHas("totalComplete", 2);
+        $this->assertViewHas("evalData", [
+            [
+                "id" => $evals[0]->id,
+                "request_date" => $evals[0]->request_date->toDateTimeString(),
+                "complete_date" => $evals[0]->complete_date->toDateTimeString(),
+                "status" => "complete"
+            ],
+            [
+                "id" => $evals[1]->id,
+                "request_date" => $evals[1]->request_date->toDateTimeString(),
+                "complete_date" => $evals[1]->complete_date->toDateTimeString(),
+                "status" => "complete"
+            ],
+            [
+                "id" => $anotherEval->id,
+                "request_date" => $anotherEval->request_date->toDateTimeString(),
+                "complete_date" => null,
+                "status" => "pending"
+            ],
+        ]);
+    }
+
+    public function testProfileEvaluations(){
+        $evals = factory(App\Evaluation::class, "complete", 2)->create([
+            "form_id" => $this->form->id,
+            "subject_id" => $this->resident->id,
+            "evaluator_id" => $this->faculty->id,
+            "requested_by_id" => $this->user->id
+        ]);
+        $anotherEval = factory(App\Evaluation::class)->create([
+            "form_id" => $this->form->id,
+            "subject_id" => $this->resident->id,
+            "evaluator_id" => $this->faculty->id,
+            "requested_by_id" => $this->resident->id
+        ]);
+
+        $this->actingAs($this->user)
+            ->get("/profile/evaluations/".$this->resident->id)
+            ->seeJson([
+                "data" => [
+                    [
+                        "<a href='/evaluation/{$evals[0]->id}'>{$evals[0]->id}</a>",
+                        $this->faculty->full_name,
+                        $this->form->title,
+                        (string)$evals[0]->evaluation_date,
+                        (string)$evals[0]->request_date,
+                        (string)$evals[0]->complete_date,
+                        "<span class='badge badge-complete'>".ucfirst($evals[0]->status)."</span>"
+                    ],
+                    [
+                        "<a href='/evaluation/{$evals[1]->id}'>{$evals[1]->id}</a>",
+                        $this->faculty->full_name,
+                        $this->form->title,
+                        (string)$evals[1]->evaluation_date,
+                        (string)$evals[1]->request_date,
+                        (string)$evals[1]->complete_date,
+                        "<span class='badge badge-complete'>".ucfirst($evals[1]->status)."</span>"
+                    ],
+                    [
+                        "<a href='/evaluation/{$anotherEval->id}'>{$anotherEval->id}</a>",
+                        $this->faculty->full_name,
+                        $this->form->title,
+                        (string)$anotherEval->evaluation_date,
+                        (string)$anotherEval->request_date,
+                        "",
+                        "<span class='badge badge-pending'>".ucfirst($anotherEval->status)."</span>"
+                    ]
+                ]
+            ]);
+    }
 }
