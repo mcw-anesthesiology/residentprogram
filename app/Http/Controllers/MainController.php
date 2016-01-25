@@ -945,21 +945,28 @@ class MainController extends Controller
 
         switch($type){
             case "subject":
-                $evaluations = $profileUser->subjectEvaluations;
+                if($user->isType("admin"))
+                    $evaluations = $profileUser->subjectEvaluations;
+                else
+                    $evaluations = $profileUser->subjectEvaluations()->notHidden()->get();
                 break;
             case "evaluator":
                 $evaluations = $profileUser->evaluatorEvaluations;
                 break;
             default:
-                if($profileUser->isType("resident"))
-                    $evaluations = $profileUser->subjectEvaluations;
-                else
+                if($profileUser->isType("resident")){
+                    if($user->isType("admin"))
+                        $evaluations = $profileUser->subjectEvaluations;
+                    else
+                        $evaluations = $profileUser->subjectEvaluations()->notHidden()->get();
+                }
+                else{
                     $evaluations = $profileUser->evaluatorEvaluations;
+                }
                 break;
         }
 
         if(!$user->isType("admin")){
-            // FIXME: Visibility
             $evaluations = $evaluations->filter(function($eval){
                 return in_array($eval->status, ["pending", "complete"]);
             });
@@ -971,10 +978,18 @@ class MainController extends Controller
                 $result = [];
 
                 $result[] = "<a href='/evaluation/{$eval->id}'>$eval->id</a>";
-                if($eval->evaluator_id != $profileUser->id)
-                    $result[] = $eval->evaluator->full_name;
-                if($eval->subject_id != $profileUser->id)
-                    $result[] = $eval->subject->full_name;
+                if($eval->evaluator_id != $profileUser->id){
+                    if($user->isType("admin") || $eval->visibility == "visible" || $user->id == $eval->evaluator_id)
+                        $result[] = $eval->evaluator->full_name;
+                    else
+                        $result[] = "<i>Anonymous</i>";
+                }
+                if($eval->subject_id != $profileUser->id){
+                    if($user->isType("admin") || $eval->visibility == "visible" || $user->id == $eval->evaluator_id)
+                        $result[] = $eval->subject->full_name;
+                    else
+                        $result[] = "<i>Anonymous</i>";
+                }
                 $result[] = $eval->form->title;
                 $result[] = (string)$eval->evaluation_date;
                 $result[] = (string)$eval->request_date;
