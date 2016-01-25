@@ -1,11 +1,5 @@
 @extends("app")
 
-@section("head")
-	<style>
-		.view, .complete { cursor: pointer; }
-	</style>
-@stop
-
 @section("body")
 	@include("dashboard.".$user->type)
 
@@ -98,11 +92,6 @@
 			event.stopPropagation();
 		});
 
-		$(".table").on("click", ".view", function(){
-			var requestId = $(this).parents("tr").children("td").eq(0).children("a").html();
-			window.location.href = "/evaluation/"+requestId;
-		});
-
 		$(document).ready(function(){
 			var data = {};
 			data._token = "{{ csrf_token() }}";
@@ -114,9 +103,8 @@
 					"type": "post"
 				},
 				"order": [[0, "desc"]],
-				"dom": "lfprtip",
 				"createdRow": function(row, data, index){
-					$("td", row).addClass("view");
+					$("td", row).addClass("view-evaluation");
 				}
 			});
 
@@ -128,16 +116,15 @@
 				},
 				"order": [[0, "desc"]],
 				"createdRow": function(row, data, index){
-					$("td", row).addClass("view");
+					$("td", row).addClass("view-evaluation");
 				}
 			});
 
 			$(".datatable-all").DataTable({
 				"ajax": "dashboard/evaluations",
 				"order": [[0, "desc"]],
-				"dom": "lfprtip",
 				"createdRow": function(row, data, index){
-					$("td", row).addClass("view");
+					$("td", row).addClass("view-evaluation");
 				}
 			});
 
@@ -155,7 +142,7 @@
 					}
 				},
 				"createdRow": function(row, data, index){
-					$("td", row).addClass("view");
+					$("td", row).addClass("view-evaluation");
 				}
 			});
 
@@ -173,7 +160,7 @@
 					}
 				},
 				"createdRow": function(row, data, index){
-					$("td", row).addClass("view");
+					$("td", row).addClass("view-evaluation");
 				}
 			});
 
@@ -185,7 +172,7 @@
 				},
 				"order": [[0, "desc"]],
 				"createdRow": function(row, data, index){
-					$("td", row).addClass("view");
+					$("td", row).addClass("view-evaluation");
 				}
 			});
 
@@ -197,7 +184,7 @@
 				},
 				"order": [[0, "desc"]],
 				"createdRow": function(row, data, index){
-					$("td", row).addClass("view");
+					$("td", row).addClass("view-evaluation");
 				}
 			});
 
@@ -211,7 +198,7 @@
 					},
 					"order": [[0, "desc"]],
 					"createdRow": function(row, data, index){
-						$("td", row).addClass("view");
+						$("td", row).addClass("view-evaluation");
 					}
 				});
 			});

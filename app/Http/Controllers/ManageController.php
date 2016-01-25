@@ -131,7 +131,7 @@ class ManageController extends Controller
 				Log::error("Problem with evaluation: ".$e);
 			}
         }
-        return json_encode($results);
+        return response()->json($results);
     }
 
     public function editEvaluation(Request $request, $id){
@@ -326,7 +326,7 @@ class ManageController extends Controller
 				Log::error("Problem with account: ".$e);
 			}
         }
-        return json_encode($results);
+        return response()->json($results);
     }
 
     public function forms(){
@@ -386,7 +386,7 @@ class ManageController extends Controller
 				Log::error("Problem with form: ".$e);
 			}
         }
-        return json_encode($results);
+        return response()->json($results);
     }
 
     public function formBuilder(){
@@ -597,7 +597,7 @@ class ManageController extends Controller
 				Log::error("Problem with milestone: ".$e);
 			}
         }
-        return json_encode($results);
+        return response()->json($results);
     }
 
     public function getCompetencies(){
@@ -618,7 +618,7 @@ class ManageController extends Controller
 				Log::error("Problem with competency: ".$e);
 			}
         }
-        return json_encode($results);
+        return response()->json($results);
     }
 
     public function milestone(Request $request, $action){
@@ -702,7 +702,7 @@ class ManageController extends Controller
 				Log::error("Problem with mentor: ".$e);
 			}
         }
-        return json_encode($results);
+        return response()->json($results);
     }
 
     public function mentor(Request $request, $action){
@@ -781,7 +781,7 @@ class ManageController extends Controller
 				Log::error("Problem with block assignment: ".$e);
 			}
         }
-        return json_encode($data);
+        return response()->json($data);
     }
 
     public function saveBlockAssignments(Request $request){

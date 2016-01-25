@@ -30,7 +30,7 @@
 			<div class="col-md-6">
 				<label for="stats-user">{{ ucfirst($type) }}</label>
 				<select id="stats-user" class="form-control select2">
-					<option value="all">All {{ ucfirst($type) }}</option>
+					<option value="all">All {{ ucfirst(str_plural($type)) }}</option>
 					@foreach($users as $statUser)
 						<option value="{{ $statUser->id }}">{{ $statUser->last_name }}, {{ $statUser->first_name }}</option>
 					@endforeach
@@ -46,6 +46,8 @@
 @stop
 
 @section("script")
+	<script src="/js/Chart.js"></script>
+	<script src="/js/evaluation-line-chart.js"></script>
 	<script>
 		$("#get-stats").click(function(){
 			var data = {};
@@ -70,10 +72,26 @@
 					$("#stats").fadeOut(function(){
 						$(this).html(response);
 						$(".datatable").DataTable();
-						$(this).fadeIn();
+						$(this).fadeIn(function(){
+							if($("#stat-eval-data").get().length > 0)
+								drawChart();
+						});
 					});
 				}
 			});
 		});
+
+		function drawChart(){
+			var evals = $.parseJSON($("#stat-eval-data").text());
+			var startDate = moment($("#stats-start-date").val());
+			var endDate = moment($("#stats-end-date").val());
+
+			var increment = $("#line-chart-increment").val().split("-");
+			var chartData = getChartEvalData(evals, startDate, endDate, increment[1], increment[0]);
+			console.log(chartData);
+			drawLineChart("#line-chart", chartData[0], chartData[1]);
+		}
+
+		$("#stats").on("change", "#line-chart-increment", drawChart);
 	</script>
 @stop

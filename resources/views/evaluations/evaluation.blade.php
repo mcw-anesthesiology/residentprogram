@@ -96,10 +96,10 @@
 					<tr>
 						<td>{{ $evaluation->id }}</td>
 	@if($user->id != $evaluation->subject_id)
-						<td>{{ $evaluation->subject->full_name }}</td>
+						<td>{!! $subjectString !!}</td>
 	@endif
 	@if($user->isType("admin") || ($user->id != $evaluation->evaluator_id && $evaluation->visibility == "visible"))
-						<td>{{ $evaluation->evaluator->full_name }}</td>
+						<td>{!! $evaluatorString !!}</td>
 	@endif
 	@if($evaluation->status == "complete")
 						<td>{{ $evaluation->evaluation_date->format("F Y") }}</td>

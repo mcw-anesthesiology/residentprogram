@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use DB;
 use Log;
+use Session;
 
 use DateTime;
 use DateInterval;
@@ -76,6 +77,7 @@ class ReportController extends Controller
         }
         foreach($users as $user){
             try{
+
                 $userEvaluations = $type == "faculty" ? $user->evaluatorEvaluations() : $user->subjectEvaluations();
                 if(!empty($startDate))
                     $userEvaluations->where("request_date", ">=", $startDate);
@@ -112,12 +114,23 @@ class ReportController extends Controller
                 $userEvals = $userEvaluations->whereIn("status", ["pending", "complete"])->get();
 
                 $userStats[] = [
+                    "id" => $user->id,
                     "name" => $user->full_name,
                     "requested" => $userEvals->where("requested_by_id", $user->id)->count(),
                     "totalRequests" => $userEvals->count(),
                     "completed" => $userEvals->where("status", "complete")->count(),
-                    "ratio" => $userEvals->count() == 0 ? 0 : number_format(($userEvals->where("status", "complete")->count()/$userEvals->count()) * 100, 0)
+                    "ratio" => $userEvals->count() == 0 ? 0 : round(($userEvals->where("status", "complete")->count()/$userEvals->count()) * 100)
                 ];
+
+                // Line chart
+                if(count($users) == 1){
+                    $statEvalData = $userEvaluations->get([
+                        "id",
+                        "request_date",
+                        "complete_date",
+                        "status"
+                    ])->toArray();
+                }
 
                 if($type == "faculty"){
                     $timeEvals = $userEvaluations->where("status", "complete")->get();
@@ -136,7 +149,8 @@ class ReportController extends Controller
                 Log::error("Problem with user in stats: ".$e);
             }
         }
-        $data = compact("users", "type", "startDate", "endDate", "noneRequested", "noneCompleted", "lastCompleted", "userStats");
+        $data = compact("users", "type", "startDate", "endDate", "noneRequested",
+            "noneCompleted", "lastCompleted", "userStats", "statEvalData");
         if($type == "faculty")
             $data["averageCompletionTimes"] = $times;
         return view("report.get-stats", $data);
@@ -204,7 +218,7 @@ class ReportController extends Controller
             $results["data"][] = $result;
         }
 
-        return json_encode($results);
+        return response()->json($results);
     }
 
     public function getNeedsEvaluationsTSV(Request $request){
@@ -288,7 +302,7 @@ class ReportController extends Controller
             $results["data"][] = $result;
         }
 
-        return json_encode($results);
+        return response()->json($results);
     }
 
     public function exportMilestonesCompetenciesForms($type){
