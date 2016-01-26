@@ -373,6 +373,18 @@
 			})
 		});
 
+		function checkDate(){
+			var date = $("#evaluation-date").val();
+
+			if(!moment(date).isValid()){
+				appendAlert("Invalid date. Please make sure the date of the month is correct.",
+					$("#evaluation-day-div"));
+				$("#evaluation-day-div .alert").get(0).style = "margin-top: 10px;";
+				return false;
+			}
+			return true;
+		}
+
 		function checkSelectValues(){
 			var optionsSelected = true;
 			$(".request-select").each(function(){
@@ -386,7 +398,9 @@
 			return optionsSelected;
 		}
 
-		$("#form").submit(checkSelectValues);
+		$("#form").submit(function(){
+			return (checkSelectValues() && checkDate());
+		});
 
 		$("#evaluation-date-info").popover({
 			html: true,
