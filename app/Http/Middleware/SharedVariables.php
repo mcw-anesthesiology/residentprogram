@@ -24,7 +24,7 @@ class SharedVariables
         View::share("user", Auth::user());
 
         if(Auth::user()->type == "admin"){
-            $residents = User::where("type", "resident")->orderBy("training_level", "last_name")->get();
+            $residents = User::where("type", "resident")->orderBy("last_name")->get();
             $residentGroupNames = ["intern" => "Intern", "ca-1" => "CA-1", "ca-2" => "CA-2", "ca-3" => "CA-3", "fellow" => "Fellow"];
             $residentGroups = [
                 "Intern" => [],
