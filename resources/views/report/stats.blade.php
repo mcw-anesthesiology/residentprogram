@@ -46,8 +46,6 @@
 @stop
 
 @section("script")
-	<script src="/js/Chart.js"></script>
-	<script src="/js/evaluation-line-chart.js"></script>
 	<script>
 		$("#get-stats").click(function(){
 			var data = {};

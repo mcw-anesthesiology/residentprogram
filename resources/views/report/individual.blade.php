@@ -199,10 +199,6 @@
 @stop
 
 @section("script")
-	<script src="/js/mdn-round.js"></script>
-	<script src="/js/lodash.min.js"></script>
-	<script src="/js/Chart.js"></script>
-	<script src="/js/bootstrap-switch.min.js"></script>
 	<script>
 	@if($graphOption != "none")
 		var graphOption = "{{ $graphOption }}";
@@ -227,10 +223,9 @@
 			$("#graph-layout").bootstrapSwitch();
 
 			if(graphOption == "average")
-				drawAverageGraphs();
+				drawAverageRadarGraphs();
 			else if(graphOption == "all")
-				drawAllGraphs();
+				drawAllRadarGraphs();
 		});
 	</script>
-	<script src="/js/report-chartjs.js"></script>
 @stop

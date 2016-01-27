@@ -71,7 +71,6 @@
 @stop
 
 @section("script")
-	<script src="/js/lodash.min.js"></script>
 	<script>
 		var what = [];
 		$(document).ready(function(){

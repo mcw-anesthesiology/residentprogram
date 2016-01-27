@@ -82,8 +82,6 @@
 @stop
 
 @section("script")
-	<script src="/js/Chart.js"></script>
-	<script src="/js/evaluation-line-chart.js"></script>
 	<script>
 		var profileUser = {!! json_encode($profileUser) !!};
 		var evals = {!! json_encode($evalData) !!};

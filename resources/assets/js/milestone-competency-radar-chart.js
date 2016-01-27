@@ -32,7 +32,7 @@ var options = {
 	}
 };
 
-function drawGraphs(milestoneData, competencyData, title, index){
+function drawRadarGraphs(milestoneData, competencyData, title, index){
 	index = typeof index != "undefined" ? index : 0;
 
 	var div = document.getElementsByClassName("graphs")[index];
@@ -104,7 +104,7 @@ $("#graph-type").change(function(){
 	Chart.helpers.each(Chart.instances,function(instance){
 		instance.destroy();
 	});
-	drawAllGraphs();
+	drawAllRadarGraphs();
 });
 
 $("#new-graphs").on("switchChange.bootstrapSwitch", function(){
@@ -121,7 +121,7 @@ $("#graph-layout").on("switchChange.bootstrapSwitch", function(){
 	});
 });
 
-function drawAverageGraphs(){
+function drawAverageRadarGraphs(){
 	reportData.forEach(function(report, index){
 
 		prepareReport(report);
@@ -140,11 +140,11 @@ function drawAverageGraphs(){
 			]
 		}
 
-		drawGraphs(milestoneData, competencyData, "Average");
+		drawRadarGraphs(milestoneData, competencyData, "Average");
 	});
 }
 
-function drawAllGraphs(){
+function drawAllRadarGraphs(){
 	reportData.forEach(function(report, index){
 
 		prepareReport(report);
@@ -184,7 +184,7 @@ function drawAllGraphs(){
 				]
 			};
 
-			drawGraphs(milestoneData, competencyData, report.subjects[subjectId], index);
+			drawRadarGraphs(milestoneData, competencyData, report.subjects[subjectId], index);
 		});
 	});
 }
