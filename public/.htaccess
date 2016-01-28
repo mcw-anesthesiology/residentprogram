@@ -108,7 +108,6 @@
     # Other
     ExpiresByType text/x-cross-domain-policy            "access plus 1 week"
 
-    </IfModule>
     <Files "vendor.js">
         # JavaScript
         ExpiresByType application/javascript                "access plus 1 year"
