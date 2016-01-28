@@ -3,6 +3,7 @@ var uglify = require("gulp-uglify");
 var cssnano = require("gulp-cssnano");
 var concat = require("gulp-concat");
 var elixir = require('laravel-elixir');
+var size = require("gulp-size");
 
 /*
  |--------------------------------------------------------------------------
@@ -63,16 +64,20 @@ var imgs = [
 
 gulp.task("vendorjs", function(){
     return gulp.src(scripts)
+        .pipe(size({showFiles: true}))
         .pipe(concat("vendor.js"))
         .pipe(uglify())
-        .pipe(gulp.dest("./public/js"));
+        .pipe(gulp.dest("./public/js"))
+        .pipe(size());
 });
 
 gulp.task("vendorcss", function(){
     return gulp.src(styles)
+        .pipe(size({showFiles: true}))
         .pipe(concat("vendor.css"))
         .pipe(cssnano())
-        .pipe(gulp.dest("./public/css"));
+        .pipe(gulp.dest("./public/css"))
+        .pipe(size());
 });
 
 gulp.task("vendorfont", function(){
