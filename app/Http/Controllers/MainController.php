@@ -657,7 +657,7 @@ class MainController extends Controller
 						if($eval->visibility == "visible")
 							$result[] = $eval->evaluator->full_name;
 						elseif($eval->visibility == "anonymous")
-							$result[] = "Anonymous";
+							$result[] = "<i>Anonymous</i>";
 						else
 							continue;
 					}
@@ -725,7 +725,7 @@ class MainController extends Controller
                                 $result[] = $eval->evaluator->full_name;
                                 break;
                             case "anonymous":
-                                $result[] = "Anonymous";
+                                $result[] = "<i>Anonymous</i>";
                                 break;
                             case "hidden":
                             default:

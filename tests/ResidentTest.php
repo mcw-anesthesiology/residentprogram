@@ -243,4 +243,102 @@ class ResidentTest extends TestCase
             "response" => "Have none."
         ]);
     }
+
+    public function testProfileEvaluations(){
+        $evals = factory(App\Evaluation::class, "complete", 2)->create([
+            "form_id" => $this->form->id,
+            "subject_id" => $this->user->id,
+            "evaluator_id" => $this->faculty->id,
+            "requested_by_id" => $this->user->id
+        ]);
+        $anotherEval = factory(App\Evaluation::class)->create([
+            "form_id" => $this->form->id,
+            "subject_id" => $this->user->id,
+            "evaluator_id" => $this->faculty->id,
+            "requested_by_id" => $this->user->id
+        ]);
+        $anonymousEval = factory(App\Evaluation::class)->create([
+            "form_id" => $this->form->id,
+            "subject_id" => $this->user->id,
+            "evaluator_id" => $this->faculty->id,
+            "requested_by_id" => $this->faculty->id,
+            "visibility" => "anonymous"
+        ]);
+        $hiddenEval = factory(App\Evaluation::class)->create([
+            "form_id" => $this->form->id,
+            "subject_id" => $this->user->id,
+            "evaluator_id" => $this->faculty->id,
+            "requested_by_id" => $this->user->id,
+            "visibility" => "hidden"
+        ]);
+
+        $this->actingAs($this->user)
+            ->get("/profile/evaluations/".$this->user->id)
+            ->seeJson([
+                "data" => [
+                    [
+                        "<a href='/evaluation/{$evals[0]->id}'>{$evals[0]->id}</a>",
+                        $this->faculty->full_name,
+                        $this->form->title,
+                        (string)$evals[0]->evaluation_date,
+                        (string)$evals[0]->request_date,
+                        (string)$evals[0]->complete_date,
+                        "<span class='badge badge-complete'>".ucfirst($evals[0]->status)."</span>"
+                    ],
+                    [
+                        "<a href='/evaluation/{$evals[1]->id}'>{$evals[1]->id}</a>",
+                        $this->faculty->full_name,
+                        $this->form->title,
+                        (string)$evals[1]->evaluation_date,
+                        (string)$evals[1]->request_date,
+                        (string)$evals[1]->complete_date,
+                        "<span class='badge badge-complete'>".ucfirst($evals[1]->status)."</span>"
+                    ],
+                    [
+                        "<a href='/evaluation/{$anotherEval->id}'>{$anotherEval->id}</a>",
+                        $this->faculty->full_name,
+                        $this->form->title,
+                        (string)$anotherEval->evaluation_date,
+                        (string)$anotherEval->request_date,
+                        "",
+                        "<span class='badge badge-pending'>".ucfirst($anotherEval->status)."</span>"
+                    ],
+                    [
+                        "<a href='/evaluation/{$anonymousEval->id}'>{$anonymousEval->id}</a>",
+                        "<i>Anonymous</i>",
+                        $this->form->title,
+                        (string)$anonymousEval->evaluation_date,
+                        (string)$anonymousEval->request_date,
+                        "",
+                        "<span class='badge badge-pending'>".ucfirst($anotherEval->status)."</span>"
+                    ]
+                ]
+            ]);
+    }
+
+    public function testFacultyProfile(){
+        $this->actingAs($this->user)
+            ->visit("/dashboard")
+            ->visit("/profile/".$this->faculty->id)
+            ->seePageIs("/dashboard");
+    }
+
+    public function testFacultyProfileEvaluations(){
+        $evals = factory(App\Evaluation::class, "complete", 2)->create([
+            "form_id" => $this->form->id,
+            "subject_id" => $this->user->id,
+            "evaluator_id" => $this->faculty->id,
+            "requested_by_id" => $this->user->id
+        ]);
+        $anotherEval = factory(App\Evaluation::class)->create([
+            "form_id" => $this->form->id,
+            "subject_id" => $this->user->id,
+            "evaluator_id" => $this->faculty->id,
+            "requested_by_id" => $this->user->id
+        ]);
+
+        $this->actingAs($this->user)
+            ->get("/profile/evaluations/".$this->faculty->id)
+            ->dontSee("data");
+    }
 }

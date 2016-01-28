@@ -752,6 +752,20 @@ class AdminTest extends TestCase
             "evaluator_id" => $this->faculty->id,
             "requested_by_id" => $this->resident->id
         ]);
+        $anonymousEval = factory(App\Evaluation::class)->create([
+            "form_id" => $this->form->id,
+            "subject_id" => $this->resident->id,
+            "evaluator_id" => $this->faculty->id,
+            "requested_by_id" => $this->user->id,
+            "visibility" => "anonymous"
+        ]);
+        $hiddenEval = factory(App\Evaluation::class)->create([
+            "form_id" => $this->form->id,
+            "subject_id" => $this->resident->id,
+            "evaluator_id" => $this->faculty->id,
+            "requested_by_id" => $this->user->id,
+            "visibility" => "hidden"
+        ]);
 
         $this->actingAs($this->user)
             ->get("/profile/evaluations/".$this->resident->id)
@@ -783,6 +797,24 @@ class AdminTest extends TestCase
                         (string)$anotherEval->request_date,
                         "",
                         "<span class='badge badge-pending'>".ucfirst($anotherEval->status)."</span>"
+                    ],
+                    [
+                        "<a href='/evaluation/{$anonymousEval->id}'>{$anonymousEval->id}</a>",
+                        $this->faculty->full_name,
+                        $this->form->title,
+                        (string)$anonymousEval->evaluation_date,
+                        (string)$anonymousEval->request_date,
+                        "",
+                        "<span class='badge badge-pending'>".ucfirst($anotherEval->status)."</span>"
+                    ],
+                    [
+                        "<a href='/evaluation/{$hiddenEval->id}'>{$hiddenEval->id}</a>",
+                        $this->faculty->full_name,
+                        $this->form->title,
+                        (string)$hiddenEval->evaluation_date,
+                        (string)$hiddenEval->request_date,
+                        "",
+                        "<span class='badge badge-pending'>".ucfirst($hiddenEval->status)."</span>"
                     ]
                 ]
             ]);
