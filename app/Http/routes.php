@@ -68,7 +68,7 @@ Route::get("manage/settings", "ManageController@settings");
 Route::post("manage/settings", "ManageController@saveSettings");
 Route::get("manage/evaluations", "ManageController@evaluations");
 Route::post("manage/evaluations", "ManageController@archive");
-Route::get("manage/evaluations/get", "ManageController@getEvaluations");
+Route::get("manage/evaluations/get/{limit?}", "ManageController@getEvaluations");
 Route::post("manage/evaluations/{id}", "ManageController@editEvaluation");
 Route::get("manage/accounts", "ManageController@accounts");
 Route::get("manage/accounts/get/{type}", "ManageController@getAccounts");

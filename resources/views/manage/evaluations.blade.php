@@ -15,7 +15,7 @@
 @section("body")
 	<h2 class="sub-header">Manage Evaluations <button class="archiveEval btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-archive-modal" id="archiveBtn"><span class="glyphicon glyphicon-remove"></span> Archive Evals</button></h2>
 	  <div class="table-responsive">
-		<table class="table table-striped datatable" cellspacing="0" cellpadding="0" width="100%">
+		<table class="table table-striped datatable" id="manage-evals-table" cellspacing="0" cellpadding="0" width="100%">
 		  <thead>
 			<tr>
 			  <th class="headerSortDown"><span>#</span></th>
@@ -230,11 +230,10 @@
 		});
 
 		$(document).ready(function(){
-		  $(".datatable").each(function(){
-			  $(this).DataTable({
-				"ajax": "/manage/evaluations/get",
-				"order": [[0, "desc"]],
-			  });
+		  $("#manage-evals-table").DataTable({
+			"ajax": "/manage/evaluations/get/20",
+			"order": [[0, "desc"]],
+			"initComplete": unlimitTableEvals
 		  });
 
 		  $("#lastSixMonthsDisable").click(lastSixMonthsDisable);

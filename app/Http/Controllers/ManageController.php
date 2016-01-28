@@ -56,9 +56,13 @@ class ManageController extends Controller
         return view("manage/evaluations");
     }
 
-    public function getEvaluations(){
+    public function getEvaluations($limit = null){
         $results["data"] = [];
-        $evaluations = Evaluation::with("subject", "evaluator", "requestor", "form")->get();
+        $evaluations = Evaluation::with("subject", "evaluator", "requestor", "form")->orderBy("id", "desc");
+        if(!empty($limit))
+            $evaluations = $evaluations->limit($limit)->get();
+        else
+            $evaluations = $evaluations->get();
         foreach($evaluations as $eval){
 			try{
 	            $result = [];

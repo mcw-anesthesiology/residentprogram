@@ -130,6 +130,14 @@ function appendAlert(alertText, parent, alertType){
 	$(parent).append(alert);
 }
 
+function unlimitTableEvals(settings, json){
+	var dt = this.DataTable({
+		retrieve: true
+	});
+	var url = dt.ajax.url();
+	dt.ajax.url(url.substring(0, url.lastIndexOf("/"))).load().draw();
+}
+
 $(document).ready(function(){
 	$.fn.dataTable.moment( "DD-MMM-YYYY h:mm A" );
 

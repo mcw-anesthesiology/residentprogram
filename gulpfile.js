@@ -38,7 +38,6 @@ var scripts = [
 
 var styles = [
     bowerPath + "bootstrap/dist/css/bootstrap.min.css",
-    bowerPath + "bootstrap/dist/css/bootstrap-theme.min.css",
     bowerPath + "jquery-ui/themes/base/datepicker.css",
     bowerPath + "datatables.net-bs/css/dataTables.bootstrap.min.css",
     bowerPath + "datatables.net-fixedcolumns-bs/css/fixedColumns.bootstrap.min.css",
@@ -46,7 +45,7 @@ var styles = [
     bowerPath + "datatables.net-responsive-bs/css/responsive.bootstrap.min.css",
     bowerPath + "multiselect/css/multi-select.css",
     bowerPath + "select2/dist/css/select2.min.css",
-    bowerPath + "select2-bootstrap-css/select2-bootstrap.min.css",
+    bowerPath + "select2-bootstrap-theme/dist/select2-bootstrap.min.css",
     bowerPath + "bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css"
 ];
 
