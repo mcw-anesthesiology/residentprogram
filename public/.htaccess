@@ -73,6 +73,13 @@
     ExpiresByType application/x-web-app-manifest+json   "access plus 0 seconds"
     ExpiresByType text/cache-manifest                   "access plus 0 seconds"
 
+    # CSS
+    ExpiresByType text/css                              "access plus 1 week"
+
+    # JavaScript
+    ExpiresByType application/javascript                "access plus 1 week"
+    ExpiresByType application/x-javascript              "access plus 1 week"
+    ExpiresByType text/javascript                       "access plus 1 week"
 
     # Media files
     ExpiresByType audio/ogg                             "access plus 1 month"

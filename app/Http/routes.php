@@ -26,13 +26,13 @@ Route::get("password/reset/{token}", "Auth\PasswordController@getReset");
 Route::post("password/reset", "Auth\PasswordController@postReset");
 
 Route::get("dashboard", "MainController@dashboard");
-Route::get("dashboard/evaluations", "MainController@evaluations");
-Route::post("dashboard/evaluations", "MainController@evaluations");
 Route::post("dashboard/evaluations/flagged", "MainController@flaggedEvaluations");
-Route::post("dashboard/evaluations/staff", "MainController@staffEvaluations");
+Route::post("dashboard/evaluations/staff/{limit?}", "MainController@staffEvaluations");
+Route::get("dashboard/evaluations/{limit?}", "MainController@evaluations");
+Route::post("dashboard/evaluations/{limit?}", "MainController@evaluations");
 Route::get("dashboard/faculty", "MainController@dashboardFaculty");
-Route::get("dashboard/faculty/evaluations", "MainController@facultyEvaluations");
-Route::post("dashboard/faculty/evaluations", "MainController@facultyEvaluations");
+Route::get("dashboard/faculty/evaluations/{limit?}", "MainController@facultyEvaluations");
+Route::post("dashboard/faculty/evaluations/{limit?}", "MainController@facultyEvaluations");
 
 Route::post("evaluation/cancel", "MainController@cancelEvaluation");
 Route::post("evaluation/flag/remove", "MainController@removeFlag");

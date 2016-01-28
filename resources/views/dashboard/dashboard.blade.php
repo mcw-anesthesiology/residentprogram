@@ -121,11 +121,12 @@
 			});
 
 			$(".datatable-all").DataTable({
-				"ajax": "dashboard/evaluations",
+				"ajax": "dashboard/evaluations/20",
 				"order": [[0, "desc"]],
 				"createdRow": function(row, data, index){
 					$("td", row).addClass("view-evaluation");
-				}
+				},
+				"initComplete": unlimitTableEvals
 			});
 
 			data.type = "pending";
@@ -179,13 +180,14 @@
 			data.type = "complete";
 			$(".datatable-complete").DataTable({
 				"ajax": {
-					"url": "dashboard/evaluations",
+					"url": "dashboard/evaluations/20",
 					"data": data,
 				},
 				"order": [[0, "desc"]],
 				"createdRow": function(row, data, index){
 					$("td", row).addClass("view-evaluation");
-				}
+				},
+				"initComplete": unlimitTableEvals
 			});
 
 			data.type = "mentor";
@@ -193,15 +195,24 @@
 				data.mentee_id = $(this).data("id");
 				$(this).DataTable({
 					"ajax": {
-						"url": "dashboard/evaluations",
+						"url": "dashboard/evaluations/20",
 						"data": data
 					},
 					"order": [[0, "desc"]],
 					"createdRow": function(row, data, index){
 						$("td", row).addClass("view-evaluation");
-					}
+					},
+					"initComplete": unlimitTableEvals
 				});
 			});
 		});
+
+		function unlimitTableEvals(settings, json){
+			var dt = this.DataTable({
+				retrieve: true
+			});
+			var url = dt.ajax.url();
+			dt.ajax.url(url.substring(0, url.lastIndexOf("/"))).load().draw();
+		}
 	</script>
 @stop

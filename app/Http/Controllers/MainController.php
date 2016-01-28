@@ -590,13 +590,17 @@ class MainController extends Controller
 		return "Error removing flag";
 	}
 
-    public function evaluations(Request $request){
+    public function evaluations(Request $request, $limit = null){
         $user = Auth::user();
         $results["data"] = [];
         if($user->type == "admin"){
             $evaluations = Evaluation::with("subject", "evaluator", "form")->whereHas("form", function($query){
                 $query->whereIn("type", ["resident", "fellow"])->where("evaluator_type", "faculty");
-            })->get();
+            })->orderBy("id", "desc");
+            if(!empty($limit))
+                $evaluations = $evaluations->limit($limit)->get();
+            else
+                $evaluations = $evaluations->get();
             foreach($evaluations as $eval){
 				try{
 	                $result = [];
@@ -629,7 +633,9 @@ class MainController extends Controller
                 $menteeId = $request->input("mentee_id");
                 $mentee = User::find($menteeId);
                 if($mentee->mentors->contains($user))
-                    $evaluations = $mentee->subjectEvaluations()->notHidden()->where("status", "complete")->with("subject", "evaluator", "form")->get();
+                    $evaluations = $mentee->subjectEvaluations()->notHidden()
+                        ->where("status", "complete")->with("subject", "evaluator", "form")
+                        ->orderBy("id", "desc");
             }
             else
                 $evaluations = Evaluation::where("status", $type)->where(function($query) use ($user){
@@ -638,7 +644,11 @@ class MainController extends Controller
 					});
                 })->with("subject", "evaluator", "form")->whereHas("form", function($query){
                     $query->whereIn("type", ["resident", "fellow"])->where("evaluator_type", "faculty");
-                })->get();
+                })->orderBy("id", "desc");
+            if(!empty($limit))
+                $evaluations = $evaluations->limit($limit)->get();
+            else
+                $evaluations = $evaluations->get();
             foreach($evaluations as $eval){
 				try{
 	                $result = [];
@@ -678,7 +688,7 @@ class MainController extends Controller
         return response()->json($results);
     }
 
-	public function staffEvaluations(Request $request){
+	public function staffEvaluations(Request $request, $limit = null){
 		$user = Auth::user();
 		$results["data"] = [];
         $type = $request->has("type") ? $request->input("type") : "complete";
@@ -686,7 +696,7 @@ class MainController extends Controller
 		if($user->type == "admin"){
 			$evaluations = Evaluation::with("form")->whereHas("form", function($query){
 				$query->where("evaluator_type", "staff");
-			})->get();
+			})->orderBy("id", "desc");
 		}
 		else{
 			$evaluations = Evaluation::with("form")->where("status", $type)->where(function($query) use ($user){
@@ -695,8 +705,12 @@ class MainController extends Controller
                 });
 			})->whereHas("form", function($query){
 				$query->where("evaluator_type", "staff");
-			})->get();
+			})->orderBy("id", "desc");
 		}
+        if(!empty($limit))
+            $evaluations = $evaluations->limit($limit)->get();
+        else
+            $evaluations = $evaluations->get();
 
 		foreach($evaluations as $eval){
 			try{
@@ -761,24 +775,41 @@ class MainController extends Controller
 		return response()->json($results);
 	}
 
-    public function facultyEvaluations(Request $request){
+    public function facultyEvaluations(Request $request, $limit = null){
         $user = Auth::user();
         $results["data"] = [];
         if($user->type == "admin"){
-            $evaluations = Evaluation::with("subject", "evaluator", "form")->whereHas("form", function($query){
-                $query->where("type", "faculty");
-            })->get();
+            $evaluations = Evaluation::with("subject", "evaluator", "form")
+                ->whereHas("form", function($query){
+                    $query->where("type", "faculty");
+                })->orderBy("id", "desc");
+            if(!empty($limit))
+                $evaluations = $evaluations->limit($limit)->get();
+            else
+                $evaluations = $evaluations->get();
         }
         elseif($user->type == "faculty"){
             $threshold = Setting::get("facultyEvalThreshold");
-            $evaluations = Evaluation::where("subject_id", $user->id)->notHidden()->where("status", "complete")->orderBy("id", "desc")->get();
+            $evaluations = Evaluation::where("subject_id", $user->id)->notHidden()
+                ->where("status", "complete")->orderBy("id", "desc")
+                ->orderBy("id", "desc");
+            if(!empty($limit))
+                $evaluations = $evaluations->limit($limit)->get();
+            else
+                $evaluations = $evaluations->get();
 			if($evaluations->count() > 0)
             	$evaluations = $evaluations->splice($evaluations->count()%$threshold);
         }
         elseif($user->type == "resident"){
-            $evaluations = Evaluation::with("subject", "evaluator", "form")->where("status", "pending")->where("evaluator_id", $user->id)->whereHas("form", function($query){
-                $query->where("type", "faculty");
-            })->get();
+            $evaluations = Evaluation::with("subject", "evaluator", "form")
+                ->where("status", "pending")->where("evaluator_id", $user->id)
+                ->whereHas("form", function($query){
+                    $query->where("type", "faculty");
+                })->orderBy("id", "desc");
+            if(!empty($limit))
+                $evaluations = $evaluations->limit($limit)->get();
+            else
+                $evaluations = $evaluations->get();
         }
 
         foreach($evaluations as $eval){
