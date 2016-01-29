@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -204,6 +205,7 @@ class ManageController extends Controller
                 $user->password = bcrypt($password);
                 $user->first_name = $request->input("first_name");
                 $user->last_name = $request->input("last_name");
+                $user->pager = preg_replace("/[^\d]/", "", $request->input("pager"));
                 $user->status = "active";
                 $user->reminder_frequency = "weekly";
                 $user->notifications = "no";
@@ -238,6 +240,7 @@ class ManageController extends Controller
                 $user->email = $request->input("email");
                 $user->first_name = $request->input("first_name");
                 $user->last_name = $request->input("last_name");
+                $user->pager = preg_replace("/[^\d]/", "", $request->input("pager"));
                 if($request->hasFile("photo") && $request->file("photo")->isValid()){
                     $photoName = uniqid().".".$request->file("photo")->getExtension();
                     $request->file("photo")->move(storage_path("app/photos/"), $photoName);
@@ -884,4 +887,19 @@ class ManageController extends Controller
         }
         return redirect("manage/block-assignments");
     }
+
+    public function savePagerDirectoryEntry(Request $request){
+        try{
+            $user = User::find($request->input("id"))->first();
+            $user->pager = preg_replace("/[^\d]/", "", $request->input("pager"));
+            $user->save();
+            return $request->has("ajax") ? "success" : back();
+        } catch (ModelNotFoundException $e){
+            return $request->has("ajax") ? "Problem saving pager" : back()->with("error", "Problem saving pager");
+        } catch (\Exception $e){
+            Log::error($e);
+            return $request->has("ajax") ? "Problem saving pager" : back()->with("error", "Problem saving pager");
+        }
+    }
+
 }

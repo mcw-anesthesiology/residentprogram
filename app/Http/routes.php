@@ -58,6 +58,10 @@ Route::post("user", "MainController@saveUser");
 Route::post("user/reminders", "MainController@saveUserReminders");
 Route::post("user/notifications", "MainController@saveUserNotifications");
 
+Route::get("directory", "MainController@pagerDirectory");
+Route::get("directory/get", "MainController@getPagerDirectory");
+Route::get("directory/csv", "MainController@getPagerCSV");
+
 Route::get("contact", "MainController@contact");
 Route::post("contact", "MainController@saveContact");
 

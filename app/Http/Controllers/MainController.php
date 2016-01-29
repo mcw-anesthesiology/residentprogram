@@ -1045,4 +1045,32 @@ class MainController extends Controller
 
         return response()->json($results);
     }
+
+    public function pagerDirectory(){
+        return view("dashboard.directory");
+    }
+
+    public function getPagerDirectory(){
+        $results["data"] = [];
+        $users = User::whereNotNull("pager")->get();
+        foreach($users as $user){
+            $result = [];
+            $result[] = $user->full_name;
+            $result[] = $user->pager;
+            $results["data"][] = $result;
+        }
+
+        return response()->json($results);
+    }
+
+    public function getPagerCSV(){
+    // Intended for iPage (https://itunes.apple.com/us/app/ipage/id438797413)
+        $csv = "";
+        $users = User::whereNotNull("pager")->get(["first_name", "last_name", "pager"])->toArray();
+        foreach($users as $user){
+            $csv .= implode(",", $user) . "\n";
+        }
+
+        return response($csv)->header("Content-Type", "text/csv");
+    }
 }
