@@ -39,8 +39,8 @@
 
 			var row = $("#cancel-" + data.id).parents("tr");
 
-			$.post("/evaluation/cancel", data, function(result){
-				if(result == "success"){
+			$.post("/evaluation/cancel", data, function(response){
+				if(response == "success"){
 					if(row.siblings().length == 0){
 						var bodyBlock = row.parents(".body-block");
 						bodyBlock.fadeOut(function(){
@@ -57,7 +57,7 @@
 					}
 				}
 				else
-					alert(result);
+					alert(response);
 			}).fail(function(){
 				alert("Error removing evaluation.")
 			});
@@ -72,8 +72,8 @@
 
 			var row = $(this).parents("tr");
 
-			$.post("/evaluation/flag/remove", data, function(result){
-				if(result == "success")
+			$.post("/evaluation/flag/remove", data, function(response){
+				if(response == "success")
 					if(row.siblings().length == 0)
 						row.parents(".body-block").fadeOut(function(){
 							$(this).remove();
@@ -85,7 +85,7 @@
 							}).row(row).remove().draw();
 						});
 				else
-					alert("Error: " + result);
+					alert("Error: " + response);
 			}).fail(function(){
 				alert("Error removing flag");
 			});

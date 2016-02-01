@@ -61,6 +61,8 @@ Route::post("user/notifications", "MainController@saveUserNotifications");
 Route::get("directory", "MainController@pagerDirectory");
 Route::get("directory/get", "MainController@getPagerDirectory");
 Route::get("directory/csv", "MainController@getPagerCSV");
+Route::post("directory/edit", "ManageController@editPagerDirectoryEntry");
+Route::post("directory/delete", "ManageController@deletePagerDirectoryEntry");
 
 Route::get("contact", "MainController@contact");
 Route::post("contact", "MainController@saveContact");

@@ -22,6 +22,7 @@ use Carbon\Carbon;
 use App\Block;
 use App\BlockAssignment;
 use App\Contact;
+use App\DirectoryEntry;
 use App\Evaluation;
 use App\FlaggedEvaluation;
 use App\Form;
@@ -1051,26 +1052,36 @@ class MainController extends Controller
     }
 
     public function getPagerDirectory(){
+        $user = Auth::user();
+        $directory = DirectoryEntry::orderBy("last_name")->get();
         $results["data"] = [];
-        $users = User::whereNotNull("pager")->get();
-        foreach($users as $user){
-            $result = [];
-            $result[] = $user->full_name;
-            $result[] = $user->pager;
+        foreach($directory as $entry){
+            $result = [
+                $entry->last_name,
+                $entry->first_name,
+                $entry->pager
+            ];
+            if($user->isType("admin"))
+                $result[] = "<button type='button' data-id='{$entry->id}' data-pager='{$entry->pager}' "
+                    . "data-first='{$entry->first_name}' data-last='{$entry->last_name}' "
+                    . "class='btn btn-xs btn-info edit-directory-entry'>"
+                    . "<span class='glyphicon glyphicon-edit'></span> Edit</button>";
             $results["data"][] = $result;
         }
-
         return response()->json($results);
     }
 
-    public function getPagerCSV(){
+    public function getPagerCSV(Request $request){
     // Intended for iPage (https://itunes.apple.com/us/app/ipage/id438797413)
+        $directory = DirectoryEntry::orderBy("last_name")->get(["first_name", "last_name", "pager"])->toArray();
         $csv = "";
-        $users = User::whereNotNull("pager")->get(["first_name", "last_name", "pager"])->toArray();
-        foreach($users as $user){
-            $csv .= implode(",", $user) . "\n";
+        foreach($directory as $entry){
+            $csv .= implode(",", $entry) . "\n";
         }
 
-        return response($csv)->header("Content-Type", "text/csv");
+        $response = response($csv)->header("Content-Type", "text/csv");
+        if(!$request->has("view"))
+            $response = $response->header("Content-Disposition", "attachment; filename='ipage.csv'");
+        return $response;
     }
 }

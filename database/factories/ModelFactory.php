@@ -241,3 +241,11 @@ $factory->define(App\BlockAssignment::class, function(Faker $faker){
         "location" => $faker->word
     ];
 });
+
+$factory->define(App\DirectoryEntry::class, function(Faker $faker){
+    return [
+        "first_name" => $faker->firstName,
+        "last_name" => $faker->lastName,
+        "pager" => $faker->phoneNumber
+    ];
+});

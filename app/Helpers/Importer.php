@@ -2,30 +2,20 @@
 
 namespace App\Helpers;
 
-use App\User;
+use App\DirectoryEntry;
 
 class Importer {
 	static function importPagerDirectory($filename){
-        $users = User::where("status", "active")->get();
+		DirectoryEntry::truncate();
 		$file = fopen($filename, "r");
-        $csv = fgetcsv($file);
-        $userNames = [];
-        foreach($users as $user){
-            $userNames[$user->id] = preg_replace("/\W/", "", strtolower($user->last_name.substr($user->first_name, 0, 1)));
-        }
 
-        $matches = 0;
 		while(($row = fgetcsv($file)) !== false){
-            $rowName = preg_replace("/\W/", "", strtolower($row[1].substr($row[0], 0, 1)));
-            if(in_array($rowName, $userNames)){
-                $user = $users->find(array_search($rowName, $userNames));
-                $user->pager = preg_replace("/[^\d]/", "", $row[2]);
-                $user->save();
-				$matches++;
-                echo $user->full_name, "\n";
-            }
+            $entry = new DirectoryEntry();
+			$entry->first_name = $row[0];
+			$entry->last_name = $row[1];
+			$entry->pager = $row[2];
+			$entry->save();
         }
 		fclose($file);
-		echo "\nMatches: " . $matches;
     }
 }

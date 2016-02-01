@@ -819,4 +819,59 @@ class AdminTest extends TestCase
                 ]
             ]);
     }
+
+    public function testEditDirectoryEntry(){
+        $faker = Faker::create();
+        $directory = factory(App\DirectoryEntry::class, 3)->create()->sortBy("last_name");
+        $newEntry = [
+            "id" => $directory[0]->id,
+            "first_name" => $faker->firstName,
+            "last_name" => $faker->lastName,
+            "pager" => $faker->phoneNumber
+        ];
+        $this->actingAs($this->user)
+            ->visit("/directory")
+            ->post("/directory/edit", $newEntry);
+        $this->seeInDatabase("directory", $newEntry);
+    }
+
+    public function testDeleteDirectoryEntry(){
+        $directory = factory(App\DirectoryEntry::class, 3)->create()->sortBy("last_name");
+        $this->actingAs($this->user)
+            ->visit("/directory")
+            ->post("/directory/delete", [
+                "id" => $directory[1]->id
+            ]);
+        $entry = App\DirectoryEntry::withTrashed()->find($directory[1]->id);
+        $this->assertTrue($entry->trashed());
+        $this->actingAs($this->user)
+            ->visit("/directory")
+            ->get("/directory/get")
+            ->seeJsonEquals([
+                "data" => [
+                    [
+                        $directory[0]->first_name,
+                        $directory[0]->last_name,
+                        $directory[0]->pager,
+                        "<button type='button' data-id='{$directory[0]->id}' "
+                            . "data-pager='{$directory[0]->pager}' "
+                            . "data-first='{$directory[0]->first_name}' "
+                            . "data-last='{$directory[0]->last_name}' "
+                            . "class='btn btn-xs btn-info edit-directory-entry'>"
+                            . "<span class='glyphicon glyphicon-edit'></span> Edit</button>"
+                    ],
+                    [
+                        $directory[2]->first_name,
+                        $directory[2]->last_name,
+                        $directory[2]->pager,
+                        "<button type='button' data-id='{$directory[2]->id}' "
+                            . "data-pager='{$directory[2]->pager}' "
+                            . "data-first='{$directory[2]->first_name}' "
+                            . "data-last='{$directory[2]->last_name}' "
+                            . "class='btn btn-xs btn-info edit-directory-entry'>"
+                            . "<span class='glyphicon glyphicon-edit'></span> Edit</button>"
+                    ]
+                ]
+            ]);
+    }
 }

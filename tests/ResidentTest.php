@@ -341,4 +341,44 @@ class ResidentTest extends TestCase
             ->get("/profile/evaluations/".$this->faculty->id)
             ->dontSee("data");
     }
+
+    public function testPagerDirectory(){
+        $directory = factory(App\DirectoryEntry::class, 3)->create()->sortBy("last_name");
+        $this->actingAs($this->user)
+            ->visit("/directory")
+            ->assertResponseOk();
+        $this->get("/directory/get")
+            ->seeJsonEquals([
+                "data" => [
+                    [
+                        $directory[0]->first_name,
+                        $directory[0]->last_name,
+                        $directory[0]->pager
+                    ],
+                    [
+                        $directory[1]->first_name,
+                        $directory[1]->last_name,
+                        $directory[1]->pager
+                    ],
+                    [
+                        $directory[2]->first_name,
+                        $directory[2]->last_name,
+                        $directory[2]->pager
+                    ]
+                ]
+            ]);
+    }
+
+    public function testPagerDirectoryCSV(){
+        $directory = factory(App\DirectoryEntry::class, 3)->create()->sortBy("last_name");
+        $csv = "";
+        foreach($directory as $entry){
+            $csv .= $entry->first_name . ","
+                . $entry->last_name . ","
+                . $entry->pager . "\n";
+        }
+        $this->actingAs($this->user)
+            ->get("/directory/csv?view=true")
+            ->see($csv);
+    }
 }

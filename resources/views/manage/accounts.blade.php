@@ -125,7 +125,7 @@
           </div>
           <div class="form-group">
 			<label for="edit-email">Email</label>
-			<input type="text" class="form-control" id="edit-email" name="email" required>
+			<input type="email" class="form-control" id="edit-email" name="email" required>
           </div>
           <div class="form-group">
             <label for="edit-first-name">First Name</label>
@@ -184,7 +184,7 @@
           </div>
           <div class="form-group">
 			<label for="add-email">Email</label>
-			<input type="text" class="form-control" id="add-email" name="email" placeholder="Email" required>
+			<input type="email" class="form-control" id="add-email" name="email" placeholder="Email" required>
           </div>
           <div class="form-group">
             <label for="add-first-name">First Name</label>
@@ -386,7 +386,7 @@
 						status.fadeOut(function(){
 							$(this).html("active");
 							$(this).fadeIn();
-						});						
+						});
 					}
 				}
 			});
