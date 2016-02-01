@@ -64,8 +64,8 @@
 			</ul>
 		</li>
 	  @endif
-		<li><a class="pointer" data-toggle="modal" data-target=".help-modal">Help</a></li>
 		<li><a href="/contact">Contact</a></li>
+        <li><a href="/directory">Pager Directory</a></li>
 		<li class="dropdown">
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 			  Welcome, {{ ucfirst($user->first_name) }} {{ucfirst($user->last_name)}}
@@ -79,6 +79,7 @@
 		  <ul class="dropdown-menu">
             <li class="disabled"><a>Account type: {{ ucfirst($user->specific_type) }}</a></li>
 			<li><a href="/user">Manage Account</a></li>
+            <li><a class="pointer" data-toggle="modal" data-target=".help-modal">Help</a></li>
 			<li><a href="/logout">Logout</a></li>
 		  </ul>
 		</li>

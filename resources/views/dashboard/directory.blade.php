@@ -27,7 +27,7 @@
 	</div>
 	<div class="form-group">
 		<form method="get" action="/directory/csv">
-			<button type="submit" class="btn" id="download-directory-csv">Download for iPage</button>
+			<button type="submit" class="btn" id="download-directory-csv">Download for iPage (CSV)</button>
 		</form>
 	</div>
 
