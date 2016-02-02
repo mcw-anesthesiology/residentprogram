@@ -19,6 +19,11 @@ var bowerPath = "bower_components/";
 var scripts = [
     bowerPath + "jquery/dist/jquery.min.js",
     bowerPath + "bootstrap/dist/js/bootstrap.min.js",
+    bowerPath + "jquery-ui/ui/minified/core.min.js",
+    bowerPath + "jquery-ui/ui/minified/widget.min.js",
+    bowerPath + "jquery-ui/ui/minified/core.min.js",
+    bowerPath + "jquery-ui/ui/minified/mouse.min.js",
+    bowerPath + "jquery-ui/ui/minified/position.min.js",
     bowerPath + "jquery-ui/ui/minified/datepicker.min.js",
     bowerPath + "datatables.net/js/jquery.dataTables.min.js",
     bowerPath + "datatables.net-bs/js/dataTables.bootstrap.min.js",
@@ -38,7 +43,9 @@ var scripts = [
 
 var styles = [
     bowerPath + "bootstrap/dist/css/bootstrap.min.css",
+    bowerPath + "jquery-ui/themes/base/core.css",
     bowerPath + "jquery-ui/themes/base/datepicker.css",
+    bowerPath + "jquery-ui/themes/base/theme.css",
     bowerPath + "datatables.net-bs/css/dataTables.bootstrap.min.css",
     bowerPath + "datatables.net-fixedcolumns-bs/css/fixedColumns.bootstrap.min.css",
     bowerPath + "datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css",
@@ -59,6 +66,10 @@ var fonts = [
 
 var imgs = [
     bowerPath + "multiselect/img/switch.png"
+];
+
+var cssimgs = [
+    bowerPath + "jquery-ui/themes/base/images/*"
 ];
 
 gulp.task("vendorjs", function(){
@@ -85,8 +96,11 @@ gulp.task("vendorfont", function(){
 });
 
 gulp.task("vendorimg", function(){
-    return gulp.src(imgs)
+    gulp.src(imgs)
         .pipe(gulp.dest("./public/img"));
+
+    gulp.src(cssimgs)
+        .pipe(gulp.dest("./public/css/images"));
 });
 
 elixir(function(mix) {
