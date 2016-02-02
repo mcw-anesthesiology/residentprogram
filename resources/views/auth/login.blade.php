@@ -6,7 +6,7 @@
 		<h2>Resident Program</h2>
 		<div class="form-group">
 			<label for="username">Username</label>
-			<input class="form-control" placeholder="Username" name="username" required autofocus />
+			<input class="form-control" placeholder="Username" name="username" required autofocus autocomplete="off" autocapitalize="off" autocorrect="off" />
 		</div>
 		<div class="form-group">
 			<label for="password">Password</label>

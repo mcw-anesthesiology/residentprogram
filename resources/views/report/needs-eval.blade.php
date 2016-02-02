@@ -49,7 +49,26 @@
 		</div>
 	</div>
 </div>
+
 <div class="container body-block">
+	<h2></h2>
+	<div class="col-md-4">
+		<div class="form-group">
+			<label for="evaluation-threshold">Show residents with fewer than
+				<select class="form-control" id="evaluation-threshold">
+					<option value="1">1</option>
+					<option value="3">3</option>
+					<option value="5">5</option>
+					<option value="all">All</option>
+				</select>
+				evaluations
+			</label>
+		</div>
+	</div>
+</div>
+
+<div class="container body-block">
+	<h2>Milestones</h2>
 	<table class="table table-striped table-bordered datatable">
 		<thead>
 			<tr>

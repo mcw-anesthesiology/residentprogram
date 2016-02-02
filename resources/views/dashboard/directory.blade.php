@@ -10,7 +10,7 @@
 @stop
 
 @section("body")
-	<h2>Pager Directory</h2>
+	<h1>Pager Directory</h1>
 	<div class="table-responsive">
 		<table class="table table-striped datatable" id="pager-directory" width="100%">
 			<thead>
@@ -31,6 +31,7 @@
 		</form>
 	</div>
 
+	<!-- Edit entry modal -->
 	<div class="modal fade" id="edit-entry-modal" tabindex="-1" role="dialog" aria-labelledby="edit-entry-label" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
