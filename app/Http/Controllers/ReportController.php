@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -163,6 +164,46 @@ class ReportController extends Controller
     }
 
     public function getNeedsEvaluations(Request $request){
+        $startDate = Carbon::parse($request->input("startDate"));
+        $startDate->timezone = "America/Chicago";
+        $endDate = Carbon::parse($request->input("endDate"));
+        $endDate->timezone = "America/Chicago";
+        $trainingLevel = $request->input("trainingLevel");
+        $evalThreshold = $request->input("evalThreshold");
+
+        $getQueriedEvaluations = function($query)
+                use ($startDate, $endDate, $trainingLevel, $evalThreshold){
+            $query->where("evaluation_date", ">=", $startDate)
+                ->where("evaluation_date", "<=", $endDate);
+            if($trainingLevel != "all")
+                $query->where("training_level", $trainingLevel);
+        };
+
+        $needsEvals = User::where("type", "resident");
+        if($trainingLevel != "all")
+            $needsEvals->where("training_level", $trainingLevel);
+
+        if($evalThreshold != "all")
+            $needsEvals->whereHas("subjectEvaluations", $getQueriedEvaluations, "<", $evalThreshold);
+
+        $usersNeedingEvals = $needsEvals->with(["subjectEvaluations" => $getQueriedEvaluations])->get();
+
+        $results["data"] = [];
+        foreach($usersNeedingEvals as $user){
+            $result = [];
+            $result[] = $user->full_name;
+            $result[] = $user->subjectEvaluations->count();
+            $result[] = "<button type='button' class='btn btn-xs btn-info send-user-reminder' "
+                . "data-id='{$user->id}' data-name='{$user->full_name}' data-email='{$user->email}'>"
+                . "<span class='glyphicon glyphicon-send'></span> Send reminder"
+                . "</button>";
+            $results["data"][] = $result;
+        }
+
+        return response()->json($results);
+    }
+
+    public function getNeedsMilestones(Request $request){
 		$startDate = Carbon::parse($request->input("startDate"));
 		$startDate->timezone = "America/Chicago";
         $endDate = Carbon::parse($request->input("endDate"));
@@ -198,14 +239,14 @@ class ReportController extends Controller
         return $results;
     }
 
-    public function getNeedsEvaluationsJSON(Request $request){
+    public function getNeedsMilestonesJSON(Request $request){
         $milestones = Milestone::lists("id");
         $residentsQuery = User::where("type", "resident")->where("status", "active");
 		if($request->input("trainingLevel") != "all")
 			$residentsQuery->where("training_level", $request->input("trainingLevel"));
 		$residents = $residentsQuery->get();
         $results["data"] = [];
-        $evaluations = $this->getNeedsEvaluations($request);
+        $evaluations = $this->getNeedsMilestones($request);
         foreach($residents as $resident){
             $result = [];
             $result[] = $resident->full_name;
@@ -221,14 +262,14 @@ class ReportController extends Controller
         return response()->json($results);
     }
 
-    public function getNeedsEvaluationsTSV(Request $request){
+    public function getNeedsMilestonesTSV(Request $request){
         $tsv = "";
         $milestones = Milestone::all();
 		$residentsQuery = User::where("type", "resident")->where("status", "active");
 		if($request->input("trainingLevel") != "all")
 			$residentsQuery->where("training_level", $request->input("trainingLevel"));
 		$residents = $residentsQuery->get();
-        $evaluations = $this->getNeedsEvaluations($request);
+        $evaluations = $this->getNeedsMilestones($request);
         $tsv .= "Resident/Fellow\t";
         foreach($milestones as $milestone)
             $tsv .= $milestone->title."\t";
@@ -251,6 +292,28 @@ class ReportController extends Controller
         return response($tsv)
             ->header("Content-Type", "text/tab-separated-values")
             ->header("Content-Disposition", "attachment; filename={$filename}");
+    }
+
+    public function sendNeedsEvaluationReminder(Request $request){
+        try{
+            $user = Auth::user();
+            $remindedUser = User::findOrFail($request->input("id"));
+            $subject = $request->input("subject");
+            $body = $request->input("body");
+            Mail::send("", $data, function($message) use ($user, $remindedUser, $subject){
+                $message->from("notifications@residentprogram.com", "ResidentProgram Notification");
+                $message->to($remindedUser->email);
+                $message->replyTo($user->email);
+                $message->subject($subject);
+            });
+
+        } catch (ModelNotFoundException $e){
+            Log::error("User not found in sendNeedsEvaluationReminder: " . $e);
+        } catch (\Swift_TransportException $e){
+            Log::error("Error sending mail: " . $e);
+        } catch (\Exception $e){
+            Log::error($e);
+        }
     }
 
     public function getTSV(Request $request){
