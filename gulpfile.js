@@ -5,6 +5,8 @@ var concat = require("gulp-concat");
 var elixir = require('laravel-elixir');
 var size = require("gulp-size");
 
+var inProduction = elixir.config.production;
+
 /*
  |--------------------------------------------------------------------------
  | Elixir Asset Management
@@ -38,7 +40,8 @@ var scripts = [
     bowerPath + "placeholders/dist/placeholders.jquery.min.js",
     bowerPath + "select2/dist/js/select2.min.js",
     bowerPath + "Chart.js/Chart.min.js",
-    bowerPath + "bootstrap-switch/dist/js/bootstrap-switch.min.js"
+    bowerPath + "bootstrap-switch/dist/js/bootstrap-switch.min.js",
+    bowerPath + "marked/marked.min.js"
 ];
 
 var styles = [
@@ -73,7 +76,7 @@ var cssimgs = [
 ];
 
 gulp.task("vendorjs", function(){
-    return gulp.src(scripts)
+    gulp.src(scripts)
         .pipe(size({showFiles: true}))
         .pipe(concat("vendor.js"))
         .pipe(uglify())
@@ -82,7 +85,7 @@ gulp.task("vendorjs", function(){
 });
 
 gulp.task("vendorcss", function(){
-    return gulp.src(styles)
+    gulp.src(styles)
         .pipe(size({showFiles: true}))
         .pipe(concat("vendor.css"))
         .pipe(cssnano())
@@ -91,7 +94,7 @@ gulp.task("vendorcss", function(){
 });
 
 gulp.task("vendorfont", function(){
-    return gulp.src(fonts)
+    gulp.src(fonts)
         .pipe(gulp.dest("./public/fonts"));
 });
 
@@ -106,6 +109,7 @@ gulp.task("vendorimg", function(){
 elixir(function(mix) {
     mix.scripts(["datatables-datetime-moment.js", "modernizr-custom.js", "mdn-round.js", "main.js",
             "milestone-competency-radar-chart.js", "evaluation-line-chart.js"])
-        .styles(["main.css", "milestone-competency-radar-chart.css"])
-        .phpUnit();
+        .styles(["main.css", "milestone-competency-radar-chart.css"]);
+    if(inProduction)
+        mix.phpUnit();
 });

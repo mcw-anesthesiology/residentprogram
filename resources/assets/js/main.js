@@ -66,43 +66,19 @@ function checkReportQuery(){
 }
 
 function lastSixMonths(){
-	var d = new Date();
-	var day = d.getDate();
-	day = ("0"+day).slice(-2); //converts possible D dates to DD format
-	var month = d.getMonth()+1;
-	month = ("0"+month).slice(-2); //converts possible M months to MM format
-	var year = d.getFullYear();
-	var date = year+"-"+month+"-"+day;
-	$(this).parents(".report-options").find(".endDate").val(date);
-
-	d.setMonth(d.getMonth()-6);
-	day = d.getDate();
-	day = ("0"+day).slice(-2);
-	month = d.getMonth()+1;
-	month = ("0"+month).slice(-2);
-	year = d.getFullYear();
-	date = year+"-"+month+"-"+day;
-	$(this).parents(".report-options").find(".startDate").val(date);
+	setStartEndDates.call(this, 6);
 }
 
 function lastThreeMonths(){
-	var d = new Date();
-	var day = d.getDate();
-	day = ("0"+day).slice(-2); //converts possible D dates to DD format
-	var month = d.getMonth()+1;
-	month = ("0"+month).slice(-2); //converts possible M months to MM format
-	var year = d.getFullYear();
-	var date = year+"-"+month+"-"+day;
-	$(this).parents(".report-options").find(".endDate").val(date);
+	setStartEndDates.call(this, 3);
+}
 
-	d.setMonth(d.getMonth()-3);
-	day = d.getDate();
-	day = ("0"+day).slice(-2);
-	month = d.getMonth()+1;
-	month = ("0"+month).slice(-2);
-	year = d.getFullYear();
-	date = year+"-"+month+"-"+day;
-	$(this).parents(".report-options").find(".startDate").val(date);
+function setStartEndDates(months){
+	months = months != undefined ? months : 3;
+	var end = moment().subtract(1, "month").endOf("month");
+	var start = moment(end).startOf("month").subtract(months-1, "month");
+	$(this).parents(".report-options").find(".startDate").val(start.format("YYYY-MM-DD"));
+	$(this).parents(".report-options").find(".endDate").val(end.format("YYYY-MM-DD"));
 }
 
 function appendAlert(alertText, parent, alertType){

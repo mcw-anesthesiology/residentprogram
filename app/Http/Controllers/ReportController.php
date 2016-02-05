@@ -14,10 +14,11 @@ use DB;
 use Log;
 use Session;
 
+use Auth;
 use DateTime;
 use DateInterval;
 use Debugbar;
-use Auth;
+use Mail;
 use PDF;
 
 use App\Helpers\RadarGraphs;
@@ -83,7 +84,7 @@ class ReportController extends Controller
                 if(!empty($startDate))
                     $userEvaluations->where("request_date", ">=", $startDate);
                 if(!empty($endDate))
-                    $userEvaluations->where("request_date", "<", $endDate);
+                    $userEvaluations->where("request_date", "<=", $endDate);
 
                 $userEvals = $userEvaluations->get();
 
@@ -163,14 +164,7 @@ class ReportController extends Controller
         return view("report.needs-eval", $data);
     }
 
-    public function getNeedsEvaluations(Request $request){
-        $startDate = Carbon::parse($request->input("startDate"));
-        $startDate->timezone = "America/Chicago";
-        $endDate = Carbon::parse($request->input("endDate"));
-        $endDate->timezone = "America/Chicago";
-        $trainingLevel = $request->input("trainingLevel");
-        $evalThreshold = $request->input("evalThreshold");
-
+    function getUsersNeedingEvaluations($startDate, $endDate, $trainingLevel, $evalThreshold){
         $getQueriedEvaluations = function($query)
                 use ($startDate, $endDate, $trainingLevel, $evalThreshold){
             $query->where("evaluation_date", ">=", $startDate)
@@ -186,15 +180,29 @@ class ReportController extends Controller
         if($evalThreshold != "all")
             $needsEvals->whereHas("subjectEvaluations", $getQueriedEvaluations, "<", $evalThreshold);
 
-        $usersNeedingEvals = $needsEvals->with(["subjectEvaluations" => $getQueriedEvaluations])->get();
+        return $needsEvals->with(["subjectEvaluations" => $getQueriedEvaluations])->get();
+    }
+
+    public function getNeedsEvaluations(Request $request){
+        $startDate = Carbon::parse($request->input("startDate"));
+        $startDate->timezone = "America/Chicago";
+        $endDate = Carbon::parse($request->input("endDate"));
+        $endDate->timezone = "America/Chicago";
+        $trainingLevel = $request->input("trainingLevel");
+        $evalThreshold = $request->input("evalThreshold");
+
+        $usersNeedingEvals = $this->getUsersNeedingEvaluations($startDate, $endDate, $trainingLevel, $evalThreshold);
 
         $results["data"] = [];
         foreach($usersNeedingEvals as $user){
             $result = [];
             $result[] = $user->full_name;
-            $result[] = $user->subjectEvaluations->count();
+            $count = $user->subjectEvaluations->count();
+            $result[] = $count;
             $result[] = "<button type='button' class='btn btn-xs btn-info send-user-reminder' "
-                . "data-id='{$user->id}' data-name='{$user->full_name}' data-email='{$user->email}'>"
+                . "data-id='{$user->id}' data-first='{$user->first_name}' "
+                . "data-last='{$user->last_name}' data-email='{$user->email}' "
+                . "data-count='{$count}'>"
                 . "<span class='glyphicon glyphicon-send'></span> Send reminder"
                 . "</button>";
             $results["data"][] = $result;
@@ -223,7 +231,7 @@ class ReportController extends Controller
             ->where("users.type", "resident")
             ->where("evaluations.status", "complete")
             ->where("evaluations.evaluation_date", ">=", $startDate)
-            ->where("evaluations.evaluation_date", "<", $endDate);
+            ->where("evaluations.evaluation_date", "<=", $endDate);
 
 		if($trainingLevel != "all")
 			$query->where("evaluations.training_level", $trainingLevel);
@@ -300,11 +308,13 @@ class ReportController extends Controller
             $remindedUser = User::findOrFail($request->input("id"));
             $subject = $request->input("subject");
             $body = $request->input("body");
-            Mail::send("", $data, function($message) use ($user, $remindedUser, $subject){
-                $message->from("notifications@residentprogram.com", "ResidentProgram Notification");
-                $message->to($remindedUser->email);
+            Mail::send([], [], function($message)
+                    use ($user, $remindedUser, $subject, $body){
+                $message->from("reminders@residentprogram.com", "ResidentProgram Reminders");
                 $message->replyTo($user->email);
+                $message->to($remindedUser->email);
                 $message->subject($subject);
+                $message->setBody($body, "text/html");
             });
 
         } catch (ModelNotFoundException $e){
@@ -313,6 +323,42 @@ class ReportController extends Controller
             Log::error("Error sending mail: " . $e);
         } catch (\Exception $e){
             Log::error($e);
+        }
+    }
+
+    public function sendAllNeedsEvaluationReminders(Request $request){
+        $user = Auth::user();
+        $evalsRequired = $request->input("evalsRequired");
+        $startDate = Carbon::parse($request->input("startDate"));
+        $startDate->timezone = "America/Chicago";
+        $endDate = Carbon::parse($request->input("endDate"));
+        $endDate->timezone = "America/Chicago";
+        $trainingLevel = $request->input("trainingLevel");
+        $usersNeedingEvals = $this->getUsersNeedingEvaluations($startDate, $endDate, $trainingLevel, $evalsRequired);
+
+        foreach($usersNeedingEvals as $remindedUser){
+            try{
+                $lastName = $remindedUser->last_name;
+                $evalsCompleted = $remindedUser->subjectEvaluations->count();
+                $evalsNeeded = $evalsRequired - $evalsCompleted;
+
+                $data = compact("startDate", "endDate", "evalsRequired", "lastName",
+                    "evalsCompleted", "evalsNeeded");
+
+                Mail::send("emails.needs-evals-reminder", $data, function($message)
+                        use ($user, $remindedUser){
+                    $message->from("reminders@residentprogram.com", "ResidentProgram Reminders");
+                    $message->replyTo($user->email);
+                    $message->to($remindedUser->email);
+                    $message->subject("Please request evals!");
+                });
+            } catch (ModelNotFoundException $e){
+                Log::error("User not found in sendNeedsEvaluationReminder: " . $e);
+            } catch (\Swift_TransportException $e){
+                Log::error("Error sending mail: " . $e);
+            } catch (\Exception $e){
+                Log::error($e);
+            }
         }
     }
 
@@ -435,7 +481,7 @@ class ReportController extends Controller
             ->where("users.type", "resident")
             ->where("evaluations.status", "complete")
             ->where("evaluations.evaluation_date", ">=", $startDate)
-            ->where("evaluations.evaluation_date", "<", $endDate);
+            ->where("evaluations.evaluation_date", "<=", $endDate);
 
         if(!empty($milestones))
             $query->whereIn("milestones.id", $milestones);
@@ -627,8 +673,8 @@ class ReportController extends Controller
                 ->join("forms", "evaluations.form_id", "=", "forms.id")
                 ->where("users.type", "faculty")
                 ->where("evaluations.status", "complete")
-                ->where("evaluations.evaluation_date", ">", $startDate)
-                ->where("evaluations.evaluation_date", "<", $endDate)
+                ->where("evaluations.evaluation_date", ">=", $startDate)
+                ->where("evaluations.evaluation_date", "<=", $endDate)
                 ->where("evaluations.subject_id", $reportSubject);
 
             if($trainingLevel != "all")
@@ -757,8 +803,8 @@ class ReportController extends Controller
             ->join("forms", "forms.id", "=", "form_id")
             ->where("evaluations.status", "complete")
             ->where("forms.id", $request->input("form_id"))
-            ->where("evaluation_date", ">", $startDate)
-            ->where("evaluation_date", "<", $endDate);
+            ->where("evaluation_date", ">=", $startDate)
+            ->where("evaluation_date", "<=", $endDate);
 
         $textQuery->select("evaluation_id", "evaluator_id", "subject_id", "response", "question_id");
 

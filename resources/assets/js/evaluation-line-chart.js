@@ -72,18 +72,18 @@ function getChartEvalData(evals, startDate, endDate, increment, incrementNum){
 
 	for(var start = startDate; start < endDate; start.add(incrementNum, increment)){
 		var end = moment(start).add(incrementNum, increment);
-		var r = evals.reduce(function(num, eval){
-			if(eval.request_date != undefined){
-				var rd = moment(eval.request_date);
+		var r = evals.reduce(function(num, e){
+			if(e.request_date != undefined){
+				var rd = moment(e.request_date);
 				if(rd >= start && rd < end)
 					return num + 1;
 			}
 			return num;
 		}, 0);
 
-		var c = evals.reduce(function(num, eval){
-			if(eval.complete_date != undefined && eval.status == "complete"){
-				var cd = moment(eval.complete_date);
+		var c = evals.reduce(function(num, e){
+			if(e.complete_date != undefined && e.status == "complete"){
+				var cd = moment(e.complete_date);
 				if(cd >= start && cd < end)
 					return num + 1;
 			}

@@ -2,10 +2,10 @@
 
 @section("head")
 	<style>
-		#needs-evals-milestones-table.glyphicon-ok {
+		#needs-evals-milestones-table .glyphicon-ok {
 			color: green !important;
 		}
-		#needs-evals-milestones-table.glyphicon-remove {
+		#needs-evals-milestones-table .glyphicon-remove {
 			color: red !important;
 		}
 		#needs-evals-milestones-table td {
@@ -17,6 +17,10 @@
 
 		#reminder-body {
 			resize: vertical;
+		}
+
+		#reminder-body-rendered p + p {
+			margin-top: 20px;
 		}
 
 		.labelless-button {
@@ -102,11 +106,11 @@
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 				<h4 class="modal-title" id="send-reminder-label">Send reminders</h4>
 			</div>
-			<div class="modal-body">
+			<div class="modal-body" id="send-reminder-modal-body">
 				<div class="form-group">
 					<label for="reminder-to">To</label>
 					<input type="email" class="form-control" id="reminder-to" readonly />
-					<input type="hidden" id="reminder-ids" />
+					<input type="hidden" id="reminder-id" />
 				</div>
 				<div class="form-group">
 					<label for="reminder-subject">Subject</label>
@@ -114,7 +118,8 @@
 				</div>
 				<div class="form-group">
 					<label for="reminder-body">Body</label>
-					<textarea class="form-control" id="reminder-body"></textarea>
+					<textarea class="form-control" id="reminder-body" rows="15"></textarea>
+					<div tabindex="0" class="form-control" id="reminder-body-rendered"></div>
 				</div>
 			</div>
 			<div class="modal-footer">
@@ -165,24 +170,84 @@
 			$("#needs-tsv-training-level").val($("#needs-training-level").val());
 		});
 
-		$("#needs-evals-table").on("click", ".send-user-reminder", function(){
+		$("#needs-evals-table").on("click", ".send-user-reminder", openSendUserReminderModal);
+
+		function openSendUserReminderModal(){
 			var userId = $(this).data("id");
-			var userName = $(this).data("name");
+			var lastName = $(this).data("last");
+			var firstName = $(this).data("first");
+			var userName = lastName + ", " + firstName;
 			var userEmail = $(this).data("email");
-			$("#reminder-ids").val(JSON.stringify([userId]));
+			var startDate = moment($("#needs-start-date").val());
+			var endDate = moment($("#needs-end-date").val());
+			var evalsCompleted = parseInt($(this).data("count"));
+			var evalsRequired = parseInt($("#evaluation-threshold").val());
+			var evalsLeft = evalsRequired - evalsCompleted;
+			var evaluationString = (evalsLeft === 1) ? "evaluation" : "evaluations";
+			var dateFormat = "MMMM D, YYYY";
+
+			$("#reminder-id").val(userId);
 			$("#reminder-to").val(userName + " <" + userEmail + ">");
 
-			$("#reminder-subject").val("Please complete evaluations");
+			$("#reminder-subject").val("Please request evaluations!");
+
+			var bodyText = "Hello Dr. " + lastName + "\n"
+				+ "\n"
+				+ "You have " + evalsCompleted + " evaluations completed for between "
+				+ startDate.format(dateFormat) + " and " + endDate.format(dateFormat) + ".\n\n"
+				+ "**You are required to have " + evalsRequired + " evaluations completed for this period.** "
+				+ "Please request at least " + evalsLeft + " "
+				+ "more " + evaluationString + " as soon as possible.\n"
+				+ "\n"
+				+ "If you have any issues or questions about the system, please contact "
+				+ "jmischka@mcw.edu.\n"
+				+ "\n"
+				+ "Thank you!";
+
+			$("#reminder-body").val(bodyText);
+
+			var bodyHeight = 300;
+			$("#reminder-body-rendered").height(bodyHeight);
+
+			$("#reminder-body").hide();
+			$("#reminder-body-rendered").html(marked(bodyText));
 
 			$("#send-reminder-modal").modal("show");
+		}
+
+		$("#reminder-body-rendered").mouseenter(showReminderBody);
+		$("#reminder-body-rendered").focusin(focusReminderBody);
+
+		function showReminderBody(){
+			$("#reminder-body-rendered").hide();
+			$("#reminder-body").show();
+		}
+
+		function focusReminderBody(){
+			showReminderBody();
+			$("#reminder-body").focus()
+		}
+
+		$("#reminder-body").mouseleave(function(){
+			if(!$(this).is(document.activeElement))
+				unfocusReminderBody();
 		});
+		$("#reminder-body").focusout(unfocusReminderBody);
 
-		$("#send-reminder").click(sendReminder);
+		function unfocusReminderBody(){
+			$("#reminder-body").hide();
+			$("#reminder-body-rendered").html(marked($("#reminder-body").val()))
+				.show();
+		}
 
-		function sendReminder(){
+		$("#send-reminder").click(sendNeedsEvaluationReminder);
+
+		function sendNeedsEvaluationReminder(){
 			var data = {};
 			data._token = "{{ csrf_token() }}";
-			data.ids = JSON.parse($("#reminder-ids").val());
+			data.id = $("#reminder-id").val();
+			data.subject = $("#reminder-subject").val();
+			data.body = $("#reminder-body-rendered").html();
 
 			$.post("/report/needs-eval/send-reminder", data, function(response){
 				if(response === "success"){
@@ -196,9 +261,24 @@
 					}
 				}
 				else{
-
+					appendAlert("Error sending reminder", "#send-reminder-modal-body");
 				}
 			}).fail(function(){
+				appendAlert("Error sending reminder", "#send-reminder-modal-body");
+			});
+		}
+
+		function sendAllNeedsEvaluationReminders(){
+			var data = {};
+			data._token = "{{ csrf_token() }}";
+			data.startDate = $("#needs-start-date").val();
+			data.endDate = $("#needs-end-date").val();
+			data.trainingLevel = $("#needs-training-level").val();
+			data.evalsRequired = $("#evaluation-threshold").val();
+
+			$.post("/report/needs-eval/send-all-reminders", data, function(response){
+				console.log("cool");
+			}).fail(function(response){
 
 			});
 		}

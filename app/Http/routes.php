@@ -105,6 +105,8 @@ Route::post("report/export", "ReportController@getTSV");
 Route::post("report/pdf", "ReportController@getPDF");
 Route::get("report/needs-eval", "ReportController@needsEvaluations");
 Route::post("report/needs-eval/get", "ReportController@getNeedsEvaluations");
+Route::post("report/needs-eval/send-reminder", "ReportController@sendNeedsEvaluationReminder");
+Route::post("report/needs-eval/send-all-reminders", "ReportController@sendAllNeedsEvaluationReminders");
 Route::post("report/needs-eval/milestones/get", "ReportController@getNeedsMilestonesJSON");
 Route::post("report/needs-eval/milestones/tsv", "ReportController@getNeedsMilestonesTSV");
 Route::get("report/number-evals", "ReportController@numberOfEvaluations");
