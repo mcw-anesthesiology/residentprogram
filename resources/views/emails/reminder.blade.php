@@ -18,5 +18,5 @@
 
 <p>
 	As always, if you have any questions or comments about the system, you can contact me from the <a href="{{ url("/contact") }}">contact page</a>
-	or by emailing me directly at <a href="mailto:{{ config("admin_email") }}">{{ config("admin_email") }}</a>.
+	or by emailing me directly at <a href="mailto:{{ config("app.admin_email") }}">{{ config("app.admin_email") }}</a>.
 </p>

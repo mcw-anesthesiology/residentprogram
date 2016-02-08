@@ -2,13 +2,16 @@
 
 @section("head")
 	<style>
-		#needs-evals-milestones-table .glyphicon-ok {
+		#needs-evals-milestones-table .glyphicon-ok,
+		#needs-evals-competencies-table .glyphicon-ok {
 			color: green !important;
 		}
-		#needs-evals-milestones-table .glyphicon-remove {
+		#needs-evals-milestones-table .glyphicon-remove,
+		#needs-evals-competencies-table .glyphicon-remove {
 			color: red !important;
 		}
-		#needs-evals-milestones-table td {
+		#needs-evals-milestones-table td,
+		#needs-evals-competencies-table td {
 			text-align: center;
 		}
 		#send-all-reminder-container {
@@ -21,6 +24,11 @@
 
 		#reminder-body-rendered p + p {
 			margin-top: 20px;
+		}
+
+		#loading-img {
+			margin: auto;
+			display: block;
 		}
 
 		.labelless-button {
@@ -121,6 +129,8 @@
 					<textarea class="form-control" id="reminder-body" rows="15"></textarea>
 					<div tabindex="0" class="form-control" id="reminder-body-rendered"></div>
 				</div>
+				<div id="send-reminder-modal-body-info">
+				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -131,23 +141,47 @@
 </div>
 
 <div class="container body-block">
+	<h2>Competencies</h2>
+	<button type="button" id="get-needs-competencies" class="btn btn-primary">Get needed competencies report</button>
+	<table class="table table-striped table-bordered datatable" id="needs-evals-competencies-table">
+		<thead>
+			<tr>
+				<th>Resident/Fellow</th>
+	@foreach($competencies as $competency)
+				<th nowrap>{{ $competency->title }}</th>
+	@endforeach
+			</tr>
+		</thead>
+	</table>
+
+	<form id="needs-evals-competencies-tsv-form" style="text-align: center;" method="post" target="_blank" action="/report/needs-eval/competencies/tsv">
+		{!! csrf_field() !!}
+		<input type="hidden" name="startDate" id="needs-competencies-tsv-start-date" />
+		<input type="hidden" name="endDate" id="needs-competencies-tsv-end-date" />
+		<input type="hidden" name="trainingLevel" id="needs-competencies-tsv-training-level" />
+		<button class="btn btn-default" type="submit">Export TSV</button>
+	</form>
+</div>
+
+<div class="container body-block">
 	<h2>Milestones</h2>
+	<button type="button" id="get-needs-milestones" class="btn btn-primary">Get needed milestones report</button>
 	<table class="table table-striped table-bordered datatable" id="needs-evals-milestones-table">
 		<thead>
 			<tr>
 				<th>Resident/Fellow</th>
-				@foreach($milestones as $milestone)
-					<th nowrap>{{ $milestone->title }}</th>
-				@endforeach
+	@foreach($milestones as $milestone)
+				<th nowrap>{{ $milestone->title }}</th>
+	@endforeach
 			</tr>
 		</thead>
 	</table>
 
 	<form id="needs-evals-milestones-tsv-form" style="text-align: center;" method="post" target="_blank" action="/report/needs-eval/milestones/tsv">
 		{!! csrf_field() !!}
-		<input type="hidden" name="startDate" id="needs-tsv-start-date" />
-		<input type="hidden" name="endDate" id="needs-tsv-end-date" />
-		<input type="hidden" name="trainingLevel" id="needs-tsv-training-level" />
+		<input type="hidden" name="startDate" id="needs-milestones-tsv-start-date" />
+		<input type="hidden" name="endDate" id="needs-milestones-tsv-end-date" />
+		<input type="hidden" name="trainingLevel" id="needs-milestones-tsv-training-level" />
 		<button class="btn btn-default" type="submit">Export TSV</button>
 	</form>
 @stop
@@ -163,6 +197,8 @@
 		$("#evaluation-threshold").change(getNeedsEvaluations);
 
 		$("#needs-evals-submit").click(submitNeedsEvals);
+		$("#get-needs-competencies").click(getNeedsCompetencies);
+		$("#get-needs-milestones").click(getNeedsMilestones);
 
 		$("#needs-evals-milestones-tsv-form").on("submit", function(){
 			$("#needs-tsv-start-date").val($("#needs-start-date").val());
@@ -200,7 +236,7 @@
 				+ "more " + evaluationString + " as soon as possible.\n"
 				+ "\n"
 				+ "If you have any issues or questions about the system, please contact "
-				+ "jmischka@mcw.edu.\n"
+				+ "{{ config("app.admin_email") }}.\n"
 				+ "\n"
 				+ "Thank you!";
 
@@ -210,9 +246,62 @@
 			$("#reminder-body-rendered").height(bodyHeight);
 
 			$("#reminder-body").hide();
-			$("#reminder-body-rendered").html(marked(bodyText));
+			$("#reminder-body-rendered").show();
+			markupReminderBody();
 
+			$("#send-reminder-modal-body-info").empty();
+			$("#send-reminder").off("click", sendNeedsEvaluationReminder);
+			$("#send-reminder").off("click", sendAllNeedsEvaluationReminders);
+			$("#send-reminder").click(sendNeedsEvaluationReminder);
 			$("#send-reminder-modal").modal("show");
+		}
+
+		$("#send-all-reminders").click(openSendAllRemindersModal);
+
+		function openSendAllRemindersModal(){
+			var startDate = moment($("#needs-start-date").val());
+			var endDate = moment($("#needs-end-date").val());
+			var evalsRequired = parseInt($("#evaluation-threshold").val());
+			var dateFormat = "MMMM D, YYYY";
+			var table = $("#needs-evals-table").DataTable({
+				retrieve: true
+			});
+			var numRemindedUsers = table.data().length;
+
+			$("#reminder-to").val(numRemindedUsers + " residents");
+
+			$("#reminder-subject").val("Please request evaluations!");
+
+			var bodyText = "Hello Dr. [[Name]]\n"
+				+ "\n"
+				+ "You have [[# Completed]] evaluations completed for between "
+				+ startDate.format(dateFormat) + " and " + endDate.format(dateFormat) + ".\n\n"
+				+ "**You are required to have " + evalsRequired + " evaluations completed for this period.** "
+				+ "Please request at least [[# Needed]] "
+				+ "more evaluations as soon as possible.\n"
+				+ "\n"
+				+ "If you have any issues or questions about the system, please contact "
+				+ "{{ config("app.admin_email") }}.\n"
+				+ "\n"
+				+ "Thank you!";
+
+				$("#reminder-body").val(bodyText);
+
+				var bodyHeight = 300;
+				$("#reminder-body-rendered").height(bodyHeight);
+
+				$("#reminder-body").hide();
+				$("#reminder-body-rendered").show();
+				markupReminderBody();
+
+				$("#send-reminder-modal-body-info").empty();
+				appendAlert("Warning: This will resend any reminders "
+					+ "you may have already sent. If you want to be sure to not resend any "
+					+ "reminders please send them individually.", "#send-reminder-modal-body-info", "warning");
+				$("#send-reminder").off("click", sendNeedsEvaluationReminder);
+				$("#send-reminder").off("click", sendAllNeedsEvaluationReminders);
+				$("#send-reminder").click(sendAllNeedsEvaluationReminders);
+				$("#send-reminder-modal").modal("show");
 		}
 
 		$("#reminder-body-rendered").mouseenter(showReminderBody);
@@ -236,11 +325,21 @@
 
 		function unfocusReminderBody(){
 			$("#reminder-body").hide();
-			$("#reminder-body-rendered").html(marked($("#reminder-body").val()))
-				.show();
+			markupReminderBody();
+			$("#reminder-body-rendered").show();
 		}
 
-		$("#send-reminder").click(sendNeedsEvaluationReminder);
+		function markupReminderBody(){
+			var name = "<span class='label label-info'>Name</span>";
+			var numCompleted = "<span class='label label-info'># Completed</span>";
+			var numNeeded = "<span class='label label-info'># Needed</span>";
+
+			var bodyText = marked($("#reminder-body").val());
+			bodyText = bodyText.replace(/\[\[Name\]\]/g, name);
+			bodyText = bodyText.replace(/\[\[# Completed\]\]/g, numCompleted);
+			bodyText = bodyText.replace(/\[\[# Needed\]\]/g, numNeeded);
+			$("#reminder-body-rendered").html(bodyText);
+		}
 
 		function sendNeedsEvaluationReminder(){
 			var data = {};
@@ -249,22 +348,20 @@
 			data.subject = $("#reminder-subject").val();
 			data.body = $("#reminder-body-rendered").html();
 
+			$("#send-reminder-modal-body-info").append("<img id='loading-img' src='/ajax-loader.gif' />");
+
 			$.post("/report/needs-eval/send-reminder", data, function(response){
+				$("#loading-img").remove();
 				if(response === "success"){
-					for(var i = 0; i < data.ids.length; i++){
-						var button = $("#needs-evals-table .send-user-reminder[data-id='"
-							+ data.ids[i] + "']");
-						button.removeClass("btn-info send-user-reminder");
-						button.addClass("btn-success user-reminder-sent");
-						button.html("<span class='glyphicon glyphicon-ok'></span> "
-							+ "Reminder sent!");
-					}
+					setReminderButtonsSent(data.id);
+					$("#send-reminder-modal").modal("hide");
 				}
 				else{
-					appendAlert("Error sending reminder", "#send-reminder-modal-body");
+					appendAlert("Error sending reminder", "#send-reminder-modal-body-info");
 				}
 			}).fail(function(){
-				appendAlert("Error sending reminder", "#send-reminder-modal-body");
+				appendAlert("Error sending reminder", "#send-reminder-modal-body-info");
+				$("#loading-img").remove();
 			});
 		}
 
@@ -275,17 +372,55 @@
 			data.endDate = $("#needs-end-date").val();
 			data.trainingLevel = $("#needs-training-level").val();
 			data.evalsRequired = $("#evaluation-threshold").val();
+			data.subject = $("#reminder-subject").val();
+			data.body = $("#reminder-body-rendered").html();
 
-			$.post("/report/needs-eval/send-all-reminders", data, function(response){
-				console.log("cool");
+			var numRows = $("#needs-evals-table").DataTable({
+				retrieve: true
+			}).data().length;
+
+			$("#send-reminder-modal-body-info").append("<img id='loading-img' src='/ajax-loader.gif' />");
+
+			$.post("/report/needs-eval/send-all-reminders", data, function(remindedUsers){
+				$("#loading-img").remove();
+				for(var i = 0; i < remindedUsers.length; i++){
+					setReminderButtonsSent(remindedUsers);
+				}
+				if(remindedUsers.length == numRows){
+					$("#send-reminder-modal-body-info").empty();
+					$("#send-reminder-modal").modal("hide");
+				} else if(remindedUsers.length > 0){
+					appendAlert(remindedUsers.length + " evals sent out of " + numRows, "#send-reminder-modal-body-info");
+				} else {
+					appendAlert("Error sending reminders", "#send-reminder-modal-body-info");
+				}
 			}).fail(function(response){
-
+				appendAlert("Error sending reminder", "#send-reminder-modal-body");
+				$("#loading-img").remove();
 			});
 		}
 
 		function submitNeedsEvals(){
 			getNeedsEvaluations();
-			getNeedsMilestones();
+			var startDate = $("#needs-start-date").val();
+			var endDate = $("#needs-end-date").val();
+			var trainingLevel = $("#needs-training-level").val();
+			$("#needs-competencies-tsv-start-date").val(startDate);
+			$("#needs-competencies-tsv-end-date").val(endDate);
+			$("#needs-competencies-tsv-training-level").val(trainingLevel);
+
+			$("#needs-milestones-tsv-start-date").val(startDate);
+			$("#needs-milestones-tsv-end-date").val(endDate);
+			$("#needs-milestones-tsv-training-level").val(trainingLevel);
+
+			$("#needs-evals-milestones-table").DataTable({
+				retrieve: true,
+				scrollX: true
+			}).clear();
+			$("#needs-evals-competencies-table").DataTable({
+				retrieve: true,
+				scrollX: true
+			}).clear();
 		}
 
 		function getNeedsEvaluations(){
@@ -304,6 +439,59 @@
 				},
 				"destroy": true
 			});
+		}
+
+		function setReminderButtonsSent(dataIds){
+			var buttonColumn = 2;
+			if(!Array.isArray(dataIds))
+				dataIds = [dataIds];
+
+			var table = $("#needs-evals-table").DataTable({
+				retrieve: true
+			});
+			for(var i = 0; i < dataIds.length; i++){
+				for(var row = 0; row < table.data().length; row++){
+					var button = table.cell(row, buttonColumn).data();
+					console.log(button);
+					if(button.indexOf("data-id='"+dataIds[i]+"'") != -1){
+						button = $($.parseHTML(button));
+						button.removeClass("btn-info send-user-reminder");
+						button.addClass("btn-success user-reminder-sent");
+						button.prop("disabled", true);
+						button.html("<span class='glyphicon glyphicon-ok'></span> "
+							+ "Reminder sent!");
+						table.cell(row, buttonColumn).data(button.get(0).outerHTML);
+					}
+				}
+			}
+			table.draw(false);
+		}
+
+		function getNeedsCompetencies(){
+			var hasNoEvaluationString = "<span class='glyphicon glyphicon-remove'></span>";
+			var data = {};
+			data._token = "{{ csrf_token() }}";
+			data.startDate = $("#needs-start-date").val();
+			data.endDate = $("#needs-end-date").val();
+			data.trainingLevel = $("#needs-training-level").val();
+
+			var table = $("#needs-evals-competencies-table").DataTable({
+				"ajax": {
+					"url": "/report/needs-eval/competencies/get",
+					"type": "post",
+					"data": data
+				},
+				"paging": false,
+				"scrollX": true,
+				"scrollY": "700px",
+				"scrollCollapse": true,
+				"destroy": true,
+				"columnDefs": [{
+					"targets": 0,
+					"cellType": "th"
+				}]
+			});
+			new $.fn.DataTable.FixedColumns(table);
 		}
 
 		function getNeedsMilestones(){

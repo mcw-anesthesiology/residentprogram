@@ -52,7 +52,7 @@
 						row.fadeOut(function(){
 							$(".datatable-pending").DataTable({
 								retrieve: true
-							}).row(row).remove().draw();
+							}).row(row).remove().draw(false);
 						});
 					}
 				}
@@ -82,7 +82,7 @@
 						row.fadeOut(function(){
 							$(".datatable-flagged").DataTable({
 								retrieve: true
-							}).row(row).remove().draw();
+							}).row(row).remove().draw(false);
 						});
 				else
 					alert("Error: " + response);

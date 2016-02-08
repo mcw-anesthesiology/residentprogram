@@ -121,7 +121,7 @@
 					row.fadeOut(function(){
 						$("#mentorships-table").DataTable({
 							retrieve: true
-						}).row(row).remove().draw();
+						}).row(row).remove().draw(false);
 					});
 				}
 				else{

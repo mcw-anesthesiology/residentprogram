@@ -8,7 +8,7 @@
 
 @section("body")
 	<h3 class="sub-header">Problems? Questions? Suggestions?</h3>
-	<p>Please fill out the form below or email me at <a href="mailto:{{ config("admin_email") }}">{{ config("admin_email") }}</a> and I will get back to you!</p>
+	<p>Please fill out the form below or email me at <a href="mailto:{{ config("app.admin_email") }}">{{ config("app.admin_email") }}</a> and I will get back to you!</p>
 	<form id="form" method="post" action="#">
 		{!! csrf_field() !!}
 		<div class="form-group">

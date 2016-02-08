@@ -5,5 +5,5 @@
 	<a href="{{ url("password/reset/".$token) }}">{{ url("password/reset/".$token) }}</a>
 </p>
 <p>
-	As always, if you have any questions please contact me at <a href="mailto:{{ config("admin_email") }}">{{ config("admin_email") }}</a>.
+	As always, if you have any questions please contact me at <a href="mailto:{{ config("app.admin_email") }}">{{ config("app.admin_email") }}</a>.
 </p>
