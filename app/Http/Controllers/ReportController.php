@@ -197,7 +197,7 @@ class ReportController extends Controller
         $results["data"] = [];
         foreach($usersNeedingEvals as $user){
             $result = [];
-            $result[] = $user->full_name;
+            $result[] = $user->profile_link;
             $count = $user->subjectEvaluations->count();
             $result[] = $count;
             $result[] = "<button type='button' class='btn btn-xs btn-info send-user-reminder' "
@@ -252,7 +252,7 @@ class ReportController extends Controller
         $competencies = Competency::lists("id");
         $residentsQuery = User::where("type", "resident")->where("status", "active");
         if($request->input("trainingLevel") != "all")
-            $residentsQuery->where("training_level", $request->input("training_level"));
+            $residentsQuery->where("training_level", $request->input("trainingLevel"));
         $residents = $residentsQuery->get();
         $results["data"] = [];
         $evaluations = $this->getNeedsCompetencies($request);

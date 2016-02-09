@@ -6,6 +6,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use Carbon\Carbon;
 
+use Faker\Factory as Faker;
+
 class ReportTest extends TestCase
 {
     // This  class has a lot of magic numbers to check math
@@ -484,8 +486,18 @@ class ReportTest extends TestCase
     }
 
     public function testNeedsEvaluations(){
-        $moreMilestones = factory(App\Milestone::class, 2)->create();
-        $anotherCompetency = factory(App\Milestone::class)->create();
+        $moreResidents = factory(App\User::class, "resident", 2)->create();
+        $fellow = factory(App\User::class, "resident")->create([
+            "training_level" => "fellow"
+        ]);
+        $moreEvals = [
+            factory(App\Evaluation::class, "complete")->create([
+                "form_id" => $this->form->id,
+                "subject_id" => $moreResidents[0]->id,
+                "evaluator_id" => $this->faculty->id,
+                "requested_by_id" => $this->admin->id
+            ])
+        ];
 
         $startDate = Carbon::parse("0001-01-01");
         $endDate = Carbon::now();
@@ -495,25 +507,206 @@ class ReportTest extends TestCase
             ->post("/report/needs-eval/get", [
                 "startDate" => $startDate,
                 "endDate" => $endDate,
-                "trainingLevel" => "all"
+                "trainingLevel" => "ca-1",
+                "evalThreshold" => 2
             ])
-            ->seeJson([
+            ->seeJsonEquals([
+                "data" => [
+                    [
+                        $moreResidents[0]->profile_link,
+                        1,
+                        "<button type='button' class='btn btn-xs btn-info send-user-reminder' "
+                            . "data-id='{$moreResidents[0]->id}' data-first='{$moreResidents[0]->first_name}' "
+                            . "data-last='{$moreResidents[0]->last_name}' data-email='{$moreResidents[0]->email}' "
+                            . "data-count='1'><span class='glyphicon glyphicon-send'></span> Send reminder</button>"
+                    ],
+                    [
+                        $moreResidents[1]->profile_link,
+                        0,
+                        "<button type='button' class='btn btn-xs btn-info send-user-reminder' "
+                            . "data-id='{$moreResidents[1]->id}' data-first='{$moreResidents[1]->first_name}' "
+                            . "data-last='{$moreResidents[1]->last_name}' data-email='{$moreResidents[1]->email}' "
+                            . "data-count='0'><span class='glyphicon glyphicon-send'></span> Send reminder</button>"
+                    ]
+                ]
+            ]);
+    }
+
+    public function testNeedsEvaluationsReminder(){
+        $faker = Faker::create();
+        $to = $this->residents[0]->email;
+        $replyTo = $this->admin->email;
+        $subject = $faker->sentence;
+        $body = $faker->paragraph;
+
+        Mail::shouldReceive("send")
+            ->once()
+            ->with(Mockery::any(), Mockery::any(),
+                Mockery::on(function(Closure $closure) use ($to, $replyTo, $subject, $body){
+                    $message = Mockery::mock(Illuminate\Mailer\Message::class);
+                    $message->shouldReceive("from")->once()->with("reminders@residentprogram.com", "ResidentProgram Reminders");
+                    $message->shouldReceive("to")->once()->with($to);
+                    $message->shouldReceive("replyTo")->once()->with($replyTo);
+                    $message->shouldReceive("subject")->once()->with($subject);
+                    $message->shouldReceive("setBody")->once()->with($body, "text/html");
+                    $closure($message);
+                    return true;
+                })
+            );
+
+        $this->actingAs($this->admin)
+            ->post("/report/needs-eval/send-reminder", [
+                "id" => $this->residents[0]->id,
+                "subject" => $subject,
+                "body" => $body
+            ]);
+    }
+
+    public function testAllNeedsEvaluationsReminders(){
+        $faker = Faker::create();
+        $moreResidents = factory(App\User::class, "resident", 2)->create();
+        $fellow = factory(App\User::class, "resident")->create([
+            "training_level" => "fellow"
+        ]);
+        $moreEvals = [
+            factory(App\Evaluation::class, "complete")->create([
+                "form_id" => $this->form->id,
+                "subject_id" => $moreResidents[0]->id,
+                "evaluator_id" => $this->faculty->id,
+                "requested_by_id" => $this->admin->id
+            ])
+        ];
+
+        $evalsRequired = 2;
+
+        $namePlaceholder = '<span class="label label-info">Name</span>';
+        $numCompletedPlaceholder = '<span class="label label-info"># Completed</span>';
+        $numNeededPlaceholder = '<span class="label label-info"># Needed</span>';
+
+        $replyTo = $this->admin->email;
+        $subject = $faker->sentence;
+        $bodyTemplate = $faker->sentence . $namePlaceholder . "\n"
+            . $faker->paragraph . $numCompletedPlaceholder
+            . $faker->sentence . $numNeededPlaceholder;
+
+        $user = $moreResidents[0];
+        $to = $user->email;
+        var_dump($to);
+        $body = str_replace($namePlaceholder, $user->last_name, $bodyTemplate);
+        $body = str_replace($numCompletedPlaceholder, 1, $body);
+        $body = str_replace($numNeededPlaceholder, 1, $body);
+
+        Mail::shouldReceive("send")
+            ->twice()
+            ->with(Mockery::any(), Mockery::any(),
+                Mockery::on(function(Closure $closure) use ($to, $replyTo, $subject, $body){
+                    $message = Mockery::mock(Illuminate\Mailer\Message::class);
+                    $message->shouldReceive("from")->once()->with("reminders@residentprogram.com", "ResidentProgram Reminders");
+                    $message->shouldReceive("to")->once()->with($to);
+                    $message->shouldReceive("replyTo")->once()->with($replyTo);
+                    $message->shouldReceive("subject")->once()->with($subject);
+                    $message->shouldReceive("setBody")->once()->with($body, "text/html");
+                    $closure($message);
+                    return true;
+                })
+            );
+
+        $user = $moreResidents[1];
+        $to = $user->email;
+        var_dump($to);
+        $body = str_replace($namePlaceholder, $user->last_name, $bodyTemplate);
+        $body = str_replace($numCompletedPlaceholder, 0, $body);
+        $body = str_replace($numNeededPlaceholder, 2, $body);
+
+        $startDate = Carbon::parse("0001-01-01");
+        $endDate = Carbon::now();
+        $endDate->second = 0;
+        $trainingLevel = "ca-1";
+
+        $this->actingAs($this->admin)
+            ->post("/report/needs-eval/send-all-reminders", [
+                "startDate" => $startDate,
+                "endDate" => $endDate,
+                "trainingLevel" => $trainingLevel,
+                "evalsRequired" => $evalsRequired,
+                "subject" => $subject,
+                "body" => $bodyTemplate
+            ]);
+    }
+
+    public function testNeedsCompetencies(){
+        $moreCompetencies = factory(App\Competency::class, 2)->create();
+        $ca3 = factory(App\User::class)->create([
+            "training_level" => "ca-3"
+        ]);
+
+        $glyphOk = "<span class='glyphicon glyphicon-ok'></span>";
+        $glyphMissing = "<span class='glyphicon glyphicon-remove'></span>";
+
+        $startDate = Carbon::parse("0001-01-01");
+        $endDate = Carbon::now();
+        $endDate->second = 0;
+
+        $this->actingAs($this->admin)
+            ->post("/report/needs-eval/competencies/get", [
+                "startDate" => $startDate,
+                "endDate" => $endDate,
+                "trainingLevel" => "ca-1"
+            ])
+            ->seeJsonEquals([
                 "data" => [
                     [
                         $this->residents[0]->full_name,
-                        "<span class='glyphicon glyphicon-ok'></span>",
-                        "<span class='glyphicon glyphicon-ok'></span>",
-                        "<span class='glyphicon glyphicon-remove'></span>",
-                        "<span class='glyphicon glyphicon-remove'></span>",
-                        "<span class='glyphicon glyphicon-remove'></span>"
+                        $glyphOk,
+                        $glyphOk,
+                        $glyphMissing,
+                        $glyphMissing
                     ],
                     [
                         $this->residents[1]->full_name,
-                        "<span class='glyphicon glyphicon-ok'></span>",
-                        "<span class='glyphicon glyphicon-ok'></span>",
-                        "<span class='glyphicon glyphicon-remove'></span>",
-                        "<span class='glyphicon glyphicon-remove'></span>",
-                        "<span class='glyphicon glyphicon-remove'></span>"
+                        $glyphOk,
+                        $glyphOk,
+                        $glyphMissing,
+                        $glyphMissing
+                    ]
+                ]
+            ]);
+    }
+
+    public function testNeedsMilestones(){
+        $moreMilestones = factory(App\Milestone::class, 2)->create();
+        $ca2 = factory(App\User::class)->create([
+            "training_level" => "ca-2"
+        ]);
+
+        $glyphOk = "<span class='glyphicon glyphicon-ok'></span>";
+        $glyphMissing = "<span class='glyphicon glyphicon-remove'></span>";
+
+        $startDate = Carbon::parse("0001-01-01");
+        $endDate = Carbon::now();
+        $endDate->second = 0;
+
+        $this->actingAs($this->admin)
+            ->post("/report/needs-eval/milestones/get", [
+                "startDate" => $startDate,
+                "endDate" => $endDate,
+                "trainingLevel" => "ca-1"
+            ])
+            ->seeJsonEquals([
+                "data" => [
+                    [
+                        $this->residents[0]->full_name,
+                        $glyphOk,
+                        $glyphOk,
+                        $glyphMissing,
+                        $glyphMissing
+                    ],
+                    [
+                        $this->residents[1]->full_name,
+                        $glyphOk,
+                        $glyphOk,
+                        $glyphMissing,
+                        $glyphMissing
                     ]
                 ]
             ]);

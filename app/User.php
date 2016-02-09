@@ -40,13 +40,17 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      *
      * @var array
      */
-    protected $hidden = ['password', 'remember_token', 'full_name', 'specific_type'];
+    protected $hidden = ['password', 'remember_token', 'full_name', 'specific_type', 'profile_link'];
 
-	protected $appends = ["full_name", "specific_type"];
+	protected $appends = ["full_name", "specific_type", "profile_link"];
 
 	public function getFullNameAttribute(){
 		return $this->last_name . ", " . $this->first_name;
 	}
+
+    public function getProfileLinkAttribute(){
+        return "<a href=\"/profile/{$this->id}\">{$this->full_name}</a>";
+    }
 
 	public function isType($types){
 		if(!is_array($types))

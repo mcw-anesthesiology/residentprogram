@@ -413,14 +413,13 @@
 			$("#needs-milestones-tsv-end-date").val(endDate);
 			$("#needs-milestones-tsv-training-level").val(trainingLevel);
 
-			$("#needs-evals-milestones-table").DataTable({
+			$("#needs-evals-milestones-table, #needs-evals-competencies-table")
+					.DataTable({
 				retrieve: true,
+				paging: false,
+				searching: false,
 				scrollX: true
-			}).clear();
-			$("#needs-evals-competencies-table").DataTable({
-				retrieve: true,
-				scrollX: true
-			}).clear();
+			}).clear().draw();
 		}
 
 		function getNeedsEvaluations(){
@@ -475,6 +474,7 @@
 			data.endDate = $("#needs-end-date").val();
 			data.trainingLevel = $("#needs-training-level").val();
 
+			console.log("why");
 			var table = $("#needs-evals-competencies-table").DataTable({
 				"ajax": {
 					"url": "/report/needs-eval/competencies/get",
