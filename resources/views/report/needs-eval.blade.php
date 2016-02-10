@@ -31,6 +31,25 @@
 			display: block;
 		}
 
+		#reminder-ids-container {
+			margin-top: 5px;
+		}
+
+		#reminder-ids-well {
+			max-height: 300px;
+			overflow-y: scroll;
+		}
+
+		#reminder-ids-list {
+			-webkit-column-count: 3;
+    		-moz-column-count: 3;
+            column-count: 3;
+		}
+
+		#reminder-ids-list li {
+			display: inline-block;
+		}
+
 		.labelless-button {
 			margin-top: 25px;
 			text-align: center;
@@ -107,6 +126,7 @@
 	</div>
 </div>
 
+<!-- Send individual reminder -->
 <div class="modal fade" id="send-reminder-modal" tabindex="-1" role="dialog" aria-labelledby="send-reminder-label" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -117,8 +137,13 @@
 			<div class="modal-body" id="send-reminder-modal-body">
 				<div class="form-group">
 					<label for="reminder-to">To</label>
-					<input type="email" class="form-control" id="reminder-to" readonly />
+					<input type="text" class="form-control" id="reminder-to" readonly />
 					<input type="hidden" id="reminder-id" />
+					<div class="collapse" id="reminder-ids-container">
+						<div class="well row" id="reminder-ids-well">
+							<ul id="reminder-ids-list"></ul>
+						</div>
+					</div>
 				</div>
 				<div class="form-group">
 					<label for="reminder-subject">Subject</label>
@@ -224,6 +249,9 @@
 
 			$("#reminder-id").val(userId);
 			$("#reminder-to").val(userName + " <" + userEmail + ">");
+			$("#reminder-to").off("click");
+			$("#reminder-ids-list").empty();
+			$("#reminder-ids-container").hide();
 
 			$("#reminder-subject").val("Please request evaluations!");
 
@@ -250,9 +278,10 @@
 			markupReminderBody();
 
 			$("#send-reminder-modal-body-info").empty();
-			$("#send-reminder").off("click", sendNeedsEvaluationReminder);
-			$("#send-reminder").off("click", sendAllNeedsEvaluationReminders);
-			$("#send-reminder").click(sendNeedsEvaluationReminder);
+			$("#send-reminder").off("click", sendNeedsEvaluationReminder)
+				.off("click", sendAllNeedsEvaluationReminders)
+				.click(sendNeedsEvaluationReminder)
+				.html("<span class='glyphicon glyphicon-send'></span> Send reminder");
 			$("#send-reminder-modal").modal("show");
 		}
 
@@ -266,10 +295,45 @@
 			var table = $("#needs-evals-table").DataTable({
 				retrieve: true
 			});
-			var numRemindedUsers = table.data().length;
+
+			var list = document.getElementById("reminder-ids-list");
+			var button, li, checkbox, label, labelText;
+			var userId, userCount, userFirst, userLast;
+			var numRemindedUsers = 0;
+			$("#reminder-ids-container").show();
+			$(list).empty();
+			var tableData = table.rows().data();
+			for(var row = 0; row < tableData.length; row++){
+				button = $($.parseHTML(tableData[row][2]));
+				userId = button.data("id");
+				userCount = button.data("count");
+				userFirst = button.data("first");
+				userLast = button.data("last");
+
+				li = document.createElement("li");
+				label = document.createElement("label");
+				checkbox = document.createElement("input");
+				checkbox.type = "checkbox";
+				checkbox.className = "remind-all-id";
+				checkbox.value = userId;
+				checkbox.setAttribute("data-count", userCount);
+				if(button.hasClass("send-user-reminder")){
+					checkbox.checked = true;
+					numRemindedUsers++;
+				}
+
+				label.appendChild(checkbox);
+				labelText = document.createTextNode(" " + userLast + ", " + userFirst);
+				label.appendChild(labelText);
+				li.appendChild(label);
+				list.appendChild(li);
+			}
 
 			$("#reminder-to").val(numRemindedUsers + " residents");
-
+			$("#reminder-to").off("click");
+			$("#reminder-to").click(function(){
+				$("#reminder-ids-container").slideToggle();
+			});
 			$("#reminder-subject").val("Please request evaluations!");
 
 			var bodyText = "Hello Dr. [[Name]]\n"
@@ -285,23 +349,31 @@
 				+ "\n"
 				+ "Thank you!";
 
-				$("#reminder-body").val(bodyText);
+			$("#reminder-body").val(bodyText);
 
-				var bodyHeight = 300;
-				$("#reminder-body-rendered").height(bodyHeight);
+			$(".remind-all-id").change(function(){
+				var numRemindedUsers = parseInt($("#reminder-to").val().split(" ")[0]);
+				if($(this).is(":checked"))
+					numRemindedUsers++;
+				else
+					numRemindedUsers--;
+				$("#reminder-to").val(numRemindedUsers + " residents");
+			});
 
-				$("#reminder-body").hide();
-				$("#reminder-body-rendered").show();
-				markupReminderBody();
+			var bodyHeight = 300;
+			$("#reminder-body-rendered").height(bodyHeight);
 
-				$("#send-reminder-modal-body-info").empty();
-				appendAlert("Warning: This will resend any reminders "
-					+ "you may have already sent. If you want to be sure to not resend any "
-					+ "reminders please send them individually.", "#send-reminder-modal-body-info", "warning");
-				$("#send-reminder").off("click", sendNeedsEvaluationReminder);
-				$("#send-reminder").off("click", sendAllNeedsEvaluationReminders);
-				$("#send-reminder").click(sendAllNeedsEvaluationReminders);
-				$("#send-reminder-modal").modal("show");
+			$("#reminder-body").hide();
+			$("#reminder-body-rendered").show();
+			markupReminderBody();
+
+			$("#send-reminder-modal-body-info").empty();
+			appendAlert("Please verify list of residents before sending", "#send-reminder-modal-body-info", "warning");
+			$("#send-reminder").off("click", sendNeedsEvaluationReminder)
+				.off("click", sendAllNeedsEvaluationReminders)
+				.click(sendAllNeedsEvaluationReminders)
+				.html("<span class='glyphicon glyphicon-send'></span> Send reminders");
+			$("#send-reminder-modal").modal("show");
 		}
 
 		$("#reminder-body-rendered").mouseenter(showReminderBody);
@@ -368,16 +440,18 @@
 		function sendAllNeedsEvaluationReminders(){
 			var data = {};
 			data._token = "{{ csrf_token() }}";
-			data.startDate = $("#needs-start-date").val();
-			data.endDate = $("#needs-end-date").val();
-			data.trainingLevel = $("#needs-training-level").val();
 			data.evalsRequired = $("#evaluation-threshold").val();
 			data.subject = $("#reminder-subject").val();
 			data.body = $("#reminder-body-rendered").html();
+			data.users = [];
+			$(".remind-all-id:checked").each(function(){
+				var user = {};
+				user.id = $(this).val();
+				user.count = $(this).data("count");
+				data.users.push(user);
+			});
 
-			var numRows = $("#needs-evals-table").DataTable({
-				retrieve: true
-			}).data().length;
+			var expectedRemindedUsers = $(".remind-all-id:checked").length;
 
 			$("#send-reminder-modal-body-info").append("<img id='loading-img' src='/ajax-loader.gif' />");
 
@@ -386,13 +460,17 @@
 				for(var i = 0; i < remindedUsers.length; i++){
 					setReminderButtonsSent(remindedUsers);
 				}
-				if(remindedUsers.length == numRows){
+				if(remindedUsers.length == expectedRemindedUsers){
 					$("#send-reminder-modal-body-info").empty();
 					$("#send-reminder-modal").modal("hide");
 				} else if(remindedUsers.length > 0){
-					appendAlert(remindedUsers.length + " evals sent out of " + numRows, "#send-reminder-modal-body-info");
+					remindedUsers.forEach(function(id){
+						$(".remind-all-id[value='" + id + "']").prop("checked", false);
+					});
+					$("#reminder-ids-container").slideDown();
+					appendAlert(remindedUsers.length + " reminders sent out of " + expectedRemindedUsers, "#send-reminder-modal-body-info");
 				} else {
-					appendAlert("Error sending reminders", "#send-reminder-modal-body-info");
+					appendAlert("Error sending reminders, 0 reminders sent", "#send-reminder-modal-body-info");
 				}
 			}).fail(function(response){
 				appendAlert("Error sending reminder", "#send-reminder-modal-body");
@@ -451,7 +529,6 @@
 			for(var i = 0; i < dataIds.length; i++){
 				for(var row = 0; row < table.data().length; row++){
 					var button = table.cell(row, buttonColumn).data();
-					console.log(button);
 					if(button.indexOf("data-id='"+dataIds[i]+"'") != -1){
 						button = $($.parseHTML(button));
 						button.removeClass("btn-info send-user-reminder");
@@ -474,7 +551,6 @@
 			data.endDate = $("#needs-end-date").val();
 			data.trainingLevel = $("#needs-training-level").val();
 
-			console.log("why");
 			var table = $("#needs-evals-competencies-table").DataTable({
 				"ajax": {
 					"url": "/report/needs-eval/competencies/get",

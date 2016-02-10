@@ -418,14 +418,9 @@ class ReportController extends Controller
     public function sendAllNeedsEvaluationReminders(Request $request){
         $user = Auth::user();
         $evalsRequired = $request->input("evalsRequired");
-        $startDate = Carbon::parse($request->input("startDate"));
-        $startDate->timezone = "America/Chicago";
-        $endDate = Carbon::parse($request->input("endDate"));
-        $endDate->timezone = "America/Chicago";
-        $trainingLevel = $request->input("trainingLevel");
         $subject = $request->input("subject");
         $bodyTemplate = $request->input("body");
-        $usersNeedingEvals = $this->getUsersNeedingEvaluations($startDate, $endDate, $trainingLevel, $evalsRequired);
+        $usersNeedingEvals = $request->input("users");
 
         $namePlaceholder = '<span class="label label-info">Name</span>';
         $numCompletedPlaceholder = '<span class="label label-info"># Completed</span>';
@@ -434,11 +429,11 @@ class ReportController extends Controller
         $sentUsers = [];
         foreach($usersNeedingEvals as $remindedUser){
             try{
+                $numCompleted = $remindedUser["count"];
+                $remindedUser = User::findOrFail($remindedUser["id"]);
                 $body = str_replace($namePlaceholder, $remindedUser->last_name, $bodyTemplate);
-                $body = str_replace($numCompletedPlaceholder,
-                    $remindedUser->subjectEvaluations->count(), $body);
-                $body = str_replace($numNeededPlaceholder,
-                    $evalsRequired - $remindedUser->subjectEvaluations->count(), $body);
+                $body = str_replace($numCompletedPlaceholder, $numCompleted, $body);
+                $body = str_replace($numNeededPlaceholder, $evalsRequired - $numCompleted, $body);
 
                 Mail::send([], [], function($message)
                         use ($user, $remindedUser, $subject, $body){

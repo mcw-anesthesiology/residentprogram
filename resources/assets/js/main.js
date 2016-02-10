@@ -91,7 +91,7 @@ function appendAlert(alertText, parent, alertType){
 	var close = document.createElement("button");
 	close.type = "button";
 	close.className = "close";
-	close.dataset.dismiss = "alert";
+	close.setAttribute("data-dismiss", "alert");
 	close.setAttribute("aria-label", "Close");
 
 	var innerClose = document.createElement("span");
