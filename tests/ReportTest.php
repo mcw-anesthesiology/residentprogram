@@ -583,40 +583,36 @@ class ReportTest extends TestCase
         $numCompletedPlaceholder = '<span class="label label-info"># Completed</span>';
         $numNeededPlaceholder = '<span class="label label-info"># Needed</span>';
 
-        $replyTo = $this->admin->email;
+        $user = $this->admin;
         $subject = $faker->sentence;
         $bodyTemplate = $faker->sentence . $namePlaceholder . "\n"
             . $faker->paragraph . $numCompletedPlaceholder
             . $faker->sentence . $numNeededPlaceholder;
 
-        $user = $moreResidents[0];
-        $to = $user->email;
-        var_dump($to);
-        $body = str_replace($namePlaceholder, $user->last_name, $bodyTemplate);
-        $body = str_replace($numCompletedPlaceholder, 1, $body);
-        $body = str_replace($numNeededPlaceholder, 1, $body);
+        $remindedUser = $moreResidents[0];
+        $body[0] = str_replace($namePlaceholder, $remindedUser->last_name, $bodyTemplate);
+        $body[0] = str_replace($numCompletedPlaceholder, 1, $body[0]);
+        $body[0] = str_replace($numNeededPlaceholder, 1, $body[0]);
+
+        $remindedUser = $moreResidents[1];
+        $body[1] = str_replace($namePlaceholder, $remindedUser->last_name, $bodyTemplate);
+        $body[1] = str_replace($numCompletedPlaceholder, 0, $body[1]);
+        $body[1] = str_replace($numNeededPlaceholder, 2, $body[1]);
 
         Mail::shouldReceive("send")
             ->twice()
             ->with(Mockery::any(), Mockery::any(),
-                Mockery::on(function(Closure $closure) use ($to, $replyTo, $subject, $body){
+                Mockery::on(function(Closure $closure) use ($user, $moreResidents, $subject, $body){
                     $message = Mockery::mock(Illuminate\Mailer\Message::class);
                     $message->shouldReceive("from")->once()->with("reminders@residentprogram.com", "ResidentProgram Reminders");
-                    $message->shouldReceive("to")->once()->with($to);
-                    $message->shouldReceive("replyTo")->once()->with($replyTo);
+                    $message->shouldReceive("to")->once()->with($moreResidents[0]->email OR $moreResidents[1]->email);
+                    $message->shouldReceive("replyTo")->once()->with($user->email);
                     $message->shouldReceive("subject")->once()->with($subject);
-                    $message->shouldReceive("setBody")->once()->with($body, "text/html");
+                    $message->shouldReceive("setBody")->once()->with($body[0] OR $body[1], "text/html");
                     $closure($message);
                     return true;
                 })
             );
-
-        $user = $moreResidents[1];
-        $to = $user->email;
-        var_dump($to);
-        $body = str_replace($namePlaceholder, $user->last_name, $bodyTemplate);
-        $body = str_replace($numCompletedPlaceholder, 0, $body);
-        $body = str_replace($numNeededPlaceholder, 2, $body);
 
         $startDate = Carbon::parse("0001-01-01");
         $endDate = Carbon::now();
