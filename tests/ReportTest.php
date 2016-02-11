@@ -614,19 +614,23 @@ class ReportTest extends TestCase
                 })
             );
 
-        $startDate = Carbon::parse("0001-01-01");
-        $endDate = Carbon::now();
-        $endDate->second = 0;
-        $trainingLevel = "ca-1";
+        $remindedUsers = [
+            [
+                "id" => $moreResidents[0]->id,
+                "count" => 1
+            ],
+            [
+                "id" => $moreResidents[1]->id,
+                "count" => 2
+            ]
+        ];
 
         $this->actingAs($this->admin)
             ->post("/report/needs-eval/send-all-reminders", [
-                "startDate" => $startDate,
-                "endDate" => $endDate,
-                "trainingLevel" => $trainingLevel,
                 "evalsRequired" => $evalsRequired,
                 "subject" => $subject,
-                "body" => $bodyTemplate
+                "body" => $bodyTemplate,
+                "users" => $remindedUsers
             ]);
     }
 

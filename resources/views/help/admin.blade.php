@@ -36,7 +36,7 @@
 		The Aggregate and Specific reports will allow you to generate a report for a given time span and training level. For an aggregate report and a specific report with only one time span, a table will be created showing the user(s)' average scores for each milestone and competency, and compare them to the average of users in the given time span and training level. Multiple training levels and dates may be selected for a specific report. Radar graphs can be generated for each report.
 	</li>
 	<li>
-		The <a href="{{ url("/report/needs-eval") }}">needs evaluations report</a> page will allow you to see the milestones that each user has a completed evaluation for, and which they do not have any evaluations for.
+		The <a href="{{ url("/report/needs-eval") }}">needs evaluations report</a> page will allow you to see which users have fewer than a given amount of completed evaluations, and will allow you to send reminders to them. It can also show the competencies and milestones that each user has a completed evaluation for, and which they do not have any evaluations for.
 	</li>
 	<li>
 		The <a href="{{ url("/report/faculty") }}">faculty statistics</a>, <a href="{{ url("/report/resident") }}">resident statistics</a>, and <a href="{{ url("/report/fellow") }}">fellow statistics</a> pages will allow you to see various statistics. If you select a date range and/or a user it will focus its search there.

@@ -137,7 +137,12 @@
 			<div class="modal-body" id="send-reminder-modal-body">
 				<div class="form-group">
 					<label for="reminder-to">To</label>
-					<input type="text" class="form-control" id="reminder-to" readonly />
+					<div id="reminder-to-container">
+						<input type="text" class="form-control" id="reminder-to" readonly />
+						<span class="input-group-btn collapse" id="reminder-ids-list-button-container">
+							<button type="button" class="btn btn-default" id="reminder-ids-list-button">Resident List <span class="caret"></span></button>
+						</span>
+					</div>
 					<input type="hidden" id="reminder-id" />
 					<div class="collapse" id="reminder-ids-container">
 						<div class="well row" id="reminder-ids-well">
@@ -233,6 +238,10 @@
 
 		$("#needs-evals-table").on("click", ".send-user-reminder", openSendUserReminderModal);
 
+		$("#reminder-ids-list-button").click(function(){
+			$("#reminder-ids-container").slideToggle();
+		});
+
 		function openSendUserReminderModal(){
 			var userId = $(this).data("id");
 			var lastName = $(this).data("last");
@@ -249,7 +258,8 @@
 
 			$("#reminder-id").val(userId);
 			$("#reminder-to").val(userName + " <" + userEmail + ">");
-			$("#reminder-to").off("click");
+			$("#reminder-to-container").removeClass("input-group");
+			$("#reminder-ids-list-button-container").hide();
 			$("#reminder-ids-list").empty();
 			$("#reminder-ids-container").hide();
 
@@ -300,7 +310,7 @@
 			var button, li, checkbox, label, labelText;
 			var userId, userCount, userFirst, userLast;
 			var numRemindedUsers = 0;
-			$("#reminder-ids-container").show();
+
 			$(list).empty();
 			var tableData = table.rows().data();
 			for(var row = 0; row < tableData.length; row++){
@@ -329,11 +339,15 @@
 				list.appendChild(li);
 			}
 
+			if(numRemindedUsers <= 6)
+				$("#reminder-ids-container").show();
+			else
+				$("#reminder-ids-container").hide();
+
 			$("#reminder-to").val(numRemindedUsers + " residents");
-			$("#reminder-to").off("click");
-			$("#reminder-to").click(function(){
-				$("#reminder-ids-container").slideToggle();
-			});
+			$("#reminder-to-container").addClass("input-group");
+			$("#reminder-ids-list-button-container").show();
+
 			$("#reminder-subject").val("Please request evaluations!");
 
 			var bodyText = "Hello Dr. [[Name]]\n"
@@ -420,6 +434,8 @@
 			data.subject = $("#reminder-subject").val();
 			data.body = $("#reminder-body-rendered").html();
 
+			$("#send-reminder").prop("disabled", true).addClass("disabled");
+
 			$("#send-reminder-modal-body-info").append("<img id='loading-img' src='/ajax-loader.gif' />");
 
 			$.post("/report/needs-eval/send-reminder", data, function(response){
@@ -431,9 +447,11 @@
 				else{
 					appendAlert("Error sending reminder", "#send-reminder-modal-body-info");
 				}
+				$("#send-reminder").prop("disabled", false).removeClass("disabled");
 			}).fail(function(){
 				appendAlert("Error sending reminder", "#send-reminder-modal-body-info");
 				$("#loading-img").remove();
+				$("#send-reminder").prop("disabled", false).removeClass("disabled");
 			});
 		}
 
@@ -453,6 +471,7 @@
 
 			var expectedRemindedUsers = $(".remind-all-id:checked").length;
 
+			$("#send-reminder").prop("disabled", true).addClass("disabled");
 			$("#send-reminder-modal-body-info").append("<img id='loading-img' src='/ajax-loader.gif' />");
 
 			$.post("/report/needs-eval/send-all-reminders", data, function(remindedUsers){
@@ -472,9 +491,11 @@
 				} else {
 					appendAlert("Error sending reminders, 0 reminders sent", "#send-reminder-modal-body-info");
 				}
+				$("#send-reminder").prop("disabled", false).removeClass("disabled");
 			}).fail(function(response){
 				appendAlert("Error sending reminder", "#send-reminder-modal-body");
 				$("#loading-img").remove();
+				$("#send-reminder").prop("disabled", false).removeClass("disabled");
 			});
 		}
 

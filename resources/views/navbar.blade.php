@@ -55,11 +55,11 @@
 			@if($user->type == "admin")
             <li><a class="pointer" data-toggle="modal" data-target="#form-report-modal">Form Report</a></li>
 			<li><a class="pointer" data-toggle="modal" data-target="#faculty-report-modal">Faculty Report</a></li>
-			<li><a href="/report/needs-eval">Needs Evaluations</a></li>
 			<li><a href="/report/stats/faculty">Faculty Statistics</a></li>
 			<li><a href="/report/stats/resident">Resident Statistics</a></li>
 			<li><a href="/report/stats/fellow">Fellow Statistics</a></li>
 			<li><a href="/report/milestones-competencies-forms">Milestones/Competencies - Forms</a></li>
+            <li><a href="/report/needs-eval">Needs Evaluations</a></li>
 			@endif
 			</ul>
 		</li>
