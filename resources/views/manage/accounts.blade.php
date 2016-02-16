@@ -222,11 +222,39 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Create account</button>
+          <button type="submit" class="btn btn-success">Create account</button>
         </div>
       </form>
     </div>
   </div>
+</div>
+
+<!-- Introduction Email Modal -->
+<div class="modal fade" id="send-intro-email-modal" tabindex="-1" role="dialog" aria-labelledby="send-intro-email-modal-title" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title" id="send-intro-email-modal-title">Send introduction email</h4>
+			</div>
+			<div class="modal-body">
+				<input type="hidden" id="send-intro-email-id" />
+				<p>
+					This will resend the welcome email sent to all new user accounts.
+				</p>
+				<p>
+					The email will contain the user's username and introductory information about basic usage of the system.
+				</p>
+				<p>
+					Send the introduction email to <b id="send-intro-email-name"></b>?
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" id="send-intro-email-submit" class="btn btn-primary">Send introduction</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- Edit Password Modal -->
@@ -291,6 +319,29 @@
 			var padding = 5;
 			var scrollto = $(target).parents(".body-block").offset().top - padding - headerHeight;
 			$("html, body").animate({scrollTop: scrollto});
+		});
+
+		$("#send-intro-email-submit").click(function(event){
+			var data = {};
+			data._token = "{{ csrf_token() }}";
+			data.id = $("#send-intro-email-id").val();
+			data.ajax = "true";
+
+			var button = $(this);
+			button.prop("disabled", true).addClass("disabled");
+			$.post("/manage/accounts/send-intro-email", data, function(response){
+				if(response == "true"){
+					$("#send-intro-email-modal").modal("hide");
+				}
+				else{
+					appendAlert(response, "#send-intro-email-modal .modal-body");
+				}
+				button.prop("disabled", false).removeClass("disabled");
+			}).fail(function(response){
+				appendAlert("Error sending email.", "#send-intro-email-modal .modal-body");
+				button.prop("disabled", false).removeClass("disabled");
+			});
+
 		});
 
 		$("#password-form").on("submit", function(event){
@@ -445,8 +496,16 @@
 			var id = $(this).data("id");
 			var name = $(this).data("name");
 
-			$("#residentToFacultyModal #name").html(name);
+			$("#residentToFacultyModal #name").text(name);
 			$("#residentToFacultyModal #id").val(id);
+		});
+
+		$(".table").on("click", ".send-intro-email-button", function(){
+			var id = $(this).data("id");
+			var name = $(this).data("name");
+
+			$("#send-intro-email-id").val(id);
+			$("#send-intro-email-name").text(name)
 		});
 
 		$(".table").on("click", ".editPassword", function(){

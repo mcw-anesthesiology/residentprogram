@@ -267,7 +267,7 @@ class MainController extends Controller
         $eval->requested_by_id = $user->id;
 		$eval->evaluation_date = $request->input("evaluation_date");
 
-		if(empty($eval->subject_id) || empty($eval->evaluator_id) || empty($eval->form_id) || empty($eval->requested_by_id)){ // TODO: try/catch
+		if(empty($eval->subject_id) || empty($eval->evaluator_id) || empty($eval->form_id) || empty($eval->requested_by_id)){
 			$errors = "";
 			if(empty($eval->subject_id))
 				$errors .= "Please select an evaluation subject. ";

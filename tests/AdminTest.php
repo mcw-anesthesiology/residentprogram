@@ -74,7 +74,6 @@ class AdminTest extends TestCase
             ->visit("/request/staff")
             ->see("Request staff evaluation")
             ->post("/request/staff", array_merge($evalParams, [
-                "_token" => csrf_token(),
                 "send_hash" => "true",
                 "hash_expires_in" => $hashExpiresIn
             ]))
@@ -112,7 +111,6 @@ class AdminTest extends TestCase
         $this->actingAs($this->user)
             ->visit("/evaluation/" . $eval->id)
             ->post("/evaluation/" . $eval->id . "/hash", [
-                "_token" => csrf_token(),
                 "action" => "new",
                 "hash_expires_in" => 30
             ])
@@ -137,7 +135,6 @@ class AdminTest extends TestCase
         $this->actingAs($this->user)
             ->visit("/evaluation/" . $eval->id)
             ->post("/evaluation/" . $eval->id . "/hash", [
-                "_token" => csrf_token(),
                 "action" => "resend"
             ])
             ->see("true");
@@ -154,7 +151,6 @@ class AdminTest extends TestCase
         $this->actingAs($this->user)
             ->visit("/evaluation/" . $eval->id)
             ->post("/evaluation/" . $eval->id . "/hash", [
-                "_token" => csrf_token(),
                 "action" => "void"
             ])
             ->see("true")
@@ -175,7 +171,6 @@ class AdminTest extends TestCase
         $this->actingAs($this->user)
             ->visit("/manage/evaluations/")
             ->post("/manage/evaluations/" . $eval->id, [
-                "_token" => csrf_token(),
                 "action" => "disable"
             ])
             ->see("disabled");
@@ -197,7 +192,6 @@ class AdminTest extends TestCase
         $this->actingAs($this->user)
             ->visit("/manage/evaluations/")
             ->post("/manage/evaluations/" . $eval->id, [
-                "_token" => csrf_token(),
                 "action" => "enable"
             ]);
 
@@ -218,7 +212,6 @@ class AdminTest extends TestCase
         $this->actingAs($this->user)
             ->visit("/manage/evaluations/")
             ->post("/manage/evaluations/" . $eval->id, [
-                "_token" => csrf_token(),
                 "action" => "cancel"
             ]);
 
@@ -242,7 +235,6 @@ class AdminTest extends TestCase
             $this->actingAs($this->user)
                 ->visit("/manage/evaluations/")
                 ->post("/manage/evaluations/" . $eval->id, [
-                    "_token" => csrf_token(),
                     "action" => "visibility",
                     "visibility" => $visibility
                 ]);
@@ -266,7 +258,6 @@ class AdminTest extends TestCase
         $this->actingAs($this->user)
             ->visit("/manage/evaluations/")
             ->post("/manage/evaluations", [
-                "_token" => csrf_token(),
                 "archive_date" => $archiveDate
             ]);
         $this->seeInDatabase("evaluations", [
@@ -289,7 +280,6 @@ class AdminTest extends TestCase
         $this->actingAs($this->user)
             ->visit("/manage/accounts/")
             ->post("/manage/accounts/add", array_merge($newAccount, [
-                "_token" => csrf_token(),
                 "ajax" => true
             ]))
             ->see("true");
@@ -310,11 +300,26 @@ class AdminTest extends TestCase
         $this->actingAs($this->user)
             ->visit("/manage/accounts/")
             ->post("/manage/accounts/edit", array_merge($editedAccount, [
-                "_token" => csrf_token(),
                 "ajax" => true
             ]))
             ->see("true");
         $this->seeInDatabase("users", $editedAccount);
+    }
+
+    public function testSendNewAccountEmail(){
+        Mail::shouldReceive("send")
+            ->once()
+            ->andReturnUsing(function($view, $params){
+                $user = $this->resident->fresh();
+                $this->assertEquals($view, "emails.new-account");
+                $this->assertEquals($params["username"], $user->username);
+                $this->assertEquals($params["userType"], $user->specific_type);
+            });
+        $this->actingAs($this->user)
+            ->visit("/manage/accounts")
+            ->post("/manage/accounts/send-intro-email", [
+                "id" => $this->resident->id
+            ]);
     }
 
     public function testResetAccountPassword(){
@@ -328,7 +333,6 @@ class AdminTest extends TestCase
         $this->actingAs($this->user)
             ->visit("/manage/accounts")
             ->post("/manage/accounts/password", [
-                "_token" => csrf_token(),
                 "id" => $this->resident->id
             ]);
     }
@@ -337,7 +341,6 @@ class AdminTest extends TestCase
         $this->actingAs($this->user)
             ->visit("/manage/accounts")
             ->post("/manage/accounts/disable", [
-                "_token" => csrf_token(),
                 "id" => $this->resident->id,
                 "ajax" => true
             ])
@@ -354,7 +357,6 @@ class AdminTest extends TestCase
         $this->actingAs($this->user)
             ->visit("/manage/accounts")
             ->post("/manage/accounts/enable", [
-                "_token" => csrf_token(),
                 "id" => $this->resident->id,
                 "ajax" => true
             ])
@@ -365,7 +367,7 @@ class AdminTest extends TestCase
         ]);
     }
 
-    public function testAddForm(){
+    public function testAddForm(){ // TODO
 
     }
 
@@ -378,7 +380,6 @@ class AdminTest extends TestCase
         $this->actingAs($this->user)
             ->visit("/manage/forms")
             ->post("/manage/forms/" . $this->form->id, array_merge($editedForm, [
-                "_token" => csrf_token(),
                 "action" => "edit"
             ]))
             ->see("true");
@@ -393,7 +394,6 @@ class AdminTest extends TestCase
         $this->actingAs($this->user)
             ->visit("/manage/forms")
             ->post("/manage/forms/" . $this->form->id, [
-                "_token" => csrf_token(),
                 "action" => "disable"
             ])
             ->see("true");
@@ -409,7 +409,6 @@ class AdminTest extends TestCase
         $this->actingAs($this->user)
             ->visit("/manage/forms")
             ->post("/manage/forms/" . $this->form->id, [
-                "_token" => csrf_token(),
                 "action" => "enable"
             ])
             ->see("true");
@@ -427,7 +426,6 @@ class AdminTest extends TestCase
         $this->actingAs($this->user)
             ->visit("/manage/forms")
             ->post("/manage/forms/" . $this->form->id, [
-                "_token" => csrf_token(),
                 "action" => "visibility",
                 "visibility" => $newVisibility
             ])
@@ -450,7 +448,6 @@ class AdminTest extends TestCase
             ->visit("/manage/milestones-competencies")
             ->post("/manage/milestones/add", array_merge($milestone, [
                 "ajax" => true,
-                "_token" => csrf_token()
             ]))
             ->see("true")
             ->seeInDatabase("milestones", $milestone);
@@ -468,7 +465,6 @@ class AdminTest extends TestCase
             ->visit("/manage/milestones-competencies")
             ->post("/manage/milestones/edit", array_merge($milestone, [
                 "ajax" => true,
-                "_token" => csrf_token()
             ]))
             ->see("true")
             ->seeInDatabase("milestones", $milestone);
@@ -484,7 +480,6 @@ class AdminTest extends TestCase
             ->visit("/manage/milestones-competencies")
             ->post("/manage/milestones/delete", array_merge($milestone, [
                 "ajax" => true,
-                "_token" => csrf_token()
             ]))
             ->see("true")
             ->notSeeInDatabase("milestones", $milestone);
@@ -499,7 +494,6 @@ class AdminTest extends TestCase
         $this->actingAs($this->user)
             ->visit("/manage/milestones-competencies")
             ->post("/manage/competencies/add", array_merge($competency, [
-                "_token" => csrf_token(),
                 "ajax" => true
             ]))
             ->see("true")
@@ -516,7 +510,6 @@ class AdminTest extends TestCase
         $this->actingAs($this->user)
             ->visit("/manage/milestones-competencies")
             ->post("/manage/competencies/edit", array_merge($competency, [
-                "_token" => csrf_token(),
                 "ajax" => true
             ]))
             ->see("true")
@@ -532,7 +525,6 @@ class AdminTest extends TestCase
         $this->actingAs($this->user)
             ->visit("/manage/milestones-competencies")
             ->post("/manage/competencies/delete", array_merge($competency, [
-                "_token" => csrf_token(),
                 "ajax" => true
             ]))
             ->see("true")
@@ -547,7 +539,6 @@ class AdminTest extends TestCase
         $this->actingAs($this->user)
             ->visit("/manage/mentors")
             ->post("/manage/mentors/add", array_merge($mentorship, [
-                "_token" => csrf_token(),
                 "ajax" => true
             ]))
             ->see("true")
@@ -562,7 +553,6 @@ class AdminTest extends TestCase
         $this->actingAs($this->user)
             ->visit("/manage/mentors")
             ->post("/manage/mentors/delete", [
-                "_token" => csrf_token(),
                 "ajax" => true,
                 "mentorship_id" => $mentorship->id
             ])

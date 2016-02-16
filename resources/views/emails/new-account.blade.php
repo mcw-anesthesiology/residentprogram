@@ -2,22 +2,22 @@
 	Dear Dr. {{ $firstName }} {{ $lastName }}
 </p>
 <p>
-	A new {{ $userType }} user account has been created for you on the resident evaluation system, ResidentProgram.com. We hope you find the system simple and easy to use.
+	Your {{ $userType }} user account is available for you on the resident evaluation system, ResidentProgram.com. We hope you find the system simple and easy to use.
 </p>
 <table>
 	<thead>
 		<tr>
-			<td>www.residentprogram.com</td>
+			<th>www.residentprogram.com</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
-			<td>Username</td>
+			<th>Username</th>
 			<td>{{ $username }}</td>
 		</tr>
 @if(!empty($password))
 		<tr>
-			<td>Password</td>
+			<th>Password</th>
 			<td>{{ $password }}</td>
 		</tr>
 @endif

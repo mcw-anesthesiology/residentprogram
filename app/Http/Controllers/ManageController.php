@@ -267,6 +267,11 @@ class ManageController extends Controller
                 if(!$user->resetPassword())
                     $error = "Failed to reset password";
                 break;
+            case "send-intro-email":
+                $user = User::find($request->input("id"));
+                if(!$user->sendNewAccountEmail())
+                    $error = "Failed to send introduction email";
+                break;
             case "to-faculty":
                 $user = User::find($request->input("id"));
                 if($user->type == "resident"){
@@ -303,14 +308,15 @@ class ManageController extends Controller
         foreach($users as $user){
 			try{
 	            $result = [];
-	            $result[] = $user->full_name;
+	            $result[] = $user->profile_link;
 	            $result[] = $user->username;
 	            $result[] = $user->email;
 	            if($type == "resident")
 	                $result[] = $user->training_level;
 	            $result[] = $user->status;
 	            $action = "<button class='editUser btn btn-info btn-xs' data-toggle='modal' data-target='.bs-edit-modal' data-type='{$type}' data-id='{$user->id}' data-username='{$user->username}' data-email='{$user->email}' data-first='{$user->first_name}' data-last='{$user->last_name}' data-trainingLevel='{$user->training_level}' data-photo='{$user->photo_path}' id='editBtn'><span class='glyphicon glyphicon-edit'></span> Edit</button> ";
-				$action .= "<button class='editPassword btn btn-warning btn-xs' data-toggle='modal' data-target='.bs-edit-password-modal' data-id='{$user->id}' data-type='{$user->type}' data-name='{$user->first_name} {$user->last_name}' id='editPasswordBtn'><span class='glyphicon glyphicon-edit'></span> Password</button> ";
+                $action .= "<button class='send-intro-email-button btn btn-primary btn-xs' data-toggle='modal' data-target='#send-intro-email-modal' data-id='{$user->id}' data-name='{$user->first_name} {$user->last_name}'><span class='glyphicon glyphicon-send'></span> Introduction</button> ";
+				$action .= "<button class='editPassword btn btn-warning btn-xs' data-toggle='modal' data-target='.bs-edit-password-modal' data-id='{$user->id}' data-type='{$user->type}' data-name='{$user->first_name} {$user->last_name}' id='editPasswordBtn'><span class='glyphicon glyphicon-send'></span> Password</button> ";
 	            // if($type == "resident" || $type == "fellow")
 				//          $action .= "<button class='residentToFaculty btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-resident-to-faculty-modal-sm' data-id='{$user->id}' data-name='{$user->first_name} {$user->last_name}' id='residentToFacultyBtn'><span class='glyphicon glyphicon-edit'></span> Change to Faculty</button>";
 	            if($user->status == "inactive"){
@@ -737,7 +743,7 @@ class ManageController extends Controller
 		return view("manage.blocks");
 	}
 
-	public function getBlocks(Request $request){ // TODO
+	public function getBlocks(Request $request){
 		$results["data"] = [];
 		$blocks = Block::where("start_date", "<=", Carbon::now());
 		foreach($blocks as $block){
@@ -747,7 +753,9 @@ class ManageController extends Controller
 			$result[] = $block->block_name;
 			$result[] = $block->start_date;
 			$result[] = $block->end_date;
+            $results["data"][] = $result;
 		}
+        return response()->json($results);
 	}
 
     public function blockAssignments(){
