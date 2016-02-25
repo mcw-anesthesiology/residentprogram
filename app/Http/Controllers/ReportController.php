@@ -174,7 +174,7 @@ class ReportController extends Controller
                 $query->where("training_level", $trainingLevel);
         };
 
-        $needsEvals = User::where("type", "resident");
+        $needsEvals = User::where("type", "resident")->where("status", "active");
         if($trainingLevel != "all")
             $needsEvals->where("training_level", $trainingLevel);
 
