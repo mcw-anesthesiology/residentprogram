@@ -93,6 +93,19 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->belongsToMany("App\User", "mentorships", "mentor_id", "mentee_id")->where("mentorships.status", "active");
     }
 
+    public function scopeFormerResidents($query){
+        return $query->where(function($userQuery){
+            $userQuery->where("type", "!=", "resident")->orWhere(function($inactiveQuery){
+                $inactiveQuery->where("type", "resident")->where("status", "!=", "active");
+            });
+        })->whereHas("subjectEvaluations", function($evalsQuery){
+            $evalsQuery->where("status", "complete")->whereHas("form", function($formQuery){
+                $formQuery->where("type", "resident");
+            });
+        });
+
+    }
+
     public function resetPassword(){
         $password = str_random(12);
         $this->password = bcrypt($password);

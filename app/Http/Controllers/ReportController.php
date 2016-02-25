@@ -569,9 +569,11 @@ class ReportController extends Controller
                     ->on("competencies_questions.form_id", "=", "evaluations.form_id");
             })
             ->join("competencies", "competencies.id", "=", "competencies_questions.competency_id")
+            ->join("forms", "forms.id", "=", "evaluations.form_id")
             ->join("users", "users.id", "=", "evaluations.subject_id")
             // ->where("users.status", "active")
-            ->where("users.type", "resident")
+            // ->where("users.type", "resident")
+            ->where("forms.type", "resident")
             ->where("evaluations.status", "complete")
             ->where("evaluations.evaluation_date", ">=", $startDate)
             ->where("evaluations.evaluation_date", "<=", $endDate);
@@ -607,6 +609,7 @@ class ReportController extends Controller
         $query->select("milestone_id", "milestones.title as milestone_title", "competency_id", "competencies.title as competency_title")
             ->addSelect("subject_id", "evaluator_id", "last_name", "first_name", "evaluation_id", "response", "weight", "responses.question_id as question_id")
             ->orderBy("milestones.title")->orderBy("competencies.title");
+        Debugbar::info($query->toSql());
         $query->chunk(20000, function($responses) use (&$milestones, &$subjects, &$milestones, &$competencies, &$subjectEvals, &$averageMilestone, &$averageMilestoneDenom, &$averageCompetency, &$averageCompetencyDenom, &$subjectMilestone, &$subjectMilestoneDenom, &$subjectMilestoneEvals, &$subjectCompetency, &$subjectCompetencyDenom, &$subjectCompetencyEvals, &$competencyQuestions, &$subjectEvaluators){
             foreach($responses as $response){
                 if(!isset($subjects[$response->subject_id]))
@@ -776,7 +779,6 @@ class ReportController extends Controller
             $textQuery->select("subject_id", "first_name", "last_name", "forms.title as form_title", "evaluation_date", "response");
 
             $subjectTextResponses = $textQuery->get();
-            Debugbar::addMessage($subjectTextResponses);
 
             $data["subjectTextResponses"] = $subjectTextResponses;
         }
@@ -791,7 +793,6 @@ class ReportController extends Controller
     }
 
     public function specific(Request $request){
-        Debugbar::info($request->input("milestones"));
         $user = Auth::user();
         $resident = User::find($request->input("resident"));
         if(!($resident == $user || $user->type == "admin" || $user->mentees->contains($resident)))

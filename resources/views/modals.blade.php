@@ -183,12 +183,12 @@
 			</select>
 		  </div>
 		  <div class="form-group">
-			<label for="startDate">Start Date:</label>
-			<input type="text" class="form-control datepicker startDate" id="startDate" name="startDate" required>
+			<label for="faculty-report-start-date">Start Date:</label>
+			<input type="text" class="form-control datepicker startDate" id="faculty-report-start-date" name="startDate" required>
 		  </div>
 		  <div class="form-group">
-			<label for="endDate">End Date:</label>
-			<input type="text" class="form-control datepicker endDate" id="endDate" name="endDate" required>
+			<label for="faculty-report-end-date">End Date:</label>
+		    <input type="text" class="form-control datepicker endDate" id="faculty-report-end-date" name="endDate" required>
 		  </div>
 		  <div class="form-group" style="text-align: center;">
 			<button type="button" class="btn lastThreeMonths">Last Three Months</button>
@@ -238,12 +238,12 @@
 			</select>
 		  </div>
 		  <div class="form-group">
-			<label for="startDate">Start Date:</label>
-			<input type="text" class="form-control datepicker startDate" id="startDate" name="startDate" required>
+			<label for="form-report-start-date">Start Date:</label>
+			<input type="text" class="form-control datepicker startDate" id="form-report-start-date" name="startDate" required>
 		  </div>
 		  <div class="form-group">
-			<label for="endDate">End Date:</label>
-			<input type="text" class="form-control datepicker endDate" id="endDate" name="endDate" required>
+			<label for="form-report-end-date">End Date:</label>
+			<input type="text" class="form-control datepicker endDate" id="form-report-end-date" name="endDate" required>
 		  </div>
 		  <div class="form-group" style="text-align: center;">
 			<button type="button" class="btn lastThreeMonths">Last Three Months</button>

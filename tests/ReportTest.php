@@ -133,10 +133,109 @@ class ReportTest extends TestCase
     }
 
     public function testAggregateReport(){
-
         $startDate = Carbon::parse("0001-01-01");
         $endDate = Carbon::now();
         $endDate->second = 0;
+
+        $formerResidents = factory(App\User::class, "resident", 3)->create();
+        $formerEvals = [
+            factory(App\Evaluation::class, "complete", 2)->create([
+                "form_id" => $this->form->id,
+                "subject_id" => $formerResidents[0]->id,
+                "evaluator_id" => $this->faculty->id,
+                "requested_by_id" => $this->admin->id
+            ]),
+            factory(App\Evaluation::class, "complete", 2)->create([
+                "form_id" => $this->form->id,
+                "subject_id" => $formerResidents[1]->id,
+                "evaluator_id" => $this->faculty->id,
+                "requested_by_id" => $this->admin->id
+            ]),
+            factory(App\Evaluation::class, 2)->create([
+                "form_id" => $this->form->id,
+                "subject_id" => $formerResidents[2]->id,
+                "evaluator_id" => $this->faculty->id,
+                "requested_by_id" => $this->admin->id
+            ])
+        ];
+
+        $formerEvals[2][1]->status = "disabled";
+        $formerEvals[2][1]->save();
+
+        $this->responses = [
+            "q1" => [
+                factory(App\Response::class)->create([
+                    "evaluation_id" => $formerEvals[0][0]->id,
+                    "question_id" => "q1",
+                    "response" => 5
+                ]),
+                factory(App\Response::class)->create([
+                    "evaluation_id" => $formerEvals[0][1]->id,
+                    "question_id" => "q1",
+                    "response" => 7
+                ]),
+                factory(App\Response::class)->create([
+                    "evaluation_id" => $formerEvals[1][0]->id,
+                    "question_id" => "q1",
+                    "response" => 8
+                ]),
+                factory(App\Response::class)->create([
+                    "evaluation_id" => $formerEvals[1][1]->id,
+                    "question_id" => "q1",
+                    "response" => 6
+                ]),
+                factory(App\Response::class)->create([
+                    "evaluation_id" => $formerEvals[2][0]->id,
+                    "question_id" => "q1",
+                    "response" => 8
+                ]),
+                factory(App\Response::class)->create([
+                    "evaluation_id" => $formerEvals[2][1]->id,
+                    "question_id" => "q1",
+                    "response" => 6
+                ])
+            ],
+            "q2" => [
+                factory(App\Response::class)->create([
+                    "evaluation_id" => $formerEvals[0][0]->id,
+                    "question_id" => "q2",
+                    "response" => 1
+                ]),
+                factory(App\Response::class)->create([
+                    "evaluation_id" => $formerEvals[0][1]->id,
+                    "question_id" => "q2",
+                    "response" => 2
+                ]),
+                factory(App\Response::class)->create([
+                    "evaluation_id" => $formerEvals[1][0]->id,
+                    "question_id" => "q2",
+                    "response" => 0
+                ]),
+                factory(App\Response::class)->create([
+                    "evaluation_id" => $formerEvals[1][1]->id,
+                    "question_id" => "q2",
+                    "response" => 3
+                ]),
+                factory(App\Response::class)->create([
+                    "evaluation_id" => $formerEvals[2][0]->id,
+                    "question_id" => "q2",
+                    "response" => 0
+                ]),
+                factory(App\Response::class)->create([
+                    "evaluation_id" => $formerEvals[2][1]->id,
+                    "question_id" => "q2",
+                    "response" => 3
+                ])
+            ]
+        ];
+        $formerResidents[0]->status = "inactive";
+        $formerResidents[0]->save();
+
+        $formerResidents[1]->type = "faculty";
+        $formerResidents[1]->save();
+
+        $formerResidents[2]->status = "inactive";
+        $formerResidents[2]->save();
 
         $this->actingAs($this->admin)
             ->visit("/dashboard")
@@ -153,7 +252,9 @@ class ReportTest extends TestCase
                 "endDate" => $endDate,
                 "subjects" => [
                     $this->residents[0]->id => $this->residents[0]->full_name,
-                    $this->residents[1]->id => $this->residents[1]->full_name
+                    $this->residents[1]->id => $this->residents[1]->full_name,
+                    $formerResidents[0]->id => $formerResidents[0]->full_name,
+                    $formerResidents[1]->id => $formerResidents[1]->full_name,
                 ],
                 "graphs" => [],
                 "milestones" => [
@@ -180,6 +281,14 @@ class ReportTest extends TestCase
                     $this->residents[1]->id => [
                         $this->milestones[0]->id => 7,
                         $this->milestones[1]->id => 1.5
+                    ],
+                    $formerResidents[0]->id => [
+                        $this->milestones[0]->id => 6,
+                        $this->milestones[1]->id => 1.5
+                    ],
+                    $formerResidents[1]->id => [
+                        $this->milestones[0]->id => 7,
+                        $this->milestones[1]->id => 1.5
                     ]
                 ],
                 "subjectCompetency" => [
@@ -190,25 +299,49 @@ class ReportTest extends TestCase
                     $this->residents[1]->id => [
                         $this->competencies[0]->id => 7,
                         $this->competencies[1]->id => 1.5
+                    ],
+                    $formerResidents[0]->id => [
+                        $this->competencies[0]->id => 6,
+                        $this->competencies[1]->id => 1.5
+                    ],
+                    $formerResidents[1]->id => [
+                        $this->competencies[0]->id => 7,
+                        $this->competencies[1]->id => 1.5
                     ]
                 ],
                 "subjectMilestoneDeviations" => [
                     $this->residents[0]->id => [
-                        $this->milestones[0]->id => -0.7071067812,
+                        $this->milestones[0]->id => -0.8660254038,
                         $this->milestones[1]->id => 0
                     ],
                     $this->residents[1]->id => [
-                        $this->milestones[0]->id => 0.7071067812,
+                        $this->milestones[0]->id => 0.8660254038,
+                        $this->milestones[1]->id => 0
+                    ],
+                    $formerResidents[0]->id => [
+                        $this->milestones[0]->id => -0.8660254038,
+                        $this->milestones[1]->id => 0
+                    ],
+                    $formerResidents[1]->id => [
+                        $this->milestones[0]->id => 0.8660254038,
                         $this->milestones[1]->id => 0
                     ]
                 ],
                 "subjectCompetencyDeviations" => [
                     $this->residents[0]->id => [
-                        $this->competencies[0]->id => -0.7071067812,
+                        $this->competencies[0]->id => -0.8660254038,
                         $this->competencies[1]->id => 0
                     ],
                     $this->residents[1]->id => [
-                        $this->competencies[0]->id => 0.7071067812,
+                        $this->competencies[0]->id => 0.8660254038,
+                        $this->competencies[1]->id => 0
+                    ],
+                    $formerResidents[0]->id => [
+                        $this->competencies[0]->id => -0.8660254038,
+                        $this->competencies[1]->id => 0
+                    ],
+                    $formerResidents[1]->id => [
+                        $this->competencies[0]->id => 0.8660254038,
                         $this->competencies[1]->id => 0
                     ]
                 ],
@@ -218,6 +351,14 @@ class ReportTest extends TestCase
                         $this->milestones[1]->id => 2
                     ],
                     $this->residents[1]->id => [
+                        $this->milestones[0]->id => 2,
+                        $this->milestones[1]->id => 2
+                    ],
+                    $formerResidents[0]->id => [
+                        $this->milestones[0]->id => 2,
+                        $this->milestones[1]->id => 2
+                    ],
+                    $formerResidents[1]->id => [
                         $this->milestones[0]->id => 2,
                         $this->milestones[1]->id => 2
                     ]
@@ -230,6 +371,14 @@ class ReportTest extends TestCase
                     $this->residents[1]->id => [
                         $this->competencies[0]->id => 2,
                         $this->competencies[1]->id => 2
+                    ],
+                    $formerResidents[0]->id => [
+                        $this->competencies[0]->id => 2,
+                        $this->competencies[1]->id => 2
+                    ],
+                    $formerResidents[1]->id => [
+                        $this->competencies[0]->id => 2,
+                        $this->competencies[1]->id => 2
                     ]
                 ],
                 "subjectEvals" => [
@@ -240,6 +389,14 @@ class ReportTest extends TestCase
                     $this->residents[1]->id => [
                         $this->evals[1][0]->id => 2,
                         $this->evals[1][1]->id => 2
+                    ],
+                    $formerResidents[0]->id => [
+                        $formerEvals[0][0]->id => 2,
+                        $formerEvals[0][1]->id => 2
+                    ],
+                    $formerResidents[1]->id => [
+                        $formerEvals[1][0]->id => 2,
+                        $formerEvals[1][1]->id => 2
                     ]
                 ]
             ]);
