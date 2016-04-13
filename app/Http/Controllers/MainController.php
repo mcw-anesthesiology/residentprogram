@@ -34,7 +34,12 @@ use App\User;
 class MainController extends Controller
 {
     public function __construct(){
-        $this->middleware("auth", ["except" => ["evaluationByHashLink", "saveEvaluationByHashLink"]]);
+        $this->middleware("auth", ["except" => [
+            "evaluationByHashLink",
+            "saveEvaluationByHashLink",
+            "alumni"
+        ]]);
+
         $this->middleware("shared", ["except" => ["evaluationByHashLink", "saveEvaluationByHashLink"]]);
 
 		$this->middleware("type:admin", ["only" => ["flaggedEvaluations", "getEvaluation"]]);
@@ -1083,5 +1088,32 @@ class MainController extends Controller
         if(!$request->has("view"))
             $response = $response->header("Content-Disposition", "attachment; filename='ipage.csv'");
         return $response;
+    }
+
+    public function alumni(Request $request, $hash){
+        try {
+            $alum = Alum::where("update_hash", $hash)->firstOrFail();
+
+            $data = compact("alum");
+            return view("dashboard.alumni", $data);
+        }
+        catch(ModelNotFoundException $e){
+            back()->with("error", "Sorry, looks like the url is not correct. Please check the link you were given.");
+        }
+    }
+
+    public function saveAlumni(Request $request, $hash){
+        try {
+            $numUpdated = Alum::where("update_hash", $hash)->update($request->all());
+
+            if($numUpdated > 1)
+                Log::error("More than 1 alum updated at once.", [
+                    "request" => $request,
+                    "hash" => $hash
+                ]);
+        }
+        catch(ModelNotFoundException $e){
+            return "Alum not found.";
+        }
     }
 }

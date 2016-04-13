@@ -934,4 +934,12 @@ class ManageController extends Controller
     public function deletePagerDirectoryEntry(Request $request){
         return DirectoryEntry::destroy($request->input("id")) > 0 ? "success" : "No entries deleted";
     }
+
+    public function alumni(Request $request){
+        // TODO
+    }
+
+    public function saveAlumni(Request $request){
+        // TODO
+    }
 }

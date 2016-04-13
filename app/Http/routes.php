@@ -64,6 +64,9 @@ Route::get("directory/csv", "MainController@getPagerCSV");
 Route::post("directory/edit", "ManageController@editPagerDirectoryEntry");
 Route::post("directory/delete", "ManageController@deletePagerDirectoryEntry");
 
+Route::get("alumni", "MainController@alumni");
+Route::post("alumni", "MainController@saveAlumni");
+
 Route::get("contact", "MainController@contact");
 Route::post("contact", "MainController@saveContact");
 
@@ -97,6 +100,8 @@ Route::get("manage/block-assignments", "ManageController@blockAssignments");
 Route::post("manage/block-assignments", "ManageController@saveBlockAssignments");
 Route::post("manage/block-assignments/table", "ManageController@blockAssignmentsTable");
 Route::post("manage/block-assignments/get", "ManageController@getBlockAssignments");
+Route::get("manage/alumni", "ManageController@alumni");
+Route::post("manage/alumni", "ManageController@saveAlumni");
 
 Route::post("report/aggregate", "ReportController@aggregate");
 Route::post("report/specific", "ReportController@specific");
