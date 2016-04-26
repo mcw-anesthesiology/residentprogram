@@ -36,14 +36,14 @@
 											"<input type='radio' disabled/>" +
 											"<input class='form-input form-option form-option-text form-control' placeholder='Option Text' />" +
 											"<input class='form-input form-option form-option-value form-control' type='number' placeholder='Option Value' />" +
-											"<input class='form-input form-option form-option-description form-control' type='text' placeholder='Hover Description' />" +
+											"<textarea class='form-input form-option form-option-description form-control' type='text' placeholder='Hover Description'></textarea>" +
 										"</div>";
 
 		var radioNonNumericHtml = "<div class='col-md-2 ctr-contents tdRdoBtn'>" +
 											"<input type='radio' disabled/>" +
 											"<input class='form-input form-option form-option-text form-control' placeholder='Option Text' />" +
 											"<input class='form-input form-option form-option-value form-control' type='text' placeholder='Option Value' />" +
-											"<input class='form-input form-option form-option-description form-control' type='text' placeholder='Hover Description' />" +
+											"<textarea class='form-input form-option form-option-description form-control' type='text' placeholder='Hover Description'></textarea>" +
 										"</div>";
 
 		var textHtml = "<div class='col-md-10'>" +

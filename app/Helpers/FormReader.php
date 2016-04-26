@@ -82,7 +82,7 @@ class FormReader{
 		else if($name == "option"){
 			$result .= "</span></label>";
 			if($description != "")
-				$result .= "<div class='description well collapse'>{$description}</div>";
+				$result .= "<div class='description well collapse'>" . nl2br($description) . "</div>";
 			$result .= "</div>"; // .question-option
 		}
 		else if($name == "text"){

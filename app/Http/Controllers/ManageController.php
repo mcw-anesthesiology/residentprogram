@@ -511,7 +511,7 @@ class ManageController extends Controller
         $newForm->status = $formStatus;
         $newForm->save();
 
-        if($formType == "resident"){
+        if(in_array($formType, ["resident", "fellow"])){
             foreach($milestones as $questionId => $milestoneId){
                 $mq = new MilestoneQuestion();
                 $mq->form_id = $newForm->id;
