@@ -155,7 +155,7 @@
 
 		$("#form-type").change(function(){
 			var type = $(this).val();
-			if(type != "resident"){
+			if(["resident", "fellow"].indexOf(type) == -1){
 				$(".form-question-milestone").hide().prop("disabled", true);
 				$(".form-question-milestone-2").hide().prop("disabled", true);
 				$(".form-question-competency").hide().prop("disabled", true);
