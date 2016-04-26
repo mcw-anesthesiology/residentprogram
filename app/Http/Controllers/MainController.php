@@ -447,7 +447,7 @@ class MainController extends Controller
                 if(strpos($question, "evaluation_id") === false && strpos($question, "evaluation_date") === false && $question !== "_token"){
                     if(strpos($question, "weight"))
                         $weight = $value;
-                    else{
+                    elseif($value != ""){
                         if(is_numeric($value)){
                             $response = Response::firstOrNew(["evaluation_id" => $id, "question_id" => $question]);
                             $response->weight = $weight;
