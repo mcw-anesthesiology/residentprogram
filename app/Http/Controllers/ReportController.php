@@ -573,7 +573,7 @@ class ReportController extends Controller
             ->join("users", "users.id", "=", "evaluations.subject_id")
             // ->where("users.status", "active")
             // ->where("users.type", "resident")
-            ->where("forms.type", "resident")
+            ->whereIn("forms.type", ["resident", "fellow"])
             ->where("evaluations.status", "complete")
             ->where("evaluations.evaluation_date", ">=", $startDate)
             ->where("evaluations.evaluation_date", "<=", $endDate);
