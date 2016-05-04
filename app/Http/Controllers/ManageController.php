@@ -40,7 +40,7 @@ class ManageController extends Controller
     public function __construct(){
         $this->middleware("auth");
         $this->middleware("shared");
-        $this->middleware("type:admin");
+        $this->middleware("type:admin", ["except" => ["viewForm"]]);
     }
 
     public function settings(){
