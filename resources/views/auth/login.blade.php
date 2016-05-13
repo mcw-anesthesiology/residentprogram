@@ -1,6 +1,9 @@
 @extends("auth.master")
 
 @section("body")
+	<div class="login-info-alert alert alert-info" role="alert">
+		<strong>New: </strong> Please use our new site <a href="https://www.dayoff.site">www.dayoff.site</a> to submit sick days and request I-Days!
+	</div>
 	<form class="form-signin" role="form" method="post" action="/login">
 		{!! csrf_field() !!}
 		<h2>Resident Program</h2>

@@ -548,6 +548,7 @@ class ReportController extends Controller
 	}
 
     public function report($startDate, $endDate, $trainingLevel, $graphOption, $graphOrientation, $reportSubject, $milestones){
+        // TODO: Add "Evals Requested" to report somehow
         $startDate = Carbon::parse($startDate);
         $startDate->timezone = "America/Chicago";
         $endDate = Carbon::parse($endDate);

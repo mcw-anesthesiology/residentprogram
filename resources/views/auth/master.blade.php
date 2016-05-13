@@ -42,6 +42,12 @@
 				background-color: #eee;
 			}
 
+			.login-info-alert {
+				max-width: 600px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+
 			.form-signin {
 				max-width: 330px;
 				padding: 15px;

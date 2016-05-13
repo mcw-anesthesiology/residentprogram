@@ -40,7 +40,7 @@ class ManageController extends Controller
     public function __construct(){
         $this->middleware("auth");
         $this->middleware("shared");
-        $this->middleware("type:admin", ["except" => ["viewForm"]]);
+        $this->middleware("type:admin", ["except" => ["viewForm"]]); // FIXME
     }
 
     public function settings(){
@@ -73,6 +73,10 @@ class ManageController extends Controller
 	            $result[] = $eval->evaluator->full_name;
 	            $result[] = $eval->requestor->full_name;
 	            $result[] = $eval->form->title;
+                if($eval->evaluation_date)
+                    $result[] = $eval->evaluation_date->format("F Y");
+                else
+                    $result[] = "";
 	            $result[] = (string)$eval->request_date;
 	            if($eval->complete_date)
 	                $result[] = (string)$eval->complete_date;

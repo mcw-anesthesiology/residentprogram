@@ -23,6 +23,7 @@
 			  <th>Evaluator</th>
 			  <th>Requested By</th>
 			  <th>Form</th>
+			  <th>Evaluation Date</th>
 			  <th>Request Date</th>
 			  <th>Complete Date</th>
 			  <th>Status</th>
