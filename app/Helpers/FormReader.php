@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use \Michelf\Markdown;
+
 class FormReader{
 
 	protected $questionType = "";
@@ -11,10 +13,12 @@ class FormReader{
 	protected $required = "";
 	protected $questionHasDescriptions = false;
 	protected $result = "";
+	protected $characterData = "";
 
 	static function startElement($parser, $name, $attrs){
+		global $questionType, $questionName, $description, $questionHasDescriptions, $required, $result, $characterData;
 
-		global $questionType, $questionName, $description, $questionHasDescriptions, $required, $result;
+		$characterData = "";
 
 		if($name == "question"){
 			$questionType = $attrs["type"];
@@ -29,7 +33,7 @@ class FormReader{
 			$result .= "<input type='hidden' name='{$questionName}:weight' value='{$questionWeight}' />";
 
 		}
-		else if($name == "option"){
+		elseif($name == "option"){
 			if(in_array($questionType, ["radio", "radiononnumeric"])){
 				if(isset($attrs["description"]))
 					$description = htmlspecialchars($attrs["description"], ENT_QUOTES);
@@ -42,21 +46,27 @@ class FormReader{
 				$result .= "<div class='question-option {$questionName}'><label><span title='{$description}'><input type='radio' name='{$questionName}' value='{$attrs["value"]}' {$required} /><br />";
 			}
 		}
-		else if($name == "text"){
+		elseif($name == "text"){
 				$result .= "<div class='question-header panel-heading'><div class='question-title panel-title'><b>".strtoupper($questionName).": </b>";
 		}
-		else if($name == "form"){
+		elseif($name == "form"){
 
 		}
-		else if($name == "title"){
+		elseif($name == "title"){
 			$result .= "<h2 class='heading'>";
+		}
+		elseif($name == "instruction"){
+			$result .= "<div class='instruction'>";
 		}
 
 	}
 
 	static function endElement($parser, $name){
+		global $questionType, $questionName, $description, $questionHasDescriptions, $required, $result, $characterData;
 
-		global $questionType, $questionName, $description, $questionHasDescriptions, $required, $result;
+		if($characterData){
+			$result .= Markdown::defaultTransform($characterData);
+		}
 
 		if($name == "form"){
 
@@ -69,7 +79,7 @@ class FormReader{
 			elseif($questionType == "number"){
 				$result .= "<div class='question-option {$questionName}'><input type='number' name='{$questionName}' {$required} /></div>";
 			}
-			else if(in_array($questionType, ["radio", "radiononnumeric"])){
+			elseif(in_array($questionType, ["radio", "radiononnumeric"])){
 				if($questionHasDescriptions){
 					$result .= "</div><div class='question-footer panel-footer'><div class='question-description-toggle'>";
 					$result .= "<button type='button' class='toggleDescriptions btn btn-info' data-id='{$questionName}'>Show Descriptions</button>";
@@ -79,25 +89,28 @@ class FormReader{
 
 			$result .= "</div></div>";
 		}
-		else if($name == "option"){
+		elseif($name == "option"){
 			$result .= "</span></label>";
 			if($description != "")
 				$result .= "<div class='description well collapse'>" . nl2br($description) . "</div>";
 			$result .= "</div>"; // .question-option
 		}
-		else if($name == "text"){
+		elseif($name == "text"){
 			$result .= "</div></div><div class='question-body panel-body'>"; // .question-title
 		}
-		else if($name == "title"){
+		elseif($name == "title"){
 			$result .= "</h2>";
+		}
+		elseif($name == "instruction"){
+			$result .= "</div>"; // .instruction
 		}
 
 	}
 
 	static function characterData($parser, $data){
-		global $result;
+		global $result, $characterData;
 
-		$result .= $data == "" ? "&nbsp;" : $data;
+		$characterData .= $data == "" ? "&nbsp;" : $data;
 	}
 
 	static function read($formPath){

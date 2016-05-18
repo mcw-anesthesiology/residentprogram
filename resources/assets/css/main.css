@@ -188,8 +188,13 @@ body {
   text-align: center;
 }
 
-.form-question:nth-child(odd){
+.form-block:nth-child(odd){
   background-color: #e0e0e0;
+}
+
+.form-instruction-block .row div {
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .container-fluid{
@@ -277,8 +282,16 @@ body {
 
 }
 
-.description{
+.description {
     /*background-color: #FFF5E6;*/
+}
+
+.instruction {
+    margin: 40px;
+}
+
+.instruction p {
+    margin-bottom: 30px;
 }
 
 .select2-results__options--nested>.select2-results__option {

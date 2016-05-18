@@ -13,7 +13,9 @@
 						<label for="form-type">Form type</label>
 						<select class="form-control" id="form-type" name="form_type" style="margin-bottom: 5px;">
 							<option value="resident">Resident/Intern</option>
+							<option value="self-resident">Resident/Intern (self)</option>
 							<option value="fellow">Fellow</option>
+							<option value="self-fellow">Fellow (self)</option>
 							<option value="faculty">Faculty</option>
 							<option value="staff">Staff</option>
 						</select>
@@ -23,6 +25,7 @@
 		<div class="form">
 		</div>
 		<div id='footer'>
+			<button type="button" class="btn btn-default" id="add-instruction-block">Add instruction block</button>
 			<button type="button" class="btn btn-info" id="addQuestion">Add Question</button>
 			<button type="submit" class="btn btn-success">Submit Form</button>
 		</div>
@@ -46,13 +49,12 @@
 											"<textarea class='form-input form-option form-option-description form-control' type='text' placeholder='Hover Description'></textarea>" +
 										"</div>";
 
-		var textHtml = "<div class='col-md-10'>" +
-										 "<textarea disabled>" +
-										 "</textarea>" +
+		var textHtml = "<div class='col-sm-12'>" +
+										 "<textarea class='form-control' placeholder='Text response' disabled></textarea>" +
 									 "</div>";
 
 		var numberHtml = "<div class='col-md-8' ctr-contents tdRdoBtn'>" +
-								"<input type='number' placeholder='Number' disabled />" +
+								"<input type='number' class='form-control' placeholder='Number' disabled />" +
 								"</div>";
 
 		var milestoneOptionsHtml =
@@ -81,9 +83,10 @@
 										 "<option value='text'>Text</option>" +
 										 "<option value='radiononnumeric'>Radio (non-numeric)</option>" +
 										 "<option value='number'>Number</option>" +
+										 "<option value='instruction'>Instructions</option>" +
 									 "</select>";
 
-		var questionHtml = "<div class='container-fluid form-question'>" +
+		var questionHtml = "<div class='container-fluid form-question form-block'>" +
 												"<div class='row' style='margin-top:5px;'>" +
 													"<div class='col-md-9'>" +
 														"<b>Question Text</b>" +
@@ -97,7 +100,7 @@
 														"<button class='form-question-standard-options btn btn-info' type='button'>Standard Options</button>" +
 													"</div>" +
 													"<div class='col-md-1'>" +
-														"<button class='form-question-delete btn btn-danger del-btn' type='button'>" +
+														"<button class='form-block-delete btn btn-danger del-btn' type='button'>" +
 															"Delete" +
 														"</button>" +
 													"</div>" +
@@ -113,12 +116,12 @@
 													"<div class='col-md-3'>" +
 														"<b class='milestone-competency-label'>Question Competency</b>" +
 													"</div>" +
-													"<div class='col-md-1'>" +
+													"<div class='col-md-2'>" +
 														"<b>Question Type</b>" +
 													"</div>" +
-													"<div class='col-md-1'>" +
-														"<b>Weight</b>" +
-													"</div>" +
+													// "<div class='col-md-1'>" +
+													// 	"<b>Weight</b>" +
+													// "</div>" +
 													"<div class='col-md-1'>" +
 														"<b>Required</b>" +
 													"</div>" +
@@ -133,12 +136,14 @@
 													"<div class='col-md-3'>" +
 														competencyHtml +
 													"</div>" +
-													"<div class='col-md-1'>" +
+													"<div class='col-md-2'>" +
 														typeHtml +
+														"<input type='hidden' class='form-question-weight' value='100' />" +
 													"</div>" +
-													"<div class='col-md-1'>" +
-														"<input class='form-input form-control form-question-weight' type='number' min='0' max='200' value='100' step='1' />" +
-													"</div>" +
+													// No one was using this anyway
+													// "<div class='col-md-1'>" +
+													// 	"<input type='number' class='form-input form-control form-question-weight' min='0' max='200' value='100' step='5' />" +
+													// "</div>" +
 													"<div class='col-md-1'>" +
 														"<input type='checkbox' class='form-control form-question-required' name='' value='required' />" +
 													"</div>" +
@@ -149,13 +154,25 @@
 												"</div>" +
 											"</div>";
 
+		var instructionBlockHtml = "<div class='container-fluid form-instruction-block form-block'>" +
+										"<div class='row'>" +
+											"<div class='col-md-10'>" +
+												"<label>Instruction block</label> <small>Supports <a href='http://daringfireball.net/projects/markdown/basics' target='_blank'>markdown</a> (except inline HTML)</small>" +
+												"<textarea class='form-control form-instruction-text' required></textarea>" +
+											"</div>" +
+											"<div class='col-md-1 col-md-offset-1'>" +
+												"<button class='form-block-delete btn btn-danger del-btn' type='button'>Delete</button>" +
+											"</div>" +
+										"</div>" +
+									"</div>";
+
 		$(document).ready(function(){
 			addQuestion();
 		});
 
 		$("#form-type").change(function(){
 			var type = $(this).val();
-			if(["resident", "fellow"].indexOf(type) == -1){
+			if(["resident", "self-resident", "fellow", "self-fellow"].indexOf(type) == -1){
 				$(".form-question-milestone").hide().prop("disabled", true);
 				$(".form-question-milestone-2").hide().prop("disabled", true);
 				$(".form-question-competency").hide().prop("disabled", true);
@@ -174,23 +191,45 @@
 
 		$(".form").on("change", ".form-question-type", function(){
 		//Changes the radio options for a single textarea when selecting text, or vice versa when selecting radio
+			var milestoneCompetencyFields = [
+				".form-question-milestone",
+				".form-question-milestone-2",
+				".form-question-competency"
+			];
+
+			var formQuestion = $(this).parents(".form-question");
+			var questionId = formQuestion.attr("id");
+
+			enableFields(formQuestion, milestoneCompetencyFields);
+
 			if($(this).val() === "radio"){
-				$(this).parents(".form-question").find(".form-options").html(radioHtml);
+				formQuestion.find(".form-options").html(radioHtml);
 			}
 			else if($(this).val() === "radiononnumeric"){
-				$(this).parents(".form-question").find(".form-options").html(radioNonNumericHtml);
+				formQuestion.find(".form-options").html(radioNonNumericHtml);
 			}
 			else if($(this).val() === "text"){
-				$(this).parents(".form-question").find(".form-options").html(textHtml);
-				var questionId = $(this).parents(".form-question").attr("id");
-				$(this).parents(".form-question").find("textarea").attr("name", questionId+":textResponse");
+				formQuestion.find(".form-options").html(textHtml);
+				formQuestion.find("textarea").attr("name", questionId+":textResponse");
+				disableFields(formQuestion, milestoneCompetencyFields);
 			}
 			else if($(this).val() === "number"){
-				$(this).parents(".form-question").find(".form-options").html(numberHtml);
-				var questionId = $(this).parents(".form-question").attr("id");
-				$(this).parents(".form-question").find(".form-options :input[type='number']").attr("name", questionId+":numberResponse");
+				formQuestion.find(".form-options").html(numberHtml);
+				formQuestion.find(".form-options :input[type='number']").attr("name", questionId+":numberResponse");
 			}
 		});
+
+		function disableFields(formQuestion, fields, disabled){
+			disabled = typeof disabled !== "undefined" ? disabled : true;
+
+			for(var i = 0; i < fields.length; i++){
+				formQuestion.find(fields[i]).prop("disabled", disabled);
+			}
+		}
+
+		function enableFields(formQuestion, fields){
+			disableFields(formQuestion, fields, false);
+		}
 
 		$(".form").on("change", ".form-option-value", function(){
 		//Adds input boxes for a new option when giving the current option a numeric value
@@ -217,9 +256,9 @@
 
 		});
 
-		$(".form").on("click", ".form-question-delete", function(){
-		//Removes the selected question
-			$(this).parents(".form-question").remove();
+		$(".form").on("click", ".form-block-delete", function(){
+		// Removes the current block
+			$(this).parents(".form-block").remove();
 		});
 
 		$(".form").on("click", ".form-question-standard-options", function(){
@@ -230,7 +269,7 @@
 			formOptions.html("");
 			var formOption = "";
 			var options;
-			if(formType == "resident"){
+			if(["resident", "self-resident"].indexOf(formType) !== -1){
 				options = [
 					{value: 0, text: "Not at CBY"},
 					{value: 1, text: ""},
@@ -245,7 +284,7 @@
 					{value: 10, text: "Attending"}
 				];
 			}
-			else if(formType == "fellow"){
+			else if(["fellow", "self-fellow"].indexOf(formType) !== -1){
 				options = [
 					{value: 0, text: "Not at fellowship level"},
 					{value: 1, text: ""},
@@ -293,14 +332,15 @@
 		function addQuestion(){
 		//Adds a question to the end of the form
 			var type = $("#form-type").val();
-			if($(".form").children().length == 0){
+			var questionId;
+			if($(".form").children(".form-question").length == 0){
 				questionId = "q1";
 			}
 			else{
-				var questionId = $(".form").children(".form-question").last().attr("id");
+				questionId = $(".form").children(".form-question").last().attr("id");
 				var questionIdNum = parseFloat(questionId.substring(1));
 				questionIdNum++;
-				questionId = questionId.substring(0, 1)+questionIdNum;
+				questionId = questionId.substring(0, 1) + questionIdNum;
 			}
 
 			$(".form").append(questionHtml);
@@ -317,7 +357,7 @@
 			newQuestion.find(".form-question-weight").attr("name", questionId+":weight");
 			newQuestion.find(".form-question-required").attr("name", questionId+":required");
 
-			if(["resident", "fellow"].indexOf(type) === -1){
+			if(["resident", "self-resident", "fellow", "self-fellow"].indexOf(type) === -1){
 				$(".form-question-milestone").hide().prop("disabled", true);
 				$(".form-question-milestone-2").hide().prop("disabled", true);
 				$(".form-question-competency").hide().prop("disabled", true);
@@ -327,6 +367,28 @@
 					newQuestion.find(".form-question-required").prop("checked", true);
 			}
 		}
+
+		$("#add-instruction-block").click(function(){
+			var blockId;
+			if($(".form").children(".form-instruction-block").length == 0){
+				blockId = "i1";
+			}
+			else{
+				blockId = $(".form").children(".form-instruction-block").last().attr("id");
+				var blockIdNum = parseFloat(blockId.substring(1));
+				blockIdNum++;
+				blockId = blockId.substring(0, 1) + blockIdNum;
+			}
+
+			$(".form").append(instructionBlockHtml);
+			var newBlock = $(".form").children(".form-instruction-block").last();
+			newBlock.attr("id", blockId);
+			newBlock.find(".form-instruction-text").attr("id", "form-instruction-text-" + blockId);
+			newBlock.find("label").attr("for", "form-instruction-text-" + blockId);
+			newBlock.find(".form-instruction-text").attr("name", blockId + ":instruction");
+		});
+
+
 
 		$("#evaluation-form").submit(checkForm);
 
@@ -350,6 +412,13 @@
 				if($(this).val() === "" && ($(this).siblings(".form-option-text").val() !== "" || $(this).siblings(".form-option-description").val() !== "")){
 					$(this).focus();
 					alertText = "An option cannot be submitted without a value. Please either assign a value or remove the option text and description for the selected option.";
+					validForm = false;
+				}
+			});
+			$(".form-question-description").each(function(){
+				if($(this).val().trim() === ""){
+					$(this).focus();
+					alertText = "A description block must not be empty.";
 					validForm = false;
 				}
 			});

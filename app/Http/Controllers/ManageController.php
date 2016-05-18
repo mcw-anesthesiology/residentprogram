@@ -466,6 +466,9 @@ class ManageController extends Controller
     		else if(strpos($key, "description") !== false){
     			$option->addAttribute("description", $value);
     		}
+            else if(strpos($key, "instruction") !== false){
+                $form->addChild("instruction", htmlspecialchars($value));
+            }
     		else{
     			$optionValue = substr($key, strpos($key, ":")+1);
     			$optionValue = substr($optionValue, 0, strpos($optionValue, ":"));
@@ -487,6 +490,16 @@ class ManageController extends Controller
         $newForm->title = $formTitle;
 
         switch($formType){
+            case "self-resident":
+                $newForm->type = "resident";
+                $newForm->evaluator_type = "self";
+                $newForm->visibility = "visible";
+                break;
+            case "self-fellow":
+                $newForm->type = "fellow";
+                $newForm->evaluator_type = "self";
+                $newForm->visibility = "visible";
+                break;
             case "faculty":
                 $newForm->type = "faculty";
                 $newForm->evaluator_type = "resident";
@@ -516,12 +529,14 @@ class ManageController extends Controller
         $newForm->save();
 
         if(in_array($formType, ["resident", "fellow"])){
-            foreach($milestones as $questionId => $milestoneId){
-                $mq = new MilestoneQuestion();
-                $mq->form_id = $newForm->id;
-                $mq->question_id = $questionId;
-                $mq->milestone_id = $milestoneId;
-                $mq->save();
+            if(isset($milestones)){
+                foreach($milestones as $questionId => $milestoneId){
+                    $mq = new MilestoneQuestion();
+                    $mq->form_id = $newForm->id;
+                    $mq->question_id = $questionId;
+                    $mq->milestone_id = $milestoneId;
+                    $mq->save();
+                }
             }
             if(isset($milestones2)){
                 foreach($milestones2 as $questionId => $milestoneId){
@@ -533,12 +548,14 @@ class ManageController extends Controller
                 }
             }
 
-            foreach($competencies as $questionId => $milestoneId){
-                $cq = new CompetencyQuestion();
-                $cq->form_id = $newForm->id;
-                $cq->question_id = $questionId;
-                $cq->competency_id = $milestoneId;
-                $cq->save();
+            if(isset($competencies)){
+                foreach($competencies as $questionId => $milestoneId){
+                    $cq = new CompetencyQuestion();
+                    $cq->form_id = $newForm->id;
+                    $cq->question_id = $questionId;
+                    $cq->competency_id = $milestoneId;
+                    $cq->save();
+                }
             }
         }
 
