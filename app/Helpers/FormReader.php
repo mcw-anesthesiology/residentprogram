@@ -14,9 +14,10 @@ class FormReader{
 	protected $questionHasDescriptions = false;
 	protected $result = "";
 	protected $characterData = "";
+	protected $transformCharacterData = false;
 
 	static function startElement($parser, $name, $attrs){
-		global $questionType, $questionName, $description, $questionHasDescriptions, $required, $result, $characterData;
+		global $questionType, $questionName, $description, $questionHasDescriptions, $required, $result, $characterData, $transformCharacterData;
 
 		$characterData = "";
 
@@ -56,16 +57,23 @@ class FormReader{
 			$result .= "<h2 class='heading'>";
 		}
 		elseif($name == "instruction"){
+			$transformCharacterData = true;
 			$result .= "<div class='instruction'>";
 		}
 
 	}
 
 	static function endElement($parser, $name){
-		global $questionType, $questionName, $description, $questionHasDescriptions, $required, $result, $characterData;
+		global $questionType, $questionName, $description, $questionHasDescriptions, $required, $result, $characterData, $transformCharacterData;
 
 		if($characterData){
-			$result .= Markdown::defaultTransform($characterData);
+			if($transformCharacterData)
+				$result .= Markdown::defaultTransform($characterData);
+			else
+				$result .= $characterData;
+
+			$characterData = "";
+			$transformCharacterData = false;
 		}
 
 		if($name == "form"){
@@ -74,10 +82,10 @@ class FormReader{
 		else if($name == "question"){
 
 			if($questionType == "text"){
-				$result .= "<div class='question-option {$questionName}'><textarea name='{$questionName}' {$required}></textarea></div>";
+				$result .= "<div class='question-option {$questionName}'><textarea class='form-control' name='{$questionName}' {$required}></textarea></div>";
 			}
 			elseif($questionType == "number"){
-				$result .= "<div class='question-option {$questionName}'><input type='number' name='{$questionName}' {$required} /></div>";
+				$result .= "<div class='question-option {$questionName}'><input type='number' class='form-control' name='{$questionName}' {$required} /></div>";
 			}
 			elseif(in_array($questionType, ["radio", "radiononnumeric"])){
 				if($questionHasDescriptions){
