@@ -41,7 +41,8 @@ var scripts = [
     bowerPath + "select2/dist/js/select2.min.js",
     bowerPath + "Chart.js/Chart.min.js",
     bowerPath + "bootstrap-switch/dist/js/bootstrap-switch.min.js",
-    bowerPath + "marked/marked.min.js"
+    bowerPath + "marked/marked.min.js",
+    bowerPath + "country-region-selector/dist/jquery.crs.min.js"
 ];
 
 var styles = [

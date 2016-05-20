@@ -64,8 +64,8 @@ Route::get("directory/csv", "MainController@getPagerCSV");
 Route::post("directory/edit", "ManageController@editPagerDirectoryEntry");
 Route::post("directory/delete", "ManageController@deletePagerDirectoryEntry");
 
-Route::get("alumni", "MainController@alumni");
-Route::post("alumni", "MainController@saveAlumni");
+Route::get("alumni/{hash}", "MainController@alumni");
+Route::post("alumni/{hash}", "MainController@saveAlumni");
 
 Route::get("contact", "MainController@contact");
 Route::post("contact", "MainController@saveContact");

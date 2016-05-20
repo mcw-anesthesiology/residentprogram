@@ -1095,9 +1095,10 @@ class MainController extends Controller
             $alum = Alum::where("update_hash", $hash)->firstOrFail();
 
             $data = compact("alum");
-            return view("dashboard.alumni", $data);
+            return view("dashboard.alumni", $data)->with(["noNavbar" => true]);
         }
         catch(ModelNotFoundException $e){
+            // return view("dashboard.invalid-alumni-link")->with(["noNavbar" => true]);
             back()->with("error", "Sorry, looks like the url is not correct. Please check the link you were given.");
         }
     }
@@ -1111,9 +1112,19 @@ class MainController extends Controller
                     "request" => $request,
                     "hash" => $hash
                 ]);
+
+            if($request->has("ajax") && $request->input("ajax"))
+                return $numUpdated;
+            else{
+                $alum = Alum::where("update_hash", $hash)->firstOrFail()
+                return view("dashboard.alumni", $data)->with("success", "Information saved successfully. Thank you!");
+            }
         }
         catch(ModelNotFoundException $e){
-            return "Alum not found.";
+            if($request->has("ajax") && $request->input("ajax"))
+                return 0;
+            else
+                return view("dashboard.alumni", $data)
         }
     }
 }

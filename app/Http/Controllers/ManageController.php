@@ -936,7 +936,7 @@ class ManageController extends Controller
     }
 
     public function alumni(Request $request){
-        // TODO
+        return view("manage.alumni");
     }
 
     public function saveAlumni(Request $request){

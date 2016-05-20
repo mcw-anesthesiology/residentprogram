@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "36483461338dbe9a1d00d8e49be2e7cb",
-    "content-hash": "213b32413ae9cdae757180dc4c1f6e53",
+    "hash": "fb0539699a3cf0d6072bd2c4704d80bf",
+    "content-hash": "d8ac366505113b7261fa5967604b4ba2",
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -2774,6 +2774,39 @@
                 "statistics"
             ],
             "time": "2015-10-16 20:41:35"
+        },
+        {
+            "name": "turkeyfried/us-state-lists",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TurkeyFried/us-state-lists.git",
+                "reference": "3c36bb81d97c2acface8405de3be37ea897a8958"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TurkeyFried/us-state-lists/zipball/3c36bb81d97c2acface8405de3be37ea897a8958",
+                "reference": "3c36bb81d97c2acface8405de3be37ea897a8958",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "usStateCodes\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Luis Pabon",
+                    "email": "turkeyfried@gmail.com"
+                }
+            ],
+            "description": "PHP Class that contains state codes",
+            "time": "2014-12-30 22:43:45"
         },
         {
             "name": "vlucas/phpdotenv",
