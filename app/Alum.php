@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Mail;
+
 class Alum extends Model
 {
     protected $table = "alumni";
@@ -39,7 +41,7 @@ class Alum extends Model
 		return $this->last_name . ", " . $this->first_name;
 	}
 
-    public function sendEmail($text){
+    public function sendEmail(){
         while(!$this->update_hash){
             $this->update_hash = str_random(40);
             $this->save();
@@ -47,7 +49,7 @@ class Alum extends Model
         }
 
         if(!$this->email)
-            throw new Exception("No email.");
+            throw new \Exception("No email.");
 
         $email = $this->email;
 

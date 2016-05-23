@@ -5,6 +5,7 @@
 	<div class="alumni-alert-container"></div>
 	<div>
 		<form class="form" id="alumni-form" role="form" method="post" action="#">
+			{!! csrf_field() !!}
 			<div class="form-group">
 				<label for="first-name">First name</label>
 				<input type="text" class="form-control" id="first-name" name="first_name" value="{{ $alum->first_name }}" placeholder="First name" required />
@@ -30,7 +31,7 @@
 				<select class="form-control" id="state" name="state" data-default-value="{{ $alum->state or 'Wisconsin' }}"></select>
 			</div>
 			<div class="form-group">
-				<button type="submit">Save information</button>
+				<button type="submit" class="btn btn-primary">Save information</button>
 			</div>
 		</form>
 	</div>

@@ -1004,7 +1004,7 @@ class ManageController extends Controller
                         $responseInfo["success"] = $success;
                     }
                     $responseInfo["info"] = count($successfulEmails) .
-                        " emails sent successfully. " count($failedEmails) .
+                        " emails sent successfully. " . count($failedEmails) .
                         " failed attempts.";
 
                     if($isAjax){
@@ -1025,7 +1025,7 @@ class ManageController extends Controller
                 "please let me know at " . config("app.admin_email");
         } catch(\Swift_TransportException $e){
             Log::error("Problem sending alumni email: " . $e);
-            $message = "There was a problem sending the alumni email for {$alum-}"
+            $message = "There was a problem sending the alumni email to {$alum->email}";
         } catch(InvalidArgumentException $e){
             $message = $e->getMessage();
         } catch (\Exception $e) {

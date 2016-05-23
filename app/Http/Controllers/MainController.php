@@ -1117,17 +1117,21 @@ class MainController extends Controller
             if($request->has("ajax") && $request->input("ajax"))
                 return $numUpdated;
             else{
-                $alum = Alum::where("update_hash", $hash)->firstOrFail()
+                $alum = Alum::where("update_hash", $hash)->firstOrFail();
+                $data = compact("alum");
                 return view("dashboard.alumni", $data)->with(["success" => "Information saved successfully. Thank you!", "noNavbar" => true]);
             }
         }
         catch(\Exception $e){
             if($request->has("ajax") && $request->input("ajax"))
                 return 0;
-            else
+            else{
+                $alum = Alum::where("update_hash", $hash)->firstOrFail();
+                $data = compact("alum");
                 return view("dashboard.alumni", $data)->with(["error" => "Sorry, there was a problem saving your information. " .
-					"If this continues to happen, please send me your information " .
-					"directly at jmischka@mcw.edu and I will make sure it's properly saved. Thank you!", "noNavbar" => true]);
+                "If this continues to happen, please send me your information " .
+                "directly at jmischka@mcw.edu and I will make sure it's properly saved. Thank you!", "noNavbar" => true]);
+            }
         }
     }
 }
