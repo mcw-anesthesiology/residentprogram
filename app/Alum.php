@@ -31,7 +31,36 @@ class Alum extends Model
         "graduation_date"
     ];
 
+    protected $appends = [
+        "full_name"
+    ];
+
+    public function getFullNameAttribute(){
+		return $this->last_name . ", " . $this->first_name;
+	}
+
     public function sendEmail($text){
-        // TODO
+        while(!$this->update_hash){
+            $this->update_hash = str_random(40);
+            $this->save();
+            $this->fresh();
+        }
+
+        if(!$this->email)
+            throw new Exception("No email.");
+
+        $email = $this->email;
+
+        $data = [
+            "lastName" => $this->last_name,
+            "hash" => $this->update_hash
+        ];
+        Mail::send("emails.alumni-update", $data, function($message) use ($email){
+            $message
+                ->from("alumni@residentprogram.com", "MCW Anesthesiology Alumni")
+                ->to($email)
+                ->replyTo(config("app.admin_email"))
+                ->subject("Please keep in touch!");
+        });
     }
 }

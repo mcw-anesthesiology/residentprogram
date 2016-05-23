@@ -23,6 +23,7 @@ use Setting;
 
 use Carbon\Carbon;
 
+use App\Alum;
 use App\Block;
 use App\BlockAssignment;
 use App\Competency;
@@ -939,7 +940,111 @@ class ManageController extends Controller
         return view("manage.alumni");
     }
 
-    public function saveAlumni(Request $request){
-        // TODO
+    public function getAlumni(Request $request){
+        $results["data"] = [];
+        $alumni = Alum::all();
+        foreach($alumni as $alum){
+            try {
+                $result = [];
+                $result[] = $alum->full_name;
+                $result[] = $alum->email;
+                $result[] = $alum->graduation_date->format("Y");
+
+                $actionButtons = "<button type='button' class='btn btn-xs btn-info alumni-send-update-email-button' data-id='{$alum->id}'>Send update email</button>";
+
+                $result[] = $actionButtons;
+
+                $results["data"][] = $result;
+            } catch(\Exception $e){
+                Log::error("Problem with alumn: " . $e);
+            }
+        }
+    }
+
+    public function saveAlumni(Request $request, $action){
+        try {
+            $isAjax = ($request->has("ajax") && $request->input("ajax"));
+            $successful = false;
+            switch($action){
+                case "add":
+                    $alum = Alum::create($request->all());
+                    $emailSuccessful = $alum->sendEmail();
+                    break;
+                case "send":
+                    $alum = Alum::findOrFail($request->input("id"));
+                    $emailSuccessful = $alum->sendEmail();
+                    break;
+                case "send-all":
+                    $successfulEmails = [];
+                    $failedEmails = [];
+                    foreach(Alum::all() as $alum){
+                        try {
+                            $alum->sendEmail();
+                            $successfulEmails[] = $alum;
+                        } catch(\Swift_TransportException $e){
+                            $failedEmails[] = $alum;
+                        }
+                    }
+
+                    $responseInfo = [];
+                    if(count($failedEmails) > 0){
+                        $error = "Failed sending emails to ";
+                        foreach($failedEmails as $failedAlum){
+                            $error .= $failedAlum->email . ", ";
+                        }
+                        $error = substr($error, -2); // Remove final ', '
+                        $responseInfo["error"] = $error;
+                    }
+                    if(count($successfulEmails) > 0){
+                        $success = "Successfully sent emails to ";
+                        foreach($successfulEmails as $successfulAlum){
+                            $success .= $successfulAlum->email . ", ";
+                        }
+                        $success = substr($success, -2); // Remove final ', '
+                        $responseInfo["success"] = $success;
+                    }
+                    $responseInfo["info"] = count($successfulEmails) .
+                        " emails sent successfully. " count($failedEmails) .
+                        " failed attempts.";
+
+                    if($isAjax){
+                        return $responseInfo;
+                    }
+                    else{
+                        return back()->with($responseInfo);
+                    }
+                    break;
+                default:
+                    throw new InvalidArgumentException("Unsupported alumni action");
+                    break;
+            }
+            $successful = true;
+        } catch (ModelNotFoundException $e) {
+            Log::error("No alum found: " . $e);
+            $message = "The requested alum was not found. If this continues, " .
+                "please let me know at " . config("app.admin_email");
+        } catch(\Swift_TransportException $e){
+            Log::error("Problem sending alumni email: " . $e);
+            $message = "There was a problem sending the alumni email for {$alum-}"
+        } catch(InvalidArgumentException $e){
+            $message = $e->getMessage();
+        } catch (\Exception $e) {
+            Log::error("Problem with saveAlumni: " . $e);
+            $message = "There was a problem saving the alum. If this continues, " .
+                "please let me know at " . config("app.admin_email");
+        }
+
+        if($successful){
+            if($isAjax)
+                return "successful";
+            else
+                return back();
+        }
+        else{
+            if($isAjax)
+                return $message;
+            else
+                return back()->with("error", $message);
+        }
     }
 }

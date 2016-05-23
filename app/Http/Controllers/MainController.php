@@ -19,6 +19,7 @@ use View;
 
 use Carbon\Carbon;
 
+use App\Alum;
 use App\Block;
 use App\BlockAssignment;
 use App\Contact;
@@ -1099,7 +1100,7 @@ class MainController extends Controller
         }
         catch(ModelNotFoundException $e){
             // return view("dashboard.invalid-alumni-link")->with(["noNavbar" => true]);
-            back()->with("error", "Sorry, looks like the url is not correct. Please check the link you were given.");
+            return back()->with(["error" => "Sorry, looks like the url is not correct. Please check the link you were given.", "noNavbar" => true]);
         }
     }
 
@@ -1117,14 +1118,16 @@ class MainController extends Controller
                 return $numUpdated;
             else{
                 $alum = Alum::where("update_hash", $hash)->firstOrFail()
-                return view("dashboard.alumni", $data)->with("success", "Information saved successfully. Thank you!");
+                return view("dashboard.alumni", $data)->with(["success" => "Information saved successfully. Thank you!", "noNavbar" => true]);
             }
         }
-        catch(ModelNotFoundException $e){
+        catch(\Exception $e){
             if($request->has("ajax") && $request->input("ajax"))
                 return 0;
             else
-                return view("dashboard.alumni", $data)
+                return view("dashboard.alumni", $data)->with(["error" => "Sorry, there was a problem saving your information. " .
+					"If this continues to happen, please send me your information " .
+					"directly at jmischka@mcw.edu and I will make sure it's properly saved. Thank you!", "noNavbar" => true]);
         }
     }
 }

@@ -101,7 +101,8 @@ Route::post("manage/block-assignments", "ManageController@saveBlockAssignments")
 Route::post("manage/block-assignments/table", "ManageController@blockAssignmentsTable");
 Route::post("manage/block-assignments/get", "ManageController@getBlockAssignments");
 Route::get("manage/alumni", "ManageController@alumni");
-Route::post("manage/alumni", "ManageController@saveAlumni");
+Route::get("manage/alumni/get", "ManageController@getAlumni");
+Route::post("manage/alumni/{action}", "ManageController@saveAlumni");
 
 Route::post("report/aggregate", "ReportController@aggregate");
 Route::post("report/specific", "ReportController@specific");

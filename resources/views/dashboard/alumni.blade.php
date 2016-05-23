@@ -1,7 +1,8 @@
 @extends("app")
 
 @section("body")
-	{{-- TODO --}}
+	<h1>MCW Alumni</h1>
+	<div class="alumni-alert-container"></div>
 	<div>
 		<form class="form" id="alumni-form" role="form" method="post" action="#">
 			<div class="form-group">
@@ -41,11 +42,18 @@
 			event.preventDefault();
 
 			var formData = $(this).serialize();
+			var errorText = "Sorry, there was a problem saving your information. " +
+				"If this continues to happen, please send me your information " +
+				"directly at jmischka@mcw.edu and I will make sure it's properly saved. Thank you!";
 
 			$.post("#", formData, function(response){
+				if(response > 0)
+					appendAlert("Information saved successfully. Thank you!", ".alumni-alert-container", "success");
+				else
+					appendAlert(errorText, ".alumni-alert-container");
 
 			}).fail(function(err){
-				
+				appendAlert(errorText, ".alumni-alert-container");
 			});
 		});
 	</script>
