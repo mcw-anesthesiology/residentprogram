@@ -27,6 +27,7 @@ class CreateAlumniTable extends Migration
             $table->date("graduation_date")->nullable();
             $table->text("notes")->nullable();
             $table->string("update_hash")->nullable()->unique();
+            $table->boolean("do_not_contact")->default(false);
             $table->timestamps();
         });
     }

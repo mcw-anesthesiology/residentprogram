@@ -42,12 +42,13 @@
 		$("#alumni-form").submit(function(event){
 			event.preventDefault();
 
-			var formData = $(this).serialize();
+			var formData = $(this).serialize() + "&ajax=true";
 			var errorText = "Sorry, there was a problem saving your information. " +
 				"If this continues to happen, please send me your information " +
 				"directly at jmischka@mcw.edu and I will make sure it's properly saved. Thank you!";
 
 			$.post("#", formData, function(response){
+				console.log(response);
 				if(response > 0)
 					appendAlert("Information saved successfully. Thank you!", ".alumni-alert-container", "success");
 				else

@@ -52,12 +52,24 @@
 
 @section("script")
 	<script>
-		// $("#add-alum-form").submit(function(event){
-		// 	event.preventDefault();
-		//
-		// 	var formData = $(this).serialize();
-		// 	var target = $(this).prop("action");
-		//
-		// });
+		$("#add-alum-form").submit(function(event){
+			event.preventDefault();
+			var submitButton = $(this).find("button[type='submit']");
+			submitButton.prop("disabled", true).addClass("disabled");
+
+			var formData = $(this).serialize() + "&ajax=true";
+			var target = $(this).prop("action");
+			$.post(target, formData, function(response){
+				if(response == "successful"){
+					$("#add-alum-modal").modal("hide");
+				} else {
+					appendAlert(response, "#add-alum-modal .modal-header");
+				}
+				submitButton.prop("disabled", false).removeClass("disabled");
+			}).fail(function(err){
+				appendAlert("There was a problem adding the alum. If this continues, please let me know at jmischka@mcw.edu", "#add-alum-modal .modal-header");
+				submitButton.prop("disabled", false).removeClass("disabled");
+			});
+		});
 	</script>
 @stop

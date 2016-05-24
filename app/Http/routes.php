@@ -66,6 +66,8 @@ Route::post("directory/delete", "ManageController@deletePagerDirectoryEntry");
 
 Route::get("alumni/{hash}", "MainController@alumni");
 Route::post("alumni/{hash}", "MainController@saveAlumni");
+Route::get("alumni/{hash}/unsubscribe", "MainController@unsubAlumni");
+Route::post("alumni/{hash}/unsubscribe", "MainController@confirmUnsubAlumni");
 
 Route::get("contact", "MainController@contact");
 Route::post("contact", "MainController@saveContact");

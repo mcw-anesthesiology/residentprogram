@@ -1100,13 +1100,13 @@ class MainController extends Controller
         }
         catch(ModelNotFoundException $e){
             // return view("dashboard.invalid-alumni-link")->with(["noNavbar" => true]);
-            return back()->with(["error" => "Sorry, looks like the url is not correct. Please check the link you were given.", "noNavbar" => true]);
+            return redirect("dashboard")->with("error", "Sorry, it looks like the url is not correct. Please check the link you were given.");
         }
     }
 
     public function saveAlumni(Request $request, $hash){
         try {
-            $numUpdated = Alum::where("update_hash", $hash)->update($request->all());
+            $numUpdated = Alum::where("update_hash", $hash)->update($request->except(["_token", "ajax"]));
 
             if($numUpdated > 1)
                 Log::error("More than 1 alum updated at once.", [
@@ -1121,8 +1121,10 @@ class MainController extends Controller
                 $data = compact("alum");
                 return view("dashboard.alumni", $data)->with(["success" => "Information saved successfully. Thank you!", "noNavbar" => true]);
             }
-        }
-        catch(\Exception $e){
+        } catch(ModelNotFoundException $e){
+            return redirect("dashboad")->with("error", "Sorry, it looks like that url is not correct. Please check the link you were given.");
+        } catch(\Exception $e){
+            Log::error("Problem saving alum: " . $e);
             if($request->has("ajax") && $request->input("ajax"))
                 return 0;
             else{
@@ -1133,5 +1135,19 @@ class MainController extends Controller
                 "directly at jmischka@mcw.edu and I will make sure it's properly saved. Thank you!", "noNavbar" => true]);
             }
         }
+    }
+
+    public function unsubAlumni(Request $request, $hash){
+        try {
+            // TODO
+        } catch(ModelNotFoundException $e){
+            return redirect("dashboard")->with("error", "Sorry, it looks like that url is not correct. Please check the link you were given.");
+        } catch(\Exception $e){
+            return redirect("alumni/" . $hash)->with("error", "Sorry, there was a problem unsubscribing you. Please send me an email at jmischka@mcw.edu and I will make sure you are unsubscribed.");
+        }
+    }
+
+    public function confirmUnsubAlumni(Request $request, $hash){
+        // TODO
     }
 }
