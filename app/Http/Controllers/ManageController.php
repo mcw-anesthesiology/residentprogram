@@ -948,7 +948,10 @@ class ManageController extends Controller
                 $result = [];
                 $result[] = $alum->full_name;
                 $result[] = $alum->email;
-                $result[] = $alum->graduation_date->format("Y");
+                if($alum->graduation_date)
+                    $result[] = $alum->graduation_date->format("Y");
+                else
+                    $result[] = "";
 
                 $actionButtons = "<button type='button' class='btn btn-xs btn-info alumni-send-update-email-button' data-id='{$alum->id}'>Send update email</button>";
 
@@ -959,6 +962,7 @@ class ManageController extends Controller
                 Log::error("Problem with alumn: " . $e);
             }
         }
+        return response()->json($results);
     }
 
     public function saveAlumni(Request $request, $action){
@@ -968,11 +972,12 @@ class ManageController extends Controller
             switch($action){
                 case "add":
                     $alum = Alum::create($request->all());
-                    $emailSuccessful = $alum->sendEmail();
+                    if($alum->email)
+                    $alum->sendEmail();
                     break;
                 case "send":
                     $alum = Alum::findOrFail($request->input("id"));
-                    $emailSuccessful = $alum->sendEmail();
+                    $alum->sendEmail();
                     break;
                 case "send-all":
                     $successfulEmails = [];
@@ -1015,7 +1020,7 @@ class ManageController extends Controller
                     }
                     break;
                 default:
-                    throw new InvalidArgumentException("Unsupported alumni action");
+                    throw new \InvalidArgumentException("Unsupported alumni action");
                     break;
             }
             $successful = true;
@@ -1025,8 +1030,10 @@ class ManageController extends Controller
                 "please let me know at " . config("app.admin_email");
         } catch(\Swift_TransportException $e){
             Log::error("Problem sending alumni email: " . $e);
-            $message = "There was a problem sending the alumni email to {$alum->email}";
-        } catch(InvalidArgumentException $e){
+            $message = "There was a problem sending the alumni email.";
+            if($action == "add")
+                $message .= " The record was still created. Please do not create a new record, instead try modifying the record and resending the email.";
+        } catch(\InvalidArgumentException $e){
             $message = $e->getMessage();
         } catch (\Exception $e) {
             Log::error("Problem with saveAlumni: " . $e);

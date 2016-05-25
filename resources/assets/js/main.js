@@ -114,6 +114,108 @@ function unlimitTableEvals(settings, json){
 	dt.ajax.url(url.substring(0, url.lastIndexOf("/"))).load().draw();
 }
 
+function addDateSelectors(dateName, idPrefix, containerQuery, defaultMonth, lastDaySelectedByDefault){
+	// This is a better input method, but I wanted a non-js fallback so that's the default
+
+	var html =
+	'<input type="hidden" id="' + idPrefix +  'date" name="' + dateName + '" />' +
+	'<div class="row">' +
+		'<div class="col-md-4">' +
+			'<label for="' + idPrefix +  'date-year">Year</label>' +
+			'<select class="form-control" id="' + idPrefix +  'date-year"></select>' +
+		'</div>' +
+		'<div class="col-md-4">' +
+			'<label for="' + idPrefix +  'date-month">Month</label>' +
+			'<select class="form-control" id="' + idPrefix +  'date-month"></select>' +
+		'</div>' +
+		'<div class="col-md-4">' +
+			'<label for="' + idPrefix +  'date-day">Day</label>' +
+			'<select class="form-control" id="' + idPrefix +  'date-day"></select>' +
+		'</div>' +
+	'</div>';
+
+	var container = $(containerQuery);
+	container.append(html);
+	var option;
+
+	var yearSelect = container.find("#" + idPrefix +  "date-year")[0];
+	var year = moment().get("year");
+	for(var i = 0; i < 100; i++, year--){
+		option = document.createElement("option");
+		option.value = year;
+		option.appendChild(document.createTextNode(year));
+		yearSelect.appendChild(option);
+	}
+
+	var monthSelect = container.find("#" + idPrefix +  "date-month")[0];
+	moment.months().forEach(function(month, index){
+		option = document.createElement("option");
+		option.value = index;
+		option.appendChild(document.createTextNode(month));
+		if(index == defaultMonth)
+			option.selected = true;
+		monthSelect.appendChild(option);
+	});
+
+	var daySelect = container.find("#" + idPrefix +  "date-day")[0];
+	for(var day = 0; day <= 30; day++){
+		option = document.createElement("option");
+		option.value = day;
+		option.appendChild(document.createTextNode(day));
+		if(day == 30 & lastDaySelectedByDefault)
+			option.selected = true;
+		daySelect.appendChild(option);
+	}
+
+	$("#" + idPrefix +  "date-year").change(function(){
+		var daySelect = $("#" + idPrefix +  "date-day")[0];
+		while(daySelect.firstChild)
+			daySelect.removeChild(daySelect.firstChild);
+
+		var year = parseInt($(this).val(), 10);
+		var month = parseInt($("#" + idPrefix +  "date-month").val(), 10);
+		var daysInMonth = moment().year(year).month(month).daysInMonth();
+		for(var day = 1; day <= daysInMonth; day++){
+			option = document.createElement("option");
+			option.value = day;
+			option.appendChild(document.createTextNode(day));
+			if(day == daysInMonth && lastDaySelectedByDefault)
+				option.selected = true;
+			daySelect.appendChild(option);
+		}
+	});
+
+	$("#" + idPrefix +  "date-month").change(function(){
+		var date = moment($("#" + idPrefix + "date").val());
+		var daySelect = $("#" + idPrefix +  "date-day")[0];
+		while(daySelect.firstChild)
+			daySelect.removeChild(daySelect.firstChild);
+
+		var month = parseInt($(this).val(), 10);
+		var year = parseInt($("#" + idPrefix +  "date-year").val(), 10);
+		var daysInMonth = moment().year(year).month(month).daysInMonth();
+		for(var day = 1; day <= daysInMonth; day++){
+			option = document.createElement("option");
+			option.value = day;
+			option.appendChild(document.createTextNode(day));
+			if(day == daysInMonth && lastDaySelectedByDefault)
+				option.selected = true;
+			daySelect.appendChild(option);
+		}
+	});
+
+	function updateDate(){
+		var year = parseInt($("#" + idPrefix +  "date-year").val(), 10);
+		var month = parseInt($("#" + idPrefix +  "date-month").val(), 10);
+		var day = parseInt($("#" + idPrefix +  "date-day").val(), 10);
+
+		var date = moment().year(year).month(month).date(day);
+		$("#" + idPrefix +  "date").val(date.format("YYYY-MM-DD"));
+	}
+
+	$("#" + idPrefix +  "date-year, #" + idPrefix +  "date-month, #" + idPrefix +  "date-day").change(updateDate);
+}
+
 $(document).ready(function(){
 	$.fn.dataTable.moment( "DD-MMM-YYYY h:mm A" );
 

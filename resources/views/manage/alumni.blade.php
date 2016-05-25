@@ -2,9 +2,17 @@
 
 @section("body")
 	<h1>Manage Alumni <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#add-alum-modal">Add alumni</button></h1>
-	<div class="">
-
+	<div class="alumni-list">
+		<table class="table table-striped datatable" id="alumni-table">
+			<thead>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Graduation year</th>
+				<th></th>
+			</thead>
+		</table>
 	</div>
+
 	<div class="modal fade" id="add-alum-modal" tabindex="-1" role="dialog" aria-labelledby="add-alum-modal-title" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -22,6 +30,15 @@
 						<div class="form-group">
 							<label for="add-alum-last-name">Last name</label>
 							<input type="text" class="form-control" id="add-alum-last-name" name="last_name" placeholder="Last name" required />
+						</div>
+						<div class="form-group">
+							<label for="add-alum-email">Email</label>
+							<input type="email" class="form-control" id="add-alum-email" name="email" placeholder="Email" />
+							<small>Not required, but can't send update requests without one</small>
+						</div>
+						<div class="form-group graduation-date-container">
+							<label for="add-alum-graduation-date">Graduation date</label>
+							<input type="text" class="form-control" id="add-alum-graduation-date" name="graduation_date" placeholder="Graduation date (YYYY-MM-DD)" />
 						</div>
 						<div class="form-group">
 							<label for="add-alum-country">Country</label>
@@ -52,6 +69,9 @@
 
 @section("script")
 	<script>
+		$("#add-alum-graduation-date").remove();
+		addDateSelectors("graduation_date", "add-alum-graduation-", ".graduation-date-container", 5, true);
+
 		$("#add-alum-form").submit(function(event){
 			event.preventDefault();
 			var submitButton = $(this).find("button[type='submit']");
@@ -70,6 +90,17 @@
 				appendAlert("There was a problem adding the alum. If this continues, please let me know at jmischka@mcw.edu", "#add-alum-modal .modal-header");
 				submitButton.prop("disabled", false).removeClass("disabled");
 			});
+		});
+
+		$("#alumni-table").DataTable({
+			ajax: {
+				url: "/manage/alumni/get",
+				type: "GET"
+			},
+			order: [[2, 'desc']],
+			createdRow: function(row, data, index){
+				$(row).addClass("alum");
+			}
 		});
 	</script>
 @stop

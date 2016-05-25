@@ -33,6 +33,7 @@
 	</head>
 	<body>
 		<div class="container-fluid">
+	{{-- TODO: Should not do this, use inheretence --}}
 	@if(empty($noNavbar) || !$noNavbar)
 		@include("navbar")
 	@endif
@@ -64,7 +65,7 @@
 				@yield("body")
 			</div>
 		</div>
-
+	{{-- TODO: Should not do this, use inheretence --}}
 	@if(empty($noNavbar) || !$noNavbar)
 		@include("modals")
 	@endif

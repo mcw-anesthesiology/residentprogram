@@ -38,10 +38,20 @@ class MainController extends Controller
         $this->middleware("auth", ["except" => [
             "evaluationByHashLink",
             "saveEvaluationByHashLink",
-            "alumni"
+            "alumni",
+            "saveAlumni",
+            "unsubAlumni",
+            "confirmUnsubAlumni"
         ]]);
 
-        $this->middleware("shared", ["except" => ["evaluationByHashLink", "saveEvaluationByHashLink"]]);
+        $this->middleware("shared", ["except" => [
+            "evaluationByHashLink",
+            "saveEvaluationByHashLink",
+            "alumni",
+            "saveAlumni",
+            "unsubAlumni",
+            "confirmUnsubAlumni"
+        ]]);
 
 		$this->middleware("type:admin", ["only" => ["flaggedEvaluations", "getEvaluation"]]);
     }
@@ -1094,13 +1104,12 @@ class MainController extends Controller
     public function alumni(Request $request, $hash){
         try {
             $alum = Alum::where("update_hash", $hash)->firstOrFail();
-
-            $data = compact("alum");
+            $ADMIN_EMAIL = config("app.admin_email");
+            $data = compact("alum", "ADMIN_EMAIL");
             return view("dashboard.alumni", $data)->with(["noNavbar" => true]);
         }
         catch(ModelNotFoundException $e){
-            // return view("dashboard.invalid-alumni-link")->with(["noNavbar" => true]);
-            return redirect("dashboard")->with("error", "Sorry, it looks like the url is not correct. Please check the link you were given.");
+            return view("dashboard.alumni.invalid-url")->with("noNavbar", true);
         }
     }
 
@@ -1118,36 +1127,59 @@ class MainController extends Controller
                 return $numUpdated;
             else{
                 $alum = Alum::where("update_hash", $hash)->firstOrFail();
-                $data = compact("alum");
+                $ADMIN_EMAIL = config("app.admin_email");
+                $data = compact("alum", "ADMIN_EMAIL");
                 return view("dashboard.alumni", $data)->with(["success" => "Information saved successfully. Thank you!", "noNavbar" => true]);
             }
         } catch(ModelNotFoundException $e){
-            return redirect("dashboad")->with("error", "Sorry, it looks like that url is not correct. Please check the link you were given.");
+            return view("dashboard.alumni.invalid-url")->with("noNavbar", true);
         } catch(\Exception $e){
             Log::error("Problem saving alum: " . $e);
             if($request->has("ajax") && $request->input("ajax"))
                 return 0;
             else{
                 $alum = Alum::where("update_hash", $hash)->firstOrFail();
-                $data = compact("alum");
+                $ADMIN_EMAIL = config("app.admin_email");
+                $data = compact("alum", "ADMIN_EMAIL");
                 return view("dashboard.alumni", $data)->with(["error" => "Sorry, there was a problem saving your information. " .
                 "If this continues to happen, please send me your information " .
-                "directly at jmischka@mcw.edu and I will make sure it's properly saved. Thank you!", "noNavbar" => true]);
+                "directly at " . config("app.admin_email") . " and I will make sure it's properly saved. Thank you!", "noNavbar" => true]);
             }
         }
     }
 
     public function unsubAlumni(Request $request, $hash){
         try {
-            // TODO
+            $alum = Alum::where("update_hash", $hash)->firstOrFail();
+            $ADMIN_EMAIL = config("app.admin_email");
+            $data = compact("alum", "ADMIN_EMAIL");
+            return view("dashboard.alumni.unsub", $data)->with("noNavbar", true);
         } catch(ModelNotFoundException $e){
-            return redirect("dashboard")->with("error", "Sorry, it looks like that url is not correct. Please check the link you were given.");
-        } catch(\Exception $e){
-            return redirect("alumni/" . $hash)->with("error", "Sorry, there was a problem unsubscribing you. Please send me an email at jmischka@mcw.edu and I will make sure you are unsubscribed.");
+            return view("dashboard.alumni.invalid-url")->with("noNavbar", true);
         }
     }
 
     public function confirmUnsubAlumni(Request $request, $hash){
-        // TODO
+        $isAjax = ($request->has("ajax") && $request->input("ajax"));
+        try {
+            $alum = Alum::where("update_hash", $hash)->firstOrFail();
+            $alum->do_not_contact = true;
+            $alum->saveOrFail();
+            if($isAjax)
+                return "success";
+            else
+                return redirect($request->path());
+        } catch(ModelNotFoundException $e){
+            if($isAjax)
+                return "Sorry, it looks like that url is not correct. Please check the link you were given.";
+            else
+                return view("dashboard.alumni.invalid-url")->with("noNavbar", true);
+        } catch(\Exception $e){
+            $error = "Sorry, there was a problem unsubscribing you. Please send me an email at " . config("app.admin_email") . " and I will make sure you are unsubscribed.";
+            if($isAjax)
+                return $error;
+            else
+                return back()->with("error", $error);
+        }
     }
 }

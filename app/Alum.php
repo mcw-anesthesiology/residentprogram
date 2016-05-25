@@ -49,7 +49,10 @@ class Alum extends Model
         }
 
         if(!$this->email)
-            throw new \Exception("No email.");
+            throw new \Swift_TransportException("No email.");
+
+        if($this->do_not_contact)
+            return; // TODO: Throw an exception maybe?
 
         $email = $this->email;
 
@@ -61,7 +64,7 @@ class Alum extends Model
         $alumniUrl = url("alumni/" . $this->update_hash);
         $unsubUrl = url("alumni/" . $this->update_hash . "/unsubscribe");
 
-        $data = compact("name", "alumniUrl");
+        $data = compact("name", "alumniUrl", "unsubUrl");
         Mail::send("emails.alumni-update", $data, function($message) use ($email){
             $message
                 ->from("alumni@residentprogram.com", "MCW Anesthesiology Alumni")
