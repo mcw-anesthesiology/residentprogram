@@ -953,7 +953,23 @@ class ManageController extends Controller
                 else
                     $result[] = "";
 
-                $actionButtons = "<button type='button' class='btn btn-xs btn-info alumni-send-update-email-button' data-id='{$alum->id}'>Send update email</button>";
+                $actionButtons = "";
+
+                $buttonClass = "disabled";
+                $buttonType = "danger";
+                $buttonExtra = "disabled";
+                if($alum->do_not_contact){
+                    $buttonText = "<span class='glyphicon glyphicon-remove'></span> Unsubscribed";
+                } elseif(!$alum->email) {
+                    $buttonText = "<span class='glyphicon glyphicon-remove'></span> No email";
+                } else {
+                    $buttonClass = "alumni-send-link-button";
+                    $buttonExtra = "data-id='{$alum->id}' data-email='{$alum->email}'";
+                    $buttonType = "info";
+                    $buttonText = "<span class='glyphicon glyphicon-send'></span> Send info update link";
+                }
+                $actionButtons .= "<button type='button' class='btn btn-xs btn-{$buttonType} {$buttonClass}' {$buttonExtra}>{$buttonText}</button>";
+
 
                 $result[] = $actionButtons;
 
@@ -975,11 +991,11 @@ class ManageController extends Controller
                     if($alum->email)
                     $alum->sendEmail();
                     break;
-                case "send":
+                case "send-link":
                     $alum = Alum::findOrFail($request->input("id"));
                     $alum->sendEmail();
                     break;
-                case "send-all":
+                case "send-all-links":
                     $successfulEmails = [];
                     $failedEmails = [];
                     foreach(Alum::all() as $alum){
@@ -1019,6 +1035,8 @@ class ManageController extends Controller
                         return back()->with($responseInfo);
                     }
                     break;
+                case "send-message": // TODO
+                case "send-all-message": // TODO
                 default:
                     throw new \InvalidArgumentException("Unsupported alumni action");
                     break;

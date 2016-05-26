@@ -52,7 +52,7 @@ class Alum extends Model
             throw new \Swift_TransportException("No email.");
 
         if($this->do_not_contact)
-            return; // TODO: Throw an exception maybe?
+            throw new \Swift_TransportException("Alum has requested to not be contacted.");
 
         $email = $this->email;
 

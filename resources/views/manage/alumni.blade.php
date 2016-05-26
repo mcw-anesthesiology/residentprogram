@@ -92,6 +92,32 @@
 			});
 		});
 
+		$("#alumni-table").on("click", ".alumni-send-link-button", function(event){
+			var button = $(this);
+			button.prop("disabled", true).addClass("disabled");
+			var data = {};
+			data._token = "{{ csrf_token() }}";
+			data.id = button.data("id");
+			data.ajax = true;
+
+			var email = button.data("email");
+
+			$.post("/manage/alumni/send-link", data, function(response){
+				if(response === "successful"){
+					button.removeClass("btn-info").addClass("btn-success");
+					button.html("Email sent! <span class='glyphicon glyphicon-ok'></span>");
+				} else {
+					appendAlert(response, ".top-alert-container");
+					button.removeClass("btn-info").addClass("btn-danger");
+					button.html("Email failed. <span class='glyphicon glyphicon-remove'></span>");
+				}
+			}).fail(function(err){
+				appendAlert("There was an error sending email to " + email + ".", ".top-alert-container");
+				button.removeClass("btn-info").addClass("btn-danger");
+				button.html("Email failed. <span class='glyphicon glyphicon-remove'></span>");
+			});
+		});
+
 		$("#alumni-table").DataTable({
 			ajax: {
 				url: "/manage/alumni/get",

@@ -1148,7 +1148,7 @@ class MainController extends Controller
         }
     }
 
-    public function unsubAlumni(Request $request, $hash){
+    public function unsubAlumni(Request $request, $hash){ // TODO: Change to alumniSubscription
         try {
             $alum = Alum::where("update_hash", $hash)->firstOrFail();
             $ADMIN_EMAIL = config("app.admin_email");
@@ -1159,14 +1159,28 @@ class MainController extends Controller
         }
     }
 
-    public function confirmUnsubAlumni(Request $request, $hash){
+    public function confirmUnsubAlumni(Request $request, $hash){ // TODO: Change to confirmAlumniSubscription
         $isAjax = ($request->has("ajax") && $request->input("ajax"));
         try {
             $alum = Alum::where("update_hash", $hash)->firstOrFail();
-            $alum->do_not_contact = true;
+
+            switch($request->input("action")){
+                case "unsubscribe":
+                    $alum->do_not_contact = true;
+                    $response = "unsubscribed";
+                    break;
+                case "resubscribe":
+                    $alum->do_not_contact = false;
+                    $response = "resubscribed";
+                    break;
+                default:
+                    throw new Exception("No unsub action");
+                    break;
+            }
+
             $alum->saveOrFail();
             if($isAjax)
-                return "success";
+                return $response;
             else
                 return redirect($request->path());
         } catch(ModelNotFoundException $e){
@@ -1175,7 +1189,7 @@ class MainController extends Controller
             else
                 return view("dashboard.alumni.invalid-url")->with("noNavbar", true);
         } catch(\Exception $e){
-            $error = "Sorry, there was a problem unsubscribing you. Please send me an email at " . config("app.admin_email") . " and I will make sure you are unsubscribed.";
+            $error = "Sorry, there was a problem altering your subscription. Please send me an email at " . config("app.admin_email") . " and I will make sure it's taken care of.";
             if($isAjax)
                 return $error;
             else
