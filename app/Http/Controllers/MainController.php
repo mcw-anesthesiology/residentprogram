@@ -40,8 +40,8 @@ class MainController extends Controller
             "saveEvaluationByHashLink",
             "alumni",
             "saveAlumni",
-            "unsubAlumni",
-            "confirmUnsubAlumni"
+            "alumniSubscription",
+            "confirmAlumniSubscription"
         ]]);
 
         $this->middleware("shared", ["except" => [
@@ -49,8 +49,8 @@ class MainController extends Controller
             "saveEvaluationByHashLink",
             "alumni",
             "saveAlumni",
-            "unsubAlumni",
-            "confirmUnsubAlumni"
+            "alumniSubscription",
+            "confirmAlumniSubscription"
         ]]);
 
 		$this->middleware("type:admin", ["only" => ["flaggedEvaluations", "getEvaluation"]]);
@@ -1148,18 +1148,18 @@ class MainController extends Controller
         }
     }
 
-    public function unsubAlumni(Request $request, $hash){ // TODO: Change to alumniSubscription
+    public function alumniSubscription(Request $request, $hash){
         try {
             $alum = Alum::where("update_hash", $hash)->firstOrFail();
             $ADMIN_EMAIL = config("app.admin_email");
             $data = compact("alum", "ADMIN_EMAIL");
-            return view("dashboard.alumni.unsub", $data)->with("noNavbar", true);
+            return view("dashboard.alumni.subscription", $data)->with("noNavbar", true);
         } catch(ModelNotFoundException $e){
             return view("dashboard.alumni.invalid-url")->with("noNavbar", true);
         }
     }
 
-    public function confirmUnsubAlumni(Request $request, $hash){ // TODO: Change to confirmAlumniSubscription
+    public function confirmAlumniSubscription(Request $request, $hash){
         $isAjax = ($request->has("ajax") && $request->input("ajax"));
         try {
             $alum = Alum::where("update_hash", $hash)->firstOrFail();
@@ -1174,7 +1174,7 @@ class MainController extends Controller
                     $response = "resubscribed";
                     break;
                 default:
-                    throw new Exception("No unsub action");
+                    throw new Exception("No subscription action");
                     break;
             }
 

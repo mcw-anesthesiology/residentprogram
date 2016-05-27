@@ -30,6 +30,120 @@ function reportHtml(i) {
  '</div>';
 }
 
+function addSendEmailModalBody(modal){
+	modal.find(".ids-list-button").click(function(){
+		$("#reminder-ids-container").slideToggle();
+	});
+
+	modal.find(".body-rendered").mouseenter(showReminderBody);
+	modal.find(".body-rendered").focusin(focusReminderBody);
+
+	function showEmailBody(){
+		modal.find(".body-rendered").hide();
+		modal.find(".reminder-body").show();
+	}
+
+	function focusEmailBody(){
+		showEmailBody();
+		modal.find(".body").focus()
+	}
+
+	modal.find(".body").mouseleave(function(){
+		if(!$(this).is(document.activeElement))
+			unfocusReminderBody();
+	});
+	modal.find(".body").focusout(unfocusReminderBody);
+
+	function unfocusEmailBody(){
+		modal.find(".body").hide();
+		markupEmailBody();
+		modal.find(".body-rendered").show();
+	}
+
+
+	function markupEmailBody(){
+		var name = "<span class='label label-info'>Name</span>";
+		var numCompleted = "<span class='label label-info'># Completed</span>";
+		var numNeeded = "<span class='label label-info'># Needed</span>";
+
+		var bodyText = marked(modal.find(".body").val());
+		bodyText = bodyText.replace(/\[\[Name\]\]/g, name);
+		bodyText = bodyText.replace(/\[\[# Completed\]\]/g, numCompleted);
+		bodyText = bodyText.replace(/\[\[# Needed\]\]/g, numNeeded);
+		modal.find(".body-rendered").html(bodyText);
+	}
+}
+
+function openSendEmailModal(users, modal, subjectText, bodyText,
+							sendSingleCallback, sendAllCallback,
+							usersTitle){
+	var user;
+	modal.find(".send")
+		.off("click", sendSingleCallback)
+		.off("click", sendAllCallback);
+
+	if(Array.isArray(users)){
+		var list = modal.find(".ids-list");
+		var li, checkbox, label, labelText;
+		var numRemindedUsers = 0;
+
+		$(list).empty();
+		for(var i = 0; i < users.length; i++){
+			user = users[i];
+
+			li = document.createElement("li");
+			label = document.createElement("label");
+			checkbox = document.createElement("input");
+			checkbox.type = "checkbox";
+			checkbox.className = "send-all-id";
+			checkbox.value = user.id;
+			checkbox.setAttribute("data-index", user.index);
+			if(user.send){
+				checkbox.checked = true;
+				numSentUsers++;
+			}
+
+			label.appendChild(checkbox);
+			labelText = document.createTextNode(" " + userLast + ", " + userFirst);
+			label.appendChild(labelText);
+			li.appendChild(label);
+			list.appendChild(li);
+		}
+
+		if(numRemindedUsers <= 6)
+			modal.find(".ids-container").show();
+		else
+			$(".ids-container").hide();
+
+		modal.find(".to").val(numRemindedUsers + " " + usersTitle);
+		modal.find(".to-container").addClass("input-group");
+		appendAlert("Please verify list of residents before sending", modal.find(".alert-container"), "warning");
+		modal.find(".send").click(sendAllCallback);
+	} else {
+		user = users;
+		modal.find(".id").val(user.id);
+		modal.find(".to").val(user.name + " <" + user.email + ">");
+		modal.find(".to-container").removeClass("input-group");
+		modal.find(".ids-list-button-container").hide();
+		modal.find(".ids-list").empty();
+		modal.find(".ids-container").hide();
+		modal.find(".send").click(sendSingleCallback);
+	}
+
+	modal.find(".subject").val(subjectText);
+	modal.find(".body").val(bodyText);
+
+	var bodyHeight = 300;
+	modal.find(".body-rendered").height(bodyHeight);
+
+	modal.find(".body").hide();
+	modal.find(".body-rendered").show();
+	markupReminderBody();
+
+	modal.find(".send-email-modal-body-info").empty();
+	modal.modal("show");
+}
+
 
 $("#addNewSpecificReport").click(function(){
 	var report = reportHtml(++numSpecificReports);

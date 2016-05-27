@@ -65,6 +65,51 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- Send individual email -->
+	<div class="modal fade" id="send-email-modal" tabindex="-1" role="dialog" aria-labelledby="send-email-label" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" id="send-email-label">Send emails</h4>
+				</div>
+				<div class="modal-body" id="send-email-modal-body">
+					<div class="form-group">
+						<label for="email-to">To</label>
+						<div id="email-to-container">
+							<input type="text" class="form-control" id="email-to" readonly />
+							<span class="input-group-btn collapse" id="email-ids-list-button-container">
+								<button type="button" class="btn btn-default" id="email-ids-list-button">Resident List <span class="caret"></span></button>
+							</span>
+						</div>
+						<input type="hidden" id="email-id" />
+						<div class="collapse" id="email-ids-container">
+							<div class="well row" id="email-ids-well">
+								<ul id="email-ids-list"></ul>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="email-subject">Subject</label>
+						<input type="text" class="form-control" id="email-subject" />
+					</div>
+					<div class="form-group">
+						<label for="email-body">Body</label>
+						<textarea class="form-control" id="email-body" rows="15"></textarea>
+						<div tabindex="0" class="form-control" id="email-body-rendered"></div>
+						<small>Supports <a href="http://daringfireball.net/projects/markdown/basics" target="_blank">markdown</a> (except inline HTML)</small>
+					</div>
+					<div id="send-email-modal-body-info">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-info" id="send-email">Send email</button>
+				</div>
+			</div>
+		</div>
+	</div>
 @stop
 
 @section("script")

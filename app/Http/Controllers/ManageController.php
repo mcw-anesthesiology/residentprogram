@@ -956,19 +956,25 @@ class ManageController extends Controller
                 $actionButtons = "";
 
                 $buttonClass = "disabled";
-                $buttonType = "danger";
                 $buttonExtra = "disabled";
+                $sendLinkClass = "";
+                $emailClass = "";
                 if($alum->do_not_contact){
-                    $buttonText = "<span class='glyphicon glyphicon-remove'></span> Unsubscribed";
+                    $buttonTitle = "Unsubscribed";
                 } elseif(!$alum->email) {
-                    $buttonText = "<span class='glyphicon glyphicon-remove'></span> No email";
+                    $buttonTitle = "No email";
                 } else {
-                    $buttonClass = "alumni-send-link-button";
+                    $buttonClass = "";
+                    $buttonExtra = "";
+                    $sendLinkClass = "alumni-send-link-button";
+                    $emailClass = "alumni-email-button";
                     $buttonExtra = "data-id='{$alum->id}' data-email='{$alum->email}'";
-                    $buttonType = "info";
-                    $buttonText = "<span class='glyphicon glyphicon-send'></span> Send info update link";
+                    $buttonTitle = "";
                 }
-                $actionButtons .= "<button type='button' class='btn btn-xs btn-{$buttonType} {$buttonClass}' {$buttonExtra}>{$buttonText}</button>";
+                $actionButtons .= "<button type='button' class='btn btn-xs btn-info {$buttonClass} {$sendLinkClass}' title='{$buttonTitle}' {$buttonExtra}><span class='glyphicon glyphicon-send'></span> Send info update link</button> ";
+                $actionButtons .= "<button type='button' class='btn btn-xs btn-info {$buttonClass} {$emailClass}' title='{$buttonTitle}' {$buttonExtra}><span class='glyphicon glyphicon-send'></span> Email</button> ";
+
+
 
 
                 $result[] = $actionButtons;

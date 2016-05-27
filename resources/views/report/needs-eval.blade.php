@@ -158,6 +158,7 @@
 					<label for="reminder-body">Body</label>
 					<textarea class="form-control" id="reminder-body" rows="15"></textarea>
 					<div tabindex="0" class="form-control" id="reminder-body-rendered"></div>
+					<small>Supports <a href="http://daringfireball.net/projects/markdown/basics" target="_blank">markdown</a> (except inline HTML)</small>
 				</div>
 				<div id="send-reminder-modal-body-info">
 				</div>
@@ -218,7 +219,6 @@
 
 @section("script")
 	<script>
-		var what = [];
 		$(document).ready(function(){
 			$("#needs-evals-form").find(".lastThreeMonths").trigger("click");
 			submitNeedsEvals();

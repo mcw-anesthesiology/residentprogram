@@ -62,9 +62,9 @@ class Alum extends Model
             $name = "MCW Alum";
 
         $alumniUrl = url("alumni/" . $this->update_hash);
-        $unsubUrl = url("alumni/" . $this->update_hash . "/unsubscribe");
+        $subscriptionUrl = url("alumni/" . $this->update_hash . "/subscription");
 
-        $data = compact("name", "alumniUrl", "unsubUrl");
+        $data = compact("name", "alumniUrl", "subscriptionUrl");
         Mail::send("emails.alumni-update", $data, function($message) use ($email){
             $message
                 ->from("alumni@residentprogram.com", "MCW Anesthesiology Alumni")

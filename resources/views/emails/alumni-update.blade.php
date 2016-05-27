@@ -7,4 +7,4 @@
 
 <a href="{{$alumniUrl}}">{{$alumniUrl}}</a>
 
-<a href="{{$unsubUrl}}">Unsubscribe</a>
+<a href="{{$subscriptionUrl}}">Unsubscribe</a>
