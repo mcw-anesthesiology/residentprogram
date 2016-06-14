@@ -58,8 +58,12 @@
 								"</div>";
 
 		var milestoneOptionsHtml =
-									@foreach($milestones as $milestone)
+									@foreach($milestoneGroups as $groupLabel => $milestoneGroup)
+										"<optgroup label='{{ $groupLabel }}'>" +
+										@foreach($milestoneGroup as $milestone)
 											"<option value='{{ $milestone->id }}'>{{ $milestone->title }}</option>" +
+										@endforeach
+										"</optgroup>" +
 									@endforeach
 									"";
 
@@ -83,7 +87,6 @@
 										 "<option value='text'>Text</option>" +
 										 "<option value='radiononnumeric'>Radio (non-numeric)</option>" +
 										 "<option value='number'>Number</option>" +
-										 "<option value='instruction'>Instructions</option>" +
 									 "</select>";
 
 		var questionHtml = "<div class='container-fluid form-question form-block'>" +

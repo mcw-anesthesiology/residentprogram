@@ -142,6 +142,56 @@
 	  </div>
 	</div>
 
+	<!-- Add Milestone Levels Modal -->
+	<div class="modal fade" id="add-milestone-levels-modal" tabindex="-1" role="dialog" aria-labelledby="add-milestone-levels-title" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<form id="add-milestone-levels-form" method="POST" action="/manage/milestones/add-levels">
+					{{!! csrf_field() !!}}
+					<input type="hidden" name="milestone_id" />
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title" id="add-milestone-levels-title">Add milestone labels</h4>
+					</div>
+					<div class="modal-body">
+						<div id="milestone-levels-container">
+							<div class="row milestone-level" data-level-number="1">
+								<button type="button" class="close remove-milestone-level">&times;</button>
+								<input type="text" class="form-control level-name" name="level_name_1" placeholder="Level name" value="Level 1" />
+								<textarea class="form-control level-description" name="level_desc_1" placeholder="Level description"></textarea>
+							</div>
+							<div class="row milestone-level" data-level-number="2">
+								<button type="button" class="close remove-milestone-level">&times;</button>
+								<input type="text" class="form-control level-name" name="level_name_2" placeholder="Level name" value="Level 2" />
+								<textarea class="form-control level-description" name="level_desc_2" placeholder="Level description"></textarea>
+							</div>
+							<div class="row milestone-level" data-level-number="3">
+								<button type="button" class="close remove-milestone-level">&times;</button>
+								<input type="text" class="form-control level-name" name="level_name_3" placeholder="Level name" value="Level 3" />
+								<textarea class="form-control level-description" name="level_desc_3" placeholder="Level description"></textarea>
+							</div>
+							<div class="row milestone-level" data-level-number="4">
+								<button type="button" class="close remove-milestone-level">&times;</button>
+								<input type="text" class="form-control level-name" name="level_name_4" placeholder="Level name" value="Level 4" />
+								<textarea class="form-control level-description" name="level_desc_4" placeholder="Level description"></textarea>
+							</div>
+							<div class="row milestone-level" data-level-number="5">
+								<button type="button" class="close remove-milestone-level">&times;</button>
+								<input type="text" class="form-control level-name" name="level_name_5" placeholder="Level name" value="Level 5" />
+								<textarea class="form-control level-description" name="level_desc_5" placeholder="Level description"></textarea>
+							</div>
+						</div>
+						<button type="button" id="append-milestone-level" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Level</button>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Add levels</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
 	<!-- Add Competency Modal -->
 	<div class="modal fade bs-addC-modal" tabindex="-1" role="dialog" aria-labelledby="modalAddC" aria-hidden="true" id="addCModal">
 	  <div class="modal-dialog">
@@ -227,6 +277,12 @@
 
 @section("script")
 	<script>
+		var levelHtml = '<div class="row milestone-level">' +
+							'<button type="button" class="close remove-milestone-level">&times;</button>' +
+							'<input type="text" class="form-control level-name" placeholder="Level name" />' +
+							'<textarea class="form-control level-description" placeholder="Level description"></textarea>' +
+						'</div>';
+
 		$(".datatable-milestones").on("click", ".editMilestone", function(){
 			var milestoneId = $(this).data("id");
 			var siblings = $(this).parent().siblings();
@@ -268,7 +324,32 @@
 		});
 		$("#add-competency-form, #edit-competency-form").on("submit", function(event){
 			event.preventDefault();
-			addEditAjax(this, ".datatable-competencies")
+			addEditAjax(this, ".datatable-competencies");
+		});
+
+		$(".datatable-milestones").on("click", ".view-milestone-levels", function(){
+			// TODO
+		});
+
+		$(".datatable-milestones").on("click", ".add-milestone-levels", function(event){
+			var milestoneId = $(this).data("milestoneId");
+
+			// TODO
+		});
+
+		$("#milestone-levels-container").on("click", ".remove-milestone-level", function(event){
+			$(this).parent().remove();
+		});
+
+		$("#append-milestone-level").click(function(){
+			var levelNumber = parseInt($("#milestone-levels-container").children().last().data("levelNumber"), 10);
+			levelNumber++;
+
+			var newLevelHtml = $.parseHTML(levelHtml);
+			newLevelHtml.data("levelNumber", levelNumber);
+			newLevelHtml.find(".level-name").attr("name", "level_name_" + levelNumber);
+			newLevelHtml.find(".level-description").attr("name", "level_desc_" + levelNumber);
+			$("#milestone-levels-container").append(newLevelHtml);
 		});
 
 		function addEditAjax(form, table){
