@@ -16,8 +16,26 @@
 @else
 	<h2>You have no pending evaluations</h2>
 @endif
-
 	</div>
+
+@if($user->evaluatorEvaluations()->where("status", "pending")->count() > 0)
+	<div class="container body-block">
+		<h2 class="sub-header"><span class="glyphicon glyphicon-inbox"></span> Pending Evaluations</h2>
+		<div class="table-responsive">
+			<table class="table table-striped datatable-pending-self" id="pending-self-table" width="100%">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Evaluation Form</th>
+						<th>Requested</th>
+						<th></th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+@endif
+
 	<div class="container body-block">
 		<h2 class="sub-header"><span class="glyphicon glyphicon-check"></span> Completed Evaluations</h2>
 		<div class="table-responsive">

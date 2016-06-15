@@ -260,9 +260,9 @@ body {
 	display: block;
 }
 
-.question.expanded-descriptions .question-option {
+/*.question.expanded-descriptions .question-option {
 	width: 100%;
-}
+}*/
 
 .question-option label {
     text-align:center;

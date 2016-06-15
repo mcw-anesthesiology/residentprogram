@@ -5,6 +5,11 @@
 		#milestone-levels-container .form-group label {
 			width: 100%;
 		}
+
+		#milestone-levels-container .form-group label input,
+		#milestone-levels-container .form-group label textarea {
+			font-weight: normal;
+		}
 	</style>
 @stop
 

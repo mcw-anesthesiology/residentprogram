@@ -37,6 +37,24 @@
 
 </div>
 <div class="container body-block">
+	<h2 class="sub-header"><span class="glyphicon glyphicon-list"></span> Self Evaluations</h2>
+	<div class="table-responsive">
+		<table class="table table-striped" id="self-evaluations-table" width="100%">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Evaluator</th>
+					<th>Form</th>
+					<th>Evaluation date</th>
+					<th>Complete date</th>
+					<th></th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+
+</div>
+<div class="container body-block">
 	<h2 class="sub-header"><span class="glyphicon glyphicon-list"></span> Staff Evaluations</h2>
 	<div class="table-responsive">
 		<table class="table table-striped datatable-staff" width="100%">

@@ -73,7 +73,7 @@
 				<thead>
 					<tr>
 						<th>#</th>
-	@if($user->id != $evaluation->subject_id)
+	@if($user->id != $evaluation->subject_id && $evaluation->form->evaluator_type != "self")
 						<th>{{ ucfirst($evaluation->subject->type) }}</th>
 	@endif
 	@if($user->isType("admin") || ($user->id != $evaluation->evaluator_id && $evaluation->visibility == "visible"))
@@ -95,7 +95,7 @@
 				<tbody>
 					<tr>
 						<td>{{ $evaluation->id }}</td>
-	@if($user->id != $evaluation->subject_id)
+	@if($user->id != $evaluation->subject_id && $evaluation->form->evaluator_type != "self")
 						<td>{!! $subjectString !!}</td>
 	@endif
 	@if($user->isType("admin") || ($user->id != $evaluation->evaluator_id && $evaluation->visibility == "visible"))
@@ -533,19 +533,22 @@
 				var tr = document.createElement("tr");
 				var th, td, text;
 				for(var i = 0; i < headings.length || i < data.length; i++){
-					th = document.createElement("th");
-					text = document.createTextNode(headings[i].innerHTML);
-					th.appendChild(text);
-					tr.appendChild(th);
+					$(tr).append(headings[i]);
+					// th = document.createElement("th");
+					// th.innerHTML = headings[i].innerHTML;
+					// // text = document.createTextNode(headings[i].innerHTML);
+					// // th.appendChild(text);
+					// tr.appendChild(th);
 				}
 				thead.appendChild(tr);
 
 				tr = document.createElement("tr");
 				for(var i = 0; i < headings.length || i < data.length; i++){
-					td = document.createElement("td");
-					text = document.createTextNode(data[i].innerHTML);
-					td.appendChild(text);
-					tr.appendChild(td);
+					$(tr).append(data[i]);
+					// td = document.createElement("td");
+					// td.innerHTML = data[i].innerHTML;
+					// // td.appendChild(text);
+					// tr.appendChild(td);
 				}
 				tbody.appendChild(tr);
 

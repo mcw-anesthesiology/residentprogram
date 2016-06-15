@@ -28,6 +28,7 @@ Route::post("password/reset", "Auth\PasswordController@postReset");
 Route::get("dashboard", "MainController@dashboard");
 Route::post("dashboard/evaluations/flagged", "MainController@flaggedEvaluations");
 Route::post("dashboard/evaluations/staff/{limit?}", "MainController@staffEvaluations");
+Route::post("dashboard/evaluations/self/{limit?}", "MainController@selfEvaluations");
 Route::get("dashboard/evaluations/{limit?}", "MainController@evaluations");
 Route::post("dashboard/evaluations/{limit?}", "MainController@evaluations");
 Route::get("dashboard/faculty", "MainController@dashboardFaculty");

@@ -98,7 +98,7 @@
 
 			$(".datatable-flagged").DataTable({
 				"ajax": {
-					"url": "dashboard/evaluations/flagged",
+					"url": "/dashboard/evaluations/flagged",
 					"data": data,
 					"type": "post"
 				},
@@ -110,7 +110,7 @@
 
 			$(".datatable-staff").DataTable({
 				"ajax": {
-					"url": "dashboard/evaluations/staff",
+					"url": "/dashboard/evaluations/staff",
 					"data": data,
 					"type": "post"
 				},
@@ -120,8 +120,20 @@
 				}
 			});
 
+			$("#self-evaluations-table").DataTable({
+				ajax: {
+					url: "/dashboard/evaluations/self",
+					data: data,
+					type: "post"
+				},
+				order: [[0, "desc"]],
+				createdRow: function(row, data, index){
+					$("td", row).addClass("view-evaluation");
+				}
+			});
+
 			$(".datatable-all").DataTable({
-				"ajax": "dashboard/evaluations/20",
+				"ajax": "/dashboard/evaluations/20",
 				"order": [[0, "desc"]],
 				"createdRow": function(row, data, index){
 					$("td", row).addClass("view-evaluation");
@@ -173,6 +185,19 @@
 				},
 				"order": [[0, "desc"]],
 				"createdRow": function(row, data, index){
+					$("td", row).addClass("view-evaluation");
+				}
+			});
+
+			data.type = "pending";
+			$("#pending-self-table").DataTable({
+				ajax: {
+					url: "dashboard/evaluations/self",
+					data: data,
+					type: "post"
+				},
+				order: [[0, "desc"]],
+				createdRow: function(row, data, index){
 					$("td", row).addClass("view-evaluation");
 				}
 			});

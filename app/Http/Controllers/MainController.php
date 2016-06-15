@@ -80,6 +80,12 @@ class MainController extends Controller
 			$evaluatorTypes = ["staff"];
             $requestorTypes = $evaluatorTypes;
 		}
+        elseif($requestType == "self"){
+            $requestType = "self";
+            $subjectTypes = ["resident", "fellow"];
+            $evaluatorTypes = ["self"];
+            $requestorTypes = ["admin"];
+        }
 		else{
 			$requestType = "resident";
 			$subjectTypes = ["resident", "fellow"];
@@ -210,6 +216,14 @@ class MainController extends Controller
 
 				$groupForms = false;
 				break;
+            case "self":
+                $subjects = $residents;
+                $subjects["groups"] = $residentGroups;
+                $groupSubjects = true;
+                $subjectTypeText = "intern/resident/fellow";
+                $subjectTypeTextPlural = "interns/residents/fellows";
+                $evaluatorTypeText = "self";
+                break;
 		}
 
 		for($dt = Carbon::now()->firstOfMonth(), $i = 0; $i < 3; $dt->subMonths(1), $i++){
@@ -250,6 +264,10 @@ class MainController extends Controller
                 $eval->subject_id = $request->input("subject_id");
             else
                 return back()->withInput()->with("error", "Please select a faculty to be evaluated");
+        }
+        elseif($requestType == "self"){
+            $eval->subject_id = $request->input("subject_id");
+            $eval->evaluator_id = $request->input("subject_id");
         }
         else{
             if($user->type == "resident")
@@ -592,6 +610,7 @@ class MainController extends Controller
 	}
 
     public function evaluations(Request $request, $limit = null){
+        // FIXME: This is a mess wtf
         $user = Auth::user();
         $results["data"] = [];
         if($user->type == "admin"){
@@ -689,10 +708,53 @@ class MainController extends Controller
         return response()->json($results);
     }
 
+    public function selfEvaluations(Request $request, $limit = null){
+        $user = Auth::user();
+        $results["data"] = [];
+        $type = $request->input("type", "complete");
+
+        if($user->type == "admin"){
+            $evaluations = Evaluation::with("form")->where("status", $type)->whereHas("form", function($query){
+                $query->where("evaluator_type", "self");
+            })->orderBy("id", "desc");
+        }
+        else{
+            $evaluations = Evaluation::with("form")->where("status", $type)->where(function($query) use ($user){
+                $query->where("evaluator_id", $user->id);
+            })->whereHas("form", function($query){
+                $query->where("evaluator_type", "self");
+            })->orderBy("id", "desc");
+        }
+
+        if($limit)
+            $evaluations = $evaluations->limit($limit)->get();
+        else
+            $evaluations = $evaluations->get();
+
+        foreach($evaluations as $eval){
+            try {
+                $result = [];
+                $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
+                if($user->type == "admin")
+                    $result[] = $eval->subject->full_name;
+                $result[] = $eval->form->title;
+                $result[] = $eval->evaluation_date->format("F Y");
+                if($type != "pending")
+                    $result[] = (string)$eval->complete_date;
+                $result[] = "";
+                $results["data"][] = $result;
+            } catch(\Exception $e){
+                Log::error("Problem with self evaluation: " . $e);
+            }
+        }
+
+        return response()->json($results);
+    }
+
 	public function staffEvaluations(Request $request, $limit = null){
 		$user = Auth::user();
 		$results["data"] = [];
-        $type = $request->has("type") ? $request->input("type") : "complete";
+        $type = $request->input("type", "complete");
 
 		if($user->type == "admin"){
 			$evaluations = Evaluation::with("form")->whereHas("form", function($query){
