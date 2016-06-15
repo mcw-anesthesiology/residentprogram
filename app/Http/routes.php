@@ -87,6 +87,7 @@ Route::get("manage/forms/{id}", "ManageController@viewForm");
 Route::post("manage/forms/{id}", "ManageController@editForm");
 Route::get("manage/milestones-competencies", "ManageController@milestonesCompetencies");
 Route::get("manage/milestones/get", "ManageController@getMilestones");
+Route::get("manage/milestone/{id}", "ManageController@getMilestone");
 Route::post("manage/milestones/{action}", "ManageController@milestone");
 Route::get("manage/competencies/get", "ManageController@getCompetencies");
 Route::post("manage/competencies/{action}", "ManageController@competency");

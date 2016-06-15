@@ -633,6 +633,11 @@ class ManageController extends Controller
         return response()->json($results);
     }
 
+	public function getMilestone($id){
+		$milestone = Milestone::find($id);
+		return response()->json($milestone);
+	}
+
     public function getCompetencies(){
         $results["data"] = [];
         $competencies = Competency::all();
@@ -675,6 +680,18 @@ class ManageController extends Controller
             case "delete":
                 Milestone::destroy($request->input("id"));
                 break;
+			case "levels":
+				$milestone = Milestone::find($request->input("id"));
+				$levels = $request->input("levels");
+				foreach($levels as $levelNum => $level){
+					$milestoneLevel = new MilestoneLevel();
+					$milestoneLevel->milestone_id = $request->input("id");
+					$milestoneLevel->level_number = $levelNum;
+					$milestoneLevel->name = $level["name"];
+					$milestoneLevel->description = $level["description"];
+					$milestoneLevel->save();
+				}
+				break;
             default:
                 return redirect("manage/milestones-competencies");
                 break;

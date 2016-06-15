@@ -142,50 +142,50 @@
 	  </div>
 	</div>
 
-	<!-- Add Milestone Levels Modal -->
-	<div class="modal fade" id="add-milestone-levels-modal" tabindex="-1" role="dialog" aria-labelledby="add-milestone-levels-title" aria-hidden="true">
+	<!-- Milestone Levels Modal -->
+	<div class="modal fade" id="milestone-levels-modal" tabindex="-1" role="dialog" aria-labelledby="milestone-levels-title" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<form id="add-milestone-levels-form" method="POST" action="/manage/milestones/add-levels">
+				<form id="milestone-levels-form" method="POST" action="/manage/milestones/levels">
 					{{!! csrf_field() !!}}
-					<input type="hidden" name="milestone_id" />
+					<input type="hidden" id="milestone-levels-id" name="id" />
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title" id="add-milestone-levels-title">Add milestone labels</h4>
+						<h4 class="modal-title" id="milestone-levels-title">Milestone levels</h4>
 					</div>
 					<div class="modal-body">
 						<div id="milestone-levels-container">
-							<div class="row milestone-level" data-level-number="1">
+							<div class="row milestone-level">
 								<button type="button" class="close remove-milestone-level">&times;</button>
-								<input type="text" class="form-control level-name" name="level_name_1" placeholder="Level name" value="Level 1" />
-								<textarea class="form-control level-description" name="level_desc_1" placeholder="Level description"></textarea>
+								<input type="text" class="form-control level-name" placeholder="Level name" />
+								<textarea class="form-control level-description" placeholder="Level description"></textarea>
 							</div>
-							<div class="row milestone-level" data-level-number="2">
+							<div class="row milestone-level">
 								<button type="button" class="close remove-milestone-level">&times;</button>
-								<input type="text" class="form-control level-name" name="level_name_2" placeholder="Level name" value="Level 2" />
-								<textarea class="form-control level-description" name="level_desc_2" placeholder="Level description"></textarea>
+								<input type="text" class="form-control level-name" placeholder="Level name" />
+								<textarea class="form-control level-description" placeholder="Level description"></textarea>
 							</div>
-							<div class="row milestone-level" data-level-number="3">
+							<div class="row milestone-level">
 								<button type="button" class="close remove-milestone-level">&times;</button>
-								<input type="text" class="form-control level-name" name="level_name_3" placeholder="Level name" value="Level 3" />
-								<textarea class="form-control level-description" name="level_desc_3" placeholder="Level description"></textarea>
+								<input type="text" class="form-control level-name" placeholder="Level name" />
+								<textarea class="form-control level-description" placeholder="Level description"></textarea>
 							</div>
-							<div class="row milestone-level" data-level-number="4">
+							<div class="row milestone-level">
 								<button type="button" class="close remove-milestone-level">&times;</button>
-								<input type="text" class="form-control level-name" name="level_name_4" placeholder="Level name" value="Level 4" />
-								<textarea class="form-control level-description" name="level_desc_4" placeholder="Level description"></textarea>
+								<input type="text" class="form-control level-name" placeholder="Level name" />
+								<textarea class="form-control level-description" placeholder="Level description"></textarea>
 							</div>
-							<div class="row milestone-level" data-level-number="5">
+							<div class="row milestone-level">
 								<button type="button" class="close remove-milestone-level">&times;</button>
-								<input type="text" class="form-control level-name" name="level_name_5" placeholder="Level name" value="Level 5" />
-								<textarea class="form-control level-description" name="level_desc_5" placeholder="Level description"></textarea>
+								<input type="text" class="form-control level-name" placeholder="Level name" />
+								<textarea class="form-control level-description" placeholder="Level description"></textarea>
 							</div>
 						</div>
-						<button type="button" id="append-milestone-level" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Level</button>
+						<button type="button" id="append-milestone-level" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add level</button>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						<button type="submit" class="btn btn-primary">Add levels</button>
+						<button type="submit" class="btn btn-primary">Save levels</button>
 					</div>
 				</form>
 			</div>
@@ -327,30 +327,79 @@
 			addEditAjax(this, ".datatable-competencies");
 		});
 
-		$(".datatable-milestones").on("click", ".view-milestone-levels", function(){
-			// TODO
-		});
-
-		$(".datatable-milestones").on("click", ".add-milestone-levels", function(event){
+		$(".datatable-milestones").on("click", ".edit-milestone-levels", function(){
+			// TODO: Open modal and show a loading bar or something
+			$(this).prop("disabled", true).addClass("disabled");
 			var milestoneId = $(this).data("milestoneId");
+			$.get("/manage/milestone/" + milestoneId).then(function(milestone){
+				$("#milestone-levels-id").val(milestoneId);
 
-			// TODO
+				if(milestone.levels){
+					for(var i = 0; i < milestone.levels.length; i++){
+						appendMilestoneLevel(milestone.levels[i].name, milestone.levels[i].description);
+					}
+				}
+				else {
+					for(var i = 0; i < 5; i++){
+						appendMilestoneLevel();
+					}
+				}
+
+				$("#milestone-levels-modal").modal("show");
+				$(this).prop("disabled", false).removeClass("disabled");
+			});
 		});
 
 		$("#milestone-levels-container").on("click", ".remove-milestone-level", function(event){
 			$(this).parent().remove();
 		});
 
-		$("#append-milestone-level").click(function(){
+		$("#append-milestone-level").click(appendMilestoneLevel);
+
+		$("#milestone-levels-form").submit(function(event){
+			event.preventDefault();
+			var submitButton = $(this).find("button[type='submit']");
+			submitButton.prop("disabled", true).addClass("disabled");
+
+			var data = {};
+			data.id = $("#milestone-levels-id").val();
+			data._token = "{{ csrf_token() }}";
+			data.ajax = true;
+			data.levels = [];
+			$("#milestone-levels-container").children(".milestone-level").each(function(){
+				data.levels.push({
+					name: $(this).find(".level-name").val(),
+					description: $(this).find(".level-description").text();
+				});
+			});
+
+			var action = $(this).attr("action");
+			$.post(action, data).done(function(response){
+				if(response === "success"){
+					$("#milestone-levels-modal").modal("hide");
+				}
+				else {
+					appendAlert(response, "#milestone-levels-modal .modal-header");
+				}
+				submitButton.prop("disabled", false).removeClass("disabled");
+			}).fail(function(err){
+				appendAlert("There was a problem saving the levels.", "#milestone-levels-modal .modal-header");
+				submitButton.prop("disabled", false).removeClass("disabled");
+			});
+		});
+
+		function appendMilestoneLevel(levelName, levelDesc){
 			var levelNumber = parseInt($("#milestone-levels-container").children().last().data("levelNumber"), 10);
 			levelNumber++;
 
 			var newLevelHtml = $.parseHTML(levelHtml);
-			newLevelHtml.data("levelNumber", levelNumber);
-			newLevelHtml.find(".level-name").attr("name", "level_name_" + levelNumber);
-			newLevelHtml.find(".level-description").attr("name", "level_desc_" + levelNumber);
+			if(levelName)
+				newLevelHtml.find(".level-name").val(levelName);
+			if(levelDesc)
+				newLevelHtml.find(".level-description").val(levelDesc);
+
 			$("#milestone-levels-container").append(newLevelHtml);
-		});
+		}
 
 		function addEditAjax(form, table){
 			var data = $(form).serialize() + "&ajax=true";

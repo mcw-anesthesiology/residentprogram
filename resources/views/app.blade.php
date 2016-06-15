@@ -36,6 +36,7 @@
 	@if(empty($noNavbar) || !$noNavbar)
 		@include("navbar")
 	@endif
+			<div id="alert-container">
 			@if(session("success"))
 				<div class="container">
 					<div class="alert alert-success alert-dismissable" role="alert">
@@ -60,6 +61,7 @@
 					</div>
 				</div>
 			@endif
+			</div>
 			<div class="container body-block">
 				@yield("body")
 			</div>

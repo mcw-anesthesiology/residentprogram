@@ -15,6 +15,7 @@ class CreateMilestoneLevels extends Migration
         Schema::create('milestone_levels', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('milestone_id');
+			$table->integer('level_number');
             $table->string('name');
             $table->text('description');
             $table->timestamps();
