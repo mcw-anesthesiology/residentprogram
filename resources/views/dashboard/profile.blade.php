@@ -12,13 +12,24 @@
 			margin: 0px auto;
 			/*background-color: #bbbbbb;*/
 		}
+
+		.profile-image {
+			text-align: center;
+		}
+
+		.profile-image img {
+			width: 100%;
+			max-width: 300px;
+		}
 	</style>
 @stop
 
 @section("body")
 	<h2 class="heading">{{ $profileUser->full_name }}</h2>
 	@if(!empty($profileUser->photo_path))
-	<img src="{{ $profileUser->photo_path }}" alt="{{ $profileUser->full_name }}" />
+	<figure class="profile-image">
+		<img src="/{{ $profileUser->photo_path }}" alt="{{ $profileUser->full_name }}" />
+	</figure>
 	@endif
 
 	<table class="table" width="100%">
