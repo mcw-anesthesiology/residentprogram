@@ -1,5 +1,13 @@
 @extends("app")
 
+@section("head")
+	<style>
+		#milestone-levels-container .form-group label {
+			width: 100%;
+		}
+	</style>
+@stop
+
 @section("body")
 	<div class="row">
 		<h2 class="sub-header">Milestones  <button class="addMSModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-addMS-modal" data-id="Milestone" id="addMSBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
@@ -147,7 +155,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<form id="milestone-levels-form" method="POST" action="/manage/milestones/levels">
-					{{!! csrf_field() !!}}
+					{!! csrf_field() !!}
 					<input type="hidden" id="milestone-levels-id" name="id" />
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -155,31 +163,6 @@
 					</div>
 					<div class="modal-body">
 						<div id="milestone-levels-container">
-							<div class="row milestone-level">
-								<button type="button" class="close remove-milestone-level">&times;</button>
-								<input type="text" class="form-control level-name" placeholder="Level name" />
-								<textarea class="form-control level-description" placeholder="Level description"></textarea>
-							</div>
-							<div class="row milestone-level">
-								<button type="button" class="close remove-milestone-level">&times;</button>
-								<input type="text" class="form-control level-name" placeholder="Level name" />
-								<textarea class="form-control level-description" placeholder="Level description"></textarea>
-							</div>
-							<div class="row milestone-level">
-								<button type="button" class="close remove-milestone-level">&times;</button>
-								<input type="text" class="form-control level-name" placeholder="Level name" />
-								<textarea class="form-control level-description" placeholder="Level description"></textarea>
-							</div>
-							<div class="row milestone-level">
-								<button type="button" class="close remove-milestone-level">&times;</button>
-								<input type="text" class="form-control level-name" placeholder="Level name" />
-								<textarea class="form-control level-description" placeholder="Level description"></textarea>
-							</div>
-							<div class="row milestone-level">
-								<button type="button" class="close remove-milestone-level">&times;</button>
-								<input type="text" class="form-control level-name" placeholder="Level name" />
-								<textarea class="form-control level-description" placeholder="Level description"></textarea>
-							</div>
 						</div>
 						<button type="button" id="append-milestone-level" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add level</button>
 					</div>
@@ -279,9 +262,18 @@
 	<script>
 		var levelHtml = '<div class="row milestone-level">' +
 							'<button type="button" class="close remove-milestone-level">&times;</button>' +
-							'<input type="text" class="form-control level-name" placeholder="Level name" />' +
-							'<textarea class="form-control level-description" placeholder="Level description"></textarea>' +
-						'</div>';
+							'<div class="form-group">' +
+								'<label> Name' +
+									'<input type="text" class="form-control level-name" placeholder="Level name" />' +
+								'</label>' +
+							'</div>' +
+							'<div class="form-group">' +
+								'<label> Description' +
+									'<textarea class="form-control level-description" placeholder="Level description"></textarea>' +
+								'</label>' +
+							'</div>' +
+						'</div>' +
+						'<hr />';
 
 		$(".datatable-milestones").on("click", ".editMilestone", function(){
 			var milestoneId = $(this).data("id");
@@ -329,32 +321,51 @@
 
 		$(".datatable-milestones").on("click", ".edit-milestone-levels", function(){
 			// TODO: Open modal and show a loading bar or something
-			$(this).prop("disabled", true).addClass("disabled");
+			var button = $(this);
+			button.prop("disabled", true).addClass("disabled");
 			var milestoneId = $(this).data("milestoneId");
-			$.get("/manage/milestone/" + milestoneId).then(function(milestone){
+			var milestoneTitle = $(this).data("milestoneTitle");
+			$.get("/manage/milestone/" + milestoneId + "/levels").then(function(levels){
 				$("#milestone-levels-id").val(milestoneId);
+				$("#milestone-levels-title").text(milestoneTitle + " levels");
+				$("#milestone-levels-container").empty();
 
-				if(milestone.levels){
-					for(var i = 0; i < milestone.levels.length; i++){
-						appendMilestoneLevel(milestone.levels[i].name, milestone.levels[i].description);
+				if(levels.length > 0){
+					for(var i = 0; i < levels.length; i++){
+						appendMilestoneLevel(levels[i].name, levels[i].description);
 					}
 				}
 				else {
-					for(var i = 0; i < 5; i++){
-						appendMilestoneLevel();
-					}
+					appendMilestoneLevel();
 				}
 
 				$("#milestone-levels-modal").modal("show");
-				$(this).prop("disabled", false).removeClass("disabled");
+				button.prop("disabled", false).removeClass("disabled");
 			});
+		});
+
+		$("#milestone-levels-container").on("keyup", ".level-name, .level-description", function(){
+			var level = $(this).parents(".milestone-level");
+			var sibling = $(this).parents(".form-group").siblings(".form-group").find(".level-name, .level-description");
+			if(($(this).val() && !sibling.val()) || !$(this).val() && sibling.val()){
+				if(!level.hasClass("has-error")){
+					level.addClass("has-error");
+					level.append("<span class='help-block'>Please complete both fields, or neither, or remove the level.</span>");
+				}
+			}
+			else if(level.hasClass("has-error")){
+				level.removeClass("has-error");
+				level.find(".help-block").remove();
+			}
 		});
 
 		$("#milestone-levels-container").on("click", ".remove-milestone-level", function(event){
 			$(this).parent().remove();
 		});
 
-		$("#append-milestone-level").click(appendMilestoneLevel);
+		$("#append-milestone-level").click(function(){
+			appendMilestoneLevel();
+		});
 
 		$("#milestone-levels-form").submit(function(event){
 			event.preventDefault();
@@ -366,16 +377,39 @@
 			data._token = "{{ csrf_token() }}";
 			data.ajax = true;
 			data.levels = [];
+
+			var incompleteLevels = [];
 			$("#milestone-levels-container").children(".milestone-level").each(function(){
-				data.levels.push({
-					name: $(this).find(".level-name").val(),
-					description: $(this).find(".level-description").text();
-				});
+				var name = $(this).find(".level-name").val();
+				var description = $(this).find(".level-description").val();
+
+				if(name && description){
+					data.levels.push({
+						name: name,
+						description: description
+					});
+				}
+				else if(!name && !description){
+
+				}
+				else if(!name){
+					incompleteLevels.push($(this).find(".level-name"));
+				}
+				else if(!description){
+					incompleteLevels.push($(this).find(".level-description"));
+				}
 			});
+
+			if(incompleteLevels.length > 0){
+				appendAlert("Please complete all levels, remove or leave entirely blank any incomplete fields.", "#milestone-levels-modal .modal-header");
+				incompleteLevels[0].focus();
+				submitButton.prop("disabled", false).removeClass("disabled");
+				return;
+			}
 
 			var action = $(this).attr("action");
 			$.post(action, data).done(function(response){
-				if(response === "success"){
+				if(response === "true"){
 					$("#milestone-levels-modal").modal("hide");
 				}
 				else {
@@ -394,9 +428,9 @@
 
 			var newLevelHtml = $.parseHTML(levelHtml);
 			if(levelName)
-				newLevelHtml.find(".level-name").val(levelName);
+				$(newLevelHtml).find(".level-name").val(levelName);
 			if(levelDesc)
-				newLevelHtml.find(".level-description").val(levelDesc);
+				$(newLevelHtml).find(".level-description").val(levelDesc);
 
 			$("#milestone-levels-container").append(newLevelHtml);
 		}

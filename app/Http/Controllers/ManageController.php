@@ -32,6 +32,7 @@ use App\Evaluation;
 use App\Form;
 use App\Mentorship;
 use App\Milestone;
+use App\MilestoneLevel;
 use App\MilestoneQuestion;
 use App\User;
 
@@ -620,9 +621,10 @@ class ManageController extends Controller
 				$result[] = $milestone->type;
 				$result[] = $milestone->training_level;
 	            $result[] = $milestone->description;
-	            $action = "<button id='edit-milestone-button-{$milestone->id}' class='editMilestone btn btn-info btn-xs' data-toggle='modal' data-target='.bs-editMS-modal' data-id='{$milestone->id}'><span class='glyphicon glyphicon-edit'></span> Edit</button>";
+	            $action = "<button id='edit-milestone-button-{$milestone->id}' class='editMilestone btn btn-info btn-xs' data-toggle='modal' data-target='.bs-editMS-modal' data-id='{$milestone->id}'><span class='glyphicon glyphicon-edit'></span> Edit</button> ";
+                $action .= "<button class='btn btn-info btn-xs edit-milestone-levels' data-milestone-id='{$milestone->id}' data-milestone-title='{$milestone->title}'><span class='glyphicon glyphicon-th-list'></span> Levels</button> ";
 	            if($milestone->forms->count() === 0)
-	                $action .= "<button id='delete-milestone-button-{$milestone->id}' class='deleteMilestone btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-deleteMS-modal' data-id='{$milestone->id}'><span class='glyphicon glyphicon-remove'></span> Delete</button>";
+	                $action .= "<button id='delete-milestone-button-{$milestone->id}' class='deleteMilestone btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-deleteMS-modal' data-id='{$milestone->id}'><span class='glyphicon glyphicon-remove'></span> Delete</button> ";
 	            $result[] = $action;
 	            $results["data"][] = $result;
 			}
@@ -633,8 +635,10 @@ class ManageController extends Controller
         return response()->json($results);
     }
 
-	public function getMilestone($id){
+	public function getMilestone($id, $field = null){
 		$milestone = Milestone::find($id);
+        if($field == "levels")
+            return response()->json($milestone->levels);
 		return response()->json($milestone);
 	}
 
@@ -681,16 +685,23 @@ class ManageController extends Controller
                 Milestone::destroy($request->input("id"));
                 break;
 			case "levels":
-				$milestone = Milestone::find($request->input("id"));
+                $milestoneId = $request->input("id");
+				$milestone = Milestone::find($milestoneId);
 				$levels = $request->input("levels");
 				foreach($levels as $levelNum => $level){
-					$milestoneLevel = new MilestoneLevel();
+					$milestoneLevel = MilestoneLevel::firstOrNew([
+                        "milestone_id" => $milestoneId,
+                        "level_number" => $levelNum + 1
+                    ]);
 					$milestoneLevel->milestone_id = $request->input("id");
-					$milestoneLevel->level_number = $levelNum;
+					$milestoneLevel->level_number = $levelNum + 1;
 					$milestoneLevel->name = $level["name"];
 					$milestoneLevel->description = $level["description"];
 					$milestoneLevel->save();
 				}
+                MilestoneLevel::where("milestone_id", $milestoneId)
+                    ->where("level_number", ">", count($levels))
+                    ->delete();
 				break;
             default:
                 return redirect("manage/milestones-competencies");
