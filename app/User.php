@@ -29,7 +29,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      *
      * @var array
      */
-    protected $fillable = ["username", "training_level", "first_name", "last_name", "email", "photo_path"];
+    protected $fillable = [
+        "username",
+        "training_level",
+        "first_name",
+        "last_name",
+        "email",
+        "photo_path"
+    ];
 
     protected $casts = [
         "id" => "integer"
@@ -40,7 +47,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      *
      * @var array
      */
-    protected $hidden = ['password', 'remember_token', 'full_name', 'specific_type', 'profile_link'];
+    protected $hidden = ['password', 'remember_token'];
 
 	protected $appends = ["full_name", "specific_type", "profile_link"];
 
