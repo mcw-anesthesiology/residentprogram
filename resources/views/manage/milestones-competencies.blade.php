@@ -476,7 +476,7 @@
 			$.post($(form).prop("action"), data, function(response){
 				if(response == "true"){
 					modal.modal("hide");
-					row.fadeOut(function(){
+					row.velocity("fadeOut", function(){
 						$(table).DataTable({
 							retrieve: true
 						}).row(row).remove().draw(false);

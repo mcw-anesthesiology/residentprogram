@@ -201,13 +201,13 @@
 				data: data,
 				success: function(response){
 					if (response == "true"){
-						span.fadeOut(function(){
+						span.velocity("fadeOut", function(){
 							$(this).html("<button type='button' class='enableEval btn btn-success btn-xs' data-id='" + formId + "'><span class='glyphicon glyphicon-ok'></span> Enable</button>");
-							$(this).fadeIn();
+							$(this).velocity("fadeIn");
 						});
-						status.fadeOut(function(){
+						status.velocity("fadeOut", function(){
 							$(this).html("<span class='badge badge-disabled'>inactive</span>");
-							$(this).fadeIn();
+							$(this).velocity("fadeIn");
 						});
 					}
 				}
@@ -227,13 +227,13 @@
 				data: data,
 				success: function(response){
 					if (response == "true"){
-						span.fadeOut(function(){
+						span.velocity("fadeOut", function(){
 							$(this).html("<button type='button' class='disableEval btn btn-danger btn-xs' data-id='" + formId + "'><span class='glyphicon glyphicon-remove'></span> Disable</button>");
-							$(this).fadeIn();
+							$(this).velocity("fadeIn");
 						});
-						status.fadeOut(function(){
+						status.velocity("fadeOut", function(){
 							$(this).html("<span class='badge badge-complete'>active</span>");
-							$(this).fadeIn();
+							$(this).velocity("fadeIn");
 						});
 					}
 				}
@@ -264,7 +264,7 @@
 				if(response == "true"){
 					$(".edit-form-button[data-id='" + formId + "']").data("visibility", data.visibility);
 					var button = $(".visibility[data-id='" + formId + "']");
-					button.fadeOut(function(){
+					button.velocity("fadeOut", function(){
 						switch(data.visibility){
 							case "visible":
 								button.removeClass("visibility-anonymous visibility-hidden btn-default");
@@ -282,7 +282,7 @@
 								button.html("Hidden <span class='glyphicon glyphicon-eye-close'></span>");
 								break;
 						}
-						button.fadeIn();
+						button.velocity("fadeIn");
 					});
 				}
 			});

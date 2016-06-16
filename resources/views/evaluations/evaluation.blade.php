@@ -405,15 +405,6 @@
 	@endif
 		});
 
-		$(".toggleDescriptions").click(function(){
-			var questionName = $(this).data("id");
-			var headerHeight = $("#main-navbar").height();
-			var padding = 5;
-			var scrollto = $(this).parents(".question").offset().top - padding - headerHeight;
-			$("html, body").animate({scrollTop: scrollto});
-			$("." + questionName + " .description").slideToggle();
-			$("#" + questionName).toggleClass("expanded-descriptions");
-		});
 
 		var saveForm = false;
 		$("#evaluation").submit(checkForm);
@@ -463,7 +454,7 @@
 
 			alert.removeClass("alert-success alert-danger").addClass("alert-info");
 			alert.html('<img src="/ajax-loader.gif" />');
-			alert.fadeIn();
+			alert.velocity("fadeIn");
 
 			$.post(url + "/comment", data, function(result){
 				if(result == "true"){
@@ -505,15 +496,8 @@
 				var tbody = document.createElement("tbody");
 				for(var i = 0; i < headings.length || i < data.length; i++){
 					var tr = document.createElement("tr");
-					var th = document.createElement("th");
-					var text = document.createTextNode(headings[i].innerHTML);
-					th.appendChild(text);
-					tr.appendChild(th);
-
-					var td = document.createElement("td");
-					text = document.createTextNode(data[i].innerHTML);
-					td.appendChild(text);
-					tr.appendChild(td);
+					$(tr).append(headings[i]);
+					$(tr).append(data[i]);
 					tbody.appendChild(tr);
 				}
 				table.appendChild(tbody);
@@ -534,21 +518,12 @@
 				var th, td, text;
 				for(var i = 0; i < headings.length || i < data.length; i++){
 					$(tr).append(headings[i]);
-					// th = document.createElement("th");
-					// th.innerHTML = headings[i].innerHTML;
-					// // text = document.createTextNode(headings[i].innerHTML);
-					// // th.appendChild(text);
-					// tr.appendChild(th);
 				}
 				thead.appendChild(tr);
 
 				tr = document.createElement("tr");
 				for(var i = 0; i < headings.length || i < data.length; i++){
 					$(tr).append(data[i]);
-					// td = document.createElement("td");
-					// td.innerHTML = data[i].innerHTML;
-					// // td.appendChild(text);
-					// tr.appendChild(td);
 				}
 				tbody.appendChild(tr);
 

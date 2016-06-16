@@ -317,8 +317,7 @@
 			var headerHeight = $("#main-navbar").height();
 			var target = $(this).context.hash;
 			var padding = 5;
-			var scrollto = $(target).parents(".body-block").offset().top - padding - headerHeight;
-			$("html, body").animate({scrollTop: scrollto});
+			$(target).parents(".body-block").velocity("scroll", {offset: -(padding + headerHeight)});
 		});
 
 		$("#send-intro-email-submit").click(function(event){
@@ -405,13 +404,13 @@
 				"data": data,
 				"success": function(response){
 					if(response === "true"){
-						span.fadeOut(function(){
+						span.velocity("fadeOut", function(){
 							$(this).html("<button class='enableUser btn btn-success btn-xs' data-id='"+data.id+"'><span class='glyphicon glyphicon-ok'></span> Enable</button>");
-							$(this).fadeIn();
+							$(this).velocity("fadeIn");
 						});
-						status.fadeOut(function(){
+						status.velocity("fadeOut", function(){
 							$(this).html("inactive");
-							$(this).fadeIn();
+							$(this).velocity("fadeIn");
 						});
 					}
 				}
@@ -430,13 +429,13 @@
 				"data": data,
 				"success": function(response){
 					if(response === "true"){
-						span.fadeOut(function(){
+						span.velocity("fadeOut", function(){
 							$(this).html("<button class='disableUser btn btn-danger btn-xs' data-id='"+data.id+"'><span class='glyphicon glyphicon-remove'></span> Disable</button>");
-							$(this).fadeIn();
+							$(this).velocity("fadeIn");
 						});
-						status.fadeOut(function(){
+						status.velocity("fadeOut", function(){
 							$(this).html("active");
-							$(this).fadeIn();
+							$(this).velocity("fadeIn");
 						});
 					}
 				}

@@ -33,14 +33,14 @@ function reportHtml(i) {
 
 $("#addNewSpecificReport").click(function(){
 	var report = reportHtml(++numSpecificReports);
-	$(report).appendTo(".modal-specRpt").slideDown();
+	$(report).appendTo(".modal-specRpt").velocity("slideDown");
 	$(".datepicker").datepicker({
 		dateFormat: "yy-mm-dd"
 	});
 });
 
  $(".modal-specRpt").on("click", ".remove-report-group", function(){
-	$(this).parent().slideUp(function(){
+	$(this).parent().velocity("slideUp", function(){
 		$(this).remove();
 	});
  });
@@ -186,4 +186,20 @@ $(".report-milestones-info").popover({
 			"<li>Leave empty to include all milestones in training level in report</li>" +
 			"<li>Click a milestone type heading to select all milestones of that type</li>" +
 		"</ul>"
+});
+
+$(".toggleDescriptions").click(function(){
+	var questionName = $(this).data("id");
+	var headerHeight = $("#main-navbar").height();
+	var padding = 5;
+	var scrollto = $(this).parents(".question").velocity("scroll");
+	var isExpanded = $("#" + questionName).hasClass("expanded-descriptions");
+	if(isExpanded)
+		$("." + questionName + " .description").velocity("slideUp", function(){
+			$("#" + questionName).removeClass("expanded-descriptions");
+		});
+	else {
+		$("#" + questionName).addClass("expanded-descriptions");
+		$("." + questionName + " .description").velocity("slideDown");
+	}
 });

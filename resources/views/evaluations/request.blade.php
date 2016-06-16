@@ -223,7 +223,7 @@
 			var year = 0, month = 1, day = 2;
 			var start = date.split("-");
 			var end = endOfMonth[date].split("-");
-			$("#evaluation-day-div").fadeIn();
+			$("#evaluation-day-div").velocity("fadeIn");
 			$("#evaluation-day").datepicker("setDate", "");
 			$("#evaluation-day").datepicker("option", "minDate", new Date(start[year], start[month] - 1, start[day]));
 			$("#evaluation-day").datepicker("option", "maxDate", new Date(end[year], end[month] - 1, end[day]));
@@ -337,14 +337,17 @@
 		$("#block").change(selectBlock);
 
 		$("#send-hash").change(function(){
-			$("#hash-expires-in").parent().slideToggle();
+			if($(this).prop("checked"))
+				$("#hash-expires-in").parent().velocity("slideDown");
+			else
+				$("#hash-expires-in").parent().velocity("slideUp");
 		});
 
 		$(document).ready(function(){
 
 			if(requestType == "staff"){
 				$("#send-hash").prop("checked", true);
-				$("#hash-expires-in").parent().slideDown();
+				$("#hash-expires-in").parent().velocity("slideDown");
 			}
 
 			$("#evaluation-day").datepicker({

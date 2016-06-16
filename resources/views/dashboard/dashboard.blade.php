@@ -43,13 +43,13 @@
 				if(response == "success"){
 					if(row.siblings().length == 0){
 						var bodyBlock = row.parents(".body-block");
-						bodyBlock.fadeOut(function(){
+						bodyBlock.velocity("fadeOut", function(){
 							bodyBlock.html("<h2>You have no pending evaluations</h2>");
-							bodyBlock.fadeIn();
+							bodyBlock.velocity("fadeIn");
 						});
 					}
 					else{
-						row.fadeOut(function(){
+						row.velocity("fadeOut", function(){
 							$(".datatable-pending").DataTable({
 								retrieve: true
 							}).row(row).remove().draw(false);
@@ -75,11 +75,11 @@
 			$.post("/evaluation/flag/remove", data, function(response){
 				if(response == "success")
 					if(row.siblings().length == 0)
-						row.parents(".body-block").fadeOut(function(){
+						row.parents(".body-block").velocity("fadeOut", function(){
 							$(this).remove();
 						});
 					else
-						row.fadeOut(function(){
+						row.velocity("fadeOut", function(){
 							$(".datatable-flagged").DataTable({
 								retrieve: true
 							}).row(row).remove().draw(false);

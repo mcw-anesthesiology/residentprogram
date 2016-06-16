@@ -54,23 +54,23 @@
 			data.endDate = $("#stats-end-date").val();
 			data.user = $("#stats-user").val();
 
-			$("#stats").fadeOut(function(){
+			$("#stats").velocity("fadeOut", function(){
 				$(this).html('<div class="container body-block text-center"><img src="/ajax-loader.gif" /></div>');
-				$(this).fadeIn();
+				$(this).velocity("fadeIn");
 			});
 
 			$.post("#", data, function(response){
 				if(response == -1){
-					$("#stats").fadeOut(function(){
+					$("#stats").velocity("fadeOut", function(){
 						$(this).html("<p>Error retrieving statistics</p>");
-						$(this).fadeIn();
+						$(this).velocity("fadeIn");
 					});
 				}
 				else{
-					$("#stats").fadeOut(function(){
+					$("#stats").velocity("fadeOut", function(){
 						$(this).html(response);
 						$(".datatable").DataTable();
-						$(this).fadeIn(function(){
+						$(this).velocity("fadeIn", function(){
 							if($("#stat-eval-data").get().length > 0)
 								drawChart();
 						});

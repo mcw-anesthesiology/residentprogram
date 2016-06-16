@@ -486,7 +486,7 @@
 					remindedUsers.forEach(function(id){
 						$(".remind-all-id[value='" + id + "']").prop("checked", false);
 					});
-					$("#reminder-ids-container").slideDown();
+					$("#reminder-ids-container").velocity("slideDown");
 					appendAlert(remindedUsers.length + " reminders sent out of " + expectedRemindedUsers, "#send-reminder-modal-body-info");
 				} else {
 					appendAlert("Error sending reminders, 0 reminders sent", "#send-reminder-modal-body-info");
