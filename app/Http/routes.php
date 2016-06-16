@@ -29,6 +29,7 @@ Route::get("dashboard", "MainController@dashboard");
 Route::post("dashboard/evaluations/flagged", "MainController@flaggedEvaluations");
 Route::post("dashboard/evaluations/staff/{limit?}", "MainController@staffEvaluations");
 Route::post("dashboard/evaluations/self/{limit?}", "MainController@selfEvaluations");
+Route::post("dashboard/evaluations/evaluator/{limit?}", "MainController@evaluatorEvaluations");
 Route::get("dashboard/evaluations/{limit?}", "MainController@evaluations");
 Route::post("dashboard/evaluations/{limit?}", "MainController@evaluations");
 Route::get("dashboard/faculty", "MainController@dashboardFaculty");
@@ -99,6 +100,9 @@ Route::get("manage/block-assignments", "ManageController@blockAssignments");
 Route::post("manage/block-assignments", "ManageController@saveBlockAssignments");
 Route::post("manage/block-assignments/table", "ManageController@blockAssignmentsTable");
 Route::post("manage/block-assignments/get", "ManageController@getBlockAssignments");
+Route::get("manage/watched-forms", "ManageController@watchedForms");
+Route::post("manage/watched-forms", "ManageController@saveWatchedForm");
+Route::get("manage/watched-forms/get", "ManageController@getWatchedForms");
 
 Route::post("report/aggregate", "ReportController@aggregate");
 Route::post("report/specific", "ReportController@specific");

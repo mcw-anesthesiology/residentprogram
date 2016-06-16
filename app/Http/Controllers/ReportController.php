@@ -575,6 +575,7 @@ class ReportController extends Controller
             // ->where("users.status", "active")
             // ->where("users.type", "resident")
             ->whereIn("forms.type", ["resident", "fellow"])
+            ->whereIn("forms.evaluator_type", ["faculty"])
             ->where("evaluations.status", "complete")
             ->where("evaluations.evaluation_date", ">=", $startDate)
             ->where("evaluations.evaluation_date", "<=", $endDate);
@@ -772,7 +773,9 @@ class ReportController extends Controller
                 ->where("evaluations.status", "complete")
                 ->where("evaluations.evaluation_date", ">=", $startDate)
                 ->where("evaluations.evaluation_date", "<=", $endDate)
-                ->where("evaluations.subject_id", $reportSubject);
+                ->where("evaluations.subject_id", $reportSubject)
+                ->whereIn("forms.type", ["resident", "fellow"])
+                ->whereIn("forms.evaluator_type", ["faculty"]);
 
             if($trainingLevel != "all")
                 $textQuery->where("evaluations.training_level", $trainingLevel);
@@ -838,6 +841,7 @@ class ReportController extends Controller
     }
 
     public function formReport(Request $request){
+        // TODO: Allow not having to select a subject
         $startDate = Carbon::parse($request->input("startDate"));
         $startDate->timezone = "America/Chicago";
         $endDate = Carbon::parse($request->input("endDate"));

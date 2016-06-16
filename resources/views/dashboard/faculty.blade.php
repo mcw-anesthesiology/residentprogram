@@ -1,5 +1,5 @@
-@if($user->evaluatorEvaluations()->where("status", "pending")->count() > 0)
 	<h2 class="sub-header"><span class="glyphicon glyphicon-inbox"></span> Requests</h2>
+@if($user->evaluatorEvaluations()->where("status", "pending")->count() > 0)
 	<div class="table-responsive">
 		<table class="table table-striped datatable-pending" id="keywordsPending" width="100%">
 			<thead>
@@ -14,7 +14,7 @@
 		</table>
 	</div>
 @else
-	<h2>You have no pending evaluations</h2>
+	<p class="lead">You have no pending evaluation requests, why not <a href="/request">create one?</a></p>
 @endif
 
 @foreach($mentees as $mentee)
@@ -39,6 +39,7 @@
 </div>
 <div class="container body-block">
 	<h2 class="sub-header"><span class="glyphicon glyphicon-check"></span> Completed Evaluations</h2>
+@if($user->evaluatorEvaluations()->count() > 0)
 	<div class="table-responsive">
 		<table class="table table-striped datatable-complete" width="100%">
 			<thead>
@@ -52,3 +53,6 @@
 			</thead>
 		</table>
 	</div>
+@else
+	<p class="lead">You have no completed evaluations</p>
+@endif

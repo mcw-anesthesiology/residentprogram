@@ -25,4 +25,8 @@ class Form extends Model
     public function competencies(){
         return $this->belongsToMany("App\Competency", "competencies_questions");
     }
+
+    public function watchedForms(){
+        return $this->hasMany("App\WatchedForm");
+    }
 }

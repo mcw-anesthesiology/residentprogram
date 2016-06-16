@@ -35,6 +35,7 @@ use App\Milestone;
 use App\MilestoneLevel;
 use App\MilestoneQuestion;
 use App\User;
+use App\WatchedForm;
 
 class ManageController extends Controller
 {
@@ -357,8 +358,7 @@ class ManageController extends Controller
 			try{
 	            $result = [];
 	            $result[] = $form->title;
-				if($form->type == "resident")
-					$result[] = ucfirst($form->evaluator_type);
+				$result[] = ucfirst($form->evaluator_type);
 	            $result[] = (string)$form->created_at;
 	            if($form->status == "inactive"){
 	                $buttonClass = "enableEval";
@@ -961,5 +961,17 @@ class ManageController extends Controller
 
     public function deletePagerDirectoryEntry(Request $request){
         return DirectoryEntry::destroy($request->input("id")) > 0 ? "success" : "No entries deleted";
+    }
+
+    public function watchedForms(Request $request){
+        return view("manage.watched-forms");
+    }
+
+    public function getWatchedForms(Request $request){
+        return response()->json(["watched_forms" => WatchedForm::all()]);
+    }
+
+    public function saveWatchedForm(Request $request){
+
     }
 }

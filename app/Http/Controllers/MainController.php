@@ -30,6 +30,7 @@ use App\Mentorship;
 use App\Response;
 use App\TextResponse;
 use App\User;
+use App\WatchedForm;
 
 class MainController extends Controller
 {
@@ -47,6 +48,9 @@ class MainController extends Controller
                 $numStaffEvals = $user->subjectEvaluations()->notHidden()->where("status", "complete")->whereHas("form", function($query){
                     $query->where("evaluator_type", "staff");
                 })->count();
+                $numSelfEvals = $user->subjectEvaluations()->notHidden()->where("status", "complete")->whereHas("form", function($query){
+                    $query->where("evaluator_type", "self");
+                })->count();
                 break;
             case "faculty":
                 $mentees = $user->mentees->where("status", "active")->unique();
@@ -55,7 +59,7 @@ class MainController extends Controller
                 $numFlagged = Evaluation::has("flag")->count();
                 break;
         }
-        $data = compact("mentees", "numFlagged", "numStaffEvals");
+        $data = compact("mentees", "numFlagged", "numStaffEvals", "numSelfEvals");
         return view("dashboard.dashboard", $data);
     }
 
@@ -400,6 +404,7 @@ class MainController extends Controller
         elseif((($evaluation->subject_id == $user->id || $user->mentees->contains($evaluation->subject)) && $evaluation->visibility != "hidden") || $evaluation->evaluator_id == $user->id || $user->type == "admin"){
 			if($evaluation->evaluator_id == $user->id || $user->type == "admin"){
 				switch($evaluation->evaluator->type){
+                    // FIXME: These subjectTypes aren't correct
 					case "faculty":
 						$subjectType = "Resident/Fellow";
 						$possibleSubjects = User::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("last_name")->get();
@@ -609,6 +614,7 @@ class MainController extends Controller
 		return "Error removing flag";
 	}
 
+    // TODO: Split the fetching of evals into more functions, put the outputting into one function
     public function evaluations(Request $request, $limit = null){
         // FIXME: This is a mess wtf
         $user = Auth::user();
@@ -707,6 +713,74 @@ class MainController extends Controller
         }
         return response()->json($results);
     }
+
+    public function evaluatorEvaluations(Request $request, $limit = null){
+        $user = Auth::user();
+        $results["data"] = [];
+        $type = $request->input("type", "complete");
+
+        $evaluations = $user->evaluatorEvaluations()->where("status", $type);
+
+        if($limit)
+            $evaluations = $evaluations->limit($limit)->get();
+        else
+            $evaluations = $evaluations->get();
+
+        foreach($evaluations as $eval){
+            try {
+                $result = [];
+                $result[] = "<a href='{$eval->id}'>{$eval->id}</a>";
+                $result[] = $eval->subject->full_name;
+                $result[] = $eval->form->title;
+                if($eval->evaluation_date)
+                    $result[] = $eval->evaluation_date->format("F Y");
+                else
+                    $result[] = "";
+                $result[] = (string)$eval->request_date;
+                $result[] = "";
+
+                $results["data"][] = $result;
+            } catch(\Exception $e){
+                Log::error("Problem with evaluator eval: " . $e);
+            }
+        }
+
+        return response()->json($results);
+    }
+
+    public function formEvaluations(Request $request, $limit = null){
+        $user = Auth::user();
+        $type = $request->input("type", "complete");
+        $form = Form::findOrFail($request->input("form_id"));
+        $results["data"] = [];
+
+        if($user->type == "admin" || $user->watchedForms->contains($form)){
+            foreach($form->evaluations as $eval){
+                try {
+                    $result = [];
+                    $result[] = "<a href='{$eval->id}'>{$eval->id}</a>";
+                    $result[] = $eval->subject->full_name;
+                    $result[] = $eval->evaluator->full_name;
+                    if($eval->evaluation_date)
+                        $result[] = $eval->evaluation_date->format("F Y");
+                    else
+                        $result[] = "";
+                    if($eval->complete_date)
+                        $result[] = (string)$eval->complete_date;
+                    else
+                        $result[] = "";
+                    $result[] = "";
+
+                    $results["data"][] = $result;
+                } catch(\Exception $e){
+                    Log::error("Problem with form evaluation: " . $e);
+                }
+            }
+        }
+
+        return response()->json($results);
+    }
+
 
     public function selfEvaluations(Request $request, $limit = null){
         $user = Auth::user();

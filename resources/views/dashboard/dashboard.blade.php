@@ -1,6 +1,7 @@
 @extends("app")
 
 @section("body")
+	{{-- TODO: Split the chunks into separate files, include them conditionally here --}}
 	@include("dashboard.".$user->type)
 
 	<!-- Cancel Modal -->
@@ -139,6 +140,19 @@
 					$("td", row).addClass("view-evaluation");
 				},
 				"initComplete": unlimitTableEvals
+			});
+
+			data.type = "pending";
+			$("#pending-evaluator-table").DataTable({
+				ajax: {
+					url: "/dashboard/evaluations/evaluator",
+					data: data,
+					type: "post"
+				},
+				order: [[0, "desc"]],
+				createdRow: function(row){
+					$("td", row).addClass("view-evaluation");
+				}
 			});
 
 			data.type = "pending";
