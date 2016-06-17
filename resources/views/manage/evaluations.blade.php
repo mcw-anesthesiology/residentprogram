@@ -66,6 +66,105 @@
 
 @section("script")
 	<script>
+		var manageEvalsTable = $("#manage-evals-table").DataTable({
+			"ajax": {
+				url: "/evaluations/?limit=20",
+				data: {
+					subject: true,
+					evaluator: true,
+					requestor: true,
+					form: true
+				},
+				dataSrc: ""
+			},
+			columns: [
+				{data: "url"},
+				{data: "subject.full_name"},
+				{data: "evaluator.full_name"},
+				{data: "requestor.full_name"},
+				{data: "form.title"},
+				{data: "evaluation_date", render: function(evalDate){
+					return evalDate ? moment(evalDate).format("MMMM Y") : "";
+				}},
+				{data: "request_date", render: function(requestDate){
+					return requestDate ? moment(requestDate).calendar() : "";
+				}},
+				{data: "complete_date", render: function(completeDate){
+					return completeDate ? moment(completeDate).calendar() : "";
+				}},
+				{data: null, render: function(eval){
+					if(!eval.visibility)
+						eval.visibility = eval.form.visibility;
+					var label;
+					switch(eval.status){
+						case "complete":
+							label = "success";
+							break;
+						case "pending":
+							label = "warning";
+							break;
+						default:
+							label = "danger";
+							break;
+					}
+					var eyeType, visBtnType;
+					switch(eval.visibility){
+						case "visible":
+							eyeType = "open";
+							visBtnType = "btn-info";
+							break;
+						case "anonymous":
+							eyeType = "close";
+							visBtnType = "";
+							break;
+						case "hidden":
+							eyeType = "close";
+							visBtnType = "btn-default";
+							break;
+					}
+					return '<span class="status"><span class="label label-'
+						+ label + '">' + ucfirst(eval.status) + '</span></span> '
+						+ '<br /><button type="button" class="visibility visibility-'
+						+ eval.visibility + ' btn ' + visBtnType + ' btn-xs"'
+						+ 'data-id="' + eval.id + '">'
+						+ ucfirst(eval.visibility)
+						+ ' <span class="glyphicon glyphicon-eye-' + eyeType
+						+ '"</span></button>';
+				}},
+				{data: null, render: function(eval){
+					var buttonClass, buttonType, glyphicon, buttonText;
+					if(eval.status === "disabled"){
+						buttonClass = "enableEval";
+						buttonType = "success";
+						glyphicon = "ok";
+						buttonText = "Enable";
+					} else {
+						buttonClass = "disableEval";
+						buttonType = "danger";
+						glyphicon = "remove";
+						buttonText = "Disable";
+					}
+					var action = '<span><button class="' + buttonClass
+					+ ' btn btn-' + buttonType + ' btn-xs" data-id="' + eval.id
+					+ '"><span class="glyphicon glyphicon-' + glyphicon + '"></span>'
+					+ ' ' + buttonText + '</button></span>';
+
+					action += '<span class="cancel">';
+					if(eval.status === "pending")
+						action += '<button class="cancelEval btn btn-danger btn-xs" data-id="'
+						+ eval.id + '"><span class="glyphicon glyphicon-remove"></span> Cancel</button>'
+					action += '</span>';
+
+					return action;
+				}}
+			],
+			order: [[0, "desc"]],
+			initComplete: unlimitTableEvals
+		});
+
+		$("#lastSixMonthsDisable").click(lastSixMonthsDisable);
+		$("#lastThreeMonthsDisable").click(lastThreeMonthsDisable);
+
 		$(document).on("click", ".disableEval", function(){
 			var requestId = $(this).data('id');
 			var data = {};
@@ -228,17 +327,6 @@
 					});
 				}
 			});
-		});
-
-		$(document).ready(function(){
-		  $("#manage-evals-table").DataTable({
-			"ajax": "/manage/evaluations/get/20",
-			"order": [[0, "desc"]],
-			"initComplete": unlimitTableEvals
-		  });
-
-		  $("#lastSixMonthsDisable").click(lastSixMonthsDisable);
-		  $("#lastThreeMonthsDisable").click(lastThreeMonthsDisable);
 		});
     </script>
 @stop

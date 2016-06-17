@@ -26,6 +26,7 @@ class RestController extends Controller
         return $this->model::with(array_keys(array_only($request->all(), $this->relationships)))
 			->where(array_only($request->all(), $this->attributes))
 			->take($request->input("limit"), null)
+			->orderBy("id", $request->input("order", "desc"))
 			->get();
     }
 

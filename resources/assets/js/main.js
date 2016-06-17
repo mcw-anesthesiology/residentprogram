@@ -1,3 +1,9 @@
+moment.updateLocale("en", {
+	calendar: {
+		sameElse: "D-MM-Y h:m A"
+	}
+});
+
 var numSpecificReports = 0;
 function reportHtml(i) {
 	return '<div class="report-options collapse">'+
@@ -203,3 +209,7 @@ $(".toggleDescriptions").click(function(){
 		$("." + questionName + " .description").velocity("slideDown");
 	}
 });
+
+function ucfirst(str){
+	return str.charAt(0).toUpperCase() + str.substring(1);
+}

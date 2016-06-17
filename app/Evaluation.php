@@ -48,10 +48,15 @@ class Evaluation extends Model
 		"visibility"
 	];
 
+    protected $appends = ["url"];
 
 	public function getVisibilityAttribute(){
         return empty($this->attributes["visibility"]) ? $this->form->visibility : $this->attributes["visibility"];
 	}
+
+    public function getUrlAttribute(){
+        return "<a href='/evaluation/{$this->id}'>{$this->id}</a>";
+    }
 
     public function evaluator(){
         return $this->belongsTo("App\User", "evaluator_id");

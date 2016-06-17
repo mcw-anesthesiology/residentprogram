@@ -16,13 +16,13 @@
     "test",
     "tests"
   ],
-  "dependencies": {
-    "bootstrap": "~3.3.6",
-    "jquery": "~2.2.0",
-    "moment": "~2.11.1",
-    "Chart.js": "Chart-js#~1.0.2",
-    "lodash": "~4.0.1",
-    "select2": "~4.0.1",
+  "devDependencies": {
+    "bootstrap": "^3.3.6",
+    "jquery": "^2.2.4",
+    "moment": "^2.13.0",
+    "Chart.js": "Chart.js#^1.0.2",
+    "lodash": "^4.0.1",
+    "select2": "^4.0.1",
     "datatables.net": "^1.10.10",
     "datatables.net-bs": "^1.10.10",
     "datatables.net-fixedcolumns": "^3.2.0",
@@ -36,9 +36,7 @@
     "bootstrap-switch": "^3.3.2",
     "jquery-ui": "^1.11.4",
     "select2-bootstrap-theme": "^0.1.0-beta.4",
-    "marked": "^0.3.5"
-  },
-  "devDependencies": {
+    "marked": "^0.3.5",
     "velocity": "^1.2.3"
   }
 }
