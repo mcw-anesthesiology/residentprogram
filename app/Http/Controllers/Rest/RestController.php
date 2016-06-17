@@ -37,7 +37,7 @@ class RestController extends Controller
      */
     public function store(Request $request){
         $this->model::create($request->all());
-		if($request->has("ajax") && $request->input("ajax"))
+		if($request->ajax())
 			return "success";
 		else
 			return back();
@@ -70,7 +70,18 @@ class RestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id){
-        $this->model::destroy($id);
+    public function destroy(Request $request, $id){
+		if($this->model::destroy($id) == 1){
+			if($request->ajax())
+				return "success";
+			else
+				return back();
+		}
+		else {
+			if($request->ajax())
+				throw new Exception("Problem deleting object");
+			else
+				return back()->with("error", "Problem deleting object");
+		}
     }
 }

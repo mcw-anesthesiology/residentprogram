@@ -57,13 +57,52 @@
 				{data: "user.full_name"},
 				{data: "form.title"},
 				{data: function(row){
-					return "";
+					return '<button type="button" class="btn btn-xs btn-danger delete-watched-form-button" data-id="'
+						+ row.id + '"><span class="glyphicon glyphicon-remove"></span> Delete</button>';
 				}}
 			]
 		});
 
 		$("#add-watched-form-button").click(function(){
 			$("#add-watched-form-modal").modal("show");
+		});
+
+		$("#watched-forms-table").on("click", ".delete-watched-form-button", function(){
+			$("#watched-forms-table .confirm-delete-watched-form-button")
+				.removeClass("confirm-delete-watched-form-button")
+				.html('<span class="glyphicon glyphicon-remove"></span> Delete');
+			$(this).addClass("confirm-delete-watched-form-button")
+				.html('<span class="glyphicon glyphicon-alert"></span> Confirm delete');
+		});
+
+		$("#watched-forms-table").on("click", ".confirm-delete-watched-form-button", function(){
+			var watchedFormId = $(this).data("id");
+			var data = {};
+			data._token = "{{ csrf_token() }}";
+
+			var row = $(this).parents("tr");
+			var button = $(this);
+			$(this).prop("disabled", true).addClass("disabled");
+			$.ajax({
+				url: "/watched_forms/" + watchedFormId,
+				data: data,
+				method: "DELETE"
+			}).done(function(response){
+				button.prop("disabled", false).removeClass("disabled");
+				if(response === "success"){
+					$("#add-watched-form-modal").modal("hide");
+					row.velocity("fadeOut", function(){
+						watchedFormsDatatable.ajax.reload();
+					});
+				}
+				else {
+					appendAlert(response, "#add-watched-form-modal .modal-header");
+					button.prop("disabled", false).removeClass("disabled");
+				}
+			}).fail(function(response){
+				appendAlert(response, "#add-watched-form-modal .modal-header");
+				button.prop("disabled", false).removeClass("disabled");
+			});
 		});
 
 		$("#watched-forms-form").submit(function(event){
@@ -74,11 +113,7 @@
 			var data = $(this).serialize() + "&ajax=true";
 			var action = $(this).attr("action");
 			var method = $(this).attr("method");
-			console.log({
-				url: action,
-				method: method,
-				data: data
-			});
+
 			$.ajax({
 				url: action,
 				method: method,

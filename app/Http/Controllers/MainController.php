@@ -755,8 +755,8 @@ class MainController extends Controller
         $form = Form::findOrFail($request->input("form_id"));
         $results["data"] = [];
 
-        if($user->type == "admin" || true){
-            foreach($form->evaluations as $eval){
+        if($user->type == "admin" || $user->watchedForms->pluck("form_id")->contains($request->input("form_id"))){
+            foreach($form->evaluations()->where("status", $type)->get() as $eval){
                 try {
                     $result = [];
                     $result[] = "<a href='{$eval->id}'>{$eval->id}</a>";
