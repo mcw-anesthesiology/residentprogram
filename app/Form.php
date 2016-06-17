@@ -14,6 +14,8 @@ class Form extends Model
 
     protected $fillable = ["title", "xml_path", "status"];
 
+	protected $hidden = ["created_at", "updated_at"];
+
     public function evaluations(){
         return $this->hasMany("App\Evaluation");
     }

@@ -244,6 +244,22 @@
 					"initComplete": unlimitTableEvals
 				});
 			});
+
+			data.type = "complete";
+			$(".datatable-watched-form").each(function(){
+				data.form_id = $(this).data("id");
+				$(this).DataTable({
+					ajax: {
+						url: "/dashboard/evaluations/form",
+						data: data,
+						method: "POST"
+					},
+					order: [[0, "desc"]],
+					createdRow: function(row){
+						$("td", row).addClass("view-evaluation");
+					}
+				});
+			});
 		});
 	</script>
 @stop

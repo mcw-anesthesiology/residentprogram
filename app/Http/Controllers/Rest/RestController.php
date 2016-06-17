@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Rest;
 
 use Illuminate\Http\Request;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests;
 
-use App\User;
-
-class UserController extends Controller
+class RestController extends Controller
 {
+	protected $relationships = [];
+	protected $attributes = [];
 
     public function __construct(){
         $this->middleware("auth");
@@ -22,7 +23,10 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request){
-        return User::where($request->all())->get();
+        return $this->model::with(array_keys(array_only($request->all(), $this->relationships)))
+			->where(array_only($request->all(), $this->attributes))
+			->take($request->input("limit"), null)
+			->get();
     }
 
     /**
@@ -32,7 +36,11 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
-        User::create($request->all());
+        $this->model::create($request->all());
+		if($request->has("ajax") && $request->input("ajax"))
+			return "success";
+		else
+			return back();
     }
 
     /**
@@ -42,7 +50,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id){
-        return User::find($id);
+        return $this->model::with($this->relationships)->find($id);
     }
 
     /**
@@ -53,7 +61,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id){
-        User::find($id)->update($request->all());
+        $this->model::find($id)->update($request->all());
     }
 
     /**
@@ -63,6 +71,6 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id){
-        User::destroy($id);
+        $this->model::destroy($id);
     }
 }

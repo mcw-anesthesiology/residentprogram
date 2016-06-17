@@ -966,12 +966,4 @@ class ManageController extends Controller
     public function watchedForms(Request $request){
         return view("manage.watched-forms");
     }
-
-    public function getWatchedForms(Request $request){
-        return response()->json(["watched_forms" => WatchedForm::all()]);
-    }
-
-    public function saveWatchedForm(Request $request){
-
-    }
 }

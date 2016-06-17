@@ -226,10 +226,10 @@
 		  <div class="form-group">
 			<label for="form-report-resident">Resident/Fellow</label>
 			<select class="form-control select2" id="form-report-resident" name="subject" style="width: 100%;" required>
-        @foreach(array_keys($residentGroups) as $residentGroupLabel)
-            @if(count($residentGroups[$residentGroupLabel]) > 0)
+        @foreach($residentGroups as $residentGroupLabel => $residentGroup)
+            @if(count($residentGroup) > 0)
                 <optgroup label="{{ $residentGroupLabel }}">
-                @foreach($residentGroups[$residentGroupLabel] as $resident)
+                @foreach($residentGroup as $resident)
                     <option value="{{ $resident->id }}">{{ $resident->full_name }}</option>
                 @endforeach
                 </optgroup>
@@ -252,9 +252,9 @@
 		  <div class="form-group">
 			<label for="form-id">Form</label>
 			<select class="form-control select2" id="form-id" name="form_id" style="width: 100%" required>
-		@foreach(array_keys($residentFormGroups) as $residentFormGroupLabel)
-                <optgroup label="{{ ucfirst($residentFormGroupLabel) }}">
-            @foreach($residentFormGroups[$residentFormGroupLabel] as $residentForm)
+		@foreach($residentFormGroups as $residentFormGroupLabel => $residentFormGroup)
+                <optgroup label="{{ $residentFormGroupLabel }}">
+            @foreach($residentFormGroup as $residentForm)
                     <option value="{{ $residentForm->id }}">{{ $residentForm->title }}</option>
             @endforeach
                 </optgroup>

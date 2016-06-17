@@ -34,7 +34,19 @@ class Evaluation extends Model
         "complete_ip"
     ];
 
-    protected $dates = ["created_at", "updated_at", "request_date", "complete_date", "evaluation_date", "archive_date", "hash_expires"];
+    protected $dates = [
+		"request_date",
+		"complete_date",
+		"evaluation_date",
+		"archive_date",
+		"hash_expires"
+	];
+
+	protected $hidden = [
+		"created_at",
+		"updated_at",
+		"visibility"
+	];
 
 
 	public function getVisibilityAttribute(){

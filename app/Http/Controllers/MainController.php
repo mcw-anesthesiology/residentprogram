@@ -54,12 +54,13 @@ class MainController extends Controller
                 break;
             case "faculty":
                 $mentees = $user->mentees->where("status", "active")->unique();
+				$watchedForms = $user->watchedForms;
                 break;
             case "admin":
                 $numFlagged = Evaluation::has("flag")->count();
                 break;
         }
-        $data = compact("mentees", "numFlagged", "numStaffEvals", "numSelfEvals");
+        $data = compact("mentees", "numFlagged", "numStaffEvals", "numSelfEvals", "watchedForms");
         return view("dashboard.dashboard", $data);
     }
 
@@ -401,7 +402,7 @@ class MainController extends Controller
             else
                 return back()->with("error", "Insufficient permissions to view the requested evaluation");
         }
-        elseif((($evaluation->subject_id == $user->id || $user->mentees->contains($evaluation->subject)) && $evaluation->visibility != "hidden") || $evaluation->evaluator_id == $user->id || $user->type == "admin"){
+        elseif((($evaluation->subject_id == $user->id || $user->mentees->contains($evaluation->subject)) && $evaluation->visibility != "hidden") || $evaluation->evaluator_id == $user->id || $user->watchedForms->pluck("form_id")->contains($evaluation->form_id) || $user->type == "admin"){
 			if($evaluation->evaluator_id == $user->id || $user->type == "admin"){
 				switch($evaluation->evaluator->type){
                     // FIXME: These subjectTypes aren't correct
@@ -754,7 +755,7 @@ class MainController extends Controller
         $form = Form::findOrFail($request->input("form_id"));
         $results["data"] = [];
 
-        if($user->type == "admin" || $user->watchedForms->contains($form)){
+        if($user->type == "admin" || true){
             foreach($form->evaluations as $eval){
                 try {
                     $result = [];
