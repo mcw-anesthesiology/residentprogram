@@ -22,6 +22,9 @@ Route::resource("evaluations", "Rest\EvaluationController", ["only" => [
 Route::resource("watched_forms", "Rest\WatchedFormController", ["only" => [
 	"index", "store", "show", "update", "destroy"
 ]]);
+Route::resource("mentorships", "Rest\MentorshipController", ["only" => [
+	"index", "store", "show", "update", "destroy"
+]]);
 
 Route::get("/", "MainController@dashboard");
 
@@ -88,9 +91,6 @@ Route::get("graph/{filename}", "FileController@getGraph");
 Route::get("manage/settings", "ManageController@settings");
 Route::post("manage/settings", "ManageController@saveSettings");
 Route::get("manage/evaluations", "ManageController@evaluations");
-Route::post("manage/evaluations", "ManageController@archive");
-Route::get("manage/evaluations/get/{limit?}", "ManageController@getEvaluations");
-Route::post("manage/evaluations/{id}", "ManageController@editEvaluation");
 Route::get("manage/accounts", "ManageController@accounts");
 Route::get("manage/accounts/get/{type}", "ManageController@getAccounts");
 Route::post("manage/accounts/{action}", "ManageController@account");
@@ -107,8 +107,6 @@ Route::post("manage/milestones/{action}", "ManageController@milestone");
 Route::get("manage/competencies/get", "ManageController@getCompetencies");
 Route::post("manage/competencies/{action}", "ManageController@competency");
 Route::get("manage/mentors", "ManageController@mentors");
-Route::get("manage/mentors/get", "ManageController@getMentors");
-Route::post("manage/mentors/{action}", "ManageController@mentor");
 Route::get("manage/block-assignments", "ManageController@blockAssignments");
 Route::post("manage/block-assignments", "ManageController@saveBlockAssignments");
 Route::post("manage/block-assignments/table", "ManageController@blockAssignmentsTable");

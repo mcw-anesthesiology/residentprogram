@@ -67,7 +67,7 @@
 @section("script")
 	<script>
 		var manageEvalsTable = $("#manage-evals-table").DataTable({
-			"ajax": {
+			ajax: {
 				url: "/evaluations/?limit=20",
 				data: {
 					subject: true,
@@ -83,16 +83,10 @@
 				{data: "evaluator.full_name"},
 				{data: "requestor.full_name"},
 				{data: "form.title"},
-				{data: "evaluation_date", render: function(evalDate){
-					return evalDate ? moment(evalDate).format("MMMM Y") : "";
-				}},
-				{data: "request_date", render: function(requestDate){
-					return requestDate ? moment(requestDate).calendar() : "";
-				}},
-				{data: "complete_date", render: function(completeDate){
-					return completeDate ? moment(completeDate).calendar() : "";
-				}},
-				{data: null, render: function(eval){
+				{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell},
+				{data: "request_date", render: renderTableDate, createdCell: createDateCell},
+				{data: "complete_date", render: renderTableDate, createdCell: createDateCell},
+				{data: null, orderable: false, render: function(eval){
 					if(!eval.visibility)
 						eval.visibility = eval.form.visibility;
 					var label;
@@ -126,12 +120,12 @@
 						+ label + '">' + ucfirst(eval.status) + '</span></span> '
 						+ '<br /><button type="button" class="visibility visibility-'
 						+ eval.visibility + ' btn ' + visBtnType + ' btn-xs"'
-						+ 'data-id="' + eval.id + '">'
+						+ 'data-id="' + eval.id + '" data-current-visibility="'+ eval.visibility + '">'
 						+ ucfirst(eval.visibility)
 						+ ' <span class="glyphicon glyphicon-eye-' + eyeType
 						+ '"</span></button>';
 				}},
-				{data: null, render: function(eval){
+				{data: null, orderable: false, render: function(eval){
 					var buttonClass, buttonType, glyphicon, buttonText;
 					if(eval.status === "disabled"){
 						buttonClass = "enableEval";
@@ -174,7 +168,7 @@
             var status = $(this).parents("tr").find(".status");
 			$.ajax({
                 type: "post",
-                url: "/manage/evaluations/"+requestId,
+                url: "/evaluations/" + requestId,
                 data: data,
                 success: function(response){
                     if (response != "false"){
@@ -202,7 +196,7 @@
             var cancel = $(this).parents("tr").find(".cancel");
             $.ajax({
                 type: "post",
-                url: "/manage/evaluations/"+requestId,
+                url: "/evaluations/" + requestId,
                 data: data,
                 success: function(response){
                     if (response != "false") {
@@ -241,7 +235,7 @@
             var status = $(this).parents("tr").find(".status");
             $.ajax({
                 type: "post",
-                url: "/manage/evaluations/"+requestId,
+                url: "/evaluations/"+requestId,
                 data: data,
                 success: function(response){
                     if (response != "false") {
@@ -302,31 +296,47 @@
 			data._token = "{{ csrf_token() }}";
 			data.action = "visibility";
 			data.visibility = $(this).data("visibility");
-			$.post("/manage/evaluations/" + evalId, data, function(response){
-				if(response != "false"){
-					var button = $(".visibility[data-id='" + evalId + "']");
-					button.velocity("fadeOut", function(){
-						switch(response){
-							case "visible":
-								button.removeClass("visibility-anonymous visibility-hidden btn-default");
-								button.addClass("visibility-visible btn-info");
-								button.html("Visible <span class='glyphicon glyphicon-eye-open'></span>");
-								break;
-							case "anonymous":
-								button.removeClass("visibility-visible visibility-hidden btn-info btn-default");
-								button.addClass("visibility-anonymous");
-								button.html("Anonymous <span class='glyphicon glyphicon-eye-close'></span>");
-								break;
-							case "hidden":
-								button.removeClass("visibility-anonymous visibility-visible btn-info");
-								button.addClass("visibility-hidden btn-default");
-								button.html("Hidden <span class='glyphicon glyphicon-eye-close'></span>");
-								break;
-						}
-						button.velocity("fadeIn");
-					});
+
+			var button = $("#manage-evals-table .visibility[data-id='" + evalId +"']");
+			var originalVisibility = button.data("currentVisibility");
+			button.velocity("fadeOut", function(){
+				alterVisibilityButton(button, data.visibility);
+				button.velocity("fadeIn");
+			});
+
+			$.ajax({
+				url: "/evaluations/" + evalId,
+				method: "PATCH",
+				data: data
+			}).done(function(response){
+				if(response !== data.visibility){
+					alterVisibilityButton(button, originalVisibility);
+					appendAlert(response);
 				}
+			}).fail(function(response){
+				alterVisibilityButton(button, originalVisibility);
+				appendAlert(response);
 			});
 		});
+
+		function alterVisibilityButton(button, visibility){
+			switch(visibility){
+				case "visible":
+					button.removeClass("visibility-anonymous visibility-hidden btn-default");
+					button.addClass("visibility-visible btn-info");
+					button.html("Visible <span class='glyphicon glyphicon-eye-open'></span>");
+					break;
+				case "anonymous":
+					button.removeClass("visibility-visible visibility-hidden btn-info btn-default");
+					button.addClass("visibility-anonymous");
+					button.html("Anonymous <span class='glyphicon glyphicon-eye-close'></span>");
+					break;
+				case "hidden":
+					button.removeClass("visibility-anonymous visibility-visible btn-info");
+					button.addClass("visibility-hidden btn-default");
+					button.html("Hidden <span class='glyphicon glyphicon-eye-close'></span>");
+					break;
+			}
+		}
     </script>
 @stop

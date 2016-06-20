@@ -146,39 +146,6 @@ class ManageController extends Controller
         return response()->json($results);
     }
 
-    public function editEvaluation(Request $request, $id){
-        $eval = Evaluation::find($id);
-        if($request->has("action")){
-            switch($request->input("action")){
-                case "disable":
-                    $eval->status = "disabled";
-                    break;
-                case "enable":
-                    if($eval->complete_date)
-                        $eval->status = "complete";
-                    else
-                        $eval->status = "pending";
-                    break;
-                case "cancel":
-                    $eval->status = "canceled by admin";
-                    break;
-                case "visibility":
-                    if($request->input("visibility") == "reset")
-                        $eval->visibility = null;
-                    else
-                        $eval->visibility = $request->input("visibility");
-                    $eval->save();
-                    return $eval->visibility;
-                    break;
-                default:
-                    return "false";
-                    break;
-            }
-            $eval->save();
-            return $eval->status;
-        }
-    }
-
     public function archive(Request $request){
         $evals = Evaluation::where("evaluation_date", "<", $request->input("archive_date"))->where("status", "complete")->get();
         foreach($evals as $eval){
@@ -744,48 +711,6 @@ class ManageController extends Controller
         $faculty = User::where("type", "faculty")->get();
         $data = compact("faculty");
         return view("manage.mentors", $data);
-    }
-
-    public function getMentors(){
-        $results["data"] = [];
-        $mentorships = Mentorship::where("status", "active")->get();
-        foreach($mentorships as $mentorship){
-			try{
-	            $result = [];
-	            $result[] = $mentorship->id;
-	            $result[] = $mentorship->mentor->full_name;
-	            $result[] = $mentorship->mentee->full_name;
-	            $result[] = (string)$mentorship->created_at;
-	            $result[] = "<button class='removeMentorship btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-remove-modal' id='rmvBtn' data-id='{$mentorship->id}'><span class='glyphicon glyphicon-remove'></span> Remove</button>";
-	            $results["data"][] = $result;
-			}
-			catch(\Exception $e){
-				Log::error("Problem with mentor: ".$e);
-			}
-        }
-        return response()->json($results);
-    }
-
-    public function mentor(Request $request, $action){
-        switch($action){
-            case "add":
-                $mentorship = new Mentorship();
-                $mentorship->mentor_id = $request->input("mentor_id");
-                $mentorship->mentee_id = $request->input("mentee_id");
-                $mentorship->status = "active";
-                $mentorship->save();
-                break;
-            case "delete":
-                $mentorship = Mentorship::find($request->input("mentorship_id"));
-                $mentorship->status = "inactive";
-                $mentorship->save();
-                break;
-            default:
-                break;
-        }
-        if($request->has("ajax") && !empty($request->input("ajax")))
-            return "true";
-        return redirect("manage/mentors");
     }
 
 	public function blocks(){

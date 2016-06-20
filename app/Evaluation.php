@@ -44,8 +44,7 @@ class Evaluation extends Model
 
 	protected $hidden = [
 		"created_at",
-		"updated_at",
-		"visibility"
+		"updated_at"
 	];
 
     protected $appends = ["url"];

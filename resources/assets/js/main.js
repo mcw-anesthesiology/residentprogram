@@ -1,6 +1,11 @@
 moment.updateLocale("en", {
 	calendar: {
-		sameElse: "D-MM-Y h:m A"
+		lastDay : '[Yesterday at] LT',
+		sameDay : '[Today at] LT',
+		nextDay : '[Tomorrow at] LT',
+		lastWeek : '[Last] dddd [at] LT',
+		nextWeek : 'dddd [at] LT',
+		sameElse: "ll LT"
 	}
 });
 
@@ -89,6 +94,8 @@ function setStartEndDates(months){
 
 function appendAlert(alertText, parent, alertType){
 	alertType = (typeof(alertType) == "undefined" ? "danger" : alertType);
+	if(!parent)
+		parent = "#alert-container";
 
 	var alert = document.createElement("div");
 	alert.className = "alert alert-" + alertType + " alert-dismissable";
@@ -140,8 +147,8 @@ $(document).ready(function(){
 			}
 		},
 		stateSave: true,
-		"deferRender": true,
-		"dom": "lfprtip"
+		deferRender: true,
+		dom: "lfprtip"
 	});
 
 	$.fn.select2.defaults.set("theme", "bootstrap");
@@ -210,6 +217,40 @@ $(".toggleDescriptions").click(function(){
 	}
 });
 
+$("table").on("mouseenter", ".table-date-cell", function(){
+	var date = $(this).data("date-value");
+	if(date){
+		$(this).data("original-value", $(this).text());
+		$(this).text(moment(date).format("ll LT"));
+	}
+});
+
+$("table").on("mouseleave", ".table-date-cell", function(){
+	var originalValue = $(this).data("originalValue");
+	if(originalValue)
+		$(this).text(originalValue);
+});
+
 function ucfirst(str){
 	return str.charAt(0).toUpperCase() + str.substring(1);
+}
+
+function createDateCell(td, date, rowData, rowIndex, colIndex){
+	if(date && $(td).text() !== moment(date).format("ll LT"))
+		$(td).attr("data-date-value", moment(date).valueOf())
+			.addClass("table-date-cell");
+}
+
+function renderTableEvaluationDate(date, type){
+	if(type === "sort" || type === "type")
+		return date ? moment(date).valueOf() : "";
+
+	return date ? moment(date).format("MMMM Y") : "";
+}
+
+function renderTableDate(date, type){
+	if(type === "sort" || type === "type")
+		return date ? moment(date).valueOf() : "";
+
+	return date ? moment(date).calendar() : "";
 }

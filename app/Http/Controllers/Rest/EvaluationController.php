@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Rest;
 
+use Illuminate\Http\Request;
+
+use App\Evaluation;
+
 class EvaluationController extends RestController
 {
 
@@ -29,4 +33,37 @@ class EvaluationController extends RestController
 	];
 
 	protected $model = \App\Evaluation::class;
+
+	public function update(Request $request, $id){
+		$eval = Evaluation::find($id);
+        if($request->has("action")){
+            switch($request->input("action")){
+                case "disable":
+                    $eval->status = "disabled";
+                    break;
+                case "enable":
+                    if($eval->complete_date)
+                        $eval->status = "complete";
+                    else
+                        $eval->status = "pending";
+                    break;
+                case "cancel":
+                    $eval->status = "canceled by admin";
+                    break;
+                case "visibility":
+                    if($request->input("visibility") == "reset")
+                        $eval->visibility = null;
+                    else
+                        $eval->visibility = $request->input("visibility");
+                    $eval->save();
+                    return $eval->visibility;
+                    break;
+                default:
+                    return "false";
+                    break;
+            }
+            $eval->save();
+            return $eval->status;
+        }
+	}
 }

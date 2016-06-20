@@ -60,7 +60,8 @@
 					return '<button type="button" class="btn btn-xs btn-danger delete-watched-form-button" data-id="'
 						+ row.id + '"><span class="glyphicon glyphicon-remove"></span> Delete</button>';
 				}}
-			]
+			],
+			order: [[0, "desc"]]
 		});
 
 		$("#add-watched-form-button").click(function(){
@@ -89,18 +90,14 @@
 				method: "DELETE"
 			}).done(function(response){
 				button.prop("disabled", false).removeClass("disabled");
-				if(response === "success"){
-					$("#add-watched-form-modal").modal("hide");
+				if(response === "success")
 					row.velocity("fadeOut", function(){
 						watchedFormsDatatable.ajax.reload();
 					});
-				}
-				else {
-					appendAlert(response, "#add-watched-form-modal .modal-header");
-					button.prop("disabled", false).removeClass("disabled");
-				}
+				else
+					appendAlert(response, "#alert-container");
 			}).fail(function(response){
-				appendAlert(response, "#add-watched-form-modal .modal-header");
+				appendAlert(response, "#alert-container");
 				button.prop("disabled", false).removeClass("disabled");
 			});
 		});
@@ -110,7 +107,7 @@
 			var submitButton = $(this).find("button[type='submit']");
 			submitButton.prop("disabled", true).addClass("disabled");
 
-			var data = $(this).serialize() + "&ajax=true";
+			var data = $(this).serialize();
 			var action = $(this).attr("action");
 			var method = $(this).attr("method");
 
