@@ -62,7 +62,7 @@ class SharedVariables
 
 			$userGroups = User::where("status", "active")->orderBy("last_name")
 				->get()->groupBy(function($item) use ($groupNames){
-					if($item["training_level"])
+					if($item["specific_type"] == "resident" && $item["training_level"])
 						return $groupNames[$item["training_level"]];
 					elseif($item["specific_type"])
 						return $groupNames[$item["specific_type"]];
