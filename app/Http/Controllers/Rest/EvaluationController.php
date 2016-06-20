@@ -28,5 +28,5 @@ class EvaluationController extends RestController
 		"evaluation_date"
 	];
 
-	protected $model = "App\Evaluation";
+	protected $model = \App\Evaluation::class;
 }

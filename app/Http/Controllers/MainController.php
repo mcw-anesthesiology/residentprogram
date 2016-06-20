@@ -54,13 +54,12 @@ class MainController extends Controller
                 break;
             case "faculty":
                 $mentees = $user->mentees->where("status", "active")->unique();
-				$watchedForms = $user->watchedForms;
                 break;
             case "admin":
                 $numFlagged = Evaluation::has("flag")->count();
                 break;
         }
-        $data = compact("mentees", "numFlagged", "numStaffEvals", "numSelfEvals", "watchedForms");
+        $data = compact("mentees", "numFlagged", "numStaffEvals", "numSelfEvals");
         return view("dashboard.dashboard", $data);
     }
 

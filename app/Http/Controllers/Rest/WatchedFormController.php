@@ -15,5 +15,5 @@ class WatchedFormController extends RestController
 		"user_id"
 	];
 
-	protected $model = "App\WatchedForm";
+	protected $model = \App\WatchedForm::class;
 }

@@ -36,7 +36,7 @@
 	</div>
 @endforeach
 
-@foreach($watchedForms as $watchedForm)
+@foreach($user->watchedForms as $watchedForm)
 </div>
 <div class="container body-block">
 	<h2 class="sub-header"><span class="glyphicon glyphicon-list-alt"></span> {{ $watchedForm->form->title }}</h2>

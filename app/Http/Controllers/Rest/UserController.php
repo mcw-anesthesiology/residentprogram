@@ -27,5 +27,5 @@ class UserController extends RestController
 		"specific_type"
 	];
 
-	protected $model = "App\User";
+	protected $model = \App\User::class;
 }

@@ -19,5 +19,5 @@ class FormController extends RestController
 		"visibility"
 	];
 
-	protected $model = "App\Form";
+	protected $model = \App\Form::class;
 }
