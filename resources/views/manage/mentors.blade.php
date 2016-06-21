@@ -99,7 +99,7 @@
 			event.preventDefault();
 			var data = $(this).serialize();
 			var action = $(this).prop("action");
-			var method = $(this).prop("method");
+			var method = $(this).attr("method");
 			var modal = $(this).parents(".modal");
 			var button = modal.find("button[type='submit']");
 			button.prop("disabled", true).addClass("disabled");

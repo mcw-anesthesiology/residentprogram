@@ -17,7 +17,7 @@
 	<div class="row">
 		<h2 class="sub-header">Evaluation forms <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add new</button></h2>
 		<div class="table-responsive">
-			<table class="table table-striped" id="resident-forms">
+			<table class="table table-striped forms-table" data-type="resident" id="resident-forms-table">
 				<thead>
 					<tr>
 						<th>Title</th>
@@ -38,7 +38,7 @@
 	<div class="row">
 		<h2 class="sub-header">Fellow-specific evaluation forms <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add new</button></h2>
 		<div class="table-responsive">
-			<table class="table table-striped" id="fellow-forms">
+			<table class="table table-striped forms-table" data-type="fellow" id="fellow-forms-table">
 				<thead>
 					<tr>
 						<th>Title</th>
@@ -59,7 +59,7 @@
 	<div class="row">
 		<h2 class="sub-header">Faculty evaluation forms <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add new</button></h2>
 		<div class="table-responsive">
-			<table class="table table-striped" id="faculty-forms">
+			<table class="table table-striped forms-table" data-type="faculty" id="faculty-forms-table">
 				<thead>
 					<tr>
 						<th>Title</th>
@@ -86,28 +86,6 @@
 	      </div>
 	      <form action="/manage/forms/add" method="get">
 	        <div class="modal-body modal-add">
-	      <!--
-	          <div class="form-group">
-	            <label for="evaluationForm">Please select a form to duplicate and modify</label>
-	            <select class="form-control">
-	        <?php
-	      //  while(!is_null($formsRow)){
-	      //  echo "<option value=\"{$formsRow["formId"]}\">{$formsRow["title"]}</option>";
-	      //  $formsRow = $forms->fetch_assoc();
-	      //  }
-	        ?>
-	            </select>
-	            <br />
-	              <div class="span7 text-center">
-	        <button type="submit" class="btn btn-success">Choose</button>
-	        </div>
-	          </div>
-
-	          <div class="select-or">
-	            <hr class="hr-or">
-	            <span class="span-or">or</span>
-	          </div>
-	      -->
 	          <div class="form-group">
 	      <div class="span7 text-center">
 	        <button type="submit" class="btn btn-success">Create new evaluation form</button>
@@ -156,6 +134,105 @@
 
 @section("script")
 	<script>
+		$(".forms-table").each(function(){
+			var type = $(this).data("type");
+			$(this).DataTable({
+				ajax: {
+					url: "/forms/",
+					data: {
+						type: type
+					},
+					dataSrc: ""
+				},
+				columns: [
+					{data: "title"},
+					{data: "evaluator_type", render: function(evaluatorType){
+						return ucfirst(evaluatorType);
+					}},
+					{data: "created_at", render: renderTableDate, createdCell: createDateCell},
+					{data: "status", render: function(status, type){
+						if(type === "display"){
+							var labelType;
+							switch(status){
+								case "active":
+								labelType = "label-success";
+								break;
+								case "inactive":
+								labelType = "label-danger";
+								break;
+							}
+							return '<span class="label ' + labelType + '">' + ucfirst(status) + '</span>';
+						}
+
+						return status;
+					}},
+					{data: null, render: function(form, type){
+						if(type === "display"){
+							var visibilityType, buttonType, eyeType;
+							switch(form.visibility){
+								case "visible":
+									visibilityType = "visibility-visible";
+									buttonType = "btn-info";
+									eyeType = "open";
+									break;
+								case "anonymous":
+									visibilityType = "visibility-anonymous";
+									buttonType = "";
+									eyeType = "close";
+									break;
+								case "hidden":
+									visibilityType = "visibility-hidden";
+									buttonType = "btn-default";
+									eyeType = "close";
+									break;
+							}
+
+							return '<button type="button" class="visibility ' + visibilityType
+								+ ' btn ' + buttonType + ' btn-xs" data-id="' + form.id + '">'
+								+ ucfirst(form.visibility) + '<span class="glyphicon glyphicon-eye-'
+								+ eyeType + '"></span></button>';
+						}
+
+						return form.visibility;
+					}},
+					{data: null, orderable: false, searchable: false, render: function(form, type){
+						return '<a href="/manage/forms/' + form.id + '">View Form</a>';
+					}},
+					{data: null, orderable: false, render: function(form, type){
+						// TODO
+						var buttonClass, buttonType, glyphiconType, buttonText;
+						switch(form.status){
+							case "inactive":
+								buttonClass = "enable-eval";
+								buttonType = "btn-success";
+								buttonText = "Enable";
+								glyphiconType = "glyphicon-ok";
+								break;
+							case "active":
+								buttonClass = "disable-eval";
+								buttonType = "btn-danger";
+								buttonText = "Disable";
+								glyphiconType = "glyphicon-remove";
+								break;
+						}
+						var editButton = '<button type="button" '
+							+ 'class="edit-form-button btn btn-info btn-xs" '
+							+ 'data-id="' + form.id + '" data-title="' + form.title + '"'
+							+ 'data-type="' + form.type + '" data-visibility="' + form.visibility + '"'
+							+ 'data-toggle="modal" data-target="#edit-form-modal">'
+							+ '<span class="glyphicon glyphicon-pencil"></span> Edit</button>';
+
+						var enableDisableButton =  '<button type="button" class="'
+							+ buttonClass + ' btn ' + buttonType + ' btn-xs" data-id="'
+							+ form.id + '">' + '<span class="glyphicon ' + glyphiconType
+							+ '"></span>' + buttonText + '</button>';
+
+						return editButton + " " + enableDisableButton;
+					}}
+				]
+			});
+		});
+
 		$("#edit-modal-submit").click(function(){
 			var formId = $("#edit-form-id").val();
 			var formType = $("#edit-form-type").val();
@@ -166,7 +243,7 @@
 			data.action = "edit";
 			$.post("/manage/forms/"+formId, data, function(response){
 				if(response == "true"){
-					$("#"+formType+"-forms").DataTable({
+					$("#"+formType+"-forms-table").DataTable({
 						"retrieve": true
 					}).ajax.reload();
 				}
@@ -178,7 +255,7 @@
 			});
 		});
 
-		$(document).on("click", ".edit-form-button", function(){
+		$(".forms-table").on("click", ".edit-form-button", function(){
 			var formId = $(this).data("id");
 			var formType = $(this).data("type");
 			var formTitle = $(this).data("title");
@@ -190,7 +267,7 @@
 			$("#edit-form-modal input[value='" + visibility + "']").prop("checked", true);
 		});
 
-		$(document).on("click", ".disableEval", function(){
+		$(".forms-table").on("click", ".disable-eval", function(){
 			var data = {};
 			data._token = "{{ csrf_token() }}";
 			data.action = "disable";
@@ -204,7 +281,7 @@
 				success: function(response){
 					if (response == "true"){
 						span.velocity("fadeOut", function(){
-							$(this).html("<button type='button' class='enableEval btn btn-success btn-xs' data-id='" + formId + "'><span class='glyphicon glyphicon-ok'></span> Enable</button>");
+							$(this).html("<button type='button' class='enable-eval btn btn-success btn-xs' data-id='" + formId + "'><span class='glyphicon glyphicon-ok'></span> Enable</button>");
 							$(this).velocity("fadeIn");
 						});
 						status.velocity("fadeOut", function(){
@@ -216,7 +293,7 @@
 			});
 		});
 
-		$(document).on("click", ".enableEval", function(){
+		$(".forms-table").on("click", ".enable-eval", function(){
 			var data = {};
 			data._token = "{{ csrf_token() }}";
 			data.action = "enable";
@@ -230,7 +307,7 @@
 				success: function(response){
 					if (response == "true"){
 						span.velocity("fadeOut", function(){
-							$(this).html("<button type='button' class='disableEval btn btn-danger btn-xs' data-id='" + formId + "'><span class='glyphicon glyphicon-remove'></span> Disable</button>");
+							$(this).html("<button type='button' class='disable-eval btn btn-danger btn-xs' data-id='" + formId + "'><span class='glyphicon glyphicon-remove'></span> Disable</button>");
 							$(this).velocity("fadeIn");
 						});
 						status.velocity("fadeOut", function(){
@@ -256,7 +333,7 @@
 			}
 		});
 
-		$("body").on("click", ".visibility-edit", function(){
+		$(".forms-table").on("click", ".visibility-edit", function(){
 			var formId = $(this).data("form");
 			var data = {};
 			data._token = "{{ csrf_token() }}";
@@ -287,18 +364,6 @@
 						button.velocity("fadeIn");
 					});
 				}
-			});
-		});
-
-		$(document).ready(function(){
-			$("#resident-forms").DataTable({
-				"ajax": "/manage/forms/get/resident"
-			});
-			$("#faculty-forms").DataTable({
-				"ajax": "/manage/forms/get/faculty"
-			});
-			$("#fellow-forms").DataTable({
-				"ajax": "/manage/forms/get/fellow"
 			});
 		});
 	</script>

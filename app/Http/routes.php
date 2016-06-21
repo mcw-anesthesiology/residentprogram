@@ -10,6 +10,8 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+Route::patch("users/{id}/password", "Rest\UserController@password");
+Route::patch("users/{id}/welcome", "Rest\UserController@welcome");
 Route::resource("users", "Rest\UserController", ["only" => [
 	"index", "store", "show", "update", "destroy"
 ]]);

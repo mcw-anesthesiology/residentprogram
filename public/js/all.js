@@ -1,1 +1,713 @@
-function reportHtml(e){return'<div class="report-options collapse"><button type="button" class="close remove-report-group" aria-hidden="true">&times;</button><h3>Report</h3><div class="form-group"><label for="startDate'+e+'">Start Date:</label><input type="text" class="form-control datepicker startDate" id="startDate'+e+'" name="startDate'+e+'"></div><div class="form-group"><label for="endDate">End Date:</label><input type="text" class="form-control datepicker endDate" id="endDate'+e+'" name="endDate'+e+'"></div><div class="form-group" style="text-align: center;"><button type="button" class="btn lastThreeMonths">Last Three Months</button> <button type="button" class="btn lastSixMonths">Last Six Months</button></div><div class="form-group"><label for="trainingLevelInput'+e+'">Training Level</label><select class="form-control select2" id="trainingLevelInput'+e+'" name="trainingLevel'+e+'" style="width: 100%" required><option value="all">All</option><option value="intern">Intern</option><option value="ca-1">CA-1</option><option value="ca-2">CA-2</option><option value="ca-3">CA-3</option><option value="fellow">Fellow</option></select></div><hr /><br /></div>'}function checkReportQuery(){return dateError=!1,$(this).find("input").each(function(){if("date"==$(this).attr("type")||$(this).hasClass("datepicker")){var e=$(this).val(),t=/^\d\d\d\d-\d\d-\d\d$/;new RegExp(t).test(e)||(dateError=!0)}}),dateError&&alert("Please enter a valid date. If your browser does not support the date selector, date must be formatted YYYY-MM-DD"),!dateError}function lastSixMonths(){setStartEndDates.call(this,6)}function lastThreeMonths(){setStartEndDates.call(this,3)}function setStartEndDates(e){e=void 0!=e?e:3;var t=moment().subtract(1,"month").endOf("month"),a=moment(t).startOf("month").subtract(e-1,"month");$(this).parents(".report-options").find(".startDate").val(a.format("YYYY-MM-DD")),$(this).parents(".report-options").find(".endDate").val(t.format("YYYY-MM-DD"))}function appendAlert(e,t,a){a="undefined"==typeof a?"danger":a,t||(t="#alert-container");var o=document.createElement("div");o.className="alert alert-"+a+" alert-dismissable",o.role="alert";var n=document.createElement("button");n.type="button",n.className="close",n.setAttribute("data-dismiss","alert"),n.setAttribute("aria-label","Close");var l=document.createElement("span");l.setAttribute("aria-hidden","true"),l.innerHTML="&times;",n.appendChild(l);var r=document.createTextNode(e);o.appendChild(n),o.appendChild(r),$(t).append(o)}function unlimitTableEvals(e,t){var a=this.DataTable({retrieve:!0}),o=a.ajax.url();a.ajax.url(o.substring(0,o.lastIndexOf("/"))).load().draw()}function debounce(e,t,a){var o;return function(){var n=this,l=arguments,r=function(){o=null,a||e.apply(n,l)},i=a&&!o;clearTimeout(o),o=setTimeout(r,t),i&&e.apply(n,l)}}function ucfirst(e){return e.charAt(0).toUpperCase()+e.substring(1)}function createDateCell(e,t,a,o,n){t&&$(e).text()!==moment(t).format("ll LT")&&$(e).attr("data-date-value",moment(t).valueOf()).addClass("table-date-cell")}function renderTableEvaluationDate(e,t){return"sort"===t||"type"===t?e?moment(e).valueOf():"":e?moment(e).format("MMMM Y"):""}function renderTableDate(e,t){return"sort"===t||"type"===t?e?moment(e).valueOf():"":e?moment(e).calendar():""}function drawRadarGraphs(e,t,a,o){o="undefined"!=typeof o?o:0;var n=document.getElementsByClassName("graphs")[o],l=document.createElement("div");l.className="graph-container";var r=document.createElement("h3");r.appendChild(document.createTextNode(a)),l.appendChild(r);var i=document.createElement("div");i.className="graph milestone-graph";var s=document.createElement("h4");s.appendChild(document.createTextNode("Milestones")),i.appendChild(s);var d=document.createElement("div");d.className="graph-canvas-container";var c=document.createElement("canvas");c.width=800,c.height=400,d.appendChild(c),i.appendChild(d),l.appendChild(i);var p=document.createElement("div");p.className="graph competency-graph";var u=document.createElement("h4");u.appendChild(document.createTextNode("Competencies")),p.appendChild(u);var f=document.createElement("div");f.className="graph-canvas-container";var m=document.createElement("canvas");m.width=800,m.height=400,f.appendChild(m),p.appendChild(f),l.appendChild(p),n.appendChild(l);var h=$("#graph-type").val(),v=$("#graph-layout").bootstrapSwitch("state");v||(i.className+=" col-sm-6",p.className+=" col-sm-6");var g=c.getContext("2d"),C=m.getContext("2d");if("radar"==h){var b=new Chart(g).Radar(e,options);new Chart(C).Radar(t,options)}else if("bar"==h){var b=new Chart(g).Bar(e,options);new Chart(C).Bar(t,options)}else if("line"==h){var b=new Chart(g).Line(e,options);new Chart(C).Line(t,options)}var y=b.generateLegend();$(l).append(y)}function drawAverageRadarGraphs(){reportData.forEach(function(e,t){prepareReport(e);var a={labels:e.milestoneLabels,datasets:[e.averageMilestoneDataset]},o={labels:e.competencyLabels,datasets:[e.averageCompetencyDataset]};drawRadarGraphs(a,o,"Average")})}function drawAllRadarGraphs(){reportData.forEach(function(e,t){prepareReport(e),e.subjectIds.forEach(function(a){var o={labels:e.milestoneLabels,datasets:[e.averageMilestoneDataset,{label:"Individual Performance",fillColor:individualFillColor,strokeColor:individualSolidColor,pointColor:individualSolidColor,pointStrokeColor:"#fff",pointHighlightFill:"#fff",pointHighlightStroke:individualSolidColor,data:_.values(e.subjectMilestone[a])}]},n={labels:e.competencyLabels,datasets:[e.averageCompetencyDataset,{label:"Individual Performance",fillColor:individualFillColor,strokeColor:individualSolidColor,pointColor:individualSolidColor,pointStrokeColor:"#fff",pointHighlightFill:"#fff",pointHighlightStroke:individualSolidColor,data:_.values(e.subjectCompetency[a])}]};drawRadarGraphs(o,n,e.subjects[a],t)})})}function prepareReport(e){e.subjectIds=_.keys(e.subjects).sort(function(t,a){return e.subjects[t].localeCompare(e.subjects[a])}),"fellow"==e.trainingLevel?e.scaleLabels=["","Fellow Level 1","Fellow Level 2","Fellow Level 3","Fellow Level 4","Fellow Level 5"]:e.scaleLabels=["","CBY","CA-1","CA-2","CA-3","Attending"],options.scaleLabel=function(t){return e.scaleLabels[t.value/2]},e.milestoneLabels=_.values(e.milestones),e.averageMilestones=_.values(e.averageMilestone),e.competencyLabels=_.values(e.competencies),e.averageCompetencies=_.values(e.averageCompetency);for(var t=0;t<e.milestoneLabels.length;t++)e.milestoneLabels[t]=e.milestoneLabels[t].replace("Anes Fellow ",""),e.milestoneLabels[t]=e.milestoneLabels[t].replace("and","&");e.averageMilestoneDataset={label:"Average Performance",fillColor:averageFillColor,strokeColor:averageSolidColor,pointColor:averageSolidColor,pointStrokeColor:"#fff",pointHighlightFill:"#fff",pointHighlightStroke:averageSolidColor,data:e.averageMilestones},e.averageCompetencyDataset={label:"Average Performance",fillColor:averageFillColor,strokeColor:averageSolidColor,pointColor:averageSolidColor,pointStrokeColor:"#fff",pointHighlightFill:"#fff",pointHighlightStroke:averageSolidColor,data:e.averageCompetencies}}function drawLineChart(e,t,a){void 0!=evalHistoryChart[e]&&evalHistoryChart[e].destroy();var o=$(e).get(0).getContext("2d"),n=[];for(var l in t)n.push({label:l,fillColor:fillColors[l],strokeColor:solidColors[l],pointColor:solidColors[l],pointStrokeColor:"#fff",pointHighlightFill:"#fff",pointHighlightStroke:solidColors[l],data:t[l]});var r={labels:a,datasets:n};evalHistoryChart[e]=new Chart(o).Line(r,options),$(e+"-legend").html(evalHistoryChart[e].generateLegend())}function getChartEvalData(e,t,a,o,n){o=void 0!=o?o:"month",n=void 0!=n?n:1,t=void 0!=t?t:moment().subtract(1,"year").startOf(o),a=void 0!=a?a:moment();var l="MMM D";void 0!=labelFormats[o]&&(l=labelFormats[o]);for(var r=[],i={Requested:[],Completed:[]},s=t;a>s;s.add(n,o)){var d=moment(s).add(n,o),c=e.reduce(function(e,t){if(void 0!=t.request_date){var a=moment(t.request_date);if(a>=s&&d>a)return e+1}return e},0),p=e.reduce(function(e,t){if(void 0!=t.complete_date&&"complete"==t.status){var a=moment(t.complete_date);if(a>=s&&d>a)return e+1}return e},0);r.push(s.format(l)),i.Requested.push(c),i.Completed.push(p)}return[i,r]}!function(e){"function"==typeof define&&define.amd?define(["jquery","moment","datatables"],e):e(jQuery,moment)}(function(e,t){e.fn.dataTable.moment=function(a,o){var n=e.fn.dataTable.ext.type;n.detect.unshift(function(e){return e&&e.replace&&(e=e.replace(/<.*?>/g,"")),""===e||null===e?"moment-"+a:t(e,a,o,!0).isValid()?"moment-"+a:null}),n.order["moment-"+a+"-pre"]=function(e){return""===e||null===e?-(1/0):parseInt(t(e.replace?e.replace(/<.*?>/g,""):e,a,o,!0).format("x"),10)}}}),!function(e,t,a){function o(e,t){return typeof e===t}function n(){var e,t,a,n,l,r,i;for(var s in b)if(b.hasOwnProperty(s)){if(e=[],t=b[s],t.name&&(e.push(t.name.toLowerCase()),t.options&&t.options.aliases&&t.options.aliases.length))for(a=0;a<t.options.aliases.length;a++)e.push(t.options.aliases[a].toLowerCase());for(n=o(t.fn,"function")?t.fn():t.fn,l=0;l<e.length;l++)r=e[l],i=r.split("."),1===i.length?w[i[0]]=n:(!w[i[0]]||w[i[0]]instanceof Boolean||(w[i[0]]=new Boolean(w[i[0]])),w[i[0]][i[1]]=n),C.push((n?"":"no-")+i.join("-"))}}function l(e){var t=$.className,a=w._config.classPrefix||"";if(S&&(t=t.baseVal),w._config.enableJSClass){var o=new RegExp("(^|\\s)"+a+"no-js(\\s|$)");t=t.replace(o,"$1"+a+"js$2")}w._config.enableClasses&&(t+=" "+a+e.join(" "+a),S?$.className.baseVal=t:$.className=t)}function r(){return"function"!=typeof t.createElement?t.createElement(arguments[0]):S?t.createElementNS.call(t,"http://www.w3.org/2000/svg",arguments[0]):t.createElement.apply(t,arguments)}function i(e,t){return!!~(""+e).indexOf(t)}function s(e){return e.replace(/([a-z])-([a-z])/g,function(e,t,a){return t+a.toUpperCase()}).replace(/^-/,"")}function d(e,t){return function(){return e.apply(t,arguments)}}function c(e,t,a){var n;for(var l in e)if(e[l]in t)return a===!1?e[l]:(n=t[e[l]],o(n,"function")?d(n,a||t):n);return!1}function p(e){return e.replace(/([A-Z])/g,function(e,t){return"-"+t.toLowerCase()}).replace(/^ms-/,"-ms-")}function u(){var e=t.body;return e||(e=r(S?"svg":"body"),e.fake=!0),e}function f(e,a,o,n){var l,i,s,d,c="modernizr",p=r("div"),f=u();if(parseInt(o,10))for(;o--;)s=r("div"),s.id=n?n[o]:c+(o+1),p.appendChild(s);return l=r("style"),l.type="text/css",l.id="s"+c,(f.fake?f:p).appendChild(l),f.appendChild(p),l.styleSheet?l.styleSheet.cssText=e:l.appendChild(t.createTextNode(e)),p.id=c,f.fake&&(f.style.background="",f.style.overflow="hidden",d=$.style.overflow,$.style.overflow="hidden",$.appendChild(f)),i=a(p,e),f.fake?(f.parentNode.removeChild(f),$.style.overflow=d,$.offsetHeight):p.parentNode.removeChild(p),!!i}function m(t,o){var n=t.length;if("CSS"in e&&"supports"in e.CSS){for(;n--;)if(e.CSS.supports(p(t[n]),o))return!0;return!1}if("CSSSupportsRule"in e){for(var l=[];n--;)l.push("("+p(t[n])+":"+o+")");return l=l.join(" or "),f("@supports ("+l+") { #modernizr { position: absolute; } }",function(e){return"absolute"==getComputedStyle(e,null).position})}return a}function h(e,t,n,l){function d(){p&&(delete k.style,delete k.modElem)}if(l=o(l,"undefined")?!1:l,!o(n,"undefined")){var c=m(e,n);if(!o(c,"undefined"))return c}for(var p,u,f,h,v,g=["modernizr","tspan"];!k.style;)p=!0,k.modElem=r(g.shift()),k.style=k.modElem.style;for(f=e.length,u=0;f>u;u++)if(h=e[u],v=k.style[h],i(h,"-")&&(h=s(h)),k.style[h]!==a){if(l||o(n,"undefined"))return d(),"pfx"==t?h:!0;try{k.style[h]=n}catch(C){}if(k.style[h]!=v)return d(),"pfx"==t?h:!0}return d(),!1}function v(e,t,a,n,l){var r=e.charAt(0).toUpperCase()+e.slice(1),i=(e+" "+M.join(r+" ")+r).split(" ");return o(t,"string")||o(t,"undefined")?h(i,t,n,l):(i=(e+" "+x.join(r+" ")+r).split(" "),c(i,t,a))}function g(e,t,o){return v(e,a,a,t,o)}var C=[],b=[],y={_version:"3.2.0",_config:{classPrefix:"",enableClasses:!0,enableJSClass:!0,usePrefixes:!0},_q:[],on:function(e,t){var a=this;setTimeout(function(){t(a[e])},0)},addTest:function(e,t,a){b.push({name:e,fn:t,options:a})},addAsyncTest:function(e){b.push({name:null,fn:e})}},w=function(){};w.prototype=y,w=new w;var $=t.documentElement,S="svg"===$.nodeName.toLowerCase();w.addTest("canvas",function(){var e=r("canvas");return!(!e.getContext||!e.getContext("2d"))});var L="Moz O ms Webkit",M=y._config.usePrefixes?L.split(" "):[];y._cssomPrefixes=M;var x=y._config.usePrefixes?L.toLowerCase().split(" "):[];y._domPrefixes=x;var T={elem:r("modernizr")};w._q.push(function(){delete T.elem});var k={style:T.elem.style};w._q.unshift(function(){delete k.style}),y.testAllProps=v,y.testAllProps=g,w.addTest("flexbox",g("flexBasis","1px",!0)),w.addTest("flexwrap",g("flexWrap","wrap",!0)),n(),l(C),delete y.addTest,delete y.addAsyncTest;for(var D=0;D<w._q.length;D++)w._q[D]();e.Modernizr=w}(window,document),function(){function e(e,t,a){return"undefined"==typeof a||0===+a?Math[e](t):(t=+t,a=+a,isNaN(t)||"number"!=typeof a||a%1!==0?NaN:(t=t.toString().split("e"),t=Math[e](+(t[0]+"e"+(t[1]?+t[1]-a:-a))),t=t.toString().split("e"),+(t[0]+"e"+(t[1]?+t[1]+a:a))))}Math.round10||(Math.round10=function(t,a){return e("round",t,a)}),Math.floor10||(Math.floor10=function(t,a){return e("floor",t,a)}),Math.ceil10||(Math.ceil10=function(t,a){return e("ceil",t,a)})}(),moment.updateLocale("en",{calendar:{lastDay:"[Yesterday at] LT",sameDay:"[Today at] LT",nextDay:"[Tomorrow at] LT",lastWeek:"[Last] dddd [at] LT",nextWeek:"dddd [at] LT",sameElse:"ll LT"}});var numSpecificReports=0;$("#addNewSpecificReport").click(function(){var e=reportHtml(++numSpecificReports);$(e).appendTo(".modal-specRpt").velocity("slideDown"),$(".datepicker").datepicker({dateFormat:"yy-mm-dd"})}),$(".modal-specRpt").on("click",".remove-report-group",function(){$(this).parent().velocity("slideUp",function(){$(this).remove()})}),$(document).ready(function(){$.fn.dataTable.moment("DD-MMM-YYYY h:mm A"),$(".report").submit(checkReportQuery),$(".report").on("click",".lastSixMonths",lastSixMonths),$(".report").on("click",".lastThreeMonths",lastThreeMonths),$(".datepicker").datepicker({dateFormat:"yy-mm-dd"}),$("#addNewSpecificReport").click(),$.extend(!0,$.fn.dataTable.defaults,{language:{paginate:{previous:"&lt;",next:"&gt;"}},stateSave:!0,deferRender:!0,dom:"lfprtip"}),$.fn.select2.defaults.set("theme","bootstrap"),$(".select2").val(null).select2({placeholder:"Please select"}),$("body").css("padding-top",$("#main-navbar").height()+5),$("#individual-milestones, #aggregate-milestones").multiSelect({selectableOptgroup:!0})});var fixNavbarOffset=debounce(function(){$("body").css("padding-top",$("#main-navbar").height()+5)},100);$(window).resize(fixNavbarOffset),$(".table").on("click",".view-evaluation",function(){var e=$(this).parents("tr").children("td").eq(0).children("a").html();window.location.href="/evaluation/"+e}),$(".report-milestones-info").popover({placement:"left",html:"true",content:"<ul><li>Leave empty to include all milestones in training level in report</li><li>Click a milestone type heading to select all milestones of that type</li></ul>"}),$(".toggleDescriptions").click(function(){var e=$(this).data("id"),t=($("#main-navbar").height(),$(this).parents(".question").velocity("scroll"),$("#"+e).hasClass("expanded-descriptions"));t?$("."+e+" .description").velocity("slideUp",function(){$("#"+e).removeClass("expanded-descriptions")}):($("#"+e).addClass("expanded-descriptions"),$("."+e+" .description").velocity("slideDown"))}),$("table").on("mouseenter",".table-date-cell",function(){var e=$(this).data("date-value");e&&($(this).data("original-value",$(this).text()),$(this).text(moment(e).format("ll LT")))}),$("table").on("mouseleave",".table-date-cell",function(){var e=$(this).data("originalValue");e&&$(this).text(e)});var averageSolidColor="rgba(227,227,0,1)",averageFillColor="rgba(227,227,0,0.3)",individualSolidColor="rgba(227,0,0,1)",individualFillColor="rgba(227,0,0,0.3)",options={animation:!1,responsive:!0,angleLineWidth:2,tooltipTemplate:"<%if (label){%><%=label%>: <%}%><%= Math.round10(value, -2) %>",multiTooltipTemplate:"<%= Math.round10(value, -2) %>",legendTemplate:'<ul class="legend <%=name.toLowerCase()%>-legend"><% for (var i=0; i<datasets.length; i++){%><li><span class="glyphicon glyphicon-stop" style="color:<%=datasets[i].strokeColor%>"></span> <%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>',scaleShowLabels:!0,scaleOverride:!0,scaleLineWidth:2,scaleSteps:5,scaleStepWidth:2,scaleStartValue:0,scaleLabel:function(e){return scaleLabels[e.value/2]}};$("#graph-type").change(function(){$(".graphs").html(""),Chart.helpers.each(Chart.instances,function(e){e.destroy()}),drawAllRadarGraphs()}),$("#new-graphs").on("switchChange.bootstrapSwitch",function(){$(".graph-type-container").toggle(),$(".graph-layout-container").toggle(),$(".img-graphs").toggle(),$(".graphs").toggle()}),$("#graph-layout").on("switchChange.bootstrapSwitch",function(){$(".graph").toggleClass("col-sm-6"),Chart.helpers.each(Chart.instances,function(e){e.resize(e.render,!0)})});var evalHistoryChart=[],solidColors={Requested:"rgba(227,227,0,1)",Completed:"rgba(227,0,0,1)"},fillColors={Requested:"rgba(227,227,0,0.3)",Completed:"rgba(227,0,0,0.3)"},options={responsive:!0,tooltipTemplate:"<%if (label){%><%=label%>: <%}%><%= value %>",legendTemplate:'<ul class="legend <%=name.toLowerCase()%>-legend"><% for (var i=0; i<datasets.length; i++){%><li><span class="glyphicon glyphicon-stop" style="color:<%=datasets[i].strokeColor%>"></span> <%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>'},labelFormats={year:"YYYY",month:"MMMM",week:"[Week of] MMM D",day:"MMM D"};
+/**
+ * This plug-in for DataTables represents the ultimate option in extensibility
+ * for sorting date / time strings correctly. It uses
+ * [Moment.js](http://momentjs.com) to create automatic type detection and
+ * sorting plug-ins for DataTables based on a given format. This way, DataTables
+ * will automatically detect your temporal information and sort it correctly.
+ *
+ * For usage instructions, please see the DataTables blog
+ * post that [introduces it](//datatables.net/blog/2014-12-18).
+ *
+ * @name Ultimate Date / Time sorting
+ * @summary Sort date and time in any format using Moment.js
+ * @author [Allan Jardine](//datatables.net)
+ * @depends DataTables 1.10+, Moment.js 1.7+
+ *
+ * @example
+ *    $.fn.dataTable.moment( 'HH:mm MMM D, YY' );
+ *    $.fn.dataTable.moment( 'dddd, MMMM Do, YYYY' );
+ *
+ *    $('#example').DataTable();
+ */
+
+(function (factory) {
+	if (typeof define === "function" && define.amd) {
+		define(["jquery", "moment", "datatables"], factory);
+	} else {
+		factory(jQuery, moment);
+	}
+}(function ($, moment) {
+
+$.fn.dataTable.moment = function ( format, locale ) {
+	var types = $.fn.dataTable.ext.type;
+
+	// Add type detection
+	types.detect.unshift( function ( d ) {
+		// Strip HTML tags if possible
+		if ( d && d.replace ) {
+			d = d.replace(/<.*?>/g, '');
+		}
+
+		// Null and empty values are acceptable
+		if ( d === '' || d === null ) {
+			return 'moment-'+format;
+		}
+
+		return moment( d, format, locale, true ).isValid() ?
+			'moment-'+format :
+			null;
+	} );
+
+	// Add sorting method - use an integer for the sorting
+	types.order[ 'moment-'+format+'-pre' ] = function ( d ) {
+		return d === '' || d === null ?
+			-Infinity :
+			parseInt( moment( d.replace ? d.replace(/<.*?>/g, '') : d, format, locale, true ).format( 'x' ), 10 );
+	};
+};
+
+}));
+
+/*! modernizr 3.2.0 (Custom Build) | MIT *
+ * http://modernizr.com/download/?-canvas-flexbox-flexwrap-setclasses !*/
+!function(e,n,t){function r(e,n){return typeof e===n}function o(){var e,n,t,o,s,i,a;for(var l in C)if(C.hasOwnProperty(l)){if(e=[],n=C[l],n.name&&(e.push(n.name.toLowerCase()),n.options&&n.options.aliases&&n.options.aliases.length))for(t=0;t<n.options.aliases.length;t++)e.push(n.options.aliases[t].toLowerCase());for(o=r(n.fn,"function")?n.fn():n.fn,s=0;s<e.length;s++)i=e[s],a=i.split("."),1===a.length?Modernizr[a[0]]=o:(!Modernizr[a[0]]||Modernizr[a[0]]instanceof Boolean||(Modernizr[a[0]]=new Boolean(Modernizr[a[0]])),Modernizr[a[0]][a[1]]=o),g.push((o?"":"no-")+a.join("-"))}}function s(e){var n=w.className,t=Modernizr._config.classPrefix||"";if(_&&(n=n.baseVal),Modernizr._config.enableJSClass){var r=new RegExp("(^|\\s)"+t+"no-js(\\s|$)");n=n.replace(r,"$1"+t+"js$2")}Modernizr._config.enableClasses&&(n+=" "+t+e.join(" "+t),_?w.className.baseVal=n:w.className=n)}function i(){return"function"!=typeof n.createElement?n.createElement(arguments[0]):_?n.createElementNS.call(n,"http://www.w3.org/2000/svg",arguments[0]):n.createElement.apply(n,arguments)}function a(e,n){return!!~(""+e).indexOf(n)}function l(e){return e.replace(/([a-z])-([a-z])/g,function(e,n,t){return n+t.toUpperCase()}).replace(/^-/,"")}function f(e,n){return function(){return e.apply(n,arguments)}}function u(e,n,t){var o;for(var s in e)if(e[s]in n)return t===!1?e[s]:(o=n[e[s]],r(o,"function")?f(o,t||n):o);return!1}function d(e){return e.replace(/([A-Z])/g,function(e,n){return"-"+n.toLowerCase()}).replace(/^ms-/,"-ms-")}function p(){var e=n.body;return e||(e=i(_?"svg":"body"),e.fake=!0),e}function c(e,t,r,o){var s,a,l,f,u="modernizr",d=i("div"),c=p();if(parseInt(r,10))for(;r--;)l=i("div"),l.id=o?o[r]:u+(r+1),d.appendChild(l);return s=i("style"),s.type="text/css",s.id="s"+u,(c.fake?c:d).appendChild(s),c.appendChild(d),s.styleSheet?s.styleSheet.cssText=e:s.appendChild(n.createTextNode(e)),d.id=u,c.fake&&(c.style.background="",c.style.overflow="hidden",f=w.style.overflow,w.style.overflow="hidden",w.appendChild(c)),a=t(d,e),c.fake?(c.parentNode.removeChild(c),w.style.overflow=f,w.offsetHeight):d.parentNode.removeChild(d),!!a}function m(n,r){var o=n.length;if("CSS"in e&&"supports"in e.CSS){for(;o--;)if(e.CSS.supports(d(n[o]),r))return!0;return!1}if("CSSSupportsRule"in e){for(var s=[];o--;)s.push("("+d(n[o])+":"+r+")");return s=s.join(" or "),c("@supports ("+s+") { #modernizr { position: absolute; } }",function(e){return"absolute"==getComputedStyle(e,null).position})}return t}function v(e,n,o,s){function f(){d&&(delete T.style,delete T.modElem)}if(s=r(s,"undefined")?!1:s,!r(o,"undefined")){var u=m(e,o);if(!r(u,"undefined"))return u}for(var d,p,c,v,h,y=["modernizr","tspan"];!T.style;)d=!0,T.modElem=i(y.shift()),T.style=T.modElem.style;for(c=e.length,p=0;c>p;p++)if(v=e[p],h=T.style[v],a(v,"-")&&(v=l(v)),T.style[v]!==t){if(s||r(o,"undefined"))return f(),"pfx"==n?v:!0;try{T.style[v]=o}catch(g){}if(T.style[v]!=h)return f(),"pfx"==n?v:!0}return f(),!1}function h(e,n,t,o,s){var i=e.charAt(0).toUpperCase()+e.slice(1),a=(e+" "+b.join(i+" ")+i).split(" ");return r(n,"string")||r(n,"undefined")?v(a,n,o,s):(a=(e+" "+E.join(i+" ")+i).split(" "),u(a,n,t))}function y(e,n,r){return h(e,t,t,n,r)}var g=[],C=[],x={_version:"3.2.0",_config:{classPrefix:"",enableClasses:!0,enableJSClass:!0,usePrefixes:!0},_q:[],on:function(e,n){var t=this;setTimeout(function(){n(t[e])},0)},addTest:function(e,n,t){C.push({name:e,fn:n,options:t})},addAsyncTest:function(e){C.push({name:null,fn:e})}},Modernizr=function(){};Modernizr.prototype=x,Modernizr=new Modernizr;var w=n.documentElement,_="svg"===w.nodeName.toLowerCase();Modernizr.addTest("canvas",function(){var e=i("canvas");return!(!e.getContext||!e.getContext("2d"))});var S="Moz O ms Webkit",b=x._config.usePrefixes?S.split(" "):[];x._cssomPrefixes=b;var E=x._config.usePrefixes?S.toLowerCase().split(" "):[];x._domPrefixes=E;var P={elem:i("modernizr")};Modernizr._q.push(function(){delete P.elem});var T={style:P.elem.style};Modernizr._q.unshift(function(){delete T.style}),x.testAllProps=h,x.testAllProps=y,Modernizr.addTest("flexbox",y("flexBasis","1px",!0)),Modernizr.addTest("flexwrap",y("flexWrap","wrap",!0)),o(),s(g),delete x.addTest,delete x.addAsyncTest;for(var z=0;z<Modernizr._q.length;z++)Modernizr._q[z]();e.Modernizr=Modernizr}(window,document);
+// Closure
+(function() {
+  /**
+   * Decimal adjustment of a number.
+   *
+   * @param {String}  type  The type of adjustment.
+   * @param {Number}  value The number.
+   * @param {Integer} exp   The exponent (the 10 logarithm of the adjustment base).
+   * @returns {Number} The adjusted value.
+   */
+  function decimalAdjust(type, value, exp) {
+    // If the exp is undefined or zero...
+    if (typeof exp === 'undefined' || +exp === 0) {
+      return Math[type](value);
+    }
+    value = +value;
+    exp = +exp;
+    // If the value is not a number or the exp is not an integer...
+    if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0)) {
+      return NaN;
+    }
+    // Shift
+    value = value.toString().split('e');
+    value = Math[type](+(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp)));
+    // Shift back
+    value = value.toString().split('e');
+    return +(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp));
+  }
+
+  // Decimal round
+  if (!Math.round10) {
+    Math.round10 = function(value, exp) {
+      return decimalAdjust('round', value, exp);
+    };
+  }
+  // Decimal floor
+  if (!Math.floor10) {
+    Math.floor10 = function(value, exp) {
+      return decimalAdjust('floor', value, exp);
+    };
+  }
+  // Decimal ceil
+  if (!Math.ceil10) {
+    Math.ceil10 = function(value, exp) {
+      return decimalAdjust('ceil', value, exp);
+    };
+  }
+})();
+
+$.ajaxSetup({
+	headers: {
+		'X-CSRF-TOKEN': $("meta[name='csrf_token']").attr("content")
+	}
+});
+
+moment.updateLocale("en", {
+	calendar: {
+		lastDay : '[Yesterday at] LT',
+		sameDay : '[Today at] LT',
+		nextDay : '[Tomorrow at] LT',
+		lastWeek : '[Last] dddd [at] LT',
+		nextWeek : 'dddd [at] LT',
+		sameElse: "ll LT"
+	}
+});
+
+var numSpecificReports = 0;
+function reportHtml(i) {
+	return '<div class="report-options collapse">'+
+	'<button type="button" class="close remove-report-group" aria-hidden="true">&times;</button>'+
+	'<h3>Report</h3>'+
+ '<div class="form-group">'+
+   '<label for="startDate'+i+'">Start Date:</label>'+
+   '<input type="text" class="form-control datepicker startDate" id="startDate'+i+'" name="startDate'+i+'">'+
+ '</div>'+
+ '<div class="form-group">'+
+   '<label for="endDate">End Date:</label>'+
+   '<input type="text" class="form-control datepicker endDate" id="endDate'+i+'" name="endDate'+i+'">'+
+ '</div>'+
+ '<div class="form-group" style="text-align: center;">'+
+   '<button type="button" class="btn lastThreeMonths">Last Three Months</button> '+
+   '<button type="button" class="btn lastSixMonths">Last Six Months</button>'+
+ '</div>'+
+ '<div class="form-group">'+
+   '<label for="trainingLevelInput'+i+'">Training Level</label>'+
+   '<select class="form-control select2" id="trainingLevelInput'+i+'" name="trainingLevel'+i+'" style="width: 100%" required>'+
+	 '<option value="all">All</option>'+
+	 '<option value="intern">Intern</option>'+
+	 '<option value="ca-1">CA-1</option>'+
+	 '<option value="ca-2">CA-2</option>'+
+	 '<option value="ca-3">CA-3</option>'+
+	 '<option value="fellow">Fellow</option>'+
+   '</select>'+
+ '</div>'+
+ '<hr /><br />'+
+ '</div>';
+}
+
+
+$("#addNewSpecificReport").click(function(){
+	var report = reportHtml(++numSpecificReports);
+	$(report).appendTo(".modal-specRpt").velocity("slideDown");
+	$(".datepicker").datepicker({
+		dateFormat: "yy-mm-dd"
+	});
+});
+
+ $(".modal-specRpt").on("click", ".remove-report-group", function(){
+	$(this).parent().velocity("slideUp", function(){
+		$(this).remove();
+	});
+ });
+
+function checkReportQuery(){
+//Checks the report queries to make sure the entered date is of the correct format because not all browsers support the html5 datepicker being used.
+	dateError = false;
+	$(this).find("input").each(function(){
+		if($(this).attr("type") == "date" || $(this).hasClass("datepicker")){
+			var date = $(this).val();
+			var regex = /^\d\d\d\d-\d\d-\d\d$/;
+			if(!new RegExp(regex).test(date)){
+				dateError = true;
+			}
+		}
+	});
+
+	if(dateError){
+		alert("Please enter a valid date. If your browser does not support the date selector, date must be formatted YYYY-MM-DD");
+	}
+
+	return !dateError;
+}
+
+function lastSixMonths(){
+	setStartEndDates.call(this, 6);
+}
+
+function lastThreeMonths(){
+	setStartEndDates.call(this, 3);
+}
+
+function setStartEndDates(months){
+	months = months != undefined ? months : 3;
+	var end = moment().subtract(1, "month").endOf("month");
+	var start = moment(end).startOf("month").subtract(months-1, "month");
+	$(this).parents(".report-options").find(".startDate").val(start.format("YYYY-MM-DD"));
+	$(this).parents(".report-options").find(".endDate").val(end.format("YYYY-MM-DD"));
+}
+
+function appendAlert(alertText, parent, alertType){
+	alertType = (typeof(alertType) == "undefined" ? "danger" : alertType);
+	if(!parent)
+		parent = "#alert-container";
+
+	var alert = document.createElement("div");
+	alert.className = "alert alert-" + alertType + " alert-dismissable";
+	alert.role = "alert";
+
+	var close = document.createElement("button");
+	close.type = "button";
+	close.className = "close";
+	close.setAttribute("data-dismiss", "alert");
+	close.setAttribute("aria-label", "Close");
+
+	var innerClose = document.createElement("span");
+	innerClose.setAttribute("aria-hidden", "true");
+	innerClose.innerHTML = "&times;";
+	close.appendChild(innerClose);
+
+	var text = document.createTextNode(alertText);
+	alert.appendChild(close);
+	alert.appendChild(text);
+
+	$(parent).append(alert);
+}
+
+function unlimitTableEvals(settings, json){
+	var dt = this.DataTable({
+		retrieve: true
+	});
+	var url = dt.ajax.url();
+	dt.ajax.url(url.substring(0, url.lastIndexOf("/"))).load().draw();
+}
+
+$(document).ready(function(){
+	$.fn.dataTable.moment( "DD-MMM-YYYY h:mm A" );
+
+	$(".report").submit(checkReportQuery);
+	$(".report").on("click", ".lastSixMonths", lastSixMonths);
+	$(".report").on("click", ".lastThreeMonths", lastThreeMonths);
+	$(".datepicker").datepicker({
+		dateFormat: "yy-mm-dd"
+	});
+
+	$("#addNewSpecificReport").click();
+
+	$.extend(true, $.fn.dataTable.defaults, {
+		language: {
+			paginate: {
+				previous: "&lt;",
+				next: "&gt;"
+			}
+		},
+		stateSave: true,
+		deferRender: true,
+		dom: "lfprtip"
+	});
+
+	$.fn.select2.defaults.set("theme", "bootstrap");
+
+	$(".select2").val(null).select2({
+		placeholder: "Please select"
+	});
+
+	$("body").css("padding-top", $("#main-navbar").height()+5);
+
+	$("#individual-milestones, #aggregate-milestones").multiSelect({
+		selectableOptgroup: true
+	});
+
+});
+
+// https://davidwalsh.name/essential-javascript-functions
+function debounce(func, wait, immediate){
+	var timeout;
+	return function(){
+		var context = this, args = arguments;
+		var later = function(){
+			timeout = null;
+			if(!immediate) func.apply(context, args);
+		};
+		var callNow = immediate && !timeout;
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+		if(callNow) func.apply(context, args);
+	}
+}
+
+var fixNavbarOffset = debounce(function(){
+	$("body").css("padding-top", $("#main-navbar").height()+5);
+}, 100);
+
+$(window).resize(fixNavbarOffset);
+
+$(".table").on("click", ".view-evaluation", function(){
+	var requestId = $(this).parents("tr").children("td").eq(0).children("a").html();
+	window.location.href = "/evaluation/"+requestId;
+});
+
+$(".report-milestones-info").popover({
+	placement: "left",
+	html: "true",
+	content: "<ul>" +
+			"<li>Leave empty to include all milestones in training level in report</li>" +
+			"<li>Click a milestone type heading to select all milestones of that type</li>" +
+		"</ul>"
+});
+
+$(".toggleDescriptions").click(function(){
+	var questionName = $(this).data("id");
+	var headerHeight = $("#main-navbar").height();
+	var padding = 5;
+	var scrollto = $(this).parents(".question").velocity("scroll");
+	var isExpanded = $("#" + questionName).hasClass("expanded-descriptions");
+	if(isExpanded)
+		$("." + questionName + " .description").velocity("slideUp", function(){
+			$("#" + questionName).removeClass("expanded-descriptions");
+		});
+	else {
+		$("#" + questionName).addClass("expanded-descriptions");
+		$("." + questionName + " .description").velocity("slideDown");
+	}
+});
+
+$("table").on("mouseenter", ".table-date-cell", function(){
+	var date = $(this).data("date-value");
+	if(date){
+		$(this).data("original-value", $(this).text());
+		$(this).text(moment(date).format("ll LT"));
+	}
+});
+
+$("table").on("mouseleave", ".table-date-cell", function(){
+	var originalValue = $(this).data("originalValue");
+	if(originalValue)
+		$(this).text(originalValue);
+});
+
+function ucfirst(str){
+	return str.charAt(0).toUpperCase() + str.substring(1);
+}
+
+function createDateCell(td, date, rowData, rowIndex, colIndex){
+	if(date && $(td).text() !== moment(date).format("ll LT"))
+		$(td).attr("data-date-value", moment(date).valueOf())
+			.addClass("table-date-cell");
+}
+
+function renderTableEvaluationDate(date, type){
+	if(type === "sort" || type === "type")
+		return date ? moment(date).valueOf() : "";
+
+	return date ? moment(date).format("MMMM Y") : "";
+}
+
+function renderTableDate(date, type){
+	if(type === "sort" || type === "type")
+		return date ? moment(date).valueOf() : "";
+
+	return date ? moment(date).calendar() : "";
+}
+
+
+// MCW Colors
+// var averageSolidColor = "rgba(0,67,100,1)";
+// var averageFillColor = "rgba(0,67,100,0.2)";
+// var individualSolidColor = "rgba(1,108,100,1)";
+// var individualFillColor = "rgba(1,108,100,0.2)";
+
+var averageSolidColor = "rgba(227,227,0,1)";
+var averageFillColor = "rgba(227,227,0,0.3)";
+var individualSolidColor = "rgba(227,0,0,1)";
+var individualFillColor = "rgba(227,0,0,0.3)";
+
+var options = {
+	animation: false,
+	responsive: true,
+	angleLineWidth: 2,
+	tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= Math.round10(value, -2) %>",
+	multiTooltipTemplate: "<%= Math.round10(value, -2) %>",
+	legendTemplate: "<ul class=\"legend <%=name.toLowerCase()%>-legend\">" +
+		"<% for (var i=0; i<datasets.length; i++){%>" +
+			"<li><span class=\"glyphicon glyphicon-stop\" style=\"color:<%=datasets[i].strokeColor%>\"></span> " +
+			"<%if(datasets[i].label){%><%=datasets[i].label%>" +
+		"<%}%></li><%}%></ul>",
+	scaleShowLabels: true,
+	scaleOverride: true,
+	scaleLineWidth: 2,
+	scaleSteps: 5,
+	scaleStepWidth: 2,
+	scaleStartValue: 0,
+	scaleLabel: function(values){
+		return scaleLabels[values.value/2];
+	}
+};
+
+function drawRadarGraphs(milestoneData, competencyData, title, index){
+	index = typeof index != "undefined" ? index : 0;
+
+	var div = document.getElementsByClassName("graphs")[index];
+	var row = document.createElement("div");
+	row.className = "graph-container";
+	var h3 = document.createElement("h3");
+	h3.appendChild(document.createTextNode(title));
+	row.appendChild(h3);
+
+	var milestoneGraph = document.createElement("div");
+	milestoneGraph.className = "graph milestone-graph";
+	var milestoneTitle = document.createElement("h4");
+	milestoneTitle.appendChild(document.createTextNode("Milestones"));
+	milestoneGraph.appendChild(milestoneTitle);
+	var milestoneCanvasDiv = document.createElement("div");
+	milestoneCanvasDiv.className = "graph-canvas-container";
+	var milestoneCanvas = document.createElement("canvas");
+	milestoneCanvas.width = 800;
+	milestoneCanvas.height = 400;
+	milestoneCanvasDiv.appendChild(milestoneCanvas);
+	milestoneGraph.appendChild(milestoneCanvasDiv);
+	row.appendChild(milestoneGraph);
+
+	var competencyGraph = document.createElement("div");
+	competencyGraph.className = "graph competency-graph";
+	var competencyTitle = document.createElement("h4");
+	competencyTitle.appendChild(document.createTextNode("Competencies"));
+	competencyGraph.appendChild(competencyTitle);
+	var competencyCanvasDiv = document.createElement("div");
+	competencyCanvasDiv.className = "graph-canvas-container";
+	var competencyCanvas = document.createElement("canvas");
+	competencyCanvas.width = 800;
+	competencyCanvas.height = 400;
+	competencyCanvasDiv.appendChild(competencyCanvas);
+	competencyGraph.appendChild(competencyCanvasDiv);
+	row.appendChild(competencyGraph);
+
+	div.appendChild(row);
+
+	var graphType = $("#graph-type").val();
+	var vertical = $("#graph-layout").bootstrapSwitch("state");
+	if(!vertical){
+		milestoneGraph.className += " col-sm-6";
+		competencyGraph.className += " col-sm-6";
+	}
+
+	var mCtx = milestoneCanvas.getContext("2d");
+	var cCtx = competencyCanvas.getContext("2d");
+
+	if(graphType == "radar"){
+		var mGraph = new Chart(mCtx).Radar(milestoneData, options);
+		var cGraph = new Chart(cCtx).Radar(competencyData, options);
+	}
+	else if(graphType == "bar"){
+		var mGraph = new Chart(mCtx).Bar(milestoneData, options);
+		var cGraph = new Chart(cCtx).Bar(competencyData, options);
+	}
+	else if(graphType == "line"){
+		var mGraph = new Chart(mCtx).Line(milestoneData, options);
+		var cGraph = new Chart(cCtx).Line(competencyData, options);
+	}
+
+	var legend = mGraph.generateLegend();
+	$(row).append(legend);
+}
+
+$("#graph-type").change(function(){
+	$(".graphs").html("");
+	Chart.helpers.each(Chart.instances,function(instance){
+		instance.destroy();
+	});
+	drawAllRadarGraphs();
+});
+
+$("#new-graphs").on("switchChange.bootstrapSwitch", function(){
+	$(".graph-type-container").toggle();
+	$(".graph-layout-container").toggle();
+	$(".img-graphs").toggle();
+	$(".graphs").toggle();
+});
+
+$("#graph-layout").on("switchChange.bootstrapSwitch", function(){
+	$(".graph").toggleClass("col-sm-6");
+	Chart.helpers.each(Chart.instances,function(instance){
+		instance.resize(instance.render, true);
+	});
+});
+
+function drawAverageRadarGraphs(){
+	reportData.forEach(function(report, index){
+
+		prepareReport(report);
+
+		var milestoneData = {
+			labels: report.milestoneLabels,
+			datasets: [
+				report.averageMilestoneDataset
+			]
+		};
+
+		var competencyData = {
+			labels: report.competencyLabels,
+			datasets: [
+				report.averageCompetencyDataset
+			]
+		}
+
+		drawRadarGraphs(milestoneData, competencyData, "Average");
+	});
+}
+
+function drawAllRadarGraphs(){
+	reportData.forEach(function(report, index){
+
+		prepareReport(report);
+
+		report.subjectIds.forEach(function(subjectId){
+			var milestoneData = {
+				labels: report.milestoneLabels,
+				datasets: [
+					report.averageMilestoneDataset,
+					{
+						label: "Individual Performance",
+						fillColor: individualFillColor,
+						strokeColor: individualSolidColor,
+						pointColor: individualSolidColor,
+						pointStrokeColor: "#fff",
+						pointHighlightFill: "#fff",
+						pointHighlightStroke: individualSolidColor,
+						data: _.values(report.subjectMilestone[subjectId])
+					}
+				]
+			};
+
+			var competencyData = {
+				labels: report.competencyLabels,
+				datasets: [
+					report.averageCompetencyDataset,
+					{
+						label: "Individual Performance",
+						fillColor: individualFillColor,
+						strokeColor: individualSolidColor,
+						pointColor: individualSolidColor,
+						pointStrokeColor: "#fff",
+						pointHighlightFill: "#fff",
+						pointHighlightStroke: individualSolidColor,
+						data: _.values(report.subjectCompetency[subjectId])
+					}
+				]
+			};
+
+			drawRadarGraphs(milestoneData, competencyData, report.subjects[subjectId], index);
+		});
+	});
+}
+
+function prepareReport(report){
+	// Sort subject ids by subject name
+	report.subjectIds = _.keys(report.subjects).sort(function(a, b){return report.subjects[a].localeCompare(report.subjects[b]);})
+
+	if(report.trainingLevel == "fellow")
+		report.scaleLabels = ["", "Fellow Level 1", "Fellow Level 2", "Fellow Level 3", "Fellow Level 4", "Fellow Level 5"];
+	else
+		report.scaleLabels = ["", "CBY", "CA-1", "CA-2", "CA-3", "Attending"];
+
+	options.scaleLabel = function(values){
+		return report.scaleLabels[values.value/2];
+	};
+
+	report.milestoneLabels = _.values(report.milestones);
+	report.averageMilestones = _.values(report.averageMilestone);
+	report.competencyLabels = _.values(report.competencies);
+	report.averageCompetencies = _.values(report.averageCompetency);
+
+	for(var i = 0; i < report.milestoneLabels.length; i++){
+		report.milestoneLabels[i] = report.milestoneLabels[i].replace("Anes Fellow ", "");
+		report.milestoneLabels[i] = report.milestoneLabels[i].replace("and", "&");
+	}
+
+	report.averageMilestoneDataset = {
+		label: "Average Performance",
+		fillColor: averageFillColor,
+		strokeColor: averageSolidColor,
+		pointColor: averageSolidColor,
+		pointStrokeColor: "#fff",
+		pointHighlightFill: "#fff",
+		pointHighlightStroke: averageSolidColor,
+		data: report.averageMilestones
+	};
+
+	report.averageCompetencyDataset = {
+		label: "Average Performance",
+		fillColor: averageFillColor,
+		strokeColor: averageSolidColor,
+		pointColor: averageSolidColor,
+		pointStrokeColor: "#fff",
+		pointHighlightFill: "#fff",
+		pointHighlightStroke: averageSolidColor,
+		data: report.averageCompetencies
+	};
+}
+
+var evalHistoryChart = [];
+
+var solidColors = {
+	Requested: "rgba(227,227,0,1)",
+	Completed: "rgba(227,0,0,1)"
+};
+
+var fillColors = {
+	Requested: "rgba(227,227,0,0.3)",
+	Completed: "rgba(227,0,0,0.3)"
+};
+
+var options = {
+	responsive: true,
+	tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %>",
+	legendTemplate: "<ul class=\"legend <%=name.toLowerCase()%>-legend\">" +
+		"<% for (var i=0; i<datasets.length; i++){%>" +
+			"<li><span class=\"glyphicon glyphicon-stop\" style=\"color:<%=datasets[i].strokeColor%>\"></span> " +
+			"<%if(datasets[i].label){%><%=datasets[i].label%>" +
+		"<%}%></li><%}%></ul>",
+};
+
+function drawLineChart(canvas, chartData, chartLabels){
+	if(evalHistoryChart[canvas] != undefined)
+		evalHistoryChart[canvas].destroy();
+
+	var ctx = $(canvas).get(0).getContext("2d");
+
+	var datasets = [];
+	for(var i in chartData){
+		datasets.push({
+			label: i,
+			fillColor: fillColors[i],
+			strokeColor: solidColors[i],
+			pointColor: solidColors[i],
+			pointStrokeColor: "#fff",
+			pointHighlightFill: "#fff",
+			pointHighlightStroke: solidColors[i],
+			data: chartData[i]
+		});
+	}
+
+	var data = {
+		labels: chartLabels,
+		datasets: datasets
+	}
+	evalHistoryChart[canvas] = new Chart(ctx).Line(data, options);
+	$(canvas+"-legend").html(evalHistoryChart[canvas].generateLegend());
+}
+
+var labelFormats = {
+	year: "YYYY",
+	month: "MMMM",
+	week: "[Week of] MMM D",
+	day: "MMM D"
+};
+
+function getChartEvalData(evals, startDate, endDate, increment, incrementNum){
+	increment = increment != undefined ? increment : "month";
+	incrementNum = incrementNum != undefined ? incrementNum : 1;
+	startDate = startDate != undefined ? startDate : moment().subtract(1, "year").startOf(increment);
+	endDate = endDate != undefined ? endDate : moment();
+
+	var labelFormat = "MMM D";
+	if(labelFormats[increment] != undefined)
+		labelFormat = labelFormats[increment];
+	var labels = [];
+	var chartData = {
+		Requested: [],
+		Completed: []
+	};
+
+	for(var start = startDate; start < endDate; start.add(incrementNum, increment)){
+		var end = moment(start).add(incrementNum, increment);
+		var r = evals.reduce(function(num, e){
+			if(e.request_date != undefined){
+				var rd = moment(e.request_date);
+				if(rd >= start && rd < end)
+					return num + 1;
+			}
+			return num;
+		}, 0);
+
+		var c = evals.reduce(function(num, e){
+			if(e.complete_date != undefined && e.status == "complete"){
+				var cd = moment(e.complete_date);
+				if(cd >= start && cd < end)
+					return num + 1;
+			}
+			return num;
+		}, 0);
+
+		labels.push(start.format(labelFormat));
+		chartData["Requested"].push(r);
+		chartData["Completed"].push(c);
+	}
+
+	return [chartData, labels];
+}
+
+//# sourceMappingURL=all.js.map

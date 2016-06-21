@@ -35,7 +35,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         "first_name",
         "last_name",
         "email",
-        "photo_path"
+        "status"
     ];
 
     protected $casts = [

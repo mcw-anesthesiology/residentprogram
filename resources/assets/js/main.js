@@ -1,3 +1,9 @@
+$.ajaxSetup({
+	headers: {
+		'X-CSRF-TOKEN': $("meta[name='csrf_token']").attr("content")
+	}
+});
+
 moment.updateLocale("en", {
 	calendar: {
 		lastDay : '[Yesterday at] LT',
