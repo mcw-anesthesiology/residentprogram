@@ -159,6 +159,11 @@
 	foreach($reportData as $report){
 		$subjectTextResponses = array_merge($report["subjectTextResponses"], $subjectTextResponses);
 	}
+	$subjectReportEvals = [];
+	foreach($reportData as $report){
+		$subjectReportEvals = array_merge($report["subjectReportEvaluations"], $subjectReportEvals);
+	}
+
 ?>
 	@if(count($subjectTextResponses) > 0)
 		<h2 class="sub-header">Comments</h2>
@@ -185,6 +190,34 @@
 	@else
 		<h4>No text responses to show</h4>
 	@endif
+
+
+	@if(count($subjectReportEvals) > 0)
+		<h2 class="sub-header">Evaluations included in report</h2>
+		<table class="table table-striped table-bordered datatable" id="report-evaluations-table" width="100%">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Evaluation date</th>
+					<th>Faculty</th>
+					<th>Evaluation form</th>
+				</tr>
+			</thead>
+			<tbody>
+		@foreach($subjectReportEvals as $reportEvaluation)
+				<tr>
+					<td><a href="/evaluation/{{ $reportEvaluation->evaluation_id }}">{{ $reportEvaluation->evaluation_id }}</a></td>
+					<td>{{ Carbon\Carbon::parse($reportEvaluation->evaluation_date)->format("F Y") }}</td>
+					<td>{{ $reportEvaluation->last_name }}, {{ $reportEvaluation->first_name }}</td>
+					<td>{{ $reportEvaluation->form_title }}</td>
+				</tr>
+		@endforeach
+			</tbody>
+		</table>
+	@else
+		<p class="lead">No evaluations found in report parameters.</p>
+	@endif
+
 <?php
 	$html .= ob_get_flush();
 	$html = preg_replace("/[\t\n]/", "", $html);
@@ -206,15 +239,15 @@
 	@endif
 		$(document).ready(function(){
 			$(".text-responses-table").DataTable({
-				"order": [[0, "asc"]],
-				stateSave: true,
-				"dom": "lfprtip",
+				"order": [[0, "asc"]]
+			});
+
+			$("#report-evaluations-table").DataTable({
+				order: [[0, "desc"]]
 			});
 
 			$(".report-table").DataTable({
-				"order": [[0, "asc"]],
-				stateSave: true,
-				"dom": "lfprtip",
+				"order": [[0, "asc"]]
 			});
 
 			$(".img-graphs").hide();
