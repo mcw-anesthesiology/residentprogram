@@ -63,6 +63,11 @@ class RestController extends Controller
      */
     public function update(Request $request, $id){
         $this->model::find($id)->update($request->all());
+
+		if($request->ajax())
+			return "success";
+		else
+			return back();
     }
 
     /**

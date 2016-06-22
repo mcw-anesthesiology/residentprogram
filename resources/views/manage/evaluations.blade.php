@@ -163,7 +163,7 @@
 		$("#lastSixMonthsDisable").click(lastSixMonthsDisable);
 		$("#lastThreeMonthsDisable").click(lastThreeMonthsDisable);
 
-		$(document).on("click", ".disableEval", function(){
+		$("#manage-evals-table").on("click", ".disableEval", function(){
 			var requestId = $(this).data('id');
 			var data = {};
 			data._token = "{{ csrf_token() }}";
@@ -190,7 +190,7 @@
             });
 		});
 
-		$(document).on("click", ".enableEval", function(){
+		$("#manage-evals-table").on("click", ".enableEval", function(){
 			var data = {};
 			data._token = "{{ csrf_token() }}";
 			data.action = "enable";
@@ -230,7 +230,7 @@
             });
 		});
 
-		$(document).on("click", ".cancelEval", function(){
+		$("#manage-evals-table").on("click", ".cancelEval", function(){
 			var requestId = $(this).data('id');
 			var data = {};
 			data._token = "{{ csrf_token() }}";
@@ -294,7 +294,7 @@
 			}
 		});
 
-		$("body").on("click", ".visibility-edit", function(){
+		$("#manage-evals-table").on("click", ".visibility-edit", function(){
 			var evalId = $(this).data("eval");
 			var data = {};
 			data._token = "{{ csrf_token() }}";

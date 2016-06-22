@@ -12,7 +12,11 @@ class Form extends Model
         "id" => "integer"
     ];
 
-    protected $fillable = ["title", "xml_path", "status"];
+    protected $fillable = [
+        "title",
+        "status",
+        "visibility"
+    ];
 
 	protected $hidden = [];
 

@@ -161,7 +161,7 @@
 								labelType = "label-danger";
 								break;
 							}
-							return '<span class="label ' + labelType + '">' + ucfirst(status) + '</span>';
+							return '<span class="status label ' + labelType + '">' + ucfirst(status) + '</span>';
 						}
 
 						return status;
@@ -222,10 +222,10 @@
 							+ 'data-toggle="modal" data-target="#edit-form-modal">'
 							+ '<span class="glyphicon glyphicon-pencil"></span> Edit</button>';
 
-						var enableDisableButton =  '<button type="button" class="'
+						var enableDisableButton =  '<span><button type="button" class="'
 							+ buttonClass + ' btn ' + buttonType + ' btn-xs" data-id="'
 							+ form.id + '">' + '<span class="glyphicon ' + glyphiconType
-							+ '"></span>' + buttonText + '</button>';
+							+ '"></span>' + buttonText + '</button></span>';
 
 						return editButton + " " + enableDisableButton;
 					}}
@@ -238,20 +238,25 @@
 			var formType = $("#edit-form-type").val();
 			var data = {};
 			data._token = "{{ csrf_token() }}";
+			data._method = "PATCH";
 			data.title = $("#edit-form-title").val();
 			data.visibility = $("#edit-form-modal input[name='visibility']:checked").val();
-			data.action = "edit";
-			$.post("/manage/forms/"+formId, data, function(response){
-				if(response == "true"){
+
+			$.ajax({
+				url: "/forms/" + formId,
+				method: "POST", // PATCH
+				data: data
+			}).done(function(response){
+				if(response == "success"){
 					$("#"+formType+"-forms-table").DataTable({
 						"retrieve": true
 					}).ajax.reload();
 				}
 				else{
-					alert("Sorry, the form cannot be edited at this time");
+					appendAlert("Sorry, the form cannot be edited at this time");
 				}
-			}).fail(function(){
-				alert("There was a problem editing the form.");
+			}).fail(function(response){
+				appendAlert("There was a problem editing the form.");
 			});
 		});
 
@@ -267,55 +272,62 @@
 			$("#edit-form-modal input[value='" + visibility + "']").prop("checked", true);
 		});
 
-		$(".forms-table").on("click", ".disable-eval", function(){
+		$(".forms-table").on("click", ".disable-eval, .enable-eval", function(){
 			var data = {};
 			data._token = "{{ csrf_token() }}";
-			data.action = "disable";
-			var formId = $(this).data('id');
-			var span = $(this).parent();
-			var status = $(this).parents("tr").find(".status");
-			$.ajax({
-				type: "post",
-				url: "/manage/forms/"+formId,
-				data: data,
-				success: function(response){
-					if (response == "true"){
-						span.velocity("fadeOut", function(){
-							$(this).html("<button type='button' class='enable-eval btn btn-success btn-xs' data-id='" + formId + "'><span class='glyphicon glyphicon-ok'></span> Enable</button>");
-							$(this).velocity("fadeIn");
-						});
-						status.velocity("fadeOut", function(){
-							$(this).html("<span class='badge badge-disabled'>inactive</span>");
-							$(this).velocity("fadeIn");
-						});
-					}
-				}
-			});
-		});
+			data._method = "PATCH";
 
-		$(".forms-table").on("click", ".enable-eval", function(){
-			var data = {};
-			data._token = "{{ csrf_token() }}";
-			data.action = "enable";
+			if($(this).hasClass("disable-eval"))
+				data.status = "inactive";
+			else if($(this).hasClass("enable-eval"))
+				data.status = "active";
+			else
+				return;
+
 			var formId = $(this).data('id');
 			var span = $(this).parent();
-			var status = $(this).parents("tr").find(".status");
+			var status = $(this).parents("tr").find(".status").parent();
 			$.ajax({
-				type: "post",
-				url: "/manage/forms/"+formId,
-				data: data,
-				success: function(response){
-					if (response == "true"){
-						span.velocity("fadeOut", function(){
-							$(this).html("<button type='button' class='disable-eval btn btn-danger btn-xs' data-id='" + formId + "'><span class='glyphicon glyphicon-remove'></span> Disable</button>");
-							$(this).velocity("fadeIn");
-						});
-						status.velocity("fadeOut", function(){
-							$(this).html("<span class='badge badge-complete'>active</span>");
-							$(this).velocity("fadeIn");
-						});
+				url: "/forms/" + formId,
+				method: "POST", // PATCH
+				data: data
+			}).done(function(response){
+				if (response === "success"){
+					var buttonClass, buttonType, glyphiconType, buttonText, labelType;
+					switch(data.status){
+						case "inactive":
+							buttonClass = "enable-eval";
+							buttonType = "btn-success";
+							buttonText = "Enable";
+							glyphiconType = "glyphicon-ok";
+							labelType = "label-danger";
+							break;
+						case "active":
+							buttonClass = "disable-eval";
+							buttonType = "btn-danger";
+							buttonText = "Disable";
+							glyphiconType = "glyphicon-remove";
+							labelType = "label-success";
+							break;
 					}
+
+					span.velocity("fadeOut", {display: "inline", complete: function(){
+						$(this).html('<span><button type="button" class="'
+							+ buttonClass + ' btn ' + buttonType + ' btn-xs" data-id="'
+							+ formId + '">' + '<span class="glyphicon ' + glyphiconType
+							+ '"></span>' + buttonText + '</button></span>');
+						$(this).velocity("fadeIn");
+					}});
+					status.velocity("fadeOut", {display: "table-cell", complete: function(){
+						$(this).html('<span class="status label ' + labelType + '">' + ucfirst(data.status) + '</span>');
+						$(this).velocity("fadeIn");
+					}});
 				}
+				else {
+					appendAlert("There was a problem altering the form");
+				}
+			}).fail(function(response){
+				appendAlert("There was a problem altering the form");
 			});
 		});
 
@@ -337,10 +349,15 @@
 			var formId = $(this).data("form");
 			var data = {};
 			data._token = "{{ csrf_token() }}";
-			data.action = "visibility";
+			data._method = "PATCH";
 			data.visibility = $(this).data("visibility");
-			$.post("/manage/forms/" + formId, data, function(response){
-				if(response == "true"){
+
+			$.ajax({
+				url: "/forms/" + formId,
+				method: "POST", // PATCH
+				data: data
+			}).done(function(response){
+				if(response === "success"){
 					$(".edit-form-button[data-id='" + formId + "']").data("visibility", data.visibility);
 					var button = $(".visibility[data-id='" + formId + "']");
 					button.velocity("fadeOut", function(){
@@ -364,6 +381,10 @@
 						button.velocity("fadeIn");
 					});
 				}
+				else
+					appendAlert("There was a problem changing form visibility");
+			}).fail(function(){
+				appendAlert("There was a problem changing form visibility");
 			});
 		});
 	</script>
