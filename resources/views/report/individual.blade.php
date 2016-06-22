@@ -43,15 +43,53 @@
 		<tbody>
 			<tr>
 				<td>{{ $specificSubject->last_name }}, {{ $specificSubject->first_name }}</td>
-				<td>{{ $specificSubject->training_level }}</td>
+				<td>{{ ucfirst($specificSubject->training_level) }}</td>
 			</tr>
 		</tbody>
 	</table>
 
-	@foreach($reportData as $report)
+	@foreach($reportData as $reportNum => $report)
+<?php
+	$reportNumString = "";
+	if(count($reportData) > 1)
+		$reportNumString = $reportNum + 1;
+
+	$subjectReportEvals = [];
+	foreach($reportData as $report){
+		$subjectReportEvals = array_merge($report["subjectReportEvaluations"], $subjectReportEvals);
+	}
+?>
 </div>
 <div class="container body-block">
-		<h3 class="sub-header">{{ $report["startDate"]->toFormattedDateString() }} - {{ $report["endDate"]->toFormattedDateString() }} {{ strtoupper($report["trainingLevel"]) }}</h3>
+		@if(count($subjectReportEvals) > 0)
+	<h2 class="sub-header">Evaluations included in report {{ $reportNumString }} ({{ ucfirst($report["trainingLevel"]) }}: {{ $report["startDate"]->toFormattedDateString() }} - {{ $report["endDate"]->toFormattedDateString() }})</h2>
+	<table class="table table-striped table-bordered datatable" id="report-evaluations-table" width="100%">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Evaluation date</th>
+				<th>Faculty</th>
+				<th>Evaluation form</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach($subjectReportEvals as $reportEvaluation)
+			<tr>
+				<td><a href="/evaluation/{{ $reportEvaluation->evaluation_id }}">{{ $reportEvaluation->evaluation_id }}</a></td>
+				<td>{{ Carbon\Carbon::parse($reportEvaluation->evaluation_date)->format("F Y") }}</td>
+				<td>{{ $reportEvaluation->last_name }}, {{ $reportEvaluation->first_name }}</td>
+				<td>{{ $reportEvaluation->form_title }}</td>
+			</tr>
+			@endforeach
+		</tbody>
+	</table>
+		@else
+	<p class="lead">No evaluations found in report parameters.</p>
+		@endif
+
+</div>
+<div class="container body-block">
+		<h3 class="sub-header">Report {{ $reportNumString }}</h3>
 		<div class="row">
 			<div class="report-milestones col-md-6">
 				<h4>Milestones</h4>
@@ -159,11 +197,6 @@
 	foreach($reportData as $report){
 		$subjectTextResponses = array_merge($report["subjectTextResponses"], $subjectTextResponses);
 	}
-	$subjectReportEvals = [];
-	foreach($reportData as $report){
-		$subjectReportEvals = array_merge($report["subjectReportEvaluations"], $subjectReportEvals);
-	}
-
 ?>
 	@if(count($subjectTextResponses) > 0)
 		<h2 class="sub-header">Comments</h2>
@@ -188,34 +221,7 @@
 			</tbody>
 		</table>
 	@else
-		<h4>No text responses to show</h4>
-	@endif
-
-
-	@if(count($subjectReportEvals) > 0)
-		<h2 class="sub-header">Evaluations included in report</h2>
-		<table class="table table-striped table-bordered datatable" id="report-evaluations-table" width="100%">
-			<thead>
-				<tr>
-					<th>#</th>
-					<th>Evaluation date</th>
-					<th>Faculty</th>
-					<th>Evaluation form</th>
-				</tr>
-			</thead>
-			<tbody>
-		@foreach($subjectReportEvals as $reportEvaluation)
-				<tr>
-					<td><a href="/evaluation/{{ $reportEvaluation->evaluation_id }}">{{ $reportEvaluation->evaluation_id }}</a></td>
-					<td>{{ Carbon\Carbon::parse($reportEvaluation->evaluation_date)->format("F Y") }}</td>
-					<td>{{ $reportEvaluation->last_name }}, {{ $reportEvaluation->first_name }}</td>
-					<td>{{ $reportEvaluation->form_title }}</td>
-				</tr>
-		@endforeach
-			</tbody>
-		</table>
-	@else
-		<p class="lead">No evaluations found in report parameters.</p>
+		<p class="lead">No text responses to show</p>
 	@endif
 
 <?php
