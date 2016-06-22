@@ -101,7 +101,7 @@ class Evaluation extends Model
         });
     }
 
-    public function sendNotification(){
+    public function sendNotification($reminder = false){
         try{
             $email = $this->evaluator->email;
             $data = [
@@ -110,11 +110,21 @@ class Evaluation extends Model
                 "subjectLast" => $this->subject->last_name,
                 "formTitle" => $this->form->title
             ];
-            Mail::send("emails.notification", $data, function($message) use($email){
+
+            if($reminder){
+                $emailView = "emails.evaluation-reminder";
+                $emailSubject = "Evaluation Reminder";
+            }
+            else{
+                $emailView = "emails.notification";
+                $emailSubject = "Evaluation Request Notification";
+            }
+
+            Mail::send($emailView, $data, function($message) use($email, $emailSubject){
                 $message->to($email);
                 $message->from("notifications@residentprogram.com", "Resident Program Notifications");
                 $message->replyTo(config("app.admin_email"));
-                $message->subject("Evaluation Request Notification");
+                $message->subject($emailSubject);
             });
             return true;
         }

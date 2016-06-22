@@ -66,4 +66,15 @@ class EvaluationController extends RestController
             return $eval->status;
         }
 	}
+
+	public function remind(Request $request, $id){
+		$eval = Evaluation::find($id);
+		if(!$eval->sendNotification(true))
+			throw new \Exception("Failed to send reminder");
+
+		if($request->ajax())
+			return "success";
+		else
+			return back();
+	}
 }

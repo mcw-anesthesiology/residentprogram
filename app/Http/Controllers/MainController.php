@@ -750,12 +750,15 @@ class MainController extends Controller
 
     public function formEvaluations(Request $request, $limit = null){
         $user = Auth::user();
-        $type = $request->input("type", "complete");
         $form = Form::findOrFail($request->input("form_id"));
+        if($request->has("type"))
+            $evaluations = $form->evaluations()->where("status", $request->input("type"))->get();
+        else
+            $evaluations = $form->evaluations;
         $results["data"] = [];
 
         if($user->type == "admin" || $user->watchedForms->pluck("form_id")->contains($request->input("form_id"))){
-            foreach($form->evaluations()->where("status", $type)->get() as $eval){
+            foreach($evaluations as $eval){
                 try {
                     $result = [];
                     $result[] = "<a href='{$eval->id}'>{$eval->id}</a>";
@@ -765,10 +768,21 @@ class MainController extends Controller
                         $result[] = $eval->evaluation_date->format("F Y");
                     else
                         $result[] = "";
+
                     if($eval->complete_date)
                         $result[] = (string)$eval->complete_date;
                     else
                         $result[] = "";
+
+                    if($eval->status == "complete")
+	                    $badge = "complete";
+	                elseif($eval->status == "pending")
+	                    $badge = "pending";
+	                else
+	                    $badge = "disabled";
+
+	                $result[] = "<span class='badge badge-{$badge}'>" . ucfirst($eval->status) . "</span>";
+
                     $result[] = "";
 
                     $results["data"][] = $result;

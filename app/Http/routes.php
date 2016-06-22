@@ -18,6 +18,7 @@ Route::resource("users", "Rest\UserController", ["only" => [
 Route::resource("forms", "Rest\FormController", ["only" => [
 	"index", "store", "show", "update", "destroy"
 ]]);
+Route::patch("evaluations/{id}/remind", "Rest\EvaluationController@remind");
 Route::resource("evaluations", "Rest\EvaluationController", ["only" => [
 	"index", "store", "show", "update", "destroy"
 ]]);

@@ -144,9 +144,13 @@
 					+ ' ' + buttonText + '</button></span>';
 
 					action += '<span class="cancel">';
-					if(eval.status === "pending")
+					if(eval.status === "pending"){
 						action += '<button class="cancelEval btn btn-danger btn-xs" data-id="'
-						+ eval.id + '"><span class="glyphicon glyphicon-remove"></span> Cancel</button>'
+							+ eval.id + '"><span class="glyphicon glyphicon-remove"></span> Cancel</button> ';
+
+						action += '<button class="send-reminder btn btn-primary btn-xs" data-id="' + eval.id + '">'
+							+ '<span class="glyphicon glyphicon-send"></span> Send reminder</button>'
+					}
 					action += '</span>';
 
 					return action;
@@ -316,6 +320,37 @@
 			}).fail(function(response){
 				alterVisibilityButton(button, originalVisibility);
 				appendAlert(response);
+			});
+		});
+
+		$("#manage-evals-table").on("click", ".send-reminder", function(){
+			$("#manage-evals-table .send-reminder-confirm").removeClass("send-reminder-confirm").removeClass("btn-warning").addClass("btn-primary")
+				.html("<span class='glyphicon glyphicon-send'></span> Send reminder");
+			$(this).addClass("send-reminder-confirm").addClass("btn-warning").removeClass("btn-primary")
+				.html("<span class='glyphicon glyphicon-send'></span> Confirm send");
+		});
+
+		$("#manage-evals-table").on("click", ".send-reminder-confirm", function(){
+			var evalId = $(this).data("id");
+			var data = {};
+			data._token = "{{ csrf_token() }}";
+			data._method = "PATCH";
+
+			var button = $(this);
+			$.ajax({
+				url: "/evaluations/" + evalId + "/remind",
+				data: data,
+				method: "POST"
+			}).done(function(response){
+				if(response === "success"){
+					button.removeClass("send-reminder").removeClass("send-reminder-confirm").removeClass("btn-warning")
+						.addClass("btn-success").html("<span class='glyphicon glyphicon-ok'></span> Reminder sent");
+				}
+				else {
+					appendAlert("There was a problem sending the reminder");
+				}
+			}).fail(function(){
+				appendAlert("There was a problem sending the reminder");
 			});
 		});
 

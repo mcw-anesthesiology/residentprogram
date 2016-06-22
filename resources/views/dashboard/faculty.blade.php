@@ -49,6 +49,7 @@
 					<th>Evaluator</th>
 					<th>Evaluation date</th>
 					<th>Completed</th>
+					<th>Status</th>
 					<th></th>
 				</tr>
 			</thead>
