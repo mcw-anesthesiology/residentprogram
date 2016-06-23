@@ -19,7 +19,7 @@ class Milestone extends Model
     }
 
     public function milestonesQuestions(){
-        return $this->hasMany("App\MilestonesQuestions");
+        return $this->hasMany("App\MilestoneQuestion");
     }
 
     public function levels(){

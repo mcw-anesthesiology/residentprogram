@@ -13,21 +13,28 @@
 Route::patch("users/{id}/password", "Rest\UserController@password");
 Route::patch("users/{id}/welcome", "Rest\UserController@welcome");
 Route::resource("users", "Rest\UserController", ["only" => [
-	"index", "store", "show", "update", "destroy"
+	"index", "store", "show", "update"
 ]]);
 Route::resource("forms", "Rest\FormController", ["only" => [
-	"index", "store", "show", "update", "destroy"
+	"index", "store", "show", "update"
 ]]);
 Route::patch("evaluations/{id}/remind", "Rest\EvaluationController@remind");
 Route::resource("evaluations", "Rest\EvaluationController", ["only" => [
-	"index", "store", "show", "update", "destroy"
+	"index", "store", "show", "update"
 ]]);
 Route::resource("watched_forms", "Rest\WatchedFormController", ["only" => [
-	"index", "store", "show", "update", "destroy"
+	"index", "store", "show", "update"
 ]]);
 Route::resource("mentorships", "Rest\MentorshipController", ["only" => [
-	"index", "store", "show", "update", "destroy"
+	"index", "store", "show", "update"
 ]]);
+Route::resource("milestones", "Rest\MilestoneController", ["only" => [
+	"index", "store", "show", "update"
+]]);
+Route::resource("competencies", "Rest\CompetencyController", ["only" => [
+	"index", "store", "show", "update"
+]]);
+
 
 Route::get("/", "MainController@dashboard");
 
