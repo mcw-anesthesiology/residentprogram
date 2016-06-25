@@ -170,15 +170,14 @@ class AdminTest extends TestCase
 
         $this->actingAs($this->user)
             ->visit("/manage/evaluations/")
-            ->post("/manage/evaluations/" . $eval->id, [
+            ->post("/evaluations/" . $eval->id, [
+				"_method" => "PATCH",
                 "action" => "disable"
             ])
-            ->see("disabled");
-
-        $this->seeInDatabase("evaluations", [
-            "id" => $eval->id,
-            "status" => "disabled"
-        ]);
+	        ->seeInDatabase("evaluations", [
+	            "id" => $eval->id,
+	            "status" => "disabled"
+	        ]);
     }
 
     public function testEnableEvaluation(){
@@ -190,15 +189,15 @@ class AdminTest extends TestCase
         ]);
 
         $this->actingAs($this->user)
-            ->visit("/manage/evaluations/")
-            ->post("/manage/evaluations/" . $eval->id, [
+            ->visit("/manage/evaluations")
+            ->post("/evaluations/" . $eval->id, [
+				"_method" => "PATCH",
                 "action" => "enable"
-            ]);
-
-        $this->seeInDatabase("evaluations", [
-            "id" => $eval->id,
-            "status" => "pending"
-        ]);
+            ])
+	        ->seeInDatabase("evaluations", [
+	            "id" => $eval->id,
+	            "status" => "pending"
+	        ]);
     }
 
     public function testCancelEvaluation(){
@@ -211,14 +210,14 @@ class AdminTest extends TestCase
 
         $this->actingAs($this->user)
             ->visit("/manage/evaluations/")
-            ->post("/manage/evaluations/" . $eval->id, [
+            ->post("/evaluations/" . $eval->id, [
+				"_method" => "PATCH",
                 "action" => "cancel"
-            ]);
-
-        $this->seeInDatabase("evaluations", [
-            "id" => $eval->id,
-            "status" => "canceled by admin"
-        ]);
+            ])
+	        ->seeInDatabase("evaluations", [
+	            "id" => $eval->id,
+	            "status" => "canceled by admin"
+	        ]);
     }
 
     public function testChangeEvalVisibility(){
@@ -234,36 +233,16 @@ class AdminTest extends TestCase
         foreach($visibilities as $visibility){
             $this->actingAs($this->user)
                 ->visit("/manage/evaluations/")
-                ->post("/manage/evaluations/" . $eval->id, [
+                ->post("/evaluations/" . $eval->id, [
+					"_method" => "PATCH",
                     "action" => "visibility",
                     "visibility" => $visibility
-                ]);
-            $this->seeInDatabase("evaluations", [
-                "id" => $eval->id,
-                "visibility" => $visibility
-            ]);
+                ])
+	            ->seeInDatabase("evaluations", [
+	                "id" => $eval->id,
+	                "visibility" => $visibility
+	            ]);
         }
-    }
-
-    public function testArchiveEvals(){
-        $eval = factory(App\Evaluation::class, "complete")->create([
-            "form_id" => $this->form->id,
-            "subject_id" => $this->resident->id,
-            "evaluator_id" => $this->faculty->id,
-            "requested_by_id" => $this->resident->id
-        ]);
-
-        $archiveDate = Carbon::parse("tomorrow");
-
-        $this->actingAs($this->user)
-            ->visit("/manage/evaluations/")
-            ->post("/manage/evaluations", [
-                "archive_date" => $archiveDate
-            ]);
-        $this->seeInDatabase("evaluations", [
-            "id" => $eval->id,
-            "status" => "archived"
-        ]);
     }
 
     public function testAddAccount(){
@@ -279,11 +258,8 @@ class AdminTest extends TestCase
 
         $this->actingAs($this->user)
             ->visit("/manage/accounts/")
-            ->post("/manage/accounts/add", array_merge($newAccount, [
-                "ajax" => true
-            ]))
-            ->see("true");
-        $this->seeInDatabase("users", $newAccount);
+            ->post("/users", $newAccount)
+        	->seeInDatabase("users", $newAccount);
     }
 
     public function testEditAccount(){
@@ -299,11 +275,10 @@ class AdminTest extends TestCase
 
         $this->actingAs($this->user)
             ->visit("/manage/accounts/")
-            ->post("/manage/accounts/edit", array_merge($editedAccount, [
-                "ajax" => true
+            ->post("/users/" . $editedAccount["id"], array_merge($editedAccount, [
+                "_method" => "PATCH"
             ]))
-            ->see("true");
-        $this->seeInDatabase("users", $editedAccount);
+        	->seeInDatabase("users", $editedAccount);
     }
 
     public function testSendNewAccountEmail(){
@@ -317,8 +292,8 @@ class AdminTest extends TestCase
             });
         $this->actingAs($this->user)
             ->visit("/manage/accounts")
-            ->post("/manage/accounts/send-intro-email", [
-                "id" => $this->resident->id
+            ->post("/users/" . $this->resident->id . "/welcome", [
+                "_method" => "PATCH"
             ]);
     }
 
@@ -332,23 +307,22 @@ class AdminTest extends TestCase
             });
         $this->actingAs($this->user)
             ->visit("/manage/accounts")
-            ->post("/manage/accounts/password", [
-                "id" => $this->resident->id
+            ->post("/users/" . $this->resident->id . "/password", [
+				"_method" => "PATCH"
             ]);
     }
 
     public function testDisableAccount(){
         $this->actingAs($this->user)
             ->visit("/manage/accounts")
-            ->post("/manage/accounts/disable", [
-                "id" => $this->resident->id,
-                "ajax" => true
+            ->post("/users/" . $this->resident->id, [
+                "_method" => "PATCH",
+                "status" => "inactive"
             ])
-            ->see("true");
-        $this->seeInDatabase("users", [
-            "id" => $this->resident->id,
-            "status" => "inactive"
-        ]);
+        	->seeInDatabase("users", [
+	            "id" => $this->resident->id,
+	            "status" => "inactive"
+	        ]);
     }
 
     public function testEnableAccount(){
@@ -356,15 +330,14 @@ class AdminTest extends TestCase
         $this->resident->save();
         $this->actingAs($this->user)
             ->visit("/manage/accounts")
-            ->post("/manage/accounts/enable", [
-                "id" => $this->resident->id,
-                "ajax" => true
+            ->post("/users/" . $this->resident->id, [
+				"_method" => "PATCH",
+				"status" => "active"
             ])
-            ->see("true");
-        $this->seeInDatabase("users", [
-            "id" => $this->resident->id,
-            "status" => "active"
-        ]);
+	        ->seeInDatabase("users", [
+	            "id" => $this->resident->id,
+	            "status" => "active"
+	        ]);
     }
 
     public function testAddForm(){ // TODO
@@ -379,13 +352,12 @@ class AdminTest extends TestCase
         ];
         $this->actingAs($this->user)
             ->visit("/manage/forms")
-            ->post("/manage/forms/" . $this->form->id, array_merge($editedForm, [
-                "action" => "edit"
+            ->post("/forms/" . $this->form->id, array_merge($editedForm, [
+                "_method" => "PATCH"
             ]))
-            ->see("true");
-        $this->seeInDatabase("forms", array_merge($editedForm, [
-            "id" => $this->form->id
-        ]));
+	        ->seeInDatabase("forms", array_merge($editedForm, [
+	            "id" => $this->form->id
+	        ]));
     }
 
     public function testDisableForm(){
@@ -393,14 +365,14 @@ class AdminTest extends TestCase
         $this->form->save();
         $this->actingAs($this->user)
             ->visit("/manage/forms")
-            ->post("/manage/forms/" . $this->form->id, [
-                "action" => "disable"
+            ->post("/forms/" . $this->form->id, [
+				"_method" => "PATCH",
+                "status" => "inactive"
             ])
-            ->see("true");
-        $this->seeInDatabase("forms", [
-            "id" => $this->form->id,
-            "status" => "inactive"
-        ]);
+	        ->seeInDatabase("forms", [
+	            "id" => $this->form->id,
+	            "status" => "inactive"
+	        ]);
     }
 
     public function testEnableForm(){
@@ -408,14 +380,14 @@ class AdminTest extends TestCase
         $this->form->save();
         $this->actingAs($this->user)
             ->visit("/manage/forms")
-            ->post("/manage/forms/" . $this->form->id, [
-                "action" => "enable"
+            ->post("/forms/" . $this->form->id, [
+                "_method" => "PATCH",
+				"status" => "active"
             ])
-            ->see("true");
-        $this->seeInDatabase("forms", [
-            "id" => $this->form->id,
-            "status" => "active"
-        ]);
+	        ->seeInDatabase("forms", [
+	            "id" => $this->form->id,
+	            "status" => "active"
+	        ]);
     }
 
     public function testChangeFormVisibility(){
@@ -425,15 +397,14 @@ class AdminTest extends TestCase
 
         $this->actingAs($this->user)
             ->visit("/manage/forms")
-            ->post("/manage/forms/" . $this->form->id, [
-                "action" => "visibility",
+            ->post("/forms/" . $this->form->id, [
+                "_method" => "PATCH",
                 "visibility" => $newVisibility
             ])
-            ->see("true")
             ->seeInDatabase("forms", [
-            "id" => $this->form->id,
-            "visibility" => $newVisibility
-        ]);
+	            "id" => $this->form->id,
+	            "visibility" => $newVisibility
+	        ]);
     }
 
     public function testAddMilestone(){
@@ -446,10 +417,7 @@ class AdminTest extends TestCase
         ];
         $this->actingAs($this->user)
             ->visit("/manage/milestones-competencies")
-            ->post("/manage/milestones/add", array_merge($milestone, [
-                "ajax" => true,
-            ]))
-            ->see("true")
+            ->post("/milestones/", $milestone)
             ->seeInDatabase("milestones", $milestone);
     }
 
@@ -463,10 +431,9 @@ class AdminTest extends TestCase
         ];
         $this->actingAs($this->user)
             ->visit("/manage/milestones-competencies")
-            ->post("/manage/milestones/edit", array_merge($milestone, [
-                "ajax" => true,
+            ->post("/milestones/" . $milestone["id"], array_merge($milestone, [
+                "_method" => "PATCH"
             ]))
-            ->see("true")
             ->seeInDatabase("milestones", $milestone);
     }
 
@@ -478,10 +445,9 @@ class AdminTest extends TestCase
         ];
         $this->actingAs($this->user)
             ->visit("/manage/milestones-competencies")
-            ->post("/manage/milestones/delete", array_merge($milestone, [
-                "ajax" => true,
+            ->post("/milestones/" . $milestone["id"], array_merge($milestone, [
+                "_method" => "DELETE"
             ]))
-            ->see("true")
             ->notSeeInDatabase("milestones", $milestone);
     }
 
@@ -493,10 +459,7 @@ class AdminTest extends TestCase
         ];
         $this->actingAs($this->user)
             ->visit("/manage/milestones-competencies")
-            ->post("/manage/competencies/add", array_merge($competency, [
-                "ajax" => true
-            ]))
-            ->see("true")
+            ->post("/competencies/", $competency)
             ->seeInDatabase("competencies", $competency);
     }
 
@@ -509,10 +472,9 @@ class AdminTest extends TestCase
         ];
         $this->actingAs($this->user)
             ->visit("/manage/milestones-competencies")
-            ->post("/manage/competencies/edit", array_merge($competency, [
-                "ajax" => true
+            ->post("/competencies/" . $competency["id"], array_merge($competency, [
+                "_method" => "PATCH"
             ]))
-            ->see("true")
             ->seeInDatabase("competencies", $competency);
     }
 
@@ -524,10 +486,9 @@ class AdminTest extends TestCase
         ];
         $this->actingAs($this->user)
             ->visit("/manage/milestones-competencies")
-            ->post("/manage/competencies/delete", array_merge($competency, [
-                "ajax" => true
+            ->post("/competencies/" . $competency["id"], array_merge($competency, [
+                "_method" => "DELETE"
             ]))
-            ->see("true")
             ->notSeeInDatabase("competencies", $competency);
     }
 
@@ -538,10 +499,7 @@ class AdminTest extends TestCase
         ];
         $this->actingAs($this->user)
             ->visit("/manage/mentors")
-            ->post("/manage/mentors/add", array_merge($mentorship, [
-                "ajax" => true
-            ]))
-            ->see("true")
+            ->post("/mentorships/", $mentorship)
             ->seeInDatabase("mentorships", $mentorship);
     }
 
@@ -552,14 +510,11 @@ class AdminTest extends TestCase
         ]);
         $this->actingAs($this->user)
             ->visit("/manage/mentors")
-            ->post("/manage/mentors/delete", [
-                "ajax" => true,
-                "mentorship_id" => $mentorship->id
+            ->post("/mentorships/" . $mentorship->id, [
+                "_method" => "DELETE"
             ])
-            ->see("true")
-            ->seeInDatabase("mentorships", [
+            ->notSeeInDatabase("mentorships", [
                 "id" => $mentorship->id,
-                "status" => "inactive"
             ]);
     }
 
@@ -824,8 +779,8 @@ class AdminTest extends TestCase
         ];
         $this->actingAs($this->user)
             ->visit("/directory")
-            ->post("/directory/edit", $newEntry);
-        $this->seeInDatabase("directory", $newEntry);
+            ->post("/directory/edit", $newEntry)
+        	->seeInDatabase("directory", $newEntry);
     }
 
     public function testDeleteDirectoryEntry(){

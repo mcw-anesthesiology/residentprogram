@@ -79,61 +79,6 @@ class ManageController extends Controller
         return view("manage.forms");
     }
 
-    public function getForms(Request $request, $type){
-        $results["data"] = [];
-        $forms = Form::where("type", $type)->get();
-        foreach($forms as $form){
-			try{
-	            $result = [];
-	            $result[] = $form->title;
-				$result[] = ucfirst($form->evaluator_type);
-	            $result[] = (string)$form->created_at;
-	            if($form->status == "inactive"){
-	                $buttonClass = "enableEval";
-	                $buttonType = "success";
-	                $glyphicon = "ok";
-	                $buttonText = "Enable";
-	                $badge = "disabled";
-	            } else{
-	                $buttonClass = "disableEval";
-	                $buttonType = "danger";
-	                $glyphicon = "remove";
-	                $buttonText = "Disable";
-	                $badge = "complete";
-	            }
-				switch($form->visibility){
-					case "visible":
-						$eyeType = "open";
-						$visBtnType = "btn-info";
-						break;
-					case "anonymous":
-						$eyeType = "close";
-						$visBtnType = "";
-						break;
-					case "hidden":
-						$eyeType = "close";
-						$visBtnType = "btn-default";
-						break;
-				}
-	            $result[] = "<span class='status'><span class='badge badge-{$badge}'>" .
-					ucfirst($form->status) . "</span></span>";
-				$result[] = "<button type='button' " .
-					"class='visibility visibility-{$form->visibility} btn {$visBtnType} btn-xs' " .
-					"data-id='{$form->id}'>" . ucfirst($form->visibility) .
-					" <span class='glyphicon glyphicon-eye-{$eyeType}'></span></button>";
-	            $result[] = "<a href='/manage/forms/{$form->id}'>View Form</a>";
-	            $actionField = "<button type='button' class='{$buttonClass} btn btn-{$buttonType} btn-xs' data-id='{$form->id}'><span class='glyphicon glyphicon-{$glyphicon}'></span> {$buttonText}</button>";
-				$actionField .= " <button type='button' class='edit-form-button btn btn-info btn-xs' data-id='{$form->id}' data-title='{$form->title}' data-type='{$form->type}' data-visibility='{$form->visibility}' data-toggle='modal' data-target='#edit-form-modal'><span class='glyphicon glyphicon-pencil'></span> Edit</button>";
-				$result[] = $actionField;
-	            $results["data"][] = $result;
-			}
-			catch(\Exception $e){
-				Log::error("Problem with form: ".$e);
-			}
-        }
-        return response()->json($results);
-    }
-
     public function formBuilder(){
         $milestones = Milestone::all();
         $competencies = Competency::all();
@@ -161,58 +106,6 @@ class ManageController extends Controller
 
 		$data = compact("milestoneTypes", "milestoneTrainingLevels");
         return view("manage.milestones-competencies", $data);
-    }
-
-    public function getMilestones(){
-        $results["data"] = [];
-        $milestones = Milestone::all();
-        foreach($milestones as $milestone){
-			try{
-	            $result = [];
-	            $result[] = $milestone->title;
-				$result[] = $milestone->type;
-				$result[] = $milestone->training_level;
-	            $result[] = $milestone->description;
-	            $action = "<button id='edit-milestone-button-{$milestone->id}' class='editMilestone btn btn-info btn-xs' data-toggle='modal' data-target='.bs-editMS-modal' data-id='{$milestone->id}'><span class='glyphicon glyphicon-edit'></span> Edit</button> ";
-                $action .= "<button class='btn btn-info btn-xs edit-milestone-levels' data-milestone-id='{$milestone->id}' data-milestone-title='{$milestone->title}'><span class='glyphicon glyphicon-th-list'></span> Levels</button> ";
-	            if($milestone->forms->count() === 0)
-	                $action .= "<button id='delete-milestone-button-{$milestone->id}' class='deleteMilestone btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-deleteMS-modal' data-id='{$milestone->id}'><span class='glyphicon glyphicon-remove'></span> Delete</button> ";
-	            $result[] = $action;
-	            $results["data"][] = $result;
-			}
-			catch(\Exception $e){
-				Log::error("Problem with milestone: ".$e);
-			}
-        }
-        return response()->json($results);
-    }
-
-	public function getMilestone($id, $field = null){
-		$milestone = Milestone::find($id);
-        if($field == "levels")
-            return response()->json($milestone->levels);
-		return response()->json($milestone);
-	}
-
-    public function getCompetencies(){
-        $results["data"] = [];
-        $competencies = Competency::all();
-        foreach($competencies as $competency){
-			try{
-	            $result = [];
-	            $result[] = $competency->title;
-	            $result[] = $competency->description;
-	            $action = "<button id='edit-competency-button-{$competency->id}' class='editCompetency btn btn-info btn-xs' data-toggle='modal' data-target='.bs-editC-modal' data-id='{$competency->id}'><span class='glyphicon glyphicon-edit'></span> Edit</button>";
-	            if($competency->forms->count() === 0)
-	                $action .= "<button id='delete-competency-button-{$competency->id}' class='deleteCompetency btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-deleteC-modal' data-id='{$competency->id}'><span class='glyphicon glyphicon-remove'></span> Delete</button>";
-	            $result[] = $action;
-	            $results["data"][] = $result;
-			}
-			catch(\Exception $e){
-				Log::error("Problem with competency: ".$e);
-			}
-        }
-        return response()->json($results);
     }
 
     public function milestone(Request $request, $action){

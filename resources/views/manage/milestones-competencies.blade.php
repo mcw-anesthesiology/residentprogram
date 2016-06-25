@@ -17,7 +17,7 @@
 	<div class="row">
 		<h2 class="sub-header">Milestones  <button class="addMSModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-addMS-modal" data-id="Milestone" id="addMSBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
     	<div class="table-responsive">
-        	<table class="table table-striped datatable-milestones">
+        	<table class="table table-striped" id="milestones-table" width="100%">
         		<thead>
             		<tr>
 		            	<th>Title</th>
@@ -35,7 +35,7 @@
 	<div class="row">
 		<h2 class="sub-header">Competencies  <button class="addCModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-addC-modal" data-id="Competency" id="addCBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
-			<table class="table table-striped datatable-competencies">
+			<table class="table table-striped" id="competencies-table" width="100%">
 				<thead>
 					<tr>
 						<th>Title</th>
@@ -280,6 +280,38 @@
 						'</div>' +
 						'<hr />';
 
+		$("#milestones-table").DataTable({
+			ajax: {
+				url: "/milestones/",
+				data: {
+					forms: true
+				},
+				dataSrc: ""
+			},
+			columns: [
+				{data: "title"},
+				{data: "type"},
+				{data: "training_level"},
+				{data: "description"},
+				{data: "", searchable: false, orderable: false, render: function(milestone, type){
+					var editButton = '<button type="button" class="editMilestone btn btn-info btn-xs" '
+						+ 'data-toggle="modal" data-target=".bs-editMS-modal" data-id="' + milestone.id + '">'
+					 	+ '<span class="glyphicon glyphicon-edit"></span> Edit</button>';
+
+					var levelsButton = '<button type="button" class="btn btn-info btn-xs edit-milestone-levels" '
+						+ 'data-id="' + milestone.id + '" data-title="' + milestone.title + '">'
+					 	+ '<span class="glyphicon glyphicon-th-list"></span> Levels</button>';
+
+					var deleteButton = '';
+					if(milestone.forms.length === 0){
+						deleteButton = '<button type="button" class="deleteMilestone btn btn-danger btn-xs" '
+							+ 'data-toggle="modal" data-target=".bs-deleteMS-modal" data-id="' + milestone.id + '">'
+							+ '<span class="glyphicon glyphicon-remove"></span> Delete</button>';
+					}
+				}}
+			]
+		});
+
 		$(".datatable-milestones").on("click", ".editMilestone", function(){
 			var milestoneId = $(this).data("id");
 			var siblings = $(this).parent().siblings();
@@ -487,23 +519,5 @@
 				}
 			});
 		}
-
-		$(document).ready(function(){
-			$(".datatable-milestones").DataTable({
-				"ajax": {
-					"url": "/manage/milestones/get"
-				},
-				"dom": "lfprtip",
-				stateSave: true
-			});
-
-			$(".datatable-competencies").DataTable({
-				"ajax": {
-					"url": "/manage/competencies/get"
-				},
-				"dom": "lfprtip",
-				stateSave: true
-			});
-		});
 	</script>
 @stop
