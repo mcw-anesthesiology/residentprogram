@@ -29,7 +29,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      *
      * @var array
      */
-    protected $fillable = ["username", "training_level", "first_name", "last_name", "email", "photo_path"];
+    protected $fillable = [
+        "username",
+        "training_level",
+        "first_name",
+        "last_name",
+        "email",
+        "status"
+    ];
 
     protected $casts = [
         "id" => "integer"
@@ -40,7 +47,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      *
      * @var array
      */
-    protected $hidden = ['password', 'remember_token', 'full_name', 'specific_type', 'profile_link'];
+    protected $hidden = ['password', 'remember_token', 'created_at', 'updated_at'];
 
 	protected $appends = ["full_name", "specific_type", "profile_link"];
 
@@ -91,6 +98,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function mentees(){
         return $this->belongsToMany("App\User", "mentorships", "mentor_id", "mentee_id")->where("mentorships.status", "active");
+    }
+
+    public function watchedForms(){
+        return $this->hasMany("App\WatchedForm");
     }
 
     public function scopeFormerResidents($query){

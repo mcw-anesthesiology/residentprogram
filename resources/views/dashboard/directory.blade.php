@@ -77,7 +77,7 @@
 
 			$.post("/directory/delete", data, function(response){
 				if(response === "success"){
-					row.fadeOut(function(){
+					row.velocity("fadeOut", function(){
 						directoryTable.row(row).remove().draw(false);
 					});
 				}

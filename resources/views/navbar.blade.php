@@ -29,6 +29,7 @@
                 <li><a href="/request">Resident Evaluation</a></li>
                 <li><a href="/request/staff">Staff Evaluation</a></li>
                 <li><a href="/request/faculty">Faculty Evaluation</a></li>
+                <li><a href="/request/self">Self Evaluation</a></li>
             </ul>
         </li>
 		<li><a href="/dashboard/faculty">Faculty Evaluations</a></li>

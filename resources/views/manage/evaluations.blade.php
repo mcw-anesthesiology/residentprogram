@@ -66,7 +66,104 @@
 
 @section("script")
 	<script>
-		$(document).on("click", ".disableEval", function(){
+		var manageEvalsTable = $("#manage-evals-table").DataTable({
+			ajax: {
+				url: "/evaluations/?limit=20",
+				data: {
+					subject: true,
+					evaluator: true,
+					requestor: true,
+					form: true
+				},
+				dataSrc: ""
+			},
+			columns: [
+				{data: "url"},
+				{data: "subject.full_name"},
+				{data: "evaluator.full_name"},
+				{data: "requestor.full_name"},
+				{data: "form.title"},
+				{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell},
+				{data: "request_date", render: renderTableDate, createdCell: createDateCell},
+				{data: "complete_date", render: renderTableDate, createdCell: createDateCell},
+				{data: null, orderable: false, render: function(eval){
+					if(!eval.visibility)
+						eval.visibility = eval.form.visibility;
+					var label;
+					switch(eval.status){
+						case "complete":
+							label = "success";
+							break;
+						case "pending":
+							label = "warning";
+							break;
+						default:
+							label = "danger";
+							break;
+					}
+					var eyeType, visBtnType;
+					switch(eval.visibility){
+						case "visible":
+							eyeType = "open";
+							visBtnType = "btn-info";
+							break;
+						case "anonymous":
+							eyeType = "close";
+							visBtnType = "";
+							break;
+						case "hidden":
+							eyeType = "close";
+							visBtnType = "btn-default";
+							break;
+					}
+					return '<span class="status"><span class="label label-'
+						+ label + '">' + ucfirst(eval.status) + '</span></span> '
+						+ '<br /><button type="button" class="visibility visibility-'
+						+ eval.visibility + ' btn ' + visBtnType + ' btn-xs"'
+						+ 'data-id="' + eval.id + '" data-current-visibility="'+ eval.visibility + '">'
+						+ ucfirst(eval.visibility)
+						+ ' <span class="glyphicon glyphicon-eye-' + eyeType
+						+ '"</span></button>';
+				}},
+				{data: null, orderable: false, render: function(eval){
+					var buttonClass, buttonType, glyphicon, buttonText;
+					if(eval.status === "disabled"){
+						buttonClass = "enableEval";
+						buttonType = "success";
+						glyphicon = "ok";
+						buttonText = "Enable";
+					} else {
+						buttonClass = "disableEval";
+						buttonType = "danger";
+						glyphicon = "remove";
+						buttonText = "Disable";
+					}
+					var action = '<span><button class="' + buttonClass
+					+ ' btn btn-' + buttonType + ' btn-xs" data-id="' + eval.id
+					+ '"><span class="glyphicon glyphicon-' + glyphicon + '"></span>'
+					+ ' ' + buttonText + '</button></span>';
+
+					action += '<span class="cancel">';
+					if(eval.status === "pending"){
+						action += '<button class="cancelEval btn btn-danger btn-xs" data-id="'
+							+ eval.id + '"><span class="glyphicon glyphicon-remove"></span> Cancel</button> ';
+
+						action += '<button class="send-reminder btn btn-primary btn-xs" data-id="' + eval.id + '">'
+							+ '<span class="glyphicon glyphicon-send"></span> Send reminder</button>'
+					}
+					action += '</span>';
+
+					return action;
+				}}
+			],
+			order: [[0, "desc"]],
+			initComplete: unlimitTableEvals
+		});
+
+		$("#lastSixMonthsDisable").click(lastSixMonthsDisable);
+		$("#lastThreeMonthsDisable").click(lastThreeMonthsDisable);
+
+		$("#manage-evals-table").on("click", ".disableEval", function(){
 			var requestId = $(this).data('id');
 			var data = {};
 			data._token = "{{ csrf_token() }}";
@@ -75,17 +172,17 @@
             var status = $(this).parents("tr").find(".status");
 			$.ajax({
                 type: "post",
-                url: "/manage/evaluations/"+requestId,
+                url: "/evaluations/" + requestId,
                 data: data,
                 success: function(response){
                     if (response != "false"){
-                        span.fadeOut(function(){
+                        span.velocity("fadeOut", function(){
 							$(this).html("<button class='enableEval btn btn-success btn-xs' data-id='" + requestId + "'><span class='glyphicon glyphicon-ok'></span> Enable</button>");
-							$(this).fadeIn();
+							$(this).velocity("fadeIn");
 						});
-                        status.fadeOut(function(){
+                        status.velocity("fadeOut", function(){
 							$(this).html("<span class='badge badge-disabled'>disabled</span>");
-							$(this).fadeIn();
+							$(this).velocity("fadeIn");
 						});
 
                     }
@@ -93,7 +190,7 @@
             });
 		});
 
-		$(document).on("click", ".enableEval", function(){
+		$("#manage-evals-table").on("click", ".enableEval", function(){
 			var data = {};
 			data._token = "{{ csrf_token() }}";
 			data.action = "enable";
@@ -103,29 +200,29 @@
             var cancel = $(this).parents("tr").find(".cancel");
             $.ajax({
                 type: "post",
-                url: "/manage/evaluations/"+requestId,
+                url: "/evaluations/" + requestId,
                 data: data,
                 success: function(response){
                     if (response != "false") {
-                        span.fadeOut(function(){
+                        span.velocity("fadeOut", function(){
 							$(this).html("<button class='disableEval btn btn-danger btn-xs' data-id='" + requestId + "'><span class='glyphicon glyphicon-remove'></span> Disable</button>");
-							$(this).fadeIn();
+							$(this).velocity("fadeIn");
 						});
                         if (response == "pending") {
-                            status.fadeOut(function(){
+                            status.velocity("fadeOut", function(){
 								$(this).html("<span class='badge badge-pending'>"+response+"</span>");
-								$(this).fadeIn();
+								$(this).velocity("fadeIn");
 							});
 
-                        	cancel.fadeOut(function(){
+                        	cancel.velocity("fadeOut", function(){
 								$(this).html("<button class='cancelEval btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-cancel-modal-sm' data-id='" + requestId + "'><span class='glyphicon glyphicon-remove'></span> Cancel</button>");
-								$(this).fadeIn();
+								$(this).velocity("fadeIn");
 							});
                         }
                         else if (response == "complete") {
-                            status.fadeOut(function(){
+                            status.velocity("fadeOut", function(){
 								$(this).html("<span class='badge badge-complete'>complete</span>");
-								$(this).fadeIn();
+								$(this).velocity("fadeIn");
 							});
                         }
                     }
@@ -133,7 +230,7 @@
             });
 		});
 
-		$(document).on("click", ".cancelEval", function(){
+		$("#manage-evals-table").on("click", ".cancelEval", function(){
 			var requestId = $(this).data('id');
 			var data = {};
 			data._token = "{{ csrf_token() }}";
@@ -142,16 +239,16 @@
             var status = $(this).parents("tr").find(".status");
             $.ajax({
                 type: "post",
-                url: "/manage/evaluations/"+requestId,
+                url: "/evaluations/"+requestId,
                 data: data,
                 success: function(response){
                     if (response != "false") {
-						span.fadeOut(function(){
+						span.velocity("fadeOut", function(){
 							$(this).html("");
 						});
-                        status.fadeOut(function(){
+                        status.velocity("fadeOut", function(){
 							$(this).html("<span class='badge badge-disabled'>canceled by admin</span>");
-							$(this).fadeIn();
+							$(this).velocity("fadeIn");
 						});
                     }
                 }
@@ -197,48 +294,84 @@
 			}
 		});
 
-		$("body").on("click", ".visibility-edit", function(){
+		$("#manage-evals-table").on("click", ".visibility-edit", function(){
 			var evalId = $(this).data("eval");
 			var data = {};
 			data._token = "{{ csrf_token() }}";
 			data.action = "visibility";
 			data.visibility = $(this).data("visibility");
-			$.post("/manage/evaluations/" + evalId, data, function(response){
-				if(response != "false"){
-					var button = $(".visibility[data-id='" + evalId + "']");
-					button.fadeOut(function(){
-						switch(response){
-							case "visible":
-								button.removeClass("visibility-anonymous visibility-hidden btn-default");
-								button.addClass("visibility-visible btn-info");
-								button.html("Visible <span class='glyphicon glyphicon-eye-open'></span>");
-								break;
-							case "anonymous":
-								button.removeClass("visibility-visible visibility-hidden btn-info btn-default");
-								button.addClass("visibility-anonymous");
-								button.html("Anonymous <span class='glyphicon glyphicon-eye-close'></span>");
-								break;
-							case "hidden":
-								button.removeClass("visibility-anonymous visibility-visible btn-info");
-								button.addClass("visibility-hidden btn-default");
-								button.html("Hidden <span class='glyphicon glyphicon-eye-close'></span>");
-								break;
-						}
-						button.fadeIn();
-					});
+
+			var button = $("#manage-evals-table .visibility[data-id='" + evalId +"']");
+			var originalVisibility = button.data("currentVisibility");
+			button.velocity("fadeOut", function(){
+				alterVisibilityButton(button, data.visibility);
+				button.velocity("fadeIn");
+			});
+
+			$.ajax({
+				url: "/evaluations/" + evalId,
+				method: "PATCH",
+				data: data
+			}).done(function(response){
+				if(response !== data.visibility){
+					alterVisibilityButton(button, originalVisibility);
+					appendAlert(response);
 				}
+			}).fail(function(response){
+				alterVisibilityButton(button, originalVisibility);
+				appendAlert(response);
 			});
 		});
 
-		$(document).ready(function(){
-		  $("#manage-evals-table").DataTable({
-			"ajax": "/manage/evaluations/get/20",
-			"order": [[0, "desc"]],
-			"initComplete": unlimitTableEvals
-		  });
-
-		  $("#lastSixMonthsDisable").click(lastSixMonthsDisable);
-		  $("#lastThreeMonthsDisable").click(lastThreeMonthsDisable);
+		$("#manage-evals-table").on("click", ".send-reminder", function(){
+			$("#manage-evals-table .send-reminder-confirm").removeClass("send-reminder-confirm").removeClass("btn-warning").addClass("btn-primary")
+				.html("<span class='glyphicon glyphicon-send'></span> Send reminder");
+			$(this).addClass("send-reminder-confirm").addClass("btn-warning").removeClass("btn-primary")
+				.html("<span class='glyphicon glyphicon-send'></span> Confirm send");
 		});
+
+		$("#manage-evals-table").on("click", ".send-reminder-confirm", function(){
+			var evalId = $(this).data("id");
+			var data = {};
+			data._token = "{{ csrf_token() }}";
+			data._method = "PATCH";
+
+			var button = $(this);
+			$.ajax({
+				url: "/evaluations/" + evalId + "/remind",
+				data: data,
+				method: "POST"
+			}).done(function(response){
+				if(response === "success"){
+					button.removeClass("send-reminder").removeClass("send-reminder-confirm").removeClass("btn-warning")
+						.addClass("btn-success").html("<span class='glyphicon glyphicon-ok'></span> Reminder sent");
+				}
+				else {
+					appendAlert("There was a problem sending the reminder");
+				}
+			}).fail(function(){
+				appendAlert("There was a problem sending the reminder");
+			});
+		});
+
+		function alterVisibilityButton(button, visibility){
+			switch(visibility){
+				case "visible":
+					button.removeClass("visibility-anonymous visibility-hidden btn-default");
+					button.addClass("visibility-visible btn-info");
+					button.html("Visible <span class='glyphicon glyphicon-eye-open'></span>");
+					break;
+				case "anonymous":
+					button.removeClass("visibility-visible visibility-hidden btn-info btn-default");
+					button.addClass("visibility-anonymous");
+					button.html("Anonymous <span class='glyphicon glyphicon-eye-close'></span>");
+					break;
+				case "hidden":
+					button.removeClass("visibility-anonymous visibility-visible btn-info");
+					button.addClass("visibility-hidden btn-default");
+					button.html("Hidden <span class='glyphicon glyphicon-eye-close'></span>");
+					break;
+			}
+		}
     </script>
 @stop

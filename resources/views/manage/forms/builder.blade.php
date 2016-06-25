@@ -2,7 +2,7 @@
 
 @section("body")
 	<h2 class="sub-header">Form Builder</h2>
-	<form id="evaluation-form" method="post" action="#">
+	<form id="evaluation-form" method="POST" action="/forms/">
 		{!! csrf_field() !!}
 			<div class='container-fluid'>
 				<div class='row'>
@@ -58,8 +58,12 @@
 								"</div>";
 
 		var milestoneOptionsHtml =
-									@foreach($milestones as $milestone)
+									@foreach($milestoneGroups as $groupLabel => $milestoneGroup)
+										"<optgroup label='{{ $groupLabel }}'>" +
+										@foreach($milestoneGroup as $milestone)
 											"<option value='{{ $milestone->id }}'>{{ $milestone->title }}</option>" +
+										@endforeach
+										"</optgroup>" +
 									@endforeach
 									"";
 
@@ -83,7 +87,6 @@
 										 "<option value='text'>Text</option>" +
 										 "<option value='radiononnumeric'>Radio (non-numeric)</option>" +
 										 "<option value='number'>Number</option>" +
-										 "<option value='instruction'>Instructions</option>" +
 									 "</select>";
 
 		var questionHtml = "<div class='container-fluid form-question form-block'>" +
@@ -93,11 +96,14 @@
 													"</div>" +
 												"</div>" +
 												"<div class='row'>" +
-													"<div class='col-md-9'>" +
+													"<div class='col-md-7'>" +
 														"<input type='text' class='form-input form-question-text form-control' name='questionText' placeholder='Question Text' required />" +
 													"</div>" +
 													"<div class='col-md-2'>" +
 														"<button class='form-question-standard-options btn btn-info' type='button'>Standard Options</button>" +
+													"</div>" +
+													"<div class='col-md-2'>" +
+														"<button class='form-question-milestone-level-options btn btn-info' type='button'>Milestone Options</button>" +
 													"</div>" +
 													"<div class='col-md-1'>" +
 														"<button class='form-block-delete btn btn-danger del-btn' type='button'>" +
@@ -261,10 +267,48 @@
 			$(this).parents(".form-block").remove();
 		});
 
+		$(".form").on("click", ".form-question-milestone-level-options", function(){
+			var milestoneId = $(this).parents(".form-question").find(".form-question-milestone").val();
+			var questionType = $(this).parents(".form-question").find(".form-question-type").val();
+			var formType = $("#form-type").val();
+			var questionType = $(this).parents(".form-question").find(".form-question-type").val();
+			var formOptions = $(this).parents(".form-question").find(".form-options");
+			formOptions.html("");
+			var formOption = "";
+
+			$.get("/manage/milestone/" + milestoneId + "/levels").done(function(levels){
+
+				var options = [{value: 0, text: "Not yet " + levels[0].name}];
+				for(var i = 0; i < levels.length; i++){
+					var value = 2 * parseInt(levels[i].level_number, 10);
+					options.push({value: value - 1, text: ""});
+					options.push({value: value, text: levels[i].name, description: levels[i].description});
+				}
+
+				for(var i = 0; i < options.length; i++){
+					if(questionType == "radio")
+						formOption = formOptions.append(radioHtml).children().last();
+					else if(questionType == "radiononnumeric")
+						formOption = formOptions.append(radioNonNumericHtml).children().last();
+					else
+						return;
+					formOption.find(".form-option-value").val(options[i].value);
+					formOption.find(".form-option-text").val(options[i].text);
+					if(options[i].description)
+						formOption.find(".form-option-description").val(options[i].description);
+					var questionId = formOption.parents(".form-question").attr("id");
+					var optionNumber = formOption.parents(".form-options").children().length;
+					formOption.find(".form-option-text").attr("name", questionId+":"+options[i].value+":"+optionNumber);
+					formOption.find(".form-option-description").attr("name", questionId+":"+options[i].value+":description");
+				}
+			}).fail(function(){
+
+			});
+		});
+
 		$(".form").on("click", ".form-question-standard-options", function(){
 			var formType = $("#form-type").val();
 			var questionType = $(this).parents(".form-question").find(".form-question-type").val();
-			var formOptionText = "";
 			var formOptions = $(this).parents(".form-question").find(".form-options");
 			formOptions.html("");
 			var formOption = "";
@@ -315,13 +359,14 @@
 					formOption = formOptions.append(radioHtml).children().last();
 				else if(questionType == "radiononnumeric")
 					formOption = formOptions.append(radioNonNumericHtml).children().last();
+				else
+					return;
 				formOption.find(".form-option-value").val(options[i].value);
 				formOption.find(".form-option-text").val(options[i].text);
 				var questionId = formOption.parents(".form-question").attr("id");
 				var optionNumber = formOption.parents(".form-options").children().length;
 				formOption.find(".form-option-text").attr("name", questionId+":"+options[i].value+":"+optionNumber);
 				formOption.find(".form-option-description").attr("name", questionId+":"+options[i].value+":description");
-
 			}
 		});
 

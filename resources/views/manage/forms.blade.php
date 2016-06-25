@@ -17,7 +17,7 @@
 	<div class="row">
 		<h2 class="sub-header">Evaluation forms <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add new</button></h2>
 		<div class="table-responsive">
-			<table class="table table-striped" id="resident-forms">
+			<table class="table table-striped forms-table" data-type="resident" id="resident-forms-table">
 				<thead>
 					<tr>
 						<th>Title</th>
@@ -38,10 +38,11 @@
 	<div class="row">
 		<h2 class="sub-header">Fellow-specific evaluation forms <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add new</button></h2>
 		<div class="table-responsive">
-			<table class="table table-striped" id="fellow-forms">
+			<table class="table table-striped forms-table" data-type="fellow" id="fellow-forms-table">
 				<thead>
 					<tr>
 						<th>Title</th>
+						<th>Evaluator type</th>
 						<th>Created</th>
 						<th>Status</th>
 						<th>Subject visibility</th>
@@ -58,10 +59,11 @@
 	<div class="row">
 		<h2 class="sub-header">Faculty evaluation forms <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add new</button></h2>
 		<div class="table-responsive">
-			<table class="table table-striped" id="faculty-forms">
+			<table class="table table-striped forms-table" data-type="faculty" id="faculty-forms-table">
 				<thead>
 					<tr>
 						<th>Title</th>
+						<th>Evaluator type</th>
 						<th>Created</th>
 						<th>Status</th>
 						<th>Subject visibility</th>
@@ -84,28 +86,6 @@
 	      </div>
 	      <form action="/manage/forms/add" method="get">
 	        <div class="modal-body modal-add">
-	      <!--
-	          <div class="form-group">
-	            <label for="evaluationForm">Please select a form to duplicate and modify</label>
-	            <select class="form-control">
-	        <?php
-	      //  while(!is_null($formsRow)){
-	      //  echo "<option value=\"{$formsRow["formId"]}\">{$formsRow["title"]}</option>";
-	      //  $formsRow = $forms->fetch_assoc();
-	      //  }
-	        ?>
-	            </select>
-	            <br />
-	              <div class="span7 text-center">
-	        <button type="submit" class="btn btn-success">Choose</button>
-	        </div>
-	          </div>
-
-	          <div class="select-or">
-	            <hr class="hr-or">
-	            <span class="span-or">or</span>
-	          </div>
-	      -->
 	          <div class="form-group">
 	      <div class="span7 text-center">
 	        <button type="submit" class="btn btn-success">Create new evaluation form</button>
@@ -154,29 +134,133 @@
 
 @section("script")
 	<script>
+		$(".forms-table").each(function(){
+			var type = $(this).data("type");
+			$(this).DataTable({
+				ajax: {
+					url: "/forms/",
+					data: {
+						type: type
+					},
+					dataSrc: ""
+				},
+				columns: [
+					{data: "title"},
+					{data: "evaluator_type", render: function(evaluatorType){
+						return ucfirst(evaluatorType);
+					}},
+					{data: "created_at", render: renderTableDate, createdCell: createDateCell},
+					{data: "status", render: function(status, type){
+						if(type === "display"){
+							var labelType;
+							switch(status){
+								case "active":
+								labelType = "label-success";
+								break;
+								case "inactive":
+								labelType = "label-danger";
+								break;
+							}
+							return '<span class="status label ' + labelType + '">' + ucfirst(status) + '</span>';
+						}
+
+						return status;
+					}},
+					{data: null, render: function(form, type){
+						if(type === "display"){
+							var visibilityType, buttonType, eyeType;
+							switch(form.visibility){
+								case "visible":
+									visibilityType = "visibility-visible";
+									buttonType = "btn-info";
+									eyeType = "open";
+									break;
+								case "anonymous":
+									visibilityType = "visibility-anonymous";
+									buttonType = "";
+									eyeType = "close";
+									break;
+								case "hidden":
+									visibilityType = "visibility-hidden";
+									buttonType = "btn-default";
+									eyeType = "close";
+									break;
+							}
+
+							return '<button type="button" class="visibility ' + visibilityType
+								+ ' btn ' + buttonType + ' btn-xs" data-id="' + form.id + '">'
+								+ ucfirst(form.visibility) + '<span class="glyphicon glyphicon-eye-'
+								+ eyeType + '"></span></button>';
+						}
+
+						return form.visibility;
+					}},
+					{data: null, orderable: false, searchable: false, render: function(form, type){
+						return '<a href="/manage/forms/' + form.id + '">View Form</a>';
+					}},
+					{data: null, orderable: false, render: function(form, type){
+						// TODO
+						var buttonClass, buttonType, glyphiconType, buttonText;
+						switch(form.status){
+							case "inactive":
+								buttonClass = "enable-eval";
+								buttonType = "btn-success";
+								buttonText = "Enable";
+								glyphiconType = "glyphicon-ok";
+								break;
+							case "active":
+								buttonClass = "disable-eval";
+								buttonType = "btn-danger";
+								buttonText = "Disable";
+								glyphiconType = "glyphicon-remove";
+								break;
+						}
+						var editButton = '<button type="button" '
+							+ 'class="edit-form-button btn btn-info btn-xs" '
+							+ 'data-id="' + form.id + '" data-title="' + form.title + '"'
+							+ 'data-type="' + form.type + '" data-visibility="' + form.visibility + '"'
+							+ 'data-toggle="modal" data-target="#edit-form-modal">'
+							+ '<span class="glyphicon glyphicon-pencil"></span> Edit</button>';
+
+						var enableDisableButton =  '<span><button type="button" class="'
+							+ buttonClass + ' btn ' + buttonType + ' btn-xs" data-id="'
+							+ form.id + '">' + '<span class="glyphicon ' + glyphiconType
+							+ '"></span>' + buttonText + '</button></span>';
+
+						return editButton + " " + enableDisableButton;
+					}}
+				]
+			});
+		});
+
 		$("#edit-modal-submit").click(function(){
 			var formId = $("#edit-form-id").val();
 			var formType = $("#edit-form-type").val();
 			var data = {};
 			data._token = "{{ csrf_token() }}";
+			data._method = "PATCH";
 			data.title = $("#edit-form-title").val();
 			data.visibility = $("#edit-form-modal input[name='visibility']:checked").val();
-			data.action = "edit";
-			$.post("/manage/forms/"+formId, data, function(response){
-				if(response == "true"){
-					$("#"+formType+"-forms").DataTable({
+
+			$.ajax({
+				url: "/forms/" + formId,
+				method: "POST", // PATCH
+				data: data
+			}).done(function(response){
+				if(response == "success"){
+					$("#"+formType+"-forms-table").DataTable({
 						"retrieve": true
 					}).ajax.reload();
 				}
 				else{
-					alert("Sorry, the form cannot be edited at this time");
+					appendAlert("Sorry, the form cannot be edited at this time");
 				}
-			}).fail(function(){
-				alert("There was a problem editing the form.");
+			}).fail(function(response){
+				appendAlert("There was a problem editing the form.");
 			});
 		});
 
-		$(document).on("click", ".edit-form-button", function(){
+		$(".forms-table").on("click", ".edit-form-button", function(){
 			var formId = $(this).data("id");
 			var formType = $(this).data("type");
 			var formTitle = $(this).data("title");
@@ -188,55 +272,62 @@
 			$("#edit-form-modal input[value='" + visibility + "']").prop("checked", true);
 		});
 
-		$(document).on("click", ".disableEval", function(){
+		$(".forms-table").on("click", ".disable-eval, .enable-eval", function(){
 			var data = {};
 			data._token = "{{ csrf_token() }}";
-			data.action = "disable";
-			var formId = $(this).data('id');
-			var span = $(this).parent();
-			var status = $(this).parents("tr").find(".status");
-			$.ajax({
-				type: "post",
-				url: "/manage/forms/"+formId,
-				data: data,
-				success: function(response){
-					if (response == "true"){
-						span.fadeOut(function(){
-							$(this).html("<button type='button' class='enableEval btn btn-success btn-xs' data-id='" + formId + "'><span class='glyphicon glyphicon-ok'></span> Enable</button>");
-							$(this).fadeIn();
-						});
-						status.fadeOut(function(){
-							$(this).html("<span class='badge badge-disabled'>inactive</span>");
-							$(this).fadeIn();
-						});
-					}
-				}
-			});
-		});
+			data._method = "PATCH";
 
-		$(document).on("click", ".enableEval", function(){
-			var data = {};
-			data._token = "{{ csrf_token() }}";
-			data.action = "enable";
+			if($(this).hasClass("disable-eval"))
+				data.status = "inactive";
+			else if($(this).hasClass("enable-eval"))
+				data.status = "active";
+			else
+				return;
+
 			var formId = $(this).data('id');
 			var span = $(this).parent();
-			var status = $(this).parents("tr").find(".status");
+			var status = $(this).parents("tr").find(".status").parent();
 			$.ajax({
-				type: "post",
-				url: "/manage/forms/"+formId,
-				data: data,
-				success: function(response){
-					if (response == "true"){
-						span.fadeOut(function(){
-							$(this).html("<button type='button' class='disableEval btn btn-danger btn-xs' data-id='" + formId + "'><span class='glyphicon glyphicon-remove'></span> Disable</button>");
-							$(this).fadeIn();
-						});
-						status.fadeOut(function(){
-							$(this).html("<span class='badge badge-complete'>active</span>");
-							$(this).fadeIn();
-						});
+				url: "/forms/" + formId,
+				method: "POST", // PATCH
+				data: data
+			}).done(function(response){
+				if (response === "success"){
+					var buttonClass, buttonType, glyphiconType, buttonText, labelType;
+					switch(data.status){
+						case "inactive":
+							buttonClass = "enable-eval";
+							buttonType = "btn-success";
+							buttonText = "Enable";
+							glyphiconType = "glyphicon-ok";
+							labelType = "label-danger";
+							break;
+						case "active":
+							buttonClass = "disable-eval";
+							buttonType = "btn-danger";
+							buttonText = "Disable";
+							glyphiconType = "glyphicon-remove";
+							labelType = "label-success";
+							break;
 					}
+
+					span.velocity("fadeOut", {display: "inline", complete: function(){
+						$(this).html('<span><button type="button" class="'
+							+ buttonClass + ' btn ' + buttonType + ' btn-xs" data-id="'
+							+ formId + '">' + '<span class="glyphicon ' + glyphiconType
+							+ '"></span>' + buttonText + '</button></span>');
+						$(this).velocity("fadeIn");
+					}});
+					status.velocity("fadeOut", {display: "table-cell", complete: function(){
+						$(this).html('<span class="status label ' + labelType + '">' + ucfirst(data.status) + '</span>');
+						$(this).velocity("fadeIn");
+					}});
 				}
+				else {
+					appendAlert("There was a problem altering the form");
+				}
+			}).fail(function(response){
+				appendAlert("There was a problem altering the form");
 			});
 		});
 
@@ -254,17 +345,22 @@
 			}
 		});
 
-		$("body").on("click", ".visibility-edit", function(){
+		$(".forms-table").on("click", ".visibility-edit", function(){
 			var formId = $(this).data("form");
 			var data = {};
 			data._token = "{{ csrf_token() }}";
-			data.action = "visibility";
+			data._method = "PATCH";
 			data.visibility = $(this).data("visibility");
-			$.post("/manage/forms/" + formId, data, function(response){
-				if(response == "true"){
+
+			$.ajax({
+				url: "/forms/" + formId,
+				method: "POST", // PATCH
+				data: data
+			}).done(function(response){
+				if(response === "success"){
 					$(".edit-form-button[data-id='" + formId + "']").data("visibility", data.visibility);
 					var button = $(".visibility[data-id='" + formId + "']");
-					button.fadeOut(function(){
+					button.velocity("fadeOut", function(){
 						switch(data.visibility){
 							case "visible":
 								button.removeClass("visibility-anonymous visibility-hidden btn-default");
@@ -282,21 +378,13 @@
 								button.html("Hidden <span class='glyphicon glyphicon-eye-close'></span>");
 								break;
 						}
-						button.fadeIn();
+						button.velocity("fadeIn");
 					});
 				}
-			});
-		});
-
-		$(document).ready(function(){
-			$("#resident-forms").DataTable({
-				"ajax": "/manage/forms/get/resident"
-			});
-			$("#faculty-forms").DataTable({
-				"ajax": "/manage/forms/get/faculty"
-			});
-			$("#fellow-forms").DataTable({
-				"ajax": "/manage/forms/get/fellow"
+				else
+					appendAlert("There was a problem changing form visibility");
+			}).fail(function(){
+				appendAlert("There was a problem changing form visibility");
 			});
 		});
 	</script>

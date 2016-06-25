@@ -6,6 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description" content="Milestone and competency based evaluation system for health care professionals">
 		<meta name="author" content="Jacob Mischka">
+		<meta name="csrf-token" content="{{ csrf_token() }}" />
 		<link rel="shortcut icon" href="/favicon.ico">
 
 		<title>Resident Program Evaluation System</title>
@@ -37,7 +38,7 @@
 	@if(empty($noNavbar) || !$noNavbar)
 		@include("navbar")
 	@endif
-			<div class="top-alert-container">
+			<div id="alert-container">
 			@if(session("success"))
 				<div class="container">
 					<div class="alert alert-success alert-dismissable" role="alert">

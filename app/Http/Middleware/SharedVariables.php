@@ -50,23 +50,46 @@ class SharedVariables
                 $residentGroups["Former Residents"][] = $resident;
             }
 
+			$groupNames = [
+                "intern" => "Intern",
+                "ca-1" => "CA-1",
+                "ca-2" => "CA-2",
+                "ca-3" => "CA-3",
+                "fellow" => "Fellow",
+				"faculty" => "Faculty",
+				"staff" => "Staff",
+				"admin" => "Administrator"
+            ];
+
+			$userGroups = User::where("status", "active")->orderBy("last_name")
+				->get()->groupBy(function($item) use ($groupNames){
+					if($item["specific_type"] == "resident" && $item["training_level"])
+						return $groupNames[$item["training_level"]];
+					elseif($item["specific_type"])
+						return $groupNames[$item["specific_type"]];
+				})->sortBy(function($group, $name) use ($groupNames){
+					return array_search($name, array_values($groupNames));
+				});
+
             View::share("residentGroups", $residentGroups);
+			View::share("userGroups", $userGroups);
 
             View::share("specificFaculty", User::where("type", "faculty")->orderBy("last_name")->get());
             View::share("facultyForms", Form::where("type", "faculty")->where("status", "active")->orderBy("title")->get());
 			View::share("residentForms", Form::where("type", "resident")->where("evaluator_type", "staff")->where("status", "active")->orderBy("title")->get());
 
-            $rForms = Form::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("title")->get();
-            $formGroups = [];
-            foreach($rForms as $form){
-                if($form->type == "fellow")
-                    $formGroups["fellow"][] = $form;
-                elseif($form->evaluator_type == "staff")
-                    $formGroups["staff"][] = $form;
-                else
-                    $formGroups["resident"][] = $form;
-            }
+            $formGroups = Form::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("title")
+				->get()->groupBy(function($form){
+					if($form->type == "fellow")
+						return "Fellow";
+					elseif($form->evaluator_type == "staff")
+						return "Staff";
+					else
+						return "Resident";
+				});
+
 			View::share("residentFormGroups", $formGroups);
+			View::share("formGroups", $formGroups);
         }
         $milestoneGroups = [];
         $milestones = Milestone::orderBy("title")->get();

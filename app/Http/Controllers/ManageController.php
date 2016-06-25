@@ -33,8 +33,10 @@ use App\Evaluation;
 use App\Form;
 use App\Mentorship;
 use App\Milestone;
+use App\MilestoneLevel;
 use App\MilestoneQuestion;
 use App\User;
+use App\WatchedForm;
 
 class ManageController extends Controller
 {
@@ -59,125 +61,6 @@ class ManageController extends Controller
         return view("manage/evaluations");
     }
 
-    public function getEvaluations($limit = null){
-        $results["data"] = [];
-        $evaluations = Evaluation::with("subject", "evaluator", "requestor", "form")->orderBy("id", "desc");
-        if(!empty($limit))
-            $evaluations = $evaluations->limit($limit)->get();
-        else
-            $evaluations = $evaluations->get();
-        foreach($evaluations as $eval){
-			try{
-	            $result = [];
-	            $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
-	            $result[] = $eval->subject->full_name;
-	            $result[] = $eval->evaluator->full_name;
-	            $result[] = $eval->requestor->full_name;
-	            $result[] = $eval->form->title;
-                if($eval->evaluation_date)
-                    $result[] = $eval->evaluation_date->format("F Y");
-                else
-                    $result[] = "";
-	            $result[] = (string)$eval->request_date;
-	            if($eval->complete_date)
-	                $result[] = (string)$eval->complete_date;
-	            else
-	                $result[] = "";
-
-
-                switch($eval->status){
-                    case "complete":
-                        $badge = "complete";
-                        break;
-                    case "pending":
-                        $badge = "pending";
-                        break;
-                    default:
-                        $badge = "disabled";
-                        break;
-                }
-	            $status = "<span class='status'><span class='badge badge-{$badge}'>{$eval->status}</span></span>";
-
-                switch($eval->visibility){
-					case "visible":
-						$eyeType = "open";
-						$visBtnType = "btn-info";
-						break;
-					case "anonymous":
-						$eyeType = "close";
-						$visBtnType = "";
-						break;
-					case "hidden":
-						$eyeType = "close";
-						$visBtnType = "btn-default";
-						break;
-				}
-                $status .= "<br /><button type='button' " .
-					"class='visibility visibility-{$eval->visibility} btn {$visBtnType} btn-xs' " .
-					"data-id='{$eval->id}'>" . ucfirst($eval->visibility) .
-					" <span class='glyphicon glyphicon-eye-{$eyeType}'></span></button>";
-                $result[] = $status;
-	            if($eval->status == "disabled"){
-	                $buttonClass = "enableEval";
-	                $buttonType = "success";
-	                $glyphicon = "ok";
-	                $buttonText = "Enable";
-	            }
-	            else{
-	                $buttonClass = "disableEval";
-	                $buttonType = "danger";
-	                $glyphicon = "remove";
-	                $buttonText = "Disable";
-	            }
-	            $action = "<span><button class='{$buttonClass} btn btn-{$buttonType} btn-xs' data-id='{$eval->id}'><span class='glyphicon glyphicon-{$glyphicon}'></span> {$buttonText}</button></span>";
-	            $action .= "<span class='cancel'>";
-	            if($eval->status == "pending"){
-	                $action .= "<button class='cancelEval btn btn-danger btn-xs' data-id='{$eval->id}'><span class='glyphicon glyphicon-remove'></span> Cancel</button>";
-	            }
-	            $action .= "</span>";
-	            $result[] = $action;
-	            $results["data"][] = $result;
-			}
-			catch(\Exception $e){
-				Log::error("Problem with evaluation: ".$e);
-			}
-        }
-        return response()->json($results);
-    }
-
-    public function editEvaluation(Request $request, $id){
-        $eval = Evaluation::find($id);
-        if($request->has("action")){
-            switch($request->input("action")){
-                case "disable":
-                    $eval->status = "disabled";
-                    break;
-                case "enable":
-                    if($eval->complete_date)
-                        $eval->status = "complete";
-                    else
-                        $eval->status = "pending";
-                    break;
-                case "cancel":
-                    $eval->status = "canceled by admin";
-                    break;
-                case "visibility":
-                    if($request->input("visibility") == "reset")
-                        $eval->visibility = null;
-                    else
-                        $eval->visibility = $request->input("visibility");
-                    $eval->save();
-                    return $eval->visibility;
-                    break;
-                default:
-                    return "false";
-                    break;
-            }
-            $eval->save();
-            return $eval->status;
-        }
-    }
-
     public function archive(Request $request){
         $evals = Evaluation::where("evaluation_date", "<", $request->input("archive_date"))->where("status", "complete")->get();
         foreach($evals as $eval){
@@ -192,162 +75,8 @@ class ManageController extends Controller
         return view("manage.accounts");
     }
 
-    public function account(Request $request, $action){
-		$error = NULL;
-        switch($action){
-            case "add":
-                if(!filter_var($request->input("email"), FILTER_VALIDATE_EMAIL)){
-					$error = "Email appears invalid";
-					break;
-				}
-                elseif($request->hasFile("photo") && !$request->file("photo")->isValid()){
-                    $error = "Problem with photo";
-					break;
-				}
-                $password = str_random(12);
-                $user = new User();
-                $user->username = $request->input("username");
-                $user->email = $request->input("email");
-                $user->password = bcrypt($password);
-                $user->first_name = $request->input("first_name");
-                $user->last_name = $request->input("last_name");
-                $user->status = "active";
-                $user->reminder_frequency = "weekly";
-                $user->notifications = "no";
-                if($request->hasFile("photo") && $request->file("photo")->isValid()){
-                    $photoName = uniqid().".".$request->file("photo")->getExtension();
-                    $request->file("photo")->move(storage_path("app/photos/"), $photoName);
-                    $user->photo_path = "photos/".$photoName;
-                }
-                if($request->input("type") == "resident"){
-                    $user->type = $request->input("type");
-                    $user->training_level = $request->input("training_level");
-                } else if($request->input("type") == "fellow"){
-                    $user->type = "resident";
-                    $user->training_level = "fellow";
-                } else{
-                    $user->type = $request->input("type");
-                }
-                $user->save();
-                if($request->has("send_email"))
-                    $user->sendNewAccountEmail($password);
-                break;
-            case "edit":
-                if(!filter_var($request->input("email"), FILTER_VALIDATE_EMAIL)){
-                    $error = "Email appears invalid";
-					break;
-				}
-                if($request->hasFile("photo") && !$request->file("photo")->isValid()){
-                    $error =  "Problem with photo";
-					break;
-				}
-                $user = User::find($request->input("id"));
-                $user->email = $request->input("email");
-                $user->first_name = $request->input("first_name");
-                $user->last_name = $request->input("last_name");
-                if($request->hasFile("photo") && $request->file("photo")->isValid()){
-                    $photoName = uniqid().".".$request->file("photo")->getExtension();
-                    $request->file("photo")->move(storage_path("app/photos/"), $photoName);
-					if(!empty($user->photo_path))
-                    	unlink(storage_path("app/".$user->photo_path));
-                    $user->photo_path = "photos/".$photoName;
-                }
-                if($user->type == "resident")
-                    $user->training_level = $request->input("training_level");
-
-                $user->save();
-                break;
-            case "enable":
-                $user = User::find($request->input("id"));
-                $user->status = "active";
-                $user->save();
-                break;
-            case "disable":
-                $user = User::find($request->input("id"));
-                $user->status = "inactive";
-                $user->save();
-                break;
-            case "password":
-                $user = User::find($request->input("id"));
-                if(!$user->resetPassword())
-                    $error = "Failed to reset password";
-                break;
-            case "send-intro-email":
-                $user = User::find($request->input("id"));
-                if(!$user->sendNewAccountEmail())
-                    $error = "Failed to send introduction email";
-                break;
-            case "to-faculty":
-                $user = User::find($request->input("id"));
-                if($user->type == "resident"){
-                    $user->type = "faculty";
-                    $user->save();
-                }
-                else
-                    $error = "User not resident";
-                break;
-        }
-
-		if($request->has("ajax") && $request->input("ajax")){
-			if(empty($error))
-				return "true";
-			else
-				return $error;
-		}
-		else{
-			$response = redirect("manage/accounts");
-			if(!empty($error))
-				$response = $response->with("error", $error);
-			return $response;
-		}
-    }
-
-    public function getAccounts($type){
-        $results["data"] = [];
-        if($type == "fellow")
-            $users = User::where("type", "resident")->where("training_level", "fellow")->get();
-        elseif($type == "resident")
-            $users = User::where("type", "resident")->where("training_level", "!=", "fellow")->get();
-        else
-            $users = User::where("type", $type)->get();
-        foreach($users as $user){
-			try{
-	            $result = [];
-	            $result[] = $user->profile_link;
-	            $result[] = $user->username;
-	            $result[] = $user->email;
-	            if($type == "resident")
-	                $result[] = $user->training_level;
-	            $result[] = $user->status;
-	            $action = "<button class='editUser btn btn-info btn-xs' data-toggle='modal' data-target='.bs-edit-modal' data-type='{$type}' data-id='{$user->id}' data-username='{$user->username}' data-email='{$user->email}' data-first='{$user->first_name}' data-last='{$user->last_name}' data-trainingLevel='{$user->training_level}' data-photo='{$user->photo_path}' id='editBtn'><span class='glyphicon glyphicon-edit'></span> Edit</button> ";
-                $action .= "<button class='send-intro-email-button btn btn-primary btn-xs' data-toggle='modal' data-target='#send-intro-email-modal' data-id='{$user->id}' data-name='{$user->first_name} {$user->last_name}'><span class='glyphicon glyphicon-send'></span> Introduction</button> ";
-				$action .= "<button class='editPassword btn btn-warning btn-xs' data-toggle='modal' data-target='.bs-edit-password-modal' data-id='{$user->id}' data-type='{$user->type}' data-name='{$user->first_name} {$user->last_name}' id='editPasswordBtn'><span class='glyphicon glyphicon-send'></span> Password</button> ";
-	            // if($type == "resident" || $type == "fellow")
-				//          $action .= "<button class='residentToFaculty btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-resident-to-faculty-modal-sm' data-id='{$user->id}' data-name='{$user->first_name} {$user->last_name}' id='residentToFacultyBtn'><span class='glyphicon glyphicon-edit'></span> Change to Faculty</button>";
-	            if($user->status == "inactive"){
-	                $buttonClass = "enableUser";
-	                $buttonType = "success";
-	                $glyphicon = "ok";
-	                $buttonText = "Enable";
-	            } else{
-	                $buttonClass = "disableUser";
-	                $buttonType = "danger";
-	                $glyphicon = "remove";
-	                $buttonText = "Disable";
-	            }
-				$action .= "<span class='enableDisableButton'><button class='{$buttonClass} btn btn-{$buttonType} btn-xs' data-id='{$user->id}'><span class='glyphicon glyphicon-{$glyphicon}'></span> {$buttonText}</button></span>";
-	            $result[] = $action;
-	            $results["data"][] = $result;
-			}
-			catch(\Exception $e){
-				Log::error("Problem with account: ".$e);
-			}
-        }
-        return response()->json($results);
-    }
-
     public function forms(){
-        return view("manage.forms.all");
+        return view("manage.forms");
     }
 
     public function getForms(Request $request, $type){
@@ -357,8 +86,7 @@ class ManageController extends Controller
 			try{
 	            $result = [];
 	            $result[] = $form->title;
-				if($form->type == "resident")
-					$result[] = ucfirst($form->evaluator_type);
+				$result[] = ucfirst($form->evaluator_type);
 	            $result[] = (string)$form->created_at;
 	            if($form->status == "inactive"){
 	                $buttonClass = "enableEval";
@@ -413,182 +141,6 @@ class ManageController extends Controller
         return view("manage.forms.builder", $data);
     }
 
-    public function addForm(Request $request){
-        $formLocation = "evaluation_forms/".uniqid().".xml"; //creates new unique filename for the form
-
-    	$form = new SimpleXmlElement("<form></form>");
-
-    	$questionName = "";
-
-        $input = $request->all();
-
-    	foreach ($input as $key => $value){
-            if($key == "_token")
-                continue;
-            if($key == "form_type"){
-                $formType = $value;
-                continue;
-            }
-            if($key == "formTitle"){
-    			$form->addChild("title", htmlspecialchars($value));
-    			$formTitle = $value;
-                continue;
-    		}
-
-
-    		$questionName = substr($key, 0, strpos($key, ":"));
-    		if(strpos($key, "name") !== false){
-    			$question = $form->addChild("question");
-    			$question->addAttribute("name", $questionName);
-    			$question->addChild("text", htmlspecialchars($value));
-    		}
-    		else if(strpos($key, "type") !== false){
-    			$question->addAttribute("type", $value);
-    		}
-    		else if(strpos($key, "required") !== false){
-    			if($value == "required")
-    				$question->addAttribute("required", "required");
-    		}
-    		else if(strpos($key, "milestone") !== false){
-    			if(strpos($key, "milestone2") !== false){
-    				if($value != -1 && isset($milestones[$questionName]) && $milestones[$questionName] !== $value) //don't add second milestone if it isn't set or if it's the same as the first
-    					$milestones2[$questionName] = $value;
-    			}
-    			else{
-    				$milestones[$questionName] = $value;
-    			}
-    		}
-    		else if(strpos($key, "competency") !== false){
-    			$competencies[$questionName] = $value;
-    		}
-    		else if(strpos($key, "weight") !== false){
-    			$question->addAttribute("weight", $value);
-    		}
-    		else if(strpos($key, "description") !== false){
-    			$option->addAttribute("description", $value);
-    		}
-            else if(strpos($key, "instruction") !== false){
-                $form->addChild("instruction", htmlspecialchars($value));
-            }
-    		else{
-    			$optionValue = substr($key, strpos($key, ":")+1);
-    			$optionValue = substr($optionValue, 0, strpos($optionValue, ":"));
-    			$option = $question->addChild("option", htmlspecialchars($value));
-    			$option->addAttribute("value", $optionValue);
-
-    		}
-    	}
-
-    	$dom = new DOMDocument('1.0');
-    	$dom->preserveWhiteSpace = false;
-    	$dom->formatOuput = true;
-    	$dom->loadXML($form->asXML());
-    	$dom->save(storage_path("app")."/".$formLocation);
-    	$formStatus = "active";
-    	$createdDate = date("Y-m-d H:i:s");
-
-        $newForm = new Form();
-        $newForm->title = $formTitle;
-
-        switch($formType){
-            case "self-resident":
-                $newForm->type = "resident";
-                $newForm->evaluator_type = "self";
-                $newForm->visibility = "visible";
-                break;
-            case "self-fellow":
-                $newForm->type = "fellow";
-                $newForm->evaluator_type = "self";
-                $newForm->visibility = "visible";
-                break;
-            case "faculty":
-                $newForm->type = "faculty";
-                $newForm->evaluator_type = "resident";
-                $newForm->visibility = "anonymous";
-                break;
-            case "staff":
-                $newForm->type = "resident";
-                $newForm->evaluator_type = "staff";
-                $newForm->visibility = "hidden";
-                break;
-            case "fellow":
-                $newForm->type = "fellow";
-                $newForm->evaluator_type = "faculty";
-                $newForm->visibility = "visible";
-                break;
-            case "resident":
-            default:
-                $newForm->type = "resident";
-                $newForm->evaluator_type = "faculty";
-                $newForm->visibility = "visible";
-                break;
-        }
-
-
-        $newForm->xml_path = $formLocation;
-        $newForm->status = $formStatus;
-        $newForm->save();
-
-        if(in_array($formType, ["resident", "fellow"])){
-            if(isset($milestones)){
-                foreach($milestones as $questionId => $milestoneId){
-                    $mq = new MilestoneQuestion();
-                    $mq->form_id = $newForm->id;
-                    $mq->question_id = $questionId;
-                    $mq->milestone_id = $milestoneId;
-                    $mq->save();
-                }
-            }
-            if(isset($milestones2)){
-                foreach($milestones2 as $questionId => $milestoneId){
-                    $mq = new MilestoneQuestion();
-                    $mq->form_id = $newForm->id;
-                    $mq->question_id = $questionId;
-                    $mq->milestone_id = $milestoneId;
-                    $mq->save();
-                }
-            }
-
-            if(isset($competencies)){
-                foreach($competencies as $questionId => $milestoneId){
-                    $cq = new CompetencyQuestion();
-                    $cq->form_id = $newForm->id;
-                    $cq->question_id = $questionId;
-                    $cq->competency_id = $milestoneId;
-                    $cq->save();
-                }
-            }
-        }
-
-        return redirect("manage/forms");
-    }
-
-    public function editForm(Request $request, $id){
-        if($request->input("action")){
-            $form = Form::find($id);
-            switch($request->input("action")){
-                case "disable":
-                    $form->status = "inactive";
-                    break;
-                case "enable":
-                    $form->status = "active";
-                    break;
-				case "visibility":
-					$form->visibility = $request->input("visibility");
-					break;
-				case "edit":
-					$form->title = $request->input("title");
-					$form->visibility = $request->input("visibility");
-					break;
-                default:
-                    return "false";
-                    break;
-            }
-            $form->save();
-            return "true";
-        }
-    }
-
     public function viewForm($id){
         $form = Form::find($id);
         $data = compact("form");
@@ -621,9 +173,10 @@ class ManageController extends Controller
 				$result[] = $milestone->type;
 				$result[] = $milestone->training_level;
 	            $result[] = $milestone->description;
-	            $action = "<button id='edit-milestone-button-{$milestone->id}' class='editMilestone btn btn-info btn-xs' data-toggle='modal' data-target='.bs-editMS-modal' data-id='{$milestone->id}'><span class='glyphicon glyphicon-edit'></span> Edit</button>";
+	            $action = "<button id='edit-milestone-button-{$milestone->id}' class='editMilestone btn btn-info btn-xs' data-toggle='modal' data-target='.bs-editMS-modal' data-id='{$milestone->id}'><span class='glyphicon glyphicon-edit'></span> Edit</button> ";
+                $action .= "<button class='btn btn-info btn-xs edit-milestone-levels' data-milestone-id='{$milestone->id}' data-milestone-title='{$milestone->title}'><span class='glyphicon glyphicon-th-list'></span> Levels</button> ";
 	            if($milestone->forms->count() === 0)
-	                $action .= "<button id='delete-milestone-button-{$milestone->id}' class='deleteMilestone btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-deleteMS-modal' data-id='{$milestone->id}'><span class='glyphicon glyphicon-remove'></span> Delete</button>";
+	                $action .= "<button id='delete-milestone-button-{$milestone->id}' class='deleteMilestone btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-deleteMS-modal' data-id='{$milestone->id}'><span class='glyphicon glyphicon-remove'></span> Delete</button> ";
 	            $result[] = $action;
 	            $results["data"][] = $result;
 			}
@@ -633,6 +186,13 @@ class ManageController extends Controller
         }
         return response()->json($results);
     }
+
+	public function getMilestone($id, $field = null){
+		$milestone = Milestone::find($id);
+        if($field == "levels")
+            return response()->json($milestone->levels);
+		return response()->json($milestone);
+	}
 
     public function getCompetencies(){
         $results["data"] = [];
@@ -676,6 +236,25 @@ class ManageController extends Controller
             case "delete":
                 Milestone::destroy($request->input("id"));
                 break;
+			case "levels":
+                $milestoneId = $request->input("id");
+				$milestone = Milestone::find($milestoneId);
+				$levels = $request->input("levels");
+				foreach($levels as $levelNum => $level){
+					$milestoneLevel = MilestoneLevel::firstOrNew([
+                        "milestone_id" => $milestoneId,
+                        "level_number" => $levelNum + 1
+                    ]);
+					$milestoneLevel->milestone_id = $request->input("id");
+					$milestoneLevel->level_number = $levelNum + 1;
+					$milestoneLevel->name = $level["name"];
+					$milestoneLevel->description = $level["description"];
+					$milestoneLevel->save();
+				}
+                MilestoneLevel::where("milestone_id", $milestoneId)
+                    ->where("level_number", ">", count($levels))
+                    ->delete();
+				break;
             default:
                 return redirect("manage/milestones-competencies");
                 break;
@@ -717,48 +296,6 @@ class ManageController extends Controller
         $faculty = User::where("type", "faculty")->get();
         $data = compact("faculty");
         return view("manage.mentors", $data);
-    }
-
-    public function getMentors(){
-        $results["data"] = [];
-        $mentorships = Mentorship::where("status", "active")->get();
-        foreach($mentorships as $mentorship){
-			try{
-	            $result = [];
-	            $result[] = $mentorship->id;
-	            $result[] = $mentorship->mentor->full_name;
-	            $result[] = $mentorship->mentee->full_name;
-	            $result[] = (string)$mentorship->created_at;
-	            $result[] = "<button class='removeMentorship btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-remove-modal' id='rmvBtn' data-id='{$mentorship->id}'><span class='glyphicon glyphicon-remove'></span> Remove</button>";
-	            $results["data"][] = $result;
-			}
-			catch(\Exception $e){
-				Log::error("Problem with mentor: ".$e);
-			}
-        }
-        return response()->json($results);
-    }
-
-    public function mentor(Request $request, $action){
-        switch($action){
-            case "add":
-                $mentorship = new Mentorship();
-                $mentorship->mentor_id = $request->input("mentor_id");
-                $mentorship->mentee_id = $request->input("mentee_id");
-                $mentorship->status = "active";
-                $mentorship->save();
-                break;
-            case "delete":
-                $mentorship = Mentorship::find($request->input("mentorship_id"));
-                $mentorship->status = "inactive";
-                $mentorship->save();
-                break;
-            default:
-                break;
-        }
-        if($request->has("ajax") && !empty($request->input("ajax")))
-            return "true";
-        return redirect("manage/mentors");
     }
 
 	public function blocks(){
@@ -1077,5 +614,9 @@ class ManageController extends Controller
             else
                 return back()->with("error", $message);
         }
+    }
+
+	public function watchedForms(Request $request){
+        return view("manage.watched-forms");
     }
 }

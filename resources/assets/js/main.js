@@ -1,3 +1,20 @@
+$.ajaxSetup({
+	headers: {
+		'X-CSRF-TOKEN': $("meta[name='csrf_token']").attr("content")
+	}
+});
+
+moment.updateLocale("en", {
+	calendar: {
+		lastDay : '[Yesterday at] LT',
+		sameDay : '[Today at] LT',
+		nextDay : '[Tomorrow at] LT',
+		lastWeek : '[Last] dddd [at] LT',
+		nextWeek : 'dddd [at] LT',
+		sameElse: "ll LT"
+	}
+});
+
 var numSpecificReports = 0;
 function reportHtml(i) {
 	return '<div class="report-options collapse">'+
@@ -147,14 +164,14 @@ function openSendEmailModal(users, modal, subjectText, bodyText,
 
 $("#addNewSpecificReport").click(function(){
 	var report = reportHtml(++numSpecificReports);
-	$(report).appendTo(".modal-specRpt").slideDown();
+	$(report).appendTo(".modal-specRpt").velocity("slideDown");
 	$(".datepicker").datepicker({
 		dateFormat: "yy-mm-dd"
 	});
 });
 
  $(".modal-specRpt").on("click", ".remove-report-group", function(){
-	$(this).parent().slideUp(function(){
+	$(this).parent().velocity("slideUp", function(){
 		$(this).remove();
 	});
  });
@@ -197,6 +214,8 @@ function setStartEndDates(months){
 
 function appendAlert(alertText, parent, alertType){
 	alertType = (typeof(alertType) == "undefined" ? "danger" : alertType);
+	if(!parent)
+		parent = "#alert-container";
 
 	var alert = document.createElement("div");
 	alert.className = "alert alert-" + alertType + " alert-dismissable";
@@ -350,8 +369,8 @@ $(document).ready(function(){
 			}
 		},
 		stateSave: true,
-		"deferRender": true,
-		"dom": "lfprtip"
+		deferRender: true,
+		dom: "lfprtip"
 	});
 
 	$.fn.select2.defaults.set("theme", "bootstrap");
@@ -403,3 +422,57 @@ $(".report-milestones-info").popover({
 			"<li>Click a milestone type heading to select all milestones of that type</li>" +
 		"</ul>"
 });
+
+$(".toggleDescriptions").click(function(){
+	var questionName = $(this).data("id");
+	var headerHeight = $("#main-navbar").height();
+	var padding = 5;
+	var scrollto = $(this).parents(".question").velocity("scroll");
+	var isExpanded = $("#" + questionName).hasClass("expanded-descriptions");
+	if(isExpanded)
+		$("." + questionName + " .description").velocity("slideUp", function(){
+			$("#" + questionName).removeClass("expanded-descriptions");
+		});
+	else {
+		$("#" + questionName).addClass("expanded-descriptions");
+		$("." + questionName + " .description").velocity("slideDown");
+	}
+});
+
+$("table").on("mouseenter", ".table-date-cell", function(){
+	var date = $(this).data("date-value");
+	if(date){
+		$(this).data("original-value", $(this).text());
+		$(this).text(moment(date).format("ll LT"));
+	}
+});
+
+$("table").on("mouseleave", ".table-date-cell", function(){
+	var originalValue = $(this).data("originalValue");
+	if(originalValue)
+		$(this).text(originalValue);
+});
+
+function ucfirst(str){
+	return str.charAt(0).toUpperCase() + str.substring(1);
+}
+
+function createDateCell(td, date, rowData, rowIndex, colIndex){
+	if(date && $(td).text() !== moment(date).format("ll LT"))
+		$(td).attr("data-date-value", moment(date).valueOf())
+			.addClass("table-date-cell");
+}
+
+function renderTableEvaluationDate(date, type){
+	if(type === "sort" || type === "type")
+		return date ? moment(date).valueOf() : "";
+
+	return date ? moment(date).format("MMMM Y") : "";
+}
+
+function renderTableDate(date, type){
+	if(type === "sort" || type === "type")
+		return date ? moment(date).valueOf() : "";
+
+	return date ? moment(date).calendar() : "";
+}

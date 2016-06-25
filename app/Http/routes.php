@@ -10,6 +10,24 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+Route::patch("users/{id}/password", "Rest\UserController@password");
+Route::patch("users/{id}/welcome", "Rest\UserController@welcome");
+Route::resource("users", "Rest\UserController", ["only" => [
+	"index", "store", "show", "update", "destroy"
+]]);
+Route::resource("forms", "Rest\FormController", ["only" => [
+	"index", "store", "show", "update", "destroy"
+]]);
+Route::patch("evaluations/{id}/remind", "Rest\EvaluationController@remind");
+Route::resource("evaluations", "Rest\EvaluationController", ["only" => [
+	"index", "store", "show", "update", "destroy"
+]]);
+Route::resource("watched_forms", "Rest\WatchedFormController", ["only" => [
+	"index", "store", "show", "update", "destroy"
+]]);
+Route::resource("mentorships", "Rest\MentorshipController", ["only" => [
+	"index", "store", "show", "update", "destroy"
+]]);
 
 Route::get("/", "MainController@dashboard");
 
@@ -28,6 +46,9 @@ Route::post("password/reset", "Auth\PasswordController@postReset");
 Route::get("dashboard", "MainController@dashboard");
 Route::post("dashboard/evaluations/flagged", "MainController@flaggedEvaluations");
 Route::post("dashboard/evaluations/staff/{limit?}", "MainController@staffEvaluations");
+Route::post("dashboard/evaluations/self/{limit?}", "MainController@selfEvaluations");
+Route::post("dashboard/evaluations/evaluator/{limit?}", "MainController@evaluatorEvaluations");
+Route::post("dashboard/evaluations/form/{limit?}", "MainController@formEvaluations");
 Route::get("dashboard/evaluations/{limit?}", "MainController@evaluations");
 Route::post("dashboard/evaluations/{limit?}", "MainController@evaluations");
 Route::get("dashboard/faculty", "MainController@dashboardFaculty");
@@ -78,9 +99,6 @@ Route::get("graph/{filename}", "FileController@getGraph");
 Route::get("manage/settings", "ManageController@settings");
 Route::post("manage/settings", "ManageController@saveSettings");
 Route::get("manage/evaluations", "ManageController@evaluations");
-Route::post("manage/evaluations", "ManageController@archive");
-Route::get("manage/evaluations/get/{limit?}", "ManageController@getEvaluations");
-Route::post("manage/evaluations/{id}", "ManageController@editEvaluation");
 Route::get("manage/accounts", "ManageController@accounts");
 Route::get("manage/accounts/get/{type}", "ManageController@getAccounts");
 Route::post("manage/accounts/{action}", "ManageController@account");
@@ -92,12 +110,11 @@ Route::get("manage/forms/{id}", "ManageController@viewForm");
 Route::post("manage/forms/{id}", "ManageController@editForm");
 Route::get("manage/milestones-competencies", "ManageController@milestonesCompetencies");
 Route::get("manage/milestones/get", "ManageController@getMilestones");
+Route::get("manage/milestone/{id}/{field?}", "ManageController@getMilestone");
 Route::post("manage/milestones/{action}", "ManageController@milestone");
 Route::get("manage/competencies/get", "ManageController@getCompetencies");
 Route::post("manage/competencies/{action}", "ManageController@competency");
 Route::get("manage/mentors", "ManageController@mentors");
-Route::get("manage/mentors/get", "ManageController@getMentors");
-Route::post("manage/mentors/{action}", "ManageController@mentor");
 Route::get("manage/block-assignments", "ManageController@blockAssignments");
 Route::post("manage/block-assignments", "ManageController@saveBlockAssignments");
 Route::post("manage/block-assignments/table", "ManageController@blockAssignmentsTable");
@@ -105,6 +122,7 @@ Route::post("manage/block-assignments/get", "ManageController@getBlockAssignment
 Route::get("manage/alumni", "ManageController@alumni");
 Route::get("manage/alumni/get", "ManageController@getAlumni");
 Route::post("manage/alumni/{action}", "ManageController@saveAlumni");
+Route::get("manage/watched-forms", "ManageController@watchedForms");
 
 Route::post("report/aggregate", "ReportController@aggregate");
 Route::post("report/specific", "ReportController@specific");

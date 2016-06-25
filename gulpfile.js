@@ -39,10 +39,11 @@ var scripts = [
     bowerPath + "placeholders/dist/placeholders.min.js",
     bowerPath + "placeholders/dist/placeholders.jquery.min.js",
     bowerPath + "select2/dist/js/select2.min.js",
-    bowerPath + "Chart.js/Chart.min.js",
+    bowerPath + "Chart.js/Chart.js",
     bowerPath + "bootstrap-switch/dist/js/bootstrap-switch.min.js",
     bowerPath + "marked/marked.min.js",
-    bowerPath + "country-region-selector/dist/jquery.crs.min.js"
+    bowerPath + "country-region-selector/dist/jquery.crs.min.js",
+	bowerPath + "velocity/velocity.min.js"
 ];
 
 var styles = [

@@ -16,7 +16,7 @@
 	<div class="row">
 		<h2 class="sub-header" id="residents-heading">Residents  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="resident" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
-			<table class="table table-striped datatable-resident" width="100%">
+			<table class="table table-striped account-table" data-type="resident" id="manage-resident-table" width="100%">
 				<thead>
 					<tr>
 						<th>Name</th>
@@ -36,7 +36,7 @@
 	<div class="row">
 		<h2 class="sub-header" id="fellows-heading">Fellows  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="fellow" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
-			<table class="table table-striped datatable-fellow" width="100%">
+			<table class="table table-striped account-table" data-type="fellow" id="manage-fellow-table" width="100%">
 				<thead>
 					<tr>
 						<th>Name</th>
@@ -55,7 +55,7 @@
 	<div class="row">
 		<h2 class="sub-header" id="faculty-heading">Faculty  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="faculty" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
-			<table class="table table-striped datatable-faculty" width="100%">
+			<table class="table table-striped account-table" data-type="faculty" id="manage-faculty-table" width="100%">
 				<thead>
 					<tr>
 						<th>Name</th>
@@ -74,7 +74,7 @@
 	<div class="row">
 		<h2 class="sub-header" id="staff-heading">Staff  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="staff" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
-			<table class="table table-striped datatable-staff" width="100%">
+			<table class="table table-striped account-table" data-type="staff" id="manage-staff-table" width="100%">
 				<thead>
 					<tr>
 						<th>Name</th>
@@ -93,7 +93,7 @@
 	<div class="row">
 		<h2 class="sub-header" id="admin-heading">Administrator  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="admin" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
-			<table class="table table-striped datatable-admin" width="100%">
+			<table class="table table-striped account-table" data-type="admin" id="manage-admin-table" width="100%">
 				<thead>
 					<tr>
 						<th>Name</th>
@@ -115,9 +115,9 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalEdit">Edit Account</h4>
       </div>
-      <form id="edit-form" enctype="multipart/form-data" method="post" action="/manage/accounts/edit">
+      <form id="edit-form" enctype="multipart/form-data" method="POST" action="/users/" data-id="">
 		  {!! csrf_field() !!}
-		<input type="hidden"  id="edit-id" name="id" value="" />
+		<input type="hidden" name="_method" value="PUT" />
         <div class="modal-body modal-edit">
           <div class="form-group">
             <label for="edit-username">Username</label>
@@ -175,8 +175,8 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalAdd">Add Account</h4>
       </div>
-      <form id="add-form" enctype="multipart/form-data" method="post" action="/manage/accounts/add">
-		  {!! csrf_field() !!}
+      <form id="add-form" enctype="multipart/form-data" method="POST" action="/users/">
+		{!! csrf_field() !!}
         <div class="modal-body modal-add">
           <div class="form-group">
             <label for="add-username">Username</label>
@@ -233,12 +233,14 @@
 <div class="modal fade" id="send-intro-email-modal" tabindex="-1" role="dialog" aria-labelledby="send-intro-email-modal-title" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
+		  <form id="welcome-form" method="POST" action="/users/{id}/welcome" data-id="">
+			<input type="hidden" name="_method" value="PATCH" />
+			{{ csrf_field() }}
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 				<h4 class="modal-title" id="send-intro-email-modal-title">Send introduction email</h4>
 			</div>
 			<div class="modal-body">
-				<input type="hidden" id="send-intro-email-id" />
 				<p>
 					This will resend the welcome email sent to all new user accounts.
 				</p>
@@ -251,8 +253,9 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<button type="button" id="send-intro-email-submit" class="btn btn-primary">Send introduction</button>
+				<button type="submit" id="send-intro-email-submit" class="btn btn-primary">Send introduction</button>
 			</div>
+		  </form>
 		</div>
 	</div>
 </div>
@@ -261,50 +264,26 @@
 <div class="modal fade bs-edit-password-modal" tabindex="-1" role="dialog" aria-labelledby="modalEditPassword" aria-hidden="true" id="editPasswordModal">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalEditPassword">Edit Password</h4>
-      </div>
-        <form id="password-form" method="post" action="/manage/accounts/password">
-    	  <div class="modal-body modal-edit-password">
-			{!! csrf_field() !!}
-			<input type="hidden" id="edit-password-id" name="id" />
-			<p>
-				Are you sure you want to reset <b id="edit-password-name"></b>'s password?
-			</p>
-			<p>
-				The password will be reset and they will receive an email with a new one.
-			</p>
-		  </div>
+	  <form id="password-form" method="POST" action="/users/{id}/password" data-id="">
+	    <input type="hidden" name="_method" value="PATCH" />
+		{{ csrf_field() }}
+    	<div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        	<h4 class="modal-title" id="myModalEditPassword">Edit Password</h4>
+    	</div>
+	    <div class="modal-body modal-edit-password">
+		  <p>
+			Are you sure you want to reset <b id="edit-password-name"></b>'s password?
+		  </p>
+		  <p>
+			The password will be reset and they will receive an email with a new one.
+		  </p>
+	    </div>
 		  <div class="modal-footer modal-edit-password">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<button type="submit" class="btn btn-warning">Reset password</button>
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="submit" class="btn btn-warning">Reset password</button>
 		  </div>
 		</form>
-    </div>
-  </div>
-</div>
-
-<!-- Resident To Faculty Modal -->
-<div class="modal fade bs-resident-to-faculty-modal-sm" tabindex="-1" role="dialog" aria-labelledby="modalResidentToFaculty" aria-hidden="true" id="residentToFacultyModal">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalResidentToFaculty">Disable Account</h4>
-      </div>
-      <div class="modal-body modal-resident-to-faculty">
-        <p>You have selected to convert the resident or fellow <b id="name"></b> to a faculty member.</p>
-        <p><b>This cannot be undone.</b></p>
-        <p>Would you like to continue?</p>
-      </div>
-      <div class="modal-footer modal-resident-to-faculty">
-		<form method="post" action="/manage/accounts/to-faculty">
-			{!! csrf_field() !!}
-			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			<button type="submit" class="btn btn-warning" id="id" name="id" value="">Move to faculty</button>
-        </form>
-      </div>
     </div>
   </div>
 </div>
@@ -312,33 +291,114 @@
 
 @section("script")
 	<script>
+		$(".account-table").each(function(){
+			var type = $(this).data("type");
+			var data = {};
+
+			if(type === "fellow"){
+				data.type = "resident";
+				data.training_level = "fellow";
+			}
+			else // FIXME: Stop residents from including fellows
+				data.type = type;
+
+			var columns = [
+				{data: "full_name"},
+				{data: "username"},
+				{data: "email"}
+			];
+
+			if(type === "resident")
+				columns.push({data: "training_level"});
+			columns.push({data: "status"});
+			columns.push({data: null, orderable: false, render: function(user, type){
+				if(!user)
+					return;
+
+				var editButton = '<button type="button" class="editUser btn btn-info btn-xs" '
+					+ 'data-toggle="modal" data-target=".bs-edit-modal" '
+					+ 'data-type="' + user.specific_type + '" data-id="' + user.id + '" '
+					+ 'data-username="' + user.username + '" data-email="' + user.email + '" '
+					+ 'data-first="' + user.first_name + '" data-last="' + user.last_name + '" '
+					+ 'data-traininglevel="' + user.training_level + '" '
+					+ 'data-photo="' + user.photo_path + '"><span class="glyphicon glyphicon-edit"></span> '
+					+ 'Edit</button>';
+
+				var sendIntroEmailButton = '<button type="button" class="send-intro-email-button btn btn-primary btn-xs" '
+					+ 'data-toggle="modal" data-target="#send-intro-email-modal" '
+					+ 'data-id="' + user.id + '" data-name="' + user.full_name + '">'
+					+ '<span class="glyphicon glyphicon-send"></span> Introduction</button>';
+
+				var passwordButton = '<button type="button" class="editPassword btn btn-warning btn-xs" '
+					+ 'data-toggle="modal" data-target=".bs-edit-password-modal" '
+					+ 'data-id="' + user.id + '" data-type="' + user.specific_type + '" '
+					+ 'data-name="' + user.full_name + '"><span class="glyphicon glyphicon-send"></span> '
+					+ 'Password</button>';
+
+				var actionStatus, buttonType, buttonText, glyphType;
+				switch(user.status){
+					case "active":
+						actionStatus = "inactive";
+						buttonType = "btn-danger";
+						buttonText = "Disable";
+						glyphType = "glyphicon-remove";
+						break;
+					case "inactive":
+						actionStatus = "active";
+						buttonType = "btn-success";
+						buttonText = "Enable";
+						glyphType = "glyphicon-ok";
+						break;
+				}
+
+				var enableDisableContainer = '<span class="enable-disable-container">'
+					+ '<button type="button" class="enable-disable-button btn ' + buttonType + ' btn-xs" '
+					+ 'data-id="' + user.id + '" data-action-status="' + actionStatus + '">'
+					+ '<span class="glyphicon ' + glyphType + '"></span> '
+					+ buttonText + '</button></span>';
+
+				return editButton + " " + sendIntroEmailButton + " "
+					+ passwordButton + " " + enableDisableContainer;
+
+			}});
+
+			$(this).DataTable({
+				ajax: {
+					url: "/users/",
+					data: data,
+					dataSrc: ""
+				},
+				columns: columns
+			});
+		});
+
 		$(".jump-to-items a").click(function(event){
 			event.preventDefault();
 			var headerHeight = $("#main-navbar").height();
 			var target = $(this).context.hash;
 			var padding = 5;
-			var scrollto = $(target).parents(".body-block").offset().top - padding - headerHeight;
-			$("html, body").animate({scrollTop: scrollto});
+			$(target).parents(".body-block").velocity("scroll", {offset: -(padding + headerHeight)});
 		});
 
-		$("#send-intro-email-submit").click(function(event){
-			var data = {};
-			data._token = "{{ csrf_token() }}";
-			data.id = $("#send-intro-email-id").val();
-			data.ajax = "true";
-
-			var button = $(this);
+		$("#welcome-form").submit(function(event){
+			event.preventDefault();
+			var userId = $(this).data("id");
+			var method = $(this).attr("method");
+			var data = $(this).serialize();
+			var button = $(this).find("button[type='submit']");
 			button.prop("disabled", true).addClass("disabled");
-			$.post("/manage/accounts/send-intro-email", data, function(response){
-				if(response == "true"){
+			$.ajax({
+				url: "/users/" + userId + "/welcome",
+				data: data,
+				method: method
+			}).done(function(response){
+				if(response === "success")
 					$("#send-intro-email-modal").modal("hide");
-				}
-				else{
+				else
 					appendAlert(response, "#send-intro-email-modal .modal-body");
-				}
-				button.prop("disabled", false).removeClass("disabled");
 			}).fail(function(response){
 				appendAlert("Error sending email.", "#send-intro-email-modal .modal-body");
+			}).always(function(response){
 				button.prop("disabled", false).removeClass("disabled");
 			});
 
@@ -347,103 +407,140 @@
 		$("#password-form").on("submit", function(event){
 			event.preventDefault();
 			var type = $("#password-form-user-type").val();
-			var data = $(this).serialize() + "&ajax=true";
-			$.post($(this).prop("action"), data, function(response){
-				if(response == "true"){
+			var method = $(this).attr("method");
+			var userId = $(this).data("id");
+			var data = $(this).serialize();
+			var button = $(this).find("button[type='submit']");
+			button.prop("disabled", true).addClass("disabled");
+			$.ajax({
+				url: "/users/" + userId + "/password",
+				data: data,
+				method: method
+			}).done(function(response){
+				if(response === "success")
 					$("#editPasswordModal").modal("hide");
-				}
-				else{
-					appendAlert(response, "#editPasswordModal .modal-body");
-				}
+				else
+					appendAlert(response, "#editPasswordModal .modal-header");
+			}).fail(function(response){
+				appendAlert(response, "#editPasswordModal .modal-header");
+			}).always(function(){
+				button.prop("disabled", false).removeClass("disabled");
 			});
 		});
 
 		$("#add-form").on("submit", function(event){
 			event.preventDefault();
-			submitAddEditForm("#addModal", $(this));
+			var modal = "#addModal";
+			var type = $("#addModal .account-type").val();
+			var method = $(this).attr("method");
+			var table = "#manage-" + type + "-table";
+			var button = $(this).find("button[type='submit']");
+			button.prop("disabled", true).addClass("disabled");
+			var formData = new FormData($(this)[0]);
+
+			$.ajax({
+				url: "/users/",
+				data: formData,
+				method: method,
+				processData: false,
+				contentType: false
+			}).done(function(response){
+				button.prop("disabled", false).removeClass("disabled");
+				if(response === "success"){
+					$("#addModal").modal("hide");
+					$("#manage-" + type + "-table").DataTable({
+						retrieve: true
+					}).ajax.reload();
+				}
+				else throw response;
+			}).fail(function(response){
+				button.prop("disabled", false).removeClass("disabled");
+				appendAlert(response, modal + " .modal-body");
+			});
 		});
 
 		$("#edit-form").on("submit", function(event){
 			event.preventDefault();
-			submitAddEditForm("#editModal", $(this));
-		})
+			var modal = "#editModal";
+			var method = $(this).attr("method");
+			var type = $("#editModal .account-type").val();
+			var table = "#manage-" + type + "-table";
+			var userId = $(this).data("id");
+			var button = $(this).find("button[type='submit']");
+			button.prop("disabled", true).addClass("disabled");
+			var formData = new FormData($(this)[0]);
 
-		function submitAddEditForm(modal, form){
-			var type = $(modal + " .account-type").val();
-			var fd = new FormData(form.get(0));
-			fd.append("ajax", true);
 			$.ajax({
-				url: form.prop("action"),
-				data: fd,
+				url: "/users/" + userId,
+				data: formData,
+				method: method,
 				processData: false,
-				contentType: false,
-				type: "POST",
-				success: function(response){
-					if(response == "true"){
-						$(modal).modal("hide");
-						$(".datatable-" + type).DataTable({
-							retrieve: true
-						}).ajax.reload();
-					}
-					else{
-						appendAlert(response, modal + " .modal-body");
-					}
+				contentType: false
+			}).done(function(response){
+				button.prop("disabled", false).removeClass("disabled");
+				if(response === "success"){
+					$("#editModal").modal("hide");
+					$("#manage-" + type + "-table").DataTable({
+						retrieve: true
+					}).ajax.reload();
 				}
-			});
-		}
-
-		$(".table").on("click", ".disableUser", function(){
-			var data = {};
-			data._token = "{{ csrf_token() }}";
-			data.id = $(this).data("id");
-			data.ajax = true;
-			var span = $(this).parent();
-			var status = $(this).parent().parent().siblings().last();
-			$.ajax({
-				"method": "post",
-				"url": "/manage/accounts/disable",
-				"data": data,
-				"success": function(response){
-					if(response === "true"){
-						span.fadeOut(function(){
-							$(this).html("<button class='enableUser btn btn-success btn-xs' data-id='"+data.id+"'><span class='glyphicon glyphicon-ok'></span> Enable</button>");
-							$(this).fadeIn();
-						});
-						status.fadeOut(function(){
-							$(this).html("inactive");
-							$(this).fadeIn();
-						});
-					}
-				}
-			});
-		});
-		$(".table").on("click", ".enableUser", function(){
-			var data = {};
-			data._token = "{{ csrf_token() }}";
-			data.id = $(this).data("id");
-			data.ajax = true;
-			var span = $(this).parent();
-			var status = $(this).parent().parent().siblings().last();
-			$.ajax({
-				"method": "post",
-				"url": "/manage/accounts/enable",
-				"data": data,
-				"success": function(response){
-					if(response === "true"){
-						span.fadeOut(function(){
-							$(this).html("<button class='disableUser btn btn-danger btn-xs' data-id='"+data.id+"'><span class='glyphicon glyphicon-remove'></span> Disable</button>");
-							$(this).fadeIn();
-						});
-						status.fadeOut(function(){
-							$(this).html("active");
-							$(this).fadeIn();
-						});
-					}
-				}
+				else throw response;
+			}).fail(function(response){
+				button.prop("disabled", false).removeClass("disabled");
+				appendAlert(response, modal + " .modal-body");
 			});
 		});
 
-		$(".table").on("click", ".editUser", function(){
+		$(".account-table").on("click", ".enable-disable-button", function(){
+			var userId = $(this).data("id");
+			var data = {};
+			data._token = "{{ csrf_token() }}";
+			data.status = $(this).data("actionStatus");
+
+			var actionStatus, buttonType, buttonText, glyphType;
+			switch(data.status){
+				case "active":
+					actionStatus = "inactive";
+					buttonType = "btn-danger";
+					buttonText = "Disable";
+					glyphType = "glyphicon-remove";
+					break;
+				case "inactive":
+					actionStatus = "active";
+					buttonType = "btn-success";
+					buttonText = "Enable";
+					glyphType = "glyphicon-ok";
+					break;
+			}
+
+			var span = $(this).parent();
+			var status = $(this).parent().parent().siblings().last();
+			var tableContainer = $(this).parents(".row");
+			$.ajax({
+				url: "/users/" + userId,
+				method: "POST",
+				data: data,
+			}).done(function(response){
+				if(response === "success"){
+					span.velocity("fadeOut", {display: "inline", complete: function(){
+						$(this).html('<button type="button" class="enable-disable-button btn ' + buttonType + ' btn-xs" '
+							+ 'data-id="' + userId + '" data-action-status="' + actionStatus + '">'
+							+ '<span class="glyphicon ' + glyphType + '"></span> '
+							+ buttonText + '</button>');
+						$(this).velocity("fadeIn");
+					}});
+					status.velocity("fadeOut", {display: "table-cell", complete: function(){
+						$(this).html(data.status);
+						$(this).velocity("fadeIn");
+					}});
+				}
+				else throw response;
+			}).fail(function(response){
+				appendAlert()
+			});
+		});
+
+		$(".account-table").on("click", ".editUser", function(){
 			var id = $(this).data("id");
 			var username = $(this).data("username");
 			var email = $(this).data("email");
@@ -458,7 +555,7 @@
 			$("#edit-email").val(email);
 			$("#edit-first-name").val(firstName);
 			$("#edit-last-name").val(lastName);
-			$("#edit-id").val(id);
+			$("#edit-form").data("id", id);
 			$("#edit-type").val(type);
 			if(photoPath == "")
 				$("#editModal #photo-preview").hide();
@@ -492,44 +589,18 @@
 			}
 		});
 
-		$(".table").on("click", ".residentToFaculty", function(){
+		$(".account-table").on("click", ".send-intro-email-button", function(){
 			var id = $(this).data("id");
 			var name = $(this).data("name");
-
-			$("#residentToFacultyModal #name").text(name);
-			$("#residentToFacultyModal #id").val(id);
+			$("#welcome-form").data("id", id);
+			$("#send-intro-email-name").text(name);
 		});
 
-		$(".table").on("click", ".send-intro-email-button", function(){
+		$(".account-table").on("click", ".editPassword", function(){
 			var id = $(this).data("id");
 			var name = $(this).data("name");
-
-			$("#send-intro-email-id").val(id);
-			$("#send-intro-email-name").text(name)
-		});
-
-		$(".table").on("click", ".editPassword", function(){
-			var id = $(this).data("id");
-			var name = $(this).data("name");
-			$("#editPasswordModal .form-control").val("");
-			$("#edit-password-id").val(id);
+			$("#password-form").data("id", id);
 			$("#edit-password-name").text(name);
-		});
-
-		$(".datatable-resident").DataTable({
-			"ajax": "/manage/accounts/get/resident"
-		});
-		$(".datatable-fellow").DataTable({
-			"ajax": "/manage/accounts/get/fellow"
-		});
-		$(".datatable-faculty").DataTable({
-			"ajax": "/manage/accounts/get/faculty"
-		});
-		$(".datatable-staff").DataTable({
-			"ajax": "/manage/accounts/get/staff"
-		})
-		$(".datatable-admin").DataTable({
-			"ajax": "/manage/accounts/get/admin"
 		});
 	</script>
 @stop

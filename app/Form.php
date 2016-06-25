@@ -12,7 +12,13 @@ class Form extends Model
         "id" => "integer"
     ];
 
-    protected $fillable = ["title", "xml_path", "status"];
+    protected $fillable = [
+        "title",
+        "status",
+        "visibility"
+    ];
+
+	protected $hidden = [];
 
     public function evaluations(){
         return $this->hasMany("App\Evaluation");
@@ -24,5 +30,9 @@ class Form extends Model
 
     public function competencies(){
         return $this->belongsToMany("App\Competency", "competencies_questions");
+    }
+
+    public function watchedForms(){
+        return $this->hasMany("App\WatchedForm");
     }
 }

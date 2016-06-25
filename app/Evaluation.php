@@ -34,12 +34,28 @@ class Evaluation extends Model
         "complete_ip"
     ];
 
-    protected $dates = ["created_at", "updated_at", "request_date", "complete_date", "evaluation_date", "archive_date", "hash_expires"];
+    protected $dates = [
+		"request_date",
+		"complete_date",
+		"evaluation_date",
+		"archive_date",
+		"hash_expires"
+	];
 
+	protected $hidden = [
+		"created_at",
+		"updated_at"
+	];
+
+    protected $appends = ["url"];
 
 	public function getVisibilityAttribute(){
         return empty($this->attributes["visibility"]) ? $this->form->visibility : $this->attributes["visibility"];
 	}
+
+    public function getUrlAttribute(){
+        return "<a href='/evaluation/{$this->id}'>{$this->id}</a>";
+    }
 
     public function evaluator(){
         return $this->belongsTo("App\User", "evaluator_id");
@@ -85,7 +101,7 @@ class Evaluation extends Model
         });
     }
 
-    public function sendNotification(){
+    public function sendNotification($reminder = false){
         try{
             $email = $this->evaluator->email;
             $data = [
@@ -94,11 +110,21 @@ class Evaluation extends Model
                 "subjectLast" => $this->subject->last_name,
                 "formTitle" => $this->form->title
             ];
-            Mail::send("emails.notification", $data, function($message) use($email){
+
+            if($reminder){
+                $emailView = "emails.evaluation-reminder";
+                $emailSubject = "Evaluation Reminder";
+            }
+            else{
+                $emailView = "emails.notification";
+                $emailSubject = "Evaluation Request Notification";
+            }
+
+            Mail::send($emailView, $data, function($message) use($email, $emailSubject){
                 $message->to($email);
                 $message->from("notifications@residentprogram.com", "Resident Program Notifications");
                 $message->replyTo(config("app.admin_email"));
-                $message->subject("Evaluation Request Notification");
+                $message->subject($emailSubject);
             });
             return true;
         }

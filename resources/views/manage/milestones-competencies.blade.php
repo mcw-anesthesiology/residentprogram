@@ -1,5 +1,18 @@
 @extends("app")
 
+@section("head")
+	<style>
+		#milestone-levels-container .form-group label {
+			width: 100%;
+		}
+
+		#milestone-levels-container .form-group label input,
+		#milestone-levels-container .form-group label textarea {
+			font-weight: normal;
+		}
+	</style>
+@stop
+
 @section("body")
 	<div class="row">
 		<h2 class="sub-header">Milestones  <button class="addMSModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-addMS-modal" data-id="Milestone" id="addMSBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
@@ -142,6 +155,31 @@
 	  </div>
 	</div>
 
+	<!-- Milestone Levels Modal -->
+	<div class="modal fade" id="milestone-levels-modal" tabindex="-1" role="dialog" aria-labelledby="milestone-levels-title" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<form id="milestone-levels-form" method="POST" action="/manage/milestones/levels">
+					{!! csrf_field() !!}
+					<input type="hidden" id="milestone-levels-id" name="id" />
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title" id="milestone-levels-title">Milestone levels</h4>
+					</div>
+					<div class="modal-body">
+						<div id="milestone-levels-container">
+						</div>
+						<button type="button" id="append-milestone-level" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add level</button>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Save levels</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
 	<!-- Add Competency Modal -->
 	<div class="modal fade bs-addC-modal" tabindex="-1" role="dialog" aria-labelledby="modalAddC" aria-hidden="true" id="addCModal">
 	  <div class="modal-dialog">
@@ -227,6 +265,21 @@
 
 @section("script")
 	<script>
+		var levelHtml = '<div class="row milestone-level">' +
+							'<button type="button" class="close remove-milestone-level">&times;</button>' +
+							'<div class="form-group">' +
+								'<label> Name' +
+									'<input type="text" class="form-control level-name" placeholder="Level name" />' +
+								'</label>' +
+							'</div>' +
+							'<div class="form-group">' +
+								'<label> Description' +
+									'<textarea class="form-control level-description" placeholder="Level description"></textarea>' +
+								'</label>' +
+							'</div>' +
+						'</div>' +
+						'<hr />';
+
 		$(".datatable-milestones").on("click", ".editMilestone", function(){
 			var milestoneId = $(this).data("id");
 			var siblings = $(this).parent().siblings();
@@ -268,8 +321,124 @@
 		});
 		$("#add-competency-form, #edit-competency-form").on("submit", function(event){
 			event.preventDefault();
-			addEditAjax(this, ".datatable-competencies")
+			addEditAjax(this, ".datatable-competencies");
 		});
+
+		$(".datatable-milestones").on("click", ".edit-milestone-levels", function(){
+			// TODO: Open modal and show a loading bar or something
+			var button = $(this);
+			button.prop("disabled", true).addClass("disabled");
+			var milestoneId = $(this).data("milestoneId");
+			var milestoneTitle = $(this).data("milestoneTitle");
+			$.get("/manage/milestone/" + milestoneId + "/levels").then(function(levels){
+				$("#milestone-levels-id").val(milestoneId);
+				$("#milestone-levels-title").text(milestoneTitle + " levels");
+				$("#milestone-levels-container").empty();
+
+				if(levels.length > 0){
+					for(var i = 0; i < levels.length; i++){
+						appendMilestoneLevel(levels[i].name, levels[i].description);
+					}
+				}
+				else {
+					appendMilestoneLevel();
+				}
+
+				$("#milestone-levels-modal").modal("show");
+				button.prop("disabled", false).removeClass("disabled");
+			});
+		});
+
+		$("#milestone-levels-container").on("keyup", ".level-name, .level-description", function(){
+			var level = $(this).parents(".milestone-level");
+			var sibling = $(this).parents(".form-group").siblings(".form-group").find(".level-name, .level-description");
+			if(($(this).val() && !sibling.val()) || !$(this).val() && sibling.val()){
+				if(!level.hasClass("has-error")){
+					level.addClass("has-error");
+					level.append("<span class='help-block'>Please complete both fields, or neither, or remove the level.</span>");
+				}
+			}
+			else if(level.hasClass("has-error")){
+				level.removeClass("has-error");
+				level.find(".help-block").remove();
+			}
+		});
+
+		$("#milestone-levels-container").on("click", ".remove-milestone-level", function(event){
+			$(this).parent().remove();
+		});
+
+		$("#append-milestone-level").click(function(){
+			appendMilestoneLevel();
+		});
+
+		$("#milestone-levels-form").submit(function(event){
+			event.preventDefault();
+			var submitButton = $(this).find("button[type='submit']");
+			submitButton.prop("disabled", true).addClass("disabled");
+
+			var data = {};
+			data.id = $("#milestone-levels-id").val();
+			data._token = "{{ csrf_token() }}";
+			data.ajax = true;
+			data.levels = [];
+
+			var incompleteLevels = [];
+			$("#milestone-levels-container").children(".milestone-level").each(function(){
+				var name = $(this).find(".level-name").val();
+				var description = $(this).find(".level-description").val();
+
+				if(name && description){
+					data.levels.push({
+						name: name,
+						description: description
+					});
+				}
+				else if(!name && !description){
+
+				}
+				else if(!name){
+					incompleteLevels.push($(this).find(".level-name"));
+				}
+				else if(!description){
+					incompleteLevels.push($(this).find(".level-description"));
+				}
+			});
+
+			if(incompleteLevels.length > 0){
+				appendAlert("Please complete all levels, remove or leave entirely blank any incomplete fields.", "#milestone-levels-modal .modal-header");
+				incompleteLevels[0].focus();
+				submitButton.prop("disabled", false).removeClass("disabled");
+				return;
+			}
+
+			var action = $(this).attr("action");
+			$.post(action, data).done(function(response){
+				if(response === "true"){
+					$("#milestone-levels-modal").modal("hide");
+				}
+				else {
+					appendAlert(response, "#milestone-levels-modal .modal-header");
+				}
+				submitButton.prop("disabled", false).removeClass("disabled");
+			}).fail(function(err){
+				appendAlert("There was a problem saving the levels.", "#milestone-levels-modal .modal-header");
+				submitButton.prop("disabled", false).removeClass("disabled");
+			});
+		});
+
+		function appendMilestoneLevel(levelName, levelDesc){
+			var levelNumber = parseInt($("#milestone-levels-container").children().last().data("levelNumber"), 10);
+			levelNumber++;
+
+			var newLevelHtml = $.parseHTML(levelHtml);
+			if(levelName)
+				$(newLevelHtml).find(".level-name").val(levelName);
+			if(levelDesc)
+				$(newLevelHtml).find(".level-description").val(levelDesc);
+
+			$("#milestone-levels-container").append(newLevelHtml);
+		}
 
 		function addEditAjax(form, table){
 			var data = $(form).serialize() + "&ajax=true";
@@ -307,7 +476,7 @@
 			$.post($(form).prop("action"), data, function(response){
 				if(response == "true"){
 					modal.modal("hide");
-					row.fadeOut(function(){
+					row.velocity("fadeOut", function(){
 						$(table).DataTable({
 							retrieve: true
 						}).row(row).remove().draw(false);
