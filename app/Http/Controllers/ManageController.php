@@ -107,58 +107,6 @@ class ManageController extends Controller
         return view("manage.milestones-competencies", $data);
     }
 
-    public function getMilestones(){
-        $results["data"] = [];
-        $milestones = Milestone::all();
-        foreach($milestones as $milestone){
-			try{
-	            $result = [];
-	            $result[] = $milestone->title;
-				$result[] = $milestone->type;
-				$result[] = $milestone->training_level;
-	            $result[] = $milestone->description;
-	            $action = "<button id='edit-milestone-button-{$milestone->id}' class='editMilestone btn btn-info btn-xs' data-toggle='modal' data-target='.bs-editMS-modal' data-id='{$milestone->id}'><span class='glyphicon glyphicon-edit'></span> Edit</button> ";
-                $action .= "<button class='btn btn-info btn-xs edit-milestone-levels' data-milestone-id='{$milestone->id}' data-milestone-title='{$milestone->title}'><span class='glyphicon glyphicon-th-list'></span> Levels</button> ";
-	            if($milestone->forms->count() === 0)
-	                $action .= "<button id='delete-milestone-button-{$milestone->id}' class='deleteMilestone btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-deleteMS-modal' data-id='{$milestone->id}'><span class='glyphicon glyphicon-remove'></span> Delete</button> ";
-	            $result[] = $action;
-	            $results["data"][] = $result;
-			}
-			catch(\Exception $e){
-				Log::error("Problem with milestone: ".$e);
-			}
-        }
-        return response()->json($results);
-    }
-
-	public function getMilestone($id, $field = null){
-		$milestone = Milestone::find($id);
-        if($field == "levels")
-            return response()->json($milestone->levels);
-		return response()->json($milestone);
-	}
-
-    public function getCompetencies(){
-        $results["data"] = [];
-        $competencies = Competency::all();
-        foreach($competencies as $competency){
-			try{
-	            $result = [];
-	            $result[] = $competency->title;
-	            $result[] = $competency->description;
-	            $action = "<button id='edit-competency-button-{$competency->id}' class='editCompetency btn btn-info btn-xs' data-toggle='modal' data-target='.bs-editC-modal' data-id='{$competency->id}'><span class='glyphicon glyphicon-edit'></span> Edit</button>";
-	            if($competency->forms->count() === 0)
-	                $action .= "<button id='delete-competency-button-{$competency->id}' class='deleteCompetency btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-deleteC-modal' data-id='{$competency->id}'><span class='glyphicon glyphicon-remove'></span> Delete</button>";
-	            $result[] = $action;
-	            $results["data"][] = $result;
-			}
-			catch(\Exception $e){
-				Log::error("Problem with competency: ".$e);
-			}
-        }
-        return response()->json($results);
-    }
-
     public function milestone(Request $request, $action){
         switch($action){
             case "add":

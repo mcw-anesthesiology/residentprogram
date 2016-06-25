@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Rest;
 
+use Illuminate\Http\Request;
+
+use App\Mentorship;
+
 class MentorshipController extends RestController
 {
 
@@ -18,4 +22,13 @@ class MentorshipController extends RestController
 	];
 
 	protected $model = \App\Mentorship::class;
+
+	public function destroy(Request $request, $id){
+		$mentorship = Mentorship::destroy($id);
+
+		if($request->ajax())
+			return "success";
+		else
+			return back();
+	}
 }

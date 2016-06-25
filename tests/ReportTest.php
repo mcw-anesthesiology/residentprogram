@@ -538,6 +538,24 @@ class ReportTest extends TestCase
                         "response" => $this->textResponses[1]->response
                     ]
                 ],
+				"subjectReportEvaluations" => [
+					(object)[
+						"evaluation_id" => $this->evals[0][0]->id,
+						"subject_id" => $this->evals[0][0]->subject_id,
+						"first_name" => $this->evals[0][0]->evaluator->first_name,
+						"last_name" => $this->evals[0][0]->evaluator->last_name,
+						"form_title" => $this->evals[0][0]->form->title,
+						"evaluation_date" => $this->evals[0][0]->evaluation_date->toDateString()
+					],
+					(object)[
+						"evaluation_id" => $this->evals[0][1]->id,
+						"subject_id" => $this->evals[0][1]->subject_id,
+						"first_name" => $this->evals[0][1]->evaluator->first_name,
+						"last_name" => $this->evals[0][1]->evaluator->last_name,
+						"form_title" => $this->evals[0][1]->form->title,
+						"evaluation_date" => $this->evals[0][1]->evaluation_date->toDateString()
+					]
+				]
             ]]);
     }
 

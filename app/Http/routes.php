@@ -26,13 +26,13 @@ Route::resource("watched_forms", "Rest\WatchedFormController", ["only" => [
 	"index", "store", "show", "update"
 ]]);
 Route::resource("mentorships", "Rest\MentorshipController", ["only" => [
-	"index", "store", "show", "update"
+	"index", "store", "show", "update", "destroy"
 ]]);
 Route::resource("milestones", "Rest\MilestoneController", ["only" => [
-	"index", "store", "show", "update"
+	"index", "store", "show", "update", "destroy"
 ]]);
 Route::resource("competencies", "Rest\CompetencyController", ["only" => [
-	"index", "store", "show", "update"
+	"index", "store", "show", "update", "destroy"
 ]]);
 
 
@@ -111,11 +111,6 @@ Route::post("manage/forms/add", "ManageController@addForm");
 Route::get("manage/forms/{id}", "ManageController@viewForm");
 Route::post("manage/forms/{id}", "ManageController@editForm");
 Route::get("manage/milestones-competencies", "ManageController@milestonesCompetencies");
-Route::get("manage/milestones/get", "ManageController@getMilestones");
-Route::get("manage/milestone/{id}/{field?}", "ManageController@getMilestone");
-Route::post("manage/milestones/{action}", "ManageController@milestone");
-Route::get("manage/competencies/get", "ManageController@getCompetencies");
-Route::post("manage/competencies/{action}", "ManageController@competency");
 Route::get("manage/mentors", "ManageController@mentors");
 Route::get("manage/block-assignments", "ManageController@blockAssignments");
 Route::post("manage/block-assignments", "ManageController@saveBlockAssignments");
