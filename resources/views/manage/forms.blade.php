@@ -149,7 +149,7 @@
 					{data: "evaluator_type", render: function(evaluatorType){
 						return ucfirst(evaluatorType);
 					}},
-					{data: "created_at", render: renderTableDate, createdCell: createDateCell},
+					{data: "created_at", render: renderTableDate, createdCell: createDateTimeCell},
 					{data: "status", render: function(status, type){
 						if(type === "display"){
 							var labelType;

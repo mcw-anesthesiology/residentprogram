@@ -41,7 +41,7 @@ class Alum extends Model
 		return $this->last_name . ", " . $this->first_name;
 	}
 
-    public function sendEmail(){
+    public function sendEmail($message = null){
         while(!$this->update_hash){
             $this->update_hash = str_random(40);
             $this->save();

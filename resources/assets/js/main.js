@@ -443,11 +443,19 @@ $("table").on("mouseenter", ".table-date-cell", function(){
 	var date = $(this).data("date-value");
 	if(date){
 		$(this).data("original-value", $(this).text());
+		$(this).text(moment(date).format("ll"));
+	}
+});
+
+$("table").on("mouseenter", ".table-date-time-cell", function(){
+	var date = $(this).data("date-value");
+	if(date){
+		$(this).data("original-value", $(this).text());
 		$(this).text(moment(date).format("ll LT"));
 	}
 });
 
-$("table").on("mouseleave", ".table-date-cell", function(){
+$("table").on("mouseleave", ".table-date-cell, .table-date-time-cell", function(){
 	var originalValue = $(this).data("originalValue");
 	if(originalValue)
 		$(this).text(originalValue);
@@ -458,9 +466,15 @@ function ucfirst(str){
 }
 
 function createDateCell(td, date, rowData, rowIndex, colIndex){
-	if(date && $(td).text() !== moment(date).format("ll LT"))
+	if(date && $(td).text() !== moment(date).format("ll"))
 		$(td).attr("data-date-value", moment(date).valueOf())
 			.addClass("table-date-cell");
+}
+
+function createDateTimeCell(td, date, rowData, rowIndex, colIndex){
+	if(date && $(td).text() !== moment(date).format("ll LT"))
+		$(td).attr("data-date-value", moment(date).valueOf())
+			.addClass("table-date-time-cell");
 }
 
 function renderTableEvaluationDate(date, type){

@@ -313,7 +313,7 @@
 			columns.push({data: "status"});
 			columns.push({data: null, orderable: false, render: function(user, type){
 				if(!user)
-					return;
+					return "";
 
 				var editButton = '<button type="button" class="editUser btn btn-info btn-xs" '
 					+ 'data-toggle="modal" data-target=".bs-edit-modal" '

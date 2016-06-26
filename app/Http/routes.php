@@ -34,6 +34,11 @@ Route::resource("milestones", "Rest\MilestoneController", ["only" => [
 Route::resource("competencies", "Rest\CompetencyController", ["only" => [
 	"index", "store", "show", "update", "destroy"
 ]]);
+Route::patch("alumni/{id}/email", "Rest\AlumController@sendEmail");
+Route::patch("alumni/email", "Rest\AlumController@sendAllEmails");
+Route::resource("alumni", "Rest\AlumController", ["only" => [
+	"index", "store", "show", "update", "destroy"
+]]);
 
 
 Route::get("/", "MainController@dashboard");
