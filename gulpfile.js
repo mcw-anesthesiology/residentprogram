@@ -111,7 +111,7 @@ gulp.task("vendorimg", function(){
 elixir(function(mix) {
     mix.scripts(["datatables-datetime-moment.js", "modernizr-custom.js", "mdn-round.js", "main.js",
             "milestone-competency-radar-chart.js", "evaluation-line-chart.js"])
-        .styles(["main.css", "milestone-competency-radar-chart.css"]);
+        .styles(["main.css", "milestone-competency-radar-chart.css", "navbar.css"]);
     if(inProduction)
         mix.phpUnit();
 });

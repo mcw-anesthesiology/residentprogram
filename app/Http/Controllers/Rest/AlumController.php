@@ -49,7 +49,7 @@ class AlumController extends RestController
 			'<span class="label label-info">First name</span>' => $alum->first_name,
 			'<span class="label label-info">Last name</span>' => $alum->last_name,
 			'<span class="label label-info">Update link</span>' => "<a href='{$updateUrl}'>{$updateUrl}</a>",
-			'<span class="label label-info">Unsub link</span>' => "<a href='{$subUrl}'>{$subUrl}</a>"
+			'<span class="label label-info">Unsub link</span>' => "<a href='{$subUrl}'>Manage your subscription</a>"
 		];
 		foreach($placeholders as $placeholder => $replacement){
 			$body = str_replace($placeholder, $replacement, $body);

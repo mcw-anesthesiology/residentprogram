@@ -3,7 +3,21 @@
 @section("body")
 	<h1>MCW Alumni</h1>
 	<div class="alumni-alert-container"></div>
-	<div>
+	<p class="lead">
+		Please keep us up to date with your contact info, we'd love to keep in touch!
+	</p>
+	<p>
+		We don't send much, we won't spam your inbox.
+	</p>
+	<p>
+		You can return to this address to update your info at any time. We'll include it again with most emails, so don't worry about forgetting it.
+	</p>
+	<p>
+		<a href="{{ url("/alum/{$alum->update_hash}/subscription") }}">Manage your MCW Anesthesiology Alumni email subscription</a>
+	</p>
+</div>
+<div class="container body-block">
+	<div id="alumni-form-container">
 		<form class="form" id="alumni-form" role="form" method="post" action="#">
 			{!! csrf_field() !!}
 			<div class="form-group">
@@ -50,7 +64,7 @@
 			$.post("#", formData, function(response){
 				console.log(response);
 				if(response > 0)
-					appendAlert("Information saved successfully. Thank you!", ".alumni-alert-container", "success");
+					$("#alumni-form-container").html('<p class="lead">Your information was saved successfully. Thank you!</p>')
 				else
 					appendAlert(errorText, ".alumni-alert-container");
 

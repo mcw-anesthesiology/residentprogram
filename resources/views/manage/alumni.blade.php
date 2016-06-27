@@ -329,7 +329,7 @@
 				+ "give us your updated contact information so we can send you newsletters "
 				+ "and stuff.\n"
 				+ "\n"
-				+ "[[Update link]]\n"
+				+ "Visit this link at any time to update your info: [[Update link]]\n"
 				+ "\n"
 				+ "[[Unsub link]]";
 

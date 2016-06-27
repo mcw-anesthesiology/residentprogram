@@ -2,11 +2,8 @@
 
 @section("head")
 	<style>
-		h1 {
-			font-size: 4em;
-		}
-		p {
-			font-size: 2em;
+		.jumbotron {
+			background-color: white;
 		}
 
 		#unsub-button {
@@ -16,23 +13,26 @@
 @stop
 
 @section("body")
-	<h1>Subscription</h1>
-	<form id="unsub-form" method="POST" action="#">
-		{!! csrf_field() !!}
+	<div class="jumbotron">
+
+		<h1>MCW Alumni Subscription</h1>
+		<form id="unsub-form" method="POST" action="#">
+			{!! csrf_field() !!}
 	@if($alum->do_not_contact)
-		<p>
-			You are successfully unsubscribed from receiving emails from us. We're sorry to see you go!
-		</p>
-		<input type="hidden" id="unsub-action" name="action" value="resubscribe" />
-		<button type="submit" id="unsub-button" class="btn btn-lg btn-success"><span class="glyphicon glyphicon-plus"></span> Resubscribe {{ $alum->email }}</button>
+			<p>
+				You are successfully unsubscribed from receiving emails from us. We're sorry to see you go!
+			</p>
+			<input type="hidden" id="unsub-action" name="action" value="resubscribe" />
+			<button type="submit" id="unsub-button" class="btn btn-lg btn-success"><span class="glyphicon glyphicon-plus"></span> Resubscribe {{ $alum->email }}</button>
 	@else
-		<p>
-			Are you sure you would like to unsubscribe from all alumni contact from MCW?
-		</p>
-		<input type="hidden" id="unsub-action" name="action" value="unsubscribe" />
-		<button type="submit" id="unsub-button" class="btn btn-lg btn-warning"><span class="glyphicon glyphicon-remove"></span> Unsubscribe {{ $alum->email }}</button>
+			<p>
+				Are you sure you would like to unsubscribe from all alumni contact from MCW Anesthesiology?
+			</p>
+			<input type="hidden" id="unsub-action" name="action" value="unsubscribe" />
+			<button type="submit" id="unsub-button" class="btn btn-lg btn-warning"><span class="glyphicon glyphicon-remove"></span> Unsubscribe {{ $alum->email }}</button>
 	@endif
-	</form>
+		</form>
+	</div>
 @stop
 
 @section("script")
