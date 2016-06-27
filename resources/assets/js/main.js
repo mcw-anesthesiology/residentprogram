@@ -47,17 +47,17 @@ function reportHtml(i) {
  '</div>';
 }
 
-function addSendEmailModalBody(modal){
+function addSendEmailModalBody(modal, replacements){
 	modal.find(".ids-list-button").click(function(){
-		$("#reminder-ids-container").slideToggle();
+		$(".ids-container").slideToggle();
 	});
 
-	modal.find(".body-rendered").mouseenter(showReminderBody);
-	modal.find(".body-rendered").focusin(focusReminderBody);
+	modal.find(".body-rendered").mouseenter(showEmailBody);
+	modal.find(".body-rendered").focusin(focusEmailBody);
 
 	function showEmailBody(){
 		modal.find(".body-rendered").hide();
-		modal.find(".reminder-body").show();
+		modal.find(".body").show();
 	}
 
 	function focusEmailBody(){
@@ -67,9 +67,11 @@ function addSendEmailModalBody(modal){
 
 	modal.find(".body").mouseleave(function(){
 		if(!$(this).is(document.activeElement))
-			unfocusReminderBody();
+			unfocusEmailBody();
 	});
-	modal.find(".body").focusout(unfocusReminderBody);
+	modal.find(".body").focusout(unfocusEmailBody);
+
+	unfocusEmailBody();
 
 	function unfocusEmailBody(){
 		modal.find(".body").hide();
@@ -79,30 +81,31 @@ function addSendEmailModalBody(modal){
 
 
 	function markupEmailBody(){
-		var name = "<span class='label label-info'>Name</span>";
-		var numCompleted = "<span class='label label-info'># Completed</span>";
-		var numNeeded = "<span class='label label-info'># Needed</span>";
-
 		var bodyText = marked(modal.find(".body").val());
-		bodyText = bodyText.replace(/\[\[Name\]\]/g, name);
-		bodyText = bodyText.replace(/\[\[# Completed\]\]/g, numCompleted);
-		bodyText = bodyText.replace(/\[\[# Needed\]\]/g, numNeeded);
+
+		for(var i = 0; i < replacements.length; i++){
+			var replacement = replacements[i];
+			var pattern = new RegExp("\\[\\[" + replacement + "\\]\\]", "g");
+			var label = '<span class="label label-info">' + replacement + '</span>';
+			bodyText = bodyText.replace(pattern, label);
+		}
+
 		modal.find(".body-rendered").html(bodyText);
 	}
 }
 
 function openSendEmailModal(users, modal, subjectText, bodyText,
 							sendSingleCallback, sendAllCallback,
-							usersTitle){
+							usersTitle, replacements){
 	var user;
 	modal.find(".send")
 		.off("click", sendSingleCallback)
 		.off("click", sendAllCallback);
 
 	if(Array.isArray(users)){
-		var list = modal.find(".ids-list");
+		var list = modal.find(".ids-list")[0];
 		var li, checkbox, label, labelText;
-		var numRemindedUsers = 0;
+		var numSentUsers = 0;
 
 		$(list).empty();
 		for(var i = 0; i < users.length; i++){
@@ -114,26 +117,39 @@ function openSendEmailModal(users, modal, subjectText, bodyText,
 			checkbox.type = "checkbox";
 			checkbox.className = "send-all-id";
 			checkbox.value = user.id;
-			checkbox.setAttribute("data-index", user.index);
 			if(user.send){
 				checkbox.checked = true;
 				numSentUsers++;
 			}
+			var dataKeys = Object.keys(user.data);
+			for(var j = 0; j < dataKeys.length; j++){
+				checkbox.setAttribute("data-" + dataKeys[j], user.data[dataKeys[j]]);
+			}
 
 			label.appendChild(checkbox);
-			labelText = document.createTextNode(" " + userLast + ", " + userFirst);
+			labelText = document.createTextNode(" " + user.name);
 			label.appendChild(labelText);
 			li.appendChild(label);
 			list.appendChild(li);
 		}
 
-		if(numRemindedUsers <= 6)
+		if(numSentUsers <= 6)
 			modal.find(".ids-container").show();
 		else
-			$(".ids-container").hide();
+			modal.find(".ids-container").hide();
 
-		modal.find(".to").val(numRemindedUsers + " " + usersTitle);
+		$(".send-all-id").change(function(){
+			var numSentUsers = parseInt($(".to").val().split(" ")[0], 10);
+			if($(this).prop("checked"))
+				numSentUsers++;
+			else
+				numSentUsers--;
+			$(".to").val(numSentUsers + " " + usersTitle);
+		});
+
+		modal.find(".to").val(numSentUsers + " " + usersTitle);
 		modal.find(".to-container").addClass("input-group");
+		modal.find(".ids-list-button-container").show();
 		appendAlert("Please verify list of residents before sending", modal.find(".alert-container"), "warning");
 		modal.find(".send").click(sendAllCallback);
 	} else {
@@ -152,12 +168,7 @@ function openSendEmailModal(users, modal, subjectText, bodyText,
 
 	var bodyHeight = 300;
 	modal.find(".body-rendered").height(bodyHeight);
-
-	modal.find(".body").hide();
-	modal.find(".body-rendered").show();
-	markupReminderBody();
-
-	modal.find(".send-email-modal-body-info").empty();
+	addSendEmailModalBody(modal, replacements);
 	modal.modal("show");
 }
 

@@ -137,27 +137,27 @@
 			<div class="modal-body" id="send-reminder-modal-body">
 				<div class="form-group">
 					<label for="reminder-to">To</label>
-					<div id="reminder-to-container">
-						<input type="text" class="form-control" id="reminder-to" readonly />
-						<span class="input-group-btn collapse" id="reminder-ids-list-button-container">
+					<div class="to-container" id="reminder-to-container">
+						<input type="text" class="form-control to" id="reminder-to" readonly />
+						<span class="input-group-btn collapse ids-list-button-container" id="reminder-ids-list-button-container">
 							<button type="button" class="btn btn-default" id="reminder-ids-list-button">Resident List <span class="caret"></span></button>
 						</span>
 					</div>
-					<input type="hidden" id="reminder-id" />
-					<div class="collapse" id="reminder-ids-container">
+					<input type="hidden" class="id" id="reminder-id" />
+					<div class="collapse" class="ids-container" id="reminder-ids-container">
 						<div class="well row" id="reminder-ids-well">
-							<ul id="reminder-ids-list"></ul>
+							<ul class="ids-list" id="reminder-ids-list"></ul>
 						</div>
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="reminder-subject">Subject</label>
-					<input type="text" class="form-control" id="reminder-subject" />
+					<input type="text" class="form-control subject" id="reminder-subject" />
 				</div>
 				<div class="form-group">
 					<label for="reminder-body">Body</label>
-					<textarea class="form-control" id="reminder-body" rows="15"></textarea>
-					<div tabindex="0" class="form-control" id="reminder-body-rendered"></div>
+					<textarea class="form-control body" id="reminder-body" rows="15"></textarea>
+					<div tabindex="0" class="form-control body-rendered" id="reminder-body-rendered"></div>
 					<small>Supports <a href="http://daringfireball.net/projects/markdown/basics" target="_blank">markdown</a> (except inline HTML)</small>
 				</div>
 				<div id="send-reminder-modal-body-info">
@@ -165,7 +165,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-info" id="send-reminder">Send reminder</button>
+				<button type="button" class="btn btn-info send" id="send-reminder">Send reminder</button>
 			</div>
 		</div>
 	</div>
@@ -219,6 +219,12 @@
 
 @section("script")
 	<script>
+		var replacements = [
+			"Name",
+			"# Completed",
+			"# Needed"
+		];
+
 		$(document).ready(function(){
 			$("#needs-evals-form").find(".lastThreeMonths").trigger("click");
 			submitNeedsEvals();
@@ -236,18 +242,14 @@
 			$("#needs-tsv-training-level").val($("#needs-training-level").val());
 		});
 
-		$("#needs-evals-table").on("click", ".send-user-reminder", openSendUserReminderModal);
-
-		$("#reminder-ids-list-button").click(function(){
-			$("#reminder-ids-container").slideToggle();
-		});
-
-		function openSendUserReminderModal(){
-			var userId = $(this).data("id");
-			var lastName = $(this).data("last");
-			var firstName = $(this).data("first");
-			var userName = lastName + ", " + firstName;
-			var userEmail = $(this).data("email");
+		$("#needs-evals-table").on("click", ".send-user-reminder", function(){
+			var user = {
+				id: $(this).data("id"),
+				lastName: $(this).data("last"),
+				firstName: $(this).data("first"),
+				name: $(this).data("last") + ", " + $(this).data("first"),
+				email: $(this).data("email")
+			};
 			var startDate = moment($("#needs-start-date").val());
 			var endDate = moment($("#needs-end-date").val());
 			var evalsCompleted = parseInt($(this).data("count"));
@@ -256,16 +258,8 @@
 			var evaluationString = (evalsLeft === 1) ? "evaluation" : "evaluations";
 			var dateFormat = "MMMM D, YYYY";
 
-			$("#reminder-id").val(userId);
-			$("#reminder-to").val(userName + " <" + userEmail + ">");
-			$("#reminder-to-container").removeClass("input-group");
-			$("#reminder-ids-list-button-container").hide();
-			$("#reminder-ids-list").empty();
-			$("#reminder-ids-container").hide();
-
-			$("#reminder-subject").val("Please request evaluations!");
-
-			var bodyText = "Hello Dr. " + lastName + "\n"
+			var subjectText = "Please request evaluations!";
+			var bodyText = "Hello Dr. " + user.lastName + "\n"
 				+ "\n"
 				+ "You have " + evalsCompleted + " evaluations completed for between "
 				+ startDate.format(dateFormat) + " and " + endDate.format(dateFormat) + ".\n\n"
@@ -278,26 +272,11 @@
 				+ "\n"
 				+ "Thank you!";
 
-			$("#reminder-body").val(bodyText);
+			openSendEmailModal(user, $("#send-reminder-modal"), subjectText, bodyText,
+				sendNeedsEvaluationReminder, sendAllNeedsEvaluationReminders, "trainees", replacements);
+		});
 
-			var bodyHeight = 300;
-			$("#reminder-body-rendered").height(bodyHeight);
-
-			$("#reminder-body").hide();
-			$("#reminder-body-rendered").show();
-			markupReminderBody();
-
-			$("#send-reminder-modal-body-info").empty();
-			$("#send-reminder").off("click", sendNeedsEvaluationReminder)
-				.off("click", sendAllNeedsEvaluationReminders)
-				.click(sendNeedsEvaluationReminder)
-				.html("<span class='glyphicon glyphicon-send'></span> Send reminder");
-			$("#send-reminder-modal").modal("show");
-		}
-
-		$("#send-all-reminders").click(openSendAllRemindersModal);
-
-		function openSendAllRemindersModal(){
+		$("#send-all-reminders").click(function(){
 			var startDate = moment($("#needs-start-date").val());
 			var endDate = moment($("#needs-end-date").val());
 			var evalsRequired = parseInt($("#evaluation-threshold").val());
@@ -306,50 +285,24 @@
 				retrieve: true
 			});
 
-			var list = document.getElementById("reminder-ids-list");
-			var button, li, checkbox, label, labelText;
-			var userId, userCount, userFirst, userLast;
-			var numRemindedUsers = 0;
 
-			$(list).empty();
+			var users = [];
 			var tableData = table.rows().data();
 			for(var row = 0; row < tableData.length; row++){
 				button = $($.parseHTML(tableData[row][2]));
-				userId = button.data("id");
-				userCount = button.data("count");
-				userFirst = button.data("first");
-				userLast = button.data("last");
-
-				li = document.createElement("li");
-				label = document.createElement("label");
-				checkbox = document.createElement("input");
-				checkbox.type = "checkbox";
-				checkbox.className = "remind-all-id";
-				checkbox.value = userId;
-				checkbox.setAttribute("data-count", userCount);
-				if(button.hasClass("send-user-reminder")){
-					checkbox.checked = true;
-					numRemindedUsers++;
+				users[row] = {
+					id: button.data("id"),
+					last: button.data("last"),
+					first: button.data("first"),
+					name: button.data("last") + ", " + button.data("first"),
+					send: button.hasClass("send-user-reminder"),
+					data: {
+						completed: button.data("count")
+					}
 				}
-
-				label.appendChild(checkbox);
-				labelText = document.createTextNode(" " + userLast + ", " + userFirst);
-				label.appendChild(labelText);
-				li.appendChild(label);
-				list.appendChild(li);
 			}
 
-			if(numRemindedUsers <= 6)
-				$("#reminder-ids-container").show();
-			else
-				$("#reminder-ids-container").hide();
-
-			$("#reminder-to").val(numRemindedUsers + " residents");
-			$("#reminder-to-container").addClass("input-group");
-			$("#reminder-ids-list-button-container").show();
-
-			$("#reminder-subject").val("Please request evaluations!");
-
+			var subjectText = "Please request evaluations!";
 			var bodyText = "Hello Dr. [[Name]]\n"
 				+ "\n"
 				+ "You have [[# Completed]] evaluations completed for between "
@@ -363,69 +316,14 @@
 				+ "\n"
 				+ "Thank you!";
 
-			$("#reminder-body").val(bodyText);
-
-			$(".remind-all-id").change(function(){
-				var numRemindedUsers = parseInt($("#reminder-to").val().split(" ")[0]);
-				if($(this).is(":checked"))
-					numRemindedUsers++;
-				else
-					numRemindedUsers--;
-				$("#reminder-to").val(numRemindedUsers + " residents");
-			});
-
-			var bodyHeight = 300;
-			$("#reminder-body-rendered").height(bodyHeight);
-
-			$("#reminder-body").hide();
-			$("#reminder-body-rendered").show();
-			markupReminderBody();
-
-			$("#send-reminder-modal-body-info").empty();
-			appendAlert("Please verify list of residents before sending", "#send-reminder-modal-body-info", "warning");
-			$("#send-reminder").off("click", sendNeedsEvaluationReminder)
-				.off("click", sendAllNeedsEvaluationReminders)
-				.click(sendAllNeedsEvaluationReminders)
-				.html("<span class='glyphicon glyphicon-send'></span> Send reminders");
-			$("#send-reminder-modal").modal("show");
-		}
-
-		$("#reminder-body-rendered").mouseenter(showReminderBody);
-		$("#reminder-body-rendered").focusin(focusReminderBody);
-
-		function showReminderBody(){
-			$("#reminder-body-rendered").hide();
-			$("#reminder-body").show();
-		}
-
-		function focusReminderBody(){
-			showReminderBody();
-			$("#reminder-body").focus()
-		}
-
-		$("#reminder-body").mouseleave(function(){
-			if(!$(this).is(document.activeElement))
-				unfocusReminderBody();
+			openSendEmailModal(users, $("#send-reminder-modal"), subjectText, bodyText,
+				sendNeedsEvaluationReminder, sendAllNeedsEvaluationReminders, "residents", replacements);
 		});
-		$("#reminder-body").focusout(unfocusReminderBody);
 
-		function unfocusReminderBody(){
-			$("#reminder-body").hide();
-			markupReminderBody();
-			$("#reminder-body-rendered").show();
-		}
 
-		function markupReminderBody(){
-			var name = "<span class='label label-info'>Name</span>";
-			var numCompleted = "<span class='label label-info'># Completed</span>";
-			var numNeeded = "<span class='label label-info'># Needed</span>";
-
-			var bodyText = marked($("#reminder-body").val());
-			bodyText = bodyText.replace(/\[\[Name\]\]/g, name);
-			bodyText = bodyText.replace(/\[\[# Completed\]\]/g, numCompleted);
-			bodyText = bodyText.replace(/\[\[# Needed\]\]/g, numNeeded);
-			$("#reminder-body-rendered").html(bodyText);
-		}
+		$("#reminder-ids-list-button").click(function(){
+			$("#reminder-ids-container").slideToggle();
+		});
 
 		function sendNeedsEvaluationReminder(){
 			var data = {};
@@ -462,14 +360,14 @@
 			data.subject = $("#reminder-subject").val();
 			data.body = $("#reminder-body-rendered").html();
 			data.users = [];
-			$(".remind-all-id:checked").each(function(){
+			$(".send-all-id:checked").each(function(){
 				var user = {};
 				user.id = $(this).val();
-				user.count = $(this).data("count");
+				user.numCompleted = $(this).data("completed");
 				data.users.push(user);
 			});
 
-			var expectedRemindedUsers = $(".remind-all-id:checked").length;
+			var expectedRemindedUsers = $(".send-all-id:checked").length;
 
 			$("#send-reminder").prop("disabled", true).addClass("disabled");
 			$("#send-reminder-modal-body-info").append("<img id='loading-img' src='/ajax-loader.gif' />");

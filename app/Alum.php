@@ -41,7 +41,7 @@ class Alum extends Model
 		return $this->last_name . ", " . $this->first_name;
 	}
 
-    public function sendEmail($message = null){
+    public function sendEmail(){
         while(!$this->update_hash){
             $this->update_hash = str_random(40);
             $this->save();
@@ -59,7 +59,7 @@ class Alum extends Model
         if($this->last_name && $this->first_name)
             $name = $this->first_name . " " . $this->last_name;
         else
-            $name = "MCW Alum";
+            $name = "MCW Anesthesiology Alum";
 
         $alumniUrl = url("alumni/" . $this->update_hash);
         $subscriptionUrl = url("alumni/" . $this->update_hash . "/subscription");

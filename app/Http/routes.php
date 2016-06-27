@@ -35,7 +35,7 @@ Route::resource("competencies", "Rest\CompetencyController", ["only" => [
 	"index", "store", "show", "update", "destroy"
 ]]);
 Route::patch("alumni/{id}/email", "Rest\AlumController@sendEmail");
-Route::patch("alumni/email", "Rest\AlumController@sendAllEmails");
+Route::patch("alumni/email", "Rest\AlumController@sendManyEmails");
 Route::resource("alumni", "Rest\AlumController", ["only" => [
 	"index", "store", "show", "update", "destroy"
 ]]);

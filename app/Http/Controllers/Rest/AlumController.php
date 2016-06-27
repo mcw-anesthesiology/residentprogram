@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Rest;
 
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Alum;
 
@@ -30,7 +31,29 @@ class AlumController extends RestController
 
 	public function sendEmail(Request $request, $id){
 		$alum = Alum::findOrFail($id);
-		$alum->sendEmail($request->input("message"));
+		if(!$alum->email || !filter_var($alum->email, FILTER_VALIDATE_EMAIL))
+			throw new \Swift_TransportException("Invalid or missing email address");
+
+		$body = $request->input("body");
+		$subject = $request->input("subject");
+		$placeholders = [
+			'<span class="label label-info">Name</span>' => $alum->full_name,
+			'<span class="label label-info">First name</span>' => $alum->first_name,
+			'<span class="label label-info">Last name</span>' => $alum->last_name,
+			'<span class="label label-info">Update link</span>' => url("alumni/{$alum->update_hash}"),
+			'<span class="label label-info">Unsub link</span>' => url("alumni/{$alum->update_hash}/subscription")
+		];
+		foreach($placeholders as $placeholder => $replacement){
+			$body = str_replace($placeholder, $replacement, $body);
+		}
+		Mail::send([], [], function($message) use ($alum, $user, $body, $subject){
+			$message
+				->from("alumni@residentprogram.com", "MCW Anesthesiology Alumni")
+				->replyTo($user->email)
+				->to($alum->email)
+				->subject($subject)
+				->setBody($body, "text/html");
+		});
 
 		if($request->ajax())
 			return "success";
@@ -38,42 +61,45 @@ class AlumController extends RestController
 			return back();
 	}
 
-	public function sendAllEmails(Request $request){
+	public function sendManyEmails(Request $request){
+		$user = Auth::user();
 		$successfulEmails = [];
 		$failedEmails = [];
-		foreach(Alum::all() as $alum){
+		foreach($request->input("alunmi") as $alum){
 			try {
-				$alum->sendEmail();
-				$successfulEmails[] = $alum;
+				if($this->sendEmail($request, $alum["id"]) == "success")
+					$successfulEmails[] = $alum;
+				else
+					$failedEmails[] = $alum;
+			} catch(ModelNotFoundException $e){
+				$failedEmails[] = $alum;
 			} catch(\Swift_TransportException $e){
+				$failedEmails[] = $alum;
+			} catch(\Exception $e){
 				$failedEmails[] = $alum;
 			}
 		}
 
-		$responseInfo = [];
-		if(count($failedEmails) > 0){
-			$error = "Failed sending emails to ";
-			foreach($failedEmails as $failedAlum){
-				$error .= $failedAlum->email . ", ";
-			}
-			$error = substr($error, -2); // Remove final ', '
-			$responseInfo["error"] = $error;
-		}
-		if(count($successfulEmails) > 0){
-			$success = "Successfully sent emails to ";
-			foreach($successfulEmails as $successfulAlum){
-				$success .= $successfulAlum->email . ", ";
-			}
-			$success = substr($success, -2); // Remove final ', '
-			$responseInfo["success"] = $success;
-		}
-		$responseInfo["info"] = count($successfulEmails) .
-			" emails sent successfully. " . count($failedEmails) .
-			" failed attempts.";
+		$response = [
+			"success" => $successfulEmails,
+			"error" => $failedEmails
+		];
 
-		if($isAjax)
-			return $responseInfo;
-		else
-			return back()->with($responseInfo);
+		if($request->ajax())
+			return $response;
+		else {
+			$successfulEmailsEmails = array_map(function($alum){
+				return $alum["email"];
+			}, $successfulEmails);
+			$successText = "Successfully sent emails to " . join(", ", $successfulEmailsEmails);
+			$failedEmailsEmails = array_map(function($alum){
+				return $alum["email"];
+			}, $failedEmails);
+			$errorText = "Unsuccessfully sent emails to " . join(", ", $failedEmailsEmails);
+			return back()->with([
+				"success" => $successText,
+				"error" => $errorText
+			]);
+		}
 	}
 }

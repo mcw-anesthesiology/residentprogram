@@ -792,11 +792,11 @@ class ReportTest extends TestCase
         $remindedUsers = [
             [
                 "id" => $moreResidents[0]->id,
-                "count" => 1
+                "numCompleted" => 1
             ],
             [
                 "id" => $moreResidents[1]->id,
-                "count" => 2
+                "numCompleted" => 2
             ]
         ];
 

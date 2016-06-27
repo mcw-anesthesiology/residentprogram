@@ -429,7 +429,7 @@ class ReportController extends Controller
         $sentUsers = [];
         foreach($usersNeedingEvals as $remindedUser){
             try{
-                $numCompleted = $remindedUser["count"];
+                $numCompleted = $remindedUser["numCompleted"];
                 $remindedUser = User::findOrFail($remindedUser["id"]);
                 $body = str_replace($namePlaceholder, $remindedUser->last_name, $bodyTemplate);
                 $body = str_replace($numCompletedPlaceholder, $numCompleted, $body);

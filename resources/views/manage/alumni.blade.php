@@ -114,6 +114,13 @@
 
 @section("script")
 	<script>
+		var replacements = [
+			"Name",
+			"First name",
+			"Last name",
+			"Update link",
+			"Unsub link"
+		];
 		var alumniTable = $("#alumni-table").DataTable({
 			ajax: {
 				url: "/alumni",
@@ -155,10 +162,6 @@
 							+ 'data-address="' + alum.address + '" data-city="' + alum.city + '" data-state="' + alum.state + '"';
 						buttonTitle = "";
 					}
-					var sendLinkButton = '<button type="button" class="btn btn-xs btn-info ' + buttonClass + ' ' + sendLinkClass + '"'
-						+ 'title="' + buttonTitle + '" ' + alumData + '><span class="glyphicon glyphicon-send"></span> '
-						+ 'Send info update link</button>';
-
 					var emailButton = '<button type="button" class="btn btn-xs btn-info ' + buttonClass + ' ' + emailClass + '"'
 						+ 'title="' + buttonTitle + '" ' + alumData + '><span class="glyphicon glyphicon-send"></span> '
 						+ 'Email</button>';
@@ -167,7 +170,7 @@
 						+ '<span class="glyphicon glyphicon-pencil"></span> Edit</button>';
 
 
-					return sendLinkButton + " " + emailButton + " " + editButton;
+					return emailButton + " " + editButton;
 				}}
 			],
 			order: [[2, 'desc']],
@@ -247,16 +250,43 @@
 			});
 		});
 
-		$("#alumni-table").on("click", ".alumni-send-link-button", function(event){
-			var button = $(this);
-			button.prop("disabled", true).addClass("disabled");
+		$("#alumni-table").on("click", ".alumni-email-button", function(event){
+			var alum = {
+				id: $(this).data("id"),
+				lastName: $(this).data("last"),
+				firstName: $(this).data("first"),
+				name: $(this).data("last") + ", " + $(this).data("first"),
+				email: $(this).data("email")
+			};
+
+			var subjectText = "Please keep in touch!";
+			var bodyText = "Dear " + user.lastName + "\n" // FIXME
+				+ "\n"
+				+ "We want to keep in touch with you! Please use the link below to "
+				+ "give us your updated contact information so we can send you newsletters "
+				+ "and stuff.\n"
+				+ "\n"
+				+ "[[Update link]]\n"
+				+ "\n"
+				+ "[[Unsub link]]";
+
+			openSendEmailModal(alum, $("#send-email-modal"), subjectText, bodyText,
+				sendEmail, sendManyEmails, "alumni", replacements);
+		});
+
+		$("#send-many-emails-button").click(function(){
+			// TODO: This and make the modal
+		});
+
+		function sendEmail(){
+			$("#send-email-send").prop("disabled", true).addClass("disabled");
 			var data = {};
 			data._token = "{{ csrf_token() }}";
 			data._method = "PATCH";
-			var alumId = button.data("id");
-
-
-			var email = button.data("email");
+			data.body = $("#send-email-body-rendered").html();
+			data.subject = $("#send-email-subject").val();
+			var alumId = $("#send-email-id").val();
+			var alumEmail = $("#send-email-email").val();
 
 			$.ajax({
 				url: "/alumni/" + alumId + "/email",
@@ -264,18 +294,51 @@
 				data: data
 			}).done(function(response){
 				if(response === "success"){
-					button.removeClass("btn-info").addClass("btn-success");
-					button.html("Email sent! <span class='glyphicon glyphicon-ok'></span>");
+					$("#send-email-modal").modal("hide");
+					appendAlert("Email sent!", "#alert-container", "success");
 				} else {
-					appendAlert(response, ".top-alert-container");
-					button.removeClass("btn-info").addClass("btn-danger");
-					button.html("Email failed. <span class='glyphicon glyphicon-remove'></span>");
+					appendAlert(response, "#send-email-modal .modal-header");
 				}
 			}).fail(function(err){
-				appendAlert("There was an error sending email to " + email + ".", ".top-alert-container");
-				button.removeClass("btn-info").addClass("btn-danger");
-				button.html("Email failed. <span class='glyphicon glyphicon-remove'></span>");
+				appendAlert("There was an error sending email to " + alumEmail + ".", "#send-email-modal .modal-header");
+			}).always(function(){
+				$("#send-email-send").prop("disabled", false).removeClass("disabled");
 			});
-		});
+		}
+
+		function sendManyEmails(){
+			$("#send-email-send").prop("disabled", true).addClass("disabled");
+			var data = {};
+			data._token = "{{ csrf_token() }}";
+			data._method = "PATCH";
+			data.body = $("#send-email-body-rendered").html();
+			data.subject = $("send-email-subject").val();
+			data.alumni = [];
+			$(".send-all-id:checked").each(function(){
+				var alum = {
+					id: $(this).val(),
+					email: $(this).data("email")
+				};
+				data.alumni.push(alum);
+			});
+
+			$.ajax({
+				url: "/alumni/email",
+				method: "POST", // PATCH
+				data: data
+			}).done(function(response){
+				if(response.error.length === 0){
+					$("#send-email-modal").modal("hide");
+					appendAlert("" + response.success.length + " emails sent successfully", "#alert-container", "success");
+				}
+				else {
+					appendAlert("" + response.error.length + " emails sent unsuccessfully", "#send-email-modal .modal-header");
+				}
+			}).fail(function(err){
+				appendAlert("There was a problem sending emails", "#send-email-modal .modal-header");
+			}).always(function(){
+				$("#send-email-send").prop("disabled", false).removeClass("disabled");
+			});
+		}
 	</script>
 @stop
