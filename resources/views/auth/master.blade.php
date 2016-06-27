@@ -24,11 +24,10 @@
 	@endif
 
 		<!-- Bootstrap core CSS -->
-		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-		<link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet">
+		<link href="/css/vendor.css" rel="stylesheet" />
 
 		<!-- Custom styles for this template -->
-		<link href="/css/main.css" rel="stylesheet">
+		<link href="/css/all.css" rel="stylesheet" />
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
@@ -36,23 +35,6 @@
 		  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 		<![endif]-->
 		<style>
-			body {
-				padding-top: 40px;
-				padding-bottom: 40px;
-				background-color: #eee;
-			}
-
-			.login-info-alert {
-				max-width: 600px;
-				margin-left: auto;
-				margin-right: auto;
-			}
-
-			.form-signin {
-				max-width: 330px;
-				padding: 15px;
-				margin: 0 auto;
-			}
 			.form-signin .form-signin-heading,
 			.form-signin .checkbox {
 				margin-bottom: 10px;
@@ -72,51 +54,106 @@
 			.form-signin .form-control:focus {
 				z-index: 2;
 			}
-			.form-signin input[type="email"] {
-				margin-bottom: -1px;
-				border-bottom-right-radius: 0;
-				border-bottom-left-radius: 0;
-			}
-			.form-signin input[type="password"] {
-				margin-bottom: 10px;
-				border-top-left-radius: 0;
-				border-top-right-radius: 0;
+
+			html {
+				background-color: #ECEFF1;
 			}
 
-			#info {
-				margin: auto;
+			body {
+				padding-top: 0px !important;
+				padding-bottom: 0px !important;
+				background-image: url("/img/hero-compressed.jpg");
+				background-size: cover;
+				background-repeat: no-repeat;
+				background-attachment: fixed;
+				position: relative;
+			}
+
+
+			.hero-section {
+				height: 100%;
+				width: 100%;
+				background-color: rgba(69, 90, 99, 0.75);
+				padding-top: 50px;
+			}
+
+			.hero-section > h1,
+			.hero-section > p {
+				margin-left: 50px;
+				margin-right: 50px;
+			}
+
+			.hero-section > h1,
+			.hero-section > h1 > a {
+				color: #ECEFF1;
+			}
+
+			.hero-section > p {
+				color: #CFD8DC;
+			}
+
+			.content-section {
+				background-color: #ECEFF1;
+				width: 100%;
+				margin-top: 100px;
+				padding: 50px 0px 20px;
+			}
+
+			.form-signin {
+				margin-top: 40px;
+			}
+
+			.login-submit-container,
+			.reset-password-container {
 				text-align: center;
-				width: 50%;
 			}
 
-			.btn-50 {
-				width: 45%;
+			.btn-block {
+				margin: 5px;
 			}
 
-			#home-button {
-				float: right;
+			.login-info-alert {
+				clear: both;
+				width: 75%;
+				margin: 20px auto 0px;
+			}
+
+			.login-submit-container {
+				margin-top: 40px;
+			}
+
+			@media (min-width: 992px) {
+				.login-submit-container {
+					margin-top: 100px;
+				}
 			}
 		</style>
 		@yield("head")
 	</head>
 	<body>
-		<div class="container-fluid">
+		<div class="hero-section">
+			<h1><a href="/">Resident Program</a></h1>
+			<p class="load">
+				Trainee evaluation system.
+			</p>
+			<div class="content-section">
+				<div class="container">
 	@if(session("error"))
-			<div class="container">
-				<div class="alert alert-danger alert-dismissable" role="alert">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					{!! session("error") !!}
-				</div>
-			</div>
+					<div class="container">
+						<div class="alert alert-danger alert-dismissable" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							{!! session("error") !!}
+						</div>
+					</div>
 	@endif
 			@yield("body")
+				</div>
+			</div>
 		</div>
-		<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="/js/vendor.js"></script>
+		<script type="text/javascript" src="/js/all.js"></script>
 		<script>
-			$("#home-button").click(function(){
-				window.location.href = "/";
-			});
+
 		</script>
 	</body>
 </html>

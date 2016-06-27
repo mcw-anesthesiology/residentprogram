@@ -1,4 +1,4 @@
-<div id="main-navbar" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<div id="main-navbar" class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container-fluid">
 	<div class="navbar-header">
 	  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -41,7 +41,9 @@
 			<li><a href="/manage/forms">Forms</a></li>
 			<li><a href="/manage/milestones-competencies">Milestones/Competencies</a></li>
 			<li><a href="/manage/mentors">Mentors</a></li>
+            <li><a href="/manage/watched-forms">Watched forms</a></li>
 			<li><a href="/manage/block-assignments">Block Assignments</a></li>
+            <li><a href="/manage/alumni">Alumni</a></li>
 		  </ul>
 		</li>
 	  @endif
