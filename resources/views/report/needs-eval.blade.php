@@ -144,7 +144,7 @@
 						</span>
 					</div>
 					<input type="hidden" class="id" id="reminder-id" />
-					<div class="collapse" class="ids-container" id="reminder-ids-container">
+					<div class="collapse ids-container" id="reminder-ids-container">
 						<div class="well row" id="reminder-ids-well">
 							<ul class="ids-list" id="reminder-ids-list"></ul>
 						</div>
@@ -245,9 +245,9 @@
 		$("#needs-evals-table").on("click", ".send-user-reminder", function(){
 			var user = {
 				id: $(this).data("id"),
-				lastName: $(this).data("last"),
-				firstName: $(this).data("first"),
-				name: $(this).data("last") + ", " + $(this).data("first"),
+				last_name: $(this).data("last"),
+				first_name: $(this).data("first"),
+				full_name: $(this).data("last") + ", " + $(this).data("first"),
 				email: $(this).data("email")
 			};
 			var startDate = moment($("#needs-start-date").val());
@@ -292,9 +292,9 @@
 				button = $($.parseHTML(tableData[row][2]));
 				users[row] = {
 					id: button.data("id"),
-					last: button.data("last"),
-					first: button.data("first"),
-					name: button.data("last") + ", " + button.data("first"),
+					last_name: button.data("last"),
+					first_name: button.data("first"),
+					full_name: button.data("last") + ", " + button.data("first"),
 					send: button.hasClass("send-user-reminder"),
 					data: {
 						completed: button.data("count")
@@ -322,7 +322,10 @@
 
 
 		$("#reminder-ids-list-button").click(function(){
-			$("#reminder-ids-container").slideToggle();
+			var container = $("#reminder-ids-container");
+			container.css("display") === "none"
+				? container.velocity("slideDown")
+				: container.velocity("slideUp");
 		});
 
 		function sendNeedsEvaluationReminder(){

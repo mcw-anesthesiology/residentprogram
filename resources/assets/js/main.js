@@ -117,17 +117,21 @@ function openSendEmailModal(users, modal, subjectText, bodyText,
 			checkbox.type = "checkbox";
 			checkbox.className = "send-all-id";
 			checkbox.value = user.id;
-			if(user.send){
+			if(!user.email)
+				checkbox.disabled = true;
+			else if(user.send){
 				checkbox.checked = true;
 				numSentUsers++;
 			}
-			var dataKeys = Object.keys(user.data);
-			for(var j = 0; j < dataKeys.length; j++){
-				checkbox.setAttribute("data-" + dataKeys[j], user.data[dataKeys[j]]);
+			if(user.data){
+				var dataKeys = Object.keys(user.data);
+				for(var j = 0; j < dataKeys.length; j++){
+					checkbox.setAttribute("data-" + dataKeys[j], user.data[dataKeys[j]]);
+				}
 			}
 
 			label.appendChild(checkbox);
-			labelText = document.createTextNode(" " + user.name);
+			labelText = document.createTextNode(" " + user.full_name);
 			label.appendChild(labelText);
 			li.appendChild(label);
 			list.appendChild(li);
@@ -155,7 +159,7 @@ function openSendEmailModal(users, modal, subjectText, bodyText,
 	} else {
 		user = users;
 		modal.find(".id").val(user.id);
-		modal.find(".to").val(user.name + " <" + user.email + ">");
+		modal.find(".to").val(user.full_name + " <" + user.email + ">");
 		modal.find(".to-container").removeClass("input-group");
 		modal.find(".ids-list-button-container").hide();
 		modal.find(".ids-list").empty();
@@ -264,6 +268,9 @@ function addDateSelectors(dateName, idPrefix, containerQuery, defaultMonth, last
 	var html =
 	'<input type="hidden" id="' + idPrefix +  'date" name="' + dateName + '" />' +
 	'<div class="row">' +
+		'<label><input type="checkbox" id="' + idPrefix + 'date-unknown" /> Unknown<label>' +
+	'</div>' +
+	'<div class="row" id="' + idPrefix + 'parts-container">' +
 		'<div class="col-md-4">' +
 			'<label for="' + idPrefix +  'date-year">Year</label>' +
 			'<select class="form-control" id="' + idPrefix +  'date-year"></select>' +
@@ -349,15 +356,32 @@ function addDateSelectors(dateName, idPrefix, containerQuery, defaultMonth, last
 	});
 
 	function updateDate(){
+		if($("#" + idPrefix + "date-unknown").prop("checked")){
+			$("#" + idPrefix +  "date").val("");
+			return;
+		}
+
 		var year = parseInt($("#" + idPrefix +  "date-year").val(), 10);
 		var month = parseInt($("#" + idPrefix +  "date-month").val(), 10);
 		var day = parseInt($("#" + idPrefix +  "date-day").val(), 10);
-
 		var date = moment().year(year).month(month).date(day);
-		$("#" + idPrefix +  "date").val(date.format("YYYY-MM-DD"));
+		if(date.isValid())
+			$("#" + idPrefix +  "date").val(date.format("YYYY-MM-DD"));
 	}
 
 	$("#" + idPrefix +  "date-year, #" + idPrefix +  "date-month, #" + idPrefix +  "date-day").change(updateDate);
+
+	function unknownDate(){
+		$("#" + idPrefix +  "date-year, #" + idPrefix +  "date-month, #" + idPrefix +  "date-day")
+			.prop("disabled", $(this).prop("checked"));
+		updateDate();
+
+		$(this).prop("checked")
+			? $("#" + idPrefix + "parts-container").velocity("slideUp")
+			: $("#" + idPrefix + "parts-container").velocity("slideDown");
+	}
+
+	$("#" + idPrefix + "date-unknown").change(unknownDate);
 }
 
 $(document).ready(function(){

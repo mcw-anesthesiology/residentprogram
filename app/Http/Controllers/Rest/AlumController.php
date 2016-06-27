@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Rest;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
+use Auth;
+use Log;
+use Mail;
+
 use App\Alum;
 
 class AlumController extends RestController
@@ -30,18 +34,22 @@ class AlumController extends RestController
 	protected $model = \App\Alum::class;
 
 	public function sendEmail(Request $request, $id){
+		$user = Auth::user();
 		$alum = Alum::findOrFail($id);
 		if(!$alum->email || !filter_var($alum->email, FILTER_VALIDATE_EMAIL))
 			throw new \Swift_TransportException("Invalid or missing email address");
 
 		$body = $request->input("body");
 		$subject = $request->input("subject");
+
+		$updateUrl = url("alum/{$alum->update_hash}");
+		$subUrl = url("alum/{$alum->update_hash}/subscription");
 		$placeholders = [
 			'<span class="label label-info">Name</span>' => $alum->full_name,
 			'<span class="label label-info">First name</span>' => $alum->first_name,
 			'<span class="label label-info">Last name</span>' => $alum->last_name,
-			'<span class="label label-info">Update link</span>' => url("alumni/{$alum->update_hash}"),
-			'<span class="label label-info">Unsub link</span>' => url("alumni/{$alum->update_hash}/subscription")
+			'<span class="label label-info">Update link</span>' => "<a href='{$updateUrl}'>{$updateUrl}</a>",
+			'<span class="label label-info">Unsub link</span>' => "<a href='{$subUrl}'>{$subUrl}</a>"
 		];
 		foreach($placeholders as $placeholder => $replacement){
 			$body = str_replace($placeholder, $replacement, $body);
@@ -65,17 +73,20 @@ class AlumController extends RestController
 		$user = Auth::user();
 		$successfulEmails = [];
 		$failedEmails = [];
-		foreach($request->input("alunmi") as $alum){
+		foreach($request->input("alumni") as $alum){
 			try {
 				if($this->sendEmail($request, $alum["id"]) == "success")
 					$successfulEmails[] = $alum;
 				else
 					$failedEmails[] = $alum;
 			} catch(ModelNotFoundException $e){
+				Log::error($e);
 				$failedEmails[] = $alum;
 			} catch(\Swift_TransportException $e){
+				Log::error($e);
 				$failedEmails[] = $alum;
 			} catch(\Exception $e){
+				Log::error($e);
 				$failedEmails[] = $alum;
 			}
 		}

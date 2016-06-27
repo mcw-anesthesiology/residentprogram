@@ -8,6 +8,10 @@
 		p {
 			font-size: 2em;
 		}
+
+		#unsub-button {
+			white-space: normal;
+		}
 	</style>
 @stop
 
@@ -46,7 +50,7 @@
 						.html("<span class='glyphicon glyphicon-plus'></span> Resubscribe {{ $alum->email }}");
 				}
 				else if(response == "resubscribed"){
-					form.find("p").text("Are you sure you would like to unsubscribe from all alumni contact from MCW?");
+					form.find("p").text("Thanks for coming back to us!");
 					form.find("#unsub-action").val("unsubscribe");
 					form.find("#unsub-button").removeClass("btn-success").addClass("btn-warning")
 						.html("<span class='glyphicon glyphicon-remove'></span> Unsubscribe {{ $alum->email }}");

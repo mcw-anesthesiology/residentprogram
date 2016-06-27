@@ -1,7 +1,49 @@
 @extends("app")
 
+@section("head")
+	<style>
+		#send-email-body {
+			resize: vertical;
+		}
+
+		#send-email-body-rendered p + p {
+			margin-top: 20px;
+		}
+
+		#send-email-ids-container {
+			margin-top: 5px;
+		}
+
+		#send-email-ids-well {
+			max-height: 300px;
+			overflow-y: scroll;
+		}
+
+		#send-email-ids-list {
+			-webkit-column-count: 3;
+    		-moz-column-count: 3;
+            column-count: 3;
+		}
+
+		#send-email-ids-list li {
+			display: inline-block;
+		}
+
+		#send-email-replacements {
+			cursor: pointer;
+		}
+
+		.popover-content ul {
+			padding-left: 20px;
+		}
+	</style>
+@stop
+
 @section("body")
-	<h1>Manage Alumni <button type="button" class="btn btn-success btn-xs" id="add-alum-button"><span class="glyphicon glyphicon-plus"></span> Add alumni</button></h1>
+	<h1>Manage Alumni
+		<button type="button" class="btn btn-success btn-sm" id="add-alum-button"><span class="glyphicon glyphicon-plus"></span> Add alumni</button>
+		<button type="button" class="btn btn-info btn-sm" id="send-many-emails-button"><span class="glyphicon glyphicon-send"></span> Send group email</button>
+	</h1>
 	<div class="alumni-list table-responsive">
 		<table class="table table-striped datatable" id="alumni-table" width="100%">
 			<thead>
@@ -76,36 +118,37 @@
 				</div>
 				<div class="modal-body" id="send-email-modal-body">
 					<div class="form-group">
-						<label for="email-to">To</label>
-						<div id="email-to-container">
-							<input type="text" class="form-control" id="email-to" readonly />
-							<span class="input-group-btn collapse" id="email-ids-list-button-container">
-								<button type="button" class="btn btn-default" id="email-ids-list-button">Resident List <span class="caret"></span></button>
+						<label for="send-email-to">To</label>
+						<div class="to-container" id="send-email-to-container">
+							<input type="text" class="form-control to" id="send-email-to" readonly />
+							<span class="input-group-btn collapse ids-list-button-container" id="send-email-ids-list-button-container">
+								<button type="button" class="btn btn-default" id="send-email-ids-list-button">Resident List <span class="caret"></span></button>
 							</span>
 						</div>
-						<input type="hidden" id="email-id" />
-						<div class="collapse" id="email-ids-container">
-							<div class="well row" id="email-ids-well">
-								<ul id="email-ids-list"></ul>
+						<input type="hidden" class="id" id="send-email-id" />
+						<div class="collapse ids-container" id="send-email-ids-container">
+							<div class="well row" id="send-email-ids-well">
+								<ul class="ids-list" id="send-email-ids-list"></ul>
 							</div>
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="email-subject">Subject</label>
-						<input type="text" class="form-control" id="email-subject" />
+						<label for="send-email-subject">Subject</label>
+						<input type="text" class="form-control subject" id="send-email-subject" />
 					</div>
 					<div class="form-group">
-						<label for="email-body">Body</label>
-						<textarea class="form-control" id="email-body" rows="15"></textarea>
-						<div tabindex="0" class="form-control" id="email-body-rendered"></div>
-						<small>Supports <a href="http://daringfireball.net/projects/markdown/basics" target="_blank">markdown</a> (except inline HTML)</small>
+						<label for="send-email-body">Body</label>
+						<textarea class="form-control body" id="send-email-body" rows="15"></textarea>
+						<div tabindex="0" class="form-control body-rendered" id="send-email-body-rendered"></div>
+						<small>Supports <a href="http://daringfireball.net/projects/markdown/basics" target="_blank">markdown</a> (except inline HTML).</small>
+						<small><a id="send-email-replacements" data-toggle="popover">Available replacements</a></small>
 					</div>
 					<div id="send-email-modal-body-info">
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-info" id="send-email">Send email</button>
+					<button type="button" class="btn btn-info send" id="send-email-send">Send email</button>
 				</div>
 			</div>
 		</div>
@@ -156,12 +199,13 @@
 						buttonExtra = "";
 						sendLinkClass = "alumni-send-link-button";
 						emailClass = "alumni-email-button";
-						alumData = 'data-id="' + alum.id + '" data-email="' + alum.email + '" '
-							+ 'data-last-name="' + alum.last_name + '" data-first-name="' + alum.first_name + '" '
-							+ 'data-graduation-date="' + alum.graduation_date + '" data-country="' + alum.country + '" '
-							+ 'data-address="' + alum.address + '" data-city="' + alum.city + '" data-state="' + alum.state + '"';
 						buttonTitle = "";
 					}
+					var alumData = 'data-id="' + alum.id + '" data-email="' + alum.email + '" '
+						+ 'data-last-name="' + alum.last_name + '" data-first-name="' + alum.first_name + '" '
+						+ 'data-graduation-date="' + alum.graduation_date + '" data-country="' + alum.country + '" '
+						+ 'data-address="' + alum.address + '" data-city="' + alum.city + '" data-state="' + alum.state + '"';
+
 					var emailButton = '<button type="button" class="btn btn-xs btn-info ' + buttonClass + ' ' + emailClass + '"'
 						+ 'title="' + buttonTitle + '" ' + alumData + '><span class="glyphicon glyphicon-send"></span> '
 						+ 'Email</button>';
@@ -207,15 +251,20 @@
 			form.data("action", "edit").attr("action", "/alumni/" + alumId);
 			form.append('<input type="hidden" name="_method" value="PATCH" />');
 			form.find("button[type='submit']").text("Edit alum");
+			form[0].reset();
 			$("#alum-modal-title").text("Edit alum");
 			$("#alum-first-name").val(button.data("firstName"));
 			$("#alum-last-name").val(button.data("lastName"));
 			$("#alum-email").val(button.data("email"));
 			var graduationDate = moment(button.data("graduationDate"));
+			if(!graduationDate.isValid())
+				graduationDate = moment().month(5).date(30);
 			$("#alum-graduation-date-day").val(graduationDate.date());
 			$("#alum-graduation-date-month").val(graduationDate.month());
 			$("#alum-graduation-date-year").val(graduationDate.year());
-			$("#alum-graduation-date").val(graduationDate.format("YYYY-MM-DD"));
+			if(!button.data("graduationDate"))
+				$("#alum-graduation-date-unknown").prop("checked", true).change();
+			$("#alum-graduation-date-year").change();
 			$("#alum-country").val(button.data("country"));
 			$("#alum-address").val(button.data("address"));
 			$("#alum-city").val(button.data("city"));
@@ -250,17 +299,31 @@
 			});
 		});
 
+		$("#send-email-replacements").popover({
+			placement: "top",
+			html: true,
+			trigger: "hover",
+			content: function(){
+				var content = '<ul>';
+				for(var i = 0; i < replacements.length; i++){
+					content += '<li>' + replacements[i] + '</li>';
+				}
+				content += '</ul>';
+				return content;
+			}
+		});
+
 		$("#alumni-table").on("click", ".alumni-email-button", function(event){
 			var alum = {
 				id: $(this).data("id"),
-				lastName: $(this).data("last"),
-				firstName: $(this).data("first"),
-				name: $(this).data("last") + ", " + $(this).data("first"),
+				last_name: $(this).data("lastName"),
+				first_name: $(this).data("firstName"),
+				full_name: $(this).data("lastName") + ", " + $(this).data("firstName"),
 				email: $(this).data("email")
 			};
 
 			var subjectText = "Please keep in touch!";
-			var bodyText = "Dear " + user.lastName + "\n" // FIXME
+			var bodyText = "Hello Dr. " + alum.last_name + "\n" // FIXME
 				+ "\n"
 				+ "We want to keep in touch with you! Please use the link below to "
 				+ "give us your updated contact information so we can send you newsletters "
@@ -275,7 +338,33 @@
 		});
 
 		$("#send-many-emails-button").click(function(){
-			// TODO: This and make the modal
+			var alumniData = alumniTable.rows().data();
+			var alumni = [];
+			for(var i = 0; i < alumniData.length; i++){
+				alumni[i] = alumniData[i];
+				alumni[i].send = !alumni[i].do_not_contact;
+			}
+
+			var subjectText = "Please keep in touch!";
+			var bodyText = "Hello Dr. [[Last name]]\n" // FIXME
+				+ "\n"
+				+ "We want to keep in touch with you! Please use the link below to "
+				+ "give us your updated contact information so we can send you newsletters "
+				+ "and stuff.\n"
+				+ "\n"
+				+ "[[Update link]]\n"
+				+ "\n"
+				+ "[[Unsub link]]";
+
+			openSendEmailModal(alumni, $("#send-email-modal"), subjectText, bodyText,
+				sendEmail, sendManyEmails, "alumni", replacements);
+		});
+
+		$("#send-email-ids-list-button").click(function(){
+			var container = $("#send-email-ids-container");
+			container.css("display") === "none"
+				? container.velocity("slideDown")
+				: container.velocity("slideUp");
 		});
 
 		function sendEmail(){
@@ -312,7 +401,7 @@
 			data._token = "{{ csrf_token() }}";
 			data._method = "PATCH";
 			data.body = $("#send-email-body-rendered").html();
-			data.subject = $("send-email-subject").val();
+			data.subject = $("#send-email-subject").val();
 			data.alumni = [];
 			$(".send-all-id:checked").each(function(){
 				var alum = {
@@ -332,7 +421,10 @@
 					appendAlert("" + response.success.length + " emails sent successfully", "#alert-container", "success");
 				}
 				else {
-					appendAlert("" + response.error.length + " emails sent unsuccessfully", "#send-email-modal .modal-header");
+					appendAlert("" + response.error.length + " emails sent unsuccessfully. Alumni unsuccessfully emailed are still checked.", "#send-email-modal .modal-header");
+					for(var i = 0; i < response.success.length; i++){
+						$(".send-all-id[value='" + response.success[i].id + "']").prop("checked", false).change();
+					}
 				}
 			}).fail(function(err){
 				appendAlert("There was a problem sending emails", "#send-email-modal .modal-header");
