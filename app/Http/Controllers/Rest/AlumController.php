@@ -53,15 +53,9 @@ class AlumController extends RestController
 			return back();
 	}
 
-	public function updateSubscription(Request $request, $hash, $action){
+	public function updateSubscription(Request $request, $hash){
 		$alum = Alum::where("update_hash", $hash)->firstOrFail();
-		if($action == "unsubscribe")
-			$alum->do_not_contact = true;
-		elseif($action == "subscribe")
-			$alum->do_not_contact = false;
-		else
-			throw new \Exception("Unknown subscription action: " . $action);
-
+		$alum->do_not_contact = (bool)$request->input("do_not_contact");
 		$alum->saveOrFail();
 
 		if($request->ajax())

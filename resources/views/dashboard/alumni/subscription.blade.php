@@ -23,13 +23,13 @@
 			<p>
 				You are successfully unsubscribed from receiving emails from us. We're sorry to see you go!
 			</p>
-			<input type="hidden" id="unsub-action" name="do_not_contact" value="false" />
+			<input type="hidden" id="unsub-action" name="do_not_contact" value="0" />
 			<button type="submit" id="unsub-button" class="btn btn-lg btn-success"><span class="glyphicon glyphicon-plus"></span> Resubscribe {{ $alum->email }}</button>
 	@else
 			<p>
 				Are you sure you would like to unsubscribe from all alumni contact from MCW Anesthesiology?
 			</p>
-			<input type="hidden" id="unsub-action" name="do_not_contact" value="true" />
+			<input type="hidden" id="unsub-action" name="do_not_contact" value="1" />
 			<button type="submit" id="unsub-button" class="btn btn-lg btn-warning"><span class="glyphicon glyphicon-remove"></span> Unsubscribe {{ $alum->email }}</button>
 	@endif
 		</form>
@@ -49,15 +49,15 @@
 				data: formData
 			}).done(function(response){
 				if(response === "success"){
-					if($("#unsub-action").val() === "true"){
+					if($("#unsub-action").val() === "1"){
 						form.find("p").text("You are successfully unsubscribed from receiving alumni emails from us. We're sorry to see you go!");
-						form.find("#unsub-action").val(false);
+						form.find("#unsub-action").val(0);
 						form.find("#unsub-button").removeClass("btn-warning").addClass("btn-success")
 							.html("<span class='glyphicon glyphicon-plus'></span> Resubscribe {{ $alum->email }}");
 					}
 					else {
 						form.find("p").text("Thanks for coming back to us!");
-						form.find("#unsub-action").val(true);
+						form.find("#unsub-action").val(1);
 						form.find("#unsub-button").removeClass("btn-success").addClass("btn-warning")
 							.html("<span class='glyphicon glyphicon-remove'></span> Unsubscribe {{ $alum->email }}");
 					}

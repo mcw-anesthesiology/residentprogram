@@ -14,6 +14,7 @@ class Alum extends Model
         "last_name",
         "first_name",
         "email",
+		"phone",
         "address",
         "address_2",
         "city",

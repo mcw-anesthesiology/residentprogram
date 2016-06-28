@@ -37,7 +37,7 @@ Route::resource("competencies", "Rest\CompetencyController", ["only" => [
 Route::patch("alumni/{id}/email", "Rest\AlumController@sendEmail");
 Route::patch("alumni/email", "Rest\AlumController@sendManyEmails");
 Route::patch("alumni/hash/{hash}", "Rest\AlumController@updateWithHash");
-Route::patch("alumni/hash/{hash}/{action}", "Rest\AlumController@updateSubscription");
+Route::patch("alumni/subscription/{hash}/", "Rest\AlumController@updateSubscription");
 Route::resource("alumni", "Rest\AlumController", ["only" => [
 	"index", "store", "show", "update", "destroy"
 ]]);
