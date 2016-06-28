@@ -13,6 +13,17 @@ use App\Alum;
 
 class AlumController extends RestController
 {
+	public function __construct(){
+		$this->middleware("auth", ["except" => [
+			"updateWithHash", "updateSubscription"
+		]]);
+		$this->middleware("type:admin", ["except" => [
+			"updateWithHash", "updateSubscription"
+		]]);
+		$this->middleware("update.alum", ["only" => [
+			"updateWithHash", "updateSubscription"
+		]]);
+	}
 
 	protected $relationships = [];
 
@@ -33,6 +44,32 @@ class AlumController extends RestController
 
 	protected $model = \App\Alum::class;
 
+	public function updateWithHash(Request $request, $hash){
+		Alum::where("update_hash", $hash)->firstOrFail()->update($request->all());
+
+		if($request->ajax())
+			return "success";
+		else
+			return back();
+	}
+
+	public function updateSubscription(Request $request, $hash, $action){
+		$alum = Alum::where("update_hash", $hash)->firstOrFail();
+		if($action == "unsubscribe")
+			$alum->do_not_contact = true;
+		elseif($action == "subscribe")
+			$alum->do_not_contact = false;
+		else
+			throw new \Exception("Unknown subscription action: " . $action);
+
+		$alum->saveOrFail();
+
+		if($request->ajax())
+			return "success";
+		else
+			return back();
+	}
+
 	public function sendEmail(Request $request, $id){
 		$user = Auth::user();
 		$alum = Alum::findOrFail($id);
@@ -49,7 +86,7 @@ class AlumController extends RestController
 			'<span class="label label-info">First name</span>' => $alum->first_name,
 			'<span class="label label-info">Last name</span>' => $alum->last_name,
 			'<span class="label label-info">Update link</span>' => "<a href='{$updateUrl}'>{$updateUrl}</a>",
-			'<span class="label label-info">Unsub link</span>' => "<a href='{$subUrl}'>Manage your subscription</a>"
+			'<span class="label label-info">Unsub link</span>' => "<a href='{$subUrl}'>Manage your alumni subscription</a>"
 		];
 		foreach($placeholders as $placeholder => $replacement){
 			$body = str_replace($placeholder, $replacement, $body);

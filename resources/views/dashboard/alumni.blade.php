@@ -18,8 +18,9 @@
 </div>
 <div class="container body-block">
 	<div id="alumni-form-container">
-		<form class="form" id="alumni-form" role="form" method="post" action="#">
+		<form class="form" id="alumni-form" role="form" method="POST" action="/alumni/hash/{{ $alum->update_hash }}">
 			{!! csrf_field() !!}
+			<input type="hidden" name="_method" value="PATCH" />
 			<div class="form-group">
 				<label for="first-name">First name</label>
 				<input type="text" class="form-control" id="first-name" name="first_name" value="{{ $alum->first_name }}" placeholder="First name" required />
@@ -27,6 +28,10 @@
 			<div class="form-group">
 				<label for="last-name">Last name</label>
 				<input type="text" class="form-control" id="last-name" name="last_name" value="{{ $alum->last_name }}" placeholder="Last name" required />
+			</div>
+			<div class="form-group">
+				<label for="email">Email</label>
+				<input type="email" class="form-control" id="email" name="email" value="{{ $alum->email }}" placeholder="Email" />
 			</div>
 			<div class="form-group">
 				<label for="country">Country</label>
@@ -55,15 +60,19 @@
 	<script>
 		$("#alumni-form").submit(function(event){
 			event.preventDefault();
-
-			var formData = $(this).serialize() + "&ajax=true";
+			var action = $(this).attr("action");
+			var formData = $(this).serialize();
 			var errorText = "Sorry, there was a problem saving your information. " +
 				"If this continues to happen, please send me your information " +
 				"directly at jmischka@mcw.edu and I will make sure it's properly saved. Thank you!";
 
-			$.post("#", formData, function(response){
+			$.ajax({
+				url: action,
+				method: "POST", // PATCH
+				data: formData
+			}).done(function(response){
 				console.log(response);
-				if(response > 0)
+				if(response === "success")
 					$("#alumni-form-container").html('<p class="lead">Your information was saved successfully. Thank you!</p>')
 				else
 					appendAlert(errorText, ".alumni-alert-container");

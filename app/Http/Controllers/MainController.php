@@ -1263,41 +1263,6 @@ class MainController extends Controller
         }
     }
 
-    public function saveAlumni(Request $request, $hash){
-        try {
-            $numUpdated = Alum::where("update_hash", $hash)->update($request->except(["_token", "ajax"]));
-
-            if($numUpdated > 1)
-                Log::error("More than 1 alum updated at once.", [
-                    "request" => $request,
-                    "hash" => $hash
-                ]);
-
-            if($request->has("ajax") && $request->input("ajax"))
-                return $numUpdated;
-            else{
-                $alum = Alum::where("update_hash", $hash)->firstOrFail();
-                $ADMIN_EMAIL = config("app.admin_email");
-                $data = compact("alum", "ADMIN_EMAIL");
-                return view("dashboard.alumni", $data)->with(["success" => "Information saved successfully. Thank you!", "noNavbar" => true]);
-            }
-        } catch(ModelNotFoundException $e){
-            return view("dashboard.alumni.invalid-url")->with("noNavbar", true);
-        } catch(\Exception $e){
-            Log::error("Problem saving alum: " . $e);
-            if($request->has("ajax") && $request->input("ajax"))
-                return 0;
-            else{
-                $alum = Alum::where("update_hash", $hash)->firstOrFail();
-                $ADMIN_EMAIL = config("app.admin_email");
-                $data = compact("alum", "ADMIN_EMAIL");
-                return view("dashboard.alumni", $data)->with(["error" => "Sorry, there was a problem saving your information. " .
-                "If this continues to happen, please send me your information " .
-                "directly at " . config("app.admin_email") . " and I will make sure it's properly saved. Thank you!", "noNavbar" => true]);
-            }
-        }
-    }
-
     public function alumniSubscription(Request $request, $hash){
         try {
             $alum = Alum::where("update_hash", $hash)->firstOrFail();
@@ -1306,44 +1271,6 @@ class MainController extends Controller
             return view("dashboard.alumni.subscription", $data)->with("noNavbar", true);
         } catch(ModelNotFoundException $e){
             return view("dashboard.alumni.invalid-url")->with("noNavbar", true);
-        }
-    }
-
-    public function confirmAlumniSubscription(Request $request, $hash){
-        $isAjax = ($request->has("ajax") && $request->input("ajax"));
-        try {
-            $alum = Alum::where("update_hash", $hash)->firstOrFail();
-
-            switch($request->input("action")){
-                case "unsubscribe":
-                    $alum->do_not_contact = true;
-                    $response = "unsubscribed";
-                    break;
-                case "resubscribe":
-                    $alum->do_not_contact = false;
-                    $response = "resubscribed";
-                    break;
-                default:
-                    throw new Exception("No subscription action");
-                    break;
-            }
-
-            $alum->saveOrFail();
-            if($isAjax)
-                return $response;
-            else
-                return redirect($request->path());
-        } catch(ModelNotFoundException $e){
-            if($isAjax)
-                return "Sorry, it looks like that url is not correct. Please check the link you were given.";
-            else
-                return view("dashboard.alumni.invalid-url")->with("noNavbar", true);
-        } catch(\Exception $e){
-            $error = "Sorry, there was a problem altering your subscription. Please send me an email at " . config("app.admin_email") . " and I will make sure it's taken care of.";
-            if($isAjax)
-                return $error;
-            else
-                return back()->with("error", $error);
         }
     }
 }

@@ -30,6 +30,7 @@ class Kernel extends HttpKernel
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         "type" => \App\Http\Middleware\Type::class,
-        "shared" => \App\Http\Middleware\SharedVariables::class
+        "shared" => \App\Http\Middleware\SharedVariables::class,
+		"update.alum" => \App\Http\Middleware\UpdateAlumMiddleware::class
     ];
 }

@@ -326,8 +326,7 @@
 			var bodyText = "Hello Dr. " + alum.last_name + "\n" // FIXME
 				+ "\n"
 				+ "We want to keep in touch with you! Please use the link below to "
-				+ "give us your updated contact information so we can send you newsletters "
-				+ "and stuff.\n"
+				+ "give us your updated contact information so we know where we can find you.\n"
 				+ "\n"
 				+ "Visit this link at any time to update your info: [[Update link]]\n"
 				+ "\n"
@@ -347,14 +346,13 @@
 
 			var subjectText = "Please keep in touch!";
 			var bodyText = "Hello Dr. [[Last name]]\n" // FIXME
-				+ "\n"
-				+ "We want to keep in touch with you! Please use the link below to "
-				+ "give us your updated contact information so we can send you newsletters "
-				+ "and stuff.\n"
-				+ "\n"
-				+ "[[Update link]]\n"
-				+ "\n"
-				+ "[[Unsub link]]";
+			+ "\n"
+			+ "We want to keep in touch with you! Please use the link below to "
+			+ "give us your updated contact information so we know where we can find you.\n"
+			+ "\n"
+			+ "Visit this link at any time to update your info: [[Update link]]\n"
+			+ "\n"
+			+ "[[Unsub link]]";
 
 			openSendEmailModal(alumni, $("#send-email-modal"), subjectText, bodyText,
 				sendEmail, sendManyEmails, "alumni", replacements);
