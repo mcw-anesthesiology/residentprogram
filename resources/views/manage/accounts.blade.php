@@ -115,7 +115,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalEdit">Edit Account</h4>
       </div>
-      <form id="edit-form" enctype="multipart/form-data" method="POST" action="/users/" data-id="">
+      <form id="edit-form" enctype="multipart/form-data" method="POST" action="/users" data-id="">
 		  {!! csrf_field() !!}
 		<input type="hidden" name="_method" value="PUT" />
         <div class="modal-body modal-edit">
@@ -175,7 +175,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalAdd">Add Account</h4>
       </div>
-      <form id="add-form" enctype="multipart/form-data" method="POST" action="/users/">
+      <form id="add-form" enctype="multipart/form-data" method="POST" action="/users">
 		{!! csrf_field() !!}
         <div class="modal-body modal-add">
           <div class="form-group">
@@ -368,7 +368,7 @@
 
 			$(this).DataTable({
 				ajax: {
-					url: "/users/",
+					url: "/users",
 					data: data,
 					dataSrc: ""
 				},
@@ -443,7 +443,7 @@
 			var formData = new FormData($(this)[0]);
 
 			$.ajax({
-				url: "/users/",
+				url: "/users",
 				data: formData,
 				method: method,
 				processData: false,

@@ -2,7 +2,7 @@
 
 @section("body")
 	<h2 class="sub-header">Form Builder</h2>
-	<form id="evaluation-form" method="POST" action="/forms/">
+	<form id="evaluation-form" method="POST" action="/forms">
 		{!! csrf_field() !!}
 			<div class='container-fluid'>
 				<div class='row'>

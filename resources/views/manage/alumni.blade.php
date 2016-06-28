@@ -59,7 +59,7 @@
 	<div class="modal fade" id="alum-modal" tabindex="-1" role="dialog" aria-labelledby="alum-modal-title" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<form class="form" id="alum-form" role="form" method="POST" action="/alumni/">
+				<form class="form" id="alum-form" role="form" method="POST" action="/alumni">
 					{!! csrf_field() !!}
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>

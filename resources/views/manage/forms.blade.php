@@ -138,7 +138,7 @@
 			var type = $(this).data("type");
 			$(this).DataTable({
 				ajax: {
-					url: "/forms/",
+					url: "/forms",
 					data: {
 						type: type
 					},

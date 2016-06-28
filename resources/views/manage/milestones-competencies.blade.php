@@ -282,7 +282,7 @@
 
 		$("#milestones-table").DataTable({
 			ajax: {
-				url: "/milestones/",
+				url: "/milestones",
 				data: {
 					forms: true
 				},

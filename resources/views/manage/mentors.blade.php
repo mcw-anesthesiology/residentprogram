@@ -66,7 +66,7 @@
 	<script>
 		var mentorshipsDatatable = $("#mentorships-table").DataTable({
 			ajax: {
-				url: "/mentorships/",
+				url: "/mentorships",
 				data: {
 					mentor: true,
 					mentee: true

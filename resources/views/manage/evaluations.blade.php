@@ -68,7 +68,7 @@
 	<script>
 		var manageEvalsTable = $("#manage-evals-table").DataTable({
 			ajax: {
-				url: "/evaluations/?limit=20",
+				url: "/evaluations?limit=20",
 				data: {
 					subject: true,
 					evaluator: true,

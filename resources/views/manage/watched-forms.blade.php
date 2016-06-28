@@ -45,7 +45,7 @@
 	<script>
 		var watchedFormsDatatable = $("#watched-forms-table").DataTable({
 			ajax: {
-				url: "/watched_forms/",
+				url: "/watched_forms",
 				data: {
 					user: true,
 					form: true
