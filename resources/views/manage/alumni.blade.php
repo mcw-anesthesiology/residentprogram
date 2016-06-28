@@ -230,7 +230,7 @@
 		$("#add-alum-button").click(function(){
 			var modal = $("#alum-modal");
 			var form = $("#alum-form");
-			form.data("action", "add").attr("action", "/alumni/");
+			form.data("action", "add").attr("action", "/alumni");
 			form.find("input[name='_method']").remove();
 			form.find("button[type='submit']").text("Add alum");
 			$("#alum-modal-title").text("Add alum");
