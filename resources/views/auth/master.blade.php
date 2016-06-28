@@ -52,51 +52,58 @@
 				font-size: 16px;
 			}
 			.form-signin .form-control:focus {
-				z-index: 2;
-			}
-
-			html {
-				background-color: #ECEFF1;
+				z-index: 5;
 			}
 
 			body {
 				padding-top: 0px !important;
 				padding-bottom: 0px !important;
-				background-image: url("/img/hero-compressed.jpg");
-				background-size: cover;
-				background-repeat: no-repeat;
-				background-attachment: fixed;
-				position: relative;
+				background-color: #ECEFF1;
 			}
-
 
 			.hero-section {
-				height: 100%;
-				width: 100%;
-				background-color: rgba(69, 90, 99, 0.75);
-				padding-top: 50px;
+				position: fixed;
+				top: 0;
+				left: 0;
+				height: 100vh;
+				width: 100vw;
+				background-image: url("/img/hero-small.jpg");
+				background-size: cover;
+				background-repeat: no-repeat;
+				background-position: 0px center;
+				z-index: -1;
 			}
 
-			.hero-section > h1,
-			.hero-section > p {
+
+			.hero-container {
+				background-color: rgba(69, 90, 99, 0.75);
+				padding: 50px;
+				height: 100%;
+				width: 100%;
+			}
+
+			.hero-container > h1,
+			.hero-container > p {
 				margin-left: 50px;
 				margin-right: 50px;
 			}
 
-			.hero-section > h1,
-			.hero-section > h1 > a {
+			.hero-container > h1,
+			.hero-container > h1 > a {
 				color: #ECEFF1;
 			}
 
-			.hero-section > p {
+			.hero-container > p {
 				color: #CFD8DC;
 			}
 
 			.content-section {
 				background-color: #ECEFF1;
 				width: 100%;
-				margin-top: 100px;
+				margin-top: 300px;
 				padding: 50px 0px 20px;
+				min-height: 100vh;
+				position: relative;
 			}
 
 			.form-signin {
@@ -109,17 +116,15 @@
 			}
 
 			.btn-block {
-				margin: 5px;
-			}
-
-			.login-info-alert {
-				clear: both;
-				width: 75%;
-				margin: 20px auto 0px;
+				margin: 5px 0px;
 			}
 
 			.login-submit-container {
 				margin-top: 40px;
+			}
+
+			.login-info-alert {
+				margin-top: 60px;
 			}
 
 			@media (min-width: 992px) {
@@ -132,28 +137,28 @@
 	</head>
 	<body>
 		<div class="hero-section">
-			<h1><a href="/">Resident Program</a></h1>
-			<p class="load">
-				Trainee evaluation system.
-			</p>
-			<div class="content-section">
-				<div class="container">
+			<div class="hero-container">
+
+				<h1><a href="/">Resident Program</a></h1>
+				<p class="load">
+					Trainee evaluation system.
+				</p>
+			</div>
+		</div>
+		<div class="content-section">
+			<div class="container">
 	@if(session("error"))
-					<div class="container">
-						<div class="alert alert-danger alert-dismissable" role="alert">
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							{!! session("error") !!}
-						</div>
+				<div class="col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+					<div class="alert alert-danger alert-dismissable" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						{!! session("error") !!}
 					</div>
-	@endif
-			@yield("body")
 				</div>
+	@endif
+				@yield("body")
 			</div>
 		</div>
 		<script type="text/javascript" src="/js/vendor.js"></script>
 		<script type="text/javascript" src="/js/all.js"></script>
-		<script>
-
-		</script>
 	</body>
 </html>
