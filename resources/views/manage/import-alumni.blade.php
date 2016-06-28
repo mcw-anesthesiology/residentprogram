@@ -154,6 +154,7 @@
 			],
 			paging: false,
 			scrollY: "400px",
+			order: [[1, "asc"]],
 			dom: "ft",
 		});
 
@@ -173,6 +174,7 @@
 			],
 			paging: false,
 			scrollY: "400px",
+			order: [[1, "asc"]],
 			dom: "ft"
 		});
 
@@ -191,6 +193,7 @@
 			],
 			paging: false,
 			scrollY: "400px",
+			order: [[1, "asc"]],
 			dom: "ft"
 		});
 
