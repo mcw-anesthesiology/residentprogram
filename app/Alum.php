@@ -27,7 +27,8 @@ class Alum extends Model
     ];
 
     protected $casts = [
-        "id" => "integer"
+        "id" => "integer",
+		"do_not_contact" => "boolean"
     ];
 
     protected $dates = [
