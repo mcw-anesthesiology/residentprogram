@@ -299,7 +299,11 @@
 				data.type = "resident";
 				data.training_level = "fellow";
 			}
-			else // FIXME: Stop residents from including fellows
+			else if(type === "resident"){
+				data.type = "resident";
+				data["training_level[]"] = ["intern", "ca-1", "ca-2", "ca-3"];
+			}
+			else
 				data.type = type;
 
 			var columns = [

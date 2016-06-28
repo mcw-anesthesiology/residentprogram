@@ -10,6 +10,7 @@ use Log;
 use Mail;
 
 use App\Alum;
+use App\User;
 
 class AlumController extends RestController
 {
@@ -69,6 +70,8 @@ class AlumController extends RestController
 		$alum = Alum::findOrFail($id);
 		if(!$alum->email || !filter_var($alum->email, FILTER_VALIDATE_EMAIL))
 			throw new \Swift_TransportException("Invalid or missing email address");
+
+		$alum->generateHash();
 
 		$body = $request->input("body");
 		$subject = $request->input("subject");
@@ -143,5 +146,41 @@ class AlumController extends RestController
 				"error" => $errorText
 			]);
 		}
+	}
+
+	public function importFromUsers(Request $request){
+		if(!$request->has("users"))
+			throw new \Exception("No users given");
+
+		$response = [
+			"successes" => [],
+			"notFound" => [],
+			"errors" => []
+		];
+
+		foreach($request->input("users") as $inputUser){
+			try {
+				$user = User::findOrFail($inputUser["id"])->toArray();
+				if(empty($user["graduation_date"]) && $request->has("graduation_date"))
+					$user["graduation_date"] = $request->input("graduation_date");
+
+				Alum::create($user);
+
+				$response["successes"][] = $inputUser["id"];
+			} catch(ModelNotFoundException $e){
+				$response["notFound"][] = $inputUser["id"];
+			} catch(\Exception $e){
+				Log::error("Problem importing alum from users: " . $e);
+				$response["errors"][] = $inputUser["id"];
+			}
+		}
+
+		if($request->ajax())
+			return $response;
+		else
+			return back() // TODO: Make these readable strings
+				->with("success", $response["successes"])
+				->with("error", $response["errors"])
+				->with("info", $response["notFound"]);
 	}
 }

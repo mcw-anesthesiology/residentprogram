@@ -42,12 +42,21 @@ class Alum extends Model
 		return $this->last_name . ", " . $this->first_name;
 	}
 
+	public function generateHash(){
+		while(!$this->update_hash){
+			try {
+				$this->update_hash = str_random(40);
+				$this->save();
+				$this->fresh();
+			} catch(\Exception $e){
+
+			}
+		}
+
+		return $this->update_hash;
+	}
+
     public function sendEmail(){
-        while(!$this->update_hash){
-            $this->update_hash = str_random(40);
-            $this->save();
-            $this->fresh();
-        }
 
         if(!$this->email)
             throw new \Swift_TransportException("No email.");

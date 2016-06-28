@@ -35,9 +35,9 @@ class UserController extends RestController
 
 	public function store(Request $request){
 		if(!filter_var($request->input("email"), FILTER_VALIDATE_EMAIL))
-			throw new Exception("Email appears invalid");
+			throw new \Exception("Email appears invalid");
 		elseif($request->hasFile("photo") && !$request->file("photo")->isValid())
-			throw new Exception("Problem with photo");
+			throw new \Exception("Problem with photo");
 
 		$password = str_random(12);
 		$user = new User();
@@ -76,13 +76,13 @@ class UserController extends RestController
 	public function update(Request $request, $id){
 		if($request->has("email")
 				&& !filter_var($request->input("email"), FILTER_VALIDATE_EMAIL))
-			throw new Exception("Email appears invalid");
+			throw new \Exception("Email appears invalid");
 		if($request->hasFile("photo")
 				&& !$request->file("photo")->isValid())
-			throw new Exception("Problem with photo");
+			throw new \Exception("Problem with photo");
 		if($request->has("status")
 				&& !in_array($request->input("status"), ["active", "inactive"]))
-			throw new Exception("Unknown status");
+			throw new \Exception("Unknown status");
 
 		$user = User::findOrFail($id);
 		$user->update($request->all());
@@ -106,7 +106,7 @@ class UserController extends RestController
 	public function password(Request $request, $id){
 		$user = User::findOrFail($id);
 		if(!$user->resetPassword())
-			throw new Exception("Failed to reset password");
+			throw new \Exception("Failed to reset password");
 
 		if($request->ajax())
 			return "success";
@@ -117,7 +117,7 @@ class UserController extends RestController
 	public function welcome(Request $request, $id){
 		$user = User::findOrFail($id);
 		if(!$user->sendNewAccountEmail())
-			throw new Exception("Failed to send welcome email");
+			throw new \Exception("Failed to send welcome email");
 
 		if($request->ajax())
 			return "success";

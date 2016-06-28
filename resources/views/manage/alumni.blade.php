@@ -41,7 +41,8 @@
 
 @section("body")
 	<h1>Manage Alumni
-		<button type="button" class="btn btn-success btn-sm" id="add-alum-button"><span class="glyphicon glyphicon-plus"></span> Add alumni</button>
+		<button type="button" class="btn btn-success btn-sm" id="add-alum-button"><span class="glyphicon glyphicon-plus"></span> Add alumn</button>
+		<a href="/manage/alumni/import" role="button" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-import"></span> Import alumni</a>
 		<button type="button" class="btn btn-info btn-sm" id="send-many-emails-button"><span class="glyphicon glyphicon-send"></span> Send group email</button>
 	</h1>
 	<div class="alumni-list table-responsive">
@@ -387,7 +388,7 @@
 					appendAlert(response, "#send-email-modal .modal-header");
 				}
 			}).fail(function(err){
-				appendAlert("There was an error sending email to " + alumEmail + ".", "#send-email-modal .modal-header");
+				appendAlert("There was an error sending the email.", "#send-email-modal .modal-header");
 			}).always(function(){
 				$("#send-email-send").prop("disabled", false).removeClass("disabled");
 			});

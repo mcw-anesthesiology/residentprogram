@@ -38,6 +38,7 @@ Route::patch("alumni/{id}/email", "Rest\AlumController@sendEmail");
 Route::patch("alumni/email", "Rest\AlumController@sendManyEmails");
 Route::patch("alumni/hash/{hash}", "Rest\AlumController@updateWithHash");
 Route::patch("alumni/subscription/{hash}/", "Rest\AlumController@updateSubscription");
+Route::post("alumni/import/users", "Rest\AlumController@importFromUsers");
 Route::resource("alumni", "Rest\AlumController", ["only" => [
 	"index", "store", "show", "update", "destroy"
 ]]);
@@ -100,9 +101,7 @@ Route::post("directory/edit", "ManageController@editPagerDirectoryEntry");
 Route::post("directory/delete", "ManageController@deletePagerDirectoryEntry");
 
 Route::get("alum/{hash}", "MainController@alumni");
-Route::post("alum/{hash}", "MainController@saveAlumni");
 Route::get("alum/{hash}/subscription", "MainController@alumniSubscription");
-Route::post("alum/{hash}/subscription", "MainController@confirmAlumniSubscription");
 
 Route::get("contact", "MainController@contact");
 Route::post("contact", "MainController@saveContact");
@@ -114,12 +113,8 @@ Route::get("manage/settings", "ManageController@settings");
 Route::post("manage/settings", "ManageController@saveSettings");
 Route::get("manage/evaluations", "ManageController@evaluations");
 Route::get("manage/accounts", "ManageController@accounts");
-Route::get("manage/accounts/get/{type}", "ManageController@getAccounts");
-Route::post("manage/accounts/{action}", "ManageController@account");
 Route::get("manage/forms", "ManageController@forms");
-Route::get("manage/forms/get/{type}", "ManageController@getForms");
 Route::get("manage/forms/add", "ManageController@formBuilder");
-Route::post("manage/forms/add", "ManageController@addForm");
 Route::get("manage/forms/{id}", "ManageController@viewForm");
 Route::post("manage/forms/{id}", "ManageController@editForm");
 Route::get("manage/milestones-competencies", "ManageController@milestonesCompetencies");
@@ -129,8 +124,7 @@ Route::post("manage/block-assignments", "ManageController@saveBlockAssignments")
 Route::post("manage/block-assignments/table", "ManageController@blockAssignmentsTable");
 Route::post("manage/block-assignments/get", "ManageController@getBlockAssignments");
 Route::get("manage/alumni", "ManageController@alumni");
-Route::get("manage/alumni/get", "ManageController@getAlumni");
-Route::post("manage/alumni/{action}", "ManageController@saveAlumni");
+Route::get("manage/alumni/import", "ManageController@importAlumni");
 Route::get("manage/watched-forms", "ManageController@watchedForms");
 
 Route::post("report/aggregate", "ReportController@aggregate");

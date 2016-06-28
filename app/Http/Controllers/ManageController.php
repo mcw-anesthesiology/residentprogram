@@ -370,6 +370,10 @@ class ManageController extends Controller
         return view("manage.alumni");
     }
 
+	public function importAlumni(Request $request){
+		return view("manage.import-alumni");
+	}
+
 	public function watchedForms(Request $request){
         return view("manage.watched-forms");
     }

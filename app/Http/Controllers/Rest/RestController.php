@@ -23,9 +23,15 @@ class RestController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request){
-        return $this->model::with(array_keys(array_only($request->all(), $this->relationships)))
-			->where(array_only($request->all(), $this->attributes))
-			->take($request->input("limit"), null)
+        $query = $this->model::with(array_keys(array_only($request->all(), $this->relationships)));
+			foreach(array_only($request->all(), $this->attributes) as $name => $value){
+				if(is_array($value))
+					$query->whereIn($name, $value);
+				else
+					$query->where($name, $value);
+			}
+
+		return $query->take($request->input("limit"), null)
 			->orderBy("id", $request->input("order", "desc"))
 			->get();
     }
