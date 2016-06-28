@@ -141,6 +141,7 @@
 			ajax: {
 				url: "/users",
 				data: {
+					status: "active",
 					type: "resident",
 					"training_level[]": ["intern", "ca-1", "ca-2", "ca-3"]
 				},
@@ -160,6 +161,7 @@
 			ajax: {
 				url: "/users",
 				data: {
+					status: "active",
 					type: "resident",
 					training_level: "fellow"
 				},
@@ -178,7 +180,8 @@
 			ajax: {
 				url: "/users",
 				data: {
-					type: "faculty",
+					status: "active",
+					type: "faculty"
 				},
 				dataSrc: ""
 			},
