@@ -23,7 +23,7 @@ Route::resource("evaluations", "Rest\EvaluationController", ["only" => [
 	"index", "store", "show", "update"
 ]]);
 Route::resource("watched_forms", "Rest\WatchedFormController", ["only" => [
-	"index", "store", "show", "update"
+	"index", "store", "show", "update", "destroy"
 ]]);
 Route::resource("mentorships", "Rest\MentorshipController", ["only" => [
 	"index", "store", "show", "update", "destroy"
