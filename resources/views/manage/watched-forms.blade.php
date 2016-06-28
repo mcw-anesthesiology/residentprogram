@@ -95,9 +95,9 @@
 						watchedFormsDatatable.ajax.reload();
 					});
 				else
-					appendAlert(response, "#alert-container");
-			}).fail(function(response){
-				appendAlert(response, "#alert-container");
+					appendAlert("There was a problem deleting the watched form", "#alert-container");
+			}).fail(function(){
+				appendAlert("There was a problem deleting the watched form", "#alert-container");
 				button.prop("disabled", false).removeClass("disabled");
 			});
 		});
