@@ -113,6 +113,7 @@ Route::get("manage/settings", "ManageController@settings");
 Route::post("manage/settings", "ManageController@saveSettings");
 Route::get("manage/evaluations", "ManageController@evaluations");
 Route::get("manage/accounts", "ManageController@accounts");
+Route::get("manage/accounts/advance", "ManageController@advanceAccounts");
 Route::get("manage/forms", "ManageController@forms");
 Route::get("manage/forms/add", "ManageController@formBuilder");
 Route::get("manage/forms/{id}", "ManageController@viewForm");

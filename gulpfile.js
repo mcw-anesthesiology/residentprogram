@@ -17,7 +17,7 @@ var inProduction = elixir.config.production;
  | file for our application, as well as publishing vendor resources.
  |
  */
-var bowerPath = "bower_components/";
+var bowerPath = "./bower_components/";
 var scripts = [
     bowerPath + "jquery/dist/jquery.min.js",
     bowerPath + "bootstrap/dist/js/bootstrap.min.js",
@@ -43,7 +43,8 @@ var scripts = [
     bowerPath + "bootstrap-switch/dist/js/bootstrap-switch.min.js",
     bowerPath + "marked/marked.min.js",
     bowerPath + "country-region-selector/dist/jquery.crs.min.js",
-	bowerPath + "velocity/velocity.min.js"
+	bowerPath + "velocity/velocity.min.js",
+	bowerPath + "eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"
 ];
 
 var styles = [
@@ -58,7 +59,8 @@ var styles = [
     bowerPath + "multiselect/css/multi-select.css",
     bowerPath + "select2/dist/css/select2.min.css",
     bowerPath + "select2-bootstrap-theme/dist/select2-bootstrap.min.css",
-    bowerPath + "bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css"
+    bowerPath + "bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css",
+	bowerPath + "eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css"
 ];
 
 var fonts = [

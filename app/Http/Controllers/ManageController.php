@@ -75,6 +75,10 @@ class ManageController extends Controller
         return view("manage.accounts");
     }
 
+	public function advanceAccounts(){
+		return view("manage.advance-accounts");
+	}
+
     public function forms(){
         return view("manage.forms");
     }
