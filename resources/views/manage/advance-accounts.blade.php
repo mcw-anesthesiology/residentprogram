@@ -27,13 +27,13 @@
 	<section class="advance-accounts-section" id="advance-accounts-container">
 		<h2 class="sub-header">Advancing users</h2>
 		<div class="row">
-			<div class="col-md-4">
+			<div class="col-md-6 col-lg-3">
 				<h3>Intern</h3>
 				<div class="table-responsive">
 					<table class="table table-striped" id="advance-intern-table" width="100%">
 						<thead>
 							<tr>
-								<th>Advance</th>
+								<th><span class="glyphicon glyphicon-share-alt"></span></th>
 								<th>Name</th>
 								<th>View</th>
 							</tr>
@@ -46,13 +46,13 @@
 					<ul class="advance-accounts-selected-users list-group" data-type="intern"></ul>
 				</section>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-6 col-lg-3">
 				<h3>CA-1</h3>
 				<div class="table-responsive">
 					<table class="table table-striped" id="advance-ca-1-table" width="100%">
 						<thead>
 							<tr>
-								<th>Advance</th>
+								<th><span class="glyphicon glyphicon-share-alt"></span></th>
 								<th>Name</th>
 								<th>View</th>
 							</tr>
@@ -65,13 +65,13 @@
 					<ul class="advance-accounts-selected-users list-group" data-type="ca-1"></ul>
 				</section>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-6 col-lg-3">
 				<h3>CA-2</h3>
 				<div class="table-responsive">
 					<table class="table table-striped" id="advance-ca-2-table" width="100%">
 						<thead>
 							<tr>
-								<th>Advance</th>
+								<th><span class="glyphicon glyphicon-share-alt"></span></th>
 								<th>Name</th>
 								<th>View</th>
 							</tr>
@@ -82,6 +82,25 @@
 				<section class="selected-users-container">
 					<h3>Selected CA-2s</h3>
 					<ul class="advance-accounts-selected-users list-group" data-type="ca-2"></ul>
+				</section>
+			</div>
+			<div class="col-md-6 col-lg-3">
+				<h3>CA-3</h3>
+				<div class="table-responsive">
+					<table class="table table-striped" id="advance-ca-3-table" width="100%">
+						<thead>
+							<tr>
+								<th><span class="glyphicon glyphicon-share-alt"></span></th>
+								<th>Name</th>
+								<th>View</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				<hr />
+				<section class="selected-users-container">
+					<h3>Selected CA-3s</h3>
+					<ul class="advance-accounts-selected-users list-group" data-type="ca-3"></ul>
 				</section>
 			</div>
 		</div>
@@ -135,15 +154,72 @@
 
 <div class="container body-block">
 	<section class="advance-accounts-section" id="graduate-accounts-container">
-		<h2 class="sub-header">Graduating/Leaving users</h2>
+		<h2 class="sub-header">Leaving users</h2>
 		<div class="row">
+			<div class="col-md-4">
+				<h3>Intern</h3>
+				<div class="table-responsive">
+					<table class="table table-striped" id="graduate-intern-table" width="100%">
+						<thead>
+							<tr>
+								<th><span class="glyphicon glyphicon-plane"></span></th>
+								<th>Name</th>
+								<th>View</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				<hr />
+				<section class="selected-users-container">
+					<h3>Selected interns</h3>
+					<ul class="advance-accounts-selected-users list-group" data-type="intern"></ul>
+				</section>
+			</div>
+			<div class="col-md-4">
+				<h3>CA-1</h3>
+				<div class="table-responsive">
+					<table class="table table-striped" id="graduate-ca-1-table" width="100%">
+						<thead>
+							<tr>
+								<th><span class="glyphicon glyphicon-plane"></span></th>
+								<th>Name</th>
+								<th>View</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				<hr />
+				<section class="selected-users-container">
+					<h3>Selected CA-1s</h3>
+					<ul class="advance-accounts-selected-users list-group" data-type="ca-1"></ul>
+				</section>
+			</div>
+			<div class="col-md-4">
+				<h3>CA-2</h3>
+				<div class="table-responsive">
+					<table class="table table-striped" id="graduate-ca-2-table" width="100%">
+						<thead>
+							<tr>
+								<th><span class="glyphicon glyphicon-plane"></span></th>
+								<th>Name</th>
+								<th>View</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				<hr />
+				<section class="selected-users-container">
+					<h3>Selected CA-2s</h3>
+					<ul class="advance-accounts-selected-users list-group" data-type="ca-2"></ul>
+				</section>
+			</div>
 			<div class="col-md-4">
 				<h3>CA-3</h3>
 				<div class="table-responsive">
 					<table class="table table-striped" id="graduate-ca-3-table" width="100%">
 						<thead>
 							<tr>
-								<th>Advance</th>
+								<th><span class="glyphicon glyphicon-plane"></span></th>
 								<th>Name</th>
 								<th>View</th>
 							</tr>
@@ -162,7 +238,7 @@
 					<table class="table table-striped" id="graduate-fellow-table" width="100%">
 						<thead>
 							<tr>
-								<th>Advance</th>
+								<th><span class="glyphicon glyphicon-plane"></span></th>
 								<th>Name</th>
 								<th>View</th>
 							</tr>
@@ -181,7 +257,7 @@
 					<table class="table table-striped" id="graduate-faculty-table" width="100%">
 						<thead>
 							<tr>
-								<th>Advance</th>
+								<th><span class="glyphicon glyphicon-plane"></span></th>
 								<th>Name</th>
 								<th>View</th>
 							</tr>
@@ -198,7 +274,7 @@
 		<section id="graduating-users-summary-container">
 			<div class="row summary-container">
 				<div class="col-sm-3">
-					<span>Graduating (leaving) users:</span>
+					<span>Leaving users:</span>
 				</div>
 				<div class="col-sm-9">
 					<span id="num-graduating-users"></span>
@@ -207,7 +283,7 @@
 			<div class="row" id="graduate-run-at-container">
 				<div class="col-sm-4 col-sm-offset-1 col-md-offset-2">
 					<div class="form-group">
-						<label for="graduate-run-now-checkbox">Graduate time</label>
+						<label for="graduate-run-now-checkbox">Leaving time</label>
 						<div class="input-group">
 							<input type="checkbox" id="graduate-run-now-checkbox" name="run_at" value="now" />
 						</div>
@@ -215,7 +291,7 @@
 				</div>
 				<div class="col-sm-6 col-md-4">
 					<div class="form-group">
-						<label for="graduate-run-at">Scheduled graduation time</label>
+						<label for="graduate-run-at">Scheduled leaving time</label>
 						<div class="input-group date" id="graduate-run-at-group">
 							<input type="text" class="form-control" id="graduate-run-at" name="run_at" />
 							<span class="input-group-addon">
@@ -228,7 +304,7 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<button type="button" class="btn btn-lg btn-primary center-block" id="graduate-users-button">
-						<span class="glyphicon glyphicon-education"></span> Graduate
+						<span class="glyphicon glyphicon-plane"></span> Leave
 					</button>
 				</div>
 			</div>
@@ -360,7 +436,91 @@
 			dom: "ft"
 		});
 
-		var ca3Table = $("#graduate-ca-3-table").DataTable({
+		var ca3Table = $("#advance-ca-3-table").DataTable({
+			ajax: {
+				url: "/users",
+				data: {
+					type: "resident",
+					training_level: "ca-3",
+					status: "active"
+				},
+				dataSrc: ""
+			},
+			columns: [
+				{data: null, orderable: false, searchable: false, render: renderAdvanceCheckbox},
+				{data: "full_name"},
+				{data: null, orderable: false, searchable: false, render: renderViewButton}
+			],
+			paging: false,
+			scrollY: "400px",
+			order: [[1, "asc"]],
+			dom: "ft"
+		});
+
+		var internGraduateTable = $("#graduate-intern-table").DataTable({
+			ajax: {
+				url: "/users",
+				data: {
+					type: "resident",
+					training_level: "intern",
+					status: "active"
+				},
+				dataSrc: ""
+			},
+			columns: [
+				{data: null, orderable: false, searchable: false, render: renderAdvanceCheckbox},
+				{data: "full_name"},
+				{data: null, orderable: false, searchable: false, render: renderViewButton}
+			],
+			paging: false,
+			scrollY: "400px",
+			order: [[1, "asc"]],
+			dom: "ft"
+		});
+
+		var ca1GraduateTable = $("#graduate-ca-1-table").DataTable({
+			ajax: {
+				url: "/users",
+				data: {
+					type: "resident",
+					training_level: "ca-1",
+					status: "active"
+				},
+				dataSrc: ""
+			},
+			columns: [
+				{data: null, orderable: false, searchable: false, render: renderAdvanceCheckbox},
+				{data: "full_name"},
+				{data: null, orderable: false, searchable: false, render: renderViewButton}
+			],
+			paging: false,
+			scrollY: "400px",
+			order: [[1, "asc"]],
+			dom: "ft"
+		});
+
+		var ca2GraduateTable = $("#graduate-ca-2-table").DataTable({
+			ajax: {
+				url: "/users",
+				data: {
+					type: "resident",
+					training_level: "ca-2",
+					status: "active"
+				},
+				dataSrc: ""
+			},
+			columns: [
+				{data: null, orderable: false, searchable: false, render: renderAdvanceCheckbox},
+				{data: "full_name"},
+				{data: null, orderable: false, searchable: false, render: renderViewButton}
+			],
+			paging: false,
+			scrollY: "400px",
+			order: [[1, "asc"]],
+			dom: "ft"
+		});
+
+		var ca3GraduateTable = $("#graduate-ca-3-table").DataTable({
 			ajax: {
 				url: "/users",
 				data: {
@@ -435,11 +595,14 @@
 				{data: "user.full_name"},
 				{data: null, render: function(advancement){
 					if(advancement.advanced_field === "training_level"){
-						return "Advance to " + advancement.advanced_value.toUpperCase();
+						if(advancement.advanced_value.indexOf("ca-") !== -1)
+							return "Advance to " + advancement.advanced_value.toUpperCase();
+						else
+							return "Advance to " + advancement.advanced_value;
 					}
 					else if(advancement.advanced_field === "status"){
 						if(advancement.advanced_value === "inactive")
-							return "Graduate (disable account)";
+							return "Disable account";
 						else
 							return "Enable account";
 					}
@@ -460,11 +623,15 @@
 		var advancingTables = [
 			internTable,
 			ca1Table,
-			ca2Table
+			ca2Table,
+			ca3Table
 		];
 
 		var graduatingTables = [
-			ca3Table,
+			internGraduateTable,
+			ca1GraduateTable,
+			ca2GraduateTable,
+			ca3GraduateTable,
 			fellowTable,
 			facultyTable
 		]

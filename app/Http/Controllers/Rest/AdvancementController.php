@@ -54,7 +54,8 @@ class AdvancementController extends RestController
 		$trainingLevelAdvancements = [
 			"intern" => "ca-1",
 			"ca-1" => "ca-2",
-			"ca-2" => "ca-3"
+			"ca-2" => "ca-3",
+			"ca-3" => "fellow"
 		];
 
 		$response = [

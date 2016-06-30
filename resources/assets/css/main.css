@@ -372,6 +372,7 @@ body {
     margin-right: auto;
 }
 
-.table-date-cell {
+.table-date-cell,
+.table-date-time-cell {
     cursor: help;
 }
