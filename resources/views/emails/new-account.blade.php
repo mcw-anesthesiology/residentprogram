@@ -2,7 +2,7 @@
 	Dear Dr. {{ $firstName }} {{ $lastName }}
 </p>
 <p>
-	Your {{ $userType }} user account is available for you on the resident evaluation system, ResidentProgram.com. We hope you find the system simple and easy to use.
+	Your {{ $userType }} user account is available for you on the trainee evaluation system, ResidentProgram.com. We hope you find the system simple and easy to use.
 </p>
 <table>
 	<thead>

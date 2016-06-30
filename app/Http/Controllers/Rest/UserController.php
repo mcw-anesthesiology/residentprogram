@@ -46,9 +46,9 @@ class UserController extends RestController
 		$user->password = bcrypt($password);
 		$user->first_name = $request->input("first_name");
 		$user->last_name = $request->input("last_name");
-		$user->status = "active";
-		$user->reminder_frequency = "weekly";
-		$user->notifications = "no";
+		$user->status = $request->input("status", "active");
+		$user->reminder_frequency = $request->input("reminder_frequency", "weekly");
+		$user->notifications = $request->input("notifications", "no");
 		if($request->hasFile("photo") && $request->file("photo")->isValid()){
 			$photoName = uniqid().".".$request->file("photo")->getExtension();
 			$request->file("photo")->move(storage_path("app/photos/"), $photoName);

@@ -48,6 +48,14 @@ class Advancement extends Model
 			$user->setAttribute($this->advanced_field, $this->advanced_value);
 			$user->save();
 
+			if($this->advanced_field == "status" && $this->advanced_value == "active"){
+				$password = str_random(12);
+				$user->password = bcrypt($password);
+				$user->save();
+				$user = $user->fresh();
+				$user->sendNewAccountEmail($password);
+			}
+
 			$this->successful = true;
 		} catch(\Exception $e){
 			$this->successful = false;

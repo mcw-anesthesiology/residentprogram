@@ -293,7 +293,9 @@
 	<script>
 		$(".account-table").each(function(){
 			var type = $(this).data("type");
-			var data = {};
+			var data = {
+				"status[]": ["active", "inactive"]
+			};
 
 			if(type === "fellow"){
 				data.type = "resident";
