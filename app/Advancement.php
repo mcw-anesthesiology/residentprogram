@@ -31,23 +31,30 @@ class Advancement extends Model
 	];
 
 	public function user(){
-		return $this->hasOne("App\User", "user_id");
+		return $this->belongsTo("App\User");
 	}
 
 	public function run(){
-		if($this->complete)
-			throw new \Exception("Advancement is already complete");
-		if($this->run_at < Carbon::now())
-			throw new \Exception("Cannot run an advancement scheduled for the future");
+		try {
+			if($this->complete)
+				throw new \Exception("Advancement is already complete");
+			if($this->run_at > Carbon::now())
+				throw new \Exception("Cannot run an advancement scheduled for the future");
 
-		$user = User::findOrFail($this->user_id);
-		if(!array_key_exists($this->advanced_field, $user->toArray()))
-			throw new \Exception("Field does not exist in user");
-		$user->setAttribute($this->advanced_field, $this->advanced_value);
-		$user->save();
+			$user = User::findOrFail($this->user_id);
+			if(!array_key_exists($this->advanced_field, $user->toArray()))
+				throw new \Exception("Field does not exist in user");
 
-		$this->complete = true;
-		$this->successful = true;
-		$this->save();
+			$user->setAttribute($this->advanced_field, $this->advanced_value);
+			$user->save();
+
+			$this->successful = true;
+		} catch(\Exception $e){
+			$this->successful = false;
+			throw $e;
+		} finally {
+			$this->complete = true;
+			$this->save();
+		}
 	}
 }

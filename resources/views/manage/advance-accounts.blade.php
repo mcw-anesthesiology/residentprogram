@@ -6,13 +6,26 @@
 			max-height: 300px;
 			overflow-y: auto;
 		}
+
+		.advance-accounts-section .row {
+			margin-top: 40px;
+		}
+
+		.summary-container {
+			font-size: 24px;
+		}
+
+		.input-group.date .input-group-addon.disabled,
+		.input-group.date .glyphicon.disabled {
+			cursor: not-allowed;
+		}
 	</style>
 @stop
 
 @section("body")
 	<h1>Advance accounts</h1>
-	<section id="advance-accounts-container">
-		<h2 class="sub-header"></h2>
+	<section class="advance-accounts-section" id="advance-accounts-container">
+		<h2 class="sub-header">Advancing users</h2>
 		<div class="row">
 			<div class="col-md-4">
 				<h3>Intern</h3>
@@ -27,6 +40,11 @@
 						</thead>
 					</table>
 				</div>
+				<hr />
+				<section class="selected-users-container">
+					<h3>Selected interns</h3>
+					<ul class="advance-accounts-selected-users list-group" data-type="intern"></ul>
+				</section>
 			</div>
 			<div class="col-md-4">
 				<h3>CA-1</h3>
@@ -41,6 +59,11 @@
 						</thead>
 					</table>
 				</div>
+				<hr />
+				<section class="selected-users-container">
+					<h3>Selected CA-1s</h3>
+					<ul class="advance-accounts-selected-users list-group" data-type="ca-1"></ul>
+				</section>
 			</div>
 			<div class="col-md-4">
 				<h3>CA-2</h3>
@@ -55,53 +78,64 @@
 						</thead>
 					</table>
 				</div>
+				<hr />
+				<section class="selected-users-container">
+					<h3>Selected CA-2s</h3>
+					<ul class="advance-accounts-selected-users list-group" data-type="ca-2"></ul>
+				</section>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-4">
-				<h3>Selected interns</h3>
-				<ul class="advance-accounts-selected-users list-group" data-type="intern"></ul>
+		<section id="advancing-users-summary-container">
+			<div class="row summary-container">
+				<div class="col-sm-3">
+					<span>Advancing users:</span>
+				</div>
+				<div class="col-sm-9">
+					<span id="num-advancing-users"></span>
+				</div>
 			</div>
-			<div class="col-md-4">
-				<h3>Selected CA-1s</h3>
-				<ul class="advance-accounts-selected-users list-group" data-type="ca-1"></ul>
+			<div class="row" id="advance-run-at-container">
+				<div class="col-sm-4 col-sm-offset-1 col-md-offset-2">
+					<div class="form-group">
+						<label for="advance-run-now-checkbox">Advance time</label>
+						<div class="input-group">
+							<input type="checkbox" id="advance-run-now-checkbox" name="run_at" value="now" />
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-4">
+					<div class="form-group">
+						<label for="advance-run-at">Scheduled advancement time</label>
+						<div class="input-group date" id="advance-run-at-group">
+							<input type="text" class="form-control" id="advance-run-at" name="run_at" />
+							<span class="input-group-addon">
+								<span class="glyphicon glyphicon-calendar"></span>
+							</span>
+						</div>
+					</div>
+				</div>
 			</div>
-			<div class="col-md-4">
-				<h3>Selected CA-2s</h3>
-				<ul class="advance-accounts-selected-users list-group" data-type="ca-2"></ul>
+			<div class="row">
+				<div class="col-xs-12">
+					<button type="button" class="btn btn-lg btn-primary center-block" id="advance-users-button">
+						<span class="glyphicon glyphicon-share-alt"></span> Advance
+					</button>
+				</div>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-3">
-				<span>Advancing users:</span>
+			<div class="row">
+				<div class="col-sm-10 col-sm-offset-1">
+					<div class="center-block" id="advance-users-alert-container">
+
+					</div>
+				</div>
 			</div>
-			<div class="col-sm-9">
-				<span id="num-advancing-users"></span>
-			</div>
-		</div>
-		<div class="row" id="advance-datetime-container">
-			<div class="form-group">
-                <div class="input-group date" id="advance-datetime">
-                    <input type="text" class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-            </div>
-		</div>
-		<div class="row">
-			<div class="col-xs-12">
-				<button type="button" class="btn btn-lg btn-primary center-block" id="advance-users-button">
-					<span class="glyphicon glyphicon-share-alt"></span> Advance
-				</button>
-			</div>
-		</div>
+		</section>
 	</section>
 </div>
 
 <div class="container body-block">
-	<section id="graduate-accounts-container">
-		<h2 class="sub-header"></h2>
+	<section class="advance-accounts-section" id="graduate-accounts-container">
+		<h2 class="sub-header">Graduating/Leaving users</h2>
 		<div class="row">
 			<div class="col-md-4">
 				<h3>CA-3</h3>
@@ -119,6 +153,18 @@
 <div class="container body-block">
 	<section id="pending-advancements-container">
 		<h2 class="sub-header">Pending advancements</h2>
+		<div class="table-responsive">
+			<table class="table table-striped" id="pending-advancements-table" width="100%">
+				<thead>
+					<tr>
+						<th>User</th>
+						<th>Action</th>
+						<th>Scheduled for</th>
+						<th></th>
+					</tr>
+				</thead>
+			</table>
+		</div>
 	</section>
 
 	<div class="modal fade" id="view-user-modal" tabindex="-1" role="dialog" aria-labelledby="view-user-modal-title" aria-hidden="true">
@@ -158,7 +204,7 @@
 		var advancingUsers = {};
 		var graduatingUsers = {};
 
-		$("#advance-intern-table").DataTable({
+		var internTable = $("#advance-intern-table").DataTable({
 			ajax: {
 				url: "/users",
 				data: {
@@ -179,7 +225,7 @@
 			dom: "ft"
 		});
 
-		$("#advance-ca-1-table").DataTable({
+		var ca1Table = $("#advance-ca-1-table").DataTable({
 			ajax: {
 				url: "/users",
 				data: {
@@ -200,7 +246,7 @@
 			dom: "ft"
 		});
 
-		$("#advance-ca-2-table").DataTable({
+		var ca2Table = $("#advance-ca-2-table").DataTable({
 			ajax: {
 				url: "/users",
 				data: {
@@ -221,15 +267,55 @@
 			dom: "ft"
 		});
 
+		var pendingAdvancementsTable = $("#pending-advancements-table").DataTable({
+			ajax: {
+				url: "/advancements",
+				data: {
+					user: true,
+					complete: false
+				},
+				dataSrc: ""
+			},
+			columns: [
+				{data: "user.full_name"},
+				{data: null, render: function(advancement){
+					if(advancement.advanced_field === "training_level"){
+						return "Advance to " + advancement.advanced_value.toUpperCase();
+					}
+					else if(advancement.advanced_field === "status"){
+						if(advancement.advanced_value === "inactive")
+							return "Graduate (disable account)";
+						else
+							return "Enable account";
+					}
+					else
+						return "Unknown";
+				}},
+				{data: "run_at", render: renderTableDate, createdCell: createDateTimeCell},
+				{data: null, orderable: false, searchable: false, render: function(advancement, type){
+					return '<button type="button" class="btn btn-xs btn-danger" '
+						+ 'data-id="' + advancement.id + '">'
+						+ '<span class="glyphicon glyphicon-remove"></span> '
+						+ 'Cancel</button>';
+				}}
+			],
+			order: [[2, "asc"]]
+		});
+
+		var advancingTables = [
+			internTable,
+			ca1Table,
+			ca2Table
+		];
+
 		$("#advance-accounts-container").on("change", ".advance-user-checkbox", selectAdvancingUser);
 
 		var nextDefaultAdvancementDate = moment();
-		if(nextDefaultAdvancementDate.month() > 5 ||
-				(nextDefaultAdvancementDate.month() === 5 && nextDefaultAdvancementDate.date() >= 30))
+		if(nextDefaultAdvancementDate.month() >= 6)
 			nextDefaultAdvancementDate.add(1, "year");
-		nextDefaultAdvancementDate.month(5).date(30).hour(4).minute(0).second(0);
-		console.log(nextDefaultAdvancementDate);
-		$("#advance-datetime").datetimepicker({
+		nextDefaultAdvancementDate.month(6).date(1).hour(4).minute(0).second(0);
+
+		$("#advance-run-at-group").datetimepicker({
 			useCurrent: false,
 			defaultDate: nextDefaultAdvancementDate,
 			minDate: moment(),
@@ -237,9 +323,94 @@
 			format: "M/D/Y h A"
 		});
 
+		$("#advance-run-now-checkbox").bootstrapSwitch({
+			onText: "Now",
+			offText: "Scheduled"
+		});
+
+		$("#advance-run-now-checkbox").on("switchChange.bootstrapSwitch", function(event, state){
+			if(state){
+				$("#advance-run-at-group").find("*")
+					.prop("disabled", true).addClass("disabled");
+			}
+			else {
+				$("#advance-run-at-group").find("*")
+					.prop("disabled", false).removeClass("disabled");
+			}
+		});
+
 		// $(document).on("click", ".view-user-button", function(){
 		// 	// TODO
 		// });
+
+		$("#advance-users-button").click(function(){
+			var button = $(this);
+			button.prop("disabled", true).addClass("disabled");
+
+			var runNow = $("#advance-run-at").prop("disabled");
+			var scheduledRunAt = $("#advance-run-at-group")
+				.data("DateTimePicker").date().format("Y-MM-DD HH:mm:ss");
+
+			var data = {
+				_token: "{{ csrf_token() }}",
+				advanced_field: "training_level",
+				advanced_value: null,
+				run_at: runNow ? "now" : scheduledRunAt,
+				user_ids: Object.keys(advancingUsers)
+			};
+
+			console.log(data.run_at);
+
+			$.ajax({
+				url: "/advancements/many",
+				method: "POST",
+				data: data
+			}).done(function(response){
+				var advancementResult = runNow ? "run" : "scheduled";
+				if(response.successes.length > 0){
+					response.successes.forEach(function(userId){
+						highlightSelectedUser(userId, "success");
+						delete advancingUsers[userId];
+					});
+					if(response.errors.length === 0 && response.failedRuns.length === 0){
+						appendAlert("All advancements were successfully " + advancementResult,
+							"#advance-users-alert-container", "success");
+					}
+					else {
+						appendAlert("Some advancements were successfully " + advancementResult,
+							"#advance-users-alert-container", "success");
+					}
+					if(runNow){
+						advancingTables.forEach(function(table){
+							table.ajax.reload();
+						});
+					}
+				}
+				if(response.failedRuns.length > 0){
+					response.failedRuns.forEach(function(userId){
+						highlightSelectedUser(userId, "warning");
+					});
+					appendAlert("Some advancements were successfully created, but not run successfully",
+						"#advance-users-alert-container", "warning");
+				}
+				if(response.errors.length > 0){
+					response.errors.forEach(function(userId){
+						highlightSelectedUser(userId, "danger");
+					});
+					appendAlert("Some advancements were not successfully created or " + advancementResult,
+						"#advance-users-alert-container");
+				}
+				pendingAdvancementsTable.ajax.reload();
+			}).fail(function(err){
+				Object.keys(advancingUsers).forEach(function(userId){
+					highlightSelectedUser(userId, "danger");
+				});
+				appendAlert("There was a problem advancing users. No users were advanced",
+					"#advance-users-alert-container");
+			}).always(function(){
+				button.prop("disabled", false).removeClass("disabled");
+			});
+		});
 
 		function selectAdvancingUser(){
 			selectUser($(this), advancingUsers);
@@ -267,13 +438,19 @@
 					type: c.data("type"),
 					training_level: c.data("trainingLevel")
 				};
-				$(".advance-accounts-selected-users[data-type='" + type + "']")
-					.append('<li class="list-group-item selected-user" data-id="' + c.data("id") + '">' + c.data("name") + '</li>');
+				var listGroup = $(".advance-accounts-selected-users[data-type='" + type + "']");
+				listGroup.find(".selected-user.list-group-item-success").remove();
+				listGroup.append('<li class="list-group-item selected-user" data-id="' + c.data("id") + '">' + c.data("name") + '</li>');
 			}
 			else {
 				delete collection[c.data("id")];
 				$(".selected-user[data-id='" + c.data("id") + "']").remove();
 			}
+		}
+
+		function highlightSelectedUser(userId, context){
+			$(".selected-user[data-id='" + userId + "']")
+				.addClass("list-group-item-" + context);
 		}
 
 		function updateUserCount(container, collection){

@@ -23,8 +23,8 @@ class RestController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request){
-        $query = $this->model::with(array_keys(array_only($request->all(), $this->relationships)));
-			foreach(array_only($request->all(), $this->attributes) as $name => $value){
+        $query = $this->model::with(array_keys($request->intersect($this->relationships)));
+			foreach($request->intersect($this->attributes) as $name => $value){
 				if(is_array($value))
 					$query->whereIn($name, $value);
 				else

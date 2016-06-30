@@ -42,6 +42,10 @@ Route::post("alumni/import/users", "Rest\AlumController@importFromUsers");
 Route::resource("alumni", "Rest\AlumController", ["only" => [
 	"index", "store", "show", "update", "destroy"
 ]]);
+Route::post("advancements/many", "Rest\AdvancementController@storeMany");
+Route::resource("advancements", "Rest\AdvancementController", ["only" => [
+	"index", "store", "show", "update", "destroy"
+]]);
 
 
 Route::get("/", "MainController@dashboard");
