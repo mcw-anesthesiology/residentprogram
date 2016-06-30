@@ -683,17 +683,18 @@
 
 		$(".addUser").on("click", function(){
 			var type = $(this).data('id');
+			var trainingLevel;
 			if(type === "resident")
-				type = $("#add-type").val();
+				trainingLevel = $("#add-training-level").val();
 			var status = $("#add-status").val();
 			$("#add-form")[0].reset();
 			$("#add-status").val(status);
 			$("#add-type").val(type);
-			if(type == "resident"){
-				$("#add-training-level").show();
+			if(type === "resident"){
+				$("#add-training-level").val(trainingLevel).show();
 			}
 			else{
-				if(type == "fellow")
+				if(type === "fellow")
 					$("#add-training-level").val("fellow");
 				$("#add-training-level-container").hide();
 				$("#new-account-email").prop("checked", (type != "staff"));
