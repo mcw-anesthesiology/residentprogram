@@ -259,6 +259,14 @@ function unlimitTableEvals(settings, json){
 		retrieve: true
 	});
 	var url = dt.ajax.url();
+	dt.ajax.url(url.substring(0, url.lastIndexOf("/"))).load().draw();
+}
+
+function unlimitRestTableEvals(){
+	var dt = this.DataTable({
+		retrieve: true
+	});
+	var url = dt.ajax.url();
 	dt.ajax.url(url.substring(0, url.lastIndexOf("?"))).load().draw();
 }
 
