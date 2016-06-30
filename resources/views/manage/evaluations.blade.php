@@ -166,7 +166,7 @@
 				}}
 			],
 			order: [[0, "desc"]],
-			initComplete: unlimitTableEvals
+			initComplete: unlimitRestTableEvals
 		});
 
 		$("#lastSixMonthsDisable").click(lastSixMonthsDisable);
