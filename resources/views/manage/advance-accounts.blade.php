@@ -293,7 +293,7 @@
 				}},
 				{data: "run_at", render: renderTableDate, createdCell: createDateTimeCell},
 				{data: null, orderable: false, searchable: false, render: function(advancement, type){
-					return '<button type="button" class="btn btn-xs btn-danger" '
+					return '<button type="button" class="btn btn-xs btn-danger cancel-advancement-button" '
 						+ 'data-id="' + advancement.id + '">'
 						+ '<span class="glyphicon glyphicon-remove"></span> '
 						+ 'Cancel</button>';
@@ -409,6 +409,40 @@
 					"#advance-users-alert-container");
 			}).always(function(){
 				button.prop("disabled", false).removeClass("disabled");
+			});
+		});
+
+		$("#pending-advancements-table").on("click", ".cancel-advancement-button", function(){
+			$("#pending-advancements-table").find(".confirm-cancel-advancement-button")
+				.removeClass("confirm-cancel-advancement-button")
+				.html('<span class="glyphicon glyphicon-remove"></span> Cancel');
+			$(this).addClass("confirm-cancel-advancement-button")
+				.html('<span class="glyphicon glyphicon-remove"></span> Confirm cancel')
+		});
+
+		$("#pending-advancements-table").on("click", ".confirm-cancel-advancement-button", function(){
+			var advancementId = $(this).data("id");
+			var data = {
+				_token: "{{ csrf_token() }}",
+				_method: "DELETE"
+			};
+			var button = $(this);
+			button.prop("disabled", true).addClass("disabled");
+
+			$.ajax({
+				url: "/advancements/" + advancementId,
+				method: "POST", // DELETE
+				data: data
+			}).done(function(response){
+				if(response === "success")
+					pendingAdvancementsTable.ajax.reload();
+				else {
+					button.prop("disabled", false).removeClass("disabled");
+					appendAlert("There was a problem cancelling the advancement", "#pending-advancements-container");
+				}
+			}).fail(function(){
+				button.prop("disabled", false).removeClass("disabled");
+				appendAlert("There was a problem cancelling the advancement", "#pending-advancements-container");
 			});
 		});
 

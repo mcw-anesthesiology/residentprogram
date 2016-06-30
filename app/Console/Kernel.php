@@ -40,5 +40,8 @@ class Kernel extends ConsoleKernel
         $schedule->command("reminders:send biweekly")->weekly()->mondays()->at("08:00")->when(function(){
             return (Carbon::now()->weekOfYear % 2);
         });
+
+		// Run advancements hourly
+		$schedule->command("advancements:run")->hourly();
     }
 }
