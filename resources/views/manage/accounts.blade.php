@@ -683,7 +683,9 @@
 
 		$(".addUser").on("click", function(){
 			var type = $(this).data('id');
+			var status = $("#add-status").val();
 			$("#add-form")[0].reset();
+			$("#add-status").val(status);
 			$("#add-type").val(type);
 			if(type == "resident"){
 				$("#add-training-level").show();
