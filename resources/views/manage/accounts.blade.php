@@ -1,5 +1,30 @@
 @extends("app")
 
+@section("head")
+	<style>
+		.filter-row {
+			margin-bottom: 20px;
+		}
+
+		.filter-row .refresh-container {
+			text-align: center;
+			height: 100%;
+			padding: 20px;
+		}
+
+		.filter-row .refresh-table-glyph {
+			vertical-align: middle;
+			font-size: 24px;
+			transform: rotate(0deg);
+			transition: transform 0.3s;
+		}
+
+		.filter-row .refresh-table-glyph:hover {
+			transform: rotate(180deg);
+		}
+	</style>
+@stop
+
 @section("body")
 	<nav class="jump-to-container">
 		<ul class="jump-to-items nav nav-pills nav-justified">
@@ -15,6 +40,30 @@
 <div class="container body-block">
 	<div class="row">
 		<h2 class="sub-header" id="residents-heading">Residents  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="resident" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+		<div class="row filter-row">
+			<div class="col-xs-1 pull-right refresh-container">
+				<span role="button" title="Refresh" class="glyphicon glyphicon-refresh refresh-table-glyph" data-toggle="tooltip" data-table="#manage-resident-table"></span>
+			</div>
+			<div class="col-sm-3 pull-right">
+				<label for="filter-residents-by-status">Status</label>
+				<select class="form-control table-filter-select" data-filter-column="4" data-filter-table="#manage-resident-table" id="filter-residents-by-status">
+					<option value="">All</option>
+					<option>Active</option>
+					<option>Inactive</option>
+					<option>Pending</option>
+				</select>
+			</div>
+			<div class="col-sm-3 pull-right">
+				<label for="filter-residents-by-training-level">Training Level</label>
+				<select class="form-control table-filter-select" data-filter-column="3" data-filter-table="#manage-resident-table" id="filter-residents-by-training-level">
+					<option value="">All</option>
+					<option>Intern</option>
+					<option>CA-1</option>
+					<option>CA-2</option>
+					<option>CA-3</option>
+				</select>
+			</div>
+		</div>
 		<div class="table-responsive">
 			<table class="table table-striped account-table" data-type="resident" id="manage-resident-table" width="100%">
 				<thead>
@@ -35,6 +84,20 @@
 <div class="container body-block">
 	<div class="row">
 		<h2 class="sub-header" id="fellows-heading">Fellows  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="fellow" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+		<div class="row filter-row">
+			<div class="col-xs-1 pull-right refresh-container">
+				<span role="button" title="Refresh" class="glyphicon glyphicon-refresh refresh-table-glyph" data-toggle="tooltip" data-table="#manage-fellow-table"></span>
+			</div>
+			<div class="col-sm-3 pull-right">
+				<label for="filter-fellows-by-status">Status</label>
+				<select class="form-control table-filter-select" data-filter-column="3" data-filter-table="#manage-fellow-table" id="filter-fellows-by-status">
+					<option value="">All</option>
+					<option>Active</option>
+					<option>Inactive</option>
+					<option>Pending</option>
+				</select>
+			</div>
+		</div>
 		<div class="table-responsive">
 			<table class="table table-striped account-table" data-type="fellow" id="manage-fellow-table" width="100%">
 				<thead>
@@ -54,6 +117,20 @@
 <div class="container body-block">
 	<div class="row">
 		<h2 class="sub-header" id="faculty-heading">Faculty  <button class="addUser btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="faculty" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+		<div class="row filter-row">
+			<div class="col-xs-1 pull-right refresh-container">
+				<span role="button" title="Refresh" class="glyphicon glyphicon-refresh refresh-table-glyph" data-toggle="tooltip" data-table="#manage-faculty-table"></span>
+			</div>
+			<div class="col-sm-3 pull-right">
+				<label for="filter-faculty-by-status">Status</label>
+				<select class="form-control table-filter-select" data-filter-column="3" data-filter-table="#manage-faculty-table" id="filter-faculty-by-status">
+					<option value="">All</option>
+					<option>Active</option>
+					<option>Inactive</option>
+					<option>Pending</option>
+				</select>
+			</div>
+		</div>
 		<div class="table-responsive">
 			<table class="table table-striped account-table" data-type="faculty" id="manage-faculty-table" width="100%">
 				<thead>
@@ -214,6 +291,14 @@
             <input type="text" class="form-control account-type" id="add-type" name="type" readonly>
           </div>
 		  <div class="form-group">
+			<label for="add-status">Account status</label>
+			<select class="form-control" id="add-status" name="status">
+				<option value="active">Active</option>
+				<option value="inactive">Inactive</option>
+				<option value="pending">Pending</option>
+			</select>
+		  </div>
+		  <div class="form-group">
 			  <label>
 				  <input type="checkbox" id="new-account-email" name="send_email" value="true" checked>
 				  Send welcome email
@@ -293,9 +378,7 @@
 	<script>
 		$(".account-table").each(function(){
 			var type = $(this).data("type");
-			var data = {
-				"status[]": ["active", "inactive"]
-			};
+			var data = {};
 
 			if(type === "fellow"){
 				data.type = "resident";
@@ -315,8 +398,16 @@
 			];
 
 			if(type === "resident")
-				columns.push({data: "training_level"});
-			columns.push({data: "status"});
+				columns.push({data: "training_level", render: function(trainingLevel){
+					if(trainingLevel){
+						if(trainingLevel.indexOf("ca-") !== -1)
+							return trainingLevel.toUpperCase();
+						else
+							return ucfirst(trainingLevel);
+					}
+				}});
+
+			columns.push({data: "status", render: renderAccountStatus});
 			columns.push({data: null, orderable: false, render: function(user, type){
 				if(!user)
 					return "";
@@ -350,6 +441,7 @@
 						glyphType = "glyphicon-remove";
 						break;
 					case "inactive":
+					case "pending":
 						actionStatus = "active";
 						buttonType = "btn-success";
 						buttonText = "Enable";
@@ -432,6 +524,15 @@
 			}).always(function(){
 				button.prop("disabled", false).removeClass("disabled");
 			});
+		});
+
+		$("#add-status").change(function(){
+			if($(this).val() === "active")
+				$("#new-account-email").prop("disabled", false).prop("checked", true)
+					.parents(".form-group").velocity("slideDown");
+			else
+				$("#new-account-email").prop("checked", false).prop("disabled", true)
+					.parents(".form-group").velocity("slideUp");
 		});
 
 		$("#add-form").on("submit", function(event){
@@ -608,5 +709,25 @@
 			$("#password-form").data("id", id);
 			$("#edit-password-name").text(name);
 		});
+
+		$(".table-filter-select").change(function(){
+			var filterType = $(this).val();
+			$($(this).data("filterTable")).DataTable({
+				retrieve: true
+			}).column($(this).data("filterColumn")).search(filterType).draw();
+		});
+
+		$(".refresh-table-glyph").click(function(){
+			$($(this).data("table")).DataTable({
+				retrieve: true
+			}).ajax.reload();
+			$(this).attr("title", "Refreshed!").tooltip("fixTitle").tooltip("show");;
+		});
+
+		$(".refresh-table-glyph").on("hidden.bs.tooltip", function(){
+			$(this).attr("title", "Refresh").tooltip("fixTitle");
+		});
+
+		$("[data-toggle='tooltip']").tooltip();
 	</script>
 @stop

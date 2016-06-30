@@ -1012,7 +1012,7 @@
 			button.prop("disabled", true).addClass("disabled");
 
 			var runAt, runAtGroup, advancedField, advancedValue, alertContainer,
-				users, userTables, container;
+				numComtainer, users, userTables, container;
 			switch($(this).attr("id")){
 				case "advance-users-button":
 					container = "#advance-accounts-container";
@@ -1021,6 +1021,7 @@
 					advancedField = "training_level";
 					advancedValue = null;
 					alertContainer = "#advance-users-alert-container";
+					numContainer = "#num-advancing-users";
 					users = advancingUsers;
 					userTables = advancingTables;
 					break;
@@ -1031,6 +1032,7 @@
 					advancedField = "status";
 					advancedValue = "inactive";
 					alertContainer = "#graduate-users-alert-container";
+					numContainer = "#num-graduating-users";
 					users = graduatingUsers;
 					userTables = graduatingTables.concat(advancingTables, startingTables);
 					break;
@@ -1041,6 +1043,7 @@
 					advancedField = "status";
 					advancedValue = "active";
 					alertContainer = "#start-users-alert-container";
+					numContainer = "#num-starting-users";
 					users = startingUsers;
 					userTables = startingTables.concat(advancingTables, graduatingTables);
 					break;
@@ -1068,6 +1071,7 @@
 					response.successes.forEach(function(userId){
 						highlightSelectedUser(userId, container, "success");
 						deselectUser(userId, container, users);
+						updateUserCount(numContainer, users);
 					});
 					if(response.errors.length === 0 && response.failedRuns.length === 0){
 						appendAlert("All advancements were successfully " + advancementResult,
@@ -1187,7 +1191,6 @@
 		function deselectUser(userId, container, collection){
 			$(container).find(".advance-user-checkbox[data-id='" + userId + "']").prop("checked", false);
 			delete collection[userId];
-			updateUserCount(container, collection);
 		}
 
 		function highlightSelectedUser(userId, container, context){
@@ -1213,22 +1216,6 @@
 				+ 'data-photo="' + user.photo_path + '" data-type="' + user.specific_type + '" '
 				+ 'data-training-level="' + user.training_level + '" title="Coming soon" disabled>'
 				+ '<span class="glyphicon glyphicon-user"></span> View</button>';
-		}
-
-		function renderAccountStatus(status){
-			var labelContext;
-			switch(status){
-				case "inactive":
-					labelContext = "label-danger";
-					break;
-				case "pending":
-					labelContext = "label-warning";
-					break;
-				default:
-					labelContext = "label-default";
-					break;
-			}
-			return '<span class="label ' + labelContext + '">' + ucfirst(status) + '</span>';
 		}
 	</script>
 @stop

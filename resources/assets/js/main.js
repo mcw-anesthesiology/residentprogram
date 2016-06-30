@@ -533,3 +533,22 @@ function renderTableDate(date, type){
 
 	return date ? moment(date).calendar() : "";
 }
+
+function renderAccountStatus(status){
+	var labelContext;
+	switch(status){
+		case "active":
+			labelContext = "label-success";
+			break;
+		case "inactive":
+			labelContext = "label-danger";
+			break;
+		case "pending":
+			labelContext = "label-warning";
+			break;
+		default:
+			labelContext = "label-default";
+			break;
+	}
+	return '<span class="label ' + labelContext + '">' + ucfirst(status) + '</span>';
+}
