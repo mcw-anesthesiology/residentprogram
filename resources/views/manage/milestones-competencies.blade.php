@@ -15,7 +15,7 @@
 
 @section("body")
 	<div class="row">
-		<h2 class="sub-header">Milestones  <button class="addMSModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-addMS-modal" data-id="Milestone" id="addMSBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+		<h2 class="sub-header">Milestones  <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#add-milestone-modal" data-id="Milestone" id="add-milestone-button"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
     	<div class="table-responsive">
         	<table class="table table-striped" id="milestones-table" width="100%">
         		<thead>
@@ -33,7 +33,7 @@
 </div>
 <div class="container body-block">
 	<div class="row">
-		<h2 class="sub-header">Competencies  <button class="addCModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-addC-modal" data-id="Competency" id="addCBtn"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
+		<h2 class="sub-header">Competencies  <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#add-competency-modal" data-id="Competency" id="add-competency-button"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
 		<div class="table-responsive">
 			<table class="table table-striped" id="competencies-table" width="100%">
 				<thead>
@@ -48,19 +48,19 @@
 	</div>
 
 	<!-- Add Milestone Modal -->
-	<div class="modal fade bs-addMS-modal" tabindex="-1" role="dialog" aria-labelledby="modalAddMS" aria-hidden="true" id="addMSModal">
+	<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="add-milestone-modal-title" aria-hidden="true" id="add-milestone-modal">
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	        <h4 class="modal-title" id="myModalAddMS">Add Milestone</h4>
+	        <h4 class="modal-title" id="add-milestone-modal-title">Add Milestone</h4>
 	      </div>
-	      <form id="add-milestone-form" method="post" action="/manage/milestones/add">
+	      <form class="form" id="add-milestone-form" method="POST" action="/milestones" data-type="milestone">
 			{!! csrf_field() !!}
-	        <div class="modal-body modal-addMS">
+	        <div class="modal-body">
 	          <div class="form-group">
-	            <label for="milestone_title">Milestone Title</label>
-	            <input type="text" class="form-control" id="milestone_title" name="title" placeholder="Title" required>
+	            <label for="milestone-title">Milestone Title</label>
+	            <input type="text" class="form-control" id="milestone-title" name="title" placeholder="Title" required>
 	          </div>
 			  <div class="form-group">
 				<label for="milestone-type">Milestone Type</label>
@@ -81,8 +81,8 @@
 				</datalist>
 			  </div>
 	          <div class="form-group">
-	            <label for="milestone_description">Milestone Description</label>
-	            <input type="text" class="form-control" id="milestone_description" name="description" placeholder="Description" required>
+	            <label for="milestone-description">Milestone Description</label>
+	            <input type="text" class="form-control" id="milestone-description" name="description" placeholder="Description" required>
 	          </div>
 	        </div>
 	        <div class="modal-footer">
@@ -95,32 +95,32 @@
 	</div>
 
 	<!-- Edit Milestone Modal -->
-	<div class="modal fade bs-editMS-modal" tabindex="-1" role="dialog" aria-labelledby="modalAddMS" aria-hidden="true" id="editMSModal">
+	<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edit-milestone-modal-title" aria-hidden="true" id="edit-milestone-modal">
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	        <h4 class="modal-title" id="myModalEditMS">Edit Milestone</h4>
+	        <h4 class="modal-title" id="edit-milestone-modal-title">Edit Milestone</h4>
 	      </div>
-	      <form id="edit-milestone-form" method="post" action="/manage/milestones/edit">
+	      <form id="edit-milestone-form" method="POST" action="/milestones/" data-type="milestone">
 			{!! csrf_field() !!}
-			<input type="hidden" id="milestone_id" name="id" value="" />
-	        <div class="modal-body modal-addMS">
+			<input type="hidden" name="_method" value="PATCH" />
+	        <div class="modal-body">
 	          <div class="form-group">
-	            <label for="milestone_title">Milestone Title</label>
-	            <input type="text" class="form-control" id="milestone_title" name="title" placeholder="Title" required />
+	            <label for="edit-milestone-title">Milestone Title</label>
+	            <input type="text" class="form-control" id="edit-milestone-title" name="title" placeholder="Title" required />
 	          </div>
 			  <div class="form-group">
-				<label for="milestone-type">Milestone Type</label>
-				<input type="text" class="form-control" id="milestone-type" name="type" list="milestone-type-list" placeholder="Type" value="resident" required />
+				<label for="edit-milestone-type">Milestone Type</label>
+				<input type="text" class="form-control" id="edit-milestone-type" name="type" list="milestone-type-list" placeholder="Type" value="resident" required />
 			  </div>
 			  <div class="form-group">
-				<label for="milestone-training-level">Subspecialty</label>
-				<input type="text" class="form-control" id="milestone-training-level" name="training_level" list="milestone-training-level-list" />
+				<label for="edit-milestone-training-level">Subspecialty</label>
+				<input type="text" class="form-control" id="edit-milestone-training-level" name="training_level" list="milestone-training-level-list" />
 			  </div>
 	          <div class="form-group">
-	            <label for="milestone_description">Milestone Description</label>
-	            <input type="text" class="form-control" id="milestone_description" name="description" placeholder="Description" required />
+	            <label for="edit-milestone-description">Milestone Description</label>
+	            <input type="text" class="form-control" id="edit-milestone-description" name="description" placeholder="Description" required />
 	          </div>
 	        </div>
 	        <div class="modal-footer">
@@ -133,17 +133,17 @@
 	</div>
 
 	<!-- Delete Milestone Modal -->
-	<div class="modal fade bs-deleteMS-modal" tabindex="-1" role="dialog" aria-labelledby="modalAddMS" aria-hidden="true" id="deleteMSModal">
+	<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete-milestone-modal-title" aria-hidden="true" id="delete-milestone-modal">
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	        <h4 class="modal-title" id="myModalDeleteMS">Delete Milestone</h4>
+	        <h4 class="modal-title" id="delete-milestone-modal-title">Delete Milestone</h4>
 	      </div>
-	      <form id="delete-milestone-modal" method="post" action="/manage/milestones/delete">
-			<input type="hidden" id="milestone_id" name="id" value="" />
+	      <form id="delete-milestone-form" method="post" action="/milestones/" data-type="milestone">
 			{!! csrf_field() !!}
-	        <div class="modal-body modal-addMS">
+			<input type="hidden" name="_method" value="DELETE" />
+	        <div class="modal-body">
 	          Are you sure you want to delete this milestone? This cannot be undone.
 	        </div>
 	        <div class="modal-footer">
@@ -159,8 +159,9 @@
 	<div class="modal fade" id="milestone-levels-modal" tabindex="-1" role="dialog" aria-labelledby="milestone-levels-title" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<form id="milestone-levels-form" method="POST" action="/manage/milestones/levels">
+				<form id="milestone-levels-form" method="POST" action="/milestones/{id}/levels">
 					{!! csrf_field() !!}
+					<input type="hidden" name="_method" value="PATCH" />
 					<input type="hidden" id="milestone-levels-id" name="id" />
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -181,23 +182,23 @@
 	</div>
 
 	<!-- Add Competency Modal -->
-	<div class="modal fade bs-addC-modal" tabindex="-1" role="dialog" aria-labelledby="modalAddC" aria-hidden="true" id="addCModal">
+	<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="add-competency-modal-title" aria-hidden="true" id="add-competency-modal">
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	        <h4 class="modal-title" id="myModalAddC">Add Competency</h4>
+	        <h4 class="modal-title" id="add-competency-modal-title">Add Competency</h4>
 	      </div>
-	      <form id="add-competency-form" method="post" action="/manage/competencies/add">
+	      <form id="add-competency-form" method="POST" action="/competencies" data-type="competency">
 			{!! csrf_field() !!}
-	        <div class="modal-body modal-addC">
+	        <div class="modal-body">
 	          <div class="form-group">
-	            <label for="competency_title">Competency Title</label>
-	            <input type="text" class="form-control" id="competency_title" name="title" placeholder="Title" required>
+	            <label for="add-competency-title">Competency Title</label>
+	            <input type="text" class="form-control" id="add-competency-title" name="title" placeholder="Title" required>
 	          </div>
 	          <div class="form-group">
-	            <label for="competency_description">Competency Description</label>
-	            <input type="text" class="form-control" id="competency_description" name="description" placeholder="Description" required>
+	            <label for="add-competency-description">Competency Description</label>
+	            <input type="text" class="form-control" id="add-competency-description" name="description" placeholder="Description" required>
 	          </div>
 	        </div>
 	        <div class="modal-footer">
@@ -210,24 +211,24 @@
 	</div>
 
 	<!-- Edit Competency Modal -->
-	<div class="modal fade bs-editC-modal" tabindex="-1" role="dialog" aria-labelledby="modalEditC" aria-hidden="true" id="editCModal">
+	<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edit-competency-modal-title" aria-hidden="true" id="edit-competency-modal">
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	        <h4 class="modal-title" id="myModalEditC">Edit Competency</h4>
+	        <h4 class="modal-title" id="edit-competency-modal-title">Edit Competency</h4>
 	      </div>
-	      <form id="edit-competency-form" method="post" action="/manage/competencies/edit">
-			<input type="hidden" id="competency_id" name="id" value="" />
+	      <form id="edit-competency-form" method="post" action="/competencies/" data-type="competency">
 			{!! csrf_field() !!}
+			<input type="hidden" name="_method" value="PATCH" />
 	        <div class="modal-body modal-EditC">
 	          <div class="form-group">
-	            <label for="competency_title">Competency Title</label>
-	            <input type="text" class="form-control" id="competency_title" name="title" placeholder="Title" required>
+	            <label for="edit-competency-title">Competency Title</label>
+	            <input type="text" class="form-control" id="edit-competency-title" name="title" placeholder="Title" required>
 	          </div>
 	          <div class="form-group">
-	            <label for="competency_description">Competency Description</label>
-	            <input type="text" class="form-control" id="competency_description" name="description" placeholder="Description" required>
+	            <label for="edit-competency-description">Competency Description</label>
+	            <input type="text" class="form-control" id="edit-competency-description" name="description" placeholder="Description" required>
 	          </div>
 	        </div>
 	        <div class="modal-footer">
@@ -240,17 +241,17 @@
 	</div>
 
 	<!-- Delete Competency Modal -->
-	<div class="modal fade bs-deleteC-modal" tabindex="-1" role="dialog" aria-labelledby="modalDeleteC" aria-hidden="true" id="deleteCModal">
+	<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete-competency-modal-title" aria-hidden="true" id="delete-competency-modal">
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	        <h4 class="modal-title" id="myModalDeleteC">Edit Competency</h4>
+	        <h4 class="modal-title" id="delete-competency-modal-title">Edit Competency</h4>
 	      </div>
-	      <form id="delete-competency-form" method="post" action="/manage/competencies/delete">
-			<input type="hidden" id="competency_id" name="id" value="" />
+	      <form id="delete-competency-form" method="post" action="/competencies/" data-type="competency">
 			{!! csrf_field() !!}
-	        <div class="modal-body modal-deleteC">
+			<input type="hidden" name="_method" value="DELETE" />
+	        <div class="modal-body">
 				Are you sure you want to delete this competency? This cannot be undone.
 	        </div>
 	        <div class="modal-footer">
@@ -280,7 +281,7 @@
 						'</div>' +
 						'<hr />';
 
-		$("#milestones-table").DataTable({
+		var milestonesTable = $("#milestones-table").DataTable({
 			ajax: {
 				url: "/milestones",
 				data: {
@@ -294,18 +295,22 @@
 				{data: "training_level"},
 				{data: "description"},
 				{data: null, searchable: false, orderable: false, render: function(milestone, type){
-					var editButton = '<button type="button" class="editMilestone btn btn-info btn-xs" '
-						+ 'data-toggle="modal" data-target=".bs-editMS-modal" data-id="' + milestone.id + '">'
-					 	+ '<span class="glyphicon glyphicon-edit"></span> Edit</button>';
+					var milestoneData = 'data-id="' + milestone.id + '" data-title="' + milestone.title + '" '
+						+ 'data-type="' + milestone.type + '" data-training-level="' + milestone.training_level + '" '
+						+ 'data-description="' + milestone.description + '"';
 
-					var levelsButton = '<button type="button" class="btn btn-info btn-xs edit-milestone-levels" '
-						+ 'data-id="' + milestone.id + '" data-title="' + milestone.title + '">'
-					 	+ '<span class="glyphicon glyphicon-th-list"></span> Levels</button>';
+					var editButton = '<button type="button" class="edit-milestone-button btn btn-info btn-xs" '
+						+ milestoneData + '>'
+						+ '<span class="glyphicon glyphicon-edit"></span> Edit</button>';
+
+					var levelsButton = '<button type="button" class="btn btn-info btn-xs edit-milestone-levels-button" '
+						+ milestoneData + '>'
+						+ '<span class="glyphicon glyphicon-th-list"></span> Levels</button>';
 
 					var deleteButton = '';
 					if(milestone.forms.length === 0){
-						deleteButton = '<button type="button" class="deleteMilestone btn btn-danger btn-xs" '
-							+ 'data-toggle="modal" data-target=".bs-deleteMS-modal" data-id="' + milestone.id + '">'
+						deleteButton = '<button type="button" class="delete-milestone-button btn btn-danger btn-xs" '
+							+ milestoneData + '>'
 							+ '<span class="glyphicon glyphicon-remove"></span> Delete</button>';
 					}
 
@@ -314,7 +319,7 @@
 			]
 		});
 
-		$("#competencies-table").DataTable({
+		var competenciesTable = $("#competencies-table").DataTable({
 			ajax: {
 				url: "/competencies",
 				data: {
@@ -326,14 +331,17 @@
 				{data: "title"},
 				{data: "description"},
 				{data: null, searchable: false, orderable: false, render: function(competency, type){
-					var editButton = '<button type="button" class="editCompetency btn btn-info btn-xs" '
-						+ 'data-toggle="modal" data-target=".bs-editC-modal" data-id="' + competency.id + '">'
-					 	+ '<span class="glyphicon glyphicon-edit"></span> Edit</button>';
+					var competencyData = 'data-id="' + competency.id + '" data-title="' + competency.title + '" '
+						+ 'data-description="' + competency.description + '"';
+
+					var editButton = '<button type="button" class="edit-competency-button btn btn-info btn-xs" '
+						+ competencyData + '>'
+						+ '<span class="glyphicon glyphicon-edit"></span> Edit</button>';
 
 					var deleteButton = '';
 					if(competency.forms.length === 0){
-						deleteButton = '<button type="button" class="deleteCompetency btn btn-danger btn-xs" '
-							+ 'data-toggle="modal" data-target=".bs-deleteC-modal" data-id="' + competency.id + '">'
+						deleteButton = '<button type="button" class="delete-competency-button btn btn-danger btn-xs" '
+							+ competencyData + '>'
 							+ '<span class="glyphicon glyphicon-remove"></span> Delete</button>';
 					}
 
@@ -342,64 +350,80 @@
 			]
 		});
 
-		$(".datatable-milestones").on("click", ".editMilestone", function(){
-			var milestoneId = $(this).data("id");
-			var siblings = $(this).parent().siblings();
-			var milestoneTitle = siblings[0].innerHTML;
-			var milestoneType = siblings[1].innerHTML;
-			var milestoneTrainingLevel = siblings[2].innerHTML;
-			var milestoneDescription = siblings[3].innerHTML;
-
-			$("#editMSModal").find("#milestone_id").val(milestoneId);
-			$("#editMSModal").find("#milestone_title").val(milestoneTitle);
-			$("#editMSModal").find("#milestone-type").val(milestoneType);
-			$("#editMSModal").find("#milestone-training-level").val(milestoneTrainingLevel);
-			$("#editMSModal").find("#milestone_description").val(milestoneDescription);
+		$("#milestones-table").on("click", ".edit-milestone-button", function(){
+			$("#edit-milestone-form").attr("action", "/milestones/" + $(this).data("id"));
+			$("#edit-milestone-title").val($(this).data("title"));
+			$("#edit-milestone-type").val($(this).data("type"));
+			$("#edit-milestone-training-level").val($(this).data("trainingLevel"));
+			$("#edit-milestone-description").val($(this).data("description"));
+			$("#edit-milestone-modal").modal("show");
 		});
 
-		$(".datatable-competencies").on("click", ".editCompetency", function(){
-			var competency_id = $(this).data("id");
-			var competency_title = $(this).parent().siblings()[0].innerHTML;
-			var competency_description = $(this).parent().siblings()[1].innerHTML;
-
-			$("#editCModal").find("#competency_id").val(competency_id);
-			$("#editCModal").find("#competency_title").val(competency_title);
-			$("#editCModal").find("#competency_description").val(competency_description);
+		$("#competencies-table").on("click", ".edit-competency-button", function(){
+			$("#edit-competency-form").attr("action", "/competencies/" + $(this).data("id"));
+			$("#edit-competency-title").val($(this).data("title"));
+			$("#edit-competency-description").val($(this).data("description"));
+			$("#edit-competency-modal").modal("show");
 		});
 
-		$(".datatable-milestones").on("click", ".deleteMilestone", function(){
-			var milestone_id = $(this).data("id");
-			$("#deleteMSModal").find("#milestone_id").val(milestone_id);
+		$("#milestones-table").on("click", ".delete-milestone-button", function(){
+			$("#delete-milestone-form").attr("action", "/milestones/" + $(this).data("id"));
+			$("#delete-milestone-modal").modal("show");
 		});
 
-		$(".datatable-competencies").on("click", ".deleteCompetency", function(){
-			var competency_id = $(this).data("id");
-			$("#deleteCModal").find("#competency_id").val(competency_id);
+		$("#competencies-table").on("click", ".delete-competency-button", function(){
+			$("#delete-competency-form").attr("action", "/competencies/" + $(this).data("id"));
+			$("#delete-competency-modal").modal("show");
 		});
 
-		$("#add-milestone-form, #edit-milestone-form").on("submit", function(event){
+		$("#add-milestone-form, #edit-milestone-form, #delete-milestone-form, "
+				+ "#add-competency-form, #edit-competency-form, #delete-competency-form").on("submit", function(event){
 			event.preventDefault();
-			addEditAjax(this, ".datatable-milestones");
-		});
-		$("#add-competency-form, #edit-competency-form").on("submit", function(event){
-			event.preventDefault();
-			addEditAjax(this, ".datatable-competencies");
+			var form = $(this);
+			var modal = $(this).parents(".modal");
+			var button = $(this).find("button[type='submit']");
+			button.prop("disabled", true).addClass("disabled");
+			$.ajax({
+				url: $(this).attr("action"),
+				method: "POST", // or PATCH
+				data: $(this).serialize()
+			}).done(function(response){
+				if(response === "success"){
+					var table;
+					switch(form.data("type")){
+						case "milestone":
+							table = milestonesTable;
+							break;
+						case "competency":
+							table = competenciesTable;
+							break;
+					}
+					table.ajax.reload();
+					modal.modal("hide");
+				}
+				else
+					appendAlert("There was a problem, nothing was added, edited, or deleted.", modal.find(".modal-header"));
+			}).fail(function(){
+				appendAlert("There was a problem, nothing was added, edited, or deleted.", modal.find(".modal-header"));
+			}).always(function(){
+				button.prop("disabled", false).removeClass("disabled");
+			});
 		});
 
-		$(".datatable-milestones").on("click", ".edit-milestone-levels", function(){
+		$("#milestones-table").on("click", ".edit-milestone-levels-button", function(){
 			// TODO: Open modal and show a loading bar or something
 			var button = $(this);
 			button.prop("disabled", true).addClass("disabled");
 			var milestoneId = $(this).data("milestoneId");
 			var milestoneTitle = $(this).data("milestoneTitle");
-			$.get("/manage/milestone/" + milestoneId + "/levels").then(function(levels){
+			$.get("/milestones/" + milestoneId).then(function(milestone){
 				$("#milestone-levels-id").val(milestoneId);
 				$("#milestone-levels-title").text(milestoneTitle + " levels");
 				$("#milestone-levels-container").empty();
 
-				if(levels.length > 0){
-					for(var i = 0; i < levels.length; i++){
-						appendMilestoneLevel(levels[i].name, levels[i].description);
+				if(milestone.levels.length > 0){
+					for(var i = 0; i < milestone.levels.length; i++){
+						appendMilestoneLevel(milestone.levels[i].name, milestone.levels[i].description);
 					}
 				}
 				else {
@@ -439,10 +463,11 @@
 			var submitButton = $(this).find("button[type='submit']");
 			submitButton.prop("disabled", true).addClass("disabled");
 
+			var milestoneId = $("#milestone-levels-id").val();
+
 			var data = {};
-			data.id = $("#milestone-levels-id").val();
 			data._token = "{{ csrf_token() }}";
-			data.ajax = true;
+			data._method = "PATCH";
 			data.levels = [];
 
 			var incompleteLevels = [];
@@ -475,7 +500,11 @@
 			}
 
 			var action = $(this).attr("action");
-			$.post(action, data).done(function(response){
+			$.ajax({
+				url: "/milestones/" + milestoneId + "/levels",
+				method: "POST", // PATCH
+				data: data
+			}).done(function(response){
 				if(response === "true"){
 					$("#milestone-levels-modal").modal("hide");
 				}
@@ -500,54 +529,6 @@
 				$(newLevelHtml).find(".level-description").val(levelDesc);
 
 			$("#milestone-levels-container").append(newLevelHtml);
-		}
-
-		function addEditAjax(form, table){
-			var data = $(form).serialize() + "&ajax=true";
-			var modal = $(form).parents(".modal");
-			$.post($(form).prop("action"), data, function(response){
-				if(response == "true"){
-					modal.modal("hide");
-					$(table).DataTable({
-						retrieve: true
-					}).ajax.reload();
-				}
-				else{
-					appendAlert(response, modal.find(".modal-body"));
-				}
-			});
-		}
-
-		$("#delete-competency-form").on("submit", function(event){
-			event.preventDefault();
-			var id = $(this).find("#competency_id").val();
-			var row = $("#delete-competency-button-" + id).parents("tr");
-			deleteAjax(this, ".datatable-competencies", row);
-		});
-
-		$("#delete-milestone-form").on("submit", function(event){
-			event.preventDefault();
-			var id = $(this).find("#milestone_id").val();
-			var row = $("#delete-milestone-button-" + id).parents("tr");
-			deleteAjax(this, ".datatable-milestones", row);
-		});
-
-		function deleteAjax(form, table, row){
-			var data = $(form).serialize() + "&ajax=true";
-			var modal = $(form).parents(".modal");
-			$.post($(form).prop("action"), data, function(response){
-				if(response == "true"){
-					modal.modal("hide");
-					row.velocity("fadeOut", function(){
-						$(table).DataTable({
-							retrieve: true
-						}).row(row).remove().draw(false);
-					});
-				}
-				else{
-					appendAlert(response, modal.find(".modal-body"));
-				}
-			});
 		}
 	</script>
 @stop

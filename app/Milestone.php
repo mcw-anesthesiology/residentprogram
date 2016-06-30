@@ -12,7 +12,12 @@ class Milestone extends Model
         "id" => "integer"
     ];
 
-    protected $fillable = ["title", "description"];
+    protected $fillable = [
+		"title",
+		"type",
+		"training_level",
+		"description"
+	];
 
     public function forms(){
         return $this->belongsToMany("App\Form", "milestones_questions");

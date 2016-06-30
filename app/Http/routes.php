@@ -28,6 +28,7 @@ Route::resource("watched_forms", "Rest\WatchedFormController", ["only" => [
 Route::resource("mentorships", "Rest\MentorshipController", ["only" => [
 	"index", "store", "show", "update", "destroy"
 ]]);
+Route::patch("milestones/{id}/levels", "Rest\MilestoneController@levels");
 Route::resource("milestones", "Rest\MilestoneController", ["only" => [
 	"index", "store", "show", "update", "destroy"
 ]]);

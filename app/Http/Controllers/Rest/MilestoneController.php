@@ -33,4 +33,28 @@ class MilestoneController extends RestController
 		else
 			return back();
 	}
+
+	public function levels(Request $request, $id){
+		$milestone = Milestone::find($id);
+		$levels = $request->input("levels");
+		foreach($levels as $levelNum => $level){
+			$milestoneLevel = MilestoneLevel::firstOrNew([
+				"milestone_id" => $id,
+				"level_number" => $levelNum + 1
+			]);
+			$milestoneLevel->milestone_id = $id;
+			$milestoneLevel->level_number = $levelNum + 1;
+			$milestoneLevel->name = $level["name"];
+			$milestoneLevel->description = $level["description"];
+			$milestoneLevel->save();
+		}
+		MilestoneLevel::where("milestone_id", $id)
+			->where("level_number", ">", count($levels))
+			->delete();
+
+		if($request->ajax())
+			return "success";
+		else
+			return back();
+	}
 }
