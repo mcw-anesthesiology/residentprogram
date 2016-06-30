@@ -683,6 +683,8 @@
 
 		$(".addUser").on("click", function(){
 			var type = $(this).data('id');
+			if(type === "resident")
+				type = $("#add-type").val();
 			var status = $("#add-status").val();
 			$("#add-form")[0].reset();
 			$("#add-status").val(status);
