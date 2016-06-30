@@ -259,7 +259,7 @@ function unlimitTableEvals(settings, json){
 		retrieve: true
 	});
 	var url = dt.ajax.url();
-	dt.ajax.url(url.substring(0, url.lastIndexOf("/"))).load().draw();
+	dt.ajax.url(url.substring(0, url.lastIndexOf("?"))).load().draw();
 }
 
 function addDateSelectors(dateName, idPrefix, containerQuery, defaultMonth, lastDaySelectedByDefault){
