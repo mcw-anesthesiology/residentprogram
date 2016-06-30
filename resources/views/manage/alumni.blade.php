@@ -50,6 +50,7 @@
 			<thead>
 				<th>Name</th>
 				<th>Email</th>
+				<th>Address</th>
 				<th>Graduated</th>
 				<th></th>
 			</thead>
@@ -176,6 +177,32 @@
 			columns: [
 				{data: "full_name"},
 				{data: "email"},
+				{data: null, render: function(alum){
+					var lines = [];
+					var line1Pieces = [];
+					var line2Pieces = [];
+					var line3Pieces = [];
+					[alum.address, alum.address_2].forEach(function(piece){
+						if(piece)
+							line1Pieces.push(piece);
+					});
+					if(line1Pieces.length > 0)
+						lines.push(line1Pieces.join(", "));
+
+					[alum.city, alum.state, alum.zip].forEach(function(piece){
+						if(piece)
+							line2Pieces.push(piece);
+					});
+					if(line2Pieces.length > 0)
+						lines.push(line2Pieces.join(", "));
+
+					if(alum.country !== "United States")
+						line3Pieces.push(alum.country);
+					if(line3Pieces.length > 0)
+						lines.push(line3Pieces);
+
+					return lines.join('<br />');
+				}},
 				{data: "graduation_date", createdCell: createDateCell, render: function(graduationDate, type){
 					if(type === "sort" || type === "type")
 						return graduationDate ? moment(graduationDate).valueOf() : "";
