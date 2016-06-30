@@ -167,92 +167,98 @@
 			var requestId = $(this).data('id');
 			var data = {};
 			data._token = "{{ csrf_token() }}";
+			data._method = "PATCH";
 			data.action = "disable";
             var span = $(this).parent();
             var status = $(this).parents("tr").find(".status");
 			$.ajax({
-                type: "post",
-                url: "/evaluations/" + requestId,
+				url: "/evaluations/" + requestId,
+                method: "POST", // PATCH
                 data: data,
-                success: function(response){
-                    if (response != "false"){
-                        span.velocity("fadeOut", function(){
-							$(this).html("<button class='enableEval btn btn-success btn-xs' data-id='" + requestId + "'><span class='glyphicon glyphicon-ok'></span> Enable</button>");
-							$(this).velocity("fadeIn");
-						});
-                        status.velocity("fadeOut", function(){
-							$(this).html("<span class='badge badge-disabled'>disabled</span>");
-							$(this).velocity("fadeIn");
-						});
+            }).done(function(response){
+				if (response != "false"){
+					span.velocity("fadeOut", function(){
+						$(this).html("<button class='enableEval btn btn-success btn-xs' data-id='" + requestId + "'><span class='glyphicon glyphicon-ok'></span> Enable</button>");
+						$(this).velocity("fadeIn");
+					});
+					status.velocity("fadeOut", function(){
+						$(this).html("<span class='badge badge-disabled'>disabled</span>");
+						$(this).velocity("fadeIn");
+					});
 
-                    }
-                }
-            });
+				}
+			}).fail(function(){
+				appendAlert("There was a problem disabling the evaluation");
+			});
 		});
 
 		$("#manage-evals-table").on("click", ".enableEval", function(){
 			var data = {};
 			data._token = "{{ csrf_token() }}";
+			data._method = "PATCH";
 			data.action = "enable";
             var requestId = $(this).data('id');
             var span = $(this).parent();
             var status = $(this).parents("tr").find(".status");
             var cancel = $(this).parents("tr").find(".cancel");
             $.ajax({
-                type: "post",
-                url: "/evaluations/" + requestId,
-                data: data,
-                success: function(response){
-                    if (response != "false") {
-                        span.velocity("fadeOut", function(){
-							$(this).html("<button class='disableEval btn btn-danger btn-xs' data-id='" + requestId + "'><span class='glyphicon glyphicon-remove'></span> Disable</button>");
+				url: "/evaluations/" + requestId,
+                method: "POST", // PATCH
+                data: data
+            }).done(function(response){
+				if (response != "false") {
+					span.velocity("fadeOut", function(){
+						$(this).html("<button class='disableEval btn btn-danger btn-xs' data-id='" + requestId + "'><span class='glyphicon glyphicon-remove'></span> Disable</button>");
+						$(this).velocity("fadeIn");
+					});
+					if (response == "pending") {
+						status.velocity("fadeOut", function(){
+							$(this).html("<span class='badge badge-pending'>"+response+"</span>");
 							$(this).velocity("fadeIn");
 						});
-                        if (response == "pending") {
-                            status.velocity("fadeOut", function(){
-								$(this).html("<span class='badge badge-pending'>"+response+"</span>");
-								$(this).velocity("fadeIn");
-							});
 
-                        	cancel.velocity("fadeOut", function(){
-								$(this).html("<button class='cancelEval btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-cancel-modal-sm' data-id='" + requestId + "'><span class='glyphicon glyphicon-remove'></span> Cancel</button>");
-								$(this).velocity("fadeIn");
-							});
-                        }
-                        else if (response == "complete") {
-                            status.velocity("fadeOut", function(){
-								$(this).html("<span class='badge badge-complete'>complete</span>");
-								$(this).velocity("fadeIn");
-							});
-                        }
-                    }
-                }
-            });
+						cancel.velocity("fadeOut", function(){
+							$(this).html("<button class='cancelEval btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-cancel-modal-sm' data-id='" + requestId + "'><span class='glyphicon glyphicon-remove'></span> Cancel</button>");
+							$(this).velocity("fadeIn");
+						});
+					}
+					else if (response == "complete") {
+						status.velocity("fadeOut", function(){
+							$(this).html("<span class='badge badge-complete'>complete</span>");
+							$(this).velocity("fadeIn");
+						});
+					}
+				}
+			}).fail(function(){
+				appendAlert("There was a problem enabling the evaluation");
+			});
 		});
 
 		$("#manage-evals-table").on("click", ".cancelEval", function(){
 			var requestId = $(this).data('id');
 			var data = {};
 			data._token = "{{ csrf_token() }}";
+			data._method = "PATCH";
 			data.action = "cancel";
             var span = $(this).parent();
             var status = $(this).parents("tr").find(".status");
             $.ajax({
-                type: "post",
-                url: "/evaluations/"+requestId,
-                data: data,
-                success: function(response){
-                    if (response != "false") {
-						span.velocity("fadeOut", function(){
-							$(this).html("");
-						});
-                        status.velocity("fadeOut", function(){
-							$(this).html("<span class='badge badge-disabled'>canceled by admin</span>");
-							$(this).velocity("fadeIn");
-						});
-                    }
-                }
-            });
+				url: "/evaluations/" + requestId,
+                method: "POST", // PATCH
+                data: data
+            }).done(function(response){
+				if (response != "false") {
+					span.velocity("fadeOut", function(){
+						$(this).html("");
+					});
+					status.velocity("fadeOut", function(){
+						$(this).html("<span class='badge badge-disabled'>canceled by admin</span>");
+						$(this).velocity("fadeIn");
+					});
+				}
+			}).fail(function(){
+				appendAlert("There was a problem cancelling the evaluation");
+			});
         });
 
 		function lastThreeMonthsDisable(){
@@ -317,9 +323,9 @@
 					alterVisibilityButton(button, originalVisibility);
 					appendAlert(response);
 				}
-			}).fail(function(response){
+			}).fail(function(){
 				alterVisibilityButton(button, originalVisibility);
-				appendAlert(response);
+				appendAlert("There was a problem changing the visibility");
 			});
 		});
 
@@ -339,8 +345,8 @@
 			var button = $(this);
 			$.ajax({
 				url: "/evaluations/" + evalId + "/remind",
-				data: data,
-				method: "POST"
+				method: "POST", // PATCH
+				data: data
 			}).done(function(response){
 				if(response === "success"){
 					button.removeClass("send-reminder").removeClass("send-reminder-confirm").removeClass("btn-warning")
