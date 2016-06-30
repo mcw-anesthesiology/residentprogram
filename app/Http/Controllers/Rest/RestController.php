@@ -23,7 +23,25 @@ class RestController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request){
-        $query = $this->model::with(array_keys($request->intersect($this->relationships)));
+		$withArray = [];
+		foreach($request->intersect($this->relationships) as $relationship => $fields){
+			if(!is_array($fields))
+				$withArray[] = $relationship;
+			else {
+				if(in_array("full_name", $fields)){
+					$index = array_search("full_name", $fields);
+					unset($fields[$index]);
+					array_values($fields);
+					$fields[] = "first_name";
+					$fields[] = "last_name";
+				}
+				$withArray[$relationship] = function($query) use ($fields){
+					$query->select(array_merge(["id"], $fields));
+				};
+			}
+		}
+
+        $query = $this->model::with($withArray);
 			foreach($request->intersect($this->attributes) as $name => $value){
 				if(is_array($value))
 					$query->whereIn($name, $value);

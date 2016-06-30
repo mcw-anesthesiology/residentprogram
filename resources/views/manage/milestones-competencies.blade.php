@@ -293,7 +293,7 @@
 				{data: "type"},
 				{data: "training_level"},
 				{data: "description"},
-				{data: "", searchable: false, orderable: false, render: function(milestone, type){
+				{data: null, searchable: false, orderable: false, render: function(milestone, type){
 					var editButton = '<button type="button" class="editMilestone btn btn-info btn-xs" '
 						+ 'data-toggle="modal" data-target=".bs-editMS-modal" data-id="' + milestone.id + '">'
 					 	+ '<span class="glyphicon glyphicon-edit"></span> Edit</button>';
@@ -308,6 +308,36 @@
 							+ 'data-toggle="modal" data-target=".bs-deleteMS-modal" data-id="' + milestone.id + '">'
 							+ '<span class="glyphicon glyphicon-remove"></span> Delete</button>';
 					}
+
+					return editButton + " " + levelsButton + " " + deleteButton;
+				}}
+			]
+		});
+
+		$("#competencies-table").DataTable({
+			ajax: {
+				url: "/competencies",
+				data: {
+					forms: true
+				},
+				dataSrc: ""
+			},
+			columns: [
+				{data: "title"},
+				{data: "description"},
+				{data: null, searchable: false, orderable: false, render: function(competency, type){
+					var editButton = '<button type="button" class="editCompetency btn btn-info btn-xs" '
+						+ 'data-toggle="modal" data-target=".bs-editC-modal" data-id="' + competency.id + '">'
+					 	+ '<span class="glyphicon glyphicon-edit"></span> Edit</button>';
+
+					var deleteButton = '';
+					if(competency.forms.length === 0){
+						deleteButton = '<button type="button" class="deleteCompetency btn btn-danger btn-xs" '
+							+ 'data-toggle="modal" data-target=".bs-deleteC-modal" data-id="' + competency.id + '">'
+							+ '<span class="glyphicon glyphicon-remove"></span> Delete</button>';
+					}
+
+					return editButton + " " + deleteButton;
 				}}
 			]
 		});

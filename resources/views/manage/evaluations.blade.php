@@ -70,10 +70,19 @@
 			ajax: {
 				url: "/evaluations?limit=20",
 				data: {
-					subject: true,
-					evaluator: true,
-					requestor: true,
-					form: true
+					subject: [
+						"full_name"
+					],
+					evaluator: [
+						"full_name"
+					],
+					requestor: [
+						"full_name"
+					],
+					form: [
+						"title",
+						"visibility"
+					]
 				},
 				dataSrc: ""
 			},
