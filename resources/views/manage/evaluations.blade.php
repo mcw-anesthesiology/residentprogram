@@ -166,6 +166,7 @@
 				}}
 			],
 			order: [[0, "desc"]],
+			deferRender: true,
 			initComplete: unlimitRestTableEvals
 		});
 

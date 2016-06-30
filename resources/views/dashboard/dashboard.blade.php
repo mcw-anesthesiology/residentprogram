@@ -139,6 +139,7 @@
 				"createdRow": function(row, data, index){
 					$("td", row).addClass("view-evaluation");
 				},
+				deferRender: true,
 				"initComplete": unlimitTableEvals
 			});
 
