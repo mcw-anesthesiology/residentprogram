@@ -150,7 +150,12 @@
 			columns: [
 				{data: null, orderable: false, searchable: false, render: renderImportAlumniCheckbox},
 				{data: "full_name"},
-				{data: "training_level"}
+				{data: "training_level", render: function(trainingLevel){
+					if(trainingLevel.indexOf("ca-") !== -1)
+						return trainingLevel.toUpperCase();
+					else
+						return ucfirst(trainingLevel);
+				}}
 			],
 			paging: false,
 			scrollY: "400px",
@@ -202,8 +207,10 @@
 			var id = $(this).val();
 			var name = $(this).data("name");
 			if($(this).prop("checked")){
-				$(".selected-alumni[data-type='" + type + "']")
-					.append("<li class='list-group-item' data-id='" + id + "'>" + name + "</li>");
+				var listGroup = $(".selected-alumni[data-type='" + type + "']");
+				listGroup.find(".selected-alum.list-group-item-success, .selected-alum.list-group-item-warning")
+					.remove();
+				listGroup.append("<li class='list-group-item selected-alum' data-id='" + id + "'>" + name + "</li>");
 				selectedUsers[id] = { id: id, type: type, name: name };
 			}
 			else {
@@ -233,10 +240,11 @@
 				method: "POST",
 				data: data
 			}).done(function(response){
-				for(var i = 0; i < response.successes.length; i++){
-					deselectAlum(response.successes[i]);
-				}
 				if(response.successes.length > 0){
+					for(var i = 0; i < response.successes.length; i++){
+						deselectAlum(response.successes[i]);
+						highlightSelectedUser(response.successes[i], "success");
+					}
 					if(response.notFound.length === 0 && response.errors.length === 0){
 						appendAlert("All users were successfully imported, and have been deselected. "
 									+ "Be sure to still disable the user accounts when they are finished.",
@@ -249,12 +257,16 @@
 				}
 				if(response.notFound.length > 0){
 					for(var i = 0; i < response.notFound.length; i++){
-						deselectAlum(response.successes[i]);
+						deselectAlum(response.notFound[i]);
+						highlightSelectedUser(response.notFound[i], "warning");
 					}
 					appendAlert("Some users were not found, any erroneous checkboxes have been deselected",
-						"#import-from-users-alert-container", "info");
+						"#import-from-users-alert-container", "warning");
 				}
 				if(response.errors.length > 0){
+					for(var i = 0; i < response.errors.length; i++){
+						highlightSelectedUser(resopnse.errors[i], "danger");
+					}
 					appendAlert("There were problems adding some users, unsuccessful users are still selected above.",
 						"#import-from-users-alert-container");
 				}
@@ -266,11 +278,15 @@
 			});
 		});
 
-		function deselectAlum(id){
-			console.log(id);
-			$(".import-alumni-checkbox[value='" + id + "']")
-				.prop("checked", false)
-				.change();
+		function deselectAlum(userId){
+			$(".import-alumni-checkbox[value='" + userId + "']")
+				.prop("checked", false);
+			delete selectedUsers[userId];
+		}
+
+		function highlightSelectedUser(userId, context){
+			$(".selected-alum[data-id='" + userId + "']")
+				.addClass("list-group-item-" + context);
 		}
 
 		function renderImportAlumniCheckbox(user){

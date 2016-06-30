@@ -139,14 +139,107 @@
 		<div class="row">
 			<div class="col-md-4">
 				<h3>CA-3</h3>
+				<div class="table-responsive">
+					<table class="table table-striped" id="graduate-ca-3-table" width="100%">
+						<thead>
+							<tr>
+								<th>Advance</th>
+								<th>Name</th>
+								<th>View</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				<hr />
+				<section class="selected-users-container">
+					<h3>Selected CA-3s</h3>
+					<ul class="advance-accounts-selected-users list-group" data-type="ca-3"></ul>
+				</section>
 			</div>
 			<div class="col-md-4">
 				<h3>Fellow</h3>
+				<div class="table-responsive">
+					<table class="table table-striped" id="graduate-fellow-table" width="100%">
+						<thead>
+							<tr>
+								<th>Advance</th>
+								<th>Name</th>
+								<th>View</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				<hr />
+				<section class="selected-users-container">
+					<h3>Selected fellows</h3>
+					<ul class="advance-accounts-selected-users list-group" data-type="fellow"></ul>
+				</section>
 			</div>
 			<div class="col-md-4">
 				<h3>Faculty</h3>
+				<div class="table-responsive">
+					<table class="table table-striped" id="graduate-faculty-table" width="100%">
+						<thead>
+							<tr>
+								<th>Advance</th>
+								<th>Name</th>
+								<th>View</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				<hr />
+				<section class="selected-users-container">
+					<h3>Selected faculty</h3>
+					<ul class="advance-accounts-selected-users list-group" data-type="faculty"></ul>
+				</section>
 			</div>
 		</div>
+		<section id="graduating-users-summary-container">
+			<div class="row summary-container">
+				<div class="col-sm-3">
+					<span>Graduating (leaving) users:</span>
+				</div>
+				<div class="col-sm-9">
+					<span id="num-graduating-users"></span>
+				</div>
+			</div>
+			<div class="row" id="graduate-run-at-container">
+				<div class="col-sm-4 col-sm-offset-1 col-md-offset-2">
+					<div class="form-group">
+						<label for="graduate-run-now-checkbox">Graduate time</label>
+						<div class="input-group">
+							<input type="checkbox" id="graduate-run-now-checkbox" name="run_at" value="now" />
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-4">
+					<div class="form-group">
+						<label for="graduate-run-at">Scheduled graduation time</label>
+						<div class="input-group date" id="graduate-run-at-group">
+							<input type="text" class="form-control" id="graduate-run-at" name="run_at" />
+							<span class="input-group-addon">
+								<span class="glyphicon glyphicon-calendar"></span>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<button type="button" class="btn btn-lg btn-primary center-block" id="graduate-users-button">
+						<span class="glyphicon glyphicon-education"></span> Graduate
+					</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-10 col-sm-offset-1">
+					<div class="center-block" id="graduate-users-alert-container">
+
+					</div>
+				</div>
+			</div>
+		</section>
 	</section>
 </div>
 
@@ -267,6 +360,68 @@
 			dom: "ft"
 		});
 
+		var ca3Table = $("#graduate-ca-3-table").DataTable({
+			ajax: {
+				url: "/users",
+				data: {
+					type: "resident",
+					training_level: "ca-3",
+					status: "active"
+				},
+				dataSrc: ""
+			},
+			columns: [
+				{data: null, orderable: false, searchable: false, render: renderAdvanceCheckbox},
+				{data: "full_name"},
+				{data: null, orderable: false, searchable: false, render: renderViewButton}
+			],
+			paging: false,
+			scrollY: "400px",
+			order: [[1, "asc"]],
+			dom: "ft"
+		});
+
+		var fellowTable = $("#graduate-fellow-table").DataTable({
+			ajax: {
+				url: "/users",
+				data: {
+					type: "resident",
+					training_level: "fellow",
+					status: "active"
+				},
+				dataSrc: ""
+			},
+			columns: [
+				{data: null, orderable: false, searchable: false, render: renderAdvanceCheckbox},
+				{data: "full_name"},
+				{data: null, orderable: false, searchable: false, render: renderViewButton}
+			],
+			paging: false,
+			scrollY: "400px",
+			order: [[1, "asc"]],
+			dom: "ft"
+		});
+
+		var facultyTable = $("#graduate-faculty-table").DataTable({
+			ajax: {
+				url: "/users",
+				data: {
+					type: "faculty",
+					status: "active"
+				},
+				dataSrc: ""
+			},
+			columns: [
+				{data: null, orderable: false, searchable: false, render: renderAdvanceCheckbox},
+				{data: "full_name"},
+				{data: null, orderable: false, searchable: false, render: renderViewButton}
+			],
+			paging: false,
+			scrollY: "400px",
+			order: [[1, "asc"]],
+			dom: "ft"
+		});
+
 		var pendingAdvancementsTable = $("#pending-advancements-table").DataTable({
 			ajax: {
 				url: "/advancements",
@@ -308,14 +463,21 @@
 			ca2Table
 		];
 
+		var graduatingTables = [
+			ca3Table,
+			fellowTable,
+			facultyTable
+		]
+
 		$("#advance-accounts-container").on("change", ".advance-user-checkbox", selectAdvancingUser);
+		$("#graduate-accounts-container").on("change", ".advance-user-checkbox", selectGraduatingUser);
 
 		var nextDefaultAdvancementDate = moment();
 		if(nextDefaultAdvancementDate.month() >= 6)
 			nextDefaultAdvancementDate.add(1, "year");
 		nextDefaultAdvancementDate.month(6).date(1).hour(4).minute(0).second(0);
 
-		$("#advance-run-at-group").datetimepicker({
+		$("#advance-run-at-group, #graduate-run-at-group").datetimepicker({
 			useCurrent: false,
 			defaultDate: nextDefaultAdvancementDate,
 			minDate: moment(),
@@ -323,7 +485,7 @@
 			format: "M/D/Y h A"
 		});
 
-		$("#advance-run-now-checkbox").bootstrapSwitch({
+		$("#advance-run-now-checkbox, #graduate-run-now-checkbox").bootstrapSwitch({
 			onText: "Now",
 			offText: "Scheduled"
 		});
@@ -338,25 +500,58 @@
 					.prop("disabled", false).removeClass("disabled");
 			}
 		});
+		$("#graduate-run-now-checkbox").on("switchChange.bootstrapSwitch", function(event, state){
+			if(state){
+				$("#graduate-run-at-group").find("*")
+					.prop("disabled", true).addClass("disabled");
+			}
+			else {
+				$("#graduate-run-at-group").find("*")
+					.prop("disabled", false).removeClass("disabled");
+			}
+		});
 
 		// $(document).on("click", ".view-user-button", function(){
 		// 	// TODO
 		// });
 
-		$("#advance-users-button").click(function(){
+		$("#advance-users-button, #graduate-users-button").click(function(){
 			var button = $(this);
 			button.prop("disabled", true).addClass("disabled");
 
-			var runNow = $("#advance-run-at").prop("disabled");
-			var scheduledRunAt = $("#advance-run-at-group")
+			var runAt, runAtGroup, advancedField, advancedValue, alertContainer,
+				users, userTables;
+			switch($(this).attr("id")){
+				case "advance-users-button":
+					runAt = $("#advance-run-at");
+					runAtGroup = $("#advance-run-at-group");
+					advancedField = "training_level";
+					advancedValue = null;
+					alertContainer = "#advance-users-alert-container";
+					users = advancingUsers;
+					userTables = advancingTables;
+					break;
+				case "graduate-users-button":
+					runAt = $("#graduate-run-at");
+					runAtGroup = $("#graduate-run-at-group");
+					advancedField = "status";
+					advancedValue = "inactive";
+					alertContainer = "#graduate-users-alert-container";
+					users = graduatingUsers;
+					userTables = graduatingTables;
+					break;
+			}
+
+			var runNow = runAt.prop("disabled");
+			var scheduledRunAt = runAtGroup
 				.data("DateTimePicker").date().format("Y-MM-DD HH:mm:ss");
 
 			var data = {
 				_token: "{{ csrf_token() }}",
-				advanced_field: "training_level",
-				advanced_value: null,
+				advanced_field: advancedField,
+				advanced_value: advancedValue,
 				run_at: runNow ? "now" : scheduledRunAt,
-				user_ids: Object.keys(advancingUsers)
+				user_ids: Object.keys(users)
 			};
 
 			console.log(data.run_at);
@@ -370,18 +565,18 @@
 				if(response.successes.length > 0){
 					response.successes.forEach(function(userId){
 						highlightSelectedUser(userId, "success");
-						delete advancingUsers[userId];
+						deselectUser(userId, users);
 					});
 					if(response.errors.length === 0 && response.failedRuns.length === 0){
 						appendAlert("All advancements were successfully " + advancementResult,
-							"#advance-users-alert-container", "success");
+							alertContainer, "success");
 					}
 					else {
 						appendAlert("Some advancements were successfully " + advancementResult,
-							"#advance-users-alert-container", "success");
+							alertContainer, "success");
 					}
 					if(runNow){
-						advancingTables.forEach(function(table){
+						userTables.forEach(function(table){
 							table.ajax.reload();
 						});
 					}
@@ -391,14 +586,14 @@
 						highlightSelectedUser(userId, "warning");
 					});
 					appendAlert("Some advancements were successfully created, but not run successfully",
-						"#advance-users-alert-container", "warning");
+						alertContainer, "warning");
 				}
 				if(response.errors.length > 0){
 					response.errors.forEach(function(userId){
 						highlightSelectedUser(userId, "danger");
 					});
 					appendAlert("Some advancements were not successfully created or " + advancementResult,
-						"#advance-users-alert-container");
+						alertContainer);
 				}
 				pendingAdvancementsTable.ajax.reload();
 			}).fail(function(err){
@@ -406,7 +601,7 @@
 					highlightSelectedUser(userId, "danger");
 				});
 				appendAlert("There was a problem advancing users. No users were advanced",
-					"#advance-users-alert-container");
+					alertContainer);
 			}).always(function(){
 				button.prop("disabled", false).removeClass("disabled");
 			});
@@ -480,6 +675,11 @@
 				delete collection[c.data("id")];
 				$(".selected-user[data-id='" + c.data("id") + "']").remove();
 			}
+		}
+
+		function deselectUser(userId, collection){
+			$(".advance-user-checkbox[data-id='" + userId + "']").prop("checked", false);
+			delete collection[userId];
 		}
 
 		function highlightSelectedUser(userId, context){
