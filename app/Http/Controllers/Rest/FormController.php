@@ -69,13 +69,11 @@ class FormController extends RestController
     				$question->addAttribute("required", "required");
     		}
     		else if(strpos($key, "milestone") !== false){
-    			if(strpos($key, "milestone2") !== false){
-    				if($value != -1 && isset($milestones[$questionName]) && $milestones[$questionName] !== $value) //don't add second milestone if it isn't set or if it's the same as the first
-    					$milestones2[$questionName] = $value;
-    			}
-    			else{
-    				$milestones[$questionName] = $value;
-    			}
+    			if(!is_array($value))
+					$value = [$value];
+				foreach($value as $val){
+					$milestones[$questionName][] = $val;
+				}
     		}
     		else if(strpos($key, "competency") !== false){
     			$competencies[$questionName] = $value;
@@ -150,21 +148,14 @@ class FormController extends RestController
 
         if(in_array($formType, ["resident", "fellow"])){
             if(isset($milestones)){
-                foreach($milestones as $questionId => $milestoneId){
-                    $mq = new MilestoneQuestion();
-                    $mq->form_id = $newForm->id;
-                    $mq->question_id = $questionId;
-                    $mq->milestone_id = $milestoneId;
-                    $mq->save();
-                }
-            }
-            if(isset($milestones2)){
-                foreach($milestones2 as $questionId => $milestoneId){
-                    $mq = new MilestoneQuestion();
-                    $mq->form_id = $newForm->id;
-                    $mq->question_id = $questionId;
-                    $mq->milestone_id = $milestoneId;
-                    $mq->save();
+                foreach($milestones as $questionId => $milestoneIds){
+					foreach($milestoneIds as $milestoneId){
+						$mq = new MilestoneQuestion();
+						$mq->form_id = $newForm->id;
+						$mq->question_id = $questionId;
+						$mq->milestone_id = $milestoneId;
+						$mq->save();
+					}
                 }
             }
 

@@ -67,20 +67,15 @@
 									@endforeach
 									"";
 
-		var milestoneHtml = 	"<select class='form-control form-question-milestone' name=''>" +
+		var milestoneHtml = 	"<select multiple class='form-control form-question-milestone' name='' placeholder='Milestone(s)'>" +
 									milestoneOptionsHtml +
 								"</select>";
-
-		var secondMilestoneHtml = 	"<select class='form-control form-question-milestone-2' name=''>" +
-										"<option value='-1'>(None)</option>" +
-										milestoneOptionsHtml +
-									"</select>";
 
 		var competencyHtml = "<select class='form-control form-question-competency' name=''>" +
 									@foreach($competencies as $competency)
 										"<option value='{{ $competency->id }}'>{{ $competency->title }}</option>" +
 									@endforeach
-												 "</select>";
+							 "</select>";
 
 		var typeHtml = "<select class='form-control form-question-type' name='questionType'>" +
 										 "<option value='radio'>Radio</option>" +
@@ -113,11 +108,8 @@
 												"</div>" +
 												"<div class='hr-question'></div>" +
 												"<div class='row'>" +
-													"<div class='col-md-3'>" +
-														"<b class='milestone-competency-label'>Question Milestone 1</b>" +
-													"</div>" +
-													"<div class='col-md-3'>" +
-														"<b class='milestone-competency-label'>Question Milestone 2</b>" +
+													"<div class='col-md-6'>" +
+														"<b class='milestone-competency-label'>Question Milestones</b>" +
 													"</div>" +
 													"<div class='col-md-3'>" +
 														"<b class='milestone-competency-label'>Question Competency</b>" +
@@ -133,11 +125,8 @@
 													"</div>" +
 												"</div>" +
 												"<div class='row'>" +
-													"<div class='col-md-3'>" +
+													"<div class='col-md-6'>" +
 														milestoneHtml +
-													"</div>" +
-													"<div class='col-md-3'>" +
-														secondMilestoneHtml +
 													"</div>" +
 													"<div class='col-md-3'>" +
 														competencyHtml +
@@ -276,13 +265,13 @@
 			formOptions.html("");
 			var formOption = "";
 
-			$.get("/manage/milestone/" + milestoneId + "/levels").done(function(levels){
+			$.get("/milestones/" + milestoneId).done(function(milestone){
 
-				var options = [{value: 0, text: "Not yet " + levels[0].name}];
-				for(var i = 0; i < levels.length; i++){
-					var value = 2 * parseInt(levels[i].level_number, 10);
+				var options = [{value: 0, text: "Not yet " + milestone.levels[0].name}];
+				for(var i = 0; i < milestone.levels.length; i++){
+					var value = 2 * parseInt(milestone.levels[i].level_number, 10);
 					options.push({value: value - 1, text: ""});
-					options.push({value: value, text: levels[i].name, description: levels[i].description});
+					options.push({value: value, text: milestone.levels[i].name, description: milestone.levels[i].description});
 				}
 
 				for(var i = 0; i < options.length; i++){
@@ -396,8 +385,13 @@
 			newQuestion.find(".form-question-name").html(questionId.toUpperCase()+": ");
 			newQuestion.find(".form-question-text").attr("name", questionId+":name");
 			newQuestion.find(".form-question-type").attr("name", questionId+":type");
-			newQuestion.find(".form-question-milestone").attr("name", questionId+":milestone");
-			newQuestion.find(".form-question-milestone-2").attr("name", questionId+":milestone2");
+			newQuestion.find(".form-question-milestone").attr("name", questionId+":milestone[]")
+				.select2({
+					tags: true,
+					createTag: function(){
+						return undefined;
+					}
+				});
 			newQuestion.find(".form-question-competency").attr("name", questionId+":competency");
 			newQuestion.find(".form-question-weight").attr("name", questionId+":weight");
 			newQuestion.find(".form-question-required").attr("name", questionId+":required");

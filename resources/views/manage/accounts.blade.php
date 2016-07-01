@@ -714,25 +714,5 @@
 			$("#password-form").data("id", id);
 			$("#edit-password-name").text(name);
 		});
-
-		$(".table-filter-select").change(function(){
-			var filterType = $(this).val();
-			$($(this).data("filterTable")).DataTable({
-				retrieve: true
-			}).column($(this).data("filterColumn")).search(filterType).draw();
-		});
-
-		$(".refresh-table-glyph").click(function(){
-			$($(this).data("table")).DataTable({
-				retrieve: true
-			}).ajax.reload();
-			$(this).attr("title", "Refreshed!").tooltip("fixTitle").tooltip("show");;
-		});
-
-		$(".refresh-table-glyph").on("hidden.bs.tooltip", function(){
-			$(this).attr("title", "Refresh").tooltip("fixTitle");
-		});
-
-		$("[data-toggle='tooltip']").tooltip();
 	</script>
 @stop

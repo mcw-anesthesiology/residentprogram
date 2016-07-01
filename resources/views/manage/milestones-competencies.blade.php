@@ -414,8 +414,8 @@
 			// TODO: Open modal and show a loading bar or something
 			var button = $(this);
 			button.prop("disabled", true).addClass("disabled");
-			var milestoneId = $(this).data("milestoneId");
-			var milestoneTitle = $(this).data("milestoneTitle");
+			var milestoneId = $(this).data("id");
+			var milestoneTitle = $(this).data("title");
 			$.get("/milestones/" + milestoneId).then(function(milestone){
 				$("#milestone-levels-id").val(milestoneId);
 				$("#milestone-levels-title").text(milestoneTitle + " levels");
@@ -505,7 +505,7 @@
 				method: "POST", // PATCH
 				data: data
 			}).done(function(response){
-				if(response === "true"){
+				if(response === "success"){
 					$("#milestone-levels-modal").modal("hide");
 				}
 				else {

@@ -904,7 +904,10 @@ class MainController extends Controller
                         $result[] = $eval->evaluator->full_name;
                 }
 				$result[] = $eval->form->title;
-				$result[] = $eval->evaluation_date->format("F Y");
+				if($eval->evaluation_date)
+					$result[] = $eval->evaluation_date->format("F Y");
+				else
+					$result[] = "";
                 $result[] = (string)$eval->request_date;
                 if($type != "pending")
                     $result[] = (string)$eval->complete_date;

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Rest;
 use Illuminate\Http\Request;
 
 use App\Milestone;
+use App\MilestoneLevel;
 
 class MilestoneController extends RestController
 {
