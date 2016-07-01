@@ -24,7 +24,8 @@ class AdvancementController extends RestController
 		"advanced_field",
 		"advanced_value",
 		"run_at",
-		"complete"
+		"complete",
+		"successful"
 	];
 
 	protected $model = \App\Advancement::class;

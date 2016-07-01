@@ -602,6 +602,7 @@
 			var userId = $(this).data("id");
 			var data = {};
 			data._token = "{{ csrf_token() }}";
+			data._method = "PATCH";
 			data.status = $(this).data("actionStatus");
 
 			var actionStatus, buttonType, buttonText, glyphType;
@@ -637,7 +638,7 @@
 						$(this).velocity("fadeIn");
 					}});
 					status.velocity("fadeOut", {display: "table-cell", complete: function(){
-						$(this).html(data.status);
+						$(this).html(renderAccountStatus(data.status));
 						$(this).velocity("fadeIn");
 					}});
 				}
