@@ -47,6 +47,9 @@ Route::post("advancements/many", "Rest\AdvancementController@storeMany");
 Route::resource("advancements", "Rest\AdvancementController", ["only" => [
 	"index", "store", "show", "update", "destroy"
 ]]);
+Route::resource("flagged_evaluations", "Rest\FlaggedEvaluationController", ["only" => [
+	"index", "store", "show", "update", "destroy"
+]]);
 
 
 Route::get("/", "MainController@dashboard");
@@ -64,7 +67,6 @@ Route::get("password/reset/{token}", "Auth\PasswordController@getReset");
 Route::post("password/reset", "Auth\PasswordController@postReset");
 
 Route::get("dashboard", "MainController@dashboard");
-Route::post("dashboard/evaluations/flagged", "MainController@flaggedEvaluations");
 Route::post("dashboard/evaluations/staff/{limit?}", "MainController@staffEvaluations");
 Route::post("dashboard/evaluations/self/{limit?}", "MainController@selfEvaluations");
 Route::post("dashboard/evaluations/evaluator/{limit?}", "MainController@evaluatorEvaluations");

@@ -455,7 +455,7 @@ class MainController extends Controller
         $user = Auth::user();
         $eval = Evaluation::find($request->input("id"));
         if(($eval->requestor == $user || $user->type == "admin") && $eval->status == "pending"){
-            $eval->status = "canceled by ".$eval->requestor->type;
+            $eval->status = "canceled by ".$eval->requestor->type; // FIXME: specific_type
             $eval->save();
             return "success";
         }
@@ -915,31 +915,6 @@ class MainController extends Controller
 			}
 			catch(\Exception $e){
 				Log::error("Problem with staff evaluation: ".$e);
-			}
-		}
-		return response()->json($results);
-	}
-
-	public function flaggedEvaluations(Request $request){
-		$user = Auth::user();
-		$results["data"] = [];
-		$evaluations = Evaluation::has("flag")->with("flag")->get();
-
-		$flaggedActions = Setting::get("flaggedActions");
-
-		foreach($evaluations as $eval){
-			try{
-				$result = [];
-				$result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
-				$result[] = $eval->evaluator->full_name;
-				$result[] = $eval->subject->full_name;
-				$result[] = $flaggedActions[$eval->flag->requested_action];
-				$result[] = $eval->flag->reason;
-				$result[] = "<button type='button' class='remove-flag btn btn-primary btn-xs' data-id='{$eval->flag->id}'><span class='glyphicon glyphicon-ok'></span> Complete</button>";
-				$results["data"][] = $result;
-			}
-			catch(\Exception $e){
-				Log::error("Problem with flagged evaluation: ".$e);
 			}
 		}
 		return response()->json($results);

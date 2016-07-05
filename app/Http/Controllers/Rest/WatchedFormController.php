@@ -7,7 +7,8 @@ class WatchedFormController extends RestController
 
 	protected $relationships = [
 		"form",
-		"user"
+		"user",
+		"form.evaluations"
 	];
 
 	protected $attributes = [

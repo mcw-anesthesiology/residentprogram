@@ -19,6 +19,13 @@ class EvaluationController extends RestController
 		"flag"
 	];
 
+	protected $relationshipAttributes = [
+		"form" => [
+			"type",
+			"evaluator_type"
+		]
+	];
+
 	protected $attributes = [
 		"id",
 		"form_id",

@@ -47,8 +47,10 @@
 			ajax: {
 				url: "/watched_forms",
 				data: {
-					user: true,
-					form: true
+					with: {						
+						user: true,
+						form: true
+					}
 				},
 				dataSrc: ""
 			},

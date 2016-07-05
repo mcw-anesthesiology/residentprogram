@@ -1,8 +1,7 @@
 @extends("app")
 
 @section("body")
-	{{-- TODO: Split the chunks into separate files, include them conditionally here --}}
-	@include("dashboard.".$user->type)
+	@include("dashboard.type.".$user->type)
 
 	<!-- Cancel Modal -->
 	<div class="modal fade bs-cancel-modal-sm" tabindex="-1" role="dialog" aria-labelledby="modalCancel" aria-hidden="true">
@@ -26,6 +25,195 @@
 
 @section("script")
 	<script>
+		var user = {!! $user->toJson() !!};
+		var traineeEvaluationsTable, flaggedEvaluationsTable, selfEvaluationsTable, staffEvaluationsTable;
+		if(user.type === "admin"){
+			flaggedEvaluationsTable = $("#flagged-evaluations-table").DataTable({
+				ajax: {
+					url: "/flagged_evaluations",
+					data: {
+						with: {
+							evaluation: true,
+							"evaluation.evaluator": true,
+							"evaluation.subject": true
+						}
+					},
+					dataSrc: ""
+				},
+				columns: [
+					{data: "evaluation.url"},
+					{data: "evaluation.evaluator.full_name"},
+					{data: "evaluation.subject.full_name"},
+					{data: "requested_action", render: function(action){
+						var flaggedActions = {!! json_encode(Setting::get("flaggedActions")) !!};
+						return flaggedActions[action];
+					}},
+					{data: "reason"},
+					{data: null, orderable: false, searchable: false, render: function(flaggedEval){
+						return '<button type="button" class="remove-flag btn btn-primary btn-xs" '
+							+ 'data-id="' + flaggedEval.id + '"><span class="glyphicon glyphicon-ok"></span> '
+							+ 'Complete</button>';
+					}}
+				],
+				order: [[0, "desc"]],
+				createdRow: function(row){
+					$("td", row).addClass("view-evaluation");
+				}
+			});
+
+			traineeEvaluationsTable = $("#trainee-evaluations-table").DataTable({
+				ajax: {
+					url: "/evaluations?limit=20",
+					data: {
+						with: {
+							subject: [
+								"full_name"
+							],
+							evaluator: [
+								"full_name"
+							],
+							form: [
+								"title"
+							],
+						},
+						whereHas: {
+							form: {
+								type: ["resident", "fellow"],
+								evaluator_type: "faculty"
+							}
+						}
+					},
+					dataSrc: ""
+				},
+				columns: [
+					{data: "url"},
+					{data: "subject.full_name"},
+					{data: "evaluator.full_name"},
+					{data: "form.title"},
+					{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell},
+					{data: "request_date", render: renderTableDate, createdCell: createDateTimeCell},
+					{data: "complete_date", render: renderTableDate, createdCell: createDateTimeCell},
+					{data: "status", render: renderEvaluationStatus}
+				],
+				order: [[0, "desc"]],
+				createdRow: function(row){
+					$("td", row).addClass("view-evaluation");
+				},
+				deferRender: true,
+				initComplete: unlimitRestTableEvals
+			});
+
+			selfEvaluationsTable = $("#self-evaluations-table").DataTable({
+				ajax: {
+					url: "/evaluations",
+					data: {
+						with: {
+							evaluator: [
+								"full_name"
+							],
+							form: [
+								"title"
+							]
+						},
+						whereHas: {
+							form: {
+								evaluator_type: "self"
+							}
+						}
+					},
+					dataSrc: ""
+				},
+				columns: [
+					{data: "url"},
+					{data: "evaluator.full_name"},
+					{data: "form.title"},
+					{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell},
+					{data: "complete_date", render: renderTableDate, createdCell: createDateTimeCell},
+					{data: "status", render: renderEvaluationStatus},
+					{data: null, orderable: false, searchable: false, render: function(eval){
+						return ""; // FIXME
+					}}
+				],
+				order: [[0, "desc"]],
+				createdRow: function(row){
+					$("td", row).addClass("view-evaluation");
+				}
+			});
+
+			staffEvaluationsTable = $("#staff-evaluations-table").DataTable({
+				ajax: {
+					url: "/evaluations",
+					data: {
+						with: {
+							evaluator: [
+								"full_name"
+							],
+							subject: [
+								"full_name"
+							],
+							form: [
+								"title"
+							]
+						},
+						whereHas: {
+							form: {
+								evaluator_type: "staff"
+							}
+						}
+					},
+					dataSrc: ""
+				},
+				columns: [
+					{data: "url"},
+					{data: "subject.full_name"},
+					{data: "evaluator.full_name"},
+					{data: "form.title"},
+					{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell},
+					{data: "request_date", render: renderTableDate, createdCell: createDateTimeCell},
+					{data: "complete_date", render: renderTableDate, createdCell: createDateTimeCell},
+					{data: "status", render: renderEvaluationStatus}
+				],
+				order: [[0, "desc"]],
+				createdRow: function(row){
+					$("td", row).addClass("view-evaluation");
+				}
+			});
+		}
+
+		var watchedFormTables = [];
+		$(".watched-form-table").each(function(){
+			var formId = $(this).data("id");
+			watchedFormTables.push($(this).DataTable({
+				ajax: {
+					url: "/evaluations",
+					data: {
+						with: {
+							subject: true,
+							evaluator: true
+						},
+						form_id: formId,
+						status: "complete"
+					},
+					dataSrc: ""
+				},
+				columns: [
+					{data: "url"},
+					{data: "subject.full_name"},
+					{data: "evaluator.full_name"},
+					{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell},
+					{data: "complete_date", render: renderTableDate, createdCell: createDateTimeCell},
+					{data: "status", render: renderEvaluationStatus},
+					{data: null, orderable: false, searchable: false, render: function(eval){
+						return "";
+					}}
+				],
+				order: [[0, "desc"]],
+				createdRow: function(row){
+					$("td", row).addClass("view-evaluation");
+				}
+			}));
+		});
+
 		$(".table").on("click", ".cancelEval", function(event){
 			var id = $(this).data("id");
 			$(".modal-cancel #submit-cancel-eval").val(id);
@@ -67,13 +255,19 @@
 		});
 
 		$(".table").on("click", ".remove-flag", function(event){
+			event.stopPropagation();
 			var data = {};
 			data._token = "{{ csrf_token() }}";
-			data.id = $(this).data("id");
+			data._method = "DELETE";
+			var flaggedEvalId = $(this).data("id");
 
 			var row = $(this).parents("tr");
 
-			$.post("/evaluation/flag/remove", data, function(response){
+			$.ajax({
+				url: "/flagged_evaluations/" + flaggedEvalId,
+				method: "POST", // DELETE
+				data: data
+			}).done(function(response){
 				if(response == "success")
 					if(row.siblings().length == 0)
 						row.parents(".body-block").velocity("fadeOut", function(){
@@ -90,7 +284,6 @@
 			}).fail(function(){
 				alert("Error removing flag");
 			});
-			event.stopPropagation();
 		});
 
 		$(document).ready(function(){
@@ -117,18 +310,6 @@
 				},
 				"order": [[0, "desc"]],
 				"createdRow": function(row, data, index){
-					$("td", row).addClass("view-evaluation");
-				}
-			});
-
-			$("#self-evaluations-table").DataTable({
-				ajax: {
-					url: "/dashboard/evaluations/self",
-					data: data,
-					type: "post"
-				},
-				order: [[0, "desc"]],
-				createdRow: function(row, data, index){
 					$("td", row).addClass("view-evaluation");
 				}
 			});

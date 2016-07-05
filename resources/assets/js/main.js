@@ -553,6 +553,30 @@ function renderAccountStatus(status){
 	return '<span class="label ' + labelContext + '">' + ucfirst(status) + '</span>';
 }
 
+function renderEvaluationStatus(status){
+	var labelContext;
+	switch(status){
+		case "complete":
+			labelContext = "label-success";
+			break;
+		case "disabled":
+		case "canceled by admin":
+		case "canceled by faculty":
+		case "canceled by resident":
+		case "canceled by fellow":
+		case "canceled by staff":
+			labelContext = "label-danger";
+			break;
+		case "pending":
+			labelContext = "label-warning";
+			break;
+		default:
+			labelContext = "label-default";
+			break;
+	}
+	return '<span class="label ' + labelContext + '">' + ucfirst(status) + '</span>';
+}
+
 $(".table-filter-select").change(function(){
 	var filterType = $(this).val();
 	$($(this).data("filterTable")).DataTable({

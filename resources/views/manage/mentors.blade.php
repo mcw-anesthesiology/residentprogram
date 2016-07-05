@@ -68,8 +68,10 @@
 			ajax: {
 				url: "/mentorships",
 				data: {
-					mentor: true,
-					mentee: true
+					with: {						
+						mentor: true,
+						mentee: true
+					}
 				},
 				dataSrc: "",
 			},

@@ -241,8 +241,9 @@
 	<div class="modal fade" id="flag-evaluation-modal" tabindex="-1" role="dialog" aria-labelledby="flag-evaluation-label">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<form method="post" action="{{ Request::url('/') }}/flag" role="form">
+				<form id="flag-evaluation-form" method="POST" action="/flagged_evaluations" role="form">
 					{!! csrf_field() !!}
+					<input type="hidden" name="evaluation_id" value="{{ $evaluation->id }}"  />
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
 						<h4 class="modal-title" id="flag-evaluation-label">Flag evaluation</h4>

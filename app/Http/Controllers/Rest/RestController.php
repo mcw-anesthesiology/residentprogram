@@ -11,6 +11,7 @@ class RestController extends Controller
 {
 	protected $relationships = [];
 	protected $attributes = [];
+	protected $relationshipAttributes = [];
 
     public function __construct(){
         $this->middleware("auth");
@@ -24,30 +25,48 @@ class RestController extends Controller
      */
     public function index(Request $request){
 		$withArray = [];
-		foreach($request->intersect($this->relationships) as $relationship => $fields){
-			if(!is_array($fields))
-				$withArray[] = $relationship;
-			else {
-				if(in_array("full_name", $fields)){
-					$index = array_search("full_name", $fields);
-					unset($fields[$index]);
-					array_values($fields);
-					$fields[] = "first_name";
-					$fields[] = "last_name";
+		if($request->has("with")){
+			foreach(array_only($request->input("with"), $this->relationships) as $relationship => $fields){
+				if(!is_array($fields)){
+					if($fields && $fields !== "false")
+						$withArray[] = $relationship;
 				}
-				$withArray[$relationship] = function($query) use ($fields){
-					$query->select(array_merge(["id"], $fields));
-				};
+				else {
+					if(in_array("full_name", $fields)){
+						$index = array_search("full_name", $fields);
+						unset($fields[$index]);
+						array_values($fields);
+						$fields[] = "first_name";
+						$fields[] = "last_name";
+					}
+					$withArray[$relationship] = function($query) use ($fields){
+						$query->select(array_merge(["id"], $fields));
+					};
+				}
 			}
 		}
 
         $query = $this->model::with($withArray);
-			foreach($request->intersect($this->attributes) as $name => $value){
-				if(is_array($value))
-					$query->whereIn($name, $value);
-				else
-					$query->where($name, $value);
+		foreach($request->intersect($this->attributes) as $name => $value){
+			if(is_array($value))
+				$query->whereIn($name, $value);
+			else
+				$query->where($name, $value);
+		}
+
+		if($request->has("whereHas") && !empty($this->relationshipAttributes)){
+			foreach(array_keys(array_only($request->input("whereHas"), array_keys($this->relationshipAttributes))) as $relationship){
+				$relationshipAttributes = $this->relationshipAttributes[$relationship];
+				$query->whereHas($relationship, function($query) use ($request, $relationship, $relationshipAttributes){
+					foreach(array_only($request->input("whereHas")[$relationship], $relationshipAttributes) as $attribute => $value){
+						if(is_array($value))
+							$query->whereIn($attribute, $value);
+						else
+							$query->where($attribute, "=", $value);
+					}
+				});
 			}
+		}
 
 		return $query->take($request->input("limit"), null)
 			->orderBy("id", $request->input("order", "desc"))
