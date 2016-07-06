@@ -1074,7 +1074,7 @@ class MainController extends Controller
 
         $today = Carbon::now();
         if($today->month >= 7)
-            $yearStart = Carbon::parse("July 1 this year");
+            $yearStart = Carbon::parse("July 1");
         else
             $yearStart = Carbon::parse("July 1 last year");
 
