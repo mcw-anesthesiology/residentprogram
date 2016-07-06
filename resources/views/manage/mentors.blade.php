@@ -27,6 +27,7 @@
           <h4 class="modal-title" id="myModalAdd">Add Mentorship</h4>
         </div>
         <form method="POST" action="/mentorships" id="add-mentorship-form">
+			<input type="hidden" name="status" value="active" />
 			{{ csrf_field() }}
         <div class="modal-body">
           <div class="form-group">
