@@ -27,6 +27,7 @@
           <h4 class="modal-title" id="myModalAdd">Add Mentorship</h4>
         </div>
         <form method="POST" action="/mentorships" id="add-mentorship-form">
+			<input type="hidden" name="status" value="active" />
 			{{ csrf_field() }}
         <div class="modal-body">
           <div class="form-group">
@@ -68,7 +69,7 @@
 			ajax: {
 				url: "/mentorships",
 				data: {
-					with: {						
+					with: {
 						mentor: true,
 						mentee: true
 					}
@@ -86,7 +87,8 @@
 						+ 'data-id="' + data.id + '">'
 						+ '<span class="glyphicon glyphicon-remove"></span> Remove</button>';
 				}}
-			]
+			],
+			order: [[0, "desc"]]
 		});
 
 		$("#mentorships-table").on("click", ".delete-mentorship-button", function(){
@@ -121,17 +123,6 @@
 			}).fail(function(response){
 				button.prop("disabled", false).removeClass("disabled");
 				appendAlert(response, modal.find(".modal-header"));
-			});
-			$.post($(this).prop("action"), data, function(response){
-				if(response === "true"){
-					modal.modal("hide");
-					$("#mentorships-table").DataTable({
-						retrieve: true
-					}).ajax.reload();
-				}
-				else{
-					appendAlert(response, modal.find(".modal-body"));
-				}
 			});
 		});
 

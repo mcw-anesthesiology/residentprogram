@@ -104,6 +104,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->hasMany("App\WatchedForm");
     }
 
+	public function formsBeingWatched(){
+		return $this->belongsToMany("App\Form", "watched_forms");
+	}
+
     public function scopeFormerResidents($query){
         return $query->where(function($userQuery){
             $userQuery->where("type", "!=", "resident")->orWhere(function($inactiveQuery){

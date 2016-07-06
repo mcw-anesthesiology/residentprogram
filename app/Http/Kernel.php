@@ -31,6 +31,7 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         "type" => \App\Http\Middleware\Type::class,
         "shared" => \App\Http\Middleware\SharedVariables::class,
-		"update.alum" => \App\Http\Middleware\UpdateAlumMiddleware::class
+		"update.alum" => \App\Http\Middleware\UpdateAlumMiddleware::class,
+		"cancel.evaluation" => \App\Http\Middleware\CancelEvaluation::class
     ];
 }

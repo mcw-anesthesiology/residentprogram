@@ -19,6 +19,7 @@ Route::resource("forms", "Rest\FormController", ["only" => [
 	"index", "store", "show", "update"
 ]]);
 Route::patch("evaluations/{id}/remind", "Rest\EvaluationController@remind");
+Route::patch("evaluations/{id}/cancel", "Rest\EvaluationController@cancel");
 Route::resource("evaluations", "Rest\EvaluationController", ["only" => [
 	"index", "store", "show", "update"
 ]]);

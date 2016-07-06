@@ -19,15 +19,15 @@
 </div>
 
 
-@foreach($mentees as $mentee)
+@foreach($user->mentees as $mentee)
 <div class="container body-block">
-	@include("dashboard.tables.mentee-evaluations");
+	@include("dashboard.tables.mentee-evaluations")
 </div>
 @endforeach
 
 @foreach($user->watchedForms as $watchedForm)
 <div class="container body-block">
-	@include("dashbaord.tables.watched-form");
+	@include("dashboard.tables.watched-form")
 </div>
 @endforeach
 

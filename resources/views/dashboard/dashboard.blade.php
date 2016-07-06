@@ -26,164 +26,243 @@
 @section("script")
 	<script>
 		var user = {!! $user->toJson() !!};
-		var traineeEvaluationsTable, flaggedEvaluationsTable, selfEvaluationsTable, staffEvaluationsTable;
-		if(user.type === "admin"){
-			flaggedEvaluationsTable = $("#flagged-evaluations-table").DataTable({
+	@if($user->type == "admin")
+		var flaggedEvaluationsTable = $("#flagged-evaluations-table").DataTable({
+			ajax: {
+				url: "/flagged_evaluations",
+				data: {
+					with: {
+						evaluation: true,
+						"evaluation.evaluator": true,
+						"evaluation.subject": true
+					}
+				},
+				dataSrc: ""
+			},
+			columns: [
+				{data: "evaluation.url"},
+				{data: "evaluation.evaluator.full_name"},
+				{data: "evaluation.subject.full_name"},
+				{data: "requested_action", render: function(action){
+					var flaggedActions = {!! json_encode(Setting::get("flaggedActions")) !!};
+					return flaggedActions[action];
+				}},
+				{data: "reason"},
+				{data: null, orderable: false, searchable: false, render: function(flaggedEval){
+					return '<button type="button" class="remove-flag btn btn-primary btn-xs" '
+						+ 'data-id="' + flaggedEval.id + '"><span class="glyphicon glyphicon-ok"></span> '
+						+ 'Complete</button>';
+				}}
+			],
+			order: [[0, "desc"]],
+			createdRow: function(row){
+				$("td", row).addClass("view-evaluation");
+			}
+		});
+
+		var traineeEvaluationsTable = $("#trainee-evaluations-table").DataTable({
+			ajax: {
+				url: "/evaluations?limit=20",
+				data: {
+					with: {
+						subject: [
+							"full_name"
+						],
+						evaluator: [
+							"full_name"
+						],
+						form: [
+							"title"
+						],
+					},
+					whereHas: {
+						form: {
+							type: ["resident", "fellow"],
+							evaluator_type: "faculty"
+						}
+					}
+				},
+				dataSrc: ""
+			},
+			columns: [
+				{data: "url"},
+				{data: "subject.full_name"},
+				{data: "evaluator.full_name"},
+				{data: "form.title"},
+				{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell},
+				{data: "request_date", render: renderTableDate, createdCell: createDateTimeCell},
+				{data: "complete_date", render: renderTableDate, createdCell: createDateTimeCell},
+				{data: "status", render: renderEvaluationStatus}
+			],
+			order: [[0, "desc"]],
+			createdRow: function(row){
+				$("td", row).addClass("view-evaluation");
+			},
+			deferRender: true,
+			initComplete: unlimitRestTableEvals
+		});
+
+		var selfEvaluationsTable = $("#self-evaluations-table").DataTable({
+			ajax: {
+				url: "/evaluations",
+				data: {
+					with: {
+						evaluator: [
+							"full_name"
+						],
+						form: [
+							"title"
+						]
+					},
+					whereHas: {
+						form: {
+							evaluator_type: "self"
+						}
+					}
+				},
+				dataSrc: ""
+			},
+			columns: [
+				{data: "url"},
+				{data: "evaluator.full_name"},
+				{data: "form.title"},
+				{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell},
+				{data: "complete_date", render: renderTableDate, createdCell: createDateTimeCell},
+				{data: "status", render: renderEvaluationStatus},
+				{data: null, orderable: false, searchable: false, render: function(eval){
+					return ""; // FIXME
+				}}
+			],
+			order: [[0, "desc"]],
+			createdRow: function(row){
+				$("td", row).addClass("view-evaluation");
+			}
+		});
+
+		var staffEvaluationsTable = $("#staff-evaluations-table").DataTable({
+			ajax: {
+				url: "/evaluations",
+				data: {
+					with: {
+						evaluator: [
+							"full_name"
+						],
+						subject: [
+							"full_name"
+						],
+						form: [
+							"title"
+						]
+					},
+					whereHas: {
+						form: {
+							evaluator_type: "staff"
+						}
+					}
+				},
+				dataSrc: ""
+			},
+			columns: [
+				{data: "url"},
+				{data: "subject.full_name"},
+				{data: "evaluator.full_name"},
+				{data: "form.title"},
+				{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell},
+				{data: "request_date", render: renderTableDate, createdCell: createDateTimeCell},
+				{data: "complete_date", render: renderTableDate, createdCell: createDateTimeCell},
+				{data: "status", render: renderEvaluationStatus}
+			],
+			order: [[0, "desc"]],
+			createdRow: function(row){
+				$("td", row).addClass("view-evaluation");
+			}
+		});
+	@elseif($user->type == "faculty")
+		var pendingFacultyEvaluatorTable = $("#pending-faculty-evaluator-table").DataTable({
+			ajax: {
+				url: "/evaluations",
+				data: {
+					with: {
+						subject: [
+							"full_name"
+						],
+						form: [
+							"title"
+						]
+					},
+					evaluator_id: user.id,
+					status: "pending"
+				},
+				dataSrc: ""
+			},
+			columns: [
+				{data: "url"},
+				{data: "subject.full_name"},
+				{data: "form.title"},
+				{data: "request_date", render: renderTableDate, createdCell: createDateTimeCell},
+				{data: null, orderable: false, searchable: false, render: function(eval){
+					if(eval.requested_by_id === user.id)
+						return '<button class="btn btn-danger btn-xs cancel-eval-button" '
+							+ 'data-id="' + eval.id + '"><span class="glyphicon glyphicon-remove"></span> '
+							+ 'Cancel</button>';
+
+					return "";
+				}}
+			],
+			order: [[0, "desc"]],
+			createdRow: function(row){
+				$("td", row).addClass("view-evaluation");
+			}
+		});
+	@elseif($user->type == "resident")
+
+	@elseif($user->type == "staff")
+
+	@endif
+
+		var menteeTables = {};
+		$(".mentee-evaluations-table").each(function(){
+			var menteeId = $(this).data("id");
+			menteeTables[menteeId] = $(this).DataTable({
 				ajax: {
-					url: "/flagged_evaluations",
+					url: "/evaluations",
 					data: {
 						with: {
-							evaluation: true,
-							"evaluation.evaluator": true,
-							"evaluation.subject": true
-						}
+							evaluator: [
+								"full_name"
+							],
+							form: [
+								"title"
+							]
+						},
+						subject_id: menteeId,
+						status: "complete"
 					},
 					dataSrc: ""
 				},
 				columns: [
-					{data: "evaluation.url"},
-					{data: "evaluation.evaluator.full_name"},
-					{data: "evaluation.subject.full_name"},
-					{data: "requested_action", render: function(action){
-						var flaggedActions = {!! json_encode(Setting::get("flaggedActions")) !!};
-						return flaggedActions[action];
+					{data: "url"},
+					{data: "evaluator.full_name", render: function(name){
+						if(!name)
+							return "Anonymous";
+						return name;
 					}},
-					{data: "reason"},
-					{data: null, orderable: false, searchable: false, render: function(flaggedEval){
-						return '<button type="button" class="remove-flag btn btn-primary btn-xs" '
-							+ 'data-id="' + flaggedEval.id + '"><span class="glyphicon glyphicon-ok"></span> '
-							+ 'Complete</button>';
-					}}
-				],
-				order: [[0, "desc"]],
-				createdRow: function(row){
-					$("td", row).addClass("view-evaluation");
-				}
-			});
-
-			traineeEvaluationsTable = $("#trainee-evaluations-table").DataTable({
-				ajax: {
-					url: "/evaluations?limit=20",
-					data: {
-						with: {
-							subject: [
-								"full_name"
-							],
-							evaluator: [
-								"full_name"
-							],
-							form: [
-								"title"
-							],
-						},
-						whereHas: {
-							form: {
-								type: ["resident", "fellow"],
-								evaluator_type: "faculty"
-							}
-						}
-					},
-					dataSrc: ""
-				},
-				columns: [
-					{data: "url"},
-					{data: "subject.full_name"},
-					{data: "evaluator.full_name"},
 					{data: "form.title"},
 					{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell},
 					{data: "request_date", render: renderTableDate, createdCell: createDateTimeCell},
-					{data: "complete_date", render: renderTableDate, createdCell: createDateTimeCell},
-					{data: "status", render: renderEvaluationStatus}
-				],
-				order: [[0, "desc"]],
-				createdRow: function(row){
-					$("td", row).addClass("view-evaluation");
-				},
-				deferRender: true,
-				initComplete: unlimitRestTableEvals
-			});
-
-			selfEvaluationsTable = $("#self-evaluations-table").DataTable({
-				ajax: {
-					url: "/evaluations",
-					data: {
-						with: {
-							evaluator: [
-								"full_name"
-							],
-							form: [
-								"title"
-							]
-						},
-						whereHas: {
-							form: {
-								evaluator_type: "self"
-							}
-						}
-					},
-					dataSrc: ""
-				},
-				columns: [
-					{data: "url"},
-					{data: "evaluator.full_name"},
-					{data: "form.title"},
-					{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell},
-					{data: "complete_date", render: renderTableDate, createdCell: createDateTimeCell},
-					{data: "status", render: renderEvaluationStatus},
-					{data: null, orderable: false, searchable: false, render: function(eval){
-						return ""; // FIXME
-					}}
+					{data: "complete_date", render: renderTableDate, createdCell: createDateTimeCell}
 				],
 				order: [[0, "desc"]],
 				createdRow: function(row){
 					$("td", row).addClass("view-evaluation");
 				}
 			});
+		});
 
-			staffEvaluationsTable = $("#staff-evaluations-table").DataTable({
-				ajax: {
-					url: "/evaluations",
-					data: {
-						with: {
-							evaluator: [
-								"full_name"
-							],
-							subject: [
-								"full_name"
-							],
-							form: [
-								"title"
-							]
-						},
-						whereHas: {
-							form: {
-								evaluator_type: "staff"
-							}
-						}
-					},
-					dataSrc: ""
-				},
-				columns: [
-					{data: "url"},
-					{data: "subject.full_name"},
-					{data: "evaluator.full_name"},
-					{data: "form.title"},
-					{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell},
-					{data: "request_date", render: renderTableDate, createdCell: createDateTimeCell},
-					{data: "complete_date", render: renderTableDate, createdCell: createDateTimeCell},
-					{data: "status", render: renderEvaluationStatus}
-				],
-				order: [[0, "desc"]],
-				createdRow: function(row){
-					$("td", row).addClass("view-evaluation");
-				}
-			});
-		}
-
-		var watchedFormTables = [];
+		var watchedFormTables = {};
 		$(".watched-form-table").each(function(){
 			var formId = $(this).data("id");
-			watchedFormTables.push($(this).DataTable({
+			watchedFormTables[formId] = $(this).DataTable({
 				ajax: {
 					url: "/evaluations",
 					data: {
@@ -211,24 +290,30 @@
 				createdRow: function(row){
 					$("td", row).addClass("view-evaluation");
 				}
-			}));
+			});
 		});
 
-		$(".table").on("click", ".cancelEval", function(event){
+		$(".table").on("click", ".cancel-eval-button", function(event){
 			var id = $(this).data("id");
 			$(".modal-cancel #submit-cancel-eval").val(id);
 			$(".bs-cancel-modal-sm").modal("toggle");
-			event.stopPropagation();
 		});
 
-		$("#submit-cancel-eval").click(function(){
+		$("#submit-cancel-eval").click(function(event){
+			event.preventDefault();
 			var data = {};
 			data._token = "{{ csrf_token() }}";
-			data.id = $(this).val();
+			data._method = "PATCH";
+
+			var evalId = $(this).val();
 
 			var row = $("#cancel-" + data.id).parents("tr");
 
-			$.post("/evaluation/cancel", data, function(response){
+			$.ajax({
+				url: "/evaluations/" + evalId + "/cancel",
+				method: "POST", // PATCH
+				data: data
+			}).done(function(response){
 				if(response == "success"){
 					if(row.siblings().length == 0){
 						var bodyBlock = row.parents(".body-block");

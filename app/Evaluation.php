@@ -4,11 +4,20 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Scopes\EvaluationScope;
+
+use Auth;
 use Log;
 use Mail;
 
 class Evaluation extends Model
 {
+	protected static function boot(){
+		parent::boot();
+
+		static::addGlobalScope(new EvaluationScope);
+	}
+
     protected $table = "evaluations";
 
     protected $casts = [
@@ -48,6 +57,30 @@ class Evaluation extends Model
 	];
 
     protected $appends = ["url"];
+
+	public function getEvaluatorIdAttribute($evaluatorId){
+		if(Auth::check()){
+			$user = Auth::user();
+			if($user->type != "admin" && $user->id != $evaluatorId){
+				if($this->getVisibilityAttribute() == "anonymous")
+					return null;
+			}
+		}
+
+		return $evaluatorId;
+	}
+
+	public function getRequestedByIdAttribute($requestedById){
+		if(Auth::check()){
+			$user = Auth::user();
+			if($user->type != "admin" && $user->id != $requestedById){
+				if($this->getVisibilityAttribute() == "anonymous")
+					return null;
+			}
+		}
+
+		return $requestedById;
+	}
 
 	public function getVisibilityAttribute(){
         return empty($this->attributes["visibility"]) ? $this->form->visibility : $this->attributes["visibility"];

@@ -35,4 +35,8 @@ class Form extends Model
     public function watchedForms(){
         return $this->hasMany("App\WatchedForm");
     }
+
+	public function watchers(){
+		return $this->belongsToMany("App\User", "watched_forms");
+	}
 }

@@ -9,6 +9,19 @@ use App\Evaluation;
 class EvaluationController extends RestController
 {
 
+	public function __construct(){
+		$this->middleware("auth");
+		$this->middleware("type:admin", ["except" => [
+			"index", "store", "cancel"
+		]]);
+		$this->middleware("cancel.evaluation", ["only" => [
+			"cancel"
+		]]);
+		$this->middleware("create.evaluation", ["only" => [
+			"store"
+		]]);
+	}
+
 	protected $relationships = [
 		"evaluator",
 		"subject",
@@ -78,6 +91,27 @@ class EvaluationController extends RestController
 		$eval = Evaluation::find($id);
 		if(!$eval->sendNotification(true))
 			throw new \Exception("Failed to send reminder");
+
+		if($request->ajax())
+			return "success";
+		else
+			return back();
+	}
+
+	public function cancel(Request $request, $id){
+		$user = Auth::user();
+
+		if($user->type == "admin")
+			$userRole = "admin";
+		elseif($user->id == $eval->subject_id)
+			$userRole = "subject";
+		elseif($user->id == $eval->evaluator_id)
+			$userRole = "evaluator";
+		else
+			$userRole = $user->specific_type;
+
+		$eval->status = "canceled by " . $userRole;
+		$eval->save();
 
 		if($request->ajax())
 			return "success";

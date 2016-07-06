@@ -4,8 +4,9 @@
 		<thead>
 			<tr>
 				<th>#</th>
-				<th>Faculty</th>
+				<th>Evaluator</th>
 				<th>Evaluation Form</th>
+				<th>Evaluation Date</th>
 				<th>Requested</th>
 				<th>Completed</th>
 			</tr>
