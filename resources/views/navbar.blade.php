@@ -47,15 +47,15 @@
 		  </ul>
 		</li>
 	  @endif
-	  @if($user->type == "admin" || $user->type == "resident" || ($user->type == "faculty" && $user->mentees()->count() > 0))
+	  @if($user->isType("admin") || $user->type == "resident" || ($user->type == "faculty" && $user->mentees()->count() > 0))
 		<li class="dropdown">
 			<a href="#" data-toggle="dropdown">Reports<b class="caret"></b></a>
 			<ul class="dropdown-menu">
-			@if($user->type == "admin")
+			@if($user->isType("admin"))
 			<li><a class="viewAggRpt pointer" data-toggle="modal" data-target=".bs-aggRpt-modal" id="viewAggRpt">Aggregate</a></li>
 			@endif
 			<li><a class="viewSpecRpt pointer" data-toggle="modal" data-target=".bs-specRpt-modal" id="viewSpecRpt">Individual</a></li>
-			@if($user->type == "admin")
+			@if($user->isType("admin"))
             <li><a class="pointer" data-toggle="modal" data-target="#form-report-modal">Form Report</a></li>
 			<li><a class="pointer" data-toggle="modal" data-target="#faculty-report-modal">Faculty Report</a></li>
 			<li><a href="/report/stats/faculty">Faculty Statistics</a></li>

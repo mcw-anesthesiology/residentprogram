@@ -93,7 +93,7 @@
 				</select>
 		@elseif($user->type == "resident")
 				<input type="hidden" name="resident" value="{{ $user->id }}" />
-		@elseif($user->type == "admin")
+		@elseif($user->isType("admin"))
 				<label for="resident">Resident</label>
 				<select class="form-control select2" name="resident" style="width: 100%" required>
             @foreach(array_keys($residentGroups) as $residentGroupLabel)
@@ -162,7 +162,7 @@
 	</div>
 </div>
 
-@if($user->type == "admin")
+@if($user->isType("admin"))
 <!-- Faculty Report Modal -->
 <div class="modal fade bs-faculty-report-modal" role="dialog" aria-labelledby="faculty-report-modal-heading" aria-hidden="true" id="faculty-report-modal">
   <div class="modal-dialog">

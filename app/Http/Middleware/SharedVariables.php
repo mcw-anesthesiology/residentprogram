@@ -24,7 +24,7 @@ class SharedVariables
         View::share("user", Auth::user());
         View::share("ADMIN_EMAIL", config("app.admin_email"));
 
-        if(Auth::user()->type == "admin"){
+        if(Auth::user()->isType("admin")){
             $residents = User::where("type", "resident")->where("status", "active")->orderBy("last_name")->get();
             $residentGroupNames = [
                 "intern" => "Intern",

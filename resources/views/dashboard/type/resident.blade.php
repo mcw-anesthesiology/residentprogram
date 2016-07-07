@@ -6,7 +6,7 @@
 				<tr>
 					<th>#</th>
 					<th>Faculty</th>
-					<th>Evaluation Form</th>
+					<th>Form</th>
 					<th>Requested</th>
 					<th></th>
 				</tr>
@@ -27,7 +27,7 @@
 				<tr>
 					<th>#</th>
 					<th>Subject</th>
-					<th>Evaluation Form</th>
+					<th>Form</th>
 					<th>Evaluation date</th>
 					<th>Requested</th>
 					<th></th>
@@ -47,7 +47,8 @@
 				<tr>
 					<th>#</th>
 					<th>Faculty</th>
-					<th>Evaluation Form</th>
+					<th>Form</th>
+					<th>Evaluation date</th>
 					<th>Requested</th>
 					<th>Completed</th>
 				</tr>
@@ -68,7 +69,7 @@
 				<tr>
 					<th>#</th>
 					<th>Staff</th>
-					<th>Evaluation Form</th>
+					<th>Form</th>
 					<th>Evaluation Date</th>
 					<th>Created</th>
 					<th>Completed</th>
@@ -87,7 +88,7 @@
 			<thead>
 				<tr>
 					<th>#</th>
-					<th>Evaluation Form</th>
+					<th>Form</th>
 					<th>Evaluation Date</th>
 					<th>Completed</th>
 				</tr>

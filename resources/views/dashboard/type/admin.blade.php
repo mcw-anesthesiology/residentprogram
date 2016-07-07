@@ -15,9 +15,9 @@
 		</table>
 	</div>
 </div>
+<div class="container body-block">
 @endif
 
-<div class="container body-block">
 	<h2 class="sub-header"><span class="glyphicon glyphicon-list"></span> Resident Evaluations</h2>
 	<div class="table-responsive">
 		<table class="table table-striped" id="trainee-evaluations-table" width="100%">

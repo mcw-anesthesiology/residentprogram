@@ -819,7 +819,7 @@ class ReportController extends Controller
     public function specific(Request $request){
         $user = Auth::user();
         $resident = User::find($request->input("resident"));
-        if(!($resident == $user || $user->type == "admin" || $user->mentees->contains($resident)))
+        if(!($resident == $user || $user->isType("admin") || $user->mentees->contains($resident)))
             return back()->with("error", "Requested report not authorized");
 
         $data = [];

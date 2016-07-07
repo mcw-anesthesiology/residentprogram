@@ -49,6 +49,15 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      */
     protected $hidden = ['password', 'remember_token', 'created_at', 'updated_at'];
 
+	protected $userHidden = [ // Fields hidden to non-admins
+		"username",
+		"email",
+		"notifications",
+		"reminder_frequency",
+		"remind_only_if_pending",
+		"photo_path"
+	];
+
 	protected $appends = ["full_name", "specific_type", "profile_link"];
 
 	public function getFullNameAttribute(){
@@ -167,4 +176,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         }
         return false;
     }
+
+	public function hideFields(){
+		$this->addHidden($this->userHidden);
+	}
 }

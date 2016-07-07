@@ -396,55 +396,83 @@ class MainController extends Controller
     }
 
     public function evaluation(Request $request, $id){
-        $user = Auth::user();
-        $evaluation = Evaluation::find($id);
-        if($user->isType("admin") || $user->mentees->contains($evaluation->subject) || $user->id == $evaluation->subject->id)
-            $subjectString = "<a href='/profile/{$evaluation->subject->id}'>{$evaluation->subject->full_name}</a>";
-        else
-            $subjectString = $evaluation->subject->full_name;
-        if($user->isType("admin") || $user->id == $evaluation->evaluator->id)
-            $evaluatorString = "<a href='/profile/{$evaluation->evaluator->id}'>{$evaluation->evaluator->full_name}</a>";
-        else
-            $evaluatorString = $evaluation->evaluator->full_name;
+		try {
+	        $user = Auth::user();
+	        $evaluation = Evaluation::findOrFail($id);
+	        if($user->isType("admin") || $user->mentees->contains($evaluation->subject) || $user->id == $evaluation->subject_id)
+	            $subjectString = "<a href='/profile/{$evaluation->subject_id}'>{$evaluation->subject->full_name}</a>";
+	        else
+	            $subjectString = $evaluation->subject->full_name;
 
-        $data = compact("evaluation", "subjectString", "evaluatorString");
-        if($evaluation->subject_id == $user->id && $user->type == "faculty"){
-            $threshold = Setting::get("facultyEvalThreshold");
-            $evaluations = Evaluation::where("subject_id", $user->id)->where("status", "complete")->orderBy("id", "desc")->get();
-            $evaluations = $evaluations->splice($evaluations->count()%$threshold);
-            if($evaluations->contains($evaluation))
-                return view("evaluations.evaluation", $data);
-            else
-                return back()->with("error", "Insufficient permissions to view the requested evaluation");
-        }
-        elseif((($evaluation->subject_id == $user->id || $user->mentees->contains($evaluation->subject)) && $evaluation->visibility != "hidden") || $evaluation->evaluator_id == $user->id || $user->watchedForms->pluck("form_id")->contains($evaluation->form_id) || $user->type == "admin"){
-			if($evaluation->evaluator_id == $user->id || $user->type == "admin"){
-				switch($evaluation->evaluator->type){
-                    // FIXME: These subjectTypes aren't correct
-					case "faculty":
-						$subjectType = "Resident/Fellow";
-						$possibleSubjects = User::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("last_name")->get();
-						$possibleForms = Form::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("title")->get();
-						break;
-					case "resident":
-					case "fellow":
-						$subjectType = "Faculty";
-						$possibleSubjects = User::where("status", "active")->where("type", "faculty")->orderBy("last_name")->get();
-						$possibleForms = Form::where("status", "active")->where("type", "faculty")->orderBy("title")->get();
-						break;
-					case "staff":
-						$subjectType = "Resident/Fellow";
-						$possibleSubjects = User::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("last_name")->get();
-						$possibleForms = Form::where("status", "active")->where("type", "resident")->where("evaluator_type", "staff")->orderBy("title")->get();
-						break;
-				}
-				$flaggedActions = Setting::get("flaggedActions");
-				$data += compact("subjectType", "possibleSubjects", "possibleForms", "flaggedActions");
+	        if($user->isType("admin") || $user->id == $evaluation->evaluator_id)
+	            $evaluatorString = "<a href='/profile/{$evaluation->evaluator_id}'>{$evaluation->evaluator->full_name}</a>";
+	        elseif($evaluation->evaluator)
+	            $evaluatorString = $evaluation->evaluator->full_name;
+			else
+				$evaluatorString = "<i>Anonymous</i>";
+
+			switch($evaluation->status){
+				case "complete":
+					$labelContext = "label-success";
+					break;
+				case "disabled":
+				case "canceled by admin":
+				case "canceled by faculty":
+				case "canceled by resident":
+				case "canceled by fellow":
+				case "canceled by staff":
+					$labelContext = "label-danger";
+					break;
+				case "pending":
+					$labelContext = "label-warning";
+					break;
+				default:
+					$labelContext = "label-default";
+					break;
 			}
-            return view("evaluations.evaluation", $data);
+			$statusLabel = "<span class='label {$labelContext}'>" . ucfirst($evaluation->status) . "</span>";
+
+	        $data = compact("evaluation", "subjectString", "evaluatorString", "statusLabel");
+	        if($evaluation->subject_id == $user->id && $user->type == "faculty"){
+	            $threshold = Setting::get("facultyEvalThreshold");
+	            $evaluations = Evaluation::where("subject_id", $user->id)->where("status", "complete")->orderBy("id", "desc")->get();
+	            $evaluations = $evaluations->splice($evaluations->count()%$threshold);
+	            if($evaluations->contains($evaluation))
+	                return view("evaluations.evaluation", $data);
+	            else
+	                return back()->with("error", "Insufficient permissions to view the requested evaluation");
+	        }
+	        elseif((($evaluation->subject_id == $user->id || $user->mentees->contains($evaluation->subject)) && $evaluation->visibility != "hidden") || $evaluation->evaluator_id == $user->id || $user->watchedForms->pluck("form_id")->contains($evaluation->form_id) || $user->isType("admin")){
+				if($user->isType("admin") || $evaluation->evaluator_id == $user->id){
+					switch($evaluation->evaluator->type){
+	                    // FIXME: These subjectTypes aren't correct
+						case "faculty":
+							$subjectType = "Resident/Fellow";
+							$possibleSubjects = User::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("last_name")->get();
+							$possibleForms = Form::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("title")->get();
+							break;
+						case "resident":
+						case "fellow":
+							$subjectType = "Faculty";
+							$possibleSubjects = User::where("status", "active")->where("type", "faculty")->orderBy("last_name")->get();
+							$possibleForms = Form::where("status", "active")->where("type", "faculty")->orderBy("title")->get();
+							break;
+						case "staff":
+							$subjectType = "Resident/Fellow";
+							$possibleSubjects = User::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("last_name")->get();
+							$possibleForms = Form::where("status", "active")->where("type", "resident")->where("evaluator_type", "staff")->orderBy("title")->get();
+							break;
+					}
+					$flaggedActions = Setting::get("flaggedActions");
+					$data += compact("subjectType", "possibleSubjects", "possibleForms", "flaggedActions");
+				}
+	            return view("evaluations.evaluation", $data);
+			}
+	        else
+				throw new \Exception("Insufficient permissions to view the requested evaluation");
+		} catch(\Exception $e){
+			return back()->with("error", "Insufficient permissions to view the requested evaluation");
 		}
-        else
-            return back()->with("error", "Insufficient permissions to view the requested evaluation");
     }
 
     public function getEvaluation($id){
@@ -454,13 +482,13 @@ class MainController extends Controller
     public function cancelEvaluation(Request $request){
         $user = Auth::user();
         $eval = Evaluation::find($request->input("id"));
-        if(($eval->requestor == $user || $user->type == "admin") && $eval->status == "pending"){
+        if(($eval->requestor == $user || $user->isType("admin")) && $eval->status == "pending"){
             $eval->status = "canceled by ".$eval->requestor->type; // FIXME: specific_type
             $eval->save();
             return "success";
         }
         else{
-            if(!($eval->requestor == $user || $user->type == "admin"))
+            if(!($eval->requestor == $user || $user->isType("admin")))
                 return "Only the requestor or an administrator can cancel an evaluation";
             elseif($eval->status != "pending")
                 return "Only pending evaluations can be canceled";
@@ -534,7 +562,7 @@ class MainController extends Controller
 		$errors = "";
 		$successes = "";
 
-		if($user->type == "admin"){
+		if($user->isType("admin")){
 			if($request->has("evaluation_evaluator") && $request->input("evaluation_evaluator") != ""){
 				$newEvaluator = User::find($request->input("evaluation_evaluator"));
 				if($newEvaluator == null)
@@ -549,7 +577,7 @@ class MainController extends Controller
 			}
 		}
 
-		if($user->type == "admin" || ($eval->evaluator_id == $user->id && $eval->status == "pending")){
+		if($user->isType("admin") || ($eval->evaluator_id == $user->id && $eval->status == "pending")){
 			if($request->has("evaluation_subject") && $request->input("evaluation_subject") != ""){
 				$newSubject = User::find($request->input("evaluation_subject"));
 				if($newSubject == null)
@@ -622,7 +650,7 @@ class MainController extends Controller
 		if(!$request->has("id"))
 			return "Flag does not exist";
 		$flag = FlaggedEvaluation::find($request->input("id"));
-		if($user->type == "admin" && $flag != null){
+		if($user->isType("admin") && $flag != null){
 			$flag->delete();
 			return "success";
 		}
@@ -635,7 +663,7 @@ class MainController extends Controller
         // FIXME: This is a mess wtf
         $user = Auth::user();
         $results["data"] = [];
-        if($user->type == "admin"){
+        if($user->isType("admin")){
             $evaluations = Evaluation::with("subject", "evaluator", "form")->whereHas("form", function($query){
                 $query->whereIn("type", ["resident", "fellow"])->where("evaluator_type", "faculty");
             })->orderBy("id", "desc");
@@ -773,7 +801,7 @@ class MainController extends Controller
             $evaluations = $form->evaluations;
         $results["data"] = [];
 
-        if($user->type == "admin" || $user->watchedForms->pluck("form_id")->contains($request->input("form_id"))){
+        if($user->isType("admin") || $user->watchedForms->pluck("form_id")->contains($request->input("form_id"))){
             foreach($evaluations as $eval){
                 try {
                     $result = [];
@@ -817,7 +845,7 @@ class MainController extends Controller
         $results["data"] = [];
         $type = $request->input("type", "complete");
 
-        if($user->type == "admin"){
+        if($user->isType("admin")){
             $evaluations = Evaluation::with("form")->where("status", $type)->whereHas("form", function($query){
                 $query->where("evaluator_type", "self");
             })->orderBy("id", "desc");
@@ -839,7 +867,7 @@ class MainController extends Controller
             try {
                 $result = [];
                 $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
-                if($user->type == "admin")
+                if($user->isType("admin"))
                     $result[] = $eval->subject->full_name;
                 $result[] = $eval->form->title;
                 $result[] = $eval->evaluation_date->format("F Y");
@@ -860,7 +888,7 @@ class MainController extends Controller
 		$results["data"] = [];
         $type = $request->input("type", "complete");
 
-		if($user->type == "admin"){
+		if($user->isType("admin")){
 			$evaluations = Evaluation::with("form")->whereHas("form", function($query){
 				$query->where("evaluator_type", "staff");
 			})->orderBy("id", "desc");
@@ -923,7 +951,7 @@ class MainController extends Controller
     public function facultyEvaluations(Request $request, $limit = null){
         $user = Auth::user();
         $results["data"] = [];
-        if($user->type == "admin"){
+        if($user->isType("admin")){
             $evaluations = Evaluation::with("subject", "evaluator", "form")
                 ->whereHas("form", function($query){
                     $query->where("type", "faculty");
@@ -961,7 +989,7 @@ class MainController extends Controller
 			try{
 	            $result = [];
 	            $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
-	            if($user->type == "admin"){
+	            if($user->isType("admin")){
 	                $result[] = $eval->subject->last_name.", ".$eval->subject->first_name;
 	                $result[] = $eval->evaluator->last_name.", ".$eval->evaluator->first_name;
 	                $result[] = (string)$eval->request_date;
@@ -971,13 +999,13 @@ class MainController extends Controller
 	                $result[] = $eval->subject->last_name.", ".$eval->subject->first_name;
 	                $result[] = (string)$eval->request_date;
 	            }
-	            if($user->type == "admin" || $user->type == "faculty"){
+	            if($user->isType("admin") || $user->type == "faculty"){
 	                if(isset($eval->evaluation_date))
 	                    $result[] = $eval->evaluation_date->format("F Y");
 	                else
 	                    $result[] = "";
 	            }
-	            if($user->type == "admin"){
+	            if($user->isType("admin")){
 	                $result[] = "";
 	            }
 

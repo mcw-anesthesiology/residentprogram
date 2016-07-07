@@ -43,10 +43,10 @@
 
 @section("body")
 	<div>
-	@if($evaluation->status == "pending" && $user->id == $evaluation->evaluator->id)
-		<h2 class="header">Complete Evaluation</h2>
+	@if($evaluation->status == "pending" && $user->id == $evaluation->evaluator_id)
+		<h1 class="header">Complete Evaluation</h1>
 	@else
-		<h2 class="header">View Evaluation</h2>
+		<h1 class="header">View Evaluation</h1>
 	@endif
 
 		<div id="evaluation-controls" class="noprint">
@@ -57,7 +57,7 @@
 			<a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" placement="left" title="Controls information" class="close" id="evaluation-controls-info">
 				<span class="glyphicon glyphicon-info-sign"></span>
 			</a>
-	@elseif($user->type == "admin")
+	@elseif($user->isType("admin"))
 			<button class="btn btn-info" data-toggle="modal" data-target="#edit-evaluation-modal" id="edit-evaluation"><span class="glyphicon glyphicon-edit"></span> Edit evaluation</button>
 			<Button class="btn btn-info" data-toggle="modal" data-target="#evaluation-hash-modal" id="edit-hash"><span class="glyphicon glyphicon-link"></span> Personalized completion link</Button>
 	@endif
@@ -66,7 +66,7 @@
 
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h3 class="panel-title">Evaluation Information</h3>
+			<h2 class="panel-title">Evaluation Information</h2>
 		</div>
 		<div class="panel-body table-responsive">
 			<table class="table" id="evaluation-info-table">
@@ -76,7 +76,7 @@
 	@if($user->id != $evaluation->subject_id && $evaluation->form->evaluator_type != "self")
 						<th>{{ ucfirst($evaluation->subject->type) }}</th>
 	@endif
-	@if($user->isType("admin") || ($user->id != $evaluation->evaluator_id && $evaluation->visibility == "visible"))
+	@if($user->isType("admin") || ($user->id != $evaluation->evaluator_id && $evaluation->evaluator && $evaluation->visibility == "visible"))
 						<th>{{ ucfirst($evaluation->evaluator->type) }}</th>
 	@endif
 	@if($evaluation->status == "complete")
@@ -84,7 +84,9 @@
 	@endif
 	@if(!($evaluation->subject->isType("faculty") && $user->id == $evaluation->subject_id))
 						<th>Requested</th>
+		@if($evaluation->status == "complete")
 						<th>Completed</th>
+		@endif
 	@endif
 						<th>Status</th>
 	@if($evaluation->subject->isType("resident"))
@@ -101,19 +103,29 @@
 	@if($user->isType("admin") || ($user->id != $evaluation->evaluator_id && $evaluation->visibility == "visible"))
 						<td>{!! $evaluatorString !!}</td>
 	@endif
-	@if($evaluation->status == "complete")
+	@if($evaluation->evaluation_date)
 						<td>{{ $evaluation->evaluation_date->format("F Y") }}</td>
 	@endif
 	@if(!($evaluation->subject->isType("faculty") && $user->id == $evaluation->subject_id))
 						<td>{{ $evaluation->request_date }}</td>
+		@if($evaluation->status == "complete")
 						<td>{{ $evaluation->complete_date }}</td>
+		@endif
 	@endif
-						<td>{{ ucfirst($evaluation->status) }}</td>
+						<td>{!! $statusLabel !!}</td>
 	@if(!$evaluation->subject->isType("faculty"))
 		@if($evaluation->training_level)
+			@if(strpos($evaluation->training_level, "ca-") !== false)
 							<td>{{ strtoupper($evaluation->training_level) }}</td>
+			@else
+							<td>{{ ucfirst($evaluation->training_level) }}</td>
+			@endif
 		@else
+			@if(strpos($evaluation->subject->training_level, "ca-") !== false)
 							<td>{{ strtoupper($evaluation->subject->training_level) }}</td>
+			@else
+							<td>{{ ucfirst($evaluation->subject->training_level) }}</td>
+			@endif
 		@endif
 	@endif
 					</tr>
@@ -125,7 +137,7 @@
 			</div>
 	@endif
 		</div>
-	@if($user->type == "admin" && $evaluation->comment)
+	@if($user->isType("admin") && $evaluation->comment)
 		<div class="panel-footer">
 			<h3 class="sub-header">Evaluation Comment</h3>
 			<p>
@@ -165,7 +177,7 @@
 		</div>
 	</div>
 
-	@if($evaluation->evaluator_id == $user->id || $user->type == "admin")
+	@if($evaluation->evaluator_id == $user->id || $user->isType("admin"))
 	<!-- Evaluation comment modal -->
 	<div class="modal fade" id="evaluation-comment-modal" tabindex="-1" role="dialog" aria-labelledby="evaluation-comment-label">
 		<div class="modal-dialog" role="document">
@@ -193,7 +205,7 @@
 		</div>
 	</div>
 
-		@if(($evaluation->status == "pending" && $user->id == $evaluation->requested_by_id) || $user->type == "admin")
+		@if(($evaluation->status == "pending" && $user->id == $evaluation->requested_by_id) || $user->isType("admin"))
 	<!-- Edit evaluation modal -->
 	<div class="modal fade" id="edit-evaluation-modal" tabindex="-1" role="dialog" aria-labelledby="edit-evaluation-label">
 		<div class="modal-dialog" role="document">
@@ -318,6 +330,7 @@
 
 @section("script")
 	<script>
+		var evaluationId = {{ $evaluation->id }};
 		$(".evaluation-hash-edit").click(function(){
 			var data = {};
 			data._token = "{{ csrf_token() }}";
@@ -330,8 +343,10 @@
 						var newBody;
 						switch(data.action){
 							case "new":
-								$.getJSON(window.location.href + "/get", function(eval){
+								$.getJSON("/evaluations/" + evaluationId, function(eval){
 									$("#evaluation-hash-body-text").html("A link has been sent, it expires <b>" + eval.hash_expires + "</b>. Are you sure you want to resend the completion link?");
+								}).fail(function(){
+									appendAlert("There was a problem retrieving the evaluation info, please let me know if this continues.");
 								});
 								break;
 							case "resend":
@@ -352,7 +367,7 @@
 		});
 
 		$(document).ready(function(){
-			@if($evaluation->status == "complete" || $user->id == $evaluation->evaluator_id || $user->type == "admin")
+			@if($evaluation->status == "complete" || $user->id == $evaluation->evaluator_id || $user->isType("admin"))
 				@foreach($evaluation->responses as $response)
 					if($("input[name='{{ $response->question_id }}']").attr("type") == "radio")
 						$("input[name='{{ $response->question_id }}'][value='{{ $response->response }}']").prop("checked", true);
@@ -385,7 +400,7 @@
 			$("#form button").each(function(){
 				$(this).addClass("noprint");
 			});
-	@if($evaluation->evaluator_id == $user->id || $user->type == "admin")
+	@if($evaluation->evaluator_id == $user->id || $user->isType("admin"))
 			$("#evaluation-controls-info").popover({
 				placement: "left",
 				html: "true",
@@ -445,7 +460,7 @@
 			saveForm = true;
 		});
 
-	@if($evaluation->evaluator_id == $user->id || $user->type == "admin")
+	@if($evaluation->evaluator_id == $user->id || $user->isType("admin"))
 		$("#submit-evaluation-comment").click(function(){
 			var data = {};
 			data.comment = $("#evaluation-comment").val();

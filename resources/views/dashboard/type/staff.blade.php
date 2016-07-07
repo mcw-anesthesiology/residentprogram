@@ -6,7 +6,7 @@
 				<tr>
 					<th>#</th>
 					<th>Resident</th>
-					<th>Evaluation Form</th>
+					<th>Form</th>
 					<th>Evaluation Date</th>
 					<th>Created</th>
 				</tr>
@@ -24,7 +24,7 @@
 				<tr>
 					<th>#</th>
 					<th>Resident</th>
-					<th>Evaluation Form</th>
+					<th>Form</th>
 					<th>Evaluation Date</th>
 					<th>Created</th>
 					<th>Completed</th>

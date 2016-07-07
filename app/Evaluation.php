@@ -56,28 +56,32 @@ class Evaluation extends Model
 		"updated_at"
 	];
 
+	protected $userHidden = [ // Fields hidden to non-admins
+		"archive_date",
+		"request_ip",
+		"complete_ip",
+		"comment",
+		"completion_hash",
+		"hash_expires",
+		"flag"
+	];
+
     protected $appends = ["url"];
 
 	public function getEvaluatorIdAttribute($evaluatorId){
-		if(Auth::check()){
-			$user = Auth::user();
-			if($user->type != "admin" && $user->id != $evaluatorId){
-				if($this->getVisibilityAttribute() == "anonymous")
-					return null;
-			}
-		}
+		if(Auth::check() && !Auth::user()->isType("admin")
+				&& $this->getVisibilityAttribute() == "anonymous"
+				&& Auth::user()->id != $evaluatorId)
+			return null;
 
 		return $evaluatorId;
 	}
 
 	public function getRequestedByIdAttribute($requestedById){
-		if(Auth::check()){
-			$user = Auth::user();
-			if($user->type != "admin" && $user->id != $requestedById){
-				if($this->getVisibilityAttribute() == "anonymous")
-					return null;
-			}
-		}
+		if(Auth::check() && !Auth::user()->isType("admin")
+				&& $this->getVisibilityAttribute() == "anonymous"
+				&& Auth::user()->id != $requestedById)
+			return null;
 
 		return $requestedById;
 	}
@@ -194,4 +198,8 @@ class Evaluation extends Model
         }
         return false;
     }
+
+	public function hideFields(){
+		$this->addHidden($this->userHidden);
+	}
 }

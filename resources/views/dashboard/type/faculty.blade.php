@@ -41,6 +41,7 @@
 					<th>#</th>
 					<th>Resident/Fellow</th>
 					<th>Evaluation Form</th>
+					<th>Evaluation Date</th>
 					<th>Requested</th>
 					<th>Completed</th>
 				</tr>

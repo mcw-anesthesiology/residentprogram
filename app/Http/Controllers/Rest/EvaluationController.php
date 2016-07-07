@@ -12,7 +12,7 @@ class EvaluationController extends RestController
 	public function __construct(){
 		$this->middleware("auth");
 		$this->middleware("type:admin", ["except" => [
-			"index", "store", "cancel"
+			"index", "store", "show", "cancel"
 		]]);
 		$this->middleware("cancel.evaluation", ["only" => [
 			"cancel"
@@ -101,7 +101,7 @@ class EvaluationController extends RestController
 	public function cancel(Request $request, $id){
 		$user = Auth::user();
 
-		if($user->type == "admin")
+		if($user->isType("admin"))
 			$userRole = "admin";
 		elseif($user->id == $eval->subject_id)
 			$userRole = "subject";

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 
+use Auth;
+
 class RestController extends Controller
 {
 	protected $relationships = [];
@@ -24,6 +26,7 @@ class RestController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request){
+		$user = Auth::user();
 		$withArray = [];
 		if($request->has("with")){
 			foreach(array_only($request->input("with"), $this->relationships) as $relationship => $fields){
@@ -68,9 +71,21 @@ class RestController extends Controller
 			}
 		}
 
-		return $query->take($request->input("limit"), null)
+		$results = $query->take($request->input("limit"), null)
 			->orderBy("id", $request->input("order", "desc"))
 			->get();
+
+		if(!$user->isType("admin"))
+			return $results->each(function($result){
+				if(method_exists($result, "hideFields"))
+					$result->hideFields();
+				collect($result->getRelations())->each(function($rel){
+					if($rel && method_exists($rel, "hideFields"))
+						$rel->hideFields();
+				});
+			});
+
+		return $results;
     }
 
     /**
@@ -94,7 +109,19 @@ class RestController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id){
-        return $this->model::with($this->relationships)->find($id);
+		$user = Auth::user();
+        $result = $this->model::with($this->relationships)->findOrFail($id);
+
+		if(!$user->isType("admin")){
+			if(method_exists($result, "hideFields"))
+				$result->hideFields();
+			collect($result->getRelations())->each(function($rel){
+				if($rel && method_exists($rel, "hideFields"))
+					$rel->hideFields();
+			});
+		}
+
+		return $result;
     }
 
     /**

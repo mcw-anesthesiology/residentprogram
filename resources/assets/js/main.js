@@ -466,19 +466,22 @@ $(".report-milestones-info").popover({
 		"</ul>"
 });
 
-$(".toggleDescriptions").click(function(){
+$(".toggle-descriptions").click(function(){
 	var questionName = $(this).data("id");
 	var headerHeight = $("#main-navbar").height();
 	var padding = 5;
-	var scrollto = $(this).parents(".question").velocity("scroll");
+	var scrollto = $(this).parents(".question").velocity("scroll", {offset: -(headerHeight + padding)});
 	var isExpanded = $("#" + questionName).hasClass("expanded-descriptions");
-	if(isExpanded)
+	if(isExpanded){
 		$("." + questionName + " .description").velocity("slideUp", function(){
 			$("#" + questionName).removeClass("expanded-descriptions");
 		});
+		$(this).html('<span class="glyphicon glyphicon-zoom-in"></span> Show descriptions');
+	}
 	else {
 		$("#" + questionName).addClass("expanded-descriptions");
 		$("." + questionName + " .description").velocity("slideDown");
+		$(this).html('<span class="glyphicon glyphicon-zoom-out"></span> Hide descriptions');
 	}
 });
 
