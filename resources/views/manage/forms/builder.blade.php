@@ -35,6 +35,7 @@
 
 @section("script")
 	<script>
+		var customQuestionOptions = []; // TODO: form for this
 		var radioHtml = "<div class='col-md-2 ctr-contents tdRdoBtn'>" +
 											"<input type='radio' disabled/>" +
 											"<input class='form-input form-option form-option-text form-control' placeholder='Option Text' />" +
@@ -91,7 +92,7 @@
 													"</div>" +
 												"</div>" +
 												"<div class='row'>" +
-													"<div class='col-md-7'>" +
+													"<div class='col-md-6'>" +
 														"<input type='text' class='form-input form-question-text form-control' name='questionText' placeholder='Question Text' required />" +
 													"</div>" +
 													"<div class='col-md-2'>" +
@@ -99,6 +100,11 @@
 													"</div>" +
 													"<div class='col-md-2'>" +
 														"<button class='form-question-milestone-level-options btn btn-info' type='button'>Milestone Options</button>" +
+													"</div>" +
+													"<div class='col-md-1'>" +
+														"<button class='form-question-custom-options btn btn-info' type='button'>" +
+															"Custom" +
+														"</button>" +
 													"</div>" +
 													"<div class='col-md-1'>" +
 														"<button class='form-block-delete btn btn-danger del-btn' type='button'>" +
@@ -295,6 +301,15 @@
 			});
 		});
 
+		$(".form").on("click", ".form-question-custom-options", function(){
+			if(customQuestionOptions.length === 0)
+				return;
+			var questionType = $(this).parents(".form-question").find(".form-question-type").val();
+			var container = $(this).parents(".form-question").find(".form-options");
+			container.empty();
+			addFormOptions(customQuestionOptions, container, questionType);
+		});
+
 		$(".form").on("click", ".form-question-standard-options", function(){
 			var formType = $("#form-type").val();
 			var questionType = $(this).parents(".form-question").find(".form-question-type").val();
@@ -343,21 +358,26 @@
 				];
 			}
 
+			addFormOptions(options, formOptions, questionType);
+		});
+
+		function addFormOptions(options, container, questionType){
 			for(var i = 0; i < options.length; i++){
 				if(questionType == "radio")
-					formOption = formOptions.append(radioHtml).children().last();
+					formOption = container.append(radioHtml).children().last();
 				else if(questionType == "radiononnumeric")
-					formOption = formOptions.append(radioNonNumericHtml).children().last();
+					formOption = container.append(radioNonNumericHtml).children().last();
 				else
 					return;
 				formOption.find(".form-option-value").val(options[i].value);
 				formOption.find(".form-option-text").val(options[i].text);
+				formOption.find(".form-option-description").val(options[i].description);
 				var questionId = formOption.parents(".form-question").attr("id");
 				var optionNumber = formOption.parents(".form-options").children().length;
 				formOption.find(".form-option-text").attr("name", questionId+":"+options[i].value+":"+optionNumber);
 				formOption.find(".form-option-description").attr("name", questionId+":"+options[i].value+":description");
 			}
-		});
+		}
 
 		$("#addQuestion").click(function(){
 			addQuestion();
