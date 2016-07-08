@@ -70,7 +70,7 @@
 			ajax: {
 				url: "/evaluations?limit=20",
 				data: {
-					with: {						
+					with: {
 						subject: [
 							"full_name"
 						],
@@ -385,6 +385,7 @@
 					button.html("Anonymous <span class='glyphicon glyphicon-eye-close'></span>");
 					break;
 				case "hidden":
+				case "under faculty threshold":
 					button.removeClass("visibility-anonymous visibility-visible btn-info");
 					button.addClass("visibility-hidden btn-default");
 					button.html("Hidden <span class='glyphicon glyphicon-eye-close'></span>");

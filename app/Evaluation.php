@@ -201,5 +201,8 @@ class Evaluation extends Model
 
 	public function hideFields(){
 		$this->addHidden($this->userHidden);
+
+		if($this->status != "complete")
+			$this->addHidden(["responses", "textResponses"]);
 	}
 }

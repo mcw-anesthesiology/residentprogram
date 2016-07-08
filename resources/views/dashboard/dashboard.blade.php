@@ -177,7 +177,7 @@
 				$("td", row).addClass("view-evaluation");
 			}
 		});
-	@elseif($user->type == "faculty")
+	@elseif($user->isType("faculty"))
 		var pendingFacultyEvaluatorTable = $("#pending-faculty-evaluator-table").DataTable({
 			ajax: {
 				url: "/evaluations",
@@ -241,7 +241,7 @@
 				$("td", row).addClass("view-evaluation");
 			}
 		});
-	@elseif($user->type == "resident")
+	@elseif($user->isType("resident"))
 		var pendingResidentSubjectTable = $("#pending-resident-subject-table").DataTable({
 			ajax: {
 				url: "/evaluations",
@@ -416,7 +416,7 @@
 				$("td", row).addClass("view-evaluation");
 			}
 		});
-	@elseif($user->type == "staff")
+	@elseif($user->isType("staff"))
 		var pendingStaffEvaluatorTable = $("#pending-staff-evaluator-table").DataTable({
 			ajax: {
 				url: "/evaluations",

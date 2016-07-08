@@ -161,6 +161,7 @@ class ResidentTest extends TestCase
             "requested_by_id" => $this->user->id,
             "form_id" => $this->facultyForm->id,
             "status" => "pending",
+			"visibility" => "under faculty threshold",
             "evaluation_date" => $firstOfMonth
         ]);
     }
@@ -206,7 +207,8 @@ class ResidentTest extends TestCase
             "form_id" => $this->facultyForm->id,
             "evaluator_id" => $this->user->id,
             "subject_id" => $this->faculty->id,
-            "requested_by_id" => $this->user->id
+            "requested_by_id" => $this->user->id,
+			"visibility" => "under faculty threshold"
         ]);
 
         $this->actingAs($this->user)
@@ -242,6 +244,42 @@ class ResidentTest extends TestCase
             "question_id" => "q3",
             "response" => "Have none."
         ]);
+
+		$this->actingAs($this->faculty)
+			->visit("/evaluations")
+			->seeJson([]);
+
+		$evals = factory(App\Evaluation::class, 3)->create([
+            "form_id" => $this->facultyForm->id,
+            "evaluator_id" => $this->user->id,
+            "subject_id" => $this->faculty->id,
+            "requested_by_id" => $this->user->id,
+			"visibility" => "under faculty threshold"
+        ]);
+
+		for($i = 0; $i < 3; $i++){
+			$this->actingAs($this->user)
+	            ->visit("/evaluation/" . $evals[$i]->id)
+	            ->see("Complete evaluation")
+	            ->see($evals[$i]->id)
+	            ->see("Pending")
+	            ->see("Faculty Evaluation Form")
+	            ->select("good", "q1")
+	            ->select("yes", "q2")
+	            ->type("Have none.", "q3")
+	            ->press("Complete evaluation");
+		}
+
+		Log::debug($this->facultyForm->evaluations()
+			->where("visibility", "under faculty threshold")
+			->orderBy("id", "desc")->get());
+
+		$this->actingAs($this->faculty)
+			->visit("/evaluations")
+			->seeJson(["id" => $eval->id])
+			->seeJson(["id" => $evals[0]->id])
+			->seeJson(["id" => $evals[1]->id])
+			->dontSeeJson(["id" => $evals[2]->id]);
     }
 
     public function testProfileEvaluations(){
