@@ -20,6 +20,9 @@ Route::resource("forms", "Rest\FormController", ["only" => [
 ]]);
 Route::patch("evaluations/{id}/remind", "Rest\EvaluationController@remind");
 Route::patch("evaluations/{id}/cancel", "Rest\EvaluationController@cancel");
+Route::patch("evaluations/{id}/hash", "Rest\EvaluationController@sendHash");
+Route::patch("evaluations/{id}/comment", "Rest\EvaluationController@saveComment");
+Route::patch("evaluations/{id}/edit", "Rest\EvaluationController@userEdit");
 Route::resource("evaluations", "Rest\EvaluationController", ["only" => [
 	"index", "store", "show", "update"
 ]]);
@@ -53,7 +56,9 @@ Route::resource("flagged_evaluations", "Rest\FlaggedEvaluationController", ["onl
 ]]);
 
 
-Route::get("/", "MainController@dashboard");
+Route::get("/", function(){
+	return redirect("dashboard");
+});
 
 Route::get("login", "Auth\AuthController@getLogin");
 Route::post("login", "Auth\AuthController@postLogin");
@@ -68,24 +73,10 @@ Route::get("password/reset/{token}", "Auth\PasswordController@getReset");
 Route::post("password/reset", "Auth\PasswordController@postReset");
 
 Route::get("dashboard", "MainController@dashboard");
-Route::post("dashboard/evaluations/staff/{limit?}", "MainController@staffEvaluations");
-Route::post("dashboard/evaluations/self/{limit?}", "MainController@selfEvaluations");
-Route::post("dashboard/evaluations/evaluator/{limit?}", "MainController@evaluatorEvaluations");
-Route::post("dashboard/evaluations/form/{limit?}", "MainController@formEvaluations");
-Route::get("dashboard/evaluations/{limit?}", "MainController@evaluations");
-Route::post("dashboard/evaluations/{limit?}", "MainController@evaluations");
 Route::get("dashboard/faculty", "MainController@dashboardFaculty");
-Route::get("dashboard/faculty/evaluations/{limit?}", "MainController@facultyEvaluations");
-Route::post("dashboard/faculty/evaluations/{limit?}", "MainController@facultyEvaluations");
 
-Route::post("evaluation/cancel", "MainController@cancelEvaluation");
-Route::post("evaluation/flag/remove", "MainController@removeFlag");
 Route::get("evaluation/{id}", "MainController@evaluation");
 Route::post("evaluation/{id}", "MainController@saveEvaluation");
-Route::post("evaluation/{id}/comment", "MainController@evaluationComment");
-Route::post("evaluation/{id}/edit", "MainController@editEvaluation");
-Route::post("evaluation/{id}/flag", "MainController@flagEvaluation");
-Route::post("evaluation/{id}/hash", "MainController@evaluationHash");
 
 Route::get("evaluate/{hash}", "MainController@evaluationByHashLink");
 Route::post("evaluate/{hash}", "MainController@saveEvaluationByHashLink");
@@ -124,7 +115,6 @@ Route::get("manage/accounts/advance", "ManageController@advanceAccounts");
 Route::get("manage/forms", "ManageController@forms");
 Route::get("manage/forms/add", "ManageController@formBuilder");
 Route::get("manage/forms/{id}", "ManageController@viewForm");
-Route::post("manage/forms/{id}", "ManageController@editForm");
 Route::get("manage/milestones-competencies", "ManageController@milestonesCompetencies");
 Route::get("manage/mentors", "ManageController@mentors");
 Route::get("manage/block-assignments", "ManageController@blockAssignments");

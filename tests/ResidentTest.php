@@ -270,10 +270,6 @@ class ResidentTest extends TestCase
 	            ->press("Complete evaluation");
 		}
 
-		Log::debug($this->facultyForm->evaluations()
-			->where("visibility", "under faculty threshold")
-			->orderBy("id", "desc")->get());
-
 		$this->actingAs($this->faculty)
 			->visit("/evaluations")
 			->seeJson(["id" => $eval->id])
@@ -311,47 +307,17 @@ class ResidentTest extends TestCase
         ]);
 
         $this->actingAs($this->user)
-            ->get("/profile/evaluations/".$this->user->id)
-            ->seeJson([
-                "data" => [
-                    [
-                        "<a href='/evaluation/{$evals[0]->id}'>{$evals[0]->id}</a>",
-                        $this->faculty->full_name,
-                        $this->form->title,
-                        (string)$evals[0]->evaluation_date,
-                        (string)$evals[0]->request_date,
-                        (string)$evals[0]->complete_date,
-                        "<span class='badge badge-complete'>".ucfirst($evals[0]->status)."</span>"
-                    ],
-                    [
-                        "<a href='/evaluation/{$evals[1]->id}'>{$evals[1]->id}</a>",
-                        $this->faculty->full_name,
-                        $this->form->title,
-                        (string)$evals[1]->evaluation_date,
-                        (string)$evals[1]->request_date,
-                        (string)$evals[1]->complete_date,
-                        "<span class='badge badge-complete'>".ucfirst($evals[1]->status)."</span>"
-                    ],
-                    [
-                        "<a href='/evaluation/{$anotherEval->id}'>{$anotherEval->id}</a>",
-                        $this->faculty->full_name,
-                        $this->form->title,
-                        (string)$anotherEval->evaluation_date,
-                        (string)$anotherEval->request_date,
-                        "",
-                        "<span class='badge badge-pending'>".ucfirst($anotherEval->status)."</span>"
-                    ],
-                    [
-                        "<a href='/evaluation/{$anonymousEval->id}'>{$anonymousEval->id}</a>",
-                        "<i>Anonymous</i>",
-                        $this->form->title,
-                        (string)$anonymousEval->evaluation_date,
-                        (string)$anonymousEval->request_date,
-                        "",
-                        "<span class='badge badge-pending'>".ucfirst($anotherEval->status)."</span>"
-                    ]
-                ]
-            ]);
+            ->get("/evaluations", [
+				"with" => [
+					"evaluator" => ["full_name"],
+					"form" => ["title"]
+				],
+				"subject_id" => $this->user->id
+			])
+			->seeJson(["id" => $evals[0]->id])
+			->seeJson(["id" => $evals[1]->id])
+			->seeJson(["id" => $anotherEval->id])
+			->seeJson(["id" => $anonymousEval->id, "evaluator_id" => null]);
     }
 
     public function testFacultyProfile(){
@@ -376,8 +342,16 @@ class ResidentTest extends TestCase
         ]);
 
         $this->actingAs($this->user)
-            ->get("/profile/evaluations/".$this->faculty->id)
-            ->dontSee("data");
+            ->get("/evaluations", [
+				"with" => [
+					"evaluator" => ["full_name"],
+					"form" => ["title"]
+				],
+				"evaluator_id"
+			])
+            ->seeJson(["id" => $evals[0]->id])
+			->seeJson(["id" => $evals[1]->id])
+			->seeJson(["id" => $anotherEval->id]);
     }
 
     public function testPagerDirectory(){

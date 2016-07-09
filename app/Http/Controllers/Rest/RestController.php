@@ -132,7 +132,7 @@ class RestController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id){
-        $this->model::find($id)->update($request->all());
+        $this->model::findOrFail($id)->update($request->all());
 
 		if($request->ajax())
 			return "success";

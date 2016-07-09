@@ -191,12 +191,13 @@ class Evaluation extends Model
                 $message->replyTo(config("app.admin_email"));
                 $message->subject("Evaluation Completion Link");
             });
-            return true;
         }
         catch (\Exception $e){
-            Log::error("Problem sending hash link: ".$e);
+            Log::error("Problem sending hash link: " . $e);
+			throw $e;
         }
-        return false;
+
+		return true;
     }
 
 	public function hideFields(){

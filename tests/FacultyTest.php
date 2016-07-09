@@ -14,7 +14,7 @@ class FacultyTest extends TestCase
 
     public function setUp(){
         parent::setUp();
-        
+
 		$this->user = factory(App\User::class, "faculty")->create();
 		$this->resident = factory(App\User::class, "resident")->create();
 		$this->form = factory(App\Form::class, "resident")->create();
@@ -167,8 +167,8 @@ class FacultyTest extends TestCase
 
         $this->actingAs($this->user)
             ->visit("/evaluation/" . $eval->id)
-            ->select($newResident->id, "evaluation_subject")
-            ->select($newForm->id, "evaluation_form")
+            ->select($newResident->id, "subject_id")
+            ->select($newForm->id, "form_id")
             ->press("Save changes")
             ->seeInDatabase("evaluations", [
                 "id" => $eval->id,
@@ -189,11 +189,10 @@ class FacultyTest extends TestCase
 
         $this->actingAs($this->user)
             ->visit("/evaluation/" . $eval->id)
-            ->post("/evaluation/" . $eval->id . "/comment", [
-                "_token" => csrf_token(),
+            ->post("/evaluations/" . $eval->id . "/comment", [
+                "_method" => "PATCH",
                 "comment" => $comment
             ])
-            ->see("true")
             ->seeInDatabase("evaluations", [
                 "id" => $eval->id,
                 "comment" => $comment
@@ -348,14 +347,13 @@ class FacultyTest extends TestCase
             ->see($this->resident->full_name);
 
         $this->actingAs($this->user)
-            ->post("dashboard/evaluations", [
+            ->get("/evaluations", [
                 "_token" => csrf_token(),
-                "type" => "mentor",
-                "mentee_id" => $this->resident->id
+                "subject_id" => $this->resident->id
             ])
-            ->see($eval->id)
-            ->see($otherFaculty->full_name)
-            ->dontSee($this->resident->full_name)
-            ->see($eval->form->title);
+            ->seeJson([
+				"evaluator_id" => $otherFaculty->id,
+				"form_id" => $eval->form->id
+			]);
     }
 }

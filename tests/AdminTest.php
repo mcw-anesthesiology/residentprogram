@@ -110,11 +110,15 @@ class AdminTest extends TestCase
 
         $this->actingAs($this->user)
             ->visit("/evaluation/" . $eval->id)
-            ->post("/evaluation/" . $eval->id . "/hash", [
+            ->post("/evaluations/" . $eval->id . "/hash", [
+				"_method" => "PATCH",
                 "action" => "new",
                 "hash_expires_in" => 30
             ])
-            ->see("true");
+            ->seeInDatabase("evaluations", [
+				"id" => $eval->id,
+				"hash_expires" => Carbon::now()->addDays(30)
+			]);
     }
 
     public function testResendEvaluationCompletionHash(){
@@ -134,10 +138,10 @@ class AdminTest extends TestCase
 
         $this->actingAs($this->user)
             ->visit("/evaluation/" . $eval->id)
-            ->post("/evaluation/" . $eval->id . "/hash", [
+            ->post("/evaluations/" . $eval->id . "/hash", [
+				"_method" => "PATCH",
                 "action" => "resend"
-            ])
-            ->see("true");
+            ]);;
     }
 
     public function testVoidEvaluationCompletionHash(){
@@ -150,10 +154,10 @@ class AdminTest extends TestCase
 
         $this->actingAs($this->user)
             ->visit("/evaluation/" . $eval->id)
-            ->post("/evaluation/" . $eval->id . "/hash", [
+            ->post("/evaluations/" . $eval->id . "/hash", [
+				"_method" => "PATCH",
                 "action" => "void"
             ])
-            ->see("true")
             ->seeInDatabase("evaluations", [
                 "id" => $eval->id,
                 "completion_hash" => null
@@ -716,56 +720,18 @@ class AdminTest extends TestCase
         ]);
 
         $this->actingAs($this->user)
-            ->get("/profile/evaluations/".$this->resident->id)
-            ->seeJson([
-                "data" => [
-                    [
-                        "<a href='/evaluation/{$evals[0]->id}'>{$evals[0]->id}</a>",
-                        $this->faculty->full_name,
-                        $this->form->title,
-                        (string)$evals[0]->evaluation_date,
-                        (string)$evals[0]->request_date,
-                        (string)$evals[0]->complete_date,
-                        "<span class='badge badge-complete'>".ucfirst($evals[0]->status)."</span>"
-                    ],
-                    [
-                        "<a href='/evaluation/{$evals[1]->id}'>{$evals[1]->id}</a>",
-                        $this->faculty->full_name,
-                        $this->form->title,
-                        (string)$evals[1]->evaluation_date,
-                        (string)$evals[1]->request_date,
-                        (string)$evals[1]->complete_date,
-                        "<span class='badge badge-complete'>".ucfirst($evals[1]->status)."</span>"
-                    ],
-                    [
-                        "<a href='/evaluation/{$anotherEval->id}'>{$anotherEval->id}</a>",
-                        $this->faculty->full_name,
-                        $this->form->title,
-                        (string)$anotherEval->evaluation_date,
-                        (string)$anotherEval->request_date,
-                        "",
-                        "<span class='badge badge-pending'>".ucfirst($anotherEval->status)."</span>"
-                    ],
-                    [
-                        "<a href='/evaluation/{$anonymousEval->id}'>{$anonymousEval->id}</a>",
-                        $this->faculty->full_name,
-                        $this->form->title,
-                        (string)$anonymousEval->evaluation_date,
-                        (string)$anonymousEval->request_date,
-                        "",
-                        "<span class='badge badge-pending'>".ucfirst($anotherEval->status)."</span>"
-                    ],
-                    [
-                        "<a href='/evaluation/{$hiddenEval->id}'>{$hiddenEval->id}</a>",
-                        $this->faculty->full_name,
-                        $this->form->title,
-                        (string)$hiddenEval->evaluation_date,
-                        (string)$hiddenEval->request_date,
-                        "",
-                        "<span class='badge badge-pending'>".ucfirst($hiddenEval->status)."</span>"
-                    ]
-                ]
-            ]);
+            ->get("/evaluations", [
+				"with" => [
+					"evaluator" => ["full_name"],
+					"form" => ["title"]
+				],
+				"subject_id" => $this->resident->id
+			])
+			->seeJson(["id" => $evals[0]->id])
+			->seeJson(["id" => $evals[1]->id])
+			->seeJson(["id" => $anotherEval->id])
+			->seeJson(["id" => $anonymousEval->id])
+			->seeJson(["id" => $hiddenEval->id]);
     }
 
     public function testEditDirectoryEntry(){
