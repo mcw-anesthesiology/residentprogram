@@ -1,14 +1,5 @@
 @extends("app")
 
-@section("head")
-	<style>
-		#download-directory-csv {
-			display: block;
-			margin: auto;
-		}
-	</style>
-@stop
-
 @section("body")
 	<h1>Pager Directory</h1>
 	<div class="table-responsive">
@@ -25,10 +16,8 @@
 			</thead>
 		</table>
 	</div>
-	<div class="form-group">
-		<form method="get" action="/directory/csv">
-			<button type="submit" class="btn" id="download-directory-csv">Download for iPage (CSV)</button>
-		</form>
+	<div class="text-center">
+		<a href="/directory_entries/csv?download=true" class="btn btn-default">Download for iPage (CSV)</a>
 	</div>
 
 	<!-- Edit entry modal -->
@@ -66,16 +55,47 @@
 @section("script")
 	<script>
 		var directoryTable = $("#pager-directory").DataTable({
-			ajax: "/directory/get"
+			ajax: {
+				url: "/directory_entries",
+				dataSrc: ""
+			},
+			columns: [
+				{data: "last_name"},
+				{data: "first_name"},
+				{data: "pager"},
+	@if($user->isType("admin"))
+				{data: null, render: function(directoryEntry){
+					var editButton = '<button class="btn btn-xs btn-info edit-directory-entry" '
+						+ 'data-id="' + directoryEntry.id + '" data-first="' + directoryEntry.first_name + '" '
+						+ 'data-last="' + directoryEntry.last_name + '" data-pager="' + directoryEntry.pager + '">'
+						+ '<span class="glyphicon glyphicon-edit"></span> Edit</button>';
+
+					var deleteButton = '<button class="btn btn-xs btn-danger remove-directory-entry" '
+						+ 'data-id="' + directoryEntry.id + '">'
+						+ '<span class="glyphicon glyphicon-remove"></span> Delete</button>';
+
+					return editButton + " " + deleteButton;
+				}}
+	@endif
+			],
+			order: [[0, "asc"]]
 		});
 
+
+	@if($user->isType("admin"))
+
 		$("#pager-directory").on("click", ".remove-directory-entry", function(){
-			var data = {};
-			data.id = $(this).data("id");
-			data._token = "{{ csrf_token() }}";
+			var entryId = $(this).data("id");
 			var row = $(this).parents("tr");
 
-			$.post("/directory/delete", data, function(response){
+			$.ajax({
+				url: "/directory_entries/" + entryId,
+				method: "POST", // DELETE
+				data: {
+					_token: "{{ csrf_token() }}",
+					_method: "DELETE"
+				}
+			}).done(function(response){
 				if(response === "success"){
 					row.velocity("fadeOut", function(){
 						directoryTable.row(row).remove().draw(false);
@@ -101,14 +121,20 @@
 		});
 
 		$("#submit-edit-entry").click(function(){
-			var data = {};
-			data._token = "{{ csrf_token() }}";
-			data.id = $("#entry-id").val();
-			data.first_name = $("#entry-first").val();
-			data.last_name = $("#entry-last").val();
-			data.pager = $("#entry-pager").val();
+			var entryId = $("#entry-id").val();
+			var data = {
+				_token: "{{ csrf_token() }}",
+				_method: "PATCH",
+				first_name: $("#entry-first").val(),
+				last_name: $("#entry-last").val(),
+				pager: $("#entry-pager").val()
+			};
 
-			$.post("/directory/edit", data, function(response){
+			$.ajax({
+				url: "/directory_entries/" + entryId,
+				method: "POST", // PATCH
+				data: data
+			}).done(function(response){
 				if(response === "success"){
 					directoryTable.ajax.reload();
 					$("#edit-entry-modal").modal("hide");
@@ -119,5 +145,6 @@
 				appendAlert("Error editing entry", "#edit-entry-modal .modal-body");
 			});
 		});
+	@endif
 	</script>
 @stop

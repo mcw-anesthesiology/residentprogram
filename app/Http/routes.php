@@ -54,6 +54,10 @@ Route::resource("advancements", "Rest\AdvancementController", ["only" => [
 Route::resource("flagged_evaluations", "Rest\FlaggedEvaluationController", ["only" => [
 	"index", "store", "show", "update", "destroy"
 ]]);
+Route::get("directory_entries/csv", "Rest\DirectoryController@csv");
+Route::resource("directory_entries", "Rest\DirectoryController", ["only" => [
+	"index", "store", "show", "update", "destroy"
+]]);
 
 
 Route::get("/", function(){
@@ -93,10 +97,6 @@ Route::post("user/reminders", "MainController@saveUserReminders");
 Route::post("user/notifications", "MainController@saveUserNotifications");
 
 Route::get("directory", "MainController@pagerDirectory");
-Route::get("directory/get", "MainController@getPagerDirectory");
-Route::get("directory/csv", "MainController@getPagerCSV");
-Route::post("directory/edit", "ManageController@editPagerDirectoryEntry");
-Route::post("directory/delete", "ManageController@deletePagerDirectoryEntry");
 
 Route::get("alum/{hash}", "MainController@alumni");
 Route::get("alum/{hash}/subscription", "MainController@alumniSubscription");

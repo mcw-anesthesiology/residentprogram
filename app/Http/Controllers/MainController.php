@@ -649,40 +649,6 @@ class MainController extends Controller
         return view("dashboard.directory");
     }
 
-    public function getPagerDirectory(){
-        $user = Auth::user();
-        $directory = DirectoryEntry::orderBy("last_name")->get();
-        $results["data"] = [];
-        foreach($directory as $entry){
-            $result = [
-                $entry->last_name,
-                $entry->first_name,
-                $entry->pager
-            ];
-            if($user->isType("admin"))
-                $result[] = "<button type='button' data-id='{$entry->id}' data-pager='{$entry->pager}' "
-                    . "data-first='{$entry->first_name}' data-last='{$entry->last_name}' "
-                    . "class='btn btn-xs btn-info edit-directory-entry'>"
-                    . "<span class='glyphicon glyphicon-edit'></span> Edit</button>";
-            $results["data"][] = $result;
-        }
-        return response()->json($results);
-    }
-
-    public function getPagerCSV(Request $request){
-    // Intended for iPage (https://itunes.apple.com/us/app/ipage/id438797413)
-        $directory = DirectoryEntry::orderBy("last_name")->get(["first_name", "last_name", "pager"])->toArray();
-        $csv = "";
-        foreach($directory as $entry){
-            $csv .= implode(",", $entry) . "\n";
-        }
-
-        $response = response($csv)->header("Content-Type", "text/csv");
-        if(!$request->has("view"))
-            $response = $response->header("Content-Disposition", "attachment; filename='ipage.csv'");
-        return $response;
-    }
-
     public function alumni(Request $request, $hash){
         try {
             $alum = Alum::where("update_hash", $hash)->firstOrFail();
