@@ -359,25 +359,24 @@ class ResidentTest extends TestCase
         $this->actingAs($this->user)
             ->visit("/directory")
             ->assertResponseOk();
-        $this->get("/directory/get")
-            ->seeJsonEquals([
-                "data" => [
-                    [
-                        $directory[0]->first_name,
-                        $directory[0]->last_name,
-                        $directory[0]->pager
-                    ],
-                    [
-                        $directory[1]->first_name,
-                        $directory[1]->last_name,
-                        $directory[1]->pager
-                    ],
-                    [
-                        $directory[2]->first_name,
-                        $directory[2]->last_name,
-                        $directory[2]->pager
-                    ]
-                ]
+        $this->get("/directory_entries/")
+            ->seeJson([
+				"id" => $directory[0]->id,
+				"first_name" => $directory[0]->first_name,
+                "last_name" => $directory[0]->last_name,
+                "pager" => $directory[0]->pager
+            ])
+			->seeJson([
+				"id" => $directory[1]->id,
+                "first_name" => $directory[1]->first_name,
+                "last_name" => $directory[1]->last_name,
+                "pager" => $directory[1]->pager
+            ])
+			->seeJson([
+				"id" => $directory[2]->id,
+	            "first_name" => $directory[2]->first_name,
+	            "last_name" => $directory[2]->last_name,
+	            "pager" => $directory[2]->pager
             ]);
     }
 
@@ -390,7 +389,7 @@ class ResidentTest extends TestCase
                 . $entry->pager . "\n";
         }
         $this->actingAs($this->user)
-            ->get("/directory/csv?view=true")
+            ->get("/directory_entries/csv")
             ->see($csv);
     }
 }

@@ -11,7 +11,7 @@ class DirectoryController extends RestController
 	public function __construct(){
 		$this->middleware("auth");
 		$this->middleware("type:admin", ["except" => [
-			"index", "show"
+			"index", "show", "csv"
 		]]);
 	}
 
@@ -29,9 +29,6 @@ class DirectoryController extends RestController
 
 		$csv = "";
 		foreach($directory as $entry){
-			// dd($entry);
-			// dd($entry->toArray());
-			// dd(array_only($entry->toArray(), ["first_name", "last_name", "pager"]));
             $csv .= implode(",", array_only($entry->toArray(), ["first_name", "last_name", "pager"])) . "\n";
         }
 
