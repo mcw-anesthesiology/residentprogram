@@ -104,6 +104,8 @@ Route::get("alum/{hash}/subscription", "MainController@alumniSubscription");
 Route::get("contact", "MainController@contact");
 Route::post("contact", "MainController@saveContact");
 
+Route::get("case-log", "MainController@caseLog");
+
 Route::get("photos/{filename}", "FileController@getPhoto");
 Route::get("graph/{filename}", "FileController@getGraph");
 

@@ -20,13 +20,16 @@ use View;
 use Carbon\Carbon;
 
 use App\Alum;
+use App\AnesthesiaAnalgesiaType;
 use App\Block;
 use App\BlockAssignment;
+use App\BlockadeSite;
 use App\Contact;
 use App\DirectoryEntry;
 use App\Evaluation;
 use App\FlaggedEvaluation;
 use App\Form;
+use App\Location;
 use App\Mentorship;
 use App\Response;
 use App\TextResponse;
@@ -671,4 +674,21 @@ class MainController extends Controller
             return view("dashboard.alumni.invalid-url")->with("noNavbar", true);
         }
     }
+
+	public function caseLog(Request $request){
+
+		$detailsType = "raaps";
+		$locations = Location::all();
+		$anesthesiaAnalgesiaTypes = AnesthesiaAnalgesiaType::find([
+
+		]);
+		$blockadeSites = BlockadeSite::find([
+
+		]);
+
+		$data = compact("detailsType", "locations", "anesthesiaAnalgesiaTypes",
+			"blockadeSites");
+
+		return view("case-log.case-log", $data);
+	}
 }

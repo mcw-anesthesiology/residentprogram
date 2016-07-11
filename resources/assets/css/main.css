@@ -376,3 +376,12 @@ body {
 .table-date-time-cell {
     cursor: help;
 }
+
+.containing-label {
+	width: 100%;
+}
+
+.containing-label input,
+.containing-label textarea {
+	font-weight: normal;
+}
