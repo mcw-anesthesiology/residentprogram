@@ -10,6 +10,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
+use DB;
 use Log;
 use Mail;
 
@@ -115,6 +116,49 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
 	public function formsBeingWatched(){
 		return $this->belongsToMany("App\Form", "watched_forms");
+	}
+
+	public function userFeatures(){
+		return $this->belongsToMany("App\Feature", "user_features");
+	}
+
+	public function typeFeatures(){
+		return DB::table("users")
+			->join("user_features", "users.type", "=", "user_features.user_type")
+			->join("features", "user_features.feature_id", "=", "features.id")
+			->where("users.id", $this->id)
+			->pluck("features.name");
+	}
+
+	public function trainingLevelFeatures(){
+		return DB::table("users")
+			->join("user_features", function($join){
+				$join->on("users.type", "=", "user_features.user_type")
+					->on("users.training_level", "=", "user_features.user_training_level");
+			})
+			->join("features", "user_features.feature_id", "=", "features.id")
+			->where("users.id", $this->id)
+			->pluck("features.name");
+	}
+
+	public function secondaryTrainingLevelFeatures(){
+		return DB::table("users")
+			->join("user_features", function($join){
+				$join->on("users.type", "=", "user_features.user_type")
+					->on("users.training_level", "=", "user_features.user_training_level")
+					->on("users.secondary_training_level", "=", "user_features.user_secondary_training_level");
+			})
+			->join("features", "user_features.feature_id", "=", "features.id")
+			->where("users.id", $this->id)
+			->pluck("features.name");
+	}
+
+	public function usesFeature($feature){
+		return $this->userFeatures->pluck("name")
+			->merge($this->typeFeatures())
+			->merge($this->trainingLevelFeatures())
+			->merge($this->secondaryTrainingLevelFeatures())
+			->contains($feature);
 	}
 
     public function scopeFormerResidents($query){
