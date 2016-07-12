@@ -17,9 +17,9 @@ class CreateCaseLogsTable extends Migration
 			$table->integer('user_id');
 			$table->integer('location_id');
 			$table->datetime('case_date');
-			$table->integer('details_id');
 			$table->string('details_type');
 			$table->text('comment')->nullable();
+			$table->text('details')->nullable(); // TODO: Change to JSON some day
             $table->timestamps();
         });
     }

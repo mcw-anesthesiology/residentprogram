@@ -61,10 +61,7 @@ Route::resource("directory_entries", "Rest\DirectoryController", ["only" => [
 Route::resource("locations", "Rest\LocationController", ["only" => [
 	"index", "store", "show", "update", "destroy"
 ]]);
-Route::resource("anesthesia_analgesia_types", "Rest\AnesthesiaAnalgesiaTypeController", ["only" => [
-	"index", "store", "show", "update", "destroy"
-]]);
-Route::resource("blockade_sites", "Rest\BlockadeSiteController", ["only" => [
+Route::resource("case_logs", "Rest\CaseLogController", ["only" => [
 	"index", "store", "show", "update", "destroy"
 ]]);
 
@@ -134,6 +131,7 @@ Route::post("manage/block-assignments/get", "ManageController@getBlockAssignment
 Route::get("manage/alumni", "ManageController@alumni");
 Route::get("manage/alumni/import", "ManageController@importAlumni");
 Route::get("manage/watched-forms", "ManageController@watchedForms");
+Route::Get("manage/case-logs", "ManageController@caseLogs");
 
 Route::post("report/aggregate", "ReportController@aggregate");
 Route::post("report/specific", "ReportController@specific");

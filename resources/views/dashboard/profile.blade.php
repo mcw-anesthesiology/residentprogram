@@ -118,9 +118,9 @@
 				{data: "url"},
 				{data: "evaluator.full_name"},
 				{data: "form.title"},
-				{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell},
-				{data: "request_date", render: renderTableDate, createdCell: createDateTimeCell},
-				{data: "complete_date", render: renderTableDate, createdCell: createDateTimeCell},
+				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+				{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
+				{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 				{data: "status", render: renderEvaluationStatus}
 			],
 			order: [[0, "desc"]],

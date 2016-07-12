@@ -304,4 +304,8 @@ class ManageController extends Controller
 	public function watchedForms(Request $request){
         return view("manage.watched-forms");
     }
+
+	public function caseLogs(Request $request){
+		return view("manage.case-log.all");
+	}
 }

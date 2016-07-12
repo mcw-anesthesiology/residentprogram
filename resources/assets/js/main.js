@@ -523,14 +523,14 @@ function createDateTimeCell(td, date, rowData, rowIndex, colIndex){
 			.addClass("table-date-time-cell");
 }
 
-function renderTableEvaluationDate(date, type){
+function renderDateCell(date, type){
 	if(type === "sort" || type === "type")
 		return date ? moment(date).valueOf() : "";
 
 	return date ? moment(date).format("MMMM Y") : "";
 }
 
-function renderTableDate(date, type){
+function renderDateTimeCell(date, type){
 	if(type === "sort" || type === "type")
 		return date ? moment(date).valueOf() : "";
 

@@ -14,19 +14,16 @@ class CaseLog extends Model
 		"user_id",
 		"location_id",
 		"case_date",
+		"comment",
 		"details_type",
-		"comment"
+		"details"
 	];
 
-	protected $hidden = [
-		"details_id"
+	protected $casts = [
+		"details" => "object"
 	];
 
 	public function location(){
 		return $this->belongsTo("App\Location");
-	}
-
-	public function details(){
-		return $this->morphTo();
 	}
 }

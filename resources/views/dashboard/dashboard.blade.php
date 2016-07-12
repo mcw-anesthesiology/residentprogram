@@ -89,9 +89,9 @@
 				{data: "subject.full_name"},
 				{data: "evaluator.full_name"},
 				{data: "form.title"},
-				{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell},
-				{data: "request_date", render: renderTableDate, createdCell: createDateTimeCell},
-				{data: "complete_date", render: renderTableDate, createdCell: createDateTimeCell},
+				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+				{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
+				{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 				{data: "status", render: renderEvaluationStatus}
 			],
 			order: [[0, "desc"]],
@@ -126,8 +126,8 @@
 				{data: "url"},
 				{data: "evaluator.full_name"},
 				{data: "form.title"},
-				{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell},
-				{data: "complete_date", render: renderTableDate, createdCell: createDateTimeCell},
+				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+				{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 				{data: "status", render: renderEvaluationStatus},
 				{data: null, orderable: false, searchable: false, render: function(eval){
 					return ""; // FIXME
@@ -167,9 +167,9 @@
 				{data: "subject.full_name"},
 				{data: "evaluator.full_name"},
 				{data: "form.title"},
-				{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell},
-				{data: "request_date", render: renderTableDate, createdCell: createDateTimeCell},
-				{data: "complete_date", render: renderTableDate, createdCell: createDateTimeCell},
+				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+				{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
+				{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 				{data: "status", render: renderEvaluationStatus}
 			],
 			order: [[0, "desc"]],
@@ -199,7 +199,7 @@
 				{data: "url"},
 				{data: "subject.full_name"},
 				{data: "form.title"},
-				{data: "request_date", render: renderTableDate, createdCell: createDateTimeCell},
+				{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 				{data: null, orderable: false, searchable: false, render: function(eval){
 					if(eval.requested_by_id === user.id)
 						return '<button class="btn btn-danger btn-xs cancel-eval-button" '
@@ -232,9 +232,9 @@
 				{data: "url"},
 				{data: "subject.full_name"},
 				{data: "form.title"},
-				{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell},
-				{data: "request_date", render: renderTableDate, createdCell: createDateTimeCell},
-				{data: "complete_date", render: renderTableDate, createdCell: createDateTimeCell},
+				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+				{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
+				{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 			],
 			order: [[0, "desc"]],
 			createdRow: function(row){
@@ -265,7 +265,7 @@
 					return name;
 				}},
 				{data: "form.title"},
-				{data: "request_date", render: renderTableDate, createdCell: createDateTimeCell},
+				{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 				{data: null, render: function(eval){
 					if(eval.requested_by_id === user.id)
 						return '<button class="btn btn-danger btn-xs cancel-eval-button" '
@@ -298,8 +298,8 @@
 				{data: "url"},
 				{data: "subject.full_name"},
 				{data: "form.title"},
-				{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell},
-				{data: "request_date", render: renderTableDate, createdCell: createDateTimeCell},
+				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+				{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 				{data: null, render: function(eval){
 					if(eval.requested_by_id === user.id)
 						return '<button class="btn btn-danger btn-xs cancel-eval-button" '
@@ -342,9 +342,9 @@
 					return name;
 				}},
 				{data: "form.title"},
-				{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell},
-				{data: "request_date", render: renderTableDate, createdCell: createDateTimeCell},
-				{data: "complete_date", render: renderTableDate, createdCell: createDateTimeCell},
+				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+				{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
+				{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 			],
 			order: [[0, "desc"]],
 			createdRow: function(row){
@@ -378,9 +378,9 @@
 					return name;
 				}},
 				{data: "form.title"},
-				{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell},
-				{data: "request_date", render: renderTableDate, createdCell: createDateTimeCell},
-				{data: "complete_date", render: renderTableDate, createdCell: createDateTimeCell}
+				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+				{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
+				{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell}
 			],
 			order: [[0, "desc"]],
 			createdRow: function(row){
@@ -408,8 +408,8 @@
 			columns: [
 				{data: "url"},
 				{data: "form.title"},
-				{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell},
-				{data: "complete_date", render: renderTableDate, createdCell: createDateTimeCell}
+				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+				{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell}
 			],
 			order: [[0, "desc"]],
 			createdRow: function(row){
@@ -434,8 +434,8 @@
 				{data: "url"},
 				{data: "subject.full_name"},
 				{data: "form.title"},
-				{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell},
-				{data: "request_date", render: renderTableDate, createdCell: createDateTimeCell}
+				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+				{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell}
 			],
 			order: [[0, "desc"]],
 			createdRow: function(row){
@@ -460,9 +460,9 @@
 				{data: "url"},
 				{data: "subject.full_name"},
 				{data: "form.title"},
-				{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell},
-				{data: "request_date", render: renderTableDate, createdCell: createDateTimeCell},
-				{data: "complete_date", render: renderTableDate, createdCell: createDateTimeCell}
+				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+				{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
+				{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell}
 			],
 			order: [[0, "desc"]],
 			createdRow: function(row){
@@ -499,9 +499,9 @@
 						return name;
 					}},
 					{data: "form.title"},
-					{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell},
-					{data: "request_date", render: renderTableDate, createdCell: createDateTimeCell},
-					{data: "complete_date", render: renderTableDate, createdCell: createDateTimeCell}
+					{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+					{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
+					{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell}
 				],
 				order: [[0, "desc"]],
 				createdRow: function(row){
@@ -530,8 +530,8 @@
 					{data: "url"},
 					{data: "subject.full_name"},
 					{data: "evaluator.full_name"},
-					{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell},
-					{data: "complete_date", render: renderTableDate, createdCell: createDateTimeCell},
+					{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+					{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 					{data: "status", render: renderEvaluationStatus},
 					{data: null, orderable: false, searchable: false, render: function(eval){
 						return "";

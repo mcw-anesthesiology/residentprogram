@@ -17,9 +17,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Carbon::setToStringFormat("d-M-Y g:i A");
-		Relation::morphMap([
-			"raaps" => \App\RaapsCaseDetails::class
-		]);
     }
 
     /**

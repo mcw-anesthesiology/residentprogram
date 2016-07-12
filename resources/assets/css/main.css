@@ -382,6 +382,7 @@ body {
 }
 
 .containing-label input,
-.containing-label textarea {
-	font-weight: normal;
+.containing-label textarea,
+.containing-label select {
+	font-weight: normal ;
 }

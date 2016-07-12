@@ -29,7 +29,7 @@
 				{data: "url"},
 				{data: "subject.full_name"},
 				{data: "evaluator.full_name"},
-				{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell},
+				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
 				{data: null, render: function(eval){
 					return "";
 				}}
@@ -55,7 +55,7 @@
 			},
 			columns: [
 				{data: "url"},
-				{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell}
+				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell}
 			],
 			order: [[0, "desc"]],
 			createdRow: function(row){

@@ -80,7 +80,7 @@
 				{data: "id"},
 				{data: "mentor.full_name"},
 				{data: "mentee.full_name"},
-				{data: "created_at", render: renderTableDate, createdCell: createDateTimeCell},
+				{data: "created_at", render: renderDateTimeCell, createdCell: createDateTimeCell},
 				{data: null, orderable: false, render: function(data, type){
 					return '<button class="delete-mentorship-button btn btn-danger btn-xs"'
 						+ 'data-toggle="modal" data-target=".bs-remove-modal" '
