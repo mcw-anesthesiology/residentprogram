@@ -58,7 +58,15 @@ Route::get("directory_entries/csv", "Rest\DirectoryController@csv");
 Route::resource("directory_entries", "Rest\DirectoryController", ["only" => [
 	"index", "store", "show", "update", "destroy"
 ]]);
-
+Route::resource("locations", "Rest\LocationController", ["only" => [
+	"index", "store", "show", "update", "destroy"
+]]);
+Route::resource("anesthesia_analgesia_types", "Rest\AnesthesiaAnalgesiaTypeController", ["only" => [
+	"index", "store", "show", "update", "destroy"
+]]);
+Route::resource("blockade_sites", "Rest\BlockadeSiteController", ["only" => [
+	"index", "store", "show", "update", "destroy"
+]]);
 
 Route::get("/", function(){
 	return redirect("dashboard");
