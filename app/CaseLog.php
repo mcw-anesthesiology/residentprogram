@@ -4,10 +4,18 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Scopes\CaseLogScope;
+
 use DB;
 
 class CaseLog extends Model
 {
+	protected static function boot(){
+		parent::boot();
+
+		static::addGlobalScope(new CaseLogScope);
+	}
+
 	protected $table = "case_logs";
 
     protected $fillable = [

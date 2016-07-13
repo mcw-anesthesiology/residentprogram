@@ -58,6 +58,9 @@ Route::get("directory_entries/csv", "Rest\DirectoryController@csv");
 Route::resource("directory_entries", "Rest\DirectoryController", ["only" => [
 	"index", "store", "show", "update", "destroy"
 ]]);
+Route::resource("user_features", "Rest\UserFeatureController", ["only" => [
+	"index", "store", "show", "update", "destroy"
+]]);
 Route::resource("locations", "Rest\LocationController", ["only" => [
 	"index", "store", "show", "update", "destroy"
 ]]);
@@ -131,6 +134,7 @@ Route::post("manage/block-assignments/get", "ManageController@getBlockAssignment
 Route::get("manage/alumni", "ManageController@alumni");
 Route::get("manage/alumni/import", "ManageController@importAlumni");
 Route::get("manage/watched-forms", "ManageController@watchedForms");
+Route::get("manage/user-features", "ManageController@userFeatures");
 Route::Get("manage/case-logs", "ManageController@caseLogs");
 
 Route::post("report/aggregate", "ReportController@aggregate");

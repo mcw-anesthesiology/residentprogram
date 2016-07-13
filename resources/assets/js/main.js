@@ -580,6 +580,58 @@ function renderEvaluationStatus(status){
 	return '<span class="label ' + labelContext + '">' + ucfirst(status) + '</span>';
 }
 
+function renderTrainingLevel(trainingLevel){
+	if(trainingLevel){
+		if(trainingLevel.indexOf("ca-") > -1)
+			return trainingLevel.toUpperCase();
+		else
+			return ucfirst(trainingLevel);
+	}
+
+	return "";
+}
+
+function renderSecondaryTrainingLevel(secondaryTrainingLevel){
+	if(trainingLevel){
+		var allCaps = ["raaps"];
+		if(allCaps.indexOf(secondaryTrainingLevel) > -1)
+			return secondaryTrainingLevel.toUpperCase();
+		else
+			return ucfirst(secondaryTrainingLevel);
+	}
+
+	return "";
+}
+
+function createEditAndDeleteButtons(thing, name){
+	var dataAttributes = getDataAttributes(thing);
+
+	var editButton = '<button type="button" class="btn btn-xs btn-info edit-' + name + '-button" '
+		+ dataAttributes
+		+ '><span class="glyphicon glyphicon-edit"></span> Edit</button>';
+
+	var deleteButton = '<button type="button" class="btn btn-xs btn-danger delete-' + name + '-button" '
+		+ dataAttributes
+		+ '><span class="glyphicon glyphicon-remove"></span> Delete</button>';
+
+	return editButton + " " + deleteButton;
+}
+
+function confirmDeletion(){
+	$(".confirm-delete").removeClass("confirm-delete")
+		.html('<span class="glyphicon glyphicon-remove"></span> Delete');
+	$(this).addClass("confirm-delete")
+		.html('<span class="glyphicon glyphicon-remove"></span> Confirm delete');
+}
+
+function getDataAttributes(thing){
+	var dataAttributes = "";
+	Object.getOwnPropertyNames(thing).forEach(function(propName){
+		dataAttributes += 'data-' + propName + '="' + thing[propName] + '" ';
+	});
+	return dataAttributes;
+}
+
 $(".table-filter-select").change(function(){
 	var filterType = $(this).val();
 	$($(this).data("filterTable")).DataTable({

@@ -305,6 +305,26 @@ class ManageController extends Controller
         return view("manage.watched-forms");
     }
 
+	public function userFeatures(Request $request){
+		$featureUsers = User::where("status", "active")->orderBy("last_name", "asc")
+			->orderBy("first_name", "asc")->get()->groupBy(function($user){
+				if($user->type == "resident")
+					return $user->training_level;
+				return $user->type;
+			});
+		$userTypes = [
+			"intern" => "Intern",
+			"ca-1" => "CA-1",
+			"ca-2" => "CA-2",
+			"ca-3" => "CA-3",
+			"fellow" => "Fellow",
+			"faculty" => "Faculty"
+		];
+		$data = compact("featureUsers", "userTypes");
+
+		return view("manage.user-features", $data);
+	}
+
 	public function caseLogs(Request $request){
 		return view("manage.case-log.all");
 	}

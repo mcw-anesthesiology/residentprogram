@@ -34,6 +34,8 @@ class Kernel extends HttpKernel
 		"update.alum" => \App\Http\Middleware\UpdateAlumMiddleware::class,
 		"evaluation.requestor" => \App\Http\Middleware\EvaluationRequestor::class,
 		"evaluation.evaluator" => \App\Http\Middleware\EvaluationEvaluator::class,
-		"evaluation.user-edit" => \App\Http\Middleware\EvaluationUserEdit::class
+		"evaluation.user-edit" => \App\Http\Middleware\EvaluationUserEdit::class,
+
+		"case-log.has-access" => \App\Http\Middleware\CaseLogHasAccess::class
     ];
 }

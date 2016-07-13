@@ -33,6 +33,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $fillable = [
         "username",
         "training_level",
+		"secondary_training_level",
         "first_name",
         "last_name",
         "email",
@@ -119,13 +120,17 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 	}
 
 	public function userFeatures(){
-		return $this->belongsToMany("App\Feature", "user_features");
+		return $this->hasMany("App\UserFeature");
 	}
 
 	public function typeFeatures(){
 		return DB::table("users")
-			->join("user_features", "users.type", "=", "user_features.user_type")
-			->join("features", "user_features.feature_id", "=", "features.id")
+			->join("user_features", function($join){
+				$join->on("users.type", "=", "user_features.user_type")
+					->whereNull("user_features.user_id")
+					->whereNull("user_features.user_training_level")
+					->whereNull("user_features.user_secondary_training_level");
+			})
 			->where("users.id", $this->id)
 			->pluck("features.name");
 	}
@@ -134,9 +139,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		return DB::table("users")
 			->join("user_features", function($join){
 				$join->on("users.type", "=", "user_features.user_type")
-					->on("users.training_level", "=", "user_features.user_training_level");
+					->on("users.training_level", "=", "user_features.user_training_level")
+					->whereNull("user_features.user_id")
+					->whereNull("user_features.user_secondary_training_level");
 			})
-			->join("features", "user_features.feature_id", "=", "features.id")
 			->where("users.id", $this->id)
 			->pluck("features.name");
 	}
@@ -146,15 +152,15 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 			->join("user_features", function($join){
 				$join->on("users.type", "=", "user_features.user_type")
 					->on("users.training_level", "=", "user_features.user_training_level")
-					->on("users.secondary_training_level", "=", "user_features.user_secondary_training_level");
+					->on("users.secondary_training_level", "=", "user_features.user_secondary_training_level")
+					->whereNull("user_features.user_id");
 			})
-			->join("features", "user_features.feature_id", "=", "features.id")
 			->where("users.id", $this->id)
 			->pluck("features.name");
 	}
 
 	public function usesFeature($feature){
-		return $this->userFeatures->pluck("name")
+		return $this->userFeatures->pluck("feature")
 			->merge($this->typeFeatures())
 			->merge($this->trainingLevelFeatures())
 			->merge($this->secondaryTrainingLevelFeatures())
