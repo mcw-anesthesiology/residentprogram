@@ -271,3 +271,5 @@
   </div>
 </div>
 @endif
+
+@stack("modals")

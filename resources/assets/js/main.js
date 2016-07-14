@@ -614,7 +614,7 @@ function createEditAndDeleteButtons(thing, name){
 		+ dataAttributes
 		+ '><span class="glyphicon glyphicon-remove"></span> Delete</button>';
 
-	return editButton + " " + deleteButton;
+	return [editButton, deleteButton];
 }
 
 function confirmDeletion(){

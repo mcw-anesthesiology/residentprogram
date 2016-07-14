@@ -28,7 +28,8 @@ class CaseLog extends Model
 	];
 
 	protected $casts = [
-		"details" => "object"
+		"id" => "integer",
+		"details" => "array"
 	];
 
 	public function location(){

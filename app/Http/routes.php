@@ -67,6 +67,9 @@ Route::resource("locations", "Rest\LocationController", ["only" => [
 Route::resource("case_logs", "Rest\CaseLogController", ["only" => [
 	"index", "store", "show", "update", "destroy"
 ]]);
+Route::resource("case_log_details_schemas", "Rest\CaseLogDetailsSchemaController", ["only" => [
+	"index", "store", "show"
+]]);
 
 Route::get("/", function(){
 	return redirect("dashboard");

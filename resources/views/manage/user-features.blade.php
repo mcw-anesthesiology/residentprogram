@@ -90,7 +90,8 @@
 				{data: "user_training_level", render: renderTrainingLevel},
 				{data: "user_secondary_training_level", render: renderSecondaryTrainingLevel},
 				{data: null, render: function(userFeature){
-					return createEditAndDeleteButtons(userFeature, "user-feature");
+					var buttons = createEditAndDeleteButtons(userFeature, "user-feature");
+					return buttons.join(" ");
 				}}
 			],
 			order: [[0, "desc"]]
