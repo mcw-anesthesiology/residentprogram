@@ -678,6 +678,9 @@ class MainController extends Controller
 		$detailsType = "raaps";
 		$title = "RAAPS";
 		$locations = Location::all();
+
+		// TODO: Get schema from db
+
 		$detailsSchema = [
 			"Anesthesia / Analgesia Type" => [
 				[

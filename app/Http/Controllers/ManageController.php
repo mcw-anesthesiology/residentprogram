@@ -26,6 +26,8 @@ use Carbon\Carbon;
 use App\Alum;
 use App\Block;
 use App\BlockAssignment;
+use App\CaseLog;
+use App\CaseLogDetailsSchema;
 use App\Competency;
 use App\CompetencyQuestion;
 use App\DirectoryEntry;
@@ -326,6 +328,16 @@ class ManageController extends Controller
 	}
 
 	public function caseLogs(Request $request){
-		return view("manage.case-log.all");
+		$schemas = CaseLogDetailsSchema::all()->groupBy("details_type")
+			->sortByDesc("version")->transform(function($typeSchemas){
+				return $typeSchemas->keyBy("version");
+			});
+		$newVersions = $schemas->map(function($schemas){
+			return $schemas->max("version") + 1;
+		});
+
+		$data = compact("schemas", "newVersions");
+
+		return view("manage.case-log.all", $data);
 	}
 }

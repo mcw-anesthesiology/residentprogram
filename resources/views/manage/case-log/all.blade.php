@@ -2,7 +2,7 @@
 
 @section("head")
 	<style>
-		#case-log-schema-schema {
+		.case-log-details-schema-schema {
 			resize: vertical;
 			white-space: pre;
 			word-wrap: normal;
@@ -57,6 +57,7 @@
 
 @section("script")
 	<script>
+		var detailsSchemas = {!! $schemas->toJson() !!};
 		var locationsTable = $("#locations-table").DataTable({
 			ajax: {
 				url: "/locations",
@@ -229,13 +230,59 @@
 			});
 		});
 
-		$("#case-log-details-schemas-table").on("click", ".edit-case-log-details-schema-button", function(){
-			var row = $(this).parents("tr");
-			var detailsSchema = schemasTable.row(row).data();
-			$("#case-log-schema-version").val(detailsSchema.version + 1);
-			$("#case-log-schema-details-type").val(detailsSchema.details_type);
-			$("#case-log-schema-schema").text(JSON.stringify(detailsSchema.schema));
-			$("#add-case-log-details-schema-modal").modal("show");
+		$(".case-log-details-schema-version").change(function(){
+			var type = $(this).data("type");
+			var version = $(this).val();
+			var schema = detailsSchemas[type][version].schema;
+			$(this).parents(".view-case-log-details-schema")
+				.find(".case-log-details-schema-schema")
+				.val(JSON.stringify(schema, null, 4));
+		});
+
+		$(".case-log-details-schemas-form").submit(function(event){
+			event.preventDefault();
+			var form = $(this);
+			var button = form.find("button[type='submit']");
+			var schemaGroup = form.find(".case-log-details-schema-schema")
+				.parents(".form-group");
+
+			try {
+				var type = form.find("input[name='details_type']").val();
+				var version = parseInt(form.find("input[name='version']").val(), 10);
+				var schema = JSON.parse(form.find(".case-log-details-schema-schema").val());
+				button.prop("disabled", true).addClass("disabled");
+				console.log(form.serializeArray());
+				$.ajax({
+					url: form.attr("action"),
+					method: form.attr("method"),
+					data: form.serializeArray()
+				}).done(function(response){
+					if(response === "success"){
+						detailsSchemas[type][version] = {
+							type: type,
+							version: version,
+							schema: schema
+						}
+						form.parents(".panel-body").find(".case-log-details-schema-version")
+							.prepend('<option>' + version + '</option>').val(version).change();
+						form.find("input[name='version']").val(version + 1);
+						form.find(".case-log-details-schema-schema").val("");
+					}
+					else
+						appendAlert("There was a problem saving the schema. Please verify the JSON is valid.", schemaGroup);
+				}).fail(function(err){
+					appendAlert("There was a problem saving the schema. Please verify the JSON is valid.", schemaGroup);
+				}).always(function(){
+					button.prop("disabled", false).removeClass("disabled");
+				});
+			} catch(err){
+				schemaGroup.addClass("has-error");
+				appendAlert("There was a problem saving the schema. Please verify the JSON is valid.", schemaGroup);
+			}
+		});
+
+		$(".case-log-details-schemas-form").on("input", ".has-error .case-log-details-schema-schema", function(){
+			$(this).parents(".form-group").removeClass("has-error");
 		});
 	</script>
 @stop

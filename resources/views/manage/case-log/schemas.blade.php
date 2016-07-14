@@ -1,50 +1,47 @@
-<h2>Case Log Details Schemas</h2>
-<div class="table-responsive">
-	<table class="table table-striped" id="case-log-details-schemas-table" width="100%">
-		<thead>
-			<tr>
-				<th>#</th>
-				<th>Details type</th>
-				<th>Version</th>
-				<th></th>
-			</tr>
-		</thead>
-	</table>
-</div>
-
-@push("modals")
-	<div class="modal fade" id="add-case-log-details-schema-modal" tabindex="-1" role="dialog" aria-labelledby="add-case-log-details-schema-modal-title" aria-hidden="true">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-		  <form role="form" id="add-case-log-details-schema-form" method="post" action="/case_log_details_schemas">
-			{!! csrf_field() !!}
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="add-case-log-details-schema-modal-title">Case Log Schema</h4>
+{{--
+	TODO: Schema builder
+	TODO: Create new details type
+ --}}
+<h2>Details Schemas <small>Real editors coming soon</small></h2>
+@foreach($schemas as $type => $schemas)
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">{{ strtoupper($type) }}</h3>
+	</div>
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-md-6">
+				<form role="form" class="case-log-details-schemas-form" action="/case_log_details_schemas" method="post">
+					{!! csrf_field() !!}
+					<h4 class="sub-header">Update</h4>
+					<input type="hidden" name="details_type" value="{{ $type }}" />
+					<div class="form-group">
+						<label for="case-log-details-schema-{{ $type }}-version">Version</label>
+						<input type="number" class="form-control" id="case-log-details-schema-{{ $type }}-version" name="version" value="{{ $newVersions[$type] }}" readonly />
+					</div>
+					<div class="form-group">
+						<label for="case-log-details-schema-{{ $type }}-schema">Schema</label>
+						<textarea class="form-control case-log-details-schema-schema" id="case-log-details-schema-{{ $type }}-schema" name="schema" rows="15"></textarea>
+					</div>
+					<button type="submit" class="btn btn-primary center-block">Update schema</button>
+				</form>
 			</div>
-			<div class="modal-body">
+			<div class="col-md-6 view-case-log-details-schema">
+				<h4 class="sub-header">View</h4>
 				<div class="form-group">
-					<label for="case-log-schema-version">Version</label>
-					<input type="number" class="form-control" id="case-log-schema-version" name="version" min="1" readonly />
-				</div>
-				<div class="form-group">
-					<label for="case-log-schema-details-type">Type</label>
-					<select class="form-control" id="case-log-schema-details-type" name="details_type">
-						<option value="raaps">RAAPS</option>
+					<label for="case-log-details-schemas-version-{{ $type }}">Version</label>
+					<select class="form-control case-log-details-schema-version" id="case-log-details-schema-version-{{ $type }}" data-type="{{ $type }}">
+	@foreach($schemas->keys()->sort(function($a, $b){ if($a == $b){ return 0; } return ($a < $b) ? 1 : -1; }) as $version)
+						<option>{{ $version }}</option>
+	@endforeach
 					</select>
 				</div>
 				<div class="form-group">
-					<label for="case-log-schema-schema">Schema</label>
-					<textarea class="form-control" id="case-log-schema-schema" name="schema" wrap="soft"></textarea>
-					<small>Builder coming soon</small>
+					<label for="case-log-details-schema-{{ $type }}-old-schema">Schema</label>
+					<textarea class="form-control case-log-details-schema-schema" id="case-log-details-schema-{{ $type }}-old-schema" name="schema" rows="15" readonly>{!! json_encode($schemas->sortByDesc("version")->first()->schema, JSON_PRETTY_PRINT) !!}</textarea>
 				</div>
 			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add schema</button>
-			</div>
-		  </form>
-	    </div>
-	  </div>
+		</div>
 	</div>
-@endpush
+</div>
+@endforeach

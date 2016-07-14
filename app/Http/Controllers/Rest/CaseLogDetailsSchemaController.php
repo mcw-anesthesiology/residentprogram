@@ -22,7 +22,7 @@ class CaseLogDetailsSchemaController extends RestController
 		$input["schema"] = json_decode($input["schema"]);
 		CaseLogDetailsSchema::create($input);
 		if($request->ajax())
-			return "succcess";
+			return "success";
 		else
 			return back();
 	}
