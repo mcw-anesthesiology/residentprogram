@@ -22,6 +22,8 @@ use Carbon\Carbon;
 use App\Alum;
 use App\Block;
 use App\BlockAssignment;
+use App\CaseLog;
+use App\CaseLogDetailsSchema;
 use App\Contact;
 use App\DirectoryEntry;
 use App\Evaluation;
@@ -56,6 +58,8 @@ class MainController extends Controller
         ]]);
 
 		$this->middleware("type:admin", ["only" => ["flaggedEvaluations", "getEvaluation"]]);
+
+		$this->middleware("case-log.has-access", ["only" => ["caseLog"]]);
     }
 
     public function dashboard(){
@@ -674,53 +678,18 @@ class MainController extends Controller
     }
 
 	public function caseLog(Request $request){
+		$user = Auth::user();
+		if($user->isType("resident")){
+			$detailsType = "raaps"; // FIXME
+			$title = "RAAPS";
+			$locations = Location::all();
+			$detailsSchema = CaseLogDetailsSchema::where("details_type", $detailsType)
+				->orderByDesc("version")->first();
+		}
 
-		$detailsType = "raaps";
-		$title = "RAAPS";
-		$locations = Location::all();
 
-		// TODO: Get schema from db
 
-		$detailsSchema = [
-			"Anesthesia / Analgesia Type" => [
-				[
-					["name" => "Epidural", "type" => "checkbox"],
-					["name" => "Spinal", "type" => "checkbox"],
-					["name" => "CSE", "type" => "checkbox"],
-					["name" => "PVB", "type" => "checkbox"]
-				],
-				"Peripheral" => [
-					["name" => "Continuous", "type" => "checkbox"],
-					["name" => "Single-shot", "type" => "checkbox"]
-				]
-			],
-			"Blockade Site" => [
-				"Neuraxial" => [
-					["name" => "Caudal", "type" => "checkbox"],
-					["name" => "Cervical", "type" => "checkbox"],
-					["name" => "Lumbar", "type" => "checkbox"],
-					["name" => "T 1-7", "type" => "checkbox"],
-					["name" => "T 8-12", "type" => "checkbox"]
-				],
-				"Peripheral" => [
-					["name" => "Ankle", "type" => "checkbox"],
-					["name" => "Axillary", "type" => "checkbox"],
-					["name" => "Femoral", "type" => "checkbox"],
-					["name" => "Infraclavicular", "type" => "checkbox"],
-					["name" => "Interscalene", "type" => "checkbox"],
-					["name" => "Lumbar Plexus", "type" => "checkbox"],
-					["name" => "Other--per nerve block sit", "type" => "checkbox"],
-					["name" => "Paravertebral", "type" => "checkbox"],
-					["name" => "Popliteal", "type" => "checkbox"],
-					["name" => "Retrobulbar", "type" => "checkbox"],
-					["name" => "Saphenous", "type" => "checkbox"],
-					["name" => "Sciatic", "type" => "checkbox"],
-					["name" => "Supraclavicular", "type" => "checkbox"]
-				]
-			]
-		];
-
-		$data = compact("detailsType", "locations", "detailsSchema", "title");
+		$data = compact("locations", "detailsSchema", "title");
 
 		return view("case-log.case-log", $data);
 	}

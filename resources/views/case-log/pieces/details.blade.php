@@ -1,4 +1,4 @@
-@foreach($detailsSchema as $sectionTitle => $section)
+@foreach($detailsSchema->schema as $sectionTitle => $section)
 <section class="panel panel-default">
 	<div class="panel-heading">
 		<h4 class="panel-title">{{ $sectionTitle }}</h4>

@@ -129,14 +129,16 @@
 		$("#mentorships-table").on("click", ".confirm-delete-mentorship-button", function(event){
 			event.preventDefault();
 			var mentorshipId = $(this).data("id");
-			var data = {};
-			data._token = "{{ csrf_token() }}";
+			var data = {
+				_token: "{{ csrf_token() }}",
+				_method: "DELETE"
+			};
 
 			var row = $(this).parents("tr");
 			var button = $(this);
 			button.prop("disabled", true).addClass("disabled");
 			$.ajax({
-				method: "DELETE",
+				method: "POST", // DELETE
 				url: "/mentorships/" + mentorshipId,
 				data: data
 			}).done(function(response){

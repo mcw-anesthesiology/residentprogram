@@ -592,7 +592,7 @@ function renderTrainingLevel(trainingLevel){
 }
 
 function renderSecondaryTrainingLevel(secondaryTrainingLevel){
-	if(trainingLevel){
+	if(secondaryTrainingLevel){
 		var allCaps = ["raaps"];
 		if(allCaps.indexOf(secondaryTrainingLevel) > -1)
 			return secondaryTrainingLevel.toUpperCase();

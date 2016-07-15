@@ -30,7 +30,8 @@
 			</div>
 		</div>
 	</div>
-	<input type="hidden" name="details_type" value="{{ $detailsType }}" />
+	<input type="hidden" name="details_type" value="{{ $detailsSchema->details_type }}" />
+	<input type="hidden" name="version" value="{{ $detailsSchema->version }}" />
 </section>
 <section class="case-details">
 	@include("case-log.pieces.details")

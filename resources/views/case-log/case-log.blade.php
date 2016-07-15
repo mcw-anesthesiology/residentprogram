@@ -7,6 +7,9 @@
 			<thead>
 				<tr>
 					<th>#</th>
+	@if(!$user->isType("resident"))
+					<th>Trainee</th>
+	@endif
 					<th>Location</th>
 					<th>Date</th>
 					<th>Type</th>
@@ -15,10 +18,12 @@
 			</thead>
 		</table>
 	</div>
-</div>
 
+	@if($user->isType("resident"))
+</div>
 <div class="container body-block">
 	@include("case-log.add-entry")
+	@endif
 @stop
 
 @section("script")
@@ -28,13 +33,17 @@
 				url: "/case_logs",
 				data: {
 					with: {
-						location: ["name"]
+						location: ["name"],
+						user: ["full_name"]
 					}
 				},
 				dataSrc: ""
 			},
 			columns: [
 				{data: "id"},
+	@if(!$user->isType("resident"))
+				{data: "user.full_name"},
+	@endif
 				{data: "location.name"},
 				{data: "case_date", render: renderDateCell, createdCell: createDateCell},
 				{data: "details_type"},

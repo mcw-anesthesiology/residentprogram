@@ -314,7 +314,7 @@ class ManageController extends Controller
 					return $user->training_level;
 				return $user->type;
 			});
-		$userTypes = [
+		$userTypeLabels = [
 			"intern" => "Intern",
 			"ca-1" => "CA-1",
 			"ca-2" => "CA-2",
@@ -322,7 +322,19 @@ class ManageController extends Controller
 			"fellow" => "Fellow",
 			"faculty" => "Faculty"
 		];
-		$data = compact("featureUsers", "userTypes");
+
+		$userTypes = [
+			"resident" => "Trainee",
+			"faculty" => "Faculty"
+		];
+		$residentTrainingLevels = [
+			"intern" => "Intern",
+			"ca-1" => "CA-1",
+			"ca-2" => "CA-2",
+			"ca-3" => "CA-3",
+			"fellow" => "Fellow"
+		];
+		$data = compact("featureUsers", "userTypeLabels", "userTypes", "residentTrainingLevels");
 
 		return view("manage.user-features", $data);
 	}

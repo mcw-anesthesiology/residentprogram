@@ -16,7 +16,7 @@ class UserFeature extends Model
 		"user_secondary_training_level"
 	];
 
-	public function users(){
+	public function user(){
 		return $this->belongsTo("App\User");
 	}
 }

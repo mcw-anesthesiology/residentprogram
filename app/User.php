@@ -132,7 +132,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 					->whereNull("user_features.user_secondary_training_level");
 			})
 			->where("users.id", $this->id)
-			->pluck("features.name");
+			->pluck("feature");
 	}
 
 	public function trainingLevelFeatures(){
@@ -144,7 +144,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 					->whereNull("user_features.user_secondary_training_level");
 			})
 			->where("users.id", $this->id)
-			->pluck("features.name");
+			->pluck("feature");
 	}
 
 	public function secondaryTrainingLevelFeatures(){
@@ -156,7 +156,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 					->whereNull("user_features.user_id");
 			})
 			->where("users.id", $this->id)
-			->pluck("features.name");
+			->pluck("feature");
 	}
 
 	public function usesFeature($feature){
@@ -165,6 +165,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 			->merge($this->trainingLevelFeatures())
 			->merge($this->secondaryTrainingLevelFeatures())
 			->contains($feature);
+	}
+
+	public function caseLogs(){
+		return $this->hasMany("App\CaseLog");
 	}
 
     public function scopeFormerResidents($query){

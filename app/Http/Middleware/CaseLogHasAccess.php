@@ -20,7 +20,16 @@ class CaseLogHasAccess
     {
 		try {
 			$user = Auth::user();
-			if($user->isType("admin") || $user->usesFeature(config("constants.FEATURES.CASE_LOG")))
+
+			$menteeWithCaseLog = false;
+			if($user->mentees->count() > 0){
+				$user->mentees->each(function($mentee) use (&$menteeWithCaseLog){
+					if($mentee->usesFeature(config("constants.FEATURES.CASE_LOG")))
+						$menteeWithCaseLog = true;
+				});
+			}
+
+			if($user->isType("admin") || $user->usesFeature(config("constants.FEATURES.CASE_LOG")) || $menteeWithCaseLog)
 				return $next($request);
 
 			throw new \Exception();

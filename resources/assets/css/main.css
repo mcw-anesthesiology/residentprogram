@@ -386,3 +386,7 @@ body {
 .containing-label select {
 	font-weight: normal ;
 }
+
+.form-group .select2.select2-container {
+	width: 100% !important;
+}
