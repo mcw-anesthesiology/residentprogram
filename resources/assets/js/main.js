@@ -406,6 +406,8 @@ $(document).ready(function(){
 
 	$.extend(true, $.fn.dataTable.defaults, {
 		language: {
+			emptyTable: "No entries available",
+			zeroRecords: "No matching entries, please revise your search",
 			paginate: {
 				previous: "&lt;",
 				next: "&gt;"
@@ -453,7 +455,7 @@ var fixNavbarOffset = debounce(function(){
 $(window).resize(fixNavbarOffset);
 
 $(".table").on("click", ".view-evaluation", function(){
-	var requestId = $(this).parents("tr").children("td").eq(0).children("a").html();
+	var requestId = $(this).children("td").eq(0).children("a").html();
 	window.location.href = "/evaluation/"+requestId;
 });
 
@@ -617,17 +619,19 @@ function createEditAndDeleteButtons(thing, name){
 	return [editButton, deleteButton];
 }
 
-function confirmDeletion(){
+function confirmDeletion(event){
+	event.stopPropagation();
 	$(".confirm-delete").removeClass("confirm-delete")
 		.html('<span class="glyphicon glyphicon-remove"></span> Delete');
 	$(this).addClass("confirm-delete")
 		.html('<span class="glyphicon glyphicon-remove"></span> Confirm delete');
 }
 
-function getDataAttributes(thing){
+function getDataAttributes(thing, excludes){
 	var dataAttributes = "";
 	Object.getOwnPropertyNames(thing).forEach(function(propName){
-		dataAttributes += 'data-' + propName + '="' + thing[propName] + '" ';
+		if(excludes.indexOf(propName) === -1 && thing[propName] != null)
+			dataAttributes += 'data-' + propName + '="' + thing[propName] + '" ';
 	});
 	return dataAttributes;
 }
@@ -636,7 +640,7 @@ $(".table-filter-select").change(function(){
 	var filterType = $(this).val();
 	$($(this).data("filterTable")).DataTable({
 		retrieve: true
-	}).column($(this).data("filterColumn")).search(filterType).draw();
+	}).column($(this).data("filterColumn")).search(filterType, false, false, false).draw();
 });
 
 $(".refresh-table-glyph").click(function(){
@@ -651,3 +655,91 @@ $(".refresh-table-glyph").on("hidden.bs.tooltip", function(){
 });
 
 $("[data-toggle='tooltip']").tooltip();
+
+function renderCaseLogSchema(schema, container){
+	if(!container)
+		container = document.createElement("section");
+	Object.getOwnPropertyNames(schema).forEach(function(sectionTitle){
+		var section = schema[sectionTitle];
+
+		var panel = document.createElement("section");
+		var panelHeading = document.createElement("div");
+		var panelTitle = document.createElement("h4");
+		var panelBody = document.createElement("div");
+
+		panel.className = "panel panel-default";
+		panelHeading.className = "panel-heading";
+		panelTitle.className = "panel-title";
+		panelBody.className = "panel-body";
+		panelTitle.appendChild(document.createTextNode(sectionTitle));
+		panelHeading.appendChild(panelTitle);
+		panel.appendChild(panelHeading);
+		panel.appendChild(panelBody);
+
+
+		Object.getOwnPropertyNames(section).forEach(function(subsectionTitle){
+			var subsection = section[subsectionTitle];
+
+			var subsectionContainer = document.createElement("section");
+			var row = document.createElement("div");
+			if(isNaN(subsectionTitle)){
+				var subsectionHeading = document.createElement("h5");
+				subsectionHeading.className = "sub-header";
+				subsectionHeading.appendChild(document.createTextNode(subsectionTitle));
+				subsectionContainer.appendChild(subsectionHeading);
+			}
+			row.className = "row";
+
+			subsection.forEach(function(input, inputIndex){
+				switch(input.type){
+					case "checkbox":
+						var checkboxContainer = document.createElement("div");
+						var label = document.createElement("label");
+						var nameInput = document.createElement("input");
+						var typeInput = document.createElement("input");
+						var falseInput = document.createElement("input");
+						var trueInput = document.createElement("input");
+
+						checkboxContainer.className = "col-md-4 checkbox";
+						nameInput.type = "hidden";
+						nameInput.name = "details[" + sectionTitle + "][" + subsectionTitle + "][" + inputIndex + "][name]";
+						nameInput.value = input.name;
+						typeInput.type = "hidden";
+						typeInput.name = "details[" + sectionTitle + "][" + subsectionTitle + "][" + inputIndex + "][type]";
+						typeInput.value = "checkbox";
+						falseInput.type = "hidden";
+						falseInput.name = "details[" + sectionTitle + "][" + subsectionTitle + "][" + inputIndex + "][value]";
+						falseInput.value = "0";
+						trueInput.checked = (input.value == 0);
+						trueInput.type = "checkbox";
+						trueInput.name = "details[" + sectionTitle + "][" + subsectionTitle + "][" + inputIndex + "][value]";
+						trueInput.value = "1";
+						trueInput.checked = (input.value == 1);
+						label.appendChild(nameInput);
+						label.appendChild(typeInput);
+						label.appendChild(falseInput);
+						label.appendChild(trueInput);
+						label.appendChild(document.createTextNode(input.name));
+						checkboxContainer.appendChild(label);
+						row.appendChild(checkboxContainer);
+						break;
+				}
+			});
+
+			subsectionContainer.appendChild(row);
+			panelBody.appendChild(subsectionContainer);
+		});
+
+		container.appendChild(panel);
+	});
+
+	return container;
+}
+
+$(document).on("click", ".close-body-block-button", function(){
+	$(this).parents(".body-block").velocity("fadeOut");
+});
+
+$(document).on("click", ".hide-body-block-button", function(){
+	$(this).parents(".body-block").velocity("slideUp");
+});

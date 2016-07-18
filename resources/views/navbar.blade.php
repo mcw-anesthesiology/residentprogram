@@ -44,8 +44,13 @@
             <li><a href="/manage/watched-forms">Watched forms</a></li>
 			<li><a href="/manage/block-assignments">Block Assignments</a></li>
             <li><a href="/manage/alumni">Alumni</a></li>
+			<li><a href="/manage/user-features">User features</a></li>
+			<li><a href="/manage/case-logs">Case logs</a></li>
 		  </ul>
 		</li>
+	  @endif
+	  @if($user->isType("admin") || $user->usesFeature(config("constants.FEATURES.CASE_LOG")))
+		<li><a href="/case-log">Case log</a></li>
 	  @endif
 	  @if($user->isType("admin") || $user->type == "resident" || ($user->type == "faculty" && $user->mentees()->count() > 0))
 		<li class="dropdown">

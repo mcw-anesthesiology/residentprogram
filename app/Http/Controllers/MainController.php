@@ -679,15 +679,13 @@ class MainController extends Controller
 
 	public function caseLog(Request $request){
 		$user = Auth::user();
+		$title = "RAAPS"; // FIXME
+		$detailsType = "raaps"; // FIXME
+		$locations = Location::all();
 		if($user->isType("resident")){
-			$detailsType = "raaps"; // FIXME
-			$title = "RAAPS";
-			$locations = Location::all();
 			$detailsSchema = CaseLogDetailsSchema::where("details_type", $detailsType)
-				->orderByDesc("version")->first();
+				->orderBy("version", "desc")->first();
 		}
-
-
 
 		$data = compact("locations", "detailsSchema", "title");
 

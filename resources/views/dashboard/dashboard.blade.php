@@ -56,7 +56,7 @@
 			],
 			order: [[0, "desc"]],
 			createdRow: function(row){
-				$("td", row).addClass("view-evaluation");
+				$(row).addClass("view-evaluation");
 			}
 		});
 
@@ -96,7 +96,7 @@
 			],
 			order: [[0, "desc"]],
 			createdRow: function(row){
-				$("td", row).addClass("view-evaluation");
+				$(row).addClass("view-evaluation");
 			},
 			deferRender: true,
 			initComplete: unlimitRestTableEvals
@@ -135,7 +135,7 @@
 			],
 			order: [[0, "desc"]],
 			createdRow: function(row){
-				$("td", row).addClass("view-evaluation");
+				$(row).addClass("view-evaluation");
 			}
 		});
 
@@ -174,7 +174,7 @@
 			],
 			order: [[0, "desc"]],
 			createdRow: function(row){
-				$("td", row).addClass("view-evaluation");
+				$(row).addClass("view-evaluation");
 			}
 		});
 	@elseif($user->isType("faculty"))
@@ -211,7 +211,7 @@
 			],
 			order: [[0, "desc"]],
 			createdRow: function(row){
-				$("td", row).addClass("view-evaluation");
+				$(row).addClass("view-evaluation");
 			}
 		});
 
@@ -238,7 +238,7 @@
 			],
 			order: [[0, "desc"]],
 			createdRow: function(row){
-				$("td", row).addClass("view-evaluation");
+				$(row).addClass("view-evaluation");
 			}
 		});
 	@elseif($user->isType("resident"))
@@ -277,7 +277,7 @@
 			],
 			order: [[0, "desc"]],
 			createdRow: function(row){
-				$("td", row).addClass("view-evaluation");
+				$(row).addClass("view-evaluation");
 			}
 		});
 
@@ -311,7 +311,7 @@
 			],
 			order: [[0, "desc"]],
 			createdRow: function(row){
-				$("td", row).addClass("view-evaluation");
+				$(row).addClass("view-evaluation");
 			}
 		});
 
@@ -348,7 +348,7 @@
 			],
 			order: [[0, "desc"]],
 			createdRow: function(row){
-				$("td", row).addClass("view-evaluation");
+				$(row).addClass("view-evaluation");
 			}
 		});
 
@@ -384,7 +384,7 @@
 			],
 			order: [[0, "desc"]],
 			createdRow: function(row){
-				$("td", row).addClass("view-evaluation");
+				$(row).addClass("view-evaluation");
 			}
 		});
 
@@ -413,7 +413,7 @@
 			],
 			order: [[0, "desc"]],
 			createdRow: function(row){
-				$("td", row).addClass("view-evaluation");
+				$(row).addClass("view-evaluation");
 			}
 		});
 	@elseif($user->isType("staff"))
@@ -439,7 +439,7 @@
 			],
 			order: [[0, "desc"]],
 			createdRow: function(row){
-				$("td", row).addClass("view-evaluation");
+				$(row).addClass("view-evaluation");
 			}
 		});
 
@@ -466,7 +466,7 @@
 			],
 			order: [[0, "desc"]],
 			createdRow: function(row){
-				$("td", row).addClass("view-evaluation");
+				$(row).addClass("view-evaluation");
 			}
 		});
 	@endif
@@ -505,7 +505,7 @@
 				],
 				order: [[0, "desc"]],
 				createdRow: function(row){
-					$("td", row).addClass("view-evaluation");
+					$(row).addClass("view-evaluation");
 				}
 			});
 		});
@@ -539,7 +539,7 @@
 				],
 				order: [[0, "desc"]],
 				createdRow: function(row){
-					$("td", row).addClass("view-evaluation");
+					$(row).addClass("view-evaluation");
 				}
 			});
 		});

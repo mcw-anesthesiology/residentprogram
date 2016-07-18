@@ -1,3 +1,5 @@
+<input type="hidden" name="details_type" value="{{ $detailsSchema->details_type }}" />
+<input type="hidden" name="version" value="{{ $detailsSchema->version }}" />
 @foreach($detailsSchema->schema as $sectionTitle => $section)
 <section class="panel panel-default">
 	<div class="panel-heading">
@@ -10,14 +12,14 @@
 			<h5 class="sub-header">{{ $subsectionTitle }}</h5>
 		@endif
 			<div class="row">
-		@foreach($subsection as $inputName => $input)
+		@foreach($subsection as $inputIndex => $input)
 			@if($input["type"] == "checkbox")
 				<div class="col-md-4 checkbox">
 					<label>
-						<input type="hidden" name="details[{{ $sectionTitle }}][{{ $subsectionTitle }}][{{ $inputName }}][name]" value="{{ $input["name"] }}" />
-						<input type="hidden" name="details[{{ $sectionTitle }}][{{ $subsectionTitle }}][{{ $inputName }}][type]" value="checkbox" />
-						<input type="hidden" name="details[{{ $sectionTitle }}][{{ $subsectionTitle }}][{{ $inputName }}][value]" value="0" />
-						<input type="checkbox" name="details[{{ $sectionTitle }}][{{ $subsectionTitle }}][{{ $inputName }}][value]" value="1" />
+						<input type="hidden" name="details[{{ $sectionTitle }}][{{ $subsectionTitle }}][{{ $inputIndex }}][name]" value="{{ $input["name"] }}" />
+						<input type="hidden" name="details[{{ $sectionTitle }}][{{ $subsectionTitle }}][{{ $inputIndex }}][type]" value="checkbox" />
+						<input type="hidden" name="details[{{ $sectionTitle }}][{{ $subsectionTitle }}][{{ $inputIndex }}][value]" value="0" />
+						<input type="checkbox" name="details[{{ $sectionTitle }}][{{ $subsectionTitle }}][{{ $inputIndex }}][value]" value="1" />
 						{{ $input["name"] }}
 					</label>
 				</div>

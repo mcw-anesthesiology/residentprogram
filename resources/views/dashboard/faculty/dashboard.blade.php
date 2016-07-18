@@ -36,7 +36,7 @@
 			],
 			order: [[0, "desc"]],
 			createdRow: function(row){
-				$("td", row).addClass("view-evaluation");
+				$(row).addClass("view-evaluation");
 			}
 		});
 	@elseif($user->isType("faculty"))
@@ -59,7 +59,7 @@
 			],
 			order: [[0, "desc"]],
 			createdRow: function(row){
-				$("td", row).addClass("view-evaluation");
+				$(row).addClass("view-evaluation");
 			}
 		});
 	@endif

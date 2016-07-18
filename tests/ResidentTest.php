@@ -383,7 +383,7 @@ class ResidentTest extends TestCase
     public function testPagerDirectoryCSV(){
         $directory = factory(App\DirectoryEntry::class, 3)->create()->sortBy("last_name");
         $csv = "";
-        foreach($directory as $entry){
+        foreach($directory->sortByDesc("id") as $entry){
             $csv .= $entry->first_name . ","
                 . $entry->last_name . ","
                 . $entry->pager . "\n";

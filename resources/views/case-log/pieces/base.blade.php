@@ -16,7 +16,12 @@
 		<div class="col-md-4">
 			<div class="form-group">
 				<label class="containing-label">Case Date
-					<input type="text" class="form-control case-log-case-date" name="case_date" />
+					<div class="input-group date datetimepicker">
+						<input type="text" class="form-control case-log-case-date" name="case_date" />
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+					</div>
 				</label>
 			</div>
 		</div>
@@ -30,9 +35,4 @@
 			</div>
 		</div>
 	</div>
-	<input type="hidden" name="details_type" value="{{ $detailsSchema->details_type }}" />
-	<input type="hidden" name="version" value="{{ $detailsSchema->version }}" />
-</section>
-<section class="case-details">
-	@include("case-log.pieces.details")
 </section>

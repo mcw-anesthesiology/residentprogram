@@ -105,6 +105,7 @@
 						<th>Name</th>
 						<th>Username</th>
 						<th>Email</th>
+						<th>Specialty</th>
 						<th>Status</th>
 						<th>Action</th>
 					</tr>
@@ -222,6 +223,10 @@
 				<option value="fellow">Fellow</option>
 			</select>
           </div>
+		  <div class="form-group" id="edit-secondary-training-level-container">
+			<label for="edit-secondary-training-level">Specialty</label>
+			<input type="text" class="form-control" id="edit-secondary-training-level" name="secondary_training_level" />
+		  </div>
           <div class="form-group" id="edit-photo-container">
 			<label for="edit-photo">Photo</label>
 			<input type="hidden" name="MAX_FILE_SIZE" value="5000000" />
@@ -281,6 +286,10 @@
 				<option value="fellow">Fellow</option>
 			</select>
           </div>
+		  <div class="form-group" id="add-secondary-training-level-container">
+			<label for="add-secondary-training-level">Specialty</label>
+			<input type="text" class="form-control" id="add-secondary-training-level" name="secondary_training_level" />
+		  </div>
           <div class="form-group" id="add-photo-container">
 			<label for="add-photo">Photo</label>
 			<input type="hidden" name="MAX_FILE_SIZE" value="5000000" />
@@ -398,27 +407,21 @@
 			];
 
 			if(type === "resident")
-				columns.push({data: "training_level", render: function(trainingLevel){
-					if(trainingLevel){
-						if(trainingLevel.indexOf("ca-") !== -1)
-							return trainingLevel.toUpperCase();
-						else
-							return ucfirst(trainingLevel);
-					}
-				}});
+				columns.push({data: "training_level", render: renderTrainingLevel});
+			else if(type === "fellow")
+				columns.push({data: "secondary_training_level", render: renderSecondaryTrainingLevel});
 
 			columns.push({data: "status", render: renderAccountStatus});
-			columns.push({data: null, orderable: false, render: function(user, type){
+			columns.push({data: null, orderable: false, searchable: false, render: function(user, type){
 				if(!user)
 					return "";
 
+				var dataAttributes = getDataAttributes(user, ["profile_link"]);
+
 				var editButton = '<button type="button" class="editUser btn btn-info btn-xs" '
 					+ 'data-toggle="modal" data-target=".bs-edit-modal" '
-					+ 'data-type="' + user.specific_type + '" data-id="' + user.id + '" '
-					+ 'data-username="' + user.username + '" data-email="' + user.email + '" '
-					+ 'data-first="' + user.first_name + '" data-last="' + user.last_name + '" '
-					+ 'data-traininglevel="' + user.training_level + '" '
-					+ 'data-photo="' + user.photo_path + '"><span class="glyphicon glyphicon-edit"></span> '
+					+ dataAttributes + '>'
+					+ '<span class="glyphicon glyphicon-edit"></span> '
 					+ 'Edit</button>';
 
 				var sendIntroEmailButton = '<button type="button" class="send-intro-email-button btn btn-primary btn-xs" '
@@ -652,11 +655,12 @@
 			var id = $(this).data("id");
 			var username = $(this).data("username");
 			var email = $(this).data("email");
-			var firstName = $(this).data("first");
-			var lastName = $(this).data("last");
-			var type = $(this).data("type");
-			var trainingLevel = $(this).data("traininglevel");
-			var photoPath = $(this).data("photo");
+			var firstName = $(this).data("first_name");
+			var lastName = $(this).data("last_name");
+			var type = $(this).data("specific_type");
+			var trainingLevel = $(this).data("training_level");
+			var secondaryTrainingLevel = $(this).data("secondary_training_level");
+			var photoPath = $(this).data("photo_path");
 
 			$("#edit-form")[0].reset();
 			$("#edit-username").val(username);
@@ -665,20 +669,30 @@
 			$("#edit-last-name").val(lastName);
 			$("#edit-form").data("id", id);
 			$("#edit-type").val(type);
-			if(photoPath == "")
+			if(!photoPath)
 				$("#editModal #photo-preview").hide();
 			else{
 				$("#editModal #photo-preview").attr("src", "/"+photoPath);
 				$("#editModal #photo-preview").show();
 			}
-			if(type == "resident"){
+
+			if(type === "resident"){
 				$("#edit-training-level-container").show();
 				$("#edit-training-level").val(trainingLevel);
 			}
 			else{
-				if(type == "fellow")
-					$("#edit-training-level").val("fellow");
 				$("#edit-training-level-container").hide();
+			}
+
+			if(type === "fellow") {
+				$("#edit-training-level").val("fellow");
+				$("#edit-secondary-training-level").val(secondaryTrainingLevel)
+					.prop("disabled", false);
+				$("#edit-secondary-training-level-container").show();
+			}
+			else {
+				$("#edit-secondary-training-level").prop("disabled", true);
+				$("#edit-secondary-training-level-container").hide();
 			}
 		});
 
@@ -695,10 +709,19 @@
 				$("#add-training-level").val(trainingLevel).show();
 			}
 			else{
-				if(type === "fellow")
-					$("#add-training-level").val("fellow");
 				$("#add-training-level-container").hide();
 				$("#new-account-email").prop("checked", (type != "staff"));
+			}
+
+			if(type === "fellow") {
+				$("#add-training-level").val("fellow");
+				$("#add-secondary-training-level").val("")
+					.prop("disabled", false);
+				$("#add-secondary-training-level-container").show();
+			}
+			else {
+				$("#add-secondary-training-level").prop("disabled", true);
+				$("#add-secondary-training-level-container").hide();
 			}
 		});
 
