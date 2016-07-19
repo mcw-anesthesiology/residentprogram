@@ -27,19 +27,28 @@
 				</form>
 			</div>
 			<div class="col-md-6 view-case-log-details-schema">
-				<h4 class="sub-header">View</h4>
-				<div class="form-group">
-					<label for="case-log-details-schemas-version-{{ $type }}">Version</label>
-					<select class="form-control case-log-details-schema-version" id="case-log-details-schema-version-{{ $type }}" data-type="{{ $type }}">
+				<form role="form" class="case-log-details-delete-schema-type-form" action="/case_log_details_schemas/{{ $type }}" method="post">
+					{!! csrf_field() !!}
+					<input type="hidden" name="_method" value="DELETE" />
+					<h4 class="sub-header">View</h4>
+					<input type="hidden" name="details_type" value="{{ $type }}" />
+					<div class="form-group">
+						<label for="case-log-details-schemas-version-{{ $type }}">Version</label>
+						<select class="form-control case-log-details-schema-version" id="case-log-details-schema-version-{{ $type }}" data-type="{{ $type }}">
 	@foreach($schemas->keys()->sort(function($a, $b){ if($a == $b){ return 0; } return ($a < $b) ? 1 : -1; }) as $version)
-						<option>{{ $version }}</option>
+							<option>{{ $version }}</option>
 	@endforeach
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="case-log-details-schema-{{ $type }}-old-schema">Schema</label>
-					<textarea class="form-control case-log-details-schema-schema" id="case-log-details-schema-{{ $type }}-old-schema" name="schema" rows="15" readonly>{!! json_encode($schemas->sortByDesc("version")->first()->schema, JSON_PRETTY_PRINT) !!}</textarea>
-				</div>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="case-log-details-schema-{{ $type }}-old-schema">Schema</label>
+						<textarea class="form-control case-log-details-schema-schema" id="case-log-details-schema-{{ $type }}-old-schema" name="schema" rows="15" readonly>{!! json_encode($schemas->sortByDesc("version")->first()->schema, JSON_PRETTY_PRINT) !!}</textarea>
+					</div>
+					<button type="submit" class="btn btn-danger center-block">
+						<span class="glyphicon glyphicon-remove"></span>
+						Delete details type
+					</button>
+				</form>
 			</div>
 		</div>
 	</div>

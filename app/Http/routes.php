@@ -67,6 +67,8 @@ Route::resource("locations", "Rest\LocationController", ["only" => [
 Route::resource("case_logs", "Rest\CaseLogController", ["only" => [
 	"index", "store", "show", "update", "destroy"
 ]]);
+Route::delete("case_log_details_schemas/{type}", "Rest\CaseLogDetailsSchemaController@destroyByType")
+	->where("type", "[A-Za-z_]+");
 Route::resource("case_log_details_schemas", "Rest\CaseLogDetailsSchemaController", ["only" => [
 	"index", "store", "show"
 ]]);

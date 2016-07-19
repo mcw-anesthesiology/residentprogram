@@ -1,0 +1,38 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"title": "Case Log Details Schema",
+	"type": "array",
+	"items": {
+		"title": "Section",
+		"description": "Section of form, displayed as a panel",
+		"type": "object",
+		"properties": {
+			"title": {"type": "string"},
+			"subsections": {
+				"type": "array",
+				"items": {
+					"title": "Subsection",
+					"type": "object",
+					"properties": {
+						"title": {"type": "string"},
+						"inputs": {
+							"type": "array",
+							"items": {
+								"title": "Input",
+								"type": "object",
+								"properties": {
+									"label": {"type": "string"},
+									"type": {"type": "string"},
+									"required": {"type": "boolean"}
+								},
+								"required": ["label", "type"]
+							}
+						}
+					},
+					"required": ["inputs"]
+				}
+			}
+		},
+		"required": ["subsections"]
+	}
+}

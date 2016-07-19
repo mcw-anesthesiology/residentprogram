@@ -1,0 +1,127 @@
+[
+	{
+		"title": "Anesthesia / Analgesia Type",
+		"subsections": [
+			{
+				"inputs": [
+					{
+		                "label": "Epidural",
+		                "type": "checkbox"
+		            },
+		            {
+		                "label": "Spinal",
+		                "type": "checkbox"
+		            },
+		            {
+		                "label": "CSE",
+		                "type": "checkbox"
+		            },
+		            {
+		                "label": "PVB",
+		                "type": "checkbox"
+		            }
+				]
+			},
+			{
+				"title": "Peripheral",
+				"inputs": [
+					{
+		                "label": "Continuous",
+		                "type": "checkbox"
+		            },
+		            {
+		                "label": "Single-shot",
+		                "type": "checkbox"
+		            }
+				]
+			}
+		]
+	},
+	{
+		"title": "Blockade Site",
+		"subsections": [
+			{
+				"title": "Neuraxial",
+				"inputs": [
+					{
+		                "label": "Caudal",
+		                "type": "checkbox"
+		            },
+		            {
+		                "label": "Cervical",
+		                "type": "checkbox"
+		            },
+		            {
+		                "label": "Lumbar",
+		                "type": "checkbox"
+		            },
+		            {
+		                "label": "T 1-7",
+		                "type": "checkbox"
+		            },
+		            {
+		                "label": "T 8-12",
+		                "type": "checkbox"
+		            }
+				]
+			},
+			{
+				"title": "Peripheral",
+				"inputs": [
+					{
+		                "label": "Ankle",
+		                "type": "checkbox"
+		            },
+		            {
+		                "label": "Axillary",
+		                "type": "checkbox"
+		            },
+		            {
+		                "label": "Femoral",
+		                "type": "checkbox"
+		            },
+		            {
+		                "label": "Infraclavicular",
+		                "type": "checkbox"
+		            },
+		            {
+		                "label": "Interscalene",
+		                "type": "checkbox"
+		            },
+		            {
+		                "label": "Lumbar Plexus",
+		                "type": "checkbox"
+		            },
+		            {
+		                "label": "Other--per nerve block sit",
+		                "type": "checkbox"
+		            },
+		            {
+		                "label": "Paravertebral",
+		                "type": "checkbox"
+		            },
+		            {
+		                "label": "Popliteal",
+		                "type": "checkbox"
+		            },
+		            {
+		                "label": "Retrobulbar",
+		                "type": "checkbox"
+		            },
+		            {
+		                "label": "Saphenous",
+		                "type": "checkbox"
+		            },
+		            {
+		                "label": "Sciatic",
+		                "type": "checkbox"
+		            },
+		            {
+		                "label": "Supraclavicular",
+		                "type": "checkbox"
+		            }
+				]
+			}
+		]
+	}
+]

@@ -250,8 +250,10 @@
 				var type = form.find("input[name='details_type']").val();
 				var version = parseInt(form.find("input[name='version']").val(), 10);
 				var schema = JSON.parse(form.find(".case-log-details-schema-schema").val());
+				if(!caseLogDetailsSchemaIsValid(schema))
+					throw new Error("Schema invalid");
+
 				button.prop("disabled", true).addClass("disabled");
-				console.log(form.serializeArray());
 				$.ajax({
 					url: form.attr("action"),
 					method: form.attr("method"),
@@ -269,16 +271,57 @@
 						form.find(".case-log-details-schema-schema").val("");
 					}
 					else
-						appendAlert("There was a problem saving the schema. Please verify the JSON is valid.", schemaGroup);
+						appendAlert("There was a problem saving the schema. Please verify the JSON is valid and matches "
+							+ "<a href='/schemas/case-log-details-schema.json' target='_blank'>the schema</a>.", schemaGroup);
 				}).fail(function(err){
-					appendAlert("There was a problem saving the schema. Please verify the JSON is valid.", schemaGroup);
+					appendAlert("There was a problem saving the schema. Please verify the JSON is valid and matches "
+						+ "<a href='/schemas/case-log-details-schema.json' target='_blank'>the schema</a>.", schemaGroup);
 				}).always(function(){
 					button.prop("disabled", false).removeClass("disabled");
 				});
 			} catch(err){
 				schemaGroup.addClass("has-error");
-				appendAlert("There was a problem saving the schema. Please verify the JSON is valid.", schemaGroup);
+				appendAlert("There was a problem saving the schema. Please verify the JSON is valid and matches "
+					+ "<a href='/schemas/case-log-details-schema.json' target='_blank'>the schema</a>.", schemaGroup);
 			}
+		});
+
+		$(".case-log-details-delete-schema-type-form").submit(function(event){
+			event.preventDefault();
+			var form = $(this);
+			var button = form.find("button[type='submit']");
+			if(!button.hasClass("confirm-delete")){
+				button.addClass("confirm-delete")
+					.html('<span class="glyphicon glyphicon-remove"></span> Confirm delete');
+				appendAlert('<span class="glyphicon glyphicon-alert"></span> '
+					+ 'This will prevent users from submitting logs with this details type. Are you sure?', form, undefined, false);
+				return;
+			}
+
+			button.prop("disabled", true).addClass("disabled");
+
+			var action = form.attr("action");
+			var method = form.attr("method");
+			var data = form.serializeArray();
+			$.ajax({
+				url: action,
+				method: method, // DELETE
+				data: data
+			}).done(function(response){
+				if(response === "success"){
+					var panel = form.parents(".panel");
+					panel.velocity("slideUp", function(){
+						panel.remove();
+					});
+				}
+				else
+					appendAlert("There was a problem deleting the details type.", form);
+			}).fail(function(err){
+				appendAlert("There was a problem deleting the details type.", form);
+			}).always(function(){
+				if(button)
+					button.prop("disabled", false).removeClass("disabled");
+			});
 		});
 
 		$(".case-log-details-schemas-form").on("input", ".has-error .case-log-details-schema-schema", function(){

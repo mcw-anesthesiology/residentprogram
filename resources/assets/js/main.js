@@ -11,7 +11,7 @@ moment.updateLocale("en", {
 		nextDay : '[Tomorrow at] LT',
 		lastWeek : '[Last] dddd [at] LT',
 		nextWeek : 'dddd [at] LT',
-		sameElse: "ll LT"
+		sameElse: "ll"
 	}
 });
 
@@ -225,49 +225,6 @@ function setStartEndDates(months){
 	var start = moment(end).startOf("month").subtract(months-1, "month");
 	$(this).parents(".report-options").find(".startDate").val(start.format("YYYY-MM-DD"));
 	$(this).parents(".report-options").find(".endDate").val(end.format("YYYY-MM-DD"));
-}
-
-function appendAlert(alertText, parent, alertType){
-	alertType = (typeof(alertType) == "undefined" ? "danger" : alertType);
-	if(!parent)
-		parent = "#alert-container";
-
-	var alert = document.createElement("div");
-	alert.className = "alert alert-" + alertType + " alert-dismissable";
-	alert.role = "alert";
-
-	var close = document.createElement("button");
-	close.type = "button";
-	close.className = "close";
-	close.setAttribute("data-dismiss", "alert");
-	close.setAttribute("aria-label", "Close");
-
-	var innerClose = document.createElement("span");
-	innerClose.setAttribute("aria-hidden", "true");
-	innerClose.innerHTML = "&times;";
-	close.appendChild(innerClose);
-
-	var text = document.createTextNode(alertText);
-	alert.appendChild(close);
-	alert.appendChild(text);
-
-	$(parent).append(alert);
-}
-
-function unlimitTableEvals(settings, json){
-	var dt = this.DataTable({
-		retrieve: true
-	});
-	var url = dt.ajax.url();
-	dt.ajax.url(url.substring(0, url.lastIndexOf("/"))).load().draw();
-}
-
-function unlimitRestTableEvals(){
-	var dt = this.DataTable({
-		retrieve: true
-	});
-	var url = dt.ajax.url();
-	dt.ajax.url(url.substring(0, url.lastIndexOf("?"))).load().draw();
 }
 
 function addDateSelectors(dateName, idPrefix, containerQuery, defaultMonth, lastDaySelectedByDefault){
@@ -509,131 +466,12 @@ $("table").on("mouseleave", ".table-date-cell, .table-date-time-cell", function(
 		$(this).text(originalValue);
 });
 
-function ucfirst(str){
-	return str.charAt(0).toUpperCase() + str.substring(1);
-}
-
-function createDateCell(td, date, rowData, rowIndex, colIndex){
-	if(date && $(td).text() !== moment(date).format("ll"))
-		$(td).attr("data-date-value", moment(date).valueOf())
-			.addClass("table-date-cell");
-}
-
-function createDateTimeCell(td, date, rowData, rowIndex, colIndex){
-	if(date && $(td).text() !== moment(date).format("ll LT"))
-		$(td).attr("data-date-value", moment(date).valueOf())
-			.addClass("table-date-time-cell");
-}
-
-function renderDateCell(date, type){
-	if(type === "sort" || type === "type")
-		return date ? moment(date).valueOf() : "";
-
-	return date ? moment(date).format("MMMM Y") : "";
-}
-
-function renderDateTimeCell(date, type){
-	if(type === "sort" || type === "type")
-		return date ? moment(date).valueOf() : "";
-
-	return date ? moment(date).calendar() : "";
-}
-
-function renderAccountStatus(status){
-	var labelContext;
-	switch(status){
-		case "active":
-			labelContext = "label-success";
-			break;
-		case "inactive":
-			labelContext = "label-danger";
-			break;
-		case "pending":
-			labelContext = "label-warning";
-			break;
-		default:
-			labelContext = "label-default";
-			break;
-	}
-	return '<span class="label ' + labelContext + '">' + ucfirst(status) + '</span>';
-}
-
-function renderEvaluationStatus(status){
-	var labelContext;
-	switch(status){
-		case "complete":
-			labelContext = "label-success";
-			break;
-		case "disabled":
-		case "canceled by admin":
-		case "canceled by faculty":
-		case "canceled by resident":
-		case "canceled by fellow":
-		case "canceled by staff":
-			labelContext = "label-danger";
-			break;
-		case "pending":
-			labelContext = "label-warning";
-			break;
-		default:
-			labelContext = "label-default";
-			break;
-	}
-	return '<span class="label ' + labelContext + '">' + ucfirst(status) + '</span>';
-}
-
-function renderTrainingLevel(trainingLevel){
-	if(trainingLevel){
-		if(trainingLevel.indexOf("ca-") > -1)
-			return trainingLevel.toUpperCase();
-		else
-			return ucfirst(trainingLevel);
-	}
-
-	return "";
-}
-
-function renderSecondaryTrainingLevel(secondaryTrainingLevel){
-	if(secondaryTrainingLevel){
-		var allCaps = ["raaps"];
-		if(allCaps.indexOf(secondaryTrainingLevel) > -1)
-			return secondaryTrainingLevel.toUpperCase();
-		else
-			return ucfirst(secondaryTrainingLevel);
-	}
-
-	return "";
-}
-
-function createEditAndDeleteButtons(thing, name){
-	var dataAttributes = getDataAttributes(thing);
-
-	var editButton = '<button type="button" class="btn btn-xs btn-info edit-' + name + '-button" '
-		+ dataAttributes
-		+ '><span class="glyphicon glyphicon-edit"></span> Edit</button>';
-
-	var deleteButton = '<button type="button" class="btn btn-xs btn-danger delete-' + name + '-button" '
-		+ dataAttributes
-		+ '><span class="glyphicon glyphicon-remove"></span> Delete</button>';
-
-	return [editButton, deleteButton];
-}
-
 function confirmDeletion(event){
 	event.stopPropagation();
 	$(".confirm-delete").removeClass("confirm-delete")
 		.html('<span class="glyphicon glyphicon-remove"></span> Delete');
 	$(this).addClass("confirm-delete")
 		.html('<span class="glyphicon glyphicon-remove"></span> Confirm delete');
-}
-
-function getDataAttributes(thing, excludes){
-	var dataAttributes = "";
-	Object.getOwnPropertyNames(thing).forEach(function(propName){
-		if(excludes.indexOf(propName) === -1 && thing[propName] != null)
-			dataAttributes += 'data-' + propName + '="' + thing[propName] + '" ';
-	});
-	return dataAttributes;
 }
 
 $(".table-filter-select").change(function(){
@@ -655,86 +493,6 @@ $(".refresh-table-glyph").on("hidden.bs.tooltip", function(){
 });
 
 $("[data-toggle='tooltip']").tooltip();
-
-function renderCaseLogSchema(schema, container){
-	if(!container)
-		container = document.createElement("section");
-	Object.getOwnPropertyNames(schema).forEach(function(sectionTitle){
-		var section = schema[sectionTitle];
-
-		var panel = document.createElement("section");
-		var panelHeading = document.createElement("div");
-		var panelTitle = document.createElement("h4");
-		var panelBody = document.createElement("div");
-
-		panel.className = "panel panel-default";
-		panelHeading.className = "panel-heading";
-		panelTitle.className = "panel-title";
-		panelBody.className = "panel-body";
-		panelTitle.appendChild(document.createTextNode(sectionTitle));
-		panelHeading.appendChild(panelTitle);
-		panel.appendChild(panelHeading);
-		panel.appendChild(panelBody);
-
-
-		Object.getOwnPropertyNames(section).forEach(function(subsectionTitle){
-			var subsection = section[subsectionTitle];
-
-			var subsectionContainer = document.createElement("section");
-			var row = document.createElement("div");
-			if(isNaN(subsectionTitle)){
-				var subsectionHeading = document.createElement("h5");
-				subsectionHeading.className = "sub-header";
-				subsectionHeading.appendChild(document.createTextNode(subsectionTitle));
-				subsectionContainer.appendChild(subsectionHeading);
-			}
-			row.className = "row";
-
-			subsection.forEach(function(input, inputIndex){
-				switch(input.type){
-					case "checkbox":
-						var checkboxContainer = document.createElement("div");
-						var label = document.createElement("label");
-						var nameInput = document.createElement("input");
-						var typeInput = document.createElement("input");
-						var falseInput = document.createElement("input");
-						var trueInput = document.createElement("input");
-
-						checkboxContainer.className = "col-md-4 checkbox";
-						nameInput.type = "hidden";
-						nameInput.name = "details[" + sectionTitle + "][" + subsectionTitle + "][" + inputIndex + "][name]";
-						nameInput.value = input.name;
-						typeInput.type = "hidden";
-						typeInput.name = "details[" + sectionTitle + "][" + subsectionTitle + "][" + inputIndex + "][type]";
-						typeInput.value = "checkbox";
-						falseInput.type = "hidden";
-						falseInput.name = "details[" + sectionTitle + "][" + subsectionTitle + "][" + inputIndex + "][value]";
-						falseInput.value = "0";
-						trueInput.checked = (input.value == 0);
-						trueInput.type = "checkbox";
-						trueInput.name = "details[" + sectionTitle + "][" + subsectionTitle + "][" + inputIndex + "][value]";
-						trueInput.value = "1";
-						trueInput.checked = (input.value == 1);
-						label.appendChild(nameInput);
-						label.appendChild(typeInput);
-						label.appendChild(falseInput);
-						label.appendChild(trueInput);
-						label.appendChild(document.createTextNode(input.name));
-						checkboxContainer.appendChild(label);
-						row.appendChild(checkboxContainer);
-						break;
-				}
-			});
-
-			subsectionContainer.appendChild(row);
-			panelBody.appendChild(subsectionContainer);
-		});
-
-		container.appendChild(panel);
-	});
-
-	return container;
-}
 
 $(document).on("click", ".close-body-block-button", function(){
 	$(this).parents(".body-block").velocity("fadeOut");

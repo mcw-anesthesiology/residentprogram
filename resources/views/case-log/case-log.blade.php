@@ -109,7 +109,6 @@
 
 		$("#case-log-table").on("click", "tr", function(){
 			var caseLog = caseLogTable.row(this).data();
-			console.log(caseLog.comment);
 			var container = $("#view-case-log-entry-container");
 			container.find("select[name='location_id']").val(caseLog.location_id).change();
 			container.find("input[name='case_date']").val(moment(caseLog.case_date).format("ll")).change();
@@ -118,7 +117,7 @@
 			var viewDetailsContainer = document.getElementById("view-case-log-details");
 			while(viewDetailsContainer.firstChild)
 				viewDetailsContainer.removeChild(viewDetailsContainer.firstChild);
-			renderCaseLogSchema(caseLog.details, viewDetailsContainer);
+			renderCaseLogDetailsSchema(caseLog.details, viewDetailsContainer);
 			container.find("input, select").prop("disabled", true);
 			container.find("textarea").prop("readonly", true);
 			container.velocity("fadeIn");

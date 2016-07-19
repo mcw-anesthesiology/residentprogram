@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use Log;
+
 class CaseLogDetailsSchema extends Model
 {
 	use SoftDeletes;
@@ -29,13 +31,13 @@ class CaseLogDetailsSchema extends Model
 
 	public static function verifyDetails($details, $schema){
 		try {
-			foreach($schema as $sectionTitle => $section){
-				foreach($section as $subsectionTitle => $subsection){
-					foreach($subsection as $index => $item){
-						if($item["type"] == "checkbox"){
-							$itemValue = $details[$sectionTitle][$subsectionTitle][$index]["value"];
-							if(in_array($itemValue, ["0", "1"]))
-							$schema[$sectionTitle][$subsectionTitle][$index]["value"] = $itemValue;
+			foreach($schema as $sectionIndex => $section){
+				foreach($section["subsections"] as $subsectionIndex => $subsection){
+					foreach($subsection["inputs"] as $inputIndex => $input){
+						if($input["type"] == "checkbox"){
+							$inputValue = $details[$sectionIndex]["subsections"][$subsectionIndex]["inputs"][$inputIndex]["value"];
+							if(in_array($inputValue, ["0", "1"]))
+								$schema[$sectionIndex]["subsections"][$subsectionIndex]["inputs"][$inputIndex]["value"] = $inputValue;
 						}
 					}
 				}

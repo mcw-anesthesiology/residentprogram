@@ -117,7 +117,8 @@ elixir(function(mix) {
 			"mdn-round.js",
 			"main.js",
 	        "milestone-competency-radar-chart.js",
-			"evaluation-line-chart.js"
+			"evaluation-line-chart.js",
+			"bundle.js" // HACK: I don't feel like refactoring all the js right now
 		])
         .styles([
 			"main.css",
