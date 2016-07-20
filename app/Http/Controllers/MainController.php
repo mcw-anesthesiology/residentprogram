@@ -682,12 +682,15 @@ class MainController extends Controller
 		$title = "RAAPS"; // FIXME
 		$detailsType = "raaps"; // FIXME
 		$locations = Location::all();
+		$canLog = false;
 		if($user->isType("resident")){
+			$canLog = true;
 			$detailsSchema = CaseLogDetailsSchema::where("details_type", $detailsType)
 				->orderBy("version", "desc")->first();
+
 		}
 
-		$data = compact("locations", "detailsSchema", "title");
+		$data = compact("locations", "canLog", "detailsSchema", "title");
 
 		return view("case-log.case-log", $data);
 	}

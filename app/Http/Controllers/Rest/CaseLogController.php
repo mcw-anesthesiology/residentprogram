@@ -22,12 +22,13 @@ class CaseLogController extends RestController
 
 	protected $relationships = [
 		"user",
-		"location"
+		"location",
+		"detailsSchema"
 	];
 
 	protected $attributes = [
 		"case_date",
-		"details_type",
+		"details_schema_id",
 		"comment"
 	];
 
@@ -39,8 +40,7 @@ class CaseLogController extends RestController
 		$input = $request->all();
 
 		$detailsSchema = CaseLogDetailsSchema::withTrashed()
-			->where("details_type", $input["details_type"])
-			->where("version", $input["version"])->first();
+			->find($input["details_schema_id"]);
 
 		if(!$detailsSchema->verify($input["details"]))
 			throw new \DomainException("Details does not match schema");

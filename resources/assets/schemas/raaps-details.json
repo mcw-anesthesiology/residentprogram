@@ -3,27 +3,30 @@
 		"title": "Anesthesia / Analgesia Type",
 		"subsections": [
 			{
+				"report": "true",
+				"name": "Anesthesia / Analgesia Type",
 				"inputs": [
 					{
-		                "label": "Epidural",
-		                "type": "checkbox"
-		            },
-		            {
-		                "label": "Spinal",
-		                "type": "checkbox"
-		            },
-		            {
-		                "label": "CSE",
-		                "type": "checkbox"
-		            },
-		            {
-		                "label": "PVB",
-		                "type": "checkbox"
-		            }
+						"label": "Epidural",
+						"type": "checkbox"
+					},
+					{
+						"label": "Spinal",
+						"type": "checkbox"
+					},
+					{
+						"label": "CSE",
+						"type": "checkbox"
+					},
+					{
+						"label": "PVB",
+						"type": "checkbox"
+					}
 				]
 			},
 			{
-				"title": "Peripheral",
+				"title": "Peripheral nerve block",
+				"name": "A/A Type: Peripheral nerve block",
 				"inputs": [
 					{
 		                "label": "Continuous",
@@ -38,10 +41,10 @@
 		]
 	},
 	{
-		"title": "Blockade Site",
+		"title": "Neuraxial Blockade Site",
 		"subsections": [
 			{
-				"title": "Neuraxial",
+				"name": "Neuraxial Blockade Site",
 				"inputs": [
 					{
 		                "label": "Caudal",
@@ -64,9 +67,14 @@
 		                "type": "checkbox"
 		            }
 				]
-			},
+			}
+		]
+	},
+	{
+		"title": "Peripheral Blockade Site",
+		"subsections": [
 			{
-				"title": "Peripheral",
+				"name": "Peripheral Blockade Site",
 				"inputs": [
 					{
 		                "label": "Ankle",
@@ -120,6 +128,24 @@
 		                "label": "Supraclavicular",
 		                "type": "checkbox"
 		            }
+				]
+			}
+		]
+	},
+	{
+		"title": "Guidance Technique",
+		"subsections": [
+			{
+				"name": "Guidance Technique",
+				"inputs": [
+					{
+						"label": "Ultrasound",
+						"type": "checkbox"
+					},
+					{
+						"label": "Nerve Stimulator",
+						"type": "checkbox"
+					}
 				]
 			}
 		]

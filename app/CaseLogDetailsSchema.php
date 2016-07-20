@@ -25,25 +25,31 @@ class CaseLogDetailsSchema extends Model
 		"schema" => "array"
 	];
 
+	public function caseLogs(){
+		return $this->hasMany("App\CaseLog", "details_schema_id");
+	}
+
 	public function verify($details){
 		return $this->verifyDetails($details, $this->schema);
 	}
 
 	public static function verifyDetails($details, $schema){
 		try {
-			foreach($schema as $sectionIndex => $section){
-				foreach($section["subsections"] as $subsectionIndex => $subsection){
-					foreach($subsection["inputs"] as $inputIndex => $input){
-						if($input["type"] == "checkbox"){
-							$inputValue = $details[$sectionIndex]["subsections"][$subsectionIndex]["inputs"][$inputIndex]["value"];
-							if(in_array($inputValue, ["0", "1"]))
-								$schema[$sectionIndex]["subsections"][$subsectionIndex]["inputs"][$inputIndex]["value"] = $inputValue;
-						}
-					}
+			$names = [];
+			foreach($schema as $section){
+				foreach($section["subsections"] as $subsection){
+					$names[] = $subsection["name"];
 				}
 			}
 
-			return json_encode($details) == json_encode($schema);
+			foreach($details as $name => $values){
+				if(!in_array($name, $names))
+					throw new \DomainException();
+			}
+
+			return true;
+		} catch(\DomainException $e){
+			return false;
 		} catch(\Exception $e){
 			Log::error("Problem verifying Case Log details: " . $e);
 			return false;

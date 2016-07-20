@@ -13,7 +13,7 @@ class CaseLog extends Model
 {
 
 	use SoftDeletes;
-	
+
 	protected static function boot(){
 		parent::boot();
 
@@ -27,7 +27,7 @@ class CaseLog extends Model
 		"location_id",
 		"case_date",
 		"comment",
-		"details_type",
+		"details_schema_id",
 		"details"
 	];
 
@@ -42,5 +42,9 @@ class CaseLog extends Model
 
 	public function user(){
 		return $this->belongsTo("App\User");
+	}
+
+	public function detailsSchema(){
+		return $this->belongsTo("App\CaseLogDetailsSchema", "details_schema_id");
 	}
 }

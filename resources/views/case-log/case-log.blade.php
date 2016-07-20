@@ -10,6 +10,9 @@
 
 @section("body")
 	<h1>Case Log</h1>
+	<section id="case-log-stats-container">
+
+	</section>
 	<div class="table-responsive">
 		<table class="table table-striped" id="case-log-table" width="100%">
 			<thead>
@@ -26,10 +29,12 @@
 			</thead>
 		</table>
 	</div>
+	@if($canLog)
 	<button type="button" class="btn btn-primary center-block" id="add-case-log-button">
 		<span class="glyphicon glyphicon-plus"></span>
 		Add entry
 	</button>
+	@endif
 </div>
 
 <div class="container body-block collapse" id="view-case-log-entry-container">
@@ -41,7 +46,7 @@
 
 	<section id="view-case-log-details"></section>
 
-	@if($user->isType("resident"))
+	@if($canLog)
 </div>
 <div class="container body-block collapse" id="add-case-log-entry-container">
 	<button type="button" class="close hide-body-block-button" aria-label="Close">
@@ -53,13 +58,17 @@
 
 @section("script")
 	<script>
+	@if($canLog)
+		var detailsSchema = {!! $detailsSchema->toJson() !!};
+	@endif
 		var caseLogTable = $("#case-log-table").DataTable({
 			ajax: {
 				url: "/case_logs",
 				data: {
 					with: {
 						location: ["name"],
-						user: ["full_name"]
+						user: ["full_name"],
+						detailsSchema: true
 					}
 				},
 				dataSrc: ""
@@ -76,7 +85,7 @@
 
 					return caseDate ? moment(caseDate).format("ll") : "";
 				}},
-				{data: "details_type", render: function(detailsType){
+				{data: "details_schema.details_type", render: function(detailsType){
 					if(detailsType)
 						return detailsType.toUpperCase();
 
@@ -93,7 +102,13 @@
 					return buttons;
 				}}
 			],
-			order: [[0, "desc"]]
+			order: [[0, "desc"]],
+			initComplete: function(settings, caseLogs){
+				var report = generateCaseLogDetailsReport(caseLogs);
+				var statsContainer = document.getElementById('case-log-stats-container');
+				generateCaseLogDetailsReportCharts(report, statsContainer);
+				console.log(report);
+			}
 		});
 
 		$("#add-case-log-entry-container .datetimepicker").datetimepicker({
@@ -101,6 +116,10 @@
 			stepping: 1440,
 			format: "M/D/Y"
 		});
+
+	@if($canLog)
+		renderCaseLogDetailsSchema(detailsSchema.schema, undefined, document.querySelector("#case-entry-form .case-details"));
+	@endif
 
 		$("#add-case-log-button").click(function(){
 			var form = $("#case-entry-form");
@@ -117,7 +136,7 @@
 			var viewDetailsContainer = document.getElementById("view-case-log-details");
 			while(viewDetailsContainer.firstChild)
 				viewDetailsContainer.removeChild(viewDetailsContainer.firstChild);
-			renderCaseLogDetailsSchema(caseLog.details, viewDetailsContainer);
+			renderCaseLogDetailsSchema(caseLog.details_schema.schema, caseLog.details, viewDetailsContainer);
 			container.find("input, select").prop("disabled", true);
 			container.find("textarea").prop("readonly", true);
 			container.velocity("fadeIn");
