@@ -11,6 +11,8 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 use Illuminate\Session\TokenMismatchException;
 
+use Log;
+
 
 class Handler extends ExceptionHandler
 {

@@ -19,7 +19,8 @@
 		"yangqi/htmldom": "dev-master",
         "michelf/php-markdown": "^1.6",
         "turkeyfried/us-state-lists": "^1.0",
-        "justinrainbow/json-schema": "^2.0"
+        "justinrainbow/json-schema": "^2.0",
+        "jenssegers/rollbar": "^1.5"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",
