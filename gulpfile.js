@@ -4,6 +4,8 @@ var cssnano = require("gulp-cssnano");
 var concat = require("gulp-concat");
 var elixir = require('laravel-elixir');
 var size = require("gulp-size");
+var gutil = require("gulp-util");
+var webpack = require("webpack");
 
 var inProduction = elixir.config.production;
 
@@ -110,7 +112,17 @@ gulp.task("vendorimg", function(){
         .pipe(gulp.dest("./public/css/images"));
 });
 
+gulp.task("webpack", function(callback){
+	webpack(require("./webpack.config.js"), function(err, stats) {
+        if(err) throw new gutil.PluginError("webpack", err);
+		callback();
+    });
+});
+
+elixir.config.registerWatcher("default", "./resources/assets/js/modules/**");
+
 elixir(function(mix) {
+	mix.task('webpack');
     mix.scripts([
 			"datatables-datetime-moment.js",
 			"modernizr-custom.js",

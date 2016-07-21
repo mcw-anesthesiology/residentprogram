@@ -224,36 +224,206 @@ return /******/ (function(modules) { // webpackBootstrap
 		return report;
 	}
 	
-	function generateCaseLogDetailsReportCharts(report) {
-		var container = arguments.length <= 1 || arguments[1] === undefined ? document.createElement('section') : arguments[1];
+	var chartColors = ['#FF6384', '#4BC0C0', '#FFCE56', '#E7E9ED', '#36A2EB'];
 	
-		var name = 'Anesthesia / Analgesia Type';
-		var data = {
-			datasets: [{
-				data: [],
-				label: name
-			}],
-			labels: []
-		};
-		console.log(data);
-		for (var response in report.raaps.responseCounts[name]) {
-			var count = report.raaps.responseCounts[name][response];
-			data.datasets[0].data.push(count);
-			data.labels.push(response);
-		}
-		var canvas = document.createElement('canvas');
-		container.appendChild(canvas);
-		new _chart2.default(canvas, {
-			data: data,
-			type: 'polarArea',
-			options: {
-				scale: {
-					ticks: {
-						stepSize: 0.25
-					}
+	function generateCaseLogDetailsReportCharts(caseLogs, name, container) {
+		var charts = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
+	
+		if (!caseLogs || caseLogs.length === 0) return;
+	
+		var report = generateCaseLogDetailsReport(caseLogs);
+	
+		var reportGroupNames = Object.keys(report);
+		var _iteratorNormalCompletion = true;
+		var _didIteratorError = false;
+		var _iteratorError = undefined;
+	
+		try {
+			for (var _iterator = container.children[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+				var section = _step.value;
+	
+				if (!section.hasAttribute('data-report-group-name') || !(reportGroupNames.indexOf(section.getAttribute('data-report-group-name')) !== -1)) container.removeChild(section);
+			}
+		} catch (err) {
+			_didIteratorError = true;
+			_iteratorError = err;
+		} finally {
+			try {
+				if (!_iteratorNormalCompletion && _iterator.return) {
+					_iterator.return();
+				}
+			} finally {
+				if (_didIteratorError) {
+					throw _iteratorError;
 				}
 			}
-		});
+		}
+	
+		for (var chartName in charts) {
+			if (!(reportGroupNames.indexOf(chartName) !== -1)) {
+				charts[chartName].destroy();
+				delete charts[chartName];
+			}
+		}
+	
+		var _iteratorNormalCompletion2 = true;
+		var _didIteratorError2 = false;
+		var _iteratorError2 = undefined;
+	
+		try {
+			for (var _iterator2 = reportGroupNames[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+				var reportGroupName = _step2.value;
+	
+	
+				var data = {
+					datasets: [{
+						label: name,
+						data: [],
+						backgroundColor: []
+					}],
+					labels: []
+				};
+	
+				var canvas = void 0,
+				    numCasesTd = void 0,
+				    tbody = void 0;
+				var reportGroupSection = container.querySelector('section[data-report-group-name="' + reportGroupName + '"]');
+				if (reportGroupSection) {
+					numCasesTd = reportGroupSection.querySelector('table.num-cases-table td');
+					tbody = reportGroupSection.querySelector('table.stats-table tbody');
+				} else {
+					reportGroupSection = document.createElement('section');
+					var reportGroupTitle = document.createElement('h2');
+					var canvasContainer = document.createElement('div');
+					canvas = document.createElement('canvas');
+					reportGroupSection.className = 'row';
+					reportGroupSection.setAttribute('data-report-group-name', reportGroupName);
+					reportGroupSection.appendChild(reportGroupTitle);
+					reportGroupTitle.appendChild(document.createTextNode(reportGroupName.toUpperCase()));
+					canvasContainer.className = 'col-md-8 case-log-report-chart-container';
+					container.appendChild(reportGroupSection);
+					reportGroupSection.appendChild(canvasContainer);
+					canvasContainer.appendChild(canvas);
+	
+					var statsContainer = document.createElement('div');
+					var numTable = document.createElement('table');
+					var statsTable = document.createElement('table');
+					var thead = document.createElement('thead');
+					tbody = document.createElement('tbody');
+					var tr = document.createElement('tr');
+					var th = document.createElement('th');
+					numCasesTd = document.createElement('td');
+					statsContainer.className = 'col-md-4 case-log-report-stats-container';
+					reportGroupSection.appendChild(statsContainer);
+					numTable.className = 'table num-cases-table';
+					statsContainer.appendChild(numTable);
+					numTable.appendChild(tr);
+					tr.appendChild(th);
+					th.appendChild(document.createTextNode('Number of cases'));
+					tr.appendChild(numCasesTd);
+	
+					tr = document.createElement('tr');
+					th = document.createElement('th');
+					statsTable.className = 'table table-striped table-bordered stats-table';
+					statsContainer.appendChild(statsTable);
+					statsTable.appendChild(thead);
+					thead.appendChild(tr);
+					tr.appendChild(th);
+					statsTable.appendChild(tbody);
+					th.appendChild(document.createTextNode('Response'));
+					tr.appendChild(th);
+					th = document.createElement('th');
+					th.appendChild(document.createTextNode('Times selected'));
+					tr.appendChild(th);
+					th = document.createElement('th');
+					th.appendChild(document.createTextNode('Percentage'));
+					tr.appendChild(th);
+				}
+	
+				while (tbody.firstChild) {
+					tbody.removeChild(tbody.firstChild);
+				}var numCases = report[reportGroupName].numCases;
+				while (numCasesTd.firstChild) {
+					numCasesTd.removeChild(numCasesTd.firstChild);
+				}numCasesTd.appendChild(document.createTextNode(numCases));
+				var responses = Object.keys(report[reportGroupName].responseCounts[name]).sort();
+				var _iteratorNormalCompletion3 = true;
+				var _didIteratorError3 = false;
+				var _iteratorError3 = undefined;
+	
+				try {
+					for (var _iterator3 = responses[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+						var response = _step3.value;
+	
+						var count = report[reportGroupName].responseCounts[name][response];
+						var percentage = Math.round(count / numCases * 100);
+						data.datasets[0].data.push(count);
+						data.datasets[0].backgroundColor.push(chartColors[data.datasets[0].data.length - 1]);
+						data.labels.push(response);
+	
+						var _tr = document.createElement('tr');
+						var _th = document.createElement('th');
+						var selectedTd = document.createElement('td');
+						var percentageTd = document.createElement('td');
+	
+						_th.appendChild(document.createTextNode(response));
+						selectedTd.appendChild(document.createTextNode(count));
+						percentageTd.appendChild(document.createTextNode(percentage + '%'));
+	
+						_tr.appendChild(_th);
+						_tr.appendChild(selectedTd);
+						_tr.appendChild(percentageTd);
+						tbody.appendChild(_tr);
+					}
+				} catch (err) {
+					_didIteratorError3 = true;
+					_iteratorError3 = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion3 && _iterator3.return) {
+							_iterator3.return();
+						}
+					} finally {
+						if (_didIteratorError3) {
+							throw _iteratorError3;
+						}
+					}
+				}
+	
+				if (charts[reportGroupName]) {
+					charts[reportGroupName].data.datasets = data.datasets;
+					charts[reportGroupName].data.labels = data.labels;
+					charts[reportGroupName].update();
+				} else {
+					charts[reportGroupName] = new _chart2.default(canvas, {
+						data: data,
+						type: 'polarArea',
+						options: {
+							scale: {
+								ticks: {
+									stepSize: 1
+								}
+							}
+						}
+					});
+				}
+			}
+		} catch (err) {
+			_didIteratorError2 = true;
+			_iteratorError2 = err;
+		} finally {
+			try {
+				if (!_iteratorNormalCompletion2 && _iterator2.return) {
+					_iterator2.return();
+				}
+			} finally {
+				if (_didIteratorError2) {
+					throw _iteratorError2;
+				}
+			}
+		}
+	
+		return charts;
 	}
 
 /***/ },
@@ -13913,10 +14083,12 @@ return /******/ (function(modules) { // webpackBootstrap
 		return [editButton, deleteButton];
 	}
 	
-	function getDataAttributes(thing, excludes) {
+	function getDataAttributes(thing) {
+		var excludes = arguments.length <= 1 || arguments[1] === undefined ? [] : arguments[1];
+	
 		var dataAttributes = "";
 		Object.getOwnPropertyNames(thing).forEach(function (propName) {
-			if (excludes.indexOf(propName) === -1 && thing[propName] != null) dataAttributes += 'data-' + propName + '="' + thing[propName] + '" ';
+			if (!(excludes.indexOf(propName) !== -1) && thing[propName] != null) dataAttributes += 'data-' + propName + '="' + thing[propName] + '" ';
 		});
 		return dataAttributes;
 	}

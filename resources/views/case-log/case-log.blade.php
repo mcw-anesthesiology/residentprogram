@@ -10,9 +10,13 @@
 
 @section("body")
 	<h1>Case Log</h1>
-	<section id="case-log-stats-container">
-
-	</section>
+	<div class="row">
+		<div class="col-md-4 col-md-offset-8">
+			<label for="case-log-details-report-name">Report on</label>
+			<select class="form-control" id="case-log-details-report-name"></select>
+		</div>
+	</div>
+	<section id="case-log-stats-container"></section>
 	<div class="table-responsive">
 		<table class="table table-striped" id="case-log-table" width="100%">
 			<thead>
@@ -55,12 +59,13 @@
 	@include("case-log.add-entry")
 	@endif
 @stop
-
 @section("script")
 	<script>
-	@if($canLog)
+		var charts = {};
+
+		// TODO: Only show when canLog
 		var detailsSchema = {!! $detailsSchema->toJson() !!};
-	@endif
+
 		var caseLogTable = $("#case-log-table").DataTable({
 			ajax: {
 				url: "/case_logs",
@@ -104,10 +109,7 @@
 			],
 			order: [[0, "desc"]],
 			initComplete: function(settings, caseLogs){
-				var report = generateCaseLogDetailsReport(caseLogs);
-				var statsContainer = document.getElementById('case-log-stats-container');
-				generateCaseLogDetailsReportCharts(report, statsContainer);
-				console.log(report);
+				runCaseLogsReport(caseLogs);
 			}
 		});
 
@@ -117,9 +119,28 @@
 			format: "M/D/Y"
 		});
 
+		detailsSchema.schema.forEach(function(schema){
+			schema.subsections.forEach(function(subsection){
+				var option = document.createElement("option");
+				option.appendChild(document.createTextNode(subsection.name));
+				document.querySelector("#case-log-details-report-name")
+					.appendChild(option);
+			});
+		});
+
 	@if($canLog)
 		renderCaseLogDetailsSchema(detailsSchema.schema, undefined, document.querySelector("#case-entry-form .case-details"));
 	@endif
+
+		function runCaseLogsReport(caseLogs){
+			var statsContainer = document.getElementById('case-log-stats-container');
+			var name = $("#case-log-details-report-name").val();
+			charts = generateCaseLogDetailsReportCharts(caseLogs, name, statsContainer, charts);
+		}
+
+		$("#case-log-details-report-name").change(function(){
+			runCaseLogsReport(caseLogTable.ajax.json());
+		});
 
 		$("#add-case-log-button").click(function(){
 			var form = $("#case-entry-form");
@@ -164,7 +185,7 @@
 					data: data
 				}).done(function(response){
 					if(response === "success"){
-						caseLogTable.ajax.reload();
+						caseLogTable.ajax.reload(runCaseLogsReport);
 						form[0].reset();
 						form.parent().velocity("slideUp");
 					} else {

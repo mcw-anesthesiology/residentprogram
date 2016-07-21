@@ -123,10 +123,10 @@ export function createEditAndDeleteButtons(thing, name){
 	return [editButton, deleteButton];
 }
 
-export function getDataAttributes(thing, excludes){
+export function getDataAttributes(thing, excludes = []){
 	let dataAttributes = "";
 	Object.getOwnPropertyNames(thing).forEach(function(propName){
-		if(excludes.indexOf(propName) === -1 && thing[propName] != null)
+		if(!excludes.includes(propName) && thing[propName] != null)
 			dataAttributes += 'data-' + propName + '="' + thing[propName] + '" ';
 	});
 	return dataAttributes;

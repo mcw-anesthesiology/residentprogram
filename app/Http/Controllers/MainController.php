@@ -683,10 +683,12 @@ class MainController extends Controller
 		$detailsType = "raaps"; // FIXME
 		$locations = Location::all();
 		$canLog = false;
+
+		// TODO: Only show when canLog
+		$detailsSchema = CaseLogDetailsSchema::where("details_type", $detailsType)
+			->orderBy("version", "desc")->first();
 		if($user->isType("resident")){
 			$canLog = true;
-			$detailsSchema = CaseLogDetailsSchema::where("details_type", $detailsType)
-				->orderBy("version", "desc")->first();
 
 		}
 
