@@ -914,7 +914,7 @@
 					else
 						return "Unknown";
 				}},
-				{data: "run_at", render: renderTableDate, createdCell: createDateTimeCell},
+				{data: "run_at", render: renderDateTimeCell, createdCell: createDateTimeCell},
 				{data: null, orderable: false, searchable: false, render: function(advancement, type){
 					return '<button type="button" class="btn btn-xs btn-danger cancel-advancement-button" '
 						+ 'data-id="' + advancement.id + '">'

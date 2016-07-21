@@ -10,6 +10,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
+use DB;
 use Log;
 use Mail;
 
@@ -32,6 +33,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $fillable = [
         "username",
         "training_level",
+		"secondary_training_level",
         "first_name",
         "last_name",
         "email",
@@ -48,6 +50,15 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $hidden = ['password', 'remember_token', 'created_at', 'updated_at'];
+
+	protected $userHidden = [ // Fields hidden to non-admins
+		"username",
+		"email",
+		"notifications",
+		"reminder_frequency",
+		"remind_only_if_pending",
+		"photo_path"
+	];
 
 	protected $appends = ["full_name", "specific_type", "profile_link"];
 
@@ -103,6 +114,62 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function watchedForms(){
         return $this->hasMany("App\WatchedForm");
     }
+
+	public function formsBeingWatched(){
+		return $this->belongsToMany("App\Form", "watched_forms");
+	}
+
+	public function userFeatures(){
+		return $this->hasMany("App\UserFeature");
+	}
+
+	public function typeFeatures(){
+		return DB::table("users")
+			->join("user_features", function($join){
+				$join->on("users.type", "=", "user_features.user_type")
+					->whereNull("user_features.user_id")
+					->whereNull("user_features.user_training_level")
+					->whereNull("user_features.user_secondary_training_level");
+			})
+			->where("users.id", $this->id)
+			->pluck("feature");
+	}
+
+	public function trainingLevelFeatures(){
+		return DB::table("users")
+			->join("user_features", function($join){
+				$join->on("users.type", "=", "user_features.user_type")
+					->on("users.training_level", "=", "user_features.user_training_level")
+					->whereNull("user_features.user_id")
+					->whereNull("user_features.user_secondary_training_level");
+			})
+			->where("users.id", $this->id)
+			->pluck("feature");
+	}
+
+	public function secondaryTrainingLevelFeatures(){
+		return DB::table("users")
+			->join("user_features", function($join){
+				$join->on("users.type", "=", "user_features.user_type")
+					->on("users.training_level", "=", "user_features.user_training_level")
+					->on("users.secondary_training_level", "=", "user_features.user_secondary_training_level")
+					->whereNull("user_features.user_id");
+			})
+			->where("users.id", $this->id)
+			->pluck("feature");
+	}
+
+	public function usesFeature($feature){
+		return $this->userFeatures->pluck("feature")
+			->merge($this->typeFeatures())
+			->merge($this->trainingLevelFeatures())
+			->merge($this->secondaryTrainingLevelFeatures())
+			->contains($feature);
+	}
+
+	public function caseLogs(){
+		return $this->hasMany("App\CaseLog");
+	}
 
     public function scopeFormerResidents($query){
         return $query->where(function($userQuery){
@@ -163,4 +230,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         }
         return false;
     }
+
+	public function hideFields(){
+		$this->addHidden($this->userHidden);
+	}
 }

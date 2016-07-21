@@ -11,7 +11,7 @@ moment.updateLocale("en", {
 		nextDay : '[Tomorrow at] LT',
 		lastWeek : '[Last] dddd [at] LT',
 		nextWeek : 'dddd [at] LT',
-		sameElse: "ll LT"
+		sameElse: "ll"
 	}
 });
 
@@ -227,49 +227,6 @@ function setStartEndDates(months){
 	$(this).parents(".report-options").find(".endDate").val(end.format("YYYY-MM-DD"));
 }
 
-function appendAlert(alertText, parent, alertType){
-	alertType = (typeof(alertType) == "undefined" ? "danger" : alertType);
-	if(!parent)
-		parent = "#alert-container";
-
-	var alert = document.createElement("div");
-	alert.className = "alert alert-" + alertType + " alert-dismissable";
-	alert.role = "alert";
-
-	var close = document.createElement("button");
-	close.type = "button";
-	close.className = "close";
-	close.setAttribute("data-dismiss", "alert");
-	close.setAttribute("aria-label", "Close");
-
-	var innerClose = document.createElement("span");
-	innerClose.setAttribute("aria-hidden", "true");
-	innerClose.innerHTML = "&times;";
-	close.appendChild(innerClose);
-
-	var text = document.createTextNode(alertText);
-	alert.appendChild(close);
-	alert.appendChild(text);
-
-	$(parent).append(alert);
-}
-
-function unlimitTableEvals(settings, json){
-	var dt = this.DataTable({
-		retrieve: true
-	});
-	var url = dt.ajax.url();
-	dt.ajax.url(url.substring(0, url.lastIndexOf("/"))).load().draw();
-}
-
-function unlimitRestTableEvals(){
-	var dt = this.DataTable({
-		retrieve: true
-	});
-	var url = dt.ajax.url();
-	dt.ajax.url(url.substring(0, url.lastIndexOf("?"))).load().draw();
-}
-
 function addDateSelectors(dateName, idPrefix, containerQuery, defaultMonth, lastDaySelectedByDefault){
 	// This is a better input method, but I wanted a non-js fallback so that's the default
 
@@ -406,6 +363,8 @@ $(document).ready(function(){
 
 	$.extend(true, $.fn.dataTable.defaults, {
 		language: {
+			emptyTable: "No entries available",
+			zeroRecords: "No matching entries, please revise your search",
 			paginate: {
 				previous: "&lt;",
 				next: "&gt;"
@@ -453,7 +412,7 @@ var fixNavbarOffset = debounce(function(){
 $(window).resize(fixNavbarOffset);
 
 $(".table").on("click", ".view-evaluation", function(){
-	var requestId = $(this).parents("tr").children("td").eq(0).children("a").html();
+	var requestId = $(this).children("td").eq(0).children("a").html();
 	window.location.href = "/evaluation/"+requestId;
 });
 
@@ -466,19 +425,22 @@ $(".report-milestones-info").popover({
 		"</ul>"
 });
 
-$(".toggleDescriptions").click(function(){
+$(".toggle-descriptions").click(function(){
 	var questionName = $(this).data("id");
 	var headerHeight = $("#main-navbar").height();
 	var padding = 5;
-	var scrollto = $(this).parents(".question").velocity("scroll");
+	var scrollto = $(this).parents(".question").velocity("scroll", {offset: -(headerHeight + padding)});
 	var isExpanded = $("#" + questionName).hasClass("expanded-descriptions");
-	if(isExpanded)
+	if(isExpanded){
 		$("." + questionName + " .description").velocity("slideUp", function(){
 			$("#" + questionName).removeClass("expanded-descriptions");
 		});
+		$(this).html('<span class="glyphicon glyphicon-zoom-in"></span> Show descriptions');
+	}
 	else {
 		$("#" + questionName).addClass("expanded-descriptions");
 		$("." + questionName + " .description").velocity("slideDown");
+		$(this).html('<span class="glyphicon glyphicon-zoom-out"></span> Hide descriptions');
 	}
 });
 
@@ -504,60 +466,19 @@ $("table").on("mouseleave", ".table-date-cell, .table-date-time-cell", function(
 		$(this).text(originalValue);
 });
 
-function ucfirst(str){
-	return str.charAt(0).toUpperCase() + str.substring(1);
-}
-
-function createDateCell(td, date, rowData, rowIndex, colIndex){
-	if(date && $(td).text() !== moment(date).format("ll"))
-		$(td).attr("data-date-value", moment(date).valueOf())
-			.addClass("table-date-cell");
-}
-
-function createDateTimeCell(td, date, rowData, rowIndex, colIndex){
-	if(date && $(td).text() !== moment(date).format("ll LT"))
-		$(td).attr("data-date-value", moment(date).valueOf())
-			.addClass("table-date-time-cell");
-}
-
-function renderTableEvaluationDate(date, type){
-	if(type === "sort" || type === "type")
-		return date ? moment(date).valueOf() : "";
-
-	return date ? moment(date).format("MMMM Y") : "";
-}
-
-function renderTableDate(date, type){
-	if(type === "sort" || type === "type")
-		return date ? moment(date).valueOf() : "";
-
-	return date ? moment(date).calendar() : "";
-}
-
-function renderAccountStatus(status){
-	var labelContext;
-	switch(status){
-		case "active":
-			labelContext = "label-success";
-			break;
-		case "inactive":
-			labelContext = "label-danger";
-			break;
-		case "pending":
-			labelContext = "label-warning";
-			break;
-		default:
-			labelContext = "label-default";
-			break;
-	}
-	return '<span class="label ' + labelContext + '">' + ucfirst(status) + '</span>';
+function confirmDeletion(event){
+	event.stopPropagation();
+	$(".confirm-delete").removeClass("confirm-delete")
+		.html('<span class="glyphicon glyphicon-remove"></span> Delete');
+	$(this).addClass("confirm-delete")
+		.html('<span class="glyphicon glyphicon-remove"></span> Confirm delete');
 }
 
 $(".table-filter-select").change(function(){
 	var filterType = $(this).val();
 	$($(this).data("filterTable")).DataTable({
 		retrieve: true
-	}).column($(this).data("filterColumn")).search(filterType).draw();
+	}).column($(this).data("filterColumn")).search(filterType, false, false, false).draw();
 });
 
 $(".refresh-table-glyph").click(function(){
@@ -572,3 +493,11 @@ $(".refresh-table-glyph").on("hidden.bs.tooltip", function(){
 });
 
 $("[data-toggle='tooltip']").tooltip();
+
+$(document).on("click", ".close-body-block-button", function(){
+	$(this).parents(".body-block").velocity("fadeOut");
+});
+
+$(document).on("click", ".hide-body-block-button", function(){
+	$(this).parents(".body-block").velocity("slideUp");
+});

@@ -217,6 +217,10 @@ body {
     cursor: pointer;
 }
 
+.table>tbody>tr:hover {
+	background-color: #f5f5f5;
+}
+
 .question {
 	margin-bottom: 50px;
 }
@@ -375,4 +379,22 @@ body {
 .table-date-cell,
 .table-date-time-cell {
     cursor: help;
+}
+
+.containing-label {
+	width: 100%;
+}
+
+.containing-label input,
+.containing-label textarea,
+.containing-label select {
+	font-weight: normal ;
+}
+
+.form-group .select2.select2-container {
+	width: 100% !important;
+}
+
+.row > .checkbox {
+	margin-top: -5px;
 }

@@ -26,6 +26,8 @@ use Carbon\Carbon;
 use App\Alum;
 use App\Block;
 use App\BlockAssignment;
+use App\CaseLog;
+use App\CaseLogDetailsSchema;
 use App\Competency;
 use App\CompetencyQuestion;
 use App\DirectoryEntry;
@@ -304,4 +306,50 @@ class ManageController extends Controller
 	public function watchedForms(Request $request){
         return view("manage.watched-forms");
     }
+
+	public function userFeatures(Request $request){
+		$featureUsers = User::where("status", "active")->orderBy("last_name", "asc")
+			->orderBy("first_name", "asc")->get()->groupBy(function($user){
+				if($user->type == "resident")
+					return $user->training_level;
+				return $user->type;
+			});
+		$userTypeLabels = [
+			"intern" => "Intern",
+			"ca-1" => "CA-1",
+			"ca-2" => "CA-2",
+			"ca-3" => "CA-3",
+			"fellow" => "Fellow",
+			"faculty" => "Faculty"
+		];
+
+		$userTypes = [
+			"resident" => "Trainee",
+			"faculty" => "Faculty"
+		];
+		$residentTrainingLevels = [
+			"intern" => "Intern",
+			"ca-1" => "CA-1",
+			"ca-2" => "CA-2",
+			"ca-3" => "CA-3",
+			"fellow" => "Fellow"
+		];
+		$data = compact("featureUsers", "userTypeLabels", "userTypes", "residentTrainingLevels");
+
+		return view("manage.user-features", $data);
+	}
+
+	public function caseLogs(Request $request){
+		$schemas = CaseLogDetailsSchema::all()->groupBy("details_type")
+			->sortByDesc("version")->transform(function($typeSchemas){
+				return $typeSchemas->keyBy("version");
+			});
+		$newVersions = $schemas->map(function($schemas){
+			return $schemas->max("version") + 1;
+		});
+
+		$data = compact("schemas", "newVersions");
+
+		return view("manage.case-log.all", $data);
+	}
 }

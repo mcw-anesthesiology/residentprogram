@@ -69,8 +69,10 @@
 			ajax: {
 				url: "/mentorships",
 				data: {
-					mentor: true,
-					mentee: true
+					with: {
+						mentor: true,
+						mentee: true
+					}
 				},
 				dataSrc: "",
 			},
@@ -78,14 +80,15 @@
 				{data: "id"},
 				{data: "mentor.full_name"},
 				{data: "mentee.full_name"},
-				{data: "created_at", render: renderTableDate, createdCell: createDateTimeCell},
+				{data: "created_at", render: renderDateTimeCell, createdCell: createDateTimeCell},
 				{data: null, orderable: false, render: function(data, type){
 					return '<button class="delete-mentorship-button btn btn-danger btn-xs"'
 						+ 'data-toggle="modal" data-target=".bs-remove-modal" '
 						+ 'data-id="' + data.id + '">'
 						+ '<span class="glyphicon glyphicon-remove"></span> Remove</button>';
 				}}
-			]
+			],
+			order: [[0, "desc"]]
 		});
 
 		$("#mentorships-table").on("click", ".delete-mentorship-button", function(){
@@ -121,30 +124,21 @@
 				button.prop("disabled", false).removeClass("disabled");
 				appendAlert(response, modal.find(".modal-header"));
 			});
-			$.post($(this).prop("action"), data, function(response){
-				if(response === "true"){
-					modal.modal("hide");
-					$("#mentorships-table").DataTable({
-						retrieve: true
-					}).ajax.reload();
-				}
-				else{
-					appendAlert(response, modal.find(".modal-body"));
-				}
-			});
 		});
 
 		$("#mentorships-table").on("click", ".confirm-delete-mentorship-button", function(event){
 			event.preventDefault();
 			var mentorshipId = $(this).data("id");
-			var data = {};
-			data._token = "{{ csrf_token() }}";
+			var data = {
+				_token: "{{ csrf_token() }}",
+				_method: "DELETE"
+			};
 
 			var row = $(this).parents("tr");
 			var button = $(this);
 			button.prop("disabled", true).addClass("disabled");
 			$.ajax({
-				method: "DELETE",
+				method: "POST", // DELETE
 				url: "/mentorships/" + mentorshipId,
 				data: data
 			}).done(function(response){

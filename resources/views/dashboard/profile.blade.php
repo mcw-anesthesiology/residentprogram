@@ -97,14 +97,37 @@
 		var profileUser = {!! json_encode($profileUser) !!};
 		var evals = {!! json_encode($evalData) !!};
 		var yearStart = "{{ $yearStart->toDateTimeString() }}";
-		$("#user-profile-evaluations").DataTable({
-			ajax: "evaluations/" + profileUser.id,
-			"order": [[0, "desc"]],
-			"createdRow": function(row, data, index){
-				$("td", row).addClass("view-evaluation");
+
+		var useProfileEvaluationsTable = $("#user-profile-evaluations").DataTable({
+			ajax: {
+				url: "/evaluations",
+				data: {
+					with: {
+						evaluator: ["full_name"],
+						form: ["title"]
+					},
+	@if($profileUser->isType("resident"))
+					subject_id: profileUser.id
+	@else
+					evaluator_id: profileUser.id
+	@endif
+				},
+				dataSrc: ""
+			},
+			columns: [
+				{data: "url"},
+				{data: "evaluator.full_name"},
+				{data: "form.title"},
+				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+				{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
+				{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
+				{data: "status", render: renderEvaluationStatus}
+			],
+			order: [[0, "desc"]],
+			createdRow: function(row){
+				$(row).addClass("view-evaluation");
 			}
 		});
-
 
 		function drawChart(){
 			var range = $("#line-chart-range").val();

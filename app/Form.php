@@ -20,6 +20,13 @@ class Form extends Model
 
 	protected $hidden = [];
 
+	protected $userHidden = [ // Fields hidden to non-admins
+		"xml_path",
+		"status",
+		"created_at",
+		"updated_at"
+	];
+
     public function evaluations(){
         return $this->hasMany("App\Evaluation");
     }
@@ -35,4 +42,12 @@ class Form extends Model
     public function watchedForms(){
         return $this->hasMany("App\WatchedForm");
     }
+
+	public function watchers(){
+		return $this->belongsToMany("App\User", "watched_forms");
+	}
+
+	public function hideFields(){
+		$this->addHidden($this->userHidden);
+	}
 }

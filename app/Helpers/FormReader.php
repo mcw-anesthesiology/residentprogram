@@ -26,7 +26,7 @@ class FormReader{
 			$questionName = $attrs["name"];
 			$questionWeight = $attrs["weight"];
 			if(isset($attrs["required"]))
-				$panelType = "panel-danger";
+				$panelType = "panel-primary";
 			else
 				$panelType = "panel-default";
 			$result .= "<div class='question panel {$panelType}' id='{$questionName}'>";
@@ -90,7 +90,7 @@ class FormReader{
 			elseif(in_array($questionType, ["radio", "radiononnumeric"])){
 				if($questionHasDescriptions){
 					$result .= "</div><div class='question-footer panel-footer'><div class='question-description-toggle'>";
-					$result .= "<button type='button' class='toggleDescriptions btn btn-info' data-id='{$questionName}'>Show Descriptions</button>";
+					$result .= "<button type='button' class='toggle-descriptions btn btn-info' data-id='{$questionName}'><span class='glyphicon glyphicon-zoom-in'></span> Show descriptions</button>";
 					$result .= "</div>"; // .question-description-toggle, .question-footer
 				}
 			}

@@ -161,6 +161,7 @@ class ResidentTest extends TestCase
             "requested_by_id" => $this->user->id,
             "form_id" => $this->facultyForm->id,
             "status" => "pending",
+			"visibility" => "under faculty threshold",
             "evaluation_date" => $firstOfMonth
         ]);
     }
@@ -206,7 +207,8 @@ class ResidentTest extends TestCase
             "form_id" => $this->facultyForm->id,
             "evaluator_id" => $this->user->id,
             "subject_id" => $this->faculty->id,
-            "requested_by_id" => $this->user->id
+            "requested_by_id" => $this->user->id,
+			"visibility" => "under faculty threshold"
         ]);
 
         $this->actingAs($this->user)
@@ -242,6 +244,38 @@ class ResidentTest extends TestCase
             "question_id" => "q3",
             "response" => "Have none."
         ]);
+
+		$this->actingAs($this->faculty)
+			->visit("/evaluations")
+			->seeJson([]);
+
+		$evals = factory(App\Evaluation::class, 3)->create([
+            "form_id" => $this->facultyForm->id,
+            "evaluator_id" => $this->user->id,
+            "subject_id" => $this->faculty->id,
+            "requested_by_id" => $this->user->id,
+			"visibility" => "under faculty threshold"
+        ]);
+
+		for($i = 0; $i < 3; $i++){
+			$this->actingAs($this->user)
+	            ->visit("/evaluation/" . $evals[$i]->id)
+	            ->see("Complete evaluation")
+	            ->see($evals[$i]->id)
+	            ->see("Pending")
+	            ->see("Faculty Evaluation Form")
+	            ->select("good", "q1")
+	            ->select("yes", "q2")
+	            ->type("Have none.", "q3")
+	            ->press("Complete evaluation");
+		}
+
+		$this->actingAs($this->faculty)
+			->visit("/evaluations")
+			->seeJson(["id" => $eval->id])
+			->seeJson(["id" => $evals[0]->id])
+			->seeJson(["id" => $evals[1]->id])
+			->dontSeeJson(["id" => $evals[2]->id]);
     }
 
     public function testProfileEvaluations(){
@@ -273,47 +307,17 @@ class ResidentTest extends TestCase
         ]);
 
         $this->actingAs($this->user)
-            ->get("/profile/evaluations/".$this->user->id)
-            ->seeJson([
-                "data" => [
-                    [
-                        "<a href='/evaluation/{$evals[0]->id}'>{$evals[0]->id}</a>",
-                        $this->faculty->full_name,
-                        $this->form->title,
-                        (string)$evals[0]->evaluation_date,
-                        (string)$evals[0]->request_date,
-                        (string)$evals[0]->complete_date,
-                        "<span class='badge badge-complete'>".ucfirst($evals[0]->status)."</span>"
-                    ],
-                    [
-                        "<a href='/evaluation/{$evals[1]->id}'>{$evals[1]->id}</a>",
-                        $this->faculty->full_name,
-                        $this->form->title,
-                        (string)$evals[1]->evaluation_date,
-                        (string)$evals[1]->request_date,
-                        (string)$evals[1]->complete_date,
-                        "<span class='badge badge-complete'>".ucfirst($evals[1]->status)."</span>"
-                    ],
-                    [
-                        "<a href='/evaluation/{$anotherEval->id}'>{$anotherEval->id}</a>",
-                        $this->faculty->full_name,
-                        $this->form->title,
-                        (string)$anotherEval->evaluation_date,
-                        (string)$anotherEval->request_date,
-                        "",
-                        "<span class='badge badge-pending'>".ucfirst($anotherEval->status)."</span>"
-                    ],
-                    [
-                        "<a href='/evaluation/{$anonymousEval->id}'>{$anonymousEval->id}</a>",
-                        "<i>Anonymous</i>",
-                        $this->form->title,
-                        (string)$anonymousEval->evaluation_date,
-                        (string)$anonymousEval->request_date,
-                        "",
-                        "<span class='badge badge-pending'>".ucfirst($anotherEval->status)."</span>"
-                    ]
-                ]
-            ]);
+            ->get("/evaluations", [
+				"with" => [
+					"evaluator" => ["full_name"],
+					"form" => ["title"]
+				],
+				"subject_id" => $this->user->id
+			])
+			->seeJson(["id" => $evals[0]->id])
+			->seeJson(["id" => $evals[1]->id])
+			->seeJson(["id" => $anotherEval->id])
+			->seeJson(["id" => $anonymousEval->id, "evaluator_id" => null]);
     }
 
     public function testFacultyProfile(){
@@ -338,8 +342,16 @@ class ResidentTest extends TestCase
         ]);
 
         $this->actingAs($this->user)
-            ->get("/profile/evaluations/".$this->faculty->id)
-            ->dontSee("data");
+            ->get("/evaluations", [
+				"with" => [
+					"evaluator" => ["full_name"],
+					"form" => ["title"]
+				],
+				"evaluator_id"
+			])
+            ->seeJson(["id" => $evals[0]->id])
+			->seeJson(["id" => $evals[1]->id])
+			->seeJson(["id" => $anotherEval->id]);
     }
 
     public function testPagerDirectory(){
@@ -347,38 +359,37 @@ class ResidentTest extends TestCase
         $this->actingAs($this->user)
             ->visit("/directory")
             ->assertResponseOk();
-        $this->get("/directory/get")
-            ->seeJsonEquals([
-                "data" => [
-                    [
-                        $directory[0]->first_name,
-                        $directory[0]->last_name,
-                        $directory[0]->pager
-                    ],
-                    [
-                        $directory[1]->first_name,
-                        $directory[1]->last_name,
-                        $directory[1]->pager
-                    ],
-                    [
-                        $directory[2]->first_name,
-                        $directory[2]->last_name,
-                        $directory[2]->pager
-                    ]
-                ]
+        $this->get("/directory_entries/")
+            ->seeJson([
+				"id" => $directory[0]->id,
+				"first_name" => $directory[0]->first_name,
+                "last_name" => $directory[0]->last_name,
+                "pager" => $directory[0]->pager
+            ])
+			->seeJson([
+				"id" => $directory[1]->id,
+                "first_name" => $directory[1]->first_name,
+                "last_name" => $directory[1]->last_name,
+                "pager" => $directory[1]->pager
+            ])
+			->seeJson([
+				"id" => $directory[2]->id,
+	            "first_name" => $directory[2]->first_name,
+	            "last_name" => $directory[2]->last_name,
+	            "pager" => $directory[2]->pager
             ]);
     }
 
     public function testPagerDirectoryCSV(){
         $directory = factory(App\DirectoryEntry::class, 3)->create()->sortBy("last_name");
         $csv = "";
-        foreach($directory as $entry){
+        foreach($directory->sortByDesc("id") as $entry){
             $csv .= $entry->first_name . ","
                 . $entry->last_name . ","
                 . $entry->pager . "\n";
         }
         $this->actingAs($this->user)
-            ->get("/directory/csv?view=true")
+            ->get("/directory_entries/csv")
             ->see($csv);
     }
 }

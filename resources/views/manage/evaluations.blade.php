@@ -70,19 +70,21 @@
 			ajax: {
 				url: "/evaluations?limit=20",
 				data: {
-					subject: [
-						"full_name"
-					],
-					evaluator: [
-						"full_name"
-					],
-					requestor: [
-						"full_name"
-					],
-					form: [
-						"title",
-						"visibility"
-					]
+					with: {
+						subject: [
+							"full_name"
+						],
+						evaluator: [
+							"full_name"
+						],
+						requestor: [
+							"full_name"
+						],
+						form: [
+							"title",
+							"visibility"
+						]
+					}
 				},
 				dataSrc: ""
 			},
@@ -92,9 +94,9 @@
 				{data: "evaluator.full_name"},
 				{data: "requestor.full_name"},
 				{data: "form.title"},
-				{data: "evaluation_date", render: renderTableEvaluationDate, createdCell: createDateCell},
-				{data: "request_date", render: renderTableDate, createdCell: createDateTimeCell},
-				{data: "complete_date", render: renderTableDate, createdCell: createDateTimeCell},
+				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+				{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
+				{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 				{data: null, orderable: false, render: function(eval){
 					if(!eval.visibility)
 						eval.visibility = eval.form.visibility;
@@ -383,6 +385,7 @@
 					button.html("Anonymous <span class='glyphicon glyphicon-eye-close'></span>");
 					break;
 				case "hidden":
+				case "under faculty threshold":
 					button.removeClass("visibility-anonymous visibility-visible btn-info");
 					button.addClass("visibility-hidden btn-default");
 					button.html("Hidden <span class='glyphicon glyphicon-eye-close'></span>");

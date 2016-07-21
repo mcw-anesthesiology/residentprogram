@@ -285,7 +285,9 @@
 			ajax: {
 				url: "/milestones",
 				data: {
-					forms: true
+					with: {
+						forms: true
+					}
 				},
 				dataSrc: ""
 			},
@@ -323,7 +325,9 @@
 			ajax: {
 				url: "/competencies",
 				data: {
-					forms: true
+					with: {
+						forms: true
+					}
 				},
 				dataSrc: ""
 			},

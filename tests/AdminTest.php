@@ -110,11 +110,15 @@ class AdminTest extends TestCase
 
         $this->actingAs($this->user)
             ->visit("/evaluation/" . $eval->id)
-            ->post("/evaluation/" . $eval->id . "/hash", [
+            ->post("/evaluations/" . $eval->id . "/hash", [
+				"_method" => "PATCH",
                 "action" => "new",
                 "hash_expires_in" => 30
             ])
-            ->see("true");
+            ->seeInDatabase("evaluations", [
+				"id" => $eval->id,
+				"hash_expires" => Carbon::now()->addDays(30)
+			]);
     }
 
     public function testResendEvaluationCompletionHash(){
@@ -134,10 +138,10 @@ class AdminTest extends TestCase
 
         $this->actingAs($this->user)
             ->visit("/evaluation/" . $eval->id)
-            ->post("/evaluation/" . $eval->id . "/hash", [
+            ->post("/evaluations/" . $eval->id . "/hash", [
+				"_method" => "PATCH",
                 "action" => "resend"
-            ])
-            ->see("true");
+            ]);;
     }
 
     public function testVoidEvaluationCompletionHash(){
@@ -150,10 +154,10 @@ class AdminTest extends TestCase
 
         $this->actingAs($this->user)
             ->visit("/evaluation/" . $eval->id)
-            ->post("/evaluation/" . $eval->id . "/hash", [
+            ->post("/evaluations/" . $eval->id . "/hash", [
+				"_method" => "PATCH",
                 "action" => "void"
             ])
-            ->see("true")
             ->seeInDatabase("evaluations", [
                 "id" => $eval->id,
                 "completion_hash" => null
@@ -716,56 +720,18 @@ class AdminTest extends TestCase
         ]);
 
         $this->actingAs($this->user)
-            ->get("/profile/evaluations/".$this->resident->id)
-            ->seeJson([
-                "data" => [
-                    [
-                        "<a href='/evaluation/{$evals[0]->id}'>{$evals[0]->id}</a>",
-                        $this->faculty->full_name,
-                        $this->form->title,
-                        (string)$evals[0]->evaluation_date,
-                        (string)$evals[0]->request_date,
-                        (string)$evals[0]->complete_date,
-                        "<span class='badge badge-complete'>".ucfirst($evals[0]->status)."</span>"
-                    ],
-                    [
-                        "<a href='/evaluation/{$evals[1]->id}'>{$evals[1]->id}</a>",
-                        $this->faculty->full_name,
-                        $this->form->title,
-                        (string)$evals[1]->evaluation_date,
-                        (string)$evals[1]->request_date,
-                        (string)$evals[1]->complete_date,
-                        "<span class='badge badge-complete'>".ucfirst($evals[1]->status)."</span>"
-                    ],
-                    [
-                        "<a href='/evaluation/{$anotherEval->id}'>{$anotherEval->id}</a>",
-                        $this->faculty->full_name,
-                        $this->form->title,
-                        (string)$anotherEval->evaluation_date,
-                        (string)$anotherEval->request_date,
-                        "",
-                        "<span class='badge badge-pending'>".ucfirst($anotherEval->status)."</span>"
-                    ],
-                    [
-                        "<a href='/evaluation/{$anonymousEval->id}'>{$anonymousEval->id}</a>",
-                        $this->faculty->full_name,
-                        $this->form->title,
-                        (string)$anonymousEval->evaluation_date,
-                        (string)$anonymousEval->request_date,
-                        "",
-                        "<span class='badge badge-pending'>".ucfirst($anotherEval->status)."</span>"
-                    ],
-                    [
-                        "<a href='/evaluation/{$hiddenEval->id}'>{$hiddenEval->id}</a>",
-                        $this->faculty->full_name,
-                        $this->form->title,
-                        (string)$hiddenEval->evaluation_date,
-                        (string)$hiddenEval->request_date,
-                        "",
-                        "<span class='badge badge-pending'>".ucfirst($hiddenEval->status)."</span>"
-                    ]
-                ]
-            ]);
+            ->get("/evaluations", [
+				"with" => [
+					"evaluator" => ["full_name"],
+					"form" => ["title"]
+				],
+				"subject_id" => $this->resident->id
+			])
+			->seeJson(["id" => $evals[0]->id])
+			->seeJson(["id" => $evals[1]->id])
+			->seeJson(["id" => $anotherEval->id])
+			->seeJson(["id" => $anonymousEval->id])
+			->seeJson(["id" => $hiddenEval->id]);
     }
 
     public function testEditDirectoryEntry(){
@@ -779,7 +745,9 @@ class AdminTest extends TestCase
         ];
         $this->actingAs($this->user)
             ->visit("/directory")
-            ->post("/directory/edit", $newEntry)
+            ->post("/directory_entries/" . $directory[0]->id, array_merge($newEntry, [
+				"_method" => "PATCH"
+			]))
         	->seeInDatabase("directory", $newEntry);
     }
 
@@ -787,39 +755,24 @@ class AdminTest extends TestCase
         $directory = factory(App\DirectoryEntry::class, 3)->create()->sortBy("last_name");
         $this->actingAs($this->user)
             ->visit("/directory")
-            ->post("/directory/delete", [
-                "id" => $directory[1]->id
+            ->post("/directory_entries/" . $directory[1]->id, [
+                "_method" => "DELETE"
             ]);
         $entry = App\DirectoryEntry::withTrashed()->find($directory[1]->id);
         $this->assertTrue($entry->trashed());
         $this->actingAs($this->user)
             ->visit("/directory")
-            ->get("/directory/get")
-            ->seeJsonEquals([
-                "data" => [
-                    [
-                        $directory[0]->first_name,
-                        $directory[0]->last_name,
-                        $directory[0]->pager,
-                        "<button type='button' data-id='{$directory[0]->id}' "
-                            . "data-pager='{$directory[0]->pager}' "
-                            . "data-first='{$directory[0]->first_name}' "
-                            . "data-last='{$directory[0]->last_name}' "
-                            . "class='btn btn-xs btn-info edit-directory-entry'>"
-                            . "<span class='glyphicon glyphicon-edit'></span> Edit</button>"
-                    ],
-                    [
-                        $directory[2]->first_name,
-                        $directory[2]->last_name,
-                        $directory[2]->pager,
-                        "<button type='button' data-id='{$directory[2]->id}' "
-                            . "data-pager='{$directory[2]->pager}' "
-                            . "data-first='{$directory[2]->first_name}' "
-                            . "data-last='{$directory[2]->last_name}' "
-                            . "class='btn btn-xs btn-info edit-directory-entry'>"
-                            . "<span class='glyphicon glyphicon-edit'></span> Edit</button>"
-                    ]
-                ]
-            ]);
+            ->get("/directory_entries")
+            ->seeJson([
+				"id" => $directory[0]->id,
+                "first_name" => $directory[0]->first_name,
+                "last_name" => $directory[0]->last_name,
+                "pager" => $directory[0]->pager
+            ])->seeJson([
+				"id" => $directory[2]->id,
+	            "first_name" => $directory[2]->first_name,
+	            "last_name" => $directory[2]->last_name,
+	            "pager" => $directory[2]->pager,
+	        ]);
     }
 }

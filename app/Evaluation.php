@@ -4,11 +4,20 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Scopes\EvaluationScope;
+
+use Auth;
 use Log;
 use Mail;
 
 class Evaluation extends Model
 {
+	protected static function boot(){
+		parent::boot();
+
+		static::addGlobalScope(new EvaluationScope);
+	}
+
     protected $table = "evaluations";
 
     protected $casts = [
@@ -47,7 +56,35 @@ class Evaluation extends Model
 		"updated_at"
 	];
 
+	protected $userHidden = [ // Fields hidden to non-admins
+		"archive_date",
+		"request_ip",
+		"complete_ip",
+		"comment",
+		"completion_hash",
+		"hash_expires",
+		"flag"
+	];
+
     protected $appends = ["url"];
+
+	public function getEvaluatorIdAttribute($evaluatorId){
+		if(Auth::check() && !Auth::user()->isType("admin")
+				&& $this->getVisibilityAttribute() == "anonymous"
+				&& Auth::user()->id != $evaluatorId)
+			return null;
+
+		return $evaluatorId;
+	}
+
+	public function getRequestedByIdAttribute($requestedById){
+		if(Auth::check() && !Auth::user()->isType("admin")
+				&& $this->getVisibilityAttribute() == "anonymous"
+				&& Auth::user()->id != $requestedById)
+			return null;
+
+		return $requestedById;
+	}
 
 	public function getVisibilityAttribute(){
         return empty($this->attributes["visibility"]) ? $this->form->visibility : $this->attributes["visibility"];
@@ -154,11 +191,19 @@ class Evaluation extends Model
                 $message->replyTo(config("app.admin_email"));
                 $message->subject("Evaluation Completion Link");
             });
-            return true;
         }
         catch (\Exception $e){
-            Log::error("Problem sending hash link: ".$e);
+            Log::error("Problem sending hash link: " . $e);
+			throw $e;
         }
-        return false;
+
+		return true;
     }
+
+	public function hideFields(){
+		$this->addHidden($this->userHidden);
+
+		if($this->status != "complete")
+			$this->addHidden(["responses", "textResponses"]);
+	}
 }

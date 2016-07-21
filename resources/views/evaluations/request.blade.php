@@ -360,7 +360,7 @@
 				"ajax": "/dashboard/faculty/evaluations",
 				"order": [[0, "desc"]],
 				"createdRow": function(row, data, index){
-					$("td", row).addClass("view-evaluation");
+					$(row).addClass("view-evaluation");
 				}
 			});
 	@endif

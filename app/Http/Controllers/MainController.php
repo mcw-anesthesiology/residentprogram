@@ -22,11 +22,14 @@ use Carbon\Carbon;
 use App\Alum;
 use App\Block;
 use App\BlockAssignment;
+use App\CaseLog;
+use App\CaseLogDetailsSchema;
 use App\Contact;
 use App\DirectoryEntry;
 use App\Evaluation;
 use App\FlaggedEvaluation;
 use App\Form;
+use App\Location;
 use App\Mentorship;
 use App\Response;
 use App\TextResponse;
@@ -55,6 +58,8 @@ class MainController extends Controller
         ]]);
 
 		$this->middleware("type:admin", ["only" => ["flaggedEvaluations", "getEvaluation"]]);
+
+		$this->middleware("case-log.has-access", ["only" => ["caseLog"]]);
     }
 
     public function dashboard(){
@@ -88,255 +93,266 @@ class MainController extends Controller
     }
 
     public function request(Request $request, $requestType = "resident"){
-        $user = Auth::user();
-		if($requestType == "faculty"){
-			$subjectTypes = ["faculty"];
-			$evaluatorTypes = ["resident", "fellow"];
-            $requestorTypes = $evaluatorTypes;
-		}
-		elseif($requestType == "staff"){
-			$requestType = "staff";
-			$subjectTypes = ["resident", "fellow"];
-			$evaluatorTypes = ["staff"];
-            $requestorTypes = $evaluatorTypes;
-		}
-        elseif($requestType == "self"){
-            $requestType = "self";
-            $subjectTypes = ["resident", "fellow"];
-            $evaluatorTypes = ["self"];
-            $requestorTypes = ["admin"];
-        }
-		else{
-			$requestType = "resident";
-			$subjectTypes = ["resident", "fellow"];
-			$evaluatorTypes = ["faculty"];
-            $requestorTypes = array_merge($subjectTypes, $evaluatorTypes);
-		}
-
-		$evaluationTypes = array_merge($subjectTypes, $evaluatorTypes);
-
-		if(!$user->isType(array_merge($requestorTypes, ["admin"])))
-			return back()->with("error", "Your account type is not allowed to create that kind of evaluation.");
-
-        if($user->isType(["resident", "faculty"])){
-            $blocks = Block::where("start_date", "<", Carbon::now())->with("assignments.user")->orderBy("year", "desc")->orderBy("block_number", "desc")->limit(3)->get();
-            foreach($blocks as $block){
-                $userLocations = $block->assignments->where("user_id", $user->id)->map(function ($item, $key){
-                    return $item->location;
-                });
-                foreach($userLocations as $location){
-                    foreach($block->assignments->where("location", $location)->sortBy("user.last_name") as $assignment){
-                        if($user->type == "resident"){
-                            if($assignment->user_id != $user->id && $assignment->user->type == "faculty"){
-                                $faculty[$block->id][] = ["id" => $assignment->user_id, "name" => $assignment->user->full_name];
-                            }
-                        }
-                        elseif($user->type == "faculty"){
-                            if($assignment->user_id != $user->id && $assignment->user->type == "resident"){
-                                $residents[$block->id][] = ["id" => $assignment->user_id, "name" => $assignment->user->full_name, "group" => $assignment->user->training_level];
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        if(!$user->isType("resident") && in_array("resident", $evaluationTypes)){
-            $residentModels = User::where("type", "resident")->where("status", "active")->orderBy("last_name")->get();
-            foreach($residentModels as $resident)
-                $residents[0][] = ["id" => $resident->id, "name" => $resident->full_name, "group" => $resident->training_level];
-            if(empty($residents))
-                return back()->with("error", "There are not any registered resident accounts");
-        }
-        if(!$user->isType("faculty") && in_array("faculty", $evaluationTypes)){
-            $facultyModels = User::where("type", "faculty")->where("status", "active")->orderBy("last_name")->get();
-            foreach($facultyModels as $fac)
-                $faculty[0][] = ["id" => $fac->id, "name" => $fac->full_name, "group" => "faculty"];
-            if(empty($faculty))
-                return back()->with("error", "There are not any registered faculty accounts");
-        }
-		if(!$user->isType("staff") && in_array("staff", $evaluationTypes)){
-			$staffModels = User::where("type", "staff")->where("status", "active")->orderBy("last_name")->get();
-			foreach($staffModels as $stf)
-				$staff[0][] = ["id" => $stf->id, "name" => $stf->full_name, "group" => "staff"];
-            if(empty($staff))
-                return back()->with("error", "There are not any registered staff accounts");
-		}
-
-		if($user->isType($subjectTypes)){
-			$formModels = Form::where("status", "active")->where("type", $user->specific_type)->whereIn("evaluator_type", $evaluatorTypes)->orderBy("title")->get();
-			foreach($formModels as $form){
-				$forms[] = ["id" => $form->id, "name" => $form->title, "group" => $form->type];
+		try{
+	        $user = Auth::user();
+			if($requestType == "faculty"){
+				$subjectTypes = ["faculty"];
+				$evaluatorTypes = ["resident", "fellow"];
+	            $requestorTypes = $evaluatorTypes;
 			}
-		}
-		elseif($user->isType($evaluatorTypes)){
-			$formModels = Form::where("status", "active")->whereIn("type", $subjectTypes)->where("evaluator_type", $user->specific_type)->orderBy("title")->get();
-			foreach($formModels as $form){
-				$forms[] = ["id" => $form->id, "name" => $form->title, "group" => $form->type];
+			elseif($requestType == "staff"){
+				$requestType = "staff";
+				$subjectTypes = ["resident", "fellow"];
+				$evaluatorTypes = ["staff"];
+	            $requestorTypes = $evaluatorTypes;
 			}
-		}
-		else{
-			$formModels = Form::where("status", "active")->whereIn("type", $subjectTypes)->whereIn("evaluator_type", $evaluatorTypes)->orderBy("title")->get();
-			foreach($formModels as $form){
-				$forms[] = ["id" => $form->id, "name" => $form->title, "group" => $form->type];
+	        elseif($requestType == "self"){
+	            $requestType = "self";
+	            $subjectTypes = ["resident", "fellow"];
+	            $evaluatorTypes = ["self"];
+	            $requestorTypes = ["admin"];
+	        }
+			else{
+				$requestType = "resident";
+				$subjectTypes = ["resident", "fellow"];
+				$evaluatorTypes = ["faculty"];
+	            $requestorTypes = array_merge($subjectTypes, $evaluatorTypes);
 			}
-		}
 
-        if(empty($forms))
-            return back()->with("error", "No forms exist for that request type");
+			$evaluationTypes = array_merge($subjectTypes, $evaluatorTypes);
 
-		$residentGroups = ["intern" => "Intern", "ca-1" => "CA-1", "ca-2" => "CA-2", "ca-3" => "CA-3", "fellow" => "Fellow"];
+			if(!$user->isType(array_merge($requestorTypes, ["admin"])))
+				throw new \Exception("Your account type is not allowed to create that kind of evaluation.");
 
-		switch($requestType){
-			case "resident":
-				if(!$user->isType($subjectTypes)){
+	        if($user->isType(["resident", "faculty"])){
+	            $blocks = Block::where("start_date", "<", Carbon::now())->with("assignments.user")->orderBy("year", "desc")->orderBy("block_number", "desc")->limit(3)->get();
+	            foreach($blocks as $block){
+	                $userLocations = $block->assignments->where("user_id", $user->id)->map(function ($item, $key){
+	                    return $item->location;
+	                });
+	                foreach($userLocations as $location){
+	                    foreach($block->assignments->where("location", $location)->sortBy("user.last_name") as $assignment){
+	                        if($user->type == "resident"){
+	                            if($assignment->user_id != $user->id && $assignment->user->type == "faculty"){
+	                                $faculty[$block->id][] = ["id" => $assignment->user_id, "name" => $assignment->user->full_name];
+	                            }
+	                        }
+	                        elseif($user->type == "faculty"){
+	                            if($assignment->user_id != $user->id && $assignment->user->type == "resident"){
+	                                $residents[$block->id][] = ["id" => $assignment->user_id, "name" => $assignment->user->full_name, "group" => $assignment->user->training_level];
+	                            }
+	                        }
+	                    }
+	                }
+	            }
+	        }
+
+	        if(!$user->isType("resident") && in_array("resident", $evaluationTypes)){
+	            $residentModels = User::where("type", "resident")->where("status", "active")->orderBy("last_name")->get();
+	            foreach($residentModels as $resident)
+	                $residents[0][] = ["id" => $resident->id, "name" => $resident->full_name, "group" => $resident->training_level];
+	            if(empty($residents))
+	                throw new \Exception("There are not any registered resident accounts");
+	        }
+	        if(!$user->isType("faculty") && in_array("faculty", $evaluationTypes)){
+	            $facultyModels = User::where("type", "faculty")->where("status", "active")->orderBy("last_name")->get();
+	            foreach($facultyModels as $fac)
+	                $faculty[0][] = ["id" => $fac->id, "name" => $fac->full_name, "group" => "faculty"];
+	            if(empty($faculty))
+	                throw new \Exception("There are not any registered faculty accounts");
+	        }
+			if(!$user->isType("staff") && in_array("staff", $evaluationTypes)){
+				$staffModels = User::where("type", "staff")->where("status", "active")->orderBy("last_name")->get();
+				foreach($staffModels as $stf)
+					$staff[0][] = ["id" => $stf->id, "name" => $stf->full_name, "group" => "staff"];
+	            if(empty($staff))
+	                throw new \Exception("There are not any registered staff accounts");
+			}
+
+			if($user->isType($subjectTypes)){
+				$formModels = Form::where("status", "active")->where("type", $user->specific_type)->whereIn("evaluator_type", $evaluatorTypes)->orderBy("title")->get();
+				foreach($formModels as $form){
+					$forms[] = ["id" => $form->id, "name" => $form->title, "group" => $form->type];
+				}
+			}
+			elseif($user->isType($evaluatorTypes)){
+				$formModels = Form::where("status", "active")->whereIn("type", $subjectTypes)->where("evaluator_type", $user->specific_type)->orderBy("title")->get();
+				foreach($formModels as $form){
+					$forms[] = ["id" => $form->id, "name" => $form->title, "group" => $form->type];
+				}
+			}
+			else{
+				$formModels = Form::where("status", "active")->whereIn("type", $subjectTypes)->whereIn("evaluator_type", $evaluatorTypes)->orderBy("title")->get();
+				foreach($formModels as $form){
+					$forms[] = ["id" => $form->id, "name" => $form->title, "group" => $form->type];
+				}
+			}
+
+	        if(empty($forms))
+	            throw new \Exception("No forms exist for that request type");
+
+			$residentGroups = ["intern" => "Intern", "ca-1" => "CA-1", "ca-2" => "CA-2", "ca-3" => "CA-3", "fellow" => "Fellow"];
+
+			switch($requestType){
+				case "resident":
+					if(!$user->isType($subjectTypes)){
+						$subjects = $residents;
+						$subjects["groups"] = $residentGroups;
+						$groupSubjects = true;
+					}
+					if(!$user->isType($evaluatorTypes)){
+						$evaluators = $faculty;
+					}
+
+					$subjectTypeText = "intern, resident, or fellow";
+					$subjectTypeTextPlural = "interns, residents, and fellows";
+					$evaluatorTypeText = "faculty";
+
+					$formGroups = ["resident" => "Resident", "fellow" => "Fellow"];
+					$groupForms = true;
+					break;
+				case "faculty":
+					$subjects = $faculty;
+	                if(!$user->isType("resident")){
+	                    $evaluators = $residents;
+	                }
+
+					$pendingEvalCount = Evaluation::with("subject", "evaluator", "form")->where("status", "pending")->where("evaluator_id", $user->id)->whereHas("form", function($query){
+		                $query->where("type", "faculty");
+		            })->count();
+
+					$subjectTypeText = "faculty";
+					$subjectTypeTextPlural = "faculty";
+					$evaluatorTypeText = "resident";
+
+					$groupForms = false;
+					break;
+				case "staff":
 					$subjects = $residents;
 					$subjects["groups"] = $residentGroups;
 					$groupSubjects = true;
-				}
-				if(!$user->isType($evaluatorTypes)){
-					$evaluators = $faculty;
-				}
 
-				$subjectTypeText = "intern, resident, or fellow";
-				$subjectTypeTextPlural = "interns, residents, and fellows";
-				$evaluatorTypeText = "faculty";
+	                if(!$user->isType("staff")){
+	                    $evaluators = $staff;
+	                }
 
-				$formGroups = ["resident" => "Resident", "fellow" => "Fellow"];
-				$groupForms = true;
-				break;
-			case "faculty":
-				$subjects = $faculty;
-                if(!$user->isType("resident")){
-                    $evaluators = $residents;
-                }
+					$subjectTypeText = "intern, resident, or fellow";
+					$subjectTypeTextPlural = "interns, residents, and fellows";
+					$evaluatorTypeText = "staff";
 
-				$pendingEvalCount = Evaluation::with("subject", "evaluator", "form")->where("status", "pending")->where("evaluator_id", $user->id)->whereHas("form", function($query){
-	                $query->where("type", "faculty");
-	            })->count();
+					$groupForms = false;
+					break;
+	            case "self":
+	                $subjects = $residents;
+	                $subjects["groups"] = $residentGroups;
+	                $groupSubjects = true;
+	                $subjectTypeText = "intern/resident/fellow";
+	                $subjectTypeTextPlural = "interns/residents/fellows";
+	                $evaluatorTypeText = "self";
+	                break;
+			}
 
-				$subjectTypeText = "faculty";
-				$subjectTypeTextPlural = "faculty";
-				$evaluatorTypeText = "resident";
+			for($dt = Carbon::now()->firstOfMonth(), $i = 0; $i < 3; $dt->subMonths(1), $i++){
+				$date = $dt->format("Y-m-d");
+				$months[$date] = $dt->format("F");
+				$endOfMonth[$date] = $dt->format("Y-m-t");
+			}
 
-				$groupForms = false;
-				break;
-			case "staff":
-				$subjects = $residents;
-				$subjects["groups"] = $residentGroups;
-				$groupSubjects = true;
+			if(!empty($subjects))
+				$subjects = str_replace("'", "", json_encode($subjects));
+			if(!empty($evaluators))
+				$evaluators = str_replace("'", "", json_encode($evaluators));
+			if(!empty($forms))
+				$forms = str_replace("'", "", json_encode($forms));
+			if(!empty($formGroups))
+				$formGroups = str_replace("'", "", json_encode($formGroups));
 
-                if(!$user->isType("staff")){
-                    $evaluators = $staff;
-                }
-
-				$subjectTypeText = "intern, resident, or fellow";
-				$subjectTypeTextPlural = "interns, residents, and fellows";
-				$evaluatorTypeText = "staff";
-
-				$groupForms = false;
-				break;
-            case "self":
-                $subjects = $residents;
-                $subjects["groups"] = $residentGroups;
-                $groupSubjects = true;
-                $subjectTypeText = "intern/resident/fellow";
-                $subjectTypeTextPlural = "interns/residents/fellows";
-                $evaluatorTypeText = "self";
-                break;
+	        $data = compact("forms", "requestType", "months", "endOfMonth", "pendingEvalCount",
+				"subjects", "evaluators", "subjectTypeText", "subjectTypeTextPlural",
+	            "evaluatorTypeText", "blocks", "groupSubjects", "groupEvaluators",
+	            "groupForms", "formGroups", "evaluatorTypes", "subjectTypes");
+		} catch(\Exception $e){
+			return back()->with("error", $e->getMessage());
 		}
-
-		for($dt = Carbon::now()->firstOfMonth(), $i = 0; $i < 3; $dt->subMonths(1), $i++){
-			$date = $dt->format("Y-m-d");
-			$months[$date] = $dt->format("F");
-			$endOfMonth[$date] = $dt->format("Y-m-t");
-		}
-
-		if(!empty($subjects))
-			$subjects = str_replace("'", "", json_encode($subjects));
-		if(!empty($evaluators))
-			$evaluators = str_replace("'", "", json_encode($evaluators));
-		if(!empty($forms))
-			$forms = str_replace("'", "", json_encode($forms));
-		if(!empty($formGroups))
-			$formGroups = str_replace("'", "", json_encode($formGroups));
-
-        $data = compact("forms", "requestType", "months", "endOfMonth", "pendingEvalCount",
-			"subjects", "evaluators", "subjectTypeText", "subjectTypeTextPlural",
-            "evaluatorTypeText", "blocks", "groupSubjects", "groupEvaluators",
-            "groupForms", "formGroups", "evaluatorTypes", "subjectTypes");
 
         return view("evaluations.request", $data);
     }
 
     public function createRequest(Request $request, $requestType = "resident"){
-        $user = Auth::user();
-        $eval = new Evaluation();
-        if($requestType == "faculty"){
-            if($user->type == "faculty")
-                return back()->with("error", "Faculty cannot request faculty evaluations");
-            elseif($user->type == "resident")
-                $eval->evaluator_id = $user->id;
-            elseif($request->has("evaluator_id"))
-                $eval->evaluator_id = $request->input("evaluator_id");
+		try {
+	        $user = Auth::user();
+	        $eval = new Evaluation();
+			$eval->form_id = $request->input("form_id");
+			$eval->requested_by_id = $user->id;
+			$eval->evaluation_date = $request->input("evaluation_date");
 
-            if($request->has("subject_id"))
-                $eval->subject_id = $request->input("subject_id");
-            else
-                return back()->withInput()->with("error", "Please select a faculty to be evaluated");
-        }
-        elseif($requestType == "self"){
-            $eval->subject_id = $request->input("subject_id");
-            $eval->evaluator_id = $request->input("subject_id");
-        }
-        else{
-            if($user->type == "resident")
-                $eval->subject_id = $user->id;
-            elseif($request->has("subject_id"))
+	        if($requestType == "faculty"){
+	            if($user->type == "faculty")
+	                throw new \DomainException("Faculty cannot request faculty evaluations");
+				if(!$request->has("subject_id"))
+					throw new \Exception("Please select a faculty to be evaluated");
+
+				if($user->type == "resident")
+	                $eval->evaluator_id = $user->id;
+	            elseif($request->has("evaluator_id"))
+	                $eval->evaluator_id = $request->input("evaluator_id");
+
                 $eval->subject_id = $request->input("subject_id");
 
-            if($user->isType(["faculty", "staff"]))
-                $eval->evaluator_id = $user->id;
-            elseif($request->has("evaluator_id"))
-                $eval->evaluator_id = $request->input("evaluator_id");
-        }
+				if($eval->visibility == $eval->form->visibility)
+					$eval->visibility = "under faculty threshold";
+	        }
+	        elseif($requestType == "self"){
+	            $eval->subject_id = $request->input("subject_id");
+	            $eval->evaluator_id = $request->input("subject_id");
+	        }
+	        else{
+	            if($user->type == "resident")
+	                $eval->subject_id = $user->id;
+	            elseif($request->has("subject_id"))
+	                $eval->subject_id = $request->input("subject_id");
 
-        $eval->form_id = $request->input("form_id");
-        $eval->requested_by_id = $user->id;
-		$eval->evaluation_date = $request->input("evaluation_date");
+	            if($user->isType(["faculty", "staff"]))
+	                $eval->evaluator_id = $user->id;
+	            elseif($request->has("evaluator_id"))
+	                $eval->evaluator_id = $request->input("evaluator_id");
+	        }
 
-		if(empty($eval->subject_id) || empty($eval->evaluator_id) || empty($eval->form_id) || empty($eval->requested_by_id)){
-			$errors = "";
-			if(empty($eval->subject_id))
-				$errors .= "Please select an evaluation subject. ";
-			if(empty($eval->evaluator_id))
-				$errors .= "Please select an evaluator. ";
-			if(empty($eval->form_id))
-				$errors .= "Please select a form. ";
-			if(empty($eval->requested_by_id))
-				$errors .= "There was a problem with your account, please try logging out and back in. ";
+			if(empty($eval->subject_id) || empty($eval->evaluator_id) || empty($eval->form_id) || empty($eval->requested_by_id)){
+				$errors = "";
+				if(empty($eval->subject_id))
+					$errors .= "Please select an evaluation subject. ";
+				if(empty($eval->evaluator_id))
+					$errors .= "Please select an evaluator. ";
+				if(empty($eval->form_id))
+					$errors .= "Please select a form. ";
+				if(empty($eval->requested_by_id))
+					$errors .= "There was a problem with your account, please try logging out and back in. ";
 
-			return back()->with("error", $errors);
+				throw new \Exception($errors);
+			}
+
+			$eval->training_level = $eval->subject->training_level;
+			$eval->status = "pending";
+	        $eval->request_date = Carbon::now();
+	        $eval->request_ip = $request->ip();
+
+	        if($request->has("send_hash")){
+	            $eval->completion_hash = str_random(40);
+	            $hashExpiresIn = $request->input("hash_expires_in", 30);
+	            $eval->hash_expires = $hashExpiresIn == "never" ? "9999-12-31" : Carbon::now()->addDays($hashExpiresIn);
+	        }
+
+	        $eval->save();
+	        if($user->id == $eval->evaluator_id)
+	            return redirect("evaluation/".$eval->id);
+	        elseif($request->has("send_hash"))
+	            $eval->sendHashLink();
+	        elseif(($request->has("force_notification") || $eval->evaluator->notifications == "yes") && filter_var($eval->evaluator->email, FILTER_VALIDATE_EMAIL))
+	            $eval->sendNotification();
+		} catch(\Exception $e){
+			return back()->withInput()->with("error", $e->getMessage());
 		}
-
-		$eval->training_level = $eval->subject->training_level;
-		$eval->status = "pending";
-        $eval->request_date = Carbon::now();
-        $eval->request_ip = $request->ip();
-
-        if($request->has("send_hash")){
-            $eval->completion_hash = str_random(40);
-            $hashExpiresIn = $request->input("hash_expires_in", 30);
-            $eval->hash_expires = $hashExpiresIn == "never" ? "9999-12-31" : Carbon::now()->addDays($hashExpiresIn);
-        }
-
-        $eval->save();
-        if($user->id == $eval->evaluator_id)
-            return redirect("evaluation/".$eval->id);
-        elseif($request->has("send_hash"))
-            $eval->sendHashLink();
-        elseif(($request->has("force_notification") || $eval->evaluator->notifications == "yes") && filter_var($eval->evaluator->email, FILTER_VALIDATE_EMAIL))
-            $eval->sendNotification();
 
         return back();
     }
@@ -369,113 +385,118 @@ class MainController extends Controller
         }
     }
 
-    public function evaluationHash(Request $request, $id){
-        $evaluation = Evaluation::find($id);
-        $success = false;
-        if($request->has("action")){
-            switch($request->input("action")){
-                case "void":
-                    $evaluation->completion_hash = null;
-                    $evaluation->hash_expires = null;
-                    $evaluation->save();
-                    $success = true;
-                    break;
-                case "resend":
-                    $success = $evaluation->sendHashLink();
-                    break;
-                case "new":
-                    $evaluation->completion_hash = str_random(40);
-                    $hashExpiresIn = $request->input("hash_expires_in", 30);
-                    $evaluation->hash_expires = $hashExpiresIn == "never" ? "9999-12-31" : Carbon::now()->addDays($hashExpiresIn);
-                    $evaluation->save();
-                    $success = $evaluation->sendHashLink();
-                    break;
-            }
-        }
-        return $success ? "true" : "false";
-    }
-
     public function evaluation(Request $request, $id){
-        $user = Auth::user();
-        $evaluation = Evaluation::find($id);
-        if($user->isType("admin") || $user->mentees->contains($evaluation->subject) || $user->id == $evaluation->subject->id)
-            $subjectString = "<a href='/profile/{$evaluation->subject->id}'>{$evaluation->subject->full_name}</a>";
-        else
-            $subjectString = $evaluation->subject->full_name;
-        if($user->isType("admin") || $user->id == $evaluation->evaluator->id)
-            $evaluatorString = "<a href='/profile/{$evaluation->evaluator->id}'>{$evaluation->evaluator->full_name}</a>";
-        else
-            $evaluatorString = $evaluation->evaluator->full_name;
+		try {
+	        $user = Auth::user();
+	        $evaluation = Evaluation::findOrFail($id);
+	        if($user->isType("admin") || $user->mentees->contains($evaluation->subject) || $user->id == $evaluation->subject_id)
+	            $subjectString = "<a href='/profile/{$evaluation->subject_id}'>{$evaluation->subject->full_name}</a>";
+	        else
+	            $subjectString = $evaluation->subject->full_name;
 
-        $data = compact("evaluation", "subjectString", "evaluatorString");
-        if($evaluation->subject_id == $user->id && $user->type == "faculty"){
-            $threshold = Setting::get("facultyEvalThreshold");
-            $evaluations = Evaluation::where("subject_id", $user->id)->where("status", "complete")->orderBy("id", "desc")->get();
-            $evaluations = $evaluations->splice($evaluations->count()%$threshold);
-            if($evaluations->contains($evaluation))
-                return view("evaluations.evaluation", $data);
-            else
-                return back()->with("error", "Insufficient permissions to view the requested evaluation");
-        }
-        elseif((($evaluation->subject_id == $user->id || $user->mentees->contains($evaluation->subject)) && $evaluation->visibility != "hidden") || $evaluation->evaluator_id == $user->id || $user->watchedForms->pluck("form_id")->contains($evaluation->form_id) || $user->type == "admin"){
-			if($evaluation->evaluator_id == $user->id || $user->type == "admin"){
-				switch($evaluation->evaluator->type){
-                    // FIXME: These subjectTypes aren't correct
-					case "faculty":
-						$subjectType = "Resident/Fellow";
-						$possibleSubjects = User::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("last_name")->get();
-						$possibleForms = Form::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("title")->get();
-						break;
-					case "resident":
-					case "fellow":
-						$subjectType = "Faculty";
-						$possibleSubjects = User::where("status", "active")->where("type", "faculty")->orderBy("last_name")->get();
-						$possibleForms = Form::where("status", "active")->where("type", "faculty")->orderBy("title")->get();
-						break;
-					case "staff":
-						$subjectType = "Resident/Fellow";
-						$possibleSubjects = User::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("last_name")->get();
-						$possibleForms = Form::where("status", "active")->where("type", "resident")->where("evaluator_type", "staff")->orderBy("title")->get();
-						break;
-				}
-				$flaggedActions = Setting::get("flaggedActions");
-				$data += compact("subjectType", "possibleSubjects", "possibleForms", "flaggedActions");
+	        if($user->isType("admin") || $user->id == $evaluation->evaluator_id)
+	            $evaluatorString = "<a href='/profile/{$evaluation->evaluator_id}'>{$evaluation->evaluator->full_name}</a>";
+	        elseif($evaluation->evaluator)
+	            $evaluatorString = $evaluation->evaluator->full_name;
+			else
+				$evaluatorString = "<i>Anonymous</i>";
+
+			switch($evaluation->status){
+				case "complete":
+					$labelContext = "label-success";
+					break;
+				case "disabled":
+				case "canceled by admin":
+				case "canceled by faculty":
+				case "canceled by resident":
+				case "canceled by fellow":
+				case "canceled by staff":
+					$labelContext = "label-danger";
+					break;
+				case "pending":
+					$labelContext = "label-warning";
+					break;
+				default:
+					$labelContext = "label-default";
+					break;
 			}
-            return view("evaluations.evaluation", $data);
+			$statusLabel = "<span class='label {$labelContext}'>" . ucfirst($evaluation->status) . "</span>";
+
+	        $data = compact("evaluation", "subjectString", "evaluatorString", "statusLabel");
+	        if($evaluation->subject_id == $user->id && $user->type == "faculty"){
+	            $threshold = Setting::get("facultyEvalThreshold");
+	            $evaluations = Evaluation::where("subject_id", $user->id)->where("status", "complete")->orderBy("id", "desc")->get();
+	            $evaluations = $evaluations->splice($evaluations->count()%$threshold);
+	            if($evaluations->contains($evaluation))
+	                return view("evaluations.evaluation", $data);
+	            else
+					throw new \Exception("Insufficient permissions to view the requested evaluation");
+	        }
+	        elseif((($evaluation->subject_id == $user->id || $user->mentees->contains($evaluation->subject)) && in_array($evaluation->visibility, ["visible", "anonymous"])) || $evaluation->evaluator_id == $user->id || $user->watchedForms->pluck("form_id")->contains($evaluation->form_id) || $user->isType("admin")){
+				if($user->isType("admin") || $evaluation->evaluator_id == $user->id){
+					switch($evaluation->evaluator->type){
+	                    // FIXME: These subjectTypes aren't correct
+						case "faculty":
+							$subjectType = "Resident/Fellow";
+							$possibleSubjects = User::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("last_name")->get();
+							$possibleForms = Form::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("title")->get();
+							break;
+						case "resident":
+						case "fellow":
+							$subjectType = "Faculty";
+							$possibleSubjects = User::where("status", "active")->where("type", "faculty")->orderBy("last_name")->get();
+							$possibleForms = Form::where("status", "active")->where("type", "faculty")->orderBy("title")->get();
+							break;
+						case "staff":
+							$subjectType = "Resident/Fellow";
+							$possibleSubjects = User::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("last_name")->get();
+							$possibleForms = Form::where("status", "active")->where("type", "resident")->where("evaluator_type", "staff")->orderBy("title")->get();
+							break;
+					}
+					$flaggedActions = Setting::get("flaggedActions");
+					$data += compact("subjectType", "possibleSubjects", "possibleForms", "flaggedActions");
+				}
+	            return view("evaluations.evaluation", $data);
+			}
+	        else
+				throw new \Exception("Insufficient permissions to view the requested evaluation");
+		} catch(\Exception $e){
+			return back()->with("error", "Insufficient permissions to view the requested evaluation");
 		}
-        else
-            return back()->with("error", "Insufficient permissions to view the requested evaluation");
     }
 
     public function getEvaluation($id){
         return (string)Evaluation::find($id);
     }
 
-    public function cancelEvaluation(Request $request){
-        $user = Auth::user();
-        $eval = Evaluation::find($request->input("id"));
-        if(($eval->requestor == $user || $user->type == "admin") && $eval->status == "pending"){
-            $eval->status = "canceled by ".$eval->requestor->type;
-            $eval->save();
-            return "success";
-        }
-        else{
-            if(!($eval->requestor == $user || $user->type == "admin"))
-                return "Only the requestor or an administrator can cancel an evaluation";
-            elseif($eval->status != "pending")
-                return "Only pending evaluations can be canceled";
-        }
-    }
-
     public function saveEvaluation(Request $request, $id){
-        $user = Auth::user();
-        $eval = Evaluation::find($id);
-        if($eval->status == "pending" && $eval->evaluator_id == $user->id){
+        try {
+			$user = Auth::user();
+			$eval = Evaluation::findOrFail($id);
+
+			if($eval->status != "pending")
+                throw new \Exception("Cannot complete a non-pending evaluation");
+            elseif($eval->evaluator_id != $user->id)
+                throw new \Exception("Only the evaluator can complete an evaluation");
+
             if($request->input("evaluation_id")){
                 $eval->status = "complete";
                 $eval->complete_date = Carbon::now();
 				if(!$eval->training_level)
                 	$eval->training_level = $eval->subject->training_level;
+				if($eval->form->type == "faculty" && $eval->visibility == "under faculty threshold"){
+					$hiddenFormEvals = $eval->form->evaluations()
+						->where("visibility", "under faculty threshold")
+						->orderBy("id", "desc")->get();
+					$threshold = Setting::get("facultyEvalThreshold");
+					if($hiddenFormEvals->count() >= $threshold){
+						$evalsToUnhide = $hiddenFormEvals->splice($hiddenFormEvals->count()%$threshold);
+						$evalsToUnhide->each(function($evalToUnhide){
+							$evalToUnhide->visibility = $evalToUnhide->form->visibility;
+							$evalToUnhide->save();
+						});
+					}
+				}
             }
             $eval->complete_ip = $request->ip();
 			if(!$eval->evaluation_date)
@@ -495,524 +516,17 @@ class MainController extends Controller
                             $response = TextResponse::firstOrNew(["evaluation_id" => $id, "question_id" => $question]);
                         }
 
-                        // $response->question_id = $question;
                         $response->response = $value;
-                        // $response->evaluation_id = $id;
                         $response->save();
                     }
                 }
             }
             $eval->save();
-            return redirect("dashboard");
-        }
-        else{
-            if($eval->status != "pending")
-                return back()->with("error", "Cannot complete a non-pending evaluation");
-            elseif($eval->evaluator_id != $user->id)
-                return back()->with("error", "Only the evaluator can complete an evaluation");
-        }
-
-    }
-
-	public function evaluationComment($id, Request $request){
-		$user = Auth::user();
-		$eval = Evaluation::find($id);
-		if($eval->evaluator_id == $user->id){
-			$eval->comment = $request->input("comment");
-			$eval->save();
-			return "true";
-		}
-		return "false";
-	}
-
-	public function editEvaluation($id, Request $request){
-		$user = Auth::user();
-		$eval = Evaluation::find($id);
-		if($eval == null)
-			return back()->with("error", "That evaluation does not exist");
-
-		$errors = "";
-		$successes = "";
-
-		if($user->type == "admin"){
-			if($request->has("evaluation_evaluator") && $request->input("evaluation_evaluator") != ""){
-				$newEvaluator = User::find($request->input("evaluation_evaluator"));
-				if($newEvaluator == null)
-					$errors .= "Evaluator does not exist. ";
-				elseif($newEvaluator->type != $eval->evaluator->type)
-					$errors .= "Evaluator is not correct account type. ";
-				else{
-					$eval->evaluator_id = $newEvaluator->id;
-					$eval->save();
-					$successes .= "Evaluator changed successfully. ";
-				}
-			}
+        } catch(\Exception $e){
+			return back()->with("error", $e->getMessage());
 		}
 
-		if($user->type == "admin" || ($eval->evaluator_id == $user->id && $eval->status == "pending")){
-			if($request->has("evaluation_subject") && $request->input("evaluation_subject") != ""){
-				$newSubject = User::find($request->input("evaluation_subject"));
-				if($newSubject == null)
-					$errors .= "Subject does not exist. ";
-				elseif($newSubject->type != $eval->form->type)
-					$errors .= "Subject is not correct account type. ";
-				else{
-					$eval->subject_id = $newSubject->id;
-					$eval->save();
-					$successes .= "Subject changed successfully. ";
-				}
-			}
-
-			if($request->has("evaluation_form") && $request->input("evaluation_form") != ""){
-				$newForm = Form::find($request->input("evaluation_form"));
-				if($newForm == null)
-					$errors .= "Form does not exist. ";
-				elseif($newForm->type != $eval->form->type)
-					$errors .= "Form is not correct type. ";
-				elseif($eval->responses->count() != 0 || $eval->textResponses->count() != 0)
-					$errors .= "Cannot change form for evaluation with saved responses. Please create a new evaluation. ";
-				else{
-					$eval->form_id = $newForm->id;
-					$eval->save();
-					$successes .= "Form changed successfully. ";
-				}
-			}
-			if($successes == "" && $errors == "")
-				return back()->with("info", "There is nothing to be done.");
-
-			return back()->with("success", $successes)->with("error", $errors);
-		}
-		return back()->with("error", "You do not have permission to edit this evaluation.");
-	}
-
-	public function flagEvaluation($id, Request $request){
-		$user = Auth::user();
-		$eval = Evaluation::find($id);
-		if($eval->evaluator_id == $user->id && in_array($eval->status, ["complete", "pending"])
-				&& $request->has("requested_action") && $request->has("reason")){
-			$flag = FlaggedEvaluation::firstOrNew(["evaluation_id" => $eval->id]);
-			$flag->requested_action = $request->input("requested_action");
-			$flag->reason = $request->input("reason");
-			$flag->save();
-			try{
-				$flaggedActions = Setting::get("flaggedActions");
-
-				$data = [];
-				$data["flaggerName"] = $user->full_name;
-				$data["evaluationId"] = $eval->id;
-				$data["requestedAction"] = $flaggedActions[$flag->requested_action];
-				$data["reason"] = $flag->reason;
-				$data["now"] = Carbon::now();
-
-				Mail::send("emails.flag", $data, function($message){
-					$message->to(config("app.admin_email"));
-					$message->from("flag@residentprogram.com");
-					$message->subject("Flagged evaluation");
-				});
-			} catch (\Exception $e){
-				Log::error("Problem sending email: ".$e);
-			}
-			return back()->with("success", "Your request has been saved, an administrator will review the evaluation shortly.");
-		}
-		return back()->with("error", "There was an error saving your request.");
-	}
-
-	public function removeFlag(Request $request){
-		$user = Auth::user();
-		if(!$request->has("id"))
-			return "Flag does not exist";
-		$flag = FlaggedEvaluation::find($request->input("id"));
-		if($user->type == "admin" && $flag != null){
-			$flag->delete();
-			return "success";
-		}
-
-		return "Error removing flag";
-	}
-
-    // TODO: Split the fetching of evals into more functions, put the outputting into one function
-    public function evaluations(Request $request, $limit = null){
-        // FIXME: This is a mess wtf
-        $user = Auth::user();
-        $results["data"] = [];
-        if($user->type == "admin"){
-            $evaluations = Evaluation::with("subject", "evaluator", "form")->whereHas("form", function($query){
-                $query->whereIn("type", ["resident", "fellow"])->where("evaluator_type", "faculty");
-            })->orderBy("id", "desc");
-            if(!empty($limit))
-                $evaluations = $evaluations->limit($limit)->get();
-            else
-                $evaluations = $evaluations->get();
-            foreach($evaluations as $eval){
-				try{
-	                $result = [];
-	                $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
-	                $result[] = $eval->subject->full_name;
-	                $result[] = $eval->evaluator->full_name;
-	                $result[] = $eval->form->title;
-	                $result[] = (string)$eval->request_date;
-	                if($eval->complete_date)
-	                    $result[] = (string)$eval->complete_date;
-	                else
-	                    $result[] = "";
-	                if($eval->status == "complete")
-	                    $badge = "complete";
-	                elseif($eval->status == "pending")
-	                    $badge = "pending";
-	                else
-	                    $badge = "disabled";
-
-	                $result[] = "<span class='badge badge-{$badge}'>" . ucfirst($eval->status) . "</span>";
-	                $results["data"][] = $result;
-				}
-				catch(\Exception $e){
-					Log::error("Problem with evaluation: ".$e);
-				}
-            }
-        } else{
-            $type = $request->input("type");
-            if($type == "mentor"){
-                $menteeId = $request->input("mentee_id");
-                $mentee = User::find($menteeId);
-                if($mentee->mentors->contains($user))
-                    $evaluations = $mentee->subjectEvaluations()->notHidden()
-                        ->where("status", "complete")->with("subject", "evaluator", "form")
-                        ->orderBy("id", "desc");
-            }
-            else
-                $evaluations = Evaluation::where("status", $type)->where(function($query) use ($user){
-                    $query->where("evaluator_id", $user->id)->orWhere(function($query) use ($user){
-						$query->where("subject_id", $user->id)->notHidden();
-					});
-                })->with("subject", "evaluator", "form")->whereHas("form", function($query){
-                    $query->whereIn("type", ["resident", "fellow"])->where("evaluator_type", "faculty");
-                })->orderBy("id", "desc");
-            if(!empty($limit))
-                $evaluations = $evaluations->limit($limit)->get();
-            else
-                $evaluations = $evaluations->get();
-            foreach($evaluations as $eval){
-				try{
-	                $result = [];
-	                $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
-	                if($eval->subject_id == $user->id || $type == "mentor"){
-						if($eval->visibility == "visible")
-							$result[] = $eval->evaluator->full_name;
-						elseif($eval->visibility == "anonymous")
-							$result[] = "<i>Anonymous</i>";
-						else
-							continue;
-					}
-	                else{
-	                    $result[] = $eval->subject->full_name;
-					}
-	                $result[] = $eval->form->title;
-	                $result[] = (string)$eval->request_date;
-	                if($type == "complete" || $type == "mentor")
-	                    $result[] = (string)$eval->complete_date;
-	                if($type == "pending"){
-	                    if($eval->requested_by_id == $user->id){
-	                        $result[] = "<button id='cancel-{$eval->id}' class='cancelEval btn btn-danger btn-xs' data-toggle='modal' data-target='.bs-cancel-modal-sm' data-id='{$eval->id}'>".
-	                        "<span class='glyphicon glyphicon-remove'></span> Cancel</button>";
-	                    }
-	                    else
-	                        $result[] = "";
-	                } else{
-
-	                }
-	                $results["data"][] = $result;
-				}
-				catch(\Exception $e){
-					Log::error("Problem with evaluation: ".$e);
-				}
-            }
-        }
-        return response()->json($results);
-    }
-
-    public function evaluatorEvaluations(Request $request, $limit = null){
-        $user = Auth::user();
-        $results["data"] = [];
-        $type = $request->input("type", "complete");
-
-        $evaluations = $user->evaluatorEvaluations()->where("status", $type);
-
-        if($limit)
-            $evaluations = $evaluations->limit($limit)->get();
-        else
-            $evaluations = $evaluations->get();
-
-        foreach($evaluations as $eval){
-            try {
-                $result = [];
-                $result[] = "<a href='{$eval->id}'>{$eval->id}</a>";
-                $result[] = $eval->subject->full_name;
-                $result[] = $eval->form->title;
-                if($eval->evaluation_date)
-                    $result[] = $eval->evaluation_date->format("F Y");
-                else
-                    $result[] = "";
-                $result[] = (string)$eval->request_date;
-                $result[] = "";
-
-                $results["data"][] = $result;
-            } catch(\Exception $e){
-                Log::error("Problem with evaluator eval: " . $e);
-            }
-        }
-
-        return response()->json($results);
-    }
-
-    public function formEvaluations(Request $request, $limit = null){
-        $user = Auth::user();
-        $form = Form::findOrFail($request->input("form_id"));
-        if($request->has("type"))
-            $evaluations = $form->evaluations()->where("status", $request->input("type"))->get();
-        else
-            $evaluations = $form->evaluations;
-        $results["data"] = [];
-
-        if($user->type == "admin" || $user->watchedForms->pluck("form_id")->contains($request->input("form_id"))){
-            foreach($evaluations as $eval){
-                try {
-                    $result = [];
-                    $result[] = "<a href='{$eval->id}'>{$eval->id}</a>";
-                    $result[] = $eval->subject->full_name;
-                    $result[] = $eval->evaluator->full_name;
-                    if($eval->evaluation_date)
-                        $result[] = $eval->evaluation_date->format("F Y");
-                    else
-                        $result[] = "";
-
-                    if($eval->complete_date)
-                        $result[] = (string)$eval->complete_date;
-                    else
-                        $result[] = "";
-
-                    if($eval->status == "complete")
-	                    $badge = "complete";
-	                elseif($eval->status == "pending")
-	                    $badge = "pending";
-	                else
-	                    $badge = "disabled";
-
-	                $result[] = "<span class='badge badge-{$badge}'>" . ucfirst($eval->status) . "</span>";
-
-                    $result[] = "";
-
-                    $results["data"][] = $result;
-                } catch(\Exception $e){
-                    Log::error("Problem with form evaluation: " . $e);
-                }
-            }
-        }
-
-        return response()->json($results);
-    }
-
-
-    public function selfEvaluations(Request $request, $limit = null){
-        $user = Auth::user();
-        $results["data"] = [];
-        $type = $request->input("type", "complete");
-
-        if($user->type == "admin"){
-            $evaluations = Evaluation::with("form")->where("status", $type)->whereHas("form", function($query){
-                $query->where("evaluator_type", "self");
-            })->orderBy("id", "desc");
-        }
-        else{
-            $evaluations = Evaluation::with("form")->where("status", $type)->where(function($query) use ($user){
-                $query->where("evaluator_id", $user->id);
-            })->whereHas("form", function($query){
-                $query->where("evaluator_type", "self");
-            })->orderBy("id", "desc");
-        }
-
-        if($limit)
-            $evaluations = $evaluations->limit($limit)->get();
-        else
-            $evaluations = $evaluations->get();
-
-        foreach($evaluations as $eval){
-            try {
-                $result = [];
-                $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
-                if($user->type == "admin")
-                    $result[] = $eval->subject->full_name;
-                $result[] = $eval->form->title;
-                $result[] = $eval->evaluation_date->format("F Y");
-                if($type != "pending")
-                    $result[] = (string)$eval->complete_date;
-                $result[] = "";
-                $results["data"][] = $result;
-            } catch(\Exception $e){
-                Log::error("Problem with self evaluation: " . $e);
-            }
-        }
-
-        return response()->json($results);
-    }
-
-	public function staffEvaluations(Request $request, $limit = null){
-		$user = Auth::user();
-		$results["data"] = [];
-        $type = $request->input("type", "complete");
-
-		if($user->type == "admin"){
-			$evaluations = Evaluation::with("form")->whereHas("form", function($query){
-				$query->where("evaluator_type", "staff");
-			})->orderBy("id", "desc");
-		}
-		else{
-			$evaluations = Evaluation::with("form")->where("status", $type)->where(function($query) use ($user){
-                $query->where("evaluator_id", $user->id)->orWhere(function($query) use ($user){
-                    $query->where("subject_id", $user->id)->notHidden();
-                });
-			})->whereHas("form", function($query){
-				$query->where("evaluator_type", "staff");
-			})->orderBy("id", "desc");
-		}
-        if(!empty($limit))
-            $evaluations = $evaluations->limit($limit)->get();
-        else
-            $evaluations = $evaluations->get();
-
-		foreach($evaluations as $eval){
-			try{
-				$result = [];
-				$result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
-                if($eval->subject_id != $user->id)
-                    $result[] = $eval->subject->full_name;
-                if($eval->evaluator_id != $user->id){
-                    if($user->id == $eval->subject_id){
-                        switch($eval->visibility){
-                            case "visible":
-                                $result[] = $eval->evaluator->full_name;
-                                break;
-                            case "anonymous":
-                                $result[] = "<i>Anonymous</i>";
-                                break;
-                            case "hidden":
-                            default:
-                                continue;
-                                break;
-                        }
-                    }
-                    else
-                        $result[] = $eval->evaluator->full_name;
-                }
-				$result[] = $eval->form->title;
-				if($eval->evaluation_date)
-					$result[] = $eval->evaluation_date->format("F Y");
-				else
-					$result[] = "";
-                $result[] = (string)$eval->request_date;
-                if($type != "pending")
-                    $result[] = (string)$eval->complete_date;
-				$results["data"][] = $result;
-			}
-			catch(\Exception $e){
-				Log::error("Problem with staff evaluation: ".$e);
-			}
-		}
-		return response()->json($results);
-	}
-
-	public function flaggedEvaluations(Request $request){
-		$user = Auth::user();
-		$results["data"] = [];
-		$evaluations = Evaluation::has("flag")->with("flag")->get();
-
-		$flaggedActions = Setting::get("flaggedActions");
-
-		foreach($evaluations as $eval){
-			try{
-				$result = [];
-				$result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
-				$result[] = $eval->evaluator->full_name;
-				$result[] = $eval->subject->full_name;
-				$result[] = $flaggedActions[$eval->flag->requested_action];
-				$result[] = $eval->flag->reason;
-				$result[] = "<button type='button' class='remove-flag btn btn-primary btn-xs' data-id='{$eval->flag->id}'><span class='glyphicon glyphicon-ok'></span> Complete</button>";
-				$results["data"][] = $result;
-			}
-			catch(\Exception $e){
-				Log::error("Problem with flagged evaluation: ".$e);
-			}
-		}
-		return response()->json($results);
-	}
-
-    public function facultyEvaluations(Request $request, $limit = null){
-        $user = Auth::user();
-        $results["data"] = [];
-        if($user->type == "admin"){
-            $evaluations = Evaluation::with("subject", "evaluator", "form")
-                ->whereHas("form", function($query){
-                    $query->where("type", "faculty");
-                })->orderBy("id", "desc");
-            if(!empty($limit))
-                $evaluations = $evaluations->limit($limit)->get();
-            else
-                $evaluations = $evaluations->get();
-        }
-        elseif($user->type == "faculty"){
-            $threshold = Setting::get("facultyEvalThreshold");
-            $evaluations = Evaluation::where("subject_id", $user->id)->notHidden()
-                ->where("status", "complete")->orderBy("id", "desc")
-                ->orderBy("id", "desc");
-            if(!empty($limit))
-                $evaluations = $evaluations->limit($limit)->get();
-            else
-                $evaluations = $evaluations->get();
-			if($evaluations->count() > 0)
-            	$evaluations = $evaluations->splice($evaluations->count()%$threshold);
-        }
-        elseif($user->type == "resident"){
-            $evaluations = Evaluation::with("subject", "evaluator", "form")
-                ->where("status", "pending")->where("evaluator_id", $user->id)
-                ->whereHas("form", function($query){
-                    $query->where("type", "faculty");
-                })->orderBy("id", "desc");
-            if(!empty($limit))
-                $evaluations = $evaluations->limit($limit)->get();
-            else
-                $evaluations = $evaluations->get();
-        }
-
-        foreach($evaluations as $eval){
-			try{
-	            $result = [];
-	            $result[] = "<a href='/evaluation/{$eval->id}'>{$eval->id}</a>";
-	            if($user->type == "admin"){
-	                $result[] = $eval->subject->last_name.", ".$eval->subject->first_name;
-	                $result[] = $eval->evaluator->last_name.", ".$eval->evaluator->first_name;
-	                $result[] = (string)$eval->request_date;
-	                $result[] = (string)$eval->complete_date;
-	            }
-	            elseif($user->type == "resident"){
-	                $result[] = $eval->subject->last_name.", ".$eval->subject->first_name;
-	                $result[] = (string)$eval->request_date;
-	            }
-	            if($user->type == "admin" || $user->type == "faculty"){
-	                if(isset($eval->evaluation_date))
-	                    $result[] = $eval->evaluation_date->format("F Y");
-	                else
-	                    $result[] = "";
-	            }
-	            if($user->type == "admin"){
-	                $result[] = "";
-	            }
-
-	            $results["data"][] = $result;
-			}
-			catch(\Exception $e){
-				Log::error("Problem with faculty evaluation: ".$e);
-			}
-        }
-        return response()->json($results);
+		return redirect("dashboard");
     }
 
     public function user(){
@@ -1136,122 +650,8 @@ class MainController extends Controller
         return view("dashboard.profile", $data);
     }
 
-    public function profileEvaluations($id, $type = null){
-        $user = Auth::user();
-        $profileUser = User::find($id);
-        if(empty($profileUser))
-            return;
-        if(!($user->isType("admin") || $user->mentees->contains($profileUser) || $user->id == $profileUser->id))
-            return;
-
-        switch($type){
-            case "subject":
-                if($user->isType("admin"))
-                    $evaluations = $profileUser->subjectEvaluations;
-                else
-                    $evaluations = $profileUser->subjectEvaluations()->notHidden()->get();
-                break;
-            case "evaluator":
-                $evaluations = $profileUser->evaluatorEvaluations;
-                break;
-            default:
-                if($profileUser->isType("resident")){
-                    if($user->isType("admin"))
-                        $evaluations = $profileUser->subjectEvaluations;
-                    else
-                        $evaluations = $profileUser->subjectEvaluations()->notHidden()->get();
-                }
-                else{
-                    $evaluations = $profileUser->evaluatorEvaluations;
-                }
-                break;
-        }
-
-        if(!$user->isType("admin")){
-            $evaluations = $evaluations->filter(function($eval){
-                return in_array($eval->status, ["pending", "complete"]);
-            });
-        }
-
-        $results["data"] = [];
-        foreach($evaluations as $eval){
-            try{
-                $result = [];
-
-                $result[] = "<a href='/evaluation/{$eval->id}'>$eval->id</a>";
-                if($eval->evaluator_id != $profileUser->id){
-                    if($user->isType("admin") || $eval->visibility == "visible" || $user->id == $eval->evaluator_id)
-                        $result[] = $eval->evaluator->full_name;
-                    else
-                        $result[] = "<i>Anonymous</i>";
-                }
-                if($eval->subject_id != $profileUser->id){
-                    if($user->isType("admin") || $eval->visibility == "visible" || $user->id == $eval->evaluator_id)
-                        $result[] = $eval->subject->full_name;
-                    else
-                        $result[] = "<i>Anonymous</i>";
-                }
-                $result[] = $eval->form->title;
-                $result[] = (string)$eval->evaluation_date;
-                $result[] = (string)$eval->request_date;
-                $result[] = (string)$eval->complete_date;
-
-                if($eval->status == "complete")
-                    $badge = "complete";
-                elseif($eval->status == "pending")
-                    $badge = "pending";
-                else
-                    $badge = "disabled";
-
-                $result[] = "<span class='badge badge-{$badge}'>" . ucfirst($eval->status) . "</span>";
-
-
-                $results["data"][] = $result;
-            }
-            catch(\Exception $e){
-                Log::error("Problem getting profile evaluation: ".$e);
-            }
-        }
-
-        return response()->json($results);
-    }
-
     public function pagerDirectory(){
         return view("dashboard.directory");
-    }
-
-    public function getPagerDirectory(){
-        $user = Auth::user();
-        $directory = DirectoryEntry::orderBy("last_name")->get();
-        $results["data"] = [];
-        foreach($directory as $entry){
-            $result = [
-                $entry->last_name,
-                $entry->first_name,
-                $entry->pager
-            ];
-            if($user->isType("admin"))
-                $result[] = "<button type='button' data-id='{$entry->id}' data-pager='{$entry->pager}' "
-                    . "data-first='{$entry->first_name}' data-last='{$entry->last_name}' "
-                    . "class='btn btn-xs btn-info edit-directory-entry'>"
-                    . "<span class='glyphicon glyphicon-edit'></span> Edit</button>";
-            $results["data"][] = $result;
-        }
-        return response()->json($results);
-    }
-
-    public function getPagerCSV(Request $request){
-    // Intended for iPage (https://itunes.apple.com/us/app/ipage/id438797413)
-        $directory = DirectoryEntry::orderBy("last_name")->get(["first_name", "last_name", "pager"])->toArray();
-        $csv = "";
-        foreach($directory as $entry){
-            $csv .= implode(",", $entry) . "\n";
-        }
-
-        $response = response($csv)->header("Content-Type", "text/csv");
-        if(!$request->has("view"))
-            $response = $response->header("Content-Disposition", "attachment; filename='ipage.csv'");
-        return $response;
     }
 
     public function alumni(Request $request, $hash){
@@ -1276,4 +676,24 @@ class MainController extends Controller
             return view("dashboard.alumni.invalid-url")->with("noNavbar", true);
         }
     }
+
+	public function caseLog(Request $request){
+		$user = Auth::user();
+		$title = "RAAPS"; // FIXME
+		$detailsType = "raaps"; // FIXME
+		$locations = Location::all();
+		$canLog = false;
+
+		// TODO: Only show when canLog
+		$detailsSchema = CaseLogDetailsSchema::where("details_type", $detailsType)
+			->orderBy("version", "desc")->first();
+		if($user->isType("resident")){
+			$canLog = true;
+
+		}
+
+		$data = compact("locations", "canLog", "detailsSchema", "title");
+
+		return view("case-log.case-log", $data);
+	}
 }

@@ -47,8 +47,10 @@
 			ajax: {
 				url: "/watched_forms",
 				data: {
-					user: true,
-					form: true
+					with: {
+						user: true,
+						form: true
+					}
 				},
 				dataSrc: ""
 			},
@@ -78,16 +80,18 @@
 
 		$("#watched-forms-table").on("click", ".confirm-delete-watched-form-button", function(){
 			var watchedFormId = $(this).data("id");
-			var data = {};
-			data._token = "{{ csrf_token() }}";
+			var data = {
+				_token: "{{ csrf_token() }}",
+				_method: "DELETE"
+			};
 
 			var row = $(this).parents("tr");
 			var button = $(this);
 			$(this).prop("disabled", true).addClass("disabled");
 			$.ajax({
 				url: "/watched_forms/" + watchedFormId,
-				data: data,
-				method: "DELETE"
+				method: "POST", // DELETE
+				data: data
 			}).done(function(response){
 				button.prop("disabled", false).removeClass("disabled");
 				if(response === "success")

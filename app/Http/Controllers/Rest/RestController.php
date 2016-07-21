@@ -7,10 +7,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 
+use Auth;
+
 class RestController extends Controller
 {
 	protected $relationships = [];
 	protected $attributes = [];
+	protected $relationshipAttributes = [];
 
     public function __construct(){
         $this->middleware("auth");
@@ -23,35 +26,66 @@ class RestController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request){
+		$user = Auth::user();
 		$withArray = [];
-		foreach($request->intersect($this->relationships) as $relationship => $fields){
-			if(!is_array($fields))
-				$withArray[] = $relationship;
-			else {
-				if(in_array("full_name", $fields)){
-					$index = array_search("full_name", $fields);
-					unset($fields[$index]);
-					array_values($fields);
-					$fields[] = "first_name";
-					$fields[] = "last_name";
+		if($request->has("with")){
+			foreach(array_only($request->input("with"), $this->relationships) as $relationship => $fields){
+				if(!is_array($fields)){
+					if($fields && $fields !== "false")
+						$withArray[] = $relationship;
 				}
-				$withArray[$relationship] = function($query) use ($fields){
-					$query->select(array_merge(["id"], $fields));
-				};
+				else {
+					if(in_array("full_name", $fields)){
+						$index = array_search("full_name", $fields);
+						unset($fields[$index]);
+						array_values($fields);
+						$fields[] = "first_name";
+						$fields[] = "last_name";
+					}
+					$withArray[$relationship] = function($query) use ($fields){
+						$query->select(array_merge(["id"], $fields));
+					};
+				}
 			}
 		}
 
         $query = $this->model::with($withArray);
-			foreach($request->intersect($this->attributes) as $name => $value){
-				if(is_array($value))
-					$query->whereIn($name, $value);
-				else
-					$query->where($name, $value);
-			}
+		foreach($request->intersect($this->attributes) as $name => $value){
+			if(is_array($value))
+				$query->whereIn($name, $value);
+			else
+				$query->where($name, $value);
+		}
 
-		return $query->take($request->input("limit"), null)
+		if($request->has("whereHas") && !empty($this->relationshipAttributes)){
+			foreach(array_keys(array_only($request->input("whereHas"), array_keys($this->relationshipAttributes))) as $relationship){
+				$relationshipAttributes = $this->relationshipAttributes[$relationship];
+				$query->whereHas($relationship, function($query) use ($request, $relationship, $relationshipAttributes){
+					foreach(array_only($request->input("whereHas")[$relationship], $relationshipAttributes) as $attribute => $value){
+						if(is_array($value))
+							$query->whereIn($attribute, $value);
+						else
+							$query->where($attribute, "=", $value);
+					}
+				});
+			}
+		}
+
+		$results = $query->take($request->input("limit"), null)
 			->orderBy("id", $request->input("order", "desc"))
 			->get();
+
+		if(!$user->isType("admin"))
+			return $results->each(function($result){
+				if(method_exists($result, "hideFields"))
+					$result->hideFields();
+				collect($result->getRelations())->each(function($rel){
+					if($rel && method_exists($rel, "hideFields"))
+						$rel->hideFields();
+				});
+			});
+
+		return $results;
     }
 
     /**
@@ -75,7 +109,19 @@ class RestController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id){
-        return $this->model::with($this->relationships)->find($id);
+		$user = Auth::user();
+        $result = $this->model::with($this->relationships)->findOrFail($id);
+
+		if(!$user->isType("admin")){
+			if(method_exists($result, "hideFields"))
+				$result->hideFields();
+			collect($result->getRelations())->each(function($rel){
+				if($rel && method_exists($rel, "hideFields"))
+					$rel->hideFields();
+			});
+		}
+
+		return $result;
     }
 
     /**
@@ -86,7 +132,7 @@ class RestController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id){
-        $this->model::find($id)->update($request->all());
+        $this->model::findOrFail($id)->update($request->all());
 
 		if($request->ajax())
 			return "success";

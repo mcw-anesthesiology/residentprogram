@@ -31,6 +31,11 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         "type" => \App\Http\Middleware\Type::class,
         "shared" => \App\Http\Middleware\SharedVariables::class,
-		"update.alum" => \App\Http\Middleware\UpdateAlumMiddleware::class
+		"update.alum" => \App\Http\Middleware\UpdateAlumMiddleware::class,
+		"evaluation.requestor" => \App\Http\Middleware\EvaluationRequestor::class,
+		"evaluation.evaluator" => \App\Http\Middleware\EvaluationEvaluator::class,
+		"evaluation.user-edit" => \App\Http\Middleware\EvaluationUserEdit::class,
+
+		"case-log.has-access" => \App\Http\Middleware\CaseLogHasAccess::class
     ];
 }

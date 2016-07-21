@@ -43,10 +43,10 @@
 
 @section("body")
 	<div>
-	@if($evaluation->status == "pending" && $user->id == $evaluation->evaluator->id)
-		<h2 class="header">Complete Evaluation</h2>
+	@if($evaluation->status == "pending" && $user->id == $evaluation->evaluator_id)
+		<h1 class="header">Complete Evaluation</h1>
 	@else
-		<h2 class="header">View Evaluation</h2>
+		<h1 class="header">View Evaluation</h1>
 	@endif
 
 		<div id="evaluation-controls" class="noprint">
@@ -57,7 +57,7 @@
 			<a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" placement="left" title="Controls information" class="close" id="evaluation-controls-info">
 				<span class="glyphicon glyphicon-info-sign"></span>
 			</a>
-	@elseif($user->type == "admin")
+	@elseif($user->isType("admin"))
 			<button class="btn btn-info" data-toggle="modal" data-target="#edit-evaluation-modal" id="edit-evaluation"><span class="glyphicon glyphicon-edit"></span> Edit evaluation</button>
 			<Button class="btn btn-info" data-toggle="modal" data-target="#evaluation-hash-modal" id="edit-hash"><span class="glyphicon glyphicon-link"></span> Personalized completion link</Button>
 	@endif
@@ -66,7 +66,7 @@
 
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h3 class="panel-title">Evaluation Information</h3>
+			<h2 class="panel-title">Evaluation Information</h2>
 		</div>
 		<div class="panel-body table-responsive">
 			<table class="table" id="evaluation-info-table">
@@ -76,7 +76,7 @@
 	@if($user->id != $evaluation->subject_id && $evaluation->form->evaluator_type != "self")
 						<th>{{ ucfirst($evaluation->subject->type) }}</th>
 	@endif
-	@if($user->isType("admin") || ($user->id != $evaluation->evaluator_id && $evaluation->visibility == "visible"))
+	@if($user->isType("admin") || ($user->id != $evaluation->evaluator_id && $evaluation->evaluator && $evaluation->visibility == "visible"))
 						<th>{{ ucfirst($evaluation->evaluator->type) }}</th>
 	@endif
 	@if($evaluation->status == "complete")
@@ -84,7 +84,9 @@
 	@endif
 	@if(!($evaluation->subject->isType("faculty") && $user->id == $evaluation->subject_id))
 						<th>Requested</th>
+		@if($evaluation->status == "complete")
 						<th>Completed</th>
+		@endif
 	@endif
 						<th>Status</th>
 	@if($evaluation->subject->isType("resident"))
@@ -101,19 +103,29 @@
 	@if($user->isType("admin") || ($user->id != $evaluation->evaluator_id && $evaluation->visibility == "visible"))
 						<td>{!! $evaluatorString !!}</td>
 	@endif
-	@if($evaluation->status == "complete")
+	@if($evaluation->evaluation_date)
 						<td>{{ $evaluation->evaluation_date->format("F Y") }}</td>
 	@endif
 	@if(!($evaluation->subject->isType("faculty") && $user->id == $evaluation->subject_id))
 						<td>{{ $evaluation->request_date }}</td>
+		@if($evaluation->status == "complete")
 						<td>{{ $evaluation->complete_date }}</td>
+		@endif
 	@endif
-						<td>{{ ucfirst($evaluation->status) }}</td>
+						<td>{!! $statusLabel !!}</td>
 	@if(!$evaluation->subject->isType("faculty"))
 		@if($evaluation->training_level)
+			@if(strpos($evaluation->training_level, "ca-") !== false)
 							<td>{{ strtoupper($evaluation->training_level) }}</td>
+			@else
+							<td>{{ ucfirst($evaluation->training_level) }}</td>
+			@endif
 		@else
+			@if(strpos($evaluation->subject->training_level, "ca-") !== false)
 							<td>{{ strtoupper($evaluation->subject->training_level) }}</td>
+			@else
+							<td>{{ ucfirst($evaluation->subject->training_level) }}</td>
+			@endif
 		@endif
 	@endif
 					</tr>
@@ -125,7 +137,7 @@
 			</div>
 	@endif
 		</div>
-	@if($user->type == "admin" && $evaluation->comment)
+	@if($user->isType("admin") && $evaluation->comment)
 		<div class="panel-footer">
 			<h3 class="sub-header">Evaluation Comment</h3>
 			<p>
@@ -165,7 +177,7 @@
 		</div>
 	</div>
 
-	@if($evaluation->evaluator_id == $user->id || $user->type == "admin")
+	@if($evaluation->evaluator_id == $user->id || $user->isType("admin"))
 	<!-- Evaluation comment modal -->
 	<div class="modal fade" id="evaluation-comment-modal" tabindex="-1" role="dialog" aria-labelledby="evaluation-comment-label">
 		<div class="modal-dialog" role="document">
@@ -193,12 +205,13 @@
 		</div>
 	</div>
 
-		@if(($evaluation->status == "pending" && $user->id == $evaluation->requested_by_id) || $user->type == "admin")
+		@if(($evaluation->status == "pending" && $user->id == $evaluation->requested_by_id) || $user->isType("admin"))
 	<!-- Edit evaluation modal -->
 	<div class="modal fade" id="edit-evaluation-modal" tabindex="-1" role="dialog" aria-labelledby="edit-evaluation-label">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<form method="post" action="{{ Request::url('/') }}/edit" role="form" id="edit-evaluation-form">
+				<form method="POST" action="/evaluations/{{ $evaluation->id }}/edit" role="form" id="edit-evaluation-form">
+					<input type="hidden" name="_method" value="PATCH" />
 					{!! csrf_field() !!}
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
@@ -210,7 +223,7 @@
 						</p>
 						<div class="form-group">
 							<label for="evaluation-subject">{{ $subjectType }}</label>
-							<select class="form-control edit-evaluation-select2" id="evaluation-subject" name="evaluation_subject" style="width: 100%">
+							<select class="form-control edit-evaluation-select2" id="evaluation-subject" name="subject_id" style="width: 100%">
 								<option value="">Select subject</option>
 			@foreach($possibleSubjects as $possibleSubject)
 								<option value="{{ $possibleSubject->id }}">{{ $possibleSubject->full_name }}</option>
@@ -219,7 +232,7 @@
 						</div>
 						<div class="form-group">
 							<label for="evaluation-form">Evaluation form</label>
-							<select class="form-control edit-evaluation-select2" id="evaluation-form" name="evaluation_form" style="width: 100%" @if($evaluation->responses->count() != 0 || $evaluation->textResponses->count() != 0) disabled title="Cannot change form for evaluations with saved responses." @endif>
+							<select class="form-control edit-evaluation-select2" id="evaluation-form" name="form_id" style="width: 100%" @if($evaluation->responses->count() != 0 || $evaluation->textResponses->count() != 0) disabled title="Cannot change form for evaluations with saved responses." @endif>
 								<option value="">Select form</option>
 			@foreach($possibleForms as $possibleForm)
 								<option value="{{ $possibleForm->id }}">{{ $possibleForm->title }}</option>
@@ -241,8 +254,9 @@
 	<div class="modal fade" id="flag-evaluation-modal" tabindex="-1" role="dialog" aria-labelledby="flag-evaluation-label">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<form method="post" action="{{ Request::url('/') }}/flag" role="form">
+				<form id="flag-evaluation-form" method="POST" action="/flagged_evaluations" role="form">
 					{!! csrf_field() !!}
+					<input type="hidden" name="evaluation_id" value="{{ $evaluation->id }}"  />
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
 						<h4 class="modal-title" id="flag-evaluation-label">Flag evaluation</h4>
@@ -317,41 +331,48 @@
 
 @section("script")
 	<script>
+		var evaluationId = {{ $evaluation->id }};
 		$(".evaluation-hash-edit").click(function(){
 			var data = {};
 			data._token = "{{ csrf_token() }}";
+			data._method = "PATCH";
 			data.action = $(this).data("action");
 			if(data.action == "new")
 				data.hash_expires_in = $("#evaluation-hash-expires-in").val();
-			$.post(window.location.href + "/hash", data)
-				.done(function(response){
-					if(response == "true"){
-						var newBody;
-						switch(data.action){
-							case "new":
-								$.getJSON(window.location.href + "/get", function(eval){
-									$("#evaluation-hash-body-text").html("A link has been sent, it expires <b>" + eval.hash_expires + "</b>. Are you sure you want to resend the completion link?");
-								});
-								break;
-							case "resend":
-								$("#evaluation-hash-body-text").append(" <br /><b>Link successfully resent</b>");
-								break;
-							case "void":
-								$("#evaluation-hash-body-text").html("There was no completion link sent. Would you like to create a new one?");
-								break;
-						}
+			$.ajax({
+				url: "/evaluations/" + evaluationId + "/hash",
+				method: "POST", // PATCH
+				data: data
+			}).done(function(response){
+				if(response === "success"){
+					var newBody;
+					switch(data.action){
+						case "new":
+							$.getJSON("/evaluations/" + evaluationId, function(eval){
+								$("#evaluation-hash-body-text").html("A link has been sent, it expires <b>" + eval.hash_expires + "</b>. Are you sure you want to resend the completion link?");
+							}).fail(function(){
+								appendAlert("There was a problem retrieving the evaluation info, please let me know if this continues.");
+							});
+							break;
+						case "resend":
+							$("#evaluation-hash-body-text").append(" <br /><b>Link successfully resent</b>");
+							break;
+						case "void":
+							$("#evaluation-hash-body-text").html("There was no completion link sent. Would you like to create a new one?");
+							break;
 					}
-					else{
-						appendAlert("There was a problem modifying or sending the link", "#evaluation-hash-modal .modal-body");
-					}
-
-				}).fail(function(){
+				}
+				else{
 					appendAlert("There was a problem modifying or sending the link", "#evaluation-hash-modal .modal-body");
-				});
+				}
+
+			}).fail(function(){
+				appendAlert("There was a problem modifying or sending the link", "#evaluation-hash-modal .modal-body");
+			});
 		});
 
 		$(document).ready(function(){
-			@if($evaluation->status == "complete" || $user->id == $evaluation->evaluator_id || $user->type == "admin")
+			@if($evaluation->status == "complete" || $user->id == $evaluation->evaluator_id || $user->isType("admin"))
 				@foreach($evaluation->responses as $response)
 					if($("input[name='{{ $response->question_id }}']").attr("type") == "radio")
 						$("input[name='{{ $response->question_id }}'][value='{{ $response->response }}']").prop("checked", true);
@@ -384,7 +405,7 @@
 			$("#form button").each(function(){
 				$(this).addClass("noprint");
 			});
-	@if($evaluation->evaluator_id == $user->id || $user->type == "admin")
+	@if($evaluation->evaluator_id == $user->id || $user->isType("admin"))
 			$("#evaluation-controls-info").popover({
 				placement: "left",
 				html: "true",
@@ -444,11 +465,12 @@
 			saveForm = true;
 		});
 
-	@if($evaluation->evaluator_id == $user->id || $user->type == "admin")
+	@if($evaluation->evaluator_id == $user->id || $user->isType("admin"))
 		$("#submit-evaluation-comment").click(function(){
 			var data = {};
-			data.comment = $("#evaluation-comment").val();
 			data._token = "{{ csrf_token() }}";
+			data._method = "PATCH";
+			data.comment = $("#evaluation-comment").val();
 			var url = $(location).attr("href");
 			var alert = $("#evaluation-comment-alert");
 
@@ -456,8 +478,12 @@
 			alert.html('<img src="/ajax-loader.gif" />');
 			alert.velocity("fadeIn");
 
-			$.post(url + "/comment", data, function(result){
-				if(result == "true"){
+			$.ajax({
+				url: "/evaluations/" + evaluationId + "/comment",
+				method: "POST", // PATCH
+				data: data
+			}).done(function(response){
+				if(response === "success"){
 					alert.removeClass("alert-danger alert-info").addClass("alert-success");
 					alert.html("Comment saved!");
 				}
