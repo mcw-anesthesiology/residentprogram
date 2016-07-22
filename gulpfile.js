@@ -20,7 +20,9 @@ var inProduction = elixir.config.production;
  |
  */
 var bowerPath = "./bower_components/";
+var npmPath = "./node_modules/";
 var scripts = [
+	npmPath + "babel-polyfill/dist/polyfill.min.js",
     bowerPath + "jquery/dist/jquery.min.js",
     bowerPath + "bootstrap/dist/js/bootstrap.min.js",
     bowerPath + "jquery-ui/ui/minified/core.min.js",

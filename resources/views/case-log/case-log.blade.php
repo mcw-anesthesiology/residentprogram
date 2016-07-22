@@ -113,12 +113,6 @@
 			}
 		});
 
-		$("#add-case-log-entry-container .datetimepicker").datetimepicker({
-			defaultDate: moment(),
-			stepping: 1440,
-			format: "M/D/Y"
-		});
-
 		detailsSchema.schema.forEach(function(schema){
 			schema.subsections.forEach(function(subsection){
 				var option = document.createElement("option");
@@ -129,6 +123,12 @@
 		});
 
 	@if($canLog)
+		$("#add-case-log-entry-container .datetimepicker").datetimepicker({
+			defaultDate: moment(),
+			stepping: 1440,
+			format: "M/D/Y"
+		});
+
 		renderCaseLogDetailsSchema(detailsSchema.schema, undefined, document.querySelector("#case-entry-form .case-details"));
 	@endif
 

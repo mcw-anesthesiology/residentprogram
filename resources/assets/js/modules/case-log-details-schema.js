@@ -118,7 +118,7 @@ export function generateCaseLogDetailsReportCharts(caseLogs, name, container, ch
 	const report = generateCaseLogDetailsReport(caseLogs);
 
 	let reportGroupNames = Object.keys(report);
-	for(let section of container.children){
+	for(let section of container.querySelectorAll('row')){
 		if(!section.hasAttribute('data-report-group-name')
 				|| !reportGroupNames.includes(section.getAttribute('data-report-group-name')))
 			container.removeChild(section);
@@ -205,28 +205,30 @@ export function generateCaseLogDetailsReportCharts(caseLogs, name, container, ch
 		while(numCasesTd.firstChild)
 			numCasesTd.removeChild(numCasesTd.firstChild);
 		numCasesTd.appendChild(document.createTextNode(numCases));
-		let responses = Object.keys(report[reportGroupName].responseCounts[name]).sort();
-		for(let response of responses){
-			let count = report[reportGroupName].responseCounts[name][response];
-			let percentage = Math.round((count/numCases) * 100);
-			data.datasets[0].data.push(count);
-			data.datasets[0].backgroundColor
-			.push(chartColors[data.datasets[0].data.length - 1]);
-			data.labels.push(response);
+		if(report[reportGroupName].responseCounts[name]){
+			let responses = Object.keys(report[reportGroupName].responseCounts[name]).sort();
+			for(let response of responses){
+				let count = report[reportGroupName].responseCounts[name][response];
+				let percentage = Math.round((count/numCases) * 100);
+				data.datasets[0].data.push(count);
+				data.datasets[0].backgroundColor
+					.push(chartColors[data.datasets[0].data.length - 1]);
+				data.labels.push(response);
 
-			let tr = document.createElement('tr');
-			let th = document.createElement('th');
-			let selectedTd = document.createElement('td');
-			let percentageTd = document.createElement('td');
+				let tr = document.createElement('tr');
+				let th = document.createElement('th');
+				let selectedTd = document.createElement('td');
+				let percentageTd = document.createElement('td');
 
-			th.appendChild(document.createTextNode(response));
-			selectedTd.appendChild(document.createTextNode(count));
-			percentageTd.appendChild(document.createTextNode(`${percentage}%`));
+				th.appendChild(document.createTextNode(response));
+				selectedTd.appendChild(document.createTextNode(count));
+				percentageTd.appendChild(document.createTextNode(`${percentage}%`));
 
-			tr.appendChild(th);
-			tr.appendChild(selectedTd);
-			tr.appendChild(percentageTd);
-			tbody.appendChild(tr);
+				tr.appendChild(th);
+				tr.appendChild(selectedTd);
+				tr.appendChild(percentageTd);
+				tbody.appendChild(tr);
+			}
 		}
 
 		if(charts[reportGroupName]){
