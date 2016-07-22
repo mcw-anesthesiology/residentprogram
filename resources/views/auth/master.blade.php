@@ -23,11 +23,9 @@
 		</script>
 	@endif
 
-		<!-- Bootstrap core CSS -->
-		<link href="/css/vendor.css" rel="stylesheet" />
+		<link href="{{ elixir("css/vendor.css") }}" rel="stylesheet" />
+		<link href="{{ elixir("css/all.css") }}" rel="stylesheet" />
 
-		<!-- Custom styles for this template -->
-		<link href="/css/all.css" rel="stylesheet" />
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
@@ -158,7 +156,7 @@
 				@yield("body")
 			</div>
 		</div>
-		<script type="text/javascript" src="/js/vendor.js"></script>
-		<script type="text/javascript" src="/js/all.js"></script>
+		<script type="text/javascript" src="{{ elixir("js/vendor.js") }}"></script>
+		<script type="text/javascript" src="{{ elixir("js/all.js") }}"></script>
 	</body>
 </html>

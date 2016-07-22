@@ -101,7 +101,7 @@ gulp.task("vendorcss", function(){
 
 gulp.task("vendorfont", function(){
     gulp.src(fonts)
-        .pipe(gulp.dest("./public/fonts"));
+        .pipe(gulp.dest("./public/build/fonts"));
 });
 
 gulp.task("vendorimg", function(){
@@ -109,7 +109,7 @@ gulp.task("vendorimg", function(){
         .pipe(gulp.dest("./public/img"));
 
     gulp.src(cssimgs)
-        .pipe(gulp.dest("./public/css/images"));
+        .pipe(gulp.dest("./public/build/css/images"));
 });
 
 gulp.task("webpack", function(callback){
@@ -137,6 +137,7 @@ elixir(function(mix) {
 			"milestone-competency-radar-chart.css",
 			"navbar.css"
 		]);
-    if(inProduction)
-        mix.phpUnit();
+	mix.version(["css/all.css", "css/vendor.css", "js/all.js", "js/vendor.js"]);
+    // if(inProduction)
+    //     mix.phpUnit();
 });
