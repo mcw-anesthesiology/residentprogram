@@ -34,7 +34,11 @@
 			<div class="col-md-offset-2 col-md-8">
 				<label for="block">Filter by block</label>
 				<select class="form-control" id="block">
+		@if($user->isType($evaluatorTypes))
 					<option value="0">Select from all {{ $subjectTypeTextPlural }}</option>
+		@else
+					<option value="0">Select from all {{ $evaluatorTypeText }}</option>
+		@endif
 					@foreach($blocks as $block)
 						@if($block->assignments->contains("user_id", $user->id))
 							<option value="{{ $block->id }}">{{ $block->year }} {{ $block->block_name }}</option>
