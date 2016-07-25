@@ -193,6 +193,8 @@ class MainController extends Controller
 
 			$residentGroups = ["intern" => "Intern", "ca-1" => "CA-1", "ca-2" => "CA-2", "ca-3" => "CA-3", "fellow" => "Fellow"];
 
+			$requestTypeText = $requestType;
+
 			switch($requestType){
 				case "resident":
 					if(!$user->isType($subjectTypes)){
@@ -207,6 +209,7 @@ class MainController extends Controller
 					$subjectTypeText = "intern, resident, or fellow";
 					$subjectTypeTextPlural = "interns, residents, and fellows";
 					$evaluatorTypeText = "faculty";
+					$requestTypeText = "trainee";
 
 					$formGroups = ["resident" => "Resident", "fellow" => "Fellow"];
 					$groupForms = true;
@@ -224,6 +227,7 @@ class MainController extends Controller
 					$subjectTypeText = "faculty";
 					$subjectTypeTextPlural = "faculty";
 					$evaluatorTypeText = "resident";
+					$requestTypeText = "faculty";
 
 					$groupForms = false;
 					break;
@@ -239,6 +243,7 @@ class MainController extends Controller
 					$subjectTypeText = "intern, resident, or fellow";
 					$subjectTypeTextPlural = "interns, residents, and fellows";
 					$evaluatorTypeText = "staff";
+					$requestTypeText = "staff";
 
 					$groupForms = false;
 					break;
@@ -249,6 +254,7 @@ class MainController extends Controller
 	                $subjectTypeText = "intern/resident/fellow";
 	                $subjectTypeTextPlural = "interns/residents/fellows";
 	                $evaluatorTypeText = "self";
+					$requestTypeText = "self";
 	                break;
 			}
 
@@ -270,7 +276,8 @@ class MainController extends Controller
 	        $data = compact("forms", "requestType", "months", "endOfMonth", "pendingEvalCount",
 				"subjects", "evaluators", "subjectTypeText", "subjectTypeTextPlural",
 	            "evaluatorTypeText", "blocks", "groupSubjects", "groupEvaluators",
-	            "groupForms", "formGroups", "evaluatorTypes", "subjectTypes");
+	            "groupForms", "formGroups", "evaluatorTypes", "subjectTypes",
+				"requestTypeText");
 		} catch(\Exception $e){
 			return back()->with("error", $e->getMessage());
 		}

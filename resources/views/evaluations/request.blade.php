@@ -22,9 +22,9 @@
 
 @section("body")
 	@if($user->isType($evaluatorTypes))
-	<h2 class="sub-header">Create {{ $requestType }} evaluation</h2>
+	<h2 class="sub-header">Create {{ $requestTypeText }} evaluation</h2>
 	@else
-	<h2 class="sub-header">Request {{ $requestType }} evaluation</h2>
+	<h2 class="sub-header">Request {{ $requestTypeText }} evaluation</h2>
 	@endif
 
 	<form id="form" role="form" action="#" method="POST" class="form-horizontal">
