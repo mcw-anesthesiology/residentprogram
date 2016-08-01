@@ -83,16 +83,16 @@ function drawRadarGraphs(milestoneData, competencyData, title, index){
 	var cCtx = competencyCanvas.getContext("2d");
 
 	if(graphType == "radar"){
-		var mGraph = new Chart(mCtx).Radar(milestoneData, options);
-		var cGraph = new Chart(cCtx).Radar(competencyData, options);
+		var mGraph = new Chart1(mCtx).Radar(milestoneData, options);
+		var cGraph = new Chart1(cCtx).Radar(competencyData, options);
 	}
 	else if(graphType == "bar"){
-		var mGraph = new Chart(mCtx).Bar(milestoneData, options);
-		var cGraph = new Chart(cCtx).Bar(competencyData, options);
+		var mGraph = new Chart1(mCtx).Bar(milestoneData, options);
+		var cGraph = new Chart1(cCtx).Bar(competencyData, options);
 	}
 	else if(graphType == "line"){
-		var mGraph = new Chart(mCtx).Line(milestoneData, options);
-		var cGraph = new Chart(cCtx).Line(competencyData, options);
+		var mGraph = new Chart1(mCtx).Line(milestoneData, options);
+		var cGraph = new Chart1(cCtx).Line(competencyData, options);
 	}
 
 	var legend = mGraph.generateLegend();

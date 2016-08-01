@@ -44,7 +44,7 @@ function drawLineChart(canvas, chartData, chartLabels){
 		labels: chartLabels,
 		datasets: datasets
 	}
-	evalHistoryChart[canvas] = new Chart(ctx).Line(data, options);
+	evalHistoryChart[canvas] = new Chart1(ctx).Line(data, options);
 	$(canvas+"-legend").html(evalHistoryChart[canvas].generateLegend());
 }
 
