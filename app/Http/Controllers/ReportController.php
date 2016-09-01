@@ -118,7 +118,7 @@ class ReportController extends Controller
                 $userStats[] = [
                     "id" => $user->id,
                     "name" => $user->full_name,
-                    "requested" => $userEvals->where("requested_by_id", $user->id)->count(),
+                    "requested" => $userEvals->whereLoose("requested_by_id", $user->id)->count(),
                     "totalRequests" => $userEvals->count(),
                     "completed" => $userEvals->where("status", "complete")->count(),
                     "ratio" => $userEvals->count() == 0 ? 0 : round(($userEvals->where("status", "complete")->count()/$userEvals->count()) * 100)
