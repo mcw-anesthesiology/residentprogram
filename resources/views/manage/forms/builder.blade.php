@@ -58,6 +58,13 @@
 								"<input type='number' class='form-control' placeholder='Number' disabled />" +
 								"</div>";
 
+		var checkboxHtml = "<div class='col-md-2 ctr-contents tdRdoBtn'>" +
+											"<input type='checkbox' disabled/>" +
+											"<input class='form-input form-option form-option-text form-control' placeholder='Option Text' />" +
+											"<input class='form-input form-option form-option-value form-control' type='text' placeholder='Option Value' />" +
+											"<textarea class='form-input form-option form-option-description form-control' type='text' placeholder='Hover Description'></textarea>" +
+										"</div>";
+
 		var milestoneOptionsHtml =
 									@foreach($milestoneGroups as $groupLabel => $milestoneGroup)
 										"<optgroup label='{{ $groupLabel }}'>" +
@@ -83,6 +90,7 @@
 										 "<option value='text'>Text</option>" +
 										 "<option value='radiononnumeric'>Radio (non-numeric)</option>" +
 										 "<option value='number'>Number</option>" +
+										 "<option value='checkbox'>Checkbox</option>" +
 									 "</select>";
 
 		var questionHtml = "<div class='container-fluid form-question form-block'>" +
@@ -209,6 +217,9 @@
 			else if($(this).val() === "radiononnumeric"){
 				formQuestion.find(".form-options").html(radioNonNumericHtml);
 			}
+			else if($(this).val() === "checkbox"){
+				formQuestion.find(".form-options").html(checkboxHtml);
+			}
 			else if($(this).val() === "text"){
 				formQuestion.find(".form-options").html(textHtml);
 				formQuestion.find("textarea").attr("name", questionId+":textResponse");
@@ -235,11 +246,13 @@
 		$(".form").on("change", ".form-option-value", function(){
 		//Adds input boxes for a new option when giving the current option a numeric value
 			if($(this).val() != ""){
-				if($(this).parent().next().length == 0){
-					if($(".form-question-type").val() == "radio")
+				if($(this).parent().next().length === 0){
+					if($(".form-question-type").val() === "radio")
 						$(this).parent().parent().append(radioHtml);
-					else if($(".form-question-type").val() == "radiononnumeric")
+					else if($(".form-question-type").val() === "radiononnumeric")
 						$(this).parent().parent().append(radioNonNumericHtml);
+					else if($(".form-question-type").val() === "checkbox")
+						$(this).parent().parent().append(checkboxHtml);
 				}
 			}
 			else{
@@ -285,6 +298,8 @@
 						formOption = formOptions.append(radioHtml).children().last();
 					else if(questionType == "radiononnumeric")
 						formOption = formOptions.append(radioNonNumericHtml).children().last();
+					else if(questionType === "checkbox")
+						formOption = formOptions.append(checkboxHtml).children().last();
 					else
 						return;
 					formOption.find(".form-option-value").val(options[i].value);
@@ -367,6 +382,8 @@
 					formOption = container.append(radioHtml).children().last();
 				else if(questionType == "radiononnumeric")
 					formOption = container.append(radioNonNumericHtml).children().last();
+				else if(questionType === "checkbox")
+					formOption = container.append(checkboxHtml).children().last();
 				else
 					return;
 				formOption.find(".form-option-value").val(options[i].value);

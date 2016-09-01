@@ -515,16 +515,28 @@ class MainController extends Controller
                     if(strpos($question, "weight"))
                         $weight = $value;
                     elseif($value != ""){
-                        if(is_numeric($value)){
-                            $response = Response::firstOrNew(["evaluation_id" => $id, "question_id" => $question]);
-                            $response->weight = $weight;
-                        }
-                        else{
-                            $response = TextResponse::firstOrNew(["evaluation_id" => $id, "question_id" => $question]);
-                        }
+						if(is_array($value)){
+							$responses = TextResponse::where('evaluation_id', $id)->where('question_id', $question)->get();
+							foreach($responses as $response){
+								if(!in_array($response->response, $value))
+									$response->delete();
+							}
+							foreach($value as $checkboxValue){
+								TextResponse::firstOrCreate(["evaluation_id" => $id, "question_id" => $question, "response" => $checkboxValue]);
+							}
+						}
+						else {
+							if(is_numeric($value)){
+								$response = Response::firstOrNew(["evaluation_id" => $id, "question_id" => $question]);
+								$response->weight = $weight;
+							}
+							else{
+								$response = TextResponse::firstOrNew(["evaluation_id" => $id, "question_id" => $question]);
+							}
 
-                        $response->response = $value;
-                        $response->save();
+							$response->response = $value;
+							$response->save();
+						}
                     }
                 }
             }

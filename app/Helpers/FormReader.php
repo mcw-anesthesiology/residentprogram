@@ -35,7 +35,7 @@ class FormReader{
 
 		}
 		elseif($name == "option"){
-			if(in_array($questionType, ["radio", "radiononnumeric"])){
+			if(in_array($questionType, ["radio", "radiononnumeric", "checkbox"])){
 				if(isset($attrs["description"]))
 					$description = htmlspecialchars($attrs["description"], ENT_QUOTES);
 				else
@@ -44,7 +44,10 @@ class FormReader{
 				if($description != "")
 					$questionHasDescriptions = true;
 
-				$result .= "<div class='question-option {$questionName}'><label><span title='{$description}'><input type='radio' name='{$questionName}' value='{$attrs["value"]}' {$required} /><br />";
+				if($questionType == "checkbox")
+					$result .= "<div class='question-option {$questionName}'><label><span title='{$description}'><input type='checkbox' name='{$questionName}[]' value='{$attrs["value"]}' {$required} /><br />";
+				else
+					$result .= "<div class='question-option {$questionName}'><label><span title='{$description}'><input type='radio' name='{$questionName}' value='{$attrs["value"]}' {$required} /><br />";
 			}
 		}
 		elseif($name == "text"){
@@ -87,7 +90,7 @@ class FormReader{
 			elseif($questionType == "number"){
 				$result .= "<div class='question-option {$questionName}'><input type='number' class='form-control' name='{$questionName}' {$required} /></div>";
 			}
-			elseif(in_array($questionType, ["radio", "radiononnumeric"])){
+			elseif(in_array($questionType, ["radio", "radiononnumeric", "checkbox"])){
 				if($questionHasDescriptions){
 					$result .= "</div><div class='question-footer panel-footer'><div class='question-description-toggle'>";
 					$result .= "<button type='button' class='toggle-descriptions btn btn-info' data-id='{$questionName}'><span class='glyphicon glyphicon-zoom-in'></span> Show descriptions</button>";
