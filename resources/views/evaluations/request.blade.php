@@ -222,6 +222,20 @@
 		var type = "{{ $user->type }}";
 		var endOfMonth = {!! json_encode($endOfMonth) !!};
 
+		$("#subject").change(function(){
+			var selectedType = $("#subject option:selected").parent().attr("label");
+			if(selectedType === "Fellow"){
+				$("#evaluation-form optgroup[label='Resident'] option").prop("disabled", true);
+				$("#evaluation-form optgroup[label='Fellow'] option").prop("disabled", false);
+				$("#evaluation-form").val("").select2();
+			}
+			else {
+				$("#evaluation-form optgroup[label='Resident'] option").prop("disabled", false);
+				$("#evaluation-form optgroup[label='Fellow'] option").prop("disabled", true);
+				$("#evaluation-form").val("").select2();
+			}
+		});
+
 		$("#evaluation-month").change(function(){
 			var date = $(this).val();
 			var year = 0, month = 1, day = 2;
