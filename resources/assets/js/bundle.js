@@ -109,6 +109,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.renderCaseLogDetailsSchema = renderCaseLogDetailsSchema;
 	exports.generateCaseLogDetailsReport = generateCaseLogDetailsReport;
 	exports.generateCaseLogDetailsReportCharts = generateCaseLogDetailsReportCharts;
+	exports.generateCaseLogLocationReportTable = generateCaseLogLocationReportTable;
 	
 	var _chart = __webpack_require__(2);
 	
@@ -200,25 +201,50 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	
 	function generateCaseLogDetailsReport(caseLogs) {
+		if (!caseLogs || caseLogs.length === 0) return;
+	
 		var report = {};
 		caseLogs.forEach(function (caseLog) {
 			if (!report.hasOwnProperty(caseLog.details_schema.details_type)) report[caseLog.details_schema.details_type] = {
 				numCases: 0,
-				responseCounts: {}
+				types: {}
 			};
 			var detailsReport = report[caseLog.details_schema.details_type];
 			detailsReport.numCases++;
 	
-			var _loop = function _loop(name) {
-				if (!detailsReport.responseCounts[name]) detailsReport.responseCounts[name] = {};
-				caseLog.details[name].forEach(function (response) {
-					if (!detailsReport.responseCounts[name][response]) detailsReport.responseCounts[name][response] = 0;
-					detailsReport.responseCounts[name][response]++;
+			var _loop = function _loop(typeName) {
+				if (!detailsReport.types.hasOwnProperty(typeName)) detailsReport.types[typeName] = {
+					count: 0,
+					responses: {},
+					locations: {}
+				};
+	
+				detailsReport.types[typeName].count++;
+				caseLog.details[typeName].forEach(function (response) {
+					if (!detailsReport.types[typeName].responses.hasOwnProperty(response)) detailsReport.types[typeName].responses[response] = {
+						count: 0,
+						locations: {}
+					};
+					detailsReport.types[typeName].responses[response].count++;
+	
+					if (!detailsReport.types[typeName].responses[response].locations.hasOwnProperty(caseLog.location.name)) detailsReport.types[typeName].responses[response].locations[caseLog.location.name] = {
+						count: 0,
+						caseLogs: []
+					};
+					detailsReport.types[typeName].responses[response].locations[caseLog.location.name].count++;
+					detailsReport.types[typeName].responses[response].locations[caseLog.location.name].caseLogs.push(caseLog);
+	
+					if (!detailsReport.types[typeName].locations.hasOwnProperty(caseLog.location.name)) detailsReport.types[typeName].locations[caseLog.location.name] = {
+						count: 0,
+						caseLogs: []
+					};
+					detailsReport.types[typeName].locations[caseLog.location.name].count++;
+					detailsReport.types[typeName].locations[caseLog.location.name].caseLogs.push(caseLog);
 				});
 			};
 	
-			for (var name in caseLog.details) {
-				_loop(name);
+			for (var typeName in caseLog.details) {
+				_loop(typeName);
 			}
 		});
 		return report;
@@ -226,12 +252,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var chartColors = ['#FF6384', '#4BC0C0', '#FFCE56', '#E7E9ED', '#36A2EB'];
 	
-	function generateCaseLogDetailsReportCharts(caseLogs, name, container) {
+	function generateCaseLogDetailsReportCharts(report, name, container) {
 		var charts = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
 	
-		if (!caseLogs || caseLogs.length === 0) return;
-	
-		var report = generateCaseLogDetailsReport(caseLogs);
+		if (!report || report.length === 0) return;
 	
 		var reportGroupNames = Object.keys(report);
 		var _iteratorNormalCompletion = true;
@@ -346,8 +370,8 @@ return /******/ (function(modules) { // webpackBootstrap
 				while (numCasesTd.firstChild) {
 					numCasesTd.removeChild(numCasesTd.firstChild);
 				}numCasesTd.appendChild(document.createTextNode(numCases));
-				if (report[reportGroupName].responseCounts[name]) {
-					var responses = Object.keys(report[reportGroupName].responseCounts[name]).sort();
+				if (report[reportGroupName].types[name]) {
+					var responses = Object.keys(report[reportGroupName].types[name].responses).sort();
 					var _iteratorNormalCompletion3 = true;
 					var _didIteratorError3 = false;
 					var _iteratorError3 = undefined;
@@ -356,7 +380,7 @@ return /******/ (function(modules) { // webpackBootstrap
 						for (var _iterator3 = responses[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
 							var response = _step3.value;
 	
-							var count = report[reportGroupName].responseCounts[name][response];
+							var count = report[reportGroupName].types[name].responses[response].count;
 							var percentage = Math.round(count / numCases * 100);
 							data.datasets[0].data.push(count);
 							data.datasets[0].backgroundColor.push(chartColors[data.datasets[0].data.length - 1]);
@@ -426,6 +450,104 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 	
 		return charts;
+	}
+	
+	function generateCaseLogLocationReportTable(report, name, container) {
+		if (!report || report.length === 0) return;
+	
+		var reportGroupNames = Object.keys(report);
+		var _iteratorNormalCompletion4 = true;
+		var _didIteratorError4 = false;
+		var _iteratorError4 = undefined;
+	
+		try {
+			for (var _iterator4 = reportGroupNames[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+				var reportGroupName = _step4.value;
+	
+				var reportGroupSection = container.querySelector('section[data-report-group-name="' + reportGroupName + '"]');
+				var tbody = reportGroupSection.querySelector('table.location-table tbody');
+				if (!tbody) {
+					var statsContainer = reportGroupSection.querySelector('.case-log-report-stats-container');
+					var locationTable = document.createElement('table');
+					var thead = document.createElement('thead');
+					tbody = document.createElement('tbody');
+					var tr = document.createElement('tr');
+					var th = document.createElement('th');
+					locationTable.className = 'table table-striped table-bordered location-table';
+					statsContainer.appendChild(locationTable);
+					locationTable.appendChild(thead);
+					locationTable.appendChild(tbody);
+					thead.appendChild(tr);
+					tr.appendChild(th);
+					th.appendChild(document.createTextNode('Location'));
+					th = document.createElement('th');
+					tr.appendChild(th);
+					th.appendChild(document.createTextNode('Times selected'));
+					th = document.createElement('th');
+					tr.appendChild(th);
+					th.appendChild(document.createTextNode('Percentage'));
+				}
+	
+				while (tbody.firstChild) {
+					tbody.removeChild(tbody.firstChild);
+				}var numCases = report[reportGroupName].numCases;
+				if (report[reportGroupName].types[name]) {
+					var locations = Object.keys(report[reportGroupName].types[name].locations).sort();
+					var _iteratorNormalCompletion5 = true;
+					var _didIteratorError5 = false;
+					var _iteratorError5 = undefined;
+	
+					try {
+						for (var _iterator5 = locations[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+							var location = _step5.value;
+	
+							var count = report[reportGroupName].types[name].locations[location].count;
+							var percentage = Math.round(count / numCases * 100);
+	
+							var _tr2 = document.createElement('tr');
+							var _th2 = document.createElement('th');
+							var selectedTd = document.createElement('td');
+							var percentageTd = document.createElement('td');
+	
+							_th2.appendChild(document.createTextNode(location));
+							selectedTd.appendChild(document.createTextNode(count));
+							percentageTd.appendChild(document.createTextNode(percentage + '%'));
+	
+							_tr2.appendChild(_th2);
+							_tr2.appendChild(selectedTd);
+							_tr2.appendChild(percentageTd);
+							tbody.appendChild(_tr2);
+						}
+					} catch (err) {
+						_didIteratorError5 = true;
+						_iteratorError5 = err;
+					} finally {
+						try {
+							if (!_iteratorNormalCompletion5 && _iterator5.return) {
+								_iterator5.return();
+							}
+						} finally {
+							if (_didIteratorError5) {
+								throw _iteratorError5;
+							}
+						}
+					}
+				}
+			}
+		} catch (err) {
+			_didIteratorError4 = true;
+			_iteratorError4 = err;
+		} finally {
+			try {
+				if (!_iteratorNormalCompletion4 && _iterator4.return) {
+					_iterator4.return();
+				}
+			} finally {
+				if (_didIteratorError4) {
+					throw _iteratorError4;
+				}
+			}
+		}
 	}
 
 /***/ },

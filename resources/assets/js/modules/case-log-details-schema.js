@@ -80,23 +80,57 @@ export function renderCaseLogDetailsSchema(schema, responses, container = docume
 
 
 export function generateCaseLogDetailsReport(caseLogs){
+	if(!caseLogs || caseLogs.length === 0)
+		return;
+
 	let report = {};
 	caseLogs.forEach(caseLog => {
 		if(!report.hasOwnProperty(caseLog.details_schema.details_type))
 			report[caseLog.details_schema.details_type] = {
 				numCases: 0,
-				responseCounts: {}
+				types: {}
 			};
 		let detailsReport = report[caseLog.details_schema.details_type];
 		detailsReport.numCases++;
 
-		for(let name in caseLog.details){
-			if(!detailsReport.responseCounts[name])
-				detailsReport.responseCounts[name] = {};
-			caseLog.details[name].forEach(response => {
-				if(!detailsReport.responseCounts[name][response])
-					detailsReport.responseCounts[name][response] = 0;
-				detailsReport.responseCounts[name][response]++;
+		for(let typeName in caseLog.details){
+			if(!detailsReport.types.hasOwnProperty(typeName))
+				detailsReport.types[typeName] = {
+					count: 0,
+					responses: {},
+					locations: {}
+				};
+
+			detailsReport.types[typeName].count++;
+			caseLog.details[typeName].forEach(response => {
+				if(!detailsReport.types[typeName].responses.hasOwnProperty(response))
+					detailsReport.types[typeName].responses[response] = {
+						count: 0,
+						locations: {}
+					};
+				detailsReport.types[typeName].responses[response].count++;
+
+				if(!detailsReport.types[typeName].responses[response]
+						.locations.hasOwnProperty(caseLog.location.name))
+					detailsReport.types[typeName].responses[response]
+						.locations[caseLog.location.name] = {
+							count: 0,
+							caseLogs: []
+						};
+				detailsReport.types[typeName].responses[response]
+					.locations[caseLog.location.name].count++;
+				detailsReport.types[typeName].responses[response]
+					.locations[caseLog.location.name].caseLogs.push(caseLog);
+
+				if(!detailsReport.types[typeName].locations
+						.hasOwnProperty(caseLog.location.name))
+					detailsReport.types[typeName].locations[caseLog.location.name] = {
+						count: 0,
+						caseLogs: []
+					};
+				detailsReport.types[typeName].locations[caseLog.location.name].count++;
+				detailsReport.types[typeName].locations[caseLog.location.name]
+					.caseLogs.push(caseLog);
 			});
 		}
 	});
@@ -111,11 +145,9 @@ const chartColors = [
     '#36A2EB'
 ];
 
-export function generateCaseLogDetailsReportCharts(caseLogs, name, container, charts = {}){
-	if(!caseLogs || caseLogs.length === 0)
+export function generateCaseLogDetailsReportCharts(report, name, container, charts = {}){
+	if(!report || report.length === 0)
 		return;
-
-	const report = generateCaseLogDetailsReport(caseLogs);
 
 	let reportGroupNames = Object.keys(report);
 	for(let section of container.querySelectorAll('row')){
@@ -205,10 +237,10 @@ export function generateCaseLogDetailsReportCharts(caseLogs, name, container, ch
 		while(numCasesTd.firstChild)
 			numCasesTd.removeChild(numCasesTd.firstChild);
 		numCasesTd.appendChild(document.createTextNode(numCases));
-		if(report[reportGroupName].responseCounts[name]){
-			let responses = Object.keys(report[reportGroupName].responseCounts[name]).sort();
+		if(report[reportGroupName].types[name]){
+			let responses = Object.keys(report[reportGroupName].types[name].responses).sort();
 			for(let response of responses){
-				let count = report[reportGroupName].responseCounts[name][response];
+				let count = report[reportGroupName].types[name].responses[response].count;
 				let percentage = Math.round((count/numCases) * 100);
 				data.datasets[0].data.push(count);
 				data.datasets[0].backgroundColor
@@ -252,4 +284,63 @@ export function generateCaseLogDetailsReportCharts(caseLogs, name, container, ch
 	}
 
 	return charts;
+}
+
+export function generateCaseLogLocationReportTable(report, name, container){
+	if(!report || report.length === 0)
+		return;
+
+	let reportGroupNames = Object.keys(report);
+	for(let reportGroupName of reportGroupNames){
+		let reportGroupSection = container
+			.querySelector(`section[data-report-group-name="${reportGroupName}"]`);
+		let tbody = reportGroupSection.querySelector('table.location-table tbody');
+		if(!tbody){
+			let statsContainer = reportGroupSection.querySelector('.case-log-report-stats-container');
+			let locationTable = document.createElement('table');
+			let thead = document.createElement('thead');
+			tbody = document.createElement('tbody');
+			let tr = document.createElement('tr');
+			let th = document.createElement('th');
+			locationTable.className = 'table table-striped table-bordered location-table';
+			statsContainer.appendChild(locationTable);
+			locationTable.appendChild(thead);
+			locationTable.appendChild(tbody);
+			thead.appendChild(tr);
+			tr.appendChild(th);
+			th.appendChild(document.createTextNode('Location'));
+			th = document.createElement('th');
+			tr.appendChild(th);
+			th.appendChild(document.createTextNode('Times selected'));
+			th = document.createElement('th');
+			tr.appendChild(th);
+			th.appendChild(document.createTextNode('Percentage'));
+		}
+
+		while(tbody.firstChild)
+			tbody.removeChild(tbody.firstChild);
+
+		let numCases = report[reportGroupName].numCases;
+		if(report[reportGroupName].types[name]){
+			let locations = Object.keys(report[reportGroupName].types[name].locations).sort();
+			for(let location of locations){
+				let count = report[reportGroupName].types[name].locations[location].count;
+				let percentage = Math.round((count/numCases) * 100);
+
+				let tr = document.createElement('tr');
+				let th = document.createElement('th');
+				let selectedTd = document.createElement('td');
+				let percentageTd = document.createElement('td');
+
+				th.appendChild(document.createTextNode(location));
+				selectedTd.appendChild(document.createTextNode(count));
+				percentageTd.appendChild(document.createTextNode(`${percentage}%`));
+
+				tr.appendChild(th);
+				tr.appendChild(selectedTd);
+				tr.appendChild(percentageTd);
+				tbody.appendChild(tr);
+			}
+		}
+	}
 }

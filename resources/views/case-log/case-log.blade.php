@@ -62,6 +62,7 @@
 @section("script")
 	<script>
 		var charts = {};
+		var report = {};
 
 		// TODO: Only show when canLog
 		var detailsSchema = {!! $detailsSchema->toJson() !!};
@@ -135,7 +136,9 @@
 		function runCaseLogsReport(caseLogs){
 			var statsContainer = document.getElementById('case-log-stats-container');
 			var name = $("#case-log-details-report-name").val();
-			charts = generateCaseLogDetailsReportCharts(caseLogs, name, statsContainer, charts);
+			report = generateCaseLogDetailsReport(caseLogs);
+			charts = generateCaseLogDetailsReportCharts(report, name, statsContainer, charts);
+			generateCaseLogLocationReportTable(report, name, statsContainer);
 		}
 
 		$("#case-log-details-report-name").change(function(){
