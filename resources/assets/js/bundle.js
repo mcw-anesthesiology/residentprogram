@@ -250,7 +250,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		return report;
 	}
 	
-	var chartColors = ['#FF6384', '#4BC0C0', '#FFCE56', '#E7E9ED', '#36A2EB'];
+	var chartColors = ['#FF6384', '#4BC0C0', '#FFCE56', '#E7E9ED', '#36A2EB', '#7eda35', '#462aa3', '#dd2727', '#f09113', '#1a7829'];
 	
 	function generateCaseLogDetailsReportCharts(report, name, container) {
 		var charts = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];

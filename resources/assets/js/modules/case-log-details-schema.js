@@ -142,7 +142,12 @@ const chartColors = [
     '#4BC0C0',
     '#FFCE56',
     '#E7E9ED',
-    '#36A2EB'
+    '#36A2EB',
+	'#7eda35',
+	'#462aa3',
+	'#dd2727',
+	'#f09113',
+	'#1a7829'
 ];
 
 export function generateCaseLogDetailsReportCharts(report, name, container, charts = {}){
