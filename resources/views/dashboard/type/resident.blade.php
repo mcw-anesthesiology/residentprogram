@@ -20,7 +20,7 @@
 
 @if($user->evaluatorEvaluations()->where("status", "pending")->count() > 0)
 <div class="container body-block">
-	<h2 class="sub-header"><span class="glyphicon glyphicon-inbox"></span> Pending Evaluations</h2>
+	<h2 class="sub-header"><span class="glyphicon glyphicon-inbox"></span> Evaluations to complete</h2>
 	<div class="table-responsive">
 		<table class="table table-striped" id="pending-resident-evaluator-table" width="100%">
 			<thead>

@@ -6,9 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Scopes\EvaluationScope;
 
+use Carbon\Carbon;
+
 use Auth;
 use Log;
 use Mail;
+use Setting;
 
 class Evaluation extends Model
 {
@@ -87,7 +90,29 @@ class Evaluation extends Model
 	}
 
 	public function getVisibilityAttribute(){
-        return empty($this->attributes["visibility"]) ? $this->form->visibility : $this->attributes["visibility"];
+		if(empty($this->attributes["visibility"])){
+			// Hide faculty evals to their subjects if under num and time thresholds
+			if($this->status == "complete" && $this->form->type == "faculty"){
+				$facultyEvalThreshold = Setting::get("facultyEvalThreshold");
+				$facultyEvalTimeThreshold = Setting::get("facultyEvalTimeThreshold");
+				if($this->complete_date >= Carbon::parse($facultyEvalTimeThreshold)){
+					$evals = $this->subject->subjectEvaluations()
+						->where("form_id", $this->form_id)->where("complete_date", ">=", $facultyEvalTimeThreshold)->get();
+					$evalsUnderThreshold = $evals->splice($evals->count() % $facultyEvalThreshold);
+					$evalIdsUnderThreshold = $evalsUnderThreshold->pluck("id");
+					if($evalIdsUnderThreshold->contains($this->id))
+						return "under faculty threshold";
+				}
+			}
+			else {
+				return $this->form->visibility;
+			}
+		}
+		else {
+			return $this->attributes["visibility"];
+		}
+
+		return $this->form->visibility;
 	}
 
     public function getUrlAttribute(){
@@ -137,6 +162,11 @@ class Evaluation extends Model
             });
         });
     }
+
+	public function scopeCompletedBefore($query, $dateString){
+		$date = Carbon::parse($dateString);
+		return $query->where("status", "complete")->where("complete_date", "<", $date);
+	}
 
     public function sendNotification($reminder = false){
         try{
