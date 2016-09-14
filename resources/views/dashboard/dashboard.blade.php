@@ -196,7 +196,7 @@
 				dataSrc: ""
 			},
 			columns: [
-				{data: "url"},
+				{data: "url", render: renderEvaluatorEvalUrl},
 				{data: "subject.full_name"},
 				{data: "form.title"},
 				{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
@@ -295,7 +295,7 @@
 				dataSrc: ""
 			},
 			columns: [
-				{data: "url"},
+				{data: "url", render: renderEvaluatorEvalUrl},
 				{data: "subject.full_name"},
 				{data: "form.title"},
 				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
@@ -334,7 +334,7 @@
 				dataSrc: ""
 			},
 			columns: [
-				{data: "url"},
+				{data: "url", render: renderSubjectEvalUrl},
 				{data: "evaluator.full_name", render: function(name){
 					if(!name)
 						return '<i>Anonymous</i>';
@@ -370,7 +370,7 @@
 				dataSrc: ""
 			},
 			columns: [
-				{data: "url"},
+				{data: "url", render: renderSubjectEvalUrl},
 				{data: "evaluator.full_name", render: function(name){
 					if(!name)
 						return '<i>Anonymous</i>';
@@ -431,7 +431,7 @@
 				dataSrc: ""
 			},
 			columns: [
-				{data: "url"},
+				{data: "url", render: renderEvaluatorEvalUrl},
 				{data: "subject.full_name"},
 				{data: "form.title"},
 				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
@@ -545,6 +545,7 @@
 		});
 
 		$(".table").on("click", ".cancel-eval-button", function(event){
+			event.stopPropagation();
 			var id = $(this).data("id");
 			$(".modal-cancel #submit-cancel-eval").val(id);
 			$(".bs-cancel-modal-sm").modal("toggle");
@@ -558,7 +559,7 @@
 
 			var evalId = $(this).val();
 
-			var row = $("#cancel-" + data.id).parents("tr");
+			var row = $(".cancel-eval-button[data-id='" + evalId + "']").parents("tr");
 
 			$.ajax({
 				url: "/evaluations/" + evalId + "/cancel",
@@ -582,9 +583,9 @@
 					}
 				}
 				else
-					alert(response);
+					appendAlert(response);
 			}).fail(function(){
-				alert("Error removing evaluation.")
+				appendAlert("Error removing evaluation.")
 			});
 
 			$(".bs-cancel-modal-sm").modal("toggle");

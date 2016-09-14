@@ -54,7 +54,7 @@
 				dataSrc: ""
 			},
 			columns: [
-				{data: "url"},
+				{data: "url", render: renderSubjectEvalUrl},
 				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell}
 			],
 			order: [[0, "desc"]],

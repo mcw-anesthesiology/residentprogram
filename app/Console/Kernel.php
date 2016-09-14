@@ -20,7 +20,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         \App\Console\Commands\SendReminders::class,
-		\App\Console\Commands\RunAdvancements::class
+		\App\Console\Commands\RunAdvancements::class,
+		\App\Console\Commands\ReleaseFacultyEvals::class
     ];
 
     /**
@@ -44,5 +45,7 @@ class Kernel extends ConsoleKernel
 
 		// Run advancements hourly
 		$schedule->command("advancements:run")->hourly();
+
+		$schedule->command("release:faculty-evals")->daily();
     }
 }

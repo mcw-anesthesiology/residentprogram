@@ -84,7 +84,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	});
 	
-	var _utils = __webpack_require__(58);
+	var _utils = __webpack_require__(59);
 	
 	Object.keys(_utils).forEach(function (key) {
 	  if (key === "default") return;
@@ -14090,14 +14090,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.renderEvaluationStatus = renderEvaluationStatus;
 	exports.renderTrainingLevel = renderTrainingLevel;
 	exports.renderSecondaryTrainingLevel = renderSecondaryTrainingLevel;
+	exports.renderSubjectEvalUrl = renderSubjectEvalUrl;
+	exports.renderEvaluatorEvalUrl = renderEvaluatorEvalUrl;
 	exports.createEditAndDeleteButtons = createEditAndDeleteButtons;
 	exports.getDataAttributes = getDataAttributes;
+	
+	var _constants = __webpack_require__(58);
+	
+	var _utils = __webpack_require__(59);
 	
 	var _moment = __webpack_require__(32);
 	
 	var _moment2 = _interopRequireDefault(_moment);
-	
-	var _utils = __webpack_require__(58);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -14197,6 +14201,22 @@ return /******/ (function(modules) { // webpackBootstrap
 		return "";
 	}
 	
+	function renderSubjectEvalUrl(url, type, evaluation) {
+		if (['sort', 'type'].indexOf(type) !== -1) {
+			if (evaluation.seen_by_subject_at) return evaluation.id;else return evaluation.id * _constants.UNSEEN_EVALUATION_PRIORITY;
+		}
+	
+		if (evaluation.seen_by_subject_at) return url;else return _constants.NEW_ITEM_TAG + ' ' + url;
+	}
+	
+	function renderEvaluatorEvalUrl(url, type, evaluation) {
+		if (['sort', 'type'].indexOf(type) !== -1) {
+			if (evaluation.seen_by_evaluator_at) return evaluation.id;else return evaluation.id * _constants.UNSEEN_EVALUATION_PRIORITY;
+		}
+	
+		if (evaluation.seen_by_evaluator_at) return url;else return _constants.NEW_ITEM_TAG + ' ' + url;
+	}
+	
 	function createEditAndDeleteButtons(thing, name) {
 		var dataAttributes = getDataAttributes(thing);
 	
@@ -14219,6 +14239,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 58 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var NEW_ITEM_TAG = exports.NEW_ITEM_TAG = '<span class="label label-primary">NEW</span>';
+	
+	var UNSEEN_EVALUATION_PRIORITY = exports.UNSEEN_EVALUATION_PRIORITY = 1000000;
+
+/***/ },
+/* 59 */
 /***/ function(module, exports) {
 
 	'use strict';

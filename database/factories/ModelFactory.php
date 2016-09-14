@@ -152,6 +152,16 @@ $factory->defineAs(App\Evaluation::class, "complete", function(Faker $faker) use
     ]);
 });
 
+$factory->defineAs(App\Evaluation::class, "faculty-complete", function(Faker $faker) use ($factory){
+    $evaluation = $factory->raw(App\Evaluation::class);
+    return array_merge($evaluation, [
+        "status" => "complete",
+		"visibility" => "under faculty threshold",
+        "complete_date" => Carbon\Carbon::now(),
+        "complete_ip" => str_random(10)
+    ]);
+});
+
 $factory->defineAs(App\Evaluation::class, "with-hash", function(Faker $faker) use ($factory){
     $evaluation = $factory->raw(App\Evaluation::class);
     return array_merge($evaluation, [

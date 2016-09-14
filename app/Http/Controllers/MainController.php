@@ -306,6 +306,7 @@ class MainController extends Controller
 
                 $eval->subject_id = $request->input("subject_id");
 
+				// Hide faculty evals from their subjects by default
 				if($eval->visibility == $eval->form->visibility)
 					$eval->visibility = "under faculty threshold";
 	        }
@@ -430,16 +431,7 @@ class MainController extends Controller
 			$statusLabel = "<span class='label {$labelContext}'>" . ucfirst($evaluation->status) . "</span>";
 
 	        $data = compact("evaluation", "subjectString", "evaluatorString", "statusLabel");
-	        if($evaluation->subject_id == $user->id && $user->type == "faculty"){
-	            $threshold = Setting::get("facultyEvalThreshold");
-	            $evaluations = Evaluation::where("subject_id", $user->id)->where("status", "complete")->orderBy("id", "desc")->get();
-	            $evaluations = $evaluations->splice($evaluations->count()%$threshold);
-	            if($evaluations->contains($evaluation))
-	                return view("evaluations.evaluation", $data);
-	            else
-					throw new \Exception("Insufficient permissions to view the requested evaluation");
-	        }
-	        elseif((($evaluation->subject_id == $user->id || $user->mentees->contains($evaluation->subject)) && in_array($evaluation->visibility, ["visible", "anonymous"])) || $evaluation->evaluator_id == $user->id || $user->watchedForms->pluck("form_id")->contains($evaluation->form_id) || $user->isType("admin")){
+	        if((($evaluation->subject_id == $user->id || $user->mentees->contains($evaluation->subject)) && in_array($evaluation->visibility, ["visible", "anonymous"])) || $evaluation->evaluator_id == $user->id || $user->watchedForms->pluck("form_id")->contains($evaluation->form_id) || $user->isType("admin")){
 				if($user->isType("admin") || $evaluation->evaluator_id == $user->id){
 					switch($evaluation->evaluator->type){
 	                    // FIXME: These subjectTypes aren't correct
@@ -463,6 +455,18 @@ class MainController extends Controller
 					$flaggedActions = Setting::get("flaggedActions");
 					$data += compact("subjectType", "possibleSubjects", "possibleForms", "flaggedActions");
 				}
+
+				if($evaluation->subject_id == $user->id && !$evaluation->seen_by_subject_at){
+					$evaluation->seen_by_subject_at = Carbon::now();
+					$evaluation->save();
+				}
+
+				if($evaluation->evaluator_id == $user->id && !$evaluation->seen_by_evaluator_at){
+					$evaluation->seen_by_evaluator_at = Carbon::now();
+					$evaluation->save();
+				}
+
+
 	            return view("evaluations.evaluation", $data);
 			}
 	        else
@@ -491,19 +495,6 @@ class MainController extends Controller
                 $eval->complete_date = Carbon::now();
 				if(!$eval->training_level)
                 	$eval->training_level = $eval->subject->training_level;
-				if($eval->form->type == "faculty" && $eval->visibility == "under faculty threshold"){
-					$hiddenFormEvals = $eval->form->evaluations()
-						->where("visibility", "under faculty threshold")
-						->orderBy("id", "desc")->get();
-					$threshold = Setting::get("facultyEvalThreshold");
-					if($hiddenFormEvals->count() >= $threshold){
-						$evalsToUnhide = $hiddenFormEvals->splice($hiddenFormEvals->count()%$threshold);
-						$evalsToUnhide->each(function($evalToUnhide){
-							$evalToUnhide->visibility = $evalToUnhide->form->visibility;
-							$evalToUnhide->save();
-						});
-					}
-				}
             }
             $eval->complete_ip = $request->ip();
 			if(!$eval->evaluation_date)

@@ -1,5 +1,7 @@
-import moment from 'moment';
+import { NEW_ITEM_TAG, UNSEEN_EVALUATION_PRIORITY } from './constants.js';
 import { ucfirst } from './utils.js';
+
+import moment from 'moment';
 
 export function unlimitTableEvals(){
 	let dt = this.DataTable({
@@ -107,6 +109,34 @@ export function renderSecondaryTrainingLevel(secondaryTrainingLevel){
 	}
 
 	return "";
+}
+
+export function renderSubjectEvalUrl(url, type, evaluation){
+	if(['sort', 'type'].includes(type)){
+		if(evaluation.seen_by_subject_at)
+			return evaluation.id;
+		else
+			return evaluation.id * UNSEEN_EVALUATION_PRIORITY;
+	}
+
+	if(evaluation.seen_by_subject_at)
+		return url;
+	else
+		return `${NEW_ITEM_TAG} ${url}`;
+}
+
+export function renderEvaluatorEvalUrl(url, type, evaluation){
+	if(['sort', 'type'].includes(type)){
+		if(evaluation.seen_by_evaluator_at)
+			return evaluation.id;
+		else
+			return evaluation.id * UNSEEN_EVALUATION_PRIORITY;
+	}
+
+	if(evaluation.seen_by_evaluator_at)
+		return url;
+	else
+		return `${NEW_ITEM_TAG} ${url}`;
 }
 
 export function createEditAndDeleteButtons(thing, name){
