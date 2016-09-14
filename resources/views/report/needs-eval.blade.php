@@ -259,7 +259,7 @@
 			var dateFormat = "MMMM D, YYYY";
 
 			var subjectText = "Please request evaluations!";
-			var bodyText = "Hello Dr. " + user.lastName + "\n"
+			var bodyText = "Hello Dr. " + user.last_name + "\n"
 				+ "\n"
 				+ "You have " + evalsCompleted + " evaluations completed for between "
 				+ startDate.format(dateFormat) + " and " + endDate.format(dateFormat) + ".\n\n"
