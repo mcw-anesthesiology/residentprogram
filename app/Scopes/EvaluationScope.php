@@ -12,20 +12,6 @@ class EvaluationScope implements Scope {
 	public function apply(Builder $builder, Model $model){
 		$user = Auth::user();
 
-		// TODO: Run this to hide faculty evals
-		// $threshold = Setting::get("facultyEvalThreshold");
-		// $faculty = User::where("type", "faculty")->get();
-		// $faculty->each(function($fac) use ($threshold){
-		// 	$evaluations = $fac->subjectEvaluations()->notHidden()
-		//     	->where("status", "complete")->orderBy("id", "desc")
-		//     	->orderBy("id", "desc")->get();
-		// 	$evaluations->splice($evaluations->count()%$threshold);
-		// 	$evaluations->each(function($eval){
-		// 		$eval->visibility = "under faculty threshold";
-		// 	});
-		// });
-
-
 		if(!empty($user) && !$user->isType("admin"))
 			return $builder->where("evaluator_id", $user->id)
 				->orWhere(function($query) use ($user){

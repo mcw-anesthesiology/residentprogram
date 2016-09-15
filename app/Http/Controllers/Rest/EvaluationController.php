@@ -68,7 +68,7 @@ class EvaluationController extends RestController
 	protected $model = \App\Evaluation::class;
 
 	public function update(Request $request, $id){
-		$eval = Evaluation::find($id);
+		$eval = Evaluation::findOrFail($id);
         if($request->has("action")){
             switch($request->input("action")){
                 case "disable":
@@ -113,6 +113,7 @@ class EvaluationController extends RestController
 
 	public function cancel(Request $request, $id){
 		$user = Auth::user();
+		$eval = Evaluation::findOrFail($id);
 
 		if($user->isType("admin"))
 			$userRole = "admin";

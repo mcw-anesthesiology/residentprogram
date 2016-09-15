@@ -6,6 +6,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use Carbon\Carbon;
 
+use Illuminate\Support\Facades\Artisan;
+
 class ResidentTest extends TestCase
 {
     use DatabaseTransactions;
@@ -13,6 +15,7 @@ class ResidentTest extends TestCase
     public function setUp(){
         parent::setUp();
 
+		$this->admin = factory(App\User::class, "admin")->create();
 		$this->user = factory(App\User::class, "resident")->create();
 		$this->faculty = factory(App\User::class, "faculty")->create();
 		$this->form = factory(App\Form::class, "resident")->create();
@@ -56,7 +59,7 @@ class ResidentTest extends TestCase
 		$firstOfMonth = Carbon::parse("first day of this month")->toDateString();
 		$this->actingAs($this->user)
 			->visit("/request")
-			->see("Request resident evaluation")
+			->see("Request trainee evaluation")
 			->call("POST", "/request", [
 				"evaluator_id" => $this->faculty->id,
 				"form_id" => $this->form->id,
@@ -269,6 +272,10 @@ class ResidentTest extends TestCase
 	            ->type("Have none.", "q3")
 	            ->press("Complete evaluation");
 		}
+
+		$this->actingAs($this->admin);
+
+		Artisan::call("release:faculty-evals");
 
 		$this->actingAs($this->faculty)
 			->visit("/evaluations")

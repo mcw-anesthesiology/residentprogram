@@ -199,7 +199,10 @@
 			<tr>
 				<th>#</th>
 				<th>Faculty</th>
+				<th>Form</th>
+				<th>Evaluation date</th>
 				<th>Started</th>
+				<th></th>
 			</tr>
 		</thead>
 	</table>
@@ -208,6 +211,7 @@
 
 @section("script")
 	<script>
+	var user = {!! $user->toJson() !!};
 	var requestType = "{{ $requestType }}";
 	@if(!empty($evaluators))
 		var evaluators = $.parseJSON('{!! $evaluators !!}');
@@ -374,10 +378,41 @@
 
 	@if($user->type == "resident" && $requestType == "faculty")
 			$("#block").select2();
-			$("#pending-faculty-evals").DataTable({
-				"ajax": "/dashboard/faculty/evaluations",
-				"order": [[0, "desc"]],
-				"createdRow": function(row, data, index){
+			var pendingFacultyEvalsTable = $("#pending-faculty-evals").DataTable({
+				ajax: {
+					url: "/evaluations",
+					data: {
+						whereHas: {
+							form: {
+								type: "faculty"
+							}
+						},
+						with: {
+							subject: ["full_name"],
+							form: ["title"]
+						},
+						evaluator_id: user.id,
+						status: "pending"
+					},
+					dataSrc: ""
+				},
+				columns: [
+					{data: "url", renderEvaluatorEvalUrl},
+					{data: "subject.full_name"},
+					{data: "form.title"},
+					{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+					{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
+					{data: null, render: function(eval){
+						if(eval.requested_by_id === user.id)
+							return '<button class="btn btn-danger btn-xs cancel-eval-button" '
+								+ 'data-id="' + eval.id + '"><span class="glyphicon glyphicon-remove"></span> '
+								+ 'Cancel</button>';
+
+						return '';
+					}}
+				],
+				order: [[0, "desc"]],
+				createdRow: function(row){
 					$(row).addClass("view-evaluation");
 				}
 			});

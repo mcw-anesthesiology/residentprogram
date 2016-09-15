@@ -82,7 +82,8 @@
 						],
 						form: [
 							"title",
-							"visibility"
+							"visibility",
+							"type"
 						]
 					}
 				},
@@ -119,6 +120,7 @@
 							visBtnType = "btn-info";
 							break;
 						case "anonymous":
+						case "under faculty threshold":
 							eyeType = "close";
 							visBtnType = "";
 							break;
@@ -131,6 +133,7 @@
 						+ label + '">' + ucfirst(eval.status) + '</span></span> '
 						+ '<br /><button type="button" class="visibility visibility-'
 						+ eval.visibility + ' btn ' + visBtnType + ' btn-xs"'
+						+ 'data-eval-type="' + eval.form.type + '" '
 						+ 'data-id="' + eval.id + '" data-current-visibility="'+ eval.visibility + '">'
 						+ ucfirst(eval.visibility)
 						+ ' <span class="glyphicon glyphicon-eye-' + eyeType
@@ -301,39 +304,54 @@
 			html: true,
 			selector: ".visibility",
 			trigger: "focus",
-			placement: "auto top",
+			placement: "auto left",
 			title: "Subject visibility",
 			content: function(){
 				var evalId = $(this).data("id");
-				return "<button type='button' class='visibility-edit btn btn-info' data-eval='" + evalId + "' data-visibility='visible'>Visible <span class='glyphicon glyphicon-eye-open'></span></button> " +
-				"<button type='button' class='visibility-edit btn' data-eval='" + evalId + "' data-visibility='anonymous'>Anonymous <span class='glyphicon glyphicon-eye-close'></span></button> " +
-				"<button type='button' class='visibility-edit btn btn-default' data-eval='" + evalId + "' data-visibility='hidden'>Hidden <span class='glyphicon glyphicon-eye-close'></span></button> " +
-				"<button type='button' class='visibility-edit btn btn-primary' data-eval='" + evalId + "' data-visibility='reset'>Reset <span class='glyphicon glyphicon-repeat'></span></button> ";
+				var evalType = $(this).data("evalType");
+				var buttons = "<button type='button' class='visibility-edit btn btn-info' data-eval='" + evalId + "' data-visibility='visible'>Visible <span class='glyphicon glyphicon-eye-open'></span></button> " +
+					"<button type='button' class='visibility-edit btn' data-eval='" + evalId + "' data-visibility='anonymous'>Anonymous <span class='glyphicon glyphicon-eye-close'></span></button> " +
+					"<button type='button' class='visibility-edit btn btn-default' data-eval='" + evalId + "' data-visibility='hidden'>Hidden <span class='glyphicon glyphicon-eye-close'></span></button> ";
+
+				if(evalType === 'faculty')
+					buttons += "<button type='button' class='visibility-edit btn' data-eval='" + evalId + "' data-visibility='under faculty threshold'>Under faculty threshold <span class='glyphicon glyphicon-eye-close'></span></button> ";
+
+				buttons += "<button ype='button' class='visibility-edit btn btn-primary' data-eval='" + evalId + "' data-visibility='reset'>Reset <span class='glyphicon glyphicon-repeat'></span></button> ";
+
+				return buttons;
 			}
 		});
 
 		$("#manage-evals-table").on("click", ".visibility-edit", function(){
 			var evalId = $(this).data("eval");
-			var data = {};
-			data._token = "{{ csrf_token() }}";
-			data.action = "visibility";
-			data.visibility = $(this).data("visibility");
-
+			var data = {
+				_token: "{{ csrf_token() }}",
+				action: "visibility",
+				visibility: $(this).data("visibility")
+			};
 			var button = $("#manage-evals-table .visibility[data-id='" + evalId +"']");
 			var originalVisibility = button.data("currentVisibility");
-			button.velocity("fadeOut", function(){
-				alterVisibilityButton(button, data.visibility);
-				button.velocity("fadeIn");
-			});
+
+			if(data.visibility !== "reset")
+				button.velocity("fadeOut", function(){
+					alterVisibilityButton(button, data.visibility);
+					button.velocity("fadeIn");
+				});
 
 			$.ajax({
 				url: "/evaluations/" + evalId,
 				method: "PATCH",
 				data: data
 			}).done(function(response){
-				if(response !== data.visibility){
+				if(data.visibility === "reset"){
+					button.velocity("fadeOut", function(){
+						alterVisibilityButton(button, response);
+						button.velocity("fadeIn");
+					});
+				}
+				else if(response !== data.visibility){
 					alterVisibilityButton(button, originalVisibility);
-					appendAlert(response);
+					appendAlert("There was a problem changing the visibility. Please refresh and try again");
 				}
 			}).fail(function(){
 				alterVisibilityButton(button, originalVisibility);
@@ -385,10 +403,14 @@
 					button.html("Anonymous <span class='glyphicon glyphicon-eye-close'></span>");
 					break;
 				case "hidden":
-				case "under faculty threshold":
 					button.removeClass("visibility-anonymous visibility-visible btn-info");
 					button.addClass("visibility-hidden btn-default");
 					button.html("Hidden <span class='glyphicon glyphicon-eye-close'></span>");
+					break;
+				case "under faculty threshold":
+					button.removeClass("visibility-visible visibility-hidden btn-info btn-default");
+					button.addClass("visibility-anonymous");
+					button.html("Under faculty threshold <span class='glyphicon glyphicon-eye-close'></span>");
 					break;
 			}
 		}

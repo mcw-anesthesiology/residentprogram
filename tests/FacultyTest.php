@@ -8,6 +8,8 @@ use Carbon\Carbon;
 
 use Faker\Factory as Faker;
 
+use Illuminate\Support\Facades\Artisan;
+
 class FacultyTest extends TestCase
 {
     use DatabaseTransactions;
@@ -15,6 +17,7 @@ class FacultyTest extends TestCase
     public function setUp(){
         parent::setUp();
 
+		$this->admin = factory(App\User::class, "admin")->create();
 		$this->user = factory(App\User::class, "faculty")->create();
 		$this->resident = factory(App\User::class, "resident")->create();
 		$this->form = factory(App\Form::class, "resident")->create();
@@ -59,7 +62,7 @@ class FacultyTest extends TestCase
         $evaluationDate = $faker->date();
         $this->actingAs($this->user)
 			->visit("/request")
-			->see("Create resident evaluation")
+			->see("Create trainee evaluation")
 			->post("/request", [
 				"subject_id" => $this->resident->id,
 				"form_id" => $this->form->id,
@@ -295,7 +298,8 @@ class FacultyTest extends TestCase
     }
 
     public function testViewFacultyEval(){
-        $eval = factory(App\Evaluation::class, "complete")->create([
+		$admin = factory(App\User::class, "admin")->create();
+        $eval = factory(App\Evaluation::class, "faculty-complete")->create([
             "form_id" => $this->facultyForm->id,
             "subject_id" => $this->user->id,
             "evaluator_id" => $this->resident->id,
@@ -309,15 +313,16 @@ class FacultyTest extends TestCase
             ->see("Error")
             ->see("Insufficient permissions to view the requested evaluation");
 
-        $evals = [
-            $eval,
-            factory(App\Evaluation::class, "complete", Setting::get("facultyEvalThreshold"))->create([
-                "form_id" => $this->facultyForm->id,
-                "subject_id" => $this->user->id,
-                "evaluator_id" => $this->resident->id,
-                "requested_by_id" => $this->resident->id
-            ])
-        ];
+		$newEvals = factory(App\Evaluation::class, "faculty-complete", (integer)Setting::get("facultyEvalThreshold"))->create([
+            "form_id" => $this->facultyForm->id,
+            "subject_id" => $this->user->id,
+            "evaluator_id" => $this->resident->id,
+            "requested_by_id" => $this->resident->id
+        ]);
+
+		$this->actingAs($this->admin);
+
+		Artisan::call("release:faculty-evals");
 
         $this->actingAs($this->user)
             ->visit("/dashboard")
@@ -325,6 +330,13 @@ class FacultyTest extends TestCase
             ->seePageIs("/evaluation/" . $eval->id)
             ->see("View Evaluation")
             ->dontSee($this->resident->last_name . ", " . $this->resident->first_name);
+
+		$this->actingAs($this->user)
+            ->visit("/dashboard")
+            ->visit("/evaluation/" . $newEvals[2]->id)
+            ->seePageIs("/dashboard")
+            ->see("Error")
+            ->see("Insufficient permissions to view the requested evaluation");
     }
 
     public function testViewMenteeEvals(){
