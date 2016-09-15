@@ -493,6 +493,7 @@ class MainController extends Controller
             if($request->input("evaluation_id")){
                 $eval->status = "complete";
                 $eval->complete_date = Carbon::now();
+				$eval->seen_by_subject_at = NULL;
 				if(!$eval->training_level)
                 	$eval->training_level = $eval->subject->training_level;
             }
