@@ -35,8 +35,7 @@
 		}
 
 		.subject-image img {
-			width: 100%;
-			max-width: 300px;
+			width: 300px;
 		}
 	</style>
 @stop
@@ -401,9 +400,11 @@
 			@endif
 			if($("#form textarea").length > 0){
 				// $("#form textarea").width("90%");
-				$("#form textarea").height($("#form textarea")[0].scrollHeight);
-				$("#form textarea").addClass("noprint");
-				$("#form textarea").parents("td").append("<div class='print'>"+$("#form textarea").val()+"</div>");
+				$("#form textarea").each(function(){
+					$(this).height($(this)[0].scrollHeight);
+					$(this).addClass("noprint");
+					$(this).parent().append("<div class='print'>"+$(this).val()+"</div>");
+				});
 			}
 			$("#form button").each(function(){
 				$(this).addClass("noprint");

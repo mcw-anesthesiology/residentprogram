@@ -90,8 +90,13 @@ class UserController extends RestController
 		if($request->hasFile("photo") && $request->file("photo")->isValid()){
 			$photoName = uniqid().".".$request->file("photo")->getExtension();
 			$request->file("photo")->move(storage_path("app/photos/"), $photoName);
-			if(!empty($user->photo_path))
-				unlink(storage_path("app/".$user->photo_path));
+			if(!empty($user->photo_path)){
+				try {
+					unlink(storage_path("app/".$user->photo_path));
+				} catch (\Exception $e){
+
+				}
+			}
 			$user->photo_path = "photos/".$photoName;
 		}
 
