@@ -30,6 +30,10 @@
 			word-wrap: break-word;
 		}
 
+		.question {
+			page-break-inside: avoid;
+		}
+
 		.subject-image {
 			text-align: center;
 		}
