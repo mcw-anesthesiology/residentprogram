@@ -21,7 +21,7 @@ class MilestoneQuestion extends Model
         return $this->belongsTo("App\Form");
     }
 
-    public function milestones(){
+    public function milestone(){
         return $this->belongsTo("App\Milestone");
     }
 }
