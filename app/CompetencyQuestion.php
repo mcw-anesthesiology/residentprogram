@@ -16,4 +16,12 @@ class CompetencyQuestion extends Model
     ];
 
     protected $fillable = ["form_id", "question_id", "competency_id"];
+
+	public function form(){
+		return $this->belongsTo("App\Form");
+	}
+
+	public function competency(){
+		return $this->belongsTo("App\Competency");
+	}
 }
