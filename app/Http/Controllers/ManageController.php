@@ -146,7 +146,7 @@ class ManageController extends Controller
 	}
 
     public function viewForm($id){
-        $form = Form::find($id);
+        $form = Form::with('milestoneQuestions.milestone', 'competencyQuestions.competency')->find($id);
         $data = compact("form");
         return view("manage.forms.view", $data);
     }
