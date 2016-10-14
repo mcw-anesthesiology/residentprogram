@@ -99,6 +99,7 @@ class ManageController extends Controller
 		$formDom->loadXML($formXml);
 		$formContents = [];
 		$formContents['title'] = $formDom->getElementsByTagName('title')->item(0)->textContent;
+		$formContents['formType'] = $form->type;
 		$formContents['items'] = [];
 		$root = $formDom->firstChild;
 		foreach($root->childNodes as $childNode){

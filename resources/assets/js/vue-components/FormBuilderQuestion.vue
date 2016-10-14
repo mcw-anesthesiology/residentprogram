@@ -1,88 +1,106 @@
 <template>
-	<div v-bind:id="questionId" class="container-fluid form-question form-block">
-		<div class="row" style="margin-top:5px;">
-			<div class="col-md-9">
-				<b>Question Text</b>
+	<div v-bind:id="questionId" class="form-question panel panel-default form-block">
+		<div class="panel-heading form-horizontal">
+			<div class="panel-title form-group">
+				<div class="col-sm-12">
+					<label class="containing-label">
+						Question Text
+						<div class="input-group">
+							<span class="question-id input-group-addon">{{questionId}}</span>
+							<input type="text" v-bind:value="text" v-on:input="$emit('change', {text: $event.target.value})" class="form-input form-question-text form-control" placeholder="Question Text" required />
+						</div>
+					</label>
+				</div>
+			</div>
+			<div class="hr-question"></div>
+			<div class="row">
+				<div class="col-md-4">
+					<label class="containing-label">
+						Question Type
+						<select v-bind:value="questionType" v-on:change="changeQuestionType" class="form-control form-question-type" name="questionType">
+							<option value="radio">Radio</option>
+							<option value="text">Text</option>
+							<option value="radiononnumeric">Radio (non-numeric)</option>
+							<option value="number">Number</option>
+							<option value="checkbox">Checkbox</option>
+						</select>
+					</label>
+				</div>
+				<div class="col-md-6">
+					<label>Question Options</label>
+					<div class="btn-group btn-group-justified">
+						<div class="btn-group">
+							<button v-on:click="setStandardOptions" class="form-question-standard-options btn btn-info" type="button">
+								Standard
+							</button>
+						</div>
+						<div class="btn-group">
+							<button v-bind:disabled="!milestones || milestones.length !== 1" v-on:click="setMilestoneOptions"
+									class="form-question-milestone-level-options btn btn-info" type="button">
+								Milestone
+							</button>
+						</div>
+						<div class="btn-group">
+							<button v-bind:disabled="!customOptions || customOptions.length < 1" v-on:click="setCustomOptions"
+									class="form-question-custom-options btn btn-info" type="button">
+								Custom
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-1 labelless-button">
+					<button v-on:click="$emit('remove')" class="form-block-delete btn btn-danger del-btn" type="button">
+						Delete
+					</button>
+				</div>
+				<div class="col-md-1">
+					<label class="containing-label">
+						Required
+						<input type="checkbox" v-bind:checked="required"
+							class="form-control form-question-required" value="required"
+							v-on:change="$emit('change', {required: $event.target.checked})"
+							/>
+					</label>
+				</div>
+			</div>
+			<div class="hr-question"></div>
+			<div class="row">
+				<div class="col-md-8">
+					<label v-show="shouldShowMilestonesAndCompetencies" class="containing-label">
+						Question Milestones
+						<select-two v-bind:value="milestones" v-bind:options="groupedMilestones" v-bind:multiple="true" v-on:input="$emit('change', {milestones: arguments[0]})" class="form-control form-question-milestone"></select-two>
+					</label>
+				</div>
+				<div class="col-md-4">
+					<label v-show="shouldShowMilestonesAndCompetencies" class="containing-label">
+						Question Competency
+						<select v-on:change="$emit('change', {competencies: $event.target.value})" class="form-control form-question-competency" placeholder="Competency">
+							<option value="" disabled>Select a competency</option>
+							<option v-for="competency of allCompetencies" v-bind:value="competency.id" v-bind:selected="competencies == competency.id">{{ competency.title }}</option>
+						</select>
+					</label>
+				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-6">
-				<input type="text" v-bind:value="text" v-on:input="$emit('change', {text: $event.target.value})" class="form-input form-question-text form-control" placeholder="Question Text" required />
-			</div>
-			<div class="col-md-2">
-				<button v-on:click="setStandardOptions" class="form-question-standard-options btn btn-info" type="button">Standard Options</button>
-			</div>
-			<div class="col-md-2">
-				<button v-bind:disabled="!milestones || milestones.length !== 1" v-on:click="setMilestoneOptions" class="form-question-milestone-level-options btn btn-info" type="button">Milestone Options</button>
-			</div>
-			<div class="col-md-1">
-				<button v-bind:disabled="!customOptions || customOptions.length < 1" v-on:click="setCustomOptions" class="form-question-custom-options btn btn-info" type="button">
-					Custom
-				</button>
-			</div>
-			<div class="col-md-1">
-				<button v-on:click="$emit('remove')" class="form-block-delete btn btn-danger del-btn" type="button">
-					Delete
-				</button>
-			</div>
-		</div>
-		<div class="hr-question"></div>
-		<div class="row">
-			<div class="col-md-6">
-				<label v-show="traineeForm" class="containing-label">
-					Question Milestone
-					<select-two v-bind:value="milestones" v-bind:options="groupedMilestones" v-bind:multiple="true" v-on:input="$emit('change', {milestones: arguments[0]})" class="form-control form-question-milestone"></select-two>
-				</label>
-			</div>
-			<div class="col-md-3">
-				<label v-show="traineeForm" class="containing-label">
-					Question Competency
-					<select v-on:change="$emit('change', {competencies: $event.target.value})" class="form-control form-question-competency" placeholder="Competency">
-						<option value="" disabled>Select a competency</option>
-						<option v-for="competency of allCompetencies" v-bind:value="competency.id" v-bind:selected="competencies == competency.id">{{ competency.title }}</option>
-					</select>
-				</label>
-			</div>
-			<div class="col-md-2">
-				<label class="containing-label">
-					Question Type
-					<select v-bind:value="questionType" v-on:change="changeQuestionType" class="form-control form-question-type" name="questionType">
-						<option value="radio">Radio</option>
-						<option value="text">Text</option>
-						<option value="radiononnumeric">Radio (non-numeric)</option>
-						<option value="number">Number</option>
-						<option value="checkbox">Checkbox</option>
-					</select>
-				</label>
-			</div>
-			<div class="col-md-1">
-				<label class="containing-label">
-					Required
-					<input type="checkbox" v-bind:checked="required"
-						class="form-control form-question-required" value="required"
-						v-on:change="$emit('change', {required: $event.target.checked})"
-						/>
-				</label>
-			</div>
-		</div>
-		<div class="hr-question"></div>
-		<div class="row form-options" style="margin-bottom:5px;">
-			<template v-if="['radio', 'radiononnumeric', 'checkbox'].includes(questionType)">
-				<form-builder-option v-for="(option, index) of optionsWithWorking"
-					v-bind="option" v-bind:type="questionType"
-					v-bind:is-working-option="option === workingOption"
-					v-on:input="handleWorkingOptionInput(index, arguments[0])"
-					v-on:change="handleOptionChange(index, arguments[0])"
-					>
-				</form-builder-option>
-			</template>
+		<div class="panel-body">
+			<div class="row form-options" style="margin-bottom:5px;">
+				<template v-if="['radio', 'radiononnumeric', 'checkbox'].includes(questionType)">
+					<form-builder-option v-for="(option, index) of optionsWithWorking"
+						v-bind="option" v-bind:type="questionType"
+						v-bind:is-working-option="option === workingOption"
+						v-on:input="handleWorkingOptionInput(index, arguments[0])"
+						v-on:change="handleOptionChange(index, arguments[0])"
+						>
+					</form-builder-option>
+				</template>
 
-			<div v-if="questionType === 'text'" class="col-sm-12">
-				<textarea class="form-control" placeholder="Text" disabled />
-			</div>
+				<div v-if="questionType === 'text'" class="col-sm-12">
+					<textarea class="form-control" placeholder="Text" disabled />
+				</div>
 
-			<div v-if="questionType === 'number'" class="col-md-8">
-				<input type="number" class="form-control" placeholder="Number" disabled />
+				<div v-if="questionType === 'number'" class="col-md-8">
+					<input type="number" class="form-control" placeholder="Number" disabled />
+				</div>
 			</div>
 		</div>
 	</div>
@@ -124,8 +142,8 @@ export default {
 		questionId(){
 			return `q${this.questionIdNum}`;
 		},
-		traineeForm(){
-			return [
+		shouldShowMilestonesAndCompetencies(){
+			return ['radio', 'number'].includes(this.questionType) && [
 				'resident',
 				'self-resident',
 				'fellow',
@@ -245,3 +263,11 @@ export default {
 	}
 }
 </script>
+
+<style scoped>
+	.question-id {
+		font-size: larger;
+		text-transform: uppercase;
+		font-weight: bold;
+	}
+</style>

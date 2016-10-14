@@ -189,7 +189,7 @@ body {
 }
 
 .form-block:nth-child(odd){
-  background-color: #e0e0e0;
+  background-color: #eaeaea;
 }
 
 .form-instruction-block .row div {
@@ -306,6 +306,10 @@ body {
 
 }
 
+.question-description-toggle button.btn {
+	margin: 0 10px;
+}
+
 .description {
     /*background-color: #FFF5E6;*/
 }
@@ -383,12 +387,22 @@ body {
 
 .containing-label {
 	width: 100%;
+	margin-bottom: 0;
 }
 
-.containing-label input,
-.containing-label textarea,
-.containing-label select {
+.containing-label > input,
+.containing-label > textarea,
+.containing-label > select,
+.containing-label > .select2,
+.containing-label > .input-group {
+	margin-top: 5px;
 	font-weight: normal ;
+}
+
+.labelless-button,
+.labelless-element {
+	margin-top: 25px;
+	text-align: center;
 }
 
 .form-group .select2.select2-container {

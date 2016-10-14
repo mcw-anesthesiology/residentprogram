@@ -1,6 +1,6 @@
 <template>
-	<div class="col-md-2 text-center" v-bind:class="{ 'working-option': isWorkingOption, 'is-focused': isFocused }">
-		<input v-bind:type="type" disabled/>
+	<div class="form-builder-question-option col-lg-2 col-md-3 col-sm-6 text-center" v-bind:class="{ 'working-option': isWorkingOption, 'is-focused': isFocused }">
+		<input v-bind:type="displayType" disabled/>
 		<input type="text" v-bind:value="text"
 			class="form-input form-option form-option-text form-control"
 			placeholder="Option Text"
@@ -39,6 +39,14 @@ export default {
 		'description',
 		'isWorkingOption'
 	],
+	computed: {
+		displayType(){
+			if(this.type === 'checkbox')
+				return 'checkbox';
+			else
+				return 'radio';
+		}
+	},
 	data(){
 		return {
 			isFocused: false
@@ -58,6 +66,10 @@ export default {
 </script>
 
 <style scoped>
+	.form-builder-question-option {
+		margin-top: 10px;
+	}
+
 	.working-option {
 		opacity: 0.5;
 	}
@@ -66,5 +78,10 @@ export default {
 	.working-option.is-focused,
 	.working-option:active {
 		opacity: 1;
+	}
+
+	textarea.form-option-description {
+		resize: vertical;
+		height: 100px;
 	}
 </style>

@@ -49,11 +49,6 @@
 		#reminder-ids-list li {
 			display: inline-block;
 		}
-
-		.labelless-button {
-			margin-top: 25px;
-			text-align: center;
-		}
 	</style>
 @stop
 

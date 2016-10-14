@@ -396,7 +396,7 @@ class MainController extends Controller
     public function evaluation(Request $request, $id){
 		try {
 	        $user = Auth::user();
-	        $evaluation = Evaluation::findOrFail($id);
+	        $evaluation = Evaluation::with('form.milestoneQuestions.milestone', 'form.competencyQuestions.competency')->findOrFail($id);
 	        if($user->isType("admin") || $user->mentees->contains($evaluation->subject) || $user->id == $evaluation->subject_id)
 	            $subjectString = "<a href='/profile/{$evaluation->subject_id}'>{$evaluation->subject->full_name}</a>";
 	        else

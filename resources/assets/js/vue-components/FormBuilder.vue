@@ -11,7 +11,7 @@
 				<div class="col-md-4">
 					<div class="form-group">
 						<label for="form-type">Form type</label>
-						<select class="form-control" v-model="formType" id="form-type" name="form_type" style="margin-bottom: 5px;">
+						<select class="form-control input-lg" v-model="formType" id="form-type" name="form_type">
 							<option value="resident">Resident/Intern</option>
 							<option value="self-resident">Resident/Intern (self)</option>
 							<option value="fellow">Fellow</option>
@@ -153,7 +153,10 @@ export default {
 			let requestBody = JSON.stringify({
 				title: this.title,
 				formType: this.formType,
-				items: this.items
+				items: this.items.map(item => {
+					item.questionId = `q${item.questionIdNum}`;
+					return item;
+				})
 			});
 
 			let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -234,6 +237,7 @@ export default {
 	watch: {
 		oldFormContents(formContents){
 			this.title = formContents.title;
+			this.formType = formContents.formType;
 			this.items = formContents.items.slice();
 			for(let item of this.items){
 				if(item.questionIdNum && item.questionIdNum >= this.nextQuestionIdNum)
