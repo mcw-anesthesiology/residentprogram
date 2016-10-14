@@ -89,7 +89,7 @@ class FormController extends RestController
 			}
 			elseif($item['type'] == 'question'){
 				$question = $formXml->addChild('question');
-				$question->addAttribute('name', $item['id']);
+				$question->addAttribute('name', $item['questionId']);
 				$question->addAttribute('type', $item['questionType']);
 				$question->addChild('text', htmlspecialchars($item['text']));
 				if($item['weight'])
@@ -97,7 +97,7 @@ class FormController extends RestController
 
 				if(in_array($item['questionType'], ['radio', 'radiononnumeric', 'checkbox'])){
 					if(!$item['options'])
-						throw new \Exception("No options in question {$item['id']}: " . var_dump($item));
+						throw new \Exception("No options in question {$item['questionId']}: " . var_dump($item));
 
 					foreach($item['options'] as $option){
 						$optionNode = $question->addChild('option', htmlspecialchars($option['text']));
@@ -125,7 +125,7 @@ class FormController extends RestController
 					foreach($item['milestones'] as $milestoneId){
 						MilestoneQuestion::create([
 							'form_id' => $form->id,
-							'question_id' => $item['id'],
+							'question_id' => $item['questionId'],
 							'milestone_id' => $milestoneId
 						]);
 					}
@@ -134,7 +134,7 @@ class FormController extends RestController
 					// Currently just one per question
 					CompetencyQuestion::create([
 						'form_id' => $form->id,
-						'question_id' => $item['id'],
+						'question_id' => $item['questionId'],
 						'competency_id' => $item['competencies']
 					]);
 				}

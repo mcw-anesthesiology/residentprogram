@@ -235,6 +235,10 @@ export default {
 		oldFormContents(formContents){
 			this.title = formContents.title;
 			this.items = formContents.items.slice();
+			for(let item of this.items){
+				if(item.questionIdNum && item.questionIdNum >= this.nextQuestionIdNum)
+					this.nextQuestionIdNum = item.questionIdNum + 1;
+			}
 		}
 	},
 	components: {

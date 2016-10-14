@@ -6002,7 +6002,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	
 	// module
-	exports.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"FormBuilder.vue","sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"FormBuilder.vue","sourceRoot":"webpack://"}]);
 	
 	// exports
 
@@ -6584,6 +6584,30 @@ return /******/ (function(modules) { // webpackBootstrap
 			oldFormContents: function oldFormContents(formContents) {
 				this.title = formContents.title;
 				this.items = formContents.items.slice();
+				var _iteratorNormalCompletion4 = true;
+				var _didIteratorError4 = false;
+				var _iteratorError4 = undefined;
+	
+				try {
+					for (var _iterator4 = this.items[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+						var item = _step4.value;
+	
+						if (item.questionIdNum && item.questionIdNum >= this.nextQuestionIdNum) this.nextQuestionIdNum = item.questionIdNum + 1;
+					}
+				} catch (err) {
+					_didIteratorError4 = true;
+					_iteratorError4 = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion4 && _iterator4.return) {
+							_iterator4.return();
+						}
+					} finally {
+						if (_didIteratorError4) {
+							throw _iteratorError4;
+						}
+					}
+				}
 			}
 		},
 		components: {
@@ -6819,12 +6843,14 @@ return /******/ (function(modules) { // webpackBootstrap
 				return ['resident', 'self-resident', 'fellow', 'self-fellow'].indexOf(this.formType) !== -1;
 			},
 			optionsWithWorking: function optionsWithWorking() {
-				var options = this.options.slice();
-				options.push(this.workingOption);
-				return options;
+				if (this.options) {
+					var options = this.options.slice();
+					options.push(this.workingOption);
+					return options;
+				}
 			},
 			workingOptionIndex: function workingOptionIndex() {
-				return this.options.length;
+				if (this.options) return this.options.length;
 			}
 		},
 		methods: {
@@ -6942,6 +6968,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			SelectTwo: _SelectTwo2.default
 		}
 	}; //
+	//
 	//
 	//
 	//
@@ -7476,6 +7503,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var __vue_exports__, __vue_options__
 	
+	/* styles */
+	__webpack_require__(82)
+	
 	/* script */
 	__vue_exports__ = __webpack_require__(75)
 	
@@ -7496,6 +7526,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormBuilderOption.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+	__vue_options__._scopeId = "data-v-58256c5c"
 	
 	/* hot reload */
 	if (false) {(function () {
@@ -7552,9 +7583,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	//
 	//
 	//
+	//
+	//
+	//
 	
 	exports.default = {
-		props: ['type', 'text', 'value', 'description']
+		props: ['type', 'text', 'value', 'description', 'isWorkingOption'],
+		data: function data() {
+			return {
+				isFocused: false
+			};
+		},
+	
+		methods: {
+			handleInputFocus: function handleInputFocus(field) {
+				this.isFocused = true;
+				this.$emit('focus', field);
+			},
+			handleInputBlur: function handleInputBlur(field) {
+				this.isFocused = false;
+				this.$emit('blur', field);
+			}
+		}
 	};
 
 /***/ },
@@ -7563,7 +7613,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports={render:function (){with(this) {
 	  return _h('div', {
-	    staticClass: "col-md-2 text-center"
+	    staticClass: "col-md-2 text-center",
+	    class: {
+	      'working-option': isWorkingOption, 'is-focused': isFocused
+	    }
 	  }, [_h('input', {
 	    attrs: {
 	      "type": type,
@@ -7590,7 +7643,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        })
 	      },
 	      "focus": function($event) {
-	        $emit('focus', 'text')
+	        handleInputFocus('text')
+	      },
+	      "blur": function($event) {
+	        handleInputBlur('text')
 	      }
 	    }
 	  }), " ", _h('input', {
@@ -7614,7 +7670,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        })
 	      },
 	      "focus": function($event) {
-	        $emit('focus', 'value')
+	        handleInputFocus('value')
+	      },
+	      "blur": function($event) {
+	        handleInputBlur('value')
 	      }
 	    }
 	  }), " ", _h('textarea', {
@@ -7637,7 +7696,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        })
 	      },
 	      "focus": function($event) {
-	        $emit('focus', 'description')
+	        handleInputFocus('description')
+	      },
+	      "blur": function($event) {
+	        handleInputBlur('description')
 	      }
 	    }
 	  })])
@@ -8005,7 +8067,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, [(['radio', 'radiononnumeric', 'checkbox'].includes(questionType)) ? [_l((optionsWithWorking), function(option, index) {
 	    return _h('form-builder-option', _b({
 	      attrs: {
-	        "type": questionType
+	        "type": questionType,
+	        "is-working-option": option === workingOption
 	      },
 	      on: {
 	        "input": function($event) {
@@ -8285,6 +8348,46 @@ return /******/ (function(modules) { // webpackBootstrap
 	     require("vue-hot-reload-api").rerender("data-v-c94fb106", module.exports)
 	  }
 	}
+
+/***/ },
+/* 82 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(83);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(66)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-58256c5c&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormBuilderOption.vue", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-58256c5c&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormBuilderOption.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 83 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(65)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "\n.working-option[data-v-58256c5c] {\n\topacity: 0.5;\n}\n.working-option[data-v-58256c5c]:hover,\n.working-option.is-focused[data-v-58256c5c],\n.working-option[data-v-58256c5c]:active {\n\topacity: 1;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/FormBuilderOption.vue?15982e92"],"names":[],"mappings":";AA4DA;CACA,aAAA;CACA;AAEA;;;CAGA,WAAA;CACA","file":"FormBuilderOption.vue","sourcesContent":["<template>\n\t<div class=\"col-md-2 text-center\" v-bind:class=\"{ 'working-option': isWorkingOption, 'is-focused': isFocused }\">\n\t\t<input v-bind:type=\"type\" disabled/>\n\t\t<input type=\"text\" v-bind:value=\"text\"\n\t\t\tclass=\"form-input form-option form-option-text form-control\"\n\t\t\tplaceholder=\"Option Text\"\n\t\t\tv-on:input=\"$emit('input', {text: $event.target.value})\"\n\t\t\tv-on:change=\"$emit('change', {text: $event.target.value})\"\n\t\t\tv-on:focus=\"handleInputFocus('text')\"\n\t\t\tv-on:blur=\"handleInputBlur('text')\"\n\t\t\t/>\n\t\t<input v-bind:type=\"type === 'radio' ? 'number' : 'text'\"\n\t\t\tv-bind:value=\"value\"\n\t\t\tclass=\"form-input form-option form-option-value form-control\"\n\t\t\tplaceholder=\"Option Value\"\n\t\t\tv-on:input=\"$emit('input', {value: $event.target.value})\"\n\t\t\tv-on:change=\"$emit('change', {value: $event.target.value})\"\n\t\t\tv-on:focus=\"handleInputFocus('value')\"\n\t\t\tv-on:blur=\"handleInputBlur('value')\"\n\t\t\t/>\n\t\t<textarea v-bind:value=\"description\"\n\t\t\tclass=\"form-input form-option form-option-description form-control\"\n\t\t\tplaceholder=\"Hover Description\"\n\t\t\tv-on:input=\"$emit('input', {description: $event.target.value})\"\n\t\t\tv-on:change=\"$emit('change', {description: $event.target.value})\"\n\t\t\tv-on:focus=\"handleInputFocus('description')\"\n\t\t\tv-on:blur=\"handleInputBlur('description')\"\n\t\t\t>\n\t\t</textarea>\n\t</div>\n</template>\n\n<script>\nexport default {\n\tprops: [\n\t\t'type',\n\t\t'text',\n\t\t'value',\n\t\t'description',\n\t\t'isWorkingOption'\n\t],\n\tdata(){\n\t\treturn {\n\t\t\tisFocused: false\n\t\t};\n\t},\n\tmethods: {\n\t\thandleInputFocus(field){\n\t\t\tthis.isFocused = true;\n\t\t\tthis.$emit('focus', field);\n\t\t},\n\t\thandleInputBlur(field){\n\t\t\tthis.isFocused = false;\n\t\t\tthis.$emit('blur', field);\n\t\t}\n\t}\n}\n</script>\n\n<style scoped>\n\t.working-option {\n\t\topacity: 0.5;\n\t}\n\n\t.working-option:hover,\n\t.working-option.is-focused,\n\t.working-option:active {\n\t\topacity: 1;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+	
+	// exports
+
 
 /***/ }
 /******/ ])

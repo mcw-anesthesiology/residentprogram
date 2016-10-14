@@ -70,6 +70,7 @@
 			<template v-if="['radio', 'radiononnumeric', 'checkbox'].includes(questionType)">
 				<form-builder-option v-for="(option, index) of optionsWithWorking"
 					v-bind="option" v-bind:type="questionType"
+					v-bind:is-working-option="option === workingOption"
 					v-on:input="handleWorkingOptionInput(index, arguments[0])"
 					v-on:change="handleOptionChange(index, arguments[0])"
 					>
@@ -132,12 +133,15 @@ export default {
 			].includes(this.formType);
 		},
 		optionsWithWorking(){
-			let options = this.options.slice();
-			options.push(this.workingOption);
-			return options;
+			if(this.options){
+				let options = this.options.slice();
+				options.push(this.workingOption);
+				return options;
+			}
 		},
 		workingOptionIndex(){
-			return this.options.length;
+			if(this.options)
+				return this.options.length;
 		}
 	},
 	methods: {
