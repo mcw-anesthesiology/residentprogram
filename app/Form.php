@@ -35,9 +35,17 @@ class Form extends Model
         return $this->belongsToMany("App\Milestone", "milestones_questions");
     }
 
+	public function milestoneQuestions(){
+		return $this->hasMany('App\MilestoneQuestion');
+	}
+
     public function competencies(){
         return $this->belongsToMany("App\Competency", "competencies_questions");
     }
+
+	public function competencyQuestions(){
+		return $this->hasMany('App\CompetencyQuestion');
+	}
 
     public function watchedForms(){
         return $this->hasMany("App\WatchedForm");

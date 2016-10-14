@@ -129,6 +129,7 @@ Route::get("manage/accounts", "ManageController@accounts");
 Route::get("manage/accounts/advance", "ManageController@advanceAccounts");
 Route::get("manage/forms", "ManageController@forms");
 Route::get("manage/forms/add", "ManageController@formBuilder");
+Route::post("manage/forms/edit", "ManageController@copyAndEditForm");
 Route::get("manage/forms/{id}", "ManageController@viewForm");
 Route::get("manage/milestones-competencies", "ManageController@milestonesCompetencies");
 Route::get("manage/mentors", "ManageController@mentors");

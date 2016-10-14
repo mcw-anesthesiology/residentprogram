@@ -84,19 +84,29 @@
 	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 	        <h4 class="modal-title" id="myModalAdd">Evaluation Builder</h4>
 	      </div>
-	      <form action="/manage/forms/add" method="get">
-	        <div class="modal-body modal-add">
-	          <div class="form-group">
-	      <div class="span7 text-center">
-	        <button type="submit" class="btn btn-success">Create new evaluation form</button>
-	      </div>
-	          </div>
-
+    	  <div class="modal-body modal-add">
+	        <div class="form-group">
+	    		<div class="text-center">
+	        		<a href="/manage/forms/add" class="btn btn-success">Create new evaluation form</a>
+				</div>
+					<hr />
+					<form action="/manage/forms/edit" method="post">
+						{!! csrf_field() !!}
+						<div class="form-group">
+							<label for="edit-form-forms-list">Form to duplicate</label>
+							<select class="form-control" id="edit-form-forms-list" name="form_id">
+								<option value="-1" disabled selected>Select form to duplicate</option>
+							</select>
+						</div>
+						<div class="text-center">
+							<button type="submit" class="btn btn-info">Duplicate and edit an existing form</button>
+						</div>
+					</form>
+	    		</div>
 	        </div>
 	        <div class="modal-footer">
 	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 	        </div>
-	      </form>
 	    </div>
 	  </div>
 	</div>
@@ -134,6 +144,56 @@
 
 @section("script")
 	<script>
+		$.getJSON("/forms").done(function(forms){
+			var form, option;
+
+			var typeIndeces = {
+				"resident": 0,
+				"fellow": 1,
+				"faculty": 2
+			};
+
+			var optGroups = [
+				{
+					text: "Resident",
+					children: []
+				},
+				{
+					text: "Fellow",
+					children: []
+				},
+				{
+					text: "Faculty",
+					children: []
+				}
+			];
+
+			var form;
+			for(var i = 0; i < forms.length; i++){
+				form = {
+					id: forms[i].id,
+					text: forms[i].title
+				};
+				optGroups[typeIndeces[forms[i].type]].children.push(form);
+			}
+
+			for(var i = 0; i < optGroups.length; i++){
+				optGroups[i].children.sort(function(a, b){
+					if(a.text < b.text)
+						return -1;
+					else if(a.text > b.text)
+						return 1;
+					else
+						return 0;
+				});
+			}
+
+			$("#edit-form-forms-list").select2({
+				data: optGroups
+			});
+		});
+
+
 		$(".forms-table").each(function(){
 			var type = $(this).data("type");
 			$(this).DataTable({
