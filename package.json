@@ -3,6 +3,7 @@
   "scripts": {
     "webpack": "webpack",
     "webpack-watch": "webpack --progress --colors --watch",
+	"webpack-prod": "webpack --optimize-minimize --optimize-dedupe",
 	"gulp": "gulp",
 	"gulp-watch": "gulp watch",
     "build": "webpack && gulp",
