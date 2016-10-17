@@ -1,15 +1,23 @@
 /* eslint-env node */
+const path = require('path');
 
 module.exports = {
-	entry: './resources/assets/js/modules',
+	entry: {
+		bundle: './resources/assets/js/modules',
+		'form-builder': './resources/assets/js/vue-components/form-builder.js'
+	},
 	output: {
 		path: './resources/assets/js/',
-		filename: 'bundle.js', // This is pretty gross but I don't feel like refactoring all the js right now,
+		filename: '[name].js',
 		libraryTarget: 'umd'
 	},
 	target: 'web',
 	module: {
 		loaders: [
+			{
+				test: /\.vue$/,
+				loader: 'vue-loader'
+			},
 			{
 				test: /\.js$/,
 				exclude: /node_modules/,

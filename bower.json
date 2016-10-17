@@ -17,14 +17,11 @@
     "tests"
   ],
   "devDependencies": {
-    "bootstrap": "^3.3.6",
-    "Countries": "countries#^1.1.0",
-    "country-region-selector": "^0.3.2",
-    "jquery": "^2.2.4",
-    "moment": "^2.13.0",
     "Chart.js": "Chart.js#^1.0.2",
-    "lodash": "^4.0.1",
-    "select2": "^4.0.1",
+    "Countries": "countries#^1.1.0",
+    "bootstrap": "^3.3.6",
+    "bootstrap-switch": "^3.3.2",
+    "country-region-selector": "^0.3.2",
     "datatables.net": "^1.10.10",
     "datatables.net-bs": "^1.10.10",
     "datatables.net-fixedcolumns": "^3.2.0",
@@ -33,13 +30,16 @@
     "datatables.net-fixedheader-bs": "^3.1.0",
     "datatables.net-responsive": "^2.0.1",
     "datatables.net-responsive-bs": "^2.0.1",
+    "eonasdan-bootstrap-datetimepicker": "^4.17.37",
+    "jquery": "^2.2.4",
+    "jquery-ui": "^1.11.4",
+    "lodash": "^4.0.1",
+    "marked": "^0.3.5",
+    "moment": "^2.13.0",
     "multiselect": "^0.9.12",
     "placeholders": "Placeholders.js#^4.0.1",
-    "bootstrap-switch": "^3.3.2",
-    "jquery-ui": "^1.11.4",
+    "select2": "^4.0.3",
     "select2-bootstrap-theme": "^0.1.0-beta.4",
-    "marked": "^0.3.5",
-    "velocity": "^1.2.3",
-    "eonasdan-bootstrap-datetimepicker": "^4.17.37"
+    "velocity": "^1.2.3"
   }
 }

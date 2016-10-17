@@ -51,7 +51,7 @@ class FormReader{
 			}
 		}
 		elseif($name == "text"){
-				$result .= "<div class='question-header panel-heading'><div class='question-title panel-title'><b>".strtoupper($questionName).": </b>";
+				$result .= "<div class='question-header panel-heading'><h3 class='question-title panel-title'><b>".strtoupper($questionName).": </b>";
 		}
 		elseif($name == "form"){
 
@@ -107,7 +107,7 @@ class FormReader{
 			$result .= "</div>"; // .question-option
 		}
 		elseif($name == "text"){
-			$result .= "</div></div><div class='question-body panel-body'>"; // .question-title
+			$result .= "</h3></div><div class='question-body panel-body'>"; // .question-title
 		}
 		elseif($name == "title"){
 			$result .= "</h2>";

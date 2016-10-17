@@ -5,7 +5,6 @@ var concat = require("gulp-concat");
 var elixir = require('laravel-elixir');
 var size = require("gulp-size");
 var gutil = require("gulp-util");
-var webpack = require("webpack");
 
 var inProduction = elixir.config.production;
 
@@ -114,17 +113,9 @@ gulp.task("vendorimg", function(){
         .pipe(gulp.dest("./public/build/css/images"));
 });
 
-gulp.task("webpack", function(callback){
-	webpack(require("./webpack.config.js"), function(err, stats) {
-        if(err) throw new gutil.PluginError("webpack", err);
-		callback();
-    });
-});
-
-elixir.config.registerWatcher("default", "./resources/assets/js/modules/**");
+elixir.config.registerWatcher("default", "./resources/assets/js/*.js");
 
 elixir(function(mix) {
-	mix.task('webpack');
     mix.scripts([
 			"datatables-datetime-moment.js",
 			"modernizr-custom.js",
@@ -132,14 +123,19 @@ elixir(function(mix) {
 			"main.js",
 	        "milestone-competency-radar-chart.js",
 			"evaluation-line-chart.js",
-			"bundle.js" // HACK: I don't feel like refactoring all the js right now
+			"bundle.js"
 		])
+		.scripts(["form-builder.js"], "public/js/form-builder.js")
         .styles([
 			"main.css",
 			"milestone-competency-radar-chart.css",
 			"navbar.css"
 		]);
-	mix.version(["css/all.css", "css/vendor.css", "js/all.js", "js/vendor.js"]);
-    // if(inProduction)
-    //     mix.phpUnit();
+	mix.version([
+		"css/all.css",
+		"css/vendor.css",
+		"js/all.js",
+		"js/vendor.js",
+		"js/form-builder.js"
+	]);
 });

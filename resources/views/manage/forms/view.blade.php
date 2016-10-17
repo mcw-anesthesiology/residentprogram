@@ -17,6 +17,8 @@
 
 @section("script")
 	<script>
+		var milestoneQuestions = {!! $form->milestoneQuestions->groupBy('question_id')->toJson() !!};
+		var competencyQuestions = {!! $form->competencyQuestions->groupBy('question_id')->toJson() !!};
 		$(document).ready(function(){
 			$("#form input").prop("disabled", true);
 			$("#form textarea").prop("disabled", true);
@@ -24,6 +26,8 @@
 				$(this).addClass("noprint");
 			});
 			$("#form textarea").addClass("noprint");
+
+			renderMilestoneCompetencyLists(milestoneQuestions, competencyQuestions);
 		});
 	</script>
 @stop
