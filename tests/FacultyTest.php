@@ -306,9 +306,18 @@ class FacultyTest extends TestCase
             "requested_by_id" => $this->resident->id
         ]);
 
-        $this->actingAs($this->user)
+		$this->actingAs($this->user)
             ->visit("/dashboard")
             ->visit("/evaluation/" . $eval->id)
+            ->seePageIs("/dashboard")
+            ->see("Error")
+            ->see("Insufficient permissions to view the requested evaluation");
+
+		$hashedId = Hashids::encode($eval->id);
+
+        $this->actingAs($this->user)
+            ->visit("/dashboard")
+            ->visit("/evaluation/" . $hashedId)
             ->seePageIs("/dashboard")
             ->see("Error")
             ->see("Insufficient permissions to view the requested evaluation");
@@ -326,14 +335,14 @@ class FacultyTest extends TestCase
 
         $this->actingAs($this->user)
             ->visit("/dashboard")
-            ->visit("/evaluation/" . $eval->id)
-            ->seePageIs("/evaluation/" . $eval->id)
+            ->visit("/evaluation/" . $hashedId)
+            ->seePageIs("/evaluation/" . $hashedId)
             ->see("View Evaluation")
             ->dontSee($this->resident->last_name . ", " . $this->resident->first_name);
 
 		$this->actingAs($this->user)
             ->visit("/dashboard")
-            ->visit("/evaluation/" . $newEvals[2]->id)
+            ->visit("/evaluation/" . Hashids::encode($newEvals[2]->id))
             ->seePageIs("/dashboard")
             ->see("Error")
             ->see("Insufficient permissions to view the requested evaluation");

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Scopes\EvaluationScope;
 
 use Auth;
+use Debugbar;
+use Hashids;
 use Log;
 use Mail;
 
@@ -53,7 +55,8 @@ class Evaluation extends Model
 
 	protected $hidden = [
 		"created_at",
-		"updated_at"
+		"updated_at",
+		"original_id"
 	];
 
 	protected $userHidden = [ // Fields hidden to non-admins
@@ -68,9 +71,25 @@ class Evaluation extends Model
 
     protected $appends = ["url"];
 
+	private $hashids = false;
+
+	public function getIdAttribute($id){
+		if($this->hashids)
+			return Hashids::encode($id);
+
+		return $id;
+	}
+
+	public function getViewableIdAttribute(){
+		if($this->isAnonymousToUser())
+			return Hashids::encode($this->id);
+
+		return $this->id;
+	}
+
 	public function getEvaluatorIdAttribute($evaluatorId){
 		if(Auth::check() && !Auth::user()->isType("admin")
-				&& $this->getVisibilityAttribute() == "anonymous"
+				&& $this->visibility == "anonymous"
 				&& Auth::user()->id != $evaluatorId)
 			return null;
 
@@ -79,15 +98,17 @@ class Evaluation extends Model
 
 	public function getRequestedByIdAttribute($requestedById){
 		if(Auth::check() && !Auth::user()->isType("admin")
-				&& $this->getVisibilityAttribute() == "anonymous"
+				&& $this->visibility == "anonymous"
 				&& Auth::user()->id != $requestedById)
 			return null;
 
 		return $requestedById;
 	}
 
-	public function getVisibilityAttribute(){
-        return empty($this->attributes["visibility"]) ? $this->form->visibility : $this->attributes["visibility"];
+	public function getVisibilityAttribute($visibility){
+		if(empty($this->form->visibility))
+			$this->load('form');
+        return empty($visibility) ? $this->form->visibility : $visibility;
 	}
 
     public function getUrlAttribute(){
@@ -111,7 +132,7 @@ class Evaluation extends Model
     }
 
     public function responses(){
-        return $this->hasMany("App\Response");
+		return $this->hasMany("App\Response");
     }
 
     public function textResponses(){
@@ -120,6 +141,13 @@ class Evaluation extends Model
 
 	public function flag(){
 		return $this->hasOne("App\FlaggedEvaluation");
+	}
+
+	public function isAnonymousToUser(){
+		return (Auth::check() && !Auth::user()->isType("admin")
+				&& $this->visibility == "anonymous"
+				&& Auth::user()->id != $this->requested_by_id
+				&& Auth::user()->id != $this->evaluator_id);
 	}
 
     public function scopeNotHidden($query){
@@ -202,6 +230,29 @@ class Evaluation extends Model
 
 	public function hideFields(){
 		$this->addHidden($this->userHidden);
+
+		if($this->isAnonymousToUser()){
+			$this->hashids = true;
+			foreach($this->responses as $eval){
+				$eval->hashEvaluationId();
+			}
+			foreach($this->textResponses as $eval){
+				$eval->hashEvaluationId();
+			}
+		}
+
+		if($this->isAnonymousToUser() && $this->form->type == 'faculty')
+			$this->addHidden([
+				'evaluation_date',
+				'request_date',
+				'complete_date'
+			]);
+
+		$user = Auth::user();
+		if(!Auth::check() || $user->id != $this->subject_id)
+			$this->addHidden('seen_by_subject_at');
+		if(!Auth::check() || $user->id != $this->evaluator_id)
+			$this->addHidden('seen_by_evaluator_at');
 
 		if($this->status != "complete")
 			$this->addHidden(["responses", "textResponses"]);

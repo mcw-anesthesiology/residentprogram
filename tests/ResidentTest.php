@@ -279,10 +279,10 @@ class ResidentTest extends TestCase
 
 		$this->actingAs($this->faculty)
 			->visit("/evaluations")
-			->seeJson(["id" => $eval->id])
-			->seeJson(["id" => $evals[0]->id])
-			->seeJson(["id" => $evals[1]->id])
-			->dontSeeJson(["id" => $evals[2]->id]);
+			->seeJson(["id" => Hashids::encode($eval->id)])
+			->seeJson(["id" => Hashids::encode($evals[0]->id)])
+			->seeJson(["id" => Hashids::encode($evals[1]->id)])
+			->dontSeeJson(["id" => Hashids::encode($evals[2]->id)]);
     }
 
     public function testProfileEvaluations(){
@@ -324,7 +324,8 @@ class ResidentTest extends TestCase
 			->seeJson(["id" => $evals[0]->id])
 			->seeJson(["id" => $evals[1]->id])
 			->seeJson(["id" => $anotherEval->id])
-			->seeJson(["id" => $anonymousEval->id, "evaluator_id" => null]);
+			->dontSeeJson(["id" => $anonymousEval->id])
+			->seeJson(["id" => Hashids::encode($anonymousEval->id), "evaluator_id" => null]);
     }
 
     public function testFacultyProfile(){

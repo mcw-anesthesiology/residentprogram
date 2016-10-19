@@ -139,6 +139,13 @@ export function renderEvaluatorEvalUrl(url, type, evaluation){
 		return `${NEW_ITEM_TAG} ${url}`;
 }
 
+export function renderNewTag(type, evaluation){
+	if(evaluation.seen_by_evaluator_at)
+		return '';
+	else
+		return NEW_ITEM_TAG;
+}
+
 export function createEditAndDeleteButtons(thing, name){
 	let dataAttributes = getDataAttributes(thing);
 
