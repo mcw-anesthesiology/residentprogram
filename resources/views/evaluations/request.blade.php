@@ -17,6 +17,10 @@
 		.admin-panel-group {
 			margin-bottom: 15px;
 		}
+
+		.explanation-panel {
+			margin: 30px 0;
+		}
 	</style>
 @stop
 
@@ -113,6 +117,29 @@
 			</a>
 		</h2>
 
+	@if($user->isType("resident") && $requestType == "faculty")
+		<div class="row">
+			<div class="col-md-offset-2 col-md-8">
+				<div class="explanation-panel panel panel-default">
+					<div class="panel-heading">
+						<span class="glyphicon glyphicon-info-sign"></span>
+						Faculty evaluations
+					</div>
+					<div class="panel-body">
+						<p>
+							The faculty member you are evaluating will not be able to see the date you select.
+							The only information shown to faculty is the evaluation itself.
+						</p>
+						<p>
+							Evaluations are released to the faculty in groups of 3, or after the evaluation has been completed
+							more than 3 months ago.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	@endif
+
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-6">
 				<label for="evaluation-month">Month</label>
@@ -190,7 +217,7 @@
 		You will then be able to select from the entire list of {{ $subjectTypeTextPlural }}.
 	</p>
 	@endif
-	@if($user->type == "resident" && $requestType == "faculty" && $pendingEvalCount > 0)
+	@if($user->isType("resident") && $requestType == "faculty" && $pendingEvalCount > 0)
 </div>
 <div class="container body-block">
 	<h3 class="sub-header">Evaluations in progress</h3>
