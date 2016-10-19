@@ -15326,7 +15326,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.renderSecondaryTrainingLevel = renderSecondaryTrainingLevel;
 	exports.renderSubjectEvalUrl = renderSubjectEvalUrl;
 	exports.renderEvaluatorEvalUrl = renderEvaluatorEvalUrl;
-	exports.renderNewTag = renderNewTag;
 	exports.createEditAndDeleteButtons = createEditAndDeleteButtons;
 	exports.getDataAttributes = getDataAttributes;
 	
@@ -15450,10 +15449,6 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 	
 		if (evaluation.seen_by_evaluator_at) return url;else return _constants.NEW_ITEM_TAG + ' ' + url;
-	}
-	
-	function renderNewTag(type, evaluation) {
-		if (evaluation.seen_by_evaluator_at) return '';else return _constants.NEW_ITEM_TAG;
 	}
 	
 	function createEditAndDeleteButtons(thing, name) {

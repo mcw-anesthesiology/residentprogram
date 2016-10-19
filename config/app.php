@@ -164,8 +164,9 @@ return [
 
         anlutro\LaravelSettings\ServiceProvider::class,
 
-        Yangqi\Htmldom\HtmldomServiceProvider::class
+        Yangqi\Htmldom\HtmldomServiceProvider::class,
 
+		Vinkla\Hashids\HashidsServiceProvider::class
     ],
 
     /*
@@ -214,7 +215,8 @@ return [
         'Debugbar'  => Barryvdh\Debugbar\Facade::class,
 		'PDF' 		=> Barryvdh\DomPDF\Facade::class,
         'Setting'   => anlutro\LaravelSettings\Facade::class,
-        'Htmldom'   => Yangqi\Htmldom\Htmldom::class
+        'Htmldom'   => Yangqi\Htmldom\Htmldom::class,
+		'Hashids' => Vinkla\Hashids\Facades\Hashids::class
     ],
 
 ];

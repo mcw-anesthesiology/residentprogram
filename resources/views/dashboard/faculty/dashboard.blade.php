@@ -15,7 +15,8 @@
 				data: {
 					with: {
 						subject: ["full_name"],
-						evaluator: ["full_name"]
+						evaluator: ["full_name"],
+						form: ["title"]
 					},
 					whereHas: {
 						form: {
@@ -28,6 +29,7 @@
 			columns: [
 				{data: "url"},
 				{data: "subject.full_name"},
+				{data: "form.title"},
 				{data: "evaluator.full_name"},
 				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
 				{data: null, render: function(eval){
@@ -44,6 +46,9 @@
 			ajax: {
 				url: "/evaluations",
 				data: {
+					with: {
+						form: ["title"]
+					},
 					whereHas: {
 						form: {
 							type: "faculty"
@@ -55,7 +60,7 @@
 			},
 			columns: [
 				{data: "url", render: renderSubjectEvalUrl},
-				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell}
+				{data: "form.title"}
 			],
 			order: [[0, "desc"]],
 			createdRow: function(row){

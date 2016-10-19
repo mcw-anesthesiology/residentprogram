@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Hashids;
+
 class Response extends Model
 {
     protected $table = "responses";
@@ -15,7 +17,16 @@ class Response extends Model
         "weight" => "integer"
     ];
 
-    protected $fillable = ["evaluation_id", "question_id", "response", "weight"];
+	protected $fillable = ["evaluation_id", "question_id", "response", "weight"];
+
+	private $hashids = false;
+
+	public function getEvaluationIdAttribute($evalId){
+		if($this->hashids)
+			return Hashids::encode($evalId);
+
+		return $evalId;
+	}
 
     public function evaluation(){
         return $this->belongsTo("App\Evaluation");
@@ -28,4 +39,8 @@ class Response extends Model
     // public function milestones(){
     //     // return $this->MilestoneQuestions->milestone
     // }
+
+	public function hashEvaluationId(){
+		$this->hashids = true;
+	}
 }

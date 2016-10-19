@@ -7,7 +7,7 @@
 		<thead>
 			<tr>
 				<th>#</th>
-				<th>Evaluation Date</th>
+				<th>Evaluation form</th>
 			</tr>
 		</thead>
 	</table>

@@ -12,6 +12,7 @@ use App\Helpers\FormReader;
 
 use Auth;
 use Debugbar;
+use Hashids;
 use Log;
 use Mail;
 use Setting;
@@ -396,7 +397,14 @@ class MainController extends Controller
     public function evaluation(Request $request, $id){
 		try {
 	        $user = Auth::user();
-	        $evaluation = Evaluation::with('form.milestoneQuestions.milestone', 'form.competencyQuestions.competency')->findOrFail($id);
+			try {
+				$evaluation = Evaluation::with('form.milestoneQuestions.milestone', 'form.competencyQuestions.competency')->findOrFail($id);
+				if($evaluation->isAnonymousToUser())
+					throw new \Exception();
+			} catch (\Exception $e){
+				$id = Hashids::decode($id)[0];
+				$evaluation = Evaluation::with('form.milestoneQuestions.milestone', 'form.competencyQuestions.competency')->findOrFail($id);
+			}
 	        if($user->isType("admin") || $user->mentees->contains($evaluation->subject) || $user->id == $evaluation->subject_id)
 	            $subjectString = "<a href='/profile/{$evaluation->subject_id}'>{$evaluation->subject->full_name}</a>";
 	        else
@@ -431,7 +439,12 @@ class MainController extends Controller
 			$statusLabel = "<span class='label {$labelContext}'>" . ucfirst($evaluation->status) . "</span>";
 
 	        $data = compact("evaluation", "subjectString", "evaluatorString", "statusLabel");
-	        if((($evaluation->subject_id == $user->id || $user->mentees->contains($evaluation->subject)) && in_array($evaluation->visibility, ["visible", "anonymous"])) || $evaluation->evaluator_id == $user->id || $user->watchedForms->pluck("form_id")->contains($evaluation->form_id) || $user->isType("admin")){
+	        if((($evaluation->subject_id == $user->id || $user->mentees->contains($evaluation->subject))
+					&& in_array($evaluation->visibility, ["visible", "anonymous"]))
+					|| $evaluation->evaluator_id == $user->id
+					|| $user->watchedForms->pluck("form_id")->contains($evaluation->form_id)
+					|| $user->isType("admin")){
+
 				if($user->isType("admin") || $evaluation->evaluator_id == $user->id){
 					switch($evaluation->evaluator->type){
 	                    // FIXME: These subjectTypes aren't correct
@@ -472,6 +485,7 @@ class MainController extends Controller
 	        else
 				throw new \Exception("Insufficient permissions to view the requested evaluation");
 		} catch(\Exception $e){
+			Debugbar::info($e);
 			return back()->with("error", "Insufficient permissions to view the requested evaluation");
 		}
     }

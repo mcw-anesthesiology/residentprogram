@@ -82,7 +82,7 @@
 	@if($user->isType("admin") || ($user->id != $evaluation->evaluator_id && $evaluation->evaluator && $evaluation->visibility == "visible"))
 						<th>{{ ucfirst($evaluation->evaluator->type) }}</th>
 	@endif
-	@if($evaluation->status == "complete")
+	@if($evaluation->status == "complete" && !($evaluation->isAnonymousToUser() && $evaluation->form->type == "faculty"))
 						<th>Evaluation Date</th>
 	@endif
 	@if(!($evaluation->subject->isType("faculty") && $user->id == $evaluation->subject_id))
@@ -99,14 +99,14 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td>{{ $evaluation->id }}</td>
+						<td>{{ $evaluation->viewable_id }}</td>
 	@if($user->id != $evaluation->subject_id && $evaluation->form->evaluator_type != "self")
 						<td>{!! $subjectString !!}</td>
 	@endif
 	@if($user->isType("admin") || ($user->id != $evaluation->evaluator_id && $evaluation->visibility == "visible"))
 						<td>{!! $evaluatorString !!}</td>
 	@endif
-	@if($evaluation->evaluation_date)
+	@if($evaluation->status == "complete" && !($evaluation->isAnonymousToUser() && $evaluation->form->type == "faculty"))
 						<td>{{ $evaluation->evaluation_date->format("F Y") }}</td>
 	@endif
 	@if(!($evaluation->subject->isType("faculty") && $user->id == $evaluation->subject_id))
@@ -172,8 +172,8 @@
 					{!! App\Helpers\FormReader::read($evaluation->form->xml_path) !!}
 	@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id)
 					<div class="submit-container text-center">
-						<button type="submit" id="complete-form" name="evaluation_id" value="{{ $evaluation->id }}" class="btn btn-primary btn-lg">Complete evaluation</button>
-						<button type="submit" id="save-form" name="evaluation_id_saved" value="{{ $evaluation->id }}" class="btn btn-default btn-lg" formnovalidate>Save evaluation</button>
+						<button type="submit" id="complete-form" name="evaluation_id" value="{{ $evaluation->viewable_id }}" class="btn btn-primary btn-lg">Complete evaluation</button>
+						<button type="submit" id="save-form" name="evaluation_id_saved" value="{{ $evaluation->viewable_id }}" class="btn btn-default btn-lg" formnovalidate>Save evaluation</button>
 					</div>
 				</form>
 	@endif
@@ -213,7 +213,7 @@
 	<div class="modal fade" id="edit-evaluation-modal" tabindex="-1" role="dialog" aria-labelledby="edit-evaluation-label">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<form method="POST" action="/evaluations/{{ $evaluation->id }}/edit" role="form" id="edit-evaluation-form">
+				<form method="POST" action="/evaluations/{{ $evaluation->viewable_id }}/edit" role="form" id="edit-evaluation-form">
 					<input type="hidden" name="_method" value="PATCH" />
 					{!! csrf_field() !!}
 					<div class="modal-header">
@@ -259,7 +259,7 @@
 			<div class="modal-content">
 				<form id="flag-evaluation-form" method="POST" action="/flagged_evaluations" role="form">
 					{!! csrf_field() !!}
-					<input type="hidden" name="evaluation_id" value="{{ $evaluation->id }}"  />
+					<input type="hidden" name="evaluation_id" value="{{ $evaluation->viewable_id }}"  />
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
 						<h4 class="modal-title" id="flag-evaluation-label">Flag evaluation</h4>
@@ -334,7 +334,7 @@
 
 @section("script")
 	<script>
-		var evaluationId = {{ $evaluation->id }};
+		var evaluationId = "{{ $evaluation->viewable_id }}";
 		$(".evaluation-hash-edit").click(function(){
 			var data = {};
 			data._token = "{{ csrf_token() }}";

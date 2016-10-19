@@ -213,8 +213,7 @@ body {
 	cursor: pointer;
 }
 
-.view-evaluation,
-.view-idless-evaluation {
+.view-evaluation {
     cursor: pointer;
 }
 

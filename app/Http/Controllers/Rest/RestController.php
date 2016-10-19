@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests;
 
 use Auth;
+use Hashids;
 
 class RestController extends Controller
 {
@@ -30,11 +31,7 @@ class RestController extends Controller
 		$withArray = [];
 		if($request->has("with")){
 			foreach(array_only($request->input("with"), $this->relationships) as $relationship => $fields){
-				if(!is_array($fields)){
-					if($fields && $fields !== "false")
-						$withArray[] = $relationship;
-				}
-				else {
+				if(is_array($fields)){
 					if(in_array("full_name", $fields)){
 						$index = array_search("full_name", $fields);
 						unset($fields[$index]);
@@ -42,9 +39,16 @@ class RestController extends Controller
 						$fields[] = "first_name";
 						$fields[] = "last_name";
 					}
+					if($relationship == "form" && !in_array("visibility", $fields)){
+						$fields[] = "visibility";
+					}
 					$withArray[$relationship] = function($query) use ($fields){
 						$query->select(array_merge(["id"], $fields));
 					};
+				}
+				else {
+					if($fields && $fields !== "false")
+						$withArray[] = $relationship;
 				}
 			}
 		}
@@ -80,8 +84,11 @@ class RestController extends Controller
 				if(method_exists($result, "hideFields"))
 					$result->hideFields();
 				collect($result->getRelations())->each(function($rel){
-					if($rel && method_exists($rel, "hideFields"))
-						$rel->hideFields();
+					$rels = collect($rel);
+					foreach($rels as $rel){
+						if($rel && method_exists($rel, "hideFields"))
+							$rel->hideFields();
+					}
 				});
 			});
 
@@ -110,14 +117,21 @@ class RestController extends Controller
      */
     public function show($id){
 		$user = Auth::user();
-        $result = $this->model::with($this->relationships)->findOrFail($id);
+		try {
+			$result = $this->model::with($this->relationships)->findOrFail($id);
+		} catch (\Exception $e){
+			$result = $this->model::with($this->relationships)->findOrFail(Hashids::decode($id)[0]);
+		}
 
 		if(!$user->isType("admin")){
 			if(method_exists($result, "hideFields"))
 				$result->hideFields();
 			collect($result->getRelations())->each(function($rel){
-				if($rel && method_exists($rel, "hideFields"))
-					$rel->hideFields();
+				$rels = collect($rel);
+				foreach($rels as $rel){
+					if($rel && method_exists($rel, "hideFields"))
+						$rel->hideFields();
+				}
 			});
 		}
 
