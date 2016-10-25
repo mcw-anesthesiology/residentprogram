@@ -7,6 +7,7 @@
 	"gulp": "gulp",
 	"gulp-watch": "gulp watch",
     "build": "webpack && gulp",
+	"build:prod": "webpack --optimize-minimize --optimize-dedupe && gulp --production",
 	"all": "npm-run-all --parallel webpack-watch gulp-watch"
   },
   "devDependencies": {

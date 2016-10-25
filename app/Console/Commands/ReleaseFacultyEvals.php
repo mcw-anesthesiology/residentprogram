@@ -53,7 +53,7 @@ class ReleaseFacultyEvals extends Command
 		foreach($hiddenEvals as $formId => $hiddenFormEvals){
 			if($hiddenFormEvals->count() >= $threshold){
 				$evalsToUnhide = $hiddenFormEvals->splice($hiddenFormEvals->count()%$threshold);
-				$evalsToUnhide->each(function($evalToUnhide) use ($numEvalsUnhidden){
+				$evalsToUnhide->each(function($evalToUnhide) use (&$numEvalsUnhidden){
 					$evalToUnhide->visibility = null;
 					$evalToUnhide->save();
 					$numEvalsUnhidden++;
@@ -61,12 +61,13 @@ class ReleaseFacultyEvals extends Command
 			}
 		}
 
-		$timeThreshold = Carbon::parse(Setting::get("facultyEvalTimeThreshold"));
-		$numEvalsUnhidden += Evaluation::where("status", "complete")
-			->where("visibility", "under faculty threshold")
-			->where("complete_date", "<", $timeThreshold)->update([
-				"visibility" => null
-			]);
+		// Manually release at end of academic year
+		// $timeThreshold = Carbon::parse(Setting::get("facultyEvalTimeThreshold"));
+		// $numEvalsUnhidden += Evaluation::where("status", "complete")
+		// 	->where("visibility", "under faculty threshold")
+		// 	->where("complete_date", "<", $timeThreshold)->update([
+		// 		"visibility" => null
+		// 	]);
 
 		$this->info($numEvalsUnhidden . " evaluations released");
     }

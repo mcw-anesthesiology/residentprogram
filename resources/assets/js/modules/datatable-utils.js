@@ -113,10 +113,15 @@ export function renderSecondaryTrainingLevel(secondaryTrainingLevel){
 
 export function renderSubjectEvalUrl(url, type, evaluation){
 	if(['sort', 'type'].includes(type)){
-		if(evaluation.seen_by_subject_at)
+		if(evaluation.seen_by_subject_at){
 			return evaluation.id;
-		else
-			return evaluation.id * UNSEEN_EVALUATION_PRIORITY;
+		}
+		else {
+			if(typeof evaluation.id === 'number')
+				return evaluation.id * UNSEEN_EVALUATION_PRIORITY;
+			else
+				return '~' + evaluation.id;
+		}
 	}
 
 	if(evaluation.seen_by_subject_at)
@@ -127,10 +132,15 @@ export function renderSubjectEvalUrl(url, type, evaluation){
 
 export function renderEvaluatorEvalUrl(url, type, evaluation){
 	if(['sort', 'type'].includes(type)){
-		if(evaluation.seen_by_evaluator_at)
+		if(evaluation.seen_by_evaluator_at){
 			return evaluation.id;
-		else
-			return evaluation.id * UNSEEN_EVALUATION_PRIORITY;
+		}
+		else {
+			if(typeof evaluation.id === 'number')
+				return evaluation.id * UNSEEN_EVALUATION_PRIORITY;
+			else
+				return '~' + evaluation.id;
+		}
 	}
 
 	if(evaluation.seen_by_evaluator_at)

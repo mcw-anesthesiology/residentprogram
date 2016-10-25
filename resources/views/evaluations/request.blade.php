@@ -131,8 +131,7 @@
 							The only information shown to faculty is the evaluation itself.
 						</p>
 						<p>
-							Evaluations are released to the faculty in groups of 3, or after the evaluation has been completed
-							more than 3 months ago.
+							Evaluations are released to the faculty in groups of 3, or at the end of the academic year.
 						</p>
 					</div>
 				</div>
