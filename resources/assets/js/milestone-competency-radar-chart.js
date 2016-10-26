@@ -101,7 +101,7 @@ function drawRadarGraphs(milestoneData, competencyData, title, index){
 
 $("#graph-type").change(function(){
 	$(".graphs").html("");
-	Chart.helpers.each(Chart.instances,function(instance){
+	Chart1.helpers.each(Chart1.instances,function(instance){
 		instance.destroy();
 	});
 	drawAllRadarGraphs();
@@ -116,7 +116,7 @@ $("#new-graphs").on("switchChange.bootstrapSwitch", function(){
 
 $("#graph-layout").on("switchChange.bootstrapSwitch", function(){
 	$(".graph").toggleClass("col-sm-6");
-	Chart.helpers.each(Chart.instances,function(instance){
+	Chart1.helpers.each(Chart1.instances,function(instance){
 		instance.resize(instance.render, true);
 	});
 });
