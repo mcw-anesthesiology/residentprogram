@@ -423,7 +423,7 @@
 					dataSrc: ""
 				},
 				columns: [
-					{data: "url", renderEvaluatorEvalUrl},
+					{data: "url", render: renderEvaluatorEvalUrl},
 					{data: "subject.full_name"},
 					{data: "form.title"},
 					{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
