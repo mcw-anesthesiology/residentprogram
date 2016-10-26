@@ -4,8 +4,6 @@
 	<!--[if lte IE 8]>
 		<script type="text/javascript" src="/js/excanvas.js"></script>
 	<![endif]-->
-	<link href="/css/bootstrap-switch.min.css" rel="stylesheet" />
-	<link href="/css/report-chartjs.css" rel="stylesheet" />
 <?php
 	ob_start();
 ?>
