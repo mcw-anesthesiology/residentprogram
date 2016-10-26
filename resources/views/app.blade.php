@@ -18,7 +18,14 @@
 				captureUncaught: true,
 				captureUnhandledRejections: false,
 				payload: {
-					environment: "production"
+					environment: "production",
+		@if(Auth::check())
+					person: {
+						id: {{ Auth::user()->id }},
+						username: "{{ Auth::user()->username }}",
+						email: "{{ Auth::user()->email }}"
+					}
+		@endif
 				}
 			};
 			// Rollbar Snippet

@@ -11,6 +11,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 use Illuminate\Session\TokenMismatchException;
 
+use Auth;
 use Log;
 
 
@@ -26,6 +27,7 @@ class Handler extends ExceptionHandler
         HttpException::class,
         ModelNotFoundException::class,
         ValidationException::class,
+		TokenMismatchException::class
     ];
 
     /**
@@ -38,7 +40,18 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $e)
     {
-        return parent::report($e);
+		if ($this->shouldReport($e)) {
+			$context = [];
+			if(Auth::check()){
+				$context['person'] = [
+					'id' => Auth::user()->id,
+					'username' => Auth::user()->username,
+					'email' => Auth::user()->email
+				];
+			}
+
+            $this->log->error($e, $context);
+        }
     }
 
     /**
