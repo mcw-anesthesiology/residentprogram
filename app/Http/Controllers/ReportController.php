@@ -33,7 +33,7 @@ class ReportController extends Controller
     public function __construct(){
         $this->middleware("auth");
         $this->middleware("shared");
-        $this->middleware("type:admin", ["except" => ["specific"]]);
+        $this->middleware("type:admin", ["except" => ["specific", "getPDF"]]);
     }
 
     public function stats($type){
