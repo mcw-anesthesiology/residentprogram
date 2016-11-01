@@ -32,7 +32,7 @@
 				<th rowspan="3">Resident/Fellow</th>
 				<th colspan="{{ 3*count($milestones) }}">Milestones</th>
 				<th colspan="{{ 3*count($competencies) }}">Competencies</th>
-				<th colspan="2">All</th>
+				<th colspan="3">All</th>
 			</tr>
 			<tr>
 				@foreach($milestones as $milestone_title)
@@ -47,7 +47,7 @@
 	$tsv .= $competency_title." Avg.\t".$competency_title." Std. Dev.\t".$competency_title." #\t";
 ?>
 				@endforeach
-				<th colspan="2">Total</th>
+				<th colspan="3">Total</th>
 			</tr>
 			<tr>
 				@for($i = 0; $i < (count($milestones)+count($competencies)); $i++)
@@ -55,10 +55,12 @@
 					<th>Std. Dev.</th>
 					<th>#</th>
 				@endfor
-				<th># Faculty</th></th>
+				<th># Faculty</th>
 				<th># Evals</th>
+				<th># Requests</th>
 <?php $tsv .= "Total # Faculty\t"; ?>
-<?php $tsv .= "Total # Evals\n"; ?>
+<?php $tsv .= "Total # Evals\t"; ?>
+<?php $tsv .= "# Trainee Requests\n" ?>
 			</tr>
 		</thead>
 		<tbody>
@@ -102,8 +104,10 @@
 					@endforeach
 					<td>{{ count($subjectEvaluators[$subject_id]) }}</td></td>
 					<td>{{ count($subjectEvals[$subject_id]) }}</td>
+					<td>{{ count($subjectRequests[$subject_id]) }}</td>
 <?php $tsv .= count($subjectEvaluators[$subject_id])."\t"; ?>
-<?php $tsv .= count($subjectEvals[$subject_id])."\n"; ?>
+<?php $tsv .= count($subjectEvals[$subject_id])."\t"; ?>
+<?php $tsv .= count($subjectRequests[$subject_id])."\n"; ?>
 				</tr>
 			@endforeach
 		</tbody>

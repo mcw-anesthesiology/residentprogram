@@ -55,7 +55,7 @@ class ReportTest extends TestCase
                 "form_id" => $this->form->id,
                 "subject_id" => $this->residents[0]->id,
                 "evaluator_id" => $this->faculty->id,
-                "requested_by_id" => $this->admin->id
+                "requested_by_id" => $this->residents[0]->id
             ]),
             factory(App\Evaluation::class, "complete", 2)->create([
                 "form_id" => $this->form->id,
@@ -149,13 +149,13 @@ class ReportTest extends TestCase
                 "form_id" => $this->form->id,
                 "subject_id" => $formerResidents[1]->id,
                 "evaluator_id" => $this->faculty->id,
-                "requested_by_id" => $this->admin->id
+                "requested_by_id" => $formerResidents[1]->id
             ]),
             factory(App\Evaluation::class, 2)->create([
                 "form_id" => $this->form->id,
                 "subject_id" => $formerResidents[2]->id,
                 "evaluator_id" => $this->faculty->id,
-                "requested_by_id" => $this->admin->id
+                "requested_by_id" => $formerResidents[2]->id
             ])
         ];
 
@@ -255,6 +255,7 @@ class ReportTest extends TestCase
                     $this->residents[1]->id => $this->residents[1]->full_name,
                     $formerResidents[0]->id => $formerResidents[0]->full_name,
                     $formerResidents[1]->id => $formerResidents[1]->full_name,
+                    $formerResidents[2]->id => $formerResidents[2]->full_name
                 ],
                 "graphs" => [],
                 "milestones" => [
@@ -397,6 +398,22 @@ class ReportTest extends TestCase
                     $formerResidents[1]->id => [
                         $formerEvals[1][0]->id => 2,
                         $formerEvals[1][1]->id => 2
+                    ],
+                    $formerResidents[2]->id => []
+                ],
+                "subjectRequests" => [
+                    $this->residents[0]->id => [
+                        $this->evals[0][0]->id => 1,
+                        $this->evals[0][1]->id => 1
+                    ],
+                    $this->residents[1]->id => [],
+                    $formerResidents[0]->id => [],
+                    $formerResidents[1]->id => [
+                        $formerEvals[1][0]->id => 1,
+                        $formerEvals[1][1]->id => 1
+                    ],
+                    $formerResidents[2]->id => [
+                        $formerEvals[2][0]->id => 1
                     ]
                 ]
             ]);
@@ -519,6 +536,13 @@ class ReportTest extends TestCase
                         $this->evals[1][0]->id => 2,
                         $this->evals[1][1]->id => 2
                     ]
+                ],
+                "subjectRequests" => [
+                    $this->residents[0]->id => [
+                        $this->evals[0][0]->id => 1,
+                        $this->evals[0][1]->id => 1
+                    ],
+                    $this->residents[1]->id => []
                 ],
                 "subjectTextResponses" => [
                     (object)[
@@ -1159,10 +1183,10 @@ class ReportTest extends TestCase
             [
                 "id" => $this->residents[0]->id,
                 "name" => $this->residents[0]->full_name,
-                "requested" => 1,
+                "requested" => 3,
                 "totalRequests" => 3,
                 "completed" => 2,
-                "ratio" => 67
+                "ratio" => 67.0
             ],
             [
                 "id" => $this->residents[1]->id,
@@ -1231,10 +1255,10 @@ class ReportTest extends TestCase
             [
                 "id" => $this->residents[0]->id,
                 "name" => $this->residents[0]->full_name,
-                "requested" => 1,
+                "requested" => 3,
                 "totalRequests" => 3,
                 "completed" => 2,
-                "ratio" => 67
+                "ratio" => 67.0
             ]
         ]);
 

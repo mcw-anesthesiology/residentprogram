@@ -67,13 +67,13 @@ class ReportController extends Controller
         } else{
             switch($type){
                 case "faculty":
-                    $users = User::where("status", "active")->where("type", "faculty")->with("evaluatorEvaluations")->get();
+                    $users = User::where("status", "active")->where("type", "faculty")->with("evaluatorEvaluations.form")->get();
                     break;
                 case "resident":
-                    $users = User::where("status", "active")->where("type", "resident")->where("training_level", "!=", "fellow")->with("subjectEvaluations")->get();
+                    $users = User::where("status", "active")->where("type", "resident")->where("training_level", "!=", "fellow")->with("subjectEvaluations.form")->get();
                     break;
                 case "fellow":
-                    $users = User::where("status", "active")->where("type", "resident")->where("training_level", "fellow")->with("subjectEvaluations")->get();
+                    $users = User::where("status", "active")->where("type", "resident")->where("training_level", "fellow")->with("subjectEvaluations.form")->get();
                     break;
             }
         }
@@ -82,9 +82,15 @@ class ReportController extends Controller
 
                 $userEvaluations = $type == "faculty" ? $user->evaluatorEvaluations() : $user->subjectEvaluations();
                 if(!empty($startDate))
-                    $userEvaluations->where("request_date", ">=", $startDate);
+                    $userEvaluations->where("evaluation_date", ">=", $startDate);
                 if(!empty($endDate))
-                    $userEvaluations->where("request_date", "<=", $endDate);
+                    $userEvaluations->where("evaluation_date", "<=", $endDate);
+
+                $userEvaluations->whereIn("status", ["pending", "complete"])
+                    ->whereHas("form", function($query){
+                        $query->whereIn("type", ["resident", "fellow"])
+                            ->where("evaluator_type", "faculty");
+                    });
 
                 $userEvals = $userEvaluations->get();
 
@@ -111,9 +117,6 @@ class ReportController extends Controller
                         $lastCompleted[$user->full_name] = $eval->complete_date;
                 }
 
-
-
-                $userEvals = $userEvaluations->whereIn("status", ["pending", "complete"])->get();
 
                 $userStats[] = [
                     "id" => $user->id,
@@ -576,7 +579,7 @@ class ReportController extends Controller
             // ->where("users.type", "resident")
             ->whereIn("forms.type", ["resident", "fellow"])
             ->whereIn("forms.evaluator_type", ["faculty"])
-            ->where("evaluations.status", "complete")
+            ->whereIn("evaluations.status", ["pending", "complete"])
             ->where("evaluations.evaluation_date", ">=", $startDate)
             ->where("evaluations.evaluation_date", "<=", $endDate);
 
@@ -603,68 +606,82 @@ class ReportController extends Controller
         $milestones = [];
         $competencies = [];
         $subjectEvals = [];
+        $subjectRequests = [];
         $subjectEvaluators = [];
         $competencyQuestions = [];
 
         $subjects = [];
 
-        $query->select("milestone_id", "milestones.title as milestone_title", "competency_id", "competencies.title as competency_title")
-            ->addSelect("subject_id", "evaluator_id", "last_name", "first_name", "evaluation_id", "response", "weight", "responses.question_id as question_id")
+        $query->select("milestone_id", "milestones.title as milestone_title", "competency_id", "competencies.title as competency_title", "evaluations.status as evaluation_status")
+            ->addSelect("subject_id", "evaluator_id", "requested_by_id", "last_name", "first_name", "evaluation_id", "response", "weight", "responses.question_id as question_id")
             ->orderBy("milestones.title")->orderBy("competencies.title");
         Debugbar::info($query->toSql());
-        $query->chunk(20000, function($responses) use (&$milestones, &$subjects, &$milestones, &$competencies, &$subjectEvals, &$averageMilestone, &$averageMilestoneDenom, &$averageCompetency, &$averageCompetencyDenom, &$subjectMilestone, &$subjectMilestoneDenom, &$subjectMilestoneEvals, &$subjectCompetency, &$subjectCompetencyDenom, &$subjectCompetencyEvals, &$competencyQuestions, &$subjectEvaluators){
+        $query->chunk(20000, function($responses) use (&$milestones, &$subjects, &$milestones, &$competencies, &$subjectEvals, &$subjectRequests, &$averageMilestone, &$averageMilestoneDenom, &$averageCompetency, &$averageCompetencyDenom, &$subjectMilestone, &$subjectMilestoneDenom, &$subjectMilestoneEvals, &$subjectCompetency, &$subjectCompetencyDenom, &$subjectCompetencyEvals, &$competencyQuestions, &$subjectEvaluators){
             foreach($responses as $response){
                 if(!isset($subjects[$response->subject_id]))
                     $subjects[$response->subject_id] = $response->last_name.", ".$response->first_name;
-                if(!isset($subjectEvals[$response->subject_id][$response->evaluation_id]))
-                    $subjectEvals[$response->subject_id][$response->evaluation_id] = 0;
-                if(!isset($subjectMilestoneEvals[$response->subject_id][$response->milestone_id]))
-                    $subjectMilestoneEvals[$response->subject_id][$response->milestone_id] = 0;
-                if(!isset($subjectCompetencyEvals[$response->subject_id][$response->competency_id]))
-                    $subjectCompetencyEvals[$response->subject_id][$response->competency_id] = 0;
-                if(!isset($subjectEvaluators[$response->subject_id][$response->evaluator_id]))
-                    $subjectEvaluators[$response->subject_id][$response->evaluator_id] = 1;
+                if(!isset($subjectEvals[$response->subject_id]))
+                    $subjectEvals[$response->subject_id] = [];
+                if(!isset($subjectEvaluators[$response->subject_id]))
+                    $subjectEvaluators[$response->subject_id] = [];
+                if(!isset($subjectRequests[$response->subject_id]))
+                    $subjectRequests[$response->subject_id] = [];
 
-                if(!isset($averageMilestone[$response->milestone_id]))
-                    $averageMilestone[$response->milestone_id] = 0;
-                if(!isset($averageMilestoneDenom[$response->milestone_id]))
-                    $averageMilestoneDenom[$response->milestone_id] = 0;
-                if(!isset($subjectMilestone[$response->subject_id][$response->milestone_id]))
-                    $subjectMilestone[$response->subject_id][$response->milestone_id] = 0;
-                if(!isset($subjectMilestoneDenom[$response->subject_id][$response->milestone_id]))
-                    $subjectMilestoneDenom[$response->subject_id][$response->milestone_id] = 0;
+                if($response->subject_id == $response->requested_by_id)
+                    $subjectRequests[$response->subject_id][$response->evaluation_id] = 1;
 
-                if(!isset($averageCompetency[$response->competency_id]))
-                    $averageCompetency[$response->competency_id] = 0;
-                if(!isset($averageCompetencyDenom[$response->competency_id]))
-                    $averageCompetencyDenom[$response->competency_id] = 0;
-                if(!isset($subjectCompetency[$response->subject_id][$response->competency_id]))
-                    $subjectCompetency[$response->subject_id][$response->competency_id] = 0;
-                if(!isset($subjectCompetencyDenom[$response->subject_id][$response->competency_id]))
-                    $subjectCompetencyDenom[$response->subject_id][$response->competency_id] = 0;
 
-                $subjectEvals[$response->subject_id][$response->evaluation_id]++;
-                $subjectMilestoneEvals[$response->subject_id][$response->milestone_id]++;
-				if(!isset($competencyEvals[$response->competency_id][$response->evaluation_id]))
-                	$subjectCompetencyEvals[$response->subject_id][$response->competency_id]++;
+                if($response->evaluation_status == "complete"){
+                    if(!isset($subjectEvals[$response->subject_id][$response->evaluation_id]))
+                        $subjectEvals[$response->subject_id][$response->evaluation_id] = 0;
+                    if(!isset($subjectMilestoneEvals[$response->subject_id][$response->milestone_id]))
+                        $subjectMilestoneEvals[$response->subject_id][$response->milestone_id] = 0;
+                    if(!isset($subjectCompetencyEvals[$response->subject_id][$response->competency_id]))
+                        $subjectCompetencyEvals[$response->subject_id][$response->competency_id] = 0;
+                    if(!isset($subjectEvaluators[$response->subject_id][$response->evaluator_id]))
+                        $subjectEvaluators[$response->subject_id][$response->evaluator_id] = 1;
 
-                // Weighted average = sum(response*weight)/sum(weight)
-                $milestones[$response->milestone_id] = $response->milestone_title;
-                $averageMilestone[$response->milestone_id] += (floatval($response->response)*floatval($response->weight));
-                $averageMilestoneDenom[$response->milestone_id] += floatval($response->weight);
-                $subjectMilestone[$response->subject_id][$response->milestone_id] += (floatval($response->response)*floatval($response->weight));
-                $subjectMilestoneDenom[$response->subject_id][$response->milestone_id] += floatval($response->weight);
+                    if(!isset($averageMilestone[$response->milestone_id]))
+                        $averageMilestone[$response->milestone_id] = 0;
+                    if(!isset($averageMilestoneDenom[$response->milestone_id]))
+                        $averageMilestoneDenom[$response->milestone_id] = 0;
+                    if(!isset($subjectMilestone[$response->subject_id][$response->milestone_id]))
+                        $subjectMilestone[$response->subject_id][$response->milestone_id] = 0;
+                    if(!isset($subjectMilestoneDenom[$response->subject_id][$response->milestone_id]))
+                        $subjectMilestoneDenom[$response->subject_id][$response->milestone_id] = 0;
 
-                // Ensure questions with multiple milestones aren't counted twice for competencies
-                if(isset($competencyQuestions[$response->evaluation_id][$response->question_id]))
-                    continue;
-				$competencyQuestions[$response->evaluation_id][$response->question_id] = true;
-				$competencyEvals[$response->competency_id][$response->evaluation_id] = true;
-                $competencies[$response->competency_id] = $response->competency_title;
-                $averageCompetency[$response->competency_id] += (floatval($response->response)*floatval($response->weight));
-                $averageCompetencyDenom[$response->competency_id] += floatval($response->weight);
-                $subjectCompetency[$response->subject_id][$response->competency_id] += (floatval($response->response)*floatval($response->weight));
-                $subjectCompetencyDenom[$response->subject_id][$response->competency_id] += floatval($response->weight);
+                    if(!isset($averageCompetency[$response->competency_id]))
+                        $averageCompetency[$response->competency_id] = 0;
+                    if(!isset($averageCompetencyDenom[$response->competency_id]))
+                        $averageCompetencyDenom[$response->competency_id] = 0;
+                    if(!isset($subjectCompetency[$response->subject_id][$response->competency_id]))
+                        $subjectCompetency[$response->subject_id][$response->competency_id] = 0;
+                    if(!isset($subjectCompetencyDenom[$response->subject_id][$response->competency_id]))
+                        $subjectCompetencyDenom[$response->subject_id][$response->competency_id] = 0;
+
+                    $subjectEvals[$response->subject_id][$response->evaluation_id]++;
+                    $subjectMilestoneEvals[$response->subject_id][$response->milestone_id]++;
+    				if(!isset($competencyEvals[$response->competency_id][$response->evaluation_id]))
+                    	$subjectCompetencyEvals[$response->subject_id][$response->competency_id]++;
+
+                    // Weighted average = sum(response*weight)/sum(weight)
+                    $milestones[$response->milestone_id] = $response->milestone_title;
+                    $averageMilestone[$response->milestone_id] += (floatval($response->response)*floatval($response->weight));
+                    $averageMilestoneDenom[$response->milestone_id] += floatval($response->weight);
+                    $subjectMilestone[$response->subject_id][$response->milestone_id] += (floatval($response->response)*floatval($response->weight));
+                    $subjectMilestoneDenom[$response->subject_id][$response->milestone_id] += floatval($response->weight);
+
+                    // Ensure questions with multiple milestones aren't counted twice for competencies
+                    if(isset($competencyQuestions[$response->evaluation_id][$response->question_id]))
+                        continue;
+    				$competencyQuestions[$response->evaluation_id][$response->question_id] = true;
+    				$competencyEvals[$response->competency_id][$response->evaluation_id] = true;
+                    $competencies[$response->competency_id] = $response->competency_title;
+                    $averageCompetency[$response->competency_id] += (floatval($response->response)*floatval($response->weight));
+                    $averageCompetencyDenom[$response->competency_id] += floatval($response->weight);
+                    $subjectCompetency[$response->subject_id][$response->competency_id] += (floatval($response->response)*floatval($response->weight));
+                    $subjectCompetencyDenom[$response->subject_id][$response->competency_id] += floatval($response->weight);
+                }
             }
         });
 
@@ -675,24 +692,30 @@ class ReportController extends Controller
                 $averageMilestone[$milestone] = 0;
 
             foreach($subjects as $subject => $name){
-                // Standard deviation uses array[milestone][resident] while graph uses array[resident][milestone]
-                if(isset($subjectMilestoneDenom[$subject][$milestone]) && $subjectMilestoneDenom[$subject][$milestone])
-                    $subjectMilestone[$subject][$milestone] = $milestoneSubject[$milestone][$subject] = $subjectMilestone[$subject][$milestone]/$subjectMilestoneDenom[$subject][$milestone];
-                else
-                    $subjectMilestone[$subject][$milestone] = $milestoneSubject[$milestone][$subject] = 0;
+                if(count($subjectEvals[$subject]) > 0){
+                    // Standard deviation uses array[milestone][resident] while graph uses array[resident][milestone]
+                    if(isset($subjectMilestoneDenom[$subject][$milestone]) && $subjectMilestoneDenom[$subject][$milestone])
+                        $subjectMilestone[$subject][$milestone] = $milestoneSubject[$milestone][$subject] = $subjectMilestone[$subject][$milestone]/$subjectMilestoneDenom[$subject][$milestone];
+                    else
+                        $subjectMilestone[$subject][$milestone] = $milestoneSubject[$milestone][$subject] = 0;
+                }
             }
             if(count($milestoneSubject[$milestone]) > 1){
                 $milestoneStd[$milestone] = $this->sd($milestoneSubject[$milestone]);
                 foreach($subjects as $subject => $name){
-					if($milestoneStd[$milestone] == 0)
-						$subjectMilestoneDeviations[$subject][$milestone] = 0;
-                    else // Num standard deviations = ((subject weighted average)-(milestone weighted average))/(standard deviation of subject averages)
-                    	$subjectMilestoneDeviations[$subject][$milestone] = ($subjectMilestone[$subject][$milestone]-$averageMilestone[$milestone])/$milestoneStd[$milestone];
+                    if(count($subjectEvals[$subject]) > 0){
+    					if($milestoneStd[$milestone] == 0)
+    						$subjectMilestoneDeviations[$subject][$milestone] = 0;
+                        else // Num standard deviations = ((subject weighted average)-(milestone weighted average))/(standard deviation of subject averages)
+                        	$subjectMilestoneDeviations[$subject][$milestone] = ($subjectMilestone[$subject][$milestone]-$averageMilestone[$milestone])/$milestoneStd[$milestone];
+                    }
                 }
             }
 			else{
 				foreach($subjects as $subject => $name){
-					$subjectMilestoneDeviations[$subject][$milestone] = 0;
+                    if(count($subjectEvals[$subject]) > 0){
+                        $subjectMilestoneDeviations[$subject][$milestone] = 0;
+                    }
 				}
 			}
         }
@@ -704,26 +727,30 @@ class ReportController extends Controller
                 $averageCompetency[$competency] = 0;
 
             foreach($subjects as $subject => $name){
-                // Standard deviation uses array[competency][resident] while graph uses array[resident][competency]
-                if(isset($subjectCompetencyDenom[$subject][$competency]) && $subjectCompetencyDenom[$subject][$competency])
-                    $subjectCompetency[$subject][$competency] = $competencySubject[$competency][$subject] = $subjectCompetency[$subject][$competency]/$subjectCompetencyDenom[$subject][$competency];
-                else
-                    $subjectCompetency[$subject][$competency] = $competencySubject[$competency][$subject] = 0;
-
-
+                if(count($subjectEvals[$subject]) > 0){
+                    // Standard deviation uses array[competency][resident] while graph uses array[resident][competency]
+                    if(isset($subjectCompetencyDenom[$subject][$competency]) && $subjectCompetencyDenom[$subject][$competency])
+                        $subjectCompetency[$subject][$competency] = $competencySubject[$competency][$subject] = $subjectCompetency[$subject][$competency]/$subjectCompetencyDenom[$subject][$competency];
+                    else
+                        $subjectCompetency[$subject][$competency] = $competencySubject[$competency][$subject] = 0;
+                }
             }
             if(count($competencySubject[$competency]) > 1){
                 $competencyStd[$competency] = $this->sd($competencySubject[$competency]);
                 foreach($subjects as $subject => $name){
-					if($competencyStd[$competency] == 0)
-						$subjectCompetencyDeviations[$subject][$competency] = 0;
-					else // Num standard deviations = ((subject weighted average)-(competency weighted average))/(standard deviation of subject averages)
-                    	$subjectCompetencyDeviations[$subject][$competency] = ($subjectCompetency[$subject][$competency]-$averageCompetency[$competency])/$competencyStd[$competency];
+                    if(count($subjectEvals[$subject]) > 0){
+    					if($competencyStd[$competency] == 0)
+    						$subjectCompetencyDeviations[$subject][$competency] = 0;
+    					else // Num standard deviations = ((subject weighted average)-(competency weighted average))/(standard deviation of subject averages)
+                        	$subjectCompetencyDeviations[$subject][$competency] = ($subjectCompetency[$subject][$competency]-$averageCompetency[$competency])/$competencyStd[$competency];
+                    }
                 }
             }
 			else{
 				foreach($subjects as $subject => $name){
-					$subjectCompetencyDeviations[$subject][$competency] = 0;
+                    if(count($subjectEvals[$subject]) > 0){
+                        $subjectCompetencyDeviations[$subject][$competency] = 0;
+                    }
 				}
 			}
         }
@@ -760,7 +787,7 @@ class ReportController extends Controller
 
         $data = compact("milestones", "competencies", "subjectMilestone",
 			"subjectMilestoneDeviations", "subjectMilestoneEvals", "subjectCompetency",
-			"subjectCompetencyDeviations", "subjectCompetencyEvals", "subjectEvals",
+			"subjectCompetencyDeviations", "subjectCompetencyEvals", "subjectEvals", "subjectRequests",
 			"graphs", "subjects", "subjectEvaluators", "averageMilestone",
 			"averageCompetency", "graphOption", "trainingLevel", "startDate", "endDate");
 
