@@ -87,6 +87,7 @@
 			<div class="container body-block">
 				@yield("body")
 			</div>
+			@yield("blockless-body")
 		</div>
 	{{-- TODO: Should not do this, use inheretence --}}
 	@if(empty($noNavbar) || !$noNavbar)

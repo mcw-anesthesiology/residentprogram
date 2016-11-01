@@ -141,7 +141,9 @@ Route::get("manage/alumni", "ManageController@alumni");
 Route::get("manage/alumni/import", "ManageController@importAlumni");
 Route::get("manage/watched-forms", "ManageController@watchedForms");
 Route::get("manage/user-features", "ManageController@userFeatures");
-Route::Get("manage/case-logs", "ManageController@caseLogs");
+Route::get("manage/case-logs", "ManageController@caseLogs");
+
+Route::get("reports", "ReportController@reports");
 
 Route::post("report/aggregate", "ReportController@aggregate");
 Route::post("report/specific", "ReportController@specific");

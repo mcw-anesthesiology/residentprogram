@@ -40,55 +40,24 @@
 </template>
 
 <script>
+import 'whatwg-fetch';
+
 import FormBuilderInstruction from './FormBuilderInstruction.vue';
 import FormBuilderQuestion from './FormBuilderQuestion.vue';
 
-import 'whatwg-fetch';
-
-import { appendAlert, ucfirst } from '../modules/utils.js';
+import {
+	appendAlert,
+	ucfirst,
+	fetchMilestoneGroups
+} from '../modules/utils.js';
 
 export default {
 	props: [
 		'oldFormContents'
 	],
 	created(){
-		fetch('/milestones', { credentials: 'same-origin' }).then(response => {
-			if(response.ok)
-				return response.json();
-			else {
-				let err = new Error(response.statusText);
-				err.response = response;
-				throw err;
-			}
-		}).then(milestones => {
-			this.milestones = milestones;
-			let milestoneGroups = {};
-			for(let milestone of milestones){
-				let groupTitle = ucfirst(milestone.type);
-				if(milestone.training_level)
-					groupTitle += ` — ${milestone.training_level}`;
-				if(!milestoneGroups[groupTitle])
-					milestoneGroups[groupTitle] = {
-						text: groupTitle,
-						children: []
-					};
-				milestoneGroups[groupTitle].children.push({
-					id: milestone.id.toString(),
-					text: milestone.title
-				});
-			}
-			for(let groupTitle in milestoneGroups){
-				let milestoneGroup = milestoneGroups[groupTitle];
-				milestoneGroup.children.sort((a, b) => {
-					if(a.text < b.text)
-						return 1;
-					else if(a.text > b.text)
-						return -1;
-					else
-						return 0;
-				});
-			}
-			this.groupedMilestones = Object.values(milestoneGroups);
+		fetchMilestoneGroups().then(milestoneGroups => {
+			this.groupedMilestones = milestoneGroups;
 		}).catch(err => {
 			console.error(err);
 		});
@@ -112,7 +81,6 @@ export default {
 			title: '',
 			formType: 'resident',
 			nextQuestionIdNum: 1,
-			milestones: [],
 			groupedMilestones: [],
 			competencies: [],
 			items: [],

@@ -174,10 +174,15 @@ return /******/ (function(modules) { // webpackBootstrap
 		FELLOW: [{ value: 0, text: "Not at fellowship level" }, { value: 1, text: "" }, { value: 2, text: "Fellow - 1" }, { value: 3, text: "" }, { value: 4, text: "Fellow - 2" }, { value: 5, text: "" }, { value: 6, text: "Fellow - 3" }, { value: 7, text: "" }, { value: 8, text: "Fellow - 4" }, { value: 9, text: "" }, { value: 10, text: "Fellow - 5" }],
 		FACULTY: [{ value: "strongly-disagree", text: "Strongly Disagree" }, { value: "disagree", text: "Disagree" }, { value: "undecided", text: "Undecided" }, { value: "agree", text: "Agree" }, { value: "strongly-agree", text: "Strongly Agree" }, { value: "n-a", text: "N/A" }]
 	};
+	
+	var REPORT_TYPES = exports.REPORT_TYPES = {
+		TRAINEE: 'trainee',
+		FORM: 'form'
+	};
 
 /***/ },
 /* 59 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -186,6 +191,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.appendAlert = appendAlert;
 	exports.ucfirst = ucfirst;
+	exports.fetchMilestoneGroups = fetchMilestoneGroups;
+	
+	__webpack_require__(81);
+	
 	function appendAlert(alertText) {
 		var parent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '#alert-container';
 		var alertType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'danger';
@@ -218,6 +227,59 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function ucfirst(str) {
 		return str.charAt(0).toUpperCase() + str.substring(1);
+	}
+	
+	function fetchMilestoneGroups() {
+		return fetch('/milestones', { credentials: 'same-origin' }).then(function (response) {
+			if (response.ok) return response.json();else {
+				var err = new Error(response.statusText);
+				err.response = response;
+				throw err;
+			}
+		}).then(function (milestones) {
+			var milestoneGroups = {};
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+	
+			try {
+				for (var _iterator = milestones[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var milestone = _step.value;
+	
+					var _groupTitle = ucfirst(milestone.type);
+					if (milestone.training_level) _groupTitle += ' \u2014 ' + milestone.training_level;
+					if (!milestoneGroups[_groupTitle]) milestoneGroups[_groupTitle] = {
+						text: _groupTitle,
+						children: []
+					};
+					milestoneGroups[_groupTitle].children.push({
+						id: milestone.id.toString(),
+						text: milestone.title
+					});
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator.return) {
+						_iterator.return();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
+			}
+	
+			for (var groupTitle in milestoneGroups) {
+				var milestoneGroup = milestoneGroups[groupTitle];
+				milestoneGroup.children.sort(function (a, b) {
+					if (a.text < b.text) return 1;else if (a.text > b.text) return -1;else return 0;
+				});
+			}
+			return Object.values(milestoneGroups);
+		});
 	}
 
 /***/ },
@@ -6302,7 +6364,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	
 	// module
-	exports.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"FormBuilder.vue","sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"FormBuilder.vue","sourceRoot":"webpack://"}]);
 	
 	// exports
 
@@ -6317,6 +6379,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		value: true
 	});
 	
+	__webpack_require__(81);
+	
 	var _FormBuilderInstruction = __webpack_require__(74);
 	
 	var _FormBuilderInstruction2 = _interopRequireDefault(_FormBuilderInstruction);
@@ -6324,8 +6388,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _FormBuilderQuestion = __webpack_require__(77);
 	
 	var _FormBuilderQuestion2 = _interopRequireDefault(_FormBuilderQuestion);
-	
-	__webpack_require__(81);
 	
 	var _utils = __webpack_require__(59);
 	
@@ -6378,56 +6440,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		created: function created() {
 			var _this = this;
 	
-			fetch('/milestones', { credentials: 'same-origin' }).then(function (response) {
-				if (response.ok) return response.json();else {
-					var err = new Error(response.statusText);
-					err.response = response;
-					throw err;
-				}
-			}).then(function (milestones) {
-				_this.milestones = milestones;
-				var milestoneGroups = {};
-				var _iteratorNormalCompletion = true;
-				var _didIteratorError = false;
-				var _iteratorError = undefined;
-	
-				try {
-					for (var _iterator = milestones[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-						var milestone = _step.value;
-	
-						var _groupTitle = (0, _utils.ucfirst)(milestone.type);
-						if (milestone.training_level) _groupTitle += ' \u2014 ' + milestone.training_level;
-						if (!milestoneGroups[_groupTitle]) milestoneGroups[_groupTitle] = {
-							text: _groupTitle,
-							children: []
-						};
-						milestoneGroups[_groupTitle].children.push({
-							id: milestone.id.toString(),
-							text: milestone.title
-						});
-					}
-				} catch (err) {
-					_didIteratorError = true;
-					_iteratorError = err;
-				} finally {
-					try {
-						if (!_iteratorNormalCompletion && _iterator.return) {
-							_iterator.return();
-						}
-					} finally {
-						if (_didIteratorError) {
-							throw _iteratorError;
-						}
-					}
-				}
-	
-				for (var groupTitle in milestoneGroups) {
-					var milestoneGroup = milestoneGroups[groupTitle];
-					milestoneGroup.children.sort(function (a, b) {
-						if (a.text < b.text) return 1;else if (a.text > b.text) return -1;else return 0;
-					});
-				}
-				_this.groupedMilestones = Object.values(milestoneGroups);
+			(0, _utils.fetchMilestoneGroups)().then(function (milestoneGroups) {
+				_this.groupedMilestones = milestoneGroups;
 			}).catch(function (err) {
 				console.error(err);
 			});
@@ -6449,7 +6463,6 @@ return /******/ (function(modules) { // webpackBootstrap
 				title: '',
 				formType: 'resident',
 				nextQuestionIdNum: 1,
-				milestones: [],
 				groupedMilestones: [],
 				competencies: [],
 				items: [],
@@ -6530,13 +6543,13 @@ return /******/ (function(modules) { // webpackBootstrap
 					return false;
 				}
 	
-				var _iteratorNormalCompletion2 = true;
-				var _didIteratorError2 = false;
-				var _iteratorError2 = undefined;
+				var _iteratorNormalCompletion = true;
+				var _didIteratorError = false;
+				var _iteratorError = undefined;
 	
 				try {
-					for (var _iterator2 = this.items[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-						var item = _step2.value;
+					for (var _iterator = this.items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var item = _step.value;
 	
 						if (item.type === 'question') {
 							if (!item.text) {
@@ -6549,13 +6562,13 @@ return /******/ (function(modules) { // webpackBootstrap
 									return false;
 								}
 	
-								var _iteratorNormalCompletion3 = true;
-								var _didIteratorError3 = false;
-								var _iteratorError3 = undefined;
+								var _iteratorNormalCompletion2 = true;
+								var _didIteratorError2 = false;
+								var _iteratorError2 = undefined;
 	
 								try {
-									for (var _iterator3 = item.options[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-										var option = _step3.value;
+									for (var _iterator2 = item.options[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+										var option = _step2.value;
 	
 										if (!option.value) {
 											(0, _utils.appendAlert)('An option cannot be submitted without a value. Please either assign a value or remove the option text and description for each option in question ' + item.questionIdNum);
@@ -6563,16 +6576,16 @@ return /******/ (function(modules) { // webpackBootstrap
 										}
 									}
 								} catch (err) {
-									_didIteratorError3 = true;
-									_iteratorError3 = err;
+									_didIteratorError2 = true;
+									_iteratorError2 = err;
 								} finally {
 									try {
-										if (!_iteratorNormalCompletion3 && _iterator3.return) {
-											_iterator3.return();
+										if (!_iteratorNormalCompletion2 && _iterator2.return) {
+											_iterator2.return();
 										}
 									} finally {
-										if (_didIteratorError3) {
-											throw _iteratorError3;
+										if (_didIteratorError2) {
+											throw _iteratorError2;
 										}
 									}
 								}
@@ -6588,16 +6601,16 @@ return /******/ (function(modules) { // webpackBootstrap
 						}
 					}
 				} catch (err) {
-					_didIteratorError2 = true;
-					_iteratorError2 = err;
+					_didIteratorError = true;
+					_iteratorError = err;
 				} finally {
 					try {
-						if (!_iteratorNormalCompletion2 && _iterator2.return) {
-							_iterator2.return();
+						if (!_iteratorNormalCompletion && _iterator.return) {
+							_iterator.return();
 						}
 					} finally {
-						if (_didIteratorError2) {
-							throw _iteratorError2;
+						if (_didIteratorError) {
+							throw _iteratorError;
 						}
 					}
 				}
@@ -6610,27 +6623,27 @@ return /******/ (function(modules) { // webpackBootstrap
 				this.title = formContents.title;
 				this.formType = formContents.formType;
 				this.items = formContents.items.slice();
-				var _iteratorNormalCompletion4 = true;
-				var _didIteratorError4 = false;
-				var _iteratorError4 = undefined;
+				var _iteratorNormalCompletion3 = true;
+				var _didIteratorError3 = false;
+				var _iteratorError3 = undefined;
 	
 				try {
-					for (var _iterator4 = this.items[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-						var item = _step4.value;
+					for (var _iterator3 = this.items[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+						var item = _step3.value;
 	
 						if (item.questionIdNum && item.questionIdNum >= this.nextQuestionIdNum) this.nextQuestionIdNum = item.questionIdNum + 1;
 					}
 				} catch (err) {
-					_didIteratorError4 = true;
-					_iteratorError4 = err;
+					_didIteratorError3 = true;
+					_iteratorError3 = err;
 				} finally {
 					try {
-						if (!_iteratorNormalCompletion4 && _iterator4.return) {
-							_iterator4.return();
+						if (!_iteratorNormalCompletion3 && _iterator3.return) {
+							_iterator3.return();
 						}
 					} finally {
-						if (_didIteratorError4) {
-							throw _iteratorError4;
+						if (_didIteratorError3) {
+							throw _iteratorError3;
 						}
 					}
 				}
@@ -8497,7 +8510,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var __vue_exports__, __vue_options__
 	
 	/* styles */
-	__webpack_require__(93)
+	__webpack_require__(97)
 	
 	/* script */
 	__vue_exports__ = __webpack_require__(95)
@@ -8519,6 +8532,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+	__vue_options__._scopeId = "data-v-25c733f6"
 	
 	/* hot reload */
 	if (false) {(function () {
@@ -8538,13 +8552,133 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 93 */
+/* 93 */,
+/* 94 */,
+/* 95 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _TraineeReport = __webpack_require__(104);
+	
+	var _TraineeReport2 = _interopRequireDefault(_TraineeReport);
+	
+	var _constants = __webpack_require__(58);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	
+	exports.default = {
+		data: function data() {
+			return {
+				reportType: ''
+			};
+		},
+	
+		computed: {
+			REPORT_TYPES: function REPORT_TYPES() {
+				return _constants.REPORT_TYPES;
+			}
+		},
+		methods: {
+			ucfirst: ucfirst,
+			setReportType: function setReportType(type) {
+				this.reportType = type;
+			},
+			handleResetClick: function handleResetClick() {
+				this.reportType = '';
+			}
+		},
+		components: {
+			TraineeReport: _TraineeReport2.default
+		}
+	};
+
+/***/ },
+/* 96 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){with(this) {
+	  return _h('div', [(reportType) ? _h('div', [(reportType === REPORT_TYPES.TRAINEE) ? _h('trainee-report') : _e(), " ", (reportType === REPORT_TYPES.FORM) ? _h('form-report') : _e(), " ", _h('div', {
+	    staticClass: "text-center"
+	  }, [_h('button', {
+	    staticClass: "btn btn-lg btn-default",
+	    attrs: {
+	      "type": "button"
+	    },
+	    on: {
+	      "click": handleResetClick
+	    }
+	  }, ["\n\t\t\t\tStart over\n\t\t\t"])])]) : _h('div', {
+	    staticClass: "container body-block"
+	  }, [_h('fieldset', [_h('legend', ["Report type"]), " ", _h('div', {
+	    staticClass: "form-inline"
+	  }, [_l((REPORT_TYPES), function(type) {
+	    return _h('div', {
+	      staticClass: "form-group col-sm-2"
+	    }, [_h('button', {
+	      staticClass: "btn lg btn-primary",
+	      attrs: {
+	        "type": "button"
+	      },
+	      on: {
+	        "click": function($event) {
+	          setReportType(type)
+	        }
+	      }
+	    }, ["\n\t\t\t\t\t\t" + _s(ucfirst(type)) + "\n\t\t\t\t\t"])])
+	  })])])]), " "])
+	}},staticRenderFns: []}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-hot-reload-api").rerender("data-v-25c733f6", module.exports)
+	  }
+	}
+
+/***/ },
+/* 97 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(94);
+	var content = __webpack_require__(98);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(67)(content, {});
@@ -8553,8 +8687,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-25c733f6!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Reports.vue", function() {
-				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-25c733f6!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Reports.vue");
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-25c733f6&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Reports.vue", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-25c733f6&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Reports.vue");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -8564,7 +8698,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 94 */
+/* 98 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(66)();
@@ -8572,32 +8706,534 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	
 	// module
-	exports.push([module.id, "\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"Reports.vue","sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"Reports.vue","sourceRoot":"webpack://"}]);
 	
 	// exports
 
 
 /***/ },
-/* 95 */
-/***/ function(module, exports) {
+/* 99 */
+/***/ function(module, exports, __webpack_require__) {
 
-	//
-	//
-	//
-	//
-	"use strict";
+	var __vue_exports__, __vue_options__
+	
+	/* styles */
+	__webpack_require__(100)
+	
+	/* script */
+	__vue_exports__ = __webpack_require__(102)
+	
+	/* template */
+	var __vue_template__ = __webpack_require__(103)
+	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+	if (
+	  typeof __vue_exports__.default === "object" ||
+	  typeof __vue_exports__.default === "function"
+	) {
+	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+	__vue_options__ = __vue_exports__ = __vue_exports__.default
+	}
+	if (typeof __vue_options__ === "function") {
+	  __vue_options__ = __vue_options__.options
+	}
+	__vue_options__.name = __vue_options__.name || "ReportDate"
+	__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ReportDate.vue"
+	__vue_options__.render = __vue_template__.render
+	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+	__vue_options__._scopeId = "data-v-4ee850ac"
+	
+	/* hot reload */
+	if (false) {(function () {
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  module.hot.accept()
+	  if (!module.hot.data) {
+	    hotAPI.createRecord("data-v-4ee850ac", __vue_options__)
+	  } else {
+	    hotAPI.reload("data-v-4ee850ac", __vue_options__)
+	  }
+	})()}
+	if (__vue_options__.functional) {console.error("[vue-loader] ReportDate.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+	
+	module.exports = __vue_exports__
+
 
 /***/ },
-/* 96 */
+/* 100 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(101);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(67)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-4ee850ac&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ReportDate.vue", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-4ee850ac&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ReportDate.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 101 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(66)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"ReportDate.vue","sourceRoot":"webpack://"}]);
+	
+	// exports
+
+
+/***/ },
+/* 102 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	
+	exports.default = {
+		props: ['value'],
+		mounted: function mounted() {
+			$('#reports-start-date, #reports-end-date').datepicker({
+				dateFormat: "yy-mm-dd",
+				onSelect: function onSelect() {
+					this.dispatchEvent(new Event('input'));
+				}
+			});
+		},
+	
+		methods: {
+			handleInput: function handleInput(prop, value) {
+				var newValue = Object.assign({}, this.value, _defineProperty({}, prop, value));
+				this.$emit('input', newValue);
+			}
+		}
+	};
+
+/***/ },
+/* 103 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
-	  return _h("div")
-	}},staticRenderFns: []}
+	  return _h('div', {
+	    staticClass: "form-horizontal"
+	  }, [_h('div', {
+	    staticClass: "form-group"
+	  }, [_h('div', {
+	    staticClass: "col-md-4"
+	  }, [_m(0), " ", _h('input', {
+	    staticClass: "form-control",
+	    attrs: {
+	      "type": "text",
+	      "id": "reports-start-date"
+	    },
+	    domProps: {
+	      "value": value.startDate
+	    },
+	    on: {
+	      "input": function($event) {
+	        handleInput('startDate', $event.target.value)
+	      }
+	    }
+	  })]), " ", _h('div', {
+	    staticClass: "col-md-4"
+	  }, [_m(1), " ", _h('input', {
+	    staticClass: "form-control",
+	    attrs: {
+	      "type": "text",
+	      "id": "reports-end-date"
+	    },
+	    domProps: {
+	      "value": value.endDate
+	    },
+	    on: {
+	      "input": function($event) {
+	        handleInput('endDate', $event.target.value)
+	      }
+	    }
+	  })]), " ", _m(2)])])
+	}},staticRenderFns: [function (){with(this) {
+	  return _h('label', {
+	    attrs: {
+	      "for": "reports-start-date"
+	    }
+	  }, ["Start Date"])
+	}},function (){with(this) {
+	  return _h('label', {
+	    attrs: {
+	      "for": "reports-end-date"
+	    }
+	  }, ["End Date"])
+	}},function (){with(this) {
+	  return _h('div', {
+	    staticClass: "col-md-4"
+	  })
+	}}]}
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-25c733f6", module.exports)
+	     require("vue-hot-reload-api").rerender("data-v-4ee850ac", module.exports)
+	  }
+	}
+
+/***/ },
+/* 104 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_exports__, __vue_options__
+	
+	/* styles */
+	__webpack_require__(105)
+	
+	/* script */
+	__vue_exports__ = __webpack_require__(107)
+	
+	/* template */
+	var __vue_template__ = __webpack_require__(108)
+	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+	if (
+	  typeof __vue_exports__.default === "object" ||
+	  typeof __vue_exports__.default === "function"
+	) {
+	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+	__vue_options__ = __vue_exports__ = __vue_exports__.default
+	}
+	if (typeof __vue_options__ === "function") {
+	  __vue_options__ = __vue_options__.options
+	}
+	__vue_options__.name = __vue_options__.name || "TraineeReport"
+	__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/TraineeReport.vue"
+	__vue_options__.render = __vue_template__.render
+	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+	__vue_options__._scopeId = "data-v-155d597c"
+	
+	/* hot reload */
+	if (false) {(function () {
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  module.hot.accept()
+	  if (!module.hot.data) {
+	    hotAPI.createRecord("data-v-155d597c", __vue_options__)
+	  } else {
+	    hotAPI.reload("data-v-155d597c", __vue_options__)
+	  }
+	})()}
+	if (__vue_options__.functional) {console.error("[vue-loader] TraineeReport.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+	
+	module.exports = __vue_exports__
+
+
+/***/ },
+/* 105 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(106);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(67)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-155d597c&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TraineeReport.vue", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-155d597c&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TraineeReport.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 106 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(66)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "\n.milestone-group .panel-body[data-v-155d597c] {\n\theight: 300px;\n\toverflow: auto;\n}\n.milestone-group .panel-body label[data-v-155d597c] {\n\tfont-weight: normal;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/TraineeReport.vue?48de8db2"],"names":[],"mappings":";AAgGA;CACA,cAAA;CACA,eAAA;CACA;AAEA;CACA,oBAAA;CACA","file":"TraineeReport.vue","sourcesContent":["<template>\n\t<div class=\"container body-block\">\n\t\t<h2>Trainee report</h2>\n\t\t<report-date v-model=\"dates\" />\n\t\t<div class=\"form-group\">\n\t\t\t<label>\n\t\t\t\t<input type=\"checkbox\" v-model=\"filterMilestones\" />\n\t\t\t\tFilter milestones\n\t\t\t</label>\n\t\t</div>\n\n\n\t\t<fieldset v-if=\"filterMilestones\">\n\t\t\t<legend>Milestones</legend>\n\t\t\t<div v-for=\"(milestoneGroup, index) of milestoneGroups\" class=\"milestone-group col-md-4\">\n\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t<label class=\"panel-title\">\n\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t:checked=\"isEntireMilestoneGroupSelected(index)\"\n\t\t\t\t\t\t\t\t\t@click=\"toggleEntireMilestoneGroup(index)\" />\n\t\t\t\t\t\t\t{{ milestoneGroup.text }}\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t<div v-for=\"child of milestoneGroup.children\" class=\"form-group\">\n\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t:value=\"child.id\"\n\t\t\t\t\t\t\t\t\t\tv-model=\"milestones\" />\n\t\t\t\t\t\t\t\t{{ child.text }}\n\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</fieldset>\n\t</div>\n</template>\n\n<script>\nimport 'whatwg-fetch';\n\nimport ReportDate from './ReportDate.vue';\n\nimport { fetchMilestoneGroups } from '../modules/utils.js';\n\nexport default {\n\tdata(){\n\t\treturn {\n\t\t\tdates: {\n\t\t\t\tstartDate: '',\n\t\t\t\tendDate: ''\n\t\t\t},\n\t\t\ttrainingLevel: 'all',\n\t\t\tfilterMilestones: false,\n\t\t\tmilestones: [],\n\t\t\tdrawGraphs: 'average',\n\n\t\t\tmilestoneGroups: []\n\t\t};\n\t},\n\twatch: {\n\t\tfilterMilestones(shouldFilter){\n\t\t\tif(shouldFilter){\n\t\t\t\tfetchMilestoneGroups().then(milestoneGroups => {\n\t\t\t\t\tthis.milestoneGroups = milestoneGroups;\n\t\t\t\t});\n\t\t\t}\n\t\t}\n\t},\n\tmethods: {\n\t\tisEntireMilestoneGroupSelected(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\treturn groupIds.every(id => {\n\t\t\t\treturn this.milestones.includes(id);\n\t\t\t});\n\t\t},\n\t\ttoggleEntireMilestoneGroup(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\tlet newMilestones = this.milestones.filter(milestone => {\n\t\t\t\treturn !groupIds.includes(milestone);\n\t\t\t});\n\t\t\tif(!this.isEntireMilestoneGroupSelected(index)){\n\t\t\t\tnewMilestones = newMilestones.concat(groupIds);\n\t\t\t}\n\t\t\tthis.milestones = newMilestones;\n\t\t}\n\t},\n\tcomponents: {\n\t\tReportDate\n\t}\n}\n</script>\n\n<style scoped>\n\t.milestone-group .panel-body {\n\t\theight: 300px;\n\t\toverflow: auto;\n\t}\n\n\t.milestone-group .panel-body label {\n\t\tfont-weight: normal;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+	
+	// exports
+
+
+/***/ },
+/* 107 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	__webpack_require__(81);
+	
+	var _ReportDate = __webpack_require__(99);
+	
+	var _ReportDate2 = _interopRequireDefault(_ReportDate);
+	
+	var _utils = __webpack_require__(59);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = {
+		data: function data() {
+			return {
+				dates: {
+					startDate: '',
+					endDate: ''
+				},
+				trainingLevel: 'all',
+				filterMilestones: false,
+				milestones: [],
+				drawGraphs: 'average',
+	
+				milestoneGroups: []
+			};
+		},
+	
+		watch: {
+			filterMilestones: function filterMilestones(shouldFilter) {
+				var _this = this;
+	
+				if (shouldFilter) {
+					(0, _utils.fetchMilestoneGroups)().then(function (milestoneGroups) {
+						_this.milestoneGroups = milestoneGroups;
+					});
+				}
+			}
+		},
+		methods: {
+			isEntireMilestoneGroupSelected: function isEntireMilestoneGroupSelected(index) {
+				var _this2 = this;
+	
+				var groupIds = this.milestoneGroups[index].children.map(function (child) {
+					return child.id;
+				});
+				return groupIds.every(function (id) {
+					return _this2.milestones.indexOf(id) !== -1;
+				});
+			},
+			toggleEntireMilestoneGroup: function toggleEntireMilestoneGroup(index) {
+				var groupIds = this.milestoneGroups[index].children.map(function (child) {
+					return child.id;
+				});
+				var newMilestones = this.milestones.filter(function (milestone) {
+					return !(groupIds.indexOf(milestone) !== -1);
+				});
+				if (!this.isEntireMilestoneGroupSelected(index)) {
+					newMilestones = newMilestones.concat(groupIds);
+				}
+				this.milestones = newMilestones;
+			}
+		},
+		components: {
+			ReportDate: _ReportDate2.default
+		}
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+
+/***/ },
+/* 108 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){with(this) {
+	  return _h('div', {
+	    staticClass: "container body-block"
+	  }, [_m(0), " ", _h('report-date', {
+	    directives: [{
+	      name: "model",
+	      value: (dates),
+	      expression: "dates"
+	    }],
+	    domProps: {
+	      "value": (dates)
+	    },
+	    on: {
+	      "input": function($event) {
+	        dates = $event
+	      }
+	    }
+	  }), " ", _h('div', {
+	    staticClass: "form-group"
+	  }, [_h('label', [_h('input', {
+	    attrs: {
+	      "type": "checkbox"
+	    },
+	    domProps: {
+	      "checked": Array.isArray(filterMilestones) ? _i(filterMilestones, null) > -1 : _q(filterMilestones, true)
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$a = filterMilestones,
+	          $$el = $event.target,
+	          $$c = $$el.checked ? (true) : (false);
+	        if (Array.isArray($$a)) {
+	          var $$v = null,
+	            $$i = _i($$a, $$v);
+	          if ($$c) {
+	            $$i < 0 && (filterMilestones = $$a.concat($$v))
+	          } else {
+	            $$i > -1 && (filterMilestones = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+	          }
+	        } else {
+	          filterMilestones = $$c
+	        }
+	      }
+	    }
+	  }), "\n\t\t\tFilter milestones\n\t\t"])]), " ", (filterMilestones) ? _h('fieldset', [_m(1), " ", _l((milestoneGroups), function(milestoneGroup, index) {
+	    return _h('div', {
+	      staticClass: "milestone-group col-md-4"
+	    }, [_h('div', {
+	      staticClass: "panel panel-default"
+	    }, [_h('div', {
+	      staticClass: "panel-heading"
+	    }, [_h('label', {
+	      staticClass: "panel-title"
+	    }, [_h('input', {
+	      attrs: {
+	        "type": "checkbox"
+	      },
+	      domProps: {
+	        "checked": isEntireMilestoneGroupSelected(index)
+	      },
+	      on: {
+	        "click": function($event) {
+	          toggleEntireMilestoneGroup(index)
+	        }
+	      }
+	    }), "\n\t\t\t\t\t\t" + _s(milestoneGroup.text) + "\n\t\t\t\t\t"])]), " ", _h('div', {
+	      staticClass: "panel-body"
+	    }, [_l((milestoneGroup.children), function(child) {
+	      return _h('div', {
+	        staticClass: "form-group"
+	      }, [_h('label', [_h('input', {
+	        attrs: {
+	          "type": "checkbox"
+	        },
+	        domProps: {
+	          "value": child.id,
+	          "checked": Array.isArray(milestones) ? _i(milestones, child.id) > -1 : _q(milestones, true)
+	        },
+	        on: {
+	          "change": function($event) {
+	            var $$a = milestones,
+	              $$el = $event.target,
+	              $$c = $$el.checked ? (true) : (false);
+	            if (Array.isArray($$a)) {
+	              var $$v = child.id,
+	                $$i = _i($$a, $$v);
+	              if ($$c) {
+	                $$i < 0 && (milestones = $$a.concat($$v))
+	              } else {
+	                $$i > -1 && (milestones = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+	              }
+	            } else {
+	              milestones = $$c
+	            }
+	          }
+	        }
+	      }), "\n\t\t\t\t\t\t\t" + _s(child.text) + "\n\t\t\t\t\t\t"])])
+	    })])])])
+	  })]) : _e()])
+	}},staticRenderFns: [function (){with(this) {
+	  return _h('h2', ["Trainee report"])
+	}},function (){with(this) {
+	  return _h('legend', ["Milestones"])
+	}}]}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-hot-reload-api").rerender("data-v-155d597c", module.exports)
 	  }
 	}
 

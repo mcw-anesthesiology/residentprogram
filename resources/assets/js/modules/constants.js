@@ -38,3 +38,8 @@ export const STANDARD_OPTIONS = {
 		{value: "n-a", text: "N/A"}
 	]
 };
+
+export const REPORT_TYPES = {
+	TRAINEE: 'trainee',
+	FORM: 'form'
+};
