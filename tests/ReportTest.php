@@ -254,8 +254,7 @@ class ReportTest extends TestCase
                     $this->residents[0]->id => $this->residents[0]->full_name,
                     $this->residents[1]->id => $this->residents[1]->full_name,
                     $formerResidents[0]->id => $formerResidents[0]->full_name,
-                    $formerResidents[1]->id => $formerResidents[1]->full_name,
-                    $formerResidents[2]->id => $formerResidents[2]->full_name
+                    $formerResidents[1]->id => $formerResidents[1]->full_name
                 ],
                 "graphs" => [],
                 "milestones" => [
@@ -398,22 +397,6 @@ class ReportTest extends TestCase
                     $formerResidents[1]->id => [
                         $formerEvals[1][0]->id => 2,
                         $formerEvals[1][1]->id => 2
-                    ],
-                    $formerResidents[2]->id => []
-                ],
-                "subjectRequests" => [
-                    $this->residents[0]->id => [
-                        $this->evals[0][0]->id => 1,
-                        $this->evals[0][1]->id => 1
-                    ],
-                    $this->residents[1]->id => [],
-                    $formerResidents[0]->id => [],
-                    $formerResidents[1]->id => [
-                        $formerEvals[1][0]->id => 1,
-                        $formerEvals[1][1]->id => 1
-                    ],
-                    $formerResidents[2]->id => [
-                        $formerEvals[2][0]->id => 1
                     ]
                 ]
             ]);
@@ -536,13 +519,6 @@ class ReportTest extends TestCase
                         $this->evals[1][0]->id => 2,
                         $this->evals[1][1]->id => 2
                     ]
-                ],
-                "subjectRequests" => [
-                    $this->residents[0]->id => [
-                        $this->evals[0][0]->id => 1,
-                        $this->evals[0][1]->id => 1
-                    ],
-                    $this->residents[1]->id => []
                 ],
                 "subjectTextResponses" => [
                     (object)[
