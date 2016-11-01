@@ -1,10 +1,8 @@
 /* eslint-env node */
-const path = require('path');
-
 module.exports = {
 	entry: {
 		bundle: './resources/assets/js/modules',
-		'form-builder': './resources/assets/js/vue-components/form-builder.js'
+		'vue-constructors': './resources/assets/js/vue-components/constructors.js'
 	},
 	output: {
 		path: './resources/assets/js/',
@@ -33,4 +31,4 @@ module.exports = {
 		'moment'
 	],
 	devtool: 'source-map'
-}
+};

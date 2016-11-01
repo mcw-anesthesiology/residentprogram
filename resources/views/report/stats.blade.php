@@ -1,14 +1,5 @@
 @extends("app")
 
-@section("head")
-	<style>
-		.labelless-button {
-			margin-top: 25px;
-			text-align: center;
-		}
-	</style>
-@stop
-
 @section("body")
 	<h2 class="header">{{ ucfirst($type)}} Stats</h2>
 	<div id="stats-form" class="form-horizontal report report-options">

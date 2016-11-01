@@ -33,8 +33,16 @@ class ReportController extends Controller
     public function __construct(){
         $this->middleware("auth");
         $this->middleware("shared");
-        $this->middleware("type:admin", ["except" => ["specific", "getPDF"]]);
+        $this->middleware("type:admin", ["except" => [
+			"reports",
+			"specific",
+			"getPDF"
+		]]);
     }
+
+	public function reports(){
+		return view('report/reports');
+	}
 
     public function stats($type){
         switch($type){

@@ -1,14 +1,12 @@
 {
   "private": true,
   "scripts": {
-    "webpack": "webpack",
-    "webpack-watch": "webpack --progress --colors --watch",
-	"webpack-prod": "webpack --optimize-minimize --optimize-dedupe",
-	"gulp": "gulp",
-	"gulp-watch": "gulp watch",
-    "build": "webpack && gulp",
-	"build:prod": "webpack --optimize-minimize --optimize-dedupe && gulp --production",
-	"all": "npm-run-all --parallel webpack-watch gulp-watch"
+    "build": "run-p build:*",
+	"build:webpack": "webpack --optimize-minimize --optimize-dedupe",
+	"build:gulp": "gulp --production",
+	"watch": "run-p watch:*",
+	"watch:webpack": "webpack --progress --colors --watch",
+	"watch:gulp": "gulp watch"
   },
   "devDependencies": {
     "babel-core": "^6.10.4",
