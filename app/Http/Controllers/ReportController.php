@@ -606,6 +606,7 @@ class ReportController extends Controller
         $milestones = [];
         $competencies = [];
         $subjectEvals = [];
+        $subjectRequests = [];
         $subjectEvaluators = [];
         $competencyQuestions = [];
 
@@ -615,10 +616,13 @@ class ReportController extends Controller
             ->addSelect("subject_id", "evaluator_id", "last_name", "first_name", "evaluation_id", "response", "weight", "responses.question_id as question_id")
             ->orderBy("milestones.title")->orderBy("competencies.title");
         Debugbar::info($query->toSql());
-        $query->chunk(20000, function($responses) use (&$milestones, &$subjects, &$milestones, &$competencies, &$subjectEvals, &$subjectRequests, &$averageMilestone, &$averageMilestoneDenom, &$averageCompetency, &$averageCompetencyDenom, &$subjectMilestone, &$subjectMilestoneDenom, &$subjectMilestoneEvals, &$subjectCompetency, &$subjectCompetencyDenom, &$subjectCompetencyEvals, &$competencyQuestions, &$subjectEvaluators){
+        $query->chunk(20000, function($responses) use (&$milestones, &$subjects, &$milestones, &$competencies, &$subjectEvals, &$subjectRequests, &$subjectRequests, &$averageMilestone, &$averageMilestoneDenom, &$averageCompetency, &$averageCompetencyDenom, &$subjectMilestone, &$subjectMilestoneDenom, &$subjectMilestoneEvals, &$subjectCompetency, &$subjectCompetencyDenom, &$subjectCompetencyEvals, &$competencyQuestions, &$subjectEvaluators){
             foreach($responses as $response){
                 if(!isset($subjects[$response->subject_id]))
                     $subjects[$response->subject_id] = $response->last_name.", ".$response->first_name;
+                if(!isset($subjectRequests[$response->subject_id]))
+                    $subjectRequests[$response->subject_id] = [];
+
                 if(!isset($subjectEvals[$response->subject_id][$response->evaluation_id]))
                     $subjectEvals[$response->subject_id][$response->evaluation_id] = 0;
                 if(!isset($subjectMilestoneEvals[$response->subject_id][$response->milestone_id]))
@@ -741,6 +745,36 @@ class ReportController extends Controller
 			}
         }
 
+        $reqQuery = DB::table("evaluations")
+            ->join("forms", "forms.id", "=", "evaluations.form_id")
+            ->join("users", "users.id", "=", "evaluations.subject_id")
+            ->whereIn("forms.type", ["resident", "fellow"])
+            ->whereIn("forms.evaluator_type", ["faculty"])
+            ->whereIn("evaluations.status", ["pending", "complete"])
+            ->where("evaluations.evaluation_date", ">=", $startDate)
+            ->where("evaluations.evaluation_date", "<=", $endDate);
+
+        if($trainingLevel != "all")
+            $reqQuery->where("evaluations.training_level", $trainingLevel);
+
+        $reqQuery->select("subject_id", "evaluator_id", "requested_by_id",
+            "last_name", "first_name", "evaluations.id as evaluation_id");
+        $reqQuery->chunk(20000, function($evaluations) use (&$subjects, &$subjectRequests, &$subjectEvals, &$subjectEvaluators){
+            foreach($evaluations as $evaluation){
+                if(!isset($subjects[$evaluation->subject_id]))
+                    $subjects[$evaluation->subject_id] = $evaluation->last_name . ", " . $evaluation->first_name;
+                if(!isset($subjectEvals[$evaluation->subject_id]))
+                    $subjectEvals[$evaluation->subject_id] = [];
+                if(!isset($subjectEvaluators[$evaluation->subject_id]))
+                    $subjectEvaluators[$evaluation->subject_id] = [];
+                if(!isset($subjectRequests[$evaluation->subject_id]))
+                    $subjectRequests[$evaluation->subject_id] = [];
+
+                if($evaluation->subject_id == $evaluation->requested_by_id)
+                    $subjectRequests[$evaluation->subject_id][$evaluation->evaluation_id] = 1;
+            }
+        });
+
         if(isset($reportSubject)){
             $subjects = [];
             $subject = User::find($reportSubject);
@@ -773,7 +807,7 @@ class ReportController extends Controller
 
         $data = compact("milestones", "competencies", "subjectMilestone",
 			"subjectMilestoneDeviations", "subjectMilestoneEvals", "subjectCompetency",
-			"subjectCompetencyDeviations", "subjectCompetencyEvals", "subjectEvals",
+			"subjectCompetencyDeviations", "subjectCompetencyEvals", "subjectEvals", "subjectRequests",
 			"graphs", "subjects", "subjectEvaluators", "averageMilestone",
 			"averageCompetency", "graphOption", "trainingLevel", "startDate", "endDate");
 
