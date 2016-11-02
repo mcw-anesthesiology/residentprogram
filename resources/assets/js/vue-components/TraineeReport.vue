@@ -81,60 +81,8 @@
 						</label>
 					</fieldset>
 
-					<table id="aggregate-table" class="table table-striped table-bordered" width="100%">
-						<thead>
-							<tr>
-								<th rowspan="3">Trainee</th>
-								<th v-if="aggregateShow.includes('milestones')"
-										:colspan="milestoneColspan">
-									Milestones
-								</th>
-								<th v-if="aggregateShow.includes('competencies')"
-										:colspan="competencyColspan">
-									Competencies
-								</th>
-								<th colspan="3">All</th>
-							</tr>
-							<tr>
-								<th v-if="aggregateShow.includes('milestones')"
-										v-for="(milestone, milestoneId) of report.aggregate.milestones"
-										:colspan="colsPerItem"
-										:key="`milestone-title-${milestoneId}`">
-									{{ milestone }}
-								</th>
-								<th v-if="aggregateShow.includes('competencies')"
-										v-for="(competency, competencyId) of report.aggregate.competencies"
-										:colspan="colsPerItem"
-										:key="`competency-title-${competencyId}`">
-									{{ competency }}
-								</th>
-								<th colspan="3">Total</th>
-							</tr>
-							<tr>
-							<template v-if="aggregateShow.includes('milestones')"
-									v-for="(milestone, milestoneId) of report.aggregate.milestones">
-								<th :key="`milestone-avg-${milestoneId}`">Average</th>
-								<th v-if="aggregateShow.includes('standardDeviations')"
-										:key="`milestone-stddev-${milestoneId}`">
-									Std. Dev.
-								</th>
-								<th :key="`milestone-num-${milestoneId}`">#</th>
-							</template>
-							<template v-if="aggregateShow.includes('competencies')"
-									v-for="(competency, competencyId) of report.aggregate.competencies">
-								<th :key="`competency-avg-${competencyId}`">Average</th>
-								<th v-if="aggregateShow.includes('standardDeviations')"
-										:key="`competency-stddev-${competencyId}`">
-									Std. Dev.
-								</th>
-								<th :key="`competency-num-${competencyId}`">#</th>
-							</template>
-								<th># Faculty</th>
-								<th># Evals</th>
-								<th># Trainee Requests</th>
-							</tr>
-						</thead>
-					</table>
+					<data-table id="aggregate-table" :thead="aggregateThead"
+						:config="aggregateConfig" :data="aggregateData" />
 				</div>
 			</div>
 		</div>
@@ -144,6 +92,7 @@
 <script>
 import 'whatwg-fetch';
 
+import DataTable from './DataTable.vue';
 import ReportDate from './ReportDate.vue';
 
 import { fetchMilestoneGroups } from '../modules/utils.js';
@@ -176,18 +125,6 @@ export default {
 					this.milestoneGroups = milestoneGroups;
 				});
 			}
-		},
-		report(report){
-			// if(report.aggregate){
-			// 	this.destroyAggregateDatatable();
-			// 	this.$nextTick(this.renderAggregateDatatable);
-			// }
-		},
-		aggregateShow(){
-			// if(this.report && this.report.aggregate){
-			// 	this.destroyAggregateDatatable();
-			// 	this.$nextTick(this.renderAggregateDatatable);
-			// }
 		}
 	},
 	computed: {
@@ -201,57 +138,81 @@ export default {
 		},
 		competencyColspan(){
 			return this.colsPerItem * Object.keys(this.report.aggregate.competencies).length;
-		}
-	},
-	methods: {
-		isEntireMilestoneGroupSelected(index){
-			let groupIds = this.milestoneGroups[index].children.map(child => child.id);
-			return groupIds.every(id => {
-				return this.milestones.includes(id);
-			});
 		},
-		toggleEntireMilestoneGroup(index){
-			let groupIds = this.milestoneGroups[index].children.map(child => child.id);
-			let newMilestones = this.milestones.filter(milestone => {
-				return !groupIds.includes(milestone);
-			});
-			if(!this.isEntireMilestoneGroupSelected(index)){
-				newMilestones = newMilestones.concat(groupIds);
+		aggregateThead(){
+			let thead = [];
+			let row = [];
+			row.push({rowspan: 3, text: 'Trainee'});
+			if(this.aggregateShow.includes('milestones'))
+				row.push({
+					colspan: this.milestoneColspan,
+					text: 'Milestones'
+				});
+			if(this.aggregateShow.includes('competencies'))
+				row.push({
+					colspan: this.competencyColspan,
+					text: 'Competencies'
+				});
+			row.push({colspan: 3, text: 'All'});
+			thead.push(row);
+
+			row = [];
+			if(this.aggregateShow.includes('milestones')){
+				for(let milestoneId in this.report.aggregate.milestones){
+					row.push({
+						colspan: this.colsPerItem,
+						text: this.report.aggregate.milestones[milestoneId]
+					});
+				}
 			}
-			this.milestones = newMilestones;
-		},
-		runReport(){
-			let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+			if(this.aggregateShow.includes('competencies')){
+				for(let competencyId in this.report.aggregate.competencies){
+					row.push({
+						colspan: this.colsPerItem,
+						text: this.report.aggregate.competencies[competencyId]
+					});
+				}
+			}
+			row.push({colspan: 3, text: 'Total'});
+			thead.push(row);
 
-			let headers = new Headers();
-			headers.append('Content-Type', 'application/json');
-			headers.append('X-Requested-With', 'XMLHttpRequest');
-			headers.append('X-CSRF-TOKEN', csrfToken);
+			row = [];
+			if(this.aggregateShow.includes('milestones')){
+				for(let milestoneId in this.report.aggregate.milestones){
+					row.push({text: 'Average'});
+					if(this.aggregateShow.includes('standardDeviations'))
+						row.push({text: 'Std. Dev.'});
+					row.push({text: '#'});
+				}
+			}
+			if(this.aggregateShow.includes('competencies')){
+				for(let competencyId in this.report.aggregate.competencies){
+					row.push({text: 'Average'});
+					if(this.aggregateShow.includes('standardDeviations'))
+						row.push({text: 'Std. Dev.'});
+					row.push({text: '#'});
+				}
+			}
+			row.push({text: '# Evaluators'});
+			row.push({text: '# Evaluations'});
+			row.push({text: '# Trainee Requests'});
+			thead.push(row);
 
-			fetch('/report/aggregate', {
-				method: 'POST',
-				headers: headers,
-				credentials: 'same-origin',
-				body: JSON.stringify({
-					startDate: this.dates.startDate,
-					endDate: this.dates.endDate,
-					trainingLevel: this.trainingLevel,
-					graphs: this.graphOption,
-					milestones: this.milestones
-				})
-			}).then(response => {
-				if(response.ok)
-					return response.json();
-				let err = new Error(response.statusText);
-				err.response = response;
-				throw err;
-			}).then(aggregate => {
-				this.report = Object.assign({}, this.report, {aggregate: aggregate});
-			}).catch(err => {
-				console.error(err);
-			});
+			return thead;
 		},
-		renderAggregateDatatable(){
+		aggregateConfig(){
+			return {
+				order: [[0, 'asc']],
+				stateSave: true,
+				dom: 'lfprtip',
+				scrollX: true,
+				scrollY: '500px',
+				scrollCollapse: true,
+				paging: false,
+				fixedColumns: true,
+			};
+		},
+		aggregateData(){
 			let data = [];
 			for(let subjectId in this.report.aggregate.subjects){
 				let row = [];
@@ -321,25 +282,60 @@ export default {
 				data.push(row);
 			}
 
-			$('#aggregate-table').DataTable({
-				order: [[0, 'asc']],
-				stateSave: true,
-				dom: 'lfprtip',
-				scrollX: true,
-				scrollY: '500px',
-				scrollCollapse: true,
-				paging: false,
-				fixedColumns: true,
-				data: data
+			return data;
+		}
+	},
+	methods: {
+		isEntireMilestoneGroupSelected(index){
+			let groupIds = this.milestoneGroups[index].children.map(child => child.id);
+			return groupIds.every(id => {
+				return this.milestones.includes(id);
 			});
 		},
-		destroyAggregateDatatable(){
-			$('#aggregate-table').DataTable({
-				retrieve: true
-			}).clear().destroy();
+		toggleEntireMilestoneGroup(index){
+			let groupIds = this.milestoneGroups[index].children.map(child => child.id);
+			let newMilestones = this.milestones.filter(milestone => {
+				return !groupIds.includes(milestone);
+			});
+			if(!this.isEntireMilestoneGroupSelected(index)){
+				newMilestones = newMilestones.concat(groupIds);
+			}
+			this.milestones = newMilestones;
+		},
+		runReport(){
+			let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+			let headers = new Headers();
+			headers.append('Content-Type', 'application/json');
+			headers.append('X-Requested-With', 'XMLHttpRequest');
+			headers.append('X-CSRF-TOKEN', csrfToken);
+
+			fetch('/report/aggregate', {
+				method: 'POST',
+				headers: headers,
+				credentials: 'same-origin',
+				body: JSON.stringify({
+					startDate: this.dates.startDate,
+					endDate: this.dates.endDate,
+					trainingLevel: this.trainingLevel,
+					graphs: this.graphOption,
+					milestones: this.milestones
+				})
+			}).then(response => {
+				if(response.ok)
+					return response.json();
+				let err = new Error(response.statusText);
+				err.response = response;
+				throw err;
+			}).then(aggregate => {
+				this.report = Object.assign({}, this.report, {aggregate: aggregate});
+			}).catch(err => {
+				console.error(err);
+			});
 		}
 	},
 	components: {
+		DataTable,
 		ReportDate
 	}
 }

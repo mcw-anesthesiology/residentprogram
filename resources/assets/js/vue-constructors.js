@@ -8516,7 +8516,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	__vue_exports__ = __webpack_require__(95)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(106)
+	var __vue_template__ = __webpack_require__(109)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -8680,7 +8680,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	__vue_exports__ = __webpack_require__(99)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(105)
+	var __vue_template__ = __webpack_require__(108)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -8750,7 +8750,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	
 	// module
-	exports.push([module.id, "\n.milestone-group .panel-body[data-v-155d597c] {\n\theight: 300px;\n\toverflow: auto;\n}\n.milestone-group .panel-body label[data-v-155d597c] {\n\tfont-weight: normal;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/TraineeReport.vue?110036be"],"names":[],"mappings":";AA4VA;CACA,cAAA;CACA,eAAA;CACA;AAEA;CACA,oBAAA;CACA","file":"TraineeReport.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block\">\n\t\t\t<h2>Trainee report</h2>\n\t\t\t<report-date v-model=\"dates\" />\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"checkbox\" v-model=\"filterMilestones\" />\n\t\t\t\t\tFilter milestones\n\t\t\t\t</label>\n\t\t\t</div>\n\n\t\t\t<fieldset v-if=\"filterMilestones\">\n\t\t\t\t<legend>Milestones</legend>\n\t\t\t\t<div v-for=\"(milestoneGroup, index) of milestoneGroups\" class=\"milestone-group col-xs-6 col-sm-4 col-md-3 col-lg-2\">\n\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t<label class=\"panel-title\">\n\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t:checked=\"isEntireMilestoneGroupSelected(index)\"\n\t\t\t\t\t\t\t\t\t\t@click=\"toggleEntireMilestoneGroup(index)\" />\n\t\t\t\t\t\t\t\t{{ milestoneGroup.text }}\n\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t<div v-for=\"child of milestoneGroup.children\" class=\"form-group\">\n\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t:value=\"child.id\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"milestones\" />\n\t\t\t\t\t\t\t\t\t{{ child.text }}\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\n\t\t\t<fieldset>\n\t\t\t\t<legend>Graphs</legend>\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"radio\" value=\"average\" v-model=\"graphOption\" />\n\t\t\t\t\tAverage only\n\t\t\t\t</label>\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"radio\" value=\"all\" v-model=\"graphOption\" />\n\t\t\t\t\tAll\n\t\t\t\t</label>\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"radio\" value=\"none\" v-model=\"graphOption\" />\n\t\t\t\t\tNone\n\t\t\t\t</label>\n\t\t\t</fieldset>\n\n\t\t\t<button type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t@click=\"runReport\">\n\t\t\t\tRun report\n\t\t\t</button>\n\t\t</div>\n\n\t\t<div v-if=\"report\">\n\t\t\t<div v-if=\"report.stats\" class=\"container body-block\">\n\n\t\t\t</div>\n\n\t\t\t<div v-if=\"report.aggregate\">\n\t\t\t\t<div class=\"container body-block\">\n\t\t\t\t\t<fieldset>\n\t\t\t\t\t\t<legend>Show in report</legend>\n\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t<input type=\"checkbox\" value=\"milestones\" v-model=\"aggregateShow\" />\n\t\t\t\t\t\t\tMilestones\n\t\t\t\t\t\t</label>\n\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t<input type=\"checkbox\" value=\"competencies\" v-model=\"aggregateShow\" />\n\t\t\t\t\t\t\tCompetencies\n\t\t\t\t\t\t</label>\n\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t<input type=\"checkbox\" value=\"standardDeviations\" v-model=\"aggregateShow\" />\n\t\t\t\t\t\t\tStandard Deviations\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</fieldset>\n\n\t\t\t\t\t<table id=\"aggregate-table\" class=\"table table-striped table-bordered\" width=\"100%\">\n\t\t\t\t\t\t<thead>\n\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t<th rowspan=\"3\">Trainee</th>\n\t\t\t\t\t\t\t\t<th v-if=\"aggregateShow.includes('milestones')\"\n\t\t\t\t\t\t\t\t\t\t:colspan=\"milestoneColspan\">\n\t\t\t\t\t\t\t\t\tMilestones\n\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t<th v-if=\"aggregateShow.includes('competencies')\"\n\t\t\t\t\t\t\t\t\t\t:colspan=\"competencyColspan\">\n\t\t\t\t\t\t\t\t\tCompetencies\n\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t<th colspan=\"3\">All</th>\n\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t<th v-if=\"aggregateShow.includes('milestones')\"\n\t\t\t\t\t\t\t\t\t\tv-for=\"(milestone, milestoneId) of report.aggregate.milestones\"\n\t\t\t\t\t\t\t\t\t\t:colspan=\"colsPerItem\"\n\t\t\t\t\t\t\t\t\t\t:key=\"`milestone-title-${milestoneId}`\">\n\t\t\t\t\t\t\t\t\t{{ milestone }}\n\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t<th v-if=\"aggregateShow.includes('competencies')\"\n\t\t\t\t\t\t\t\t\t\tv-for=\"(competency, competencyId) of report.aggregate.competencies\"\n\t\t\t\t\t\t\t\t\t\t:colspan=\"colsPerItem\"\n\t\t\t\t\t\t\t\t\t\t:key=\"`competency-title-${competencyId}`\">\n\t\t\t\t\t\t\t\t\t{{ competency }}\n\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t<th colspan=\"3\">Total</th>\n\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<template v-if=\"aggregateShow.includes('milestones')\"\n\t\t\t\t\t\t\t\t\tv-for=\"(milestone, milestoneId) of report.aggregate.milestones\">\n\t\t\t\t\t\t\t\t<th :key=\"`milestone-avg-${milestoneId}`\">Average</th>\n\t\t\t\t\t\t\t\t<th v-if=\"aggregateShow.includes('standardDeviations')\"\n\t\t\t\t\t\t\t\t\t\t:key=\"`milestone-stddev-${milestoneId}`\">\n\t\t\t\t\t\t\t\t\tStd. Dev.\n\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t<th :key=\"`milestone-num-${milestoneId}`\">#</th>\n\t\t\t\t\t\t\t</template>\n\t\t\t\t\t\t\t<template v-if=\"aggregateShow.includes('competencies')\"\n\t\t\t\t\t\t\t\t\tv-for=\"(competency, competencyId) of report.aggregate.competencies\">\n\t\t\t\t\t\t\t\t<th :key=\"`competency-avg-${competencyId}`\">Average</th>\n\t\t\t\t\t\t\t\t<th v-if=\"aggregateShow.includes('standardDeviations')\"\n\t\t\t\t\t\t\t\t\t\t:key=\"`competency-stddev-${competencyId}`\">\n\t\t\t\t\t\t\t\t\tStd. Dev.\n\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t<th :key=\"`competency-num-${competencyId}`\">#</th>\n\t\t\t\t\t\t\t</template>\n\t\t\t\t\t\t\t\t<th># Faculty</th>\n\t\t\t\t\t\t\t\t<th># Evals</th>\n\t\t\t\t\t\t\t\t<th># Trainee Requests</th>\n\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t</thead>\n\t\t\t\t\t</table>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport 'whatwg-fetch';\n\nimport ReportDate from './ReportDate.vue';\n\nimport { fetchMilestoneGroups } from '../modules/utils.js';\n\nexport default {\n\tdata(){\n\t\treturn {\n\t\t\tdates: {\n\t\t\t\tstartDate: '',\n\t\t\t\tendDate: ''\n\t\t\t},\n\t\t\ttrainingLevel: 'all',\n\t\t\tfilterMilestones: false,\n\t\t\tmilestones: [],\n\t\t\tgraphOption: 'average',\n\t\t\treport: null,\n\n\t\t\taggregateShow: [\n\t\t\t\t'competencies'\n\t\t\t],\n\n\t\t\tmilestoneGroups: [],\n\t\t\tuserGroups: {}\n\t\t};\n\t},\n\twatch: {\n\t\tfilterMilestones(shouldFilter){\n\t\t\tif(shouldFilter){\n\t\t\t\tfetchMilestoneGroups().then(milestoneGroups => {\n\t\t\t\t\tthis.milestoneGroups = milestoneGroups;\n\t\t\t\t});\n\t\t\t}\n\t\t},\n\t\treport(report){\n\t\t\t// if(report.aggregate){\n\t\t\t// \tthis.destroyAggregateDatatable();\n\t\t\t// \tthis.$nextTick(this.renderAggregateDatatable);\n\t\t\t// }\n\t\t},\n\t\taggregateShow(){\n\t\t\t// if(this.report && this.report.aggregate){\n\t\t\t// \tthis.destroyAggregateDatatable();\n\t\t\t// \tthis.$nextTick(this.renderAggregateDatatable);\n\t\t\t// }\n\t\t}\n\t},\n\tcomputed: {\n\t\tcolsPerItem(){\n\t\t\treturn this.aggregateShow.includes('standardDeviations')\n\t\t\t\t? 3\n\t\t\t\t: 2;\n\t\t},\n\t\tmilestoneColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.aggregate.milestones).length;\n\t\t},\n\t\tcompetencyColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.aggregate.competencies).length;\n\t\t}\n\t},\n\tmethods: {\n\t\tisEntireMilestoneGroupSelected(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\treturn groupIds.every(id => {\n\t\t\t\treturn this.milestones.includes(id);\n\t\t\t});\n\t\t},\n\t\ttoggleEntireMilestoneGroup(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\tlet newMilestones = this.milestones.filter(milestone => {\n\t\t\t\treturn !groupIds.includes(milestone);\n\t\t\t});\n\t\t\tif(!this.isEntireMilestoneGroupSelected(index)){\n\t\t\t\tnewMilestones = newMilestones.concat(groupIds);\n\t\t\t}\n\t\t\tthis.milestones = newMilestones;\n\t\t},\n\t\trunReport(){\n\t\t\tlet csrfToken = document.querySelector('meta[name=\"csrf-token\"]').getAttribute('content');\n\n\t\t\tlet headers = new Headers();\n\t\t\theaders.append('Content-Type', 'application/json');\n\t\t\theaders.append('X-Requested-With', 'XMLHttpRequest');\n\t\t\theaders.append('X-CSRF-TOKEN', csrfToken);\n\n\t\t\tfetch('/report/aggregate', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: headers,\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate,\n\t\t\t\t\ttrainingLevel: this.trainingLevel,\n\t\t\t\t\tgraphs: this.graphOption,\n\t\t\t\t\tmilestones: this.milestones\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(aggregate => {\n\t\t\t\tthis.report = Object.assign({}, this.report, {aggregate: aggregate});\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t},\n\t\trenderAggregateDatatable(){\n\t\t\tlet data = [];\n\t\t\tfor(let subjectId in this.report.aggregate.subjects){\n\t\t\t\tlet row = [];\n\t\t\t\trow.push(this.report.aggregate.subjects[subjectId]);\n\t\t\t\tif(this.aggregateShow.includes('milestones')){\n\t\t\t\t\tfor(let milestoneId in this.report.aggregate.milestones){\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.aggregate.subjectMilestone\n\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectMilestone[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectMilestone[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.aggregate.subjectMilestone[subjectId][milestoneId]).toFixed(2)\n\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t);\n\n\t\t\t\t\t\tif(this.aggregateShow.includes('standardDeviations'))\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.aggregate.subjectMilestoneDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectMilestoneDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectMilestoneDeviations[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.aggregate.subjectMilestoneDeviations[subjectId][milestoneId]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.aggregate.subjectMilestoneEvals\n\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectMilestoneEvals[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectMilestoneEvals[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.aggregate.subjectMilestoneEvals[subjectId][milestoneId]).toFixed()\n\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tif(this.aggregateShow.includes('competencies')){\n\t\t\t\t\tfor(let competencyId in this.report.aggregate.competencies){\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.aggregate.subjectCompetency\n\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectCompetency[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectCompetency[subjectId][competencyId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.aggregate.subjectCompetency[subjectId][competencyId]).toFixed(2)\n\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t);\n\n\t\t\t\t\t\tif(this.aggregateShow.includes('standardDeviations'))\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.aggregate.subjectCompetencyDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectCompetencyDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectCompetencyDeviations[subjectId][competencyId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.aggregate.subjectCompetencyDeviations[subjectId][competencyId]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.aggregate.subjectCompetencyEvals\n\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectCompetencyEvals[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectCompetencyEvals[subjectId][competencyId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.aggregate.subjectCompetencyEvals[subjectId][competencyId]).toFixed()\n\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\trow.push(Object.keys(this.report.aggregate.subjectEvaluators[subjectId]).length);\n\t\t\t\trow.push(Object.keys(this.report.aggregate.subjectEvals[subjectId]).length);\n\t\t\t\trow.push(Object.keys(this.report.aggregate.subjectRequests[subjectId]).length);\n\n\t\t\t\tdata.push(row);\n\t\t\t}\n\n\t\t\t$('#aggregate-table').DataTable({\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tdom: 'lfprtip',\n\t\t\t\tscrollX: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tfixedColumns: true,\n\t\t\t\tdata: data\n\t\t\t});\n\t\t},\n\t\tdestroyAggregateDatatable(){\n\t\t\t$('#aggregate-table').DataTable({\n\t\t\t\tretrieve: true\n\t\t\t}).clear().destroy();\n\t\t}\n\t},\n\tcomponents: {\n\t\tReportDate\n\t}\n}\n</script>\n\n<style scoped>\n\t.milestone-group .panel-body {\n\t\theight: 300px;\n\t\toverflow: auto;\n\t}\n\n\t.milestone-group .panel-body label {\n\t\tfont-weight: normal;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\n.milestone-group .panel-body[data-v-155d597c] {\n\theight: 300px;\n\toverflow: auto;\n}\n.milestone-group .panel-body label[data-v-155d597c] {\n\tfont-weight: normal;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/TraineeReport.vue?4310cc40"],"names":[],"mappings":";AAwVA;CACA,cAAA;CACA,eAAA;CACA;AAEA;CACA,oBAAA;CACA","file":"TraineeReport.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block\">\n\t\t\t<h2>Trainee report</h2>\n\t\t\t<report-date v-model=\"dates\" />\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"checkbox\" v-model=\"filterMilestones\" />\n\t\t\t\t\tFilter milestones\n\t\t\t\t</label>\n\t\t\t</div>\n\n\t\t\t<fieldset v-if=\"filterMilestones\">\n\t\t\t\t<legend>Milestones</legend>\n\t\t\t\t<div v-for=\"(milestoneGroup, index) of milestoneGroups\" class=\"milestone-group col-xs-6 col-sm-4 col-md-3 col-lg-2\">\n\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t<label class=\"panel-title\">\n\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t:checked=\"isEntireMilestoneGroupSelected(index)\"\n\t\t\t\t\t\t\t\t\t\t@click=\"toggleEntireMilestoneGroup(index)\" />\n\t\t\t\t\t\t\t\t{{ milestoneGroup.text }}\n\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t<div v-for=\"child of milestoneGroup.children\" class=\"form-group\">\n\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t:value=\"child.id\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"milestones\" />\n\t\t\t\t\t\t\t\t\t{{ child.text }}\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\n\t\t\t<fieldset>\n\t\t\t\t<legend>Graphs</legend>\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"radio\" value=\"average\" v-model=\"graphOption\" />\n\t\t\t\t\tAverage only\n\t\t\t\t</label>\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"radio\" value=\"all\" v-model=\"graphOption\" />\n\t\t\t\t\tAll\n\t\t\t\t</label>\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"radio\" value=\"none\" v-model=\"graphOption\" />\n\t\t\t\t\tNone\n\t\t\t\t</label>\n\t\t\t</fieldset>\n\n\t\t\t<button type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t@click=\"runReport\">\n\t\t\t\tRun report\n\t\t\t</button>\n\t\t</div>\n\n\t\t<div v-if=\"report\">\n\t\t\t<div v-if=\"report.stats\" class=\"container body-block\">\n\n\t\t\t</div>\n\n\t\t\t<div v-if=\"report.aggregate\">\n\t\t\t\t<div class=\"container body-block\">\n\t\t\t\t\t<fieldset>\n\t\t\t\t\t\t<legend>Show in report</legend>\n\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t<input type=\"checkbox\" value=\"milestones\" v-model=\"aggregateShow\" />\n\t\t\t\t\t\t\tMilestones\n\t\t\t\t\t\t</label>\n\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t<input type=\"checkbox\" value=\"competencies\" v-model=\"aggregateShow\" />\n\t\t\t\t\t\t\tCompetencies\n\t\t\t\t\t\t</label>\n\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t<input type=\"checkbox\" value=\"standardDeviations\" v-model=\"aggregateShow\" />\n\t\t\t\t\t\t\tStandard Deviations\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</fieldset>\n\n\t\t\t\t\t<data-table id=\"aggregate-table\" :thead=\"aggregateThead\"\n\t\t\t\t\t\t:config=\"aggregateConfig\" :data=\"aggregateData\" />\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport 'whatwg-fetch';\n\nimport DataTable from './DataTable.vue';\nimport ReportDate from './ReportDate.vue';\n\nimport { fetchMilestoneGroups } from '../modules/utils.js';\n\nexport default {\n\tdata(){\n\t\treturn {\n\t\t\tdates: {\n\t\t\t\tstartDate: '',\n\t\t\t\tendDate: ''\n\t\t\t},\n\t\t\ttrainingLevel: 'all',\n\t\t\tfilterMilestones: false,\n\t\t\tmilestones: [],\n\t\t\tgraphOption: 'average',\n\t\t\treport: null,\n\n\t\t\taggregateShow: [\n\t\t\t\t'competencies'\n\t\t\t],\n\n\t\t\tmilestoneGroups: [],\n\t\t\tuserGroups: {}\n\t\t};\n\t},\n\twatch: {\n\t\tfilterMilestones(shouldFilter){\n\t\t\tif(shouldFilter){\n\t\t\t\tfetchMilestoneGroups().then(milestoneGroups => {\n\t\t\t\t\tthis.milestoneGroups = milestoneGroups;\n\t\t\t\t});\n\t\t\t}\n\t\t}\n\t},\n\tcomputed: {\n\t\tcolsPerItem(){\n\t\t\treturn this.aggregateShow.includes('standardDeviations')\n\t\t\t\t? 3\n\t\t\t\t: 2;\n\t\t},\n\t\tmilestoneColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.aggregate.milestones).length;\n\t\t},\n\t\tcompetencyColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.aggregate.competencies).length;\n\t\t},\n\t\taggregateThead(){\n\t\t\tlet thead = [];\n\t\t\tlet row = [];\n\t\t\trow.push({rowspan: 3, text: 'Trainee'});\n\t\t\tif(this.aggregateShow.includes('milestones'))\n\t\t\t\trow.push({\n\t\t\t\t\tcolspan: this.milestoneColspan,\n\t\t\t\t\ttext: 'Milestones'\n\t\t\t\t});\n\t\t\tif(this.aggregateShow.includes('competencies'))\n\t\t\t\trow.push({\n\t\t\t\t\tcolspan: this.competencyColspan,\n\t\t\t\t\ttext: 'Competencies'\n\t\t\t\t});\n\t\t\trow.push({colspan: 3, text: 'All'});\n\t\t\tthead.push(row);\n\n\t\t\trow = [];\n\t\t\tif(this.aggregateShow.includes('milestones')){\n\t\t\t\tfor(let milestoneId in this.report.aggregate.milestones){\n\t\t\t\t\trow.push({\n\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\ttext: this.report.aggregate.milestones[milestoneId]\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t}\n\t\t\tif(this.aggregateShow.includes('competencies')){\n\t\t\t\tfor(let competencyId in this.report.aggregate.competencies){\n\t\t\t\t\trow.push({\n\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\ttext: this.report.aggregate.competencies[competencyId]\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t}\n\t\t\trow.push({colspan: 3, text: 'Total'});\n\t\t\tthead.push(row);\n\n\t\t\trow = [];\n\t\t\tif(this.aggregateShow.includes('milestones')){\n\t\t\t\tfor(let milestoneId in this.report.aggregate.milestones){\n\t\t\t\t\trow.push({text: 'Average'});\n\t\t\t\t\tif(this.aggregateShow.includes('standardDeviations'))\n\t\t\t\t\t\trow.push({text: 'Std. Dev.'});\n\t\t\t\t\trow.push({text: '#'});\n\t\t\t\t}\n\t\t\t}\n\t\t\tif(this.aggregateShow.includes('competencies')){\n\t\t\t\tfor(let competencyId in this.report.aggregate.competencies){\n\t\t\t\t\trow.push({text: 'Average'});\n\t\t\t\t\tif(this.aggregateShow.includes('standardDeviations'))\n\t\t\t\t\t\trow.push({text: 'Std. Dev.'});\n\t\t\t\t\trow.push({text: '#'});\n\t\t\t\t}\n\t\t\t}\n\t\t\trow.push({text: '# Evaluators'});\n\t\t\trow.push({text: '# Evaluations'});\n\t\t\trow.push({text: '# Trainee Requests'});\n\t\t\tthead.push(row);\n\n\t\t\treturn thead;\n\t\t},\n\t\taggregateConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tdom: 'lfprtip',\n\t\t\t\tscrollX: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tfixedColumns: true,\n\t\t\t};\n\t\t},\n\t\taggregateData(){\n\t\t\tlet data = [];\n\t\t\tfor(let subjectId in this.report.aggregate.subjects){\n\t\t\t\tlet row = [];\n\t\t\t\trow.push(this.report.aggregate.subjects[subjectId]);\n\t\t\t\tif(this.aggregateShow.includes('milestones')){\n\t\t\t\t\tfor(let milestoneId in this.report.aggregate.milestones){\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.aggregate.subjectMilestone\n\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectMilestone[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectMilestone[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.aggregate.subjectMilestone[subjectId][milestoneId]).toFixed(2)\n\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t);\n\n\t\t\t\t\t\tif(this.aggregateShow.includes('standardDeviations'))\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.aggregate.subjectMilestoneDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectMilestoneDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectMilestoneDeviations[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.aggregate.subjectMilestoneDeviations[subjectId][milestoneId]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.aggregate.subjectMilestoneEvals\n\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectMilestoneEvals[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectMilestoneEvals[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.aggregate.subjectMilestoneEvals[subjectId][milestoneId]).toFixed()\n\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tif(this.aggregateShow.includes('competencies')){\n\t\t\t\t\tfor(let competencyId in this.report.aggregate.competencies){\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.aggregate.subjectCompetency\n\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectCompetency[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectCompetency[subjectId][competencyId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.aggregate.subjectCompetency[subjectId][competencyId]).toFixed(2)\n\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t);\n\n\t\t\t\t\t\tif(this.aggregateShow.includes('standardDeviations'))\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.aggregate.subjectCompetencyDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectCompetencyDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectCompetencyDeviations[subjectId][competencyId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.aggregate.subjectCompetencyDeviations[subjectId][competencyId]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.aggregate.subjectCompetencyEvals\n\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectCompetencyEvals[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectCompetencyEvals[subjectId][competencyId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.aggregate.subjectCompetencyEvals[subjectId][competencyId]).toFixed()\n\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\trow.push(Object.keys(this.report.aggregate.subjectEvaluators[subjectId]).length);\n\t\t\t\trow.push(Object.keys(this.report.aggregate.subjectEvals[subjectId]).length);\n\t\t\t\trow.push(Object.keys(this.report.aggregate.subjectRequests[subjectId]).length);\n\n\t\t\t\tdata.push(row);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t}\n\t},\n\tmethods: {\n\t\tisEntireMilestoneGroupSelected(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\treturn groupIds.every(id => {\n\t\t\t\treturn this.milestones.includes(id);\n\t\t\t});\n\t\t},\n\t\ttoggleEntireMilestoneGroup(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\tlet newMilestones = this.milestones.filter(milestone => {\n\t\t\t\treturn !groupIds.includes(milestone);\n\t\t\t});\n\t\t\tif(!this.isEntireMilestoneGroupSelected(index)){\n\t\t\t\tnewMilestones = newMilestones.concat(groupIds);\n\t\t\t}\n\t\t\tthis.milestones = newMilestones;\n\t\t},\n\t\trunReport(){\n\t\t\tlet csrfToken = document.querySelector('meta[name=\"csrf-token\"]').getAttribute('content');\n\n\t\t\tlet headers = new Headers();\n\t\t\theaders.append('Content-Type', 'application/json');\n\t\t\theaders.append('X-Requested-With', 'XMLHttpRequest');\n\t\t\theaders.append('X-CSRF-TOKEN', csrfToken);\n\n\t\t\tfetch('/report/aggregate', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: headers,\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate,\n\t\t\t\t\ttrainingLevel: this.trainingLevel,\n\t\t\t\t\tgraphs: this.graphOption,\n\t\t\t\t\tmilestones: this.milestones\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(aggregate => {\n\t\t\t\tthis.report = Object.assign({}, this.report, {aggregate: aggregate});\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t}\n\t},\n\tcomponents: {\n\t\tDataTable,\n\t\tReportDate\n\t}\n}\n</script>\n\n<style scoped>\n\t.milestone-group .panel-body {\n\t\theight: 300px;\n\t\toverflow: auto;\n\t}\n\n\t.milestone-group .panel-body label {\n\t\tfont-weight: normal;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
@@ -8767,13 +8767,109 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	__webpack_require__(60);
 	
-	var _ReportDate = __webpack_require__(100);
+	var _DataTable = __webpack_require__(100);
+	
+	var _DataTable2 = _interopRequireDefault(_DataTable);
+	
+	var _ReportDate = __webpack_require__(103);
 	
 	var _ReportDate2 = _interopRequireDefault(_ReportDate);
 	
 	var _utils = __webpack_require__(59);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 	
 	exports.default = {
 		data: function data() {
@@ -8804,18 +8900,6 @@ return /******/ (function(modules) { // webpackBootstrap
 						_this.milestoneGroups = milestoneGroups;
 					});
 				}
-			},
-			report: function report(_report) {
-				// if(report.aggregate){
-				// 	this.destroyAggregateDatatable();
-				// 	this.$nextTick(this.renderAggregateDatatable);
-				// }
-			},
-			aggregateShow: function aggregateShow() {
-				// if(this.report && this.report.aggregate){
-				// 	this.destroyAggregateDatatable();
-				// 	this.$nextTick(this.renderAggregateDatatable);
-				// }
 			}
 		},
 		computed: {
@@ -8827,6 +8911,109 @@ return /******/ (function(modules) { // webpackBootstrap
 			},
 			competencyColspan: function competencyColspan() {
 				return this.colsPerItem * Object.keys(this.report.aggregate.competencies).length;
+			},
+			aggregateThead: function aggregateThead() {
+				var thead = [];
+				var row = [];
+				row.push({ rowspan: 3, text: 'Trainee' });
+				if (this.aggregateShow.indexOf('milestones') !== -1) row.push({
+					colspan: this.milestoneColspan,
+					text: 'Milestones'
+				});
+				if (this.aggregateShow.indexOf('competencies') !== -1) row.push({
+					colspan: this.competencyColspan,
+					text: 'Competencies'
+				});
+				row.push({ colspan: 3, text: 'All' });
+				thead.push(row);
+	
+				row = [];
+				if (this.aggregateShow.indexOf('milestones') !== -1) {
+					for (var milestoneId in this.report.aggregate.milestones) {
+						row.push({
+							colspan: this.colsPerItem,
+							text: this.report.aggregate.milestones[milestoneId]
+						});
+					}
+				}
+				if (this.aggregateShow.indexOf('competencies') !== -1) {
+					for (var competencyId in this.report.aggregate.competencies) {
+						row.push({
+							colspan: this.colsPerItem,
+							text: this.report.aggregate.competencies[competencyId]
+						});
+					}
+				}
+				row.push({ colspan: 3, text: 'Total' });
+				thead.push(row);
+	
+				row = [];
+				if (this.aggregateShow.indexOf('milestones') !== -1) {
+					for (var _milestoneId in this.report.aggregate.milestones) {
+						row.push({ text: 'Average' });
+						if (this.aggregateShow.indexOf('standardDeviations') !== -1) row.push({ text: 'Std. Dev.' });
+						row.push({ text: '#' });
+					}
+				}
+				if (this.aggregateShow.indexOf('competencies') !== -1) {
+					for (var _competencyId in this.report.aggregate.competencies) {
+						row.push({ text: 'Average' });
+						if (this.aggregateShow.indexOf('standardDeviations') !== -1) row.push({ text: 'Std. Dev.' });
+						row.push({ text: '#' });
+					}
+				}
+				row.push({ text: '# Evaluators' });
+				row.push({ text: '# Evaluations' });
+				row.push({ text: '# Trainee Requests' });
+				thead.push(row);
+	
+				return thead;
+			},
+			aggregateConfig: function aggregateConfig() {
+				return {
+					order: [[0, 'asc']],
+					stateSave: true,
+					dom: 'lfprtip',
+					scrollX: true,
+					scrollY: '500px',
+					scrollCollapse: true,
+					paging: false,
+					fixedColumns: true
+				};
+			},
+			aggregateData: function aggregateData() {
+				var data = [];
+				for (var subjectId in this.report.aggregate.subjects) {
+					var row = [];
+					row.push(this.report.aggregate.subjects[subjectId]);
+					if (this.aggregateShow.indexOf('milestones') !== -1) {
+						for (var milestoneId in this.report.aggregate.milestones) {
+							row.push(this.report.aggregate.subjectMilestone && this.report.aggregate.subjectMilestone[subjectId] && this.report.aggregate.subjectMilestone[subjectId][milestoneId] ? parseFloat(this.report.aggregate.subjectMilestone[subjectId][milestoneId]).toFixed(2) : '');
+	
+							if (this.aggregateShow.indexOf('standardDeviations') !== -1) row.push(this.report.aggregate.subjectMilestoneDeviations && this.report.aggregate.subjectMilestoneDeviations[subjectId] && this.report.aggregate.subjectMilestoneDeviations[subjectId][milestoneId] ? parseFloat(this.report.aggregate.subjectMilestoneDeviations[subjectId][milestoneId]).toFixed(2) : '');
+	
+							row.push(this.report.aggregate.subjectMilestoneEvals && this.report.aggregate.subjectMilestoneEvals[subjectId] && this.report.aggregate.subjectMilestoneEvals[subjectId][milestoneId] ? parseFloat(this.report.aggregate.subjectMilestoneEvals[subjectId][milestoneId]).toFixed() : 0);
+						}
+					}
+	
+					if (this.aggregateShow.indexOf('competencies') !== -1) {
+						for (var competencyId in this.report.aggregate.competencies) {
+							row.push(this.report.aggregate.subjectCompetency && this.report.aggregate.subjectCompetency[subjectId] && this.report.aggregate.subjectCompetency[subjectId][competencyId] ? parseFloat(this.report.aggregate.subjectCompetency[subjectId][competencyId]).toFixed(2) : '');
+	
+							if (this.aggregateShow.indexOf('standardDeviations') !== -1) row.push(this.report.aggregate.subjectCompetencyDeviations && this.report.aggregate.subjectCompetencyDeviations[subjectId] && this.report.aggregate.subjectCompetencyDeviations[subjectId][competencyId] ? parseFloat(this.report.aggregate.subjectCompetencyDeviations[subjectId][competencyId]).toFixed(2) : '');
+	
+							row.push(this.report.aggregate.subjectCompetencyEvals && this.report.aggregate.subjectCompetencyEvals[subjectId] && this.report.aggregate.subjectCompetencyEvals[subjectId][competencyId] ? parseFloat(this.report.aggregate.subjectCompetencyEvals[subjectId][competencyId]).toFixed() : 0);
+						}
+					}
+	
+					row.push(Object.keys(this.report.aggregate.subjectEvaluators[subjectId]).length);
+					row.push(Object.keys(this.report.aggregate.subjectEvals[subjectId]).length);
+					row.push(Object.keys(this.report.aggregate.subjectRequests[subjectId]).length);
+	
+					data.push(row);
+				}
+	
+				return data;
 			}
 		},
 		methods: {
@@ -8883,203 +9070,13 @@ return /******/ (function(modules) { // webpackBootstrap
 				}).catch(function (err) {
 					console.error(err);
 				});
-			},
-			renderAggregateDatatable: function renderAggregateDatatable() {
-				var data = [];
-				for (var subjectId in this.report.aggregate.subjects) {
-					var row = [];
-					row.push(this.report.aggregate.subjects[subjectId]);
-					if (this.aggregateShow.indexOf('milestones') !== -1) {
-						for (var milestoneId in this.report.aggregate.milestones) {
-							row.push(this.report.aggregate.subjectMilestone && this.report.aggregate.subjectMilestone[subjectId] && this.report.aggregate.subjectMilestone[subjectId][milestoneId] ? parseFloat(this.report.aggregate.subjectMilestone[subjectId][milestoneId]).toFixed(2) : '');
-	
-							if (this.aggregateShow.indexOf('standardDeviations') !== -1) row.push(this.report.aggregate.subjectMilestoneDeviations && this.report.aggregate.subjectMilestoneDeviations[subjectId] && this.report.aggregate.subjectMilestoneDeviations[subjectId][milestoneId] ? parseFloat(this.report.aggregate.subjectMilestoneDeviations[subjectId][milestoneId]).toFixed(2) : '');
-	
-							row.push(this.report.aggregate.subjectMilestoneEvals && this.report.aggregate.subjectMilestoneEvals[subjectId] && this.report.aggregate.subjectMilestoneEvals[subjectId][milestoneId] ? parseFloat(this.report.aggregate.subjectMilestoneEvals[subjectId][milestoneId]).toFixed() : 0);
-						}
-					}
-	
-					if (this.aggregateShow.indexOf('competencies') !== -1) {
-						for (var competencyId in this.report.aggregate.competencies) {
-							row.push(this.report.aggregate.subjectCompetency && this.report.aggregate.subjectCompetency[subjectId] && this.report.aggregate.subjectCompetency[subjectId][competencyId] ? parseFloat(this.report.aggregate.subjectCompetency[subjectId][competencyId]).toFixed(2) : '');
-	
-							if (this.aggregateShow.indexOf('standardDeviations') !== -1) row.push(this.report.aggregate.subjectCompetencyDeviations && this.report.aggregate.subjectCompetencyDeviations[subjectId] && this.report.aggregate.subjectCompetencyDeviations[subjectId][competencyId] ? parseFloat(this.report.aggregate.subjectCompetencyDeviations[subjectId][competencyId]).toFixed(2) : '');
-	
-							row.push(this.report.aggregate.subjectCompetencyEvals && this.report.aggregate.subjectCompetencyEvals[subjectId] && this.report.aggregate.subjectCompetencyEvals[subjectId][competencyId] ? parseFloat(this.report.aggregate.subjectCompetencyEvals[subjectId][competencyId]).toFixed() : 0);
-						}
-					}
-	
-					row.push(Object.keys(this.report.aggregate.subjectEvaluators[subjectId]).length);
-					row.push(Object.keys(this.report.aggregate.subjectEvals[subjectId]).length);
-					row.push(Object.keys(this.report.aggregate.subjectRequests[subjectId]).length);
-	
-					data.push(row);
-				}
-	
-				$('#aggregate-table').DataTable({
-					order: [[0, 'asc']],
-					stateSave: true,
-					dom: 'lfprtip',
-					scrollX: true,
-					scrollY: '500px',
-					scrollCollapse: true,
-					paging: false,
-					fixedColumns: true,
-					data: data
-				});
-			},
-			destroyAggregateDatatable: function destroyAggregateDatatable() {
-				$('#aggregate-table').DataTable({
-					retrieve: true
-				}).clear().destroy();
 			}
 		},
 		components: {
+			DataTable: _DataTable2.default,
 			ReportDate: _ReportDate2.default
 		}
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 /***/ },
 /* 100 */
@@ -9087,14 +9084,134 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var __vue_exports__, __vue_options__
 	
-	/* styles */
-	__webpack_require__(101)
-	
 	/* script */
-	__vue_exports__ = __webpack_require__(103)
+	__vue_exports__ = __webpack_require__(101)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(104)
+	var __vue_template__ = __webpack_require__(102)
+	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+	if (
+	  typeof __vue_exports__.default === "object" ||
+	  typeof __vue_exports__.default === "function"
+	) {
+	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+	__vue_options__ = __vue_exports__ = __vue_exports__.default
+	}
+	if (typeof __vue_options__ === "function") {
+	  __vue_options__ = __vue_options__.options
+	}
+	__vue_options__.name = __vue_options__.name || "DataTable"
+	__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/DataTable.vue"
+	__vue_options__.render = __vue_template__.render
+	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+	
+	/* hot reload */
+	if (false) {(function () {
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  module.hot.accept()
+	  if (!module.hot.data) {
+	    hotAPI.createRecord("data-v-961f66ec", __vue_options__)
+	  } else {
+	    hotAPI.reload("data-v-961f66ec", __vue_options__)
+	  }
+	})()}
+	if (__vue_options__.functional) {console.error("[vue-loader] DataTable.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+	
+	module.exports = __vue_exports__
+
+
+/***/ },
+/* 101 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	
+	exports.default = {
+		props: ['id', 'thead', 'config', 'data'],
+		mounted: function mounted() {
+			$('#' + this.id).DataTable(Object.assign({}, this.config, { data: this.data }));
+		},
+		beforeUpdate: function beforeUpdate() {
+			$('#' + this.id).DataTable({
+				retrieve: true
+			}).clear().destroy();
+		},
+		updated: function updated() {
+			$('#' + this.id).DataTable(Object.assign({}, this.config, { data: this.data }));
+		},
+		destroyed: function destroyed() {
+			$('#' + this.id).DataTable({
+				retrieve: true
+			}).clear().destroy();
+		}
+	};
+
+/***/ },
+/* 102 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){with(this) {
+	  return _h('table', {
+	    staticClass: "table table-striped table-bordered",
+	    attrs: {
+	      "id": id,
+	      "width": "100%"
+	    }
+	  }, [_h('thead', [_l((thead), function(row, rowIndex) {
+	    return _h('tr', {
+	      key: ("row-" + rowIndex)
+	    }, [_l((row), function(th, thIndex) {
+	      return _h('th', {
+	        key: thIndex,
+	        attrs: {
+	          "rowspan": th.rowspan,
+	          "colspan": th.colspan
+	        }
+	      }, ["\n\t\t\t\t" + _s(th.text) + "\n\t\t\t"])
+	    })])
+	  })])])
+	}},staticRenderFns: []}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-hot-reload-api").rerender("data-v-961f66ec", module.exports)
+	  }
+	}
+
+/***/ },
+/* 103 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_exports__, __vue_options__
+	
+	/* styles */
+	__webpack_require__(104)
+	
+	/* script */
+	__vue_exports__ = __webpack_require__(106)
+	
+	/* template */
+	var __vue_template__ = __webpack_require__(107)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -9130,13 +9247,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 101 */
+/* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(102);
+	var content = __webpack_require__(105);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(68)(content, {});
@@ -9156,7 +9273,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 102 */
+/* 105 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(67)();
@@ -9170,7 +9287,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 103 */
+/* 106 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -9224,7 +9341,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 104 */
+/* 107 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -9290,7 +9407,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 105 */
+/* 108 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -9520,51 +9637,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      }
 	    }
-	  }), "\n\t\t\t\t\t\tStandard Deviations\n\t\t\t\t\t"])]), " ", _h('table', {
-	    staticClass: "table table-striped table-bordered",
+	  }), "\n\t\t\t\t\t\tStandard Deviations\n\t\t\t\t\t"])]), " ", _h('data-table', {
 	    attrs: {
 	      "id": "aggregate-table",
-	      "width": "100%"
+	      "thead": aggregateThead,
+	      "config": aggregateConfig,
+	      "data": aggregateData
 	    }
-	  }, [_h('thead', [_h('tr', [_m(4), " ", (aggregateShow.includes('milestones')) ? _h('th', {
-	    attrs: {
-	      "colspan": milestoneColspan
-	    }
-	  }, ["\n\t\t\t\t\t\t\t\tMilestones\n\t\t\t\t\t\t\t"]) : _e(), " ", (aggregateShow.includes('competencies')) ? _h('th', {
-	    attrs: {
-	      "colspan": competencyColspan
-	    }
-	  }, ["\n\t\t\t\t\t\t\t\tCompetencies\n\t\t\t\t\t\t\t"]) : _e(), " ", _m(5)]), " ", _h('tr', [_l((report.aggregate.milestones), function(milestone, milestoneId) {
-	    return (aggregateShow.includes('milestones')) ? _h('th', {
-	      key: ("milestone-title-" + milestoneId),
-	      attrs: {
-	        "colspan": colsPerItem
-	      }
-	    }, ["\n\t\t\t\t\t\t\t\t" + _s(milestone) + "\n\t\t\t\t\t\t\t"]) : _e()
-	  }), " ", _l((report.aggregate.competencies), function(competency, competencyId) {
-	    return (aggregateShow.includes('competencies')) ? _h('th', {
-	      key: ("competency-title-" + competencyId),
-	      attrs: {
-	        "colspan": colsPerItem
-	      }
-	    }, ["\n\t\t\t\t\t\t\t\t" + _s(competency) + "\n\t\t\t\t\t\t\t"]) : _e()
-	  }), " ", _m(6)]), " ", _h('tr', [_l((report.aggregate.milestones), function(milestone, milestoneId) {
-	    return (aggregateShow.includes('milestones')) ? [_h('th', {
-	      key: ("milestone-avg-" + milestoneId)
-	    }, ["Average"]), " ", (aggregateShow.includes('standardDeviations')) ? _h('th', {
-	      key: ("milestone-stddev-" + milestoneId)
-	    }, ["\n\t\t\t\t\t\t\t\tStd. Dev.\n\t\t\t\t\t\t\t"]) : _e(), " ", _h('th', {
-	      key: ("milestone-num-" + milestoneId)
-	    }, ["#"])] : _e()
-	  }), " ", _l((report.aggregate.competencies), function(competency, competencyId) {
-	    return (aggregateShow.includes('competencies')) ? [_h('th', {
-	      key: ("competency-avg-" + competencyId)
-	    }, ["Average"]), " ", (aggregateShow.includes('standardDeviations')) ? _h('th', {
-	      key: ("competency-stddev-" + competencyId)
-	    }, ["\n\t\t\t\t\t\t\t\tStd. Dev.\n\t\t\t\t\t\t\t"]) : _e(), " ", _h('th', {
-	      key: ("competency-num-" + competencyId)
-	    }, ["#"])] : _e()
-	  }), " ", _m(7), " ", _m(8), " ", _m(9)])])])])]) : _e()]) : _e()])
+	  })])]) : _e()]) : _e()])
 	}},staticRenderFns: [function (){with(this) {
 	  return _h('h2', ["Trainee report"])
 	}},function (){with(this) {
@@ -9573,30 +9653,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return _h('legend', ["Graphs"])
 	}},function (){with(this) {
 	  return _h('legend', ["Show in report"])
-	}},function (){with(this) {
-	  return _h('th', {
-	    attrs: {
-	      "rowspan": "3"
-	    }
-	  }, ["Trainee"])
-	}},function (){with(this) {
-	  return _h('th', {
-	    attrs: {
-	      "colspan": "3"
-	    }
-	  }, ["All"])
-	}},function (){with(this) {
-	  return _h('th', {
-	    attrs: {
-	      "colspan": "3"
-	    }
-	  }, ["Total"])
-	}},function (){with(this) {
-	  return _h('th', ["# Faculty"])
-	}},function (){with(this) {
-	  return _h('th', ["# Evals"])
-	}},function (){with(this) {
-	  return _h('th', ["# Trainee Requests"])
 	}}]}
 	if (false) {
 	  module.hot.accept()
@@ -9606,7 +9662,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 106 */
+/* 109 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
