@@ -866,9 +866,7 @@ class ReportController extends Controller
     }
 
     public function aggregate(Request $request){
-        $data = $this->report($request->input("startDate"), $request->input("endDate"), $request->input("trainingLevel"), $request->input("graphs"), "horizontal", null, $request->input("milestones"));
-
-        return view("report.report", $data);
+        return $this->report($request->input("startDate"), $request->input("endDate"), $request->input("trainingLevel"), $request->input("graphs"), "horizontal", null, $request->input("milestones"));
     }
 
     public function specific(Request $request){

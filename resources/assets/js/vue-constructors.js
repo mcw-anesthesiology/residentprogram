@@ -62,11 +62,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.createFormBuilder = createFormBuilder;
 	exports.createReports = createReports;
 	
-	var _vue = __webpack_require__(61);
+	var _vue = __webpack_require__(62);
 	
 	var _vue2 = _interopRequireDefault(_vue);
 	
-	var _FormBuilder = __webpack_require__(70);
+	var _FormBuilder = __webpack_require__(71);
 	
 	var _FormBuilder2 = _interopRequireDefault(_FormBuilder);
 	
@@ -193,7 +193,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.ucfirst = ucfirst;
 	exports.fetchMilestoneGroups = fetchMilestoneGroups;
 	
-	__webpack_require__(81);
+	__webpack_require__(60);
 	
 	function appendAlert(alertText) {
 		var parent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '#alert-container';
@@ -283,8 +283,447 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 60 */,
-/* 61 */
+/* 60 */
+/***/ function(module, exports) {
+
+	(function(self) {
+	  'use strict';
+	
+	  if (self.fetch) {
+	    return
+	  }
+	
+	  var support = {
+	    searchParams: 'URLSearchParams' in self,
+	    iterable: 'Symbol' in self && 'iterator' in Symbol,
+	    blob: 'FileReader' in self && 'Blob' in self && (function() {
+	      try {
+	        new Blob()
+	        return true
+	      } catch(e) {
+	        return false
+	      }
+	    })(),
+	    formData: 'FormData' in self,
+	    arrayBuffer: 'ArrayBuffer' in self
+	  }
+	
+	  function normalizeName(name) {
+	    if (typeof name !== 'string') {
+	      name = String(name)
+	    }
+	    if (/[^a-z0-9\-#$%&'*+.\^_`|~]/i.test(name)) {
+	      throw new TypeError('Invalid character in header field name')
+	    }
+	    return name.toLowerCase()
+	  }
+	
+	  function normalizeValue(value) {
+	    if (typeof value !== 'string') {
+	      value = String(value)
+	    }
+	    return value
+	  }
+	
+	  // Build a destructive iterator for the value list
+	  function iteratorFor(items) {
+	    var iterator = {
+	      next: function() {
+	        var value = items.shift()
+	        return {done: value === undefined, value: value}
+	      }
+	    }
+	
+	    if (support.iterable) {
+	      iterator[Symbol.iterator] = function() {
+	        return iterator
+	      }
+	    }
+	
+	    return iterator
+	  }
+	
+	  function Headers(headers) {
+	    this.map = {}
+	
+	    if (headers instanceof Headers) {
+	      headers.forEach(function(value, name) {
+	        this.append(name, value)
+	      }, this)
+	
+	    } else if (headers) {
+	      Object.getOwnPropertyNames(headers).forEach(function(name) {
+	        this.append(name, headers[name])
+	      }, this)
+	    }
+	  }
+	
+	  Headers.prototype.append = function(name, value) {
+	    name = normalizeName(name)
+	    value = normalizeValue(value)
+	    var list = this.map[name]
+	    if (!list) {
+	      list = []
+	      this.map[name] = list
+	    }
+	    list.push(value)
+	  }
+	
+	  Headers.prototype['delete'] = function(name) {
+	    delete this.map[normalizeName(name)]
+	  }
+	
+	  Headers.prototype.get = function(name) {
+	    var values = this.map[normalizeName(name)]
+	    return values ? values[0] : null
+	  }
+	
+	  Headers.prototype.getAll = function(name) {
+	    return this.map[normalizeName(name)] || []
+	  }
+	
+	  Headers.prototype.has = function(name) {
+	    return this.map.hasOwnProperty(normalizeName(name))
+	  }
+	
+	  Headers.prototype.set = function(name, value) {
+	    this.map[normalizeName(name)] = [normalizeValue(value)]
+	  }
+	
+	  Headers.prototype.forEach = function(callback, thisArg) {
+	    Object.getOwnPropertyNames(this.map).forEach(function(name) {
+	      this.map[name].forEach(function(value) {
+	        callback.call(thisArg, value, name, this)
+	      }, this)
+	    }, this)
+	  }
+	
+	  Headers.prototype.keys = function() {
+	    var items = []
+	    this.forEach(function(value, name) { items.push(name) })
+	    return iteratorFor(items)
+	  }
+	
+	  Headers.prototype.values = function() {
+	    var items = []
+	    this.forEach(function(value) { items.push(value) })
+	    return iteratorFor(items)
+	  }
+	
+	  Headers.prototype.entries = function() {
+	    var items = []
+	    this.forEach(function(value, name) { items.push([name, value]) })
+	    return iteratorFor(items)
+	  }
+	
+	  if (support.iterable) {
+	    Headers.prototype[Symbol.iterator] = Headers.prototype.entries
+	  }
+	
+	  function consumed(body) {
+	    if (body.bodyUsed) {
+	      return Promise.reject(new TypeError('Already read'))
+	    }
+	    body.bodyUsed = true
+	  }
+	
+	  function fileReaderReady(reader) {
+	    return new Promise(function(resolve, reject) {
+	      reader.onload = function() {
+	        resolve(reader.result)
+	      }
+	      reader.onerror = function() {
+	        reject(reader.error)
+	      }
+	    })
+	  }
+	
+	  function readBlobAsArrayBuffer(blob) {
+	    var reader = new FileReader()
+	    reader.readAsArrayBuffer(blob)
+	    return fileReaderReady(reader)
+	  }
+	
+	  function readBlobAsText(blob) {
+	    var reader = new FileReader()
+	    reader.readAsText(blob)
+	    return fileReaderReady(reader)
+	  }
+	
+	  function Body() {
+	    this.bodyUsed = false
+	
+	    this._initBody = function(body) {
+	      this._bodyInit = body
+	      if (typeof body === 'string') {
+	        this._bodyText = body
+	      } else if (support.blob && Blob.prototype.isPrototypeOf(body)) {
+	        this._bodyBlob = body
+	      } else if (support.formData && FormData.prototype.isPrototypeOf(body)) {
+	        this._bodyFormData = body
+	      } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
+	        this._bodyText = body.toString()
+	      } else if (!body) {
+	        this._bodyText = ''
+	      } else if (support.arrayBuffer && ArrayBuffer.prototype.isPrototypeOf(body)) {
+	        // Only support ArrayBuffers for POST method.
+	        // Receiving ArrayBuffers happens via Blobs, instead.
+	      } else {
+	        throw new Error('unsupported BodyInit type')
+	      }
+	
+	      if (!this.headers.get('content-type')) {
+	        if (typeof body === 'string') {
+	          this.headers.set('content-type', 'text/plain;charset=UTF-8')
+	        } else if (this._bodyBlob && this._bodyBlob.type) {
+	          this.headers.set('content-type', this._bodyBlob.type)
+	        } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
+	          this.headers.set('content-type', 'application/x-www-form-urlencoded;charset=UTF-8')
+	        }
+	      }
+	    }
+	
+	    if (support.blob) {
+	      this.blob = function() {
+	        var rejected = consumed(this)
+	        if (rejected) {
+	          return rejected
+	        }
+	
+	        if (this._bodyBlob) {
+	          return Promise.resolve(this._bodyBlob)
+	        } else if (this._bodyFormData) {
+	          throw new Error('could not read FormData body as blob')
+	        } else {
+	          return Promise.resolve(new Blob([this._bodyText]))
+	        }
+	      }
+	
+	      this.arrayBuffer = function() {
+	        return this.blob().then(readBlobAsArrayBuffer)
+	      }
+	
+	      this.text = function() {
+	        var rejected = consumed(this)
+	        if (rejected) {
+	          return rejected
+	        }
+	
+	        if (this._bodyBlob) {
+	          return readBlobAsText(this._bodyBlob)
+	        } else if (this._bodyFormData) {
+	          throw new Error('could not read FormData body as text')
+	        } else {
+	          return Promise.resolve(this._bodyText)
+	        }
+	      }
+	    } else {
+	      this.text = function() {
+	        var rejected = consumed(this)
+	        return rejected ? rejected : Promise.resolve(this._bodyText)
+	      }
+	    }
+	
+	    if (support.formData) {
+	      this.formData = function() {
+	        return this.text().then(decode)
+	      }
+	    }
+	
+	    this.json = function() {
+	      return this.text().then(JSON.parse)
+	    }
+	
+	    return this
+	  }
+	
+	  // HTTP methods whose capitalization should be normalized
+	  var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT']
+	
+	  function normalizeMethod(method) {
+	    var upcased = method.toUpperCase()
+	    return (methods.indexOf(upcased) > -1) ? upcased : method
+	  }
+	
+	  function Request(input, options) {
+	    options = options || {}
+	    var body = options.body
+	    if (Request.prototype.isPrototypeOf(input)) {
+	      if (input.bodyUsed) {
+	        throw new TypeError('Already read')
+	      }
+	      this.url = input.url
+	      this.credentials = input.credentials
+	      if (!options.headers) {
+	        this.headers = new Headers(input.headers)
+	      }
+	      this.method = input.method
+	      this.mode = input.mode
+	      if (!body) {
+	        body = input._bodyInit
+	        input.bodyUsed = true
+	      }
+	    } else {
+	      this.url = input
+	    }
+	
+	    this.credentials = options.credentials || this.credentials || 'omit'
+	    if (options.headers || !this.headers) {
+	      this.headers = new Headers(options.headers)
+	    }
+	    this.method = normalizeMethod(options.method || this.method || 'GET')
+	    this.mode = options.mode || this.mode || null
+	    this.referrer = null
+	
+	    if ((this.method === 'GET' || this.method === 'HEAD') && body) {
+	      throw new TypeError('Body not allowed for GET or HEAD requests')
+	    }
+	    this._initBody(body)
+	  }
+	
+	  Request.prototype.clone = function() {
+	    return new Request(this)
+	  }
+	
+	  function decode(body) {
+	    var form = new FormData()
+	    body.trim().split('&').forEach(function(bytes) {
+	      if (bytes) {
+	        var split = bytes.split('=')
+	        var name = split.shift().replace(/\+/g, ' ')
+	        var value = split.join('=').replace(/\+/g, ' ')
+	        form.append(decodeURIComponent(name), decodeURIComponent(value))
+	      }
+	    })
+	    return form
+	  }
+	
+	  function headers(xhr) {
+	    var head = new Headers()
+	    var pairs = (xhr.getAllResponseHeaders() || '').trim().split('\n')
+	    pairs.forEach(function(header) {
+	      var split = header.trim().split(':')
+	      var key = split.shift().trim()
+	      var value = split.join(':').trim()
+	      head.append(key, value)
+	    })
+	    return head
+	  }
+	
+	  Body.call(Request.prototype)
+	
+	  function Response(bodyInit, options) {
+	    if (!options) {
+	      options = {}
+	    }
+	
+	    this.type = 'default'
+	    this.status = options.status
+	    this.ok = this.status >= 200 && this.status < 300
+	    this.statusText = options.statusText
+	    this.headers = options.headers instanceof Headers ? options.headers : new Headers(options.headers)
+	    this.url = options.url || ''
+	    this._initBody(bodyInit)
+	  }
+	
+	  Body.call(Response.prototype)
+	
+	  Response.prototype.clone = function() {
+	    return new Response(this._bodyInit, {
+	      status: this.status,
+	      statusText: this.statusText,
+	      headers: new Headers(this.headers),
+	      url: this.url
+	    })
+	  }
+	
+	  Response.error = function() {
+	    var response = new Response(null, {status: 0, statusText: ''})
+	    response.type = 'error'
+	    return response
+	  }
+	
+	  var redirectStatuses = [301, 302, 303, 307, 308]
+	
+	  Response.redirect = function(url, status) {
+	    if (redirectStatuses.indexOf(status) === -1) {
+	      throw new RangeError('Invalid status code')
+	    }
+	
+	    return new Response(null, {status: status, headers: {location: url}})
+	  }
+	
+	  self.Headers = Headers
+	  self.Request = Request
+	  self.Response = Response
+	
+	  self.fetch = function(input, init) {
+	    return new Promise(function(resolve, reject) {
+	      var request
+	      if (Request.prototype.isPrototypeOf(input) && !init) {
+	        request = input
+	      } else {
+	        request = new Request(input, init)
+	      }
+	
+	      var xhr = new XMLHttpRequest()
+	
+	      function responseURL() {
+	        if ('responseURL' in xhr) {
+	          return xhr.responseURL
+	        }
+	
+	        // Avoid security warnings on getResponseHeader when not allowed by CORS
+	        if (/^X-Request-URL:/m.test(xhr.getAllResponseHeaders())) {
+	          return xhr.getResponseHeader('X-Request-URL')
+	        }
+	
+	        return
+	      }
+	
+	      xhr.onload = function() {
+	        var options = {
+	          status: xhr.status,
+	          statusText: xhr.statusText,
+	          headers: headers(xhr),
+	          url: responseURL()
+	        }
+	        var body = 'response' in xhr ? xhr.response : xhr.responseText
+	        resolve(new Response(body, options))
+	      }
+	
+	      xhr.onerror = function() {
+	        reject(new TypeError('Network request failed'))
+	      }
+	
+	      xhr.ontimeout = function() {
+	        reject(new TypeError('Network request failed'))
+	      }
+	
+	      xhr.open(request.method, request.url, true)
+	
+	      if (request.credentials === 'include') {
+	        xhr.withCredentials = true
+	      }
+	
+	      if ('responseType' in xhr && support.blob) {
+	        xhr.responseType = 'blob'
+	      }
+	
+	      request.headers.forEach(function(value, name) {
+	        xhr.setRequestHeader(name, value)
+	      })
+	
+	      xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit)
+	    })
+	  }
+	  self.fetch.polyfill = true
+	})(typeof self !== 'undefined' ? self : this);
+
+
+/***/ },
+/* 61 */,
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -5810,10 +6249,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Vue$2;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(62)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(63)))
 
 /***/ },
-/* 62 */
+/* 63 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -5999,10 +6438,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 63 */,
 /* 64 */,
 /* 65 */,
-/* 66 */
+/* 66 */,
+/* 67 */
 /***/ function(module, exports) {
 
 	/*
@@ -6058,7 +6497,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 67 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -6280,18 +6719,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 68 */,
 /* 69 */,
-/* 70 */
+/* 70 */,
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	
 	/* styles */
-	__webpack_require__(71)
+	__webpack_require__(72)
 	
 	/* script */
-	__vue_exports__ = __webpack_require__(73)
+	__vue_exports__ = __webpack_require__(74)
 	
 	/* template */
 	var __vue_template__ = __webpack_require__(91)
@@ -6330,16 +6769,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 71 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(72);
+	var content = __webpack_require__(73);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(67)(content, {});
+	var update = __webpack_require__(68)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -6356,10 +6795,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 72 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(66)();
+	exports = module.exports = __webpack_require__(67)();
 	// imports
 	
 	
@@ -6370,7 +6809,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 73 */
+/* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6379,13 +6818,13 @@ return /******/ (function(modules) { // webpackBootstrap
 		value: true
 	});
 	
-	__webpack_require__(81);
+	__webpack_require__(60);
 	
-	var _FormBuilderInstruction = __webpack_require__(74);
+	var _FormBuilderInstruction = __webpack_require__(75);
 	
 	var _FormBuilderInstruction2 = _interopRequireDefault(_FormBuilderInstruction);
 	
-	var _FormBuilderQuestion = __webpack_require__(77);
+	var _FormBuilderQuestion = __webpack_require__(78);
 	
 	var _FormBuilderQuestion2 = _interopRequireDefault(_FormBuilderQuestion);
 	
@@ -6656,16 +7095,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 74 */
+/* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	
 	/* script */
-	__vue_exports__ = __webpack_require__(75)
+	__vue_exports__ = __webpack_require__(76)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(76)
+	var __vue_template__ = __webpack_require__(77)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -6700,7 +7139,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 75 */
+/* 76 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -6737,7 +7176,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 76 */
+/* 77 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -6793,16 +7232,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 77 */
+/* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	
 	/* styles */
-	__webpack_require__(78)
+	__webpack_require__(79)
 	
 	/* script */
-	__vue_exports__ = __webpack_require__(80)
+	__vue_exports__ = __webpack_require__(81)
 	
 	/* template */
 	var __vue_template__ = __webpack_require__(90)
@@ -6841,16 +7280,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 78 */
+/* 79 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(79);
+	var content = __webpack_require__(80);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(67)(content, {});
+	var update = __webpack_require__(68)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -6867,10 +7306,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 79 */
+/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(66)();
+	exports = module.exports = __webpack_require__(67)();
 	// imports
 	
 	
@@ -6881,7 +7320,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 80 */
+/* 81 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6890,7 +7329,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		value: true
 	});
 	
-	__webpack_require__(81);
+	__webpack_require__(60);
 	
 	var _FormBuilderOption = __webpack_require__(82);
 	
@@ -7160,445 +7599,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	//
 
 /***/ },
-/* 81 */
-/***/ function(module, exports) {
-
-	(function(self) {
-	  'use strict';
-	
-	  if (self.fetch) {
-	    return
-	  }
-	
-	  var support = {
-	    searchParams: 'URLSearchParams' in self,
-	    iterable: 'Symbol' in self && 'iterator' in Symbol,
-	    blob: 'FileReader' in self && 'Blob' in self && (function() {
-	      try {
-	        new Blob()
-	        return true
-	      } catch(e) {
-	        return false
-	      }
-	    })(),
-	    formData: 'FormData' in self,
-	    arrayBuffer: 'ArrayBuffer' in self
-	  }
-	
-	  function normalizeName(name) {
-	    if (typeof name !== 'string') {
-	      name = String(name)
-	    }
-	    if (/[^a-z0-9\-#$%&'*+.\^_`|~]/i.test(name)) {
-	      throw new TypeError('Invalid character in header field name')
-	    }
-	    return name.toLowerCase()
-	  }
-	
-	  function normalizeValue(value) {
-	    if (typeof value !== 'string') {
-	      value = String(value)
-	    }
-	    return value
-	  }
-	
-	  // Build a destructive iterator for the value list
-	  function iteratorFor(items) {
-	    var iterator = {
-	      next: function() {
-	        var value = items.shift()
-	        return {done: value === undefined, value: value}
-	      }
-	    }
-	
-	    if (support.iterable) {
-	      iterator[Symbol.iterator] = function() {
-	        return iterator
-	      }
-	    }
-	
-	    return iterator
-	  }
-	
-	  function Headers(headers) {
-	    this.map = {}
-	
-	    if (headers instanceof Headers) {
-	      headers.forEach(function(value, name) {
-	        this.append(name, value)
-	      }, this)
-	
-	    } else if (headers) {
-	      Object.getOwnPropertyNames(headers).forEach(function(name) {
-	        this.append(name, headers[name])
-	      }, this)
-	    }
-	  }
-	
-	  Headers.prototype.append = function(name, value) {
-	    name = normalizeName(name)
-	    value = normalizeValue(value)
-	    var list = this.map[name]
-	    if (!list) {
-	      list = []
-	      this.map[name] = list
-	    }
-	    list.push(value)
-	  }
-	
-	  Headers.prototype['delete'] = function(name) {
-	    delete this.map[normalizeName(name)]
-	  }
-	
-	  Headers.prototype.get = function(name) {
-	    var values = this.map[normalizeName(name)]
-	    return values ? values[0] : null
-	  }
-	
-	  Headers.prototype.getAll = function(name) {
-	    return this.map[normalizeName(name)] || []
-	  }
-	
-	  Headers.prototype.has = function(name) {
-	    return this.map.hasOwnProperty(normalizeName(name))
-	  }
-	
-	  Headers.prototype.set = function(name, value) {
-	    this.map[normalizeName(name)] = [normalizeValue(value)]
-	  }
-	
-	  Headers.prototype.forEach = function(callback, thisArg) {
-	    Object.getOwnPropertyNames(this.map).forEach(function(name) {
-	      this.map[name].forEach(function(value) {
-	        callback.call(thisArg, value, name, this)
-	      }, this)
-	    }, this)
-	  }
-	
-	  Headers.prototype.keys = function() {
-	    var items = []
-	    this.forEach(function(value, name) { items.push(name) })
-	    return iteratorFor(items)
-	  }
-	
-	  Headers.prototype.values = function() {
-	    var items = []
-	    this.forEach(function(value) { items.push(value) })
-	    return iteratorFor(items)
-	  }
-	
-	  Headers.prototype.entries = function() {
-	    var items = []
-	    this.forEach(function(value, name) { items.push([name, value]) })
-	    return iteratorFor(items)
-	  }
-	
-	  if (support.iterable) {
-	    Headers.prototype[Symbol.iterator] = Headers.prototype.entries
-	  }
-	
-	  function consumed(body) {
-	    if (body.bodyUsed) {
-	      return Promise.reject(new TypeError('Already read'))
-	    }
-	    body.bodyUsed = true
-	  }
-	
-	  function fileReaderReady(reader) {
-	    return new Promise(function(resolve, reject) {
-	      reader.onload = function() {
-	        resolve(reader.result)
-	      }
-	      reader.onerror = function() {
-	        reject(reader.error)
-	      }
-	    })
-	  }
-	
-	  function readBlobAsArrayBuffer(blob) {
-	    var reader = new FileReader()
-	    reader.readAsArrayBuffer(blob)
-	    return fileReaderReady(reader)
-	  }
-	
-	  function readBlobAsText(blob) {
-	    var reader = new FileReader()
-	    reader.readAsText(blob)
-	    return fileReaderReady(reader)
-	  }
-	
-	  function Body() {
-	    this.bodyUsed = false
-	
-	    this._initBody = function(body) {
-	      this._bodyInit = body
-	      if (typeof body === 'string') {
-	        this._bodyText = body
-	      } else if (support.blob && Blob.prototype.isPrototypeOf(body)) {
-	        this._bodyBlob = body
-	      } else if (support.formData && FormData.prototype.isPrototypeOf(body)) {
-	        this._bodyFormData = body
-	      } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
-	        this._bodyText = body.toString()
-	      } else if (!body) {
-	        this._bodyText = ''
-	      } else if (support.arrayBuffer && ArrayBuffer.prototype.isPrototypeOf(body)) {
-	        // Only support ArrayBuffers for POST method.
-	        // Receiving ArrayBuffers happens via Blobs, instead.
-	      } else {
-	        throw new Error('unsupported BodyInit type')
-	      }
-	
-	      if (!this.headers.get('content-type')) {
-	        if (typeof body === 'string') {
-	          this.headers.set('content-type', 'text/plain;charset=UTF-8')
-	        } else if (this._bodyBlob && this._bodyBlob.type) {
-	          this.headers.set('content-type', this._bodyBlob.type)
-	        } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
-	          this.headers.set('content-type', 'application/x-www-form-urlencoded;charset=UTF-8')
-	        }
-	      }
-	    }
-	
-	    if (support.blob) {
-	      this.blob = function() {
-	        var rejected = consumed(this)
-	        if (rejected) {
-	          return rejected
-	        }
-	
-	        if (this._bodyBlob) {
-	          return Promise.resolve(this._bodyBlob)
-	        } else if (this._bodyFormData) {
-	          throw new Error('could not read FormData body as blob')
-	        } else {
-	          return Promise.resolve(new Blob([this._bodyText]))
-	        }
-	      }
-	
-	      this.arrayBuffer = function() {
-	        return this.blob().then(readBlobAsArrayBuffer)
-	      }
-	
-	      this.text = function() {
-	        var rejected = consumed(this)
-	        if (rejected) {
-	          return rejected
-	        }
-	
-	        if (this._bodyBlob) {
-	          return readBlobAsText(this._bodyBlob)
-	        } else if (this._bodyFormData) {
-	          throw new Error('could not read FormData body as text')
-	        } else {
-	          return Promise.resolve(this._bodyText)
-	        }
-	      }
-	    } else {
-	      this.text = function() {
-	        var rejected = consumed(this)
-	        return rejected ? rejected : Promise.resolve(this._bodyText)
-	      }
-	    }
-	
-	    if (support.formData) {
-	      this.formData = function() {
-	        return this.text().then(decode)
-	      }
-	    }
-	
-	    this.json = function() {
-	      return this.text().then(JSON.parse)
-	    }
-	
-	    return this
-	  }
-	
-	  // HTTP methods whose capitalization should be normalized
-	  var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT']
-	
-	  function normalizeMethod(method) {
-	    var upcased = method.toUpperCase()
-	    return (methods.indexOf(upcased) > -1) ? upcased : method
-	  }
-	
-	  function Request(input, options) {
-	    options = options || {}
-	    var body = options.body
-	    if (Request.prototype.isPrototypeOf(input)) {
-	      if (input.bodyUsed) {
-	        throw new TypeError('Already read')
-	      }
-	      this.url = input.url
-	      this.credentials = input.credentials
-	      if (!options.headers) {
-	        this.headers = new Headers(input.headers)
-	      }
-	      this.method = input.method
-	      this.mode = input.mode
-	      if (!body) {
-	        body = input._bodyInit
-	        input.bodyUsed = true
-	      }
-	    } else {
-	      this.url = input
-	    }
-	
-	    this.credentials = options.credentials || this.credentials || 'omit'
-	    if (options.headers || !this.headers) {
-	      this.headers = new Headers(options.headers)
-	    }
-	    this.method = normalizeMethod(options.method || this.method || 'GET')
-	    this.mode = options.mode || this.mode || null
-	    this.referrer = null
-	
-	    if ((this.method === 'GET' || this.method === 'HEAD') && body) {
-	      throw new TypeError('Body not allowed for GET or HEAD requests')
-	    }
-	    this._initBody(body)
-	  }
-	
-	  Request.prototype.clone = function() {
-	    return new Request(this)
-	  }
-	
-	  function decode(body) {
-	    var form = new FormData()
-	    body.trim().split('&').forEach(function(bytes) {
-	      if (bytes) {
-	        var split = bytes.split('=')
-	        var name = split.shift().replace(/\+/g, ' ')
-	        var value = split.join('=').replace(/\+/g, ' ')
-	        form.append(decodeURIComponent(name), decodeURIComponent(value))
-	      }
-	    })
-	    return form
-	  }
-	
-	  function headers(xhr) {
-	    var head = new Headers()
-	    var pairs = (xhr.getAllResponseHeaders() || '').trim().split('\n')
-	    pairs.forEach(function(header) {
-	      var split = header.trim().split(':')
-	      var key = split.shift().trim()
-	      var value = split.join(':').trim()
-	      head.append(key, value)
-	    })
-	    return head
-	  }
-	
-	  Body.call(Request.prototype)
-	
-	  function Response(bodyInit, options) {
-	    if (!options) {
-	      options = {}
-	    }
-	
-	    this.type = 'default'
-	    this.status = options.status
-	    this.ok = this.status >= 200 && this.status < 300
-	    this.statusText = options.statusText
-	    this.headers = options.headers instanceof Headers ? options.headers : new Headers(options.headers)
-	    this.url = options.url || ''
-	    this._initBody(bodyInit)
-	  }
-	
-	  Body.call(Response.prototype)
-	
-	  Response.prototype.clone = function() {
-	    return new Response(this._bodyInit, {
-	      status: this.status,
-	      statusText: this.statusText,
-	      headers: new Headers(this.headers),
-	      url: this.url
-	    })
-	  }
-	
-	  Response.error = function() {
-	    var response = new Response(null, {status: 0, statusText: ''})
-	    response.type = 'error'
-	    return response
-	  }
-	
-	  var redirectStatuses = [301, 302, 303, 307, 308]
-	
-	  Response.redirect = function(url, status) {
-	    if (redirectStatuses.indexOf(status) === -1) {
-	      throw new RangeError('Invalid status code')
-	    }
-	
-	    return new Response(null, {status: status, headers: {location: url}})
-	  }
-	
-	  self.Headers = Headers
-	  self.Request = Request
-	  self.Response = Response
-	
-	  self.fetch = function(input, init) {
-	    return new Promise(function(resolve, reject) {
-	      var request
-	      if (Request.prototype.isPrototypeOf(input) && !init) {
-	        request = input
-	      } else {
-	        request = new Request(input, init)
-	      }
-	
-	      var xhr = new XMLHttpRequest()
-	
-	      function responseURL() {
-	        if ('responseURL' in xhr) {
-	          return xhr.responseURL
-	        }
-	
-	        // Avoid security warnings on getResponseHeader when not allowed by CORS
-	        if (/^X-Request-URL:/m.test(xhr.getAllResponseHeaders())) {
-	          return xhr.getResponseHeader('X-Request-URL')
-	        }
-	
-	        return
-	      }
-	
-	      xhr.onload = function() {
-	        var options = {
-	          status: xhr.status,
-	          statusText: xhr.statusText,
-	          headers: headers(xhr),
-	          url: responseURL()
-	        }
-	        var body = 'response' in xhr ? xhr.response : xhr.responseText
-	        resolve(new Response(body, options))
-	      }
-	
-	      xhr.onerror = function() {
-	        reject(new TypeError('Network request failed'))
-	      }
-	
-	      xhr.ontimeout = function() {
-	        reject(new TypeError('Network request failed'))
-	      }
-	
-	      xhr.open(request.method, request.url, true)
-	
-	      if (request.credentials === 'include') {
-	        xhr.withCredentials = true
-	      }
-	
-	      if ('responseType' in xhr && support.blob) {
-	        xhr.responseType = 'blob'
-	      }
-	
-	      request.headers.forEach(function(value, name) {
-	        xhr.setRequestHeader(name, value)
-	      })
-	
-	      xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit)
-	    })
-	  }
-	  self.fetch.polyfill = true
-	})(typeof self !== 'undefined' ? self : this);
-
-
-/***/ },
 /* 82 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -7656,7 +7656,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var content = __webpack_require__(84);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(67)(content, {});
+	var update = __webpack_require__(68)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -7676,7 +7676,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(66)();
+	exports = module.exports = __webpack_require__(67)();
 	// imports
 	
 	
@@ -8510,13 +8510,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	var __vue_exports__, __vue_options__
 	
 	/* styles */
-	__webpack_require__(97)
+	__webpack_require__(93)
 	
 	/* script */
 	__vue_exports__ = __webpack_require__(95)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(96)
+	var __vue_template__ = __webpack_require__(106)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -8552,8 +8552,46 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 93 */,
-/* 94 */,
+/* 93 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(94);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(68)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-25c733f6&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Reports.vue", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-25c733f6&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Reports.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 94 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(67)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"Reports.vue","sourceRoot":"webpack://"}]);
+	
+	// exports
+
+
+/***/ },
 /* 95 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -8563,7 +8601,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		value: true
 	});
 	
-	var _TraineeReport = __webpack_require__(104);
+	var _TraineeReport = __webpack_require__(96);
 	
 	var _TraineeReport2 = _interopRequireDefault(_TraineeReport);
 	
@@ -8633,43 +8671,49 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 96 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('div', [(reportType) ? _h('div', [(reportType === REPORT_TYPES.TRAINEE) ? _h('trainee-report') : _e(), " ", (reportType === REPORT_TYPES.FORM) ? _h('form-report') : _e(), " ", _h('div', {
-	    staticClass: "text-center"
-	  }, [_h('button', {
-	    staticClass: "btn btn-lg btn-default",
-	    attrs: {
-	      "type": "button"
-	    },
-	    on: {
-	      "click": handleResetClick
-	    }
-	  }, ["\n\t\t\t\tStart over\n\t\t\t"])])]) : _h('div', {
-	    staticClass: "container body-block"
-	  }, [_h('fieldset', [_h('legend', ["Report type"]), " ", _h('div', {
-	    staticClass: "form-inline"
-	  }, [_l((REPORT_TYPES), function(type) {
-	    return _h('div', {
-	      staticClass: "form-group col-sm-2"
-	    }, [_h('button', {
-	      staticClass: "btn lg btn-primary",
-	      attrs: {
-	        "type": "button"
-	      },
-	      on: {
-	        "click": function($event) {
-	          setReportType(type)
-	        }
-	      }
-	    }, ["\n\t\t\t\t\t\t" + _s(ucfirst(type)) + "\n\t\t\t\t\t"])])
-	  })])])]), " "])
-	}},staticRenderFns: []}
-	if (false) {
-	  module.hot.accept()
-	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-25c733f6", module.exports)
-	  }
+	var __vue_exports__, __vue_options__
+	
+	/* styles */
+	__webpack_require__(97)
+	
+	/* script */
+	__vue_exports__ = __webpack_require__(99)
+	
+	/* template */
+	var __vue_template__ = __webpack_require__(105)
+	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+	if (
+	  typeof __vue_exports__.default === "object" ||
+	  typeof __vue_exports__.default === "function"
+	) {
+	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+	__vue_options__ = __vue_exports__ = __vue_exports__.default
 	}
+	if (typeof __vue_options__ === "function") {
+	  __vue_options__ = __vue_options__.options
+	}
+	__vue_options__.name = __vue_options__.name || "TraineeReport"
+	__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/TraineeReport.vue"
+	__vue_options__.render = __vue_template__.render
+	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+	__vue_options__._scopeId = "data-v-155d597c"
+	
+	/* hot reload */
+	if (false) {(function () {
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  module.hot.accept()
+	  if (!module.hot.data) {
+	    hotAPI.createRecord("data-v-155d597c", __vue_options__)
+	  } else {
+	    hotAPI.reload("data-v-155d597c", __vue_options__)
+	  }
+	})()}
+	if (__vue_options__.functional) {console.error("[vue-loader] TraineeReport.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+	
+	module.exports = __vue_exports__
+
 
 /***/ },
 /* 97 */
@@ -8681,14 +8725,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	var content = __webpack_require__(98);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(67)(content, {});
+	var update = __webpack_require__(68)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-25c733f6&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Reports.vue", function() {
-				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-25c733f6&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Reports.vue");
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-155d597c&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TraineeReport.vue", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-155d597c&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TraineeReport.vue");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -8701,12 +8745,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 98 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(66)();
+	exports = module.exports = __webpack_require__(67)();
 	// imports
 	
 	
 	// module
-	exports.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"Reports.vue","sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\n.milestone-group .panel-body[data-v-155d597c] {\n\theight: 300px;\n\toverflow: auto;\n}\n.milestone-group .panel-body label[data-v-155d597c] {\n\tfont-weight: normal;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/TraineeReport.vue?110036be"],"names":[],"mappings":";AA4VA;CACA,cAAA;CACA,eAAA;CACA;AAEA;CACA,oBAAA;CACA","file":"TraineeReport.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block\">\n\t\t\t<h2>Trainee report</h2>\n\t\t\t<report-date v-model=\"dates\" />\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"checkbox\" v-model=\"filterMilestones\" />\n\t\t\t\t\tFilter milestones\n\t\t\t\t</label>\n\t\t\t</div>\n\n\t\t\t<fieldset v-if=\"filterMilestones\">\n\t\t\t\t<legend>Milestones</legend>\n\t\t\t\t<div v-for=\"(milestoneGroup, index) of milestoneGroups\" class=\"milestone-group col-xs-6 col-sm-4 col-md-3 col-lg-2\">\n\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t<label class=\"panel-title\">\n\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t:checked=\"isEntireMilestoneGroupSelected(index)\"\n\t\t\t\t\t\t\t\t\t\t@click=\"toggleEntireMilestoneGroup(index)\" />\n\t\t\t\t\t\t\t\t{{ milestoneGroup.text }}\n\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t<div v-for=\"child of milestoneGroup.children\" class=\"form-group\">\n\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t:value=\"child.id\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"milestones\" />\n\t\t\t\t\t\t\t\t\t{{ child.text }}\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\n\t\t\t<fieldset>\n\t\t\t\t<legend>Graphs</legend>\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"radio\" value=\"average\" v-model=\"graphOption\" />\n\t\t\t\t\tAverage only\n\t\t\t\t</label>\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"radio\" value=\"all\" v-model=\"graphOption\" />\n\t\t\t\t\tAll\n\t\t\t\t</label>\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"radio\" value=\"none\" v-model=\"graphOption\" />\n\t\t\t\t\tNone\n\t\t\t\t</label>\n\t\t\t</fieldset>\n\n\t\t\t<button type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t@click=\"runReport\">\n\t\t\t\tRun report\n\t\t\t</button>\n\t\t</div>\n\n\t\t<div v-if=\"report\">\n\t\t\t<div v-if=\"report.stats\" class=\"container body-block\">\n\n\t\t\t</div>\n\n\t\t\t<div v-if=\"report.aggregate\">\n\t\t\t\t<div class=\"container body-block\">\n\t\t\t\t\t<fieldset>\n\t\t\t\t\t\t<legend>Show in report</legend>\n\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t<input type=\"checkbox\" value=\"milestones\" v-model=\"aggregateShow\" />\n\t\t\t\t\t\t\tMilestones\n\t\t\t\t\t\t</label>\n\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t<input type=\"checkbox\" value=\"competencies\" v-model=\"aggregateShow\" />\n\t\t\t\t\t\t\tCompetencies\n\t\t\t\t\t\t</label>\n\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t<input type=\"checkbox\" value=\"standardDeviations\" v-model=\"aggregateShow\" />\n\t\t\t\t\t\t\tStandard Deviations\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</fieldset>\n\n\t\t\t\t\t<table id=\"aggregate-table\" class=\"table table-striped table-bordered\" width=\"100%\">\n\t\t\t\t\t\t<thead>\n\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t<th rowspan=\"3\">Trainee</th>\n\t\t\t\t\t\t\t\t<th v-if=\"aggregateShow.includes('milestones')\"\n\t\t\t\t\t\t\t\t\t\t:colspan=\"milestoneColspan\">\n\t\t\t\t\t\t\t\t\tMilestones\n\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t<th v-if=\"aggregateShow.includes('competencies')\"\n\t\t\t\t\t\t\t\t\t\t:colspan=\"competencyColspan\">\n\t\t\t\t\t\t\t\t\tCompetencies\n\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t<th colspan=\"3\">All</th>\n\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t<th v-if=\"aggregateShow.includes('milestones')\"\n\t\t\t\t\t\t\t\t\t\tv-for=\"(milestone, milestoneId) of report.aggregate.milestones\"\n\t\t\t\t\t\t\t\t\t\t:colspan=\"colsPerItem\"\n\t\t\t\t\t\t\t\t\t\t:key=\"`milestone-title-${milestoneId}`\">\n\t\t\t\t\t\t\t\t\t{{ milestone }}\n\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t<th v-if=\"aggregateShow.includes('competencies')\"\n\t\t\t\t\t\t\t\t\t\tv-for=\"(competency, competencyId) of report.aggregate.competencies\"\n\t\t\t\t\t\t\t\t\t\t:colspan=\"colsPerItem\"\n\t\t\t\t\t\t\t\t\t\t:key=\"`competency-title-${competencyId}`\">\n\t\t\t\t\t\t\t\t\t{{ competency }}\n\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t<th colspan=\"3\">Total</th>\n\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<template v-if=\"aggregateShow.includes('milestones')\"\n\t\t\t\t\t\t\t\t\tv-for=\"(milestone, milestoneId) of report.aggregate.milestones\">\n\t\t\t\t\t\t\t\t<th :key=\"`milestone-avg-${milestoneId}`\">Average</th>\n\t\t\t\t\t\t\t\t<th v-if=\"aggregateShow.includes('standardDeviations')\"\n\t\t\t\t\t\t\t\t\t\t:key=\"`milestone-stddev-${milestoneId}`\">\n\t\t\t\t\t\t\t\t\tStd. Dev.\n\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t<th :key=\"`milestone-num-${milestoneId}`\">#</th>\n\t\t\t\t\t\t\t</template>\n\t\t\t\t\t\t\t<template v-if=\"aggregateShow.includes('competencies')\"\n\t\t\t\t\t\t\t\t\tv-for=\"(competency, competencyId) of report.aggregate.competencies\">\n\t\t\t\t\t\t\t\t<th :key=\"`competency-avg-${competencyId}`\">Average</th>\n\t\t\t\t\t\t\t\t<th v-if=\"aggregateShow.includes('standardDeviations')\"\n\t\t\t\t\t\t\t\t\t\t:key=\"`competency-stddev-${competencyId}`\">\n\t\t\t\t\t\t\t\t\tStd. Dev.\n\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t<th :key=\"`competency-num-${competencyId}`\">#</th>\n\t\t\t\t\t\t\t</template>\n\t\t\t\t\t\t\t\t<th># Faculty</th>\n\t\t\t\t\t\t\t\t<th># Evals</th>\n\t\t\t\t\t\t\t\t<th># Trainee Requests</th>\n\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t</thead>\n\t\t\t\t\t</table>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport 'whatwg-fetch';\n\nimport ReportDate from './ReportDate.vue';\n\nimport { fetchMilestoneGroups } from '../modules/utils.js';\n\nexport default {\n\tdata(){\n\t\treturn {\n\t\t\tdates: {\n\t\t\t\tstartDate: '',\n\t\t\t\tendDate: ''\n\t\t\t},\n\t\t\ttrainingLevel: 'all',\n\t\t\tfilterMilestones: false,\n\t\t\tmilestones: [],\n\t\t\tgraphOption: 'average',\n\t\t\treport: null,\n\n\t\t\taggregateShow: [\n\t\t\t\t'competencies'\n\t\t\t],\n\n\t\t\tmilestoneGroups: [],\n\t\t\tuserGroups: {}\n\t\t};\n\t},\n\twatch: {\n\t\tfilterMilestones(shouldFilter){\n\t\t\tif(shouldFilter){\n\t\t\t\tfetchMilestoneGroups().then(milestoneGroups => {\n\t\t\t\t\tthis.milestoneGroups = milestoneGroups;\n\t\t\t\t});\n\t\t\t}\n\t\t},\n\t\treport(report){\n\t\t\t// if(report.aggregate){\n\t\t\t// \tthis.destroyAggregateDatatable();\n\t\t\t// \tthis.$nextTick(this.renderAggregateDatatable);\n\t\t\t// }\n\t\t},\n\t\taggregateShow(){\n\t\t\t// if(this.report && this.report.aggregate){\n\t\t\t// \tthis.destroyAggregateDatatable();\n\t\t\t// \tthis.$nextTick(this.renderAggregateDatatable);\n\t\t\t// }\n\t\t}\n\t},\n\tcomputed: {\n\t\tcolsPerItem(){\n\t\t\treturn this.aggregateShow.includes('standardDeviations')\n\t\t\t\t? 3\n\t\t\t\t: 2;\n\t\t},\n\t\tmilestoneColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.aggregate.milestones).length;\n\t\t},\n\t\tcompetencyColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.aggregate.competencies).length;\n\t\t}\n\t},\n\tmethods: {\n\t\tisEntireMilestoneGroupSelected(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\treturn groupIds.every(id => {\n\t\t\t\treturn this.milestones.includes(id);\n\t\t\t});\n\t\t},\n\t\ttoggleEntireMilestoneGroup(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\tlet newMilestones = this.milestones.filter(milestone => {\n\t\t\t\treturn !groupIds.includes(milestone);\n\t\t\t});\n\t\t\tif(!this.isEntireMilestoneGroupSelected(index)){\n\t\t\t\tnewMilestones = newMilestones.concat(groupIds);\n\t\t\t}\n\t\t\tthis.milestones = newMilestones;\n\t\t},\n\t\trunReport(){\n\t\t\tlet csrfToken = document.querySelector('meta[name=\"csrf-token\"]').getAttribute('content');\n\n\t\t\tlet headers = new Headers();\n\t\t\theaders.append('Content-Type', 'application/json');\n\t\t\theaders.append('X-Requested-With', 'XMLHttpRequest');\n\t\t\theaders.append('X-CSRF-TOKEN', csrfToken);\n\n\t\t\tfetch('/report/aggregate', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: headers,\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate,\n\t\t\t\t\ttrainingLevel: this.trainingLevel,\n\t\t\t\t\tgraphs: this.graphOption,\n\t\t\t\t\tmilestones: this.milestones\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(aggregate => {\n\t\t\t\tthis.report = Object.assign({}, this.report, {aggregate: aggregate});\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t},\n\t\trenderAggregateDatatable(){\n\t\t\tlet data = [];\n\t\t\tfor(let subjectId in this.report.aggregate.subjects){\n\t\t\t\tlet row = [];\n\t\t\t\trow.push(this.report.aggregate.subjects[subjectId]);\n\t\t\t\tif(this.aggregateShow.includes('milestones')){\n\t\t\t\t\tfor(let milestoneId in this.report.aggregate.milestones){\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.aggregate.subjectMilestone\n\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectMilestone[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectMilestone[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.aggregate.subjectMilestone[subjectId][milestoneId]).toFixed(2)\n\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t);\n\n\t\t\t\t\t\tif(this.aggregateShow.includes('standardDeviations'))\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.aggregate.subjectMilestoneDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectMilestoneDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectMilestoneDeviations[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.aggregate.subjectMilestoneDeviations[subjectId][milestoneId]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.aggregate.subjectMilestoneEvals\n\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectMilestoneEvals[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectMilestoneEvals[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.aggregate.subjectMilestoneEvals[subjectId][milestoneId]).toFixed()\n\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tif(this.aggregateShow.includes('competencies')){\n\t\t\t\t\tfor(let competencyId in this.report.aggregate.competencies){\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.aggregate.subjectCompetency\n\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectCompetency[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectCompetency[subjectId][competencyId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.aggregate.subjectCompetency[subjectId][competencyId]).toFixed(2)\n\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t);\n\n\t\t\t\t\t\tif(this.aggregateShow.includes('standardDeviations'))\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.aggregate.subjectCompetencyDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectCompetencyDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectCompetencyDeviations[subjectId][competencyId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.aggregate.subjectCompetencyDeviations[subjectId][competencyId]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.aggregate.subjectCompetencyEvals\n\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectCompetencyEvals[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.aggregate.subjectCompetencyEvals[subjectId][competencyId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.aggregate.subjectCompetencyEvals[subjectId][competencyId]).toFixed()\n\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\trow.push(Object.keys(this.report.aggregate.subjectEvaluators[subjectId]).length);\n\t\t\t\trow.push(Object.keys(this.report.aggregate.subjectEvals[subjectId]).length);\n\t\t\t\trow.push(Object.keys(this.report.aggregate.subjectRequests[subjectId]).length);\n\n\t\t\t\tdata.push(row);\n\t\t\t}\n\n\t\t\t$('#aggregate-table').DataTable({\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tdom: 'lfprtip',\n\t\t\t\tscrollX: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tfixedColumns: true,\n\t\t\t\tdata: data\n\t\t\t});\n\t\t},\n\t\tdestroyAggregateDatatable(){\n\t\t\t$('#aggregate-table').DataTable({\n\t\t\t\tretrieve: true\n\t\t\t}).clear().destroy();\n\t\t}\n\t},\n\tcomponents: {\n\t\tReportDate\n\t}\n}\n</script>\n\n<style scoped>\n\t.milestone-group .panel-body {\n\t\theight: 300px;\n\t\toverflow: auto;\n\t}\n\n\t.milestone-group .panel-body label {\n\t\tfont-weight: normal;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
@@ -8715,16 +8759,342 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 99 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	__webpack_require__(60);
+	
+	var _ReportDate = __webpack_require__(100);
+	
+	var _ReportDate2 = _interopRequireDefault(_ReportDate);
+	
+	var _utils = __webpack_require__(59);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = {
+		data: function data() {
+			return {
+				dates: {
+					startDate: '',
+					endDate: ''
+				},
+				trainingLevel: 'all',
+				filterMilestones: false,
+				milestones: [],
+				graphOption: 'average',
+				report: null,
+	
+				aggregateShow: ['competencies'],
+	
+				milestoneGroups: [],
+				userGroups: {}
+			};
+		},
+	
+		watch: {
+			filterMilestones: function filterMilestones(shouldFilter) {
+				var _this = this;
+	
+				if (shouldFilter) {
+					(0, _utils.fetchMilestoneGroups)().then(function (milestoneGroups) {
+						_this.milestoneGroups = milestoneGroups;
+					});
+				}
+			},
+			report: function report(_report) {
+				// if(report.aggregate){
+				// 	this.destroyAggregateDatatable();
+				// 	this.$nextTick(this.renderAggregateDatatable);
+				// }
+			},
+			aggregateShow: function aggregateShow() {
+				// if(this.report && this.report.aggregate){
+				// 	this.destroyAggregateDatatable();
+				// 	this.$nextTick(this.renderAggregateDatatable);
+				// }
+			}
+		},
+		computed: {
+			colsPerItem: function colsPerItem() {
+				return this.aggregateShow.indexOf('standardDeviations') !== -1 ? 3 : 2;
+			},
+			milestoneColspan: function milestoneColspan() {
+				return this.colsPerItem * Object.keys(this.report.aggregate.milestones).length;
+			},
+			competencyColspan: function competencyColspan() {
+				return this.colsPerItem * Object.keys(this.report.aggregate.competencies).length;
+			}
+		},
+		methods: {
+			isEntireMilestoneGroupSelected: function isEntireMilestoneGroupSelected(index) {
+				var _this2 = this;
+	
+				var groupIds = this.milestoneGroups[index].children.map(function (child) {
+					return child.id;
+				});
+				return groupIds.every(function (id) {
+					return _this2.milestones.indexOf(id) !== -1;
+				});
+			},
+			toggleEntireMilestoneGroup: function toggleEntireMilestoneGroup(index) {
+				var groupIds = this.milestoneGroups[index].children.map(function (child) {
+					return child.id;
+				});
+				var newMilestones = this.milestones.filter(function (milestone) {
+					return !(groupIds.indexOf(milestone) !== -1);
+				});
+				if (!this.isEntireMilestoneGroupSelected(index)) {
+					newMilestones = newMilestones.concat(groupIds);
+				}
+				this.milestones = newMilestones;
+			},
+			runReport: function runReport() {
+				var _this3 = this;
+	
+				var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+	
+				var headers = new Headers();
+				headers.append('Content-Type', 'application/json');
+				headers.append('X-Requested-With', 'XMLHttpRequest');
+				headers.append('X-CSRF-TOKEN', csrfToken);
+	
+				fetch('/report/aggregate', {
+					method: 'POST',
+					headers: headers,
+					credentials: 'same-origin',
+					body: JSON.stringify({
+						startDate: this.dates.startDate,
+						endDate: this.dates.endDate,
+						trainingLevel: this.trainingLevel,
+						graphs: this.graphOption,
+						milestones: this.milestones
+					})
+				}).then(function (response) {
+					if (response.ok) return response.json();
+					var err = new Error(response.statusText);
+					err.response = response;
+					throw err;
+				}).then(function (aggregate) {
+					_this3.report = Object.assign({}, _this3.report, { aggregate: aggregate });
+				}).catch(function (err) {
+					console.error(err);
+				});
+			},
+			renderAggregateDatatable: function renderAggregateDatatable() {
+				var data = [];
+				for (var subjectId in this.report.aggregate.subjects) {
+					var row = [];
+					row.push(this.report.aggregate.subjects[subjectId]);
+					if (this.aggregateShow.indexOf('milestones') !== -1) {
+						for (var milestoneId in this.report.aggregate.milestones) {
+							row.push(this.report.aggregate.subjectMilestone && this.report.aggregate.subjectMilestone[subjectId] && this.report.aggregate.subjectMilestone[subjectId][milestoneId] ? parseFloat(this.report.aggregate.subjectMilestone[subjectId][milestoneId]).toFixed(2) : '');
+	
+							if (this.aggregateShow.indexOf('standardDeviations') !== -1) row.push(this.report.aggregate.subjectMilestoneDeviations && this.report.aggregate.subjectMilestoneDeviations[subjectId] && this.report.aggregate.subjectMilestoneDeviations[subjectId][milestoneId] ? parseFloat(this.report.aggregate.subjectMilestoneDeviations[subjectId][milestoneId]).toFixed(2) : '');
+	
+							row.push(this.report.aggregate.subjectMilestoneEvals && this.report.aggregate.subjectMilestoneEvals[subjectId] && this.report.aggregate.subjectMilestoneEvals[subjectId][milestoneId] ? parseFloat(this.report.aggregate.subjectMilestoneEvals[subjectId][milestoneId]).toFixed() : 0);
+						}
+					}
+	
+					if (this.aggregateShow.indexOf('competencies') !== -1) {
+						for (var competencyId in this.report.aggregate.competencies) {
+							row.push(this.report.aggregate.subjectCompetency && this.report.aggregate.subjectCompetency[subjectId] && this.report.aggregate.subjectCompetency[subjectId][competencyId] ? parseFloat(this.report.aggregate.subjectCompetency[subjectId][competencyId]).toFixed(2) : '');
+	
+							if (this.aggregateShow.indexOf('standardDeviations') !== -1) row.push(this.report.aggregate.subjectCompetencyDeviations && this.report.aggregate.subjectCompetencyDeviations[subjectId] && this.report.aggregate.subjectCompetencyDeviations[subjectId][competencyId] ? parseFloat(this.report.aggregate.subjectCompetencyDeviations[subjectId][competencyId]).toFixed(2) : '');
+	
+							row.push(this.report.aggregate.subjectCompetencyEvals && this.report.aggregate.subjectCompetencyEvals[subjectId] && this.report.aggregate.subjectCompetencyEvals[subjectId][competencyId] ? parseFloat(this.report.aggregate.subjectCompetencyEvals[subjectId][competencyId]).toFixed() : 0);
+						}
+					}
+	
+					row.push(Object.keys(this.report.aggregate.subjectEvaluators[subjectId]).length);
+					row.push(Object.keys(this.report.aggregate.subjectEvals[subjectId]).length);
+					row.push(Object.keys(this.report.aggregate.subjectRequests[subjectId]).length);
+	
+					data.push(row);
+				}
+	
+				$('#aggregate-table').DataTable({
+					order: [[0, 'asc']],
+					stateSave: true,
+					dom: 'lfprtip',
+					scrollX: true,
+					scrollY: '500px',
+					scrollCollapse: true,
+					paging: false,
+					fixedColumns: true,
+					data: data
+				});
+			},
+			destroyAggregateDatatable: function destroyAggregateDatatable() {
+				$('#aggregate-table').DataTable({
+					retrieve: true
+				}).clear().destroy();
+			}
+		},
+		components: {
+			ReportDate: _ReportDate2.default
+		}
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+
+/***/ },
+/* 100 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var __vue_exports__, __vue_options__
 	
 	/* styles */
-	__webpack_require__(100)
+	__webpack_require__(101)
 	
 	/* script */
-	__vue_exports__ = __webpack_require__(102)
+	__vue_exports__ = __webpack_require__(103)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(103)
+	var __vue_template__ = __webpack_require__(104)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -8760,16 +9130,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 100 */
+/* 101 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(101);
+	var content = __webpack_require__(102);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(67)(content, {});
+	var update = __webpack_require__(68)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -8786,10 +9156,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 101 */
+/* 102 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(66)();
+	exports = module.exports = __webpack_require__(67)();
 	// imports
 	
 	
@@ -8800,7 +9170,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 102 */
+/* 103 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -8854,7 +9224,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 103 */
+/* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -8920,214 +9290,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 104 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_exports__, __vue_options__
-	
-	/* styles */
-	__webpack_require__(105)
-	
-	/* script */
-	__vue_exports__ = __webpack_require__(107)
-	
-	/* template */
-	var __vue_template__ = __webpack_require__(108)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-	__vue_options__.name = __vue_options__.name || "TraineeReport"
-	__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/TraineeReport.vue"
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-	__vue_options__._scopeId = "data-v-155d597c"
-	
-	/* hot reload */
-	if (false) {(function () {
-	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), false)
-	  if (!hotAPI.compatible) return
-	  module.hot.accept()
-	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-155d597c", __vue_options__)
-	  } else {
-	    hotAPI.reload("data-v-155d597c", __vue_options__)
-	  }
-	})()}
-	if (__vue_options__.functional) {console.error("[vue-loader] TraineeReport.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-	
-	module.exports = __vue_exports__
-
-
-/***/ },
 /* 105 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(106);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(67)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-155d597c&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TraineeReport.vue", function() {
-				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-155d597c&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TraineeReport.vue");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 106 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(66)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "\n.milestone-group .panel-body[data-v-155d597c] {\n\theight: 300px;\n\toverflow: auto;\n}\n.milestone-group .panel-body label[data-v-155d597c] {\n\tfont-weight: normal;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/TraineeReport.vue?48de8db2"],"names":[],"mappings":";AAgGA;CACA,cAAA;CACA,eAAA;CACA;AAEA;CACA,oBAAA;CACA","file":"TraineeReport.vue","sourcesContent":["<template>\n\t<div class=\"container body-block\">\n\t\t<h2>Trainee report</h2>\n\t\t<report-date v-model=\"dates\" />\n\t\t<div class=\"form-group\">\n\t\t\t<label>\n\t\t\t\t<input type=\"checkbox\" v-model=\"filterMilestones\" />\n\t\t\t\tFilter milestones\n\t\t\t</label>\n\t\t</div>\n\n\n\t\t<fieldset v-if=\"filterMilestones\">\n\t\t\t<legend>Milestones</legend>\n\t\t\t<div v-for=\"(milestoneGroup, index) of milestoneGroups\" class=\"milestone-group col-md-4\">\n\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t<label class=\"panel-title\">\n\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t:checked=\"isEntireMilestoneGroupSelected(index)\"\n\t\t\t\t\t\t\t\t\t@click=\"toggleEntireMilestoneGroup(index)\" />\n\t\t\t\t\t\t\t{{ milestoneGroup.text }}\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t<div v-for=\"child of milestoneGroup.children\" class=\"form-group\">\n\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t:value=\"child.id\"\n\t\t\t\t\t\t\t\t\t\tv-model=\"milestones\" />\n\t\t\t\t\t\t\t\t{{ child.text }}\n\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</fieldset>\n\t</div>\n</template>\n\n<script>\nimport 'whatwg-fetch';\n\nimport ReportDate from './ReportDate.vue';\n\nimport { fetchMilestoneGroups } from '../modules/utils.js';\n\nexport default {\n\tdata(){\n\t\treturn {\n\t\t\tdates: {\n\t\t\t\tstartDate: '',\n\t\t\t\tendDate: ''\n\t\t\t},\n\t\t\ttrainingLevel: 'all',\n\t\t\tfilterMilestones: false,\n\t\t\tmilestones: [],\n\t\t\tdrawGraphs: 'average',\n\n\t\t\tmilestoneGroups: []\n\t\t};\n\t},\n\twatch: {\n\t\tfilterMilestones(shouldFilter){\n\t\t\tif(shouldFilter){\n\t\t\t\tfetchMilestoneGroups().then(milestoneGroups => {\n\t\t\t\t\tthis.milestoneGroups = milestoneGroups;\n\t\t\t\t});\n\t\t\t}\n\t\t}\n\t},\n\tmethods: {\n\t\tisEntireMilestoneGroupSelected(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\treturn groupIds.every(id => {\n\t\t\t\treturn this.milestones.includes(id);\n\t\t\t});\n\t\t},\n\t\ttoggleEntireMilestoneGroup(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\tlet newMilestones = this.milestones.filter(milestone => {\n\t\t\t\treturn !groupIds.includes(milestone);\n\t\t\t});\n\t\t\tif(!this.isEntireMilestoneGroupSelected(index)){\n\t\t\t\tnewMilestones = newMilestones.concat(groupIds);\n\t\t\t}\n\t\t\tthis.milestones = newMilestones;\n\t\t}\n\t},\n\tcomponents: {\n\t\tReportDate\n\t}\n}\n</script>\n\n<style scoped>\n\t.milestone-group .panel-body {\n\t\theight: 300px;\n\t\toverflow: auto;\n\t}\n\n\t.milestone-group .panel-body label {\n\t\tfont-weight: normal;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
-	
-	// exports
-
-
-/***/ },
-/* 107 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	__webpack_require__(81);
-	
-	var _ReportDate = __webpack_require__(99);
-	
-	var _ReportDate2 = _interopRequireDefault(_ReportDate);
-	
-	var _utils = __webpack_require__(59);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	exports.default = {
-		data: function data() {
-			return {
-				dates: {
-					startDate: '',
-					endDate: ''
-				},
-				trainingLevel: 'all',
-				filterMilestones: false,
-				milestones: [],
-				drawGraphs: 'average',
-	
-				milestoneGroups: []
-			};
-		},
-	
-		watch: {
-			filterMilestones: function filterMilestones(shouldFilter) {
-				var _this = this;
-	
-				if (shouldFilter) {
-					(0, _utils.fetchMilestoneGroups)().then(function (milestoneGroups) {
-						_this.milestoneGroups = milestoneGroups;
-					});
-				}
-			}
-		},
-		methods: {
-			isEntireMilestoneGroupSelected: function isEntireMilestoneGroupSelected(index) {
-				var _this2 = this;
-	
-				var groupIds = this.milestoneGroups[index].children.map(function (child) {
-					return child.id;
-				});
-				return groupIds.every(function (id) {
-					return _this2.milestones.indexOf(id) !== -1;
-				});
-			},
-			toggleEntireMilestoneGroup: function toggleEntireMilestoneGroup(index) {
-				var groupIds = this.milestoneGroups[index].children.map(function (child) {
-					return child.id;
-				});
-				var newMilestones = this.milestones.filter(function (milestone) {
-					return !(groupIds.indexOf(milestone) !== -1);
-				});
-				if (!this.isEntireMilestoneGroupSelected(index)) {
-					newMilestones = newMilestones.concat(groupIds);
-				}
-				this.milestones = newMilestones;
-			}
-		},
-		components: {
-			ReportDate: _ReportDate2.default
-		}
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-
-/***/ },
-/* 108 */
-/***/ function(module, exports, __webpack_require__) {
-
 	module.exports={render:function (){with(this) {
-	  return _h('div', {
+	  return _h('div', [_h('div', {
 	    staticClass: "container body-block"
 	  }, [_m(0), " ", _h('report-date', {
 	    directives: [{
@@ -9170,9 +9337,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      }
 	    }
-	  }), "\n\t\t\tFilter milestones\n\t\t"])]), " ", (filterMilestones) ? _h('fieldset', [_m(1), " ", _l((milestoneGroups), function(milestoneGroup, index) {
+	  }), "\n\t\t\t\tFilter milestones\n\t\t\t"])]), " ", (filterMilestones) ? _h('fieldset', [_m(1), " ", _l((milestoneGroups), function(milestoneGroup, index) {
 	    return _h('div', {
-	      staticClass: "milestone-group col-md-4"
+	      staticClass: "milestone-group col-xs-6 col-sm-4 col-md-3 col-lg-2"
 	    }, [_h('div', {
 	      staticClass: "panel panel-default"
 	    }, [_h('div', {
@@ -9191,7 +9358,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          toggleEntireMilestoneGroup(index)
 	        }
 	      }
-	    }), "\n\t\t\t\t\t\t" + _s(milestoneGroup.text) + "\n\t\t\t\t\t"])]), " ", _h('div', {
+	    }), "\n\t\t\t\t\t\t\t" + _s(milestoneGroup.text) + "\n\t\t\t\t\t\t"])]), " ", _h('div', {
 	      staticClass: "panel-body"
 	    }, [_l((milestoneGroup.children), function(child) {
 	      return _h('div', {
@@ -9222,18 +9389,261 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	          }
 	        }
-	      }), "\n\t\t\t\t\t\t\t" + _s(child.text) + "\n\t\t\t\t\t\t"])])
+	      }), "\n\t\t\t\t\t\t\t\t" + _s(child.text) + "\n\t\t\t\t\t\t\t"])])
 	    })])])])
-	  })]) : _e()])
+	  })]) : _e(), " ", _h('fieldset', [_m(2), " ", _h('label', [_h('input', {
+	    attrs: {
+	      "type": "radio",
+	      "value": "average"
+	    },
+	    domProps: {
+	      "checked": _q(graphOption, "average")
+	    },
+	    on: {
+	      "change": function($event) {
+	        graphOption = "average"
+	      }
+	    }
+	  }), "\n\t\t\t\tAverage only\n\t\t\t"]), " ", _h('label', [_h('input', {
+	    attrs: {
+	      "type": "radio",
+	      "value": "all"
+	    },
+	    domProps: {
+	      "checked": _q(graphOption, "all")
+	    },
+	    on: {
+	      "change": function($event) {
+	        graphOption = "all"
+	      }
+	    }
+	  }), "\n\t\t\t\tAll\n\t\t\t"]), " ", _h('label', [_h('input', {
+	    attrs: {
+	      "type": "radio",
+	      "value": "none"
+	    },
+	    domProps: {
+	      "checked": _q(graphOption, "none")
+	    },
+	    on: {
+	      "change": function($event) {
+	        graphOption = "none"
+	      }
+	    }
+	  }), "\n\t\t\t\tNone\n\t\t\t"])]), " ", _h('button', {
+	    staticClass: "btn btn-lg btn-primary",
+	    attrs: {
+	      "type": "button"
+	    },
+	    on: {
+	      "click": runReport
+	    }
+	  }, ["\n\t\t\tRun report\n\t\t"])]), " ", (report) ? _h('div', [(report.stats) ? _h('div', {
+	    staticClass: "container body-block"
+	  }) : _e(), " ", (report.aggregate) ? _h('div', [_h('div', {
+	    staticClass: "container body-block"
+	  }, [_h('fieldset', [_m(3), " ", _h('label', [_h('input', {
+	    attrs: {
+	      "type": "checkbox",
+	      "value": "milestones"
+	    },
+	    domProps: {
+	      "checked": Array.isArray(aggregateShow) ? _i(aggregateShow, "milestones") > -1 : _q(aggregateShow, true)
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$a = aggregateShow,
+	          $$el = $event.target,
+	          $$c = $$el.checked ? (true) : (false);
+	        if (Array.isArray($$a)) {
+	          var $$v = "milestones",
+	            $$i = _i($$a, $$v);
+	          if ($$c) {
+	            $$i < 0 && (aggregateShow = $$a.concat($$v))
+	          } else {
+	            $$i > -1 && (aggregateShow = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+	          }
+	        } else {
+	          aggregateShow = $$c
+	        }
+	      }
+	    }
+	  }), "\n\t\t\t\t\t\tMilestones\n\t\t\t\t\t"]), " ", _h('label', [_h('input', {
+	    attrs: {
+	      "type": "checkbox",
+	      "value": "competencies"
+	    },
+	    domProps: {
+	      "checked": Array.isArray(aggregateShow) ? _i(aggregateShow, "competencies") > -1 : _q(aggregateShow, true)
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$a = aggregateShow,
+	          $$el = $event.target,
+	          $$c = $$el.checked ? (true) : (false);
+	        if (Array.isArray($$a)) {
+	          var $$v = "competencies",
+	            $$i = _i($$a, $$v);
+	          if ($$c) {
+	            $$i < 0 && (aggregateShow = $$a.concat($$v))
+	          } else {
+	            $$i > -1 && (aggregateShow = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+	          }
+	        } else {
+	          aggregateShow = $$c
+	        }
+	      }
+	    }
+	  }), "\n\t\t\t\t\t\tCompetencies\n\t\t\t\t\t"]), " ", _h('label', [_h('input', {
+	    attrs: {
+	      "type": "checkbox",
+	      "value": "standardDeviations"
+	    },
+	    domProps: {
+	      "checked": Array.isArray(aggregateShow) ? _i(aggregateShow, "standardDeviations") > -1 : _q(aggregateShow, true)
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$a = aggregateShow,
+	          $$el = $event.target,
+	          $$c = $$el.checked ? (true) : (false);
+	        if (Array.isArray($$a)) {
+	          var $$v = "standardDeviations",
+	            $$i = _i($$a, $$v);
+	          if ($$c) {
+	            $$i < 0 && (aggregateShow = $$a.concat($$v))
+	          } else {
+	            $$i > -1 && (aggregateShow = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+	          }
+	        } else {
+	          aggregateShow = $$c
+	        }
+	      }
+	    }
+	  }), "\n\t\t\t\t\t\tStandard Deviations\n\t\t\t\t\t"])]), " ", _h('table', {
+	    staticClass: "table table-striped table-bordered",
+	    attrs: {
+	      "id": "aggregate-table",
+	      "width": "100%"
+	    }
+	  }, [_h('thead', [_h('tr', [_m(4), " ", (aggregateShow.includes('milestones')) ? _h('th', {
+	    attrs: {
+	      "colspan": milestoneColspan
+	    }
+	  }, ["\n\t\t\t\t\t\t\t\tMilestones\n\t\t\t\t\t\t\t"]) : _e(), " ", (aggregateShow.includes('competencies')) ? _h('th', {
+	    attrs: {
+	      "colspan": competencyColspan
+	    }
+	  }, ["\n\t\t\t\t\t\t\t\tCompetencies\n\t\t\t\t\t\t\t"]) : _e(), " ", _m(5)]), " ", _h('tr', [_l((report.aggregate.milestones), function(milestone, milestoneId) {
+	    return (aggregateShow.includes('milestones')) ? _h('th', {
+	      key: ("milestone-title-" + milestoneId),
+	      attrs: {
+	        "colspan": colsPerItem
+	      }
+	    }, ["\n\t\t\t\t\t\t\t\t" + _s(milestone) + "\n\t\t\t\t\t\t\t"]) : _e()
+	  }), " ", _l((report.aggregate.competencies), function(competency, competencyId) {
+	    return (aggregateShow.includes('competencies')) ? _h('th', {
+	      key: ("competency-title-" + competencyId),
+	      attrs: {
+	        "colspan": colsPerItem
+	      }
+	    }, ["\n\t\t\t\t\t\t\t\t" + _s(competency) + "\n\t\t\t\t\t\t\t"]) : _e()
+	  }), " ", _m(6)]), " ", _h('tr', [_l((report.aggregate.milestones), function(milestone, milestoneId) {
+	    return (aggregateShow.includes('milestones')) ? [_h('th', {
+	      key: ("milestone-avg-" + milestoneId)
+	    }, ["Average"]), " ", (aggregateShow.includes('standardDeviations')) ? _h('th', {
+	      key: ("milestone-stddev-" + milestoneId)
+	    }, ["\n\t\t\t\t\t\t\t\tStd. Dev.\n\t\t\t\t\t\t\t"]) : _e(), " ", _h('th', {
+	      key: ("milestone-num-" + milestoneId)
+	    }, ["#"])] : _e()
+	  }), " ", _l((report.aggregate.competencies), function(competency, competencyId) {
+	    return (aggregateShow.includes('competencies')) ? [_h('th', {
+	      key: ("competency-avg-" + competencyId)
+	    }, ["Average"]), " ", (aggregateShow.includes('standardDeviations')) ? _h('th', {
+	      key: ("competency-stddev-" + competencyId)
+	    }, ["\n\t\t\t\t\t\t\t\tStd. Dev.\n\t\t\t\t\t\t\t"]) : _e(), " ", _h('th', {
+	      key: ("competency-num-" + competencyId)
+	    }, ["#"])] : _e()
+	  }), " ", _m(7), " ", _m(8), " ", _m(9)])])])])]) : _e()]) : _e()])
 	}},staticRenderFns: [function (){with(this) {
 	  return _h('h2', ["Trainee report"])
 	}},function (){with(this) {
 	  return _h('legend', ["Milestones"])
+	}},function (){with(this) {
+	  return _h('legend', ["Graphs"])
+	}},function (){with(this) {
+	  return _h('legend', ["Show in report"])
+	}},function (){with(this) {
+	  return _h('th', {
+	    attrs: {
+	      "rowspan": "3"
+	    }
+	  }, ["Trainee"])
+	}},function (){with(this) {
+	  return _h('th', {
+	    attrs: {
+	      "colspan": "3"
+	    }
+	  }, ["All"])
+	}},function (){with(this) {
+	  return _h('th', {
+	    attrs: {
+	      "colspan": "3"
+	    }
+	  }, ["Total"])
+	}},function (){with(this) {
+	  return _h('th', ["# Faculty"])
+	}},function (){with(this) {
+	  return _h('th', ["# Evals"])
+	}},function (){with(this) {
+	  return _h('th', ["# Trainee Requests"])
 	}}]}
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
 	     require("vue-hot-reload-api").rerender("data-v-155d597c", module.exports)
+	  }
+	}
+
+/***/ },
+/* 106 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){with(this) {
+	  return _h('div', [(reportType) ? _h('div', [(reportType === REPORT_TYPES.TRAINEE) ? _h('trainee-report') : _e(), " ", (reportType === REPORT_TYPES.FORM) ? _h('form-report') : _e(), " ", _h('div', {
+	    staticClass: "text-center"
+	  }, [_h('button', {
+	    staticClass: "btn btn-lg btn-default",
+	    attrs: {
+	      "type": "button"
+	    },
+	    on: {
+	      "click": handleResetClick
+	    }
+	  }, ["\n\t\t\t\tStart over\n\t\t\t"])])]) : _h('div', {
+	    staticClass: "container body-block"
+	  }, [_h('fieldset', [_h('legend', ["Report type"]), " ", _h('div', {
+	    staticClass: "form-inline"
+	  }, [_l((REPORT_TYPES), function(type) {
+	    return _h('div', {
+	      staticClass: "form-group col-sm-2"
+	    }, [_h('button', {
+	      staticClass: "btn lg btn-primary",
+	      attrs: {
+	        "type": "button"
+	      },
+	      on: {
+	        "click": function($event) {
+	          setReportType(type)
+	        }
+	      }
+	    }, ["\n\t\t\t\t\t\t" + _s(ucfirst(type)) + "\n\t\t\t\t\t"])])
+	  })])])]), " "])
+	}},staticRenderFns: []}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-hot-reload-api").rerender("data-v-25c733f6", module.exports)
 	  }
 	}
 
