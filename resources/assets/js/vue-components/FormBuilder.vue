@@ -40,8 +40,6 @@
 </template>
 
 <script>
-import 'whatwg-fetch';
-
 import FormBuilderInstruction from './FormBuilderInstruction.vue';
 import FormBuilderQuestion from './FormBuilderQuestion.vue';
 

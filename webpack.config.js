@@ -2,7 +2,11 @@
 module.exports = {
 	entry: {
 		bundle: './resources/assets/js/modules',
-		'vue-constructors': './resources/assets/js/vue-components/constructors.js'
+		'vue-constructors': [
+			'es6-promise/auto',
+			'whatwg-fetch',
+			'./resources/assets/js/vue-components/constructors.js'
+		]
 	},
 	output: {
 		path: './resources/assets/js/',

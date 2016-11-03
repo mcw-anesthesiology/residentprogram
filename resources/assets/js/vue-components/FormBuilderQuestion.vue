@@ -107,8 +107,6 @@
 </template>
 
 <script>
-import 'whatwg-fetch';
-
 import FormBuilderOption from './FormBuilderOption.vue';
 import SelectTwo from './SelectTwo.vue';
 

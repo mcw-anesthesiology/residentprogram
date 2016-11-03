@@ -59,41 +59,17 @@
 		</div>
 
 		<div v-if="report">
-			<div v-if="report.stats" class="container body-block">
+			<stats-report v-if="report.stats" :report="report.stats" />
 
-			</div>
-
-			<div v-if="report.aggregate">
-				<div class="container body-block">
-					<fieldset>
-						<legend>Show in report</legend>
-						<label>
-							<input type="checkbox" value="milestones" v-model="aggregateShow" />
-							Milestones
-						</label>
-						<label>
-							<input type="checkbox" value="competencies" v-model="aggregateShow" />
-							Competencies
-						</label>
-						<label>
-							<input type="checkbox" value="standardDeviations" v-model="aggregateShow" />
-							Standard Deviations
-						</label>
-					</fieldset>
-
-					<data-table id="aggregate-table" :thead="aggregateThead"
-						:config="aggregateConfig" :data="aggregateData" />
-				</div>
-			</div>
+			<aggregate-report v-if="report.aggregate" :report="report.aggregate" />
 		</div>
 	</div>
 </template>
 
 <script>
-import 'whatwg-fetch';
-
-import DataTable from './DataTable.vue';
+import AggregateReport from './AggregateReport.vue';
 import ReportDate from './ReportDate.vue';
+import StatsReport from './StatsReport.vue';
 
 import { fetchMilestoneGroups } from '../modules/utils.js';
 
@@ -110,10 +86,6 @@ export default {
 			graphOption: 'average',
 			report: null,
 
-			aggregateShow: [
-				'competencies'
-			],
-
 			milestoneGroups: [],
 			userGroups: {}
 		};
@@ -128,162 +100,7 @@ export default {
 		}
 	},
 	computed: {
-		colsPerItem(){
-			return this.aggregateShow.includes('standardDeviations')
-				? 3
-				: 2;
-		},
-		milestoneColspan(){
-			return this.colsPerItem * Object.keys(this.report.aggregate.milestones).length;
-		},
-		competencyColspan(){
-			return this.colsPerItem * Object.keys(this.report.aggregate.competencies).length;
-		},
-		aggregateThead(){
-			let thead = [];
-			let row = [];
-			row.push({rowspan: 3, text: 'Trainee'});
-			if(this.aggregateShow.includes('milestones'))
-				row.push({
-					colspan: this.milestoneColspan,
-					text: 'Milestones'
-				});
-			if(this.aggregateShow.includes('competencies'))
-				row.push({
-					colspan: this.competencyColspan,
-					text: 'Competencies'
-				});
-			row.push({colspan: 3, text: 'All'});
-			thead.push(row);
 
-			row = [];
-			if(this.aggregateShow.includes('milestones')){
-				for(let milestoneId in this.report.aggregate.milestones){
-					row.push({
-						colspan: this.colsPerItem,
-						text: this.report.aggregate.milestones[milestoneId]
-					});
-				}
-			}
-			if(this.aggregateShow.includes('competencies')){
-				for(let competencyId in this.report.aggregate.competencies){
-					row.push({
-						colspan: this.colsPerItem,
-						text: this.report.aggregate.competencies[competencyId]
-					});
-				}
-			}
-			row.push({colspan: 3, text: 'Total'});
-			thead.push(row);
-
-			row = [];
-			if(this.aggregateShow.includes('milestones')){
-				for(let milestoneId in this.report.aggregate.milestones){
-					row.push({text: 'Average'});
-					if(this.aggregateShow.includes('standardDeviations'))
-						row.push({text: 'Std. Dev.'});
-					row.push({text: '#'});
-				}
-			}
-			if(this.aggregateShow.includes('competencies')){
-				for(let competencyId in this.report.aggregate.competencies){
-					row.push({text: 'Average'});
-					if(this.aggregateShow.includes('standardDeviations'))
-						row.push({text: 'Std. Dev.'});
-					row.push({text: '#'});
-				}
-			}
-			row.push({text: '# Evaluators'});
-			row.push({text: '# Evaluations'});
-			row.push({text: '# Trainee Requests'});
-			thead.push(row);
-
-			return thead;
-		},
-		aggregateConfig(){
-			return {
-				order: [[0, 'asc']],
-				stateSave: true,
-				dom: 'lfprtip',
-				scrollX: true,
-				scrollY: '500px',
-				scrollCollapse: true,
-				paging: false,
-				fixedColumns: true,
-			};
-		},
-		aggregateData(){
-			let data = [];
-			for(let subjectId in this.report.aggregate.subjects){
-				let row = [];
-				row.push(this.report.aggregate.subjects[subjectId]);
-				if(this.aggregateShow.includes('milestones')){
-					for(let milestoneId in this.report.aggregate.milestones){
-						row.push(
-							this.report.aggregate.subjectMilestone
-									&& this.report.aggregate.subjectMilestone[subjectId]
-									&& this.report.aggregate.subjectMilestone[subjectId][milestoneId]
-								? parseFloat(this.report.aggregate.subjectMilestone[subjectId][milestoneId]).toFixed(2)
-								: ''
-						);
-
-						if(this.aggregateShow.includes('standardDeviations'))
-							row.push(
-								this.report.aggregate.subjectMilestoneDeviations
-										&& this.report.aggregate.subjectMilestoneDeviations[subjectId]
-										&& this.report.aggregate.subjectMilestoneDeviations[subjectId][milestoneId]
-									? parseFloat(this.report.aggregate.subjectMilestoneDeviations[subjectId][milestoneId]).toFixed(2)
-									: ''
-							);
-
-						row.push(
-							this.report.aggregate.subjectMilestoneEvals
-									&& this.report.aggregate.subjectMilestoneEvals[subjectId]
-									&& this.report.aggregate.subjectMilestoneEvals[subjectId][milestoneId]
-								? parseFloat(this.report.aggregate.subjectMilestoneEvals[subjectId][milestoneId]).toFixed()
-								: 0
-						);
-					}
-				}
-
-				if(this.aggregateShow.includes('competencies')){
-					for(let competencyId in this.report.aggregate.competencies){
-						row.push(
-							this.report.aggregate.subjectCompetency
-									&& this.report.aggregate.subjectCompetency[subjectId]
-									&& this.report.aggregate.subjectCompetency[subjectId][competencyId]
-								? parseFloat(this.report.aggregate.subjectCompetency[subjectId][competencyId]).toFixed(2)
-								: ''
-						);
-
-						if(this.aggregateShow.includes('standardDeviations'))
-							row.push(
-								this.report.aggregate.subjectCompetencyDeviations
-										&& this.report.aggregate.subjectCompetencyDeviations[subjectId]
-										&& this.report.aggregate.subjectCompetencyDeviations[subjectId][competencyId]
-									? parseFloat(this.report.aggregate.subjectCompetencyDeviations[subjectId][competencyId]).toFixed(2)
-									: ''
-							);
-
-						row.push(
-							this.report.aggregate.subjectCompetencyEvals
-									&& this.report.aggregate.subjectCompetencyEvals[subjectId]
-									&& this.report.aggregate.subjectCompetencyEvals[subjectId][competencyId]
-								? parseFloat(this.report.aggregate.subjectCompetencyEvals[subjectId][competencyId]).toFixed()
-								: 0
-						);
-					}
-				}
-
-				row.push(Object.keys(this.report.aggregate.subjectEvaluators[subjectId]).length);
-				row.push(Object.keys(this.report.aggregate.subjectEvals[subjectId]).length);
-				row.push(Object.keys(this.report.aggregate.subjectRequests[subjectId]).length);
-
-				data.push(row);
-			}
-
-			return data;
-		}
 	},
 	methods: {
 		isEntireMilestoneGroupSelected(index){
@@ -332,11 +149,32 @@ export default {
 			}).catch(err => {
 				console.error(err);
 			});
+
+			fetch('/report/stats/resident', {
+				method: 'POST',
+				headers: headers,
+				credentials: 'same-origin',
+				body: JSON.stringify({
+					startDate: this.dates.startDate,
+					endDate: this.dates.endDate
+				})
+			}).then(response => {
+				if(response.ok)
+					return response.json();
+				let err = new Error(response.statusText);
+				err.response = response;
+				throw err;
+			}).then(stats => {
+				this.report = Object.assign({}, this.report, {stats: stats});
+			}).catch(err => {
+				console.error(err);
+			});
 		}
 	},
 	components: {
-		DataTable,
-		ReportDate
+		ReportDate,
+		AggregateReport,
+		StatsReport
 	}
 }
 </script>

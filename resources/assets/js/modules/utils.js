@@ -1,5 +1,3 @@
-import 'whatwg-fetch';
-
 export function appendAlert(alertText, parent = '#alert-container', alertType = 'danger', dismissable = true){
 	let alert = document.createElement("div");
 	alert.className = "alert alert-" + alertType;
@@ -28,6 +26,22 @@ export function appendAlert(alertText, parent = '#alert-container', alertType = 
 
 export function ucfirst(str){
 	return str.charAt(0).toUpperCase() + str.substring(1);
+}
+
+export function camelCaseToWords(str){
+	let result = '';
+	for(let char of str){
+		if(result === ''){
+			result += char.toUpperCase();
+		}
+		else if(char === char.toUpperCase()){
+			result += ' ' + char.toLowerCase();
+		}
+		else {
+			result += char;
+		}
+	}
+	return result;
 }
 
 export function fetchMilestoneGroups(){

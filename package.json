@@ -2,11 +2,11 @@
   "private": true,
   "scripts": {
     "build": "run-p build:*",
-	"build:webpack": "webpack --optimize-minimize --optimize-dedupe",
-	"build:gulp": "gulp --production",
-	"watch": "run-p watch:*",
-	"watch:webpack": "webpack --progress --colors --watch",
-	"watch:gulp": "gulp watch"
+    "build:webpack": "webpack --optimize-minimize --optimize-dedupe",
+    "build:gulp": "gulp --production",
+    "watch": "run-p watch:*",
+    "watch:webpack": "webpack --progress --colors --watch",
+    "watch:gulp": "gulp watch"
   },
   "devDependencies": {
     "babel-core": "^6.10.4",
@@ -19,6 +19,7 @@
     "babel-preset-es2015": "^6.9.0",
     "chart.js": "^2.2.0-rc.2",
     "css-loader": "^0.25.0",
+    "es6-promise": "^4.0.5",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",
     "gulp-cssnano": "^2.1.0",

@@ -166,7 +166,8 @@ class ReportController extends Controller
             "noneCompleted", "lastCompleted", "userStats", "statEvalData");
         if($type == "faculty")
             $data["averageCompletionTimes"] = $times;
-        return view("report.get-stats", $data);
+
+		return $data;
     }
 
     public function needsEvaluations(){
