@@ -106,8 +106,10 @@ class Evaluation extends Model
 	}
 
 	public function getVisibilityAttribute($visibility){
-		if(empty($this->form->visibility))
+		if(empty($this->form))
 			$this->load('form');
+		if(empty($this->form))
+			return $visibility;
         return empty($visibility) ? $this->form->visibility : $visibility;
 	}
 

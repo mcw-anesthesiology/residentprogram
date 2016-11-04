@@ -5,25 +5,19 @@
 <script>
 import Chart from 'chart.js';
 
+import { CHART_TYPES } from '../modules/constants.js';
+
 export default {
 	props: {
 		id: {
 			type: String,
 			required: true
 		},
-		defaultType: {
+		type: {
 			type: String,
 			required: true,
 			validator(value){
-				return [
-					'line',
-					'bar',
-					'radar',
-					'polarArea',
-					'pie',
-					'doughnut',
-					'bubble'
-				].includes(value);
+				return CHART_TYPES.includes(value);
 			}
 		},
 		data: {
@@ -40,17 +34,11 @@ export default {
 	},
 	data(){
 		return {
-			type: this.defaultType,
 			chart: null
 		};
 	},
 	mounted(){
-		const ctx = document.querySelector(`#${this.id}`).getContext('2d');
-		this.chart = new Chart(ctx, {
-			type: this.type,
-			data: this.data,
-			options: this.options
-		});
+		this.createChart();
 	},
 	watch: {
 		data(data){
@@ -60,7 +48,8 @@ export default {
 			this.chart.options = options;
 		},
 		type(type){
-			this.chart.type = type;
+			this.chart.destroy();
+			this.createChart();
 		}
 	},
 	updated(){
@@ -68,6 +57,16 @@ export default {
 	},
 	destroyed(){
 		this.chart.destroy();
+	},
+	methods: {
+		createChart(){
+			const ctx = document.querySelector(`#${this.id}`).getContext('2d');
+			this.chart = new Chart(ctx, {
+				type: this.type,
+				data: this.data,
+				options: this.options
+			});
+		}
 	}
 };
 </script>

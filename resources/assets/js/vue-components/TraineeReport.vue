@@ -12,7 +12,7 @@
 
 			<fieldset v-if="filterMilestones">
 				<legend>Milestones</legend>
-				<div v-for="(milestoneGroup, index) of milestoneGroups" class="milestone-group col-xs-6 col-sm-4 col-md-3 col-lg-2">
+				<div v-for="(milestoneGroup, index) of milestoneGroups" class="milestone-group col-xs-6 col-sm-4 col-md-3">
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<label class="panel-title">
@@ -34,22 +34,6 @@
 						</div>
 					</div>
 				</div>
-			</fieldset>
-
-			<fieldset>
-				<legend>Graphs</legend>
-				<label>
-					<input type="radio" value="average" v-model="graphOption" />
-					Average only
-				</label>
-				<label>
-					<input type="radio" value="all" v-model="graphOption" />
-					All
-				</label>
-				<label>
-					<input type="radio" value="none" v-model="graphOption" />
-					None
-				</label>
 			</fieldset>
 
 			<button type="button" class="btn btn-lg btn-primary"
@@ -77,13 +61,12 @@ export default {
 	data(){
 		return {
 			dates: {
-				startDate: '',
-				endDate: ''
+				startDate: '2015-11-01', // FIXME
+				endDate: '2016-11-01' // FIXME
 			},
 			trainingLevel: 'all',
 			filterMilestones: false,
 			milestones: [],
-			graphOption: 'average',
 			report: null,
 
 			milestoneGroups: [],
@@ -135,7 +118,6 @@ export default {
 					startDate: this.dates.startDate,
 					endDate: this.dates.endDate,
 					trainingLevel: this.trainingLevel,
-					graphs: this.graphOption,
 					milestones: this.milestones
 				})
 			}).then(response => {

@@ -1,7 +1,7 @@
 <template>
 	<div class="container body-block">
-		<fieldset>
-			<legend>Show in report</legend>
+		<fieldset class="show-container">
+			<legend>Show</legend>
 			<label v-for="(part, name) of show">
 				<input type="checkbox" v-model="show[name]" />
 				{{ camelCaseToWords(name) }}
@@ -11,16 +11,66 @@
 		<data-table id="aggregate-table" :thead="tableThead"
 			:config="tableConfig" :data="tableData" />
 
-		<chartjs-chart id="aggregate-chart" default-type="radar"
-		 	:options="chartOptions" :data="chartData" />
+		<div class="graphs-container" v-if="show.graphs">
+			<div class="row">
+				<div v-if="show.competencies" :class="graphWidth">
+					<chartjs-chart id="aggregate-competency-chart" :type="graphType"
+						:options="chartOptions" :data="competencyChartData" />
+				</div>
+				<div v-if="show.milestones" :class="graphWidth">
+					<chartjs-chart id="aggregate-milestone-chart" :type="graphType"
+						:options="chartOptions" :data="milestoneChartData" />
+				</div>
+			</div>
+
+			<div class="row graphs-controls">
+				<div class="col-sm-offset-5 col-sm-2">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<span class="panel-title">Graph options</span>
+						</div>
+						<div class="panel-body">
+							<fieldset v-if="show.milestones && show.competencies">
+								<legend>Orientation</legend>
+								<div class="btn-group btn-group-justified" data-toggle="buttons">
+									<bootstrap-button-input type="radio" option="horizontal"
+											v-model="graphOrientation">
+										<span class="glyphicon glyphicon-option-horizontal"></span>
+									</bootstrap-button-input>
+									<bootstrap-button-input type="radio" option="vertical"
+											v-model="graphOrientation">
+										<span class="glyphicon glyphicon-option-vertical"></span>
+									</bootstrap-button-input>
+								</div>
+							</fieldset>
+
+							<div class="form-group">
+								<label class="containing-label">
+									Type
+									<select class="form-control" v-model="graphType">
+										<option v-for="type of chartTypes" :value="type">
+											{{ ucfirst(type) }}
+										</option>
+									</select>
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
 
 <script>
+import Color from 'color';
+
+import BootstrapButtonInput from './BootstrapButtonInput.vue';
 import ChartjsChart from './ChartjsChart.vue';
 import DataTable from './DataTable.vue';
 
-import { camelCaseToWords } from '../modules/utils.js';
+import { CHART_COLORS } from '../modules/constants.js';
+import { camelCaseToWords, ucfirst } from '../modules/utils.js';
 
 export default {
 	props: [
@@ -31,8 +81,11 @@ export default {
 			show: {
 				milestones: false,
 				competencies: true,
-				standardDeviations: false
-			}
+				standardDeviations: false,
+				graphs: true
+			},
+			graphType: 'radar',
+			graphOrientation: 'vertical'
 		};
 	},
 	computed: {
@@ -192,35 +245,99 @@ export default {
 
 			return data;
 		},
+		chartTypes(){
+			return [
+				'radar',
+				'line',
+				'bar'
+			];
+		},
+		graphWidth(){
+			return {
+				'col-md-6': this.graphOrientation === 'horizontal',
+				'col-md-12': this.graphOrientation === 'vertical'
+			};
+		},
 		chartOptions(){
 			return {
-				// tooltips: {
-				// 	callbacks: {
-				// 		label(tooltip){
-				// 			return parseFloat(tooltip.yLabel).toFixed(2);
-				// 		}
-				// 	}
-				// }
-			}
+				legend: {
+					labels: {
+						fontSize: 18,
+						fontColor: '#333'
+					}
+				},
+				tooltips: {
+					callbacks: {
+						label(tooltip, data){
+							let value = parseFloat(tooltip.yLabel).toFixed(2);
+							let name = data.datasets[tooltip.datasetIndex].label;
+							return `${name}: ${value}`;
+						}
+					}
+				}
+			};
 		},
-		chartData(){
+		competencyChartData(){
+			let color = Color(CHART_COLORS.COMPETENCY);
+			let backgroundColor = color.clone().alpha(0.2);
 			return {
 				labels: Object.values(this.report.competencies),
 				datasets: [
 					{
 						label: 'Average Competencies',
+						backgroundColor: backgroundColor.rgbString(),
+						borderColor: color.rgbString(),
+						pointBackgroundColor: color.rgbString(),
+						pointBorderColor: '#fff',
+						pointHoverBackgroundColor: '#fff',
+						pointHoverBorderColor: color.rgbString(),
 						data: Object.values(this.report.averageCompetency)
+					}
+				]
+			};
+		},
+		milestoneChartData(){
+			let color = Color(CHART_COLORS.MILESTONE);
+			let backgroundColor = color.clone().alpha(0.2);
+			return {
+				labels: Object.values(this.report.milestones),
+				datasets: [
+					{
+						label: 'Average Milestones',
+						backgroundColor: backgroundColor.rgbString(),
+						borderColor: color.rgbString(),
+						pointBackgroundColor: color.rgbString(),
+						pointBorderColor: '#fff',
+						pointHoverBackgroundColor: '#fff',
+						pointHoverBorderColor: color.rgbString(),
+						data: Object.values(this.report.averageMilestone)
 					}
 				]
 			};
 		}
 	},
 	methods: {
-		camelCaseToWords
+		camelCaseToWords,
+		ucfirst
 	},
 	components: {
+		BootstrapButtonInput,
 		ChartjsChart,
 		DataTable
 	}
 };
 </script>
+
+<style scoped>
+	.show-container label + label {
+		margin-left: 2em;
+	}
+
+	.graphs-container {
+		margin: 2em 0;
+	}
+
+	.graphs-container .graphs-controls {
+		margin: 2em 0 0;
+	}
+</style>

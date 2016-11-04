@@ -5,7 +5,7 @@
 				<th v-for="(th, thIndex) of row" :key="thIndex"
 						:rowspan="th.rowspan"
 						:colspan="th.colspan">
-					{{ th.text }}
+					{{ th.text || th }}
 				</th>
 			</tr>
 		</thead>
@@ -14,7 +14,23 @@
 
 <script>
 export default {
-	props: [
+	props: {
+		id: {
+			type: String,
+			required: true
+		},
+		thead: {
+			type: Array,
+			required: true
+		},
+		config: {
+			type: Object,
+			default(){
+
+			}
+		},
+	}
+	[
 		'id',
 		'thead',
 		'config',

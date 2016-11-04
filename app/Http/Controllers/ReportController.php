@@ -559,7 +559,7 @@ class ReportController extends Controller
 		return sqrt(array_sum(array_map(array($this, "sd_square"), $array, array_fill(0,count($array), (array_sum($array) / count($array)) ) ) ) / (count($array)-1) );
 	}
 
-    public function report($startDate, $endDate, $trainingLevel, $graphOption, $graphOrientation, $reportSubject, $milestones){
+    public function report($startDate, $endDate, $trainingLevel, $reportSubject, $milestones){
         // TODO: Add "Evals Requested" to report somehow
         $startDate = Carbon::parse($startDate);
         $startDate->timezone = "America/Chicago";
@@ -624,7 +624,6 @@ class ReportController extends Controller
         $query->select("milestone_id", "milestones.title as milestone_title", "competency_id", "competencies.title as competency_title")
             ->addSelect("subject_id", "evaluator_id", "last_name", "first_name", "evaluation_id", "response", "weight", "responses.question_id as question_id")
             ->orderBy("milestones.title")->orderBy("competencies.title");
-        Debugbar::info($query->toSql());
         $query->chunk(20000, function($responses) use (&$milestones, &$subjects, &$milestones, &$competencies, &$subjectEvals, &$subjectRequests, &$subjectRequests, &$averageMilestone, &$averageMilestoneDenom, &$averageCompetency, &$averageCompetencyDenom, &$subjectMilestone, &$subjectMilestoneDenom, &$subjectMilestoneEvals, &$subjectCompetency, &$subjectCompetencyDenom, &$subjectCompetencyEvals, &$competencyQuestions, &$subjectEvaluators){
             foreach($responses as $response){
                 if(!isset($subjects[$response->subject_id]))
@@ -799,26 +798,11 @@ class ReportController extends Controller
         ksort($averageCompetency);
         ksort($competencies);
 
-        switch($graphOption){
-            case "all":
-                foreach($subjects as $subject => $subject_name){
-                    if(!isset($subjectMilestone[$subject]) || !isset($subjectCompetency[$subject]))
-                        continue;
-                    ksort($subjectMilestone[$subject]);
-                    ksort($subjectCompetency[$subject]);
-                    $graphs[] = RadarGraphs::draw($subjectMilestone[$subject], $averageMilestone, $milestones, $subjectCompetency[$subject], $averageCompetency, $competencies, $subject_name, $startDate, $endDate, $trainingLevel, $maxResponse, $graphOrientation);
-                }
-                break;
-            case "average":
-                $graphs[] = RadarGraphs::draw(null, $averageMilestone, $milestones, null, $averageCompetency, $competencies, "Average", $startDate, $endDate, $trainingLevel, $maxResponse, $graphOrientation);
-                break;
-        }
-
         $data = compact("milestones", "competencies", "subjectMilestone",
 			"subjectMilestoneDeviations", "subjectMilestoneEvals", "subjectCompetency",
-			"subjectCompetencyDeviations", "subjectCompetencyEvals", "subjectEvals", "subjectRequests",
-			"graphs", "subjects", "subjectEvaluators", "averageMilestone",
-			"averageCompetency", "graphOption", "trainingLevel", "startDate", "endDate");
+			"subjectCompetencyDeviations", "subjectCompetencyEvals", "subjectEvals",
+            "subjectRequests", "subjects", "subjectEvaluators", "averageMilestone",
+            "averageCompetency", "graphOption", "trainingLevel", "startDate", "endDate");
 
         if(!is_null($reportSubject)){
             $textQuery = DB::table("text_responses")
@@ -867,7 +851,9 @@ class ReportController extends Controller
     }
 
     public function aggregate(Request $request){
-        return $this->report($request->input("startDate"), $request->input("endDate"), $request->input("trainingLevel"), $request->input("graphs"), "horizontal", null, $request->input("milestones"));
+        return $this->report($request->input("startDate"),
+            $request->input("endDate"), $request->input("trainingLevel"),
+            null, $request->input("milestones"));
     }
 
     public function specific(Request $request){
@@ -899,13 +885,13 @@ class ReportController extends Controller
             return back()->with("error", "Please be sure to complete all fields for each report");
 
         for($i = 0; $i < count($startDates); $i++){
-            $data["reportData"][$i] = $this->report($startDates[$i], $endDates[$i], $trainingLevels[$i], $request->input("graphs"), "vertical", $request->input("resident"), $request->input("milestones"));
+            $data["reportData"][$i] = $this->report($startDates[$i], $endDates[$i],
+                $trainingLevels[$i], $request->input("resident"), $request->input("milestones"));
 			$data["reportData"][$i]["startDate"] = Carbon::parse($startDates[$i]);
 			$data["reportData"][$i]["endDate"] = Carbon::parse($endDates[$i]);
 			$data["reportData"][$i]["trainingLevel"] = $trainingLevels[$i];
         }
 
-		$data["graphOption"] = $request->input("graphs");
 		$data["numReports"] = count($startDates);
         $data["specificSubject"] = User::find($request->input("resident"));
 

@@ -1,12 +1,14 @@
 <template>
 	<div class="container body-block">
-		<fieldset>
+		<fieldset class="show-container">
 			<legend>Show</legend>
 			<label v-for="(part, name) of show">
 				<input type="checkbox" v-model="show[name]" />
 				{{ camelCaseToWords(name) }}
 			</label>
 		</fieldset>
+
+
 	</div>
 </template>
 
@@ -31,7 +33,21 @@ export default {
 		};
 	},
 	computed: {
+		statsThead(){
+			return [
+				'User',
+				'Requested',
+				'Total Requests',
+				'Total Completed',
+				'Total Ratio'
+			];
+		},
+		statsConfig(){
 
+		},
+		statsData(){
+
+		}
 	},
 	methods: {
 		camelCaseToWords
@@ -41,3 +57,9 @@ export default {
 	}
 };
 </script>
+
+<style scoped>
+	.show-container label + label {
+		margin-left: 2em;
+	}
+</style>
