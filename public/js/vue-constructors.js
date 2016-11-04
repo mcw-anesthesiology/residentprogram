@@ -1775,896 +1775,800 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var conversions = __webpack_require__(7);
-	var route = __webpack_require__(124);
 	
-	var convert = {};
-	
-	var models = Object.keys(conversions);
-	
-	function wrapRaw(fn) {
-		var wrappedFn = function (args) {
-			if (args === undefined || args === null) {
-				return args;
-			}
-	
-			if (arguments.length > 1) {
-				args = Array.prototype.slice.call(arguments);
-			}
-	
-			return fn(args);
-		};
-	
-		// preserve .conversion property if there is one
-		if ('conversion' in fn) {
-			wrappedFn.conversion = fn.conversion;
-		}
-	
-		return wrappedFn;
+	var convert = function() {
+	   return new Converter();
 	}
 	
-	function wrapRounded(fn) {
-		var wrappedFn = function (args) {
-			if (args === undefined || args === null) {
-				return args;
-			}
+	for (var func in conversions) {
+	  // export Raw versions
+	  convert[func + "Raw"] =  (function(func) {
+	    // accept array or plain args
+	    return function(arg) {
+	      if (typeof arg == "number")
+	        arg = Array.prototype.slice.call(arguments);
+	      return conversions[func](arg);
+	    }
+	  })(func);
 	
-			if (arguments.length > 1) {
-				args = Array.prototype.slice.call(arguments);
-			}
+	  var pair = /(\w+)2(\w+)/.exec(func),
+	      from = pair[1],
+	      to = pair[2];
 	
-			var result = fn(args);
+	  // export rgb2hsl and ["rgb"]["hsl"]
+	  convert[from] = convert[from] || {};
 	
-			// we're assuming the result is an array here.
-			// see notice in conversions.js; don't use box types
-			// in conversion functions.
-			if (typeof result === 'object') {
-				for (var len = result.length, i = 0; i < len; i++) {
-					result[i] = Math.round(result[i]);
-				}
-			}
+	  convert[from][to] = convert[func] = (function(func) { 
+	    return function(arg) {
+	      if (typeof arg == "number")
+	        arg = Array.prototype.slice.call(arguments);
+	      
+	      var val = conversions[func](arg);
+	      if (typeof val == "string" || val === undefined)
+	        return val; // keyword
 	
-			return result;
-		};
-	
-		// preserve .conversion property if there is one
-		if ('conversion' in fn) {
-			wrappedFn.conversion = fn.conversion;
-		}
-	
-		return wrappedFn;
+	      for (var i = 0; i < val.length; i++)
+	        val[i] = Math.round(val[i]);
+	      return val;
+	    }
+	  })(func);
 	}
 	
-	models.forEach(function (fromModel) {
-		convert[fromModel] = {};
 	
-		Object.defineProperty(convert[fromModel], 'channels', {value: conversions[fromModel].channels});
+	/* Converter does lazy conversion and caching */
+	var Converter = function() {
+	   this.convs = {};
+	};
 	
-		var routes = route(fromModel);
-		var routeModels = Object.keys(routes);
+	/* Either get the values for a space or
+	  set the values for a space, depending on args */
+	Converter.prototype.routeSpace = function(space, args) {
+	   var values = args[0];
+	   if (values === undefined) {
+	      // color.rgb()
+	      return this.getValues(space);
+	   }
+	   // color.rgb(10, 10, 10)
+	   if (typeof values == "number") {
+	      values = Array.prototype.slice.call(args);        
+	   }
 	
-		routeModels.forEach(function (toModel) {
-			var fn = routes[toModel];
+	   return this.setValues(space, values);
+	};
+	  
+	/* Set the values for a space, invalidating cache */
+	Converter.prototype.setValues = function(space, values) {
+	   this.space = space;
+	   this.convs = {};
+	   this.convs[space] = values;
+	   return this;
+	};
 	
-			convert[fromModel][toModel] = wrapRounded(fn);
-			convert[fromModel][toModel].raw = wrapRaw(fn);
-		});
+	/* Get the values for a space. If there's already
+	  a conversion for the space, fetch it, otherwise
+	  compute it */
+	Converter.prototype.getValues = function(space) {
+	   var vals = this.convs[space];
+	   if (!vals) {
+	      var fspace = this.space,
+	          from = this.convs[fspace];
+	      vals = convert[fspace][space](from);
+	
+	      this.convs[space] = vals;
+	   }
+	  return vals;
+	};
+	
+	["rgb", "hsl", "hsv", "cmyk", "keyword"].forEach(function(space) {
+	   Converter.prototype[space] = function(vals) {
+	      return this.routeSpace(space, arguments);
+	   }
 	});
 	
 	module.exports = convert;
 
-
 /***/ },
 /* 7 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	/* MIT license */
-	var cssKeywords = __webpack_require__(123);
 	
-	// NOTE: conversions should only return primitive values (i.e. arrays, or
-	//       values that give correct `typeof` results).
-	//       do not use box values types (i.e. Number(), String(), etc.)
+	module.exports = {
+	  rgb2hsl: rgb2hsl,
+	  rgb2hsv: rgb2hsv,
+	  rgb2hwb: rgb2hwb,
+	  rgb2cmyk: rgb2cmyk,
+	  rgb2keyword: rgb2keyword,
+	  rgb2xyz: rgb2xyz,
+	  rgb2lab: rgb2lab,
+	  rgb2lch: rgb2lch,
+	
+	  hsl2rgb: hsl2rgb,
+	  hsl2hsv: hsl2hsv,
+	  hsl2hwb: hsl2hwb,
+	  hsl2cmyk: hsl2cmyk,
+	  hsl2keyword: hsl2keyword,
+	
+	  hsv2rgb: hsv2rgb,
+	  hsv2hsl: hsv2hsl,
+	  hsv2hwb: hsv2hwb,
+	  hsv2cmyk: hsv2cmyk,
+	  hsv2keyword: hsv2keyword,
+	
+	  hwb2rgb: hwb2rgb,
+	  hwb2hsl: hwb2hsl,
+	  hwb2hsv: hwb2hsv,
+	  hwb2cmyk: hwb2cmyk,
+	  hwb2keyword: hwb2keyword,
+	
+	  cmyk2rgb: cmyk2rgb,
+	  cmyk2hsl: cmyk2hsl,
+	  cmyk2hsv: cmyk2hsv,
+	  cmyk2hwb: cmyk2hwb,
+	  cmyk2keyword: cmyk2keyword,
+	
+	  keyword2rgb: keyword2rgb,
+	  keyword2hsl: keyword2hsl,
+	  keyword2hsv: keyword2hsv,
+	  keyword2hwb: keyword2hwb,
+	  keyword2cmyk: keyword2cmyk,
+	  keyword2lab: keyword2lab,
+	  keyword2xyz: keyword2xyz,
+	
+	  xyz2rgb: xyz2rgb,
+	  xyz2lab: xyz2lab,
+	  xyz2lch: xyz2lch,
+	
+	  lab2xyz: lab2xyz,
+	  lab2rgb: lab2rgb,
+	  lab2lch: lab2lch,
+	
+	  lch2lab: lch2lab,
+	  lch2xyz: lch2xyz,
+	  lch2rgb: lch2rgb
+	}
+	
+	
+	function rgb2hsl(rgb) {
+	  var r = rgb[0]/255,
+	      g = rgb[1]/255,
+	      b = rgb[2]/255,
+	      min = Math.min(r, g, b),
+	      max = Math.max(r, g, b),
+	      delta = max - min,
+	      h, s, l;
+	
+	  if (max == min)
+	    h = 0;
+	  else if (r == max)
+	    h = (g - b) / delta;
+	  else if (g == max)
+	    h = 2 + (b - r) / delta;
+	  else if (b == max)
+	    h = 4 + (r - g)/ delta;
+	
+	  h = Math.min(h * 60, 360);
+	
+	  if (h < 0)
+	    h += 360;
+	
+	  l = (min + max) / 2;
+	
+	  if (max == min)
+	    s = 0;
+	  else if (l <= 0.5)
+	    s = delta / (max + min);
+	  else
+	    s = delta / (2 - max - min);
+	
+	  return [h, s * 100, l * 100];
+	}
+	
+	function rgb2hsv(rgb) {
+	  var r = rgb[0],
+	      g = rgb[1],
+	      b = rgb[2],
+	      min = Math.min(r, g, b),
+	      max = Math.max(r, g, b),
+	      delta = max - min,
+	      h, s, v;
+	
+	  if (max == 0)
+	    s = 0;
+	  else
+	    s = (delta/max * 1000)/10;
+	
+	  if (max == min)
+	    h = 0;
+	  else if (r == max)
+	    h = (g - b) / delta;
+	  else if (g == max)
+	    h = 2 + (b - r) / delta;
+	  else if (b == max)
+	    h = 4 + (r - g) / delta;
+	
+	  h = Math.min(h * 60, 360);
+	
+	  if (h < 0)
+	    h += 360;
+	
+	  v = ((max / 255) * 1000) / 10;
+	
+	  return [h, s, v];
+	}
+	
+	function rgb2hwb(rgb) {
+	  var r = rgb[0],
+	      g = rgb[1],
+	      b = rgb[2],
+	      h = rgb2hsl(rgb)[0],
+	      w = 1/255 * Math.min(r, Math.min(g, b)),
+	      b = 1 - 1/255 * Math.max(r, Math.max(g, b));
+	
+	  return [h, w * 100, b * 100];
+	}
+	
+	function rgb2cmyk(rgb) {
+	  var r = rgb[0] / 255,
+	      g = rgb[1] / 255,
+	      b = rgb[2] / 255,
+	      c, m, y, k;
+	
+	  k = Math.min(1 - r, 1 - g, 1 - b);
+	  c = (1 - r - k) / (1 - k) || 0;
+	  m = (1 - g - k) / (1 - k) || 0;
+	  y = (1 - b - k) / (1 - k) || 0;
+	  return [c * 100, m * 100, y * 100, k * 100];
+	}
+	
+	function rgb2keyword(rgb) {
+	  return reverseKeywords[JSON.stringify(rgb)];
+	}
+	
+	function rgb2xyz(rgb) {
+	  var r = rgb[0] / 255,
+	      g = rgb[1] / 255,
+	      b = rgb[2] / 255;
+	
+	  // assume sRGB
+	  r = r > 0.04045 ? Math.pow(((r + 0.055) / 1.055), 2.4) : (r / 12.92);
+	  g = g > 0.04045 ? Math.pow(((g + 0.055) / 1.055), 2.4) : (g / 12.92);
+	  b = b > 0.04045 ? Math.pow(((b + 0.055) / 1.055), 2.4) : (b / 12.92);
+	
+	  var x = (r * 0.4124) + (g * 0.3576) + (b * 0.1805);
+	  var y = (r * 0.2126) + (g * 0.7152) + (b * 0.0722);
+	  var z = (r * 0.0193) + (g * 0.1192) + (b * 0.9505);
+	
+	  return [x * 100, y *100, z * 100];
+	}
+	
+	function rgb2lab(rgb) {
+	  var xyz = rgb2xyz(rgb),
+	        x = xyz[0],
+	        y = xyz[1],
+	        z = xyz[2],
+	        l, a, b;
+	
+	  x /= 95.047;
+	  y /= 100;
+	  z /= 108.883;
+	
+	  x = x > 0.008856 ? Math.pow(x, 1/3) : (7.787 * x) + (16 / 116);
+	  y = y > 0.008856 ? Math.pow(y, 1/3) : (7.787 * y) + (16 / 116);
+	  z = z > 0.008856 ? Math.pow(z, 1/3) : (7.787 * z) + (16 / 116);
+	
+	  l = (116 * y) - 16;
+	  a = 500 * (x - y);
+	  b = 200 * (y - z);
+	
+	  return [l, a, b];
+	}
+	
+	function rgb2lch(args) {
+	  return lab2lch(rgb2lab(args));
+	}
+	
+	function hsl2rgb(hsl) {
+	  var h = hsl[0] / 360,
+	      s = hsl[1] / 100,
+	      l = hsl[2] / 100,
+	      t1, t2, t3, rgb, val;
+	
+	  if (s == 0) {
+	    val = l * 255;
+	    return [val, val, val];
+	  }
+	
+	  if (l < 0.5)
+	    t2 = l * (1 + s);
+	  else
+	    t2 = l + s - l * s;
+	  t1 = 2 * l - t2;
+	
+	  rgb = [0, 0, 0];
+	  for (var i = 0; i < 3; i++) {
+	    t3 = h + 1 / 3 * - (i - 1);
+	    t3 < 0 && t3++;
+	    t3 > 1 && t3--;
+	
+	    if (6 * t3 < 1)
+	      val = t1 + (t2 - t1) * 6 * t3;
+	    else if (2 * t3 < 1)
+	      val = t2;
+	    else if (3 * t3 < 2)
+	      val = t1 + (t2 - t1) * (2 / 3 - t3) * 6;
+	    else
+	      val = t1;
+	
+	    rgb[i] = val * 255;
+	  }
+	
+	  return rgb;
+	}
+	
+	function hsl2hsv(hsl) {
+	  var h = hsl[0],
+	      s = hsl[1] / 100,
+	      l = hsl[2] / 100,
+	      sv, v;
+	
+	  if(l === 0) {
+	      // no need to do calc on black
+	      // also avoids divide by 0 error
+	      return [0, 0, 0];
+	  }
+	
+	  l *= 2;
+	  s *= (l <= 1) ? l : 2 - l;
+	  v = (l + s) / 2;
+	  sv = (2 * s) / (l + s);
+	  return [h, sv * 100, v * 100];
+	}
+	
+	function hsl2hwb(args) {
+	  return rgb2hwb(hsl2rgb(args));
+	}
+	
+	function hsl2cmyk(args) {
+	  return rgb2cmyk(hsl2rgb(args));
+	}
+	
+	function hsl2keyword(args) {
+	  return rgb2keyword(hsl2rgb(args));
+	}
+	
+	
+	function hsv2rgb(hsv) {
+	  var h = hsv[0] / 60,
+	      s = hsv[1] / 100,
+	      v = hsv[2] / 100,
+	      hi = Math.floor(h) % 6;
+	
+	  var f = h - Math.floor(h),
+	      p = 255 * v * (1 - s),
+	      q = 255 * v * (1 - (s * f)),
+	      t = 255 * v * (1 - (s * (1 - f))),
+	      v = 255 * v;
+	
+	  switch(hi) {
+	    case 0:
+	      return [v, t, p];
+	    case 1:
+	      return [q, v, p];
+	    case 2:
+	      return [p, v, t];
+	    case 3:
+	      return [p, q, v];
+	    case 4:
+	      return [t, p, v];
+	    case 5:
+	      return [v, p, q];
+	  }
+	}
+	
+	function hsv2hsl(hsv) {
+	  var h = hsv[0],
+	      s = hsv[1] / 100,
+	      v = hsv[2] / 100,
+	      sl, l;
+	
+	  l = (2 - s) * v;
+	  sl = s * v;
+	  sl /= (l <= 1) ? l : 2 - l;
+	  sl = sl || 0;
+	  l /= 2;
+	  return [h, sl * 100, l * 100];
+	}
+	
+	function hsv2hwb(args) {
+	  return rgb2hwb(hsv2rgb(args))
+	}
+	
+	function hsv2cmyk(args) {
+	  return rgb2cmyk(hsv2rgb(args));
+	}
+	
+	function hsv2keyword(args) {
+	  return rgb2keyword(hsv2rgb(args));
+	}
+	
+	// http://dev.w3.org/csswg/css-color/#hwb-to-rgb
+	function hwb2rgb(hwb) {
+	  var h = hwb[0] / 360,
+	      wh = hwb[1] / 100,
+	      bl = hwb[2] / 100,
+	      ratio = wh + bl,
+	      i, v, f, n;
+	
+	  // wh + bl cant be > 1
+	  if (ratio > 1) {
+	    wh /= ratio;
+	    bl /= ratio;
+	  }
+	
+	  i = Math.floor(6 * h);
+	  v = 1 - bl;
+	  f = 6 * h - i;
+	  if ((i & 0x01) != 0) {
+	    f = 1 - f;
+	  }
+	  n = wh + f * (v - wh);  // linear interpolation
+	
+	  switch (i) {
+	    default:
+	    case 6:
+	    case 0: r = v; g = n; b = wh; break;
+	    case 1: r = n; g = v; b = wh; break;
+	    case 2: r = wh; g = v; b = n; break;
+	    case 3: r = wh; g = n; b = v; break;
+	    case 4: r = n; g = wh; b = v; break;
+	    case 5: r = v; g = wh; b = n; break;
+	  }
+	
+	  return [r * 255, g * 255, b * 255];
+	}
+	
+	function hwb2hsl(args) {
+	  return rgb2hsl(hwb2rgb(args));
+	}
+	
+	function hwb2hsv(args) {
+	  return rgb2hsv(hwb2rgb(args));
+	}
+	
+	function hwb2cmyk(args) {
+	  return rgb2cmyk(hwb2rgb(args));
+	}
+	
+	function hwb2keyword(args) {
+	  return rgb2keyword(hwb2rgb(args));
+	}
+	
+	function cmyk2rgb(cmyk) {
+	  var c = cmyk[0] / 100,
+	      m = cmyk[1] / 100,
+	      y = cmyk[2] / 100,
+	      k = cmyk[3] / 100,
+	      r, g, b;
+	
+	  r = 1 - Math.min(1, c * (1 - k) + k);
+	  g = 1 - Math.min(1, m * (1 - k) + k);
+	  b = 1 - Math.min(1, y * (1 - k) + k);
+	  return [r * 255, g * 255, b * 255];
+	}
+	
+	function cmyk2hsl(args) {
+	  return rgb2hsl(cmyk2rgb(args));
+	}
+	
+	function cmyk2hsv(args) {
+	  return rgb2hsv(cmyk2rgb(args));
+	}
+	
+	function cmyk2hwb(args) {
+	  return rgb2hwb(cmyk2rgb(args));
+	}
+	
+	function cmyk2keyword(args) {
+	  return rgb2keyword(cmyk2rgb(args));
+	}
+	
+	
+	function xyz2rgb(xyz) {
+	  var x = xyz[0] / 100,
+	      y = xyz[1] / 100,
+	      z = xyz[2] / 100,
+	      r, g, b;
+	
+	  r = (x * 3.2406) + (y * -1.5372) + (z * -0.4986);
+	  g = (x * -0.9689) + (y * 1.8758) + (z * 0.0415);
+	  b = (x * 0.0557) + (y * -0.2040) + (z * 1.0570);
+	
+	  // assume sRGB
+	  r = r > 0.0031308 ? ((1.055 * Math.pow(r, 1.0 / 2.4)) - 0.055)
+	    : r = (r * 12.92);
+	
+	  g = g > 0.0031308 ? ((1.055 * Math.pow(g, 1.0 / 2.4)) - 0.055)
+	    : g = (g * 12.92);
+	
+	  b = b > 0.0031308 ? ((1.055 * Math.pow(b, 1.0 / 2.4)) - 0.055)
+	    : b = (b * 12.92);
+	
+	  r = Math.min(Math.max(0, r), 1);
+	  g = Math.min(Math.max(0, g), 1);
+	  b = Math.min(Math.max(0, b), 1);
+	
+	  return [r * 255, g * 255, b * 255];
+	}
+	
+	function xyz2lab(xyz) {
+	  var x = xyz[0],
+	      y = xyz[1],
+	      z = xyz[2],
+	      l, a, b;
+	
+	  x /= 95.047;
+	  y /= 100;
+	  z /= 108.883;
+	
+	  x = x > 0.008856 ? Math.pow(x, 1/3) : (7.787 * x) + (16 / 116);
+	  y = y > 0.008856 ? Math.pow(y, 1/3) : (7.787 * y) + (16 / 116);
+	  z = z > 0.008856 ? Math.pow(z, 1/3) : (7.787 * z) + (16 / 116);
+	
+	  l = (116 * y) - 16;
+	  a = 500 * (x - y);
+	  b = 200 * (y - z);
+	
+	  return [l, a, b];
+	}
+	
+	function xyz2lch(args) {
+	  return lab2lch(xyz2lab(args));
+	}
+	
+	function lab2xyz(lab) {
+	  var l = lab[0],
+	      a = lab[1],
+	      b = lab[2],
+	      x, y, z, y2;
+	
+	  if (l <= 8) {
+	    y = (l * 100) / 903.3;
+	    y2 = (7.787 * (y / 100)) + (16 / 116);
+	  } else {
+	    y = 100 * Math.pow((l + 16) / 116, 3);
+	    y2 = Math.pow(y / 100, 1/3);
+	  }
+	
+	  x = x / 95.047 <= 0.008856 ? x = (95.047 * ((a / 500) + y2 - (16 / 116))) / 7.787 : 95.047 * Math.pow((a / 500) + y2, 3);
+	
+	  z = z / 108.883 <= 0.008859 ? z = (108.883 * (y2 - (b / 200) - (16 / 116))) / 7.787 : 108.883 * Math.pow(y2 - (b / 200), 3);
+	
+	  return [x, y, z];
+	}
+	
+	function lab2lch(lab) {
+	  var l = lab[0],
+	      a = lab[1],
+	      b = lab[2],
+	      hr, h, c;
+	
+	  hr = Math.atan2(b, a);
+	  h = hr * 360 / 2 / Math.PI;
+	  if (h < 0) {
+	    h += 360;
+	  }
+	  c = Math.sqrt(a * a + b * b);
+	  return [l, c, h];
+	}
+	
+	function lab2rgb(args) {
+	  return xyz2rgb(lab2xyz(args));
+	}
+	
+	function lch2lab(lch) {
+	  var l = lch[0],
+	      c = lch[1],
+	      h = lch[2],
+	      a, b, hr;
+	
+	  hr = h / 360 * 2 * Math.PI;
+	  a = c * Math.cos(hr);
+	  b = c * Math.sin(hr);
+	  return [l, a, b];
+	}
+	
+	function lch2xyz(args) {
+	  return lab2xyz(lch2lab(args));
+	}
+	
+	function lch2rgb(args) {
+	  return lab2rgb(lch2lab(args));
+	}
+	
+	function keyword2rgb(keyword) {
+	  return cssKeywords[keyword];
+	}
+	
+	function keyword2hsl(args) {
+	  return rgb2hsl(keyword2rgb(args));
+	}
+	
+	function keyword2hsv(args) {
+	  return rgb2hsv(keyword2rgb(args));
+	}
+	
+	function keyword2hwb(args) {
+	  return rgb2hwb(keyword2rgb(args));
+	}
+	
+	function keyword2cmyk(args) {
+	  return rgb2cmyk(keyword2rgb(args));
+	}
+	
+	function keyword2lab(args) {
+	  return rgb2lab(keyword2rgb(args));
+	}
+	
+	function keyword2xyz(args) {
+	  return rgb2xyz(keyword2rgb(args));
+	}
+	
+	var cssKeywords = {
+	  aliceblue:  [240,248,255],
+	  antiquewhite: [250,235,215],
+	  aqua: [0,255,255],
+	  aquamarine: [127,255,212],
+	  azure:  [240,255,255],
+	  beige:  [245,245,220],
+	  bisque: [255,228,196],
+	  black:  [0,0,0],
+	  blanchedalmond: [255,235,205],
+	  blue: [0,0,255],
+	  blueviolet: [138,43,226],
+	  brown:  [165,42,42],
+	  burlywood:  [222,184,135],
+	  cadetblue:  [95,158,160],
+	  chartreuse: [127,255,0],
+	  chocolate:  [210,105,30],
+	  coral:  [255,127,80],
+	  cornflowerblue: [100,149,237],
+	  cornsilk: [255,248,220],
+	  crimson:  [220,20,60],
+	  cyan: [0,255,255],
+	  darkblue: [0,0,139],
+	  darkcyan: [0,139,139],
+	  darkgoldenrod:  [184,134,11],
+	  darkgray: [169,169,169],
+	  darkgreen:  [0,100,0],
+	  darkgrey: [169,169,169],
+	  darkkhaki:  [189,183,107],
+	  darkmagenta:  [139,0,139],
+	  darkolivegreen: [85,107,47],
+	  darkorange: [255,140,0],
+	  darkorchid: [153,50,204],
+	  darkred:  [139,0,0],
+	  darksalmon: [233,150,122],
+	  darkseagreen: [143,188,143],
+	  darkslateblue:  [72,61,139],
+	  darkslategray:  [47,79,79],
+	  darkslategrey:  [47,79,79],
+	  darkturquoise:  [0,206,209],
+	  darkviolet: [148,0,211],
+	  deeppink: [255,20,147],
+	  deepskyblue:  [0,191,255],
+	  dimgray:  [105,105,105],
+	  dimgrey:  [105,105,105],
+	  dodgerblue: [30,144,255],
+	  firebrick:  [178,34,34],
+	  floralwhite:  [255,250,240],
+	  forestgreen:  [34,139,34],
+	  fuchsia:  [255,0,255],
+	  gainsboro:  [220,220,220],
+	  ghostwhite: [248,248,255],
+	  gold: [255,215,0],
+	  goldenrod:  [218,165,32],
+	  gray: [128,128,128],
+	  green:  [0,128,0],
+	  greenyellow:  [173,255,47],
+	  grey: [128,128,128],
+	  honeydew: [240,255,240],
+	  hotpink:  [255,105,180],
+	  indianred:  [205,92,92],
+	  indigo: [75,0,130],
+	  ivory:  [255,255,240],
+	  khaki:  [240,230,140],
+	  lavender: [230,230,250],
+	  lavenderblush:  [255,240,245],
+	  lawngreen:  [124,252,0],
+	  lemonchiffon: [255,250,205],
+	  lightblue:  [173,216,230],
+	  lightcoral: [240,128,128],
+	  lightcyan:  [224,255,255],
+	  lightgoldenrodyellow: [250,250,210],
+	  lightgray:  [211,211,211],
+	  lightgreen: [144,238,144],
+	  lightgrey:  [211,211,211],
+	  lightpink:  [255,182,193],
+	  lightsalmon:  [255,160,122],
+	  lightseagreen:  [32,178,170],
+	  lightskyblue: [135,206,250],
+	  lightslategray: [119,136,153],
+	  lightslategrey: [119,136,153],
+	  lightsteelblue: [176,196,222],
+	  lightyellow:  [255,255,224],
+	  lime: [0,255,0],
+	  limegreen:  [50,205,50],
+	  linen:  [250,240,230],
+	  magenta:  [255,0,255],
+	  maroon: [128,0,0],
+	  mediumaquamarine: [102,205,170],
+	  mediumblue: [0,0,205],
+	  mediumorchid: [186,85,211],
+	  mediumpurple: [147,112,219],
+	  mediumseagreen: [60,179,113],
+	  mediumslateblue:  [123,104,238],
+	  mediumspringgreen:  [0,250,154],
+	  mediumturquoise:  [72,209,204],
+	  mediumvioletred:  [199,21,133],
+	  midnightblue: [25,25,112],
+	  mintcream:  [245,255,250],
+	  mistyrose:  [255,228,225],
+	  moccasin: [255,228,181],
+	  navajowhite:  [255,222,173],
+	  navy: [0,0,128],
+	  oldlace:  [253,245,230],
+	  olive:  [128,128,0],
+	  olivedrab:  [107,142,35],
+	  orange: [255,165,0],
+	  orangered:  [255,69,0],
+	  orchid: [218,112,214],
+	  palegoldenrod:  [238,232,170],
+	  palegreen:  [152,251,152],
+	  paleturquoise:  [175,238,238],
+	  palevioletred:  [219,112,147],
+	  papayawhip: [255,239,213],
+	  peachpuff:  [255,218,185],
+	  peru: [205,133,63],
+	  pink: [255,192,203],
+	  plum: [221,160,221],
+	  powderblue: [176,224,230],
+	  purple: [128,0,128],
+	  rebeccapurple: [102, 51, 153],
+	  red:  [255,0,0],
+	  rosybrown:  [188,143,143],
+	  royalblue:  [65,105,225],
+	  saddlebrown:  [139,69,19],
+	  salmon: [250,128,114],
+	  sandybrown: [244,164,96],
+	  seagreen: [46,139,87],
+	  seashell: [255,245,238],
+	  sienna: [160,82,45],
+	  silver: [192,192,192],
+	  skyblue:  [135,206,235],
+	  slateblue:  [106,90,205],
+	  slategray:  [112,128,144],
+	  slategrey:  [112,128,144],
+	  snow: [255,250,250],
+	  springgreen:  [0,255,127],
+	  steelblue:  [70,130,180],
+	  tan:  [210,180,140],
+	  teal: [0,128,128],
+	  thistle:  [216,191,216],
+	  tomato: [255,99,71],
+	  turquoise:  [64,224,208],
+	  violet: [238,130,238],
+	  wheat:  [245,222,179],
+	  white:  [255,255,255],
+	  whitesmoke: [245,245,245],
+	  yellow: [255,255,0],
+	  yellowgreen:  [154,205,50]
+	};
 	
 	var reverseKeywords = {};
 	for (var key in cssKeywords) {
-		if (cssKeywords.hasOwnProperty(key)) {
-			reverseKeywords[cssKeywords[key]] = key;
-		}
+	  reverseKeywords[JSON.stringify(cssKeywords[key])] = key;
 	}
-	
-	var convert = module.exports = {
-		rgb: {channels: 3},
-		hsl: {channels: 3},
-		hsv: {channels: 3},
-		hwb: {channels: 3},
-		cmyk: {channels: 4},
-		xyz: {channels: 3},
-		lab: {channels: 3},
-		lch: {channels: 3},
-		hex: {channels: 1},
-		keyword: {channels: 1},
-		ansi16: {channels: 1},
-		ansi256: {channels: 1},
-		hcg: {channels: 3},
-		apple: {channels: 3}
-	};
-	
-	// hide .channels property
-	for (var model in convert) {
-		if (convert.hasOwnProperty(model)) {
-			if (!('channels' in convert[model])) {
-				throw new Error('missing channels property: ' + model);
-			}
-	
-			var channels = convert[model].channels;
-			delete convert[model].channels;
-			Object.defineProperty(convert[model], 'channels', {value: channels});
-		}
-	}
-	
-	convert.rgb.hsl = function (rgb) {
-		var r = rgb[0] / 255;
-		var g = rgb[1] / 255;
-		var b = rgb[2] / 255;
-		var min = Math.min(r, g, b);
-		var max = Math.max(r, g, b);
-		var delta = max - min;
-		var h;
-		var s;
-		var l;
-	
-		if (max === min) {
-			h = 0;
-		} else if (r === max) {
-			h = (g - b) / delta;
-		} else if (g === max) {
-			h = 2 + (b - r) / delta;
-		} else if (b === max) {
-			h = 4 + (r - g) / delta;
-		}
-	
-		h = Math.min(h * 60, 360);
-	
-		if (h < 0) {
-			h += 360;
-		}
-	
-		l = (min + max) / 2;
-	
-		if (max === min) {
-			s = 0;
-		} else if (l <= 0.5) {
-			s = delta / (max + min);
-		} else {
-			s = delta / (2 - max - min);
-		}
-	
-		return [h, s * 100, l * 100];
-	};
-	
-	convert.rgb.hsv = function (rgb) {
-		var r = rgb[0];
-		var g = rgb[1];
-		var b = rgb[2];
-		var min = Math.min(r, g, b);
-		var max = Math.max(r, g, b);
-		var delta = max - min;
-		var h;
-		var s;
-		var v;
-	
-		if (max === 0) {
-			s = 0;
-		} else {
-			s = (delta / max * 1000) / 10;
-		}
-	
-		if (max === min) {
-			h = 0;
-		} else if (r === max) {
-			h = (g - b) / delta;
-		} else if (g === max) {
-			h = 2 + (b - r) / delta;
-		} else if (b === max) {
-			h = 4 + (r - g) / delta;
-		}
-	
-		h = Math.min(h * 60, 360);
-	
-		if (h < 0) {
-			h += 360;
-		}
-	
-		v = ((max / 255) * 1000) / 10;
-	
-		return [h, s, v];
-	};
-	
-	convert.rgb.hwb = function (rgb) {
-		var r = rgb[0];
-		var g = rgb[1];
-		var b = rgb[2];
-		var h = convert.rgb.hsl(rgb)[0];
-		var w = 1 / 255 * Math.min(r, Math.min(g, b));
-	
-		b = 1 - 1 / 255 * Math.max(r, Math.max(g, b));
-	
-		return [h, w * 100, b * 100];
-	};
-	
-	convert.rgb.cmyk = function (rgb) {
-		var r = rgb[0] / 255;
-		var g = rgb[1] / 255;
-		var b = rgb[2] / 255;
-		var c;
-		var m;
-		var y;
-		var k;
-	
-		k = Math.min(1 - r, 1 - g, 1 - b);
-		c = (1 - r - k) / (1 - k) || 0;
-		m = (1 - g - k) / (1 - k) || 0;
-		y = (1 - b - k) / (1 - k) || 0;
-	
-		return [c * 100, m * 100, y * 100, k * 100];
-	};
-	
-	/**
-	 * See https://en.m.wikipedia.org/wiki/Euclidean_distance#Squared_Euclidean_distance
-	 * */
-	function comparativeDistance(x, y) {
-		return (
-			Math.pow(x[0] - y[0], 2) +
-			Math.pow(x[1] - y[1], 2) +
-			Math.pow(x[2] - y[2], 2)
-		);
-	}
-	
-	convert.rgb.keyword = function (rgb) {
-		var reversed = reverseKeywords[rgb];
-		if (reversed) {
-			return reversed;
-		}
-	
-		var currentClosestDistance = Infinity;
-		var currentClosestKeyword;
-	
-		for (var keyword in cssKeywords) {
-			if (cssKeywords.hasOwnProperty(keyword)) {
-				var value = cssKeywords[keyword];
-	
-				// Compute comparative distance
-				var distance = comparativeDistance(rgb, value);
-	
-				// Check if its less, if so set as closest
-				if (distance < currentClosestDistance) {
-					currentClosestDistance = distance;
-					currentClosestKeyword = keyword;
-				}
-			}
-		}
-	
-		return currentClosestKeyword;
-	};
-	
-	convert.keyword.rgb = function (keyword) {
-		return cssKeywords[keyword];
-	};
-	
-	convert.rgb.xyz = function (rgb) {
-		var r = rgb[0] / 255;
-		var g = rgb[1] / 255;
-		var b = rgb[2] / 255;
-	
-		// assume sRGB
-		r = r > 0.04045 ? Math.pow(((r + 0.055) / 1.055), 2.4) : (r / 12.92);
-		g = g > 0.04045 ? Math.pow(((g + 0.055) / 1.055), 2.4) : (g / 12.92);
-		b = b > 0.04045 ? Math.pow(((b + 0.055) / 1.055), 2.4) : (b / 12.92);
-	
-		var x = (r * 0.4124) + (g * 0.3576) + (b * 0.1805);
-		var y = (r * 0.2126) + (g * 0.7152) + (b * 0.0722);
-		var z = (r * 0.0193) + (g * 0.1192) + (b * 0.9505);
-	
-		return [x * 100, y * 100, z * 100];
-	};
-	
-	convert.rgb.lab = function (rgb) {
-		var xyz = convert.rgb.xyz(rgb);
-		var x = xyz[0];
-		var y = xyz[1];
-		var z = xyz[2];
-		var l;
-		var a;
-		var b;
-	
-		x /= 95.047;
-		y /= 100;
-		z /= 108.883;
-	
-		x = x > 0.008856 ? Math.pow(x, 1 / 3) : (7.787 * x) + (16 / 116);
-		y = y > 0.008856 ? Math.pow(y, 1 / 3) : (7.787 * y) + (16 / 116);
-		z = z > 0.008856 ? Math.pow(z, 1 / 3) : (7.787 * z) + (16 / 116);
-	
-		l = (116 * y) - 16;
-		a = 500 * (x - y);
-		b = 200 * (y - z);
-	
-		return [l, a, b];
-	};
-	
-	convert.hsl.rgb = function (hsl) {
-		var h = hsl[0] / 360;
-		var s = hsl[1] / 100;
-		var l = hsl[2] / 100;
-		var t1;
-		var t2;
-		var t3;
-		var rgb;
-		var val;
-	
-		if (s === 0) {
-			val = l * 255;
-			return [val, val, val];
-		}
-	
-		if (l < 0.5) {
-			t2 = l * (1 + s);
-		} else {
-			t2 = l + s - l * s;
-		}
-	
-		t1 = 2 * l - t2;
-	
-		rgb = [0, 0, 0];
-		for (var i = 0; i < 3; i++) {
-			t3 = h + 1 / 3 * -(i - 1);
-			if (t3 < 0) {
-				t3++;
-			}
-			if (t3 > 1) {
-				t3--;
-			}
-	
-			if (6 * t3 < 1) {
-				val = t1 + (t2 - t1) * 6 * t3;
-			} else if (2 * t3 < 1) {
-				val = t2;
-			} else if (3 * t3 < 2) {
-				val = t1 + (t2 - t1) * (2 / 3 - t3) * 6;
-			} else {
-				val = t1;
-			}
-	
-			rgb[i] = val * 255;
-		}
-	
-		return rgb;
-	};
-	
-	convert.hsl.hsv = function (hsl) {
-		var h = hsl[0];
-		var s = hsl[1] / 100;
-		var l = hsl[2] / 100;
-		var smin = s;
-		var lmin = Math.max(l, 0.01);
-		var sv;
-		var v;
-	
-		l *= 2;
-		s *= (l <= 1) ? l : 2 - l;
-		smin *= lmin <= 1 ? lmin : 2 - lmin;
-		v = (l + s) / 2;
-		sv = l === 0 ? (2 * smin) / (lmin + smin) : (2 * s) / (l + s);
-	
-		return [h, sv * 100, v * 100];
-	};
-	
-	convert.hsv.rgb = function (hsv) {
-		var h = hsv[0] / 60;
-		var s = hsv[1] / 100;
-		var v = hsv[2] / 100;
-		var hi = Math.floor(h) % 6;
-	
-		var f = h - Math.floor(h);
-		var p = 255 * v * (1 - s);
-		var q = 255 * v * (1 - (s * f));
-		var t = 255 * v * (1 - (s * (1 - f)));
-		v *= 255;
-	
-		switch (hi) {
-			case 0:
-				return [v, t, p];
-			case 1:
-				return [q, v, p];
-			case 2:
-				return [p, v, t];
-			case 3:
-				return [p, q, v];
-			case 4:
-				return [t, p, v];
-			case 5:
-				return [v, p, q];
-		}
-	};
-	
-	convert.hsv.hsl = function (hsv) {
-		var h = hsv[0];
-		var s = hsv[1] / 100;
-		var v = hsv[2] / 100;
-		var vmin = Math.max(v, 0.01);
-		var lmin;
-		var sl;
-		var l;
-	
-		l = (2 - s) * v;
-		lmin = (2 - s) * vmin;
-		sl = s * vmin;
-		sl /= (lmin <= 1) ? lmin : 2 - lmin;
-		sl = sl || 0;
-		l /= 2;
-	
-		return [h, sl * 100, l * 100];
-	};
-	
-	// http://dev.w3.org/csswg/css-color/#hwb-to-rgb
-	convert.hwb.rgb = function (hwb) {
-		var h = hwb[0] / 360;
-		var wh = hwb[1] / 100;
-		var bl = hwb[2] / 100;
-		var ratio = wh + bl;
-		var i;
-		var v;
-		var f;
-		var n;
-	
-		// wh + bl cant be > 1
-		if (ratio > 1) {
-			wh /= ratio;
-			bl /= ratio;
-		}
-	
-		i = Math.floor(6 * h);
-		v = 1 - bl;
-		f = 6 * h - i;
-	
-		if ((i & 0x01) !== 0) {
-			f = 1 - f;
-		}
-	
-		n = wh + f * (v - wh); // linear interpolation
-	
-		var r;
-		var g;
-		var b;
-		switch (i) {
-			default:
-			case 6:
-			case 0: r = v; g = n; b = wh; break;
-			case 1: r = n; g = v; b = wh; break;
-			case 2: r = wh; g = v; b = n; break;
-			case 3: r = wh; g = n; b = v; break;
-			case 4: r = n; g = wh; b = v; break;
-			case 5: r = v; g = wh; b = n; break;
-		}
-	
-		return [r * 255, g * 255, b * 255];
-	};
-	
-	convert.cmyk.rgb = function (cmyk) {
-		var c = cmyk[0] / 100;
-		var m = cmyk[1] / 100;
-		var y = cmyk[2] / 100;
-		var k = cmyk[3] / 100;
-		var r;
-		var g;
-		var b;
-	
-		r = 1 - Math.min(1, c * (1 - k) + k);
-		g = 1 - Math.min(1, m * (1 - k) + k);
-		b = 1 - Math.min(1, y * (1 - k) + k);
-	
-		return [r * 255, g * 255, b * 255];
-	};
-	
-	convert.xyz.rgb = function (xyz) {
-		var x = xyz[0] / 100;
-		var y = xyz[1] / 100;
-		var z = xyz[2] / 100;
-		var r;
-		var g;
-		var b;
-	
-		r = (x * 3.2406) + (y * -1.5372) + (z * -0.4986);
-		g = (x * -0.9689) + (y * 1.8758) + (z * 0.0415);
-		b = (x * 0.0557) + (y * -0.2040) + (z * 1.0570);
-	
-		// assume sRGB
-		r = r > 0.0031308
-			? ((1.055 * Math.pow(r, 1.0 / 2.4)) - 0.055)
-			: r * 12.92;
-	
-		g = g > 0.0031308
-			? ((1.055 * Math.pow(g, 1.0 / 2.4)) - 0.055)
-			: g * 12.92;
-	
-		b = b > 0.0031308
-			? ((1.055 * Math.pow(b, 1.0 / 2.4)) - 0.055)
-			: b * 12.92;
-	
-		r = Math.min(Math.max(0, r), 1);
-		g = Math.min(Math.max(0, g), 1);
-		b = Math.min(Math.max(0, b), 1);
-	
-		return [r * 255, g * 255, b * 255];
-	};
-	
-	convert.xyz.lab = function (xyz) {
-		var x = xyz[0];
-		var y = xyz[1];
-		var z = xyz[2];
-		var l;
-		var a;
-		var b;
-	
-		x /= 95.047;
-		y /= 100;
-		z /= 108.883;
-	
-		x = x > 0.008856 ? Math.pow(x, 1 / 3) : (7.787 * x) + (16 / 116);
-		y = y > 0.008856 ? Math.pow(y, 1 / 3) : (7.787 * y) + (16 / 116);
-		z = z > 0.008856 ? Math.pow(z, 1 / 3) : (7.787 * z) + (16 / 116);
-	
-		l = (116 * y) - 16;
-		a = 500 * (x - y);
-		b = 200 * (y - z);
-	
-		return [l, a, b];
-	};
-	
-	convert.lab.xyz = function (lab) {
-		var l = lab[0];
-		var a = lab[1];
-		var b = lab[2];
-		var x;
-		var y;
-		var z;
-	
-		y = (l + 16) / 116;
-		x = a / 500 + y;
-		z = y - b / 200;
-	
-		var y2 = Math.pow(y, 3);
-		var x2 = Math.pow(x, 3);
-		var z2 = Math.pow(z, 3);
-		y = y2 > 0.008856 ? y2 : (y - 16 / 116) / 7.787;
-		x = x2 > 0.008856 ? x2 : (x - 16 / 116) / 7.787;
-		z = z2 > 0.008856 ? z2 : (z - 16 / 116) / 7.787;
-	
-		x *= 95.047;
-		y *= 100;
-		z *= 108.883;
-	
-		return [x, y, z];
-	};
-	
-	convert.lab.lch = function (lab) {
-		var l = lab[0];
-		var a = lab[1];
-		var b = lab[2];
-		var hr;
-		var h;
-		var c;
-	
-		hr = Math.atan2(b, a);
-		h = hr * 360 / 2 / Math.PI;
-	
-		if (h < 0) {
-			h += 360;
-		}
-	
-		c = Math.sqrt(a * a + b * b);
-	
-		return [l, c, h];
-	};
-	
-	convert.lch.lab = function (lch) {
-		var l = lch[0];
-		var c = lch[1];
-		var h = lch[2];
-		var a;
-		var b;
-		var hr;
-	
-		hr = h / 360 * 2 * Math.PI;
-		a = c * Math.cos(hr);
-		b = c * Math.sin(hr);
-	
-		return [l, a, b];
-	};
-	
-	convert.rgb.ansi16 = function (args) {
-		var r = args[0];
-		var g = args[1];
-		var b = args[2];
-		var value = 1 in arguments ? arguments[1] : convert.rgb.hsv(args)[2]; // hsv -> ansi16 optimization
-	
-		value = Math.round(value / 50);
-	
-		if (value === 0) {
-			return 30;
-		}
-	
-		var ansi = 30
-			+ ((Math.round(b / 255) << 2)
-			| (Math.round(g / 255) << 1)
-			| Math.round(r / 255));
-	
-		if (value === 2) {
-			ansi += 60;
-		}
-	
-		return ansi;
-	};
-	
-	convert.hsv.ansi16 = function (args) {
-		// optimization here; we already know the value and don't need to get
-		// it converted for us.
-		return convert.rgb.ansi16(convert.hsv.rgb(args), args[2]);
-	};
-	
-	convert.rgb.ansi256 = function (args) {
-		var r = args[0];
-		var g = args[1];
-		var b = args[2];
-	
-		// we use the extended greyscale palette here, with the exception of
-		// black and white. normal palette only has 4 greyscale shades.
-		if (r === g && g === b) {
-			if (r < 8) {
-				return 16;
-			}
-	
-			if (r > 248) {
-				return 231;
-			}
-	
-			return Math.round(((r - 8) / 247) * 24) + 232;
-		}
-	
-		var ansi = 16
-			+ (36 * Math.round(r / 255 * 5))
-			+ (6 * Math.round(g / 255 * 5))
-			+ Math.round(b / 255 * 5);
-	
-		return ansi;
-	};
-	
-	convert.ansi16.rgb = function (args) {
-		var color = args % 10;
-	
-		// handle greyscale
-		if (color === 0 || color === 7) {
-			if (args > 50) {
-				color += 3.5;
-			}
-	
-			color = color / 10.5 * 255;
-	
-			return [color, color, color];
-		}
-	
-		var mult = (~~(args > 50) + 1) * 0.5;
-		var r = ((color & 1) * mult) * 255;
-		var g = (((color >> 1) & 1) * mult) * 255;
-		var b = (((color >> 2) & 1) * mult) * 255;
-	
-		return [r, g, b];
-	};
-	
-	convert.ansi256.rgb = function (args) {
-		// handle greyscale
-		if (args >= 232) {
-			var c = (args - 232) * 10 + 8;
-			return [c, c, c];
-		}
-	
-		args -= 16;
-	
-		var rem;
-		var r = Math.floor(args / 36) / 5 * 255;
-		var g = Math.floor((rem = args % 36) / 6) / 5 * 255;
-		var b = (rem % 6) / 5 * 255;
-	
-		return [r, g, b];
-	};
-	
-	convert.rgb.hex = function (args) {
-		var integer = ((Math.round(args[0]) & 0xFF) << 16)
-			+ ((Math.round(args[1]) & 0xFF) << 8)
-			+ (Math.round(args[2]) & 0xFF);
-	
-		var string = integer.toString(16).toUpperCase();
-		return '000000'.substring(string.length) + string;
-	};
-	
-	convert.hex.rgb = function (args) {
-		var match = args.toString(16).match(/[a-f0-9]{6}/i);
-		if (!match) {
-			return [0, 0, 0];
-		}
-	
-		var integer = parseInt(match[0], 16);
-		var r = (integer >> 16) & 0xFF;
-		var g = (integer >> 8) & 0xFF;
-		var b = integer & 0xFF;
-	
-		return [r, g, b];
-	};
-	
-	convert.rgb.hcg = function (rgb) {
-		var r = rgb[0] / 255;
-		var g = rgb[1] / 255;
-		var b = rgb[2] / 255;
-		var max = Math.max(Math.max(r, g), b);
-		var min = Math.min(Math.min(r, g), b);
-		var chroma = (max - min);
-		var grayscale;
-		var hue;
-	
-		if (chroma < 1) {
-			grayscale = min / (1 - chroma);
-		} else {
-			grayscale = 0;
-		}
-	
-		if (chroma <= 0) {
-			hue = 0;
-		} else
-		if (max === r) {
-			hue = ((g - b) / chroma) % 6;
-		} else
-		if (max === g) {
-			hue = 2 + (b - r) / chroma;
-		} else {
-			hue = 4 + (r - g) / chroma + 4;
-		}
-	
-		hue /= 6;
-		hue %= 1;
-	
-		return [hue * 360, chroma * 100, grayscale * 100];
-	};
-	
-	convert.hsl.hcg = function (hsl) {
-		var s = hsl[1] / 100;
-		var l = hsl[2] / 100;
-		var c = 1;
-		var f = 0;
-	
-		if (l < 0.5) {
-			c = 2.0 * s * l;
-		} else {
-			c = 2.0 * s * (1.0 - l);
-		}
-	
-		if (c < 1.0) {
-			f = (l - 0.5 * c) / (1.0 - c);
-		}
-	
-		return [hsl[0], c * 100, f * 100];
-	};
-	
-	convert.hsv.hcg = function (hsv) {
-		var s = hsv[1] / 100;
-		var v = hsv[2] / 100;
-	
-		var c = s * v;
-		var f = 0;
-	
-		if (c < 1.0) {
-			f = (v - c) / (1 - c);
-		}
-	
-		return [hsv[0], c * 100, f * 100];
-	};
-	
-	convert.hcg.rgb = function (hcg) {
-		var h = hcg[0] / 360;
-		var c = hcg[1] / 100;
-		var g = hcg[2] / 100;
-	
-		if (c === 0.0) {
-			return [g * 255, g * 255, g * 255];
-		}
-	
-		var pure = [0, 0, 0];
-		var hi = (h % 1) * 6;
-		var v = hi % 1;
-		var w = 1 - v;
-		var mg = 0;
-	
-		switch (Math.floor(hi)) {
-			case 0:
-				pure[0] = 1; pure[1] = v; pure[2] = 0; break;
-			case 1:
-				pure[0] = w; pure[1] = 1; pure[2] = 0; break;
-			case 2:
-				pure[0] = 0; pure[1] = 1; pure[2] = v; break;
-			case 3:
-				pure[0] = 0; pure[1] = w; pure[2] = 1; break;
-			case 4:
-				pure[0] = v; pure[1] = 0; pure[2] = 1; break;
-			default:
-				pure[0] = 1; pure[1] = 0; pure[2] = w;
-		}
-	
-		mg = (1.0 - c) * g;
-	
-		return [
-			(c * pure[0] + mg) * 255,
-			(c * pure[1] + mg) * 255,
-			(c * pure[2] + mg) * 255
-		];
-	};
-	
-	convert.hcg.hsv = function (hcg) {
-		var c = hcg[1] / 100;
-		var g = hcg[2] / 100;
-	
-		var v = c + g * (1.0 - c);
-		var f = 0;
-	
-		if (v > 0.0) {
-			f = c / v;
-		}
-	
-		return [hcg[0], f * 100, v * 100];
-	};
-	
-	convert.hcg.hsl = function (hcg) {
-		var c = hcg[1] / 100;
-		var g = hcg[2] / 100;
-	
-		var l = g * (1.0 - c) + 0.5 * c;
-		var s = 0;
-	
-		if (l > 0.0 && l < 0.5) {
-			s = c / (2 * l);
-		} else
-		if (l >= 0.5 && l < 1.0) {
-			s = c / (2 * (1 - l));
-		}
-	
-		return [hcg[0], s * 100, l * 100];
-	};
-	
-	convert.hcg.hwb = function (hcg) {
-		var c = hcg[1] / 100;
-		var g = hcg[2] / 100;
-		var v = c + g * (1.0 - c);
-		return [hcg[0], (v - c) * 100, (1 - v) * 100];
-	};
-	
-	convert.hwb.hcg = function (hwb) {
-		var w = hwb[1] / 100;
-		var b = hwb[2] / 100;
-		var v = 1 - b;
-		var c = v - w;
-		var g = 0;
-	
-		if (c < 1) {
-			g = (v - c) / (1 - c);
-		}
-	
-		return [hwb[0], c * 100, g * 100];
-	};
-	
-	convert.apple.rgb = function (apple) {
-		return [(apple[0] / 65535) * 255, (apple[1] / 65535) * 255, (apple[2] / 65535) * 255];
-	};
-	
-	convert.rgb.apple = function (rgb) {
-		return [(rgb[0] / 255) * 65535, (rgb[1] / 255) * 65535, (rgb[2] / 255) * 65535];
-	};
 
 
 /***/ },
@@ -10968,7 +10872,185 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 54 */,
 /* 55 */,
 /* 56 */,
-/* 57 */,
+/* 57 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.unlimitTableEvals = unlimitTableEvals;
+	exports.unlimitRestTableEvals = unlimitRestTableEvals;
+	exports.createDateCell = createDateCell;
+	exports.createDateTimeCell = createDateTimeCell;
+	exports.renderDateCell = renderDateCell;
+	exports.renderDateTimeCell = renderDateTimeCell;
+	exports.renderAccountStatus = renderAccountStatus;
+	exports.renderEvaluationStatus = renderEvaluationStatus;
+	exports.renderTrainingLevel = renderTrainingLevel;
+	exports.renderSecondaryTrainingLevel = renderSecondaryTrainingLevel;
+	exports.renderSubjectEvalUrl = renderSubjectEvalUrl;
+	exports.renderEvaluatorEvalUrl = renderEvaluatorEvalUrl;
+	exports.renderNewTag = renderNewTag;
+	exports.createEditAndDeleteButtons = createEditAndDeleteButtons;
+	exports.getDataAttributes = getDataAttributes;
+	
+	var _constants = __webpack_require__(58);
+	
+	var _utils = __webpack_require__(59);
+	
+	var _moment = __webpack_require__(32);
+	
+	var _moment2 = _interopRequireDefault(_moment);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function unlimitTableEvals() {
+		var dt = this.DataTable({
+			retrieve: true
+		});
+		var url = dt.ajax.url();
+		dt.ajax.url(url.substring(0, url.lastIndexOf("/"))).load().draw();
+	}
+	
+	function unlimitRestTableEvals() {
+		var dt = this.DataTable({
+			retrieve: true
+		});
+		var url = dt.ajax.url();
+		dt.ajax.url(url.substring(0, url.lastIndexOf("?"))).load().draw();
+	}
+	
+	function createDateCell(td, date) {
+		if (date && $(td).text() !== (0, _moment2.default)(date).format("ll")) $(td).attr("data-date-value", (0, _moment2.default)(date).valueOf()).addClass("table-date-cell");
+	}
+	
+	function createDateTimeCell(td, date) {
+		if (date && $(td).text() !== (0, _moment2.default)(date).format("ll LT")) $(td).attr("data-date-value", (0, _moment2.default)(date).valueOf()).addClass("table-date-time-cell");
+	}
+	
+	function renderDateCell(date, type) {
+		if (type === "sort" || type === "type") return date ? (0, _moment2.default)(date).valueOf() : "";
+	
+		return date ? (0, _moment2.default)(date).format("MMMM Y") : "";
+	}
+	
+	function renderDateTimeCell(date, type) {
+		if (type === "sort" || type === "type") return date ? (0, _moment2.default)(date).valueOf() : "";
+	
+		return date ? (0, _moment2.default)(date).calendar() : "";
+	}
+	
+	function renderAccountStatus(status) {
+		var labelContext = void 0;
+		switch (status) {
+			case "active":
+				labelContext = "label-success";
+				break;
+			case "inactive":
+				labelContext = "label-danger";
+				break;
+			case "pending":
+				labelContext = "label-warning";
+				break;
+			default:
+				labelContext = "label-default";
+				break;
+		}
+		return '<span class="label ' + labelContext + '">' + (0, _utils.ucfirst)(status) + '</span>';
+	}
+	
+	function renderEvaluationStatus(status) {
+		var labelContext = void 0;
+		switch (status) {
+			case "complete":
+				labelContext = "label-success";
+				break;
+			case "disabled":
+			case "canceled by admin":
+			case "canceled by faculty":
+			case "canceled by resident":
+			case "canceled by fellow":
+			case "canceled by staff":
+				labelContext = "label-danger";
+				break;
+			case "pending":
+				labelContext = "label-warning";
+				break;
+			default:
+				labelContext = "label-default";
+				break;
+		}
+		return '<span class="label ' + labelContext + '">' + (0, _utils.ucfirst)(status) + '</span>';
+	}
+	
+	function renderTrainingLevel(trainingLevel) {
+		if (trainingLevel) {
+			if (trainingLevel.indexOf("ca-") > -1) return trainingLevel.toUpperCase();else return (0, _utils.ucfirst)(trainingLevel);
+		}
+	
+		return "";
+	}
+	
+	function renderSecondaryTrainingLevel(secondaryTrainingLevel) {
+		if (secondaryTrainingLevel) {
+			var allCaps = ["raaps"];
+			if (allCaps.indexOf(secondaryTrainingLevel) > -1) return secondaryTrainingLevel.toUpperCase();else return (0, _utils.ucfirst)(secondaryTrainingLevel);
+		}
+	
+		return "";
+	}
+	
+	function renderSubjectEvalUrl(url, type, evaluation) {
+		if (['sort', 'type'].indexOf(type) !== -1) {
+			if (evaluation.seen_by_subject_at) {
+				return evaluation.id;
+			} else {
+				if (typeof evaluation.id === 'number') return evaluation.id * _constants.UNSEEN_EVALUATION_PRIORITY;else return '~' + evaluation.id;
+			}
+		}
+	
+		if (evaluation.seen_by_subject_at) return url;else return _constants.NEW_ITEM_TAG + ' ' + url;
+	}
+	
+	function renderEvaluatorEvalUrl(url, type, evaluation) {
+		if (['sort', 'type'].indexOf(type) !== -1) {
+			if (evaluation.seen_by_evaluator_at) {
+				return evaluation.id;
+			} else {
+				if (typeof evaluation.id === 'number') return evaluation.id * _constants.UNSEEN_EVALUATION_PRIORITY;else return '~' + evaluation.id;
+			}
+		}
+	
+		if (evaluation.seen_by_evaluator_at) return url;else return _constants.NEW_ITEM_TAG + ' ' + url;
+	}
+	
+	function renderNewTag(type, evaluation) {
+		if (evaluation.seen_by_evaluator_at) return '';else return _constants.NEW_ITEM_TAG;
+	}
+	
+	function createEditAndDeleteButtons(thing, name) {
+		var dataAttributes = getDataAttributes(thing);
+	
+		var editButton = '<button type="button" class="btn btn-xs btn-info edit-' + name + '-button" ' + dataAttributes + '><span class="glyphicon glyphicon-edit"></span> Edit</button>';
+	
+		var deleteButton = '<button type="button" class="btn btn-xs btn-danger delete-' + name + '-button" ' + dataAttributes + '><span class="glyphicon glyphicon-remove"></span> Delete</button>';
+	
+		return [editButton, deleteButton];
+	}
+	
+	function getDataAttributes(thing) {
+		var excludes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+	
+		var dataAttributes = "";
+		Object.getOwnPropertyNames(thing).forEach(function (propName) {
+			if (!(excludes.indexOf(propName) !== -1) && thing[propName] != null) dataAttributes += 'data-' + propName + '="' + thing[propName] + '" ';
+		});
+		return dataAttributes;
+	}
+
+/***/ },
 /* 58 */
 /***/ function(module, exports) {
 
@@ -20594,7 +20676,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	__vue_exports__ = __webpack_require__(99)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(122)
+	var __vue_template__ = __webpack_require__(140)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -20758,7 +20840,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	__vue_exports__ = __webpack_require__(103)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(121)
+	var __vue_template__ = __webpack_require__(139)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -20847,11 +20929,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _AggregateReport2 = _interopRequireDefault(_AggregateReport);
 	
-	var _ReportDate = __webpack_require__(113);
+	var _ReportDate = __webpack_require__(129);
 	
 	var _ReportDate2 = _interopRequireDefault(_ReportDate);
 	
-	var _StatsReport = __webpack_require__(118);
+	var _StatsReport = __webpack_require__(134);
 	
 	var _StatsReport2 = _interopRequireDefault(_StatsReport);
 	
@@ -21029,13 +21111,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	var __vue_exports__, __vue_options__
 	
 	/* styles */
-	__webpack_require__(135)
+	__webpack_require__(105)
 	
 	/* script */
-	__vue_exports__ = __webpack_require__(105)
+	__vue_exports__ = __webpack_require__(107)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(112)
+	var __vue_template__ = __webpack_require__(128)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -21074,25 +21156,65 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 105 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(106);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(67)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-19509019&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AggregateReport.vue", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-19509019&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AggregateReport.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 106 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(66)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "\n.show-container label + label[data-v-19509019] {\n\tmargin-left: 2em;\n}\n.graphs-container[data-v-19509019] {\n\tmargin: 2em 0;\n}\n.graphs-container .graphs-controls[data-v-19509019] {\n\tmargin: 2em 0 0;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/AggregateReport.vue?37f223d7"],"names":[],"mappings":";AA2UA;CACA,iBAAA;CACA;AAEA;CACA,cAAA;CACA;AAEA;CACA,gBAAA;CACA","file":"AggregateReport.vue","sourcesContent":["<template>\n\t<div class=\"container body-block\">\n\t\t<fieldset class=\"show-container\">\n\t\t\t<legend>Show</legend>\n\t\t\t<label v-for=\"(part, name) of show\">\n\t\t\t\t<input type=\"checkbox\" v-model=\"show[name]\" />\n\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t</label>\n\t\t</fieldset>\n\n\t\t<data-table id=\"aggregate-table\" :thead=\"tableThead\"\n\t\t\t:config=\"tableConfig\" :data=\"tableData\" />\n\n\t\t<div class=\"graphs-container\" v-if=\"show.graphs\">\n\t\t\t<div class=\"row\">\n\t\t\t\t<div v-if=\"show.competencies\" :class=\"graphWidth\">\n\t\t\t\t\t<chartjs-chart id=\"aggregate-competency-chart\" :type=\"graphType\"\n\t\t\t\t\t\t:options=\"chartOptions\" :data=\"competencyChartData\" />\n\t\t\t\t</div>\n\t\t\t\t<div v-if=\"show.milestones\" :class=\"graphWidth\">\n\t\t\t\t\t<chartjs-chart id=\"aggregate-milestone-chart\" :type=\"graphType\"\n\t\t\t\t\t\t:options=\"chartOptions\" :data=\"milestoneChartData\" />\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"row graphs-controls\">\n\t\t\t\t<div class=\"col-sm-offset-5 col-sm-2\">\n\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t<span class=\"panel-title\">Graph options</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t<fieldset v-if=\"show.milestones && show.competencies\">\n\t\t\t\t\t\t\t\t<legend>Orientation</legend>\n\t\t\t\t\t\t\t\t<div class=\"btn-group btn-group-justified\" data-toggle=\"buttons\">\n\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"horizontal\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"graphOrientation\">\n\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-horizontal\"></span>\n\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"vertical\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"graphOrientation\">\n\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-vertical\"></span>\n\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</fieldset>\n\n\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\t\tType\n\t\t\t\t\t\t\t\t\t<select class=\"form-control\" v-model=\"graphType\">\n\t\t\t\t\t\t\t\t\t\t<option v-for=\"type of chartTypes\" :value=\"type\">\n\t\t\t\t\t\t\t\t\t\t\t{{ ucfirst(type) }}\n\t\t\t\t\t\t\t\t\t\t</option>\n\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport Color from 'color';\n\nimport BootstrapButtonInput from './BootstrapButtonInput.vue';\nimport ChartjsChart from './ChartjsChart.vue';\nimport DataTable from './DataTable.vue';\n\nimport { CHART_COLORS } from '../modules/constants.js';\nimport { camelCaseToWords, ucfirst } from '../modules/utils.js';\n\nexport default {\n\tprops: [\n\t\t'report'\n\t],\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tmilestones: false,\n\t\t\t\tcompetencies: true,\n\t\t\t\tstandardDeviations: false,\n\t\t\t\tgraphs: true\n\t\t\t},\n\t\t\tgraphType: 'radar',\n\t\t\tgraphOrientation: 'vertical'\n\t\t};\n\t},\n\tcomputed: {\n\t\tcolsPerItem(){\n\t\t\treturn this.show.standardDeviations\n\t\t\t\t? 3\n\t\t\t\t: 2;\n\t\t},\n\t\tmilestoneColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.milestones).length;\n\t\t},\n\t\tcompetencyColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.competencies).length;\n\t\t},\n\t\ttableThead(){\n\t\t\tlet thead = [];\n\t\t\tlet row = [];\n\t\t\trow.push({rowspan: 3, text: 'Trainee'});\n\t\t\tif(this.show.milestones)\n\t\t\t\trow.push({\n\t\t\t\t\tcolspan: this.milestoneColspan,\n\t\t\t\t\ttext: 'Milestones'\n\t\t\t\t});\n\t\t\tif(this.show.competencies)\n\t\t\t\trow.push({\n\t\t\t\t\tcolspan: this.competencyColspan,\n\t\t\t\t\ttext: 'Competencies'\n\t\t\t\t});\n\t\t\trow.push({colspan: 3, text: 'All'});\n\t\t\tthead.push(row);\n\n\t\t\trow = [];\n\t\t\tif(this.show.milestones){\n\t\t\t\tfor(let milestoneId in this.report.milestones){\n\t\t\t\t\trow.push({\n\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\ttext: this.report.milestones[milestoneId]\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t}\n\t\t\tif(this.show.competencies){\n\t\t\t\tfor(let competencyId in this.report.competencies){\n\t\t\t\t\trow.push({\n\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\ttext: this.report.competencies[competencyId]\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t}\n\t\t\trow.push({colspan: 3, text: 'Total'});\n\t\t\tthead.push(row);\n\n\t\t\trow = [];\n\t\t\tif(this.show.milestones){\n\t\t\t\tfor(let milestoneId in this.report.milestones){\n\t\t\t\t\trow.push({text: 'Average'});\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\trow.push({text: 'Std. Dev.'});\n\t\t\t\t\trow.push({text: '#'});\n\t\t\t\t}\n\t\t\t}\n\t\t\tif(this.show.competencies){\n\t\t\t\tfor(let competencyId in this.report.competencies){\n\t\t\t\t\trow.push({text: 'Average'});\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\trow.push({text: 'Std. Dev.'});\n\t\t\t\t\trow.push({text: '#'});\n\t\t\t\t}\n\t\t\t}\n\t\t\trow.push({text: '# Evaluators'});\n\t\t\trow.push({text: '# Evaluations'});\n\t\t\trow.push({text: '# Trainee Requests'});\n\t\t\tthead.push(row);\n\n\t\t\treturn thead;\n\t\t},\n\t\ttableConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tdom: 'lfprtip',\n\t\t\t\tscrollX: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tfixedColumns: true,\n\t\t\t};\n\t\t},\n\t\ttableData(){\n\t\t\tlet data = [];\n\t\t\tfor(let subjectId in this.report.subjects){\n\t\t\t\tlet row = [];\n\t\t\t\trow.push(this.report.subjects[subjectId]);\n\t\t\t\tif(this.show.milestones){\n\t\t\t\t\tfor(let milestoneId in this.report.milestones){\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectMilestone\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestone[subjectId][milestoneId]).toFixed(2)\n\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t);\n\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectMilestoneDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneDeviations[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestoneDeviations[subjectId][milestoneId]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectMilestoneEvals\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneEvals[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneEvals[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestoneEvals[subjectId][milestoneId]).toFixed()\n\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tif(this.show.competencies){\n\t\t\t\t\tfor(let competencyId in this.report.competencies){\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectCompetency\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId][competencyId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetency[subjectId][competencyId]).toFixed(2)\n\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t);\n\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectCompetencyDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyDeviations[subjectId][competencyId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetencyDeviations[subjectId][competencyId]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectCompetencyEvals\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyEvals[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyEvals[subjectId][competencyId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetencyEvals[subjectId][competencyId]).toFixed()\n\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\trow.push(Object.keys(this.report.subjectEvaluators[subjectId]).length);\n\t\t\t\trow.push(Object.keys(this.report.subjectEvals[subjectId]).length);\n\t\t\t\trow.push(Object.keys(this.report.subjectRequests[subjectId]).length);\n\n\t\t\t\tdata.push(row);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\t\tchartTypes(){\n\t\t\treturn [\n\t\t\t\t'radar',\n\t\t\t\t'line',\n\t\t\t\t'bar'\n\t\t\t];\n\t\t},\n\t\tgraphWidth(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': this.graphOrientation === 'horizontal',\n\t\t\t\t'col-md-12': this.graphOrientation === 'vertical'\n\t\t\t};\n\t\t},\n\t\tchartOptions(){\n\t\t\treturn {\n\t\t\t\tlegend: {\n\t\t\t\t\tlabels: {\n\t\t\t\t\t\tfontSize: 18,\n\t\t\t\t\t\tfontColor: '#333'\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tcallbacks: {\n\t\t\t\t\t\tlabel(tooltip, data){\n\t\t\t\t\t\t\tlet value = parseFloat(tooltip.yLabel).toFixed(2);\n\t\t\t\t\t\t\tlet name = data.datasets[tooltip.datasetIndex].label;\n\t\t\t\t\t\t\treturn `${name}: ${value}`;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t};\n\t\t},\n\t\tcompetencyChartData(){\n\t\t\tlet color = Color(CHART_COLORS.COMPETENCY);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: Object.values(this.report.competencies),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Average Competencies',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: Object.values(this.report.averageCompetency)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tmilestoneChartData(){\n\t\t\tlet color = Color(CHART_COLORS.MILESTONE);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: Object.values(this.report.milestones),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Average Milestones',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: Object.values(this.report.averageMilestone)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords,\n\t\tucfirst\n\t},\n\tcomponents: {\n\t\tBootstrapButtonInput,\n\t\tChartjsChart,\n\t\tDataTable\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-container label + label {\n\t\tmargin-left: 2em;\n\t}\n\n\t.graphs-container {\n\t\tmargin: 2em 0;\n\t}\n\n\t.graphs-container .graphs-controls {\n\t\tmargin: 2em 0 0;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+	
+	// exports
+
+
+/***/ },
+/* 107 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
 	
-	var _color = __webpack_require__(125);
+	var _color = __webpack_require__(108);
 	
 	var _color2 = _interopRequireDefault(_color);
 	
-	var _BootstrapButtonInput = __webpack_require__(132);
+	var _BootstrapButtonInput = __webpack_require__(119);
 	
 	var _BootstrapButtonInput2 = _interopRequireDefault(_BootstrapButtonInput);
 	
-	var _ChartjsChart = __webpack_require__(106);
+	var _ChartjsChart = __webpack_require__(122);
 	
 	var _ChartjsChart2 = _interopRequireDefault(_ChartjsChart);
 	
-	var _DataTable = __webpack_require__(109);
+	var _DataTable = __webpack_require__(125);
 	
 	var _DataTable2 = _interopRequireDefault(_DataTable);
 	
@@ -21370,1262 +21492,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 106 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_exports__, __vue_options__
-	
-	/* script */
-	__vue_exports__ = __webpack_require__(107)
-	
-	/* template */
-	var __vue_template__ = __webpack_require__(108)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-	__vue_options__.name = __vue_options__.name || "ChartjsChart"
-	__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ChartjsChart.vue"
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-	
-	/* hot reload */
-	if (false) {(function () {
-	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), false)
-	  if (!hotAPI.compatible) return
-	  module.hot.accept()
-	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-1538c521", __vue_options__)
-	  } else {
-	    hotAPI.reload("data-v-1538c521", __vue_options__)
-	  }
-	})()}
-	if (__vue_options__.functional) {console.error("[vue-loader] ChartjsChart.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-	
-	module.exports = __vue_exports__
-
-
-/***/ },
-/* 107 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _chart = __webpack_require__(2);
-	
-	var _chart2 = _interopRequireDefault(_chart);
-	
-	var _constants = __webpack_require__(58);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	//
-	//
-	//
-	//
-	
-	exports.default = {
-		props: {
-			id: {
-				type: String,
-				required: true
-			},
-			type: {
-				type: String,
-				required: true,
-				validator: function validator(value) {
-					return _constants.CHART_TYPES.indexOf(value) !== -1;
-				}
-			},
-			data: {
-				type: Object,
-				required: true
-			},
-			options: {
-				type: Object,
-				required: false,
-				default: function _default() {
-					return {};
-				}
-			}
-		},
-		data: function data() {
-			return {
-				chart: null
-			};
-		},
-		mounted: function mounted() {
-			this.createChart();
-		},
-	
-		watch: {
-			data: function data(_data) {
-				this.chart.data = _data;
-			},
-			options: function options(_options) {
-				this.chart.options = _options;
-			},
-			type: function type(_type) {
-				this.chart.destroy();
-				this.createChart();
-			}
-		},
-		updated: function updated() {
-			this.chart.update();
-		},
-		destroyed: function destroyed() {
-			this.chart.destroy();
-		},
-	
-		methods: {
-			createChart: function createChart() {
-				var ctx = document.querySelector('#' + this.id).getContext('2d');
-				this.chart = new _chart2.default(ctx, {
-					type: this.type,
-					data: this.data,
-					options: this.options
-				});
-			}
-		}
-	};
-
-/***/ },
 /* 108 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('canvas', {
-	    attrs: {
-	      "id": id
-	    }
-	  })
-	}},staticRenderFns: []}
-	if (false) {
-	  module.hot.accept()
-	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-1538c521", module.exports)
-	  }
-	}
-
-/***/ },
-/* 109 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_exports__, __vue_options__
-	
-	/* script */
-	__vue_exports__ = __webpack_require__(110)
-	
-	/* template */
-	var __vue_template__ = __webpack_require__(111)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-	__vue_options__.name = __vue_options__.name || "DataTable"
-	__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/DataTable.vue"
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-	
-	/* hot reload */
-	if (false) {(function () {
-	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), false)
-	  if (!hotAPI.compatible) return
-	  module.hot.accept()
-	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-961f66ec", __vue_options__)
-	  } else {
-	    hotAPI.reload("data-v-961f66ec", __vue_options__)
-	  }
-	})()}
-	if (__vue_options__.functional) {console.error("[vue-loader] DataTable.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-	
-	module.exports = __vue_exports__
-
-
-/***/ },
-/* 110 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	
-	exports.default = {
-		props: {
-			id: {
-				type: String,
-				required: true
-			},
-			thead: {
-				type: Array,
-				required: true
-			},
-			config: {
-				type: Object,
-				default: function _default() {}
-			}
-		}[('id', 'thead', 'config', 'data')],
-		mounted: function mounted() {
-			$('#' + this.id).DataTable(Object.assign({}, this.config, { data: this.data }));
-		},
-		beforeUpdate: function beforeUpdate() {
-			$('#' + this.id).DataTable({
-				retrieve: true
-			}).clear().destroy();
-		},
-		updated: function updated() {
-			$('#' + this.id).DataTable(Object.assign({}, this.config, { data: this.data }));
-		},
-		destroyed: function destroyed() {
-			$('#' + this.id).DataTable({
-				retrieve: true
-			}).clear().destroy();
-		}
-	};
-
-/***/ },
-/* 111 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports={render:function (){with(this) {
-	  return _h('table', {
-	    staticClass: "table table-striped table-bordered",
-	    attrs: {
-	      "id": id,
-	      "width": "100%"
-	    }
-	  }, [_h('thead', [_l((thead), function(row, rowIndex) {
-	    return _h('tr', {
-	      key: ("row-" + rowIndex)
-	    }, [_l((row), function(th, thIndex) {
-	      return _h('th', {
-	        key: thIndex,
-	        attrs: {
-	          "rowspan": th.rowspan,
-	          "colspan": th.colspan
-	        }
-	      }, ["\n\t\t\t\t" + _s(th.text || th) + "\n\t\t\t"])
-	    })])
-	  })])])
-	}},staticRenderFns: []}
-	if (false) {
-	  module.hot.accept()
-	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-961f66ec", module.exports)
-	  }
-	}
-
-/***/ },
-/* 112 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
-	    staticClass: "container body-block"
-	  }, [_h('fieldset', {
-	    staticClass: "show-container"
-	  }, [_m(0), " ", _l((show), function(part, name) {
-	    return _h('label', [_h('input', {
-	      attrs: {
-	        "type": "checkbox"
-	      },
-	      domProps: {
-	        "checked": Array.isArray(show[name]) ? _i(show[name], null) > -1 : _q(show[name], true)
-	      },
-	      on: {
-	        "change": function($event) {
-	          var $$a = show[name],
-	            $$el = $event.target,
-	            $$c = $$el.checked ? (true) : (false);
-	          if (Array.isArray($$a)) {
-	            var $$v = null,
-	              $$i = _i($$a, $$v);
-	            if ($$c) {
-	              $$i < 0 && (show[name] = $$a.concat($$v))
-	            } else {
-	              $$i > -1 && (show[name] = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-	            }
-	          } else {
-	            show[name] = $$c
-	          }
-	        }
-	      }
-	    }), "\n\t\t\t" + _s(camelCaseToWords(name)) + "\n\t\t"])
-	  })]), " ", _h('data-table', {
-	    attrs: {
-	      "id": "aggregate-table",
-	      "thead": tableThead,
-	      "config": tableConfig,
-	      "data": tableData
-	    }
-	  }), " ", (show.graphs) ? _h('div', {
-	    staticClass: "graphs-container"
-	  }, [_h('div', {
-	    staticClass: "row"
-	  }, [(show.competencies) ? _h('div', {
-	    class: graphWidth
-	  }, [_h('chartjs-chart', {
-	    attrs: {
-	      "id": "aggregate-competency-chart",
-	      "type": graphType,
-	      "options": chartOptions,
-	      "data": competencyChartData
-	    }
-	  })]) : _e(), " ", (show.milestones) ? _h('div', {
-	    class: graphWidth
-	  }, [_h('chartjs-chart', {
-	    attrs: {
-	      "id": "aggregate-milestone-chart",
-	      "type": graphType,
-	      "options": chartOptions,
-	      "data": milestoneChartData
-	    }
-	  })]) : _e()]), " ", _h('div', {
-	    staticClass: "row graphs-controls"
-	  }, [_h('div', {
-	    staticClass: "col-sm-offset-5 col-sm-2"
-	  }, [_h('div', {
-	    staticClass: "panel panel-default"
-	  }, [_m(1), " ", _h('div', {
-	    staticClass: "panel-body"
-	  }, [(show.milestones && show.competencies) ? _h('fieldset', [_m(2), " ", _h('div', {
-	    staticClass: "btn-group btn-group-justified",
-	    attrs: {
-	      "data-toggle": "buttons"
-	    }
-	  }, [_h('bootstrap-button-input', {
-	    directives: [{
-	      name: "model",
-	      value: (graphOrientation),
-	      expression: "graphOrientation"
-	    }],
-	    attrs: {
-	      "type": "radio",
-	      "option": "horizontal"
-	    },
-	    domProps: {
-	      "value": (graphOrientation)
-	    },
-	    on: {
-	      "input": function($event) {
-	        graphOrientation = $event
-	      }
-	    }
-	  }, [_m(3)]), " ", _h('bootstrap-button-input', {
-	    directives: [{
-	      name: "model",
-	      value: (graphOrientation),
-	      expression: "graphOrientation"
-	    }],
-	    attrs: {
-	      "type": "radio",
-	      "option": "vertical"
-	    },
-	    domProps: {
-	      "value": (graphOrientation)
-	    },
-	    on: {
-	      "input": function($event) {
-	        graphOrientation = $event
-	      }
-	    }
-	  }, [_m(4)])])]) : _e(), " ", _h('div', {
-	    staticClass: "form-group"
-	  }, [_h('label', {
-	    staticClass: "containing-label"
-	  }, ["\n\t\t\t\t\t\t\t\tType\n\t\t\t\t\t\t\t\t", _h('select', {
-	    directives: [{
-	      name: "model",
-	      value: (graphType),
-	      expression: "graphType"
-	    }],
-	    staticClass: "form-control",
-	    on: {
-	      "change": function($event) {
-	        graphType = Array.prototype.filter.call($event.target.options, function(o) {
-	          return o.selected
-	        }).map(function(o) {
-	          return "_value" in o ? o._value : o.value
-	        })[0]
-	      }
-	    }
-	  }, [_l((chartTypes), function(type) {
-	    return _h('option', {
-	      domProps: {
-	        "value": type
-	      }
-	    }, ["\n\t\t\t\t\t\t\t\t\t\t" + _s(ucfirst(type)) + "\n\t\t\t\t\t\t\t\t\t"])
-	  })])])])])])])])]) : _e()])
-	}},staticRenderFns: [function (){with(this) {
-	  return _h('legend', ["Show"])
-	}},function (){with(this) {
-	  return _h('div', {
-	    staticClass: "panel-heading"
-	  }, [_h('span', {
-	    staticClass: "panel-title"
-	  }, ["Graph options"])])
-	}},function (){with(this) {
-	  return _h('legend', ["Orientation"])
-	}},function (){with(this) {
-	  return _h('span', {
-	    staticClass: "glyphicon glyphicon-option-horizontal"
-	  })
-	}},function (){with(this) {
-	  return _h('span', {
-	    staticClass: "glyphicon glyphicon-option-vertical"
-	  })
-	}}]}
-	if (false) {
-	  module.hot.accept()
-	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-19509019", module.exports)
-	  }
-	}
-
-/***/ },
-/* 113 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_exports__, __vue_options__
-	
-	/* styles */
-	__webpack_require__(114)
-	
-	/* script */
-	__vue_exports__ = __webpack_require__(116)
-	
-	/* template */
-	var __vue_template__ = __webpack_require__(117)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-	__vue_options__.name = __vue_options__.name || "ReportDate"
-	__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ReportDate.vue"
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-	__vue_options__._scopeId = "data-v-4ee850ac"
-	
-	/* hot reload */
-	if (false) {(function () {
-	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), false)
-	  if (!hotAPI.compatible) return
-	  module.hot.accept()
-	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-4ee850ac", __vue_options__)
-	  } else {
-	    hotAPI.reload("data-v-4ee850ac", __vue_options__)
-	  }
-	})()}
-	if (__vue_options__.functional) {console.error("[vue-loader] ReportDate.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-	
-	module.exports = __vue_exports__
-
-
-/***/ },
-/* 114 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(115);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(67)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-4ee850ac&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ReportDate.vue", function() {
-				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-4ee850ac&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ReportDate.vue");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 115 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(66)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"ReportDate.vue","sourceRoot":"webpack://"}]);
-	
-	// exports
-
-
-/***/ },
-/* 116 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-	
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	
-	exports.default = {
-		props: ['value'],
-		mounted: function mounted() {
-			$('#reports-start-date, #reports-end-date').datepicker({
-				dateFormat: "yy-mm-dd",
-				onSelect: function onSelect() {
-					this.dispatchEvent(new Event('input'));
-				}
-			});
-		},
-	
-		methods: {
-			handleInput: function handleInput(prop, value) {
-				var newValue = Object.assign({}, this.value, _defineProperty({}, prop, value));
-				this.$emit('input', newValue);
-			}
-		}
-	};
-
-/***/ },
-/* 117 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
-	    staticClass: "form-horizontal"
-	  }, [_h('div', {
-	    staticClass: "form-group"
-	  }, [_h('div', {
-	    staticClass: "col-md-4"
-	  }, [_m(0), " ", _h('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "type": "text",
-	      "id": "reports-start-date"
-	    },
-	    domProps: {
-	      "value": value.startDate
-	    },
-	    on: {
-	      "input": function($event) {
-	        handleInput('startDate', $event.target.value)
-	      }
-	    }
-	  })]), " ", _h('div', {
-	    staticClass: "col-md-4"
-	  }, [_m(1), " ", _h('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "type": "text",
-	      "id": "reports-end-date"
-	    },
-	    domProps: {
-	      "value": value.endDate
-	    },
-	    on: {
-	      "input": function($event) {
-	        handleInput('endDate', $event.target.value)
-	      }
-	    }
-	  })]), " ", _m(2)])])
-	}},staticRenderFns: [function (){with(this) {
-	  return _h('label', {
-	    attrs: {
-	      "for": "reports-start-date"
-	    }
-	  }, ["Start Date"])
-	}},function (){with(this) {
-	  return _h('label', {
-	    attrs: {
-	      "for": "reports-end-date"
-	    }
-	  }, ["End Date"])
-	}},function (){with(this) {
-	  return _h('div', {
-	    staticClass: "col-md-4"
-	  })
-	}}]}
-	if (false) {
-	  module.hot.accept()
-	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-4ee850ac", module.exports)
-	  }
-	}
-
-/***/ },
-/* 118 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_exports__, __vue_options__
-	
-	/* styles */
-	__webpack_require__(137)
-	
-	/* script */
-	__vue_exports__ = __webpack_require__(119)
-	
-	/* template */
-	var __vue_template__ = __webpack_require__(120)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-	__vue_options__.name = __vue_options__.name || "StatsReport"
-	__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/StatsReport.vue"
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-	__vue_options__._scopeId = "data-v-8f4ff40e"
-	
-	/* hot reload */
-	if (false) {(function () {
-	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), false)
-	  if (!hotAPI.compatible) return
-	  module.hot.accept()
-	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-8f4ff40e", __vue_options__)
-	  } else {
-	    hotAPI.reload("data-v-8f4ff40e", __vue_options__)
-	  }
-	})()}
-	if (__vue_options__.functional) {console.error("[vue-loader] StatsReport.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-	
-	module.exports = __vue_exports__
-
-
-/***/ },
-/* 119 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _DataTable = __webpack_require__(109);
-	
-	var _DataTable2 = _interopRequireDefault(_DataTable);
-	
-	var _utils = __webpack_require__(59);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	
-	exports.default = {
-		props: [],
-		data: function data() {
-			return {
-				show: {
-					ratio: false,
-					graph: false,
-					noRequests: false,
-					noneCompleted: false,
-					lastCompleted: false
-				}
-			};
-		},
-	
-		computed: {
-			statsThead: function statsThead() {
-				return ['User', 'Requested', 'Total Requests', 'Total Completed', 'Total Ratio'];
-			},
-			statsConfig: function statsConfig() {},
-			statsData: function statsData() {}
-		},
-		methods: {
-			camelCaseToWords: _utils.camelCaseToWords
-		},
-		components: {
-			DataTable: _DataTable2.default
-		}
-	};
-
-/***/ },
-/* 120 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
-	    staticClass: "container body-block"
-	  }, [_h('fieldset', {
-	    staticClass: "show-container"
-	  }, [_m(0), " ", _l((show), function(part, name) {
-	    return _h('label', [_h('input', {
-	      attrs: {
-	        "type": "checkbox"
-	      },
-	      domProps: {
-	        "checked": Array.isArray(show[name]) ? _i(show[name], null) > -1 : _q(show[name], true)
-	      },
-	      on: {
-	        "change": function($event) {
-	          var $$a = show[name],
-	            $$el = $event.target,
-	            $$c = $$el.checked ? (true) : (false);
-	          if (Array.isArray($$a)) {
-	            var $$v = null,
-	              $$i = _i($$a, $$v);
-	            if ($$c) {
-	              $$i < 0 && (show[name] = $$a.concat($$v))
-	            } else {
-	              $$i > -1 && (show[name] = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-	            }
-	          } else {
-	            show[name] = $$c
-	          }
-	        }
-	      }
-	    }), "\n\t\t\t" + _s(camelCaseToWords(name)) + "\n\t\t"])
-	  })])])
-	}},staticRenderFns: [function (){with(this) {
-	  return _h('legend', ["Show"])
-	}}]}
-	if (false) {
-	  module.hot.accept()
-	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-8f4ff40e", module.exports)
-	  }
-	}
-
-/***/ },
-/* 121 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports={render:function (){with(this) {
-	  return _h('div', [_h('div', {
-	    staticClass: "container body-block"
-	  }, [_m(0), " ", _h('report-date', {
-	    directives: [{
-	      name: "model",
-	      value: (dates),
-	      expression: "dates"
-	    }],
-	    domProps: {
-	      "value": (dates)
-	    },
-	    on: {
-	      "input": function($event) {
-	        dates = $event
-	      }
-	    }
-	  }), " ", _h('div', {
-	    staticClass: "form-group"
-	  }, [_h('label', [_h('input', {
-	    attrs: {
-	      "type": "checkbox"
-	    },
-	    domProps: {
-	      "checked": Array.isArray(filterMilestones) ? _i(filterMilestones, null) > -1 : _q(filterMilestones, true)
-	    },
-	    on: {
-	      "change": function($event) {
-	        var $$a = filterMilestones,
-	          $$el = $event.target,
-	          $$c = $$el.checked ? (true) : (false);
-	        if (Array.isArray($$a)) {
-	          var $$v = null,
-	            $$i = _i($$a, $$v);
-	          if ($$c) {
-	            $$i < 0 && (filterMilestones = $$a.concat($$v))
-	          } else {
-	            $$i > -1 && (filterMilestones = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-	          }
-	        } else {
-	          filterMilestones = $$c
-	        }
-	      }
-	    }
-	  }), "\n\t\t\t\tFilter milestones\n\t\t\t"])]), " ", (filterMilestones) ? _h('fieldset', [_m(1), " ", _l((milestoneGroups), function(milestoneGroup, index) {
-	    return _h('div', {
-	      staticClass: "milestone-group col-xs-6 col-sm-4 col-md-3"
-	    }, [_h('div', {
-	      staticClass: "panel panel-default"
-	    }, [_h('div', {
-	      staticClass: "panel-heading"
-	    }, [_h('label', {
-	      staticClass: "panel-title"
-	    }, [_h('input', {
-	      attrs: {
-	        "type": "checkbox"
-	      },
-	      domProps: {
-	        "checked": isEntireMilestoneGroupSelected(index)
-	      },
-	      on: {
-	        "click": function($event) {
-	          toggleEntireMilestoneGroup(index)
-	        }
-	      }
-	    }), "\n\t\t\t\t\t\t\t" + _s(milestoneGroup.text) + "\n\t\t\t\t\t\t"])]), " ", _h('div', {
-	      staticClass: "panel-body"
-	    }, [_l((milestoneGroup.children), function(child) {
-	      return _h('div', {
-	        staticClass: "form-group"
-	      }, [_h('label', [_h('input', {
-	        attrs: {
-	          "type": "checkbox"
-	        },
-	        domProps: {
-	          "value": child.id,
-	          "checked": Array.isArray(milestones) ? _i(milestones, child.id) > -1 : _q(milestones, true)
-	        },
-	        on: {
-	          "change": function($event) {
-	            var $$a = milestones,
-	              $$el = $event.target,
-	              $$c = $$el.checked ? (true) : (false);
-	            if (Array.isArray($$a)) {
-	              var $$v = child.id,
-	                $$i = _i($$a, $$v);
-	              if ($$c) {
-	                $$i < 0 && (milestones = $$a.concat($$v))
-	              } else {
-	                $$i > -1 && (milestones = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-	              }
-	            } else {
-	              milestones = $$c
-	            }
-	          }
-	        }
-	      }), "\n\t\t\t\t\t\t\t\t" + _s(child.text) + "\n\t\t\t\t\t\t\t"])])
-	    })])])])
-	  })]) : _e(), " ", _h('button', {
-	    staticClass: "btn btn-lg btn-primary",
-	    attrs: {
-	      "type": "button"
-	    },
-	    on: {
-	      "click": runReport
-	    }
-	  }, ["\n\t\t\tRun report\n\t\t"])]), " ", (report) ? _h('div', [(report.stats) ? _h('stats-report', {
-	    attrs: {
-	      "report": report.stats
-	    }
-	  }) : _e(), " ", (report.aggregate) ? _h('aggregate-report', {
-	    attrs: {
-	      "report": report.aggregate
-	    }
-	  }) : _e()]) : _e()])
-	}},staticRenderFns: [function (){with(this) {
-	  return _h('h2', ["Trainee report"])
-	}},function (){with(this) {
-	  return _h('legend', ["Milestones"])
-	}}]}
-	if (false) {
-	  module.hot.accept()
-	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-155d597c", module.exports)
-	  }
-	}
-
-/***/ },
-/* 122 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports={render:function (){with(this) {
-	  return _h('div', [(reportType) ? _h('div', [(reportType === REPORT_TYPES.TRAINEE) ? _h('trainee-report') : _e(), " ", (reportType === REPORT_TYPES.FORM) ? _h('form-report') : _e(), " ", _h('div', {
-	    staticClass: "text-center"
-	  }, [_h('button', {
-	    staticClass: "btn btn-lg btn-default",
-	    attrs: {
-	      "type": "button"
-	    },
-	    on: {
-	      "click": handleResetClick
-	    }
-	  }, ["\n\t\t\t\tStart over\n\t\t\t"])])]) : _h('div', {
-	    staticClass: "container body-block"
-	  }, [_h('fieldset', [_h('legend', ["Report type"]), " ", _h('div', {
-	    staticClass: "form-inline"
-	  }, [_l((REPORT_TYPES), function(type) {
-	    return _h('div', {
-	      staticClass: "form-group col-sm-2"
-	    }, [_h('button', {
-	      staticClass: "btn lg btn-primary",
-	      attrs: {
-	        "type": "button"
-	      },
-	      on: {
-	        "click": function($event) {
-	          setReportType(type)
-	        }
-	      }
-	    }, ["\n\t\t\t\t\t\t" + _s(ucfirst(type)) + "\n\t\t\t\t\t"])])
-	  })])])]), " "])
-	}},staticRenderFns: []}
-	if (false) {
-	  module.hot.accept()
-	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-25c733f6", module.exports)
-	  }
-	}
-
-/***/ },
-/* 123 */
-/***/ function(module, exports) {
-
-	module.exports = {
-		aliceblue: [240, 248, 255],
-		antiquewhite: [250, 235, 215],
-		aqua: [0, 255, 255],
-		aquamarine: [127, 255, 212],
-		azure: [240, 255, 255],
-		beige: [245, 245, 220],
-		bisque: [255, 228, 196],
-		black: [0, 0, 0],
-		blanchedalmond: [255, 235, 205],
-		blue: [0, 0, 255],
-		blueviolet: [138, 43, 226],
-		brown: [165, 42, 42],
-		burlywood: [222, 184, 135],
-		cadetblue: [95, 158, 160],
-		chartreuse: [127, 255, 0],
-		chocolate: [210, 105, 30],
-		coral: [255, 127, 80],
-		cornflowerblue: [100, 149, 237],
-		cornsilk: [255, 248, 220],
-		crimson: [220, 20, 60],
-		cyan: [0, 255, 255],
-		darkblue: [0, 0, 139],
-		darkcyan: [0, 139, 139],
-		darkgoldenrod: [184, 134, 11],
-		darkgray: [169, 169, 169],
-		darkgreen: [0, 100, 0],
-		darkgrey: [169, 169, 169],
-		darkkhaki: [189, 183, 107],
-		darkmagenta: [139, 0, 139],
-		darkolivegreen: [85, 107, 47],
-		darkorange: [255, 140, 0],
-		darkorchid: [153, 50, 204],
-		darkred: [139, 0, 0],
-		darksalmon: [233, 150, 122],
-		darkseagreen: [143, 188, 143],
-		darkslateblue: [72, 61, 139],
-		darkslategray: [47, 79, 79],
-		darkslategrey: [47, 79, 79],
-		darkturquoise: [0, 206, 209],
-		darkviolet: [148, 0, 211],
-		deeppink: [255, 20, 147],
-		deepskyblue: [0, 191, 255],
-		dimgray: [105, 105, 105],
-		dimgrey: [105, 105, 105],
-		dodgerblue: [30, 144, 255],
-		firebrick: [178, 34, 34],
-		floralwhite: [255, 250, 240],
-		forestgreen: [34, 139, 34],
-		fuchsia: [255, 0, 255],
-		gainsboro: [220, 220, 220],
-		ghostwhite: [248, 248, 255],
-		gold: [255, 215, 0],
-		goldenrod: [218, 165, 32],
-		gray: [128, 128, 128],
-		green: [0, 128, 0],
-		greenyellow: [173, 255, 47],
-		grey: [128, 128, 128],
-		honeydew: [240, 255, 240],
-		hotpink: [255, 105, 180],
-		indianred: [205, 92, 92],
-		indigo: [75, 0, 130],
-		ivory: [255, 255, 240],
-		khaki: [240, 230, 140],
-		lavender: [230, 230, 250],
-		lavenderblush: [255, 240, 245],
-		lawngreen: [124, 252, 0],
-		lemonchiffon: [255, 250, 205],
-		lightblue: [173, 216, 230],
-		lightcoral: [240, 128, 128],
-		lightcyan: [224, 255, 255],
-		lightgoldenrodyellow: [250, 250, 210],
-		lightgray: [211, 211, 211],
-		lightgreen: [144, 238, 144],
-		lightgrey: [211, 211, 211],
-		lightpink: [255, 182, 193],
-		lightsalmon: [255, 160, 122],
-		lightseagreen: [32, 178, 170],
-		lightskyblue: [135, 206, 250],
-		lightslategray: [119, 136, 153],
-		lightslategrey: [119, 136, 153],
-		lightsteelblue: [176, 196, 222],
-		lightyellow: [255, 255, 224],
-		lime: [0, 255, 0],
-		limegreen: [50, 205, 50],
-		linen: [250, 240, 230],
-		magenta: [255, 0, 255],
-		maroon: [128, 0, 0],
-		mediumaquamarine: [102, 205, 170],
-		mediumblue: [0, 0, 205],
-		mediumorchid: [186, 85, 211],
-		mediumpurple: [147, 112, 219],
-		mediumseagreen: [60, 179, 113],
-		mediumslateblue: [123, 104, 238],
-		mediumspringgreen: [0, 250, 154],
-		mediumturquoise: [72, 209, 204],
-		mediumvioletred: [199, 21, 133],
-		midnightblue: [25, 25, 112],
-		mintcream: [245, 255, 250],
-		mistyrose: [255, 228, 225],
-		moccasin: [255, 228, 181],
-		navajowhite: [255, 222, 173],
-		navy: [0, 0, 128],
-		oldlace: [253, 245, 230],
-		olive: [128, 128, 0],
-		olivedrab: [107, 142, 35],
-		orange: [255, 165, 0],
-		orangered: [255, 69, 0],
-		orchid: [218, 112, 214],
-		palegoldenrod: [238, 232, 170],
-		palegreen: [152, 251, 152],
-		paleturquoise: [175, 238, 238],
-		palevioletred: [219, 112, 147],
-		papayawhip: [255, 239, 213],
-		peachpuff: [255, 218, 185],
-		peru: [205, 133, 63],
-		pink: [255, 192, 203],
-		plum: [221, 160, 221],
-		powderblue: [176, 224, 230],
-		purple: [128, 0, 128],
-		rebeccapurple: [102, 51, 153],
-		red: [255, 0, 0],
-		rosybrown: [188, 143, 143],
-		royalblue: [65, 105, 225],
-		saddlebrown: [139, 69, 19],
-		salmon: [250, 128, 114],
-		sandybrown: [244, 164, 96],
-		seagreen: [46, 139, 87],
-		seashell: [255, 245, 238],
-		sienna: [160, 82, 45],
-		silver: [192, 192, 192],
-		skyblue: [135, 206, 235],
-		slateblue: [106, 90, 205],
-		slategray: [112, 128, 144],
-		slategrey: [112, 128, 144],
-		snow: [255, 250, 250],
-		springgreen: [0, 255, 127],
-		steelblue: [70, 130, 180],
-		tan: [210, 180, 140],
-		teal: [0, 128, 128],
-		thistle: [216, 191, 216],
-		tomato: [255, 99, 71],
-		turquoise: [64, 224, 208],
-		violet: [238, 130, 238],
-		wheat: [245, 222, 179],
-		white: [255, 255, 255],
-		whitesmoke: [245, 245, 245],
-		yellow: [255, 255, 0],
-		yellowgreen: [154, 205, 50]
-	};
-	
-
-
-/***/ },
-/* 124 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var conversions = __webpack_require__(7);
-	
-	/*
-		this function routes a model to all other models.
-	
-		all functions that are routed have a property `.conversion` attached
-		to the returned synthetic function. This property is an array
-		of strings, each with the steps in between the 'from' and 'to'
-		color models (inclusive).
-	
-		conversions that are not possible simply are not included.
-	*/
-	
-	// https://jsperf.com/object-keys-vs-for-in-with-closure/3
-	var models = Object.keys(conversions);
-	
-	function buildGraph() {
-		var graph = {};
-	
-		for (var len = models.length, i = 0; i < len; i++) {
-			graph[models[i]] = {
-				// http://jsperf.com/1-vs-infinity
-				// micro-opt, but this is simple.
-				distance: -1,
-				parent: null
-			};
-		}
-	
-		return graph;
-	}
-	
-	// https://en.wikipedia.org/wiki/Breadth-first_search
-	function deriveBFS(fromModel) {
-		var graph = buildGraph();
-		var queue = [fromModel]; // unshift -> queue -> pop
-	
-		graph[fromModel].distance = 0;
-	
-		while (queue.length) {
-			var current = queue.pop();
-			var adjacents = Object.keys(conversions[current]);
-	
-			for (var len = adjacents.length, i = 0; i < len; i++) {
-				var adjacent = adjacents[i];
-				var node = graph[adjacent];
-	
-				if (node.distance === -1) {
-					node.distance = graph[current].distance + 1;
-					node.parent = current;
-					queue.unshift(adjacent);
-				}
-			}
-		}
-	
-		return graph;
-	}
-	
-	function link(from, to) {
-		return function (args) {
-			return to(from(args));
-		};
-	}
-	
-	function wrapConversion(toModel, graph) {
-		var path = [graph[toModel].parent, toModel];
-		var fn = conversions[graph[toModel].parent][toModel];
-	
-		var cur = graph[toModel].parent;
-		while (graph[cur].parent) {
-			path.unshift(graph[cur].parent);
-			fn = link(conversions[graph[cur].parent][cur], fn);
-			cur = graph[cur].parent;
-		}
-	
-		fn.conversion = path;
-		return fn;
-	}
-	
-	module.exports = function (fromModel) {
-		var graph = deriveBFS(fromModel);
-		var conversion = {};
-	
-		var models = Object.keys(graph);
-		for (var len = models.length, i = 0; i < len; i++) {
-			var toModel = models[i];
-			var node = graph[toModel];
-	
-			if (node.parent === null) {
-				// no possible conversion, or this node is the source model.
-				continue;
-			}
-	
-			conversion[toModel] = wrapConversion(toModel, graph);
-		}
-	
-		return conversion;
-	};
-	
-
-
-/***/ },
-/* 125 */
-/***/ function(module, exports, __webpack_require__) {
-
 	/* MIT license */
-	var clone = __webpack_require__(126);
-	var convert = __webpack_require__(6);
-	var string = __webpack_require__(131);
+	var clone = __webpack_require__(109);
+	var convert = __webpack_require__(114);
+	var string = __webpack_require__(118);
 	
 	var Color = function (obj) {
 		if (obj instanceof Color) {
@@ -23084,7 +21957,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 126 */
+/* 109 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {var clone = (function() {
@@ -23248,10 +22121,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  module.exports = clone;
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(127).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110).Buffer))
 
 /***/ },
-/* 127 */
+/* 110 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer, global) {/*!
@@ -23264,9 +22137,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	'use strict'
 	
-	var base64 = __webpack_require__(128)
-	var ieee754 = __webpack_require__(129)
-	var isArray = __webpack_require__(130)
+	var base64 = __webpack_require__(111)
+	var ieee754 = __webpack_require__(112)
+	var isArray = __webpack_require__(113)
 	
 	exports.Buffer = Buffer
 	exports.SlowBuffer = SlowBuffer
@@ -25044,10 +23917,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return val !== val // eslint-disable-line no-self-compare
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(127).Buffer, (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110).Buffer, (function() { return this; }())))
 
 /***/ },
-/* 128 */
+/* 111 */
 /***/ function(module, exports) {
 
 	'use strict'
@@ -25167,7 +24040,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 129 */
+/* 112 */
 /***/ function(module, exports) {
 
 	exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -25257,7 +24130,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 130 */
+/* 113 */
 /***/ function(module, exports) {
 
 	var toString = {}.toString;
@@ -25268,7 +24141,1165 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 131 */
+/* 114 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var conversions = __webpack_require__(115);
+	var route = __webpack_require__(117);
+	
+	var convert = {};
+	
+	var models = Object.keys(conversions);
+	
+	function wrapRaw(fn) {
+		var wrappedFn = function (args) {
+			if (args === undefined || args === null) {
+				return args;
+			}
+	
+			if (arguments.length > 1) {
+				args = Array.prototype.slice.call(arguments);
+			}
+	
+			return fn(args);
+		};
+	
+		// preserve .conversion property if there is one
+		if ('conversion' in fn) {
+			wrappedFn.conversion = fn.conversion;
+		}
+	
+		return wrappedFn;
+	}
+	
+	function wrapRounded(fn) {
+		var wrappedFn = function (args) {
+			if (args === undefined || args === null) {
+				return args;
+			}
+	
+			if (arguments.length > 1) {
+				args = Array.prototype.slice.call(arguments);
+			}
+	
+			var result = fn(args);
+	
+			// we're assuming the result is an array here.
+			// see notice in conversions.js; don't use box types
+			// in conversion functions.
+			if (typeof result === 'object') {
+				for (var len = result.length, i = 0; i < len; i++) {
+					result[i] = Math.round(result[i]);
+				}
+			}
+	
+			return result;
+		};
+	
+		// preserve .conversion property if there is one
+		if ('conversion' in fn) {
+			wrappedFn.conversion = fn.conversion;
+		}
+	
+		return wrappedFn;
+	}
+	
+	models.forEach(function (fromModel) {
+		convert[fromModel] = {};
+	
+		Object.defineProperty(convert[fromModel], 'channels', {value: conversions[fromModel].channels});
+	
+		var routes = route(fromModel);
+		var routeModels = Object.keys(routes);
+	
+		routeModels.forEach(function (toModel) {
+			var fn = routes[toModel];
+	
+			convert[fromModel][toModel] = wrapRounded(fn);
+			convert[fromModel][toModel].raw = wrapRaw(fn);
+		});
+	});
+	
+	module.exports = convert;
+
+
+/***/ },
+/* 115 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* MIT license */
+	var cssKeywords = __webpack_require__(116);
+	
+	// NOTE: conversions should only return primitive values (i.e. arrays, or
+	//       values that give correct `typeof` results).
+	//       do not use box values types (i.e. Number(), String(), etc.)
+	
+	var reverseKeywords = {};
+	for (var key in cssKeywords) {
+		if (cssKeywords.hasOwnProperty(key)) {
+			reverseKeywords[cssKeywords[key]] = key;
+		}
+	}
+	
+	var convert = module.exports = {
+		rgb: {channels: 3},
+		hsl: {channels: 3},
+		hsv: {channels: 3},
+		hwb: {channels: 3},
+		cmyk: {channels: 4},
+		xyz: {channels: 3},
+		lab: {channels: 3},
+		lch: {channels: 3},
+		hex: {channels: 1},
+		keyword: {channels: 1},
+		ansi16: {channels: 1},
+		ansi256: {channels: 1},
+		hcg: {channels: 3},
+		apple: {channels: 3}
+	};
+	
+	// hide .channels property
+	for (var model in convert) {
+		if (convert.hasOwnProperty(model)) {
+			if (!('channels' in convert[model])) {
+				throw new Error('missing channels property: ' + model);
+			}
+	
+			var channels = convert[model].channels;
+			delete convert[model].channels;
+			Object.defineProperty(convert[model], 'channels', {value: channels});
+		}
+	}
+	
+	convert.rgb.hsl = function (rgb) {
+		var r = rgb[0] / 255;
+		var g = rgb[1] / 255;
+		var b = rgb[2] / 255;
+		var min = Math.min(r, g, b);
+		var max = Math.max(r, g, b);
+		var delta = max - min;
+		var h;
+		var s;
+		var l;
+	
+		if (max === min) {
+			h = 0;
+		} else if (r === max) {
+			h = (g - b) / delta;
+		} else if (g === max) {
+			h = 2 + (b - r) / delta;
+		} else if (b === max) {
+			h = 4 + (r - g) / delta;
+		}
+	
+		h = Math.min(h * 60, 360);
+	
+		if (h < 0) {
+			h += 360;
+		}
+	
+		l = (min + max) / 2;
+	
+		if (max === min) {
+			s = 0;
+		} else if (l <= 0.5) {
+			s = delta / (max + min);
+		} else {
+			s = delta / (2 - max - min);
+		}
+	
+		return [h, s * 100, l * 100];
+	};
+	
+	convert.rgb.hsv = function (rgb) {
+		var r = rgb[0];
+		var g = rgb[1];
+		var b = rgb[2];
+		var min = Math.min(r, g, b);
+		var max = Math.max(r, g, b);
+		var delta = max - min;
+		var h;
+		var s;
+		var v;
+	
+		if (max === 0) {
+			s = 0;
+		} else {
+			s = (delta / max * 1000) / 10;
+		}
+	
+		if (max === min) {
+			h = 0;
+		} else if (r === max) {
+			h = (g - b) / delta;
+		} else if (g === max) {
+			h = 2 + (b - r) / delta;
+		} else if (b === max) {
+			h = 4 + (r - g) / delta;
+		}
+	
+		h = Math.min(h * 60, 360);
+	
+		if (h < 0) {
+			h += 360;
+		}
+	
+		v = ((max / 255) * 1000) / 10;
+	
+		return [h, s, v];
+	};
+	
+	convert.rgb.hwb = function (rgb) {
+		var r = rgb[0];
+		var g = rgb[1];
+		var b = rgb[2];
+		var h = convert.rgb.hsl(rgb)[0];
+		var w = 1 / 255 * Math.min(r, Math.min(g, b));
+	
+		b = 1 - 1 / 255 * Math.max(r, Math.max(g, b));
+	
+		return [h, w * 100, b * 100];
+	};
+	
+	convert.rgb.cmyk = function (rgb) {
+		var r = rgb[0] / 255;
+		var g = rgb[1] / 255;
+		var b = rgb[2] / 255;
+		var c;
+		var m;
+		var y;
+		var k;
+	
+		k = Math.min(1 - r, 1 - g, 1 - b);
+		c = (1 - r - k) / (1 - k) || 0;
+		m = (1 - g - k) / (1 - k) || 0;
+		y = (1 - b - k) / (1 - k) || 0;
+	
+		return [c * 100, m * 100, y * 100, k * 100];
+	};
+	
+	/**
+	 * See https://en.m.wikipedia.org/wiki/Euclidean_distance#Squared_Euclidean_distance
+	 * */
+	function comparativeDistance(x, y) {
+		return (
+			Math.pow(x[0] - y[0], 2) +
+			Math.pow(x[1] - y[1], 2) +
+			Math.pow(x[2] - y[2], 2)
+		);
+	}
+	
+	convert.rgb.keyword = function (rgb) {
+		var reversed = reverseKeywords[rgb];
+		if (reversed) {
+			return reversed;
+		}
+	
+		var currentClosestDistance = Infinity;
+		var currentClosestKeyword;
+	
+		for (var keyword in cssKeywords) {
+			if (cssKeywords.hasOwnProperty(keyword)) {
+				var value = cssKeywords[keyword];
+	
+				// Compute comparative distance
+				var distance = comparativeDistance(rgb, value);
+	
+				// Check if its less, if so set as closest
+				if (distance < currentClosestDistance) {
+					currentClosestDistance = distance;
+					currentClosestKeyword = keyword;
+				}
+			}
+		}
+	
+		return currentClosestKeyword;
+	};
+	
+	convert.keyword.rgb = function (keyword) {
+		return cssKeywords[keyword];
+	};
+	
+	convert.rgb.xyz = function (rgb) {
+		var r = rgb[0] / 255;
+		var g = rgb[1] / 255;
+		var b = rgb[2] / 255;
+	
+		// assume sRGB
+		r = r > 0.04045 ? Math.pow(((r + 0.055) / 1.055), 2.4) : (r / 12.92);
+		g = g > 0.04045 ? Math.pow(((g + 0.055) / 1.055), 2.4) : (g / 12.92);
+		b = b > 0.04045 ? Math.pow(((b + 0.055) / 1.055), 2.4) : (b / 12.92);
+	
+		var x = (r * 0.4124) + (g * 0.3576) + (b * 0.1805);
+		var y = (r * 0.2126) + (g * 0.7152) + (b * 0.0722);
+		var z = (r * 0.0193) + (g * 0.1192) + (b * 0.9505);
+	
+		return [x * 100, y * 100, z * 100];
+	};
+	
+	convert.rgb.lab = function (rgb) {
+		var xyz = convert.rgb.xyz(rgb);
+		var x = xyz[0];
+		var y = xyz[1];
+		var z = xyz[2];
+		var l;
+		var a;
+		var b;
+	
+		x /= 95.047;
+		y /= 100;
+		z /= 108.883;
+	
+		x = x > 0.008856 ? Math.pow(x, 1 / 3) : (7.787 * x) + (16 / 116);
+		y = y > 0.008856 ? Math.pow(y, 1 / 3) : (7.787 * y) + (16 / 116);
+		z = z > 0.008856 ? Math.pow(z, 1 / 3) : (7.787 * z) + (16 / 116);
+	
+		l = (116 * y) - 16;
+		a = 500 * (x - y);
+		b = 200 * (y - z);
+	
+		return [l, a, b];
+	};
+	
+	convert.hsl.rgb = function (hsl) {
+		var h = hsl[0] / 360;
+		var s = hsl[1] / 100;
+		var l = hsl[2] / 100;
+		var t1;
+		var t2;
+		var t3;
+		var rgb;
+		var val;
+	
+		if (s === 0) {
+			val = l * 255;
+			return [val, val, val];
+		}
+	
+		if (l < 0.5) {
+			t2 = l * (1 + s);
+		} else {
+			t2 = l + s - l * s;
+		}
+	
+		t1 = 2 * l - t2;
+	
+		rgb = [0, 0, 0];
+		for (var i = 0; i < 3; i++) {
+			t3 = h + 1 / 3 * -(i - 1);
+			if (t3 < 0) {
+				t3++;
+			}
+			if (t3 > 1) {
+				t3--;
+			}
+	
+			if (6 * t3 < 1) {
+				val = t1 + (t2 - t1) * 6 * t3;
+			} else if (2 * t3 < 1) {
+				val = t2;
+			} else if (3 * t3 < 2) {
+				val = t1 + (t2 - t1) * (2 / 3 - t3) * 6;
+			} else {
+				val = t1;
+			}
+	
+			rgb[i] = val * 255;
+		}
+	
+		return rgb;
+	};
+	
+	convert.hsl.hsv = function (hsl) {
+		var h = hsl[0];
+		var s = hsl[1] / 100;
+		var l = hsl[2] / 100;
+		var smin = s;
+		var lmin = Math.max(l, 0.01);
+		var sv;
+		var v;
+	
+		l *= 2;
+		s *= (l <= 1) ? l : 2 - l;
+		smin *= lmin <= 1 ? lmin : 2 - lmin;
+		v = (l + s) / 2;
+		sv = l === 0 ? (2 * smin) / (lmin + smin) : (2 * s) / (l + s);
+	
+		return [h, sv * 100, v * 100];
+	};
+	
+	convert.hsv.rgb = function (hsv) {
+		var h = hsv[0] / 60;
+		var s = hsv[1] / 100;
+		var v = hsv[2] / 100;
+		var hi = Math.floor(h) % 6;
+	
+		var f = h - Math.floor(h);
+		var p = 255 * v * (1 - s);
+		var q = 255 * v * (1 - (s * f));
+		var t = 255 * v * (1 - (s * (1 - f)));
+		v *= 255;
+	
+		switch (hi) {
+			case 0:
+				return [v, t, p];
+			case 1:
+				return [q, v, p];
+			case 2:
+				return [p, v, t];
+			case 3:
+				return [p, q, v];
+			case 4:
+				return [t, p, v];
+			case 5:
+				return [v, p, q];
+		}
+	};
+	
+	convert.hsv.hsl = function (hsv) {
+		var h = hsv[0];
+		var s = hsv[1] / 100;
+		var v = hsv[2] / 100;
+		var vmin = Math.max(v, 0.01);
+		var lmin;
+		var sl;
+		var l;
+	
+		l = (2 - s) * v;
+		lmin = (2 - s) * vmin;
+		sl = s * vmin;
+		sl /= (lmin <= 1) ? lmin : 2 - lmin;
+		sl = sl || 0;
+		l /= 2;
+	
+		return [h, sl * 100, l * 100];
+	};
+	
+	// http://dev.w3.org/csswg/css-color/#hwb-to-rgb
+	convert.hwb.rgb = function (hwb) {
+		var h = hwb[0] / 360;
+		var wh = hwb[1] / 100;
+		var bl = hwb[2] / 100;
+		var ratio = wh + bl;
+		var i;
+		var v;
+		var f;
+		var n;
+	
+		// wh + bl cant be > 1
+		if (ratio > 1) {
+			wh /= ratio;
+			bl /= ratio;
+		}
+	
+		i = Math.floor(6 * h);
+		v = 1 - bl;
+		f = 6 * h - i;
+	
+		if ((i & 0x01) !== 0) {
+			f = 1 - f;
+		}
+	
+		n = wh + f * (v - wh); // linear interpolation
+	
+		var r;
+		var g;
+		var b;
+		switch (i) {
+			default:
+			case 6:
+			case 0: r = v; g = n; b = wh; break;
+			case 1: r = n; g = v; b = wh; break;
+			case 2: r = wh; g = v; b = n; break;
+			case 3: r = wh; g = n; b = v; break;
+			case 4: r = n; g = wh; b = v; break;
+			case 5: r = v; g = wh; b = n; break;
+		}
+	
+		return [r * 255, g * 255, b * 255];
+	};
+	
+	convert.cmyk.rgb = function (cmyk) {
+		var c = cmyk[0] / 100;
+		var m = cmyk[1] / 100;
+		var y = cmyk[2] / 100;
+		var k = cmyk[3] / 100;
+		var r;
+		var g;
+		var b;
+	
+		r = 1 - Math.min(1, c * (1 - k) + k);
+		g = 1 - Math.min(1, m * (1 - k) + k);
+		b = 1 - Math.min(1, y * (1 - k) + k);
+	
+		return [r * 255, g * 255, b * 255];
+	};
+	
+	convert.xyz.rgb = function (xyz) {
+		var x = xyz[0] / 100;
+		var y = xyz[1] / 100;
+		var z = xyz[2] / 100;
+		var r;
+		var g;
+		var b;
+	
+		r = (x * 3.2406) + (y * -1.5372) + (z * -0.4986);
+		g = (x * -0.9689) + (y * 1.8758) + (z * 0.0415);
+		b = (x * 0.0557) + (y * -0.2040) + (z * 1.0570);
+	
+		// assume sRGB
+		r = r > 0.0031308
+			? ((1.055 * Math.pow(r, 1.0 / 2.4)) - 0.055)
+			: r * 12.92;
+	
+		g = g > 0.0031308
+			? ((1.055 * Math.pow(g, 1.0 / 2.4)) - 0.055)
+			: g * 12.92;
+	
+		b = b > 0.0031308
+			? ((1.055 * Math.pow(b, 1.0 / 2.4)) - 0.055)
+			: b * 12.92;
+	
+		r = Math.min(Math.max(0, r), 1);
+		g = Math.min(Math.max(0, g), 1);
+		b = Math.min(Math.max(0, b), 1);
+	
+		return [r * 255, g * 255, b * 255];
+	};
+	
+	convert.xyz.lab = function (xyz) {
+		var x = xyz[0];
+		var y = xyz[1];
+		var z = xyz[2];
+		var l;
+		var a;
+		var b;
+	
+		x /= 95.047;
+		y /= 100;
+		z /= 108.883;
+	
+		x = x > 0.008856 ? Math.pow(x, 1 / 3) : (7.787 * x) + (16 / 116);
+		y = y > 0.008856 ? Math.pow(y, 1 / 3) : (7.787 * y) + (16 / 116);
+		z = z > 0.008856 ? Math.pow(z, 1 / 3) : (7.787 * z) + (16 / 116);
+	
+		l = (116 * y) - 16;
+		a = 500 * (x - y);
+		b = 200 * (y - z);
+	
+		return [l, a, b];
+	};
+	
+	convert.lab.xyz = function (lab) {
+		var l = lab[0];
+		var a = lab[1];
+		var b = lab[2];
+		var x;
+		var y;
+		var z;
+	
+		y = (l + 16) / 116;
+		x = a / 500 + y;
+		z = y - b / 200;
+	
+		var y2 = Math.pow(y, 3);
+		var x2 = Math.pow(x, 3);
+		var z2 = Math.pow(z, 3);
+		y = y2 > 0.008856 ? y2 : (y - 16 / 116) / 7.787;
+		x = x2 > 0.008856 ? x2 : (x - 16 / 116) / 7.787;
+		z = z2 > 0.008856 ? z2 : (z - 16 / 116) / 7.787;
+	
+		x *= 95.047;
+		y *= 100;
+		z *= 108.883;
+	
+		return [x, y, z];
+	};
+	
+	convert.lab.lch = function (lab) {
+		var l = lab[0];
+		var a = lab[1];
+		var b = lab[2];
+		var hr;
+		var h;
+		var c;
+	
+		hr = Math.atan2(b, a);
+		h = hr * 360 / 2 / Math.PI;
+	
+		if (h < 0) {
+			h += 360;
+		}
+	
+		c = Math.sqrt(a * a + b * b);
+	
+		return [l, c, h];
+	};
+	
+	convert.lch.lab = function (lch) {
+		var l = lch[0];
+		var c = lch[1];
+		var h = lch[2];
+		var a;
+		var b;
+		var hr;
+	
+		hr = h / 360 * 2 * Math.PI;
+		a = c * Math.cos(hr);
+		b = c * Math.sin(hr);
+	
+		return [l, a, b];
+	};
+	
+	convert.rgb.ansi16 = function (args) {
+		var r = args[0];
+		var g = args[1];
+		var b = args[2];
+		var value = 1 in arguments ? arguments[1] : convert.rgb.hsv(args)[2]; // hsv -> ansi16 optimization
+	
+		value = Math.round(value / 50);
+	
+		if (value === 0) {
+			return 30;
+		}
+	
+		var ansi = 30
+			+ ((Math.round(b / 255) << 2)
+			| (Math.round(g / 255) << 1)
+			| Math.round(r / 255));
+	
+		if (value === 2) {
+			ansi += 60;
+		}
+	
+		return ansi;
+	};
+	
+	convert.hsv.ansi16 = function (args) {
+		// optimization here; we already know the value and don't need to get
+		// it converted for us.
+		return convert.rgb.ansi16(convert.hsv.rgb(args), args[2]);
+	};
+	
+	convert.rgb.ansi256 = function (args) {
+		var r = args[0];
+		var g = args[1];
+		var b = args[2];
+	
+		// we use the extended greyscale palette here, with the exception of
+		// black and white. normal palette only has 4 greyscale shades.
+		if (r === g && g === b) {
+			if (r < 8) {
+				return 16;
+			}
+	
+			if (r > 248) {
+				return 231;
+			}
+	
+			return Math.round(((r - 8) / 247) * 24) + 232;
+		}
+	
+		var ansi = 16
+			+ (36 * Math.round(r / 255 * 5))
+			+ (6 * Math.round(g / 255 * 5))
+			+ Math.round(b / 255 * 5);
+	
+		return ansi;
+	};
+	
+	convert.ansi16.rgb = function (args) {
+		var color = args % 10;
+	
+		// handle greyscale
+		if (color === 0 || color === 7) {
+			if (args > 50) {
+				color += 3.5;
+			}
+	
+			color = color / 10.5 * 255;
+	
+			return [color, color, color];
+		}
+	
+		var mult = (~~(args > 50) + 1) * 0.5;
+		var r = ((color & 1) * mult) * 255;
+		var g = (((color >> 1) & 1) * mult) * 255;
+		var b = (((color >> 2) & 1) * mult) * 255;
+	
+		return [r, g, b];
+	};
+	
+	convert.ansi256.rgb = function (args) {
+		// handle greyscale
+		if (args >= 232) {
+			var c = (args - 232) * 10 + 8;
+			return [c, c, c];
+		}
+	
+		args -= 16;
+	
+		var rem;
+		var r = Math.floor(args / 36) / 5 * 255;
+		var g = Math.floor((rem = args % 36) / 6) / 5 * 255;
+		var b = (rem % 6) / 5 * 255;
+	
+		return [r, g, b];
+	};
+	
+	convert.rgb.hex = function (args) {
+		var integer = ((Math.round(args[0]) & 0xFF) << 16)
+			+ ((Math.round(args[1]) & 0xFF) << 8)
+			+ (Math.round(args[2]) & 0xFF);
+	
+		var string = integer.toString(16).toUpperCase();
+		return '000000'.substring(string.length) + string;
+	};
+	
+	convert.hex.rgb = function (args) {
+		var match = args.toString(16).match(/[a-f0-9]{6}/i);
+		if (!match) {
+			return [0, 0, 0];
+		}
+	
+		var integer = parseInt(match[0], 16);
+		var r = (integer >> 16) & 0xFF;
+		var g = (integer >> 8) & 0xFF;
+		var b = integer & 0xFF;
+	
+		return [r, g, b];
+	};
+	
+	convert.rgb.hcg = function (rgb) {
+		var r = rgb[0] / 255;
+		var g = rgb[1] / 255;
+		var b = rgb[2] / 255;
+		var max = Math.max(Math.max(r, g), b);
+		var min = Math.min(Math.min(r, g), b);
+		var chroma = (max - min);
+		var grayscale;
+		var hue;
+	
+		if (chroma < 1) {
+			grayscale = min / (1 - chroma);
+		} else {
+			grayscale = 0;
+		}
+	
+		if (chroma <= 0) {
+			hue = 0;
+		} else
+		if (max === r) {
+			hue = ((g - b) / chroma) % 6;
+		} else
+		if (max === g) {
+			hue = 2 + (b - r) / chroma;
+		} else {
+			hue = 4 + (r - g) / chroma + 4;
+		}
+	
+		hue /= 6;
+		hue %= 1;
+	
+		return [hue * 360, chroma * 100, grayscale * 100];
+	};
+	
+	convert.hsl.hcg = function (hsl) {
+		var s = hsl[1] / 100;
+		var l = hsl[2] / 100;
+		var c = 1;
+		var f = 0;
+	
+		if (l < 0.5) {
+			c = 2.0 * s * l;
+		} else {
+			c = 2.0 * s * (1.0 - l);
+		}
+	
+		if (c < 1.0) {
+			f = (l - 0.5 * c) / (1.0 - c);
+		}
+	
+		return [hsl[0], c * 100, f * 100];
+	};
+	
+	convert.hsv.hcg = function (hsv) {
+		var s = hsv[1] / 100;
+		var v = hsv[2] / 100;
+	
+		var c = s * v;
+		var f = 0;
+	
+		if (c < 1.0) {
+			f = (v - c) / (1 - c);
+		}
+	
+		return [hsv[0], c * 100, f * 100];
+	};
+	
+	convert.hcg.rgb = function (hcg) {
+		var h = hcg[0] / 360;
+		var c = hcg[1] / 100;
+		var g = hcg[2] / 100;
+	
+		if (c === 0.0) {
+			return [g * 255, g * 255, g * 255];
+		}
+	
+		var pure = [0, 0, 0];
+		var hi = (h % 1) * 6;
+		var v = hi % 1;
+		var w = 1 - v;
+		var mg = 0;
+	
+		switch (Math.floor(hi)) {
+			case 0:
+				pure[0] = 1; pure[1] = v; pure[2] = 0; break;
+			case 1:
+				pure[0] = w; pure[1] = 1; pure[2] = 0; break;
+			case 2:
+				pure[0] = 0; pure[1] = 1; pure[2] = v; break;
+			case 3:
+				pure[0] = 0; pure[1] = w; pure[2] = 1; break;
+			case 4:
+				pure[0] = v; pure[1] = 0; pure[2] = 1; break;
+			default:
+				pure[0] = 1; pure[1] = 0; pure[2] = w;
+		}
+	
+		mg = (1.0 - c) * g;
+	
+		return [
+			(c * pure[0] + mg) * 255,
+			(c * pure[1] + mg) * 255,
+			(c * pure[2] + mg) * 255
+		];
+	};
+	
+	convert.hcg.hsv = function (hcg) {
+		var c = hcg[1] / 100;
+		var g = hcg[2] / 100;
+	
+		var v = c + g * (1.0 - c);
+		var f = 0;
+	
+		if (v > 0.0) {
+			f = c / v;
+		}
+	
+		return [hcg[0], f * 100, v * 100];
+	};
+	
+	convert.hcg.hsl = function (hcg) {
+		var c = hcg[1] / 100;
+		var g = hcg[2] / 100;
+	
+		var l = g * (1.0 - c) + 0.5 * c;
+		var s = 0;
+	
+		if (l > 0.0 && l < 0.5) {
+			s = c / (2 * l);
+		} else
+		if (l >= 0.5 && l < 1.0) {
+			s = c / (2 * (1 - l));
+		}
+	
+		return [hcg[0], s * 100, l * 100];
+	};
+	
+	convert.hcg.hwb = function (hcg) {
+		var c = hcg[1] / 100;
+		var g = hcg[2] / 100;
+		var v = c + g * (1.0 - c);
+		return [hcg[0], (v - c) * 100, (1 - v) * 100];
+	};
+	
+	convert.hwb.hcg = function (hwb) {
+		var w = hwb[1] / 100;
+		var b = hwb[2] / 100;
+		var v = 1 - b;
+		var c = v - w;
+		var g = 0;
+	
+		if (c < 1) {
+			g = (v - c) / (1 - c);
+		}
+	
+		return [hwb[0], c * 100, g * 100];
+	};
+	
+	convert.apple.rgb = function (apple) {
+		return [(apple[0] / 65535) * 255, (apple[1] / 65535) * 255, (apple[2] / 65535) * 255];
+	};
+	
+	convert.rgb.apple = function (rgb) {
+		return [(rgb[0] / 255) * 65535, (rgb[1] / 255) * 65535, (rgb[2] / 255) * 65535];
+	};
+
+
+/***/ },
+/* 116 */
+/***/ function(module, exports) {
+
+	module.exports = {
+		aliceblue: [240, 248, 255],
+		antiquewhite: [250, 235, 215],
+		aqua: [0, 255, 255],
+		aquamarine: [127, 255, 212],
+		azure: [240, 255, 255],
+		beige: [245, 245, 220],
+		bisque: [255, 228, 196],
+		black: [0, 0, 0],
+		blanchedalmond: [255, 235, 205],
+		blue: [0, 0, 255],
+		blueviolet: [138, 43, 226],
+		brown: [165, 42, 42],
+		burlywood: [222, 184, 135],
+		cadetblue: [95, 158, 160],
+		chartreuse: [127, 255, 0],
+		chocolate: [210, 105, 30],
+		coral: [255, 127, 80],
+		cornflowerblue: [100, 149, 237],
+		cornsilk: [255, 248, 220],
+		crimson: [220, 20, 60],
+		cyan: [0, 255, 255],
+		darkblue: [0, 0, 139],
+		darkcyan: [0, 139, 139],
+		darkgoldenrod: [184, 134, 11],
+		darkgray: [169, 169, 169],
+		darkgreen: [0, 100, 0],
+		darkgrey: [169, 169, 169],
+		darkkhaki: [189, 183, 107],
+		darkmagenta: [139, 0, 139],
+		darkolivegreen: [85, 107, 47],
+		darkorange: [255, 140, 0],
+		darkorchid: [153, 50, 204],
+		darkred: [139, 0, 0],
+		darksalmon: [233, 150, 122],
+		darkseagreen: [143, 188, 143],
+		darkslateblue: [72, 61, 139],
+		darkslategray: [47, 79, 79],
+		darkslategrey: [47, 79, 79],
+		darkturquoise: [0, 206, 209],
+		darkviolet: [148, 0, 211],
+		deeppink: [255, 20, 147],
+		deepskyblue: [0, 191, 255],
+		dimgray: [105, 105, 105],
+		dimgrey: [105, 105, 105],
+		dodgerblue: [30, 144, 255],
+		firebrick: [178, 34, 34],
+		floralwhite: [255, 250, 240],
+		forestgreen: [34, 139, 34],
+		fuchsia: [255, 0, 255],
+		gainsboro: [220, 220, 220],
+		ghostwhite: [248, 248, 255],
+		gold: [255, 215, 0],
+		goldenrod: [218, 165, 32],
+		gray: [128, 128, 128],
+		green: [0, 128, 0],
+		greenyellow: [173, 255, 47],
+		grey: [128, 128, 128],
+		honeydew: [240, 255, 240],
+		hotpink: [255, 105, 180],
+		indianred: [205, 92, 92],
+		indigo: [75, 0, 130],
+		ivory: [255, 255, 240],
+		khaki: [240, 230, 140],
+		lavender: [230, 230, 250],
+		lavenderblush: [255, 240, 245],
+		lawngreen: [124, 252, 0],
+		lemonchiffon: [255, 250, 205],
+		lightblue: [173, 216, 230],
+		lightcoral: [240, 128, 128],
+		lightcyan: [224, 255, 255],
+		lightgoldenrodyellow: [250, 250, 210],
+		lightgray: [211, 211, 211],
+		lightgreen: [144, 238, 144],
+		lightgrey: [211, 211, 211],
+		lightpink: [255, 182, 193],
+		lightsalmon: [255, 160, 122],
+		lightseagreen: [32, 178, 170],
+		lightskyblue: [135, 206, 250],
+		lightslategray: [119, 136, 153],
+		lightslategrey: [119, 136, 153],
+		lightsteelblue: [176, 196, 222],
+		lightyellow: [255, 255, 224],
+		lime: [0, 255, 0],
+		limegreen: [50, 205, 50],
+		linen: [250, 240, 230],
+		magenta: [255, 0, 255],
+		maroon: [128, 0, 0],
+		mediumaquamarine: [102, 205, 170],
+		mediumblue: [0, 0, 205],
+		mediumorchid: [186, 85, 211],
+		mediumpurple: [147, 112, 219],
+		mediumseagreen: [60, 179, 113],
+		mediumslateblue: [123, 104, 238],
+		mediumspringgreen: [0, 250, 154],
+		mediumturquoise: [72, 209, 204],
+		mediumvioletred: [199, 21, 133],
+		midnightblue: [25, 25, 112],
+		mintcream: [245, 255, 250],
+		mistyrose: [255, 228, 225],
+		moccasin: [255, 228, 181],
+		navajowhite: [255, 222, 173],
+		navy: [0, 0, 128],
+		oldlace: [253, 245, 230],
+		olive: [128, 128, 0],
+		olivedrab: [107, 142, 35],
+		orange: [255, 165, 0],
+		orangered: [255, 69, 0],
+		orchid: [218, 112, 214],
+		palegoldenrod: [238, 232, 170],
+		palegreen: [152, 251, 152],
+		paleturquoise: [175, 238, 238],
+		palevioletred: [219, 112, 147],
+		papayawhip: [255, 239, 213],
+		peachpuff: [255, 218, 185],
+		peru: [205, 133, 63],
+		pink: [255, 192, 203],
+		plum: [221, 160, 221],
+		powderblue: [176, 224, 230],
+		purple: [128, 0, 128],
+		rebeccapurple: [102, 51, 153],
+		red: [255, 0, 0],
+		rosybrown: [188, 143, 143],
+		royalblue: [65, 105, 225],
+		saddlebrown: [139, 69, 19],
+		salmon: [250, 128, 114],
+		sandybrown: [244, 164, 96],
+		seagreen: [46, 139, 87],
+		seashell: [255, 245, 238],
+		sienna: [160, 82, 45],
+		silver: [192, 192, 192],
+		skyblue: [135, 206, 235],
+		slateblue: [106, 90, 205],
+		slategray: [112, 128, 144],
+		slategrey: [112, 128, 144],
+		snow: [255, 250, 250],
+		springgreen: [0, 255, 127],
+		steelblue: [70, 130, 180],
+		tan: [210, 180, 140],
+		teal: [0, 128, 128],
+		thistle: [216, 191, 216],
+		tomato: [255, 99, 71],
+		turquoise: [64, 224, 208],
+		violet: [238, 130, 238],
+		wheat: [245, 222, 179],
+		white: [255, 255, 255],
+		whitesmoke: [245, 245, 245],
+		yellow: [255, 255, 0],
+		yellowgreen: [154, 205, 50]
+	};
+	
+
+
+/***/ },
+/* 117 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var conversions = __webpack_require__(115);
+	
+	/*
+		this function routes a model to all other models.
+	
+		all functions that are routed have a property `.conversion` attached
+		to the returned synthetic function. This property is an array
+		of strings, each with the steps in between the 'from' and 'to'
+		color models (inclusive).
+	
+		conversions that are not possible simply are not included.
+	*/
+	
+	// https://jsperf.com/object-keys-vs-for-in-with-closure/3
+	var models = Object.keys(conversions);
+	
+	function buildGraph() {
+		var graph = {};
+	
+		for (var len = models.length, i = 0; i < len; i++) {
+			graph[models[i]] = {
+				// http://jsperf.com/1-vs-infinity
+				// micro-opt, but this is simple.
+				distance: -1,
+				parent: null
+			};
+		}
+	
+		return graph;
+	}
+	
+	// https://en.wikipedia.org/wiki/Breadth-first_search
+	function deriveBFS(fromModel) {
+		var graph = buildGraph();
+		var queue = [fromModel]; // unshift -> queue -> pop
+	
+		graph[fromModel].distance = 0;
+	
+		while (queue.length) {
+			var current = queue.pop();
+			var adjacents = Object.keys(conversions[current]);
+	
+			for (var len = adjacents.length, i = 0; i < len; i++) {
+				var adjacent = adjacents[i];
+				var node = graph[adjacent];
+	
+				if (node.distance === -1) {
+					node.distance = graph[current].distance + 1;
+					node.parent = current;
+					queue.unshift(adjacent);
+				}
+			}
+		}
+	
+		return graph;
+	}
+	
+	function link(from, to) {
+		return function (args) {
+			return to(from(args));
+		};
+	}
+	
+	function wrapConversion(toModel, graph) {
+		var path = [graph[toModel].parent, toModel];
+		var fn = conversions[graph[toModel].parent][toModel];
+	
+		var cur = graph[toModel].parent;
+		while (graph[cur].parent) {
+			path.unshift(graph[cur].parent);
+			fn = link(conversions[graph[cur].parent][cur], fn);
+			cur = graph[cur].parent;
+		}
+	
+		fn.conversion = path;
+		return fn;
+	}
+	
+	module.exports = function (fromModel) {
+		var graph = deriveBFS(fromModel);
+		var conversion = {};
+	
+		var models = Object.keys(graph);
+		for (var len = models.length, i = 0; i < len; i++) {
+			var toModel = models[i];
+			var node = graph[toModel];
+	
+			if (node.parent === null) {
+				// no possible conversion, or this node is the source model.
+				continue;
+			}
+	
+			conversion[toModel] = wrapConversion(toModel, graph);
+		}
+	
+		return conversion;
+	};
+	
+
+
+/***/ },
+/* 118 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* MIT license */
@@ -25495,16 +25526,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 132 */
+/* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	
 	/* script */
-	__vue_exports__ = __webpack_require__(133)
+	__vue_exports__ = __webpack_require__(120)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(134)
+	var __vue_template__ = __webpack_require__(121)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -25539,7 +25570,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 133 */
+/* 120 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -25577,7 +25608,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 134 */
+/* 121 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -25608,13 +25639,515 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 135 */
+/* 122 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_exports__, __vue_options__
+	
+	/* script */
+	__vue_exports__ = __webpack_require__(123)
+	
+	/* template */
+	var __vue_template__ = __webpack_require__(124)
+	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+	if (
+	  typeof __vue_exports__.default === "object" ||
+	  typeof __vue_exports__.default === "function"
+	) {
+	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+	__vue_options__ = __vue_exports__ = __vue_exports__.default
+	}
+	if (typeof __vue_options__ === "function") {
+	  __vue_options__ = __vue_options__.options
+	}
+	__vue_options__.name = __vue_options__.name || "ChartjsChart"
+	__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ChartjsChart.vue"
+	__vue_options__.render = __vue_template__.render
+	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+	
+	/* hot reload */
+	if (false) {(function () {
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  module.hot.accept()
+	  if (!module.hot.data) {
+	    hotAPI.createRecord("data-v-1538c521", __vue_options__)
+	  } else {
+	    hotAPI.reload("data-v-1538c521", __vue_options__)
+	  }
+	})()}
+	if (__vue_options__.functional) {console.error("[vue-loader] ChartjsChart.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+	
+	module.exports = __vue_exports__
+
+
+/***/ },
+/* 123 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _chart = __webpack_require__(2);
+	
+	var _chart2 = _interopRequireDefault(_chart);
+	
+	var _constants = __webpack_require__(58);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	//
+	//
+	//
+	//
+	
+	exports.default = {
+		props: {
+			id: {
+				type: String,
+				required: true
+			},
+			type: {
+				type: String,
+				required: true,
+				validator: function validator(value) {
+					return _constants.CHART_TYPES.indexOf(value) !== -1;
+				}
+			},
+			data: {
+				type: Object,
+				required: true
+			},
+			options: {
+				type: Object,
+				required: false,
+				default: function _default() {
+					return {};
+				}
+			}
+		},
+		data: function data() {
+			return {
+				chart: null
+			};
+		},
+		mounted: function mounted() {
+			this.createChart();
+		},
+	
+		watch: {
+			data: function data(_data) {
+				this.chart.data = _data;
+			},
+			options: function options(_options) {
+				this.chart.options = _options;
+			},
+			type: function type(_type) {
+				this.chart.destroy();
+				this.createChart();
+			}
+		},
+		updated: function updated() {
+			this.chart.update();
+		},
+		destroyed: function destroyed() {
+			this.chart.destroy();
+		},
+	
+		methods: {
+			createChart: function createChart() {
+				var ctx = document.querySelector('#' + this.id).getContext('2d');
+				this.chart = new _chart2.default(ctx, {
+					type: this.type,
+					data: this.data,
+					options: this.options
+				});
+			}
+		}
+	};
+
+/***/ },
+/* 124 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){with(this) {
+	  return _h('canvas', {
+	    attrs: {
+	      "id": id
+	    }
+	  })
+	}},staticRenderFns: []}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-hot-reload-api").rerender("data-v-1538c521", module.exports)
+	  }
+	}
+
+/***/ },
+/* 125 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_exports__, __vue_options__
+	
+	/* script */
+	__vue_exports__ = __webpack_require__(126)
+	
+	/* template */
+	var __vue_template__ = __webpack_require__(127)
+	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+	if (
+	  typeof __vue_exports__.default === "object" ||
+	  typeof __vue_exports__.default === "function"
+	) {
+	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+	__vue_options__ = __vue_exports__ = __vue_exports__.default
+	}
+	if (typeof __vue_options__ === "function") {
+	  __vue_options__ = __vue_options__.options
+	}
+	__vue_options__.name = __vue_options__.name || "DataTable"
+	__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/DataTable.vue"
+	__vue_options__.render = __vue_template__.render
+	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+	
+	/* hot reload */
+	if (false) {(function () {
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  module.hot.accept()
+	  if (!module.hot.data) {
+	    hotAPI.createRecord("data-v-961f66ec", __vue_options__)
+	  } else {
+	    hotAPI.reload("data-v-961f66ec", __vue_options__)
+	  }
+	})()}
+	if (__vue_options__.functional) {console.error("[vue-loader] DataTable.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+	
+	module.exports = __vue_exports__
+
+
+/***/ },
+/* 126 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	
+	exports.default = {
+		props: {
+			id: {
+				type: String,
+				required: true
+			},
+			thead: {
+				type: Array,
+				required: true
+			},
+			config: {
+				type: Object,
+				required: false
+			},
+			data: {
+				type: Array,
+				required: true
+			}
+		},
+		mounted: function mounted() {
+			$("#" + this.id).DataTable(Object.assign({}, this.config, { data: this.data }));
+		},
+		beforeUpdate: function beforeUpdate() {
+			$("#" + this.id).DataTable({
+				retrieve: true
+			}).clear().destroy();
+		},
+		updated: function updated() {
+			$("#" + this.id).DataTable(Object.assign({}, this.config, { data: this.data }));
+		},
+		destroyed: function destroyed() {
+			$("#" + this.id).DataTable({
+				retrieve: true
+			}).clear().destroy();
+		}
+	};
+
+/***/ },
+/* 127 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){with(this) {
+	  return _h('table', {
+	    staticClass: "table table-striped table-bordered",
+	    attrs: {
+	      "id": id,
+	      "width": "100%"
+	    }
+	  }, [_h('thead', [_l((thead), function(row, rowIndex) {
+	    return _h('tr', {
+	      key: ("row-" + rowIndex)
+	    }, [_l((row), function(th, thIndex) {
+	      return _h('th', {
+	        key: thIndex,
+	        attrs: {
+	          "rowspan": th.rowspan,
+	          "colspan": th.colspan
+	        }
+	      }, ["\n\t\t\t\t" + _s(th.text || th) + "\n\t\t\t"])
+	    })])
+	  })])])
+	}},staticRenderFns: []}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-hot-reload-api").rerender("data-v-961f66ec", module.exports)
+	  }
+	}
+
+/***/ },
+/* 128 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){with(this) {
+	  return _h('div', {
+	    staticClass: "container body-block"
+	  }, [_h('fieldset', {
+	    staticClass: "show-container"
+	  }, [_m(0), " ", _l((show), function(part, name) {
+	    return _h('label', [_h('input', {
+	      attrs: {
+	        "type": "checkbox"
+	      },
+	      domProps: {
+	        "checked": Array.isArray(show[name]) ? _i(show[name], null) > -1 : _q(show[name], true)
+	      },
+	      on: {
+	        "change": function($event) {
+	          var $$a = show[name],
+	            $$el = $event.target,
+	            $$c = $$el.checked ? (true) : (false);
+	          if (Array.isArray($$a)) {
+	            var $$v = null,
+	              $$i = _i($$a, $$v);
+	            if ($$c) {
+	              $$i < 0 && (show[name] = $$a.concat($$v))
+	            } else {
+	              $$i > -1 && (show[name] = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+	            }
+	          } else {
+	            show[name] = $$c
+	          }
+	        }
+	      }
+	    }), "\n\t\t\t" + _s(camelCaseToWords(name)) + "\n\t\t"])
+	  })]), " ", _h('data-table', {
+	    attrs: {
+	      "id": "aggregate-table",
+	      "thead": tableThead,
+	      "config": tableConfig,
+	      "data": tableData
+	    }
+	  }), " ", (show.graphs) ? _h('div', {
+	    staticClass: "graphs-container"
+	  }, [_h('div', {
+	    staticClass: "row"
+	  }, [(show.competencies) ? _h('div', {
+	    class: graphWidth
+	  }, [_h('chartjs-chart', {
+	    attrs: {
+	      "id": "aggregate-competency-chart",
+	      "type": graphType,
+	      "options": chartOptions,
+	      "data": competencyChartData
+	    }
+	  })]) : _e(), " ", (show.milestones) ? _h('div', {
+	    class: graphWidth
+	  }, [_h('chartjs-chart', {
+	    attrs: {
+	      "id": "aggregate-milestone-chart",
+	      "type": graphType,
+	      "options": chartOptions,
+	      "data": milestoneChartData
+	    }
+	  })]) : _e()]), " ", _h('div', {
+	    staticClass: "row graphs-controls"
+	  }, [_h('div', {
+	    staticClass: "col-sm-offset-5 col-sm-2"
+	  }, [_h('div', {
+	    staticClass: "panel panel-default"
+	  }, [_m(1), " ", _h('div', {
+	    staticClass: "panel-body"
+	  }, [(show.milestones && show.competencies) ? _h('fieldset', [_m(2), " ", _h('div', {
+	    staticClass: "btn-group btn-group-justified",
+	    attrs: {
+	      "data-toggle": "buttons"
+	    }
+	  }, [_h('bootstrap-button-input', {
+	    directives: [{
+	      name: "model",
+	      value: (graphOrientation),
+	      expression: "graphOrientation"
+	    }],
+	    attrs: {
+	      "type": "radio",
+	      "option": "horizontal"
+	    },
+	    domProps: {
+	      "value": (graphOrientation)
+	    },
+	    on: {
+	      "input": function($event) {
+	        graphOrientation = $event
+	      }
+	    }
+	  }, [_m(3)]), " ", _h('bootstrap-button-input', {
+	    directives: [{
+	      name: "model",
+	      value: (graphOrientation),
+	      expression: "graphOrientation"
+	    }],
+	    attrs: {
+	      "type": "radio",
+	      "option": "vertical"
+	    },
+	    domProps: {
+	      "value": (graphOrientation)
+	    },
+	    on: {
+	      "input": function($event) {
+	        graphOrientation = $event
+	      }
+	    }
+	  }, [_m(4)])])]) : _e(), " ", _h('div', {
+	    staticClass: "form-group"
+	  }, [_h('label', {
+	    staticClass: "containing-label"
+	  }, ["\n\t\t\t\t\t\t\t\tType\n\t\t\t\t\t\t\t\t", _h('select', {
+	    directives: [{
+	      name: "model",
+	      value: (graphType),
+	      expression: "graphType"
+	    }],
+	    staticClass: "form-control",
+	    on: {
+	      "change": function($event) {
+	        graphType = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          return "_value" in o ? o._value : o.value
+	        })[0]
+	      }
+	    }
+	  }, [_l((chartTypes), function(type) {
+	    return _h('option', {
+	      domProps: {
+	        "value": type
+	      }
+	    }, ["\n\t\t\t\t\t\t\t\t\t\t" + _s(ucfirst(type)) + "\n\t\t\t\t\t\t\t\t\t"])
+	  })])])])])])])])]) : _e()])
+	}},staticRenderFns: [function (){with(this) {
+	  return _h('legend', ["Show"])
+	}},function (){with(this) {
+	  return _h('div', {
+	    staticClass: "panel-heading"
+	  }, [_h('span', {
+	    staticClass: "panel-title"
+	  }, ["Graph options"])])
+	}},function (){with(this) {
+	  return _h('legend', ["Orientation"])
+	}},function (){with(this) {
+	  return _h('span', {
+	    staticClass: "glyphicon glyphicon-option-horizontal"
+	  })
+	}},function (){with(this) {
+	  return _h('span', {
+	    staticClass: "glyphicon glyphicon-option-vertical"
+	  })
+	}}]}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-hot-reload-api").rerender("data-v-19509019", module.exports)
+	  }
+	}
+
+/***/ },
+/* 129 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_exports__, __vue_options__
+	
+	/* styles */
+	__webpack_require__(130)
+	
+	/* script */
+	__vue_exports__ = __webpack_require__(132)
+	
+	/* template */
+	var __vue_template__ = __webpack_require__(133)
+	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+	if (
+	  typeof __vue_exports__.default === "object" ||
+	  typeof __vue_exports__.default === "function"
+	) {
+	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+	__vue_options__ = __vue_exports__ = __vue_exports__.default
+	}
+	if (typeof __vue_options__ === "function") {
+	  __vue_options__ = __vue_options__.options
+	}
+	__vue_options__.name = __vue_options__.name || "ReportDate"
+	__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ReportDate.vue"
+	__vue_options__.render = __vue_template__.render
+	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+	__vue_options__._scopeId = "data-v-4ee850ac"
+	
+	/* hot reload */
+	if (false) {(function () {
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  module.hot.accept()
+	  if (!module.hot.data) {
+	    hotAPI.createRecord("data-v-4ee850ac", __vue_options__)
+	  } else {
+	    hotAPI.reload("data-v-4ee850ac", __vue_options__)
+	  }
+	})()}
+	if (__vue_options__.functional) {console.error("[vue-loader] ReportDate.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+	
+	module.exports = __vue_exports__
+
+
+/***/ },
+/* 130 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(136);
+	var content = __webpack_require__(131);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(67)(content, {});
@@ -25623,8 +26156,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-19509019&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AggregateReport.vue", function() {
-				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-19509019&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AggregateReport.vue");
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-4ee850ac&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ReportDate.vue", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-4ee850ac&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ReportDate.vue");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -25634,7 +26167,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 136 */
+/* 131 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(66)();
@@ -25642,19 +26175,187 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	
 	// module
-	exports.push([module.id, "\n.show-container label + label[data-v-19509019] {\n\tmargin-left: 2em;\n}\n.graphs-container[data-v-19509019] {\n\tmargin: 2em 0;\n}\n.graphs-container .graphs-controls[data-v-19509019] {\n\tmargin: 2em 0 0;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/AggregateReport.vue?37f223d7"],"names":[],"mappings":";AA2UA;CACA,iBAAA;CACA;AAEA;CACA,cAAA;CACA;AAEA;CACA,gBAAA;CACA","file":"AggregateReport.vue","sourcesContent":["<template>\n\t<div class=\"container body-block\">\n\t\t<fieldset class=\"show-container\">\n\t\t\t<legend>Show</legend>\n\t\t\t<label v-for=\"(part, name) of show\">\n\t\t\t\t<input type=\"checkbox\" v-model=\"show[name]\" />\n\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t</label>\n\t\t</fieldset>\n\n\t\t<data-table id=\"aggregate-table\" :thead=\"tableThead\"\n\t\t\t:config=\"tableConfig\" :data=\"tableData\" />\n\n\t\t<div class=\"graphs-container\" v-if=\"show.graphs\">\n\t\t\t<div class=\"row\">\n\t\t\t\t<div v-if=\"show.competencies\" :class=\"graphWidth\">\n\t\t\t\t\t<chartjs-chart id=\"aggregate-competency-chart\" :type=\"graphType\"\n\t\t\t\t\t\t:options=\"chartOptions\" :data=\"competencyChartData\" />\n\t\t\t\t</div>\n\t\t\t\t<div v-if=\"show.milestones\" :class=\"graphWidth\">\n\t\t\t\t\t<chartjs-chart id=\"aggregate-milestone-chart\" :type=\"graphType\"\n\t\t\t\t\t\t:options=\"chartOptions\" :data=\"milestoneChartData\" />\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"row graphs-controls\">\n\t\t\t\t<div class=\"col-sm-offset-5 col-sm-2\">\n\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t<span class=\"panel-title\">Graph options</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t<fieldset v-if=\"show.milestones && show.competencies\">\n\t\t\t\t\t\t\t\t<legend>Orientation</legend>\n\t\t\t\t\t\t\t\t<div class=\"btn-group btn-group-justified\" data-toggle=\"buttons\">\n\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"horizontal\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"graphOrientation\">\n\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-horizontal\"></span>\n\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"vertical\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"graphOrientation\">\n\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-vertical\"></span>\n\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</fieldset>\n\n\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\t\tType\n\t\t\t\t\t\t\t\t\t<select class=\"form-control\" v-model=\"graphType\">\n\t\t\t\t\t\t\t\t\t\t<option v-for=\"type of chartTypes\" :value=\"type\">\n\t\t\t\t\t\t\t\t\t\t\t{{ ucfirst(type) }}\n\t\t\t\t\t\t\t\t\t\t</option>\n\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport Color from 'color';\n\nimport BootstrapButtonInput from './BootstrapButtonInput.vue';\nimport ChartjsChart from './ChartjsChart.vue';\nimport DataTable from './DataTable.vue';\n\nimport { CHART_COLORS } from '../modules/constants.js';\nimport { camelCaseToWords, ucfirst } from '../modules/utils.js';\n\nexport default {\n\tprops: [\n\t\t'report'\n\t],\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tmilestones: false,\n\t\t\t\tcompetencies: true,\n\t\t\t\tstandardDeviations: false,\n\t\t\t\tgraphs: true\n\t\t\t},\n\t\t\tgraphType: 'radar',\n\t\t\tgraphOrientation: 'vertical'\n\t\t};\n\t},\n\tcomputed: {\n\t\tcolsPerItem(){\n\t\t\treturn this.show.standardDeviations\n\t\t\t\t? 3\n\t\t\t\t: 2;\n\t\t},\n\t\tmilestoneColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.milestones).length;\n\t\t},\n\t\tcompetencyColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.competencies).length;\n\t\t},\n\t\ttableThead(){\n\t\t\tlet thead = [];\n\t\t\tlet row = [];\n\t\t\trow.push({rowspan: 3, text: 'Trainee'});\n\t\t\tif(this.show.milestones)\n\t\t\t\trow.push({\n\t\t\t\t\tcolspan: this.milestoneColspan,\n\t\t\t\t\ttext: 'Milestones'\n\t\t\t\t});\n\t\t\tif(this.show.competencies)\n\t\t\t\trow.push({\n\t\t\t\t\tcolspan: this.competencyColspan,\n\t\t\t\t\ttext: 'Competencies'\n\t\t\t\t});\n\t\t\trow.push({colspan: 3, text: 'All'});\n\t\t\tthead.push(row);\n\n\t\t\trow = [];\n\t\t\tif(this.show.milestones){\n\t\t\t\tfor(let milestoneId in this.report.milestones){\n\t\t\t\t\trow.push({\n\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\ttext: this.report.milestones[milestoneId]\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t}\n\t\t\tif(this.show.competencies){\n\t\t\t\tfor(let competencyId in this.report.competencies){\n\t\t\t\t\trow.push({\n\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\ttext: this.report.competencies[competencyId]\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t}\n\t\t\trow.push({colspan: 3, text: 'Total'});\n\t\t\tthead.push(row);\n\n\t\t\trow = [];\n\t\t\tif(this.show.milestones){\n\t\t\t\tfor(let milestoneId in this.report.milestones){\n\t\t\t\t\trow.push({text: 'Average'});\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\trow.push({text: 'Std. Dev.'});\n\t\t\t\t\trow.push({text: '#'});\n\t\t\t\t}\n\t\t\t}\n\t\t\tif(this.show.competencies){\n\t\t\t\tfor(let competencyId in this.report.competencies){\n\t\t\t\t\trow.push({text: 'Average'});\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\trow.push({text: 'Std. Dev.'});\n\t\t\t\t\trow.push({text: '#'});\n\t\t\t\t}\n\t\t\t}\n\t\t\trow.push({text: '# Evaluators'});\n\t\t\trow.push({text: '# Evaluations'});\n\t\t\trow.push({text: '# Trainee Requests'});\n\t\t\tthead.push(row);\n\n\t\t\treturn thead;\n\t\t},\n\t\ttableConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tdom: 'lfprtip',\n\t\t\t\tscrollX: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tfixedColumns: true,\n\t\t\t};\n\t\t},\n\t\ttableData(){\n\t\t\tlet data = [];\n\t\t\tfor(let subjectId in this.report.subjects){\n\t\t\t\tlet row = [];\n\t\t\t\trow.push(this.report.subjects[subjectId]);\n\t\t\t\tif(this.show.milestones){\n\t\t\t\t\tfor(let milestoneId in this.report.milestones){\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectMilestone\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestone[subjectId][milestoneId]).toFixed(2)\n\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t);\n\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectMilestoneDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneDeviations[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestoneDeviations[subjectId][milestoneId]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectMilestoneEvals\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneEvals[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneEvals[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestoneEvals[subjectId][milestoneId]).toFixed()\n\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tif(this.show.competencies){\n\t\t\t\t\tfor(let competencyId in this.report.competencies){\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectCompetency\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId][competencyId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetency[subjectId][competencyId]).toFixed(2)\n\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t);\n\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectCompetencyDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyDeviations[subjectId][competencyId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetencyDeviations[subjectId][competencyId]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectCompetencyEvals\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyEvals[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyEvals[subjectId][competencyId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetencyEvals[subjectId][competencyId]).toFixed()\n\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\trow.push(Object.keys(this.report.subjectEvaluators[subjectId]).length);\n\t\t\t\trow.push(Object.keys(this.report.subjectEvals[subjectId]).length);\n\t\t\t\trow.push(Object.keys(this.report.subjectRequests[subjectId]).length);\n\n\t\t\t\tdata.push(row);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\t\tchartTypes(){\n\t\t\treturn [\n\t\t\t\t'radar',\n\t\t\t\t'line',\n\t\t\t\t'bar'\n\t\t\t];\n\t\t},\n\t\tgraphWidth(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': this.graphOrientation === 'horizontal',\n\t\t\t\t'col-md-12': this.graphOrientation === 'vertical'\n\t\t\t};\n\t\t},\n\t\tchartOptions(){\n\t\t\treturn {\n\t\t\t\tlegend: {\n\t\t\t\t\tlabels: {\n\t\t\t\t\t\tfontSize: 18,\n\t\t\t\t\t\tfontColor: '#333'\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tcallbacks: {\n\t\t\t\t\t\tlabel(tooltip, data){\n\t\t\t\t\t\t\tlet value = parseFloat(tooltip.yLabel).toFixed(2);\n\t\t\t\t\t\t\tlet name = data.datasets[tooltip.datasetIndex].label;\n\t\t\t\t\t\t\treturn `${name}: ${value}`;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t};\n\t\t},\n\t\tcompetencyChartData(){\n\t\t\tlet color = Color(CHART_COLORS.COMPETENCY);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: Object.values(this.report.competencies),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Average Competencies',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: Object.values(this.report.averageCompetency)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tmilestoneChartData(){\n\t\t\tlet color = Color(CHART_COLORS.MILESTONE);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: Object.values(this.report.milestones),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Average Milestones',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: Object.values(this.report.averageMilestone)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords,\n\t\tucfirst\n\t},\n\tcomponents: {\n\t\tBootstrapButtonInput,\n\t\tChartjsChart,\n\t\tDataTable\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-container label + label {\n\t\tmargin-left: 2em;\n\t}\n\n\t.graphs-container {\n\t\tmargin: 2em 0;\n\t}\n\n\t.graphs-container .graphs-controls {\n\t\tmargin: 2em 0 0;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"ReportDate.vue","sourceRoot":"webpack://"}]);
 	
 	// exports
 
 
 /***/ },
-/* 137 */
+/* 132 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	
+	exports.default = {
+		props: ['value'],
+		mounted: function mounted() {
+			$('#reports-start-date, #reports-end-date').datepicker({
+				dateFormat: "yy-mm-dd",
+				onSelect: function onSelect() {
+					this.dispatchEvent(new Event('input'));
+				}
+			});
+		},
+	
+		methods: {
+			handleInput: function handleInput(prop, value) {
+				var newValue = Object.assign({}, this.value, _defineProperty({}, prop, value));
+				this.$emit('input', newValue);
+			}
+		}
+	};
+
+/***/ },
+/* 133 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){with(this) {
+	  return _h('div', {
+	    staticClass: "form-horizontal"
+	  }, [_h('div', {
+	    staticClass: "form-group"
+	  }, [_h('div', {
+	    staticClass: "col-md-4"
+	  }, [_m(0), " ", _h('input', {
+	    staticClass: "form-control",
+	    attrs: {
+	      "type": "text",
+	      "id": "reports-start-date"
+	    },
+	    domProps: {
+	      "value": value.startDate
+	    },
+	    on: {
+	      "input": function($event) {
+	        handleInput('startDate', $event.target.value)
+	      }
+	    }
+	  })]), " ", _h('div', {
+	    staticClass: "col-md-4"
+	  }, [_m(1), " ", _h('input', {
+	    staticClass: "form-control",
+	    attrs: {
+	      "type": "text",
+	      "id": "reports-end-date"
+	    },
+	    domProps: {
+	      "value": value.endDate
+	    },
+	    on: {
+	      "input": function($event) {
+	        handleInput('endDate', $event.target.value)
+	      }
+	    }
+	  })]), " ", _m(2)])])
+	}},staticRenderFns: [function (){with(this) {
+	  return _h('label', {
+	    attrs: {
+	      "for": "reports-start-date"
+	    }
+	  }, ["Start Date"])
+	}},function (){with(this) {
+	  return _h('label', {
+	    attrs: {
+	      "for": "reports-end-date"
+	    }
+	  }, ["End Date"])
+	}},function (){with(this) {
+	  return _h('div', {
+	    staticClass: "col-md-4"
+	  })
+	}}]}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-hot-reload-api").rerender("data-v-4ee850ac", module.exports)
+	  }
+	}
+
+/***/ },
+/* 134 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_exports__, __vue_options__
+	
+	/* styles */
+	__webpack_require__(135)
+	
+	/* script */
+	__vue_exports__ = __webpack_require__(137)
+	
+	/* template */
+	var __vue_template__ = __webpack_require__(138)
+	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+	if (
+	  typeof __vue_exports__.default === "object" ||
+	  typeof __vue_exports__.default === "function"
+	) {
+	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+	__vue_options__ = __vue_exports__ = __vue_exports__.default
+	}
+	if (typeof __vue_options__ === "function") {
+	  __vue_options__ = __vue_options__.options
+	}
+	__vue_options__.name = __vue_options__.name || "StatsReport"
+	__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/StatsReport.vue"
+	__vue_options__.render = __vue_template__.render
+	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+	__vue_options__._scopeId = "data-v-8f4ff40e"
+	
+	/* hot reload */
+	if (false) {(function () {
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  module.hot.accept()
+	  if (!module.hot.data) {
+	    hotAPI.createRecord("data-v-8f4ff40e", __vue_options__)
+	  } else {
+	    hotAPI.reload("data-v-8f4ff40e", __vue_options__)
+	  }
+	})()}
+	if (__vue_options__.functional) {console.error("[vue-loader] StatsReport.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+	
+	module.exports = __vue_exports__
+
+
+/***/ },
+/* 135 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(138);
+	var content = __webpack_require__(136);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(67)(content, {});
@@ -25674,7 +26375,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 138 */
+/* 136 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(66)();
@@ -25682,10 +26383,470 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	
 	// module
-	exports.push([module.id, "\n.show-container label + label[data-v-8f4ff40e] {\n\tmargin-left: 2em;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/StatsReport.vue?2ac5dc9a"],"names":[],"mappings":";AA6DA;CACA,iBAAA;CACA","file":"StatsReport.vue","sourcesContent":["<template>\n\t<div class=\"container body-block\">\n\t\t<fieldset class=\"show-container\">\n\t\t\t<legend>Show</legend>\n\t\t\t<label v-for=\"(part, name) of show\">\n\t\t\t\t<input type=\"checkbox\" v-model=\"show[name]\" />\n\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t</label>\n\t\t</fieldset>\n\n\n\t</div>\n</template>\n\n<script>\nimport DataTable from './DataTable.vue';\n\nimport { camelCaseToWords } from '../modules/utils.js';\n\nexport default {\n\tprops: [\n\n\t],\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tratio: false,\n\t\t\t\tgraph: false,\n\t\t\t\tnoRequests: false,\n\t\t\t\tnoneCompleted: false,\n\t\t\t\tlastCompleted: false\n\t\t\t}\n\t\t};\n\t},\n\tcomputed: {\n\t\tstatsThead(){\n\t\t\treturn [\n\t\t\t\t'User',\n\t\t\t\t'Requested',\n\t\t\t\t'Total Requests',\n\t\t\t\t'Total Completed',\n\t\t\t\t'Total Ratio'\n\t\t\t];\n\t\t},\n\t\tstatsConfig(){\n\n\t\t},\n\t\tstatsData(){\n\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords\n\t},\n\tcomponents: {\n\t\tDataTable\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-container label + label {\n\t\tmargin-left: 2em;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\n.show-container label + label[data-v-8f4ff40e] {\n\tmargin-left: 2em;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/StatsReport.vue?f3b72ce4"],"names":[],"mappings":";AAuLA;CACA,iBAAA;CACA","file":"StatsReport.vue","sourcesContent":["<template>\n\t<div class=\"container body-block\">\n\t\t<fieldset class=\"show-container\">\n\t\t\t<legend>Show</legend>\n\t\t\t<label v-for=\"(part, name) of show\">\n\t\t\t\t<input type=\"checkbox\" v-model=\"show[name]\" />\n\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t</label>\n\t\t</fieldset>\n\n\t\t<div class=\"row\">\n\t\t\t<div v-if=\"show.noRequests\" :class=\"listTableClass\">\n\t\t\t\t<h3>No requests</h3>\n\t\t\t\t<data-table id=\"stats-no-requests\"\n\t\t\t\t\t:thead=\"noRequestsThead\" :config=\"listTableConfig\"\n\t\t\t\t\t:data=\"noRequestsData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.noneCompleted\" :class=\"listTableClass\">\n\t\t\t\t<h3>None completed</h3>\n\t\t\t\t<data-table id=\"stats-none-completed\"\n\t\t\t\t\t:thead=\"noneCompletedThead\" :config=\"listTableConfig\"\n\t\t\t\t\t:data=\"noneCompletedData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.averageCompletionTimes\" :class=\"listTableClass\">\n\t\t\t\t<h3>Average completion times</h3>\n\t\t\t\t<data-table id=\"stats-average-completion-times\"\n\t\t\t\t\t:thead=\"averageCompletionTimesThead\"\n\t\t\t\t\t:config=\"averageCompletionTimesConfig\"\n\t\t\t\t\t:data=\"averageCompletionTimesData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.lastCompleted\" :class=\"listTableClass\">\n\t\t\t\t<h3>Last completed evaluations</h3>\n\t\t\t\t<data-table id=\"stats-last-completed\"\n\t\t\t\t\t:thead=\"lastCompletedThead\" :config=\"lastCompletedConfig\"\n\t\t\t\t\t:data=\"lastCompletedData\" />\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport DataTable from './DataTable.vue';\n\nimport { createDateCell, renderDateCell } from '../modules/datatable-utils.js';\nimport { camelCaseToWords } from '../modules/utils.js';\n\nexport default {\n\tprops: {\n\t\treport: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tratio: false,\n\t\t\t\tgraph: false,\n\t\t\t\tnoRequests: false,\n\t\t\t\tnoneCompleted: false,\n\t\t\t\taverageCompletionTimes: false,\n\t\t\t\tlastCompleted: false\n\t\t\t}\n\t\t};\n\t},\n\tcomputed: {\n\t\tstatsThead(){\n\t\t\treturn [\n\t\t\t\t'User',\n\t\t\t\t'Requested',\n\t\t\t\t'Total Requests',\n\t\t\t\t'Total Completed',\n\t\t\t\t'Total Ratio'\n\t\t\t];\n\t\t},\n\t\tstatsConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true\n\t\t\t};\n\t\t},\n\t\tstatsData(){\n\t\t\tlet data = [];\n\t\t\tfor(let stat of this.report.userStats){\n\t\t\t\tdata.push([\n\t\t\t\t\tstat.name,\n\t\t\t\t\tstat.requested,\n\t\t\t\t\tstat.totalRequests,\n\t\t\t\t\tstat.completed,\n\t\t\t\t\tstat.ratio\n\t\t\t\t]);\n\t\t\t}\n\t\t},\n\t\tlistTableClass(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': true\n\t\t\t};\n\t\t},\n\t\tlistTableConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tfixedHeader: true\n\t\t\t};\n\t\t},\n\t\tnoRequestsThead(){\n\t\t\treturn [\n\t\t\t\t['No requests']\n\t\t\t];\n\t\t},\n\t\tnoRequestsData(){\n\t\t\treturn this.report.noneRequested.map(name => [name]);\n\t\t},\n\t\tnoneCompletedThead(){\n\t\t\treturn [\n\t\t\t\t['No completed evals']\n\t\t\t];\n\t\t},\n\t\tnoneCompletedData(){\n\t\t\treturn this.report.noneCompleted.map(name => [name]);\n\t\t},\n\t\taverageCompletionTimesThead(){\n\t\t\treturn [\n\t\t\t\t['User', 'Time']\n\t\t\t];\n\t\t},\n\t\taverageCompletionTimesConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tcolumns: [\n\t\t\t\t\t{data: 'name'},\n\t\t\t\t\t{data: 'time'}\n\t\t\t\t],\n\t\t\t\tfixedHeader: true\n\t\t\t};\n\t\t},\n\t\taverageCompletionTimesData(){\n\t\t\treturn this.report.averageCompletionTimes;\n\t\t},\n\t\tlastCompletedThead(){\n\t\t\treturn [\n\t\t\t\t['User', 'Date']\n\t\t\t];\n\t\t},\n\t\tlastCompletedConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tcolumns: [\n\t\t\t\t\t{data: 'name'},\n\t\t\t\t\t{\n\t\t\t\t\t\tdata: 'date.date',\n\t\t\t\t\t\trender: renderDateCell,\n\t\t\t\t\t\tcreatedCell: createDateCell\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\tfixedHeader: true\n\t\t\t};\n\t\t},\n\t\tlastCompletedData(){\n\t\t\treturn this.report.lastCompleted;\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords\n\t},\n\tcomponents: {\n\t\tDataTable\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-container label + label {\n\t\tmargin-left: 2em;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
+
+/***/ },
+/* 137 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _DataTable = __webpack_require__(125);
+	
+	var _DataTable2 = _interopRequireDefault(_DataTable);
+	
+	var _datatableUtils = __webpack_require__(57);
+	
+	var _utils = __webpack_require__(59);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = {
+		props: {
+			report: {
+				type: Object,
+				required: true
+			}
+		},
+		data: function data() {
+			return {
+				show: {
+					ratio: false,
+					graph: false,
+					noRequests: false,
+					noneCompleted: false,
+					averageCompletionTimes: false,
+					lastCompleted: false
+				}
+			};
+		},
+	
+		computed: {
+			statsThead: function statsThead() {
+				return ['User', 'Requested', 'Total Requests', 'Total Completed', 'Total Ratio'];
+			},
+			statsConfig: function statsConfig() {
+				return {
+					order: [[0, 'asc']],
+					stateSave: true
+				};
+			},
+			statsData: function statsData() {
+				var data = [];
+				var _iteratorNormalCompletion = true;
+				var _didIteratorError = false;
+				var _iteratorError = undefined;
+	
+				try {
+					for (var _iterator = this.report.userStats[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var stat = _step.value;
+	
+						data.push([stat.name, stat.requested, stat.totalRequests, stat.completed, stat.ratio]);
+					}
+				} catch (err) {
+					_didIteratorError = true;
+					_iteratorError = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion && _iterator.return) {
+							_iterator.return();
+						}
+					} finally {
+						if (_didIteratorError) {
+							throw _iteratorError;
+						}
+					}
+				}
+			},
+			listTableClass: function listTableClass() {
+				return {
+					'col-md-6': true
+				};
+			},
+			listTableConfig: function listTableConfig() {
+				return {
+					order: [[0, 'asc']],
+					stateSave: true,
+					scrollY: '500px',
+					scrollCollapse: true,
+					paging: false,
+					fixedHeader: true
+				};
+			},
+			noRequestsThead: function noRequestsThead() {
+				return [['No requests']];
+			},
+			noRequestsData: function noRequestsData() {
+				return this.report.noneRequested.map(function (name) {
+					return [name];
+				});
+			},
+			noneCompletedThead: function noneCompletedThead() {
+				return [['No completed evals']];
+			},
+			noneCompletedData: function noneCompletedData() {
+				return this.report.noneCompleted.map(function (name) {
+					return [name];
+				});
+			},
+			averageCompletionTimesThead: function averageCompletionTimesThead() {
+				return [['User', 'Time']];
+			},
+			averageCompletionTimesConfig: function averageCompletionTimesConfig() {
+				return {
+					order: [[0, 'asc']],
+					stateSave: true,
+					scrollY: '500px',
+					scrollCollapse: true,
+					paging: false,
+					columns: [{ data: 'name' }, { data: 'time' }],
+					fixedHeader: true
+				};
+			},
+			averageCompletionTimesData: function averageCompletionTimesData() {
+				return this.report.averageCompletionTimes;
+			},
+			lastCompletedThead: function lastCompletedThead() {
+				return [['User', 'Date']];
+			},
+			lastCompletedConfig: function lastCompletedConfig() {
+				return {
+					order: [[0, 'asc']],
+					stateSave: true,
+					scrollY: '500px',
+					scrollCollapse: true,
+					paging: false,
+					columns: [{ data: 'name' }, {
+						data: 'date.date',
+						render: _datatableUtils.renderDateCell,
+						createdCell: _datatableUtils.createDateCell
+					}],
+					fixedHeader: true
+				};
+			},
+			lastCompletedData: function lastCompletedData() {
+				return this.report.lastCompleted;
+			}
+		},
+		methods: {
+			camelCaseToWords: _utils.camelCaseToWords
+		},
+		components: {
+			DataTable: _DataTable2.default
+		}
+	}; //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+
+/***/ },
+/* 138 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){with(this) {
+	  return _h('div', {
+	    staticClass: "container body-block"
+	  }, [_h('fieldset', {
+	    staticClass: "show-container"
+	  }, [_m(0), " ", _l((show), function(part, name) {
+	    return _h('label', [_h('input', {
+	      attrs: {
+	        "type": "checkbox"
+	      },
+	      domProps: {
+	        "checked": Array.isArray(show[name]) ? _i(show[name], null) > -1 : _q(show[name], true)
+	      },
+	      on: {
+	        "change": function($event) {
+	          var $$a = show[name],
+	            $$el = $event.target,
+	            $$c = $$el.checked ? (true) : (false);
+	          if (Array.isArray($$a)) {
+	            var $$v = null,
+	              $$i = _i($$a, $$v);
+	            if ($$c) {
+	              $$i < 0 && (show[name] = $$a.concat($$v))
+	            } else {
+	              $$i > -1 && (show[name] = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+	            }
+	          } else {
+	            show[name] = $$c
+	          }
+	        }
+	      }
+	    }), "\n\t\t\t" + _s(camelCaseToWords(name)) + "\n\t\t"])
+	  })]), " ", _h('div', {
+	    staticClass: "row"
+	  }, [(show.noRequests) ? _h('div', {
+	    class: listTableClass
+	  }, [_m(1), " ", _h('data-table', {
+	    attrs: {
+	      "id": "stats-no-requests",
+	      "thead": noRequestsThead,
+	      "config": listTableConfig,
+	      "data": noRequestsData
+	    }
+	  })]) : _e(), " ", (show.noneCompleted) ? _h('div', {
+	    class: listTableClass
+	  }, [_m(2), " ", _h('data-table', {
+	    attrs: {
+	      "id": "stats-none-completed",
+	      "thead": noneCompletedThead,
+	      "config": listTableConfig,
+	      "data": noneCompletedData
+	    }
+	  })]) : _e(), " ", (show.averageCompletionTimes) ? _h('div', {
+	    class: listTableClass
+	  }, [_m(3), " ", _h('data-table', {
+	    attrs: {
+	      "id": "stats-average-completion-times",
+	      "thead": averageCompletionTimesThead,
+	      "config": averageCompletionTimesConfig,
+	      "data": averageCompletionTimesData
+	    }
+	  })]) : _e(), " ", (show.lastCompleted) ? _h('div', {
+	    class: listTableClass
+	  }, [_m(4), " ", _h('data-table', {
+	    attrs: {
+	      "id": "stats-last-completed",
+	      "thead": lastCompletedThead,
+	      "config": lastCompletedConfig,
+	      "data": lastCompletedData
+	    }
+	  })]) : _e()])])
+	}},staticRenderFns: [function (){with(this) {
+	  return _h('legend', ["Show"])
+	}},function (){with(this) {
+	  return _h('h3', ["No requests"])
+	}},function (){with(this) {
+	  return _h('h3', ["None completed"])
+	}},function (){with(this) {
+	  return _h('h3', ["Average completion times"])
+	}},function (){with(this) {
+	  return _h('h3', ["Last completed evaluations"])
+	}}]}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-hot-reload-api").rerender("data-v-8f4ff40e", module.exports)
+	  }
+	}
+
+/***/ },
+/* 139 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){with(this) {
+	  return _h('div', [_h('div', {
+	    staticClass: "container body-block"
+	  }, [_m(0), " ", _h('report-date', {
+	    directives: [{
+	      name: "model",
+	      value: (dates),
+	      expression: "dates"
+	    }],
+	    domProps: {
+	      "value": (dates)
+	    },
+	    on: {
+	      "input": function($event) {
+	        dates = $event
+	      }
+	    }
+	  }), " ", _h('div', {
+	    staticClass: "form-group"
+	  }, [_h('label', [_h('input', {
+	    attrs: {
+	      "type": "checkbox"
+	    },
+	    domProps: {
+	      "checked": Array.isArray(filterMilestones) ? _i(filterMilestones, null) > -1 : _q(filterMilestones, true)
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$a = filterMilestones,
+	          $$el = $event.target,
+	          $$c = $$el.checked ? (true) : (false);
+	        if (Array.isArray($$a)) {
+	          var $$v = null,
+	            $$i = _i($$a, $$v);
+	          if ($$c) {
+	            $$i < 0 && (filterMilestones = $$a.concat($$v))
+	          } else {
+	            $$i > -1 && (filterMilestones = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+	          }
+	        } else {
+	          filterMilestones = $$c
+	        }
+	      }
+	    }
+	  }), "\n\t\t\t\tFilter milestones\n\t\t\t"])]), " ", (filterMilestones) ? _h('fieldset', [_m(1), " ", _l((milestoneGroups), function(milestoneGroup, index) {
+	    return _h('div', {
+	      staticClass: "milestone-group col-xs-6 col-sm-4 col-md-3"
+	    }, [_h('div', {
+	      staticClass: "panel panel-default"
+	    }, [_h('div', {
+	      staticClass: "panel-heading"
+	    }, [_h('label', {
+	      staticClass: "panel-title"
+	    }, [_h('input', {
+	      attrs: {
+	        "type": "checkbox"
+	      },
+	      domProps: {
+	        "checked": isEntireMilestoneGroupSelected(index)
+	      },
+	      on: {
+	        "click": function($event) {
+	          toggleEntireMilestoneGroup(index)
+	        }
+	      }
+	    }), "\n\t\t\t\t\t\t\t" + _s(milestoneGroup.text) + "\n\t\t\t\t\t\t"])]), " ", _h('div', {
+	      staticClass: "panel-body"
+	    }, [_l((milestoneGroup.children), function(child) {
+	      return _h('div', {
+	        staticClass: "form-group"
+	      }, [_h('label', [_h('input', {
+	        attrs: {
+	          "type": "checkbox"
+	        },
+	        domProps: {
+	          "value": child.id,
+	          "checked": Array.isArray(milestones) ? _i(milestones, child.id) > -1 : _q(milestones, true)
+	        },
+	        on: {
+	          "change": function($event) {
+	            var $$a = milestones,
+	              $$el = $event.target,
+	              $$c = $$el.checked ? (true) : (false);
+	            if (Array.isArray($$a)) {
+	              var $$v = child.id,
+	                $$i = _i($$a, $$v);
+	              if ($$c) {
+	                $$i < 0 && (milestones = $$a.concat($$v))
+	              } else {
+	                $$i > -1 && (milestones = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+	              }
+	            } else {
+	              milestones = $$c
+	            }
+	          }
+	        }
+	      }), "\n\t\t\t\t\t\t\t\t" + _s(child.text) + "\n\t\t\t\t\t\t\t"])])
+	    })])])])
+	  })]) : _e(), " ", _h('button', {
+	    staticClass: "btn btn-lg btn-primary",
+	    attrs: {
+	      "type": "button"
+	    },
+	    on: {
+	      "click": runReport
+	    }
+	  }, ["\n\t\t\tRun report\n\t\t"])]), " ", (report) ? _h('div', [(report.stats) ? _h('stats-report', {
+	    attrs: {
+	      "report": report.stats
+	    }
+	  }) : _e(), " ", (report.aggregate) ? _h('aggregate-report', {
+	    attrs: {
+	      "report": report.aggregate
+	    }
+	  }) : _e()]) : _e()])
+	}},staticRenderFns: [function (){with(this) {
+	  return _h('h2', ["Trainee report"])
+	}},function (){with(this) {
+	  return _h('legend', ["Milestones"])
+	}}]}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-hot-reload-api").rerender("data-v-155d597c", module.exports)
+	  }
+	}
+
+/***/ },
+/* 140 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){with(this) {
+	  return _h('div', [(reportType) ? _h('div', [(reportType === REPORT_TYPES.TRAINEE) ? _h('trainee-report') : _e(), " ", (reportType === REPORT_TYPES.FORM) ? _h('form-report') : _e(), " ", _h('div', {
+	    staticClass: "text-center"
+	  }, [_h('button', {
+	    staticClass: "btn btn-lg btn-default",
+	    attrs: {
+	      "type": "button"
+	    },
+	    on: {
+	      "click": handleResetClick
+	    }
+	  }, ["\n\t\t\t\tStart over\n\t\t\t"])])]) : _h('div', {
+	    staticClass: "container body-block"
+	  }, [_h('fieldset', [_h('legend', ["Report type"]), " ", _h('div', {
+	    staticClass: "form-inline"
+	  }, [_l((REPORT_TYPES), function(type) {
+	    return _h('div', {
+	      staticClass: "form-group col-sm-2"
+	    }, [_h('button', {
+	      staticClass: "btn lg btn-primary",
+	      attrs: {
+	        "type": "button"
+	      },
+	      on: {
+	        "click": function($event) {
+	          setReportType(type)
+	        }
+	      }
+	    }, ["\n\t\t\t\t\t\t" + _s(ucfirst(type)) + "\n\t\t\t\t\t"])])
+	  })])])]), " "])
+	}},staticRenderFns: []}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-hot-reload-api").rerender("data-v-25c733f6", module.exports)
+	  }
+	}
 
 /***/ }
 /******/ ])

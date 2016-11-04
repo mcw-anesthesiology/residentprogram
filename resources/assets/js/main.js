@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 window.Chart1 = window.Chart;
 
 $.ajaxSetup({
@@ -446,7 +448,7 @@ $(".toggle-descriptions").click(function(){
 	}
 });
 
-$("table").on("mouseenter", ".table-date-cell", function(){
+$(document).on("mouseenter", ".table-date-cell", function(){
 	var date = $(this).data("date-value");
 	if(date){
 		$(this).data("original-value", $(this).text());
@@ -454,7 +456,7 @@ $("table").on("mouseenter", ".table-date-cell", function(){
 	}
 });
 
-$("table").on("mouseenter", ".table-date-time-cell", function(){
+$(document).on("mouseenter", ".table-date-time-cell", function(){
 	var date = $(this).data("date-value");
 	if(date){
 		$(this).data("original-value", $(this).text());
@@ -462,7 +464,7 @@ $("table").on("mouseenter", ".table-date-time-cell", function(){
 	}
 });
 
-$("table").on("mouseleave", ".table-date-cell, .table-date-time-cell", function(){
+$(document).on("mouseleave", ".table-date-cell, .table-date-time-cell", function(){
 	var originalValue = $(this).data("originalValue");
 	if(originalValue)
 		$(this).text(originalValue);

@@ -25,17 +25,13 @@ export default {
 		},
 		config: {
 			type: Object,
-			default(){
-
-			}
+			required: false
 		},
-	}
-	[
-		'id',
-		'thead',
-		'config',
-		'data'
-	],
+		data: {
+			type: Array,
+			required: true
+		}
+	},
 	mounted(){
 		$(`#${this.id}`).DataTable(Object.assign({}, this.config, {data: this.data}));
 	},

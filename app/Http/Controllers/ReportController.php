@@ -122,7 +122,10 @@ class ReportController extends Controller
                     $eval = $userEvals->where("status", "complete")
                         ->sortByDesc("complete_date")->first();
                     if(!empty($eval))
-                        $lastCompleted[$user->full_name] = $eval->complete_date;
+						$lastCompleted[] = [
+							"name" => $user->full_name,
+							"date" => $eval->complete_date
+						];
                 }
 
 
@@ -156,7 +159,10 @@ class ReportController extends Controller
                     $d1 = new DateTime();
                     $d2 = new DateTime();
                     $d2->add(new DateInterval("PT".$time."S"));
-                    $times[$user->full_name] = $d2->diff($d1)->format("%a days %H hours");
+					$times[] = [
+						"name" => $user->full_name,
+						"time" => $d2->diff($d1)->format("%a days %H hours")
+					];
                 }
             } catch(\Exception $e){
                 Log::error("Problem with user in stats: ".$e);
