@@ -124,7 +124,7 @@ class ReportController extends Controller
                     if(!empty($eval))
 						$lastCompleted[] = [
 							"name" => $user->full_name,
-							"date" => $eval->complete_date
+							"evaluation" => $eval
 						];
                 }
 

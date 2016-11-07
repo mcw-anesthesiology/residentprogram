@@ -28,7 +28,23 @@ export default {
 			type: Object,
 			required: false,
 			default(){
-				return {};
+				return {
+					legend: {
+						labels: {
+							fontSize: 18,
+							fontColor: '#333'
+						}
+					},
+					tooltips: {
+						callbacks: {
+							label(tooltip, data){
+								let value = parseFloat(tooltip.yLabel).toFixed(2);
+								let name = data.datasets[tooltip.datasetIndex].label;
+								return `${name}: ${value}`;
+							}
+						}
+					}
+				};
 			}
 		}
 	},
@@ -45,7 +61,8 @@ export default {
 			this.chart.data = data;
 		},
 		options(options){
-			this.chart.options = options;
+			this.chart.destroy();
+			this.createChart();
 		},
 		type(type){
 			this.chart.destroy();

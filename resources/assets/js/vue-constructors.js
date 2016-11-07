@@ -20676,7 +20676,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	__vue_exports__ = __webpack_require__(99)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(140)
+	var __vue_template__ = __webpack_require__(142)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -20840,7 +20840,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	__vue_exports__ = __webpack_require__(103)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(139)
+	var __vue_template__ = __webpack_require__(141)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -20929,11 +20929,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _AggregateReport2 = _interopRequireDefault(_AggregateReport);
 	
-	var _ReportDate = __webpack_require__(129);
+	var _ReportDate = __webpack_require__(131);
 	
 	var _ReportDate2 = _interopRequireDefault(_ReportDate);
 	
-	var _StatsReport = __webpack_require__(134);
+	var _StatsReport = __webpack_require__(136);
 	
 	var _StatsReport2 = _interopRequireDefault(_StatsReport);
 	
@@ -21117,7 +21117,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	__vue_exports__ = __webpack_require__(107)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(128)
+	var __vue_template__ = __webpack_require__(130)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -21214,7 +21214,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _ChartjsChart2 = _interopRequireDefault(_ChartjsChart);
 	
-	var _DataTable = __webpack_require__(125);
+	var _DataTable = __webpack_require__(127);
 	
 	var _DataTable2 = _interopRequireDefault(_DataTable);
 	
@@ -25645,10 +25645,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var __vue_exports__, __vue_options__
 	
 	/* script */
-	__vue_exports__ = __webpack_require__(123)
+	__vue_exports__ = __webpack_require__(125)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(124)
+	var __vue_template__ = __webpack_require__(126)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -25683,7 +25683,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 123 */
+/* 123 */,
+/* 124 */,
+/* 125 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25726,7 +25728,23 @@ return /******/ (function(modules) { // webpackBootstrap
 				type: Object,
 				required: false,
 				default: function _default() {
-					return {};
+					return {
+						legend: {
+							labels: {
+								fontSize: 18,
+								fontColor: '#333'
+							}
+						},
+						tooltips: {
+							callbacks: {
+								label: function label(tooltip, data) {
+									var value = parseFloat(tooltip.yLabel).toFixed(2);
+									var name = data.datasets[tooltip.datasetIndex].label;
+									return name + ': ' + value;
+								}
+							}
+						}
+					};
 				}
 			}
 		},
@@ -25744,7 +25762,8 @@ return /******/ (function(modules) { // webpackBootstrap
 				this.chart.data = _data;
 			},
 			options: function options(_options) {
-				this.chart.options = _options;
+				this.chart.destroy();
+				this.createChart();
 			},
 			type: function type(_type) {
 				this.chart.destroy();
@@ -25771,7 +25790,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 124 */
+/* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -25789,16 +25808,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 125 */
+/* 127 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	
 	/* script */
-	__vue_exports__ = __webpack_require__(126)
+	__vue_exports__ = __webpack_require__(128)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(127)
+	var __vue_template__ = __webpack_require__(129)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -25833,7 +25852,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 126 */
+/* 128 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -25894,7 +25913,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 127 */
+/* 129 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -25926,7 +25945,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 128 */
+/* 130 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -26093,19 +26112,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 129 */
+/* 131 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	
 	/* styles */
-	__webpack_require__(130)
+	__webpack_require__(132)
 	
 	/* script */
-	__vue_exports__ = __webpack_require__(132)
+	__vue_exports__ = __webpack_require__(134)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(133)
+	var __vue_template__ = __webpack_require__(135)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -26141,13 +26160,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 130 */
+/* 132 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(131);
+	var content = __webpack_require__(133);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(67)(content, {});
@@ -26167,7 +26186,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 131 */
+/* 133 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(66)();
@@ -26181,7 +26200,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 132 */
+/* 134 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -26235,7 +26254,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 133 */
+/* 135 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -26301,19 +26320,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 134 */
+/* 136 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	
 	/* styles */
-	__webpack_require__(135)
+	__webpack_require__(137)
 	
 	/* script */
-	__vue_exports__ = __webpack_require__(137)
+	__vue_exports__ = __webpack_require__(139)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(138)
+	var __vue_template__ = __webpack_require__(140)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -26349,13 +26368,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 135 */
+/* 137 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(136);
+	var content = __webpack_require__(138);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(67)(content, {});
@@ -26375,7 +26394,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 136 */
+/* 138 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(66)();
@@ -26383,13 +26402,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	
 	// module
-	exports.push([module.id, "\n.show-container label + label[data-v-8f4ff40e] {\n\tmargin-left: 2em;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/StatsReport.vue?f3b72ce4"],"names":[],"mappings":";AAuLA;CACA,iBAAA;CACA","file":"StatsReport.vue","sourcesContent":["<template>\n\t<div class=\"container body-block\">\n\t\t<fieldset class=\"show-container\">\n\t\t\t<legend>Show</legend>\n\t\t\t<label v-for=\"(part, name) of show\">\n\t\t\t\t<input type=\"checkbox\" v-model=\"show[name]\" />\n\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t</label>\n\t\t</fieldset>\n\n\t\t<div class=\"row\">\n\t\t\t<div v-if=\"show.noRequests\" :class=\"listTableClass\">\n\t\t\t\t<h3>No requests</h3>\n\t\t\t\t<data-table id=\"stats-no-requests\"\n\t\t\t\t\t:thead=\"noRequestsThead\" :config=\"listTableConfig\"\n\t\t\t\t\t:data=\"noRequestsData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.noneCompleted\" :class=\"listTableClass\">\n\t\t\t\t<h3>None completed</h3>\n\t\t\t\t<data-table id=\"stats-none-completed\"\n\t\t\t\t\t:thead=\"noneCompletedThead\" :config=\"listTableConfig\"\n\t\t\t\t\t:data=\"noneCompletedData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.averageCompletionTimes\" :class=\"listTableClass\">\n\t\t\t\t<h3>Average completion times</h3>\n\t\t\t\t<data-table id=\"stats-average-completion-times\"\n\t\t\t\t\t:thead=\"averageCompletionTimesThead\"\n\t\t\t\t\t:config=\"averageCompletionTimesConfig\"\n\t\t\t\t\t:data=\"averageCompletionTimesData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.lastCompleted\" :class=\"listTableClass\">\n\t\t\t\t<h3>Last completed evaluations</h3>\n\t\t\t\t<data-table id=\"stats-last-completed\"\n\t\t\t\t\t:thead=\"lastCompletedThead\" :config=\"lastCompletedConfig\"\n\t\t\t\t\t:data=\"lastCompletedData\" />\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport DataTable from './DataTable.vue';\n\nimport { createDateCell, renderDateCell } from '../modules/datatable-utils.js';\nimport { camelCaseToWords } from '../modules/utils.js';\n\nexport default {\n\tprops: {\n\t\treport: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tratio: false,\n\t\t\t\tgraph: false,\n\t\t\t\tnoRequests: false,\n\t\t\t\tnoneCompleted: false,\n\t\t\t\taverageCompletionTimes: false,\n\t\t\t\tlastCompleted: false\n\t\t\t}\n\t\t};\n\t},\n\tcomputed: {\n\t\tstatsThead(){\n\t\t\treturn [\n\t\t\t\t'User',\n\t\t\t\t'Requested',\n\t\t\t\t'Total Requests',\n\t\t\t\t'Total Completed',\n\t\t\t\t'Total Ratio'\n\t\t\t];\n\t\t},\n\t\tstatsConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true\n\t\t\t};\n\t\t},\n\t\tstatsData(){\n\t\t\tlet data = [];\n\t\t\tfor(let stat of this.report.userStats){\n\t\t\t\tdata.push([\n\t\t\t\t\tstat.name,\n\t\t\t\t\tstat.requested,\n\t\t\t\t\tstat.totalRequests,\n\t\t\t\t\tstat.completed,\n\t\t\t\t\tstat.ratio\n\t\t\t\t]);\n\t\t\t}\n\t\t},\n\t\tlistTableClass(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': true\n\t\t\t};\n\t\t},\n\t\tlistTableConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tfixedHeader: true\n\t\t\t};\n\t\t},\n\t\tnoRequestsThead(){\n\t\t\treturn [\n\t\t\t\t['No requests']\n\t\t\t];\n\t\t},\n\t\tnoRequestsData(){\n\t\t\treturn this.report.noneRequested.map(name => [name]);\n\t\t},\n\t\tnoneCompletedThead(){\n\t\t\treturn [\n\t\t\t\t['No completed evals']\n\t\t\t];\n\t\t},\n\t\tnoneCompletedData(){\n\t\t\treturn this.report.noneCompleted.map(name => [name]);\n\t\t},\n\t\taverageCompletionTimesThead(){\n\t\t\treturn [\n\t\t\t\t['User', 'Time']\n\t\t\t];\n\t\t},\n\t\taverageCompletionTimesConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tcolumns: [\n\t\t\t\t\t{data: 'name'},\n\t\t\t\t\t{data: 'time'}\n\t\t\t\t],\n\t\t\t\tfixedHeader: true\n\t\t\t};\n\t\t},\n\t\taverageCompletionTimesData(){\n\t\t\treturn this.report.averageCompletionTimes;\n\t\t},\n\t\tlastCompletedThead(){\n\t\t\treturn [\n\t\t\t\t['User', 'Date']\n\t\t\t];\n\t\t},\n\t\tlastCompletedConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tcolumns: [\n\t\t\t\t\t{data: 'name'},\n\t\t\t\t\t{\n\t\t\t\t\t\tdata: 'date.date',\n\t\t\t\t\t\trender: renderDateCell,\n\t\t\t\t\t\tcreatedCell: createDateCell\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\tfixedHeader: true\n\t\t\t};\n\t\t},\n\t\tlastCompletedData(){\n\t\t\treturn this.report.lastCompleted;\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords\n\t},\n\tcomponents: {\n\t\tDataTable\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-container label + label {\n\t\tmargin-left: 2em;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\n.show-container label + label[data-v-8f4ff40e] {\n\tmargin-left: 2em;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/StatsReport.vue?541f14a9"],"names":[],"mappings":";AAyNA;CACA,iBAAA;CACA","file":"StatsReport.vue","sourcesContent":["<template>\n\t<div class=\"container body-block\">\n\t\t<fieldset class=\"show-container\">\n\t\t\t<legend>Show</legend>\n\t\t\t<label v-for=\"(part, name) of show\">\n\t\t\t\t<input type=\"checkbox\" v-model=\"show[name]\" />\n\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t</label>\n\t\t</fieldset>\n\n\t\t<div class=\"row\">\n\t\t\t<div v-if=\"show.ratios\" :class=\"listTableClass\">\n\t\t\t\t<h3>Ratios</h3>\n\t\t\t\t<data-table id=\"stats-ratios\"\n\t\t\t\t\t:thead=\"ratiosThead\" :config=\"listTableConfig\"\n\t\t\t\t\t:data=\"ratiosData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.ratios && show.graphs\" :class=\"listTableClass\">\n\t\t\t\t<h3>Ratios</h3>\n\t\t\t\t<chartjs-chart id=\"chart-ratios\" type=\"bar\"\n\t\t\t\t\t:data=\"ratiosGraphData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.noRequests\" :class=\"listTableClass\">\n\t\t\t\t<h3>No requests</h3>\n\t\t\t\t<data-table id=\"stats-no-requests\"\n\t\t\t\t\t:thead=\"noRequestsThead\" :config=\"listTableConfig\"\n\t\t\t\t\t:data=\"noRequestsData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.noneCompleted\" :class=\"listTableClass\">\n\t\t\t\t<h3>None completed</h3>\n\t\t\t\t<data-table id=\"stats-none-completed\"\n\t\t\t\t\t:thead=\"noneCompletedThead\" :config=\"listTableConfig\"\n\t\t\t\t\t:data=\"noneCompletedData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.averageCompletionTimes\" :class=\"listTableClass\">\n\t\t\t\t<h3>Average completion times</h3>\n\t\t\t\t<data-table id=\"stats-average-completion-times\"\n\t\t\t\t\t:thead=\"averageCompletionTimesThead\"\n\t\t\t\t\t:config=\"averageCompletionTimesConfig\"\n\t\t\t\t\t:data=\"averageCompletionTimesData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.lastCompleted\" :class=\"listTableClass\">\n\t\t\t\t<h3>Last completed evaluations</h3>\n\t\t\t\t<data-table id=\"stats-last-completed\"\n\t\t\t\t\t:thead=\"lastCompletedThead\" :config=\"lastCompletedConfig\"\n\t\t\t\t\t:data=\"lastCompletedData\" />\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport Color from 'color';\n\nimport ChartjsChart from './ChartjsChart.vue';\nimport DataTable from './DataTable.vue';\n\nimport { CHART_COLORS } from '../modules/constants.js';\nimport { camelCaseToWords } from '../modules/utils.js';\nimport { createDateCell, renderDateCell } from '../modules/datatable-utils.js';\n\nexport default {\n\tprops: {\n\t\treport: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tratios: false,\n\t\t\t\tgraphs: false,\n\t\t\t\tnoRequests: false,\n\t\t\t\tnoneCompleted: false,\n\t\t\t\taverageCompletionTimes: false,\n\t\t\t\tlastCompleted: false\n\t\t\t}\n\t\t};\n\t},\n\tcomputed: {\n\t\tlistTableClass(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': true\n\t\t\t};\n\t\t},\n\t\tlistTableConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tfixedHeader: true\n\t\t\t};\n\t\t},\n\t\tratiosThead(){\n\t\t\treturn [[\n\t\t\t\t'User',\n\t\t\t\t'Requested',\n\t\t\t\t'Total Requests',\n\t\t\t\t'Total Completed',\n\t\t\t\t'Total Ratio'\n\t\t\t]];\n\t\t},\n\t\tratiosData(){\n\t\t\tlet data = [];\n\t\t\tfor(let stat of this.report.userStats){\n\t\t\t\tdata.push([\n\t\t\t\t\tstat.name,\n\t\t\t\t\tstat.requested,\n\t\t\t\t\tstat.totalRequests,\n\t\t\t\t\tstat.completed,\n\t\t\t\t\tstat.ratio\n\t\t\t\t]);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\t\tratiosGraphData(){\n\t\t\tlet color = Color(CHART_COLORS.OTHER[0]);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: this.report.userStats.map(userStat => userStat.name),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Requested / Completed %',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: this.report.userStats.map(userStat => userStat.ratio)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tnoRequestsThead(){\n\t\t\treturn [\n\t\t\t\t['No requests']\n\t\t\t];\n\t\t},\n\t\tnoRequestsData(){\n\t\t\treturn this.report.noneRequested.map(name => [name]);\n\t\t},\n\t\tnoneCompletedThead(){\n\t\t\treturn [\n\t\t\t\t['No completed evals']\n\t\t\t];\n\t\t},\n\t\tnoneCompletedData(){\n\t\t\treturn this.report.noneCompleted.map(name => [name]);\n\t\t},\n\t\taverageCompletionTimesThead(){\n\t\t\treturn [\n\t\t\t\t['User', 'Time']\n\t\t\t];\n\t\t},\n\t\taverageCompletionTimesConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tcolumns: [\n\t\t\t\t\t{data: 'name'},\n\t\t\t\t\t{data: 'time'}\n\t\t\t\t],\n\t\t\t\tfixedHeader: true\n\t\t\t};\n\t\t},\n\t\taverageCompletionTimesData(){\n\t\t\treturn this.report.averageCompletionTimes;\n\t\t},\n\t\tlastCompletedThead(){\n\t\t\treturn [\n\t\t\t\t['User', 'Completed', 'Evaluation']\n\t\t\t];\n\t\t},\n\t\tlastCompletedConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tcolumns: [\n\t\t\t\t\t{data: 'name'},\n\t\t\t\t\t{\n\t\t\t\t\t\tdata: 'evaluation.complete_date',\n\t\t\t\t\t\trender: renderDateCell,\n\t\t\t\t\t\tcreatedCell: createDateCell\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\tdata: 'evaluation.url'\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\tfixedHeader: true\n\t\t\t};\n\t\t},\n\t\tlastCompletedData(){\n\t\t\treturn this.report.lastCompleted;\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords\n\t},\n\tcomponents: {\n\t\tChartjsChart,\n\t\tDataTable\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-container label + label {\n\t\tmargin-left: 2em;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
 
 /***/ },
-/* 137 */
+/* 139 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26398,15 +26417,77 @@ return /******/ (function(modules) { // webpackBootstrap
 		value: true
 	});
 	
-	var _DataTable = __webpack_require__(125);
+	var _color = __webpack_require__(108);
+	
+	var _color2 = _interopRequireDefault(_color);
+	
+	var _ChartjsChart = __webpack_require__(122);
+	
+	var _ChartjsChart2 = _interopRequireDefault(_ChartjsChart);
+	
+	var _DataTable = __webpack_require__(127);
 	
 	var _DataTable2 = _interopRequireDefault(_DataTable);
 	
-	var _datatableUtils = __webpack_require__(57);
+	var _constants = __webpack_require__(58);
 	
 	var _utils = __webpack_require__(59);
 	
+	var _datatableUtils = __webpack_require__(57);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 	
 	exports.default = {
 		props: {
@@ -26418,8 +26499,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		data: function data() {
 			return {
 				show: {
-					ratio: false,
-					graph: false,
+					ratios: false,
+					graphs: false,
 					noRequests: false,
 					noneCompleted: false,
 					averageCompletionTimes: false,
@@ -26429,16 +26510,25 @@ return /******/ (function(modules) { // webpackBootstrap
 		},
 	
 		computed: {
-			statsThead: function statsThead() {
-				return ['User', 'Requested', 'Total Requests', 'Total Completed', 'Total Ratio'];
-			},
-			statsConfig: function statsConfig() {
+			listTableClass: function listTableClass() {
 				return {
-					order: [[0, 'asc']],
-					stateSave: true
+					'col-md-6': true
 				};
 			},
-			statsData: function statsData() {
+			listTableConfig: function listTableConfig() {
+				return {
+					order: [[0, 'asc']],
+					stateSave: true,
+					scrollY: '500px',
+					scrollCollapse: true,
+					paging: false,
+					fixedHeader: true
+				};
+			},
+			ratiosThead: function ratiosThead() {
+				return [['User', 'Requested', 'Total Requests', 'Total Completed', 'Total Ratio']];
+			},
+			ratiosData: function ratiosData() {
 				var data = [];
 				var _iteratorNormalCompletion = true;
 				var _didIteratorError = false;
@@ -26464,20 +26554,28 @@ return /******/ (function(modules) { // webpackBootstrap
 						}
 					}
 				}
+	
+				return data;
 			},
-			listTableClass: function listTableClass() {
+			ratiosGraphData: function ratiosGraphData() {
+				var color = (0, _color2.default)(_constants.CHART_COLORS.OTHER[0]);
+				var backgroundColor = color.clone().alpha(0.2);
 				return {
-					'col-md-6': true
-				};
-			},
-			listTableConfig: function listTableConfig() {
-				return {
-					order: [[0, 'asc']],
-					stateSave: true,
-					scrollY: '500px',
-					scrollCollapse: true,
-					paging: false,
-					fixedHeader: true
+					labels: this.report.userStats.map(function (userStat) {
+						return userStat.name;
+					}),
+					datasets: [{
+						label: 'Requested / Completed %',
+						backgroundColor: backgroundColor.rgbString(),
+						borderColor: color.rgbString(),
+						pointBackgroundColor: color.rgbString(),
+						pointBorderColor: '#fff',
+						pointHoverBackgroundColor: '#fff',
+						pointHoverBorderColor: color.rgbString(),
+						data: this.report.userStats.map(function (userStat) {
+							return userStat.ratio;
+						})
+					}]
 				};
 			},
 			noRequestsThead: function noRequestsThead() {
@@ -26514,7 +26612,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				return this.report.averageCompletionTimes;
 			},
 			lastCompletedThead: function lastCompletedThead() {
-				return [['User', 'Date']];
+				return [['User', 'Completed', 'Evaluation']];
 			},
 			lastCompletedConfig: function lastCompletedConfig() {
 				return {
@@ -26524,9 +26622,11 @@ return /******/ (function(modules) { // webpackBootstrap
 					scrollCollapse: true,
 					paging: false,
 					columns: [{ data: 'name' }, {
-						data: 'date.date',
+						data: 'evaluation.complete_date',
 						render: _datatableUtils.renderDateCell,
 						createdCell: _datatableUtils.createDateCell
+					}, {
+						data: 'evaluation.url'
 					}],
 					fixedHeader: true
 				};
@@ -26539,51 +26639,13 @@ return /******/ (function(modules) { // webpackBootstrap
 			camelCaseToWords: _utils.camelCaseToWords
 		},
 		components: {
+			ChartjsChart: _ChartjsChart2.default,
 			DataTable: _DataTable2.default
 		}
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	};
 
 /***/ },
-/* 138 */
+/* 140 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -26620,9 +26682,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }), "\n\t\t\t" + _s(camelCaseToWords(name)) + "\n\t\t"])
 	  })]), " ", _h('div', {
 	    staticClass: "row"
-	  }, [(show.noRequests) ? _h('div', {
+	  }, [(show.ratios) ? _h('div', {
 	    class: listTableClass
 	  }, [_m(1), " ", _h('data-table', {
+	    attrs: {
+	      "id": "stats-ratios",
+	      "thead": ratiosThead,
+	      "config": listTableConfig,
+	      "data": ratiosData
+	    }
+	  })]) : _e(), " ", (show.ratios && show.graphs) ? _h('div', {
+	    class: listTableClass
+	  }, [_m(2), " ", _h('chartjs-chart', {
+	    attrs: {
+	      "id": "chart-ratios",
+	      "type": "bar",
+	      "data": ratiosGraphData
+	    }
+	  })]) : _e(), " ", (show.noRequests) ? _h('div', {
+	    class: listTableClass
+	  }, [_m(3), " ", _h('data-table', {
 	    attrs: {
 	      "id": "stats-no-requests",
 	      "thead": noRequestsThead,
@@ -26631,7 +26710,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  })]) : _e(), " ", (show.noneCompleted) ? _h('div', {
 	    class: listTableClass
-	  }, [_m(2), " ", _h('data-table', {
+	  }, [_m(4), " ", _h('data-table', {
 	    attrs: {
 	      "id": "stats-none-completed",
 	      "thead": noneCompletedThead,
@@ -26640,7 +26719,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  })]) : _e(), " ", (show.averageCompletionTimes) ? _h('div', {
 	    class: listTableClass
-	  }, [_m(3), " ", _h('data-table', {
+	  }, [_m(5), " ", _h('data-table', {
 	    attrs: {
 	      "id": "stats-average-completion-times",
 	      "thead": averageCompletionTimesThead,
@@ -26649,7 +26728,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  })]) : _e(), " ", (show.lastCompleted) ? _h('div', {
 	    class: listTableClass
-	  }, [_m(4), " ", _h('data-table', {
+	  }, [_m(6), " ", _h('data-table', {
 	    attrs: {
 	      "id": "stats-last-completed",
 	      "thead": lastCompletedThead,
@@ -26659,6 +26738,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  })]) : _e()])])
 	}},staticRenderFns: [function (){with(this) {
 	  return _h('legend', ["Show"])
+	}},function (){with(this) {
+	  return _h('h3', ["Ratios"])
+	}},function (){with(this) {
+	  return _h('h3', ["Ratios"])
 	}},function (){with(this) {
 	  return _h('h3', ["No requests"])
 	}},function (){with(this) {
@@ -26676,7 +26759,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 139 */
+/* 141 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -26807,7 +26890,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 140 */
+/* 142 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
