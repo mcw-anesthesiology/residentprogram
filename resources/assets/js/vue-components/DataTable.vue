@@ -13,6 +13,12 @@
 </template>
 
 <script>
+import ElementResizeDetector from 'element-resize-detector';
+
+const erd = ElementResizeDetector({
+	strategy: 'scroll'
+});
+
 export default {
 	props: {
 		id: {
@@ -32,18 +38,47 @@ export default {
 			required: true
 		}
 	},
+	data(){
+		return {
+			updateData: false
+		};
+	},
 	mounted(){
 		$(`#${this.id}`).DataTable(Object.assign({}, this.config, {data: this.data}));
+
+		let parent = $(`#${this.id}`).parent()[0];
+		erd.listenTo(parent, () => {
+			$(window).trigger('resize');
+		});
+	},
+	watch: {
+		config(){
+			let config = Object.assign({destroy: true}, this.config, {data: this.data});
+			$(`#${this.id}`).DataTable(config);
+		},
+		data(data){
+			this.updateData = true;
+			this.$nextTick(() => {
+				// only set data if table not already recreated with new data
+				if(this.updateData){
+					let dt = $(`#${this.id}`).DataTable({
+						retrieve: true
+					}).clear().rows.add(data).draw();
+					this.updateData = false;
+				}
+			});
+		}
 	},
 	beforeUpdate(){
 		$(`#${this.id}`).DataTable({
 			retrieve: true
 		}).clear().destroy();
+		this.updateData = false;
 	},
 	updated(){
 		$(`#${this.id}`).DataTable(Object.assign({}, this.config, {data: this.data}));
 	},
-	destroyed(){
+	beforeDestroy(){
 		$(`#${this.id}`).DataTable({
 			retrieve: true
 		}).clear().destroy();

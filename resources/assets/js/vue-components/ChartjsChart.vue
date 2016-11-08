@@ -1,5 +1,5 @@
 <template>
-	<canvas :id="id"></canvas>
+	<canvas :id="id" :width="width" :height="height"></canvas>
 </template>
 
 <script>
@@ -12,6 +12,12 @@ export default {
 		id: {
 			type: String,
 			required: true
+		},
+		width: {
+			type: String
+		},
+		height: {
+			type: String
 		},
 		type: {
 			type: String,
@@ -58,7 +64,9 @@ export default {
 	},
 	watch: {
 		data(data){
-			this.chart.data = data;
+			this.chart.data.labels = data.labels;
+			this.chart.data.datasets = data.datasets;
+			this.chart.update();
 		},
 		options(options){
 			this.chart.destroy();

@@ -14552,7 +14552,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		FORM: 'form'
 	};
 	
-	var CHART_TYPES = exports.CHART_TYPES = ['line', 'bar', 'radar', 'polarArea', 'pie', 'doughnut', 'bubble'];
+	var CHART_TYPES = exports.CHART_TYPES = ['line', 'bar', 'horizontalBar', 'radar', 'polarArea', 'pie', 'doughnut', 'bubble'];
 	
 	var CHART_COLORS = exports.CHART_COLORS = {
 		MILESTONE: '#ffce56',

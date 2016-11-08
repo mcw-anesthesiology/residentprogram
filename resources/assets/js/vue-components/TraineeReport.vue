@@ -12,24 +12,26 @@
 
 			<fieldset v-if="filterMilestones">
 				<legend>Milestones</legend>
-				<div v-for="(milestoneGroup, index) of milestoneGroups" class="milestone-group col-xs-6 col-sm-4 col-md-3">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<label class="panel-title">
-								<input type="checkbox"
-										:checked="isEntireMilestoneGroupSelected(index)"
-										@click="toggleEntireMilestoneGroup(index)" />
-								{{ milestoneGroup.text }}
-							</label>
-						</div>
-						<div class="panel-body">
-							<div v-for="child of milestoneGroup.children" class="form-group">
-								<label>
+				<div class="filter-milestones-container">
+					<div v-for="(milestoneGroup, index) of milestoneGroups" class="milestone-group">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<label class="panel-title">
 									<input type="checkbox"
-											:value="child.id"
-											v-model="milestones" />
-									{{ child.text }}
+											:checked="isEntireMilestoneGroupSelected(index)"
+											@click="toggleEntireMilestoneGroup(index)" />
+									{{ milestoneGroup.text }}
 								</label>
+							</div>
+							<div class="panel-body">
+								<div v-for="child of milestoneGroup.children" class="form-group">
+									<label>
+										<input type="checkbox"
+												:value="child.id"
+												v-model="milestones" />
+										{{ child.text }}
+									</label>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -162,6 +164,23 @@ export default {
 </script>
 
 <style scoped>
+	.filter-milestones-container {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: flex-start;
+		align-items: stretch;
+	}
+
+	.milestone-group {
+		flex-grow: 0;
+		flex-shrink: 1;
+		width: 250px;
+		min-width: 200px;
+		max-width: 100%;
+		margin: 10px;
+	}
+
 	.milestone-group .panel-body {
 		height: 300px;
 		overflow: auto;

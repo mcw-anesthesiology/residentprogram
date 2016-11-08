@@ -47,6 +47,7 @@ export const REPORT_TYPES = {
 export const CHART_TYPES = [
 	'line',
 	'bar',
+	'horizontalBar',
 	'radar',
 	'polarArea',
 	'pie',

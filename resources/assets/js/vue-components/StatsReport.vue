@@ -8,38 +8,40 @@
 			</label>
 		</fieldset>
 
-		<div class="row">
-			<div v-if="show.ratios" :class="listTableClass">
+		<div class="stats-report-container">
+			<div v-if="show.ratios">
 				<h3>Ratios</h3>
 				<data-table id="stats-ratios"
 					:thead="ratiosThead" :config="listTableConfig"
 					:data="ratiosData" />
 			</div>
-			<div v-if="show.ratios && show.graphs" :class="listTableClass">
+			<div v-if="show.ratios && show.graphs">
 				<h3>Ratios</h3>
-				<chartjs-chart id="chart-ratios" type="bar"
-					:data="ratiosGraphData" />
+				<div class="list-chart-container">
+					<chartjs-chart id="chart-ratios" type="horizontalBar"
+						:data="ratiosGraphData" :options="listChartConfig" />
+				</div>
 			</div>
-			<div v-if="show.noRequests" :class="listTableClass">
+			<div v-if="show.noRequests">
 				<h3>No requests</h3>
 				<data-table id="stats-no-requests"
 					:thead="noRequestsThead" :config="listTableConfig"
 					:data="noRequestsData" />
 			</div>
-			<div v-if="show.noneCompleted" :class="listTableClass">
+			<div v-if="show.noneCompleted">
 				<h3>None completed</h3>
 				<data-table id="stats-none-completed"
 					:thead="noneCompletedThead" :config="listTableConfig"
 					:data="noneCompletedData" />
 			</div>
-			<div v-if="show.averageCompletionTimes" :class="listTableClass">
+			<div v-if="show.averageCompletionTimes">
 				<h3>Average completion times</h3>
 				<data-table id="stats-average-completion-times"
 					:thead="averageCompletionTimesThead"
 					:config="averageCompletionTimesConfig"
 					:data="averageCompletionTimesData" />
 			</div>
-			<div v-if="show.lastCompleted" :class="listTableClass">
+			<div v-if="show.lastCompleted">
 				<h3>Last completed evaluations</h3>
 				<data-table id="stats-last-completed"
 					:thead="lastCompletedThead" :config="lastCompletedConfig"
@@ -91,7 +93,26 @@ export default {
 				scrollY: '500px',
 				scrollCollapse: true,
 				paging: false,
-				fixedHeader: true
+			};
+		},
+		listChartConfig(){
+			return {
+				maintainAspectRatio: false,
+				legend: {
+					labels: {
+						fontSize: 18,
+						fontColor: '#333'
+					}
+				},
+				tooltips: {
+					callbacks: {
+						label(tooltip, data){
+							let value = parseFloat(tooltip.xLabel).toFixed();
+							let name = data.datasets[tooltip.datasetIndex].label;
+							return `${value}%`;
+						}
+					}
+				}
 			};
 		},
 		ratiosThead(){
@@ -127,6 +148,7 @@ export default {
 						label: 'Requested / Completed %',
 						backgroundColor: backgroundColor.rgbString(),
 						borderColor: color.rgbString(),
+						borderWidth: 1,
 						pointBackgroundColor: color.rgbString(),
 						pointBorderColor: '#fff',
 						pointHoverBackgroundColor: '#fff',
@@ -217,5 +239,25 @@ export default {
 <style scoped>
 	.show-container label + label {
 		margin-left: 2em;
+	}
+
+	.stats-report-container {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: stretch;
+	}
+
+	.stats-report-container > div {
+		width: calc(50% - 20px);
+		margin: 10px;
+		flex-grow: 1;
+		flex-shrink: 0;
+	}
+
+	.list-chart-container {
+		height: 625px;
+		overflow: auto;
 	}
 </style>
