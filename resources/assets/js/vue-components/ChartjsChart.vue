@@ -4,8 +4,13 @@
 
 <script>
 import Chart from 'chart.js';
+import ElementResizeDetector from 'element-resize-detector';
 
 import { CHART_TYPES } from '../modules/constants.js';
+
+const erd = ElementResizeDetector({
+	strategy: 'scroll'
+});
 
 export default {
 	props: {
@@ -14,10 +19,10 @@ export default {
 			required: true
 		},
 		width: {
-			type: String
+			required: false
 		},
 		height: {
-			type: String
+			required: false
 		},
 		type: {
 			type: String,
@@ -61,6 +66,11 @@ export default {
 	},
 	mounted(){
 		this.createChart();
+		let parent = document.querySelector(`#${this.id}`).parentElement;
+		erd.listenTo(parent, () => {
+			if(this.chart)
+				this.chart.resize();
+		});
 	},
 	watch: {
 		data(data){

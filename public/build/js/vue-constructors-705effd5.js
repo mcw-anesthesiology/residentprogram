@@ -20676,7 +20676,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	__vue_exports__ = __webpack_require__(99)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(140)
+	var __vue_template__ = __webpack_require__(153)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -20840,7 +20840,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	__vue_exports__ = __webpack_require__(103)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(139)
+	var __vue_template__ = __webpack_require__(152)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -20929,11 +20929,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _AggregateReport2 = _interopRequireDefault(_AggregateReport);
 	
-	var _ReportDate = __webpack_require__(129);
+	var _ReportDate = __webpack_require__(142);
 	
 	var _ReportDate2 = _interopRequireDefault(_ReportDate);
 	
-	var _StatsReport = __webpack_require__(134);
+	var _StatsReport = __webpack_require__(147);
 	
 	var _StatsReport2 = _interopRequireDefault(_StatsReport);
 	
@@ -21119,7 +21119,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	__vue_exports__ = __webpack_require__(107)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(128)
+	var __vue_template__ = __webpack_require__(141)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -25698,11 +25698,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _chart2 = _interopRequireDefault(_chart);
 	
+	var _elementResizeDetector = __webpack_require__(127);
+	
+	var _elementResizeDetector2 = _interopRequireDefault(_elementResizeDetector);
+	
 	var _constants = __webpack_require__(58);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	//
+	var erd = (0, _elementResizeDetector2.default)({
+		strategy: 'scroll'
+	}); //
 	//
 	//
 	//
@@ -25714,10 +25720,10 @@ return /******/ (function(modules) { // webpackBootstrap
 				required: true
 			},
 			width: {
-				type: String
+				required: false
 			},
 			height: {
-				type: String
+				required: false
 			},
 			type: {
 				type: String,
@@ -25760,7 +25766,13 @@ return /******/ (function(modules) { // webpackBootstrap
 			};
 		},
 		mounted: function mounted() {
+			var _this = this;
+	
 			this.createChart();
+			var parent = document.querySelector('#' + this.id).parentElement;
+			erd.listenTo(parent, function () {
+				if (_this.chart) _this.chart.resize();
+			});
 		},
 	
 		watch: {
@@ -25827,7 +25839,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	__vue_exports__ = __webpack_require__(126)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(127)
+	var __vue_template__ = __webpack_require__(140)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -25871,7 +25883,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		value: true
 	});
 	
-	var _elementResizeDetector = __webpack_require__(141);
+	var _elementResizeDetector = __webpack_require__(127);
 	
 	var _elementResizeDetector2 = _interopRequireDefault(_elementResizeDetector);
 	
@@ -25921,7 +25933,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		mounted: function mounted() {
 			$('#' + this.id).DataTable(Object.assign({}, this.config, { data: this.data }));
 	
-			var parent = $('#' + this.id).parent()[0];
+			var parent = document.querySelector('#' + this.id).parentElement;
 			erd.listenTo(parent, function () {
 				$(window).trigger('resize');
 			});
@@ -25967,1055 +25979,21 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 127 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('table', {
-	    staticClass: "table table-striped table-bordered",
-	    attrs: {
-	      "id": id,
-	      "width": "100%"
-	    }
-	  }, [_h('thead', [_l((thead), function(row, rowIndex) {
-	    return _h('tr', {
-	      key: ("row-" + rowIndex)
-	    }, [_l((row), function(th, thIndex) {
-	      return _h('th', {
-	        key: thIndex,
-	        attrs: {
-	          "rowspan": th.rowspan,
-	          "colspan": th.colspan
-	        }
-	      }, ["\n\t\t\t\t" + _s(th.text || th) + "\n\t\t\t"])
-	    })])
-	  })])])
-	}},staticRenderFns: []}
-	if (false) {
-	  module.hot.accept()
-	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-961f66ec", module.exports)
-	  }
-	}
-
-/***/ },
-/* 128 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
-	    staticClass: "container body-block"
-	  }, [_h('fieldset', {
-	    staticClass: "show-container"
-	  }, [_m(0), " ", _l((show), function(part, name) {
-	    return _h('label', [_h('input', {
-	      attrs: {
-	        "type": "checkbox"
-	      },
-	      domProps: {
-	        "checked": Array.isArray(show[name]) ? _i(show[name], null) > -1 : _q(show[name], true)
-	      },
-	      on: {
-	        "change": function($event) {
-	          var $$a = show[name],
-	            $$el = $event.target,
-	            $$c = $$el.checked ? (true) : (false);
-	          if (Array.isArray($$a)) {
-	            var $$v = null,
-	              $$i = _i($$a, $$v);
-	            if ($$c) {
-	              $$i < 0 && (show[name] = $$a.concat($$v))
-	            } else {
-	              $$i > -1 && (show[name] = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-	            }
-	          } else {
-	            show[name] = $$c
-	          }
-	        }
-	      }
-	    }), "\n\t\t\t" + _s(camelCaseToWords(name)) + "\n\t\t"])
-	  })]), " ", _h('data-table', {
-	    attrs: {
-	      "id": "aggregate-table",
-	      "thead": tableThead,
-	      "config": tableConfig,
-	      "data": tableData
-	    }
-	  }), " ", (show.graphs) ? _h('div', {
-	    staticClass: "graphs-container"
-	  }, [_h('div', {
-	    staticClass: "row"
-	  }, [(show.competencies) ? _h('div', {
-	    class: graphWidth
-	  }, [_h('chartjs-chart', {
-	    attrs: {
-	      "id": "aggregate-competency-chart",
-	      "type": graphType,
-	      "options": chartOptions,
-	      "data": competencyChartData
-	    }
-	  })]) : _e(), " ", (show.milestones) ? _h('div', {
-	    class: graphWidth
-	  }, [_h('chartjs-chart', {
-	    attrs: {
-	      "id": "aggregate-milestone-chart",
-	      "type": graphType,
-	      "options": chartOptions,
-	      "data": milestoneChartData
-	    }
-	  })]) : _e()]), " ", _h('div', {
-	    staticClass: "row graphs-controls"
-	  }, [_h('div', {
-	    staticClass: "col-sm-offset-5 col-sm-2"
-	  }, [_h('div', {
-	    staticClass: "panel panel-default"
-	  }, [_m(1), " ", _h('div', {
-	    staticClass: "panel-body"
-	  }, [(show.milestones && show.competencies) ? _h('fieldset', [_m(2), " ", _h('div', {
-	    staticClass: "btn-group btn-group-justified",
-	    attrs: {
-	      "data-toggle": "buttons"
-	    }
-	  }, [_h('bootstrap-button-input', {
-	    directives: [{
-	      name: "model",
-	      value: (graphOrientation),
-	      expression: "graphOrientation"
-	    }],
-	    attrs: {
-	      "type": "radio",
-	      "option": "horizontal"
-	    },
-	    domProps: {
-	      "value": (graphOrientation)
-	    },
-	    on: {
-	      "input": function($event) {
-	        graphOrientation = $event
-	      }
-	    }
-	  }, [_m(3)]), " ", _h('bootstrap-button-input', {
-	    directives: [{
-	      name: "model",
-	      value: (graphOrientation),
-	      expression: "graphOrientation"
-	    }],
-	    attrs: {
-	      "type": "radio",
-	      "option": "vertical"
-	    },
-	    domProps: {
-	      "value": (graphOrientation)
-	    },
-	    on: {
-	      "input": function($event) {
-	        graphOrientation = $event
-	      }
-	    }
-	  }, [_m(4)])])]) : _e(), " ", _h('div', {
-	    staticClass: "form-group"
-	  }, [_h('label', {
-	    staticClass: "containing-label"
-	  }, ["\n\t\t\t\t\t\t\t\tType\n\t\t\t\t\t\t\t\t", _h('select', {
-	    directives: [{
-	      name: "model",
-	      value: (graphType),
-	      expression: "graphType"
-	    }],
-	    staticClass: "form-control",
-	    on: {
-	      "change": function($event) {
-	        graphType = Array.prototype.filter.call($event.target.options, function(o) {
-	          return o.selected
-	        }).map(function(o) {
-	          return "_value" in o ? o._value : o.value
-	        })[0]
-	      }
-	    }
-	  }, [_l((chartTypes), function(type) {
-	    return _h('option', {
-	      domProps: {
-	        "value": type
-	      }
-	    }, ["\n\t\t\t\t\t\t\t\t\t\t" + _s(ucfirst(type)) + "\n\t\t\t\t\t\t\t\t\t"])
-	  })])])])])])])])]) : _e()])
-	}},staticRenderFns: [function (){with(this) {
-	  return _h('legend', ["Show"])
-	}},function (){with(this) {
-	  return _h('div', {
-	    staticClass: "panel-heading"
-	  }, [_h('span', {
-	    staticClass: "panel-title"
-	  }, ["Graph options"])])
-	}},function (){with(this) {
-	  return _h('legend', ["Orientation"])
-	}},function (){with(this) {
-	  return _h('span', {
-	    staticClass: "glyphicon glyphicon-option-horizontal"
-	  })
-	}},function (){with(this) {
-	  return _h('span', {
-	    staticClass: "glyphicon glyphicon-option-vertical"
-	  })
-	}}]}
-	if (false) {
-	  module.hot.accept()
-	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-19509019", module.exports)
-	  }
-	}
-
-/***/ },
-/* 129 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_exports__, __vue_options__
-	
-	/* styles */
-	__webpack_require__(130)
-	
-	/* script */
-	__vue_exports__ = __webpack_require__(132)
-	
-	/* template */
-	var __vue_template__ = __webpack_require__(133)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-	__vue_options__.name = __vue_options__.name || "ReportDate"
-	__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ReportDate.vue"
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-	__vue_options__._scopeId = "data-v-4ee850ac"
-	
-	/* hot reload */
-	if (false) {(function () {
-	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), false)
-	  if (!hotAPI.compatible) return
-	  module.hot.accept()
-	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-4ee850ac", __vue_options__)
-	  } else {
-	    hotAPI.reload("data-v-4ee850ac", __vue_options__)
-	  }
-	})()}
-	if (__vue_options__.functional) {console.error("[vue-loader] ReportDate.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-	
-	module.exports = __vue_exports__
-
-
-/***/ },
-/* 130 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(131);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(67)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-4ee850ac&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ReportDate.vue", function() {
-				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-4ee850ac&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ReportDate.vue");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 131 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(66)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"ReportDate.vue","sourceRoot":"webpack://"}]);
-	
-	// exports
-
-
-/***/ },
-/* 132 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-	
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	
-	exports.default = {
-		props: ['value'],
-		mounted: function mounted() {
-			$('#reports-start-date, #reports-end-date').datepicker({
-				dateFormat: "yy-mm-dd",
-				onSelect: function onSelect() {
-					this.dispatchEvent(new Event('input'));
-				}
-			});
-		},
-	
-		methods: {
-			handleInput: function handleInput(prop, value) {
-				var newValue = Object.assign({}, this.value, _defineProperty({}, prop, value));
-				this.$emit('input', newValue);
-			}
-		}
-	};
-
-/***/ },
-/* 133 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
-	    staticClass: "form-horizontal"
-	  }, [_h('div', {
-	    staticClass: "form-group"
-	  }, [_h('div', {
-	    staticClass: "col-md-4"
-	  }, [_m(0), " ", _h('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "type": "text",
-	      "id": "reports-start-date"
-	    },
-	    domProps: {
-	      "value": value.startDate
-	    },
-	    on: {
-	      "input": function($event) {
-	        handleInput('startDate', $event.target.value)
-	      }
-	    }
-	  })]), " ", _h('div', {
-	    staticClass: "col-md-4"
-	  }, [_m(1), " ", _h('input', {
-	    staticClass: "form-control",
-	    attrs: {
-	      "type": "text",
-	      "id": "reports-end-date"
-	    },
-	    domProps: {
-	      "value": value.endDate
-	    },
-	    on: {
-	      "input": function($event) {
-	        handleInput('endDate', $event.target.value)
-	      }
-	    }
-	  })]), " ", _m(2)])])
-	}},staticRenderFns: [function (){with(this) {
-	  return _h('label', {
-	    attrs: {
-	      "for": "reports-start-date"
-	    }
-	  }, ["Start Date"])
-	}},function (){with(this) {
-	  return _h('label', {
-	    attrs: {
-	      "for": "reports-end-date"
-	    }
-	  }, ["End Date"])
-	}},function (){with(this) {
-	  return _h('div', {
-	    staticClass: "col-md-4"
-	  })
-	}}]}
-	if (false) {
-	  module.hot.accept()
-	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-4ee850ac", module.exports)
-	  }
-	}
-
-/***/ },
-/* 134 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_exports__, __vue_options__
-	
-	/* styles */
-	__webpack_require__(135)
-	
-	/* script */
-	__vue_exports__ = __webpack_require__(137)
-	
-	/* template */
-	var __vue_template__ = __webpack_require__(138)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-	__vue_options__.name = __vue_options__.name || "StatsReport"
-	__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/StatsReport.vue"
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-	__vue_options__._scopeId = "data-v-8f4ff40e"
-	
-	/* hot reload */
-	if (false) {(function () {
-	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), false)
-	  if (!hotAPI.compatible) return
-	  module.hot.accept()
-	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-8f4ff40e", __vue_options__)
-	  } else {
-	    hotAPI.reload("data-v-8f4ff40e", __vue_options__)
-	  }
-	})()}
-	if (__vue_options__.functional) {console.error("[vue-loader] StatsReport.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-	
-	module.exports = __vue_exports__
-
-
-/***/ },
-/* 135 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(136);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(67)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-8f4ff40e&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./StatsReport.vue", function() {
-				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-8f4ff40e&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./StatsReport.vue");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 136 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(66)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "\n.show-container label + label[data-v-8f4ff40e] {\n\tmargin-left: 2em;\n}\n.stats-report-container[data-v-8f4ff40e] {\n\tdisplay: flex;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tjustify-content: space-between;\n\talign-items: stretch;\n}\n.stats-report-container > div[data-v-8f4ff40e] {\n\twidth: calc(50% - 20px);\n\tmargin: 10px;\n\tflex-grow: 1;\n\tflex-shrink: 0;\n}\n.list-chart-container[data-v-8f4ff40e] {\n\theight: 625px;\n\toverflow: auto;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/StatsReport.vue?1490fa55"],"names":[],"mappings":";AA+OA;CACA,iBAAA;CACA;AAEA;CACA,cAAA;CACA,oBAAA;CACA,gBAAA;CACA,+BAAA;CACA,qBAAA;CACA;AAEA;CACA,wBAAA;CACA,aAAA;CACA,aAAA;CACA,eAAA;CACA;AAEA;CACA,cAAA;CACA,eAAA;CACA","file":"StatsReport.vue","sourcesContent":["<template>\n\t<div class=\"container body-block\">\n\t\t<fieldset class=\"show-container\">\n\t\t\t<legend>Show</legend>\n\t\t\t<label v-for=\"(part, name) of show\">\n\t\t\t\t<input type=\"checkbox\" v-model=\"show[name]\" />\n\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t</label>\n\t\t</fieldset>\n\n\t\t<div class=\"stats-report-container\">\n\t\t\t<div v-if=\"show.ratios\">\n\t\t\t\t<h3>Ratios</h3>\n\t\t\t\t<data-table id=\"stats-ratios\"\n\t\t\t\t\t:thead=\"ratiosThead\" :config=\"listTableConfig\"\n\t\t\t\t\t:data=\"ratiosData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.ratios && show.graphs\">\n\t\t\t\t<h3>Ratios</h3>\n\t\t\t\t<div class=\"list-chart-container\">\n\t\t\t\t\t<chartjs-chart id=\"chart-ratios\" type=\"horizontalBar\"\n\t\t\t\t\t\t:data=\"ratiosGraphData\" :options=\"listChartConfig\" />\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div v-if=\"show.noRequests\">\n\t\t\t\t<h3>No requests</h3>\n\t\t\t\t<data-table id=\"stats-no-requests\"\n\t\t\t\t\t:thead=\"noRequestsThead\" :config=\"listTableConfig\"\n\t\t\t\t\t:data=\"noRequestsData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.noneCompleted\">\n\t\t\t\t<h3>None completed</h3>\n\t\t\t\t<data-table id=\"stats-none-completed\"\n\t\t\t\t\t:thead=\"noneCompletedThead\" :config=\"listTableConfig\"\n\t\t\t\t\t:data=\"noneCompletedData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.averageCompletionTimes\">\n\t\t\t\t<h3>Average completion times</h3>\n\t\t\t\t<data-table id=\"stats-average-completion-times\"\n\t\t\t\t\t:thead=\"averageCompletionTimesThead\"\n\t\t\t\t\t:config=\"averageCompletionTimesConfig\"\n\t\t\t\t\t:data=\"averageCompletionTimesData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.lastCompleted\">\n\t\t\t\t<h3>Last completed evaluations</h3>\n\t\t\t\t<data-table id=\"stats-last-completed\"\n\t\t\t\t\t:thead=\"lastCompletedThead\" :config=\"lastCompletedConfig\"\n\t\t\t\t\t:data=\"lastCompletedData\" />\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport Color from 'color';\n\nimport ChartjsChart from './ChartjsChart.vue';\nimport DataTable from './DataTable.vue';\n\nimport { CHART_COLORS } from '../modules/constants.js';\nimport { camelCaseToWords } from '../modules/utils.js';\nimport { createDateCell, renderDateCell } from '../modules/datatable-utils.js';\n\nexport default {\n\tprops: {\n\t\treport: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tratios: false,\n\t\t\t\tgraphs: false,\n\t\t\t\tnoRequests: false,\n\t\t\t\tnoneCompleted: false,\n\t\t\t\taverageCompletionTimes: false,\n\t\t\t\tlastCompleted: false\n\t\t\t}\n\t\t};\n\t},\n\tcomputed: {\n\t\tlistTableClass(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': true\n\t\t\t};\n\t\t},\n\t\tlistTableConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t};\n\t\t},\n\t\tlistChartConfig(){\n\t\t\treturn {\n\t\t\t\tmaintainAspectRatio: false,\n\t\t\t\tlegend: {\n\t\t\t\t\tlabels: {\n\t\t\t\t\t\tfontSize: 18,\n\t\t\t\t\t\tfontColor: '#333'\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tcallbacks: {\n\t\t\t\t\t\tlabel(tooltip, data){\n\t\t\t\t\t\t\tlet value = parseFloat(tooltip.xLabel).toFixed();\n\t\t\t\t\t\t\tlet name = data.datasets[tooltip.datasetIndex].label;\n\t\t\t\t\t\t\treturn `${value}%`;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t};\n\t\t},\n\t\tratiosThead(){\n\t\t\treturn [[\n\t\t\t\t'User',\n\t\t\t\t'Requested',\n\t\t\t\t'Total Requests',\n\t\t\t\t'Total Completed',\n\t\t\t\t'Total Ratio'\n\t\t\t]];\n\t\t},\n\t\tratiosData(){\n\t\t\tlet data = [];\n\t\t\tfor(let stat of this.report.userStats){\n\t\t\t\tdata.push([\n\t\t\t\t\tstat.name,\n\t\t\t\t\tstat.requested,\n\t\t\t\t\tstat.totalRequests,\n\t\t\t\t\tstat.completed,\n\t\t\t\t\tstat.ratio\n\t\t\t\t]);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\t\tratiosGraphData(){\n\t\t\tlet color = Color(CHART_COLORS.OTHER[0]);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: this.report.userStats.map(userStat => userStat.name),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Requested / Completed %',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tborderWidth: 1,\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: this.report.userStats.map(userStat => userStat.ratio)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tnoRequestsThead(){\n\t\t\treturn [\n\t\t\t\t['No requests']\n\t\t\t];\n\t\t},\n\t\tnoRequestsData(){\n\t\t\treturn this.report.noneRequested.map(name => [name]);\n\t\t},\n\t\tnoneCompletedThead(){\n\t\t\treturn [\n\t\t\t\t['No completed evals']\n\t\t\t];\n\t\t},\n\t\tnoneCompletedData(){\n\t\t\treturn this.report.noneCompleted.map(name => [name]);\n\t\t},\n\t\taverageCompletionTimesThead(){\n\t\t\treturn [\n\t\t\t\t['User', 'Time']\n\t\t\t];\n\t\t},\n\t\taverageCompletionTimesConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tcolumns: [\n\t\t\t\t\t{data: 'name'},\n\t\t\t\t\t{data: 'time'}\n\t\t\t\t],\n\t\t\t\tfixedHeader: true\n\t\t\t};\n\t\t},\n\t\taverageCompletionTimesData(){\n\t\t\treturn this.report.averageCompletionTimes;\n\t\t},\n\t\tlastCompletedThead(){\n\t\t\treturn [\n\t\t\t\t['User', 'Completed', 'Evaluation']\n\t\t\t];\n\t\t},\n\t\tlastCompletedConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tcolumns: [\n\t\t\t\t\t{data: 'name'},\n\t\t\t\t\t{\n\t\t\t\t\t\tdata: 'evaluation.complete_date',\n\t\t\t\t\t\trender: renderDateCell,\n\t\t\t\t\t\tcreatedCell: createDateCell\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\tdata: 'evaluation.url'\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\tfixedHeader: true\n\t\t\t};\n\t\t},\n\t\tlastCompletedData(){\n\t\t\treturn this.report.lastCompleted;\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords\n\t},\n\tcomponents: {\n\t\tChartjsChart,\n\t\tDataTable\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-container label + label {\n\t\tmargin-left: 2em;\n\t}\n\n\t.stats-report-container {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tflex-wrap: wrap;\n\t\tjustify-content: space-between;\n\t\talign-items: stretch;\n\t}\n\n\t.stats-report-container > div {\n\t\twidth: calc(50% - 20px);\n\t\tmargin: 10px;\n\t\tflex-grow: 1;\n\t\tflex-shrink: 0;\n\t}\n\n\t.list-chart-container {\n\t\theight: 625px;\n\t\toverflow: auto;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
-	
-	// exports
-
-
-/***/ },
-/* 137 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _color = __webpack_require__(108);
-	
-	var _color2 = _interopRequireDefault(_color);
-	
-	var _ChartjsChart = __webpack_require__(122);
-	
-	var _ChartjsChart2 = _interopRequireDefault(_ChartjsChart);
-	
-	var _DataTable = __webpack_require__(125);
-	
-	var _DataTable2 = _interopRequireDefault(_DataTable);
-	
-	var _constants = __webpack_require__(58);
-	
-	var _utils = __webpack_require__(59);
-	
-	var _datatableUtils = __webpack_require__(57);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	
-	exports.default = {
-		props: {
-			report: {
-				type: Object,
-				required: true
-			}
-		},
-		data: function data() {
-			return {
-				show: {
-					ratios: false,
-					graphs: false,
-					noRequests: false,
-					noneCompleted: false,
-					averageCompletionTimes: false,
-					lastCompleted: false
-				}
-			};
-		},
-	
-		computed: {
-			listTableClass: function listTableClass() {
-				return {
-					'col-md-6': true
-				};
-			},
-			listTableConfig: function listTableConfig() {
-				return {
-					order: [[0, 'asc']],
-					stateSave: true,
-					scrollY: '500px',
-					scrollCollapse: true,
-					paging: false
-				};
-			},
-			listChartConfig: function listChartConfig() {
-				return {
-					maintainAspectRatio: false,
-					legend: {
-						labels: {
-							fontSize: 18,
-							fontColor: '#333'
-						}
-					},
-					tooltips: {
-						callbacks: {
-							label: function label(tooltip, data) {
-								var value = parseFloat(tooltip.xLabel).toFixed();
-								var name = data.datasets[tooltip.datasetIndex].label;
-								return value + '%';
-							}
-						}
-					}
-				};
-			},
-			ratiosThead: function ratiosThead() {
-				return [['User', 'Requested', 'Total Requests', 'Total Completed', 'Total Ratio']];
-			},
-			ratiosData: function ratiosData() {
-				var data = [];
-				var _iteratorNormalCompletion = true;
-				var _didIteratorError = false;
-				var _iteratorError = undefined;
-	
-				try {
-					for (var _iterator = this.report.userStats[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-						var stat = _step.value;
-	
-						data.push([stat.name, stat.requested, stat.totalRequests, stat.completed, stat.ratio]);
-					}
-				} catch (err) {
-					_didIteratorError = true;
-					_iteratorError = err;
-				} finally {
-					try {
-						if (!_iteratorNormalCompletion && _iterator.return) {
-							_iterator.return();
-						}
-					} finally {
-						if (_didIteratorError) {
-							throw _iteratorError;
-						}
-					}
-				}
-	
-				return data;
-			},
-			ratiosGraphData: function ratiosGraphData() {
-				var color = (0, _color2.default)(_constants.CHART_COLORS.OTHER[0]);
-				var backgroundColor = color.clone().alpha(0.2);
-				return {
-					labels: this.report.userStats.map(function (userStat) {
-						return userStat.name;
-					}),
-					datasets: [{
-						label: 'Requested / Completed %',
-						backgroundColor: backgroundColor.rgbString(),
-						borderColor: color.rgbString(),
-						borderWidth: 1,
-						pointBackgroundColor: color.rgbString(),
-						pointBorderColor: '#fff',
-						pointHoverBackgroundColor: '#fff',
-						pointHoverBorderColor: color.rgbString(),
-						data: this.report.userStats.map(function (userStat) {
-							return userStat.ratio;
-						})
-					}]
-				};
-			},
-			noRequestsThead: function noRequestsThead() {
-				return [['No requests']];
-			},
-			noRequestsData: function noRequestsData() {
-				return this.report.noneRequested.map(function (name) {
-					return [name];
-				});
-			},
-			noneCompletedThead: function noneCompletedThead() {
-				return [['No completed evals']];
-			},
-			noneCompletedData: function noneCompletedData() {
-				return this.report.noneCompleted.map(function (name) {
-					return [name];
-				});
-			},
-			averageCompletionTimesThead: function averageCompletionTimesThead() {
-				return [['User', 'Time']];
-			},
-			averageCompletionTimesConfig: function averageCompletionTimesConfig() {
-				return {
-					order: [[0, 'asc']],
-					stateSave: true,
-					scrollY: '500px',
-					scrollCollapse: true,
-					paging: false,
-					columns: [{ data: 'name' }, { data: 'time' }],
-					fixedHeader: true
-				};
-			},
-			averageCompletionTimesData: function averageCompletionTimesData() {
-				return this.report.averageCompletionTimes;
-			},
-			lastCompletedThead: function lastCompletedThead() {
-				return [['User', 'Completed', 'Evaluation']];
-			},
-			lastCompletedConfig: function lastCompletedConfig() {
-				return {
-					order: [[0, 'asc']],
-					stateSave: true,
-					scrollY: '500px',
-					scrollCollapse: true,
-					paging: false,
-					columns: [{ data: 'name' }, {
-						data: 'evaluation.complete_date',
-						render: _datatableUtils.renderDateCell,
-						createdCell: _datatableUtils.createDateCell
-					}, {
-						data: 'evaluation.url'
-					}],
-					fixedHeader: true
-				};
-			},
-			lastCompletedData: function lastCompletedData() {
-				return this.report.lastCompleted;
-			}
-		},
-		methods: {
-			camelCaseToWords: _utils.camelCaseToWords
-		},
-		components: {
-			ChartjsChart: _ChartjsChart2.default,
-			DataTable: _DataTable2.default
-		}
-	};
-
-/***/ },
-/* 138 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports={render:function (){with(this) {
-	  return _h('div', {
-	    staticClass: "container body-block"
-	  }, [_h('fieldset', {
-	    staticClass: "show-container"
-	  }, [_m(0), " ", _l((show), function(part, name) {
-	    return _h('label', [_h('input', {
-	      attrs: {
-	        "type": "checkbox"
-	      },
-	      domProps: {
-	        "checked": Array.isArray(show[name]) ? _i(show[name], null) > -1 : _q(show[name], true)
-	      },
-	      on: {
-	        "change": function($event) {
-	          var $$a = show[name],
-	            $$el = $event.target,
-	            $$c = $$el.checked ? (true) : (false);
-	          if (Array.isArray($$a)) {
-	            var $$v = null,
-	              $$i = _i($$a, $$v);
-	            if ($$c) {
-	              $$i < 0 && (show[name] = $$a.concat($$v))
-	            } else {
-	              $$i > -1 && (show[name] = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-	            }
-	          } else {
-	            show[name] = $$c
-	          }
-	        }
-	      }
-	    }), "\n\t\t\t" + _s(camelCaseToWords(name)) + "\n\t\t"])
-	  })]), " ", _h('div', {
-	    staticClass: "stats-report-container"
-	  }, [(show.ratios) ? _h('div', [_m(1), " ", _h('data-table', {
-	    attrs: {
-	      "id": "stats-ratios",
-	      "thead": ratiosThead,
-	      "config": listTableConfig,
-	      "data": ratiosData
-	    }
-	  })]) : _e(), " ", (show.ratios && show.graphs) ? _h('div', [_m(2), " ", _h('div', {
-	    staticClass: "list-chart-container"
-	  }, [_h('chartjs-chart', {
-	    attrs: {
-	      "id": "chart-ratios",
-	      "type": "horizontalBar",
-	      "data": ratiosGraphData,
-	      "options": listChartConfig
-	    }
-	  })])]) : _e(), " ", (show.noRequests) ? _h('div', [_m(3), " ", _h('data-table', {
-	    attrs: {
-	      "id": "stats-no-requests",
-	      "thead": noRequestsThead,
-	      "config": listTableConfig,
-	      "data": noRequestsData
-	    }
-	  })]) : _e(), " ", (show.noneCompleted) ? _h('div', [_m(4), " ", _h('data-table', {
-	    attrs: {
-	      "id": "stats-none-completed",
-	      "thead": noneCompletedThead,
-	      "config": listTableConfig,
-	      "data": noneCompletedData
-	    }
-	  })]) : _e(), " ", (show.averageCompletionTimes) ? _h('div', [_m(5), " ", _h('data-table', {
-	    attrs: {
-	      "id": "stats-average-completion-times",
-	      "thead": averageCompletionTimesThead,
-	      "config": averageCompletionTimesConfig,
-	      "data": averageCompletionTimesData
-	    }
-	  })]) : _e(), " ", (show.lastCompleted) ? _h('div', [_m(6), " ", _h('data-table', {
-	    attrs: {
-	      "id": "stats-last-completed",
-	      "thead": lastCompletedThead,
-	      "config": lastCompletedConfig,
-	      "data": lastCompletedData
-	    }
-	  })]) : _e()])])
-	}},staticRenderFns: [function (){with(this) {
-	  return _h('legend', ["Show"])
-	}},function (){with(this) {
-	  return _h('h3', ["Ratios"])
-	}},function (){with(this) {
-	  return _h('h3', ["Ratios"])
-	}},function (){with(this) {
-	  return _h('h3', ["No requests"])
-	}},function (){with(this) {
-	  return _h('h3', ["None completed"])
-	}},function (){with(this) {
-	  return _h('h3', ["Average completion times"])
-	}},function (){with(this) {
-	  return _h('h3', ["Last completed evaluations"])
-	}}]}
-	if (false) {
-	  module.hot.accept()
-	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-8f4ff40e", module.exports)
-	  }
-	}
-
-/***/ },
-/* 139 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports={render:function (){with(this) {
-	  return _h('div', [_h('div', {
-	    staticClass: "container body-block"
-	  }, [_m(0), " ", _h('report-date', {
-	    directives: [{
-	      name: "model",
-	      value: (dates),
-	      expression: "dates"
-	    }],
-	    domProps: {
-	      "value": (dates)
-	    },
-	    on: {
-	      "input": function($event) {
-	        dates = $event
-	      }
-	    }
-	  }), " ", _h('div', {
-	    staticClass: "form-group"
-	  }, [_h('label', [_h('input', {
-	    attrs: {
-	      "type": "checkbox"
-	    },
-	    domProps: {
-	      "checked": Array.isArray(filterMilestones) ? _i(filterMilestones, null) > -1 : _q(filterMilestones, true)
-	    },
-	    on: {
-	      "change": function($event) {
-	        var $$a = filterMilestones,
-	          $$el = $event.target,
-	          $$c = $$el.checked ? (true) : (false);
-	        if (Array.isArray($$a)) {
-	          var $$v = null,
-	            $$i = _i($$a, $$v);
-	          if ($$c) {
-	            $$i < 0 && (filterMilestones = $$a.concat($$v))
-	          } else {
-	            $$i > -1 && (filterMilestones = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-	          }
-	        } else {
-	          filterMilestones = $$c
-	        }
-	      }
-	    }
-	  }), "\n\t\t\t\tFilter milestones\n\t\t\t"])]), " ", (filterMilestones) ? _h('fieldset', [_m(1), " ", _h('div', {
-	    staticClass: "filter-milestones-container"
-	  }, [_l((milestoneGroups), function(milestoneGroup, index) {
-	    return _h('div', {
-	      staticClass: "milestone-group"
-	    }, [_h('div', {
-	      staticClass: "panel panel-default"
-	    }, [_h('div', {
-	      staticClass: "panel-heading"
-	    }, [_h('label', {
-	      staticClass: "panel-title"
-	    }, [_h('input', {
-	      attrs: {
-	        "type": "checkbox"
-	      },
-	      domProps: {
-	        "checked": isEntireMilestoneGroupSelected(index)
-	      },
-	      on: {
-	        "click": function($event) {
-	          toggleEntireMilestoneGroup(index)
-	        }
-	      }
-	    }), "\n\t\t\t\t\t\t\t\t" + _s(milestoneGroup.text) + "\n\t\t\t\t\t\t\t"])]), " ", _h('div', {
-	      staticClass: "panel-body"
-	    }, [_l((milestoneGroup.children), function(child) {
-	      return _h('div', {
-	        staticClass: "form-group"
-	      }, [_h('label', [_h('input', {
-	        attrs: {
-	          "type": "checkbox"
-	        },
-	        domProps: {
-	          "value": child.id,
-	          "checked": Array.isArray(milestones) ? _i(milestones, child.id) > -1 : _q(milestones, true)
-	        },
-	        on: {
-	          "change": function($event) {
-	            var $$a = milestones,
-	              $$el = $event.target,
-	              $$c = $$el.checked ? (true) : (false);
-	            if (Array.isArray($$a)) {
-	              var $$v = child.id,
-	                $$i = _i($$a, $$v);
-	              if ($$c) {
-	                $$i < 0 && (milestones = $$a.concat($$v))
-	              } else {
-	                $$i > -1 && (milestones = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-	              }
-	            } else {
-	              milestones = $$c
-	            }
-	          }
-	        }
-	      }), "\n\t\t\t\t\t\t\t\t\t" + _s(child.text) + "\n\t\t\t\t\t\t\t\t"])])
-	    })])])])
-	  })])]) : _e(), " ", _h('button', {
-	    staticClass: "btn btn-lg btn-primary",
-	    attrs: {
-	      "type": "button"
-	    },
-	    on: {
-	      "click": runReport
-	    }
-	  }, ["\n\t\t\tRun report\n\t\t"])]), " ", (report) ? _h('div', [(report.stats) ? _h('stats-report', {
-	    attrs: {
-	      "report": report.stats
-	    }
-	  }) : _e(), " ", (report.aggregate) ? _h('aggregate-report', {
-	    attrs: {
-	      "report": report.aggregate
-	    }
-	  }) : _e()]) : _e()])
-	}},staticRenderFns: [function (){with(this) {
-	  return _h('h2', ["Trainee report"])
-	}},function (){with(this) {
-	  return _h('legend', ["Milestones"])
-	}}]}
-	if (false) {
-	  module.hot.accept()
-	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-155d597c", module.exports)
-	  }
-	}
-
-/***/ },
-/* 140 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports={render:function (){with(this) {
-	  return _h('div', [(reportType) ? _h('div', [(reportType === REPORT_TYPES.TRAINEE) ? _h('trainee-report') : _e(), " ", (reportType === REPORT_TYPES.FORM) ? _h('form-report') : _e(), " ", _h('div', {
-	    staticClass: "text-center"
-	  }, [_h('button', {
-	    staticClass: "btn btn-lg btn-default",
-	    attrs: {
-	      "type": "button"
-	    },
-	    on: {
-	      "click": handleResetClick
-	    }
-	  }, ["\n\t\t\t\tStart over\n\t\t\t"])])]) : _h('div', {
-	    staticClass: "container body-block"
-	  }, [_h('fieldset', [_h('legend', ["Report type"]), " ", _h('div', {
-	    staticClass: "form-inline"
-	  }, [_l((REPORT_TYPES), function(type) {
-	    return _h('div', {
-	      staticClass: "form-group col-sm-2"
-	    }, [_h('button', {
-	      staticClass: "btn lg btn-primary",
-	      attrs: {
-	        "type": "button"
-	      },
-	      on: {
-	        "click": function($event) {
-	          setReportType(type)
-	        }
-	      }
-	    }, ["\n\t\t\t\t\t\t" + _s(ucfirst(type)) + "\n\t\t\t\t\t"])])
-	  })])])]), " "])
-	}},staticRenderFns: []}
-	if (false) {
-	  module.hot.accept()
-	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-25c733f6", module.exports)
-	  }
-	}
-
-/***/ },
-/* 141 */
-/***/ function(module, exports, __webpack_require__) {
-
 	"use strict";
 	
-	var forEach                 = __webpack_require__(142).forEach;
-	var elementUtilsMaker       = __webpack_require__(143);
-	var listenerHandlerMaker    = __webpack_require__(144);
-	var idGeneratorMaker        = __webpack_require__(145);
-	var idHandlerMaker          = __webpack_require__(146);
-	var reporterMaker           = __webpack_require__(147);
-	var browserDetector         = __webpack_require__(148);
-	var batchProcessorMaker     = __webpack_require__(149);
-	var stateHandler            = __webpack_require__(151);
+	var forEach                 = __webpack_require__(128).forEach;
+	var elementUtilsMaker       = __webpack_require__(129);
+	var listenerHandlerMaker    = __webpack_require__(130);
+	var idGeneratorMaker        = __webpack_require__(131);
+	var idHandlerMaker          = __webpack_require__(132);
+	var reporterMaker           = __webpack_require__(133);
+	var browserDetector         = __webpack_require__(134);
+	var batchProcessorMaker     = __webpack_require__(135);
+	var stateHandler            = __webpack_require__(137);
 	
 	//Detection strategies.
-	var objectStrategyMaker     = __webpack_require__(152);
-	var scrollStrategyMaker     = __webpack_require__(153);
+	var objectStrategyMaker     = __webpack_require__(138);
+	var scrollStrategyMaker     = __webpack_require__(139);
 	
 	function isCollection(obj) {
 	    return Array.isArray(obj) || obj.length !== undefined;
@@ -27325,7 +26303,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 142 */
+/* 128 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -27350,7 +26328,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 143 */
+/* 129 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -27408,7 +26386,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 144 */
+/* 130 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -27474,7 +26452,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 145 */
+/* 131 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -27498,7 +26476,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 146 */
+/* 132 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -27551,7 +26529,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 147 */
+/* 133 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -27599,7 +26577,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 148 */
+/* 134 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -27644,12 +26622,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 149 */
+/* 135 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
-	var utils = __webpack_require__(150);
+	var utils = __webpack_require__(136);
 	
 	module.exports = function batchProcessorMaker(options) {
 	    options             = options || {};
@@ -27788,7 +26766,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 150 */
+/* 136 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -27809,7 +26787,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 151 */
+/* 137 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -27837,7 +26815,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 152 */
+/* 138 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -27847,7 +26825,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	"use strict";
 	
-	var browserDetector = __webpack_require__(148);
+	var browserDetector = __webpack_require__(134);
 	
 	module.exports = function(options) {
 	    options             = options || {};
@@ -28056,7 +27034,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 153 */
+/* 139 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -28066,7 +27044,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	"use strict";
 	
-	var forEach = __webpack_require__(142).forEach;
+	var forEach = __webpack_require__(128).forEach;
 	
 	module.exports = function(options) {
 	    options             = options || {};
@@ -28681,6 +27659,1112 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	};
 
+
+/***/ },
+/* 140 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){with(this) {
+	  return _h('table', {
+	    staticClass: "table table-striped table-bordered",
+	    attrs: {
+	      "id": id,
+	      "width": "100%"
+	    }
+	  }, [_h('thead', [_l((thead), function(row, rowIndex) {
+	    return _h('tr', {
+	      key: ("row-" + rowIndex)
+	    }, [_l((row), function(th, thIndex) {
+	      return _h('th', {
+	        key: thIndex,
+	        attrs: {
+	          "rowspan": th.rowspan,
+	          "colspan": th.colspan
+	        }
+	      }, ["\n\t\t\t\t" + _s(th.text || th) + "\n\t\t\t"])
+	    })])
+	  })])])
+	}},staticRenderFns: []}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-hot-reload-api").rerender("data-v-961f66ec", module.exports)
+	  }
+	}
+
+/***/ },
+/* 141 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){with(this) {
+	  return _h('div', {
+	    staticClass: "container body-block"
+	  }, [_h('fieldset', {
+	    staticClass: "show-container"
+	  }, [_m(0), " ", _l((show), function(part, name) {
+	    return _h('label', [_h('input', {
+	      attrs: {
+	        "type": "checkbox"
+	      },
+	      domProps: {
+	        "checked": Array.isArray(show[name]) ? _i(show[name], null) > -1 : _q(show[name], true)
+	      },
+	      on: {
+	        "change": function($event) {
+	          var $$a = show[name],
+	            $$el = $event.target,
+	            $$c = $$el.checked ? (true) : (false);
+	          if (Array.isArray($$a)) {
+	            var $$v = null,
+	              $$i = _i($$a, $$v);
+	            if ($$c) {
+	              $$i < 0 && (show[name] = $$a.concat($$v))
+	            } else {
+	              $$i > -1 && (show[name] = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+	            }
+	          } else {
+	            show[name] = $$c
+	          }
+	        }
+	      }
+	    }), "\n\t\t\t" + _s(camelCaseToWords(name)) + "\n\t\t"])
+	  })]), " ", _h('data-table', {
+	    attrs: {
+	      "id": "aggregate-table",
+	      "thead": tableThead,
+	      "config": tableConfig,
+	      "data": tableData
+	    }
+	  }), " ", (show.graphs) ? _h('div', {
+	    staticClass: "graphs-container"
+	  }, [_h('div', {
+	    staticClass: "row"
+	  }, [(show.competencies) ? _h('div', {
+	    class: graphWidth
+	  }, [_h('chartjs-chart', {
+	    attrs: {
+	      "id": "aggregate-competency-chart",
+	      "type": graphType,
+	      "options": chartOptions,
+	      "data": competencyChartData
+	    }
+	  })]) : _e(), " ", (show.milestones) ? _h('div', {
+	    class: graphWidth
+	  }, [_h('chartjs-chart', {
+	    attrs: {
+	      "id": "aggregate-milestone-chart",
+	      "type": graphType,
+	      "options": chartOptions,
+	      "data": milestoneChartData
+	    }
+	  })]) : _e()]), " ", _h('div', {
+	    staticClass: "row graphs-controls"
+	  }, [_h('div', {
+	    staticClass: "col-sm-offset-5 col-sm-2"
+	  }, [_h('div', {
+	    staticClass: "panel panel-default"
+	  }, [_m(1), " ", _h('div', {
+	    staticClass: "panel-body"
+	  }, [(show.milestones && show.competencies) ? _h('fieldset', [_m(2), " ", _h('div', {
+	    staticClass: "btn-group btn-group-justified",
+	    attrs: {
+	      "data-toggle": "buttons"
+	    }
+	  }, [_h('bootstrap-button-input', {
+	    directives: [{
+	      name: "model",
+	      value: (graphOrientation),
+	      expression: "graphOrientation"
+	    }],
+	    attrs: {
+	      "type": "radio",
+	      "option": "horizontal"
+	    },
+	    domProps: {
+	      "value": (graphOrientation)
+	    },
+	    on: {
+	      "input": function($event) {
+	        graphOrientation = $event
+	      }
+	    }
+	  }, [_m(3)]), " ", _h('bootstrap-button-input', {
+	    directives: [{
+	      name: "model",
+	      value: (graphOrientation),
+	      expression: "graphOrientation"
+	    }],
+	    attrs: {
+	      "type": "radio",
+	      "option": "vertical"
+	    },
+	    domProps: {
+	      "value": (graphOrientation)
+	    },
+	    on: {
+	      "input": function($event) {
+	        graphOrientation = $event
+	      }
+	    }
+	  }, [_m(4)])])]) : _e(), " ", _h('div', {
+	    staticClass: "form-group"
+	  }, [_h('label', {
+	    staticClass: "containing-label"
+	  }, ["\n\t\t\t\t\t\t\t\tType\n\t\t\t\t\t\t\t\t", _h('select', {
+	    directives: [{
+	      name: "model",
+	      value: (graphType),
+	      expression: "graphType"
+	    }],
+	    staticClass: "form-control",
+	    on: {
+	      "change": function($event) {
+	        graphType = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          return "_value" in o ? o._value : o.value
+	        })[0]
+	      }
+	    }
+	  }, [_l((chartTypes), function(type) {
+	    return _h('option', {
+	      domProps: {
+	        "value": type
+	      }
+	    }, ["\n\t\t\t\t\t\t\t\t\t\t" + _s(ucfirst(type)) + "\n\t\t\t\t\t\t\t\t\t"])
+	  })])])])])])])])]) : _e()])
+	}},staticRenderFns: [function (){with(this) {
+	  return _h('legend', ["Show"])
+	}},function (){with(this) {
+	  return _h('div', {
+	    staticClass: "panel-heading"
+	  }, [_h('span', {
+	    staticClass: "panel-title"
+	  }, ["Graph options"])])
+	}},function (){with(this) {
+	  return _h('legend', ["Orientation"])
+	}},function (){with(this) {
+	  return _h('span', {
+	    staticClass: "glyphicon glyphicon-option-horizontal"
+	  })
+	}},function (){with(this) {
+	  return _h('span', {
+	    staticClass: "glyphicon glyphicon-option-vertical"
+	  })
+	}}]}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-hot-reload-api").rerender("data-v-19509019", module.exports)
+	  }
+	}
+
+/***/ },
+/* 142 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_exports__, __vue_options__
+	
+	/* styles */
+	__webpack_require__(143)
+	
+	/* script */
+	__vue_exports__ = __webpack_require__(145)
+	
+	/* template */
+	var __vue_template__ = __webpack_require__(146)
+	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+	if (
+	  typeof __vue_exports__.default === "object" ||
+	  typeof __vue_exports__.default === "function"
+	) {
+	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+	__vue_options__ = __vue_exports__ = __vue_exports__.default
+	}
+	if (typeof __vue_options__ === "function") {
+	  __vue_options__ = __vue_options__.options
+	}
+	__vue_options__.name = __vue_options__.name || "ReportDate"
+	__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ReportDate.vue"
+	__vue_options__.render = __vue_template__.render
+	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+	__vue_options__._scopeId = "data-v-4ee850ac"
+	
+	/* hot reload */
+	if (false) {(function () {
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  module.hot.accept()
+	  if (!module.hot.data) {
+	    hotAPI.createRecord("data-v-4ee850ac", __vue_options__)
+	  } else {
+	    hotAPI.reload("data-v-4ee850ac", __vue_options__)
+	  }
+	})()}
+	if (__vue_options__.functional) {console.error("[vue-loader] ReportDate.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+	
+	module.exports = __vue_exports__
+
+
+/***/ },
+/* 143 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(144);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(67)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-4ee850ac&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ReportDate.vue", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-4ee850ac&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ReportDate.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 144 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(66)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"ReportDate.vue","sourceRoot":"webpack://"}]);
+	
+	// exports
+
+
+/***/ },
+/* 145 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	
+	exports.default = {
+		props: ['value'],
+		mounted: function mounted() {
+			$('#reports-start-date, #reports-end-date').datepicker({
+				dateFormat: "yy-mm-dd",
+				onSelect: function onSelect() {
+					this.dispatchEvent(new Event('input'));
+				}
+			});
+		},
+	
+		methods: {
+			handleInput: function handleInput(prop, value) {
+				var newValue = Object.assign({}, this.value, _defineProperty({}, prop, value));
+				this.$emit('input', newValue);
+			}
+		}
+	};
+
+/***/ },
+/* 146 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){with(this) {
+	  return _h('div', {
+	    staticClass: "form-horizontal"
+	  }, [_h('div', {
+	    staticClass: "form-group"
+	  }, [_h('div', {
+	    staticClass: "col-md-4"
+	  }, [_m(0), " ", _h('input', {
+	    staticClass: "form-control",
+	    attrs: {
+	      "type": "text",
+	      "id": "reports-start-date"
+	    },
+	    domProps: {
+	      "value": value.startDate
+	    },
+	    on: {
+	      "input": function($event) {
+	        handleInput('startDate', $event.target.value)
+	      }
+	    }
+	  })]), " ", _h('div', {
+	    staticClass: "col-md-4"
+	  }, [_m(1), " ", _h('input', {
+	    staticClass: "form-control",
+	    attrs: {
+	      "type": "text",
+	      "id": "reports-end-date"
+	    },
+	    domProps: {
+	      "value": value.endDate
+	    },
+	    on: {
+	      "input": function($event) {
+	        handleInput('endDate', $event.target.value)
+	      }
+	    }
+	  })]), " ", _m(2)])])
+	}},staticRenderFns: [function (){with(this) {
+	  return _h('label', {
+	    attrs: {
+	      "for": "reports-start-date"
+	    }
+	  }, ["Start Date"])
+	}},function (){with(this) {
+	  return _h('label', {
+	    attrs: {
+	      "for": "reports-end-date"
+	    }
+	  }, ["End Date"])
+	}},function (){with(this) {
+	  return _h('div', {
+	    staticClass: "col-md-4"
+	  })
+	}}]}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-hot-reload-api").rerender("data-v-4ee850ac", module.exports)
+	  }
+	}
+
+/***/ },
+/* 147 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_exports__, __vue_options__
+	
+	/* styles */
+	__webpack_require__(148)
+	
+	/* script */
+	__vue_exports__ = __webpack_require__(150)
+	
+	/* template */
+	var __vue_template__ = __webpack_require__(151)
+	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+	if (
+	  typeof __vue_exports__.default === "object" ||
+	  typeof __vue_exports__.default === "function"
+	) {
+	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+	__vue_options__ = __vue_exports__ = __vue_exports__.default
+	}
+	if (typeof __vue_options__ === "function") {
+	  __vue_options__ = __vue_options__.options
+	}
+	__vue_options__.name = __vue_options__.name || "StatsReport"
+	__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/StatsReport.vue"
+	__vue_options__.render = __vue_template__.render
+	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+	__vue_options__._scopeId = "data-v-8f4ff40e"
+	
+	/* hot reload */
+	if (false) {(function () {
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  module.hot.accept()
+	  if (!module.hot.data) {
+	    hotAPI.createRecord("data-v-8f4ff40e", __vue_options__)
+	  } else {
+	    hotAPI.reload("data-v-8f4ff40e", __vue_options__)
+	  }
+	})()}
+	if (__vue_options__.functional) {console.error("[vue-loader] StatsReport.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+	
+	module.exports = __vue_exports__
+
+
+/***/ },
+/* 148 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(149);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(67)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-8f4ff40e&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./StatsReport.vue", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-8f4ff40e&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./StatsReport.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 149 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(66)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "\n.show-container label + label[data-v-8f4ff40e] {\n\tmargin-left: 2em;\n}\n.stats-report-container[data-v-8f4ff40e] {\n\tdisplay: flex;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tjustify-content: space-between;\n\talign-items: stretch;\n}\n.stats-report-container > div[data-v-8f4ff40e] {\n\twidth: calc(50% - 20px);\n\tmargin: 10px;\n\tflex-grow: 1;\n\tflex-shrink: 0;\n}\n.list-chart-container-container[data-v-8f4ff40e] {\n\theight: 625px;\n\toverflow: auto;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/StatsReport.vue?820061ec"],"names":[],"mappings":";AA8QA;CACA,iBAAA;CACA;AAEA;CACA,cAAA;CACA,oBAAA;CACA,gBAAA;CACA,+BAAA;CACA,qBAAA;CACA;AAEA;CACA,wBAAA;CACA,aAAA;CACA,aAAA;CACA,eAAA;CACA;AAEA;CACA,cAAA;CACA,eAAA;CACA","file":"StatsReport.vue","sourcesContent":["<template>\n\t<div class=\"container body-block\">\n\t\t<fieldset class=\"show-container\">\n\t\t\t<legend>Show</legend>\n\t\t\t<label v-for=\"(part, name) of show\">\n\t\t\t\t<input type=\"checkbox\" v-model=\"show[name]\" />\n\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t</label>\n\t\t</fieldset>\n\t\t<div class=\"panel panel-default\">\n\t\t\t<div class=\"panel-heading\">\n\t\t\t\t<span class=\"panel-title\">Chart settings</span>\n\t\t\t</div>\n\t\t\t<div class=\"panel-body\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t<select class=\"form-control\" v-model=\"chart.size\">\n\t\t\t\t\t\t<option value=\"fullSize\">Full size</option>\n\t\t\t\t\t\t<option value=\"fit\">Fit</option>\n\t\t\t\t\t</select>\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div class=\"stats-report-container\">\n\t\t\t<div v-if=\"show.ratios\">\n\t\t\t\t<h3>Ratios</h3>\n\t\t\t\t<data-table id=\"stats-ratios\"\n\t\t\t\t\t:thead=\"ratiosThead\" :config=\"listTableConfig\"\n\t\t\t\t\t:data=\"ratiosData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.ratios && show.graphs\">\n\t\t\t\t<h3>Ratios</h3>\n\t\t\t\t<div class=\"list-chart-container-container\">\n\t\t\t\t\t<div class=\"list-chart-container\" :style=\"listChartContainerStyle\">\n\t\t\t\t\t\t<chartjs-chart id=\"chart-ratios\" type=\"horizontalBar\"\n\t\t\t\t\t\t\t:data=\"ratiosGraphData\" :options=\"listChartConfig\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div v-if=\"show.noRequests\">\n\t\t\t\t<h3>No requests</h3>\n\t\t\t\t<data-table id=\"stats-no-requests\"\n\t\t\t\t\t:thead=\"noRequestsThead\" :config=\"listTableConfig\"\n\t\t\t\t\t:data=\"noRequestsData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.noneCompleted\">\n\t\t\t\t<h3>None completed</h3>\n\t\t\t\t<data-table id=\"stats-none-completed\"\n\t\t\t\t\t:thead=\"noneCompletedThead\" :config=\"listTableConfig\"\n\t\t\t\t\t:data=\"noneCompletedData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.averageCompletionTimes\">\n\t\t\t\t<h3>Average completion times</h3>\n\t\t\t\t<data-table id=\"stats-average-completion-times\"\n\t\t\t\t\t:thead=\"averageCompletionTimesThead\"\n\t\t\t\t\t:config=\"averageCompletionTimesConfig\"\n\t\t\t\t\t:data=\"averageCompletionTimesData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.lastCompleted\">\n\t\t\t\t<h3>Last completed evaluations</h3>\n\t\t\t\t<data-table id=\"stats-last-completed\"\n\t\t\t\t\t:thead=\"lastCompletedThead\" :config=\"lastCompletedConfig\"\n\t\t\t\t\t:data=\"lastCompletedData\" />\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport Color from 'color';\n\nimport ChartjsChart from './ChartjsChart.vue';\nimport DataTable from './DataTable.vue';\n\nimport { CHART_COLORS } from '../modules/constants.js';\nimport { camelCaseToWords } from '../modules/utils.js';\nimport { createDateCell, renderDateCell } from '../modules/datatable-utils.js';\n\nexport default {\n\tprops: {\n\t\treport: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tratios: false,\n\t\t\t\tgraphs: false,\n\t\t\t\tnoRequests: false,\n\t\t\t\tnoneCompleted: false,\n\t\t\t\taverageCompletionTimes: false,\n\t\t\t\tlastCompleted: false\n\t\t\t},\n\t\t\tchart: {\n\t\t\t\tsize: 'fullSize'\n\t\t\t}\n\t\t};\n\t},\n\tcomputed: {\n\t\tlistTableClass(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': true\n\t\t\t};\n\t\t},\n\t\tlistTableConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollX: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tfixedColumns: true\n\t\t\t};\n\t\t},\n\t\tlistChartContainerStyle(){\n\t\t\treturn this.chart.size === 'fullSize'\n\t\t\t? {\n\t\t\t\twidth: '100%',\n\t\t\t\theight: `${15 * this.report.userStats.length}px`\n\t\t\t}\n\t\t\t: {\n\t\t\t\twidth: '100%',\n\t\t\t\theight: '100%'\n\t\t\t};\n\t\t},\n\t\tlistChartConfig(){\n\t\t\treturn {\n\t\t\t\tmaintainAspectRatio: false,\n\t\t\t\tlegend: {\n\t\t\t\t\tlabels: {\n\t\t\t\t\t\tfontSize: 18,\n\t\t\t\t\t\tfontColor: '#333'\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tcallbacks: {\n\t\t\t\t\t\tlabel(tooltip, data){\n\t\t\t\t\t\t\tlet value = parseFloat(tooltip.xLabel).toFixed();\n\t\t\t\t\t\t\tlet name = data.datasets[tooltip.datasetIndex].label;\n\t\t\t\t\t\t\treturn `${value}%`;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t};\n\t\t},\n\t\tratiosThead(){\n\t\t\treturn [[\n\t\t\t\t'User',\n\t\t\t\t'Requested',\n\t\t\t\t'Total Requests',\n\t\t\t\t'Total Completed',\n\t\t\t\t'Total Ratio'\n\t\t\t]];\n\t\t},\n\t\tratiosData(){\n\t\t\tlet data = [];\n\t\t\tfor(let stat of this.report.userStats){\n\t\t\t\tdata.push([\n\t\t\t\t\tstat.name,\n\t\t\t\t\tstat.requested,\n\t\t\t\t\tstat.totalRequests,\n\t\t\t\t\tstat.completed,\n\t\t\t\t\tstat.ratio\n\t\t\t\t]);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\t\tratiosGraphData(){\n\t\t\tlet color = Color(CHART_COLORS.OTHER[0]);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: this.report.userStats.map(userStat => userStat.name),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Requested / Completed %',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tborderWidth: 1,\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: this.report.userStats.map(userStat => userStat.ratio)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tnoRequestsThead(){\n\t\t\treturn [\n\t\t\t\t['No requests']\n\t\t\t];\n\t\t},\n\t\tnoRequestsData(){\n\t\t\treturn this.report.noneRequested.map(name => [name]);\n\t\t},\n\t\tnoneCompletedThead(){\n\t\t\treturn [\n\t\t\t\t['No completed evals']\n\t\t\t];\n\t\t},\n\t\tnoneCompletedData(){\n\t\t\treturn this.report.noneCompleted.map(name => [name]);\n\t\t},\n\t\taverageCompletionTimesThead(){\n\t\t\treturn [\n\t\t\t\t['User', 'Time']\n\t\t\t];\n\t\t},\n\t\taverageCompletionTimesConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tcolumns: [\n\t\t\t\t\t{data: 'name'},\n\t\t\t\t\t{data: 'time'}\n\t\t\t\t],\n\t\t\t\tfixedHeader: true\n\t\t\t};\n\t\t},\n\t\taverageCompletionTimesData(){\n\t\t\treturn this.report.averageCompletionTimes;\n\t\t},\n\t\tlastCompletedThead(){\n\t\t\treturn [\n\t\t\t\t['User', 'Completed', 'Evaluation']\n\t\t\t];\n\t\t},\n\t\tlastCompletedConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tcolumns: [\n\t\t\t\t\t{data: 'name'},\n\t\t\t\t\t{\n\t\t\t\t\t\tdata: 'evaluation.complete_date',\n\t\t\t\t\t\trender: renderDateCell,\n\t\t\t\t\t\tcreatedCell: createDateCell\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\tdata: 'evaluation.url'\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\tfixedHeader: true\n\t\t\t};\n\t\t},\n\t\tlastCompletedData(){\n\t\t\treturn this.report.lastCompleted;\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords\n\t},\n\tcomponents: {\n\t\tChartjsChart,\n\t\tDataTable\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-container label + label {\n\t\tmargin-left: 2em;\n\t}\n\n\t.stats-report-container {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tflex-wrap: wrap;\n\t\tjustify-content: space-between;\n\t\talign-items: stretch;\n\t}\n\n\t.stats-report-container > div {\n\t\twidth: calc(50% - 20px);\n\t\tmargin: 10px;\n\t\tflex-grow: 1;\n\t\tflex-shrink: 0;\n\t}\n\n\t.list-chart-container-container {\n\t\theight: 625px;\n\t\toverflow: auto;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+	
+	// exports
+
+
+/***/ },
+/* 150 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _color = __webpack_require__(108);
+	
+	var _color2 = _interopRequireDefault(_color);
+	
+	var _ChartjsChart = __webpack_require__(122);
+	
+	var _ChartjsChart2 = _interopRequireDefault(_ChartjsChart);
+	
+	var _DataTable = __webpack_require__(125);
+	
+	var _DataTable2 = _interopRequireDefault(_DataTable);
+	
+	var _constants = __webpack_require__(58);
+	
+	var _utils = __webpack_require__(59);
+	
+	var _datatableUtils = __webpack_require__(57);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	
+	exports.default = {
+		props: {
+			report: {
+				type: Object,
+				required: true
+			}
+		},
+		data: function data() {
+			return {
+				show: {
+					ratios: false,
+					graphs: false,
+					noRequests: false,
+					noneCompleted: false,
+					averageCompletionTimes: false,
+					lastCompleted: false
+				},
+				chart: {
+					size: 'fullSize'
+				}
+			};
+		},
+	
+		computed: {
+			listTableClass: function listTableClass() {
+				return {
+					'col-md-6': true
+				};
+			},
+			listTableConfig: function listTableConfig() {
+				return {
+					order: [[0, 'asc']],
+					stateSave: true,
+					scrollX: true,
+					scrollY: '500px',
+					scrollCollapse: true,
+					paging: false,
+					fixedColumns: true
+				};
+			},
+			listChartContainerStyle: function listChartContainerStyle() {
+				return this.chart.size === 'fullSize' ? {
+					width: '100%',
+					height: 15 * this.report.userStats.length + 'px'
+				} : {
+					width: '100%',
+					height: '100%'
+				};
+			},
+			listChartConfig: function listChartConfig() {
+				return {
+					maintainAspectRatio: false,
+					legend: {
+						labels: {
+							fontSize: 18,
+							fontColor: '#333'
+						}
+					},
+					tooltips: {
+						callbacks: {
+							label: function label(tooltip, data) {
+								var value = parseFloat(tooltip.xLabel).toFixed();
+								var name = data.datasets[tooltip.datasetIndex].label;
+								return value + '%';
+							}
+						}
+					}
+				};
+			},
+			ratiosThead: function ratiosThead() {
+				return [['User', 'Requested', 'Total Requests', 'Total Completed', 'Total Ratio']];
+			},
+			ratiosData: function ratiosData() {
+				var data = [];
+				var _iteratorNormalCompletion = true;
+				var _didIteratorError = false;
+				var _iteratorError = undefined;
+	
+				try {
+					for (var _iterator = this.report.userStats[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var stat = _step.value;
+	
+						data.push([stat.name, stat.requested, stat.totalRequests, stat.completed, stat.ratio]);
+					}
+				} catch (err) {
+					_didIteratorError = true;
+					_iteratorError = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion && _iterator.return) {
+							_iterator.return();
+						}
+					} finally {
+						if (_didIteratorError) {
+							throw _iteratorError;
+						}
+					}
+				}
+	
+				return data;
+			},
+			ratiosGraphData: function ratiosGraphData() {
+				var color = (0, _color2.default)(_constants.CHART_COLORS.OTHER[0]);
+				var backgroundColor = color.clone().alpha(0.2);
+				return {
+					labels: this.report.userStats.map(function (userStat) {
+						return userStat.name;
+					}),
+					datasets: [{
+						label: 'Requested / Completed %',
+						backgroundColor: backgroundColor.rgbString(),
+						borderColor: color.rgbString(),
+						borderWidth: 1,
+						pointBackgroundColor: color.rgbString(),
+						pointBorderColor: '#fff',
+						pointHoverBackgroundColor: '#fff',
+						pointHoverBorderColor: color.rgbString(),
+						data: this.report.userStats.map(function (userStat) {
+							return userStat.ratio;
+						})
+					}]
+				};
+			},
+			noRequestsThead: function noRequestsThead() {
+				return [['No requests']];
+			},
+			noRequestsData: function noRequestsData() {
+				return this.report.noneRequested.map(function (name) {
+					return [name];
+				});
+			},
+			noneCompletedThead: function noneCompletedThead() {
+				return [['No completed evals']];
+			},
+			noneCompletedData: function noneCompletedData() {
+				return this.report.noneCompleted.map(function (name) {
+					return [name];
+				});
+			},
+			averageCompletionTimesThead: function averageCompletionTimesThead() {
+				return [['User', 'Time']];
+			},
+			averageCompletionTimesConfig: function averageCompletionTimesConfig() {
+				return {
+					order: [[0, 'asc']],
+					stateSave: true,
+					scrollY: '500px',
+					scrollCollapse: true,
+					paging: false,
+					columns: [{ data: 'name' }, { data: 'time' }],
+					fixedHeader: true
+				};
+			},
+			averageCompletionTimesData: function averageCompletionTimesData() {
+				return this.report.averageCompletionTimes;
+			},
+			lastCompletedThead: function lastCompletedThead() {
+				return [['User', 'Completed', 'Evaluation']];
+			},
+			lastCompletedConfig: function lastCompletedConfig() {
+				return {
+					order: [[0, 'asc']],
+					stateSave: true,
+					scrollY: '500px',
+					scrollCollapse: true,
+					paging: false,
+					columns: [{ data: 'name' }, {
+						data: 'evaluation.complete_date',
+						render: _datatableUtils.renderDateCell,
+						createdCell: _datatableUtils.createDateCell
+					}, {
+						data: 'evaluation.url'
+					}],
+					fixedHeader: true
+				};
+			},
+			lastCompletedData: function lastCompletedData() {
+				return this.report.lastCompleted;
+			}
+		},
+		methods: {
+			camelCaseToWords: _utils.camelCaseToWords
+		},
+		components: {
+			ChartjsChart: _ChartjsChart2.default,
+			DataTable: _DataTable2.default
+		}
+	};
+
+/***/ },
+/* 151 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){with(this) {
+	  return _h('div', {
+	    staticClass: "container body-block"
+	  }, [_h('fieldset', {
+	    staticClass: "show-container"
+	  }, [_m(0), " ", _l((show), function(part, name) {
+	    return _h('label', [_h('input', {
+	      attrs: {
+	        "type": "checkbox"
+	      },
+	      domProps: {
+	        "checked": Array.isArray(show[name]) ? _i(show[name], null) > -1 : _q(show[name], true)
+	      },
+	      on: {
+	        "change": function($event) {
+	          var $$a = show[name],
+	            $$el = $event.target,
+	            $$c = $$el.checked ? (true) : (false);
+	          if (Array.isArray($$a)) {
+	            var $$v = null,
+	              $$i = _i($$a, $$v);
+	            if ($$c) {
+	              $$i < 0 && (show[name] = $$a.concat($$v))
+	            } else {
+	              $$i > -1 && (show[name] = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+	            }
+	          } else {
+	            show[name] = $$c
+	          }
+	        }
+	      }
+	    }), "\n\t\t\t" + _s(camelCaseToWords(name)) + "\n\t\t"])
+	  })]), " ", _h('div', {
+	    staticClass: "panel panel-default"
+	  }, [_m(1), " ", _h('div', {
+	    staticClass: "panel-body"
+	  }, [_h('label', {
+	    staticClass: "containing-label"
+	  }, [_h('select', {
+	    directives: [{
+	      name: "model",
+	      value: (chart.size),
+	      expression: "chart.size"
+	    }],
+	    staticClass: "form-control",
+	    on: {
+	      "change": function($event) {
+	        chart.size = Array.prototype.filter.call($event.target.options, function(o) {
+	          return o.selected
+	        }).map(function(o) {
+	          return "_value" in o ? o._value : o.value
+	        })[0]
+	      }
+	    }
+	  }, [_m(2), " ", _m(3)])])])]), " ", _h('div', {
+	    staticClass: "stats-report-container"
+	  }, [(show.ratios) ? _h('div', [_m(4), " ", _h('data-table', {
+	    attrs: {
+	      "id": "stats-ratios",
+	      "thead": ratiosThead,
+	      "config": listTableConfig,
+	      "data": ratiosData
+	    }
+	  })]) : _e(), " ", (show.ratios && show.graphs) ? _h('div', [_m(5), " ", _h('div', {
+	    staticClass: "list-chart-container-container"
+	  }, [_h('div', {
+	    staticClass: "list-chart-container",
+	    style: (listChartContainerStyle)
+	  }, [_h('chartjs-chart', {
+	    attrs: {
+	      "id": "chart-ratios",
+	      "type": "horizontalBar",
+	      "data": ratiosGraphData,
+	      "options": listChartConfig
+	    }
+	  })])])]) : _e(), " ", (show.noRequests) ? _h('div', [_m(6), " ", _h('data-table', {
+	    attrs: {
+	      "id": "stats-no-requests",
+	      "thead": noRequestsThead,
+	      "config": listTableConfig,
+	      "data": noRequestsData
+	    }
+	  })]) : _e(), " ", (show.noneCompleted) ? _h('div', [_m(7), " ", _h('data-table', {
+	    attrs: {
+	      "id": "stats-none-completed",
+	      "thead": noneCompletedThead,
+	      "config": listTableConfig,
+	      "data": noneCompletedData
+	    }
+	  })]) : _e(), " ", (show.averageCompletionTimes) ? _h('div', [_m(8), " ", _h('data-table', {
+	    attrs: {
+	      "id": "stats-average-completion-times",
+	      "thead": averageCompletionTimesThead,
+	      "config": averageCompletionTimesConfig,
+	      "data": averageCompletionTimesData
+	    }
+	  })]) : _e(), " ", (show.lastCompleted) ? _h('div', [_m(9), " ", _h('data-table', {
+	    attrs: {
+	      "id": "stats-last-completed",
+	      "thead": lastCompletedThead,
+	      "config": lastCompletedConfig,
+	      "data": lastCompletedData
+	    }
+	  })]) : _e()])])
+	}},staticRenderFns: [function (){with(this) {
+	  return _h('legend', ["Show"])
+	}},function (){with(this) {
+	  return _h('div', {
+	    staticClass: "panel-heading"
+	  }, [_h('span', {
+	    staticClass: "panel-title"
+	  }, ["Chart settings"])])
+	}},function (){with(this) {
+	  return _h('option', {
+	    attrs: {
+	      "value": "fullSize"
+	    }
+	  }, ["Full size"])
+	}},function (){with(this) {
+	  return _h('option', {
+	    attrs: {
+	      "value": "fit"
+	    }
+	  }, ["Fit"])
+	}},function (){with(this) {
+	  return _h('h3', ["Ratios"])
+	}},function (){with(this) {
+	  return _h('h3', ["Ratios"])
+	}},function (){with(this) {
+	  return _h('h3', ["No requests"])
+	}},function (){with(this) {
+	  return _h('h3', ["None completed"])
+	}},function (){with(this) {
+	  return _h('h3', ["Average completion times"])
+	}},function (){with(this) {
+	  return _h('h3', ["Last completed evaluations"])
+	}}]}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-hot-reload-api").rerender("data-v-8f4ff40e", module.exports)
+	  }
+	}
+
+/***/ },
+/* 152 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){with(this) {
+	  return _h('div', [_h('div', {
+	    staticClass: "container body-block"
+	  }, [_m(0), " ", _h('report-date', {
+	    directives: [{
+	      name: "model",
+	      value: (dates),
+	      expression: "dates"
+	    }],
+	    domProps: {
+	      "value": (dates)
+	    },
+	    on: {
+	      "input": function($event) {
+	        dates = $event
+	      }
+	    }
+	  }), " ", _h('div', {
+	    staticClass: "form-group"
+	  }, [_h('label', [_h('input', {
+	    attrs: {
+	      "type": "checkbox"
+	    },
+	    domProps: {
+	      "checked": Array.isArray(filterMilestones) ? _i(filterMilestones, null) > -1 : _q(filterMilestones, true)
+	    },
+	    on: {
+	      "change": function($event) {
+	        var $$a = filterMilestones,
+	          $$el = $event.target,
+	          $$c = $$el.checked ? (true) : (false);
+	        if (Array.isArray($$a)) {
+	          var $$v = null,
+	            $$i = _i($$a, $$v);
+	          if ($$c) {
+	            $$i < 0 && (filterMilestones = $$a.concat($$v))
+	          } else {
+	            $$i > -1 && (filterMilestones = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+	          }
+	        } else {
+	          filterMilestones = $$c
+	        }
+	      }
+	    }
+	  }), "\n\t\t\t\tFilter milestones\n\t\t\t"])]), " ", (filterMilestones) ? _h('fieldset', [_m(1), " ", _h('div', {
+	    staticClass: "filter-milestones-container"
+	  }, [_l((milestoneGroups), function(milestoneGroup, index) {
+	    return _h('div', {
+	      staticClass: "milestone-group"
+	    }, [_h('div', {
+	      staticClass: "panel panel-default"
+	    }, [_h('div', {
+	      staticClass: "panel-heading"
+	    }, [_h('label', {
+	      staticClass: "panel-title"
+	    }, [_h('input', {
+	      attrs: {
+	        "type": "checkbox"
+	      },
+	      domProps: {
+	        "checked": isEntireMilestoneGroupSelected(index)
+	      },
+	      on: {
+	        "click": function($event) {
+	          toggleEntireMilestoneGroup(index)
+	        }
+	      }
+	    }), "\n\t\t\t\t\t\t\t\t" + _s(milestoneGroup.text) + "\n\t\t\t\t\t\t\t"])]), " ", _h('div', {
+	      staticClass: "panel-body"
+	    }, [_l((milestoneGroup.children), function(child) {
+	      return _h('div', {
+	        staticClass: "form-group"
+	      }, [_h('label', [_h('input', {
+	        attrs: {
+	          "type": "checkbox"
+	        },
+	        domProps: {
+	          "value": child.id,
+	          "checked": Array.isArray(milestones) ? _i(milestones, child.id) > -1 : _q(milestones, true)
+	        },
+	        on: {
+	          "change": function($event) {
+	            var $$a = milestones,
+	              $$el = $event.target,
+	              $$c = $$el.checked ? (true) : (false);
+	            if (Array.isArray($$a)) {
+	              var $$v = child.id,
+	                $$i = _i($$a, $$v);
+	              if ($$c) {
+	                $$i < 0 && (milestones = $$a.concat($$v))
+	              } else {
+	                $$i > -1 && (milestones = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+	              }
+	            } else {
+	              milestones = $$c
+	            }
+	          }
+	        }
+	      }), "\n\t\t\t\t\t\t\t\t\t" + _s(child.text) + "\n\t\t\t\t\t\t\t\t"])])
+	    })])])])
+	  })])]) : _e(), " ", _h('button', {
+	    staticClass: "btn btn-lg btn-primary",
+	    attrs: {
+	      "type": "button"
+	    },
+	    on: {
+	      "click": runReport
+	    }
+	  }, ["\n\t\t\tRun report\n\t\t"])]), " ", (report) ? _h('div', [(report.stats) ? _h('stats-report', {
+	    attrs: {
+	      "report": report.stats
+	    }
+	  }) : _e(), " ", (report.aggregate) ? _h('aggregate-report', {
+	    attrs: {
+	      "report": report.aggregate
+	    }
+	  }) : _e()]) : _e()])
+	}},staticRenderFns: [function (){with(this) {
+	  return _h('h2', ["Trainee report"])
+	}},function (){with(this) {
+	  return _h('legend', ["Milestones"])
+	}}]}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-hot-reload-api").rerender("data-v-155d597c", module.exports)
+	  }
+	}
+
+/***/ },
+/* 153 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){with(this) {
+	  return _h('div', [(reportType) ? _h('div', [(reportType === REPORT_TYPES.TRAINEE) ? _h('trainee-report') : _e(), " ", (reportType === REPORT_TYPES.FORM) ? _h('form-report') : _e(), " ", _h('div', {
+	    staticClass: "text-center"
+	  }, [_h('button', {
+	    staticClass: "btn btn-lg btn-default",
+	    attrs: {
+	      "type": "button"
+	    },
+	    on: {
+	      "click": handleResetClick
+	    }
+	  }, ["\n\t\t\t\tStart over\n\t\t\t"])])]) : _h('div', {
+	    staticClass: "container body-block"
+	  }, [_h('fieldset', [_h('legend', ["Report type"]), " ", _h('div', {
+	    staticClass: "form-inline"
+	  }, [_l((REPORT_TYPES), function(type) {
+	    return _h('div', {
+	      staticClass: "form-group col-sm-2"
+	    }, [_h('button', {
+	      staticClass: "btn lg btn-primary",
+	      attrs: {
+	        "type": "button"
+	      },
+	      on: {
+	        "click": function($event) {
+	          setReportType(type)
+	        }
+	      }
+	    }, ["\n\t\t\t\t\t\t" + _s(ucfirst(type)) + "\n\t\t\t\t\t"])])
+	  })])])]), " "])
+	}},staticRenderFns: []}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-hot-reload-api").rerender("data-v-25c733f6", module.exports)
+	  }
+	}
 
 /***/ }
 /******/ ])

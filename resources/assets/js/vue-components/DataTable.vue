@@ -46,7 +46,7 @@ export default {
 	mounted(){
 		$(`#${this.id}`).DataTable(Object.assign({}, this.config, {data: this.data}));
 
-		let parent = $(`#${this.id}`).parent()[0];
+		let parent = document.querySelector(`#${this.id}`).parentElement;
 		erd.listenTo(parent, () => {
 			$(window).trigger('resize');
 		});

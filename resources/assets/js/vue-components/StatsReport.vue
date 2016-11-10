@@ -7,6 +7,19 @@
 				{{ camelCaseToWords(name) }}
 			</label>
 		</fieldset>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<span class="panel-title">Chart settings</span>
+			</div>
+			<div class="panel-body">
+				<label class="containing-label">
+					<select class="form-control" v-model="chart.size">
+						<option value="fullSize">Full size</option>
+						<option value="fit">Fit</option>
+					</select>
+				</label>
+			</div>
+		</div>
 
 		<div class="stats-report-container">
 			<div v-if="show.ratios">
@@ -17,9 +30,11 @@
 			</div>
 			<div v-if="show.ratios && show.graphs">
 				<h3>Ratios</h3>
-				<div class="list-chart-container">
-					<chartjs-chart id="chart-ratios" type="horizontalBar"
-						:data="ratiosGraphData" :options="listChartConfig" />
+				<div class="list-chart-container-container">
+					<div class="list-chart-container" :style="listChartContainerStyle">
+						<chartjs-chart id="chart-ratios" type="horizontalBar"
+							:data="ratiosGraphData" :options="listChartConfig" />
+					</div>
 				</div>
 			</div>
 			<div v-if="show.noRequests">
@@ -77,6 +92,9 @@ export default {
 				noneCompleted: false,
 				averageCompletionTimes: false,
 				lastCompleted: false
+			},
+			chart: {
+				size: 'fullSize'
 			}
 		};
 	},
@@ -90,9 +108,22 @@ export default {
 			return {
 				order: [[0, 'asc']],
 				stateSave: true,
+				scrollX: true,
 				scrollY: '500px',
 				scrollCollapse: true,
 				paging: false,
+				fixedColumns: true
+			};
+		},
+		listChartContainerStyle(){
+			return this.chart.size === 'fullSize'
+			? {
+				width: '100%',
+				height: `${15 * this.report.userStats.length}px`
+			}
+			: {
+				width: '100%',
+				height: '100%'
 			};
 		},
 		listChartConfig(){
@@ -256,7 +287,7 @@ export default {
 		flex-shrink: 0;
 	}
 
-	.list-chart-container {
+	.list-chart-container-container {
 		height: 625px;
 		overflow: auto;
 	}
