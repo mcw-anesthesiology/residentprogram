@@ -23,13 +23,8 @@ var npmPath = "./node_modules/";
 var scripts = [
 	npmPath + "babel-polyfill/dist/polyfill.min.js",
     bowerPath + "jquery/dist/jquery.min.js",
-    bowerPath + "bootstrap/dist/js/bootstrap.min.js",
-    bowerPath + "jquery-ui/ui/minified/core.min.js",
-    bowerPath + "jquery-ui/ui/minified/widget.min.js",
-    bowerPath + "jquery-ui/ui/minified/core.min.js",
-    bowerPath + "jquery-ui/ui/minified/mouse.min.js",
-    bowerPath + "jquery-ui/ui/minified/position.min.js",
-    bowerPath + "jquery-ui/ui/minified/datepicker.min.js",
+    bowerPath + "bootstrap/dist/js/bootstrap.js",
+    bowerPath + "jquery-ui/jquery-ui.min.js",
     bowerPath + "datatables.net/js/jquery.dataTables.min.js",
     bowerPath + "datatables.net-bs/js/dataTables.bootstrap.min.js",
     bowerPath + "datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js",
@@ -107,7 +102,7 @@ gulp.task("vendorfont", function(){
 
 gulp.task("vendorimg", function(){
     gulp.src(imgs)
-        .pipe(gulp.dest("./public/img"));
+        .pipe(gulp.dest("./public/build/img"));
 
     gulp.src(cssimgs)
         .pipe(gulp.dest("./public/build/css/images"));

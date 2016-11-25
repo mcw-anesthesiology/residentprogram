@@ -585,7 +585,7 @@
 				else
 					appendAlert(response);
 			}).fail(function(){
-				appendAlert("Error removing evaluation.")
+				appendAlert("Error removing evaluation.");
 			});
 
 			$(".bs-cancel-modal-sm").modal("toggle");

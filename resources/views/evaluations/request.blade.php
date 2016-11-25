@@ -342,7 +342,7 @@
 
 		function makeSelect(selectId, selectType, options, groups, groupId){
 			var groupChecked = false;
-			if(typeof(groupId) != "undefined")
+			if(typeof groupId != "undefined")
 				groupChecked = $("#"+groupId).prop("checked");
 
 			var select = document.getElementById(selectId);
@@ -354,8 +354,8 @@
 			option.textContent = "Select " + selectType;
 			select.appendChild(option);
 
-			if(typeof(options) != "undefined"){
-				if(typeof(groups) != "undefined" && groupChecked){
+			if(typeof options != "undefined"){
+				if(typeof groups != "undefined" && groupChecked){
 					var optGroups = {};
 					for(group in groups){
 						optGroups[group] = document.createElement("optgroup");
@@ -367,13 +367,13 @@
 					var option = document.createElement("option");
 					option.value = options[i].id;
 					option.textContent = options[i].name;
-					if(typeof(groups) != "undefined" && groupChecked)
+					if(typeof groups != "undefined" && groupChecked)
 						optGroups[options[i].group].appendChild(option);
 					else
 						select.appendChild(option);
 				}
 
-				if(typeof(groups) != "undefined" && groupChecked){
+				if(typeof groups != "undefined" && groupChecked){
 					for(group in optGroups){
 						if(optGroups[group].childNodes.length > 0)
 							select.appendChild(optGroups[group]);
