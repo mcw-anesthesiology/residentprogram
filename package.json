@@ -3,12 +3,12 @@
   "scripts": {
     "webpack": "webpack",
     "webpack-watch": "webpack --progress --colors --watch",
-	"webpack-prod": "webpack --optimize-minimize --optimize-dedupe",
-	"gulp": "gulp",
-	"gulp-watch": "gulp watch",
+    "webpack-prod": "webpack --optimize-minimize --optimize-dedupe",
+    "gulp": "gulp",
+    "gulp-watch": "gulp watch",
     "build": "webpack && gulp",
-	"build:prod": "webpack --optimize-minimize --optimize-dedupe && gulp --production",
-	"all": "npm-run-all --parallel webpack-watch gulp-watch"
+    "build:prod": "webpack --optimize-minimize --optimize-dedupe && gulp --production",
+    "all": "npm-run-all --parallel webpack-watch gulp-watch"
   },
   "devDependencies": {
     "babel-core": "^6.10.4",
@@ -27,6 +27,7 @@
     "gulp-size": "^2.0.0",
     "gulp-uglify": "^1.5.1",
     "gulp-util": "^3.0.7",
+    "iframe-resizer": "^3.5.5",
     "json-loader": "^0.5.4",
     "jsonschema": "^1.1.0",
     "moment": "^2.14.1",

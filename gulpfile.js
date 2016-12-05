@@ -1,12 +1,10 @@
-var gulp = require("gulp");
-var uglify = require("gulp-uglify");
-var cssnano = require("gulp-cssnano");
-var concat = require("gulp-concat");
-var elixir = require('laravel-elixir');
-var size = require("gulp-size");
-var gutil = require("gulp-util");
-
-var inProduction = elixir.config.production;
+/* eslint-env node */
+const gulp = require("gulp");
+const uglify = require("gulp-uglify");
+const cssnano = require("gulp-cssnano");
+const concat = require("gulp-concat");
+const elixir = require('laravel-elixir');
+const size = require("gulp-size");
 
 /*
  |--------------------------------------------------------------------------
@@ -18,9 +16,9 @@ var inProduction = elixir.config.production;
  | file for our application, as well as publishing vendor resources.
  |
  */
-var bowerPath = "./bower_components/";
-var npmPath = "./node_modules/";
-var scripts = [
+const bowerPath = "./bower_components/";
+const npmPath = "./node_modules/";
+const scripts = [
 	npmPath + "babel-polyfill/dist/polyfill.min.js",
     bowerPath + "jquery/dist/jquery.min.js",
     bowerPath + "bootstrap/dist/js/bootstrap.js",
@@ -45,7 +43,7 @@ var scripts = [
 	bowerPath + "eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"
 ];
 
-var styles = [
+const styles = [
     bowerPath + "bootstrap/dist/css/bootstrap.min.css",
     bowerPath + "jquery-ui/themes/base/core.css",
     bowerPath + "jquery-ui/themes/base/datepicker.css",
@@ -61,7 +59,7 @@ var styles = [
 	bowerPath + "eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css"
 ];
 
-var fonts = [
+const fonts = [
     bowerPath + "bootstrap/dist/fonts/glyphicons-halflings-regular.eot",
     bowerPath + "bootstrap/dist/fonts/glyphicons-halflings-regular.svg",
     bowerPath + "bootstrap/dist/fonts/glyphicons-halflings-regular.ttf",
@@ -69,11 +67,11 @@ var fonts = [
     bowerPath + "bootstrap/dist/fonts/glyphicons-halflings-regular.woff2"
 ];
 
-var imgs = [
+const imgs = [
     bowerPath + "multiselect/img/switch.png"
 ];
 
-var cssimgs = [
+const cssimgs = [
     bowerPath + "jquery-ui/themes/base/images/*"
 ];
 
@@ -84,6 +82,10 @@ gulp.task("vendorjs", function(){
         .pipe(uglify())
         .pipe(gulp.dest("./public/js"))
         .pipe(size());
+
+	gulp.src(npmPath + "iframe-resizer/js/iframeResizer.min.js")
+		.pipe(gulp.dest("./public/js"))
+		.pipe(size());
 });
 
 gulp.task("vendorcss", function(){
@@ -116,7 +118,7 @@ elixir(function(mix) {
 			"modernizr-custom.js",
 			"mdn-round.js",
 			"main.js",
-	        "milestone-competency-radar-chart.js",
+			"milestone-competency-radar-chart.js",
 			"evaluation-line-chart.js",
 			"bundle.js"
 		])
@@ -131,6 +133,7 @@ elixir(function(mix) {
 		"css/vendor.css",
 		"js/all.js",
 		"js/vendor.js",
-		"js/form-builder.js"
+		"js/form-builder.js",
+		"js/iframeResizer.min.js"
 	]);
 });

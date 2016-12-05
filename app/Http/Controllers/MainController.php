@@ -721,4 +721,8 @@ class MainController extends Controller
 
 		return view("case-log.case-log", $data);
 	}
+
+    public function calendar(Request $request) {
+        return view("calendar");
+    }
 }

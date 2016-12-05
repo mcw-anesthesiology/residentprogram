@@ -1,7 +1,8 @@
 {
-  "css/all.css": "css/all-08af26e3.css",
+  "css/all.css": "css/all-61c64286.css",
   "css/vendor.css": "css/vendor-5164f379.css",
-  "js/all.js": "js/all-02239849.js",
-  "js/vendor.js": "js/vendor-2a1a9e36.js",
-  "js/form-builder.js": "js/form-builder-964db9c7.js"
+  "js/all.js": "js/all-fe0288b2.js",
+  "js/vendor.js": "js/vendor-d749b4ae.js",
+  "js/form-builder.js": "js/form-builder-120c2990.js",
+  "js/iframeResizer.min.js": "js/iframeResizer.min-70b53b59.js"
 }

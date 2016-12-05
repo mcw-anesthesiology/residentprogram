@@ -119,6 +119,8 @@ Route::post("contact", "MainController@saveContact");
 
 Route::get("case-log", "MainController@caseLog");
 
+Route::get("calendar", "MainController@calendar");
+
 Route::get("photos/{filename}", "FileController@getPhoto");
 Route::get("graph/{filename}", "FileController@getGraph");
 
