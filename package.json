@@ -44,6 +44,7 @@
     "json-loader": "^0.5.4",
     "jsonschema": "^1.1.0",
     "laravel-elixir": "^6.0.0-15",
+    "markdown-it": "^8.2.2",
     "moment": "^2.14.1",
     "npm-run-all": "^3.1.0",
     "style-loader": "^0.13.1",

@@ -117,6 +117,10 @@ export function fetchUserGroups(){
 		fellow: {
 			text: 'Fellow',
 			children: []
+		},
+		faculty: {
+			text: 'Faculty',
+			children: []
 		}
 	};
 

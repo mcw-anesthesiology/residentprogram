@@ -18,53 +18,16 @@
 			</button>
 		</div>
 
-		<div v-if="report">
-			<h2 v-if="report.formContents.title">
-				{{ report.formContents.title }}
-			</h2>
-			<template v-for="item of report.formContents.items">
-				<div v-if="item.type === 'question'"
-						:class="`question panel ${item.required ? 'panel-primary' : 'panel-default'}`">
-					<div v-if="item.text" class="question-header panel-heading">
-						<h3 class="question-title panel-title">
-							<b>{{ item.id }}: </b>
-							{{ item.text }}
-						</h3>
-					</div>
-
-					<div class="question-body panel-body">
-						<div v-for="option of item.options" class="question-option">
-							<label>
-								<span title="{{ option.description }}">
-									<input v-if="item.type === 'checkbox'" type="checkbox"
-										:name="`${item.id}[]`" :value="option.value"
-										:required="item.required" />
-									<input v-if="['radio', 'radiononnumeric'].includes(item.type)"
-										type="radio" :name="item.id" :value="option.value"
-										:required="item.required" />
-									<br />
-									{{ option.text }}
-								</span>
-							</label>
-							<div v-if="option.description" class="description well collapse">
-								{{ nl2br(option.description) }}
-							</div>
-						</div>
-					</div>
-				</div>
-				<div v-if="item.type === 'instruction'">
-
-				</div>
-			</template>
+		<div v-if="report" class="container body-block">
+			<form-reader v-bind="report.formContents" />
 		</div>
 	</div>
 </template>
 
 <script>
+import FormReader from './FormReader.vue';
 import ReportDate from './ReportDate.vue';
 import SelectTwo from './SelectTwo.vue';
-
-import { nl2br } from '../modules/utils.js';
 
 export default {
 	props: {
@@ -124,11 +87,11 @@ export default {
 			}).catch(err => {
 				console.error(err);
 			});
-		},
-		nl2br
+		}
 	},
 
 	components: {
+		FormReader,
 		ReportDate,
 		SelectTwo
 	}
