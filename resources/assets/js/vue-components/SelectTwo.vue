@@ -6,11 +6,19 @@
 
 <script>
 export default {
-	props: [
-		'options',
-		'value',
-		'multiple'
-	],
+	props: {
+		'options': {
+			type: Array,
+			required: true
+		},
+		'value': {
+			required: true
+		},
+		'multiple': {
+			type: Boolean,
+			default: false
+		}
+	},
 	computed: {
 		stringOptions(){
 			let options = this.options.slice();
@@ -44,7 +52,7 @@ export default {
 		if(this.stringOptions && this.stringOptions.length > 0){
 			$(this.$el).select2({
 				data: this.stringOptions,
-				tags: true,
+				tags: this.multiple,
 				createTag: () => undefined
 			}).val(this.stringValue).trigger('change.select2');
 		}
@@ -56,7 +64,7 @@ export default {
 		stringOptions(stringOptions){
 			$(this.$el).select2({
 				data: stringOptions,
-				tags: true,
+				tags: this.multiple,
 				createTag: () => undefined
 			}).val(this.stringValue).trigger('change.select2');
 		}

@@ -1,5 +1,6 @@
 <template>
 	<div class="container body-block">
+		<h3>Statistics</h3>
 		<fieldset class="show-container">
 			<legend>Show</legend>
 			<label v-for="(part, name) of show">

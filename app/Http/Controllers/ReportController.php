@@ -1005,8 +1005,14 @@ class ReportController extends Controller
         $subjectName = $subject->full_name;
         $formTitle = $form->title;
 
-		if(!isset($subjectEvals[$subjectId]))
-			return back()->with("error", "No completed evaluations for {$subjectName} between {$startDate} and {$endDate} for form {$formTitle}");
+		if(!isset($subjectEvals[$subjectId])){
+			$errorMessage = "No completed evaluations for {$subjectName} between "
+				. "{$startDate} and {$endDate} for form {$formTitle}";
+			if($request->ajax())
+				return response(null, 404);
+			else
+				return back()->with("error", $errorMessage);
+		}
 
         $formPath = $form->xml_path;
         $subjectResponses = $subjectResponses[$subjectId];
@@ -1014,22 +1020,29 @@ class ReportController extends Controller
         $subjectEvals = $subjectEvals[$subjectId];
         $subjectResponseValues = $subjectResponseValues[$subjectId];
 
-        $subjectResponses = $this->encodeAndStrip($subjectResponses);
-        $subjectPercentages = $this->encodeAndStrip($subjectPercentages);
-        $subjectResponseValues = $this->encodeAndStrip($subjectResponseValues);
-        $subjectEvals = $this->encodeAndStrip($subjectEvals);
-        $averagePercentages = $this->encodeAndStrip($averagePercentages);
-        $averageEvals = $this->encodeAndStrip($averageEvals);
-        $subjects = $this->encodeAndStrip($subjects);
-        $questions = $this->encodeAndStrip($questions);
-        $questionResponses = $this->encodeAndStrip($questionResponses);
+		if(!$request->ajax()){			
+			$subjectResponses = $this->encodeAndStrip($subjectResponses);
+			$subjectPercentages = $this->encodeAndStrip($subjectPercentages);
+			$subjectResponseValues = $this->encodeAndStrip($subjectResponseValues);
+			$subjectEvals = $this->encodeAndStrip($subjectEvals);
+			$averagePercentages = $this->encodeAndStrip($averagePercentages);
+			$averageEvals = $this->encodeAndStrip($averageEvals);
+			$subjects = $this->encodeAndStrip($subjects);
+			$questions = $this->encodeAndStrip($questions);
+			$questionResponses = $this->encodeAndStrip($questionResponses);
+		}
+
+		$formContents = $form->contents;
 
         $data = compact("subjectResponses", "formPath", "subjectEvals", "averageEvals",
         	"subjectPercentages", "averagePercentages", "subjectId", "subjects",
 			"questions", "questionResponses", "subjectResponseValues", "subjectName",
-			"formTitle", "startDate", "endDate");
+			"formTitle", "startDate", "endDate", "formContents");
 
-        return view("report.form-report", $data);
+		if($request->ajax())
+        	return $data;
+		else
+			return view("report.form-report", $data);
     }
 
     private function encodeAndStrip($array){

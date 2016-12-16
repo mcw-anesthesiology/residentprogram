@@ -1,10 +1,13 @@
 /* eslint-env node */
 module.exports = {
 	entry: {
-		bundle: './resources/assets/js/modules',
-		'vue-constructors': [
-			'es6-promise/auto',
+		bundle: [
+			'es6-promise',
 			'whatwg-fetch',
+			'element-dataset',
+			'./resources/assets/js/modules',
+		],
+		'vue-constructors': [
 			'./resources/assets/js/vue-components/constructors.js'
 		]
 	},
@@ -15,7 +18,7 @@ module.exports = {
 	},
 	target: 'web',
 	module: {
-		loaders: [
+		rules: [
 			{
 				test: /\.vue$/,
 				loader: 'vue-loader'
@@ -26,8 +29,8 @@ module.exports = {
 				loader: 'babel-loader'
 			},
 			{
-				test: /\.json$/,
-				loader: 'json-loader'
+				test: /element-dataset/,
+				loader: 'apply-loader'
 			}
 		]
 	},

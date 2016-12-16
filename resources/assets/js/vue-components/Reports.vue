@@ -1,8 +1,10 @@
 <template>
 	<div>
 		<div v-if="reportType">
-			<trainee-report v-if="reportType === REPORT_TYPES.TRAINEE" />
-			<form-report v-if="reportType === REPORT_TYPES.FORM" />
+			<trainee-report v-if="reportType === REPORT_TYPES.TRAINEE"
+				:groupedUsers="groupedUsers" />
+			<form-report v-if="reportType === REPORT_TYPES.FORM"
+				:groupedUsers="groupedUsers" />
 
 			<div class="text-center">
 				<button type="button" class="btn btn-lg btn-default"
@@ -31,13 +33,16 @@
 
 <script>
 import TraineeReport from './TraineeReport.vue';
+import FormReport from './FormReport.vue';
 
 import { REPORT_TYPES } from '../modules/constants.js';
+import { fetchUserGroups } from '../modules/utils.js';
 
 export default {
 	data(){
 		return {
-			reportType: ''
+			reportType: '',
+			groupedUsers: []
 		};
 	},
 	computed: {
@@ -45,6 +50,15 @@ export default {
 			return REPORT_TYPES;
 		}
 	},
+
+	created(){
+		fetchUserGroups().then(groupedUsers => {
+			this.groupedUsers = groupedUsers;
+		}).catch(err => {
+			console.error(err);
+		});
+	},
+
 	methods: {
 		ucfirst,
 		setReportType(type){
@@ -55,7 +69,8 @@ export default {
 		}
 	},
 	components: {
-		TraineeReport
+		TraineeReport,
+		FormReport
 	}
 }
 </script>

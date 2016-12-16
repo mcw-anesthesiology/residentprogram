@@ -101,8 +101,6 @@ gulp.task("vendorimg", function(){
 		.pipe(gulp.dest("./public/build/css/images"));
 });
 
-elixir.config.registerWatcher("default", "./resources/assets/js/*.js");
-
 elixir(function(mix) {
 	mix.scripts([
 			"datatables-datetime-moment.js",
