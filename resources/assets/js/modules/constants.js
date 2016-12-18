@@ -59,13 +59,18 @@ export const CHART_COLORS = {
 	MILESTONE: '#ffce56',
 	COMPETENCY: '#ff6384',
 	OTHER: [
-		'#4bc0c0',
-		'#e7e9ed',
-		'#36a2eb',
-		'#7eda35',
-		'#462aa3',
-		'#dd2727',
-		'#f09113',
-		'#1a7829'
+		'#7fdbff',
+		'#2ecc40',
+		'#ffdc00',
+		'#f012be',
+		'#0074d9',
+		'#01ff70',
+		'#ff851b',
+		'#001f3f',
+		'#3d9970',
+		'#ff4136',
+		'#85144b',
+		'#39cccc',
+		'#b10dc9'
 	]
 };

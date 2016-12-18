@@ -922,15 +922,19 @@ class ReportController extends Controller
 		$questionResponses = [];
 		$subjectResponseValues = [];
 
-		$chunkCallback = function($responses) use(&$subjectResponses, &$subjectEvals, &$averageResponses, &$averageEvals, &$subjects, &$questions, &$questionResponses, &$subjectResponseValues){
+		$chunkCallback = function($responses) use(&$subjectResponses, &$subjectEvals,
+				&$averageResponses, &$averageEvals, &$subjects, &$questions,
+				&$questionResponses, &$subjectResponseValues){
             foreach($responses as $response){
                 if(!isset($subjectResponses[$response->subject_id][$response->question_id][$response->response]))
                     $subjectResponses[$response->subject_id][$response->question_id][$response->response] = 0;
                 if(!isset($averageResponses[$response->question_id][$response->response]))
                     $averageResponses[$response->question_id][$response->response] = 0;
 
-                if(!isset($subjectEvals[$response->subject_id][$response->evaluation_id]))
-                    $subjectEvals[$response->subject_id][$response->evaluation_id] = 1;
+				if(!isset($subjectEvals[$response->subject_id]))
+					$subjectEvals[$response->subject_id] = [];
+				if(!in_array($response->evaluation_id, $subjectEvals[$response->subject_id]))
+                    $subjectEvals[$response->subject_id][] = $response->evaluation_id;
                 if(!isset($averageEvals[$response->evaluation_id]))
                     $averageEvals[$response->evaluation_id] = 1;
 
@@ -975,9 +979,6 @@ class ReportController extends Controller
 
     	$textQuery->chunk(10000, $chunkCallback);
 
-        foreach($subjectEvals as $subject_id => $null){
-            $subjectEvals[$subject_id] = count($subjectEvals[$subject_id]);
-        }
         $averageEvals = count($averageEvals);
         $subjects = array_keys($subjects);
         $questions = array_keys($questions);
@@ -990,7 +991,9 @@ class ReportController extends Controller
                 $averagePercentages[$question_id][$response] = round(($averageResponses[$question_id][$response]/$averageEvals)*100);
                 foreach($subjects as $subject_id){
                     if(isset($subjectResponses[$subject_id][$question_id][$response]))
-                        $subjectPercentages[$subject_id][$question_id][$response] = round(($subjectResponses[$subject_id][$question_id][$response]/$subjectEvals[$subject_id])*100);
+                        $subjectPercentages[$subject_id][$question_id][$response] =
+							round(($subjectResponses[$subject_id][$question_id][$response]
+							/ count($subjectEvals[$subject_id])) * 100);
                     else{
                         $subjectResponses[$subject_id][$question_id][$response] = 0;
                         $subjectPercentages[$subject_id][$question_id][$response] = 0;
@@ -1018,9 +1021,10 @@ class ReportController extends Controller
         $subjectResponses = $subjectResponses[$subjectId];
         $subjectPercentages = $subjectPercentages[$subjectId];
         $subjectEvals = $subjectEvals[$subjectId];
+		sort($subjectEvals);
         $subjectResponseValues = $subjectResponseValues[$subjectId];
 
-		if(!$request->ajax()){			
+		if(!$request->ajax()){
 			$subjectResponses = $this->encodeAndStrip($subjectResponses);
 			$subjectPercentages = $this->encodeAndStrip($subjectPercentages);
 			$subjectResponseValues = $this->encodeAndStrip($subjectResponseValues);
@@ -1034,7 +1038,8 @@ class ReportController extends Controller
 
 		$formContents = $form->contents;
 
-        $data = compact("subjectResponses", "formPath", "subjectEvals", "averageEvals",
+        $data = compact("subjectResponses", "averageResponses",
+			"formPath", "subjectEvals", "averageEvals",
         	"subjectPercentages", "averagePercentages", "subjectId", "subjects",
 			"questions", "questionResponses", "subjectResponseValues", "subjectName",
 			"formTitle", "startDate", "endDate", "formContents");

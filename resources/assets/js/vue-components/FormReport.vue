@@ -19,15 +19,34 @@
 		</div>
 
 		<div v-if="report" class="container body-block">
-			<form-reader v-bind="report.formContents" />
+			<h2 v-if="reportContents.title">
+				{{ reportContents.title }}
+			</h2>
+			<template v-for="item of reportContents.items">
+				<form-report-question v-if="item.type === 'question'" v-bind="item" />
+				<div v-if="item.type === 'instruction'">
+
+				</div>
+			</template>
+		</div>
+
+		<div v-if="report" class="container body-block">
+			<h3 class="sub-header">Evaluations included in report</h3>
+			<ul class="list-group row">
+				<li v-for="evalId of report.subjectEvals" class="list-group-item col-md-6">
+					<a :href="`/evaluations/${evalId}`">
+						{{ evalId }}
+					</a>
+				</li>
+			</ul>
 		</div>
 	</div>
 </template>
 
 <script>
-import FormReader from './FormReader.vue';
 import ReportDate from './ReportDate.vue';
 import SelectTwo from './SelectTwo.vue';
+import FormReportQuestion from'./FormReportQuestion.vue';
 
 export default {
 	props: {
@@ -38,15 +57,39 @@ export default {
 	data(){
 		return {
 			dates: {
-				startDate: '2015-11-01', // FIXME
+				startDate: '2015-08-01', // FIXME
 				endDate: '2016-11-01' // FIXME
 			},
-			formId: 0,
-			subjectId: 0,
+			formId: 27, // FIXME
+			subjectId: 205, // FIXME
 			report: null,
 
 			groupedForms: []
 		};
+	},
+
+	computed: {
+		reportContents(){
+			let reportContents = this.report.formContents;
+
+			reportContents.items.map(item => {
+				item.weight = Number(item.weight);
+				item.subjectResponses = this.report.subjectResponses[item.id];
+				item.averageResponses = this.report.averageResponses[item.id];
+				item.subjectResponseValues = this.report.subjectResponseValues[item.id];
+
+				if(item.type === 'question' && ['checkbox', 'radio', 'radiononnumeric']
+						.includes(item.questionType)){
+					item.options.map(option => {
+						option.responses = this.report.subjectResponses[item.id][option.value];
+						option.percentage = this.report.subjectPercentages[item.id][option.value];
+						option.averagePercentage = this.report.averagePercentages[item.id][option.value];
+					});
+				}
+			});
+
+			return reportContents;
+		}
 	},
 
 	created(){
@@ -91,9 +134,9 @@ export default {
 	},
 
 	components: {
-		FormReader,
 		ReportDate,
-		SelectTwo
+		SelectTwo,
+		FormReportQuestion
 	}
 }
 </script>

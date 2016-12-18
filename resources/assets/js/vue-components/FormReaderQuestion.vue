@@ -12,6 +12,14 @@
 			<form-reader-question-option v-if="['radio', 'radiononnumeric', 'checkbox'].includes(questionType)"
 					v-for="option of options" v-bind="option" :questionType="questionType"
 					:questionId="id" :required="required" :showDescription="showDescriptions" />
+
+			<div v-else class="question-option">
+				<textarea v-if="questionType === 'text'" class="form-control"
+					:name="id" :required="required"></textarea>
+
+				<input type="number" v-if="questionType === 'number'" class="form-control"
+					:name="id" :required="required" />
+			</div>
 		</div>
 
 		<div v-if="hasDescriptions" class="question-footer panel-footer">
@@ -42,6 +50,7 @@ export default {
 		type: String,
 		questionType: String,
 		required: Boolean,
+		weight: Number,
 		options: Array
 	},
 	data(){

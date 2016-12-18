@@ -4,17 +4,17 @@
 			<span :title="description">
 				<input v-if="questionType === 'checkbox'" type="checkbox"
 					:name="`${questionId}[]`" :value="value"
-					:required="required" />
+					:required="required" :disabled="disabled" />
 				<input v-else type="radio" :name="questionId" :value="value"
-					:required="required" />
+					:required="required" :disabled="disabled" />
 				<br />
 				{{ text }}
 			</span>
 		</label>
-		<slot></slot>
-		<div v-if="description && showDescription" class="description well"
+		<div v-if="description" v-show="showDescription" class="description well"
 			v-html="md.render(description)">
 		</div>
+		<slot></slot>
 	</div>
 </template>
 
@@ -30,6 +30,7 @@ export default {
 		},
 		text: String,
 		description: String,
+		disabled: Boolean,
 
 		questionType: String,
 		questionId: String,

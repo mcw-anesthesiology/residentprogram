@@ -51,7 +51,7 @@
     "vue": "^2.0.1",
     "vue-loader": "^10.0.2",
     "vue-template-compiler": "^2.1.6",
-    "webpack": "beta",
+    "webpack": "^2.2.0-rc.1",
     "whatwg-fetch": "^2.0.1"
   }
 }
