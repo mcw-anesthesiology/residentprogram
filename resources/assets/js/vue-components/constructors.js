@@ -1,6 +1,6 @@
 import Vue from 'vue';
-import FormBuilder from './FormBuilder.vue';
-import Reports from './Reports.vue';
+import FormBuilder from './FormBuilder/FormBuilder.vue';
+import Reports from './Reports/Reports.vue';
 
 export function createFormBuilder(el){
 	return new Vue({

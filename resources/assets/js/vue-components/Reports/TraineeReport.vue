@@ -57,7 +57,7 @@ import AggregateReport from './AggregateReport.vue';
 import ReportDate from './ReportDate.vue';
 import StatsReport from './StatsReport.vue';
 
-import { fetchMilestoneGroups } from '../modules/utils.js';
+import { fetchMilestoneGroups } from '../../modules/utils.js';
 
 export default {
 	data(){

@@ -70,12 +70,12 @@
 <script>
 import Color from 'color';
 
-import ChartjsChart from './ChartjsChart.vue';
-import DataTable from './DataTable.vue';
+import ChartjsChart from '../ChartjsChart.vue';
+import DataTable from '../DataTable.vue';
 
-import { CHART_COLORS } from '../modules/constants.js';
-import { camelCaseToWords } from '../modules/utils.js';
-import { createDateCell, renderDateCell } from '../modules/datatable-utils.js';
+import { CHART_COLORS } from '../../modules/constants.js';
+import { camelCaseToWords } from '../../modules/utils.js';
+import { createDateCell, renderDateCell } from '../../modules/datatable-utils.js';
 
 export default {
 	props: {

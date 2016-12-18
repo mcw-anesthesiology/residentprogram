@@ -80,12 +80,12 @@
 </template>
 
 <script>
-import FormReaderQuestion from './FormReaderQuestion.vue';
+import FormReaderQuestion from '../FormReader/FormReaderQuestion.vue';
 import FormReportQuestionOptionStats from './FormReportQuestionOptionStats.vue';
-import ChartjsChart from './ChartjsChart.vue';
+import ChartjsChart from '../ChartjsChart.vue';
 
-import { CHART_COLORS } from '../modules/constants.js';
-import { camelCaseToWords } from '../modules/utils.js';
+import { CHART_COLORS } from '../../modules/constants.js';
+import { camelCaseToWords } from '../../modules/utils.js';
 
 export default {
 	extends: FormReaderQuestion,

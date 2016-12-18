@@ -45,7 +45,7 @@
 
 <script>
 import ReportDate from './ReportDate.vue';
-import SelectTwo from './SelectTwo.vue';
+import SelectTwo from '../SelectTwo.vue';
 import FormReportQuestion from'./FormReportQuestion.vue';
 
 export default {

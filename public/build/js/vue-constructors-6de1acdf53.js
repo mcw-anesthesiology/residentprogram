@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 265);
+/******/ 	return __webpack_require__(__webpack_require__.s = 270);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -160,7 +160,7 @@ var UNESCAPE_ALL_RE = new RegExp(UNESCAPE_MD_RE.source + '|' + ENTITY_RE.source,
 
 var DIGITAL_ENTITY_TEST_RE = /^#((?:x[a-f0-9]{1,8}|[0-9]{1,8}))/i;
 
-var entities = __webpack_require__(78);
+var entities = __webpack_require__(79);
 
 function replaceEntityPattern(match, name) {
   var code = 0;
@@ -337,8 +337,8 @@ function normalizeReference(str) {
 // bundled size (e.g. a browser build).
 //
 exports.lib                 = {};
-exports.lib.mdurl           = __webpack_require__(82);
-exports.lib.ucmicro         = __webpack_require__(219);
+exports.lib.mdurl           = __webpack_require__(83);
+exports.lib.ucmicro         = __webpack_require__(221);
 
 exports.assign              = assign;
 exports.isString            = isString;
@@ -14231,6 +14231,50 @@ module.exports=/[!-#%-\*,-/:;\?@\[-\]_\{\}\xA1\xA7\xAB\xB6\xB7\xBB\xBF\u037E\u03
 /* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* script */
+__vue_exports__ = __webpack_require__(97)
+
+/* template */
+var __vue_template__ = __webpack_require__(244)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ChartjsChart.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1538c521", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-1538c521", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] ChartjsChart.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ },
+/* 65 */
+/***/ function(module, exports, __webpack_require__) {
+
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process, global) {/*!
  * Vue.js v2.1.6
@@ -20235,7 +20279,7 @@ module.exports = Vue$2;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11), __webpack_require__(5)))
 
 /***/ },
-/* 65 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 /* MIT license */
@@ -21094,13 +21138,13 @@ convert.rgb.gray = function (rgb) {
 
 
 /***/ },
-/* 66 */
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var clone = __webpack_require__(122);
-var convert = __webpack_require__(123);
-var string = __webpack_require__(125);
+var clone = __webpack_require__(123);
+var convert = __webpack_require__(124);
+var string = __webpack_require__(126);
 
 var Color = function (obj) {
 	if (obj instanceof Color) {
@@ -21559,14 +21603,14 @@ module.exports = Color;
 
 
 /***/ },
-/* 67 */,
 /* 68 */,
 /* 69 */,
 /* 70 */,
 /* 71 */,
 /* 72 */,
 /* 73 */,
-/* 74 */
+/* 74 */,
+/* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21612,7 +21656,7 @@ detector.isLegacyOpera = function() {
 
 
 /***/ },
-/* 75 */
+/* 76 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21638,25 +21682,25 @@ utils.forEach = function(collection, callback) {
 
 
 /***/ },
-/* 76 */
+/* 77 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var forEach                 = __webpack_require__(75).forEach;
-var elementUtilsMaker       = __webpack_require__(153);
-var listenerHandlerMaker    = __webpack_require__(156);
-var idGeneratorMaker        = __webpack_require__(154);
-var idHandlerMaker          = __webpack_require__(155);
-var reporterMaker           = __webpack_require__(157);
-var browserDetector         = __webpack_require__(74);
-var batchProcessorMaker     = __webpack_require__(119);
-var stateHandler            = __webpack_require__(158);
+var forEach                 = __webpack_require__(76).forEach;
+var elementUtilsMaker       = __webpack_require__(155);
+var listenerHandlerMaker    = __webpack_require__(158);
+var idGeneratorMaker        = __webpack_require__(156);
+var idHandlerMaker          = __webpack_require__(157);
+var reporterMaker           = __webpack_require__(159);
+var browserDetector         = __webpack_require__(75);
+var batchProcessorMaker     = __webpack_require__(120);
+var stateHandler            = __webpack_require__(160);
 
 //Detection strategies.
-var objectStrategyMaker     = __webpack_require__(151);
-var scrollStrategyMaker     = __webpack_require__(152);
+var objectStrategyMaker     = __webpack_require__(153);
+var scrollStrategyMaker     = __webpack_require__(154);
 
 function isCollection(obj) {
     return Array.isArray(obj) || obj.length !== undefined;
@@ -21966,18 +22010,18 @@ function getOption(options, name, defaultValue) {
 
 
 /***/ },
-/* 77 */
+/* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 
-module.exports = __webpack_require__(172);
+module.exports = __webpack_require__(174);
 
 
 /***/ },
-/* 78 */
+/* 79 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21986,11 +22030,11 @@ module.exports = __webpack_require__(172);
 
 
 /*eslint quotes:0*/
-module.exports = __webpack_require__(159);
+module.exports = __webpack_require__(161);
 
 
 /***/ },
-/* 79 */
+/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22025,7 +22069,7 @@ module.exports.HTML_OPEN_CLOSE_TAG_RE = HTML_OPEN_CLOSE_TAG_RE;
 
 
 /***/ },
-/* 80 */
+/* 81 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22159,7 +22203,7 @@ module.exports.postProcess = function emphasis(state) {
 
 
 /***/ },
-/* 81 */
+/* 82 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22283,40 +22327,40 @@ module.exports.postProcess = function strikethrough(state) {
 
 
 /***/ },
-/* 82 */
+/* 83 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 
-module.exports.encode = __webpack_require__(212);
-module.exports.decode = __webpack_require__(211);
-module.exports.format = __webpack_require__(213);
-module.exports.parse  = __webpack_require__(214);
+module.exports.encode = __webpack_require__(214);
+module.exports.decode = __webpack_require__(213);
+module.exports.format = __webpack_require__(215);
+module.exports.parse  = __webpack_require__(216);
 
-
-/***/ },
-/* 83 */
-/***/ function(module, exports) {
-
-module.exports=/[\0-\x1F\x7F-\x9F]/
 
 /***/ },
 /* 84 */
 /***/ function(module, exports) {
 
-module.exports=/[ \xA0\u1680\u2000-\u200A\u202F\u205F\u3000]/
+module.exports=/[\0-\x1F\x7F-\x9F]/
 
 /***/ },
 /* 85 */
 /***/ function(module, exports) {
 
+module.exports=/[ \xA0\u1680\u2000-\u200A\u202F\u205F\u3000]/
+
+/***/ },
+/* 86 */
+/***/ function(module, exports) {
+
 module.exports=/[\0-\uD7FF\uE000-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]/
 
 /***/ },
-/* 86 */,
-/* 87 */
+/* 87 */,
+/* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
@@ -22326,51 +22370,7 @@ var __vue_styles__ = {}
 __vue_exports__ = __webpack_require__(98)
 
 /* template */
-var __vue_template__ = __webpack_require__(238)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ChartjsChart.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1538c521", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-1538c521", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] ChartjsChart.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ },
-/* 88 */
-/***/ function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* script */
-__vue_exports__ = __webpack_require__(99)
-
-/* template */
-var __vue_template__ = __webpack_require__(250)
+var __vue_template__ = __webpack_require__(253)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -22411,13 +22411,13 @@ var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(256)
+__webpack_require__(259)
 
 /* script */
-__vue_exports__ = __webpack_require__(109)
+__vue_exports__ = __webpack_require__(110)
 
 /* template */
-var __vue_template__ = __webpack_require__(242)
+var __vue_template__ = __webpack_require__(245)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -22429,10 +22429,10 @@ __vue_options__ = __vue_exports__ = __vue_exports__.default
 if (typeof __vue_options__ === "function") {
   __vue_options__ = __vue_options__.options
 }
-__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ReportDate.vue"
+__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/ReportDate.vue"
 __vue_options__.render = __vue_template__.render
 __vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-__vue_options__._scopeId = "data-v-4ee850ac"
+__vue_options__._scopeId = "data-v-1f3cf5c8"
 
 /* hot reload */
 if (false) {(function () {
@@ -22441,9 +22441,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4ee850ac", __vue_options__)
+    hotAPI.createRecord("data-v-1f3cf5c8", __vue_options__)
   } else {
-    hotAPI.reload("data-v-4ee850ac", __vue_options__)
+    hotAPI.reload("data-v-1f3cf5c8", __vue_options__)
   }
 })()}
 if (__vue_options__.functional) {console.error("[vue-loader] ReportDate.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -22459,10 +22459,10 @@ var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* script */
-__vue_exports__ = __webpack_require__(111)
+__vue_exports__ = __webpack_require__(114)
 
 /* template */
-var __vue_template__ = __webpack_require__(252)
+var __vue_template__ = __webpack_require__(256)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -22510,15 +22510,15 @@ Object.defineProperty(exports, "__esModule", {
 exports.createFormBuilder = createFormBuilder;
 exports.createReports = createReports;
 
-var _vue = __webpack_require__(64);
+var _vue = __webpack_require__(65);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _FormBuilder = __webpack_require__(223);
+var _FormBuilder = __webpack_require__(224);
 
 var _FormBuilder2 = _interopRequireDefault(_FormBuilder);
 
-var _Reports = __webpack_require__(232);
+var _Reports = __webpack_require__(235);
 
 var _Reports2 = _interopRequireDefault(_Reports);
 
@@ -22559,16 +22559,1114 @@ function createReports(el) {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-var _color = __webpack_require__(66);
+exports.default = {
+	props: {
+		type: {
+			type: String,
+			default: 'radio',
+			validator: function validator(value) {
+				return ['radio', 'checkbox'].indexOf(value) !== -1;
+			}
+		},
+		option: {
+			type: String,
+			required: true
+		},
+		value: {
+			required: true
+		}
+	}
+};
+
+/***/ },
+/* 97 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _chart = __webpack_require__(14);
+
+var _chart2 = _interopRequireDefault(_chart);
+
+var _elementResizeDetector = __webpack_require__(77);
+
+var _elementResizeDetector2 = _interopRequireDefault(_elementResizeDetector);
+
+var _constants = __webpack_require__(4);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var erd = (0, _elementResizeDetector2.default)({
+	strategy: 'scroll'
+}); //
+//
+//
+//
+
+exports.default = {
+	props: {
+		id: {
+			type: String,
+			required: true
+		},
+		width: {
+			required: false
+		},
+		height: {
+			required: false
+		},
+		type: {
+			type: String,
+			required: true,
+			validator: function validator(value) {
+				return _constants.CHART_TYPES.indexOf(value) !== -1;
+			}
+		},
+		data: {
+			type: Object,
+			required: true
+		},
+		options: {
+			type: Object,
+			required: false,
+			default: function _default() {
+				return {
+					legend: {
+						labels: {
+							fontSize: 18,
+							fontColor: '#333'
+						}
+					},
+					tooltips: {
+						callbacks: {
+							label: function label(tooltip, data) {
+								var value = parseFloat(tooltip.yLabel).toFixed(2);
+								var name = data.datasets[tooltip.datasetIndex].label;
+								return name + ': ' + value;
+							}
+						}
+					}
+				};
+			}
+		}
+	},
+	data: function data() {
+		return {
+			chart: null
+		};
+	},
+	mounted: function mounted() {
+		var _this = this;
+
+		this.createChart();
+		var parent = document.querySelector('#' + this.id).parentElement;
+		erd.listenTo(parent, function () {
+			if (_this.chart) _this.chart.resize();
+		});
+	},
+
+	watch: {
+		data: function data(_data) {
+			this.chart.data.labels = _data.labels;
+			this.chart.data.datasets = _data.datasets;
+			this.chart.update();
+		},
+		options: function options(_options) {
+			this.chart.destroy();
+			this.createChart();
+		},
+		type: function type(_type) {
+			this.chart.destroy();
+			this.createChart();
+		}
+	},
+	updated: function updated() {
+		this.chart.update();
+	},
+	destroyed: function destroyed() {
+		this.chart.destroy();
+	},
+
+	methods: {
+		createChart: function createChart() {
+			var ctx = document.querySelector('#' + this.id).getContext('2d');
+			this.chart = new _chart2.default(ctx, {
+				type: this.type,
+				data: this.data,
+				options: this.options
+			});
+		}
+	}
+};
+
+/***/ },
+/* 98 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _elementResizeDetector = __webpack_require__(77);
+
+var _elementResizeDetector2 = _interopRequireDefault(_elementResizeDetector);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var erd = (0, _elementResizeDetector2.default)({
+	strategy: 'scroll'
+}); //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+	props: {
+		id: {
+			type: String,
+			required: true
+		},
+		thead: {
+			type: Array,
+			required: true
+		},
+		config: {
+			type: Object,
+			required: false
+		},
+		data: {
+			type: Array,
+			required: true
+		}
+	},
+	data: function data() {
+		return {
+			updateData: false
+		};
+	},
+	mounted: function mounted() {
+		$('#' + this.id).DataTable(Object.assign({}, this.config, { data: this.data }));
+
+		var parent = document.querySelector('#' + this.id).parentElement;
+		erd.listenTo(parent, function () {
+			$(window).trigger('resize');
+		});
+	},
+
+	watch: {
+		config: function config() {
+			var config = Object.assign({ destroy: true }, this.config, { data: this.data });
+			$('#' + this.id).DataTable(config);
+		},
+		data: function data(_data) {
+			var _this = this;
+
+			this.updateData = true;
+			this.$nextTick(function () {
+				// only set data if table not already recreated with new data
+				if (_this.updateData) {
+					var dt = $('#' + _this.id).DataTable({
+						retrieve: true
+					}).clear().rows.add(_data).draw();
+					_this.updateData = false;
+				}
+			});
+		}
+	},
+	beforeUpdate: function beforeUpdate() {
+		$('#' + this.id).DataTable({
+			retrieve: true
+		}).clear().destroy();
+		this.updateData = false;
+	},
+	updated: function updated() {
+		$('#' + this.id).DataTable(Object.assign({}, this.config, { data: this.data }));
+	},
+	beforeDestroy: function beforeDestroy() {
+		$('#' + this.id).DataTable({
+			retrieve: true
+		}).clear().destroy();
+	}
+};
+
+/***/ },
+/* 99 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _FormBuilderInstruction = __webpack_require__(225);
+
+var _FormBuilderInstruction2 = _interopRequireDefault(_FormBuilderInstruction);
+
+var _FormBuilderQuestion = __webpack_require__(227);
+
+var _FormBuilderQuestion2 = _interopRequireDefault(_FormBuilderQuestion);
+
+var _utils = __webpack_require__(1);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+	props: ['oldFormContents'],
+	created: function created() {
+		var _this = this;
+
+		(0, _utils.fetchMilestoneGroups)().then(function (milestoneGroups) {
+			_this.groupedMilestones = milestoneGroups;
+		}).catch(function (err) {
+			console.error(err);
+		});
+
+		fetch('/competencies', { credentials: 'same-origin' }).then(function (response) {
+			if (response.ok) return response.json();else {
+				var err = new Error(response.statusText);
+				err.response = response;
+				throw err;
+			}
+		}).then(function (competencies) {
+			_this.competencies = competencies;
+		}).catch(function (err) {
+			console.error(err);
+		});
+	},
+	data: function data() {
+		return {
+			title: '',
+			formType: 'resident',
+			nextQuestionIdNum: 1,
+			groupedMilestones: [],
+			competencies: [],
+			items: [],
+			customOptions: []
+		};
+	},
+
+	methods: {
+		addInstruction: function addInstruction() {
+			this.items.push({
+				type: 'instruction',
+				text: ''
+			});
+		},
+		addQuestion: function addQuestion() {
+			this.items.push({
+				type: 'question',
+				text: '',
+				questionIdNum: this.nextQuestionIdNum++,
+				questionType: 'radio',
+				milestones: [],
+				competencies: '',
+				options: [],
+				required: false,
+				weight: 100
+			});
+		},
+		changeItem: function changeItem(index, item) {
+			this.items.splice(index, 1, Object.assign(this.items[index], item));
+		},
+		removeItem: function removeItem(index) {
+			var item = this.items[index];
+			if (item.type === 'question' && item.questionIdNum === this.nextQuestionIdNum - 1) this.nextQuestionIdNum--;
+			this.items.splice(index, 1);
+		},
+		submitForm: function submitForm(event) {
+			event.preventDefault();
+			var requestBody = JSON.stringify({
+				title: this.title,
+				formType: this.formType,
+				items: this.items.map(function (item) {
+					item.questionId = 'q' + item.questionIdNum;
+					return item;
+				})
+			});
+
+			var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+			var headers = new Headers();
+			headers.append('Content-Type', 'application/json');
+			headers.append('X-Requested-With', 'XMLHttpRequest');
+			headers.append('X-CSRF-TOKEN', csrfToken);
+
+			if (this.isFormValid()) {
+				fetch('/forms', {
+					method: 'POST',
+					headers: headers,
+					credentials: 'same-origin',
+					body: requestBody
+				}).then(function (response) {
+					if (response.ok) return response.text();else throw new Error(response);
+				}).then(function (response) {
+					if (response === 'success') window.location = '/manage/forms';else throw new Error(response);
+				}).catch(function (err) {
+					(0, _utils.appendAlert)('Error saving form');
+					console.error(err);
+				});
+			}
+		},
+		isFormValid: function isFormValid() {
+			if (!this.title) {
+				(0, _utils.appendAlert)('Please enter a title for the form');
+				return false;
+			}
+
+			if (!this.items || this.items.length < 1) {
+				(0, _utils.appendAlert)('Please enter at least one question');
+				return false;
+			}
+
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+
+			try {
+				for (var _iterator = this.items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var item = _step.value;
+
+					if (item.type === 'question') {
+						if (!item.text) {
+							(0, _utils.appendAlert)('Please enter question text for question ' + item.questionIdNum);
+							return false;
+						}
+						if (['radio', 'radiononnumeric', 'checkbox'].indexOf(item.questionType) !== -1) {
+							if (!item.options || item.options.length < 1) {
+								(0, _utils.appendAlert)('Please add at least one option for each multiple-choice question');
+								return false;
+							}
+
+							var _iteratorNormalCompletion2 = true;
+							var _didIteratorError2 = false;
+							var _iteratorError2 = undefined;
+
+							try {
+								for (var _iterator2 = item.options[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+									var option = _step2.value;
+
+									if (!option.value) {
+										(0, _utils.appendAlert)('An option cannot be submitted without a value. Please either assign a value or remove the option text and description for each option in question ' + item.questionIdNum);
+										return false;
+									}
+								}
+							} catch (err) {
+								_didIteratorError2 = true;
+								_iteratorError2 = err;
+							} finally {
+								try {
+									if (!_iteratorNormalCompletion2 && _iterator2.return) {
+										_iterator2.return();
+									}
+								} finally {
+									if (_didIteratorError2) {
+										throw _iteratorError2;
+									}
+								}
+							}
+						}
+					} else if (item.type === 'instruction') {
+						if (!item.text) {
+							(0, _utils.appendAlert)('Please complete or remove all empty instruction blocks');
+							return false;
+						}
+					} else {
+						(0, _utils.appendAlert)('Unrecognized item type in form');
+						return false;
+					}
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator.return) {
+						_iterator.return();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
+			}
+
+			return true;
+		}
+	},
+	watch: {
+		oldFormContents: function oldFormContents(formContents) {
+			this.title = formContents.title;
+			this.formType = formContents.formType;
+			this.items = formContents.items.slice();
+			var _iteratorNormalCompletion3 = true;
+			var _didIteratorError3 = false;
+			var _iteratorError3 = undefined;
+
+			try {
+				for (var _iterator3 = this.items[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+					var item = _step3.value;
+
+					if (item.questionIdNum && item.questionIdNum >= this.nextQuestionIdNum) this.nextQuestionIdNum = item.questionIdNum + 1;
+				}
+			} catch (err) {
+				_didIteratorError3 = true;
+				_iteratorError3 = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion3 && _iterator3.return) {
+						_iterator3.return();
+					}
+				} finally {
+					if (_didIteratorError3) {
+						throw _iteratorError3;
+					}
+				}
+			}
+		}
+	},
+	components: {
+		FormBuilderInstruction: _FormBuilderInstruction2.default,
+		FormBuilderQuestion: _FormBuilderQuestion2.default
+	}
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/***/ },
+/* 100 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+	props: ['text'],
+	data: function data() {
+		return {};
+	},
+
+	methods: {
+		onInput: function onInput(event) {
+			this.$emit('input', event.target.value);
+		}
+	}
+};
+
+/***/ },
+/* 101 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+	props: ['type', 'text', 'value', 'description', 'isWorkingOption'],
+	computed: {
+		displayType: function displayType() {
+			if (this.type === 'checkbox') return 'checkbox';else return 'radio';
+		}
+	},
+	data: function data() {
+		return {
+			isFocused: false
+		};
+	},
+
+	methods: {
+		handleInputFocus: function handleInputFocus(field) {
+			this.isFocused = true;
+			this.$emit('focus', field);
+		},
+		handleInputBlur: function handleInputBlur(field) {
+			this.isFocused = false;
+			this.$emit('blur', field);
+		}
+	}
+};
+
+/***/ },
+/* 102 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _FormBuilderOption = __webpack_require__(226);
+
+var _FormBuilderOption2 = _interopRequireDefault(_FormBuilderOption);
+
+var _SelectTwo = __webpack_require__(90);
+
+var _SelectTwo2 = _interopRequireDefault(_SelectTwo);
+
+var _constants = __webpack_require__(4);
+
+var _utils = __webpack_require__(1);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+	props: ['formType', 'groupedMilestones', 'allCompetencies', 'questionIdNum', 'text', 'questionType', 'milestones', 'competencies', 'options', 'required', 'customOptions'],
+	data: function data() {
+		return {
+			workingOption: {
+				text: '',
+				value: '',
+				description: ''
+			}
+		};
+	},
+
+	computed: {
+		questionId: function questionId() {
+			return 'q' + this.questionIdNum;
+		},
+		shouldShowMilestonesAndCompetencies: function shouldShowMilestonesAndCompetencies() {
+			return ['radio', 'number'].indexOf(this.questionType) !== -1 && ['resident', 'self-resident', 'fellow', 'self-fellow'].indexOf(this.formType) !== -1;
+		},
+		optionsWithWorking: function optionsWithWorking() {
+			if (this.options) {
+				var options = this.options.slice();
+				options.push(this.workingOption);
+				return options;
+			}
+		},
+		workingOptionIndex: function workingOptionIndex() {
+			if (this.options) return this.options.length;
+		}
+	},
+	methods: {
+		changeQuestionType: function changeQuestionType(event) {
+			var questionType = event.target.value;
+			var options = [];
+
+			this.$emit('change', { questionType: questionType, options: options });
+		},
+		handleWorkingOptionInput: function handleWorkingOptionInput(index, option) {
+			if (index === this.workingOptionIndex) this.workingOption = Object.assign({}, this.workingOption, option);
+		},
+		handleOptionChange: function handleOptionChange(index, option) {
+			if (index === this.workingOptionIndex) {
+				var options = this.options.slice();
+				options.push(Object.assign({}, this.workingOption, option));
+				this.workingOption = {
+					text: '',
+					value: '',
+					description: ''
+				};
+				this.$emit('change', { options: options });
+			} else {
+				var _options = this.options.slice();
+				_options[index] = Object.assign(_options[index], option);
+				if (!_options[index].text && !_options[index].value && !_options[index].description) _options.splice(index, 1);
+
+				this.$emit('change', { options: _options });
+			}
+		},
+		setStandardOptions: function setStandardOptions() {
+			var options = void 0;
+			switch (this.formType) {
+				case 'resident':
+				case 'self-resident':
+					options = _constants.STANDARD_OPTIONS.RESIDENT;
+					break;
+				case 'fellow':
+				case 'self-fellow':
+					options = _constants.STANDARD_OPTIONS.FELLOW;
+					break;
+				case 'faculty':
+					if (this.questionType === 'radiononnumeric') options = _constants.STANDARD_OPTIONS.FACULTY;
+					break;
+			}
+
+			if (!options) {
+				(0, _utils.appendAlert)('No standard options found for form type and question type');
+				return;
+			}
+
+			this.$emit('change', { options: options });
+		},
+		setMilestoneOptions: function setMilestoneOptions() {
+			var _this = this;
+
+			if (this.milestones.length !== 1) {
+				(0, _utils.appendAlert)('You can only use milestone options with a single selected milestone');
+				return;
+			}
+			fetch('/milestones/' + this.milestones[0], { credentials: 'same-origin' }).then(function (response) {
+				if (response.ok) return response.json();else throw new Error(response);
+			}).then(function (milestone) {
+				if (!milestone || !milestone.levels || milestone.levels.length < 1) {
+					(0, _utils.appendAlert)('No milestone levels found');
+					return;
+				}
+				var options = [{
+					value: 0,
+					text: 'Not yet ' + milestone.levels[0].name
+				}];
+				var _iteratorNormalCompletion = true;
+				var _didIteratorError = false;
+				var _iteratorError = undefined;
+
+				try {
+					for (var _iterator = milestone.levels[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var level = _step.value;
+
+						var value = 2 * parseInt(level.level_number, 10);
+						options.push({ value: value - 1, text: '', description: '' });
+						options.push({ value: value, text: level.name, description: level.description });
+					}
+				} catch (err) {
+					_didIteratorError = true;
+					_iteratorError = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion && _iterator.return) {
+							_iterator.return();
+						}
+					} finally {
+						if (_didIteratorError) {
+							throw _iteratorError;
+						}
+					}
+				}
+
+				_this.$emit('change', { options: options });
+			}).catch(function (err) {
+				console.error(err);
+			});
+		},
+		setCustomOptions: function setCustomOptions() {
+			if (this.customOptions.length < 1) {
+				appentAlert('No custom options set');
+				return;
+			}
+
+			this.$emit('change', { options: this.customOptions });
+		}
+	},
+	components: {
+		FormBuilderOption: _FormBuilderOption2.default,
+		SelectTwo: _SelectTwo2.default
+	}
+};
+
+/***/ },
+/* 103 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _FormReaderQuestionOption = __webpack_require__(229);
+
+var _FormReaderQuestionOption2 = _interopRequireDefault(_FormReaderQuestionOption);
+
+var _markdownIt = __webpack_require__(78);
+
+var _markdownIt2 = _interopRequireDefault(_markdownIt);
+
+var _utils = __webpack_require__(1);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _md = new _markdownIt2.default(); //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+	props: {
+		id: String,
+		text: String,
+		type: String,
+		questionType: String,
+		required: Boolean,
+		weight: Number,
+		options: Array
+	},
+	data: function data() {
+		return {
+			showDescriptions: false
+		};
+	},
+
+	computed: {
+		hasDescriptions: function hasDescriptions() {
+			var hasDescriptions = false;
+
+			if (this.options) this.options.map(function (option) {
+				if (option.description) hasDescriptions = true;
+			});
+
+			return hasDescriptions;
+		},
+		md: function md() {
+			return _md;
+		}
+	},
+
+	methods: {
+		ucfirst: _utils.ucfirst
+	},
+
+	components: {
+		FormReaderQuestionOption: _FormReaderQuestionOption2.default
+	}
+};
+
+/***/ },
+/* 104 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _markdownIt = __webpack_require__(78);
+
+var _markdownIt2 = _interopRequireDefault(_markdownIt);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _md = new _markdownIt2.default(); //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+	props: {
+		value: {
+			required: true
+		},
+		text: String,
+		description: String,
+		disabled: Boolean,
+
+		questionType: String,
+		questionId: String,
+		required: Boolean,
+
+		showDescription: Boolean
+	},
+	computed: {
+		md: function md() {
+			return _md;
+		}
+	}
+};
+
+/***/ },
+/* 105 */,
+/* 106 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _color = __webpack_require__(67);
 
 var _color2 = _interopRequireDefault(_color);
 
-var _BootstrapButtonInput = __webpack_require__(222);
+var _BootstrapButtonInput = __webpack_require__(223);
 
 var _BootstrapButtonInput2 = _interopRequireDefault(_BootstrapButtonInput);
 
-var _ChartjsChart = __webpack_require__(87);
+var _ChartjsChart = __webpack_require__(64);
 
 var _ChartjsChart2 = _interopRequireDefault(_ChartjsChart);
 
@@ -22851,1104 +23949,7 @@ exports.default = {
 };
 
 /***/ },
-/* 97 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-	props: {
-		type: {
-			type: String,
-			default: 'radio',
-			validator: function validator(value) {
-				return ['radio', 'checkbox'].indexOf(value) !== -1;
-			}
-		},
-		option: {
-			type: String,
-			required: true
-		},
-		value: {
-			required: true
-		}
-	}
-};
-
-/***/ },
-/* 98 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _chart = __webpack_require__(14);
-
-var _chart2 = _interopRequireDefault(_chart);
-
-var _elementResizeDetector = __webpack_require__(76);
-
-var _elementResizeDetector2 = _interopRequireDefault(_elementResizeDetector);
-
-var _constants = __webpack_require__(4);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var erd = (0, _elementResizeDetector2.default)({
-	strategy: 'scroll'
-}); //
-//
-//
-//
-
-exports.default = {
-	props: {
-		id: {
-			type: String,
-			required: true
-		},
-		width: {
-			required: false
-		},
-		height: {
-			required: false
-		},
-		type: {
-			type: String,
-			required: true,
-			validator: function validator(value) {
-				return _constants.CHART_TYPES.indexOf(value) !== -1;
-			}
-		},
-		data: {
-			type: Object,
-			required: true
-		},
-		options: {
-			type: Object,
-			required: false,
-			default: function _default() {
-				return {
-					legend: {
-						labels: {
-							fontSize: 18,
-							fontColor: '#333'
-						}
-					},
-					tooltips: {
-						callbacks: {
-							label: function label(tooltip, data) {
-								var value = parseFloat(tooltip.yLabel).toFixed(2);
-								var name = data.datasets[tooltip.datasetIndex].label;
-								return name + ': ' + value;
-							}
-						}
-					}
-				};
-			}
-		}
-	},
-	data: function data() {
-		return {
-			chart: null
-		};
-	},
-	mounted: function mounted() {
-		var _this = this;
-
-		this.createChart();
-		var parent = document.querySelector('#' + this.id).parentElement;
-		erd.listenTo(parent, function () {
-			if (_this.chart) _this.chart.resize();
-		});
-	},
-
-	watch: {
-		data: function data(_data) {
-			this.chart.data.labels = _data.labels;
-			this.chart.data.datasets = _data.datasets;
-			this.chart.update();
-		},
-		options: function options(_options) {
-			this.chart.destroy();
-			this.createChart();
-		},
-		type: function type(_type) {
-			this.chart.destroy();
-			this.createChart();
-		}
-	},
-	updated: function updated() {
-		this.chart.update();
-	},
-	destroyed: function destroyed() {
-		this.chart.destroy();
-	},
-
-	methods: {
-		createChart: function createChart() {
-			var ctx = document.querySelector('#' + this.id).getContext('2d');
-			this.chart = new _chart2.default(ctx, {
-				type: this.type,
-				data: this.data,
-				options: this.options
-			});
-		}
-	}
-};
-
-/***/ },
-/* 99 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _elementResizeDetector = __webpack_require__(76);
-
-var _elementResizeDetector2 = _interopRequireDefault(_elementResizeDetector);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var erd = (0, _elementResizeDetector2.default)({
-	strategy: 'scroll'
-}); //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-	props: {
-		id: {
-			type: String,
-			required: true
-		},
-		thead: {
-			type: Array,
-			required: true
-		},
-		config: {
-			type: Object,
-			required: false
-		},
-		data: {
-			type: Array,
-			required: true
-		}
-	},
-	data: function data() {
-		return {
-			updateData: false
-		};
-	},
-	mounted: function mounted() {
-		$('#' + this.id).DataTable(Object.assign({}, this.config, { data: this.data }));
-
-		var parent = document.querySelector('#' + this.id).parentElement;
-		erd.listenTo(parent, function () {
-			$(window).trigger('resize');
-		});
-	},
-
-	watch: {
-		config: function config() {
-			var config = Object.assign({ destroy: true }, this.config, { data: this.data });
-			$('#' + this.id).DataTable(config);
-		},
-		data: function data(_data) {
-			var _this = this;
-
-			this.updateData = true;
-			this.$nextTick(function () {
-				// only set data if table not already recreated with new data
-				if (_this.updateData) {
-					var dt = $('#' + _this.id).DataTable({
-						retrieve: true
-					}).clear().rows.add(_data).draw();
-					_this.updateData = false;
-				}
-			});
-		}
-	},
-	beforeUpdate: function beforeUpdate() {
-		$('#' + this.id).DataTable({
-			retrieve: true
-		}).clear().destroy();
-		this.updateData = false;
-	},
-	updated: function updated() {
-		$('#' + this.id).DataTable(Object.assign({}, this.config, { data: this.data }));
-	},
-	beforeDestroy: function beforeDestroy() {
-		$('#' + this.id).DataTable({
-			retrieve: true
-		}).clear().destroy();
-	}
-};
-
-/***/ },
-/* 100 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _FormBuilderInstruction = __webpack_require__(224);
-
-var _FormBuilderInstruction2 = _interopRequireDefault(_FormBuilderInstruction);
-
-var _FormBuilderQuestion = __webpack_require__(226);
-
-var _FormBuilderQuestion2 = _interopRequireDefault(_FormBuilderQuestion);
-
-var _utils = __webpack_require__(1);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-	props: ['oldFormContents'],
-	created: function created() {
-		var _this = this;
-
-		(0, _utils.fetchMilestoneGroups)().then(function (milestoneGroups) {
-			_this.groupedMilestones = milestoneGroups;
-		}).catch(function (err) {
-			console.error(err);
-		});
-
-		fetch('/competencies', { credentials: 'same-origin' }).then(function (response) {
-			if (response.ok) return response.json();else {
-				var err = new Error(response.statusText);
-				err.response = response;
-				throw err;
-			}
-		}).then(function (competencies) {
-			_this.competencies = competencies;
-		}).catch(function (err) {
-			console.error(err);
-		});
-	},
-	data: function data() {
-		return {
-			title: '',
-			formType: 'resident',
-			nextQuestionIdNum: 1,
-			groupedMilestones: [],
-			competencies: [],
-			items: [],
-			customOptions: []
-		};
-	},
-
-	methods: {
-		addInstruction: function addInstruction() {
-			this.items.push({
-				type: 'instruction',
-				text: ''
-			});
-		},
-		addQuestion: function addQuestion() {
-			this.items.push({
-				type: 'question',
-				text: '',
-				questionIdNum: this.nextQuestionIdNum++,
-				questionType: 'radio',
-				milestones: [],
-				competencies: '',
-				options: [],
-				required: false,
-				weight: 100
-			});
-		},
-		changeItem: function changeItem(index, item) {
-			this.items.splice(index, 1, Object.assign(this.items[index], item));
-		},
-		removeItem: function removeItem(index) {
-			var item = this.items[index];
-			if (item.type === 'question' && item.questionIdNum === this.nextQuestionIdNum - 1) this.nextQuestionIdNum--;
-			this.items.splice(index, 1);
-		},
-		submitForm: function submitForm(event) {
-			event.preventDefault();
-			var requestBody = JSON.stringify({
-				title: this.title,
-				formType: this.formType,
-				items: this.items.map(function (item) {
-					item.questionId = 'q' + item.questionIdNum;
-					return item;
-				})
-			});
-
-			var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-			var headers = new Headers();
-			headers.append('Content-Type', 'application/json');
-			headers.append('X-Requested-With', 'XMLHttpRequest');
-			headers.append('X-CSRF-TOKEN', csrfToken);
-
-			if (this.isFormValid()) {
-				fetch('/forms', {
-					method: 'POST',
-					headers: headers,
-					credentials: 'same-origin',
-					body: requestBody
-				}).then(function (response) {
-					if (response.ok) return response.text();else throw new Error(response);
-				}).then(function (response) {
-					if (response === 'success') window.location = '/manage/forms';else throw new Error(response);
-				}).catch(function (err) {
-					(0, _utils.appendAlert)('Error saving form');
-					console.error(err);
-				});
-			}
-		},
-		isFormValid: function isFormValid() {
-			if (!this.title) {
-				(0, _utils.appendAlert)('Please enter a title for the form');
-				return false;
-			}
-
-			if (!this.items || this.items.length < 1) {
-				(0, _utils.appendAlert)('Please enter at least one question');
-				return false;
-			}
-
-			var _iteratorNormalCompletion = true;
-			var _didIteratorError = false;
-			var _iteratorError = undefined;
-
-			try {
-				for (var _iterator = this.items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-					var item = _step.value;
-
-					if (item.type === 'question') {
-						if (!item.text) {
-							(0, _utils.appendAlert)('Please enter question text for question ' + item.questionIdNum);
-							return false;
-						}
-						if (['radio', 'radiononnumeric', 'checkbox'].indexOf(item.questionType) !== -1) {
-							if (!item.options || item.options.length < 1) {
-								(0, _utils.appendAlert)('Please add at least one option for each multiple-choice question');
-								return false;
-							}
-
-							var _iteratorNormalCompletion2 = true;
-							var _didIteratorError2 = false;
-							var _iteratorError2 = undefined;
-
-							try {
-								for (var _iterator2 = item.options[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-									var option = _step2.value;
-
-									if (!option.value) {
-										(0, _utils.appendAlert)('An option cannot be submitted without a value. Please either assign a value or remove the option text and description for each option in question ' + item.questionIdNum);
-										return false;
-									}
-								}
-							} catch (err) {
-								_didIteratorError2 = true;
-								_iteratorError2 = err;
-							} finally {
-								try {
-									if (!_iteratorNormalCompletion2 && _iterator2.return) {
-										_iterator2.return();
-									}
-								} finally {
-									if (_didIteratorError2) {
-										throw _iteratorError2;
-									}
-								}
-							}
-						}
-					} else if (item.type === 'instruction') {
-						if (!item.text) {
-							(0, _utils.appendAlert)('Please complete or remove all empty instruction blocks');
-							return false;
-						}
-					} else {
-						(0, _utils.appendAlert)('Unrecognized item type in form');
-						return false;
-					}
-				}
-			} catch (err) {
-				_didIteratorError = true;
-				_iteratorError = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion && _iterator.return) {
-						_iterator.return();
-					}
-				} finally {
-					if (_didIteratorError) {
-						throw _iteratorError;
-					}
-				}
-			}
-
-			return true;
-		}
-	},
-	watch: {
-		oldFormContents: function oldFormContents(formContents) {
-			this.title = formContents.title;
-			this.formType = formContents.formType;
-			this.items = formContents.items.slice();
-			var _iteratorNormalCompletion3 = true;
-			var _didIteratorError3 = false;
-			var _iteratorError3 = undefined;
-
-			try {
-				for (var _iterator3 = this.items[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-					var item = _step3.value;
-
-					if (item.questionIdNum && item.questionIdNum >= this.nextQuestionIdNum) this.nextQuestionIdNum = item.questionIdNum + 1;
-				}
-			} catch (err) {
-				_didIteratorError3 = true;
-				_iteratorError3 = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion3 && _iterator3.return) {
-						_iterator3.return();
-					}
-				} finally {
-					if (_didIteratorError3) {
-						throw _iteratorError3;
-					}
-				}
-			}
-		}
-	},
-	components: {
-		FormBuilderInstruction: _FormBuilderInstruction2.default,
-		FormBuilderQuestion: _FormBuilderQuestion2.default
-	}
-}; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/***/ },
-/* 101 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-	props: ['text'],
-	data: function data() {
-		return {};
-	},
-
-	methods: {
-		onInput: function onInput(event) {
-			this.$emit('input', event.target.value);
-		}
-	}
-};
-
-/***/ },
-/* 102 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-	props: ['type', 'text', 'value', 'description', 'isWorkingOption'],
-	computed: {
-		displayType: function displayType() {
-			if (this.type === 'checkbox') return 'checkbox';else return 'radio';
-		}
-	},
-	data: function data() {
-		return {
-			isFocused: false
-		};
-	},
-
-	methods: {
-		handleInputFocus: function handleInputFocus(field) {
-			this.isFocused = true;
-			this.$emit('focus', field);
-		},
-		handleInputBlur: function handleInputBlur(field) {
-			this.isFocused = false;
-			this.$emit('blur', field);
-		}
-	}
-};
-
-/***/ },
-/* 103 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _FormBuilderOption = __webpack_require__(225);
-
-var _FormBuilderOption2 = _interopRequireDefault(_FormBuilderOption);
-
-var _SelectTwo = __webpack_require__(90);
-
-var _SelectTwo2 = _interopRequireDefault(_SelectTwo);
-
-var _constants = __webpack_require__(4);
-
-var _utils = __webpack_require__(1);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-	props: ['formType', 'groupedMilestones', 'allCompetencies', 'questionIdNum', 'text', 'questionType', 'milestones', 'competencies', 'options', 'required', 'customOptions'],
-	data: function data() {
-		return {
-			workingOption: {
-				text: '',
-				value: '',
-				description: ''
-			}
-		};
-	},
-
-	computed: {
-		questionId: function questionId() {
-			return 'q' + this.questionIdNum;
-		},
-		shouldShowMilestonesAndCompetencies: function shouldShowMilestonesAndCompetencies() {
-			return ['radio', 'number'].indexOf(this.questionType) !== -1 && ['resident', 'self-resident', 'fellow', 'self-fellow'].indexOf(this.formType) !== -1;
-		},
-		optionsWithWorking: function optionsWithWorking() {
-			if (this.options) {
-				var options = this.options.slice();
-				options.push(this.workingOption);
-				return options;
-			}
-		},
-		workingOptionIndex: function workingOptionIndex() {
-			if (this.options) return this.options.length;
-		}
-	},
-	methods: {
-		changeQuestionType: function changeQuestionType(event) {
-			var questionType = event.target.value;
-			var options = [];
-
-			this.$emit('change', { questionType: questionType, options: options });
-		},
-		handleWorkingOptionInput: function handleWorkingOptionInput(index, option) {
-			if (index === this.workingOptionIndex) this.workingOption = Object.assign({}, this.workingOption, option);
-		},
-		handleOptionChange: function handleOptionChange(index, option) {
-			if (index === this.workingOptionIndex) {
-				var options = this.options.slice();
-				options.push(Object.assign({}, this.workingOption, option));
-				this.workingOption = {
-					text: '',
-					value: '',
-					description: ''
-				};
-				this.$emit('change', { options: options });
-			} else {
-				var _options = this.options.slice();
-				_options[index] = Object.assign(_options[index], option);
-				if (!_options[index].text && !_options[index].value && !_options[index].description) _options.splice(index, 1);
-
-				this.$emit('change', { options: _options });
-			}
-		},
-		setStandardOptions: function setStandardOptions() {
-			var options = void 0;
-			switch (this.formType) {
-				case 'resident':
-				case 'self-resident':
-					options = _constants.STANDARD_OPTIONS.RESIDENT;
-					break;
-				case 'fellow':
-				case 'self-fellow':
-					options = _constants.STANDARD_OPTIONS.FELLOW;
-					break;
-				case 'faculty':
-					if (this.questionType === 'radiononnumeric') options = _constants.STANDARD_OPTIONS.FACULTY;
-					break;
-			}
-
-			if (!options) {
-				(0, _utils.appendAlert)('No standard options found for form type and question type');
-				return;
-			}
-
-			this.$emit('change', { options: options });
-		},
-		setMilestoneOptions: function setMilestoneOptions() {
-			var _this = this;
-
-			if (this.milestones.length !== 1) {
-				(0, _utils.appendAlert)('You can only use milestone options with a single selected milestone');
-				return;
-			}
-			fetch('/milestones/' + this.milestones[0], { credentials: 'same-origin' }).then(function (response) {
-				if (response.ok) return response.json();else throw new Error(response);
-			}).then(function (milestone) {
-				if (!milestone || !milestone.levels || milestone.levels.length < 1) {
-					(0, _utils.appendAlert)('No milestone levels found');
-					return;
-				}
-				var options = [{
-					value: 0,
-					text: 'Not yet ' + milestone.levels[0].name
-				}];
-				var _iteratorNormalCompletion = true;
-				var _didIteratorError = false;
-				var _iteratorError = undefined;
-
-				try {
-					for (var _iterator = milestone.levels[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-						var level = _step.value;
-
-						var value = 2 * parseInt(level.level_number, 10);
-						options.push({ value: value - 1, text: '', description: '' });
-						options.push({ value: value, text: level.name, description: level.description });
-					}
-				} catch (err) {
-					_didIteratorError = true;
-					_iteratorError = err;
-				} finally {
-					try {
-						if (!_iteratorNormalCompletion && _iterator.return) {
-							_iterator.return();
-						}
-					} finally {
-						if (_didIteratorError) {
-							throw _iteratorError;
-						}
-					}
-				}
-
-				_this.$emit('change', { options: options });
-			}).catch(function (err) {
-				console.error(err);
-			});
-		},
-		setCustomOptions: function setCustomOptions() {
-			if (this.customOptions.length < 1) {
-				appentAlert('No custom options set');
-				return;
-			}
-
-			this.$emit('change', { options: this.customOptions });
-		}
-	},
-	components: {
-		FormBuilderOption: _FormBuilderOption2.default,
-		SelectTwo: _SelectTwo2.default
-	}
-};
-
-/***/ },
-/* 104 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _FormReaderQuestionOption = __webpack_require__(228);
-
-var _FormReaderQuestionOption2 = _interopRequireDefault(_FormReaderQuestionOption);
-
-var _markdownIt = __webpack_require__(77);
-
-var _markdownIt2 = _interopRequireDefault(_markdownIt);
-
-var _utils = __webpack_require__(1);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var _md = new _markdownIt2.default(); //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-	props: {
-		id: String,
-		text: String,
-		type: String,
-		questionType: String,
-		required: Boolean,
-		weight: Number,
-		options: Array
-	},
-	data: function data() {
-		return {
-			showDescriptions: false
-		};
-	},
-
-	computed: {
-		hasDescriptions: function hasDescriptions() {
-			var hasDescriptions = false;
-
-			if (this.options) this.options.map(function (option) {
-				if (option.description) hasDescriptions = true;
-			});
-
-			return hasDescriptions;
-		},
-		md: function md() {
-			return _md;
-		}
-	},
-
-	methods: {
-		ucfirst: _utils.ucfirst
-	},
-
-	components: {
-		FormReaderQuestionOption: _FormReaderQuestionOption2.default
-	}
-};
-
-/***/ },
-/* 105 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _markdownIt = __webpack_require__(77);
-
-var _markdownIt2 = _interopRequireDefault(_markdownIt);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var _md = new _markdownIt2.default(); //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-	props: {
-		value: {
-			required: true
-		},
-		text: String,
-		description: String,
-		disabled: Boolean,
-
-		questionType: String,
-		questionId: String,
-		required: Boolean,
-
-		showDescription: Boolean
-	},
-	computed: {
-		md: function md() {
-			return _md;
-		}
-	}
-};
-
-/***/ },
-/* 106 */
+/* 107 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23966,7 +23967,7 @@ var _SelectTwo = __webpack_require__(90);
 
 var _SelectTwo2 = _interopRequireDefault(_SelectTwo);
 
-var _FormReportQuestion = __webpack_require__(230);
+var _FormReportQuestion = __webpack_require__(233);
 
 var _FormReportQuestion2 = _interopRequireDefault(_FormReportQuestion);
 
@@ -24112,7 +24113,7 @@ exports.default = {
 //
 
 /***/ },
-/* 107 */
+/* 108 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24122,15 +24123,15 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _FormReaderQuestion = __webpack_require__(227);
+var _FormReaderQuestion = __webpack_require__(228);
 
 var _FormReaderQuestion2 = _interopRequireDefault(_FormReaderQuestion);
 
-var _FormReportQuestionOptionStats = __webpack_require__(267);
+var _FormReportQuestionOptionStats = __webpack_require__(234);
 
 var _FormReportQuestionOptionStats2 = _interopRequireDefault(_FormReportQuestionOptionStats);
 
-var _ChartjsChart = __webpack_require__(87);
+var _ChartjsChart = __webpack_require__(64);
 
 var _ChartjsChart2 = _interopRequireDefault(_ChartjsChart);
 
@@ -24283,8 +24284,45 @@ exports.default = {
 //
 
 /***/ },
-/* 108 */,
 /* 109 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+	props: {
+		responses: Number,
+		percentage: Number,
+		averagePercentage: Number
+	}
+};
+
+/***/ },
+/* 110 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24339,7 +24377,7 @@ exports.default = {
 };
 
 /***/ },
-/* 110 */
+/* 111 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24349,11 +24387,11 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _TraineeReport = __webpack_require__(234);
+var _TraineeReport = __webpack_require__(237);
 
 var _TraineeReport2 = _interopRequireDefault(_TraineeReport);
 
-var _FormReport = __webpack_require__(229);
+var _FormReport = __webpack_require__(232);
 
 var _FormReport2 = _interopRequireDefault(_FormReport);
 
@@ -24438,140 +24476,6 @@ exports.default = {
 };
 
 /***/ },
-/* 111 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-	props: {
-		'options': {
-			type: Array,
-			required: true
-		},
-		'value': {
-			required: true
-		},
-		'multiple': {
-			type: Boolean,
-			default: false
-		}
-	},
-	computed: {
-		stringOptions: function stringOptions() {
-			var options = this.options.slice();
-			var _iteratorNormalCompletion = true;
-			var _didIteratorError = false;
-			var _iteratorError = undefined;
-
-			try {
-				for (var _iterator = options[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-					var option = _step.value;
-
-					if (option.id) option.id = option.id.toString();
-					if (option.children) {
-						var _iteratorNormalCompletion2 = true;
-						var _didIteratorError2 = false;
-						var _iteratorError2 = undefined;
-
-						try {
-							for (var _iterator2 = option.children[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-								var child = _step2.value;
-
-								if (child.id) child.id = child.id.toString();
-							}
-						} catch (err) {
-							_didIteratorError2 = true;
-							_iteratorError2 = err;
-						} finally {
-							try {
-								if (!_iteratorNormalCompletion2 && _iterator2.return) {
-									_iterator2.return();
-								}
-							} finally {
-								if (_didIteratorError2) {
-									throw _iteratorError2;
-								}
-							}
-						}
-					}
-				}
-			} catch (err) {
-				_didIteratorError = true;
-				_iteratorError = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion && _iterator.return) {
-						_iterator.return();
-					}
-				} finally {
-					if (_didIteratorError) {
-						throw _iteratorError;
-					}
-				}
-			}
-
-			return options;
-		},
-		stringValue: function stringValue() {
-			if (Array.isArray(this.value)) {
-				return this.value.slice().map(function (value) {
-					return value.toString();
-				});
-			} else {
-				return this.value.toString();
-			}
-		}
-	},
-	mounted: function mounted() {
-		var _this = this;
-
-		$(this.$el).on('change', function () {
-			_this.$emit('input', $(_this.$el).val());
-		});
-
-		if (this.stringOptions && this.stringOptions.length > 0) {
-			$(this.$el).select2({
-				data: this.stringOptions,
-				tags: this.multiple,
-				createTag: function createTag() {
-					return undefined;
-				}
-			}).val(this.stringValue).trigger('change.select2');
-		}
-	},
-
-	watch: {
-		stringValue: function stringValue(_stringValue) {
-			$(this.$el).val(_stringValue).trigger('change.select2');
-		},
-		stringOptions: function stringOptions(_stringOptions) {
-			$(this.$el).select2({
-				data: _stringOptions,
-				tags: this.multiple,
-				createTag: function createTag() {
-					return undefined;
-				}
-			}).val(this.stringValue).trigger('change.select2');
-		}
-	},
-	destroyed: function destroyed() {
-		$(this.$el).off().select2('destroy');
-	}
-};
-
-/***/ },
 /* 112 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -24582,11 +24486,11 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _color = __webpack_require__(66);
+var _color = __webpack_require__(67);
 
 var _color2 = _interopRequireDefault(_color);
 
-var _ChartjsChart = __webpack_require__(87);
+var _ChartjsChart = __webpack_require__(64);
 
 var _ChartjsChart2 = _interopRequireDefault(_ChartjsChart);
 
@@ -24872,7 +24776,7 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _AggregateReport = __webpack_require__(221);
+var _AggregateReport = __webpack_require__(231);
 
 var _AggregateReport2 = _interopRequireDefault(_AggregateReport);
 
@@ -24880,7 +24784,7 @@ var _ReportDate = __webpack_require__(89);
 
 var _ReportDate2 = _interopRequireDefault(_ReportDate);
 
-var _StatsReport = __webpack_require__(233);
+var _StatsReport = __webpack_require__(236);
 
 var _StatsReport2 = _interopRequireDefault(_StatsReport);
 
@@ -25054,11 +24958,145 @@ exports.default = {
 };
 
 /***/ },
-/* 114 */,
+/* 114 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+	props: {
+		'options': {
+			type: Array,
+			required: true
+		},
+		'value': {
+			required: true
+		},
+		'multiple': {
+			type: Boolean,
+			default: false
+		}
+	},
+	computed: {
+		stringOptions: function stringOptions() {
+			var options = this.options.slice();
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+
+			try {
+				for (var _iterator = options[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var option = _step.value;
+
+					if (option.id) option.id = option.id.toString();
+					if (option.children) {
+						var _iteratorNormalCompletion2 = true;
+						var _didIteratorError2 = false;
+						var _iteratorError2 = undefined;
+
+						try {
+							for (var _iterator2 = option.children[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+								var child = _step2.value;
+
+								if (child.id) child.id = child.id.toString();
+							}
+						} catch (err) {
+							_didIteratorError2 = true;
+							_iteratorError2 = err;
+						} finally {
+							try {
+								if (!_iteratorNormalCompletion2 && _iterator2.return) {
+									_iterator2.return();
+								}
+							} finally {
+								if (_didIteratorError2) {
+									throw _iteratorError2;
+								}
+							}
+						}
+					}
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator.return) {
+						_iterator.return();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
+			}
+
+			return options;
+		},
+		stringValue: function stringValue() {
+			if (Array.isArray(this.value)) {
+				return this.value.slice().map(function (value) {
+					return value.toString();
+				});
+			} else {
+				return this.value.toString();
+			}
+		}
+	},
+	mounted: function mounted() {
+		var _this = this;
+
+		$(this.$el).on('change', function () {
+			_this.$emit('input', $(_this.$el).val());
+		});
+
+		if (this.stringOptions && this.stringOptions.length > 0) {
+			$(this.$el).select2({
+				data: this.stringOptions,
+				tags: this.multiple,
+				createTag: function createTag() {
+					return undefined;
+				}
+			}).val(this.stringValue).trigger('change.select2');
+		}
+	},
+
+	watch: {
+		stringValue: function stringValue(_stringValue) {
+			$(this.$el).val(_stringValue).trigger('change.select2');
+		},
+		stringOptions: function stringOptions(_stringOptions) {
+			$(this.$el).select2({
+				data: _stringOptions,
+				tags: this.multiple,
+				createTag: function createTag() {
+					return undefined;
+				}
+			}).val(this.stringValue).trigger('change.select2');
+		}
+	},
+	destroyed: function destroyed() {
+		$(this.$el).off().select2('destroy');
+	}
+};
+
+/***/ },
 /* 115 */,
 /* 116 */,
 /* 117 */,
-/* 118 */
+/* 118 */,
+/* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25179,13 +25217,13 @@ function fromByteArray (uint8) {
 
 
 /***/ },
-/* 119 */
+/* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(120);
+var utils = __webpack_require__(121);
 
 module.exports = function batchProcessorMaker(options) {
     options             = options || {};
@@ -25324,7 +25362,7 @@ function Batch() {
 
 
 /***/ },
-/* 120 */
+/* 121 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25346,7 +25384,7 @@ function getOption(options, name, defaultValue) {
 
 
 /***/ },
-/* 121 */
+/* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25360,9 +25398,9 @@ function getOption(options, name, defaultValue) {
 
 
 
-var base64 = __webpack_require__(118)
-var ieee754 = __webpack_require__(160)
-var isArray = __webpack_require__(161)
+var base64 = __webpack_require__(119)
+var ieee754 = __webpack_require__(162)
+var isArray = __webpack_require__(163)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -27143,7 +27181,7 @@ function isnan (val) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ },
-/* 122 */
+/* 123 */
 /***/ function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {var clone = (function() {
@@ -27307,14 +27345,14 @@ if (typeof module === 'object' && module.exports) {
   module.exports = clone;
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(121).Buffer))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(122).Buffer))
 
 /***/ },
-/* 123 */
+/* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
-var conversions = __webpack_require__(65);
-var route = __webpack_require__(124);
+var conversions = __webpack_require__(66);
+var route = __webpack_require__(125);
 
 var convert = {};
 
@@ -27394,10 +27432,10 @@ module.exports = convert;
 
 
 /***/ },
-/* 124 */
+/* 125 */
 /***/ function(module, exports, __webpack_require__) {
 
-var conversions = __webpack_require__(65);
+var conversions = __webpack_require__(66);
 
 /*
 	this function routes a model to all other models.
@@ -27498,7 +27536,7 @@ module.exports = function (fromModel) {
 
 
 /***/ },
-/* 125 */
+/* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
 /* MIT license */
@@ -27725,7 +27763,6 @@ for (var name in colorNames) {
 
 
 /***/ },
-/* 126 */,
 /* 127 */,
 /* 128 */,
 /* 129 */,
@@ -27741,20 +27778,7 @@ for (var name in colorNames) {
 /* 139 */,
 /* 140 */,
 /* 141 */,
-/* 142 */
-/***/ function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.filter-milestones-container[data-v-155d597c] {\n\tdisplay: flex;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tjustify-content: flex-start;\n\talign-items: stretch;\n}\n.milestone-group[data-v-155d597c] {\n\tflex-grow: 0;\n\tflex-shrink: 1;\n\twidth: 250px;\n\tmin-width: 200px;\n\tmax-width: 100%;\n\tmargin: 10px;\n}\n.milestone-group .panel-body[data-v-155d597c] {\n\theight: 300px;\n\toverflow: auto;\n}\n.milestone-group .panel-body label[data-v-155d597c] {\n\tfont-weight: normal;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/TraineeReport.vue?37b0071f"],"names":[],"mappings":";AAsKA;CACA,cAAA;CACA,oBAAA;CACA,gBAAA;CACA,4BAAA;CACA,qBAAA;CACA;AAEA;CACA,aAAA;CACA,eAAA;CACA,aAAA;CACA,iBAAA;CACA,gBAAA;CACA,aAAA;CACA;AAEA;CACA,cAAA;CACA,eAAA;CACA;AAEA;CACA,oBAAA;CACA","file":"TraineeReport.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block\">\n\t\t\t<h2>Trainee report</h2>\n\t\t\t<report-date v-model=\"dates\" />\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"checkbox\" v-model=\"filterMilestones\" />\n\t\t\t\t\tFilter milestones\n\t\t\t\t</label>\n\t\t\t</div>\n\n\t\t\t<fieldset v-if=\"filterMilestones\">\n\t\t\t\t<legend>Milestones</legend>\n\t\t\t\t<div class=\"filter-milestones-container\">\n\t\t\t\t\t<div v-for=\"(milestoneGroup, index) of milestoneGroups\" class=\"milestone-group\">\n\t\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t\t<label class=\"panel-title\">\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t:checked=\"isEntireMilestoneGroupSelected(index)\"\n\t\t\t\t\t\t\t\t\t\t\t@click=\"toggleEntireMilestoneGroup(index)\" />\n\t\t\t\t\t\t\t\t\t{{ milestoneGroup.text }}\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t\t<div v-for=\"child of milestoneGroup.children\" class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t\t:value=\"child.id\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"milestones\" />\n\t\t\t\t\t\t\t\t\t\t{{ child.text }}\n\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\n\t\t\t<button type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t@click=\"runReport\">\n\t\t\t\tRun report\n\t\t\t</button>\n\t\t</div>\n\n\t\t<div v-if=\"report\">\n\t\t\t<stats-report v-if=\"report.stats\" :report=\"report.stats\" />\n\n\t\t\t<aggregate-report v-if=\"report.aggregate\" :report=\"report.aggregate\" />\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport AggregateReport from './AggregateReport.vue';\nimport ReportDate from './ReportDate.vue';\nimport StatsReport from './StatsReport.vue';\n\nimport { fetchMilestoneGroups } from '../modules/utils.js';\n\nexport default {\n\tdata(){\n\t\treturn {\n\t\t\tdates: {\n\t\t\t\tstartDate: '2015-11-01', // FIXME\n\t\t\t\tendDate: '2016-11-01' // FIXME\n\t\t\t},\n\t\t\ttrainingLevel: 'all',\n\t\t\tfilterMilestones: false,\n\t\t\tmilestones: [],\n\t\t\treport: null,\n\n\t\t\tmilestoneGroups: [],\n\t\t\tuserGroups: {}\n\t\t};\n\t},\n\twatch: {\n\t\tfilterMilestones(shouldFilter){\n\t\t\tif(shouldFilter){\n\t\t\t\tfetchMilestoneGroups().then(milestoneGroups => {\n\t\t\t\t\tthis.milestoneGroups = milestoneGroups;\n\t\t\t\t});\n\t\t\t}\n\t\t}\n\t},\n\tcomputed: {\n\n\t},\n\tmethods: {\n\t\tisEntireMilestoneGroupSelected(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\treturn groupIds.every(id => {\n\t\t\t\treturn this.milestones.includes(id);\n\t\t\t});\n\t\t},\n\t\ttoggleEntireMilestoneGroup(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\tlet newMilestones = this.milestones.filter(milestone => {\n\t\t\t\treturn !groupIds.includes(milestone);\n\t\t\t});\n\t\t\tif(!this.isEntireMilestoneGroupSelected(index)){\n\t\t\t\tnewMilestones = newMilestones.concat(groupIds);\n\t\t\t}\n\t\t\tthis.milestones = newMilestones;\n\t\t},\n\t\trunReport(){\n\t\t\tlet csrfToken = document.querySelector('meta[name=\"csrf-token\"]').getAttribute('content');\n\n\t\t\tlet headers = new Headers();\n\t\t\theaders.append('Content-Type', 'application/json');\n\t\t\theaders.append('X-Requested-With', 'XMLHttpRequest');\n\t\t\theaders.append('X-CSRF-TOKEN', csrfToken);\n\n\t\t\tfetch('/report/aggregate', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: headers,\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate,\n\t\t\t\t\ttrainingLevel: this.trainingLevel,\n\t\t\t\t\tmilestones: this.milestones\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(aggregate => {\n\t\t\t\tthis.report = Object.assign({}, this.report, {aggregate: aggregate});\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\n\t\t\tfetch('/report/stats/resident', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: headers,\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(stats => {\n\t\t\t\tthis.report = Object.assign({}, this.report, {stats: stats});\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t}\n\t},\n\tcomponents: {\n\t\tReportDate,\n\t\tAggregateReport,\n\t\tStatsReport\n\t}\n}\n</script>\n\n<style scoped>\n\t.filter-milestones-container {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tflex-wrap: wrap;\n\t\tjustify-content: flex-start;\n\t\talign-items: stretch;\n\t}\n\n\t.milestone-group {\n\t\tflex-grow: 0;\n\t\tflex-shrink: 1;\n\t\twidth: 250px;\n\t\tmin-width: 200px;\n\t\tmax-width: 100%;\n\t\tmargin: 10px;\n\t}\n\n\t.milestone-group .panel-body {\n\t\theight: 300px;\n\t\toverflow: auto;\n\t}\n\n\t.milestone-group .panel-body label {\n\t\tfont-weight: normal;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
-
-// exports
-
-
-/***/ },
+/* 142 */,
 /* 143 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -27763,7 +27787,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n.show-container label + label[data-v-19509019] {\n\tmargin-left: 2em;\n}\n.graphs-container[data-v-19509019] {\n\tmargin: 2em 0;\n}\n.graphs-container .graphs-controls[data-v-19509019] {\n\tmargin: 2em 0 0;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/AggregateReport.vue?488ac14b"],"names":[],"mappings":";AA4UA;CACA,iBAAA;CACA;AAEA;CACA,cAAA;CACA;AAEA;CACA,gBAAA;CACA","file":"AggregateReport.vue","sourcesContent":["<template>\n\t<div class=\"container body-block\">\n\t\t<h3>Aggregate</h3>\n\t\t<fieldset class=\"show-container\">\n\t\t\t<legend>Show</legend>\n\t\t\t<label v-for=\"(part, name) of show\">\n\t\t\t\t<input type=\"checkbox\" v-model=\"show[name]\" />\n\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t</label>\n\t\t</fieldset>\n\n\t\t<data-table id=\"aggregate-table\" :thead=\"tableThead\"\n\t\t\t:config=\"tableConfig\" :data=\"tableData\" />\n\n\t\t<div class=\"graphs-container\" v-if=\"show.graphs\">\n\t\t\t<div class=\"row\">\n\t\t\t\t<div v-if=\"show.competencies\" :class=\"graphWidth\">\n\t\t\t\t\t<chartjs-chart id=\"aggregate-competency-chart\" :type=\"graphType\"\n\t\t\t\t\t\t:options=\"chartOptions\" :data=\"competencyChartData\" />\n\t\t\t\t</div>\n\t\t\t\t<div v-if=\"show.milestones\" :class=\"graphWidth\">\n\t\t\t\t\t<chartjs-chart id=\"aggregate-milestone-chart\" :type=\"graphType\"\n\t\t\t\t\t\t:options=\"chartOptions\" :data=\"milestoneChartData\" />\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"row graphs-controls\">\n\t\t\t\t<div class=\"col-sm-offset-5 col-sm-2\">\n\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t<span class=\"panel-title\">Graph options</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t<fieldset v-if=\"show.milestones && show.competencies\">\n\t\t\t\t\t\t\t\t<legend>Orientation</legend>\n\t\t\t\t\t\t\t\t<div class=\"btn-group btn-group-justified\" data-toggle=\"buttons\">\n\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"horizontal\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"graphOrientation\">\n\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-horizontal\"></span>\n\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"vertical\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"graphOrientation\">\n\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-vertical\"></span>\n\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</fieldset>\n\n\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\t\tType\n\t\t\t\t\t\t\t\t\t<select class=\"form-control\" v-model=\"graphType\">\n\t\t\t\t\t\t\t\t\t\t<option v-for=\"type of chartTypes\" :value=\"type\">\n\t\t\t\t\t\t\t\t\t\t\t{{ ucfirst(type) }}\n\t\t\t\t\t\t\t\t\t\t</option>\n\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport Color from 'color';\n\nimport BootstrapButtonInput from './BootstrapButtonInput.vue';\nimport ChartjsChart from './ChartjsChart.vue';\nimport DataTable from './DataTable.vue';\n\nimport { CHART_COLORS } from '../modules/constants.js';\nimport { camelCaseToWords, ucfirst } from '../modules/utils.js';\n\nexport default {\n\tprops: [\n\t\t'report'\n\t],\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tmilestones: false,\n\t\t\t\tcompetencies: true,\n\t\t\t\tstandardDeviations: false,\n\t\t\t\tgraphs: true\n\t\t\t},\n\t\t\tgraphType: 'radar',\n\t\t\tgraphOrientation: 'vertical'\n\t\t};\n\t},\n\tcomputed: {\n\t\tcolsPerItem(){\n\t\t\treturn this.show.standardDeviations\n\t\t\t\t? 3\n\t\t\t\t: 2;\n\t\t},\n\t\tmilestoneColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.milestones).length;\n\t\t},\n\t\tcompetencyColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.competencies).length;\n\t\t},\n\t\ttableThead(){\n\t\t\tlet thead = [];\n\t\t\tlet row = [];\n\t\t\trow.push({rowspan: 3, text: 'Trainee'});\n\t\t\tif(this.show.milestones)\n\t\t\t\trow.push({\n\t\t\t\t\tcolspan: this.milestoneColspan,\n\t\t\t\t\ttext: 'Milestones'\n\t\t\t\t});\n\t\t\tif(this.show.competencies)\n\t\t\t\trow.push({\n\t\t\t\t\tcolspan: this.competencyColspan,\n\t\t\t\t\ttext: 'Competencies'\n\t\t\t\t});\n\t\t\trow.push({colspan: 3, text: 'All'});\n\t\t\tthead.push(row);\n\n\t\t\trow = [];\n\t\t\tif(this.show.milestones){\n\t\t\t\tfor(let milestoneId in this.report.milestones){\n\t\t\t\t\trow.push({\n\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\ttext: this.report.milestones[milestoneId]\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t}\n\t\t\tif(this.show.competencies){\n\t\t\t\tfor(let competencyId in this.report.competencies){\n\t\t\t\t\trow.push({\n\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\ttext: this.report.competencies[competencyId]\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t}\n\t\t\trow.push({colspan: 3, text: 'Total'});\n\t\t\tthead.push(row);\n\n\t\t\trow = [];\n\t\t\tif(this.show.milestones){\n\t\t\t\tfor(let milestoneId in this.report.milestones){\n\t\t\t\t\trow.push({text: 'Average'});\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\trow.push({text: 'Std. Dev.'});\n\t\t\t\t\trow.push({text: '#'});\n\t\t\t\t}\n\t\t\t}\n\t\t\tif(this.show.competencies){\n\t\t\t\tfor(let competencyId in this.report.competencies){\n\t\t\t\t\trow.push({text: 'Average'});\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\trow.push({text: 'Std. Dev.'});\n\t\t\t\t\trow.push({text: '#'});\n\t\t\t\t}\n\t\t\t}\n\t\t\trow.push({text: '# Evaluators'});\n\t\t\trow.push({text: '# Evaluations'});\n\t\t\trow.push({text: '# Trainee Requests'});\n\t\t\tthead.push(row);\n\n\t\t\treturn thead;\n\t\t},\n\t\ttableConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tdom: 'lfprtip',\n\t\t\t\tscrollX: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tfixedColumns: true,\n\t\t\t};\n\t\t},\n\t\ttableData(){\n\t\t\tlet data = [];\n\t\t\tfor(let subjectId in this.report.subjects){\n\t\t\t\tlet row = [];\n\t\t\t\trow.push(this.report.subjects[subjectId]);\n\t\t\t\tif(this.show.milestones){\n\t\t\t\t\tfor(let milestoneId in this.report.milestones){\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectMilestone\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestone[subjectId][milestoneId]).toFixed(2)\n\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t);\n\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectMilestoneDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneDeviations[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestoneDeviations[subjectId][milestoneId]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectMilestoneEvals\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneEvals[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneEvals[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestoneEvals[subjectId][milestoneId]).toFixed()\n\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tif(this.show.competencies){\n\t\t\t\t\tfor(let competencyId in this.report.competencies){\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectCompetency\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId][competencyId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetency[subjectId][competencyId]).toFixed(2)\n\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t);\n\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectCompetencyDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyDeviations[subjectId][competencyId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetencyDeviations[subjectId][competencyId]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectCompetencyEvals\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyEvals[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyEvals[subjectId][competencyId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetencyEvals[subjectId][competencyId]).toFixed()\n\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\trow.push(Object.keys(this.report.subjectEvaluators[subjectId]).length);\n\t\t\t\trow.push(Object.keys(this.report.subjectEvals[subjectId]).length);\n\t\t\t\trow.push(Object.keys(this.report.subjectRequests[subjectId]).length);\n\n\t\t\t\tdata.push(row);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\t\tchartTypes(){\n\t\t\treturn [\n\t\t\t\t'radar',\n\t\t\t\t'line',\n\t\t\t\t'bar'\n\t\t\t];\n\t\t},\n\t\tgraphWidth(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': this.graphOrientation === 'horizontal',\n\t\t\t\t'col-md-12': this.graphOrientation === 'vertical'\n\t\t\t};\n\t\t},\n\t\tchartOptions(){\n\t\t\treturn {\n\t\t\t\tlegend: {\n\t\t\t\t\tlabels: {\n\t\t\t\t\t\tfontSize: 18,\n\t\t\t\t\t\tfontColor: '#333'\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tcallbacks: {\n\t\t\t\t\t\tlabel(tooltip, data){\n\t\t\t\t\t\t\tlet value = parseFloat(tooltip.yLabel).toFixed(2);\n\t\t\t\t\t\t\tlet name = data.datasets[tooltip.datasetIndex].label;\n\t\t\t\t\t\t\treturn `${name}: ${value}`;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t};\n\t\t},\n\t\tcompetencyChartData(){\n\t\t\tlet color = Color(CHART_COLORS.COMPETENCY);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: Object.values(this.report.competencies),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Average Competencies',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: Object.values(this.report.averageCompetency)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tmilestoneChartData(){\n\t\t\tlet color = Color(CHART_COLORS.MILESTONE);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: Object.values(this.report.milestones),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Average Milestones',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: Object.values(this.report.averageMilestone)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords,\n\t\tucfirst\n\t},\n\tcomponents: {\n\t\tBootstrapButtonInput,\n\t\tChartjsChart,\n\t\tDataTable\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-container label + label {\n\t\tmargin-left: 2em;\n\t}\n\n\t.graphs-container {\n\t\tmargin: 2em 0;\n\t}\n\n\t.graphs-container .graphs-controls {\n\t\tmargin: 2em 0 0;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.form-builder-question-option[data-v-09008ada] {\n\tmargin-top: 10px;\n}\n.working-option[data-v-09008ada] {\n\topacity: 0.5;\n}\n.working-option[data-v-09008ada]:hover,\n.working-option.is-focused[data-v-09008ada],\n.working-option[data-v-09008ada]:active {\n\topacity: 1;\n}\ntextarea.form-option-description[data-v-09008ada] {\n\tresize: vertical;\n\theight: 100px;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/FormBuilder/FormBuilderOption.vue?0ee82ebb"],"names":[],"mappings":";AAoEA;CACA,iBAAA;CACA;AAEA;CACA,aAAA;CACA;AAEA;;;CAGA,WAAA;CACA;AAEA;CACA,iBAAA;CACA,cAAA;CACA","file":"FormBuilderOption.vue","sourcesContent":["<template>\n\t<div class=\"form-builder-question-option col-lg-2 col-md-3 col-sm-6 text-center\" v-bind:class=\"{ 'working-option': isWorkingOption, 'is-focused': isFocused }\">\n\t\t<input v-bind:type=\"displayType\" disabled/>\n\t\t<input type=\"text\" v-bind:value=\"text\"\n\t\t\tclass=\"form-input form-option form-option-text form-control\"\n\t\t\tplaceholder=\"Option Text\"\n\t\t\tv-on:input=\"$emit('input', {text: $event.target.value})\"\n\t\t\tv-on:change=\"$emit('change', {text: $event.target.value})\"\n\t\t\tv-on:focus=\"handleInputFocus('text')\"\n\t\t\tv-on:blur=\"handleInputBlur('text')\"\n\t\t\t/>\n\t\t<input v-bind:type=\"type === 'radio' ? 'number' : 'text'\"\n\t\t\tv-bind:value=\"value\"\n\t\t\tclass=\"form-input form-option form-option-value form-control\"\n\t\t\tplaceholder=\"Option Value\"\n\t\t\tv-on:input=\"$emit('input', {value: $event.target.value})\"\n\t\t\tv-on:change=\"$emit('change', {value: $event.target.value})\"\n\t\t\tv-on:focus=\"handleInputFocus('value')\"\n\t\t\tv-on:blur=\"handleInputBlur('value')\"\n\t\t\t/>\n\t\t<textarea v-bind:value=\"description\"\n\t\t\tclass=\"form-input form-option form-option-description form-control\"\n\t\t\tplaceholder=\"Hover Description\"\n\t\t\tv-on:input=\"$emit('input', {description: $event.target.value})\"\n\t\t\tv-on:change=\"$emit('change', {description: $event.target.value})\"\n\t\t\tv-on:focus=\"handleInputFocus('description')\"\n\t\t\tv-on:blur=\"handleInputBlur('description')\"\n\t\t\t>\n\t\t</textarea>\n\t</div>\n</template>\n\n<script>\nexport default {\n\tprops: [\n\t\t'type',\n\t\t'text',\n\t\t'value',\n\t\t'description',\n\t\t'isWorkingOption'\n\t],\n\tcomputed: {\n\t\tdisplayType(){\n\t\t\tif(this.type === 'checkbox')\n\t\t\t\treturn 'checkbox';\n\t\t\telse\n\t\t\t\treturn 'radio';\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tisFocused: false\n\t\t};\n\t},\n\tmethods: {\n\t\thandleInputFocus(field){\n\t\t\tthis.isFocused = true;\n\t\t\tthis.$emit('focus', field);\n\t\t},\n\t\thandleInputBlur(field){\n\t\t\tthis.isFocused = false;\n\t\t\tthis.$emit('blur', field);\n\t\t}\n\t}\n}\n</script>\n\n<style scoped>\n\t.form-builder-question-option {\n\t\tmargin-top: 10px;\n\t}\n\n\t.working-option {\n\t\topacity: 0.5;\n\t}\n\n\t.working-option:hover,\n\t.working-option.is-focused,\n\t.working-option:active {\n\t\topacity: 1;\n\t}\n\n\ttextarea.form-option-description {\n\t\tresize: vertical;\n\t\theight: 100px;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -27777,7 +27801,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"Reports.vue","sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.show-container label + label[data-v-12d2bcae] {\n\tmargin-left: 2em;\n}\n.graphs-container[data-v-12d2bcae] {\n\tmargin: 2em 0;\n}\n.graphs-container .graphs-controls[data-v-12d2bcae] {\n\tmargin: 2em 0 0;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/AggregateReport.vue?2d163a9a"],"names":[],"mappings":";AA4UA;CACA,iBAAA;CACA;AAEA;CACA,cAAA;CACA;AAEA;CACA,gBAAA;CACA","file":"AggregateReport.vue","sourcesContent":["<template>\n\t<div class=\"container body-block\">\n\t\t<h3>Aggregate</h3>\n\t\t<fieldset class=\"show-container\">\n\t\t\t<legend>Show</legend>\n\t\t\t<label v-for=\"(part, name) of show\">\n\t\t\t\t<input type=\"checkbox\" v-model=\"show[name]\" />\n\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t</label>\n\t\t</fieldset>\n\n\t\t<data-table id=\"aggregate-table\" :thead=\"tableThead\"\n\t\t\t:config=\"tableConfig\" :data=\"tableData\" />\n\n\t\t<div class=\"graphs-container\" v-if=\"show.graphs\">\n\t\t\t<div class=\"row\">\n\t\t\t\t<div v-if=\"show.competencies\" :class=\"graphWidth\">\n\t\t\t\t\t<chartjs-chart id=\"aggregate-competency-chart\" :type=\"graphType\"\n\t\t\t\t\t\t:options=\"chartOptions\" :data=\"competencyChartData\" />\n\t\t\t\t</div>\n\t\t\t\t<div v-if=\"show.milestones\" :class=\"graphWidth\">\n\t\t\t\t\t<chartjs-chart id=\"aggregate-milestone-chart\" :type=\"graphType\"\n\t\t\t\t\t\t:options=\"chartOptions\" :data=\"milestoneChartData\" />\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"row graphs-controls\">\n\t\t\t\t<div class=\"col-sm-offset-5 col-sm-2\">\n\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t<span class=\"panel-title\">Graph options</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t<fieldset v-if=\"show.milestones && show.competencies\">\n\t\t\t\t\t\t\t\t<legend>Orientation</legend>\n\t\t\t\t\t\t\t\t<div class=\"btn-group btn-group-justified\" data-toggle=\"buttons\">\n\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"horizontal\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"graphOrientation\">\n\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-horizontal\"></span>\n\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"vertical\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"graphOrientation\">\n\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-vertical\"></span>\n\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</fieldset>\n\n\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\t\tType\n\t\t\t\t\t\t\t\t\t<select class=\"form-control\" v-model=\"graphType\">\n\t\t\t\t\t\t\t\t\t\t<option v-for=\"type of chartTypes\" :value=\"type\">\n\t\t\t\t\t\t\t\t\t\t\t{{ ucfirst(type) }}\n\t\t\t\t\t\t\t\t\t\t</option>\n\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport Color from 'color';\n\nimport BootstrapButtonInput from '../BootstrapButtonInput.vue';\nimport ChartjsChart from '../ChartjsChart.vue';\nimport DataTable from '../DataTable.vue';\n\nimport { CHART_COLORS } from '../../modules/constants.js';\nimport { camelCaseToWords, ucfirst } from '../../modules/utils.js';\n\nexport default {\n\tprops: [\n\t\t'report'\n\t],\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tmilestones: false,\n\t\t\t\tcompetencies: true,\n\t\t\t\tstandardDeviations: false,\n\t\t\t\tgraphs: true\n\t\t\t},\n\t\t\tgraphType: 'radar',\n\t\t\tgraphOrientation: 'vertical'\n\t\t};\n\t},\n\tcomputed: {\n\t\tcolsPerItem(){\n\t\t\treturn this.show.standardDeviations\n\t\t\t\t? 3\n\t\t\t\t: 2;\n\t\t},\n\t\tmilestoneColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.milestones).length;\n\t\t},\n\t\tcompetencyColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.competencies).length;\n\t\t},\n\t\ttableThead(){\n\t\t\tlet thead = [];\n\t\t\tlet row = [];\n\t\t\trow.push({rowspan: 3, text: 'Trainee'});\n\t\t\tif(this.show.milestones)\n\t\t\t\trow.push({\n\t\t\t\t\tcolspan: this.milestoneColspan,\n\t\t\t\t\ttext: 'Milestones'\n\t\t\t\t});\n\t\t\tif(this.show.competencies)\n\t\t\t\trow.push({\n\t\t\t\t\tcolspan: this.competencyColspan,\n\t\t\t\t\ttext: 'Competencies'\n\t\t\t\t});\n\t\t\trow.push({colspan: 3, text: 'All'});\n\t\t\tthead.push(row);\n\n\t\t\trow = [];\n\t\t\tif(this.show.milestones){\n\t\t\t\tfor(let milestoneId in this.report.milestones){\n\t\t\t\t\trow.push({\n\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\ttext: this.report.milestones[milestoneId]\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t}\n\t\t\tif(this.show.competencies){\n\t\t\t\tfor(let competencyId in this.report.competencies){\n\t\t\t\t\trow.push({\n\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\ttext: this.report.competencies[competencyId]\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t}\n\t\t\trow.push({colspan: 3, text: 'Total'});\n\t\t\tthead.push(row);\n\n\t\t\trow = [];\n\t\t\tif(this.show.milestones){\n\t\t\t\tfor(let milestoneId in this.report.milestones){\n\t\t\t\t\trow.push({text: 'Average'});\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\trow.push({text: 'Std. Dev.'});\n\t\t\t\t\trow.push({text: '#'});\n\t\t\t\t}\n\t\t\t}\n\t\t\tif(this.show.competencies){\n\t\t\t\tfor(let competencyId in this.report.competencies){\n\t\t\t\t\trow.push({text: 'Average'});\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\trow.push({text: 'Std. Dev.'});\n\t\t\t\t\trow.push({text: '#'});\n\t\t\t\t}\n\t\t\t}\n\t\t\trow.push({text: '# Evaluators'});\n\t\t\trow.push({text: '# Evaluations'});\n\t\t\trow.push({text: '# Trainee Requests'});\n\t\t\tthead.push(row);\n\n\t\t\treturn thead;\n\t\t},\n\t\ttableConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tdom: 'lfprtip',\n\t\t\t\tscrollX: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tfixedColumns: true,\n\t\t\t};\n\t\t},\n\t\ttableData(){\n\t\t\tlet data = [];\n\t\t\tfor(let subjectId in this.report.subjects){\n\t\t\t\tlet row = [];\n\t\t\t\trow.push(this.report.subjects[subjectId]);\n\t\t\t\tif(this.show.milestones){\n\t\t\t\t\tfor(let milestoneId in this.report.milestones){\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectMilestone\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestone[subjectId][milestoneId]).toFixed(2)\n\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t);\n\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectMilestoneDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneDeviations[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestoneDeviations[subjectId][milestoneId]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectMilestoneEvals\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneEvals[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneEvals[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestoneEvals[subjectId][milestoneId]).toFixed()\n\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tif(this.show.competencies){\n\t\t\t\t\tfor(let competencyId in this.report.competencies){\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectCompetency\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId][competencyId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetency[subjectId][competencyId]).toFixed(2)\n\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t);\n\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectCompetencyDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyDeviations[subjectId][competencyId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetencyDeviations[subjectId][competencyId]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectCompetencyEvals\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyEvals[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyEvals[subjectId][competencyId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetencyEvals[subjectId][competencyId]).toFixed()\n\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\trow.push(Object.keys(this.report.subjectEvaluators[subjectId]).length);\n\t\t\t\trow.push(Object.keys(this.report.subjectEvals[subjectId]).length);\n\t\t\t\trow.push(Object.keys(this.report.subjectRequests[subjectId]).length);\n\n\t\t\t\tdata.push(row);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\t\tchartTypes(){\n\t\t\treturn [\n\t\t\t\t'radar',\n\t\t\t\t'line',\n\t\t\t\t'bar'\n\t\t\t];\n\t\t},\n\t\tgraphWidth(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': this.graphOrientation === 'horizontal',\n\t\t\t\t'col-md-12': this.graphOrientation === 'vertical'\n\t\t\t};\n\t\t},\n\t\tchartOptions(){\n\t\t\treturn {\n\t\t\t\tlegend: {\n\t\t\t\t\tlabels: {\n\t\t\t\t\t\tfontSize: 18,\n\t\t\t\t\t\tfontColor: '#333'\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tcallbacks: {\n\t\t\t\t\t\tlabel(tooltip, data){\n\t\t\t\t\t\t\tlet value = parseFloat(tooltip.yLabel).toFixed(2);\n\t\t\t\t\t\t\tlet name = data.datasets[tooltip.datasetIndex].label;\n\t\t\t\t\t\t\treturn `${name}: ${value}`;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t};\n\t\t},\n\t\tcompetencyChartData(){\n\t\t\tlet color = Color(CHART_COLORS.COMPETENCY);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: Object.values(this.report.competencies),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Average Competencies',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: Object.values(this.report.averageCompetency)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tmilestoneChartData(){\n\t\t\tlet color = Color(CHART_COLORS.MILESTONE);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: Object.values(this.report.milestones),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Average Milestones',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: Object.values(this.report.averageMilestone)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords,\n\t\tucfirst\n\t},\n\tcomponents: {\n\t\tBootstrapButtonInput,\n\t\tChartjsChart,\n\t\tDataTable\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-container label + label {\n\t\tmargin-left: 2em;\n\t}\n\n\t.graphs-container {\n\t\tmargin: 2em 0;\n\t}\n\n\t.graphs-container .graphs-controls {\n\t\tmargin: 2em 0 0;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -27805,13 +27829,26 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n.form-builder-question-option[data-v-58256c5c] {\n\tmargin-top: 10px;\n}\n.working-option[data-v-58256c5c] {\n\topacity: 0.5;\n}\n.working-option[data-v-58256c5c]:hover,\n.working-option.is-focused[data-v-58256c5c],\n.working-option[data-v-58256c5c]:active {\n\topacity: 1;\n}\ntextarea.form-option-description[data-v-58256c5c] {\n\tresize: vertical;\n\theight: 100px;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/FormBuilderOption.vue?0ee82ebb"],"names":[],"mappings":";AAoEA;CACA,iBAAA;CACA;AAEA;CACA,aAAA;CACA;AAEA;;;CAGA,WAAA;CACA;AAEA;CACA,iBAAA;CACA,cAAA;CACA","file":"FormBuilderOption.vue","sourcesContent":["<template>\n\t<div class=\"form-builder-question-option col-lg-2 col-md-3 col-sm-6 text-center\" v-bind:class=\"{ 'working-option': isWorkingOption, 'is-focused': isFocused }\">\n\t\t<input v-bind:type=\"displayType\" disabled/>\n\t\t<input type=\"text\" v-bind:value=\"text\"\n\t\t\tclass=\"form-input form-option form-option-text form-control\"\n\t\t\tplaceholder=\"Option Text\"\n\t\t\tv-on:input=\"$emit('input', {text: $event.target.value})\"\n\t\t\tv-on:change=\"$emit('change', {text: $event.target.value})\"\n\t\t\tv-on:focus=\"handleInputFocus('text')\"\n\t\t\tv-on:blur=\"handleInputBlur('text')\"\n\t\t\t/>\n\t\t<input v-bind:type=\"type === 'radio' ? 'number' : 'text'\"\n\t\t\tv-bind:value=\"value\"\n\t\t\tclass=\"form-input form-option form-option-value form-control\"\n\t\t\tplaceholder=\"Option Value\"\n\t\t\tv-on:input=\"$emit('input', {value: $event.target.value})\"\n\t\t\tv-on:change=\"$emit('change', {value: $event.target.value})\"\n\t\t\tv-on:focus=\"handleInputFocus('value')\"\n\t\t\tv-on:blur=\"handleInputBlur('value')\"\n\t\t\t/>\n\t\t<textarea v-bind:value=\"description\"\n\t\t\tclass=\"form-input form-option form-option-description form-control\"\n\t\t\tplaceholder=\"Hover Description\"\n\t\t\tv-on:input=\"$emit('input', {description: $event.target.value})\"\n\t\t\tv-on:change=\"$emit('change', {description: $event.target.value})\"\n\t\t\tv-on:focus=\"handleInputFocus('description')\"\n\t\t\tv-on:blur=\"handleInputBlur('description')\"\n\t\t\t>\n\t\t</textarea>\n\t</div>\n</template>\n\n<script>\nexport default {\n\tprops: [\n\t\t'type',\n\t\t'text',\n\t\t'value',\n\t\t'description',\n\t\t'isWorkingOption'\n\t],\n\tcomputed: {\n\t\tdisplayType(){\n\t\t\tif(this.type === 'checkbox')\n\t\t\t\treturn 'checkbox';\n\t\t\telse\n\t\t\t\treturn 'radio';\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tisFocused: false\n\t\t};\n\t},\n\tmethods: {\n\t\thandleInputFocus(field){\n\t\t\tthis.isFocused = true;\n\t\t\tthis.$emit('focus', field);\n\t\t},\n\t\thandleInputBlur(field){\n\t\t\tthis.isFocused = false;\n\t\t\tthis.$emit('blur', field);\n\t\t}\n\t}\n}\n</script>\n\n<style scoped>\n\t.form-builder-question-option {\n\t\tmargin-top: 10px;\n\t}\n\n\t.working-option {\n\t\topacity: 0.5;\n\t}\n\n\t.working-option:hover,\n\t.working-option.is-focused,\n\t.working-option:active {\n\t\topacity: 1;\n\t}\n\n\ttextarea.form-option-description {\n\t\tresize: vertical;\n\t\theight: 100px;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"FormBuilder.vue","sourceRoot":"webpack://"}]);
 
 // exports
 
 
 /***/ },
-/* 147 */,
+/* 147 */
+/***/ function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\ntable[data-v-320b3802] {\n\twidth: 40%;\n\tmargin: 0 auto;\n}\ntable td[data-v-320b3802] {\n\ttext-align: center;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/FormReportQuestionOptionStats.vue?f999db0c"],"names":[],"mappings":";AA8BA;CACA,WAAA;CACA,eAAA;CACA;AAEA;CACA,mBAAA;CACA","file":"FormReportQuestionOptionStats.vue","sourcesContent":["<template>\n\t<table class=\"table table-bordered\">\n\t\t<tbody>\n\t\t\t<tr>\n\t\t\t\t<th>Responses</th>\n\t\t\t\t<td>{{ responses }}</td>\n\t\t\t</tr>\n\t\t\t<tr>\n\t\t\t\t<th>Percentage</th>\n\t\t\t\t<td>{{ percentage }}%</td>\n\t\t\t</tr>\n\t\t\t<tr>\n\t\t\t\t<th>Average</th>\n\t\t\t\t<td>{{ averagePercentage }}%</td>\n\t\t\t</tr>\n\t\t</tbody>\n\t</table>\n</template>\n\n<script>\nexport default {\n\tprops: {\n\t\tresponses: Number,\n\t\tpercentage: Number,\n\t\taveragePercentage: Number\n\t}\n};\n</script>\n\n<style scoped>\n\ttable {\n\t\twidth: 40%;\n\t\tmargin: 0 auto;\n\t}\n\n\ttable td {\n\t\ttext-align: center;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+
+// exports
+
+
+/***/ },
 /* 148 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -27820,7 +27857,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n.question-id[data-v-6d3c9f83] {\n\tfont-size: larger;\n\ttext-transform: uppercase;\n\tfont-weight: bold;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/FormBuilderQuestion.vue?20063efe"],"names":[],"mappings":";AAyQA;CACA,kBAAA;CACA,0BAAA;CACA,kBAAA;CACA","file":"FormBuilderQuestion.vue","sourcesContent":["<template>\n\t<div v-bind:id=\"questionId\" class=\"form-question panel panel-default form-block\">\n\t\t<div class=\"panel-heading form-horizontal\">\n\t\t\t<div class=\"panel-title form-group\">\n\t\t\t\t<div class=\"col-sm-12\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tQuestion Text\n\t\t\t\t\t\t<div class=\"input-group\">\n\t\t\t\t\t\t\t<span class=\"question-id input-group-addon\">{{questionId}}</span>\n\t\t\t\t\t\t\t<input type=\"text\" v-bind:value=\"text\" v-on:input=\"$emit('change', {text: $event.target.value})\" class=\"form-input form-question-text form-control\" placeholder=\"Question Text\" required />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"hr-question\"></div>\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"col-md-4\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tQuestion Type\n\t\t\t\t\t\t<select v-bind:value=\"questionType\" v-on:change=\"changeQuestionType\" class=\"form-control form-question-type\" name=\"questionType\">\n\t\t\t\t\t\t\t<option value=\"radio\">Radio</option>\n\t\t\t\t\t\t\t<option value=\"text\">Text</option>\n\t\t\t\t\t\t\t<option value=\"radiononnumeric\">Radio (non-numeric)</option>\n\t\t\t\t\t\t\t<option value=\"number\">Number</option>\n\t\t\t\t\t\t\t<option value=\"checkbox\">Checkbox</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t<label>Question Options</label>\n\t\t\t\t\t<div class=\"btn-group btn-group-justified\">\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button v-on:click=\"setStandardOptions\" class=\"form-question-standard-options btn btn-info\" type=\"button\">\n\t\t\t\t\t\t\t\tStandard\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button v-bind:disabled=\"!milestones || milestones.length !== 1\" v-on:click=\"setMilestoneOptions\"\n\t\t\t\t\t\t\t\t\tclass=\"form-question-milestone-level-options btn btn-info\" type=\"button\">\n\t\t\t\t\t\t\t\tMilestone\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button v-bind:disabled=\"!customOptions || customOptions.length < 1\" v-on:click=\"setCustomOptions\"\n\t\t\t\t\t\t\t\t\tclass=\"form-question-custom-options btn btn-info\" type=\"button\">\n\t\t\t\t\t\t\t\tCustom\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-1 labelless-button\">\n\t\t\t\t\t<button v-on:click=\"$emit('remove')\" class=\"form-block-delete btn btn-danger del-btn\" type=\"button\">\n\t\t\t\t\t\tDelete\n\t\t\t\t\t</button>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-1\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tRequired\n\t\t\t\t\t\t<input type=\"checkbox\" v-bind:checked=\"required\"\n\t\t\t\t\t\t\tclass=\"form-control form-question-required\" value=\"required\"\n\t\t\t\t\t\t\tv-on:change=\"$emit('change', {required: $event.target.checked})\"\n\t\t\t\t\t\t\t/>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"hr-question\"></div>\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"col-md-8\">\n\t\t\t\t\t<label v-show=\"shouldShowMilestonesAndCompetencies\" class=\"containing-label\">\n\t\t\t\t\t\tQuestion Milestones\n\t\t\t\t\t\t<select-two v-bind:value=\"milestones\" v-bind:options=\"groupedMilestones\" v-bind:multiple=\"true\" v-on:input=\"$emit('change', {milestones: arguments[0]})\" class=\"form-control form-question-milestone\"></select-two>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-4\">\n\t\t\t\t\t<label v-show=\"shouldShowMilestonesAndCompetencies\" class=\"containing-label\">\n\t\t\t\t\t\tQuestion Competency\n\t\t\t\t\t\t<select v-on:change=\"$emit('change', {competencies: $event.target.value})\" class=\"form-control form-question-competency\" placeholder=\"Competency\">\n\t\t\t\t\t\t\t<option value=\"\" disabled>Select a competency</option>\n\t\t\t\t\t\t\t<option v-for=\"competency of allCompetencies\" v-bind:value=\"competency.id\" v-bind:selected=\"competencies == competency.id\">{{ competency.title }}</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"panel-body\">\n\t\t\t<div class=\"row form-options\" style=\"margin-bottom:5px;\">\n\t\t\t\t<template v-if=\"['radio', 'radiononnumeric', 'checkbox'].includes(questionType)\">\n\t\t\t\t\t<form-builder-option v-for=\"(option, index) of optionsWithWorking\"\n\t\t\t\t\t\tv-bind=\"option\" v-bind:type=\"questionType\"\n\t\t\t\t\t\tv-bind:is-working-option=\"option === workingOption\"\n\t\t\t\t\t\tv-on:input=\"handleWorkingOptionInput(index, arguments[0])\"\n\t\t\t\t\t\tv-on:change=\"handleOptionChange(index, arguments[0])\"\n\t\t\t\t\t\t>\n\t\t\t\t\t</form-builder-option>\n\t\t\t\t</template>\n\n\t\t\t\t<div v-if=\"questionType === 'text'\" class=\"col-sm-12\">\n\t\t\t\t\t<textarea class=\"form-control\" placeholder=\"Text\" disabled />\n\t\t\t\t</div>\n\n\t\t\t\t<div v-if=\"questionType === 'number'\" class=\"col-md-8\">\n\t\t\t\t\t<input type=\"number\" class=\"form-control\" placeholder=\"Number\" disabled />\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport FormBuilderOption from './FormBuilderOption.vue';\nimport SelectTwo from './SelectTwo.vue';\n\nimport { STANDARD_OPTIONS } from '../modules/constants.js';\nimport { appendAlert } from '../modules/utils.js';\n\nexport default {\n\tprops: [\n\t\t'formType',\n\t\t'groupedMilestones',\n\t\t'allCompetencies',\n\t\t'questionIdNum',\n\t\t'text',\n\t\t'questionType',\n\t\t'milestones',\n\t\t'competencies',\n\t\t'options',\n\t\t'required',\n\t\t'customOptions'\n\t],\n\tdata(){\n\t\treturn {\n\t\t\tworkingOption: {\n\t\t\t\ttext: '',\n\t\t\t\tvalue: '',\n\t\t\t\tdescription: ''\n\t\t\t}\n\t\t}\n\t},\n\tcomputed: {\n\t\tquestionId(){\n\t\t\treturn `q${this.questionIdNum}`;\n\t\t},\n\t\tshouldShowMilestonesAndCompetencies(){\n\t\t\treturn ['radio', 'number'].includes(this.questionType) && [\n\t\t\t\t'resident',\n\t\t\t\t'self-resident',\n\t\t\t\t'fellow',\n\t\t\t\t'self-fellow'\n\t\t\t].includes(this.formType);\n\t\t},\n\t\toptionsWithWorking(){\n\t\t\tif(this.options){\n\t\t\t\tlet options = this.options.slice();\n\t\t\t\toptions.push(this.workingOption);\n\t\t\t\treturn options;\n\t\t\t}\n\t\t},\n\t\tworkingOptionIndex(){\n\t\t\tif(this.options)\n\t\t\t\treturn this.options.length;\n\t\t}\n\t},\n\tmethods: {\n\t\tchangeQuestionType(event){\n\t\t\tconst questionType = event.target.value;\n\t\t\tlet options = [];\n\n\t\t\tthis.$emit('change', {questionType: questionType, options: options});\n\t\t},\n\t\thandleWorkingOptionInput(index, option){\n\t\t\tif(index === this.workingOptionIndex)\n\t\t\t\tthis.workingOption = Object.assign({}, this.workingOption, option);\n\t\t},\n\t\thandleOptionChange(index, option){\n\t\t\tif(index === this.workingOptionIndex){\n\t\t\t\tlet options = this.options.slice();\n\t\t\t\toptions.push(Object.assign({}, this.workingOption, option));\n\t\t\t\tthis.workingOption = {\n\t\t\t\t\ttext: '',\n\t\t\t\t\tvalue: '',\n\t\t\t\t\tdescription: ''\n\t\t\t\t};\n\t\t\t\tthis.$emit('change', {options: options});\n\t\t\t}\n\t\t\telse {\n\t\t\t\tlet options = this.options.slice();\n\t\t\t\toptions[index] = Object.assign(options[index], option);\n\t\t\t\tif(!options[index].text && !options[index].value && !options[index].description)\n\t\t\t\t\toptions.splice(index, 1);\n\n\t\t\t\tthis.$emit('change', {options: options});\n\t\t\t}\n\t\t},\n\n\t\tsetStandardOptions(){\n\t\t\tlet options;\n\t\t\tswitch(this.formType){\n\t\t\t\tcase 'resident':\n\t\t\t\tcase 'self-resident':\n\t\t\t\t\toptions = STANDARD_OPTIONS.RESIDENT;\n\t\t\t\t\tbreak;\n\t\t\t\tcase 'fellow':\n\t\t\t\tcase 'self-fellow':\n\t\t\t\t\toptions = STANDARD_OPTIONS.FELLOW;\n\t\t\t\t\tbreak;\n\t\t\t\tcase 'faculty':\n\t\t\t\t\tif(this.questionType === 'radiononnumeric')\n\t\t\t\t\t\toptions = STANDARD_OPTIONS.FACULTY;\n\t\t\t\t\tbreak;\n\t\t\t}\n\n\t\t\tif(!options){\n\t\t\t\tappendAlert('No standard options found for form type and question type');\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tthis.$emit('change', {options: options});\n\t\t},\n\t\tsetMilestoneOptions(){\n\t\t\tif(this.milestones.length !== 1){\n\t\t\t\tappendAlert('You can only use milestone options with a single selected milestone');\n\t\t\t\treturn;\n\t\t\t}\n\t\t\tfetch(`/milestones/${this.milestones[0]}`, { credentials: 'same-origin' }).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\telse\n\t\t\t\t\tthrow new Error(response);\n\t\t\t}).then(milestone => {\n\t\t\t\tif(!milestone || !milestone.levels || milestone.levels.length < 1){\n\t\t\t\t\tappendAlert('No milestone levels found');\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t\tlet options = [{\n\t\t\t\t\tvalue: 0,\n\t\t\t\t\ttext: `Not yet ${milestone.levels[0].name}`\n\t\t\t\t}];\n\t\t\t\tfor(let level of milestone.levels){\n\t\t\t\t\tlet value = 2 * parseInt(level.level_number, 10);\n\t\t\t\t\toptions.push({value: value - 1, text: '', description: ''});\n\t\t\t\t\toptions.push({value: value, text: level.name, description: level.description});\n\t\t\t\t}\n\n\t\t\t\tthis.$emit('change', {options: options});\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t},\n\t\tsetCustomOptions(){\n\t\t\tif(this.customOptions.length < 1){\n\t\t\t\tappentAlert('No custom options set');\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tthis.$emit('change', {options: this.customOptions});\n\t\t}\n\t},\n\tcomponents: {\n\t\tFormBuilderOption,\n\t\tSelectTwo\n\t}\n}\n</script>\n\n<style scoped>\n\t.question-id {\n\t\tfont-size: larger;\n\t\ttext-transform: uppercase;\n\t\tfont-weight: bold;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.show-container label + label[data-v-46055f89] {\n\tmargin-left: 2em;\n}\n.stats-report-container[data-v-46055f89] {\n\tdisplay: flex;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tjustify-content: space-between;\n\talign-items: stretch;\n}\n.stats-report-container > div[data-v-46055f89] {\n\twidth: calc(50% - 20px);\n\tmargin: 10px;\n\tflex-grow: 1;\n\tflex-shrink: 0;\n}\n.list-chart-container-container[data-v-46055f89] {\n\theight: 625px;\n\toverflow: auto;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/StatsReport.vue?618451af"],"names":[],"mappings":";AA+QA;CACA,iBAAA;CACA;AAEA;CACA,cAAA;CACA,oBAAA;CACA,gBAAA;CACA,+BAAA;CACA,qBAAA;CACA;AAEA;CACA,wBAAA;CACA,aAAA;CACA,aAAA;CACA,eAAA;CACA;AAEA;CACA,cAAA;CACA,eAAA;CACA","file":"StatsReport.vue","sourcesContent":["<template>\n\t<div class=\"container body-block\">\n\t\t<h3>Statistics</h3>\n\t\t<fieldset class=\"show-container\">\n\t\t\t<legend>Show</legend>\n\t\t\t<label v-for=\"(part, name) of show\">\n\t\t\t\t<input type=\"checkbox\" v-model=\"show[name]\" />\n\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t</label>\n\t\t</fieldset>\n\t\t<div class=\"panel panel-default\">\n\t\t\t<div class=\"panel-heading\">\n\t\t\t\t<span class=\"panel-title\">Chart settings</span>\n\t\t\t</div>\n\t\t\t<div class=\"panel-body\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t<select class=\"form-control\" v-model=\"chart.size\">\n\t\t\t\t\t\t<option value=\"fullSize\">Full size</option>\n\t\t\t\t\t\t<option value=\"fit\">Fit</option>\n\t\t\t\t\t</select>\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div class=\"stats-report-container\">\n\t\t\t<div v-if=\"show.ratios\">\n\t\t\t\t<h3>Ratios</h3>\n\t\t\t\t<data-table id=\"stats-ratios\"\n\t\t\t\t\t:thead=\"ratiosThead\" :config=\"listTableConfig\"\n\t\t\t\t\t:data=\"ratiosData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.ratios && show.graphs\">\n\t\t\t\t<h3>Ratios</h3>\n\t\t\t\t<div class=\"list-chart-container-container\">\n\t\t\t\t\t<div class=\"list-chart-container\" :style=\"listChartContainerStyle\">\n\t\t\t\t\t\t<chartjs-chart id=\"chart-ratios\" type=\"horizontalBar\"\n\t\t\t\t\t\t\t:data=\"ratiosGraphData\" :options=\"listChartConfig\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div v-if=\"show.noRequests\">\n\t\t\t\t<h3>No requests</h3>\n\t\t\t\t<data-table id=\"stats-no-requests\"\n\t\t\t\t\t:thead=\"noRequestsThead\" :config=\"listTableConfig\"\n\t\t\t\t\t:data=\"noRequestsData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.noneCompleted\">\n\t\t\t\t<h3>None completed</h3>\n\t\t\t\t<data-table id=\"stats-none-completed\"\n\t\t\t\t\t:thead=\"noneCompletedThead\" :config=\"listTableConfig\"\n\t\t\t\t\t:data=\"noneCompletedData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.averageCompletionTimes\">\n\t\t\t\t<h3>Average completion times</h3>\n\t\t\t\t<data-table id=\"stats-average-completion-times\"\n\t\t\t\t\t:thead=\"averageCompletionTimesThead\"\n\t\t\t\t\t:config=\"averageCompletionTimesConfig\"\n\t\t\t\t\t:data=\"averageCompletionTimesData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.lastCompleted\">\n\t\t\t\t<h3>Last completed evaluations</h3>\n\t\t\t\t<data-table id=\"stats-last-completed\"\n\t\t\t\t\t:thead=\"lastCompletedThead\" :config=\"lastCompletedConfig\"\n\t\t\t\t\t:data=\"lastCompletedData\" />\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport Color from 'color';\n\nimport ChartjsChart from '../ChartjsChart.vue';\nimport DataTable from '../DataTable.vue';\n\nimport { CHART_COLORS } from '../../modules/constants.js';\nimport { camelCaseToWords } from '../../modules/utils.js';\nimport { createDateCell, renderDateCell } from '../../modules/datatable-utils.js';\n\nexport default {\n\tprops: {\n\t\treport: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tratios: false,\n\t\t\t\tgraphs: false,\n\t\t\t\tnoRequests: false,\n\t\t\t\tnoneCompleted: false,\n\t\t\t\taverageCompletionTimes: false,\n\t\t\t\tlastCompleted: false\n\t\t\t},\n\t\t\tchart: {\n\t\t\t\tsize: 'fullSize'\n\t\t\t}\n\t\t};\n\t},\n\tcomputed: {\n\t\tlistTableClass(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': true\n\t\t\t};\n\t\t},\n\t\tlistTableConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollX: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tfixedColumns: true\n\t\t\t};\n\t\t},\n\t\tlistChartContainerStyle(){\n\t\t\treturn this.chart.size === 'fullSize'\n\t\t\t? {\n\t\t\t\twidth: '100%',\n\t\t\t\theight: `${15 * this.report.userStats.length}px`\n\t\t\t}\n\t\t\t: {\n\t\t\t\twidth: '100%',\n\t\t\t\theight: '100%'\n\t\t\t};\n\t\t},\n\t\tlistChartConfig(){\n\t\t\treturn {\n\t\t\t\tmaintainAspectRatio: false,\n\t\t\t\tlegend: {\n\t\t\t\t\tlabels: {\n\t\t\t\t\t\tfontSize: 18,\n\t\t\t\t\t\tfontColor: '#333'\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tcallbacks: {\n\t\t\t\t\t\tlabel(tooltip, data){\n\t\t\t\t\t\t\tlet value = parseFloat(tooltip.xLabel).toFixed();\n\t\t\t\t\t\t\tlet name = data.datasets[tooltip.datasetIndex].label;\n\t\t\t\t\t\t\treturn `${value}%`;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t};\n\t\t},\n\t\tratiosThead(){\n\t\t\treturn [[\n\t\t\t\t'User',\n\t\t\t\t'Requested',\n\t\t\t\t'Total Requests',\n\t\t\t\t'Total Completed',\n\t\t\t\t'Total Ratio'\n\t\t\t]];\n\t\t},\n\t\tratiosData(){\n\t\t\tlet data = [];\n\t\t\tfor(let stat of this.report.userStats){\n\t\t\t\tdata.push([\n\t\t\t\t\tstat.name,\n\t\t\t\t\tstat.requested,\n\t\t\t\t\tstat.totalRequests,\n\t\t\t\t\tstat.completed,\n\t\t\t\t\tstat.ratio\n\t\t\t\t]);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\t\tratiosGraphData(){\n\t\t\tlet color = Color(CHART_COLORS.OTHER[0]);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: this.report.userStats.map(userStat => userStat.name),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Requested / Completed %',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tborderWidth: 1,\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: this.report.userStats.map(userStat => userStat.ratio)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tnoRequestsThead(){\n\t\t\treturn [\n\t\t\t\t['No requests']\n\t\t\t];\n\t\t},\n\t\tnoRequestsData(){\n\t\t\treturn this.report.noneRequested.map(name => [name]);\n\t\t},\n\t\tnoneCompletedThead(){\n\t\t\treturn [\n\t\t\t\t['No completed evals']\n\t\t\t];\n\t\t},\n\t\tnoneCompletedData(){\n\t\t\treturn this.report.noneCompleted.map(name => [name]);\n\t\t},\n\t\taverageCompletionTimesThead(){\n\t\t\treturn [\n\t\t\t\t['User', 'Time']\n\t\t\t];\n\t\t},\n\t\taverageCompletionTimesConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tcolumns: [\n\t\t\t\t\t{data: 'name'},\n\t\t\t\t\t{data: 'time'}\n\t\t\t\t],\n\t\t\t\tfixedHeader: true\n\t\t\t};\n\t\t},\n\t\taverageCompletionTimesData(){\n\t\t\treturn this.report.averageCompletionTimes;\n\t\t},\n\t\tlastCompletedThead(){\n\t\t\treturn [\n\t\t\t\t['User', 'Completed', 'Evaluation']\n\t\t\t];\n\t\t},\n\t\tlastCompletedConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tcolumns: [\n\t\t\t\t\t{data: 'name'},\n\t\t\t\t\t{\n\t\t\t\t\t\tdata: 'evaluation.complete_date',\n\t\t\t\t\t\trender: renderDateCell,\n\t\t\t\t\t\tcreatedCell: createDateCell\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\tdata: 'evaluation.url'\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\tfixedHeader: true\n\t\t\t};\n\t\t},\n\t\tlastCompletedData(){\n\t\t\treturn this.report.lastCompleted;\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords\n\t},\n\tcomponents: {\n\t\tChartjsChart,\n\t\tDataTable\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-container label + label {\n\t\tmargin-left: 2em;\n\t}\n\n\t.stats-report-container {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tflex-wrap: wrap;\n\t\tjustify-content: space-between;\n\t\talign-items: stretch;\n\t}\n\n\t.stats-report-container > div {\n\t\twidth: calc(50% - 20px);\n\t\tmargin: 10px;\n\t\tflex-grow: 1;\n\t\tflex-shrink: 0;\n\t}\n\n\t.list-chart-container-container {\n\t\theight: 625px;\n\t\toverflow: auto;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -27834,7 +27871,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n.show-container label + label[data-v-8f4ff40e] {\n\tmargin-left: 2em;\n}\n.stats-report-container[data-v-8f4ff40e] {\n\tdisplay: flex;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tjustify-content: space-between;\n\talign-items: stretch;\n}\n.stats-report-container > div[data-v-8f4ff40e] {\n\twidth: calc(50% - 20px);\n\tmargin: 10px;\n\tflex-grow: 1;\n\tflex-shrink: 0;\n}\n.list-chart-container-container[data-v-8f4ff40e] {\n\theight: 625px;\n\toverflow: auto;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/StatsReport.vue?98b2b5f4"],"names":[],"mappings":";AA+QA;CACA,iBAAA;CACA;AAEA;CACA,cAAA;CACA,oBAAA;CACA,gBAAA;CACA,+BAAA;CACA,qBAAA;CACA;AAEA;CACA,wBAAA;CACA,aAAA;CACA,aAAA;CACA,eAAA;CACA;AAEA;CACA,cAAA;CACA,eAAA;CACA","file":"StatsReport.vue","sourcesContent":["<template>\n\t<div class=\"container body-block\">\n\t\t<h3>Statistics</h3>\n\t\t<fieldset class=\"show-container\">\n\t\t\t<legend>Show</legend>\n\t\t\t<label v-for=\"(part, name) of show\">\n\t\t\t\t<input type=\"checkbox\" v-model=\"show[name]\" />\n\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t</label>\n\t\t</fieldset>\n\t\t<div class=\"panel panel-default\">\n\t\t\t<div class=\"panel-heading\">\n\t\t\t\t<span class=\"panel-title\">Chart settings</span>\n\t\t\t</div>\n\t\t\t<div class=\"panel-body\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t<select class=\"form-control\" v-model=\"chart.size\">\n\t\t\t\t\t\t<option value=\"fullSize\">Full size</option>\n\t\t\t\t\t\t<option value=\"fit\">Fit</option>\n\t\t\t\t\t</select>\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div class=\"stats-report-container\">\n\t\t\t<div v-if=\"show.ratios\">\n\t\t\t\t<h3>Ratios</h3>\n\t\t\t\t<data-table id=\"stats-ratios\"\n\t\t\t\t\t:thead=\"ratiosThead\" :config=\"listTableConfig\"\n\t\t\t\t\t:data=\"ratiosData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.ratios && show.graphs\">\n\t\t\t\t<h3>Ratios</h3>\n\t\t\t\t<div class=\"list-chart-container-container\">\n\t\t\t\t\t<div class=\"list-chart-container\" :style=\"listChartContainerStyle\">\n\t\t\t\t\t\t<chartjs-chart id=\"chart-ratios\" type=\"horizontalBar\"\n\t\t\t\t\t\t\t:data=\"ratiosGraphData\" :options=\"listChartConfig\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div v-if=\"show.noRequests\">\n\t\t\t\t<h3>No requests</h3>\n\t\t\t\t<data-table id=\"stats-no-requests\"\n\t\t\t\t\t:thead=\"noRequestsThead\" :config=\"listTableConfig\"\n\t\t\t\t\t:data=\"noRequestsData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.noneCompleted\">\n\t\t\t\t<h3>None completed</h3>\n\t\t\t\t<data-table id=\"stats-none-completed\"\n\t\t\t\t\t:thead=\"noneCompletedThead\" :config=\"listTableConfig\"\n\t\t\t\t\t:data=\"noneCompletedData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.averageCompletionTimes\">\n\t\t\t\t<h3>Average completion times</h3>\n\t\t\t\t<data-table id=\"stats-average-completion-times\"\n\t\t\t\t\t:thead=\"averageCompletionTimesThead\"\n\t\t\t\t\t:config=\"averageCompletionTimesConfig\"\n\t\t\t\t\t:data=\"averageCompletionTimesData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.lastCompleted\">\n\t\t\t\t<h3>Last completed evaluations</h3>\n\t\t\t\t<data-table id=\"stats-last-completed\"\n\t\t\t\t\t:thead=\"lastCompletedThead\" :config=\"lastCompletedConfig\"\n\t\t\t\t\t:data=\"lastCompletedData\" />\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport Color from 'color';\n\nimport ChartjsChart from './ChartjsChart.vue';\nimport DataTable from './DataTable.vue';\n\nimport { CHART_COLORS } from '../modules/constants.js';\nimport { camelCaseToWords } from '../modules/utils.js';\nimport { createDateCell, renderDateCell } from '../modules/datatable-utils.js';\n\nexport default {\n\tprops: {\n\t\treport: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tratios: false,\n\t\t\t\tgraphs: false,\n\t\t\t\tnoRequests: false,\n\t\t\t\tnoneCompleted: false,\n\t\t\t\taverageCompletionTimes: false,\n\t\t\t\tlastCompleted: false\n\t\t\t},\n\t\t\tchart: {\n\t\t\t\tsize: 'fullSize'\n\t\t\t}\n\t\t};\n\t},\n\tcomputed: {\n\t\tlistTableClass(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': true\n\t\t\t};\n\t\t},\n\t\tlistTableConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollX: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tfixedColumns: true\n\t\t\t};\n\t\t},\n\t\tlistChartContainerStyle(){\n\t\t\treturn this.chart.size === 'fullSize'\n\t\t\t? {\n\t\t\t\twidth: '100%',\n\t\t\t\theight: `${15 * this.report.userStats.length}px`\n\t\t\t}\n\t\t\t: {\n\t\t\t\twidth: '100%',\n\t\t\t\theight: '100%'\n\t\t\t};\n\t\t},\n\t\tlistChartConfig(){\n\t\t\treturn {\n\t\t\t\tmaintainAspectRatio: false,\n\t\t\t\tlegend: {\n\t\t\t\t\tlabels: {\n\t\t\t\t\t\tfontSize: 18,\n\t\t\t\t\t\tfontColor: '#333'\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tcallbacks: {\n\t\t\t\t\t\tlabel(tooltip, data){\n\t\t\t\t\t\t\tlet value = parseFloat(tooltip.xLabel).toFixed();\n\t\t\t\t\t\t\tlet name = data.datasets[tooltip.datasetIndex].label;\n\t\t\t\t\t\t\treturn `${value}%`;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t};\n\t\t},\n\t\tratiosThead(){\n\t\t\treturn [[\n\t\t\t\t'User',\n\t\t\t\t'Requested',\n\t\t\t\t'Total Requests',\n\t\t\t\t'Total Completed',\n\t\t\t\t'Total Ratio'\n\t\t\t]];\n\t\t},\n\t\tratiosData(){\n\t\t\tlet data = [];\n\t\t\tfor(let stat of this.report.userStats){\n\t\t\t\tdata.push([\n\t\t\t\t\tstat.name,\n\t\t\t\t\tstat.requested,\n\t\t\t\t\tstat.totalRequests,\n\t\t\t\t\tstat.completed,\n\t\t\t\t\tstat.ratio\n\t\t\t\t]);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\t\tratiosGraphData(){\n\t\t\tlet color = Color(CHART_COLORS.OTHER[0]);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: this.report.userStats.map(userStat => userStat.name),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Requested / Completed %',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tborderWidth: 1,\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: this.report.userStats.map(userStat => userStat.ratio)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tnoRequestsThead(){\n\t\t\treturn [\n\t\t\t\t['No requests']\n\t\t\t];\n\t\t},\n\t\tnoRequestsData(){\n\t\t\treturn this.report.noneRequested.map(name => [name]);\n\t\t},\n\t\tnoneCompletedThead(){\n\t\t\treturn [\n\t\t\t\t['No completed evals']\n\t\t\t];\n\t\t},\n\t\tnoneCompletedData(){\n\t\t\treturn this.report.noneCompleted.map(name => [name]);\n\t\t},\n\t\taverageCompletionTimesThead(){\n\t\t\treturn [\n\t\t\t\t['User', 'Time']\n\t\t\t];\n\t\t},\n\t\taverageCompletionTimesConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tcolumns: [\n\t\t\t\t\t{data: 'name'},\n\t\t\t\t\t{data: 'time'}\n\t\t\t\t],\n\t\t\t\tfixedHeader: true\n\t\t\t};\n\t\t},\n\t\taverageCompletionTimesData(){\n\t\t\treturn this.report.averageCompletionTimes;\n\t\t},\n\t\tlastCompletedThead(){\n\t\t\treturn [\n\t\t\t\t['User', 'Completed', 'Evaluation']\n\t\t\t];\n\t\t},\n\t\tlastCompletedConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tcolumns: [\n\t\t\t\t\t{data: 'name'},\n\t\t\t\t\t{\n\t\t\t\t\t\tdata: 'evaluation.complete_date',\n\t\t\t\t\t\trender: renderDateCell,\n\t\t\t\t\t\tcreatedCell: createDateCell\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\tdata: 'evaluation.url'\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\tfixedHeader: true\n\t\t\t};\n\t\t},\n\t\tlastCompletedData(){\n\t\t\treturn this.report.lastCompleted;\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords\n\t},\n\tcomponents: {\n\t\tChartjsChart,\n\t\tDataTable\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-container label + label {\n\t\tmargin-left: 2em;\n\t}\n\n\t.stats-report-container {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tflex-wrap: wrap;\n\t\tjustify-content: space-between;\n\t\talign-items: stretch;\n\t}\n\n\t.stats-report-container > div {\n\t\twidth: calc(50% - 20px);\n\t\tmargin: 10px;\n\t\tflex-grow: 1;\n\t\tflex-shrink: 0;\n\t}\n\n\t.list-chart-container-container {\n\t\theight: 625px;\n\t\toverflow: auto;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"Reports.vue","sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -27848,13 +27885,28 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"FormBuilder.vue","sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.filter-milestones-container[data-v-65e2ee5c] {\n\tdisplay: flex;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tjustify-content: flex-start;\n\talign-items: stretch;\n}\n.milestone-group[data-v-65e2ee5c] {\n\tflex-grow: 0;\n\tflex-shrink: 1;\n\twidth: 250px;\n\tmin-width: 200px;\n\tmax-width: 100%;\n\tmargin: 10px;\n}\n.milestone-group .panel-body[data-v-65e2ee5c] {\n\theight: 300px;\n\toverflow: auto;\n}\n.milestone-group .panel-body label[data-v-65e2ee5c] {\n\tfont-weight: normal;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/TraineeReport.vue?6b2a1738"],"names":[],"mappings":";AAsKA;CACA,cAAA;CACA,oBAAA;CACA,gBAAA;CACA,4BAAA;CACA,qBAAA;CACA;AAEA;CACA,aAAA;CACA,eAAA;CACA,aAAA;CACA,iBAAA;CACA,gBAAA;CACA,aAAA;CACA;AAEA;CACA,cAAA;CACA,eAAA;CACA;AAEA;CACA,oBAAA;CACA","file":"TraineeReport.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block\">\n\t\t\t<h2>Trainee report</h2>\n\t\t\t<report-date v-model=\"dates\" />\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"checkbox\" v-model=\"filterMilestones\" />\n\t\t\t\t\tFilter milestones\n\t\t\t\t</label>\n\t\t\t</div>\n\n\t\t\t<fieldset v-if=\"filterMilestones\">\n\t\t\t\t<legend>Milestones</legend>\n\t\t\t\t<div class=\"filter-milestones-container\">\n\t\t\t\t\t<div v-for=\"(milestoneGroup, index) of milestoneGroups\" class=\"milestone-group\">\n\t\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t\t<label class=\"panel-title\">\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t:checked=\"isEntireMilestoneGroupSelected(index)\"\n\t\t\t\t\t\t\t\t\t\t\t@click=\"toggleEntireMilestoneGroup(index)\" />\n\t\t\t\t\t\t\t\t\t{{ milestoneGroup.text }}\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t\t<div v-for=\"child of milestoneGroup.children\" class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t\t:value=\"child.id\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"milestones\" />\n\t\t\t\t\t\t\t\t\t\t{{ child.text }}\n\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\n\t\t\t<button type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t@click=\"runReport\">\n\t\t\t\tRun report\n\t\t\t</button>\n\t\t</div>\n\n\t\t<div v-if=\"report\">\n\t\t\t<stats-report v-if=\"report.stats\" :report=\"report.stats\" />\n\n\t\t\t<aggregate-report v-if=\"report.aggregate\" :report=\"report.aggregate\" />\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport AggregateReport from './AggregateReport.vue';\nimport ReportDate from './ReportDate.vue';\nimport StatsReport from './StatsReport.vue';\n\nimport { fetchMilestoneGroups } from '../../modules/utils.js';\n\nexport default {\n\tdata(){\n\t\treturn {\n\t\t\tdates: {\n\t\t\t\tstartDate: '2015-11-01', // FIXME\n\t\t\t\tendDate: '2016-11-01' // FIXME\n\t\t\t},\n\t\t\ttrainingLevel: 'all',\n\t\t\tfilterMilestones: false,\n\t\t\tmilestones: [],\n\t\t\treport: null,\n\n\t\t\tmilestoneGroups: [],\n\t\t\tuserGroups: {}\n\t\t};\n\t},\n\twatch: {\n\t\tfilterMilestones(shouldFilter){\n\t\t\tif(shouldFilter){\n\t\t\t\tfetchMilestoneGroups().then(milestoneGroups => {\n\t\t\t\t\tthis.milestoneGroups = milestoneGroups;\n\t\t\t\t});\n\t\t\t}\n\t\t}\n\t},\n\tcomputed: {\n\n\t},\n\tmethods: {\n\t\tisEntireMilestoneGroupSelected(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\treturn groupIds.every(id => {\n\t\t\t\treturn this.milestones.includes(id);\n\t\t\t});\n\t\t},\n\t\ttoggleEntireMilestoneGroup(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\tlet newMilestones = this.milestones.filter(milestone => {\n\t\t\t\treturn !groupIds.includes(milestone);\n\t\t\t});\n\t\t\tif(!this.isEntireMilestoneGroupSelected(index)){\n\t\t\t\tnewMilestones = newMilestones.concat(groupIds);\n\t\t\t}\n\t\t\tthis.milestones = newMilestones;\n\t\t},\n\t\trunReport(){\n\t\t\tlet csrfToken = document.querySelector('meta[name=\"csrf-token\"]').getAttribute('content');\n\n\t\t\tlet headers = new Headers();\n\t\t\theaders.append('Content-Type', 'application/json');\n\t\t\theaders.append('X-Requested-With', 'XMLHttpRequest');\n\t\t\theaders.append('X-CSRF-TOKEN', csrfToken);\n\n\t\t\tfetch('/report/aggregate', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: headers,\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate,\n\t\t\t\t\ttrainingLevel: this.trainingLevel,\n\t\t\t\t\tmilestones: this.milestones\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(aggregate => {\n\t\t\t\tthis.report = Object.assign({}, this.report, {aggregate: aggregate});\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\n\t\t\tfetch('/report/stats/resident', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: headers,\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(stats => {\n\t\t\t\tthis.report = Object.assign({}, this.report, {stats: stats});\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t}\n\t},\n\tcomponents: {\n\t\tReportDate,\n\t\tAggregateReport,\n\t\tStatsReport\n\t}\n}\n</script>\n\n<style scoped>\n\t.filter-milestones-container {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tflex-wrap: wrap;\n\t\tjustify-content: flex-start;\n\t\talign-items: stretch;\n\t}\n\n\t.milestone-group {\n\t\tflex-grow: 0;\n\t\tflex-shrink: 1;\n\t\twidth: 250px;\n\t\tmin-width: 200px;\n\t\tmax-width: 100%;\n\t\tmargin: 10px;\n\t}\n\n\t.milestone-group .panel-body {\n\t\theight: 300px;\n\t\toverflow: auto;\n\t}\n\n\t.milestone-group .panel-body label {\n\t\tfont-weight: normal;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
 
 /***/ },
-/* 151 */
+/* 151 */,
+/* 152 */
+/***/ function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.question-id[data-v-aaf882ea] {\n\tfont-size: larger;\n\ttext-transform: uppercase;\n\tfont-weight: bold;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/FormBuilder/FormBuilderQuestion.vue?0c27571c"],"names":[],"mappings":";AAyQA;CACA,kBAAA;CACA,0BAAA;CACA,kBAAA;CACA","file":"FormBuilderQuestion.vue","sourcesContent":["<template>\n\t<div v-bind:id=\"questionId\" class=\"form-question panel panel-default form-block\">\n\t\t<div class=\"panel-heading form-horizontal\">\n\t\t\t<div class=\"panel-title form-group\">\n\t\t\t\t<div class=\"col-sm-12\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tQuestion Text\n\t\t\t\t\t\t<div class=\"input-group\">\n\t\t\t\t\t\t\t<span class=\"question-id input-group-addon\">{{questionId}}</span>\n\t\t\t\t\t\t\t<input type=\"text\" v-bind:value=\"text\" v-on:input=\"$emit('change', {text: $event.target.value})\" class=\"form-input form-question-text form-control\" placeholder=\"Question Text\" required />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"hr-question\"></div>\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"col-md-4\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tQuestion Type\n\t\t\t\t\t\t<select v-bind:value=\"questionType\" v-on:change=\"changeQuestionType\" class=\"form-control form-question-type\" name=\"questionType\">\n\t\t\t\t\t\t\t<option value=\"radio\">Radio</option>\n\t\t\t\t\t\t\t<option value=\"text\">Text</option>\n\t\t\t\t\t\t\t<option value=\"radiononnumeric\">Radio (non-numeric)</option>\n\t\t\t\t\t\t\t<option value=\"number\">Number</option>\n\t\t\t\t\t\t\t<option value=\"checkbox\">Checkbox</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t<label>Question Options</label>\n\t\t\t\t\t<div class=\"btn-group btn-group-justified\">\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button v-on:click=\"setStandardOptions\" class=\"form-question-standard-options btn btn-info\" type=\"button\">\n\t\t\t\t\t\t\t\tStandard\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button v-bind:disabled=\"!milestones || milestones.length !== 1\" v-on:click=\"setMilestoneOptions\"\n\t\t\t\t\t\t\t\t\tclass=\"form-question-milestone-level-options btn btn-info\" type=\"button\">\n\t\t\t\t\t\t\t\tMilestone\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button v-bind:disabled=\"!customOptions || customOptions.length < 1\" v-on:click=\"setCustomOptions\"\n\t\t\t\t\t\t\t\t\tclass=\"form-question-custom-options btn btn-info\" type=\"button\">\n\t\t\t\t\t\t\t\tCustom\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-1 labelless-button\">\n\t\t\t\t\t<button v-on:click=\"$emit('remove')\" class=\"form-block-delete btn btn-danger del-btn\" type=\"button\">\n\t\t\t\t\t\tDelete\n\t\t\t\t\t</button>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-1\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tRequired\n\t\t\t\t\t\t<input type=\"checkbox\" v-bind:checked=\"required\"\n\t\t\t\t\t\t\tclass=\"form-control form-question-required\" value=\"required\"\n\t\t\t\t\t\t\tv-on:change=\"$emit('change', {required: $event.target.checked})\"\n\t\t\t\t\t\t\t/>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"hr-question\"></div>\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"col-md-8\">\n\t\t\t\t\t<label v-show=\"shouldShowMilestonesAndCompetencies\" class=\"containing-label\">\n\t\t\t\t\t\tQuestion Milestones\n\t\t\t\t\t\t<select-two v-bind:value=\"milestones\" v-bind:options=\"groupedMilestones\" v-bind:multiple=\"true\" v-on:input=\"$emit('change', {milestones: arguments[0]})\" class=\"form-control form-question-milestone\"></select-two>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-4\">\n\t\t\t\t\t<label v-show=\"shouldShowMilestonesAndCompetencies\" class=\"containing-label\">\n\t\t\t\t\t\tQuestion Competency\n\t\t\t\t\t\t<select v-on:change=\"$emit('change', {competencies: $event.target.value})\" class=\"form-control form-question-competency\" placeholder=\"Competency\">\n\t\t\t\t\t\t\t<option value=\"\" disabled>Select a competency</option>\n\t\t\t\t\t\t\t<option v-for=\"competency of allCompetencies\" v-bind:value=\"competency.id\" v-bind:selected=\"competencies == competency.id\">{{ competency.title }}</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"panel-body\">\n\t\t\t<div class=\"row form-options\" style=\"margin-bottom:5px;\">\n\t\t\t\t<template v-if=\"['radio', 'radiononnumeric', 'checkbox'].includes(questionType)\">\n\t\t\t\t\t<form-builder-option v-for=\"(option, index) of optionsWithWorking\"\n\t\t\t\t\t\tv-bind=\"option\" v-bind:type=\"questionType\"\n\t\t\t\t\t\tv-bind:is-working-option=\"option === workingOption\"\n\t\t\t\t\t\tv-on:input=\"handleWorkingOptionInput(index, arguments[0])\"\n\t\t\t\t\t\tv-on:change=\"handleOptionChange(index, arguments[0])\"\n\t\t\t\t\t\t>\n\t\t\t\t\t</form-builder-option>\n\t\t\t\t</template>\n\n\t\t\t\t<div v-if=\"questionType === 'text'\" class=\"col-sm-12\">\n\t\t\t\t\t<textarea class=\"form-control\" placeholder=\"Text\" disabled />\n\t\t\t\t</div>\n\n\t\t\t\t<div v-if=\"questionType === 'number'\" class=\"col-md-8\">\n\t\t\t\t\t<input type=\"number\" class=\"form-control\" placeholder=\"Number\" disabled />\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport FormBuilderOption from './FormBuilderOption.vue';\nimport SelectTwo from '../SelectTwo.vue';\n\nimport { STANDARD_OPTIONS } from '../../modules/constants.js';\nimport { appendAlert } from '../../modules/utils.js';\n\nexport default {\n\tprops: [\n\t\t'formType',\n\t\t'groupedMilestones',\n\t\t'allCompetencies',\n\t\t'questionIdNum',\n\t\t'text',\n\t\t'questionType',\n\t\t'milestones',\n\t\t'competencies',\n\t\t'options',\n\t\t'required',\n\t\t'customOptions'\n\t],\n\tdata(){\n\t\treturn {\n\t\t\tworkingOption: {\n\t\t\t\ttext: '',\n\t\t\t\tvalue: '',\n\t\t\t\tdescription: ''\n\t\t\t}\n\t\t}\n\t},\n\tcomputed: {\n\t\tquestionId(){\n\t\t\treturn `q${this.questionIdNum}`;\n\t\t},\n\t\tshouldShowMilestonesAndCompetencies(){\n\t\t\treturn ['radio', 'number'].includes(this.questionType) && [\n\t\t\t\t'resident',\n\t\t\t\t'self-resident',\n\t\t\t\t'fellow',\n\t\t\t\t'self-fellow'\n\t\t\t].includes(this.formType);\n\t\t},\n\t\toptionsWithWorking(){\n\t\t\tif(this.options){\n\t\t\t\tlet options = this.options.slice();\n\t\t\t\toptions.push(this.workingOption);\n\t\t\t\treturn options;\n\t\t\t}\n\t\t},\n\t\tworkingOptionIndex(){\n\t\t\tif(this.options)\n\t\t\t\treturn this.options.length;\n\t\t}\n\t},\n\tmethods: {\n\t\tchangeQuestionType(event){\n\t\t\tconst questionType = event.target.value;\n\t\t\tlet options = [];\n\n\t\t\tthis.$emit('change', {questionType: questionType, options: options});\n\t\t},\n\t\thandleWorkingOptionInput(index, option){\n\t\t\tif(index === this.workingOptionIndex)\n\t\t\t\tthis.workingOption = Object.assign({}, this.workingOption, option);\n\t\t},\n\t\thandleOptionChange(index, option){\n\t\t\tif(index === this.workingOptionIndex){\n\t\t\t\tlet options = this.options.slice();\n\t\t\t\toptions.push(Object.assign({}, this.workingOption, option));\n\t\t\t\tthis.workingOption = {\n\t\t\t\t\ttext: '',\n\t\t\t\t\tvalue: '',\n\t\t\t\t\tdescription: ''\n\t\t\t\t};\n\t\t\t\tthis.$emit('change', {options: options});\n\t\t\t}\n\t\t\telse {\n\t\t\t\tlet options = this.options.slice();\n\t\t\t\toptions[index] = Object.assign(options[index], option);\n\t\t\t\tif(!options[index].text && !options[index].value && !options[index].description)\n\t\t\t\t\toptions.splice(index, 1);\n\n\t\t\t\tthis.$emit('change', {options: options});\n\t\t\t}\n\t\t},\n\n\t\tsetStandardOptions(){\n\t\t\tlet options;\n\t\t\tswitch(this.formType){\n\t\t\t\tcase 'resident':\n\t\t\t\tcase 'self-resident':\n\t\t\t\t\toptions = STANDARD_OPTIONS.RESIDENT;\n\t\t\t\t\tbreak;\n\t\t\t\tcase 'fellow':\n\t\t\t\tcase 'self-fellow':\n\t\t\t\t\toptions = STANDARD_OPTIONS.FELLOW;\n\t\t\t\t\tbreak;\n\t\t\t\tcase 'faculty':\n\t\t\t\t\tif(this.questionType === 'radiononnumeric')\n\t\t\t\t\t\toptions = STANDARD_OPTIONS.FACULTY;\n\t\t\t\t\tbreak;\n\t\t\t}\n\n\t\t\tif(!options){\n\t\t\t\tappendAlert('No standard options found for form type and question type');\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tthis.$emit('change', {options: options});\n\t\t},\n\t\tsetMilestoneOptions(){\n\t\t\tif(this.milestones.length !== 1){\n\t\t\t\tappendAlert('You can only use milestone options with a single selected milestone');\n\t\t\t\treturn;\n\t\t\t}\n\t\t\tfetch(`/milestones/${this.milestones[0]}`, { credentials: 'same-origin' }).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\telse\n\t\t\t\t\tthrow new Error(response);\n\t\t\t}).then(milestone => {\n\t\t\t\tif(!milestone || !milestone.levels || milestone.levels.length < 1){\n\t\t\t\t\tappendAlert('No milestone levels found');\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t\tlet options = [{\n\t\t\t\t\tvalue: 0,\n\t\t\t\t\ttext: `Not yet ${milestone.levels[0].name}`\n\t\t\t\t}];\n\t\t\t\tfor(let level of milestone.levels){\n\t\t\t\t\tlet value = 2 * parseInt(level.level_number, 10);\n\t\t\t\t\toptions.push({value: value - 1, text: '', description: ''});\n\t\t\t\t\toptions.push({value: value, text: level.name, description: level.description});\n\t\t\t\t}\n\n\t\t\t\tthis.$emit('change', {options: options});\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t},\n\t\tsetCustomOptions(){\n\t\t\tif(this.customOptions.length < 1){\n\t\t\t\tappentAlert('No custom options set');\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tthis.$emit('change', {options: this.customOptions});\n\t\t}\n\t},\n\tcomponents: {\n\t\tFormBuilderOption,\n\t\tSelectTwo\n\t}\n}\n</script>\n\n<style scoped>\n\t.question-id {\n\t\tfont-size: larger;\n\t\ttext-transform: uppercase;\n\t\tfont-weight: bold;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+
+// exports
+
+
+/***/ },
+/* 153 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27865,7 +27917,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 
 
-var browserDetector = __webpack_require__(74);
+var browserDetector = __webpack_require__(75);
 
 module.exports = function(options) {
     options             = options || {};
@@ -28075,7 +28127,7 @@ module.exports = function(options) {
 
 
 /***/ },
-/* 152 */
+/* 154 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28086,7 +28138,7 @@ module.exports = function(options) {
 
 
 
-var forEach = __webpack_require__(75).forEach;
+var forEach = __webpack_require__(76).forEach;
 
 module.exports = function(options) {
     options             = options || {};
@@ -28703,7 +28755,7 @@ module.exports = function(options) {
 
 
 /***/ },
-/* 153 */
+/* 155 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28762,7 +28814,7 @@ module.exports = function(options) {
 
 
 /***/ },
-/* 154 */
+/* 156 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28787,7 +28839,7 @@ module.exports = function() {
 
 
 /***/ },
-/* 155 */
+/* 157 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28841,7 +28893,7 @@ module.exports = function(options) {
 
 
 /***/ },
-/* 156 */
+/* 158 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28908,7 +28960,7 @@ module.exports = function(idHandler) {
 
 
 /***/ },
-/* 157 */
+/* 159 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28957,7 +29009,7 @@ module.exports = function(quiet) {
 };
 
 /***/ },
-/* 158 */
+/* 160 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28986,7 +29038,7 @@ module.exports = {
 
 
 /***/ },
-/* 159 */
+/* 161 */
 /***/ function(module, exports) {
 
 module.exports = {
@@ -31118,7 +31170,7 @@ module.exports = {
 };
 
 /***/ },
-/* 160 */
+/* 162 */
 /***/ function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -31208,7 +31260,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ },
-/* 161 */
+/* 163 */
 /***/ function(module, exports) {
 
 var toString = {}.toString;
@@ -31219,10 +31271,10 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ },
-/* 162 */,
-/* 163 */,
 /* 164 */,
-/* 165 */
+/* 165 */,
+/* 166 */,
+/* 167 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31378,7 +31430,7 @@ function createNormalizer() {
 function compile(self) {
 
   // Load & clone RE patterns.
-  var re = self.re = __webpack_require__(166)(self.__opts__);
+  var re = self.re = __webpack_require__(168)(self.__opts__);
 
   // Define dynamic patterns
   var tlds = self.__tlds__.slice();
@@ -31866,7 +31918,7 @@ module.exports = LinkifyIt;
 
 
 /***/ },
-/* 166 */
+/* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31877,9 +31929,9 @@ module.exports = function (opts) {
   var re = {};
 
   // Use direct extract instead of `regenerate` to reduse browserified size
-  re.src_Any = __webpack_require__(85).source;
-  re.src_Cc  = __webpack_require__(83).source;
-  re.src_Z   = __webpack_require__(84).source;
+  re.src_Any = __webpack_require__(86).source;
+  re.src_Cc  = __webpack_require__(84).source;
+  re.src_Z   = __webpack_require__(85).source;
   re.src_P   = __webpack_require__(63).source;
 
   // \p{\Z\P\Cc\CF} (white spaces + control + format + punctuation)
@@ -32046,7 +32098,7 @@ module.exports = function (opts) {
 
 
 /***/ },
-/* 167 */
+/* 169 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32126,7 +32178,7 @@ module.exports = [
 
 
 /***/ },
-/* 168 */
+/* 170 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32134,13 +32186,13 @@ module.exports = [
 
 
 
-exports.parseLinkLabel       = __webpack_require__(170);
-exports.parseLinkDestination = __webpack_require__(169);
-exports.parseLinkTitle       = __webpack_require__(171);
+exports.parseLinkLabel       = __webpack_require__(172);
+exports.parseLinkDestination = __webpack_require__(171);
+exports.parseLinkTitle       = __webpack_require__(173);
 
 
 /***/ },
-/* 169 */
+/* 171 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32227,7 +32279,7 @@ module.exports = function parseLinkDestination(str, pos, max) {
 
 
 /***/ },
-/* 170 */
+/* 172 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32282,7 +32334,7 @@ module.exports = function parseLinkLabel(state, start, disableNested) {
 
 
 /***/ },
-/* 171 */
+/* 173 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32342,7 +32394,7 @@ module.exports = function parseLinkTitle(str, pos, max) {
 
 
 /***/ },
-/* 172 */
+/* 174 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32352,20 +32404,20 @@ module.exports = function parseLinkTitle(str, pos, max) {
 
 
 var utils        = __webpack_require__(0);
-var helpers      = __webpack_require__(168);
-var Renderer     = __webpack_require__(179);
-var ParserCore   = __webpack_require__(174);
-var ParserBlock  = __webpack_require__(173);
-var ParserInline = __webpack_require__(175);
-var LinkifyIt    = __webpack_require__(165);
-var mdurl        = __webpack_require__(82);
+var helpers      = __webpack_require__(170);
+var Renderer     = __webpack_require__(181);
+var ParserCore   = __webpack_require__(176);
+var ParserBlock  = __webpack_require__(175);
+var ParserInline = __webpack_require__(177);
+var LinkifyIt    = __webpack_require__(167);
+var mdurl        = __webpack_require__(83);
 var punycode     = __webpack_require__(62);
 
 
 var config = {
-  'default': __webpack_require__(177),
-  zero: __webpack_require__(178),
-  commonmark: __webpack_require__(176)
+  'default': __webpack_require__(179),
+  zero: __webpack_require__(180),
+  commonmark: __webpack_require__(178)
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -32926,7 +32978,7 @@ module.exports = MarkdownIt;
 
 
 /***/ },
-/* 173 */
+/* 175 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32944,17 +32996,17 @@ var Ruler           = __webpack_require__(60);
 var _rules = [
   // First 2 params - rule name & source. Secondary array - list of rules,
   // which can be terminated by this one.
-  [ 'table',      __webpack_require__(191),      [ 'paragraph', 'reference' ] ],
-  [ 'code',       __webpack_require__(181) ],
-  [ 'fence',      __webpack_require__(182),      [ 'paragraph', 'reference', 'blockquote', 'list' ] ],
-  [ 'blockquote', __webpack_require__(180), [ 'paragraph', 'reference', 'list' ] ],
-  [ 'hr',         __webpack_require__(184),         [ 'paragraph', 'reference', 'blockquote', 'list' ] ],
-  [ 'list',       __webpack_require__(187),       [ 'paragraph', 'reference', 'blockquote' ] ],
-  [ 'reference',  __webpack_require__(189) ],
-  [ 'heading',    __webpack_require__(183),    [ 'paragraph', 'reference', 'blockquote' ] ],
-  [ 'lheading',   __webpack_require__(186) ],
-  [ 'html_block', __webpack_require__(185), [ 'paragraph', 'reference', 'blockquote' ] ],
-  [ 'paragraph',  __webpack_require__(188) ]
+  [ 'table',      __webpack_require__(193),      [ 'paragraph', 'reference' ] ],
+  [ 'code',       __webpack_require__(183) ],
+  [ 'fence',      __webpack_require__(184),      [ 'paragraph', 'reference', 'blockquote', 'list' ] ],
+  [ 'blockquote', __webpack_require__(182), [ 'paragraph', 'reference', 'list' ] ],
+  [ 'hr',         __webpack_require__(186),         [ 'paragraph', 'reference', 'blockquote', 'list' ] ],
+  [ 'list',       __webpack_require__(189),       [ 'paragraph', 'reference', 'blockquote' ] ],
+  [ 'reference',  __webpack_require__(191) ],
+  [ 'heading',    __webpack_require__(185),    [ 'paragraph', 'reference', 'blockquote' ] ],
+  [ 'lheading',   __webpack_require__(188) ],
+  [ 'html_block', __webpack_require__(187), [ 'paragraph', 'reference', 'blockquote' ] ],
+  [ 'paragraph',  __webpack_require__(190) ]
 ];
 
 
@@ -33048,14 +33100,14 @@ ParserBlock.prototype.parse = function (src, md, env, outTokens) {
 };
 
 
-ParserBlock.prototype.State = __webpack_require__(190);
+ParserBlock.prototype.State = __webpack_require__(192);
 
 
 module.exports = ParserBlock;
 
 
 /***/ },
-/* 174 */
+/* 176 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33072,12 +33124,12 @@ var Ruler  = __webpack_require__(60);
 
 
 var _rules = [
-  [ 'normalize',      __webpack_require__(195)      ],
-  [ 'block',          __webpack_require__(192)          ],
-  [ 'inline',         __webpack_require__(193)         ],
-  [ 'linkify',        __webpack_require__(194)        ],
-  [ 'replacements',   __webpack_require__(196)   ],
-  [ 'smartquotes',    __webpack_require__(197)    ]
+  [ 'normalize',      __webpack_require__(197)      ],
+  [ 'block',          __webpack_require__(194)          ],
+  [ 'inline',         __webpack_require__(195)         ],
+  [ 'linkify',        __webpack_require__(196)        ],
+  [ 'replacements',   __webpack_require__(198)   ],
+  [ 'smartquotes',    __webpack_require__(199)    ]
 ];
 
 
@@ -33113,14 +33165,14 @@ Core.prototype.process = function (state) {
   }
 };
 
-Core.prototype.State = __webpack_require__(198);
+Core.prototype.State = __webpack_require__(200);
 
 
 module.exports = Core;
 
 
 /***/ },
-/* 175 */
+/* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33139,24 +33191,24 @@ var Ruler           = __webpack_require__(60);
 // Parser rules
 
 var _rules = [
-  [ 'text',            __webpack_require__(209) ],
-  [ 'newline',         __webpack_require__(207) ],
-  [ 'escape',          __webpack_require__(203) ],
-  [ 'backticks',       __webpack_require__(200) ],
-  [ 'strikethrough',   __webpack_require__(81).tokenize ],
-  [ 'emphasis',        __webpack_require__(80).tokenize ],
-  [ 'link',            __webpack_require__(206) ],
-  [ 'image',           __webpack_require__(205) ],
-  [ 'autolink',        __webpack_require__(199) ],
-  [ 'html_inline',     __webpack_require__(204) ],
-  [ 'entity',          __webpack_require__(202) ]
+  [ 'text',            __webpack_require__(211) ],
+  [ 'newline',         __webpack_require__(209) ],
+  [ 'escape',          __webpack_require__(205) ],
+  [ 'backticks',       __webpack_require__(202) ],
+  [ 'strikethrough',   __webpack_require__(82).tokenize ],
+  [ 'emphasis',        __webpack_require__(81).tokenize ],
+  [ 'link',            __webpack_require__(208) ],
+  [ 'image',           __webpack_require__(207) ],
+  [ 'autolink',        __webpack_require__(201) ],
+  [ 'html_inline',     __webpack_require__(206) ],
+  [ 'entity',          __webpack_require__(204) ]
 ];
 
 var _rules2 = [
-  [ 'balance_pairs',   __webpack_require__(201) ],
-  [ 'strikethrough',   __webpack_require__(81).postProcess ],
-  [ 'emphasis',        __webpack_require__(80).postProcess ],
-  [ 'text_collapse',   __webpack_require__(210) ]
+  [ 'balance_pairs',   __webpack_require__(203) ],
+  [ 'strikethrough',   __webpack_require__(82).postProcess ],
+  [ 'emphasis',        __webpack_require__(81).postProcess ],
+  [ 'text_collapse',   __webpack_require__(212) ]
 ];
 
 
@@ -33297,14 +33349,14 @@ ParserInline.prototype.parse = function (str, md, env, outTokens) {
 };
 
 
-ParserInline.prototype.State = __webpack_require__(208);
+ParserInline.prototype.State = __webpack_require__(210);
 
 
 module.exports = ParserInline;
 
 
 /***/ },
-/* 176 */
+/* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33391,7 +33443,7 @@ module.exports = {
 
 
 /***/ },
-/* 177 */
+/* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33439,7 +33491,7 @@ module.exports = {
 
 
 /***/ },
-/* 178 */
+/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33508,7 +33560,7 @@ module.exports = {
 
 
 /***/ },
-/* 179 */
+/* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33850,7 +33902,7 @@ module.exports = Renderer;
 
 
 /***/ },
-/* 180 */
+/* 182 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34107,7 +34159,7 @@ module.exports = function blockquote(state, startLine, endLine, silent) {
 
 
 /***/ },
-/* 181 */
+/* 183 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34148,7 +34200,7 @@ module.exports = function code(state, startLine, endLine/*, silent*/) {
 
 
 /***/ },
-/* 182 */
+/* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34246,7 +34298,7 @@ module.exports = function fence(state, startLine, endLine, silent) {
 
 
 /***/ },
-/* 183 */
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34305,7 +34357,7 @@ module.exports = function heading(state, startLine, endLine, silent) {
 
 
 /***/ },
-/* 184 */
+/* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34354,7 +34406,7 @@ module.exports = function hr(state, startLine, endLine, silent) {
 
 
 /***/ },
-/* 185 */
+/* 187 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34363,8 +34415,8 @@ module.exports = function hr(state, startLine, endLine, silent) {
 
 
 
-var block_names = __webpack_require__(167);
-var HTML_OPEN_CLOSE_TAG_RE = __webpack_require__(79).HTML_OPEN_CLOSE_TAG_RE;
+var block_names = __webpack_require__(169);
+var HTML_OPEN_CLOSE_TAG_RE = __webpack_require__(80).HTML_OPEN_CLOSE_TAG_RE;
 
 // An array of opening and corresponding closing sequences for html tags,
 // last argument defines whether it can terminate a paragraph or not
@@ -34432,7 +34484,7 @@ module.exports = function html_block(state, startLine, endLine, silent) {
 
 
 /***/ },
-/* 186 */
+/* 188 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34519,7 +34571,7 @@ module.exports = function lheading(state, startLine, endLine/*, silent*/) {
 
 
 /***/ },
-/* 187 */
+/* 189 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34861,7 +34913,7 @@ module.exports = function list(state, startLine, endLine, silent) {
 
 
 /***/ },
-/* 188 */
+/* 190 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34920,7 +34972,7 @@ module.exports = function paragraph(state, startLine/*, endLine*/) {
 
 
 /***/ },
-/* 189 */
+/* 191 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35122,7 +35174,7 @@ module.exports = function reference(state, startLine, _endLine, silent) {
 
 
 /***/ },
-/* 190 */
+/* 192 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35359,7 +35411,7 @@ module.exports = StateBlock;
 
 
 /***/ },
-/* 191 */
+/* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35560,7 +35612,7 @@ module.exports = function table(state, startLine, endLine, silent) {
 
 
 /***/ },
-/* 192 */
+/* 194 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35583,7 +35635,7 @@ module.exports = function block(state) {
 
 
 /***/ },
-/* 193 */
+/* 195 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35603,7 +35655,7 @@ module.exports = function inline(state) {
 
 
 /***/ },
-/* 194 */
+/* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35743,7 +35795,7 @@ module.exports = function linkify(state) {
 
 
 /***/ },
-/* 195 */
+/* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35770,7 +35822,7 @@ module.exports = function inline(state) {
 
 
 /***/ },
-/* 196 */
+/* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35884,7 +35936,7 @@ module.exports = function replace(state) {
 
 
 /***/ },
-/* 197 */
+/* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36084,7 +36136,7 @@ module.exports = function smartquotes(state) {
 
 
 /***/ },
-/* 198 */
+/* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36111,7 +36163,7 @@ module.exports = StateCore;
 
 
 /***/ },
-/* 199 */
+/* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36190,7 +36242,7 @@ module.exports = function autolink(state, silent) {
 
 
 /***/ },
-/* 200 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36240,7 +36292,7 @@ module.exports = function backtick(state, silent) {
 
 
 /***/ },
-/* 201 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36291,7 +36343,7 @@ module.exports = function link_pairs(state) {
 
 
 /***/ },
-/* 202 */
+/* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36299,7 +36351,7 @@ module.exports = function link_pairs(state) {
 
 
 
-var entities          = __webpack_require__(78);
+var entities          = __webpack_require__(79);
 var has               = __webpack_require__(0).has;
 var isValidEntityCode = __webpack_require__(0).isValidEntityCode;
 var fromCodePoint     = __webpack_require__(0).fromCodePoint;
@@ -36346,7 +36398,7 @@ module.exports = function entity(state, silent) {
 
 
 /***/ },
-/* 203 */
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36405,7 +36457,7 @@ module.exports = function escape(state, silent) {
 
 
 /***/ },
-/* 204 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36414,7 +36466,7 @@ module.exports = function escape(state, silent) {
 
 
 
-var HTML_TAG_RE = __webpack_require__(79).HTML_TAG_RE;
+var HTML_TAG_RE = __webpack_require__(80).HTML_TAG_RE;
 
 
 function isLetter(ch) {
@@ -36459,7 +36511,7 @@ module.exports = function html_inline(state, silent) {
 
 
 /***/ },
-/* 205 */
+/* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36618,7 +36670,7 @@ module.exports = function image(state, silent) {
 
 
 /***/ },
-/* 206 */
+/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36775,7 +36827,7 @@ module.exports = function link(state, silent) {
 
 
 /***/ },
-/* 207 */
+/* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36821,7 +36873,7 @@ module.exports = function newline(state, silent) {
 
 
 /***/ },
-/* 208 */
+/* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36958,7 +37010,7 @@ module.exports = StateInline;
 
 
 /***/ },
-/* 209 */
+/* 211 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37054,7 +37106,7 @@ module.exports = function text(state, silent) {
 
 
 /***/ },
-/* 210 */
+/* 212 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37094,7 +37146,7 @@ module.exports = function text_collapse(state) {
 
 
 /***/ },
-/* 211 */
+/* 213 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37223,7 +37275,7 @@ module.exports = decode;
 
 
 /***/ },
-/* 212 */
+/* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37328,7 +37380,7 @@ module.exports = encode;
 
 
 /***/ },
-/* 213 */
+/* 215 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37360,7 +37412,7 @@ module.exports = function format(url) {
 
 
 /***/ },
-/* 214 */
+/* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37679,89 +37731,41 @@ module.exports = urlParse;
 
 
 /***/ },
-/* 215 */,
-/* 216 */,
 /* 217 */,
-/* 218 */
+/* 218 */,
+/* 219 */,
+/* 220 */
 /***/ function(module, exports) {
 
 module.exports=/[\xAD\u0600-\u0605\u061C\u06DD\u070F\u08E2\u180E\u200B-\u200F\u202A-\u202E\u2060-\u2064\u2066-\u206F\uFEFF\uFFF9-\uFFFB]|\uD804\uDCBD|\uD82F[\uDCA0-\uDCA3]|\uD834[\uDD73-\uDD7A]|\uDB40[\uDC01\uDC20-\uDC7F]/
 
 /***/ },
-/* 219 */
+/* 221 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.Any = __webpack_require__(85);
-exports.Cc  = __webpack_require__(83);
-exports.Cf  = __webpack_require__(218);
+exports.Any = __webpack_require__(86);
+exports.Cc  = __webpack_require__(84);
+exports.Cf  = __webpack_require__(220);
 exports.P   = __webpack_require__(63);
-exports.Z   = __webpack_require__(84);
+exports.Z   = __webpack_require__(85);
 
 
 /***/ },
-/* 220 */,
-/* 221 */
+/* 222 */,
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
-
-/* styles */
-__webpack_require__(254)
 
 /* script */
 __vue_exports__ = __webpack_require__(96)
 
 /* template */
-var __vue_template__ = __webpack_require__(240)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/AggregateReport.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-__vue_options__._scopeId = "data-v-19509019"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-19509019", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-19509019", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] AggregateReport.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ },
-/* 222 */
-/***/ function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* script */
-__vue_exports__ = __webpack_require__(97)
-
-/* template */
-var __vue_template__ = __webpack_require__(237)
+var __vue_template__ = __webpack_require__(238)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -37795,157 +37799,17 @@ module.exports = __vue_exports__
 
 
 /***/ },
-/* 223 */
-/***/ function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* styles */
-__webpack_require__(261)
-
-/* script */
-__vue_exports__ = __webpack_require__(100)
-
-/* template */
-var __vue_template__ = __webpack_require__(251)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormBuilder.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-__vue_options__._scopeId = "data-v-c94fb106"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-c94fb106", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-c94fb106", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] FormBuilder.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ },
 /* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
-/* script */
-__vue_exports__ = __webpack_require__(101)
-
-/* template */
-var __vue_template__ = __webpack_require__(235)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormBuilderInstruction.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-03145a01", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-03145a01", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] FormBuilderInstruction.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ },
-/* 225 */
-/***/ function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
 /* styles */
-__webpack_require__(257)
+__webpack_require__(260)
 
 /* script */
-__vue_exports__ = __webpack_require__(102)
-
-/* template */
-var __vue_template__ = __webpack_require__(244)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormBuilderOption.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-__vue_options__._scopeId = "data-v-58256c5c"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-58256c5c", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-58256c5c", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] FormBuilderOption.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ },
-/* 226 */
-/***/ function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* styles */
-__webpack_require__(259)
-
-/* script */
-__vue_exports__ = __webpack_require__(103)
+__vue_exports__ = __webpack_require__(99)
 
 /* template */
 var __vue_template__ = __webpack_require__(246)
@@ -37960,10 +37824,10 @@ __vue_options__ = __vue_exports__ = __vue_exports__.default
 if (typeof __vue_options__ === "function") {
   __vue_options__ = __vue_options__.options
 }
-__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormBuilderQuestion.vue"
+__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormBuilder/FormBuilder.vue"
 __vue_options__.render = __vue_template__.render
 __vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-__vue_options__._scopeId = "data-v-6d3c9f83"
+__vue_options__._scopeId = "data-v-27da62f6"
 
 /* hot reload */
 if (false) {(function () {
@@ -37972,28 +37836,28 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6d3c9f83", __vue_options__)
+    hotAPI.createRecord("data-v-27da62f6", __vue_options__)
   } else {
-    hotAPI.reload("data-v-6d3c9f83", __vue_options__)
+    hotAPI.reload("data-v-27da62f6", __vue_options__)
   }
 })()}
-if (__vue_options__.functional) {console.error("[vue-loader] FormBuilderQuestion.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+if (__vue_options__.functional) {console.error("[vue-loader] FormBuilder.vue: functional components are not supported and should be defined in plain js files using render functions.")}
 
 module.exports = __vue_exports__
 
 
 /***/ },
-/* 227 */
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* script */
-__vue_exports__ = __webpack_require__(104)
+__vue_exports__ = __webpack_require__(100)
 
 /* template */
-var __vue_template__ = __webpack_require__(243)
+var __vue_template__ = __webpack_require__(240)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -38005,7 +37869,7 @@ __vue_options__ = __vue_exports__ = __vue_exports__.default
 if (typeof __vue_options__ === "function") {
   __vue_options__ = __vue_options__.options
 }
-__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormReaderQuestion.vue"
+__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormBuilder/FormBuilderInstruction.vue"
 __vue_options__.render = __vue_template__.render
 __vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 
@@ -38016,257 +37880,28 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-525889d7", __vue_options__)
+    hotAPI.createRecord("data-v-0aef040e", __vue_options__)
   } else {
-    hotAPI.reload("data-v-525889d7", __vue_options__)
+    hotAPI.reload("data-v-0aef040e", __vue_options__)
   }
 })()}
-if (__vue_options__.functional) {console.error("[vue-loader] FormReaderQuestion.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+if (__vue_options__.functional) {console.error("[vue-loader] FormBuilderInstruction.vue: functional components are not supported and should be defined in plain js files using render functions.")}
 
 module.exports = __vue_exports__
 
 
 /***/ },
-/* 228 */
-/***/ function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* script */
-__vue_exports__ = __webpack_require__(105)
-
-/* template */
-var __vue_template__ = __webpack_require__(236)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormReaderQuestionOption.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-068d00ac", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-068d00ac", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] FormReaderQuestionOption.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ },
-/* 229 */
-/***/ function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* script */
-__vue_exports__ = __webpack_require__(106)
-
-/* template */
-var __vue_template__ = __webpack_require__(247)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormReport.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-72bf01c2", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-72bf01c2", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] FormReport.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ },
-/* 230 */
-/***/ function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* script */
-__vue_exports__ = __webpack_require__(107)
-
-/* template */
-var __vue_template__ = __webpack_require__(248)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormReportQuestion.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-88c93670", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-88c93670", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] FormReportQuestion.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ },
-/* 231 */,
-/* 232 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(255)
+__webpack_require__(257)
 
 /* script */
-__vue_exports__ = __webpack_require__(110)
-
-/* template */
-var __vue_template__ = __webpack_require__(241)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-__vue_options__._scopeId = "data-v-25c733f6"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-25c733f6", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-25c733f6", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] Reports.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ },
-/* 233 */
-/***/ function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* styles */
-__webpack_require__(260)
-
-/* script */
-__vue_exports__ = __webpack_require__(112)
-
-/* template */
-var __vue_template__ = __webpack_require__(249)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/StatsReport.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-__vue_options__._scopeId = "data-v-8f4ff40e"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-8f4ff40e", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-8f4ff40e", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] StatsReport.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ },
-/* 234 */
-/***/ function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* styles */
-__webpack_require__(253)
-
-/* script */
-__vue_exports__ = __webpack_require__(113)
+__vue_exports__ = __webpack_require__(101)
 
 /* template */
 var __vue_template__ = __webpack_require__(239)
@@ -38281,10 +37916,10 @@ __vue_options__ = __vue_exports__ = __vue_exports__.default
 if (typeof __vue_options__ === "function") {
   __vue_options__ = __vue_options__.options
 }
-__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/TraineeReport.vue"
+__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormBuilder/FormBuilderOption.vue"
 __vue_options__.render = __vue_template__.render
 __vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-__vue_options__._scopeId = "data-v-155d597c"
+__vue_options__._scopeId = "data-v-09008ada"
 
 /* hot reload */
 if (false) {(function () {
@@ -38293,9 +37928,474 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-155d597c", __vue_options__)
+    hotAPI.createRecord("data-v-09008ada", __vue_options__)
   } else {
-    hotAPI.reload("data-v-155d597c", __vue_options__)
+    hotAPI.reload("data-v-09008ada", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] FormBuilderOption.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ },
+/* 227 */
+/***/ function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(266)
+
+/* script */
+__vue_exports__ = __webpack_require__(102)
+
+/* template */
+var __vue_template__ = __webpack_require__(254)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormBuilder/FormBuilderQuestion.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+__vue_options__._scopeId = "data-v-aaf882ea"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-aaf882ea", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-aaf882ea", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] FormBuilderQuestion.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ },
+/* 228 */
+/***/ function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* script */
+__vue_exports__ = __webpack_require__(103)
+
+/* template */
+var __vue_template__ = __webpack_require__(242)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormReader/FormReaderQuestion.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-132582fb", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-132582fb", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] FormReaderQuestion.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ },
+/* 229 */
+/***/ function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* script */
+__vue_exports__ = __webpack_require__(104)
+
+/* template */
+var __vue_template__ = __webpack_require__(250)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormReader/FormReaderQuestionOption.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5e5b8ed0", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-5e5b8ed0", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] FormReaderQuestionOption.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ },
+/* 230 */,
+/* 231 */
+/***/ function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(258)
+
+/* script */
+__vue_exports__ = __webpack_require__(106)
+
+/* template */
+var __vue_template__ = __webpack_require__(241)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/AggregateReport.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+__vue_options__._scopeId = "data-v-12d2bcae"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-12d2bcae", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-12d2bcae", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] AggregateReport.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ },
+/* 232 */
+/***/ function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* script */
+__vue_exports__ = __webpack_require__(107)
+
+/* template */
+var __vue_template__ = __webpack_require__(243)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/FormReport.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-14383632", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-14383632", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] FormReport.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ },
+/* 233 */
+/***/ function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* script */
+__vue_exports__ = __webpack_require__(108)
+
+/* template */
+var __vue_template__ = __webpack_require__(255)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/FormReportQuestion.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-ceddad90", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-ceddad90", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] FormReportQuestion.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ },
+/* 234 */
+/***/ function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(261)
+
+/* script */
+__vue_exports__ = __webpack_require__(109)
+
+/* template */
+var __vue_template__ = __webpack_require__(247)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/FormReportQuestionOptionStats.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+__vue_options__._scopeId = "data-v-320b3802"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-320b3802", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-320b3802", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] FormReportQuestionOptionStats.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ },
+/* 235 */
+/***/ function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(263)
+
+/* script */
+__vue_exports__ = __webpack_require__(111)
+
+/* template */
+var __vue_template__ = __webpack_require__(249)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/Reports.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+__vue_options__._scopeId = "data-v-5bd5f0d6"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5bd5f0d6", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-5bd5f0d6", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] Reports.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ },
+/* 236 */
+/***/ function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(262)
+
+/* script */
+__vue_exports__ = __webpack_require__(112)
+
+/* template */
+var __vue_template__ = __webpack_require__(248)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/StatsReport.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+__vue_options__._scopeId = "data-v-46055f89"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-46055f89", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-46055f89", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] StatsReport.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ },
+/* 237 */
+/***/ function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(264)
+
+/* script */
+__vue_exports__ = __webpack_require__(113)
+
+/* template */
+var __vue_template__ = __webpack_require__(251)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/TraineeReport.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+__vue_options__._scopeId = "data-v-65e2ee5c"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-65e2ee5c", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-65e2ee5c", __vue_options__)
   }
 })()}
 if (__vue_options__.functional) {console.error("[vue-loader] TraineeReport.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -38304,7 +38404,144 @@ module.exports = __vue_exports__
 
 
 /***/ },
-/* 235 */
+/* 238 */
+/***/ function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+  return _c('label', {
+    staticClass: "btn btn-info",
+    class: {
+      active: _vm.value === _vm.option
+    },
+    on: {
+      "click": function($event) {
+        _vm.$emit('input', _vm.option)
+      }
+    }
+  }, [_c('input', {
+    attrs: {
+      "type": _vm.type
+    },
+    domProps: {
+      "value": _vm.option
+    }
+  }), _vm._v(" "), _vm._t("default")], true)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-0697f0d8", module.exports)
+  }
+}
+
+/***/ },
+/* 239 */
+/***/ function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+  return _c('div', {
+    staticClass: "form-builder-question-option col-lg-2 col-md-3 col-sm-6 text-center",
+    class: {
+      'working-option': _vm.isWorkingOption, 'is-focused': _vm.isFocused
+    }
+  }, [_c('input', {
+    attrs: {
+      "type": _vm.displayType,
+      "disabled": ""
+    }
+  }), _vm._v(" "), _c('input', {
+    staticClass: "form-input form-option form-option-text form-control",
+    attrs: {
+      "type": "text",
+      "placeholder": "Option Text"
+    },
+    domProps: {
+      "value": _vm.text
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('input', {
+          text: $event.target.value
+        })
+      },
+      "change": function($event) {
+        _vm.$emit('change', {
+          text: $event.target.value
+        })
+      },
+      "focus": function($event) {
+        _vm.handleInputFocus('text')
+      },
+      "blur": function($event) {
+        _vm.handleInputBlur('text')
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    staticClass: "form-input form-option form-option-value form-control",
+    attrs: {
+      "type": _vm.type === 'radio' ? 'number' : 'text',
+      "placeholder": "Option Value"
+    },
+    domProps: {
+      "value": _vm.value
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('input', {
+          value: $event.target.value
+        })
+      },
+      "change": function($event) {
+        _vm.$emit('change', {
+          value: $event.target.value
+        })
+      },
+      "focus": function($event) {
+        _vm.handleInputFocus('value')
+      },
+      "blur": function($event) {
+        _vm.handleInputBlur('value')
+      }
+    }
+  }), _vm._v(" "), _c('textarea', {
+    staticClass: "form-input form-option form-option-description form-control",
+    attrs: {
+      "placeholder": "Hover Description"
+    },
+    domProps: {
+      "value": _vm.description
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('input', {
+          description: $event.target.value
+        })
+      },
+      "change": function($event) {
+        _vm.$emit('change', {
+          description: $event.target.value
+        })
+      },
+      "focus": function($event) {
+        _vm.handleInputFocus('description')
+      },
+      "blur": function($event) {
+        _vm.handleInputBlur('description')
+      }
+    }
+  })])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-09008ada", module.exports)
+  }
+}
+
+/***/ },
+/* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
@@ -38354,260 +38591,12 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-03145a01", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-0aef040e", module.exports)
   }
 }
 
 /***/ },
-/* 236 */
-/***/ function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-  return _c('div', {
-    staticClass: "question-option"
-  }, [_c('label', [_c('span', {
-    attrs: {
-      "title": _vm.description
-    }
-  }, [(_vm.questionType === 'checkbox') ? _c('input', {
-    attrs: {
-      "type": "checkbox",
-      "name": (_vm.questionId + "[]"),
-      "required": _vm.required,
-      "disabled": _vm.disabled
-    },
-    domProps: {
-      "value": _vm.value
-    }
-  }) : _c('input', {
-    attrs: {
-      "type": "radio",
-      "name": _vm.questionId,
-      "required": _vm.required,
-      "disabled": _vm.disabled
-    },
-    domProps: {
-      "value": _vm.value
-    }
-  }), _vm._v(" "), _vm._v(" "), _c('br'), _vm._v("\n\t\t\t" + _vm._s(_vm.text) + "\n\t\t")])]), _vm._v(" "), (_vm.description) ? _c('div', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.showDescription),
-      expression: "showDescription"
-    }],
-    staticClass: "description well",
-    domProps: {
-      "innerHTML": _vm._s(_vm.md.render(_vm.description))
-    }
-  }) : _vm._e(), _vm._v(" "), _vm._t("default")], true)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-068d00ac", module.exports)
-  }
-}
-
-/***/ },
-/* 237 */
-/***/ function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-  return _c('label', {
-    staticClass: "btn btn-info",
-    class: {
-      active: _vm.value === _vm.option
-    },
-    on: {
-      "click": function($event) {
-        _vm.$emit('input', _vm.option)
-      }
-    }
-  }, [_c('input', {
-    attrs: {
-      "type": _vm.type
-    },
-    domProps: {
-      "value": _vm.option
-    }
-  }), _vm._v(" "), _vm._t("default")], true)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-0697f0d8", module.exports)
-  }
-}
-
-/***/ },
-/* 238 */
-/***/ function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-  return _c('canvas', {
-    attrs: {
-      "id": _vm.id,
-      "width": _vm.width,
-      "height": _vm.height
-    }
-  })
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-1538c521", module.exports)
-  }
-}
-
-/***/ },
-/* 239 */
-/***/ function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-  return _c('div', [_c('div', {
-    staticClass: "container body-block"
-  }, [_c('h2', [_vm._v("Trainee report")]), _vm._v(" "), _c('report-date', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.dates),
-      expression: "dates"
-    }],
-    domProps: {
-      "value": (_vm.dates)
-    },
-    on: {
-      "input": function($event) {
-        _vm.dates = $event
-      }
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.filterMilestones),
-      expression: "filterMilestones"
-    }],
-    attrs: {
-      "type": "checkbox"
-    },
-    domProps: {
-      "checked": Array.isArray(_vm.filterMilestones) ? _vm._i(_vm.filterMilestones, null) > -1 : _vm._q(_vm.filterMilestones, true)
-    },
-    on: {
-      "change": function($event) {
-        var $$a = _vm.filterMilestones,
-          $$el = $event.target,
-          $$c = $$el.checked ? (true) : (false);
-        if (Array.isArray($$a)) {
-          var $$v = null,
-            $$i = _vm._i($$a, $$v);
-          if ($$c) {
-            $$i < 0 && (_vm.filterMilestones = $$a.concat($$v))
-          } else {
-            $$i > -1 && (_vm.filterMilestones = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-          }
-        } else {
-          _vm.filterMilestones = $$c
-        }
-      }
-    }
-  }), _vm._v("\n\t\t\t\tFilter milestones\n\t\t\t")])]), _vm._v(" "), (_vm.filterMilestones) ? _c('fieldset', [_c('legend', [_vm._v("Milestones")]), _vm._v(" "), _c('div', {
-    staticClass: "filter-milestones-container"
-  }, _vm._l((_vm.milestoneGroups), function(milestoneGroup, index) {
-    return _c('div', {
-      staticClass: "milestone-group"
-    }, [_c('div', {
-      staticClass: "panel panel-default"
-    }, [_c('div', {
-      staticClass: "panel-heading"
-    }, [_c('label', {
-      staticClass: "panel-title"
-    }, [_c('input', {
-      attrs: {
-        "type": "checkbox"
-      },
-      domProps: {
-        "checked": _vm.isEntireMilestoneGroupSelected(index)
-      },
-      on: {
-        "click": function($event) {
-          _vm.toggleEntireMilestoneGroup(index)
-        }
-      }
-    }), _vm._v("\n\t\t\t\t\t\t\t\t" + _vm._s(milestoneGroup.text) + "\n\t\t\t\t\t\t\t")])]), _vm._v(" "), _c('div', {
-      staticClass: "panel-body"
-    }, _vm._l((milestoneGroup.children), function(child) {
-      return _c('div', {
-        staticClass: "form-group"
-      }, [_c('label', [_c('input', {
-        directives: [{
-          name: "model",
-          rawName: "v-model",
-          value: (_vm.milestones),
-          expression: "milestones"
-        }],
-        attrs: {
-          "type": "checkbox"
-        },
-        domProps: {
-          "value": child.id,
-          "checked": Array.isArray(_vm.milestones) ? _vm._i(_vm.milestones, child.id) > -1 : _vm._q(_vm.milestones, true)
-        },
-        on: {
-          "change": function($event) {
-            var $$a = _vm.milestones,
-              $$el = $event.target,
-              $$c = $$el.checked ? (true) : (false);
-            if (Array.isArray($$a)) {
-              var $$v = child.id,
-                $$i = _vm._i($$a, $$v);
-              if ($$c) {
-                $$i < 0 && (_vm.milestones = $$a.concat($$v))
-              } else {
-                $$i > -1 && (_vm.milestones = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-              }
-            } else {
-              _vm.milestones = $$c
-            }
-          }
-        }
-      }), _vm._v("\n\t\t\t\t\t\t\t\t\t" + _vm._s(child.text) + "\n\t\t\t\t\t\t\t\t")])])
-    }))])])
-  }))]) : _vm._e(), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-lg btn-primary",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": _vm.runReport
-    }
-  }, [_vm._v("\n\t\t\tRun report\n\t\t")])]), _vm._v(" "), (_vm.report) ? _c('div', [(_vm.report.stats) ? _c('stats-report', {
-    attrs: {
-      "report": _vm.report.stats
-    }
-  }) : _vm._e(), _vm._v(" "), (_vm.report.aggregate) ? _c('aggregate-report', {
-    attrs: {
-      "report": _vm.report.aggregate
-    }
-  }) : _vm._e()]) : _vm._e()])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-155d597c", module.exports)
-  }
-}
-
-/***/ },
-/* 240 */
+/* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
@@ -38772,124 +38761,12 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-19509019", module.exports)
-  }
-}
-
-/***/ },
-/* 241 */
-/***/ function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-  return _c('div', [(_vm.reportType) ? _c('div', [(_vm.reportType === _vm.REPORT_TYPES.TRAINEE) ? _c('trainee-report', {
-    attrs: {
-      "groupedUsers": _vm.groupedUsers
-    }
-  }) : _vm._e(), _vm._v(" "), (_vm.reportType === _vm.REPORT_TYPES.FORM) ? _c('form-report', {
-    attrs: {
-      "groupedUsers": _vm.groupedUsers
-    }
-  }) : _vm._e(), _vm._v(" "), _c('div', {
-    staticClass: "text-center"
-  }, [_c('button', {
-    staticClass: "btn btn-lg btn-default",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": _vm.handleResetClick
-    }
-  }, [_vm._v("\n\t\t\t\tStart over\n\t\t\t")])])]) : _c('div', {
-    staticClass: "container body-block"
-  }, [_c('fieldset', [_c('legend', [_vm._v("Report type")]), _vm._v(" "), _c('div', {
-    staticClass: "form-inline"
-  }, _vm._l((_vm.REPORT_TYPES), function(type) {
-    return _c('div', {
-      staticClass: "form-group col-sm-2"
-    }, [_c('button', {
-      staticClass: "btn lg btn-primary",
-      attrs: {
-        "type": "button"
-      },
-      on: {
-        "click": function($event) {
-          _vm.setReportType(type)
-        }
-      }
-    }, [_vm._v("\n\t\t\t\t\t\t" + _vm._s(_vm.ucfirst(type)) + "\n\t\t\t\t\t")])])
-  }))])]), _vm._v(" ")])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-25c733f6", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-12d2bcae", module.exports)
   }
 }
 
 /***/ },
 /* 242 */
-/***/ function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-  return _c('div', {
-    staticClass: "form-horizontal"
-  }, [_c('div', {
-    staticClass: "form-group"
-  }, [_c('div', {
-    staticClass: "col-md-4"
-  }, [_c('label', {
-    attrs: {
-      "for": "reports-start-date"
-    }
-  }, [_vm._v("Start Date")]), _vm._v(" "), _c('input', {
-    staticClass: "form-control",
-    attrs: {
-      "type": "text",
-      "id": "reports-start-date"
-    },
-    domProps: {
-      "value": _vm.value.startDate
-    },
-    on: {
-      "input": function($event) {
-        _vm.handleInput('startDate', $event.target.value)
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-4"
-  }, [_c('label', {
-    attrs: {
-      "for": "reports-end-date"
-    }
-  }, [_vm._v("End Date")]), _vm._v(" "), _c('input', {
-    staticClass: "form-control",
-    attrs: {
-      "type": "text",
-      "id": "reports-end-date"
-    },
-    domProps: {
-      "value": _vm.value.endDate
-    },
-    on: {
-      "input": function($event) {
-        _vm.handleInput('endDate', $event.target.value)
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-4"
-  })])])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-4ee850ac", module.exports)
-  }
-}
-
-/***/ },
-/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
@@ -38952,7 +38829,107 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-525889d7", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-132582fb", module.exports)
+  }
+}
+
+/***/ },
+/* 243 */
+/***/ function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+  return _c('div', [_c('div', {
+    staticClass: "container body-block"
+  }, [_c('report-date', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.dates),
+      expression: "dates"
+    }],
+    domProps: {
+      "value": (_vm.dates)
+    },
+    on: {
+      "input": function($event) {
+        _vm.dates = $event
+      }
+    }
+  }), _vm._v(" "), _c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\tUser\n\t\t\t"), _c('select-two', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.subjectId),
+      expression: "subjectId"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "options": _vm.groupedUsers
+    },
+    domProps: {
+      "value": (_vm.subjectId)
+    },
+    on: {
+      "input": function($event) {
+        _vm.subjectId = $event
+      }
+    }
+  })]), _vm._v(" "), _c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\tForm\n\t\t\t"), _c('select-two', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.formId),
+      expression: "formId"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "options": _vm.groupedForms
+    },
+    domProps: {
+      "value": (_vm.formId)
+    },
+    on: {
+      "input": function($event) {
+        _vm.formId = $event
+      }
+    }
+  })]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-lg btn-primary",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.runReport
+    }
+  }, [_vm._v("\n\t\t\tRun report\n\t\t")])]), _vm._v(" "), (_vm.report) ? _c('div', {
+    staticClass: "container body-block"
+  }, [(_vm.reportContents.title) ? _c('h2', [_vm._v("\n\t\t\t" + _vm._s(_vm.reportContents.title) + "\n\t\t")]) : _vm._e(), _vm._v(" "), _vm._l((_vm.reportContents.items), function(item) {
+    return [(item.type === 'question') ? _c('form-report-question', _vm._b({}, 'form-report-question', item)) : _vm._e(), _vm._v(" "), (item.type === 'instruction') ? _c('div') : _vm._e()]
+  })], true) : _vm._e(), _vm._v(" "), (_vm.report) ? _c('div', {
+    staticClass: "container body-block"
+  }, [_c('h3', {
+    staticClass: "sub-header"
+  }, [_vm._v("Evaluations included in report")]), _vm._v(" "), _c('ul', {
+    staticClass: "list-group row"
+  }, _vm._l((_vm.report.subjectEvals), function(evalId) {
+    return _c('li', {
+      staticClass: "list-group-item col-md-6"
+    }, [_c('a', {
+      attrs: {
+        "href": ("/evaluations/" + evalId)
+      }
+    }, [_vm._v("\n\t\t\t\t\t" + _vm._s(evalId) + "\n\t\t\t\t")])])
+  }))]) : _vm._e()])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-14383632", module.exports)
   }
 }
 
@@ -38961,109 +38938,697 @@ if (false) {
 /***/ function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-  return _c('div', {
-    staticClass: "form-builder-question-option col-lg-2 col-md-3 col-sm-6 text-center",
-    class: {
-      'working-option': _vm.isWorkingOption, 'is-focused': _vm.isFocused
-    }
-  }, [_c('input', {
+  return _c('canvas', {
     attrs: {
-      "type": _vm.displayType,
-      "disabled": ""
+      "id": _vm.id,
+      "width": _vm.width,
+      "height": _vm.height
     }
-  }), _vm._v(" "), _c('input', {
-    staticClass: "form-input form-option form-option-text form-control",
-    attrs: {
-      "type": "text",
-      "placeholder": "Option Text"
-    },
-    domProps: {
-      "value": _vm.text
-    },
-    on: {
-      "input": function($event) {
-        _vm.$emit('input', {
-          text: $event.target.value
-        })
-      },
-      "change": function($event) {
-        _vm.$emit('change', {
-          text: $event.target.value
-        })
-      },
-      "focus": function($event) {
-        _vm.handleInputFocus('text')
-      },
-      "blur": function($event) {
-        _vm.handleInputBlur('text')
-      }
-    }
-  }), _vm._v(" "), _c('input', {
-    staticClass: "form-input form-option form-option-value form-control",
-    attrs: {
-      "type": _vm.type === 'radio' ? 'number' : 'text',
-      "placeholder": "Option Value"
-    },
-    domProps: {
-      "value": _vm.value
-    },
-    on: {
-      "input": function($event) {
-        _vm.$emit('input', {
-          value: $event.target.value
-        })
-      },
-      "change": function($event) {
-        _vm.$emit('change', {
-          value: $event.target.value
-        })
-      },
-      "focus": function($event) {
-        _vm.handleInputFocus('value')
-      },
-      "blur": function($event) {
-        _vm.handleInputBlur('value')
-      }
-    }
-  }), _vm._v(" "), _c('textarea', {
-    staticClass: "form-input form-option form-option-description form-control",
-    attrs: {
-      "placeholder": "Hover Description"
-    },
-    domProps: {
-      "value": _vm.description
-    },
-    on: {
-      "input": function($event) {
-        _vm.$emit('input', {
-          description: $event.target.value
-        })
-      },
-      "change": function($event) {
-        _vm.$emit('change', {
-          description: $event.target.value
-        })
-      },
-      "focus": function($event) {
-        _vm.handleInputFocus('description')
-      },
-      "blur": function($event) {
-        _vm.handleInputBlur('description')
-      }
-    }
-  })])
+  })
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-58256c5c", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-1538c521", module.exports)
   }
 }
 
 /***/ },
-/* 245 */,
+/* 245 */
+/***/ function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+  return _c('div', {
+    staticClass: "form-horizontal"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('div', {
+    staticClass: "col-md-4"
+  }, [_c('label', {
+    attrs: {
+      "for": "reports-start-date"
+    }
+  }, [_vm._v("Start Date")]), _vm._v(" "), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "id": "reports-start-date"
+    },
+    domProps: {
+      "value": _vm.value.startDate
+    },
+    on: {
+      "input": function($event) {
+        _vm.handleInput('startDate', $event.target.value)
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-4"
+  }, [_c('label', {
+    attrs: {
+      "for": "reports-end-date"
+    }
+  }, [_vm._v("End Date")]), _vm._v(" "), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "id": "reports-end-date"
+    },
+    domProps: {
+      "value": _vm.value.endDate
+    },
+    on: {
+      "input": function($event) {
+        _vm.handleInput('endDate', $event.target.value)
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-4"
+  })])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-1f3cf5c8", module.exports)
+  }
+}
+
+/***/ },
 /* 246 */
+/***/ function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+  return _c('div', {
+    staticClass: "form-header"
+  }, [_c('div', {
+    staticClass: "container-fluid"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-8"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "form-title"
+    }
+  }, [_vm._v("Form title")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model.trim",
+      value: (_vm.title),
+      expression: "title",
+      modifiers: {
+        "trim": true
+      }
+    }],
+    staticClass: "form-control input-lg",
+    attrs: {
+      "type": "text",
+      "id": "form-title",
+      "name": "formTitle",
+      "placeholder": "Form Title",
+      "required": ""
+    },
+    domProps: {
+      "value": _vm._s(_vm.title)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.title = $event.target.value.trim()
+      },
+      "blur": function($event) {
+        _vm.$forceUpdate()
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-4"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "form-type"
+    }
+  }, [_vm._v("Form type")]), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.formType),
+      expression: "formType"
+    }],
+    staticClass: "form-control input-lg",
+    attrs: {
+      "id": "form-type",
+      "name": "form_type"
+    },
+    on: {
+      "change": function($event) {
+        _vm.formType = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        })[0]
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "resident"
+    }
+  }, [_vm._v("Resident/Intern")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "self-resident"
+    }
+  }, [_vm._v("Resident/Intern (self)")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "fellow"
+    }
+  }, [_vm._v("Fellow")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "self-fellow"
+    }
+  }, [_vm._v("Fellow (self)")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "faculty"
+    }
+  }, [_vm._v("Faculty")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "staff"
+    }
+  }, [_vm._v("Staff")])])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "form-body"
+  }, [_c('div', {
+    staticClass: "form-items"
+  }, [_vm._l((_vm.items), function(item, index) {
+    return [(item.type === 'instruction') ? _c('form-builder-instruction', _vm._b({
+      on: {
+        "change": function($event) {
+          _vm.changeItem(index, $event)
+        },
+        "input": function($event) {
+          _vm.changeItem(index, $event)
+        },
+        "remove": function($event) {
+          _vm.removeItem(index)
+        }
+      }
+    }, 'form-builder-instruction', item)) : _vm._e(), _vm._v(" "), (item.type === 'question') ? _c('form-builder-question', _vm._b({
+      attrs: {
+        "formType": _vm.formType,
+        "groupedMilestones": _vm.groupedMilestones,
+        "allCompetencies": _vm.competencies,
+        "customOptions": _vm.customOptions
+      },
+      on: {
+        "change": function($event) {
+          _vm.changeItem(index, $event)
+        },
+        "remove": function($event) {
+          _vm.removeItem(index)
+        }
+      }
+    }, 'form-builder-question', item)) : _vm._e()]
+  })], true)]), _vm._v(" "), _c('div', {
+    attrs: {
+      "id": "form-footer"
+    }
+  }, [_c('button', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "type": "button",
+      "id": "add-instruction-block"
+    },
+    on: {
+      "click": _vm.addInstruction
+    }
+  }, [_vm._v("Add instruction block")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-info",
+    attrs: {
+      "type": "button",
+      "id": "addQuestion"
+    },
+    on: {
+      "click": _vm.addQuestion
+    }
+  }, [_vm._v("Add Question")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-success",
+    attrs: {
+      "type": "submit"
+    },
+    on: {
+      "click": _vm.submitForm
+    }
+  }, [_vm._v("Submit Form")])])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-27da62f6", module.exports)
+  }
+}
+
+/***/ },
+/* 247 */
+/***/ function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+  return _c('table', {
+    staticClass: "table table-bordered"
+  }, [_c('tbody', [_c('tr', [_c('th', [_vm._v("Responses")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.responses))])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("Percentage")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.percentage) + "%")])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("Average")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.averagePercentage) + "%")])])])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-320b3802", module.exports)
+  }
+}
+
+/***/ },
+/* 248 */
+/***/ function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+  return _c('div', {
+    staticClass: "container body-block"
+  }, [_c('h3', [_vm._v("Statistics")]), _vm._v(" "), _c('fieldset', {
+    staticClass: "show-container"
+  }, [_c('legend', [_vm._v("Show")]), _vm._v(" "), _vm._l((_vm.show), function(part, name) {
+    return _c('label', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.show[name]),
+        expression: "show[name]"
+      }],
+      attrs: {
+        "type": "checkbox"
+      },
+      domProps: {
+        "checked": Array.isArray(_vm.show[name]) ? _vm._i(_vm.show[name], null) > -1 : _vm._q(_vm.show[name], true)
+      },
+      on: {
+        "change": function($event) {
+          var $$a = _vm.show[name],
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = null,
+              $$i = _vm._i($$a, $$v);
+            if ($$c) {
+              $$i < 0 && (_vm.show[name] = $$a.concat($$v))
+            } else {
+              $$i > -1 && (_vm.show[name] = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            _vm.show[name] = $$c
+          }
+        }
+      }
+    }), _vm._v("\n\t\t\t" + _vm._s(_vm.camelCaseToWords(name)) + "\n\t\t")])
+  })], true), _vm._v(" "), _c('div', {
+    staticClass: "panel panel-default"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "panel-body"
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.chart.size),
+      expression: "chart.size"
+    }],
+    staticClass: "form-control",
+    on: {
+      "change": function($event) {
+        _vm.chart.size = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        })[0]
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "fullSize"
+    }
+  }, [_vm._v("Full size")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "fit"
+    }
+  }, [_vm._v("Fit")])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "stats-report-container"
+  }, [(_vm.show.ratios) ? _c('div', [_c('h3', [_vm._v("Ratios")]), _vm._v(" "), _c('data-table', {
+    attrs: {
+      "id": "stats-ratios",
+      "thead": _vm.ratiosThead,
+      "config": _vm.listTableConfig,
+      "data": _vm.ratiosData
+    }
+  })]) : _vm._e(), _vm._v(" "), (_vm.show.ratios && _vm.show.graphs) ? _c('div', [_c('h3', [_vm._v("Ratios")]), _vm._v(" "), _c('div', {
+    staticClass: "list-chart-container-container"
+  }, [_c('div', {
+    staticClass: "list-chart-container",
+    style: (_vm.listChartContainerStyle)
+  }, [_c('chartjs-chart', {
+    attrs: {
+      "id": "chart-ratios",
+      "type": "horizontalBar",
+      "data": _vm.ratiosGraphData,
+      "options": _vm.listChartConfig
+    }
+  })])])]) : _vm._e(), _vm._v(" "), (_vm.show.noRequests) ? _c('div', [_c('h3', [_vm._v("No requests")]), _vm._v(" "), _c('data-table', {
+    attrs: {
+      "id": "stats-no-requests",
+      "thead": _vm.noRequestsThead,
+      "config": _vm.listTableConfig,
+      "data": _vm.noRequestsData
+    }
+  })]) : _vm._e(), _vm._v(" "), (_vm.show.noneCompleted) ? _c('div', [_c('h3', [_vm._v("None completed")]), _vm._v(" "), _c('data-table', {
+    attrs: {
+      "id": "stats-none-completed",
+      "thead": _vm.noneCompletedThead,
+      "config": _vm.listTableConfig,
+      "data": _vm.noneCompletedData
+    }
+  })]) : _vm._e(), _vm._v(" "), (_vm.show.averageCompletionTimes) ? _c('div', [_c('h3', [_vm._v("Average completion times")]), _vm._v(" "), _c('data-table', {
+    attrs: {
+      "id": "stats-average-completion-times",
+      "thead": _vm.averageCompletionTimesThead,
+      "config": _vm.averageCompletionTimesConfig,
+      "data": _vm.averageCompletionTimesData
+    }
+  })]) : _vm._e(), _vm._v(" "), (_vm.show.lastCompleted) ? _c('div', [_c('h3', [_vm._v("Last completed evaluations")]), _vm._v(" "), _c('data-table', {
+    attrs: {
+      "id": "stats-last-completed",
+      "thead": _vm.lastCompletedThead,
+      "config": _vm.lastCompletedConfig,
+      "data": _vm.lastCompletedData
+    }
+  })]) : _vm._e()])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+  return _c('div', {
+    staticClass: "panel-heading"
+  }, [_c('span', {
+    staticClass: "panel-title"
+  }, [_vm._v("Chart settings")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-46055f89", module.exports)
+  }
+}
+
+/***/ },
+/* 249 */
+/***/ function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+  return _c('div', [(_vm.reportType) ? _c('div', [(_vm.reportType === _vm.REPORT_TYPES.TRAINEE) ? _c('trainee-report', {
+    attrs: {
+      "groupedUsers": _vm.groupedUsers
+    }
+  }) : _vm._e(), _vm._v(" "), (_vm.reportType === _vm.REPORT_TYPES.FORM) ? _c('form-report', {
+    attrs: {
+      "groupedUsers": _vm.groupedUsers
+    }
+  }) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "text-center"
+  }, [_c('button', {
+    staticClass: "btn btn-lg btn-default",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.handleResetClick
+    }
+  }, [_vm._v("\n\t\t\t\tStart over\n\t\t\t")])])]) : _c('div', {
+    staticClass: "container body-block"
+  }, [_c('fieldset', [_c('legend', [_vm._v("Report type")]), _vm._v(" "), _c('div', {
+    staticClass: "form-inline"
+  }, _vm._l((_vm.REPORT_TYPES), function(type) {
+    return _c('div', {
+      staticClass: "form-group col-sm-2"
+    }, [_c('button', {
+      staticClass: "btn lg btn-primary",
+      attrs: {
+        "type": "button"
+      },
+      on: {
+        "click": function($event) {
+          _vm.setReportType(type)
+        }
+      }
+    }, [_vm._v("\n\t\t\t\t\t\t" + _vm._s(_vm.ucfirst(type)) + "\n\t\t\t\t\t")])])
+  }))])]), _vm._v(" ")])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-5bd5f0d6", module.exports)
+  }
+}
+
+/***/ },
+/* 250 */
+/***/ function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+  return _c('div', {
+    staticClass: "question-option"
+  }, [_c('label', [_c('span', {
+    attrs: {
+      "title": _vm.description
+    }
+  }, [(_vm.questionType === 'checkbox') ? _c('input', {
+    attrs: {
+      "type": "checkbox",
+      "name": (_vm.questionId + "[]"),
+      "required": _vm.required,
+      "disabled": _vm.disabled
+    },
+    domProps: {
+      "value": _vm.value
+    }
+  }) : _c('input', {
+    attrs: {
+      "type": "radio",
+      "name": _vm.questionId,
+      "required": _vm.required,
+      "disabled": _vm.disabled
+    },
+    domProps: {
+      "value": _vm.value
+    }
+  }), _vm._v(" "), _vm._v(" "), _c('br'), _vm._v("\n\t\t\t" + _vm._s(_vm.text) + "\n\t\t")])]), _vm._v(" "), (_vm.description) ? _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.showDescription),
+      expression: "showDescription"
+    }],
+    staticClass: "description well",
+    domProps: {
+      "innerHTML": _vm._s(_vm.md.render(_vm.description))
+    }
+  }) : _vm._e(), _vm._v(" "), _vm._t("default")], true)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-5e5b8ed0", module.exports)
+  }
+}
+
+/***/ },
+/* 251 */
+/***/ function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+  return _c('div', [_c('div', {
+    staticClass: "container body-block"
+  }, [_c('h2', [_vm._v("Trainee report")]), _vm._v(" "), _c('report-date', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.dates),
+      expression: "dates"
+    }],
+    domProps: {
+      "value": (_vm.dates)
+    },
+    on: {
+      "input": function($event) {
+        _vm.dates = $event
+      }
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.filterMilestones),
+      expression: "filterMilestones"
+    }],
+    attrs: {
+      "type": "checkbox"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.filterMilestones) ? _vm._i(_vm.filterMilestones, null) > -1 : _vm._q(_vm.filterMilestones, true)
+    },
+    on: {
+      "change": function($event) {
+        var $$a = _vm.filterMilestones,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$c) {
+            $$i < 0 && (_vm.filterMilestones = $$a.concat($$v))
+          } else {
+            $$i > -1 && (_vm.filterMilestones = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.filterMilestones = $$c
+        }
+      }
+    }
+  }), _vm._v("\n\t\t\t\tFilter milestones\n\t\t\t")])]), _vm._v(" "), (_vm.filterMilestones) ? _c('fieldset', [_c('legend', [_vm._v("Milestones")]), _vm._v(" "), _c('div', {
+    staticClass: "filter-milestones-container"
+  }, _vm._l((_vm.milestoneGroups), function(milestoneGroup, index) {
+    return _c('div', {
+      staticClass: "milestone-group"
+    }, [_c('div', {
+      staticClass: "panel panel-default"
+    }, [_c('div', {
+      staticClass: "panel-heading"
+    }, [_c('label', {
+      staticClass: "panel-title"
+    }, [_c('input', {
+      attrs: {
+        "type": "checkbox"
+      },
+      domProps: {
+        "checked": _vm.isEntireMilestoneGroupSelected(index)
+      },
+      on: {
+        "click": function($event) {
+          _vm.toggleEntireMilestoneGroup(index)
+        }
+      }
+    }), _vm._v("\n\t\t\t\t\t\t\t\t" + _vm._s(milestoneGroup.text) + "\n\t\t\t\t\t\t\t")])]), _vm._v(" "), _c('div', {
+      staticClass: "panel-body"
+    }, _vm._l((milestoneGroup.children), function(child) {
+      return _c('div', {
+        staticClass: "form-group"
+      }, [_c('label', [_c('input', {
+        directives: [{
+          name: "model",
+          rawName: "v-model",
+          value: (_vm.milestones),
+          expression: "milestones"
+        }],
+        attrs: {
+          "type": "checkbox"
+        },
+        domProps: {
+          "value": child.id,
+          "checked": Array.isArray(_vm.milestones) ? _vm._i(_vm.milestones, child.id) > -1 : _vm._q(_vm.milestones, true)
+        },
+        on: {
+          "change": function($event) {
+            var $$a = _vm.milestones,
+              $$el = $event.target,
+              $$c = $$el.checked ? (true) : (false);
+            if (Array.isArray($$a)) {
+              var $$v = child.id,
+                $$i = _vm._i($$a, $$v);
+              if ($$c) {
+                $$i < 0 && (_vm.milestones = $$a.concat($$v))
+              } else {
+                $$i > -1 && (_vm.milestones = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+              }
+            } else {
+              _vm.milestones = $$c
+            }
+          }
+        }
+      }), _vm._v("\n\t\t\t\t\t\t\t\t\t" + _vm._s(child.text) + "\n\t\t\t\t\t\t\t\t")])])
+    }))])])
+  }))]) : _vm._e(), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-lg btn-primary",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.runReport
+    }
+  }, [_vm._v("\n\t\t\tRun report\n\t\t")])]), _vm._v(" "), (_vm.report) ? _c('div', [(_vm.report.stats) ? _c('stats-report', {
+    attrs: {
+      "report": _vm.report.stats
+    }
+  }) : _vm._e(), _vm._v(" "), (_vm.report.aggregate) ? _c('aggregate-report', {
+    attrs: {
+      "report": _vm.report.aggregate
+    }
+  }) : _vm._e()]) : _vm._e()])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-65e2ee5c", module.exports)
+  }
+}
+
+/***/ },
+/* 252 */,
+/* 253 */
+/***/ function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+  return _c('table', {
+    staticClass: "table table-striped table-bordered",
+    attrs: {
+      "id": _vm.id,
+      "width": "100%"
+    }
+  }, [_c('thead', _vm._l((_vm.thead), function(row, rowIndex) {
+    return _c('tr', {
+      key: ("row-" + rowIndex)
+    }, _vm._l((row), function(th, thIndex) {
+      return _c('th', {
+        key: thIndex,
+        attrs: {
+          "rowspan": th.rowspan,
+          "colspan": th.colspan
+        }
+      }, [_vm._v("\n\t\t\t\t" + _vm._s(th.text || th) + "\n\t\t\t")])
+    }))
+  }))])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-961f66ec", module.exports)
+  }
+}
+
+/***/ },
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
@@ -39315,112 +39880,12 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-6d3c9f83", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-aaf882ea", module.exports)
   }
 }
 
 /***/ },
-/* 247 */
-/***/ function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-  return _c('div', [_c('div', {
-    staticClass: "container body-block"
-  }, [_c('report-date', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.dates),
-      expression: "dates"
-    }],
-    domProps: {
-      "value": (_vm.dates)
-    },
-    on: {
-      "input": function($event) {
-        _vm.dates = $event
-      }
-    }
-  }), _vm._v(" "), _c('label', {
-    staticClass: "containing-label"
-  }, [_vm._v("\n\t\t\tUser\n\t\t\t"), _c('select-two', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.subjectId),
-      expression: "subjectId"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "options": _vm.groupedUsers
-    },
-    domProps: {
-      "value": (_vm.subjectId)
-    },
-    on: {
-      "input": function($event) {
-        _vm.subjectId = $event
-      }
-    }
-  })]), _vm._v(" "), _c('label', {
-    staticClass: "containing-label"
-  }, [_vm._v("\n\t\t\tForm\n\t\t\t"), _c('select-two', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.formId),
-      expression: "formId"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "options": _vm.groupedForms
-    },
-    domProps: {
-      "value": (_vm.formId)
-    },
-    on: {
-      "input": function($event) {
-        _vm.formId = $event
-      }
-    }
-  })]), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-lg btn-primary",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": _vm.runReport
-    }
-  }, [_vm._v("\n\t\t\tRun report\n\t\t")])]), _vm._v(" "), (_vm.report) ? _c('div', {
-    staticClass: "container body-block"
-  }, [(_vm.reportContents.title) ? _c('h2', [_vm._v("\n\t\t\t" + _vm._s(_vm.reportContents.title) + "\n\t\t")]) : _vm._e(), _vm._v(" "), _vm._l((_vm.reportContents.items), function(item) {
-    return [(item.type === 'question') ? _c('form-report-question', _vm._b({}, 'form-report-question', item)) : _vm._e(), _vm._v(" "), (item.type === 'instruction') ? _c('div') : _vm._e()]
-  })], true) : _vm._e(), _vm._v(" "), (_vm.report) ? _c('div', {
-    staticClass: "container body-block"
-  }, [_c('h3', {
-    staticClass: "sub-header"
-  }, [_vm._v("Evaluations included in report")]), _vm._v(" "), _c('ul', {
-    staticClass: "list-group row"
-  }, _vm._l((_vm.report.subjectEvals), function(evalId) {
-    return _c('li', {
-      staticClass: "list-group-item col-md-6"
-    }, [_c('a', {
-      attrs: {
-        "href": ("/evaluations/" + evalId)
-      }
-    }, [_vm._v("\n\t\t\t\t\t" + _vm._s(evalId) + "\n\t\t\t\t")])])
-  }))]) : _vm._e()])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-72bf01c2", module.exports)
-  }
-}
-
-/***/ },
-/* 248 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
@@ -39543,360 +40008,12 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-88c93670", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-ceddad90", module.exports)
   }
 }
 
 /***/ },
-/* 249 */
-/***/ function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-  return _c('div', {
-    staticClass: "container body-block"
-  }, [_c('h3', [_vm._v("Statistics")]), _vm._v(" "), _c('fieldset', {
-    staticClass: "show-container"
-  }, [_c('legend', [_vm._v("Show")]), _vm._v(" "), _vm._l((_vm.show), function(part, name) {
-    return _c('label', [_c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.show[name]),
-        expression: "show[name]"
-      }],
-      attrs: {
-        "type": "checkbox"
-      },
-      domProps: {
-        "checked": Array.isArray(_vm.show[name]) ? _vm._i(_vm.show[name], null) > -1 : _vm._q(_vm.show[name], true)
-      },
-      on: {
-        "change": function($event) {
-          var $$a = _vm.show[name],
-            $$el = $event.target,
-            $$c = $$el.checked ? (true) : (false);
-          if (Array.isArray($$a)) {
-            var $$v = null,
-              $$i = _vm._i($$a, $$v);
-            if ($$c) {
-              $$i < 0 && (_vm.show[name] = $$a.concat($$v))
-            } else {
-              $$i > -1 && (_vm.show[name] = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-            }
-          } else {
-            _vm.show[name] = $$c
-          }
-        }
-      }
-    }), _vm._v("\n\t\t\t" + _vm._s(_vm.camelCaseToWords(name)) + "\n\t\t")])
-  })], true), _vm._v(" "), _c('div', {
-    staticClass: "panel panel-default"
-  }, [_vm._m(0), _vm._v(" "), _c('div', {
-    staticClass: "panel-body"
-  }, [_c('label', {
-    staticClass: "containing-label"
-  }, [_c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.chart.size),
-      expression: "chart.size"
-    }],
-    staticClass: "form-control",
-    on: {
-      "change": function($event) {
-        _vm.chart.size = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        })[0]
-      }
-    }
-  }, [_c('option', {
-    attrs: {
-      "value": "fullSize"
-    }
-  }, [_vm._v("Full size")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "fit"
-    }
-  }, [_vm._v("Fit")])])])])]), _vm._v(" "), _c('div', {
-    staticClass: "stats-report-container"
-  }, [(_vm.show.ratios) ? _c('div', [_c('h3', [_vm._v("Ratios")]), _vm._v(" "), _c('data-table', {
-    attrs: {
-      "id": "stats-ratios",
-      "thead": _vm.ratiosThead,
-      "config": _vm.listTableConfig,
-      "data": _vm.ratiosData
-    }
-  })]) : _vm._e(), _vm._v(" "), (_vm.show.ratios && _vm.show.graphs) ? _c('div', [_c('h3', [_vm._v("Ratios")]), _vm._v(" "), _c('div', {
-    staticClass: "list-chart-container-container"
-  }, [_c('div', {
-    staticClass: "list-chart-container",
-    style: (_vm.listChartContainerStyle)
-  }, [_c('chartjs-chart', {
-    attrs: {
-      "id": "chart-ratios",
-      "type": "horizontalBar",
-      "data": _vm.ratiosGraphData,
-      "options": _vm.listChartConfig
-    }
-  })])])]) : _vm._e(), _vm._v(" "), (_vm.show.noRequests) ? _c('div', [_c('h3', [_vm._v("No requests")]), _vm._v(" "), _c('data-table', {
-    attrs: {
-      "id": "stats-no-requests",
-      "thead": _vm.noRequestsThead,
-      "config": _vm.listTableConfig,
-      "data": _vm.noRequestsData
-    }
-  })]) : _vm._e(), _vm._v(" "), (_vm.show.noneCompleted) ? _c('div', [_c('h3', [_vm._v("None completed")]), _vm._v(" "), _c('data-table', {
-    attrs: {
-      "id": "stats-none-completed",
-      "thead": _vm.noneCompletedThead,
-      "config": _vm.listTableConfig,
-      "data": _vm.noneCompletedData
-    }
-  })]) : _vm._e(), _vm._v(" "), (_vm.show.averageCompletionTimes) ? _c('div', [_c('h3', [_vm._v("Average completion times")]), _vm._v(" "), _c('data-table', {
-    attrs: {
-      "id": "stats-average-completion-times",
-      "thead": _vm.averageCompletionTimesThead,
-      "config": _vm.averageCompletionTimesConfig,
-      "data": _vm.averageCompletionTimesData
-    }
-  })]) : _vm._e(), _vm._v(" "), (_vm.show.lastCompleted) ? _c('div', [_c('h3', [_vm._v("Last completed evaluations")]), _vm._v(" "), _c('data-table', {
-    attrs: {
-      "id": "stats-last-completed",
-      "thead": _vm.lastCompletedThead,
-      "config": _vm.lastCompletedConfig,
-      "data": _vm.lastCompletedData
-    }
-  })]) : _vm._e()])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-  return _c('div', {
-    staticClass: "panel-heading"
-  }, [_c('span', {
-    staticClass: "panel-title"
-  }, [_vm._v("Chart settings")])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-8f4ff40e", module.exports)
-  }
-}
-
-/***/ },
-/* 250 */
-/***/ function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-  return _c('table', {
-    staticClass: "table table-striped table-bordered",
-    attrs: {
-      "id": _vm.id,
-      "width": "100%"
-    }
-  }, [_c('thead', _vm._l((_vm.thead), function(row, rowIndex) {
-    return _c('tr', {
-      key: ("row-" + rowIndex)
-    }, _vm._l((row), function(th, thIndex) {
-      return _c('th', {
-        key: thIndex,
-        attrs: {
-          "rowspan": th.rowspan,
-          "colspan": th.colspan
-        }
-      }, [_vm._v("\n\t\t\t\t" + _vm._s(th.text || th) + "\n\t\t\t")])
-    }))
-  }))])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-961f66ec", module.exports)
-  }
-}
-
-/***/ },
-/* 251 */
-/***/ function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-  return _c('div', {
-    staticClass: "form-header"
-  }, [_c('div', {
-    staticClass: "container-fluid"
-  }, [_c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-md-8"
-  }, [_c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    attrs: {
-      "for": "form-title"
-    }
-  }, [_vm._v("Form title")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model.trim",
-      value: (_vm.title),
-      expression: "title",
-      modifiers: {
-        "trim": true
-      }
-    }],
-    staticClass: "form-control input-lg",
-    attrs: {
-      "type": "text",
-      "id": "form-title",
-      "name": "formTitle",
-      "placeholder": "Form Title",
-      "required": ""
-    },
-    domProps: {
-      "value": _vm._s(_vm.title)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.title = $event.target.value.trim()
-      },
-      "blur": function($event) {
-        _vm.$forceUpdate()
-      }
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-4"
-  }, [_c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    attrs: {
-      "for": "form-type"
-    }
-  }, [_vm._v("Form type")]), _vm._v(" "), _c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.formType),
-      expression: "formType"
-    }],
-    staticClass: "form-control input-lg",
-    attrs: {
-      "id": "form-type",
-      "name": "form_type"
-    },
-    on: {
-      "change": function($event) {
-        _vm.formType = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        })[0]
-      }
-    }
-  }, [_c('option', {
-    attrs: {
-      "value": "resident"
-    }
-  }, [_vm._v("Resident/Intern")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "self-resident"
-    }
-  }, [_vm._v("Resident/Intern (self)")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "fellow"
-    }
-  }, [_vm._v("Fellow")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "self-fellow"
-    }
-  }, [_vm._v("Fellow (self)")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "faculty"
-    }
-  }, [_vm._v("Faculty")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "staff"
-    }
-  }, [_vm._v("Staff")])])])])])]), _vm._v(" "), _c('div', {
-    staticClass: "form-body"
-  }, [_c('div', {
-    staticClass: "form-items"
-  }, [_vm._l((_vm.items), function(item, index) {
-    return [(item.type === 'instruction') ? _c('form-builder-instruction', _vm._b({
-      on: {
-        "change": function($event) {
-          _vm.changeItem(index, $event)
-        },
-        "input": function($event) {
-          _vm.changeItem(index, $event)
-        },
-        "remove": function($event) {
-          _vm.removeItem(index)
-        }
-      }
-    }, 'form-builder-instruction', item)) : _vm._e(), _vm._v(" "), (item.type === 'question') ? _c('form-builder-question', _vm._b({
-      attrs: {
-        "formType": _vm.formType,
-        "groupedMilestones": _vm.groupedMilestones,
-        "allCompetencies": _vm.competencies,
-        "customOptions": _vm.customOptions
-      },
-      on: {
-        "change": function($event) {
-          _vm.changeItem(index, $event)
-        },
-        "remove": function($event) {
-          _vm.removeItem(index)
-        }
-      }
-    }, 'form-builder-question', item)) : _vm._e()]
-  })], true)]), _vm._v(" "), _c('div', {
-    attrs: {
-      "id": "form-footer"
-    }
-  }, [_c('button', {
-    staticClass: "btn btn-default",
-    attrs: {
-      "type": "button",
-      "id": "add-instruction-block"
-    },
-    on: {
-      "click": _vm.addInstruction
-    }
-  }, [_vm._v("Add instruction block")]), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-info",
-    attrs: {
-      "type": "button",
-      "id": "addQuestion"
-    },
-    on: {
-      "click": _vm.addQuestion
-    }
-  }, [_vm._v("Add Question")]), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-success",
-    attrs: {
-      "type": "submit"
-    },
-    on: {
-      "click": _vm.submitForm
-    }
-  }, [_vm._v("Submit Form")])])])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-c94fb106", module.exports)
-  }
-}
-
-/***/ },
-/* 252 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
@@ -39915,33 +40032,7 @@ if (false) {
 }
 
 /***/ },
-/* 253 */
-/***/ function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(142);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(3)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-155d597c&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TraineeReport.vue", function() {
-			var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-155d597c&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TraineeReport.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ },
-/* 254 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
@@ -39956,8 +40047,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-19509019&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AggregateReport.vue", function() {
-			var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-19509019&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AggregateReport.vue");
+		module.hot.accept("!!./../../../../../node_modules/css-loader/index.js?sourceMap!./../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-09008ada&scoped=true!./../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormBuilderOption.vue", function() {
+			var newContent = require("!!./../../../../../node_modules/css-loader/index.js?sourceMap!./../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-09008ada&scoped=true!./../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormBuilderOption.vue");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -39967,7 +40058,7 @@ if(false) {
 }
 
 /***/ },
-/* 255 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
@@ -39982,8 +40073,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-25c733f6&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Reports.vue", function() {
-			var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-25c733f6&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Reports.vue");
+		module.hot.accept("!!./../../../../../node_modules/css-loader/index.js?sourceMap!./../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-12d2bcae&scoped=true!./../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AggregateReport.vue", function() {
+			var newContent = require("!!./../../../../../node_modules/css-loader/index.js?sourceMap!./../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-12d2bcae&scoped=true!./../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AggregateReport.vue");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -39993,7 +40084,7 @@ if(false) {
 }
 
 /***/ },
-/* 256 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
@@ -40008,61 +40099,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-4ee850ac&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ReportDate.vue", function() {
-			var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-4ee850ac&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ReportDate.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ },
-/* 257 */
-/***/ function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(146);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(3)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-58256c5c&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormBuilderOption.vue", function() {
-			var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-58256c5c&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormBuilderOption.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ },
-/* 258 */,
-/* 259 */
-/***/ function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(148);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(3)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-6d3c9f83&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormBuilderQuestion.vue", function() {
-			var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-6d3c9f83&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormBuilderQuestion.vue");
+		module.hot.accept("!!./../../../../../node_modules/css-loader/index.js?sourceMap!./../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-1f3cf5c8&scoped=true!./../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ReportDate.vue", function() {
+			var newContent = require("!!./../../../../../node_modules/css-loader/index.js?sourceMap!./../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-1f3cf5c8&scoped=true!./../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ReportDate.vue");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -40078,7 +40116,7 @@ if(false) {
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(149);
+var content = __webpack_require__(146);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(3)(content, {});
@@ -40087,8 +40125,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-8f4ff40e&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./StatsReport.vue", function() {
-			var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-8f4ff40e&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./StatsReport.vue");
+		module.hot.accept("!!./../../../../../node_modules/css-loader/index.js?sourceMap!./../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-27da62f6&scoped=true!./../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormBuilder.vue", function() {
+			var newContent = require("!!./../../../../../node_modules/css-loader/index.js?sourceMap!./../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-27da62f6&scoped=true!./../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormBuilder.vue");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -40104,6 +40142,84 @@ if(false) {
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
+var content = __webpack_require__(147);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(3)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!./../../../../../node_modules/css-loader/index.js?sourceMap!./../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-320b3802&scoped=true!./../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormReportQuestionOptionStats.vue", function() {
+			var newContent = require("!!./../../../../../node_modules/css-loader/index.js?sourceMap!./../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-320b3802&scoped=true!./../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormReportQuestionOptionStats.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ },
+/* 262 */
+/***/ function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(148);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(3)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!./../../../../../node_modules/css-loader/index.js?sourceMap!./../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-46055f89&scoped=true!./../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./StatsReport.vue", function() {
+			var newContent = require("!!./../../../../../node_modules/css-loader/index.js?sourceMap!./../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-46055f89&scoped=true!./../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./StatsReport.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ },
+/* 263 */
+/***/ function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(149);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(3)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!./../../../../../node_modules/css-loader/index.js?sourceMap!./../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-5bd5f0d6&scoped=true!./../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Reports.vue", function() {
+			var newContent = require("!!./../../../../../node_modules/css-loader/index.js?sourceMap!./../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-5bd5f0d6&scoped=true!./../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Reports.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ },
+/* 264 */
+/***/ function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
 var content = __webpack_require__(150);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
@@ -40113,8 +40229,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-c94fb106&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormBuilder.vue", function() {
-			var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-c94fb106&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormBuilder.vue");
+		module.hot.accept("!!./../../../../../node_modules/css-loader/index.js?sourceMap!./../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-65e2ee5c&scoped=true!./../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TraineeReport.vue", function() {
+			var newContent = require("!!./../../../../../node_modules/css-loader/index.js?sourceMap!./../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-65e2ee5c&scoped=true!./../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TraineeReport.vue");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -40124,140 +40240,14 @@ if(false) {
 }
 
 /***/ },
-/* 262 */,
-/* 263 */,
-/* 264 */,
-/* 265 */
-/***/ function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(93);
-
-
-/***/ },
+/* 265 */,
 /* 266 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-	props: {
-		responses: Number,
-		percentage: Number,
-		averagePercentage: Number
-	}
-};
-
-/***/ },
-/* 267 */
-/***/ function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* styles */
-__webpack_require__(270)
-
-/* script */
-__vue_exports__ = __webpack_require__(266)
-
-/* template */
-var __vue_template__ = __webpack_require__(268)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormReportQuestionOptionStats.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-__vue_options__._scopeId = "data-v-2c69bb1c"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2c69bb1c", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-2c69bb1c", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] FormReportQuestionOptionStats.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ },
-/* 268 */
-/***/ function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
-  return _c('table', {
-    staticClass: "table table-bordered"
-  }, [_c('tbody', [_c('tr', [_c('th', [_vm._v("Responses")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.responses))])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("Percentage")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.percentage) + "%")])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("Average")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.averagePercentage) + "%")])])])])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-2c69bb1c", module.exports)
-  }
-}
-
-/***/ },
-/* 269 */
-/***/ function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)();
-// imports
-
-
-// module
-exports.push([module.i, "\ntable[data-v-2c69bb1c] {\n\twidth: 40%;\n\tmargin: 0 auto;\n}\ntable td[data-v-2c69bb1c] {\n\ttext-align: center;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/FormReportQuestionOptionStats.vue?f999db0c"],"names":[],"mappings":";AA8BA;CACA,WAAA;CACA,eAAA;CACA;AAEA;CACA,mBAAA;CACA","file":"FormReportQuestionOptionStats.vue","sourcesContent":["<template>\n\t<table class=\"table table-bordered\">\n\t\t<tbody>\n\t\t\t<tr>\n\t\t\t\t<th>Responses</th>\n\t\t\t\t<td>{{ responses }}</td>\n\t\t\t</tr>\n\t\t\t<tr>\n\t\t\t\t<th>Percentage</th>\n\t\t\t\t<td>{{ percentage }}%</td>\n\t\t\t</tr>\n\t\t\t<tr>\n\t\t\t\t<th>Average</th>\n\t\t\t\t<td>{{ averagePercentage }}%</td>\n\t\t\t</tr>\n\t\t</tbody>\n\t</table>\n</template>\n\n<script>\nexport default {\n\tprops: {\n\t\tresponses: Number,\n\t\tpercentage: Number,\n\t\taveragePercentage: Number\n\t}\n};\n</script>\n\n<style scoped>\n\ttable {\n\t\twidth: 40%;\n\t\tmargin: 0 auto;\n\t}\n\n\ttable td {\n\t\ttext-align: center;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
-
-// exports
-
-
-/***/ },
-/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(269);
+var content = __webpack_require__(152);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(3)(content, {});
@@ -40266,8 +40256,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-2c69bb1c&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormReportQuestionOptionStats.vue", function() {
-			var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-2c69bb1c&scoped=true!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormReportQuestionOptionStats.vue");
+		module.hot.accept("!!./../../../../../node_modules/css-loader/index.js?sourceMap!./../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-aaf882ea&scoped=true!./../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormBuilderQuestion.vue", function() {
+			var newContent = require("!!./../../../../../node_modules/css-loader/index.js?sourceMap!./../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-aaf882ea&scoped=true!./../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormBuilderQuestion.vue");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -40275,6 +40265,16 @@ if(false) {
 	// When the module is disposed, remove the <style> tags
 	module.hot.dispose(function() { update(); });
 }
+
+/***/ },
+/* 267 */,
+/* 268 */,
+/* 269 */,
+/* 270 */
+/***/ function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(93);
+
 
 /***/ }
 /******/ ]);

@@ -108,10 +108,10 @@
 
 <script>
 import FormBuilderOption from './FormBuilderOption.vue';
-import SelectTwo from './SelectTwo.vue';
+import SelectTwo from '../SelectTwo.vue';
 
-import { STANDARD_OPTIONS } from '../modules/constants.js';
-import { appendAlert } from '../modules/utils.js';
+import { STANDARD_OPTIONS } from '../../modules/constants.js';
+import { appendAlert } from '../../modules/utils.js';
 
 export default {
 	props: [
