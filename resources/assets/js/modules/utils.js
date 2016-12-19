@@ -48,6 +48,18 @@ export function nl2br(text){
 	return text.replace(/(?:\r\n|\r|\n)/g, '<br />');
 }
 
+export function getFetchHeaders(){
+	const csrfToken = document.querySelector('meta[name="csrf-token"]')
+		.getAttribute('content');
+
+	let headers = new Headers();
+	headers.append('Content-Type', 'application/json');
+	headers.append('X-Requested-With', 'XMLHttpRequest');
+	headers.append('X-CSRF-TOKEN', csrfToken);
+
+	return headers;
+}
+
 export function fetchMilestoneGroups(){
 	return fetch('/milestones', { credentials: 'same-origin' }).then(response => {
 		if(response.ok)
@@ -89,14 +101,6 @@ export function fetchMilestoneGroups(){
 }
 
 export function fetchUserGroups(){
-	const csrfToken = document.querySelector('meta[name="csrf-token"]')
-		.getAttribute('content');
-
-	let headers = new Headers();
-	headers.append('Content-Type', 'application/json');
-	headers.append('X-Requested-With', 'XMLHttpRequest');
-	headers.append('X-CSRF-TOKEN', csrfToken);
-
 	let groups = {
 		intern: {
 			text: 'Intern',
@@ -126,7 +130,7 @@ export function fetchUserGroups(){
 
 	return fetch('/users', {
 		method: 'GET',
-		headers: headers,
+		headers: getFetchHeaders(),
 		credentials: 'same-origin'
 	}).then(response => response.json())
 	.then(users => {
@@ -158,19 +162,11 @@ export function fetchUserGroups(){
 }
 
 export function fetchFormGroups(){
-	const csrfToken = document.querySelector('meta[name="csrf-token"]')
-		.getAttribute('content');
-
-	let headers = new Headers();
-	headers.append('Content-Type', 'application/json');
-	headers.append('X-Requested-With', 'XMLHttpRequest');
-	headers.append('X-CSRF-TOKEN', csrfToken);
-
 	let groups = {};
 
 	return fetch('/forms', {
 		method: 'GET',
-		headers: headers,
+		headers: getFetchHeaders(),
 		credentials: 'same-origin'
 	}).then(response => response.json())
 	.then(forms => {

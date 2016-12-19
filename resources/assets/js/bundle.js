@@ -91,6 +91,7 @@ exports.appendAlert = appendAlert;
 exports.ucfirst = ucfirst;
 exports.camelCaseToWords = camelCaseToWords;
 exports.nl2br = nl2br;
+exports.getFetchHeaders = getFetchHeaders;
 exports.fetchMilestoneGroups = fetchMilestoneGroups;
 exports.fetchUserGroups = fetchUserGroups;
 exports.fetchFormGroups = fetchFormGroups;
@@ -168,6 +169,17 @@ function nl2br(text) {
 	return text.replace(/(?:\r\n|\r|\n)/g, '<br />');
 }
 
+function getFetchHeaders() {
+	var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+	var headers = new Headers();
+	headers.append('Content-Type', 'application/json');
+	headers.append('X-Requested-With', 'XMLHttpRequest');
+	headers.append('X-CSRF-TOKEN', csrfToken);
+
+	return headers;
+}
+
 function fetchMilestoneGroups() {
 	return fetch('/milestones', { credentials: 'same-origin' }).then(function (response) {
 		if (response.ok) return response.json();else {
@@ -222,13 +234,6 @@ function fetchMilestoneGroups() {
 }
 
 function fetchUserGroups() {
-	var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-	var headers = new Headers();
-	headers.append('Content-Type', 'application/json');
-	headers.append('X-Requested-With', 'XMLHttpRequest');
-	headers.append('X-CSRF-TOKEN', csrfToken);
-
 	var groups = {
 		intern: {
 			text: 'Intern',
@@ -258,7 +263,7 @@ function fetchUserGroups() {
 
 	return fetch('/users', {
 		method: 'GET',
-		headers: headers,
+		headers: getFetchHeaders(),
 		credentials: 'same-origin'
 	}).then(function (response) {
 		return response.json();
@@ -289,18 +294,11 @@ function fetchUserGroups() {
 }
 
 function fetchFormGroups() {
-	var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-	var headers = new Headers();
-	headers.append('Content-Type', 'application/json');
-	headers.append('X-Requested-With', 'XMLHttpRequest');
-	headers.append('X-CSRF-TOKEN', csrfToken);
-
 	var groups = {};
 
 	return fetch('/forms', {
 		method: 'GET',
-		headers: headers,
+		headers: getFetchHeaders(),
 		credentials: 'same-origin'
 	}).then(function (response) {
 		return response.json();

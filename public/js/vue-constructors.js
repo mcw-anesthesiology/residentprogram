@@ -372,6 +372,7 @@ exports.appendAlert = appendAlert;
 exports.ucfirst = ucfirst;
 exports.camelCaseToWords = camelCaseToWords;
 exports.nl2br = nl2br;
+exports.getFetchHeaders = getFetchHeaders;
 exports.fetchMilestoneGroups = fetchMilestoneGroups;
 exports.fetchUserGroups = fetchUserGroups;
 exports.fetchFormGroups = fetchFormGroups;
@@ -449,6 +450,17 @@ function nl2br(text) {
 	return text.replace(/(?:\r\n|\r|\n)/g, '<br />');
 }
 
+function getFetchHeaders() {
+	var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+	var headers = new Headers();
+	headers.append('Content-Type', 'application/json');
+	headers.append('X-Requested-With', 'XMLHttpRequest');
+	headers.append('X-CSRF-TOKEN', csrfToken);
+
+	return headers;
+}
+
 function fetchMilestoneGroups() {
 	return fetch('/milestones', { credentials: 'same-origin' }).then(function (response) {
 		if (response.ok) return response.json();else {
@@ -503,13 +515,6 @@ function fetchMilestoneGroups() {
 }
 
 function fetchUserGroups() {
-	var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-	var headers = new Headers();
-	headers.append('Content-Type', 'application/json');
-	headers.append('X-Requested-With', 'XMLHttpRequest');
-	headers.append('X-CSRF-TOKEN', csrfToken);
-
 	var groups = {
 		intern: {
 			text: 'Intern',
@@ -539,7 +544,7 @@ function fetchUserGroups() {
 
 	return fetch('/users', {
 		method: 'GET',
-		headers: headers,
+		headers: getFetchHeaders(),
 		credentials: 'same-origin'
 	}).then(function (response) {
 		return response.json();
@@ -570,18 +575,11 @@ function fetchUserGroups() {
 }
 
 function fetchFormGroups() {
-	var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-	var headers = new Headers();
-	headers.append('Content-Type', 'application/json');
-	headers.append('X-Requested-With', 'XMLHttpRequest');
-	headers.append('X-CSRF-TOKEN', csrfToken);
-
 	var groups = {};
 
 	return fetch('/forms', {
 		method: 'GET',
-		headers: headers,
+		headers: getFetchHeaders(),
 		credentials: 'same-origin'
 	}).then(function (response) {
 		return response.json();
@@ -22914,17 +22912,10 @@ exports.default = {
 				})
 			});
 
-			var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-			var headers = new Headers();
-			headers.append('Content-Type', 'application/json');
-			headers.append('X-Requested-With', 'XMLHttpRequest');
-			headers.append('X-CSRF-TOKEN', csrfToken);
-
 			if (this.isFormValid()) {
 				fetch('/forms', {
 					method: 'POST',
-					headers: headers,
+					headers: (0, _utils.getFetchHeaders)(),
 					credentials: 'same-origin',
 					body: requestBody
 				}).then(function (response) {
@@ -23971,7 +23962,55 @@ var _FormReportQuestion = __webpack_require__(233);
 
 var _FormReportQuestion2 = _interopRequireDefault(_FormReportQuestion);
 
+var _utils = __webpack_require__(1);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
 	props: {
@@ -24034,16 +24073,9 @@ exports.default = {
 		runReport: function runReport() {
 			var _this3 = this;
 
-			var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-			var headers = new Headers();
-			headers.append('Content-Type', 'application/json');
-			headers.append('X-Requested-With', 'XMLHttpRequest');
-			headers.append('X-CSRF-TOKEN', csrfToken);
-
 			fetch('/report/form', {
 				method: 'POST',
-				headers: headers,
+				headers: (0, _utils.getFetchHeaders)(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -24066,51 +24098,7 @@ exports.default = {
 		SelectTwo: _SelectTwo2.default,
 		FormReportQuestion: _FormReportQuestion2.default
 	}
-}; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+};
 
 /***/ },
 /* 108 */
@@ -24902,16 +24890,9 @@ exports.default = {
 		runReport: function runReport() {
 			var _this3 = this;
 
-			var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-			var headers = new Headers();
-			headers.append('Content-Type', 'application/json');
-			headers.append('X-Requested-With', 'XMLHttpRequest');
-			headers.append('X-CSRF-TOKEN', csrfToken);
-
 			fetch('/report/aggregate', {
 				method: 'POST',
-				headers: headers,
+				headers: (0, _utils.getFetchHeaders)(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -27829,7 +27810,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"FormBuilder.vue","sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"FormBuilder.vue","sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -27885,7 +27866,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n.filter-milestones-container[data-v-65e2ee5c] {\n\tdisplay: flex;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tjustify-content: flex-start;\n\talign-items: stretch;\n}\n.milestone-group[data-v-65e2ee5c] {\n\tflex-grow: 0;\n\tflex-shrink: 1;\n\twidth: 250px;\n\tmin-width: 200px;\n\tmax-width: 100%;\n\tmargin: 10px;\n}\n.milestone-group .panel-body[data-v-65e2ee5c] {\n\theight: 300px;\n\toverflow: auto;\n}\n.milestone-group .panel-body label[data-v-65e2ee5c] {\n\tfont-weight: normal;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/TraineeReport.vue?6b2a1738"],"names":[],"mappings":";AAsKA;CACA,cAAA;CACA,oBAAA;CACA,gBAAA;CACA,4BAAA;CACA,qBAAA;CACA;AAEA;CACA,aAAA;CACA,eAAA;CACA,aAAA;CACA,iBAAA;CACA,gBAAA;CACA,aAAA;CACA;AAEA;CACA,cAAA;CACA,eAAA;CACA;AAEA;CACA,oBAAA;CACA","file":"TraineeReport.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block\">\n\t\t\t<h2>Trainee report</h2>\n\t\t\t<report-date v-model=\"dates\" />\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"checkbox\" v-model=\"filterMilestones\" />\n\t\t\t\t\tFilter milestones\n\t\t\t\t</label>\n\t\t\t</div>\n\n\t\t\t<fieldset v-if=\"filterMilestones\">\n\t\t\t\t<legend>Milestones</legend>\n\t\t\t\t<div class=\"filter-milestones-container\">\n\t\t\t\t\t<div v-for=\"(milestoneGroup, index) of milestoneGroups\" class=\"milestone-group\">\n\t\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t\t<label class=\"panel-title\">\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t:checked=\"isEntireMilestoneGroupSelected(index)\"\n\t\t\t\t\t\t\t\t\t\t\t@click=\"toggleEntireMilestoneGroup(index)\" />\n\t\t\t\t\t\t\t\t\t{{ milestoneGroup.text }}\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t\t<div v-for=\"child of milestoneGroup.children\" class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t\t:value=\"child.id\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"milestones\" />\n\t\t\t\t\t\t\t\t\t\t{{ child.text }}\n\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\n\t\t\t<button type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t@click=\"runReport\">\n\t\t\t\tRun report\n\t\t\t</button>\n\t\t</div>\n\n\t\t<div v-if=\"report\">\n\t\t\t<stats-report v-if=\"report.stats\" :report=\"report.stats\" />\n\n\t\t\t<aggregate-report v-if=\"report.aggregate\" :report=\"report.aggregate\" />\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport AggregateReport from './AggregateReport.vue';\nimport ReportDate from './ReportDate.vue';\nimport StatsReport from './StatsReport.vue';\n\nimport { fetchMilestoneGroups } from '../../modules/utils.js';\n\nexport default {\n\tdata(){\n\t\treturn {\n\t\t\tdates: {\n\t\t\t\tstartDate: '2015-11-01', // FIXME\n\t\t\t\tendDate: '2016-11-01' // FIXME\n\t\t\t},\n\t\t\ttrainingLevel: 'all',\n\t\t\tfilterMilestones: false,\n\t\t\tmilestones: [],\n\t\t\treport: null,\n\n\t\t\tmilestoneGroups: [],\n\t\t\tuserGroups: {}\n\t\t};\n\t},\n\twatch: {\n\t\tfilterMilestones(shouldFilter){\n\t\t\tif(shouldFilter){\n\t\t\t\tfetchMilestoneGroups().then(milestoneGroups => {\n\t\t\t\t\tthis.milestoneGroups = milestoneGroups;\n\t\t\t\t});\n\t\t\t}\n\t\t}\n\t},\n\tcomputed: {\n\n\t},\n\tmethods: {\n\t\tisEntireMilestoneGroupSelected(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\treturn groupIds.every(id => {\n\t\t\t\treturn this.milestones.includes(id);\n\t\t\t});\n\t\t},\n\t\ttoggleEntireMilestoneGroup(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\tlet newMilestones = this.milestones.filter(milestone => {\n\t\t\t\treturn !groupIds.includes(milestone);\n\t\t\t});\n\t\t\tif(!this.isEntireMilestoneGroupSelected(index)){\n\t\t\t\tnewMilestones = newMilestones.concat(groupIds);\n\t\t\t}\n\t\t\tthis.milestones = newMilestones;\n\t\t},\n\t\trunReport(){\n\t\t\tlet csrfToken = document.querySelector('meta[name=\"csrf-token\"]').getAttribute('content');\n\n\t\t\tlet headers = new Headers();\n\t\t\theaders.append('Content-Type', 'application/json');\n\t\t\theaders.append('X-Requested-With', 'XMLHttpRequest');\n\t\t\theaders.append('X-CSRF-TOKEN', csrfToken);\n\n\t\t\tfetch('/report/aggregate', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: headers,\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate,\n\t\t\t\t\ttrainingLevel: this.trainingLevel,\n\t\t\t\t\tmilestones: this.milestones\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(aggregate => {\n\t\t\t\tthis.report = Object.assign({}, this.report, {aggregate: aggregate});\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\n\t\t\tfetch('/report/stats/resident', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: headers,\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(stats => {\n\t\t\t\tthis.report = Object.assign({}, this.report, {stats: stats});\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t}\n\t},\n\tcomponents: {\n\t\tReportDate,\n\t\tAggregateReport,\n\t\tStatsReport\n\t}\n}\n</script>\n\n<style scoped>\n\t.filter-milestones-container {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tflex-wrap: wrap;\n\t\tjustify-content: flex-start;\n\t\talign-items: stretch;\n\t}\n\n\t.milestone-group {\n\t\tflex-grow: 0;\n\t\tflex-shrink: 1;\n\t\twidth: 250px;\n\t\tmin-width: 200px;\n\t\tmax-width: 100%;\n\t\tmargin: 10px;\n\t}\n\n\t.milestone-group .panel-body {\n\t\theight: 300px;\n\t\toverflow: auto;\n\t}\n\n\t.milestone-group .panel-body label {\n\t\tfont-weight: normal;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.filter-milestones-container[data-v-65e2ee5c] {\n\tdisplay: flex;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tjustify-content: flex-start;\n\talign-items: stretch;\n}\n.milestone-group[data-v-65e2ee5c] {\n\tflex-grow: 0;\n\tflex-shrink: 1;\n\twidth: 250px;\n\tmin-width: 200px;\n\tmax-width: 100%;\n\tmargin: 10px;\n}\n.milestone-group .panel-body[data-v-65e2ee5c] {\n\theight: 300px;\n\toverflow: auto;\n}\n.milestone-group .panel-body label[data-v-65e2ee5c] {\n\tfont-weight: normal;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/TraineeReport.vue?16c9fc97"],"names":[],"mappings":";AAkKA;CACA,cAAA;CACA,oBAAA;CACA,gBAAA;CACA,4BAAA;CACA,qBAAA;CACA;AAEA;CACA,aAAA;CACA,eAAA;CACA,aAAA;CACA,iBAAA;CACA,gBAAA;CACA,aAAA;CACA;AAEA;CACA,cAAA;CACA,eAAA;CACA;AAEA;CACA,oBAAA;CACA","file":"TraineeReport.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block\">\n\t\t\t<h2>Trainee report</h2>\n\t\t\t<report-date v-model=\"dates\" />\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"checkbox\" v-model=\"filterMilestones\" />\n\t\t\t\t\tFilter milestones\n\t\t\t\t</label>\n\t\t\t</div>\n\n\t\t\t<fieldset v-if=\"filterMilestones\">\n\t\t\t\t<legend>Milestones</legend>\n\t\t\t\t<div class=\"filter-milestones-container\">\n\t\t\t\t\t<div v-for=\"(milestoneGroup, index) of milestoneGroups\" class=\"milestone-group\">\n\t\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t\t<label class=\"panel-title\">\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t:checked=\"isEntireMilestoneGroupSelected(index)\"\n\t\t\t\t\t\t\t\t\t\t\t@click=\"toggleEntireMilestoneGroup(index)\" />\n\t\t\t\t\t\t\t\t\t{{ milestoneGroup.text }}\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t\t<div v-for=\"child of milestoneGroup.children\" class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t\t:value=\"child.id\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"milestones\" />\n\t\t\t\t\t\t\t\t\t\t{{ child.text }}\n\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\n\t\t\t<button type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t@click=\"runReport\">\n\t\t\t\tRun report\n\t\t\t</button>\n\t\t</div>\n\n\t\t<div v-if=\"report\">\n\t\t\t<stats-report v-if=\"report.stats\" :report=\"report.stats\" />\n\n\t\t\t<aggregate-report v-if=\"report.aggregate\" :report=\"report.aggregate\" />\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport AggregateReport from './AggregateReport.vue';\nimport ReportDate from './ReportDate.vue';\nimport StatsReport from './StatsReport.vue';\n\nimport {\n\tgetFetchHeaders,\n\tfetchMilestoneGroups\n} from '../../modules/utils.js';\n\nexport default {\n\tdata(){\n\t\treturn {\n\t\t\tdates: {\n\t\t\t\tstartDate: '2015-11-01', // FIXME\n\t\t\t\tendDate: '2016-11-01' // FIXME\n\t\t\t},\n\t\t\ttrainingLevel: 'all',\n\t\t\tfilterMilestones: false,\n\t\t\tmilestones: [],\n\t\t\treport: null,\n\n\t\t\tmilestoneGroups: [],\n\t\t\tuserGroups: {}\n\t\t};\n\t},\n\twatch: {\n\t\tfilterMilestones(shouldFilter){\n\t\t\tif(shouldFilter){\n\t\t\t\tfetchMilestoneGroups().then(milestoneGroups => {\n\t\t\t\t\tthis.milestoneGroups = milestoneGroups;\n\t\t\t\t});\n\t\t\t}\n\t\t}\n\t},\n\tcomputed: {\n\n\t},\n\tmethods: {\n\t\tisEntireMilestoneGroupSelected(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\treturn groupIds.every(id => {\n\t\t\t\treturn this.milestones.includes(id);\n\t\t\t});\n\t\t},\n\t\ttoggleEntireMilestoneGroup(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\tlet newMilestones = this.milestones.filter(milestone => {\n\t\t\t\treturn !groupIds.includes(milestone);\n\t\t\t});\n\t\t\tif(!this.isEntireMilestoneGroupSelected(index)){\n\t\t\t\tnewMilestones = newMilestones.concat(groupIds);\n\t\t\t}\n\t\t\tthis.milestones = newMilestones;\n\t\t},\n\t\trunReport(){\n\t\t\tfetch('/report/aggregate', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate,\n\t\t\t\t\ttrainingLevel: this.trainingLevel,\n\t\t\t\t\tmilestones: this.milestones\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(aggregate => {\n\t\t\t\tthis.report = Object.assign({}, this.report, {aggregate: aggregate});\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\n\t\t\tfetch('/report/stats/resident', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: headers,\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(stats => {\n\t\t\t\tthis.report = Object.assign({}, this.report, {stats: stats});\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t}\n\t},\n\tcomponents: {\n\t\tReportDate,\n\t\tAggregateReport,\n\t\tStatsReport\n\t}\n}\n</script>\n\n<style scoped>\n\t.filter-milestones-container {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tflex-wrap: wrap;\n\t\tjustify-content: flex-start;\n\t\talign-items: stretch;\n\t}\n\n\t.milestone-group {\n\t\tflex-grow: 0;\n\t\tflex-shrink: 1;\n\t\twidth: 250px;\n\t\tmin-width: 200px;\n\t\tmax-width: 100%;\n\t\tmargin: 10px;\n\t}\n\n\t.milestone-group .panel-body {\n\t\theight: 300px;\n\t\toverflow: auto;\n\t}\n\n\t.milestone-group .panel-body label {\n\t\tfont-weight: normal;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 

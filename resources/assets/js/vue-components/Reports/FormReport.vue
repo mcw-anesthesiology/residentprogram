@@ -48,6 +48,8 @@ import ReportDate from './ReportDate.vue';
 import SelectTwo from '../SelectTwo.vue';
 import FormReportQuestion from'./FormReportQuestion.vue';
 
+import { getFetchHeaders } from '../../modules/utils.js';
+
 export default {
 	props: {
 		groupedUsers: {
@@ -102,17 +104,9 @@ export default {
 
 	methods: {
 		runReport(){
-			const csrfToken = document.querySelector('meta[name="csrf-token"]')
-				.getAttribute('content');
-
-			let headers = new Headers();
-			headers.append('Content-Type', 'application/json');
-			headers.append('X-Requested-With', 'XMLHttpRequest');
-			headers.append('X-CSRF-TOKEN', csrfToken);
-
 			fetch('/report/form', {
 				method: 'POST',
-				headers: headers,
+				headers: getFetchHeaders(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,

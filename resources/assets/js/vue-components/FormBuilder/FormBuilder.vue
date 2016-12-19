@@ -46,6 +46,7 @@ import FormBuilderQuestion from './FormBuilderQuestion.vue';
 import {
 	appendAlert,
 	ucfirst,
+	getFetchHeaders,
 	fetchMilestoneGroups
 } from '../../modules/utils.js';
 
@@ -125,17 +126,10 @@ export default {
 				})
 			});
 
-			let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-			let headers = new Headers();
-			headers.append('Content-Type', 'application/json');
-			headers.append('X-Requested-With', 'XMLHttpRequest');
-			headers.append('X-CSRF-TOKEN', csrfToken);
-
 			if(this.isFormValid()){
 				fetch('/forms', {
 					method: 'POST',
-					headers: headers,
+					headers: getFetchHeaders(),
 					credentials: 'same-origin',
 					body: requestBody
 				}).then(response => {

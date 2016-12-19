@@ -57,7 +57,10 @@ import AggregateReport from './AggregateReport.vue';
 import ReportDate from './ReportDate.vue';
 import StatsReport from './StatsReport.vue';
 
-import { fetchMilestoneGroups } from '../../modules/utils.js';
+import {
+	getFetchHeaders,
+	fetchMilestoneGroups
+} from '../../modules/utils.js';
 
 export default {
 	data(){
@@ -105,16 +108,9 @@ export default {
 			this.milestones = newMilestones;
 		},
 		runReport(){
-			let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-			let headers = new Headers();
-			headers.append('Content-Type', 'application/json');
-			headers.append('X-Requested-With', 'XMLHttpRequest');
-			headers.append('X-CSRF-TOKEN', csrfToken);
-
 			fetch('/report/aggregate', {
 				method: 'POST',
-				headers: headers,
+				headers: getFetchHeaders(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
