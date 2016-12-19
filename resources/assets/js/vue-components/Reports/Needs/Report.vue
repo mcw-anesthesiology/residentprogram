@@ -18,12 +18,26 @@
 				Needs milestones
 			</button>
 		</div>
+
+		<div v-if="report.evaluations" class="container body-block">
+			<needs-evaluations :trainees="report.evaluations" />
+		</div>
+		<div v-if="report.competencies" class="container body-block">
+			<needs-competencies v-bind="report.competencies" />
+		</div>
+		<div v-if="report.milestones" class="container body-block">
+			<needs-milestones v-bind="report.milestones" />
+		</div>
 	</div>
 </template>
 
 <script>
-import ReportDate from './ReportDate.vue';
-import SelectTwo from '../SelectTwo.vue';
+import NeedsEvaluations from './Evaluations.vue';
+import NeedsCompetencies from './Competencies.vue';
+import NeedsMilestones from './Milestones.vue';
+
+import ReportDate from '../ReportDate.vue';
+import SelectTwo from '../../SelectTwo.vue';
 
 export default {
 	data(){
@@ -74,7 +88,7 @@ export default {
 
 	methods: {
 		runEvalsReport(){
-			fetch('/report/needs-eval/get', {
+			fetch('/report/needs/evaluations', {
 				method: 'POST',
 				headers: getFetchHeaders(),
 				credentials: 'same-origin',
@@ -92,18 +106,57 @@ export default {
 			}).then(evaluations => {
 				this.report = Object.assign({}, this.report, {evaluations});
 			}).catch(err => {
-				
+
 			});
 		},
 		runCompetenciesReport(){
+			fetch('/report/needs/competencies', {
+				method: 'POST',
+				headers: getFetchHeaders(),
+				credentials: 'same-origin',
+				body: JSON.stringify({
+					startDate: this.dates.startDate,
+					endDate: this.dates.endDate,
+					trainingLevel: this.trainingLevel
+				})
+			}).then(response => {
+				if(response.ok)
+					return response.json();
+				else
+					throw new Error(response.statusText)
+			}).then(competencies => {
+				this.report = Object.assign({}, this.report, {competencies});
+			}).catch(err => {
 
-		}
+			});
+		},
 		runMilestonesReport(){
+			fetch('/report/needs/milestones', {
+				method: 'POST',
+				headers: getFetchHeaders(),
+				credentials: 'same-origin',
+				body: JSON.stringify({
+					startDate: this.dates.startDate,
+					endDate: this.dates.endDate,
+					trainingLevel: this.trainingLevel
+				})
+			}).then(response => {
+				if(response.ok)
+					return response.json();
+				else
+					throw new Error(response.statusText)
+			}).then(milestones => {
+				this.report = Object.assign({}, this.report, {milestones});
+			}).catch(err => {
 
+			});
 		},
 	},
 
 	components: {
+		NeedsEvaluations,
+		NeedsCompetencies,
+		NeedsMilestones,
 		ReportDate,
 		SelectTwo
 	}

@@ -176,61 +176,25 @@ class ReportController extends Controller
 		return $data;
     }
 
-    public function needsEvaluations(){
+    public function needsEvaluationsView(){
         $milestones = Milestone::all();
         $competencies = Competency::all();
         $data = compact("milestones", "competencies");
         return view("report.needs-eval", $data);
     }
 
-    function getUsersNeedingEvaluations($startDate, $endDate, $trainingLevel, $evalThreshold){
-        $getQueriedEvaluations = function($query)
-                use ($startDate, $endDate, $trainingLevel, $evalThreshold){
-            $query->where("evaluation_date", ">=", $startDate)
-                ->where("evaluation_date", "<=", $endDate);
-            if($trainingLevel != "all")
-                $query->where("training_level", $trainingLevel);
-        };
+	public function needsEvaluations(Request $request){
+		$startDate = Carbon::parse($request->input("startDate"));
+		$startDate->timezone = "America/Chicago";
+		$endDate = Carbon::parse($request->input("endDate"));
+		$endDate->timezone = "America/Chicago";
+		$trainingLevel = $request->input("trainingLevel");
+		$evalThreshold = $request->input("evalThreshold");
 
-        $needsEvals = User::where("type", "resident")->where("status", "active");
-        if($trainingLevel != "all")
-            $needsEvals->where("training_level", $trainingLevel);
+		return $this->getUsersNeedingEvaluations($startDate, $endDate, $trainingLevel, $evalThreshold);
+	}
 
-        if($evalThreshold != "all")
-            $needsEvals->whereHas("subjectEvaluations", $getQueriedEvaluations, "<", $evalThreshold);
-
-        return $needsEvals->with(["subjectEvaluations" => $getQueriedEvaluations])->get();
-    }
-
-    public function getNeedsEvaluations(Request $request){
-        $startDate = Carbon::parse($request->input("startDate"));
-        $startDate->timezone = "America/Chicago";
-        $endDate = Carbon::parse($request->input("endDate"));
-        $endDate->timezone = "America/Chicago";
-        $trainingLevel = $request->input("trainingLevel");
-        $evalThreshold = $request->input("evalThreshold");
-
-        $usersNeedingEvals = $this->getUsersNeedingEvaluations($startDate, $endDate, $trainingLevel, $evalThreshold);
-
-        $results["data"] = [];
-        foreach($usersNeedingEvals as $user){
-            $result = [];
-            $result[] = $user->profile_link;
-            $count = $user->subjectEvaluations->count();
-            $result[] = $count;
-            $result[] = "<button type='button' class='btn btn-xs btn-info send-user-reminder' "
-                . "data-id='{$user->id}' data-first='{$user->first_name}' "
-                . "data-last='{$user->last_name}' data-email='{$user->email}' "
-                . "data-count='{$count}'>"
-                . "<span class='glyphicon glyphicon-send'></span> Send reminder"
-                . "</button>";
-            $results["data"][] = $result;
-        }
-
-        return response()->json($results);
-    }
-
-    public function getNeedsCompetencies(Request $request){
+	public function needsCompetencies(Request $request){
         $startDate = Carbon::parse($request->input("startDate"));
 		$startDate->timezone = "America/Chicago";
         $endDate = Carbon::parse($request->input("endDate"));
@@ -266,60 +230,7 @@ class ReportController extends Controller
         return $results;
     }
 
-    public function getNeedsCompetenciesJSON(Request $request){
-        $competencies = Competency::lists("id");
-        $residentsQuery = User::where("type", "resident")->where("status", "active");
-        if($request->input("trainingLevel") != "all")
-            $residentsQuery->where("training_level", $request->input("trainingLevel"));
-        $residents = $residentsQuery->get();
-        $results["data"] = [];
-        $evaluations = $this->getNeedsCompetencies($request);
-        foreach($residents as $resident){
-            $result = [];
-            $result[] = $resident->full_name;
-            foreach($competencies as $competency){
-                if(isset($evaluations[$resident->id][$competency]))
-                    $result[] = "<span class='glyphicon glyphicon-ok'></span>";
-                else
-                    $result[] = "<span class='glyphicon glyphicon-remove'></span>";
-            }
-            $results["data"][] = $result;
-        }
-        return response()->json($results);
-    }
-
-    public function getNeedsCompetenciesTSV(Request $request){
-        $tsv = "";
-        $competencies = Competency::all();
-        $residentsQuery = User::where("type", "resident")->where("status", "active");
-        if($request->input("trainingLevel") != "all")
-            $residentsQuery->where("training_level", $request->input("training_level"));
-        $residents = $residentsQuery->get();
-        $evaluations = $this->getNeedsCompetencies($request);
-        $tsv .= "Resident/Fellow\t";
-        foreach($competencies as $competency)
-            $tsv .= $competency->title."\t";
-        $tsv .= "\n";
-
-        foreach($residents as $resident){
-            $tsv .= $resident->full_name."\t";
-            foreach($competencies as $competency){
-                if(isset($evaluations[$resident->id][$competency->id]))
-                    $tsv .= "Y\t";
-                else
-                    $tsv .= "N\t";
-            }
-            $tsv .= "\n";
-        }
-
-        $filename = "Needs Competencies ".Carbon::now()->toDateTimeString().".tsv";
-
-        return response($tsv)
-            ->header("Content-Type", "text/tab-separated-values")
-            ->header("Content-Disposition", "attachment; filename={$filename}");
-    }
-
-    public function getNeedsMilestones(Request $request){
+	public function needsMilestones(Request $request){
 		$startDate = Carbon::parse($request->input("startDate"));
 		$startDate->timezone = "America/Chicago";
         $endDate = Carbon::parse($request->input("endDate"));
@@ -355,7 +266,186 @@ class ReportController extends Controller
         return $results;
     }
 
-    public function getNeedsMilestonesJSON(Request $request){
+
+	function getUsersNeedingEvaluations($startDate, $endDate, $trainingLevel, $evalThreshold){
+        $getQueriedEvaluations = function($query)
+                use ($startDate, $endDate, $trainingLevel, $evalThreshold){
+            $query->where("evaluation_date", ">=", $startDate)
+                ->where("evaluation_date", "<=", $endDate);
+            if($trainingLevel != "all")
+                $query->where("training_level", $trainingLevel);
+        };
+
+        $needsEvals = User::where("type", "resident")->where("status", "active");
+        if($trainingLevel != "all")
+            $needsEvals->where("training_level", $trainingLevel);
+
+        if($evalThreshold != "all")
+            $needsEvals->whereHas("subjectEvaluations", $getQueriedEvaluations, "<", $evalThreshold);
+
+        return $needsEvals->with(["subjectEvaluations" => $getQueriedEvaluations])->get();
+    }
+
+	// TODO: Remove when better reports finished
+	public function getNeedsEvaluations(Request $request){
+        $startDate = Carbon::parse($request->input("startDate"));
+        $startDate->timezone = "America/Chicago";
+        $endDate = Carbon::parse($request->input("endDate"));
+        $endDate->timezone = "America/Chicago";
+        $trainingLevel = $request->input("trainingLevel");
+        $evalThreshold = $request->input("evalThreshold");
+
+        $usersNeedingEvals = $this->getUsersNeedingEvaluations($startDate, $endDate, $trainingLevel, $evalThreshold);
+
+        $results["data"] = [];
+        foreach($usersNeedingEvals as $user){
+            $result = [];
+            $result[] = $user->profile_link;
+            $count = $user->subjectEvaluations->count();
+            $result[] = $count;
+            $result[] = "<button type='button' class='btn btn-xs btn-info send-user-reminder' "
+                . "data-id='{$user->id}' data-first='{$user->first_name}' "
+                . "data-last='{$user->last_name}' data-email='{$user->email}' "
+                . "data-count='{$count}'>"
+                . "<span class='glyphicon glyphicon-send'></span> Send reminder"
+                . "</button>";
+            $results["data"][] = $result;
+        }
+
+        return response()->json($results);
+    }
+
+	// TODO: Remove when better reports finished
+	public function getNeedsCompetencies(Request $request){
+        $startDate = Carbon::parse($request->input("startDate"));
+		$startDate->timezone = "America/Chicago";
+        $endDate = Carbon::parse($request->input("endDate"));
+        $endDate->timezone = "America/Chicago";
+		$trainingLevel = $request->input("trainingLevel");
+
+        $results = [];
+        $query = DB::table("responses")
+            ->join("evaluations", "responses.evaluation_id", "=", "evaluations.id")
+            ->join("competencies_questions", function($join){
+                $join->on("competencies_questions.form_id", "=", "evaluations.form_id")
+                    ->on("competencies_questions.question_id", "=", "responses.question_id");
+            })
+            ->join("competencies", "competencies.id", "=", "competencies_questions.competency_id")
+            ->join("users", "users.id", "=", "evaluations.subject_id")
+            ->where("users.status", "active")
+            ->where("users.type", "resident")
+            ->where("evaluations.status", "complete")
+            ->where("evaluations.evaluation_date", ">=", $startDate)
+            ->where("evaluations.evaluation_date", "<=", $endDate);
+
+        if($trainingLevel != "all")
+			$query->where("evaluations.training_level", $trainingLevel);
+
+		$query->select("subject_id", "competency_id")
+            ->orderBy("competency_id", "asc")
+            ->chunk(10000, function($responses) use (&$results){
+                foreach($responses as $response){
+                    $results[$response->subject_id][$response->competency_id] = true;
+                }
+            });
+
+        return $results;
+    }
+
+	// TODO: Remove when better reports finished
+	public function getNeedsCompetenciesJSON(Request $request){
+        $competencies = Competency::lists("id");
+        $residentsQuery = User::where("type", "resident")->where("status", "active");
+        if($request->input("trainingLevel") != "all")
+            $residentsQuery->where("training_level", $request->input("trainingLevel"));
+        $residents = $residentsQuery->get();
+        $results["data"] = [];
+        $evaluations = $this->getNeedsCompetencies($request);
+        foreach($residents as $resident){
+            $result = [];
+            $result[] = $resident->full_name;
+            foreach($competencies as $competency){
+                if(isset($evaluations[$resident->id][$competency]))
+                    $result[] = "<span class='glyphicon glyphicon-ok'></span>";
+                else
+                    $result[] = "<span class='glyphicon glyphicon-remove'></span>";
+            }
+            $results["data"][] = $result;
+        }
+        return response()->json($results);
+    }
+
+	// TODO: Remove when better reports finished
+	public function getNeedsCompetenciesTSV(Request $request){
+        $tsv = "";
+        $competencies = Competency::all();
+        $residentsQuery = User::where("type", "resident")->where("status", "active");
+        if($request->input("trainingLevel") != "all")
+            $residentsQuery->where("training_level", $request->input("training_level"));
+        $residents = $residentsQuery->get();
+        $evaluations = $this->getNeedsCompetencies($request);
+        $tsv .= "Resident/Fellow\t";
+        foreach($competencies as $competency)
+            $tsv .= $competency->title."\t";
+        $tsv .= "\n";
+
+        foreach($residents as $resident){
+            $tsv .= $resident->full_name."\t";
+            foreach($competencies as $competency){
+                if(isset($evaluations[$resident->id][$competency->id]))
+                    $tsv .= "Y\t";
+                else
+                    $tsv .= "N\t";
+            }
+            $tsv .= "\n";
+        }
+
+        $filename = "Needs Competencies ".Carbon::now()->toDateTimeString().".tsv";
+
+        return response($tsv)
+            ->header("Content-Type", "text/tab-separated-values")
+            ->header("Content-Disposition", "attachment; filename={$filename}");
+    }
+
+	// TODO: Remove when better reports finished
+	public function getNeedsMilestones(Request $request){
+		$startDate = Carbon::parse($request->input("startDate"));
+		$startDate->timezone = "America/Chicago";
+        $endDate = Carbon::parse($request->input("endDate"));
+        $endDate->timezone = "America/Chicago";
+		$trainingLevel = $request->input("trainingLevel");
+
+        $results = [];
+        $query = DB::table("responses")
+            ->join("evaluations", "responses.evaluation_id", "=", "evaluations.id")
+            ->join("milestones_questions", function($join){
+                $join->on("milestones_questions.form_id", "=", "evaluations.form_id")
+                    ->on("milestones_questions.question_id", "=", "responses.question_id");
+            })
+            ->join("milestones", "milestones.id", "=", "milestones_questions.milestone_id")
+            ->join("users", "users.id", "=", "evaluations.subject_id")
+            ->where("users.status", "active")
+            ->where("users.type", "resident")
+            ->where("evaluations.status", "complete")
+            ->where("evaluations.evaluation_date", ">=", $startDate)
+            ->where("evaluations.evaluation_date", "<=", $endDate);
+
+		if($trainingLevel != "all")
+			$query->where("evaluations.training_level", $trainingLevel);
+
+		$query->select("subject_id", "milestone_id")
+            ->orderBy("milestone_id", "asc")
+            ->chunk(10000, function($responses) use (&$results){
+                foreach($responses as $response){
+                    $results[$response->subject_id][$response->milestone_id] = true;
+                }
+            });
+
+        return $results;
+    }
+
+	// TODO: Remove when better reports finished
+	public function getNeedsMilestonesJSON(Request $request){
         $milestones = Milestone::lists("id");
         $residentsQuery = User::where("type", "resident")->where("status", "active");
 		if($request->input("trainingLevel") != "all")
@@ -378,7 +468,8 @@ class ReportController extends Controller
         return response()->json($results);
     }
 
-    public function getNeedsMilestonesTSV(Request $request){
+	// TODO: Remove when better reports finished
+	public function getNeedsMilestonesTSV(Request $request){
         $tsv = "";
         $milestones = Milestone::all();
 		$residentsQuery = User::where("type", "resident")->where("status", "active");

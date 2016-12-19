@@ -5,6 +5,8 @@
 				:groupedUsers="groupedUsers" />
 			<form-report v-if="reportType === REPORT_TYPES.FORM"
 				:groupedUsers="groupedUsers" />
+			<needs-report v-if="reportType === REPORT_TYPES.NEEDS"
+				:groupedUsers="groupedUsers" />
 
 			<div class="text-center">
 				<button type="button" class="btn btn-lg btn-default"
@@ -34,6 +36,7 @@
 <script>
 import TraineeReport from './TraineeReport.vue';
 import FormReport from './FormReport.vue';
+import NeedsReport from './Needs/Report.vue';
 
 import { REPORT_TYPES } from '../../modules/constants.js';
 import { fetchUserGroups } from '../../modules/utils.js';
@@ -70,7 +73,8 @@ export default {
 	},
 	components: {
 		TraineeReport,
-		FormReport
+		FormReport,
+		NeedsReport
 	}
 }
 </script>

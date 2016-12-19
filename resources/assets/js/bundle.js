@@ -635,7 +635,8 @@ var STANDARD_OPTIONS = exports.STANDARD_OPTIONS = {
 
 var REPORT_TYPES = exports.REPORT_TYPES = {
 	TRAINEE: 'trainee',
-	FORM: 'form'
+	FORM: 'form',
+	NEEDS: 'needs'
 };
 
 var CHART_TYPES = exports.CHART_TYPES = ['line', 'bar', 'horizontalBar', 'radar', 'polarArea', 'pie', 'doughnut', 'bubble'];

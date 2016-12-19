@@ -916,7 +916,8 @@ var STANDARD_OPTIONS = exports.STANDARD_OPTIONS = {
 
 var REPORT_TYPES = exports.REPORT_TYPES = {
 	TRAINEE: 'trainee',
-	FORM: 'form'
+	FORM: 'form',
+	NEEDS: 'needs'
 };
 
 var CHART_TYPES = exports.CHART_TYPES = ['line', 'bar', 'horizontalBar', 'radar', 'polarArea', 'pie', 'doughnut', 'bubble'];
@@ -24383,45 +24384,15 @@ var _FormReport = __webpack_require__(232);
 
 var _FormReport2 = _interopRequireDefault(_FormReport);
 
+var _Report = __webpack_require__(275);
+
+var _Report2 = _interopRequireDefault(_Report);
+
 var _constants = __webpack_require__(4);
 
 var _utils = __webpack_require__(1);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 exports.default = {
 	data: function data() {
@@ -24459,9 +24430,44 @@ exports.default = {
 	},
 	components: {
 		TraineeReport: _TraineeReport2.default,
-		FormReport: _FormReport2.default
+		FormReport: _FormReport2.default,
+		NeedsReport: _Report2.default
 	}
-};
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /***/ },
 /* 112 */
@@ -27852,7 +27858,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"Reports.vue","sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"Reports.vue","sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -39341,6 +39347,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "groupedUsers": _vm.groupedUsers
     }
+  }) : _vm._e(), _vm._v(" "), (_vm.reportType === _vm.REPORT_TYPES.NEEDS) ? _c('needs-report', {
+    attrs: {
+      "groupedUsers": _vm.groupedUsers
+    }
   }) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "text-center"
   }, [_c('button', {
@@ -40256,6 +40266,568 @@ if(false) {
 
 module.exports = __webpack_require__(93);
 
+
+/***/ },
+/* 271 */,
+/* 272 */,
+/* 273 */,
+/* 274 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _Evaluations = __webpack_require__(278);
+
+var _Evaluations2 = _interopRequireDefault(_Evaluations);
+
+var _Competencies = __webpack_require__(277);
+
+var _Competencies2 = _interopRequireDefault(_Competencies);
+
+var _Milestones = __webpack_require__(279);
+
+var _Milestones2 = _interopRequireDefault(_Milestones);
+
+var _ReportDate = __webpack_require__(89);
+
+var _ReportDate2 = _interopRequireDefault(_ReportDate);
+
+var _SelectTwo = __webpack_require__(90);
+
+var _SelectTwo2 = _interopRequireDefault(_SelectTwo);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+	data: function data() {
+		return {
+			dates: {
+				startDate: '2015-11-01', // FIXME
+				endDate: '2016-11-01' // FIXME
+			},
+			trainingLevel: 'all',
+			evalThreshold: 3,
+			report: {
+				evaluations: null,
+				competencies: null,
+				milestones: null
+			}
+		};
+	},
+
+	computed: {
+		trainingLevels: function trainingLevels() {
+			return [{
+				id: 'all',
+				text: 'All'
+			}, {
+				id: 'intern',
+				text: 'Intern'
+			}, {
+				id: 'ca-1',
+				text: 'CA-1'
+			}, {
+				id: 'ca-2',
+				text: 'CA-2'
+			}, {
+				id: 'ca-3',
+				text: 'CA-3'
+			}, {
+				id: 'fellow',
+				text: 'Fellow'
+			}];
+		}
+	},
+
+	methods: {
+		runEvalsReport: function runEvalsReport() {
+			var _this = this;
+
+			fetch('/report/needs/evaluations', {
+				method: 'POST',
+				headers: getFetchHeaders(),
+				credentials: 'same-origin',
+				body: JSON.stringify({
+					startDate: this.dates.startDate,
+					endDate: this.dates.endDate,
+					trainingLevel: this.trainingLevel,
+					evalThreshold: this.evalThreshold
+				})
+			}).then(function (response) {
+				if (response.ok) return response.json();else throw new Error(response.statusText);
+			}).then(function (evaluations) {
+				_this.report = Object.assign({}, _this.report, { evaluations: evaluations });
+			}).catch(function (err) {});
+		},
+		runCompetenciesReport: function runCompetenciesReport() {
+			var _this2 = this;
+
+			fetch('/report/needs/competencies', {
+				method: 'POST',
+				headers: getFetchHeaders(),
+				credentials: 'same-origin',
+				body: JSON.stringify({
+					startDate: this.dates.startDate,
+					endDate: this.dates.endDate,
+					trainingLevel: this.trainingLevel
+				})
+			}).then(function (response) {
+				if (response.ok) return response.json();else throw new Error(response.statusText);
+			}).then(function (competencies) {
+				_this2.report = Object.assign({}, _this2.report, { competencies: competencies });
+			}).catch(function (err) {});
+		},
+		runMilestonesReport: function runMilestonesReport() {
+			var _this3 = this;
+
+			fetch('/report/needs/milestones', {
+				method: 'POST',
+				headers: getFetchHeaders(),
+				credentials: 'same-origin',
+				body: JSON.stringify({
+					startDate: this.dates.startDate,
+					endDate: this.dates.endDate,
+					trainingLevel: this.trainingLevel
+				})
+			}).then(function (response) {
+				if (response.ok) return response.json();else throw new Error(response.statusText);
+			}).then(function (milestones) {
+				_this3.report = Object.assign({}, _this3.report, { milestones: milestones });
+			}).catch(function (err) {});
+		}
+	},
+
+	components: {
+		NeedsEvaluations: _Evaluations2.default,
+		NeedsCompetencies: _Competencies2.default,
+		NeedsMilestones: _Milestones2.default,
+		ReportDate: _ReportDate2.default,
+		SelectTwo: _SelectTwo2.default
+	}
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/***/ },
+/* 275 */
+/***/ function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* script */
+__vue_exports__ = __webpack_require__(274)
+
+/* template */
+var __vue_template__ = __webpack_require__(276)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/Needs/Report.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5c0ea8a0", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-5c0ea8a0", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] Report.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ },
+/* 276 */
+/***/ function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+  return _c('div', [_c('div', {
+    staticClass: "container body-block"
+  }, [_c('h2', [_vm._v("Needs evaluations")]), _vm._v(" "), _c('report-date', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.dates),
+      expression: "dates"
+    }],
+    domProps: {
+      "value": (_vm.dates)
+    },
+    on: {
+      "input": function($event) {
+        _vm.dates = $event
+      }
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "form-group col-md-6"
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_c('select-two', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.trainingLevel),
+      expression: "trainingLevel"
+    }],
+    attrs: {
+      "options": _vm.trainingLevels
+    },
+    domProps: {
+      "value": (_vm.trainingLevel)
+    },
+    on: {
+      "input": function($event) {
+        _vm.trainingLevel = $event
+      }
+    }
+  })])]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-primary",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.runEvalsReport
+    }
+  }, [_vm._v("\n\t\t\tNeeds evaluations\n\t\t")]), _vm._v(" "), _c('button', {
+    staticClass: "btn",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.runCompetenciesReport
+    }
+  }, [_vm._v("\n\t\t\tNeeds competencies\n\t\t")]), _vm._v(" "), _c('button', {
+    staticClass: "btn",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.runMilestonesReport
+    }
+  }, [_vm._v("\n\t\t\tNeeds milestones\n\t\t")])]), _vm._v(" "), (_vm.report.evaluations) ? _c('div', {
+    staticClass: "container body-block"
+  }, [_c('needs-evaluations', {
+    attrs: {
+      "trainees": _vm.report.evaluations
+    }
+  })]) : _vm._e(), _vm._v(" "), (_vm.report.competencies) ? _c('div', {
+    staticClass: "container body-block"
+  }, [_c('needs-competencies', _vm._b({}, 'needs-competencies', _vm.report.competencies))]) : _vm._e(), _vm._v(" "), (_vm.report.milestones) ? _c('div', {
+    staticClass: "container body-block"
+  }, [_c('needs-milestones', _vm._b({}, 'needs-milestones', _vm.report.milestones))]) : _vm._e()])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-5c0ea8a0", module.exports)
+  }
+}
+
+/***/ },
+/* 277 */
+/***/ function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* script */
+__vue_exports__ = __webpack_require__(282)
+
+/* template */
+var __vue_template__ = __webpack_require__(283)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/Needs/Competencies.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-026c6e27", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-026c6e27", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] Competencies.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ },
+/* 278 */
+/***/ function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* script */
+__vue_exports__ = __webpack_require__(284)
+
+/* template */
+var __vue_template__ = __webpack_require__(285)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/Needs/Evaluations.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-56cead0a", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-56cead0a", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] Evaluations.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ },
+/* 279 */
+/***/ function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* script */
+__vue_exports__ = __webpack_require__(280)
+
+/* template */
+var __vue_template__ = __webpack_require__(281)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/Needs/Milestones.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3dc54222", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-3dc54222", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] Milestones.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ },
+/* 280 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+//
+//
+//
+//
+
+exports.default = {};
+
+/***/ },
+/* 281 */
+/***/ function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+  return _c("div")
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-3dc54222", module.exports)
+  }
+}
+
+/***/ },
+/* 282 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+//
+//
+//
+//
+
+exports.default = {};
+
+/***/ },
+/* 283 */
+/***/ function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+  return _c("div")
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-026c6e27", module.exports)
+  }
+}
+
+/***/ },
+/* 284 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+	props: {
+		trainees: {
+			type: Array,
+			required: true
+		}
+	},
+	data: function data() {
+		return {
+			usersToNotify: []
+		};
+	},
+
+	computed: {
+		sortedTrainees: function sortedTrainees() {}
+	}
+};
+
+/***/ },
+/* 285 */
+/***/ function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+  return _vm._m(0)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._c;
+  return _c('section', [_c('h2', [_vm._v("Needs evaluations")]), _vm._v(" "), _c('section', {
+    staticClass: "needs-container"
+  })])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-56cead0a", module.exports)
+  }
+}
 
 /***/ }
 /******/ ]);

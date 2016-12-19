@@ -41,7 +41,8 @@ export const STANDARD_OPTIONS = {
 
 export const REPORT_TYPES = {
 	TRAINEE: 'trainee',
-	FORM: 'form'
+	FORM: 'form',
+	NEEDS: 'needs'
 };
 
 export const CHART_TYPES = [
