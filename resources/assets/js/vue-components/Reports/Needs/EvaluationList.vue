@@ -1,17 +1,22 @@
 <template>
 	<div>
-		<input type="search" class="form-control" v-model="query" />
-		<ol>
-			<li v-for="user of currentPageItems">
-				<input type="checkbox" :value="user.id" v-model="selectedUsers" />
-				<a :href="`/profile/${user.id}`">{{ user.full_name }}</a>
-				{{ user.subject_evaluations.length }}
-				<button type="button" class="btn btn-xs">
-					Send reminder
-				</button>
-			</li>
-		</ol>
+		<section>
+			<input type="search" class="form-control" v-model="query" />
+			<ol>
+				<li v-for="user of currentPageItems">
+					<input type="checkbox" :value="user.id" v-model="selectedUsers" />
+					<a :href="`/profile/${user.id}`">{{ user.full_name }}</a>
+					{{ user.subject_evaluations.length }}
+					<button type="button" class="btn btn-xs">
+						Send reminder
+					</button>
+				</li>
+			</ol>
+			<list-paginator v-model="page" :itemsPerPage="itemsPerPage"
+				:paginatedItems="paginatedItems"
+				@changePageSize="itemsPerPage = arguments[0]" />
 
+		</section>
 	</div>
 </template>
 
@@ -26,18 +31,18 @@ export default {
 		};
 	},
 	computed: {
-		sortedItems(){
-			let selectedItems = [];
-			let nonSelectedItems = [];
-			this.filteredItems.map(item => {
-				if(this.selectedUsers.includes(item.id))
-					selectedItems.push(item);
-				else
-					nonSelectedItems.push(item);
-			});
-
-			return selectedItems.concat(nonSelectedItems);
-		}
+		// sortedItems(){
+		// 	let selectedItems = [];
+		// 	let nonSelectedItems = [];
+		// 	this.filteredItems.map(item => {
+		// 		if(this.selectedUsers.includes(item.id))
+		// 			selectedItems.push(item);
+		// 		else
+		// 			nonSelectedItems.push(item);
+		// 	});
+		//
+		// 	return selectedItems.concat(nonSelectedItems);
+		// }
 	}
 };
 </script>

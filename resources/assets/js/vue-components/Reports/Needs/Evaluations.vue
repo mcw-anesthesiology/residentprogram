@@ -5,14 +5,6 @@
 		<section class="needs-container">
 			<needs-evaluations-list :items="trainees" :fields="traineeFields" />
 		</section>
-
-		<section>
-			<component-list :items="trainees" :fields="traineeFields">
-				<template scope="list">
-					<evaluation-list-item :user="list.item" />
-				</template>
-			</component-list>
-		</section>
 	</section>
 </template>
 
@@ -38,7 +30,9 @@ export default {
 	computed: {
 		traineeFields(){
 			return [
-				'full_name'
+				'full_name',
+				'type',
+				'training_level'
 			];
 		}
 	},

@@ -1,5 +1,5 @@
 <template>
-	<nav class="paginator">
+	<section class="paginator">
 		<span>
 			Current page: {{ value + 1 }}
 		</span>
@@ -7,19 +7,23 @@
 			Items per page: {{ itemsPerPage }}
 		</span>
 		<nav v-if="itemsPerPage && paginatedItems.length > 1">
-			<template v-for="(pageItems, pageNum) of paginatedItems">
-				<a href="#" v-if="pageNum !== value" @click="setPage(pageNum, $event)">
-					{{ pageNum + 1 }}
-				</a>
-				<span v-else>
-					{{ pageNum + 1 }}
-				</span>
-			</template>
+			<paginator-link :value="value - 1" text="← Prev"
+				:active="value === 0" @click="setPage" />
+
+			<paginator-link v-for="(pageItems, pageNum) of paginatedItems"
+				:value="pageNum" :active="pageNum === value"
+				@click="setPage" />
+
+			<paginator-link :value="value + 1" text="Next →"
+				:active="value === paginatedItems.length - 1"
+				@click="setPage" />
 		</nav>
-	</nav>
+	</section>
 </template>
 
 <script>
+import PaginatorLink from './PaginatorLink.vue';
+
 export default {
 	props: {
 		value: Number,
@@ -27,10 +31,12 @@ export default {
 		paginatedItems: Array
 	},
 	methods: {
-		setPage(page, event){
-			event.preventDefault();
+		setPage(page){
 			this.$emit('input', page);
 		}
+	},
+	components: {
+		PaginatorLink
 	}
 };
 </script>
