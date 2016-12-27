@@ -106,7 +106,7 @@ export default {
 				'pie',
 				'bar',
 				'polarArea'
-			]
+			];
 		},
 		chartData(){
 			return {
@@ -150,5 +150,5 @@ export default {
 		FormReportQuestionOptionStats,
 		ChartjsChart
 	}
-}
+};
 </script>

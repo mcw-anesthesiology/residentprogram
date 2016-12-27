@@ -1,11 +1,11 @@
 import pdfmake from 'pdfmake';
 
-export function exportIndividualReport(){
+export function exportIndividualReport(report, subjectId){
 	const filename = 'tempname.pdf';
 
 	let content;
 
-	
+
 
 	let docDefinition = {
 		content: content

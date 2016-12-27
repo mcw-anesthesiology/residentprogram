@@ -78,11 +78,11 @@ export default {
 			this.chart.data.datasets = data.datasets;
 			this.chart.update();
 		},
-		options(options){
+		options(){
 			this.chart.destroy();
 			this.createChart();
 		},
-		type(type){
+		type(){
 			this.chart.destroy();
 			this.createChart();
 		}

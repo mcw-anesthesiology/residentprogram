@@ -72,5 +72,5 @@ export default {
 	destroyed(){
 		$(this.$el).off().select2('destroy');
 	}
-}
+};
 </script>

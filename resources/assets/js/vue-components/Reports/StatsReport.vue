@@ -138,9 +138,8 @@ export default {
 				},
 				tooltips: {
 					callbacks: {
-						label(tooltip, data){
+						label(tooltip){
 							let value = parseFloat(tooltip.xLabel).toFixed();
-							let name = data.datasets[tooltip.datasetIndex].label;
 							return `${value}%`;
 						}
 					}

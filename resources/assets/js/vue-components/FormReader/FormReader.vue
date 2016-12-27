@@ -24,5 +24,5 @@ export default {
 	components: {
 		FormReaderQuestion
 	}
-}
+};
 </script>

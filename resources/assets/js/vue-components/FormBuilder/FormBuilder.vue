@@ -45,7 +45,6 @@ import FormBuilderQuestion from './FormBuilderQuestion.vue';
 
 import {
 	appendAlert,
-	ucfirst,
 	getFetchHeaders,
 	fetchMilestoneGroups
 } from '../../modules/utils.js';
@@ -107,7 +106,7 @@ export default {
 			});
 		},
 		changeItem(index, item){
-			this.items.splice(index, 1, Object.assign(this.items[index], item))
+			this.items.splice(index, 1, Object.assign(this.items[index], item));
 		},
 		removeItem(index){
 			let item = this.items[index];

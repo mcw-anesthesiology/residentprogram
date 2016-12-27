@@ -64,7 +64,7 @@ export default {
 			this.$nextTick(() => {
 				// only set data if table not already recreated with new data
 				if(this.updateData){
-					let dt = $(`#${this.id}`).DataTable({
+					$(`#${this.id}`).DataTable({
 						retrieve: true
 					}).clear().rows.add(data).draw();
 					this.updateData = false;
@@ -86,5 +86,5 @@ export default {
 			retrieve: true
 		}).clear().destroy();
 	}
-}
+};
 </script>

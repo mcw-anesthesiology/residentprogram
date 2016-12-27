@@ -39,7 +39,7 @@ export default {
 			this.$emit('input', newValue);
 		}
 	}
-}
+};
 </script>
 
 <style scoped>

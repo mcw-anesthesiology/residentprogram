@@ -202,7 +202,7 @@ export default {
 		StatsReport,
 		SelectTwo
 	}
-}
+};
 </script>
 
 <style scoped>

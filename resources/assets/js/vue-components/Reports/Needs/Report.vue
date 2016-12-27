@@ -39,6 +39,8 @@ import NeedsMilestones from './Milestones.vue';
 import ReportDate from '../ReportDate.vue';
 import SelectTwo from '../../SelectTwo.vue';
 
+import { getFetchHeaders } from '../../../modules/utils.js';
+
 export default {
 	data(){
 		return {
@@ -102,11 +104,9 @@ export default {
 				if(response.ok)
 					return response.json();
 				else
-					throw new Error(response.statusText)
+					throw new Error(response.statusText);
 			}).then(evaluations => {
 				this.report = Object.assign({}, this.report, {evaluations});
-			}).catch(err => {
-
 			});
 		},
 		runCompetenciesReport(){
@@ -123,11 +123,9 @@ export default {
 				if(response.ok)
 					return response.json();
 				else
-					throw new Error(response.statusText)
+					throw new Error(response.statusText);
 			}).then(competencies => {
 				this.report = Object.assign({}, this.report, {competencies});
-			}).catch(err => {
-
 			});
 		},
 		runMilestonesReport(){
@@ -144,11 +142,9 @@ export default {
 				if(response.ok)
 					return response.json();
 				else
-					throw new Error(response.statusText)
+					throw new Error(response.statusText);
 			}).then(milestones => {
 				this.report = Object.assign({}, this.report, {milestones});
-			}).catch(err => {
-
 			});
 		},
 	},

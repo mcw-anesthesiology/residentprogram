@@ -48,7 +48,7 @@ import ReportDate from './ReportDate.vue';
 import SelectTwo from '../SelectTwo.vue';
 import FormReportQuestion from'./FormReportQuestion.vue';
 
-import { getFetchHeaders } from '../../modules/utils.js';
+import { getFetchHeaders, fetchFormGroups } from '../../modules/utils.js';
 
 export default {
 	props: {
@@ -132,5 +132,5 @@ export default {
 		SelectTwo,
 		FormReportQuestion
 	}
-}
+};
 </script>

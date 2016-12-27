@@ -43,5 +43,5 @@ export default {
 			return md;
 		}
 	}
-}
+};
 </script>

@@ -39,7 +39,7 @@ import FormReport from './FormReport.vue';
 import NeedsReport from './Needs/Report.vue';
 
 import { REPORT_TYPES } from '../../modules/constants.js';
-import { fetchUserGroups } from '../../modules/utils.js';
+import { ucfirst, fetchUserGroups } from '../../modules/utils.js';
 
 export default {
 	data(){
@@ -76,7 +76,7 @@ export default {
 		FormReport,
 		NeedsReport
 	}
-}
+};
 </script>
 
 <style scoped>

@@ -134,7 +134,7 @@ export default {
 				value: '',
 				description: ''
 			}
-		}
+		};
 	},
 	computed: {
 		questionId(){
@@ -248,7 +248,7 @@ export default {
 		},
 		setCustomOptions(){
 			if(this.customOptions.length < 1){
-				appentAlert('No custom options set');
+				appendAlert('No custom options set');
 				return;
 			}
 
@@ -259,7 +259,7 @@ export default {
 		FormBuilderOption,
 		SelectTwo
 	}
-}
+};
 </script>
 
 <style scoped>

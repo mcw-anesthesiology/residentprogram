@@ -62,7 +62,7 @@ export default {
 			this.$emit('blur', field);
 		}
 	}
-}
+};
 </script>
 
 <style scoped>
