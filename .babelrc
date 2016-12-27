@@ -3,6 +3,7 @@
 		"latest"
 	],
 	"plugins": [
-		"array-includes"
+		"array-includes",
+		"syntax-dynamic-import"
 	]
 }

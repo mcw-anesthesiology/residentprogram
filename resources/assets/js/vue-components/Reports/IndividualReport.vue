@@ -76,6 +76,7 @@
 						</div>
 					</div>
 			</section>
+			<button type="button" @click="exportPdf">Export PDF</button>
 		</div>
 		<div v-else>
 			<p class="lead">
@@ -287,7 +288,62 @@ export default {
 	},
 	methods: {
 		camelCaseToWords,
-		ucfirst
+		ucfirst,
+		exportPdf(){
+			Promise.all([
+				import('pdfmake/build/pdfmake.js'),
+				import('pdfmake/build/vfs_fonts.js')
+			]).then(imports => {
+				const pdfmake = imports[0];
+
+				const filename = 'tempname.pdf'; // FIXME
+
+				let content = [
+					{ text: 'Evaluations included in report' },
+					{
+						table: {
+							body: [
+								this.evaluationsThead,
+								this.evaluationsData
+							]
+						}
+					},
+					{
+						columns: [
+							[
+								{ text: 'Competencies' },
+								{
+									table: {
+										body: [
+											this.competenciesThead,
+											this.competenciesData
+										]
+									}
+								},
+							],
+							[
+								{ text: 'Milestones' },
+								{
+									table: {
+										body: [
+											this.milestonesThead,
+											this.milestonesData
+										]
+									}
+								}
+							]
+						]
+					}
+				];
+
+				let docDefinition = {
+					content: content
+				};
+
+				pdfmake.createPdf(docDefinition).download(filename);
+			});
+
+		}
 	},
 
 	components: {

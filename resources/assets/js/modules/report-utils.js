@@ -1,6 +1,6 @@
 import pdfmake from 'pdfmake';
 
-export function exportIndividualReport(report, subjectId){
+export function exportIndividualReportPdf(report, subjectId){
 	const filename = 'tempname.pdf';
 
 	let content;

@@ -112,6 +112,8 @@ elixir(function(mix) {
 			"bundle.js"
 		])
 		.scripts(["vue-constructors.js"], "public/js/vue-constructors.js")
+		.scripts(['0.js'], 'public/js/0.js')
+		.scripts(['1.js'], 'public/js/1.js')
 		.styles([
 			"main.css",
 			"milestone-competency-radar-chart.css",
