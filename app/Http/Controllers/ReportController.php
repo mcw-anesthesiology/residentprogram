@@ -714,6 +714,7 @@ class ReportController extends Controller
         $subjectEvals = [];
         $subjectRequests = [];
         $subjectEvaluators = [];
+		$subjectEvaluations = [];
         $competencyQuestions = [];
 
         $subjects = [];
@@ -721,7 +722,13 @@ class ReportController extends Controller
         $query->select("milestone_id", "milestones.title as milestone_title", "competency_id", "competencies.title as competency_title")
             ->addSelect("subject_id", "evaluator_id", "last_name", "first_name", "evaluation_id", "response", "weight", "responses.question_id as question_id")
             ->orderBy("milestones.title")->orderBy("competencies.title");
-        $query->chunk(20000, function($responses) use (&$milestones, &$subjects, &$milestones, &$competencies, &$subjectEvals, &$subjectRequests, &$subjectRequests, &$averageMilestone, &$averageMilestoneDenom, &$averageCompetency, &$averageCompetencyDenom, &$subjectMilestone, &$subjectMilestoneDenom, &$subjectMilestoneEvals, &$subjectCompetency, &$subjectCompetencyDenom, &$subjectCompetencyEvals, &$competencyQuestions, &$subjectEvaluators){
+        $query->chunk(20000, function($responses) use (&$milestones, &$subjects,
+				&$milestones, &$competencies, &$subjectEvals, &$subjectRequests,
+				&$subjectRequests, &$averageMilestone, &$averageMilestoneDenom,
+				&$averageCompetency, &$averageCompetencyDenom, &$subjectMilestone,
+				&$subjectMilestoneDenom, &$subjectMilestoneEvals, &$subjectCompetency,
+				&$subjectCompetencyDenom, &$subjectCompetencyEvals, &$competencyQuestions,
+				&$subjectEvaluators){
             foreach($responses as $response){
                 if(!isset($subjects[$response->subject_id]))
                     $subjects[$response->subject_id] = $response->last_name.", ".$response->first_name;
@@ -852,7 +859,8 @@ class ReportController extends Controller
 
         $reqQuery = DB::table("evaluations")
             ->join("forms", "forms.id", "=", "evaluations.form_id")
-            ->join("users", "users.id", "=", "evaluations.subject_id")
+			->join("users as subjects", "subjects.id", "=", "evaluations.subject_id")
+            ->join("users as evaluators", "evaluators.id", "=", "evaluations.evaluator_id")
             ->whereIn("forms.type", ["resident", "fellow"])
             ->whereIn("forms.evaluator_type", ["faculty"])
             ->whereIn("evaluations.status", ["pending", "complete"])
@@ -863,17 +871,26 @@ class ReportController extends Controller
             $reqQuery->where("evaluations.training_level", $trainingLevel);
 
         $reqQuery->select("subject_id", "evaluator_id", "requested_by_id",
-            "last_name", "first_name", "evaluations.id as evaluation_id");
-        $reqQuery->chunk(20000, function($evaluations) use (&$subjects, &$subjectRequests, &$subjectEvals, &$subjectEvaluators){
+			"subjects.last_name as subject_last", "subjects.first_name as subject_first",
+            "evaluators.last_name as evaluator_last", "evaluators.first_name as evaluator_first",
+			"evaluations.id as evaluation_id", "evaluations.evaluation_date",
+			"evaluations.status as evaluation_status", "forms.title as form_title");
+        $reqQuery->chunk(20000, function($evaluations) use (&$subjects, &$subjectRequests,
+				&$subjectEvals, &$subjectEvaluators, &$subjectEvaluations){
             foreach($evaluations as $evaluation){
                 if(!isset($subjects[$evaluation->subject_id]))
-                    $subjects[$evaluation->subject_id] = $evaluation->last_name . ", " . $evaluation->first_name;
+                    $subjects[$evaluation->subject_id] = $evaluation->subject_last . ", " . $evaluation->subject_first;
                 if(!isset($subjectEvals[$evaluation->subject_id]))
                     $subjectEvals[$evaluation->subject_id] = [];
                 if(!isset($subjectEvaluators[$evaluation->subject_id]))
                     $subjectEvaluators[$evaluation->subject_id] = [];
                 if(!isset($subjectRequests[$evaluation->subject_id]))
                     $subjectRequests[$evaluation->subject_id] = [];
+				if(!isset($subjectEvaluations[$evaluation->subject_id]))
+					$subjectEvaluations[$evaluation->subject_id] = [];
+
+				if($evaluation->evaluation_status == 'complete')
+					$subjectEvaluations[$evaluation->subject_id][] = $evaluation;
 
                 if($evaluation->subject_id == $evaluation->requested_by_id)
                     $subjectRequests[$evaluation->subject_id][$evaluation->evaluation_id] = 1;
@@ -899,7 +916,8 @@ class ReportController extends Controller
 			"subjectMilestoneDeviations", "subjectMilestoneEvals", "subjectCompetency",
 			"subjectCompetencyDeviations", "subjectCompetencyEvals", "subjectEvals",
             "subjectRequests", "subjects", "subjectEvaluators", "averageMilestone",
-            "averageCompetency", "graphOption", "trainingLevel", "startDate", "endDate");
+            "averageCompetency", "graphOption", "trainingLevel", "startDate", "endDate",
+			"subjectEvaluations");
 
         if(!is_null($reportSubject)){
             $textQuery = DB::table("text_responses")
@@ -959,42 +977,9 @@ class ReportController extends Controller
         if(!($resident == $user || $user->isType("admin") || $user->mentees->contains($resident)))
             return back()->with("error", "Requested report not authorized");
 
-        $data = [];
-
-        $input = $request->all();
-        foreach($input as $key => $value){
-            if(strpos($key, "startDate") !== FALSE){
-                $startDates[] = $value;
-            } elseif(strpos($key, "endDate") !== FALSE){
-                $endDates[] = $value;
-            } elseif(strpos($key, "trainingLevel") !== FALSE){
-                $trainingLevels[] = $value;
-            }
-        }
-
-        if(!isset($startDates))
-            return back()->with("error", "Please select a starting date for the report");
-        if(!isset($endDates))
-            return back()->with("error", "Please select an ending date for the report");
-        if(!isset($trainingLevels))
-            return back()->with("error", "Please select a training level for the report");
-        if(!(count($startDates) == count($endDates) && count($endDates) == count($trainingLevels)))
-            return back()->with("error", "Please be sure to complete all fields for each report");
-
-        for($i = 0; $i < count($startDates); $i++){
-            $data["reportData"][$i] = $this->report($startDates[$i], $endDates[$i],
-                $trainingLevels[$i], $request->input("resident"), $request->input("milestones"));
-			$data["reportData"][$i]["startDate"] = Carbon::parse($startDates[$i]);
-			$data["reportData"][$i]["endDate"] = Carbon::parse($endDates[$i]);
-			$data["reportData"][$i]["trainingLevel"] = $trainingLevels[$i];
-        }
-
-		$data["numReports"] = count($startDates);
-        $data["specificSubject"] = User::find($request->input("resident"));
-
-		$request->session()->put("individualReportData", $data);
-
-        return view("report.individual", $data);
+		return $this->report($request->input("startDate"),
+            $request->input("endDate"), $request->input("trainingLevel"),
+            $request->input("subjectId"), $request->input("milestones"));
     }
 
     public function formReport(Request $request){

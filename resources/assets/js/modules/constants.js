@@ -57,8 +57,8 @@ export const CHART_TYPES = [
 ];
 
 export const CHART_COLORS = {
-	MILESTONE: '#ffce56',
-	COMPETENCY: '#ff6384',
+	AVERAGE: '#ffce56',
+	SUBJECT: '#ff6384',
 	OTHER: [
 		'#7fdbff',
 		'#2ecc40',

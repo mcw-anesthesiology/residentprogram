@@ -3,6 +3,10 @@
 		<div class="container body-block">
 			<h2>Trainee report</h2>
 			<report-date v-model="dates" />
+			<select-two class="form-control" v-if="userGroups"
+					:options="userGroups" v-model="traineeId">
+				<option value="-1">All</option>
+			</select-two>
 			<div class="form-group">
 				<label>
 					<input type="checkbox" v-model="filterMilestones" />
@@ -48,18 +52,24 @@
 			<stats-report v-if="report.stats" :report="report.stats" />
 
 			<aggregate-report v-if="report.aggregate" :report="report.aggregate" />
+
+			<individual-report v-if="report.individual" :report="report.individual"
+				:subjectId="Number(traineeId)" />
 		</div>
 	</div>
 </template>
 
 <script>
 import AggregateReport from './AggregateReport.vue';
+import IndividualReport from './IndividualReport.vue';
 import ReportDate from './ReportDate.vue';
 import StatsReport from './StatsReport.vue';
+import SelectTwo from '../SelectTwo.vue';
 
 import {
 	getFetchHeaders,
-	fetchMilestoneGroups
+	fetchMilestoneGroups,
+	fetchUserGroups
 } from '../../modules/utils.js';
 
 export default {
@@ -69,15 +79,22 @@ export default {
 				startDate: '2015-11-01', // FIXME
 				endDate: '2016-11-01' // FIXME
 			},
-			trainingLevel: 'all',
+			trainingLevel: 'all', // FIXME
+			traineeId: '-1',
 			filterMilestones: false,
 			milestones: [],
 			report: null,
 
 			milestoneGroups: [],
-			userGroups: {}
+			userGroups: []
 		};
 	},
+	created(){
+		fetchUserGroups().then(userGroups => {
+			this.userGroups = userGroups;
+		});
+	},
+
 	watch: {
 		filterMilestones(shouldFilter){
 			if(shouldFilter){
@@ -108,53 +125,82 @@ export default {
 			this.milestones = newMilestones;
 		},
 		runReport(){
-			fetch('/report/aggregate', {
-				method: 'POST',
-				headers: getFetchHeaders(),
-				credentials: 'same-origin',
-				body: JSON.stringify({
-					startDate: this.dates.startDate,
-					endDate: this.dates.endDate,
-					trainingLevel: this.trainingLevel,
-					milestones: this.milestones
-				})
-			}).then(response => {
-				if(response.ok)
-					return response.json();
-				let err = new Error(response.statusText);
-				err.response = response;
-				throw err;
-			}).then(aggregate => {
-				this.report = Object.assign({}, this.report, {aggregate: aggregate});
-			}).catch(err => {
-				console.error(err);
-			});
 
-			fetch('/report/stats/resident', {
-				method: 'POST',
-				headers: headers,
-				credentials: 'same-origin',
-				body: JSON.stringify({
-					startDate: this.dates.startDate,
-					endDate: this.dates.endDate
-				})
-			}).then(response => {
-				if(response.ok)
-					return response.json();
-				let err = new Error(response.statusText);
-				err.response = response;
-				throw err;
-			}).then(stats => {
-				this.report = Object.assign({}, this.report, {stats: stats});
-			}).catch(err => {
-				console.error(err);
-			});
+			if(this.traineeId === '-1'){
+				fetch('/report/aggregate', {
+					method: 'POST',
+					headers: getFetchHeaders(),
+					credentials: 'same-origin',
+					body: JSON.stringify({
+						startDate: this.dates.startDate,
+						endDate: this.dates.endDate,
+						trainingLevel: this.trainingLevel,
+						milestones: this.milestones
+					})
+				}).then(response => {
+					if(response.ok)
+						return response.json();
+					let err = new Error(response.statusText);
+					err.response = response;
+					throw err;
+				}).then(aggregate => {
+					this.report = Object.assign({}, this.report, {aggregate: aggregate});
+				}).catch(err => {
+					console.error(err);
+				});
+
+				fetch('/report/stats/resident', {
+					method: 'POST',
+					headers: getFetchHeaders(),
+					credentials: 'same-origin',
+					body: JSON.stringify({
+						startDate: this.dates.startDate,
+						endDate: this.dates.endDate
+					})
+				}).then(response => {
+					if(response.ok)
+						return response.json();
+					let err = new Error(response.statusText);
+					err.response = response;
+					throw err;
+				}).then(stats => {
+					this.report = Object.assign({}, this.report, {stats: stats});
+				}).catch(err => {
+					console.error(err);
+				});
+			}
+			else {
+				fetch('/report/specific', {
+					method: 'POST',
+					headers: getFetchHeaders(),
+					credentials: 'same-origin',
+					body: JSON.stringify({
+						startDate: this.dates.startDate,
+						endDate: this.dates.endDate,
+						trainingLevel: this.trainingLevel,
+						milestones: this.milestones,
+						subjectId: this.traineeId
+					})
+				}).then(response => {
+					if(response.ok)
+						return response.json();
+					let err = new Error(response.statusText);
+					err.response = response;
+					throw err;
+				}).then(individual => {
+					this.report = Object.assign({}, this.report, {individual: individual});
+				}).catch(err => {
+					console.error(err);
+				});
+			}
 		}
 	},
 	components: {
 		ReportDate,
 		AggregateReport,
-		StatsReport
+		IndividualReport,
+		StatsReport,
+		SelectTwo
 	}
 }
 </script>

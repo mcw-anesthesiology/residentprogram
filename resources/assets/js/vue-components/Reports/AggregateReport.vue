@@ -12,34 +12,34 @@
 		<data-table id="aggregate-table" :thead="tableThead"
 			:config="tableConfig" :data="tableData" />
 
-		<div class="graphs-container" v-if="show.graphs">
+		<div class="graphs-container" v-if="show.charts">
 			<div class="row">
-				<div v-if="show.competencies" :class="graphWidth">
-					<chartjs-chart id="aggregate-competency-chart" :type="graphType"
+				<div v-if="show.competencies" :class="chartWidth">
+					<chartjs-chart id="aggregate-competency-chart" :type="chartType"
 						:options="chartOptions" :data="competencyChartData" />
 				</div>
-				<div v-if="show.milestones" :class="graphWidth">
-					<chartjs-chart id="aggregate-milestone-chart" :type="graphType"
+				<div v-if="show.milestones" :class="chartWidth">
+					<chartjs-chart id="aggregate-milestone-chart" :type="chartType"
 						:options="chartOptions" :data="milestoneChartData" />
 				</div>
 			</div>
 
-			<div class="row graphs-controls">
+			<div class="row chart-options">
 				<div class="col-sm-offset-5 col-sm-2">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<span class="panel-title">Graph options</span>
+							<span class="panel-title">Chart options</span>
 						</div>
 						<div class="panel-body">
 							<fieldset v-if="show.milestones && show.competencies">
 								<legend>Orientation</legend>
 								<div class="btn-group btn-group-justified" data-toggle="buttons">
 									<bootstrap-button-input type="radio" option="horizontal"
-											v-model="graphOrientation">
+											v-model="chartOrientation">
 										<span class="glyphicon glyphicon-option-horizontal"></span>
 									</bootstrap-button-input>
 									<bootstrap-button-input type="radio" option="vertical"
-											v-model="graphOrientation">
+											v-model="chartOrientation">
 										<span class="glyphicon glyphicon-option-vertical"></span>
 									</bootstrap-button-input>
 								</div>
@@ -48,7 +48,7 @@
 							<div class="form-group">
 								<label class="containing-label">
 									Type
-									<select class="form-control" v-model="graphType">
+									<select class="form-control" v-model="chartType">
 										<option v-for="type of chartTypes" :value="type">
 											{{ ucfirst(type) }}
 										</option>
@@ -83,10 +83,10 @@ export default {
 				milestones: false,
 				competencies: true,
 				standardDeviations: false,
-				graphs: true
+				charts: true
 			},
-			graphType: 'radar',
-			graphOrientation: 'vertical'
+			chartType: 'radar',
+			chartOrientation: 'vertical'
 		};
 	},
 	computed: {
@@ -253,10 +253,10 @@ export default {
 				'bar'
 			];
 		},
-		graphWidth(){
+		chartWidth(){
 			return {
-				'col-md-6': this.graphOrientation === 'horizontal',
-				'col-md-12': this.graphOrientation === 'vertical'
+				'col-md-6': this.chartOrientation === 'horizontal',
+				'col-md-12': this.chartOrientation === 'vertical'
 			};
 		},
 		chartOptions(){
@@ -279,7 +279,7 @@ export default {
 			};
 		},
 		competencyChartData(){
-			let color = Color(CHART_COLORS.COMPETENCY);
+			let color = Color(CHART_COLORS.AVERAGE);
 			let backgroundColor = color.clone().alpha(0.2);
 			return {
 				labels: Object.values(this.report.competencies),
@@ -298,7 +298,7 @@ export default {
 			};
 		},
 		milestoneChartData(){
-			let color = Color(CHART_COLORS.MILESTONE);
+			let color = Color(CHART_COLORS.AVERAGE);
 			let backgroundColor = color.clone().alpha(0.2);
 			return {
 				labels: Object.values(this.report.milestones),
@@ -338,7 +338,7 @@ export default {
 		margin: 2em 0;
 	}
 
-	.graphs-container .graphs-controls {
+	.graphs-container .chart-options {
 		margin: 2em 0 0;
 	}
 </style>

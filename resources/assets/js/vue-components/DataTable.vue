@@ -14,6 +14,7 @@
 
 <script>
 import ElementResizeDetector from 'element-resize-detector';
+import uniqueId from 'lodash/uniqueId';
 
 const erd = ElementResizeDetector({
 	strategy: 'scroll'
@@ -23,7 +24,9 @@ export default {
 	props: {
 		id: {
 			type: String,
-			required: true
+			default(){
+				return `datatable-${uniqueId()}`;
+			}
 		},
 		thead: {
 			type: Array,
