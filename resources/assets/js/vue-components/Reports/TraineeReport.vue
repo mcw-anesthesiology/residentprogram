@@ -14,14 +14,26 @@
 					<option value="fellow">Fellow</option>
 				</select-two>
 			</label>
-			<label class="containing-label">
-				User
-				<select-two class="form-control" v-if="userGroups"
-						:options="userGroups" v-model="traineeId"
-						:multiple="batchPrint">
-					<option v-if="!batchPrint" value="-1">All</option>
-				</select-two>
-			</label>
+
+			<div class="row">
+				<div class="form-group col-sm-10">
+					<label class="containing-label">
+						User
+						<select-two class="form-control" v-if="groupedUsers"
+								:options="groupedUsers" v-model="traineeId"
+								:multiple="batchPrint">
+							<option v-if="!batchPrint" value="-1">All</option>
+						</select-two>
+					</label>
+				</div>
+				<div class="form-group col-sm-2">
+					<label>
+						<input type="checkbox" v-model="show.inactiveUsers" />
+						Show inactive users
+					</label>
+				</div>
+			</div>
+
 
 			<div class="form-group">
 				<label>
@@ -118,6 +130,10 @@ export default {
 			milestones: [],
 			batchPrint: false,
 
+			show: {
+				inactiveUsers: false
+			},
+
 			report: null,
 			stats: null,
 
@@ -141,7 +157,12 @@ export default {
 		}
 	},
 	computed: {
+		groupedUsers(){
+			if(!this.show.inactiveUsers)
+				return this.userGroups.filter(userGroup => userGroup.text !== 'Inactive');
 
+			return this.userGroups;
+		}
 	},
 	methods: {
 		isEntireMilestoneGroupSelected(index){

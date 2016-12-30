@@ -1,11 +1,11 @@
 @extends("app")
 
-@section("body")
-	<h1 class="header">Reports</h1>
-@stop
-
 @section("blockless-body")
-	<div id="reports"></div>
+	<div id="reports">
+		<div class="text-center">
+			<img src="/ajax-loader.gif" alt="" /> Loading
+		</div>
+	</div>
 @stop
 
 @section("script")

@@ -337,6 +337,10 @@ function fetchUserGroups() {
 		faculty: {
 			text: 'Faculty',
 			children: []
+		},
+		inactive: {
+			text: 'Inactive',
+			children: []
 		}
 	};
 
@@ -353,13 +357,17 @@ function fetchUserGroups() {
 				text: user.full_name
 			};
 
-			if (user.type) {
-				if (user.type === 'resident' && user.training_level && groups[user.training_level]) {
+			if (user.status === 'active') {
+				if (user.type) {
+					if (user.type === 'resident' && user.training_level && groups[user.training_level]) {
 
-					groups[user.training_level].children.push(select2Obj);
-				} else if (groups[user.type]) {
-					groups[user.type].children.push(select2Obj);
+						groups[user.training_level].children.push(select2Obj);
+					} else if (groups[user.type]) {
+						groups[user.type].children.push(select2Obj);
+					}
 				}
+			} else {
+				groups.inactive.children.push(select2Obj);
 			}
 		});
 

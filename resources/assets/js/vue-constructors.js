@@ -8482,7 +8482,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = {
 	data: function data() {
 		return {
-			reportType: '',
+			reportType: _constants.REPORT_TYPES.TRAINEE,
 			groupedUsers: []
 		};
 	},
@@ -8505,13 +8505,7 @@ exports.default = {
 
 
 	methods: {
-		ucfirst: _utils.ucfirst,
-		setReportType: function setReportType(type) {
-			this.reportType = type;
-		},
-		handleResetClick: function handleResetClick() {
-			this.reportType = '';
-		}
+		ucfirst: _utils.ucfirst
 	},
 	components: {
 		TraineeReport: _TraineeReport2.default,
@@ -8519,16 +8513,6 @@ exports.default = {
 		NeedsReport: _Report2.default
 	}
 }; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -8972,6 +8956,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
 	data: function data() {
@@ -8985,6 +8981,10 @@ exports.default = {
 			filterMilestones: false,
 			milestones: [],
 			batchPrint: false,
+
+			show: {
+				inactiveUsers: false
+			},
 
 			report: null,
 			stats: null,
@@ -9013,7 +9013,15 @@ exports.default = {
 			}
 		}
 	},
-	computed: {},
+	computed: {
+		groupedUsers: function groupedUsers() {
+			if (!this.show.inactiveUsers) return this.userGroups.filter(function (userGroup) {
+				return userGroup.text !== 'Inactive';
+			});
+
+			return this.userGroups;
+		}
+	},
 	methods: {
 		isEntireMilestoneGroupSelected: function isEntireMilestoneGroupSelected(index) {
 			var _this3 = this;
@@ -9119,6 +9127,17 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
 	props: {
@@ -9211,39 +9230,31 @@ exports.default = {
 			_this.$emit('input', $(_this.$el).val());
 		});
 
-		$(this.$el).select2({
-			data: this.stringOptions,
+		$(this.$el).val(this.stringValue).select2({
 			tags: this.multiple,
 			createTag: function createTag() {
 				return undefined;
 			}
-		}).val(this.stringValue).trigger('change.select2');
+		});
+	},
+	beforeUpdate: function beforeUpdate() {
+		$(this.$el).select2('destroy');
 	},
 	updated: function updated() {
 		$(this.$el).select2({
-			data: this.stringOptions,
 			tags: this.multiple,
 			createTag: function createTag() {
 				return undefined;
 			}
-		}).val(this.stringValue).trigger('change.select2');
+		});
 	},
 
 	watch: {
 		stringValue: function stringValue(_stringValue) {
 			$(this.$el).val(_stringValue).trigger('change.select2');
-		},
-		stringOptions: function stringOptions(_stringOptions) {
-			$(this.$el).select2({
-				data: _stringOptions,
-				tags: this.multiple,
-				createTag: function createTag() {
-					return undefined;
-				}
-			}).val(this.stringValue).trigger('change.select2');
 		}
 	},
-	destroyed: function destroyed() {
+	beforeDestroyed: function beforeDestroyed() {
 		$(this.$el).off().select2('destroy');
 	}
 };
@@ -10315,7 +10326,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"Reports.vue","sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"Reports.vue","sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -10329,7 +10340,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n.filter-milestones-container[data-v-65e2ee5c] {\n\tdisplay: flex;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tjustify-content: flex-start;\n\talign-items: stretch;\n}\n.milestone-group[data-v-65e2ee5c] {\n\tflex-grow: 0;\n\tflex-shrink: 1;\n\twidth: 250px;\n\tmin-width: 200px;\n\tmax-width: 100%;\n\tmargin: 10px;\n}\n.milestone-group .panel-body[data-v-65e2ee5c] {\n\theight: 300px;\n\toverflow: auto;\n}\n.milestone-group .panel-body label[data-v-65e2ee5c] {\n\tfont-weight: normal;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/TraineeReport.vue?94681b96"],"names":[],"mappings":";AAoOA;CACA,cAAA;CACA,oBAAA;CACA,gBAAA;CACA,4BAAA;CACA,qBAAA;CACA;AAEA;CACA,aAAA;CACA,eAAA;CACA,aAAA;CACA,iBAAA;CACA,gBAAA;CACA,aAAA;CACA;AAEA;CACA,cAAA;CACA,eAAA;CACA;AAEA;CACA,oBAAA;CACA","file":"TraineeReport.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block\">\n\t\t\t<h2>Trainee report</h2>\n\t\t\t<report-date v-model=\"dates\" />\n\t\t\t<label class=\"containing-label\">\n\t\t\t\tTraining level\n\t\t\t\t<select-two class=\"form-control\" v-model=\"trainingLevel\">\n\t\t\t\t\t<option value=\"all\">All</option>\n\t\t\t\t\t<option value=\"intern\">Intern</option>\n\t\t\t\t\t<option value=\"ca-1\">CA-1</option>\n\t\t\t\t\t<option value=\"ca-2\">CA-2</option>\n\t\t\t\t\t<option value=\"ca-3\">CA-3</option>\n\t\t\t\t\t<option value=\"fellow\">Fellow</option>\n\t\t\t\t</select-two>\n\t\t\t</label>\n\t\t\t<label class=\"containing-label\">\n\t\t\t\tUser\n\t\t\t\t<select-two class=\"form-control\" v-if=\"userGroups\"\n\t\t\t\t\t\t:options=\"userGroups\" v-model=\"traineeId\"\n\t\t\t\t\t\t:multiple=\"batchPrint\">\n\t\t\t\t\t<option v-if=\"!batchPrint\" value=\"-1\">All</option>\n\t\t\t\t</select-two>\n\t\t\t</label>\n\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"checkbox\" v-model=\"batchPrint\" />\n\t\t\t\t\tBatch print\n\t\t\t\t</label>\n\t\t\t</div>\n\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"checkbox\" v-model=\"filterMilestones\" />\n\t\t\t\t\tFilter milestones\n\t\t\t\t</label>\n\t\t\t</div>\n\n\t\t\t<fieldset v-if=\"filterMilestones\">\n\t\t\t\t<legend>Milestones</legend>\n\t\t\t\t<div class=\"filter-milestones-container\">\n\t\t\t\t\t<div v-for=\"(milestoneGroup, index) of milestoneGroups\" class=\"milestone-group\">\n\t\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t\t<label class=\"panel-title\">\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t:checked=\"isEntireMilestoneGroupSelected(index)\"\n\t\t\t\t\t\t\t\t\t\t\t@click=\"toggleEntireMilestoneGroup(index)\" />\n\t\t\t\t\t\t\t\t\t{{ milestoneGroup.text }}\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t\t<div v-for=\"child of milestoneGroup.children\" class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t\t:value=\"child.id\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"milestones\" />\n\t\t\t\t\t\t\t\t\t\t{{ child.text }}\n\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\n\t\t\t<button v-if=\"batchPrint\" type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t@click=\"printAll\">\n\t\t\t\tPrint all\n\t\t\t</button>\n\t\t\t<button v-else type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t@click=\"runReport\">\n\t\t\t\tRun report\n\t\t\t</button>\n\t\t</div>\n\n\t\t<div v-if=\"report\">\n\t\t\t<div v-if=\"batchPrint\">\n\t\t\t\t<individual-report :report=\"report\"\n\t\t\t\t\tv-for=\"id of traineeId\"\n\t\t\t\t\t:subjectId=\"Number(id)\" ref=\"individualsToPrint\" />\n\t\t\t</div>\n\t\t\t<div v-else>\n\t\t\t\t<stats-report v-if=\"traineeId === '-1' && stats\" :report=\"stats\" />\n\n\t\t\t\t<aggregate-report v-if=\"traineeId === '-1'\" :report=\"report\" />\n\t\t\t\t<individual-report v-else :report=\"report\"\n\t\t\t\t\t:subjectId=\"Number(traineeId)\" />\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport AggregateReport from './AggregateReport.vue';\nimport IndividualReport from './IndividualReport.vue';\nimport ReportDate from './ReportDate.vue';\nimport StatsReport from './StatsReport.vue';\nimport SelectTwo from '../SelectTwo.vue';\n\nimport {\n\tgetFetchHeaders,\n\tfetchMilestoneGroups,\n\tfetchUserGroups\n} from '../../modules/utils.js';\n\nexport default {\n\tdata(){\n\t\treturn {\n\t\t\tdates: {\n\t\t\t\tstartDate: '2015-11-01', // FIXME\n\t\t\t\tendDate: '2016-11-01' // FIXME\n\t\t\t},\n\t\t\ttrainingLevel: 'all',\n\t\t\ttraineeId: '-1',\n\t\t\tfilterMilestones: false,\n\t\t\tmilestones: [],\n\t\t\tbatchPrint: false,\n\n\t\t\treport: null,\n\t\t\tstats: null,\n\n\t\t\tmilestoneGroups: [],\n\t\t\tuserGroups: []\n\t\t};\n\t},\n\tcreated(){\n\t\tfetchUserGroups().then(userGroups => {\n\t\t\tthis.userGroups = userGroups;\n\t\t});\n\t},\n\n\twatch: {\n\t\tfilterMilestones(shouldFilter){\n\t\t\tif(shouldFilter){\n\t\t\t\tfetchMilestoneGroups().then(milestoneGroups => {\n\t\t\t\t\tthis.milestoneGroups = milestoneGroups;\n\t\t\t\t});\n\t\t\t}\n\t\t}\n\t},\n\tcomputed: {\n\n\t},\n\tmethods: {\n\t\tisEntireMilestoneGroupSelected(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\treturn groupIds.every(id => {\n\t\t\t\treturn this.milestones.includes(id);\n\t\t\t});\n\t\t},\n\t\ttoggleEntireMilestoneGroup(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\tlet newMilestones = this.milestones.filter(milestone => {\n\t\t\t\treturn !groupIds.includes(milestone);\n\t\t\t});\n\t\t\tif(!this.isEntireMilestoneGroupSelected(index)){\n\t\t\t\tnewMilestones = newMilestones.concat(groupIds);\n\t\t\t}\n\t\t\tthis.milestones = newMilestones;\n\t\t},\n\t\trunReport(){\n\t\t\tconst reportPromise = fetch('/report/aggregate', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate,\n\t\t\t\t\ttrainingLevel: this.trainingLevel,\n\t\t\t\t\tmilestones: this.milestones\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(report => {\n\t\t\t\tthis.report = Object.assign({}, this.report, report);\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\n\t\t\tconst statsPromise = fetch('/report/stats/resident', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(stats => {\n\t\t\t\tthis.stats = Object.assign({}, this.stats, stats);\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\n\t\t\treturn Promise.all([reportPromise, statsPromise]);\n\t\t},\n\t\tprintAll(){\n\t\t\tthis.runReport().then(() => {\n\t\t\t\tthis.$nextTick(() => {\n\t\t\t\t\tthis.$refs.individualsToPrint.map(individual => {\n\t\t\t\t\t\tindividual.exportPdf();\n\t\t\t\t\t});\n\t\t\t\t});\n\t\t\t});\n\t\t}\n\t},\n\tcomponents: {\n\t\tReportDate,\n\t\tAggregateReport,\n\t\tIndividualReport,\n\t\tStatsReport,\n\t\tSelectTwo\n\t}\n};\n</script>\n\n<style scoped>\n\t.filter-milestones-container {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tflex-wrap: wrap;\n\t\tjustify-content: flex-start;\n\t\talign-items: stretch;\n\t}\n\n\t.milestone-group {\n\t\tflex-grow: 0;\n\t\tflex-shrink: 1;\n\t\twidth: 250px;\n\t\tmin-width: 200px;\n\t\tmax-width: 100%;\n\t\tmargin: 10px;\n\t}\n\n\t.milestone-group .panel-body {\n\t\theight: 300px;\n\t\toverflow: auto;\n\t}\n\n\t.milestone-group .panel-body label {\n\t\tfont-weight: normal;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.filter-milestones-container[data-v-65e2ee5c] {\n\tdisplay: flex;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tjustify-content: flex-start;\n\talign-items: stretch;\n}\n.milestone-group[data-v-65e2ee5c] {\n\tflex-grow: 0;\n\tflex-shrink: 1;\n\twidth: 250px;\n\tmin-width: 200px;\n\tmax-width: 100%;\n\tmargin: 10px;\n}\n.milestone-group .panel-body[data-v-65e2ee5c] {\n\theight: 300px;\n\toverflow: auto;\n}\n.milestone-group .panel-body label[data-v-65e2ee5c] {\n\tfont-weight: normal;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/TraineeReport.vue?792d5281"],"names":[],"mappings":";AAyPA;CACA,cAAA;CACA,oBAAA;CACA,gBAAA;CACA,4BAAA;CACA,qBAAA;CACA;AAEA;CACA,aAAA;CACA,eAAA;CACA,aAAA;CACA,iBAAA;CACA,gBAAA;CACA,aAAA;CACA;AAEA;CACA,cAAA;CACA,eAAA;CACA;AAEA;CACA,oBAAA;CACA","file":"TraineeReport.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block\">\n\t\t\t<h2>Trainee report</h2>\n\t\t\t<report-date v-model=\"dates\" />\n\t\t\t<label class=\"containing-label\">\n\t\t\t\tTraining level\n\t\t\t\t<select-two class=\"form-control\" v-model=\"trainingLevel\">\n\t\t\t\t\t<option value=\"all\">All</option>\n\t\t\t\t\t<option value=\"intern\">Intern</option>\n\t\t\t\t\t<option value=\"ca-1\">CA-1</option>\n\t\t\t\t\t<option value=\"ca-2\">CA-2</option>\n\t\t\t\t\t<option value=\"ca-3\">CA-3</option>\n\t\t\t\t\t<option value=\"fellow\">Fellow</option>\n\t\t\t\t</select-two>\n\t\t\t</label>\n\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"form-group col-sm-10\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tUser\n\t\t\t\t\t\t<select-two class=\"form-control\" v-if=\"groupedUsers\"\n\t\t\t\t\t\t\t\t:options=\"groupedUsers\" v-model=\"traineeId\"\n\t\t\t\t\t\t\t\t:multiple=\"batchPrint\">\n\t\t\t\t\t\t\t<option v-if=\"!batchPrint\" value=\"-1\">All</option>\n\t\t\t\t\t\t</select-two>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group col-sm-2\">\n\t\t\t\t\t<label>\n\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"show.inactiveUsers\" />\n\t\t\t\t\t\tShow inactive users\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\n\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"checkbox\" v-model=\"batchPrint\" />\n\t\t\t\t\tBatch print\n\t\t\t\t</label>\n\t\t\t</div>\n\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"checkbox\" v-model=\"filterMilestones\" />\n\t\t\t\t\tFilter milestones\n\t\t\t\t</label>\n\t\t\t</div>\n\n\t\t\t<fieldset v-if=\"filterMilestones\">\n\t\t\t\t<legend>Milestones</legend>\n\t\t\t\t<div class=\"filter-milestones-container\">\n\t\t\t\t\t<div v-for=\"(milestoneGroup, index) of milestoneGroups\" class=\"milestone-group\">\n\t\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t\t<label class=\"panel-title\">\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t:checked=\"isEntireMilestoneGroupSelected(index)\"\n\t\t\t\t\t\t\t\t\t\t\t@click=\"toggleEntireMilestoneGroup(index)\" />\n\t\t\t\t\t\t\t\t\t{{ milestoneGroup.text }}\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t\t<div v-for=\"child of milestoneGroup.children\" class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t\t:value=\"child.id\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"milestones\" />\n\t\t\t\t\t\t\t\t\t\t{{ child.text }}\n\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\n\t\t\t<button v-if=\"batchPrint\" type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t@click=\"printAll\">\n\t\t\t\tPrint all\n\t\t\t</button>\n\t\t\t<button v-else type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t@click=\"runReport\">\n\t\t\t\tRun report\n\t\t\t</button>\n\t\t</div>\n\n\t\t<div v-if=\"report\">\n\t\t\t<div v-if=\"batchPrint\">\n\t\t\t\t<individual-report :report=\"report\"\n\t\t\t\t\tv-for=\"id of traineeId\"\n\t\t\t\t\t:subjectId=\"Number(id)\" ref=\"individualsToPrint\" />\n\t\t\t</div>\n\t\t\t<div v-else>\n\t\t\t\t<stats-report v-if=\"traineeId === '-1' && stats\" :report=\"stats\" />\n\n\t\t\t\t<aggregate-report v-if=\"traineeId === '-1'\" :report=\"report\" />\n\t\t\t\t<individual-report v-else :report=\"report\"\n\t\t\t\t\t:subjectId=\"Number(traineeId)\" />\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport AggregateReport from './AggregateReport.vue';\nimport IndividualReport from './IndividualReport.vue';\nimport ReportDate from './ReportDate.vue';\nimport StatsReport from './StatsReport.vue';\nimport SelectTwo from '../SelectTwo.vue';\n\nimport {\n\tgetFetchHeaders,\n\tfetchMilestoneGroups,\n\tfetchUserGroups\n} from '../../modules/utils.js';\n\nexport default {\n\tdata(){\n\t\treturn {\n\t\t\tdates: {\n\t\t\t\tstartDate: '2015-11-01', // FIXME\n\t\t\t\tendDate: '2016-11-01' // FIXME\n\t\t\t},\n\t\t\ttrainingLevel: 'all',\n\t\t\ttraineeId: '-1',\n\t\t\tfilterMilestones: false,\n\t\t\tmilestones: [],\n\t\t\tbatchPrint: false,\n\n\t\t\tshow: {\n\t\t\t\tinactiveUsers: false\n\t\t\t},\n\n\t\t\treport: null,\n\t\t\tstats: null,\n\n\t\t\tmilestoneGroups: [],\n\t\t\tuserGroups: []\n\t\t};\n\t},\n\tcreated(){\n\t\tfetchUserGroups().then(userGroups => {\n\t\t\tthis.userGroups = userGroups;\n\t\t});\n\t},\n\n\twatch: {\n\t\tfilterMilestones(shouldFilter){\n\t\t\tif(shouldFilter){\n\t\t\t\tfetchMilestoneGroups().then(milestoneGroups => {\n\t\t\t\t\tthis.milestoneGroups = milestoneGroups;\n\t\t\t\t});\n\t\t\t}\n\t\t}\n\t},\n\tcomputed: {\n\t\tgroupedUsers(){\n\t\t\tif(!this.show.inactiveUsers)\n\t\t\t\treturn this.userGroups.filter(userGroup => userGroup.text !== 'Inactive');\n\n\t\t\treturn this.userGroups;\n\t\t}\n\t},\n\tmethods: {\n\t\tisEntireMilestoneGroupSelected(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\treturn groupIds.every(id => {\n\t\t\t\treturn this.milestones.includes(id);\n\t\t\t});\n\t\t},\n\t\ttoggleEntireMilestoneGroup(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\tlet newMilestones = this.milestones.filter(milestone => {\n\t\t\t\treturn !groupIds.includes(milestone);\n\t\t\t});\n\t\t\tif(!this.isEntireMilestoneGroupSelected(index)){\n\t\t\t\tnewMilestones = newMilestones.concat(groupIds);\n\t\t\t}\n\t\t\tthis.milestones = newMilestones;\n\t\t},\n\t\trunReport(){\n\t\t\tconst reportPromise = fetch('/report/aggregate', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate,\n\t\t\t\t\ttrainingLevel: this.trainingLevel,\n\t\t\t\t\tmilestones: this.milestones\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(report => {\n\t\t\t\tthis.report = Object.assign({}, this.report, report);\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\n\t\t\tconst statsPromise = fetch('/report/stats/resident', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(stats => {\n\t\t\t\tthis.stats = Object.assign({}, this.stats, stats);\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\n\t\t\treturn Promise.all([reportPromise, statsPromise]);\n\t\t},\n\t\tprintAll(){\n\t\t\tthis.runReport().then(() => {\n\t\t\t\tthis.$nextTick(() => {\n\t\t\t\t\tthis.$refs.individualsToPrint.map(individual => {\n\t\t\t\t\t\tindividual.exportPdf();\n\t\t\t\t\t});\n\t\t\t\t});\n\t\t\t});\n\t\t}\n\t},\n\tcomponents: {\n\t\tReportDate,\n\t\tAggregateReport,\n\t\tIndividualReport,\n\t\tStatsReport,\n\t\tSelectTwo\n\t}\n};\n</script>\n\n<style scoped>\n\t.filter-milestones-container {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tflex-wrap: wrap;\n\t\tjustify-content: flex-start;\n\t\talign-items: stretch;\n\t}\n\n\t.milestone-group {\n\t\tflex-grow: 0;\n\t\tflex-shrink: 1;\n\t\twidth: 250px;\n\t\tmin-width: 200px;\n\t\tmax-width: 100%;\n\t\tmargin: 10px;\n\t}\n\n\t.milestone-group .panel-body {\n\t\theight: 300px;\n\t\toverflow: auto;\n\t}\n\n\t.milestone-group .panel-body label {\n\t\tfont-weight: normal;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -25075,7 +25086,32 @@ if (false) {
 /***/ function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [(_vm.reportType) ? _c('div', [(_vm.reportType === _vm.REPORT_TYPES.TRAINEE) ? _c('trainee-report', {
+  return _c('div', [_c('div', {
+    staticClass: "container body-block"
+  }, [_c('fieldset', [_c('legend', [_vm._v("Report type")]), _vm._v(" "), _c('div', {
+    staticClass: "form-inline"
+  }, _vm._l((_vm.REPORT_TYPES), function(type) {
+    return _c('label', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.reportType),
+        expression: "reportType"
+      }],
+      attrs: {
+        "type": "radio"
+      },
+      domProps: {
+        "value": type,
+        "checked": _vm._q(_vm.reportType, type)
+      },
+      on: {
+        "change": function($event) {
+          _vm.reportType = type
+        }
+      }
+    }), _vm._v("\n\t\t\t\t\t" + _vm._s(_vm.ucfirst(type)) + "\n\t\t\t\t")])
+  }))])]), _vm._v(" "), (_vm.reportType) ? _c('div', [(_vm.reportType === _vm.REPORT_TYPES.TRAINEE) ? _c('trainee-report', {
     attrs: {
       "groupedUsers": _vm.groupedUsers
     }
@@ -25087,35 +25123,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "groupedUsers": _vm.groupedUsers
     }
-  }) : _vm._e(), _vm._v(" "), _c('div', {
-    staticClass: "text-center"
-  }, [_c('button', {
-    staticClass: "btn btn-lg btn-default",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": _vm.handleResetClick
-    }
-  }, [_vm._v("\n\t\t\t\tStart over\n\t\t\t")])])], 1) : _c('div', {
-    staticClass: "container body-block"
-  }, [_c('fieldset', [_c('legend', [_vm._v("Report type")]), _vm._v(" "), _c('div', {
-    staticClass: "form-inline"
-  }, _vm._l((_vm.REPORT_TYPES), function(type) {
-    return _c('div', {
-      staticClass: "form-group col-sm-2"
-    }, [_c('button', {
-      staticClass: "btn lg btn-primary",
-      attrs: {
-        "type": "button"
-      },
-      on: {
-        "click": function($event) {
-          _vm.setReportType(type)
-        }
-      }
-    }, [_vm._v("\n\t\t\t\t\t\t" + _vm._s(_vm.ucfirst(type)) + "\n\t\t\t\t\t")])])
-  }))])])])
+  }) : _vm._e()], 1) : _vm._e()])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -25347,9 +25355,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     domProps: {
       "value": "fellow"
     }
-  }, [_vm._v("Fellow")])])], 1), _vm._v(" "), _c('label', {
+  }, [_vm._v("Fellow")])])], 1), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "form-group col-sm-10"
+  }, [_c('label', {
     staticClass: "containing-label"
-  }, [_vm._v("\n\t\t\tUser\n\t\t\t"), (_vm.userGroups) ? _c('select-two', {
+  }, [_vm._v("\n\t\t\t\t\tUser\n\t\t\t\t\t"), (_vm.groupedUsers) ? _c('select-two', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -25358,7 +25370,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control",
     attrs: {
-      "options": _vm.userGroups,
+      "options": _vm.groupedUsers,
       "multiple": _vm.batchPrint
     },
     domProps: {
@@ -25376,7 +25388,40 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     domProps: {
       "value": "-1"
     }
-  }, [_vm._v("All")]) : _vm._e()]) : _vm._e()], 1), _vm._v(" "), _c('div', {
+  }, [_vm._v("All")]) : _vm._e()]) : _vm._e()], 1)]), _vm._v(" "), _c('div', {
+    staticClass: "form-group col-sm-2"
+  }, [_c('label', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.show.inactiveUsers),
+      expression: "show.inactiveUsers"
+    }],
+    attrs: {
+      "type": "checkbox"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.show.inactiveUsers) ? _vm._i(_vm.show.inactiveUsers, null) > -1 : (_vm.show.inactiveUsers)
+    },
+    on: {
+      "change": function($event) {
+        var $$a = _vm.show.inactiveUsers,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$c) {
+            $$i < 0 && (_vm.show.inactiveUsers = $$a.concat($$v))
+          } else {
+            $$i > -1 && (_vm.show.inactiveUsers = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.show.inactiveUsers = $$c
+        }
+      }
+    }
+  }), _vm._v("\n\t\t\t\t\tShow inactive users\n\t\t\t\t")])])]), _vm._v(" "), _c('div', {
     staticClass: "form-group"
   }, [_c('label', [_c('input', {
     directives: [{
@@ -26224,7 +26269,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "multiple": _vm.multiple
     }
-  }, [_vm._t("default")], 2)
+  }, [_vm._t("default"), _vm._v(" "), _vm._l((_vm.stringOptions), function(option) {
+    return [(option.children && option.children.length > 0) ? _c('optgroup', {
+      attrs: {
+        "label": option.text
+      }
+    }, _vm._l((option.children), function(child) {
+      return _c('option', {
+        domProps: {
+          "value": child.id
+        }
+      }, [_vm._v("\n\t\t\t\t" + _vm._s(child.text) + "\n\t\t\t")])
+    })) : _c('option', {
+      domProps: {
+        "value": option.id
+      }
+    }, [_vm._v("\n\t\t\t" + _vm._s(option.text) + "\n\t\t")])]
+  })], 2)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

@@ -466,44 +466,42 @@ function addDateSelectors(dateName, idPrefix, containerQuery, defaultMonth, last
 	$("#" + idPrefix + "date-unknown").change(unknownDate);
 }
 
-$(document).ready(function(){
-	$.fn.dataTable.moment( "DD-MMM-YYYY h:mm A" );
+$.fn.select2.defaults.set("theme", "bootstrap");
 
-	$(".report").submit(checkReportQuery);
-	$(".report").on("click", ".lastSixMonths", lastSixMonths);
-	$(".report").on("click", ".lastThreeMonths", lastThreeMonths);
-	$(".datepicker").datepicker({
-		dateFormat: "yy-mm-dd"
-	});
+$(".select2").val(null).select2({
+	placeholder: "Please select"
+});
 
-	$("#addNewSpecificReport").click();
 
-	$.extend(true, $.fn.dataTable.defaults, {
-		language: {
-			emptyTable: "No entries available",
-			zeroRecords: "No matching entries, please revise your search",
-			paginate: {
-				previous: "&lt;",
-				next: "&gt;"
-			}
-		},
-		stateSave: true,
-		deferRender: true,
-		dom: "lfprtip"
-	});
+$.fn.dataTable.moment( "DD-MMM-YYYY h:mm A" );
 
-	$.fn.select2.defaults.set("theme", "bootstrap");
+$(".report").submit(checkReportQuery);
+$(".report").on("click", ".lastSixMonths", lastSixMonths);
+$(".report").on("click", ".lastThreeMonths", lastThreeMonths);
+$(".datepicker").datepicker({
+	dateFormat: "yy-mm-dd"
+});
 
-	$(".select2").val(null).select2({
-		placeholder: "Please select"
-	});
+$("#addNewSpecificReport").click();
 
-	$("body").css("padding-top", $("#main-navbar").height()+5);
+$.extend(true, $.fn.dataTable.defaults, {
+	language: {
+		emptyTable: "No entries available",
+		zeroRecords: "No matching entries, please revise your search",
+		paginate: {
+			previous: "&lt;",
+			next: "&gt;"
+		}
+	},
+	stateSave: true,
+	deferRender: true,
+	dom: "lfprtip"
+});
 
-	$("#individual-milestones, #aggregate-milestones").multiSelect({
-		selectableOptgroup: true
-	});
+$("body").css("padding-top", $("#main-navbar").height()+5);
 
+$("#individual-milestones, #aggregate-milestones").multiSelect({
+	selectableOptgroup: true
 });
 
 // https://davidwalsh.name/essential-javascript-functions
@@ -1296,6 +1294,10 @@ function fetchUserGroups() {
 		faculty: {
 			text: 'Faculty',
 			children: []
+		},
+		inactive: {
+			text: 'Inactive',
+			children: []
 		}
 	};
 
@@ -1312,13 +1314,17 @@ function fetchUserGroups() {
 				text: user.full_name
 			};
 
-			if (user.type) {
-				if (user.type === 'resident' && user.training_level && groups[user.training_level]) {
+			if (user.status === 'active') {
+				if (user.type) {
+					if (user.type === 'resident' && user.training_level && groups[user.training_level]) {
 
-					groups[user.training_level].children.push(select2Obj);
-				} else if (groups[user.type]) {
-					groups[user.type].children.push(select2Obj);
+						groups[user.training_level].children.push(select2Obj);
+					} else if (groups[user.type]) {
+						groups[user.type].children.push(select2Obj);
+					}
 				}
+			} else {
+				groups.inactive.children.push(select2Obj);
 			}
 		});
 

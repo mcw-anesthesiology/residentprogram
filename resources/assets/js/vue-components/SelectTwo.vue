@@ -1,6 +1,17 @@
 <template>
 	<select v-bind:multiple="multiple">
 		<slot></slot>
+		<template v-for="option of stringOptions">
+			<optgroup v-if="option.children && option.children.length > 0"
+					:label="option.text">
+				<option v-for="child of option.children" :value="child.id">
+					{{ child.text }}
+				</option>
+			</optgroup>
+			<option v-else :value="option.id">
+				{{ option.text }}
+			</option>
+		</template>
 	</select>
 </template>
 
@@ -55,32 +66,26 @@ export default {
 			this.$emit('input', $(this.$el).val());
 		});
 
-		$(this.$el).select2({
-			data: this.stringOptions,
+		$(this.$el).val(this.stringValue).select2({
 			tags: this.multiple,
 			createTag: () => undefined
-		}).val(this.stringValue).trigger('change.select2');
+		});
+	},
+	beforeUpdate(){
+		$(this.$el).select2('destroy');
 	},
 	updated(){
 		$(this.$el).select2({
-			data: this.stringOptions,
 			tags: this.multiple,
 			createTag: () => undefined
-		}).val(this.stringValue).trigger('change.select2');
+		});
 	},
 	watch: {
 		stringValue(stringValue){
 			$(this.$el).val(stringValue).trigger('change.select2');
-		},
-		stringOptions(stringOptions){
-			$(this.$el).select2({
-				data: stringOptions,
-				tags: this.multiple,
-				createTag: () => undefined
-			}).val(this.stringValue).trigger('change.select2');
 		}
 	},
-	destroyed(){
+	beforeDestroyed(){
 		$(this.$el).off().select2('destroy');
 	}
 };

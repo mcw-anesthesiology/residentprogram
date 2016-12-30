@@ -1,5 +1,17 @@
 <template>
 	<div>
+		<div class="container body-block">
+			<fieldset>
+				<legend>Report type</legend>
+				<div class="form-inline">
+					<label v-for="type of REPORT_TYPES">
+						<input type="radio" :value="type" v-model="reportType" />
+						{{ ucfirst(type) }}
+					</label>
+				</div>
+			</fieldset>
+		</div>
+
 		<div v-if="reportType">
 			<trainee-report v-if="reportType === REPORT_TYPES.TRAINEE"
 				:groupedUsers="groupedUsers" />
@@ -7,28 +19,6 @@
 				:groupedUsers="groupedUsers" />
 			<needs-report v-if="reportType === REPORT_TYPES.NEEDS"
 				:groupedUsers="groupedUsers" />
-
-			<div class="text-center">
-				<button type="button" class="btn btn-lg btn-default"
-						@click="handleResetClick">
-					Start over
-				</button>
-			</div>
-		</div>
-
-
-		<div v-else class="container body-block">
-			<fieldset>
-				<legend>Report type</legend>
-				<div class="form-inline">
-					<div v-for="type of REPORT_TYPES" class="form-group col-sm-2">
-						<button type="button" class="btn lg btn-primary"
-								@click="setReportType(type)">
-							{{ ucfirst(type) }}
-						</button>
-					</div>
-				</div>
-			</fieldset>
 		</div>
 	</div>
 </template>
@@ -44,7 +34,7 @@ import { ucfirst, fetchUserGroups } from '../../modules/utils.js';
 export default {
 	data(){
 		return {
-			reportType: '',
+			reportType: REPORT_TYPES.TRAINEE,
 			groupedUsers: []
 		};
 	},
@@ -63,13 +53,7 @@ export default {
 	},
 
 	methods: {
-		ucfirst,
-		setReportType(type){
-			this.reportType = type;
-		},
-		handleResetClick(){
-			this.reportType = '';
-		}
+		ucfirst
 	},
 	components: {
 		TraineeReport,
