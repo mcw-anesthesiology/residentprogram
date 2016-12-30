@@ -5,6 +5,8 @@ const cssnano = require("gulp-cssnano");
 const concat = require("gulp-concat");
 const elixir = require('laravel-elixir');
 const size = require("gulp-size");
+const each = require('gulp-each');
+const fc2json = require('gulp-file-contents-to-json');
 
 const bowerPath = "./bower_components/";
 const npmPath = "./node_modules/";
@@ -99,6 +101,18 @@ gulp.task("vendorimg", function(){
 
 	gulp.src(cssimgs)
 		.pipe(gulp.dest("./public/build/css/images"));
+});
+
+gulp.task('buildfonts', function () {
+	return gulp.src(['./resources/assets/ttf/*'])
+		.pipe(each(function (content, file, callback) {
+			callback(null, new Buffer(content).toString('base64'));
+		}, 'buffer'))
+		.pipe(fc2json('vfs_fonts.json'))
+		.pipe(each(function (content, file, callback) {
+			callback(null, content);
+		}, 'buffer'))
+		.pipe(gulp.dest('./resources/assets/js'));
 });
 
 elixir(function(mix) {

@@ -144,6 +144,7 @@ Route::get("manage/user-features", "ManageController@userFeatures");
 Route::get("manage/case-logs", "ManageController@caseLogs");
 
 Route::get("reports", "ReportController@reports");
+// Route::get("report", "ReportController@report");
 
 Route::post("report/aggregate", "ReportController@aggregate");
 Route::post("report/specific", "ReportController@specific");

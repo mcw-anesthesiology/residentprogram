@@ -57,6 +57,11 @@ export default {
 					}
 				};
 			}
+		},
+
+		shouldEmit: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data(){
@@ -71,24 +76,29 @@ export default {
 			if(this.chart)
 				this.chart.resize();
 		});
+		this.emitChart();
 	},
 	watch: {
 		data(data){
 			this.chart.data.labels = data.labels;
 			this.chart.data.datasets = data.datasets;
 			this.chart.update();
+			this.emitChart();
 		},
 		options(){
 			this.chart.destroy();
 			this.createChart();
+			this.emitChart();
 		},
 		type(){
 			this.chart.destroy();
 			this.createChart();
+			this.emitChart();
 		}
 	},
 	updated(){
 		this.chart.update();
+		this.emitChart();
 	},
 	destroyed(){
 		this.chart.destroy();
@@ -101,6 +111,11 @@ export default {
 				data: this.data,
 				options: this.options
 			});
+		},
+		emitChart(){
+			if(this.shouldEmit){
+				this.$emit('rendered', this.chart);
+			}
 		}
 	}
 };

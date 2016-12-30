@@ -34,7 +34,6 @@ class ReportController extends Controller
         $this->middleware("auth");
         $this->middleware("shared");
         $this->middleware("type:admin", ["except" => [
-			"reports",
 			"specific",
 			"getPDF"
 		]]);
@@ -656,7 +655,7 @@ class ReportController extends Controller
 		return sqrt(array_sum(array_map(array($this, "sd_square"), $array, array_fill(0,count($array), (array_sum($array) / count($array)) ) ) ) / (count($array)-1) );
 	}
 
-    public function report($startDate, $endDate, $trainingLevel, $reportSubject, $milestones){
+    public function report($startDate, $endDate, $trainingLevel, $milestones, $reportSubject = null, $graphOption = null, $graphOrientation = null){
         // TODO: Add "Evals Requested" to report somehow
         $startDate = Carbon::parse($startDate);
         $startDate->timezone = "America/Chicago";
@@ -897,7 +896,7 @@ class ReportController extends Controller
             }
         });
 
-        if(isset($reportSubject)){
+		if(isset($reportSubject)){
             $subjects = [];
             $subject = User::find($reportSubject);
             $subjects[$subject->id] = $subject->last_name.", ".$subject->first_name;
@@ -919,7 +918,23 @@ class ReportController extends Controller
             "averageCompetency", "graphOption", "trainingLevel", "startDate", "endDate",
 			"subjectEvaluations");
 
-        if(!is_null($reportSubject)){
+		if(!is_null($reportSubject)){
+			switch($graphOption){
+	            case "all":
+	                foreach($subjects as $subject => $subject_name){
+	                    if(!isset($subjectMilestone[$subject]) || !isset($subjectCompetency[$subject]))
+	                        continue;
+	                    ksort($subjectMilestone[$subject]);
+	                    ksort($subjectCompetency[$subject]);
+	                    $graphs[] = RadarGraphs::draw($subjectMilestone[$subject], $averageMilestone, $milestones, $subjectCompetency[$subject], $averageCompetency, $competencies, $subject_name, $startDate, $endDate, $trainingLevel, $maxResponse, $graphOrientation);
+	                }
+	                break;
+	            case "average":
+	                $graphs[] = RadarGraphs::draw(null, $averageMilestone, $milestones, null, $averageCompetency, $competencies, "Average", $startDate, $endDate, $trainingLevel, $maxResponse, $graphOrientation);
+	                break;
+	        }
+			$data['graphs'] = $graphs;
+
             $textQuery = DB::table("text_responses")
                 ->join("evaluations", "evaluations.id", "=", "evaluation_id")
                 ->join("users", "users.id", "=", "evaluations.evaluator_id")
@@ -961,6 +976,30 @@ class ReportController extends Controller
 
             $data["subjectReportEvaluations"] = $reportEvaluationsQuery->get();
         }
+		else {
+			$textQuery = DB::table("text_responses")
+				->join("evaluations", "evaluations.id", "=", "evaluation_id")
+				->join("users", "users.id", "=", "evaluations.evaluator_id")
+				->join("forms", "evaluations.form_id", "=", "forms.id")
+				->where("users.type", "faculty")
+				->where("evaluations.status", "complete")
+				->where("evaluations.evaluation_date", ">=", $startDate)
+				->where("evaluations.evaluation_date", "<=", $endDate)
+				->whereIn("evaluations.subject_id", array_keys($subjects))
+				->whereIn("forms.type", ["resident", "fellow"])
+				->whereIn("forms.evaluator_type", ["faculty"]);
+
+			if($trainingLevel != "all")
+				$textQuery->where("evaluations.training_level", $trainingLevel);
+
+			$textQuery->select("subject_id", "first_name", "last_name",
+				"forms.title as form_title", "evaluation_date", "response",
+				"evaluation_id");
+
+			$subjectTextResponses = collect($textQuery->get())->groupBy('subject_id');
+
+			$data["subjectTextResponses"] = $subjectTextResponses;
+		}
 
         return $data;
     }
@@ -968,18 +1007,53 @@ class ReportController extends Controller
     public function aggregate(Request $request){
         return $this->report($request->input("startDate"),
             $request->input("endDate"), $request->input("trainingLevel"),
-            null, $request->input("milestones"));
+            $request->input("milestones"));
     }
 
     public function specific(Request $request){
-        $user = Auth::user();
+		$user = Auth::user();
         $resident = User::find($request->input("resident"));
         if(!($resident == $user || $user->isType("admin") || $user->mentees->contains($resident)))
             return back()->with("error", "Requested report not authorized");
 
-		return $this->report($request->input("startDate"),
-            $request->input("endDate"), $request->input("trainingLevel"),
-            $request->input("subjectId"), $request->input("milestones"));
+        $data = [];
+
+        $input = $request->all();
+        foreach($input as $key => $value){
+            if(strpos($key, "startDate") !== FALSE){
+                $startDates[] = $value;
+            } elseif(strpos($key, "endDate") !== FALSE){
+                $endDates[] = $value;
+            } elseif(strpos($key, "trainingLevel") !== FALSE){
+                $trainingLevels[] = $value;
+            }
+        }
+
+        if(!isset($startDates))
+            return back()->with("error", "Please select a starting date for the report");
+        if(!isset($endDates))
+            return back()->with("error", "Please select an ending date for the report");
+        if(!isset($trainingLevels))
+            return back()->with("error", "Please select a training level for the report");
+        if(!(count($startDates) == count($endDates) && count($endDates) == count($trainingLevels)))
+            return back()->with("error", "Please be sure to complete all fields for each report");
+
+        for($i = 0; $i < count($startDates); $i++){
+            $data["reportData"][$i] = $this->report($startDates[$i], $endDates[$i],
+                $trainingLevels[$i], $request->input("milestones"), $request->input("resident"),
+				$request->input('graphs'), 'vertical');
+			$data["reportData"][$i]["startDate"] = Carbon::parse($startDates[$i]);
+			$data["reportData"][$i]["endDate"] = Carbon::parse($endDates[$i]);
+			$data["reportData"][$i]["trainingLevel"] = $trainingLevels[$i];
+        }
+
+		$data["numReports"] = count($startDates);
+        $data["specificSubject"] = User::find($request->input("resident"));
+		$data["graphOption"] = $request->input('graphs');
+
+		$request->session()->put("individualReportData", $data);
+
+        return view("report.individual", $data);
     }
 
     public function formReport(Request $request){

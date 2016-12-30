@@ -3,9 +3,23 @@
 		<div class="container body-block">
 			<h2>Trainee report</h2>
 			<report-date v-model="dates" />
-			<select-two class="form-control" v-if="userGroups"
-					:options="userGroups" v-model="traineeId">
-				<option value="-1">All</option>
+			<label class="containing-label">
+				Training level
+				<select-two class="form-control" v-model="trainingLevel">
+					<option value="all">All</option>
+					<option value="intern">Intern</option>
+					<option value="ca-1">CA-1</option>
+					<option value="ca-2">CA-2</option>
+					<option value="ca-3">CA-3</option>
+					<option value="fellow">Fellow</option>
+				</select-two>
+			</label>
+			<label class="containing-label">
+				User
+				<select-two class="form-control" v-if="userGroups"
+						:options="userGroups" v-model="traineeId">
+					<option value="-1">All</option>
+			</label>
 			</select-two>
 			<div class="form-group">
 				<label>
@@ -49,11 +63,10 @@
 		</div>
 
 		<div v-if="report">
-			<stats-report v-if="report.stats" :report="report.stats" />
+			<stats-report v-if="traineeId === '-1' && stats" :report="stats" />
 
-			<aggregate-report v-if="report.aggregate" :report="report.aggregate" />
-
-			<individual-report v-if="report.individual" :report="report.individual"
+			<aggregate-report v-if="traineeId === '-1'" :report="report" />
+			<individual-report v-else :report="report"
 				:subjectId="Number(traineeId)" />
 		</div>
 	</div>
@@ -79,11 +92,12 @@ export default {
 				startDate: '2015-11-01', // FIXME
 				endDate: '2016-11-01' // FIXME
 			},
-			trainingLevel: 'all', // FIXME
+			trainingLevel: 'all',
 			traineeId: '-1',
 			filterMilestones: false,
 			milestones: [],
 			report: null,
+			stats: null,
 
 			milestoneGroups: [],
 			userGroups: []
@@ -125,74 +139,47 @@ export default {
 			this.milestones = newMilestones;
 		},
 		runReport(){
+			fetch('/report/aggregate', {
+				method: 'POST',
+				headers: getFetchHeaders(),
+				credentials: 'same-origin',
+				body: JSON.stringify({
+					startDate: this.dates.startDate,
+					endDate: this.dates.endDate,
+					trainingLevel: this.trainingLevel,
+					milestones: this.milestones
+				})
+			}).then(response => {
+				if(response.ok)
+					return response.json();
+				let err = new Error(response.statusText);
+				err.response = response;
+				throw err;
+			}).then(report => {
+				this.report = Object.assign({}, this.report, report);
+			}).catch(err => {
+				console.error(err);
+			});
 
-			if(this.traineeId === '-1'){
-				fetch('/report/aggregate', {
-					method: 'POST',
-					headers: getFetchHeaders(),
-					credentials: 'same-origin',
-					body: JSON.stringify({
-						startDate: this.dates.startDate,
-						endDate: this.dates.endDate,
-						trainingLevel: this.trainingLevel,
-						milestones: this.milestones
-					})
-				}).then(response => {
-					if(response.ok)
-						return response.json();
-					let err = new Error(response.statusText);
-					err.response = response;
-					throw err;
-				}).then(aggregate => {
-					this.report = Object.assign({}, this.report, {aggregate: aggregate});
-				}).catch(err => {
-					console.error(err);
-				});
-
-				fetch('/report/stats/resident', {
-					method: 'POST',
-					headers: getFetchHeaders(),
-					credentials: 'same-origin',
-					body: JSON.stringify({
-						startDate: this.dates.startDate,
-						endDate: this.dates.endDate
-					})
-				}).then(response => {
-					if(response.ok)
-						return response.json();
-					let err = new Error(response.statusText);
-					err.response = response;
-					throw err;
-				}).then(stats => {
-					this.report = Object.assign({}, this.report, {stats: stats});
-				}).catch(err => {
-					console.error(err);
-				});
-			}
-			else {
-				fetch('/report/specific', {
-					method: 'POST',
-					headers: getFetchHeaders(),
-					credentials: 'same-origin',
-					body: JSON.stringify({
-						startDate: this.dates.startDate,
-						endDate: this.dates.endDate,
-						trainingLevel: this.trainingLevel,
-						milestones: this.milestones,
-						subjectId: this.traineeId
-					})
-				}).then(response => {
-					if(response.ok)
-						return response.json();
-					let err = new Error(response.statusText);
-					err.response = response;
-					throw err;
-				}).then(individual => {
-					this.report = Object.assign({}, this.report, {individual: individual});
-				}).catch(err => {
-					console.error(err);
-				});
-			}
+			fetch('/report/stats/resident', {
+				method: 'POST',
+				headers: getFetchHeaders(),
+				credentials: 'same-origin',
+				body: JSON.stringify({
+					startDate: this.dates.startDate,
+					endDate: this.dates.endDate
+				})
+			}).then(response => {
+				if(response.ok)
+					return response.json();
+				let err = new Error(response.statusText);
+				err.response = response;
+				throw err;
+			}).then(stats => {
+				this.stats = Object.assign({}, this.stats, stats);
+			}).catch(err => {
+				console.error(err);
+			});
 		}
 	},
 	components: {

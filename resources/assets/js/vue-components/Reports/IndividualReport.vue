@@ -5,6 +5,10 @@
 				<h3>Evaluations included in report</h3>
 				<data-table :thead="evaluationsThead" :config="evaluationsConfig"
 						:data="evaluationsData" />
+
+				<button type="button" class="btn center-block" @click="exportPdf">
+					Export PDF
+				</button>
 			</section>
 
 			<section class="container body-block">
@@ -32,12 +36,16 @@
 			<section class="container body-block" v-if="show.charts">
 				<div class="row charts">
 					<div v-if="show.competencies" :class="chartWidth">
-						<chartjs-chart id="aggregate-competency-chart" :type="chartType"
-							:options="chartOptions" :data="competencyChartData" />
+						<chartjs-chart v-if="competencyChartData"
+							id="individual-competency-chart" :type="chartType"
+							:options="chartOptions" :data="competencyChartData"
+							:shouldEmit="true" @rendered="competencyChart = arguments[0]" />
 					</div>
 					<div v-if="show.milestones" :class="chartWidth">
-						<chartjs-chart id="aggregate-milestone-chart" :type="chartType"
-							:options="chartOptions" :data="milestoneChartData" />
+						<chartjs-chart v-if="milestoneChartData"
+							id="individual-milestone-chart" :type="chartType"
+							:options="chartOptions" :data="milestoneChartData"
+							:shouldEmit="true" @rendered="milestoneChart = arguments[0]" />
 					</div>
 				</div>
 
@@ -76,11 +84,20 @@
 						</div>
 					</div>
 			</section>
-			<button type="button" @click="exportPdf">Export PDF</button>
+
+			<section class="container body-block">
+				<h3>Comments</h3>
+				<data-table :thead="commentsThead" :config="commentsConfig" :data="commentsData" />
+
+				<button type="button" class="btn center-block" @click="exportPdf">
+					Export PDF
+				</button>
+			</section>
+
 		</div>
-		<div v-else>
+		<div v-else class="container body-block">
 			<p class="lead">
-				No evaluations found in report.
+				No evaluations found for given parameters.
 			</p>
 		</div>
 	</div>
@@ -95,7 +112,25 @@ import DataTable from '../DataTable.vue';
 
 import { CHART_COLORS } from '../../modules/constants.js';
 import { camelCaseToWords, ucfirst } from '../../modules/utils.js';
-import { renderDateCell, createDateCell } from '../../modules/datatable-utils.js';
+import { renderIdToEvalUrl, renderDateCell, createDateCell } from '../../modules/datatable-utils.js';
+import { residentRadarScaleCallback } from '../../modules/report-utils.js';
+
+let residentLegend = {
+	table: {
+		headerRows: 1,
+		body: [
+			['CBY', 'CA-1', 'CA-2', 'CA-3', 'Attending'].map(tableHeader),
+			['2', '4', '6', '8', '10']
+		]
+	}
+};
+
+function tableHeader(text){
+	return {
+		text: text,
+		style: 'tableHeader'
+	};
+}
 
 export default {
 	props: {
@@ -107,10 +142,14 @@ export default {
 			show: {
 				milestones: true,
 				competencies: true,
+				standardDeviations: false,
 				charts: true
 			},
 			chartType: 'radar',
-			chartOrientation: 'horizontal'
+			chartOrientation: 'vertical',
+
+			milestoneChart: null,
+			competencyChart: null
 		};
 	},
 	computed: {
@@ -131,7 +170,7 @@ export default {
 		evaluationsConfig(){
 			return {
 				columns: [
-					null,
+					{ render: renderIdToEvalUrl },
 					{ render: renderDateCell, createdCell: createDateCell },
 					null,
 					null
@@ -139,54 +178,110 @@ export default {
 			};
 		},
 		evaluationsData(){
-			return this.report.subjectEvaluations[this.subjectId].map(request => [
-				`<a href="/evaluation/${request.evaluation_id}">${request.evaluation_id}</a>`,
-				request.evaluation_date,
-				`${request.evaluator_last}, ${request.evaluator_first}`,
-				request.form_title
-			]);
+			try {
+				return this.report.subjectEvaluations[this.subjectId].map(request => [
+					String(request.evaluation_id),
+					request.evaluation_date,
+					`${request.evaluator_last}, ${request.evaluator_first}`,
+					request.form_title
+				]);
+			} catch(err) {
+				return [];
+			}
 		},
 		competenciesThead(){
-			return [[
+			let tr = [
 				'Competency',
-				'Average',
-				'Standard Deviation',
-				'Number of Evaluations'
-			]];
+				'Average'
+			];
+			if(this.show.standardDeviations)
+				tr.push('Standard Deviation');
+			tr.push('Number of Evaluations');
+
+			return [tr];
 		},
 		competenciesData(){
 			let data = [];
 			for(let competencyId in this.report.subjectCompetency[this.subjectId]){
-				data.push([
-					this.report.competencies[competencyId],
-					Math.round10(this.report.subjectCompetency[this.subjectId][competencyId], -2) || 0,
-					Math.round10(this.report.subjectCompetencyDeviations[this.subjectId][competencyId], -2) || 0,
-					this.report.subjectCompetencyEvals[this.subjectId][competencyId] || 0
-				]);
+				let tr = [String(this.report.competencies[competencyId])];
+				if(this.report.subjectCompetency[this.subjectId][competencyId]){
+					tr.push(String(Math.round10(this.report.subjectCompetency[this.subjectId][competencyId], -2)));
+					if(this.show.standardDeviations)
+						tr.push(String(Math.round10(this.report.subjectCompetencyDeviations[this.subjectId][competencyId], -2)));
+				}
+				else {
+					tr.push('');
+					if(this.show.standardDeviations)
+						tr.push('');
+				}
+				tr.push(String(this.report.subjectCompetencyEvals[this.subjectId][competencyId] || 0));
+				data.push(tr);
 			}
 
 			return data;
 		},
 		milestonesThead(){
-			return [[
+			let tr = [
 				'Milestone',
-				'Average',
-				'Standard Deviation',
-				'Number of Evaluations'
-			]];
+				'Average'
+			];
+
+			if(this.show.standardDeviations)
+				tr.push('Standard Deviation');
+			tr.push('Number of Evaluations');
+
+			return [tr];
 		},
 		milestonesData(){
 			let data = [];
 			for(let milestoneId in this.report.subjectMilestone[this.subjectId]){
-				data.push([
-					this.report.milestones[milestoneId],
-					Math.round10(this.report.subjectMilestone[this.subjectId][milestoneId], -2) || 0,
-					Math.round10(this.report.subjectMilestoneDeviations[this.subjectId][milestoneId], -2) || 0,
-					this.report.subjectMilestoneEvals[this.subjectId][milestoneId] || 0
-				]);
+				let tr = [String(this.report.milestones[milestoneId])];
+				if(this.report.subjectMilestone[this.subjectId][milestoneId]){
+					tr.push(String(Math.round10(this.report.subjectMilestone[this.subjectId][milestoneId], -2)));
+					if(this.show.standardDeviations)
+						tr.push(String(Math.round10(this.report.subjectMilestoneDeviations[this.subjectId][milestoneId], -2)));
+				}
+				else {
+					tr.push('');
+					if(this.show.standardDeviations)
+						tr.push('');
+				}
+
+				tr.push(String(this.report.subjectMilestoneEvals[this.subjectId][milestoneId] || 0));
+
+				data.push(tr);
 			}
 
 			return data;
+		},
+		commentsThead(){
+			return [[
+				'#',
+				'Evaluation Date',
+				'Evaluator',
+				'Evaluation Form',
+				'Comment'
+			]];
+		},
+		commentsData(){
+			return this.report.subjectTextResponses[this.subjectId].map(response => [
+				String(response.evaluation_id),
+				response.evaluation_date,
+				`${response.last_name}, ${response.first_name}`,
+				response.form_title,
+				response.response
+			]);
+		},
+		commentsConfig(){
+			return {
+				columns: [
+					{ render: renderIdToEvalUrl },
+					{ render: renderDateCell, createdCell: createDateCell },
+					null,
+					null,
+					null
+				]
+			};
 		},
 
 		chartTypes(){
@@ -218,6 +313,11 @@ export default {
 							return `${name}: ${value}`;
 						}
 					}
+				},
+				scale: {
+					ticks: {
+						userCallback: residentRadarScaleCallback
+					}
 				}
 			};
 		},
@@ -227,31 +327,35 @@ export default {
 
 			let subjectColor = Color(CHART_COLORS.SUBJECT);
 			let subjectBackgroundColor = subjectColor.clone().alpha(0.2);
-			return {
-				labels: Object.values(this.report.competencies),
-				datasets: [
-					{
-						label: 'Average Competencies',
-						backgroundColor: averageBackgroundColor.rgbString(),
-						borderColor: averageColor.rgbString(),
-						pointBackgroundColor: averageColor.rgbString(),
-						pointBorderColor: '#fff',
-						pointHoverBackgroundColor: '#fff',
-						pointHoverBorderColor: averageColor.rgbString(),
-						data: Object.values(this.report.averageCompetency)
-					},
-					{
-						label: 'Subject Competencies',
-						backgroundColor: subjectBackgroundColor.rgbString(),
-						borderColor: subjectColor.rgbString(),
-						pointBackgroundColor: subjectColor.rgbString(),
-						pointBorderColor: '#fff',
-						pointHoverBackgroundColor: '#fff',
-						pointHoverBorderColor: subjectColor.rgbString(),
-						data: Object.values(this.report.subjectCompetency[this.subjectId])
-					}
-				]
-			};
+			try {
+				return {
+					labels: Object.values(this.report.competencies),
+					datasets: [
+						{
+							label: 'Average Competency',
+							backgroundColor: averageBackgroundColor.rgbString(),
+							borderColor: averageColor.rgbString(),
+							pointBackgroundColor: averageColor.rgbString(),
+							pointBorderColor: '#fff',
+							pointHoverBackgroundColor: '#fff',
+							pointHoverBorderColor: averageColor.rgbString(),
+							data: Object.values(this.report.averageCompetency)
+						},
+						{
+							label: 'Subject Competency',
+							backgroundColor: subjectBackgroundColor.rgbString(),
+							borderColor: subjectColor.rgbString(),
+							pointBackgroundColor: subjectColor.rgbString(),
+							pointBorderColor: '#fff',
+							pointHoverBackgroundColor: '#fff',
+							pointHoverBorderColor: subjectColor.rgbString(),
+							data: Object.values(this.report.subjectCompetency[this.subjectId])
+						}
+					]
+				};
+			} catch(err) {
+				return null;
+			}
 		},
 		milestoneChartData(){
 			let averageColor = Color(CHART_COLORS.AVERAGE);
@@ -259,31 +363,35 @@ export default {
 
 			let subjectColor = Color(CHART_COLORS.SUBJECT);
 			let subjectBackgroundColor = subjectColor.clone().alpha(0.2);
-			return {
-				labels: Object.values(this.report.milestones),
-				datasets: [
-					{
-						label: 'Average Milestones',
-						backgroundColor: averageBackgroundColor.rgbString(),
-						borderColor: averageColor.rgbString(),
-						pointBackgroundColor: averageColor.rgbString(),
-						pointBorderColor: '#fff',
-						pointHoverBackgroundColor: '#fff',
-						pointHoverBorderColor: averageColor.rgbString(),
-						data: Object.values(this.report.averageMilestone)
-					},
-					{
-						label: 'Subject Milestones',
-						backgroundColor: subjectBackgroundColor.rgbString(),
-						borderColor: subjectColor.rgbString(),
-						pointBackgroundColor: subjectColor.rgbString(),
-						pointBorderColor: '#fff',
-						pointHoverBackgroundColor: '#fff',
-						pointHoverBorderColor: subjectColor.rgbString(),
-						data: Object.values(this.report.subjectMilestone[this.subjectId])
-					}
-				]
-			};
+			try {
+				return {
+					labels: Object.values(this.report.milestones),
+					datasets: [
+						{
+							label: 'Average Milestone',
+							backgroundColor: averageBackgroundColor.rgbString(),
+							borderColor: averageColor.rgbString(),
+							pointBackgroundColor: averageColor.rgbString(),
+							pointBorderColor: '#fff',
+							pointHoverBackgroundColor: '#fff',
+							pointHoverBorderColor: averageColor.rgbString(),
+							data: Object.values(this.report.averageMilestone)
+						},
+						{
+							label: 'Subject Milestone',
+							backgroundColor: subjectBackgroundColor.rgbString(),
+							borderColor: subjectColor.rgbString(),
+							pointBackgroundColor: subjectColor.rgbString(),
+							pointBorderColor: '#fff',
+							pointHoverBackgroundColor: '#fff',
+							pointHoverBorderColor: subjectColor.rgbString(),
+							data: Object.values(this.report.subjectMilestone[this.subjectId])
+						}
+					]
+				};
+			} catch(err) {
+				return null;
+			}
 		}
 	},
 	methods: {
@@ -292,56 +400,142 @@ export default {
 		exportPdf(){
 			Promise.all([
 				import('pdfmake/build/pdfmake.js'),
-				import('pdfmake/build/vfs_fonts.js')
+				import('../../vfs_fonts.json')
 			]).then(imports => {
-				const pdfmake = imports[0];
+				const [pdfmake, vfs] = imports;
+				pdfmake.vfs = vfs;
 
 				const filename = 'tempname.pdf'; // FIXME
 
 				let content = [
-					{ text: 'Evaluations included in report' },
+					{ text: 'Report parameters', style: 'heading' },
 					{
 						table: {
+							headerRows: 1,
 							body: [
-								this.evaluationsThead,
-								this.evaluationsData
+								['Name', 'Training level', 'Start date', 'End date'].map(tableHeader),
+								[
+									this.report.subjects[this.subjectId],
+									this.report.trainingLevel,
+									this.report.startDate.date || this.report.startDate,
+									this.report.endDate.date || this.report.endDate
+								]
 							]
 						}
 					},
+					{ text: 'Evaluations included in report', style: 'heading' },
 					{
-						columns: [
-							[
-								{ text: 'Competencies' },
-								{
-									table: {
-										body: [
-											this.competenciesThead,
-											this.competenciesData
-										]
-									}
-								},
-							],
-							[
-								{ text: 'Milestones' },
-								{
-									table: {
-										body: [
-											this.milestonesThead,
-											this.milestonesData
-										]
-									}
-								}
-							]
-						]
+						table: {
+							headerRows: 1,
+							body: JSON.parse(JSON.stringify([
+								this.evaluationsThead[0].map(tableHeader),
+								...this.evaluationsData
+							]))
+						}
 					}
 				];
 
+				if(this.show.competencies || this.show.milestones)
+					content.push(
+						{ text: 'Score mapping', style: 'heading' },
+						residentLegend
+					);
+
+				if(this.show.competencies)
+					content.push(
+						{ text: 'Competencies', style: 'heading' },
+						{
+							table: {
+								headerRows: 1,
+								body: JSON.parse(JSON.stringify([
+									this.competenciesThead[0].map(tableHeader),
+									...this.competenciesData
+								]))
+							}
+						}
+					);
+
+				if(this.show.milestones)
+					content.push(
+						{ text: 'Milestones', style: 'heading' },
+						{
+							table: {
+								headerRows: 1,
+								body: JSON.parse(JSON.stringify([
+									this.milestonesThead[0].map(tableHeader),
+									...this.milestonesData
+								]))
+							}
+						}
+					);
+
+				if(this.show.charts){
+					let charts = this.chartOrientation === 'horizontal'
+						? [
+							{
+								pageBreak: 'before',
+								columns: [
+									{
+										image: this.competencyChart.toBase64Image(),
+										width: 250
+									},
+									{
+										image: this.milestoneChart.toBase64Image(),
+										width: 250
+									}
+								],
+								columnGap: 10
+							}
+						]
+						: [
+							{
+								pageBreak: 'before',
+								image: this.competencyChart.toBase64Image(),
+								width: 550
+							},
+							{
+								image: this.milestoneChart.toBase64Image(),
+								width: 550,
+								pageBreak: 'after'
+							}
+						];
+					content.push(...charts);
+				}
+
+				content.push(
+					{ text: 'Comments', style: 'heading' },
+					{
+						table: {
+							headerRows: 1,
+							body: JSON.parse(JSON.stringify([
+								this.commentsThead[0].map(tableHeader),
+								...this.commentsData
+							]))
+						}
+					}
+				);
+
 				let docDefinition = {
-					content: content
+					pageSize: 'LETTER',
+					content: content,
+					styles: {
+						heading: {
+							bold: true,
+							fontSize: 20,
+							margin: [0, 20, 0, 10]
+						},
+						tableHeader: {
+							bold: true,
+							fontSize: 14
+						}
+					}
 				};
 
 				pdfmake.createPdf(docDefinition).download(filename);
 			});
+
+		},
+		exportAllPdfs(){
 
 		}
 	},

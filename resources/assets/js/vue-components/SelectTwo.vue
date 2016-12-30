@@ -9,7 +9,7 @@ export default {
 	props: {
 		'options': {
 			type: Array,
-			required: true
+			required: false
 		},
 		'value': {
 			required: true
@@ -21,6 +21,9 @@ export default {
 	},
 	computed: {
 		stringOptions(){
+			if(!this.options)
+				return [];
+
 			let options = this.options.slice();
 			for(let option of options){
 				if(option.id)
@@ -49,13 +52,11 @@ export default {
 			this.$emit('input', $(this.$el).val());
 		});
 
-		if(this.stringOptions && this.stringOptions.length > 0){
-			$(this.$el).select2({
-				data: this.stringOptions,
-				tags: this.multiple,
-				createTag: () => undefined
-			}).val(this.stringValue).trigger('change.select2');
-		}
+		$(this.$el).select2({
+			data: this.stringOptions,
+			tags: this.multiple,
+			createTag: () => undefined
+		}).val(this.stringValue).trigger('change.select2');
 	},
 	watch: {
 		stringValue(stringValue){

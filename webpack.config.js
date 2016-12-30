@@ -1,4 +1,5 @@
 /* eslint-env node */
+const webpack = require('webpack');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
@@ -15,6 +16,7 @@ module.exports = {
 	},
 	output: {
 		path: './resources/assets/js/',
+		publicPath: '/js/',
 		filename: '[name].js',
 		libraryTarget: 'umd'
 	},
@@ -37,6 +39,9 @@ module.exports = {
 		]
 	},
 	plugins: [
+		new webpack.optimize.CommonsChunkPlugin({
+			name: 'bundle'
+		}),
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'disabled',
 			generateStatsFile: true
