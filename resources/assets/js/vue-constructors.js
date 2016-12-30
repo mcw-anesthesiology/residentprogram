@@ -7823,6 +7823,7 @@ exports.default = {
 		},
 		chartOptions: function chartOptions() {
 			return {
+				animation: false,
 				legend: {
 					labels: {
 						fontSize: 18,
@@ -7840,6 +7841,7 @@ exports.default = {
 				},
 				scale: {
 					ticks: {
+						beginAtZero: true,
 						userCallback: _reportUtils.residentRadarScaleCallback
 					}
 				}

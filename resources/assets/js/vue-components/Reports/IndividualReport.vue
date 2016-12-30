@@ -300,6 +300,7 @@ export default {
 		},
 		chartOptions(){
 			return {
+				animation: false,
 				legend: {
 					labels: {
 						fontSize: 18,
@@ -317,6 +318,7 @@ export default {
 				},
 				scale: {
 					ticks: {
+						beginAtZero: true,
 						userCallback: residentRadarScaleCallback
 					}
 				}
