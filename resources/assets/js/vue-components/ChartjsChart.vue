@@ -1,5 +1,5 @@
 <template>
-	<canvas :id="id" :width="width" :height="height"></canvas>
+	<canvas ref="canvas" :id="id" :width="width" :height="height"></canvas>
 </template>
 
 <script>
@@ -16,7 +16,7 @@ export default {
 	props: {
 		id: {
 			type: String,
-			required: true
+			required: false
 		},
 		width: {
 			required: false
@@ -66,7 +66,7 @@ export default {
 	},
 	mounted(){
 		this.createChart();
-		let parent = document.querySelector(`#${this.id}`).parentElement;
+		let parent = this.$refs.canvas.parentElement;
 		erd.listenTo(parent, () => {
 			if(this.chart)
 				this.chart.resize();
@@ -95,7 +95,7 @@ export default {
 	},
 	methods: {
 		createChart(){
-			const ctx = document.querySelector(`#${this.id}`).getContext('2d');
+			const ctx = this.$refs.canvas.getContext('2d');
 			this.chart = new Chart(ctx, {
 				type: this.type,
 				data: this.data,

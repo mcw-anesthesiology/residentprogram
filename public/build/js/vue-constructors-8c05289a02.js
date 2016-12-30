@@ -5567,7 +5567,7 @@ exports.default = {
 	props: {
 		id: {
 			type: String,
-			required: true
+			required: false
 		},
 		width: {
 			required: false
@@ -5619,7 +5619,7 @@ exports.default = {
 		var _this = this;
 
 		this.createChart();
-		var parent = document.querySelector('#' + this.id).parentElement;
+		var parent = this.$refs.canvas.parentElement;
 		erd.listenTo(parent, function () {
 			if (_this.chart) _this.chart.resize();
 		});
@@ -5649,7 +5649,7 @@ exports.default = {
 
 	methods: {
 		createChart: function createChart() {
-			var ctx = document.querySelector('#' + this.id).getContext('2d');
+			var ctx = this.$refs.canvas.getContext('2d');
 			this.chart = new _chart2.default(ctx, {
 				type: this.type,
 				data: this.data,
@@ -24284,6 +24284,7 @@ if (false) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('canvas', {
+    ref: "canvas",
     attrs: {
       "id": _vm.id,
       "width": _vm.width,
@@ -24507,7 +24508,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [(_vm.competencyChartData) ? _c('chartjs-chart', {
     ref: "competencyChart",
     attrs: {
-      "id": "individual-competency-chart",
       "type": _vm.chartType,
       "options": _vm.chartOptions,
       "data": _vm.competencyChartData,
@@ -24518,7 +24518,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [(_vm.milestoneChartData) ? _c('chartjs-chart', {
     ref: "milestoneChart",
     attrs: {
-      "id": "individual-milestone-chart",
       "type": _vm.chartType,
       "options": _vm.chartOptions,
       "data": _vm.milestoneChartData,

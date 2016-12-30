@@ -37,13 +37,13 @@
 				<div class="row charts">
 					<div v-if="show.competencies" :class="chartWidth">
 						<chartjs-chart v-if="competencyChartData"
-							id="individual-competency-chart" :type="chartType"
+							:type="chartType"
 							:options="chartOptions" :data="competencyChartData"
 							:shouldEmit="true" ref="competencyChart" />
 					</div>
 					<div v-if="show.milestones" :class="chartWidth">
 						<chartjs-chart v-if="milestoneChartData"
-							id="individual-milestone-chart" :type="chartType"
+							:type="chartType"
 							:options="chartOptions" :data="milestoneChartData"
 							:shouldEmit="true" ref="milestoneChart" />
 					</div>
