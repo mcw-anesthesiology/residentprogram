@@ -39,13 +39,13 @@
 						<chartjs-chart v-if="competencyChartData"
 							id="individual-competency-chart" :type="chartType"
 							:options="chartOptions" :data="competencyChartData"
-							:shouldEmit="true" @rendered="competencyChart = arguments[0]" />
+							:shouldEmit="true" ref="competencyChart" />
 					</div>
 					<div v-if="show.milestones" :class="chartWidth">
 						<chartjs-chart v-if="milestoneChartData"
 							id="individual-milestone-chart" :type="chartType"
 							:options="chartOptions" :data="milestoneChartData"
-							:shouldEmit="true" @rendered="milestoneChart = arguments[0]" />
+							:shouldEmit="true" ref="milestoneChart" />
 					</div>
 				</div>
 
@@ -146,10 +146,7 @@ export default {
 				charts: true
 			},
 			chartType: 'radar',
-			chartOrientation: 'vertical',
-
-			milestoneChart: null,
-			competencyChart: null
+			chartOrientation: 'vertical'
 		};
 	},
 	computed: {
@@ -264,13 +261,17 @@ export default {
 			]];
 		},
 		commentsData(){
-			return this.report.subjectTextResponses[this.subjectId].map(response => [
-				String(response.evaluation_id),
-				response.evaluation_date,
-				`${response.last_name}, ${response.first_name}`,
-				response.form_title,
-				response.response
-			]);
+			try {
+				return this.report.subjectTextResponses[this.subjectId].map(response => [
+					String(response.evaluation_id),
+					response.evaluation_date,
+					`${response.last_name}, ${response.first_name}`,
+					response.form_title,
+					response.response
+				]);
+			} catch(err) {
+				return [];
+			}
 		},
 		commentsConfig(){
 			return {
@@ -398,6 +399,9 @@ export default {
 		camelCaseToWords,
 		ucfirst,
 		exportPdf(){
+			if(!this.report.subjectEvaluations[this.subjectId])
+				return;
+
 			Promise.all([
 				import('pdfmake/build/pdfmake.js'),
 				import('../../vfs_fonts.json')
@@ -405,7 +409,7 @@ export default {
 				const [pdfmake, vfs] = imports;
 				pdfmake.vfs = vfs;
 
-				const filename = 'tempname.pdf'; // FIXME
+				const filename = `${this.report.subjects[this.subjectId]} - ${new Date().toLocaleString()}`; // FIXME
 
 				let content = [
 					{ text: 'Report parameters', style: 'heading' },
@@ -417,8 +421,12 @@ export default {
 								[
 									this.report.subjects[this.subjectId],
 									this.report.trainingLevel,
-									this.report.startDate.date || this.report.startDate,
-									this.report.endDate.date || this.report.endDate
+									this.report.startDate.date
+										? this.report.startDate.date.split(' ')[0]
+										: this.report.startDate,
+									this.report.endDate.date
+										? this.report.endDate.date.split(' ')[0]
+										: this.report.endDate
 								]
 							]
 						}
@@ -469,36 +477,50 @@ export default {
 						}
 					);
 
+				let charts = [];
 				if(this.show.charts){
-					let charts = this.chartOrientation === 'horizontal'
-						? [
+					if(this.chartOrientation === 'horizontal'){
+						let cols = [];
+						if(this.show.competencies && this.$refs.competencyChart && this.$refs.competencyChart.chart)
+							cols.push({
+								image: this.$refs.competencyChart.chart.toBase64Image(),
+								width: 250
+							});
+						else
+							cols.push({ text: '', width: 250 });
+
+						if(this.show.milestones && this.$refs.milestoneChart && this.$refs.milestoneChart.chart)
+							cols.push({
+								image: this.$refs.milestoneChart.chart.toBase64Image(),
+								width: 250
+							});
+						else
+							cols.push({ text: '', width: 250 });
+
+						charts = [
 							{
 								pageBreak: 'before',
-								columns: [
-									{
-										image: this.competencyChart.toBase64Image(),
-										width: 250
-									},
-									{
-										image: this.milestoneChart.toBase64Image(),
-										width: 250
-									}
-								],
+								columns: cols,
 								columnGap: 10
 							}
-						]
-						: [
-							{
+						];
+					}
+					else {
+						charts = [];
+						if(this.show.competencies && this.$refs.competencyChart && this.$refs.competencyChart.chart)
+							charts.push({
 								pageBreak: 'before',
-								image: this.competencyChart.toBase64Image(),
+								image: this.$refs.competencyChart.chart.toBase64Image(),
 								width: 550
-							},
-							{
-								image: this.milestoneChart.toBase64Image(),
+							});
+
+						if(this.show.milestones && this.$refs.milestoneChart && this.$refs.milestoneChart.chart)
+							charts.push({
+								image: this.$refs.milestoneChart.chart.toBase64Image(),
 								width: 550,
 								pageBreak: 'after'
-							}
-						];
+							});
+					}
 					content.push(...charts);
 				}
 
@@ -533,9 +555,6 @@ export default {
 
 				pdfmake.createPdf(docDefinition).download(filename);
 			});
-
-		},
-		exportAllPdfs(){
 
 		}
 	},

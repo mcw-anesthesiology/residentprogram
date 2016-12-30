@@ -17,10 +17,19 @@
 			<label class="containing-label">
 				User
 				<select-two class="form-control" v-if="userGroups"
-						:options="userGroups" v-model="traineeId">
-					<option value="-1">All</option>
+						:options="userGroups" v-model="traineeId"
+						:multiple="batchPrint">
+					<option v-if="!batchPrint" value="-1">All</option>
+				</select-two>
 			</label>
-			</select-two>
+
+			<div class="form-group">
+				<label>
+					<input type="checkbox" v-model="batchPrint" />
+					Batch print
+				</label>
+			</div>
+
 			<div class="form-group">
 				<label>
 					<input type="checkbox" v-model="filterMilestones" />
@@ -56,18 +65,29 @@
 				</div>
 			</fieldset>
 
-			<button type="button" class="btn btn-lg btn-primary"
+			<button v-if="batchPrint" type="button" class="btn btn-lg btn-primary"
+					@click="printAll">
+				Print all
+			</button>
+			<button v-else type="button" class="btn btn-lg btn-primary"
 					@click="runReport">
 				Run report
 			</button>
 		</div>
 
 		<div v-if="report">
-			<stats-report v-if="traineeId === '-1' && stats" :report="stats" />
+			<div v-if="batchPrint">
+				<individual-report :report="report"
+					v-for="id of traineeId"
+					:subjectId="Number(id)" ref="individualsToPrint" />
+			</div>
+			<div v-else>
+				<stats-report v-if="traineeId === '-1' && stats" :report="stats" />
 
-			<aggregate-report v-if="traineeId === '-1'" :report="report" />
-			<individual-report v-else :report="report"
-				:subjectId="Number(traineeId)" />
+				<aggregate-report v-if="traineeId === '-1'" :report="report" />
+				<individual-report v-else :report="report"
+					:subjectId="Number(traineeId)" />
+			</div>
 		</div>
 	</div>
 </template>
@@ -96,6 +116,8 @@ export default {
 			traineeId: '-1',
 			filterMilestones: false,
 			milestones: [],
+			batchPrint: false,
+
 			report: null,
 			stats: null,
 
@@ -139,7 +161,7 @@ export default {
 			this.milestones = newMilestones;
 		},
 		runReport(){
-			fetch('/report/aggregate', {
+			const reportPromise = fetch('/report/aggregate', {
 				method: 'POST',
 				headers: getFetchHeaders(),
 				credentials: 'same-origin',
@@ -161,7 +183,7 @@ export default {
 				console.error(err);
 			});
 
-			fetch('/report/stats/resident', {
+			const statsPromise = fetch('/report/stats/resident', {
 				method: 'POST',
 				headers: getFetchHeaders(),
 				credentials: 'same-origin',
@@ -179,6 +201,17 @@ export default {
 				this.stats = Object.assign({}, this.stats, stats);
 			}).catch(err => {
 				console.error(err);
+			});
+
+			return Promise.all([reportPromise, statsPromise]);
+		},
+		printAll(){
+			this.runReport().then(() => {
+				this.$nextTick(() => {
+					this.$refs.individualsToPrint.map(individual => {
+						individual.exportPdf();
+					});
+				});
 			});
 		}
 	},

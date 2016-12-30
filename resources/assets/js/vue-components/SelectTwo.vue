@@ -39,6 +39,9 @@ export default {
 			return options;
 		},
 		stringValue(){
+			if(!this.value)
+				return '';
+
 			if(Array.isArray(this.value)){
 				return this.value.slice().map(value => value.toString());
 			}
@@ -52,6 +55,13 @@ export default {
 			this.$emit('input', $(this.$el).val());
 		});
 
+		$(this.$el).select2({
+			data: this.stringOptions,
+			tags: this.multiple,
+			createTag: () => undefined
+		}).val(this.stringValue).trigger('change.select2');
+	},
+	updated(){
 		$(this.$el).select2({
 			data: this.stringOptions,
 			tags: this.multiple,
