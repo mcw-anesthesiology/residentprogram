@@ -15,7 +15,7 @@ module.exports = {
 		]
 	},
 	output: {
-		path: './resources/assets/js/',
+		path: './public/js/',
 		publicPath: '/js/',
 		filename: '[name].js',
 		libraryTarget: 'umd'

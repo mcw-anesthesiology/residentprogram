@@ -1,7 +1,5 @@
 /* eslint-env node */
 const gulp = require("gulp");
-const uglify = require("gulp-uglify");
-const cssnano = require("gulp-cssnano");
 const concat = require("gulp-concat");
 const elixir = require('laravel-elixir');
 const size = require("gulp-size");
@@ -76,8 +74,7 @@ gulp.task("vendorjs", function(){
 	gulp.src(scripts)
 		.pipe(size({showFiles: true}))
 		.pipe(concat("vendor.js"))
-		.pipe(uglify())
-		.pipe(gulp.dest("./public/js"))
+		.pipe(gulp.dest("./resources/assets/js"))
 		.pipe(size());
 });
 
@@ -85,8 +82,7 @@ gulp.task("vendorcss", function(){
 	gulp.src(styles)
 		.pipe(size({showFiles: true}))
 		.pipe(concat("vendor.css"))
-		.pipe(cssnano())
-		.pipe(gulp.dest("./public/css"))
+		.pipe(gulp.dest("./resources/assets/css"))
 		.pipe(size());
 });
 
@@ -117,27 +113,22 @@ gulp.task('buildfonts', function () {
 
 elixir(function(mix) {
 	mix.scripts([
+			"vendor.js",
 			"datatables-datetime-moment.js",
 			"modernizr-custom.js",
 			"mdn-round.js",
 			"main.js",
 			"milestone-competency-radar-chart.js",
-			"evaluation-line-chart.js",
-			"bundle.js"
+			"evaluation-line-chart.js"
 		])
-		.scripts(["vue-constructors.js"], "public/js/vue-constructors.js")
-		.scripts(['0.js'], 'public/js/0.js')
-		.scripts(['1.js'], 'public/js/1.js')
 		.styles([
+			"vendor.css",
 			"main.css",
 			"milestone-competency-radar-chart.css",
 			"navbar.css"
 		]);
 	mix.version([
 		"css/all.css",
-		"css/vendor.css",
-		"js/all.js",
-		"js/vendor.js",
-		"js/vue-constructors.js"
+		"js/all.js"
 	]);
 });

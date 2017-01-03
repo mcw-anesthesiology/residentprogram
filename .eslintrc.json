@@ -9,7 +9,7 @@
 		"es6": true,
 		"jquery": true
 	},
-	"plugins": ["vue"],
+	"plugins": ["vue", "compat"],
 	"extends": "eslint:recommended",
 	"rules": {
 		"no-console": "off",
@@ -19,6 +19,17 @@
 		"no-spaced-func": "warn",
 		"comma-style": "warn",
 		"comma-spacing": "warn",
-		"key-spacing": "warn"
+		"key-spacing": "warn",
+		"compat/compat": 2
+	},
+	"settings": {
+		"targets": ["chrome", "firefox", "edge", "safari", "ie"],
+		"polyfills": [
+			"promise",
+			"fetch",
+			"dataset"
+		],
+		"coverage": false,
+		"compiler": "babel"
 	}
 }

@@ -94,6 +94,7 @@
 	@endif
 		<script type="text/javascript" src="{{ elixir("js/vendor.js") }}"></script>
 		<script type="text/javascript" src="{{ elixir("js/all.js") }}"></script>
+		<script src="/js/bundle.js"></script>
 		@yield("script")
 	</body>
 </html>

@@ -5,13 +5,13 @@
   "private": true,
   "scripts": {
     "start": "yarn watch",
-    "build": "run-s build:*",
+    "build": "run-p build:*",
     "build:webpack": "webpack -p",
     "build:gulp": "gulp --production",
     "watch": "run-p watch:*",
     "watch:webpack": "webpack --progress --colors --watch",
     "watch:gulp": "DISABLE_NOTIFIER=true gulp watch",
-    "analyze:bundle": "webpack-bundle-analyzer ./resources/assets/js/stats.json"
+    "analyze:bundle": "webpack-bundle-analyzer ./public/js/stats.json"
   },
   "repository": {
     "url": "git@github.com:jacobmischka/residentprogram.git",
@@ -36,14 +36,13 @@
     "element-resize-detector": "^1.1.9",
     "es6-promise": "^4.0.5",
     "eslint": "^3.12.2",
+    "eslint-plugin-compat": "^0.1.1",
     "eslint-plugin-vue": "^1.0.0",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",
-    "gulp-cssnano": "^2.1.0",
     "gulp-each": "^0.2.0",
     "gulp-file-contents-to-json": "^0.2.1",
     "gulp-size": "^2.0.0",
-    "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.7",
     "json-loader": "^0.5.4",
     "jsonschema": "^1.1.0",
@@ -59,7 +58,7 @@
     "vue": "^2.1.0",
     "vue-loader": "^10.0.2",
     "vue-template-compiler": "^2.1.6",
-    "webpack": "^2.2.0-rc.2",
+    "webpack": "^2.2.0-rc.3",
     "webpack-bundle-analyzer": "^2.2.1",
     "whatwg-fetch": "^2.0.1"
   }
