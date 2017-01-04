@@ -12,12 +12,6 @@ const scripts = [
 	npmPath + "babel-polyfill/dist/polyfill.min.js",
 	bowerPath + "jquery/dist/jquery.min.js",
 	bowerPath + "bootstrap/dist/js/bootstrap.min.js",
-	bowerPath + "jquery-ui/ui/minified/core.min.js",
-	bowerPath + "jquery-ui/ui/minified/widget.min.js",
-	bowerPath + "jquery-ui/ui/minified/core.min.js",
-	bowerPath + "jquery-ui/ui/minified/mouse.min.js",
-	bowerPath + "jquery-ui/ui/minified/position.min.js",
-	bowerPath + "jquery-ui/ui/minified/datepicker.min.js",
 	bowerPath + "datatables.net/js/jquery.dataTables.min.js",
 	bowerPath + "datatables.net-bs/js/dataTables.bootstrap.min.js",
 	bowerPath + "datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js",
@@ -40,9 +34,6 @@ const scripts = [
 
 const styles = [
 	bowerPath + "bootstrap/dist/css/bootstrap.min.css",
-	bowerPath + "jquery-ui/themes/base/core.css",
-	bowerPath + "jquery-ui/themes/base/datepicker.css",
-	bowerPath + "jquery-ui/themes/base/theme.css",
 	bowerPath + "datatables.net-bs/css/dataTables.bootstrap.min.css",
 	bowerPath + "datatables.net-fixedcolumns-bs/css/fixedColumns.bootstrap.min.css",
 	bowerPath + "datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css",
@@ -114,6 +105,7 @@ gulp.task('buildfonts', function () {
 elixir(function(mix) {
 	mix.scripts([
 			"vendor.js",
+			"jquery-ui.min.js",
 			"datatables-datetime-moment.js",
 			"modernizr-custom.js",
 			"mdn-round.js",
@@ -123,6 +115,9 @@ elixir(function(mix) {
 		])
 		.styles([
 			"vendor.css",
+			"jquery-ui.min.css",
+			"jquery-ui.structure.min.css",
+			"jquery-ui.theme.min.css",
 			"main.css",
 			"milestone-competency-radar-chart.css",
 			"navbar.css"
