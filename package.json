@@ -10,7 +10,7 @@
     "build:gulp": "gulp --production",
     "watch": "run-p watch:*",
     "watch:webpack": "webpack --progress --colors --watch",
-    "watch:gulp": "DISABLE_NOTIFIER=true gulp watch",
+    "watch:gulp": "# DISABLE_NOTIFIER=true gulp watch",
     "analyze:bundle": "webpack-bundle-analyzer ./public/js/stats.json"
   },
   "repository": {

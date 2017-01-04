@@ -42,7 +42,6 @@
 			ga('send', 'pageview');
 		</script>
 	@endif
-		<link href="{{ elixir("css/vendor.css") }}" rel="stylesheet" />
 		<link href="{{ elixir("css/all.css") }}" rel="stylesheet" />
 
 		@yield("head")
@@ -92,7 +91,6 @@
 	@if(empty($noNavbar) || !$noNavbar)
 		@include("modals")
 	@endif
-		<script type="text/javascript" src="{{ elixir("js/vendor.js") }}"></script>
 		<script type="text/javascript" src="{{ elixir("js/all.js") }}"></script>
 		<script src="/js/bundle.js"></script>
 		@yield("script")

@@ -23,7 +23,6 @@
 		</script>
 	@endif
 
-		<link href="{{ elixir("css/vendor.css") }}" rel="stylesheet" />
 		<link href="{{ elixir("css/all.css") }}" rel="stylesheet" />
 
 
@@ -156,7 +155,6 @@
 				@yield("body")
 			</div>
 		</div>
-		<script type="text/javascript" src="{{ elixir("js/vendor.js") }}"></script>
 		<script type="text/javascript" src="{{ elixir("js/all.js") }}"></script>
 	</body>
 </html>
