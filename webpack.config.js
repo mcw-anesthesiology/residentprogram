@@ -5,7 +5,6 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 module.exports = {
 	entry: {
 		bundle: [
-			'es6-promise',
 			'whatwg-fetch',
 			'element-dataset',
 			'./resources/assets/js/modules',

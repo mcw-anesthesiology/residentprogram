@@ -1,8 +1,6 @@
 /* eslint-env node */
 const gulp = require("gulp");
-const concat = require("gulp-concat");
 const elixir = require('laravel-elixir');
-const size = require("gulp-size");
 const each = require('gulp-each');
 const fc2json = require('gulp-file-contents-to-json');
 
@@ -61,22 +59,6 @@ const cssimgs = [
 	bowerPath + "jquery-ui/themes/base/images/*"
 ];
 
-gulp.task("vendorjs", function(){
-	gulp.src(scripts)
-		.pipe(size({showFiles: true}))
-		.pipe(concat("vendor.js"))
-		.pipe(gulp.dest("./resources/assets/js"))
-		.pipe(size());
-});
-
-gulp.task("vendorcss", function(){
-	gulp.src(styles)
-		.pipe(size({showFiles: true}))
-		.pipe(concat("vendor.css"))
-		.pipe(gulp.dest("./resources/assets/css"))
-		.pipe(size());
-});
-
 gulp.task("vendorfont", function(){
 	gulp.src(fonts)
 		.pipe(gulp.dest("./public/build/fonts"));
@@ -104,7 +86,7 @@ gulp.task('buildfonts', function () {
 
 elixir(function(mix) {
 	mix.scripts([
-			"vendor.js",
+			...relativeToResourcesSubdir(scripts),
 			"jquery-ui.min.js",
 			"datatables-datetime-moment.js",
 			"modernizr-custom.js",
@@ -114,7 +96,7 @@ elixir(function(mix) {
 			"evaluation-line-chart.js"
 		])
 		.styles([
-			"vendor.css",
+			...relativeToResourcesSubdir(styles),
 			"jquery-ui.min.css",
 			"jquery-ui.structure.min.css",
 			"jquery-ui.theme.min.css",
@@ -127,3 +109,7 @@ elixir(function(mix) {
 		"js/all.js"
 	]);
 });
+
+function relativeToResourcesSubdir(arr){
+	return arr.map(path => '../../../' + path);
+}
