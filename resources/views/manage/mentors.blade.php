@@ -33,8 +33,8 @@
           <div class="form-group">
             <label for="faculty">Faculty</label>
             <select class="form-control select2" id="faculty" name="mentor_id" style="width: 100%">
-            @foreach($faculty as $facultyMember)
-                <option value="{{ $facultyMember->id }}">{{ $facultyMember->last_name }}, {{ $facultyMember->first_name }}</option>
+            @foreach($mentors as $potentialMentor)
+                <option value="{{ $potentialMentor->id }}">{{ $potentialMentor->last_name }}, {{ $potentialMentor->first_name }}</option>
             @endforeach
             </select>
           </div>

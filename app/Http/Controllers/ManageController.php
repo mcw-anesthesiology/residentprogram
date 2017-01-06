@@ -169,8 +169,8 @@ class ManageController extends Controller
     }
 
     public function mentors(){
-        $faculty = User::where("type", "faculty")->get();
-        $data = compact("faculty");
+        $mentors = User::whereIn("type", ["faculty", "staff"])->get();
+        $data = compact("mentors");
         return view("manage.mentors", $data);
     }
 

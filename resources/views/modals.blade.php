@@ -84,14 +84,7 @@
 		<div class="modal-body">
 		  <div class="modal-specRpt">
 			<div class="form-group">
-		@if($user->type == "faculty")
-				<label for="resident">Resident</label>
-				<select class="form-control select2" name="resident" style="width: 100%" required>
-			@foreach($user->mentees as $resident)
-						<option value="{{ $resident->id }}">{{ $resident->full_name }}</option>
-			@endforeach
-				</select>
-		@elseif($user->type == "resident")
+		@if($user->isType("resident"))
 				<input type="hidden" name="resident" value="{{ $user->id }}" />
 		@elseif($user->isType("admin"))
 				<label for="resident">Resident</label>
@@ -106,6 +99,13 @@
                 @endif
             @endforeach
 				</select>
+        @elseif($user->mentees)
+                <label for="resident">Mentee</label>
+                <select class="form-control select2" name="resident" style="width: 100%" required>
+            @foreach($user->mentees as $mentee)
+                        <option value="{{ $mentee->id }}">{{ $mentee->full_name }}</option>
+            @endforeach
+                </select>
 		@endif
 			</div>
 		  </div>

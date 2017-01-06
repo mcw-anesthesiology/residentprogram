@@ -52,7 +52,7 @@
 	  @if($user->isType("admin") || $user->usesFeature(config("constants.FEATURES.CASE_LOG")))
 		<li><a href="/case-log">Case log</a></li>
 	  @endif
-	  @if($user->isType("admin") || $user->type == "resident" || ($user->type == "faculty" && $user->mentees()->count() > 0))
+	  @if($user->isType("admin") || $user->type == "resident" || ($user->mentees()->count() > 0))
 		<li class="dropdown">
 			<a href="#" data-toggle="dropdown">Reports<b class="caret"></b></a>
 			<ul class="dropdown-menu">
