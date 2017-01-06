@@ -31,6 +31,8 @@ import NeedsReport from './Needs/Report.vue';
 import { REPORT_TYPES } from '../../modules/constants.js';
 import { ucfirst, fetchUserGroups } from '../../modules/utils.js';
 
+// TODO: Consider dynamically importing the report types
+
 export default {
 	data(){
 		return {

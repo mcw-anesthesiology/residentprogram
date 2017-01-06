@@ -9,7 +9,8 @@
 @stop
 
 @section("script")
-	<script src="/js/vue-constructors.js"></script>
+	<script src="/js/vue-deps.js"></script>
+	<script src="/js/vue-reports.js"></script>
 	<script>
 		var vm = createReports('#reports');
 	</script>

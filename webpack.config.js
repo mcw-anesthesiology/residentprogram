@@ -9,9 +9,9 @@ module.exports = {
 			'element-dataset',
 			'./resources/assets/js/modules',
 		],
-		'vue-constructors': [
-			'./resources/assets/js/vue-components/constructors.js'
-		]
+		'vue-form-builder': './resources/assets/js/vue-constructors/form-builder.js',
+		'vue-reports': './resources/assets/js/vue-constructors/reports.js',
+		'vue-milestone-competency-lists': './resources/assets/js/vue-constructors/milestone-competency-lists.js'
 	},
 	output: {
 		path: './public/js/',
@@ -38,6 +38,14 @@ module.exports = {
 		]
 	},
 	plugins: [
+		new webpack.optimize.CommonsChunkPlugin({
+			name: 'vue-deps',
+			chunks: [
+				'vue-form-builder',
+				'vue-reports',
+				'vue-milestone-competency-lists'
+			]
+		}),
 		new webpack.optimize.CommonsChunkPlugin({
 			name: 'bundle'
 		}),

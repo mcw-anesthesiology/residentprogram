@@ -16,7 +16,8 @@
 @stop
 
 @section("script")
-	<script src="/js/vue-constructors.js"></script>
+	<script src="/js/vue-deps.js"></script>
+	<script src="/js/vue-milestone-competency-lists.js"></script>
 	<script>
 		var milestoneQuestions = {!! $form->milestoneQuestions->groupBy('question_id')->toJson() !!};
 		var competencyQuestions = {!! $form->competencyQuestions->groupBy('question_id')->toJson() !!};
