@@ -2,18 +2,19 @@
 	<section>
 		<h2>Needs evaluations</h2>
 
-		<section class="needs-container">
-			<needs-evaluations-list :items="trainees" :fields="traineeFields" />
+		<section>
+			<component-list :items="trainees" :fields="traineeFields">
+				<template scope="item">
+					<evaluation-list-item :user="item" />
+				</template>
+			</component-list>
 		</section>
 	</section>
 </template>
 
 <script>
-import NeedsEvaluationsList from './EvaluationList.vue';
 import EvaluationListItem from './EvaluationListItem.vue';
 import ComponentList from '../../ComponentList.vue';
-
-// TODO: Remove whichever of these lists we don't use
 
 export default {
 	props: {
@@ -38,9 +39,14 @@ export default {
 	},
 
 	components: {
-		NeedsEvaluationsList,
 		EvaluationListItem,
 		ComponentList
 	}
 };
 </script>
+
+<style scoped>
+	.evaluation-list-item:nth-child(even) {
+		
+	}
+</style>

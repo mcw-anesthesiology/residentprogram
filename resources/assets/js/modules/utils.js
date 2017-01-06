@@ -212,3 +212,8 @@ function sortSelect2Objects(a, b){
 
 	return 0;
 }
+
+export function isoDateString(date){
+	let isoString = date.toISOString();
+	return isoString.substring(0, isoString.indexOf('T'));
+}

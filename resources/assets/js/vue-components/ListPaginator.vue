@@ -40,3 +40,13 @@ export default {
 	}
 };
 </script>
+
+<style scoped>
+	.paginator {
+		text-align: center;
+	}
+
+	nav span {
+		margin: 0 0.25em;
+	}
+</style>

@@ -21,8 +21,8 @@
 						User
 						<select-two class="form-control" v-if="groupedUsers"
 								:options="groupedUsers" v-model="traineeId"
-								:multiple="batchPrint">
-							<option v-if="!batchPrint" value="-1">All</option>
+								:multiple="multipleTrainees">
+							<option v-if="!multipleTrainees" value="-1">All</option>
 						</select-two>
 					</label>
 				</div>
@@ -37,8 +37,8 @@
 
 			<div class="form-group">
 				<label>
-					<input type="checkbox" v-model="batchPrint" />
-					Batch print
+					<input type="checkbox" v-model="multipleTrainees" />
+					Select multiple trainees
 				</label>
 			</div>
 
@@ -77,21 +77,21 @@
 				</div>
 			</fieldset>
 
-			<button v-if="batchPrint" type="button" class="btn btn-lg btn-primary"
-					@click="printAll">
-				Print all
-			</button>
-			<button v-else type="button" class="btn btn-lg btn-primary"
+			<button type="button" class="btn btn-lg btn-primary"
 					@click="runReport">
 				Run report
+			</button>
+			<button v-if="report && multipleTrainees" type="button" class="btn btn-lg btn-primary"
+					@click="printAll">
+				Export all reports to PDFs
 			</button>
 		</div>
 
 		<div v-if="report">
-			<div v-if="batchPrint">
+			<div v-if="multipleTrainees">
 				<individual-report :report="report"
 					v-for="id of traineeId"
-					:subjectId="Number(id)" ref="individualsToPrint" />
+					:subjectId="Number(id)" ref="individualReports" />
 			</div>
 			<div v-else>
 				<stats-report v-if="traineeId === '-1' && stats" :report="stats" />
@@ -128,7 +128,7 @@ export default {
 			traineeId: '-1',
 			filterMilestones: false,
 			milestones: [],
-			batchPrint: false,
+			multipleTrainees: false,
 
 			show: {
 				inactiveUsers: false
@@ -227,12 +227,8 @@ export default {
 			return Promise.all([reportPromise, statsPromise]);
 		},
 		printAll(){
-			this.runReport().then(() => {
-				this.$nextTick(() => {
-					this.$refs.individualsToPrint.map(individual => {
-						individual.exportPdf();
-					});
-				});
+			this.$refs.individualReports.map(individual => {
+				individual.exportPdf();
 			});
 		}
 	},

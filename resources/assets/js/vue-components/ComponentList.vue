@@ -2,7 +2,7 @@
 	<div>
 		<input type="search" class="form-control" v-model="query" />
 		<ol class="list">
-			<slot v-for="(item, index) of currentPageItems" :item="item" :index="index"></slot>
+			<slot v-for="item of currentPageItems" v-bind="item"></slot>
 		</ol>
 		<list-paginator v-model="page" :itemsPerPage="itemsPerPage"
 			:paginatedItems="paginatedItems"

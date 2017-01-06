@@ -1,7 +1,15 @@
 <template>
-	<div>
-		<div v-if="report.subjectEvaluations[subjectId] && report.subjectEvaluations[subjectId].length > 0">
-			<section class="container body-block">
+	<div class="individual-report container body-block">
+		<template v-if="report.subjectEvaluations[subjectId] && report.subjectEvaluations[subjectId].length > 0">
+			<h2>
+				Individual Report
+				<small>
+					{{ report.subjects[subjectId] }}
+				</small>
+			</h2>
+
+
+			<section>
 				<h3>Evaluations included in report</h3>
 				<data-table :thead="evaluationsThead" :config="evaluationsConfig"
 						:data="evaluationsData" />
@@ -11,7 +19,7 @@
 				</button>
 			</section>
 
-			<section class="container body-block">
+			<section>
 				<fieldset class="show-container">
 					<legend>Show</legend>
 					<label v-for="(part, name) of show">
@@ -33,7 +41,7 @@
 				</div>
 			</section>
 
-			<section class="container body-block" v-if="show.charts">
+			<section v-if="show.charts">
 				<div class="row charts">
 					<div v-if="show.competencies" :class="chartWidth">
 						<chartjs-chart v-if="competencyChartData"
@@ -85,7 +93,7 @@
 					</div>
 			</section>
 
-			<section class="container body-block">
+			<section>
 				<h3>Comments</h3>
 				<data-table :thead="commentsThead" :config="commentsConfig" :data="commentsData" />
 
@@ -94,12 +102,12 @@
 				</button>
 			</section>
 
-		</div>
-		<div v-else class="container body-block">
+		</template>
+		<template v-else>
 			<p class="lead">
 				No evaluations found for given parameters.
 			</p>
-		</div>
+		</template>
 	</div>
 </template>
 
@@ -568,3 +576,9 @@ export default {
 	}
 };
 </script>
+
+<style scoped>
+	.individual-report section {
+		margin: 2em 0 0;
+	}
+</style>

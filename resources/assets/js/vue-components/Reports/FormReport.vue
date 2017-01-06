@@ -62,8 +62,8 @@ export default {
 				startDate: '2015-08-01', // FIXME
 				endDate: '2016-11-01' // FIXME
 			},
-			formId: 27, // FIXME
-			subjectId: 205, // FIXME
+			formId: null,
+			subjectId: null,
 			report: null,
 
 			groupedForms: []

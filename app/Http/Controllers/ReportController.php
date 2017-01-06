@@ -269,7 +269,8 @@ class ReportController extends Controller
 	function getUsersNeedingEvaluations($startDate, $endDate, $trainingLevel, $evalThreshold){
         $getQueriedEvaluations = function($query)
                 use ($startDate, $endDate, $trainingLevel, $evalThreshold){
-            $query->where("evaluation_date", ">=", $startDate)
+            $query->with("evaluator", "requestor", "form")
+				->where("evaluation_date", ">=", $startDate)
                 ->where("evaluation_date", "<=", $endDate);
             if($trainingLevel != "all")
                 $query->where("training_level", $trainingLevel);

@@ -18,16 +18,20 @@
 <script>
 export default {
 	props: {
-		'options': {
+		options: {
 			type: Array,
 			required: false
 		},
-		'value': {
+		value: {
 			required: true
 		},
-		'multiple': {
+		multiple: {
 			type: Boolean,
 			default: false
+		},
+		placeholder: {
+			type: String,
+			default: 'Please select'
 		}
 	},
 	computed: {
@@ -67,6 +71,7 @@ export default {
 		});
 
 		$(this.$el).val(this.stringValue).select2({
+			placeholder: this.placeholder,
 			tags: this.multiple,
 			createTag: () => undefined
 		});
@@ -75,7 +80,8 @@ export default {
 		$(this.$el).select2('destroy');
 	},
 	updated(){
-		$(this.$el).select2({
+		$(this.$el).val(this.stringValue).select2({
+			placeholder: this.placeholder,
 			tags: this.multiple,
 			createTag: () => undefined
 		});
