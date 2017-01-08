@@ -72,7 +72,7 @@
 					<span class="input-group-addon">
 						<label title="Allows you to make requests for multiple subjects at once">
 							<input type="checkbox" v-model="allowMultiple.subjects" />
-							Multiple
+							Select multiple
 						</label>
 					</span>
 				</div>
@@ -101,7 +101,7 @@
 					<span class="input-group-addon">
 						<label title="Allows you to make requests to multiple evaluators at once">
 							<input type="checkbox" v-model="allowMultiple.evaluators" />
-							Multiple
+							Select multiple
 						</label>
 					</span>
 				</div>

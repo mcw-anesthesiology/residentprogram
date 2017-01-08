@@ -15,30 +15,28 @@
 				</select-two>
 			</label>
 
-			<div class="row">
-				<div class="form-group col-sm-10">
-					<label class="containing-label">
-						User
+			<div class="form-group">
+				<label class="containing-label">
+					User
+					<div class="input-group">
 						<select-two class="form-control" v-if="groupedUsers"
 								:options="groupedUsers" v-model="traineeId"
 								:multiple="multipleTrainees">
 							<option v-if="!multipleTrainees" value="-1">All</option>
 						</select-two>
-					</label>
-				</div>
-				<div class="form-group col-sm-2">
-					<label>
-						<input type="checkbox" v-model="show.inactiveUsers" />
-						Show inactive users
-					</label>
-				</div>
-			</div>
-
-
-			<div class="form-group">
-				<label>
-					<input type="checkbox" v-model="multipleTrainees" />
-					Select multiple trainees
+						<span class="input-group-addon">
+							<label>
+								<input type="checkbox" v-model="show.inactiveUsers" />
+								Show inactive
+							</label>
+						</span>
+						<span class="input-group-addon">
+							<label>
+								<input type="checkbox" v-model="multipleTrainees" />
+								Select multiple
+							</label>
+						</span>
+					</div>
 				</label>
 			</div>
 

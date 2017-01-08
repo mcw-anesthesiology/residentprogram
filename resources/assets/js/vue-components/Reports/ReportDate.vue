@@ -12,22 +12,29 @@
 				</label>
 			</div>
 			<div class="col-md-4">
-				<label for="reports-start-date">Start Date</label>
-				<input type="text" id="reports-start-date" class="form-control"
-					:value="value.startDate"
-					@input="handleInput('startDate', $event.target.value)"/>
+				<label class="containing-label">
+					Start Date
+					<vue-flatpickr type="text" class="form-control appear-not-readonly"
+						:value="value.startDate"
+						@input="handleInput('startDate', arguments[0])"/>
+				</label>
 			</div>
 			<div class="col-md-4">
-				<label for="reports-end-date">End Date</label>
-				<input type="text" id="reports-end-date" class="form-control"
+				<label class="containing-label">
+					End Date
+				<vue-flatpickr type="text" class="form-control appear-not-readonly"
 					:value="value.endDate"
-					@input="handleInput('endDate', $event.target.value)"/>
+					@input="handleInput('endDate', arguments[0])"/>
+				</label>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import VueFlatpickr from 'vue-flatpickr';
+import 'vue-flatpickr/theme/flatpickr.min.css';
+
 import moment from 'moment';
 import { camelCaseToWords } from '../../modules/utils.js';
 
@@ -185,6 +192,9 @@ export default {
 			this.$emit('input', this.stringifyDates(dates));
 		},
 		camelCaseToWords
+	},
+	components: {
+		VueFlatpickr
 	}
 };
 </script>
