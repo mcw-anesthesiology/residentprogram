@@ -10,7 +10,7 @@
     "build:gulp": "gulp --production",
     "watch": "run-p watch:*",
     "watch:webpack": "webpack --progress --colors --watch",
-    "watch:gulp": "# DISABLE_NOTIFIER=true gulp watch",
+    "watch:gulp": "DISABLE_NOTIFIER=true gulp watch",
     "analyze:bundle": "webpack-bundle-analyzer ./public/js/stats.json"
   },
   "repository": {
@@ -39,6 +39,7 @@
     "gulp": "^3.9.0",
     "gulp-each": "^0.2.0",
     "gulp-file-contents-to-json": "^0.2.1",
+    "indefinite": "^1.0.1",
     "jsonschema": "^1.1.0",
     "laravel-elixir": "^6.0.0-15",
     "lodash": "^4.17.2",
@@ -47,11 +48,16 @@
     "moment": "^2.14.1",
     "npm-run-all": "^3.1.0",
     "pdfmake": "^0.1.22",
+    "style-loader": "^0.13.1",
     "vue": "^2.1.0",
+    "vue-flatpickr": "^2.2.4",
     "vue-loader": "^10.0.2",
     "vue-template-compiler": "^2.1.6",
     "webpack": "^2.2.0-rc.3",
     "webpack-bundle-analyzer": "^2.2.1",
     "whatwg-fetch": "^2.0.1"
+  },
+  "dependencies": {
+    "css-loader": "^0.26.1"
   }
 }

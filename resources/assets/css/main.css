@@ -413,3 +413,15 @@ body {
 .row > .checkbox {
 	margin-top: -5px;
 }
+
+.appear-not-readonly {
+	background-color: transparent !important;
+}
+
+select-two {
+    overflow: hidden;
+}
+
+*[v-show] {
+    display: none;
+}

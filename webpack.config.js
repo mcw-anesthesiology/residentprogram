@@ -11,7 +11,8 @@ module.exports = {
 		],
 		'vue-form-builder': './resources/assets/js/vue-constructors/form-builder.js',
 		'vue-reports': './resources/assets/js/vue-constructors/reports.js',
-		'vue-milestone-competency-lists': './resources/assets/js/vue-constructors/milestone-competency-lists.js'
+		'vue-milestone-competency-lists': './resources/assets/js/vue-constructors/milestone-competency-lists.js',
+		'vue-request': './resources/assets/js/vue-constructors/request.js'
 	},
 	output: {
 		path: './public/js/',
@@ -32,6 +33,13 @@ module.exports = {
 				loader: 'babel-loader'
 			},
 			{
+				test: /\.css$/,
+				loaders: [
+					'style-loader',
+					'css-loader'
+				]
+			},
+			{
 				test: /element-dataset/,
 				loader: 'apply-loader'
 			}
@@ -43,7 +51,8 @@ module.exports = {
 			chunks: [
 				'vue-form-builder',
 				'vue-reports',
-				'vue-milestone-competency-lists'
+				'vue-milestone-competency-lists',
+				'vue-request'
 			]
 		}),
 		new webpack.optimize.CommonsChunkPlugin({
@@ -54,6 +63,11 @@ module.exports = {
 			generateStatsFile: true
 		})
 	],
+	resolve: {
+		alias: {
+			'vue$': 'vue/dist/vue.common.js'
+		}
+	},
 	externals: [
 		'moment'
 	],

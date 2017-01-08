@@ -101,6 +101,15 @@ export function fetchMilestoneGroups(){
 }
 
 export function fetchUserGroups(){
+	return fetch('/users', {
+		method: 'GET',
+		headers: getFetchHeaders(),
+		credentials: 'same-origin'
+	}).then(response => response.json())
+	.then(groupUsers);
+}
+
+export function groupUsers(users){
 	let groups = {
 		intern: {
 			text: 'Intern',
@@ -126,82 +135,81 @@ export function fetchUserGroups(){
 			text: 'Faculty',
 			children: []
 		},
+		staff: {
+			text: 'Staff',
+			children: []
+		},
 		inactive: {
 			text: 'Inactive',
 			children: []
 		}
 	};
 
-	return fetch('/users', {
-		method: 'GET',
-		headers: getFetchHeaders(),
-		credentials: 'same-origin'
-	}).then(response => response.json())
-	.then(users => {
-		users.map(user => {
-			let select2Obj = {
-				id: user.id,
-				text: user.full_name
-			};
+	users.map(user => {
+		let select2Obj = {
+			id: user.id,
+			text: user.full_name
+		};
 
-			if(user.status === 'active'){
-				if(user.type){
-					if(user.type === 'resident' && user.training_level
-					&& groups[user.training_level]){
+		if(user.status === 'active'){
+			if(user.type){
+				if(user.type === 'resident' && user.training_level
+				&& groups[user.training_level]){
 
-						groups[user.training_level].children.push(select2Obj);
-					}
-					else if(groups[user.type]){
-						groups[user.type].children.push(select2Obj);
-					}
+					groups[user.training_level].children.push(select2Obj);
+				}
+				else if(groups[user.type]){
+					groups[user.type].children.push(select2Obj);
 				}
 			}
-			else {
-				groups.inactive.children.push(select2Obj);
-			}
-		});
-
-		let userGroups = Object.values(groups);
-		userGroups.map(group => {
-			group.children.sort(sortSelect2Objects);
-		});
-
-		return userGroups;
+		}
+		else {
+			groups.inactive.children.push(select2Obj);
+		}
 	});
+
+	let groupedUsers = Object.values(groups);
+	groupedUsers.map(group => {
+		group.children.sort(sortSelect2Objects);
+	});
+
+	return groupedUsers;
 }
 
 export function fetchFormGroups(){
-	let groups = {};
-
 	return fetch('/forms', {
 		method: 'GET',
 		headers: getFetchHeaders(),
 		credentials: 'same-origin'
 	}).then(response => response.json())
-	.then(forms => {
-		forms.map(form => {
-			if(form.type){
-				if(!groups[form.type]){
-					groups[form.type] = {
-						text: ucfirst(form.type),
-						children: []
-					};
-				}
+	.then(groupForms);
+}
 
-				groups[form.type].children.push({
-					id: form.id,
-					text: form.title
-				});
+export function groupForms(forms){
+	let groups = {};
+
+	forms.map(form => {
+		if(form.type){
+			if(!groups[form.type]){
+				groups[form.type] = {
+					text: ucfirst(form.type),
+					children: []
+				};
 			}
-		});
 
-		let formGroups = Object.values(groups);
-		formGroups.map(group => {
-			group.children.sort(sortSelect2Objects);
-		});
-
-		return formGroups;
+			groups[form.type].children.push({
+				id: form.id,
+				text: form.title
+			});
+		}
 	});
+
+	let groupedForms = Object.values(groups);
+	groupedForms.map(group => {
+		group.children.sort(sortSelect2Objects);
+	});
+
+	return groupedForms;
 }
 
 function sortSelect2Objects(a, b){

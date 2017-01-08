@@ -1,5 +1,5 @@
 <template>
-	<select v-bind:multiple="multiple">
+	<select :name="name" :id="id" :required="required" v-bind:multiple="multiple">
 		<slot></slot>
 		<template v-for="option of stringOptions">
 			<optgroup v-if="option.children && option.children.length > 0"
@@ -8,7 +8,7 @@
 					{{ child.text }}
 				</option>
 			</optgroup>
-			<option v-else :value="option.id">
+			<option v-else-if="option.id" :value="option.id">
 				{{ option.text }}
 			</option>
 		</template>
@@ -20,6 +20,18 @@ export default {
 	props: {
 		options: {
 			type: Array,
+			required: false
+		},
+		name: {
+			type: String,
+			required: false
+		},
+		id: {
+			type: String,
+			required: false
+		},
+		required: {
+			type: Boolean,
 			required: false
 		},
 		value: {
@@ -87,6 +99,14 @@ export default {
 		});
 	},
 	watch: {
+		multiple(multiple){
+			if(this.value){
+				if(multiple && !Array.isArray(this.value))
+					this.$emit('input', [this.value]);
+				else if(!multiple && Array.isArray(this.value))
+					this.$emit('input', this.value[0]);
+			}
+		},
 		stringValue(stringValue){
 			$(this.$el).val(stringValue).trigger('change.select2');
 		}

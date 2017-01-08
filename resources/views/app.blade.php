@@ -79,13 +79,15 @@
 	@endif
 			</div>
 
+			<main>
 	@if(View::hasSection('body'))
-			<div class="container body-block">
-				@yield("body")
-			</div>
+				<div class="container body-block">
+					@yield("body")
+				</div>
 	@endif
 
-			@yield("blockless-body")
+				@yield("blockless-body")
+			</main>
 		</div>
 	{{-- TODO: Should not do this, use inheretence --}}
 	@if(empty($noNavbar) || !$noNavbar)
