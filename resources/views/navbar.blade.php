@@ -26,7 +26,7 @@
 		<li class="dropdown">
             <a href="#" data-toggle="dropdown">Request Evaluation<b class="caret"></b></a>
             <ul class="dropdown-menu">
-                <li><a href="/request">Resident Evaluation</a></li>
+                <li><a href="/request">Trainee Evaluation</a></li>
                 <li><a href="/request/staff">Staff Evaluation</a></li>
                 <li><a href="/request/faculty">Faculty Evaluation</a></li>
                 <li><a href="/request/self">Self Evaluation</a></li>

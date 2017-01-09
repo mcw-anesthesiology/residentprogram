@@ -37,7 +37,8 @@ export function createRequest(el, propsData){
 
 				allowMultiple: {
 					subjects: false,
-					evaluators: false
+					evaluators: false,
+					evaluationMonth: false
 				},
 
 				error: {

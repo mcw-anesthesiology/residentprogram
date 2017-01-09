@@ -328,12 +328,18 @@ class MainController extends Controller
 				if(!is_array($evaluators))
 					$evaluators = [$evaluators];
 			}
+            
+            $evaluationDates = $request->input("evaluation_date");
+            if(!is_array($evaluationDates))
+                $evaluationDates = [$evaluationDates];
 
 			$errors = "";
 			if(empty($subjects) || count($subjects) == 0)
 				$errors .= "Please select an evaluation subject. ";
 			if(empty($evaluators) || count($evaluators) == 0)
 				$errors .= "Please select an evaluator. ";
+            if(empty($evaluationDates) || count($evaluationDates) == 0)
+				$errors .= "Please select an evaluation date. ";            
 			if(!$request->has("form_id"))
 				$errors .= "Please select a form. ";
 
@@ -343,45 +349,50 @@ class MainController extends Controller
 
 			foreach($evaluators as $evaluator){
 				foreach($subjects as $subject){
-					$eval = new Evaluation();
-					$eval->form_id = $request->input("form_id");
-					$eval->requested_by_id = $user->id;
-					$eval->evaluation_date = $request->input("evaluation_date");
-					$eval->subject_id = $subject;
-					$eval->evaluator_id = $evaluator;
-					$eval->training_level = $eval->subject->training_level;
-					$eval->status = "pending";
-					$eval->request_date = Carbon::now();
-					$eval->request_ip = $request->ip();
+                    foreach($evaluationDates as $evaluationDate){                        
+    					$eval = new Evaluation();
+    					$eval->form_id = $request->input("form_id");
+    					$eval->requested_by_id = $user->id;
+    					$eval->evaluation_date = $evaluationDate;
+    					$eval->subject_id = $subject;
+    					$eval->evaluator_id = $evaluator;
+    					$eval->training_level = $eval->subject->training_level;
+    					$eval->status = "pending";
+    					$eval->request_date = Carbon::now();
+    					$eval->request_ip = $request->ip();
 
-					// Hide faculty evals from their subjects by default
-					if($requestType == "faculty")
-						$eval->visibility = "under faculty threshold";
+    					// Hide faculty evals from their subjects by default
+    					if($requestType == "faculty")
+    						$eval->visibility = "under faculty threshold";
 
-                    if($user->isType("admin") && $request->has("send_hash")){
-						$eval->completion_hash = str_random(40);
-						$hashExpiresIn = $request->input("hash_expires_in", 30);
-						$eval->hash_expires = $hashExpiresIn == "never" ? "9999-12-31" : Carbon::now()->addDays($hashExpiresIn);
-					}
+                        if($user->isType("admin") && $request->has("send_hash")){
+    						$eval->completion_hash = str_random(40);
+    						$hashExpiresIn = $request->input("hash_expires_in", 30);
+    						$eval->hash_expires = $hashExpiresIn == "never" ? "9999-12-31" : Carbon::now()->addDays($hashExpiresIn);
+    					}
 
-					$eval->save();
+    					$eval->save();
 
-					if($user->isType("admin") && $request->has("send_hash"))
-						$eval->sendHashLink();
+    					if($user->isType("admin") && $request->has("send_hash"))
+    						$eval->sendHashLink();
 
-					if($user->id != $eval->evaluator_id
-						&& (
-							$request->has("force_notification")
-							|| $eval->evaluator->notifications == "yes"
-						)
-						&& filter_var($eval->evaluator->email, FILTER_VALIDATE_EMAIL)
-					)
-						$eval->sendNotification();
+    					if($user->id != $eval->evaluator_id
+    						&& (
+    							$request->has("force_notification")
+    							|| $eval->evaluator->notifications == "yes"
+    						)
+    						&& filter_var($eval->evaluator->email, FILTER_VALIDATE_EMAIL)
+    					){
+                            $eval->sendNotification();
+                        }
+
+                    }
 				}
 			}
 
-	        if(count($subjects) == 1 && count($evaluators == 1)
-					&& $user->id == $eval->evaluator_id)
+	        if(count($subjects) == 1 && count($evaluators) == 1
+					&& count($evaluationDates) == 1
+                    && $user->id == $eval->evaluator_id)
 	            return redirect("evaluation/".$eval->id);
 
 		} catch(\Exception $e){

@@ -60,7 +60,7 @@
 			<div class="col-md-8">
 				<label for="subject">{{ ucfirst($subjectTypeText) }}</label>
 				<div class="input-group">
-					<select-two class="form-control" name="subject_id" id="subject" required
+					<select-two class="form-control" name="subject_id[]" id="subject" required
 							:options="subjectOptions" v-model="subjectId"
 							:multiple="allowMultiple.subjects"
 							placeholder="Select {{ $subjectTypeText }}">
@@ -89,7 +89,8 @@
 			<div class="col-md-8">
 				<label for="evaluator">{{ ucfirst($evaluatorTypeText) }}</label>
 				<div class="input-group">
-					<select-two class="form-control" name="evaluator_id" id="evaluator" required
+					<select-two class="form-control" name="evaluator_id[]"
+							id="evaluator" required
 							:options="evaluatorOptions" v-model="evaluatorId"
 							:multiple="allowMultiple.evaluators"
 							placeholder="Select {{ $evaluatorTypeText }}">
@@ -162,15 +163,33 @@
 			</div>
 			<div class="col-md-4">
 				<label for="evaluation-month">Month</label>
-				<select-two class="form-control" id="evaluation-month" required
-						v-model="evaluationMonth" placeholder="Select a month">
-					<option value="">Select a month</option>
-	@foreach($months as $date => $monthName)
-					<option value="{{ $date }}">{{ $monthName }}</option>
-	@endforeach
-				</select-two>
+	@if($user->isType('admin'))
+				<div class="input-group">
+	@endif
+					<select-two class="form-control" id="evaluation-month" required
+							v-model="evaluationMonth" placeholder="Select a month"
+							:multiple="allowMultiple.evaluationMonth">
+						<option value="" v-if="!allowMultiple.evaluationMonth">
+							Select a month
+						</option>
+		@foreach($months as $date => $monthName)
+						<option value="{{ $date }}">{{ $monthName }}</option>
+		@endforeach
+					</select-two>
+	
+	@if($user->isType('admin'))
+					<span class="input-group-addon">
+						<label title="Allows you to make requests for multiple months at once">
+							<input type="checkbox" v-model="allowMultiple.evaluationMonth" />
+							Multiple
+						</label>
+					</span>
+				</div>
+	@endif
+
 			</div>
-			<div id="evaluation-day-div" class="col-md-2" v-show="evaluationMonth">
+			<div id="evaluation-day-div" class="col-md-2"  v-show="evaluationMonth"
+					v-if="!allowMultiple.evaluationMonth">
 				<label for="evaluation-day" :class="{'text-muted': !evaluationDay}">
 					Date (optional)
 				</label>
@@ -183,7 +202,10 @@
 					Clear date
 				</button>
 			</div>
-			<input type="hidden" id="evaluation-date" name="evaluation_date" required
+			<input type="hidden" v-if="Array.isArray(evaluationDate)"
+				v-for="date of evaluationDate" name="evaluation_date[]" required
+				:value="date" />
+			<input type="hidden" v-else name="evaluation_date" required
 				:value="evaluationDate"/>
 		</div>
 
