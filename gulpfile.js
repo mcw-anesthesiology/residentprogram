@@ -28,7 +28,7 @@ const scripts = [
 	bowerPath + 'country-region-selector/dist/jquery.crs.js',
 	bowerPath + 'velocity/velocity.js',
 	bowerPath + 'eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
-	npmPath + 'iframe-resizer/js/iframeResizer.min.js'
+	npmPath + 'iframe-resizer/js/iframeResizer.js'
 ];
 
 const styles = [
