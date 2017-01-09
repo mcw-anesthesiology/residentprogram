@@ -15,6 +15,7 @@ export function createRequest(el, propsData){
 	return new Vue({
 		el: el,
 		props: {
+			user: Object,
 			evaluators: Array,
 			subjects: Array,
 			forms: Array
@@ -48,6 +49,32 @@ export function createRequest(el, propsData){
 			};
 		},
 		computed: {
+			required(){
+				let required = {
+					subjectId: true,
+					evaluatorId: true,
+					formId: true,
+					evaluationDate: true
+				};
+				
+				if(this.requestType === 'resident' && this.user.type === 'resident')
+					required.subjectId = false;
+				
+				if((this.requestType === 'resident' && this.user.type === 'faculty')
+						|| (this.requestType === 'staff' && this.user.type === 'staff')
+						|| (this.requestType === 'faculty' && this.user.type === 'resident'))
+					required.evaluatorId = false;
+					
+				return required;
+			},
+			fieldNouns(){
+				return {
+					subjectId: 'subject',
+					evaluatorId: 'evaluator',
+					formId: 'form',
+					evaluationDate: 'evaluation date'
+				};
+			},
 			subject(){
 				let subjectId = Number(this.subjectId);
 				return this.subjects[0].find(subject => subject.id === subjectId);
@@ -114,23 +141,18 @@ export function createRequest(el, propsData){
 				this.$refs.evaluationDayFlatpickr.fp.clear();
 			},
 			checkField(field, noun){
-				this.error[field]  = (!this[field] || this[field].length === 0)
+				this.error[field] = (this.required[field] && 
+						(!this[field] || this[field].length === 0))
 					? `Please select ${indefinite(noun)}`
 					: null;
 
 				return this.error[field];
 			},
 			checkSubmit(event){
-				const requiredFieldNouns = {
-					subjectId: 'subject',
-					evaluatorId: 'evaluator',
-					formId: 'form',
-					evaluationDate: 'evaluation date'
-				};
-
+				
 				let errors = false;
-				Object.keys(requiredFieldNouns).map(field => {
-					if(this.checkField(field, requiredFieldNouns[field]))
+				Object.keys(this.required).map(field => {
+					if(this.checkField(field, this.required[field]))
 						errors = true;
 				});
 

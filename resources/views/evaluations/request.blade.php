@@ -27,8 +27,7 @@
 @section("body")
 	<div class="page-header">
 		<h1>
-			{{ $user->isType($evaluatorTypes) ? 'Create' : 'Request' }}
-			{{ $requestTypeText }} evaluation
+			{{ $user->isType($evaluatorTypes) ? 'Create' : 'Request' }} {{ $requestTypeText }} evaluation
 		</h1>
 	</div>
 
@@ -250,9 +249,14 @@
 <div class="container body-block">
 	<h3 class="sub-header">Block information</h3>
 	<p>
-		Selecting a block is used to filter the list of {{ $subjectTypeTextPlural }} to others who are scheduled in the same locations as you. This filter is not perfect.
-		If the doctor you are looking for is missing after selecting a block, or an entire block is missing for you from the list, please select "select from all" for the block.
-		You will then be able to select from the entire list of {{ $subjectTypeTextPlural }}.
+		Selecting a block is used to filter the lists to others who are scheduled
+		in the same locations as you. This filter is not perfect.
+		
+		If the doctor you are looking for is missing after selecting a block,
+		or an entire block is missing for you from the list, please select
+		"select from all" for the block.
+		
+		You will then be able to select from the entire lists.
 	</p>
 	@endif
 	@if($user->isType("resident") && $requestType == "faculty" && $pendingEvalCount > 0)
@@ -278,7 +282,9 @@
 	<script src="/js/vue-deps.js"></script>
 	<script src="/js/vue-request.js"></script>
 	<script>
-		var propsData = {};
+		var propsData = {
+			user: {!! $user->toJson() !!}
+		};
 	@if(!empty($evaluators))
 		propsData.evaluators = {!! $evaluators !!};
 	@endif

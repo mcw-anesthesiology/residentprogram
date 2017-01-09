@@ -309,7 +309,7 @@ class MainController extends Controller
 			}
 
 
-			if($requestType == "faculty" && $user->isType("resident")){
+			if($requestType == "resident" && $user->isType("resident")){
 				$subjects = [$user->id];
 			}
 			else {
@@ -319,7 +319,8 @@ class MainController extends Controller
 			}
 
 			if(($requestType == "resident" && $user->isType("faculty"))
-					|| ($requestType == "staff" && $user->isType("staff"))){
+					|| ($requestType == "staff" && $user->isType("staff"))
+					|| ($requestType == "faculty" && $user->isType("resident"))){
 				$evaluators = [$user->id];
 			}
 			else {
@@ -357,13 +358,13 @@ class MainController extends Controller
 					if($requestType == "faculty")
 						$eval->visibility = "under faculty threshold";
 
-					$eval->save();
-
-					if($request->has("send_hash")){
+                    if($user->isType("admin") && $request->has("send_hash")){
 						$eval->completion_hash = str_random(40);
 						$hashExpiresIn = $request->input("hash_expires_in", 30);
 						$eval->hash_expires = $hashExpiresIn == "never" ? "9999-12-31" : Carbon::now()->addDays($hashExpiresIn);
 					}
+
+					$eval->save();
 
 					if($user->isType("admin") && $request->has("send_hash"))
 						$eval->sendHashLink();

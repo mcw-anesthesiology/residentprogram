@@ -245,7 +245,7 @@ class ReportTest extends TestCase
                 "trainingLevel" => "all",
                 "graphs" => "none"
             ])
-            ->assertViewHasAll([
+            ->seeJson([
                 "trainingLevel" => "all",
                 "graphOption" => "none",
                 "startDate" => $startDate,
@@ -579,6 +579,64 @@ class ReportTest extends TestCase
 						"form_title" => $this->evals[0][1]->form->title,
 						"evaluation_date" => $this->evals[0][1]->evaluation_date->toDateString()
 					]
+				],
+                "subjectEvaluations" => [
+					$this->evals[0][0]->subject_id => [
+						(object)[
+							'subject_id' => $this->evals[0][0]->subject_id,
+							'evaluator_id' => $this->evals[0][0]->evaluator_id,
+							'requested_by_id' => $this->evals[0][0]->requested_by_id,
+							'subject_last' => $this->evals[0][0]->subject->last_name,
+							'subject_first' => $this->evals[0][0]->subject->first_name,
+							'evaluator_last' => $this->evals[0][0]->evaluator->last_name,
+							'evaluator_first' => $this->evals[0][0]->evaluator->first_name,
+							'evaluation_id' => $this->evals[0][0]->id,
+							'evaluation_date' => $this->evals[0][0]->evaluation_date->toDateString(),
+							'evaluation_status' => $this->evals[0][0]->status,
+							'form_title' => $this->evals[0][0]->form->title
+						],
+						(object)[
+							'subject_id' => $this->evals[0][1]->subject_id,
+							'evaluator_id' => $this->evals[0][1]->evaluator_id,
+							'requested_by_id' => $this->evals[0][1]->requested_by_id,
+							'subject_last' => $this->evals[0][1]->subject->last_name,
+							'subject_first' => $this->evals[0][1]->subject->first_name,
+							'evaluator_last' => $this->evals[0][1]->evaluator->last_name,
+							'evaluator_first' => $this->evals[0][1]->evaluator->first_name,
+							'evaluation_id' => $this->evals[0][1]->id,
+							'evaluation_date' => $this->evals[0][1]->evaluation_date->toDateString(),
+							'evaluation_status' => $this->evals[0][1]->status,
+							'form_title' => $this->evals[0][1]->form->title
+						],
+					],
+					$this->evals[1][0]->subject_id => [
+						(object)[
+							'subject_id' => $this->evals[1][0]->subject_id,
+							'evaluator_id' => $this->evals[1][0]->evaluator_id,
+							'requested_by_id' => $this->evals[1][0]->requested_by_id,
+							'subject_last' => $this->evals[1][0]->subject->last_name,
+							'subject_first' => $this->evals[1][0]->subject->first_name,
+							'evaluator_last' => $this->evals[1][0]->evaluator->last_name,
+							'evaluator_first' => $this->evals[1][0]->evaluator->first_name,
+							'evaluation_id' => $this->evals[1][0]->id,
+							'evaluation_date' => $this->evals[1][0]->evaluation_date->toDateString(),
+							'evaluation_status' => $this->evals[1][0]->status,
+							'form_title' => $this->evals[1][0]->form->title
+						],
+						(object)[
+							'subject_id' => $this->evals[1][1]->subject_id,
+							'evaluator_id' => $this->evals[1][1]->evaluator_id,
+							'requested_by_id' => $this->evals[1][1]->requested_by_id,
+							'subject_last' => $this->evals[1][1]->subject->last_name,
+							'subject_first' => $this->evals[1][1]->subject->first_name,
+							'evaluator_last' => $this->evals[1][1]->evaluator->last_name,
+							'evaluator_first' => $this->evals[1][1]->evaluator->first_name,
+							'evaluation_id' => $this->evals[1][1]->id,
+							'evaluation_date' => $this->evals[1][1]->evaluation_date->toDateString(),
+							'evaluation_status' => $this->evals[1][1]->status,
+							'form_title' => $this->evals[1][1]->form->title
+						],
+					],
 				]
             ]]);
     }

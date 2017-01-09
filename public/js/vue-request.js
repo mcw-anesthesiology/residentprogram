@@ -997,6 +997,7 @@ function createRequest(el, propsData) {
 	return new _vue2.default({
 		el: el,
 		props: {
+			user: Object,
 			evaluators: Array,
 			subjects: Array,
 			forms: Array
@@ -1031,6 +1032,28 @@ function createRequest(el, propsData) {
 		},
 
 		computed: {
+			required: function required() {
+				var required = {
+					subjectId: true,
+					evaluatorId: true,
+					formId: true,
+					evaluationDate: true
+				};
+
+				if (this.requestType === 'resident' && this.user.type === 'resident') required.subjectId = false;
+
+				if (this.requestType === 'resident' && this.user.type === 'faculty' || this.requestType === 'staff' && this.user.type === 'staff' || this.requestType === 'faculty' && this.user.type === 'resident') required.evaluatorId = false;
+
+				return required;
+			},
+			fieldNouns: function fieldNouns() {
+				return {
+					subjectId: 'subject',
+					evaluatorId: 'evaluator',
+					formId: 'form',
+					evaluationDate: 'evaluation date'
+				};
+			},
 			subject: function subject() {
 				var subjectId = Number(this.subjectId);
 				return this.subjects[0].find(function (subject) {
@@ -1103,23 +1126,16 @@ function createRequest(el, propsData) {
 				this.$refs.evaluationDayFlatpickr.fp.clear();
 			},
 			checkField: function checkField(field, noun) {
-				this.error[field] = !this[field] || this[field].length === 0 ? 'Please select ' + (0, _indefinite2.default)(noun) : null;
+				this.error[field] = this.required[field] && (!this[field] || this[field].length === 0) ? 'Please select ' + (0, _indefinite2.default)(noun) : null;
 
 				return this.error[field];
 			},
 			checkSubmit: function checkSubmit(event) {
 				var _this = this;
 
-				var requiredFieldNouns = {
-					subjectId: 'subject',
-					evaluatorId: 'evaluator',
-					formId: 'form',
-					evaluationDate: 'evaluation date'
-				};
-
 				var errors = false;
-				Object.keys(requiredFieldNouns).map(function (field) {
-					if (_this.checkField(field, requiredFieldNouns[field])) errors = true;
+				Object.keys(this.required).map(function (field) {
+					if (_this.checkField(field, _this.required[field])) errors = true;
 				});
 
 				if (errors) event.preventDefault();
