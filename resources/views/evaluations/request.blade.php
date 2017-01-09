@@ -324,8 +324,8 @@
 				{data: 'request_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
 				{data: null, render: function(eval){
 					if(eval.requested_by_id === user.id)
-						return '<button class='btn btn-danger btn-xs cancel-eval-button' '
-							+ 'data-id='' + eval.id + ''><span class='glyphicon glyphicon-remove'></span> '
+						return '<button class="btn btn-danger btn-xs cancel-eval-button" '
+							+ 'data-id="' + eval.id + '"><span class="glyphicon glyphicon-remove"></span> '
 							+ 'Cancel</button>';
 
 					return '';
