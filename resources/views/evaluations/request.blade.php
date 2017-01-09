@@ -134,7 +134,7 @@
 
 	@if($user->isType("resident") && $requestType == "faculty")
 		<div class="row">
-			<div class="col-md-8">
+			<div class="col-md-offset-2 col-md-8">
 				<div class="explanation-panel panel panel-default">
 					<div class="panel-heading">
 						<span class="glyphicon glyphicon-info-sign"></span>
@@ -282,6 +282,7 @@
 	<script src="{{ elixir('js/vue-deps.js') }}"></script>
 	<script src="{{ elixir('js/vue-request.js') }}"></script>
 	<script>
+		var user = {!! $user->toJson() !!};
 		var propsData = {
 			user: {!! $user->toJson() !!}
 		};

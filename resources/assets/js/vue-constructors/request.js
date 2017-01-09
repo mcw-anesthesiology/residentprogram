@@ -22,16 +22,16 @@ export function createRequest(el, propsData){
 		},
 		propsData,
 		data(){
-			let type = getRequestType();
+			let requestType = getRequestType();
 			return {
-				type,
+				requestType,
 				subjectId: null,
 				evaluatorId: null,
 				formId: null,
 				evaluationMonth: null,
 				evaluationDay: null,
 
-				sendHash: type === 'staff',
+				sendHash: requestType === 'staff',
 				forceNotification: false,
 				hashExpiresIn: '30',
 
