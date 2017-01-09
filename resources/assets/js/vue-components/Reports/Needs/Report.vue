@@ -3,26 +3,36 @@
 		<div class="container body-block">
 			<h2>Needs evaluations</h2>
 			<report-date v-model="dates" />
-			<div class="form-group col-md-6">
+			<div class="form-group col-md-4">
 				<label class="containing-label">
+					Training Level
 					<select-two v-model="trainingLevel" :options="trainingLevels" />
 				</label>
 			</div>
-			<button type="button" class="btn btn-primary" @click="runEvalsReport">
-				Needs evaluations
-			</button>
-			<button type="button" class="btn" @click="runCompetenciesReport">
-				Needs competencies
-			</button>
-			<button type="button" class="btn" @click="runMilestonesReport">
-				Needs milestones
-			</button>
+			<div class="col-md-8">
+				<div class="labelless-element btn-group btn-group-justified" role="group">
+					<div class="btn-group" role="group">						
+						<button type="button" class="btn btn-primary" @click="runEvalsReport">
+							Needs evaluations
+						</button>
+					</div>
+					<div class="btn-group" role="group">						
+						<button type="button" class="btn btn-default" @click="runCompetenciesReport">
+							Needs competencies
+						</button>
+					</div>
+					<div class="btn-group" role="group">						
+						<button type="button" class="btn btn-default" @click="runMilestonesReport">
+							Needs milestones
+						</button>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<div v-if="report.evaluations" class="container body-block">
-			<needs-evaluations :trainees="report.evaluations" />
-			
-			<email-editor :possibleRecipients="groupUsers(report.evaluations)" />
+			<needs-evaluations :trainees="report.evaluations"
+				:dates="dates" :evalThreshold="evalThreshold" />			
 		</div>
 		<div v-if="report.competencies" class="container body-block">
 			<needs-competencies v-bind="report.competencies" />
@@ -48,8 +58,8 @@ export default {
 	data(){
 		return {
 			dates: {
-				startDate: '2015-11-01', // FIXME
-				endDate: '2016-11-01' // FIXME
+				startDate: null,
+				endDate: null
 			},
 			trainingLevel: 'all',
 			evalThreshold: 3,

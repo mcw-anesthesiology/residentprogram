@@ -30,7 +30,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-4">
+			<div class="col-md-offset-2 col-md-2">
 				<small>Evaluation date</small>
 				<span class="evaluation-date-field"
 						@mouseenter="hovering.evaluationDate = true"
@@ -38,7 +38,7 @@
 					{{ evaluationDate }}
 				</span>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-offset-1 col-md-2">
 				<small>Requested</small>
 				<span class="evaluation-date-field"
 						@mouseenter="hovering.requestDate = true"
@@ -46,7 +46,7 @@
 					{{ requestDate }}
 				</span>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-offset-1 col-md-2">
 				<small>Completed</small>
 				<span class="evaluation-date-field"
 						@mouseenter="hovering.completeDate = true"
@@ -113,5 +113,13 @@ export default {
 
 	.evaluation-date-field {
 		cursor: help;
+	}
+	
+	.row + .row {
+		margin-top: 10px;
+	}
+	
+	small + * {
+		font-size: 1.15em;
 	}
 </style>

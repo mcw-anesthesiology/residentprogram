@@ -4,13 +4,10 @@
 			<fieldset>
 				<legend>Report type</legend>
 				<div class="form-inline">
-					<label v-for="type of REPORT_TYPES">
+					<label v-for="type of REPORT_TYPES" class="report-type-option">
 						<input type="radio" :value="type" v-model="reportType" />
 						{{ ucfirst(type) }}
 					</label>
-					<a href="/report/needs-eval" class="btn btn-default">
-						Needs evaluations
-					</a>
 				</div>
 			</fieldset>
 		</div>
@@ -69,5 +66,7 @@ export default {
 </script>
 
 <style scoped>
-
+	.report-type-option {
+		margin: 0 1em;
+	}
 </style>

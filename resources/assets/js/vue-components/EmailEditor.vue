@@ -66,7 +66,8 @@
 		</div>
 		<div class="form-group">
 			<label for="email-body">Body</label>
-			<markdown-editor v-model="body" editorId="email-body" />
+			<markdown-editor v-model="body.markdown" editorId="email-body"
+				:replacements="emailReplacements" @html="body.html = arguments[0]" />
 		</div>
 		
 	</section>
@@ -77,17 +78,34 @@ import MarkdownEditor from './MarkdownEditor.vue';
 
 export default {
 	props: {
+		defaultTo: {
+			default(){
+				return [];
+			}
+		},
+		defaultSubject: {
+			type: String,
+			required: false
+		},
+		defaultBodyMarkdown: {
+			type: String,
+			required: false
+		},
 		possibleRecipients: {
+			type: Array,
+			required: false
+		},
+		emailReplacements: {
 			type: Array,
 			required: false
 		}
 	},
 	data(){
 		return {
-			to: [],
-			subject: null,
+			to: this.defaultTo,
+			subject: this.defaultSubject,
 			body: {
-				markdown: null,
+				markdown: this.defaultBodyMarkdown,
 				html: null
 			},
 			
@@ -109,6 +127,17 @@ export default {
 		possibleRecipientsAreGrouped(){
 			return this.possibleRecipients && Array.isArray(this.possibleRecipients)
 				&& this.possibleRecipients[0].hasOwnProperty('children');
+		}
+	},
+	watch: {
+		defaultTo(defaultTo){
+			this.to = defaultTo;
+		},
+		defaultSubject(defaultSubject){
+			this.subject = defaultSubject;
+		},
+		defaultBody(defaultBody){
+			this.body = defaultBody;
 		}
 	},
 	components: {

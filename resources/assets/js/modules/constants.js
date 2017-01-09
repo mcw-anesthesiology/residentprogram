@@ -1,3 +1,5 @@
+export const ADMIN_EMAIL = 'jmischka@mcw.edu';
+
 export const NEW_ITEM_TAG = '<span class="label label-primary">NEW</span>';
 
 export const UNSEEN_EVALUATION_PRIORITY = 1000000;
@@ -42,7 +44,7 @@ export const STANDARD_OPTIONS = {
 export const REPORT_TYPES = {
 	TRAINEE: 'trainee',
 	FORM: 'form',
-	// NEEDS: 'needs'
+	NEEDS: 'needs'
 };
 
 export const CHART_TYPES = [

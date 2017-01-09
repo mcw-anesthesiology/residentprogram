@@ -2,10 +2,10 @@
 	<div>
 		<section @mouseenter="mouseIn = true" @mouseleave="mouseIn = false">
 			<textarea class="form-control" :class="{'editor-shown': showEditor}"
-					:id="editorId" rows="15"  tabindex="0" :value="value.markdown"
+					:id="editorId" rows="15"  tabindex="0" :value="value"
 					@focusout="focused = false" @focusin="focused = true"
 					@input="input" ref="editor"></textarea>
-			<div v-show="!showEditor" v-html="value.html"
+			<div v-show="!showEditor" v-html="html"
 				class="form-control markdown-editor-rendered-html-container">
 			</div>
 		</section>
@@ -28,15 +28,11 @@ const md = new MarkdownIt();
 export default {
 	props: {
 		value: {
-			type: Object,
+			type: String,
 			required: true,
-			validator(value){
-				return value.hasOwnProperty('markdown')
-					&& value.hasOwnProperty('html');
-			}
 		},
 		replacements: {
-			type: Object,
+			type: Array,
 			required: false
 		},
 		editorId: {
@@ -56,7 +52,14 @@ export default {
 	},
 	computed: {
 		html(){
-			return md.render(this.value);
+			let html = md.render(this.value);
+			this.replacements.map(replacement => {
+				const pattern = new RegExp(`\\[\\[${replacement}\\]\\]`, 'g');
+				const label = `<span class="label label-info">${replacement}</span>`;
+				html = html.replace(pattern, label);
+			});
+			
+			return html;
 		},
 		showEditor(){
 			return this.mouseIn || this.focused;
@@ -66,14 +69,15 @@ export default {
 		focused(focused){
 			if(focused)
 				this.$refs.editor.focus();
+		},
+		html(html){
+			this.$emit('html', html);
 		}
 	},
 	methods: {
 		input(event){
 			let markdown = event.target.value;
-			let value = Object.assign({}, this.value, {markdown});
-			value.html = md.render(value.markdown);
-			this.$emit('input', value);
+			this.$emit('input', markdown);
 		}
 	}
 };
@@ -84,12 +88,14 @@ export default {
 		opacity: 0;
 		pointer-events: none;
 		position: absolute;
+		left: -10000px;
 	}
 	
 	textarea.editor-shown {
 		opacity: 1;
 		pointer-events: all;
 		position: relative;
+		left: 0;
 	}
 
 	.markdown-editor-rendered-html-container {
