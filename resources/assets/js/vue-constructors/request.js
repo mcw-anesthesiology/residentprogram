@@ -128,6 +128,10 @@ export function createRequest(el, propsData){
 			formId(){
 				this.checkField('formId', 'form');
 			},
+			evaluationMonth(evaluationMonth){
+				if(Array.isArray(evaluationMonth) && this.evaluationDay)
+					this.evaluationDay = null;
+			},
 			evaluationDate(){
 				this.checkField('evaluationDate', 'evaluation date');
 			},
