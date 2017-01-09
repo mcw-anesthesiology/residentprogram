@@ -42,14 +42,8 @@
 			ga('send', 'pageview');
 		</script>
 	@endif
-		<link href="{{ elixir("css/vendor.css") }}" rel="stylesheet" />
 		<link href="{{ elixir("css/all.css") }}" rel="stylesheet" />
 
-		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-		<!--[if lt IE 9]>
-		  <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-		  <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-		<![endif]-->
 		@yield("head")
 	</head>
 	<body>
@@ -59,41 +53,48 @@
 		@include("navbar")
 	@endif
 			<div id="alert-container">
-			@if(session("success"))
+	@if(session("success"))
 				<div class="container">
 					<div class="alert alert-success alert-dismissable" role="alert">
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						{{ session("success") }}
 					</div>
 				</div>
-			@endif
-			@if(session("error"))
+	@endif
+	@if(session("error"))
 				<div class="container">
 					<div class="alert alert-danger alert-dismissable" role="alert">
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						<strong>Error: </strong>{{ session("error") }}
 					</div>
 				</div>
-			@endif
-			@if(session("info"))
+	@endif
+	@if(session("info"))
 				<div class="container">
 					<div class="alert alert-info alert-dismissable" role="alert">
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						{{ session("info") }}
 					</div>
 				</div>
-			@endif
+	@endif
 			</div>
-			<div class="container body-block">
-				@yield("body")
-			</div>
+
+			<main>
+	@if(View::hasSection('body'))
+				<div class="container body-block">
+					@yield("body")
+				</div>
+	@endif
+
+				@yield("blockless-body")
+			</main>
 		</div>
 	{{-- TODO: Should not do this, use inheretence --}}
 	@if(empty($noNavbar) || !$noNavbar)
 		@include("modals")
 	@endif
-		<script type="text/javascript" src="{{ elixir("js/vendor.js") }}"></script>
 		<script type="text/javascript" src="{{ elixir("js/all.js") }}"></script>
+		<script src="/js/bundle.js"></script>
 		@yield("script")
 	</body>
 </html>

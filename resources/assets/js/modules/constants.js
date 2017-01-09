@@ -38,3 +38,40 @@ export const STANDARD_OPTIONS = {
 		{value: "n-a", text: "N/A"}
 	]
 };
+
+export const REPORT_TYPES = {
+	TRAINEE: 'trainee',
+	FORM: 'form',
+	NEEDS: 'needs'
+};
+
+export const CHART_TYPES = [
+	'line',
+	'bar',
+	'horizontalBar',
+	'radar',
+	'polarArea',
+	'pie',
+	'doughnut',
+	'bubble'
+];
+
+export const CHART_COLORS = {
+	AVERAGE: '#ffce56',
+	SUBJECT: '#ff6384',
+	OTHER: [
+		'#7fdbff',
+		'#2ecc40',
+		'#ffdc00',
+		'#f012be',
+		'#0074d9',
+		'#01ff70',
+		'#ff851b',
+		'#001f3f',
+		'#3d9970',
+		'#ff4136',
+		'#85144b',
+		'#39cccc',
+		'#b10dc9'
+	]
+};

@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 window.Chart1 = window.Chart;
 
 $.ajaxSetup({
@@ -351,44 +353,42 @@ function addDateSelectors(dateName, idPrefix, containerQuery, defaultMonth, last
 	$("#" + idPrefix + "date-unknown").change(unknownDate);
 }
 
-$(document).ready(function(){
-	$.fn.dataTable.moment( "DD-MMM-YYYY h:mm A" );
+$.fn.select2.defaults.set("theme", "bootstrap");
 
-	$(".report").submit(checkReportQuery);
-	$(".report").on("click", ".lastSixMonths", lastSixMonths);
-	$(".report").on("click", ".lastThreeMonths", lastThreeMonths);
-	$(".datepicker").datepicker({
-		dateFormat: "yy-mm-dd"
-	});
+$(".select2").val(null).select2({
+	placeholder: "Please select"
+});
 
-	$("#addNewSpecificReport").click();
 
-	$.extend(true, $.fn.dataTable.defaults, {
-		language: {
-			emptyTable: "No entries available",
-			zeroRecords: "No matching entries, please revise your search",
-			paginate: {
-				previous: "&lt;",
-				next: "&gt;"
-			}
-		},
-		stateSave: true,
-		deferRender: true,
-		dom: "lfprtip"
-	});
+$.fn.dataTable.moment( "DD-MMM-YYYY h:mm A" );
 
-	$.fn.select2.defaults.set("theme", "bootstrap");
+$(".report").submit(checkReportQuery);
+$(".report").on("click", ".lastSixMonths", lastSixMonths);
+$(".report").on("click", ".lastThreeMonths", lastThreeMonths);
+$(".datepicker").datepicker({
+	dateFormat: "yy-mm-dd"
+});
 
-	$(".select2").val(null).select2({
-		placeholder: "Please select"
-	});
+$("#addNewSpecificReport").click();
 
-	$("body").css("padding-top", $("#main-navbar").height()+5);
+$.extend(true, $.fn.dataTable.defaults, {
+	language: {
+		emptyTable: "No entries available",
+		zeroRecords: "No matching entries, please revise your search",
+		paginate: {
+			previous: "&lt;",
+			next: "&gt;"
+		}
+	},
+	stateSave: true,
+	deferRender: true,
+	dom: "lfprtip"
+});
 
-	$("#individual-milestones, #aggregate-milestones").multiSelect({
-		selectableOptgroup: true
-	});
+$("body").css("padding-top", $("#main-navbar").height()+5);
 
+$("#individual-milestones, #aggregate-milestones").multiSelect({
+	selectableOptgroup: true
 });
 
 // https://davidwalsh.name/essential-javascript-functions
@@ -446,7 +446,7 @@ $(".toggle-descriptions").click(function(){
 	}
 });
 
-$("table").on("mouseenter", ".table-date-cell", function(){
+$(document).on("mouseenter", ".table-date-cell", function(){
 	var date = $(this).data("date-value");
 	if(date){
 		$(this).data("original-value", $(this).text());
@@ -454,7 +454,7 @@ $("table").on("mouseenter", ".table-date-cell", function(){
 	}
 });
 
-$("table").on("mouseenter", ".table-date-time-cell", function(){
+$(document).on("mouseenter", ".table-date-time-cell", function(){
 	var date = $(this).data("date-value");
 	if(date){
 		$(this).data("original-value", $(this).text());
@@ -462,7 +462,7 @@ $("table").on("mouseenter", ".table-date-time-cell", function(){
 	}
 });
 
-$("table").on("mouseleave", ".table-date-cell, .table-date-time-cell", function(){
+$(document).on("mouseleave", ".table-date-cell, .table-date-time-cell", function(){
 	var originalValue = $(this).data("originalValue");
 	if(originalValue)
 		$(this).text(originalValue);

@@ -33,8 +33,15 @@ class ReportController extends Controller
     public function __construct(){
         $this->middleware("auth");
         $this->middleware("shared");
-        $this->middleware("type:admin", ["except" => ["specific", "getPDF"]]);
+        $this->middleware("type:admin", ["except" => [
+			"specific",
+			"getPDF"
+		]]);
     }
+
+	public function reports(){
+		return view('report/reports');
+	}
 
     public function stats($type){
         switch($type){
@@ -114,7 +121,10 @@ class ReportController extends Controller
                     $eval = $userEvals->where("status", "complete")
                         ->sortByDesc("complete_date")->first();
                     if(!empty($eval))
-                        $lastCompleted[$user->full_name] = $eval->complete_date;
+						$lastCompleted[] = [
+							"name" => $user->full_name,
+							"evaluation" => $eval
+						];
                 }
 
 
@@ -148,7 +158,10 @@ class ReportController extends Controller
                     $d1 = new DateTime();
                     $d2 = new DateTime();
                     $d2->add(new DateInterval("PT".$time."S"));
-                    $times[$user->full_name] = $d2->diff($d1)->format("%a days %H hours");
+					$times[] = [
+						"name" => $user->full_name,
+						"time" => $d2->diff($d1)->format("%a days %H hours")
+					];
                 }
             } catch(\Exception $e){
                 Log::error("Problem with user in stats: ".$e);
@@ -158,64 +171,29 @@ class ReportController extends Controller
             "noneCompleted", "lastCompleted", "userStats", "statEvalData");
         if($type == "faculty")
             $data["averageCompletionTimes"] = $times;
-        return view("report.get-stats", $data);
+
+		return $data;
     }
 
-    public function needsEvaluations(){
+    public function needsEvaluationsView(){
         $milestones = Milestone::all();
         $competencies = Competency::all();
         $data = compact("milestones", "competencies");
         return view("report.needs-eval", $data);
     }
 
-    function getUsersNeedingEvaluations($startDate, $endDate, $trainingLevel, $evalThreshold){
-        $getQueriedEvaluations = function($query)
-                use ($startDate, $endDate, $trainingLevel, $evalThreshold){
-            $query->where("evaluation_date", ">=", $startDate)
-                ->where("evaluation_date", "<=", $endDate);
-            if($trainingLevel != "all")
-                $query->where("training_level", $trainingLevel);
-        };
+	public function needsEvaluations(Request $request){
+		$startDate = Carbon::parse($request->input("startDate"));
+		$startDate->timezone = "America/Chicago";
+		$endDate = Carbon::parse($request->input("endDate"));
+		$endDate->timezone = "America/Chicago";
+		$trainingLevel = $request->input("trainingLevel");
+		$evalThreshold = $request->input("evalThreshold");
 
-        $needsEvals = User::where("type", "resident")->where("status", "active");
-        if($trainingLevel != "all")
-            $needsEvals->where("training_level", $trainingLevel);
+		return $this->getUsersNeedingEvaluations($startDate, $endDate, $trainingLevel, $evalThreshold);
+	}
 
-        if($evalThreshold != "all")
-            $needsEvals->whereHas("subjectEvaluations", $getQueriedEvaluations, "<", $evalThreshold);
-
-        return $needsEvals->with(["subjectEvaluations" => $getQueriedEvaluations])->get();
-    }
-
-    public function getNeedsEvaluations(Request $request){
-        $startDate = Carbon::parse($request->input("startDate"));
-        $startDate->timezone = "America/Chicago";
-        $endDate = Carbon::parse($request->input("endDate"));
-        $endDate->timezone = "America/Chicago";
-        $trainingLevel = $request->input("trainingLevel");
-        $evalThreshold = $request->input("evalThreshold");
-
-        $usersNeedingEvals = $this->getUsersNeedingEvaluations($startDate, $endDate, $trainingLevel, $evalThreshold);
-
-        $results["data"] = [];
-        foreach($usersNeedingEvals as $user){
-            $result = [];
-            $result[] = $user->profile_link;
-            $count = $user->subjectEvaluations->count();
-            $result[] = $count;
-            $result[] = "<button type='button' class='btn btn-xs btn-info send-user-reminder' "
-                . "data-id='{$user->id}' data-first='{$user->first_name}' "
-                . "data-last='{$user->last_name}' data-email='{$user->email}' "
-                . "data-count='{$count}'>"
-                . "<span class='glyphicon glyphicon-send'></span> Send reminder"
-                . "</button>";
-            $results["data"][] = $result;
-        }
-
-        return response()->json($results);
-    }
-
-    public function getNeedsCompetencies(Request $request){
+	public function needsCompetencies(Request $request){
         $startDate = Carbon::parse($request->input("startDate"));
 		$startDate->timezone = "America/Chicago";
         $endDate = Carbon::parse($request->input("endDate"));
@@ -251,60 +229,7 @@ class ReportController extends Controller
         return $results;
     }
 
-    public function getNeedsCompetenciesJSON(Request $request){
-        $competencies = Competency::lists("id");
-        $residentsQuery = User::where("type", "resident")->where("status", "active");
-        if($request->input("trainingLevel") != "all")
-            $residentsQuery->where("training_level", $request->input("trainingLevel"));
-        $residents = $residentsQuery->get();
-        $results["data"] = [];
-        $evaluations = $this->getNeedsCompetencies($request);
-        foreach($residents as $resident){
-            $result = [];
-            $result[] = $resident->full_name;
-            foreach($competencies as $competency){
-                if(isset($evaluations[$resident->id][$competency]))
-                    $result[] = "<span class='glyphicon glyphicon-ok'></span>";
-                else
-                    $result[] = "<span class='glyphicon glyphicon-remove'></span>";
-            }
-            $results["data"][] = $result;
-        }
-        return response()->json($results);
-    }
-
-    public function getNeedsCompetenciesTSV(Request $request){
-        $tsv = "";
-        $competencies = Competency::all();
-        $residentsQuery = User::where("type", "resident")->where("status", "active");
-        if($request->input("trainingLevel") != "all")
-            $residentsQuery->where("training_level", $request->input("training_level"));
-        $residents = $residentsQuery->get();
-        $evaluations = $this->getNeedsCompetencies($request);
-        $tsv .= "Resident/Fellow\t";
-        foreach($competencies as $competency)
-            $tsv .= $competency->title."\t";
-        $tsv .= "\n";
-
-        foreach($residents as $resident){
-            $tsv .= $resident->full_name."\t";
-            foreach($competencies as $competency){
-                if(isset($evaluations[$resident->id][$competency->id]))
-                    $tsv .= "Y\t";
-                else
-                    $tsv .= "N\t";
-            }
-            $tsv .= "\n";
-        }
-
-        $filename = "Needs Competencies ".Carbon::now()->toDateTimeString().".tsv";
-
-        return response($tsv)
-            ->header("Content-Type", "text/tab-separated-values")
-            ->header("Content-Disposition", "attachment; filename={$filename}");
-    }
-
-    public function getNeedsMilestones(Request $request){
+	public function needsMilestones(Request $request){
 		$startDate = Carbon::parse($request->input("startDate"));
 		$startDate->timezone = "America/Chicago";
         $endDate = Carbon::parse($request->input("endDate"));
@@ -340,7 +265,187 @@ class ReportController extends Controller
         return $results;
     }
 
-    public function getNeedsMilestonesJSON(Request $request){
+
+	function getUsersNeedingEvaluations($startDate, $endDate, $trainingLevel, $evalThreshold){
+        $getQueriedEvaluations = function($query)
+                use ($startDate, $endDate, $trainingLevel, $evalThreshold){
+            $query->with("evaluator", "requestor", "form")
+				->where("evaluation_date", ">=", $startDate)
+                ->where("evaluation_date", "<=", $endDate);
+            if($trainingLevel != "all")
+                $query->where("training_level", $trainingLevel);
+        };
+
+        $needsEvals = User::where("type", "resident")->where("status", "active");
+        if($trainingLevel != "all")
+            $needsEvals->where("training_level", $trainingLevel);
+
+        if($evalThreshold != "all")
+            $needsEvals->whereHas("subjectEvaluations", $getQueriedEvaluations, "<", $evalThreshold);
+
+        return $needsEvals->with(["subjectEvaluations" => $getQueriedEvaluations])->get();
+    }
+
+	// TODO: Remove when better reports finished
+	public function getNeedsEvaluations(Request $request){
+        $startDate = Carbon::parse($request->input("startDate"));
+        $startDate->timezone = "America/Chicago";
+        $endDate = Carbon::parse($request->input("endDate"));
+        $endDate->timezone = "America/Chicago";
+        $trainingLevel = $request->input("trainingLevel");
+        $evalThreshold = $request->input("evalThreshold");
+
+        $usersNeedingEvals = $this->getUsersNeedingEvaluations($startDate, $endDate, $trainingLevel, $evalThreshold);
+
+        $results["data"] = [];
+        foreach($usersNeedingEvals as $user){
+            $result = [];
+            $result[] = $user->profile_link;
+            $count = $user->subjectEvaluations->count();
+            $result[] = $count;
+            $result[] = "<button type='button' class='btn btn-xs btn-info send-user-reminder' "
+                . "data-id='{$user->id}' data-first='{$user->first_name}' "
+                . "data-last='{$user->last_name}' data-email='{$user->email}' "
+                . "data-count='{$count}'>"
+                . "<span class='glyphicon glyphicon-send'></span> Send reminder"
+                . "</button>";
+            $results["data"][] = $result;
+        }
+
+        return response()->json($results);
+    }
+
+	// TODO: Remove when better reports finished
+	public function getNeedsCompetencies(Request $request){
+        $startDate = Carbon::parse($request->input("startDate"));
+		$startDate->timezone = "America/Chicago";
+        $endDate = Carbon::parse($request->input("endDate"));
+        $endDate->timezone = "America/Chicago";
+		$trainingLevel = $request->input("trainingLevel");
+
+        $results = [];
+        $query = DB::table("responses")
+            ->join("evaluations", "responses.evaluation_id", "=", "evaluations.id")
+            ->join("competencies_questions", function($join){
+                $join->on("competencies_questions.form_id", "=", "evaluations.form_id")
+                    ->on("competencies_questions.question_id", "=", "responses.question_id");
+            })
+            ->join("competencies", "competencies.id", "=", "competencies_questions.competency_id")
+            ->join("users", "users.id", "=", "evaluations.subject_id")
+            ->where("users.status", "active")
+            ->where("users.type", "resident")
+            ->where("evaluations.status", "complete")
+            ->where("evaluations.evaluation_date", ">=", $startDate)
+            ->where("evaluations.evaluation_date", "<=", $endDate);
+
+        if($trainingLevel != "all")
+			$query->where("evaluations.training_level", $trainingLevel);
+
+		$query->select("subject_id", "competency_id")
+            ->orderBy("competency_id", "asc")
+            ->chunk(10000, function($responses) use (&$results){
+                foreach($responses as $response){
+                    $results[$response->subject_id][$response->competency_id] = true;
+                }
+            });
+
+        return $results;
+    }
+
+	// TODO: Remove when better reports finished
+	public function getNeedsCompetenciesJSON(Request $request){
+        $competencies = Competency::lists("id");
+        $residentsQuery = User::where("type", "resident")->where("status", "active");
+        if($request->input("trainingLevel") != "all")
+            $residentsQuery->where("training_level", $request->input("trainingLevel"));
+        $residents = $residentsQuery->get();
+        $results["data"] = [];
+        $evaluations = $this->getNeedsCompetencies($request);
+        foreach($residents as $resident){
+            $result = [];
+            $result[] = $resident->full_name;
+            foreach($competencies as $competency){
+                if(isset($evaluations[$resident->id][$competency]))
+                    $result[] = "<span class='glyphicon glyphicon-ok'></span>";
+                else
+                    $result[] = "<span class='glyphicon glyphicon-remove'></span>";
+            }
+            $results["data"][] = $result;
+        }
+        return response()->json($results);
+    }
+
+	// TODO: Remove when better reports finished
+	public function getNeedsCompetenciesTSV(Request $request){
+        $tsv = "";
+        $competencies = Competency::all();
+        $residentsQuery = User::where("type", "resident")->where("status", "active");
+        if($request->input("trainingLevel") != "all")
+            $residentsQuery->where("training_level", $request->input("training_level"));
+        $residents = $residentsQuery->get();
+        $evaluations = $this->getNeedsCompetencies($request);
+        $tsv .= "Resident/Fellow\t";
+        foreach($competencies as $competency)
+            $tsv .= $competency->title."\t";
+        $tsv .= "\n";
+
+        foreach($residents as $resident){
+            $tsv .= $resident->full_name."\t";
+            foreach($competencies as $competency){
+                if(isset($evaluations[$resident->id][$competency->id]))
+                    $tsv .= "Y\t";
+                else
+                    $tsv .= "N\t";
+            }
+            $tsv .= "\n";
+        }
+
+        $filename = "Needs Competencies ".Carbon::now()->toDateTimeString().".tsv";
+
+        return response($tsv)
+            ->header("Content-Type", "text/tab-separated-values")
+            ->header("Content-Disposition", "attachment; filename={$filename}");
+    }
+
+	// TODO: Remove when better reports finished
+	public function getNeedsMilestones(Request $request){
+		$startDate = Carbon::parse($request->input("startDate"));
+		$startDate->timezone = "America/Chicago";
+        $endDate = Carbon::parse($request->input("endDate"));
+        $endDate->timezone = "America/Chicago";
+		$trainingLevel = $request->input("trainingLevel");
+
+        $results = [];
+        $query = DB::table("responses")
+            ->join("evaluations", "responses.evaluation_id", "=", "evaluations.id")
+            ->join("milestones_questions", function($join){
+                $join->on("milestones_questions.form_id", "=", "evaluations.form_id")
+                    ->on("milestones_questions.question_id", "=", "responses.question_id");
+            })
+            ->join("milestones", "milestones.id", "=", "milestones_questions.milestone_id")
+            ->join("users", "users.id", "=", "evaluations.subject_id")
+            ->where("users.status", "active")
+            ->where("users.type", "resident")
+            ->where("evaluations.status", "complete")
+            ->where("evaluations.evaluation_date", ">=", $startDate)
+            ->where("evaluations.evaluation_date", "<=", $endDate);
+
+		if($trainingLevel != "all")
+			$query->where("evaluations.training_level", $trainingLevel);
+
+		$query->select("subject_id", "milestone_id")
+            ->orderBy("milestone_id", "asc")
+            ->chunk(10000, function($responses) use (&$results){
+                foreach($responses as $response){
+                    $results[$response->subject_id][$response->milestone_id] = true;
+                }
+            });
+
+        return $results;
+    }
+
+	// TODO: Remove when better reports finished
+	public function getNeedsMilestonesJSON(Request $request){
         $milestones = Milestone::lists("id");
         $residentsQuery = User::where("type", "resident")->where("status", "active");
 		if($request->input("trainingLevel") != "all")
@@ -363,7 +468,8 @@ class ReportController extends Controller
         return response()->json($results);
     }
 
-    public function getNeedsMilestonesTSV(Request $request){
+	// TODO: Remove when better reports finished
+	public function getNeedsMilestonesTSV(Request $request){
         $tsv = "";
         $milestones = Milestone::all();
 		$residentsQuery = User::where("type", "resident")->where("status", "active");
@@ -550,7 +656,7 @@ class ReportController extends Controller
 		return sqrt(array_sum(array_map(array($this, "sd_square"), $array, array_fill(0,count($array), (array_sum($array) / count($array)) ) ) ) / (count($array)-1) );
 	}
 
-    public function report($startDate, $endDate, $trainingLevel, $graphOption, $graphOrientation, $reportSubject, $milestones){
+    public function report($startDate, $endDate, $trainingLevel, $milestones, $reportSubject = null, $graphOption = null, $graphOrientation = null){
         // TODO: Add "Evals Requested" to report somehow
         $startDate = Carbon::parse($startDate);
         $startDate->timezone = "America/Chicago";
@@ -608,6 +714,7 @@ class ReportController extends Controller
         $subjectEvals = [];
         $subjectRequests = [];
         $subjectEvaluators = [];
+		$subjectEvaluations = [];
         $competencyQuestions = [];
 
         $subjects = [];
@@ -615,8 +722,13 @@ class ReportController extends Controller
         $query->select("milestone_id", "milestones.title as milestone_title", "competency_id", "competencies.title as competency_title")
             ->addSelect("subject_id", "evaluator_id", "last_name", "first_name", "evaluation_id", "response", "weight", "responses.question_id as question_id")
             ->orderBy("milestones.title")->orderBy("competencies.title");
-        Debugbar::info($query->toSql());
-        $query->chunk(20000, function($responses) use (&$milestones, &$subjects, &$milestones, &$competencies, &$subjectEvals, &$subjectRequests, &$subjectRequests, &$averageMilestone, &$averageMilestoneDenom, &$averageCompetency, &$averageCompetencyDenom, &$subjectMilestone, &$subjectMilestoneDenom, &$subjectMilestoneEvals, &$subjectCompetency, &$subjectCompetencyDenom, &$subjectCompetencyEvals, &$competencyQuestions, &$subjectEvaluators){
+        $query->chunk(20000, function($responses) use (&$milestones, &$subjects,
+				&$milestones, &$competencies, &$subjectEvals, &$subjectRequests,
+				&$subjectRequests, &$averageMilestone, &$averageMilestoneDenom,
+				&$averageCompetency, &$averageCompetencyDenom, &$subjectMilestone,
+				&$subjectMilestoneDenom, &$subjectMilestoneEvals, &$subjectCompetency,
+				&$subjectCompetencyDenom, &$subjectCompetencyEvals, &$competencyQuestions,
+				&$subjectEvaluators){
             foreach($responses as $response){
                 if(!isset($subjects[$response->subject_id]))
                     $subjects[$response->subject_id] = $response->last_name.", ".$response->first_name;
@@ -747,7 +859,8 @@ class ReportController extends Controller
 
         $reqQuery = DB::table("evaluations")
             ->join("forms", "forms.id", "=", "evaluations.form_id")
-            ->join("users", "users.id", "=", "evaluations.subject_id")
+			->join("users as subjects", "subjects.id", "=", "evaluations.subject_id")
+            ->join("users as evaluators", "evaluators.id", "=", "evaluations.evaluator_id")
             ->whereIn("forms.type", ["resident", "fellow"])
             ->whereIn("forms.evaluator_type", ["faculty"])
             ->whereIn("evaluations.status", ["pending", "complete"])
@@ -758,24 +871,33 @@ class ReportController extends Controller
             $reqQuery->where("evaluations.training_level", $trainingLevel);
 
         $reqQuery->select("subject_id", "evaluator_id", "requested_by_id",
-            "last_name", "first_name", "evaluations.id as evaluation_id");
-        $reqQuery->chunk(20000, function($evaluations) use (&$subjects, &$subjectRequests, &$subjectEvals, &$subjectEvaluators){
+			"subjects.last_name as subject_last", "subjects.first_name as subject_first",
+            "evaluators.last_name as evaluator_last", "evaluators.first_name as evaluator_first",
+			"evaluations.id as evaluation_id", "evaluations.evaluation_date",
+			"evaluations.status as evaluation_status", "forms.title as form_title");
+        $reqQuery->chunk(20000, function($evaluations) use (&$subjects, &$subjectRequests,
+				&$subjectEvals, &$subjectEvaluators, &$subjectEvaluations){
             foreach($evaluations as $evaluation){
                 if(!isset($subjects[$evaluation->subject_id]))
-                    $subjects[$evaluation->subject_id] = $evaluation->last_name . ", " . $evaluation->first_name;
+                    $subjects[$evaluation->subject_id] = $evaluation->subject_last . ", " . $evaluation->subject_first;
                 if(!isset($subjectEvals[$evaluation->subject_id]))
                     $subjectEvals[$evaluation->subject_id] = [];
                 if(!isset($subjectEvaluators[$evaluation->subject_id]))
                     $subjectEvaluators[$evaluation->subject_id] = [];
                 if(!isset($subjectRequests[$evaluation->subject_id]))
                     $subjectRequests[$evaluation->subject_id] = [];
+				if(!isset($subjectEvaluations[$evaluation->subject_id]))
+					$subjectEvaluations[$evaluation->subject_id] = [];
+
+				if($evaluation->evaluation_status == 'complete')
+					$subjectEvaluations[$evaluation->subject_id][] = $evaluation;
 
                 if($evaluation->subject_id == $evaluation->requested_by_id)
                     $subjectRequests[$evaluation->subject_id][$evaluation->evaluation_id] = 1;
             }
         });
 
-        if(isset($reportSubject)){
+		if(isset($reportSubject)){
             $subjects = [];
             $subject = User::find($reportSubject);
             $subjects[$subject->id] = $subject->last_name.", ".$subject->first_name;
@@ -790,28 +912,30 @@ class ReportController extends Controller
         ksort($averageCompetency);
         ksort($competencies);
 
-        switch($graphOption){
-            case "all":
-                foreach($subjects as $subject => $subject_name){
-                    if(!isset($subjectMilestone[$subject]) || !isset($subjectCompetency[$subject]))
-                        continue;
-                    ksort($subjectMilestone[$subject]);
-                    ksort($subjectCompetency[$subject]);
-                    $graphs[] = RadarGraphs::draw($subjectMilestone[$subject], $averageMilestone, $milestones, $subjectCompetency[$subject], $averageCompetency, $competencies, $subject_name, $startDate, $endDate, $trainingLevel, $maxResponse, $graphOrientation);
-                }
-                break;
-            case "average":
-                $graphs[] = RadarGraphs::draw(null, $averageMilestone, $milestones, null, $averageCompetency, $competencies, "Average", $startDate, $endDate, $trainingLevel, $maxResponse, $graphOrientation);
-                break;
-        }
-
         $data = compact("milestones", "competencies", "subjectMilestone",
 			"subjectMilestoneDeviations", "subjectMilestoneEvals", "subjectCompetency",
-			"subjectCompetencyDeviations", "subjectCompetencyEvals", "subjectEvals", "subjectRequests",
-			"graphs", "subjects", "subjectEvaluators", "averageMilestone",
-			"averageCompetency", "graphOption", "trainingLevel", "startDate", "endDate");
+			"subjectCompetencyDeviations", "subjectCompetencyEvals", "subjectEvals",
+            "subjectRequests", "subjects", "subjectEvaluators", "averageMilestone",
+            "averageCompetency", "graphOption", "trainingLevel", "startDate", "endDate",
+			"subjectEvaluations");
 
-        if(!is_null($reportSubject)){
+		if(!is_null($reportSubject)){
+			switch($graphOption){
+	            case "all":
+	                foreach($subjects as $subject => $subject_name){
+	                    if(!isset($subjectMilestone[$subject]) || !isset($subjectCompetency[$subject]))
+	                        continue;
+	                    ksort($subjectMilestone[$subject]);
+	                    ksort($subjectCompetency[$subject]);
+	                    $graphs[] = RadarGraphs::draw($subjectMilestone[$subject], $averageMilestone, $milestones, $subjectCompetency[$subject], $averageCompetency, $competencies, $subject_name, $startDate, $endDate, $trainingLevel, $maxResponse, $graphOrientation);
+	                }
+	                break;
+	            case "average":
+	                $graphs[] = RadarGraphs::draw(null, $averageMilestone, $milestones, null, $averageCompetency, $competencies, "Average", $startDate, $endDate, $trainingLevel, $maxResponse, $graphOrientation);
+	                break;
+	        }
+			$data['graphs'] = $graphs;
+
             $textQuery = DB::table("text_responses")
                 ->join("evaluations", "evaluations.id", "=", "evaluation_id")
                 ->join("users", "users.id", "=", "evaluations.evaluator_id")
@@ -853,18 +977,42 @@ class ReportController extends Controller
 
             $data["subjectReportEvaluations"] = $reportEvaluationsQuery->get();
         }
+		else {
+			$textQuery = DB::table("text_responses")
+				->join("evaluations", "evaluations.id", "=", "evaluation_id")
+				->join("users", "users.id", "=", "evaluations.evaluator_id")
+				->join("forms", "evaluations.form_id", "=", "forms.id")
+				->where("users.type", "faculty")
+				->where("evaluations.status", "complete")
+				->where("evaluations.evaluation_date", ">=", $startDate)
+				->where("evaluations.evaluation_date", "<=", $endDate)
+				->whereIn("evaluations.subject_id", array_keys($subjects))
+				->whereIn("forms.type", ["resident", "fellow"])
+				->whereIn("forms.evaluator_type", ["faculty"]);
+
+			if($trainingLevel != "all")
+				$textQuery->where("evaluations.training_level", $trainingLevel);
+
+			$textQuery->select("subject_id", "first_name", "last_name",
+				"forms.title as form_title", "evaluation_date", "response",
+				"evaluation_id");
+
+			$subjectTextResponses = collect($textQuery->get())->groupBy('subject_id');
+
+			$data["subjectTextResponses"] = $subjectTextResponses;
+		}
 
         return $data;
     }
 
     public function aggregate(Request $request){
-        $data = $this->report($request->input("startDate"), $request->input("endDate"), $request->input("trainingLevel"), $request->input("graphs"), "horizontal", null, $request->input("milestones"));
-
-        return view("report.report", $data);
+        return $this->report($request->input("startDate"),
+            $request->input("endDate"), $request->input("trainingLevel"),
+            $request->input("milestones"));
     }
 
     public function specific(Request $request){
-        $user = Auth::user();
+		$user = Auth::user();
         $resident = User::find($request->input("resident"));
         if(!($resident == $user || $user->isType("admin") || $user->mentees->contains($resident)))
             return back()->with("error", "Requested report not authorized");
@@ -892,15 +1040,17 @@ class ReportController extends Controller
             return back()->with("error", "Please be sure to complete all fields for each report");
 
         for($i = 0; $i < count($startDates); $i++){
-            $data["reportData"][$i] = $this->report($startDates[$i], $endDates[$i], $trainingLevels[$i], $request->input("graphs"), "vertical", $request->input("resident"), $request->input("milestones"));
+            $data["reportData"][$i] = $this->report($startDates[$i], $endDates[$i],
+                $trainingLevels[$i], $request->input("milestones"), $request->input("resident"),
+				$request->input('graphs'), 'vertical');
 			$data["reportData"][$i]["startDate"] = Carbon::parse($startDates[$i]);
 			$data["reportData"][$i]["endDate"] = Carbon::parse($endDates[$i]);
 			$data["reportData"][$i]["trainingLevel"] = $trainingLevels[$i];
         }
 
-		$data["graphOption"] = $request->input("graphs");
 		$data["numReports"] = count($startDates);
         $data["specificSubject"] = User::find($request->input("resident"));
+		$data["graphOption"] = $request->input('graphs');
 
 		$request->session()->put("individualReportData", $data);
 
@@ -923,15 +1073,19 @@ class ReportController extends Controller
 		$questionResponses = [];
 		$subjectResponseValues = [];
 
-		$chunkCallback = function($responses) use(&$subjectResponses, &$subjectEvals, &$averageResponses, &$averageEvals, &$subjects, &$questions, &$questionResponses, &$subjectResponseValues){
+		$chunkCallback = function($responses) use(&$subjectResponses, &$subjectEvals,
+				&$averageResponses, &$averageEvals, &$subjects, &$questions,
+				&$questionResponses, &$subjectResponseValues){
             foreach($responses as $response){
                 if(!isset($subjectResponses[$response->subject_id][$response->question_id][$response->response]))
                     $subjectResponses[$response->subject_id][$response->question_id][$response->response] = 0;
                 if(!isset($averageResponses[$response->question_id][$response->response]))
                     $averageResponses[$response->question_id][$response->response] = 0;
 
-                if(!isset($subjectEvals[$response->subject_id][$response->evaluation_id]))
-                    $subjectEvals[$response->subject_id][$response->evaluation_id] = 1;
+				if(!isset($subjectEvals[$response->subject_id]))
+					$subjectEvals[$response->subject_id] = [];
+				if(!in_array($response->evaluation_id, $subjectEvals[$response->subject_id]))
+                    $subjectEvals[$response->subject_id][] = $response->evaluation_id;
                 if(!isset($averageEvals[$response->evaluation_id]))
                     $averageEvals[$response->evaluation_id] = 1;
 
@@ -976,9 +1130,6 @@ class ReportController extends Controller
 
     	$textQuery->chunk(10000, $chunkCallback);
 
-        foreach($subjectEvals as $subject_id => $null){
-            $subjectEvals[$subject_id] = count($subjectEvals[$subject_id]);
-        }
         $averageEvals = count($averageEvals);
         $subjects = array_keys($subjects);
         $questions = array_keys($questions);
@@ -991,7 +1142,9 @@ class ReportController extends Controller
                 $averagePercentages[$question_id][$response] = round(($averageResponses[$question_id][$response]/$averageEvals)*100);
                 foreach($subjects as $subject_id){
                     if(isset($subjectResponses[$subject_id][$question_id][$response]))
-                        $subjectPercentages[$subject_id][$question_id][$response] = round(($subjectResponses[$subject_id][$question_id][$response]/$subjectEvals[$subject_id])*100);
+                        $subjectPercentages[$subject_id][$question_id][$response] =
+							round(($subjectResponses[$subject_id][$question_id][$response]
+							/ count($subjectEvals[$subject_id])) * 100);
                     else{
                         $subjectResponses[$subject_id][$question_id][$response] = 0;
                         $subjectPercentages[$subject_id][$question_id][$response] = 0;
@@ -1006,31 +1159,46 @@ class ReportController extends Controller
         $subjectName = $subject->full_name;
         $formTitle = $form->title;
 
-		if(!isset($subjectEvals[$subjectId]))
-			return back()->with("error", "No completed evaluations for {$subjectName} between {$startDate} and {$endDate} for form {$formTitle}");
+		if(!isset($subjectEvals[$subjectId])){
+			$errorMessage = "No completed evaluations for {$subjectName} between "
+				. "{$startDate} and {$endDate} for form {$formTitle}";
+			if($request->ajax())
+				return response(null, 404);
+			else
+				return back()->with("error", $errorMessage);
+		}
 
         $formPath = $form->xml_path;
         $subjectResponses = $subjectResponses[$subjectId];
         $subjectPercentages = $subjectPercentages[$subjectId];
         $subjectEvals = $subjectEvals[$subjectId];
+		sort($subjectEvals);
         $subjectResponseValues = $subjectResponseValues[$subjectId];
 
-        $subjectResponses = $this->encodeAndStrip($subjectResponses);
-        $subjectPercentages = $this->encodeAndStrip($subjectPercentages);
-        $subjectResponseValues = $this->encodeAndStrip($subjectResponseValues);
-        $subjectEvals = $this->encodeAndStrip($subjectEvals);
-        $averagePercentages = $this->encodeAndStrip($averagePercentages);
-        $averageEvals = $this->encodeAndStrip($averageEvals);
-        $subjects = $this->encodeAndStrip($subjects);
-        $questions = $this->encodeAndStrip($questions);
-        $questionResponses = $this->encodeAndStrip($questionResponses);
+		if(!$request->ajax()){
+			$subjectResponses = $this->encodeAndStrip($subjectResponses);
+			$subjectPercentages = $this->encodeAndStrip($subjectPercentages);
+			$subjectResponseValues = $this->encodeAndStrip($subjectResponseValues);
+			$subjectEvals = $this->encodeAndStrip($subjectEvals);
+			$averagePercentages = $this->encodeAndStrip($averagePercentages);
+			$averageEvals = $this->encodeAndStrip($averageEvals);
+			$subjects = $this->encodeAndStrip($subjects);
+			$questions = $this->encodeAndStrip($questions);
+			$questionResponses = $this->encodeAndStrip($questionResponses);
+		}
 
-        $data = compact("subjectResponses", "formPath", "subjectEvals", "averageEvals",
+		$formContents = $form->contents;
+
+        $data = compact("subjectResponses", "averageResponses",
+			"formPath", "subjectEvals", "averageEvals",
         	"subjectPercentages", "averagePercentages", "subjectId", "subjects",
 			"questions", "questionResponses", "subjectResponseValues", "subjectName",
-			"formTitle", "startDate", "endDate");
+			"formTitle", "startDate", "endDate", "formContents");
 
-        return view("report.form-report", $data);
+		if($request->ajax())
+        	return $data;
+		else
+			return view("report.form-report", $data);
     }
 
     private function encodeAndStrip($array){

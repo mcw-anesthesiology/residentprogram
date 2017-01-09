@@ -52,25 +52,10 @@
 	  @if($user->isType("admin") || $user->usesFeature(config("constants.FEATURES.CASE_LOG")))
 		<li><a href="/case-log">Case log</a></li>
 	  @endif
-	  @if($user->isType("admin") || $user->type == "resident" || ($user->mentees()->count() > 0))
-		<li class="dropdown">
-			<a href="#" data-toggle="dropdown">Reports<b class="caret"></b></a>
-			<ul class="dropdown-menu">
-			@if($user->isType("admin"))
-			<li><a class="viewAggRpt pointer" data-toggle="modal" data-target=".bs-aggRpt-modal" id="viewAggRpt">Aggregate</a></li>
-			@endif
-			<li><a class="viewSpecRpt pointer" data-toggle="modal" data-target=".bs-specRpt-modal" id="viewSpecRpt">Individual</a></li>
-			@if($user->isType("admin"))
-            <li><a class="pointer" data-toggle="modal" data-target="#form-report-modal">Form Report</a></li>
-			<li><a class="pointer" data-toggle="modal" data-target="#faculty-report-modal">Faculty Report</a></li>
-			<li><a href="/report/stats/faculty">Faculty Statistics</a></li>
-			<li><a href="/report/stats/resident">Resident Statistics</a></li>
-			<li><a href="/report/stats/fellow">Fellow Statistics</a></li>
-			<li><a href="/report/milestones-competencies-forms">Milestones/Competencies - Forms</a></li>
-            <li><a href="/report/needs-eval">Needs Evaluations</a></li>
-			@endif
-			</ul>
-		</li>
+	  @if($user->isType("admin"))
+		<li><a href="/reports">Reports</a></li>
+	  @elseif($user->type == "resident" || ($user->type == "faculty" && $user->mentees()->count() > 0))
+		<li><a class="viewSpecRpt pointer" data-toggle="modal" data-target=".bs-specRpt-modal" id="viewSpecRpt">Report</a></li>
 	  @endif
 		<li><a href="/contact">Contact</a></li>
         <li><a href="/directory">Pager Directory</a></li>

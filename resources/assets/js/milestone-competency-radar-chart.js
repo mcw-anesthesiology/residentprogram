@@ -1,4 +1,4 @@
-
+/* eslint-disable */
 // MCW Colors
 // var averageSolidColor = "rgba(0,67,100,1)";
 // var averageFillColor = "rgba(0,67,100,0.2)";

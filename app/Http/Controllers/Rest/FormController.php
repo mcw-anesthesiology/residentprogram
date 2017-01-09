@@ -146,4 +146,10 @@ class FormController extends RestController
 		else
     		return redirect("manage/forms");
 	}
+
+	public function showAsJson(Request $request, $id){
+		$form = Form::with('milestoneQuestions', 'competencyQuestions')->findOrFail($id);
+
+		return $form->contents;
+	}
 }

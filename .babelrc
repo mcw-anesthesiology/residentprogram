@@ -1,8 +1,9 @@
 {
 	"presets": [
-		"es2015"
+		"latest"
 	],
 	"plugins": [
-		"array-includes"
+		"array-includes",
+		"syntax-dynamic-import"
 	]
 }

@@ -10,11 +10,13 @@
 @stop
 
 @section("script")
-	<script src="/js/form-builder.js"></script>
+	<script src="/js/vue-deps.js"></script>
+	<script src="/js/vue-form-builder.js"></script>
 	<script>
 		var formContents = {!! $formContents or '""' !!};
+		var vm = createFormBuilder("#form-builder");
 		if(formContents){
-			FORM_BUILDER_VM.oldFormContents = formContents;
+			vm.oldFormContents = formContents;
 		}
 
 		$("#evaluation-form").submit(checkForm);

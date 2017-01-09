@@ -111,6 +111,10 @@ export function renderSecondaryTrainingLevel(secondaryTrainingLevel){
 	return "";
 }
 
+export function renderIdToEvalUrl(id){
+	return `<a href="/evaluation/${id}">${id}</a>`;
+}
+
 export function renderSubjectEvalUrl(url, type, evaluation){
 	if(['sort', 'type'].includes(type)){
 		if(evaluation.seen_by_subject_at){

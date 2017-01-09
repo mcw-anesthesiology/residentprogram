@@ -36,9 +36,9 @@ class Response extends Model
         return $this->hasMany("App\MilestoneQuestion", "question_id", "question_id")->where("form_id", $this->evaluation->form_id);
     }
 
-    // public function milestones(){
-    //     // return $this->MilestoneQuestions->milestone
-    // }
+    public function competencyQuestions(){
+		return $this->hasMany("App\CompetencyQuestion", "question_id", "question_id")->where("form_id", $this->evaluation->form_id);
+	}
 
 	public function hashEvaluationId(){
 		$this->hashids = true;

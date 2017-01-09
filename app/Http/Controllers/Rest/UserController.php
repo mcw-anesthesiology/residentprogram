@@ -9,6 +9,14 @@ use App\User;
 class UserController extends RestController
 {
 
+	public function __construct(){
+        $this->middleware("auth");
+		$this->middleware("type:admin", ["except" => [
+			'index',
+			'show'
+		]]);
+    }
+
 	protected $relationships = [
 		"subjectEvaluations",
 		"evaluatorEvaluations",

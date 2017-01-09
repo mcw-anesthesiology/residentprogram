@@ -1,105 +1,76 @@
 /* eslint-env node */
-const gulp = require("gulp");
-const uglify = require("gulp-uglify");
-const cssnano = require("gulp-cssnano");
-const concat = require("gulp-concat");
+const gulp = require('gulp');
 const elixir = require('laravel-elixir');
-const size = require("gulp-size");
+const each = require('gulp-each');
+const fc2json = require('gulp-file-contents-to-json');
 
-/*
- |--------------------------------------------------------------------------
- | Elixir Asset Management
- |--------------------------------------------------------------------------
- |
- | Elixir provides a clean, fluent API for defining some basic Gulp tasks
- | for your Laravel application. By default, we are compiling the Sass
- | file for our application, as well as publishing vendor resources.
- |
- */
-const bowerPath = "./bower_components/";
-const npmPath = "./node_modules/";
+const bowerPath = './bower_components/';
+const npmPath = './node_modules/';
 const scripts = [
-	npmPath + "babel-polyfill/dist/polyfill.min.js",
-    bowerPath + "jquery/dist/jquery.min.js",
-    bowerPath + "bootstrap/dist/js/bootstrap.js",
-    bowerPath + "jquery-ui/jquery-ui.min.js",
-    bowerPath + "datatables.net/js/jquery.dataTables.min.js",
-    bowerPath + "datatables.net-bs/js/dataTables.bootstrap.min.js",
-    bowerPath + "datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js",
-    bowerPath + "datatables.net-fixedheader/js/dataTables.fixedHeader.min.js",
-    bowerPath + "datatables.net-responsive/js/dataTables.responsive.min.js",
-    bowerPath + "datatables.net-responsive-bs/js/responsive.bootstrap.js",
-    bowerPath + "lodash/dist/lodash.min.js",
-    bowerPath + "moment/min/moment.min.js",
-    bowerPath + "multiselect/js/jquery.multi-select.js",
-    bowerPath + "placeholders/dist/placeholders.min.js",
-    bowerPath + "placeholders/dist/placeholders.jquery.min.js",
-    bowerPath + "select2/dist/js/select2.min.js",
-    bowerPath + "Chart.js/Chart.js",
-    bowerPath + "bootstrap-switch/dist/js/bootstrap-switch.min.js",
-    bowerPath + "marked/marked.min.js",
-    bowerPath + "country-region-selector/dist/jquery.crs.min.js",
-	bowerPath + "velocity/velocity.min.js",
-	bowerPath + "eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"
+	npmPath + 'babel-polyfill/dist/polyfill.js',
+	bowerPath + 'jquery/dist/jquery.js',
+	bowerPath + 'bootstrap/dist/js/bootstrap.js',
+	bowerPath + 'datatables.net/js/jquery.dataTables.js',
+	bowerPath + 'datatables.net-bs/js/dataTables.bootstrap.js',
+	bowerPath + 'datatables.net-fixedcolumns/js/dataTables.fixedColumns.js',
+	bowerPath + 'datatables.net-fixedheader/js/dataTables.fixedHeader.js',
+	bowerPath + 'datatables.net-responsive/js/dataTables.responsive.js',
+	bowerPath + 'datatables.net-responsive-bs/js/responsive.bootstrap.js',
+	bowerPath + 'lodash/dist/lodash.js',
+	bowerPath + 'moment/moment.js',
+	bowerPath + 'multiselect/js/jquery.multi-select.js',
+	bowerPath + 'placeholders/dist/placeholders.js',
+	bowerPath + 'placeholders/dist/placeholders.jquery.js',
+	bowerPath + 'select2/dist/js/select2.js',
+	bowerPath + 'Chart.js/Chart.js',
+	bowerPath + 'bootstrap-switch/dist/js/bootstrap-switch.js',
+	bowerPath + 'marked/lib/marked.js',
+	bowerPath + 'country-region-selector/dist/jquery.crs.js',
+	bowerPath + 'velocity/velocity.js',
+	bowerPath + 'eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
+	npmPath + 'iframe-resizer/js/iframeResizer.min.js'
 ];
 
 const styles = [
-    bowerPath + "bootstrap/dist/css/bootstrap.min.css",
-    bowerPath + "jquery-ui/themes/base/core.css",
-    bowerPath + "jquery-ui/themes/base/datepicker.css",
-    bowerPath + "jquery-ui/themes/base/theme.css",
-    bowerPath + "datatables.net-bs/css/dataTables.bootstrap.min.css",
-    bowerPath + "datatables.net-fixedcolumns-bs/css/fixedColumns.bootstrap.min.css",
-    bowerPath + "datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css",
-    bowerPath + "datatables.net-responsive-bs/css/responsive.bootstrap.min.css",
-    bowerPath + "multiselect/css/multi-select.css",
-    bowerPath + "select2/dist/css/select2.min.css",
-    bowerPath + "select2-bootstrap-theme/dist/select2-bootstrap.min.css",
-    bowerPath + "bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css",
-	bowerPath + "eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css"
+	bowerPath + 'bootstrap/dist/css/bootstrap.css',
+	bowerPath + 'datatables.net-bs/css/dataTables.bootstrap.css',
+	bowerPath + 'datatables.net-fixedcolumns-bs/css/fixedColumns.bootstrap.css',
+	bowerPath + 'datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.css',
+	bowerPath + 'datatables.net-responsive-bs/css/responsive.bootstrap.css',
+	bowerPath + 'multiselect/css/multi-select.css',
+	bowerPath + 'select2/dist/css/select2.css',
+	bowerPath + 'select2-bootstrap-theme/dist/select2-bootstrap.css',
+	bowerPath + 'bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css',
+	bowerPath + 'eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css'
 ];
 
 const fonts = [
-    bowerPath + "bootstrap/dist/fonts/glyphicons-halflings-regular.eot",
-    bowerPath + "bootstrap/dist/fonts/glyphicons-halflings-regular.svg",
-    bowerPath + "bootstrap/dist/fonts/glyphicons-halflings-regular.ttf",
-    bowerPath + "bootstrap/dist/fonts/glyphicons-halflings-regular.woff",
-    bowerPath + "bootstrap/dist/fonts/glyphicons-halflings-regular.woff2"
+	bowerPath + 'bootstrap/dist/fonts/glyphicons-halflings-regular.eot',
+	bowerPath + 'bootstrap/dist/fonts/glyphicons-halflings-regular.svg',
+	bowerPath + 'bootstrap/dist/fonts/glyphicons-halflings-regular.ttf',
+	bowerPath + 'bootstrap/dist/fonts/glyphicons-halflings-regular.woff',
+	bowerPath + 'bootstrap/dist/fonts/glyphicons-halflings-regular.woff2'
 ];
 
 const imgs = [
-    bowerPath + "multiselect/img/switch.png"
+	bowerPath + 'multiselect/img/switch.png'
 ];
 
 const cssimgs = [
-    bowerPath + "jquery-ui/themes/base/images/*"
+	bowerPath + 'jquery-ui/themes/base/images/*'
 ];
 
-gulp.task("vendorjs", function(){
-    gulp.src(scripts)
-        .pipe(size({showFiles: true}))
-        .pipe(concat("vendor.js"))
-        .pipe(uglify())
-        .pipe(gulp.dest("./public/js"))
-        .pipe(size());
-
-	gulp.src(npmPath + "iframe-resizer/js/iframeResizer.min.js")
-		.pipe(gulp.dest("./public/js"))
-		.pipe(size());
+gulp.task('vendorfont', function(){
+	gulp.src(fonts)
+		.pipe(gulp.dest('./public/build/fonts'));
 });
 
-gulp.task("vendorcss", function(){
-    gulp.src(styles)
-        .pipe(size({showFiles: true}))
-        .pipe(concat("vendor.css"))
-        .pipe(cssnano())
-        .pipe(gulp.dest("./public/css"))
-        .pipe(size());
-});
+gulp.task('vendorimg', function(){
+	gulp.src(imgs)
+		.pipe(gulp.dest('./public/img'));
 
-gulp.task("vendorfont", function(){
-    gulp.src(fonts)
-        .pipe(gulp.dest("./public/build/fonts"));
+	gulp.src(cssimgs)
+		.pipe(gulp.dest('./public/build/css/images'));
 });
 
 gulp.task("vendorimg", function(){
@@ -110,30 +81,44 @@ gulp.task("vendorimg", function(){
         .pipe(gulp.dest("./public/build/css/images"));
 });
 
-elixir.config.registerWatcher("default", "./resources/assets/js/*.js");
+gulp.task('buildfonts', function(){
+	return gulp.src(['./resources/assets/ttf/*'])
+		.pipe(each(function (content, file, callback) {
+			callback(null, new Buffer(content).toString('base64'));
+		}, 'buffer'))
+		.pipe(fc2json('vfs_fonts.json'))
+		.pipe(each(function (content, file, callback) {
+			callback(null, content);
+		}, 'buffer'))
+		.pipe(gulp.dest('./resources/assets/js'));
+});
 
 elixir(function(mix) {
-    mix.scripts([
-			"datatables-datetime-moment.js",
-			"modernizr-custom.js",
-			"mdn-round.js",
-			"main.js",
-			"milestone-competency-radar-chart.js",
-			"evaluation-line-chart.js",
-			"bundle.js"
+	mix.scripts([
+			...relativeToResourcesSubdir(scripts),
+			'jquery-ui.min.js',
+			'datatables-datetime-moment.js',
+			'modernizr-custom.js',
+			'mdn-round.js',
+			'main.js',
+			'milestone-competency-radar-chart.js',
+			'evaluation-line-chart.js'
 		])
-		.scripts(["form-builder.js"], "public/js/form-builder.js")
-        .styles([
-			"main.css",
-			"milestone-competency-radar-chart.css",
-			"navbar.css"
+		.styles([
+			...relativeToResourcesSubdir(styles),
+			'jquery-ui.min.css',
+			'jquery-ui.structure.min.css',
+			'jquery-ui.theme.min.css',
+			'main.css',
+			'milestone-competency-radar-chart.css',
+			'navbar.css'
 		]);
 	mix.version([
-		"css/all.css",
-		"css/vendor.css",
-		"js/all.js",
-		"js/vendor.js",
-		"js/form-builder.js",
-		"js/iframeResizer.min.js"
+		'css/all.css',
+		'js/all.js'
 	]);
 });
+
+function relativeToResourcesSubdir(arr){
+	return arr.map(path => '../../../' + path);
+}
