@@ -152,7 +152,7 @@ export function createRequest(el, propsData){
 				
 				let errors = false;
 				Object.keys(this.required).map(field => {
-					if(this.checkField(field, this.required[field]))
+					if(this.checkField(field, this.fieldNouns[field]))
 						errors = true;
 				});
 
