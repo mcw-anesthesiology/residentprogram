@@ -309,7 +309,8 @@ class MainController extends Controller
 			}
 
 
-			if($requestType == "resident" && $user->isType("resident")){
+			if(in_array($requestType, ["resident", "self"])
+					&& $user->isType("resident")){
 				$subjects = [$user->id];
 			}
 			else {
@@ -322,6 +323,9 @@ class MainController extends Controller
 					|| ($requestType == "staff" && $user->isType("staff"))
 					|| ($requestType == "faculty" && $user->isType("resident"))){
 				$evaluators = [$user->id];
+			}
+			elseif($requestType == "self"){
+				$evaluators = $subjects;
 			}
 			else {
 				$evaluators = $request->input("evaluator_id");
@@ -348,6 +352,9 @@ class MainController extends Controller
 
 
 			foreach($evaluators as $evaluator){
+				if($requestType == "self")
+					$subjects = [$evaluator];
+
 				foreach($subjects as $subject){
                     foreach($evaluationDates as $evaluationDate){                        
     					$eval = new Evaluation();
