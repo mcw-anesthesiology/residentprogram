@@ -3,6 +3,7 @@ const gulp = require('gulp');
 const elixir = require('laravel-elixir');
 const each = require('gulp-each');
 const fc2json = require('gulp-file-contents-to-json');
+const glob = require('glob');
 
 const bowerPath = './bower_components/';
 const npmPath = './node_modules/';
@@ -27,8 +28,7 @@ const scripts = [
 	bowerPath + 'marked/lib/marked.js',
 	bowerPath + 'country-region-selector/dist/jquery.crs.js',
 	bowerPath + 'velocity/velocity.js',
-	bowerPath + 'eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
-	npmPath + 'iframe-resizer/js/iframeResizer.js'
+	bowerPath + 'eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js'
 ];
 
 const styles = [
@@ -104,6 +104,7 @@ elixir(function(mix) {
 			'milestone-competency-radar-chart.js',
 			'evaluation-line-chart.js'
 		])
+		.copy(npmPath + 'iframe-resizer/js/iframeResizer.min.js', 'public/js/iframeResizer.min.js')
 		.styles([
 			...relativeToResourcesSubdir(styles),
 			'jquery-ui.min.css',
@@ -114,10 +115,18 @@ elixir(function(mix) {
 			'navbar.css'
 		]);
 	mix.version([
+		'js/all.js',
 		'css/all.css',
-		'js/all.js'
+		'js/iframeResizer.min.js',
+
+		...stripFirstDirectory(glob.sync('public/js/*.js')),
+		...stripFirstDirectory(glob.sync('public/css/*.css'))
 	]);
 });
+
+function stripFirstDirectory(arr){
+	return arr.map(path => path.substring(path.indexOf('/') + 1));
+}
 
 function relativeToResourcesSubdir(arr){
 	return arr.map(path => '../../../' + path);

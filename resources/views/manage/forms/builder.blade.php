@@ -10,8 +10,8 @@
 @stop
 
 @section("script")
-	<script src="/js/vue-deps.js"></script>
-	<script src="/js/vue-form-builder.js"></script>
+	<script src="{{ elixir('js/vue-deps.js') }}"></script>
+	<script src="{{ elixir('js/vue-form-builder.js') }}"></script>
 	<script>
 		var formContents = {!! $formContents or '""' !!};
 		var vm = createFormBuilder("#form-builder");

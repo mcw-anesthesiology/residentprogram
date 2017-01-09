@@ -279,8 +279,8 @@
 @stop
 
 @section("script")
-	<script src="/js/vue-deps.js"></script>
-	<script src="/js/vue-request.js"></script>
+	<script src="{{ elixir('js/vue-deps.js') }}"></script>
+	<script src="{{ elixir('js/vue-request.js') }}"></script>
 	<script>
 		var propsData = {
 			user: {!! $user->toJson() !!}

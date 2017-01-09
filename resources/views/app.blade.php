@@ -94,7 +94,7 @@
 		@include("modals")
 	@endif
 		<script type="text/javascript" src="{{ elixir("js/all.js") }}"></script>
-		<script src="/js/bundle.js"></script>
+		<script src="{{ elixir("js/bundle.js") }}"></script>
 		@yield("script")
 	</body>
 </html>

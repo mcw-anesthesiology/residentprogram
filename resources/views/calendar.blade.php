@@ -15,7 +15,7 @@
 @stop
 
 @section('script')
-	<script src="/js/iframeResizer.min.js"></script>
+	<script src="{{ elixir('js/iframeResizer.min.js') }}"></script>
 	<script>
 		$("#calendar").iFrameResize({
 			heightCalculationMethod: 'taggedElement'
