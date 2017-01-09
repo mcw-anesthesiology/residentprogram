@@ -42,7 +42,7 @@ export const STANDARD_OPTIONS = {
 export const REPORT_TYPES = {
 	TRAINEE: 'trainee',
 	FORM: 'form',
-	NEEDS: 'needs'
+	// NEEDS: 'needs'
 };
 
 export const CHART_TYPES = [
