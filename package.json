@@ -50,7 +50,7 @@
     "pdfmake": "^0.1.22",
     "style-loader": "^0.13.1",
     "vue": "^2.1.0",
-    "vue-flatpickr": "^2.2.4",
+    "vue-flatpickr": "^2.2.5",
     "vue-loader": "^10.0.2",
     "vue-template-compiler": "^2.1.6",
     "webpack": "^2.2.0-rc.3",

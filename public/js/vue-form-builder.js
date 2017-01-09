@@ -8,9 +8,814 @@
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
 })(this, function() {
-return webpackJsonp([3],{
+return webpackJsonp([4],{
 
-/***/ 1:
+/***/ 144:
+/***/ function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(401)
+
+/* script */
+__vue_exports__ = __webpack_require__(154)
+
+/* template */
+var __vue_template__ = __webpack_require__(379)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormBuilder/FormBuilder.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+__vue_options__._scopeId = "data-v-27da62f6"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-27da62f6", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-27da62f6", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] FormBuilder.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ },
+
+/***/ 154:
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _FormBuilderInstruction = __webpack_require__(348);
+
+var _FormBuilderInstruction2 = _interopRequireDefault(_FormBuilderInstruction);
+
+var _FormBuilderQuestion = __webpack_require__(350);
+
+var _FormBuilderQuestion2 = _interopRequireDefault(_FormBuilderQuestion);
+
+var _utils = __webpack_require__(5);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+	props: ['oldFormContents'],
+	created: function created() {
+		var _this = this;
+
+		(0, _utils.fetchMilestoneGroups)().then(function (milestoneGroups) {
+			_this.groupedMilestones = milestoneGroups;
+		}).catch(function (err) {
+			console.error(err);
+		});
+
+		fetch('/competencies', { credentials: 'same-origin' }).then(function (response) {
+			if (response.ok) return response.json();else {
+				var err = new Error(response.statusText);
+				err.response = response;
+				throw err;
+			}
+		}).then(function (competencies) {
+			_this.competencies = competencies;
+		}).catch(function (err) {
+			console.error(err);
+		});
+	},
+	data: function data() {
+		return {
+			title: '',
+			formType: 'resident',
+			nextQuestionIdNum: 1,
+			groupedMilestones: [],
+			competencies: [],
+			items: [],
+			customOptions: []
+		};
+	},
+
+	methods: {
+		addInstruction: function addInstruction() {
+			this.items.push({
+				type: 'instruction',
+				text: ''
+			});
+		},
+		addQuestion: function addQuestion() {
+			this.items.push({
+				type: 'question',
+				text: '',
+				questionIdNum: this.nextQuestionIdNum++,
+				questionType: 'radio',
+				milestones: [],
+				competencies: '',
+				options: [],
+				required: false,
+				weight: 100
+			});
+		},
+		changeItem: function changeItem(index, item) {
+			this.items.splice(index, 1, Object.assign(this.items[index], item));
+		},
+		removeItem: function removeItem(index) {
+			var item = this.items[index];
+			if (item.type === 'question' && item.questionIdNum === this.nextQuestionIdNum - 1) this.nextQuestionIdNum--;
+			this.items.splice(index, 1);
+		},
+		submitForm: function submitForm(event) {
+			event.preventDefault();
+			var requestBody = JSON.stringify({
+				title: this.title,
+				formType: this.formType,
+				items: this.items.map(function (item) {
+					item.questionId = 'q' + item.questionIdNum;
+					return item;
+				})
+			});
+
+			if (this.isFormValid()) {
+				fetch('/forms', {
+					method: 'POST',
+					headers: (0, _utils.getFetchHeaders)(),
+					credentials: 'same-origin',
+					body: requestBody
+				}).then(function (response) {
+					if (response.ok) return response.text();else throw new Error(response);
+				}).then(function (response) {
+					if (response === 'success') window.location = '/manage/forms';else throw new Error(response);
+				}).catch(function (err) {
+					(0, _utils.appendAlert)('Error saving form');
+					console.error(err);
+				});
+			}
+		},
+		isFormValid: function isFormValid() {
+			if (!this.title) {
+				(0, _utils.appendAlert)('Please enter a title for the form');
+				return false;
+			}
+
+			if (!this.items || this.items.length < 1) {
+				(0, _utils.appendAlert)('Please enter at least one question');
+				return false;
+			}
+
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+
+			try {
+				for (var _iterator = this.items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var item = _step.value;
+
+					if (item.type === 'question') {
+						if (!item.text) {
+							(0, _utils.appendAlert)('Please enter question text for question ' + item.questionIdNum);
+							return false;
+						}
+						if (['radio', 'radiononnumeric', 'checkbox'].indexOf(item.questionType) !== -1) {
+							if (!item.options || item.options.length < 1) {
+								(0, _utils.appendAlert)('Please add at least one option for each multiple-choice question');
+								return false;
+							}
+
+							var _iteratorNormalCompletion2 = true;
+							var _didIteratorError2 = false;
+							var _iteratorError2 = undefined;
+
+							try {
+								for (var _iterator2 = item.options[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+									var option = _step2.value;
+
+									if (!option.value) {
+										(0, _utils.appendAlert)('An option cannot be submitted without a value. Please either assign a value or remove the option text and description for each option in question ' + item.questionIdNum);
+										return false;
+									}
+								}
+							} catch (err) {
+								_didIteratorError2 = true;
+								_iteratorError2 = err;
+							} finally {
+								try {
+									if (!_iteratorNormalCompletion2 && _iterator2.return) {
+										_iterator2.return();
+									}
+								} finally {
+									if (_didIteratorError2) {
+										throw _iteratorError2;
+									}
+								}
+							}
+						}
+					} else if (item.type === 'instruction') {
+						if (!item.text) {
+							(0, _utils.appendAlert)('Please complete or remove all empty instruction blocks');
+							return false;
+						}
+					} else {
+						(0, _utils.appendAlert)('Unrecognized item type in form');
+						return false;
+					}
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator.return) {
+						_iterator.return();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
+			}
+
+			return true;
+		}
+	},
+	watch: {
+		oldFormContents: function oldFormContents(formContents) {
+			this.title = formContents.title;
+			this.formType = formContents.formType;
+			this.items = formContents.items.slice();
+			var _iteratorNormalCompletion3 = true;
+			var _didIteratorError3 = false;
+			var _iteratorError3 = undefined;
+
+			try {
+				for (var _iterator3 = this.items[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+					var item = _step3.value;
+
+					if (item.questionIdNum && item.questionIdNum >= this.nextQuestionIdNum) this.nextQuestionIdNum = item.questionIdNum + 1;
+				}
+			} catch (err) {
+				_didIteratorError3 = true;
+				_iteratorError3 = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion3 && _iterator3.return) {
+						_iterator3.return();
+					}
+				} finally {
+					if (_didIteratorError3) {
+						throw _iteratorError3;
+					}
+				}
+			}
+		}
+	},
+	components: {
+		FormBuilderInstruction: _FormBuilderInstruction2.default,
+		FormBuilderQuestion: _FormBuilderQuestion2.default
+	}
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/***/ },
+
+/***/ 155:
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+	props: ['text'],
+	data: function data() {
+		return {};
+	},
+
+	methods: {
+		onInput: function onInput(event) {
+			this.$emit('input', event.target.value);
+		}
+	}
+};
+
+/***/ },
+
+/***/ 156:
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+	props: ['type', 'text', 'value', 'description', 'isWorkingOption'],
+	computed: {
+		displayType: function displayType() {
+			if (this.type === 'checkbox') return 'checkbox';else return 'radio';
+		}
+	},
+	data: function data() {
+		return {
+			isFocused: false
+		};
+	},
+
+	methods: {
+		handleInputFocus: function handleInputFocus(field) {
+			this.isFocused = true;
+			this.$emit('focus', field);
+		},
+		handleInputBlur: function handleInputBlur(field) {
+			this.isFocused = false;
+			this.$emit('blur', field);
+		}
+	}
+};
+
+/***/ },
+
+/***/ 157:
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _FormBuilderOption = __webpack_require__(349);
+
+var _FormBuilderOption2 = _interopRequireDefault(_FormBuilderOption);
+
+var _SelectTwo = __webpack_require__(21);
+
+var _SelectTwo2 = _interopRequireDefault(_SelectTwo);
+
+var _constants = __webpack_require__(20);
+
+var _utils = __webpack_require__(5);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+	props: ['formType', 'groupedMilestones', 'allCompetencies', 'questionIdNum', 'text', 'questionType', 'milestones', 'competencies', 'options', 'required', 'customOptions'],
+	data: function data() {
+		return {
+			workingOption: {
+				text: '',
+				value: '',
+				description: ''
+			}
+		};
+	},
+
+	computed: {
+		questionId: function questionId() {
+			return 'q' + this.questionIdNum;
+		},
+		shouldShowMilestonesAndCompetencies: function shouldShowMilestonesAndCompetencies() {
+			return ['radio', 'number'].indexOf(this.questionType) !== -1 && ['resident', 'self-resident', 'fellow', 'self-fellow'].indexOf(this.formType) !== -1;
+		},
+		optionsWithWorking: function optionsWithWorking() {
+			if (this.options) {
+				var options = this.options.slice();
+				options.push(this.workingOption);
+				return options;
+			}
+		},
+		workingOptionIndex: function workingOptionIndex() {
+			if (this.options) return this.options.length;
+		}
+	},
+	methods: {
+		changeQuestionType: function changeQuestionType(event) {
+			var questionType = event.target.value;
+			var options = [];
+
+			this.$emit('change', { questionType: questionType, options: options });
+		},
+		handleWorkingOptionInput: function handleWorkingOptionInput(index, option) {
+			if (index === this.workingOptionIndex) this.workingOption = Object.assign({}, this.workingOption, option);
+		},
+		handleOptionChange: function handleOptionChange(index, option) {
+			if (index === this.workingOptionIndex) {
+				var options = this.options.slice();
+				options.push(Object.assign({}, this.workingOption, option));
+				this.workingOption = {
+					text: '',
+					value: '',
+					description: ''
+				};
+				this.$emit('change', { options: options });
+			} else {
+				var _options = this.options.slice();
+				_options[index] = Object.assign(_options[index], option);
+				if (!_options[index].text && !_options[index].value && !_options[index].description) _options.splice(index, 1);
+
+				this.$emit('change', { options: _options });
+			}
+		},
+		setStandardOptions: function setStandardOptions() {
+			var options = void 0;
+			switch (this.formType) {
+				case 'resident':
+				case 'self-resident':
+					options = _constants.STANDARD_OPTIONS.RESIDENT;
+					break;
+				case 'fellow':
+				case 'self-fellow':
+					options = _constants.STANDARD_OPTIONS.FELLOW;
+					break;
+				case 'faculty':
+					if (this.questionType === 'radiononnumeric') options = _constants.STANDARD_OPTIONS.FACULTY;
+					break;
+			}
+
+			if (!options) {
+				(0, _utils.appendAlert)('No standard options found for form type and question type');
+				return;
+			}
+
+			this.$emit('change', { options: options });
+		},
+		setMilestoneOptions: function setMilestoneOptions() {
+			var _this = this;
+
+			if (this.milestones.length !== 1) {
+				(0, _utils.appendAlert)('You can only use milestone options with a single selected milestone');
+				return;
+			}
+			fetch('/milestones/' + this.milestones[0], { credentials: 'same-origin' }).then(function (response) {
+				if (response.ok) return response.json();else throw new Error(response);
+			}).then(function (milestone) {
+				if (!milestone || !milestone.levels || milestone.levels.length < 1) {
+					(0, _utils.appendAlert)('No milestone levels found');
+					return;
+				}
+				var options = [{
+					value: 0,
+					text: 'Not yet ' + milestone.levels[0].name
+				}];
+				var _iteratorNormalCompletion = true;
+				var _didIteratorError = false;
+				var _iteratorError = undefined;
+
+				try {
+					for (var _iterator = milestone.levels[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var level = _step.value;
+
+						var value = 2 * parseInt(level.level_number, 10);
+						options.push({ value: value - 1, text: '', description: '' });
+						options.push({ value: value, text: level.name, description: level.description });
+					}
+				} catch (err) {
+					_didIteratorError = true;
+					_iteratorError = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion && _iterator.return) {
+							_iterator.return();
+						}
+					} finally {
+						if (_didIteratorError) {
+							throw _iteratorError;
+						}
+					}
+				}
+
+				_this.$emit('change', { options: options });
+			}).catch(function (err) {
+				console.error(err);
+			});
+		},
+		setCustomOptions: function setCustomOptions() {
+			if (this.customOptions.length < 1) {
+				(0, _utils.appendAlert)('No custom options set');
+				return;
+			}
+
+			this.$emit('change', { options: this.customOptions });
+		}
+	},
+	components: {
+		FormBuilderOption: _FormBuilderOption2.default,
+		SelectTwo: _SelectTwo2.default
+	}
+};
+
+/***/ },
+
+/***/ 21:
+/***/ function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* script */
+__vue_exports__ = __webpack_require__(38)
+
+/* template */
+var __vue_template__ = __webpack_require__(41)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/SelectTwo.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-e84f7814", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-e84f7814", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] SelectTwo.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ },
+
+/***/ 248:
+/***/ function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.form-builder-question-option[data-v-09008ada] {\n\tmargin-top: 10px;\n}\n.working-option[data-v-09008ada] {\n\topacity: 0.5;\n}\n.working-option[data-v-09008ada]:hover,\n.working-option.is-focused[data-v-09008ada],\n.working-option[data-v-09008ada]:active {\n\topacity: 1;\n}\ntextarea.form-option-description[data-v-09008ada] {\n\tresize: vertical;\n\theight: 100px;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/FormBuilder/FormBuilderOption.vue?42fcc6c0"],"names":[],"mappings":";AAoEA;CACA,iBAAA;CACA;AAEA;CACA,aAAA;CACA;AAEA;;;CAGA,WAAA;CACA;AAEA;CACA,iBAAA;CACA,cAAA;CACA","file":"FormBuilderOption.vue","sourcesContent":["<template>\n\t<div class=\"form-builder-question-option col-lg-2 col-md-3 col-sm-6 text-center\" v-bind:class=\"{ 'working-option': isWorkingOption, 'is-focused': isFocused }\">\n\t\t<input v-bind:type=\"displayType\" disabled/>\n\t\t<input type=\"text\" v-bind:value=\"text\"\n\t\t\tclass=\"form-input form-option form-option-text form-control\"\n\t\t\tplaceholder=\"Option Text\"\n\t\t\tv-on:input=\"$emit('input', {text: $event.target.value})\"\n\t\t\tv-on:change=\"$emit('change', {text: $event.target.value})\"\n\t\t\tv-on:focus=\"handleInputFocus('text')\"\n\t\t\tv-on:blur=\"handleInputBlur('text')\"\n\t\t\t/>\n\t\t<input v-bind:type=\"type === 'radio' ? 'number' : 'text'\"\n\t\t\tv-bind:value=\"value\"\n\t\t\tclass=\"form-input form-option form-option-value form-control\"\n\t\t\tplaceholder=\"Option Value\"\n\t\t\tv-on:input=\"$emit('input', {value: $event.target.value})\"\n\t\t\tv-on:change=\"$emit('change', {value: $event.target.value})\"\n\t\t\tv-on:focus=\"handleInputFocus('value')\"\n\t\t\tv-on:blur=\"handleInputBlur('value')\"\n\t\t\t/>\n\t\t<textarea v-bind:value=\"description\"\n\t\t\tclass=\"form-input form-option form-option-description form-control\"\n\t\t\tplaceholder=\"Hover Description\"\n\t\t\tv-on:input=\"$emit('input', {description: $event.target.value})\"\n\t\t\tv-on:change=\"$emit('change', {description: $event.target.value})\"\n\t\t\tv-on:focus=\"handleInputFocus('description')\"\n\t\t\tv-on:blur=\"handleInputBlur('description')\"\n\t\t\t>\n\t\t</textarea>\n\t</div>\n</template>\n\n<script>\nexport default {\n\tprops: [\n\t\t'type',\n\t\t'text',\n\t\t'value',\n\t\t'description',\n\t\t'isWorkingOption'\n\t],\n\tcomputed: {\n\t\tdisplayType(){\n\t\t\tif(this.type === 'checkbox')\n\t\t\t\treturn 'checkbox';\n\t\t\telse\n\t\t\t\treturn 'radio';\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tisFocused: false\n\t\t};\n\t},\n\tmethods: {\n\t\thandleInputFocus(field){\n\t\t\tthis.isFocused = true;\n\t\t\tthis.$emit('focus', field);\n\t\t},\n\t\thandleInputBlur(field){\n\t\t\tthis.isFocused = false;\n\t\t\tthis.$emit('blur', field);\n\t\t}\n\t}\n};\n</script>\n\n<style scoped>\n\t.form-builder-question-option {\n\t\tmargin-top: 10px;\n\t}\n\n\t.working-option {\n\t\topacity: 0.5;\n\t}\n\n\t.working-option:hover,\n\t.working-option.is-focused,\n\t.working-option:active {\n\t\topacity: 1;\n\t}\n\n\ttextarea.form-option-description {\n\t\tresize: vertical;\n\t\theight: 100px;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+
+// exports
+
+
+/***/ },
+
+/***/ 253:
+/***/ function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"FormBuilder.vue","sourceRoot":"webpack://"}]);
+
+// exports
+
+
+/***/ },
+
+/***/ 262:
+/***/ function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.question-id[data-v-aaf882ea] {\n\tfont-size: larger;\n\ttext-transform: uppercase;\n\tfont-weight: bold;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/FormBuilder/FormBuilderQuestion.vue?3d123c74"],"names":[],"mappings":";AAyQA;CACA,kBAAA;CACA,0BAAA;CACA,kBAAA;CACA","file":"FormBuilderQuestion.vue","sourcesContent":["<template>\n\t<div v-bind:id=\"questionId\" class=\"form-question panel panel-default form-block\">\n\t\t<div class=\"panel-heading form-horizontal\">\n\t\t\t<div class=\"panel-title form-group\">\n\t\t\t\t<div class=\"col-sm-12\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tQuestion Text\n\t\t\t\t\t\t<div class=\"input-group\">\n\t\t\t\t\t\t\t<span class=\"question-id input-group-addon\">{{questionId}}</span>\n\t\t\t\t\t\t\t<input type=\"text\" v-bind:value=\"text\" v-on:input=\"$emit('change', {text: $event.target.value})\" class=\"form-input form-question-text form-control\" placeholder=\"Question Text\" required />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"hr-question\"></div>\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"col-md-4\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tQuestion Type\n\t\t\t\t\t\t<select v-bind:value=\"questionType\" v-on:change=\"changeQuestionType\" class=\"form-control form-question-type\" name=\"questionType\">\n\t\t\t\t\t\t\t<option value=\"radio\">Radio</option>\n\t\t\t\t\t\t\t<option value=\"text\">Text</option>\n\t\t\t\t\t\t\t<option value=\"radiononnumeric\">Radio (non-numeric)</option>\n\t\t\t\t\t\t\t<option value=\"number\">Number</option>\n\t\t\t\t\t\t\t<option value=\"checkbox\">Checkbox</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t<label>Question Options</label>\n\t\t\t\t\t<div class=\"btn-group btn-group-justified\">\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button v-on:click=\"setStandardOptions\" class=\"form-question-standard-options btn btn-info\" type=\"button\">\n\t\t\t\t\t\t\t\tStandard\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button v-bind:disabled=\"!milestones || milestones.length !== 1\" v-on:click=\"setMilestoneOptions\"\n\t\t\t\t\t\t\t\t\tclass=\"form-question-milestone-level-options btn btn-info\" type=\"button\">\n\t\t\t\t\t\t\t\tMilestone\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button v-bind:disabled=\"!customOptions || customOptions.length < 1\" v-on:click=\"setCustomOptions\"\n\t\t\t\t\t\t\t\t\tclass=\"form-question-custom-options btn btn-info\" type=\"button\">\n\t\t\t\t\t\t\t\tCustom\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-1 labelless-button\">\n\t\t\t\t\t<button v-on:click=\"$emit('remove')\" class=\"form-block-delete btn btn-danger del-btn\" type=\"button\">\n\t\t\t\t\t\tDelete\n\t\t\t\t\t</button>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-1\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tRequired\n\t\t\t\t\t\t<input type=\"checkbox\" v-bind:checked=\"required\"\n\t\t\t\t\t\t\tclass=\"form-control form-question-required\" value=\"required\"\n\t\t\t\t\t\t\tv-on:change=\"$emit('change', {required: $event.target.checked})\"\n\t\t\t\t\t\t\t/>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"hr-question\"></div>\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"col-md-8\">\n\t\t\t\t\t<label v-show=\"shouldShowMilestonesAndCompetencies\" class=\"containing-label\">\n\t\t\t\t\t\tQuestion Milestones\n\t\t\t\t\t\t<select-two v-bind:value=\"milestones\" v-bind:options=\"groupedMilestones\" v-bind:multiple=\"true\" v-on:input=\"$emit('change', {milestones: arguments[0]})\" class=\"form-control form-question-milestone\"></select-two>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-4\">\n\t\t\t\t\t<label v-show=\"shouldShowMilestonesAndCompetencies\" class=\"containing-label\">\n\t\t\t\t\t\tQuestion Competency\n\t\t\t\t\t\t<select v-on:change=\"$emit('change', {competencies: $event.target.value})\" class=\"form-control form-question-competency\" placeholder=\"Competency\">\n\t\t\t\t\t\t\t<option value=\"\" disabled>Select a competency</option>\n\t\t\t\t\t\t\t<option v-for=\"competency of allCompetencies\" v-bind:value=\"competency.id\" v-bind:selected=\"competencies == competency.id\">{{ competency.title }}</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"panel-body\">\n\t\t\t<div class=\"row form-options\" style=\"margin-bottom:5px;\">\n\t\t\t\t<template v-if=\"['radio', 'radiononnumeric', 'checkbox'].includes(questionType)\">\n\t\t\t\t\t<form-builder-option v-for=\"(option, index) of optionsWithWorking\"\n\t\t\t\t\t\tv-bind=\"option\" v-bind:type=\"questionType\"\n\t\t\t\t\t\tv-bind:is-working-option=\"option === workingOption\"\n\t\t\t\t\t\tv-on:input=\"handleWorkingOptionInput(index, arguments[0])\"\n\t\t\t\t\t\tv-on:change=\"handleOptionChange(index, arguments[0])\"\n\t\t\t\t\t\t>\n\t\t\t\t\t</form-builder-option>\n\t\t\t\t</template>\n\n\t\t\t\t<div v-if=\"questionType === 'text'\" class=\"col-sm-12\">\n\t\t\t\t\t<textarea class=\"form-control\" placeholder=\"Text\" disabled />\n\t\t\t\t</div>\n\n\t\t\t\t<div v-if=\"questionType === 'number'\" class=\"col-md-8\">\n\t\t\t\t\t<input type=\"number\" class=\"form-control\" placeholder=\"Number\" disabled />\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport FormBuilderOption from './FormBuilderOption.vue';\nimport SelectTwo from '../SelectTwo.vue';\n\nimport { STANDARD_OPTIONS } from '../../modules/constants.js';\nimport { appendAlert } from '../../modules/utils.js';\n\nexport default {\n\tprops: [\n\t\t'formType',\n\t\t'groupedMilestones',\n\t\t'allCompetencies',\n\t\t'questionIdNum',\n\t\t'text',\n\t\t'questionType',\n\t\t'milestones',\n\t\t'competencies',\n\t\t'options',\n\t\t'required',\n\t\t'customOptions'\n\t],\n\tdata(){\n\t\treturn {\n\t\t\tworkingOption: {\n\t\t\t\ttext: '',\n\t\t\t\tvalue: '',\n\t\t\t\tdescription: ''\n\t\t\t}\n\t\t};\n\t},\n\tcomputed: {\n\t\tquestionId(){\n\t\t\treturn `q${this.questionIdNum}`;\n\t\t},\n\t\tshouldShowMilestonesAndCompetencies(){\n\t\t\treturn ['radio', 'number'].includes(this.questionType) && [\n\t\t\t\t'resident',\n\t\t\t\t'self-resident',\n\t\t\t\t'fellow',\n\t\t\t\t'self-fellow'\n\t\t\t].includes(this.formType);\n\t\t},\n\t\toptionsWithWorking(){\n\t\t\tif(this.options){\n\t\t\t\tlet options = this.options.slice();\n\t\t\t\toptions.push(this.workingOption);\n\t\t\t\treturn options;\n\t\t\t}\n\t\t},\n\t\tworkingOptionIndex(){\n\t\t\tif(this.options)\n\t\t\t\treturn this.options.length;\n\t\t}\n\t},\n\tmethods: {\n\t\tchangeQuestionType(event){\n\t\t\tconst questionType = event.target.value;\n\t\t\tlet options = [];\n\n\t\t\tthis.$emit('change', {questionType: questionType, options: options});\n\t\t},\n\t\thandleWorkingOptionInput(index, option){\n\t\t\tif(index === this.workingOptionIndex)\n\t\t\t\tthis.workingOption = Object.assign({}, this.workingOption, option);\n\t\t},\n\t\thandleOptionChange(index, option){\n\t\t\tif(index === this.workingOptionIndex){\n\t\t\t\tlet options = this.options.slice();\n\t\t\t\toptions.push(Object.assign({}, this.workingOption, option));\n\t\t\t\tthis.workingOption = {\n\t\t\t\t\ttext: '',\n\t\t\t\t\tvalue: '',\n\t\t\t\t\tdescription: ''\n\t\t\t\t};\n\t\t\t\tthis.$emit('change', {options: options});\n\t\t\t}\n\t\t\telse {\n\t\t\t\tlet options = this.options.slice();\n\t\t\t\toptions[index] = Object.assign(options[index], option);\n\t\t\t\tif(!options[index].text && !options[index].value && !options[index].description)\n\t\t\t\t\toptions.splice(index, 1);\n\n\t\t\t\tthis.$emit('change', {options: options});\n\t\t\t}\n\t\t},\n\n\t\tsetStandardOptions(){\n\t\t\tlet options;\n\t\t\tswitch(this.formType){\n\t\t\t\tcase 'resident':\n\t\t\t\tcase 'self-resident':\n\t\t\t\t\toptions = STANDARD_OPTIONS.RESIDENT;\n\t\t\t\t\tbreak;\n\t\t\t\tcase 'fellow':\n\t\t\t\tcase 'self-fellow':\n\t\t\t\t\toptions = STANDARD_OPTIONS.FELLOW;\n\t\t\t\t\tbreak;\n\t\t\t\tcase 'faculty':\n\t\t\t\t\tif(this.questionType === 'radiononnumeric')\n\t\t\t\t\t\toptions = STANDARD_OPTIONS.FACULTY;\n\t\t\t\t\tbreak;\n\t\t\t}\n\n\t\t\tif(!options){\n\t\t\t\tappendAlert('No standard options found for form type and question type');\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tthis.$emit('change', {options: options});\n\t\t},\n\t\tsetMilestoneOptions(){\n\t\t\tif(this.milestones.length !== 1){\n\t\t\t\tappendAlert('You can only use milestone options with a single selected milestone');\n\t\t\t\treturn;\n\t\t\t}\n\t\t\tfetch(`/milestones/${this.milestones[0]}`, { credentials: 'same-origin' }).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\telse\n\t\t\t\t\tthrow new Error(response);\n\t\t\t}).then(milestone => {\n\t\t\t\tif(!milestone || !milestone.levels || milestone.levels.length < 1){\n\t\t\t\t\tappendAlert('No milestone levels found');\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t\tlet options = [{\n\t\t\t\t\tvalue: 0,\n\t\t\t\t\ttext: `Not yet ${milestone.levels[0].name}`\n\t\t\t\t}];\n\t\t\t\tfor(let level of milestone.levels){\n\t\t\t\t\tlet value = 2 * parseInt(level.level_number, 10);\n\t\t\t\t\toptions.push({value: value - 1, text: '', description: ''});\n\t\t\t\t\toptions.push({value: value, text: level.name, description: level.description});\n\t\t\t\t}\n\n\t\t\t\tthis.$emit('change', {options: options});\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t},\n\t\tsetCustomOptions(){\n\t\t\tif(this.customOptions.length < 1){\n\t\t\t\tappendAlert('No custom options set');\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tthis.$emit('change', {options: this.customOptions});\n\t\t}\n\t},\n\tcomponents: {\n\t\tFormBuilderOption,\n\t\tSelectTwo\n\t}\n};\n</script>\n\n<style scoped>\n\t.question-id {\n\t\tfont-size: larger;\n\t\ttext-transform: uppercase;\n\t\tfont-weight: bold;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+
+// exports
+
+
+/***/ },
+
+/***/ 3:
 /***/ function(module, exports) {
 
 /*
@@ -233,101 +1038,17 @@ function applyToTag(styleElement, obj) {
 
 /***/ },
 
-/***/ 10:
-/***/ function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('select', {
-    attrs: {
-      "name": _vm.name,
-      "id": _vm.id,
-      "required": _vm.required,
-      "multiple": _vm.multiple
-    }
-  }, [_vm._t("default"), _vm._v(" "), _vm._l((_vm.stringOptions), function(option) {
-    return [(option.children && option.children.length > 0) ? _c('optgroup', {
-      attrs: {
-        "label": option.text
-      }
-    }, _vm._l((option.children), function(child) {
-      return _c('option', {
-        domProps: {
-          "value": child.id
-        }
-      }, [_vm._v("\n\t\t\t\t" + _vm._s(child.text) + "\n\t\t\t")])
-    })) : (option.id) ? _c('option', {
-      domProps: {
-        "value": option.id
-      }
-    }, [_vm._v("\n\t\t\t" + _vm._s(option.text) + "\n\t\t")]) : _vm._e()]
-  })], 2)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-e84f7814", module.exports)
-  }
-}
-
-/***/ },
-
-/***/ 160:
-/***/ function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.form-builder-question-option[data-v-09008ada] {\n\tmargin-top: 10px;\n}\n.working-option[data-v-09008ada] {\n\topacity: 0.5;\n}\n.working-option[data-v-09008ada]:hover,\n.working-option.is-focused[data-v-09008ada],\n.working-option[data-v-09008ada]:active {\n\topacity: 1;\n}\ntextarea.form-option-description[data-v-09008ada] {\n\tresize: vertical;\n\theight: 100px;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/FormBuilder/FormBuilderOption.vue?42fcc6c0"],"names":[],"mappings":";AAoEA;CACA,iBAAA;CACA;AAEA;CACA,aAAA;CACA;AAEA;;;CAGA,WAAA;CACA;AAEA;CACA,iBAAA;CACA,cAAA;CACA","file":"FormBuilderOption.vue","sourcesContent":["<template>\n\t<div class=\"form-builder-question-option col-lg-2 col-md-3 col-sm-6 text-center\" v-bind:class=\"{ 'working-option': isWorkingOption, 'is-focused': isFocused }\">\n\t\t<input v-bind:type=\"displayType\" disabled/>\n\t\t<input type=\"text\" v-bind:value=\"text\"\n\t\t\tclass=\"form-input form-option form-option-text form-control\"\n\t\t\tplaceholder=\"Option Text\"\n\t\t\tv-on:input=\"$emit('input', {text: $event.target.value})\"\n\t\t\tv-on:change=\"$emit('change', {text: $event.target.value})\"\n\t\t\tv-on:focus=\"handleInputFocus('text')\"\n\t\t\tv-on:blur=\"handleInputBlur('text')\"\n\t\t\t/>\n\t\t<input v-bind:type=\"type === 'radio' ? 'number' : 'text'\"\n\t\t\tv-bind:value=\"value\"\n\t\t\tclass=\"form-input form-option form-option-value form-control\"\n\t\t\tplaceholder=\"Option Value\"\n\t\t\tv-on:input=\"$emit('input', {value: $event.target.value})\"\n\t\t\tv-on:change=\"$emit('change', {value: $event.target.value})\"\n\t\t\tv-on:focus=\"handleInputFocus('value')\"\n\t\t\tv-on:blur=\"handleInputBlur('value')\"\n\t\t\t/>\n\t\t<textarea v-bind:value=\"description\"\n\t\t\tclass=\"form-input form-option form-option-description form-control\"\n\t\t\tplaceholder=\"Hover Description\"\n\t\t\tv-on:input=\"$emit('input', {description: $event.target.value})\"\n\t\t\tv-on:change=\"$emit('change', {description: $event.target.value})\"\n\t\t\tv-on:focus=\"handleInputFocus('description')\"\n\t\t\tv-on:blur=\"handleInputBlur('description')\"\n\t\t\t>\n\t\t</textarea>\n\t</div>\n</template>\n\n<script>\nexport default {\n\tprops: [\n\t\t'type',\n\t\t'text',\n\t\t'value',\n\t\t'description',\n\t\t'isWorkingOption'\n\t],\n\tcomputed: {\n\t\tdisplayType(){\n\t\t\tif(this.type === 'checkbox')\n\t\t\t\treturn 'checkbox';\n\t\t\telse\n\t\t\t\treturn 'radio';\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tisFocused: false\n\t\t};\n\t},\n\tmethods: {\n\t\thandleInputFocus(field){\n\t\t\tthis.isFocused = true;\n\t\t\tthis.$emit('focus', field);\n\t\t},\n\t\thandleInputBlur(field){\n\t\t\tthis.isFocused = false;\n\t\t\tthis.$emit('blur', field);\n\t\t}\n\t}\n};\n</script>\n\n<style scoped>\n\t.form-builder-question-option {\n\t\tmargin-top: 10px;\n\t}\n\n\t.working-option {\n\t\topacity: 0.5;\n\t}\n\n\t.working-option:hover,\n\t.working-option.is-focused,\n\t.working-option:active {\n\t\topacity: 1;\n\t}\n\n\ttextarea.form-option-description {\n\t\tresize: vertical;\n\t\theight: 100px;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
-
-// exports
-
-
-/***/ },
-
-/***/ 165:
-/***/ function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)();
-// imports
-
-
-// module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"FormBuilder.vue","sourceRoot":"webpack://"}]);
-
-// exports
-
-
-/***/ },
-
-/***/ 174:
-/***/ function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.question-id[data-v-aaf882ea] {\n\tfont-size: larger;\n\ttext-transform: uppercase;\n\tfont-weight: bold;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/FormBuilder/FormBuilderQuestion.vue?3d123c74"],"names":[],"mappings":";AAyQA;CACA,kBAAA;CACA,0BAAA;CACA,kBAAA;CACA","file":"FormBuilderQuestion.vue","sourcesContent":["<template>\n\t<div v-bind:id=\"questionId\" class=\"form-question panel panel-default form-block\">\n\t\t<div class=\"panel-heading form-horizontal\">\n\t\t\t<div class=\"panel-title form-group\">\n\t\t\t\t<div class=\"col-sm-12\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tQuestion Text\n\t\t\t\t\t\t<div class=\"input-group\">\n\t\t\t\t\t\t\t<span class=\"question-id input-group-addon\">{{questionId}}</span>\n\t\t\t\t\t\t\t<input type=\"text\" v-bind:value=\"text\" v-on:input=\"$emit('change', {text: $event.target.value})\" class=\"form-input form-question-text form-control\" placeholder=\"Question Text\" required />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"hr-question\"></div>\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"col-md-4\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tQuestion Type\n\t\t\t\t\t\t<select v-bind:value=\"questionType\" v-on:change=\"changeQuestionType\" class=\"form-control form-question-type\" name=\"questionType\">\n\t\t\t\t\t\t\t<option value=\"radio\">Radio</option>\n\t\t\t\t\t\t\t<option value=\"text\">Text</option>\n\t\t\t\t\t\t\t<option value=\"radiononnumeric\">Radio (non-numeric)</option>\n\t\t\t\t\t\t\t<option value=\"number\">Number</option>\n\t\t\t\t\t\t\t<option value=\"checkbox\">Checkbox</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t<label>Question Options</label>\n\t\t\t\t\t<div class=\"btn-group btn-group-justified\">\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button v-on:click=\"setStandardOptions\" class=\"form-question-standard-options btn btn-info\" type=\"button\">\n\t\t\t\t\t\t\t\tStandard\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button v-bind:disabled=\"!milestones || milestones.length !== 1\" v-on:click=\"setMilestoneOptions\"\n\t\t\t\t\t\t\t\t\tclass=\"form-question-milestone-level-options btn btn-info\" type=\"button\">\n\t\t\t\t\t\t\t\tMilestone\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button v-bind:disabled=\"!customOptions || customOptions.length < 1\" v-on:click=\"setCustomOptions\"\n\t\t\t\t\t\t\t\t\tclass=\"form-question-custom-options btn btn-info\" type=\"button\">\n\t\t\t\t\t\t\t\tCustom\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-1 labelless-button\">\n\t\t\t\t\t<button v-on:click=\"$emit('remove')\" class=\"form-block-delete btn btn-danger del-btn\" type=\"button\">\n\t\t\t\t\t\tDelete\n\t\t\t\t\t</button>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-1\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tRequired\n\t\t\t\t\t\t<input type=\"checkbox\" v-bind:checked=\"required\"\n\t\t\t\t\t\t\tclass=\"form-control form-question-required\" value=\"required\"\n\t\t\t\t\t\t\tv-on:change=\"$emit('change', {required: $event.target.checked})\"\n\t\t\t\t\t\t\t/>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"hr-question\"></div>\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"col-md-8\">\n\t\t\t\t\t<label v-show=\"shouldShowMilestonesAndCompetencies\" class=\"containing-label\">\n\t\t\t\t\t\tQuestion Milestones\n\t\t\t\t\t\t<select-two v-bind:value=\"milestones\" v-bind:options=\"groupedMilestones\" v-bind:multiple=\"true\" v-on:input=\"$emit('change', {milestones: arguments[0]})\" class=\"form-control form-question-milestone\"></select-two>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-4\">\n\t\t\t\t\t<label v-show=\"shouldShowMilestonesAndCompetencies\" class=\"containing-label\">\n\t\t\t\t\t\tQuestion Competency\n\t\t\t\t\t\t<select v-on:change=\"$emit('change', {competencies: $event.target.value})\" class=\"form-control form-question-competency\" placeholder=\"Competency\">\n\t\t\t\t\t\t\t<option value=\"\" disabled>Select a competency</option>\n\t\t\t\t\t\t\t<option v-for=\"competency of allCompetencies\" v-bind:value=\"competency.id\" v-bind:selected=\"competencies == competency.id\">{{ competency.title }}</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"panel-body\">\n\t\t\t<div class=\"row form-options\" style=\"margin-bottom:5px;\">\n\t\t\t\t<template v-if=\"['radio', 'radiononnumeric', 'checkbox'].includes(questionType)\">\n\t\t\t\t\t<form-builder-option v-for=\"(option, index) of optionsWithWorking\"\n\t\t\t\t\t\tv-bind=\"option\" v-bind:type=\"questionType\"\n\t\t\t\t\t\tv-bind:is-working-option=\"option === workingOption\"\n\t\t\t\t\t\tv-on:input=\"handleWorkingOptionInput(index, arguments[0])\"\n\t\t\t\t\t\tv-on:change=\"handleOptionChange(index, arguments[0])\"\n\t\t\t\t\t\t>\n\t\t\t\t\t</form-builder-option>\n\t\t\t\t</template>\n\n\t\t\t\t<div v-if=\"questionType === 'text'\" class=\"col-sm-12\">\n\t\t\t\t\t<textarea class=\"form-control\" placeholder=\"Text\" disabled />\n\t\t\t\t</div>\n\n\t\t\t\t<div v-if=\"questionType === 'number'\" class=\"col-md-8\">\n\t\t\t\t\t<input type=\"number\" class=\"form-control\" placeholder=\"Number\" disabled />\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport FormBuilderOption from './FormBuilderOption.vue';\nimport SelectTwo from '../SelectTwo.vue';\n\nimport { STANDARD_OPTIONS } from '../../modules/constants.js';\nimport { appendAlert } from '../../modules/utils.js';\n\nexport default {\n\tprops: [\n\t\t'formType',\n\t\t'groupedMilestones',\n\t\t'allCompetencies',\n\t\t'questionIdNum',\n\t\t'text',\n\t\t'questionType',\n\t\t'milestones',\n\t\t'competencies',\n\t\t'options',\n\t\t'required',\n\t\t'customOptions'\n\t],\n\tdata(){\n\t\treturn {\n\t\t\tworkingOption: {\n\t\t\t\ttext: '',\n\t\t\t\tvalue: '',\n\t\t\t\tdescription: ''\n\t\t\t}\n\t\t};\n\t},\n\tcomputed: {\n\t\tquestionId(){\n\t\t\treturn `q${this.questionIdNum}`;\n\t\t},\n\t\tshouldShowMilestonesAndCompetencies(){\n\t\t\treturn ['radio', 'number'].includes(this.questionType) && [\n\t\t\t\t'resident',\n\t\t\t\t'self-resident',\n\t\t\t\t'fellow',\n\t\t\t\t'self-fellow'\n\t\t\t].includes(this.formType);\n\t\t},\n\t\toptionsWithWorking(){\n\t\t\tif(this.options){\n\t\t\t\tlet options = this.options.slice();\n\t\t\t\toptions.push(this.workingOption);\n\t\t\t\treturn options;\n\t\t\t}\n\t\t},\n\t\tworkingOptionIndex(){\n\t\t\tif(this.options)\n\t\t\t\treturn this.options.length;\n\t\t}\n\t},\n\tmethods: {\n\t\tchangeQuestionType(event){\n\t\t\tconst questionType = event.target.value;\n\t\t\tlet options = [];\n\n\t\t\tthis.$emit('change', {questionType: questionType, options: options});\n\t\t},\n\t\thandleWorkingOptionInput(index, option){\n\t\t\tif(index === this.workingOptionIndex)\n\t\t\t\tthis.workingOption = Object.assign({}, this.workingOption, option);\n\t\t},\n\t\thandleOptionChange(index, option){\n\t\t\tif(index === this.workingOptionIndex){\n\t\t\t\tlet options = this.options.slice();\n\t\t\t\toptions.push(Object.assign({}, this.workingOption, option));\n\t\t\t\tthis.workingOption = {\n\t\t\t\t\ttext: '',\n\t\t\t\t\tvalue: '',\n\t\t\t\t\tdescription: ''\n\t\t\t\t};\n\t\t\t\tthis.$emit('change', {options: options});\n\t\t\t}\n\t\t\telse {\n\t\t\t\tlet options = this.options.slice();\n\t\t\t\toptions[index] = Object.assign(options[index], option);\n\t\t\t\tif(!options[index].text && !options[index].value && !options[index].description)\n\t\t\t\t\toptions.splice(index, 1);\n\n\t\t\t\tthis.$emit('change', {options: options});\n\t\t\t}\n\t\t},\n\n\t\tsetStandardOptions(){\n\t\t\tlet options;\n\t\t\tswitch(this.formType){\n\t\t\t\tcase 'resident':\n\t\t\t\tcase 'self-resident':\n\t\t\t\t\toptions = STANDARD_OPTIONS.RESIDENT;\n\t\t\t\t\tbreak;\n\t\t\t\tcase 'fellow':\n\t\t\t\tcase 'self-fellow':\n\t\t\t\t\toptions = STANDARD_OPTIONS.FELLOW;\n\t\t\t\t\tbreak;\n\t\t\t\tcase 'faculty':\n\t\t\t\t\tif(this.questionType === 'radiononnumeric')\n\t\t\t\t\t\toptions = STANDARD_OPTIONS.FACULTY;\n\t\t\t\t\tbreak;\n\t\t\t}\n\n\t\t\tif(!options){\n\t\t\t\tappendAlert('No standard options found for form type and question type');\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tthis.$emit('change', {options: options});\n\t\t},\n\t\tsetMilestoneOptions(){\n\t\t\tif(this.milestones.length !== 1){\n\t\t\t\tappendAlert('You can only use milestone options with a single selected milestone');\n\t\t\t\treturn;\n\t\t\t}\n\t\t\tfetch(`/milestones/${this.milestones[0]}`, { credentials: 'same-origin' }).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\telse\n\t\t\t\t\tthrow new Error(response);\n\t\t\t}).then(milestone => {\n\t\t\t\tif(!milestone || !milestone.levels || milestone.levels.length < 1){\n\t\t\t\t\tappendAlert('No milestone levels found');\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t\tlet options = [{\n\t\t\t\t\tvalue: 0,\n\t\t\t\t\ttext: `Not yet ${milestone.levels[0].name}`\n\t\t\t\t}];\n\t\t\t\tfor(let level of milestone.levels){\n\t\t\t\t\tlet value = 2 * parseInt(level.level_number, 10);\n\t\t\t\t\toptions.push({value: value - 1, text: '', description: ''});\n\t\t\t\t\toptions.push({value: value, text: level.name, description: level.description});\n\t\t\t\t}\n\n\t\t\t\tthis.$emit('change', {options: options});\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t},\n\t\tsetCustomOptions(){\n\t\t\tif(this.customOptions.length < 1){\n\t\t\t\tappendAlert('No custom options set');\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tthis.$emit('change', {options: this.customOptions});\n\t\t}\n\t},\n\tcomponents: {\n\t\tFormBuilderOption,\n\t\tSelectTwo\n\t}\n};\n</script>\n\n<style scoped>\n\t.question-id {\n\t\tfont-size: larger;\n\t\ttext-transform: uppercase;\n\t\tfont-weight: bold;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
-
-// exports
-
-
-/***/ },
-
-/***/ 261:
+/***/ 348:
 /***/ function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* script */
-__vue_exports__ = __webpack_require__(66)
+__vue_exports__ = __webpack_require__(155)
 
 /* template */
-var __vue_template__ = __webpack_require__(284)
+var __vue_template__ = __webpack_require__(371)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -362,20 +1083,20 @@ module.exports = __vue_exports__
 
 /***/ },
 
-/***/ 262:
+/***/ 349:
 /***/ function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(309)
+__webpack_require__(396)
 
 /* script */
-__vue_exports__ = __webpack_require__(67)
+__vue_exports__ = __webpack_require__(156)
 
 /* template */
-var __vue_template__ = __webpack_require__(283)
+var __vue_template__ = __webpack_require__(370)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -411,20 +1132,20 @@ module.exports = __vue_exports__
 
 /***/ },
 
-/***/ 263:
+/***/ 350:
 /***/ function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(323)
+__webpack_require__(410)
 
 /* script */
-__vue_exports__ = __webpack_require__(68)
+__vue_exports__ = __webpack_require__(157)
 
 /* template */
-var __vue_template__ = __webpack_require__(306)
+var __vue_template__ = __webpack_require__(393)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -460,7 +1181,7 @@ module.exports = __vue_exports__
 
 /***/ },
 
-/***/ 283:
+/***/ 370:
 /***/ function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -566,7 +1287,7 @@ if (false) {
 
 /***/ },
 
-/***/ 284:
+/***/ 371:
 /***/ function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -622,7 +1343,7 @@ if (false) {
 
 /***/ },
 
-/***/ 292:
+/***/ 379:
 /***/ function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -817,7 +1538,179 @@ if (false) {
 
 /***/ },
 
-/***/ 306:
+/***/ 38:
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+	props: {
+		options: {
+			type: Array,
+			required: false
+		},
+		name: {
+			type: String,
+			required: false
+		},
+		id: {
+			type: String,
+			required: false
+		},
+		required: {
+			type: Boolean,
+			required: false
+		},
+		value: {
+			required: true
+		},
+		multiple: {
+			type: Boolean,
+			default: false
+		},
+		placeholder: {
+			type: String,
+			default: 'Please select'
+		}
+	},
+	computed: {
+		stringOptions: function stringOptions() {
+			if (!this.options) return [];
+
+			var options = this.options.slice();
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+
+			try {
+				for (var _iterator = options[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var option = _step.value;
+
+					if (option.id) option.id = option.id.toString();
+					if (option.children) {
+						var _iteratorNormalCompletion2 = true;
+						var _didIteratorError2 = false;
+						var _iteratorError2 = undefined;
+
+						try {
+							for (var _iterator2 = option.children[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+								var child = _step2.value;
+
+								if (child.id) child.id = child.id.toString();
+							}
+						} catch (err) {
+							_didIteratorError2 = true;
+							_iteratorError2 = err;
+						} finally {
+							try {
+								if (!_iteratorNormalCompletion2 && _iterator2.return) {
+									_iterator2.return();
+								}
+							} finally {
+								if (_didIteratorError2) {
+									throw _iteratorError2;
+								}
+							}
+						}
+					}
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator.return) {
+						_iterator.return();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
+			}
+
+			return options;
+		},
+		stringValue: function stringValue() {
+			if (!this.value) return '';
+
+			if (Array.isArray(this.value)) {
+				return this.value.slice().map(function (value) {
+					return value.toString();
+				});
+			} else {
+				return this.value.toString();
+			}
+		}
+	},
+	mounted: function mounted() {
+		var _this = this;
+
+		$(this.$el).on('change', function () {
+			_this.$emit('input', $(_this.$el).val());
+		});
+
+		$(this.$el).val(this.stringValue).select2({
+			placeholder: this.placeholder,
+			tags: this.multiple,
+			createTag: function createTag() {
+				return undefined;
+			}
+		});
+	},
+	beforeUpdate: function beforeUpdate() {
+		$(this.$el).select2('destroy');
+	},
+	updated: function updated() {
+		$(this.$el).val(this.stringValue).select2({
+			placeholder: this.placeholder,
+			tags: this.multiple,
+			createTag: function createTag() {
+				return undefined;
+			}
+		});
+	},
+
+	watch: {
+		multiple: function multiple(_multiple) {
+			if (this.value) {
+				if (_multiple && !Array.isArray(this.value)) this.$emit('input', [this.value]);else if (!_multiple && Array.isArray(this.value)) this.$emit('input', this.value[0]);
+			}
+		},
+		stringValue: function stringValue(_stringValue) {
+			$(this.$el).val(_stringValue).trigger('change.select2');
+		}
+	},
+	beforeDestroyed: function beforeDestroyed() {
+		$(this.$el).off().select2('destroy');
+	}
+};
+
+/***/ },
+
+/***/ 393:
 /***/ function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1094,16 +1987,16 @@ if (false) {
 
 /***/ },
 
-/***/ 309:
+/***/ 396:
 /***/ function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(160);
+var content = __webpack_require__(248);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(1)(content, {});
+var update = __webpack_require__(3)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -1121,16 +2014,16 @@ if(false) {
 
 /***/ },
 
-/***/ 314:
+/***/ 401:
 /***/ function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(165);
+var content = __webpack_require__(253);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(1)(content, {});
+var update = __webpack_require__(3)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -1148,16 +2041,55 @@ if(false) {
 
 /***/ },
 
-/***/ 323:
+/***/ 41:
+/***/ function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('select', {
+    attrs: {
+      "name": _vm.name,
+      "id": _vm.id,
+      "required": _vm.required,
+      "multiple": _vm.multiple
+    }
+  }, [_vm._t("default"), _vm._v(" "), _vm._l((_vm.stringOptions), function(option) {
+    return [(option.children && option.children.length > 0) ? _c('optgroup', {
+      attrs: {
+        "label": option.text
+      }
+    }, _vm._l((option.children), function(child) {
+      return _c('option', {
+        domProps: {
+          "value": child.id
+        }
+      }, [_vm._v("\n\t\t\t\t" + _vm._s(child.text) + "\n\t\t\t")])
+    })) : (option.id) ? _c('option', {
+      domProps: {
+        "value": option.id
+      }
+    }, [_vm._v("\n\t\t\t" + _vm._s(option.text) + "\n\t\t")]) : _vm._e()]
+  })], 2)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-e84f7814", module.exports)
+  }
+}
+
+/***/ },
+
+/***/ 410:
 /***/ function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(174);
+var content = __webpack_require__(262);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(1)(content, {});
+var update = __webpack_require__(3)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -1175,7 +2107,7 @@ if(false) {
 
 /***/ },
 
-/***/ 326:
+/***/ 413:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1186,11 +2118,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.createFormBuilder = createFormBuilder;
 
-var _vue = __webpack_require__(6);
+var _vue = __webpack_require__(22);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _FormBuilder = __webpack_require__(55);
+var _FormBuilder = __webpack_require__(144);
 
 var _FormBuilder2 = _interopRequireDefault(_FormBuilder);
 
@@ -1214,940 +2146,8 @@ function createFormBuilder(el) {
 	});
 }
 
-/***/ },
-
-/***/ 5:
-/***/ function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* script */
-__vue_exports__ = __webpack_require__(7)
-
-/* template */
-var __vue_template__ = __webpack_require__(10)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/SelectTwo.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-e84f7814", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-e84f7814", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] SelectTwo.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ },
-
-/***/ 55:
-/***/ function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* styles */
-__webpack_require__(314)
-
-/* script */
-__vue_exports__ = __webpack_require__(65)
-
-/* template */
-var __vue_template__ = __webpack_require__(292)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormBuilder/FormBuilder.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-__vue_options__._scopeId = "data-v-27da62f6"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-27da62f6", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-27da62f6", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] FormBuilder.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ },
-
-/***/ 65:
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _FormBuilderInstruction = __webpack_require__(261);
-
-var _FormBuilderInstruction2 = _interopRequireDefault(_FormBuilderInstruction);
-
-var _FormBuilderQuestion = __webpack_require__(263);
-
-var _FormBuilderQuestion2 = _interopRequireDefault(_FormBuilderQuestion);
-
-var _utils = __webpack_require__(3);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-	props: ['oldFormContents'],
-	created: function created() {
-		var _this = this;
-
-		(0, _utils.fetchMilestoneGroups)().then(function (milestoneGroups) {
-			_this.groupedMilestones = milestoneGroups;
-		}).catch(function (err) {
-			console.error(err);
-		});
-
-		fetch('/competencies', { credentials: 'same-origin' }).then(function (response) {
-			if (response.ok) return response.json();else {
-				var err = new Error(response.statusText);
-				err.response = response;
-				throw err;
-			}
-		}).then(function (competencies) {
-			_this.competencies = competencies;
-		}).catch(function (err) {
-			console.error(err);
-		});
-	},
-	data: function data() {
-		return {
-			title: '',
-			formType: 'resident',
-			nextQuestionIdNum: 1,
-			groupedMilestones: [],
-			competencies: [],
-			items: [],
-			customOptions: []
-		};
-	},
-
-	methods: {
-		addInstruction: function addInstruction() {
-			this.items.push({
-				type: 'instruction',
-				text: ''
-			});
-		},
-		addQuestion: function addQuestion() {
-			this.items.push({
-				type: 'question',
-				text: '',
-				questionIdNum: this.nextQuestionIdNum++,
-				questionType: 'radio',
-				milestones: [],
-				competencies: '',
-				options: [],
-				required: false,
-				weight: 100
-			});
-		},
-		changeItem: function changeItem(index, item) {
-			this.items.splice(index, 1, Object.assign(this.items[index], item));
-		},
-		removeItem: function removeItem(index) {
-			var item = this.items[index];
-			if (item.type === 'question' && item.questionIdNum === this.nextQuestionIdNum - 1) this.nextQuestionIdNum--;
-			this.items.splice(index, 1);
-		},
-		submitForm: function submitForm(event) {
-			event.preventDefault();
-			var requestBody = JSON.stringify({
-				title: this.title,
-				formType: this.formType,
-				items: this.items.map(function (item) {
-					item.questionId = 'q' + item.questionIdNum;
-					return item;
-				})
-			});
-
-			if (this.isFormValid()) {
-				fetch('/forms', {
-					method: 'POST',
-					headers: (0, _utils.getFetchHeaders)(),
-					credentials: 'same-origin',
-					body: requestBody
-				}).then(function (response) {
-					if (response.ok) return response.text();else throw new Error(response);
-				}).then(function (response) {
-					if (response === 'success') window.location = '/manage/forms';else throw new Error(response);
-				}).catch(function (err) {
-					(0, _utils.appendAlert)('Error saving form');
-					console.error(err);
-				});
-			}
-		},
-		isFormValid: function isFormValid() {
-			if (!this.title) {
-				(0, _utils.appendAlert)('Please enter a title for the form');
-				return false;
-			}
-
-			if (!this.items || this.items.length < 1) {
-				(0, _utils.appendAlert)('Please enter at least one question');
-				return false;
-			}
-
-			var _iteratorNormalCompletion = true;
-			var _didIteratorError = false;
-			var _iteratorError = undefined;
-
-			try {
-				for (var _iterator = this.items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-					var item = _step.value;
-
-					if (item.type === 'question') {
-						if (!item.text) {
-							(0, _utils.appendAlert)('Please enter question text for question ' + item.questionIdNum);
-							return false;
-						}
-						if (['radio', 'radiononnumeric', 'checkbox'].indexOf(item.questionType) !== -1) {
-							if (!item.options || item.options.length < 1) {
-								(0, _utils.appendAlert)('Please add at least one option for each multiple-choice question');
-								return false;
-							}
-
-							var _iteratorNormalCompletion2 = true;
-							var _didIteratorError2 = false;
-							var _iteratorError2 = undefined;
-
-							try {
-								for (var _iterator2 = item.options[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-									var option = _step2.value;
-
-									if (!option.value) {
-										(0, _utils.appendAlert)('An option cannot be submitted without a value. Please either assign a value or remove the option text and description for each option in question ' + item.questionIdNum);
-										return false;
-									}
-								}
-							} catch (err) {
-								_didIteratorError2 = true;
-								_iteratorError2 = err;
-							} finally {
-								try {
-									if (!_iteratorNormalCompletion2 && _iterator2.return) {
-										_iterator2.return();
-									}
-								} finally {
-									if (_didIteratorError2) {
-										throw _iteratorError2;
-									}
-								}
-							}
-						}
-					} else if (item.type === 'instruction') {
-						if (!item.text) {
-							(0, _utils.appendAlert)('Please complete or remove all empty instruction blocks');
-							return false;
-						}
-					} else {
-						(0, _utils.appendAlert)('Unrecognized item type in form');
-						return false;
-					}
-				}
-			} catch (err) {
-				_didIteratorError = true;
-				_iteratorError = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion && _iterator.return) {
-						_iterator.return();
-					}
-				} finally {
-					if (_didIteratorError) {
-						throw _iteratorError;
-					}
-				}
-			}
-
-			return true;
-		}
-	},
-	watch: {
-		oldFormContents: function oldFormContents(formContents) {
-			this.title = formContents.title;
-			this.formType = formContents.formType;
-			this.items = formContents.items.slice();
-			var _iteratorNormalCompletion3 = true;
-			var _didIteratorError3 = false;
-			var _iteratorError3 = undefined;
-
-			try {
-				for (var _iterator3 = this.items[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-					var item = _step3.value;
-
-					if (item.questionIdNum && item.questionIdNum >= this.nextQuestionIdNum) this.nextQuestionIdNum = item.questionIdNum + 1;
-				}
-			} catch (err) {
-				_didIteratorError3 = true;
-				_iteratorError3 = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion3 && _iterator3.return) {
-						_iterator3.return();
-					}
-				} finally {
-					if (_didIteratorError3) {
-						throw _iteratorError3;
-					}
-				}
-			}
-		}
-	},
-	components: {
-		FormBuilderInstruction: _FormBuilderInstruction2.default,
-		FormBuilderQuestion: _FormBuilderQuestion2.default
-	}
-}; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/***/ },
-
-/***/ 66:
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-	props: ['text'],
-	data: function data() {
-		return {};
-	},
-
-	methods: {
-		onInput: function onInput(event) {
-			this.$emit('input', event.target.value);
-		}
-	}
-};
-
-/***/ },
-
-/***/ 67:
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-	props: ['type', 'text', 'value', 'description', 'isWorkingOption'],
-	computed: {
-		displayType: function displayType() {
-			if (this.type === 'checkbox') return 'checkbox';else return 'radio';
-		}
-	},
-	data: function data() {
-		return {
-			isFocused: false
-		};
-	},
-
-	methods: {
-		handleInputFocus: function handleInputFocus(field) {
-			this.isFocused = true;
-			this.$emit('focus', field);
-		},
-		handleInputBlur: function handleInputBlur(field) {
-			this.isFocused = false;
-			this.$emit('blur', field);
-		}
-	}
-};
-
-/***/ },
-
-/***/ 68:
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _FormBuilderOption = __webpack_require__(262);
-
-var _FormBuilderOption2 = _interopRequireDefault(_FormBuilderOption);
-
-var _SelectTwo = __webpack_require__(5);
-
-var _SelectTwo2 = _interopRequireDefault(_SelectTwo);
-
-var _constants = __webpack_require__(4);
-
-var _utils = __webpack_require__(3);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-	props: ['formType', 'groupedMilestones', 'allCompetencies', 'questionIdNum', 'text', 'questionType', 'milestones', 'competencies', 'options', 'required', 'customOptions'],
-	data: function data() {
-		return {
-			workingOption: {
-				text: '',
-				value: '',
-				description: ''
-			}
-		};
-	},
-
-	computed: {
-		questionId: function questionId() {
-			return 'q' + this.questionIdNum;
-		},
-		shouldShowMilestonesAndCompetencies: function shouldShowMilestonesAndCompetencies() {
-			return ['radio', 'number'].indexOf(this.questionType) !== -1 && ['resident', 'self-resident', 'fellow', 'self-fellow'].indexOf(this.formType) !== -1;
-		},
-		optionsWithWorking: function optionsWithWorking() {
-			if (this.options) {
-				var options = this.options.slice();
-				options.push(this.workingOption);
-				return options;
-			}
-		},
-		workingOptionIndex: function workingOptionIndex() {
-			if (this.options) return this.options.length;
-		}
-	},
-	methods: {
-		changeQuestionType: function changeQuestionType(event) {
-			var questionType = event.target.value;
-			var options = [];
-
-			this.$emit('change', { questionType: questionType, options: options });
-		},
-		handleWorkingOptionInput: function handleWorkingOptionInput(index, option) {
-			if (index === this.workingOptionIndex) this.workingOption = Object.assign({}, this.workingOption, option);
-		},
-		handleOptionChange: function handleOptionChange(index, option) {
-			if (index === this.workingOptionIndex) {
-				var options = this.options.slice();
-				options.push(Object.assign({}, this.workingOption, option));
-				this.workingOption = {
-					text: '',
-					value: '',
-					description: ''
-				};
-				this.$emit('change', { options: options });
-			} else {
-				var _options = this.options.slice();
-				_options[index] = Object.assign(_options[index], option);
-				if (!_options[index].text && !_options[index].value && !_options[index].description) _options.splice(index, 1);
-
-				this.$emit('change', { options: _options });
-			}
-		},
-		setStandardOptions: function setStandardOptions() {
-			var options = void 0;
-			switch (this.formType) {
-				case 'resident':
-				case 'self-resident':
-					options = _constants.STANDARD_OPTIONS.RESIDENT;
-					break;
-				case 'fellow':
-				case 'self-fellow':
-					options = _constants.STANDARD_OPTIONS.FELLOW;
-					break;
-				case 'faculty':
-					if (this.questionType === 'radiononnumeric') options = _constants.STANDARD_OPTIONS.FACULTY;
-					break;
-			}
-
-			if (!options) {
-				(0, _utils.appendAlert)('No standard options found for form type and question type');
-				return;
-			}
-
-			this.$emit('change', { options: options });
-		},
-		setMilestoneOptions: function setMilestoneOptions() {
-			var _this = this;
-
-			if (this.milestones.length !== 1) {
-				(0, _utils.appendAlert)('You can only use milestone options with a single selected milestone');
-				return;
-			}
-			fetch('/milestones/' + this.milestones[0], { credentials: 'same-origin' }).then(function (response) {
-				if (response.ok) return response.json();else throw new Error(response);
-			}).then(function (milestone) {
-				if (!milestone || !milestone.levels || milestone.levels.length < 1) {
-					(0, _utils.appendAlert)('No milestone levels found');
-					return;
-				}
-				var options = [{
-					value: 0,
-					text: 'Not yet ' + milestone.levels[0].name
-				}];
-				var _iteratorNormalCompletion = true;
-				var _didIteratorError = false;
-				var _iteratorError = undefined;
-
-				try {
-					for (var _iterator = milestone.levels[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-						var level = _step.value;
-
-						var value = 2 * parseInt(level.level_number, 10);
-						options.push({ value: value - 1, text: '', description: '' });
-						options.push({ value: value, text: level.name, description: level.description });
-					}
-				} catch (err) {
-					_didIteratorError = true;
-					_iteratorError = err;
-				} finally {
-					try {
-						if (!_iteratorNormalCompletion && _iterator.return) {
-							_iterator.return();
-						}
-					} finally {
-						if (_didIteratorError) {
-							throw _iteratorError;
-						}
-					}
-				}
-
-				_this.$emit('change', { options: options });
-			}).catch(function (err) {
-				console.error(err);
-			});
-		},
-		setCustomOptions: function setCustomOptions() {
-			if (this.customOptions.length < 1) {
-				(0, _utils.appendAlert)('No custom options set');
-				return;
-			}
-
-			this.$emit('change', { options: this.customOptions });
-		}
-	},
-	components: {
-		FormBuilderOption: _FormBuilderOption2.default,
-		SelectTwo: _SelectTwo2.default
-	}
-};
-
-/***/ },
-
-/***/ 7:
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-	props: {
-		options: {
-			type: Array,
-			required: false
-		},
-		name: {
-			type: String,
-			required: false
-		},
-		id: {
-			type: String,
-			required: false
-		},
-		required: {
-			type: Boolean,
-			required: false
-		},
-		value: {
-			required: true
-		},
-		multiple: {
-			type: Boolean,
-			default: false
-		},
-		placeholder: {
-			type: String,
-			default: 'Please select'
-		}
-	},
-	computed: {
-		stringOptions: function stringOptions() {
-			if (!this.options) return [];
-
-			var options = this.options.slice();
-			var _iteratorNormalCompletion = true;
-			var _didIteratorError = false;
-			var _iteratorError = undefined;
-
-			try {
-				for (var _iterator = options[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-					var option = _step.value;
-
-					if (option.id) option.id = option.id.toString();
-					if (option.children) {
-						var _iteratorNormalCompletion2 = true;
-						var _didIteratorError2 = false;
-						var _iteratorError2 = undefined;
-
-						try {
-							for (var _iterator2 = option.children[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-								var child = _step2.value;
-
-								if (child.id) child.id = child.id.toString();
-							}
-						} catch (err) {
-							_didIteratorError2 = true;
-							_iteratorError2 = err;
-						} finally {
-							try {
-								if (!_iteratorNormalCompletion2 && _iterator2.return) {
-									_iterator2.return();
-								}
-							} finally {
-								if (_didIteratorError2) {
-									throw _iteratorError2;
-								}
-							}
-						}
-					}
-				}
-			} catch (err) {
-				_didIteratorError = true;
-				_iteratorError = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion && _iterator.return) {
-						_iterator.return();
-					}
-				} finally {
-					if (_didIteratorError) {
-						throw _iteratorError;
-					}
-				}
-			}
-
-			return options;
-		},
-		stringValue: function stringValue() {
-			if (!this.value) return '';
-
-			if (Array.isArray(this.value)) {
-				return this.value.slice().map(function (value) {
-					return value.toString();
-				});
-			} else {
-				return this.value.toString();
-			}
-		}
-	},
-	mounted: function mounted() {
-		var _this = this;
-
-		$(this.$el).on('change', function () {
-			_this.$emit('input', $(_this.$el).val());
-		});
-
-		$(this.$el).val(this.stringValue).select2({
-			placeholder: this.placeholder,
-			tags: this.multiple,
-			createTag: function createTag() {
-				return undefined;
-			}
-		});
-	},
-	beforeUpdate: function beforeUpdate() {
-		$(this.$el).select2('destroy');
-	},
-	updated: function updated() {
-		$(this.$el).val(this.stringValue).select2({
-			placeholder: this.placeholder,
-			tags: this.multiple,
-			createTag: function createTag() {
-				return undefined;
-			}
-		});
-	},
-
-	watch: {
-		multiple: function multiple(_multiple) {
-			if (this.value) {
-				if (_multiple && !Array.isArray(this.value)) this.$emit('input', [this.value]);else if (!_multiple && Array.isArray(this.value)) this.$emit('input', this.value[0]);
-			}
-		},
-		stringValue: function stringValue(_stringValue) {
-			$(this.$el).val(_stringValue).trigger('change.select2');
-		}
-	},
-	beforeDestroyed: function beforeDestroyed() {
-		$(this.$el).off().select2('destroy');
-	}
-};
-
 /***/ }
 
-},[326]);
+},[413]);
 });
 //# sourceMappingURL=vue-form-builder.js.map

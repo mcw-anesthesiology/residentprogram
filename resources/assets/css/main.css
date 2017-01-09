@@ -433,6 +433,10 @@ body {
 	background-color: transparent !important;
 }
 
+label.normal-text-label {
+	font-weight: normal;
+}
+
 select-two {
     overflow: hidden;
 }

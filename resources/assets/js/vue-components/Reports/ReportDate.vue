@@ -14,17 +14,15 @@
 			<div class="col-md-4">
 				<label class="containing-label">
 					Start Date
-					<vue-flatpickr type="text" class="form-control appear-not-readonly"
-						:value="value.startDate"
+					<vue-flatpickr :value="value.startDate" :options="flatpickrOptions"
 						@input="handleInput('startDate', arguments[0])"/>
 				</label>
 			</div>
 			<div class="col-md-4">
 				<label class="containing-label">
 					End Date
-				<vue-flatpickr type="text" class="form-control appear-not-readonly"
-					:value="value.endDate"
-					@input="handleInput('endDate', arguments[0])"/>
+					<vue-flatpickr :value="value.endDate" :options="flatpickrOptions"
+						@input="handleInput('endDate', arguments[0])"/>
 				</label>
 			</div>
 		</div>
@@ -74,6 +72,13 @@ export default {
 	computed: {
 		DATE_RANGES(){
 			return DATE_RANGES;
+		},
+		flatpickrOptions(){
+			return {
+				altInput: true,
+				altInputClass: 'form-control appear-not-readonly',
+				altFormat: 'M j, Y'
+			};
 		},
 		currentQuarter(){
 			let startDate = moment().startOf('month');

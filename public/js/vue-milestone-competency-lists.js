@@ -10,7 +10,144 @@
 })(this, function() {
 return webpackJsonp([5],{
 
-/***/ 1:
+/***/ 145:
+/***/ function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(408)
+
+/* script */
+__vue_exports__ = __webpack_require__(161)
+
+/* template */
+var __vue_template__ = __webpack_require__(389)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/MilestoneCompetencyQuestionLists.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+__vue_options__._scopeId = "data-v-6739f1e8"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6739f1e8", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-6739f1e8", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] MilestoneCompetencyQuestionLists.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ },
+
+/***/ 161:
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _utils = __webpack_require__(5);
+
+exports.default = {
+	props: ['milestones', 'competencies'],
+	computed: {
+		groups: function groups() {
+			return {
+				'milestones': this.milestones,
+				'competencies': this.competencies
+			};
+		}
+	},
+	data: function data() {
+		return {
+			showLists: false,
+			showDescriptions: {
+				milestones: false,
+				competencies: false
+			}
+		};
+	},
+
+	methods: {
+		toggleLists: function toggleLists() {
+			this.showLists = !this.showLists;
+		},
+		toggleDescriptions: function toggleDescriptions(type) {
+			if (this.showDescriptions.hasOwnProperty(type)) this.showDescriptions[type] = !this.showDescriptions[type];
+		},
+		ucfirst: function ucfirst(str) {
+			return (0, _utils.ucfirst)(str);
+		}
+	}
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/***/ },
+
+/***/ 260:
+/***/ function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.milestone-competency-question-lists[data-v-6739f1e8] {\n\tmargin-top: 10px;\n\ttext-align: left;\n}\n.milestone-competency-question-lists .panel-heading[data-v-6739f1e8] {\n\tposition: relative;\n}\n.description-button[data-v-6739f1e8] {\n\tposition: absolute;\n\ttop: 8px;\n\tright: 10px;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/MilestoneCompetencyQuestionLists.vue?9de57d2c"],"names":[],"mappings":";AAmEA;CACA,iBAAA;CACA,iBAAA;CACA;AAEA;CACA,mBAAA;CACA;AAEA;CACA,mBAAA;CACA,SAAA;CACA,YAAA;CACA","file":"MilestoneCompetencyQuestionLists.vue","sourcesContent":["<template>\n\t<div v-show=\"showLists\" class=\"milestone-competency-question-lists row\">\n\t\t<div v-for=\"(group, groupName) of groups\" class=\"col-sm-6\">\n\t\t\t<div class=\"panel panel-info milestones-panel\">\n\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t<h4 class=\"panel-title\">\n\t\t\t\t\t\t{{ucfirst(groupName)}}\n\t\t\t\t\t</h4>\n\t\t\t\t\t<button v-on:click=\"toggleDescriptions(groupName)\"\n\t\t\t\t\t\t\ttype=\"button\" class=\"description-button btn btn-info btn-xs\"\n\t\t\t\t\t\t\tv-bind:class=\"{ active: showDescriptions[groupName] }\">\n\t\t\t\t\t\tShow descriptions\n\t\t\t\t\t</button>\n\t\t\t\t</div>\n\t\t\t\t<ul class=\"list-group\">\n\t\t\t\t\t<li v-for=\"item of group\" class=\"list-group-item\">\n\t\t\t\t\t\t<b>{{item.title}}</b>\n\t\t\t\t\t\t<span v-show=\"showDescriptions[groupName]\">\n\t\t\t\t\t\t\t— {{item.description}}\n\t\t\t\t\t\t</span>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport { ucfirst } from '../modules/utils.js';\nexport default {\n\tprops: [\n\t\t'milestones',\n\t\t'competencies'\n\t],\n\tcomputed: {\n\t\tgroups(){\n\t\t\treturn {\n\t\t\t\t'milestones': this.milestones,\n\t\t\t\t'competencies': this.competencies\n\t\t\t};\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshowLists: false,\n\t\t\tshowDescriptions: {\n\t\t\t\tmilestones: false,\n\t\t\t\tcompetencies: false\n\t\t\t}\n\t\t};\n\t},\n\tmethods: {\n\t\ttoggleLists(){\n\t\t\tthis.showLists = !this.showLists;\n\t\t},\n\t\ttoggleDescriptions(type){\n\t\t\tif(this.showDescriptions.hasOwnProperty(type))\n\t\t\t\tthis.showDescriptions[type] = !this.showDescriptions[type];\n\t\t},\n\t\tucfirst(str){\n\t\t\treturn ucfirst(str);\n\t\t}\n\t}\n};\n</script>\n\n<style scoped>\n\t.milestone-competency-question-lists {\n\t\tmargin-top: 10px;\n\t\ttext-align: left;\n\t}\n\n\t.milestone-competency-question-lists .panel-heading {\n\t\tposition: relative;\n\t}\n\n\t.description-button {\n\t\tposition: absolute;\n\t\ttop: 8px;\n\t\tright: 10px;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+
+// exports
+
+
+/***/ },
+
+/***/ 3:
 /***/ function(module, exports) {
 
 /*
@@ -233,22 +370,7 @@ function applyToTag(styleElement, obj) {
 
 /***/ },
 
-/***/ 172:
-/***/ function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.milestone-competency-question-lists[data-v-6739f1e8] {\n\tmargin-top: 10px;\n\ttext-align: left;\n}\n.milestone-competency-question-lists .panel-heading[data-v-6739f1e8] {\n\tposition: relative;\n}\n.description-button[data-v-6739f1e8] {\n\tposition: absolute;\n\ttop: 8px;\n\tright: 10px;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/MilestoneCompetencyQuestionLists.vue?9de57d2c"],"names":[],"mappings":";AAmEA;CACA,iBAAA;CACA,iBAAA;CACA;AAEA;CACA,mBAAA;CACA;AAEA;CACA,mBAAA;CACA,SAAA;CACA,YAAA;CACA","file":"MilestoneCompetencyQuestionLists.vue","sourcesContent":["<template>\n\t<div v-show=\"showLists\" class=\"milestone-competency-question-lists row\">\n\t\t<div v-for=\"(group, groupName) of groups\" class=\"col-sm-6\">\n\t\t\t<div class=\"panel panel-info milestones-panel\">\n\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t<h4 class=\"panel-title\">\n\t\t\t\t\t\t{{ucfirst(groupName)}}\n\t\t\t\t\t</h4>\n\t\t\t\t\t<button v-on:click=\"toggleDescriptions(groupName)\"\n\t\t\t\t\t\t\ttype=\"button\" class=\"description-button btn btn-info btn-xs\"\n\t\t\t\t\t\t\tv-bind:class=\"{ active: showDescriptions[groupName] }\">\n\t\t\t\t\t\tShow descriptions\n\t\t\t\t\t</button>\n\t\t\t\t</div>\n\t\t\t\t<ul class=\"list-group\">\n\t\t\t\t\t<li v-for=\"item of group\" class=\"list-group-item\">\n\t\t\t\t\t\t<b>{{item.title}}</b>\n\t\t\t\t\t\t<span v-show=\"showDescriptions[groupName]\">\n\t\t\t\t\t\t\t— {{item.description}}\n\t\t\t\t\t\t</span>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport { ucfirst } from '../modules/utils.js';\nexport default {\n\tprops: [\n\t\t'milestones',\n\t\t'competencies'\n\t],\n\tcomputed: {\n\t\tgroups(){\n\t\t\treturn {\n\t\t\t\t'milestones': this.milestones,\n\t\t\t\t'competencies': this.competencies\n\t\t\t};\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshowLists: false,\n\t\t\tshowDescriptions: {\n\t\t\t\tmilestones: false,\n\t\t\t\tcompetencies: false\n\t\t\t}\n\t\t};\n\t},\n\tmethods: {\n\t\ttoggleLists(){\n\t\t\tthis.showLists = !this.showLists;\n\t\t},\n\t\ttoggleDescriptions(type){\n\t\t\tif(this.showDescriptions.hasOwnProperty(type))\n\t\t\t\tthis.showDescriptions[type] = !this.showDescriptions[type];\n\t\t},\n\t\tucfirst(str){\n\t\t\treturn ucfirst(str);\n\t\t}\n\t}\n};\n</script>\n\n<style scoped>\n\t.milestone-competency-question-lists {\n\t\tmargin-top: 10px;\n\t\ttext-align: left;\n\t}\n\n\t.milestone-competency-question-lists .panel-heading {\n\t\tposition: relative;\n\t}\n\n\t.description-button {\n\t\tposition: absolute;\n\t\ttop: 8px;\n\t\tright: 10px;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
-
-// exports
-
-
-/***/ },
-
-/***/ 302:
+/***/ 389:
 /***/ function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -308,16 +430,16 @@ if (false) {
 
 /***/ },
 
-/***/ 321:
+/***/ 408:
 /***/ function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(172);
+var content = __webpack_require__(260);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(1)(content, {});
+var update = __webpack_require__(3)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -335,7 +457,7 @@ if(false) {
 
 /***/ },
 
-/***/ 327:
+/***/ 414:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -346,11 +468,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.renderMilestoneCompetencyLists = renderMilestoneCompetencyLists;
 
-var _vue = __webpack_require__(6);
+var _vue = __webpack_require__(22);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _MilestoneCompetencyQuestionLists = __webpack_require__(56);
+var _MilestoneCompetencyQuestionLists = __webpack_require__(145);
 
 var _MilestoneCompetencyQuestionLists2 = _interopRequireDefault(_MilestoneCompetencyQuestionLists);
 
@@ -477,130 +599,8 @@ function renderMilestoneCompetencyLists(milestoneQuestions, competencyQuestions)
 	}
 }
 
-/***/ },
-
-/***/ 56:
-/***/ function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* styles */
-__webpack_require__(321)
-
-/* script */
-__vue_exports__ = __webpack_require__(72)
-
-/* template */
-var __vue_template__ = __webpack_require__(302)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/MilestoneCompetencyQuestionLists.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-__vue_options__._scopeId = "data-v-6739f1e8"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6739f1e8", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-6739f1e8", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] MilestoneCompetencyQuestionLists.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ },
-
-/***/ 72:
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _utils = __webpack_require__(3);
-
-exports.default = {
-	props: ['milestones', 'competencies'],
-	computed: {
-		groups: function groups() {
-			return {
-				'milestones': this.milestones,
-				'competencies': this.competencies
-			};
-		}
-	},
-	data: function data() {
-		return {
-			showLists: false,
-			showDescriptions: {
-				milestones: false,
-				competencies: false
-			}
-		};
-	},
-
-	methods: {
-		toggleLists: function toggleLists() {
-			this.showLists = !this.showLists;
-		},
-		toggleDescriptions: function toggleDescriptions(type) {
-			if (this.showDescriptions.hasOwnProperty(type)) this.showDescriptions[type] = !this.showDescriptions[type];
-		},
-		ucfirst: function ucfirst(str) {
-			return (0, _utils.ucfirst)(str);
-		}
-	}
-}; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
 /***/ }
 
-},[327]);
+},[414]);
 });
 //# sourceMappingURL=vue-milestone-competency-lists.js.map

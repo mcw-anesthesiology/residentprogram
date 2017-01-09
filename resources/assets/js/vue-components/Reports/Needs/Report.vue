@@ -21,13 +21,15 @@
 
 		<div v-if="report.evaluations" class="container body-block">
 			<needs-evaluations :trainees="report.evaluations" />
+			
+			<email-editor :possibleRecipients="groupUsers(report.evaluations)" />
 		</div>
 		<div v-if="report.competencies" class="container body-block">
 			<needs-competencies v-bind="report.competencies" />
 		</div>
 		<div v-if="report.milestones" class="container body-block">
 			<needs-milestones v-bind="report.milestones" />
-		</div>
+		</div>		
 	</div>
 </template>
 
@@ -38,8 +40,9 @@ import NeedsMilestones from './Milestones.vue';
 
 import ReportDate from '../ReportDate.vue';
 import SelectTwo from '../../SelectTwo.vue';
+import EmailEditor from '../../EmailEditor.vue';
 
-import { getFetchHeaders } from '../../../modules/utils.js';
+import { getFetchHeaders, groupUsers } from '../../../modules/utils.js';
 
 export default {
 	data(){
@@ -50,6 +53,7 @@ export default {
 			},
 			trainingLevel: 'all',
 			evalThreshold: 3,
+			
 			report: {
 				evaluations: null,
 				competencies: null,
@@ -147,6 +151,7 @@ export default {
 				this.report = Object.assign({}, this.report, {milestones});
 			});
 		},
+		groupUsers
 	},
 
 	components: {
@@ -154,7 +159,8 @@ export default {
 		NeedsCompetencies,
 		NeedsMilestones,
 		ReportDate,
-		SelectTwo
+		SelectTwo,
+		EmailEditor
 	}
 };
 </script>
