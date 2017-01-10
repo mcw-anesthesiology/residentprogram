@@ -6224,14 +6224,29 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
+var _AlertList = __webpack_require__(350);
+
+var _AlertList2 = _interopRequireDefault(_AlertList);
+
 var _MarkdownEditor = __webpack_require__(274);
 
 var _MarkdownEditor2 = _interopRequireDefault(_MarkdownEditor);
+
+var _utils = __webpack_require__(3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
 	props: {
+		from: {
+			type: String,
+			default: 'admin'
+		},
+		target: {
+			type: String,
+			default: '/emails'
+		},
+
 		defaultTo: {
 			default: function _default() {
 				return [];
@@ -6245,12 +6260,17 @@ exports.default = {
 			type: String,
 			required: false
 		},
+
 		possibleRecipients: {
 			type: Array,
 			required: false
 		},
 		emailReplacements: {
 			type: Array,
+			required: false
+		},
+		additionalFields: {
+			type: Object,
 			required: false
 		}
 	},
@@ -6266,7 +6286,15 @@ exports.default = {
 			show: {
 				recipients: false,
 				possibleRecipients: false
-			}
+			},
+
+			alerts: [{
+				type: 'info',
+				text: 'Testing'
+			}, {
+				type: 'error',
+				text: 'ERROR'
+			}]
 		};
 	},
 
@@ -6278,6 +6306,13 @@ exports.default = {
 		},
 		possibleRecipientsAreGrouped: function possibleRecipientsAreGrouped() {
 			return this.possibleRecipients && Array.isArray(this.possibleRecipients) && this.possibleRecipients[0].hasOwnProperty('children');
+		},
+		alertTypeClass: function alertTypeClass() {
+			return {
+				'alert-success': this.alert.type === 'success',
+				'alert-info': this.alert.type === 'info',
+				'alert-danger': this.alert.type === 'error'
+			};
 		}
 	},
 	watch: {
@@ -6291,10 +6326,51 @@ exports.default = {
 			this.body = _defaultBody;
 		}
 	},
+	methods: {
+		send: function send() {
+			var _this = this;
+
+			var body = {
+				to: this.to,
+				subject: this.subject,
+				body: this.body.html
+			};
+
+			if (this.additionalFields) body = Object.assign(body, this.additionalFields);
+
+			fetch(this.target, {
+				method: 'POST',
+				headers: (0, _utils.getFetchHeaders)(),
+				credentials: 'same-origin',
+				body: JSON.stringify(body)
+			}).then(function (response) {
+				if (response.ok) return response.json();else throw new Error('There was a problem sending the emails');
+			}).then(function (response) {}).catch(function (err) {
+				_this.alerts.push({
+					text: err.message,
+					type: 'error'
+				});
+			});
+		}
+	},
 	components: {
+		AlertList: _AlertList2.default,
 		MarkdownEditor: _MarkdownEditor2.default
 	}
 }; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -8133,7 +8209,10 @@ exports.default = {
 	},
 	data: function data() {
 		return {
-			usersToNotify: []
+			usersToNotify: [],
+			show: {
+				emailEditor: false
+			}
 		};
 	},
 
@@ -8146,6 +8225,11 @@ exports.default = {
 		},
 		emailReplacements: function emailReplacements() {
 			return ['[[Name]]', '[[# Completed]]', '[[# Needed]]'];
+		},
+		additionalEmailFields: function additionalEmailFields() {
+			return {
+				evalsRequired: this.evalThreshold
+			};
 		}
 	},
 	methods: {
@@ -8157,6 +8241,17 @@ exports.default = {
 		EmailEditor: _EmailEditor2.default
 	}
 }; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -10351,7 +10446,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.evaluation-list-item[data-v-56cead0a]:nth-child(even) {\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/Needs/Evaluations.vue?b1713896"],"names":[],"mappings":";AAoFA;CAEA","file":"Evaluations.vue","sourcesContent":["<template>\n\t<section>\n\t\t<h2>Needs evaluations</h2>\n\n\t\t<section>\n\t\t\t<component-list :items=\"trainees\" :fields=\"traineeFields\">\n\t\t\t\t<template scope=\"item\">\n\t\t\t\t\t<evaluation-list-item :user=\"item\" />\n\t\t\t\t</template>\n\t\t\t</component-list>\n\t\t</section>\n\t\t\n\t\t<email-editor :possibleRecipients=\"groupUsers(trainees)\"\n\t\t\t:defaultBodyMarkdown=\"defaultEmailMarkdown\"\n\t\t\t:emailReplacements=\"emailReplacements\" />\n\t</section>\n</template>\n\n<script>\nimport EvaluationListItem from './EvaluationListItem.vue';\nimport ComponentList from '../../ComponentList.vue';\nimport EmailEditor from '../../EmailEditor.vue';\n\nimport { groupUsers } from '../../../modules/utils.js';\nimport { ADMIN_EMAIL } from '../../../modules/constants.js';\n\nexport default {\n\tprops: {\n\t\tdates: {\n\t\t\ttype: Object\n\t\t},\n\t\tevalThreshold: {\n\t\t\ttype: Number\n\t\t},\n\t\ttrainees: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tusersToNotify: []\n\t\t};\n\t},\n\tcomputed: {\n\t\ttraineeFields(){\n\t\t\treturn [\n\t\t\t\t'full_name',\n\t\t\t\t'type',\n\t\t\t\t'training_level'\n\t\t\t];\n\t\t},\n\t\tdefaultEmailMarkdown(){\n\t\t\treturn `Hello Dr. [[Name]]\n\nYou have [[# Completed]] evaluations completed for between ${this.dates.startDate} and ${this.dates.endDate}.\n\n**You are required to have ${this.evalThreshold} evaluations completed for this period.** Please request at least [[# Needed]] more evaluations as soon as possible.\n\nIf you have any issues or questions about the system, please contact ${ADMIN_EMAIL}.\n\nThank you!`;\n\n\t\t},\n\t\temailReplacements(){\n\t\t\treturn [\n\t\t\t\t'[[Name]]',\n\t\t\t\t'[[# Completed]]',\n\t\t\t\t'[[# Needed]]'\n\t\t\t];\n\t\t}\n\t},\n\tmethods: {\n\t\tgroupUsers\n\t},\n\tcomponents: {\n\t\tEvaluationListItem,\n\t\tComponentList,\n\t\tEmailEditor\n\t}\n};\n</script>\n\n<style scoped>\n\t.evaluation-list-item:nth-child(even) {\n\t\t\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.evaluation-list-item[data-v-56cead0a]:nth-child(even) {\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/Needs/Evaluations.vue?22907979"],"names":[],"mappings":";AAuGA;CAEA","file":"Evaluations.vue","sourcesContent":["<template>\n\t<section>\n\t\t<h2>Needs evaluations</h2>\n\t\t\n\t\t<email-editor v-if=\"show.emailEditor\"\n\t\t\tfrom=\"reminders\"\n\t\t\ttarget=\"/emails/reminders\"\n\t\t\t:possibleRecipients=\"groupUsers(trainees)\"\n\t\t\t:defaultBodyMarkdown=\"defaultEmailMarkdown\"\n\t\t\t:emailReplacements=\"emailReplacements\"\n\t\t\t:additionalFields=\"additionalEmailFields\"\n\t\t\t@close=\"show.emailEditor = false\" />\n\t\t<button type=\"button\" v-else class=\"btn btn-info btn-lg\"\n\t\t\t\t@click=\"show.emailEditor = true\">\n\t\t\tSend reminders\n\t\t</button>\n\t\t\n\t\t\n\t\t<section>\n\t\t\t<component-list :items=\"trainees\" :fields=\"traineeFields\">\n\t\t\t\t<template scope=\"item\">\n\t\t\t\t\t<evaluation-list-item :user=\"item\" />\n\t\t\t\t</template>\n\t\t\t</component-list>\n\t\t</section>\n\t\t\n\t</section>\n</template>\n\n<script>\nimport EvaluationListItem from './EvaluationListItem.vue';\nimport ComponentList from '../../ComponentList.vue';\nimport EmailEditor from '../../EmailEditor.vue';\n\nimport { groupUsers } from '../../../modules/utils.js';\nimport { ADMIN_EMAIL } from '../../../modules/constants.js';\n\nexport default {\n\tprops: {\n\t\tdates: {\n\t\t\ttype: Object\n\t\t},\n\t\tevalThreshold: {\n\t\t\ttype: Number\n\t\t},\n\t\ttrainees: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tusersToNotify: [],\n\t\t\tshow: {\n\t\t\t\temailEditor: false\n\t\t\t}\n\t\t};\n\t},\n\tcomputed: {\n\t\ttraineeFields(){\n\t\t\treturn [\n\t\t\t\t'full_name',\n\t\t\t\t'type',\n\t\t\t\t'training_level'\n\t\t\t];\n\t\t},\n\t\tdefaultEmailMarkdown(){\n\t\t\treturn `Hello Dr. [[Name]]\n\nYou have [[# Completed]] evaluations completed for between ${this.dates.startDate} and ${this.dates.endDate}.\n\n**You are required to have ${this.evalThreshold} evaluations completed for this period.** Please request at least [[# Needed]] more evaluations as soon as possible.\n\nIf you have any issues or questions about the system, please contact ${ADMIN_EMAIL}.\n\nThank you!`;\n\n\t\t},\n\t\temailReplacements(){\n\t\t\treturn [\n\t\t\t\t'[[Name]]',\n\t\t\t\t'[[# Completed]]',\n\t\t\t\t'[[# Needed]]'\n\t\t\t];\n\t\t},\n\t\tadditionalEmailFields(){\n\t\t\treturn {\n\t\t\t\tevalsRequired: this.evalThreshold\n\t\t\t};\n\t\t}\n\t},\n\tmethods: {\n\t\tgroupUsers\n\t},\n\tcomponents: {\n\t\tEvaluationListItem,\n\t\tComponentList,\n\t\tEmailEditor\n\t}\n};\n</script>\n\n<style scoped>\n\t.evaluation-list-item:nth-child(even) {\n\t\t\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -10394,7 +10489,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\nul[data-v-6a81bc6f] {\n\tcolumns: 150px 3;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/EmailEditor.vue?43563f3f"],"names":[],"mappings":";AAqJA;CACA,iBAAA;CACA","file":"EmailEditor.vue","sourcesContent":["<template>\n\t<section>\n\t\t<div class=\"form-group\">\n\t\t\t<label for=\"email-to\">To</label>\n\t\t\t<div class=\"input-group\">\n\t\t\t\t<input type=\"text\" id=\"email-to\"\n\t\t\t\t\tclass=\"form-control appear-not-readonly\"\n\t\t\t\t\t:value=\"toDisplayValue\" readonly />\n\t\t\t\t<span v-if=\"Array.isArray(to) && !possibleRecipients\"\n\t\t\t\t\t\tclass=\"input-group-btn\">\n\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t@click=\"show.recipients = !show.recipients\">\n\t\t\t\t\t\tShow recipients\n\t\t\t\t\t</button>\n\t\t\t\t</span>\n\t\t\t\t<span v-if=\"possibleRecipients\" class=\"input-group-btn\">\n\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t@click=\"show.possibleRecipients = !show.possibleRecipients\">\n\t\t\t\t\t\tShow recipients\n\t\t\t\t\t</button>\n\t\t\t\t</span>\n\t\t\t</div>\n\t\t\t\n\t\t\t<div v-if=\"Array.isArray(to) && !possibleRecipients\"\n\t\t\t\t\tv-show=\"show.recipients\">\n\t\t\t\t<ul class=\"list-group\">\n\t\t\t\t\t<li v-for=\"recipient of to\" class=\"list-group-item\">\n\t\t\t\t\t\t{{ recipient.full_name || recipient }}\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t\n\t\t\t<div v-if=\"possibleRecipients\" v-show=\"show.possibleRecipients\">\n\t\t\t\t<div class=\"well row\">\n\t\t\t\t\t<template v-if=\"possibleRecipientsAreGrouped\"\n\t\t\t\t\t\t\tv-for=\"possibleRecipientGroup of possibleRecipients\">\n\t\t\t\t\t\t<template v-if=\"possibleRecipientGroup.children && possibleRecipientGroup.children.length > 0\">\n\t\t\t\t\t\t\t<b>{{ possibleRecipientGroup.text }}</b>\n\t\t\t\t\t\t\t<ul>\n\t\t\t\t\t\t\t\t<li v-for=\"possibleRecipient of possibleRecipientGroup.children\">\n\t\t\t\t\t\t\t\t\t<label :class=\"{'normal-text-label': !to.includes(possibleRecipient.id)}\">\n\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"to\"\n\t\t\t\t\t\t\t\t\t\t\t\t:value=\"possibleRecipient.id\" /> \n\t\t\t\t\t\t\t\t\t\t{{ possibleRecipient.text || possibleRecipient }}\n\t\t\t\t\t\t\t\t\t</label>\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t</ul>\t\t\t\t\t\t\n\t\t\t\t\t\t</template>\n\t\t\t\t\t</template>\n\t\t\t\t\t<ul v-else>\n\t\t\t\t\t\t<li v-for=\"possibleRecipient of possibleRecipients\">\n\t\t\t\t\t\t\t<label :class=\"{'normal-text-label': !to.includes(possibleRecipient.id)}\">\n\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"to\"\n\t\t\t\t\t\t\t\t\t\t:value=\"possibleRecipient.id\" /> \n\t\t\t\t\t\t\t\t{{ possibleRecipient.full_name || possibleRecipient }}\n\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"form-group\">\n\t\t\t<label for=\"email-subject\">Subject</label>\n\t\t\t<input type=\"text\" id=\"email-subject\" class=\"form-control\"\n\t\t\t\tv-model=\"subject\" />\n\t\t</div>\n\t\t<div class=\"form-group\">\n\t\t\t<label for=\"email-body\">Body</label>\n\t\t\t<markdown-editor v-model=\"body.markdown\" editorId=\"email-body\"\n\t\t\t\t:replacements=\"emailReplacements\" @html=\"body.html = arguments[0]\" />\n\t\t</div>\n\t\t\n\t</section>\n</template>\n\n<script>\nimport MarkdownEditor from './MarkdownEditor.vue';\n\nexport default {\n\tprops: {\n\t\tdefaultTo: {\n\t\t\tdefault(){\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\tdefaultSubject: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\tdefaultBodyMarkdown: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\tpossibleRecipients: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\temailReplacements: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tto: this.defaultTo,\n\t\t\tsubject: this.defaultSubject,\n\t\t\tbody: {\n\t\t\t\tmarkdown: this.defaultBodyMarkdown,\n\t\t\t\thtml: null\n\t\t\t},\n\t\t\t\n\t\t\tshow: {\n\t\t\t\trecipients: false,\n\t\t\t\tpossibleRecipients: false\n\t\t\t}\n\t\t};\n\t},\n\tcomputed: {\n\t\ttoDisplayValue(){\n\t\t\tif(this.possibleRecipients || Array.isArray(this.to))\n\t\t\t\treturn `${this.to ? this.to.length : '0'} recipients`;\n\t\t\tif(typeof this.to === 'string')\n\t\t\t\treturn this.to;\n\t\t\tif(this.to && this.to.full_name && this.to.email)\n\t\t\t\treturn `${this.to.full_name} <${this.to.email}>`;\n\t\t},\n\t\tpossibleRecipientsAreGrouped(){\n\t\t\treturn this.possibleRecipients && Array.isArray(this.possibleRecipients)\n\t\t\t\t&& this.possibleRecipients[0].hasOwnProperty('children');\n\t\t}\n\t},\n\twatch: {\n\t\tdefaultTo(defaultTo){\n\t\t\tthis.to = defaultTo;\n\t\t},\n\t\tdefaultSubject(defaultSubject){\n\t\t\tthis.subject = defaultSubject;\n\t\t},\n\t\tdefaultBody(defaultBody){\n\t\t\tthis.body = defaultBody;\n\t\t}\n\t},\n\tcomponents: {\n\t\tMarkdownEditor\n\t}\n};\n</script>\n\n<style scoped>\n\tul {\n\t\tcolumns: 150px 3;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\nul[data-v-6a81bc6f] {\n\tcolumns: 150px 3;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/EmailEditor.vue?761c21d8"],"names":[],"mappings":";AAqOA;CACA,iBAAA;CACA","file":"EmailEditor.vue","sourcesContent":["<template>\n\t<section>\n\t\t<div class=\"form-group\">\n\t\t\t<label for=\"email-to\">To</label>\n\t\t\t<div class=\"input-group\">\n\t\t\t\t<input type=\"text\" id=\"email-to\"\n\t\t\t\t\tclass=\"form-control appear-not-readonly\"\n\t\t\t\t\t:value=\"toDisplayValue\" readonly />\n\t\t\t\t<span v-if=\"Array.isArray(to) && !possibleRecipients\"\n\t\t\t\t\t\tclass=\"input-group-btn\">\n\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t@click=\"show.recipients = !show.recipients\">\n\t\t\t\t\t\tShow recipients\n\t\t\t\t\t</button>\n\t\t\t\t</span>\n\t\t\t\t<span v-if=\"possibleRecipients\" class=\"input-group-btn\">\n\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t@click=\"show.possibleRecipients = !show.possibleRecipients\">\n\t\t\t\t\t\tShow recipients\n\t\t\t\t\t</button>\n\t\t\t\t</span>\n\t\t\t</div>\n\t\t\t\n\t\t\t<div v-if=\"Array.isArray(to) && !possibleRecipients\"\n\t\t\t\t\tv-show=\"show.recipients\">\n\t\t\t\t<ul class=\"list-group\">\n\t\t\t\t\t<li v-for=\"recipient of to\" class=\"list-group-item\">\n\t\t\t\t\t\t{{ recipient.full_name || recipient }}\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t\n\t\t\t<div v-if=\"possibleRecipients\" v-show=\"show.possibleRecipients\">\n\t\t\t\t<div class=\"well row\">\n\t\t\t\t\t<template v-if=\"possibleRecipientsAreGrouped\"\n\t\t\t\t\t\t\tv-for=\"possibleRecipientGroup of possibleRecipients\">\n\t\t\t\t\t\t<template v-if=\"possibleRecipientGroup.children && possibleRecipientGroup.children.length > 0\">\n\t\t\t\t\t\t\t<b>{{ possibleRecipientGroup.text }}</b>\n\t\t\t\t\t\t\t<ul>\n\t\t\t\t\t\t\t\t<li v-for=\"possibleRecipient of possibleRecipientGroup.children\">\n\t\t\t\t\t\t\t\t\t<label :class=\"{'normal-text-label': !to.includes(possibleRecipient.id)}\">\n\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"to\"\n\t\t\t\t\t\t\t\t\t\t\t\t:value=\"possibleRecipient.id\" /> \n\t\t\t\t\t\t\t\t\t\t{{ possibleRecipient.text || possibleRecipient }}\n\t\t\t\t\t\t\t\t\t</label>\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t</ul>\t\t\t\t\t\t\n\t\t\t\t\t\t</template>\n\t\t\t\t\t</template>\n\t\t\t\t\t<ul v-else>\n\t\t\t\t\t\t<li v-for=\"possibleRecipient of possibleRecipients\">\n\t\t\t\t\t\t\t<label :class=\"{'normal-text-label': !to.includes(possibleRecipient.id)}\">\n\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"to\"\n\t\t\t\t\t\t\t\t\t\t:value=\"possibleRecipient.id\" /> \n\t\t\t\t\t\t\t\t{{ possibleRecipient.full_name || possibleRecipient }}\n\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"form-group\">\n\t\t\t<label for=\"email-subject\">Subject</label>\n\t\t\t<input type=\"text\" id=\"email-subject\" class=\"form-control\"\n\t\t\t\tv-model=\"subject\" />\n\t\t</div>\n\t\t<div class=\"form-group\">\n\t\t\t<label for=\"email-body\">Body</label>\n\t\t\t<markdown-editor v-model=\"body.markdown\" editorId=\"email-body\"\n\t\t\t\t:replacements=\"emailReplacements\" @html=\"body.html = arguments[0]\" />\n\t\t</div>\n\t\t\n\t\t<alert-list v-if=\"alerts && alerts.length > 0\" v-model=\"alerts\" />\n\t\t\n\t\t<div class=\"form-group text-right\">\n\t\t\t<button type=\"button\" class=\"btn btn-primary\" @click=\"send\">\n\t\t\t\t<span class=\"glyphicon glyphicon-send\"></span>\n\t\t\t\tSend emails\n\t\t\t</button>\n\t\t\t\n\t\t\t<button type=\"button\" class=\"btn btn-default\" @click=\"$emit('close')\">\n\t\t\t\tClose\n\t\t\t</button>\n\t\t</div>\n\t\t\n\t</section>\n</template>\n\n<script>\nimport AlertList from './AlertList.vue';\nimport MarkdownEditor from './MarkdownEditor.vue';\n\nimport { getFetchHeaders } from '../modules/utils.js';\n\nexport default {\n\tprops: {\n\t\tfrom: {\n\t\t\ttype: String,\n\t\t\tdefault: 'admin'\n\t\t},\n\t\ttarget: {\n\t\t\ttype: String,\n\t\t\tdefault: '/emails'\n\t\t},\n\n\t\tdefaultTo: {\n\t\t\tdefault(){\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\tdefaultSubject: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\tdefaultBodyMarkdown: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\t\n\t\tpossibleRecipients: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\temailReplacements: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\tadditionalFields: {\n\t\t\ttype: Object,\n\t\t\trequired: false\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tto: this.defaultTo,\n\t\t\tsubject: this.defaultSubject,\n\t\t\tbody: {\n\t\t\t\tmarkdown: this.defaultBodyMarkdown,\n\t\t\t\thtml: null\n\t\t\t},\n\t\t\t\n\t\t\tshow: {\n\t\t\t\trecipients: false,\n\t\t\t\tpossibleRecipients: false\n\t\t\t},\n\t\t\t\n\t\t\talerts: [\n\t\t\t\t{\n\t\t\t\t\ttype: 'info',\n\t\t\t\t\ttext: 'Testing'\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\ttext: 'ERROR'\n\t\t\t\t}\n\t\t\t]\n\t\t};\n\t},\n\tcomputed: {\n\t\ttoDisplayValue(){\n\t\t\tif(this.possibleRecipients || Array.isArray(this.to))\n\t\t\t\treturn `${this.to ? this.to.length : '0'} recipients`;\n\t\t\tif(typeof this.to === 'string')\n\t\t\t\treturn this.to;\n\t\t\tif(this.to && this.to.full_name && this.to.email)\n\t\t\t\treturn `${this.to.full_name} <${this.to.email}>`;\n\t\t},\n\t\tpossibleRecipientsAreGrouped(){\n\t\t\treturn this.possibleRecipients && Array.isArray(this.possibleRecipients)\n\t\t\t\t&& this.possibleRecipients[0].hasOwnProperty('children');\n\t\t},\n\t\talertTypeClass(){\n\t\t\treturn {\n\t\t\t\t'alert-success': this.alert.type === 'success',\n\t\t\t\t'alert-info': this.alert.type === 'info',\n\t\t\t\t'alert-danger': this.alert.type === 'error'\n\t\t\t};\n\t\t}\n\t},\n\twatch: {\n\t\tdefaultTo(defaultTo){\n\t\t\tthis.to = defaultTo;\n\t\t},\n\t\tdefaultSubject(defaultSubject){\n\t\t\tthis.subject = defaultSubject;\n\t\t},\n\t\tdefaultBody(defaultBody){\n\t\t\tthis.body = defaultBody;\n\t\t}\n\t},\n\tmethods: {\n\t\tsend(){\n\t\t\tlet body = {\n\t\t\t\tto: this.to,\n\t\t\t\tsubject: this.subject,\n\t\t\t\tbody: this.body.html\n\t\t\t};\n\t\t\t\n\t\t\tif(this.additionalFields)\n\t\t\t\tbody = Object.assign(body, this.additionalFields);\n\t\t\t\n\t\t\tfetch(this.target, {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify(body)\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\telse\n\t\t\t\t\tthrow new Error('There was a problem sending the emails');\n\t\t\t}).then(response => {\n\t\t\t\t\n\t\t\t}).catch(err => {\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttext: err.message,\n\t\t\t\t\ttype: 'error'\n\t\t\t\t});\n\t\t\t});\n\t\t}\n\t},\n\tcomponents: {\n\t\tAlertList,\n\t\tMarkdownEditor\n\t}\n};\n</script>\n\n<style scoped>\n\tul {\n\t\tcolumns: 150px 3;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -24653,7 +24748,31 @@ if (false) {
 /***/ function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('section', [_c('h2', [_vm._v("Needs evaluations")]), _vm._v(" "), _c('section', [_c('component-list', {
+  return _c('section', [_c('h2', [_vm._v("Needs evaluations")]), _vm._v(" "), (_vm.show.emailEditor) ? _c('email-editor', {
+    attrs: {
+      "from": "reminders",
+      "target": "/emails/reminders",
+      "possibleRecipients": _vm.groupUsers(_vm.trainees),
+      "defaultBodyMarkdown": _vm.defaultEmailMarkdown,
+      "emailReplacements": _vm.emailReplacements,
+      "additionalFields": _vm.additionalEmailFields
+    },
+    on: {
+      "close": function($event) {
+        _vm.show.emailEditor = false
+      }
+    }
+  }) : _c('button', {
+    staticClass: "btn btn-info btn-lg",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.show.emailEditor = true
+      }
+    }
+  }, [_vm._v("\n\t\tSend reminders\n\t")]), _vm._v(" "), _c('section', [_c('component-list', {
     attrs: {
       "items": _vm.trainees,
       "fields": _vm.traineeFields
@@ -24667,13 +24786,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         })]
       }
     }
-  })], 1), _vm._v(" "), _c('email-editor', {
-    attrs: {
-      "possibleRecipients": _vm.groupUsers(_vm.trainees),
-      "defaultBodyMarkdown": _vm.defaultEmailMarkdown,
-      "emailReplacements": _vm.emailReplacements
-    }
-  })], 1)
+  })], 1)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -25428,7 +25541,44 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.body.markdown = $event
       }
     }
-  })], 1)])
+  })], 1), _vm._v(" "), (_vm.alerts && _vm.alerts.length > 0) ? _c('alert-list', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.alerts),
+      expression: "alerts"
+    }],
+    domProps: {
+      "value": (_vm.alerts)
+    },
+    on: {
+      "input": function($event) {
+        _vm.alerts = $event
+      }
+    }
+  }) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "form-group text-right"
+  }, [_c('button', {
+    staticClass: "btn btn-primary",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.send
+    }
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-send"
+  }), _vm._v("\n\t\t\tSend emails\n\t\t")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.$emit('close')
+      }
+    }
+  }, [_vm._v("\n\t\t\tClose\n\t\t")])])], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -26256,6 +26406,243 @@ function createReports(el) {
 			return h(_Reports2.default);
 		}
 	});
+}
+
+/***/ },
+/* 342 */,
+/* 343 */,
+/* 344 */,
+/* 345 */,
+/* 346 */,
+/* 347 */,
+/* 348 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _BootstrapAlert = __webpack_require__(351);
+
+var _BootstrapAlert2 = _interopRequireDefault(_BootstrapAlert);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+	props: {
+		value: {
+			type: Array,
+			required: true
+		}
+	},
+	methods: {
+		removeAlert: function removeAlert(index) {
+			var alerts = this.value.slice();
+			alerts.splice(index, 1);
+			this.$emit('input', alerts);
+		}
+	},
+	components: {
+		BootstrapAlert: _BootstrapAlert2.default
+	}
+}; //
+//
+//
+//
+//
+//
+//
+
+/***/ },
+/* 349 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+	props: {
+		type: {
+			type: String,
+			required: true,
+			validator: function validator(type) {
+				return ['info', 'success', 'warning', 'error', 'danger'].indexOf(type) !== -1;
+			}
+		},
+		text: {
+			type: String,
+			required: false
+		}
+	},
+	computed: {
+		alertTypeClass: function alertTypeClass() {
+			if (this.type === 'error') return 'alert-danger';
+
+			return 'alert-' + this.type;
+		}
+	}
+};
+
+/***/ },
+/* 350 */
+/***/ function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* script */
+__vue_exports__ = __webpack_require__(348)
+
+/* template */
+var __vue_template__ = __webpack_require__(353)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/AlertList.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3fa97b60", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-3fa97b60", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] AlertList.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ },
+/* 351 */
+/***/ function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* script */
+__vue_exports__ = __webpack_require__(349)
+
+/* template */
+var __vue_template__ = __webpack_require__(352)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/BootstrapAlert.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-03027238", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-03027238", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] BootstrapAlert.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ },
+/* 352 */
+/***/ function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "alert",
+    class: _vm.alertTypeClass
+  }, [_c('button', {
+    staticClass: "close",
+    attrs: {
+      "type": "button",
+      "aria-label": "Close"
+    },
+    on: {
+      "click": function($event) {
+        _vm.$emit('close')
+      }
+    }
+  }, [_c('span', {
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("×")])]), _vm._v("\n\t" + _vm._s(_vm.text) + "\n\t"), _vm._t("default")], 2)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-03027238", module.exports)
+  }
+}
+
+/***/ },
+/* 353 */
+/***/ function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('section', _vm._l((_vm.value), function(alert, index) {
+    return _c('bootstrap-alert', _vm._b({
+      on: {
+        "close": function($event) {
+          _vm.removeAlert(index)
+        }
+      }
+    }, 'bootstrap-alert', alert))
+  }))
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-3fa97b60", module.exports)
+  }
 }
 
 /***/ }

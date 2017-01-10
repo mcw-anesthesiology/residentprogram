@@ -1,7 +1,21 @@
 <template>
 	<section>
 		<h2>Needs evaluations</h2>
-
+		
+		<email-editor v-if="show.emailEditor"
+			from="reminders"
+			target="/emails/reminders"
+			:possibleRecipients="groupUsers(trainees)"
+			:defaultBodyMarkdown="defaultEmailMarkdown"
+			:emailReplacements="emailReplacements"
+			:additionalFields="additionalEmailFields"
+			@close="show.emailEditor = false" />
+		<button type="button" v-else class="btn btn-info btn-lg"
+				@click="show.emailEditor = true">
+			Send reminders
+		</button>
+		
+		
 		<section>
 			<component-list :items="trainees" :fields="traineeFields">
 				<template scope="item">
@@ -10,9 +24,6 @@
 			</component-list>
 		</section>
 		
-		<email-editor :possibleRecipients="groupUsers(trainees)"
-			:defaultBodyMarkdown="defaultEmailMarkdown"
-			:emailReplacements="emailReplacements" />
 	</section>
 </template>
 
@@ -39,7 +50,10 @@ export default {
 	},
 	data(){
 		return {
-			usersToNotify: []
+			usersToNotify: [],
+			show: {
+				emailEditor: false
+			}
 		};
 	},
 	computed: {
@@ -68,6 +82,11 @@ Thank you!`;
 				'[[# Completed]]',
 				'[[# Needed]]'
 			];
+		},
+		additionalEmailFields(){
+			return {
+				evalsRequired: this.evalThreshold
+			};
 		}
 	},
 	methods: {

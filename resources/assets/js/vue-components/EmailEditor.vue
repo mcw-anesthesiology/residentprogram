@@ -70,14 +70,39 @@
 				:replacements="emailReplacements" @html="body.html = arguments[0]" />
 		</div>
 		
+		<alert-list v-if="alerts && alerts.length > 0" v-model="alerts" />
+		
+		<div class="form-group text-right">
+			<button type="button" class="btn btn-primary" @click="send">
+				<span class="glyphicon glyphicon-send"></span>
+				Send emails
+			</button>
+			
+			<button type="button" class="btn btn-default" @click="$emit('close')">
+				Close
+			</button>
+		</div>
+		
 	</section>
 </template>
 
 <script>
+import AlertList from './AlertList.vue';
 import MarkdownEditor from './MarkdownEditor.vue';
+
+import { getFetchHeaders } from '../modules/utils.js';
 
 export default {
 	props: {
+		from: {
+			type: String,
+			default: 'admin'
+		},
+		target: {
+			type: String,
+			default: '/emails'
+		},
+
 		defaultTo: {
 			default(){
 				return [];
@@ -91,12 +116,17 @@ export default {
 			type: String,
 			required: false
 		},
+		
 		possibleRecipients: {
 			type: Array,
 			required: false
 		},
 		emailReplacements: {
 			type: Array,
+			required: false
+		},
+		additionalFields: {
+			type: Object,
 			required: false
 		}
 	},
@@ -112,7 +142,18 @@ export default {
 			show: {
 				recipients: false,
 				possibleRecipients: false
-			}
+			},
+			
+			alerts: [
+				{
+					type: 'info',
+					text: 'Testing'
+				},
+				{
+					type: 'error',
+					text: 'ERROR'
+				}
+			]
 		};
 	},
 	computed: {
@@ -127,6 +168,13 @@ export default {
 		possibleRecipientsAreGrouped(){
 			return this.possibleRecipients && Array.isArray(this.possibleRecipients)
 				&& this.possibleRecipients[0].hasOwnProperty('children');
+		},
+		alertTypeClass(){
+			return {
+				'alert-success': this.alert.type === 'success',
+				'alert-info': this.alert.type === 'info',
+				'alert-danger': this.alert.type === 'error'
+			};
 		}
 	},
 	watch: {
@@ -140,7 +188,39 @@ export default {
 			this.body = defaultBody;
 		}
 	},
+	methods: {
+		send(){
+			let body = {
+				to: this.to,
+				subject: this.subject,
+				body: this.body.html
+			};
+			
+			if(this.additionalFields)
+				body = Object.assign(body, this.additionalFields);
+			
+			fetch(this.target, {
+				method: 'POST',
+				headers: getFetchHeaders(),
+				credentials: 'same-origin',
+				body: JSON.stringify(body)
+			}).then(response => {
+				if(response.ok)
+					return response.json();
+				else
+					throw new Error('There was a problem sending the emails');
+			}).then(response => {
+				
+			}).catch(err => {
+				this.alerts.push({
+					text: err.message,
+					type: 'error'
+				});
+			});
+		}
+	},
 	components: {
+		AlertList,
 		MarkdownEditor
 	}
 };

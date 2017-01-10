@@ -525,6 +525,9 @@ class ReportController extends Controller
     }
 
     public function sendAllNeedsEvaluationReminders(Request $request){
+		// Duplicated in EmailController
+		// TODO: Remove this from here after rolling out new needs reports
+		
         $user = Auth::user();
         $evalsRequired = $request->input("evalsRequired");
         $subject = $request->input("subject");

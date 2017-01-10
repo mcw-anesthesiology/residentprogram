@@ -58,9 +58,14 @@ class MainController extends Controller
             "confirmAlumniSubscription"
         ]]);
 
-		$this->middleware("type:admin", ["only" => ["flaggedEvaluations", "getEvaluation"]]);
+		$this->middleware("type:admin", ["only" => [
+            "flaggedEvaluations",
+            "getEvaluation"
+        ]]);
 
-		$this->middleware("case-log.has-access", ["only" => ["caseLog"]]);
+		$this->middleware("case-log.has-access", ["only" => [
+            "caseLog"
+        ]]);
     }
 
     public function dashboard(){
@@ -765,7 +770,7 @@ class MainController extends Controller
 		return view("case-log.case-log", $data);
 	}
 
-    public function calendar(Request $request) {
+    public function calendar(Request $request){
         return view("calendar");
     }
 }

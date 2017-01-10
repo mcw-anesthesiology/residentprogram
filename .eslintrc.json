@@ -23,7 +23,6 @@
 		"compat/compat": 2
 	},
 	"settings": {
-		"targets": ["chrome", "firefox", "edge", "safari", "ie"],
 		"polyfills": [
 			"promise",
 			"fetch",

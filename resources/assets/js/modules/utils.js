@@ -61,7 +61,11 @@ export function getFetchHeaders(){
 }
 
 export function fetchMilestoneGroups(){
-	return fetch('/milestones', { credentials: 'same-origin' }).then(response => {
+	return fetch('/milestones', {
+		method: 'GET',
+		headers: getFetchHeaders(),
+		credentials: 'same-origin'
+	}).then(response => {
 		if(response.ok)
 			return response.json();
 		else {

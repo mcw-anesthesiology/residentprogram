@@ -265,7 +265,11 @@ function getFetchHeaders() {
 }
 
 function fetchMilestoneGroups() {
-	return fetch('/milestones', { credentials: 'same-origin' }).then(function (response) {
+	return fetch('/milestones', {
+		method: 'GET',
+		headers: getFetchHeaders(),
+		credentials: 'same-origin'
+	}).then(function (response) {
 		if (response.ok) return response.json();else {
 			var err = new Error(response.statusText);
 			err.response = response;

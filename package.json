@@ -2,6 +2,11 @@
   "name": "residentprogram",
   "version": "2.0.0",
   "description": "Trainee evaluation system.",
+  "author": "Jacob Mischka <jacob@mischka.me>",
+  "repository": {
+    "url": "git@github.com:jacobmischka/residentprogram.git",
+    "type": "git"
+  },
   "private": true,
   "scripts": {
     "start": "yarn watch",
@@ -14,11 +19,13 @@
     "clean": "rm -f public/js/* && rm -f public/css/*.css && rm -f public/css/*.map && rm -f public/build/js/* && rm -f public/build/css/*.css && rm -f public/build/css/*.map && rm -f public/build/rev-manifest.json",
     "analyze:bundle": "webpack-bundle-analyzer ./public/js/stats.json"
   },
-  "repository": {
-    "url": "git@github.com:jacobmischka/residentprogram.git",
-    "type": "git"
-  },
-  "author": "Jacob Mischka <jacob@mischka.me>",
+  "browserslist": [
+    "chrome",
+    "firefox",
+    "edge",
+    "safari",
+    "ie >= 9"
+  ],
   "devDependencies": {
     "apply-loader": "git+https://github.com/jacobmischka/apply-loader",
     "babel-core": "^6.10.4",
@@ -34,8 +41,8 @@
     "color": "^0.11.4",
     "element-dataset": "^2.2.2",
     "element-resize-detector": "^1.1.9",
-    "eslint": "^3.12.2",
-    "eslint-plugin-compat": "^0.1.1",
+    "eslint": "^3.13.1",
+    "eslint-plugin-compat": "^1.0.0",
     "eslint-plugin-vue": "^1.0.0",
     "glob": "^7.1.1",
     "gulp": "^3.9.0",
@@ -49,7 +56,7 @@
     "lunr": "^0.7.2",
     "markdown-it": "^8.2.2",
     "moment": "^2.14.1",
-    "npm-run-all": "^3.1.0",
+    "npm-run-all": "^4.0.0",
     "pdfmake": "^0.1.22",
     "style-loader": "^0.13.1",
     "vue": "^2.1.0",

@@ -121,6 +121,9 @@ Route::get("case-log", "MainController@caseLog");
 
 Route::get("calendar", "MainController@calendar");
 
+Route::post("emails", "EmailController@send");
+Route::post("emails/reminders", "EmailController@reminders");
+
 Route::get("photos/{filename}", "FileController@getPhoto");
 Route::get("graph/{filename}", "FileController@getGraph");
 
