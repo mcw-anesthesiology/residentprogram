@@ -8577,11 +8577,11 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(63), __webpack_require__(12)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(64), __webpack_require__(12)))
 
 /***/ },
 
-/***/ 63:
+/***/ 64:
 /***/ function(module, exports) {
 
 // shim for using process in browser

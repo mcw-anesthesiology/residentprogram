@@ -11,7 +11,7 @@
     "watch": "run-p watch:*",
     "watch:webpack": "webpack --progress --colors --watch",
     "watch:gulp": "DISABLE_NOTIFIER=true gulp watch",
-    "clean": "rm -f public/js/* && rm -f public/css/*.css && rm -f public/css/*.map && rm -f public/build/js/* && rm -f public/build/css/*.css && rm -f public/build/css/*.map",
+    "clean": "rm -f public/js/* && rm -f public/css/*.css && rm -f public/css/*.map && rm -f public/build/js/* && rm -f public/build/css/*.css && rm -f public/build/css/*.map && rm -f public/build/rev-manifest.json",
     "analyze:bundle": "webpack-bundle-analyzer ./public/js/stats.json"
   },
   "repository": {

@@ -58,12 +58,14 @@ export function createRequest(el, propsData){
 					evaluationDate: true
 				};
 				
-				if(this.requestType === 'resident' && this.user.type === 'resident')
+				if(['resident', 'self'].includes(this.requestType)
+						&& this.user.type === 'resident')
 					required.subjectId = false;
 				
 				if((this.requestType === 'resident' && this.user.type === 'faculty')
 						|| (this.requestType === 'staff' && this.user.type === 'staff')
-						|| (this.requestType === 'faculty' && this.user.type === 'resident'))
+						|| (this.requestType === 'faculty' && this.user.type === 'resident')
+						|| (this.requestType === 'self'))
 					required.evaluatorId = false;
 					
 				return required;

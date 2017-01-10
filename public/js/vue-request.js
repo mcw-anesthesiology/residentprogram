@@ -381,7 +381,7 @@ var _moment = __webpack_require__(7);
 
 var _moment2 = _interopRequireDefault(_moment);
 
-var _indefinite = __webpack_require__(57);
+var _indefinite = __webpack_require__(58);
 
 var _indefinite2 = _interopRequireDefault(_indefinite);
 
@@ -440,9 +440,9 @@ function createRequest(el, propsData) {
 					evaluationDate: true
 				};
 
-				if (this.requestType === 'resident' && this.user.type === 'resident') required.subjectId = false;
+				if (['resident', 'self'].indexOf(this.requestType) !== -1 && this.user.type === 'resident') required.subjectId = false;
 
-				if (this.requestType === 'resident' && this.user.type === 'faculty' || this.requestType === 'staff' && this.user.type === 'staff' || this.requestType === 'faculty' && this.user.type === 'resident') required.evaluatorId = false;
+				if (this.requestType === 'resident' && this.user.type === 'faculty' || this.requestType === 'staff' && this.user.type === 'staff' || this.requestType === 'faculty' && this.user.type === 'resident' || this.requestType === 'self') required.evaluatorId = false;
 
 				return required;
 			},
@@ -610,7 +610,7 @@ module.exports = __vue_exports__
 
 /***/ },
 
-/***/ 57:
+/***/ 58:
 /***/ function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {(function() {
