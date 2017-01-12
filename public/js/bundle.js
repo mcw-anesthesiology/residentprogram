@@ -287,13 +287,13 @@ function fetchMilestoneGroups() {
 			for (var _iterator2 = milestones[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
 				var milestone = _step2.value;
 
-				var _groupTitle = ucfirst(milestone.type);
-				if (milestone.training_level) _groupTitle += ' \u2014 ' + milestone.training_level;
-				if (!milestoneGroups[_groupTitle]) milestoneGroups[_groupTitle] = {
-					text: _groupTitle,
+				var groupTitle = ucfirst(milestone.type);
+				if (milestone.training_level) groupTitle += ' \u2014 ' + milestone.training_level;
+				if (!milestoneGroups[groupTitle]) milestoneGroups[groupTitle] = {
+					text: groupTitle,
 					children: []
 				};
-				milestoneGroups[_groupTitle].children.push({
+				milestoneGroups[groupTitle].children.push({
 					id: milestone.id.toString(),
 					text: milestone.title
 				});
@@ -700,7 +700,7 @@ module.exports = !__webpack_require__(21)(function(){
 "use strict";
 
 
-var uri = __webpack_require__(51);
+var uri = __webpack_require__(52);
 
 var ValidationError = exports.ValidationError = function ValidationError (message, instance, schema, propertyPath, name, argument) {
   if (propertyPath) {
@@ -1213,7 +1213,8 @@ module.exports = function(it){
 /* 27 */,
 /* 28 */,
 /* 29 */,
-/* 30 */
+/* 30 */,
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -1270,11 +1271,11 @@ window.Chart = module.exports = Chart;
 
 
 /***/ }),
-/* 31 */,
-/* 32 */
+/* 32 */,
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global    = __webpack_require__(33)
+var global    = __webpack_require__(34)
   , core      = __webpack_require__(13)
   , ctx       = __webpack_require__(157)
   , hide      = __webpack_require__(161)
@@ -1337,7 +1338,7 @@ $export.R = 128; // real proto method for `library`
 module.exports = $export;
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports) {
 
 // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
@@ -1346,7 +1347,7 @@ var global = module.exports = typeof window != 'undefined' && window.Math == Mat
 if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = !__webpack_require__(10) && !__webpack_require__(21)(function(){
@@ -1354,12 +1355,12 @@ module.exports = !__webpack_require__(10) && !__webpack_require__(21)(function()
 });
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject       = __webpack_require__(155)
-  , IE8_DOM_DEFINE = __webpack_require__(34)
-  , toPrimitive    = __webpack_require__(38)
+  , IE8_DOM_DEFINE = __webpack_require__(35)
+  , toPrimitive    = __webpack_require__(39)
   , dP             = Object.defineProperty;
 
 exports.f = __webpack_require__(10) ? Object.defineProperty : function defineProperty(O, P, Attributes){
@@ -1375,7 +1376,7 @@ exports.f = __webpack_require__(10) ? Object.defineProperty : function definePro
 };
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports) {
 
 module.exports = function(bitmap, value){
@@ -1388,7 +1389,7 @@ module.exports = function(bitmap, value){
 };
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // to indexed object, toObject with fallback for non-array-like ES3 strings
@@ -1399,7 +1400,7 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.1 ToPrimitive(input [, PreferredType])
@@ -1416,7 +1417,6 @@ module.exports = function(it, S){
 };
 
 /***/ }),
-/* 39 */,
 /* 40 */,
 /* 41 */,
 /* 42 */,
@@ -1424,7 +1424,8 @@ module.exports = function(it, S){
 /* 44 */,
 /* 45 */,
 /* 46 */,
-/* 47 */
+/* 47 */,
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/punycode v1.4.1 by @mathias */
@@ -1963,10 +1964,10 @@ module.exports = function(it, S){
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(56)(module), __webpack_require__(18)))
 
 /***/ }),
-/* 48 */,
 /* 49 */,
 /* 50 */,
-/* 51 */
+/* 51 */,
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1993,7 +1994,7 @@ module.exports = function(it, S){
 
 
 
-var punycode = __webpack_require__(47);
+var punycode = __webpack_require__(48);
 var util = __webpack_require__(257);
 
 exports.parse = urlParse;
@@ -2705,7 +2706,6 @@ Url.prototype.parseHost = function() {
 
 
 /***/ }),
-/* 52 */,
 /* 53 */,
 /* 54 */,
 /* 55 */,
@@ -3388,7 +3388,7 @@ exports.generateCaseLogDetailsReport = generateCaseLogDetailsReport;
 exports.generateCaseLogDetailsReportCharts = generateCaseLogDetailsReportCharts;
 exports.generateCaseLogLocationReportTable = generateCaseLogLocationReportTable;
 
-var _chart = __webpack_require__(30);
+var _chart = __webpack_require__(31);
 
 var _chart2 = _interopRequireDefault(_chart);
 
@@ -15487,7 +15487,7 @@ module.exports = function(it){
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(22)
-  , document = __webpack_require__(33).document
+  , document = __webpack_require__(34).document
   // in old IE typeof document.createElement is 'object'
   , is = isObject(document) && isObject(document.createElement);
 module.exports = function(it){
@@ -15507,8 +15507,8 @@ module.exports = function(it, key){
 /* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var dP         = __webpack_require__(35)
-  , createDesc = __webpack_require__(36);
+var dP         = __webpack_require__(36)
+  , createDesc = __webpack_require__(37);
 module.exports = __webpack_require__(10) ? function(object, key, value){
   return dP.f(object, key, createDesc(1, value));
 } : function(object, key, value){
@@ -15531,11 +15531,11 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
 /***/ (function(module, exports, __webpack_require__) {
 
 var pIE            = __webpack_require__(164)
-  , createDesc     = __webpack_require__(36)
-  , toIObject      = __webpack_require__(37)
-  , toPrimitive    = __webpack_require__(38)
+  , createDesc     = __webpack_require__(37)
+  , toIObject      = __webpack_require__(38)
+  , toPrimitive    = __webpack_require__(39)
   , has            = __webpack_require__(160)
-  , IE8_DOM_DEFINE = __webpack_require__(34)
+  , IE8_DOM_DEFINE = __webpack_require__(35)
   , gOPD           = Object.getOwnPropertyDescriptor;
 
 exports.f = __webpack_require__(10) ? gOPD : function getOwnPropertyDescriptor(O, P){
@@ -15558,7 +15558,7 @@ exports.f = {}.propertyIsEnumerable;
 /***/ (function(module, exports, __webpack_require__) {
 
 // most Object methods by ES6 should accept primitives
-var $export = __webpack_require__(32)
+var $export = __webpack_require__(33)
   , core    = __webpack_require__(13)
   , fails   = __webpack_require__(21);
 module.exports = function(KEY, exec){
@@ -15572,16 +15572,16 @@ module.exports = function(KEY, exec){
 /* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var $export = __webpack_require__(32);
+var $export = __webpack_require__(33);
 // 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
-$export($export.S + $export.F * !__webpack_require__(10), 'Object', {defineProperty: __webpack_require__(35).f});
+$export($export.S + $export.F * !__webpack_require__(10), 'Object', {defineProperty: __webpack_require__(36).f});
 
 /***/ }),
 /* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
-var toIObject                 = __webpack_require__(37)
+var toIObject                 = __webpack_require__(38)
   , $getOwnPropertyDescriptor = __webpack_require__(163).f;
 
 __webpack_require__(165)('getOwnPropertyDescriptor', function(){
@@ -16456,7 +16456,7 @@ module.exports.validate = function (instance, schema, options) {
 "use strict";
 
 
-var urilib = __webpack_require__(51);
+var urilib = __webpack_require__(52);
 
 var attribute = __webpack_require__(198);
 var helpers = __webpack_require__(11);

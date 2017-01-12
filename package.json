@@ -31,7 +31,7 @@
     "babel-plugin-array-includes": "^2.0.3",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-polyfill": "^6.20.0",
-    "babel-preset-latest": "^6.16.0",
+    "babel-preset-env": "^1.1.8",
     "bootstrap-sass": "^3.0.0",
     "call-loader": "^1.0.0",
     "chart.js": "^2.2.0-rc.2",
