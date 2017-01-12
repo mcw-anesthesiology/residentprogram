@@ -45,7 +45,9 @@
 				<label class="containing-label">
 					User
 					<select-two class="form-control" :options="groupedUsers"
-							v-model="subjectId"></select-two>
+							v-model="subjectId">
+						<option value="">All</option>
+					</select-two>
 				</label>
 				
 				<section v-if="subjectId">

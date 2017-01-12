@@ -5,40 +5,15 @@
 			<report-date v-model="dates" />
 			<label class="containing-label">
 				Training level
-				<select-two class="form-control" v-model="trainingLevel">
+				<select class="form-control" v-model="trainingLevel">
 					<option value="all">All</option>
 					<option value="intern">Intern</option>
 					<option value="ca-1">CA-1</option>
 					<option value="ca-2">CA-2</option>
 					<option value="ca-3">CA-3</option>
 					<option value="fellow">Fellow</option>
-				</select-two>
+				</select>
 			</label>
-
-			<div class="form-group">
-				<label class="containing-label">
-					User
-					<div class="input-group">
-						<select-two class="form-control" v-if="groupedUsers"
-								:options="groupedUsers" v-model="traineeId"
-								:multiple="multipleTrainees">
-							<option v-if="!multipleTrainees" value="-1">All</option>
-						</select-two>
-						<span class="input-group-addon">
-							<label>
-								<input type="checkbox" v-model="show.inactiveUsers" />
-								Show inactive
-							</label>
-						</span>
-						<span class="input-group-addon">
-							<label>
-								<input type="checkbox" v-model="multipleTrainees" />
-								Select multiple
-							</label>
-						</span>
-					</div>
-				</label>
-			</div>
 
 			<div class="form-group">
 				<label>
@@ -79,25 +54,49 @@
 					@click="runReport">
 				Run report
 			</button>
-			<button v-if="report && multipleTrainees" type="button" class="btn btn-lg btn-primary"
-					@click="printAll">
-				Export all reports to PDFs
-			</button>
 		</div>
 
 		<div v-if="report">
-			<div v-if="multipleTrainees">
-				<individual-report :report="report"
-					v-for="id of traineeId"
-					:subjectId="Number(id)" ref="individualReports" />
+			<div class="container body-block">
+				<div class="form-group">
+					<label class="containing-label">
+						User
+						<div class="input-group">
+							<select-two class="form-control" v-if="filteredUsers"
+									:options="filteredUsers" v-model="traineeId"
+									:multiple="multipleTrainees">
+								<option v-if="!multipleTrainees" value="">All</option>
+							</select-two>
+							<span class="input-group-addon">
+								<label>
+									<input type="checkbox" v-model="show.inactiveUsers" />
+									Show inactive
+								</label>
+							</span>
+							<span class="input-group-addon">
+								<label>
+									<input type="checkbox" v-model="multipleTrainees" />
+									Select multiple
+								</label>
+							</span>
+						</div>
+					</label>
+				</div>
+				
+				<button v-if="report && subjects && subjects.length > 0"
+						type="button" class="btn btn-primary" @click="printAll">
+					Export all reports to PDFs
+				</button>
 			</div>
-			<div v-else>
-				<stats-report v-if="traineeId === '-1' && stats" :report="stats" />
-
-				<aggregate-report v-if="traineeId === '-1'" :report="report" />
-				<individual-report v-else :report="report"
-					:subjectId="Number(traineeId)" />
-			</div>
+			
+			<template v-if="subjects && subjects.length > 0">
+				<individual-report v-for="subject of subjects" :report="report"
+					:subject="subject" ref="individualReports" />
+			</template>
+			<template v-else>
+				<stats-report v-if="stats" :report="stats" />
+				<aggregate-report :report="report" />
+			</template>
 		</div>
 	</div>
 </template>
@@ -112,18 +111,19 @@ import SelectTwo from '../SelectTwo.vue';
 import {
 	getFetchHeaders,
 	fetchMilestoneGroups,
-	fetchUserGroups
+	fetchUsers,
+	groupUsers
 } from '../../modules/utils.js';
 
 export default {
 	data(){
 		return {
 			dates: {
-				startDate: '2015-11-01', // FIXME
-				endDate: '2016-11-01' // FIXME
+				startDate: null,
+				endDate: null
 			},
 			trainingLevel: 'all',
-			traineeId: '-1',
+			traineeId: null,
 			filterMilestones: false,
 			milestones: [],
 			multipleTrainees: false,
@@ -136,12 +136,12 @@ export default {
 			stats: null,
 
 			milestoneGroups: [],
-			userGroups: []
+			users: []
 		};
 	},
 	created(){
-		fetchUserGroups().then(userGroups => {
-			this.userGroups = userGroups;
+		fetchUsers().then(users => {
+			this.users = users;
 		});
 	},
 
@@ -156,10 +156,21 @@ export default {
 	},
 	computed: {
 		groupedUsers(){
-			if(!this.show.inactiveUsers)
-				return this.userGroups.filter(userGroup => userGroup.text !== 'Inactive');
+			return groupUsers(this.users);
+		},
+		filteredUsers(){
+			return this.show.inactiveUsers
+				? this.groupedUsers
+				: this.groupedUsers.filter(userGroup => userGroup.text !== 'Inactive');
 
-			return this.userGroups;
+		},
+		subjects(){
+			if(this.traineeId){
+				let traineeId = Array.isArray(this.traineeId)
+					? this.traineeId
+					: [this.traineeId];
+				return this.users.filter(user => traineeId.includes(user.id.toString()));
+			}
 		}
 	},
 	methods: {

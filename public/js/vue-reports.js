@@ -7415,6 +7415,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
 
 exports.default = {
 	props: {
@@ -7908,10 +7910,15 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 //
 //
 //
+//
 
 var _color = __webpack_require__(20);
 
 var _color2 = _interopRequireDefault(_color);
+
+var _BootstrapAlert = __webpack_require__(53);
+
+var _BootstrapAlert2 = _interopRequireDefault(_BootstrapAlert);
 
 var _BootstrapButtonInput = __webpack_require__(54);
 
@@ -7953,8 +7960,14 @@ function tableHeader(text) {
 
 exports.default = {
 	props: {
-		subjectId: Number,
-		report: Object
+		subject: {
+			type: Object,
+			required: true
+		},
+		report: {
+			type: Object,
+			required: true
+		}
 	},
 	data: function data() {
 		return {
@@ -7970,6 +7983,14 @@ exports.default = {
 	},
 
 	computed: {
+		subjectId: function subjectId() {
+			return this.subject.id;
+		},
+		trainingLevelDisplay: function trainingLevelDisplay() {
+			if (this.report.trainingLevel === 'all') return;
+
+			return this.report.trainingLevel.indexOf('-') !== -1 ? this.report.trainingLevel.toUpperCase() : (0, _utils.ucfirst)(this.report.trainingLevel);
+		},
 		milestoneCompetencyWidth: function milestoneCompetencyWidth() {
 			return {
 				'col-md-6': this.show.milestones && this.show.competencies,
@@ -8166,6 +8187,7 @@ exports.default = {
 	methods: {
 		camelCaseToWords: _utils.camelCaseToWords,
 		ucfirst: _utils.ucfirst,
+		renderDateCell: _datatableUtils.renderDateCell,
 		exportPdf: function exportPdf() {
 			var _this = this;
 
@@ -8273,6 +8295,7 @@ exports.default = {
 	},
 
 	components: {
+		BootstrapAlert: _BootstrapAlert2.default,
 		BootstrapButtonInput: _BootstrapButtonInput2.default,
 		ChartjsChart: _ChartjsChart2.default,
 		DataTable: _DataTable2.default
@@ -9425,6 +9448,110 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 var _AggregateReport = __webpack_require__(267);
 
 var _AggregateReport2 = _interopRequireDefault(_AggregateReport);
@@ -9449,120 +9576,15 @@ var _utils = __webpack_require__(3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
 exports.default = {
 	data: function data() {
 		return {
 			dates: {
-				startDate: '2015-11-01', // FIXME
-				endDate: '2016-11-01' // FIXME
+				startDate: null,
+				endDate: null
 			},
 			trainingLevel: 'all',
-			traineeId: '-1',
+			traineeId: null,
 			filterMilestones: false,
 			milestones: [],
 			multipleTrainees: false,
@@ -9575,14 +9597,14 @@ exports.default = {
 			stats: null,
 
 			milestoneGroups: [],
-			userGroups: []
+			users: []
 		};
 	},
 	created: function created() {
 		var _this = this;
 
-		(0, _utils.fetchUserGroups)().then(function (userGroups) {
-			_this.userGroups = userGroups;
+		(0, _utils.fetchUsers)().then(function (users) {
+			_this.users = users;
 		});
 	},
 
@@ -9600,22 +9622,39 @@ exports.default = {
 	},
 	computed: {
 		groupedUsers: function groupedUsers() {
-			if (!this.show.inactiveUsers) return this.userGroups.filter(function (userGroup) {
+			return (0, _utils.groupUsers)(this.users);
+		},
+		filteredUsers: function filteredUsers() {
+			return this.show.inactiveUsers ? this.groupedUsers : this.groupedUsers.filter(function (userGroup) {
 				return userGroup.text !== 'Inactive';
 			});
+		},
+		subjects: function subjects() {
+			var _this3 = this;
 
-			return this.userGroups;
+			if (this.traineeId) {
+				var _ret = function () {
+					var traineeId = Array.isArray(_this3.traineeId) ? _this3.traineeId : [_this3.traineeId];
+					return {
+						v: _this3.users.filter(function (user) {
+							return traineeId.indexOf(user.id.toString()) !== -1;
+						})
+					};
+				}();
+
+				if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+			}
 		}
 	},
 	methods: {
 		isEntireMilestoneGroupSelected: function isEntireMilestoneGroupSelected(index) {
-			var _this3 = this;
+			var _this4 = this;
 
 			var groupIds = this.milestoneGroups[index].children.map(function (child) {
 				return child.id;
 			});
 			return groupIds.every(function (id) {
-				return _this3.milestones.indexOf(id) !== -1;
+				return _this4.milestones.indexOf(id) !== -1;
 			});
 		},
 		toggleEntireMilestoneGroup: function toggleEntireMilestoneGroup(index) {
@@ -9631,7 +9670,7 @@ exports.default = {
 			this.milestones = newMilestones;
 		},
 		runReport: function runReport() {
-			var _this4 = this;
+			var _this5 = this;
 
 			var reportPromise = fetch('/report/aggregate', {
 				method: 'POST',
@@ -9649,7 +9688,7 @@ exports.default = {
 				err.response = response;
 				throw err;
 			}).then(function (report) {
-				_this4.report = Object.assign({}, _this4.report, report);
+				_this5.report = Object.assign({}, _this5.report, report);
 			}).catch(function (err) {
 				console.error(err);
 			});
@@ -9668,7 +9707,7 @@ exports.default = {
 				err.response = response;
 				throw err;
 			}).then(function (stats) {
-				_this4.stats = Object.assign({}, _this4.stats, stats);
+				_this5.stats = Object.assign({}, _this5.stats, stats);
 			}).catch(function (err) {
 				console.error(err);
 			});
@@ -10702,7 +10741,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.individual-report section[data-v-21575c47] {\n\tmargin: 2em 0 0;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/IndividualReport.vue?4b6dd3db"],"names":[],"mappings":";AAokBA;CACA,gBAAA;CACA","file":"IndividualReport.vue","sourcesContent":["<template>\n\t<div class=\"individual-report container body-block\">\n\t\t<template v-if=\"report.subjectEvaluations[subjectId] && report.subjectEvaluations[subjectId].length > 0\">\n\t\t\t<h2>\n\t\t\t\tIndividual Report\n\t\t\t\t<small>\n\t\t\t\t\t{{ report.subjects[subjectId] }}\n\t\t\t\t</small>\n\t\t\t</h2>\n\n\n\t\t\t<section>\n\t\t\t\t<h3>Evaluations included in report</h3>\n\t\t\t\t<data-table :thead=\"evaluationsThead\" :config=\"evaluationsConfig\"\n\t\t\t\t\t\t:data=\"evaluationsData\" />\n\n\t\t\t\t<button type=\"button\" class=\"btn center-block\" @click=\"exportPdf\">\n\t\t\t\t\tExport PDF\n\t\t\t\t</button>\n\t\t\t</section>\n\n\t\t\t<section>\n\t\t\t\t<fieldset class=\"show-container\">\n\t\t\t\t\t<legend>Show</legend>\n\t\t\t\t\t<label v-for=\"(part, name) of show\">\n\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"show[name]\" />\n\t\t\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t\t\t</label>\n\t\t\t\t</fieldset>\n\n\t\t\t\t<div class=\"row\">\n\t\t\t\t\t<div :class=\"milestoneCompetencyWidth\" v-if=\"show.competencies\">\n\t\t\t\t\t\t<h4>Competencies</h4>\n\t\t\t\t\t\t<data-table :thead=\"competenciesThead\" :data=\"competenciesData\" />\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div :class=\"milestoneCompetencyWidth\" v-if=\"show.milestones\">\n\t\t\t\t\t\t<h4>Milestones</h4>\n\t\t\t\t\t\t<data-table :thead=\"milestonesThead\" :data=\"milestonesData\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</section>\n\n\t\t\t<section v-if=\"show.charts\">\n\t\t\t\t<div class=\"row charts\">\n\t\t\t\t\t<div v-if=\"show.competencies\" :class=\"chartWidth\">\n\t\t\t\t\t\t<chartjs-chart v-if=\"competencyChartData\"\n\t\t\t\t\t\t\t:type=\"chartType\"\n\t\t\t\t\t\t\t:options=\"chartOptions\" :data=\"competencyChartData\"\n\t\t\t\t\t\t\t:shouldEmit=\"true\" ref=\"competencyChart\" />\n\t\t\t\t\t</div>\n\t\t\t\t\t<div v-if=\"show.milestones\" :class=\"chartWidth\">\n\t\t\t\t\t\t<chartjs-chart v-if=\"milestoneChartData\"\n\t\t\t\t\t\t\t:type=\"chartType\"\n\t\t\t\t\t\t\t:options=\"chartOptions\" :data=\"milestoneChartData\"\n\t\t\t\t\t\t\t:shouldEmit=\"true\" ref=\"milestoneChart\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\t\t\t\t<div class=\"row chart-options\">\n\t\t\t\t\t<div class=\"col-sm-offset-5 col-sm-2\">\n\t\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t\t<span class=\"panel-title\">Chart options</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t\t<fieldset v-if=\"show.milestones && show.competencies\">\n\t\t\t\t\t\t\t\t\t<legend>Orientation</legend>\n\t\t\t\t\t\t\t\t\t<div class=\"btn-group btn-group-justified\" data-toggle=\"buttons\">\n\t\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"horizontal\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-horizontal\"></span>\n\t\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"vertical\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-vertical\"></span>\n\t\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</fieldset>\n\n\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\t\t\tType\n\t\t\t\t\t\t\t\t\t\t<select class=\"form-control\" v-model=\"chartType\">\n\t\t\t\t\t\t\t\t\t\t\t<option v-for=\"type of chartTypes\" :value=\"type\">\n\t\t\t\t\t\t\t\t\t\t\t\t{{ ucfirst(type) }}\n\t\t\t\t\t\t\t\t\t\t\t</option>\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t</section>\n\n\t\t\t<section>\n\t\t\t\t<h3>Comments</h3>\n\t\t\t\t<data-table :thead=\"commentsThead\" :config=\"commentsConfig\" :data=\"commentsData\" />\n\n\t\t\t\t<button type=\"button\" class=\"btn center-block\" @click=\"exportPdf\">\n\t\t\t\t\tExport PDF\n\t\t\t\t</button>\n\t\t\t</section>\n\n\t\t</template>\n\t\t<template v-else>\n\t\t\t<p class=\"lead\">\n\t\t\t\tNo evaluations found for given parameters.\n\t\t\t</p>\n\t\t</template>\n\t</div>\n</template>\n\n<script>\nimport Color from 'color';\n\nimport BootstrapButtonInput from '../BootstrapButtonInput.vue';\nimport ChartjsChart from '../ChartjsChart.vue';\nimport DataTable from '../DataTable.vue';\n\nimport { CHART_COLORS } from '../../modules/constants.js';\nimport { camelCaseToWords, ucfirst } from '../../modules/utils.js';\nimport { renderIdToEvalUrl, renderDateCell, createDateCell } from '../../modules/datatable-utils.js';\nimport { residentRadarScaleCallback } from '../../modules/report-utils.js';\n\nlet residentLegend = {\n\ttable: {\n\t\theaderRows: 1,\n\t\tbody: [\n\t\t\t['CBY', 'CA-1', 'CA-2', 'CA-3', 'Attending'].map(tableHeader),\n\t\t\t['2', '4', '6', '8', '10']\n\t\t]\n\t}\n};\n\nfunction tableHeader(text){\n\treturn {\n\t\ttext: text,\n\t\tstyle: 'tableHeader'\n\t};\n}\n\nexport default {\n\tprops: {\n\t\tsubjectId: Number,\n\t\treport: Object\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tmilestones: true,\n\t\t\t\tcompetencies: true,\n\t\t\t\tstandardDeviations: false,\n\t\t\t\tcharts: true\n\t\t\t},\n\t\t\tchartType: 'radar',\n\t\t\tchartOrientation: 'vertical'\n\t\t};\n\t},\n\tcomputed: {\n\t\tmilestoneCompetencyWidth(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': this.show.milestones && this.show.competencies,\n\t\t\t\t'col-md-12': !this.show.milestones || !this.show.competencies\n\t\t\t};\n\t\t},\n\t\tevaluationsThead(){\n\t\t\treturn [[\n\t\t\t\t'#',\n\t\t\t\t'Evaluation date',\n\t\t\t\t'Evaluator',\n\t\t\t\t'Evaluation form'\n\t\t\t]];\n\t\t},\n\t\tevaluationsConfig(){\n\t\t\treturn {\n\t\t\t\tcolumns: [\n\t\t\t\t\t{ render: renderIdToEvalUrl },\n\t\t\t\t\t{ render: renderDateCell, createdCell: createDateCell },\n\t\t\t\t\tnull,\n\t\t\t\t\tnull\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tevaluationsData(){\n\t\t\ttry {\n\t\t\t\treturn this.report.subjectEvaluations[this.subjectId].map(request => [\n\t\t\t\t\tString(request.evaluation_id),\n\t\t\t\t\trequest.evaluation_date,\n\t\t\t\t\t`${request.evaluator_last}, ${request.evaluator_first}`,\n\t\t\t\t\trequest.form_title\n\t\t\t\t]);\n\t\t\t} catch(err) {\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\tcompetenciesThead(){\n\t\t\tlet tr = [\n\t\t\t\t'Competency',\n\t\t\t\t'Average'\n\t\t\t];\n\t\t\tif(this.show.standardDeviations)\n\t\t\t\ttr.push('Standard Deviation');\n\t\t\ttr.push('Number of Evaluations');\n\n\t\t\treturn [tr];\n\t\t},\n\t\tcompetenciesData(){\n\t\t\tlet data = [];\n\t\t\tfor(let competencyId in this.report.subjectCompetency[this.subjectId]){\n\t\t\t\tlet tr = [String(this.report.competencies[competencyId])];\n\t\t\t\tif(this.report.subjectCompetency[this.subjectId][competencyId]){\n\t\t\t\t\ttr.push(String(Math.round10(this.report.subjectCompetency[this.subjectId][competencyId], -2)));\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\ttr.push(String(Math.round10(this.report.subjectCompetencyDeviations[this.subjectId][competencyId], -2)));\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\ttr.push('');\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\ttr.push('');\n\t\t\t\t}\n\t\t\t\ttr.push(String(this.report.subjectCompetencyEvals[this.subjectId][competencyId] || 0));\n\t\t\t\tdata.push(tr);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\t\tmilestonesThead(){\n\t\t\tlet tr = [\n\t\t\t\t'Milestone',\n\t\t\t\t'Average'\n\t\t\t];\n\n\t\t\tif(this.show.standardDeviations)\n\t\t\t\ttr.push('Standard Deviation');\n\t\t\ttr.push('Number of Evaluations');\n\n\t\t\treturn [tr];\n\t\t},\n\t\tmilestonesData(){\n\t\t\tlet data = [];\n\t\t\tfor(let milestoneId in this.report.subjectMilestone[this.subjectId]){\n\t\t\t\tlet tr = [String(this.report.milestones[milestoneId])];\n\t\t\t\tif(this.report.subjectMilestone[this.subjectId][milestoneId]){\n\t\t\t\t\ttr.push(String(Math.round10(this.report.subjectMilestone[this.subjectId][milestoneId], -2)));\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\ttr.push(String(Math.round10(this.report.subjectMilestoneDeviations[this.subjectId][milestoneId], -2)));\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\ttr.push('');\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\ttr.push('');\n\t\t\t\t}\n\n\t\t\t\ttr.push(String(this.report.subjectMilestoneEvals[this.subjectId][milestoneId] || 0));\n\n\t\t\t\tdata.push(tr);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\t\tcommentsThead(){\n\t\t\treturn [[\n\t\t\t\t'#',\n\t\t\t\t'Evaluation Date',\n\t\t\t\t'Evaluator',\n\t\t\t\t'Evaluation Form',\n\t\t\t\t'Comment'\n\t\t\t]];\n\t\t},\n\t\tcommentsData(){\n\t\t\ttry {\n\t\t\t\treturn this.report.subjectTextResponses[this.subjectId].map(response => [\n\t\t\t\t\tString(response.evaluation_id),\n\t\t\t\t\tresponse.evaluation_date,\n\t\t\t\t\t`${response.last_name}, ${response.first_name}`,\n\t\t\t\t\tresponse.form_title,\n\t\t\t\t\tresponse.response\n\t\t\t\t]);\n\t\t\t} catch(err) {\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\tcommentsConfig(){\n\t\t\treturn {\n\t\t\t\tcolumns: [\n\t\t\t\t\t{ render: renderIdToEvalUrl },\n\t\t\t\t\t{ render: renderDateCell, createdCell: createDateCell },\n\t\t\t\t\tnull,\n\t\t\t\t\tnull,\n\t\t\t\t\tnull\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\n\t\tchartTypes(){\n\t\t\treturn [\n\t\t\t\t'radar',\n\t\t\t\t'line',\n\t\t\t\t'bar'\n\t\t\t];\n\t\t},\n\t\tchartWidth(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': this.chartOrientation === 'horizontal',\n\t\t\t\t'col-md-12': this.chartOrientation === 'vertical'\n\t\t\t};\n\t\t},\n\t\tchartOptions(){\n\t\t\treturn {\n\t\t\t\tanimation: false,\n\t\t\t\tlegend: {\n\t\t\t\t\tlabels: {\n\t\t\t\t\t\tfontSize: 18,\n\t\t\t\t\t\tfontColor: '#333'\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tcallbacks: {\n\t\t\t\t\t\tlabel(tooltip, data){\n\t\t\t\t\t\t\tlet value = parseFloat(tooltip.yLabel).toFixed(2);\n\t\t\t\t\t\t\tlet name = data.datasets[tooltip.datasetIndex].label;\n\t\t\t\t\t\t\treturn `${name}: ${value}`;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\tscale: {\n\t\t\t\t\tticks: {\n\t\t\t\t\t\tbeginAtZero: true,\n\t\t\t\t\t\tuserCallback: residentRadarScaleCallback\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t};\n\t\t},\n\t\tcompetencyChartData(){\n\t\t\tlet averageColor = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet averageBackgroundColor = averageColor.clone().alpha(0.2);\n\n\t\t\tlet subjectColor = Color(CHART_COLORS.SUBJECT);\n\t\t\tlet subjectBackgroundColor = subjectColor.clone().alpha(0.2);\n\t\t\ttry {\n\t\t\t\treturn {\n\t\t\t\t\tlabels: Object.values(this.report.competencies),\n\t\t\t\t\tdatasets: [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tlabel: 'Average Competency',\n\t\t\t\t\t\t\tbackgroundColor: averageBackgroundColor.rgbString(),\n\t\t\t\t\t\t\tborderColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tpointBackgroundColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBorderColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tdata: Object.values(this.report.averageCompetency)\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tlabel: 'Subject Competency',\n\t\t\t\t\t\t\tbackgroundColor: subjectBackgroundColor.rgbString(),\n\t\t\t\t\t\t\tborderColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tpointBackgroundColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBorderColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tdata: Object.values(this.report.subjectCompetency[this.subjectId])\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t};\n\t\t\t} catch(err) {\n\t\t\t\treturn null;\n\t\t\t}\n\t\t},\n\t\tmilestoneChartData(){\n\t\t\tlet averageColor = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet averageBackgroundColor = averageColor.clone().alpha(0.2);\n\n\t\t\tlet subjectColor = Color(CHART_COLORS.SUBJECT);\n\t\t\tlet subjectBackgroundColor = subjectColor.clone().alpha(0.2);\n\t\t\ttry {\n\t\t\t\treturn {\n\t\t\t\t\tlabels: Object.values(this.report.milestones),\n\t\t\t\t\tdatasets: [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tlabel: 'Average Milestone',\n\t\t\t\t\t\t\tbackgroundColor: averageBackgroundColor.rgbString(),\n\t\t\t\t\t\t\tborderColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tpointBackgroundColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBorderColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tdata: Object.values(this.report.averageMilestone)\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tlabel: 'Subject Milestone',\n\t\t\t\t\t\t\tbackgroundColor: subjectBackgroundColor.rgbString(),\n\t\t\t\t\t\t\tborderColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tpointBackgroundColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBorderColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tdata: Object.values(this.report.subjectMilestone[this.subjectId])\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t};\n\t\t\t} catch(err) {\n\t\t\t\treturn null;\n\t\t\t}\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords,\n\t\tucfirst,\n\t\texportPdf(){\n\t\t\tif(!this.report.subjectEvaluations[this.subjectId])\n\t\t\t\treturn;\n\n\t\t\tPromise.all([\n\t\t\t\timport('pdfmake/build/pdfmake.js'),\n\t\t\t\timport('../../vfs_fonts.json')\n\t\t\t]).then(imports => {\n\t\t\t\tconst [pdfmake, vfs] = imports;\n\t\t\t\tpdfmake.vfs = vfs;\n\n\t\t\t\tconst filename = `${this.report.subjects[this.subjectId]} - ${new Date().toLocaleString()}`; // FIXME\n\n\t\t\t\tlet content = [\n\t\t\t\t\t{ text: 'Report parameters', style: 'heading' },\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: [\n\t\t\t\t\t\t\t\t['Name', 'Training level', 'Start date', 'End date'].map(tableHeader),\n\t\t\t\t\t\t\t\t[\n\t\t\t\t\t\t\t\t\tthis.report.subjects[this.subjectId],\n\t\t\t\t\t\t\t\t\tthis.report.trainingLevel,\n\t\t\t\t\t\t\t\t\tthis.report.startDate.date\n\t\t\t\t\t\t\t\t\t\t? this.report.startDate.date.split(' ')[0]\n\t\t\t\t\t\t\t\t\t\t: this.report.startDate,\n\t\t\t\t\t\t\t\t\tthis.report.endDate.date\n\t\t\t\t\t\t\t\t\t\t? this.report.endDate.date.split(' ')[0]\n\t\t\t\t\t\t\t\t\t\t: this.report.endDate\n\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\t{ text: 'Evaluations included in report', style: 'heading' },\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\tthis.evaluationsThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t...this.evaluationsData\n\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t];\n\n\t\t\t\tif(this.show.competencies || this.show.milestones)\n\t\t\t\t\tcontent.push(\n\t\t\t\t\t\t{ text: 'Score mapping', style: 'heading' },\n\t\t\t\t\t\tresidentLegend\n\t\t\t\t\t);\n\n\t\t\t\tif(this.show.competencies)\n\t\t\t\t\tcontent.push(\n\t\t\t\t\t\t{ text: 'Competencies', style: 'heading' },\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\t\tthis.competenciesThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t\t...this.competenciesData\n\t\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t);\n\n\t\t\t\tif(this.show.milestones)\n\t\t\t\t\tcontent.push(\n\t\t\t\t\t\t{ text: 'Milestones', style: 'heading' },\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\t\tthis.milestonesThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t\t...this.milestonesData\n\t\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t);\n\n\t\t\t\tlet charts = [];\n\t\t\t\tif(this.show.charts){\n\t\t\t\t\tif(this.chartOrientation === 'horizontal'){\n\t\t\t\t\t\tlet cols = [];\n\t\t\t\t\t\tif(this.show.competencies && this.$refs.competencyChart && this.$refs.competencyChart.chart)\n\t\t\t\t\t\t\tcols.push({\n\t\t\t\t\t\t\t\timage: this.$refs.competencyChart.chart.toBase64Image(),\n\t\t\t\t\t\t\t\twidth: 250\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\telse\n\t\t\t\t\t\t\tcols.push({ text: '', width: 250 });\n\n\t\t\t\t\t\tif(this.show.milestones && this.$refs.milestoneChart && this.$refs.milestoneChart.chart)\n\t\t\t\t\t\t\tcols.push({\n\t\t\t\t\t\t\t\timage: this.$refs.milestoneChart.chart.toBase64Image(),\n\t\t\t\t\t\t\t\twidth: 250\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\telse\n\t\t\t\t\t\t\tcols.push({ text: '', width: 250 });\n\n\t\t\t\t\t\tcharts = [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\tpageBreak: 'before',\n\t\t\t\t\t\t\t\tcolumns: cols,\n\t\t\t\t\t\t\t\tcolumnGap: 10\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t];\n\t\t\t\t\t}\n\t\t\t\t\telse {\n\t\t\t\t\t\tcharts = [];\n\t\t\t\t\t\tif(this.show.competencies && this.$refs.competencyChart && this.$refs.competencyChart.chart)\n\t\t\t\t\t\t\tcharts.push({\n\t\t\t\t\t\t\t\tpageBreak: 'before',\n\t\t\t\t\t\t\t\timage: this.$refs.competencyChart.chart.toBase64Image(),\n\t\t\t\t\t\t\t\twidth: 550\n\t\t\t\t\t\t\t});\n\n\t\t\t\t\t\tif(this.show.milestones && this.$refs.milestoneChart && this.$refs.milestoneChart.chart)\n\t\t\t\t\t\t\tcharts.push({\n\t\t\t\t\t\t\t\timage: this.$refs.milestoneChart.chart.toBase64Image(),\n\t\t\t\t\t\t\t\twidth: 550,\n\t\t\t\t\t\t\t\tpageBreak: 'after'\n\t\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t\tcontent.push(...charts);\n\t\t\t\t}\n\n\t\t\t\tcontent.push(\n\t\t\t\t\t{ text: 'Comments', style: 'heading' },\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\tthis.commentsThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t...this.commentsData\n\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t);\n\n\t\t\t\tlet docDefinition = {\n\t\t\t\t\tpageSize: 'LETTER',\n\t\t\t\t\tcontent: content,\n\t\t\t\t\tstyles: {\n\t\t\t\t\t\theading: {\n\t\t\t\t\t\t\tbold: true,\n\t\t\t\t\t\t\tfontSize: 20,\n\t\t\t\t\t\t\tmargin: [0, 20, 0, 10]\n\t\t\t\t\t\t},\n\t\t\t\t\t\ttableHeader: {\n\t\t\t\t\t\t\tbold: true,\n\t\t\t\t\t\t\tfontSize: 14\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t};\n\n\t\t\t\tpdfmake.createPdf(docDefinition).download(filename);\n\t\t\t});\n\n\t\t}\n\t},\n\n\tcomponents: {\n\t\tBootstrapButtonInput,\n\t\tChartjsChart,\n\t\tDataTable\n\t}\n};\n</script>\n\n<style scoped>\n\t.individual-report section {\n\t\tmargin: 2em 0 0;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.individual-report section[data-v-21575c47] {\n\tmargin: 2em 0 0;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/IndividualReport.vue?3c014a4e"],"names":[],"mappings":";AAylBA;CACA,gBAAA;CACA","file":"IndividualReport.vue","sourcesContent":["<template>\n\t<div class=\"individual-report container body-block\">\n\t\t<template v-if=\"report.subjectEvaluations[subjectId] && report.subjectEvaluations[subjectId].length > 0\">\n\t\t\t<h2>\n\t\t\t\tIndividual Report\n\t\t\t\t<small>\n\t\t\t\t\t{{ report.subjects[subjectId] }}\n\t\t\t\t</small>\n\t\t\t</h2>\n\n\n\t\t\t<section>\n\t\t\t\t<h3>Evaluations included in report</h3>\n\t\t\t\t<data-table :thead=\"evaluationsThead\" :config=\"evaluationsConfig\"\n\t\t\t\t\t\t:data=\"evaluationsData\" />\n\n\t\t\t\t<button type=\"button\" class=\"btn center-block\" @click=\"exportPdf\">\n\t\t\t\t\tExport PDF\n\t\t\t\t</button>\n\t\t\t</section>\n\n\t\t\t<section>\n\t\t\t\t<fieldset class=\"show-container\">\n\t\t\t\t\t<legend>Show</legend>\n\t\t\t\t\t<label v-for=\"(part, name) of show\">\n\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"show[name]\" />\n\t\t\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t\t\t</label>\n\t\t\t\t</fieldset>\n\n\t\t\t\t<div class=\"row\">\n\t\t\t\t\t<div :class=\"milestoneCompetencyWidth\" v-if=\"show.competencies\">\n\t\t\t\t\t\t<h4>Competencies</h4>\n\t\t\t\t\t\t<data-table :thead=\"competenciesThead\" :data=\"competenciesData\" />\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div :class=\"milestoneCompetencyWidth\" v-if=\"show.milestones\">\n\t\t\t\t\t\t<h4>Milestones</h4>\n\t\t\t\t\t\t<data-table :thead=\"milestonesThead\" :data=\"milestonesData\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</section>\n\n\t\t\t<section v-if=\"show.charts\">\n\t\t\t\t<div class=\"row charts\">\n\t\t\t\t\t<div v-if=\"show.competencies\" :class=\"chartWidth\">\n\t\t\t\t\t\t<chartjs-chart v-if=\"competencyChartData\"\n\t\t\t\t\t\t\t:type=\"chartType\"\n\t\t\t\t\t\t\t:options=\"chartOptions\" :data=\"competencyChartData\"\n\t\t\t\t\t\t\t:shouldEmit=\"true\" ref=\"competencyChart\" />\n\t\t\t\t\t</div>\n\t\t\t\t\t<div v-if=\"show.milestones\" :class=\"chartWidth\">\n\t\t\t\t\t\t<chartjs-chart v-if=\"milestoneChartData\"\n\t\t\t\t\t\t\t:type=\"chartType\"\n\t\t\t\t\t\t\t:options=\"chartOptions\" :data=\"milestoneChartData\"\n\t\t\t\t\t\t\t:shouldEmit=\"true\" ref=\"milestoneChart\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\t\t\t\t<div class=\"row chart-options\">\n\t\t\t\t\t<div class=\"col-sm-offset-5 col-sm-2\">\n\t\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t\t<span class=\"panel-title\">Chart options</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t\t<fieldset v-if=\"show.milestones && show.competencies\">\n\t\t\t\t\t\t\t\t\t<legend>Orientation</legend>\n\t\t\t\t\t\t\t\t\t<div class=\"btn-group btn-group-justified\" data-toggle=\"buttons\">\n\t\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"horizontal\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-horizontal\"></span>\n\t\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"vertical\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-vertical\"></span>\n\t\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</fieldset>\n\n\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\t\t\tType\n\t\t\t\t\t\t\t\t\t\t<select class=\"form-control\" v-model=\"chartType\">\n\t\t\t\t\t\t\t\t\t\t\t<option v-for=\"type of chartTypes\" :value=\"type\">\n\t\t\t\t\t\t\t\t\t\t\t\t{{ ucfirst(type) }}\n\t\t\t\t\t\t\t\t\t\t\t</option>\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t</section>\n\n\t\t\t<section>\n\t\t\t\t<h3>Comments</h3>\n\t\t\t\t<data-table :thead=\"commentsThead\" :config=\"commentsConfig\" :data=\"commentsData\" />\n\n\t\t\t\t<button type=\"button\" class=\"btn center-block\" @click=\"exportPdf\">\n\t\t\t\t\tExport PDF\n\t\t\t\t</button>\n\t\t\t</section>\n\n\t\t</template>\n\t\t<bootstrap-alert v-else type=\"warning\">\n\t\t\tNo <strong>{{ trainingLevelDisplay }}</strong> evaluations found for\n\t\t\t<strong>{{ subject.full_name }}</strong>\n\t\t\tbetween <strong>{{ renderDateCell(report.startDate.date) }}</strong>\n\t\t\tand <strong>{{ renderDateCell(report.endDate.date) }}</strong>.\n\t\t</bootstrap-alert>\n\t</div>\n</template>\n\n<script>\nimport Color from 'color';\n\nimport BootstrapAlert from '../BootstrapAlert.vue';\nimport BootstrapButtonInput from '../BootstrapButtonInput.vue';\nimport ChartjsChart from '../ChartjsChart.vue';\nimport DataTable from '../DataTable.vue';\n\nimport { CHART_COLORS } from '../../modules/constants.js';\nimport { camelCaseToWords, ucfirst } from '../../modules/utils.js';\nimport { renderIdToEvalUrl, renderDateCell, createDateCell } from '../../modules/datatable-utils.js';\nimport { residentRadarScaleCallback } from '../../modules/report-utils.js';\n\nlet residentLegend = {\n\ttable: {\n\t\theaderRows: 1,\n\t\tbody: [\n\t\t\t['CBY', 'CA-1', 'CA-2', 'CA-3', 'Attending'].map(tableHeader),\n\t\t\t['2', '4', '6', '8', '10']\n\t\t]\n\t}\n};\n\nfunction tableHeader(text){\n\treturn {\n\t\ttext: text,\n\t\tstyle: 'tableHeader'\n\t};\n}\n\nexport default {\n\tprops: {\n\t\tsubject: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t},\n\t\treport: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tmilestones: true,\n\t\t\t\tcompetencies: true,\n\t\t\t\tstandardDeviations: false,\n\t\t\t\tcharts: true\n\t\t\t},\n\t\t\tchartType: 'radar',\n\t\t\tchartOrientation: 'vertical'\n\t\t};\n\t},\n\tcomputed: {\n\t\tsubjectId(){\n\t\t\treturn this.subject.id;\n\t\t},\n\t\ttrainingLevelDisplay(){\n\t\t\tif(this.report.trainingLevel === 'all')\n\t\t\t\treturn;\n\t\t\t\t\n\t\t\treturn this.report.trainingLevel.includes('-')\n\t\t\t\t? this.report.trainingLevel.toUpperCase()\n\t\t\t\t: ucfirst(this.report.trainingLevel);\n\t\t},\n\t\tmilestoneCompetencyWidth(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': this.show.milestones && this.show.competencies,\n\t\t\t\t'col-md-12': !this.show.milestones || !this.show.competencies\n\t\t\t};\n\t\t},\n\t\tevaluationsThead(){\n\t\t\treturn [[\n\t\t\t\t'#',\n\t\t\t\t'Evaluation date',\n\t\t\t\t'Evaluator',\n\t\t\t\t'Evaluation form'\n\t\t\t]];\n\t\t},\n\t\tevaluationsConfig(){\n\t\t\treturn {\n\t\t\t\tcolumns: [\n\t\t\t\t\t{ render: renderIdToEvalUrl },\n\t\t\t\t\t{ render: renderDateCell, createdCell: createDateCell },\n\t\t\t\t\tnull,\n\t\t\t\t\tnull\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tevaluationsData(){\n\t\t\ttry {\n\t\t\t\treturn this.report.subjectEvaluations[this.subjectId].map(request => [\n\t\t\t\t\tString(request.evaluation_id),\n\t\t\t\t\trequest.evaluation_date,\n\t\t\t\t\t`${request.evaluator_last}, ${request.evaluator_first}`,\n\t\t\t\t\trequest.form_title\n\t\t\t\t]);\n\t\t\t} catch(err) {\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\tcompetenciesThead(){\n\t\t\tlet tr = [\n\t\t\t\t'Competency',\n\t\t\t\t'Average'\n\t\t\t];\n\t\t\tif(this.show.standardDeviations)\n\t\t\t\ttr.push('Standard Deviation');\n\t\t\ttr.push('Number of Evaluations');\n\n\t\t\treturn [tr];\n\t\t},\n\t\tcompetenciesData(){\n\t\t\tlet data = [];\n\t\t\tfor(let competencyId in this.report.subjectCompetency[this.subjectId]){\n\t\t\t\tlet tr = [String(this.report.competencies[competencyId])];\n\t\t\t\tif(this.report.subjectCompetency[this.subjectId][competencyId]){\n\t\t\t\t\ttr.push(String(Math.round10(this.report.subjectCompetency[this.subjectId][competencyId], -2)));\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\ttr.push(String(Math.round10(this.report.subjectCompetencyDeviations[this.subjectId][competencyId], -2)));\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\ttr.push('');\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\ttr.push('');\n\t\t\t\t}\n\t\t\t\ttr.push(String(this.report.subjectCompetencyEvals[this.subjectId][competencyId] || 0));\n\t\t\t\tdata.push(tr);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\t\tmilestonesThead(){\n\t\t\tlet tr = [\n\t\t\t\t'Milestone',\n\t\t\t\t'Average'\n\t\t\t];\n\n\t\t\tif(this.show.standardDeviations)\n\t\t\t\ttr.push('Standard Deviation');\n\t\t\ttr.push('Number of Evaluations');\n\n\t\t\treturn [tr];\n\t\t},\n\t\tmilestonesData(){\n\t\t\tlet data = [];\n\t\t\tfor(let milestoneId in this.report.subjectMilestone[this.subjectId]){\n\t\t\t\tlet tr = [String(this.report.milestones[milestoneId])];\n\t\t\t\tif(this.report.subjectMilestone[this.subjectId][milestoneId]){\n\t\t\t\t\ttr.push(String(Math.round10(this.report.subjectMilestone[this.subjectId][milestoneId], -2)));\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\ttr.push(String(Math.round10(this.report.subjectMilestoneDeviations[this.subjectId][milestoneId], -2)));\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\ttr.push('');\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\ttr.push('');\n\t\t\t\t}\n\n\t\t\t\ttr.push(String(this.report.subjectMilestoneEvals[this.subjectId][milestoneId] || 0));\n\n\t\t\t\tdata.push(tr);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\t\tcommentsThead(){\n\t\t\treturn [[\n\t\t\t\t'#',\n\t\t\t\t'Evaluation Date',\n\t\t\t\t'Evaluator',\n\t\t\t\t'Evaluation Form',\n\t\t\t\t'Comment'\n\t\t\t]];\n\t\t},\n\t\tcommentsData(){\n\t\t\ttry {\n\t\t\t\treturn this.report.subjectTextResponses[this.subjectId].map(response => [\n\t\t\t\t\tString(response.evaluation_id),\n\t\t\t\t\tresponse.evaluation_date,\n\t\t\t\t\t`${response.last_name}, ${response.first_name}`,\n\t\t\t\t\tresponse.form_title,\n\t\t\t\t\tresponse.response\n\t\t\t\t]);\n\t\t\t} catch(err) {\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\tcommentsConfig(){\n\t\t\treturn {\n\t\t\t\tcolumns: [\n\t\t\t\t\t{ render: renderIdToEvalUrl },\n\t\t\t\t\t{ render: renderDateCell, createdCell: createDateCell },\n\t\t\t\t\tnull,\n\t\t\t\t\tnull,\n\t\t\t\t\tnull\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\n\t\tchartTypes(){\n\t\t\treturn [\n\t\t\t\t'radar',\n\t\t\t\t'line',\n\t\t\t\t'bar'\n\t\t\t];\n\t\t},\n\t\tchartWidth(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': this.chartOrientation === 'horizontal',\n\t\t\t\t'col-md-12': this.chartOrientation === 'vertical'\n\t\t\t};\n\t\t},\n\t\tchartOptions(){\n\t\t\treturn {\n\t\t\t\tanimation: false,\n\t\t\t\tlegend: {\n\t\t\t\t\tlabels: {\n\t\t\t\t\t\tfontSize: 18,\n\t\t\t\t\t\tfontColor: '#333'\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tcallbacks: {\n\t\t\t\t\t\tlabel(tooltip, data){\n\t\t\t\t\t\t\tlet value = parseFloat(tooltip.yLabel).toFixed(2);\n\t\t\t\t\t\t\tlet name = data.datasets[tooltip.datasetIndex].label;\n\t\t\t\t\t\t\treturn `${name}: ${value}`;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\tscale: {\n\t\t\t\t\tticks: {\n\t\t\t\t\t\tbeginAtZero: true,\n\t\t\t\t\t\tuserCallback: residentRadarScaleCallback\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t};\n\t\t},\n\t\tcompetencyChartData(){\n\t\t\tlet averageColor = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet averageBackgroundColor = averageColor.clone().alpha(0.2);\n\n\t\t\tlet subjectColor = Color(CHART_COLORS.SUBJECT);\n\t\t\tlet subjectBackgroundColor = subjectColor.clone().alpha(0.2);\n\t\t\ttry {\n\t\t\t\treturn {\n\t\t\t\t\tlabels: Object.values(this.report.competencies),\n\t\t\t\t\tdatasets: [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tlabel: 'Average Competency',\n\t\t\t\t\t\t\tbackgroundColor: averageBackgroundColor.rgbString(),\n\t\t\t\t\t\t\tborderColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tpointBackgroundColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBorderColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tdata: Object.values(this.report.averageCompetency)\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tlabel: 'Subject Competency',\n\t\t\t\t\t\t\tbackgroundColor: subjectBackgroundColor.rgbString(),\n\t\t\t\t\t\t\tborderColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tpointBackgroundColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBorderColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tdata: Object.values(this.report.subjectCompetency[this.subjectId])\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t};\n\t\t\t} catch(err) {\n\t\t\t\treturn null;\n\t\t\t}\n\t\t},\n\t\tmilestoneChartData(){\n\t\t\tlet averageColor = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet averageBackgroundColor = averageColor.clone().alpha(0.2);\n\n\t\t\tlet subjectColor = Color(CHART_COLORS.SUBJECT);\n\t\t\tlet subjectBackgroundColor = subjectColor.clone().alpha(0.2);\n\t\t\ttry {\n\t\t\t\treturn {\n\t\t\t\t\tlabels: Object.values(this.report.milestones),\n\t\t\t\t\tdatasets: [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tlabel: 'Average Milestone',\n\t\t\t\t\t\t\tbackgroundColor: averageBackgroundColor.rgbString(),\n\t\t\t\t\t\t\tborderColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tpointBackgroundColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBorderColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tdata: Object.values(this.report.averageMilestone)\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tlabel: 'Subject Milestone',\n\t\t\t\t\t\t\tbackgroundColor: subjectBackgroundColor.rgbString(),\n\t\t\t\t\t\t\tborderColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tpointBackgroundColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBorderColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tdata: Object.values(this.report.subjectMilestone[this.subjectId])\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t};\n\t\t\t} catch(err) {\n\t\t\t\treturn null;\n\t\t\t}\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords,\n\t\tucfirst,\n\t\trenderDateCell,\n\t\texportPdf(){\n\t\t\tif(!this.report.subjectEvaluations[this.subjectId])\n\t\t\t\treturn;\n\n\t\t\tPromise.all([\n\t\t\t\timport('pdfmake/build/pdfmake.js'),\n\t\t\t\timport('../../vfs_fonts.json')\n\t\t\t]).then(imports => {\n\t\t\t\tconst [pdfmake, vfs] = imports;\n\t\t\t\tpdfmake.vfs = vfs;\n\n\t\t\t\tconst filename = `${this.report.subjects[this.subjectId]} - ${new Date().toLocaleString()}`; // FIXME\n\n\t\t\t\tlet content = [\n\t\t\t\t\t{ text: 'Report parameters', style: 'heading' },\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: [\n\t\t\t\t\t\t\t\t['Name', 'Training level', 'Start date', 'End date'].map(tableHeader),\n\t\t\t\t\t\t\t\t[\n\t\t\t\t\t\t\t\t\tthis.report.subjects[this.subjectId],\n\t\t\t\t\t\t\t\t\tthis.report.trainingLevel,\n\t\t\t\t\t\t\t\t\tthis.report.startDate.date\n\t\t\t\t\t\t\t\t\t\t? this.report.startDate.date.split(' ')[0]\n\t\t\t\t\t\t\t\t\t\t: this.report.startDate,\n\t\t\t\t\t\t\t\t\tthis.report.endDate.date\n\t\t\t\t\t\t\t\t\t\t? this.report.endDate.date.split(' ')[0]\n\t\t\t\t\t\t\t\t\t\t: this.report.endDate\n\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\t{ text: 'Evaluations included in report', style: 'heading' },\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\tthis.evaluationsThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t...this.evaluationsData\n\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t];\n\n\t\t\t\tif(this.show.competencies || this.show.milestones)\n\t\t\t\t\tcontent.push(\n\t\t\t\t\t\t{ text: 'Score mapping', style: 'heading' },\n\t\t\t\t\t\tresidentLegend\n\t\t\t\t\t);\n\n\t\t\t\tif(this.show.competencies)\n\t\t\t\t\tcontent.push(\n\t\t\t\t\t\t{ text: 'Competencies', style: 'heading' },\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\t\tthis.competenciesThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t\t...this.competenciesData\n\t\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t);\n\n\t\t\t\tif(this.show.milestones)\n\t\t\t\t\tcontent.push(\n\t\t\t\t\t\t{ text: 'Milestones', style: 'heading' },\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\t\tthis.milestonesThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t\t...this.milestonesData\n\t\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t);\n\n\t\t\t\tlet charts = [];\n\t\t\t\tif(this.show.charts){\n\t\t\t\t\tif(this.chartOrientation === 'horizontal'){\n\t\t\t\t\t\tlet cols = [];\n\t\t\t\t\t\tif(this.show.competencies && this.$refs.competencyChart && this.$refs.competencyChart.chart)\n\t\t\t\t\t\t\tcols.push({\n\t\t\t\t\t\t\t\timage: this.$refs.competencyChart.chart.toBase64Image(),\n\t\t\t\t\t\t\t\twidth: 250\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\telse\n\t\t\t\t\t\t\tcols.push({ text: '', width: 250 });\n\n\t\t\t\t\t\tif(this.show.milestones && this.$refs.milestoneChart && this.$refs.milestoneChart.chart)\n\t\t\t\t\t\t\tcols.push({\n\t\t\t\t\t\t\t\timage: this.$refs.milestoneChart.chart.toBase64Image(),\n\t\t\t\t\t\t\t\twidth: 250\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\telse\n\t\t\t\t\t\t\tcols.push({ text: '', width: 250 });\n\n\t\t\t\t\t\tcharts = [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\tpageBreak: 'before',\n\t\t\t\t\t\t\t\tcolumns: cols,\n\t\t\t\t\t\t\t\tcolumnGap: 10\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t];\n\t\t\t\t\t}\n\t\t\t\t\telse {\n\t\t\t\t\t\tcharts = [];\n\t\t\t\t\t\tif(this.show.competencies && this.$refs.competencyChart && this.$refs.competencyChart.chart)\n\t\t\t\t\t\t\tcharts.push({\n\t\t\t\t\t\t\t\tpageBreak: 'before',\n\t\t\t\t\t\t\t\timage: this.$refs.competencyChart.chart.toBase64Image(),\n\t\t\t\t\t\t\t\twidth: 550\n\t\t\t\t\t\t\t});\n\n\t\t\t\t\t\tif(this.show.milestones && this.$refs.milestoneChart && this.$refs.milestoneChart.chart)\n\t\t\t\t\t\t\tcharts.push({\n\t\t\t\t\t\t\t\timage: this.$refs.milestoneChart.chart.toBase64Image(),\n\t\t\t\t\t\t\t\twidth: 550,\n\t\t\t\t\t\t\t\tpageBreak: 'after'\n\t\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t\tcontent.push(...charts);\n\t\t\t\t}\n\n\t\t\t\tcontent.push(\n\t\t\t\t\t{ text: 'Comments', style: 'heading' },\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\tthis.commentsThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t...this.commentsData\n\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t);\n\n\t\t\t\tlet docDefinition = {\n\t\t\t\t\tpageSize: 'LETTER',\n\t\t\t\t\tcontent: content,\n\t\t\t\t\tstyles: {\n\t\t\t\t\t\theading: {\n\t\t\t\t\t\t\tbold: true,\n\t\t\t\t\t\t\tfontSize: 20,\n\t\t\t\t\t\t\tmargin: [0, 20, 0, 10]\n\t\t\t\t\t\t},\n\t\t\t\t\t\ttableHeader: {\n\t\t\t\t\t\t\tbold: true,\n\t\t\t\t\t\t\tfontSize: 14\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t};\n\n\t\t\t\tpdfmake.createPdf(docDefinition).download(filename);\n\t\t\t});\n\n\t\t}\n\t},\n\n\tcomponents: {\n\t\tBootstrapAlert,\n\t\tBootstrapButtonInput,\n\t\tChartjsChart,\n\t\tDataTable\n\t}\n};\n</script>\n\n<style scoped>\n\t.individual-report section {\n\t\tmargin: 2em 0 0;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -10787,7 +10826,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.filter-milestones-container[data-v-65e2ee5c] {\n\tdisplay: flex;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tjustify-content: flex-start;\n\talign-items: stretch;\n}\n.milestone-group[data-v-65e2ee5c] {\n\tflex-grow: 0;\n\tflex-shrink: 1;\n\twidth: 250px;\n\tmin-width: 200px;\n\tmax-width: 100%;\n\tmargin: 10px;\n}\n.milestone-group .panel-body[data-v-65e2ee5c] {\n\theight: 300px;\n\toverflow: auto;\n}\n.milestone-group .panel-body label[data-v-65e2ee5c] {\n\tfont-weight: normal;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/TraineeReport.vue?6f3ec802"],"names":[],"mappings":";AAmPA;CACA,cAAA;CACA,oBAAA;CACA,gBAAA;CACA,4BAAA;CACA,qBAAA;CACA;AAEA;CACA,aAAA;CACA,eAAA;CACA,aAAA;CACA,iBAAA;CACA,gBAAA;CACA,aAAA;CACA;AAEA;CACA,cAAA;CACA,eAAA;CACA;AAEA;CACA,oBAAA;CACA","file":"TraineeReport.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block\">\n\t\t\t<h2>Trainee report</h2>\n\t\t\t<report-date v-model=\"dates\" />\n\t\t\t<label class=\"containing-label\">\n\t\t\t\tTraining level\n\t\t\t\t<select-two class=\"form-control\" v-model=\"trainingLevel\">\n\t\t\t\t\t<option value=\"all\">All</option>\n\t\t\t\t\t<option value=\"intern\">Intern</option>\n\t\t\t\t\t<option value=\"ca-1\">CA-1</option>\n\t\t\t\t\t<option value=\"ca-2\">CA-2</option>\n\t\t\t\t\t<option value=\"ca-3\">CA-3</option>\n\t\t\t\t\t<option value=\"fellow\">Fellow</option>\n\t\t\t\t</select-two>\n\t\t\t</label>\n\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tUser\n\t\t\t\t\t<div class=\"input-group\">\n\t\t\t\t\t\t<select-two class=\"form-control\" v-if=\"groupedUsers\"\n\t\t\t\t\t\t\t\t:options=\"groupedUsers\" v-model=\"traineeId\"\n\t\t\t\t\t\t\t\t:multiple=\"multipleTrainees\">\n\t\t\t\t\t\t\t<option v-if=\"!multipleTrainees\" value=\"-1\">All</option>\n\t\t\t\t\t\t</select-two>\n\t\t\t\t\t\t<span class=\"input-group-addon\">\n\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"show.inactiveUsers\" />\n\t\t\t\t\t\t\t\tShow inactive\n\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t</span>\n\t\t\t\t\t\t<span class=\"input-group-addon\">\n\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"multipleTrainees\" />\n\t\t\t\t\t\t\t\tSelect multiple\n\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t</span>\n\t\t\t\t\t</div>\n\t\t\t\t</label>\n\t\t\t</div>\n\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"checkbox\" v-model=\"filterMilestones\" />\n\t\t\t\t\tFilter milestones\n\t\t\t\t</label>\n\t\t\t</div>\n\n\t\t\t<fieldset v-if=\"filterMilestones\">\n\t\t\t\t<legend>Milestones</legend>\n\t\t\t\t<div class=\"filter-milestones-container\">\n\t\t\t\t\t<div v-for=\"(milestoneGroup, index) of milestoneGroups\" class=\"milestone-group\">\n\t\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t\t<label class=\"panel-title\">\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t:checked=\"isEntireMilestoneGroupSelected(index)\"\n\t\t\t\t\t\t\t\t\t\t\t@click=\"toggleEntireMilestoneGroup(index)\" />\n\t\t\t\t\t\t\t\t\t{{ milestoneGroup.text }}\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t\t<div v-for=\"child of milestoneGroup.children\" class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t\t:value=\"child.id\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"milestones\" />\n\t\t\t\t\t\t\t\t\t\t{{ child.text }}\n\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\n\t\t\t<button type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t@click=\"runReport\">\n\t\t\t\tRun report\n\t\t\t</button>\n\t\t\t<button v-if=\"report && multipleTrainees\" type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t@click=\"printAll\">\n\t\t\t\tExport all reports to PDFs\n\t\t\t</button>\n\t\t</div>\n\n\t\t<div v-if=\"report\">\n\t\t\t<div v-if=\"multipleTrainees\">\n\t\t\t\t<individual-report :report=\"report\"\n\t\t\t\t\tv-for=\"id of traineeId\"\n\t\t\t\t\t:subjectId=\"Number(id)\" ref=\"individualReports\" />\n\t\t\t</div>\n\t\t\t<div v-else>\n\t\t\t\t<stats-report v-if=\"traineeId === '-1' && stats\" :report=\"stats\" />\n\n\t\t\t\t<aggregate-report v-if=\"traineeId === '-1'\" :report=\"report\" />\n\t\t\t\t<individual-report v-else :report=\"report\"\n\t\t\t\t\t:subjectId=\"Number(traineeId)\" />\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport AggregateReport from './AggregateReport.vue';\nimport IndividualReport from './IndividualReport.vue';\nimport ReportDate from './ReportDate.vue';\nimport StatsReport from './StatsReport.vue';\nimport SelectTwo from '../SelectTwo.vue';\n\nimport {\n\tgetFetchHeaders,\n\tfetchMilestoneGroups,\n\tfetchUserGroups\n} from '../../modules/utils.js';\n\nexport default {\n\tdata(){\n\t\treturn {\n\t\t\tdates: {\n\t\t\t\tstartDate: '2015-11-01', // FIXME\n\t\t\t\tendDate: '2016-11-01' // FIXME\n\t\t\t},\n\t\t\ttrainingLevel: 'all',\n\t\t\ttraineeId: '-1',\n\t\t\tfilterMilestones: false,\n\t\t\tmilestones: [],\n\t\t\tmultipleTrainees: false,\n\n\t\t\tshow: {\n\t\t\t\tinactiveUsers: false\n\t\t\t},\n\n\t\t\treport: null,\n\t\t\tstats: null,\n\n\t\t\tmilestoneGroups: [],\n\t\t\tuserGroups: []\n\t\t};\n\t},\n\tcreated(){\n\t\tfetchUserGroups().then(userGroups => {\n\t\t\tthis.userGroups = userGroups;\n\t\t});\n\t},\n\n\twatch: {\n\t\tfilterMilestones(shouldFilter){\n\t\t\tif(shouldFilter){\n\t\t\t\tfetchMilestoneGroups().then(milestoneGroups => {\n\t\t\t\t\tthis.milestoneGroups = milestoneGroups;\n\t\t\t\t});\n\t\t\t}\n\t\t}\n\t},\n\tcomputed: {\n\t\tgroupedUsers(){\n\t\t\tif(!this.show.inactiveUsers)\n\t\t\t\treturn this.userGroups.filter(userGroup => userGroup.text !== 'Inactive');\n\n\t\t\treturn this.userGroups;\n\t\t}\n\t},\n\tmethods: {\n\t\tisEntireMilestoneGroupSelected(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\treturn groupIds.every(id => {\n\t\t\t\treturn this.milestones.includes(id);\n\t\t\t});\n\t\t},\n\t\ttoggleEntireMilestoneGroup(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\tlet newMilestones = this.milestones.filter(milestone => {\n\t\t\t\treturn !groupIds.includes(milestone);\n\t\t\t});\n\t\t\tif(!this.isEntireMilestoneGroupSelected(index)){\n\t\t\t\tnewMilestones = newMilestones.concat(groupIds);\n\t\t\t}\n\t\t\tthis.milestones = newMilestones;\n\t\t},\n\t\trunReport(){\n\t\t\tconst reportPromise = fetch('/report/aggregate', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate,\n\t\t\t\t\ttrainingLevel: this.trainingLevel,\n\t\t\t\t\tmilestones: this.milestones\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(report => {\n\t\t\t\tthis.report = Object.assign({}, this.report, report);\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\n\t\t\tconst statsPromise = fetch('/report/stats/resident', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(stats => {\n\t\t\t\tthis.stats = Object.assign({}, this.stats, stats);\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\n\t\t\treturn Promise.all([reportPromise, statsPromise]);\n\t\t},\n\t\tprintAll(){\n\t\t\tthis.$refs.individualReports.map(individual => {\n\t\t\t\tindividual.exportPdf();\n\t\t\t});\n\t\t}\n\t},\n\tcomponents: {\n\t\tReportDate,\n\t\tAggregateReport,\n\t\tIndividualReport,\n\t\tStatsReport,\n\t\tSelectTwo\n\t}\n};\n</script>\n\n<style scoped>\n\t.filter-milestones-container {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tflex-wrap: wrap;\n\t\tjustify-content: flex-start;\n\t\talign-items: stretch;\n\t}\n\n\t.milestone-group {\n\t\tflex-grow: 0;\n\t\tflex-shrink: 1;\n\t\twidth: 250px;\n\t\tmin-width: 200px;\n\t\tmax-width: 100%;\n\t\tmargin: 10px;\n\t}\n\n\t.milestone-group .panel-body {\n\t\theight: 300px;\n\t\toverflow: auto;\n\t}\n\n\t.milestone-group .panel-body label {\n\t\tfont-weight: normal;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.filter-milestones-container[data-v-65e2ee5c] {\n\tdisplay: flex;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tjustify-content: flex-start;\n\talign-items: stretch;\n}\n.milestone-group[data-v-65e2ee5c] {\n\tflex-grow: 0;\n\tflex-shrink: 1;\n\twidth: 250px;\n\tmin-width: 200px;\n\tmax-width: 100%;\n\tmargin: 10px;\n}\n.milestone-group .panel-body[data-v-65e2ee5c] {\n\theight: 300px;\n\toverflow: auto;\n}\n.milestone-group .panel-body label[data-v-65e2ee5c] {\n\tfont-weight: normal;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/TraineeReport.vue?3f16ce04"],"names":[],"mappings":";AA8PA;CACA,cAAA;CACA,oBAAA;CACA,gBAAA;CACA,4BAAA;CACA,qBAAA;CACA;AAEA;CACA,aAAA;CACA,eAAA;CACA,aAAA;CACA,iBAAA;CACA,gBAAA;CACA,aAAA;CACA;AAEA;CACA,cAAA;CACA,eAAA;CACA;AAEA;CACA,oBAAA;CACA","file":"TraineeReport.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block\">\n\t\t\t<h2>Trainee report</h2>\n\t\t\t<report-date v-model=\"dates\" />\n\t\t\t<label class=\"containing-label\">\n\t\t\t\tTraining level\n\t\t\t\t<select class=\"form-control\" v-model=\"trainingLevel\">\n\t\t\t\t\t<option value=\"all\">All</option>\n\t\t\t\t\t<option value=\"intern\">Intern</option>\n\t\t\t\t\t<option value=\"ca-1\">CA-1</option>\n\t\t\t\t\t<option value=\"ca-2\">CA-2</option>\n\t\t\t\t\t<option value=\"ca-3\">CA-3</option>\n\t\t\t\t\t<option value=\"fellow\">Fellow</option>\n\t\t\t\t</select>\n\t\t\t</label>\n\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"checkbox\" v-model=\"filterMilestones\" />\n\t\t\t\t\tFilter milestones\n\t\t\t\t</label>\n\t\t\t</div>\n\n\t\t\t<fieldset v-if=\"filterMilestones\">\n\t\t\t\t<legend>Milestones</legend>\n\t\t\t\t<div class=\"filter-milestones-container\">\n\t\t\t\t\t<div v-for=\"(milestoneGroup, index) of milestoneGroups\" class=\"milestone-group\">\n\t\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t\t<label class=\"panel-title\">\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t:checked=\"isEntireMilestoneGroupSelected(index)\"\n\t\t\t\t\t\t\t\t\t\t\t@click=\"toggleEntireMilestoneGroup(index)\" />\n\t\t\t\t\t\t\t\t\t{{ milestoneGroup.text }}\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t\t<div v-for=\"child of milestoneGroup.children\" class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t\t:value=\"child.id\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"milestones\" />\n\t\t\t\t\t\t\t\t\t\t{{ child.text }}\n\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\n\t\t\t<button type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t@click=\"runReport\">\n\t\t\t\tRun report\n\t\t\t</button>\n\t\t</div>\n\n\t\t<div v-if=\"report\">\n\t\t\t<div class=\"container body-block\">\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tUser\n\t\t\t\t\t\t<div class=\"input-group\">\n\t\t\t\t\t\t\t<select-two class=\"form-control\" v-if=\"filteredUsers\"\n\t\t\t\t\t\t\t\t\t:options=\"filteredUsers\" v-model=\"traineeId\"\n\t\t\t\t\t\t\t\t\t:multiple=\"multipleTrainees\">\n\t\t\t\t\t\t\t\t<option v-if=\"!multipleTrainees\" value=\"\">All</option>\n\t\t\t\t\t\t\t</select-two>\n\t\t\t\t\t\t\t<span class=\"input-group-addon\">\n\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"show.inactiveUsers\" />\n\t\t\t\t\t\t\t\t\tShow inactive\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t<span class=\"input-group-addon\">\n\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"multipleTrainees\" />\n\t\t\t\t\t\t\t\t\tSelect multiple\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t\n\t\t\t\t<button v-if=\"report && subjects && subjects.length > 0\"\n\t\t\t\t\t\ttype=\"button\" class=\"btn btn-primary\" @click=\"printAll\">\n\t\t\t\t\tExport all reports to PDFs\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t\t\n\t\t\t<template v-if=\"subjects && subjects.length > 0\">\n\t\t\t\t<individual-report v-for=\"subject of subjects\" :report=\"report\"\n\t\t\t\t\t:subject=\"subject\" ref=\"individualReports\" />\n\t\t\t</template>\n\t\t\t<template v-else>\n\t\t\t\t<stats-report v-if=\"stats\" :report=\"stats\" />\n\t\t\t\t<aggregate-report :report=\"report\" />\n\t\t\t</template>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport AggregateReport from './AggregateReport.vue';\nimport IndividualReport from './IndividualReport.vue';\nimport ReportDate from './ReportDate.vue';\nimport StatsReport from './StatsReport.vue';\nimport SelectTwo from '../SelectTwo.vue';\n\nimport {\n\tgetFetchHeaders,\n\tfetchMilestoneGroups,\n\tfetchUsers,\n\tgroupUsers\n} from '../../modules/utils.js';\n\nexport default {\n\tdata(){\n\t\treturn {\n\t\t\tdates: {\n\t\t\t\tstartDate: null,\n\t\t\t\tendDate: null\n\t\t\t},\n\t\t\ttrainingLevel: 'all',\n\t\t\ttraineeId: null,\n\t\t\tfilterMilestones: false,\n\t\t\tmilestones: [],\n\t\t\tmultipleTrainees: false,\n\n\t\t\tshow: {\n\t\t\t\tinactiveUsers: false\n\t\t\t},\n\n\t\t\treport: null,\n\t\t\tstats: null,\n\n\t\t\tmilestoneGroups: [],\n\t\t\tusers: []\n\t\t};\n\t},\n\tcreated(){\n\t\tfetchUsers().then(users => {\n\t\t\tthis.users = users;\n\t\t});\n\t},\n\n\twatch: {\n\t\tfilterMilestones(shouldFilter){\n\t\t\tif(shouldFilter){\n\t\t\t\tfetchMilestoneGroups().then(milestoneGroups => {\n\t\t\t\t\tthis.milestoneGroups = milestoneGroups;\n\t\t\t\t});\n\t\t\t}\n\t\t}\n\t},\n\tcomputed: {\n\t\tgroupedUsers(){\n\t\t\treturn groupUsers(this.users);\n\t\t},\n\t\tfilteredUsers(){\n\t\t\treturn this.show.inactiveUsers\n\t\t\t\t? this.groupedUsers\n\t\t\t\t: this.groupedUsers.filter(userGroup => userGroup.text !== 'Inactive');\n\n\t\t},\n\t\tsubjects(){\n\t\t\tif(this.traineeId){\n\t\t\t\tlet traineeId = Array.isArray(this.traineeId)\n\t\t\t\t\t? this.traineeId\n\t\t\t\t\t: [this.traineeId];\n\t\t\t\treturn this.users.filter(user => traineeId.includes(user.id.toString()));\n\t\t\t}\n\t\t}\n\t},\n\tmethods: {\n\t\tisEntireMilestoneGroupSelected(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\treturn groupIds.every(id => {\n\t\t\t\treturn this.milestones.includes(id);\n\t\t\t});\n\t\t},\n\t\ttoggleEntireMilestoneGroup(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\tlet newMilestones = this.milestones.filter(milestone => {\n\t\t\t\treturn !groupIds.includes(milestone);\n\t\t\t});\n\t\t\tif(!this.isEntireMilestoneGroupSelected(index)){\n\t\t\t\tnewMilestones = newMilestones.concat(groupIds);\n\t\t\t}\n\t\t\tthis.milestones = newMilestones;\n\t\t},\n\t\trunReport(){\n\t\t\tconst reportPromise = fetch('/report/aggregate', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate,\n\t\t\t\t\ttrainingLevel: this.trainingLevel,\n\t\t\t\t\tmilestones: this.milestones\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(report => {\n\t\t\t\tthis.report = Object.assign({}, this.report, report);\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\n\t\t\tconst statsPromise = fetch('/report/stats/resident', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(stats => {\n\t\t\t\tthis.stats = Object.assign({}, this.stats, stats);\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\n\t\t\treturn Promise.all([reportPromise, statsPromise]);\n\t\t},\n\t\tprintAll(){\n\t\t\tthis.$refs.individualReports.map(individual => {\n\t\t\t\tindividual.exportPdf();\n\t\t\t});\n\t\t}\n\t},\n\tcomponents: {\n\t\tReportDate,\n\t\tAggregateReport,\n\t\tIndividualReport,\n\t\tStatsReport,\n\t\tSelectTwo\n\t}\n};\n</script>\n\n<style scoped>\n\t.filter-milestones-container {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tflex-wrap: wrap;\n\t\tjustify-content: flex-start;\n\t\talign-items: stretch;\n\t}\n\n\t.milestone-group {\n\t\tflex-grow: 0;\n\t\tflex-shrink: 1;\n\t\twidth: 250px;\n\t\tmin-width: 200px;\n\t\tmax-width: 100%;\n\t\tmargin: 10px;\n\t}\n\n\t.milestone-group .panel-body {\n\t\theight: 300px;\n\t\toverflow: auto;\n\t}\n\n\t.milestone-group .panel-body label {\n\t\tfont-weight: normal;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -24124,7 +24163,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.subjectId = $event
       }
     }
-  })], 1), _vm._v(" "), (_vm.subjectId) ? _c('section', [(_vm.report.subjectEvals[_vm.subjectId] && _vm.report.subjectEvals[_vm.subjectId].length > 0) ? _c('bootstrap-alert', {
+  }, [_c('option', {
+    attrs: {
+      "value": ""
+    },
+    domProps: {
+      "value": ""
+    }
+  }, [_vm._v("All")])])], 1), _vm._v(" "), (_vm.subjectId) ? _c('section', [(_vm.report.subjectEvals[_vm.subjectId] && _vm.report.subjectEvals[_vm.subjectId].length > 0) ? _c('bootstrap-alert', {
     attrs: {
       "type": "info"
     }
@@ -24516,9 +24562,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.exportPdf
     }
-  }, [_vm._v("\n\t\t\t\tExport PDF\n\t\t\t")])], 1)] : [_c('p', {
-    staticClass: "lead"
-  }, [_vm._v("\n\t\t\tNo evaluations found for given parameters.\n\t\t")])]], 2)
+  }, [_vm._v("\n\t\t\t\tExport PDF\n\t\t\t")])], 1)] : _c('bootstrap-alert', {
+    attrs: {
+      "type": "warning"
+    }
+  }, [_vm._v("\n\t\tNo "), _c('strong', [_vm._v(_vm._s(_vm.trainingLevelDisplay))]), _vm._v(" evaluations found for\n\t\t"), _c('strong', [_vm._v(_vm._s(_vm.subject.full_name))]), _vm._v("\n\t\tbetween "), _c('strong', [_vm._v(_vm._s(_vm.renderDateCell(_vm.report.startDate.date)))]), _vm._v("\n\t\tand "), _c('strong', [_vm._v(_vm._s(_vm.renderDateCell(_vm.report.endDate.date)))]), _vm._v(".\n\t")])], 2)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "panel-heading"
@@ -25104,7 +25152,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('label', {
     staticClass: "containing-label"
-  }, [_vm._v("\n\t\t\tTraining level\n\t\t\t"), _c('select-two', {
+  }, [_vm._v("\n\t\t\tTraining level\n\t\t\t"), _c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -25112,12 +25160,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "trainingLevel"
     }],
     staticClass: "form-control",
-    domProps: {
-      "value": (_vm.trainingLevel)
-    },
     on: {
-      "input": function($event) {
-        _vm.trainingLevel = $event
+      "change": function($event) {
+        _vm.trainingLevel = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        })[0]
       }
     }
   }, [_c('option', {
@@ -25162,106 +25212,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     domProps: {
       "value": "fellow"
     }
-  }, [_vm._v("Fellow")])])], 1), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    staticClass: "containing-label"
-  }, [_vm._v("\n\t\t\t\tUser\n\t\t\t\t"), _c('div', {
-    staticClass: "input-group"
-  }, [(_vm.groupedUsers) ? _c('select-two', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.traineeId),
-      expression: "traineeId"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "options": _vm.groupedUsers,
-      "multiple": _vm.multipleTrainees
-    },
-    domProps: {
-      "value": (_vm.traineeId)
-    },
-    on: {
-      "input": function($event) {
-        _vm.traineeId = $event
-      }
-    }
-  }, [(!_vm.multipleTrainees) ? _c('option', {
-    attrs: {
-      "value": "-1"
-    },
-    domProps: {
-      "value": "-1"
-    }
-  }, [_vm._v("All")]) : _vm._e()]) : _vm._e(), _vm._v(" "), _c('span', {
-    staticClass: "input-group-addon"
-  }, [_c('label', [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.show.inactiveUsers),
-      expression: "show.inactiveUsers"
-    }],
-    attrs: {
-      "type": "checkbox"
-    },
-    domProps: {
-      "checked": Array.isArray(_vm.show.inactiveUsers) ? _vm._i(_vm.show.inactiveUsers, null) > -1 : (_vm.show.inactiveUsers)
-    },
-    on: {
-      "change": function($event) {
-        var $$a = _vm.show.inactiveUsers,
-          $$el = $event.target,
-          $$c = $$el.checked ? (true) : (false);
-        if (Array.isArray($$a)) {
-          var $$v = null,
-            $$i = _vm._i($$a, $$v);
-          if ($$c) {
-            $$i < 0 && (_vm.show.inactiveUsers = $$a.concat($$v))
-          } else {
-            $$i > -1 && (_vm.show.inactiveUsers = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-          }
-        } else {
-          _vm.show.inactiveUsers = $$c
-        }
-      }
-    }
-  }), _vm._v("\n\t\t\t\t\t\t\tShow inactive\n\t\t\t\t\t\t")])]), _vm._v(" "), _c('span', {
-    staticClass: "input-group-addon"
-  }, [_c('label', [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.multipleTrainees),
-      expression: "multipleTrainees"
-    }],
-    attrs: {
-      "type": "checkbox"
-    },
-    domProps: {
-      "checked": Array.isArray(_vm.multipleTrainees) ? _vm._i(_vm.multipleTrainees, null) > -1 : (_vm.multipleTrainees)
-    },
-    on: {
-      "change": function($event) {
-        var $$a = _vm.multipleTrainees,
-          $$el = $event.target,
-          $$c = $$el.checked ? (true) : (false);
-        if (Array.isArray($$a)) {
-          var $$v = null,
-            $$i = _vm._i($$a, $$v);
-          if ($$c) {
-            $$i < 0 && (_vm.multipleTrainees = $$a.concat($$v))
-          } else {
-            $$i > -1 && (_vm.multipleTrainees = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-          }
-        } else {
-          _vm.multipleTrainees = $$c
-        }
-      }
-    }
-  }), _vm._v("\n\t\t\t\t\t\t\tSelect multiple\n\t\t\t\t\t\t")])])], 1)])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("Fellow")])])]), _vm._v(" "), _c('div', {
     staticClass: "form-group"
   }, [_c('label', [_c('input', {
     directives: [{
@@ -25364,37 +25315,133 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.runReport
     }
-  }, [_vm._v("\n\t\t\tRun report\n\t\t")]), _vm._v(" "), (_vm.report && _vm.multipleTrainees) ? _c('button', {
-    staticClass: "btn btn-lg btn-primary",
+  }, [_vm._v("\n\t\t\tRun report\n\t\t")])], 1), _vm._v(" "), (_vm.report) ? _c('div', [_c('div', {
+    staticClass: "container body-block"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\t\t\tUser\n\t\t\t\t\t"), _c('div', {
+    staticClass: "input-group"
+  }, [(_vm.filteredUsers) ? _c('select-two', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.traineeId),
+      expression: "traineeId"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "options": _vm.filteredUsers,
+      "multiple": _vm.multipleTrainees
+    },
+    domProps: {
+      "value": (_vm.traineeId)
+    },
+    on: {
+      "input": function($event) {
+        _vm.traineeId = $event
+      }
+    }
+  }, [(!_vm.multipleTrainees) ? _c('option', {
+    attrs: {
+      "value": ""
+    },
+    domProps: {
+      "value": ""
+    }
+  }, [_vm._v("All")]) : _vm._e()]) : _vm._e(), _vm._v(" "), _c('span', {
+    staticClass: "input-group-addon"
+  }, [_c('label', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.show.inactiveUsers),
+      expression: "show.inactiveUsers"
+    }],
+    attrs: {
+      "type": "checkbox"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.show.inactiveUsers) ? _vm._i(_vm.show.inactiveUsers, null) > -1 : (_vm.show.inactiveUsers)
+    },
+    on: {
+      "change": function($event) {
+        var $$a = _vm.show.inactiveUsers,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$c) {
+            $$i < 0 && (_vm.show.inactiveUsers = $$a.concat($$v))
+          } else {
+            $$i > -1 && (_vm.show.inactiveUsers = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.show.inactiveUsers = $$c
+        }
+      }
+    }
+  }), _vm._v("\n\t\t\t\t\t\t\t\tShow inactive\n\t\t\t\t\t\t\t")])]), _vm._v(" "), _c('span', {
+    staticClass: "input-group-addon"
+  }, [_c('label', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.multipleTrainees),
+      expression: "multipleTrainees"
+    }],
+    attrs: {
+      "type": "checkbox"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.multipleTrainees) ? _vm._i(_vm.multipleTrainees, null) > -1 : (_vm.multipleTrainees)
+    },
+    on: {
+      "change": function($event) {
+        var $$a = _vm.multipleTrainees,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$c) {
+            $$i < 0 && (_vm.multipleTrainees = $$a.concat($$v))
+          } else {
+            $$i > -1 && (_vm.multipleTrainees = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.multipleTrainees = $$c
+        }
+      }
+    }
+  }), _vm._v("\n\t\t\t\t\t\t\t\tSelect multiple\n\t\t\t\t\t\t\t")])])], 1)])]), _vm._v(" "), (_vm.report && _vm.subjects && _vm.subjects.length > 0) ? _c('button', {
+    staticClass: "btn btn-primary",
     attrs: {
       "type": "button"
     },
     on: {
       "click": _vm.printAll
     }
-  }, [_vm._v("\n\t\t\tExport all reports to PDFs\n\t\t")]) : _vm._e()], 1), _vm._v(" "), (_vm.report) ? _c('div', [(_vm.multipleTrainees) ? _c('div', _vm._l((_vm.traineeId), function(id) {
+  }, [_vm._v("\n\t\t\t\tExport all reports to PDFs\n\t\t\t")]) : _vm._e()]), _vm._v(" "), (_vm.subjects && _vm.subjects.length > 0) ? _vm._l((_vm.subjects), function(subject) {
     return _c('individual-report', {
       ref: "individualReports",
       refInFor: true,
       attrs: {
         "report": _vm.report,
-        "subjectId": Number(id)
+        "subject": subject
       }
     })
-  })) : _c('div', [(_vm.traineeId === '-1' && _vm.stats) ? _c('stats-report', {
+  }) : [(_vm.stats) ? _c('stats-report', {
     attrs: {
       "report": _vm.stats
     }
-  }) : _vm._e(), _vm._v(" "), (_vm.traineeId === '-1') ? _c('aggregate-report', {
+  }) : _vm._e(), _vm._v(" "), _c('aggregate-report', {
     attrs: {
       "report": _vm.report
     }
-  }) : _c('individual-report', {
-    attrs: {
-      "report": _vm.report,
-      "subjectId": Number(_vm.traineeId)
-    }
-  })], 1)]) : _vm._e()])
+  })]], 2) : _vm._e()])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

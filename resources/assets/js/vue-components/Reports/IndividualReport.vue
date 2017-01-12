@@ -103,17 +103,19 @@
 			</section>
 
 		</template>
-		<template v-else>
-			<p class="lead">
-				No evaluations found for given parameters.
-			</p>
-		</template>
+		<bootstrap-alert v-else type="warning">
+			No <strong>{{ trainingLevelDisplay }}</strong> evaluations found for
+			<strong>{{ subject.full_name }}</strong>
+			between <strong>{{ renderDateCell(report.startDate.date) }}</strong>
+			and <strong>{{ renderDateCell(report.endDate.date) }}</strong>.
+		</bootstrap-alert>
 	</div>
 </template>
 
 <script>
 import Color from 'color';
 
+import BootstrapAlert from '../BootstrapAlert.vue';
 import BootstrapButtonInput from '../BootstrapButtonInput.vue';
 import ChartjsChart from '../ChartjsChart.vue';
 import DataTable from '../DataTable.vue';
@@ -142,8 +144,14 @@ function tableHeader(text){
 
 export default {
 	props: {
-		subjectId: Number,
-		report: Object
+		subject: {
+			type: Object,
+			required: true
+		},
+		report: {
+			type: Object,
+			required: true
+		}
 	},
 	data(){
 		return {
@@ -158,6 +166,17 @@ export default {
 		};
 	},
 	computed: {
+		subjectId(){
+			return this.subject.id;
+		},
+		trainingLevelDisplay(){
+			if(this.report.trainingLevel === 'all')
+				return;
+				
+			return this.report.trainingLevel.includes('-')
+				? this.report.trainingLevel.toUpperCase()
+				: ucfirst(this.report.trainingLevel);
+		},
 		milestoneCompetencyWidth(){
 			return {
 				'col-md-6': this.show.milestones && this.show.competencies,
@@ -408,6 +427,7 @@ export default {
 	methods: {
 		camelCaseToWords,
 		ucfirst,
+		renderDateCell,
 		exportPdf(){
 			if(!this.report.subjectEvaluations[this.subjectId])
 				return;
@@ -570,6 +590,7 @@ export default {
 	},
 
 	components: {
+		BootstrapAlert,
 		BootstrapButtonInput,
 		ChartjsChart,
 		DataTable
