@@ -34,10 +34,8 @@
 					</div>
 				</div>
 				
-				<template v-if="show.allEvals">				
-					<data-table :bordered="false" :thead="evalsThead"
-						:config="allEvalsConfig" />
-				</template>
+				<data-table v-if="show.allEvals" :bordered="false"
+					:thead="evalsThead" :config="allEvalsConfig" />
 
 			</bootstrap-alert>
 			<bootstrap-alert v-else type="warning"

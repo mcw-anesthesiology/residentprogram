@@ -6302,6 +6302,8 @@ var erd = (0, _elementResizeDetector2.default)({
 //
 //
 //
+//
+//
 
 exports.default = {
 	props: {
@@ -6339,7 +6341,7 @@ exports.default = {
 	mounted: function mounted() {
 		$(this.$refs.table).DataTable(Object.assign({}, this.config, { data: this.data }));
 
-		erd.listenTo(this.$refs.table, function () {
+		erd.listenTo(this.$refs.container, function () {
 			$(window).trigger('resize');
 		});
 	},
@@ -7324,8 +7326,6 @@ var _datatableUtils = __webpack_require__(9);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//
-//
 //
 //
 //
@@ -24092,13 +24092,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.show.allEvals = !_vm.show.allEvals
       }
     }
-  }, [_vm._v("\n\t\t\t\t\t\tShow all\n\t\t\t\t\t")])])]), _vm._v(" "), (_vm.show.allEvals) ? [_c('data-table', {
+  }, [_vm._v("\n\t\t\t\t\t\tShow all\n\t\t\t\t\t")])])]), _vm._v(" "), (_vm.show.allEvals) ? _c('data-table', {
     attrs: {
       "bordered": false,
       "thead": _vm.evalsThead,
       "config": _vm.allEvalsConfig
     }
-  })] : _vm._e()], 2) : _c('bootstrap-alert', {
+  }) : _vm._e()], 1) : _c('bootstrap-alert', {
     attrs: {
       "type": "warning",
       "text": ("No evaluations found for " + (_vm.report.formContents.title) + " in report parameters.")
@@ -25799,7 +25799,9 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('table', {
+  return _c('div', {
+    ref: "container"
+  }, [_c('table', {
     ref: "table",
     staticClass: "table",
     class: _vm.tableClass,
@@ -25817,9 +25819,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           "rowspan": th.rowspan,
           "colspan": th.colspan
         }
-      }, [_vm._v("\n\t\t\t\t\t" + _vm._s(th.text || th) + "\n\t\t\t\t")])
+      }, [_vm._v("\n\t\t\t\t\t\t" + _vm._s(th.text || th) + "\n\t\t\t\t\t")])
     }))
-  }))])
+  }))])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

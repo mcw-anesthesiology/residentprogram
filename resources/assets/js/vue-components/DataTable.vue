@@ -1,15 +1,17 @@
 <template>
-	<table :id="id" class="table" :class="tableClass" width="100%" ref="table">
-			<thead>
-				<tr v-for="(row, rowIndex) of thead" :key="`row-${rowIndex}`">
-					<th v-for="(th, thIndex) of row" :key="thIndex"
-							:rowspan="th.rowspan"
-							:colspan="th.colspan">
-						{{ th.text || th }}
-					</th>
-				</tr>
-			</thead>		
-	</table>
+	<div ref="container">
+		<table :id="id" class="table" :class="tableClass" width="100%" ref="table">
+				<thead>
+					<tr v-for="(row, rowIndex) of thead" :key="`row-${rowIndex}`">
+						<th v-for="(th, thIndex) of row" :key="thIndex"
+								:rowspan="th.rowspan"
+								:colspan="th.colspan">
+							{{ th.text || th }}
+						</th>
+					</tr>
+				</thead>		
+		</table>		
+	</div>
 </template>
 
 <script>
@@ -55,7 +57,7 @@ export default {
 	mounted(){
 		$(this.$refs.table).DataTable(Object.assign({}, this.config, {data: this.data}));
 
-		erd.listenTo(this.$refs.table, () => {
+		erd.listenTo(this.$refs.container, () => {
 			$(window).trigger('resize');
 		});
 	},
