@@ -1,15 +1,16 @@
 <template>
-	<table class="table table-bordered">
+	<table v-if="responses || percentage || averagePercentage"
+			class="table table-bordered">
 		<tbody>
-			<tr>
+			<tr v-if="responses != null">
 				<th>Responses</th>
 				<td>{{ responses }}</td>
 			</tr>
-			<tr>
+			<tr v-if="percentage != null">
 				<th>Percentage</th>
 				<td>{{ percentage }}%</td>
 			</tr>
-			<tr>
+			<tr v-if="averagePercentage != null">
 				<th>Average</th>
 				<td>{{ averagePercentage }}%</td>
 			</tr>

@@ -105,12 +105,15 @@ export function fetchMilestoneGroups(){
 }
 
 export function fetchUserGroups(){
+	return fetchUsers().then(groupUsers);
+}
+
+export function fetchUsers(){
 	return fetch('/users', {
 		method: 'GET',
 		headers: getFetchHeaders(),
 		credentials: 'same-origin'
-	}).then(response => response.json())
-	.then(groupUsers);
+	}).then(response => response.json());
 }
 
 export function groupUsers(users){
@@ -180,13 +183,16 @@ export function groupUsers(users){
 	return groupedUsers;
 }
 
-export function fetchFormGroups(){
+export function fetchForms(){
 	return fetch('/forms', {
 		method: 'GET',
 		headers: getFetchHeaders(),
-		credentials: 'same-origin'
-	}).then(response => response.json())
-	.then(groupForms);
+		credentials: 'same-origin',
+	}).then(response => response.json());
+}
+
+export function fetchFormGroups(){
+	return fetchForms().then(groupForms);
 }
 
 export function groupForms(forms){

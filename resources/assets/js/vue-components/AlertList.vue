@@ -1,7 +1,7 @@
 <template>
 	<section>		
-		<bootstrap-alert v-for="(alert, index) of value"
-			v-bind="alert" @close="removeAlert(index)" />
+		<bootstrap-alert v-for="(alert, index) of value" v-bind="alert"
+			:dismissable="true" @close="removeAlert(index)" />
 	</section>
 </template>
 

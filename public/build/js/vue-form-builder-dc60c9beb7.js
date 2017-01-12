@@ -10,8 +10,8 @@
 })(this, function() {
 return webpackJsonp([3],{
 
-/***/ 11:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 12:
+/***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('select', {
@@ -47,10 +47,10 @@ if (false) {
   }
 }
 
-/***/ },
+/***/ }),
 
-/***/ 165:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 168:
+/***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
 // imports
@@ -62,10 +62,10 @@ exports.push([module.i, "\n.form-builder-question-option[data-v-09008ada] {\n\tm
 // exports
 
 
-/***/ },
+/***/ }),
 
-/***/ 170:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 173:
+/***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
 // imports
@@ -77,10 +77,10 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 // exports
 
 
-/***/ },
+/***/ }),
 
-/***/ 182:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 185:
+/***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
 // imports
@@ -92,10 +92,10 @@ exports.push([module.i, "\n.question-id[data-v-aaf882ea] {\n\tfont-size: larger;
 // exports
 
 
-/***/ },
+/***/ }),
 
 /***/ 2:
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 /*
 	MIT License http://www.opensource.org/licenses/mit-license.php
@@ -315,19 +315,19 @@ function applyToTag(styleElement, obj) {
 }
 
 
-/***/ },
+/***/ }),
 
-/***/ 268:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 259:
+/***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* script */
-__vue_exports__ = __webpack_require__(71)
+__vue_exports__ = __webpack_require__(74)
 
 /* template */
-var __vue_template__ = __webpack_require__(292)
+var __vue_template__ = __webpack_require__(284)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -360,22 +360,22 @@ if (__vue_options__.functional) {console.error("[vue-loader] FormBuilderInstruct
 module.exports = __vue_exports__
 
 
-/***/ },
+/***/ }),
 
-/***/ 269:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 260:
+/***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(319)
+__webpack_require__(312)
 
 /* script */
-__vue_exports__ = __webpack_require__(72)
+__vue_exports__ = __webpack_require__(75)
 
 /* template */
-var __vue_template__ = __webpack_require__(291)
+var __vue_template__ = __webpack_require__(283)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -409,22 +409,22 @@ if (__vue_options__.functional) {console.error("[vue-loader] FormBuilderOption.v
 module.exports = __vue_exports__
 
 
-/***/ },
+/***/ }),
 
-/***/ 270:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 261:
+/***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(336)
+__webpack_require__(329)
 
 /* script */
-__vue_exports__ = __webpack_require__(73)
+__vue_exports__ = __webpack_require__(76)
 
 /* template */
-var __vue_template__ = __webpack_require__(316)
+var __vue_template__ = __webpack_require__(309)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -458,10 +458,10 @@ if (__vue_options__.functional) {console.error("[vue-loader] FormBuilderQuestion
 module.exports = __vue_exports__
 
 
-/***/ },
+/***/ }),
 
-/***/ 291:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 283:
+/***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
@@ -564,10 +564,10 @@ if (false) {
   }
 }
 
-/***/ },
+/***/ }),
 
-/***/ 292:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 284:
+/***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
@@ -620,10 +620,10 @@ if (false) {
   }
 }
 
-/***/ },
+/***/ }),
 
-/***/ 300:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 292:
+/***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
@@ -815,10 +815,10 @@ if (false) {
   }
 }
 
-/***/ },
+/***/ }),
 
-/***/ 316:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 309:
+/***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
@@ -1092,15 +1092,15 @@ if (false) {
   }
 }
 
-/***/ },
+/***/ }),
 
-/***/ 319:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 312:
+/***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(165);
+var content = __webpack_require__(168);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(2)(content, {});
@@ -1119,15 +1119,15 @@ if(false) {
 	module.hot.dispose(function() { update(); });
 }
 
-/***/ },
+/***/ }),
 
-/***/ 324:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 317:
+/***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(170);
+var content = __webpack_require__(173);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(2)(content, {});
@@ -1146,15 +1146,15 @@ if(false) {
 	module.hot.dispose(function() { update(); });
 }
 
-/***/ },
+/***/ }),
 
-/***/ 336:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 329:
+/***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(182);
+var content = __webpack_require__(185);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(2)(content, {});
@@ -1173,10 +1173,10 @@ if(false) {
 	module.hot.dispose(function() { update(); });
 }
 
-/***/ },
+/***/ }),
 
-/***/ 339:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 332:
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -1190,7 +1190,7 @@ var _vue = __webpack_require__(6);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _FormBuilder = __webpack_require__(59);
+var _FormBuilder = __webpack_require__(60);
 
 var _FormBuilder2 = _interopRequireDefault(_FormBuilder);
 
@@ -1214,10 +1214,10 @@ function createFormBuilder(el) {
 	});
 }
 
-/***/ },
+/***/ }),
 
 /***/ 5:
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
@@ -1226,7 +1226,7 @@ var __vue_styles__ = {}
 __vue_exports__ = __webpack_require__(8)
 
 /* template */
-var __vue_template__ = __webpack_require__(11)
+var __vue_template__ = __webpack_require__(12)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -1259,22 +1259,22 @@ if (__vue_options__.functional) {console.error("[vue-loader] SelectTwo.vue: func
 module.exports = __vue_exports__
 
 
-/***/ },
+/***/ }),
 
-/***/ 59:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 60:
+/***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(324)
+__webpack_require__(317)
 
 /* script */
-__vue_exports__ = __webpack_require__(70)
+__vue_exports__ = __webpack_require__(73)
 
 /* template */
-var __vue_template__ = __webpack_require__(300)
+var __vue_template__ = __webpack_require__(292)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -1308,10 +1308,10 @@ if (__vue_options__.functional) {console.error("[vue-loader] FormBuilder.vue: fu
 module.exports = __vue_exports__
 
 
-/***/ },
+/***/ }),
 
-/***/ 70:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 73:
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -1320,11 +1320,11 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _FormBuilderInstruction = __webpack_require__(268);
+var _FormBuilderInstruction = __webpack_require__(259);
 
 var _FormBuilderInstruction2 = _interopRequireDefault(_FormBuilderInstruction);
 
-var _FormBuilderQuestion = __webpack_require__(270);
+var _FormBuilderQuestion = __webpack_require__(261);
 
 var _FormBuilderQuestion2 = _interopRequireDefault(_FormBuilderQuestion);
 
@@ -1585,10 +1585,10 @@ exports.default = {
 //
 //
 
-/***/ },
+/***/ }),
 
-/***/ 71:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 74:
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -1624,10 +1624,10 @@ exports.default = {
 	}
 };
 
-/***/ },
+/***/ }),
 
-/***/ 72:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 75:
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -1693,10 +1693,10 @@ exports.default = {
 	}
 };
 
-/***/ },
+/***/ }),
 
-/***/ 73:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 76:
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -1705,7 +1705,7 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _FormBuilderOption = __webpack_require__(269);
+var _FormBuilderOption = __webpack_require__(260);
 
 var _FormBuilderOption2 = _interopRequireDefault(_FormBuilderOption);
 
@@ -1974,10 +1974,10 @@ exports.default = {
 	}
 };
 
-/***/ },
+/***/ }),
 
 /***/ 8:
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -2146,8 +2146,8 @@ exports.default = {
 	}
 };
 
-/***/ }
+/***/ })
 
-},[339]);
+},[332]);
 });
 //# sourceMappingURL=vue-form-builder.js.map

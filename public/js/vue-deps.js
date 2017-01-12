@@ -1,7 +1,7 @@
 webpackJsonp([6],{
 
 /***/ 1:
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 /*
 	MIT License http://www.opensource.org/licenses/mit-license.php
@@ -55,10 +55,10 @@ module.exports = function() {
 };
 
 
-/***/ },
+/***/ }),
 
 /***/ 6:
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process, global) {/*!
@@ -8577,12 +8577,12 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(64), __webpack_require__(12)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(65), __webpack_require__(18)))
 
-/***/ },
+/***/ }),
 
-/***/ 64:
-/***/ function(module, exports) {
+/***/ 65:
+/***/ (function(module, exports) {
 
 // shim for using process in browser
 var process = module.exports = {};
@@ -8766,7 +8766,7 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 
-/***/ }
+/***/ })
 
 });
 //# sourceMappingURL=vue-deps.js.map

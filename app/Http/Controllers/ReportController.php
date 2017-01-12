@@ -1070,14 +1070,15 @@ class ReportController extends Controller
 		$subjectResponses = [];
 		$subjectEvals = [];
 		$averageResponses = [];
-		$averageEvals = [];
+		$evals = [];
 		$subjects = [];
 		$questions = [];
 		$questionResponses = [];
+		$averagePercentages = [];
 		$subjectResponseValues = [];
 
 		$chunkCallback = function($responses) use(&$subjectResponses, &$subjectEvals,
-				&$averageResponses, &$averageEvals, &$subjects, &$questions,
+				&$averageResponses, &$evals, &$subjects, &$questions,
 				&$questionResponses, &$subjectResponseValues){
             foreach($responses as $response){
                 if(!isset($subjectResponses[$response->subject_id][$response->question_id][$response->response]))
@@ -1089,8 +1090,8 @@ class ReportController extends Controller
 					$subjectEvals[$response->subject_id] = [];
 				if(!in_array($response->evaluation_id, $subjectEvals[$response->subject_id]))
                     $subjectEvals[$response->subject_id][] = $response->evaluation_id;
-                if(!isset($averageEvals[$response->evaluation_id]))
-                    $averageEvals[$response->evaluation_id] = 1;
+                if(!in_array($response->evaluation_id, $evals))
+                    $evals[] = $response->evaluation_id;
 
                 if(!isset($subjects[$response->subject_id]))
                     $subjects[$response->subject_id] = 1;
@@ -1133,7 +1134,7 @@ class ReportController extends Controller
 
     	$textQuery->chunk(10000, $chunkCallback);
 
-        $averageEvals = count($averageEvals);
+        $numEvals = count($evals);
         $subjects = array_keys($subjects);
         $questions = array_keys($questions);
         foreach($questions as $question_id){
@@ -1142,13 +1143,13 @@ class ReportController extends Controller
 
         foreach($questions as $question_id){
             foreach($questionResponses[$question_id] as $response){
-                $averagePercentages[$question_id][$response] = round(($averageResponses[$question_id][$response]/$averageEvals)*100);
+                $averagePercentages[$question_id][$response] = round(($averageResponses[$question_id][$response]/$numEvals)*100);
                 foreach($subjects as $subject_id){
                     if(isset($subjectResponses[$subject_id][$question_id][$response]))
                         $subjectPercentages[$subject_id][$question_id][$response] =
 							round(($subjectResponses[$subject_id][$question_id][$response]
 							/ count($subjectEvals[$subject_id])) * 100);
-                    else{
+                    else {
                         $subjectResponses[$subject_id][$question_id][$response] = 0;
                         $subjectPercentages[$subject_id][$question_id][$response] = 0;
                     }
@@ -1156,48 +1157,15 @@ class ReportController extends Controller
             }
         }
 
-		$subjectId = $request->input("subject");
 		$form = Form::find($request->input("form_id"));
-		$subject = User::find($subjectId);
-        $subjectName = $subject->full_name;
-        $formTitle = $form->title;
-
-		if(!isset($subjectEvals[$subjectId])){
-			$errorMessage = "No completed evaluations for {$subjectName} between "
-				. "{$startDate} and {$endDate} for form {$formTitle}";
-			if($request->ajax())
-				return response(null, 404);
-			else
-				return back()->with("error", $errorMessage);
-		}
-
-        $formPath = $form->xml_path;
-        $subjectResponses = $subjectResponses[$subjectId];
-        $subjectPercentages = $subjectPercentages[$subjectId];
-        $subjectEvals = $subjectEvals[$subjectId];
-		sort($subjectEvals);
-        $subjectResponseValues = $subjectResponseValues[$subjectId];
-
-		if(!$request->ajax()){
-			$subjectResponses = $this->encodeAndStrip($subjectResponses);
-			$subjectPercentages = $this->encodeAndStrip($subjectPercentages);
-			$subjectResponseValues = $this->encodeAndStrip($subjectResponseValues);
-			$subjectEvals = $this->encodeAndStrip($subjectEvals);
-			$averagePercentages = $this->encodeAndStrip($averagePercentages);
-			$averageEvals = $this->encodeAndStrip($averageEvals);
-			$subjects = $this->encodeAndStrip($subjects);
-			$questions = $this->encodeAndStrip($questions);
-			$questionResponses = $this->encodeAndStrip($questionResponses);
-		}
 
 		$formContents = $form->contents;
 
-        $data = compact("subjectResponses", "averageResponses",
-			"formPath", "subjectEvals", "averageEvals",
-        	"subjectPercentages", "averagePercentages", "subjectId", "subjects",
-			"questions", "questionResponses", "subjectResponseValues", "subjectName",
-			"formTitle", "startDate", "endDate", "formContents");
-
+        $data = compact("evals", "subjectEvals", "subjectResponses",
+			"averageResponses", "subjectPercentages", "averagePercentages",
+			"questionResponses", "subjectResponseValues", "startDate", "endDate",
+			"formContents");
+			
 		if($request->ajax())
         	return $data;
 		else

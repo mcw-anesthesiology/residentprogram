@@ -83,7 +83,11 @@ export default {
 				milestones: false,
 				competencies: true,
 				standardDeviations: false,
+				totals: true,
 				charts: true
+			},
+			transformations: {
+				levelRatings: false
 			},
 			chartType: 'radar',
 			chartOrientation: 'vertical'

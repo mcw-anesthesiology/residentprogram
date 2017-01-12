@@ -433,6 +433,10 @@ body {
 	background-color: transparent !important;
 }
 
+.alert {
+    margin: 20px 0;
+}
+
 label.normal-text-label {
 	font-weight: normal;
 }

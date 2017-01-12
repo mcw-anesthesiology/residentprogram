@@ -10,8 +10,8 @@
 })(this, function() {
 return webpackJsonp([5],{
 
-/***/ 177:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 180:
+/***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
 // imports
@@ -23,10 +23,10 @@ exports.push([module.i, "\n.milestone-competency-question-lists[data-v-6739f1e8]
 // exports
 
 
-/***/ },
+/***/ }),
 
 /***/ 2:
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 /*
 	MIT License http://www.opensource.org/licenses/mit-license.php
@@ -246,10 +246,10 @@ function applyToTag(styleElement, obj) {
 }
 
 
-/***/ },
+/***/ }),
 
-/***/ 310:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 303:
+/***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
@@ -306,15 +306,15 @@ if (false) {
   }
 }
 
-/***/ },
+/***/ }),
 
-/***/ 331:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 324:
+/***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(177);
+var content = __webpack_require__(180);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(2)(content, {});
@@ -333,10 +333,10 @@ if(false) {
 	module.hot.dispose(function() { update(); });
 }
 
-/***/ },
+/***/ }),
 
-/***/ 340:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 333:
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -350,7 +350,7 @@ var _vue = __webpack_require__(6);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _MilestoneCompetencyQuestionLists = __webpack_require__(60);
+var _MilestoneCompetencyQuestionLists = __webpack_require__(61);
 
 var _MilestoneCompetencyQuestionLists2 = _interopRequireDefault(_MilestoneCompetencyQuestionLists);
 
@@ -477,22 +477,22 @@ function renderMilestoneCompetencyLists(milestoneQuestions, competencyQuestions)
 	}
 }
 
-/***/ },
+/***/ }),
 
-/***/ 60:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 61:
+/***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(331)
+__webpack_require__(324)
 
 /* script */
-__vue_exports__ = __webpack_require__(78)
+__vue_exports__ = __webpack_require__(81)
 
 /* template */
-var __vue_template__ = __webpack_require__(310)
+var __vue_template__ = __webpack_require__(303)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -526,10 +526,10 @@ if (__vue_options__.functional) {console.error("[vue-loader] MilestoneCompetency
 module.exports = __vue_exports__
 
 
-/***/ },
+/***/ }),
 
-/***/ 78:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 81:
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -599,8 +599,8 @@ exports.default = {
 //
 //
 
-/***/ }
+/***/ })
 
-},[340]);
+},[333]);
 });
 //# sourceMappingURL=vue-milestone-competency-lists.js.map

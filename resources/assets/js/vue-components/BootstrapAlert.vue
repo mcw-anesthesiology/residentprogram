@@ -1,6 +1,6 @@
 <template>
 	<div class="alert" :class="alertTypeClass">
-		<button type="button" class="close" aria-label="Close"
+		<button v-if="dismissable" type="button" class="close" aria-label="Close"
 				@click="$emit('close')">
 			<span aria-hidden="true">&times;</span>
 		</button>
@@ -14,7 +14,7 @@ export default {
 	props: {
 		type: {
 			type: String,
-			required: true,
+			default: 'error',
 			validator(type){
 				return [
 					'info',
@@ -28,6 +28,10 @@ export default {
 		text: {
 			type: String,
 			required: false
+		},
+		dismissable: {
+			type: Boolean,
+			default: false
 		}
 	},
 	computed: {
@@ -35,7 +39,7 @@ export default {
 			if(this.type === 'error')
 				return 'alert-danger';
 			
-			return `alert-${this.type}`
+			return `alert-${this.type}`;
 		}
 	}
 };

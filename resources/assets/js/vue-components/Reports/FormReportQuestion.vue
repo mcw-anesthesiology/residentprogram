@@ -16,7 +16,8 @@
 					<form-report-question-option-stats v-bind="option" />
 				</form-reader-question-option>
 
-				<div v-if="['text', 'number'].includes(questionType)" class="question-option">
+				<div v-if="subjectResponseValues && ['text', 'number'].includes(questionType)"
+						class="question-option">
 					<table class="table table-bordered">
 						<tbody>
 							<tr>
@@ -39,7 +40,7 @@
 			</div>
 
 			<div v-if="options && showChart" class="row">
-				<div class="col-md-6">
+				<div v-if="subjectResponses" class="col-md-6">
 					<h3>Subject responses</h3>
 					<chartjs-chart :id="`${id}-chart`" :type="chartType"
 						:data="chartData" :options="chartOptions" />

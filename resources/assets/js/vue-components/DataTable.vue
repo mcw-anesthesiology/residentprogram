@@ -1,20 +1,19 @@
 <template>
-	<table :id="id" class="table table-striped table-bordered" width="100%">
-		<thead>
-			<tr v-for="(row, rowIndex) of thead" :key="`row-${rowIndex}`">
-				<th v-for="(th, thIndex) of row" :key="thIndex"
-						:rowspan="th.rowspan"
-						:colspan="th.colspan">
-					{{ th.text || th }}
-				</th>
-			</tr>
-		</thead>
+	<table :id="id" class="table" :class="tableClass" width="100%" ref="table">
+			<thead>
+				<tr v-for="(row, rowIndex) of thead" :key="`row-${rowIndex}`">
+					<th v-for="(th, thIndex) of row" :key="thIndex"
+							:rowspan="th.rowspan"
+							:colspan="th.colspan">
+						{{ th.text || th }}
+					</th>
+				</tr>
+			</thead>		
 	</table>
 </template>
 
 <script>
 import ElementResizeDetector from 'element-resize-detector';
-import uniqueId from 'lodash/uniqueId';
 
 const erd = ElementResizeDetector({
 	strategy: 'scroll'
@@ -24,13 +23,20 @@ export default {
 	props: {
 		id: {
 			type: String,
-			default(){
-				return `datatable-${uniqueId()}`;
-			}
+			required: false
 		},
+		striped: {
+			type: Boolean,
+			default: true
+		},
+		bordered: {
+			type: Boolean,
+			default: true
+		},
+		
 		thead: {
 			type: Array,
-			required: true
+			required: false
 		},
 		config: {
 			type: Object,
@@ -38,7 +44,7 @@ export default {
 		},
 		data: {
 			type: Array,
-			required: true
+			required: false
 		}
 	},
 	data(){
@@ -47,24 +53,31 @@ export default {
 		};
 	},
 	mounted(){
-		$(`#${this.id}`).DataTable(Object.assign({}, this.config, {data: this.data}));
+		$(this.$refs.table).DataTable(Object.assign({}, this.config, {data: this.data}));
 
-		let parent = document.querySelector(`#${this.id}`).parentElement;
-		erd.listenTo(parent, () => {
+		erd.listenTo(this.$refs.table, () => {
 			$(window).trigger('resize');
 		});
+	},
+	computed: {
+		tableClass(){
+			return {
+				'table-striped': this.striped,
+				'table-bordered': this.bordered
+			};
+		}
 	},
 	watch: {
 		config(){
 			let config = Object.assign({destroy: true}, this.config, {data: this.data});
-			$(`#${this.id}`).DataTable(config);
+			$(this.$refs.table).DataTable(config);
 		},
 		data(data){
 			this.updateData = true;
 			this.$nextTick(() => {
 				// only set data if table not already recreated with new data
 				if(this.updateData){
-					$(`#${this.id}`).DataTable({
+					$(this.$refs.table).DataTable({
 						retrieve: true
 					}).clear().rows.add(data).draw();
 					this.updateData = false;
@@ -73,16 +86,16 @@ export default {
 		}
 	},
 	beforeUpdate(){
-		$(`#${this.id}`).DataTable({
+		$(this.$refs.table).DataTable({
 			retrieve: true
 		}).clear().destroy();
 		this.updateData = false;
 	},
 	updated(){
-		$(`#${this.id}`).DataTable(Object.assign({}, this.config, {data: this.data}));
+		$(this.$refs.table).DataTable(Object.assign({}, this.config, {data: this.data}));
 	},
 	beforeDestroy(){
-		$(`#${this.id}`).DataTable({
+		$(this.$refs.table).DataTable({
 			retrieve: true
 		}).clear().destroy();
 	}

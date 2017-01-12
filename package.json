@@ -20,14 +20,11 @@
     "analyze:bundle": "webpack-bundle-analyzer ./public/js/stats.json"
   },
   "browserslist": [
-    "chrome",
-    "firefox",
-    "edge",
-    "safari",
+    "> 1%",
+    "last 2 versions",
     "ie >= 9"
   ],
   "devDependencies": {
-    "apply-loader": "git+https://github.com/jacobmischka/apply-loader",
     "babel-core": "^6.10.4",
     "babel-eslint": "^7.1.1",
     "babel-loader": "^6.2.4",
@@ -36,6 +33,7 @@
     "babel-polyfill": "^6.20.0",
     "babel-preset-latest": "^6.16.0",
     "bootstrap-sass": "^3.0.0",
+    "call-loader": "^1.0.0",
     "chart.js": "^2.2.0-rc.2",
     "classlist-polyfill": "^1.0.3",
     "color": "^0.11.4",
@@ -63,7 +61,7 @@
     "vue-flatpickr": "^2.2.5",
     "vue-loader": "^10.0.2",
     "vue-template-compiler": "^2.1.6",
-    "webpack": "^2.2.0-rc.3",
+    "webpack": "beta",
     "webpack-bundle-analyzer": "^2.2.1",
     "whatwg-fetch": "^2.0.1"
   },

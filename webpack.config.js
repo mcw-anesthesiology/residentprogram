@@ -41,7 +41,7 @@ module.exports = {
 			},
 			{
 				test: /element-dataset/,
-				loader: 'apply-loader'
+				loader: 'call-loader'
 			}
 		]
 	},
