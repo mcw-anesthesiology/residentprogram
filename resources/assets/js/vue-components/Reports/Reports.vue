@@ -8,6 +8,9 @@
 						<input type="radio" :value="type" v-model="reportType" />
 						{{ ucfirst(type) }}
 					</label>
+					<a href="/report/needs-eval" class="btn btn-default report-type-option">
+						Needs evaluations
+					</a>
 				</div>
 			</fieldset>
 		</div>

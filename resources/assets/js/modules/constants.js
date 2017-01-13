@@ -95,7 +95,7 @@ export const FELLOWSHIP_VALUE_MAPS = {
 export const REPORT_TYPES = {
 	TRAINEE: 'trainee',
 	FORM: 'form',
-	NEEDS: 'needs'
+	// NEEDS: 'needs'
 };
 
 export const CHART_TYPES = [
