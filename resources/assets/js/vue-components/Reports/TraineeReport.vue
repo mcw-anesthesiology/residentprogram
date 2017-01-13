@@ -50,43 +50,66 @@
 				</div>
 			</fieldset>
 
-			<button type="button" class="btn btn-lg btn-primary"
-					@click="runReport">
-				Run report
-			</button>
+			<div class="btn-lg-submit-container">
+				<button type="button" class="btn btn-lg btn-primary"
+						@click="runReport">
+					Run report
+				</button>
+			</div>
 		</div>
 
 		<div v-if="report">
 			<div class="container body-block">
 				<div class="form-group">
-					<label class="containing-label">
-						User
-						<div class="input-group">
-							<select-two class="form-control" v-if="filteredUsers"
-									:options="filteredUsers" v-model="traineeId"
-									:multiple="multipleTrainees">
-								<option v-if="!multipleTrainees" value="">All</option>
-							</select-two>
-							<span class="input-group-addon">
-								<label>
-									<input type="checkbox" v-model="show.inactiveUsers" />
-									Show inactive
-								</label>
-							</span>
-							<span class="input-group-addon">
-								<label>
-									<input type="checkbox" v-model="multipleTrainees" />
-									Select multiple
-								</label>
-							</span>
+					<div class="row">
+						<div class="col-md-4">
+							<bootstrap-alert type="info">
+								<span class="glyphicon glyphicon-info-sign"></span>
+								Select a subject to show
+								individual reports.
+							</bootstrap-alert>
 						</div>
-					</label>
+						<div class="col-sm-10 col-md-7">
+							<label class="containing-label">
+								Subject
+								<div class="input-group">
+									<select-two class="form-control" v-if="filteredUsers"
+											:options="filteredUsers" v-model="traineeId"
+											:multiple="multipleTrainees">
+										<option v-if="!multipleTrainees" value="">All</option>
+									</select-two>
+									<span class="input-group-addon">
+										<label>
+											<input type="checkbox" v-model="show.inactiveUsers" />
+											Show inactive
+										</label>
+									</span>
+									<span class="input-group-addon">
+										<label>
+											<input type="checkbox" v-model="multipleTrainees" />
+											Select multiple
+										</label>
+									</span>
+								</div>
+							</label>
+						</div>
+						<div class="col-sm-2 col-md-1">
+							<button type="button" class="btn btn-default labelless-button"
+									@click="traineeId = null">
+								Clear
+							</button>
+						</div>
+					</div>
+					
+					<div class="btn-lg-submit-container">
+						<button v-if="report && subjects && subjects.length > 0"
+								type="button" class="btn btn-lg btn-primary"
+								@click="printAll">
+							Export all
+							<svg-icon src="/img/icons/pdf.svg" />
+						</button>
+					</div>
 				</div>
-				
-				<button v-if="report && subjects && subjects.length > 0"
-						type="button" class="btn btn-primary" @click="printAll">
-					Export all reports to PDFs
-				</button>
 			</div>
 			
 			<template v-if="subjects && subjects.length > 0">
@@ -106,7 +129,9 @@ import AggregateReport from './AggregateReport.vue';
 import IndividualReport from './IndividualReport.vue';
 import ReportDate from './ReportDate.vue';
 import StatsReport from './StatsReport.vue';
+import BootstrapAlert from '../BootstrapAlert.vue';
 import SelectTwo from '../SelectTwo.vue';
+import SvgIcon from '../SvgIcon.vue';
 
 import {
 	getFetchHeaders,
@@ -246,7 +271,9 @@ export default {
 		AggregateReport,
 		IndividualReport,
 		StatsReport,
-		SelectTwo
+		BootstrapAlert,
+		SelectTwo,
+		SvgIcon
 	}
 };
 </script>

@@ -1,29 +1,14 @@
-export function residentRadarScaleCallback(value){
-	switch(value){
-		case 2:
-			return 'CBY';
-		case 4:
-			return 'CA-1';
-		case 6:
-			return 'CA-2';
-		case 8:
-			return 'CA-3';
-		case 10:
-			return 'Attending';
-	}
-
-	return '';
-}
+import { sortNumbers } from './utils.js';
 
 export function createRadarScaleCallback(valueMap){
-	return value => valueMap.get(value);
+	return value => (valueMap.get(value) || '');
 }
 
 export function createResponseLegend(valueMap){
 	let labels = [];
 	let values = [];
 
-	let keys = Array.from(valueMap.keys()).sort();
+	let keys = Array.from(valueMap.keys()).sort(sortNumbers);
 	
 	keys.map(key => {
 		labels.push(valueMap.get(key));

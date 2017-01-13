@@ -180,6 +180,7 @@ exports.groupUsers = groupUsers;
 exports.fetchForms = fetchForms;
 exports.fetchFormGroups = fetchFormGroups;
 exports.groupForms = groupForms;
+exports.sortNumbers = sortNumbers;
 exports.isoDateString = isoDateString;
 function appendAlert(alertText) {
 	var parent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '#alert-container';
@@ -449,6 +450,10 @@ function sortSelect2Objects(a, b) {
 	return 0;
 }
 
+function sortNumbers(a, b) {
+	return Number(a) - Number(b);
+}
+
 function isoDateString(date) {
 	var isoString = date.toISOString();
 	return isoString.substring(0, isoString.indexOf('T'));
@@ -464,10 +469,6 @@ function isoDateString(date) {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.CHART_COLORS = exports.CHART_TYPES = exports.REPORT_TYPES = exports.FELLOWSHIP_VALUE_MAPS = exports.RESIDENT_VALUE_MAP = exports.STANDARD_OPTIONS = exports.UNSEEN_EVALUATION_PRIORITY = exports.NEW_ITEM_TAG = exports.ADMIN_EMAIL = undefined;
-
-var _reportUtils = __webpack_require__(31);
-
 var ADMIN_EMAIL = exports.ADMIN_EMAIL = 'jmischka@mcw.edu';
 
 var NEW_ITEM_TAG = exports.NEW_ITEM_TAG = '<span class="label label-primary">NEW</span>';
@@ -482,13 +483,7 @@ var STANDARD_OPTIONS = exports.STANDARD_OPTIONS = {
 
 var RESIDENT_VALUE_MAP = exports.RESIDENT_VALUE_MAP = new Map([[2, 'CBY'], [4, 'CA-1'], [6, 'CA-2'], [8, 'CA-3'], [10, 'Attending']]);
 
-var FELLOWSHIP_VALUE_MAPS = exports.FELLOWSHIP_VALUE_MAPS = {
-	'Critical Care': new Map([[0, 'Unacceptable'], [3, 'Needs Improvement'], [5, 'Meets Expectations'], [7, 'Exceeds Expectations'], [10, 'Outstanding']]),
-	'Pediatric': new Map([[0, 'Bellow fellow level'], [3, 'Developing, Not consistent'], [5, 'Acceptable, Not yet secure'], [7, 'Secure, Consistent'], [10, 'Outstanding, Autonomous']]),
-	'Pain': new Map([[0, 'Not yet at Resident Level'], [1, 'Resident Level'], [2, '1st Quarter Fellow'], [3, 'Mid-year Fellow'], [4, 'Advanced Fellow'], [5, 'Attending']]),
-	'Cardio': new Map([[0, 'Unacceptable'], [3, 'Needs Improvement'], [5, 'Meets Expectations'], [7, 'Exceeds Expectations'], [10, 'Outstanding']]),
-	'OB': new Map([[0, 'Not at Fellowship Level'], [2, 'Fellow - 1'], [4, 'Fellow - 2'], [6, 'Fellow - 3'], [8, 'Fellow - 4'], [10, 'Fellow - 5']])
-};
+var FELLOWSHIP_VALUE_MAPS = exports.FELLOWSHIP_VALUE_MAPS = new Map([[null, new Map([[0, 'Not yet at Resident Level'], [1, 'Resident Level'], [2, '1st Quarter Fellow'], [3, 'Mid-year Fellow'], [4, 'Advanced Fellow'], [5, 'Attending']])], ['Critical Care', new Map([[0, 'Unacceptable'], [3, 'Needs Improvement'], [5, 'Meets Expectations'], [7, 'Exceeds Expectations'], [10, 'Outstanding']])], ['Pediatric', new Map([[0, 'Bellow fellow level'], [3, 'Developing, Not consistent'], [5, 'Acceptable, Not yet secure'], [7, 'Secure, Consistent'], [10, 'Outstanding, Autonomous']])], ['Pain', new Map([[0, 'Not yet at Resident Level'], [1, 'Resident Level'], [2, '1st Quarter Fellow'], [3, 'Mid-year Fellow'], [4, 'Advanced Fellow'], [5, 'Attending']])], ['Cardio', new Map([[0, 'Unacceptable'], [3, 'Needs Improvement'], [5, 'Meets Expectations'], [7, 'Exceeds Expectations'], [10, 'Outstanding']])], ['OB', new Map([[0, 'Not at Fellowship Level'], [2, 'Fellow - 1'], [4, 'Fellow - 2'], [6, 'Fellow - 3'], [8, 'Fellow - 4'], [10, 'Fellow - 5']])]]);
 
 var REPORT_TYPES = exports.REPORT_TYPES = {
 	TRAINEE: 'trainee',
@@ -1227,69 +1222,7 @@ module.exports = function(it){
 /* 28 */,
 /* 29 */,
 /* 30 */,
-/* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.residentRadarScaleCallback = residentRadarScaleCallback;
-exports.createRadarScaleCallback = createRadarScaleCallback;
-exports.createResponseLegend = createResponseLegend;
-exports.tableHeader = tableHeader;
-function residentRadarScaleCallback(value) {
-	switch (value) {
-		case 2:
-			return 'CBY';
-		case 4:
-			return 'CA-1';
-		case 6:
-			return 'CA-2';
-		case 8:
-			return 'CA-3';
-		case 10:
-			return 'Attending';
-	}
-
-	return '';
-}
-
-function createRadarScaleCallback(valueMap) {
-	return function (value) {
-		return valueMap.get(value);
-	};
-}
-
-function createResponseLegend(valueMap) {
-	var labels = [];
-	var values = [];
-
-	var keys = Array.from(valueMap.keys()).sort();
-
-	keys.map(function (key) {
-		labels.push(valueMap.get(key));
-		values.push(key.toString());
-	});
-
-	return {
-		table: {
-			headerRows: 1,
-			body: [labels.map(tableHeader), values]
-		}
-	};
-}
-
-function tableHeader(text) {
-	return {
-		text: text,
-		style: 'tableHeader'
-	};
-}
-
-/***/ }),
+/* 31 */,
 /* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 

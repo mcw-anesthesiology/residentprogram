@@ -2305,7 +2305,54 @@ module.exports = __vue_exports__
 
 
 /***/ }),
-/* 31 */,
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.createRadarScaleCallback = createRadarScaleCallback;
+exports.createResponseLegend = createResponseLegend;
+exports.tableHeader = tableHeader;
+
+var _utils = __webpack_require__(3);
+
+function createRadarScaleCallback(valueMap) {
+	return function (value) {
+		return valueMap.get(value) || '';
+	};
+}
+
+function createResponseLegend(valueMap) {
+	var labels = [];
+	var values = [];
+
+	var keys = Array.from(valueMap.keys()).sort(_utils.sortNumbers);
+
+	keys.map(function (key) {
+		labels.push(valueMap.get(key));
+		values.push(key.toString());
+	});
+
+	return {
+		table: {
+			headerRows: 1,
+			body: [labels.map(tableHeader), values]
+		}
+	};
+}
+
+function tableHeader(text) {
+	return {
+		text: text,
+		style: 'tableHeader'
+	};
+}
+
+/***/ }),
 /* 32 */,
 /* 33 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -7145,6 +7192,7 @@ exports.default = {
 
 			row = [];
 			if (this.show.milestones) {
+				// eslint-disable-next-line no-unused-vars
 				for (var _milestoneId in this.report.milestones) {
 					row.push({ text: 'Average' });
 					if (this.show.standardDeviations) row.push({ text: 'Std. Dev.' });
@@ -7152,6 +7200,7 @@ exports.default = {
 				}
 			}
 			if (this.show.competencies) {
+				// eslint-disable-next-line no-unused-vars
 				for (var _competencyId in this.report.competencies) {
 					row.push({ text: 'Average' });
 					if (this.show.standardDeviations) row.push({ text: 'Std. Dev.' });
@@ -7983,10 +8032,10 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 //
 //
 //
-
-var _color = __webpack_require__(20);
-
-var _color2 = _interopRequireDefault(_color);
+//
+//
+//
+//
 
 var _BootstrapAlert = __webpack_require__(29);
 
@@ -8003,6 +8052,14 @@ var _ChartjsChart2 = _interopRequireDefault(_ChartjsChart);
 var _DataTable = __webpack_require__(15);
 
 var _DataTable2 = _interopRequireDefault(_DataTable);
+
+var _SvgIcon = __webpack_require__(342);
+
+var _SvgIcon2 = _interopRequireDefault(_SvgIcon);
+
+var _color = __webpack_require__(20);
+
+var _color2 = _interopRequireDefault(_color);
 
 var _constants = __webpack_require__(4);
 
@@ -8047,7 +8104,12 @@ exports.default = {
 		trainingLevelDisplay: function trainingLevelDisplay() {
 			if (this.report.trainingLevel === 'all') return;
 
-			return this.report.trainingLevel.indexOf('-') !== -1 ? this.report.trainingLevel.toUpperCase() : (0, _utils.ucfirst)(this.report.trainingLevel);
+			return (0, _datatableUtils.renderTrainingLevel)(this.report.trainingLevel);
+		},
+		valueMap: function valueMap() {
+			if (this.report.trainingLevel === 'fellow') return _constants.FELLOWSHIP_VALUE_MAPS.get(this.subject.secondary_training_level) || _constants.FELLOWSHIP_VALUE_MAPS.get(null);
+
+			return _constants.RESIDENT_VALUE_MAP;
 		},
 		milestoneCompetencyWidth: function milestoneCompetencyWidth() {
 			return {
@@ -8170,7 +8232,7 @@ exports.default = {
 				scale: {
 					ticks: {
 						beginAtZero: true,
-						userCallback: _reportUtils.residentRadarScaleCallback
+						userCallback: (0, _reportUtils.createRadarScaleCallback)(this.valueMap)
 					}
 				}
 			};
@@ -8272,7 +8334,7 @@ exports.default = {
 					}
 				}];
 
-				if (_this.show.competencies || _this.show.milestones) content.push({ text: 'Score mapping', style: 'heading' }, (0, _reportUtils.createResponseLegend)(_constants.RESIDENT_VALUE_MAP));
+				if (_this.show.competencies || _this.show.milestones) content.push({ text: 'Score mapping', style: 'heading' }, (0, _reportUtils.createResponseLegend)(_this.valueMap));
 
 				if (_this.show.competencies) content.push({ text: 'Competencies', style: 'heading' }, {
 					table: {
@@ -8356,7 +8418,8 @@ exports.default = {
 		BootstrapAlert: _BootstrapAlert2.default,
 		BootstrapButtonInput: _BootstrapButtonInput2.default,
 		ChartjsChart: _ChartjsChart2.default,
-		DataTable: _DataTable2.default
+		DataTable: _DataTable2.default,
+		SvgIcon: _SvgIcon2.default
 	}
 };
 
@@ -9612,6 +9675,29 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var _AggregateReport = __webpack_require__(268);
 
@@ -9629,9 +9715,17 @@ var _StatsReport = __webpack_require__(279);
 
 var _StatsReport2 = _interopRequireDefault(_StatsReport);
 
+var _BootstrapAlert = __webpack_require__(29);
+
+var _BootstrapAlert2 = _interopRequireDefault(_BootstrapAlert);
+
 var _SelectTwo = __webpack_require__(5);
 
 var _SelectTwo2 = _interopRequireDefault(_SelectTwo);
+
+var _SvgIcon = __webpack_require__(342);
+
+var _SvgIcon2 = _interopRequireDefault(_SvgIcon);
 
 var _utils = __webpack_require__(3);
 
@@ -9786,7 +9880,9 @@ exports.default = {
 		AggregateReport: _AggregateReport2.default,
 		IndividualReport: _IndividualReport2.default,
 		StatsReport: _StatsReport2.default,
-		SelectTwo: _SelectTwo2.default
+		BootstrapAlert: _BootstrapAlert2.default,
+		SelectTwo: _SelectTwo2.default,
+		SvgIcon: _SvgIcon2.default
 	}
 };
 
@@ -10732,7 +10828,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.show-container label + label[data-v-12d2bcae] {\n\tmargin-left: 2em;\n}\n.graphs-container[data-v-12d2bcae] {\n\tmargin: 2em 0;\n}\n.graphs-container .chart-options[data-v-12d2bcae] {\n\tmargin: 2em 0 0;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/AggregateReport.vue?8f366a3a"],"names":[],"mappings":";AA2VA;CACA,iBAAA;CACA;AAEA;CACA,cAAA;CACA;AAEA;CACA,gBAAA;CACA","file":"AggregateReport.vue","sourcesContent":["<template>\n\t<div class=\"container body-block\">\n\t\t<h3>Aggregate</h3>\n\t\t<fieldset class=\"show-container\">\n\t\t\t<legend>Show</legend>\n\t\t\t<label v-for=\"(part, name) of show\">\n\t\t\t\t<input type=\"checkbox\" v-model=\"show[name]\" />\n\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t</label>\n\t\t</fieldset>\n\n\t\t<data-table id=\"aggregate-table\" :thead=\"tableThead\" :data=\"tableData\"\n\t\t\t:config=\"tableConfig\" :exportable=\"true\"\n\t\t\t:exportFilename=\"tableExportFilename\" />\n\t\t\t\n\t\t<div class=\"graphs-container\" v-if=\"show.charts\">\n\t\t\t<div class=\"row\">\n\t\t\t\t<div v-if=\"show.competencies\" :class=\"chartWidth\">\n\t\t\t\t\t<chartjs-chart id=\"aggregate-competency-chart\" :type=\"chartType\"\n\t\t\t\t\t\t:options=\"chartOptions\" :data=\"competencyChartData\" />\n\t\t\t\t</div>\n\t\t\t\t<div v-if=\"show.milestones\" :class=\"chartWidth\">\n\t\t\t\t\t<chartjs-chart id=\"aggregate-milestone-chart\" :type=\"chartType\"\n\t\t\t\t\t\t:options=\"chartOptions\" :data=\"milestoneChartData\" />\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"row chart-options\">\n\t\t\t\t<div class=\"col-sm-offset-5 col-sm-2\">\n\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t<span class=\"panel-title\">Chart options</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t<fieldset v-if=\"show.milestones && show.competencies\">\n\t\t\t\t\t\t\t\t<legend>Orientation</legend>\n\t\t\t\t\t\t\t\t<div class=\"btn-group btn-group-justified\" data-toggle=\"buttons\">\n\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"horizontal\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-horizontal\"></span>\n\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"vertical\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-vertical\"></span>\n\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</fieldset>\n\n\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\t\tType\n\t\t\t\t\t\t\t\t\t<select class=\"form-control\" v-model=\"chartType\">\n\t\t\t\t\t\t\t\t\t\t<option v-for=\"type of chartTypes\" :value=\"type\">\n\t\t\t\t\t\t\t\t\t\t\t{{ ucfirst(type) }}\n\t\t\t\t\t\t\t\t\t\t</option>\n\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport BootstrapButtonInput from '../BootstrapButtonInput.vue';\nimport ChartjsChart from '../ChartjsChart.vue';\nimport DataTable from '../DataTable.vue';\n\nimport Color from 'color';\n\nimport { CHART_COLORS } from '../../modules/constants.js';\nimport { camelCaseToWords, ucfirst, isoDateString } from '../../modules/utils.js';\nimport { renderTrainingLevel } from '../../modules/datatable-utils.js';\n\nexport default {\n\tprops: [\n\t\t'report'\n\t],\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tmilestones: false,\n\t\t\t\tcompetencies: true,\n\t\t\t\tstandardDeviations: false,\n\t\t\t\ttotals: true,\n\t\t\t\tcharts: true\n\t\t\t},\n\t\t\ttransformations: {\n\t\t\t\tlevelRatings: false\n\t\t\t},\n\t\t\tchartType: 'radar',\n\t\t\tchartOrientation: 'vertical'\n\t\t};\n\t},\n\tcomputed: {\n\t\tcolsPerItem(){\n\t\t\treturn this.show.standardDeviations\n\t\t\t\t? 3\n\t\t\t\t: 2;\n\t\t},\n\t\tmilestoneColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.milestones).length;\n\t\t},\n\t\tcompetencyColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.competencies).length;\n\t\t},\n\t\ttableThead(){\n\t\t\tlet thead = [];\n\t\t\tlet row = [];\n\t\t\trow.push({rowspan: 3, text: 'Trainee'});\n\t\t\tif(this.show.milestones)\n\t\t\t\trow.push({\n\t\t\t\t\tcolspan: this.milestoneColspan,\n\t\t\t\t\ttext: 'Milestones'\n\t\t\t\t});\n\t\t\tif(this.show.competencies)\n\t\t\t\trow.push({\n\t\t\t\t\tcolspan: this.competencyColspan,\n\t\t\t\t\ttext: 'Competencies'\n\t\t\t\t});\n\t\t\trow.push({colspan: 3, text: 'All'});\n\t\t\tthead.push(row);\n\n\t\t\trow = [];\n\t\t\tif(this.show.milestones){\n\t\t\t\tfor(let milestoneId in this.report.milestones){\n\t\t\t\t\trow.push({\n\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\ttext: this.report.milestones[milestoneId]\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t}\n\t\t\tif(this.show.competencies){\n\t\t\t\tfor(let competencyId in this.report.competencies){\n\t\t\t\t\trow.push({\n\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\ttext: this.report.competencies[competencyId]\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t}\n\t\t\trow.push({colspan: 3, text: 'Total'});\n\t\t\tthead.push(row);\n\n\t\t\trow = [];\n\t\t\tif(this.show.milestones){\n\t\t\t\tfor(let milestoneId in this.report.milestones){\n\t\t\t\t\trow.push({text: 'Average'});\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\trow.push({text: 'Std. Dev.'});\n\t\t\t\t\trow.push({text: '#'});\n\t\t\t\t}\n\t\t\t}\n\t\t\tif(this.show.competencies){\n\t\t\t\tfor(let competencyId in this.report.competencies){\n\t\t\t\t\trow.push({text: 'Average'});\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\trow.push({text: 'Std. Dev.'});\n\t\t\t\t\trow.push({text: '#'});\n\t\t\t\t}\n\t\t\t}\n\t\t\trow.push({text: '# Evaluators'});\n\t\t\trow.push({text: '# Evaluations'});\n\t\t\trow.push({text: '# Trainee Requests'});\n\t\t\tthead.push(row);\n\n\t\t\treturn thead;\n\t\t},\n\t\ttableConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tdom: 'lfprtip',\n\t\t\t\tscrollX: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tfixedColumns: true,\n\t\t\t};\n\t\t},\n\t\ttableData(){\n\t\t\tlet data = [];\n\t\t\tfor(let subjectId in this.report.subjects){\n\t\t\t\tlet row = [];\n\t\t\t\trow.push(this.report.subjects[subjectId]);\n\t\t\t\tif(this.show.milestones){\n\t\t\t\t\tfor(let milestoneId in this.report.milestones){\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectMilestone\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestone[subjectId][milestoneId]).toFixed(2)\n\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t);\n\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectMilestoneDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneDeviations[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestoneDeviations[subjectId][milestoneId]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectMilestoneEvals\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneEvals[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneEvals[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestoneEvals[subjectId][milestoneId]).toFixed()\n\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tif(this.show.competencies){\n\t\t\t\t\tfor(let competencyId in this.report.competencies){\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectCompetency\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId][competencyId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetency[subjectId][competencyId]).toFixed(2)\n\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t);\n\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectCompetencyDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyDeviations[subjectId][competencyId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetencyDeviations[subjectId][competencyId]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectCompetencyEvals\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyEvals[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyEvals[subjectId][competencyId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetencyEvals[subjectId][competencyId]).toFixed()\n\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\trow.push(Object.keys(this.report.subjectEvaluators[subjectId]).length);\n\t\t\t\trow.push(Object.keys(this.report.subjectEvals[subjectId]).length);\n\t\t\t\trow.push(Object.keys(this.report.subjectRequests[subjectId]).length);\n\n\t\t\t\tdata.push(row);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\t\ttableExportFilename(){\n\t\t\tlet level = this.report.trainingLevel === 'all'\n\t\t\t\t? ''\n\t\t\t\t: renderTrainingLevel(this.report.trainingLevel);\n\t\t\tlet start = isoDateString(new Date(this.report.startDate.date));\n\t\t\tlet end = isoDateString(new Date(this.report.endDate.date));\n\t\t\tlet now = new Date().toLocaleString();\n\t\t\treturn `Aggregate Report ${level}, ${start} - ${end}, exported ${now}`;\n\t\t},\n\t\tchartTypes(){\n\t\t\treturn [\n\t\t\t\t'radar',\n\t\t\t\t'line',\n\t\t\t\t'bar'\n\t\t\t];\n\t\t},\n\t\tchartWidth(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': this.chartOrientation === 'horizontal',\n\t\t\t\t'col-md-12': this.chartOrientation === 'vertical'\n\t\t\t};\n\t\t},\n\t\tchartOptions(){\n\t\t\treturn {\n\t\t\t\tlegend: {\n\t\t\t\t\tlabels: {\n\t\t\t\t\t\tfontSize: 18,\n\t\t\t\t\t\tfontColor: '#333'\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tcallbacks: {\n\t\t\t\t\t\tlabel(tooltip, data){\n\t\t\t\t\t\t\tlet value = parseFloat(tooltip.yLabel).toFixed(2);\n\t\t\t\t\t\t\tlet name = data.datasets[tooltip.datasetIndex].label;\n\t\t\t\t\t\t\treturn `${name}: ${value}`;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t};\n\t\t},\n\t\tcompetencyChartData(){\n\t\t\tlet color = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: Object.values(this.report.competencies),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Average Competencies',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: Object.values(this.report.averageCompetency)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tmilestoneChartData(){\n\t\t\tlet color = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: Object.values(this.report.milestones),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Average Milestones',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: Object.values(this.report.averageMilestone)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords,\n\t\tucfirst\n\t},\n\tcomponents: {\n\t\tBootstrapButtonInput,\n\t\tChartjsChart,\n\t\tDataTable\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-container label + label {\n\t\tmargin-left: 2em;\n\t}\n\n\t.graphs-container {\n\t\tmargin: 2em 0;\n\t}\n\n\t.graphs-container .chart-options {\n\t\tmargin: 2em 0 0;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.show-container label + label[data-v-12d2bcae] {\n\tmargin-left: 2em;\n}\n.graphs-container[data-v-12d2bcae] {\n\tmargin: 2em 0;\n}\n.graphs-container .chart-options[data-v-12d2bcae] {\n\tmargin: 2em 0 0;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/AggregateReport.vue?0509ff17"],"names":[],"mappings":";AA6VA;CACA,iBAAA;CACA;AAEA;CACA,cAAA;CACA;AAEA;CACA,gBAAA;CACA","file":"AggregateReport.vue","sourcesContent":["<template>\n\t<div class=\"container body-block\">\n\t\t<h3>Aggregate</h3>\n\t\t<fieldset class=\"show-container\">\n\t\t\t<legend>Show</legend>\n\t\t\t<label v-for=\"(part, name) of show\">\n\t\t\t\t<input type=\"checkbox\" v-model=\"show[name]\" />\n\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t</label>\n\t\t</fieldset>\n\n\t\t<data-table id=\"aggregate-table\" :thead=\"tableThead\" :data=\"tableData\"\n\t\t\t:config=\"tableConfig\" :exportable=\"true\"\n\t\t\t:exportFilename=\"tableExportFilename\" />\n\t\t\t\n\t\t<div class=\"graphs-container\" v-if=\"show.charts\">\n\t\t\t<div class=\"row\">\n\t\t\t\t<div v-if=\"show.competencies\" :class=\"chartWidth\">\n\t\t\t\t\t<chartjs-chart id=\"aggregate-competency-chart\" :type=\"chartType\"\n\t\t\t\t\t\t:options=\"chartOptions\" :data=\"competencyChartData\" />\n\t\t\t\t</div>\n\t\t\t\t<div v-if=\"show.milestones\" :class=\"chartWidth\">\n\t\t\t\t\t<chartjs-chart id=\"aggregate-milestone-chart\" :type=\"chartType\"\n\t\t\t\t\t\t:options=\"chartOptions\" :data=\"milestoneChartData\" />\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"row chart-options\">\n\t\t\t\t<div class=\"col-sm-offset-5 col-sm-2\">\n\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t<span class=\"panel-title\">Chart options</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t<fieldset v-if=\"show.milestones && show.competencies\">\n\t\t\t\t\t\t\t\t<legend>Orientation</legend>\n\t\t\t\t\t\t\t\t<div class=\"btn-group btn-group-justified\" data-toggle=\"buttons\">\n\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"horizontal\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-horizontal\"></span>\n\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"vertical\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-vertical\"></span>\n\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</fieldset>\n\n\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\t\tType\n\t\t\t\t\t\t\t\t\t<select class=\"form-control\" v-model=\"chartType\">\n\t\t\t\t\t\t\t\t\t\t<option v-for=\"type of chartTypes\" :value=\"type\">\n\t\t\t\t\t\t\t\t\t\t\t{{ ucfirst(type) }}\n\t\t\t\t\t\t\t\t\t\t</option>\n\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport BootstrapButtonInput from '../BootstrapButtonInput.vue';\nimport ChartjsChart from '../ChartjsChart.vue';\nimport DataTable from '../DataTable.vue';\n\nimport Color from 'color';\n\nimport { CHART_COLORS } from '../../modules/constants.js';\nimport { camelCaseToWords, ucfirst, isoDateString } from '../../modules/utils.js';\nimport { renderTrainingLevel } from '../../modules/datatable-utils.js';\n\nexport default {\n\tprops: [\n\t\t'report'\n\t],\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tmilestones: false,\n\t\t\t\tcompetencies: true,\n\t\t\t\tstandardDeviations: false,\n\t\t\t\ttotals: true,\n\t\t\t\tcharts: true\n\t\t\t},\n\t\t\ttransformations: {\n\t\t\t\tlevelRatings: false\n\t\t\t},\n\t\t\tchartType: 'radar',\n\t\t\tchartOrientation: 'vertical'\n\t\t};\n\t},\n\tcomputed: {\n\t\tcolsPerItem(){\n\t\t\treturn this.show.standardDeviations\n\t\t\t\t? 3\n\t\t\t\t: 2;\n\t\t},\n\t\tmilestoneColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.milestones).length;\n\t\t},\n\t\tcompetencyColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.competencies).length;\n\t\t},\n\t\ttableThead(){\n\t\t\tlet thead = [];\n\t\t\tlet row = [];\n\t\t\trow.push({rowspan: 3, text: 'Trainee'});\n\t\t\tif(this.show.milestones)\n\t\t\t\trow.push({\n\t\t\t\t\tcolspan: this.milestoneColspan,\n\t\t\t\t\ttext: 'Milestones'\n\t\t\t\t});\n\t\t\tif(this.show.competencies)\n\t\t\t\trow.push({\n\t\t\t\t\tcolspan: this.competencyColspan,\n\t\t\t\t\ttext: 'Competencies'\n\t\t\t\t});\n\t\t\trow.push({colspan: 3, text: 'All'});\n\t\t\tthead.push(row);\n\n\t\t\trow = [];\n\t\t\tif(this.show.milestones){\n\t\t\t\tfor(let milestoneId in this.report.milestones){\n\t\t\t\t\trow.push({\n\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\ttext: this.report.milestones[milestoneId]\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t}\n\t\t\tif(this.show.competencies){\n\t\t\t\tfor(let competencyId in this.report.competencies){\n\t\t\t\t\trow.push({\n\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\ttext: this.report.competencies[competencyId]\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t}\n\t\t\trow.push({colspan: 3, text: 'Total'});\n\t\t\tthead.push(row);\n\n\t\t\trow = [];\n\t\t\tif(this.show.milestones){\n\t\t\t\t// eslint-disable-next-line no-unused-vars\n\t\t\t\tfor(let milestoneId in this.report.milestones){ \n\t\t\t\t\trow.push({text: 'Average'});\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\trow.push({text: 'Std. Dev.'});\n\t\t\t\t\trow.push({text: '#'});\n\t\t\t\t}\n\t\t\t}\n\t\t\tif(this.show.competencies){\n\t\t\t\t// eslint-disable-next-line no-unused-vars\n\t\t\t\tfor(let competencyId in this.report.competencies){\n\t\t\t\t\trow.push({text: 'Average'});\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\trow.push({text: 'Std. Dev.'});\n\t\t\t\t\trow.push({text: '#'});\n\t\t\t\t}\n\t\t\t}\n\t\t\trow.push({text: '# Evaluators'});\n\t\t\trow.push({text: '# Evaluations'});\n\t\t\trow.push({text: '# Trainee Requests'});\n\t\t\tthead.push(row);\n\n\t\t\treturn thead;\n\t\t},\n\t\ttableConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tdom: 'lfprtip',\n\t\t\t\tscrollX: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tfixedColumns: true,\n\t\t\t};\n\t\t},\n\t\ttableData(){\n\t\t\tlet data = [];\n\t\t\tfor(let subjectId in this.report.subjects){\n\t\t\t\tlet row = [];\n\t\t\t\trow.push(this.report.subjects[subjectId]);\n\t\t\t\tif(this.show.milestones){\n\t\t\t\t\tfor(let milestoneId in this.report.milestones){\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectMilestone\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestone[subjectId][milestoneId]).toFixed(2)\n\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t);\n\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectMilestoneDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneDeviations[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestoneDeviations[subjectId][milestoneId]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectMilestoneEvals\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneEvals[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneEvals[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestoneEvals[subjectId][milestoneId]).toFixed()\n\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tif(this.show.competencies){\n\t\t\t\t\tfor(let competencyId in this.report.competencies){\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectCompetency\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId][competencyId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetency[subjectId][competencyId]).toFixed(2)\n\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t);\n\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectCompetencyDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyDeviations[subjectId][competencyId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetencyDeviations[subjectId][competencyId]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectCompetencyEvals\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyEvals[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyEvals[subjectId][competencyId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetencyEvals[subjectId][competencyId]).toFixed()\n\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\trow.push(Object.keys(this.report.subjectEvaluators[subjectId]).length);\n\t\t\t\trow.push(Object.keys(this.report.subjectEvals[subjectId]).length);\n\t\t\t\trow.push(Object.keys(this.report.subjectRequests[subjectId]).length);\n\n\t\t\t\tdata.push(row);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\t\ttableExportFilename(){\n\t\t\tlet level = this.report.trainingLevel === 'all'\n\t\t\t\t? ''\n\t\t\t\t: renderTrainingLevel(this.report.trainingLevel);\n\t\t\tlet start = isoDateString(new Date(this.report.startDate.date));\n\t\t\tlet end = isoDateString(new Date(this.report.endDate.date));\n\t\t\tlet now = new Date().toLocaleString();\n\t\t\treturn `Aggregate Report ${level}, ${start} - ${end}, exported ${now}`;\n\t\t},\n\t\tchartTypes(){\n\t\t\treturn [\n\t\t\t\t'radar',\n\t\t\t\t'line',\n\t\t\t\t'bar'\n\t\t\t];\n\t\t},\n\t\tchartWidth(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': this.chartOrientation === 'horizontal',\n\t\t\t\t'col-md-12': this.chartOrientation === 'vertical'\n\t\t\t};\n\t\t},\n\t\tchartOptions(){\n\t\t\treturn {\n\t\t\t\tlegend: {\n\t\t\t\t\tlabels: {\n\t\t\t\t\t\tfontSize: 18,\n\t\t\t\t\t\tfontColor: '#333'\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tcallbacks: {\n\t\t\t\t\t\tlabel(tooltip, data){\n\t\t\t\t\t\t\tlet value = parseFloat(tooltip.yLabel).toFixed(2);\n\t\t\t\t\t\t\tlet name = data.datasets[tooltip.datasetIndex].label;\n\t\t\t\t\t\t\treturn `${name}: ${value}`;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t};\n\t\t},\n\t\tcompetencyChartData(){\n\t\t\tlet color = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: Object.values(this.report.competencies),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Average Competencies',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: Object.values(this.report.averageCompetency)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tmilestoneChartData(){\n\t\t\tlet color = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: Object.values(this.report.milestones),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Average Milestones',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: Object.values(this.report.averageMilestone)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords,\n\t\tucfirst\n\t},\n\tcomponents: {\n\t\tBootstrapButtonInput,\n\t\tChartjsChart,\n\t\tDataTable\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-container label + label {\n\t\tmargin-left: 2em;\n\t}\n\n\t.graphs-container {\n\t\tmargin: 2em 0;\n\t}\n\n\t.graphs-container .chart-options {\n\t\tmargin: 2em 0 0;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -10774,7 +10870,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.individual-report section[data-v-21575c47] {\n\tmargin: 2em 0 0;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/IndividualReport.vue?76145acf"],"names":[],"mappings":";AAulBA;CACA,gBAAA;CACA","file":"IndividualReport.vue","sourcesContent":["<template>\n\t<div class=\"individual-report container body-block\">\n\t\t<template v-if=\"report.subjectEvaluations[subjectId] && report.subjectEvaluations[subjectId].length > 0\">\n\t\t\t<h2>\n\t\t\t\tIndividual Report\n\t\t\t\t<small>\n\t\t\t\t\t{{ report.subjects[subjectId] }}\n\t\t\t\t</small>\n\t\t\t</h2>\n\n\n\t\t\t<section>\n\t\t\t\t<h3>Evaluations included in report</h3>\n\t\t\t\t<data-table :thead=\"evaluationsThead\" :config=\"evaluationsConfig\"\n\t\t\t\t\t\t:data=\"evaluationsData\" />\n\n\t\t\t\t<button type=\"button\" class=\"btn center-block\" @click=\"exportPdf\">\n\t\t\t\t\tExport PDF\n\t\t\t\t</button>\n\t\t\t</section>\n\n\t\t\t<section>\n\t\t\t\t<fieldset class=\"show-container\">\n\t\t\t\t\t<legend>Show</legend>\n\t\t\t\t\t<label v-for=\"(part, name) of show\">\n\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"show[name]\" />\n\t\t\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t\t\t</label>\n\t\t\t\t</fieldset>\n\n\t\t\t\t<div class=\"row\">\n\t\t\t\t\t<div :class=\"milestoneCompetencyWidth\" v-if=\"show.competencies\">\n\t\t\t\t\t\t<h4>Competencies</h4>\n\t\t\t\t\t\t<data-table :thead=\"competenciesThead\" :data=\"competenciesData\" />\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div :class=\"milestoneCompetencyWidth\" v-if=\"show.milestones\">\n\t\t\t\t\t\t<h4>Milestones</h4>\n\t\t\t\t\t\t<data-table :thead=\"milestonesThead\" :data=\"milestonesData\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</section>\n\n\t\t\t<section v-if=\"show.charts\">\n\t\t\t\t<div class=\"row charts\">\n\t\t\t\t\t<div v-if=\"show.competencies\" :class=\"chartWidth\">\n\t\t\t\t\t\t<chartjs-chart v-if=\"competencyChartData\"\n\t\t\t\t\t\t\t:type=\"chartType\"\n\t\t\t\t\t\t\t:options=\"chartOptions\" :data=\"competencyChartData\"\n\t\t\t\t\t\t\t:shouldEmit=\"true\" ref=\"competencyChart\" />\n\t\t\t\t\t</div>\n\t\t\t\t\t<div v-if=\"show.milestones\" :class=\"chartWidth\">\n\t\t\t\t\t\t<chartjs-chart v-if=\"milestoneChartData\"\n\t\t\t\t\t\t\t:type=\"chartType\"\n\t\t\t\t\t\t\t:options=\"chartOptions\" :data=\"milestoneChartData\"\n\t\t\t\t\t\t\t:shouldEmit=\"true\" ref=\"milestoneChart\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\t\t\t\t<div class=\"row chart-options\">\n\t\t\t\t\t<div class=\"col-sm-offset-5 col-sm-2\">\n\t\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t\t<span class=\"panel-title\">Chart options</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t\t<fieldset v-if=\"show.milestones && show.competencies\">\n\t\t\t\t\t\t\t\t\t<legend>Orientation</legend>\n\t\t\t\t\t\t\t\t\t<div class=\"btn-group btn-group-justified\" data-toggle=\"buttons\">\n\t\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"horizontal\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-horizontal\"></span>\n\t\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"vertical\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-vertical\"></span>\n\t\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</fieldset>\n\n\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\t\t\tType\n\t\t\t\t\t\t\t\t\t\t<select class=\"form-control\" v-model=\"chartType\">\n\t\t\t\t\t\t\t\t\t\t\t<option v-for=\"type of chartTypes\" :value=\"type\">\n\t\t\t\t\t\t\t\t\t\t\t\t{{ ucfirst(type) }}\n\t\t\t\t\t\t\t\t\t\t\t</option>\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t</section>\n\n\t\t\t<section>\n\t\t\t\t<h3>Comments</h3>\n\t\t\t\t<data-table :thead=\"commentsThead\" :config=\"commentsConfig\" :data=\"commentsData\" />\n\n\t\t\t\t<button type=\"button\" class=\"btn center-block\" @click=\"exportPdf\">\n\t\t\t\t\tExport PDF\n\t\t\t\t</button>\n\t\t\t</section>\n\n\t\t</template>\n\t\t<bootstrap-alert v-else type=\"warning\">\n\t\t\tNo <strong>{{ trainingLevelDisplay }}</strong> evaluations found for\n\t\t\t<strong>{{ subject.full_name }}</strong>\n\t\t\tbetween <strong>{{ renderDateCell(report.startDate.date) }}</strong>\n\t\t\tand <strong>{{ renderDateCell(report.endDate.date) }}</strong>.\n\t\t</bootstrap-alert>\n\t</div>\n</template>\n\n<script>\nimport Color from 'color';\n\nimport BootstrapAlert from '../BootstrapAlert.vue';\nimport BootstrapButtonInput from '../BootstrapButtonInput.vue';\nimport ChartjsChart from '../ChartjsChart.vue';\nimport DataTable from '../DataTable.vue';\n\nimport {\n\tCHART_COLORS,\n\tRESIDENT_VALUE_MAP,\n\tFELLOWSHIP_VALUE_MAPS\n} from '../../modules/constants.js';\nimport {\n\tcamelCaseToWords,\n\tucfirst\n} from '../../modules/utils.js';\nimport {\n\trenderIdToEvalUrl,\n\trenderDateCell,\n\tcreateDateCell\n} from '../../modules/datatable-utils.js';\nimport {\n\tresidentRadarScaleCallback,\n\ttableHeader,\n\tcreateResponseLegend\n} from '../../modules/report-utils.js';\n\nexport default {\n\tprops: {\n\t\tsubject: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t},\n\t\treport: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tmilestones: true,\n\t\t\t\tcompetencies: true,\n\t\t\t\tstandardDeviations: false,\n\t\t\t\tcharts: true\n\t\t\t},\n\t\t\tchartType: 'radar',\n\t\t\tchartOrientation: 'vertical'\n\t\t};\n\t},\n\tcomputed: {\n\t\tsubjectId(){\n\t\t\treturn this.subject.id;\n\t\t},\n\t\ttrainingLevelDisplay(){\n\t\t\tif(this.report.trainingLevel === 'all')\n\t\t\t\treturn;\n\t\t\t\t\n\t\t\treturn this.report.trainingLevel.includes('-')\n\t\t\t\t? this.report.trainingLevel.toUpperCase()\n\t\t\t\t: ucfirst(this.report.trainingLevel);\n\t\t},\n\t\tmilestoneCompetencyWidth(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': this.show.milestones && this.show.competencies,\n\t\t\t\t'col-md-12': !this.show.milestones || !this.show.competencies\n\t\t\t};\n\t\t},\n\t\tevaluationsThead(){\n\t\t\treturn [[\n\t\t\t\t'#',\n\t\t\t\t'Evaluation date',\n\t\t\t\t'Evaluator',\n\t\t\t\t'Evaluation form'\n\t\t\t]];\n\t\t},\n\t\tevaluationsConfig(){\n\t\t\treturn {\n\t\t\t\tcolumns: [\n\t\t\t\t\t{ render: renderIdToEvalUrl },\n\t\t\t\t\t{ render: renderDateCell, createdCell: createDateCell },\n\t\t\t\t\tnull,\n\t\t\t\t\tnull\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tevaluationsData(){\n\t\t\ttry {\n\t\t\t\treturn this.report.subjectEvaluations[this.subjectId].map(request => [\n\t\t\t\t\tString(request.evaluation_id),\n\t\t\t\t\trequest.evaluation_date,\n\t\t\t\t\t`${request.evaluator_last}, ${request.evaluator_first}`,\n\t\t\t\t\trequest.form_title\n\t\t\t\t]);\n\t\t\t} catch(err) {\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\tcompetenciesThead(){\n\t\t\tlet tr = [\n\t\t\t\t'Competency',\n\t\t\t\t'Average'\n\t\t\t];\n\t\t\tif(this.show.standardDeviations)\n\t\t\t\ttr.push('Standard Deviation');\n\t\t\ttr.push('Number of Evaluations');\n\n\t\t\treturn [tr];\n\t\t},\n\t\tcompetenciesData(){\n\t\t\tlet data = [];\n\t\t\tfor(let competencyId in this.report.subjectCompetency[this.subjectId]){\n\t\t\t\tlet tr = [String(this.report.competencies[competencyId])];\n\t\t\t\tif(this.report.subjectCompetency[this.subjectId][competencyId]){\n\t\t\t\t\ttr.push(String(Math.round10(this.report.subjectCompetency[this.subjectId][competencyId], -2)));\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\ttr.push(String(Math.round10(this.report.subjectCompetencyDeviations[this.subjectId][competencyId], -2)));\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\ttr.push('');\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\ttr.push('');\n\t\t\t\t}\n\t\t\t\ttr.push(String(this.report.subjectCompetencyEvals[this.subjectId][competencyId] || 0));\n\t\t\t\tdata.push(tr);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\t\tmilestonesThead(){\n\t\t\tlet tr = [\n\t\t\t\t'Milestone',\n\t\t\t\t'Average'\n\t\t\t];\n\n\t\t\tif(this.show.standardDeviations)\n\t\t\t\ttr.push('Standard Deviation');\n\t\t\ttr.push('Number of Evaluations');\n\n\t\t\treturn [tr];\n\t\t},\n\t\tmilestonesData(){\n\t\t\tlet data = [];\n\t\t\tfor(let milestoneId in this.report.subjectMilestone[this.subjectId]){\n\t\t\t\tlet tr = [String(this.report.milestones[milestoneId])];\n\t\t\t\tif(this.report.subjectMilestone[this.subjectId][milestoneId]){\n\t\t\t\t\ttr.push(String(Math.round10(this.report.subjectMilestone[this.subjectId][milestoneId], -2)));\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\ttr.push(String(Math.round10(this.report.subjectMilestoneDeviations[this.subjectId][milestoneId], -2)));\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\ttr.push('');\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\ttr.push('');\n\t\t\t\t}\n\n\t\t\t\ttr.push(String(this.report.subjectMilestoneEvals[this.subjectId][milestoneId] || 0));\n\n\t\t\t\tdata.push(tr);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\t\tcommentsThead(){\n\t\t\treturn [[\n\t\t\t\t'#',\n\t\t\t\t'Evaluation Date',\n\t\t\t\t'Evaluator',\n\t\t\t\t'Evaluation Form',\n\t\t\t\t'Comment'\n\t\t\t]];\n\t\t},\n\t\tcommentsData(){\n\t\t\ttry {\n\t\t\t\treturn this.report.subjectTextResponses[this.subjectId].map(response => [\n\t\t\t\t\tString(response.evaluation_id),\n\t\t\t\t\tresponse.evaluation_date,\n\t\t\t\t\t`${response.last_name}, ${response.first_name}`,\n\t\t\t\t\tresponse.form_title,\n\t\t\t\t\tresponse.response\n\t\t\t\t]);\n\t\t\t} catch(err) {\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\tcommentsConfig(){\n\t\t\treturn {\n\t\t\t\tcolumns: [\n\t\t\t\t\t{ render: renderIdToEvalUrl },\n\t\t\t\t\t{ render: renderDateCell, createdCell: createDateCell },\n\t\t\t\t\tnull,\n\t\t\t\t\tnull,\n\t\t\t\t\tnull\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\n\t\tchartTypes(){\n\t\t\treturn [\n\t\t\t\t'radar',\n\t\t\t\t'line',\n\t\t\t\t'bar'\n\t\t\t];\n\t\t},\n\t\tchartWidth(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': this.chartOrientation === 'horizontal',\n\t\t\t\t'col-md-12': this.chartOrientation === 'vertical'\n\t\t\t};\n\t\t},\n\t\tchartOptions(){\n\t\t\treturn {\n\t\t\t\tanimation: false,\n\t\t\t\tlegend: {\n\t\t\t\t\tlabels: {\n\t\t\t\t\t\tfontSize: 18,\n\t\t\t\t\t\tfontColor: '#333'\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tcallbacks: {\n\t\t\t\t\t\tlabel(tooltip, data){\n\t\t\t\t\t\t\tlet value = parseFloat(tooltip.yLabel).toFixed(2);\n\t\t\t\t\t\t\tlet name = data.datasets[tooltip.datasetIndex].label;\n\t\t\t\t\t\t\treturn `${name}: ${value}`;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\tscale: {\n\t\t\t\t\tticks: {\n\t\t\t\t\t\tbeginAtZero: true,\n\t\t\t\t\t\tuserCallback: residentRadarScaleCallback\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t};\n\t\t},\n\t\tcompetencyChartData(){\n\t\t\tlet averageColor = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet averageBackgroundColor = averageColor.clone().alpha(0.2);\n\n\t\t\tlet subjectColor = Color(CHART_COLORS.SUBJECT);\n\t\t\tlet subjectBackgroundColor = subjectColor.clone().alpha(0.2);\n\t\t\ttry {\n\t\t\t\treturn {\n\t\t\t\t\tlabels: Object.values(this.report.competencies),\n\t\t\t\t\tdatasets: [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tlabel: 'Average Competency',\n\t\t\t\t\t\t\tbackgroundColor: averageBackgroundColor.rgbString(),\n\t\t\t\t\t\t\tborderColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tpointBackgroundColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBorderColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tdata: Object.values(this.report.averageCompetency)\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tlabel: 'Subject Competency',\n\t\t\t\t\t\t\tbackgroundColor: subjectBackgroundColor.rgbString(),\n\t\t\t\t\t\t\tborderColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tpointBackgroundColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBorderColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tdata: Object.values(this.report.subjectCompetency[this.subjectId])\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t};\n\t\t\t} catch(err) {\n\t\t\t\treturn null;\n\t\t\t}\n\t\t},\n\t\tmilestoneChartData(){\n\t\t\tlet averageColor = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet averageBackgroundColor = averageColor.clone().alpha(0.2);\n\n\t\t\tlet subjectColor = Color(CHART_COLORS.SUBJECT);\n\t\t\tlet subjectBackgroundColor = subjectColor.clone().alpha(0.2);\n\t\t\ttry {\n\t\t\t\treturn {\n\t\t\t\t\tlabels: Object.values(this.report.milestones),\n\t\t\t\t\tdatasets: [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tlabel: 'Average Milestone',\n\t\t\t\t\t\t\tbackgroundColor: averageBackgroundColor.rgbString(),\n\t\t\t\t\t\t\tborderColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tpointBackgroundColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBorderColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tdata: Object.values(this.report.averageMilestone)\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tlabel: 'Subject Milestone',\n\t\t\t\t\t\t\tbackgroundColor: subjectBackgroundColor.rgbString(),\n\t\t\t\t\t\t\tborderColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tpointBackgroundColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBorderColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tdata: Object.values(this.report.subjectMilestone[this.subjectId])\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t};\n\t\t\t} catch(err) {\n\t\t\t\treturn null;\n\t\t\t}\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords,\n\t\tucfirst,\n\t\trenderDateCell,\n\t\texportPdf(){\n\t\t\tif(!this.report.subjectEvaluations[this.subjectId])\n\t\t\t\treturn;\n\n\t\t\tPromise.all([\n\t\t\t\timport('pdfmake/build/pdfmake.js'),\n\t\t\t\timport('../../vfs_fonts.json')\n\t\t\t]).then(imports => {\n\t\t\t\tconst [pdfmake, vfs] = imports;\n\t\t\t\tpdfmake.vfs = vfs;\n\n\t\t\t\tconst filename = `${this.report.subjects[this.subjectId]} - ${new Date().toLocaleString()}`; // FIXME\n\n\t\t\t\tlet content = [\n\t\t\t\t\t{ text: 'Report parameters', style: 'heading' },\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: [\n\t\t\t\t\t\t\t\t['Name', 'Training level', 'Start date', 'End date'].map(tableHeader),\n\t\t\t\t\t\t\t\t[\n\t\t\t\t\t\t\t\t\tthis.report.subjects[this.subjectId],\n\t\t\t\t\t\t\t\t\tthis.report.trainingLevel,\n\t\t\t\t\t\t\t\t\tthis.report.startDate.date\n\t\t\t\t\t\t\t\t\t\t? this.report.startDate.date.split(' ')[0]\n\t\t\t\t\t\t\t\t\t\t: this.report.startDate,\n\t\t\t\t\t\t\t\t\tthis.report.endDate.date\n\t\t\t\t\t\t\t\t\t\t? this.report.endDate.date.split(' ')[0]\n\t\t\t\t\t\t\t\t\t\t: this.report.endDate\n\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\t{ text: 'Evaluations included in report', style: 'heading' },\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\tthis.evaluationsThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t...this.evaluationsData\n\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t];\n\n\t\t\t\tif(this.show.competencies || this.show.milestones)\n\t\t\t\t\tcontent.push(\n\t\t\t\t\t\t{ text: 'Score mapping', style: 'heading' },\n\t\t\t\t\t\tcreateResponseLegend(RESIDENT_VALUE_MAP)\n\t\t\t\t\t);\n\n\t\t\t\tif(this.show.competencies)\n\t\t\t\t\tcontent.push(\n\t\t\t\t\t\t{ text: 'Competencies', style: 'heading' },\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\t\tthis.competenciesThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t\t...this.competenciesData\n\t\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t);\n\n\t\t\t\tif(this.show.milestones)\n\t\t\t\t\tcontent.push(\n\t\t\t\t\t\t{ text: 'Milestones', style: 'heading' },\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\t\tthis.milestonesThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t\t...this.milestonesData\n\t\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t);\n\n\t\t\t\tlet charts = [];\n\t\t\t\tif(this.show.charts){\n\t\t\t\t\tif(this.chartOrientation === 'horizontal'){\n\t\t\t\t\t\tlet cols = [];\n\t\t\t\t\t\tif(this.show.competencies && this.$refs.competencyChart && this.$refs.competencyChart.chart)\n\t\t\t\t\t\t\tcols.push({\n\t\t\t\t\t\t\t\timage: this.$refs.competencyChart.chart.toBase64Image(),\n\t\t\t\t\t\t\t\twidth: 250\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\telse\n\t\t\t\t\t\t\tcols.push({ text: '', width: 250 });\n\n\t\t\t\t\t\tif(this.show.milestones && this.$refs.milestoneChart && this.$refs.milestoneChart.chart)\n\t\t\t\t\t\t\tcols.push({\n\t\t\t\t\t\t\t\timage: this.$refs.milestoneChart.chart.toBase64Image(),\n\t\t\t\t\t\t\t\twidth: 250\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\telse\n\t\t\t\t\t\t\tcols.push({ text: '', width: 250 });\n\n\t\t\t\t\t\tcharts = [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\tpageBreak: 'before',\n\t\t\t\t\t\t\t\tcolumns: cols,\n\t\t\t\t\t\t\t\tcolumnGap: 10\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t];\n\t\t\t\t\t}\n\t\t\t\t\telse {\n\t\t\t\t\t\tcharts = [];\n\t\t\t\t\t\tif(this.show.competencies && this.$refs.competencyChart && this.$refs.competencyChart.chart)\n\t\t\t\t\t\t\tcharts.push({\n\t\t\t\t\t\t\t\tpageBreak: 'before',\n\t\t\t\t\t\t\t\timage: this.$refs.competencyChart.chart.toBase64Image(),\n\t\t\t\t\t\t\t\twidth: 550\n\t\t\t\t\t\t\t});\n\n\t\t\t\t\t\tif(this.show.milestones && this.$refs.milestoneChart && this.$refs.milestoneChart.chart)\n\t\t\t\t\t\t\tcharts.push({\n\t\t\t\t\t\t\t\timage: this.$refs.milestoneChart.chart.toBase64Image(),\n\t\t\t\t\t\t\t\twidth: 550,\n\t\t\t\t\t\t\t\tpageBreak: 'after'\n\t\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t\tcontent.push(...charts);\n\t\t\t\t}\n\n\t\t\t\tcontent.push(\n\t\t\t\t\t{ text: 'Comments', style: 'heading' },\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\tthis.commentsThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t...this.commentsData\n\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t);\n\n\t\t\t\tlet docDefinition = {\n\t\t\t\t\tpageSize: 'LETTER',\n\t\t\t\t\tcontent: content,\n\t\t\t\t\tstyles: {\n\t\t\t\t\t\theading: {\n\t\t\t\t\t\t\tbold: true,\n\t\t\t\t\t\t\tfontSize: 20,\n\t\t\t\t\t\t\tmargin: [0, 20, 0, 10]\n\t\t\t\t\t\t},\n\t\t\t\t\t\ttableHeader: {\n\t\t\t\t\t\t\tbold: true,\n\t\t\t\t\t\t\tfontSize: 14\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t};\n\n\t\t\t\tpdfmake.createPdf(docDefinition).download(filename);\n\t\t\t});\n\n\t\t}\n\t},\n\n\tcomponents: {\n\t\tBootstrapAlert,\n\t\tBootstrapButtonInput,\n\t\tChartjsChart,\n\t\tDataTable\n\t}\n};\n</script>\n\n<style scoped>\n\t.individual-report section {\n\t\tmargin: 2em 0 0;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.individual-report section[data-v-21575c47] {\n\tmargin: 2em 0 0;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/IndividualReport.vue?25412444"],"names":[],"mappings":";AAmmBA;CACA,gBAAA;CACA","file":"IndividualReport.vue","sourcesContent":["<template>\n\t<div class=\"individual-report container body-block\">\n\t\t<template v-if=\"report.subjectEvaluations[subjectId] && report.subjectEvaluations[subjectId].length > 0\">\n\t\t\t<h2>\n\t\t\t\tIndividual Report\n\t\t\t\t<small>\n\t\t\t\t\t{{ report.subjects[subjectId] }}\n\t\t\t\t</small>\n\t\t\t</h2>\n\n\n\t\t\t<section>\n\t\t\t\t<h3>Evaluations included in report</h3>\n\t\t\t\t<data-table :thead=\"evaluationsThead\" :config=\"evaluationsConfig\"\n\t\t\t\t\t\t:data=\"evaluationsData\" />\n\n\t\t\t\t<button type=\"button\" class=\"btn btn-default center-block\"\n\t\t\t\t\t\t@click=\"exportPdf\">\n\t\t\t\t\tExport PDF\n\t\t\t\t\t<svg-icon src=\"/img/icons/pdf.svg\" />\n\t\t\t\t</button>\n\t\t\t</section>\n\n\t\t\t<section>\n\t\t\t\t<fieldset class=\"show-container\">\n\t\t\t\t\t<legend>Show</legend>\n\t\t\t\t\t<label v-for=\"(part, name) of show\">\n\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"show[name]\" />\n\t\t\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t\t\t</label>\n\t\t\t\t</fieldset>\n\n\t\t\t\t<div class=\"row\">\n\t\t\t\t\t<div :class=\"milestoneCompetencyWidth\" v-if=\"show.competencies\">\n\t\t\t\t\t\t<h4>Competencies</h4>\n\t\t\t\t\t\t<data-table :thead=\"competenciesThead\" :data=\"competenciesData\" />\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div :class=\"milestoneCompetencyWidth\" v-if=\"show.milestones\">\n\t\t\t\t\t\t<h4>Milestones</h4>\n\t\t\t\t\t\t<data-table :thead=\"milestonesThead\" :data=\"milestonesData\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</section>\n\n\t\t\t<section v-if=\"show.charts\">\n\t\t\t\t<div class=\"row charts\">\n\t\t\t\t\t<div v-if=\"show.competencies\" :class=\"chartWidth\">\n\t\t\t\t\t\t<chartjs-chart v-if=\"competencyChartData\"\n\t\t\t\t\t\t\t:type=\"chartType\"\n\t\t\t\t\t\t\t:options=\"chartOptions\" :data=\"competencyChartData\"\n\t\t\t\t\t\t\t:shouldEmit=\"true\" ref=\"competencyChart\" />\n\t\t\t\t\t</div>\n\t\t\t\t\t<div v-if=\"show.milestones\" :class=\"chartWidth\">\n\t\t\t\t\t\t<chartjs-chart v-if=\"milestoneChartData\"\n\t\t\t\t\t\t\t:type=\"chartType\"\n\t\t\t\t\t\t\t:options=\"chartOptions\" :data=\"milestoneChartData\"\n\t\t\t\t\t\t\t:shouldEmit=\"true\" ref=\"milestoneChart\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\t\t\t\t<div class=\"row chart-options\">\n\t\t\t\t\t<div class=\"col-sm-offset-5 col-sm-2\">\n\t\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t\t<span class=\"panel-title\">Chart options</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t\t<fieldset v-if=\"show.milestones && show.competencies\">\n\t\t\t\t\t\t\t\t\t<legend>Orientation</legend>\n\t\t\t\t\t\t\t\t\t<div class=\"btn-group btn-group-justified\" data-toggle=\"buttons\">\n\t\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"horizontal\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-horizontal\"></span>\n\t\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"vertical\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-vertical\"></span>\n\t\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</fieldset>\n\n\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\t\t\tType\n\t\t\t\t\t\t\t\t\t\t<select class=\"form-control\" v-model=\"chartType\">\n\t\t\t\t\t\t\t\t\t\t\t<option v-for=\"type of chartTypes\" :value=\"type\">\n\t\t\t\t\t\t\t\t\t\t\t\t{{ ucfirst(type) }}\n\t\t\t\t\t\t\t\t\t\t\t</option>\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t</section>\n\n\t\t\t<section>\n\t\t\t\t<h3>Comments</h3>\n\t\t\t\t<data-table :thead=\"commentsThead\" :config=\"commentsConfig\" :data=\"commentsData\" />\n\n\t\t\t\t<button type=\"button\" class=\"btn btn-primary center-block\"\n\t\t\t\t\t\t@click=\"exportPdf\">\n\t\t\t\t\tExport PDF\n\t\t\t\t\t<svg-icon src=\"/img/icons/pdf.svg\" />\n\t\t\t\t</button>\n\t\t\t</section>\n\n\t\t</template>\n\t\t<bootstrap-alert v-else type=\"warning\">\n\t\t\tNo <strong>{{ trainingLevelDisplay }}</strong> evaluations found for\n\t\t\t<strong>{{ subject.full_name }}</strong>\n\t\t\tbetween <strong>{{ renderDateCell(report.startDate.date) }}</strong>\n\t\t\tand <strong>{{ renderDateCell(report.endDate.date) }}</strong>.\n\t\t</bootstrap-alert>\n\t</div>\n</template>\n\n<script>\nimport BootstrapAlert from '../BootstrapAlert.vue';\nimport BootstrapButtonInput from '../BootstrapButtonInput.vue';\nimport ChartjsChart from '../ChartjsChart.vue';\nimport DataTable from '../DataTable.vue';\nimport SvgIcon from '../SvgIcon.vue';\n\nimport Color from 'color';\n\nimport {\n\tCHART_COLORS,\n\tRESIDENT_VALUE_MAP,\n\tFELLOWSHIP_VALUE_MAPS\n} from '../../modules/constants.js';\nimport {\n\tcamelCaseToWords,\n\tucfirst\n} from '../../modules/utils.js';\nimport {\n\trenderIdToEvalUrl,\n\trenderDateCell,\n\tcreateDateCell,\n\trenderTrainingLevel\n} from '../../modules/datatable-utils.js';\nimport {\n\tcreateRadarScaleCallback,\n\ttableHeader,\n\tcreateResponseLegend\n} from '../../modules/report-utils.js';\n\nexport default {\n\tprops: {\n\t\tsubject: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t},\n\t\treport: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tmilestones: true,\n\t\t\t\tcompetencies: true,\n\t\t\t\tstandardDeviations: false,\n\t\t\t\tcharts: true\n\t\t\t},\n\t\t\tchartType: 'radar',\n\t\t\tchartOrientation: 'vertical'\n\t\t};\n\t},\n\tcomputed: {\n\t\tsubjectId(){\n\t\t\treturn this.subject.id;\n\t\t},\n\t\ttrainingLevelDisplay(){\n\t\t\tif(this.report.trainingLevel === 'all')\n\t\t\t\treturn;\n\t\t\t\t\n\t\t\treturn renderTrainingLevel(this.report.trainingLevel);\n\t\t},\n\t\tvalueMap(){\n\t\t\tif(this.report.trainingLevel === 'fellow')\n\t\t\t\treturn FELLOWSHIP_VALUE_MAPS.get(this.subject.secondary_training_level)\n\t\t\t\t\t|| FELLOWSHIP_VALUE_MAPS.get(null);\n\t\t\t\t\n\t\t\treturn RESIDENT_VALUE_MAP;\n\t\t},\n\t\tmilestoneCompetencyWidth(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': this.show.milestones && this.show.competencies,\n\t\t\t\t'col-md-12': !this.show.milestones || !this.show.competencies\n\t\t\t};\n\t\t},\n\t\tevaluationsThead(){\n\t\t\treturn [[\n\t\t\t\t'#',\n\t\t\t\t'Evaluation date',\n\t\t\t\t'Evaluator',\n\t\t\t\t'Evaluation form'\n\t\t\t]];\n\t\t},\n\t\tevaluationsConfig(){\n\t\t\treturn {\n\t\t\t\tcolumns: [\n\t\t\t\t\t{ render: renderIdToEvalUrl },\n\t\t\t\t\t{ render: renderDateCell, createdCell: createDateCell },\n\t\t\t\t\tnull,\n\t\t\t\t\tnull\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tevaluationsData(){\n\t\t\ttry {\n\t\t\t\treturn this.report.subjectEvaluations[this.subjectId].map(request => [\n\t\t\t\t\tString(request.evaluation_id),\n\t\t\t\t\trequest.evaluation_date,\n\t\t\t\t\t`${request.evaluator_last}, ${request.evaluator_first}`,\n\t\t\t\t\trequest.form_title\n\t\t\t\t]);\n\t\t\t} catch(err) {\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\tcompetenciesThead(){\n\t\t\tlet tr = [\n\t\t\t\t'Competency',\n\t\t\t\t'Average'\n\t\t\t];\n\t\t\tif(this.show.standardDeviations)\n\t\t\t\ttr.push('Standard Deviation');\n\t\t\ttr.push('Number of Evaluations');\n\n\t\t\treturn [tr];\n\t\t},\n\t\tcompetenciesData(){\n\t\t\tlet data = [];\n\t\t\tfor(let competencyId in this.report.subjectCompetency[this.subjectId]){\n\t\t\t\tlet tr = [String(this.report.competencies[competencyId])];\n\t\t\t\tif(this.report.subjectCompetency[this.subjectId][competencyId]){\n\t\t\t\t\ttr.push(String(Math.round10(this.report.subjectCompetency[this.subjectId][competencyId], -2)));\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\ttr.push(String(Math.round10(this.report.subjectCompetencyDeviations[this.subjectId][competencyId], -2)));\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\ttr.push('');\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\ttr.push('');\n\t\t\t\t}\n\t\t\t\ttr.push(String(this.report.subjectCompetencyEvals[this.subjectId][competencyId] || 0));\n\t\t\t\tdata.push(tr);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\t\tmilestonesThead(){\n\t\t\tlet tr = [\n\t\t\t\t'Milestone',\n\t\t\t\t'Average'\n\t\t\t];\n\n\t\t\tif(this.show.standardDeviations)\n\t\t\t\ttr.push('Standard Deviation');\n\t\t\ttr.push('Number of Evaluations');\n\n\t\t\treturn [tr];\n\t\t},\n\t\tmilestonesData(){\n\t\t\tlet data = [];\n\t\t\tfor(let milestoneId in this.report.subjectMilestone[this.subjectId]){\n\t\t\t\tlet tr = [String(this.report.milestones[milestoneId])];\n\t\t\t\tif(this.report.subjectMilestone[this.subjectId][milestoneId]){\n\t\t\t\t\ttr.push(String(Math.round10(this.report.subjectMilestone[this.subjectId][milestoneId], -2)));\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\ttr.push(String(Math.round10(this.report.subjectMilestoneDeviations[this.subjectId][milestoneId], -2)));\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\ttr.push('');\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\ttr.push('');\n\t\t\t\t}\n\n\t\t\t\ttr.push(String(this.report.subjectMilestoneEvals[this.subjectId][milestoneId] || 0));\n\n\t\t\t\tdata.push(tr);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\t\tcommentsThead(){\n\t\t\treturn [[\n\t\t\t\t'#',\n\t\t\t\t'Evaluation Date',\n\t\t\t\t'Evaluator',\n\t\t\t\t'Evaluation Form',\n\t\t\t\t'Comment'\n\t\t\t]];\n\t\t},\n\t\tcommentsData(){\n\t\t\ttry {\n\t\t\t\treturn this.report.subjectTextResponses[this.subjectId].map(response => [\n\t\t\t\t\tString(response.evaluation_id),\n\t\t\t\t\tresponse.evaluation_date,\n\t\t\t\t\t`${response.last_name}, ${response.first_name}`,\n\t\t\t\t\tresponse.form_title,\n\t\t\t\t\tresponse.response\n\t\t\t\t]);\n\t\t\t} catch(err) {\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\tcommentsConfig(){\n\t\t\treturn {\n\t\t\t\tcolumns: [\n\t\t\t\t\t{ render: renderIdToEvalUrl },\n\t\t\t\t\t{ render: renderDateCell, createdCell: createDateCell },\n\t\t\t\t\tnull,\n\t\t\t\t\tnull,\n\t\t\t\t\tnull\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\n\t\tchartTypes(){\n\t\t\treturn [\n\t\t\t\t'radar',\n\t\t\t\t'line',\n\t\t\t\t'bar'\n\t\t\t];\n\t\t},\n\t\tchartWidth(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': this.chartOrientation === 'horizontal',\n\t\t\t\t'col-md-12': this.chartOrientation === 'vertical'\n\t\t\t};\n\t\t},\n\t\tchartOptions(){\n\t\t\treturn {\n\t\t\t\tanimation: false,\n\t\t\t\tlegend: {\n\t\t\t\t\tlabels: {\n\t\t\t\t\t\tfontSize: 18,\n\t\t\t\t\t\tfontColor: '#333'\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tcallbacks: {\n\t\t\t\t\t\tlabel(tooltip, data){\n\t\t\t\t\t\t\tlet value = parseFloat(tooltip.yLabel).toFixed(2);\n\t\t\t\t\t\t\tlet name = data.datasets[tooltip.datasetIndex].label;\n\t\t\t\t\t\t\treturn `${name}: ${value}`;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\tscale: {\n\t\t\t\t\tticks: {\n\t\t\t\t\t\tbeginAtZero: true,\n\t\t\t\t\t\tuserCallback: createRadarScaleCallback(this.valueMap)\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t};\n\t\t},\n\t\tcompetencyChartData(){\n\t\t\tlet averageColor = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet averageBackgroundColor = averageColor.clone().alpha(0.2);\n\n\t\t\tlet subjectColor = Color(CHART_COLORS.SUBJECT);\n\t\t\tlet subjectBackgroundColor = subjectColor.clone().alpha(0.2);\n\t\t\ttry {\n\t\t\t\treturn {\n\t\t\t\t\tlabels: Object.values(this.report.competencies),\n\t\t\t\t\tdatasets: [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tlabel: 'Average Competency',\n\t\t\t\t\t\t\tbackgroundColor: averageBackgroundColor.rgbString(),\n\t\t\t\t\t\t\tborderColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tpointBackgroundColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBorderColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tdata: Object.values(this.report.averageCompetency)\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tlabel: 'Subject Competency',\n\t\t\t\t\t\t\tbackgroundColor: subjectBackgroundColor.rgbString(),\n\t\t\t\t\t\t\tborderColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tpointBackgroundColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBorderColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tdata: Object.values(this.report.subjectCompetency[this.subjectId])\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t};\n\t\t\t} catch(err) {\n\t\t\t\treturn null;\n\t\t\t}\n\t\t},\n\t\tmilestoneChartData(){\n\t\t\tlet averageColor = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet averageBackgroundColor = averageColor.clone().alpha(0.2);\n\n\t\t\tlet subjectColor = Color(CHART_COLORS.SUBJECT);\n\t\t\tlet subjectBackgroundColor = subjectColor.clone().alpha(0.2);\n\t\t\ttry {\n\t\t\t\treturn {\n\t\t\t\t\tlabels: Object.values(this.report.milestones),\n\t\t\t\t\tdatasets: [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tlabel: 'Average Milestone',\n\t\t\t\t\t\t\tbackgroundColor: averageBackgroundColor.rgbString(),\n\t\t\t\t\t\t\tborderColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tpointBackgroundColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBorderColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tdata: Object.values(this.report.averageMilestone)\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tlabel: 'Subject Milestone',\n\t\t\t\t\t\t\tbackgroundColor: subjectBackgroundColor.rgbString(),\n\t\t\t\t\t\t\tborderColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tpointBackgroundColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBorderColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tdata: Object.values(this.report.subjectMilestone[this.subjectId])\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t};\n\t\t\t} catch(err) {\n\t\t\t\treturn null;\n\t\t\t}\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords,\n\t\tucfirst,\n\t\trenderDateCell,\n\t\texportPdf(){\n\t\t\tif(!this.report.subjectEvaluations[this.subjectId])\n\t\t\t\treturn;\n\n\t\t\tPromise.all([\n\t\t\t\timport('pdfmake/build/pdfmake.js'),\n\t\t\t\timport('../../vfs_fonts.json')\n\t\t\t]).then(imports => {\n\t\t\t\tconst [pdfmake, vfs] = imports;\n\t\t\t\tpdfmake.vfs = vfs;\n\n\t\t\t\tconst filename = `${this.report.subjects[this.subjectId]} - ${new Date().toLocaleString()}`; // FIXME\n\n\t\t\t\tlet content = [\n\t\t\t\t\t{ text: 'Report parameters', style: 'heading' },\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: [\n\t\t\t\t\t\t\t\t['Name', 'Training level', 'Start date', 'End date'].map(tableHeader),\n\t\t\t\t\t\t\t\t[\n\t\t\t\t\t\t\t\t\tthis.report.subjects[this.subjectId],\n\t\t\t\t\t\t\t\t\tthis.report.trainingLevel,\n\t\t\t\t\t\t\t\t\tthis.report.startDate.date\n\t\t\t\t\t\t\t\t\t\t? this.report.startDate.date.split(' ')[0]\n\t\t\t\t\t\t\t\t\t\t: this.report.startDate,\n\t\t\t\t\t\t\t\t\tthis.report.endDate.date\n\t\t\t\t\t\t\t\t\t\t? this.report.endDate.date.split(' ')[0]\n\t\t\t\t\t\t\t\t\t\t: this.report.endDate\n\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\t{ text: 'Evaluations included in report', style: 'heading' },\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\tthis.evaluationsThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t...this.evaluationsData\n\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t];\n\n\t\t\t\tif(this.show.competencies || this.show.milestones)\n\t\t\t\t\tcontent.push(\n\t\t\t\t\t\t{ text: 'Score mapping', style: 'heading' },\n\t\t\t\t\t\tcreateResponseLegend(this.valueMap)\n\t\t\t\t\t);\n\n\t\t\t\tif(this.show.competencies)\n\t\t\t\t\tcontent.push(\n\t\t\t\t\t\t{ text: 'Competencies', style: 'heading' },\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\t\tthis.competenciesThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t\t...this.competenciesData\n\t\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t);\n\n\t\t\t\tif(this.show.milestones)\n\t\t\t\t\tcontent.push(\n\t\t\t\t\t\t{ text: 'Milestones', style: 'heading' },\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\t\tthis.milestonesThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t\t...this.milestonesData\n\t\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t);\n\n\t\t\t\tlet charts = [];\n\t\t\t\tif(this.show.charts){\n\t\t\t\t\tif(this.chartOrientation === 'horizontal'){\n\t\t\t\t\t\tlet cols = [];\n\t\t\t\t\t\tif(this.show.competencies && this.$refs.competencyChart && this.$refs.competencyChart.chart)\n\t\t\t\t\t\t\tcols.push({\n\t\t\t\t\t\t\t\timage: this.$refs.competencyChart.chart.toBase64Image(),\n\t\t\t\t\t\t\t\twidth: 250\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\telse\n\t\t\t\t\t\t\tcols.push({ text: '', width: 250 });\n\n\t\t\t\t\t\tif(this.show.milestones && this.$refs.milestoneChart && this.$refs.milestoneChart.chart)\n\t\t\t\t\t\t\tcols.push({\n\t\t\t\t\t\t\t\timage: this.$refs.milestoneChart.chart.toBase64Image(),\n\t\t\t\t\t\t\t\twidth: 250\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\telse\n\t\t\t\t\t\t\tcols.push({ text: '', width: 250 });\n\n\t\t\t\t\t\tcharts = [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\tpageBreak: 'before',\n\t\t\t\t\t\t\t\tcolumns: cols,\n\t\t\t\t\t\t\t\tcolumnGap: 10\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t];\n\t\t\t\t\t}\n\t\t\t\t\telse {\n\t\t\t\t\t\tcharts = [];\n\t\t\t\t\t\tif(this.show.competencies && this.$refs.competencyChart && this.$refs.competencyChart.chart)\n\t\t\t\t\t\t\tcharts.push({\n\t\t\t\t\t\t\t\tpageBreak: 'before',\n\t\t\t\t\t\t\t\timage: this.$refs.competencyChart.chart.toBase64Image(),\n\t\t\t\t\t\t\t\twidth: 550\n\t\t\t\t\t\t\t});\n\n\t\t\t\t\t\tif(this.show.milestones && this.$refs.milestoneChart && this.$refs.milestoneChart.chart)\n\t\t\t\t\t\t\tcharts.push({\n\t\t\t\t\t\t\t\timage: this.$refs.milestoneChart.chart.toBase64Image(),\n\t\t\t\t\t\t\t\twidth: 550,\n\t\t\t\t\t\t\t\tpageBreak: 'after'\n\t\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t\tcontent.push(...charts);\n\t\t\t\t}\n\n\t\t\t\tcontent.push(\n\t\t\t\t\t{ text: 'Comments', style: 'heading' },\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\tthis.commentsThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t...this.commentsData\n\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t);\n\n\t\t\t\tlet docDefinition = {\n\t\t\t\t\tpageSize: 'LETTER',\n\t\t\t\t\tcontent: content,\n\t\t\t\t\tstyles: {\n\t\t\t\t\t\theading: {\n\t\t\t\t\t\t\tbold: true,\n\t\t\t\t\t\t\tfontSize: 20,\n\t\t\t\t\t\t\tmargin: [0, 20, 0, 10]\n\t\t\t\t\t\t},\n\t\t\t\t\t\ttableHeader: {\n\t\t\t\t\t\t\tbold: true,\n\t\t\t\t\t\t\tfontSize: 14\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t};\n\n\t\t\t\tpdfmake.createPdf(docDefinition).download(filename);\n\t\t\t});\n\n\t\t}\n\t},\n\n\tcomponents: {\n\t\tBootstrapAlert,\n\t\tBootstrapButtonInput,\n\t\tChartjsChart,\n\t\tDataTable,\n\t\tSvgIcon\n\t}\n};\n</script>\n\n<style scoped>\n\t.individual-report section {\n\t\tmargin: 2em 0 0;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -10859,7 +10955,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.filter-milestones-container[data-v-65e2ee5c] {\n\tdisplay: flex;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tjustify-content: flex-start;\n\talign-items: stretch;\n}\n.milestone-group[data-v-65e2ee5c] {\n\tflex-grow: 0;\n\tflex-shrink: 1;\n\twidth: 250px;\n\tmin-width: 200px;\n\tmax-width: 100%;\n\tmargin: 10px;\n}\n.milestone-group .panel-body[data-v-65e2ee5c] {\n\theight: 300px;\n\toverflow: auto;\n}\n.milestone-group .panel-body label[data-v-65e2ee5c] {\n\tfont-weight: normal;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/TraineeReport.vue?3f16ce04"],"names":[],"mappings":";AA8PA;CACA,cAAA;CACA,oBAAA;CACA,gBAAA;CACA,4BAAA;CACA,qBAAA;CACA;AAEA;CACA,aAAA;CACA,eAAA;CACA,aAAA;CACA,iBAAA;CACA,gBAAA;CACA,aAAA;CACA;AAEA;CACA,cAAA;CACA,eAAA;CACA;AAEA;CACA,oBAAA;CACA","file":"TraineeReport.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block\">\n\t\t\t<h2>Trainee report</h2>\n\t\t\t<report-date v-model=\"dates\" />\n\t\t\t<label class=\"containing-label\">\n\t\t\t\tTraining level\n\t\t\t\t<select class=\"form-control\" v-model=\"trainingLevel\">\n\t\t\t\t\t<option value=\"all\">All</option>\n\t\t\t\t\t<option value=\"intern\">Intern</option>\n\t\t\t\t\t<option value=\"ca-1\">CA-1</option>\n\t\t\t\t\t<option value=\"ca-2\">CA-2</option>\n\t\t\t\t\t<option value=\"ca-3\">CA-3</option>\n\t\t\t\t\t<option value=\"fellow\">Fellow</option>\n\t\t\t\t</select>\n\t\t\t</label>\n\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"checkbox\" v-model=\"filterMilestones\" />\n\t\t\t\t\tFilter milestones\n\t\t\t\t</label>\n\t\t\t</div>\n\n\t\t\t<fieldset v-if=\"filterMilestones\">\n\t\t\t\t<legend>Milestones</legend>\n\t\t\t\t<div class=\"filter-milestones-container\">\n\t\t\t\t\t<div v-for=\"(milestoneGroup, index) of milestoneGroups\" class=\"milestone-group\">\n\t\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t\t<label class=\"panel-title\">\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t:checked=\"isEntireMilestoneGroupSelected(index)\"\n\t\t\t\t\t\t\t\t\t\t\t@click=\"toggleEntireMilestoneGroup(index)\" />\n\t\t\t\t\t\t\t\t\t{{ milestoneGroup.text }}\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t\t<div v-for=\"child of milestoneGroup.children\" class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t\t:value=\"child.id\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"milestones\" />\n\t\t\t\t\t\t\t\t\t\t{{ child.text }}\n\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\n\t\t\t<button type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t@click=\"runReport\">\n\t\t\t\tRun report\n\t\t\t</button>\n\t\t</div>\n\n\t\t<div v-if=\"report\">\n\t\t\t<div class=\"container body-block\">\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tUser\n\t\t\t\t\t\t<div class=\"input-group\">\n\t\t\t\t\t\t\t<select-two class=\"form-control\" v-if=\"filteredUsers\"\n\t\t\t\t\t\t\t\t\t:options=\"filteredUsers\" v-model=\"traineeId\"\n\t\t\t\t\t\t\t\t\t:multiple=\"multipleTrainees\">\n\t\t\t\t\t\t\t\t<option v-if=\"!multipleTrainees\" value=\"\">All</option>\n\t\t\t\t\t\t\t</select-two>\n\t\t\t\t\t\t\t<span class=\"input-group-addon\">\n\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"show.inactiveUsers\" />\n\t\t\t\t\t\t\t\t\tShow inactive\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t<span class=\"input-group-addon\">\n\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"multipleTrainees\" />\n\t\t\t\t\t\t\t\t\tSelect multiple\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t\n\t\t\t\t<button v-if=\"report && subjects && subjects.length > 0\"\n\t\t\t\t\t\ttype=\"button\" class=\"btn btn-primary\" @click=\"printAll\">\n\t\t\t\t\tExport all reports to PDFs\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t\t\n\t\t\t<template v-if=\"subjects && subjects.length > 0\">\n\t\t\t\t<individual-report v-for=\"subject of subjects\" :report=\"report\"\n\t\t\t\t\t:subject=\"subject\" ref=\"individualReports\" />\n\t\t\t</template>\n\t\t\t<template v-else>\n\t\t\t\t<stats-report v-if=\"stats\" :report=\"stats\" />\n\t\t\t\t<aggregate-report :report=\"report\" />\n\t\t\t</template>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport AggregateReport from './AggregateReport.vue';\nimport IndividualReport from './IndividualReport.vue';\nimport ReportDate from './ReportDate.vue';\nimport StatsReport from './StatsReport.vue';\nimport SelectTwo from '../SelectTwo.vue';\n\nimport {\n\tgetFetchHeaders,\n\tfetchMilestoneGroups,\n\tfetchUsers,\n\tgroupUsers\n} from '../../modules/utils.js';\n\nexport default {\n\tdata(){\n\t\treturn {\n\t\t\tdates: {\n\t\t\t\tstartDate: null,\n\t\t\t\tendDate: null\n\t\t\t},\n\t\t\ttrainingLevel: 'all',\n\t\t\ttraineeId: null,\n\t\t\tfilterMilestones: false,\n\t\t\tmilestones: [],\n\t\t\tmultipleTrainees: false,\n\n\t\t\tshow: {\n\t\t\t\tinactiveUsers: false\n\t\t\t},\n\n\t\t\treport: null,\n\t\t\tstats: null,\n\n\t\t\tmilestoneGroups: [],\n\t\t\tusers: []\n\t\t};\n\t},\n\tcreated(){\n\t\tfetchUsers().then(users => {\n\t\t\tthis.users = users;\n\t\t});\n\t},\n\n\twatch: {\n\t\tfilterMilestones(shouldFilter){\n\t\t\tif(shouldFilter){\n\t\t\t\tfetchMilestoneGroups().then(milestoneGroups => {\n\t\t\t\t\tthis.milestoneGroups = milestoneGroups;\n\t\t\t\t});\n\t\t\t}\n\t\t}\n\t},\n\tcomputed: {\n\t\tgroupedUsers(){\n\t\t\treturn groupUsers(this.users);\n\t\t},\n\t\tfilteredUsers(){\n\t\t\treturn this.show.inactiveUsers\n\t\t\t\t? this.groupedUsers\n\t\t\t\t: this.groupedUsers.filter(userGroup => userGroup.text !== 'Inactive');\n\n\t\t},\n\t\tsubjects(){\n\t\t\tif(this.traineeId){\n\t\t\t\tlet traineeId = Array.isArray(this.traineeId)\n\t\t\t\t\t? this.traineeId\n\t\t\t\t\t: [this.traineeId];\n\t\t\t\treturn this.users.filter(user => traineeId.includes(user.id.toString()));\n\t\t\t}\n\t\t}\n\t},\n\tmethods: {\n\t\tisEntireMilestoneGroupSelected(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\treturn groupIds.every(id => {\n\t\t\t\treturn this.milestones.includes(id);\n\t\t\t});\n\t\t},\n\t\ttoggleEntireMilestoneGroup(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\tlet newMilestones = this.milestones.filter(milestone => {\n\t\t\t\treturn !groupIds.includes(milestone);\n\t\t\t});\n\t\t\tif(!this.isEntireMilestoneGroupSelected(index)){\n\t\t\t\tnewMilestones = newMilestones.concat(groupIds);\n\t\t\t}\n\t\t\tthis.milestones = newMilestones;\n\t\t},\n\t\trunReport(){\n\t\t\tconst reportPromise = fetch('/report/aggregate', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate,\n\t\t\t\t\ttrainingLevel: this.trainingLevel,\n\t\t\t\t\tmilestones: this.milestones\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(report => {\n\t\t\t\tthis.report = Object.assign({}, this.report, report);\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\n\t\t\tconst statsPromise = fetch('/report/stats/resident', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(stats => {\n\t\t\t\tthis.stats = Object.assign({}, this.stats, stats);\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\n\t\t\treturn Promise.all([reportPromise, statsPromise]);\n\t\t},\n\t\tprintAll(){\n\t\t\tthis.$refs.individualReports.map(individual => {\n\t\t\t\tindividual.exportPdf();\n\t\t\t});\n\t\t}\n\t},\n\tcomponents: {\n\t\tReportDate,\n\t\tAggregateReport,\n\t\tIndividualReport,\n\t\tStatsReport,\n\t\tSelectTwo\n\t}\n};\n</script>\n\n<style scoped>\n\t.filter-milestones-container {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tflex-wrap: wrap;\n\t\tjustify-content: flex-start;\n\t\talign-items: stretch;\n\t}\n\n\t.milestone-group {\n\t\tflex-grow: 0;\n\t\tflex-shrink: 1;\n\t\twidth: 250px;\n\t\tmin-width: 200px;\n\t\tmax-width: 100%;\n\t\tmargin: 10px;\n\t}\n\n\t.milestone-group .panel-body {\n\t\theight: 300px;\n\t\toverflow: auto;\n\t}\n\n\t.milestone-group .panel-body label {\n\t\tfont-weight: normal;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.filter-milestones-container[data-v-65e2ee5c] {\n\tdisplay: flex;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tjustify-content: flex-start;\n\talign-items: stretch;\n}\n.milestone-group[data-v-65e2ee5c] {\n\tflex-grow: 0;\n\tflex-shrink: 1;\n\twidth: 250px;\n\tmin-width: 200px;\n\tmax-width: 100%;\n\tmargin: 10px;\n}\n.milestone-group .panel-body[data-v-65e2ee5c] {\n\theight: 300px;\n\toverflow: auto;\n}\n.milestone-group .panel-body label[data-v-65e2ee5c] {\n\tfont-weight: normal;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/TraineeReport.vue?917b4e28"],"names":[],"mappings":";AAyRA;CACA,cAAA;CACA,oBAAA;CACA,gBAAA;CACA,4BAAA;CACA,qBAAA;CACA;AAEA;CACA,aAAA;CACA,eAAA;CACA,aAAA;CACA,iBAAA;CACA,gBAAA;CACA,aAAA;CACA;AAEA;CACA,cAAA;CACA,eAAA;CACA;AAEA;CACA,oBAAA;CACA","file":"TraineeReport.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block\">\n\t\t\t<h2>Trainee report</h2>\n\t\t\t<report-date v-model=\"dates\" />\n\t\t\t<label class=\"containing-label\">\n\t\t\t\tTraining level\n\t\t\t\t<select class=\"form-control\" v-model=\"trainingLevel\">\n\t\t\t\t\t<option value=\"all\">All</option>\n\t\t\t\t\t<option value=\"intern\">Intern</option>\n\t\t\t\t\t<option value=\"ca-1\">CA-1</option>\n\t\t\t\t\t<option value=\"ca-2\">CA-2</option>\n\t\t\t\t\t<option value=\"ca-3\">CA-3</option>\n\t\t\t\t\t<option value=\"fellow\">Fellow</option>\n\t\t\t\t</select>\n\t\t\t</label>\n\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"checkbox\" v-model=\"filterMilestones\" />\n\t\t\t\t\tFilter milestones\n\t\t\t\t</label>\n\t\t\t</div>\n\n\t\t\t<fieldset v-if=\"filterMilestones\">\n\t\t\t\t<legend>Milestones</legend>\n\t\t\t\t<div class=\"filter-milestones-container\">\n\t\t\t\t\t<div v-for=\"(milestoneGroup, index) of milestoneGroups\" class=\"milestone-group\">\n\t\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t\t<label class=\"panel-title\">\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t:checked=\"isEntireMilestoneGroupSelected(index)\"\n\t\t\t\t\t\t\t\t\t\t\t@click=\"toggleEntireMilestoneGroup(index)\" />\n\t\t\t\t\t\t\t\t\t{{ milestoneGroup.text }}\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t\t<div v-for=\"child of milestoneGroup.children\" class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t\t:value=\"child.id\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"milestones\" />\n\t\t\t\t\t\t\t\t\t\t{{ child.text }}\n\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\n\t\t\t<div class=\"btn-lg-submit-container\">\n\t\t\t\t<button type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t\t@click=\"runReport\">\n\t\t\t\t\tRun report\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div v-if=\"report\">\n\t\t\t<div class=\"container body-block\">\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t<div class=\"col-md-4\">\n\t\t\t\t\t\t\t<bootstrap-alert type=\"info\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-info-sign\"></span>\n\t\t\t\t\t\t\t\tSelect a subject to show\n\t\t\t\t\t\t\t\tindividual reports.\n\t\t\t\t\t\t\t</bootstrap-alert>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"col-sm-10 col-md-7\">\n\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\tSubject\n\t\t\t\t\t\t\t\t<div class=\"input-group\">\n\t\t\t\t\t\t\t\t\t<select-two class=\"form-control\" v-if=\"filteredUsers\"\n\t\t\t\t\t\t\t\t\t\t\t:options=\"filteredUsers\" v-model=\"traineeId\"\n\t\t\t\t\t\t\t\t\t\t\t:multiple=\"multipleTrainees\">\n\t\t\t\t\t\t\t\t\t\t<option v-if=\"!multipleTrainees\" value=\"\">All</option>\n\t\t\t\t\t\t\t\t\t</select-two>\n\t\t\t\t\t\t\t\t\t<span class=\"input-group-addon\">\n\t\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"show.inactiveUsers\" />\n\t\t\t\t\t\t\t\t\t\t\tShow inactive\n\t\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<span class=\"input-group-addon\">\n\t\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"multipleTrainees\" />\n\t\t\t\t\t\t\t\t\t\t\tSelect multiple\n\t\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"col-sm-2 col-md-1\">\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default labelless-button\"\n\t\t\t\t\t\t\t\t\t@click=\"traineeId = null\">\n\t\t\t\t\t\t\t\tClear\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t\t<div class=\"btn-lg-submit-container\">\n\t\t\t\t\t\t<button v-if=\"report && subjects && subjects.length > 0\"\n\t\t\t\t\t\t\t\ttype=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t\t\t\t@click=\"printAll\">\n\t\t\t\t\t\t\tExport all\n\t\t\t\t\t\t\t<svg-icon src=\"/img/icons/pdf.svg\" />\n\t\t\t\t\t\t</button>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t\n\t\t\t<template v-if=\"subjects && subjects.length > 0\">\n\t\t\t\t<individual-report v-for=\"subject of subjects\" :report=\"report\"\n\t\t\t\t\t:subject=\"subject\" ref=\"individualReports\" />\n\t\t\t</template>\n\t\t\t<template v-else>\n\t\t\t\t<stats-report v-if=\"stats\" :report=\"stats\" />\n\t\t\t\t<aggregate-report :report=\"report\" />\n\t\t\t</template>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport AggregateReport from './AggregateReport.vue';\nimport IndividualReport from './IndividualReport.vue';\nimport ReportDate from './ReportDate.vue';\nimport StatsReport from './StatsReport.vue';\nimport BootstrapAlert from '../BootstrapAlert.vue';\nimport SelectTwo from '../SelectTwo.vue';\nimport SvgIcon from '../SvgIcon.vue';\n\nimport {\n\tgetFetchHeaders,\n\tfetchMilestoneGroups,\n\tfetchUsers,\n\tgroupUsers\n} from '../../modules/utils.js';\n\nexport default {\n\tdata(){\n\t\treturn {\n\t\t\tdates: {\n\t\t\t\tstartDate: null,\n\t\t\t\tendDate: null\n\t\t\t},\n\t\t\ttrainingLevel: 'all',\n\t\t\ttraineeId: null,\n\t\t\tfilterMilestones: false,\n\t\t\tmilestones: [],\n\t\t\tmultipleTrainees: false,\n\n\t\t\tshow: {\n\t\t\t\tinactiveUsers: false\n\t\t\t},\n\n\t\t\treport: null,\n\t\t\tstats: null,\n\n\t\t\tmilestoneGroups: [],\n\t\t\tusers: []\n\t\t};\n\t},\n\tcreated(){\n\t\tfetchUsers().then(users => {\n\t\t\tthis.users = users;\n\t\t});\n\t},\n\n\twatch: {\n\t\tfilterMilestones(shouldFilter){\n\t\t\tif(shouldFilter){\n\t\t\t\tfetchMilestoneGroups().then(milestoneGroups => {\n\t\t\t\t\tthis.milestoneGroups = milestoneGroups;\n\t\t\t\t});\n\t\t\t}\n\t\t}\n\t},\n\tcomputed: {\n\t\tgroupedUsers(){\n\t\t\treturn groupUsers(this.users);\n\t\t},\n\t\tfilteredUsers(){\n\t\t\treturn this.show.inactiveUsers\n\t\t\t\t? this.groupedUsers\n\t\t\t\t: this.groupedUsers.filter(userGroup => userGroup.text !== 'Inactive');\n\n\t\t},\n\t\tsubjects(){\n\t\t\tif(this.traineeId){\n\t\t\t\tlet traineeId = Array.isArray(this.traineeId)\n\t\t\t\t\t? this.traineeId\n\t\t\t\t\t: [this.traineeId];\n\t\t\t\treturn this.users.filter(user => traineeId.includes(user.id.toString()));\n\t\t\t}\n\t\t}\n\t},\n\tmethods: {\n\t\tisEntireMilestoneGroupSelected(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\treturn groupIds.every(id => {\n\t\t\t\treturn this.milestones.includes(id);\n\t\t\t});\n\t\t},\n\t\ttoggleEntireMilestoneGroup(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\tlet newMilestones = this.milestones.filter(milestone => {\n\t\t\t\treturn !groupIds.includes(milestone);\n\t\t\t});\n\t\t\tif(!this.isEntireMilestoneGroupSelected(index)){\n\t\t\t\tnewMilestones = newMilestones.concat(groupIds);\n\t\t\t}\n\t\t\tthis.milestones = newMilestones;\n\t\t},\n\t\trunReport(){\n\t\t\tconst reportPromise = fetch('/report/aggregate', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate,\n\t\t\t\t\ttrainingLevel: this.trainingLevel,\n\t\t\t\t\tmilestones: this.milestones\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(report => {\n\t\t\t\tthis.report = Object.assign({}, this.report, report);\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\n\t\t\tconst statsPromise = fetch('/report/stats/resident', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(stats => {\n\t\t\t\tthis.stats = Object.assign({}, this.stats, stats);\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\n\t\t\treturn Promise.all([reportPromise, statsPromise]);\n\t\t},\n\t\tprintAll(){\n\t\t\tthis.$refs.individualReports.map(individual => {\n\t\t\t\tindividual.exportPdf();\n\t\t\t});\n\t\t}\n\t},\n\tcomponents: {\n\t\tReportDate,\n\t\tAggregateReport,\n\t\tIndividualReport,\n\t\tStatsReport,\n\t\tBootstrapAlert,\n\t\tSelectTwo,\n\t\tSvgIcon\n\t}\n};\n</script>\n\n<style scoped>\n\t.filter-milestones-container {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tflex-wrap: wrap;\n\t\tjustify-content: flex-start;\n\t\talign-items: stretch;\n\t}\n\n\t.milestone-group {\n\t\tflex-grow: 0;\n\t\tflex-shrink: 1;\n\t\twidth: 250px;\n\t\tmin-width: 200px;\n\t\tmax-width: 100%;\n\t\tmargin: 10px;\n\t}\n\n\t.milestone-group .panel-body {\n\t\theight: 300px;\n\t\toverflow: auto;\n\t}\n\n\t.milestone-group .panel-body label {\n\t\tfont-weight: normal;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -24545,7 +24641,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_vm._v("\n\t\t\t\t\t\t" + _vm._s(_vm.camelCaseToWords(range)) + "\n\t\t\t\t\t")])
   }))])]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-4"
+    staticClass: "col-sm-6 col-md-4"
   }, [_c('label', {
     staticClass: "containing-label"
   }, [_vm._v("\n\t\t\t\tStart Date\n\t\t\t\t"), _c('vue-flatpickr', {
@@ -24559,7 +24655,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })], 1)]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-4"
+    staticClass: "col-sm-6 col-md-4"
   }, [_c('label', {
     staticClass: "containing-label"
   }, [_vm._v("\n\t\t\t\tEnd Date\n\t\t\t\t"), _c('vue-flatpickr', {
@@ -24596,14 +24692,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "data": _vm.evaluationsData
     }
   }), _vm._v(" "), _c('button', {
-    staticClass: "btn center-block",
+    staticClass: "btn btn-default center-block",
     attrs: {
       "type": "button"
     },
     on: {
       "click": _vm.exportPdf
     }
-  }, [_vm._v("\n\t\t\t\tExport PDF\n\t\t\t")])], 1), _vm._v(" "), _c('section', [_c('fieldset', {
+  }, [_vm._v("\n\t\t\t\tExport PDF\n\t\t\t\t"), _c('svg-icon', {
+    attrs: {
+      "src": "/img/icons/pdf.svg"
+    }
+  })], 1)], 1), _vm._v(" "), _c('section', [_c('fieldset', {
     staticClass: "show-container"
   }, [_c('legend', [_vm._v("Show")]), _vm._v(" "), _vm._l((_vm.show), function(part, name) {
     return _c('label', [_c('input', {
@@ -24766,14 +24866,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "data": _vm.commentsData
     }
   }), _vm._v(" "), _c('button', {
-    staticClass: "btn center-block",
+    staticClass: "btn btn-primary center-block",
     attrs: {
       "type": "button"
     },
     on: {
       "click": _vm.exportPdf
     }
-  }, [_vm._v("\n\t\t\t\tExport PDF\n\t\t\t")])], 1)] : _c('bootstrap-alert', {
+  }, [_vm._v("\n\t\t\t\tExport PDF\n\t\t\t\t"), _c('svg-icon', {
+    attrs: {
+      "src": "/img/icons/pdf.svg"
+    }
+  })], 1)], 1)] : _c('bootstrap-alert', {
     attrs: {
       "type": "warning"
     }
@@ -25523,7 +25627,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }), _vm._v("\n\t\t\t\t\t\t\t\t\t" + _vm._s(child.text) + "\n\t\t\t\t\t\t\t\t")])])
     }))])])
-  }))]) : _vm._e(), _vm._v(" "), _c('button', {
+  }))]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "btn-lg-submit-container"
+  }, [_c('button', {
     staticClass: "btn btn-lg btn-primary",
     attrs: {
       "type": "button"
@@ -25531,13 +25637,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.runReport
     }
-  }, [_vm._v("\n\t\t\tRun report\n\t\t")])], 1), _vm._v(" "), (_vm.report) ? _c('div', [_c('div', {
+  }, [_vm._v("\n\t\t\t\tRun report\n\t\t\t")])])], 1), _vm._v(" "), (_vm.report) ? _c('div', [_c('div', {
     staticClass: "container body-block"
   }, [_c('div', {
     staticClass: "form-group"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-4"
+  }, [_c('bootstrap-alert', {
+    attrs: {
+      "type": "info"
+    }
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-info-sign"
+  }), _vm._v("\n\t\t\t\t\t\t\tSelect a subject to show\n\t\t\t\t\t\t\tindividual reports.\n\t\t\t\t\t\t")])], 1), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-10 col-md-7"
   }, [_c('label', {
     staticClass: "containing-label"
-  }, [_vm._v("\n\t\t\t\t\tUser\n\t\t\t\t\t"), _c('div', {
+  }, [_vm._v("\n\t\t\t\t\t\t\tSubject\n\t\t\t\t\t\t\t"), _c('div', {
     staticClass: "input-group"
   }, [(_vm.filteredUsers) ? _c('select-two', {
     directives: [{
@@ -25599,7 +25717,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }
-  }), _vm._v("\n\t\t\t\t\t\t\t\tShow inactive\n\t\t\t\t\t\t\t")])]), _vm._v(" "), _c('span', {
+  }), _vm._v("\n\t\t\t\t\t\t\t\t\t\tShow inactive\n\t\t\t\t\t\t\t\t\t")])]), _vm._v(" "), _c('span', {
     staticClass: "input-group-addon"
   }, [_c('label', [_c('input', {
     directives: [{
@@ -25632,15 +25750,33 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }
-  }), _vm._v("\n\t\t\t\t\t\t\t\tSelect multiple\n\t\t\t\t\t\t\t")])])], 1)])]), _vm._v(" "), (_vm.report && _vm.subjects && _vm.subjects.length > 0) ? _c('button', {
-    staticClass: "btn btn-primary",
+  }), _vm._v("\n\t\t\t\t\t\t\t\t\t\tSelect multiple\n\t\t\t\t\t\t\t\t\t")])])], 1)])]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-2 col-md-1"
+  }, [_c('button', {
+    staticClass: "btn btn-default labelless-button",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.traineeId = null
+      }
+    }
+  }, [_vm._v("\n\t\t\t\t\t\t\tClear\n\t\t\t\t\t\t")])])]), _vm._v(" "), _c('div', {
+    staticClass: "btn-lg-submit-container"
+  }, [(_vm.report && _vm.subjects && _vm.subjects.length > 0) ? _c('button', {
+    staticClass: "btn btn-lg btn-primary",
     attrs: {
       "type": "button"
     },
     on: {
       "click": _vm.printAll
     }
-  }, [_vm._v("\n\t\t\t\tExport all reports to PDFs\n\t\t\t")]) : _vm._e()]), _vm._v(" "), (_vm.subjects && _vm.subjects.length > 0) ? _vm._l((_vm.subjects), function(subject) {
+  }, [_vm._v("\n\t\t\t\t\t\tExport all\n\t\t\t\t\t\t"), _c('svg-icon', {
+    attrs: {
+      "src": "/img/icons/pdf.svg"
+    }
+  })], 1) : _vm._e()])])]), _vm._v(" "), (_vm.subjects && _vm.subjects.length > 0) ? _vm._l((_vm.subjects), function(subject) {
     return _c('individual-report', {
       ref: "individualReports",
       refInFor: true,
@@ -26749,6 +26885,162 @@ function createReports(el) {
 			return h(_Reports2.default);
 		}
 	});
+}
+
+/***/ }),
+/* 336 */,
+/* 337 */,
+/* 338 */,
+/* 339 */,
+/* 340 */,
+/* 341 */,
+/* 342 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(346)
+
+/* script */
+__vue_exports__ = __webpack_require__(343)
+
+/* template */
+var __vue_template__ = __webpack_require__(344)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/SvgIcon.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-127e3b7a", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-127e3b7a", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] SvgIcon.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 343 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+//
+//
+//
+//
+
+
+exports.default = {
+	props: {
+		src: {
+			type: String,
+			required: true
+		}
+	},
+	data: function data() {
+		return {
+			svg: null
+		};
+	},
+	created: function created() {
+		var _this = this;
+
+		fetch(this.src).then(function (response) {
+			if (response.ok) return response.text();
+
+			throw new Error('Unable to load icon');
+		}).then(function (svg) {
+			_this.svg = svg;
+		}).catch(function (err) {
+			console.err(err.message);
+		});
+	}
+};
+
+/***/ }),
+/* 344 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', {
+    staticClass: "svg-icon",
+    domProps: {
+      "innerHTML": _vm._s(_vm.svg)
+    }
+  })
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-127e3b7a", module.exports)
+  }
+}
+
+/***/ }),
+/* 345 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.svg-icon,\n.svg-icon > svg {\n\tdisplay: inline-block;\n\twidth: 1em;\n\theight: 1em;\n\tstroke-width: 0;\n\tstroke: currentColor;\n\tfill: currentColor;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/SvgIcon.vue?782cfc92"],"names":[],"mappings":";AAkCA;;CAEA,sBAAA;CACA,WAAA;CACA,YAAA;CACA,gBAAA;CACA,qBAAA;CACA,mBAAA;CACA","file":"SvgIcon.vue","sourcesContent":["<template>\n\t<span class=\"svg-icon\" v-html=\"svg\"></span>\n</template>\n\n<script>\n\nexport default {\n\tprops: {\n\t\tsrc: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tsvg: null\n\t\t};\n\t},\n\tcreated(){\n\t\tfetch(this.src).then(response => {\n\t\t\tif(response.ok)\n\t\t\t\treturn response.text();\n\t\t\t\n\t\t\tthrow new Error('Unable to load icon');\n\t\t}).then(svg => {\n\t\t\tthis.svg = svg;\n\t\t}).catch(err => {\n\t\t\tconsole.err(err.message);\n\t\t});\n\t}\n};\n</script>\n\n<style>\n\t.svg-icon,\n\t.svg-icon > svg {\n\t\tdisplay: inline-block;\n\t\twidth: 1em;\n\t\theight: 1em;\n\t\tstroke-width: 0;\n\t\tstroke: currentColor;\n\t\tfill: currentColor;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+
+// exports
+
+
+/***/ }),
+/* 346 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(345);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(2)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-127e3b7a!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SvgIcon.vue", function() {
+			var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-127e3b7a!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SvgIcon.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
 }
 
 /***/ })

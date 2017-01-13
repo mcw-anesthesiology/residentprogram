@@ -14,8 +14,10 @@
 				<data-table :thead="evaluationsThead" :config="evaluationsConfig"
 						:data="evaluationsData" />
 
-				<button type="button" class="btn center-block" @click="exportPdf">
+				<button type="button" class="btn btn-default center-block"
+						@click="exportPdf">
 					Export PDF
+					<svg-icon src="/img/icons/pdf.svg" />
 				</button>
 			</section>
 
@@ -97,8 +99,10 @@
 				<h3>Comments</h3>
 				<data-table :thead="commentsThead" :config="commentsConfig" :data="commentsData" />
 
-				<button type="button" class="btn center-block" @click="exportPdf">
+				<button type="button" class="btn btn-primary center-block"
+						@click="exportPdf">
 					Export PDF
+					<svg-icon src="/img/icons/pdf.svg" />
 				</button>
 			</section>
 
@@ -113,12 +117,13 @@
 </template>
 
 <script>
-import Color from 'color';
-
 import BootstrapAlert from '../BootstrapAlert.vue';
 import BootstrapButtonInput from '../BootstrapButtonInput.vue';
 import ChartjsChart from '../ChartjsChart.vue';
 import DataTable from '../DataTable.vue';
+import SvgIcon from '../SvgIcon.vue';
+
+import Color from 'color';
 
 import {
 	CHART_COLORS,
@@ -132,10 +137,11 @@ import {
 import {
 	renderIdToEvalUrl,
 	renderDateCell,
-	createDateCell
+	createDateCell,
+	renderTrainingLevel
 } from '../../modules/datatable-utils.js';
 import {
-	residentRadarScaleCallback,
+	createRadarScaleCallback,
 	tableHeader,
 	createResponseLegend
 } from '../../modules/report-utils.js';
@@ -171,9 +177,14 @@ export default {
 			if(this.report.trainingLevel === 'all')
 				return;
 				
-			return this.report.trainingLevel.includes('-')
-				? this.report.trainingLevel.toUpperCase()
-				: ucfirst(this.report.trainingLevel);
+			return renderTrainingLevel(this.report.trainingLevel);
+		},
+		valueMap(){
+			if(this.report.trainingLevel === 'fellow')
+				return FELLOWSHIP_VALUE_MAPS.get(this.subject.secondary_training_level)
+					|| FELLOWSHIP_VALUE_MAPS.get(null);
+				
+			return RESIDENT_VALUE_MAP;
 		},
 		milestoneCompetencyWidth(){
 			return {
@@ -344,7 +355,7 @@ export default {
 				scale: {
 					ticks: {
 						beginAtZero: true,
-						userCallback: residentRadarScaleCallback
+						userCallback: createRadarScaleCallback(this.valueMap)
 					}
 				}
 			};
@@ -474,7 +485,7 @@ export default {
 				if(this.show.competencies || this.show.milestones)
 					content.push(
 						{ text: 'Score mapping', style: 'heading' },
-						createResponseLegend(RESIDENT_VALUE_MAP)
+						createResponseLegend(this.valueMap)
 					);
 
 				if(this.show.competencies)
@@ -591,7 +602,8 @@ export default {
 		BootstrapAlert,
 		BootstrapButtonInput,
 		ChartjsChart,
-		DataTable
+		DataTable,
+		SvgIcon
 	}
 };
 </script>

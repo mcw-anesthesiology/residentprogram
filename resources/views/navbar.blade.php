@@ -75,6 +75,7 @@
             <li class="disabled"><a>Account type: {{ ucfirst($user->specific_type) }}</a></li>
 			<li><a href="/user">Manage Account</a></li>
             <li><a class="pointer" data-toggle="modal" data-target=".help-modal">Help</a></li>
+			<li><a class="pointer" data-toggle="modal" data-target="#attribution-modal">Attributions</a></li>
 			<li><a href="/logout">Logout</a></li>
 		  </ul>
 		</li>

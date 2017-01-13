@@ -272,4 +272,34 @@
 </div>
 @endif
 
+<div class="modal fade" id="attribution-modal" tabindex="-1" role="dialog" aria-labelledby="attribution-modal-title" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="attribution-modal-title">Attributions</h4>
+      </div>
+      <div class="modal-body">
+        <ul>
+            <li>
+                <a href="https://thenounproject.com/search/?q=pdf&i=749513">
+                    <img src="/img/icons/pdf-with-text.svg" alt="PDF Icon" />
+                    PDF by Yamini Ahluwalia from the Noun Project
+                </a>
+            </li>
+			<li>
+				<a href="https://thenounproject.com/search/?q=csv&i=724849" target="_blank" rel="noreferrer noopener">
+					<img src="/img/icons/csv.svg" alt="CSV Icon" />
+					CSV File by Plastic Donut from the Noun Project
+				</a>
+			</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 @stack("modals")

@@ -11,14 +11,14 @@
 					</select>
 				</label>
 			</div>
-			<div class="col-md-4">
+			<div class="col-sm-6 col-md-4">
 				<label class="containing-label">
 					Start Date
 					<vue-flatpickr :value="value.startDate" :options="flatpickrOptions"
 						@input="handleInput('startDate', arguments[0])"/>
 				</label>
 			</div>
-			<div class="col-md-4">
+			<div class="col-sm-6 col-md-4">
 				<label class="containing-label">
 					End Date
 					<vue-flatpickr :value="value.endDate" :options="flatpickrOptions"

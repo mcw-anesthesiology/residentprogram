@@ -437,6 +437,11 @@ body {
     margin: 20px 0;
 }
 
+.btn-lg-submit-container {
+	margin-top: 40px;
+	text-align: center;
+}
+
 label.normal-text-label {
 	font-weight: normal;
 }

@@ -146,7 +146,8 @@ export default {
 
 			row = [];
 			if(this.show.milestones){
-				for(let milestoneId in this.report.milestones){
+				// eslint-disable-next-line no-unused-vars
+				for(let milestoneId in this.report.milestones){ 
 					row.push({text: 'Average'});
 					if(this.show.standardDeviations)
 						row.push({text: 'Std. Dev.'});
@@ -154,6 +155,7 @@ export default {
 				}
 			}
 			if(this.show.competencies){
+				// eslint-disable-next-line no-unused-vars
 				for(let competencyId in this.report.competencies){
 					row.push({text: 'Average'});
 					if(this.show.standardDeviations)
