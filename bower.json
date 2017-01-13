@@ -40,5 +40,9 @@
     "select2": "^4.0.3",
     "select2-bootstrap-theme": "^0.1.0-beta.4",
     "velocity": "^1.2.3"
+  },
+  "dependencies": {
+    "datatables.net-buttons": "^1.2.4",
+    "datatables.net-buttons-bs": "^1.2.4"
   }
 }

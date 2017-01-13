@@ -690,7 +690,8 @@ class ReportController extends Controller
             ->whereIn("forms.evaluator_type", ["faculty"])
             ->where("evaluations.status", "complete")
             ->where("evaluations.evaluation_date", ">=", $startDate)
-            ->where("evaluations.evaluation_date", "<=", $endDate);
+            ->where("evaluations.evaluation_date", "<=", $endDate)
+			->where("responses.response", ">=", 0);
 
         if(!empty($milestones))
             $query->whereIn("milestones.id", $milestones);

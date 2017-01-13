@@ -11,6 +11,13 @@
 
 		<data-table id="aggregate-table" :thead="tableThead"
 			:config="tableConfig" :data="tableData" />
+			
+		<div class="text-center">
+			<button type="button" class="btn btn-default"
+					@click="exportCsv">
+				Export CSV
+			</button>
+		</div>
 
 		<div class="graphs-container" v-if="show.charts">
 			<div class="row">
@@ -64,11 +71,12 @@
 </template>
 
 <script>
-import Color from 'color';
-
 import BootstrapButtonInput from '../BootstrapButtonInput.vue';
 import ChartjsChart from '../ChartjsChart.vue';
 import DataTable from '../DataTable.vue';
+
+import Color from 'color';
+import download from 'downloadjs';
 
 import { CHART_COLORS } from '../../modules/constants.js';
 import { camelCaseToWords, ucfirst } from '../../modules/utils.js';
@@ -323,7 +331,49 @@ export default {
 	},
 	methods: {
 		camelCaseToWords,
-		ucfirst
+		ucfirst,
+		exportCsv(){
+			let header = [];
+			header.fill([], this.tableThead.length);
+			this.tableThead.map((row, rowIndex) => {
+				if(!header[rowIndex])
+					header[rowIndex] = [];
+
+				row.map((cell, cellIndex) => {
+					while(header[rowIndex][cellIndex])
+						cellIndex++;
+
+					if(cell.rowspan){
+						for(let i = 0; i < cell.rowspan; i++){
+							if(!header[rowIndex + i])
+								header[rowIndex + i] = [];
+							
+							header[rowIndex + i][cellIndex] = cell.text;
+							if(cell.colspan){
+								for(let j = 0; j < cell.colspan; j++){
+									header[rowIndex][cellIndex + j] = cell.text;
+								}
+							}
+						}
+					}
+					else if(cell.colspan){
+						for(let j = 0; j < cell.colspan; j++){
+							header[rowIndex][cellIndex + j] = cell.text;
+						}
+					}
+					else {
+						header[rowIndex][cellIndex] = cell.text;
+					}
+				});
+			});
+			
+			let rows = this.tableData.map(row =>
+				row.map(cell =>
+					typeof cell === 'string' ? `"${cell}"` : cell
+				).join(',')).sort();
+			let table = header.concat(rows);
+			download(table.join('\n'), 'Aggregate Report.csv', 'text/csv');
+		}
 	},
 	components: {
 		BootstrapButtonInput,

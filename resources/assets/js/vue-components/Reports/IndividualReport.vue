@@ -120,27 +120,25 @@ import BootstrapButtonInput from '../BootstrapButtonInput.vue';
 import ChartjsChart from '../ChartjsChart.vue';
 import DataTable from '../DataTable.vue';
 
-import { CHART_COLORS } from '../../modules/constants.js';
-import { camelCaseToWords, ucfirst } from '../../modules/utils.js';
-import { renderIdToEvalUrl, renderDateCell, createDateCell } from '../../modules/datatable-utils.js';
-import { residentRadarScaleCallback } from '../../modules/report-utils.js';
-
-let residentLegend = {
-	table: {
-		headerRows: 1,
-		body: [
-			['CBY', 'CA-1', 'CA-2', 'CA-3', 'Attending'].map(tableHeader),
-			['2', '4', '6', '8', '10']
-		]
-	}
-};
-
-function tableHeader(text){
-	return {
-		text: text,
-		style: 'tableHeader'
-	};
-}
+import {
+	CHART_COLORS,
+	RESIDENT_VALUE_MAP,
+	FELLOWSHIP_VALUE_MAPS
+} from '../../modules/constants.js';
+import {
+	camelCaseToWords,
+	ucfirst
+} from '../../modules/utils.js';
+import {
+	renderIdToEvalUrl,
+	renderDateCell,
+	createDateCell
+} from '../../modules/datatable-utils.js';
+import {
+	residentRadarScaleCallback,
+	tableHeader,
+	createResponseLegend
+} from '../../modules/report-utils.js';
 
 export default {
 	props: {
@@ -476,7 +474,7 @@ export default {
 				if(this.show.competencies || this.show.milestones)
 					content.push(
 						{ text: 'Score mapping', style: 'heading' },
-						residentLegend
+						createResponseLegend(RESIDENT_VALUE_MAP)
 					);
 
 				if(this.show.competencies)

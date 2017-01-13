@@ -1,3 +1,5 @@
+import { tableHeader } from './report-utils.js';
+
 export const ADMIN_EMAIL = 'jmischka@mcw.edu';
 
 export const NEW_ITEM_TAG = '<span class="label label-primary">NEW</span>';
@@ -40,6 +42,55 @@ export const STANDARD_OPTIONS = {
 		{value: "n-a", text: "N/A"}
 	]
 };
+
+export const RESIDENT_VALUE_MAP = new Map([
+	[2, 'CBY'],
+	[4, 'CA-1'],
+	[6, 'CA-2'],
+	[8, 'CA-3'],
+	[10, 'Attending']
+]);
+
+export const FELLOWSHIP_VALUE_MAPS = {
+	'Critical Care': new Map([
+		[0, 'Unacceptable'],
+		[3, 'Needs Improvement'],
+		[5, 'Meets Expectations'],
+		[7, 'Exceeds Expectations'],
+		[10, 'Outstanding']
+	]),
+	'Pediatric': new Map([
+		[0, 'Bellow fellow level'],
+		[3, 'Developing, Not consistent'],
+		[5, 'Acceptable, Not yet secure'],
+		[7, 'Secure, Consistent'],
+		[10, 'Outstanding, Autonomous']
+	]),
+	'Pain': new Map([
+		[0, 'Not yet at Resident Level'],
+		[1, 'Resident Level'],
+		[2, '1st Quarter Fellow'],
+		[3, 'Mid-year Fellow'],
+		[4, 'Advanced Fellow'],
+		[5, 'Attending'],
+	]),
+	'Cardio': new Map([
+		[0, 'Unacceptable'],
+		[3, 'Needs Improvement'],
+		[5, 'Meets Expectations'],
+		[7, 'Exceeds Expectations'],
+		[10, 'Outstanding']
+	]),
+	'OB': new Map([
+		[0, 'Not at Fellowship Level'],
+		[2, 'Fellow - 1'],
+		[4, 'Fellow - 2'],
+		[6, 'Fellow - 3'],
+		[8, 'Fellow - 4'],
+		[10, 'Fellow - 5']
+	])
+};
+
 
 export const REPORT_TYPES = {
 	TRAINEE: 'trainee',
