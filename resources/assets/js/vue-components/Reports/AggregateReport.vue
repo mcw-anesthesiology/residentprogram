@@ -9,16 +9,10 @@
 			</label>
 		</fieldset>
 
-		<data-table id="aggregate-table" :thead="tableThead"
-			:config="tableConfig" :data="tableData" />
+		<data-table id="aggregate-table" :thead="tableThead" :data="tableData"
+			:config="tableConfig" :exportable="true"
+			:exportFilename="tableExportFilename" />
 			
-		<div class="text-center">
-			<button type="button" class="btn btn-default"
-					@click="exportCsv">
-				Export CSV
-			</button>
-		</div>
-
 		<div class="graphs-container" v-if="show.charts">
 			<div class="row">
 				<div v-if="show.competencies" :class="chartWidth">
@@ -76,10 +70,10 @@ import ChartjsChart from '../ChartjsChart.vue';
 import DataTable from '../DataTable.vue';
 
 import Color from 'color';
-import download from 'downloadjs';
 
 import { CHART_COLORS } from '../../modules/constants.js';
-import { camelCaseToWords, ucfirst } from '../../modules/utils.js';
+import { camelCaseToWords, ucfirst, isoDateString } from '../../modules/utils.js';
+import { renderTrainingLevel } from '../../modules/datatable-utils.js';
 
 export default {
 	props: [
@@ -258,6 +252,15 @@ export default {
 
 			return data;
 		},
+		tableExportFilename(){
+			let level = this.report.trainingLevel === 'all'
+				? ''
+				: renderTrainingLevel(this.report.trainingLevel);
+			let start = isoDateString(new Date(this.report.startDate.date));
+			let end = isoDateString(new Date(this.report.endDate.date));
+			let now = new Date().toLocaleString();
+			return `Aggregate Report ${level}, ${start} - ${end}, exported ${now}`;
+		},
 		chartTypes(){
 			return [
 				'radar',
@@ -331,49 +334,7 @@ export default {
 	},
 	methods: {
 		camelCaseToWords,
-		ucfirst,
-		exportCsv(){
-			let header = [];
-			header.fill([], this.tableThead.length);
-			this.tableThead.map((row, rowIndex) => {
-				if(!header[rowIndex])
-					header[rowIndex] = [];
-
-				row.map((cell, cellIndex) => {
-					while(header[rowIndex][cellIndex])
-						cellIndex++;
-
-					if(cell.rowspan){
-						for(let i = 0; i < cell.rowspan; i++){
-							if(!header[rowIndex + i])
-								header[rowIndex + i] = [];
-							
-							header[rowIndex + i][cellIndex] = cell.text;
-							if(cell.colspan){
-								for(let j = 0; j < cell.colspan; j++){
-									header[rowIndex][cellIndex + j] = cell.text;
-								}
-							}
-						}
-					}
-					else if(cell.colspan){
-						for(let j = 0; j < cell.colspan; j++){
-							header[rowIndex][cellIndex + j] = cell.text;
-						}
-					}
-					else {
-						header[rowIndex][cellIndex] = cell.text;
-					}
-				});
-			});
-			
-			let rows = this.tableData.map(row =>
-				row.map(cell =>
-					typeof cell === 'string' ? `"${cell}"` : cell
-				).join(',')).sort();
-			let table = header.concat(rows);
-			download(table.join('\n'), 'Aggregate Report.csv', 'text/csv');
-		}
+		ucfirst
 	},
 	components: {
 		BootstrapButtonInput,

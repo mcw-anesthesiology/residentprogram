@@ -10,11 +10,18 @@
 						</th>
 					</tr>
 				</thead>		
-		</table>		
+		</table>
+		<div v-if="exportable && data" class="text-center">
+			<button type="button" class="btn btn-default"
+					@click="exportCsv">
+				Export CSV
+			</button>
+		</div>
 	</div>
 </template>
 
 <script>
+import download from 'downloadjs';
 import ElementResizeDetector from 'element-resize-detector';
 
 const erd = ElementResizeDetector({
@@ -47,6 +54,17 @@ export default {
 		data: {
 			type: Array,
 			required: false
+		},
+		
+		exportable: {
+			type: Boolean,
+			default: false
+		},
+		exportFilename: {
+			type: String,
+			default(){
+				return `Table Export ${new Date().toLocaleString()}`;
+			}
 		}
 	},
 	data(){
@@ -85,6 +103,50 @@ export default {
 					this.updateData = false;
 				}
 			});
+		}
+	},
+	methods: {
+		exportCsv(){
+			let header = [];
+			header.fill([], this.thead.length);
+			this.thead.map((row, rowIndex) => {
+				if(!header[rowIndex])
+					header[rowIndex] = [];
+
+				row.map((cell, cellIndex) => {
+					while(header[rowIndex][cellIndex])
+						cellIndex++;
+
+					if(cell.rowspan){
+						for(let i = 0; i < cell.rowspan; i++){
+							if(!header[rowIndex + i])
+								header[rowIndex + i] = [];
+							
+							header[rowIndex + i][cellIndex] = cell.text;
+							if(cell.colspan){
+								for(let j = 0; j < cell.colspan; j++){
+									header[rowIndex][cellIndex + j] = cell.text;
+								}
+							}
+						}
+					}
+					else if(cell.colspan){
+						for(let j = 0; j < cell.colspan; j++){
+							header[rowIndex][cellIndex + j] = cell.text;
+						}
+					}
+					else {
+						header[rowIndex][cellIndex] = cell.text;
+					}
+				});
+			});
+			
+			let rows = this.data.map(row =>
+				row.map(cell =>
+					typeof cell === 'string' ? `"${cell}"` : cell
+				).join(',')).sort();
+			let table = header.concat(rows);
+			download(table.join('\n'), `${this.exportFilename}.csv`, 'text/csv');
 		}
 	},
 	beforeUpdate(){
