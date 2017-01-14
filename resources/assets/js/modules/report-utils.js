@@ -32,3 +32,10 @@ export function tableHeader(text){
 		style: 'tableHeader'
 	};
 }
+
+export function getAverageLevel(average){
+	let level = Math.floor(average) / 2;
+	return level >= 1
+		? `Level ${level}`
+		: 'Not Level 1';
+}

@@ -475,6 +475,7 @@ var NEW_ITEM_TAG = exports.NEW_ITEM_TAG = '<span class="label label-primary">NEW
 
 var UNSEEN_EVALUATION_PRIORITY = exports.UNSEEN_EVALUATION_PRIORITY = 1000000;
 
+// FIXME: A lot of these should be configurable and saved instead of hardcoded
 var STANDARD_OPTIONS = exports.STANDARD_OPTIONS = {
 	RESIDENT: [{ value: 0, text: "Not at CBY" }, { value: 1, text: "" }, { value: 2, text: "CBY" }, { value: 3, text: "" }, { value: 4, text: "CA-1" }, { value: 5, text: "" }, { value: 6, text: "CA-2" }, { value: 7, text: "" }, { value: 8, text: "CA-3" }, { value: 9, text: "" }, { value: 10, text: "Attending" }],
 	FELLOW: [{ value: 0, text: "Not at fellowship level" }, { value: 1, text: "" }, { value: 2, text: "Fellow - 1" }, { value: 3, text: "" }, { value: 4, text: "Fellow - 2" }, { value: 5, text: "" }, { value: 6, text: "Fellow - 3" }, { value: 7, text: "" }, { value: 8, text: "Fellow - 4" }, { value: 9, text: "" }, { value: 10, text: "Fellow - 5" }],

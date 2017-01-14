@@ -4,6 +4,7 @@ export const NEW_ITEM_TAG = '<span class="label label-primary">NEW</span>';
 
 export const UNSEEN_EVALUATION_PRIORITY = 1000000;
 
+// FIXME: A lot of these should be configurable and saved instead of hardcoded
 export const STANDARD_OPTIONS = {
 	RESIDENT: [
 		{value: 0, text: "Not at CBY"},

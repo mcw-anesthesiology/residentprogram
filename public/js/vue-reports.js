@@ -2317,6 +2317,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.createRadarScaleCallback = createRadarScaleCallback;
 exports.createResponseLegend = createResponseLegend;
 exports.tableHeader = tableHeader;
+exports.getAverageLevel = getAverageLevel;
 
 var _utils = __webpack_require__(3);
 
@@ -2350,6 +2351,11 @@ function tableHeader(text) {
 		text: text,
 		style: 'tableHeader'
 	};
+}
+
+function getAverageLevel(average) {
+	var level = Math.floor(average) / 2;
+	return level >= 1 ? 'Level ' + level : 'Not Level 1';
 }
 
 /***/ }),
@@ -7124,7 +7130,76 @@ var _utils = __webpack_require__(3);
 
 var _datatableUtils = __webpack_require__(9);
 
+var _reportUtils = __webpack_require__(31);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
 	props: ['report'],
@@ -7133,6 +7208,9 @@ exports.default = {
 			show: {
 				milestones: false,
 				competencies: true,
+				averages: true,
+				averageLevels: false,
+				evaluationCounts: true,
 				standardDeviations: false,
 				totals: true,
 				charts: true
@@ -7147,7 +7225,19 @@ exports.default = {
 
 	computed: {
 		colsPerItem: function colsPerItem() {
-			return this.show.standardDeviations ? 3 : 2;
+			return [this.show.averages, this.show.averageLevels, this.show.evaluationCounts, this.show.standardDeviations].filter(function (col) {
+				return col;
+			}).length;
+		},
+		nameRowspan: function nameRowspan() {
+			var rowspan = 1;
+			if (this.show.milestones && this.show.competencies) rowspan++;
+			if (this.showSomething && this.colsPerItem > 1) rowspan++;
+
+			return rowspan;
+		},
+		showSomething: function showSomething() {
+			return this.show.milestones || this.show.competencies || this.show.totals;
 		},
 		milestoneColspan: function milestoneColspan() {
 			return this.colsPerItem * Object.keys(this.report.milestones).length;
@@ -7157,60 +7247,89 @@ exports.default = {
 		},
 		tableThead: function tableThead() {
 			var thead = [];
-			var row = [];
-			row.push({ rowspan: 3, text: 'Trainee' });
-			if (this.show.milestones) row.push({
-				colspan: this.milestoneColspan,
-				text: 'Milestones'
-			});
-			if (this.show.competencies) row.push({
-				colspan: this.competencyColspan,
-				text: 'Competencies'
-			});
-			row.push({ colspan: 3, text: 'All' });
-			thead.push(row);
+			var row = void 0;
+			if (this.show.milestones && this.show.competencies) {
+				row = [];
+				row.push({ rowspan: this.nameRowspan, text: 'Name' });
+				row.push({
+					colspan: this.milestoneColspan,
+					text: 'Milestones'
+				});
+				row.push({
+					colspan: this.competencyColspan,
+					text: 'Competencies'
+				});
+				if (this.show.totals) row.push({ colspan: 3, text: 'All' });
+
+				thead.push(row);
+			}
+
+			if (this.showSomething && this.colsPerItem > 1) {
+				row = [];
+				if (this.nameRowspan === 2) row.push({ rowspan: this.nameRowspan, text: 'Name' });
+
+				if (this.show.milestones) {
+					for (var milestoneId in this.report.milestones) {
+						row.push({
+							colspan: this.colsPerItem,
+							text: this.report.milestones[milestoneId]
+						});
+					}
+				}
+				if (this.show.competencies) {
+					for (var competencyId in this.report.competencies) {
+						row.push({
+							colspan: this.colsPerItem,
+							text: this.report.competencies[competencyId]
+						});
+					}
+				}
+				if (this.show.totals) row.push({ colspan: 3, text: 'Total' });
+
+				if (row.length > 0) thead.push(row);
+			}
 
 			row = [];
-			if (this.show.milestones) {
-				for (var milestoneId in this.report.milestones) {
-					row.push({
-						colspan: this.colsPerItem,
-						text: this.report.milestones[milestoneId]
-					});
-				}
-			}
-			if (this.show.competencies) {
-				for (var competencyId in this.report.competencies) {
-					row.push({
-						colspan: this.colsPerItem,
-						text: this.report.competencies[competencyId]
-					});
-				}
-			}
-			row.push({ colspan: 3, text: 'Total' });
-			thead.push(row);
-
-			row = [];
+			if (this.nameRowspan === 1) row.push({ rowspan: this.nameRowspan, text: 'Name' });
 			if (this.show.milestones) {
 				// eslint-disable-next-line no-unused-vars
 				for (var _milestoneId in this.report.milestones) {
-					row.push({ text: 'Average' });
-					if (this.show.standardDeviations) row.push({ text: 'Std. Dev.' });
-					row.push({ text: '#' });
+					if (this.colsPerItem > 1) {
+						if (this.show.averages) row.push({ text: 'Average' });
+						if (this.show.averageLevels) row.push({ text: 'Average Level' });
+						if (this.show.standardDeviations) row.push({ text: 'Std. Dev.' });
+						if (this.show.evaluationCounts) row.push({ text: '#' });
+					} else {
+						row.push({
+							colspan: this.colsPerItem,
+							text: this.report.milestones[_milestoneId]
+						});
+					}
 				}
 			}
 			if (this.show.competencies) {
 				// eslint-disable-next-line no-unused-vars
 				for (var _competencyId in this.report.competencies) {
-					row.push({ text: 'Average' });
-					if (this.show.standardDeviations) row.push({ text: 'Std. Dev.' });
-					row.push({ text: '#' });
+					if (this.colsPerItem > 1) {
+						if (this.show.averages) row.push({ text: 'Average' });
+						if (this.show.averageLevels) row.push({ text: 'Average Level' });
+						if (this.show.standardDeviations) row.push({ text: 'Std. Dev.' });
+						if (this.show.evaluationCounts) row.push({ text: '#' });
+					} else {
+						row.push({
+							colspan: this.colsPerItem,
+							text: this.report.competencies[_competencyId]
+						});
+					}
 				}
 			}
-			row.push({ text: '# Evaluators' });
-			row.push({ text: '# Evaluations' });
-			row.push({ text: '# Trainee Requests' });
-			thead.push(row);
+			if (this.show.totals) {
+				row.push({ text: '# Evaluators' });
+				row.push({ text: '# Evaluations' });
+				row.push({ text: '# Trainee Requests' });
+			}
+
+			if (row.length > 0) thead.push(row);
 
 			return thead;
 		},
@@ -7233,27 +7352,37 @@ exports.default = {
 				row.push(this.report.subjects[subjectId]);
 				if (this.show.milestones) {
 					for (var milestoneId in this.report.milestones) {
-						row.push(this.report.subjectMilestone && this.report.subjectMilestone[subjectId] && this.report.subjectMilestone[subjectId][milestoneId] ? parseFloat(this.report.subjectMilestone[subjectId][milestoneId]).toFixed(2) : '');
+						if (this.show.averages) row.push(this.report.subjectMilestone && this.report.subjectMilestone[subjectId] && this.report.subjectMilestone[subjectId][milestoneId] ? parseFloat(this.report.subjectMilestone[subjectId][milestoneId]).toFixed(2) : '');
+
+						if (this.show.averageLevels) row.push((0, _reportUtils.getAverageLevel)(this.report.subjectMilestone && this.report.subjectMilestone[subjectId] && this.report.subjectMilestone[subjectId][milestoneId] ? parseFloat(this.report.subjectMilestone[subjectId][milestoneId]).toFixed(2) : 0));
 
 						if (this.show.standardDeviations) row.push(this.report.subjectMilestoneDeviations && this.report.subjectMilestoneDeviations[subjectId] && this.report.subjectMilestoneDeviations[subjectId][milestoneId] ? parseFloat(this.report.subjectMilestoneDeviations[subjectId][milestoneId]).toFixed(2) : '');
 
-						row.push(this.report.subjectMilestoneEvals && this.report.subjectMilestoneEvals[subjectId] && this.report.subjectMilestoneEvals[subjectId][milestoneId] ? parseFloat(this.report.subjectMilestoneEvals[subjectId][milestoneId]).toFixed() : 0);
+						if (this.show.evaluationCounts) row.push(this.report.subjectMilestoneEvals && this.report.subjectMilestoneEvals[subjectId] && this.report.subjectMilestoneEvals[subjectId][milestoneId] ? parseFloat(this.report.subjectMilestoneEvals[subjectId][milestoneId]).toFixed() : 0);
+
+						if (this.colsPerItem === 0) row.push('');
 					}
 				}
 
 				if (this.show.competencies) {
 					for (var competencyId in this.report.competencies) {
-						row.push(this.report.subjectCompetency && this.report.subjectCompetency[subjectId] && this.report.subjectCompetency[subjectId][competencyId] ? parseFloat(this.report.subjectCompetency[subjectId][competencyId]).toFixed(2) : '');
+						if (this.show.averages) row.push(this.report.subjectCompetency && this.report.subjectCompetency[subjectId] && this.report.subjectCompetency[subjectId][competencyId] ? parseFloat(this.report.subjectCompetency[subjectId][competencyId]).toFixed(2) : '');
+
+						if (this.show.averageLevels) row.push((0, _reportUtils.getAverageLevel)(this.report.subjectCompetency && this.report.subjectCompetency[subjectId] && this.report.subjectCompetency[subjectId][competencyId] ? parseFloat(this.report.subjectCompetency[subjectId][competencyId]).toFixed(2) : 0));
 
 						if (this.show.standardDeviations) row.push(this.report.subjectCompetencyDeviations && this.report.subjectCompetencyDeviations[subjectId] && this.report.subjectCompetencyDeviations[subjectId][competencyId] ? parseFloat(this.report.subjectCompetencyDeviations[subjectId][competencyId]).toFixed(2) : '');
 
-						row.push(this.report.subjectCompetencyEvals && this.report.subjectCompetencyEvals[subjectId] && this.report.subjectCompetencyEvals[subjectId][competencyId] ? parseFloat(this.report.subjectCompetencyEvals[subjectId][competencyId]).toFixed() : 0);
+						if (this.show.evaluationCounts) row.push(this.report.subjectCompetencyEvals && this.report.subjectCompetencyEvals[subjectId] && this.report.subjectCompetencyEvals[subjectId][competencyId] ? parseFloat(this.report.subjectCompetencyEvals[subjectId][competencyId]).toFixed() : 0);
+
+						if (this.colsPerItem === 0) row.push('');
 					}
 				}
 
-				row.push(Object.keys(this.report.subjectEvaluators[subjectId]).length);
-				row.push(Object.keys(this.report.subjectEvals[subjectId]).length);
-				row.push(Object.keys(this.report.subjectRequests[subjectId]).length);
+				if (this.show.totals) {
+					row.push(Object.keys(this.report.subjectEvaluators[subjectId]).length);
+					row.push(Object.keys(this.report.subjectEvals[subjectId]).length);
+					row.push(Object.keys(this.report.subjectRequests[subjectId]).length);
+				}
 
 				data.push(row);
 			}
@@ -7339,72 +7468,7 @@ exports.default = {
 		ChartjsChart: _ChartjsChart2.default,
 		DataTable: _DataTable2.default
 	}
-}; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+};
 
 /***/ }),
 /* 85 */
@@ -10828,7 +10892,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.show-container label + label[data-v-12d2bcae] {\n\tmargin-left: 2em;\n}\n.graphs-container[data-v-12d2bcae] {\n\tmargin: 2em 0;\n}\n.graphs-container .chart-options[data-v-12d2bcae] {\n\tmargin: 2em 0 0;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/AggregateReport.vue?0509ff17"],"names":[],"mappings":";AA6VA;CACA,iBAAA;CACA;AAEA;CACA,cAAA;CACA;AAEA;CACA,gBAAA;CACA","file":"AggregateReport.vue","sourcesContent":["<template>\n\t<div class=\"container body-block\">\n\t\t<h3>Aggregate</h3>\n\t\t<fieldset class=\"show-container\">\n\t\t\t<legend>Show</legend>\n\t\t\t<label v-for=\"(part, name) of show\">\n\t\t\t\t<input type=\"checkbox\" v-model=\"show[name]\" />\n\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t</label>\n\t\t</fieldset>\n\n\t\t<data-table id=\"aggregate-table\" :thead=\"tableThead\" :data=\"tableData\"\n\t\t\t:config=\"tableConfig\" :exportable=\"true\"\n\t\t\t:exportFilename=\"tableExportFilename\" />\n\t\t\t\n\t\t<div class=\"graphs-container\" v-if=\"show.charts\">\n\t\t\t<div class=\"row\">\n\t\t\t\t<div v-if=\"show.competencies\" :class=\"chartWidth\">\n\t\t\t\t\t<chartjs-chart id=\"aggregate-competency-chart\" :type=\"chartType\"\n\t\t\t\t\t\t:options=\"chartOptions\" :data=\"competencyChartData\" />\n\t\t\t\t</div>\n\t\t\t\t<div v-if=\"show.milestones\" :class=\"chartWidth\">\n\t\t\t\t\t<chartjs-chart id=\"aggregate-milestone-chart\" :type=\"chartType\"\n\t\t\t\t\t\t:options=\"chartOptions\" :data=\"milestoneChartData\" />\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"row chart-options\">\n\t\t\t\t<div class=\"col-sm-offset-5 col-sm-2\">\n\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t<span class=\"panel-title\">Chart options</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t<fieldset v-if=\"show.milestones && show.competencies\">\n\t\t\t\t\t\t\t\t<legend>Orientation</legend>\n\t\t\t\t\t\t\t\t<div class=\"btn-group btn-group-justified\" data-toggle=\"buttons\">\n\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"horizontal\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-horizontal\"></span>\n\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"vertical\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-vertical\"></span>\n\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</fieldset>\n\n\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\t\tType\n\t\t\t\t\t\t\t\t\t<select class=\"form-control\" v-model=\"chartType\">\n\t\t\t\t\t\t\t\t\t\t<option v-for=\"type of chartTypes\" :value=\"type\">\n\t\t\t\t\t\t\t\t\t\t\t{{ ucfirst(type) }}\n\t\t\t\t\t\t\t\t\t\t</option>\n\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport BootstrapButtonInput from '../BootstrapButtonInput.vue';\nimport ChartjsChart from '../ChartjsChart.vue';\nimport DataTable from '../DataTable.vue';\n\nimport Color from 'color';\n\nimport { CHART_COLORS } from '../../modules/constants.js';\nimport { camelCaseToWords, ucfirst, isoDateString } from '../../modules/utils.js';\nimport { renderTrainingLevel } from '../../modules/datatable-utils.js';\n\nexport default {\n\tprops: [\n\t\t'report'\n\t],\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tmilestones: false,\n\t\t\t\tcompetencies: true,\n\t\t\t\tstandardDeviations: false,\n\t\t\t\ttotals: true,\n\t\t\t\tcharts: true\n\t\t\t},\n\t\t\ttransformations: {\n\t\t\t\tlevelRatings: false\n\t\t\t},\n\t\t\tchartType: 'radar',\n\t\t\tchartOrientation: 'vertical'\n\t\t};\n\t},\n\tcomputed: {\n\t\tcolsPerItem(){\n\t\t\treturn this.show.standardDeviations\n\t\t\t\t? 3\n\t\t\t\t: 2;\n\t\t},\n\t\tmilestoneColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.milestones).length;\n\t\t},\n\t\tcompetencyColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.competencies).length;\n\t\t},\n\t\ttableThead(){\n\t\t\tlet thead = [];\n\t\t\tlet row = [];\n\t\t\trow.push({rowspan: 3, text: 'Trainee'});\n\t\t\tif(this.show.milestones)\n\t\t\t\trow.push({\n\t\t\t\t\tcolspan: this.milestoneColspan,\n\t\t\t\t\ttext: 'Milestones'\n\t\t\t\t});\n\t\t\tif(this.show.competencies)\n\t\t\t\trow.push({\n\t\t\t\t\tcolspan: this.competencyColspan,\n\t\t\t\t\ttext: 'Competencies'\n\t\t\t\t});\n\t\t\trow.push({colspan: 3, text: 'All'});\n\t\t\tthead.push(row);\n\n\t\t\trow = [];\n\t\t\tif(this.show.milestones){\n\t\t\t\tfor(let milestoneId in this.report.milestones){\n\t\t\t\t\trow.push({\n\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\ttext: this.report.milestones[milestoneId]\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t}\n\t\t\tif(this.show.competencies){\n\t\t\t\tfor(let competencyId in this.report.competencies){\n\t\t\t\t\trow.push({\n\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\ttext: this.report.competencies[competencyId]\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t}\n\t\t\trow.push({colspan: 3, text: 'Total'});\n\t\t\tthead.push(row);\n\n\t\t\trow = [];\n\t\t\tif(this.show.milestones){\n\t\t\t\t// eslint-disable-next-line no-unused-vars\n\t\t\t\tfor(let milestoneId in this.report.milestones){ \n\t\t\t\t\trow.push({text: 'Average'});\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\trow.push({text: 'Std. Dev.'});\n\t\t\t\t\trow.push({text: '#'});\n\t\t\t\t}\n\t\t\t}\n\t\t\tif(this.show.competencies){\n\t\t\t\t// eslint-disable-next-line no-unused-vars\n\t\t\t\tfor(let competencyId in this.report.competencies){\n\t\t\t\t\trow.push({text: 'Average'});\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\trow.push({text: 'Std. Dev.'});\n\t\t\t\t\trow.push({text: '#'});\n\t\t\t\t}\n\t\t\t}\n\t\t\trow.push({text: '# Evaluators'});\n\t\t\trow.push({text: '# Evaluations'});\n\t\t\trow.push({text: '# Trainee Requests'});\n\t\t\tthead.push(row);\n\n\t\t\treturn thead;\n\t\t},\n\t\ttableConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tdom: 'lfprtip',\n\t\t\t\tscrollX: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tfixedColumns: true,\n\t\t\t};\n\t\t},\n\t\ttableData(){\n\t\t\tlet data = [];\n\t\t\tfor(let subjectId in this.report.subjects){\n\t\t\t\tlet row = [];\n\t\t\t\trow.push(this.report.subjects[subjectId]);\n\t\t\t\tif(this.show.milestones){\n\t\t\t\t\tfor(let milestoneId in this.report.milestones){\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectMilestone\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestone[subjectId][milestoneId]).toFixed(2)\n\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t);\n\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectMilestoneDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneDeviations[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestoneDeviations[subjectId][milestoneId]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectMilestoneEvals\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneEvals[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneEvals[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestoneEvals[subjectId][milestoneId]).toFixed()\n\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tif(this.show.competencies){\n\t\t\t\t\tfor(let competencyId in this.report.competencies){\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectCompetency\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId][competencyId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetency[subjectId][competencyId]).toFixed(2)\n\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t);\n\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectCompetencyDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyDeviations[subjectId][competencyId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetencyDeviations[subjectId][competencyId]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\n\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\tthis.report.subjectCompetencyEvals\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyEvals[subjectId]\n\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyEvals[subjectId][competencyId]\n\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetencyEvals[subjectId][competencyId]).toFixed()\n\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\trow.push(Object.keys(this.report.subjectEvaluators[subjectId]).length);\n\t\t\t\trow.push(Object.keys(this.report.subjectEvals[subjectId]).length);\n\t\t\t\trow.push(Object.keys(this.report.subjectRequests[subjectId]).length);\n\n\t\t\t\tdata.push(row);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\t\ttableExportFilename(){\n\t\t\tlet level = this.report.trainingLevel === 'all'\n\t\t\t\t? ''\n\t\t\t\t: renderTrainingLevel(this.report.trainingLevel);\n\t\t\tlet start = isoDateString(new Date(this.report.startDate.date));\n\t\t\tlet end = isoDateString(new Date(this.report.endDate.date));\n\t\t\tlet now = new Date().toLocaleString();\n\t\t\treturn `Aggregate Report ${level}, ${start} - ${end}, exported ${now}`;\n\t\t},\n\t\tchartTypes(){\n\t\t\treturn [\n\t\t\t\t'radar',\n\t\t\t\t'line',\n\t\t\t\t'bar'\n\t\t\t];\n\t\t},\n\t\tchartWidth(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': this.chartOrientation === 'horizontal',\n\t\t\t\t'col-md-12': this.chartOrientation === 'vertical'\n\t\t\t};\n\t\t},\n\t\tchartOptions(){\n\t\t\treturn {\n\t\t\t\tlegend: {\n\t\t\t\t\tlabels: {\n\t\t\t\t\t\tfontSize: 18,\n\t\t\t\t\t\tfontColor: '#333'\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tcallbacks: {\n\t\t\t\t\t\tlabel(tooltip, data){\n\t\t\t\t\t\t\tlet value = parseFloat(tooltip.yLabel).toFixed(2);\n\t\t\t\t\t\t\tlet name = data.datasets[tooltip.datasetIndex].label;\n\t\t\t\t\t\t\treturn `${name}: ${value}`;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t};\n\t\t},\n\t\tcompetencyChartData(){\n\t\t\tlet color = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: Object.values(this.report.competencies),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Average Competencies',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: Object.values(this.report.averageCompetency)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tmilestoneChartData(){\n\t\t\tlet color = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: Object.values(this.report.milestones),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Average Milestones',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: Object.values(this.report.averageMilestone)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords,\n\t\tucfirst\n\t},\n\tcomponents: {\n\t\tBootstrapButtonInput,\n\t\tChartjsChart,\n\t\tDataTable\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-container label + label {\n\t\tmargin-left: 2em;\n\t}\n\n\t.graphs-container {\n\t\tmargin: 2em 0;\n\t}\n\n\t.graphs-container .chart-options {\n\t\tmargin: 2em 0 0;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.show-container label + label[data-v-12d2bcae] {\n\tmargin-left: 2em;\n}\n.graphs-container[data-v-12d2bcae] {\n\tmargin: 2em 0;\n}\n.graphs-container .chart-options[data-v-12d2bcae] {\n\tmargin: 2em 0 0;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/AggregateReport.vue?60a11678"],"names":[],"mappings":";AAybA;CACA,iBAAA;CACA;AAEA;CACA,cAAA;CACA;AAEA;CACA,gBAAA;CACA","file":"AggregateReport.vue","sourcesContent":["<template>\n\t<div class=\"container body-block\">\n\t\t<h3>Aggregate</h3>\n\t\t<fieldset class=\"show-container\">\n\t\t\t<legend>Show</legend>\n\t\t\t<label v-for=\"(part, name) of show\">\n\t\t\t\t<input type=\"checkbox\" v-model=\"show[name]\" />\n\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t</label>\n\t\t</fieldset>\n\n\t\t<data-table id=\"aggregate-table\" :thead=\"tableThead\" :data=\"tableData\"\n\t\t\t:config=\"tableConfig\" :exportable=\"true\"\n\t\t\t:exportFilename=\"tableExportFilename\" />\n\t\t\t\n\t\t<div class=\"graphs-container\" v-if=\"show.charts\">\n\t\t\t<div class=\"row\">\n\t\t\t\t<div v-if=\"show.competencies\" :class=\"chartWidth\">\n\t\t\t\t\t<chartjs-chart id=\"aggregate-competency-chart\" :type=\"chartType\"\n\t\t\t\t\t\t:options=\"chartOptions\" :data=\"competencyChartData\" />\n\t\t\t\t</div>\n\t\t\t\t<div v-if=\"show.milestones\" :class=\"chartWidth\">\n\t\t\t\t\t<chartjs-chart id=\"aggregate-milestone-chart\" :type=\"chartType\"\n\t\t\t\t\t\t:options=\"chartOptions\" :data=\"milestoneChartData\" />\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"row chart-options\">\n\t\t\t\t<div class=\"col-sm-offset-5 col-sm-2\">\n\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t<span class=\"panel-title\">Chart options</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t<fieldset v-if=\"show.milestones && show.competencies\">\n\t\t\t\t\t\t\t\t<legend>Orientation</legend>\n\t\t\t\t\t\t\t\t<div class=\"btn-group btn-group-justified\" data-toggle=\"buttons\">\n\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"horizontal\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-horizontal\"></span>\n\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"vertical\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-vertical\"></span>\n\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</fieldset>\n\n\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\t\tType\n\t\t\t\t\t\t\t\t\t<select class=\"form-control\" v-model=\"chartType\">\n\t\t\t\t\t\t\t\t\t\t<option v-for=\"type of chartTypes\" :value=\"type\">\n\t\t\t\t\t\t\t\t\t\t\t{{ ucfirst(type) }}\n\t\t\t\t\t\t\t\t\t\t</option>\n\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport BootstrapButtonInput from '../BootstrapButtonInput.vue';\nimport ChartjsChart from '../ChartjsChart.vue';\nimport DataTable from '../DataTable.vue';\n\nimport Color from 'color';\n\nimport { CHART_COLORS } from '../../modules/constants.js';\nimport { camelCaseToWords, ucfirst, isoDateString } from '../../modules/utils.js';\nimport { renderTrainingLevel } from '../../modules/datatable-utils.js';\nimport { getAverageLevel } from '../../modules/report-utils.js';\n\nexport default {\n\tprops: [\n\t\t'report'\n\t],\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tmilestones: false,\n\t\t\t\tcompetencies: true,\n\t\t\t\taverages: true,\n\t\t\t\taverageLevels: false,\n\t\t\t\tevaluationCounts: true,\n\t\t\t\tstandardDeviations: false,\n\t\t\t\ttotals: true,\n\t\t\t\tcharts: true\n\t\t\t},\n\t\t\ttransformations: {\n\t\t\t\tlevelRatings: false\n\t\t\t},\n\t\t\tchartType: 'radar',\n\t\t\tchartOrientation: 'vertical'\n\t\t};\n\t},\n\tcomputed: {\n\t\tcolsPerItem(){\n\t\t\treturn [\n\t\t\t\tthis.show.averages,\n\t\t\t\tthis.show.averageLevels,\n\t\t\t\tthis.show.evaluationCounts,\n\t\t\t\tthis.show.standardDeviations\n\t\t\t].filter(col => col).length;\n\t\t},\n\t\tnameRowspan(){\n\t\t\tlet rowspan = 1;\n\t\t\tif(this.show.milestones && this.show.competencies)\n\t\t\t\trowspan++;\n\t\t\tif(this.showSomething && this.colsPerItem > 1)\n\t\t\t\trowspan++;\n\t\t\t\t\n\t\t\treturn rowspan;\n\t\t},\n\t\tshowSomething(){\n\t\t\treturn this.show.milestones || this.show.competencies || this.show.totals;\n\t\t},\n\t\tmilestoneColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.milestones).length;\n\t\t},\n\t\tcompetencyColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.competencies).length;\n\t\t},\n\t\ttableThead(){\n\t\t\tlet thead = [];\n\t\t\tlet row;\n\t\t\tif(this.show.milestones && this.show.competencies){\n\t\t\t\trow = [];\n\t\t\t\trow.push({rowspan: this.nameRowspan, text: 'Name'});\n\t\t\t\trow.push({\n\t\t\t\t\tcolspan: this.milestoneColspan,\n\t\t\t\t\ttext: 'Milestones'\n\t\t\t\t});\n\t\t\t\trow.push({\n\t\t\t\t\tcolspan: this.competencyColspan,\n\t\t\t\t\ttext: 'Competencies'\n\t\t\t\t});\n\t\t\t\tif(this.show.totals)\n\t\t\t\t\trow.push({colspan: 3, text: 'All'});\n\n\t\t\t\tthead.push(row);\n\t\t\t}\n\n\n\t\t\tif(this.showSomething && this.colsPerItem > 1){\n\t\t\t\trow = [];\n\t\t\t\tif(this.nameRowspan === 2)\n\t\t\t\t\trow.push({rowspan: this.nameRowspan, text: 'Name'});\n\t\t\t\t\n\t\t\t\tif(this.show.milestones){\n\t\t\t\t\tfor(let milestoneId in this.report.milestones){\n\t\t\t\t\t\trow.push({\n\t\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\t\ttext: this.report.milestones[milestoneId]\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\tif(this.show.competencies){\n\t\t\t\t\tfor(let competencyId in this.report.competencies){\n\t\t\t\t\t\trow.push({\n\t\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\t\ttext: this.report.competencies[competencyId]\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\tif(this.show.totals)\n\t\t\t\t\trow.push({colspan: 3, text: 'Total'});\n\n\t\t\t\tif(row.length > 0)\n\t\t\t\t\tthead.push(row);\n\t\t\t}\n\t\t\t\n\n\t\t\trow = [];\n\t\t\tif(this.nameRowspan === 1)\n\t\t\t\trow.push({rowspan: this.nameRowspan, text: 'Name'});\n\t\t\tif(this.show.milestones){\n\t\t\t\t// eslint-disable-next-line no-unused-vars\n\t\t\t\tfor(let milestoneId in this.report.milestones){\n\t\t\t\t\tif(this.colsPerItem > 1){\n\t\t\t\t\t\tif(this.show.averages)\n\t\t\t\t\t\t\trow.push({text: 'Average'});\n\t\t\t\t\t\tif(this.show.averageLevels)\n\t\t\t\t\t\t\trow.push({text: 'Average Level'});\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push({text: 'Std. Dev.'});\n\t\t\t\t\t\tif(this.show.evaluationCounts)\n\t\t\t\t\t\t\trow.push({text: '#'});\n\t\t\t\t\t}\n\t\t\t\t\telse{\n\t\t\t\t\t\trow.push({\n\t\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\t\ttext: this.report.milestones[milestoneId]\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t\tif(this.show.competencies){\n\t\t\t\t// eslint-disable-next-line no-unused-vars\n\t\t\t\tfor(let competencyId in this.report.competencies){\n\t\t\t\t\tif(this.colsPerItem > 1){\t\t\t\t\t\t\n\t\t\t\t\t\tif(this.show.averages)\n\t\t\t\t\t\t\trow.push({text: 'Average'});\n\t\t\t\t\t\tif(this.show.averageLevels)\n\t\t\t\t\t\t\trow.push({text: 'Average Level'});\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push({text: 'Std. Dev.'});\n\t\t\t\t\t\tif(this.show.evaluationCounts)\n\t\t\t\t\t\t\trow.push({text: '#'});\n\t\t\t\t\t}\n\t\t\t\t\telse {\n\t\t\t\t\t\trow.push({\n\t\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\t\ttext: this.report.competencies[competencyId]\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t\tif(this.show.totals){\t\t\t\t\n\t\t\t\trow.push({text: '# Evaluators'});\n\t\t\t\trow.push({text: '# Evaluations'});\n\t\t\t\trow.push({text: '# Trainee Requests'});\n\t\t\t}\n\n\t\t\tif(row.length > 0)\n\t\t\t\tthead.push(row);\n\n\t\t\treturn thead;\n\t\t},\n\t\ttableConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tdom: 'lfprtip',\n\t\t\t\tscrollX: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tfixedColumns: true,\n\t\t\t};\n\t\t},\n\t\ttableData(){\n\t\t\tlet data = [];\n\t\t\tfor(let subjectId in this.report.subjects){\n\t\t\t\tlet row = [];\n\t\t\t\trow.push(this.report.subjects[subjectId]);\n\t\t\t\tif(this.show.milestones){\n\t\t\t\t\tfor(let milestoneId in this.report.milestones){\n\t\t\t\t\t\tif(this.show.averages)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectMilestone\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestone[subjectId][milestoneId]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t\n\t\t\t\t\t\tif(this.show.averageLevels)\n\t\t\t\t\t\t\trow.push(getAverageLevel(\n\t\t\t\t\t\t\t\tthis.report.subjectMilestone\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestone[subjectId][milestoneId]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t\t));\n\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectMilestoneDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneDeviations[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestoneDeviations[subjectId][milestoneId]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\tif(this.show.evaluationCounts)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectMilestoneEvals\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneEvals[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneEvals[subjectId][milestoneId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestoneEvals[subjectId][milestoneId]).toFixed()\n\t\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\tif(this.colsPerItem === 0)\n\t\t\t\t\t\t\trow.push('');\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tif(this.show.competencies){\n\t\t\t\t\tfor(let competencyId in this.report.competencies){\n\t\t\t\t\t\tif(this.show.averages)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectCompetency\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId][competencyId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetency[subjectId][competencyId]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\tif(this.show.averageLevels)\n\t\t\t\t\t\t\trow.push(getAverageLevel(\n\t\t\t\t\t\t\t\tthis.report.subjectCompetency\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId][competencyId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetency[subjectId][competencyId]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t\t));\n\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectCompetencyDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyDeviations[subjectId][competencyId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetencyDeviations[subjectId][competencyId]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\n\t\t\t\t\t\tif(this.show.evaluationCounts)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectCompetencyEvals\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyEvals[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyEvals[subjectId][competencyId]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetencyEvals[subjectId][competencyId]).toFixed()\n\t\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\tif(this.colsPerItem === 0)\n\t\t\t\t\t\t\trow.push('');\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tif(this.show.totals){\t\t\t\t\t\n\t\t\t\t\trow.push(Object.keys(this.report.subjectEvaluators[subjectId]).length);\n\t\t\t\t\trow.push(Object.keys(this.report.subjectEvals[subjectId]).length);\n\t\t\t\t\trow.push(Object.keys(this.report.subjectRequests[subjectId]).length);\n\t\t\t\t}\n\n\t\t\t\tdata.push(row);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\t\ttableExportFilename(){\n\t\t\tlet level = this.report.trainingLevel === 'all'\n\t\t\t\t? ''\n\t\t\t\t: renderTrainingLevel(this.report.trainingLevel);\n\t\t\tlet start = isoDateString(new Date(this.report.startDate.date));\n\t\t\tlet end = isoDateString(new Date(this.report.endDate.date));\n\t\t\tlet now = new Date().toLocaleString();\n\t\t\treturn `Aggregate Report ${level}, ${start} - ${end}, exported ${now}`;\n\t\t},\n\t\tchartTypes(){\n\t\t\treturn [\n\t\t\t\t'radar',\n\t\t\t\t'line',\n\t\t\t\t'bar'\n\t\t\t];\n\t\t},\n\t\tchartWidth(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': this.chartOrientation === 'horizontal',\n\t\t\t\t'col-md-12': this.chartOrientation === 'vertical'\n\t\t\t};\n\t\t},\n\t\tchartOptions(){\n\t\t\treturn {\n\t\t\t\tlegend: {\n\t\t\t\t\tlabels: {\n\t\t\t\t\t\tfontSize: 18,\n\t\t\t\t\t\tfontColor: '#333'\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tcallbacks: {\n\t\t\t\t\t\tlabel(tooltip, data){\n\t\t\t\t\t\t\tlet value = parseFloat(tooltip.yLabel).toFixed(2);\n\t\t\t\t\t\t\tlet name = data.datasets[tooltip.datasetIndex].label;\n\t\t\t\t\t\t\treturn `${name}: ${value}`;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t};\n\t\t},\n\t\tcompetencyChartData(){\n\t\t\tlet color = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: Object.values(this.report.competencies),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Average Competencies',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: Object.values(this.report.averageCompetency)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tmilestoneChartData(){\n\t\t\tlet color = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: Object.values(this.report.milestones),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Average Milestones',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: Object.values(this.report.averageMilestone)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords,\n\t\tucfirst\n\t},\n\tcomponents: {\n\t\tBootstrapButtonInput,\n\t\tChartjsChart,\n\t\tDataTable\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-container label + label {\n\t\tmargin-left: 2em;\n\t}\n\n\t.graphs-container {\n\t\tmargin: 2em 0;\n\t}\n\n\t.graphs-container .chart-options {\n\t\tmargin: 2em 0 0;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
