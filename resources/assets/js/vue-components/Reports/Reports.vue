@@ -4,23 +4,20 @@
 			<fieldset>
 				<legend>Report type</legend>
 				<div class="form-inline">
-					<label v-for="type of REPORT_TYPES" class="report-type-option">
+					<label v-for="type of reportTypes" class="report-type-option">
 						<input type="radio" :value="type" v-model="reportType" />
 						{{ ucfirst(type) }}
 					</label>
-					<a href="/report/needs-eval" class="btn btn-default report-type-option">
-						Needs evaluations
-					</a>
 				</div>
 			</fieldset>
 		</div>
 
 		<div v-if="reportType">
-			<trainee-report v-if="reportType === REPORT_TYPES.TRAINEE"
+			<trainee-report v-if="reportType === 'trainee'"
 				:users="users" :groupedUsers="groupedUsers" />
-			<form-report v-if="reportType === REPORT_TYPES.FORM"
+			<form-report v-if="reportType === 'form'"
 				:users="users" :groupedUsers="groupedUsers" />
-			<needs-report v-if="reportType === REPORT_TYPES.NEEDS"
+			<needs-report v-if="reportType === 'needs'"
 				:users="users" :groupedUsers="groupedUsers" />
 		</div>
 	</div>
@@ -31,7 +28,6 @@ import TraineeReport from './TraineeReport.vue';
 import FormReport from './FormReport.vue';
 import NeedsReport from './Needs/Report.vue';
 
-import { REPORT_TYPES } from '../../modules/constants.js';
 import { ucfirst, fetchUsers, groupUsers } from '../../modules/utils.js';
 
 // TODO: Consider dynamically importing the report types
@@ -39,13 +35,17 @@ import { ucfirst, fetchUsers, groupUsers } from '../../modules/utils.js';
 export default {
 	data(){
 		return {
-			reportType: REPORT_TYPES.TRAINEE,
+			reportType: 'trainee',
 			users: []
 		};
 	},
 	computed: {
-		REPORT_TYPES(){
-			return REPORT_TYPES;
+		reportTypes(){
+			return [
+				'trainee',
+				'form',
+				'needs'
+			];
 		},
 		groupedUsers(){
 			return groupUsers(this.users);

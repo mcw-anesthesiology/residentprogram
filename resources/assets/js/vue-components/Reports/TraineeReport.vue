@@ -5,14 +5,7 @@
 			<report-date v-model="dates" />
 			<label class="containing-label">
 				Training level
-				<select class="form-control" v-model="trainingLevel">
-					<option value="all">All</option>
-					<option value="intern">Intern</option>
-					<option value="ca-1">CA-1</option>
-					<option value="ca-2">CA-2</option>
-					<option value="ca-3">CA-3</option>
-					<option value="fellow">Fellow</option>
-				</select>
+				<training-level-select v-model="trainingLevel" />
 			</label>
 
 			<div class="form-group">
@@ -129,6 +122,7 @@ import AggregateReport from './AggregateReport.vue';
 import IndividualReport from './IndividualReport.vue';
 import ReportDate from './ReportDate.vue';
 import StatsReport from './StatsReport.vue';
+import TrainingLevelSelect from './TrainingLevelSelect.vue';
 import BootstrapAlert from '../BootstrapAlert.vue';
 import SelectTwo from '../SelectTwo.vue';
 import SvgIcon from '../SvgIcon.vue';
@@ -271,6 +265,7 @@ export default {
 		AggregateReport,
 		IndividualReport,
 		StatsReport,
+		TrainingLevelSelect,
 		BootstrapAlert,
 		SelectTwo,
 		SvgIcon

@@ -59,6 +59,8 @@ export default {
 				html = html.replace(pattern, label);
 			});
 			
+			this.$emit('html', html);
+			
 			return html;
 		},
 		showEditor(){
@@ -69,9 +71,6 @@ export default {
 		focused(focused){
 			if(focused)
 				this.$refs.editor.focus();
-		},
-		html(html){
-			this.$emit('html', html);
 		}
 	},
 	methods: {

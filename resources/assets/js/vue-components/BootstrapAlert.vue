@@ -5,6 +5,7 @@
 			<span aria-hidden="true">&times;</span>
 		</button>
 		{{ text }}
+		<div v-if="html" v-html="html"></div>
 		<slot></slot>
 	</div>
 </template>
@@ -26,6 +27,10 @@ export default {
 			}
 		},
 		text: {
+			type: String,
+			required: false
+		},
+		html: {
 			type: String,
 			required: false
 		},

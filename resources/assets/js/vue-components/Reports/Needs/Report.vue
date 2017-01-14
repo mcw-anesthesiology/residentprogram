@@ -6,7 +6,7 @@
 			<div class="form-group col-md-4">
 				<label class="containing-label">
 					Training Level
-					<select-two v-model="trainingLevel" :options="trainingLevels" />
+					<training-level-select v-model="trainingLevel" />
 				</label>
 			</div>
 			<div class="col-md-8">
@@ -49,6 +49,7 @@ import NeedsCompetencies from './Competencies.vue';
 import NeedsMilestones from './Milestones.vue';
 
 import ReportDate from '../ReportDate.vue';
+import TrainingLevelSelect from '../TrainingLevelSelect.vue';
 import SelectTwo from '../../SelectTwo.vue';
 import EmailEditor from '../../EmailEditor.vue';
 
@@ -62,7 +63,7 @@ export default {
 				endDate: null
 			},
 			trainingLevel: 'all',
-			evalThreshold: 3,
+			evalThreshold: 3, // FIXME
 			
 			report: {
 				evaluations: null,
@@ -169,6 +170,7 @@ export default {
 		NeedsCompetencies,
 		NeedsMilestones,
 		ReportDate,
+		TrainingLevelSelect,
 		SelectTwo,
 		EmailEditor
 	}

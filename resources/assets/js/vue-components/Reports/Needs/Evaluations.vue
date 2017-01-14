@@ -5,16 +5,19 @@
 		<email-editor v-if="show.emailEditor"
 			from="reminders"
 			target="/emails/reminders"
-			:possibleRecipients="groupUsers(trainees)"
+			defaultSubject="Please request evaluations!"
+			:possibleRecipients="trainees"
 			:defaultBodyMarkdown="defaultEmailMarkdown"
 			:emailReplacements="emailReplacements"
 			:additionalFields="additionalEmailFields"
 			@close="show.emailEditor = false" />
-		<button type="button" v-else class="btn btn-info btn-lg"
-				@click="show.emailEditor = true">
-			Send reminders
-		</button>
-		
+		<div v-else class="show-email-button-container">
+			<button type="button" class="btn btn-info"
+					@click="show.emailEditor = true">
+				<span class="glyphicon glyphicon-send"></span>
+				Send reminders
+			</button>
+		</div>
 		
 		<section>
 			<component-list :items="trainees" :fields="traineeFields">
@@ -78,9 +81,9 @@ Thank you!`;
 		},
 		emailReplacements(){
 			return [
-				'[[Name]]',
-				'[[# Completed]]',
-				'[[# Needed]]'
+				'Name',
+				'# Completed',
+				'# Needed'
 			];
 		},
 		additionalEmailFields(){
@@ -101,6 +104,11 @@ Thank you!`;
 </script>
 
 <style scoped>
+	.show-email-button-container {
+		text-align: right;
+		margin-bottom: 20px;
+	}
+
 	.evaluation-list-item:nth-child(even) {
 		
 	}

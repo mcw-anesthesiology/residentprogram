@@ -32,8 +32,7 @@
 			
 			<div v-if="possibleRecipients" v-show="show.possibleRecipients">
 				<div class="well row">
-					<template v-if="possibleRecipientsAreGrouped"
-							v-for="possibleRecipientGroup of possibleRecipients">
+					<template v-for="possibleRecipientGroup of groupedPossibleRecipients">
 						<template v-if="possibleRecipientGroup.children && possibleRecipientGroup.children.length > 0">
 							<b>{{ possibleRecipientGroup.text }}</b>
 							<ul>
@@ -47,15 +46,6 @@
 							</ul>						
 						</template>
 					</template>
-					<ul v-else>
-						<li v-for="possibleRecipient of possibleRecipients">
-							<label :class="{'normal-text-label': !to.includes(possibleRecipient.id)}">
-								<input type="checkbox" v-model="to"
-										:value="possibleRecipient.id" /> 
-								{{ possibleRecipient.full_name || possibleRecipient }}
-							</label>
-						</li>
-					</ul>
 				</div>
 			</div>
 		</div>
@@ -90,7 +80,7 @@
 import AlertList from './AlertList.vue';
 import MarkdownEditor from './MarkdownEditor.vue';
 
-import { getFetchHeaders } from '../modules/utils.js';
+import { getFetchHeaders, groupUsers } from '../modules/utils.js';
 
 export default {
 	props: {
@@ -144,19 +134,13 @@ export default {
 				possibleRecipients: false
 			},
 			
-			alerts: [
-				{
-					type: 'info',
-					text: 'Testing'
-				},
-				{
-					type: 'error',
-					text: 'ERROR'
-				}
-			]
+			alerts: []
 		};
 	},
 	computed: {
+		groupedPossibleRecipients(){
+			return groupUsers(this.possibleRecipients);
+		},
 		toDisplayValue(){
 			if(this.possibleRecipients || Array.isArray(this.to))
 				return `${this.to ? this.to.length : '0'} recipients`;
@@ -164,10 +148,6 @@ export default {
 				return this.to;
 			if(this.to && this.to.full_name && this.to.email)
 				return `${this.to.full_name} <${this.to.email}>`;
-		},
-		possibleRecipientsAreGrouped(){
-			return this.possibleRecipients && Array.isArray(this.possibleRecipients)
-				&& this.possibleRecipients[0].hasOwnProperty('children');
 		},
 		alertTypeClass(){
 			return {
@@ -189,15 +169,67 @@ export default {
 		}
 	},
 	methods: {
+		getPossibleRecipient(id){
+			return this.possibleRecipients.find(user => user.id === Number(id));
+		},
+		getRecipientCompleted(id){
+			let recipient = this.getPossibleRecipient(id);
+			return recipient && recipient.subject_evaluations
+				? recipient.subject_evaluations.length
+				: 0;
+		},
 		send(){
+			// FIXME: numCompleted shouldn't be added here
+			
 			let body = {
-				to: this.to,
 				subject: this.subject,
 				body: this.body.html
 			};
 			
+			if(Array.isArray(this.to))
+				body.to = this.to.map(id => ({
+					id: id,
+					numCompleted: this.getRecipientCompleted(id)
+				}));
+			else if(this.to.id)
+				body.to = {
+					id: this.to.id,
+					numCompleted: this.to.subject_evaluations.length
+				};
+			else if(!Number.isNaN(this.to))
+				body.to = {
+					id: this.to,
+					numCompleted: this.getRecipientCompleted(this.to)
+				};
+
+			
 			if(this.additionalFields)
 				body = Object.assign(body, this.additionalFields);
+				
+			let error = false;
+			if(!body.to || (Array.isArray(body.to) && body.to.length === 0)){
+				this.alerts.push({
+					type: 'error',
+					html: `<strong>Error: </strong> Please select a recipient.`
+				});
+				error = true;
+			}
+			if(!body.subject){
+				this.alerts.push({
+					type: 'error',
+					html: `<strong>Error: </strong> Please enter a subject.`
+				});
+				error = true;
+			}
+			if(!body.body){
+				this.alerts.push({
+					type: 'error',
+					html: `<strong>Error: </strong> Please enter a message body.`
+				});
+				error = true;
+			}
+			if(error)
+				return;
 			
 			fetch(this.target, {
 				method: 'POST',
@@ -210,7 +242,25 @@ export default {
 				else
 					throw new Error('There was a problem sending the emails');
 			}).then(response => {
+				if(response.success){
+					this.alerts.push({
+						type: 'success',
+						text: `${response.success.length} emails successfully sent.`
+					});
+					this.to = this.to.filter(id => !response.success.includes(id));
+				}
+					
 				
+				if(response.error && response.error.length > 0){
+					let userNames = response.error
+						.map(id => this.possibleRecipients.find(user => user.id === Number(id)).full_name);
+					this.alerts.push({
+						type: 'error',
+						html: `Error sending emails to the following users: <ul>
+							${userNames.map(name => `<li>${name}</li>`).join('')}
+						</ul>`
+					});
+				}
 			}).catch(err => {
 				this.alerts.push({
 					text: err.message,

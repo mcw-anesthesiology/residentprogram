@@ -10,10 +10,12 @@
 			
 			<alert-list v-model="alerts" />
 			
-			<button type="button" class="btn btn-lg btn-primary"
-					@click="runReport">
-				Run report
-			</button>
+			<div class="btn-lg-submit-container">
+				<button type="button" class="btn btn-lg btn-primary"
+						@click="runReport">
+					Run report
+				</button>				
+			</div>
 		</div>
 
 		<div v-if="report" class="container body-block">
