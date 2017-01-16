@@ -645,100 +645,139 @@ class ReportTest extends TestCase
         $endDate = Carbon::now();
         $endDate->second = 0;
 
-        function encodeAndStrip($array){
-            $array = addslashes(json_encode($array));
-            str_replace("'", "", $array);
-            return $array;
-        }
-
         $this->actingAs($this->admin)
             ->visit("/dashboard")
             ->post("/report/form", [
-                "subject" => $this->residents[0]->id,
                 "startDate" => $startDate,
                 "endDate" => $endDate,
                 "form_id" => $this->form->id
             ]);
-        $this->assertViewHas("subjectResponses", encodeAndStrip([
-            "q1" => [
-                (string)$this->responses["q1"][0]->response => 1,
-                (string)$this->responses["q1"][1]->response => 1,
-                (string)$this->responses["q1"][2]->response => 0,
-                (string)$this->responses["q1"][3]->response => 0
-            ],
-            "q2" => [
-                (string)$this->responses["q2"][0]->response => 1,
-                (string)$this->responses["q2"][1]->response => 1,
-                (string)$this->responses["q2"][2]->response => 0,
-                (string)$this->responses["q2"][3]->response => 0
-            ],
-            "q3" => [
-                $this->textResponses[0]->response => 1,
-                $this->textResponses[1]->response => 1,
-                $this->textResponses[2]->response => 0,
-                $this->textResponses[3]->response => 0
-            ]
-        ]));
-        $this->assertViewHas("questionResponses", encodeAndStrip([
-            "q1" => [
-                $this->responses["q1"][0]->response,
-                $this->responses["q1"][1]->response,
-                $this->responses["q1"][2]->response,
-                $this->responses["q1"][3]->response
-            ],
-            "q2" => [
-                $this->responses["q2"][0]->response,
-                $this->responses["q2"][1]->response,
-                $this->responses["q2"][2]->response,
-                $this->responses["q2"][3]->response
-            ],
-            "q3" => [
-                $this->textResponses[0]->response,
-                $this->textResponses[1]->response,
-                $this->textResponses[2]->response,
-                $this->textResponses[3]->response
-            ]
-        ]));
-        $this->assertViewHas("subjectPercentages", encodeAndStrip([
-            "q1" => [
-                (string)$this->responses["q1"][0]->response => 50,
-                (string)$this->responses["q1"][1]->response => 50,
-                (string)$this->responses["q1"][2]->response => 0,
-                (string)$this->responses["q1"][3]->response => 0
-            ],
-            "q2" => [
-                (string)$this->responses["q2"][0]->response => 50,
-                (string)$this->responses["q2"][1]->response => 50,
-                (string)$this->responses["q2"][2]->response => 0,
-                (string)$this->responses["q2"][3]->response => 0
-            ],
-            "q3" => [
-                $this->textResponses[0]->response => 50,
-                $this->textResponses[1]->response => 50,
-                $this->textResponses[2]->response => 0,
-                $this->textResponses[3]->response => 0
-            ]
-        ]));
-        $this->assertViewHas("averagePercentages", encodeAndStrip([
-            "q1" => [
-                (string)$this->responses["q1"][0]->response => 25,
-                (string)$this->responses["q1"][1]->response => 25,
-                (string)$this->responses["q1"][2]->response => 25,
-                (string)$this->responses["q1"][3]->response => 25
-            ],
-            "q2" => [
-                (string)$this->responses["q2"][0]->response => 25,
-                (string)$this->responses["q2"][1]->response => 25,
-                (string)$this->responses["q2"][2]->response => 25,
-                (string)$this->responses["q2"][3]->response => 25
-            ],
-            "q3" => [
-                $this->textResponses[0]->response => 25,
-                $this->textResponses[1]->response => 25,
-                $this->textResponses[2]->response => 25,
-                $this->textResponses[3]->response => 25
-            ]
-        ]));
+		$this->seeJson([
+			"subjectResponses" => [
+				$this->residents[0]->id => [
+					"q1" => [
+						(string)$this->responses["q1"][0]->response => 1,
+						(string)$this->responses["q1"][1]->response => 1,
+						(string)$this->responses["q1"][2]->response => 0,
+						(string)$this->responses["q1"][3]->response => 0
+					],
+					"q2" => [
+						(string)$this->responses["q2"][0]->response => 1,
+						(string)$this->responses["q2"][1]->response => 1,
+						(string)$this->responses["q2"][2]->response => 0,
+						(string)$this->responses["q2"][3]->response => 0
+					],
+					"q3" => [
+						$this->textResponses[0]->response => 1,
+						$this->textResponses[1]->response => 1,
+						$this->textResponses[2]->response => 0,
+						$this->textResponses[3]->response => 0
+					]
+				],
+				$this->residents[1]->id => [
+					"q1" => [
+						(string)$this->responses["q1"][0]->response => 0,
+						(string)$this->responses["q1"][1]->response => 0,
+						(string)$this->responses["q1"][2]->response => 1,
+						(string)$this->responses["q1"][3]->response => 1
+					],
+					"q2" => [
+						(string)$this->responses["q2"][0]->response => 0,
+						(string)$this->responses["q2"][1]->response => 0,
+						(string)$this->responses["q2"][2]->response => 1,
+						(string)$this->responses["q2"][3]->response => 1
+					],
+					"q3" => [
+						$this->textResponses[0]->response => 0,
+						$this->textResponses[1]->response => 0,
+						$this->textResponses[2]->response => 1,
+						$this->textResponses[3]->response => 1
+					]
+				]
+	        ],
+			"questionResponses" => [
+	            "q1" => [
+	                $this->responses["q1"][0]->response,
+	                $this->responses["q1"][1]->response,
+	                $this->responses["q1"][2]->response,
+	                $this->responses["q1"][3]->response
+	            ],
+	            "q2" => [
+	                $this->responses["q2"][0]->response,
+	                $this->responses["q2"][1]->response,
+	                $this->responses["q2"][2]->response,
+	                $this->responses["q2"][3]->response
+	            ],
+	            "q3" => [
+	                $this->textResponses[0]->response,
+	                $this->textResponses[1]->response,
+	                $this->textResponses[2]->response,
+	                $this->textResponses[3]->response
+	            ]
+	        ],
+			"subjectPercentages" => [
+				$this->residents[0]->id => [
+					"q1" => [
+		                (string)$this->responses["q1"][0]->response => 50,
+		                (string)$this->responses["q1"][1]->response => 50,
+						(string)$this->responses["q1"][2]->response => 0,
+		                (string)$this->responses["q1"][3]->response => 0
+		            ],
+		            "q2" => [
+		                (string)$this->responses["q2"][0]->response => 50,
+		                (string)$this->responses["q2"][1]->response => 50,
+						(string)$this->responses["q2"][2]->response => 0,
+		                (string)$this->responses["q2"][3]->response => 0
+		            ],
+		            "q3" => [
+		                $this->textResponses[0]->response => 50,
+		                $this->textResponses[1]->response => 50,
+						$this->textResponses[2]->response => 0,
+		                $this->textResponses[3]->response => 0
+		            ]
+				],
+	            $this->residents[1]->id => [
+					"q1" => [
+		                (string)$this->responses["q1"][0]->response => 0,
+		                (string)$this->responses["q1"][1]->response => 0,
+						(string)$this->responses["q1"][2]->response => 50,
+		                (string)$this->responses["q1"][3]->response => 50
+		            ],
+		            "q2" => [
+		                (string)$this->responses["q2"][0]->response => 0,
+		                (string)$this->responses["q2"][1]->response => 0,
+						(string)$this->responses["q2"][2]->response => 50,
+		                (string)$this->responses["q2"][3]->response => 50
+		            ],
+		            "q3" => [
+		                $this->textResponses[0]->response => 0,
+		                $this->textResponses[1]->response => 0,
+						$this->textResponses[2]->response => 50,
+		                $this->textResponses[3]->response => 50
+		            ]
+				]
+	        ],
+			"averagePercentages" => [
+	            "q1" => [
+	                (string)$this->responses["q1"][0]->response => 25,
+	                (string)$this->responses["q1"][1]->response => 25,
+	                (string)$this->responses["q1"][2]->response => 25,
+	                (string)$this->responses["q1"][3]->response => 25
+	            ],
+	            "q2" => [
+	                (string)$this->responses["q2"][0]->response => 25,
+	                (string)$this->responses["q2"][1]->response => 25,
+	                (string)$this->responses["q2"][2]->response => 25,
+	                (string)$this->responses["q2"][3]->response => 25
+	            ],
+	            "q3" => [
+	                $this->textResponses[0]->response => 25,
+	                $this->textResponses[1]->response => 25,
+	                $this->textResponses[2]->response => 25,
+	                $this->textResponses[3]->response => 25
+	            ]
+	        ]
+		]);
     }
 
     public function testNeedsEvaluations(){

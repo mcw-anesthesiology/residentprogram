@@ -1125,10 +1125,7 @@ class ReportController extends Controller
 			"questionResponses", "subjectResponseValues", "startDate", "endDate",
 			"formContents");
 			
-		if($request->ajax())
-        	return $data;
-		else
-			return view("report.form-report", $data);
+    	return $data;
     }
 
     private function encodeAndStrip($array){
