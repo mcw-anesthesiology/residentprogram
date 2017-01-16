@@ -4,9 +4,9 @@
 		<ol class="list">
 			<slot v-for="item of currentPageItems" v-bind="item"></slot>
 		</ol>
-		<list-paginator v-model="page" :itemsPerPage="itemsPerPage"
-			:paginatedItems="paginatedItems"
-			@changePageSize="itemsPerPage = arguments[0]" />
+		<list-paginator v-model="page" :paginatedItems="paginatedItems"
+			:itemsPerPage="itemsPerPage"
+			@pageSize="itemsPerPage = arguments[0]" />
 	</div>
 </template>
 
@@ -25,7 +25,7 @@ export default {
 		return {
 			query: '',
 			page: 0,
-			itemsPerPage: 20
+			itemsPerPage: 10
 		};
 	},
 	computed: {

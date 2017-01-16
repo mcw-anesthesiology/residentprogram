@@ -1,12 +1,8 @@
 <template>
-	<span>
-		<span v-if="active">
-			{{ text || value + 1 }}
-		</span>
-		<a v-else href="#" @click="emitPage">
-			{{ text || value + 1 }}
-		</a>
-	</span>
+	<button type="button" href="#" class="btn btn-default" :disabled="active"
+			@click="emitPage">
+		{{ text || value + 1 }}
+	</button>
 </template>
 
 <script>
@@ -20,10 +16,9 @@ export default {
 		active: Boolean
 	},
 	methods: {
-		emitPage(event){
-			event.preventDefault();
-
-			this.$emit('click', this.value);
+		emitPage(){
+			if(!this.active)
+				this.$emit('click', this.value);
 		}
 	}
 };

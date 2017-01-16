@@ -1,0 +1,35 @@
+<template>
+	<button type="button" class="btn"
+			@click="$emit('input', !value)">
+			
+		<slot v-if="value" name="true">
+			Hide
+		</slot>
+		<slot v-else name="false">
+			Show
+		</slot>
+
+		<slot>
+			{{ text }}
+		</slot>
+		
+		<slot name="glyph">
+			<span class="glyphicon glyphicon-triangle-bottom"></span>
+		</slot>
+	</button>
+</template>
+
+<script>
+export default {
+	props: {
+		value: {
+			type: Boolean,
+			required: true
+		},
+		text: {
+			type: String,
+			required: false
+		}
+	}
+};
+</script>

@@ -1,25 +1,30 @@
 <template>
 	<li class="evaluation-list-item">
-		<div class="main">
-			<input type="checkbox" :value="user.id" />
-			<img v-if="user.photo_path" height="150" width="100" :src="user.photo_path" alt="" />
-			<a :href="`/profile/${user.id}`">{{ user.full_name }}</a>
+		<div class="row">
+			<div class="col-sm-6">
+				<img height="50" width="50" alt=""
+					:src="user.photo_path || placeholderUserImagePath" />
+				<a class="name" :href="`/profile/${user.id}`">
+					{{ user.full_name }}
+				</a>
+			</div>
 
-			<section>
-				<span>{{ user.subject_evaluations.length }}</span>
-				Evaluations
-				<button type="button" class="btn btn-xs btn-info"
-						v-if="user.subject_evaluations.length > 0"
-						@click="show.evaluations = !show.evaluations">
-					Show evaluations
-				</button>
+			<section class="col-sm-2">
+				<b>
+					<span>{{ user.subject_evaluations.length }}</span>
+					evaluations
+				</b>
 			</section>
 
-			<button type="button" class="btn btn-xs">
-				Send reminder
-			</button>
+			<div class="col-sm-4 text-right">		
+				<show-hide-button class="btn btn-xs btn-info"
+						v-if="user.subject_evaluations.length > 0"
+						v-model="show.evaluations">
+					evaluations
+				</show-hide-button>
+			</div>
 		</div>
-		<section class="details well" v-show="show.evaluations">
+		<section class="details" v-show="show.evaluations">
 			<h4>Evaluations</h4>
 			<ul class="list-group">
 				<evaluation-details-list-item v-for="eval of user.subject_evaluations"
@@ -31,10 +36,19 @@
 
 <script>
 import EvaluationDetailsListItem from './EvaluationDetailsListItem.vue';
+import ShowHideButton from '../../ShowHideButton.vue';
+import { PLACEHOLDER_USER_IMAGE_PATH } from '../../../modules/constants.js';
 
 export default {
 	props: {
-		user: Object
+		user: {
+			type: Object,
+			required: true
+		},
+		placeholderUserImagePath: {
+			type: String,
+			default: PLACEHOLDER_USER_IMAGE_PATH
+		}
 	},
 	data(){
 		return {
@@ -44,21 +58,41 @@ export default {
 		};
 	},
 	components: {
-		EvaluationDetailsListItem
+		EvaluationDetailsListItem,
+		ShowHideButton
 	}
 };
 </script>
 
 <style scoped>
 .evaluation-list-item {
-	border-bottom: 1px solid grey;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+	padding: 5px 0;
 }
 
-.evaluation-list-item .main section {
+.evaluation-list-item:nth-child(even){
+	background-color: rgba(0, 0, 0, 0.05);
+}
+
+.evaluation-list-item .row {
+	margin: 0;
+}
+
+.name {
+	font-size: 1.15em;
+}
+
+.evaluation-list-item div section {
 	display: inline-block;
 }
 
 .evaluation-list-item .details {
+	padding: 10px 20px 0;
+}
 
+img {
+	border-radius: 100%;
+	object-fit: contain;
+	object-position: center;
 }
 </style>

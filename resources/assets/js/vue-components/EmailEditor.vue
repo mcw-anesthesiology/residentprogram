@@ -1,68 +1,77 @@
 <template>
-	<section>
-		<div class="form-group">
-			<label for="email-to">To</label>
-			<div class="input-group">
-				<input type="text" id="email-to"
-					class="form-control appear-not-readonly"
-					:value="toDisplayValue" readonly />
-				<span v-if="Array.isArray(to) && !possibleRecipients"
-						class="input-group-btn">
-					<button type="button" class="btn btn-default"
-							@click="show.recipients = !show.recipients">
-						Show recipients
-					</button>
-				</span>
-				<span v-if="possibleRecipients" class="input-group-btn">
-					<button type="button" class="btn btn-default"
-							@click="show.possibleRecipients = !show.possibleRecipients">
-						Show recipients
-					</button>
-				</span>
-			</div>
-			
-			<div v-if="Array.isArray(to) && !possibleRecipients"
-					v-show="show.recipients">
-				<ul class="list-group">
-					<li v-for="recipient of to" class="list-group-item">
-						{{ recipient.full_name || recipient }}
-					</li>
-				</ul>
-			</div>
-			
-			<div v-if="possibleRecipients" v-show="show.possibleRecipients">
-				<div class="well row">
-					<template v-for="possibleRecipientGroup of groupedPossibleRecipients">
-						<template v-if="possibleRecipientGroup.children && possibleRecipientGroup.children.length > 0">
-							<b>{{ possibleRecipientGroup.text }}</b>
-							<ul>
-								<li v-for="possibleRecipient of possibleRecipientGroup.children">
-									<label :class="{'normal-text-label': !to.includes(possibleRecipient.id)}">
-										<input type="checkbox" v-model="to"
-												:value="possibleRecipient.id" /> 
-										{{ possibleRecipient.text || possibleRecipient }}
-									</label>								
-								</li>
-							</ul>						
-						</template>
-					</template>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="heading-title">
+				{{ title }}
+			</h3>
+		</div>
+		<div class="panel-body">
+			<section>
+				<div class="form-group">
+					<label for="email-to">To</label>
+					<div class="input-group">
+						<input type="text" id="email-to"
+							class="form-control appear-not-readonly"
+							:value="toDisplayValue" readonly />
+						<span v-if="Array.isArray(to) && !possibleRecipients"
+								class="input-group-btn">
+							<button type="button" class="btn btn-default"
+									@click="show.recipients = !show.recipients">
+								Show recipients
+								<span class="glyphicon glyphicon-triangle-bottom"></span>
+							</button>
+						</span>
+						<span v-if="possibleRecipients" class="input-group-btn">
+							<button type="button" class="btn btn-default"
+									@click="show.possibleRecipients = !show.possibleRecipients">
+								Show recipients
+							</button>
+						</span>
+					</div>
+					
+					<div v-if="Array.isArray(to) && !possibleRecipients"
+							v-show="show.recipients">
+						<ul class="list-group">
+							<li v-for="recipient of to" class="list-group-item">
+								{{ recipient.full_name || recipient }}
+							</li>
+						</ul>
+					</div>
+					
+					<div v-if="possibleRecipients" v-show="show.possibleRecipients">
+						<div class="well row">
+							<template v-for="possibleRecipientGroup of groupedPossibleRecipients">
+								<template v-if="possibleRecipientGroup.children && possibleRecipientGroup.children.length > 0">
+									<b>{{ possibleRecipientGroup.text }}</b>
+									<ul>
+										<li v-for="possibleRecipient of possibleRecipientGroup.children">
+											<label :class="{'normal-text-label': !to.includes(possibleRecipient.id)}">
+												<input type="checkbox" v-model="to"
+														:value="possibleRecipient.id" /> 
+												{{ possibleRecipient.text || possibleRecipient }}
+											</label>								
+										</li>
+									</ul>						
+								</template>
+							</template>
+						</div>
+					</div>
 				</div>
-			</div>
+				<div class="form-group">
+					<label for="email-subject">Subject</label>
+					<input type="text" id="email-subject" class="form-control"
+						v-model="subject" />
+				</div>
+				<div class="form-group">
+					<label for="email-body">Body</label>
+					<markdown-editor v-model="body.markdown" editorId="email-body"
+						:replacements="emailReplacements" @html="body.html = arguments[0]" />
+				</div>
+				
+				<alert-list v-if="alerts && alerts.length > 0" v-model="alerts" />
+			</section>
 		</div>
-		<div class="form-group">
-			<label for="email-subject">Subject</label>
-			<input type="text" id="email-subject" class="form-control"
-				v-model="subject" />
-		</div>
-		<div class="form-group">
-			<label for="email-body">Body</label>
-			<markdown-editor v-model="body.markdown" editorId="email-body"
-				:replacements="emailReplacements" @html="body.html = arguments[0]" />
-		</div>
-		
-		<alert-list v-if="alerts && alerts.length > 0" v-model="alerts" />
-		
-		<div class="form-group text-right">
+		<div class="panel-footer text-right">
 			<button type="button" class="btn btn-primary" @click="send">
 				<span class="glyphicon glyphicon-send"></span>
 				Send emails
@@ -72,8 +81,8 @@
 				Close
 			</button>
 		</div>
-		
-	</section>
+	</div>
+	
 </template>
 
 <script>
@@ -91,6 +100,11 @@ export default {
 		target: {
 			type: String,
 			default: '/emails'
+		},
+		
+		title: {
+			type: String,
+			default: 'Email editor'
 		},
 
 		defaultTo: {

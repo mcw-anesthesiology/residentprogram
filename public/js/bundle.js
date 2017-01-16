@@ -475,6 +475,8 @@ var NEW_ITEM_TAG = exports.NEW_ITEM_TAG = '<span class="label label-primary">NEW
 
 var UNSEEN_EVALUATION_PRIORITY = exports.UNSEEN_EVALUATION_PRIORITY = 1000000;
 
+var PLACEHOLDER_USER_IMAGE_PATH = exports.PLACEHOLDER_USER_IMAGE_PATH = '/img/avatar.png';
+
 // FIXME: A lot of these should be configurable and saved instead of hardcoded
 var STANDARD_OPTIONS = exports.STANDARD_OPTIONS = {
 	RESIDENT: [{ value: 0, text: 'Not at CBY' }, { value: 1, text: '' }, { value: 2, text: 'CBY' }, { value: 3, text: '' }, { value: 4, text: 'CA-1' }, { value: 5, text: '' }, { value: 6, text: 'CA-2' }, { value: 7, text: '' }, { value: 8, text: 'CA-3' }, { value: 9, text: '' }, { value: 10, text: 'Attending' }],

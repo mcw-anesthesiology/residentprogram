@@ -119,6 +119,10 @@ export default {
 		margin-top: 10px;
 	}
 	
+	small {
+		color: rgba(0, 0, 0, 0.5);
+	}
+	
 	small + * {
 		font-size: 1.15em;
 	}

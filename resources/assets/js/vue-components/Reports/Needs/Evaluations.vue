@@ -5,14 +5,16 @@
 		<email-editor v-if="show.emailEditor"
 			from="reminders"
 			target="/emails/reminders"
+			title="Send reminders"
 			defaultSubject="Please request evaluations!"
+			:defaultTo="selectedUsers"
 			:possibleRecipients="trainees"
 			:defaultBodyMarkdown="defaultEmailMarkdown"
 			:emailReplacements="emailReplacements"
 			:additionalFields="additionalEmailFields"
 			@close="show.emailEditor = false" />
 		<div v-else class="show-email-button-container">
-			<button type="button" class="btn btn-info"
+			<button type="button" class="btn btn-primary"
 					@click="show.emailEditor = true">
 				<span class="glyphicon glyphicon-send"></span>
 				Send reminders
@@ -53,7 +55,7 @@ export default {
 	},
 	data(){
 		return {
-			usersToNotify: [],
+			selectedUsers: [],
 			show: {
 				emailEditor: false
 			}

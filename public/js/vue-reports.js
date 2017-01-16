@@ -6305,7 +6305,7 @@ exports.default = {
 		return {
 			query: '',
 			page: 0,
-			itemsPerPage: 20
+			itemsPerPage: 10
 		};
 	},
 
@@ -6593,6 +6593,11 @@ exports.default = {
 			default: '/emails'
 		},
 
+		title: {
+			type: String,
+			default: 'Email editor'
+		},
+
 		defaultTo: {
 			default: function _default() {
 				return [];
@@ -6769,6 +6774,15 @@ exports.default = {
 		MarkdownEditor: _MarkdownEditor2.default
 	}
 }; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -7065,6 +7079,26 @@ exports.default = {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /***/ }),
 /* 82 */
@@ -7180,10 +7214,6 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
-//
-//
-//
-//
 
 exports.default = {
 	props: {
@@ -7195,10 +7225,8 @@ exports.default = {
 		active: Boolean
 	},
 	methods: {
-		emitPage: function emitPage(event) {
-			event.preventDefault();
-
-			this.$emit('click', this.value);
+		emitPage: function emitPage() {
+			if (!this.active) this.$emit('click', this.value);
 		}
 	}
 };
@@ -8742,11 +8770,24 @@ var _EvaluationDetailsListItem = __webpack_require__(277);
 
 var _EvaluationDetailsListItem2 = _interopRequireDefault(_EvaluationDetailsListItem);
 
+var _ShowHideButton = __webpack_require__(351);
+
+var _ShowHideButton2 = _interopRequireDefault(_ShowHideButton);
+
+var _constants = __webpack_require__(4);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
 	props: {
-		user: Object
+		user: {
+			type: Object,
+			required: true
+		},
+		placeholderUserImagePath: {
+			type: String,
+			default: _constants.PLACEHOLDER_USER_IMAGE_PATH
+		}
 	},
 	data: function data() {
 		return {
@@ -8757,9 +8798,15 @@ exports.default = {
 	},
 
 	components: {
-		EvaluationDetailsListItem: _EvaluationDetailsListItem2.default
+		EvaluationDetailsListItem: _EvaluationDetailsListItem2.default,
+		ShowHideButton: _ShowHideButton2.default
 	}
 }; //
+//
+//
+//
+//
+//
 //
 //
 //
@@ -8835,7 +8882,7 @@ exports.default = {
 	},
 	data: function data() {
 		return {
-			usersToNotify: [],
+			selectedUsers: [],
 			show: {
 				emailEditor: false
 			}
@@ -8867,6 +8914,8 @@ exports.default = {
 		EmailEditor: _EmailEditor2.default
 	}
 }; //
+//
+//
 //
 //
 //
@@ -11076,7 +11125,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.list li[data-v-1d1f5701] {\n\tlist-style: none;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/ComponentList.vue?83596730"],"names":[],"mappings":";AA+FA;CACA,iBAAA;CACA","file":"ComponentList.vue","sourcesContent":["<template>\n\t<div>\n\t\t<input type=\"search\" class=\"form-control\" v-model=\"query\" />\n\t\t<ol class=\"list\">\n\t\t\t<slot v-for=\"item of currentPageItems\" v-bind=\"item\"></slot>\n\t\t</ol>\n\t\t<list-paginator v-model=\"page\" :itemsPerPage=\"itemsPerPage\"\n\t\t\t:paginatedItems=\"paginatedItems\"\n\t\t\t@changePageSize=\"itemsPerPage = arguments[0]\" />\n\t</div>\n</template>\n\n<script>\nimport ListPaginator from './ListPaginator.vue';\n\nimport lunr from 'lunr';\n\n\nexport default {\n\tprops: {\n\t\tfields: Array,\n\t\titems: Array\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tquery: '',\n\t\t\tpage: 0,\n\t\t\titemsPerPage: 20\n\t\t};\n\t},\n\tcomputed: {\n\t\titemMap(){\n\t\t\tlet map = new Map();\n\t\t\tthis.items.map(item => {\n\t\t\t\tmap.set(item.id, item);\n\t\t\t});\n\n\t\t\treturn map;\n\t\t},\n\t\tindex(){\n\t\t\tlet fields = this.fields;\n\n\t\t\tlet index = lunr(function(){\n\t\t\t\tfields.map(field => {\n\t\t\t\t\tlet name, options;\n\t\t\t\t\tif(typeof field === 'string'){\n\t\t\t\t\t\tname = field;\n\t\t\t\t\t}\n\t\t\t\t\telse{\n\t\t\t\t\t\tname = field.name;\n\t\t\t\t\t\toptions = field;\n\t\t\t\t\t}\n\t\t\t\t\tthis.field(name, options);\n\t\t\t\t});\n\t\t\t});\n\n\t\t\tthis.items.map(item => {\n\t\t\t\tindex.add(item);\n\t\t\t});\n\n\t\t\treturn index;\n\t\t},\n\t\tfilteredItems(){\n\t\t\tif(this.query){\n\t\t\t\tlet refs = this.index.search(this.query);\n\t\t\t\treturn refs.map(ref => {\n\t\t\t\t\treturn this.itemMap.get(ref.ref);\n\t\t\t\t});\n\t\t\t}\n\n\t\t\treturn this.items;\n\t\t},\n\t\tsortedItems(){\n\t\t\treturn this.filteredItems;\n\t\t},\n\t\tpaginatedItems(){\n\t\t\tlet paginatedItems = [];\n\t\t\tlet items = this.sortedItems.slice();\n\t\t\twhile(items.length > 0)\n\t\t\t\tpaginatedItems.push(items.splice(0, this.itemsPerPage));\n\n\t\t\treturn paginatedItems;\n\t\t},\n\t\tcurrentPageItems(){\n\t\t\treturn this.paginatedItems[this.page];\n\t\t}\n\t},\n\n\tcomponents: {\n\t\tListPaginator\n\t}\n};\n</script>\n\n<style scoped>\n\t.list li {\n\t\tlist-style: none;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.list li[data-v-1d1f5701] {\n\tlist-style: none;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/ComponentList.vue?d7d83552"],"names":[],"mappings":";AA+FA;CACA,iBAAA;CACA","file":"ComponentList.vue","sourcesContent":["<template>\n\t<div>\n\t\t<input type=\"search\" class=\"form-control\" v-model=\"query\" />\n\t\t<ol class=\"list\">\n\t\t\t<slot v-for=\"item of currentPageItems\" v-bind=\"item\"></slot>\n\t\t</ol>\n\t\t<list-paginator v-model=\"page\" :paginatedItems=\"paginatedItems\"\n\t\t\t:itemsPerPage=\"itemsPerPage\"\n\t\t\t@pageSize=\"itemsPerPage = arguments[0]\" />\n\t</div>\n</template>\n\n<script>\nimport ListPaginator from './ListPaginator.vue';\n\nimport lunr from 'lunr';\n\n\nexport default {\n\tprops: {\n\t\tfields: Array,\n\t\titems: Array\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tquery: '',\n\t\t\tpage: 0,\n\t\t\titemsPerPage: 10\n\t\t};\n\t},\n\tcomputed: {\n\t\titemMap(){\n\t\t\tlet map = new Map();\n\t\t\tthis.items.map(item => {\n\t\t\t\tmap.set(item.id, item);\n\t\t\t});\n\n\t\t\treturn map;\n\t\t},\n\t\tindex(){\n\t\t\tlet fields = this.fields;\n\n\t\t\tlet index = lunr(function(){\n\t\t\t\tfields.map(field => {\n\t\t\t\t\tlet name, options;\n\t\t\t\t\tif(typeof field === 'string'){\n\t\t\t\t\t\tname = field;\n\t\t\t\t\t}\n\t\t\t\t\telse{\n\t\t\t\t\t\tname = field.name;\n\t\t\t\t\t\toptions = field;\n\t\t\t\t\t}\n\t\t\t\t\tthis.field(name, options);\n\t\t\t\t});\n\t\t\t});\n\n\t\t\tthis.items.map(item => {\n\t\t\t\tindex.add(item);\n\t\t\t});\n\n\t\t\treturn index;\n\t\t},\n\t\tfilteredItems(){\n\t\t\tif(this.query){\n\t\t\t\tlet refs = this.index.search(this.query);\n\t\t\t\treturn refs.map(ref => {\n\t\t\t\t\treturn this.itemMap.get(ref.ref);\n\t\t\t\t});\n\t\t\t}\n\n\t\t\treturn this.items;\n\t\t},\n\t\tsortedItems(){\n\t\t\treturn this.filteredItems;\n\t\t},\n\t\tpaginatedItems(){\n\t\t\tlet paginatedItems = [];\n\t\t\tlet items = this.sortedItems.slice();\n\t\t\twhile(items.length > 0)\n\t\t\t\tpaginatedItems.push(items.splice(0, this.itemsPerPage));\n\n\t\t\treturn paginatedItems;\n\t\t},\n\t\tcurrentPageItems(){\n\t\t\treturn this.paginatedItems[this.page];\n\t\t}\n\t},\n\n\tcomponents: {\n\t\tListPaginator\n\t}\n};\n</script>\n\n<style scoped>\n\t.list li {\n\t\tlist-style: none;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -11133,7 +11182,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.evaluation-list-item[data-v-3c43bdce] {\n\tborder-bottom: 1px solid grey;\n}\n.evaluation-list-item .main section[data-v-3c43bdce] {\n\tdisplay: inline-block;\n}\n.evaluation-list-item .details[data-v-3c43bdce] {\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/Needs/EvaluationListItem.vue?a70106a2"],"names":[],"mappings":";AAoDA;CACA,8BAAA;CACA;AAEA;CACA,sBAAA;CACA;AAEA;CAEA","file":"EvaluationListItem.vue","sourcesContent":["<template>\n\t<li class=\"evaluation-list-item\">\n\t\t<div class=\"main\">\n\t\t\t<input type=\"checkbox\" :value=\"user.id\" />\n\t\t\t<img v-if=\"user.photo_path\" height=\"150\" width=\"100\" :src=\"user.photo_path\" alt=\"\" />\n\t\t\t<a :href=\"`/profile/${user.id}`\">{{ user.full_name }}</a>\n\n\t\t\t<section>\n\t\t\t\t<span>{{ user.subject_evaluations.length }}</span>\n\t\t\t\tEvaluations\n\t\t\t\t<button type=\"button\" class=\"btn btn-xs btn-info\"\n\t\t\t\t\t\tv-if=\"user.subject_evaluations.length > 0\"\n\t\t\t\t\t\t@click=\"show.evaluations = !show.evaluations\">\n\t\t\t\t\tShow evaluations\n\t\t\t\t</button>\n\t\t\t</section>\n\n\t\t\t<button type=\"button\" class=\"btn btn-xs\">\n\t\t\t\tSend reminder\n\t\t\t</button>\n\t\t</div>\n\t\t<section class=\"details well\" v-show=\"show.evaluations\">\n\t\t\t<h4>Evaluations</h4>\n\t\t\t<ul class=\"list-group\">\n\t\t\t\t<evaluation-details-list-item v-for=\"eval of user.subject_evaluations\"\n\t\t\t\t \t:evaluation=\"eval\" />\n\t\t\t</ul>\n\t\t</section>\n\t</li>\n</template>\n\n<script>\nimport EvaluationDetailsListItem from './EvaluationDetailsListItem.vue';\n\nexport default {\n\tprops: {\n\t\tuser: Object\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tevaluations: false\n\t\t\t}\n\t\t};\n\t},\n\tcomponents: {\n\t\tEvaluationDetailsListItem\n\t}\n};\n</script>\n\n<style scoped>\n.evaluation-list-item {\n\tborder-bottom: 1px solid grey;\n}\n\n.evaluation-list-item .main section {\n\tdisplay: inline-block;\n}\n\n.evaluation-list-item .details {\n\n}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.evaluation-list-item[data-v-3c43bdce] {\n\tborder-bottom: 1px solid rgba(0, 0, 0, 0.25);\n\tpadding: 5px 0;\n}\n.evaluation-list-item[data-v-3c43bdce]:nth-child(even){\n\tbackground-color: rgba(0, 0, 0, 0.05);\n}\n.evaluation-list-item .row[data-v-3c43bdce] {\n\tmargin: 0;\n}\n.name[data-v-3c43bdce] {\n\tfont-size: 1.15em;\n}\n.evaluation-list-item div section[data-v-3c43bdce] {\n\tdisplay: inline-block;\n}\n.evaluation-list-item .details[data-v-3c43bdce] {\n\tpadding: 10px 20px 0;\n}\nimg[data-v-3c43bdce] {\n\tborder-radius: 100%;\n\tobject-fit: contain;\n\tobject-position: center;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/Needs/EvaluationListItem.vue?1d99db7c"],"names":[],"mappings":";AAmEA;CACA,6CAAA;CACA,eAAA;CACA;AAEA;CACA,sCAAA;CACA;AAEA;CACA,UAAA;CACA;AAEA;CACA,kBAAA;CACA;AAEA;CACA,sBAAA;CACA;AAEA;CACA,qBAAA;CACA;AAEA;CACA,oBAAA;CACA,oBAAA;CACA,wBAAA;CACA","file":"EvaluationListItem.vue","sourcesContent":["<template>\n\t<li class=\"evaluation-list-item\">\n\t\t<div class=\"row\">\n\t\t\t<div class=\"col-sm-6\">\n\t\t\t\t<img height=\"50\" width=\"50\" alt=\"\"\n\t\t\t\t\t:src=\"user.photo_path || placeholderUserImagePath\" />\n\t\t\t\t<a class=\"name\" :href=\"`/profile/${user.id}`\">\n\t\t\t\t\t{{ user.full_name }}\n\t\t\t\t</a>\n\t\t\t</div>\n\n\t\t\t<section class=\"col-sm-2\">\n\t\t\t\t<b>\n\t\t\t\t\t<span>{{ user.subject_evaluations.length }}</span>\n\t\t\t\t\tevaluations\n\t\t\t\t</b>\n\t\t\t</section>\n\n\t\t\t<div class=\"col-sm-4 text-right\">\t\t\n\t\t\t\t<show-hide-button class=\"btn btn-xs btn-info\"\n\t\t\t\t\t\tv-if=\"user.subject_evaluations.length > 0\"\n\t\t\t\t\t\tv-model=\"show.evaluations\">\n\t\t\t\t\tevaluations\n\t\t\t\t</show-hide-button>\n\t\t\t</div>\n\t\t</div>\n\t\t<section class=\"details\" v-show=\"show.evaluations\">\n\t\t\t<h4>Evaluations</h4>\n\t\t\t<ul class=\"list-group\">\n\t\t\t\t<evaluation-details-list-item v-for=\"eval of user.subject_evaluations\"\n\t\t\t\t \t:evaluation=\"eval\" />\n\t\t\t</ul>\n\t\t</section>\n\t</li>\n</template>\n\n<script>\nimport EvaluationDetailsListItem from './EvaluationDetailsListItem.vue';\nimport ShowHideButton from '../../ShowHideButton.vue';\nimport { PLACEHOLDER_USER_IMAGE_PATH } from '../../../modules/constants.js';\n\nexport default {\n\tprops: {\n\t\tuser: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t},\n\t\tplaceholderUserImagePath: {\n\t\t\ttype: String,\n\t\t\tdefault: PLACEHOLDER_USER_IMAGE_PATH\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tevaluations: false\n\t\t\t}\n\t\t};\n\t},\n\tcomponents: {\n\t\tEvaluationDetailsListItem,\n\t\tShowHideButton\n\t}\n};\n</script>\n\n<style scoped>\n.evaluation-list-item {\n\tborder-bottom: 1px solid rgba(0, 0, 0, 0.25);\n\tpadding: 5px 0;\n}\n\n.evaluation-list-item:nth-child(even){\n\tbackground-color: rgba(0, 0, 0, 0.05);\n}\n\n.evaluation-list-item .row {\n\tmargin: 0;\n}\n\n.name {\n\tfont-size: 1.15em;\n}\n\n.evaluation-list-item div section {\n\tdisplay: inline-block;\n}\n\n.evaluation-list-item .details {\n\tpadding: 10px 20px 0;\n}\n\nimg {\n\tborder-radius: 100%;\n\tobject-fit: contain;\n\tobject-position: center;\n}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -11161,7 +11210,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.show-email-button-container[data-v-56cead0a] {\n\ttext-align: right;\n\tmargin-bottom: 20px;\n}\n.evaluation-list-item[data-v-56cead0a]:nth-child(even) {\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/Needs/Evaluations.vue?d5246e4a"],"names":[],"mappings":";AA0GA;CACA,kBAAA;CACA,oBAAA;CACA;AAEA;CAEA","file":"Evaluations.vue","sourcesContent":["<template>\n\t<section>\n\t\t<h2>Needs evaluations</h2>\n\t\t\n\t\t<email-editor v-if=\"show.emailEditor\"\n\t\t\tfrom=\"reminders\"\n\t\t\ttarget=\"/emails/reminders\"\n\t\t\tdefaultSubject=\"Please request evaluations!\"\n\t\t\t:possibleRecipients=\"trainees\"\n\t\t\t:defaultBodyMarkdown=\"defaultEmailMarkdown\"\n\t\t\t:emailReplacements=\"emailReplacements\"\n\t\t\t:additionalFields=\"additionalEmailFields\"\n\t\t\t@close=\"show.emailEditor = false\" />\n\t\t<div v-else class=\"show-email-button-container\">\n\t\t\t<button type=\"button\" class=\"btn btn-info\"\n\t\t\t\t\t@click=\"show.emailEditor = true\">\n\t\t\t\t<span class=\"glyphicon glyphicon-send\"></span>\n\t\t\t\tSend reminders\n\t\t\t</button>\n\t\t</div>\n\t\t\n\t\t<section>\n\t\t\t<component-list :items=\"trainees\" :fields=\"traineeFields\">\n\t\t\t\t<template scope=\"item\">\n\t\t\t\t\t<evaluation-list-item :user=\"item\" />\n\t\t\t\t</template>\n\t\t\t</component-list>\n\t\t</section>\n\t\t\n\t</section>\n</template>\n\n<script>\nimport EvaluationListItem from './EvaluationListItem.vue';\nimport ComponentList from '../../ComponentList.vue';\nimport EmailEditor from '../../EmailEditor.vue';\n\nimport { groupUsers } from '../../../modules/utils.js';\nimport { ADMIN_EMAIL } from '../../../modules/constants.js';\n\nexport default {\n\tprops: {\n\t\tdates: {\n\t\t\ttype: Object\n\t\t},\n\t\tevalThreshold: {\n\t\t\ttype: Number\n\t\t},\n\t\ttrainees: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tusersToNotify: [],\n\t\t\tshow: {\n\t\t\t\temailEditor: false\n\t\t\t}\n\t\t};\n\t},\n\tcomputed: {\n\t\ttraineeFields(){\n\t\t\treturn [\n\t\t\t\t'full_name',\n\t\t\t\t'type',\n\t\t\t\t'training_level'\n\t\t\t];\n\t\t},\n\t\tdefaultEmailMarkdown(){\n\t\t\treturn `Hello Dr. [[Name]]\n\nYou have [[# Completed]] evaluations completed for between ${this.dates.startDate} and ${this.dates.endDate}.\n\n**You are required to have ${this.evalThreshold} evaluations completed for this period.** Please request at least [[# Needed]] more evaluations as soon as possible.\n\nIf you have any issues or questions about the system, please contact ${ADMIN_EMAIL}.\n\nThank you!`;\n\n\t\t},\n\t\temailReplacements(){\n\t\t\treturn [\n\t\t\t\t'Name',\n\t\t\t\t'# Completed',\n\t\t\t\t'# Needed'\n\t\t\t];\n\t\t},\n\t\tadditionalEmailFields(){\n\t\t\treturn {\n\t\t\t\tevalsRequired: this.evalThreshold\n\t\t\t};\n\t\t}\n\t},\n\tmethods: {\n\t\tgroupUsers\n\t},\n\tcomponents: {\n\t\tEvaluationListItem,\n\t\tComponentList,\n\t\tEmailEditor\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-email-button-container {\n\t\ttext-align: right;\n\t\tmargin-bottom: 20px;\n\t}\n\n\t.evaluation-list-item:nth-child(even) {\n\t\t\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.show-email-button-container[data-v-56cead0a] {\n\ttext-align: right;\n\tmargin-bottom: 20px;\n}\n.evaluation-list-item[data-v-56cead0a]:nth-child(even) {\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/Needs/Evaluations.vue?71f61ab0"],"names":[],"mappings":";AA4GA;CACA,kBAAA;CACA,oBAAA;CACA;AAEA;CAEA","file":"Evaluations.vue","sourcesContent":["<template>\n\t<section>\n\t\t<h2>Needs evaluations</h2>\n\t\t\n\t\t<email-editor v-if=\"show.emailEditor\"\n\t\t\tfrom=\"reminders\"\n\t\t\ttarget=\"/emails/reminders\"\n\t\t\ttitle=\"Send reminders\"\n\t\t\tdefaultSubject=\"Please request evaluations!\"\n\t\t\t:defaultTo=\"selectedUsers\"\n\t\t\t:possibleRecipients=\"trainees\"\n\t\t\t:defaultBodyMarkdown=\"defaultEmailMarkdown\"\n\t\t\t:emailReplacements=\"emailReplacements\"\n\t\t\t:additionalFields=\"additionalEmailFields\"\n\t\t\t@close=\"show.emailEditor = false\" />\n\t\t<div v-else class=\"show-email-button-container\">\n\t\t\t<button type=\"button\" class=\"btn btn-primary\"\n\t\t\t\t\t@click=\"show.emailEditor = true\">\n\t\t\t\t<span class=\"glyphicon glyphicon-send\"></span>\n\t\t\t\tSend reminders\n\t\t\t</button>\n\t\t</div>\n\t\t\n\t\t<section>\n\t\t\t<component-list :items=\"trainees\" :fields=\"traineeFields\">\n\t\t\t\t<template scope=\"item\">\n\t\t\t\t\t<evaluation-list-item :user=\"item\" />\n\t\t\t\t</template>\n\t\t\t</component-list>\n\t\t</section>\n\t\t\n\t</section>\n</template>\n\n<script>\nimport EvaluationListItem from './EvaluationListItem.vue';\nimport ComponentList from '../../ComponentList.vue';\nimport EmailEditor from '../../EmailEditor.vue';\n\nimport { groupUsers } from '../../../modules/utils.js';\nimport { ADMIN_EMAIL } from '../../../modules/constants.js';\n\nexport default {\n\tprops: {\n\t\tdates: {\n\t\t\ttype: Object\n\t\t},\n\t\tevalThreshold: {\n\t\t\ttype: Number\n\t\t},\n\t\ttrainees: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tselectedUsers: [],\n\t\t\tshow: {\n\t\t\t\temailEditor: false\n\t\t\t}\n\t\t};\n\t},\n\tcomputed: {\n\t\ttraineeFields(){\n\t\t\treturn [\n\t\t\t\t'full_name',\n\t\t\t\t'type',\n\t\t\t\t'training_level'\n\t\t\t];\n\t\t},\n\t\tdefaultEmailMarkdown(){\n\t\t\treturn `Hello Dr. [[Name]]\n\nYou have [[# Completed]] evaluations completed for between ${this.dates.startDate} and ${this.dates.endDate}.\n\n**You are required to have ${this.evalThreshold} evaluations completed for this period.** Please request at least [[# Needed]] more evaluations as soon as possible.\n\nIf you have any issues or questions about the system, please contact ${ADMIN_EMAIL}.\n\nThank you!`;\n\n\t\t},\n\t\temailReplacements(){\n\t\t\treturn [\n\t\t\t\t'Name',\n\t\t\t\t'# Completed',\n\t\t\t\t'# Needed'\n\t\t\t];\n\t\t},\n\t\tadditionalEmailFields(){\n\t\t\treturn {\n\t\t\t\tevalsRequired: this.evalThreshold\n\t\t\t};\n\t\t}\n\t},\n\tmethods: {\n\t\tgroupUsers\n\t},\n\tcomponents: {\n\t\tEvaluationListItem,\n\t\tComponentList,\n\t\tEmailEditor\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-email-button-container {\n\t\ttext-align: right;\n\t\tmargin-bottom: 20px;\n\t}\n\n\t.evaluation-list-item:nth-child(even) {\n\t\t\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -11204,7 +11253,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\nul[data-v-6a81bc6f] {\n\tcolumns: 150px 3;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/EmailEditor.vue?417ffde3"],"names":[],"mappings":";AAuRA;CACA,iBAAA;CACA","file":"EmailEditor.vue","sourcesContent":["<template>\n\t<section>\n\t\t<div class=\"form-group\">\n\t\t\t<label for=\"email-to\">To</label>\n\t\t\t<div class=\"input-group\">\n\t\t\t\t<input type=\"text\" id=\"email-to\"\n\t\t\t\t\tclass=\"form-control appear-not-readonly\"\n\t\t\t\t\t:value=\"toDisplayValue\" readonly />\n\t\t\t\t<span v-if=\"Array.isArray(to) && !possibleRecipients\"\n\t\t\t\t\t\tclass=\"input-group-btn\">\n\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t@click=\"show.recipients = !show.recipients\">\n\t\t\t\t\t\tShow recipients\n\t\t\t\t\t</button>\n\t\t\t\t</span>\n\t\t\t\t<span v-if=\"possibleRecipients\" class=\"input-group-btn\">\n\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t@click=\"show.possibleRecipients = !show.possibleRecipients\">\n\t\t\t\t\t\tShow recipients\n\t\t\t\t\t</button>\n\t\t\t\t</span>\n\t\t\t</div>\n\t\t\t\n\t\t\t<div v-if=\"Array.isArray(to) && !possibleRecipients\"\n\t\t\t\t\tv-show=\"show.recipients\">\n\t\t\t\t<ul class=\"list-group\">\n\t\t\t\t\t<li v-for=\"recipient of to\" class=\"list-group-item\">\n\t\t\t\t\t\t{{ recipient.full_name || recipient }}\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t\n\t\t\t<div v-if=\"possibleRecipients\" v-show=\"show.possibleRecipients\">\n\t\t\t\t<div class=\"well row\">\n\t\t\t\t\t<template v-for=\"possibleRecipientGroup of groupedPossibleRecipients\">\n\t\t\t\t\t\t<template v-if=\"possibleRecipientGroup.children && possibleRecipientGroup.children.length > 0\">\n\t\t\t\t\t\t\t<b>{{ possibleRecipientGroup.text }}</b>\n\t\t\t\t\t\t\t<ul>\n\t\t\t\t\t\t\t\t<li v-for=\"possibleRecipient of possibleRecipientGroup.children\">\n\t\t\t\t\t\t\t\t\t<label :class=\"{'normal-text-label': !to.includes(possibleRecipient.id)}\">\n\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"to\"\n\t\t\t\t\t\t\t\t\t\t\t\t:value=\"possibleRecipient.id\" /> \n\t\t\t\t\t\t\t\t\t\t{{ possibleRecipient.text || possibleRecipient }}\n\t\t\t\t\t\t\t\t\t</label>\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t</ul>\t\t\t\t\t\t\n\t\t\t\t\t\t</template>\n\t\t\t\t\t</template>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"form-group\">\n\t\t\t<label for=\"email-subject\">Subject</label>\n\t\t\t<input type=\"text\" id=\"email-subject\" class=\"form-control\"\n\t\t\t\tv-model=\"subject\" />\n\t\t</div>\n\t\t<div class=\"form-group\">\n\t\t\t<label for=\"email-body\">Body</label>\n\t\t\t<markdown-editor v-model=\"body.markdown\" editorId=\"email-body\"\n\t\t\t\t:replacements=\"emailReplacements\" @html=\"body.html = arguments[0]\" />\n\t\t</div>\n\t\t\n\t\t<alert-list v-if=\"alerts && alerts.length > 0\" v-model=\"alerts\" />\n\t\t\n\t\t<div class=\"form-group text-right\">\n\t\t\t<button type=\"button\" class=\"btn btn-primary\" @click=\"send\">\n\t\t\t\t<span class=\"glyphicon glyphicon-send\"></span>\n\t\t\t\tSend emails\n\t\t\t</button>\n\t\t\t\n\t\t\t<button type=\"button\" class=\"btn btn-default\" @click=\"$emit('close')\">\n\t\t\t\tClose\n\t\t\t</button>\n\t\t</div>\n\t\t\n\t</section>\n</template>\n\n<script>\nimport AlertList from './AlertList.vue';\nimport MarkdownEditor from './MarkdownEditor.vue';\n\nimport { getFetchHeaders, groupUsers } from '../modules/utils.js';\n\nexport default {\n\tprops: {\n\t\tfrom: {\n\t\t\ttype: String,\n\t\t\tdefault: 'admin'\n\t\t},\n\t\ttarget: {\n\t\t\ttype: String,\n\t\t\tdefault: '/emails'\n\t\t},\n\n\t\tdefaultTo: {\n\t\t\tdefault(){\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\tdefaultSubject: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\tdefaultBodyMarkdown: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\t\n\t\tpossibleRecipients: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\temailReplacements: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\tadditionalFields: {\n\t\t\ttype: Object,\n\t\t\trequired: false\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tto: this.defaultTo,\n\t\t\tsubject: this.defaultSubject,\n\t\t\tbody: {\n\t\t\t\tmarkdown: this.defaultBodyMarkdown,\n\t\t\t\thtml: null\n\t\t\t},\n\t\t\t\n\t\t\tshow: {\n\t\t\t\trecipients: false,\n\t\t\t\tpossibleRecipients: false\n\t\t\t},\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\tcomputed: {\n\t\tgroupedPossibleRecipients(){\n\t\t\treturn groupUsers(this.possibleRecipients);\n\t\t},\n\t\ttoDisplayValue(){\n\t\t\tif(this.possibleRecipients || Array.isArray(this.to))\n\t\t\t\treturn `${this.to ? this.to.length : '0'} recipients`;\n\t\t\tif(typeof this.to === 'string')\n\t\t\t\treturn this.to;\n\t\t\tif(this.to && this.to.full_name && this.to.email)\n\t\t\t\treturn `${this.to.full_name} <${this.to.email}>`;\n\t\t},\n\t\talertTypeClass(){\n\t\t\treturn {\n\t\t\t\t'alert-success': this.alert.type === 'success',\n\t\t\t\t'alert-info': this.alert.type === 'info',\n\t\t\t\t'alert-danger': this.alert.type === 'error'\n\t\t\t};\n\t\t}\n\t},\n\twatch: {\n\t\tdefaultTo(defaultTo){\n\t\t\tthis.to = defaultTo;\n\t\t},\n\t\tdefaultSubject(defaultSubject){\n\t\t\tthis.subject = defaultSubject;\n\t\t},\n\t\tdefaultBody(defaultBody){\n\t\t\tthis.body = defaultBody;\n\t\t}\n\t},\n\tmethods: {\n\t\tgetPossibleRecipient(id){\n\t\t\treturn this.possibleRecipients.find(user => user.id === Number(id));\n\t\t},\n\t\tgetRecipientCompleted(id){\n\t\t\tlet recipient = this.getPossibleRecipient(id);\n\t\t\treturn recipient && recipient.subject_evaluations\n\t\t\t\t? recipient.subject_evaluations.length\n\t\t\t\t: 0;\n\t\t},\n\t\tsend(){\n\t\t\t// FIXME: numCompleted shouldn't be added here\n\t\t\t\n\t\t\tlet body = {\n\t\t\t\tsubject: this.subject,\n\t\t\t\tbody: this.body.html\n\t\t\t};\n\t\t\t\n\t\t\tif(Array.isArray(this.to))\n\t\t\t\tbody.to = this.to.map(id => ({\n\t\t\t\t\tid: id,\n\t\t\t\t\tnumCompleted: this.getRecipientCompleted(id)\n\t\t\t\t}));\n\t\t\telse if(this.to.id)\n\t\t\t\tbody.to = {\n\t\t\t\t\tid: this.to.id,\n\t\t\t\t\tnumCompleted: this.to.subject_evaluations.length\n\t\t\t\t};\n\t\t\telse if(!Number.isNaN(this.to))\n\t\t\t\tbody.to = {\n\t\t\t\t\tid: this.to,\n\t\t\t\t\tnumCompleted: this.getRecipientCompleted(this.to)\n\t\t\t\t};\n\n\t\t\t\n\t\t\tif(this.additionalFields)\n\t\t\t\tbody = Object.assign(body, this.additionalFields);\n\t\t\t\t\n\t\t\tlet error = false;\n\t\t\tif(!body.to || (Array.isArray(body.to) && body.to.length === 0)){\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\thtml: `<strong>Error: </strong> Please select a recipient.`\n\t\t\t\t});\n\t\t\t\terror = true;\n\t\t\t}\n\t\t\tif(!body.subject){\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\thtml: `<strong>Error: </strong> Please enter a subject.`\n\t\t\t\t});\n\t\t\t\terror = true;\n\t\t\t}\n\t\t\tif(!body.body){\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\thtml: `<strong>Error: </strong> Please enter a message body.`\n\t\t\t\t});\n\t\t\t\terror = true;\n\t\t\t}\n\t\t\tif(error)\n\t\t\t\treturn;\n\t\t\t\n\t\t\tfetch(this.target, {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify(body)\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\telse\n\t\t\t\t\tthrow new Error('There was a problem sending the emails');\n\t\t\t}).then(response => {\n\t\t\t\tif(response.success){\n\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\ttype: 'success',\n\t\t\t\t\t\ttext: `${response.success.length} emails successfully sent.`\n\t\t\t\t\t});\n\t\t\t\t\tthis.to = this.to.filter(id => !response.success.includes(id));\n\t\t\t\t}\n\t\t\t\t\t\n\t\t\t\t\n\t\t\t\tif(response.error && response.error.length > 0){\n\t\t\t\t\tlet userNames = response.error\n\t\t\t\t\t\t.map(id => this.possibleRecipients.find(user => user.id === Number(id)).full_name);\n\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\thtml: `Error sending emails to the following users: <ul>\n\t\t\t\t\t\t\t${userNames.map(name => `<li>${name}</li>`).join('')}\n\t\t\t\t\t\t</ul>`\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t}).catch(err => {\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttext: err.message,\n\t\t\t\t\ttype: 'error'\n\t\t\t\t});\n\t\t\t});\n\t\t}\n\t},\n\tcomponents: {\n\t\tAlertList,\n\t\tMarkdownEditor\n\t}\n};\n</script>\n\n<style scoped>\n\tul {\n\t\tcolumns: 150px 3;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\nul[data-v-6a81bc6f] {\n\tcolumns: 150px 3;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/EmailEditor.vue?b2e255ce"],"names":[],"mappings":";AAqSA;CACA,iBAAA;CACA","file":"EmailEditor.vue","sourcesContent":["<template>\n\t<div class=\"panel panel-default\">\n\t\t<div class=\"panel-heading\">\n\t\t\t<h3 class=\"heading-title\">\n\t\t\t\t{{ title }}\n\t\t\t</h3>\n\t\t</div>\n\t\t<div class=\"panel-body\">\n\t\t\t<section>\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<label for=\"email-to\">To</label>\n\t\t\t\t\t<div class=\"input-group\">\n\t\t\t\t\t\t<input type=\"text\" id=\"email-to\"\n\t\t\t\t\t\t\tclass=\"form-control appear-not-readonly\"\n\t\t\t\t\t\t\t:value=\"toDisplayValue\" readonly />\n\t\t\t\t\t\t<span v-if=\"Array.isArray(to) && !possibleRecipients\"\n\t\t\t\t\t\t\t\tclass=\"input-group-btn\">\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\t@click=\"show.recipients = !show.recipients\">\n\t\t\t\t\t\t\t\tShow recipients\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-triangle-bottom\"></span>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</span>\n\t\t\t\t\t\t<span v-if=\"possibleRecipients\" class=\"input-group-btn\">\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\t@click=\"show.possibleRecipients = !show.possibleRecipients\">\n\t\t\t\t\t\t\t\tShow recipients\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</span>\n\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t\t<div v-if=\"Array.isArray(to) && !possibleRecipients\"\n\t\t\t\t\t\t\tv-show=\"show.recipients\">\n\t\t\t\t\t\t<ul class=\"list-group\">\n\t\t\t\t\t\t\t<li v-for=\"recipient of to\" class=\"list-group-item\">\n\t\t\t\t\t\t\t\t{{ recipient.full_name || recipient }}\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t\t<div v-if=\"possibleRecipients\" v-show=\"show.possibleRecipients\">\n\t\t\t\t\t\t<div class=\"well row\">\n\t\t\t\t\t\t\t<template v-for=\"possibleRecipientGroup of groupedPossibleRecipients\">\n\t\t\t\t\t\t\t\t<template v-if=\"possibleRecipientGroup.children && possibleRecipientGroup.children.length > 0\">\n\t\t\t\t\t\t\t\t\t<b>{{ possibleRecipientGroup.text }}</b>\n\t\t\t\t\t\t\t\t\t<ul>\n\t\t\t\t\t\t\t\t\t\t<li v-for=\"possibleRecipient of possibleRecipientGroup.children\">\n\t\t\t\t\t\t\t\t\t\t\t<label :class=\"{'normal-text-label': !to.includes(possibleRecipient.id)}\">\n\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"to\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t:value=\"possibleRecipient.id\" /> \n\t\t\t\t\t\t\t\t\t\t\t\t{{ possibleRecipient.text || possibleRecipient }}\n\t\t\t\t\t\t\t\t\t\t\t</label>\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t</ul>\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t</template>\n\t\t\t\t\t\t\t</template>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<label for=\"email-subject\">Subject</label>\n\t\t\t\t\t<input type=\"text\" id=\"email-subject\" class=\"form-control\"\n\t\t\t\t\t\tv-model=\"subject\" />\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<label for=\"email-body\">Body</label>\n\t\t\t\t\t<markdown-editor v-model=\"body.markdown\" editorId=\"email-body\"\n\t\t\t\t\t\t:replacements=\"emailReplacements\" @html=\"body.html = arguments[0]\" />\n\t\t\t\t</div>\n\t\t\t\t\n\t\t\t\t<alert-list v-if=\"alerts && alerts.length > 0\" v-model=\"alerts\" />\n\t\t\t</section>\n\t\t</div>\n\t\t<div class=\"panel-footer text-right\">\n\t\t\t<button type=\"button\" class=\"btn btn-primary\" @click=\"send\">\n\t\t\t\t<span class=\"glyphicon glyphicon-send\"></span>\n\t\t\t\tSend emails\n\t\t\t</button>\n\t\t\t\n\t\t\t<button type=\"button\" class=\"btn btn-default\" @click=\"$emit('close')\">\n\t\t\t\tClose\n\t\t\t</button>\n\t\t</div>\n\t</div>\n\t\n</template>\n\n<script>\nimport AlertList from './AlertList.vue';\nimport MarkdownEditor from './MarkdownEditor.vue';\n\nimport { getFetchHeaders, groupUsers } from '../modules/utils.js';\n\nexport default {\n\tprops: {\n\t\tfrom: {\n\t\t\ttype: String,\n\t\t\tdefault: 'admin'\n\t\t},\n\t\ttarget: {\n\t\t\ttype: String,\n\t\t\tdefault: '/emails'\n\t\t},\n\t\t\n\t\ttitle: {\n\t\t\ttype: String,\n\t\t\tdefault: 'Email editor'\n\t\t},\n\n\t\tdefaultTo: {\n\t\t\tdefault(){\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\tdefaultSubject: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\tdefaultBodyMarkdown: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\t\n\t\tpossibleRecipients: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\temailReplacements: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\tadditionalFields: {\n\t\t\ttype: Object,\n\t\t\trequired: false\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tto: this.defaultTo,\n\t\t\tsubject: this.defaultSubject,\n\t\t\tbody: {\n\t\t\t\tmarkdown: this.defaultBodyMarkdown,\n\t\t\t\thtml: null\n\t\t\t},\n\t\t\t\n\t\t\tshow: {\n\t\t\t\trecipients: false,\n\t\t\t\tpossibleRecipients: false\n\t\t\t},\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\tcomputed: {\n\t\tgroupedPossibleRecipients(){\n\t\t\treturn groupUsers(this.possibleRecipients);\n\t\t},\n\t\ttoDisplayValue(){\n\t\t\tif(this.possibleRecipients || Array.isArray(this.to))\n\t\t\t\treturn `${this.to ? this.to.length : '0'} recipients`;\n\t\t\tif(typeof this.to === 'string')\n\t\t\t\treturn this.to;\n\t\t\tif(this.to && this.to.full_name && this.to.email)\n\t\t\t\treturn `${this.to.full_name} <${this.to.email}>`;\n\t\t},\n\t\talertTypeClass(){\n\t\t\treturn {\n\t\t\t\t'alert-success': this.alert.type === 'success',\n\t\t\t\t'alert-info': this.alert.type === 'info',\n\t\t\t\t'alert-danger': this.alert.type === 'error'\n\t\t\t};\n\t\t}\n\t},\n\twatch: {\n\t\tdefaultTo(defaultTo){\n\t\t\tthis.to = defaultTo;\n\t\t},\n\t\tdefaultSubject(defaultSubject){\n\t\t\tthis.subject = defaultSubject;\n\t\t},\n\t\tdefaultBody(defaultBody){\n\t\t\tthis.body = defaultBody;\n\t\t}\n\t},\n\tmethods: {\n\t\tgetPossibleRecipient(id){\n\t\t\treturn this.possibleRecipients.find(user => user.id === Number(id));\n\t\t},\n\t\tgetRecipientCompleted(id){\n\t\t\tlet recipient = this.getPossibleRecipient(id);\n\t\t\treturn recipient && recipient.subject_evaluations\n\t\t\t\t? recipient.subject_evaluations.length\n\t\t\t\t: 0;\n\t\t},\n\t\tsend(){\n\t\t\t// FIXME: numCompleted shouldn't be added here\n\t\t\t\n\t\t\tlet body = {\n\t\t\t\tsubject: this.subject,\n\t\t\t\tbody: this.body.html\n\t\t\t};\n\t\t\t\n\t\t\tif(Array.isArray(this.to))\n\t\t\t\tbody.to = this.to.map(id => ({\n\t\t\t\t\tid: id,\n\t\t\t\t\tnumCompleted: this.getRecipientCompleted(id)\n\t\t\t\t}));\n\t\t\telse if(this.to.id)\n\t\t\t\tbody.to = {\n\t\t\t\t\tid: this.to.id,\n\t\t\t\t\tnumCompleted: this.to.subject_evaluations.length\n\t\t\t\t};\n\t\t\telse if(!Number.isNaN(this.to))\n\t\t\t\tbody.to = {\n\t\t\t\t\tid: this.to,\n\t\t\t\t\tnumCompleted: this.getRecipientCompleted(this.to)\n\t\t\t\t};\n\n\t\t\t\n\t\t\tif(this.additionalFields)\n\t\t\t\tbody = Object.assign(body, this.additionalFields);\n\t\t\t\t\n\t\t\tlet error = false;\n\t\t\tif(!body.to || (Array.isArray(body.to) && body.to.length === 0)){\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\thtml: `<strong>Error: </strong> Please select a recipient.`\n\t\t\t\t});\n\t\t\t\terror = true;\n\t\t\t}\n\t\t\tif(!body.subject){\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\thtml: `<strong>Error: </strong> Please enter a subject.`\n\t\t\t\t});\n\t\t\t\terror = true;\n\t\t\t}\n\t\t\tif(!body.body){\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\thtml: `<strong>Error: </strong> Please enter a message body.`\n\t\t\t\t});\n\t\t\t\terror = true;\n\t\t\t}\n\t\t\tif(error)\n\t\t\t\treturn;\n\t\t\t\n\t\t\tfetch(this.target, {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify(body)\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\telse\n\t\t\t\t\tthrow new Error('There was a problem sending the emails');\n\t\t\t}).then(response => {\n\t\t\t\tif(response.success){\n\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\ttype: 'success',\n\t\t\t\t\t\ttext: `${response.success.length} emails successfully sent.`\n\t\t\t\t\t});\n\t\t\t\t\tthis.to = this.to.filter(id => !response.success.includes(id));\n\t\t\t\t}\n\t\t\t\t\t\n\t\t\t\t\n\t\t\t\tif(response.error && response.error.length > 0){\n\t\t\t\t\tlet userNames = response.error\n\t\t\t\t\t\t.map(id => this.possibleRecipients.find(user => user.id === Number(id)).full_name);\n\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\thtml: `Error sending emails to the following users: <ul>\n\t\t\t\t\t\t\t${userNames.map(name => `<li>${name}</li>`).join('')}\n\t\t\t\t\t\t</ul>`\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t}).catch(err => {\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttext: err.message,\n\t\t\t\t\ttype: 'error'\n\t\t\t\t});\n\t\t\t});\n\t\t}\n\t},\n\tcomponents: {\n\t\tAlertList,\n\t\tMarkdownEditor\n\t}\n};\n</script>\n\n<style scoped>\n\tul {\n\t\tcolumns: 150px 3;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -11246,7 +11295,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.paginator[data-v-94dab64e] {\n\ttext-align: center;\n}\nnav span[data-v-94dab64e] {\n\tmargin: 0 0.25em;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/ListPaginator.vue?bad5b474"],"names":[],"mappings":";AA4CA;CACA,mBAAA;CACA;AAEA;CACA,iBAAA;CACA","file":"ListPaginator.vue","sourcesContent":["<template>\n\t<section class=\"paginator\">\n\t\t<span>\n\t\t\tCurrent page: {{ value + 1 }}\n\t\t</span>\n\t\t<span>\n\t\t\tItems per page: {{ itemsPerPage }}\n\t\t</span>\n\t\t<nav v-if=\"itemsPerPage && paginatedItems.length > 1\">\n\t\t\t<paginator-link :value=\"value - 1\" text=\"← Prev\"\n\t\t\t\t:active=\"value === 0\" @click=\"setPage\" />\n\n\t\t\t<paginator-link v-for=\"(pageItems, pageNum) of paginatedItems\"\n\t\t\t\t:value=\"pageNum\" :active=\"pageNum === value\"\n\t\t\t\t@click=\"setPage\" />\n\n\t\t\t<paginator-link :value=\"value + 1\" text=\"Next →\"\n\t\t\t\t:active=\"value === paginatedItems.length - 1\"\n\t\t\t\t@click=\"setPage\" />\n\t\t</nav>\n\t</section>\n</template>\n\n<script>\nimport PaginatorLink from './PaginatorLink.vue';\n\nexport default {\n\tprops: {\n\t\tvalue: Number,\n\t\titemsPerPage: Number,\n\t\tpaginatedItems: Array\n\t},\n\tmethods: {\n\t\tsetPage(page){\n\t\t\tthis.$emit('input', page);\n\t\t}\n\t},\n\tcomponents: {\n\t\tPaginatorLink\n\t}\n};\n</script>\n\n<style scoped>\n\t.paginator {\n\t\ttext-align: center;\n\t}\n\n\tnav span {\n\t\tmargin: 0 0.25em;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.paginator[data-v-94dab64e] {\n\ttext-align: center;\n}\nnav span[data-v-94dab64e] {\n\tmargin: 0 0.25em;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/ListPaginator.vue?2b753f50"],"names":[],"mappings":";AAgEA;CACA,mBAAA;CACA;AAEA;CACA,iBAAA;CACA","file":"ListPaginator.vue","sourcesContent":["<template>\n\t<section class=\"paginator\">\n\t\t<div class=\"form-inline\">\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tCurrent page:\n\t\t\t\t\t<input type=\"number\" class=\"form-control\" :value=\"value\"\n\t\t\t\t\t\t@input=\"$emit('input', Number($event.target.value))\" />\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tItems per page: \n\t\t\t\t\t<input type=\"number\" class=\"form-control\" list=\"paginator-list\"\n\t\t\t\t\t\tmin=\"0\" :value=\"itemsPerPage\"\n\t\t\t\t\t\t@input=\"$emit('pageSize', Number($event.target.value))\" />\n\t\t\t\t\t<datalist id=\"paginator-list\">\n\t\t\t\t\t\t<option value=\"5\" />\n\t\t\t\t\t\t<option value=\"10\" />\n\t\t\t\t\t\t<option value=\"20\" />\n\t\t\t\t\t\t<option value=\"50\" />\n\t\t\t\t\t\t<option value=\"100\" />\n\t\t\t\t\t</datalist>\n\t\t\t\t</label>\n\t\t\t</div>\t\t\t\n\t\t</div>\n\t\t<nav v-if=\"itemsPerPage && paginatedItems.length > 1\">\n\t\t\t<div class=\"btn-group\">\n\t\t\t\t<paginator-link :value=\"value - 1\" text=\"← Prev\"\n\t\t\t\t\t:active=\"value === 0\" @click=\"setPage\" />\n\n\t\t\t\t<paginator-link v-for=\"(pageItems, pageNum) of paginatedItems\"\n\t\t\t\t\t:value=\"pageNum\" :active=\"pageNum === value\"\n\t\t\t\t\t@click=\"setPage\" />\n\n\t\t\t\t<paginator-link :value=\"value + 1\" text=\"Next →\"\n\t\t\t\t\t:active=\"value === paginatedItems.length - 1\"\n\t\t\t\t\t@click=\"setPage\" />\n\t\t\t</div>\n\t\t</nav>\n\t</section>\n</template>\n\n<script>\nimport PaginatorLink from './PaginatorLink.vue';\n\nexport default {\n\tprops: {\n\t\tvalue: Number,\n\t\titemsPerPage: Number,\n\t\tpaginatedItems: Array\n\t},\n\tmethods: {\n\t\tsetPage(page){\n\t\t\tthis.$emit('input', page);\n\t\t}\n\t},\n\tcomponents: {\n\t\tPaginatorLink\n\t}\n};\n</script>\n\n<style scoped>\n\t.paginator {\n\t\ttext-align: center;\n\t}\n\n\tnav span {\n\t\tmargin: 0 0.25em;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -11261,7 +11310,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.list-group-item .row small[data-v-e244fbca] {\n\tdisplay: block;\n}\n.list-group-item .row a[data-v-e244fbca] {\n\tdisplay: block;\n}\n.evaluation-date-field[data-v-e244fbca] {\n\tcursor: help;\n}\n.row + .row[data-v-e244fbca] {\n\tmargin-top: 10px;\n}\nsmall + *[data-v-e244fbca] {\n\tfont-size: 1.15em;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/Needs/EvaluationDetailsListItem.vue?06e78aa4"],"names":[],"mappings":";AAyGA;CACA,eAAA;CACA;AAEA;CACA,eAAA;CACA;AAEA;CACA,aAAA;CACA;AAEA;CACA,iBAAA;CACA;AAEA;CACA,kBAAA;CACA","file":"EvaluationDetailsListItem.vue","sourcesContent":["<template>\n\t<li class=\"list-group-item\">\n\t\t<div class=\"row\">\n\t\t\t<div class=\"col-md-1\">\n\t\t\t\t<small>#</small>\n\t\t\t\t<a :href=\"`/evaluation/${evaluation.id}`\" target=\"_blank\">\n\t\t\t\t\t{{ evaluation.id }}\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t\t<div class=\"col-md-3\">\n\t\t\t\t<small>Evaluator</small>\n\t\t\t\t<a :href=\"`/profile/${evaluation.evaluator.id}`\" target=\"_blank\">\n\t\t\t\t\t{{ evaluation.evaluator.full_name }}\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t\t<div class=\"col-md-3\">\n\t\t\t\t<small>Requested by</small>\n\t\t\t\t<a :href=\"`/profile/${evaluation.requestor.id}`\" target=\"_blank\">\n\t\t\t\t\t{{ evaluation.requestor.full_name }}\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t\t<div class=\"col-md-3\">\n\t\t\t\t<small>Form</small>\n\t\t\t\t<a :href=\"`/manage/forms/${evaluation.form.id}`\" target=\"_blank\">\n\t\t\t\t\t{{ evaluation.form.title }}\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t\t<div class=\"col-md-2 text-right\"\n\t\t\t\tv-html=\"renderEvaluationStatus(evaluation.status)\">\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"row\">\n\t\t\t<div class=\"col-md-offset-2 col-md-2\">\n\t\t\t\t<small>Evaluation date</small>\n\t\t\t\t<span class=\"evaluation-date-field\"\n\t\t\t\t\t\t@mouseenter=\"hovering.evaluationDate = true\"\n\t\t\t\t\t\t@mouseleave=\"hovering.evaluationDate = false\">\n\t\t\t\t\t{{ evaluationDate }}\n\t\t\t\t</span>\n\t\t\t</div>\n\t\t\t<div class=\"col-md-offset-1 col-md-2\">\n\t\t\t\t<small>Requested</small>\n\t\t\t\t<span class=\"evaluation-date-field\"\n\t\t\t\t\t\t@mouseenter=\"hovering.requestDate = true\"\n\t\t\t\t\t\t@mouseleave=\"hovering.requestDate = false\">\n\t\t\t\t\t{{ requestDate }}\n\t\t\t\t</span>\n\t\t\t</div>\n\t\t\t<div class=\"col-md-offset-1 col-md-2\">\n\t\t\t\t<small>Completed</small>\n\t\t\t\t<span class=\"evaluation-date-field\"\n\t\t\t\t\t\t@mouseenter=\"hovering.completeDate = true\"\n\t\t\t\t\t\t@mouseleave=\"hovering.completeDate = false\">\n\t\t\t\t\t{{ completeDate }}\n\t\t\t\t</span>\n\t\t\t</div>\n\t\t</div>\n\t</li>\n</template>\n\n<script>\nimport moment from 'moment';\n\nimport { renderEvaluationStatus } from '../../../modules/datatable-utils.js';\n\nexport default {\n\tprops: {\n\t\tevaluation: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\thovering: {\n\t\t\t\tevaluationDate: false,\n\t\t\t\trequestDate: false,\n\t\t\t\tcompleteDate: false\n\t\t\t}\n\t\t};\n\t},\n\tcomputed: {\n\t\tevaluationDate(){\n\t\t\treturn this.hovering.evaluationDate\n\t\t\t\t? moment(this.evaluation.evaluation_date).format('ll')\n\t\t\t\t: moment(this.evaluation.evaluation_date).format('MMMM Y');\n\t\t},\n\t\trequestDate(){\n\t\t\treturn this.hovering.requestDate\n\t\t\t\t? moment(this.evaluation.request_date).format('ll LT')\n\t\t\t\t: moment(this.evaluation.request_date).calendar();\n\t\t},\n\t\tcompleteDate(){\n\t\t\treturn this.hovering.completeDate\n\t\t\t\t? moment(this.evaluation.complete_date).format('ll LT')\n\t\t\t\t: moment(this.evaluation.complete_date).calendar();\n\t\t}\n\t},\n\tmethods: {\n\t\trenderEvaluationStatus\n\t}\n};\n</script>\n\n<style scoped>\n\t.list-group-item .row small {\n\t\tdisplay: block;\n\t}\n\n\t.list-group-item .row a {\n\t\tdisplay: block;\n\t}\n\n\t.evaluation-date-field {\n\t\tcursor: help;\n\t}\n\t\n\t.row + .row {\n\t\tmargin-top: 10px;\n\t}\n\t\n\tsmall + * {\n\t\tfont-size: 1.15em;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.list-group-item .row small[data-v-e244fbca] {\n\tdisplay: block;\n}\n.list-group-item .row a[data-v-e244fbca] {\n\tdisplay: block;\n}\n.evaluation-date-field[data-v-e244fbca] {\n\tcursor: help;\n}\n.row + .row[data-v-e244fbca] {\n\tmargin-top: 10px;\n}\nsmall[data-v-e244fbca] {\n\tcolor: rgba(0, 0, 0, 0.5);\n}\nsmall + *[data-v-e244fbca] {\n\tfont-size: 1.15em;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/Needs/EvaluationDetailsListItem.vue?38b7aaec"],"names":[],"mappings":";AAyGA;CACA,eAAA;CACA;AAEA;CACA,eAAA;CACA;AAEA;CACA,aAAA;CACA;AAEA;CACA,iBAAA;CACA;AAEA;CACA,0BAAA;CACA;AAEA;CACA,kBAAA;CACA","file":"EvaluationDetailsListItem.vue","sourcesContent":["<template>\n\t<li class=\"list-group-item\">\n\t\t<div class=\"row\">\n\t\t\t<div class=\"col-md-1\">\n\t\t\t\t<small>#</small>\n\t\t\t\t<a :href=\"`/evaluation/${evaluation.id}`\" target=\"_blank\">\n\t\t\t\t\t{{ evaluation.id }}\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t\t<div class=\"col-md-3\">\n\t\t\t\t<small>Evaluator</small>\n\t\t\t\t<a :href=\"`/profile/${evaluation.evaluator.id}`\" target=\"_blank\">\n\t\t\t\t\t{{ evaluation.evaluator.full_name }}\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t\t<div class=\"col-md-3\">\n\t\t\t\t<small>Requested by</small>\n\t\t\t\t<a :href=\"`/profile/${evaluation.requestor.id}`\" target=\"_blank\">\n\t\t\t\t\t{{ evaluation.requestor.full_name }}\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t\t<div class=\"col-md-3\">\n\t\t\t\t<small>Form</small>\n\t\t\t\t<a :href=\"`/manage/forms/${evaluation.form.id}`\" target=\"_blank\">\n\t\t\t\t\t{{ evaluation.form.title }}\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t\t<div class=\"col-md-2 text-right\"\n\t\t\t\tv-html=\"renderEvaluationStatus(evaluation.status)\">\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"row\">\n\t\t\t<div class=\"col-md-offset-2 col-md-2\">\n\t\t\t\t<small>Evaluation date</small>\n\t\t\t\t<span class=\"evaluation-date-field\"\n\t\t\t\t\t\t@mouseenter=\"hovering.evaluationDate = true\"\n\t\t\t\t\t\t@mouseleave=\"hovering.evaluationDate = false\">\n\t\t\t\t\t{{ evaluationDate }}\n\t\t\t\t</span>\n\t\t\t</div>\n\t\t\t<div class=\"col-md-offset-1 col-md-2\">\n\t\t\t\t<small>Requested</small>\n\t\t\t\t<span class=\"evaluation-date-field\"\n\t\t\t\t\t\t@mouseenter=\"hovering.requestDate = true\"\n\t\t\t\t\t\t@mouseleave=\"hovering.requestDate = false\">\n\t\t\t\t\t{{ requestDate }}\n\t\t\t\t</span>\n\t\t\t</div>\n\t\t\t<div class=\"col-md-offset-1 col-md-2\">\n\t\t\t\t<small>Completed</small>\n\t\t\t\t<span class=\"evaluation-date-field\"\n\t\t\t\t\t\t@mouseenter=\"hovering.completeDate = true\"\n\t\t\t\t\t\t@mouseleave=\"hovering.completeDate = false\">\n\t\t\t\t\t{{ completeDate }}\n\t\t\t\t</span>\n\t\t\t</div>\n\t\t</div>\n\t</li>\n</template>\n\n<script>\nimport moment from 'moment';\n\nimport { renderEvaluationStatus } from '../../../modules/datatable-utils.js';\n\nexport default {\n\tprops: {\n\t\tevaluation: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\thovering: {\n\t\t\t\tevaluationDate: false,\n\t\t\t\trequestDate: false,\n\t\t\t\tcompleteDate: false\n\t\t\t}\n\t\t};\n\t},\n\tcomputed: {\n\t\tevaluationDate(){\n\t\t\treturn this.hovering.evaluationDate\n\t\t\t\t? moment(this.evaluation.evaluation_date).format('ll')\n\t\t\t\t: moment(this.evaluation.evaluation_date).format('MMMM Y');\n\t\t},\n\t\trequestDate(){\n\t\t\treturn this.hovering.requestDate\n\t\t\t\t? moment(this.evaluation.request_date).format('ll LT')\n\t\t\t\t: moment(this.evaluation.request_date).calendar();\n\t\t},\n\t\tcompleteDate(){\n\t\t\treturn this.hovering.completeDate\n\t\t\t\t? moment(this.evaluation.complete_date).format('ll LT')\n\t\t\t\t: moment(this.evaluation.complete_date).calendar();\n\t\t}\n\t},\n\tmethods: {\n\t\trenderEvaluationStatus\n\t}\n};\n</script>\n\n<style scoped>\n\t.list-group-item .row small {\n\t\tdisplay: block;\n\t}\n\n\t.list-group-item .row a {\n\t\tdisplay: block;\n\t}\n\n\t.evaluation-date-field {\n\t\tcursor: help;\n\t}\n\t\n\t.row + .row {\n\t\tmargin-top: 10px;\n\t}\n\t\n\tsmall {\n\t\tcolor: rgba(0, 0, 0, 0.5);\n\t}\n\t\n\tsmall + * {\n\t\tfont-size: 1.15em;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -24839,14 +24888,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "page"
     }],
     attrs: {
-      "itemsPerPage": _vm.itemsPerPage,
-      "paginatedItems": _vm.paginatedItems
+      "paginatedItems": _vm.paginatedItems,
+      "itemsPerPage": _vm.itemsPerPage
     },
     domProps: {
       "value": (_vm.page)
     },
     on: {
-      "changePageSize": function($event) {
+      "pageSize": function($event) {
         _vm.itemsPerPage = arguments[0]
       },
       "input": function($event) {
@@ -25183,48 +25232,49 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('li', {
     staticClass: "evaluation-list-item"
   }, [_c('div', {
-    staticClass: "main"
-  }, [_c('input', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-sm-6"
+  }, [_c('img', {
     attrs: {
-      "type": "checkbox"
-    },
-    domProps: {
-      "value": _vm.user.id
+      "height": "50",
+      "width": "50",
+      "alt": "",
+      "src": _vm.user.photo_path || _vm.placeholderUserImagePath
     }
-  }), _vm._v(" "), (_vm.user.photo_path) ? _c('img', {
-    attrs: {
-      "height": "150",
-      "width": "100",
-      "src": _vm.user.photo_path,
-      "alt": ""
-    }
-  }) : _vm._e(), _vm._v(" "), _c('a', {
+  }), _vm._v(" "), _c('a', {
+    staticClass: "name",
     attrs: {
       "href": ("/profile/" + (_vm.user.id))
     }
-  }, [_vm._v(_vm._s(_vm.user.full_name))]), _vm._v(" "), _c('section', [_c('span', [_vm._v(_vm._s(_vm.user.subject_evaluations.length))]), _vm._v("\n\t\t\tEvaluations\n\t\t\t"), (_vm.user.subject_evaluations.length > 0) ? _c('button', {
+  }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.user.full_name) + "\n\t\t\t")])]), _vm._v(" "), _c('section', {
+    staticClass: "col-sm-2"
+  }, [_c('b', [_c('span', [_vm._v(_vm._s(_vm.user.subject_evaluations.length))]), _vm._v("\n\t\t\t\tevaluations\n\t\t\t")])]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-4 text-right"
+  }, [(_vm.user.subject_evaluations.length > 0) ? _c('show-hide-button', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.show.evaluations),
+      expression: "show.evaluations"
+    }],
     staticClass: "btn btn-xs btn-info",
-    attrs: {
-      "type": "button"
+    domProps: {
+      "value": (_vm.show.evaluations)
     },
     on: {
-      "click": function($event) {
-        _vm.show.evaluations = !_vm.show.evaluations
+      "input": function($event) {
+        _vm.show.evaluations = $event
       }
     }
-  }, [_vm._v("\n\t\t\t\tShow evaluations\n\t\t\t")]) : _vm._e()]), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-xs",
-    attrs: {
-      "type": "button"
-    }
-  }, [_vm._v("\n\t\t\tSend reminder\n\t\t")])]), _vm._v(" "), _c('section', {
+  }, [_vm._v("\n\t\t\t\tevaluations\n\t\t\t")]) : _vm._e()], 1)]), _vm._v(" "), _c('section', {
     directives: [{
       name: "show",
       rawName: "v-show",
       value: (_vm.show.evaluations),
       expression: "show.evaluations"
     }],
-    staticClass: "details well"
+    staticClass: "details"
   }, [_c('h4', [_vm._v("Evaluations")]), _vm._v(" "), _c('ul', {
     staticClass: "list-group"
   }, _vm._l((_vm.user.subject_evaluations), function(eval) {
@@ -25438,7 +25488,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "from": "reminders",
       "target": "/emails/reminders",
+      "title": "Send reminders",
       "defaultSubject": "Please request evaluations!",
+      "defaultTo": _vm.selectedUsers,
       "possibleRecipients": _vm.trainees,
       "defaultBodyMarkdown": _vm.defaultEmailMarkdown,
       "emailReplacements": _vm.emailReplacements,
@@ -25452,7 +25504,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }) : _c('div', {
     staticClass: "show-email-button-container"
   }, [_c('button', {
-    staticClass: "btn btn-info",
+    staticClass: "btn btn-primary",
     attrs: {
       "type": "button"
     },
@@ -26021,7 +26073,15 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('section', [_c('div', {
+  return _c('div', {
+    staticClass: "panel panel-default"
+  }, [_c('div', {
+    staticClass: "panel-heading"
+  }, [_c('h3', {
+    staticClass: "heading-title"
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.title) + "\n\t\t")])]), _vm._v(" "), _c('div', {
+    staticClass: "panel-body"
+  }, [_c('section', [_c('div', {
     staticClass: "form-group"
   }, [_c('label', {
     attrs: {
@@ -26051,7 +26111,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.show.recipients = !_vm.show.recipients
       }
     }
-  }, [_vm._v("\n\t\t\t\t\tShow recipients\n\t\t\t\t")])]) : _vm._e(), _vm._v(" "), (_vm.possibleRecipients) ? _c('span', {
+  }, [_vm._v("\n\t\t\t\t\t\t\tShow recipients\n\t\t\t\t\t\t\t"), _c('span', {
+    staticClass: "glyphicon glyphicon-triangle-bottom"
+  })])]) : _vm._e(), _vm._v(" "), (_vm.possibleRecipients) ? _c('span', {
     staticClass: "input-group-btn"
   }, [_c('button', {
     staticClass: "btn btn-default",
@@ -26063,7 +26125,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.show.possibleRecipients = !_vm.show.possibleRecipients
       }
     }
-  }, [_vm._v("\n\t\t\t\t\tShow recipients\n\t\t\t\t")])]) : _vm._e()]), _vm._v(" "), (Array.isArray(_vm.to) && !_vm.possibleRecipients) ? _c('div', {
+  }, [_vm._v("\n\t\t\t\t\t\t\tShow recipients\n\t\t\t\t\t\t")])]) : _vm._e()]), _vm._v(" "), (Array.isArray(_vm.to) && !_vm.possibleRecipients) ? _c('div', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -26075,7 +26137,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, _vm._l((_vm.to), function(recipient) {
     return _c('li', {
       staticClass: "list-group-item"
-    }, [_vm._v("\n\t\t\t\t\t" + _vm._s(recipient.full_name || recipient) + "\n\t\t\t\t")])
+    }, [_vm._v("\n\t\t\t\t\t\t\t" + _vm._s(recipient.full_name || recipient) + "\n\t\t\t\t\t\t")])
   }))]) : _vm._e(), _vm._v(" "), (_vm.possibleRecipients) ? _c('div', {
     directives: [{
       name: "show",
@@ -26123,7 +26185,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
             }
           }
         }
-      }), _vm._v(" \n\t\t\t\t\t\t\t\t\t" + _vm._s(possibleRecipient.text || possibleRecipient) + "\n\t\t\t\t\t\t\t\t")])])
+      }), _vm._v(" \n\t\t\t\t\t\t\t\t\t\t\t" + _vm._s(possibleRecipient.text || possibleRecipient) + "\n\t\t\t\t\t\t\t\t\t\t")])])
     }))] : _vm._e()]
   })], 2)]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "form-group"
@@ -26195,8 +26257,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.alerts = $event
       }
     }
-  }) : _vm._e(), _vm._v(" "), _c('div', {
-    staticClass: "form-group text-right"
+  }) : _vm._e()], 1)]), _vm._v(" "), _c('div', {
+    staticClass: "panel-footer text-right"
   }, [_c('button', {
     staticClass: "btn btn-primary",
     attrs: {
@@ -26217,7 +26279,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$emit('close')
       }
     }
-  }, [_vm._v("\n\t\t\tClose\n\t\t")])])], 1)
+  }, [_vm._v("\n\t\t\tClose\n\t\t")])])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -26305,14 +26367,17 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [(_vm.active) ? _c('span', [_vm._v("\n\t\t" + _vm._s(_vm.text || _vm.value + 1) + "\n\t")]) : _c('a', {
+  return _c('button', {
+    staticClass: "btn btn-default",
     attrs: {
-      "href": "#"
+      "type": "button",
+      "href": "#",
+      "disabled": _vm.active
     },
     on: {
       "click": _vm.emitPage
     }
-  }, [_vm._v("\n\t\t" + _vm._s(_vm.text || _vm.value + 1) + "\n\t")])])
+  }, [_vm._v("\n\t" + _vm._s(_vm.text || _vm.value + 1) + "\n")])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -26329,7 +26394,86 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('section', {
     staticClass: "paginator"
-  }, [_c('span', [_vm._v("\n\t\tCurrent page: " + _vm._s(_vm.value + 1) + "\n\t")]), _vm._v(" "), _c('span', [_vm._v("\n\t\tItems per page: " + _vm._s(_vm.itemsPerPage) + "\n\t")]), _vm._v(" "), (_vm.itemsPerPage && _vm.paginatedItems.length > 1) ? _c('nav', [_c('paginator-link', {
+  }, [_c('div', {
+    staticClass: "form-inline"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\t\tCurrent page:\n\t\t\t\t"), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": _vm.value
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('input', Number($event.target.value))
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\t\tItems per page: \n\t\t\t\t"), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "number",
+      "list": "paginator-list",
+      "min": "0"
+    },
+    domProps: {
+      "value": _vm.itemsPerPage
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('pageSize', Number($event.target.value))
+      }
+    }
+  }), _vm._v(" "), _c('datalist', {
+    attrs: {
+      "id": "paginator-list"
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "5"
+    },
+    domProps: {
+      "value": "5"
+    }
+  }), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "10"
+    },
+    domProps: {
+      "value": "10"
+    }
+  }), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "20"
+    },
+    domProps: {
+      "value": "20"
+    }
+  }), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "50"
+    },
+    domProps: {
+      "value": "50"
+    }
+  }), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "100"
+    },
+    domProps: {
+      "value": "100"
+    }
+  })])])])]), _vm._v(" "), (_vm.itemsPerPage && _vm.paginatedItems.length > 1) ? _c('nav', [_c('div', {
+    staticClass: "btn-group"
+  }, [_c('paginator-link', {
     attrs: {
       "value": _vm.value - 1,
       "text": "← Prev",
@@ -26357,7 +26501,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.setPage
     }
-  })], 2) : _vm._e()])
+  })], 2)]) : _vm._e()])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -27233,6 +27377,122 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-33bb4c88", module.exports)
+  }
+}
+
+/***/ }),
+/* 350 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+	props: {
+		value: {
+			type: Boolean,
+			required: true
+		},
+		text: {
+			type: String,
+			required: false
+		}
+	}
+};
+
+/***/ }),
+/* 351 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* script */
+__vue_exports__ = __webpack_require__(350)
+
+/* template */
+var __vue_template__ = __webpack_require__(352)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ShowHideButton.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2d613f1b", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-2d613f1b", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] ShowHideButton.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 352 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    staticClass: "btn",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.$emit('input', !_vm.value)
+      }
+    }
+  }, [(_vm.value) ? _vm._t("true", [_vm._v("\n\t\tHide\n\t")]) : _vm._t("false", [_vm._v("\n\t\tShow\n\t")]), _vm._v(" "), _vm._t("default", [_vm._v("\n\t\t" + _vm._s(_vm.text) + "\n\t")]), _vm._v(" "), _vm._t("glyph", [_c('span', {
+    staticClass: "glyphicon glyphicon-triangle-bottom"
+  })])], 2)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-2d613f1b", module.exports)
   }
 }
 
