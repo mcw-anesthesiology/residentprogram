@@ -242,8 +242,7 @@ class ReportTest extends TestCase
             ->post("/report/aggregate", [
                 "startDate" => $startDate,
                 "endDate" => $endDate,
-                "trainingLevel" => "all",
-                "graphs" => "none"
+                "trainingLevel" => "all"
             ])
             ->seeJson([
                 "trainingLevel" => "all",

@@ -1,5 +1,6 @@
 <template>
-	<select :name="name" :id="id" :required="required" v-bind:multiple="multiple">
+	<select :name="name" :id="id" :required="required" v-bind:multiple="multiple"
+			ref="select">
 		<slot></slot>
 		<template v-for="option of stringOptions">
 			<optgroup v-if="option.children && option.children.length > 0"
@@ -97,6 +98,9 @@ export default {
 			tags: this.multiple,
 			createTag: () => undefined
 		});
+		
+		if(!this.$refs.select.querySelector(`option[value="${this.value}"]`))
+			this.$emit('input', null);
 	},
 	watch: {
 		multiple(multiple){

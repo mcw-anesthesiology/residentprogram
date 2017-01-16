@@ -190,10 +190,11 @@ class ReportController extends Controller
 		$trainingLevel = $request->input("trainingLevel");
 		$evalThreshold = $request->input("evalThreshold");
 
-		return $this->getUsersNeedingEvaluations($startDate, $endDate, $trainingLevel, $evalThreshold);
+		return $this->getUsersNeedingEvaluations($startDate, $endDate,
+			$trainingLevel, $evalThreshold);
 	}
 
-	function getUsersNeedingEvaluations($startDate, $endDate, $trainingLevel, $evalThreshold){
+	function getUsersNeedingEvaluations($startDate, $endDate, $trainingLevel = "all", $evalThreshold = "all"){
         $getQueriedEvaluations = function($query)
                 use ($startDate, $endDate, $trainingLevel, $evalThreshold){
             $query->with("evaluator", "requestor", "form")
@@ -202,13 +203,23 @@ class ReportController extends Controller
             if($trainingLevel != "all")
                 $query->where("training_level", $trainingLevel);
         };
+		
+		$getCompleteEvaluations = function($query)
+                use ($startDate, $endDate, $trainingLevel, $evalThreshold){
+            $query->with("evaluator", "requestor", "form")
+				->where("evaluation_date", ">=", $startDate)
+                ->where("evaluation_date", "<=", $endDate)
+				->where("status", "complete");
+            if($trainingLevel != "all")
+                $query->where("training_level", $trainingLevel);
+        };
 
         $needsEvals = User::where("type", "resident")->where("status", "active");
         if($trainingLevel != "all")
             $needsEvals->where("training_level", $trainingLevel);
 
-        if($evalThreshold != "all")
-            $needsEvals->whereHas("subjectEvaluations", $getQueriedEvaluations, "<", $evalThreshold);
+        if(!empty($evalThreshold) && $evalThreshold != "all")
+            $needsEvals->whereHas("subjectEvaluations", $getCompleteEvaluations, "<", $evalThreshold);
 
         return $needsEvals->with(["subjectEvaluations" => $getQueriedEvaluations])->get();
     }
@@ -586,16 +597,45 @@ class ReportController extends Controller
 		return sqrt(array_sum(array_map(array($this, "sd_square"), $array, array_fill(0,count($array), (array_sum($array) / count($array)) ) ) ) / (count($array)-1) );
 	}
 
-    public function report($startDate, $endDate, $trainingLevel, $milestones, $reportSubject = null, $graphOption = null, $graphOrientation = null){
-        // TODO: Add "Evals Requested" to report somehow
+    public function report($startDate, $endDate, $trainingLevel, $currentTrainingLevel = "all", $milestones = [], $reportSubject = null, $graphOption = null, $graphOrientation = null){
         $startDate = Carbon::parse($startDate);
         $startDate->timezone = "America/Chicago";
         $endDate = Carbon::parse($endDate);
         $endDate->timezone = "America/Chicago";
+		
+		$averageMilestone = [];
+		$averageMilestoneDenom = [];
+		$milestoneStd = [];
+		$averageCompetency = [];
+		$averageCompetencyDenom = [];
+		$competencyStd = [];
 
-        // $redStd = 1;
-        // $yellowStd = 0.75;
-        // $greenStd = 0.5;
+		$subjectMilestone = [];
+		$subjectMilestoneDenom = [];
+		$subjectMilestoneEvals = [];
+		$subjectCompetency = [];
+		$subjectCompetencyDenom = [];
+		$subjectCompetencyEvals = [];
+
+		$milestones = [];
+		$competencies = [];
+		$subjectEvals = [];
+		$subjectRequests = [];
+		$subjectEvaluators = [];
+		$subjectEvaluations = [];
+		$competencyQuestions = [];
+
+		$subjects = [];
+		
+		if($currentTrainingLevel != "all"){
+			$trainingLevelSubjects = User::where("status", "active")
+				->where("type", "resident")
+				->where("training_level", $currentTrainingLevel)
+				->get();
+			foreach($trainingLevelSubjects as $trainingLevelSubject){
+				$subjects[$trainingLevelSubject->id] = $trainingLevelSubject->full_name;
+			}
+		}
 
         $query = DB::table("responses")
             ->join("evaluations", "evaluations.id", "=", "responses.evaluation_id")
@@ -611,10 +651,8 @@ class ReportController extends Controller
             ->join("competencies", "competencies.id", "=", "competencies_questions.competency_id")
             ->join("forms", "forms.id", "=", "evaluations.form_id")
             ->join("users", "users.id", "=", "evaluations.subject_id")
-            // ->where("users.status", "active")
-            // ->where("users.type", "resident")
             ->whereIn("forms.type", ["resident", "fellow"])
-            ->whereIn("forms.evaluator_type", ["faculty"])
+            ->where("forms.evaluator_type", "faculty")
             ->where("evaluations.status", "complete")
             ->where("evaluations.evaluation_date", ">=", $startDate)
             ->where("evaluations.evaluation_date", "<=", $endDate)
@@ -625,30 +663,11 @@ class ReportController extends Controller
 
         if($trainingLevel != "all")
             $query->where("evaluations.training_level", $trainingLevel);
-
-        $averageMilestone = [];
-        $averageMilestoneDenom = [];
-        $milestoneStd = [];
-        $averageCompetency = [];
-        $averageCompetencyDenom = [];
-        $competencyStd = [];
-
-        $subjectMilestone = [];
-        $subjectMilestoneDenom = [];
-        $subjectMilestoneEvals = [];
-        $subjectCompetency = [];
-        $subjectCompetencyDenom = [];
-        $subjectCompetencyEvals = [];
-
-        $milestones = [];
-        $competencies = [];
-        $subjectEvals = [];
-        $subjectRequests = [];
-        $subjectEvaluators = [];
-		$subjectEvaluations = [];
-        $competencyQuestions = [];
-
-        $subjects = [];
+			
+		if($currentTrainingLevel != "all"){
+			$query->where("users.type", "resident")
+				->where("users.training_level", $currentTrainingLevel);
+		}
 
         $query->select("milestone_id", "milestones.title as milestone_title", "competency_id", "competencies.title as competency_title")
             ->addSelect("subject_id", "evaluator_id", "last_name", "first_name", "evaluation_id", "response", "weight", "responses.question_id as question_id")
@@ -725,7 +744,7 @@ class ReportController extends Controller
                 $averageMilestone[$milestone] = 0;
 
             foreach($subjects as $subject => $name){
-                if(count($subjectEvals[$subject]) > 0){
+                if(array_key_exists($subject, $subjectEvals) && count($subjectEvals[$subject]) > 0){
                     // Standard deviation uses array[milestone][resident] while graph uses array[resident][milestone]
                     if(isset($subjectMilestoneDenom[$subject][$milestone]) && $subjectMilestoneDenom[$subject][$milestone])
                         $subjectMilestone[$subject][$milestone] = $milestoneSubject[$milestone][$subject] = $subjectMilestone[$subject][$milestone]/$subjectMilestoneDenom[$subject][$milestone];
@@ -736,7 +755,7 @@ class ReportController extends Controller
             if(count($milestoneSubject[$milestone]) > 1){
                 $milestoneStd[$milestone] = $this->sd($milestoneSubject[$milestone]);
                 foreach($subjects as $subject => $name){
-                    if(count($subjectEvals[$subject]) > 0){
+                    if(array_key_exists($subject, $subjectEvals) && count($subjectEvals[$subject]) > 0){
     					if($milestoneStd[$milestone] == 0)
     						$subjectMilestoneDeviations[$subject][$milestone] = 0;
                         else // Num standard deviations = ((subject weighted average)-(milestone weighted average))/(standard deviation of subject averages)
@@ -746,7 +765,7 @@ class ReportController extends Controller
             }
 			else{
 				foreach($subjects as $subject => $name){
-                    if(count($subjectEvals[$subject]) > 0){
+                    if(array_key_exists($subject, $subjectEvals) && count($subjectEvals[$subject]) > 0){
                         $subjectMilestoneDeviations[$subject][$milestone] = 0;
                     }
 				}
@@ -760,7 +779,7 @@ class ReportController extends Controller
                 $averageCompetency[$competency] = 0;
 
             foreach($subjects as $subject => $name){
-                if(count($subjectEvals[$subject]) > 0){
+                if(array_key_exists($subject, $subjectEvals) && count($subjectEvals[$subject]) > 0){
                     // Standard deviation uses array[competency][resident] while graph uses array[resident][competency]
                     if(isset($subjectCompetencyDenom[$subject][$competency]) && $subjectCompetencyDenom[$subject][$competency])
                         $subjectCompetency[$subject][$competency] = $competencySubject[$competency][$subject] = $subjectCompetency[$subject][$competency]/$subjectCompetencyDenom[$subject][$competency];
@@ -771,7 +790,7 @@ class ReportController extends Controller
             if(count($competencySubject[$competency]) > 1){
                 $competencyStd[$competency] = $this->sd($competencySubject[$competency]);
                 foreach($subjects as $subject => $name){
-                    if(count($subjectEvals[$subject]) > 0){
+                    if(array_key_exists($subject, $subjectEvals) && count($subjectEvals[$subject]) > 0){
     					if($competencyStd[$competency] == 0)
     						$subjectCompetencyDeviations[$subject][$competency] = 0;
     					else // Num standard deviations = ((subject weighted average)-(competency weighted average))/(standard deviation of subject averages)
@@ -781,7 +800,7 @@ class ReportController extends Controller
             }
 			else{
 				foreach($subjects as $subject => $name){
-                    if(count($subjectEvals[$subject]) > 0){
+                    if(array_key_exists($subject, $subjectEvals) && count($subjectEvals[$subject]) > 0){
                         $subjectCompetencyDeviations[$subject][$competency] = 0;
                     }
 				}
@@ -800,6 +819,8 @@ class ReportController extends Controller
 
         if($trainingLevel != "all")
             $reqQuery->where("evaluations.training_level", $trainingLevel);
+		if($currentTrainingLevel != "all")
+			$reqQuery->where("subjects.training_level", $currentTrainingLevel);
 
         $reqQuery->select("subject_id", "evaluator_id", "requested_by_id",
 			"subjects.last_name as subject_last", "subjects.first_name as subject_first",
@@ -869,9 +890,10 @@ class ReportController extends Controller
 
             $textQuery = DB::table("text_responses")
                 ->join("evaluations", "evaluations.id", "=", "evaluation_id")
-                ->join("users", "users.id", "=", "evaluations.evaluator_id")
+                ->join("users as evaluators", "evaluators.id", "=", "evaluations.evaluator_id")
+				->join("users as subjects", "subjects.id", "=", "evaluations.subject_id")
                 ->join("forms", "evaluations.form_id", "=", "forms.id")
-                ->where("users.type", "faculty")
+                ->where("evaluators.type", "faculty")
                 ->where("evaluations.status", "complete")
                 ->where("evaluations.evaluation_date", ">=", $startDate)
                 ->where("evaluations.evaluation_date", "<=", $endDate)
@@ -881,8 +903,10 @@ class ReportController extends Controller
 
             if($trainingLevel != "all")
                 $textQuery->where("evaluations.training_level", $trainingLevel);
+			if($currentTrainingLevel != "all")
+				$textQuery->where("subjects.training_level", $currentTrainingLevel);
 
-            $textQuery->select("subject_id", "first_name", "last_name",
+            $textQuery->select("subject_id", "evaluators.first_name", "evaluators.last_name",
                 "forms.title as form_title", "evaluation_date", "response");
 
             $subjectTextResponses = $textQuery->get();
@@ -890,9 +914,10 @@ class ReportController extends Controller
             $data["subjectTextResponses"] = $subjectTextResponses;
 
             $reportEvaluationsQuery = DB::table("evaluations")
-                ->join("users", "users.id", "=", "evaluations.evaluator_id")
+				->join("users as evaluators", "evaluators.id", "=", "evaluations.evaluator_id")
+				->join("users as subjects", "subjects.id", "=", "evaluations.subject_id")
                 ->join("forms", "evaluations.form_id", "=", "forms.id")
-                ->where("users.type", "faculty")
+				->where("evaluators.type", "faculty")
                 ->where("evaluations.status", "complete")
                 ->where("evaluations.evaluation_date", ">=", $startDate)
                 ->where("evaluations.evaluation_date", "<=", $endDate)
@@ -902,18 +927,21 @@ class ReportController extends Controller
 
             if($trainingLevel != "all")
                 $reportEvaluationsQuery->where("evaluations.training_level", $trainingLevel);
+			if($currentTrainingLevel != "all")
+				$reportEvaluationsQuery->where("subjects.training_level", $currentTrainingLevel);
 
             $reportEvaluationsQuery->select("evaluations.id as evaluation_id", "subject_id",
-                "first_name", "last_name", "forms.title as form_title", "evaluation_date");
+                "evaluators.first_name", "evaluators.last_name", "forms.title as form_title", "evaluation_date");
 
             $data["subjectReportEvaluations"] = $reportEvaluationsQuery->get();
         }
 		else {
 			$textQuery = DB::table("text_responses")
 				->join("evaluations", "evaluations.id", "=", "evaluation_id")
-				->join("users", "users.id", "=", "evaluations.evaluator_id")
+				->join("users as evaluators", "evaluators.id", "=", "evaluations.evaluator_id")
+				->join("users as subjects", "subjects.id", "=", "evaluations.subject_id")
 				->join("forms", "evaluations.form_id", "=", "forms.id")
-				->where("users.type", "faculty")
+				->where("evaluators.type", "faculty")
 				->where("evaluations.status", "complete")
 				->where("evaluations.evaluation_date", ">=", $startDate)
 				->where("evaluations.evaluation_date", "<=", $endDate)
@@ -923,8 +951,10 @@ class ReportController extends Controller
 
 			if($trainingLevel != "all")
 				$textQuery->where("evaluations.training_level", $trainingLevel);
+			if($currentTrainingLevel != "all")
+				$textQuery->where("subjects.training_level", $currentTrainingLevel);
 
-			$textQuery->select("subject_id", "first_name", "last_name",
+			$textQuery->select("subject_id", "evaluators.first_name", "evaluators.last_name",
 				"forms.title as form_title", "evaluation_date", "response",
 				"evaluation_id");
 
@@ -939,7 +969,8 @@ class ReportController extends Controller
     public function aggregate(Request $request){
         return $this->report($request->input("startDate"),
             $request->input("endDate"), $request->input("trainingLevel"),
-            $request->input("milestones"));
+			$request->input("currentTrainingLevel", "all"),
+			$request->input("milestones"));
     }
 
     public function specific(Request $request){
@@ -972,7 +1003,7 @@ class ReportController extends Controller
 
         for($i = 0; $i < count($startDates); $i++){
             $data["reportData"][$i] = $this->report($startDates[$i], $endDates[$i],
-                $trainingLevels[$i], $request->input("milestones"), $request->input("resident"),
+                $trainingLevels[$i], "all", $request->input("milestones"), $request->input("resident"),
 				$request->input('graphs'), 'vertical');
 			$data["reportData"][$i]["startDate"] = Carbon::parse($startDates[$i]);
 			$data["reportData"][$i]["endDate"] = Carbon::parse($endDates[$i]);

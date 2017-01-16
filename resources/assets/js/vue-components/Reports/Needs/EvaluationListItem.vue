@@ -4,7 +4,7 @@
 			<div class="col-sm-4">
 				<img height="50" width="50" alt=""
 					:src="user.photo_path || placeholderUserImagePath" />
-				<a class="name" :href="`/profile/${user.id}`">
+				<a class="name" :href="`/profile/${user.id}`" target="_blank">
 					{{ user.full_name }}
 				</a>
 			</div>
@@ -14,10 +14,16 @@
 			</div>
 
 			<section class="col-sm-2">
-				<b>
-					<span>{{ user.subject_evaluations.length }}</span>
-					evaluations
-				</b>
+				<div>					
+					<b>
+						{{ completeEvals.length }}
+						complete evaluations
+					</b>
+				</div>
+				<div>
+					{{ pendingEvals.length }}
+					pending evaluations
+				</div>
 			</section>
 
 			<div class="col-sm-4 text-right">		
@@ -30,9 +36,13 @@
 		</div>
 		<section class="details" v-show="show.evaluations">
 			<h4>Evaluations</h4>
+			<label>
+				<input type="checkbox" v-model="show.canceled" />
+				Show disabled and canceled
+			</label>
 			<ul class="list-group">
-				<evaluation-details-list-item v-for="eval of user.subject_evaluations"
-				 	:evaluation="eval" />
+				<evaluation-details-list-item v-for="detailsEval of detailsEvals"
+				 	:evaluation="detailsEval" />
 			</ul>
 		</section>
 	</li>
@@ -59,9 +69,27 @@ export default {
 	data(){
 		return {
 			show: {
-				evaluations: false
+				evaluations: false,
+				canceled: false
 			}
 		};
+	},
+	computed: {
+		completeEvals(){
+			return this.user.subject_evaluations
+				.filter(evaluation => evaluation.status === 'complete');
+		},
+		pendingEvals(){
+			return this.user.subject_evaluations
+				.filter(evaluation => evaluation.status === 'pending');
+		},
+		detailsEvals(){
+			return this.show.canceled
+				? this.user.subject_evaluations
+				: this.user.subject_evaluations
+					.filter(evaluation =>
+						['complete', 'pending'].includes(evaluation.status));
+		}
 	},
 	methods: {
 		renderTrainingLevel

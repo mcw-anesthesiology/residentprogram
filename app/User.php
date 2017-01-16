@@ -74,6 +74,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		if(!is_array($types))
 			$types = [$types];
 		foreach($types as $type){
+            // Allow to query for 'trainee' even though they're currently all residents
+            // In the future, plan to change resident -> trainee
+            if($type == "trainee")
+                $type = "resident";
+
 			if($this->type == $type || $this->type == "resident" && $this->training_level == $type)
 				return true;
 		}

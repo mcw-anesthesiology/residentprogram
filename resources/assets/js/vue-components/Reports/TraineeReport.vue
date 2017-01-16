@@ -3,10 +3,20 @@
 		<div class="container body-block">
 			<h2>Trainee report</h2>
 			<report-date v-model="dates" />
-			<label class="containing-label">
-				Training level
-				<training-level-select v-model="trainingLevel" />
-			</label>
+			<div class="row">
+				<div class="form-group col-sm-6">					
+					<label class="containing-label">
+						Evaluation training level
+						<training-level-select v-model="trainingLevel" />
+					</label>
+				</div>
+				<div class="form-group col-sm-6">
+					<label class="containing-label">
+						Trainee's current training level
+						<training-level-select v-model="currentTrainingLevel" />
+					</label>
+				</div>
+			</div>
 
 			<div class="form-group">
 				<label>
@@ -142,6 +152,7 @@ export default {
 				endDate: null
 			},
 			trainingLevel: 'all',
+			currentTrainingLevel: 'all',
 			traineeId: null,
 			filterMilestones: false,
 			milestones: [],
@@ -178,9 +189,14 @@ export default {
 			return groupUsers(this.users);
 		},
 		filteredUsers(){
-			return this.show.inactiveUsers
+			let groupedUsers = this.currentTrainingLevel === 'all'
 				? this.groupedUsers
-				: this.groupedUsers.filter(userGroup => userGroup.text !== 'Inactive');
+				: this.groupedUsers
+					.filter(userGroup => userGroup.text.toUpperCase() === this.currentTrainingLevel.toUpperCase());
+			
+			return this.show.inactiveUsers
+				? groupedUsers
+				: groupedUsers.filter(userGroup => userGroup.text !== 'Inactive');
 
 		},
 		subjects(){
@@ -218,6 +234,7 @@ export default {
 					startDate: this.dates.startDate,
 					endDate: this.dates.endDate,
 					trainingLevel: this.trainingLevel,
+					currentTrainingLevel: this.currentTrainingLevel,
 					milestones: this.milestones
 				})
 			}).then(response => {

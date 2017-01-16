@@ -248,7 +248,7 @@ export default {
 			let data = [];
 			for(let subjectId in this.report.subjects){
 				let row = [];
-				row.push(this.report.subjects[subjectId]);
+				row.push(`<a href="/profile/${subjectId}" target="_blank">${this.report.subjects[subjectId]}</a>`);
 				if(this.show.milestones){
 					for(let milestoneId in this.report.milestones){
 						if(this.show.averages)
@@ -335,10 +335,22 @@ export default {
 					}
 				}
 
-				if(this.show.totals){					
-					row.push(Object.keys(this.report.subjectEvaluators[subjectId]).length);
-					row.push(Object.keys(this.report.subjectEvals[subjectId]).length);
-					row.push(Object.keys(this.report.subjectRequests[subjectId]).length);
+				if(this.show.totals){
+					row.push(
+						this.report.subjectEvaluators[subjectId]
+							? Object.keys(this.report.subjectEvaluators[subjectId]).length
+							: 0
+					);
+					row.push(
+						this.report.subjectEvals[subjectId]
+							? Object.keys(this.report.subjectEvals[subjectId]).length
+							: 0
+					);
+					row.push(
+						this.report.subjectRequests[subjectId]
+							? Object.keys(this.report.subjectRequests[subjectId]).length
+							: 0
+					);
 				}
 
 				data.push(row);

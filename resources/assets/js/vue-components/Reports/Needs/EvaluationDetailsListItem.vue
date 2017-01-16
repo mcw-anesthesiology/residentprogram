@@ -81,16 +81,25 @@ export default {
 	},
 	computed: {
 		evaluationDate(){
+			if(!this.evaluation.evaluation_date)
+				return '';
+			
 			return this.hovering.evaluationDate
 				? moment(this.evaluation.evaluation_date).format('ll')
 				: moment(this.evaluation.evaluation_date).format('MMMM Y');
 		},
 		requestDate(){
+			if(!this.evaluation.request_date)
+				return '';
+			
 			return this.hovering.requestDate
 				? moment(this.evaluation.request_date).format('ll LT')
-				: moment(this.evaluation.request_date).calendar();
+				: moment(this.evaluation.request_date).calendar();					
 		},
 		completeDate(){
+			if(!this.evaluation.complete_date)
+				return '';
+			
 			return this.hovering.completeDate
 				? moment(this.evaluation.complete_date).format('ll LT')
 				: moment(this.evaluation.complete_date).calendar();
@@ -121,9 +130,5 @@ export default {
 	
 	small {
 		color: rgba(0, 0, 0, 0.5);
-	}
-	
-	small + * {
-		font-size: 1.15em;
 	}
 </style>
