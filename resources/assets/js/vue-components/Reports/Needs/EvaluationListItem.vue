@@ -101,7 +101,7 @@ export default {
 
 img {
 	border-radius: 100%;
-	object-fit: contain;
+	object-fit: cover;
 	object-position: center;
 }
 </style>

@@ -6,8 +6,11 @@
 				<div class="form-inline">
 					<label v-for="type of reportTypes" class="report-type-option">
 						<input type="radio" :value="type" v-model="reportType" />
-						{{ ucfirst(type) }}
+						{{ camelCaseToWords(type) }}
 					</label>
+					<a href="/report/needs-eval" class="btn btn-default">
+						Previous needs evaluations report
+					</a>
 				</div>
 			</fieldset>
 		</div>
@@ -17,7 +20,7 @@
 				:users="users" :groupedUsers="groupedUsers" />
 			<form-report v-if="reportType === 'form'"
 				:users="users" :groupedUsers="groupedUsers" />
-			<needs-report v-if="reportType === 'needs'"
+			<needs-report v-if="reportType === 'needsEvaluations'"
 				:users="users" :groupedUsers="groupedUsers" />
 		</div>
 	</div>
@@ -28,7 +31,7 @@ import TraineeReport from './TraineeReport.vue';
 import FormReport from './FormReport.vue';
 import NeedsReport from './Needs/Report.vue';
 
-import { ucfirst, fetchUsers, groupUsers } from '../../modules/utils.js';
+import { camelCaseToWords, fetchUsers, groupUsers } from '../../modules/utils.js';
 
 // TODO: Consider dynamically importing the report types
 
@@ -44,7 +47,7 @@ export default {
 			return [
 				'trainee',
 				'form',
-				'needs'
+				'needsEvaluations'
 			];
 		},
 		groupedUsers(){
@@ -61,7 +64,7 @@ export default {
 	},
 
 	methods: {
-		ucfirst
+		camelCaseToWords
 	},
 	components: {
 		TraineeReport,
