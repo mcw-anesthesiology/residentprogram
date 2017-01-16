@@ -243,179 +243,177 @@ class ReportTest extends TestCase
                 "startDate" => $startDate,
                 "endDate" => $endDate,
                 "trainingLevel" => "all"
-            ])
-            ->seeJson([
-                "trainingLevel" => "all",
-                "graphOption" => "none",
-                "startDate" => $startDate,
-                "endDate" => $endDate,
-                "subjects" => [
-                    $this->residents[0]->id => $this->residents[0]->full_name,
-                    $this->residents[1]->id => $this->residents[1]->full_name,
-                    $formerResidents[0]->id => $formerResidents[0]->full_name,
-                    $formerResidents[1]->id => $formerResidents[1]->full_name,
-                    $formerResidents[2]->id => $formerResidents[2]->full_name
-                ],
-                "graphs" => [],
-                "milestones" => [
-                    $this->milestones[0]->id => $this->milestones[0]->title,
-                    $this->milestones[1]->id => $this->milestones[1]->title
-                ],
-                "competencies" => [
-                    $this->competencies[0]->id => $this->competencies[0]->title,
-                    $this->competencies[1]->id => $this->competencies[1]->title,
-                ],
-                "averageMilestone" => [
-                    $this->milestones[0]->id => 6.5,
+            ]);
+        $this->seeJson([
+            "trainingLevel" => "all",
+            "startDate" => (array)$startDate,
+            "endDate" => (array)$endDate,
+            "subjects" => [
+                $this->residents[0]->id => $this->residents[0]->full_name,
+                $this->residents[1]->id => $this->residents[1]->full_name,
+                $formerResidents[0]->id => $formerResidents[0]->full_name,
+                $formerResidents[1]->id => $formerResidents[1]->full_name,
+                $formerResidents[2]->id => $formerResidents[2]->full_name
+            ],
+            "milestones" => [
+                $this->milestones[0]->id => $this->milestones[0]->title,
+                $this->milestones[1]->id => $this->milestones[1]->title
+            ],
+            "competencies" => [
+                $this->competencies[0]->id => $this->competencies[0]->title,
+                $this->competencies[1]->id => $this->competencies[1]->title,
+            ],
+            "averageMilestone" => [
+                $this->milestones[0]->id => 6.5,
+                $this->milestones[1]->id => 1.5
+            ],
+            "averageCompetency" => [
+                $this->competencies[0]->id => 6.5,
+                $this->competencies[1]->id => 1.5
+            ],
+            "subjectMilestone" => [
+                $this->residents[0]->id => [
+                    $this->milestones[0]->id => 6,
                     $this->milestones[1]->id => 1.5
                 ],
-                "averageCompetency" => [
-                    $this->competencies[0]->id => 6.5,
+                $this->residents[1]->id => [
+                    $this->milestones[0]->id => 7,
+                    $this->milestones[1]->id => 1.5
+                ],
+                $formerResidents[0]->id => [
+                    $this->milestones[0]->id => 6,
+                    $this->milestones[1]->id => 1.5
+                ],
+                $formerResidents[1]->id => [
+                    $this->milestones[0]->id => 7,
+                    $this->milestones[1]->id => 1.5
+                ]
+            ],
+            "subjectCompetency" => [
+                $this->residents[0]->id => [
+                    $this->competencies[0]->id => 6,
                     $this->competencies[1]->id => 1.5
                 ],
-                "subjectMilestone" => [
-                    $this->residents[0]->id => [
-                        $this->milestones[0]->id => 6,
-                        $this->milestones[1]->id => 1.5
-                    ],
-                    $this->residents[1]->id => [
-                        $this->milestones[0]->id => 7,
-                        $this->milestones[1]->id => 1.5
-                    ],
-                    $formerResidents[0]->id => [
-                        $this->milestones[0]->id => 6,
-                        $this->milestones[1]->id => 1.5
-                    ],
-                    $formerResidents[1]->id => [
-                        $this->milestones[0]->id => 7,
-                        $this->milestones[1]->id => 1.5
-                    ]
+                $this->residents[1]->id => [
+                    $this->competencies[0]->id => 7,
+                    $this->competencies[1]->id => 1.5
                 ],
-                "subjectCompetency" => [
-                    $this->residents[0]->id => [
-                        $this->competencies[0]->id => 6,
-                        $this->competencies[1]->id => 1.5
-                    ],
-                    $this->residents[1]->id => [
-                        $this->competencies[0]->id => 7,
-                        $this->competencies[1]->id => 1.5
-                    ],
-                    $formerResidents[0]->id => [
-                        $this->competencies[0]->id => 6,
-                        $this->competencies[1]->id => 1.5
-                    ],
-                    $formerResidents[1]->id => [
-                        $this->competencies[0]->id => 7,
-                        $this->competencies[1]->id => 1.5
-                    ]
+                $formerResidents[0]->id => [
+                    $this->competencies[0]->id => 6,
+                    $this->competencies[1]->id => 1.5
                 ],
-                "subjectMilestoneDeviations" => [
-                    $this->residents[0]->id => [
-                        $this->milestones[0]->id => -0.8660254038,
-                        $this->milestones[1]->id => 0
-                    ],
-                    $this->residents[1]->id => [
-                        $this->milestones[0]->id => 0.8660254038,
-                        $this->milestones[1]->id => 0
-                    ],
-                    $formerResidents[0]->id => [
-                        $this->milestones[0]->id => -0.8660254038,
-                        $this->milestones[1]->id => 0
-                    ],
-                    $formerResidents[1]->id => [
-                        $this->milestones[0]->id => 0.8660254038,
-                        $this->milestones[1]->id => 0
-                    ]
-                ],
-                "subjectCompetencyDeviations" => [
-                    $this->residents[0]->id => [
-                        $this->competencies[0]->id => -0.8660254038,
-                        $this->competencies[1]->id => 0
-                    ],
-                    $this->residents[1]->id => [
-                        $this->competencies[0]->id => 0.8660254038,
-                        $this->competencies[1]->id => 0
-                    ],
-                    $formerResidents[0]->id => [
-                        $this->competencies[0]->id => -0.8660254038,
-                        $this->competencies[1]->id => 0
-                    ],
-                    $formerResidents[1]->id => [
-                        $this->competencies[0]->id => 0.8660254038,
-                        $this->competencies[1]->id => 0
-                    ]
-                ],
-                "subjectMilestoneEvals" => [
-                    $this->residents[0]->id => [
-                        $this->milestones[0]->id => 2,
-                        $this->milestones[1]->id => 2
-                    ],
-                    $this->residents[1]->id => [
-                        $this->milestones[0]->id => 2,
-                        $this->milestones[1]->id => 2
-                    ],
-                    $formerResidents[0]->id => [
-                        $this->milestones[0]->id => 2,
-                        $this->milestones[1]->id => 2
-                    ],
-                    $formerResidents[1]->id => [
-                        $this->milestones[0]->id => 2,
-                        $this->milestones[1]->id => 2
-                    ]
-                ],
-                "subjectCompetencyEvals" => [
-                    $this->residents[0]->id => [
-                        $this->competencies[0]->id => 2,
-                        $this->competencies[1]->id => 2
-                    ],
-                    $this->residents[1]->id => [
-                        $this->competencies[0]->id => 2,
-                        $this->competencies[1]->id => 2
-                    ],
-                    $formerResidents[0]->id => [
-                        $this->competencies[0]->id => 2,
-                        $this->competencies[1]->id => 2
-                    ],
-                    $formerResidents[1]->id => [
-                        $this->competencies[0]->id => 2,
-                        $this->competencies[1]->id => 2
-                    ]
-                ],
-                "subjectEvals" => [
-                    $this->residents[0]->id => [
-                        $this->evals[0][0]->id => 2,
-                        $this->evals[0][1]->id => 2
-                    ],
-                    $this->residents[1]->id => [
-                        $this->evals[1][0]->id => 2,
-                        $this->evals[1][1]->id => 2
-                    ],
-                    $formerResidents[0]->id => [
-                        $formerEvals[0][0]->id => 2,
-                        $formerEvals[0][1]->id => 2
-                    ],
-                    $formerResidents[1]->id => [
-                        $formerEvals[1][0]->id => 2,
-                        $formerEvals[1][1]->id => 2
-                    ],
-                    $formerResidents[2]->id => []
-                ],
-                "subjectRequests" => [
-                    $this->residents[0]->id => [
-                        $this->evals[0][0]->id => 1,
-                        $this->evals[0][1]->id => 1
-                    ],
-                    $this->residents[1]->id => [],
-                    $formerResidents[0]->id => [],
-                    $formerResidents[1]->id => [
-                        $formerEvals[1][0]->id => 1,
-                        $formerEvals[1][1]->id => 1
-                    ],
-                    $formerResidents[2]->id => [
-                        $formerEvals[2][0]->id => 1
-                    ]
+                $formerResidents[1]->id => [
+                    $this->competencies[0]->id => 7,
+                    $this->competencies[1]->id => 1.5
                 ]
-            ]);
+            ],
+            "subjectMilestoneDeviations" => [
+                $this->residents[0]->id => [
+                    $this->milestones[0]->id => -0.86602540378444,
+                    $this->milestones[1]->id => 0
+                ],
+                $this->residents[1]->id => [
+                    $this->milestones[0]->id => 0.86602540378444,
+                    $this->milestones[1]->id => 0
+                ],
+                $formerResidents[0]->id => [
+                    $this->milestones[0]->id => -0.86602540378444,
+                    $this->milestones[1]->id => 0
+                ],
+                $formerResidents[1]->id => [
+                    $this->milestones[0]->id => 0.86602540378444,
+                    $this->milestones[1]->id => 0
+                ]
+            ],
+            "subjectCompetencyDeviations" => [
+                $this->residents[0]->id => [
+                    $this->competencies[0]->id => -0.86602540378444,
+                    $this->competencies[1]->id => 0
+                ],
+                $this->residents[1]->id => [
+                    $this->competencies[0]->id => 0.86602540378444,
+                    $this->competencies[1]->id => 0
+                ],
+                $formerResidents[0]->id => [
+                    $this->competencies[0]->id => -0.86602540378444,
+                    $this->competencies[1]->id => 0
+                ],
+                $formerResidents[1]->id => [
+                    $this->competencies[0]->id => 0.86602540378444,
+                    $this->competencies[1]->id => 0
+                ]
+            ],
+            "subjectMilestoneEvals" => [
+                $this->residents[0]->id => [
+                    $this->milestones[0]->id => 2,
+                    $this->milestones[1]->id => 2
+                ],
+                $this->residents[1]->id => [
+                    $this->milestones[0]->id => 2,
+                    $this->milestones[1]->id => 2
+                ],
+                $formerResidents[0]->id => [
+                    $this->milestones[0]->id => 2,
+                    $this->milestones[1]->id => 2
+                ],
+                $formerResidents[1]->id => [
+                    $this->milestones[0]->id => 2,
+                    $this->milestones[1]->id => 2
+                ]
+            ],
+            "subjectCompetencyEvals" => [
+                $this->residents[0]->id => [
+                    $this->competencies[0]->id => 2,
+                    $this->competencies[1]->id => 2
+                ],
+                $this->residents[1]->id => [
+                    $this->competencies[0]->id => 2,
+                    $this->competencies[1]->id => 2
+                ],
+                $formerResidents[0]->id => [
+                    $this->competencies[0]->id => 2,
+                    $this->competencies[1]->id => 2
+                ],
+                $formerResidents[1]->id => [
+                    $this->competencies[0]->id => 2,
+                    $this->competencies[1]->id => 2
+                ]
+            ],
+            "subjectEvals" => [
+                $this->residents[0]->id => [
+                    $this->evals[0][0]->id => 2,
+                    $this->evals[0][1]->id => 2
+                ],
+                $this->residents[1]->id => [
+                    $this->evals[1][0]->id => 2,
+                    $this->evals[1][1]->id => 2
+                ],
+                $formerResidents[0]->id => [
+                    $formerEvals[0][0]->id => 2,
+                    $formerEvals[0][1]->id => 2
+                ],
+                $formerResidents[1]->id => [
+                    $formerEvals[1][0]->id => 2,
+                    $formerEvals[1][1]->id => 2
+                ],
+                $formerResidents[2]->id => []
+            ],
+            "subjectRequests" => [
+                $this->residents[0]->id => [
+                    $this->evals[0][0]->id => 1,
+                    $this->evals[0][1]->id => 1
+                ],
+                $this->residents[1]->id => [],
+                $formerResidents[0]->id => [],
+                $formerResidents[1]->id => [
+                    $formerEvals[1][0]->id => 1,
+                    $formerEvals[1][1]->id => 1
+                ],
+                $formerResidents[2]->id => [
+                    $formerEvals[2][0]->id => 1
+                ]
+            ]
+        ]);
     }
 
     public function testIndividualReport(){

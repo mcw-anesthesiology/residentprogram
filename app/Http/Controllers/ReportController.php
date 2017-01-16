@@ -967,10 +967,10 @@ class ReportController extends Controller
     }
 
     public function aggregate(Request $request){
-        return $this->report($request->input("startDate"),
+        return response()->json($this->report($request->input("startDate"),
             $request->input("endDate"), $request->input("trainingLevel"),
 			$request->input("currentTrainingLevel", "all"),
-			$request->input("milestones"));
+			$request->input("milestones")));
     }
 
     public function specific(Request $request){
