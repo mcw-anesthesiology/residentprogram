@@ -39,3 +39,20 @@ export function getAverageLevel(average){
 		? `Level ${level}`
 		: 'Not Level 1';
 }
+
+export const sortFunctions = new Map([
+	['training_level', (a, b) => {
+		const sortOrder = [
+			'intern',
+			'ca-1',
+			'ca-2',
+			'ca-3',
+			'fellow'
+		];
+		
+		let aLevel = a.training_level.toLowerCase();
+		let bLevel = b.training_level.toLowerCase();
+		
+		return sortOrder.indexOf(aLevel) - sortOrder.indexOf(bLevel);
+	}]
+]);

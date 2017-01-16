@@ -4,23 +4,22 @@
 			<div class="form-group">
 				<label class="containing-label">
 					Current page:
-					<input type="number" class="form-control" :value="value"
-						@input="$emit('input', Number($event.target.value))" />
+					<input type="number" class="form-control" :value="value + 1"
+						min="1" :max="paginatedItems.length"
+						@input="$emit('input', Number($event.target.value) - 1)" />
 				</label>
 			</div>
 			<div class="form-group">
 				<label class="containing-label">
-					Items per page: 
-					<input type="number" class="form-control" list="paginator-list"
-						min="0" :value="itemsPerPage"
-						@input="$emit('pageSize', Number($event.target.value))" />
-					<datalist id="paginator-list">
-						<option value="5" />
-						<option value="10" />
-						<option value="20" />
-						<option value="50" />
-						<option value="100" />
-					</datalist>
+					Items per page:
+					<select class="form-control" :value="itemsPerPage"
+							@input="$emit('pageSize', Number($event.target.value))">
+						<option value="5">5</option>
+						<option value="10">10</option>
+						<option value="20">20</option>
+						<option value="50">50</option>
+						<option value="100">100</option>
+					</select>
 				</label>
 			</div>			
 		</div>
@@ -49,6 +48,12 @@ export default {
 		value: Number,
 		itemsPerPage: Number,
 		paginatedItems: Array
+	},
+	watch: {
+		itemsPerPage(){
+			if(this.value >= this.paginatedItems.length)
+				this.setPage(this.paginatedItems.length - 1);
+		}
 	},
 	methods: {
 		setPage(page){

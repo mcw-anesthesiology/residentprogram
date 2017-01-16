@@ -1,6 +1,21 @@
 <template>
 	<div>
-		<input type="search" class="form-control" v-model="query" />
+		<div class="list-header form-inline">
+			<select class="form-control" v-model="sortBy">
+				<option v-for="field of fields" :value="field">
+					{{ snakeCaseToWords(field) }}
+				</option>
+			</select>
+			<button type="button" class="btn btn-default"
+					@click="sortOrder = sortOrder === 'asc' ? 'desc' : 'asc'">
+				<span v-if="sortOrder === 'asc'"
+					class="glyphicon glyphicon-sort-by-alphabet"></span>
+				<span v-else
+					class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
+			</button>
+			<input type="search" class="form-control" v-model="query"
+				placeholder="Search" />
+		</div>
 		<ol class="list">
 			<slot v-for="item of currentPageItems" v-bind="item"></slot>
 		</ol>
@@ -15,17 +30,29 @@ import ListPaginator from './ListPaginator.vue';
 
 import lunr from 'lunr';
 
+import { snakeCaseToWords } from '../modules/utils.js';
+import { sortFunctions } from '../modules/report-utils.js';
 
 export default {
 	props: {
-		fields: Array,
-		items: Array
+		fields: {
+			type: Array,
+			default(){
+				return [];
+			}
+		},
+		items: {
+			type: Array,
+			required: true
+		}
 	},
 	data(){
 		return {
-			query: '',
+			query: null,
 			page: 0,
-			itemsPerPage: 10
+			itemsPerPage: 10,
+			sortBy: this.fields[0],
+			sortOrder: 'asc'
 		};
 	},
 	computed: {
@@ -71,6 +98,26 @@ export default {
 			return this.items;
 		},
 		sortedItems(){
+			if(this.sortBy && this.sortOrder){
+				
+				let sortedItems = sortFunctions.has(this.sortBy)
+					? this.filteredItems.sort(sortFunctions.get(this.sortBy))
+					: this.filteredItems.sort((a, b) => {
+						let aValue = a[this.sortBy].toUpperCase();
+						let bValue = b[this.sortBy].toUpperCase();
+						
+						if(aValue < bValue)
+							return -1;
+						if(aValue > bValue)
+							return 1;
+						return 0;
+					});
+				
+				return this.sortOrder === 'asc'
+					? sortedItems
+					: sortedItems.reverse();
+			}
+			
 			return this.filteredItems;
 		},
 		paginatedItems(){
@@ -85,7 +132,9 @@ export default {
 			return this.paginatedItems[this.page];
 		}
 	},
-
+	methods: {
+		snakeCaseToWords
+	},
 	components: {
 		ListPaginator
 	}
@@ -93,6 +142,18 @@ export default {
 </script>
 
 <style scoped>
+	.list-header {
+		text-align: right;
+	}
+
+	.list-header input[type="search"] {
+		width: 300px;
+	}
+	
+	.list {
+		padding: 0;
+	}
+
 	.list li {
 		list-style: none;
 	}

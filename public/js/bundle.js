@@ -171,6 +171,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.appendAlert = appendAlert;
 exports.ucfirst = ucfirst;
 exports.camelCaseToWords = camelCaseToWords;
+exports.snakeCaseToWords = snakeCaseToWords;
 exports.nl2br = nl2br;
 exports.getFetchHeaders = getFetchHeaders;
 exports.fetchMilestoneGroups = fetchMilestoneGroups;
@@ -250,6 +251,10 @@ function camelCaseToWords(str) {
 	}
 
 	return result;
+}
+
+function snakeCaseToWords(str) {
+	return str.charAt(0).toUpperCase() + str.substring(1).replace('_', ' ');
 }
 
 function nl2br(text) {

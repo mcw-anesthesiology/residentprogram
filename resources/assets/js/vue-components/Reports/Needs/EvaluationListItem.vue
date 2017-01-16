@@ -1,12 +1,16 @@
 <template>
 	<li class="evaluation-list-item">
 		<div class="row">
-			<div class="col-sm-6">
+			<div class="col-sm-4">
 				<img height="50" width="50" alt=""
 					:src="user.photo_path || placeholderUserImagePath" />
 				<a class="name" :href="`/profile/${user.id}`">
 					{{ user.full_name }}
 				</a>
+			</div>
+			
+			<div class="col-sm-2">
+				{{ renderTrainingLevel(user.training_level) }}
 			</div>
 
 			<section class="col-sm-2">
@@ -37,6 +41,8 @@
 <script>
 import EvaluationDetailsListItem from './EvaluationDetailsListItem.vue';
 import ShowHideButton from '../../ShowHideButton.vue';
+
+import { renderTrainingLevel } from '../../../modules/datatable-utils.js';
 import { PLACEHOLDER_USER_IMAGE_PATH } from '../../../modules/constants.js';
 
 export default {
@@ -56,6 +62,9 @@ export default {
 				evaluations: false
 			}
 		};
+	},
+	methods: {
+		renderTrainingLevel
 	},
 	components: {
 		EvaluationDetailsListItem,

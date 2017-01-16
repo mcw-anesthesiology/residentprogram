@@ -2314,6 +2314,7 @@ module.exports = __vue_exports__
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+exports.sortFunctions = undefined;
 exports.createRadarScaleCallback = createRadarScaleCallback;
 exports.createResponseLegend = createResponseLegend;
 exports.tableHeader = tableHeader;
@@ -2357,6 +2358,15 @@ function getAverageLevel(average) {
 	var level = Math.floor(average) / 2;
 	return level >= 1 ? 'Level ' + level : 'Not Level 1';
 }
+
+var sortFunctions = exports.sortFunctions = new Map([['training_level', function (a, b) {
+	var sortOrder = ['intern', 'ca-1', 'ca-2', 'ca-3', 'fellow'];
+
+	var aLevel = a.training_level.toLowerCase();
+	var bLevel = b.training_level.toLowerCase();
+
+	return sortOrder.indexOf(aLevel) - sortOrder.indexOf(bLevel);
+}]]);
 
 /***/ }),
 /* 32 */,
@@ -6281,8 +6291,27 @@ var _lunr = __webpack_require__(207);
 
 var _lunr2 = _interopRequireDefault(_lunr);
 
+var _utils = __webpack_require__(3);
+
+var _reportUtils = __webpack_require__(31);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -6298,14 +6327,24 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
 	props: {
-		fields: Array,
-		items: Array
+		fields: {
+			type: Array,
+			default: function _default() {
+				return [];
+			}
+		},
+		items: {
+			type: Array,
+			required: true
+		}
 	},
 	data: function data() {
 		return {
-			query: '',
+			query: null,
 			page: 0,
-			itemsPerPage: 10
+			itemsPerPage: 10,
+			sortBy: this.fields[0],
+			sortOrder: 'asc'
 		};
 	},
 
@@ -6356,6 +6395,22 @@ exports.default = {
 			return this.items;
 		},
 		sortedItems: function sortedItems() {
+			var _this3 = this;
+
+			if (this.sortBy && this.sortOrder) {
+
+				var sortedItems = _reportUtils.sortFunctions.has(this.sortBy) ? this.filteredItems.sort(_reportUtils.sortFunctions.get(this.sortBy)) : this.filteredItems.sort(function (a, b) {
+					var aValue = a[_this3.sortBy].toUpperCase();
+					var bValue = b[_this3.sortBy].toUpperCase();
+
+					if (aValue < bValue) return -1;
+					if (aValue > bValue) return 1;
+					return 0;
+				});
+
+				return this.sortOrder === 'asc' ? sortedItems : sortedItems.reverse();
+			}
+
 			return this.filteredItems;
 		},
 		paginatedItems: function paginatedItems() {
@@ -6369,7 +6424,9 @@ exports.default = {
 			return this.paginatedItems[this.page];
 		}
 	},
-
+	methods: {
+		snakeCaseToWords: _utils.snakeCaseToWords
+	},
 	components: {
 		ListPaginator: _ListPaginator2.default
 	}
@@ -7048,6 +7105,11 @@ exports.default = {
 		itemsPerPage: Number,
 		paginatedItems: Array
 	},
+	watch: {
+		itemsPerPage: function itemsPerPage() {
+			if (this.value >= this.paginatedItems.length) this.setPage(this.paginatedItems.length - 1);
+		}
+	},
 	methods: {
 		setPage: function setPage(page) {
 			this.$emit('input', page);
@@ -7057,7 +7119,6 @@ exports.default = {
 		PaginatorLink: _PaginatorLink2.default
 	}
 }; //
-//
 //
 //
 //
@@ -8624,25 +8685,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 90 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-//
-//
-//
-//
-
-exports.default = {
-	props: {}
-};
-
-/***/ }),
+/* 90 */,
 /* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8774,9 +8817,52 @@ var _ShowHideButton = __webpack_require__(351);
 
 var _ShowHideButton2 = _interopRequireDefault(_ShowHideButton);
 
+var _datatableUtils = __webpack_require__(7);
+
 var _constants = __webpack_require__(4);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
 	props: {
@@ -8797,46 +8883,14 @@ exports.default = {
 		};
 	},
 
+	methods: {
+		renderTrainingLevel: _datatableUtils.renderTrainingLevel
+	},
 	components: {
 		EvaluationDetailsListItem: _EvaluationDetailsListItem2.default,
 		ShowHideButton: _ShowHideButton2.default
 	}
-}; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+};
 
 /***/ }),
 /* 93 */
@@ -8870,10 +8924,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = {
 	props: {
 		dates: {
-			type: Object
+			type: Object,
+			required: true
 		},
 		evalThreshold: {
-			type: Number
+			required: true
 		},
 		trainees: {
 			type: Array,
@@ -8891,7 +8946,7 @@ exports.default = {
 
 	computed: {
 		traineeFields: function traineeFields() {
-			return ['full_name', 'type', 'training_level'];
+			return ['full_name', 'training_level'];
 		},
 		defaultEmailMarkdown: function defaultEmailMarkdown() {
 			return 'Hello Dr. [[Name]]\n\nYou have [[# Completed]] evaluations completed for between ' + this.dates.startDate + ' and ' + this.dates.endDate + '.\n\n**You are required to have ' + this.evalThreshold + ' evaluations completed for this period.** Please request at least [[# Needed]] more evaluations as soon as possible.\n\nIf you have any issues or questions about the system, please contact ' + _constants.ADMIN_EMAIL + '.\n\nThank you!';
@@ -8949,23 +9004,7 @@ exports.default = {
 //
 
 /***/ }),
-/* 94 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-//
-//
-//
-//
-
-exports.default = {};
-
-/***/ }),
+/* 94 */,
 /* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8979,14 +9018,6 @@ Object.defineProperty(exports, "__esModule", {
 var _Evaluations = __webpack_require__(279);
 
 var _Evaluations2 = _interopRequireDefault(_Evaluations);
-
-var _Competencies = __webpack_require__(276);
-
-var _Competencies2 = _interopRequireDefault(_Competencies);
-
-var _Milestones = __webpack_require__(280);
-
-var _Milestones2 = _interopRequireDefault(_Milestones);
 
 var _ReportDate = __webpack_require__(30);
 
@@ -9046,13 +9077,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 exports.default = {
 	data: function data() {
@@ -9062,7 +9086,7 @@ exports.default = {
 				endDate: null
 			},
 			trainingLevel: 'all',
-			evalThreshold: 3, // FIXME
+			evalThreshold: 3,
 
 			report: {
 				evaluations: null,
@@ -9158,8 +9182,6 @@ exports.default = {
 
 	components: {
 		NeedsEvaluations: _Evaluations2.default,
-		NeedsCompetencies: _Competencies2.default,
-		NeedsMilestones: _Milestones2.default,
 		ReportDate: _ReportDate2.default,
 		TrainingLevelSelect: _TrainingLevelSelect2.default,
 		SelectTwo: _SelectTwo2.default,
@@ -11125,7 +11147,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.list li[data-v-1d1f5701] {\n\tlist-style: none;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/ComponentList.vue?d7d83552"],"names":[],"mappings":";AA+FA;CACA,iBAAA;CACA","file":"ComponentList.vue","sourcesContent":["<template>\n\t<div>\n\t\t<input type=\"search\" class=\"form-control\" v-model=\"query\" />\n\t\t<ol class=\"list\">\n\t\t\t<slot v-for=\"item of currentPageItems\" v-bind=\"item\"></slot>\n\t\t</ol>\n\t\t<list-paginator v-model=\"page\" :paginatedItems=\"paginatedItems\"\n\t\t\t:itemsPerPage=\"itemsPerPage\"\n\t\t\t@pageSize=\"itemsPerPage = arguments[0]\" />\n\t</div>\n</template>\n\n<script>\nimport ListPaginator from './ListPaginator.vue';\n\nimport lunr from 'lunr';\n\n\nexport default {\n\tprops: {\n\t\tfields: Array,\n\t\titems: Array\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tquery: '',\n\t\t\tpage: 0,\n\t\t\titemsPerPage: 10\n\t\t};\n\t},\n\tcomputed: {\n\t\titemMap(){\n\t\t\tlet map = new Map();\n\t\t\tthis.items.map(item => {\n\t\t\t\tmap.set(item.id, item);\n\t\t\t});\n\n\t\t\treturn map;\n\t\t},\n\t\tindex(){\n\t\t\tlet fields = this.fields;\n\n\t\t\tlet index = lunr(function(){\n\t\t\t\tfields.map(field => {\n\t\t\t\t\tlet name, options;\n\t\t\t\t\tif(typeof field === 'string'){\n\t\t\t\t\t\tname = field;\n\t\t\t\t\t}\n\t\t\t\t\telse{\n\t\t\t\t\t\tname = field.name;\n\t\t\t\t\t\toptions = field;\n\t\t\t\t\t}\n\t\t\t\t\tthis.field(name, options);\n\t\t\t\t});\n\t\t\t});\n\n\t\t\tthis.items.map(item => {\n\t\t\t\tindex.add(item);\n\t\t\t});\n\n\t\t\treturn index;\n\t\t},\n\t\tfilteredItems(){\n\t\t\tif(this.query){\n\t\t\t\tlet refs = this.index.search(this.query);\n\t\t\t\treturn refs.map(ref => {\n\t\t\t\t\treturn this.itemMap.get(ref.ref);\n\t\t\t\t});\n\t\t\t}\n\n\t\t\treturn this.items;\n\t\t},\n\t\tsortedItems(){\n\t\t\treturn this.filteredItems;\n\t\t},\n\t\tpaginatedItems(){\n\t\t\tlet paginatedItems = [];\n\t\t\tlet items = this.sortedItems.slice();\n\t\t\twhile(items.length > 0)\n\t\t\t\tpaginatedItems.push(items.splice(0, this.itemsPerPage));\n\n\t\t\treturn paginatedItems;\n\t\t},\n\t\tcurrentPageItems(){\n\t\t\treturn this.paginatedItems[this.page];\n\t\t}\n\t},\n\n\tcomponents: {\n\t\tListPaginator\n\t}\n};\n</script>\n\n<style scoped>\n\t.list li {\n\t\tlist-style: none;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.list-header[data-v-1d1f5701] {\n\ttext-align: right;\n}\n.list-header input[type=\"search\"][data-v-1d1f5701] {\n\twidth: 300px;\n}\n.list[data-v-1d1f5701] {\n\tpadding: 0;\n}\n.list li[data-v-1d1f5701] {\n\tlist-style: none;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/ComponentList.vue?689739dd"],"names":[],"mappings":";AAgJA;CACA,kBAAA;CACA;AAEA;CACA,aAAA;CACA;AAEA;CACA,WAAA;CACA;AAEA;CACA,iBAAA;CACA","file":"ComponentList.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"list-header form-inline\">\n\t\t\t<select class=\"form-control\" v-model=\"sortBy\">\n\t\t\t\t<option v-for=\"field of fields\" :value=\"field\">\n\t\t\t\t\t{{ snakeCaseToWords(field) }}\n\t\t\t\t</option>\n\t\t\t</select>\n\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t@click=\"sortOrder = sortOrder === 'asc' ? 'desc' : 'asc'\">\n\t\t\t\t<span v-if=\"sortOrder === 'asc'\"\n\t\t\t\t\tclass=\"glyphicon glyphicon-sort-by-alphabet\"></span>\n\t\t\t\t<span v-else\n\t\t\t\t\tclass=\"glyphicon glyphicon-sort-by-alphabet-alt\"></span>\n\t\t\t</button>\n\t\t\t<input type=\"search\" class=\"form-control\" v-model=\"query\"\n\t\t\t\tplaceholder=\"Search\" />\n\t\t</div>\n\t\t<ol class=\"list\">\n\t\t\t<slot v-for=\"item of currentPageItems\" v-bind=\"item\"></slot>\n\t\t</ol>\n\t\t<list-paginator v-model=\"page\" :paginatedItems=\"paginatedItems\"\n\t\t\t:itemsPerPage=\"itemsPerPage\"\n\t\t\t@pageSize=\"itemsPerPage = arguments[0]\" />\n\t</div>\n</template>\n\n<script>\nimport ListPaginator from './ListPaginator.vue';\n\nimport lunr from 'lunr';\n\nimport { snakeCaseToWords } from '../modules/utils.js';\nimport { sortFunctions } from '../modules/report-utils.js';\n\nexport default {\n\tprops: {\n\t\tfields: {\n\t\t\ttype: Array,\n\t\t\tdefault(){\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\titems: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tquery: null,\n\t\t\tpage: 0,\n\t\t\titemsPerPage: 10,\n\t\t\tsortBy: this.fields[0],\n\t\t\tsortOrder: 'asc'\n\t\t};\n\t},\n\tcomputed: {\n\t\titemMap(){\n\t\t\tlet map = new Map();\n\t\t\tthis.items.map(item => {\n\t\t\t\tmap.set(item.id, item);\n\t\t\t});\n\n\t\t\treturn map;\n\t\t},\n\t\tindex(){\n\t\t\tlet fields = this.fields;\n\n\t\t\tlet index = lunr(function(){\n\t\t\t\tfields.map(field => {\n\t\t\t\t\tlet name, options;\n\t\t\t\t\tif(typeof field === 'string'){\n\t\t\t\t\t\tname = field;\n\t\t\t\t\t}\n\t\t\t\t\telse{\n\t\t\t\t\t\tname = field.name;\n\t\t\t\t\t\toptions = field;\n\t\t\t\t\t}\n\t\t\t\t\tthis.field(name, options);\n\t\t\t\t});\n\t\t\t});\n\n\t\t\tthis.items.map(item => {\n\t\t\t\tindex.add(item);\n\t\t\t});\n\n\t\t\treturn index;\n\t\t},\n\t\tfilteredItems(){\n\t\t\tif(this.query){\n\t\t\t\tlet refs = this.index.search(this.query);\n\t\t\t\treturn refs.map(ref => {\n\t\t\t\t\treturn this.itemMap.get(ref.ref);\n\t\t\t\t});\n\t\t\t}\n\n\t\t\treturn this.items;\n\t\t},\n\t\tsortedItems(){\n\t\t\tif(this.sortBy && this.sortOrder){\n\t\t\t\t\n\t\t\t\tlet sortedItems = sortFunctions.has(this.sortBy)\n\t\t\t\t\t? this.filteredItems.sort(sortFunctions.get(this.sortBy))\n\t\t\t\t\t: this.filteredItems.sort((a, b) => {\n\t\t\t\t\t\tlet aValue = a[this.sortBy].toUpperCase();\n\t\t\t\t\t\tlet bValue = b[this.sortBy].toUpperCase();\n\t\t\t\t\t\t\n\t\t\t\t\t\tif(aValue < bValue)\n\t\t\t\t\t\t\treturn -1;\n\t\t\t\t\t\tif(aValue > bValue)\n\t\t\t\t\t\t\treturn 1;\n\t\t\t\t\t\treturn 0;\n\t\t\t\t\t});\n\t\t\t\t\n\t\t\t\treturn this.sortOrder === 'asc'\n\t\t\t\t\t? sortedItems\n\t\t\t\t\t: sortedItems.reverse();\n\t\t\t}\n\t\t\t\n\t\t\treturn this.filteredItems;\n\t\t},\n\t\tpaginatedItems(){\n\t\t\tlet paginatedItems = [];\n\t\t\tlet items = this.sortedItems.slice();\n\t\t\twhile(items.length > 0)\n\t\t\t\tpaginatedItems.push(items.splice(0, this.itemsPerPage));\n\n\t\t\treturn paginatedItems;\n\t\t},\n\t\tcurrentPageItems(){\n\t\t\treturn this.paginatedItems[this.page];\n\t\t}\n\t},\n\tmethods: {\n\t\tsnakeCaseToWords\n\t},\n\tcomponents: {\n\t\tListPaginator\n\t}\n};\n</script>\n\n<style scoped>\n\t.list-header {\n\t\ttext-align: right;\n\t}\n\n\t.list-header input[type=\"search\"] {\n\t\twidth: 300px;\n\t}\n\t\n\t.list {\n\t\tpadding: 0;\n\t}\n\n\t.list li {\n\t\tlist-style: none;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -11182,7 +11204,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.evaluation-list-item[data-v-3c43bdce] {\n\tborder-bottom: 1px solid rgba(0, 0, 0, 0.25);\n\tpadding: 5px 0;\n}\n.evaluation-list-item[data-v-3c43bdce]:nth-child(even){\n\tbackground-color: rgba(0, 0, 0, 0.05);\n}\n.evaluation-list-item .row[data-v-3c43bdce] {\n\tmargin: 0;\n}\n.name[data-v-3c43bdce] {\n\tfont-size: 1.15em;\n}\n.evaluation-list-item div section[data-v-3c43bdce] {\n\tdisplay: inline-block;\n}\n.evaluation-list-item .details[data-v-3c43bdce] {\n\tpadding: 10px 20px 0;\n}\nimg[data-v-3c43bdce] {\n\tborder-radius: 100%;\n\tobject-fit: contain;\n\tobject-position: center;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/Needs/EvaluationListItem.vue?1d99db7c"],"names":[],"mappings":";AAmEA;CACA,6CAAA;CACA,eAAA;CACA;AAEA;CACA,sCAAA;CACA;AAEA;CACA,UAAA;CACA;AAEA;CACA,kBAAA;CACA;AAEA;CACA,sBAAA;CACA;AAEA;CACA,qBAAA;CACA;AAEA;CACA,oBAAA;CACA,oBAAA;CACA,wBAAA;CACA","file":"EvaluationListItem.vue","sourcesContent":["<template>\n\t<li class=\"evaluation-list-item\">\n\t\t<div class=\"row\">\n\t\t\t<div class=\"col-sm-6\">\n\t\t\t\t<img height=\"50\" width=\"50\" alt=\"\"\n\t\t\t\t\t:src=\"user.photo_path || placeholderUserImagePath\" />\n\t\t\t\t<a class=\"name\" :href=\"`/profile/${user.id}`\">\n\t\t\t\t\t{{ user.full_name }}\n\t\t\t\t</a>\n\t\t\t</div>\n\n\t\t\t<section class=\"col-sm-2\">\n\t\t\t\t<b>\n\t\t\t\t\t<span>{{ user.subject_evaluations.length }}</span>\n\t\t\t\t\tevaluations\n\t\t\t\t</b>\n\t\t\t</section>\n\n\t\t\t<div class=\"col-sm-4 text-right\">\t\t\n\t\t\t\t<show-hide-button class=\"btn btn-xs btn-info\"\n\t\t\t\t\t\tv-if=\"user.subject_evaluations.length > 0\"\n\t\t\t\t\t\tv-model=\"show.evaluations\">\n\t\t\t\t\tevaluations\n\t\t\t\t</show-hide-button>\n\t\t\t</div>\n\t\t</div>\n\t\t<section class=\"details\" v-show=\"show.evaluations\">\n\t\t\t<h4>Evaluations</h4>\n\t\t\t<ul class=\"list-group\">\n\t\t\t\t<evaluation-details-list-item v-for=\"eval of user.subject_evaluations\"\n\t\t\t\t \t:evaluation=\"eval\" />\n\t\t\t</ul>\n\t\t</section>\n\t</li>\n</template>\n\n<script>\nimport EvaluationDetailsListItem from './EvaluationDetailsListItem.vue';\nimport ShowHideButton from '../../ShowHideButton.vue';\nimport { PLACEHOLDER_USER_IMAGE_PATH } from '../../../modules/constants.js';\n\nexport default {\n\tprops: {\n\t\tuser: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t},\n\t\tplaceholderUserImagePath: {\n\t\t\ttype: String,\n\t\t\tdefault: PLACEHOLDER_USER_IMAGE_PATH\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tevaluations: false\n\t\t\t}\n\t\t};\n\t},\n\tcomponents: {\n\t\tEvaluationDetailsListItem,\n\t\tShowHideButton\n\t}\n};\n</script>\n\n<style scoped>\n.evaluation-list-item {\n\tborder-bottom: 1px solid rgba(0, 0, 0, 0.25);\n\tpadding: 5px 0;\n}\n\n.evaluation-list-item:nth-child(even){\n\tbackground-color: rgba(0, 0, 0, 0.05);\n}\n\n.evaluation-list-item .row {\n\tmargin: 0;\n}\n\n.name {\n\tfont-size: 1.15em;\n}\n\n.evaluation-list-item div section {\n\tdisplay: inline-block;\n}\n\n.evaluation-list-item .details {\n\tpadding: 10px 20px 0;\n}\n\nimg {\n\tborder-radius: 100%;\n\tobject-fit: contain;\n\tobject-position: center;\n}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.evaluation-list-item[data-v-3c43bdce] {\n\tborder-bottom: 1px solid rgba(0, 0, 0, 0.25);\n\tpadding: 5px 0;\n}\n.evaluation-list-item[data-v-3c43bdce]:nth-child(even){\n\tbackground-color: rgba(0, 0, 0, 0.05);\n}\n.evaluation-list-item .row[data-v-3c43bdce] {\n\tmargin: 0;\n}\n.name[data-v-3c43bdce] {\n\tfont-size: 1.15em;\n}\n.evaluation-list-item div section[data-v-3c43bdce] {\n\tdisplay: inline-block;\n}\n.evaluation-list-item .details[data-v-3c43bdce] {\n\tpadding: 10px 20px 0;\n}\nimg[data-v-3c43bdce] {\n\tborder-radius: 100%;\n\tobject-fit: contain;\n\tobject-position: center;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/Needs/EvaluationListItem.vue?34578500"],"names":[],"mappings":";AA4EA;CACA,6CAAA;CACA,eAAA;CACA;AAEA;CACA,sCAAA;CACA;AAEA;CACA,UAAA;CACA;AAEA;CACA,kBAAA;CACA;AAEA;CACA,sBAAA;CACA;AAEA;CACA,qBAAA;CACA;AAEA;CACA,oBAAA;CACA,oBAAA;CACA,wBAAA;CACA","file":"EvaluationListItem.vue","sourcesContent":["<template>\n\t<li class=\"evaluation-list-item\">\n\t\t<div class=\"row\">\n\t\t\t<div class=\"col-sm-4\">\n\t\t\t\t<img height=\"50\" width=\"50\" alt=\"\"\n\t\t\t\t\t:src=\"user.photo_path || placeholderUserImagePath\" />\n\t\t\t\t<a class=\"name\" :href=\"`/profile/${user.id}`\">\n\t\t\t\t\t{{ user.full_name }}\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t\t\n\t\t\t<div class=\"col-sm-2\">\n\t\t\t\t{{ renderTrainingLevel(user.training_level) }}\n\t\t\t</div>\n\n\t\t\t<section class=\"col-sm-2\">\n\t\t\t\t<b>\n\t\t\t\t\t<span>{{ user.subject_evaluations.length }}</span>\n\t\t\t\t\tevaluations\n\t\t\t\t</b>\n\t\t\t</section>\n\n\t\t\t<div class=\"col-sm-4 text-right\">\t\t\n\t\t\t\t<show-hide-button class=\"btn btn-xs btn-info\"\n\t\t\t\t\t\tv-if=\"user.subject_evaluations.length > 0\"\n\t\t\t\t\t\tv-model=\"show.evaluations\">\n\t\t\t\t\tevaluations\n\t\t\t\t</show-hide-button>\n\t\t\t</div>\n\t\t</div>\n\t\t<section class=\"details\" v-show=\"show.evaluations\">\n\t\t\t<h4>Evaluations</h4>\n\t\t\t<ul class=\"list-group\">\n\t\t\t\t<evaluation-details-list-item v-for=\"eval of user.subject_evaluations\"\n\t\t\t\t \t:evaluation=\"eval\" />\n\t\t\t</ul>\n\t\t</section>\n\t</li>\n</template>\n\n<script>\nimport EvaluationDetailsListItem from './EvaluationDetailsListItem.vue';\nimport ShowHideButton from '../../ShowHideButton.vue';\n\nimport { renderTrainingLevel } from '../../../modules/datatable-utils.js';\nimport { PLACEHOLDER_USER_IMAGE_PATH } from '../../../modules/constants.js';\n\nexport default {\n\tprops: {\n\t\tuser: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t},\n\t\tplaceholderUserImagePath: {\n\t\t\ttype: String,\n\t\t\tdefault: PLACEHOLDER_USER_IMAGE_PATH\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tevaluations: false\n\t\t\t}\n\t\t};\n\t},\n\tmethods: {\n\t\trenderTrainingLevel\n\t},\n\tcomponents: {\n\t\tEvaluationDetailsListItem,\n\t\tShowHideButton\n\t}\n};\n</script>\n\n<style scoped>\n.evaluation-list-item {\n\tborder-bottom: 1px solid rgba(0, 0, 0, 0.25);\n\tpadding: 5px 0;\n}\n\n.evaluation-list-item:nth-child(even){\n\tbackground-color: rgba(0, 0, 0, 0.05);\n}\n\n.evaluation-list-item .row {\n\tmargin: 0;\n}\n\n.name {\n\tfont-size: 1.15em;\n}\n\n.evaluation-list-item div section {\n\tdisplay: inline-block;\n}\n\n.evaluation-list-item .details {\n\tpadding: 10px 20px 0;\n}\n\nimg {\n\tborder-radius: 100%;\n\tobject-fit: contain;\n\tobject-position: center;\n}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -11210,7 +11232,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.show-email-button-container[data-v-56cead0a] {\n\ttext-align: right;\n\tmargin-bottom: 20px;\n}\n.evaluation-list-item[data-v-56cead0a]:nth-child(even) {\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/Needs/Evaluations.vue?71f61ab0"],"names":[],"mappings":";AA4GA;CACA,kBAAA;CACA,oBAAA;CACA;AAEA;CAEA","file":"Evaluations.vue","sourcesContent":["<template>\n\t<section>\n\t\t<h2>Needs evaluations</h2>\n\t\t\n\t\t<email-editor v-if=\"show.emailEditor\"\n\t\t\tfrom=\"reminders\"\n\t\t\ttarget=\"/emails/reminders\"\n\t\t\ttitle=\"Send reminders\"\n\t\t\tdefaultSubject=\"Please request evaluations!\"\n\t\t\t:defaultTo=\"selectedUsers\"\n\t\t\t:possibleRecipients=\"trainees\"\n\t\t\t:defaultBodyMarkdown=\"defaultEmailMarkdown\"\n\t\t\t:emailReplacements=\"emailReplacements\"\n\t\t\t:additionalFields=\"additionalEmailFields\"\n\t\t\t@close=\"show.emailEditor = false\" />\n\t\t<div v-else class=\"show-email-button-container\">\n\t\t\t<button type=\"button\" class=\"btn btn-primary\"\n\t\t\t\t\t@click=\"show.emailEditor = true\">\n\t\t\t\t<span class=\"glyphicon glyphicon-send\"></span>\n\t\t\t\tSend reminders\n\t\t\t</button>\n\t\t</div>\n\t\t\n\t\t<section>\n\t\t\t<component-list :items=\"trainees\" :fields=\"traineeFields\">\n\t\t\t\t<template scope=\"item\">\n\t\t\t\t\t<evaluation-list-item :user=\"item\" />\n\t\t\t\t</template>\n\t\t\t</component-list>\n\t\t</section>\n\t\t\n\t</section>\n</template>\n\n<script>\nimport EvaluationListItem from './EvaluationListItem.vue';\nimport ComponentList from '../../ComponentList.vue';\nimport EmailEditor from '../../EmailEditor.vue';\n\nimport { groupUsers } from '../../../modules/utils.js';\nimport { ADMIN_EMAIL } from '../../../modules/constants.js';\n\nexport default {\n\tprops: {\n\t\tdates: {\n\t\t\ttype: Object\n\t\t},\n\t\tevalThreshold: {\n\t\t\ttype: Number\n\t\t},\n\t\ttrainees: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tselectedUsers: [],\n\t\t\tshow: {\n\t\t\t\temailEditor: false\n\t\t\t}\n\t\t};\n\t},\n\tcomputed: {\n\t\ttraineeFields(){\n\t\t\treturn [\n\t\t\t\t'full_name',\n\t\t\t\t'type',\n\t\t\t\t'training_level'\n\t\t\t];\n\t\t},\n\t\tdefaultEmailMarkdown(){\n\t\t\treturn `Hello Dr. [[Name]]\n\nYou have [[# Completed]] evaluations completed for between ${this.dates.startDate} and ${this.dates.endDate}.\n\n**You are required to have ${this.evalThreshold} evaluations completed for this period.** Please request at least [[# Needed]] more evaluations as soon as possible.\n\nIf you have any issues or questions about the system, please contact ${ADMIN_EMAIL}.\n\nThank you!`;\n\n\t\t},\n\t\temailReplacements(){\n\t\t\treturn [\n\t\t\t\t'Name',\n\t\t\t\t'# Completed',\n\t\t\t\t'# Needed'\n\t\t\t];\n\t\t},\n\t\tadditionalEmailFields(){\n\t\t\treturn {\n\t\t\t\tevalsRequired: this.evalThreshold\n\t\t\t};\n\t\t}\n\t},\n\tmethods: {\n\t\tgroupUsers\n\t},\n\tcomponents: {\n\t\tEvaluationListItem,\n\t\tComponentList,\n\t\tEmailEditor\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-email-button-container {\n\t\ttext-align: right;\n\t\tmargin-bottom: 20px;\n\t}\n\n\t.evaluation-list-item:nth-child(even) {\n\t\t\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.show-email-button-container[data-v-56cead0a] {\n\ttext-align: right;\n\tmargin-bottom: 20px;\n}\n.evaluation-list-item[data-v-56cead0a]:nth-child(even) {\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/Needs/Evaluations.vue?00047ab6"],"names":[],"mappings":";AA4GA;CACA,kBAAA;CACA,oBAAA;CACA;AAEA;CAEA","file":"Evaluations.vue","sourcesContent":["<template>\n\t<section>\n\t\t<h2>Needs evaluations</h2>\n\t\t\n\t\t<email-editor v-if=\"show.emailEditor\"\n\t\t\tfrom=\"reminders\"\n\t\t\ttarget=\"/emails/reminders\"\n\t\t\ttitle=\"Send reminders\"\n\t\t\tdefaultSubject=\"Please request evaluations!\"\n\t\t\t:defaultTo=\"selectedUsers\"\n\t\t\t:possibleRecipients=\"trainees\"\n\t\t\t:defaultBodyMarkdown=\"defaultEmailMarkdown\"\n\t\t\t:emailReplacements=\"emailReplacements\"\n\t\t\t:additionalFields=\"additionalEmailFields\"\n\t\t\t@close=\"show.emailEditor = false\" />\n\t\t<div v-else class=\"show-email-button-container\">\n\t\t\t<button type=\"button\" class=\"btn btn-primary\"\n\t\t\t\t\t@click=\"show.emailEditor = true\">\n\t\t\t\t<span class=\"glyphicon glyphicon-send\"></span>\n\t\t\t\tSend reminders\n\t\t\t</button>\n\t\t</div>\n\t\t\n\t\t<section>\n\t\t\t<component-list :items=\"trainees\" :fields=\"traineeFields\">\n\t\t\t\t<template scope=\"item\">\n\t\t\t\t\t<evaluation-list-item :user=\"item\" />\n\t\t\t\t</template>\n\t\t\t</component-list>\n\t\t</section>\n\t\t\n\t</section>\n</template>\n\n<script>\nimport EvaluationListItem from './EvaluationListItem.vue';\nimport ComponentList from '../../ComponentList.vue';\nimport EmailEditor from '../../EmailEditor.vue';\n\nimport { groupUsers } from '../../../modules/utils.js';\nimport { ADMIN_EMAIL } from '../../../modules/constants.js';\n\nexport default {\n\tprops: {\n\t\tdates: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t},\n\t\tevalThreshold: {\n\t\t\trequired: true\n\t\t},\n\t\ttrainees: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tselectedUsers: [],\n\t\t\tshow: {\n\t\t\t\temailEditor: false\n\t\t\t}\n\t\t};\n\t},\n\tcomputed: {\n\t\ttraineeFields(){\n\t\t\treturn [\n\t\t\t\t'full_name',\n\t\t\t\t'training_level'\n\t\t\t];\n\t\t},\n\t\tdefaultEmailMarkdown(){\n\t\t\treturn `Hello Dr. [[Name]]\n\nYou have [[# Completed]] evaluations completed for between ${this.dates.startDate} and ${this.dates.endDate}.\n\n**You are required to have ${this.evalThreshold} evaluations completed for this period.** Please request at least [[# Needed]] more evaluations as soon as possible.\n\nIf you have any issues or questions about the system, please contact ${ADMIN_EMAIL}.\n\nThank you!`;\n\n\t\t},\n\t\temailReplacements(){\n\t\t\treturn [\n\t\t\t\t'Name',\n\t\t\t\t'# Completed',\n\t\t\t\t'# Needed'\n\t\t\t];\n\t\t},\n\t\tadditionalEmailFields(){\n\t\t\treturn {\n\t\t\t\tevalsRequired: this.evalThreshold\n\t\t\t};\n\t\t}\n\t},\n\tmethods: {\n\t\tgroupUsers\n\t},\n\tcomponents: {\n\t\tEvaluationListItem,\n\t\tComponentList,\n\t\tEmailEditor\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-email-button-container {\n\t\ttext-align: right;\n\t\tmargin-bottom: 20px;\n\t}\n\n\t.evaluation-list-item:nth-child(even) {\n\t\t\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -11295,7 +11317,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.paginator[data-v-94dab64e] {\n\ttext-align: center;\n}\nnav span[data-v-94dab64e] {\n\tmargin: 0 0.25em;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/ListPaginator.vue?2b753f50"],"names":[],"mappings":";AAgEA;CACA,mBAAA;CACA;AAEA;CACA,iBAAA;CACA","file":"ListPaginator.vue","sourcesContent":["<template>\n\t<section class=\"paginator\">\n\t\t<div class=\"form-inline\">\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tCurrent page:\n\t\t\t\t\t<input type=\"number\" class=\"form-control\" :value=\"value\"\n\t\t\t\t\t\t@input=\"$emit('input', Number($event.target.value))\" />\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tItems per page: \n\t\t\t\t\t<input type=\"number\" class=\"form-control\" list=\"paginator-list\"\n\t\t\t\t\t\tmin=\"0\" :value=\"itemsPerPage\"\n\t\t\t\t\t\t@input=\"$emit('pageSize', Number($event.target.value))\" />\n\t\t\t\t\t<datalist id=\"paginator-list\">\n\t\t\t\t\t\t<option value=\"5\" />\n\t\t\t\t\t\t<option value=\"10\" />\n\t\t\t\t\t\t<option value=\"20\" />\n\t\t\t\t\t\t<option value=\"50\" />\n\t\t\t\t\t\t<option value=\"100\" />\n\t\t\t\t\t</datalist>\n\t\t\t\t</label>\n\t\t\t</div>\t\t\t\n\t\t</div>\n\t\t<nav v-if=\"itemsPerPage && paginatedItems.length > 1\">\n\t\t\t<div class=\"btn-group\">\n\t\t\t\t<paginator-link :value=\"value - 1\" text=\"← Prev\"\n\t\t\t\t\t:active=\"value === 0\" @click=\"setPage\" />\n\n\t\t\t\t<paginator-link v-for=\"(pageItems, pageNum) of paginatedItems\"\n\t\t\t\t\t:value=\"pageNum\" :active=\"pageNum === value\"\n\t\t\t\t\t@click=\"setPage\" />\n\n\t\t\t\t<paginator-link :value=\"value + 1\" text=\"Next →\"\n\t\t\t\t\t:active=\"value === paginatedItems.length - 1\"\n\t\t\t\t\t@click=\"setPage\" />\n\t\t\t</div>\n\t\t</nav>\n\t</section>\n</template>\n\n<script>\nimport PaginatorLink from './PaginatorLink.vue';\n\nexport default {\n\tprops: {\n\t\tvalue: Number,\n\t\titemsPerPage: Number,\n\t\tpaginatedItems: Array\n\t},\n\tmethods: {\n\t\tsetPage(page){\n\t\t\tthis.$emit('input', page);\n\t\t}\n\t},\n\tcomponents: {\n\t\tPaginatorLink\n\t}\n};\n</script>\n\n<style scoped>\n\t.paginator {\n\t\ttext-align: center;\n\t}\n\n\tnav span {\n\t\tmargin: 0 0.25em;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.paginator[data-v-94dab64e] {\n\ttext-align: center;\n}\nnav span[data-v-94dab64e] {\n\tmargin: 0 0.25em;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/ListPaginator.vue?1568a33a"],"names":[],"mappings":";AAqEA;CACA,mBAAA;CACA;AAEA;CACA,iBAAA;CACA","file":"ListPaginator.vue","sourcesContent":["<template>\n\t<section class=\"paginator\">\n\t\t<div class=\"form-inline\">\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tCurrent page:\n\t\t\t\t\t<input type=\"number\" class=\"form-control\" :value=\"value + 1\"\n\t\t\t\t\t\tmin=\"1\" :max=\"paginatedItems.length\"\n\t\t\t\t\t\t@input=\"$emit('input', Number($event.target.value) - 1)\" />\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tItems per page:\n\t\t\t\t\t<select class=\"form-control\" :value=\"itemsPerPage\"\n\t\t\t\t\t\t\t@input=\"$emit('pageSize', Number($event.target.value))\">\n\t\t\t\t\t\t<option value=\"5\">5</option>\n\t\t\t\t\t\t<option value=\"10\">10</option>\n\t\t\t\t\t\t<option value=\"20\">20</option>\n\t\t\t\t\t\t<option value=\"50\">50</option>\n\t\t\t\t\t\t<option value=\"100\">100</option>\n\t\t\t\t\t</select>\n\t\t\t\t</label>\n\t\t\t</div>\t\t\t\n\t\t</div>\n\t\t<nav v-if=\"itemsPerPage && paginatedItems.length > 1\">\n\t\t\t<div class=\"btn-group\">\n\t\t\t\t<paginator-link :value=\"value - 1\" text=\"← Prev\"\n\t\t\t\t\t:active=\"value === 0\" @click=\"setPage\" />\n\n\t\t\t\t<paginator-link v-for=\"(pageItems, pageNum) of paginatedItems\"\n\t\t\t\t\t:value=\"pageNum\" :active=\"pageNum === value\"\n\t\t\t\t\t@click=\"setPage\" />\n\n\t\t\t\t<paginator-link :value=\"value + 1\" text=\"Next →\"\n\t\t\t\t\t:active=\"value === paginatedItems.length - 1\"\n\t\t\t\t\t@click=\"setPage\" />\n\t\t\t</div>\n\t\t</nav>\n\t</section>\n</template>\n\n<script>\nimport PaginatorLink from './PaginatorLink.vue';\n\nexport default {\n\tprops: {\n\t\tvalue: Number,\n\t\titemsPerPage: Number,\n\t\tpaginatedItems: Array\n\t},\n\twatch: {\n\t\titemsPerPage(){\n\t\t\tif(this.value >= this.paginatedItems.length)\n\t\t\t\tthis.setPage(this.paginatedItems.length - 1);\n\t\t}\n\t},\n\tmethods: {\n\t\tsetPage(page){\n\t\t\tthis.$emit('input', page);\n\t\t}\n\t},\n\tcomponents: {\n\t\tPaginatorLink\n\t}\n};\n</script>\n\n<style scoped>\n\t.paginator {\n\t\ttext-align: center;\n\t}\n\n\tnav span {\n\t\tmargin: 0 0.25em;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -23940,50 +23962,7 @@ module.exports = __vue_exports__
 
 
 /***/ }),
-/* 276 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* script */
-__vue_exports__ = __webpack_require__(90)
-
-/* template */
-var __vue_template__ = __webpack_require__(284)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/Needs/Competencies.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-026c6e27", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-026c6e27", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] Competencies.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ }),
+/* 276 */,
 /* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24128,50 +24107,7 @@ module.exports = __vue_exports__
 
 
 /***/ }),
-/* 280 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* script */
-__vue_exports__ = __webpack_require__(94)
-
-/* template */
-var __vue_template__ = __webpack_require__(300)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/Needs/Milestones.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3dc54222", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-3dc54222", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] Milestones.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ }),
+/* 280 */,
 /* 281 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24312,21 +24248,7 @@ module.exports = __vue_exports__
 
 
 /***/ }),
-/* 284 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c("div")
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-026c6e27", module.exports)
-  }
-}
-
-/***/ }),
+/* 284 */,
 /* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24856,7 +24778,47 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('input', {
+  return _c('div', [_c('div', {
+    staticClass: "list-header form-inline"
+  }, [_c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sortBy),
+      expression: "sortBy"
+    }],
+    staticClass: "form-control",
+    on: {
+      "change": function($event) {
+        _vm.sortBy = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        })[0]
+      }
+    }
+  }, _vm._l((_vm.fields), function(field) {
+    return _c('option', {
+      domProps: {
+        "value": field
+      }
+    }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.snakeCaseToWords(field)) + "\n\t\t\t")])
+  })), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.sortOrder = _vm.sortOrder === 'asc' ? 'desc' : 'asc'
+      }
+    }
+  }, [(_vm.sortOrder === 'asc') ? _c('span', {
+    staticClass: "glyphicon glyphicon-sort-by-alphabet"
+  }) : _c('span', {
+    staticClass: "glyphicon glyphicon-sort-by-alphabet-alt"
+  })]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -24865,7 +24827,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control",
     attrs: {
-      "type": "search"
+      "type": "search",
+      "placeholder": "Search"
     },
     domProps: {
       "value": _vm._s(_vm.query)
@@ -24876,7 +24839,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.query = $event.target.value
       }
     }
-  }), _vm._v(" "), _c('ol', {
+  })]), _vm._v(" "), _c('ol', {
     staticClass: "list"
   }, [_vm._l((_vm.currentPageItems), function(item) {
     return _vm._t("default", null, null, item)
@@ -25234,7 +25197,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "row"
   }, [_c('div', {
-    staticClass: "col-sm-6"
+    staticClass: "col-sm-4"
   }, [_c('img', {
     attrs: {
       "height": "50",
@@ -25247,7 +25210,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": ("/profile/" + (_vm.user.id))
     }
-  }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.user.full_name) + "\n\t\t\t")])]), _vm._v(" "), _c('section', {
+  }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.user.full_name) + "\n\t\t\t")])]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-2"
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.renderTrainingLevel(_vm.user.training_level)) + "\n\t\t")]), _vm._v(" "), _c('section', {
     staticClass: "col-sm-2"
   }, [_c('b', [_c('span', [_vm._v(_vm._s(_vm.user.subject_evaluations.length))]), _vm._v("\n\t\t\t\tevaluations\n\t\t\t")])]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-4 text-right"
@@ -25294,21 +25259,7 @@ if (false) {
 }
 
 /***/ }),
-/* 300 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c("div")
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-3dc54222", module.exports)
-  }
-}
-
-/***/ }),
+/* 300 */,
 /* 301 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25638,52 +25589,73 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })], 1)]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-8"
-  }, [_c('div', {
-    staticClass: "labelless-element btn-group btn-group-justified",
-    attrs: {
-      "role": "group"
+    staticClass: "form-group col-md-4"
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\t\tEvaluation requirement\n\t\t\t\t"), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.evalThreshold),
+      expression: "evalThreshold"
+    }],
+    staticClass: "form-control",
+    on: {
+      "change": function($event) {
+        _vm.evalThreshold = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        })[0]
+      }
     }
-  }, [_c('div', {
-    staticClass: "btn-group",
+  }, [_c('option', {
     attrs: {
-      "role": "group"
+      "value": "all"
+    },
+    domProps: {
+      "value": "all"
     }
+  }, [_vm._v("Show all")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "1"
+    },
+    domProps: {
+      "value": "1"
+    }
+  }, [_vm._v("1")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "3"
+    },
+    domProps: {
+      "value": "3"
+    }
+  }, [_vm._v("3")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "5"
+    },
+    domProps: {
+      "value": "5"
+    }
+  }, [_vm._v("5")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "10"
+    },
+    domProps: {
+      "value": "10"
+    }
+  }, [_vm._v("10")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-4"
   }, [_c('button', {
-    staticClass: "btn btn-primary",
+    staticClass: "btn btn-primary labelless-button",
     attrs: {
       "type": "button"
     },
     on: {
       "click": _vm.runEvalsReport
     }
-  }, [_vm._v("\n\t\t\t\t\t\tNeeds evaluations\n\t\t\t\t\t")])]), _vm._v(" "), _c('div', {
-    staticClass: "btn-group",
-    attrs: {
-      "role": "group"
-    }
-  }, [_c('button', {
-    staticClass: "btn btn-default",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": _vm.runCompetenciesReport
-    }
-  }, [_vm._v("\n\t\t\t\t\t\tNeeds competencies\n\t\t\t\t\t")])]), _vm._v(" "), _c('div', {
-    staticClass: "btn-group",
-    attrs: {
-      "role": "group"
-    }
-  }, [_c('button', {
-    staticClass: "btn btn-default",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": _vm.runMilestonesReport
-    }
-  }, [_vm._v("\n\t\t\t\t\t\tNeeds milestones\n\t\t\t\t\t")])])])])], 1), _vm._v(" "), (_vm.report.evaluations) ? _c('div', {
+  }, [_vm._v("\n\t\t\t\tNeeds evaluations\n\t\t\t")])])], 1), _vm._v(" "), (_vm.report.evaluations) ? _c('div', {
     staticClass: "container body-block"
   }, [_c('needs-evaluations', {
     attrs: {
@@ -25691,11 +25663,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "dates": _vm.dates,
       "evalThreshold": _vm.evalThreshold
     }
-  })], 1) : _vm._e(), _vm._v(" "), (_vm.report.competencies) ? _c('div', {
-    staticClass: "container body-block"
-  }, [_c('needs-competencies', _vm._b({}, 'needs-competencies', _vm.report.competencies))], 1) : _vm._e(), _vm._v(" "), (_vm.report.milestones) ? _c('div', {
-    staticClass: "container body-block"
-  }, [_c('needs-milestones', _vm._b({}, 'needs-milestones', _vm.report.milestones))], 1) : _vm._e()])
+  })], 1) : _vm._e()])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -26403,27 +26371,24 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("\n\t\t\t\tCurrent page:\n\t\t\t\t"), _c('input', {
     staticClass: "form-control",
     attrs: {
-      "type": "number"
+      "type": "number",
+      "min": "1",
+      "max": _vm.paginatedItems.length
     },
     domProps: {
-      "value": _vm.value
+      "value": _vm.value + 1
     },
     on: {
       "input": function($event) {
-        _vm.$emit('input', Number($event.target.value))
+        _vm.$emit('input', Number($event.target.value) - 1)
       }
     }
   })])]), _vm._v(" "), _c('div', {
     staticClass: "form-group"
   }, [_c('label', {
     staticClass: "containing-label"
-  }, [_vm._v("\n\t\t\t\tItems per page: \n\t\t\t\t"), _c('input', {
+  }, [_vm._v("\n\t\t\t\tItems per page:\n\t\t\t\t"), _c('select', {
     staticClass: "form-control",
-    attrs: {
-      "type": "number",
-      "list": "paginator-list",
-      "min": "0"
-    },
     domProps: {
       "value": _vm.itemsPerPage
     },
@@ -26432,10 +26397,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$emit('pageSize', Number($event.target.value))
       }
     }
-  }), _vm._v(" "), _c('datalist', {
-    attrs: {
-      "id": "paginator-list"
-    }
   }, [_c('option', {
     attrs: {
       "value": "5"
@@ -26443,35 +26404,35 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     domProps: {
       "value": "5"
     }
-  }), _vm._v(" "), _c('option', {
+  }, [_vm._v("5")]), _vm._v(" "), _c('option', {
     attrs: {
       "value": "10"
     },
     domProps: {
       "value": "10"
     }
-  }), _vm._v(" "), _c('option', {
+  }, [_vm._v("10")]), _vm._v(" "), _c('option', {
     attrs: {
       "value": "20"
     },
     domProps: {
       "value": "20"
     }
-  }), _vm._v(" "), _c('option', {
+  }, [_vm._v("20")]), _vm._v(" "), _c('option', {
     attrs: {
       "value": "50"
     },
     domProps: {
       "value": "50"
     }
-  }), _vm._v(" "), _c('option', {
+  }, [_vm._v("50")]), _vm._v(" "), _c('option', {
     attrs: {
       "value": "100"
     },
     domProps: {
       "value": "100"
     }
-  })])])])]), _vm._v(" "), (_vm.itemsPerPage && _vm.paginatedItems.length > 1) ? _c('nav', [_c('div', {
+  }, [_vm._v("100")])])])])]), _vm._v(" "), (_vm.itemsPerPage && _vm.paginatedItems.length > 1) ? _c('nav', [_c('div', {
     staticClass: "btn-group"
   }, [_c('paginator-link', {
     attrs: {

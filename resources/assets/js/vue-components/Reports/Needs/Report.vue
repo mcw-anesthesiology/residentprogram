@@ -9,24 +9,23 @@
 					<training-level-select v-model="trainingLevel" />
 				</label>
 			</div>
-			<div class="col-md-8">
-				<div class="labelless-element btn-group btn-group-justified" role="group">
-					<div class="btn-group" role="group">						
-						<button type="button" class="btn btn-primary" @click="runEvalsReport">
-							Needs evaluations
-						</button>
-					</div>
-					<div class="btn-group" role="group">						
-						<button type="button" class="btn btn-default" @click="runCompetenciesReport">
-							Needs competencies
-						</button>
-					</div>
-					<div class="btn-group" role="group">						
-						<button type="button" class="btn btn-default" @click="runMilestonesReport">
-							Needs milestones
-						</button>
-					</div>
-				</div>
+			<div class="form-group col-md-4">
+				<label class="containing-label">
+					Evaluation requirement
+					<select class="form-control" v-model="evalThreshold">
+						<option value="all">Show all</option>
+						<option value="1">1</option>
+						<option value="3">3</option>
+						<option value="5">5</option>
+						<option value="10">10</option>
+					</select>
+				</label>
+			</div>
+			<div class="col-md-4">
+				<button type="button" class="btn btn-primary labelless-button"
+						@click="runEvalsReport">
+					Needs evaluations
+				</button>
 			</div>
 		</div>
 
@@ -34,19 +33,11 @@
 			<needs-evaluations :trainees="report.evaluations"
 				:dates="dates" :evalThreshold="evalThreshold" />			
 		</div>
-		<div v-if="report.competencies" class="container body-block">
-			<needs-competencies v-bind="report.competencies" />
-		</div>
-		<div v-if="report.milestones" class="container body-block">
-			<needs-milestones v-bind="report.milestones" />
-		</div>		
 	</div>
 </template>
 
 <script>
 import NeedsEvaluations from './Evaluations.vue';
-import NeedsCompetencies from './Competencies.vue';
-import NeedsMilestones from './Milestones.vue';
 
 import ReportDate from '../ReportDate.vue';
 import TrainingLevelSelect from '../TrainingLevelSelect.vue';
@@ -63,7 +54,7 @@ export default {
 				endDate: null
 			},
 			trainingLevel: 'all',
-			evalThreshold: 3, // FIXME
+			evalThreshold: 3,
 			
 			report: {
 				evaluations: null,
@@ -167,8 +158,6 @@ export default {
 
 	components: {
 		NeedsEvaluations,
-		NeedsCompetencies,
-		NeedsMilestones,
 		ReportDate,
 		TrainingLevelSelect,
 		SelectTwo,

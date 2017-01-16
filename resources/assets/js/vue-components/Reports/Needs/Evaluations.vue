@@ -43,10 +43,11 @@ import { ADMIN_EMAIL } from '../../../modules/constants.js';
 export default {
 	props: {
 		dates: {
-			type: Object
+			type: Object,
+			required: true
 		},
 		evalThreshold: {
-			type: Number
+			required: true
 		},
 		trainees: {
 			type: Array,
@@ -65,7 +66,6 @@ export default {
 		traineeFields(){
 			return [
 				'full_name',
-				'type',
 				'training_level'
 			];
 		},
