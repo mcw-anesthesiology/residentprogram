@@ -224,21 +224,21 @@ export default {
 			if(!body.to || (Array.isArray(body.to) && body.to.length === 0)){
 				this.alerts.push({
 					type: 'error',
-					html: `<strong>Error: </strong> Please select a recipient.`
+					html: `Please select a recipient.`
 				});
 				error = true;
 			}
 			if(!body.subject){
 				this.alerts.push({
 					type: 'error',
-					html: `<strong>Error: </strong> Please enter a subject.`
+					html: `Please enter a subject.`
 				});
 				error = true;
 			}
 			if(!body.body){
 				this.alerts.push({
 					type: 'error',
-					html: `<strong>Error: </strong> Please enter a message body.`
+					html: `Please enter a message body.`
 				});
 				error = true;
 			}

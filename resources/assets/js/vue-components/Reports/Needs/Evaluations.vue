@@ -16,8 +16,8 @@
 		<div v-else class="show-email-button-container">
 			<button type="button" class="btn btn-primary"
 					@click="show.emailEditor = true">
-				<span class="glyphicon glyphicon-send"></span>
-				Send reminders
+				<span class="glyphicon glyphicon-pencil"></span>
+				Compose reminders
 			</button>
 		</div>
 		
@@ -36,6 +36,8 @@
 import EvaluationListItem from './EvaluationListItem.vue';
 import ComponentList from '../../ComponentList.vue';
 import EmailEditor from '../../EmailEditor.vue';
+
+import moment from 'moment';
 
 import { groupUsers } from '../../../modules/utils.js';
 import { ADMIN_EMAIL } from '../../../modules/constants.js';
@@ -70,13 +72,15 @@ export default {
 			];
 		},
 		defaultEmailMarkdown(){
+			let startDate = moment(this.dates.startDate).format('LL');
+			let endDate = moment(this.dates.endDate).format('LL');
 			return `Hello Dr. [[Name]]
 
-You have [[# Completed]] evaluations completed for between ${this.dates.startDate} and ${this.dates.endDate}.
+You have [[# Completed]] evaluations completed for between ${startDate} and ${endDate}.
 
 **You are required to have ${this.evalThreshold} evaluations completed for this period.** Please request at least [[# Needed]] more evaluations as soon as possible.
 
-If you have any issues or questions about the system, please contact ${ADMIN_EMAIL}.
+If you have any issues or questions about the system, please contact [${ADMIN_EMAIL}](mailto:${ADMIN_EMAIL}).
 
 Thank you!`;
 

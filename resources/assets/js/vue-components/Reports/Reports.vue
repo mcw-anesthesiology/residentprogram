@@ -8,9 +8,6 @@
 						<input type="radio" :value="type" v-model="reportType" />
 						{{ camelCaseToWords(type) }}
 					</label>
-					<a href="/report/needs-eval" class="btn btn-default">
-						Previous needs evaluations report
-					</a>
 				</div>
 			</fieldset>
 		</div>
