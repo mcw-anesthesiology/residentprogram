@@ -247,3 +247,17 @@ export function isoDateString(date){
 	let isoString = date.toISOString();
 	return isoString.substring(0, isoString.indexOf('T'));
 }
+
+export function htmlLabelReplacements(html, replacements){
+	html = html.replace(/<span class="label label-info">/g, '[[')
+		.replace(/<\/span>/g, ']]');
+	
+	
+	replacements.map(replacement => {
+		const pattern = new RegExp(`\\[\\[${replacement}\\]\\]`, 'g');
+		const label = `<span class="label label-info">${replacement}</span>`;
+		html = html.replace(pattern, label);
+	});
+	
+	return html;
+}

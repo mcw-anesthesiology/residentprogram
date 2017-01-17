@@ -2,26 +2,36 @@
 	<div>
 		<section @mouseenter="mouseIn = true" @mouseleave="mouseIn = false">
 			<textarea class="form-control" :class="{'editor-shown': showEditor}"
-					:id="editorId" rows="15"  tabindex="0" :value="value"
+					:id="id" rows="15"  tabindex="0" :value="value"
 					@focusout="focused = false" @focusin="focused = true"
 					@input="input" ref="editor"></textarea>
 			<div v-show="!showEditor" v-html="html"
 				class="form-control markdown-editor-rendered-html-container">
 			</div>
 		</section>
-		<small v-if="showHelp">
-			Supports
-			<a href="http://commonmark.org/help/" target="_blank" rel="noopener noreferrer">
-				markdown
-				<img src="/img/commonmark.png" width="24" height="24"
-					alt="Commonmark" />
-			</a>
-		</small>
+		<div class="row">
+			<small class="col-md-8" v-if="showHelp">
+				Supports
+				<a href="http://commonmark.org/help/" target="_blank" rel="noopener noreferrer">
+					markdown
+					<img src="/img/commonmark.png" width="24" height="24"
+						alt="Commonmark" />
+				</a>
+			</small>
+			<div class="col-md-4">
+				<replacement-list v-if="replacements"
+					:replacements="replacements" />
+			</div>
+		</div>
 	</div>
 </template>
 
 <script>
 import MarkdownIt from 'markdown-it';
+
+import ReplacementList from './ReplacementList.vue';
+
+import { htmlLabelReplacements } from '../modules/utils.js';
 
 const md = new MarkdownIt();
 
@@ -35,7 +45,7 @@ export default {
 			type: Array,
 			required: false
 		},
-		editorId: {
+		id: {
 			type: String,
 			required: false
 		},
@@ -52,12 +62,8 @@ export default {
 	},
 	computed: {
 		html(){
-			let html = md.render(this.value);
-			this.replacements.map(replacement => {
-				const pattern = new RegExp(`\\[\\[${replacement}\\]\\]`, 'g');
-				const label = `<span class="label label-info">${replacement}</span>`;
-				html = html.replace(pattern, label);
-			});
+			let html = htmlLabelReplacements(md.render(this.value),
+				this.replacements);
 			
 			this.$emit('html', html);
 			
@@ -78,6 +84,9 @@ export default {
 			let markdown = event.target.value;
 			this.$emit('input', markdown);
 		}
+	},
+	components: {
+		ReplacementList
 	}
 };
 </script>
@@ -101,15 +110,10 @@ export default {
 		height: 300px;
 		overflow: auto;
 	}
-	
-	small {
-		display: block;
-		text-align: right;
-	}
 </style>
 
 <style>
 	.markdown-editor-rendered-html-container p + p {
-		margin-top: 20px;		
+		margin-top: 20px;
 	}
 </style>

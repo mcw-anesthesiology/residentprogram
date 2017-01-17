@@ -184,6 +184,7 @@ exports.fetchFormGroups = fetchFormGroups;
 exports.groupForms = groupForms;
 exports.sortNumbers = sortNumbers;
 exports.isoDateString = isoDateString;
+exports.htmlLabelReplacements = htmlLabelReplacements;
 function appendAlert(alertText) {
 	var parent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '#alert-container';
 	var alertType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'danger';
@@ -467,6 +468,18 @@ function sortNumbers(a, b) {
 function isoDateString(date) {
 	var isoString = date.toISOString();
 	return isoString.substring(0, isoString.indexOf('T'));
+}
+
+function htmlLabelReplacements(html, replacements) {
+	html = html.replace(/<span class="label label-info">/g, '[[').replace(/<\/span>/g, ']]');
+
+	replacements.map(function (replacement) {
+		var pattern = new RegExp('\\[\\[' + replacement + '\\]\\]', 'g');
+		var label = '<span class="label label-info">' + replacement + '</span>';
+		html = html.replace(pattern, label);
+	});
+
+	return html;
 }
 
 /***/ }),

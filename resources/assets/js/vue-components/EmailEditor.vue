@@ -47,11 +47,11 @@
 										<li v-for="possibleRecipient of possibleRecipientGroup.children">
 											<label :class="{'normal-text-label': !to.includes(possibleRecipient.id)}">
 												<input type="checkbox" v-model="to"
-														:value="possibleRecipient.id" /> 
+														:value="possibleRecipient.id" />
 												{{ possibleRecipient.text || possibleRecipient }}
-											</label>								
+											</label>
 										</li>
-									</ul>						
+									</ul>
 								</template>
 							</template>
 						</div>
@@ -64,8 +64,8 @@
 				</div>
 				<div class="form-group">
 					<label for="email-body">Body</label>
-					<markdown-editor v-model="body.markdown" editorId="email-body"
-						:replacements="emailReplacements" @html="body.html = arguments[0]" />
+					<medium-editor v-model="body.html" id="email-body"
+						:replacements="emailReplacements" />
 				</div>
 				
 				<alert-list v-if="alerts && alerts.length > 0" v-model="alerts" />
@@ -87,9 +87,18 @@
 
 <script>
 import AlertList from './AlertList.vue';
-import MarkdownEditor from './MarkdownEditor.vue';
+import MediumEditor from './MediumEditor.vue';
 
-import { getFetchHeaders, groupUsers } from '../modules/utils.js';
+import MarkdownIt from 'markdown-it';
+
+import {
+	ucfirst,
+	getFetchHeaders,
+	groupUsers,
+	htmlLabelReplacements
+} from '../modules/utils.js';
+
+const md = new MarkdownIt();
 
 export default {
 	props: {
@@ -140,8 +149,10 @@ export default {
 			subject: this.defaultSubject,
 			body: {
 				markdown: this.defaultBodyMarkdown,
-				html: null
+				html: htmlLabelReplacements(md.render(this.defaultBodyMarkdown),
+					this.emailReplacements)
 			},
+			editorType: 'medium',
 			
 			show: {
 				recipients: false,
@@ -152,6 +163,12 @@ export default {
 		};
 	},
 	computed: {
+		editorTypes(){
+			return [
+				'medium',
+				'markdown'
+			];
+		},
 		groupedPossibleRecipients(){
 			return groupUsers(this.possibleRecipients);
 		},
@@ -281,11 +298,12 @@ export default {
 					type: 'error'
 				});
 			});
-		}
+		},
+		ucfirst
 	},
 	components: {
 		AlertList,
-		MarkdownEditor
+		MediumEditor
 	}
 };
 </script>
@@ -293,5 +311,9 @@ export default {
 <style scoped>
 	ul {
 		columns: 150px 3;
+	}
+	
+	fieldset label {
+		margin: 0 1em;
 	}
 </style>
