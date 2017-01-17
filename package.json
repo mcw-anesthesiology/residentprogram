@@ -37,6 +37,7 @@
     "chart.js": "^2.2.0-rc.2",
     "classlist-polyfill": "^1.0.3",
     "color": "^0.11.4",
+    "css-loader": "^0.26.1",
     "downloadjs": "^1.4.6",
     "element-dataset": "^2.2.2",
     "element-resize-detector": "^1.1.9",
@@ -62,12 +63,10 @@
     "vue": "^2.1.0",
     "vue-flatpickr": "^2.2.5",
     "vue-loader": "^10.0.2",
+    "vue-router": "^2.1.1",
     "vue-template-compiler": "^2.1.6",
     "webpack": "beta",
     "webpack-bundle-analyzer": "^2.2.1",
     "whatwg-fetch": "^2.0.1"
-  },
-  "dependencies": {
-    "css-loader": "^0.26.1"
   }
 }

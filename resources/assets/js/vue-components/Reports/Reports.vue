@@ -4,33 +4,27 @@
 			<fieldset>
 				<legend>Report type</legend>
 				<div class="form-inline">
-					<label v-for="type of reportTypes" class="report-type-option">
-						<input type="radio" :value="type" v-model="reportType" />
-						{{ camelCaseToWords(type) }}
+					<label >
+						<router-link v-for="type of reportTypes" :to="type"
+								class="report-type-option btn btn-default"
+								active-class="disabled">
+							{{ kebabCaseToWords(type) }}
+						</router-link>
 					</label>
 				</div>
 			</fieldset>
 		</div>
 
-		<div v-if="reportType">
-			<trainee-report v-if="reportType === 'trainee'"
-				:users="users" :groupedUsers="groupedUsers" />
-			<form-report v-if="reportType === 'form'"
-				:users="users" :groupedUsers="groupedUsers" />
-			<needs-report v-if="reportType === 'needsEvaluations'"
-				:users="users" :groupedUsers="groupedUsers" />
-		</div>
+		<router-view :users="users" :groupedUsers="groupedUsers"></router-view>
 	</div>
 </template>
 
 <script>
-import TraineeReport from './TraineeReport.vue';
-import FormReport from './FormReport.vue';
-import NeedsReport from './Needs/Report.vue';
-
-import { camelCaseToWords, fetchUsers, groupUsers } from '../../modules/utils.js';
-
-// TODO: Consider dynamically importing the report types
+import {
+	kebabCaseToWords,
+	fetchUsers,
+	groupUsers
+} from '../../modules/utils.js';
 
 export default {
 	data(){
@@ -44,7 +38,7 @@ export default {
 			return [
 				'trainee',
 				'form',
-				'needsEvaluations'
+				'needs-evaluations'
 			];
 		},
 		groupedUsers(){
@@ -61,12 +55,7 @@ export default {
 	},
 
 	methods: {
-		camelCaseToWords
-	},
-	components: {
-		TraineeReport,
-		FormReport,
-		NeedsReport
+		kebabCaseToWords
 	}
 };
 </script>

@@ -172,6 +172,7 @@ exports.appendAlert = appendAlert;
 exports.ucfirst = ucfirst;
 exports.camelCaseToWords = camelCaseToWords;
 exports.snakeCaseToWords = snakeCaseToWords;
+exports.kebabCaseToWords = kebabCaseToWords;
 exports.nl2br = nl2br;
 exports.getFetchHeaders = getFetchHeaders;
 exports.fetchMilestoneGroups = fetchMilestoneGroups;
@@ -255,6 +256,10 @@ function camelCaseToWords(str) {
 
 function snakeCaseToWords(str) {
 	return str.charAt(0).toUpperCase() + str.substring(1).replace('_', ' ');
+}
+
+function kebabCaseToWords(str) {
+	return str.charAt(0).toUpperCase() + str.substring(1).replace('-', ' ');
 }
 
 function nl2br(text) {

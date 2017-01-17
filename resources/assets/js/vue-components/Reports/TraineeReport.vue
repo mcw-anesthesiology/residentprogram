@@ -4,7 +4,7 @@
 			<h2>Trainee report</h2>
 			<report-date v-model="dates" />
 			<div class="row">
-				<div class="form-group col-sm-6">					
+				<div class="form-group col-sm-6">
 					<label class="containing-label">
 						Evaluation training level
 						<training-level-select v-model="trainingLevel" />
@@ -141,12 +141,20 @@ import SvgIcon from '../SvgIcon.vue';
 
 import {
 	getFetchHeaders,
-	fetchMilestoneGroups,
-	fetchUsers,
-	groupUsers
+	fetchMilestoneGroups
 } from '../../modules/utils.js';
 
 export default {
+	props: {
+		users: {
+			type: Array,
+			required: true
+		},
+		groupedUsers: {
+			type: Array,
+			required: true
+		}
+	},
 	data(){
 		return {
 			dates: {
@@ -167,14 +175,8 @@ export default {
 			report: null,
 			stats: null,
 
-			milestoneGroups: [],
-			users: []
+			milestoneGroups: []
 		};
-	},
-	created(){
-		fetchUsers().then(users => {
-			this.users = users;
-		});
 	},
 	mounted(){
 		$(this.$refs.currentTrainingLevelHintGlyph).popover({
@@ -194,7 +196,7 @@ export default {
 				<dd>
 					<dt>Example:</dt>
 					<dd>
-						<p>						
+						<p>
 							Jane is currently a fellow, but she completed her
 							residency a month late, at the end of July.
 						</p>
@@ -221,9 +223,6 @@ export default {
 		}
 	},
 	computed: {
-		groupedUsers(){
-			return groupUsers(this.users);
-		},
 		filteredUsers(){
 			let groupedUsers = this.currentTrainingLevel === 'all'
 				? this.groupedUsers

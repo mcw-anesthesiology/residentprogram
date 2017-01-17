@@ -48,6 +48,10 @@ export function snakeCaseToWords(str){
 	return str.charAt(0).toUpperCase() + str.substring(1).replace('_', ' ');
 }
 
+export function kebabCaseToWords(str){
+	return str.charAt(0).toUpperCase() + str.substring(1).replace('-', ' ');
+}
+
 export function nl2br(text){
 	return text.replace(/(?:\r\n|\r|\n)/g, '<br />');
 }
