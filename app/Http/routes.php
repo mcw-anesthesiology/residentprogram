@@ -149,7 +149,6 @@ Route::get("manage/user-features", "ManageController@userFeatures");
 Route::get("manage/case-logs", "ManageController@caseLogs");
 
 Route::get("reports", "ReportController@reports");
-// Route::get("report", "ReportController@report");
 
 Route::post("report/aggregate", "ReportController@aggregate");
 Route::post("report/specific", "ReportController@specific");
@@ -158,23 +157,6 @@ Route::post("report/export", "ReportController@getTSV");
 Route::post("report/pdf", "ReportController@getPDF");
 
 Route::post("report/needs/evaluations", "ReportController@needsEvaluations");
-Route::post("report/needs/competencies", "ReportController@needsCompetencies");
-Route::post("report/needs/milestones", "ReportController@needsMilestones");
 
-Route::get("report/needs-eval", "ReportController@needsEvaluationsView");
-Route::post("report/needs-eval/get", "ReportController@getNeedsEvaluations");
-Route::post("report/needs-eval/send-reminder", "ReportController@sendNeedsEvaluationReminder");
-Route::post("report/needs-eval/send-all-reminders", "ReportController@sendAllNeedsEvaluationReminders");
-Route::post("report/needs-eval/competencies/get", "ReportController@getNeedsCompetenciesJSON");
-Route::post("report/needs-eval/competencies/tsv", "ReportController@getNeedsCompetenciesTSV");
-Route::post("report/needs-eval/milestones/get", "ReportController@getNeedsMilestonesJSON");
-Route::post("report/needs-eval/milestones/tsv", "ReportController@getNeedsMilestonesTSV");
-
-
-Route::get("report/number-evals", "ReportController@numberOfEvaluations");
-Route::post("report/number-evals", "ReportController@getNumberOfEvaluations");
-Route::get("report/milestones-competencies-forms", "ReportController@milestonesCompetenciesForms");
-Route::get("report/milestones-competencies-forms/export/{type}", "ReportController@exportMilestonesCompetenciesForms");
-Route::get("report/milestones-competencies-forms/{type}", "ReportController@getMilestonesCompetenciesForms");
 Route::get("report/stats/{type}", "ReportController@stats");
 Route::post("report/stats/{type}", "ReportController@getStats");
