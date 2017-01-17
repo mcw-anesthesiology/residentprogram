@@ -415,6 +415,151 @@ class ReportTest extends TestCase
             ]
         ]);
     }
+	
+	public function testAggregateReportWithCurrentTrainingLevel(){
+		$startDate = Carbon::parse("0001-01-01");
+        $endDate = Carbon::now();
+        $endDate->second = 0;
+
+        $fellow = factory(App\User::class, "fellow")->create();
+		
+		// Comlplete evals have CA-1 training level by default
+		$fellowEval = factory(App\Evaluation::class, "complete")->create([
+			"form_id" => $this->form->id,
+			"subject_id" => $fellow->id,
+			"evaluator_id" => $this->faculty->id,
+			"requested_by_id" => $this->admin->id
+		]);
+		
+		$responses = [
+			"q1" => [
+				factory(App\Response::class)->create([
+					"evaluation_id" => $fellowEval->id,
+					"question_id" => "q1",
+					"response" => 10
+				])
+			],
+			"q2" => [
+				factory(App\Response::class)->create([
+					"evaluation_id" => $fellowEval->id,
+					"question_id" => "q2",
+					"response" => 10
+				])
+			]
+		];
+
+
+        $this->actingAs($this->admin)
+            ->visit("/dashboard")
+            ->post("/report/aggregate", [
+                "startDate" => $startDate,
+                "endDate" => $endDate,
+                "trainingLevel" => "all",
+				"currentTrainingLevel" => "ca-1"
+            ]);
+        $this->seeJson([
+            "trainingLevel" => "all",
+            "startDate" => (array)$startDate,
+            "endDate" => (array)$endDate,
+            "subjects" => [
+                $this->residents[0]->id => $this->residents[0]->full_name,
+                $this->residents[1]->id => $this->residents[1]->full_name
+            ],
+            "milestones" => [
+                $this->milestones[0]->id => $this->milestones[0]->title,
+                $this->milestones[1]->id => $this->milestones[1]->title
+            ],
+            "competencies" => [
+                $this->competencies[0]->id => $this->competencies[0]->title,
+                $this->competencies[1]->id => $this->competencies[1]->title,
+            ],
+            "averageMilestone" => [
+                $this->milestones[0]->id => 6.5,
+                $this->milestones[1]->id => 1.5
+            ],
+            "averageCompetency" => [
+                $this->competencies[0]->id => 6.5,
+                $this->competencies[1]->id => 1.5
+            ],
+            "subjectMilestone" => [
+                $this->residents[0]->id => [
+                    $this->milestones[0]->id => 6,
+                    $this->milestones[1]->id => 1.5
+                ],
+                $this->residents[1]->id => [
+                    $this->milestones[0]->id => 7,
+                    $this->milestones[1]->id => 1.5
+                ]
+            ],
+            "subjectCompetency" => [
+                $this->residents[0]->id => [
+                    $this->competencies[0]->id => 6,
+                    $this->competencies[1]->id => 1.5
+                ],
+                $this->residents[1]->id => [
+                    $this->competencies[0]->id => 7,
+                    $this->competencies[1]->id => 1.5
+                ]
+            ],
+            "subjectMilestoneDeviations" => [
+                $this->residents[0]->id => [
+                    $this->milestones[0]->id => -0.70710678118655,
+                    $this->milestones[1]->id => 0
+                ],
+                $this->residents[1]->id => [
+                    $this->milestones[0]->id => 0.70710678118655,
+                    $this->milestones[1]->id => 0
+                ]
+            ],
+            "subjectCompetencyDeviations" => [
+                $this->residents[0]->id => [
+                    $this->competencies[0]->id => -0.70710678118655,
+                    $this->competencies[1]->id => 0
+                ],
+                $this->residents[1]->id => [
+                    $this->competencies[0]->id => 0.70710678118655,
+                    $this->competencies[1]->id => 0
+                ]
+            ],
+            "subjectMilestoneEvals" => [
+                $this->residents[0]->id => [
+                    $this->milestones[0]->id => 2,
+                    $this->milestones[1]->id => 2
+                ],
+                $this->residents[1]->id => [
+                    $this->milestones[0]->id => 2,
+                    $this->milestones[1]->id => 2
+                ]
+            ],
+            "subjectCompetencyEvals" => [
+                $this->residents[0]->id => [
+                    $this->competencies[0]->id => 2,
+                    $this->competencies[1]->id => 2
+                ],
+                $this->residents[1]->id => [
+                    $this->competencies[0]->id => 2,
+                    $this->competencies[1]->id => 2
+                ]
+            ],
+            "subjectEvals" => [
+                $this->residents[0]->id => [
+                    $this->evals[0][0]->id => 2,
+                    $this->evals[0][1]->id => 2
+                ],
+                $this->residents[1]->id => [
+                    $this->evals[1][0]->id => 2,
+                    $this->evals[1][1]->id => 2
+                ]
+            ],
+            "subjectRequests" => [
+                $this->residents[0]->id => [
+                    $this->evals[0][0]->id => 1,
+                    $this->evals[0][1]->id => 1
+                ],
+                $this->residents[1]->id => []
+            ]
+        ]);
+	}
 
     public function testIndividualReport(){
 
@@ -1075,6 +1220,7 @@ class ReportTest extends TestCase
     }
 
     public function testFacultyStatistics(){
+		// FIXME
         $moreFaculty = factory(App\User::class, "faculty", 2)->create();
         $moreEvals = [
             factory(App\Evaluation::class)->create([
@@ -1144,6 +1290,7 @@ class ReportTest extends TestCase
     }
 
     public function testSingleFacultyStatistics(){
+		// FIXME
         $moreFaculty = factory(App\User::class, "faculty", 2)->create();
         $moreEvals = [
             factory(App\Evaluation::class)->create([
@@ -1230,6 +1377,7 @@ class ReportTest extends TestCase
     }
 
     public function testResidentStatistics(){
+		// FIXME
         $moreResidents = factory(App\User::class, "resident", 2)->create();
         $moreEvals = [
             factory(App\Evaluation::class)->create([
@@ -1310,6 +1458,7 @@ class ReportTest extends TestCase
     }
 
     public function testSingleResidentStatistics(){
+		// FIXME
         $moreResidents = factory(App\User::class, "resident", 2)->create();
         $moreEvals = [
             factory(App\Evaluation::class)->create([
