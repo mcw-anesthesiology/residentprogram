@@ -12,7 +12,9 @@
 				</div>
 				<div class="form-group col-sm-6">
 					<label class="containing-label">
-						Trainee's current training level
+						Trainee current training level
+						<span class="glyphicon glyphicon-question-sign"
+								ref="currentTrainingLevelHintGlyph"></span>
 						<training-level-select v-model="currentTrainingLevel" />
 					</label>
 				</div>
@@ -174,6 +176,40 @@ export default {
 			this.users = users;
 		});
 	},
+	mounted(){
+		$(this.$refs.currentTrainingLevelHintGlyph).popover({
+			title: 'Current training level',
+			content: `
+				<p>
+					Selecting a <b>current training level</b> will include only
+					active trainees for that level, whether they have completed
+					evaluations or not.
+				</p>
+				<p>
+					Any trainees with completed evaluations associated with the
+					<b>evaluation training level</b> who are not currently
+					in the selected <b>current training level</b> will be
+					excluded.
+				</p>
+				<dd>
+					<dt>Example:</dt>
+					<dd>
+						<p>						
+							Jane is currently a fellow, but she completed her
+							residency a month late, at the end of July.
+						</p>
+						<p>
+							When running reports for July for the incoming CA-3s,
+							Jane's July CA-3 evaluations will be excluded
+							from the report by selecting a
+							<b>current training level</b> of <i>CA-3</i>.
+						</p>
+					</dd>
+				</dd>`,
+			html: true,
+			placement: 'auto top'
+		});
+	},
 
 	watch: {
 		filterMilestones(shouldFilter){
@@ -315,5 +351,11 @@ export default {
 
 	.milestone-group .panel-body label {
 		font-weight: normal;
+	}
+</style>
+
+<style>
+	.popover dd {
+		padding: 0 1em;
 	}
 </style>
