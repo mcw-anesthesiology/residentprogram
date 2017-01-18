@@ -65,16 +65,30 @@
 
 		<div v-if="hasDescriptions || options" class="question-footer panel-footer">
 			<div class="question-description-toggle">
-				<button v-if="hasDescriptions" type="button" class="btn btn-info"
-						@click="showDescriptions = !showDescriptions">
-					<span class="glyphicon" :class="showDescriptions ? 'glyphicon-zoom-out' : 'glyphicon-zoom-in'"></span>
-					{{ showDescriptions ? 'Hide descriptions' : 'Show descriptions' }}
-				</button>
-				<button v-if="options" type="button" class="btn btn-info"
-						@click="showChart = !showChart">
-					<span class="glyphicon glyphicon-stats"></span>
-					{{ showChart ? 'Hide chart' : 'Show chart' }}
-				</button>
+				<show-hide-button v-if="hasDescriptions" class="btn btn-info"
+						v-model="showDescriptions">
+					<template slot="true">
+						<span class="glyphicon glyphicon-zoom-out"></span>
+						Hide
+					</template>
+					<template slot="false">
+						<span class="glyphicon glyphicon-zoom-in"></span>
+						Show
+					</template>
+					
+					descriptions
+					
+					<template slot="glyph"></template>
+				</show-hide-button>
+				
+				<show-hide-button v-if="options" class="btn btn-info"
+						v-model="showChart">
+					<span slot="left-glyph" class="glyphicon glyphicon-stats"></span>
+					
+					chart
+					
+					<template slot="glyph"></template>
+				</show-hide-button>
 			</div>
 		</div>
 	</div>
@@ -84,6 +98,7 @@
 import FormReaderQuestion from '../FormReader/FormReaderQuestion.vue';
 import FormReportQuestionOptionStats from './FormReportQuestionOptionStats.vue';
 import ChartjsChart from '../ChartjsChart.vue';
+import ShowHideButton from '../ShowHideButton.vue';
 
 import { CHART_COLORS } from '../../modules/constants.js';
 import { camelCaseToWords } from '../../modules/utils.js';
@@ -110,28 +125,30 @@ export default {
 			];
 		},
 		chartData(){
-			return {
-				labels: this.options.map(option => option.text || option.value),
-				datasets: [
-					{
-						label: 'Subject responses',
-						data: Object.values(this.subjectResponses),
-						backgroundColor: CHART_COLORS.OTHER
-					}
-				]
-			};
+			if(this.subjectResponses)
+				return {
+					labels: this.options.map(option => option.text || option.value),
+					datasets: [
+						{
+							label: 'Subject responses',
+							data: Object.values(this.subjectResponses),
+							backgroundColor: CHART_COLORS.OTHER
+						}
+					]
+				};
 		},
 		averageChartData(){
-			return {
-				labels: this.options.map(option => option.text || option.value),
-				datasets: [
-					{
-						label: 'Average responses',
-						data: Object.values(this.averageResponses),
-						backgroundColor: CHART_COLORS.OTHER
-					}
-				]
-			};
+			if(this.averageResponses)
+				return {
+					labels: this.options.map(option => option.text || option.value),
+					datasets: [
+						{
+							label: 'Average responses',
+							data: Object.values(this.averageResponses),
+							backgroundColor: CHART_COLORS.OTHER
+						}
+					]
+				};
 		},
 		chartOptions(){
 			return {
@@ -149,7 +166,8 @@ export default {
 	},
 	components: {
 		FormReportQuestionOptionStats,
-		ChartjsChart
+		ChartjsChart,
+		ShowHideButton
 	}
 };
 </script>

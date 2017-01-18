@@ -14,7 +14,7 @@
 				<button type="button" class="btn btn-lg btn-primary"
 						@click="runReport">
 					Run report
-				</button>				
+				</button>
 			</div>
 		</div>
 
@@ -28,11 +28,11 @@
 							{{ report.evals.length }} evaluations
 						</h2>
 					</div>
-					<div class="col-md-4">
-						<button type="button" class="btn btn-info"
-								@click="show.allEvals = !show.allEvals">
-							Show all
-						</button>						
+					<div class="col-md-4 text-right">
+						<show-hide-button class="btn btn-info"
+								v-model="show.allEvals">
+							all
+						</show-hide-button>
 					</div>
 				</div>
 				
@@ -57,20 +57,22 @@
 							v-if="report.subjectEvals[subjectId] && report.subjectEvals[subjectId].length > 0">
 						
 						<div class="row">
-							<div class="col-md-8">							
-								{{ report.subjectEvals[subjectId].length }}
-								{{ subject.full_name }} evaluations
+							<div class="col-md-8">
+								<h2>
+									{{ report.subjectEvals[subjectId].length }}
+									{{ subject.full_name }} evaluations
+								</h2>
 							</div>
-							<div class="col-md-4">
-								<button type="button" class="btn btn-info"
-										@click="show.subjectEvals = !show.subjectEvals">
-									Show all
-								</button>							
+							<div class="col-md-4 text-right">
+								<show-hide-button class="btn btn-info"
+										v-model="show.subjectEvals">
+									all
+								</show-hide-button>
 							</div>
 						</div>
 						
 						<data-table v-if="show.subjectEvals" :bordered="false"
-							:thead="evalsThead" :config="subjectEvalsConfig" />							
+							:thead="evalsThead" :config="subjectEvalsConfig" />
 
 					</bootstrap-alert>
 					<bootstrap-alert v-else type="warning"
@@ -78,7 +80,7 @@
 				</section>
 			</section>
 			
-			<h2 v-if="reportContents.title">
+			<h2 class="form-title" v-if="reportContents.title">
 				{{ reportContents.title }}
 			</h2>
 			<template v-for="item of reportContents.items">
@@ -98,6 +100,7 @@ import FormReportQuestion from './FormReportQuestion.vue';
 import DataTable from '../DataTable.vue';
 import BootstrapAlert from '../BootstrapAlert.vue';
 import AlertList from '../AlertList.vue';
+import ShowHideButton from '../ShowHideButton.vue';
 
 import { getFetchHeaders, fetchFormGroups } from '../../modules/utils.js';
 import {
@@ -275,7 +278,7 @@ export default {
 		}).catch(err => {
 			this.alerts.push({
 				type: 'error',
-				text: 'There was a problem fetching the list of forms'
+				html: '<strong>Error: </strong> There was a problem fetching the list of forms'
 			});
 			console.error(err);
 		});
@@ -296,10 +299,14 @@ export default {
 				if(response.ok)
 					return response.json();
 				else
-					throw new Error();
+					throw new Error(response.statusText);
 			}).then(report => {
 				this.report = Object.assign({}, this.report, report);
 			}).catch(err => {
+				this.alerts.push({
+					type: 'error',
+					html: '<strong>Error: </strong> There was a problem running the report'
+				});
 				console.error(err);
 			});
 		}
@@ -311,7 +318,18 @@ export default {
 		FormReportQuestion,
 		DataTable,
 		BootstrapAlert,
-		AlertList
+		AlertList,
+		ShowHideButton
 	}
 };
 </script>
+
+<style scoped>
+	h2 {
+		margin-top: 0;
+	}
+	
+	h2.form-title {
+		margin: 60px 0 20px;
+	}
+</style>

@@ -36,6 +36,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ exports["default"] = {
 	props: {
@@ -304,7 +306,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$emit('input', !_vm.value)
       }
     }
-  }, [(_vm.value) ? _vm._t("true", [_vm._v("\n\t\tHide\n\t")]) : _vm._t("false", [_vm._v("\n\t\tShow\n\t")]), _vm._v(" "), _vm._t("default", [_vm._v("\n\t\t" + _vm._s(_vm.text) + "\n\t")]), _vm._v(" "), _vm._t("glyph", [_c('span', {
+  }, [_vm._t("left-glyph"), _vm._v(" "), (_vm.value) ? _vm._t("true", [_vm._v("\n\t\tHide\n\t")]) : _vm._t("false", [_vm._v("\n\t\tShow\n\t")]), _vm._v(" "), _vm._t("default", [_vm._v("\n\t\t" + _vm._s(_vm.text) + "\n\t")]), _vm._v(" "), _vm._t("glyph", [_c('span', {
     staticClass: "glyphicon glyphicon-triangle-bottom"
   })])], 2)
 },staticRenderFns: []}

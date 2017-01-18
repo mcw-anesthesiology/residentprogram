@@ -4319,6 +4319,9 @@ module.exports = __vue_exports__
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
+/* styles */
+__webpack_require__(371)
+
 /* script */
 __vue_exports__ = __webpack_require__(96)
 
@@ -4338,6 +4341,7 @@ if (typeof __vue_options__ === "function") {
 __vue_options__.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/FormReport.vue"
 __vue_options__.render = __vue_template__.render
 __vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+__vue_options__._scopeId = "data-v-14383632"
 
 /* hot reload */
 if (false) {(function () {
@@ -10051,8 +10055,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__BootstrapAlert_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__BootstrapAlert_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__AlertList_vue__ = __webpack_require__(58);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__AlertList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_utils_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ShowHideButton_vue__ = __webpack_require__(62);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ShowHideButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__ShowHideButton_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_utils_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__modules_datatable_utils_js__ = __webpack_require__(7);
 //
 //
 //
@@ -10146,6 +10152,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //
 //
 //
+//
+//
+
 
 
 
@@ -10241,7 +10250,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 					},
 					dataSrc: ''
 				},
-				columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'evaluator.full_name' }, { data: 'requestor.full_name' }, { data: 'form.title' }, { data: "evaluation_date", render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["c" /* renderDateCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["d" /* createDateCell */] }, { data: "request_date", render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["c" /* renderDateCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["d" /* createDateCell */] }, { data: "complete_date", render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["e" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["f" /* createDateTimeCell */] }, { data: "status", render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["b" /* renderEvaluationStatus */] }],
+				columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'evaluator.full_name' }, { data: 'requestor.full_name' }, { data: 'form.title' }, { data: "evaluation_date", render: __WEBPACK_IMPORTED_MODULE_8__modules_datatable_utils_js__["c" /* renderDateCell */], createdCell: __WEBPACK_IMPORTED_MODULE_8__modules_datatable_utils_js__["d" /* createDateCell */] }, { data: "request_date", render: __WEBPACK_IMPORTED_MODULE_8__modules_datatable_utils_js__["c" /* renderDateCell */], createdCell: __WEBPACK_IMPORTED_MODULE_8__modules_datatable_utils_js__["d" /* createDateCell */] }, { data: "complete_date", render: __WEBPACK_IMPORTED_MODULE_8__modules_datatable_utils_js__["e" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_8__modules_datatable_utils_js__["f" /* createDateTimeCell */] }, { data: "status", render: __WEBPACK_IMPORTED_MODULE_8__modules_datatable_utils_js__["b" /* renderEvaluationStatus */] }],
 				order: [[0, 'desc']]
 			};
 		},
@@ -10260,7 +10269,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 					},
 					dataSrc: ''
 				},
-				columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'evaluator.full_name' }, { data: 'requestor.full_name' }, { data: 'form.title' }, { data: "evaluation_date", render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["c" /* renderDateCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["d" /* createDateCell */] }, { data: "request_date", render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["c" /* renderDateCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["d" /* createDateCell */] }, { data: "complete_date", render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["e" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["f" /* createDateTimeCell */] }, { data: "status", render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["b" /* renderEvaluationStatus */] }],
+				columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'evaluator.full_name' }, { data: 'requestor.full_name' }, { data: 'form.title' }, { data: "evaluation_date", render: __WEBPACK_IMPORTED_MODULE_8__modules_datatable_utils_js__["c" /* renderDateCell */], createdCell: __WEBPACK_IMPORTED_MODULE_8__modules_datatable_utils_js__["d" /* createDateCell */] }, { data: "request_date", render: __WEBPACK_IMPORTED_MODULE_8__modules_datatable_utils_js__["c" /* renderDateCell */], createdCell: __WEBPACK_IMPORTED_MODULE_8__modules_datatable_utils_js__["d" /* createDateCell */] }, { data: "complete_date", render: __WEBPACK_IMPORTED_MODULE_8__modules_datatable_utils_js__["e" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_8__modules_datatable_utils_js__["f" /* createDateTimeCell */] }, { data: "status", render: __WEBPACK_IMPORTED_MODULE_8__modules_datatable_utils_js__["b" /* renderEvaluationStatus */] }],
 				order: [[0, 'desc']]
 			};
 		}
@@ -10269,12 +10278,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 	created: function created() {
 		var _this3 = this;
 
-		__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["k" /* fetchFormGroups */])().then(function (groupedForms) {
+		__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["k" /* fetchFormGroups */])().then(function (groupedForms) {
 			_this3.groupedForms = groupedForms;
 		}).catch(function (err) {
 			_this3.alerts.push({
 				type: 'error',
-				text: 'There was a problem fetching the list of forms'
+				html: '<strong>Error: </strong> There was a problem fetching the list of forms'
 			});
 			console.error(err);
 		});
@@ -10287,7 +10296,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
 			fetch('/report/form', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["f" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["f" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -10295,10 +10304,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 					'form_id': this.formId
 				})
 			}).then(function (response) {
-				if (response.ok) return response.json();else throw new Error();
+				if (response.ok) return response.json();else throw new Error(response.statusText);
 			}).then(function (report) {
 				_this4.report = Object.assign({}, _this4.report, report);
 			}).catch(function (err) {
+				_this4.alerts.push({
+					type: 'error',
+					html: '<strong>Error: </strong> There was a problem running the report'
+				});
 				console.error(err);
 			});
 		}
@@ -10310,7 +10323,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 		FormReportQuestion: __WEBPACK_IMPORTED_MODULE_2__FormReportQuestion_vue___default.a,
 		DataTable: __WEBPACK_IMPORTED_MODULE_3__DataTable_vue___default.a,
 		BootstrapAlert: __WEBPACK_IMPORTED_MODULE_4__BootstrapAlert_vue___default.a,
-		AlertList: __WEBPACK_IMPORTED_MODULE_5__AlertList_vue___default.a
+		AlertList: __WEBPACK_IMPORTED_MODULE_5__AlertList_vue___default.a,
+		ShowHideButton: __WEBPACK_IMPORTED_MODULE_6__ShowHideButton_vue___default.a
 	}
 };
 
@@ -10326,8 +10340,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormReportQuestionOptionStats_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__FormReportQuestionOptionStats_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ChartjsChart_vue__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ChartjsChart_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__ChartjsChart_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ShowHideButton_vue__ = __webpack_require__(62);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ShowHideButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__ShowHideButton_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_constants_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(3);
 //
 //
 //
@@ -10410,6 +10426,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -10437,26 +10468,26 @@ Object.defineProperty(exports, "__esModule", { value: true });
 			return ['pie', 'bar', 'polarArea'];
 		},
 		chartData: function chartData() {
-			return {
+			if (this.subjectResponses) return {
 				labels: this.options.map(function (option) {
 					return option.text || option.value;
 				}),
 				datasets: [{
 					label: 'Subject responses',
 					data: Object.values(this.subjectResponses),
-					backgroundColor: __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["e" /* CHART_COLORS */].OTHER
+					backgroundColor: __WEBPACK_IMPORTED_MODULE_4__modules_constants_js__["e" /* CHART_COLORS */].OTHER
 				}]
 			};
 		},
 		averageChartData: function averageChartData() {
-			return {
+			if (this.averageResponses) return {
 				labels: this.options.map(function (option) {
 					return option.text || option.value;
 				}),
 				datasets: [{
 					label: 'Average responses',
 					data: Object.values(this.averageResponses),
-					backgroundColor: __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["e" /* CHART_COLORS */].OTHER
+					backgroundColor: __WEBPACK_IMPORTED_MODULE_4__modules_constants_js__["e" /* CHART_COLORS */].OTHER
 				}]
 			};
 		},
@@ -10472,11 +10503,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 		}
 	},
 	methods: {
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["h" /* camelCaseToWords */]
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["h" /* camelCaseToWords */]
 	},
 	components: {
 		FormReportQuestionOptionStats: __WEBPACK_IMPORTED_MODULE_1__FormReportQuestionOptionStats_vue___default.a,
-		ChartjsChart: __WEBPACK_IMPORTED_MODULE_2__ChartjsChart_vue___default.a
+		ChartjsChart: __WEBPACK_IMPORTED_MODULE_2__ChartjsChart_vue___default.a,
+		ShowHideButton: __WEBPACK_IMPORTED_MODULE_3__ShowHideButton_vue___default.a
 	}
 };
 
@@ -12508,6 +12540,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+//
+//
 //
 //
 //
@@ -35396,18 +35430,24 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "col-md-8"
   }, [_c('h2', [_vm._v("\n\t\t\t\t\t\t" + _vm._s(_vm.report.evals.length) + " evaluations\n\t\t\t\t\t")])]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-4"
-  }, [_c('button', {
+    staticClass: "col-md-4 text-right"
+  }, [_c('show-hide-button', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.show.allEvals),
+      expression: "show.allEvals"
+    }],
     staticClass: "btn btn-info",
-    attrs: {
-      "type": "button"
+    domProps: {
+      "value": (_vm.show.allEvals)
     },
     on: {
-      "click": function($event) {
-        _vm.show.allEvals = !_vm.show.allEvals
+      "input": function($event) {
+        _vm.show.allEvals = $event
       }
     }
-  }, [_vm._v("\n\t\t\t\t\t\tShow all\n\t\t\t\t\t")])])]), _vm._v(" "), (_vm.show.allEvals) ? _c('data-table', {
+  }, [_vm._v("\n\t\t\t\t\t\tall\n\t\t\t\t\t")])], 1)]), _vm._v(" "), (_vm.show.allEvals) ? _c('data-table', {
     attrs: {
       "bordered": false,
       "thead": _vm.evalsThead,
@@ -35454,19 +35494,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col-md-8"
-  }, [_vm._v("\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t" + _vm._s(_vm.report.subjectEvals[_vm.subjectId].length) + "\n\t\t\t\t\t\t\t" + _vm._s(_vm.subject.full_name) + " evaluations\n\t\t\t\t\t\t")]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-4"
-  }, [_c('button', {
+  }, [_c('h2', [_vm._v("\n\t\t\t\t\t\t\t\t" + _vm._s(_vm.report.subjectEvals[_vm.subjectId].length) + "\n\t\t\t\t\t\t\t\t" + _vm._s(_vm.subject.full_name) + " evaluations\n\t\t\t\t\t\t\t")])]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-4 text-right"
+  }, [_c('show-hide-button', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.show.subjectEvals),
+      expression: "show.subjectEvals"
+    }],
     staticClass: "btn btn-info",
-    attrs: {
-      "type": "button"
+    domProps: {
+      "value": (_vm.show.subjectEvals)
     },
     on: {
-      "click": function($event) {
-        _vm.show.subjectEvals = !_vm.show.subjectEvals
+      "input": function($event) {
+        _vm.show.subjectEvals = $event
       }
     }
-  }, [_vm._v("\n\t\t\t\t\t\t\t\tShow all\n\t\t\t\t\t\t\t")])])]), _vm._v(" "), (_vm.show.subjectEvals) ? _c('data-table', {
+  }, [_vm._v("\n\t\t\t\t\t\t\t\tall\n\t\t\t\t\t\t\t")])], 1)]), _vm._v(" "), (_vm.show.subjectEvals) ? _c('data-table', {
     attrs: {
       "bordered": false,
       "thead": _vm.evalsThead,
@@ -35477,7 +35523,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "type": "warning",
       "text": ("No evaluations found for " + (_vm.subject.full_name) + " in report parameters.")
     }
-  })], 1) : _vm._e()]), _vm._v(" "), (_vm.reportContents.title) ? _c('h2', [_vm._v("\n\t\t\t" + _vm._s(_vm.reportContents.title) + "\n\t\t")]) : _vm._e(), _vm._v(" "), _vm._l((_vm.reportContents.items), function(item) {
+  })], 1) : _vm._e()]), _vm._v(" "), (_vm.reportContents.title) ? _c('h2', {
+    staticClass: "form-title"
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.reportContents.title) + "\n\t\t")]) : _vm._e(), _vm._v(" "), _vm._l((_vm.reportContents.items), function(item) {
     return [(item.type === 'question') ? _c('form-report-question', _vm._b({}, 'form-report-question', item)) : _vm._e(), _vm._v(" "), (item.type === 'instruction') ? _c('div') : _vm._e()]
   })], 2) : _vm._e()])
 },staticRenderFns: []}
@@ -35963,7 +36011,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$emit('input', !_vm.value)
       }
     }
-  }, [(_vm.value) ? _vm._t("true", [_vm._v("\n\t\tHide\n\t")]) : _vm._t("false", [_vm._v("\n\t\tShow\n\t")]), _vm._v(" "), _vm._t("default", [_vm._v("\n\t\t" + _vm._s(_vm.text) + "\n\t")]), _vm._v(" "), _vm._t("glyph", [_c('span', {
+  }, [_vm._t("left-glyph"), _vm._v(" "), (_vm.value) ? _vm._t("true", [_vm._v("\n\t\tHide\n\t")]) : _vm._t("false", [_vm._v("\n\t\tShow\n\t")]), _vm._v(" "), _vm._t("default", [_vm._v("\n\t\t" + _vm._s(_vm.text) + "\n\t")]), _vm._v(" "), _vm._t("glyph", [_c('span', {
     staticClass: "glyphicon glyphicon-triangle-bottom"
   })])], 2)
 },staticRenderFns: []}
@@ -37512,32 +37560,54 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "question-footer panel-footer"
   }, [_c('div', {
     staticClass: "question-description-toggle"
-  }, [(_vm.hasDescriptions) ? _c('button', {
+  }, [(_vm.hasDescriptions) ? _c('show-hide-button', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.showDescriptions),
+      expression: "showDescriptions"
+    }],
     staticClass: "btn btn-info",
-    attrs: {
-      "type": "button"
+    domProps: {
+      "value": (_vm.showDescriptions)
     },
     on: {
-      "click": function($event) {
-        _vm.showDescriptions = !_vm.showDescriptions
+      "input": function($event) {
+        _vm.showDescriptions = $event
+      }
+    }
+  }, [_c('template', {
+    slot: "true"
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-zoom-out"
+  }), _vm._v("\n\t\t\t\t\tHide\n\t\t\t\t")]), _vm._v(" "), _c('template', {
+    slot: "false"
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-zoom-in"
+  }), _vm._v("\n\t\t\t\t\tShow\n\t\t\t\t")]), _vm._v("\n\t\t\t\t\n\t\t\t\tdescriptions\n\t\t\t\t\n\t\t\t\t"), _c('template', {
+    slot: "glyph"
+  })], 2) : _vm._e(), _vm._v(" "), (_vm.options) ? _c('show-hide-button', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.showChart),
+      expression: "showChart"
+    }],
+    staticClass: "btn btn-info",
+    domProps: {
+      "value": (_vm.showChart)
+    },
+    on: {
+      "input": function($event) {
+        _vm.showChart = $event
       }
     }
   }, [_c('span', {
-    staticClass: "glyphicon",
-    class: _vm.showDescriptions ? 'glyphicon-zoom-out' : 'glyphicon-zoom-in'
-  }), _vm._v("\n\t\t\t\t" + _vm._s(_vm.showDescriptions ? 'Hide descriptions' : 'Show descriptions') + "\n\t\t\t")]) : _vm._e(), _vm._v(" "), (_vm.options) ? _c('button', {
-    staticClass: "btn btn-info",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.showChart = !_vm.showChart
-      }
-    }
-  }, [_c('span', {
-    staticClass: "glyphicon glyphicon-stats"
-  }), _vm._v("\n\t\t\t\t" + _vm._s(_vm.showChart ? 'Hide chart' : 'Show chart') + "\n\t\t\t")]) : _vm._e()])]) : _vm._e()])
+    staticClass: "glyphicon glyphicon-stats",
+    slot: "left-glyph"
+  }), _vm._v("\n\t\t\t\t\n\t\t\t\tchart\n\t\t\t\t\n\t\t\t\t"), _c('template', {
+    slot: "glyph"
+  })], 2) : _vm._e()], 1)]) : _vm._e()])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('th', [_vm._v("Evaluation")]), _vm._v(" "), _c('th', [_vm._v("Response")])])
 }]}
@@ -38136,6 +38206,52 @@ function createReports(el) {
 			return h(__WEBPACK_IMPORTED_MODULE_2__vue_components_Reports_Reports_vue___default.a);
 		}
 	});
+}
+
+/***/ }),
+/* 364 */,
+/* 365 */,
+/* 366 */,
+/* 367 */,
+/* 368 */,
+/* 369 */,
+/* 370 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\nh2[data-v-14383632] {\n\tmargin-top: 0;\n}\nh2.form-title[data-v-14383632] {\n\tmargin: 60px 0 20px;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/Reports/FormReport.vue?993ac806"],"names":[],"mappings":";AAuUA;CACA,cAAA;CACA;AAEA;CACA,oBAAA;CACA","file":"FormReport.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block\">\n\t\t\t<report-date v-model=\"dates\" />\n\t\t\t<label class=\"containing-label\">\n\t\t\t\tForm\n\t\t\t\t<select-two class=\"form-control\" :options=\"groupedForms\"\n\t\t\t\t\t\tv-model=\"formId\"></select-two>\n\t\t\t</label>\n\t\t\t\n\t\t\t<alert-list v-model=\"alerts\" />\n\t\t\t\n\t\t\t<div class=\"btn-lg-submit-container\">\n\t\t\t\t<button type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t\t@click=\"runReport\">\n\t\t\t\t\tRun report\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div v-if=\"report\" class=\"container body-block\">\n\t\t\t\n\t\t\t<bootstrap-alert v-if=\"report.evals.length > 0\" type=\"info\">\n\t\t\t\t\n\t\t\t\t<div class=\"row\">\n\t\t\t\t\t<div class=\"col-md-8\">\n\t\t\t\t\t\t<h2>\n\t\t\t\t\t\t\t{{ report.evals.length }} evaluations\n\t\t\t\t\t\t</h2>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"col-md-4 text-right\">\n\t\t\t\t\t\t<show-hide-button class=\"btn btn-info\"\n\t\t\t\t\t\t\t\tv-model=\"show.allEvals\">\n\t\t\t\t\t\t\tall\n\t\t\t\t\t\t</show-hide-button>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t\n\t\t\t\t<data-table v-if=\"show.allEvals\" :bordered=\"false\"\n\t\t\t\t\t:thead=\"evalsThead\" :config=\"allEvalsConfig\" />\n\n\t\t\t</bootstrap-alert>\n\t\t\t<bootstrap-alert v-else type=\"warning\"\n\t\t\t\t:text=\"`No evaluations found for ${report.formContents.title} in report parameters.`\" />\n\t\t\t\n\t\t\t<section>\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tUser\n\t\t\t\t\t<select-two class=\"form-control\" :options=\"groupedUsers\"\n\t\t\t\t\t\t\tv-model=\"subjectId\">\n\t\t\t\t\t\t<option value=\"\">All</option>\n\t\t\t\t\t</select-two>\n\t\t\t\t</label>\n\t\t\t\t\n\t\t\t\t<section v-if=\"subjectId\">\n\t\t\t\t\t<bootstrap-alert type=\"info\"\n\t\t\t\t\t\t\tv-if=\"report.subjectEvals[subjectId] && report.subjectEvals[subjectId].length > 0\">\n\t\t\t\t\t\t\n\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t<div class=\"col-md-8\">\n\t\t\t\t\t\t\t\t<h2>\n\t\t\t\t\t\t\t\t\t{{ report.subjectEvals[subjectId].length }}\n\t\t\t\t\t\t\t\t\t{{ subject.full_name }} evaluations\n\t\t\t\t\t\t\t\t</h2>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"col-md-4 text-right\">\n\t\t\t\t\t\t\t\t<show-hide-button class=\"btn btn-info\"\n\t\t\t\t\t\t\t\t\t\tv-model=\"show.subjectEvals\">\n\t\t\t\t\t\t\t\t\tall\n\t\t\t\t\t\t\t\t</show-hide-button>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\n\t\t\t\t\t\t<data-table v-if=\"show.subjectEvals\" :bordered=\"false\"\n\t\t\t\t\t\t\t:thead=\"evalsThead\" :config=\"subjectEvalsConfig\" />\n\n\t\t\t\t\t</bootstrap-alert>\n\t\t\t\t\t<bootstrap-alert v-else type=\"warning\"\n\t\t\t\t\t\t:text=\"`No evaluations found for ${subject.full_name} in report parameters.`\" />\n\t\t\t\t</section>\n\t\t\t</section>\n\t\t\t\n\t\t\t<h2 class=\"form-title\" v-if=\"reportContents.title\">\n\t\t\t\t{{ reportContents.title }}\n\t\t\t</h2>\n\t\t\t<template v-for=\"item of reportContents.items\">\n\t\t\t\t<form-report-question v-if=\"item.type === 'question'\" v-bind=\"item\" />\n\t\t\t\t<div v-if=\"item.type === 'instruction'\">\n\n\t\t\t\t</div>\n\t\t\t</template>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport ReportDate from './ReportDate.vue';\nimport SelectTwo from '../SelectTwo.vue';\nimport FormReportQuestion from './FormReportQuestion.vue';\nimport DataTable from '../DataTable.vue';\nimport BootstrapAlert from '../BootstrapAlert.vue';\nimport AlertList from '../AlertList.vue';\nimport ShowHideButton from '../ShowHideButton.vue';\n\nimport { getFetchHeaders, fetchFormGroups } from '../../modules/utils.js';\nimport {\n\trenderDateCell,\n\tcreateDateCell,\n\trenderDateTimeCell,\n\tcreateDateTimeCell,\n\trenderEvaluationStatus\n} from '../../modules/datatable-utils.js';\n\nexport default {\n\tprops: {\n\t\tusers: {\n\t\t\ttype: Array\n\t\t},\n\t\tgroupedUsers: {\n\t\t\ttype: Array\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tdates: {\n\t\t\t\tstartDate: null,\n\t\t\t\tendDate: null\n\t\t\t},\n\t\t\tformId: null,\n\t\t\tsubjectId: null,\n\t\t\treport: null,\n\n\t\t\tgroupedForms: [],\n\t\t\t\n\t\t\tshow: {\n\t\t\t\tallEvals: false,\n\t\t\t\tsubjectEvals: false\n\t\t\t},\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\n\tcomputed: {\n\t\tsubject(){\n\t\t\tif(this.subjectId)\n\t\t\t\treturn this.users.find(user => user.id === Number(this.subjectId));\n\t\t},\n\t\treportContents(){\n\t\t\tlet reportContents = this.report.formContents;\n\n\t\t\treportContents.items.map(item => {\n\t\t\t\titem.weight = Number(item.weight);\n\t\t\t\tif(this.subjectId && this.report.subjectEvals[this.subjectId]){\n\t\t\t\t\titem.subjectResponses = this.report.subjectResponses[this.subjectId]\n\t\t\t\t\t\t? this.report.subjectResponses[this.subjectId][item.id]\n\t\t\t\t\t\t: null;\n\t\t\t\t\titem.subjectResponseValues = this.report.subjectResponseValues[this.subjectId]\n\t\t\t\t\t\t? this.report.subjectResponseValues[this.subjectId][item.id]\n\t\t\t\t\t\t: null;\n\t\t\t\t}\n\n\t\t\t\titem.averageResponses = this.report.averageResponses[item.id];\n\n\t\t\t\tif(item.type === 'question' && ['checkbox', 'radio', 'radiononnumeric']\n\t\t\t\t\t\t.includes(item.questionType)){\n\t\t\t\t\titem.options.map(option => {\n\t\t\t\t\t\tif(this.subjectId && this.report.subjectEvals[this.subjectId]){\n\t\t\t\t\t\t\toption.responses = this.report.subjectResponses[this.subjectId]\n\t\t\t\t\t\t\t\t? this.report.subjectResponses[this.subjectId][item.id][option.value]\n\t\t\t\t\t\t\t\t: 0;\n\t\t\t\t\t\t\toption.percentage = this.report.subjectPercentages[this.subjectId]\n\t\t\t\t\t\t\t\t? this.report.subjectPercentages[this.subjectId][item.id][option.value]\n\t\t\t\t\t\t\t\t: 0;\n\t\t\t\t\t\t}\n\t\t\t\t\t\toption.averagePercentage = this.report.averagePercentages[item.id]\n\t\t\t\t\t\t\t? this.report.averagePercentages[item.id][option.value]\n\t\t\t\t\t\t\t: 0;\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t});\n\n\t\t\treturn reportContents;\n\t\t},\n\t\t\n\t\tevalsThead(){\n\t\t\treturn [[\n\t\t\t\t'#',\n\t\t\t\t'Subject',\n\t\t\t\t'Evaluator',\n\t\t\t\t'Requested By',\n\t\t\t\t'Form',\n\t\t\t\t'Evaluation Date',\n\t\t\t\t'Request Date',\n\t\t\t\t'Complete Date',\n\t\t\t\t'Status'\n\t\t\t]];\n\t\t},\n\t\tallEvalsConfig(){\n\t\t\treturn {\n\t\t\t\tajax: {\n\t\t\t\t\turl: '/evaluations',\n\t\t\t\t\tdata: {\n\t\t\t\t\t\tid: this.report.evals.slice(),\n\t\t\t\t\t\twith: {\n\t\t\t\t\t\t\tsubject: [\n\t\t\t\t\t\t\t\t'full_name'\n\t\t\t\t\t\t\t],\n\t\t\t\t\t\t\tevaluator: [\n\t\t\t\t\t\t\t\t'full_name'\n\t\t\t\t\t\t\t],\n\t\t\t\t\t\t\trequestor: [\n\t\t\t\t\t\t\t\t'full_name'\n\t\t\t\t\t\t\t],\n\t\t\t\t\t\t\tform: [\n\t\t\t\t\t\t\t\t'title'\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\tdataSrc: ''\n\t\t\t\t},\n\t\t\t\tcolumns: [\n\t\t\t\t\t{data: 'url'},\n\t\t\t\t\t{data: 'subject.full_name'},\n\t\t\t\t\t{data: 'evaluator.full_name'},\n\t\t\t\t\t{data: 'requestor.full_name'},\n\t\t\t\t\t{data: 'form.title'},\n\t\t\t\t\t{data: \"evaluation_date\", render: renderDateCell, createdCell: createDateCell},\n\t\t\t\t\t{data: \"request_date\", render: renderDateCell, createdCell: createDateCell},\n\t\t\t\t\t{data: \"complete_date\", render: renderDateTimeCell, createdCell: createDateTimeCell},\n\t\t\t\t\t{data: \"status\", render: renderEvaluationStatus}\n\t\t\t\t],\n\t\t\t\torder: [[0, 'desc']]\n\t\t\t};\n\t\t},\n\t\tsubjectEvalsConfig(){\n\t\t\treturn {\n\t\t\t\tajax: {\n\t\t\t\t\turl: '/evaluations',\n\t\t\t\t\tdata: {\n\t\t\t\t\t\tid: this.report.subjectEvals[this.subjectId].slice(),\n\t\t\t\t\t\twith: {\n\t\t\t\t\t\t\tsubject: [\n\t\t\t\t\t\t\t\t'full_name'\n\t\t\t\t\t\t\t],\n\t\t\t\t\t\t\tevaluator: [\n\t\t\t\t\t\t\t\t'full_name'\n\t\t\t\t\t\t\t],\n\t\t\t\t\t\t\trequestor: [\n\t\t\t\t\t\t\t\t'full_name'\n\t\t\t\t\t\t\t],\n\t\t\t\t\t\t\tform: [\n\t\t\t\t\t\t\t\t'title'\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\tdataSrc: ''\n\t\t\t\t},\n\t\t\t\tcolumns: [\n\t\t\t\t\t{data: 'url'},\n\t\t\t\t\t{data: 'subject.full_name'},\n\t\t\t\t\t{data: 'evaluator.full_name'},\n\t\t\t\t\t{data: 'requestor.full_name'},\n\t\t\t\t\t{data: 'form.title'},\n\t\t\t\t\t{data: \"evaluation_date\", render: renderDateCell, createdCell: createDateCell},\n\t\t\t\t\t{data: \"request_date\", render: renderDateCell, createdCell: createDateCell},\n\t\t\t\t\t{data: \"complete_date\", render: renderDateTimeCell, createdCell: createDateTimeCell},\n\t\t\t\t\t{data: \"status\", render: renderEvaluationStatus}\n\t\t\t\t],\n\t\t\t\torder: [[0, 'desc']]\n\t\t\t};\n\t\t}\n\t},\n\n\tcreated(){\n\t\tfetchFormGroups().then(groupedForms => {\n\t\t\tthis.groupedForms = groupedForms;\n\t\t}).catch(err => {\n\t\t\tthis.alerts.push({\n\t\t\t\ttype: 'error',\n\t\t\t\thtml: '<strong>Error: </strong> There was a problem fetching the list of forms'\n\t\t\t});\n\t\t\tconsole.error(err);\n\t\t});\n\t},\n\n\tmethods: {\n\t\trunReport(){\n\t\t\tfetch('/report/form', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate,\n\t\t\t\t\t'form_id': this.formId\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\telse\n\t\t\t\t\tthrow new Error(response.statusText);\n\t\t\t}).then(report => {\n\t\t\t\tthis.report = Object.assign({}, this.report, report);\n\t\t\t}).catch(err => {\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\thtml: '<strong>Error: </strong> There was a problem running the report'\n\t\t\t\t});\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t}\n\t},\n\n\tcomponents: {\n\t\tReportDate,\n\t\tSelectTwo,\n\t\tFormReportQuestion,\n\t\tDataTable,\n\t\tBootstrapAlert,\n\t\tAlertList,\n\t\tShowHideButton\n\t}\n};\n</script>\n\n<style scoped>\n\th2 {\n\t\tmargin-top: 0;\n\t}\n\t\n\th2.form-title {\n\t\tmargin: 60px 0 20px;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+
+// exports
+
+
+/***/ }),
+/* 371 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(370);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(2)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!./../../../../../node_modules/css-loader/index.js?sourceMap!./../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-14383632&scoped=true!./../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormReport.vue", function() {
+			var newContent = require("!!./../../../../../node_modules/css-loader/index.js?sourceMap!./../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-14383632&scoped=true!./../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormReport.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
 }
 
 /***/ })

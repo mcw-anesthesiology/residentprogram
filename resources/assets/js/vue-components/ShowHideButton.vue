@@ -2,6 +2,8 @@
 	<button type="button" class="btn"
 			@click="$emit('input', !value)">
 			
+		<slot name="left-glyph"></slot>
+			
 		<slot v-if="value" name="true">
 			Hide
 		</slot>
