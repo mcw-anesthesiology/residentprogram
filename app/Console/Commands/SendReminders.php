@@ -41,22 +41,47 @@ class SendReminders extends Command
      */
     public function handle()
     {
-        $frequency = $this->argument("frequency");
-        $data = compact("frequency");
-        $users = User::where("type", "faculty")->where("status", "active")->where("reminder_frequency", $frequency)->with("evaluatorEvaluations")->get();
+        $frequency = $this->argument('frequency');
+        $data = compact('frequency');
+        $users = User::where('type', 'faculty')->where('status', 'active')
+			->where('reminder_frequency', $frequency)
+			->with(
+				'evaluatorEvaluations',
+				'evaluatorEvaluations.form',
+				'evaluatorEvaluations.subject'
+			)->get();
+			
         foreach($users as $emailUser){
-            try{
-                $numPending = $emailUser->evaluatorEvaluations->where("status", "pending")->count();
-				if($emailUser->remind_only_if_pending && $emailUser->remind_only_if_pending == "yes" && $numPending == 0){
+            try {
+				$pendingEvals = $emailUser->evaluatorEvaluations->where('status', 'pending');
+				$pendingEvals = [
+					'resident' => $pendingEvals->filter(function($eval){
+						return $eval->form->type == 'resident';
+					}),
+					'fellow' => $pendingEvals->filter(function($eval){
+						return $eval->form->type == 'fellow';
+					}),
+					'total' => $pendingEvals
+				];
+				
+				$numPending = $pendingEvals['total']->count();
+				if($emailUser->remind_only_if_pending
+						&& $emailUser->remind_only_if_pending == 'yes'
+						&& $numPending == 0)
 					continue;
-				}
-                $data["numPending"] = $numPending;
-                Mail::send("emails.reminder", $data, function($message) use ($emailUser){
-                    $message->from("reminders@residentprogram.com", "ResidentProgram Reminders");
+
+				$data = compact('frequency', 'pendingEvals', 'emailUser',
+					'numPending');
+				
+                Mail::send('emails.reminder', $data, function($message) use ($emailUser){
+                    $message->from('reminders@residentprogram.com', 'ResidentProgram Reminders');
                     $message->to($emailUser->email);
-                    $message->replyTo(config("app.admin_email"));
-                    $message->subject("Evaluation Reminder");
+                    $message->replyTo(config('app.admin_email'));
+                    $message->subject('Evaluation Reminder');
                 });
+				
+				if(config('app.env') != 'production')
+					sleep(1);
             }
             catch(\Exception $e){
                 Log::error($e);
