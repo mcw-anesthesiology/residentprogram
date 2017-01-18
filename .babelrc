@@ -9,7 +9,8 @@
 				]
 			},
 			"useBuiltIns": true,
-			"debug": true
+			"debug": true,
+			"modules": false
 		}]
 	],
 	"plugins": [

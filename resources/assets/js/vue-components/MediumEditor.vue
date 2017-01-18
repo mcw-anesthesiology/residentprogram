@@ -4,7 +4,8 @@
 		<div class="row">
 			<small class="col-md-8">
 				Select some text to show controls.
-				Cursor position gets a little wonky when a replacement is made.
+				Cursor position gets a little wonky when a replacement is made,
+				sorry about that.
 			</small>
 			<div class="col-md-4">
 				<replacement-list v-if="replacements"
@@ -18,6 +19,8 @@
 import MediumEditor from 'medium-editor';
 import 'medium-editor/dist/css/medium-editor.css';
 import 'medium-editor/dist/css/themes/bootstrap.css';
+
+import debounce from 'lodash/debounce';
 
 import ReplacementList from './ReplacementList.vue';
 
@@ -61,11 +64,11 @@ export default {
 				cleanPastedHTML: false
 			}
 		});
-		this.editor.subscribe('editableInput', () => {
+		this.editor.subscribe('editableInput', debounce(() => {
 			let html = this.editor.getContent();
 			
-			this.$emit('input', htmlLabelReplacements(html, this.replacements, true));
-		});
+			this.$emit('input', htmlLabelReplacements(html, this.replacements));
+		}, 500));
 		
 		this.$refs.container.querySelector('.medium-editor-element')
 			.classList.add('form-control');
