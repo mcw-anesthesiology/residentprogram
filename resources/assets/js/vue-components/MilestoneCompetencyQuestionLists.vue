@@ -4,19 +4,18 @@
 			<div class="panel panel-info milestones-panel">
 				<div class="panel-heading">
 					<h4 class="panel-title">
-						{{ucfirst(groupName)}}
+						{{ ucfirst(groupName) }}
 					</h4>
-					<button v-on:click="toggleDescriptions(groupName)"
-							type="button" class="description-button btn btn-info btn-xs"
-							v-bind:class="{ active: showDescriptions[groupName] }">
-						Show descriptions
-					</button>
+					<show-hide-button class="description-button btn btn-info btn-xs"
+							v-model="showDescriptions[groupName]">
+						descriptions
+					</show-hide-button>
 				</div>
 				<ul class="list-group">
 					<li v-for="item of group" class="list-group-item">
 						<b>{{item.title}}</b>
 						<span v-show="showDescriptions[groupName]">
-							— {{item.description}}
+							— {{ item.description }}
 						</span>
 					</li>
 				</ul>
@@ -26,7 +25,10 @@
 </template>
 
 <script>
+import ShowHideButton from './ShowHideButton.vue';
+
 import { ucfirst } from '../modules/utils.js';
+
 export default {
 	props: [
 		'milestones',
@@ -60,6 +62,9 @@ export default {
 		ucfirst(str){
 			return ucfirst(str);
 		}
+	},
+	components: {
+		ShowHideButton
 	}
 };
 </script>

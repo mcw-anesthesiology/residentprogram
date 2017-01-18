@@ -22,10 +22,10 @@
 							</button>
 						</span>
 						<span v-if="possibleRecipients" class="input-group-btn">
-							<button type="button" class="btn btn-default"
-									@click="show.possibleRecipients = !show.possibleRecipients">
-								Show recipients
-							</button>
+							<show-hide-button class="btn btn-default"
+									v-model="show.possibleRecipients">
+								recipients
+							</show-hide-button>
 						</span>
 					</div>
 					
@@ -88,6 +88,7 @@
 <script>
 import AlertList from './AlertList.vue';
 import MediumEditor from './MediumEditor.vue';
+import ShowHideButton from './ShowHideButton.vue';
 
 import MarkdownIt from 'markdown-it';
 
@@ -310,7 +311,8 @@ export default {
 	},
 	components: {
 		AlertList,
-		MediumEditor
+		MediumEditor,
+		ShowHideButton
 	}
 };
 </script>
