@@ -172,10 +172,7 @@ class Evaluation extends Model
         try{
             $email = $this->evaluator->email;
             $data = [
-                "evaluationId" => $this->id,
-                "evaluatorLast" => $this->evaluator->last_name,
-                "subjectLast" => $this->subject->last_name,
-                "formTitle" => $this->form->title
+				'evaluation' => $this
             ];
 
             if($reminder){
