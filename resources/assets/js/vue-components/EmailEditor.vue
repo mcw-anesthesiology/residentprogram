@@ -186,6 +186,13 @@ export default {
 				'alert-info': this.alert.type === 'info',
 				'alert-danger': this.alert.type === 'error'
 			};
+		},
+		defaultBody(){
+			return {
+				markdown: this.defaultBodyMarkdown,
+				html: htmlLabelReplacements(md.render(this.defaultBodyMarkdown),
+					this.emailReplacements)
+			};
 		}
 	},
 	watch: {

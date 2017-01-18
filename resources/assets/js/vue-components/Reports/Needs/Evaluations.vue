@@ -2,17 +2,31 @@
 	<section>
 		<h2>Needs evaluations</h2>
 		
-		<email-editor v-if="show.emailEditor"
-			from="reminders"
-			target="/emails/reminders"
-			title="Send reminders"
-			defaultSubject="Please request evaluations!"
-			:defaultTo="selectedUsers"
-			:possibleRecipients="trainees"
-			:defaultBodyMarkdown="defaultEmailMarkdown"
-			:emailReplacements="emailReplacements"
-			:additionalFields="additionalEmailFields"
-			@close="show.emailEditor = false" />
+		<div v-if="show.emailEditor" class="panel panel-default email-editor-container">
+			<div class="panel-body">
+				<email-editor
+					from="reminders"
+					target="/emails/reminders"
+					title="Send reminders"
+					defaultSubject="Please request evaluations!"
+					:defaultTo="selectedUsers"
+					:possibleRecipients="trainees"
+					:defaultBodyMarkdown="markdownTemplates.get(markdownTemplate)"
+					:emailReplacements="emailReplacements"
+					:additionalFields="additionalEmailFields"
+					@close="show.emailEditor = false" />
+				<label class="containing-label">
+					Email template
+					<select class="form-control" v-model="markdownTemplate">
+						<option v-for="template of Array.from(markdownTemplates.keys())"
+								:value="template">
+							{{ template }}
+						</option>
+					</select>
+				</label>
+			</div>
+		</div>
+		
 		<div v-else class="show-email-button-container">
 			<button type="button" class="btn btn-primary"
 					@click="show.emailEditor = true">
@@ -59,6 +73,7 @@ export default {
 	data(){
 		return {
 			selectedUsers: [],
+			markdownTemplate: 'Default',
 			show: {
 				emailEditor: false
 			}
@@ -71,19 +86,38 @@ export default {
 				'training_level'
 			];
 		},
-		defaultEmailMarkdown(){
+		markdownTemplates(){
 			let startDate = moment(this.dates.startDate).format('LL');
 			let endDate = moment(this.dates.endDate).format('LL');
-			return `Hello Dr. [[Name]]
+			return new Map([
+				[
+					'Default',
+					`Hello Dr. [[Name]],
 
 You have [[# Completed]] evaluations completed for between ${startDate} and ${endDate}.
 
-**You are required to have ${this.evalThreshold} evaluations completed for this period.** Please request at least [[# Needed]] more evaluations as soon as possible.
+**You are required to have ${this.evalThreshold} evaluations completed for this period.**
+Please request at least [[# Needed]] more evaluations as soon as possible.
 
 If you have any issues or questions about the system, please contact [${ADMIN_EMAIL}](mailto:${ADMIN_EMAIL}).
 
-Thank you!`;
+Thank you!`
+				],
+				[
+					'CCC',
+					`Hello Dr. [[Name]],
 
+The Clinical Competency Committee will be meeting soon to evaluate your performance from ${startDate} to ${endDate}.
+
+You currently have [[# Completed]] evaluations completed for this period;
+however, **you are required to have ${this.evalThreshold} evaluations completed for this period.**
+Please request at least [[# Needed]] more evaluations as soon as possible.
+
+If you have any issues or questions about the system, please contact [${ADMIN_EMAIL}](mailto:${ADMIN_EMAIL}).
+
+Thank you!`
+				]
+			]);
 		},
 		emailReplacements(){
 			return [
@@ -115,7 +149,7 @@ Thank you!`;
 		margin-bottom: 20px;
 	}
 
-	.evaluation-list-item:nth-child(even) {
-		
+	.email-editor-container {
+		margin-bottom: 60px;
 	}
 </style>
