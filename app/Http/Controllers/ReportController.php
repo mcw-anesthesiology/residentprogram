@@ -71,7 +71,7 @@ class ReportController extends Controller
 
         if($request->input("user") && $request->input("user") != "all"){
             $users = User::where("id", $request->input("user"))->get();
-        } else{
+        } else {
             switch($type){
                 case "faculty":
                     $users = User::where("status", "active")->where("type", "faculty")->with("evaluatorEvaluations.form")->get();
@@ -84,9 +84,12 @@ class ReportController extends Controller
                     break;
             }
         }
+		
+		$times = [];
+		
         foreach($users as $user){
-            try{
-
+			
+            try {
                 $userEvaluations = $type == "faculty" ? $user->evaluatorEvaluations() : $user->subjectEvaluations();
                 if(!empty($startDate))
                     $userEvaluations->where("evaluation_date", ">=", $startDate);
@@ -562,7 +565,7 @@ class ReportController extends Controller
             $textQuery->select("subject_id", "evaluators.first_name", "evaluators.last_name",
                 "forms.title as form_title", "evaluation_date", "response");
 
-            $subjectTextResponses = $textQuery->get();
+            $subjectTextResponses = $textQuery->get()->all();
 
             $data["subjectTextResponses"] = $subjectTextResponses;
 
@@ -586,7 +589,7 @@ class ReportController extends Controller
             $reportEvaluationsQuery->select("evaluations.id as evaluation_id", "subject_id",
                 "evaluators.first_name", "evaluators.last_name", "forms.title as form_title", "evaluation_date");
 
-            $data["subjectReportEvaluations"] = $reportEvaluationsQuery->get();
+            $data["subjectReportEvaluations"] = $reportEvaluationsQuery->get()->all();
         }
 		else {
 			$textQuery = DB::table("text_responses")
@@ -611,7 +614,7 @@ class ReportController extends Controller
 				"forms.title as form_title", "evaluation_date", "response",
 				"evaluation_id");
 
-			$subjectTextResponses = collect($textQuery->get())->groupBy('subject_id');
+			$subjectTextResponses = $textQuery->get()->groupBy('subject_id');
 
 			$data["subjectTextResponses"] = $subjectTextResponses;
 		}
