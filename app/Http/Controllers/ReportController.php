@@ -784,9 +784,21 @@ class ReportController extends Controller
     	return $data;
     }
 
-    private function encodeAndStrip($array){
-        $array = addslashes(json_encode($array));
-        str_replace("'", "", $array);
-        return $array;
-    }
+    public function pendingRequests(Request $request){
+		$user = Auth::user();
+        $startDate = Carbon::parse($request->input('startDate'));
+        $startDate->timezone = 'America/Chicago';
+        $endDate = Carbon::parse($request->input('endDate'));
+        $endDate->timezone = 'America/Chicago';
+        
+        return User::with(
+            'evaluatorEvaluations',
+            'evaluatorEvaluations.subject',
+            'evaluatorEvaluations.evaluator',
+            'evaluatorEvaluations.requestor',
+            'evaluatorEvaluations.form'
+        )->whereHas('evaluatorEvaluations', function($query){
+            $query->where('status', 'pending');
+        })->get()->all();
+	}
 }
