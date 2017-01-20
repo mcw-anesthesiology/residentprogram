@@ -25,7 +25,7 @@
 			</div>
 			
 			<div class="btn-lg-submit-container">
-				<button type="button" class="btn btn-primary labelless-button"
+				<button type="button" class="btn btn-lg btn-primary labelless-button"
 						@click="runEvalsReport">
 					Run report
 				</button>

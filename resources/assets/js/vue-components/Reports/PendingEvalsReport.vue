@@ -7,18 +7,32 @@
 			<alert-list v-model="alerts" />
 			
 			<div class="btn-lg-submit-container">
-				<button type="button" class="btn btn-primary labelless-button"
+				<button type="button" class="btn btn-lg btn-primary labelless-button"
 						@click="runReport">
 					Run report
 				</button>
 			</div>
 		</div>
+		
+		
+		<div v-if="report" class="container body-block">
+			<section>
+				<component-list :items="report" :fields="userFields">
+					<template scope="item">
+						<evaluation-list-item :user="item"
+							evals="evaluator_evaluations" />
+					</template>
+				</component-list>
+			</section>
+		</div>
 	</div>
 </template>
 
 <script>
+import EvaluationListItem from './Needs/EvaluationListItem.vue';
 import ReportDate from './ReportDate.vue';
 import AlertList from '../AlertList.vue';
+import ComponentList from '../ComponentList.vue';
 
 import { getFetchHeaders } from '../../modules/utils.js';
 
@@ -33,6 +47,13 @@ export default {
 			
 			alerts: []
 		};
+	},
+	computed: {
+		userFields(){
+			return [
+				'full_name'
+			];
+		}
 	},
 	methods: {
 		runReport(){
@@ -61,8 +82,10 @@ export default {
 		}
 	},
 	components: {
+		EvaluationListItem,
 		ReportDate,
-		AlertList
+		AlertList,
+		ComponentList
 	}
 };
 </script>

@@ -790,15 +790,25 @@ class ReportController extends Controller
         $startDate->timezone = 'America/Chicago';
         $endDate = Carbon::parse($request->input('endDate'));
         $endDate->timezone = 'America/Chicago';
+        $type = $request->input('type', 'faculty');
         
-        return User::with(
-            'evaluatorEvaluations',
-            'evaluatorEvaluations.subject',
-            'evaluatorEvaluations.evaluator',
-            'evaluatorEvaluations.requestor',
-            'evaluatorEvaluations.form'
-        )->whereHas('evaluatorEvaluations', function($query){
-            $query->where('status', 'pending');
-        })->get()->all();
+        return User::where('type', $type)->whereHas('evaluatorEvaluations',
+                function($query) use ($startDate, $endDate){
+            $query->where('status', 'pending')
+                ->where('evaluation_date', '>=', $startDate)
+                ->where('evaluation_date', '<=', $endDate);
+        })->with(
+            [
+                'evaluatorEvaluations' => function($query)
+                        use ($startDate, $endDate){
+                    $query->where('evaluation_date', '>=', $startDate)
+                        ->where('evaluation_date', '<=', $endDate);
+                },
+                'evaluatorEvaluations.subject',
+                'evaluatorEvaluations.evaluator',
+                'evaluatorEvaluations.requestor',
+                'evaluatorEvaluations.form'
+            ]
+        )->get()->all();
 	}
 }

@@ -10,11 +10,15 @@
 			</div>
 			
 			<div class="col-sm-2">
-				{{ renderTrainingLevel(user.training_level) }}
+				{{
+					user.type === 'resident'
+						? renderTrainingLevel(user.training_level)
+						: ucfirst(user.type)
+				}}
 			</div>
 
-			<section class="col-sm-2">
-				<div>					
+			<section v-if="user.type === 'resident'" class="col-sm-2">
+				<div>
 					<b>
 						{{ completeEvals.length }}
 						complete evaluations
@@ -25,10 +29,22 @@
 					pending evaluations
 				</div>
 			</section>
+			<section v-else class="col-sm-2">
+				<div>
+					<b>
+						{{ pendingEvals.length }}
+						pending evaluations
+					</b>
+				</div>
+				<div>
+					{{ completeEvals.length }}
+					complete evaluations
+				</div>
+			</section>
 
-			<div class="col-sm-4 text-right">		
+			<div class="col-sm-4 text-right">
 				<show-hide-button class="btn btn-xs btn-info"
-						v-if="user.subject_evaluations.length > 0"
+						v-if="user[evals].length > 0"
 						v-model="show.evaluations">
 					evaluations
 				</show-hide-button>
@@ -52,14 +68,19 @@
 import EvaluationDetailsListItem from './EvaluationDetailsListItem.vue';
 import ShowHideButton from '../../ShowHideButton.vue';
 
-import { renderTrainingLevel } from '../../../modules/datatable-utils.js';
 import { PLACEHOLDER_USER_IMAGE_PATH } from '../../../modules/constants.js';
+import { ucfirst } from '../../../modules/utils.js';
+import { renderTrainingLevel } from '../../../modules/datatable-utils.js';
 
 export default {
 	props: {
 		user: {
 			type: Object,
 			required: true
+		},
+		evals: {
+			type: String,
+			default: 'subject_evaluations'
 		},
 		placeholderUserImagePath: {
 			type: String,
@@ -76,23 +97,24 @@ export default {
 	},
 	computed: {
 		completeEvals(){
-			return this.user.subject_evaluations
+			return this.user[this.evals]
 				.filter(evaluation => evaluation.status === 'complete');
 		},
 		pendingEvals(){
-			return this.user.subject_evaluations
+			return this.user[this.evals]
 				.filter(evaluation => evaluation.status === 'pending');
 		},
 		detailsEvals(){
 			return this.show.canceled
-				? this.user.subject_evaluations
-				: this.user.subject_evaluations
+				? this.user[this.evals]
+				: this.user[this.evals]
 					.filter(evaluation =>
 						['complete', 'pending'].includes(evaluation.status));
 		}
 	},
 	methods: {
-		renderTrainingLevel
+		renderTrainingLevel,
+		ucfirst
 	},
 	components: {
 		EvaluationDetailsListItem,
