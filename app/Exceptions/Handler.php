@@ -3,7 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
-use \Illuminate\Auth\AuthenticationException;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Validation\ValidationException;
@@ -23,7 +23,7 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        AuthenticationException::class,
+        AuthorizationException::class,
         HttpException::class,
         ModelNotFoundException::class,
         ValidationException::class,
@@ -41,23 +41,16 @@ class Handler extends ExceptionHandler
     public function report(Exception $e)
     {
 		if ($this->shouldReport($e)) {
-			
-			try {
-	            $logger = $this->container->make(LoggerInterface::class);
-				
-				$context = [];
-				if(Auth::check()){
-					$context['person'] = [
-						'id' => Auth::user()->id,
-						'username' => Auth::user()->username,
-						'email' => Auth::user()->email
-					];
-				}
-				
-				$logger->error($e, $context);
-	        } catch (Exception $ex) {
-	            throw $e; // throw the original exception
-	        }
+			$context = [];
+			if(Auth::check()){
+				$context['person'] = [
+					'id' => Auth::user()->id,
+					'username' => Auth::user()->username,
+					'email' => Auth::user()->email
+				];
+			}
+
+            $this->log->error($e, $context);
         }
     }
 
@@ -71,8 +64,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $e)
     {
         if($e instanceof TokenMismatchException){
-            return back()->withInput($request->except("_token"))
-                ->with("error", "It looks like the session expired after being inactive for too long. Please try again.");
+            return back()->withInput($request->except("_token"))->with("error", "It looks like the session expired after being inactive for too long. Please try again.");
         }
 
 		if(config("app.debug") || $this->isHttpException($e))
@@ -80,20 +72,4 @@ class Handler extends ExceptionHandler
 
 		return response()->view("errors.500", [], 500);
     }
-	
-	/**
-	 * Convert an authentication exception into an unauthenticated response.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @param  \Illuminate\Auth\AuthenticationException  $exception
-	 * @return \Illuminate\Http\Response
-	 */
-	protected function unauthenticated($request, AuthenticationException $exception)
-	{
-	    if ($request->expectsJson()) {
-	        return response()->json(['error' => 'Unauthenticated.'], 401);
-	    }
-
-	    return redirect()->guest('login');
-	}
 }

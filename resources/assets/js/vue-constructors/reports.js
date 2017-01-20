@@ -5,7 +5,6 @@ import Reports from '../vue-components/Reports/Reports.vue';
 import TraineeReport from '../vue-components/Reports/TraineeReport.vue';
 import FormReport from '../vue-components/Reports/FormReport.vue';
 import NeedsReport from '../vue-components/Reports/Needs/Report.vue';
-import PendingEvalsReport from '../vue-components/Reports/PendingEvalsReport.vue';
 
 
 Vue.use(VueRouter);
@@ -26,10 +25,6 @@ export function createReports(el){
 				{
 					path: '/needs-evaluations',
 					component: NeedsReport
-				},
-				{
-					path: '/pending-requests',
-					component: PendingEvalsReport
 				}
 			]
 		}),

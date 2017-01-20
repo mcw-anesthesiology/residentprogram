@@ -3,38 +3,35 @@
 		<div class="container body-block">
 			<h2>Needs evaluations</h2>
 			<report-date v-model="dates" />
-			<div class="row">
-				<div class="form-group col-md-6">
-					<label class="containing-label">
-						Training Level
-						<training-level-select v-model="trainingLevel" />
-					</label>
-				</div>
-				<div class="form-group col-md-6">
-					<label class="containing-label">
-						Evaluation requirement
-						<select class="form-control" v-model="evalThreshold">
-							<option value="all">Show all</option>
-							<option value="1">1</option>
-							<option value="3">3</option>
-							<option value="5">5</option>
-							<option value="10">10</option>
-						</select>
-					</label>
-				</div>
+			<div class="form-group col-md-4">
+				<label class="containing-label">
+					Training Level
+					<training-level-select v-model="trainingLevel" />
+				</label>
 			</div>
-			
-			<div class="btn-lg-submit-container">
-				<button type="button" class="btn btn-lg btn-primary labelless-button"
+			<div class="form-group col-md-4">
+				<label class="containing-label">
+					Evaluation requirement
+					<select class="form-control" v-model="evalThreshold">
+						<option value="all">Show all</option>
+						<option value="1">1</option>
+						<option value="3">3</option>
+						<option value="5">5</option>
+						<option value="10">10</option>
+					</select>
+				</label>
+			</div>
+			<div class="col-md-4">
+				<button type="button" class="btn btn-primary labelless-button"
 						@click="runEvalsReport">
-					Run report
+					Needs evaluations
 				</button>
 			</div>
 		</div>
 
 		<div v-if="report.evaluations" class="container body-block">
 			<needs-evaluations :trainees="report.evaluations"
-				:dates="dates" :evalThreshold="evalThreshold" />
+				:dates="dates" :evalThreshold="evalThreshold" />			
 		</div>
 	</div>
 </template>

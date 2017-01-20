@@ -38,8 +38,7 @@ export default {
 			return [
 				'trainee',
 				'form',
-				'needs-evaluations',
-				'pending-requests'
+				'needs-evaluations'
 			];
 		},
 		groupedUsers(){
