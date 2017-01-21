@@ -60,8 +60,8 @@ class LoginController extends Controller
 	 * @Override AuthenticatesUsers
 	 */
 	protected function sendFailedLoginResponse(Request $request){
-		$attempts = app(RateLimiter::class)->attempts(
-			$this->getThrottleKey($request)
+		$attempts = $this->limiter()->attempts(
+			$this->throttleKey($request)
 		);
 		
 		$error = Lang::get('auth.failed');
@@ -71,7 +71,7 @@ class LoginController extends Controller
 		
         return redirect()->back()
             ->withInput($request->only($this->username(), 'remember'))
-            ->withErrors([
+            ->with([
                 'error' => $error
             ]);
     }
