@@ -74,18 +74,9 @@ class Handler extends ExceptionHandler
         if($e instanceof TokenMismatchException){
             return back()->withInput($request->except("_token"))
                 ->with("error", "It looks like the session expired after being inactive for too long. Please try again.");
-        } elseif ($e instanceof HttpResponseException) {
-            return $e->getResponse();
-        } elseif ($e instanceof AuthenticationException) {
-            return $this->unauthenticated($request, $e);
-        } elseif ($e instanceof ValidationException) {
-            return $this->convertValidationExceptionToResponse($e, $request);
         }
 
-		if(config("app.debug") || $this->isHttpException($e))
-			return parent::render($request, $e);
-
-		return response()->view("errors.500", [], 500);
+		return parent::render($request, $e);
     }
 	
 	/**
