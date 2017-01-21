@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ecfaf9e815e44029a8ddd51bcb90f5ff",
+    "content-hash": "90bbc322035ff78cb26cf97ef56131e8",
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -3543,16 +3543,16 @@
         },
         {
             "name": "laravel/homestead",
-            "version": "v3.1.0",
+            "version": "v4.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/homestead.git",
-                "reference": "7924ab4e27bbeb17dadcc2fc6a40659275bbfb0a"
+                "reference": "5af81945e933d90adfaffcf2400d23a0d511da84"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/homestead/zipball/7924ab4e27bbeb17dadcc2fc6a40659275bbfb0a",
-                "reference": "7924ab4e27bbeb17dadcc2fc6a40659275bbfb0a",
+                "url": "https://api.github.com/repos/laravel/homestead/zipball/5af81945e933d90adfaffcf2400d23a0d511da84",
+                "reference": "5af81945e933d90adfaffcf2400d23a0d511da84",
                 "shasum": ""
             },
             "require": {
@@ -3585,7 +3585,7 @@
                 }
             ],
             "description": "A virtual machine for web artisans.",
-            "time": "2016-11-29T16:43:51+00:00"
+            "time": "2017-01-05T15:32:34+00:00"
         },
         {
             "name": "mockery/mockery",

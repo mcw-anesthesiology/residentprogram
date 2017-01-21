@@ -328,8 +328,8 @@ class ReportController extends Controller
         $query->select("milestone_id", "milestones.title as milestone_title", "competency_id", "competencies.title as competency_title")
             ->addSelect("subject_id", "evaluator_id", "last_name", "first_name", "evaluation_id", "response", "weight", "responses.question_id as question_id")
             ->orderBy("milestones.title")->orderBy("competencies.title");
-        $query->chunk(20000, function($responses) use (&$milestones, &$subjects,
-				&$milestones, &$competencies, &$subjectEvals, &$subjectRequests,
+        $query->chunk(20000, function($responses) use (&$subjects,
+				&$milestones, &$competencies, &$subjectEvals,
 				&$subjectRequests, &$averageMilestone, &$averageMilestoneDenom,
 				&$averageCompetency, &$averageCompetencyDenom, &$subjectMilestone,
 				&$subjectMilestoneDenom, &$subjectMilestoneEvals, &$subjectCompetency,
