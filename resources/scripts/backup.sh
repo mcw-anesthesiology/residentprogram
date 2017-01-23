@@ -2,6 +2,7 @@
 
 DATE=$(date +%F_%H-%M)
 
+# TODO: Change home path after moving to a VPS
 BASE_DIRECTORY=/home4/ab49752
 BACKUP_DIRECTORY="$BASE_DIRECTORY/backups"
 STORAGE_DIRECTORY="$BASE_DIRECTORY/storage/app"
@@ -26,5 +27,6 @@ cd $STORAGE_DIRECTORY
 tar -cf $BACKUP_FORM_FILENAME $FORM_DIRECTORY
 tar -cf $BACKUP_PHOTO_FILENAME $PHOTO_DIRECTORY
 
-curl -1 --disable-epsv --ftp-skip-pasv-ip -u $BOX_USERNAME:$BOX_EXTERNAL_PASSWORD --upload-file $BACKUP_FORM_FILENAME --ftp-ssl ftp://ftp.box.com/$BOX_DIRECTORY/$FORM_DIRECTORY/
-curl -1 --disable-epsv --ftp-skip-pasv-ip -u $BOX_USERNAME:$BOX_EXTERNAL_PASSWORD --upload-file $BACKUP_PHOTO_FILENAME --ftp-ssl ftp://ftp.box.com/$BOX_DIRECTORY/$PHOTO_DIRECTORY/
+# FIXME: Reenable --ftp-ssl after moving to a VPS
+curl -1 --disable-epsv --ftp-skip-pasv-ip -u $BOX_USERNAME:$BOX_EXTERNAL_PASSWORD --upload-file $BACKUP_FORM_FILENAME ftp://ftp.box.com/$BOX_DIRECTORY/$FORM_DIRECTORY/
+curl -1 --disable-epsv --ftp-skip-pasv-ip -u $BOX_USERNAME:$BOX_EXTERNAL_PASSWORD --upload-file $BACKUP_PHOTO_FILENAME ftp://ftp.box.com/$BOX_DIRECTORY/$PHOTO_DIRECTORY/
