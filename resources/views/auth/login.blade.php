@@ -25,7 +25,7 @@
 	</form>
 	<div class="row">
 		<div class="col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2 reset-password-container">
-			<a href="/password/email" role="button" class="btn btn-lg btn-default btn-block">Forgot Password?</a>
+			<a href="/password/reset" role="button" class="btn btn-lg btn-default btn-block">Forgot Password?</a>
 		</div>
 	</div>
 	<div class="row">
