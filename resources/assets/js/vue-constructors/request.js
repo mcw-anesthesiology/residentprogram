@@ -9,6 +9,7 @@ import indefinite from 'indefinite';
 import 'vue-flatpickr/theme/flatpickr.min.css';
 
 import { groupUsers, groupForms } from '../modules/utils.js';
+import { currentQuarter, lastQuarter } from '../modules/date-utils.js';
 
 export function createRequest(el, propsData){
 
@@ -101,6 +102,34 @@ export function createRequest(el, propsData){
 			formOptions(){
 				return groupForms(this.subjectForms);
 			},
+			evaluationDateOptions(){
+				// TODO: Make this work with select-two
+				
+				let form = this.forms.find(form => form.id = Number(this.formId));
+				
+				let dates = [];
+				if(form.evaluation_range_type === 'quarter'){
+					dates = [
+						lastQuarter(),
+						currentQuarter()
+					];
+				}
+				else {
+					let startDate = moment().startOf('month');
+					let endDate = moment(endDate).endOf('month');
+					for(let i = 0; i < 3; i++){
+						dates.push({
+							startDate,
+							endDate
+						});
+						startDate = moment(startDate).subtract(1, 'month');
+						endDate = moment(startDate).endOf('month');
+					}
+					dates.reverse();
+				}
+				
+				return dates;
+			},
 			evaluationDate(){
 				return this.evaluationDay || this.evaluationMonth;
 			},
@@ -148,7 +177,7 @@ export function createRequest(el, propsData){
 				this.$refs.evaluationDayFlatpickr.fp.clear();
 			},
 			checkField(field, noun){
-				this.error[field] = (this.required[field] && 
+				this.error[field] = (this.required[field] &&
 						(!this[field] || this[field].length === 0))
 					? `Please select ${indefinite(noun)}`
 					: null;

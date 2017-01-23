@@ -166,15 +166,13 @@
 	@if($user->isType('admin'))
 				<div class="input-group">
 	@endif
-					<select-two class="form-control" id="evaluation-month" required
-							v-model="evaluationMonth" placeholder="Select a month"
+					<select-two class="form-control" id="evaluation-month"
+							placeholder="Select a month" required
+							:options="evaluationDateOptions" v-model="evaluationMonth"
 							:multiple="allowMultiple.evaluationMonth">
 						<option value="" v-if="!allowMultiple.evaluationMonth">
 							Select a month
 						</option>
-		@foreach($months as $date => $monthName)
-						<option value="{{ $date }}">{{ $monthName }}</option>
-		@endforeach
 					</select-two>
 	
 	@if($user->isType('admin'))
@@ -343,7 +341,11 @@
 				{data: 'url', render: renderEvaluatorEvalUrl},
 				{data: 'subject.full_name'},
 				{data: 'form.title'},
-				{data: 'evaluation_date', render: renderDateCell, createdCell: createDateCell},
+				{
+					data: null,
+					render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+					createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+				},
 				{data: 'request_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
 				{data: null, render: function(eval){
 					if(eval.requested_by_id === user.id)

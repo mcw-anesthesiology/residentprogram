@@ -61,7 +61,10 @@
 <script>
 import moment from 'moment';
 
-import { renderEvaluationStatus } from '../../../modules/datatable-utils.js';
+import {
+	renderEvaluationStatus,
+	renderDateRange
+} from '../../../modules/datatable-utils.js';
 
 export default {
 	props: {
@@ -81,12 +84,12 @@ export default {
 	},
 	computed: {
 		evaluationDate(){
-			if(!this.evaluation.evaluation_date)
+			if(!this.evaluation.evaluation_date_start
+					|| !this.evaluation.evaluation_date_end)
 				return '';
 			
-			return this.hovering.evaluationDate
-				? moment(this.evaluation.evaluation_date).format('ll')
-				: moment(this.evaluation.evaluation_date).format('MMMM Y');
+			return renderDateRange(this.evaluation.evaluation_date_start,
+				this.evaluation.evaluation_date_end, !this.hovering.evaluationDate);
 		},
 		requestDate(){
 			if(!this.evaluation.request_date)
@@ -94,7 +97,7 @@ export default {
 			
 			return this.hovering.requestDate
 				? moment(this.evaluation.request_date).format('ll LT')
-				: moment(this.evaluation.request_date).calendar();					
+				: moment(this.evaluation.request_date).calendar();
 		},
 		completeDate(){
 			if(!this.evaluation.complete_date)

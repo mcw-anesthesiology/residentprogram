@@ -129,6 +129,8 @@ $factory->defineAs(App\Form::class, "faculty", function(Faker $faker) use ($fact
 });
 
 $factory->define(App\Evaluation::class, function(Faker $faker){
+    $startDate = $faker->date;
+    $endDate = Carbon\Carbon::parse($startDate)->addMonths(1);
     return [
         // "form_id" => $overrides["form_id"],
         // "evaluator_id" => $overrides["evaluator_id"],
@@ -136,7 +138,8 @@ $factory->define(App\Evaluation::class, function(Faker $faker){
         // "requested_by_id" => $overrides["requested_by_id"],
         "status" => "pending",
         "request_date" => $faker->date,
-        "evaluation_date" => $faker->date,
+        "evaluation_date_start" => $startDate,
+        "evaluation_date_end" => $endDate,
         "request_ip" => $faker->ipv4
     ];
 });

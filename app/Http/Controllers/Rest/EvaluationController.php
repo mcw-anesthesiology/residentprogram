@@ -62,7 +62,8 @@ class EvaluationController extends RestController
 		"training_level",
 		"request_date",
 		"complete_date",
-		"evaluation_date"
+		"evaluation_date_start",
+		"evaluation_date_end"
 	];
 
 	protected $model = \App\Evaluation::class;
