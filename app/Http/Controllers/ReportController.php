@@ -71,7 +71,7 @@ class ReportController extends Controller
 
         if($request->input("user") && $request->input("user") != "all"){
             $users = User::where("id", $request->input("user"))->get();
-        } else{
+        } else {
             switch($type){
                 case "faculty":
                     $users = User::where("status", "active")->where("type", "faculty")->with("evaluatorEvaluations.form")->get();
@@ -84,9 +84,12 @@ class ReportController extends Controller
                     break;
             }
         }
+		
+		$times = [];
+		
         foreach($users as $user){
-            try{
-
+			
+            try {
                 $userEvaluations = $type == "faculty" ? $user->evaluatorEvaluations() : $user->subjectEvaluations();
                 if(!empty($startDate))
                     $userEvaluations->where("evaluation_date", ">=", $startDate);
@@ -325,8 +328,8 @@ class ReportController extends Controller
         $query->select("milestone_id", "milestones.title as milestone_title", "competency_id", "competencies.title as competency_title")
             ->addSelect("subject_id", "evaluator_id", "last_name", "first_name", "evaluation_id", "response", "weight", "responses.question_id as question_id")
             ->orderBy("milestones.title")->orderBy("competencies.title");
-        $query->chunk(20000, function($responses) use (&$milestones, &$subjects,
-				&$milestones, &$competencies, &$subjectEvals, &$subjectRequests,
+        $query->chunk(20000, function($responses) use (&$subjects,
+				&$milestones, &$competencies, &$subjectEvals,
 				&$subjectRequests, &$averageMilestone, &$averageMilestoneDenom,
 				&$averageCompetency, &$averageCompetencyDenom, &$subjectMilestone,
 				&$subjectMilestoneDenom, &$subjectMilestoneEvals, &$subjectCompetency,
@@ -562,7 +565,7 @@ class ReportController extends Controller
             $textQuery->select("subject_id", "evaluators.first_name", "evaluators.last_name",
                 "forms.title as form_title", "evaluation_date", "response");
 
-            $subjectTextResponses = $textQuery->get();
+            $subjectTextResponses = $textQuery->get()->all();
 
             $data["subjectTextResponses"] = $subjectTextResponses;
 
@@ -586,7 +589,7 @@ class ReportController extends Controller
             $reportEvaluationsQuery->select("evaluations.id as evaluation_id", "subject_id",
                 "evaluators.first_name", "evaluators.last_name", "forms.title as form_title", "evaluation_date");
 
-            $data["subjectReportEvaluations"] = $reportEvaluationsQuery->get();
+            $data["subjectReportEvaluations"] = $reportEvaluationsQuery->get()->all();
         }
 		else {
 			$textQuery = DB::table("text_responses")
@@ -611,7 +614,7 @@ class ReportController extends Controller
 				"forms.title as form_title", "evaluation_date", "response",
 				"evaluation_id");
 
-			$subjectTextResponses = collect($textQuery->get())->groupBy('subject_id');
+			$subjectTextResponses = $textQuery->get()->groupBy('subject_id');
 
 			$data["subjectTextResponses"] = $subjectTextResponses;
 		}
@@ -781,9 +784,31 @@ class ReportController extends Controller
     	return $data;
     }
 
-    private function encodeAndStrip($array){
-        $array = addslashes(json_encode($array));
-        str_replace("'", "", $array);
-        return $array;
-    }
+    public function pendingRequests(Request $request){
+		$user = Auth::user();
+        $startDate = Carbon::parse($request->input('startDate'));
+        $startDate->timezone = 'America/Chicago';
+        $endDate = Carbon::parse($request->input('endDate'));
+        $endDate->timezone = 'America/Chicago';
+        $type = $request->input('type', 'faculty');
+        
+        return User::where('type', $type)->whereHas('evaluatorEvaluations',
+                function($query) use ($startDate, $endDate){
+            $query->where('status', 'pending')
+                ->where('evaluation_date', '>=', $startDate)
+                ->where('evaluation_date', '<=', $endDate);
+        })->with(
+            [
+                'evaluatorEvaluations' => function($query)
+                        use ($startDate, $endDate){
+                    $query->where('evaluation_date', '>=', $startDate)
+                        ->where('evaluation_date', '<=', $endDate);
+                },
+                'evaluatorEvaluations.subject',
+                'evaluatorEvaluations.evaluator',
+                'evaluatorEvaluations.requestor',
+                'evaluatorEvaluations.form'
+            ]
+        )->get()->all();
+	}
 }

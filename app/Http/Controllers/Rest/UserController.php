@@ -58,7 +58,8 @@ class UserController extends RestController
 		$user->reminder_frequency = $request->input("reminder_frequency", "weekly");
 		$user->notifications = $request->input("notifications", "no");
 		if($request->hasFile("photo") && $request->file("photo")->isValid()){
-			$photoName = uniqid().".".$request->file("photo")->getExtension();
+			$photoExtension = $this->getExtension($request->file("photo"));
+			$photoName = uniqid() . "." . $photoExtension;
 			$request->file("photo")->move(storage_path("app/photos/"), $photoName);
 			$user->photo_path = "photos/".$photoName;
 		}
@@ -96,7 +97,8 @@ class UserController extends RestController
 		$user->update($request->all());
 
 		if($request->hasFile("photo") && $request->file("photo")->isValid()){
-			$photoName = uniqid().".".$request->file("photo")->getExtension();
+			$photoExtension = $this->getExtension($request->file("photo"));
+			$photoName = uniqid() . "." . $photoExtension;
 			$request->file("photo")->move(storage_path("app/photos/"), $photoName);
 			if(!empty($user->photo_path)){
 				try {
@@ -136,5 +138,14 @@ class UserController extends RestController
 			return "success";
 		else
 			return back();
+	}
+	
+	protected function getExtension($file){
+		if(!empty($file->extension()))
+			return $file->extension();
+		elseif(!empty($file->clientExtension()))
+			return $file->clientExtension();
+
+		return ".jpg";
 	}
 }

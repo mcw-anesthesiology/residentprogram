@@ -62,7 +62,7 @@
     "pdfmake": "^0.1.22",
     "style-loader": "^0.13.1",
     "vue": "^2.1.0",
-    "vue-flatpickr": "^2.2.5",
+    "vue-flatpickr": "https://github.com/jacobmischka/vue-flatpickr.git#2.0",
     "vue-loader": "^10.0.2",
     "vue-router": "^2.1.1",
     "vue-template-compiler": "^2.1.6",
