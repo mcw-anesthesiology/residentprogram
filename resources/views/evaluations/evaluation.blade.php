@@ -107,7 +107,11 @@
 						<td>{!! $evaluatorString !!}</td>
 	@endif
 	@if($evaluation->status == "complete" && !($evaluation->isAnonymousToUser() && $evaluation->form->type == "faculty"))
-						<td>{{ $evaluation->evaluation_date->format("F Y") }}</td>
+						<td>
+							{{ $evaluation->evaluation_date_start->format("F Y") }}
+							—
+							{{ $evaluation->evaluation_date_end->format("F Y") }}
+						</td>
 	@endif
 	@if(!($evaluation->subject->isType("faculty") && $user->id == $evaluation->subject_id))
 						<td>{{ $evaluation->request_date }}</td>
@@ -148,36 +152,6 @@
 			</p>
 		</div>
 	@endif
-	</div>
-
-		<div id="form">
-	@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id)
-				<form id="evaluation" role="form" method="post" action="#">
-					{!! csrf_field() !!}
-					<label for="evaluation_date">What month is this evaluation for? </label>
-		@if($evaluation->evaluation_date)
-						<a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" placement="left" title="Evaluation date" class="close" id="evaluation-date-info">
-							<span class="glyphicon glyphicon-question-sign"></span>
-						</a>
-					<input type="text" class="form-control" readonly id="evaluation_date" name="evaluation_date" value="{{ $evaluation->evaluation_date->format("F") }}" />
-		@else
-					<select class="form-control" id="evaluation_date" name="evaluation_date">
-<?php $month = Carbon\Carbon::parse("first day of this month"); ?>
-			@for($i = 0; $i < 3; $i++, $month->subMonth())
-						<option value="{{ $month->toDateString() }}">{{ $month->format("F") }}</option>
-			@endfor
-					</select>
-		@endif
-	@endif
-					{!! App\Helpers\FormReader::read($evaluation->form->xml_path) !!}
-	@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id)
-					<div class="submit-container text-center">
-						<button type="submit" id="complete-form" name="evaluation_id" value="{{ $evaluation->viewable_id }}" class="btn btn-primary btn-lg">Complete evaluation</button>
-						<button type="submit" id="save-form" name="evaluation_id_saved" value="{{ $evaluation->viewable_id }}" class="btn btn-default btn-lg" formnovalidate>Save evaluation</button>
-					</div>
-				</form>
-	@endif
-		</div>
 	</div>
 
 	@if($evaluation->evaluator_id == $user->id || $user->isType("admin"))
@@ -392,10 +366,6 @@
 						$("input[name='{{ $response->question_id }}[]'][value='{{ str_replace(["\n", "\r"], ["\\n", "\\r"], addslashes($response->response)) }}']").prop("checked", true);
 					}
 				@endforeach
-			@endif
-
-			@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id && isset($evaluation->evaluation_date))
-				$("#evaluation_date option[value='{{ $evaluation->evaluation_date->toDateString() }}']").prop("selected", true);
 			@endif
 
 			@if($evaluation->status == "complete" || $user->id != $evaluation->evaluator_id)

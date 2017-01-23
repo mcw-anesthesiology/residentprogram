@@ -278,12 +278,6 @@ class MainController extends Controller
 	                break;
 			}
 
-			for($dt = Carbon::now()->firstOfMonth(), $i = 0; $i < 3; $dt->subMonths(1), $i++){
-				$date = $dt->format("Y-m-d");
-				$months[$date] = $dt->format("F");
-				$endOfMonth[$date] = $dt->format("Y-m-t");
-			}
-
 			if(!empty($subjects))
 				$subjects = collect($subjects)->toJson();
 			if(!empty($evaluators))
@@ -291,10 +285,10 @@ class MainController extends Controller
 			if(!empty($forms))
 				$forms = collect($forms)->toJson();
 
-	        $data = compact("forms", "requestType", "months", "endOfMonth", "pendingEvalCount",
-				"subjects", "evaluators", "subjectTypeText", "subjectTypeTextPlural",
-	            "evaluatorTypeText", "blocks", "evaluatorTypes", "subjectTypes",
-				"requestTypeText");
+	        $data = compact("forms", "requestType", "pendingEvalCount",
+				"subjects", "evaluators", "subjectTypeText",
+				"subjectTypeTextPlural", "evaluatorTypeText", "blocks",
+				"evaluatorTypes", "subjectTypes", "requestTypeText");
 		} catch(\Exception $e){
 			return back()->with("error", $e->getMessage());
 		}
@@ -348,7 +342,7 @@ class MainController extends Controller
 			if(empty($evaluators) || count($evaluators) == 0)
 				$errors .= "Please select an evaluator. ";
             if(empty($evaluationDates) || count($evaluationDates) == 0)
-				$errors .= "Please select an evaluation date. ";            
+				$errors .= "Please select an evaluation date. ";
 			if(!$request->has("form_id"))
 				$errors .= "Please select a form. ";
 
@@ -361,7 +355,7 @@ class MainController extends Controller
 					$subjects = [$evaluator];
 
 				foreach($subjects as $subject){
-                    foreach($evaluationDates as $evaluationDate){                        
+                    foreach($evaluationDates as $evaluationDate){
     					$eval = new Evaluation();
     					$eval->form_id = $request->input("form_id");
     					$eval->requested_by_id = $user->id;

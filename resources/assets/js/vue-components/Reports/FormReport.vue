@@ -108,6 +108,8 @@ import {
 	createDateCell,
 	renderDateTimeCell,
 	createDateTimeCell,
+	renderDateRangeCell,
+	createDateRangeCell,
 	renderEvaluationStatus
 } from '../../modules/datatable-utils.js';
 
@@ -225,10 +227,14 @@ export default {
 					{data: 'evaluator.full_name'},
 					{data: 'requestor.full_name'},
 					{data: 'form.title'},
-					{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
-					{data: "request_date", render: renderDateCell, createdCell: createDateCell},
-					{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
-					{data: "status", render: renderEvaluationStatus}
+					{
+						data: null,
+						render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+					},
+					{data: 'request_date', render: renderDateCell, createdCell: createDateCell},
+					{data: 'complete_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
+					{data: 'status', render: renderEvaluationStatus}
 				],
 				order: [[0, 'desc']]
 			};
@@ -262,7 +268,11 @@ export default {
 					{data: 'evaluator.full_name'},
 					{data: 'requestor.full_name'},
 					{data: 'form.title'},
-					{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+					{
+						data: null,
+						render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+					},
 					{data: "request_date", render: renderDateCell, createdCell: createDateCell},
 					{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 					{data: "status", render: renderEvaluationStatus}

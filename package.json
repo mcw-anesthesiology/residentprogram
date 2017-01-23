@@ -69,5 +69,8 @@
     "webpack": "beta",
     "webpack-bundle-analyzer": "^2.2.1",
     "whatwg-fetch": "^2.0.1"
+  },
+  "dependencies": {
+    "twix": "^1.1.3"
   }
 }

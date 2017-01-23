@@ -1,14 +1,15 @@
+import moment from 'moment';
+import 'twix';
+
 import { NEW_ITEM_TAG, UNSEEN_EVALUATION_PRIORITY } from './constants.js';
 import { ucfirst } from './utils.js';
-
-import moment from 'moment';
 
 export function unlimitTableEvals(){
 	let dt = this.DataTable({
 		retrieve: true
 	});
 	let url = dt.ajax.url();
-	dt.ajax.url(url.substring(0, url.lastIndexOf("/"))).load().draw();
+	dt.ajax.url(url.substring(0, url.lastIndexOf('/'))).load().draw();
 }
 
 export function unlimitRestTableEvals(){
@@ -16,49 +17,83 @@ export function unlimitRestTableEvals(){
 		retrieve: true
 	});
 	let url = dt.ajax.url();
-	dt.ajax.url(url.substring(0, url.lastIndexOf("?"))).load().draw();
+	dt.ajax.url(url.substring(0, url.lastIndexOf('?'))).load().draw();
 }
 
 export function createDateCell(td, date){
-	if(date && $(td).text() !== moment(date).format("ll"))
-		$(td).attr("data-date-value", moment(date).valueOf())
-			.addClass("table-date-cell");
+	if(date && $(td).text() !== moment(date).format('ll'))
+		$(td).attr('data-date-value', moment(date).valueOf())
+			.addClass('table-date-cell');
 }
 
 export function createDateTimeCell(td, date){
-	if(date && $(td).text() !== moment(date).format("ll LT"))
-		$(td).attr("data-date-value", moment(date).valueOf())
-			.addClass("table-date-time-cell");
+	if(date && $(td).text() !== moment(date).format('ll LT'))
+		$(td).attr('data-date-value', moment(date).valueOf())
+			.addClass('table-date-time-cell');
+}
+
+export function createDateRangeCell(start, end){
+	return (td, obj) => {
+		if(start in obj && end in obj){
+			$(td).attr('data-date-range-value',
+					renderDateRange(obj[start], obj[end], true))
+				.addClass('table-date-range-cell');
+		}
+	};
 }
 
 export function renderDateCell(date, type){
-	if(type === "sort" || type === "type")
-		return date ? moment(date).valueOf() : "";
+	if(type === 'sort' || type === 'type')
+		return date ? moment(date).valueOf() : '';
 
-	return date ? moment(date).format("MMMM Y") : "";
+	return date ? moment(date).format('MMMM Y') : '';
 }
 
 export function renderDateTimeCell(date, type){
-	if(type === "sort" || type === "type")
-		return date ? moment(date).valueOf() : "";
+	if(type === 'sort' || type === 'type')
+		return date ? moment(date).valueOf() : '';
 
-	return date ? moment(date).calendar() : "";
+	return date ? moment(date).calendar() : '';
+}
+
+export function renderDateRangeCell(start, end){
+	return (obj, type) => {
+		if(type === 'sort' || type === 'type')
+			return start in obj ? moment(obj[start]).valueOf() : '';
+			
+		return start in obj && end in obj
+			? renderDateRange(obj[start], obj[end])
+			: '';
+	};
+}
+
+export function renderDateRange(startDate, endDate, explicit = false){
+	let range = moment(startDate).twix(endDate, {allDay: true});
+	return range.start().startOf('month') && range.end().endOf('month') && !explicit
+		? range.format({
+			dayFormat: '_'
+		}).replace(/\s+_/g, '')
+		: range.format();
+}
+
+export function renderDateRangeExplicit(startDate, endDate){
+	return renderDateRange(startDate, endDate, true);
 }
 
 export function renderAccountStatus(status){
 	let labelContext;
 	switch(status){
-		case "active":
-			labelContext = "label-success";
+		case 'active':
+			labelContext = 'label-success';
 			break;
-		case "inactive":
-			labelContext = "label-danger";
+		case 'inactive':
+			labelContext = 'label-danger';
 			break;
-		case "pending":
-			labelContext = "label-warning";
+		case 'pending':
+			labelContext = 'label-warning';
 			break;
 		default:
-			labelContext = "label-default";
+			labelContext = 'label-default';
 			break;
 	}
 	return '<span class="label ' + labelContext + '">' + ucfirst(status) + '</span>';
@@ -67,22 +102,22 @@ export function renderAccountStatus(status){
 export function renderEvaluationStatus(status){
 	let labelContext;
 	switch(status){
-		case "complete":
-			labelContext = "label-success";
+		case 'complete':
+			labelContext = 'label-success';
 			break;
-		case "disabled":
-		case "canceled by admin":
-		case "canceled by faculty":
-		case "canceled by resident":
-		case "canceled by fellow":
-		case "canceled by staff":
-			labelContext = "label-danger";
+		case 'disabled':
+		case 'canceled by admin':
+		case 'canceled by faculty':
+		case 'canceled by resident':
+		case 'canceled by fellow':
+		case 'canceled by staff':
+			labelContext = 'label-danger';
 			break;
-		case "pending":
-			labelContext = "label-warning";
+		case 'pending':
+			labelContext = 'label-warning';
 			break;
 		default:
-			labelContext = "label-default";
+			labelContext = 'label-default';
 			break;
 	}
 	return '<span class="label ' + labelContext + '">' + ucfirst(status) + '</span>';
@@ -96,19 +131,19 @@ export function renderTrainingLevel(trainingLevel){
 			return ucfirst(trainingLevel);
 	}
 
-	return "";
+	return '';
 }
 
 export function renderSecondaryTrainingLevel(secondaryTrainingLevel){
 	if(secondaryTrainingLevel){
-		let allCaps = ["raaps"];
+		let allCaps = ['raaps'];
 		if(allCaps.indexOf(secondaryTrainingLevel) > -1)
 			return secondaryTrainingLevel.toUpperCase();
 		else
 			return ucfirst(secondaryTrainingLevel);
 	}
 
-	return "";
+	return '';
 }
 
 export function renderIdToEvalUrl(id){
@@ -175,7 +210,7 @@ export function createEditAndDeleteButtons(thing, name){
 }
 
 export function getDataAttributes(thing, excludes = []){
-	let dataAttributes = "";
+	let dataAttributes = '';
 	Object.getOwnPropertyNames(thing).forEach(function(propName){
 		if(!excludes.includes(propName) && thing[propName] != null)
 			dataAttributes += 'data-' + propName + '="' + thing[propName] + '" ';

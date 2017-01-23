@@ -118,7 +118,11 @@
 				{data: "url"},
 				{data: "evaluator.full_name"},
 				{data: "form.title"},
-				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+				{
+					data: null,
+					render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+					createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+				},
 				{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 				{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 				{data: "status", render: renderEvaluationStatus}
