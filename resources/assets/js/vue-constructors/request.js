@@ -1,6 +1,5 @@
 import Vue from 'vue';
 
-import VueFlatpickr from 'vue-flatpickr';
 import SelectTwo from '../vue-components/SelectTwo.vue';
 
 import moment from 'moment';
@@ -9,7 +8,17 @@ import indefinite from 'indefinite';
 import 'vue-flatpickr/theme/flatpickr.min.css';
 
 import { groupUsers, groupForms } from '../modules/utils.js';
-import { currentQuarter, lastQuarter } from '../modules/date-utils.js';
+import {
+	isoDateString,
+	renderDateRange,
+	currentQuarter,
+	lastQuarter
+} from '../modules/date-utils.js';
+
+const isoStartEndDateString = ({startDate, endDate}) => ({
+	startDate: isoDateString(startDate),
+	endDate: isoDateString(endDate)
+});
 
 export function createRequest(el, propsData){
 
@@ -29,8 +38,7 @@ export function createRequest(el, propsData){
 				subjectId: null,
 				evaluatorId: null,
 				formId: null,
-				evaluationMonth: null,
-				evaluationDay: null,
+				evaluationDateIndex: null,
 
 				sendHash: requestType === 'staff',
 				forceNotification: false,
@@ -39,7 +47,7 @@ export function createRequest(el, propsData){
 				allowMultiple: {
 					subjects: false,
 					evaluators: false,
-					evaluationMonth: false
+					evaluationDate: false
 				},
 
 				error: {
@@ -102,10 +110,20 @@ export function createRequest(el, propsData){
 			formOptions(){
 				return groupForms(this.subjectForms);
 			},
-			evaluationDateOptions(){
-				// TODO: Make this work with select-two
+			evaluationDate(){
+				if(this.evaluationDates && this.evaluationDateIndex)
+					return Array.isArray(this.evaluationDateIndex)
+						? this.evaluationDates.filter((date, index) =>
+							this.evaluationDateIndex.includes(index.toString()))
+							.map(isoStartEndDateString)
+						: isoStartEndDateString(
+							this.evaluationDates[this.evaluationDateIndex]);
+			},
+			evaluationDates(){
+				let form = this.forms.find(form => form.id === Number(this.formId));
 				
-				let form = this.forms.find(form => form.id = Number(this.formId));
+				if(!form)
+					return;
 				
 				let dates = [];
 				if(form.evaluation_range_type === 'quarter'){
@@ -130,23 +148,14 @@ export function createRequest(el, propsData){
 				
 				return dates;
 			},
-			evaluationDate(){
-				return this.evaluationDay || this.evaluationMonth;
-			},
-			evaluationDayOptions(){
-				let minDate, maxDate;
-				if(this.evaluationMonth){
-					minDate = this.evaluationMonth;
-					maxDate = moment(this.evaluationMonth).endOf('month').toDate();
-				}
-
-				return {
-					minDate,
-					maxDate,
-					altInput: true,
-					altFormat: 'j',
-					altInputClass: 'form-control appear-not-readonly'
-				};
+			evaluationDateOptions(){
+				if(this.evaluationDates)
+					return this.evaluationDates.map((date, index) => {
+						return {
+							id: index.toString(),
+							text: renderDateRange(date.startDate, date.endDate)
+						};
+					});
 			}
 		},
 		watch: {
@@ -159,11 +168,7 @@ export function createRequest(el, propsData){
 			formId(){
 				this.checkField('formId', 'form');
 			},
-			evaluationMonth(evaluationMonth){
-				if(Array.isArray(evaluationMonth) && this.evaluationDay)
-					this.evaluationDay = null;
-			},
-			evaluationDate(){
+			evaluationDateIndex(){
 				this.checkField('evaluationDate', 'evaluation date');
 			},
 			formOptions(){
@@ -197,8 +202,7 @@ export function createRequest(el, propsData){
 			}
 		},
 		components: {
-			SelectTwo,
-			VueFlatpickr
+			SelectTwo
 		}
 	});
 }

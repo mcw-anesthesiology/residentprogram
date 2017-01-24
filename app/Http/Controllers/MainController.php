@@ -333,7 +333,8 @@ class MainController extends Controller
 			}
             
             $evaluationDates = $request->input("evaluation_date");
-            if(!is_array($evaluationDates))
+            if(!is_array($evaluationDates) ||
+					array_key_exists('startDate', $evaluationDates))
                 $evaluationDates = [$evaluationDates];
 
 			$errors = "";
@@ -359,7 +360,8 @@ class MainController extends Controller
     					$eval = new Evaluation();
     					$eval->form_id = $request->input("form_id");
     					$eval->requested_by_id = $user->id;
-    					$eval->evaluation_date = $evaluationDate;
+    					$eval->evaluation_date_start = $evaluationDate['startDate'];
+						$eval->evaluation_date_end = $evaluationDate['endDate'];
     					$eval->subject_id = $subject;
     					$eval->evaluator_id = $evaluator;
     					$eval->training_level = $eval->subject->training_level;

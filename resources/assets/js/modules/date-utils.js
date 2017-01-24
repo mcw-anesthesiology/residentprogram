@@ -1,5 +1,25 @@
 import moment from 'moment';
 
+export function isoDateString(date){
+	return moment(date).format('Y-MM-DD');
+}
+
+export function renderDateRange(startDate, endDate, explicit = false){
+	let range = moment(startDate).twix(endDate, {allDay: true});
+	return range.start().startOf('month') && range.end().endOf('month') && !explicit
+		? range.format({
+			dayFormat: '_',
+			monthFormat: 'MMMM'
+		}).replace(/\s+_/g, '')
+		: range.format({
+			monthFormat: 'MMMM'
+		});
+}
+
+export function renderDateRangeExplicit(startDate, endDate){
+	return renderDateRange(startDate, endDate, true);
+}
+
 export function currentQuarter(){
 	let startDate = moment().startOf('month');
 	while(startDate.month() % 3 !== 0)

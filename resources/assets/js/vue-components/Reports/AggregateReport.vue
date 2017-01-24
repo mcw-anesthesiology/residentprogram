@@ -72,9 +72,10 @@ import DataTable from '../DataTable.vue';
 import Color from 'color';
 
 import { CHART_COLORS } from '../../modules/constants.js';
-import { camelCaseToWords, ucfirst, isoDateString } from '../../modules/utils.js';
+import { camelCaseToWords, ucfirst } from '../../modules/utils.js';
 import { renderTrainingLevel } from '../../modules/datatable-utils.js';
 import { getAverageLevel } from '../../modules/report-utils.js';
+import { isoDateString } from '../../modules/date-utils.js';
 
 export default {
 	props: [
@@ -203,7 +204,7 @@ export default {
 			if(this.show.competencies){
 				// eslint-disable-next-line no-unused-vars
 				for(let competencyId in this.report.competencies){
-					if(this.colsPerItem > 1){						
+					if(this.colsPerItem > 1){
 						if(this.show.averages)
 							row.push({text: 'Average'});
 						if(this.show.averageLevels)
@@ -221,7 +222,7 @@ export default {
 					}
 				}
 			}
-			if(this.show.totals){				
+			if(this.show.totals){
 				row.push({text: '# Evaluators'});
 				row.push({text: '# Evaluations'});
 				row.push({text: '# Trainee Requests'});

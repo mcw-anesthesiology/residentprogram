@@ -3,6 +3,7 @@ import 'twix';
 
 import { NEW_ITEM_TAG, UNSEEN_EVALUATION_PRIORITY } from './constants.js';
 import { ucfirst } from './utils.js';
+import { renderDateRange } from './date-utils.js';
 
 export function unlimitTableEvals(){
 	let dt = this.DataTable({
@@ -65,19 +66,6 @@ export function renderDateRangeCell(start, end){
 			? renderDateRange(obj[start], obj[end])
 			: '';
 	};
-}
-
-export function renderDateRange(startDate, endDate, explicit = false){
-	let range = moment(startDate).twix(endDate, {allDay: true});
-	return range.start().startOf('month') && range.end().endOf('month') && !explicit
-		? range.format({
-			dayFormat: '_'
-		}).replace(/\s+_/g, '')
-		: range.format();
-}
-
-export function renderDateRangeExplicit(startDate, endDate){
-	return renderDateRange(startDate, endDate, true);
 }
 
 export function renderAccountStatus(status){

@@ -382,7 +382,8 @@ body {
 }
 
 .table-date-cell,
-.table-date-time-cell {
+.table-date-time-cell,
+.table-date-range-cell {
     cursor: help;
 }
 
