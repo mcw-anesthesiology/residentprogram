@@ -18,16 +18,16 @@
 			margin-left: 10px;
 		}
 
-		#evaluation-date-info {
-			float: none !important;
-		}
-
 		#evaluation-info-table {
 			margin-bottom: 20px;
 		}
 
 		#evaluation-info-table td, #evaluation-info-table th {
 			word-wrap: break-word;
+		}
+		
+		.evaluation-date-container {
+			font-size: 1.5em;
 		}
 
 		.question {
@@ -151,6 +151,26 @@
 				{{ $evaluation->comment }}
 			</p>
 		</div>
+	@endif
+	</div>
+	
+	<div id="form">
+	@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id)
+			<form id="evaluation" role="form" method="post" action="#">
+				{!! csrf_field() !!}
+	@endif
+				<div class="well well-lg text-center evaluation-date-container">
+					{{ $evaluation->evaluation_date_start->toFormattedDateString() }}
+					—
+					{{ $evaluation->evaluation_date_end->toFormattedDateString() }}
+				</div>
+				{!! App\Helpers\FormReader::read($evaluation->form->xml_path) !!}
+	@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id)
+				<div class="submit-container text-center">
+					<button type="submit" id="complete-form" name="evaluation_id" value="{{ $evaluation->viewable_id }}" class="btn btn-primary btn-lg">Complete evaluation</button>
+					<button type="submit" id="save-form" name="evaluation_id_saved" value="{{ $evaluation->viewable_id }}" class="btn btn-default btn-lg" formnovalidate>Save evaluation</button>
+				</div>
+			</form>
 	@endif
 	</div>
 
@@ -541,14 +561,6 @@
 		$(document).ready(resizeInfoTable);
 
 		$(window).resize(resizeInfoTable);
-
-		$("#evaluation-date-info").popover({
-			html: true,
-			content: "<p>Evaluation dates are now entered when an evaluation is requested or created. </p>" +
-				"<p>If you don't want to complete this evaluation for this date, please request " +
-				"an administrator change the date or remove the evaluation with the " +
-				"<span class='text-warning'>Problem with evaluation?</span> button above.</p>"
-		});
 	@endif
 	</script>
 @stop

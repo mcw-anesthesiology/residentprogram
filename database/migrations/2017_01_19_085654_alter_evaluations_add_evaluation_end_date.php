@@ -31,3 +31,23 @@ class AlterEvaluationsAddEvaluationEndDate extends Migration
         });
     }
 }
+/*
+Translate evaluation_date to start and end dates
+
+App\Evaluation::all()->each(function($eval){
+	if(empty($eval->evaluation_date_start)){
+		$eval->evaluation_date_start = Carbon\Carbon::parse($eval->request_date)->startOfMonth();
+		$eval->evaluation_date_end = Carbon\Carbon::parse($eval->request_date)->endOfMonth();
+	}
+	elseif($eval->evaluation_date_start ==
+			Carbon\Carbon::parse($eval->evaluation_date_start)->startOfMonth()){
+				
+		$eval->evaluation_date_end = Carbon\Carbon::parse($eval->evaluation_date_start)->endOfMonth();
+	}
+	else {
+		$eval->evaluation_date_end = $eval->evaluation_date_start;
+	}
+		
+	$eval->save();
+});
+*/

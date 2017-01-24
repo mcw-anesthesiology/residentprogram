@@ -117,7 +117,8 @@
 			</div>
 			<div class="col-md-8">
 				<label for="evaluation-form">Evaluation form</label>
-				<select-two class="form-control" name="form_id" id="evaluation-form" required
+				<select-two class="form-control" name="form_id"
+						id="evaluation-form" required
 						:options="formOptions" v-model="formId"
 						placeholder="Select form">
 					<option value="">Select form</option>
@@ -161,24 +162,24 @@
 					@{{ error.evaluationDate }}
 				</div>
 			</div>
-			<div class="col-md-4">
-				<label for="evaluation-month">Month</label>
+			<div class="col-md-8">
+				<label for="evaluation-date">Evaluation period</label>
 	@if($user->isType('admin'))
 				<div class="input-group">
 	@endif
-					<select-two class="form-control" id="evaluation-month"
+					<select-two class="form-control" id="evaluation-date"
 							placeholder="Select a month" required
-							:options="evaluationDateOptions" v-model="evaluationMonth"
-							:multiple="allowMultiple.evaluationMonth">
-						<option value="" v-if="!allowMultiple.evaluationMonth">
-							Select a month
+							:options="evaluationDateOptions" v-model="evaluationDateIndex"
+							:multiple="allowMultiple.evaluationDate">
+						<option value="" v-if="!allowMultiple.evaluationDate">
+							Select an evaluation period
 						</option>
 					</select-two>
 	
 	@if($user->isType('admin'))
 					<span class="input-group-addon">
 						<label title="Allows you to make requests for multiple months at once">
-							<input type="checkbox" v-model="allowMultiple.evaluationMonth" />
+							<input type="checkbox" v-model="allowMultiple.evaluationDate" />
 							Multiple
 						</label>
 					</span>
@@ -186,25 +187,19 @@
 	@endif
 
 			</div>
-			<div id="evaluation-day-div" class="col-md-2"  v-show="evaluationMonth"
-					v-if="!allowMultiple.evaluationMonth">
-				<label for="evaluation-day" :class="{'text-muted': !evaluationDay}">
-					Date (optional)
-				</label>
-				<vue-flatpickr class="form-control" v-model="evaluationDay"
-					:options="evaluationDayOptions" ref="evaluationDayFlatpickr" />
-			</div>
-
-			<div class="col-md-2 text-right" v-show="evaluationDay">
-				<button type="button" class="labelless-button btn btn-default" @click="clearDay">
-					Clear date
-				</button>
-			</div>
-			<input type="hidden" v-if="Array.isArray(evaluationDate)"
-				v-for="date of evaluationDate" name="evaluation_date[]" required
-				:value="date" />
-			<input type="hidden" v-else name="evaluation_date" required
-				:value="evaluationDate"/>
+			<template v-if="Array.isArray(evaluationDate)"
+					v-for="(date, index) of evaluationDate">
+				<input type="hidden" :name="`evaluation_date[${index}][startDate]`" required
+					:value="date.startDate" />
+				<input type="hidden" :name="`evaluation_date[${index}][endDate]`" required
+					:value="date.endDate" />
+			</template>
+			<template v-else>
+				<input type="hidden" name="evaluation_date[startDate]" required
+					:value="evaluationDate.startDate" />
+				<input type="hidden" name="evaluation_date[endDate]" required
+					:value="evaluationDate.endDate" />
+			</template>
 		</div>
 
 	@if($user->isType("admin"))

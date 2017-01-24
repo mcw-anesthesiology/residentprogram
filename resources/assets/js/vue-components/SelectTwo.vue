@@ -88,15 +88,20 @@ export default {
 			createTag: () => undefined
 		});
 	},
-	beforeUpdate(){
-		$(this.$el).select2('destroy');
-	},
 	updated(){
 		$(this.$el).val(this.stringValue).select2({
 			placeholder: this.placeholder,
 			tags: this.multiple,
 			createTag: () => undefined
-		});
+		}).trigger('change');
+		
+		// let domVal = $(this.$el).val();
+		// if((Array.isArray(this.stringValue) && this.stringValue.length !== domVal.length)
+		// 		|| ((this.stringValue || domVal) && this.stringValue !== domVal)){
+		// 	this.$nextTick(() => {
+		// 		this.$emit('input', domVal);
+		// 	});
+		// }
 	},
 	watch: {
 		multiple(multiple){
