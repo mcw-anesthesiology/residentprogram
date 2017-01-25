@@ -117,13 +117,13 @@
 </template>
 
 <script>
+import Color from 'color';
+
 import BootstrapAlert from '../BootstrapAlert.vue';
 import BootstrapButtonInput from '../BootstrapButtonInput.vue';
 import ChartjsChart from '../ChartjsChart.vue';
 import DataTable from '../DataTable.vue';
 import SvgIcon from '../SvgIcon.vue';
-
-import Color from 'color';
 
 import {
 	CHART_COLORS,

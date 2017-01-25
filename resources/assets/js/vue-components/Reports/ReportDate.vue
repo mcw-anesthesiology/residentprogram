@@ -30,10 +30,11 @@
 </template>
 
 <script>
+import moment from 'moment';
+
 import VueFlatpickr from 'vue-flatpickr';
 import 'vue-flatpickr/theme/flatpickr.min.css';
 
-import moment from 'moment';
 import { camelCaseToWords } from '../../modules/utils.js';
 import {
 	currentQuarter,

@@ -86,11 +86,11 @@
 </template>
 
 <script>
+import MarkdownIt from 'markdown-it';
+
 import AlertList from './AlertList.vue';
 import MediumEditor from './MediumEditor.vue';
 import ShowHideButton from './ShowHideButton.vue';
-
-import MarkdownIt from 'markdown-it';
 
 import {
 	ucfirst,
