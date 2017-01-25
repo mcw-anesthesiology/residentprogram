@@ -556,12 +556,10 @@ class MainController extends Controller
                 	$eval->training_level = $eval->subject->training_level;
             }
             $eval->complete_ip = $request->ip();
-			if(!$eval->evaluation_date)
-            	$eval->evaluation_date = $request->input("evaluation_date");
 
             $input = $request->all();
             foreach($input as $question => $value){
-                if(strpos($question, "evaluation_id") === false && strpos($question, "evaluation_date") === false && $question !== "_token"){
+                if(strpos($question, "evaluation_id") === false && $question !== "_token"){
                     if(strpos($question, "weight"))
                         $weight = $value;
                     elseif($value != ""){
@@ -700,7 +698,7 @@ class MainController extends Controller
             $lastCompleted = "-";
 
         $evals = $evals->filter(function($eval) use ($yearStart){
-            return $eval->evaluation_date >= $yearStart;
+            return $eval->evaluation_date_end >= $yearStart;
         });
 
         $requests = $evals->where("requested_by_id", $profileUser->id)->count();

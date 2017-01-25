@@ -57,14 +57,17 @@ class ResidentTest extends TestCase
 
 	public function testRequest(){
 		$firstOfMonth = Carbon::parse("first day of this month")->toDateString();
+        $lastOfMonth = Carbon::parse("last day of this month")->toDateString();
 		$this->actingAs($this->user)
 			->visit("/request")
 			->see("Request trainee evaluation")
 			->call("POST", "/request", [
 				"evaluator_id" => $this->faculty->id,
 				"form_id" => $this->form->id,
-				"evaluation_date" => $firstOfMonth,
-				"_token" => csrf_token()
+				"evaluation_date" => [
+					"startDate" => $firstOfMonth,
+					"endDate" => $lastOfMonth
+				],
 			]);
 
 		$this->seeInDatabase("evaluations", [
@@ -72,7 +75,8 @@ class ResidentTest extends TestCase
 			"evaluator_id" => $this->faculty->id,
 			"form_id" => $this->form->id,
 			"requested_by_id" => $this->user->id,
-			"evaluation_date" => $firstOfMonth
+			"evaluation_date_start" => $firstOfMonth,
+            "evaluation_date_end" => $lastOfMonth
 		]);
 	}
 
@@ -146,6 +150,7 @@ class ResidentTest extends TestCase
 
     public function testRequestFacultyEval(){
         $firstOfMonth = Carbon::parse("first day of this month")->toDateString();
+        $lastOfMonth = Carbon::parse("last day of this month")->toDateString();
         $this->actingAs($this->user)
             ->visit("/request/faculty")
             ->see("Create faculty evaluation");
@@ -154,7 +159,10 @@ class ResidentTest extends TestCase
             ->call("POST", "/request/faculty", [
                 "subject_id" => $this->faculty->id,
                 "form_id" => $this->facultyForm->id,
-                "evaluation_date" => $firstOfMonth,
+                "evaluation_date" => [
+					"startDate" => $firstOfMonth,
+					"endDate" => $lastOfMonth
+				],
                 "_token" => csrf_token()
             ]);
 
@@ -165,7 +173,8 @@ class ResidentTest extends TestCase
             "form_id" => $this->facultyForm->id,
             "status" => "pending",
 			"visibility" => "under faculty threshold",
-            "evaluation_date" => $firstOfMonth
+            "evaluation_date_start" => $firstOfMonth,
+            "evaluation_date_end" => $lastOfMonth,
         ]);
     }
 

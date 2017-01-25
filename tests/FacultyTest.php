@@ -59,14 +59,18 @@ class FacultyTest extends TestCase
 
     public function testRequest(){
         $faker = Faker::create();
-        $evaluationDate = $faker->date();
+        $evaluationDateStart = $faker->date();
+        $evaluationDateEnd = Carbon::parse($evaluationDateStart)->addMonth();
         $this->actingAs($this->user)
 			->visit("/request")
 			->see("Create trainee evaluation")
 			->post("/request", [
 				"subject_id" => $this->resident->id,
 				"form_id" => $this->form->id,
-				"evaluation_date" => $evaluationDate,
+				"evaluation_date" => [
+                    'startDate' => $evaluationDateStart,
+                    'endDate' => $evaluationDateEnd
+                ],
 				"_token" => csrf_token()
 			]);
 
@@ -75,7 +79,8 @@ class FacultyTest extends TestCase
 			"evaluator_id" => $this->user->id,
 			"form_id" => $this->form->id,
 			"requested_by_id" => $this->user->id,
-			"evaluation_date" => $evaluationDate
+			"evaluation_date_start" => $evaluationDateStart,
+            "evaluation_date_end" => $evaluationDateEnd
 		]);
     }
 
