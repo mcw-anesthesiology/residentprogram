@@ -643,14 +643,14 @@ class AdminTest extends TestCase
             "subject_id" => $this->resident->id,
             "evaluator_id" => $this->faculty->id,
             "requested_by_id" => $this->user->id,
-            "evaluation_date" => $faker->dateTimeBetween($yearStart, "now")
+            "evaluation_date_end" => $faker->dateTimeBetween($yearStart, "now")
         ]);
         $anotherEval = factory(App\Evaluation::class)->create([
             "form_id" => $this->form->id,
             "subject_id" => $this->resident->id,
             "evaluator_id" => $this->faculty->id,
             "requested_by_id" => $this->resident->id,
-            "evaluation_date" => $faker->dateTimeBetween($yearStart, "now")
+            "evaluation_date_end" => $faker->dateTimeBetween($yearStart, "now")
         ]);
 
         $this->actingAs($this->user)

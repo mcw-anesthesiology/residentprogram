@@ -152,7 +152,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 372);
+/******/ 	return __webpack_require__(__webpack_require__.s = 373);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -527,11 +527,11 @@ var CHART_COLORS = {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_twix__ = __webpack_require__(290);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_twix__ = __webpack_require__(291);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_twix___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_twix__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants_js__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__date_utils_js__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__date_utils_js__ = __webpack_require__(10);
 /* harmony export (immutable) */ __webpack_exports__["j"] = unlimitTableEvals;
 /* harmony export (immutable) */ __webpack_exports__["k"] = unlimitRestTableEvals;
 /* harmony export (immutable) */ __webpack_exports__["f"] = createDateCell;
@@ -723,8 +723,121 @@ function getDataAttributes(thing) {
 
 /***/ }),
 /* 9 */,
-/* 10 */,
-/* 11 */
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
+/* harmony export (immutable) */ __webpack_exports__["a"] = isoDateString;
+/* harmony export (immutable) */ __webpack_exports__["d"] = renderDateRange;
+/* unused harmony export renderDateRangeExplicit */
+/* harmony export (immutable) */ __webpack_exports__["c"] = currentQuarter;
+/* harmony export (immutable) */ __webpack_exports__["b"] = lastQuarter;
+/* harmony export (immutable) */ __webpack_exports__["e"] = currentSemester;
+/* harmony export (immutable) */ __webpack_exports__["f"] = lastSemester;
+/* harmony export (immutable) */ __webpack_exports__["g"] = currentYear;
+/* harmony export (immutable) */ __webpack_exports__["h"] = lastYear;
+
+
+function isoDateString(date) {
+	return __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).format('Y-MM-DD');
+}
+
+function renderDateRange(startDate, endDate) {
+	var explicit = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+	var range = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).twix(endDate, { allDay: true });
+	return range.start().startOf('month') && range.end().endOf('month') && !explicit ? range.format({
+		dayFormat: '_',
+		monthFormat: 'MMMM'
+	}).replace(/\s+_/g, '') : range.format({
+		monthFormat: 'MMMM'
+	});
+}
+
+function renderDateRangeExplicit(startDate, endDate) {
+	return renderDateRange(startDate, endDate, true);
+}
+
+function currentQuarter() {
+	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().startOf('month');
+	while (startDate.month() % 3 !== 0) {
+		startDate.subtract(1, 'month');
+	}var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(2, 'months').endOf('month');
+
+	return {
+		startDate: startDate,
+		endDate: endDate
+	};
+}
+
+function lastQuarter() {
+	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().startOf('month');
+	while (startDate.month() % 3 !== 0) {
+		startDate.subtract(1, 'month');
+	}startDate.subtract(3, 'months');
+	var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(2, 'months').endOf('month');
+
+	return {
+		startDate: startDate,
+		endDate: endDate
+	};
+}
+
+function currentSemester() {
+	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().startOf('month');
+	while (startDate.month() % 6 !== 0) {
+		startDate.subtract(1, 'month');
+	}var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(5, 'months').endOf('month');
+
+	return {
+		startDate: startDate,
+		endDate: endDate
+	};
+}
+
+function lastSemester() {
+	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().startOf('month');
+	while (startDate.month() % 6 !== 0) {
+		startDate.subtract(1, 'month');
+	}startDate.subtract(6, 'months');
+	var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(5, 'months').endOf('month');
+
+	return {
+		startDate: startDate,
+		endDate: endDate
+	};
+}
+
+function currentYear() {
+	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().startOf('month');
+	while (startDate.month() !== 6) {
+		startDate.subtract(1, 'month');
+	}var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(11, 'months').endOf('month');
+
+	return {
+		startDate: startDate,
+		endDate: endDate
+	};
+}
+
+function lastYear() {
+	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().startOf('month');
+	while (startDate.month() !== 6) {
+		startDate.subtract(1, 'month');
+	}startDate.subtract(1, 'year');
+	var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(11, 'months').endOf('month');
+
+	return {
+		startDate: startDate,
+		endDate: endDate
+	};
+}
+
+/***/ }),
+/* 11 */,
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Thank's IE8 for his funny defineProperty
@@ -733,7 +846,7 @@ module.exports = !__webpack_require__(28)(function(){
 });
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1030,9 +1143,9 @@ exports.encodePath = function encodePointer(a){
 
 
 /***/ }),
-/* 13 */,
 /* 14 */,
-/* 15 */
+/* 15 */,
+/* 16 */
 /***/ (function(module, exports) {
 
 var g;
@@ -1059,130 +1172,17 @@ module.exports = g;
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports) {
 
 var core = module.exports = {version: '2.4.0'};
 if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 
 /***/ }),
-/* 17 */,
 /* 18 */,
 /* 19 */,
 /* 20 */,
-/* 21 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
-/* harmony export (immutable) */ __webpack_exports__["a"] = isoDateString;
-/* harmony export (immutable) */ __webpack_exports__["d"] = renderDateRange;
-/* unused harmony export renderDateRangeExplicit */
-/* harmony export (immutable) */ __webpack_exports__["c"] = currentQuarter;
-/* harmony export (immutable) */ __webpack_exports__["b"] = lastQuarter;
-/* harmony export (immutable) */ __webpack_exports__["e"] = currentSemester;
-/* harmony export (immutable) */ __webpack_exports__["f"] = lastSemester;
-/* harmony export (immutable) */ __webpack_exports__["g"] = currentYear;
-/* harmony export (immutable) */ __webpack_exports__["h"] = lastYear;
-
-
-function isoDateString(date) {
-	return __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).format('Y-MM-DD');
-}
-
-function renderDateRange(startDate, endDate) {
-	var explicit = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-
-	var range = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).twix(endDate, { allDay: true });
-	return range.start().startOf('month') && range.end().endOf('month') && !explicit ? range.format({
-		dayFormat: '_',
-		monthFormat: 'MMMM'
-	}).replace(/\s+_/g, '') : range.format({
-		monthFormat: 'MMMM'
-	});
-}
-
-function renderDateRangeExplicit(startDate, endDate) {
-	return renderDateRange(startDate, endDate, true);
-}
-
-function currentQuarter() {
-	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().startOf('month');
-	while (startDate.month() % 3 !== 0) {
-		startDate.subtract(1, 'month');
-	}var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(2, 'months').endOf('month');
-
-	return {
-		startDate: startDate,
-		endDate: endDate
-	};
-}
-
-function lastQuarter() {
-	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().startOf('month');
-	while (startDate.month() % 3 !== 0) {
-		startDate.subtract(1, 'month');
-	}startDate.subtract(3, 'months');
-	var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(2, 'months').endOf('month');
-
-	return {
-		startDate: startDate,
-		endDate: endDate
-	};
-}
-
-function currentSemester() {
-	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().startOf('month');
-	while (startDate.month() % 6 !== 0) {
-		startDate.subtract(1, 'month');
-	}var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(5, 'months').endOf('month');
-
-	return {
-		startDate: startDate,
-		endDate: endDate
-	};
-}
-
-function lastSemester() {
-	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().startOf('month');
-	while (startDate.month() % 6 !== 0) {
-		startDate.subtract(1, 'month');
-	}startDate.subtract(6, 'months');
-	var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(5, 'months').endOf('month');
-
-	return {
-		startDate: startDate,
-		endDate: endDate
-	};
-}
-
-function currentYear() {
-	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().startOf('month');
-	while (startDate.month() !== 6) {
-		startDate.subtract(1, 'month');
-	}var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(11, 'months').endOf('month');
-
-	return {
-		startDate: startDate,
-		endDate: endDate
-	};
-}
-
-function lastYear() {
-	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().startOf('month');
-	while (startDate.month() !== 6) {
-		startDate.subtract(1, 'month');
-	}startDate.subtract(1, 'year');
-	var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(startDate).add(11, 'months').endOf('month');
-
-	return {
-		startDate: startDate,
-		endDate: endDate
-	};
-}
-
-/***/ }),
+/* 21 */,
 /* 22 */,
 /* 23 */,
 /* 24 */,
@@ -1460,7 +1460,7 @@ window.Chart = module.exports = Chart;
 /***/ (function(module, exports, __webpack_require__) {
 
 var global    = __webpack_require__(41)
-  , core      = __webpack_require__(16)
+  , core      = __webpack_require__(17)
   , ctx       = __webpack_require__(174)
   , hide      = __webpack_require__(178)
   , PROTOTYPE = 'prototype';
@@ -1534,7 +1534,7 @@ if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
 /* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = !__webpack_require__(11) && !__webpack_require__(28)(function(){
+module.exports = !__webpack_require__(12) && !__webpack_require__(28)(function(){
   return Object.defineProperty(__webpack_require__(176)('div'), 'a', {get: function(){ return 7; }}).a != 7;
 });
 
@@ -1547,7 +1547,7 @@ var anObject       = __webpack_require__(172)
   , toPrimitive    = __webpack_require__(46)
   , dP             = Object.defineProperty;
 
-exports.f = __webpack_require__(11) ? Object.defineProperty : function defineProperty(O, P, Attributes){
+exports.f = __webpack_require__(12) ? Object.defineProperty : function defineProperty(O, P, Attributes){
   anObject(O);
   P = toPrimitive(P, true);
   anObject(Attributes);
@@ -2148,7 +2148,7 @@ module.exports = function(it, S){
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(37)(module), __webpack_require__(15)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(37)(module), __webpack_require__(16)))
 
 /***/ }),
 /* 59 */,
@@ -2182,7 +2182,7 @@ module.exports = function(it, S){
 
 
 var punycode = __webpack_require__(58);
-var util = __webpack_require__(293);
+var util = __webpack_require__(294);
 
 exports.parse = urlParse;
 exports.resolve = urlResolve;
@@ -2257,7 +2257,7 @@ var protocolPattern = /^([a-z0-9.+-]+:)/i,
       'gopher:': true,
       'file:': true
     },
-    querystring = __webpack_require__(287);
+    querystring = __webpack_require__(288);
 
 function urlParse(url, parseQueryString, slashesDenoteHost) {
   if (url && util.isObject(url) && url instanceof Url) return url;
@@ -2900,6 +2900,13 @@ Url.prototype.parseHost = function() {
 /* 67 */,
 /* 68 */,
 /* 69 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var req = __webpack_require__(210);
+module.exports = (req['default'] || req).apply(req, [])
+
+/***/ }),
+/* 70 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2949,91 +2956,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-
-/***/ }),
-/* 70 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_define_property__ = __webpack_require__(117);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_define_property___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_define_property__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_get_own_property_descriptor__ = __webpack_require__(118);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_get_own_property_descriptor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_get_own_property_descriptor__);
-
-//
-// element-dataset 2.2.3
-//
-// element-dataset is released under the terms of the BSD-3-Clause license.
-// (c) 2015 - 2017 Mark Milstein <mark@epiloque.com> 
-//
-// For all details and documentation: https://github.com/epiloque/element-dataset
-//
-
-
-
-
-/* eslint-env browser */
-
-function elementDatasetPolyfill() {
-  if (!document.documentElement.dataset && (!__WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_get_own_property_descriptor___default()(HTMLElement.prototype, 'dataset') || !__WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_get_own_property_descriptor___default()(HTMLElement.prototype, 'dataset').get)) {
-    var descriptor = {};
-
-    descriptor.enumerable = true;
-
-    descriptor.get = function get() {
-      var element = this;
-      var map = {};
-      var attributes = this.attributes;
-
-      function toUpperCase(n0) {
-        return n0.charAt(1).toUpperCase();
-      }
-
-      function getter() {
-        return this.value;
-      }
-
-      function setter(name, value) {
-        if (typeof value !== 'undefined') {
-          this.setAttribute(name, value);
-        } else {
-          this.removeAttribute(name);
-        }
-      }
-
-      for (var i = 0; i < attributes.length; i += 1) {
-        var attribute = attributes[i];
-
-        // This test really should allow any XML Name without
-        // colons (and non-uppercase for XHTML)
-
-        if (attribute && attribute.name && /^data-\w[\w-]*$/.test(attribute.name)) {
-          var name = attribute.name;
-          var value = attribute.value;
-
-          // Change to CamelCase
-
-          var propName = name.substr(5).replace(/-./g, toUpperCase);
-
-          __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_define_property___default()(map, propName, {
-            enumerable: this.enumerable,
-            get: getter.bind({ value: value || '' }),
-            set: setter.bind(element, name)
-          });
-        }
-      }
-      return map;
-    };
-
-    Object.defineProperty(HTMLElement.prototype, 'dataset', descriptor);
-  }
-}
-
-var functionToExport = elementDatasetPolyfill;
-
-
-/* harmony default export */ __webpack_exports__["default"] = functionToExport();
 
 /***/ }),
 /* 71 */,
@@ -3550,9 +3472,9 @@ var functionToExport = elementDatasetPolyfill;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js__ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_chart_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jsonschema__ = __webpack_require__(222);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jsonschema__ = __webpack_require__(223);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jsonschema___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_jsonschema__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__schemas_case_log_details_json__ = __webpack_require__(367);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__schemas_case_log_details_json__ = __webpack_require__(368);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__schemas_case_log_details_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__schemas_case_log_details_json__);
 /* harmony export (immutable) */ __webpack_exports__["a"] = caseLogDetailsSchemaIsValid;
 /* harmony export (immutable) */ __webpack_exports__["b"] = renderCaseLogDetailsSchema;
@@ -3561,8 +3483,9 @@ var functionToExport = elementDatasetPolyfill;
 /* harmony export (immutable) */ __webpack_exports__["e"] = generateCaseLogLocationReportTable;
 
 
-var v = new __WEBPACK_IMPORTED_MODULE_1_jsonschema__["Validator"]();
 
+
+var v = new __WEBPACK_IMPORTED_MODULE_1_jsonschema__["Validator"]();
 
 function caseLogDetailsSchemaIsValid(detailsSchema) {
 	return v.validate(detailsSchema, __WEBPACK_IMPORTED_MODULE_2__schemas_case_log_details_json___default.a).valid;
@@ -15565,7 +15488,7 @@ module.exports = convert;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(183);
-var $Object = __webpack_require__(16).Object;
+var $Object = __webpack_require__(17).Object;
 module.exports = function defineProperty(it, key, desc){
   return $Object.defineProperty(it, key, desc);
 };
@@ -15575,7 +15498,7 @@ module.exports = function defineProperty(it, key, desc){
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(184);
-var $Object = __webpack_require__(16).Object;
+var $Object = __webpack_require__(17).Object;
 module.exports = function getOwnPropertyDescriptor(it, key){
   return $Object.getOwnPropertyDescriptor(it, key);
 };
@@ -15671,7 +15594,7 @@ module.exports = function(it, key){
 
 var dP         = __webpack_require__(43)
   , createDesc = __webpack_require__(44);
-module.exports = __webpack_require__(11) ? function(object, key, value){
+module.exports = __webpack_require__(12) ? function(object, key, value){
   return dP.f(object, key, createDesc(1, value));
 } : function(object, key, value){
   object[key] = value;
@@ -15700,7 +15623,7 @@ var pIE            = __webpack_require__(181)
   , IE8_DOM_DEFINE = __webpack_require__(42)
   , gOPD           = Object.getOwnPropertyDescriptor;
 
-exports.f = __webpack_require__(11) ? gOPD : function getOwnPropertyDescriptor(O, P){
+exports.f = __webpack_require__(12) ? gOPD : function getOwnPropertyDescriptor(O, P){
   O = toIObject(O);
   P = toPrimitive(P, true);
   if(IE8_DOM_DEFINE)try {
@@ -15721,7 +15644,7 @@ exports.f = {}.propertyIsEnumerable;
 
 // most Object methods by ES6 should accept primitives
 var $export = __webpack_require__(40)
-  , core    = __webpack_require__(16)
+  , core    = __webpack_require__(17)
   , fails   = __webpack_require__(28);
 module.exports = function(KEY, exec){
   var fn  = (core.Object || {})[KEY] || Object[KEY]
@@ -15736,7 +15659,7 @@ module.exports = function(KEY, exec){
 
 var $export = __webpack_require__(40);
 // 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
-$export($export.S + $export.F * !__webpack_require__(11), 'Object', {defineProperty: __webpack_require__(43).f});
+$export($export.S + $export.F * !__webpack_require__(12), 'Object', {defineProperty: __webpack_require__(43).f});
 
 /***/ }),
 /* 184 */
@@ -15778,7 +15701,89 @@ __webpack_require__(182)('getOwnPropertyDescriptor', function(){
 /* 207 */,
 /* 208 */,
 /* 209 */,
-/* 210 */,
+/* 210 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_define_property__ = __webpack_require__(117);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_define_property___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_define_property__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_get_own_property_descriptor__ = __webpack_require__(118);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_get_own_property_descriptor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_get_own_property_descriptor__);
+
+//
+// element-dataset 2.2.3
+//
+// element-dataset is released under the terms of the BSD-3-Clause license.
+// (c) 2015 - 2017 Mark Milstein <mark@epiloque.com> 
+//
+// For all details and documentation: https://github.com/epiloque/element-dataset
+//
+
+
+
+
+/* eslint-env browser */
+
+function elementDatasetPolyfill() {
+  if (!document.documentElement.dataset && (!__WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_get_own_property_descriptor___default()(HTMLElement.prototype, 'dataset') || !__WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_get_own_property_descriptor___default()(HTMLElement.prototype, 'dataset').get)) {
+    var descriptor = {};
+
+    descriptor.enumerable = true;
+
+    descriptor.get = function get() {
+      var element = this;
+      var map = {};
+      var attributes = this.attributes;
+
+      function toUpperCase(n0) {
+        return n0.charAt(1).toUpperCase();
+      }
+
+      function getter() {
+        return this.value;
+      }
+
+      function setter(name, value) {
+        if (typeof value !== 'undefined') {
+          this.setAttribute(name, value);
+        } else {
+          this.removeAttribute(name);
+        }
+      }
+
+      for (var i = 0; i < attributes.length; i += 1) {
+        var attribute = attributes[i];
+
+        // This test really should allow any XML Name without
+        // colons (and non-uppercase for XHTML)
+
+        if (attribute && attribute.name && /^data-\w[\w-]*$/.test(attribute.name)) {
+          var name = attribute.name;
+          var value = attribute.value;
+
+          // Change to CamelCase
+
+          var propName = name.substr(5).replace(/-./g, toUpperCase);
+
+          __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_define_property___default()(map, propName, {
+            enumerable: this.enumerable,
+            get: getter.bind({ value: value || '' }),
+            set: setter.bind(element, name)
+          });
+        }
+      }
+      return map;
+    };
+
+    Object.defineProperty(HTMLElement.prototype, 'dataset', descriptor);
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = elementDatasetPolyfill;
+
+
+/***/ }),
 /* 211 */,
 /* 212 */,
 /* 213 */,
@@ -15789,13 +15794,14 @@ __webpack_require__(182)('getOwnPropertyDescriptor', function(){
 /* 218 */,
 /* 219 */,
 /* 220 */,
-/* 221 */
+/* 221 */,
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var helpers = __webpack_require__(12);
+var helpers = __webpack_require__(13);
 
 /** @type ValidatorResult */
 var ValidatorResult = helpers.ValidatorResult;
@@ -16599,17 +16605,17 @@ module.exports = attribute;
 
 
 /***/ }),
-/* 222 */
+/* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Validator = module.exports.Validator = __webpack_require__(223);
+var Validator = module.exports.Validator = __webpack_require__(224);
 
-module.exports.ValidatorResult = __webpack_require__(12).ValidatorResult;
-module.exports.ValidationError = __webpack_require__(12).ValidationError;
-module.exports.SchemaError = __webpack_require__(12).SchemaError;
+module.exports.ValidatorResult = __webpack_require__(13).ValidatorResult;
+module.exports.ValidationError = __webpack_require__(13).ValidationError;
+module.exports.SchemaError = __webpack_require__(13).SchemaError;
 
 module.exports.validate = function (instance, schema, options) {
   var v = new Validator();
@@ -16618,7 +16624,7 @@ module.exports.validate = function (instance, schema, options) {
 
 
 /***/ }),
-/* 223 */
+/* 224 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16626,8 +16632,8 @@ module.exports.validate = function (instance, schema, options) {
 
 var urilib = __webpack_require__(62);
 
-var attribute = __webpack_require__(221);
-var helpers = __webpack_require__(12);
+var attribute = __webpack_require__(222);
+var helpers = __webpack_require__(13);
 var ValidatorResult = helpers.ValidatorResult;
 var SchemaError = helpers.SchemaError;
 var SchemaContext = helpers.SchemaContext;
@@ -16959,7 +16965,6 @@ module.exports = Validator;
 
 
 /***/ }),
-/* 224 */,
 /* 225 */,
 /* 226 */,
 /* 227 */,
@@ -17020,7 +17025,8 @@ module.exports = Validator;
 /* 282 */,
 /* 283 */,
 /* 284 */,
-/* 285 */
+/* 285 */,
+/* 286 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17111,7 +17117,7 @@ var isArray = Array.isArray || function (xs) {
 
 
 /***/ }),
-/* 286 */
+/* 287 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17203,20 +17209,20 @@ var objectKeys = Object.keys || function (obj) {
 
 
 /***/ }),
-/* 287 */
+/* 288 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.decode = exports.parse = __webpack_require__(285);
-exports.encode = exports.stringify = __webpack_require__(286);
+exports.decode = exports.parse = __webpack_require__(286);
+exports.encode = exports.stringify = __webpack_require__(287);
 
 
 /***/ }),
-/* 288 */,
 /* 289 */,
-/* 290 */
+/* 290 */,
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Generated by CoffeeScript 1.10.0
@@ -17895,9 +17901,9 @@ exports.encode = exports.stringify = __webpack_require__(286);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(37)(module)))
 
 /***/ }),
-/* 291 */,
 /* 292 */,
-/* 293 */
+/* 293 */,
+/* 294 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17920,7 +17926,6 @@ module.exports = {
 
 
 /***/ }),
-/* 294 */,
 /* 295 */,
 /* 296 */,
 /* 297 */,
@@ -17993,7 +17998,8 @@ module.exports = {
 /* 364 */,
 /* 365 */,
 /* 366 */,
-/* 367 */
+/* 367 */,
+/* 368 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -18130,16 +18136,16 @@ module.exports = {
 };
 
 /***/ }),
-/* 368 */,
 /* 369 */,
 /* 370 */,
 /* 371 */,
-/* 372 */
+/* 372 */,
+/* 373 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(80);
-__webpack_require__(70);
-module.exports = __webpack_require__(69);
+__webpack_require__(69);
+module.exports = __webpack_require__(70);
 
 
 /***/ })

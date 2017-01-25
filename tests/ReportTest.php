@@ -309,37 +309,37 @@ class ReportTest extends TestCase
             ],
             "subjectMilestoneDeviations" => [
                 $this->residents[0]->id => [
-                    $this->milestones[0]->id => -0.86602540378444,
+                    $this->milestones[0]->id => -0.86602540378443871,
                     $this->milestones[1]->id => 0
                 ],
                 $this->residents[1]->id => [
-                    $this->milestones[0]->id => 0.86602540378444,
+                    $this->milestones[0]->id => 0.86602540378443871,
                     $this->milestones[1]->id => 0
                 ],
                 $formerResidents[0]->id => [
-                    $this->milestones[0]->id => -0.86602540378444,
+                    $this->milestones[0]->id => -0.86602540378443871,
                     $this->milestones[1]->id => 0
                 ],
                 $formerResidents[1]->id => [
-                    $this->milestones[0]->id => 0.86602540378444,
+                    $this->milestones[0]->id => 0.86602540378443871,
                     $this->milestones[1]->id => 0
                 ]
             ],
             "subjectCompetencyDeviations" => [
                 $this->residents[0]->id => [
-                    $this->competencies[0]->id => -0.86602540378444,
+                    $this->competencies[0]->id => -0.86602540378443871,
                     $this->competencies[1]->id => 0
                 ],
                 $this->residents[1]->id => [
-                    $this->competencies[0]->id => 0.86602540378444,
+                    $this->competencies[0]->id => 0.86602540378443871,
                     $this->competencies[1]->id => 0
                 ],
                 $formerResidents[0]->id => [
-                    $this->competencies[0]->id => -0.86602540378444,
+                    $this->competencies[0]->id => -0.86602540378443871,
                     $this->competencies[1]->id => 0
                 ],
                 $formerResidents[1]->id => [
-                    $this->competencies[0]->id => 0.86602540378444,
+                    $this->competencies[0]->id => 0.86602540378443871,
                     $this->competencies[1]->id => 0
                 ]
             ],
@@ -503,21 +503,21 @@ class ReportTest extends TestCase
             ],
             "subjectMilestoneDeviations" => [
                 $this->residents[0]->id => [
-                    $this->milestones[0]->id => -0.70710678118655,
+                    $this->milestones[0]->id => -0.70710678118654746,
                     $this->milestones[1]->id => 0
                 ],
                 $this->residents[1]->id => [
-                    $this->milestones[0]->id => 0.70710678118655,
+                    $this->milestones[0]->id => 0.70710678118654746,
                     $this->milestones[1]->id => 0
                 ]
             ],
             "subjectCompetencyDeviations" => [
                 $this->residents[0]->id => [
-                    $this->competencies[0]->id => -0.70710678118655,
+                    $this->competencies[0]->id => -0.70710678118654746,
                     $this->competencies[1]->id => 0
                 ],
                 $this->residents[1]->id => [
-                    $this->competencies[0]->id => 0.70710678118655,
+                    $this->competencies[0]->id => 0.70710678118654746,
                     $this->competencies[1]->id => 0
                 ]
             ],
@@ -692,7 +692,8 @@ class ReportTest extends TestCase
                         "first_name" => $this->textResponses[0]->evaluation->evaluator->first_name,
                         "last_name" => $this->textResponses[0]->evaluation->evaluator->last_name,
                         "form_title" => $this->textResponses[0]->evaluation->form->title,
-                        "evaluation_date" => $this->textResponses[0]->evaluation->evaluation_date->toDateString(),
+                        "evaluation_date_start" => $this->textResponses[0]->evaluation->evaluation_date_start->toDateString(),
+                        "evaluation_date_end" => $this->textResponses[0]->evaluation->evaluation_date_end->toDateString(),
                         "response" => $this->textResponses[0]->response
                     ],
                     (object)[
@@ -700,7 +701,8 @@ class ReportTest extends TestCase
                         "first_name" => $this->textResponses[1]->evaluation->evaluator->first_name,
                         "last_name" => $this->textResponses[1]->evaluation->evaluator->last_name,
                         "form_title" => $this->textResponses[1]->evaluation->form->title,
-                        "evaluation_date" => $this->textResponses[1]->evaluation->evaluation_date->toDateString(),
+                        "evaluation_date_start" => $this->textResponses[1]->evaluation->evaluation_date_start->toDateString(),
+                        "evaluation_date_end" => $this->textResponses[1]->evaluation->evaluation_date_end->toDateString(),
                         "response" => $this->textResponses[1]->response
                     ]
                 ],
@@ -711,7 +713,8 @@ class ReportTest extends TestCase
 						"first_name" => $this->evals[0][0]->evaluator->first_name,
 						"last_name" => $this->evals[0][0]->evaluator->last_name,
 						"form_title" => $this->evals[0][0]->form->title,
-						"evaluation_date" => $this->evals[0][0]->evaluation_date->toDateString()
+						"evaluation_date_start" => $this->evals[0][0]->evaluation_date_start->toDateString(),
+                        "evaluation_date_end" => $this->evals[0][0]->evaluation_date_end->toDateString()
 					],
 					(object)[
 						"evaluation_id" => $this->evals[0][1]->id,
@@ -719,7 +722,8 @@ class ReportTest extends TestCase
 						"first_name" => $this->evals[0][1]->evaluator->first_name,
 						"last_name" => $this->evals[0][1]->evaluator->last_name,
 						"form_title" => $this->evals[0][1]->form->title,
-						"evaluation_date" => $this->evals[0][1]->evaluation_date->toDateString()
+						"evaluation_date_start" => $this->evals[0][1]->evaluation_date_start->toDateString(),
+                        "evaluation_date_end" => $this->evals[0][1]->evaluation_date_end->toDateString()
 					]
 				],
                 "subjectEvaluations" => [
@@ -733,7 +737,8 @@ class ReportTest extends TestCase
 							'evaluator_last' => $this->evals[0][0]->evaluator->last_name,
 							'evaluator_first' => $this->evals[0][0]->evaluator->first_name,
 							'evaluation_id' => $this->evals[0][0]->id,
-							'evaluation_date' => $this->evals[0][0]->evaluation_date->toDateString(),
+							'evaluation_date_start' => $this->evals[0][0]->evaluation_date_start->toDateString(),
+                            'evaluation_date_end' => $this->evals[0][0]->evaluation_date_end->toDateString(),
 							'evaluation_status' => $this->evals[0][0]->status,
 							'form_title' => $this->evals[0][0]->form->title
 						],
@@ -746,7 +751,8 @@ class ReportTest extends TestCase
 							'evaluator_last' => $this->evals[0][1]->evaluator->last_name,
 							'evaluator_first' => $this->evals[0][1]->evaluator->first_name,
 							'evaluation_id' => $this->evals[0][1]->id,
-							'evaluation_date' => $this->evals[0][1]->evaluation_date->toDateString(),
+							'evaluation_date_start' => $this->evals[0][1]->evaluation_date_start->toDateString(),
+                            'evaluation_date_end' => $this->evals[0][1]->evaluation_date_end->toDateString(),
 							'evaluation_status' => $this->evals[0][1]->status,
 							'form_title' => $this->evals[0][1]->form->title
 						],
@@ -761,7 +767,8 @@ class ReportTest extends TestCase
 							'evaluator_last' => $this->evals[1][0]->evaluator->last_name,
 							'evaluator_first' => $this->evals[1][0]->evaluator->first_name,
 							'evaluation_id' => $this->evals[1][0]->id,
-							'evaluation_date' => $this->evals[1][0]->evaluation_date->toDateString(),
+							'evaluation_date_start' => $this->evals[1][0]->evaluation_date_start->toDateString(),
+                            'evaluation_date_end' => $this->evals[1][0]->evaluation_date_end->toDateString(),
 							'evaluation_status' => $this->evals[1][0]->status,
 							'form_title' => $this->evals[1][0]->form->title
 						],
@@ -774,7 +781,8 @@ class ReportTest extends TestCase
 							'evaluator_last' => $this->evals[1][1]->evaluator->last_name,
 							'evaluator_first' => $this->evals[1][1]->evaluator->first_name,
 							'evaluation_id' => $this->evals[1][1]->id,
-							'evaluation_date' => $this->evals[1][1]->evaluation_date->toDateString(),
+							'evaluation_date_start' => $this->evals[1][1]->evaluation_date_start->toDateString(),
+                            'evaluation_date_end' => $this->evals[1][1]->evaluation_date_end->toDateString(),
 							'evaluation_status' => $this->evals[1][1]->status,
 							'form_title' => $this->evals[1][1]->form->title
 						],
