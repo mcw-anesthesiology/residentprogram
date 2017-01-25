@@ -258,5 +258,7 @@ class Evaluation extends Model
 
 		if($this->status != 'complete')
 			$this->addHidden(['responses', 'textResponses']);
+			
+		return $this;
 	}
 }

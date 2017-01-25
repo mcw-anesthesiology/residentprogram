@@ -86,11 +86,14 @@ class ReportController extends Controller
         }
 		
 		$times = [];
+		$userStats = [];
 		
         foreach($users as $user){
 			
             try {
-                $userEvaluations = $type == "faculty" ? $user->evaluatorEvaluations() : $user->subjectEvaluations();
+                $userEvaluations = $type == "faculty"
+					? $user->evaluatorEvaluations()
+					: $user->subjectEvaluations();
                 if(!empty($startDate))
                     $userEvaluations->where("evaluation_date_end", ">=", $startDate);
                 if(!empty($endDate))
@@ -103,38 +106,16 @@ class ReportController extends Controller
                     });
 
                 $userEvals = $userEvaluations->get();
-
-                if($type == "faculty"){
-                    if($userEvals->count() == 0)
-                        $noneRequested[] = $user->full_name;
-                    if($userEvals->where("status", "complete")->count() == 0)
-                        $noneCompleted[] = $user->full_name;
-                    $eval = $userEvals->where("status", "complete")
-                        ->sortByDesc("complete_date")->first();
-                    if(!empty($eval))
-                        $lastCompleted[$user->full_name] = $eval->complete_date;
-
-                    $time = 0;
-                }
-                else{
-                    if($userEvals->count() == 0)
-                        $noneRequested[] = $user->full_name;
-                    if($userEvals->where("status", "complete")->count() == 0)
-                        $noneCompleted[] = $user->full_name;
-                    $eval = $userEvals->where("status", "complete")
-                        ->sortByDesc("complete_date")->first();
-                    if(!empty($eval))
-						$lastCompleted[] = [
-							"name" => $user->full_name,
-							"evaluation" => $eval
-						];
-                }
-
-
-                $userStats[] = [
+				
+				if($userEvals->count() == 0)
+					$noneRequested[] = $user->full_name;
+				if($userEvals->where("status", "complete")->count() == 0)
+					$noneCompleted[] = $user->full_name;
+					
+				$userStats[] = [
                     "id" => $user->id,
                     "name" => $user->full_name,
-                    "requested" => $userEvals->whereLoose("requested_by_id", $user->id)->count(),
+                    "requested" => $userEvals->where("requested_by_id", $user->id)->count(),
                     "totalRequests" => $userEvals->count(),
                     "completed" => $userEvals->where("status", "complete")->count(),
                     "ratio" => $userEvals->count() == 0 ? 0 : round(($userEvals->where("status", "complete")->count()/$userEvals->count()) * 100)
@@ -151,7 +132,16 @@ class ReportController extends Controller
                 }
 
                 if($type == "faculty"){
-                    $timeEvals = $userEvaluations->where("status", "complete")->get();
+                    $eval = $userEvals->where("status", "complete")
+                        ->sortByDesc("complete_date")->first();
+                    if(!empty($eval))
+						$lastCompleted[] = [
+							"name" => $user->full_name,
+							"evaluation" => $eval
+						];
+
+                    $time = 0;
+					$timeEvals = $userEvaluations->where("status", "complete")->get();
                     foreach($timeEvals as $eval){
                         $time += $eval->complete_date->getTimestamp()-$eval->request_date->getTimestamp();
                     }
@@ -166,12 +156,21 @@ class ReportController extends Controller
 						"time" => $d2->diff($d1)->format("%a days %H hours")
 					];
                 }
+                else {
+                    $eval = $userEvals->where("status", "complete")
+                        ->sortByDesc("complete_date")->first();
+                    if(!empty($eval))
+						$lastCompleted[] = [
+							"name" => $user->full_name,
+							"evaluation" => $eval
+						];
+                }
             } catch(\Exception $e){
                 Log::error("Problem with user in stats: ".$e);
             }
         }
-        $data = compact("users", "type", "startDate", "endDate", "noneRequested",
-            "noneCompleted", "lastCompleted", "userStats", "statEvalData");
+        $data = compact("noneRequested", "noneCompleted", "lastCompleted",
+			"userStats", "statEvalData");
         if($type == "faculty")
             $data["averageCompletionTimes"] = $times;
 

@@ -239,5 +239,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
 	public function hideFields(){
 		$this->addHidden($this->userHidden);
+        
+        return $this;
 	}
 }
