@@ -990,7 +990,6 @@ class ReportTest extends TestCase
     }
 
     public function testFacultyStatistics(){
-		// FIXME
         $moreFaculty = factory(App\User::class, "faculty", 2)->create();
         $moreEvals = [
             factory(App\Evaluation::class)->create([
@@ -1016,51 +1015,54 @@ class ReportTest extends TestCase
                 "endDate" => $endDate,
                 "user" => "all"
             ]);
-        $this->assertViewHas("type", "faculty");
-        $this->assertViewHas("startDate", $startDate);
-        $this->assertViewHas("endDate", $endDate);
-        $this->assertViewHas("noneRequested", [$moreFaculty[1]->full_name]);
-        $this->assertViewHas("noneCompleted", [
-            $moreFaculty[0]->full_name,
-            $moreFaculty[1]->full_name
-        ]);
-
-        $this->assertViewHas("lastCompleted", [
-            $this->faculty->full_name => $this->faculty->evaluatorEvaluations
-                ->where("status", "complete")->sortByDesc("complete_date")
-                ->first()->complete_date,
-        ]);
-
-        $this->assertViewHas("userStats", [
-            [
-                "id" => $this->faculty->id,
-                "name" => $this->faculty->full_name,
-                "requested" => 1,
-                "totalRequests" => 5,
-                "completed" => 4,
-                "ratio" => 80
-            ],
-            [
-                "id" => $moreFaculty[0]->id,
-                "name" => $moreFaculty[0]->full_name,
-                "requested" => 1,
-                "totalRequests" => 1,
-                "completed" => 0,
-                "ratio" => 0
-            ],
-            [
-                "id" => $moreFaculty[1]->id,
-                "name" => $moreFaculty[1]->full_name,
-                "requested" => 0,
-                "totalRequests" => 0,
-                "completed" => 0,
-                "ratio" => 0
-            ]
-        ]);
+			
+		$this->seeJson([
+			'noneRequested' => [
+				$moreFaculty[1]->full_name
+			],
+			'noneCompleted' => [
+				$moreFaculty[0]->full_name,
+				$moreFaculty[1]->full_name
+			],
+			'lastCompleted' => [
+				[
+					'name' => $this->faculty->full_name,
+					'evaluation' => $this->faculty->evaluatorEvaluations
+	   	                ->where("status", "complete")->sortByDesc("complete_date")
+	   	                ->first()->toArray()
+				]
+			],
+			'userStats' => [
+	            [
+	                "id" => $this->faculty->id,
+	                "name" => $this->faculty->full_name,
+	                "requested" => 1,
+	                "totalRequests" => 5,
+	                "completed" => 4,
+	                "ratio" => 80
+	            ],
+	            [
+	                "id" => $moreFaculty[0]->id,
+	                "name" => $moreFaculty[0]->full_name,
+	                "requested" => 1,
+	                "totalRequests" => 1,
+	                "completed" => 0,
+	                "ratio" => 0
+	            ],
+	            [
+	                "id" => $moreFaculty[1]->id,
+	                "name" => $moreFaculty[1]->full_name,
+	                "requested" => 0,
+	                "totalRequests" => 0,
+	                "completed" => 0,
+	                "ratio" => 0
+	            ]
+			]
+			// 'averageCompletionTimes' => ,
+		]);
     }
 
     public function testSingleFacultyStatistics(){
-		// FIXME
         $moreFaculty = factory(App\User::class, "faculty", 2)->create();
         $moreEvals = [
             factory(App\Evaluation::class)->create([
@@ -1086,68 +1088,67 @@ class ReportTest extends TestCase
                 "endDate" => $endDate,
                 "user" => $this->faculty->id,
             ]);
-        $this->assertViewHas("type", "faculty");
-        $this->assertViewHas("startDate", $startDate);
-        $this->assertViewHas("endDate", $endDate);
-
-        $this->assertViewHas("lastCompleted", [
-            $this->faculty->full_name => $this->faculty->evaluatorEvaluations
-                ->where("status", "complete")->sortByDesc("complete_date")
-                ->first()->complete_date,
-        ]);
-
-        $this->assertViewHas("userStats", [
-            [
-                "id" => $this->faculty->id,
-                "name" => $this->faculty->full_name,
-                "requested" => 1,
-                "totalRequests" => 5,
-                "completed" => 4,
-                "ratio" => 80
-            ]
-        ]);
-
-        $this->assertViewHas("statEvalData", [
-            [
-                "id" => $this->evals[0][0]->id,
-                "request_date" => $this->evals[0][0]->request_date->toDateTimeString(),
-                "complete_date" => $this->evals[0][0]->complete_date->toDateTimeString(),
-                "status" => $this->evals[0][0]->status,
-                "url" => "<a href='/evaluation/{$this->evals[0][0]->id}'>{$this->evals[0][0]->id}</a>"
-            ],
-            [
-                "id" => $this->evals[0][1]->id,
-                "request_date" => $this->evals[0][1]->request_date->toDateTimeString(),
-                "complete_date" => $this->evals[0][1]->complete_date->toDateTimeString(),
-                "status" => $this->evals[0][1]->status,
-                "url" => "<a href='/evaluation/{$this->evals[0][1]->id}'>{$this->evals[0][1]->id}</a>"
-            ],
-            [
-                "id" => $this->evals[1][0]->id,
-                "request_date" => $this->evals[1][0]->request_date->toDateTimeString(),
-                "complete_date" => $this->evals[1][0]->complete_date->toDateTimeString(),
-                "status" => $this->evals[1][0]->status,
-                "url" => "<a href='/evaluation/{$this->evals[1][0]->id}'>{$this->evals[1][0]->id}</a>"
-            ],
-            [
-                "id" => $this->evals[1][1]->id,
-                "request_date" => $this->evals[1][1]->request_date->toDateTimeString(),
-                "complete_date" => $this->evals[1][1]->complete_date->toDateTimeString(),
-                "status" => $this->evals[1][1]->status,
-                "url" => "<a href='/evaluation/{$this->evals[1][1]->id}'>{$this->evals[1][1]->id}</a>"
-            ],
-            [
-                "id" => $moreEvals[0]->id,
-                "request_date" => $moreEvals[0]->request_date->toDateTimeString(),
-                "complete_date" => null,
-                "status" => $moreEvals[0]->status,
-                "url" => "<a href='/evaluation/{$moreEvals[0]->id}'>{$moreEvals[0]->id}</a>"
-            ]
-        ]);
+			
+		$this->seeJson([
+			'lastCompleted' => [
+				[
+					'name' => $this->faculty->full_name,
+					'evaluation' => $this->faculty->evaluatorEvaluations
+	   	                ->where("status", "complete")->sortByDesc("complete_date")
+	   	                ->first()->toArray()
+				]
+			],
+			'userStats' => [
+				[
+	                "id" => $this->faculty->id,
+	                "name" => $this->faculty->full_name,
+	                "requested" => 1,
+	                "totalRequests" => 5,
+	                "completed" => 4,
+	                "ratio" => 80
+	            ]
+			],
+			'statEvalData' => [
+	            [
+	                "id" => $this->evals[0][0]->id,
+	                "request_date" => $this->evals[0][0]->request_date->toDateTimeString(),
+	                "complete_date" => $this->evals[0][0]->complete_date->toDateTimeString(),
+	                "status" => $this->evals[0][0]->status,
+	                "url" => "<a href='/evaluation/{$this->evals[0][0]->id}'>{$this->evals[0][0]->id}</a>"
+	            ],
+	            [
+	                "id" => $this->evals[0][1]->id,
+	                "request_date" => $this->evals[0][1]->request_date->toDateTimeString(),
+	                "complete_date" => $this->evals[0][1]->complete_date->toDateTimeString(),
+	                "status" => $this->evals[0][1]->status,
+	                "url" => "<a href='/evaluation/{$this->evals[0][1]->id}'>{$this->evals[0][1]->id}</a>"
+	            ],
+	            [
+	                "id" => $this->evals[1][0]->id,
+	                "request_date" => $this->evals[1][0]->request_date->toDateTimeString(),
+	                "complete_date" => $this->evals[1][0]->complete_date->toDateTimeString(),
+	                "status" => $this->evals[1][0]->status,
+	                "url" => "<a href='/evaluation/{$this->evals[1][0]->id}'>{$this->evals[1][0]->id}</a>"
+	            ],
+	            [
+	                "id" => $this->evals[1][1]->id,
+	                "request_date" => $this->evals[1][1]->request_date->toDateTimeString(),
+	                "complete_date" => $this->evals[1][1]->complete_date->toDateTimeString(),
+	                "status" => $this->evals[1][1]->status,
+	                "url" => "<a href='/evaluation/{$this->evals[1][1]->id}'>{$this->evals[1][1]->id}</a>"
+	            ],
+	            [
+	                "id" => $moreEvals[0]->id,
+	                "request_date" => $moreEvals[0]->request_date->toDateTimeString(),
+	                "complete_date" => null,
+	                "status" => $moreEvals[0]->status,
+	                "url" => "<a href='/evaluation/{$moreEvals[0]->id}'>{$moreEvals[0]->id}</a>"
+	            ]
+	        ]
+		]);
     }
 
     public function testResidentStatistics(){
-		// FIXME
         $moreResidents = factory(App\User::class, "resident", 2)->create();
         $moreEvals = [
             factory(App\Evaluation::class)->create([
@@ -1173,62 +1174,67 @@ class ReportTest extends TestCase
                 "endDate" => $endDate,
                 "user" => "all"
             ]);
-        $this->assertViewHas("type", "resident");
-        $this->assertViewHas("startDate", $startDate);
-        $this->assertViewHas("endDate", $endDate);
-        $this->assertViewHas("noneRequested", [$moreResidents[1]->full_name]);
-        $this->assertViewHas("noneCompleted", [
-            $moreResidents[0]->full_name,
-            $moreResidents[1]->full_name
-        ]);
-
-        $this->assertViewHas("lastCompleted", [
-            $this->residents[0]->full_name => $this->residents[0]->subjectEvaluations
-                ->where("status", "complete")->sortByDesc("complete_date")
-                ->first()->complete_date,
-            $this->residents[1]->full_name => $this->residents[1]->subjectEvaluations
-                ->where("status", "complete")->sortByDesc("complete_date")
-                ->first()->complete_date
-        ]);
-
-        $this->assertViewHas("userStats", [
-            [
-                "id" => $this->residents[0]->id,
-                "name" => $this->residents[0]->full_name,
-                "requested" => 3,
-                "totalRequests" => 3,
-                "completed" => 2,
-                "ratio" => 67.0
-            ],
-            [
-                "id" => $this->residents[1]->id,
-                "name" => $this->residents[1]->full_name,
-                "requested" => 0,
-                "totalRequests" => 2,
-                "completed" => 2,
-                "ratio" => 100
-            ],
-            [
-                "id" => $moreResidents[0]->id,
-                "name" => $moreResidents[0]->full_name,
-                "requested" => 1,
-                "totalRequests" => 1,
-                "completed" => 0,
-                "ratio" => 0
-            ],
-            [
-                "id" => $moreResidents[1]->id,
-                "name" => $moreResidents[1]->full_name,
-                "requested" => 0,
-                "totalRequests" => 0,
-                "completed" => 0,
-                "ratio" => 0
-            ],
-        ]);
+			
+		$this->seeJson([
+			'noneRequested' => [
+	            $moreResidents[1]->full_name
+			],
+			'noneCompleted' => [
+				$moreResidents[0]->full_name,
+	            $moreResidents[1]->full_name
+			],
+			'lastCompleted' => [
+				[
+					'name' => $this->residents[0]->full_name,
+					'evaluation' => $this->residents[0]->subjectEvaluations
+	   	                ->where("status", "complete")->sortByDesc("complete_date")
+	   	                ->first()->toArray()
+				],
+				[
+					'name' => $this->residents[1]->full_name,
+					'evaluation' => $this->residents[1]->subjectEvaluations
+	   	                ->where("status", "complete")->sortByDesc("complete_date")
+	   	                ->first()->toArray()
+				]
+			],
+			'userStats' => [
+	            [
+	                "id" => $this->residents[0]->id,
+	                "name" => $this->residents[0]->full_name,
+	                "requested" => 3,
+	                "totalRequests" => 3,
+	                "completed" => 2,
+	                "ratio" => 67.0
+	            ],
+	            [
+	                "id" => $this->residents[1]->id,
+	                "name" => $this->residents[1]->full_name,
+	                "requested" => 0,
+	                "totalRequests" => 2,
+	                "completed" => 2,
+	                "ratio" => 100
+	            ],
+	            [
+	                "id" => $moreResidents[0]->id,
+	                "name" => $moreResidents[0]->full_name,
+	                "requested" => 1,
+	                "totalRequests" => 1,
+	                "completed" => 0,
+	                "ratio" => 0
+	            ],
+	            [
+	                "id" => $moreResidents[1]->id,
+	                "name" => $moreResidents[1]->full_name,
+	                "requested" => 0,
+	                "totalRequests" => 0,
+	                "completed" => 0,
+	                "ratio" => 0
+	            ],
+	        ]
+		]);
     }
 
     public function testSingleResidentStatistics(){
-		// FIXME
         $moreResidents = factory(App\User::class, "resident", 2)->create();
         $moreEvals = [
             factory(App\Evaluation::class)->create([
@@ -1254,49 +1260,49 @@ class ReportTest extends TestCase
                 "endDate" => $endDate,
                 "user" => $this->residents[0]->id
             ]);
-        $this->assertViewHas("type", "resident");
-        $this->assertViewHas("startDate", $startDate);
-        $this->assertViewHas("endDate", $endDate);
-
-        $this->assertViewHas("lastCompleted", [
-            $this->residents[0]->full_name => $this->residents[0]->subjectEvaluations
-                ->where("status", "complete")->sortByDesc("complete_date")
-                ->first()->complete_date
-        ]);
-
-        $this->assertViewHas("userStats", [
-            [
-                "id" => $this->residents[0]->id,
-                "name" => $this->residents[0]->full_name,
-                "requested" => 3,
-                "totalRequests" => 3,
-                "completed" => 2,
-                "ratio" => 67.0
-            ]
-        ]);
-
-        $this->assertViewHas("statEvalData", [
-            [
-                "id" => $this->evals[0][0]->id,
-                "request_date" => $this->evals[0][0]->request_date->toDateTimeString(),
-                "complete_date" => $this->evals[0][0]->complete_date->toDateTimeString(),
-                "status" => $this->evals[0][0]->status,
-                "url" => "<a href='/evaluation/{$this->evals[0][0]->id}'>{$this->evals[0][0]->id}</a>"
-            ],
-            [
-                "id" => $this->evals[0][1]->id,
-                "request_date" => $this->evals[0][1]->request_date->toDateTimeString(),
-                "complete_date" => $this->evals[0][1]->complete_date->toDateTimeString(),
-                "status" => $this->evals[0][1]->status,
-                "url" => "<a href='/evaluation/{$this->evals[0][1]->id}'>{$this->evals[0][1]->id}</a>"
-            ],
-            [
-                "id" => $moreEvals[0]->id,
-                "request_date" => $moreEvals[0]->request_date->toDateTimeString(),
-                "complete_date" => null,
-                "status" => $moreEvals[0]->status,
-                "url" => "<a href='/evaluation/{$moreEvals[0]->id}'>{$moreEvals[0]->id}</a>"
-            ]
-        ]);
+			
+		$this->seeJson([
+			'lastCompleted' => [
+				[
+					'name' => $this->residents[0]->full_name,
+					'evaluation' => $this->residents[0]->subjectEvaluations
+	   	                ->where("status", "complete")->sortByDesc("complete_date")
+	   	                ->first()->toArray()
+				]
+	        ],
+			'userStats' => [
+	            [
+	                "id" => $this->residents[0]->id,
+	                "name" => $this->residents[0]->full_name,
+	                "requested" => 3,
+	                "totalRequests" => 3,
+	                "completed" => 2,
+	                "ratio" => 67.0
+	            ]
+	        ],
+			'statEvalData' => [
+	            [
+	                "id" => $this->evals[0][0]->id,
+	                "request_date" => $this->evals[0][0]->request_date->toDateTimeString(),
+	                "complete_date" => $this->evals[0][0]->complete_date->toDateTimeString(),
+	                "status" => $this->evals[0][0]->status,
+	                "url" => "<a href='/evaluation/{$this->evals[0][0]->id}'>{$this->evals[0][0]->id}</a>"
+	            ],
+	            [
+	                "id" => $this->evals[0][1]->id,
+	                "request_date" => $this->evals[0][1]->request_date->toDateTimeString(),
+	                "complete_date" => $this->evals[0][1]->complete_date->toDateTimeString(),
+	                "status" => $this->evals[0][1]->status,
+	                "url" => "<a href='/evaluation/{$this->evals[0][1]->id}'>{$this->evals[0][1]->id}</a>"
+	            ],
+	            [
+	                "id" => $moreEvals[0]->id,
+	                "request_date" => $moreEvals[0]->request_date->toDateTimeString(),
+	                "complete_date" => null,
+	                "status" => $moreEvals[0]->status,
+	                "url" => "<a href='/evaluation/{$moreEvals[0]->id}'>{$moreEvals[0]->id}</a>"
+	            ]
+	        ]
+		]);
     }
 }

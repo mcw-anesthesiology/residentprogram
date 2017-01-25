@@ -121,5 +121,7 @@ class Form extends Model
 
 	public function hideFields(){
 		$this->addHidden($this->userHidden);
+        
+        return $this;
 	}
 }
