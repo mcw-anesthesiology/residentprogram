@@ -41,7 +41,6 @@
 
 <script>
 import NeedsEvaluations from './Evaluations.vue';
-
 import ReportDate from '../ReportDate.vue';
 import TrainingLevelSelect from '../TrainingLevelSelect.vue';
 import SelectTwo from '../../SelectTwo.vue';

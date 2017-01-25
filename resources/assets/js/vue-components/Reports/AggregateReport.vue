@@ -65,11 +65,11 @@
 </template>
 
 <script>
+import Color from 'color';
+
 import BootstrapButtonInput from '../BootstrapButtonInput.vue';
 import ChartjsChart from '../ChartjsChart.vue';
 import DataTable from '../DataTable.vue';
-
-import Color from 'color';
 
 import { CHART_COLORS } from '../../modules/constants.js';
 import { camelCaseToWords, ucfirst } from '../../modules/utils.js';

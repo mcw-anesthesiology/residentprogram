@@ -35,9 +35,9 @@
 </template>
 
 <script>
-import FormReaderQuestionOption from './FormReaderQuestionOption.vue';
-
 import MarkdownIt from 'markdown-it';
+
+import FormReaderQuestionOption from './FormReaderQuestionOption.vue';
 
 import { ucfirst } from '../../modules/utils.js';
 
