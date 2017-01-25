@@ -55,13 +55,17 @@ class ReportTest extends TestCase
                 "form_id" => $this->form->id,
                 "subject_id" => $this->residents[0]->id,
                 "evaluator_id" => $this->faculty->id,
-                "requested_by_id" => $this->residents[0]->id
+                "requested_by_id" => $this->residents[0]->id,
+				"evaluation_date_start" => Carbon::parse("2016-06-01"),
+				"evaluation_date_end" => Carbon::parse("2016-09-01")
             ]),
             factory(App\Evaluation::class, "complete", 2)->create([
                 "form_id" => $this->form->id,
                 "subject_id" => $this->residents[1]->id,
                 "evaluator_id" => $this->faculty->id,
-                "requested_by_id" => $this->admin->id
+                "requested_by_id" => $this->admin->id,
+				"evaluation_date_start" => Carbon::parse("2016-03-01"),
+				"evaluation_date_end" => Carbon::parse("2016-05-31")
             ])
         ];
 
@@ -133,9 +137,8 @@ class ReportTest extends TestCase
     }
 
     public function testAggregateReport(){
-        $startDate = Carbon::parse("0001-01-01");
-        $endDate = Carbon::now();
-        $endDate->second = 0;
+        $startDate = Carbon::parse("2016-01-01");
+        $endDate = Carbon::parse("2017-01-01");
 
         $formerResidents = factory(App\User::class, "resident", 3)->create();
         $formerEvals = [
@@ -143,20 +146,42 @@ class ReportTest extends TestCase
                 "form_id" => $this->form->id,
                 "subject_id" => $formerResidents[0]->id,
                 "evaluator_id" => $this->faculty->id,
-                "requested_by_id" => $this->admin->id
+                "requested_by_id" => $this->admin->id,
+				"evaluation_date_start" => Carbon::parse("2015-10-01"),
+				"evaluation_date_end" => Carbon::parse("2016-01-01")
             ]),
             factory(App\Evaluation::class, "complete", 2)->create([
                 "form_id" => $this->form->id,
                 "subject_id" => $formerResidents[1]->id,
                 "evaluator_id" => $this->faculty->id,
-                "requested_by_id" => $formerResidents[1]->id
+                "requested_by_id" => $formerResidents[1]->id,
+				"evaluation_date_start" => Carbon::parse("2017-01-01"),
+				"evaluation_date_end" => Carbon::parse("2017-01-31")
             ]),
             factory(App\Evaluation::class, 2)->create([
                 "form_id" => $this->form->id,
                 "subject_id" => $formerResidents[2]->id,
                 "evaluator_id" => $this->faculty->id,
-                "requested_by_id" => $formerResidents[2]->id
-            ])
+                "requested_by_id" => $formerResidents[2]->id,
+				"evaluation_date_start" => Carbon::parse("2016-06-01"),
+				"evaluation_date_end" => Carbon::parse("2016-09-01"),
+            ]),
+			factory(App\Evaluation::class)->create([
+				"form_id" => $this->form->id,
+                "subject_id" => $formerResidents[2]->id,
+                "evaluator_id" => $this->faculty->id,
+                "requested_by_id" => $formerResidents[2]->id,
+				"evaluation_date_start" => Carbon::parse("2015-06-01"),
+				"evaluation_date_end" => Carbon::parse("2015-12-31"),
+			]),
+			factory(App\Evaluation::class)->create([
+				"form_id" => $this->form->id,
+                "subject_id" => $formerResidents[2]->id,
+                "evaluator_id" => $this->faculty->id,
+                "requested_by_id" => $formerResidents[2]->id,
+				"evaluation_date_start" => Carbon::parse("2017-01-02"),
+				"evaluation_date_end" => Carbon::parse("2017-12-31"),
+			])
         ];
 
         $formerEvals[2][1]->status = "disabled";
@@ -193,6 +218,16 @@ class ReportTest extends TestCase
                     "evaluation_id" => $formerEvals[2][1]->id,
                     "question_id" => "q1",
                     "response" => 6
+                ]),
+				factory(App\Response::class)->create([
+                    "evaluation_id" => $formerEvals[3]->id,
+                    "question_id" => "q1",
+                    "response" => 10
+                ]),
+				factory(App\Response::class)->create([
+                    "evaluation_id" => $formerEvals[4]->id,
+                    "question_id" => "q1",
+                    "response" => 1
                 ])
             ],
             "q2" => [
@@ -225,6 +260,16 @@ class ReportTest extends TestCase
                     "evaluation_id" => $formerEvals[2][1]->id,
                     "question_id" => "q2",
                     "response" => 3
+                ]),
+				factory(App\Response::class)->create([
+                    "evaluation_id" => $formerEvals[3]->id,
+                    "question_id" => "q1",
+                    "response" => 1
+                ]),
+				factory(App\Response::class)->create([
+                    "evaluation_id" => $formerEvals[4]->id,
+                    "question_id" => "q1",
+                    "response" => 4
                 ])
             ]
         ];
@@ -234,8 +279,8 @@ class ReportTest extends TestCase
         $formerResidents[1]->type = "faculty";
         $formerResidents[1]->save();
 
-        $formerResidents[2]->status = "inactive";
-        $formerResidents[2]->save();
+        // $formerResidents[2]->status = "inactive";
+        // $formerResidents[2]->save();
 
         $this->actingAs($this->admin)
             ->visit("/dashboard")
