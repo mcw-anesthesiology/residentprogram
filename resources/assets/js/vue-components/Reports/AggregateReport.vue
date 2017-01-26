@@ -9,8 +9,8 @@
 			</label>
 		</fieldset>
 
-		<data-table id="aggregate-table" :thead="tableThead" :data="tableData"
-			:config="tableConfig" :exportable="true"
+		<data-table id="aggregate-table" :bordered="true" :thead="tableThead"
+			:data="tableData" :config="tableConfig" :exportable="true"
 			:exportFilename="tableExportFilename" />
 			
 		<div class="graphs-container" v-if="show.charts">

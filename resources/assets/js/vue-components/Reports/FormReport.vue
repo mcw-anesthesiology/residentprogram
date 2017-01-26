@@ -36,7 +36,7 @@
 					</div>
 				</div>
 				
-				<data-table v-if="show.allEvals" :bordered="false"
+				<data-table v-if="show.allEvals"
 					:thead="evalsThead" :config="allEvalsConfig" />
 
 			</bootstrap-alert>
@@ -71,7 +71,7 @@
 							</div>
 						</div>
 						
-						<data-table v-if="show.subjectEvals" :bordered="false"
+						<data-table v-if="show.subjectEvals"
 							:thead="evalsThead" :config="subjectEvalsConfig" />
 
 					</bootstrap-alert>

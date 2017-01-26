@@ -256,3 +256,15 @@ export function htmlLabelReplacements(html, replacements){
 	
 	return html;
 }
+
+export function toQueryString(obj){
+	let queryString = '';
+	for(let key in obj){
+		let isArray = Array.isArray(obj[key]);
+		for(let subKey in obj[key]){
+			queryString += `${key}[${isArray ? subKey : ''}]=${obj[key][subKey]}`;
+		}
+	}
+	
+	return queryString;
+}
