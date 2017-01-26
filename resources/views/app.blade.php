@@ -87,6 +87,7 @@
 	@endif
 
 				@yield("blockless-body")
+				@stack('bodies')
 			</main>
 		</div>
 	{{-- TODO: Should not do this, use inheretence --}}
@@ -94,7 +95,9 @@
 		@include("modals")
 	@endif
 		<script type="text/javascript" src="{{ elixir("js/all.js") }}"></script>
+		<script src="{{ elixir("js/manifest.js") }}"></script>
 		<script src="{{ elixir("js/bundle.js") }}"></script>
 		@yield("script")
+		@stack('scripts')
 	</body>
 </html>

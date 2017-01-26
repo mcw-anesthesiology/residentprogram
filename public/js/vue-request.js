@@ -8,7 +8,64 @@
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
 })(this, function() {
-return webpackJsonp([5],{
+return webpackJsonp([6,9],{
+
+/***/ 1:
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function() {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		var result = [];
+		for(var i = 0; i < this.length; i++) {
+			var item = this[i];
+			if(item[2]) {
+				result.push("@media " + item[2] + "{" + item[1] + "}");
+			} else {
+				result.push(item[1]);
+			}
+		}
+		return result.join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+
+/***/ }),
 
 /***/ 11:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -509,7 +566,7 @@ exports.push([module.i, ".flatpickr-input{cursor:pointer;z-index:1}.flatpickr-mo
 
 /***/ }),
 
-/***/ 373:
+/***/ 375:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -520,7 +577,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_SelectTwo_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_SelectTwo_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_indefinite__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_indefinite__ = __webpack_require__(72);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_indefinite___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_indefinite__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue_flatpickr_theme_flatpickr_min_css__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue_flatpickr_theme_flatpickr_min_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vue_flatpickr_theme_flatpickr_min_css__);
@@ -615,10 +672,10 @@ function createRequest(el, propsData) {
 				});
 			},
 			evaluatorOptions: function evaluatorOptions() {
-				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* groupUsers */])(this.evaluators[0]);
+				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["d" /* groupUsers */])(this.evaluators[0]);
 			},
 			subjectOptions: function subjectOptions() {
-				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* groupUsers */])(this.subjects[0]);
+				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["d" /* groupUsers */])(this.subjects[0]);
 			},
 			subjectForms: function subjectForms() {
 				var forms = this.forms;
@@ -633,7 +690,7 @@ function createRequest(el, propsData) {
 				return forms;
 			},
 			formOptions: function formOptions() {
-				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* groupForms */])(this.subjectForms);
+				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["e" /* groupForms */])(this.subjectForms);
 			},
 			evaluationDate: function evaluationDate() {
 				if (this.evaluationDateJson) return Array.isArray(this.evaluationDateJson) ? this.evaluationDateJson.map(JSON.parse) : JSON.parse(this.evaluationDateJson);
@@ -649,7 +706,7 @@ function createRequest(el, propsData) {
 
 				var dates = [];
 				if (form.evaluation_period_type === 'quarter') {
-					dates = [__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["a" /* lastQuarter */])(), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["b" /* currentQuarter */])()];
+					dates = [__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["b" /* lastQuarter */])(), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["c" /* currentQuarter */])()];
 				} else {
 					var startDate = __WEBPACK_IMPORTED_MODULE_2_moment___default()().startOf('month');
 					var endDate = __WEBPACK_IMPORTED_MODULE_2_moment___default()(endDate).endOf('month');
@@ -669,8 +726,8 @@ function createRequest(el, propsData) {
 			evaluationDateOptions: function evaluationDateOptions() {
 				if (this.evaluationDates) return this.evaluationDates.map(function (date) {
 					return {
-						id: JSON.stringify(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["c" /* isoDateStringObject */])(date)),
-						text: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["d" /* renderDateRange */])(date.startDate, date.endDate)
+						id: JSON.stringify(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["d" /* isoDateStringObject */])(date)),
+						text: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["a" /* renderDateRange */])(date.startDate, date.endDate)
 					};
 				});
 			}
@@ -810,7 +867,7 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 71:
+/***/ 72:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {(function() {
@@ -837,6 +894,6 @@ module.exports = __vue_exports__
 
 /***/ })
 
-},[373]);
+},[375]);
 });
 //# sourceMappingURL=vue-request.js.map

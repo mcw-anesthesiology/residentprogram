@@ -1,6 +1,7 @@
 <template>
 	<div ref="container">
 		<table :id="id" class="table" :class="tableClass" width="100%" ref="table">
+			<slot>
 				<thead>
 					<tr v-for="(row, rowIndex) of thead" :key="`row-${rowIndex}`">
 						<th v-for="(th, thIndex) of row" :key="thIndex"
@@ -9,7 +10,8 @@
 							{{ th.text || th }}
 						</th>
 					</tr>
-				</thead>		
+				</thead>
+			</slot>
 		</table>
 		<div v-if="exportable && data" class="text-center">
 			<button type="button" class="btn btn-default"
@@ -22,11 +24,6 @@
 
 <script>
 import download from 'downloadjs';
-import ElementResizeDetector from 'element-resize-detector';
-
-const erd = ElementResizeDetector({
-	strategy: 'scroll'
-});
 
 export default {
 	props: {
@@ -40,7 +37,7 @@ export default {
 		},
 		bordered: {
 			type: Boolean,
-			default: true
+			default: false
 		},
 		
 		thead: {
@@ -74,10 +71,6 @@ export default {
 	},
 	mounted(){
 		$(this.$refs.table).DataTable(Object.assign({}, this.config, {data: this.data}));
-
-		erd.listenTo(this.$refs.container, () => {
-			$(window).trigger('resize');
-		});
 	},
 	computed: {
 		tableClass(){
