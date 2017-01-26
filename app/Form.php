@@ -19,7 +19,8 @@ class Form extends Model
     protected $fillable = [
         "title",
         "status",
-        "visibility"
+        "visibility",
+        "evaluation_period_type"
     ];
 
 	protected $hidden = [

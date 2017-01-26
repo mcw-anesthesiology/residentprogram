@@ -648,7 +648,7 @@ function createRequest(el, propsData) {
 				if (!form) return;
 
 				var dates = [];
-				if (form.evaluation_range_type === 'quarter') {
+				if (form.evaluation_period_type === 'quarter') {
 					dates = [__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["a" /* lastQuarter */])(), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["b" /* currentQuarter */])()];
 				} else {
 					var startDate = __WEBPACK_IMPORTED_MODULE_2_moment___default()().startOf('month');

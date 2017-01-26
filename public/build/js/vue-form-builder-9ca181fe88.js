@@ -237,7 +237,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"FormBuilder.vue","sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"FormBuilder.vue","sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -798,7 +798,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "row"
   }, [_c('div', {
-    staticClass: "col-md-8"
+    staticClass: "col-md-6"
   }, [_c('div', {
     staticClass: "form-group"
   }, [_c('label', {
@@ -836,7 +836,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })])]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-4"
+    staticClass: "col-md-3"
   }, [_c('div', {
     staticClass: "form-group"
   }, [_c('label', {
@@ -889,7 +889,44 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": "staff"
     }
-  }, [_vm._v("Staff")])])])])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("Staff")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-3"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "form-period-type"
+    }
+  }, [_vm._v("Evaluation period type")]), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.periodType),
+      expression: "periodType"
+    }],
+    staticClass: "form-control input-lg",
+    attrs: {
+      "id": "form-period-type"
+    },
+    on: {
+      "change": function($event) {
+        _vm.periodType = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        })[0]
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "month"
+    }
+  }, [_vm._v("Month")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "quarter"
+    }
+  }, [_vm._v("Quarter")])])])])])]), _vm._v(" "), _c('div', {
     staticClass: "form-body"
   }, [_c('div', {
     staticClass: "form-items"
@@ -1481,6 +1518,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1514,6 +1560,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		return {
 			title: '',
 			formType: 'resident',
+			periodType: 'month',
 			nextQuestionIdNum: 1,
 			groupedMilestones: [],
 			competencies: [],
@@ -1555,6 +1602,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var requestBody = JSON.stringify({
 				title: this.title,
 				formType: this.formType,
+				evaluation_period_type: this.periodType,
 				items: this.items.map(function (item) {
 					item.questionId = 'q' + item.questionIdNum;
 					return item;

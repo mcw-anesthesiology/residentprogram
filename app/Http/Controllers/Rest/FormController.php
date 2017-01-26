@@ -46,6 +46,7 @@ class FormController extends RestController
 		$form->xml_path = "evaluation_forms/".uniqid().".xml"; //creates new unique filename for the form
 		$form->status = 'active';
 		$form->title = $request->input('title');
+		$form->evaluation_period_type = $request->input('evaluation_period_type', 'month');
 
 		switch($request->input('formType')){
             case "self-resident":

@@ -126,7 +126,7 @@ export function createRequest(el, propsData){
 					return;
 				
 				let dates = [];
-				if(form.evaluation_range_type === 'quarter'){
+				if(form.evaluation_period_type === 'quarter'){
 					dates = [
 						lastQuarter(),
 						currentQuarter()
