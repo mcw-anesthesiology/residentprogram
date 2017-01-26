@@ -14,7 +14,7 @@ class AlterFormAddEvaluationRangeType extends Migration
     public function up()
     {
 		Schema::table('forms', function (Blueprint $table) {
-            $table->string('evaluation_range_type')->default('month');
+            $table->string('evaluation_period_type')->default('month');
         });
     }
 
@@ -26,7 +26,7 @@ class AlterFormAddEvaluationRangeType extends Migration
     public function down()
     {
 		Schema::table('forms', function (Blueprint $table) {
-			$table->dropColumn('evaluation_range_type');
+			$table->dropColumn('evaluation_period_type');
         });
     }
 }
