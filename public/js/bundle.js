@@ -7,7 +7,7 @@
 		var a = typeof exports === 'object' ? factory(require("moment")) : factory(root["moment"]);
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
-})(this, function(__WEBPACK_EXTERNAL_MODULE_4__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_6__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// install a JSONP callback for chunk loading
 /******/ 	var parentJsonpFunction = window["webpackJsonp"];
@@ -152,7 +152,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 373);
+/******/ 	return __webpack_require__(__webpack_require__.s = 374);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -472,12 +472,7 @@ function htmlLabelReplacements(html, replacements) {
 }
 
 /***/ }),
-/* 4 */
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE_4__;
-
-/***/ }),
+/* 4 */,
 /* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -519,13 +514,18 @@ var CHART_COLORS = {
 };
 
 /***/ }),
-/* 6 */,
+/* 6 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_6__;
+
+/***/ }),
 /* 7 */,
 /* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_twix__ = __webpack_require__(291);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_twix___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_twix__);
@@ -727,13 +727,14 @@ function getDataAttributes(thing) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
-/* harmony export (immutable) */ __webpack_exports__["a"] = isoDateString;
+/* harmony export (immutable) */ __webpack_exports__["i"] = isoDateString;
+/* harmony export (immutable) */ __webpack_exports__["c"] = isoDateStringObject;
 /* harmony export (immutable) */ __webpack_exports__["d"] = renderDateRange;
 /* unused harmony export renderDateRangeExplicit */
-/* harmony export (immutable) */ __webpack_exports__["c"] = currentQuarter;
-/* harmony export (immutable) */ __webpack_exports__["b"] = lastQuarter;
+/* harmony export (immutable) */ __webpack_exports__["b"] = currentQuarter;
+/* harmony export (immutable) */ __webpack_exports__["a"] = lastQuarter;
 /* harmony export (immutable) */ __webpack_exports__["e"] = currentSemester;
 /* harmony export (immutable) */ __webpack_exports__["f"] = lastSemester;
 /* harmony export (immutable) */ __webpack_exports__["g"] = currentYear;
@@ -742,6 +743,16 @@ function getDataAttributes(thing) {
 
 function isoDateString(date) {
 	return __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).format('Y-MM-DD');
+}
+
+function isoDateStringObject(dates) {
+	dates = Object.assign({}, dates);
+	Object.keys(dates).map(function (key) {
+		var date = dates[key];
+		if (date && typeof date !== 'string') dates[key] = isoDateString(date);
+	});
+
+	return dates;
 }
 
 function renderDateRange(startDate, endDate) {
@@ -13503,7 +13514,7 @@ module.exports = function(Chart) {
 /* global window: false */
 
 
-var moment = __webpack_require__(4);
+var moment = __webpack_require__(6);
 moment = typeof(moment) === 'function' ? moment : window.moment;
 
 module.exports = function(Chart) {
@@ -17880,11 +17891,11 @@ exports.encode = exports.stringify = __webpack_require__(287);
   };
 
   if (hasModule) {
-    return module.exports = makeTwix(__webpack_require__(4));
+    return module.exports = makeTwix(__webpack_require__(6));
   }
 
   if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(4)], __WEBPACK_AMD_DEFINE_RESULT__ = function(moment) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(6)], __WEBPACK_AMD_DEFINE_RESULT__ = function(moment) {
       return makeTwix(moment);
     }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -18140,7 +18151,8 @@ module.exports = {
 /* 370 */,
 /* 371 */,
 /* 372 */,
-/* 373 */
+/* 373 */,
+/* 374 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(80);

@@ -9,16 +9,11 @@ import 'vue-flatpickr/theme/flatpickr.min.css';
 
 import { groupUsers, groupForms } from '../modules/utils.js';
 import {
-	isoDateString,
+	isoDateStringObject,
 	renderDateRange,
 	currentQuarter,
 	lastQuarter
 } from '../modules/date-utils.js';
-
-const isoStartEndDateString = ({startDate, endDate}) => ({
-	startDate: isoDateString(startDate),
-	endDate: isoDateString(endDate)
-});
 
 export function createRequest(el, propsData){
 
@@ -38,7 +33,7 @@ export function createRequest(el, propsData){
 				subjectId: null,
 				evaluatorId: null,
 				formId: null,
-				evaluationDateIndex: null,
+				evaluationDateJson: null,
 
 				sendHash: requestType === 'staff',
 				forceNotification: false,
@@ -79,6 +74,14 @@ export function createRequest(el, propsData){
 					
 				return required;
 			},
+			requirementsAreMet(){
+				return !Object.keys(this.required).some(requirement =>
+					this.required[requirement]
+						&& (
+							!this[requirement]
+							|| this[requirement].length === 0
+						));
+			},
 			fieldNouns(){
 				return {
 					subjectId: 'subject',
@@ -111,13 +114,10 @@ export function createRequest(el, propsData){
 				return groupForms(this.subjectForms);
 			},
 			evaluationDate(){
-				if(this.evaluationDates && this.evaluationDateIndex)
-					return Array.isArray(this.evaluationDateIndex)
-						? this.evaluationDates.filter((date, index) =>
-							this.evaluationDateIndex.includes(index.toString()))
-							.map(isoStartEndDateString)
-						: isoStartEndDateString(
-							this.evaluationDates[this.evaluationDateIndex]);
+				if(this.evaluationDateJson)
+					return Array.isArray(this.evaluationDateJson)
+						? this.evaluationDateJson.map(JSON.parse)
+						: JSON.parse(this.evaluationDateJson);
 			},
 			evaluationDates(){
 				let form = this.forms.find(form => form.id === Number(this.formId));
@@ -150,15 +150,23 @@ export function createRequest(el, propsData){
 			},
 			evaluationDateOptions(){
 				if(this.evaluationDates)
-					return this.evaluationDates.map((date, index) => {
+					return this.evaluationDates.map(date => {
 						return {
-							id: index.toString(),
+							id: JSON.stringify(isoDateStringObject(date)),
 							text: renderDateRange(date.startDate, date.endDate)
 						};
 					});
 			}
 		},
 		watch: {
+			allowMultiple(allowMultiple){
+				Object.keys(allowMultiple).map(field => {
+					if(allowMultiple[field] && !Array.isArray(this[field]))
+						this[field] = [this[field]];
+					else if(!allowMultiple[field] && Array.isArray(this[field]))
+						this[field] = this[field][0];
+				});
+			},
 			subjectId(){
 				this.checkField('subjectId', 'subject');
 			},
@@ -168,8 +176,28 @@ export function createRequest(el, propsData){
 			formId(){
 				this.checkField('formId', 'form');
 			},
-			evaluationDateIndex(){
+			evaluationDate(){
 				this.checkField('evaluationDate', 'evaluation date');
+			},
+			evaluationDateOptions(options){
+				if(!options && this.evaluationDateJson)
+					this.evaluationDateJson = null;
+
+				if(!options || !this.evaluationDateJson)
+					return;
+				
+				if(Array.isArray(this.evaluationDateJson)){
+					let newJson = options.filter(({id}) =>
+						this.evaluationDateJson.includes(id)
+					).map(({id}) => id);
+					
+					if(newJson.length !== this.evaluationDateJson.length)
+						this.evaluationDateJson = newJson;
+				}
+				else {
+					if(!options.some(({id}) => id === this.evaluationDateJson))
+						this.evaluationDateJson = null;
+				}
 			},
 			formOptions(){
 				let formId = Number(this.formId);
@@ -190,14 +218,11 @@ export function createRequest(el, propsData){
 				return this.error[field];
 			},
 			checkSubmit(event){
-				
-				let errors = false;
 				Object.keys(this.required).map(field => {
-					if(this.checkField(field, this.fieldNouns[field]))
-						errors = true;
+					this.checkField(field, this.fieldNouns[field]);
 				});
 
-				if(errors)
+				if(!this.requirementsAreMet)
 					event.preventDefault();
 			}
 		},

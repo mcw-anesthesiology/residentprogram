@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="container body-block">
-			<report-date v-model="dates" />
+			<start-end-date v-model="dates" />
 			<label class="containing-label">
 				Form
 				<select-two class="form-control" :options="groupedForms"
@@ -94,7 +94,7 @@
 </template>
 
 <script>
-import ReportDate from './ReportDate.vue';
+import StartEndDate from '../StartEndDate.vue';
 import SelectTwo from '../SelectTwo.vue';
 import FormReportQuestion from './FormReportQuestion.vue';
 import DataTable from '../DataTable.vue';
@@ -323,7 +323,7 @@ export default {
 	},
 
 	components: {
-		ReportDate,
+		StartEndDate,
 		SelectTwo,
 		FormReportQuestion,
 		DataTable,
