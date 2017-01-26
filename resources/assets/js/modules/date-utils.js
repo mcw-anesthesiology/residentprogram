@@ -4,6 +4,18 @@ export function isoDateString(date){
 	return moment(date).format('Y-MM-DD');
 }
 
+export function isoDateStringObject(dates){
+	dates = Object.assign({}, dates);
+	Object.keys(dates).map(key => {
+		let date = dates[key];
+		if(date && typeof date !== 'string')
+			dates[key] = isoDateString(date);
+	});
+
+	return dates;
+}
+
+
 export function renderDateRange(startDate, endDate, explicit = false){
 	let range = moment(startDate).twix(endDate, {allDay: true});
 	return range.start().startOf('month') && range.end().endOf('month') && !explicit

@@ -9156,8 +9156,13 @@ select-two {
     overflow: hidden;
 }
 
-*[v-show] {
+[v-cloak] {
     display: none;
+}
+
+[v-visible],
+[v-visible\.once] {
+	visibility: hidden;
 }
 
 .img-graph {

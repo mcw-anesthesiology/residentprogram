@@ -156,14 +156,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				return undefined;
 			}
 		}).trigger('change');
-
-		// let domVal = $(this.$el).val();
-		// if((Array.isArray(this.stringValue) && this.stringValue.length !== domVal.length)
-		// 		|| ((this.stringValue || domVal) && this.stringValue !== domVal)){
-		// 	this.$nextTick(() => {
-		// 		this.$emit('input', domVal);
-		// 	});
-		// }
 	},
 
 	watch: {
@@ -517,16 +509,16 @@ exports.push([module.i, ".flatpickr-input{cursor:pointer;z-index:1}.flatpickr-mo
 
 /***/ }),
 
-/***/ 372:
+/***/ 373:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_SelectTwo_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_SelectTwo_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_SelectTwo_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_SelectTwo_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_indefinite__ = __webpack_require__(71);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_indefinite___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_indefinite__);
@@ -547,15 +539,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-var isoStartEndDateString = function isoStartEndDateString(_ref) {
-	var startDate = _ref.startDate,
-	    endDate = _ref.endDate;
-	return {
-		startDate: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["a" /* isoDateString */])(startDate),
-		endDate: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["a" /* isoDateString */])(endDate)
-	};
-};
-
 function createRequest(el, propsData) {
 
 	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
@@ -574,7 +557,7 @@ function createRequest(el, propsData) {
 				subjectId: null,
 				evaluatorId: null,
 				formId: null,
-				evaluationDateIndex: null,
+				evaluationDateJson: null,
 
 				sendHash: requestType === 'staff',
 				forceNotification: false,
@@ -609,6 +592,13 @@ function createRequest(el, propsData) {
 				if (this.requestType === 'resident' && this.user.type === 'faculty' || this.requestType === 'staff' && this.user.type === 'staff' || this.requestType === 'faculty' && this.user.type === 'resident' || this.requestType === 'self') required.evaluatorId = false;
 
 				return required;
+			},
+			requirementsAreMet: function requirementsAreMet() {
+				var _this = this;
+
+				return !Object.keys(this.required).some(function (requirement) {
+					return _this.required[requirement] && (!_this[requirement] || _this[requirement].length === 0);
+				});
 			},
 			fieldNouns: function fieldNouns() {
 				return {
@@ -646,11 +636,7 @@ function createRequest(el, propsData) {
 				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* groupForms */])(this.subjectForms);
 			},
 			evaluationDate: function evaluationDate() {
-				var _this = this;
-
-				if (this.evaluationDates && this.evaluationDateIndex) return Array.isArray(this.evaluationDateIndex) ? this.evaluationDates.filter(function (date, index) {
-					return _this.evaluationDateIndex.indexOf(index.toString()) !== -1;
-				}).map(isoStartEndDateString) : isoStartEndDateString(this.evaluationDates[this.evaluationDateIndex]);
+				if (this.evaluationDateJson) return Array.isArray(this.evaluationDateJson) ? this.evaluationDateJson.map(JSON.parse) : JSON.parse(this.evaluationDateJson);
 			},
 			evaluationDates: function evaluationDates() {
 				var _this2 = this;
@@ -663,7 +649,7 @@ function createRequest(el, propsData) {
 
 				var dates = [];
 				if (form.evaluation_range_type === 'quarter') {
-					dates = [__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["b" /* lastQuarter */])(), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["c" /* currentQuarter */])()];
+					dates = [__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["a" /* lastQuarter */])(), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["b" /* currentQuarter */])()];
 				} else {
 					var startDate = __WEBPACK_IMPORTED_MODULE_2_moment___default()().startOf('month');
 					var endDate = __WEBPACK_IMPORTED_MODULE_2_moment___default()(endDate).endOf('month');
@@ -681,15 +667,22 @@ function createRequest(el, propsData) {
 				return dates;
 			},
 			evaluationDateOptions: function evaluationDateOptions() {
-				if (this.evaluationDates) return this.evaluationDates.map(function (date, index) {
+				if (this.evaluationDates) return this.evaluationDates.map(function (date) {
 					return {
-						id: index.toString(),
+						id: JSON.stringify(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["c" /* isoDateStringObject */])(date)),
 						text: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["d" /* renderDateRange */])(date.startDate, date.endDate)
 					};
 				});
 			}
 		},
 		watch: {
+			allowMultiple: function allowMultiple(_allowMultiple) {
+				var _this3 = this;
+
+				Object.keys(_allowMultiple).map(function (field) {
+					if (_allowMultiple[field] && !Array.isArray(_this3[field])) _this3[field] = [_this3[field]];else if (!_allowMultiple[field] && Array.isArray(_this3[field])) _this3[field] = _this3[field][0];
+				});
+			},
 			subjectId: function subjectId() {
 				this.checkField('subjectId', 'subject');
 			},
@@ -699,8 +692,32 @@ function createRequest(el, propsData) {
 			formId: function formId() {
 				this.checkField('formId', 'form');
 			},
-			evaluationDateIndex: function evaluationDateIndex() {
+			evaluationDate: function evaluationDate() {
 				this.checkField('evaluationDate', 'evaluation date');
+			},
+			evaluationDateOptions: function evaluationDateOptions(options) {
+				var _this4 = this;
+
+				if (!options && this.evaluationDateJson) this.evaluationDateJson = null;
+
+				if (!options || !this.evaluationDateJson) return;
+
+				if (Array.isArray(this.evaluationDateJson)) {
+					var newJson = options.filter(function (_ref) {
+						var id = _ref.id;
+						return _this4.evaluationDateJson.indexOf(id) !== -1;
+					}).map(function (_ref2) {
+						var id = _ref2.id;
+						return id;
+					});
+
+					if (newJson.length !== this.evaluationDateJson.length) this.evaluationDateJson = newJson;
+				} else {
+					if (!options.some(function (_ref3) {
+						var id = _ref3.id;
+						return id === _this4.evaluationDateJson;
+					})) this.evaluationDateJson = null;
+				}
 			},
 			formOptions: function formOptions() {
 				var formId = Number(this.formId);
@@ -719,14 +736,13 @@ function createRequest(el, propsData) {
 				return this.error[field];
 			},
 			checkSubmit: function checkSubmit(event) {
-				var _this3 = this;
+				var _this5 = this;
 
-				var errors = false;
 				Object.keys(this.required).map(function (field) {
-					if (_this3.checkField(field, _this3.fieldNouns[field])) errors = true;
+					_this5.checkField(field, _this5.fieldNouns[field]);
 				});
 
-				if (errors) event.preventDefault();
+				if (!this.requirementsAreMet) event.preventDefault();
 			}
 		},
 		components: {
@@ -749,7 +765,7 @@ function getRequestType() {
 
 /***/ }),
 
-/***/ 6:
+/***/ 7:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
@@ -821,6 +837,6 @@ module.exports = __vue_exports__
 
 /***/ })
 
-},[372]);
+},[373]);
 });
 //# sourceMappingURL=vue-request.js.map

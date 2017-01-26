@@ -53,7 +53,7 @@
 	@if(!empty($subjects))
 		<div class="form-group">
 			<div class="col-md-2">
-				<div v-if="error.subjectId" v-show="true" class="alert alert-danger" role="alert">
+				<div v-if="error.subjectId" v-cloak class="alert alert-danger" role="alert">
 					@{{ error.subjectId }}
 				</div>
 			</div>
@@ -82,7 +82,7 @@
 	@if(!empty($evaluators))
 		<div class="form-group">
 			<div class="col-md-2">
-				<div v-if="error.evaluatorId" v-show="true" class="alert alert-danger" role="alert">
+				<div v-if="error.evaluatorId" v-cloak class="alert alert-danger" role="alert">
 					@{{ error.evaluatorId }}
 				</div>
 			</div>
@@ -109,9 +109,9 @@
 		</div>
 	@endif
 
-		<div class="form-group">
+		<div class="form-group" v-visible.once="!required.subjectId || subjectId">
 			<div class="col-md-2">
-				<div v-if="error.formId" v-show="true" class="alert alert-danger" role="alert">
+				<div v-if="error.formId" v-cloak class="alert alert-danger" role="alert">
 					@{{ error.formId }}
 				</div>
 			</div>
@@ -125,82 +125,86 @@
 				</select-two>
 			</div>
 		</div>
-
-		<div class="row">
-			<div class="col-md-offset-1 col-md-10">
-				<h2 class="date-heading">
-					When is this evaluation for?
-				</h2>
+		
+		<div v-visible.once="formId">
+			<div class="row">
+				<div class="col-md-offset-1 col-md-10">
+					<h2 class="date-heading">
+						When is this evaluation for?
+					</h2>
+				</div>
 			</div>
-		</div>
 
 	@if($user->isType("resident") && $requestType == "faculty")
-		<div class="row">
-			<div class="col-md-offset-2 col-md-8">
-				<div class="explanation-panel panel panel-default">
-					<div class="panel-heading">
-						<span class="glyphicon glyphicon-info-sign"></span>
-						Faculty evaluations
-					</div>
-					<div class="panel-body">
-						<p>
-							The faculty member you are evaluating will not be able to see the date you select.
-							The only information shown to faculty is the evaluation itself.
-						</p>
-						<p>
-							Evaluations are released to the faculty in groups of 3, or at the end of the academic year.
-						</p>
+			<div class="row">
+				<div class="col-md-offset-2 col-md-8">
+					<div class="explanation-panel panel panel-default">
+						<div class="panel-heading">
+							<span class="glyphicon glyphicon-info-sign"></span>
+							Faculty evaluations
+						</div>
+						<div class="panel-body">
+							<p>
+								The faculty member you are evaluating will not be able to see the date you select.
+								The only information shown to faculty is the evaluation itself.
+							</p>
+							<p>
+								Evaluations are released to the faculty in groups of 3, or at the end of the academic year.
+							</p>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 	@endif
 
-		<div class="form-group">
-			<div class="col-md-2">
-				<div v-if="error.evaluationDate" v-show="true" class="alert alert-danger" role="alert">
-					@{{ error.evaluationDate }}
+			<div class="form-group">
+				<div class="col-md-2">
+					<div v-if="error.evaluationDate" v-cloak class="alert alert-danger" role="alert">
+						@{{ error.evaluationDate }}
+					</div>
 				</div>
-			</div>
-			<div class="col-md-8">
-				<label for="evaluation-date">Evaluation period</label>
+				<div class="col-md-8">
+					<label for="evaluation-date">Evaluation period</label>
 	@if($user->isType('admin'))
-				<div class="input-group">
+					<div class="input-group">
 	@endif
-					<select-two class="form-control" id="evaluation-date"
-							placeholder="Select a month" required
-							:options="evaluationDateOptions" v-model="evaluationDateIndex"
-							:multiple="allowMultiple.evaluationDate">
-						<option value="" v-if="!allowMultiple.evaluationDate">
-							Select an evaluation period
-						</option>
-					</select-two>
-	
+						<select-two class="form-control" id="evaluation-date"
+								placeholder="Select a month" required
+								:options="evaluationDateOptions" v-model="evaluationDateJson"
+								:multiple="allowMultiple.evaluationDate">
+							<option value="" v-if="!allowMultiple.evaluationDate">
+								Select an evaluation period
+							</option>
+						</select-two>
+		
 	@if($user->isType('admin'))
-					<span class="input-group-addon">
-						<label title="Allows you to make requests for multiple months at once">
-							<input type="checkbox" v-model="allowMultiple.evaluationDate" />
-							Multiple
-						</label>
-					</span>
-				</div>
+						<span class="input-group-addon">
+							<label title="Allows you to make requests for multiple months at once">
+								<input type="checkbox" v-model="allowMultiple.evaluationDate" />
+								Multiple
+							</label>
+						</span>
+					</div>
 	@endif
 
+				</div>
+				<template v-if="Array.isArray(evaluationDate)"
+						v-for="(date, index) of evaluationDate">
+					<input type="hidden" :name="`evaluation_date[${index}][startDate]`" required
+						:value="date.startDate" />
+					<input type="hidden" :name="`evaluation_date[${index}][endDate]`" required
+						:value="date.endDate" />
+				</template>
+				<template v-else>
+					<input type="hidden" name="evaluation_date[startDate]" required
+						:value="evaluationDate.startDate" />
+					<input type="hidden" name="evaluation_date[endDate]" required
+						:value="evaluationDate.endDate" />
+				</template>
 			</div>
-			<template v-if="Array.isArray(evaluationDate)"
-					v-for="(date, index) of evaluationDate">
-				<input type="hidden" :name="`evaluation_date[${index}][startDate]`" required
-					:value="date.startDate" />
-				<input type="hidden" :name="`evaluation_date[${index}][endDate]`" required
-					:value="date.endDate" />
-			</template>
-			<template v-else>
-				<input type="hidden" name="evaluation_date[startDate]" required
-					:value="evaluationDate.startDate" />
-				<input type="hidden" name="evaluation_date[endDate]" required
-					:value="evaluationDate.endDate" />
-			</template>
 		</div>
+
+		
 
 	@if($user->isType("admin"))
 		<div class="form-group">
@@ -227,7 +231,7 @@
 								</label>
 							</div>
 							<div class="col-md-6">
-								<label v-show="sendHash">
+								<label v-show="sendHash" v-cloak>
 									Hash expires in
 									<select class="form-control"
 											id="hash-expires-in"
@@ -247,12 +251,13 @@
 		</div>
 	@endif
 
-		<div v-if="error.alert" v-show="true" class="alert alert-danger" role="alert">
+		<div v-if="error.alert" v-cloak class="alert alert-danger" role="alert">
 			<b>Error</b>: @{{ error.alert }}
 		</div>
 
 		<div class="submit-container text-center">
-			<button type="submit" class="btn btn-primary btn-lg">
+			<button type="submit" class="btn btn-primary btn-lg"
+					:disabled="!requirementsAreMet">
 				{{ $user->isType($evaluatorTypes) ? 'Create' : 'Request' }}
 				Evaluation
 			</button>

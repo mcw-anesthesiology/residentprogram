@@ -9,6 +9,7 @@ module.exports = {
 			'element-dataset',
 			'./resources/assets/js/modules',
 		],
+		'vue-deps': './resources/assets/js/vue-constructors/index.js',
 		'vue-form-builder': './resources/assets/js/vue-constructors/form-builder.js',
 		'vue-reports': './resources/assets/js/vue-constructors/reports.js',
 		'vue-milestone-competency-lists': './resources/assets/js/vue-constructors/milestone-competency-lists.js',
