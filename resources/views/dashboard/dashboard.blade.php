@@ -1,7 +1,9 @@
 @extends("app")
 
 @section("blockless-body")
-	<alert-list v-model="alerts" />
+	<div class="container">
+		<alert-list v-model="alerts" />
+	</div>
 	
 	@include("dashboard.type.".$user->type)
 

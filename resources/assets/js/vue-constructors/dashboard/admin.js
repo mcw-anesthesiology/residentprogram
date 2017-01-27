@@ -1,8 +1,10 @@
 import Vue from 'vue';
 
+import AlertList from '../../vue-components/AlertList.vue';
 import DataTable from '../../vue-components/DataTable.vue';
+import EvaluationDataTable from '../../vue-components/EvaluationDataTable.vue';
 
-import { getFetchHeaders, toQueryString } from '../../modules/utils.js';
+import { getFetchHeaders } from '../../modules/utils.js';
 import {
 	renderDateRangeCell,
 	createDateRangeCell,
@@ -32,7 +34,7 @@ export default function createAdminDashboard(el, propsData){
 			return {
 				flaggedEvals: null,
 				
-				alerts: null
+				alerts: []
 			};
 		},
 		
@@ -45,7 +47,7 @@ export default function createAdminDashboard(el, propsData){
 				}
 			};
 			
-			fetch(`/flagged_evaluations?${toQueryString(flaggedEvalsBody)}`, {
+			fetch(`/flagged_evaluations?${$.param(flaggedEvalsBody)}`, {
 				method: 'GET',
 				headers: getFetchHeaders(),
 				credentials: 'same-origin'
@@ -80,22 +82,22 @@ export default function createAdminDashboard(el, propsData){
 				// FIXME
 				return {
 					columns: [
-						{data: "evaluation.url"},
-						{data: "evaluation.evaluator.full_name"},
-						{data: "evaluation.subject.full_name"},
-						{data: "requested_action", render(action){
+						{data: 'evaluation.url'},
+						{data: 'evaluation.evaluator.full_name'},
+						{data: 'evaluation.subject.full_name'},
+						{data: 'requested_action', render: (action) => {
 							return this.flaggedActions[action];
 						}},
-						{data: "reason"},
+						{data: 'reason'},
 						{data: null, orderable: false, searchable: false, render(flaggedEval){
 							return '<button type="button" class="remove-flag btn btn-primary btn-xs" '
 								+ 'data-id="' + flaggedEval.id + '"><span class="glyphicon glyphicon-ok"></span> '
 								+ 'Complete</button>';
 						}}
 					],
-					order: [[0, "desc"]],
+					order: [[0, 'desc']],
 					createdRow: function(row){
-						$(row).addClass("view-evaluation");
+						$(row).addClass('view-evaluation');
 					}
 				};
 			},
@@ -169,8 +171,39 @@ export default function createAdminDashboard(el, propsData){
 				]];
 			},
 			watchedFormConfigs(){
-				// TODO
-				return [];
+				return this.watchedForms.map(watchedForm => ({
+					ajax: {
+						url: '/evaluations',
+						data: {
+							with: {
+								subject: true,
+								evaluator: true
+							},
+							form_id: watchedForm.form_id,
+							status: 'complete'
+						},
+						dataSrc: ''
+					},
+					columns: [
+						{data: 'url'},
+						{data: 'subject.full_name'},
+						{data: 'evaluator.full_name'},
+						{
+							data: null,
+							render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+							createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+						},
+						{data: 'complete_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
+						{data: 'status', render: renderEvaluationStatus},
+						{data: null, orderable: false, searchable: false, render(){
+							return '';
+						}}
+					],
+					order: [[0, 'desc']],
+					createdRow: function(row){
+						$(row).addClass('view-evaluation');
+					}
+				}));
 			},
 			selfEvalThead(){
 				return [[
@@ -284,7 +317,9 @@ export default function createAdminDashboard(el, propsData){
 		},
 		
 		components: {
-			DataTable
+			AlertList,
+			DataTable,
+			EvaluationDataTable
 		}
 	});
 }
