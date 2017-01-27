@@ -59,6 +59,10 @@ export default {
 		value: {
 			type: Object,
 			required: true
+		},
+		allTime: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data(){
@@ -67,7 +71,10 @@ export default {
 		};
 	},
 	created(){
-		this.dateRange = DATE_RANGES.LAST_QUARTER;
+		if(!this.value.startDate && !this.value.endDate)
+			this.dateRange = DATE_RANGES.LAST_QUARTER;
+		else
+			this.matchDateRangeWithValue();
 	},
 	mounted(){
 		$('#reports-start-date, #reports-end-date').datepicker({
@@ -79,7 +86,9 @@ export default {
 	},
 	computed: {
 		DATE_RANGES(){
-			return DATE_RANGES;
+			return this.allTime
+				? Object.assign({ALL_TIME: 'allTime'}, DATE_RANGES)
+				: DATE_RANGES;
 		},
 		flatpickrOptions(){
 			return {
@@ -96,7 +105,28 @@ export default {
 		lastYear
 	},
 	watch: {
-		value(value){
+		value(){
+			this.matchDateRangeWithValue();
+		},
+		dateRange(dateRange){
+			if(dateRange === DATE_RANGES.ALL_TIME)
+				this.setDate({
+					startDate: '',
+					endDate: ''
+				});
+			
+			if(dateRange !== DATE_RANGES.CUSTOM && this[dateRange]
+					&& !this.datesEqual(this.value, this[dateRange]))
+				this.setDate(this[dateRange]);
+		}
+	},
+	methods: {
+		matchDateRangeWithValue(value = this.value){
+			if(this.allTime && !value.startDate && !value.endDate){
+				this.dateRange = this.DATE_RANGES.ALL_TIME;
+				return;
+			}
+			
 			if(this.dateRange && this.dateRange !== DATE_RANGES.CUSTOM
 					&& this[this.dateRange]
 					&& this.datesEqual(value, this[this.dateRange]))
@@ -111,13 +141,6 @@ export default {
 
 			this.dateRange = DATE_RANGES.CUSTOM;
 		},
-		dateRange(dateRange){
-			if(dateRange !== DATE_RANGES.CUSTOM && this[dateRange]
-					&& !this.datesEqual(this.value, this[dateRange]))
-				this.setDate(this[dateRange]);
-		}
-	},
-	methods: {
 		handleInput(prop, value){
 			let newValue = Object.assign({}, this.value, {[prop]: value});
 			this.$emit('input', newValue);
@@ -141,5 +164,7 @@ export default {
 </script>
 
 <style scoped>
-
+	.form-horizontal {
+		overflow-x: hidden;
+	}
 </style>

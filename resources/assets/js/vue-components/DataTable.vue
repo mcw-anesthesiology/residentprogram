@@ -1,5 +1,11 @@
 <template>
-	<div ref="container">
+	<div>
+		<div class="refresh-button-container" v-if="config && 'ajax' in config">
+			<button type="button" class="btn btn-default" title="Reload table">
+				<span class="glyphicon glyphicon-refresh"></span>
+			</button>
+		</div>
+		
 		<table :id="id" class="table" :class="tableClass" width="100%" ref="table">
 			<slot>
 				<thead>
@@ -158,3 +164,9 @@ export default {
 	}
 };
 </script>
+
+<style scoped>
+	.refresh-button-container {
+		text-align: right;
+	}
+</style>
