@@ -1,5 +1,5 @@
 <template>
-	<div v-bind:id="questionId" class="form-question panel panel-default form-block">
+	<div :id="questionId" class="form-question panel panel-default form-block">
 		<div class="panel-heading form-horizontal">
 			<div class="panel-title form-group">
 				<div class="col-sm-12">
@@ -7,7 +7,7 @@
 						Question Text
 						<div class="input-group">
 							<span class="question-id input-group-addon">{{questionId}}</span>
-							<input type="text" v-bind:value="text" v-on:input="$emit('change', {text: $event.target.value})" class="form-input form-question-text form-control" placeholder="Question Text" required />
+							<input type="text" :value="text" @input="$emit('change', {text: $event.target.value})" class="form-input form-question-text form-control" placeholder="Question Text" required />
 						</div>
 					</label>
 				</div>
@@ -17,7 +17,7 @@
 				<div class="col-md-4">
 					<label class="containing-label">
 						Question Type
-						<select v-bind:value="questionType" v-on:change="changeQuestionType" class="form-control form-question-type" name="questionType">
+						<select :value="questionType" @change="changeQuestionType" class="form-control form-question-type" name="questionType">
 							<option value="radio">Radio</option>
 							<option value="text">Text</option>
 							<option value="radiononnumeric">Radio (non-numeric)</option>
@@ -30,18 +30,18 @@
 					<label>Question Options</label>
 					<div class="btn-group btn-group-justified">
 						<div class="btn-group">
-							<button v-on:click="setStandardOptions" class="form-question-standard-options btn btn-info" type="button">
+							<button @click="setStandardOptions" class="form-question-standard-options btn btn-info" type="button">
 								Standard
 							</button>
 						</div>
 						<div class="btn-group">
-							<button v-bind:disabled="!milestones || milestones.length !== 1" v-on:click="setMilestoneOptions"
+							<button :disabled="!milestones || milestones.length !== 1" @click="setMilestoneOptions"
 									class="form-question-milestone-level-options btn btn-info" type="button">
 								Milestone
 							</button>
 						</div>
 						<div class="btn-group">
-							<button v-bind:disabled="!customOptions || customOptions.length < 1" v-on:click="setCustomOptions"
+							<button :disabled="!customOptions || customOptions.length < 1" @click="setCustomOptions"
 									class="form-question-custom-options btn btn-info" type="button">
 								Custom
 							</button>
@@ -49,17 +49,16 @@
 					</div>
 				</div>
 				<div class="col-md-1 labelless-button">
-					<button v-on:click="$emit('remove')" class="form-block-delete btn btn-danger del-btn" type="button">
+					<button @click="$emit('remove')" class="form-block-delete btn btn-danger del-btn" type="button">
 						Delete
 					</button>
 				</div>
 				<div class="col-md-1">
 					<label class="containing-label">
 						Required
-						<input type="checkbox" v-bind:checked="required"
+						<input type="checkbox" :checked="required"
 							class="form-control form-question-required" value="required"
-							v-on:change="$emit('change', {required: $event.target.checked})"
-							/>
+							@change="$emit('change', {required: $event.target.checked})" />
 					</label>
 				</div>
 			</div>
@@ -68,16 +67,18 @@
 				<div class="col-md-8">
 					<label v-show="shouldShowMilestonesAndCompetencies" class="containing-label">
 						Question Milestones
-						<select-two v-bind:value="milestones" v-bind:options="groupedMilestones" v-bind:multiple="true" v-on:input="$emit('change', {milestones: arguments[0]})" class="form-control form-question-milestone"></select-two>
+						<select-two :value="milestones" :options="groupedMilestones"
+							:multiple="true" @input="$emit('change', {milestones: arguments[0]})"
+							class="form-control form-question-milestone" />
 					</label>
 				</div>
 				<div class="col-md-4">
 					<label v-show="shouldShowMilestonesAndCompetencies" class="containing-label">
 						Question Competency
-						<select v-on:change="$emit('change', {competencies: $event.target.value})" class="form-control form-question-competency" placeholder="Competency">
-							<option value="" disabled>Select a competency</option>
-							<option v-for="competency of allCompetencies" v-bind:value="competency.id" v-bind:selected="competencies == competency.id">{{ competency.title }}</option>
-						</select>
+						<select-two :value="competencies" placeholder="Competency"
+							class="form-control form-question-competency"
+							:options="competencyOptions" :multiple="true"
+							@input="$emit('change', {competencies: arguments[0]})" />
 					</label>
 				</div>
 			</div>
@@ -86,12 +87,10 @@
 			<div class="row form-options" style="margin-bottom:5px;">
 				<template v-if="['radio', 'radiononnumeric', 'checkbox'].includes(questionType)">
 					<form-builder-option v-for="(option, index) of optionsWithWorking"
-						v-bind="option" v-bind:type="questionType"
-						v-bind:is-working-option="option === workingOption"
-						v-on:input="handleWorkingOptionInput(index, arguments[0])"
-						v-on:change="handleOptionChange(index, arguments[0])"
-						>
-					</form-builder-option>
+						v-bind="option" :type="questionType"
+						:is-working-option="option === workingOption"
+						@input="handleWorkingOptionInput(index, arguments[0])"
+						@change="handleOptionChange(index, arguments[0])" />
 				</template>
 
 				<div v-if="questionType === 'text'" class="col-sm-12">
@@ -103,15 +102,17 @@
 				</div>
 			</div>
 		</div>
+		<alert-list v-model="alerts" />
 	</div>
 </template>
 
 <script>
 import FormBuilderOption from './FormBuilderOption.vue';
 import SelectTwo from '../SelectTwo.vue';
+import AlertList from '../AlertList.vue';
 
 import { STANDARD_OPTIONS } from '../../modules/constants.js';
-import { appendAlert } from '../../modules/utils.js';
+import { sortSelect2Objects } from '../../modules/utils.js';
 
 export default {
 	props: [
@@ -133,7 +134,9 @@ export default {
 				text: '',
 				value: '',
 				description: ''
-			}
+			},
+			
+			alerts: []
 		};
 	},
 	computed: {
@@ -158,6 +161,12 @@ export default {
 		workingOptionIndex(){
 			if(this.options)
 				return this.options.length;
+		},
+		competencyOptions(){
+			return this.allCompetencies.map(competency => ({
+				id: competency.id,
+				text: competency.title
+			})).sort(sortSelect2Objects);
 		}
 	},
 	methods: {
@@ -210,7 +219,10 @@ export default {
 			}
 
 			if(!options){
-				appendAlert('No standard options found for form type and question type');
+				this.alerts.push({
+					type: 'error',
+					text: 'No standard options found for form type and question type'
+				});
 				return;
 			}
 
@@ -218,7 +230,10 @@ export default {
 		},
 		setMilestoneOptions(){
 			if(this.milestones.length !== 1){
-				appendAlert('You can only use milestone options with a single selected milestone');
+				this.alerts.push({
+					type: 'error',
+					text: 'You can only use milestone options with a single selected milestone'
+				});
 				return;
 			}
 			fetch(`/milestones/${this.milestones[0]}`, { credentials: 'same-origin' }).then(response => {
@@ -228,7 +243,10 @@ export default {
 					throw new Error(response);
 			}).then(milestone => {
 				if(!milestone || !milestone.levels || milestone.levels.length < 1){
-					appendAlert('No milestone levels found');
+					this.alerts.push({
+						type: 'error',
+						text: 'No milestone levels found'
+					});
 					return;
 				}
 				let options = [{
@@ -248,7 +266,10 @@ export default {
 		},
 		setCustomOptions(){
 			if(this.customOptions.length < 1){
-				appendAlert('No custom options set');
+				this.alerts.push({
+					type: 'error',
+					text: 'No custom options set'
+				});
 				return;
 			}
 
@@ -257,7 +278,8 @@ export default {
 	},
 	components: {
 		FormBuilderOption,
-		SelectTwo
+		SelectTwo,
+		AlertList
 	}
 };
 </script>

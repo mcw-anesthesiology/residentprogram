@@ -230,7 +230,7 @@ export function groupForms(forms){
 	return groupedForms;
 }
 
-function sortSelect2Objects(a, b){
+export function sortSelect2Objects(a, b){
 	if(a.text < b.text)
 		return -1;
 	if(a.text > b.text)

@@ -131,12 +131,13 @@ class FormController extends RestController
 					}
 				}
 				if($item['competencies']){
-					// Currently just one per question
-					CompetencyQuestion::create([
-						'form_id' => $form->id,
-						'question_id' => $item['questionId'],
-						'competency_id' => $item['competencies']
-					]);
+					foreach($item['competencies'] as $competencyId){
+						CompetencyQuestion::create([
+							'form_id' => $form->id,
+							'question_id' => $item['questionId'],
+							'competency_id' => $competencyId
+						]);
+					}
 				}
 			}
         }
