@@ -41,6 +41,7 @@
 			</div>
 		</div>
 		<div id="form-footer">
+			<alert-list v-model="alerts" />
 			<button type="button" v-on:click="addInstruction" class="btn btn-default" id="add-instruction-block">Add instruction block</button>
 			<button type="button" v-on:click="addQuestion" class="btn btn-info" id="addQuestion">Add Question</button>
 			<button type="submit" v-on:click="submitForm" class="btn btn-success">Submit Form</button>
@@ -51,9 +52,9 @@
 <script>
 import FormBuilderInstruction from './FormBuilderInstruction.vue';
 import FormBuilderQuestion from './FormBuilderQuestion.vue';
+import AlertList from '../AlertList.vue';
 
 import {
-	appendAlert,
 	getFetchHeaders,
 	fetchMilestoneGroups
 } from '../../modules/utils.js';
@@ -92,7 +93,9 @@ export default {
 			groupedMilestones: [],
 			competencies: [],
 			items: [],
-			customOptions: []
+			customOptions: [],
+			
+			alerts: []
 		};
 	},
 	methods: {
@@ -153,37 +156,55 @@ export default {
 					else
 						throw new Error(response);
 				}).catch(err => {
-					appendAlert('Error saving form');
+					this.alerts.push({
+						type: 'error',
+						text: 'Error saving form'
+					});
 					console.error(err);
 				});
 			}
 		},
 		isFormValid(){
 			if(!this.title){
-				appendAlert('Please enter a title for the form');
+				this.alerts.push({
+					type: 'error',
+					text: 'Please enter a title for the form'
+				});
 				return false;
 			}
 
 			if(!this.items || this.items.length < 1){
-				appendAlert('Please enter at least one question');
+				this.alerts.push({
+					type: 'error',
+					text: 'Please enter at least one question'
+				});
 				return false;
 			}
 
 			for(let item of this.items){
 				if(item.type === 'question'){
 					if(!item.text){
-						appendAlert(`Please enter question text for question ${item.questionIdNum}`);
+						this.alerts.push({
+							type: 'error',
+							text: `Please enter question text for question ${item.questionIdNum}`
+						});
 						return false;
 					}
 					if(['radio', 'radiononnumeric', 'checkbox'].includes(item.questionType)){
 						if(!item.options || item.options.length < 1){
-							appendAlert(`Please add at least one option for each multiple-choice question`);
+							this.alerts.push({
+								type: 'error',
+								text: `Please add at least one option for each multiple-choice question`
+							});
 							return false;
 						}
 
 						for(let option of item.options){
-							if(!option.value){
-								appendAlert(`An option cannot be submitted without a value. Please either assign a value or remove the option text and description for each option in question ${item.questionIdNum}`);
+							if(!('value' in option)){
+								this.alerts.push({
+									type: 'error',
+									text: `An option cannot be submitted without a value. Please either assign a value or remove the option text and description for each option in question ${item.questionIdNum}`
+								});
 								return false;
 							}
 						}
@@ -191,12 +212,18 @@ export default {
 				}
 				else if(item.type === 'instruction'){
 					if(!item.text){
-						appendAlert('Please complete or remove all empty instruction blocks');
+						this.alerts.push({
+							type: 'error',
+							text: 'Please complete or remove all empty instruction blocks'
+						});
 						return false;
 					}
 				}
 				else {
-					appendAlert('Unrecognized item type in form');
+					this.alerts.push({
+						type: 'error',
+						text: 'Unrecognized item type in form'
+					});
 					return false;
 				}
 			}
@@ -217,7 +244,8 @@ export default {
 	},
 	components: {
 		FormBuilderInstruction,
-		FormBuilderQuestion
+		FormBuilderQuestion,
+		AlertList
 	}
 };
 </script>
