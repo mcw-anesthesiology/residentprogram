@@ -103,7 +103,8 @@ class FormController extends RestController
 					foreach($item['options'] as $option){
 						$optionNode = $question->addChild('option', htmlspecialchars($option['text']));
 						$optionNode->addAttribute('value', $option['value']);
-						$optionNode->addAttribute('description', htmlspecialchars($option['description']));
+						if(array_key_exists('description', $option))
+							$optionNode->addAttribute('description', htmlspecialchars($option['description']));
 					}
 				}
 			}
@@ -132,12 +133,13 @@ class FormController extends RestController
 					}
 				}
 				if($item['competencies']){
-					// Currently just one per question
-					CompetencyQuestion::create([
-						'form_id' => $form->id,
-						'question_id' => $item['questionId'],
-						'competency_id' => $item['competencies']
-					]);
+					foreach($item['competencies'] as $competencyId){
+						CompetencyQuestion::create([
+							'form_id' => $form->id,
+							'question_id' => $item['questionId'],
+							'competency_id' => $competencyId
+						]);
+					}
 				}
 			}
         }

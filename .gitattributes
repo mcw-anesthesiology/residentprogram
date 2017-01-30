@@ -1,3 +1,8 @@
 * text=auto
 *.css linguist-vendored
 *.less linguist-vendored
+
+public/css/*.css merge=ours
+public/build/*.css merge=ours
+public/js/* merge=ours
+public/build/js/* merge=ours

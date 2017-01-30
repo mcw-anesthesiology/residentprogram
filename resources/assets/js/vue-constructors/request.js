@@ -1,5 +1,6 @@
 import Vue from 'vue';
 
+import DataTable from '../vue-components/DataTable.vue';
 import SelectTwo from '../vue-components/SelectTwo.vue';
 
 import moment from 'moment';
@@ -14,6 +15,13 @@ import {
 	currentQuarter,
 	lastQuarter
 } from '../modules/date-utils.js';
+import {
+	renderEvaluatorEvalUrl,
+	createDateRangeCell,
+	renderDateRangeCell,
+	createDateTimeCell,
+	renderDateTimeCell
+} from '../modules/datatable-utils.js';
 
 export function createRequest(el, propsData){
 
@@ -156,6 +164,110 @@ export function createRequest(el, propsData){
 							text: renderDateRange(date.startDate, date.endDate)
 						};
 					});
+			},
+			pendingFacultyEvalsThead(){
+				return [[
+					'#',
+					'Faculty',
+					'Form',
+					'Evaluation date',
+					'Started',
+					'',
+				]];
+			},
+			pendingFacultyEvalsConfig(){
+				if(this.user.type !== 'resident' || this.requestType !== 'faculty')
+					return;
+
+				return {
+					ajax: {
+						url: '/evaluations',
+						data: {
+							whereHas: {
+								form: {
+									type: 'faculty'
+								}
+							},
+							with: {
+								subject: ['full_name'],
+								form: ['title']
+							},
+							evaluator_id: this.user.id,
+							status: 'pending'
+						},
+						dataSrc: ''
+					},
+					columns: [
+						{data: 'url', render: renderEvaluatorEvalUrl},
+						{data: 'subject.full_name'},
+						{data: 'form.title'},
+						{
+							data: null,
+							render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+							createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+						},
+						{data: 'request_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
+						{data: null, render: evaluation => {
+							if(evaluation.requested_by_id === this.user.id)
+								return '<button class="btn btn-danger btn-xs cancel-eval-button" '
+									+ 'data-id="' + evaluation.id + '"><span class="glyphicon glyphicon-remove"></span> '
+									+ 'Cancel</button>';
+
+							return '';
+						}}
+					],
+					order: [[0, 'desc']],
+					createdRow(row){
+						$(row).addClass('view-evaluation');
+					}
+				};
+			},
+			completeFacultyEvalsThead(){
+				return [[
+					'#',
+					'Faculty',
+					'Form',
+					'Evaluation date',
+					'Started',
+					'Completed'
+				]];
+			},
+			completeFacultyEvalsConfig(){
+				return {
+					ajax: {
+						url: '/evaluations',
+						data: {
+							whereHas: {
+								form: {
+									type: 'faculty'
+								}
+							},
+							with: {
+								subject: ['full_name'],
+								form: ['title']
+							},
+							evaluator_id: this.user.id,
+							status: 'complete'
+						},
+						dataSrc: ''
+					},
+					columns: [
+						{data: 'url', render: renderEvaluatorEvalUrl},
+						{data: 'subject.full_name'},
+						{data: 'form.title'},
+						{
+							data: null,
+							render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+							createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+						},
+						{data: 'request_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
+						{data: 'complete_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
+					],
+					order: [[0, 'desc']],
+					createdRow(row){
+						$(row).addClass('view-evaluation');
+					}
+				};
 			}
 		},
 		watch: {
@@ -227,6 +339,7 @@ export function createRequest(el, propsData){
 			}
 		},
 		components: {
+			DataTable,
 			SelectTwo
 		}
 	});
