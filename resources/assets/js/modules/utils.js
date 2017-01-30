@@ -1,3 +1,5 @@
+import striptags from 'striptags';
+
 export function appendAlert(alertText, parent = '#alert-container', alertType = 'danger', dismissable = true){
 	let alert = document.createElement("div");
 	alert.className = "alert alert-" + alertType;
@@ -54,6 +56,11 @@ export function kebabCaseToWords(str){
 
 export function nl2br(text){
 	return text.replace(/(?:\r\n|\r|\n)/g, '<br />');
+}
+
+export function escapeCsv(text){
+	console.log(`"${striptags(text)}"`);
+	return `"${striptags(text)}"`;
 }
 
 export function getFetchHeaders(){
@@ -241,6 +248,18 @@ export function sortSelect2Objects(a, b){
 
 export function sortNumbers(a, b){
 	return Number(a) - Number(b);
+}
+
+export function sortIgnoreCase(a, b){
+	a = a.toLowerCase();
+	b = b.toLowerCase();
+	
+	if(a < b)
+		return -1;
+	if(a > b)
+		return 1;
+	
+	return 0;
 }
 
 export function htmlLabelReplacements(html, replacements){
