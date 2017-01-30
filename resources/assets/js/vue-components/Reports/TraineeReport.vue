@@ -2,7 +2,7 @@
 	<div>
 		<div class="container body-block">
 			<h2>Trainee report</h2>
-			<report-date v-model="dates" />
+			<start-end-date v-model="dates" />
 			<div class="row">
 				<div class="form-group col-sm-6">
 					<label class="containing-label">
@@ -132,7 +132,7 @@
 <script>
 import AggregateReport from './AggregateReport.vue';
 import IndividualReport from './IndividualReport.vue';
-import ReportDate from './ReportDate.vue';
+import StartEndDate from '../StartEndDate.vue';
 import StatsReport from './StatsReport.vue';
 import TrainingLevelSelect from './TrainingLevelSelect.vue';
 import BootstrapAlert from '../BootstrapAlert.vue';
@@ -313,7 +313,7 @@ export default {
 		}
 	},
 	components: {
-		ReportDate,
+		StartEndDate,
 		AggregateReport,
 		IndividualReport,
 		StatsReport,

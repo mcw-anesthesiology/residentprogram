@@ -13,7 +13,7 @@
 @stop
 
 @section("body")
-	<h2 class="sub-header">Manage Evaluations <button class="archiveEval btn btn-danger btn-xs" data-toggle="modal" data-target=".bs-archive-modal" id="archiveBtn"><span class="glyphicon glyphicon-remove"></span> Archive Evals</button></h2>
+	<h2 class="sub-header">Manage Evaluations</h2>
 	  <div class="table-responsive">
 		<table class="table table-striped datatable" id="manage-evals-table" cellspacing="0" cellpadding="0" width="100%">
 		  <thead>
@@ -95,7 +95,11 @@
 				{data: "evaluator.full_name"},
 				{data: "requestor.full_name"},
 				{data: "form.title"},
-				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+				{
+					data: null,
+					render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+					createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+				},
 				{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 				{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 				{data: null, orderable: false, render: function(eval){

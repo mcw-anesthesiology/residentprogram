@@ -117,13 +117,13 @@
 </template>
 
 <script>
+import Color from 'color';
+
 import BootstrapAlert from '../BootstrapAlert.vue';
 import BootstrapButtonInput from '../BootstrapButtonInput.vue';
 import ChartjsChart from '../ChartjsChart.vue';
 import DataTable from '../DataTable.vue';
 import SvgIcon from '../SvgIcon.vue';
-
-import Color from 'color';
 
 import {
 	CHART_COLORS,
@@ -137,7 +137,8 @@ import {
 import {
 	renderIdToEvalUrl,
 	renderDateCell,
-	createDateCell,
+	renderDateRangeCell,
+	createDateRangeCell,
 	renderTrainingLevel
 } from '../../modules/datatable-utils.js';
 import {
@@ -204,7 +205,10 @@ export default {
 			return {
 				columns: [
 					{ render: renderIdToEvalUrl },
-					{ render: renderDateCell, createdCell: createDateCell },
+					{
+						render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+					},
 					null,
 					null
 				]
@@ -214,7 +218,7 @@ export default {
 			try {
 				return this.report.subjectEvaluations[this.subjectId].map(request => [
 					String(request.evaluation_id),
-					request.evaluation_date,
+					request,
 					`${request.evaluator_last}, ${request.evaluator_first}`,
 					request.form_title
 				]);
@@ -287,6 +291,21 @@ export default {
 
 			return data;
 		},
+
+		commentsConfig(){
+			return {
+				columns: [
+					{ render: renderIdToEvalUrl },
+					{
+						render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+					},
+					null,
+					null,
+					null
+				]
+			};
+		},
 		commentsThead(){
 			return [[
 				'#',
@@ -300,7 +319,7 @@ export default {
 			try {
 				return this.report.subjectTextResponses[this.subjectId].map(response => [
 					String(response.evaluation_id),
-					response.evaluation_date,
+					response,
 					`${response.last_name}, ${response.first_name}`,
 					response.form_title,
 					response.response
@@ -308,17 +327,6 @@ export default {
 			} catch(err) {
 				return [];
 			}
-		},
-		commentsConfig(){
-			return {
-				columns: [
-					{ render: renderIdToEvalUrl },
-					{ render: renderDateCell, createdCell: createDateCell },
-					null,
-					null,
-					null
-				]
-			};
 		},
 
 		chartTypes(){

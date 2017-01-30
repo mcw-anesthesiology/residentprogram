@@ -2,7 +2,7 @@
 	<div>
 		<div class="container body-block">
 			<h2>Pending evaluation requests</h2>
-			<report-date v-model="dates" />
+			<start-end-date v-model="dates" />
 			
 			<alert-list v-model="alerts" />
 			
@@ -30,7 +30,7 @@
 
 <script>
 import EvaluationListItem from './Needs/EvaluationListItem.vue';
-import ReportDate from './ReportDate.vue';
+import StartEndDate from '../StartEndDate.vue';
 import AlertList from '../AlertList.vue';
 import ComponentList from '../ComponentList.vue';
 
@@ -83,7 +83,7 @@ export default {
 	},
 	components: {
 		EvaluationListItem,
-		ReportDate,
+		StartEndDate,
 		AlertList,
 		ComponentList
 	}

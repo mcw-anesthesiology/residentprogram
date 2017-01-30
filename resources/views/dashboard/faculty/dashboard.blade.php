@@ -31,7 +31,11 @@
 				{data: "subject.full_name"},
 				{data: "form.title"},
 				{data: "evaluator.full_name"},
-				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+				{
+					data: null,
+					render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+					createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+				},
 				{data: null, render: function(eval){
 					return "";
 				}}

@@ -86,15 +86,18 @@ class ReportController extends Controller
         }
 		
 		$times = [];
+		$userStats = [];
 		
         foreach($users as $user){
 			
             try {
-                $userEvaluations = $type == "faculty" ? $user->evaluatorEvaluations() : $user->subjectEvaluations();
+                $userEvaluations = $type == "faculty"
+					? $user->evaluatorEvaluations()
+					: $user->subjectEvaluations();
                 if(!empty($startDate))
-                    $userEvaluations->where("evaluation_date", ">=", $startDate);
+                    $userEvaluations->where("evaluation_date_end", ">=", $startDate);
                 if(!empty($endDate))
-                    $userEvaluations->where("evaluation_date", "<=", $endDate);
+                    $userEvaluations->where("evaluation_date_end", "<=", $endDate);
 
                 $userEvaluations->whereIn("status", ["pending", "complete"])
                     ->whereHas("form", function($query){
@@ -103,38 +106,16 @@ class ReportController extends Controller
                     });
 
                 $userEvals = $userEvaluations->get();
-
-                if($type == "faculty"){
-                    if($userEvals->count() == 0)
-                        $noneRequested[] = $user->full_name;
-                    if($userEvals->where("status", "complete")->count() == 0)
-                        $noneCompleted[] = $user->full_name;
-                    $eval = $userEvals->where("status", "complete")
-                        ->sortByDesc("complete_date")->first();
-                    if(!empty($eval))
-                        $lastCompleted[$user->full_name] = $eval->complete_date;
-
-                    $time = 0;
-                }
-                else{
-                    if($userEvals->count() == 0)
-                        $noneRequested[] = $user->full_name;
-                    if($userEvals->where("status", "complete")->count() == 0)
-                        $noneCompleted[] = $user->full_name;
-                    $eval = $userEvals->where("status", "complete")
-                        ->sortByDesc("complete_date")->first();
-                    if(!empty($eval))
-						$lastCompleted[] = [
-							"name" => $user->full_name,
-							"evaluation" => $eval
-						];
-                }
-
-
-                $userStats[] = [
+				
+				if($userEvals->count() == 0)
+					$noneRequested[] = $user->full_name;
+				if($userEvals->where("status", "complete")->count() == 0)
+					$noneCompleted[] = $user->full_name;
+					
+				$userStats[] = [
                     "id" => $user->id,
                     "name" => $user->full_name,
-                    "requested" => $userEvals->whereLoose("requested_by_id", $user->id)->count(),
+                    "requested" => $userEvals->where("requested_by_id", $user->id)->count(),
                     "totalRequests" => $userEvals->count(),
                     "completed" => $userEvals->where("status", "complete")->count(),
                     "ratio" => $userEvals->count() == 0 ? 0 : round(($userEvals->where("status", "complete")->count()/$userEvals->count()) * 100)
@@ -151,7 +132,16 @@ class ReportController extends Controller
                 }
 
                 if($type == "faculty"){
-                    $timeEvals = $userEvaluations->where("status", "complete")->get();
+                    $eval = $userEvals->where("status", "complete")
+                        ->sortByDesc("complete_date")->first();
+                    if(!empty($eval))
+						$lastCompleted[] = [
+							"name" => $user->full_name,
+							"evaluation" => $eval
+						];
+
+                    $time = 0;
+					$timeEvals = $userEvaluations->where("status", "complete")->get();
                     foreach($timeEvals as $eval){
                         $time += $eval->complete_date->getTimestamp()-$eval->request_date->getTimestamp();
                     }
@@ -166,12 +156,21 @@ class ReportController extends Controller
 						"time" => $d2->diff($d1)->format("%a days %H hours")
 					];
                 }
+                else {
+                    $eval = $userEvals->where("status", "complete")
+                        ->sortByDesc("complete_date")->first();
+                    if(!empty($eval))
+						$lastCompleted[] = [
+							"name" => $user->full_name,
+							"evaluation" => $eval
+						];
+                }
             } catch(\Exception $e){
                 Log::error("Problem with user in stats: ".$e);
             }
         }
-        $data = compact("users", "type", "startDate", "endDate", "noneRequested",
-            "noneCompleted", "lastCompleted", "userStats", "statEvalData");
+        $data = compact("noneRequested", "noneCompleted", "lastCompleted",
+			"userStats", "statEvalData");
         if($type == "faculty")
             $data["averageCompletionTimes"] = $times;
 
@@ -194,8 +193,8 @@ class ReportController extends Controller
         $getQueriedEvaluations = function($query)
                 use ($startDate, $endDate, $trainingLevel, $evalThreshold){
             $query->with("evaluator", "requestor", "form")
-				->where("evaluation_date", ">=", $startDate)
-                ->where("evaluation_date", "<=", $endDate);
+				->where("evaluation_date_end", ">=", $startDate)
+                ->where("evaluation_date_start", "<=", $endDate);
             if($trainingLevel != "all")
                 $query->where("training_level", $trainingLevel);
         };
@@ -203,8 +202,8 @@ class ReportController extends Controller
 		$getCompleteEvaluations = function($query)
                 use ($startDate, $endDate, $trainingLevel, $evalThreshold){
             $query->with("evaluator", "requestor", "form")
-				->where("evaluation_date", ">=", $startDate)
-                ->where("evaluation_date", "<=", $endDate)
+				->where("evaluation_date_end", ">=", $startDate)
+                ->where("evaluation_date_start", "<=", $endDate)
 				->where("status", "complete");
             if($trainingLevel != "all")
                 $query->where("training_level", $trainingLevel);
@@ -310,8 +309,8 @@ class ReportController extends Controller
             ->whereIn("forms.type", ["resident", "fellow"])
             ->where("forms.evaluator_type", "faculty")
             ->where("evaluations.status", "complete")
-            ->where("evaluations.evaluation_date", ">=", $startDate)
-            ->where("evaluations.evaluation_date", "<=", $endDate)
+            ->where("evaluations.evaluation_date_end", ">=", $startDate)
+            ->where("evaluations.evaluation_date_start", "<=", $endDate)
 			->where("responses.response", ">=", 0);
 
         if(!empty($milestones))
@@ -470,8 +469,8 @@ class ReportController extends Controller
             ->whereIn("forms.type", ["resident", "fellow"])
             ->whereIn("forms.evaluator_type", ["faculty"])
             ->whereIn("evaluations.status", ["pending", "complete"])
-            ->where("evaluations.evaluation_date", ">=", $startDate)
-            ->where("evaluations.evaluation_date", "<=", $endDate);
+            ->where("evaluations.evaluation_date_end", ">=", $startDate)
+            ->where("evaluations.evaluation_date_start", "<=", $endDate);
 
         if($trainingLevel != "all")
             $reqQuery->where("evaluations.training_level", $trainingLevel);
@@ -481,8 +480,9 @@ class ReportController extends Controller
         $reqQuery->select("subject_id", "evaluator_id", "requested_by_id",
 			"subjects.last_name as subject_last", "subjects.first_name as subject_first",
             "evaluators.last_name as evaluator_last", "evaluators.first_name as evaluator_first",
-			"evaluations.id as evaluation_id", "evaluations.evaluation_date",
-			"evaluations.status as evaluation_status", "forms.title as form_title");
+			"evaluations.id as evaluation_id", "evaluations.status as evaluation_status",
+			"evaluations.evaluation_date_start", "evaluations.evaluation_date_end",
+			"forms.title as form_title");
         $reqQuery->chunk(20000, function($evaluations) use (&$subjects, &$subjectRequests,
 				&$subjectEvals, &$subjectEvaluators, &$subjectEvaluations){
             foreach($evaluations as $evaluation){
@@ -551,8 +551,8 @@ class ReportController extends Controller
                 ->join("forms", "evaluations.form_id", "=", "forms.id")
                 ->where("evaluators.type", "faculty")
                 ->where("evaluations.status", "complete")
-                ->where("evaluations.evaluation_date", ">=", $startDate)
-                ->where("evaluations.evaluation_date", "<=", $endDate)
+                ->where("evaluations.evaluation_date_end", ">=", $startDate)
+                ->where("evaluations.evaluation_date_start", "<=", $endDate)
                 ->where("evaluations.subject_id", $reportSubject)
                 ->whereIn("forms.type", ["resident", "fellow"])
                 ->whereIn("forms.evaluator_type", ["faculty"]);
@@ -563,7 +563,8 @@ class ReportController extends Controller
 				$textQuery->where("subjects.training_level", $currentTrainingLevel);
 
             $textQuery->select("subject_id", "evaluators.first_name", "evaluators.last_name",
-                "forms.title as form_title", "evaluation_date", "response");
+                "forms.title as form_title", "evaluation_date_start", "evaluation_date_end",
+				"response");
 
             $subjectTextResponses = $textQuery->get()->all();
 
@@ -575,8 +576,8 @@ class ReportController extends Controller
                 ->join("forms", "evaluations.form_id", "=", "forms.id")
 				->where("evaluators.type", "faculty")
                 ->where("evaluations.status", "complete")
-                ->where("evaluations.evaluation_date", ">=", $startDate)
-                ->where("evaluations.evaluation_date", "<=", $endDate)
+                ->where("evaluations.evaluation_date_end", ">=", $startDate)
+                ->where("evaluations.evaluation_date_start", "<=", $endDate)
                 ->where("evaluations.subject_id", $reportSubject)
                 ->whereIn("forms.type", ["resident", "fellow"])
                 ->whereIn("forms.evaluator_type", ["faculty"]);
@@ -587,7 +588,8 @@ class ReportController extends Controller
 				$reportEvaluationsQuery->where("subjects.training_level", $currentTrainingLevel);
 
             $reportEvaluationsQuery->select("evaluations.id as evaluation_id", "subject_id",
-                "evaluators.first_name", "evaluators.last_name", "forms.title as form_title", "evaluation_date");
+                "evaluators.first_name", "evaluators.last_name", "forms.title as form_title",
+				"evaluation_date_start", "evaluation_date_end");
 
             $data["subjectReportEvaluations"] = $reportEvaluationsQuery->get()->all();
         }
@@ -599,8 +601,8 @@ class ReportController extends Controller
 				->join("forms", "evaluations.form_id", "=", "forms.id")
 				->where("evaluators.type", "faculty")
 				->where("evaluations.status", "complete")
-				->where("evaluations.evaluation_date", ">=", $startDate)
-				->where("evaluations.evaluation_date", "<=", $endDate)
+				->where("evaluations.evaluation_date_end", ">=", $startDate)
+				->where("evaluations.evaluation_date_start", "<=", $endDate)
 				->whereIn("evaluations.subject_id", array_keys($subjects))
 				->whereIn("forms.type", ["resident", "fellow"])
 				->whereIn("forms.evaluator_type", ["faculty"]);
@@ -611,8 +613,8 @@ class ReportController extends Controller
 				$textQuery->where("subjects.training_level", $currentTrainingLevel);
 
 			$textQuery->select("subject_id", "evaluators.first_name", "evaluators.last_name",
-				"forms.title as form_title", "evaluation_date", "response",
-				"evaluation_id");
+				"forms.title as form_title", "evaluation_date_start", "evaluation_date_end",
+				"response", "evaluation_id");
 
 			$subjectTextResponses = $textQuery->get()->groupBy('subject_id');
 
@@ -728,8 +730,8 @@ class ReportController extends Controller
             ->join("forms", "forms.id", "=", "form_id")
             ->where("evaluations.status", "complete")
             ->where("forms.id", $request->input("form_id"))
-            ->where("evaluation_date", ">", $startDate)
-            ->where("evaluation_date", "<", $endDate);
+            ->where("evaluation_date_end", ">", $startDate)
+            ->where("evaluation_date_start", "<", $endDate);
 
 		$query->select("evaluation_id", "evaluator_id", "subject_id", "response", "question_id");
 
@@ -742,8 +744,8 @@ class ReportController extends Controller
             ->join("forms", "forms.id", "=", "form_id")
             ->where("evaluations.status", "complete")
             ->where("forms.id", $request->input("form_id"))
-            ->where("evaluation_date", ">=", $startDate)
-            ->where("evaluation_date", "<=", $endDate);
+            ->where("evaluation_date_end", ">=", $startDate)
+            ->where("evaluation_date_start", "<=", $endDate);
 
         $textQuery->select("evaluation_id", "evaluator_id", "subject_id", "response", "question_id");
 
@@ -795,14 +797,14 @@ class ReportController extends Controller
         return User::where('type', $type)->whereHas('evaluatorEvaluations',
                 function($query) use ($startDate, $endDate){
             $query->where('status', 'pending')
-                ->where('evaluation_date', '>=', $startDate)
-                ->where('evaluation_date', '<=', $endDate);
+                ->where('evaluation_date_end', '>=', $startDate)
+                ->where('evaluation_date_start', '<=', $endDate);
         })->with(
             [
                 'evaluatorEvaluations' => function($query)
                         use ($startDate, $endDate){
-                    $query->where('evaluation_date', '>=', $startDate)
-                        ->where('evaluation_date', '<=', $endDate);
+                    $query->where('evaluation_date_end', '>=', $startDate)
+                        ->where('evaluation_date_start', '<=', $endDate);
                 },
                 'evaluatorEvaluations.subject',
                 'evaluatorEvaluations.evaluator',

@@ -1,14 +1,14 @@
 <template>
 	<div class="form-header">
 		<div class="container-fluid">
-			<div class='row'>
-				<div class='col-md-8'>
+			<div class="row">
+				<div class="col-md-6">
 					<div class="form-group">
 						<label for="form-title">Form title</label>
 						<input type="text" v-model.trim="title" id="form-title" class="form-control input-lg" name="formTitle" placeholder="Form Title" required />
 					</div>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-3">
 					<div class="form-group">
 						<label for="form-type">Form type</label>
 						<select class="form-control input-lg" v-model="formType" id="form-type" name="form_type">
@@ -18,6 +18,15 @@
 							<option value="self-fellow">Fellow (self)</option>
 							<option value="faculty">Faculty</option>
 							<option value="staff">Staff</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group">
+						<label for="form-period-type">Evaluation period type</label>
+						<select class="form-control input-lg" v-model="periodType" id="form-period-type">
+							<option value="month">Month</option>
+							<option value="quarter">Quarter</option>
 						</select>
 					</div>
 				</div>
@@ -78,6 +87,7 @@ export default {
 		return {
 			title: '',
 			formType: 'resident',
+			periodType: 'month',
 			nextQuestionIdNum: 1,
 			groupedMilestones: [],
 			competencies: [],
@@ -119,6 +129,7 @@ export default {
 			let requestBody = JSON.stringify({
 				title: this.title,
 				formType: this.formType,
+				evaluation_period_type: this.periodType,
 				items: this.items.map(item => {
 					item.questionId = `q${item.questionIdNum}`;
 					return item;

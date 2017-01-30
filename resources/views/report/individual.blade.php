@@ -74,7 +74,11 @@
 			@foreach($subjectReportEvals as $reportEvaluation)
 			<tr>
 				<td><a href="/evaluation/{{ $reportEvaluation->evaluation_id }}">{{ $reportEvaluation->evaluation_id }}</a></td>
-				<td>{{ Carbon\Carbon::parse($reportEvaluation->evaluation_date)->format("F Y") }}</td>
+				<td>
+					{{ Carbon\Carbon::parse($reportEvaluation->evaluation_date_start)->format("F Y") }}
+					—
+					{{ Carbon\Carbon::parse($reportEvaluation->evaluation_date_end)->format("F Y") }}
+				</td>
 				<td>{{ $reportEvaluation->last_name }}, {{ $reportEvaluation->first_name }}</td>
 				<td>{{ $reportEvaluation->form_title }}</td>
 			</tr>
@@ -210,7 +214,11 @@
 			<tbody>
 		@foreach($subjectTextResponses as $response)
 				<tr>
-					<td>{{ Carbon\Carbon::parse($response->evaluation_date)->format("F Y") }}</td>
+					<td>
+						{{ Carbon\Carbon::parse($response->evaluation_date_start)->format("F Y") }}
+						—
+						{{ Carbon\Carbon::parse($response->evaluation_date_end)->format("F Y") }}
+					</td>
 					<td>{{ $response->last_name }}, {{ $response->first_name }}</td>
 					<td>{{ $response->form_title }}</td>
 					<td>{{ stripslashes(str_replace(['\r', '\n'], ' ',$response->response)) }}</td>
