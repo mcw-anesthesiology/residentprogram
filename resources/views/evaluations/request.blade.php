@@ -283,26 +283,20 @@
 </div>
 <div class="container body-block">
 	<h3 class="sub-header">Evaluations in progress</h3>
-	<table class="table table-striped" id="pending-faculty-evals" width="100%">
-		<thead>
-			<tr>
-				<th>#</th>
-				<th>Faculty</th>
-				<th>Form</th>
-				<th>Evaluation date</th>
-				<th>Started</th>
-				<th></th>
-			</tr>
-		</thead>
-	</table>
+	<data-table :bordered="false" :thead="pendingFacultyEvalsThead"
+		:config="pendingFacultyEvalsConfig"/>
 	@endif
+</div>
+<div class="container body-block">
+	<h3 class="sub-header">Completed faculty evaluations</h3>
+	<data-table :bordered="false" :thead="completeFacultyEvalsThead"
+		:config="completeFacultyEvalsConfig" />
 @stop
 
 @section("script")
 	<script src="{{ elixir('js/vue-deps.js') }}"></script>
 	<script src="{{ elixir('js/vue-request.js') }}"></script>
 	<script>
-		var user = {!! $user->toJson() !!};
 		var propsData = {
 			user: {!! $user->toJson() !!}
 		};
@@ -317,50 +311,5 @@
 	@endif
 
 		createRequest('main', propsData);
-
-	@if($user->type == "resident" && $requestType == "faculty")
-		var pendingFacultyEvalsTable = $('#pending-faculty-evals').DataTable({
-			ajax: {
-				url: '/evaluations',
-				data: {
-					whereHas: {
-						form: {
-							type: 'faculty'
-						}
-					},
-					with: {
-						subject: ['full_name'],
-						form: ['title']
-					},
-					evaluator_id: user.id,
-					status: 'pending'
-				},
-				dataSrc: ''
-			},
-			columns: [
-				{data: 'url', render: renderEvaluatorEvalUrl},
-				{data: 'subject.full_name'},
-				{data: 'form.title'},
-				{
-					data: null,
-					render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
-					createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
-				},
-				{data: 'request_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
-				{data: null, render: function(eval){
-					if(eval.requested_by_id === user.id)
-						return '<button class="btn btn-danger btn-xs cancel-eval-button" '
-							+ 'data-id="' + eval.id + '"><span class="glyphicon glyphicon-remove"></span> '
-							+ 'Cancel</button>';
-
-					return '';
-				}}
-			],
-			order: [[0, 'desc']],
-			createdRow: function(row){
-				$(row).addClass('view-evaluation');
-			}
-		});
-	@endif
 	</script>
 @stop

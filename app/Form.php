@@ -65,7 +65,7 @@ class Form extends Model
 					$item['required'] = $childNode->hasAttribute('required');
 					$item['milestones'] = $this->milestoneQuestions->where('question_id', $item['id'])->pluck('milestone_id');
 					// Only get one competency currently
-					$item['competencies'] = $this->competencyQuestions->where('question_id', $item['id'])->pluck('competency_id')->first();
+					$item['competencies'] = $this->competencyQuestions->where('question_id', $item['id'])->pluck('competency_id');
 
 
 					if(in_array($item['questionType'], $MULTIPLE_CHOICE_QUESTION_TYPES)){
