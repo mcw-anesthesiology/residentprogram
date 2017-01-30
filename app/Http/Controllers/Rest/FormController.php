@@ -103,7 +103,8 @@ class FormController extends RestController
 					foreach($item['options'] as $option){
 						$optionNode = $question->addChild('option', htmlspecialchars($option['text']));
 						$optionNode->addAttribute('value', $option['value']);
-						$optionNode->addAttribute('description', htmlspecialchars($option['description']));
+						if(array_key_exists('description', $option))
+							$optionNode->addAttribute('description', htmlspecialchars($option['description']));
 					}
 				}
 			}
