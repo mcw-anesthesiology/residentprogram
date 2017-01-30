@@ -413,7 +413,7 @@ var fixNavbarOffset = debounce(function(){
 
 $(window).resize(fixNavbarOffset);
 
-$(".table").on("click", ".view-evaluation", function(){
+$(document).on("click", ".table .view-evaluation", function(){
 	var requestId = $(this).children("td").eq(0).children("a").html();
 	window.location.href = "/evaluation/"+requestId;
 });

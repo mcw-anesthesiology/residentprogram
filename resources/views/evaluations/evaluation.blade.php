@@ -108,9 +108,10 @@
 	@endif
 	@if($evaluation->status == "complete" && !($evaluation->isAnonymousToUser() && $evaluation->form->type == "faculty"))
 						<td>
-							{{ $evaluation->evaluation_date_start->format("F Y") }}
-							—
-							{{ $evaluation->evaluation_date_end->format("F Y") }}
+							{{ $evaluation->evaluation_date_start->format("F Y") == $evaluation->evaluation_date_end->format("F Y")
+							 	? $evaluation->evaluation_date_start->format("F Y")
+								: $evaluation->evaluation_date_start->format("F Y") . ' — ' . $evaluation->evaluation_date_end->format("F Y")
+							}}
 						</td>
 	@endif
 	@if(!($evaluation->subject->isType("faculty") && $user->id == $evaluation->subject_id))
