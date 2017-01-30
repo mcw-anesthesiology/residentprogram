@@ -243,11 +243,6 @@ export function sortNumbers(a, b){
 	return Number(a) - Number(b);
 }
 
-export function isoDateString(date){
-	let isoString = date.toISOString();
-	return isoString.substring(0, isoString.indexOf('T'));
-}
-
 export function htmlLabelReplacements(html, replacements){
 	html = html.replace(/<span class="label label-info">/g, '[[')
 		.replace(/<\/span>/g, ']]');

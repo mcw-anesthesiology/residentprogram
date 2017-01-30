@@ -278,12 +278,6 @@ class MainController extends Controller
 	                break;
 			}
 
-			for($dt = Carbon::now()->firstOfMonth(), $i = 0; $i < 3; $dt->subMonths(1), $i++){
-				$date = $dt->format("Y-m-d");
-				$months[$date] = $dt->format("F");
-				$endOfMonth[$date] = $dt->format("Y-m-t");
-			}
-
 			if(!empty($subjects))
 				$subjects = collect($subjects)->toJson();
 			if(!empty($evaluators))
@@ -291,10 +285,10 @@ class MainController extends Controller
 			if(!empty($forms))
 				$forms = collect($forms)->toJson();
 
-	        $data = compact("forms", "requestType", "months", "endOfMonth", "pendingEvalCount",
-				"subjects", "evaluators", "subjectTypeText", "subjectTypeTextPlural",
-	            "evaluatorTypeText", "blocks", "evaluatorTypes", "subjectTypes",
-				"requestTypeText");
+	        $data = compact("forms", "requestType", "pendingEvalCount",
+				"subjects", "evaluators", "subjectTypeText",
+				"subjectTypeTextPlural", "evaluatorTypeText", "blocks",
+				"evaluatorTypes", "subjectTypes", "requestTypeText");
 		} catch(\Exception $e){
 			return back()->with("error", $e->getMessage());
 		}
@@ -339,7 +333,8 @@ class MainController extends Controller
 			}
             
             $evaluationDates = $request->input("evaluation_date");
-            if(!is_array($evaluationDates))
+            if(!is_array($evaluationDates) ||
+					array_key_exists('startDate', $evaluationDates))
                 $evaluationDates = [$evaluationDates];
 
 			$errors = "";
@@ -348,7 +343,7 @@ class MainController extends Controller
 			if(empty($evaluators) || count($evaluators) == 0)
 				$errors .= "Please select an evaluator. ";
             if(empty($evaluationDates) || count($evaluationDates) == 0)
-				$errors .= "Please select an evaluation date. ";            
+				$errors .= "Please select an evaluation date. ";
 			if(!$request->has("form_id"))
 				$errors .= "Please select a form. ";
 
@@ -361,11 +356,12 @@ class MainController extends Controller
 					$subjects = [$evaluator];
 
 				foreach($subjects as $subject){
-                    foreach($evaluationDates as $evaluationDate){                        
+                    foreach($evaluationDates as $evaluationDate){
     					$eval = new Evaluation();
     					$eval->form_id = $request->input("form_id");
     					$eval->requested_by_id = $user->id;
-    					$eval->evaluation_date = $evaluationDate;
+    					$eval->evaluation_date_start = $evaluationDate['startDate'];
+						$eval->evaluation_date_end = $evaluationDate['endDate'];
     					$eval->subject_id = $subject;
     					$eval->evaluator_id = $evaluator;
     					$eval->training_level = $eval->subject->training_level;
@@ -560,12 +556,10 @@ class MainController extends Controller
                 	$eval->training_level = $eval->subject->training_level;
             }
             $eval->complete_ip = $request->ip();
-			if(!$eval->evaluation_date)
-            	$eval->evaluation_date = $request->input("evaluation_date");
 
             $input = $request->all();
             foreach($input as $question => $value){
-                if(strpos($question, "evaluation_id") === false && strpos($question, "evaluation_date") === false && $question !== "_token"){
+                if(strpos($question, "evaluation_id") === false && $question !== "_token"){
                     if(strpos($question, "weight"))
                         $weight = $value;
                     elseif($value != ""){
@@ -704,7 +698,7 @@ class MainController extends Controller
             $lastCompleted = "-";
 
         $evals = $evals->filter(function($eval) use ($yearStart){
-            return $eval->evaluation_date >= $yearStart;
+            return $eval->evaluation_date_end >= $yearStart;
         });
 
         $requests = $evals->where("requested_by_id", $profileUser->id)->count();

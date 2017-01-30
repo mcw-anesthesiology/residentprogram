@@ -126,11 +126,22 @@
 						<input type="hidden" id="edit-form-id" />
 						<input type="hidden" id="edit-form-type" />
 					</div>
-					<label>Subject visibilty</label>
 					<div class="form-group" id="edit-form-visibility-group">
-						<label><input type="radio" name="visibility" value="visible" /> Visible</label><br />
-						<label><input type="radio" name="visibility" value="anonymous" /> Anonymous</label><br />
-						<label><input type="radio" name="visibility" value="hidden" /> Hidden</label>
+						<fieldset>
+							<legend>Subject visibilty</legend>
+							<label><input type="radio" name="visibility" value="visible" /> Visible</label><br />
+							<label><input type="radio" name="visibility" value="anonymous" /> Anonymous</label><br />
+							<label><input type="radio" name="visibility" value="hidden" /> Hidden</label>
+						</fieldset>
+					</div>
+					<div class="form-group">
+						<label class="containing-label">
+							Evaluation period type
+							<select class="form-control" id="edit-form-period-type">
+								<option value="month">Month</option>
+								<option value="quarter">Quarter</option>
+							</select>
+						</label>
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -279,6 +290,7 @@
 							+ 'class="edit-form-button btn btn-info btn-xs" '
 							+ 'data-id="' + form.id + '" data-title="' + form.title + '"'
 							+ 'data-type="' + form.type + '" data-visibility="' + form.visibility + '"'
+							+ 'data-period-type="' + form.evaluation_period_type + '"'
 							+ 'data-toggle="modal" data-target="#edit-form-modal">'
 							+ '<span class="glyphicon glyphicon-pencil"></span> Edit</button>';
 
@@ -296,11 +308,13 @@
 		$("#edit-modal-submit").click(function(){
 			var formId = $("#edit-form-id").val();
 			var formType = $("#edit-form-type").val();
-			var data = {};
-			data._token = "{{ csrf_token() }}";
-			data._method = "PATCH";
-			data.title = $("#edit-form-title").val();
-			data.visibility = $("#edit-form-modal input[name='visibility']:checked").val();
+			var data = {
+				_token: "{{ csrf_token() }}",
+				_method: "PATCH",
+				title: $("#edit-form-title").val(),
+				visibility: $("#edit-form-modal input[name='visibility']:checked").val(),
+				evaluation_period_type: $("#edit-form-period-type").val()
+			};
 
 			$.ajax({
 				url: "/forms/" + formId,
@@ -325,11 +339,13 @@
 			var formType = $(this).data("type");
 			var formTitle = $(this).data("title");
 			var visibility = $(this).data("visibility");
+			var periodType = $(this).data("periodType");
 
 			$("#edit-form-id").val(formId);
 			$("#edit-form-type").val(formType);
 			$("#edit-form-title").val(formTitle);
 			$("#edit-form-modal input[value='" + visibility + "']").prop("checked", true);
+			$("#edit-form-period-type").val(periodType);
 		});
 
 		$(".forms-table").on("click", ".disable-eval, .enable-eval", function(){

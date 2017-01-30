@@ -89,7 +89,11 @@
 				{data: "subject.full_name"},
 				{data: "evaluator.full_name"},
 				{data: "form.title"},
-				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+				{
+					data: null,
+					render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+					createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+				},
 				{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 				{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 				{data: "status", render: renderEvaluationStatus}
@@ -126,7 +130,11 @@
 				{data: "url"},
 				{data: "evaluator.full_name"},
 				{data: "form.title"},
-				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+				{
+					data: null,
+					render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+					createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+				},
 				{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 				{data: "status", render: renderEvaluationStatus},
 				{data: null, orderable: false, searchable: false, render: function(eval){
@@ -167,7 +175,11 @@
 				{data: "subject.full_name"},
 				{data: "evaluator.full_name"},
 				{data: "form.title"},
-				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+				{
+					data: null,
+					render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+					createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+				},
 				{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 				{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 				{data: "status", render: renderEvaluationStatus}
@@ -232,7 +244,11 @@
 				{data: "url"},
 				{data: "subject.full_name"},
 				{data: "form.title"},
-				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+				{
+					data: null,
+					render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+					createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+				},
 				{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 				{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 			],
@@ -298,7 +314,11 @@
 				{data: "url", render: renderEvaluatorEvalUrl},
 				{data: "subject.full_name"},
 				{data: "form.title"},
-				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+				{
+					data: null,
+					render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+					createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+				},
 				{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 				{data: null, render: function(eval){
 					if(eval.requested_by_id === user.id)
@@ -342,7 +362,11 @@
 					return name;
 				}},
 				{data: "form.title"},
-				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+				{
+					data: null,
+					render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+					createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+				},
 				{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 				{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 			],
@@ -378,7 +402,11 @@
 					return name;
 				}},
 				{data: "form.title"},
-				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+				{
+					data: null,
+					render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+					createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+				},
 				{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 				{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell}
 			],
@@ -408,7 +436,11 @@
 			columns: [
 				{data: "url"},
 				{data: "form.title"},
-				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+				{
+					data: null,
+					render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+					createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+				},
 				{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell}
 			],
 			order: [[0, "desc"]],
@@ -434,7 +466,11 @@
 				{data: "url", render: renderEvaluatorEvalUrl},
 				{data: "subject.full_name"},
 				{data: "form.title"},
-				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+				{
+					data: null,
+					render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+					createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+				},
 				{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell}
 			],
 			order: [[0, "desc"]],
@@ -460,7 +496,11 @@
 				{data: "url"},
 				{data: "subject.full_name"},
 				{data: "form.title"},
-				{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+				{
+					data: null,
+					render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+					createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+				},
 				{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 				{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell}
 			],
@@ -499,7 +539,11 @@
 						return name;
 					}},
 					{data: "form.title"},
-					{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+					{
+						data: null,
+						render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+					},
 					{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 					{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell}
 				],
@@ -530,7 +574,11 @@
 					{data: "url"},
 					{data: "subject.full_name"},
 					{data: "evaluator.full_name"},
-					{data: "evaluation_date", render: renderDateCell, createdCell: createDateCell},
+					{
+						data: null,
+						render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+					},
 					{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
 					{data: "status", render: renderEvaluationStatus},
 					{data: null, orderable: false, searchable: false, render: function(eval){

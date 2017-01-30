@@ -19,7 +19,8 @@ class Form extends Model
     protected $fillable = [
         "title",
         "status",
-        "visibility"
+        "visibility",
+        "evaluation_period_type"
     ];
 
 	protected $hidden = [
@@ -121,5 +122,7 @@ class Form extends Model
 
 	public function hideFields(){
 		$this->addHidden($this->userHidden);
+        
+        return $this;
 	}
 }

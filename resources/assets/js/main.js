@@ -462,7 +462,16 @@ $(document).on("mouseenter", ".table-date-time-cell", function(){
 	}
 });
 
-$(document).on("mouseleave", ".table-date-cell, .table-date-time-cell", function(){
+$(document).on("mouseenter", ".table-date-range-cell", function(){
+	var dateRange = $(this).data("date-range-value");
+	if(startDate && endDate){
+		$(this).data("original-value", $(this).text());
+		$(this).text(dateRange);
+	}
+});
+
+$(document).on("mouseleave",
+		".table-date-cell, .table-date-time-cell, .table-date-range-cell", function(){
 	var originalValue = $(this).data("originalValue");
 	if(originalValue)
 		$(this).text(originalValue);

@@ -1,7 +1,8 @@
 import Chart from 'chart.js';
 import { Validator } from 'jsonschema';
-const v = new Validator();
 import schema from '../../schemas/case-log-details.json';
+
+const v = new Validator();
 
 export function caseLogDetailsSchemaIsValid(detailsSchema){
 	return v.validate(detailsSchema, schema).valid;

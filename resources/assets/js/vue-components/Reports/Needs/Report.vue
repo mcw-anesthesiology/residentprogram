@@ -2,7 +2,7 @@
 	<div>
 		<div class="container body-block">
 			<h2>Needs evaluations</h2>
-			<report-date v-model="dates" />
+			<start-end-date v-model="dates" />
 			<div class="row">
 				<div class="form-group col-md-6">
 					<label class="containing-label">
@@ -41,8 +41,7 @@
 
 <script>
 import NeedsEvaluations from './Evaluations.vue';
-
-import ReportDate from '../ReportDate.vue';
+import StartEndDate from '../../StartEndDate.vue';
 import TrainingLevelSelect from '../TrainingLevelSelect.vue';
 import SelectTwo from '../../SelectTwo.vue';
 import EmailEditor from '../../EmailEditor.vue';
@@ -161,7 +160,7 @@ export default {
 
 	components: {
 		NeedsEvaluations,
-		ReportDate,
+		StartEndDate,
 		TrainingLevelSelect,
 		SelectTwo,
 		EmailEditor

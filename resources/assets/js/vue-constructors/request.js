@@ -1,6 +1,5 @@
 import Vue from 'vue';
 
-import VueFlatpickr from 'vue-flatpickr';
 import SelectTwo from '../vue-components/SelectTwo.vue';
 
 import moment from 'moment';
@@ -9,6 +8,12 @@ import indefinite from 'indefinite';
 import 'vue-flatpickr/theme/flatpickr.min.css';
 
 import { groupUsers, groupForms } from '../modules/utils.js';
+import {
+	isoDateStringObject,
+	renderDateRange,
+	currentQuarter,
+	lastQuarter
+} from '../modules/date-utils.js';
 
 export function createRequest(el, propsData){
 
@@ -28,8 +33,7 @@ export function createRequest(el, propsData){
 				subjectId: null,
 				evaluatorId: null,
 				formId: null,
-				evaluationMonth: null,
-				evaluationDay: null,
+				evaluationDateJson: null,
 
 				sendHash: requestType === 'staff',
 				forceNotification: false,
@@ -38,7 +42,7 @@ export function createRequest(el, propsData){
 				allowMultiple: {
 					subjects: false,
 					evaluators: false,
-					evaluationMonth: false
+					evaluationDate: false
 				},
 
 				error: {
@@ -69,6 +73,14 @@ export function createRequest(el, propsData){
 					required.evaluatorId = false;
 					
 				return required;
+			},
+			requirementsAreMet(){
+				return !Object.keys(this.required).some(requirement =>
+					this.required[requirement]
+						&& (
+							!this[requirement]
+							|| this[requirement].length === 0
+						));
 			},
 			fieldNouns(){
 				return {
@@ -102,25 +114,59 @@ export function createRequest(el, propsData){
 				return groupForms(this.subjectForms);
 			},
 			evaluationDate(){
-				return this.evaluationDay || this.evaluationMonth;
+				if(this.evaluationDateJson)
+					return Array.isArray(this.evaluationDateJson)
+						? this.evaluationDateJson.map(JSON.parse)
+						: JSON.parse(this.evaluationDateJson);
 			},
-			evaluationDayOptions(){
-				let minDate, maxDate;
-				if(this.evaluationMonth){
-					minDate = this.evaluationMonth;
-					maxDate = moment(this.evaluationMonth).endOf('month').toDate();
+			evaluationDates(){
+				let form = this.forms.find(form => form.id === Number(this.formId));
+				
+				if(!form)
+					return;
+				
+				let dates = [];
+				if(form.evaluation_period_type === 'quarter'){
+					dates = [
+						lastQuarter(),
+						currentQuarter()
+					];
 				}
-
-				return {
-					minDate,
-					maxDate,
-					altInput: true,
-					altFormat: 'j',
-					altInputClass: 'form-control appear-not-readonly'
-				};
+				else {
+					let startDate = moment().startOf('month');
+					let endDate = moment(endDate).endOf('month');
+					for(let i = 0; i < 3; i++){
+						dates.push({
+							startDate,
+							endDate
+						});
+						startDate = moment(startDate).subtract(1, 'month');
+						endDate = moment(startDate).endOf('month');
+					}
+					dates.reverse();
+				}
+				
+				return dates;
+			},
+			evaluationDateOptions(){
+				if(this.evaluationDates)
+					return this.evaluationDates.map(date => {
+						return {
+							id: JSON.stringify(isoDateStringObject(date)),
+							text: renderDateRange(date.startDate, date.endDate)
+						};
+					});
 			}
 		},
 		watch: {
+			allowMultiple(allowMultiple){
+				Object.keys(allowMultiple).map(field => {
+					if(allowMultiple[field] && !Array.isArray(this[field]))
+						this[field] = [this[field]];
+					else if(!allowMultiple[field] && Array.isArray(this[field]))
+						this[field] = this[field][0];
+				});
+			},
 			subjectId(){
 				this.checkField('subjectId', 'subject');
 			},
@@ -130,12 +176,28 @@ export function createRequest(el, propsData){
 			formId(){
 				this.checkField('formId', 'form');
 			},
-			evaluationMonth(evaluationMonth){
-				if(Array.isArray(evaluationMonth) && this.evaluationDay)
-					this.evaluationDay = null;
-			},
 			evaluationDate(){
 				this.checkField('evaluationDate', 'evaluation date');
+			},
+			evaluationDateOptions(options){
+				if(!options && this.evaluationDateJson)
+					this.evaluationDateJson = null;
+
+				if(!options || !this.evaluationDateJson)
+					return;
+				
+				if(Array.isArray(this.evaluationDateJson)){
+					let newJson = options.filter(({id}) =>
+						this.evaluationDateJson.includes(id)
+					).map(({id}) => id);
+					
+					if(newJson.length !== this.evaluationDateJson.length)
+						this.evaluationDateJson = newJson;
+				}
+				else {
+					if(!options.some(({id}) => id === this.evaluationDateJson))
+						this.evaluationDateJson = null;
+				}
 			},
 			formOptions(){
 				let formId = Number(this.formId);
@@ -148,7 +210,7 @@ export function createRequest(el, propsData){
 				this.$refs.evaluationDayFlatpickr.fp.clear();
 			},
 			checkField(field, noun){
-				this.error[field] = (this.required[field] && 
+				this.error[field] = (this.required[field] &&
 						(!this[field] || this[field].length === 0))
 					? `Please select ${indefinite(noun)}`
 					: null;
@@ -156,20 +218,16 @@ export function createRequest(el, propsData){
 				return this.error[field];
 			},
 			checkSubmit(event){
-				
-				let errors = false;
 				Object.keys(this.required).map(field => {
-					if(this.checkField(field, this.fieldNouns[field]))
-						errors = true;
+					this.checkField(field, this.fieldNouns[field]);
 				});
 
-				if(errors)
+				if(!this.requirementsAreMet)
 					event.preventDefault();
 			}
 		},
 		components: {
-			SelectTwo,
-			VueFlatpickr
+			SelectTwo
 		}
 	});
 }
