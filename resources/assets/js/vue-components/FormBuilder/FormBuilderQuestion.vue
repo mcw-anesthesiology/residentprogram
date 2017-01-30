@@ -206,15 +206,15 @@ export default {
 			switch(this.formType){
 				case 'resident':
 				case 'self-resident':
-					options = STANDARD_OPTIONS.RESIDENT;
+					options = STANDARD_OPTIONS.RESIDENT.slice();
 					break;
 				case 'fellow':
 				case 'self-fellow':
-					options = STANDARD_OPTIONS.FELLOW;
+					options = STANDARD_OPTIONS.FELLOW.slice();
 					break;
 				case 'faculty':
 					if(this.questionType === 'radiononnumeric')
-						options = STANDARD_OPTIONS.FACULTY;
+						options = STANDARD_OPTIONS.FACULTY.slice();
 					break;
 			}
 
@@ -273,7 +273,7 @@ export default {
 				return;
 			}
 
-			this.$emit('change', {options: this.customOptions});
+			this.$emit('change', {options: this.customOptions.slice()});
 		}
 	},
 	components: {
