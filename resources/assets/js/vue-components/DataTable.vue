@@ -1,7 +1,8 @@
 <template>
 	<div>
 		<div class="refresh-button-container" v-if="config && 'ajax' in config">
-			<button type="button" class="btn btn-default" title="Reload table">
+			<button type="button" class="btn btn-default" title="Reload table"
+					@click="reloadTable">
 				<span class="glyphicon glyphicon-refresh"></span>
 			</button>
 		</div>
@@ -105,6 +106,11 @@ export default {
 		}
 	},
 	methods: {
+		reloadTable(){
+			$(this.$refs.table).DataTable({
+				retrieve: true
+			}).ajax.reload(null, false);
+		},
 		exportCsv(){
 			let header = [];
 			header.fill([], this.thead.length);

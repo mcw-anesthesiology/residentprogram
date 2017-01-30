@@ -61,6 +61,7 @@ export function getFetchHeaders(){
 		.getAttribute('content');
 
 	let headers = new Headers();
+	headers.append('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 	headers.append('Content-Type', 'application/json');
 	headers.append('X-Requested-With', 'XMLHttpRequest');
 	headers.append('X-CSRF-TOKEN', csrfToken);

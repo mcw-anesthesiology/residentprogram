@@ -30,7 +30,7 @@
 			<h3 class="panel-title">@{{ watchedForms[index].form.title }}</h3>
 		</div>
 		<div class="panel-body">
-			<data-table :thead="watchedFormThead" :config="config" />
+			<evaluation-data-table :thead="watchedFormThead" :config="config" />
 		</div>
 	</div>
 </div>
@@ -42,7 +42,7 @@
 		Self Evaluations
 	</h2>
 	<div class="table-responsive">
-		<data-table :thead="selfEvalThead" :config="selfEvalConfig" />
+		<evaluation-data-table :thead="selfEvalThead" :config="selfEvalConfig" />
 	</div>
 </div>
 
@@ -52,7 +52,7 @@
 		Staff Evaluations
 	</h2>
 	<div class="table-responsive">
-		<data-table :thead="staffEvalThead" :config="staffEvalConfig" />
+		<evaluation-data-table :thead="staffEvalThead" :config="staffEvalConfig" />
 	</div>
 </div>
 

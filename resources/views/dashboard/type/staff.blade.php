@@ -1,49 +1,62 @@
+<div class="container body-block">
 @if($user->evaluatorEvaluations()->where("status", "pending")->count() > 0)
 	<h2 class="sub-header"><span class="glyphicon glyphicon-inbox"></span> Pending</h2>
 	<div class="table-responsive">
-		<table class="table table-striped" id="pending-staff-evaluator-table" width="100%">
-			<thead>
-				<tr>
-					<th>#</th>
-					<th>Resident</th>
-					<th>Form</th>
-					<th>Evaluation Date</th>
-					<th>Created</th>
-				</tr>
-			</thead>
-		</table>
+		<evaluation-data-table :thead="pendingThead" :config="pendingConfig" />
 	</div>
 @else
 	<p class="lead">You have no pending evaluation requests, why not <a href="/request">create one?</a></p>
 @endif
 </div>
 
-@foreach($user->mentees as $mentee)
-<div class="container body-block">
-	@include("dashboard.tables.mentee-evaluations")
+<div v-if="mentees && mentees.length > 0" v-cloak
+		class="container body-block">
+	<h2 class="sub-header">
+		<span class="glyphicon glyphicon-user"></span>
+		Mentee evaluations
+	</h2>
+	<div v-for="(config, index) of menteeConfigs" class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">@{{ mentees[index].full_name }}</h3>
+		</div>
+		<div class="panel-body">
+			<evaluation-data-table :thead="menteeThead" :config="config" />
+		</div>
+	</div>
 </div>
-@endforeach
 
-@foreach($user->watchedForms as $watchedForm)
-<div class="container body-block">
-	@include("dashboard.tables.watched-form")
+<div v-if="watchedForms && watchedForms.length > 0" v-cloak
+		class="container body-block">
+	<h2 class="sub-header">
+		<span class="glyphicon glyphicon-list-alt"></span>
+		Watched forms
+	</h2>
+	<div v-for="(config, index) of watchedFormConfigs" class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">@{{ watchedForms[index].form.title }}</h3>
+		</div>
+		<div class="panel-body">
+			<evaluation-data-table :thead="watchedFormThead" :config="config" />
+		</div>
+	</div>
 </div>
-@endforeach
-
 
 <div class="container body-block">
 	<h2 class="sub-header"><span class="glyphicon glyphicon-check"></span> Completed Evaluations</h2>
 	<div class="table-responsive">
-		<table class="table table-striped" id="complete-staff-evaluator-table" width="100%">
-			<thead>
-				<tr>
-					<th>#</th>
-					<th>Resident</th>
-					<th>Form</th>
-					<th>Evaluation Date</th>
-					<th>Created</th>
-					<th>Completed</th>
-				</tr>
-			</thead>
-		</table>
+		<evaluation-data-table :thead="completeThead" :config="completeConfig" />
 	</div>
+</div>
+
+
+@push('scripts')
+	<script>
+		var propsData = {
+			user: {!! $user->toJson() !!},
+			watchedForms: {!! $user->watchedForms()->with('form')->get()->toJson() !!},
+			mentees: {!! $user->mentees !!}
+		};
+		
+		createStaffDashboard('main', propsData);
+	</script>
+@endpush
