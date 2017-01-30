@@ -16,8 +16,7 @@ import {
 export default function createAdminDashboard(el, propsData){
 		
 	return new Vue({
-		el: el,
-		
+		el,
 		props: {
 			flaggedActions: {
 				type: Object,
@@ -67,6 +66,43 @@ export default function createAdminDashboard(el, propsData){
 			});
 		},
 		
+		updated(){
+			if(this.flaggedEvals && this.flaggedEvals.length > 0){
+				$('.table').on('click', '.remove-flag', event => {
+					event.preventDefault();
+					event.stopPropagation();
+					
+					let flaggedEvalId = $(event.target).data('id');
+					fetch(`/flagged_evaluations/${flaggedEvalId}`, {
+						method: 'POST', // DELETE
+						headers: getFetchHeaders(),
+						credentials: 'same-origin',
+						body: JSON.stringify({
+							_method: 'DELETE'
+						})
+					}).then(response => {
+						if(response.ok)
+							return response.text();
+						else
+							throw new Error(response.statusText);
+					}).then(response => {
+						if(response === 'success')
+							this.flaggedEvals = this.flaggedEvals
+								.filter(flaggedEval =>
+									flaggedEval.id !== Number(flaggedEvalId));
+						else
+							throw new Error(response);
+					}).catch(err => {
+						console.error(err);
+						this.alerts.push({
+							type: 'error',
+							html: `<b>Error:</b> Unable to complete flagged evaluation`
+						});
+					});
+				});
+			}
+		},
+		
 		computed: {
 			flaggedEvalsThead(){
 				return [[
@@ -85,7 +121,7 @@ export default function createAdminDashboard(el, propsData){
 						{data: 'evaluation.url'},
 						{data: 'evaluation.evaluator.full_name'},
 						{data: 'evaluation.subject.full_name'},
-						{data: 'requested_action', render: (action) => {
+						{data: 'requested_action', render: action => {
 							return this.flaggedActions[action];
 						}},
 						{data: 'reason'},
@@ -96,7 +132,7 @@ export default function createAdminDashboard(el, propsData){
 						}}
 					],
 					order: [[0, 'desc']],
-					createdRow: function(row){
+					createdRow(row){
 						$(row).addClass('view-evaluation');
 					}
 				};
@@ -213,7 +249,7 @@ export default function createAdminDashboard(el, propsData){
 					'Evaluation date',
 					'Completed',
 					'Status',
-					'',
+					''
 				]];
 			},
 			selfEvalConfig(){
