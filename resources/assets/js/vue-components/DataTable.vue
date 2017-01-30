@@ -9,7 +9,7 @@
 							{{ th.text || th }}
 						</th>
 					</tr>
-				</thead>		
+				</thead>
 		</table>
 		<div v-if="exportable && data" class="text-center">
 			<button type="button" class="btn btn-default"
@@ -23,6 +23,8 @@
 <script>
 import download from 'downloadjs';
 import ElementResizeDetector from 'element-resize-detector';
+
+import { escapeCsv, sortIgnoreCase } from '../modules/utils.js';
 
 const erd = ElementResizeDetector({
 	strategy: 'scroll'
@@ -143,8 +145,9 @@ export default {
 			
 			let rows = this.data.map(row =>
 				row.map(cell =>
-					typeof cell === 'string' ? `"${cell}"` : cell
-				).join(',')).sort();
+					escapeCsv(cell.toString())
+				).join(',')
+			).sort(sortIgnoreCase);
 			let table = header.concat(rows);
 			download(table.join('\n'), `${this.exportFilename}.csv`, 'text/csv');
 		}
