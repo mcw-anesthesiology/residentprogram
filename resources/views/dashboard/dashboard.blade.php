@@ -31,14 +31,14 @@
 	<script src="{{ elixir('js/vue-deps.js') }}"></script>
 	<script src="{{ elixir('js/vue-dashboard.js') }}"></script>
 	<script>
-		$(".table").on("click", ".cancel-eval-button", function(event){
+		$(document).on("click", ".cancel-eval-button", function(event){
 			event.stopPropagation();
 			var id = $(this).data("id");
 			$(".modal-cancel #submit-cancel-eval").val(id);
 			$(".bs-cancel-modal-sm").modal("toggle");
 		});
 
-		$("#submit-cancel-eval").click(function(event){
+		$(document).on("click", "#submit-cancel-eval", function(event){
 			event.preventDefault();
 			var data = {};
 			data._token = "{{ csrf_token() }}";
@@ -47,6 +47,7 @@
 			var evalId = $(this).val();
 
 			var row = $(".cancel-eval-button[data-id='" + evalId + "']").parents("tr");
+			var table = row.parents("table");
 
 			$.ajax({
 				url: "/evaluations/" + evalId + "/cancel",
@@ -61,11 +62,11 @@
 							bodyBlock.velocity("fadeIn");
 						});
 					}
-					else{
+					else {
 						row.velocity("fadeOut", function(){
-							$(".datatable-pending").DataTable({
+							$(table).DataTable({
 								retrieve: true
-							}).row(row).remove().draw(false);
+							}).row(row).remove().draw().ajax.reload();
 						});
 					}
 				}

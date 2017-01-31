@@ -79,9 +79,11 @@ export default function createFacultyDashboard(el, propsData){
 						{data: 'request_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
 						{data: null, orderable: false, searchable: false, render: evaluation => {
 							if(evaluation.requested_by_id === this.user.id)
-								return '<button class="btn btn-danger btn-xs cancel-eval-button" '
-									+ 'data-id="' + evaluation.id + '"><span class="glyphicon glyphicon-remove"></span> '
-									+ 'Cancel</button>';
+								return `<button class="btn btn-danger btn-xs cancel-eval-button"
+										data-id="${evaluation.id}">
+									<span class="glyphicon glyphicon-remove"></span>
+									Cancel
+								</button>`;
 
 							return '';
 						}}
