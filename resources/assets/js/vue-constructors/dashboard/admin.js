@@ -115,7 +115,6 @@ export default function createAdminDashboard(el, propsData){
 				]];
 			},
 			flaggedEvalsConfig(){
-				// FIXME
 				return {
 					columns: [
 						{data: 'evaluation.url'},
@@ -126,9 +125,12 @@ export default function createAdminDashboard(el, propsData){
 						}},
 						{data: 'reason'},
 						{data: null, orderable: false, searchable: false, render(flaggedEval){
-							return '<button type="button" class="remove-flag btn btn-primary btn-xs" '
-								+ 'data-id="' + flaggedEval.id + '"><span class="glyphicon glyphicon-ok"></span> '
-								+ 'Complete</button>';
+							return `<button type="button"
+									class="remove-flag btn btn-primary btn-xs"
+									data-id="${flaggedEval.id}">
+								<span class="glyphicon glyphicon-ok"></span>
+								Complete
+							</button>`;
 						}}
 					],
 					order: [[0, 'desc']],

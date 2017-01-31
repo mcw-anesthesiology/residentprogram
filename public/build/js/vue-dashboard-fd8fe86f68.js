@@ -1660,12 +1660,11 @@ function createAdminDashboard(el, propsData) {
 			flaggedEvalsConfig: function flaggedEvalsConfig() {
 				var _this3 = this;
 
-				// FIXME
 				return {
 					columns: [{ data: 'evaluation.url' }, { data: 'evaluation.evaluator.full_name' }, { data: 'evaluation.subject.full_name' }, { data: 'requested_action', render: function render(action) {
 							return _this3.flaggedActions[action];
 						} }, { data: 'reason' }, { data: null, orderable: false, searchable: false, render: function render(flaggedEval) {
-							return '<button type="button" class="remove-flag btn btn-primary btn-xs" ' + 'data-id="' + flaggedEval.id + '"><span class="glyphicon glyphicon-ok"></span> ' + 'Complete</button>';
+							return '<button type="button"\n\t\t\t\t\t\t\t\t\tclass="remove-flag btn btn-primary btn-xs"\n\t\t\t\t\t\t\t\t\tdata-id="' + flaggedEval.id + '">\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-ok"></span>\n\t\t\t\t\t\t\t\tComplete\n\t\t\t\t\t\t\t</button>';
 						}
 					}],
 					order: [[0, 'desc']],
@@ -1890,7 +1889,7 @@ function createFacultyDashboard(el, propsData) {
 						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
 						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
 					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* createDateTimeCell */] }, { data: null, orderable: false, searchable: false, render: function render(evaluation) {
-							if (evaluation.requested_by_id === _this.user.id) return '<button class="btn btn-danger btn-xs cancel-eval-button" ' + 'data-id="' + evaluation.id + '"><span class="glyphicon glyphicon-remove"></span> ' + 'Cancel</button>';
+							if (evaluation.requested_by_id === _this.user.id) return '<button class="btn btn-danger btn-xs cancel-eval-button"\n\t\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '">\n\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-remove"></span>\n\t\t\t\t\t\t\t\t\tCancel\n\t\t\t\t\t\t\t\t</button>';
 
 							return '';
 						} }],
@@ -2070,7 +2069,7 @@ function createResidentDashboard(el, propsData) {
 							return name;
 						}
 					}, { data: 'form.title' }, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* createDateTimeCell */] }, { data: null, render: function render(evaluation) {
-							if (evaluation.requested_by_id === _this.user.id) return '<button class="btn btn-danger btn-xs cancel-eval-button" ' + 'data-id="' + evaluation.id + '"><span class="glyphicon glyphicon-remove"></span> ' + 'Cancel</button>';
+							if (evaluation.requested_by_id === _this.user.id) return '<button class="btn btn-danger btn-xs cancel-eval-button"\n\t\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '">\n\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-remove"></span>\n\t\t\t\t\t\t\t\t\tCancel\n\t\t\t\t\t\t\t\t</button>';
 
 							return '';
 						} }],
@@ -2104,7 +2103,7 @@ function createResidentDashboard(el, propsData) {
 						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
 						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
 					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* createDateTimeCell */] }, { data: null, render: function render(evaluation) {
-							if (evaluation.requested_by_id === _this2.user.id) return '<button class="btn btn-danger btn-xs cancel-eval-button" ' + 'data-id="' + evaluation.id + '"><span class="glyphicon glyphicon-remove"></span> ' + 'Cancel</button>';
+							if (evaluation.requested_by_id === _this2.user.id) return '<button class="btn btn-danger btn-xs cancel-eval-button"\n\t\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '">\n\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-remove"></span>\n\t\t\t\t\t\t\t\t\tCancel\n\t\t\t\t\t\t\t\t</button>';
 
 							return '';
 						} }],
