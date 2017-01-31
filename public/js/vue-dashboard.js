@@ -8,54 +8,20 @@
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
 })(this, function() {
-return webpackJsonp([5,9],{
+return webpackJsonp([4,9],{
 
-/***/ 10:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(0)(
-  /* name */
-  "AlertList",
-  /* script */
-  __webpack_require__(18),
-  /* template */
-  __webpack_require__(28),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/AlertList.vue"
-if (Component.options.functional) {console.error("[vue-loader] AlertList.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3fa97b60", Component.options)
-  } else {
-    hotAPI.reload("data-v-3fa97b60", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 101:
+/***/ 105:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DataTable_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DataTable_vue__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__DataTable_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__ = __webpack_require__(12);
+//
+//
 //
 //
 //
@@ -396,15 +362,15 @@ function updateLink(linkElement, obj) {
 
 
 /* styles */
-__webpack_require__(51)
+__webpack_require__(52)
 
 var Component = __webpack_require__(0)(
   /* name */
   "StartEndDate",
   /* script */
-  __webpack_require__(37),
+  __webpack_require__(38),
   /* template */
-  __webpack_require__(50),
+  __webpack_require__(51),
   /* scopeId */
   "data-v-c43e39de",
   /* cssModules */
@@ -1058,42 +1024,6 @@ if (false) {
 
 /***/ }),
 
-/***/ 306:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(0)(
-  /* name */
-  "EvaluationDataTable",
-  /* script */
-  __webpack_require__(101),
-  /* template */
-  __webpack_require__(346),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/EvaluationDataTable.vue"
-if (Component.options.functional) {console.error("[vue-loader] EvaluationDataTable.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-67e1552e", Component.options)
-  } else {
-    hotAPI.reload("data-v-67e1552e", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
 /***/ 31:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1121,7 +1051,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 346:
+/***/ 349:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1154,7 +1084,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "exportable": _vm.exportable,
       "exportFilename": _vm.exportFilename
     }
-  })], 1)
+  }, [_vm._t("default")], 2)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -1166,12 +1096,68 @@ if (false) {
 
 /***/ }),
 
-/***/ 37:
+/***/ 36:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(0)(
+  /* name */
+  "EvaluationDataTable",
+  /* script */
+  __webpack_require__(105),
+  /* template */
+  __webpack_require__(349),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/EvaluationDataTable.vue"
+if (Component.options.functional) {console.error("[vue-loader] EvaluationDataTable.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-67e1552e", Component.options)
+  } else {
+    hotAPI.reload("data-v-67e1552e", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 379:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_flatpickr__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__admin_js__ = __webpack_require__(86);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createAdminDashboard", function() { return __WEBPACK_IMPORTED_MODULE_0__admin_js__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__resident_js__ = __webpack_require__(88);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createResidentDashboard", function() { return __WEBPACK_IMPORTED_MODULE_1__resident_js__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__faculty_js__ = __webpack_require__(87);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createFacultyDashboard", function() { return __WEBPACK_IMPORTED_MODULE_2__faculty_js__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__staff_js__ = __webpack_require__(89);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createStaffDashboard", function() { return __WEBPACK_IMPORTED_MODULE_3__staff_js__["a"]; });
+
+
+
+
+
+/***/ }),
+
+/***/ 38:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_flatpickr__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_flatpickr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_flatpickr__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_flatpickr_theme_flatpickr_min_css__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_flatpickr_theme_flatpickr_min_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_flatpickr_theme_flatpickr_min_css__);
@@ -1351,615 +1337,7 @@ var _DATE_RANGES = {
 
 /***/ }),
 
-/***/ 376:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__admin_js__ = __webpack_require__(85);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createAdminDashboard", function() { return __WEBPACK_IMPORTED_MODULE_0__admin_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__resident_js__ = __webpack_require__(387);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createResidentDashboard", function() { return __WEBPACK_IMPORTED_MODULE_1__resident_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__faculty_js__ = __webpack_require__(388);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createFacultyDashboard", function() { return __WEBPACK_IMPORTED_MODULE_2__faculty_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__staff_js__ = __webpack_require__(389);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createStaffDashboard", function() { return __WEBPACK_IMPORTED_MODULE_3__staff_js__["a"]; });
-
-
-
-
-
-/***/ }),
-
-/***/ 387:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue__ = __webpack_require__(306);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(6);
-/* harmony export (immutable) */ __webpack_exports__["a"] = createResidentDashboard;
-
-
-
-
-
-
-
-function createResidentDashboard(el, propsData) {
-
-	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
-		el: el,
-		props: {
-			user: {
-				type: Object,
-				required: true
-			}
-		},
-		propsData: propsData,
-
-		data: function data() {
-			return {
-				alerts: []
-			};
-		},
-
-
-		computed: {
-			pendingSubjectThead: function pendingSubjectThead() {
-				return [['#', 'Faculty', 'Form', 'Requested', '']];
-			},
-			pendingSubjectConfig: function pendingSubjectConfig() {
-				var _this = this;
-
-				return {
-					ajax: {
-						url: '/evaluations',
-						data: {
-							with: {
-								evaluator: ['full_name'],
-								form: ['title']
-							},
-							subject_id: this.user.id,
-							status: 'pending',
-							visibility: 'visible'
-						},
-						dataSrc: ''
-					},
-					columns: [{ data: 'url' }, { data: 'evaluator.full_name', render: function render(name) {
-							if (!name) return '<i>Anonymous</i>';
-
-							return name;
-						}
-					}, { data: 'form.title' }, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: null, render: function render(evaluation) {
-							if (evaluation.requested_by_id === _this.user.id) return '<button class="btn btn-danger btn-xs cancel-eval-button" ' + 'data-id="' + evaluation.id + '"><span class="glyphicon glyphicon-remove"></span> ' + 'Cancel</button>';
-
-							return '';
-						} }],
-					order: [[0, 'desc']],
-					createdRow: function createdRow(row) {
-						$(row).addClass('view-evaluation');
-					}
-				};
-			},
-			pendingEvaluatorThead: function pendingEvaluatorThead() {
-				return [['#', 'Subject', 'Form', 'Evaluation date', 'Requested', '']];
-			},
-			pendingEvaluatorConfig: function pendingEvaluatorConfig() {
-				var _this2 = this;
-
-				return {
-					ajax: {
-						url: '/evaluations',
-						data: {
-							with: {
-								subject: ['full_name'],
-								form: ['title']
-							},
-							evaluator_id: this.user.id,
-							status: 'pending'
-						},
-						dataSrc: ''
-					},
-					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, {
-						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: null, render: function render(evaluation) {
-							if (evaluation.requested_by_id === _this2.user.id) return '<button class="btn btn-danger btn-xs cancel-eval-button" ' + 'data-id="' + evaluation.id + '"><span class="glyphicon glyphicon-remove"></span> ' + 'Cancel</button>';
-
-							return '';
-						} }],
-					order: [[0, 'desc']],
-					createdRow: function createdRow(row) {
-						$(row).addClass('view-evaluation');
-					}
-				};
-			},
-			completeThead: function completeThead() {
-				return [['#', 'Faculty', 'Form', 'Evaluation date', 'Requested', 'Completed']];
-			},
-			completeConfig: function completeConfig() {
-				return {
-					ajax: {
-						url: '/evaluations',
-						data: {
-							with: {
-								evaluator: ['full_name'],
-								form: ['title', 'evaluator_type']
-							},
-							whereHas: {
-								form: {
-									evaluator_type: 'faculty'
-								}
-							},
-							subject_id: this.user.id,
-							status: 'complete'
-						},
-						dataSrc: ''
-					},
-					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["g" /* renderSubjectEvalUrl */] }, { data: 'evaluator.full_name', render: function render(name) {
-							if (!name) return '<i>Anonymous</i>';
-
-							return name;
-						}
-					}, { data: 'form.title' }, {
-						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }],
-					order: [[0, 'desc']],
-					createdRow: function createdRow(row) {
-						$(row).addClass('view-evaluation');
-					}
-				};
-			},
-			completeStaffThead: function completeStaffThead() {
-				return [['#', 'Staff', 'Form', 'Evaluation Date', 'Created', 'Completed']];
-			},
-			completeStaffConfig: function completeStaffConfig() {
-				return {
-					ajax: {
-						url: '/evaluations',
-						data: {
-							with: {
-								evaluator: ['full_name'],
-								form: ['title', 'evaluator_type']
-							},
-							whereHas: {
-								form: {
-									evaluator_type: 'staff'
-								}
-							},
-							subject_id: this.user.id
-						},
-						dataSrc: ''
-					},
-					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["g" /* renderSubjectEvalUrl */] }, { data: 'evaluator.full_name', render: function render(name) {
-							if (!name) return '<i>Anonymous</i>';
-
-							return name;
-						} }, { data: 'form.title' }, {
-						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }],
-					order: [[0, 'desc']],
-					createdRow: function createdRow(row) {
-						$(row).addClass('view-evaluation');
-					}
-				};
-			},
-			completeSelfThead: function completeSelfThead() {
-				return [['#', 'Form', 'Evaluation Date', 'Completed']];
-			},
-			completeSelfConfig: function completeSelfConfig() {
-				return {
-					ajax: {
-						url: '/evaluations',
-						data: {
-							with: {
-								form: ['title', 'evaluator_type']
-							},
-							whereHas: {
-								form: {
-									evaluator_type: 'self'
-								}
-							},
-							evaluator_id: this.user.id,
-							subject_id: this.user.id
-						},
-						dataSrc: ''
-					},
-					columns: [{ data: 'url' }, { data: 'form.title' }, {
-						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-					}, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }],
-					order: [[0, 'desc']],
-					createdRow: function createdRow(row) {
-						$(row).addClass('view-evaluation');
-					}
-				};
-			}
-		},
-		components: {
-			AlertList: __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default.a,
-			EvaluationDataTable: __WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue___default.a
-		}
-	});
-}
-
-/***/ }),
-
-/***/ 388:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue__ = __webpack_require__(306);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(6);
-/* harmony export (immutable) */ __webpack_exports__["a"] = createFacultyDashboard;
-
-
-
-
-
-
-
-function createFacultyDashboard(el, propsData) {
-
-	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
-		el: el,
-		props: {
-			user: {
-				type: Object,
-				required: true
-			},
-			mentees: {
-				type: Array,
-				required: false
-			},
-			watchedForms: {
-				type: Array,
-				required: false
-			}
-		},
-		propsData: propsData,
-
-		data: function data() {
-			return {
-				alerts: []
-			};
-		},
-
-
-		computed: {
-			pendingThead: function pendingThead() {
-				return [['#', 'Resident/Fellow', 'Evaluation Form', 'Requested', '']];
-			},
-			pendingConfig: function pendingConfig() {
-				var _this = this;
-
-				return {
-					ajax: {
-						url: '/evaluations',
-						data: {
-							with: {
-								subject: ['full_name'],
-								form: ['title']
-							},
-							evaluator_id: this.user.id,
-							status: 'pending'
-						},
-						dataSrc: ''
-					},
-					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: null, orderable: false, searchable: false, render: function render(evaluation) {
-							if (evaluation.requested_by_id === _this.user.id) return '<button class="btn btn-danger btn-xs cancel-eval-button" ' + 'data-id="' + evaluation.id + '"><span class="glyphicon glyphicon-remove"></span> ' + 'Cancel</button>';
-
-							return '';
-						} }],
-					order: [[0, 'desc']],
-					createdRow: function createdRow(row) {
-						$(row).addClass('view-evaluation');
-					}
-				};
-			},
-			completeThead: function completeThead() {
-				return [['#', 'Resident/Fellow', 'Evaluation Form', 'Evaluation Date', 'Requested', 'Completed']];
-			},
-			completeConfig: function completeConfig() {
-				return {
-					ajax: {
-						url: "/evaluations",
-						data: {
-							with: {
-								subject: ["full_name"],
-								form: ["title"]
-							},
-							evaluator_id: this.user.id,
-							status: "complete"
-						},
-						dataSrc: ""
-					},
-					columns: [{ data: "url" }, { data: "subject.full_name" }, { data: "form.title" }, {
-						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-					}, { data: "request_date", render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: "complete_date", render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }],
-					order: [[0, "desc"]],
-					createdRow: function createdRow(row) {
-						$(row).addClass("view-evaluation");
-					}
-				};
-			},
-			menteeThead: function menteeThead() {
-				return [['#', 'Evaluator', 'Evaluation Form', 'Evaluation Date', 'Requested', 'Completed']];
-			},
-			menteeConfigs: function menteeConfigs() {
-				return this.mentees.map(function (mentee) {
-					return {
-						ajax: {
-							url: '/evaluations',
-							data: {
-								with: {
-									evaluator: ['full_name'],
-									form: ['title']
-								},
-								subject_id: mentee.id,
-								status: 'complete'
-							},
-							dataSrc: ''
-						},
-						columns: [{ data: 'url' }, { data: 'evaluator.full_name', render: function render(name) {
-								if (!name) return '<i>Anonymous</i>';
-								return name;
-							}
-						}, { data: 'form.title' }, {
-							data: null,
-							render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-							createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-						}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }],
-						order: [[0, 'desc']],
-						createdRow: function createdRow(row) {
-							$(row).addClass('view-evaluation');
-						}
-					};
-				});
-			},
-			watchedFormThead: function watchedFormThead() {
-				return [['#', 'Subject', 'Evaluator', 'Evaluation date', 'Completed', 'Status', '']];
-			},
-			watchedFormConfigs: function watchedFormConfigs() {
-				return this.watchedForms.map(function (watchedForm) {
-					return {
-						ajax: {
-							url: '/evaluations',
-							data: {
-								with: {
-									subject: true,
-									evaluator: true
-								},
-								form_id: watchedForm.form_id,
-								status: 'complete'
-							},
-							dataSrc: ''
-						},
-						columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'evaluator.full_name' }, {
-							data: null,
-							render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-							createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-						}, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: 'status', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["f" /* renderEvaluationStatus */] }, { data: null, orderable: false, searchable: false, render: function render() {
-								return '';
-							}
-						}],
-						order: [[0, 'desc']],
-						createdRow: function createdRow(row) {
-							$(row).addClass('view-evaluation');
-						}
-					};
-				});
-			}
-		},
-		components: {
-			AlertList: __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default.a,
-			EvaluationDataTable: __WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue___default.a
-		}
-	});
-}
-
-/***/ }),
-
-/***/ 389:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue__ = __webpack_require__(306);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(6);
-/* harmony export (immutable) */ __webpack_exports__["a"] = createStaffDashboard;
-
-
-
-
-
-
-
-function createStaffDashboard(el, propsData) {
-
-	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
-		el: el,
-		props: {
-			user: {
-				type: Object,
-				required: true
-			},
-			mentees: {
-				type: Array,
-				required: false
-			},
-			watchedForms: {
-				type: Array,
-				required: false
-			}
-		},
-		propsData: propsData,
-
-		data: function data() {
-			return {
-				alerts: []
-			};
-		},
-
-
-		computed: {
-			pendingThead: function pendingThead() {
-				return [['#', 'Resident', 'Form', 'Evaluation Date', 'Created']];
-			},
-			pendingConfig: function pendingConfig() {
-				return {
-					ajax: {
-						url: '/evaluations',
-						data: {
-							with: {
-								form: ['title'],
-								subject: ['full_name']
-							},
-							evaluator_id: this.user.id,
-							status: 'pending'
-						},
-						dataSrc: ''
-					},
-					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, {
-						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }],
-					order: [[0, 'desc']],
-					createdRow: function createdRow(row) {
-						$(row).addClass('view-evaluation');
-					}
-				};
-			},
-			menteeThead: function menteeThead() {
-				return [['#', 'Evaluator', 'Evaluation Form', 'Evaluation Date', 'Requested', 'Completed']];
-			},
-			menteeConfigs: function menteeConfigs() {
-				return this.mentees.map(function (mentee) {
-					return {
-						ajax: {
-							url: '/evaluations',
-							data: {
-								with: {
-									evaluator: ['full_name'],
-									form: ['title']
-								},
-								subject_id: mentee.id,
-								status: 'complete'
-							},
-							dataSrc: ''
-						},
-						columns: [{ data: 'url' }, { data: 'evaluator.full_name', render: function render(name) {
-								if (!name) return '<i>Anonymous</i>';
-								return name;
-							}
-						}, { data: 'form.title' }, {
-							data: null,
-							render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-							createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-						}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }],
-						order: [[0, 'desc']],
-						createdRow: function createdRow(row) {
-							$(row).addClass('view-evaluation');
-						}
-					};
-				});
-			},
-			watchedFormThead: function watchedFormThead() {
-				return [['#', 'Subject', 'Evaluator', 'Evaluation date', 'Completed', 'Status', '']];
-			},
-			watchedFormConfigs: function watchedFormConfigs() {
-				return this.watchedForms.map(function (watchedForm) {
-					return {
-						ajax: {
-							url: '/evaluations',
-							data: {
-								with: {
-									subject: true,
-									evaluator: true
-								},
-								form_id: watchedForm.form_id,
-								status: 'complete'
-							},
-							dataSrc: ''
-						},
-						columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'evaluator.full_name' }, {
-							data: null,
-							render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-							createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-						}, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: 'status', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["f" /* renderEvaluationStatus */] }, { data: null, orderable: false, searchable: false, render: function render() {
-								return '';
-							}
-						}],
-						order: [[0, 'desc']],
-						createdRow: function createdRow(row) {
-							$(row).addClass('view-evaluation');
-						}
-					};
-				});
-			},
-			completeThead: function completeThead() {
-				return [['#', 'Resident', 'Form', 'Evaluation Date', 'Created', 'Completed']];
-			},
-			completeConfig: function completeConfig() {
-				return {
-					ajax: {
-						url: '/evaluations',
-						data: {
-							with: {
-								form: ['title'],
-								subject: ['full_name']
-							},
-							evaluator_id: this.user.id,
-							status: 'complete'
-						},
-						dataSrc: ''
-					},
-					columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'form.title' }, {
-						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }],
-					order: [[0, 'desc']],
-					createdRow: function createdRow(row) {
-						$(row).addClass('view-evaluation');
-					}
-				};
-			}
-		},
-
-		components: {
-			AlertList: __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default.a,
-			EvaluationDataTable: __WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue___default.a
-		}
-	});
-}
-
-/***/ }),
-
-/***/ 43:
+/***/ 44:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -1974,7 +1352,7 @@ exports.push([module.i, "\n.form-horizontal[data-v-c43e39de] {\n\toverflow-x: hi
 
 /***/ }),
 
-/***/ 48:
+/***/ 49:
 /***/ (function(module, exports, __webpack_require__) {
 
 !function(e,t){ true?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports.INDEX=t():e.INDEX=t()}(this,function(){return function(e){function t(a){if(n[a])return n[a].exports;var r=n[a]={exports:{},id:a,loaded:!1};return e[a].call(r.exports,r,r.exports,t),r.loaded=!0,r.exports}var n={};return t.m=e,t.c=n,t.p=".",t(0)}([function(e,t,n){"use strict";function a(e){return e&&e.__esModule?e:{default:e}}Object.defineProperty(t,"__esModule",{value:!0});var r=n(6),i=a(r),o=n(42),c=a(o),l=function(e){e.component("Flatpickr",c.default)};t.default=(0,i.default)(c.default,{install:l})},function(e,t){var n=e.exports={version:"2.4.0"};"number"==typeof __e&&(__e=n)},function(e,t,n){e.exports=!n(3)(function(){return 7!=Object.defineProperty({},"a",{get:function(){return 7}}).a})},function(e,t){e.exports=function(e){try{return!!e()}catch(e){return!0}}},function(e,t){var n=e.exports="undefined"!=typeof window&&window.Math==Math?window:"undefined"!=typeof self&&self.Math==Math?self:Function("return this")();"number"==typeof __g&&(__g=n)},function(e,t){e.exports=function(e){return"object"==typeof e?null!==e:"function"==typeof e}},function(e,t,n){e.exports={default:n(14),__esModule:!0}},function(e,t){e.exports=function(e){if(void 0==e)throw TypeError("Can't call method on  "+e);return e}},function(e,t,n){var a=n(18);e.exports=Object("z").propertyIsEnumerable(0)?Object:function(e){return"String"==a(e)?e.split(""):Object(e)}},function(e,t){var n=Math.ceil,a=Math.floor;e.exports=function(e){return isNaN(e=+e)?0:(e>0?a:n)(e)}},function(e,t,n){var a=n(8),r=n(7);e.exports=function(e){return a(r(e))}},function(e,t,n){"use strict";function a(e){return e&&e.__esModule?e:{default:e}}Object.defineProperty(t,"__esModule",{value:!0});var r=n(6),i=a(r),o=n(12),c=a(o),l=n(41),s=a(l);t.default={props:{placeholder:{type:String,default:""},options:{type:Object,default:function(){}},value:{type:String,default:""}},data:function(){return{fp:null}},computed:{fpOptions:function(){return(0,c.default)(this.options)}},watch:{value:function(e){this.fp.setDate(e)},fpOptions:function(e){var t=JSON.parse(e);for(var n in t)this.fp.set(n,t[n])}},mounted:function(){var e=this,t=this.options.onValueUpdate;this.fp=new s.default(this.$el,(0,i.default)(this.options,{onValueUpdate:function(){e.onInput(e.$el.value),"function"==typeof t&&t()}})),this.$emit("FlatpickrRef",this.fp)},destroyed:function(){this.fp=null},methods:{onInput:function(e){"string"==typeof e?this.$emit("input",e):this.$emit("input",e.target.value)}}}},function(e,t,n){e.exports={default:n(13),__esModule:!0}},function(e,t,n){var a=n(1),r=a.JSON||(a.JSON={stringify:JSON.stringify});e.exports=function(e){return r.stringify.apply(r,arguments)}},function(e,t,n){n(40),e.exports=n(1).Object.assign},function(e,t){e.exports=function(e){if("function"!=typeof e)throw TypeError(e+" is not a function!");return e}},function(e,t,n){var a=n(5);e.exports=function(e){if(!a(e))throw TypeError(e+" is not an object!");return e}},function(e,t,n){var a=n(10),r=n(36),i=n(35);e.exports=function(e){return function(t,n,o){var c,l=a(t),s=r(l.length),u=i(o,s);if(e&&n!=n){for(;s>u;)if(c=l[u++],c!=c)return!0}else for(;s>u;u++)if((e||u in l)&&l[u]===n)return e||u||0;return!e&&-1}}},function(e,t){var n={}.toString;e.exports=function(e){return n.call(e).slice(8,-1)}},function(e,t,n){var a=n(15);e.exports=function(e,t,n){if(a(e),void 0===t)return e;switch(n){case 1:return function(n){return e.call(t,n)};case 2:return function(n,a){return e.call(t,n,a)};case 3:return function(n,a,r){return e.call(t,n,a,r)}}return function(){return e.apply(t,arguments)}}},function(e,t,n){var a=n(5),r=n(4).document,i=a(r)&&a(r.createElement);e.exports=function(e){return i?r.createElement(e):{}}},function(e,t){e.exports="constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf".split(",")},function(e,t,n){var a=n(4),r=n(1),i=n(19),o=n(24),c="prototype",l=function(e,t,n){var s,u,d,f=e&l.F,p=e&l.G,m=e&l.S,g=e&l.P,h=e&l.B,v=e&l.W,D=p?r:r[t]||(r[t]={}),b=D[c],y=p?a:m?a[t]:(a[t]||{})[c];p&&(n=t);for(s in n)u=!f&&y&&void 0!==y[s],u&&s in D||(d=u?y[s]:n[s],D[s]=p&&"function"!=typeof y[s]?n[s]:h&&u?i(d,a):v&&y[s]==d?function(e){var t=function(t,n,a){if(this instanceof e){switch(arguments.length){case 0:return new e;case 1:return new e(t);case 2:return new e(t,n)}return new e(t,n,a)}return e.apply(this,arguments)};return t[c]=e[c],t}(d):g&&"function"==typeof d?i(Function.call,d):d,g&&((D.virtual||(D.virtual={}))[s]=d,e&l.R&&b&&!b[s]&&o(b,s,d)))};l.F=1,l.G=2,l.S=4,l.P=8,l.B=16,l.W=32,l.U=64,l.R=128,e.exports=l},function(e,t){var n={}.hasOwnProperty;e.exports=function(e,t){return n.call(e,t)}},function(e,t,n){var a=n(27),r=n(32);e.exports=n(2)?function(e,t,n){return a.f(e,t,r(1,n))}:function(e,t,n){return e[t]=n,e}},function(e,t,n){e.exports=!n(2)&&!n(3)(function(){return 7!=Object.defineProperty(n(20)("div"),"a",{get:function(){return 7}}).a})},function(e,t,n){"use strict";var a=n(30),r=n(28),i=n(31),o=n(37),c=n(8),l=Object.assign;e.exports=!l||n(3)(function(){var e={},t={},n=Symbol(),a="abcdefghijklmnopqrst";return e[n]=7,a.split("").forEach(function(e){t[e]=e}),7!=l({},e)[n]||Object.keys(l({},t)).join("")!=a})?function(e,t){for(var n=o(e),l=arguments.length,s=1,u=r.f,d=i.f;l>s;)for(var f,p=c(arguments[s++]),m=u?a(p).concat(u(p)):a(p),g=m.length,h=0;g>h;)d.call(p,f=m[h++])&&(n[f]=p[f]);return n}:l},function(e,t,n){var a=n(16),r=n(25),i=n(38),o=Object.defineProperty;t.f=n(2)?Object.defineProperty:function(e,t,n){if(a(e),t=i(t,!0),a(n),r)try{return o(e,t,n)}catch(e){}if("get"in n||"set"in n)throw TypeError("Accessors not supported!");return"value"in n&&(e[t]=n.value),e}},function(e,t){t.f=Object.getOwnPropertySymbols},function(e,t,n){var a=n(23),r=n(10),i=n(17)(!1),o=n(33)("IE_PROTO");e.exports=function(e,t){var n,c=r(e),l=0,s=[];for(n in c)n!=o&&a(c,n)&&s.push(n);for(;t.length>l;)a(c,n=t[l++])&&(~i(s,n)||s.push(n));return s}},function(e,t,n){var a=n(29),r=n(21);e.exports=Object.keys||function(e){return a(e,r)}},function(e,t){t.f={}.propertyIsEnumerable},function(e,t){e.exports=function(e,t){return{enumerable:!(1&e),configurable:!(2&e),writable:!(4&e),value:t}}},function(e,t,n){var a=n(34)("keys"),r=n(39);e.exports=function(e){return a[e]||(a[e]=r(e))}},function(e,t,n){var a=n(4),r="__core-js_shared__",i=a[r]||(a[r]={});e.exports=function(e){return i[e]||(i[e]={})}},function(e,t,n){var a=n(9),r=Math.max,i=Math.min;e.exports=function(e,t){return e=a(e),e<0?r(e+t,0):i(e,t)}},function(e,t,n){var a=n(9),r=Math.min;e.exports=function(e){return e>0?r(a(e),9007199254740991):0}},function(e,t,n){var a=n(7);e.exports=function(e){return Object(a(e))}},function(e,t,n){var a=n(5);e.exports=function(e,t){if(!a(e))return e;var n,r;if(t&&"function"==typeof(n=e.toString)&&!a(r=n.call(e)))return r;if("function"==typeof(n=e.valueOf)&&!a(r=n.call(e)))return r;if(!t&&"function"==typeof(n=e.toString)&&!a(r=n.call(e)))return r;throw TypeError("Can't convert object to primitive value")}},function(e,t){var n=0,a=Math.random();e.exports=function(e){return"Symbol(".concat(void 0===e?"":e,")_",(++n+a).toString(36))}},function(e,t,n){var a=n(22);a(a.S+a.F,"Object",{assign:n(26)})},function(e,t,n){/*! flatpickr v2.3.4, @license MIT */
@@ -1984,7 +1362,7 @@ function a(e,t){function n(){e._flatpickr&&E(e._flatpickr),e._flatpickr=oe,oe.el
 
 /***/ }),
 
-/***/ 50:
+/***/ 51:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2060,13 +1438,13 @@ if (false) {
 
 /***/ }),
 
-/***/ 51:
+/***/ 52:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(43);
+var content = __webpack_require__(44);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(3)(content, {});
@@ -2088,6 +1466,42 @@ if(false) {
 /***/ }),
 
 /***/ 7:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(0)(
+  /* name */
+  "AlertList",
+  /* script */
+  __webpack_require__(18),
+  /* template */
+  __webpack_require__(28),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/AlertList.vue"
+if (Component.options.functional) {console.error("[vue-loader] AlertList.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3fa97b60", Component.options)
+  } else {
+    hotAPI.reload("data-v-3fa97b60", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 8:
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -2127,17 +1541,17 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 85:
+/***/ 86:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_EvaluationDataTable_vue__ = __webpack_require__(306);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_EvaluationDataTable_vue__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_EvaluationDataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__vue_components_EvaluationDataTable_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__ = __webpack_require__(6);
@@ -2399,8 +1813,596 @@ function createAdminDashboard(el, propsData) {
 	});
 }
 
+/***/ }),
+
+/***/ 87:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(6);
+/* harmony export (immutable) */ __webpack_exports__["a"] = createFacultyDashboard;
+
+
+
+
+
+
+
+function createFacultyDashboard(el, propsData) {
+
+	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+		el: el,
+		props: {
+			user: {
+				type: Object,
+				required: true
+			},
+			mentees: {
+				type: Array,
+				required: false
+			},
+			watchedForms: {
+				type: Array,
+				required: false
+			}
+		},
+		propsData: propsData,
+
+		data: function data() {
+			return {
+				alerts: []
+			};
+		},
+
+
+		computed: {
+			pendingThead: function pendingThead() {
+				return [['#', 'Resident/Fellow', 'Evaluation Form', 'Requested', '']];
+			},
+			pendingConfig: function pendingConfig() {
+				var _this = this;
+
+				return {
+					ajax: {
+						url: '/evaluations',
+						data: {
+							with: {
+								subject: ['full_name'],
+								form: ['title']
+							},
+							evaluator_id: this.user.id,
+							status: 'pending'
+						},
+						dataSrc: ''
+					},
+					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: null, orderable: false, searchable: false, render: function render(evaluation) {
+							if (evaluation.requested_by_id === _this.user.id) return '<button class="btn btn-danger btn-xs cancel-eval-button" ' + 'data-id="' + evaluation.id + '"><span class="glyphicon glyphicon-remove"></span> ' + 'Cancel</button>';
+
+							return '';
+						} }],
+					order: [[0, 'desc']],
+					createdRow: function createdRow(row) {
+						$(row).addClass('view-evaluation');
+					}
+				};
+			},
+			completeThead: function completeThead() {
+				return [['#', 'Resident/Fellow', 'Evaluation Form', 'Evaluation Date', 'Requested', 'Completed']];
+			},
+			completeConfig: function completeConfig() {
+				return {
+					ajax: {
+						url: "/evaluations",
+						data: {
+							with: {
+								subject: ["full_name"],
+								form: ["title"]
+							},
+							evaluator_id: this.user.id,
+							status: "complete"
+						},
+						dataSrc: ""
+					},
+					columns: [{ data: "url" }, { data: "subject.full_name" }, { data: "form.title" }, {
+						data: null,
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+					}, { data: "request_date", render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: "complete_date", render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }],
+					order: [[0, "desc"]],
+					createdRow: function createdRow(row) {
+						$(row).addClass("view-evaluation");
+					}
+				};
+			},
+			menteeThead: function menteeThead() {
+				return [['#', 'Evaluator', 'Evaluation Form', 'Evaluation Date', 'Requested', 'Completed']];
+			},
+			menteeConfigs: function menteeConfigs() {
+				return this.mentees.map(function (mentee) {
+					return {
+						ajax: {
+							url: '/evaluations',
+							data: {
+								with: {
+									evaluator: ['full_name'],
+									form: ['title']
+								},
+								subject_id: mentee.id,
+								status: 'complete'
+							},
+							dataSrc: ''
+						},
+						columns: [{ data: 'url' }, { data: 'evaluator.full_name', render: function render(name) {
+								if (!name) return '<i>Anonymous</i>';
+								return name;
+							}
+						}, { data: 'form.title' }, {
+							data: null,
+							render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+							createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+						}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }],
+						order: [[0, 'desc']],
+						createdRow: function createdRow(row) {
+							$(row).addClass('view-evaluation');
+						}
+					};
+				});
+			},
+			watchedFormThead: function watchedFormThead() {
+				return [['#', 'Subject', 'Evaluator', 'Evaluation date', 'Completed', 'Status', '']];
+			},
+			watchedFormConfigs: function watchedFormConfigs() {
+				return this.watchedForms.map(function (watchedForm) {
+					return {
+						ajax: {
+							url: '/evaluations',
+							data: {
+								with: {
+									subject: true,
+									evaluator: true
+								},
+								form_id: watchedForm.form_id,
+								status: 'complete'
+							},
+							dataSrc: ''
+						},
+						columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'evaluator.full_name' }, {
+							data: null,
+							render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+							createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+						}, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: 'status', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["f" /* renderEvaluationStatus */] }, { data: null, orderable: false, searchable: false, render: function render() {
+								return '';
+							}
+						}],
+						order: [[0, 'desc']],
+						createdRow: function createdRow(row) {
+							$(row).addClass('view-evaluation');
+						}
+					};
+				});
+			}
+		},
+		components: {
+			AlertList: __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default.a,
+			EvaluationDataTable: __WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue___default.a
+		}
+	});
+}
+
+/***/ }),
+
+/***/ 88:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(6);
+/* harmony export (immutable) */ __webpack_exports__["a"] = createResidentDashboard;
+
+
+
+
+
+
+
+function createResidentDashboard(el, propsData) {
+
+	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+		el: el,
+		props: {
+			user: {
+				type: Object,
+				required: true
+			}
+		},
+		propsData: propsData,
+
+		data: function data() {
+			return {
+				alerts: []
+			};
+		},
+
+
+		computed: {
+			pendingSubjectThead: function pendingSubjectThead() {
+				return [['#', 'Faculty', 'Form', 'Requested', '']];
+			},
+			pendingSubjectConfig: function pendingSubjectConfig() {
+				var _this = this;
+
+				return {
+					ajax: {
+						url: '/evaluations',
+						data: {
+							with: {
+								evaluator: ['full_name'],
+								form: ['title']
+							},
+							subject_id: this.user.id,
+							status: 'pending',
+							visibility: 'visible'
+						},
+						dataSrc: ''
+					},
+					columns: [{ data: 'url' }, { data: 'evaluator.full_name', render: function render(name) {
+							if (!name) return '<i>Anonymous</i>';
+
+							return name;
+						}
+					}, { data: 'form.title' }, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: null, render: function render(evaluation) {
+							if (evaluation.requested_by_id === _this.user.id) return '<button class="btn btn-danger btn-xs cancel-eval-button" ' + 'data-id="' + evaluation.id + '"><span class="glyphicon glyphicon-remove"></span> ' + 'Cancel</button>';
+
+							return '';
+						} }],
+					order: [[0, 'desc']],
+					createdRow: function createdRow(row) {
+						$(row).addClass('view-evaluation');
+					}
+				};
+			},
+			pendingEvaluatorThead: function pendingEvaluatorThead() {
+				return [['#', 'Subject', 'Form', 'Evaluation date', 'Requested', '']];
+			},
+			pendingEvaluatorConfig: function pendingEvaluatorConfig() {
+				var _this2 = this;
+
+				return {
+					ajax: {
+						url: '/evaluations',
+						data: {
+							with: {
+								subject: ['full_name'],
+								form: ['title']
+							},
+							evaluator_id: this.user.id,
+							status: 'pending'
+						},
+						dataSrc: ''
+					},
+					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, {
+						data: null,
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: null, render: function render(evaluation) {
+							if (evaluation.requested_by_id === _this2.user.id) return '<button class="btn btn-danger btn-xs cancel-eval-button" ' + 'data-id="' + evaluation.id + '"><span class="glyphicon glyphicon-remove"></span> ' + 'Cancel</button>';
+
+							return '';
+						} }],
+					order: [[0, 'desc']],
+					createdRow: function createdRow(row) {
+						$(row).addClass('view-evaluation');
+					}
+				};
+			},
+			completeThead: function completeThead() {
+				return [['#', 'Faculty', 'Form', 'Evaluation date', 'Requested', 'Completed']];
+			},
+			completeConfig: function completeConfig() {
+				return {
+					ajax: {
+						url: '/evaluations',
+						data: {
+							with: {
+								evaluator: ['full_name'],
+								form: ['title', 'evaluator_type']
+							},
+							whereHas: {
+								form: {
+									evaluator_type: 'faculty'
+								}
+							},
+							subject_id: this.user.id,
+							status: 'complete'
+						},
+						dataSrc: ''
+					},
+					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["g" /* renderSubjectEvalUrl */] }, { data: 'evaluator.full_name', render: function render(name) {
+							if (!name) return '<i>Anonymous</i>';
+
+							return name;
+						}
+					}, { data: 'form.title' }, {
+						data: null,
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }],
+					order: [[0, 'desc']],
+					createdRow: function createdRow(row) {
+						$(row).addClass('view-evaluation');
+					}
+				};
+			},
+			completeStaffThead: function completeStaffThead() {
+				return [['#', 'Staff', 'Form', 'Evaluation Date', 'Created', 'Completed']];
+			},
+			completeStaffConfig: function completeStaffConfig() {
+				return {
+					ajax: {
+						url: '/evaluations',
+						data: {
+							with: {
+								evaluator: ['full_name'],
+								form: ['title', 'evaluator_type']
+							},
+							whereHas: {
+								form: {
+									evaluator_type: 'staff'
+								}
+							},
+							subject_id: this.user.id
+						},
+						dataSrc: ''
+					},
+					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["g" /* renderSubjectEvalUrl */] }, { data: 'evaluator.full_name', render: function render(name) {
+							if (!name) return '<i>Anonymous</i>';
+
+							return name;
+						} }, { data: 'form.title' }, {
+						data: null,
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }],
+					order: [[0, 'desc']],
+					createdRow: function createdRow(row) {
+						$(row).addClass('view-evaluation');
+					}
+				};
+			},
+			completeSelfThead: function completeSelfThead() {
+				return [['#', 'Form', 'Evaluation Date', 'Completed']];
+			},
+			completeSelfConfig: function completeSelfConfig() {
+				return {
+					ajax: {
+						url: '/evaluations',
+						data: {
+							with: {
+								form: ['title', 'evaluator_type']
+							},
+							whereHas: {
+								form: {
+									evaluator_type: 'self'
+								}
+							},
+							evaluator_id: this.user.id,
+							subject_id: this.user.id
+						},
+						dataSrc: ''
+					},
+					columns: [{ data: 'url' }, { data: 'form.title' }, {
+						data: null,
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+					}, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }],
+					order: [[0, 'desc']],
+					createdRow: function createdRow(row) {
+						$(row).addClass('view-evaluation');
+					}
+				};
+			}
+		},
+		components: {
+			AlertList: __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default.a,
+			EvaluationDataTable: __WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue___default.a
+		}
+	});
+}
+
+/***/ }),
+
+/***/ 89:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(6);
+/* harmony export (immutable) */ __webpack_exports__["a"] = createStaffDashboard;
+
+
+
+
+
+
+
+function createStaffDashboard(el, propsData) {
+
+	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+		el: el,
+		props: {
+			user: {
+				type: Object,
+				required: true
+			},
+			mentees: {
+				type: Array,
+				required: false
+			},
+			watchedForms: {
+				type: Array,
+				required: false
+			}
+		},
+		propsData: propsData,
+
+		data: function data() {
+			return {
+				alerts: []
+			};
+		},
+
+
+		computed: {
+			pendingThead: function pendingThead() {
+				return [['#', 'Resident', 'Form', 'Evaluation Date', 'Created']];
+			},
+			pendingConfig: function pendingConfig() {
+				return {
+					ajax: {
+						url: '/evaluations',
+						data: {
+							with: {
+								form: ['title'],
+								subject: ['full_name']
+							},
+							evaluator_id: this.user.id,
+							status: 'pending'
+						},
+						dataSrc: ''
+					},
+					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, {
+						data: null,
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }],
+					order: [[0, 'desc']],
+					createdRow: function createdRow(row) {
+						$(row).addClass('view-evaluation');
+					}
+				};
+			},
+			menteeThead: function menteeThead() {
+				return [['#', 'Evaluator', 'Evaluation Form', 'Evaluation Date', 'Requested', 'Completed']];
+			},
+			menteeConfigs: function menteeConfigs() {
+				return this.mentees.map(function (mentee) {
+					return {
+						ajax: {
+							url: '/evaluations',
+							data: {
+								with: {
+									evaluator: ['full_name'],
+									form: ['title']
+								},
+								subject_id: mentee.id,
+								status: 'complete'
+							},
+							dataSrc: ''
+						},
+						columns: [{ data: 'url' }, { data: 'evaluator.full_name', render: function render(name) {
+								if (!name) return '<i>Anonymous</i>';
+								return name;
+							}
+						}, { data: 'form.title' }, {
+							data: null,
+							render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+							createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+						}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }],
+						order: [[0, 'desc']],
+						createdRow: function createdRow(row) {
+							$(row).addClass('view-evaluation');
+						}
+					};
+				});
+			},
+			watchedFormThead: function watchedFormThead() {
+				return [['#', 'Subject', 'Evaluator', 'Evaluation date', 'Completed', 'Status', '']];
+			},
+			watchedFormConfigs: function watchedFormConfigs() {
+				return this.watchedForms.map(function (watchedForm) {
+					return {
+						ajax: {
+							url: '/evaluations',
+							data: {
+								with: {
+									subject: true,
+									evaluator: true
+								},
+								form_id: watchedForm.form_id,
+								status: 'complete'
+							},
+							dataSrc: ''
+						},
+						columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'evaluator.full_name' }, {
+							data: null,
+							render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+							createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+						}, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: 'status', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["f" /* renderEvaluationStatus */] }, { data: null, orderable: false, searchable: false, render: function render() {
+								return '';
+							}
+						}],
+						order: [[0, 'desc']],
+						createdRow: function createdRow(row) {
+							$(row).addClass('view-evaluation');
+						}
+					};
+				});
+			},
+			completeThead: function completeThead() {
+				return [['#', 'Resident', 'Form', 'Evaluation Date', 'Created', 'Completed']];
+			},
+			completeConfig: function completeConfig() {
+				return {
+					ajax: {
+						url: '/evaluations',
+						data: {
+							with: {
+								form: ['title'],
+								subject: ['full_name']
+							},
+							evaluator_id: this.user.id,
+							status: 'complete'
+						},
+						dataSrc: ''
+					},
+					columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'form.title' }, {
+						data: null,
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }],
+					order: [[0, 'desc']],
+					createdRow: function createdRow(row) {
+						$(row).addClass('view-evaluation');
+					}
+				};
+			}
+		},
+
+		components: {
+			AlertList: __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default.a,
+			EvaluationDataTable: __WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue___default.a
+		}
+	});
+}
+
 /***/ })
 
-},[376]);
+},[379]);
 });
 //# sourceMappingURL=vue-dashboard.js.map
