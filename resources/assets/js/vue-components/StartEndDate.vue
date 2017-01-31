@@ -1,5 +1,5 @@
 <template>
-	<div class="form-horizontal">
+	<div class="form-horizontal" ref="container">
 		<div class="form-group">
 			<div class="col-md-4">
 				<label class="containing-label">
@@ -14,14 +14,16 @@
 			<div class="col-sm-6 col-md-4">
 				<label class="containing-label">
 					Start Date
-					<vue-flatpickr :value="value.startDate" :options="flatpickrOptions"
+					<vue-flatpickr class="form-control"
+						:value="value.startDate" :options="flatpickrOptions"
 						@input="handleInput('startDate', arguments[0])"/>
 				</label>
 			</div>
 			<div class="col-sm-6 col-md-4">
 				<label class="containing-label">
 					End Date
-					<vue-flatpickr :value="value.endDate" :options="flatpickrOptions"
+					<vue-flatpickr class="form-control"
+						:value="value.endDate" :options="flatpickrOptions"
 						@input="handleInput('endDate', arguments[0])"/>
 				</label>
 			</div>
@@ -35,6 +37,7 @@ import 'vue-flatpickr/theme/flatpickr.min.css';
 
 import { camelCaseToWords } from '../modules/utils.js';
 import {
+	DATE_RANGES,
 	isoDateStringObject,
 	currentQuarter,
 	lastQuarter,
@@ -43,16 +46,6 @@ import {
 	currentYear,
 	lastYear
 } from '../modules/date-utils.js';
-
-const DATE_RANGES = {
-	CUSTOM: 'custom',
-	CURRENT_QUARTER: 'currentQuarter',
-	LAST_QUARTER: 'lastQuarter',
-	CURRENT_SEMESTER: 'currentSemester',
-	LAST_SEMESTER: 'lastSemester',
-	CURRENT_YEAR: 'currentYear',
-	LAST_YEAR: 'lastYear'
-};
 
 export default {
 	props: {
@@ -71,24 +64,15 @@ export default {
 		};
 	},
 	created(){
-		if(!this.value.startDate && !this.value.endDate)
-			this.dateRange = DATE_RANGES.LAST_QUARTER;
-		else
-			this.matchDateRangeWithValue();
-	},
-	mounted(){
-		$('#reports-start-date, #reports-end-date').datepicker({
-			dateFormat: "yy-mm-dd",
-			onSelect: function(){
-				this.dispatchEvent(new Event('input'));
-			}
-		});
+		this.matchDateRangeWithValue();
 	},
 	computed: {
 		DATE_RANGES(){
-			return this.allTime
-				? Object.assign({ALL_TIME: 'allTime'}, DATE_RANGES)
-				: DATE_RANGES;
+			let ranges = Object.assign({}, DATE_RANGES);
+			if(!this.allTime)
+				delete ranges.ALL_TIME;
+			
+			return ranges;
 		},
 		flatpickrOptions(){
 			return {
@@ -111,8 +95,8 @@ export default {
 		dateRange(dateRange){
 			if(dateRange === DATE_RANGES.ALL_TIME)
 				this.setDate({
-					startDate: '',
-					endDate: ''
+					startDate: null,
+					endDate: null
 				});
 			
 			if(dateRange !== DATE_RANGES.CUSTOM && this[dateRange]

@@ -3,10 +3,8 @@
 		<span class="glyphicon glyphicon-flag"></span>
 		Flagged Evaluations
 	</h2>
-	<div class="table-responsive">
-		<data-table :thead="flaggedEvalsThead" :config="flaggedEvalsConfig"
-			:data="flaggedEvals" />
-	</div>
+	<data-table :thead="flaggedEvalsThead" :config="flaggedEvalsConfig"
+		:data="flaggedEvals" />
 </div>
 
 <div class="container body-block">
@@ -14,9 +12,7 @@
 		<span class="glyphicon glyphicon-list"></span>
 		Trainee Evaluations
 	</h2>
-	<div class="table-responsive">
-		<evaluation-data-table :thead="traineeEvalsThead" :config="traineeEvalsConfig" />
-	</div>
+	<evaluation-data-table :thead="traineeEvalsThead" :config="traineeEvalsConfig" />
 </div>
 
 <div v-if="watchedForms && watchedForms.length > 0" v-cloak
@@ -41,9 +37,7 @@
 		<span class="glyphicon glyphicon-list"></span>
 		Self Evaluations
 	</h2>
-	<div class="table-responsive">
-		<evaluation-data-table :thead="selfEvalThead" :config="selfEvalConfig" />
-	</div>
+	<evaluation-data-table :thead="selfEvalThead" :config="selfEvalConfig" />
 </div>
 
 <div class="container body-block">
@@ -51,9 +45,7 @@
 		<span class="glyphicon glyphicon-list"></span>
 		Staff Evaluations
 	</h2>
-	<div class="table-responsive">
-		<evaluation-data-table :thead="staffEvalThead" :config="staffEvalConfig" />
-	</div>
+	<evaluation-data-table :thead="staffEvalThead" :config="staffEvalConfig" />
 </div>
 
 

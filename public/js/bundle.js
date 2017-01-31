@@ -392,7 +392,7 @@ function createDateTimeCell(td, date) {
 function createDateRangeCell(start, end) {
 	return function (td, obj) {
 		if (start in obj && end in obj) {
-			$(td).attr('data-date-range-value', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__date_utils_js__["i" /* renderDateRange */])(obj[start], obj[end], true)).addClass('table-date-range-cell');
+			$(td).attr('data-date-range-value', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__date_utils_js__["renderDateRange"])(obj[start], obj[end], true)).addClass('table-date-range-cell');
 		}
 	};
 }
@@ -413,7 +413,7 @@ function renderDateRangeCell(start, end) {
 	return function (obj, type) {
 		if (type === 'sort' || type === 'type') return start in obj ? __WEBPACK_IMPORTED_MODULE_0_moment___default()(obj[start]).valueOf() : '';
 
-		return start in obj && end in obj ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__date_utils_js__["i" /* renderDateRange */])(obj[start], obj[end]) : '';
+		return start in obj && end in obj ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__date_utils_js__["renderDateRange"])(obj[start], obj[end]) : '';
 	};
 }
 
@@ -584,18 +584,21 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_10__;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
-/* harmony export (immutable) */ __webpack_exports__["c"] = isoDateString;
-/* harmony export (immutable) */ __webpack_exports__["a"] = isoDateStringObject;
-/* harmony export (immutable) */ __webpack_exports__["i"] = renderDateRange;
-/* unused harmony export renderDateRangeExplicit */
-/* harmony export (immutable) */ __webpack_exports__["b"] = currentQuarter;
-/* harmony export (immutable) */ __webpack_exports__["d"] = lastQuarter;
-/* harmony export (immutable) */ __webpack_exports__["e"] = currentSemester;
-/* harmony export (immutable) */ __webpack_exports__["f"] = lastSemester;
-/* harmony export (immutable) */ __webpack_exports__["g"] = currentYear;
-/* harmony export (immutable) */ __webpack_exports__["h"] = lastYear;
+/* harmony export (immutable) */ __webpack_exports__["isoDateString"] = isoDateString;
+/* harmony export (immutable) */ __webpack_exports__["isoDateStringObject"] = isoDateStringObject;
+/* harmony export (immutable) */ __webpack_exports__["renderDateRange"] = renderDateRange;
+/* harmony export (immutable) */ __webpack_exports__["renderDateRangeExplicit"] = renderDateRangeExplicit;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DATE_RANGES", function() { return DATE_RANGES; });
+/* harmony export (immutable) */ __webpack_exports__["currentQuarter"] = currentQuarter;
+/* harmony export (immutable) */ __webpack_exports__["lastQuarter"] = lastQuarter;
+/* harmony export (immutable) */ __webpack_exports__["currentSemester"] = currentSemester;
+/* harmony export (immutable) */ __webpack_exports__["lastSemester"] = lastSemester;
+/* harmony export (immutable) */ __webpack_exports__["currentYear"] = currentYear;
+/* harmony export (immutable) */ __webpack_exports__["lastYear"] = lastYear;
+/* harmony export (immutable) */ __webpack_exports__["allTime"] = allTime;
 
 
 function isoDateString(date) {
@@ -627,6 +630,17 @@ function renderDateRange(startDate, endDate) {
 function renderDateRangeExplicit(startDate, endDate) {
 	return renderDateRange(startDate, endDate, true);
 }
+
+var DATE_RANGES = {
+	CUSTOM: 'custom',
+	CURRENT_QUARTER: 'currentQuarter',
+	LAST_QUARTER: 'lastQuarter',
+	CURRENT_SEMESTER: 'currentSemester',
+	LAST_SEMESTER: 'lastSemester',
+	CURRENT_YEAR: 'currentYear',
+	LAST_YEAR: 'lastYear',
+	ALL_TIME: 'allTime'
+};
 
 function currentQuarter() {
 	var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()().startOf('month');
@@ -700,6 +714,13 @@ function lastYear() {
 	return {
 		startDate: startDate,
 		endDate: endDate
+	};
+}
+
+function allTime() {
+	return {
+		startDate: null,
+		endDate: null
 	};
 }
 

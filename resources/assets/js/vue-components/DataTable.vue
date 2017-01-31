@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="table-responsive">
 		<div class="refresh-button-container" v-if="config && 'ajax' in config">
 			<button type="button" class="btn btn-default" title="Reload table"
 					@click="reloadTable">
