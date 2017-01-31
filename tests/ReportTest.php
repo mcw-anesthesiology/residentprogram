@@ -637,7 +637,6 @@ class ReportTest extends TestCase
                         $this->faculty->id => 1
                     ],
                 ],
-                "graphs" => [],
                 "milestones" => [
                     $this->milestones[0]->id => $this->milestones[0]->title,
                     $this->milestones[1]->id => $this->milestones[1]->title
