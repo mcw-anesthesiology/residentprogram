@@ -4,7 +4,7 @@
 	<evaluation-data-table range="allTime"
 		:thead="pendingThead" :config="pendingConfig" />
 @else
-	<p class="lead">You have no pending evaluation requests, why not <a href="/request">create one?</a></p>
+	<p class="lead">You have no pending evaluation requests, why not <a href="/request/staff">create one?</a></p>
 @endif
 </div>
 
