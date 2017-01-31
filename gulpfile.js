@@ -18,7 +18,6 @@ const scripts = [
 	bowerPath + 'datatables.net-fixedheader/js/dataTables.fixedHeader.js',
 	bowerPath + 'datatables.net-responsive/js/dataTables.responsive.js',
 	bowerPath + 'datatables.net-responsive-bs/js/responsive.bootstrap.js',
-	bowerPath + 'lodash/dist/lodash.js',
 	bowerPath + 'moment/moment.js',
 	bowerPath + 'multiselect/js/jquery.multi-select.js',
 	bowerPath + 'placeholders/dist/placeholders.js',
