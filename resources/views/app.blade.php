@@ -47,54 +47,56 @@
 		@yield("head")
 	</head>
 	<body>
-		<div class="container-fluid">
 	{{-- TODO: Should not do this, use inheretence --}}
 	@if(empty($noNavbar) || !$noNavbar)
 		@include("navbar")
 	@endif
-			<div id="alert-container">
+		<div id="alert-container">
 	@if(session("success"))
-				<div class="container">
-					<div class="alert alert-success alert-dismissable" role="alert">
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						{{ session("success") }}
-					</div>
+			<div class="container">
+				<div class="alert alert-success alert-dismissable" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					{{ session("success") }}
 				</div>
+			</div>
 	@endif
 	@if(session("error"))
-				<div class="container">
-					<div class="alert alert-danger alert-dismissable" role="alert">
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<strong>Error: </strong>{{ session("error") }}
-					</div>
+			<div class="container">
+				<div class="alert alert-danger alert-dismissable" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<strong>Error: </strong>{{ session("error") }}
 				</div>
+			</div>
 	@endif
 	@if(session("info"))
-				<div class="container">
-					<div class="alert alert-info alert-dismissable" role="alert">
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						{{ session("info") }}
-					</div>
+			<div class="container">
+				<div class="alert alert-info alert-dismissable" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					{{ session("info") }}
 				</div>
-	@endif
 			</div>
+	@endif
+		</div>
 
-			<main>
+		<main>
 	@if(View::hasSection('body'))
-				<div class="container body-block">
-					@yield("body")
-				</div>
+			<div class="container body-block">
+				@yield("body")
+			</div>
 	@endif
 
-				@yield("blockless-body")
-			</main>
-		</div>
+			@yield("blockless-body")
+			@stack('bodies')
+		</main>
+
 	{{-- TODO: Should not do this, use inheretence --}}
 	@if(empty($noNavbar) || !$noNavbar)
 		@include("modals")
 	@endif
 		<script type="text/javascript" src="{{ elixir("js/all.js") }}"></script>
+		<script src="{{ elixir("js/manifest.js") }}"></script>
 		<script src="{{ elixir("js/bundle.js") }}"></script>
 		@yield("script")
+		@stack('scripts')
 	</body>
 </html>

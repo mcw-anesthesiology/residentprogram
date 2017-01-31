@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="container body-block">
-			<h2>Needs evaluations</h2>
+			<h1>Needs evaluations</h1>
 			<start-end-date v-model="dates" />
 			<div class="row">
 				<div class="form-group col-md-6">
@@ -47,14 +47,12 @@ import SelectTwo from '../../SelectTwo.vue';
 import EmailEditor from '../../EmailEditor.vue';
 
 import { getFetchHeaders, groupUsers } from '../../../modules/utils.js';
+import { isoDateStringObject, currentQuarter } from '../../../modules/date-utils.js';
 
 export default {
 	data(){
 		return {
-			dates: {
-				startDate: null,
-				endDate: null
-			},
+			dates: isoDateStringObject(currentQuarter()),
 			trainingLevel: 'all',
 			evalThreshold: 3,
 			

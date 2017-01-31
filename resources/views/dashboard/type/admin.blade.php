@@ -1,83 +1,61 @@
-@if($numFlagged > 0)
-	<h2 class="sub-header"><span class="glyphicon glyphicon-flag"></span> Flagged Evaluations</h2>
-	<div class="table-responsive">
-		<table class="table table-striped" id="flagged-evaluations-table" width="100%">
-			<thead>
-				<tr>
-					<th>#</th>
-					<th>Evaluator</th>
-					<th>Subject</th>
-					<th>Requested Action</th>
-					<th>Reason</th>
-					<th></th>
-				</tr>
-			</thead>
-		</table>
-	</div>
-</div>
-<div class="container body-block">
-@endif
-
-	<h2 class="sub-header"><span class="glyphicon glyphicon-list"></span> Resident Evaluations</h2>
-	<div class="table-responsive">
-		<table class="table table-striped" id="trainee-evaluations-table" width="100%">
-			<thead>
-				<tr>
-					<th>#</th>
-					<th>Resident/Fellow</th>
-					<th>Faculty</th>
-					<th>Form</th>
-					<th>Evaluation Date</th>
-					<th>Requested</th>
-					<th>Completed</th>
-					<th>Status</th>
-				</tr>
-			</thead>
-		</table>
-	</div>
-</div>
-
-@foreach($user->watchedForms as $watchedForm)
-<div class="container body-block">
-	@include("dashboard.tables.watched-form")
-</div>
-@endforeach
-
-
-<div class="container body-block">
-	<h2 class="sub-header"><span class="glyphicon glyphicon-list"></span> Self Evaluations</h2>
-	<div class="table-responsive">
-		<table class="table table-striped" id="self-evaluations-table" width="100%">
-			<thead>
-				<tr>
-					<th>#</th>
-					<th>Evaluator</th>
-					<th>Form</th>
-					<th>Evaluation date</th>
-					<th>Completed</th>
-					<th>Status</th>
-					<th></th>
-				</tr>
-			</thead>
-		</table>
-	</div>
+<div v-if="flaggedEvals && flaggedEvals.length > 0" v-cloak class="container body-block">
+	<h2 class="sub-header">
+		<span class="glyphicon glyphicon-flag"></span>
+		Flagged Evaluations
+	</h2>
+	<data-table :thead="flaggedEvalsThead" :config="flaggedEvalsConfig"
+		:data="flaggedEvals" />
 </div>
 
 <div class="container body-block">
-	<h2 class="sub-header"><span class="glyphicon glyphicon-list"></span> Staff Evaluations</h2>
-	<div class="table-responsive">
-		<table class="table table-striped" id="staff-evaluations-table" width="100%">
-			<thead>
-				<tr>
-					<th>#</th>
-					<th>Resident/Fellow</th>
-					<th>Staff</th>
-					<th>Form</th>
-					<th>Evaluation Date</th>
-					<th>Created</th>
-					<th>Completed</th>
-					<th>Status</th>
-				</tr>
-			</thead>
-		</table>
+	<h2 class="sub-header">
+		<span class="glyphicon glyphicon-list"></span>
+		Trainee Evaluations
+	</h2>
+	<evaluation-data-table :thead="traineeEvalsThead" :config="traineeEvalsConfig" />
+</div>
+
+<div v-if="watchedForms && watchedForms.length > 0" v-cloak
+		class="container body-block">
+	<h2 class="sub-header">
+		<span class="glyphicon glyphicon-list-alt"></span>
+		Watched forms
+	</h2>
+	<div v-for="(config, index) of watchedFormConfigs" class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">@{{ watchedForms[index].form.title }}</h3>
+		</div>
+		<div class="panel-body">
+			<evaluation-data-table :thead="watchedFormThead" :config="config" />
+		</div>
 	</div>
+</div>
+
+
+<div class="container body-block">
+	<h2 class="sub-header">
+		<span class="glyphicon glyphicon-list"></span>
+		Self Evaluations
+	</h2>
+	<evaluation-data-table :thead="selfEvalThead" :config="selfEvalConfig" />
+</div>
+
+<div class="container body-block">
+	<h2 class="sub-header">
+		<span class="glyphicon glyphicon-list"></span>
+		Staff Evaluations
+	</h2>
+	<evaluation-data-table :thead="staffEvalThead" :config="staffEvalConfig" />
+</div>
+
+
+@push('scripts')
+	<script>
+		var propsData = {
+			watchedForms: {!! $user->watchedForms()->with('form')->get()->toJson() !!},
+			flaggedActions: {!! json_encode($flaggedActions) !!}
+		};
+		
+		createAdminDashboard('main', propsData);
+	</script>
+@endpush

@@ -55,10 +55,22 @@ class RestController extends Controller
 
         $query = $this->model::with($withArray);
 		foreach($request->intersect($this->attributes) as $name => $value){
-			if(is_array($value))
-				$query->whereIn($name, $value);
-			else
+			if(is_array($value)){
+				if(count($value) == 2 && in_array($value[0], [
+					'>',
+					'<',
+					'=',
+					'>=',
+					'<=',
+					'!='
+				]))
+					$query->where($name, $value[0], $value[1]);
+				else
+					$query->whereIn($name, $value);
+			}
+			else {
 				$query->where($name, $value);
+			}
 		}
 
 		if($request->has("whereHas") && !empty($this->relationshipAttributes)){

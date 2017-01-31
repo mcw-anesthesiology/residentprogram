@@ -21,8 +21,6 @@ use Debugbar;
 use Mail;
 use PDF;
 
-use App\Helpers\RadarGraphs;
-
 use App\Milestone;
 use App\Competency;
 use App\User;
@@ -528,22 +526,6 @@ class ReportController extends Controller
 			"subjectEvaluations");
 
 		if(!is_null($reportSubject)){
-			switch($graphOption){
-	            case "all":
-	                foreach($subjects as $subject => $subject_name){
-	                    if(!isset($subjectMilestone[$subject]) || !isset($subjectCompetency[$subject]))
-	                        continue;
-	                    ksort($subjectMilestone[$subject]);
-	                    ksort($subjectCompetency[$subject]);
-	                    $graphs[] = RadarGraphs::draw($subjectMilestone[$subject], $averageMilestone, $milestones, $subjectCompetency[$subject], $averageCompetency, $competencies, $subject_name, $startDate, $endDate, $trainingLevel, $maxResponse, $graphOrientation);
-	                }
-	                break;
-	            case "average":
-	                $graphs[] = RadarGraphs::draw(null, $averageMilestone, $milestones, null, $averageCompetency, $competencies, "Average", $startDate, $endDate, $trainingLevel, $maxResponse, $graphOrientation);
-	                break;
-	        }
-			$data['graphs'] = $graphs;
-
             $textQuery = DB::table("text_responses")
                 ->join("evaluations", "evaluations.id", "=", "evaluation_id")
                 ->join("users as evaluators", "evaluators.id", "=", "evaluations.evaluator_id")

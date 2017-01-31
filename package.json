@@ -48,6 +48,7 @@
     "gulp": "^3.9.0",
     "gulp-each": "^0.2.0",
     "gulp-file-contents-to-json": "^0.2.1",
+    "gulp-size": "^2.1.0",
     "iframe-resizer": "^3.5.5",
     "indefinite": "^1.0.1",
     "jsonschema": "^1.1.0",

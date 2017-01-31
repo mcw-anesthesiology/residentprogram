@@ -25,7 +25,7 @@
 		<div class="stats-report-container">
 			<div v-if="show.ratios">
 				<h3>Ratios</h3>
-				<data-table id="stats-ratios"
+				<data-table id="stats-ratios" :bordered="true"
 					:thead="ratiosThead" :config="listTableConfig"
 					:data="ratiosData" />
 			</div>
@@ -40,26 +40,26 @@
 			</div>
 			<div v-if="show.noRequests">
 				<h3>No requests</h3>
-				<data-table id="stats-no-requests"
+				<data-table id="stats-no-requests" :bordered="true"
 					:thead="noRequestsThead" :config="listTableConfig"
 					:data="noRequestsData" />
 			</div>
 			<div v-if="show.noneCompleted">
 				<h3>None completed</h3>
-				<data-table id="stats-none-completed"
+				<data-table id="stats-none-completed" :bordered="true"
 					:thead="noneCompletedThead" :config="listTableConfig"
 					:data="noneCompletedData" />
 			</div>
 			<div v-if="show.averageCompletionTimes">
 				<h3>Average completion times</h3>
-				<data-table id="stats-average-completion-times"
+				<data-table id="stats-average-completion-times" :bordered="true"
 					:thead="averageCompletionTimesThead"
 					:config="averageCompletionTimesConfig"
 					:data="averageCompletionTimesData" />
 			</div>
 			<div v-if="show.lastCompleted">
 				<h3>Last completed evaluations</h3>
-				<data-table id="stats-last-completed"
+				<data-table id="stats-last-completed" :bordered="true"
 					:thead="lastCompletedThead" :config="lastCompletedConfig"
 					:data="lastCompletedData" />
 			</div>
