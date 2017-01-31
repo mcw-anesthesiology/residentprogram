@@ -40,9 +40,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = {
 	extends: __WEBPACK_IMPORTED_MODULE_0__DataTable_vue___default.a,
+	props: {
+		range: {
+			type: String,
+			default: __WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__["DATE_RANGES"].CURRENT_QUARTER,
+			validator: function validator(value) {
+				return Object.values(__WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__["DATE_RANGES"]).indexOf(value) !== -1;
+			}
+		}
+	},
 	data: function data() {
 		return {
-			dates: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__["a" /* isoDateStringObject */])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__["b" /* currentQuarter */])())
+			dates: __WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__["isoDateStringObject"](__WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__[this.range]())
 		};
 	},
 
@@ -54,8 +63,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				ajax: JSON.parse(JSON.stringify(this.config.ajax))
 			});
 
-			if (this.dates.endDate) config.ajax.data.evaluation_date_start = ['<=', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__["c" /* isoDateString */])(this.dates.endDate)];
-			if (this.dates.startDate) config.ajax.data.evaluation_date_end = ['>=', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__["c" /* isoDateString */])(this.dates.startDate)];
+			if (this.dates.endDate) config.ajax.data.evaluation_date_start = ['<=', __WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__["isoDateString"](this.dates.endDate)];
+			if (this.dates.startDate) config.ajax.data.evaluation_date_end = ['>=', __WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__["isoDateString"](this.dates.startDate)];
 
 			return config;
 		}
@@ -716,7 +725,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.refresh-button-container[data-v-961f66ec] {\n\ttext-align: right;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/DataTable.vue?c3ef0c62"],"names":[],"mappings":";AA8KA;CACA,kBAAA;CACA","file":"DataTable.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"refresh-button-container\" v-if=\"config && 'ajax' in config\">\n\t\t\t<button type=\"button\" class=\"btn btn-default\" title=\"Reload table\"\n\t\t\t\t\t@click=\"reloadTable\">\n\t\t\t\t<span class=\"glyphicon glyphicon-refresh\"></span>\n\t\t\t</button>\n\t\t</div>\n\t\t\n\t\t<table :id=\"id\" class=\"table\" :class=\"tableClass\" width=\"100%\" ref=\"table\">\n\t\t\t<slot>\n\t\t\t\t<thead>\n\t\t\t\t\t<tr v-for=\"(row, rowIndex) of thead\" :key=\"`row-${rowIndex}`\">\n\t\t\t\t\t\t<th v-for=\"(th, thIndex) of row\" :key=\"thIndex\"\n\t\t\t\t\t\t\t\t:rowspan=\"th.rowspan\"\n\t\t\t\t\t\t\t\t:colspan=\"th.colspan\">\n\t\t\t\t\t\t\t{{ th.text || th }}\n\t\t\t\t\t\t</th>\n\t\t\t\t\t</tr>\n\t\t\t\t</thead>\n\t\t\t</slot>\n\t\t</table>\n\t\t<div v-if=\"exportable && data\" class=\"text-center\">\n\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t@click=\"exportCsv\">\n\t\t\t\tExport CSV\n\t\t\t</button>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport download from 'downloadjs';\n\nexport default {\n\tprops: {\n\t\tid: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\tstriped: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: true\n\t\t},\n\t\tbordered: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t},\n\t\t\n\t\tthead: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\tconfig: {\n\t\t\ttype: Object,\n\t\t\trequired: false\n\t\t},\n\t\tdata: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\t\n\t\texportable: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t},\n\t\texportFilename: {\n\t\t\ttype: String,\n\t\t\tdefault(){\n\t\t\t\treturn `Table Export ${new Date().toLocaleString()}`;\n\t\t\t}\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tupdateData: false\n\t\t};\n\t},\n\tmounted(){\n\t\t$(this.$refs.table).DataTable(Object.assign({}, this.config, {data: this.data}));\n\t},\n\tcomputed: {\n\t\ttableClass(){\n\t\t\treturn {\n\t\t\t\t'table-striped': this.striped,\n\t\t\t\t'table-bordered': this.bordered\n\t\t\t};\n\t\t}\n\t},\n\twatch: {\n\t\tconfig(){\n\t\t\tlet config = Object.assign({destroy: true}, this.config, {data: this.data});\n\t\t\t$(this.$refs.table).DataTable(config);\n\t\t},\n\t\tdata(data){\n\t\t\tthis.updateData = true;\n\t\t\tthis.$nextTick(() => {\n\t\t\t\t// only set data if table not already recreated with new data\n\t\t\t\tif(this.updateData){\n\t\t\t\t\t$(this.$refs.table).DataTable({\n\t\t\t\t\t\tretrieve: true\n\t\t\t\t\t}).clear().rows.add(data).draw();\n\t\t\t\t\tthis.updateData = false;\n\t\t\t\t}\n\t\t\t});\n\t\t}\n\t},\n\tmethods: {\n\t\treloadTable(){\n\t\t\t$(this.$refs.table).DataTable({\n\t\t\t\tretrieve: true\n\t\t\t}).ajax.reload(null, false);\n\t\t},\n\t\texportCsv(){\n\t\t\tlet header = [];\n\t\t\theader.fill([], this.thead.length);\n\t\t\tthis.thead.map((row, rowIndex) => {\n\t\t\t\tif(!header[rowIndex])\n\t\t\t\t\theader[rowIndex] = [];\n\n\t\t\t\trow.map((cell, cellIndex) => {\n\t\t\t\t\twhile(header[rowIndex][cellIndex])\n\t\t\t\t\t\tcellIndex++;\n\n\t\t\t\t\tif(cell.rowspan){\n\t\t\t\t\t\tfor(let i = 0; i < cell.rowspan; i++){\n\t\t\t\t\t\t\tif(!header[rowIndex + i])\n\t\t\t\t\t\t\t\theader[rowIndex + i] = [];\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\theader[rowIndex + i][cellIndex] = cell.text;\n\t\t\t\t\t\t\tif(cell.colspan){\n\t\t\t\t\t\t\t\tfor(let j = 0; j < cell.colspan; j++){\n\t\t\t\t\t\t\t\t\theader[rowIndex][cellIndex + j] = cell.text;\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t\telse if(cell.colspan){\n\t\t\t\t\t\tfor(let j = 0; j < cell.colspan; j++){\n\t\t\t\t\t\t\theader[rowIndex][cellIndex + j] = cell.text;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t\telse {\n\t\t\t\t\t\theader[rowIndex][cellIndex] = cell.text;\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t});\n\t\t\t\n\t\t\tlet rows = this.data.map(row =>\n\t\t\t\trow.map(cell =>\n\t\t\t\t\ttypeof cell === 'string' ? `\"${cell}\"` : cell\n\t\t\t\t).join(',')).sort();\n\t\t\tlet table = header.concat(rows);\n\t\t\tdownload(table.join('\\n'), `${this.exportFilename}.csv`, 'text/csv');\n\t\t}\n\t},\n\tbeforeUpdate(){\n\t\t$(this.$refs.table).DataTable({\n\t\t\tretrieve: true\n\t\t}).clear().destroy();\n\t\tthis.updateData = false;\n\t},\n\tupdated(){\n\t\t$(this.$refs.table).DataTable(Object.assign({}, this.config, {data: this.data}));\n\t},\n\tbeforeDestroy(){\n\t\t$(this.$refs.table).DataTable({\n\t\t\tretrieve: true\n\t\t}).clear().destroy();\n\t}\n};\n</script>\n\n<style scoped>\n\t.refresh-button-container {\n\t\ttext-align: right;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.refresh-button-container[data-v-961f66ec] {\n\ttext-align: right;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/DataTable.vue?0546b5fd"],"names":[],"mappings":";AA8KA;CACA,kBAAA;CACA","file":"DataTable.vue","sourcesContent":["<template>\n\t<div class=\"table-responsive\">\n\t\t<div class=\"refresh-button-container\" v-if=\"config && 'ajax' in config\">\n\t\t\t<button type=\"button\" class=\"btn btn-default\" title=\"Reload table\"\n\t\t\t\t\t@click=\"reloadTable\">\n\t\t\t\t<span class=\"glyphicon glyphicon-refresh\"></span>\n\t\t\t</button>\n\t\t</div>\n\t\t\n\t\t<table :id=\"id\" class=\"table\" :class=\"tableClass\" width=\"100%\" ref=\"table\">\n\t\t\t<slot>\n\t\t\t\t<thead>\n\t\t\t\t\t<tr v-for=\"(row, rowIndex) of thead\" :key=\"`row-${rowIndex}`\">\n\t\t\t\t\t\t<th v-for=\"(th, thIndex) of row\" :key=\"thIndex\"\n\t\t\t\t\t\t\t\t:rowspan=\"th.rowspan\"\n\t\t\t\t\t\t\t\t:colspan=\"th.colspan\">\n\t\t\t\t\t\t\t{{ th.text || th }}\n\t\t\t\t\t\t</th>\n\t\t\t\t\t</tr>\n\t\t\t\t</thead>\n\t\t\t</slot>\n\t\t</table>\n\t\t<div v-if=\"exportable && data\" class=\"text-center\">\n\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t@click=\"exportCsv\">\n\t\t\t\tExport CSV\n\t\t\t</button>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport download from 'downloadjs';\n\nexport default {\n\tprops: {\n\t\tid: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\tstriped: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: true\n\t\t},\n\t\tbordered: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t},\n\t\t\n\t\tthead: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\tconfig: {\n\t\t\ttype: Object,\n\t\t\trequired: false\n\t\t},\n\t\tdata: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\t\n\t\texportable: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t},\n\t\texportFilename: {\n\t\t\ttype: String,\n\t\t\tdefault(){\n\t\t\t\treturn `Table Export ${new Date().toLocaleString()}`;\n\t\t\t}\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tupdateData: false\n\t\t};\n\t},\n\tmounted(){\n\t\t$(this.$refs.table).DataTable(Object.assign({}, this.config, {data: this.data}));\n\t},\n\tcomputed: {\n\t\ttableClass(){\n\t\t\treturn {\n\t\t\t\t'table-striped': this.striped,\n\t\t\t\t'table-bordered': this.bordered\n\t\t\t};\n\t\t}\n\t},\n\twatch: {\n\t\tconfig(){\n\t\t\tlet config = Object.assign({destroy: true}, this.config, {data: this.data});\n\t\t\t$(this.$refs.table).DataTable(config);\n\t\t},\n\t\tdata(data){\n\t\t\tthis.updateData = true;\n\t\t\tthis.$nextTick(() => {\n\t\t\t\t// only set data if table not already recreated with new data\n\t\t\t\tif(this.updateData){\n\t\t\t\t\t$(this.$refs.table).DataTable({\n\t\t\t\t\t\tretrieve: true\n\t\t\t\t\t}).clear().rows.add(data).draw();\n\t\t\t\t\tthis.updateData = false;\n\t\t\t\t}\n\t\t\t});\n\t\t}\n\t},\n\tmethods: {\n\t\treloadTable(){\n\t\t\t$(this.$refs.table).DataTable({\n\t\t\t\tretrieve: true\n\t\t\t}).ajax.reload(null, false);\n\t\t},\n\t\texportCsv(){\n\t\t\tlet header = [];\n\t\t\theader.fill([], this.thead.length);\n\t\t\tthis.thead.map((row, rowIndex) => {\n\t\t\t\tif(!header[rowIndex])\n\t\t\t\t\theader[rowIndex] = [];\n\n\t\t\t\trow.map((cell, cellIndex) => {\n\t\t\t\t\twhile(header[rowIndex][cellIndex])\n\t\t\t\t\t\tcellIndex++;\n\n\t\t\t\t\tif(cell.rowspan){\n\t\t\t\t\t\tfor(let i = 0; i < cell.rowspan; i++){\n\t\t\t\t\t\t\tif(!header[rowIndex + i])\n\t\t\t\t\t\t\t\theader[rowIndex + i] = [];\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\theader[rowIndex + i][cellIndex] = cell.text;\n\t\t\t\t\t\t\tif(cell.colspan){\n\t\t\t\t\t\t\t\tfor(let j = 0; j < cell.colspan; j++){\n\t\t\t\t\t\t\t\t\theader[rowIndex][cellIndex + j] = cell.text;\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t\telse if(cell.colspan){\n\t\t\t\t\t\tfor(let j = 0; j < cell.colspan; j++){\n\t\t\t\t\t\t\theader[rowIndex][cellIndex + j] = cell.text;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t\telse {\n\t\t\t\t\t\theader[rowIndex][cellIndex] = cell.text;\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t});\n\t\t\t\n\t\t\tlet rows = this.data.map(row =>\n\t\t\t\trow.map(cell =>\n\t\t\t\t\ttypeof cell === 'string' ? `\"${cell}\"` : cell\n\t\t\t\t).join(',')).sort();\n\t\t\tlet table = header.concat(rows);\n\t\t\tdownload(table.join('\\n'), `${this.exportFilename}.csv`, 'text/csv');\n\t\t}\n\t},\n\tbeforeUpdate(){\n\t\t$(this.$refs.table).DataTable({\n\t\t\tretrieve: true\n\t\t}).clear().destroy();\n\t\tthis.updateData = false;\n\t},\n\tupdated(){\n\t\t$(this.$refs.table).DataTable(Object.assign({}, this.config, {data: this.data}));\n\t},\n\tbeforeDestroy(){\n\t\t$(this.$refs.table).DataTable({\n\t\t\tretrieve: true\n\t\t}).clear().destroy();\n\t}\n};\n</script>\n\n<style scoped>\n\t.refresh-button-container {\n\t\ttext-align: right;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -969,7 +978,9 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [(_vm.config && 'ajax' in _vm.config) ? _c('div', {
+  return _c('div', {
+    staticClass: "table-responsive"
+  }, [(_vm.config && 'ajax' in _vm.config) ? _c('div', {
     staticClass: "refresh-button-container"
   }, [_c('button', {
     staticClass: "btn btn-default",
@@ -1196,22 +1207,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 
 
 
 
-
-var _DATE_RANGES = {
-	CUSTOM: 'custom',
-	CURRENT_QUARTER: 'currentQuarter',
-	LAST_QUARTER: 'lastQuarter',
-	CURRENT_SEMESTER: 'currentSemester',
-	LAST_SEMESTER: 'lastSemester',
-	CURRENT_YEAR: 'currentYear',
-	LAST_YEAR: 'lastYear'
-};
 
 /* harmony default export */ __webpack_exports__["default"] = {
 	props: {
@@ -1226,24 +1229,19 @@ var _DATE_RANGES = {
 	},
 	data: function data() {
 		return {
-			dateRange: _DATE_RANGES.CUSTOM
+			dateRange: __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["DATE_RANGES"].CUSTOM
 		};
 	},
 	created: function created() {
-		if (!this.value.startDate && !this.value.endDate) this.dateRange = _DATE_RANGES.LAST_QUARTER;else this.matchDateRangeWithValue();
-	},
-	mounted: function mounted() {
-		$('#reports-start-date, #reports-end-date').datepicker({
-			dateFormat: "yy-mm-dd",
-			onSelect: function onSelect() {
-				this.dispatchEvent(new Event('input'));
-			}
-		});
+		this.matchDateRangeWithValue();
 	},
 
 	computed: {
 		DATE_RANGES: function DATE_RANGES() {
-			return this.allTime ? Object.assign({ ALL_TIME: 'allTime' }, _DATE_RANGES) : _DATE_RANGES;
+			var ranges = Object.assign({}, __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["DATE_RANGES"]);
+			if (!this.allTime) delete ranges.ALL_TIME;
+
+			return ranges;
 		},
 		flatpickrOptions: function flatpickrOptions() {
 			return {
@@ -1253,24 +1251,24 @@ var _DATE_RANGES = {
 			};
 		},
 
-		currentQuarter: __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["b" /* currentQuarter */],
-		lastQuarter: __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["d" /* lastQuarter */],
-		currentSemester: __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["e" /* currentSemester */],
-		lastSemester: __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["f" /* lastSemester */],
-		currentYear: __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["g" /* currentYear */],
-		lastYear: __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["h" /* lastYear */]
+		currentQuarter: __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["currentQuarter"],
+		lastQuarter: __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["lastQuarter"],
+		currentSemester: __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["currentSemester"],
+		lastSemester: __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["lastSemester"],
+		currentYear: __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["currentYear"],
+		lastYear: __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["lastYear"]
 	},
 	watch: {
 		value: function value() {
 			this.matchDateRangeWithValue();
 		},
 		dateRange: function dateRange(_dateRange) {
-			if (_dateRange === _DATE_RANGES.ALL_TIME) this.setDate({
-				startDate: '',
-				endDate: ''
+			if (_dateRange === __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["DATE_RANGES"].ALL_TIME) this.setDate({
+				startDate: null,
+				endDate: null
 			});
 
-			if (_dateRange !== _DATE_RANGES.CUSTOM && this[_dateRange] && !this.datesEqual(this.value, this[_dateRange])) this.setDate(this[_dateRange]);
+			if (_dateRange !== __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["DATE_RANGES"].CUSTOM && this[_dateRange] && !this.datesEqual(this.value, this[_dateRange])) this.setDate(this[_dateRange]);
 		}
 	},
 	methods: {
@@ -1282,14 +1280,14 @@ var _DATE_RANGES = {
 				return;
 			}
 
-			if (this.dateRange && this.dateRange !== _DATE_RANGES.CUSTOM && this[this.dateRange] && this.datesEqual(value, this[this.dateRange])) return;
+			if (this.dateRange && this.dateRange !== __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["DATE_RANGES"].CUSTOM && this[this.dateRange] && this.datesEqual(value, this[this.dateRange])) return;
 
 			var _iteratorNormalCompletion = true;
 			var _didIteratorError = false;
 			var _iteratorError = undefined;
 
 			try {
-				for (var _iterator = Object.values(_DATE_RANGES)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+				for (var _iterator = Object.values(__WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["DATE_RANGES"])[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 					var range = _step.value;
 
 					if (this[range] && this.datesEqual(value, this[range])) {
@@ -1312,20 +1310,20 @@ var _DATE_RANGES = {
 				}
 			}
 
-			this.dateRange = _DATE_RANGES.CUSTOM;
+			this.dateRange = __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["DATE_RANGES"].CUSTOM;
 		},
 		handleInput: function handleInput(prop, value) {
 			var newValue = Object.assign({}, this.value, _defineProperty({}, prop, value));
 			this.$emit('input', newValue);
 		},
 		datesEqual: function datesEqual(dates1, dates2) {
-			dates1 = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["a" /* isoDateStringObject */])(dates1);
-			dates2 = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["a" /* isoDateStringObject */])(dates2);
+			dates1 = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["isoDateStringObject"])(dates1);
+			dates2 = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["isoDateStringObject"])(dates2);
 
 			return dates1.startDate === dates2.startDate && dates1.endDate === dates2.endDate;
 		},
 		setDate: function setDate(dates) {
-			this.$emit('input', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["a" /* isoDateStringObject */])(dates));
+			this.$emit('input', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["isoDateStringObject"])(dates));
 		},
 
 		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["a" /* camelCaseToWords */]
@@ -1345,7 +1343,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.form-horizontal[data-v-c43e39de] {\n\toverflow-x: hidden;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/StartEndDate.vue?029a574c"],"names":[],"mappings":";AAsKA;CACA,mBAAA;CACA","file":"StartEndDate.vue","sourcesContent":["<template>\n\t<div class=\"form-horizontal\">\n\t\t<div class=\"form-group\">\n\t\t\t<div class=\"col-md-4\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tDate Range\n\t\t\t\t\t<select class=\"form-control\" v-model=\"dateRange\">\n\t\t\t\t\t\t<option v-for=\"range of DATE_RANGES\" :value=\"range\">\n\t\t\t\t\t\t\t{{ camelCaseToWords(range) }}\n\t\t\t\t\t\t</option>\n\t\t\t\t\t</select>\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t\t<div class=\"col-sm-6 col-md-4\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tStart Date\n\t\t\t\t\t<vue-flatpickr :value=\"value.startDate\" :options=\"flatpickrOptions\"\n\t\t\t\t\t\t@input=\"handleInput('startDate', arguments[0])\"/>\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t\t<div class=\"col-sm-6 col-md-4\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tEnd Date\n\t\t\t\t\t<vue-flatpickr :value=\"value.endDate\" :options=\"flatpickrOptions\"\n\t\t\t\t\t\t@input=\"handleInput('endDate', arguments[0])\"/>\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport VueFlatpickr from 'vue-flatpickr';\nimport 'vue-flatpickr/theme/flatpickr.min.css';\n\nimport { camelCaseToWords } from '../modules/utils.js';\nimport {\n\tisoDateStringObject,\n\tcurrentQuarter,\n\tlastQuarter,\n\tcurrentSemester,\n\tlastSemester,\n\tcurrentYear,\n\tlastYear\n} from '../modules/date-utils.js';\n\nconst DATE_RANGES = {\n\tCUSTOM: 'custom',\n\tCURRENT_QUARTER: 'currentQuarter',\n\tLAST_QUARTER: 'lastQuarter',\n\tCURRENT_SEMESTER: 'currentSemester',\n\tLAST_SEMESTER: 'lastSemester',\n\tCURRENT_YEAR: 'currentYear',\n\tLAST_YEAR: 'lastYear'\n};\n\nexport default {\n\tprops: {\n\t\tvalue: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t},\n\t\tallTime: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tdateRange: DATE_RANGES.CUSTOM\n\t\t};\n\t},\n\tcreated(){\n\t\tif(!this.value.startDate && !this.value.endDate)\n\t\t\tthis.dateRange = DATE_RANGES.LAST_QUARTER;\n\t\telse\n\t\t\tthis.matchDateRangeWithValue();\n\t},\n\tmounted(){\n\t\t$('#reports-start-date, #reports-end-date').datepicker({\n\t\t\tdateFormat: \"yy-mm-dd\",\n\t\t\tonSelect: function(){\n\t\t\t\tthis.dispatchEvent(new Event('input'));\n\t\t\t}\n\t\t});\n\t},\n\tcomputed: {\n\t\tDATE_RANGES(){\n\t\t\treturn this.allTime\n\t\t\t\t? Object.assign({ALL_TIME: 'allTime'}, DATE_RANGES)\n\t\t\t\t: DATE_RANGES;\n\t\t},\n\t\tflatpickrOptions(){\n\t\t\treturn {\n\t\t\t\taltInput: true,\n\t\t\t\taltInputClass: 'form-control appear-not-readonly',\n\t\t\t\taltFormat: 'M j, Y'\n\t\t\t};\n\t\t},\n\t\tcurrentQuarter,\n\t\tlastQuarter,\n\t\tcurrentSemester,\n\t\tlastSemester,\n\t\tcurrentYear,\n\t\tlastYear\n\t},\n\twatch: {\n\t\tvalue(){\n\t\t\tthis.matchDateRangeWithValue();\n\t\t},\n\t\tdateRange(dateRange){\n\t\t\tif(dateRange === DATE_RANGES.ALL_TIME)\n\t\t\t\tthis.setDate({\n\t\t\t\t\tstartDate: '',\n\t\t\t\t\tendDate: ''\n\t\t\t\t});\n\t\t\t\n\t\t\tif(dateRange !== DATE_RANGES.CUSTOM && this[dateRange]\n\t\t\t\t\t&& !this.datesEqual(this.value, this[dateRange]))\n\t\t\t\tthis.setDate(this[dateRange]);\n\t\t}\n\t},\n\tmethods: {\n\t\tmatchDateRangeWithValue(value = this.value){\n\t\t\tif(this.allTime && !value.startDate && !value.endDate){\n\t\t\t\tthis.dateRange = this.DATE_RANGES.ALL_TIME;\n\t\t\t\treturn;\n\t\t\t}\n\t\t\t\n\t\t\tif(this.dateRange && this.dateRange !== DATE_RANGES.CUSTOM\n\t\t\t\t\t&& this[this.dateRange]\n\t\t\t\t\t&& this.datesEqual(value, this[this.dateRange]))\n\t\t\t\treturn;\n\n\t\t\tfor(let range of Object.values(DATE_RANGES)){\n\t\t\t\tif(this[range] && this.datesEqual(value, this[range])){\n\t\t\t\t\tthis.dateRange = range;\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t}\n\n\t\t\tthis.dateRange = DATE_RANGES.CUSTOM;\n\t\t},\n\t\thandleInput(prop, value){\n\t\t\tlet newValue = Object.assign({}, this.value, {[prop]: value});\n\t\t\tthis.$emit('input', newValue);\n\t\t},\n\t\tdatesEqual(dates1, dates2){\n\t\t\tdates1 = isoDateStringObject(dates1);\n\t\t\tdates2 = isoDateStringObject(dates2);\n\n\t\t\treturn dates1.startDate === dates2.startDate\n\t\t\t\t&& dates1.endDate === dates2.endDate;\n\t\t},\n\t\tsetDate(dates){\n\t\t\tthis.$emit('input', isoDateStringObject(dates));\n\t\t},\n\t\tcamelCaseToWords\n\t},\n\tcomponents: {\n\t\tVueFlatpickr\n\t}\n};\n</script>\n\n<style scoped>\n\t.form-horizontal {\n\t\toverflow-x: hidden;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.form-horizontal[data-v-c43e39de] {\n\toverflow-x: hidden;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/StartEndDate.vue?a0733480"],"names":[],"mappings":";AAsJA;CACA,mBAAA;CACA","file":"StartEndDate.vue","sourcesContent":["<template>\n\t<div class=\"form-horizontal\" ref=\"container\">\n\t\t<div class=\"form-group\">\n\t\t\t<div class=\"col-md-4\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tDate Range\n\t\t\t\t\t<select class=\"form-control\" v-model=\"dateRange\">\n\t\t\t\t\t\t<option v-for=\"range of DATE_RANGES\" :value=\"range\">\n\t\t\t\t\t\t\t{{ camelCaseToWords(range) }}\n\t\t\t\t\t\t</option>\n\t\t\t\t\t</select>\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t\t<div class=\"col-sm-6 col-md-4\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tStart Date\n\t\t\t\t\t<vue-flatpickr class=\"form-control\"\n\t\t\t\t\t\t:value=\"value.startDate\" :options=\"flatpickrOptions\"\n\t\t\t\t\t\t@input=\"handleInput('startDate', arguments[0])\"/>\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t\t<div class=\"col-sm-6 col-md-4\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tEnd Date\n\t\t\t\t\t<vue-flatpickr class=\"form-control\"\n\t\t\t\t\t\t:value=\"value.endDate\" :options=\"flatpickrOptions\"\n\t\t\t\t\t\t@input=\"handleInput('endDate', arguments[0])\"/>\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport VueFlatpickr from 'vue-flatpickr';\nimport 'vue-flatpickr/theme/flatpickr.min.css';\n\nimport { camelCaseToWords } from '../modules/utils.js';\nimport {\n\tDATE_RANGES,\n\tisoDateStringObject,\n\tcurrentQuarter,\n\tlastQuarter,\n\tcurrentSemester,\n\tlastSemester,\n\tcurrentYear,\n\tlastYear\n} from '../modules/date-utils.js';\n\nexport default {\n\tprops: {\n\t\tvalue: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t},\n\t\tallTime: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tdateRange: DATE_RANGES.CUSTOM\n\t\t};\n\t},\n\tcreated(){\n\t\tthis.matchDateRangeWithValue();\n\t},\n\tcomputed: {\n\t\tDATE_RANGES(){\n\t\t\tlet ranges = Object.assign({}, DATE_RANGES);\n\t\t\tif(!this.allTime)\n\t\t\t\tdelete ranges.ALL_TIME;\n\t\t\t\n\t\t\treturn ranges;\n\t\t},\n\t\tflatpickrOptions(){\n\t\t\treturn {\n\t\t\t\taltInput: true,\n\t\t\t\taltInputClass: 'form-control appear-not-readonly',\n\t\t\t\taltFormat: 'M j, Y'\n\t\t\t};\n\t\t},\n\t\tcurrentQuarter,\n\t\tlastQuarter,\n\t\tcurrentSemester,\n\t\tlastSemester,\n\t\tcurrentYear,\n\t\tlastYear\n\t},\n\twatch: {\n\t\tvalue(){\n\t\t\tthis.matchDateRangeWithValue();\n\t\t},\n\t\tdateRange(dateRange){\n\t\t\tif(dateRange === DATE_RANGES.ALL_TIME)\n\t\t\t\tthis.setDate({\n\t\t\t\t\tstartDate: null,\n\t\t\t\t\tendDate: null\n\t\t\t\t});\n\t\t\t\n\t\t\tif(dateRange !== DATE_RANGES.CUSTOM && this[dateRange]\n\t\t\t\t\t&& !this.datesEqual(this.value, this[dateRange]))\n\t\t\t\tthis.setDate(this[dateRange]);\n\t\t}\n\t},\n\tmethods: {\n\t\tmatchDateRangeWithValue(value = this.value){\n\t\t\tif(this.allTime && !value.startDate && !value.endDate){\n\t\t\t\tthis.dateRange = this.DATE_RANGES.ALL_TIME;\n\t\t\t\treturn;\n\t\t\t}\n\t\t\t\n\t\t\tif(this.dateRange && this.dateRange !== DATE_RANGES.CUSTOM\n\t\t\t\t\t&& this[this.dateRange]\n\t\t\t\t\t&& this.datesEqual(value, this[this.dateRange]))\n\t\t\t\treturn;\n\n\t\t\tfor(let range of Object.values(DATE_RANGES)){\n\t\t\t\tif(this[range] && this.datesEqual(value, this[range])){\n\t\t\t\t\tthis.dateRange = range;\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t}\n\n\t\t\tthis.dateRange = DATE_RANGES.CUSTOM;\n\t\t},\n\t\thandleInput(prop, value){\n\t\t\tlet newValue = Object.assign({}, this.value, {[prop]: value});\n\t\t\tthis.$emit('input', newValue);\n\t\t},\n\t\tdatesEqual(dates1, dates2){\n\t\t\tdates1 = isoDateStringObject(dates1);\n\t\t\tdates2 = isoDateStringObject(dates2);\n\n\t\t\treturn dates1.startDate === dates2.startDate\n\t\t\t\t&& dates1.endDate === dates2.endDate;\n\t\t},\n\t\tsetDate(dates){\n\t\t\tthis.$emit('input', isoDateStringObject(dates));\n\t\t},\n\t\tcamelCaseToWords\n\t},\n\tcomponents: {\n\t\tVueFlatpickr\n\t}\n};\n</script>\n\n<style scoped>\n\t.form-horizontal {\n\t\toverflow-x: hidden;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -1367,6 +1365,7 @@ function a(e,t){function n(){e._flatpickr&&E(e._flatpickr),e._flatpickr=oe,oe.el
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
+    ref: "container",
     staticClass: "form-horizontal"
   }, [_c('div', {
     staticClass: "form-group"
@@ -1403,6 +1402,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('label', {
     staticClass: "containing-label"
   }, [_vm._v("\n\t\t\t\tStart Date\n\t\t\t\t"), _c('vue-flatpickr', {
+    staticClass: "form-control",
     attrs: {
       "value": _vm.value.startDate,
       "options": _vm.flatpickrOptions
@@ -1417,6 +1417,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('label', {
     staticClass: "containing-label"
   }, [_vm._v("\n\t\t\t\tEnd Date\n\t\t\t\t"), _c('vue-flatpickr', {
+    staticClass: "form-control",
     attrs: {
       "value": _vm.value.endDate,
       "options": _vm.flatpickrOptions

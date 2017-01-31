@@ -1,6 +1,7 @@
 <template>
 	<div>
 		<div class="container body-block">
+			<h1>Form report</h1>
 			<start-end-date v-model="dates" />
 			<label class="containing-label">
 				Form
@@ -103,6 +104,7 @@ import AlertList from '../AlertList.vue';
 import ShowHideButton from '../ShowHideButton.vue';
 
 import { getFetchHeaders, fetchFormGroups } from '../../modules/utils.js';
+import { isoDateStringObject, currentQuarter } from '../../modules/date-utils.js';
 import {
 	renderDateCell,
 	createDateCell,
@@ -124,10 +126,7 @@ export default {
 	},
 	data(){
 		return {
-			dates: {
-				startDate: null,
-				endDate: null
-			},
+			dates: isoDateStringObject(currentQuarter()),
 			formId: null,
 			subjectId: null,
 			report: null,

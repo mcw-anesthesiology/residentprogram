@@ -14,17 +14,22 @@
 import DataTable from './DataTable.vue';
 import StartEndDate from './StartEndDate.vue';
 
-import {
-	isoDateString,
-	isoDateStringObject,
-	currentQuarter
-} from '../modules/date-utils.js';
+import * as dateUtils from '../modules/date-utils.js';
 
 export default {
 	extends: DataTable,
+	props: {
+		range: {
+			type: String,
+			default: dateUtils.DATE_RANGES.CURRENT_QUARTER,
+			validator(value){
+				return Object.values(dateUtils.DATE_RANGES).includes(value);
+			}
+		}
+	},
 	data(){
 		return {
-			dates: isoDateStringObject(currentQuarter())
+			dates: dateUtils.isoDateStringObject(dateUtils[this.range]())
 		};
 	},
 	computed: {
@@ -40,11 +45,11 @@ export default {
 			
 			if(this.dates.endDate)
 				config.ajax.data.evaluation_date_start = [
-					'<=', isoDateString(this.dates.endDate)
+					'<=', dateUtils.isoDateString(this.dates.endDate)
 				];
 			if(this.dates.startDate)
 				config.ajax.data.evaluation_date_end = [
-					'>=', isoDateString(this.dates.startDate)
+					'>=', dateUtils.isoDateString(this.dates.startDate)
 				];
 				
 			return config;

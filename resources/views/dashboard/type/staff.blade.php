@@ -1,9 +1,8 @@
 <div class="container body-block">
 @if($user->evaluatorEvaluations()->where("status", "pending")->count() > 0)
 	<h2 class="sub-header"><span class="glyphicon glyphicon-inbox"></span> Pending</h2>
-	<div class="table-responsive">
-		<evaluation-data-table :thead="pendingThead" :config="pendingConfig" />
-	</div>
+	<evaluation-data-table range="allTime"
+		:thead="pendingThead" :config="pendingConfig" />
 @else
 	<p class="lead">You have no pending evaluation requests, why not <a href="/request">create one?</a></p>
 @endif
@@ -43,9 +42,7 @@
 
 <div class="container body-block">
 	<h2 class="sub-header"><span class="glyphicon glyphicon-check"></span> Completed Evaluations</h2>
-	<div class="table-responsive">
-		<evaluation-data-table :thead="completeThead" :config="completeConfig" />
-	</div>
+	<evaluation-data-table :thead="completeThead" :config="completeConfig" />
 </div>
 
 
