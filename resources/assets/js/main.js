@@ -464,7 +464,7 @@ $(document).on("mouseenter", ".table-date-time-cell", function(){
 
 $(document).on("mouseenter", ".table-date-range-cell", function(){
 	var dateRange = $(this).data("date-range-value");
-	if(startDate && endDate){
+	if(dateRange){
 		$(this).data("original-value", $(this).text());
 		$(this).text(dateRange);
 	}
