@@ -106,16 +106,20 @@ export default function createManageEvaluations(el, propsData){
 									visBtnType = 'btn-default';
 									break;
 							}
-							return '<span class="status"><span class="label label-'
-								+ label + '">' + ucfirst(evaluation.status) + '</span></span> '
-								+ '<br /><button type="button" class="visibility visibility-'
-								+ evaluation.visibility + ' btn ' + visBtnType + ' btn-xs"'
-								+ 'data-eval-type="' + evaluation.form.type + '" '
-								+ 'data-id="' + evaluation.id + '" '
-								+ 'data-current-visibility="'+ evaluation.visibility + '">'
-								+ ucfirst(evaluation.visibility)
-								+ ' <span class="glyphicon glyphicon-eye-' + eyeType
-								+ '"</span></button>';
+							return `<span class="status">
+								<span class="label label-${label}">
+									${ucfirst(evaluation.status)}
+								</span>
+							</span>
+							<br />
+							<button type="button"
+									class="visibility visibility-${evaluation.visibility} btn ${visBtnType} btn-xs"
+									data-eval-type="${evaluation.form.type}"
+									data-id="${evaluation.id}"
+									data-current-visibility="${evaluation.visibility}">
+								${ucfirst(evaluation.visibility)}
+								<span class="glyphicon glyphicon-eye-${eyeType}"></span>
+							</button>`;
 						}},
 						{data: null, orderable: false, render: function(evaluation){
 							let buttonClass, buttonType, glyphicon, buttonText;
@@ -130,22 +134,29 @@ export default function createManageEvaluations(el, propsData){
 								glyphicon = "remove";
 								buttonText = "Disable";
 							}
-							let action = '<span><button class="' + buttonClass
-							+ ' btn btn-' + buttonType + ' btn-xs" data-id="' + evaluation.id
-							+ '"><span class="glyphicon glyphicon-' + glyphicon + '"></span>'
-							+ ' ' + buttonText + '</button></span>';
-
-							action += '<span class="cancel">';
-							if(evaluation.status === "pending"){
-								action += '<button class="cancelEval btn btn-danger btn-xs" data-id="'
-									+ evaluation.id + '"><span class="glyphicon glyphicon-remove"></span> Cancel</button> ';
-
-								action += '<button class="send-reminder btn btn-primary btn-xs" data-id="' + evaluation.id + '">'
-									+ '<span class="glyphicon glyphicon-send"></span> Send reminder</button>';
-							}
-							action += '</span>';
-
-							return action;
+							
+							return `<span>
+								<button class="${buttonClass} btn btn-${buttonType} btn-xs"
+										data-id="${evaluation.id}">
+									<span class="glyphicon glyphicon-${glyphicon}"></span>
+									${buttonText}
+								</button>
+							</span>
+							<span class="cancel">
+								${evaluation.status === 'pending'
+									? `<button class="cancelEval btn btn-danger btn-xs"
+												data-id="${evaluation.id}">
+											<span class="glyphicon glyphicon-remove"></span>
+											Cancel
+										</button>
+										<button class="send-reminder btn btn-primary btn-xs"
+												data-id="${evaluation.id}">
+											<span class="glyphicon glyphicon-send"></span>
+											Send reminder
+										</button>`
+									: ''
+								}
+							</span>`;
 						}}
 					],
 					order: [[0, 'desc']],

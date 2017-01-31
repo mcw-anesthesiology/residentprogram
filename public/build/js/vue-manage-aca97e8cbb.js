@@ -1391,7 +1391,7 @@ function createManageEvaluations(el, propsData) {
 									visBtnType = 'btn-default';
 									break;
 							}
-							return '<span class="status"><span class="label label-' + label + '">' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["a" /* ucfirst */])(evaluation.status) + '</span></span> ' + '<br /><button type="button" class="visibility visibility-' + evaluation.visibility + ' btn ' + visBtnType + ' btn-xs"' + 'data-eval-type="' + evaluation.form.type + '" ' + 'data-id="' + evaluation.id + '" ' + 'data-current-visibility="' + evaluation.visibility + '">' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["a" /* ucfirst */])(evaluation.visibility) + ' <span class="glyphicon glyphicon-eye-' + eyeType + '"</span></button>';
+							return '<span class="status">\n\t\t\t\t\t\t\t\t<span class="label label-' + label + '">\n\t\t\t\t\t\t\t\t\t' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["a" /* ucfirst */])(evaluation.status) + '\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t<br />\n\t\t\t\t\t\t\t<button type="button"\n\t\t\t\t\t\t\t\t\tclass="visibility visibility-' + evaluation.visibility + ' btn ' + visBtnType + ' btn-xs"\n\t\t\t\t\t\t\t\t\tdata-eval-type="' + evaluation.form.type + '"\n\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '"\n\t\t\t\t\t\t\t\t\tdata-current-visibility="' + evaluation.visibility + '">\n\t\t\t\t\t\t\t\t' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["a" /* ucfirst */])(evaluation.visibility) + '\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-eye-' + eyeType + '"></span>\n\t\t\t\t\t\t\t</button>';
 						} }, { data: null, orderable: false, render: function render(evaluation) {
 							var buttonClass = void 0,
 							    buttonType = void 0,
@@ -1408,17 +1408,8 @@ function createManageEvaluations(el, propsData) {
 								glyphicon = "remove";
 								buttonText = "Disable";
 							}
-							var action = '<span><button class="' + buttonClass + ' btn btn-' + buttonType + ' btn-xs" data-id="' + evaluation.id + '"><span class="glyphicon glyphicon-' + glyphicon + '"></span>' + ' ' + buttonText + '</button></span>';
 
-							action += '<span class="cancel">';
-							if (evaluation.status === "pending") {
-								action += '<button class="cancelEval btn btn-danger btn-xs" data-id="' + evaluation.id + '"><span class="glyphicon glyphicon-remove"></span> Cancel</button> ';
-
-								action += '<button class="send-reminder btn btn-primary btn-xs" data-id="' + evaluation.id + '">' + '<span class="glyphicon glyphicon-send"></span> Send reminder</button>';
-							}
-							action += '</span>';
-
-							return action;
+							return '<span>\n\t\t\t\t\t\t\t\t<button class="' + buttonClass + ' btn btn-' + buttonType + ' btn-xs"\n\t\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '">\n\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-' + glyphicon + '"></span>\n\t\t\t\t\t\t\t\t\t' + buttonText + '\n\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t<span class="cancel">\n\t\t\t\t\t\t\t\t' + (evaluation.status === 'pending' ? '<button class="cancelEval btn btn-danger btn-xs"\n\t\t\t\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '">\n\t\t\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-remove"></span>\n\t\t\t\t\t\t\t\t\t\t\tCancel\n\t\t\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t\t\t\t<button class="send-reminder btn btn-primary btn-xs"\n\t\t\t\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '">\n\t\t\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-send"></span>\n\t\t\t\t\t\t\t\t\t\t\tSend reminder\n\t\t\t\t\t\t\t\t\t\t</button>' : '') + '\n\t\t\t\t\t\t\t</span>';
 						} }],
 					order: [[0, 'desc']],
 					deferRender: true
