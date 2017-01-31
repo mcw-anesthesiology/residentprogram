@@ -21,7 +21,7 @@ moment.updateLocale("en", {
 
 var numSpecificReports = 0;
 function reportHtml(i) {
-	return '<div class="report-options collapse">'+
+	return '<div class="report-options">'+
 	'<button type="button" class="close remove-report-group" aria-hidden="true">&times;</button>'+
 	'<h3>Report</h3>'+
  '<div class="form-group">'+
@@ -53,16 +53,14 @@ function reportHtml(i) {
 
 $("#addNewSpecificReport").click(function(){
 	var report = reportHtml(++numSpecificReports);
-	$(report).appendTo(".modal-specRpt").velocity("slideDown");
+	$(report).appendTo(".modal-specRpt");
 	$(".datepicker").datepicker({
 		dateFormat: "yy-mm-dd"
 	});
 });
 
  $(".modal-specRpt").on("click", ".remove-report-group", function(){
-	$(this).parent().velocity("slideUp", function(){
-		$(this).remove();
-	});
+	$(this).parent().remove();
  });
 
 function checkReportQuery(){

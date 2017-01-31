@@ -1,12 +1,6 @@
 @extends("app")
 
 @section("head")
-	<!--[if lte IE 8]>
-		<script type="text/javascript" src="/js/excanvas.js"></script>
-	<![endif]-->
-<?php
-	ob_start();
-?>
 	<style>
 		.img-graphs {
 			text-align: center;
@@ -22,15 +16,9 @@
 			text-align: center;
 		}
 	</style>
-<?php
-	$html = ob_get_flush();
-?>
 @stop
 
 @section("body")
-<?php
-	ob_start();
-?>
 	<table class="table table striped">
 		<thead>
 			<tr>
@@ -154,26 +142,11 @@
 			</div>
 		</div>
 
-		<div class="img-graphs">
-		@if(count($report["graphs"]) > 0)
-			<img class="img-graph" src="/graph/{{ $report['graphs'][0] }}" />
-		@endif
-		</div>
 		<div class="graphs"></div>
 	@endforeach
-<?php
-	$html .= ob_get_flush();
-?>
 </div>
 <div class="container body-block">
 	<div class="form-horizontal new-graphs-container">
-		<div class="form-group">
-			<label for="new-graphs" class="col-sm-2 col-sm-offset-4">Interactive graphs</label>
-			<div class="col-sm-2">
-				<input type="checkbox" id="new-graphs" checked />
-			</div>
-		</div>
-		<br />
 		<div class="form-group graph-type-container">
 			<label for="graph-type" class="col-sm-2 col-sm-offset-4">Graph type</label>
 			<div class="col-sm-2">
@@ -193,8 +166,6 @@
 		</div>
 	</div>
 <?php
-	ob_start();
-
 	$subjectTextResponses = [];
 	foreach($reportData as $report){
 		$subjectTextResponses = array_merge($report["subjectTextResponses"], $subjectTextResponses);
@@ -229,18 +200,6 @@
 	@else
 		<p class="lead">No text responses to show</p>
 	@endif
-
-<?php
-	$html .= ob_get_flush();
-	$html = preg_replace("/[\t\n]/", "", $html);
-?>
-	<form method="post" target="_blank" action="/report/pdf" class="pdf-form">
-		{{ csrf_field() }}
-		<input type="hidden" name="view" value="individual" />
-		<input type="hidden" name="data" value="{{ $html }}" />
-		<button type="submit" class="btn" name="name"
-			value="Individual Report {{ $specificSubject->last_name }}, {{ $specificSubject->first_name}}">Export PDF</button>
-	</form>
 @stop
 
 @section("script")
@@ -262,9 +221,6 @@
 				"order": [[0, "asc"]]
 			});
 
-			$(".img-graphs").hide();
-
-			$("#new-graphs").bootstrapSwitch();
 			$("#graph-layout").bootstrapSwitch();
 
 			if(graphOption == "average")

@@ -8,7 +8,6 @@
         "php": ">=5.5.9",
         "laravel/framework": "^5.3",
         "fzaninotto/faker": "^1.5",
-        "szymach/c-pchart": "^1.1",
         "maximebf/debugbar": "^1.10",
         "barryvdh/laravel-debugbar": "^2.0",
         "anlutro/l4-settings": "^0.4.0",
