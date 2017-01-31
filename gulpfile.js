@@ -1,6 +1,7 @@
 /* eslint-env node */
 const gulp = require('gulp');
 const elixir = require('laravel-elixir');
+const size = require("gulp-size");
 const each = require('gulp-each');
 const fc2json = require('gulp-file-contents-to-json');
 const glob = require('glob');
@@ -25,7 +26,6 @@ const scripts = [
 	bowerPath + 'select2/dist/js/select2.js',
 	bowerPath + 'Chart.js/Chart.js',
 	bowerPath + 'bootstrap-switch/dist/js/bootstrap-switch.js',
-	bowerPath + 'marked/lib/marked.js',
 	bowerPath + 'country-region-selector/dist/jquery.crs.js',
 	bowerPath + 'velocity/velocity.js',
 	bowerPath + 'eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js'
@@ -59,6 +59,14 @@ const imgs = [
 const cssimgs = [
 	bowerPath + 'jquery-ui/themes/base/images/*'
 ];
+
+gulp.task("vendorjs-size", function(){
+	gulp.src(scripts)
+		.pipe(size({
+			showFiles: true
+		}))
+		.pipe(size());
+});
 
 gulp.task('vendorfont', function(){
 	gulp.src(fonts)
@@ -97,7 +105,6 @@ elixir(function(mix) {
 	mix.scripts([
 			...relativeToResourcesSubdir(scripts),
 			'jquery-ui.min.js',
-			'datatables-datetime-moment.js',
 			'modernizr-custom.js',
 			'mdn-round.js',
 			'main.js',

@@ -3,8 +3,10 @@
 		<start-end-date v-model="dates" :allTime="true" />
 		
 		<data-table :id="id" :striped="striped" :bordered="bordered"
-			:thead="thead" :config="datedConfig" :data="data" :exportable="exportable"
-			:exportFilename="exportFilename" />
+				:thead="thead" :config="datedConfig" :data="data"
+				:exportable="exportable" :exportFilename="exportFilename">
+			<slot></slot>
+		</data-table>
 	</div>
 </template>
 
