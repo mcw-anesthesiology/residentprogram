@@ -1,6 +1,6 @@
 import Vue from 'vue';
 
-import DataTable from '../vue-components/DataTable.vue';
+import EvaluationDataTable from '../vue-components/EvaluationDataTable.vue';
 import SelectTwo from '../vue-components/SelectTwo.vue';
 
 import moment from 'moment';
@@ -339,7 +339,7 @@ export function createRequest(el, propsData){
 			}
 		},
 		components: {
-			DataTable,
+			EvaluationDataTable,
 			SelectTwo
 		}
 	});

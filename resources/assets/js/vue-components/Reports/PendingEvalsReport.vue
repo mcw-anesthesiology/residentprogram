@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="container body-block">
-			<h2>Pending evaluation requests</h2>
+			<h1>Pending evaluation requests</h1>
 			<start-end-date v-model="dates" />
 			
 			<alert-list v-model="alerts" />
@@ -35,14 +35,12 @@ import AlertList from '../AlertList.vue';
 import ComponentList from '../ComponentList.vue';
 
 import { getFetchHeaders } from '../../modules/utils.js';
+import { isoDateStringObject, currentQuarter } from '../../modules/date-utils.js';
 
 export default {
 	data(){
 		return {
-			dates: {
-				startDate: null,
-				endDate: null
-			},
+			dates: isoDateStringObject(currentQuarter()),
 			report: null,
 			
 			alerts: []

@@ -162,7 +162,7 @@ function drawAllRadarGraphs(){
 						pointStrokeColor: "#fff",
 						pointHighlightFill: "#fff",
 						pointHighlightStroke: individualSolidColor,
-						data: _.values(report.subjectMilestone[subjectId])
+						data: getValues(report.subjectMilestone[subjectId])
 					}
 				]
 			};
@@ -179,7 +179,7 @@ function drawAllRadarGraphs(){
 						pointStrokeColor: "#fff",
 						pointHighlightFill: "#fff",
 						pointHighlightStroke: individualSolidColor,
-						data: _.values(report.subjectCompetency[subjectId])
+						data: getValues(report.subjectCompetency[subjectId])
 					}
 				]
 			};
@@ -191,7 +191,7 @@ function drawAllRadarGraphs(){
 
 function prepareReport(report){
 	// Sort subject ids by subject name
-	report.subjectIds = _.keys(report.subjects).sort(function(a, b){return report.subjects[a].localeCompare(report.subjects[b]);})
+	report.subjectIds = Object.keys(report.subjects).sort(function(a, b){return report.subjects[a].localeCompare(report.subjects[b]);})
 
 	if(report.trainingLevel == "fellow")
 		report.scaleLabels = ["", "Fellow Level 1", "Fellow Level 2", "Fellow Level 3", "Fellow Level 4", "Fellow Level 5"];
@@ -202,10 +202,10 @@ function prepareReport(report){
 		return report.scaleLabels[values.value/2];
 	};
 
-	report.milestoneLabels = _.values(report.milestones);
-	report.averageMilestones = _.values(report.averageMilestone);
-	report.competencyLabels = _.values(report.competencies);
-	report.averageCompetencies = _.values(report.averageCompetency);
+	report.milestoneLabels = getValues(report.milestones);
+	report.averageMilestones = getValues(report.averageMilestone);
+	report.competencyLabels = getValues(report.competencies);
+	report.averageCompetencies = getValues(report.averageCompetency);
 
 	for(var i = 0; i < report.milestoneLabels.length; i++){
 		report.milestoneLabels[i] = report.milestoneLabels[i].replace("Anes Fellow ", "");
@@ -233,4 +233,14 @@ function prepareReport(report){
 		pointHighlightStroke: averageSolidColor,
 		data: report.averageCompetencies
 	};
+}
+
+function getValues(obj){
+	var values = [];
+	var keys = Object.keys(obj);
+	for(var i = 0; i < keys.length; i++){
+		values.push(obj[keys[i]]);
+	}
+	
+	return values;
 }

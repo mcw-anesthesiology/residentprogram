@@ -32,6 +32,17 @@ export function renderDateRangeExplicit(startDate, endDate){
 	return renderDateRange(startDate, endDate, true);
 }
 
+export const DATE_RANGES = {
+	CUSTOM: 'custom',
+	CURRENT_QUARTER: 'currentQuarter',
+	LAST_QUARTER: 'lastQuarter',
+	CURRENT_SEMESTER: 'currentSemester',
+	LAST_SEMESTER: 'lastSemester',
+	CURRENT_YEAR: 'currentYear',
+	LAST_YEAR: 'lastYear',
+	ALL_TIME: 'allTime'
+};
+
 export function currentQuarter(){
 	let startDate = moment().startOf('month');
 	while(startDate.month() % 3 !== 0)
@@ -104,5 +115,12 @@ export function lastYear(){
 	return {
 		startDate,
 		endDate
+	};
+}
+
+export function allTime(){
+	return {
+		startDate: null,
+		endDate: null
 	};
 }

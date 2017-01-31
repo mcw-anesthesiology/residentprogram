@@ -1,13 +1,16 @@
 {
   "css/all.css": "css/all-078b46ec56.css",
-  "js/0.js": "js/0-cf30ef7ced.js",
-  "js/1.js": "js/1-425f19325b.js",
-  "js/all.js": "js/all-dbd42c4e8f.js",
-  "js/bundle.js": "js/bundle-a9d641ff71.js",
+  "js/0.js": "js/0-cc68417e37.js",
+  "js/1.js": "js/1-b9b2097a99.js",
+  "js/all.js": "js/all-e04ebef5f6.js",
+  "js/bundle.js": "js/bundle-c5bc047863.js",
   "js/iframeResizer.min.js": "js/iframeResizer-a45fff2f3d.min.js",
-  "js/vue-deps.js": "js/vue-deps-8e43b1ee45.js",
-  "js/vue-form-builder.js": "js/vue-form-builder-faf9786fd1.js",
-  "js/vue-milestone-competency-lists.js": "js/vue-milestone-competency-lists-3f9e8a631e.js",
-  "js/vue-reports.js": "js/vue-reports-554b0bde06.js",
-  "js/vue-request.js": "js/vue-request-bed554258b.js"
+  "js/manifest.js": "js/manifest-897cc5b358.js",
+  "js/vue-dashboard.js": "js/vue-dashboard-270b641321.js",
+  "js/vue-deps.js": "js/vue-deps-1fcdf966f3.js",
+  "js/vue-form-builder.js": "js/vue-form-builder-6ed38555e8.js",
+  "js/vue-manage.js": "js/vue-manage-782f8af896.js",
+  "js/vue-milestone-competency-lists.js": "js/vue-milestone-competency-lists-2c1b32a288.js",
+  "js/vue-reports.js": "js/vue-reports-6e7eb6cb76.js",
+  "js/vue-request.js": "js/vue-request-c39a98f864.js"
 }

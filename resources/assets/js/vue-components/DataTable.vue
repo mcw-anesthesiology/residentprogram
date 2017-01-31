@@ -1,6 +1,14 @@
 <template>
-	<div ref="container">
+	<div class="table-responsive">
+		<div class="refresh-button-container" v-if="config && 'ajax' in config">
+			<button type="button" class="btn btn-default" title="Reload table"
+					@click="reloadTable">
+				<span class="glyphicon glyphicon-refresh"></span>
+			</button>
+		</div>
+		
 		<table :id="id" class="table" :class="tableClass" width="100%" ref="table">
+			<slot>
 				<thead>
 					<tr v-for="(row, rowIndex) of thead" :key="`row-${rowIndex}`">
 						<th v-for="(th, thIndex) of row" :key="thIndex"
@@ -10,6 +18,7 @@
 						</th>
 					</tr>
 				</thead>
+			</slot>
 		</table>
 		<div v-if="exportable && data" class="text-center">
 			<button type="button" class="btn btn-default"
@@ -22,13 +31,8 @@
 
 <script>
 import download from 'downloadjs';
-import ElementResizeDetector from 'element-resize-detector';
 
 import { escapeCsv, sortIgnoreCase } from '../modules/utils.js';
-
-const erd = ElementResizeDetector({
-	strategy: 'scroll'
-});
 
 export default {
 	props: {
@@ -42,7 +46,7 @@ export default {
 		},
 		bordered: {
 			type: Boolean,
-			default: true
+			default: false
 		},
 		
 		thead: {
@@ -76,10 +80,6 @@ export default {
 	},
 	mounted(){
 		$(this.$refs.table).DataTable(Object.assign({}, this.config, {data: this.data}));
-
-		erd.listenTo(this.$refs.container, () => {
-			$(window).trigger('resize');
-		});
 	},
 	computed: {
 		tableClass(){
@@ -108,6 +108,11 @@ export default {
 		}
 	},
 	methods: {
+		reloadTable(){
+			$(this.$refs.table).DataTable({
+				retrieve: true
+			}).ajax.reload(null, false);
+		},
 		exportCsv(){
 			let header = [];
 			header.fill([], this.thead.length);
@@ -168,3 +173,9 @@ export default {
 	}
 };
 </script>
+
+<style scoped>
+	.refresh-button-container {
+		text-align: right;
+	}
+</style>

@@ -11,8 +11,8 @@
 
 			<section>
 				<h3>Evaluations included in report</h3>
-				<data-table :thead="evaluationsThead" :config="evaluationsConfig"
-						:data="evaluationsData" />
+				<data-table :bordered="true" :thead="evaluationsThead"
+					:config="evaluationsConfig" :data="evaluationsData" />
 
 				<button type="button" class="btn btn-default center-block"
 						@click="exportPdf">
@@ -33,12 +33,14 @@
 				<div class="row">
 					<div :class="milestoneCompetencyWidth" v-if="show.competencies">
 						<h4>Competencies</h4>
-						<data-table :thead="competenciesThead" :data="competenciesData" />
+						<data-table :bordered="true"
+							:thead="competenciesThead" :data="competenciesData" />
 					</div>
 
 					<div :class="milestoneCompetencyWidth" v-if="show.milestones">
 						<h4>Milestones</h4>
-						<data-table :thead="milestonesThead" :data="milestonesData" />
+						<data-table :bordered="true"
+							:thead="milestonesThead" :data="milestonesData" />
 					</div>
 				</div>
 			</section>
@@ -97,7 +99,8 @@
 
 			<section>
 				<h3>Comments</h3>
-				<data-table :thead="commentsThead" :config="commentsConfig" :data="commentsData" />
+				<data-table :bordered="true" :thead="commentsThead"
+					:config="commentsConfig" :data="commentsData" />
 
 				<button type="button" class="btn btn-primary center-block"
 						@click="exportPdf">

@@ -21,7 +21,7 @@ moment.updateLocale("en", {
 
 var numSpecificReports = 0;
 function reportHtml(i) {
-	return '<div class="report-options collapse">'+
+	return '<div class="report-options">'+
 	'<button type="button" class="close remove-report-group" aria-hidden="true">&times;</button>'+
 	'<h3>Report</h3>'+
  '<div class="form-group">'+
@@ -51,148 +51,16 @@ function reportHtml(i) {
  '</div>';
 }
 
-function addSendEmailModalBody(modal, replacements){
-	modal.find(".ids-list-button").click(function(){
-		$(".ids-container").slideToggle();
-	});
-
-	modal.find(".body-rendered").mouseenter(showEmailBody);
-	modal.find(".body-rendered").focusin(focusEmailBody);
-
-	function showEmailBody(){
-		modal.find(".body-rendered").hide();
-		modal.find(".body").show();
-	}
-
-	function focusEmailBody(){
-		showEmailBody();
-		modal.find(".body").focus()
-	}
-
-	modal.find(".body").mouseleave(function(){
-		if(!$(this).is(document.activeElement))
-			unfocusEmailBody();
-	});
-	modal.find(".body").focusout(unfocusEmailBody);
-
-	unfocusEmailBody();
-
-	function unfocusEmailBody(){
-		modal.find(".body").hide();
-		markupEmailBody();
-		modal.find(".body-rendered").show();
-	}
-
-
-	function markupEmailBody(){
-		var bodyText = marked(modal.find(".body").val());
-
-		for(var i = 0; i < replacements.length; i++){
-			var replacement = replacements[i];
-			var pattern = new RegExp("\\[\\[" + replacement + "\\]\\]", "g");
-			var label = '<span class="label label-info">' + replacement + '</span>';
-			bodyText = bodyText.replace(pattern, label);
-		}
-
-		modal.find(".body-rendered").html(bodyText);
-	}
-}
-
-function openSendEmailModal(users, modal, subjectText, bodyText,
-							sendSingleCallback, sendAllCallback,
-							usersTitle, replacements){
-	var user;
-	modal.find(".send")
-		.off("click", sendSingleCallback)
-		.off("click", sendAllCallback);
-
-	if(Array.isArray(users)){
-		var list = modal.find(".ids-list")[0];
-		var li, checkbox, label, labelText;
-		var numSentUsers = 0;
-
-		$(list).empty();
-		for(var i = 0; i < users.length; i++){
-			user = users[i];
-
-			li = document.createElement("li");
-			label = document.createElement("label");
-			checkbox = document.createElement("input");
-			checkbox.type = "checkbox";
-			checkbox.className = "send-all-id";
-			checkbox.value = user.id;
-			if(!user.email)
-				checkbox.disabled = true;
-			else if(user.send){
-				checkbox.checked = true;
-				numSentUsers++;
-			}
-			if(user.data){
-				var dataKeys = Object.keys(user.data);
-				for(var j = 0; j < dataKeys.length; j++){
-					checkbox.setAttribute("data-" + dataKeys[j], user.data[dataKeys[j]]);
-				}
-			}
-
-			label.appendChild(checkbox);
-			labelText = document.createTextNode(" " + user.full_name);
-			label.appendChild(labelText);
-			li.appendChild(label);
-			list.appendChild(li);
-		}
-
-		if(numSentUsers <= 6)
-			modal.find(".ids-container").show();
-		else
-			modal.find(".ids-container").hide();
-
-		$(".send-all-id").change(function(){
-			var numSentUsers = parseInt($(".to").val().split(" ")[0], 10);
-			if($(this).prop("checked"))
-				numSentUsers++;
-			else
-				numSentUsers--;
-			$(".to").val(numSentUsers + " " + usersTitle);
-		});
-
-		modal.find(".to").val(numSentUsers + " " + usersTitle);
-		modal.find(".to-container").addClass("input-group");
-		modal.find(".ids-list-button-container").show();
-		appendAlert("Please verify list of residents before sending", modal.find(".alert-container"), "warning");
-		modal.find(".send").click(sendAllCallback);
-	} else {
-		user = users;
-		modal.find(".id").val(user.id);
-		modal.find(".to").val(user.full_name + " <" + user.email + ">");
-		modal.find(".to-container").removeClass("input-group");
-		modal.find(".ids-list-button-container").hide();
-		modal.find(".ids-list").empty();
-		modal.find(".ids-container").hide();
-		modal.find(".send").click(sendSingleCallback);
-	}
-
-	modal.find(".subject").val(subjectText);
-	modal.find(".body").val(bodyText);
-
-	var bodyHeight = 300;
-	modal.find(".body-rendered").height(bodyHeight);
-	addSendEmailModalBody(modal, replacements);
-	modal.modal("show");
-}
-
-
 $("#addNewSpecificReport").click(function(){
 	var report = reportHtml(++numSpecificReports);
-	$(report).appendTo(".modal-specRpt").velocity("slideDown");
+	$(report).appendTo(".modal-specRpt");
 	$(".datepicker").datepicker({
 		dateFormat: "yy-mm-dd"
 	});
 });
 
  $(".modal-specRpt").on("click", ".remove-report-group", function(){
-	$(this).parent().velocity("slideUp", function(){
-		$(this).remove();
-	});
+	$(this).parent().remove();
  });
 
 function checkReportQuery(){
@@ -358,9 +226,6 @@ $.fn.select2.defaults.set("theme", "bootstrap");
 $(".select2").val(null).select2({
 	placeholder: "Please select"
 });
-
-
-$.fn.dataTable.moment( "DD-MMM-YYYY h:mm A" );
 
 $(".report").submit(checkReportQuery);
 $(".report").on("click", ".lastSixMonths", lastSixMonths);

@@ -84,9 +84,11 @@ class MainController extends Controller
                 break;
             case "admin":
                 $numFlagged = Evaluation::has("flag")->count();
+                $flaggedActions = Setting::get('flaggedActions');
                 break;
         }
-        $data = compact("mentees", "numFlagged", "numStaffEvals", "numSelfEvals");
+        $data = compact("mentees", "numFlagged", "numStaffEvals", "numSelfEvals",
+			'flaggedActions');
         return view("dashboard.dashboard", $data);
     }
 

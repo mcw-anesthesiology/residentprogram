@@ -283,13 +283,13 @@
 </div>
 <div class="container body-block">
 	<h3 class="sub-header">Evaluations in progress</h3>
-	<data-table :bordered="false" :thead="pendingFacultyEvalsThead"
+	<evaluation-data-table range="allTime" :thead="pendingFacultyEvalsThead"
 		:config="pendingFacultyEvalsConfig"/>
 	@endif
 </div>
 <div class="container body-block">
 	<h3 class="sub-header">Completed faculty evaluations</h3>
-	<data-table :bordered="false" :thead="completeFacultyEvalsThead"
+	<evaluation-data-table range="allTime" :thead="completeFacultyEvalsThead"
 		:config="completeFacultyEvalsConfig" />
 @stop
 

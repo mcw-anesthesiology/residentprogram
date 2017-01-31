@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="container body-block">
-			<h2>Trainee report</h2>
+			<h1>Trainee report</h1>
 			<start-end-date v-model="dates" />
 			<div class="row">
 				<div class="form-group col-sm-6">
@@ -139,10 +139,8 @@ import BootstrapAlert from '../BootstrapAlert.vue';
 import SelectTwo from '../SelectTwo.vue';
 import SvgIcon from '../SvgIcon.vue';
 
-import {
-	getFetchHeaders,
-	fetchMilestoneGroups
-} from '../../modules/utils.js';
+import { getFetchHeaders, fetchMilestoneGroups } from '../../modules/utils.js';
+import { isoDateStringObject, currentQuarter } from '../../modules/date-utils.js';
 
 export default {
 	props: {
@@ -157,10 +155,7 @@ export default {
 	},
 	data(){
 		return {
-			dates: {
-				startDate: null,
-				endDate: null
-			},
+			dates: isoDateStringObject(currentQuarter()),
 			trainingLevel: 'all',
 			currentTrainingLevel: 'all',
 			traineeId: null,

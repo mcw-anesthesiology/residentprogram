@@ -1,5 +1,5 @@
 <template>
-	<div class="form-horizontal">
+	<div class="form-horizontal" ref="container">
 		<div class="form-group">
 			<div class="col-md-4">
 				<label class="containing-label">
@@ -14,14 +14,16 @@
 			<div class="col-sm-6 col-md-4">
 				<label class="containing-label">
 					Start Date
-					<vue-flatpickr :value="value.startDate" :options="flatpickrOptions"
+					<vue-flatpickr class="form-control"
+						:value="value.startDate" :options="flatpickrOptions"
 						@input="handleInput('startDate', arguments[0])"/>
 				</label>
 			</div>
 			<div class="col-sm-6 col-md-4">
 				<label class="containing-label">
 					End Date
-					<vue-flatpickr :value="value.endDate" :options="flatpickrOptions"
+					<vue-flatpickr class="form-control"
+						:value="value.endDate" :options="flatpickrOptions"
 						@input="handleInput('endDate', arguments[0])"/>
 				</label>
 			</div>
@@ -35,6 +37,7 @@ import 'vue-flatpickr/theme/flatpickr.min.css';
 
 import { camelCaseToWords } from '../modules/utils.js';
 import {
+	DATE_RANGES,
 	isoDateStringObject,
 	currentQuarter,
 	lastQuarter,
@@ -44,21 +47,15 @@ import {
 	lastYear
 } from '../modules/date-utils.js';
 
-const DATE_RANGES = {
-	CUSTOM: 'custom',
-	CURRENT_QUARTER: 'currentQuarter',
-	LAST_QUARTER: 'lastQuarter',
-	CURRENT_SEMESTER: 'currentSemester',
-	LAST_SEMESTER: 'lastSemester',
-	CURRENT_YEAR: 'currentYear',
-	LAST_YEAR: 'lastYear'
-};
-
 export default {
 	props: {
 		value: {
 			type: Object,
 			required: true
+		},
+		allTime: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data(){
@@ -67,19 +64,15 @@ export default {
 		};
 	},
 	created(){
-		this.dateRange = DATE_RANGES.LAST_QUARTER;
-	},
-	mounted(){
-		$('#reports-start-date, #reports-end-date').datepicker({
-			dateFormat: "yy-mm-dd",
-			onSelect: function(){
-				this.dispatchEvent(new Event('input'));
-			}
-		});
+		this.matchDateRangeWithValue();
 	},
 	computed: {
 		DATE_RANGES(){
-			return DATE_RANGES;
+			let ranges = Object.assign({}, DATE_RANGES);
+			if(!this.allTime)
+				delete ranges.ALL_TIME;
+			
+			return ranges;
 		},
 		flatpickrOptions(){
 			return {
@@ -96,7 +89,28 @@ export default {
 		lastYear
 	},
 	watch: {
-		value(value){
+		value(){
+			this.matchDateRangeWithValue();
+		},
+		dateRange(dateRange){
+			if(dateRange === DATE_RANGES.ALL_TIME)
+				this.setDate({
+					startDate: null,
+					endDate: null
+				});
+			
+			if(dateRange !== DATE_RANGES.CUSTOM && this[dateRange]
+					&& !this.datesEqual(this.value, this[dateRange]))
+				this.setDate(this[dateRange]);
+		}
+	},
+	methods: {
+		matchDateRangeWithValue(value = this.value){
+			if(this.allTime && !value.startDate && !value.endDate){
+				this.dateRange = this.DATE_RANGES.ALL_TIME;
+				return;
+			}
+			
 			if(this.dateRange && this.dateRange !== DATE_RANGES.CUSTOM
 					&& this[this.dateRange]
 					&& this.datesEqual(value, this[this.dateRange]))
@@ -111,13 +125,6 @@ export default {
 
 			this.dateRange = DATE_RANGES.CUSTOM;
 		},
-		dateRange(dateRange){
-			if(dateRange !== DATE_RANGES.CUSTOM && this[dateRange]
-					&& !this.datesEqual(this.value, this[dateRange]))
-				this.setDate(this[dateRange]);
-		}
-	},
-	methods: {
 		handleInput(prop, value){
 			let newValue = Object.assign({}, this.value, {[prop]: value});
 			this.$emit('input', newValue);
@@ -141,5 +148,7 @@ export default {
 </script>
 
 <style scoped>
-
+	.form-horizontal {
+		overflow-x: hidden;
+	}
 </style>
