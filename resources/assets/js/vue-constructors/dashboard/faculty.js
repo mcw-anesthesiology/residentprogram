@@ -44,6 +44,7 @@ export default function createFacultyDashboard(el, propsData){
 					'#',
 					'Resident/Fellow',
 					'Evaluation Form',
+					'Evaluation Date',
 					'Requested',
 					''
 				]];
@@ -70,6 +71,11 @@ export default function createFacultyDashboard(el, propsData){
 						{data: 'url', render: renderEvaluatorEvalUrl},
 						{data: 'subject.full_name'},
 						{data: 'form.title'},
+						{
+							data: null,
+							render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+							createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+						},
 						{data: 'request_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
 						{data: null, orderable: false, searchable: false, render: evaluation => {
 							if(evaluation.requested_by_id === this.user.id)
