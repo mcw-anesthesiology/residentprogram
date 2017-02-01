@@ -15,36 +15,32 @@
 
 @section("body")
 	<div class="row">
-		<h2 class="sub-header">Milestones  <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#add-milestone-modal" data-id="Milestone" id="add-milestone-button"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
-    	<div class="table-responsive">
-        	<table class="table table-striped" id="milestones-table" width="100%">
-        		<thead>
-            		<tr>
-		            	<th>Title</th>
-						<th>Type</th>
-						<th>Subspecialty</th>
-		            	<th>Description</th>
-		            	<th>Action</th>
-            		</tr>
-        		</thead>
-			</table>
-		</div>
+		<h2 class="sub-header">
+			Milestones
+			<button class="btn btn-success btn-xs"
+					data-toggle="modal" data-target="#add-milestone-modal"
+					data-id="Milestone" id="add-milestone-button">
+				<span class="glyphicon glyphicon-plus"></span>
+				Add New
+			</button>
+		</h2>
+    	<data-table id="milestones-table"
+			:thead="milestonesThead" :config="milestonesConfig" />
 	</div>
 </div>
 <div class="container body-block">
 	<div class="row">
-		<h2 class="sub-header">Competencies  <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#add-competency-modal" data-id="Competency" id="add-competency-button"><span class="glyphicon glyphicon-plus"></span> Add New</button></h2>
-		<div class="table-responsive">
-			<table class="table table-striped" id="competencies-table" width="100%">
-				<thead>
-					<tr>
-						<th>Title</th>
-						<th>Description</th>
-						<th>Action</th>
-					</tr>
-				</thead>
-			</table>
-		</div>
+		<h2 class="sub-header">
+			Competencies
+			<button class="btn btn-success btn-xs" data-toggle="modal"
+					data-target="#add-competency-modal" data-id="Competency"
+					id="add-competency-button">
+				<span class="glyphicon glyphicon-plus"></span>
+				Add New
+			</button>
+		</h2>
+		<data-table id="competencies-table"
+			:thead="competenciesThead" :config="competenciesConfig" />
 	</div>
 
 	<!-- Add Milestone Modal -->
@@ -265,6 +261,11 @@
 @stop
 
 @section("script")
+	<script src="{{ elixir('js/vue-deps.js') }}"></script>
+	<script src="{{ elixir('js/vue-manage.js') }}"></script>
+	<script>
+		createManageMilestonesCompetencies('main');
+	</script>
 	<script>
 		var levelHtml = '<div class="row milestone-level">' +
 							'<button type="button" class="close remove-milestone-level">&times;</button>' +
@@ -281,80 +282,7 @@
 						'</div>' +
 						'<hr />';
 
-		var milestonesTable = $("#milestones-table").DataTable({
-			ajax: {
-				url: "/milestones",
-				data: {
-					with: {
-						forms: true
-					}
-				},
-				dataSrc: ""
-			},
-			columns: [
-				{data: "title"},
-				{data: "type"},
-				{data: "training_level"},
-				{data: "description"},
-				{data: null, searchable: false, orderable: false, render: function(milestone, type){
-					var milestoneData = 'data-id="' + milestone.id + '" data-title="' + milestone.title + '" '
-						+ 'data-type="' + milestone.type + '" data-training-level="' + milestone.training_level + '" '
-						+ 'data-description="' + milestone.description + '"';
-
-					var editButton = '<button type="button" class="edit-milestone-button btn btn-info btn-xs" '
-						+ milestoneData + '>'
-						+ '<span class="glyphicon glyphicon-edit"></span> Edit</button>';
-
-					var levelsButton = '<button type="button" class="btn btn-info btn-xs edit-milestone-levels-button" '
-						+ milestoneData + '>'
-						+ '<span class="glyphicon glyphicon-th-list"></span> Levels</button>';
-
-					var deleteButton = '';
-					if(milestone.forms.length === 0){
-						deleteButton = '<button type="button" class="delete-milestone-button btn btn-danger btn-xs" '
-							+ milestoneData + '>'
-							+ '<span class="glyphicon glyphicon-remove"></span> Delete</button>';
-					}
-
-					return editButton + " " + levelsButton + " " + deleteButton;
-				}}
-			]
-		});
-
-		var competenciesTable = $("#competencies-table").DataTable({
-			ajax: {
-				url: "/competencies",
-				data: {
-					with: {
-						forms: true
-					}
-				},
-				dataSrc: ""
-			},
-			columns: [
-				{data: "title"},
-				{data: "description"},
-				{data: null, searchable: false, orderable: false, render: function(competency, type){
-					var competencyData = 'data-id="' + competency.id + '" data-title="' + competency.title + '" '
-						+ 'data-description="' + competency.description + '"';
-
-					var editButton = '<button type="button" class="edit-competency-button btn btn-info btn-xs" '
-						+ competencyData + '>'
-						+ '<span class="glyphicon glyphicon-edit"></span> Edit</button>';
-
-					var deleteButton = '';
-					if(competency.forms.length === 0){
-						deleteButton = '<button type="button" class="delete-competency-button btn btn-danger btn-xs" '
-							+ competencyData + '>'
-							+ '<span class="glyphicon glyphicon-remove"></span> Delete</button>';
-					}
-
-					return editButton + " " + deleteButton;
-				}}
-			]
-		});
-
-		$("#milestones-table").on("click", ".edit-milestone-button", function(){
+		$(document).on("click", ".edit-milestone-button", function(){
 			$("#edit-milestone-form").attr("action", "/milestones/" + $(this).data("id"));
 			$("#edit-milestone-title").val($(this).data("title"));
 			$("#edit-milestone-type").val($(this).data("type"));
@@ -363,25 +291,25 @@
 			$("#edit-milestone-modal").modal("show");
 		});
 
-		$("#competencies-table").on("click", ".edit-competency-button", function(){
+		$(document).on("click", ".edit-competency-button", function(){
 			$("#edit-competency-form").attr("action", "/competencies/" + $(this).data("id"));
 			$("#edit-competency-title").val($(this).data("title"));
 			$("#edit-competency-description").val($(this).data("description"));
 			$("#edit-competency-modal").modal("show");
 		});
 
-		$("#milestones-table").on("click", ".delete-milestone-button", function(){
+		$(document).on("click", ".delete-milestone-button", function(){
 			$("#delete-milestone-form").attr("action", "/milestones/" + $(this).data("id"));
 			$("#delete-milestone-modal").modal("show");
 		});
 
-		$("#competencies-table").on("click", ".delete-competency-button", function(){
+		$(document).on("click", ".delete-competency-button", function(){
 			$("#delete-competency-form").attr("action", "/competencies/" + $(this).data("id"));
 			$("#delete-competency-modal").modal("show");
 		});
 
-		$("#add-milestone-form, #edit-milestone-form, #delete-milestone-form, "
-				+ "#add-competency-form, #edit-competency-form, #delete-competency-form").on("submit", function(event){
+		$(document).on("submit", "#add-milestone-form, #edit-milestone-form, #delete-milestone-form, "
+				+ "#add-competency-form, #edit-competency-form, #delete-competency-form", function(event){
 			event.preventDefault();
 			var form = $(this);
 			var modal = $(this).parents(".modal");
@@ -393,16 +321,20 @@
 				data: $(this).serialize()
 			}).done(function(response){
 				if(response === "success"){
-					var table;
+					var tableSelector;
 					switch(form.data("type")){
 						case "milestone":
-							table = milestonesTable;
+							tableSelector = "#milestones-table";
 							break;
 						case "competency":
-							table = competenciesTable;
+							tableSelector = "#competencies-table";
 							break;
 					}
-					table.ajax.reload();
+					if(tableSelector)
+						$(tableSelector).DataTable({
+							retrieve: true
+						}).ajax.reload();
+						
 					modal.modal("hide");
 				}
 				else
@@ -414,7 +346,7 @@
 			});
 		});
 
-		$("#milestones-table").on("click", ".edit-milestone-levels-button", function(){
+		$(document).on("click", ".edit-milestone-levels-button", function(){
 			// TODO: Open modal and show a loading bar or something
 			var button = $(this);
 			button.prop("disabled", true).addClass("disabled");
@@ -439,7 +371,7 @@
 			});
 		});
 
-		$("#milestone-levels-container").on("keyup", ".level-name, .level-description", function(){
+		$(document).on("keyup", "#milestone-levels-container .level-name, .level-description", function(){
 			var level = $(this).parents(".milestone-level");
 			var sibling = $(this).parents(".form-group").siblings(".form-group").find(".level-name, .level-description");
 			if(($(this).val() && !sibling.val()) || !$(this).val() && sibling.val()){
@@ -454,15 +386,15 @@
 			}
 		});
 
-		$("#milestone-levels-container").on("click", ".remove-milestone-level", function(event){
+		$(document).on("click", "#milestone-levels-container .remove-milestone-level", function(event){
 			$(this).parent().remove();
 		});
 
-		$("#append-milestone-level").click(function(){
+		$(document).on("click", "#append-milestone-level", function(){
 			appendMilestoneLevel();
 		});
 
-		$("#milestone-levels-form").submit(function(event){
+		$(document).on("submit", "#milestone-levels-form", function(event){
 			event.preventDefault();
 			var submitButton = $(this).find("button[type='submit']");
 			submitButton.prop("disabled", true).addClass("disabled");
