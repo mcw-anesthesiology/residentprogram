@@ -1,2 +1,2202 @@
-!function(t,e){if("object"==typeof exports&&"object"==typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var n=e();for(var o in n)("object"==typeof exports?exports:t)[o]=n[o]}}(this,function(){return webpackJsonp([5,10],{108:function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var o=n(313),i=n.n(o),s=n(315),r=n.n(s),a=n(8),l=n.n(a),u=n(2);e.default={props:["oldFormContents"],created:function(){var t=this;n.i(u.n)().then(function(e){t.groupedMilestones=e}).catch(function(t){console.error(t)}),fetch("/competencies",{credentials:"same-origin"}).then(function(t){if(t.ok)return t.json();var e=new Error(t.statusText);throw e.response=t,e}).then(function(e){t.competencies=e}).catch(function(t){console.error(t)})},data:function(){return{title:"",formType:"resident",periodType:"month",nextQuestionIdNum:1,groupedMilestones:[],competencies:[],items:[],customOptions:[],alerts:[]}},methods:{addInstruction:function(){this.items.push({type:"instruction",text:""})},addQuestion:function(){this.items.push({type:"question",text:"",questionIdNum:this.nextQuestionIdNum++,questionType:"radio",milestones:[],competencies:"",options:[],required:!1,weight:100})},changeItem:function(t,e){this.items.splice(t,1,Object.assign(this.items[t],e))},removeItem:function(t){var e=this.items[t];"question"===e.type&&e.questionIdNum===this.nextQuestionIdNum-1&&this.nextQuestionIdNum--,this.items.splice(t,1)},submitForm:function(t){var e=this;t.preventDefault();var o=JSON.stringify({title:this.title,formType:this.formType,evaluation_period_type:this.periodType,items:this.items.map(function(t){return t.questionId="q"+t.questionIdNum,t})});this.isFormValid()&&fetch("/forms",{method:"POST",headers:n.i(u.e)(),credentials:"same-origin",body:o}).then(function(t){if(t.ok)return t.text();throw new Error(t)}).then(function(t){if("success"!==t)throw new Error(t);window.location="/manage/forms"}).catch(function(t){e.alerts.push({type:"error",text:"Error saving form"}),console.error(t)})},isFormValid:function(){if(!this.title)return this.alerts.push({type:"error",text:"Please enter a title for the form"}),!1;if(!this.items||this.items.length<1)return this.alerts.push({type:"error",text:"Please enter at least one question"}),!1;var t=!0,e=!1,n=void 0;try{for(var o,i=this.items[Symbol.iterator]();!(t=(o=i.next()).done);t=!0){var s=o.value;if("question"===s.type){if(!s.text)return this.alerts.push({type:"error",text:"Please enter question text for question "+s.questionIdNum}),!1;if(["radio","radiononnumeric","checkbox"].indexOf(s.questionType)!==-1){if(!s.options||s.options.length<1)return this.alerts.push({type:"error",text:"Please add at least one option for each multiple-choice question"}),!1;var r=!0,a=!1,l=void 0;try{for(var u,c=s.options[Symbol.iterator]();!(r=(u=c.next()).done);r=!0){var p=u.value;if(!("value"in p))return this.alerts.push({type:"error",text:"An option cannot be submitted without a value. Please either assign a value or remove the option text and description for each option in question "+s.questionIdNum}),!1}}catch(t){a=!0,l=t}finally{try{!r&&c.return&&c.return()}finally{if(a)throw l}}}}else{if("instruction"!==s.type)return this.alerts.push({type:"error",text:"Unrecognized item type in form"}),!1;if(!s.text)return this.alerts.push({type:"error",text:"Please complete or remove all empty instruction blocks"}),!1}}}catch(t){e=!0,n=t}finally{try{!t&&i.return&&i.return()}finally{if(e)throw n}}return!0}},watch:{oldFormContents:function(t){this.title=t.title,this.formType=t.formType,this.items=t.items.slice();var e=!0,n=!1,o=void 0;try{for(var i,s=this.items[Symbol.iterator]();!(e=(i=s.next()).done);e=!0){var r=i.value;r.questionIdNum&&r.questionIdNum>=this.nextQuestionIdNum&&(this.nextQuestionIdNum=r.questionIdNum+1)}}catch(t){n=!0,o=t}finally{try{!e&&s.return&&s.return()}finally{if(n)throw o}}}},components:{FormBuilderInstruction:i.a,FormBuilderQuestion:r.a,AlertList:l.a}}},109:function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.default={props:["text"],data:function(){return{}},methods:{onInput:function(t){this.$emit("input",t.target.value)}}}},110:function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.default={props:["type","text","value","description","isWorkingOption"],computed:{displayType:function(){return"checkbox"===this.type?"checkbox":"radio"}},data:function(){return{isFocused:!1}},methods:{handleInputFocus:function(t){this.isFocused=!0,this.$emit("focus",t)},handleInputBlur:function(t){this.isFocused=!1,this.$emit("blur",t)}}}},111:function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var o=n(314),i=n.n(o),s=n(17),r=n.n(s),a=n(8),l=n.n(a),u=n(11),c=n(2);e.default={props:["formType","groupedMilestones","allCompetencies","questionIdNum","text","questionType","milestones","competencies","options","required","customOptions"],data:function(){return{workingOption:{text:"",value:"",description:""},alerts:[]}},computed:{questionId:function(){return"q"+this.questionIdNum},shouldShowMilestonesAndCompetencies:function(){return["radio","number"].indexOf(this.questionType)!==-1&&["resident","self-resident","fellow","self-fellow"].indexOf(this.formType)!==-1},optionsWithWorking:function(){if(this.options){var t=this.options.slice();return t.push(this.workingOption),t}},workingOptionIndex:function(){if(this.options)return this.options.length},competencyOptions:function(){return this.allCompetencies.map(function(t){return{id:t.id,text:t.title}}).sort(c.o)}},methods:{changeQuestionType:function(t){var e=t.target.value,n=[];this.$emit("change",{questionType:e,options:n})},handleWorkingOptionInput:function(t,e){t===this.workingOptionIndex&&(this.workingOption=Object.assign({},this.workingOption,e))},handleOptionChange:function(t,e){if(t===this.workingOptionIndex){var n=this.options.slice();n.push(Object.assign({},this.workingOption,e)),this.workingOption={text:"",value:"",description:""},this.$emit("change",{options:n})}else{var o=this.options.slice();o[t]=Object.assign(o[t],e),o[t].text||o[t].value||o[t].description||o.splice(t,1),this.$emit("change",{options:o})}},setStandardOptions:function(){var t=void 0;switch(this.formType){case"resident":case"self-resident":t=u.i.RESIDENT.slice();break;case"fellow":case"self-fellow":t=u.i.FELLOW.slice();break;case"faculty":"radiononnumeric"===this.questionType&&(t=u.i.FACULTY.slice())}return t?void this.$emit("change",{options:t}):void this.alerts.push({type:"error",text:"No standard options found for form type and question type"})},setMilestoneOptions:function(){var t=this;return 1!==this.milestones.length?void this.alerts.push({type:"error",text:"You can only use milestone options with a single selected milestone"}):void fetch("/milestones/"+this.milestones[0],{credentials:"same-origin"}).then(function(t){if(t.ok)return t.json();throw new Error(t)}).then(function(e){if(!e||!e.levels||e.levels.length<1)return void t.alerts.push({type:"error",text:"No milestone levels found"});var n=[{value:0,text:"Not yet "+e.levels[0].name}],o=!0,i=!1,s=void 0;try{for(var r,a=e.levels[Symbol.iterator]();!(o=(r=a.next()).done);o=!0){var l=r.value,u=2*parseInt(l.level_number,10);n.push({value:u-1,text:"",description:""}),n.push({value:u,text:l.name,description:l.description})}}catch(t){i=!0,s=t}finally{try{!o&&a.return&&a.return()}finally{if(i)throw s}}t.$emit("change",{options:n})}).catch(function(t){console.error(t)})},setCustomOptions:function(){return this.customOptions.length<1?void this.alerts.push({type:"error",text:"No custom options set"}):void this.$emit("change",{options:this.customOptions.slice()})}},components:{FormBuilderOption:i.a,SelectTwo:r.a,AlertList:l.a}}},16:function(t,e,n){var o=n(0)(n(31),n(36),null,null);t.exports=o.exports},17:function(t,e,n){var o=n(0)(n(33),n(39),null,null);t.exports=o.exports},205:function(t,e,n){e=t.exports=n(1)(),e.push([t.i,".form-builder-question-option[data-v-09008ada]{margin-top:10px}.working-option[data-v-09008ada]{opacity:.5}.working-option.is-focused[data-v-09008ada],.working-option[data-v-09008ada]:active,.working-option[data-v-09008ada]:hover{opacity:1}textarea.form-option-description[data-v-09008ada]{resize:vertical;height:100px}",""])},211:function(t,e,n){e=t.exports=n(1)(),e.push([t.i,"",""])},224:function(t,e,n){e=t.exports=n(1)(),e.push([t.i,".question-id[data-v-aaf882ea]{font-size:larger;text-transform:uppercase;font-weight:700}",""])},30:function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var o=n(16),i=n.n(o);e.default={props:{value:{type:Array,required:!0}},methods:{removeAlert:function(t){var e=this.value.slice();e.splice(t,1),this.$emit("input",e)}},components:{BootstrapAlert:i.a}}},31:function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.default={props:{type:{type:String,default:"error",validator:function(t){return["info","success","warning","error","danger"].indexOf(t)!==-1}},text:{type:String,required:!1},html:{type:String,required:!1},dismissable:{type:Boolean,default:!1}},computed:{alertTypeClass:function(){return"error"===this.type?"alert-danger":"alert-"+this.type}}}},313:function(t,e,n){var o=n(0)(n(109),n(331),null,null);t.exports=o.exports},314:function(t,e,n){n(359);var o=n(0)(n(110),n(330),"data-v-09008ada",null);t.exports=o.exports},315:function(t,e,n){n(378);var o=n(0)(n(111),n(356),"data-v-aaf882ea",null);t.exports=o.exports},33:function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.default={props:{options:{type:Array,required:!1},name:{type:String,required:!1},id:{type:String,required:!1},required:{type:Boolean,required:!1},value:{required:!0},multiple:{type:Boolean,default:!1},placeholder:{type:String,default:"Please select"}},computed:{stringOptions:function(){if(!this.options)return[];var t=this.options.slice(),e=!0,n=!1,o=void 0;try{for(var i,s=t[Symbol.iterator]();!(e=(i=s.next()).done);e=!0){var r=i.value;if(r.id&&(r.id=r.id.toString()),r.children){var a=!0,l=!1,u=void 0;try{for(var c,p=r.children[Symbol.iterator]();!(a=(c=p.next()).done);a=!0){var d=c.value;d.id&&(d.id=d.id.toString())}}catch(t){l=!0,u=t}finally{try{!a&&p.return&&p.return()}finally{if(l)throw u}}}}}catch(t){n=!0,o=t}finally{try{!e&&s.return&&s.return()}finally{if(n)throw o}}return t},stringValue:function(){return this.value?Array.isArray(this.value)?this.value.slice().map(function(t){return t.toString()}):this.value.toString():""}},mounted:function(){var t=this;$(this.$el).on("change",function(){t.$emit("input",$(t.$el).val())}),$(this.$el).val(this.stringValue).select2({placeholder:this.placeholder,tags:this.multiple,createTag:function(){}})},updated:function(){$(this.$el).val(this.stringValue).select2({placeholder:this.placeholder,tags:this.multiple,createTag:function(){}}).trigger("change")},watch:{multiple:function(t){this.value&&(t&&!Array.isArray(this.value)?this.$emit("input",[this.value]):!t&&Array.isArray(this.value)&&this.$emit("input",this.value[0]))},stringValue:function(t){$(this.$el).val(t).trigger("change.select2")}},beforeDestroyed:function(){$(this.$el).off().select2("destroy")}}},330:function(t,e){t.exports={render:function(){var t=this,e=t.$createElement,n=t._self._c||e;return n("div",{staticClass:"form-builder-question-option col-lg-2 col-md-3 col-sm-6 text-center",class:{"working-option":t.isWorkingOption,"is-focused":t.isFocused}},[n("input",{attrs:{type:t.displayType,disabled:""}}),t._v(" "),n("input",{staticClass:"form-input form-option form-option-text form-control",attrs:{type:"text",placeholder:"Option Text"},domProps:{value:t.text},on:{input:function(e){t.$emit("input",{text:e.target.value})},change:function(e){t.$emit("change",{text:e.target.value})},focus:function(e){t.handleInputFocus("text")},blur:function(e){t.handleInputBlur("text")}}}),t._v(" "),n("input",{staticClass:"form-input form-option form-option-value form-control",attrs:{type:"radio"===t.type?"number":"text",placeholder:"Option Value"},domProps:{value:t.value},on:{input:function(e){t.$emit("input",{value:e.target.value})},change:function(e){t.$emit("change",{value:e.target.value})},focus:function(e){t.handleInputFocus("value")},blur:function(e){t.handleInputBlur("value")}}}),t._v(" "),n("textarea",{staticClass:"form-input form-option form-option-description form-control",attrs:{placeholder:"Hover Description"},domProps:{value:t.description},on:{input:function(e){t.$emit("input",{description:e.target.value})},change:function(e){t.$emit("change",{description:e.target.value})},focus:function(e){t.handleInputFocus("description")},blur:function(e){t.handleInputBlur("description")}}})])},staticRenderFns:[]}},331:function(t,e){t.exports={render:function(){var t=this,e=t.$createElement,n=t._self._c||e;return n("div",{staticClass:"container-fluid form-instruction-block form-block"},[n("div",{staticClass:"row"},[n("div",{staticClass:"col-md-10"},[n("label",[t._v("Instruction block")]),t._v(" "),t._m(0),t._v(" "),n("textarea",{staticClass:"form-control form-instruction-text",attrs:{required:""},domProps:{value:t.text},on:{input:function(e){t.$emit("change",{text:e.target.value})}}})]),t._v(" "),n("div",{staticClass:"col-md-1 col-md-offset-1"},[n("button",{staticClass:"form-block-delete btn btn-danger del-btn",attrs:{type:"button"},on:{click:function(e){t.$emit("remove")}}},[t._v("Delete")])])])])},staticRenderFns:[function(){var t=this,e=t.$createElement,n=t._self._c||e;return n("small",[t._v("Supports "),n("a",{attrs:{href:"http://daringfireball.net/projects/markdown/basics",target:"_blank"}},[t._v("markdown")]),t._v(" (except inline HTML)")])}]}},339:function(t,e){t.exports={render:function(){var t=this,e=t.$createElement,n=t._self._c||e;return n("div",{staticClass:"form-header"},[n("div",{staticClass:"container-fluid"},[n("div",{staticClass:"row"},[n("div",{staticClass:"col-md-6"},[n("div",{staticClass:"form-group"},[n("label",{attrs:{for:"form-title"}},[t._v("Form title")]),t._v(" "),n("input",{directives:[{name:"model",rawName:"v-model.trim",value:t.title,expression:"title",modifiers:{trim:!0}}],staticClass:"form-control input-lg",attrs:{type:"text",id:"form-title",name:"formTitle",placeholder:"Form Title",required:""},domProps:{value:t._s(t.title)},on:{input:function(e){e.target.composing||(t.title=e.target.value.trim())},blur:function(e){t.$forceUpdate()}}})])]),t._v(" "),n("div",{staticClass:"col-md-3"},[n("div",{staticClass:"form-group"},[n("label",{attrs:{for:"form-type"}},[t._v("Form type")]),t._v(" "),n("select",{directives:[{name:"model",rawName:"v-model",value:t.formType,expression:"formType"}],staticClass:"form-control input-lg",attrs:{id:"form-type",name:"form_type"},on:{change:function(e){t.formType=Array.prototype.filter.call(e.target.options,function(t){return t.selected}).map(function(t){var e="_value"in t?t._value:t.value;return e})[0]}}},[n("option",{attrs:{value:"resident"}},[t._v("Resident/Intern")]),t._v(" "),n("option",{attrs:{value:"self-resident"}},[t._v("Resident/Intern (self)")]),t._v(" "),n("option",{attrs:{value:"fellow"}},[t._v("Fellow")]),t._v(" "),n("option",{attrs:{value:"self-fellow"}},[t._v("Fellow (self)")]),t._v(" "),n("option",{attrs:{value:"faculty"}},[t._v("Faculty")]),t._v(" "),n("option",{attrs:{value:"staff"}},[t._v("Staff")])])])]),t._v(" "),n("div",{staticClass:"col-md-3"},[n("div",{staticClass:"form-group"},[n("label",{attrs:{for:"form-period-type"}},[t._v("Evaluation period type")]),t._v(" "),n("select",{directives:[{name:"model",rawName:"v-model",value:t.periodType,expression:"periodType"}],staticClass:"form-control input-lg",attrs:{id:"form-period-type"},on:{change:function(e){t.periodType=Array.prototype.filter.call(e.target.options,function(t){return t.selected}).map(function(t){var e="_value"in t?t._value:t.value;return e})[0]}}},[n("option",{attrs:{value:"month"}},[t._v("Month")]),t._v(" "),n("option",{attrs:{value:"quarter"}},[t._v("Quarter")])])])])])]),t._v(" "),n("div",{staticClass:"form-body"},[n("div",{staticClass:"form-items"},[t._l(t.items,function(e,o){return["instruction"===e.type?n("form-builder-instruction",t._b({on:{change:function(e){t.changeItem(o,e)},input:function(e){t.changeItem(o,e)},remove:function(e){t.removeItem(o)}}},"form-builder-instruction",e)):t._e(),t._v(" "),"question"===e.type?n("form-builder-question",t._b({attrs:{formType:t.formType,groupedMilestones:t.groupedMilestones,allCompetencies:t.competencies,customOptions:t.customOptions},on:{change:function(e){t.changeItem(o,e)},remove:function(e){t.removeItem(o)}}},"form-builder-question",e)):t._e()]})],2)]),t._v(" "),n("div",{attrs:{id:"form-footer"}},[n("alert-list",{directives:[{name:"model",rawName:"v-model",value:t.alerts,expression:"alerts"}],domProps:{value:t.alerts},on:{input:function(e){t.alerts=e}}}),t._v(" "),n("button",{staticClass:"btn btn-default",attrs:{type:"button",id:"add-instruction-block"},on:{click:t.addInstruction}},[t._v("Add instruction block")]),t._v(" "),n("button",{staticClass:"btn btn-info",attrs:{type:"button",id:"addQuestion"},on:{click:t.addQuestion}},[t._v("Add Question")]),t._v(" "),n("button",{staticClass:"btn btn-success",attrs:{type:"submit"},on:{click:t.submitForm}},[t._v("Submit Form")])],1)])},staticRenderFns:[]}},356:function(t,e){t.exports={render:function(){var t=this,e=t.$createElement,n=t._self._c||e;return n("div",{staticClass:"form-question panel panel-default form-block",attrs:{id:t.questionId}},[n("div",{staticClass:"panel-heading form-horizontal"},[n("div",{staticClass:"panel-title form-group"},[n("div",{staticClass:"col-sm-12"},[n("label",{staticClass:"containing-label"},[t._v("\n\t\t\t\t\tQuestion Text\n\t\t\t\t\t"),n("div",{staticClass:"input-group"},[n("span",{staticClass:"question-id input-group-addon"},[t._v(t._s(t.questionId))]),t._v(" "),n("input",{staticClass:"form-input form-question-text form-control",attrs:{type:"text",placeholder:"Question Text",required:""},domProps:{value:t.text},on:{input:function(e){t.$emit("change",{text:e.target.value})}}})])])])]),t._v(" "),n("div",{staticClass:"hr-question"}),t._v(" "),n("div",{staticClass:"row"},[n("div",{staticClass:"col-md-4"},[n("label",{staticClass:"containing-label"},[t._v("\n\t\t\t\t\tQuestion Type\n\t\t\t\t\t"),n("select",{staticClass:"form-control form-question-type",attrs:{name:"questionType"},domProps:{value:t.questionType},on:{change:t.changeQuestionType}},[n("option",{attrs:{value:"radio"}},[t._v("Radio")]),t._v(" "),n("option",{attrs:{value:"text"}},[t._v("Text")]),t._v(" "),n("option",{attrs:{value:"radiononnumeric"}},[t._v("Radio (non-numeric)")]),t._v(" "),n("option",{attrs:{value:"number"}},[t._v("Number")]),t._v(" "),n("option",{attrs:{value:"checkbox"}},[t._v("Checkbox")])])])]),t._v(" "),n("div",{staticClass:"col-md-6"},[n("label",[t._v("Question Options")]),t._v(" "),n("div",{staticClass:"btn-group btn-group-justified"},[n("div",{staticClass:"btn-group"},[n("button",{staticClass:"form-question-standard-options btn btn-info",attrs:{type:"button"},on:{click:t.setStandardOptions}},[t._v("\n\t\t\t\t\t\t\tStandard\n\t\t\t\t\t\t")])]),t._v(" "),n("div",{staticClass:"btn-group"},[n("button",{staticClass:"form-question-milestone-level-options btn btn-info",attrs:{disabled:!t.milestones||1!==t.milestones.length,type:"button"},on:{click:t.setMilestoneOptions}},[t._v("\n\t\t\t\t\t\t\tMilestone\n\t\t\t\t\t\t")])]),t._v(" "),n("div",{staticClass:"btn-group"},[n("button",{staticClass:"form-question-custom-options btn btn-info",attrs:{disabled:!t.customOptions||t.customOptions.length<1,type:"button"},on:{click:t.setCustomOptions}},[t._v("\n\t\t\t\t\t\t\tCustom\n\t\t\t\t\t\t")])])])]),t._v(" "),n("div",{staticClass:"col-md-1 labelless-button"},[n("button",{staticClass:"form-block-delete btn btn-danger del-btn",attrs:{type:"button"},on:{click:function(e){t.$emit("remove")}}},[t._v("\n\t\t\t\t\tDelete\n\t\t\t\t")])]),t._v(" "),n("div",{staticClass:"col-md-1"},[n("label",{staticClass:"containing-label"},[t._v("\n\t\t\t\t\tRequired\n\t\t\t\t\t"),n("input",{staticClass:"form-control form-question-required",attrs:{type:"checkbox",value:"required"},domProps:{checked:t.required},on:{change:function(e){t.$emit("change",{required:e.target.checked})}}})])])]),t._v(" "),n("div",{staticClass:"hr-question"}),t._v(" "),n("div",{staticClass:"row"},[n("div",{staticClass:"col-md-8"},[n("label",{directives:[{name:"show",rawName:"v-show",value:t.shouldShowMilestonesAndCompetencies,expression:"shouldShowMilestonesAndCompetencies"}],staticClass:"containing-label"},[t._v("\n\t\t\t\t\tQuestion Milestones\n\t\t\t\t\t"),n("select-two",{staticClass:"form-control form-question-milestone",attrs:{value:t.milestones,options:t.groupedMilestones,multiple:!0},on:{input:function(e){t.$emit("change",{milestones:arguments[0]})}}})],1)]),t._v(" "),n("div",{staticClass:"col-md-4"},[n("label",{directives:[{name:"show",rawName:"v-show",value:t.shouldShowMilestonesAndCompetencies,expression:"shouldShowMilestonesAndCompetencies"}],staticClass:"containing-label"},[t._v("\n\t\t\t\t\tQuestion Competency\n\t\t\t\t\t"),n("select-two",{staticClass:"form-control form-question-competency",attrs:{value:t.competencies,placeholder:"Competency",options:t.competencyOptions,multiple:!0},on:{input:function(e){t.$emit("change",{competencies:arguments[0]})}}})],1)])])]),t._v(" "),n("div",{staticClass:"panel-body"},[n("div",{staticClass:"row form-options",staticStyle:{"margin-bottom":"5px"}},[["radio","radiononnumeric","checkbox"].includes(t.questionType)?t._l(t.optionsWithWorking,function(e,o){return n("form-builder-option",t._b({attrs:{type:t.questionType,"is-working-option":e===t.workingOption},on:{input:function(e){t.handleWorkingOptionInput(o,arguments[0])},change:function(e){t.handleOptionChange(o,arguments[0])}}},"form-builder-option",e))}):t._e(),t._v(" "),"text"===t.questionType?n("div",{staticClass:"col-sm-12"},[n("textarea",{staticClass:"form-control",attrs:{placeholder:"Text",disabled:""}})]):t._e(),t._v(" "),"number"===t.questionType?n("div",{staticClass:"col-md-8"},[n("input",{staticClass:"form-control",attrs:{type:"number",placeholder:"Number",disabled:""}})]):t._e()],2)]),t._v(" "),n("alert-list",{directives:[{name:"model",rawName:"v-model",value:t.alerts,expression:"alerts"}],domProps:{value:t.alerts},on:{input:function(e){t.alerts=e}}})],1)},staticRenderFns:[]}},359:function(t,e,n){var o=n(205);"string"==typeof o&&(o=[[t.i,o,""]]),o.locals&&(t.exports=o.locals);n(4)("4426bde0",o,!0)},36:function(t,e){t.exports={render:function(){var t=this,e=t.$createElement,n=t._self._c||e;return n("div",{staticClass:"alert",class:t.alertTypeClass},[t.dismissable?n("button",{staticClass:"close",attrs:{type:"button","aria-label":"Close"},on:{click:function(e){t.$emit("close")}}},[n("span",{attrs:{"aria-hidden":"true"}},[t._v("×")])]):t._e(),t._v("\n\t"+t._s(t.text)+"\n\t"),t.html?n("div",{domProps:{innerHTML:t._s(t.html)}}):t._e(),t._v(" "),t._t("default")],2)},staticRenderFns:[]}},365:function(t,e,n){var o=n(211);"string"==typeof o&&(o=[[t.i,o,""]]),o.locals&&(t.exports=o.locals);n(4)("c5529d98",o,!0)},37:function(t,e){t.exports={render:function(){var t=this,e=t.$createElement,n=t._self._c||e;return n("section",t._l(t.value,function(e,o){return n("bootstrap-alert",t._b({attrs:{dismissable:!0},on:{close:function(e){t.removeAlert(o)}}},"bootstrap-alert",e))}))},staticRenderFns:[]}},378:function(t,e,n){var o=n(224);"string"==typeof o&&(o=[[t.i,o,""]]),o.locals&&(t.exports=o.locals);n(4)("2d3fade8",o,!0)},383:function(t,e,n){"use strict";function o(t){return new s.a({el:t,data:function(){return{oldFormContents:{}}},render:function(t){return t(a.a,{props:{oldFormContents:this.oldFormContents}})}})}Object.defineProperty(e,"__esModule",{value:!0});var i=n(6),s=n.n(i),r=n(93),a=n.n(r);e.createFormBuilder=o},39:function(t,e){t.exports={render:function(){var t=this,e=t.$createElement,n=t._self._c||e;return n("select",{attrs:{name:t.name,id:t.id,required:t.required,multiple:t.multiple}},[t._t("default"),t._v(" "),t._l(t.stringOptions,function(e){return[e.children&&e.children.length>0?n("optgroup",{attrs:{label:e.text}},t._l(e.children,function(e){return n("option",{domProps:{value:e.id}},[t._v("\n\t\t\t\t"+t._s(e.text)+"\n\t\t\t")])})):e.id?n("option",{domProps:{value:e.id}},[t._v("\n\t\t\t"+t._s(e.text)+"\n\t\t")]):t._e()]})],2)},staticRenderFns:[]}},8:function(t,e,n){var o=n(0)(n(30),n(37),null,null);t.exports=o.exports},93:function(t,e,n){n(365);var o=n(0)(n(108),n(339),"data-v-27da62f6",null);t.exports=o.exports}},[383])});
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else {
+		var a = factory();
+		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
+	}
+})(this, function() {
+return webpackJsonp([5,10],{
+
+/***/ 108:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormBuilderInstruction_vue__ = __webpack_require__(313);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormBuilderInstruction_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__FormBuilderInstruction_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormBuilderQuestion_vue__ = __webpack_require__(315);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormBuilderQuestion_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__FormBuilderQuestion_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__AlertList_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__ = __webpack_require__(2);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: ['oldFormContents'],
+	created: function created() {
+		var _this = this;
+
+		__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["n" /* fetchMilestoneGroups */])().then(function (milestoneGroups) {
+			_this.groupedMilestones = milestoneGroups;
+		}).catch(function (err) {
+			console.error(err);
+		});
+
+		fetch('/competencies', { credentials: 'same-origin' }).then(function (response) {
+			if (response.ok) return response.json();else {
+				var err = new Error(response.statusText);
+				err.response = response;
+				throw err;
+			}
+		}).then(function (competencies) {
+			_this.competencies = competencies;
+		}).catch(function (err) {
+			console.error(err);
+		});
+	},
+	data: function data() {
+		return {
+			title: '',
+			formType: 'resident',
+			periodType: 'month',
+			nextQuestionIdNum: 1,
+			groupedMilestones: [],
+			competencies: [],
+			items: [],
+			customOptions: [],
+
+			alerts: []
+		};
+	},
+
+	methods: {
+		addInstruction: function addInstruction() {
+			this.items.push({
+				type: 'instruction',
+				text: ''
+			});
+		},
+		addQuestion: function addQuestion() {
+			this.items.push({
+				type: 'question',
+				text: '',
+				questionIdNum: this.nextQuestionIdNum++,
+				questionType: 'radio',
+				milestones: [],
+				competencies: '',
+				options: [],
+				required: false,
+				weight: 100
+			});
+		},
+		changeItem: function changeItem(index, item) {
+			this.items.splice(index, 1, Object.assign(this.items[index], item));
+		},
+		removeItem: function removeItem(index) {
+			var item = this.items[index];
+			if (item.type === 'question' && item.questionIdNum === this.nextQuestionIdNum - 1) this.nextQuestionIdNum--;
+			this.items.splice(index, 1);
+		},
+		submitForm: function submitForm(event) {
+			var _this2 = this;
+
+			event.preventDefault();
+			var requestBody = JSON.stringify({
+				title: this.title,
+				formType: this.formType,
+				evaluation_period_type: this.periodType,
+				items: this.items.map(function (item) {
+					item.questionId = 'q' + item.questionIdNum;
+					return item;
+				})
+			});
+
+			if (this.isFormValid()) {
+				fetch('/forms', {
+					method: 'POST',
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["e" /* getFetchHeaders */])(),
+					credentials: 'same-origin',
+					body: requestBody
+				}).then(function (response) {
+					if (response.ok) return response.text();else throw new Error(response);
+				}).then(function (response) {
+					if (response === 'success') window.location = '/manage/forms';else throw new Error(response);
+				}).catch(function (err) {
+					_this2.alerts.push({
+						type: 'error',
+						text: 'Error saving form'
+					});
+					console.error(err);
+				});
+			}
+		},
+		isFormValid: function isFormValid() {
+			if (!this.title) {
+				this.alerts.push({
+					type: 'error',
+					text: 'Please enter a title for the form'
+				});
+				return false;
+			}
+
+			if (!this.items || this.items.length < 1) {
+				this.alerts.push({
+					type: 'error',
+					text: 'Please enter at least one question'
+				});
+				return false;
+			}
+
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+
+			try {
+				for (var _iterator = this.items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var item = _step.value;
+
+					if (item.type === 'question') {
+						if (!item.text) {
+							this.alerts.push({
+								type: 'error',
+								text: 'Please enter question text for question ' + item.questionIdNum
+							});
+							return false;
+						}
+						if (['radio', 'radiononnumeric', 'checkbox'].indexOf(item.questionType) !== -1) {
+							if (!item.options || item.options.length < 1) {
+								this.alerts.push({
+									type: 'error',
+									text: 'Please add at least one option for each multiple-choice question'
+								});
+								return false;
+							}
+
+							var _iteratorNormalCompletion2 = true;
+							var _didIteratorError2 = false;
+							var _iteratorError2 = undefined;
+
+							try {
+								for (var _iterator2 = item.options[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+									var option = _step2.value;
+
+									if (!('value' in option)) {
+										this.alerts.push({
+											type: 'error',
+											text: 'An option cannot be submitted without a value. Please either assign a value or remove the option text and description for each option in question ' + item.questionIdNum
+										});
+										return false;
+									}
+								}
+							} catch (err) {
+								_didIteratorError2 = true;
+								_iteratorError2 = err;
+							} finally {
+								try {
+									if (!_iteratorNormalCompletion2 && _iterator2.return) {
+										_iterator2.return();
+									}
+								} finally {
+									if (_didIteratorError2) {
+										throw _iteratorError2;
+									}
+								}
+							}
+						}
+					} else if (item.type === 'instruction') {
+						if (!item.text) {
+							this.alerts.push({
+								type: 'error',
+								text: 'Please complete or remove all empty instruction blocks'
+							});
+							return false;
+						}
+					} else {
+						this.alerts.push({
+							type: 'error',
+							text: 'Unrecognized item type in form'
+						});
+						return false;
+					}
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator.return) {
+						_iterator.return();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
+			}
+
+			return true;
+		}
+	},
+	watch: {
+		oldFormContents: function oldFormContents(formContents) {
+			this.title = formContents.title;
+			this.formType = formContents.formType;
+			this.items = formContents.items.slice();
+			var _iteratorNormalCompletion3 = true;
+			var _didIteratorError3 = false;
+			var _iteratorError3 = undefined;
+
+			try {
+				for (var _iterator3 = this.items[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+					var item = _step3.value;
+
+					if (item.questionIdNum && item.questionIdNum >= this.nextQuestionIdNum) this.nextQuestionIdNum = item.questionIdNum + 1;
+				}
+			} catch (err) {
+				_didIteratorError3 = true;
+				_iteratorError3 = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion3 && _iterator3.return) {
+						_iterator3.return();
+					}
+				} finally {
+					if (_didIteratorError3) {
+						throw _iteratorError3;
+					}
+				}
+			}
+		}
+	},
+	components: {
+		FormBuilderInstruction: __WEBPACK_IMPORTED_MODULE_0__FormBuilderInstruction_vue___default.a,
+		FormBuilderQuestion: __WEBPACK_IMPORTED_MODULE_1__FormBuilderQuestion_vue___default.a,
+		AlertList: __WEBPACK_IMPORTED_MODULE_2__AlertList_vue___default.a
+	}
+};
+
+/***/ }),
+
+/***/ 109:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: ['text'],
+	data: function data() {
+		return {};
+	},
+
+	methods: {
+		onInput: function onInput(event) {
+			this.$emit('input', event.target.value);
+		}
+	}
+};
+
+/***/ }),
+
+/***/ 110:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: ['type', 'text', 'value', 'description', 'isWorkingOption'],
+	computed: {
+		displayType: function displayType() {
+			if (this.type === 'checkbox') return 'checkbox';else return 'radio';
+		}
+	},
+	data: function data() {
+		return {
+			isFocused: false
+		};
+	},
+
+	methods: {
+		handleInputFocus: function handleInputFocus(field) {
+			this.isFocused = true;
+			this.$emit('focus', field);
+		},
+		handleInputBlur: function handleInputBlur(field) {
+			this.isFocused = false;
+			this.$emit('blur', field);
+		}
+	}
+};
+
+/***/ }),
+
+/***/ 111:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormBuilderOption_vue__ = __webpack_require__(314);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormBuilderOption_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__FormBuilderOption_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SelectTwo_vue__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SelectTwo_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__SelectTwo_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__AlertList_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__ = __webpack_require__(2);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: ['formType', 'groupedMilestones', 'allCompetencies', 'questionIdNum', 'text', 'questionType', 'milestones', 'competencies', 'options', 'required', 'customOptions'],
+	data: function data() {
+		return {
+			workingOption: {
+				text: '',
+				value: '',
+				description: ''
+			},
+
+			alerts: []
+		};
+	},
+
+	computed: {
+		questionId: function questionId() {
+			return 'q' + this.questionIdNum;
+		},
+		shouldShowMilestonesAndCompetencies: function shouldShowMilestonesAndCompetencies() {
+			return ['radio', 'number'].indexOf(this.questionType) !== -1 && ['resident', 'self-resident', 'fellow', 'self-fellow'].indexOf(this.formType) !== -1;
+		},
+		optionsWithWorking: function optionsWithWorking() {
+			if (this.options) {
+				var options = this.options.slice();
+				options.push(this.workingOption);
+				return options;
+			}
+		},
+		workingOptionIndex: function workingOptionIndex() {
+			if (this.options) return this.options.length;
+		},
+		competencyOptions: function competencyOptions() {
+			return this.allCompetencies.map(function (competency) {
+				return {
+					id: competency.id,
+					text: competency.title
+				};
+			}).sort(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["o" /* sortSelect2Objects */]);
+		}
+	},
+	methods: {
+		changeQuestionType: function changeQuestionType(event) {
+			var questionType = event.target.value;
+			var options = [];
+
+			this.$emit('change', { questionType: questionType, options: options });
+		},
+		handleWorkingOptionInput: function handleWorkingOptionInput(index, option) {
+			if (index === this.workingOptionIndex) this.workingOption = Object.assign({}, this.workingOption, option);
+		},
+		handleOptionChange: function handleOptionChange(index, option) {
+			if (index === this.workingOptionIndex) {
+				var options = this.options.slice();
+				options.push(Object.assign({}, this.workingOption, option));
+				this.workingOption = {
+					text: '',
+					value: '',
+					description: ''
+				};
+				this.$emit('change', { options: options });
+			} else {
+				var _options = this.options.slice();
+				_options[index] = Object.assign(_options[index], option);
+				if (!_options[index].text && !_options[index].value && !_options[index].description) _options.splice(index, 1);
+
+				this.$emit('change', { options: _options });
+			}
+		},
+		setStandardOptions: function setStandardOptions() {
+			var options = void 0;
+			switch (this.formType) {
+				case 'resident':
+				case 'self-resident':
+					options = __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["i" /* STANDARD_OPTIONS */].RESIDENT.slice();
+					break;
+				case 'fellow':
+				case 'self-fellow':
+					options = __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["i" /* STANDARD_OPTIONS */].FELLOW.slice();
+					break;
+				case 'faculty':
+					if (this.questionType === 'radiononnumeric') options = __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["i" /* STANDARD_OPTIONS */].FACULTY.slice();
+					break;
+			}
+
+			if (!options) {
+				this.alerts.push({
+					type: 'error',
+					text: 'No standard options found for form type and question type'
+				});
+				return;
+			}
+
+			this.$emit('change', { options: options });
+		},
+		setMilestoneOptions: function setMilestoneOptions() {
+			var _this = this;
+
+			if (this.milestones.length !== 1) {
+				this.alerts.push({
+					type: 'error',
+					text: 'You can only use milestone options with a single selected milestone'
+				});
+				return;
+			}
+			fetch('/milestones/' + this.milestones[0], { credentials: 'same-origin' }).then(function (response) {
+				if (response.ok) return response.json();else throw new Error(response);
+			}).then(function (milestone) {
+				if (!milestone || !milestone.levels || milestone.levels.length < 1) {
+					_this.alerts.push({
+						type: 'error',
+						text: 'No milestone levels found'
+					});
+					return;
+				}
+				var options = [{
+					value: 0,
+					text: 'Not yet ' + milestone.levels[0].name
+				}];
+				var _iteratorNormalCompletion = true;
+				var _didIteratorError = false;
+				var _iteratorError = undefined;
+
+				try {
+					for (var _iterator = milestone.levels[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var level = _step.value;
+
+						var value = 2 * parseInt(level.level_number, 10);
+						options.push({ value: value - 1, text: '', description: '' });
+						options.push({ value: value, text: level.name, description: level.description });
+					}
+				} catch (err) {
+					_didIteratorError = true;
+					_iteratorError = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion && _iterator.return) {
+							_iterator.return();
+						}
+					} finally {
+						if (_didIteratorError) {
+							throw _iteratorError;
+						}
+					}
+				}
+
+				_this.$emit('change', { options: options });
+			}).catch(function (err) {
+				console.error(err);
+			});
+		},
+		setCustomOptions: function setCustomOptions() {
+			if (this.customOptions.length < 1) {
+				this.alerts.push({
+					type: 'error',
+					text: 'No custom options set'
+				});
+				return;
+			}
+
+			this.$emit('change', { options: this.customOptions.slice() });
+		}
+	},
+	components: {
+		FormBuilderOption: __WEBPACK_IMPORTED_MODULE_0__FormBuilderOption_vue___default.a,
+		SelectTwo: __WEBPACK_IMPORTED_MODULE_1__SelectTwo_vue___default.a,
+		AlertList: __WEBPACK_IMPORTED_MODULE_2__AlertList_vue___default.a
+	}
+};
+
+/***/ }),
+
+/***/ 15:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(31),
+  /* template */
+  __webpack_require__(36),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/BootstrapAlert.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] BootstrapAlert.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-03027238", Component.options)
+  } else {
+    if (module.hot.data.cssModules && JSON.stringify(module.hot.data.cssModules) !== JSON.stringify(cssModules)) {
+      delete Component.options._Ctor
+    }
+    hotAPI.reload("data-v-03027238", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    data.cssModules = cssModules
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 16:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(33),
+  /* template */
+  __webpack_require__(39),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/SelectTwo.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] SelectTwo.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-e84f7814", Component.options)
+  } else {
+    if (module.hot.data.cssModules && JSON.stringify(module.hot.data.cssModules) !== JSON.stringify(cssModules)) {
+      delete Component.options._Ctor
+    }
+    hotAPI.reload("data-v-e84f7814", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    data.cssModules = cssModules
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 205:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.form-builder-question-option[data-v-09008ada] {\n\tmargin-top: 10px;\n}\n.working-option[data-v-09008ada] {\n\topacity: 0.5;\n}\n.working-option[data-v-09008ada]:hover,\n.working-option.is-focused[data-v-09008ada],\n.working-option[data-v-09008ada]:active {\n\topacity: 1;\n}\ntextarea.form-option-description[data-v-09008ada] {\n\tresize: vertical;\n\theight: 100px;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/FormBuilder/FormBuilderOption.vue?42fcc6c0"],"names":[],"mappings":";AAoEA;CACA,iBAAA;CACA;AAEA;CACA,aAAA;CACA;AAEA;;;CAGA,WAAA;CACA;AAEA;CACA,iBAAA;CACA,cAAA;CACA","file":"FormBuilderOption.vue","sourcesContent":["<template>\n\t<div class=\"form-builder-question-option col-lg-2 col-md-3 col-sm-6 text-center\" v-bind:class=\"{ 'working-option': isWorkingOption, 'is-focused': isFocused }\">\n\t\t<input v-bind:type=\"displayType\" disabled/>\n\t\t<input type=\"text\" v-bind:value=\"text\"\n\t\t\tclass=\"form-input form-option form-option-text form-control\"\n\t\t\tplaceholder=\"Option Text\"\n\t\t\tv-on:input=\"$emit('input', {text: $event.target.value})\"\n\t\t\tv-on:change=\"$emit('change', {text: $event.target.value})\"\n\t\t\tv-on:focus=\"handleInputFocus('text')\"\n\t\t\tv-on:blur=\"handleInputBlur('text')\"\n\t\t\t/>\n\t\t<input v-bind:type=\"type === 'radio' ? 'number' : 'text'\"\n\t\t\tv-bind:value=\"value\"\n\t\t\tclass=\"form-input form-option form-option-value form-control\"\n\t\t\tplaceholder=\"Option Value\"\n\t\t\tv-on:input=\"$emit('input', {value: $event.target.value})\"\n\t\t\tv-on:change=\"$emit('change', {value: $event.target.value})\"\n\t\t\tv-on:focus=\"handleInputFocus('value')\"\n\t\t\tv-on:blur=\"handleInputBlur('value')\"\n\t\t\t/>\n\t\t<textarea v-bind:value=\"description\"\n\t\t\tclass=\"form-input form-option form-option-description form-control\"\n\t\t\tplaceholder=\"Hover Description\"\n\t\t\tv-on:input=\"$emit('input', {description: $event.target.value})\"\n\t\t\tv-on:change=\"$emit('change', {description: $event.target.value})\"\n\t\t\tv-on:focus=\"handleInputFocus('description')\"\n\t\t\tv-on:blur=\"handleInputBlur('description')\"\n\t\t\t>\n\t\t</textarea>\n\t</div>\n</template>\n\n<script>\nexport default {\n\tprops: [\n\t\t'type',\n\t\t'text',\n\t\t'value',\n\t\t'description',\n\t\t'isWorkingOption'\n\t],\n\tcomputed: {\n\t\tdisplayType(){\n\t\t\tif(this.type === 'checkbox')\n\t\t\t\treturn 'checkbox';\n\t\t\telse\n\t\t\t\treturn 'radio';\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tisFocused: false\n\t\t};\n\t},\n\tmethods: {\n\t\thandleInputFocus(field){\n\t\t\tthis.isFocused = true;\n\t\t\tthis.$emit('focus', field);\n\t\t},\n\t\thandleInputBlur(field){\n\t\t\tthis.isFocused = false;\n\t\t\tthis.$emit('blur', field);\n\t\t}\n\t}\n};\n</script>\n\n<style scoped>\n\t.form-builder-question-option {\n\t\tmargin-top: 10px;\n\t}\n\n\t.working-option {\n\t\topacity: 0.5;\n\t}\n\n\t.working-option:hover,\n\t.working-option.is-focused,\n\t.working-option:active {\n\t\topacity: 1;\n\t}\n\n\ttextarea.form-option-description {\n\t\tresize: vertical;\n\t\theight: 100px;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 211:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"FormBuilder.vue","sourceRoot":"webpack://"}]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 224:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.question-id[data-v-aaf882ea] {\n\tfont-size: larger;\n\ttext-transform: uppercase;\n\tfont-weight: bold;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/FormBuilder/FormBuilderQuestion.vue?789cd83a"],"names":[],"mappings":";AA+RA;CACA,kBAAA;CACA,0BAAA;CACA,kBAAA;CACA","file":"FormBuilderQuestion.vue","sourcesContent":["<template>\n\t<div :id=\"questionId\" class=\"form-question panel panel-default form-block\">\n\t\t<div class=\"panel-heading form-horizontal\">\n\t\t\t<div class=\"panel-title form-group\">\n\t\t\t\t<div class=\"col-sm-12\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tQuestion Text\n\t\t\t\t\t\t<div class=\"input-group\">\n\t\t\t\t\t\t\t<span class=\"question-id input-group-addon\">{{questionId}}</span>\n\t\t\t\t\t\t\t<input type=\"text\" :value=\"text\" @input=\"$emit('change', {text: $event.target.value})\" class=\"form-input form-question-text form-control\" placeholder=\"Question Text\" required />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"hr-question\"></div>\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"col-md-4\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tQuestion Type\n\t\t\t\t\t\t<select :value=\"questionType\" @change=\"changeQuestionType\" class=\"form-control form-question-type\" name=\"questionType\">\n\t\t\t\t\t\t\t<option value=\"radio\">Radio</option>\n\t\t\t\t\t\t\t<option value=\"text\">Text</option>\n\t\t\t\t\t\t\t<option value=\"radiononnumeric\">Radio (non-numeric)</option>\n\t\t\t\t\t\t\t<option value=\"number\">Number</option>\n\t\t\t\t\t\t\t<option value=\"checkbox\">Checkbox</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t<label>Question Options</label>\n\t\t\t\t\t<div class=\"btn-group btn-group-justified\">\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button @click=\"setStandardOptions\" class=\"form-question-standard-options btn btn-info\" type=\"button\">\n\t\t\t\t\t\t\t\tStandard\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button :disabled=\"!milestones || milestones.length !== 1\" @click=\"setMilestoneOptions\"\n\t\t\t\t\t\t\t\t\tclass=\"form-question-milestone-level-options btn btn-info\" type=\"button\">\n\t\t\t\t\t\t\t\tMilestone\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button :disabled=\"!customOptions || customOptions.length < 1\" @click=\"setCustomOptions\"\n\t\t\t\t\t\t\t\t\tclass=\"form-question-custom-options btn btn-info\" type=\"button\">\n\t\t\t\t\t\t\t\tCustom\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-1 labelless-button\">\n\t\t\t\t\t<button @click=\"$emit('remove')\" class=\"form-block-delete btn btn-danger del-btn\" type=\"button\">\n\t\t\t\t\t\tDelete\n\t\t\t\t\t</button>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-1\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tRequired\n\t\t\t\t\t\t<input type=\"checkbox\" :checked=\"required\"\n\t\t\t\t\t\t\tclass=\"form-control form-question-required\" value=\"required\"\n\t\t\t\t\t\t\t@change=\"$emit('change', {required: $event.target.checked})\" />\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"hr-question\"></div>\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"col-md-8\">\n\t\t\t\t\t<label v-show=\"shouldShowMilestonesAndCompetencies\" class=\"containing-label\">\n\t\t\t\t\t\tQuestion Milestones\n\t\t\t\t\t\t<select-two :value=\"milestones\" :options=\"groupedMilestones\"\n\t\t\t\t\t\t\t:multiple=\"true\" @input=\"$emit('change', {milestones: arguments[0]})\"\n\t\t\t\t\t\t\tclass=\"form-control form-question-milestone\" />\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-4\">\n\t\t\t\t\t<label v-show=\"shouldShowMilestonesAndCompetencies\" class=\"containing-label\">\n\t\t\t\t\t\tQuestion Competency\n\t\t\t\t\t\t<select-two :value=\"competencies\" placeholder=\"Competency\"\n\t\t\t\t\t\t\tclass=\"form-control form-question-competency\"\n\t\t\t\t\t\t\t:options=\"competencyOptions\" :multiple=\"true\"\n\t\t\t\t\t\t\t@input=\"$emit('change', {competencies: arguments[0]})\" />\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"panel-body\">\n\t\t\t<div class=\"row form-options\" style=\"margin-bottom:5px;\">\n\t\t\t\t<template v-if=\"['radio', 'radiononnumeric', 'checkbox'].includes(questionType)\">\n\t\t\t\t\t<form-builder-option v-for=\"(option, index) of optionsWithWorking\"\n\t\t\t\t\t\tv-bind=\"option\" :type=\"questionType\"\n\t\t\t\t\t\t:is-working-option=\"option === workingOption\"\n\t\t\t\t\t\t@input=\"handleWorkingOptionInput(index, arguments[0])\"\n\t\t\t\t\t\t@change=\"handleOptionChange(index, arguments[0])\" />\n\t\t\t\t</template>\n\n\t\t\t\t<div v-if=\"questionType === 'text'\" class=\"col-sm-12\">\n\t\t\t\t\t<textarea class=\"form-control\" placeholder=\"Text\" disabled />\n\t\t\t\t</div>\n\n\t\t\t\t<div v-if=\"questionType === 'number'\" class=\"col-md-8\">\n\t\t\t\t\t<input type=\"number\" class=\"form-control\" placeholder=\"Number\" disabled />\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<alert-list v-model=\"alerts\" />\n\t</div>\n</template>\n\n<script>\nimport FormBuilderOption from './FormBuilderOption.vue';\nimport SelectTwo from '../SelectTwo.vue';\nimport AlertList from '../AlertList.vue';\n\nimport { STANDARD_OPTIONS } from '../../modules/constants.js';\nimport { sortSelect2Objects } from '../../modules/utils.js';\n\nexport default {\n\tprops: [\n\t\t'formType',\n\t\t'groupedMilestones',\n\t\t'allCompetencies',\n\t\t'questionIdNum',\n\t\t'text',\n\t\t'questionType',\n\t\t'milestones',\n\t\t'competencies',\n\t\t'options',\n\t\t'required',\n\t\t'customOptions'\n\t],\n\tdata(){\n\t\treturn {\n\t\t\tworkingOption: {\n\t\t\t\ttext: '',\n\t\t\t\tvalue: '',\n\t\t\t\tdescription: ''\n\t\t\t},\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\tcomputed: {\n\t\tquestionId(){\n\t\t\treturn `q${this.questionIdNum}`;\n\t\t},\n\t\tshouldShowMilestonesAndCompetencies(){\n\t\t\treturn ['radio', 'number'].includes(this.questionType) && [\n\t\t\t\t'resident',\n\t\t\t\t'self-resident',\n\t\t\t\t'fellow',\n\t\t\t\t'self-fellow'\n\t\t\t].includes(this.formType);\n\t\t},\n\t\toptionsWithWorking(){\n\t\t\tif(this.options){\n\t\t\t\tlet options = this.options.slice();\n\t\t\t\toptions.push(this.workingOption);\n\t\t\t\treturn options;\n\t\t\t}\n\t\t},\n\t\tworkingOptionIndex(){\n\t\t\tif(this.options)\n\t\t\t\treturn this.options.length;\n\t\t},\n\t\tcompetencyOptions(){\n\t\t\treturn this.allCompetencies.map(competency => ({\n\t\t\t\tid: competency.id,\n\t\t\t\ttext: competency.title\n\t\t\t})).sort(sortSelect2Objects);\n\t\t}\n\t},\n\tmethods: {\n\t\tchangeQuestionType(event){\n\t\t\tconst questionType = event.target.value;\n\t\t\tlet options = [];\n\n\t\t\tthis.$emit('change', {questionType: questionType, options: options});\n\t\t},\n\t\thandleWorkingOptionInput(index, option){\n\t\t\tif(index === this.workingOptionIndex)\n\t\t\t\tthis.workingOption = Object.assign({}, this.workingOption, option);\n\t\t},\n\t\thandleOptionChange(index, option){\n\t\t\tif(index === this.workingOptionIndex){\n\t\t\t\tlet options = this.options.slice();\n\t\t\t\toptions.push(Object.assign({}, this.workingOption, option));\n\t\t\t\tthis.workingOption = {\n\t\t\t\t\ttext: '',\n\t\t\t\t\tvalue: '',\n\t\t\t\t\tdescription: ''\n\t\t\t\t};\n\t\t\t\tthis.$emit('change', {options: options});\n\t\t\t}\n\t\t\telse {\n\t\t\t\tlet options = this.options.slice();\n\t\t\t\toptions[index] = Object.assign(options[index], option);\n\t\t\t\tif(!options[index].text && !options[index].value && !options[index].description)\n\t\t\t\t\toptions.splice(index, 1);\n\n\t\t\t\tthis.$emit('change', {options: options});\n\t\t\t}\n\t\t},\n\n\t\tsetStandardOptions(){\n\t\t\tlet options;\n\t\t\tswitch(this.formType){\n\t\t\t\tcase 'resident':\n\t\t\t\tcase 'self-resident':\n\t\t\t\t\toptions = STANDARD_OPTIONS.RESIDENT.slice();\n\t\t\t\t\tbreak;\n\t\t\t\tcase 'fellow':\n\t\t\t\tcase 'self-fellow':\n\t\t\t\t\toptions = STANDARD_OPTIONS.FELLOW.slice();\n\t\t\t\t\tbreak;\n\t\t\t\tcase 'faculty':\n\t\t\t\t\tif(this.questionType === 'radiononnumeric')\n\t\t\t\t\t\toptions = STANDARD_OPTIONS.FACULTY.slice();\n\t\t\t\t\tbreak;\n\t\t\t}\n\n\t\t\tif(!options){\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\ttext: 'No standard options found for form type and question type'\n\t\t\t\t});\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tthis.$emit('change', {options: options});\n\t\t},\n\t\tsetMilestoneOptions(){\n\t\t\tif(this.milestones.length !== 1){\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\ttext: 'You can only use milestone options with a single selected milestone'\n\t\t\t\t});\n\t\t\t\treturn;\n\t\t\t}\n\t\t\tfetch(`/milestones/${this.milestones[0]}`, { credentials: 'same-origin' }).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\telse\n\t\t\t\t\tthrow new Error(response);\n\t\t\t}).then(milestone => {\n\t\t\t\tif(!milestone || !milestone.levels || milestone.levels.length < 1){\n\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\ttext: 'No milestone levels found'\n\t\t\t\t\t});\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t\tlet options = [{\n\t\t\t\t\tvalue: 0,\n\t\t\t\t\ttext: `Not yet ${milestone.levels[0].name}`\n\t\t\t\t}];\n\t\t\t\tfor(let level of milestone.levels){\n\t\t\t\t\tlet value = 2 * parseInt(level.level_number, 10);\n\t\t\t\t\toptions.push({value: value - 1, text: '', description: ''});\n\t\t\t\t\toptions.push({value: value, text: level.name, description: level.description});\n\t\t\t\t}\n\n\t\t\t\tthis.$emit('change', {options: options});\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t},\n\t\tsetCustomOptions(){\n\t\t\tif(this.customOptions.length < 1){\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\ttext: 'No custom options set'\n\t\t\t\t});\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tthis.$emit('change', {options: this.customOptions.slice()});\n\t\t}\n\t},\n\tcomponents: {\n\t\tFormBuilderOption,\n\t\tSelectTwo,\n\t\tAlertList\n\t}\n};\n</script>\n\n<style scoped>\n\t.question-id {\n\t\tfont-size: larger;\n\t\ttext-transform: uppercase;\n\t\tfont-weight: bold;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 30:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__);
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: {
+		value: {
+			type: Array,
+			required: true
+		}
+	},
+	methods: {
+		removeAlert: function removeAlert(index) {
+			var alerts = this.value.slice();
+			alerts.splice(index, 1);
+			this.$emit('input', alerts);
+		}
+	},
+	components: {
+		BootstrapAlert: __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue___default.a
+	}
+};
+
+/***/ }),
+
+/***/ 31:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: {
+		type: {
+			type: String,
+			default: 'error',
+			validator: function validator(type) {
+				return ['info', 'success', 'warning', 'error', 'danger'].indexOf(type) !== -1;
+			}
+		},
+		text: {
+			type: String,
+			required: false
+		},
+		html: {
+			type: String,
+			required: false
+		},
+		dismissable: {
+			type: Boolean,
+			default: false
+		}
+	},
+	computed: {
+		alertTypeClass: function alertTypeClass() {
+			if (this.type === 'error') return 'alert-danger';
+
+			return 'alert-' + this.type;
+		}
+	}
+};
+
+/***/ }),
+
+/***/ 313:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(109),
+  /* template */
+  __webpack_require__(331),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormBuilder/FormBuilderInstruction.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] FormBuilderInstruction.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-0aef040e", Component.options)
+  } else {
+    if (module.hot.data.cssModules && JSON.stringify(module.hot.data.cssModules) !== JSON.stringify(cssModules)) {
+      delete Component.options._Ctor
+    }
+    hotAPI.reload("data-v-0aef040e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    data.cssModules = cssModules
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 314:
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(359)
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(110),
+  /* template */
+  __webpack_require__(330),
+  /* scopeId */
+  "data-v-09008ada",
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormBuilder/FormBuilderOption.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] FormBuilderOption.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-09008ada", Component.options)
+  } else {
+    if (module.hot.data.cssModules && JSON.stringify(module.hot.data.cssModules) !== JSON.stringify(cssModules)) {
+      delete Component.options._Ctor
+    }
+    hotAPI.reload("data-v-09008ada", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    data.cssModules = cssModules
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 315:
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(378)
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(111),
+  /* template */
+  __webpack_require__(356),
+  /* scopeId */
+  "data-v-aaf882ea",
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormBuilder/FormBuilderQuestion.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] FormBuilderQuestion.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-aaf882ea", Component.options)
+  } else {
+    if (module.hot.data.cssModules && JSON.stringify(module.hot.data.cssModules) !== JSON.stringify(cssModules)) {
+      delete Component.options._Ctor
+    }
+    hotAPI.reload("data-v-aaf882ea", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    data.cssModules = cssModules
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 33:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: {
+		options: {
+			type: Array,
+			required: false
+		},
+		name: {
+			type: String,
+			required: false
+		},
+		id: {
+			type: String,
+			required: false
+		},
+		required: {
+			type: Boolean,
+			required: false
+		},
+		value: {
+			required: true
+		},
+		multiple: {
+			type: Boolean,
+			default: false
+		},
+		placeholder: {
+			type: String,
+			default: 'Please select'
+		}
+	},
+	computed: {
+		stringOptions: function stringOptions() {
+			if (!this.options) return [];
+
+			var options = this.options.slice();
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+
+			try {
+				for (var _iterator = options[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var option = _step.value;
+
+					if (option.id) option.id = option.id.toString();
+					if (option.children) {
+						var _iteratorNormalCompletion2 = true;
+						var _didIteratorError2 = false;
+						var _iteratorError2 = undefined;
+
+						try {
+							for (var _iterator2 = option.children[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+								var child = _step2.value;
+
+								if (child.id) child.id = child.id.toString();
+							}
+						} catch (err) {
+							_didIteratorError2 = true;
+							_iteratorError2 = err;
+						} finally {
+							try {
+								if (!_iteratorNormalCompletion2 && _iterator2.return) {
+									_iterator2.return();
+								}
+							} finally {
+								if (_didIteratorError2) {
+									throw _iteratorError2;
+								}
+							}
+						}
+					}
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator.return) {
+						_iterator.return();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
+			}
+
+			return options;
+		},
+		stringValue: function stringValue() {
+			if (!this.value) return '';
+
+			if (Array.isArray(this.value)) {
+				return this.value.slice().map(function (value) {
+					return value.toString();
+				});
+			} else {
+				return this.value.toString();
+			}
+		}
+	},
+	mounted: function mounted() {
+		var _this = this;
+
+		$(this.$el).on('change', function () {
+			_this.$emit('input', $(_this.$el).val());
+		});
+
+		$(this.$el).val(this.stringValue).select2({
+			placeholder: this.placeholder,
+			tags: this.multiple,
+			createTag: function createTag() {
+				return undefined;
+			}
+		});
+	},
+	updated: function updated() {
+		$(this.$el).val(this.stringValue).select2({
+			placeholder: this.placeholder,
+			tags: this.multiple,
+			createTag: function createTag() {
+				return undefined;
+			}
+		}).trigger('change');
+	},
+
+	watch: {
+		multiple: function multiple(_multiple) {
+			if (this.value) {
+				if (_multiple && !Array.isArray(this.value)) this.$emit('input', [this.value]);else if (!_multiple && Array.isArray(this.value)) this.$emit('input', this.value[0]);
+			}
+		},
+		stringValue: function stringValue(_stringValue) {
+			$(this.$el).val(_stringValue).trigger('change.select2');
+		}
+	},
+	beforeDestroyed: function beforeDestroyed() {
+		$(this.$el).off().select2('destroy');
+	}
+};
+
+/***/ }),
+
+/***/ 330:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "form-builder-question-option col-lg-2 col-md-3 col-sm-6 text-center",
+    class: {
+      'working-option': _vm.isWorkingOption, 'is-focused': _vm.isFocused
+    }
+  }, [_c('input', {
+    attrs: {
+      "type": _vm.displayType,
+      "disabled": ""
+    }
+  }), _vm._v(" "), _c('input', {
+    staticClass: "form-input form-option form-option-text form-control",
+    attrs: {
+      "type": "text",
+      "placeholder": "Option Text"
+    },
+    domProps: {
+      "value": _vm.text
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('input', {
+          text: $event.target.value
+        })
+      },
+      "change": function($event) {
+        _vm.$emit('change', {
+          text: $event.target.value
+        })
+      },
+      "focus": function($event) {
+        _vm.handleInputFocus('text')
+      },
+      "blur": function($event) {
+        _vm.handleInputBlur('text')
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    staticClass: "form-input form-option form-option-value form-control",
+    attrs: {
+      "type": _vm.type === 'radio' ? 'number' : 'text',
+      "placeholder": "Option Value"
+    },
+    domProps: {
+      "value": _vm.value
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('input', {
+          value: $event.target.value
+        })
+      },
+      "change": function($event) {
+        _vm.$emit('change', {
+          value: $event.target.value
+        })
+      },
+      "focus": function($event) {
+        _vm.handleInputFocus('value')
+      },
+      "blur": function($event) {
+        _vm.handleInputBlur('value')
+      }
+    }
+  }), _vm._v(" "), _c('textarea', {
+    staticClass: "form-input form-option form-option-description form-control",
+    attrs: {
+      "placeholder": "Hover Description"
+    },
+    domProps: {
+      "value": _vm.description
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('input', {
+          description: $event.target.value
+        })
+      },
+      "change": function($event) {
+        _vm.$emit('change', {
+          description: $event.target.value
+        })
+      },
+      "focus": function($event) {
+        _vm.handleInputFocus('description')
+      },
+      "blur": function($event) {
+        _vm.handleInputBlur('description')
+      }
+    }
+  })])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-09008ada", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 331:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "container-fluid form-instruction-block form-block"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-10"
+  }, [_c('label', [_vm._v("Instruction block")]), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('textarea', {
+    staticClass: "form-control form-instruction-text",
+    attrs: {
+      "required": ""
+    },
+    domProps: {
+      "value": _vm.text
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('change', {
+          text: $event.target.value
+        })
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-1 col-md-offset-1"
+  }, [_c('button', {
+    staticClass: "form-block-delete btn btn-danger del-btn",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.$emit('remove')
+      }
+    }
+  }, [_vm._v("Delete")])])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('small', [_vm._v("Supports "), _c('a', {
+    attrs: {
+      "href": "http://daringfireball.net/projects/markdown/basics",
+      "target": "_blank"
+    }
+  }, [_vm._v("markdown")]), _vm._v(" (except inline HTML)")])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-0aef040e", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 339:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "form-header"
+  }, [_c('div', {
+    staticClass: "container-fluid"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-6"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "form-title"
+    }
+  }, [_vm._v("Form title")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model.trim",
+      value: (_vm.title),
+      expression: "title",
+      modifiers: {
+        "trim": true
+      }
+    }],
+    staticClass: "form-control input-lg",
+    attrs: {
+      "type": "text",
+      "id": "form-title",
+      "name": "formTitle",
+      "placeholder": "Form Title",
+      "required": ""
+    },
+    domProps: {
+      "value": _vm._s(_vm.title)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.title = $event.target.value.trim()
+      },
+      "blur": function($event) {
+        _vm.$forceUpdate()
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-3"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "form-type"
+    }
+  }, [_vm._v("Form type")]), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.formType),
+      expression: "formType"
+    }],
+    staticClass: "form-control input-lg",
+    attrs: {
+      "id": "form-type",
+      "name": "form_type"
+    },
+    on: {
+      "change": function($event) {
+        _vm.formType = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        })[0]
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "resident"
+    }
+  }, [_vm._v("Resident/Intern")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "self-resident"
+    }
+  }, [_vm._v("Resident/Intern (self)")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "fellow"
+    }
+  }, [_vm._v("Fellow")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "self-fellow"
+    }
+  }, [_vm._v("Fellow (self)")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "faculty"
+    }
+  }, [_vm._v("Faculty")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "staff"
+    }
+  }, [_vm._v("Staff")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-3"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "form-period-type"
+    }
+  }, [_vm._v("Evaluation period type")]), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.periodType),
+      expression: "periodType"
+    }],
+    staticClass: "form-control input-lg",
+    attrs: {
+      "id": "form-period-type"
+    },
+    on: {
+      "change": function($event) {
+        _vm.periodType = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        })[0]
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "month"
+    }
+  }, [_vm._v("Month")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "quarter"
+    }
+  }, [_vm._v("Quarter")])])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "form-body"
+  }, [_c('div', {
+    staticClass: "form-items"
+  }, [_vm._l((_vm.items), function(item, index) {
+    return [(item.type === 'instruction') ? _c('form-builder-instruction', _vm._b({
+      on: {
+        "change": function($event) {
+          _vm.changeItem(index, $event)
+        },
+        "input": function($event) {
+          _vm.changeItem(index, $event)
+        },
+        "remove": function($event) {
+          _vm.removeItem(index)
+        }
+      }
+    }, 'form-builder-instruction', item)) : _vm._e(), _vm._v(" "), (item.type === 'question') ? _c('form-builder-question', _vm._b({
+      attrs: {
+        "formType": _vm.formType,
+        "groupedMilestones": _vm.groupedMilestones,
+        "allCompetencies": _vm.competencies,
+        "customOptions": _vm.customOptions
+      },
+      on: {
+        "change": function($event) {
+          _vm.changeItem(index, $event)
+        },
+        "remove": function($event) {
+          _vm.removeItem(index)
+        }
+      }
+    }, 'form-builder-question', item)) : _vm._e()]
+  })], 2)]), _vm._v(" "), _c('div', {
+    attrs: {
+      "id": "form-footer"
+    }
+  }, [_c('alert-list', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.alerts),
+      expression: "alerts"
+    }],
+    domProps: {
+      "value": (_vm.alerts)
+    },
+    on: {
+      "input": function($event) {
+        _vm.alerts = $event
+      }
+    }
+  }), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "type": "button",
+      "id": "add-instruction-block"
+    },
+    on: {
+      "click": _vm.addInstruction
+    }
+  }, [_vm._v("Add instruction block")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-info",
+    attrs: {
+      "type": "button",
+      "id": "addQuestion"
+    },
+    on: {
+      "click": _vm.addQuestion
+    }
+  }, [_vm._v("Add Question")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-success",
+    attrs: {
+      "type": "submit"
+    },
+    on: {
+      "click": _vm.submitForm
+    }
+  }, [_vm._v("Submit Form")])], 1)])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-27da62f6", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 356:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "form-question panel panel-default form-block",
+    attrs: {
+      "id": _vm.questionId
+    }
+  }, [_c('div', {
+    staticClass: "panel-heading form-horizontal"
+  }, [_c('div', {
+    staticClass: "panel-title form-group"
+  }, [_c('div', {
+    staticClass: "col-sm-12"
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\t\t\tQuestion Text\n\t\t\t\t\t"), _c('div', {
+    staticClass: "input-group"
+  }, [_c('span', {
+    staticClass: "question-id input-group-addon"
+  }, [_vm._v(_vm._s(_vm.questionId))]), _vm._v(" "), _c('input', {
+    staticClass: "form-input form-question-text form-control",
+    attrs: {
+      "type": "text",
+      "placeholder": "Question Text",
+      "required": ""
+    },
+    domProps: {
+      "value": _vm.text
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('change', {
+          text: $event.target.value
+        })
+      }
+    }
+  })])])])]), _vm._v(" "), _c('div', {
+    staticClass: "hr-question"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-4"
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\t\t\tQuestion Type\n\t\t\t\t\t"), _c('select', {
+    staticClass: "form-control form-question-type",
+    attrs: {
+      "name": "questionType"
+    },
+    domProps: {
+      "value": _vm.questionType
+    },
+    on: {
+      "change": _vm.changeQuestionType
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "radio"
+    }
+  }, [_vm._v("Radio")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "text"
+    }
+  }, [_vm._v("Text")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "radiononnumeric"
+    }
+  }, [_vm._v("Radio (non-numeric)")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "number"
+    }
+  }, [_vm._v("Number")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "checkbox"
+    }
+  }, [_vm._v("Checkbox")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-6"
+  }, [_c('label', [_vm._v("Question Options")]), _vm._v(" "), _c('div', {
+    staticClass: "btn-group btn-group-justified"
+  }, [_c('div', {
+    staticClass: "btn-group"
+  }, [_c('button', {
+    staticClass: "form-question-standard-options btn btn-info",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.setStandardOptions
+    }
+  }, [_vm._v("\n\t\t\t\t\t\t\tStandard\n\t\t\t\t\t\t")])]), _vm._v(" "), _c('div', {
+    staticClass: "btn-group"
+  }, [_c('button', {
+    staticClass: "form-question-milestone-level-options btn btn-info",
+    attrs: {
+      "disabled": !_vm.milestones || _vm.milestones.length !== 1,
+      "type": "button"
+    },
+    on: {
+      "click": _vm.setMilestoneOptions
+    }
+  }, [_vm._v("\n\t\t\t\t\t\t\tMilestone\n\t\t\t\t\t\t")])]), _vm._v(" "), _c('div', {
+    staticClass: "btn-group"
+  }, [_c('button', {
+    staticClass: "form-question-custom-options btn btn-info",
+    attrs: {
+      "disabled": !_vm.customOptions || _vm.customOptions.length < 1,
+      "type": "button"
+    },
+    on: {
+      "click": _vm.setCustomOptions
+    }
+  }, [_vm._v("\n\t\t\t\t\t\t\tCustom\n\t\t\t\t\t\t")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-1 labelless-button"
+  }, [_c('button', {
+    staticClass: "form-block-delete btn btn-danger del-btn",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.$emit('remove')
+      }
+    }
+  }, [_vm._v("\n\t\t\t\t\tDelete\n\t\t\t\t")])]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-1"
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\t\t\tRequired\n\t\t\t\t\t"), _c('input', {
+    staticClass: "form-control form-question-required",
+    attrs: {
+      "type": "checkbox",
+      "value": "required"
+    },
+    domProps: {
+      "checked": _vm.required
+    },
+    on: {
+      "change": function($event) {
+        _vm.$emit('change', {
+          required: $event.target.checked
+        })
+      }
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "hr-question"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-8"
+  }, [_c('label', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.shouldShowMilestonesAndCompetencies),
+      expression: "shouldShowMilestonesAndCompetencies"
+    }],
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\t\t\tQuestion Milestones\n\t\t\t\t\t"), _c('select-two', {
+    staticClass: "form-control form-question-milestone",
+    attrs: {
+      "value": _vm.milestones,
+      "options": _vm.groupedMilestones,
+      "multiple": true
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('change', {
+          milestones: arguments[0]
+        })
+      }
+    }
+  })], 1)]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-4"
+  }, [_c('label', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.shouldShowMilestonesAndCompetencies),
+      expression: "shouldShowMilestonesAndCompetencies"
+    }],
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\t\t\tQuestion Competency\n\t\t\t\t\t"), _c('select-two', {
+    staticClass: "form-control form-question-competency",
+    attrs: {
+      "value": _vm.competencies,
+      "placeholder": "Competency",
+      "options": _vm.competencyOptions,
+      "multiple": true
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('change', {
+          competencies: arguments[0]
+        })
+      }
+    }
+  })], 1)])])]), _vm._v(" "), _c('div', {
+    staticClass: "panel-body"
+  }, [_c('div', {
+    staticClass: "row form-options",
+    staticStyle: {
+      "margin-bottom": "5px"
+    }
+  }, [(['radio', 'radiononnumeric', 'checkbox'].includes(_vm.questionType)) ? _vm._l((_vm.optionsWithWorking), function(option, index) {
+    return _c('form-builder-option', _vm._b({
+      attrs: {
+        "type": _vm.questionType,
+        "is-working-option": option === _vm.workingOption
+      },
+      on: {
+        "input": function($event) {
+          _vm.handleWorkingOptionInput(index, arguments[0])
+        },
+        "change": function($event) {
+          _vm.handleOptionChange(index, arguments[0])
+        }
+      }
+    }, 'form-builder-option', option))
+  }) : _vm._e(), _vm._v(" "), (_vm.questionType === 'text') ? _c('div', {
+    staticClass: "col-sm-12"
+  }, [_c('textarea', {
+    staticClass: "form-control",
+    attrs: {
+      "placeholder": "Text",
+      "disabled": ""
+    }
+  })]) : _vm._e(), _vm._v(" "), (_vm.questionType === 'number') ? _c('div', {
+    staticClass: "col-md-8"
+  }, [_c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "number",
+      "placeholder": "Number",
+      "disabled": ""
+    }
+  })]) : _vm._e()], 2)]), _vm._v(" "), _c('alert-list', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.alerts),
+      expression: "alerts"
+    }],
+    domProps: {
+      "value": (_vm.alerts)
+    },
+    on: {
+      "input": function($event) {
+        _vm.alerts = $event
+      }
+    }
+  })], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-aaf882ea", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 359:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(205);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(4)("f79acbe6", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!./../../../../../node_modules/css-loader/index.js?sourceMap!./../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-09008ada&scoped=true!./../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormBuilderOption.vue", function() {
+     var newContent = require("!!./../../../../../node_modules/css-loader/index.js?sourceMap!./../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-09008ada&scoped=true!./../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormBuilderOption.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 36:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "alert",
+    class: _vm.alertTypeClass
+  }, [(_vm.dismissable) ? _c('button', {
+    staticClass: "close",
+    attrs: {
+      "type": "button",
+      "aria-label": "Close"
+    },
+    on: {
+      "click": function($event) {
+        _vm.$emit('close')
+      }
+    }
+  }, [_c('span', {
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("×")])]) : _vm._e(), _vm._v("\n\t" + _vm._s(_vm.text) + "\n\t"), (_vm.html) ? _c('div', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.html)
+    }
+  }) : _vm._e(), _vm._v(" "), _vm._t("default")], 2)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-03027238", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 365:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(211);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(4)("4c5b19be", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!./../../../../../node_modules/css-loader/index.js?sourceMap!./../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-27da62f6&scoped=true!./../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormBuilder.vue", function() {
+     var newContent = require("!!./../../../../../node_modules/css-loader/index.js?sourceMap!./../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-27da62f6&scoped=true!./../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormBuilder.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 37:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('section', _vm._l((_vm.value), function(alert, index) {
+    return _c('bootstrap-alert', _vm._b({
+      attrs: {
+        "dismissable": true
+      },
+      on: {
+        "close": function($event) {
+          _vm.removeAlert(index)
+        }
+      }
+    }, 'bootstrap-alert', alert))
+  }))
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-3fa97b60", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 378:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(224);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(4)("cc759a56", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!./../../../../../node_modules/css-loader/index.js?sourceMap!./../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-aaf882ea&scoped=true!./../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormBuilderQuestion.vue", function() {
+     var newContent = require("!!./../../../../../node_modules/css-loader/index.js?sourceMap!./../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-aaf882ea&scoped=true!./../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormBuilderQuestion.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 383:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_FormBuilder_FormBuilder_vue__ = __webpack_require__(94);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_FormBuilder_FormBuilder_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_FormBuilder_FormBuilder_vue__);
+/* harmony export (immutable) */ __webpack_exports__["createFormBuilder"] = createFormBuilder;
+
+
+
+function createFormBuilder(el) {
+	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+		el: el,
+		data: function data() {
+			return {
+				oldFormContents: {}
+			};
+		},
+		render: function render(h) {
+			return h(__WEBPACK_IMPORTED_MODULE_1__vue_components_FormBuilder_FormBuilder_vue___default.a, {
+				props: {
+					oldFormContents: this.oldFormContents
+				}
+			});
+		}
+	});
+}
+
+/***/ }),
+
+/***/ 39:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('select', {
+    attrs: {
+      "name": _vm.name,
+      "id": _vm.id,
+      "required": _vm.required,
+      "multiple": _vm.multiple
+    }
+  }, [_vm._t("default"), _vm._v(" "), _vm._l((_vm.stringOptions), function(option) {
+    return [(option.children && option.children.length > 0) ? _c('optgroup', {
+      attrs: {
+        "label": option.text
+      }
+    }, _vm._l((option.children), function(child) {
+      return _c('option', {
+        domProps: {
+          "value": child.id
+        }
+      }, [_vm._v("\n\t\t\t\t" + _vm._s(child.text) + "\n\t\t\t")])
+    })) : (option.id) ? _c('option', {
+      domProps: {
+        "value": option.id
+      }
+    }, [_vm._v("\n\t\t\t" + _vm._s(option.text) + "\n\t\t")]) : _vm._e()]
+  })], 2)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-e84f7814", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 8:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(30),
+  /* template */
+  __webpack_require__(37),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/AlertList.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] AlertList.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3fa97b60", Component.options)
+  } else {
+    if (module.hot.data.cssModules && JSON.stringify(module.hot.data.cssModules) !== JSON.stringify(cssModules)) {
+      delete Component.options._Ctor
+    }
+    hotAPI.reload("data-v-3fa97b60", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    data.cssModules = cssModules
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 94:
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(365)
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(108),
+  /* template */
+  __webpack_require__(339),
+  /* scopeId */
+  "data-v-27da62f6",
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormBuilder/FormBuilder.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] FormBuilder.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-27da62f6", Component.options)
+  } else {
+    if (module.hot.data.cssModules && JSON.stringify(module.hot.data.cssModules) !== JSON.stringify(cssModules)) {
+      delete Component.options._Ctor
+    }
+    hotAPI.reload("data-v-27da62f6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    data.cssModules = cssModules
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ })
+
+},[383]);
+});
 //# sourceMappingURL=vue-form-builder.js.map
