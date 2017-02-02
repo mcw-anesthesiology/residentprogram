@@ -2,6 +2,12 @@
 # yarn lockfile v1
 
 
+"@jacobmischka/vue-flatpickr@^2.2.10":
+  version "2.2.10"
+  resolved "https://registry.yarnpkg.com/@jacobmischka/vue-flatpickr/-/vue-flatpickr-2.2.10.tgz#670e5eaff764957fdd181e382adaf80886777b9c"
+  dependencies:
+    flatpickr "^2.3.0-3"
+
 abbrev@1:
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.0.9.tgz#91b4792588a7738c25f35dd6f63752a2f8776135"
@@ -5110,13 +5116,13 @@ sax@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.1.tgz#7b8e656190b228e81a66aea748480d828cd2d37a"
 
-"semver@2 || 3 || 4 || 5", semver@^4.1.0:
-  version "4.3.6"
-  resolved "https://registry.yarnpkg.com/semver/-/semver-4.3.6.tgz#300bc6e0e86374f7ba61068b5b1ecd57fc6532da"
-
-"semver@2.x || 3.x || 4 || 5", semver@^5.1.0, semver@^5.3.0, semver@~5.3.0:
+"semver@2 || 3 || 4 || 5", "semver@2.x || 3.x || 4 || 5", semver@^5.1.0, semver@^5.3.0, semver@~5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.3.0.tgz#9b2ce5d3de02d17c6012ad326aa6b4d0cf54f94f"
+
+semver@^4.1.0:
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-4.3.6.tgz#300bc6e0e86374f7ba61068b5b1ecd57fc6532da"
 
 send@0.14.2:
   version "0.14.2"
@@ -5879,12 +5885,6 @@ vm-browserify@0.0.4:
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-0.0.4.tgz#5d7ea45bbef9e4a6ff65f95438e0a87c357d5a73"
   dependencies:
     indexof "0.0.1"
-
-"vue-flatpickr@https://github.com/jacobmischka/vue-flatpickr.git#2.0":
-  version "2.2.9"
-  resolved "https://github.com/jacobmischka/vue-flatpickr.git#3186d2cabe3698336242197317faca30cb3c29a6"
-  dependencies:
-    flatpickr "^2.3.0-3"
 
 vue-hot-reload-api@^2.0.1:
   version "2.0.8"
