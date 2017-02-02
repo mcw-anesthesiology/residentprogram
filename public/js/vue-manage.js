@@ -79,6 +79,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = {
 	props: {
@@ -92,8 +118,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		items: {
 			type: Array,
 			required: true
+		},
+		itemKey: {
+			type: String,
+			default: 'id'
 		}
 	},
+
+	data: function data() {
+		return {
+			activeItem: null,
+			activeItemTimeoutId: null
+		};
+	},
+
 
 	computed: {
 		itemsRemaining: function itemsRemaining() {
@@ -104,14 +142,69 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			});
 		}
 	},
+	watch: {
+		activeItem: function activeItem() {
+			var _this2 = this;
+
+			if (this.activeItemTimeoutId) window.clearTimeout(this.activeItemTimeoutId);
+
+			this.activeItemTimeoutId = window.setTimeout(function () {
+				if (_this2.activeItemTimeoutId) {
+					_this2.activeItem = null;
+					_this2.activeItemTimeoutId = null;
+				}
+			}, 1000);
+		}
+	},
 
 	methods: {
 		addItem: function addItem(item) {
 			this.$emit('input', this.value.concat(item));
 		},
 		removeItem: function removeItem(index) {
+			if (event.defaultPrevented) return;
+
 			var value = this.value.slice();
 			value.splice(index, 1);
+			this.$emit('input', value);
+		},
+		moveItemTo: function moveItemTo(event, index) {
+			var newIndex = event.target.value - 1;
+
+			if (newIndex < 0 || newIndex > this.value.length - 1) return;
+
+			var value = this.value.slice();
+			value.splice(newIndex, 0, value.splice(index, 1)[0]);
+
+			this.activeItem = newIndex;
+			this.$emit('input', value);
+		},
+		moveItemUp: function moveItemUp(event, index) {
+			event.preventDefault();
+			event.stopPropagation();
+
+			if (index === 0) return;
+
+			var newIndex = index - 1;
+			var value = this.value.slice();
+
+			value.splice(newIndex, 0, value.splice(index, 1)[0]);
+
+			this.activeItem = newIndex;
+			this.$emit('input', value);
+		},
+		moveItemDown: function moveItemDown(event, index) {
+			event.preventDefault();
+			event.stopPropagation();
+
+			if (index === this.value.length - 1) return;
+
+			var newIndex = index + 1;
+			var value = this.value.slice();
+
+			value.splice(newIndex, 0, value.splice(index, 1)[0]);
+
+			this.activeItem = newIndex;
 			this.$emit('input', value);
 		}
 	}
@@ -575,9 +668,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			var rows = this.data.map(function (row) {
 				return row.map(function (cell) {
-					return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["a" /* escapeCsv */])(cell.toString());
+					return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["b" /* escapeCsv */])(cell.toString());
 				}).join(',');
-			}).sort(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["b" /* sortIgnoreCase */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["c" /* sortIgnoreCase */]);
 			var table = header.concat(rows);
 			__WEBPACK_IMPORTED_MODULE_0_downloadjs___default()(table.join('\n'), this.exportFilename + '.csv', 'text/csv');
 		}
@@ -763,7 +856,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			this.$emit('input', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["isoDateStringObject"])(dates));
 		},
 
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["d" /* camelCaseToWords */]
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["e" /* camelCaseToWords */]
 	},
 	components: {
 		VueFlatpickr: __WEBPACK_IMPORTED_MODULE_0_vue_flatpickr___default.a
@@ -825,7 +918,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.list-group-item[data-v-6fc18dbc] {\n\tcursor: pointer;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/OrderingList.vue?dcfdfd42"],"names":[],"mappings":";AA6DA;CACA,gBAAA;CACA","file":"OrderingList.vue","sourcesContent":["<template>\n\t<div class=\"row\">\n\t\t<div class=\"col-md-6\">\n\t\t\t<ul class=\"list-group\">\n\t\t\t\t<li v-for=\"item of itemsRemaining\" class=\"list-group-item\"\n\t\t\t\t\t\t@click=\"addItem(item)\">\n\t\t\t\t\t<slot v-bind=\"item\">\n\t\t\t\t\t\t{{ item }}\n\t\t\t\t\t</slot>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</div>\n\t\t<div class=\"col-md-6\">\n\t\t\t<ol class=\"list-group\">\n\t\t\t\t<li v-for=\"(item, index) of value\" class=\"list-group-item\"\n\t\t\t\t\t\t@click=\"removeItem(index)\">\n\t\t\t\t\t<slot v-bind=\"item\">\n\t\t\t\t\t\t{{ item }}\n\t\t\t\t\t</slot>\n\t\t\t\t</li>\n\t\t\t</ol>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nexport default {\n\tprops: {\n\t\tvalue: {\n\t\t\ttype: Array,\n\t\t\trequired: true,\n\t\t\tdefault(){\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\titems: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\t\n\tcomputed: {\n\t\titemsRemaining(){\n\t\t\treturn this.items.filter(item => !this.value.includes(item));\n\t\t}\n\t},\n\t\n\tmethods: {\n\t\taddItem(item){\n\t\t\tthis.$emit('input', this.value.concat(item));\n\t\t},\n\t\tremoveItem(index){\n\t\t\tlet value = this.value.slice();\n\t\t\tvalue.splice(index, 1);\n\t\t\tthis.$emit('input', value);\n\t\t}\n\t}\n};\n</script>\n\n<style scoped>\n\t.list-group-item {\n\t\tcursor: pointer;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.list-group-item[data-v-6fc18dbc] {\n\tcursor: pointer;\n}\n.list-group-item[data-v-6fc18dbc]:focus,\n.list-group-item[data-v-6fc18dbc]:hover {\n\tcolor: #555;\n\tbackground-color: #f5f5f5;\n}\n.list-group-item.active[data-v-6fc18dbc]:focus,\n.list-group-item.active[data-v-6fc18dbc]:hover {\n\tcolor: white;\n\tbackground-color: rgba(51, 123, 184, 0.85);\n}\n.item-controls[data-v-6fc18dbc] {\n\tmargin-top: 1em;\n\tdisplay: flex;\n\tjustify-content: space-between;\n}\n.item-controls .form-control[data-v-6fc18dbc] {\n\twidth: 5em;\n}\n.item-controls-buttons[data-v-6fc18dbc] {\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/OrderingList.vue?1b542ab1"],"names":[],"mappings":";AA4JA;CACA,gBAAA;CACA;AAEA;;CAEA,YAAA;CACA,0BAAA;CACA;AAEA;;CAEA,aAAA;CACA,2CAAA;CACA;AAEA;CACA,gBAAA;CACA,cAAA;CACA,+BAAA;CACA;AAEA;CACA,WAAA;CACA;AAEA;CAEA","file":"OrderingList.vue","sourcesContent":["<template>\n\t<div class=\"row\">\n\t\t<div class=\"col-md-6\">\n\t\t\t<ul class=\"list-group\">\n\t\t\t\t<li v-for=\"item of itemsRemaining\" class=\"list-group-item\"\n\t\t\t\t\t\t:key=\"itemKey in item && `bank-${item[itemKey]}`\"\n\t\t\t\t\t\t@click=\"addItem(item)\">\n\t\t\t\t\t<slot v-bind=\"item\">\n\t\t\t\t\t\t{{ item }}\n\t\t\t\t\t</slot>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</div>\n\t\t<div class=\"col-md-6\">\n\t\t\t<ol class=\"list-group\" ref=\"orderedList\">\n\t\t\t\t<li v-for=\"(item, index) of value\" class=\"list-group-item\"\n\t\t\t\t\t\t:class=\"{active: activeItem === index}\"\n\t\t\t\t\t\t:key=\"itemKey in item && item[itemKey]\"\n\t\t\t\t\t\t@click=\"removeItem(index)\">\n\t\t\t\t\t<slot v-bind=\"item\">\n\t\t\t\t\t\t{{ item }}\n\t\t\t\t\t</slot>\n\t\t\t\t\t<div class=\"item-controls\">\n\t\t\t\t\t\t<input type=\"number\" class=\"form-control\"\n\t\t\t\t\t\t\t:value=\"index + 1\" @click=\"$event.stopPropagation()\"\n\t\t\t\t\t\t\t@change=\"moveItemTo($event, index)\" />\n\t\t\t\t\t\t<div class=\"item-controls-buttons\">\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\tv-if=\"index > 0\"\n\t\t\t\t\t\t\t\t\t@click=\"moveItemUp($event, index)\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-arrow-up\"></span>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\tv-if=\"index < value.length - 1\"\n\t\t\t\t\t\t\t\t\t@click=\"moveItemDown($event, index)\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-arrow-down\"></span>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</li>\n\t\t\t</ol>\n\t\t\t<div v-if=\"value.length > 0\" class=\"text-center\">\n\t\t\t\t<button type=\"button\" class=\"btn btn-warning\"\n\t\t\t\t\t\t@click=\"$emit('input', [])\">\n\t\t\t\t\tClear list\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nexport default {\n\tprops: {\n\t\tvalue: {\n\t\t\ttype: Array,\n\t\t\trequired: true,\n\t\t\tdefault(){\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\titems: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\titemKey: {\n\t\t\ttype: String,\n\t\t\tdefault: 'id'\n\t\t}\n\t},\n\t\n\tdata(){\n\t\treturn {\n\t\t\tactiveItem: null,\n\t\t\tactiveItemTimeoutId: null\n\t\t};\n\t},\n\t\n\tcomputed: {\n\t\titemsRemaining(){\n\t\t\treturn this.items.filter(item => !this.value.includes(item));\n\t\t}\n\t},\n\twatch: {\n\t\tactiveItem(){\n\t\t\tif(this.activeItemTimeoutId)\n\t\t\t\twindow.clearTimeout(this.activeItemTimeoutId);\n\t\t\t\n\t\t\tthis.activeItemTimeoutId = window.setTimeout(() => {\n\t\t\t\tif(this.activeItemTimeoutId){\n\t\t\t\t\tthis.activeItem = null;\n\t\t\t\t\tthis.activeItemTimeoutId = null;\n\t\t\t\t}\n\t\t\t}, 1000);\n\t\t}\n\t},\n\t\n\tmethods: {\n\t\taddItem(item){\n\t\t\tthis.$emit('input', this.value.concat(item));\n\t\t},\n\t\tremoveItem(index){\n\t\t\tif(event.defaultPrevented)\n\t\t\t\treturn;\n\t\t\t\n\t\t\tlet value = this.value.slice();\n\t\t\tvalue.splice(index, 1);\n\t\t\tthis.$emit('input', value);\n\t\t},\n\t\tmoveItemTo(event, index){\n\t\t\tlet newIndex = event.target.value - 1;\n\t\t\t\n\t\t\tif(newIndex < 0 || newIndex > this.value.length - 1)\n\t\t\t\treturn;\n\t\t\t\n\t\t\tlet value = this.value.slice();\n\t\t\tvalue.splice(newIndex, 0, value.splice(index, 1)[0]);\n\t\t\t\n\t\t\tthis.activeItem = newIndex;\n\t\t\tthis.$emit('input', value);\n\t\t},\n\t\tmoveItemUp(event, index){\n\t\t\tevent.preventDefault();\n\t\t\tevent.stopPropagation();\n\n\t\t\tif(index === 0)\n\t\t\t\treturn;\n\t\t\t\t\n\t\t\tlet newIndex = index - 1;\n\t\t\tlet value = this.value.slice();\n\t\t\t\n\t\t\tvalue.splice(newIndex, 0, value.splice(index, 1)[0]);\n\t\t\t\n\t\t\tthis.activeItem = newIndex;\n\t\t\tthis.$emit('input', value);\n\t\t},\n\t\tmoveItemDown(event, index){\n\t\t\tevent.preventDefault();\n\t\t\tevent.stopPropagation();\n\t\t\t\n\t\t\tif(index === this.value.length - 1)\n\t\t\t\treturn;\n\t\t\t\n\t\t\tlet newIndex = index + 1;\n\t\t\tlet value = this.value.slice();\n\t\t\t\n\t\t\tvalue.splice(newIndex, 0, value.splice(index, 1)[0]);\n\t\t\t\n\t\t\tthis.activeItem = newIndex;\n\t\t\tthis.$emit('input', value);\n\t\t}\n\t}\n};\n</script>\n\n<style scoped>\n\t.list-group-item {\n\t\tcursor: pointer;\n\t}\n\t\n\t.list-group-item:focus,\n\t.list-group-item:hover {\n\t\tcolor: #555;\n\t\tbackground-color: #f5f5f5;\n\t}\n\t\n\t.list-group-item.active:focus,\n\t.list-group-item.active:hover {\n\t\tcolor: white;\n\t\tbackground-color: rgba(51, 123, 184, 0.85);\n\t}\n\t\n\t.item-controls {\n\t\tmargin-top: 1em;\n\t\tdisplay: flex;\n\t\tjustify-content: space-between;\n\t}\n\t\n\t.item-controls .form-control {\n\t\twidth: 5em;\n\t}\n\t\n\t.item-controls-buttons {\n\t\t\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -1351,6 +1444,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "list-group"
   }, _vm._l((_vm.itemsRemaining), function(item) {
     return _c('li', {
+      key: _vm.itemKey in item && ("bank-" + (item[_vm.itemKey])),
       staticClass: "list-group-item",
       on: {
         "click": function($event) {
@@ -1361,17 +1455,78 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }))]), _vm._v(" "), _c('div', {
     staticClass: "col-md-6"
   }, [_c('ol', {
+    ref: "orderedList",
     staticClass: "list-group"
   }, _vm._l((_vm.value), function(item, index) {
     return _c('li', {
+      key: _vm.itemKey in item && item[_vm.itemKey],
       staticClass: "list-group-item",
+      class: {
+        active: _vm.activeItem === index
+      },
       on: {
         "click": function($event) {
           _vm.removeItem(index)
         }
       }
-    }, [_vm._t("default", [_vm._v("\n\t\t\t\t\t" + _vm._s(item) + "\n\t\t\t\t")], null, item)], 2)
-  }))])])
+    }, [_vm._t("default", [_vm._v("\n\t\t\t\t\t" + _vm._s(item) + "\n\t\t\t\t")], null, item), _vm._v(" "), _c('div', {
+      staticClass: "item-controls"
+    }, [_c('input', {
+      staticClass: "form-control",
+      attrs: {
+        "type": "number"
+      },
+      domProps: {
+        "value": index + 1
+      },
+      on: {
+        "click": function($event) {
+          $event.stopPropagation()
+        },
+        "change": function($event) {
+          _vm.moveItemTo($event, index)
+        }
+      }
+    }), _vm._v(" "), _c('div', {
+      staticClass: "item-controls-buttons"
+    }, [(index > 0) ? _c('button', {
+      staticClass: "btn btn-default",
+      attrs: {
+        "type": "button"
+      },
+      on: {
+        "click": function($event) {
+          _vm.moveItemUp($event, index)
+        }
+      }
+    }, [_c('span', {
+      staticClass: "glyphicon glyphicon-arrow-up"
+    })]) : _vm._e(), _vm._v(" "), (index < _vm.value.length - 1) ? _c('button', {
+      staticClass: "btn btn-default",
+      attrs: {
+        "type": "button"
+      },
+      on: {
+        "click": function($event) {
+          _vm.moveItemDown($event, index)
+        }
+      }
+    }, [_c('span', {
+      staticClass: "glyphicon glyphicon-arrow-down"
+    })]) : _vm._e()])])], 2)
+  })), _vm._v(" "), (_vm.value.length > 0) ? _c('div', {
+    staticClass: "text-center"
+  }, [_c('button', {
+    staticClass: "btn btn-warning",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.$emit('input', [])
+      }
+    }
+  }, [_vm._v("\n\t\t\t\tClear list\n\t\t\t")])]) : _vm._e()])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -1589,7 +1744,7 @@ function createManageEvaluations(el, propsData) {
 									visBtnType = 'btn-default';
 									break;
 							}
-							return '<span class="status">\n\t\t\t\t\t\t\t\t<span class="label label-' + label + '">\n\t\t\t\t\t\t\t\t\t' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["c" /* ucfirst */])(evaluation.status) + '\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t<br />\n\t\t\t\t\t\t\t<button type="button"\n\t\t\t\t\t\t\t\t\tclass="visibility visibility-' + evaluation.visibility + ' btn ' + visBtnType + ' btn-xs"\n\t\t\t\t\t\t\t\t\tdata-eval-type="' + evaluation.form.type + '"\n\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '"\n\t\t\t\t\t\t\t\t\tdata-current-visibility="' + evaluation.visibility + '">\n\t\t\t\t\t\t\t\t' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["c" /* ucfirst */])(evaluation.visibility) + '\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-eye-' + eyeType + '"></span>\n\t\t\t\t\t\t\t</button>';
+							return '<span class="status">\n\t\t\t\t\t\t\t\t<span class="label label-' + label + '">\n\t\t\t\t\t\t\t\t\t' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["d" /* ucfirst */])(evaluation.status) + '\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t<br />\n\t\t\t\t\t\t\t<button type="button"\n\t\t\t\t\t\t\t\t\tclass="visibility visibility-' + evaluation.visibility + ' btn ' + visBtnType + ' btn-xs"\n\t\t\t\t\t\t\t\t\tdata-eval-type="' + evaluation.form.type + '"\n\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '"\n\t\t\t\t\t\t\t\t\tdata-current-visibility="' + evaluation.visibility + '">\n\t\t\t\t\t\t\t\t' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["d" /* ucfirst */])(evaluation.visibility) + '\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-eye-' + eyeType + '"></span>\n\t\t\t\t\t\t\t</button>';
 						} }, { data: null, orderable: false, render: function render(evaluation) {
 							var buttonClass = void 0,
 							    buttonType = void 0,
@@ -1633,7 +1788,10 @@ function createManageEvaluations(el, propsData) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_DataTable_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_OrderingList_vue__ = __webpack_require__(323);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_OrderingList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_OrderingList_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__ = __webpack_require__(2);
 /* harmony export (immutable) */ __webpack_exports__["a"] = createManageMilestonesCompetencies;
+
+
 
 
 
@@ -1649,8 +1807,34 @@ function createManageMilestonesCompetencies(el, propsData) {
 		data: function data() {
 			return {
 				milestones: [],
-				competencies: []
+				competencies: [],
+
+				orderedMilestones: [],
+
+				milestoneAlerts: [],
+				competencyAlerts: []
 			};
+		},
+		mounted: function mounted() {
+			var _this = this;
+
+			fetch('/milestones', {
+				method: 'GET',
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["a" /* getFetchHeaders */])(),
+				credentials: 'same-origin'
+			}).then(function (response) {
+				if (response.ok) return response.json();
+
+				throw new Error(response.statusText);
+			}).then(function (milestones) {
+				_this.milestones = milestones;
+			}).catch(function (err) {
+				console.error(err);
+				_this.milestoneAlerts.push({
+					type: 'error',
+					html: '<strong>Error: </strong> Problem fetching milestones'
+				});
+			});
 		},
 
 

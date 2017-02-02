@@ -898,9 +898,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			var rows = this.data.map(function (row) {
 				return row.map(function (cell) {
-					return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["a" /* escapeCsv */])(cell.toString());
+					return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["b" /* escapeCsv */])(cell.toString());
 				}).join(',');
-			}).sort(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["b" /* sortIgnoreCase */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["c" /* sortIgnoreCase */]);
 			var table = header.concat(rows);
 			__WEBPACK_IMPORTED_MODULE_0_downloadjs___default()(table.join('\n'), this.exportFilename + '.csv', 'text/csv');
 		}
@@ -1085,7 +1085,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			this.$emit('input', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["isoDateStringObject"])(dates));
 		},
 
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["d" /* camelCaseToWords */]
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["e" /* camelCaseToWords */]
 	},
 	components: {
 		VueFlatpickr: __WEBPACK_IMPORTED_MODULE_0_vue_flatpickr___default.a
@@ -9564,7 +9564,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 
 			fetch(this.target, {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["e" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(body)
 			}).then(function (response) {
@@ -9601,7 +9601,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 			});
 		},
 
-		ucfirst: __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["c" /* ucfirst */]
+		ucfirst: __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["d" /* ucfirst */]
 	},
 	components: {
 		AlertList: __WEBPACK_IMPORTED_MODULE_1__AlertList_vue___default.a,
@@ -9702,7 +9702,7 @@ var _md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 	},
 
 	methods: {
-		ucfirst: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["c" /* ucfirst */]
+		ucfirst: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["d" /* ucfirst */]
 	},
 
 	components: {
@@ -10381,8 +10381,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 	methods: {
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["d" /* camelCaseToWords */],
-		ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* ucfirst */]
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["e" /* camelCaseToWords */],
+		ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["d" /* ucfirst */]
 	},
 	components: {
 		BootstrapButtonInput: __WEBPACK_IMPORTED_MODULE_1__BootstrapButtonInput_vue___default.a,
@@ -10658,7 +10658,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			fetch('/report/form', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["e" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -10865,7 +10865,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 	methods: {
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["d" /* camelCaseToWords */]
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["e" /* camelCaseToWords */]
 	},
 	components: {
 		FormReportQuestionOptionStats: __WEBPACK_IMPORTED_MODULE_1__FormReportQuestionOptionStats_vue___default.a,
@@ -11308,8 +11308,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 		}
 	},
 	methods: {
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["d" /* camelCaseToWords */],
-		ucfirst: __WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["c" /* ucfirst */],
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["e" /* camelCaseToWords */],
+		ucfirst: __WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["d" /* ucfirst */],
 		renderDateCell: __WEBPACK_IMPORTED_MODULE_8__modules_datatable_utils_js__["i" /* renderDateCell */],
 		exportPdf: function exportPdf() {
 			var _this = this;
@@ -11671,7 +11671,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 	methods: {
 		renderTrainingLevel: __WEBPACK_IMPORTED_MODULE_4__modules_datatable_utils_js__["h" /* renderTrainingLevel */],
-		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["c" /* ucfirst */]
+		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["d" /* ucfirst */]
 	},
 	components: {
 		EvaluationDetailsListItem: __WEBPACK_IMPORTED_MODULE_0__EvaluationDetailsListItem_vue___default.a,
@@ -11919,7 +11919,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			fetch('/report/needs/evaluations', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["e" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -11938,7 +11938,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			fetch('/report/needs/competencies', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["e" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -11956,7 +11956,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			fetch('/report/needs/milestones', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["e" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -12058,7 +12058,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			fetch('/report/pending-requests', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["e" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -12425,7 +12425,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 	methods: {
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["d" /* camelCaseToWords */]
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["e" /* camelCaseToWords */]
 	},
 	components: {
 		ChartjsChart: __WEBPACK_IMPORTED_MODULE_1__ChartjsChart_vue___default.a,
@@ -12712,7 +12712,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 			var reportPromise = fetch('/report/aggregate', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__modules_utils_js__["e" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -12734,7 +12734,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 			var statsPromise = fetch('/report/stats/resident', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__modules_utils_js__["e" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,

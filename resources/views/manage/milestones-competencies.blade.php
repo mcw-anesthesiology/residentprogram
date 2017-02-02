@@ -27,6 +27,12 @@
     	<data-table id="milestones-table"
 			:thead="milestonesThead" :config="milestonesConfig" />
 	</div>
+	
+	<ordering-list v-model="orderedMilestones" :items="milestones">
+		<template scope="milestone">
+			@{{ milestone.title }}
+		</template>
+	</ordering-list>
 </div>
 <div class="container body-block">
 	<div class="row">

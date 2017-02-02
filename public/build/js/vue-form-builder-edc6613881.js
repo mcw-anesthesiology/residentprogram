@@ -163,7 +163,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			if (this.isFormValid()) {
 				fetch('/forms', {
 					method: 'POST',
-					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["e" /* getFetchHeaders */])(),
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["a" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: requestBody
 				}).then(function (response) {
