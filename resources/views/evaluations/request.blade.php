@@ -190,9 +190,9 @@
 				</div>
 				<template v-if="Array.isArray(evaluationDate)"
 						v-for="(date, index) of evaluationDate">
-					<input type="hidden" :name="`evaluation_date[${index}][startDate]`" required
+					<input type="hidden" :name="'evaluation_date[' + index + '][startDate]'" required
 						:value="date.startDate" />
-					<input type="hidden" :name="`evaluation_date[${index}][endDate]`" required
+					<input type="hidden" :name="'evaluation_date[' + index + '][endDate]'" required
 						:value="date.endDate" />
 				</template>
 				<template v-else>
