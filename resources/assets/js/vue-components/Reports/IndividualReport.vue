@@ -141,7 +141,6 @@ import {
 	renderIdToEvalUrl,
 	renderDateCell,
 	renderDateRangeCell,
-	createDateRangeCell,
 	renderTrainingLevel
 } from '../../modules/datatable-utils.js';
 import {
@@ -208,10 +207,7 @@ export default {
 			return {
 				columns: [
 					{ render: renderIdToEvalUrl },
-					{
-						render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
-					},
+					null,
 					null,
 					null
 				]
@@ -221,7 +217,7 @@ export default {
 			try {
 				return this.report.subjectEvaluations[this.subjectId].map(request => [
 					String(request.evaluation_id),
-					request,
+					renderDateRangeCell('evaluation_date_start', 'evaluation_date_end')(request),
 					`${request.evaluator_last}, ${request.evaluator_first}`,
 					request.form_title
 				]);
@@ -299,10 +295,7 @@ export default {
 			return {
 				columns: [
 					{ render: renderIdToEvalUrl },
-					{
-						render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
-					},
+					null,
 					null,
 					null,
 					null
@@ -322,7 +315,7 @@ export default {
 			try {
 				return this.report.subjectTextResponses[this.subjectId].map(response => [
 					String(response.evaluation_id),
-					response,
+					renderDateRangeCell('evaluation_date_start', 'evaluation_date_end')(response),
 					`${response.last_name}, ${response.first_name}`,
 					response.form_title,
 					response.response
