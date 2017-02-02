@@ -1,5 +1,6 @@
 <template>
 	<div class="individual-report container body-block">
+		<alert-list v-model="alerts" />
 		<template v-if="report.subjectEvaluations[subjectId] && report.subjectEvaluations[subjectId].length > 0">
 			<h2>
 				Individual Report
@@ -123,6 +124,7 @@
 import Color from 'color';
 
 import BootstrapAlert from '../BootstrapAlert.vue';
+import AlertList from '../AlertList.vue';
 import BootstrapButtonInput from '../BootstrapButtonInput.vue';
 import ChartjsChart from '../ChartjsChart.vue';
 import DataTable from '../DataTable.vue';
@@ -169,7 +171,9 @@ export default {
 				charts: true
 			},
 			chartType: 'radar',
-			chartOrientation: 'vertical'
+			chartOrientation: 'vertical',
+			
+			alerts: []
 		};
 	},
 	computed: {
@@ -597,6 +601,12 @@ export default {
 				};
 
 				pdfmake.createPdf(docDefinition).download(filename);
+			}).catch(err => {
+				console.error(err);
+				this.alerts.push({
+					type: 'error',
+					html: `<strong>Error: </strong> There was a problem exporting the report for ${this.report.subjectEvaluations[this.subjectId]}`
+				});
 			});
 
 		}
@@ -604,6 +614,7 @@ export default {
 
 	components: {
 		BootstrapAlert,
+		AlertList,
 		BootstrapButtonInput,
 		ChartjsChart,
 		DataTable,
