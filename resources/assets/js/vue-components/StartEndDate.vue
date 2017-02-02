@@ -32,8 +32,8 @@
 </template>
 
 <script>
-import VueFlatpickr from '@jacobmischka/vue-flatpickr';
-import '@jacobmischka/vue-flatpickr/theme/flatpickr.min.css';
+import VueFlatpickr from 'vue-flatpickr';
+import 'vue-flatpickr/theme/flatpickr.min.css';
 
 import { camelCaseToWords } from '../modules/utils.js';
 import {

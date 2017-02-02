@@ -8,7 +8,7 @@
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
 })(this, function() {
-return webpackJsonp([6,10],{
+return webpackJsonp([7,10],{
 
 /***/ 10:
 /***/ (function(module, exports, __webpack_require__) {
@@ -349,47 +349,6 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 16:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(33),
-  /* template */
-  __webpack_require__(39),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/SelectTwo.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] SelectTwo.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-e84f7814", Component.options)
-  } else {
-    if (module.hot.data.cssModules && JSON.stringify(module.hot.data.cssModules) !== JSON.stringify(cssModules)) {
-      delete Component.options._Ctor
-    }
-    hotAPI.reload("data-v-e84f7814", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    data.cssModules = cssModules
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
 /***/ 17:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -588,10 +547,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jacobmischka_vue_flatpickr_theme_flatpickr_min_css__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jacobmischka_vue_flatpickr_theme_flatpickr_min_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__jacobmischka_vue_flatpickr_theme_flatpickr_min_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_flatpickr__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_flatpickr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_flatpickr__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_flatpickr_theme_flatpickr_min_css__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_flatpickr_theme_flatpickr_min_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_flatpickr_theme_flatpickr_min_css__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__ = __webpack_require__(5);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -749,7 +708,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["b" /* camelCaseToWords */]
 	},
 	components: {
-		VueFlatpickr: __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr___default.a
+		VueFlatpickr: __WEBPACK_IMPORTED_MODULE_0_vue_flatpickr___default.a
 	}
 };
 
@@ -793,7 +752,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.form-horizontal[data-v-c43e39de] {\n\toverflow-x: hidden;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/StartEndDate.vue?022ca010"],"names":[],"mappings":";AAsJA;CACA,mBAAA;CACA","file":"StartEndDate.vue","sourcesContent":["<template>\n\t<div class=\"form-horizontal\" ref=\"container\">\n\t\t<div class=\"form-group\">\n\t\t\t<div class=\"col-md-4\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tDate Range\n\t\t\t\t\t<select class=\"form-control\" v-model=\"dateRange\">\n\t\t\t\t\t\t<option v-for=\"range of DATE_RANGES\" :value=\"range\">\n\t\t\t\t\t\t\t{{ camelCaseToWords(range) }}\n\t\t\t\t\t\t</option>\n\t\t\t\t\t</select>\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t\t<div class=\"col-sm-6 col-md-4\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tStart Date\n\t\t\t\t\t<vue-flatpickr class=\"form-control\"\n\t\t\t\t\t\t:value=\"value.startDate\" :options=\"flatpickrOptions\"\n\t\t\t\t\t\t@input=\"handleInput('startDate', arguments[0])\"/>\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t\t<div class=\"col-sm-6 col-md-4\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tEnd Date\n\t\t\t\t\t<vue-flatpickr class=\"form-control\"\n\t\t\t\t\t\t:value=\"value.endDate\" :options=\"flatpickrOptions\"\n\t\t\t\t\t\t@input=\"handleInput('endDate', arguments[0])\"/>\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport VueFlatpickr from '@jacobmischka/vue-flatpickr';\nimport '@jacobmischka/vue-flatpickr/theme/flatpickr.min.css';\n\nimport { camelCaseToWords } from '../modules/utils.js';\nimport {\n\tDATE_RANGES,\n\tisoDateStringObject,\n\tcurrentQuarter,\n\tlastQuarter,\n\tcurrentSemester,\n\tlastSemester,\n\tcurrentYear,\n\tlastYear\n} from '../modules/date-utils.js';\n\nexport default {\n\tprops: {\n\t\tvalue: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t},\n\t\tallTime: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tdateRange: DATE_RANGES.CUSTOM\n\t\t};\n\t},\n\tcreated(){\n\t\tthis.matchDateRangeWithValue();\n\t},\n\tcomputed: {\n\t\tDATE_RANGES(){\n\t\t\tlet ranges = Object.assign({}, DATE_RANGES);\n\t\t\tif(!this.allTime)\n\t\t\t\tdelete ranges.ALL_TIME;\n\t\t\t\n\t\t\treturn ranges;\n\t\t},\n\t\tflatpickrOptions(){\n\t\t\treturn {\n\t\t\t\taltInput: true,\n\t\t\t\taltInputClass: 'form-control appear-not-readonly',\n\t\t\t\taltFormat: 'M j, Y'\n\t\t\t};\n\t\t},\n\t\tcurrentQuarter,\n\t\tlastQuarter,\n\t\tcurrentSemester,\n\t\tlastSemester,\n\t\tcurrentYear,\n\t\tlastYear\n\t},\n\twatch: {\n\t\tvalue(){\n\t\t\tthis.matchDateRangeWithValue();\n\t\t},\n\t\tdateRange(dateRange){\n\t\t\tif(dateRange === DATE_RANGES.ALL_TIME)\n\t\t\t\tthis.setDate({\n\t\t\t\t\tstartDate: null,\n\t\t\t\t\tendDate: null\n\t\t\t\t});\n\t\t\t\n\t\t\tif(dateRange !== DATE_RANGES.CUSTOM && this[dateRange]\n\t\t\t\t\t&& !this.datesEqual(this.value, this[dateRange]))\n\t\t\t\tthis.setDate(this[dateRange]);\n\t\t}\n\t},\n\tmethods: {\n\t\tmatchDateRangeWithValue(value = this.value){\n\t\t\tif(this.allTime && !value.startDate && !value.endDate){\n\t\t\t\tthis.dateRange = this.DATE_RANGES.ALL_TIME;\n\t\t\t\treturn;\n\t\t\t}\n\t\t\t\n\t\t\tif(this.dateRange && this.dateRange !== DATE_RANGES.CUSTOM\n\t\t\t\t\t&& this[this.dateRange]\n\t\t\t\t\t&& this.datesEqual(value, this[this.dateRange]))\n\t\t\t\treturn;\n\n\t\t\tfor(let range of Object.values(DATE_RANGES)){\n\t\t\t\tif(this[range] && this.datesEqual(value, this[range])){\n\t\t\t\t\tthis.dateRange = range;\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t}\n\n\t\t\tthis.dateRange = DATE_RANGES.CUSTOM;\n\t\t},\n\t\thandleInput(prop, value){\n\t\t\tlet newValue = Object.assign({}, this.value, {[prop]: value});\n\t\t\tthis.$emit('input', newValue);\n\t\t},\n\t\tdatesEqual(dates1, dates2){\n\t\t\tdates1 = isoDateStringObject(dates1);\n\t\t\tdates2 = isoDateStringObject(dates2);\n\n\t\t\treturn dates1.startDate === dates2.startDate\n\t\t\t\t&& dates1.endDate === dates2.endDate;\n\t\t},\n\t\tsetDate(dates){\n\t\t\tthis.$emit('input', isoDateStringObject(dates));\n\t\t},\n\t\tcamelCaseToWords\n\t},\n\tcomponents: {\n\t\tVueFlatpickr\n\t}\n};\n</script>\n\n<style scoped>\n\t.form-horizontal {\n\t\toverflow-x: hidden;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.form-horizontal[data-v-c43e39de] {\n\toverflow-x: hidden;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/StartEndDate.vue?a0733480"],"names":[],"mappings":";AAsJA;CACA,mBAAA;CACA","file":"StartEndDate.vue","sourcesContent":["<template>\n\t<div class=\"form-horizontal\" ref=\"container\">\n\t\t<div class=\"form-group\">\n\t\t\t<div class=\"col-md-4\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tDate Range\n\t\t\t\t\t<select class=\"form-control\" v-model=\"dateRange\">\n\t\t\t\t\t\t<option v-for=\"range of DATE_RANGES\" :value=\"range\">\n\t\t\t\t\t\t\t{{ camelCaseToWords(range) }}\n\t\t\t\t\t\t</option>\n\t\t\t\t\t</select>\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t\t<div class=\"col-sm-6 col-md-4\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tStart Date\n\t\t\t\t\t<vue-flatpickr class=\"form-control\"\n\t\t\t\t\t\t:value=\"value.startDate\" :options=\"flatpickrOptions\"\n\t\t\t\t\t\t@input=\"handleInput('startDate', arguments[0])\"/>\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t\t<div class=\"col-sm-6 col-md-4\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tEnd Date\n\t\t\t\t\t<vue-flatpickr class=\"form-control\"\n\t\t\t\t\t\t:value=\"value.endDate\" :options=\"flatpickrOptions\"\n\t\t\t\t\t\t@input=\"handleInput('endDate', arguments[0])\"/>\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport VueFlatpickr from 'vue-flatpickr';\nimport 'vue-flatpickr/theme/flatpickr.min.css';\n\nimport { camelCaseToWords } from '../modules/utils.js';\nimport {\n\tDATE_RANGES,\n\tisoDateStringObject,\n\tcurrentQuarter,\n\tlastQuarter,\n\tcurrentSemester,\n\tlastSemester,\n\tcurrentYear,\n\tlastYear\n} from '../modules/date-utils.js';\n\nexport default {\n\tprops: {\n\t\tvalue: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t},\n\t\tallTime: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tdateRange: DATE_RANGES.CUSTOM\n\t\t};\n\t},\n\tcreated(){\n\t\tthis.matchDateRangeWithValue();\n\t},\n\tcomputed: {\n\t\tDATE_RANGES(){\n\t\t\tlet ranges = Object.assign({}, DATE_RANGES);\n\t\t\tif(!this.allTime)\n\t\t\t\tdelete ranges.ALL_TIME;\n\t\t\t\n\t\t\treturn ranges;\n\t\t},\n\t\tflatpickrOptions(){\n\t\t\treturn {\n\t\t\t\taltInput: true,\n\t\t\t\taltInputClass: 'form-control appear-not-readonly',\n\t\t\t\taltFormat: 'M j, Y'\n\t\t\t};\n\t\t},\n\t\tcurrentQuarter,\n\t\tlastQuarter,\n\t\tcurrentSemester,\n\t\tlastSemester,\n\t\tcurrentYear,\n\t\tlastYear\n\t},\n\twatch: {\n\t\tvalue(){\n\t\t\tthis.matchDateRangeWithValue();\n\t\t},\n\t\tdateRange(dateRange){\n\t\t\tif(dateRange === DATE_RANGES.ALL_TIME)\n\t\t\t\tthis.setDate({\n\t\t\t\t\tstartDate: null,\n\t\t\t\t\tendDate: null\n\t\t\t\t});\n\t\t\t\n\t\t\tif(dateRange !== DATE_RANGES.CUSTOM && this[dateRange]\n\t\t\t\t\t&& !this.datesEqual(this.value, this[dateRange]))\n\t\t\t\tthis.setDate(this[dateRange]);\n\t\t}\n\t},\n\tmethods: {\n\t\tmatchDateRangeWithValue(value = this.value){\n\t\t\tif(this.allTime && !value.startDate && !value.endDate){\n\t\t\t\tthis.dateRange = this.DATE_RANGES.ALL_TIME;\n\t\t\t\treturn;\n\t\t\t}\n\t\t\t\n\t\t\tif(this.dateRange && this.dateRange !== DATE_RANGES.CUSTOM\n\t\t\t\t\t&& this[this.dateRange]\n\t\t\t\t\t&& this.datesEqual(value, this[this.dateRange]))\n\t\t\t\treturn;\n\n\t\t\tfor(let range of Object.values(DATE_RANGES)){\n\t\t\t\tif(this[range] && this.datesEqual(value, this[range])){\n\t\t\t\t\tthis.dateRange = range;\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t}\n\n\t\t\tthis.dateRange = DATE_RANGES.CUSTOM;\n\t\t},\n\t\thandleInput(prop, value){\n\t\t\tlet newValue = Object.assign({}, this.value, {[prop]: value});\n\t\t\tthis.$emit('input', newValue);\n\t\t},\n\t\tdatesEqual(dates1, dates2){\n\t\t\tdates1 = isoDateStringObject(dates1);\n\t\t\tdates2 = isoDateStringObject(dates2);\n\n\t\t\treturn dates1.startDate === dates2.startDate\n\t\t\t\t&& dates1.endDate === dates2.endDate;\n\t\t},\n\t\tsetDate(dates){\n\t\t\tthis.$emit('input', isoDateStringObject(dates));\n\t\t},\n\t\tcamelCaseToWords\n\t},\n\tcomponents: {\n\t\tVueFlatpickr\n\t}\n};\n</script>\n\n<style scoped>\n\t.form-horizontal {\n\t\toverflow-x: hidden;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -1268,171 +1227,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 33:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = {
-	props: {
-		options: {
-			type: Array,
-			required: false
-		},
-		name: {
-			type: String,
-			required: false
-		},
-		id: {
-			type: String,
-			required: false
-		},
-		required: {
-			type: Boolean,
-			required: false
-		},
-		value: {
-			required: true
-		},
-		multiple: {
-			type: Boolean,
-			default: false
-		},
-		placeholder: {
-			type: String,
-			default: 'Please select'
-		}
-	},
-	computed: {
-		stringOptions: function stringOptions() {
-			if (!this.options) return [];
-
-			var options = this.options.slice();
-			var _iteratorNormalCompletion = true;
-			var _didIteratorError = false;
-			var _iteratorError = undefined;
-
-			try {
-				for (var _iterator = options[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-					var option = _step.value;
-
-					if (option.id) option.id = option.id.toString();
-					if (option.children) {
-						var _iteratorNormalCompletion2 = true;
-						var _didIteratorError2 = false;
-						var _iteratorError2 = undefined;
-
-						try {
-							for (var _iterator2 = option.children[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-								var child = _step2.value;
-
-								if (child.id) child.id = child.id.toString();
-							}
-						} catch (err) {
-							_didIteratorError2 = true;
-							_iteratorError2 = err;
-						} finally {
-							try {
-								if (!_iteratorNormalCompletion2 && _iterator2.return) {
-									_iterator2.return();
-								}
-							} finally {
-								if (_didIteratorError2) {
-									throw _iteratorError2;
-								}
-							}
-						}
-					}
-				}
-			} catch (err) {
-				_didIteratorError = true;
-				_iteratorError = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion && _iterator.return) {
-						_iterator.return();
-					}
-				} finally {
-					if (_didIteratorError) {
-						throw _iteratorError;
-					}
-				}
-			}
-
-			return options;
-		},
-		stringValue: function stringValue() {
-			if (!this.value) return '';
-
-			if (Array.isArray(this.value)) {
-				return this.value.slice().map(function (value) {
-					return value.toString();
-				});
-			} else {
-				return this.value.toString();
-			}
-		}
-	},
-	mounted: function mounted() {
-		var _this = this;
-
-		$(this.$el).on('change', function () {
-			_this.$emit('input', $(_this.$el).val());
-		});
-
-		$(this.$el).val(this.stringValue).select2({
-			placeholder: this.placeholder,
-			tags: this.multiple,
-			createTag: function createTag() {
-				return undefined;
-			}
-		});
-	},
-	updated: function updated() {
-		$(this.$el).val(this.stringValue).select2({
-			placeholder: this.placeholder,
-			tags: this.multiple,
-			createTag: function createTag() {
-				return undefined;
-			}
-		}).trigger('change');
-	},
-
-	watch: {
-		multiple: function multiple(_multiple) {
-			if (this.value) {
-				if (_multiple && !Array.isArray(this.value)) this.$emit('input', [this.value]);else if (!_multiple && Array.isArray(this.value)) this.$emit('input', this.value[0]);
-			}
-		},
-		stringValue: function stringValue(_stringValue) {
-			$(this.$el).val(_stringValue).trigger('change.select2');
-		}
-	},
-	beforeDestroyed: function beforeDestroyed() {
-		$(this.$el).off().select2('destroy');
-	}
-};
-
-/***/ }),
-
 /***/ 38:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1478,374 +1272,14 @@ if (false) {
 
 /***/ }),
 
-/***/ 388:
+/***/ 385:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_SelectTwo_vue__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_SelectTwo_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_SelectTwo_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_indefinite__ = __webpack_require__(93);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_indefinite___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_indefinite__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__ = __webpack_require__(7);
-/* harmony export (immutable) */ __webpack_exports__["createRequest"] = createRequest;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__evaluations_js__ = __webpack_require__(92);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageEvaluations", function() { return __WEBPACK_IMPORTED_MODULE_0__evaluations_js__["a"]; });
 
-
-
-
-
-
-
-
-
-
-
-
-function createRequest(el, propsData) {
-
-	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
-		el: el,
-		props: {
-			user: Object,
-			evaluators: Array,
-			subjects: Array,
-			forms: Array
-		},
-		propsData: propsData,
-		data: function data() {
-			var requestType = getRequestType();
-			return {
-				requestType: requestType,
-				subjectId: null,
-				evaluatorId: null,
-				formId: null,
-				evaluationDateJson: null,
-
-				sendHash: requestType === 'staff',
-				forceNotification: false,
-				hashExpiresIn: '30',
-
-				allowMultiple: {
-					subjects: false,
-					evaluators: false,
-					evaluationDate: false
-				},
-
-				error: {
-					subjectId: null,
-					evaluatorId: null,
-					formId: null,
-					evaluationDate: null
-				}
-			};
-		},
-
-		computed: {
-			required: function required() {
-				var required = {
-					subjectId: true,
-					evaluatorId: true,
-					formId: true,
-					evaluationDate: true
-				};
-
-				if (['resident', 'self'].indexOf(this.requestType) !== -1 && this.user.type === 'resident') required.subjectId = false;
-
-				if (this.requestType === 'resident' && this.user.type === 'faculty' || this.requestType === 'staff' && this.user.type === 'staff' || this.requestType === 'faculty' && this.user.type === 'resident' || this.requestType === 'self') required.evaluatorId = false;
-
-				return required;
-			},
-			requirementsAreMet: function requirementsAreMet() {
-				var _this = this;
-
-				return !Object.keys(this.required).some(function (requirement) {
-					return _this.required[requirement] && (!_this[requirement] || _this[requirement].length === 0);
-				});
-			},
-			fieldNouns: function fieldNouns() {
-				return {
-					subjectId: 'subject',
-					evaluatorId: 'evaluator',
-					formId: 'form',
-					evaluationDate: 'evaluation date'
-				};
-			},
-			subject: function subject() {
-				var subjectId = Number(this.subjectId);
-				return this.subjects[0].find(function (subject) {
-					return subject.id === subjectId;
-				});
-			},
-			evaluatorOptions: function evaluatorOptions() {
-				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["f" /* groupUsers */])(this.evaluators[0]);
-			},
-			subjectOptions: function subjectOptions() {
-				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["f" /* groupUsers */])(this.subjects[0]);
-			},
-			subjectForms: function subjectForms() {
-				var forms = this.forms;
-				if (this.subjectId && this.subject && this.subject.type === 'resident') {
-					forms = this.subject.training_level === 'fellow' ? forms.filter(function (form) {
-						return form.type === 'fellow';
-					}) : forms.filter(function (form) {
-						return form.type === 'resident';
-					});
-				}
-
-				return forms;
-			},
-			formOptions: function formOptions() {
-				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["g" /* groupForms */])(this.subjectForms);
-			},
-			evaluationDate: function evaluationDate() {
-				if (this.evaluationDateJson) return Array.isArray(this.evaluationDateJson) ? this.evaluationDateJson.map(JSON.parse) : JSON.parse(this.evaluationDateJson);
-			},
-			evaluationDates: function evaluationDates() {
-				var _this2 = this;
-
-				var form = this.forms.find(function (form) {
-					return form.id === Number(_this2.formId);
-				});
-
-				if (!form) return;
-
-				var dates = [];
-				if (form.evaluation_period_type === 'quarter') {
-					dates = [__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["lastQuarter"])(), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["currentQuarter"])()];
-				} else {
-					var startDate = __WEBPACK_IMPORTED_MODULE_3_moment___default()().startOf('month');
-					var endDate = __WEBPACK_IMPORTED_MODULE_3_moment___default()(endDate).endOf('month');
-					for (var i = 0; i < 3; i++) {
-						dates.push({
-							startDate: startDate,
-							endDate: endDate
-						});
-						startDate = __WEBPACK_IMPORTED_MODULE_3_moment___default()(startDate).subtract(1, 'month');
-						endDate = __WEBPACK_IMPORTED_MODULE_3_moment___default()(startDate).endOf('month');
-					}
-					dates.reverse();
-				}
-
-				return dates;
-			},
-			evaluationDateOptions: function evaluationDateOptions() {
-				if (this.evaluationDates) return this.evaluationDates.map(function (date) {
-					return {
-						id: JSON.stringify(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["isoDateStringObject"])(date)),
-						text: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["renderDateRange"])(date.startDate, date.endDate)
-					};
-				});
-			},
-			pendingFacultyEvalsThead: function pendingFacultyEvalsThead() {
-				return [['#', 'Faculty', 'Form', 'Evaluation date', 'Started', '']];
-			},
-			pendingFacultyEvalsConfig: function pendingFacultyEvalsConfig() {
-				var _this3 = this;
-
-				if (this.user.type !== 'resident' || this.requestType !== 'faculty') return;
-
-				return {
-					ajax: {
-						url: '/evaluations',
-						data: {
-							whereHas: {
-								form: {
-									type: 'faculty'
-								}
-							},
-							with: {
-								subject: ['full_name'],
-								form: ['title']
-							},
-							evaluator_id: this.user.id,
-							status: 'pending'
-						},
-						dataSrc: ''
-					},
-					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["e" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, {
-						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["a" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["b" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["c" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["d" /* createDateTimeCell */] }, { data: null, render: function render(evaluation) {
-							if (evaluation.requested_by_id === _this3.user.id) return '<button class="btn btn-danger btn-xs cancel-eval-button" ' + 'data-id="' + evaluation.id + '"><span class="glyphicon glyphicon-remove"></span> ' + 'Cancel</button>';
-
-							return '';
-						} }],
-					order: [[0, 'desc']],
-					createdRow: function createdRow(row) {
-						$(row).addClass('view-evaluation');
-					}
-				};
-			},
-			completeFacultyEvalsThead: function completeFacultyEvalsThead() {
-				return [['#', 'Faculty', 'Form', 'Evaluation date', 'Started', 'Completed']];
-			},
-			completeFacultyEvalsConfig: function completeFacultyEvalsConfig() {
-				return {
-					ajax: {
-						url: '/evaluations',
-						data: {
-							whereHas: {
-								form: {
-									type: 'faculty'
-								}
-							},
-							with: {
-								subject: ['full_name'],
-								form: ['title']
-							},
-							evaluator_id: this.user.id,
-							status: 'complete'
-						},
-						dataSrc: ''
-					},
-					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["e" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, {
-						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["a" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["b" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["c" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["d" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["c" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["d" /* createDateTimeCell */] }],
-					order: [[0, 'desc']],
-					createdRow: function createdRow(row) {
-						$(row).addClass('view-evaluation');
-					}
-				};
-			}
-		},
-		watch: {
-			allowMultiple: function allowMultiple(_allowMultiple) {
-				var _this4 = this;
-
-				Object.keys(_allowMultiple).map(function (field) {
-					if (_allowMultiple[field] && !Array.isArray(_this4[field])) _this4[field] = [_this4[field]];else if (!_allowMultiple[field] && Array.isArray(_this4[field])) _this4[field] = _this4[field][0];
-				});
-			},
-			subjectId: function subjectId() {
-				this.checkField('subjectId', 'subject');
-			},
-			evaluatorId: function evaluatorId() {
-				this.checkField('evaluatorId', 'evaluator');
-			},
-			formId: function formId() {
-				this.checkField('formId', 'form');
-			},
-			evaluationDate: function evaluationDate() {
-				this.checkField('evaluationDate', 'evaluation date');
-			},
-			evaluationDateOptions: function evaluationDateOptions(options) {
-				var _this5 = this;
-
-				if (!options && this.evaluationDateJson) this.evaluationDateJson = null;
-
-				if (!options || !this.evaluationDateJson) return;
-
-				if (Array.isArray(this.evaluationDateJson)) {
-					var newJson = options.filter(function (_ref) {
-						var id = _ref.id;
-						return _this5.evaluationDateJson.indexOf(id) !== -1;
-					}).map(function (_ref2) {
-						var id = _ref2.id;
-						return id;
-					});
-
-					if (newJson.length !== this.evaluationDateJson.length) this.evaluationDateJson = newJson;
-				} else {
-					if (!options.some(function (_ref3) {
-						var id = _ref3.id;
-						return id === _this5.evaluationDateJson;
-					})) this.evaluationDateJson = null;
-				}
-			},
-			formOptions: function formOptions() {
-				var formId = Number(this.formId);
-				if (formId && !this.subjectForms.find(function (form) {
-					return form.id === formId;
-				})) this.formId = null;
-			}
-		},
-		methods: {
-			clearDay: function clearDay() {
-				this.$refs.evaluationDayFlatpickr.fp.clear();
-			},
-			checkField: function checkField(field, noun) {
-				this.error[field] = this.required[field] && (!this[field] || this[field].length === 0) ? 'Please select ' + __WEBPACK_IMPORTED_MODULE_4_indefinite___default()(noun) : null;
-
-				return this.error[field];
-			},
-			checkSubmit: function checkSubmit(event) {
-				var _this6 = this;
-
-				Object.keys(this.required).map(function (field) {
-					_this6.checkField(field, _this6.fieldNouns[field]);
-				});
-
-				if (!this.requirementsAreMet) event.preventDefault();
-			}
-		},
-		components: {
-			EvaluationDataTable: __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue___default.a,
-			SelectTwo: __WEBPACK_IMPORTED_MODULE_2__vue_components_SelectTwo_vue___default.a
-		}
-	});
-}
-
-function getRequestType() {
-	var paths = window.location.pathname.split('/');
-	paths = paths.filter(function (path) {
-		return path.length > 0;
-	});
-	var type = paths[paths.length - 1];
-
-	if (['faculty', 'staff', 'self'].indexOf(type) !== -1) return type;
-
-	return 'resident';
-}
-
-/***/ }),
-
-/***/ 39:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('select', {
-    attrs: {
-      "name": _vm.name,
-      "id": _vm.id,
-      "required": _vm.required,
-      "multiple": _vm.multiple
-    }
-  }, [_vm._t("default"), _vm._v(" "), _vm._l((_vm.stringOptions), function(option) {
-    return [(option.children && option.children.length > 0) ? _c('optgroup', {
-      attrs: {
-        "label": option.text
-      }
-    }, _vm._l((option.children), function(child) {
-      return _c('option', {
-        domProps: {
-          "value": child.id
-        }
-      }, [_vm._v("\n\t\t\t\t" + _vm._s(child.text) + "\n\t\t\t")])
-    })) : (option.id) ? _c('option', {
-      domProps: {
-        "value": option.id
-      }
-    }, [_vm._v("\n\t\t\t" + _vm._s(option.text) + "\n\t\t")]) : _vm._e()]
-  })], 2)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-e84f7814", module.exports)
-  }
-}
 
 /***/ }),
 
@@ -1894,33 +1328,121 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 93:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ 92:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(module) {(function() {
-  var isNode = (typeof module !== 'undefined' && this.module !== module);
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(7);
+/* harmony export (immutable) */ __webpack_exports__["a"] = createManageEvaluations;
 
-  var indefinite = function (noun, capitalize) {
-    var phrase = (/[aeiou]/.test(noun.charAt(0).toLowerCase()) ? 'an ' : 'a ') + noun;
-    if (capitalize) {
-      return phrase.charAt(0).toUpperCase() + phrase.slice(1);
-    } else {
-      return phrase;
-    }
-  };
 
-  /* istanbul ignore else */
-  if (isNode) {
-    module.exports = indefinite;
-  } else {
-    window.indefinite = indefinite;
-  }
-})();
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(55)(module)))
+
+
+
+
+function createManageEvaluations(el, propsData) {
+
+	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+		el: el,
+		props: {},
+		propsData: propsData,
+
+		data: function data() {},
+
+
+		computed: {
+			thead: function thead() {
+				return [['#', 'Subject', 'Evaluator', 'Requested By', 'Form', 'Evaluation Date', 'Request Date', 'Complete Date', 'Status', 'Action']];
+			},
+			config: function config() {
+				return {
+					ajax: {
+						url: '/evaluations',
+						data: {
+							with: {
+								subject: ['full_name'],
+								evaluator: ['full_name'],
+								requestor: ['full_name'],
+								form: ['title', 'visibility', 'type']
+							}
+						},
+						dataSrc: ''
+					},
+					columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'evaluator.full_name' }, { data: 'requestor.full_name' }, { data: 'form.title' }, {
+						data: null,
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* createDateTimeCell */] }, { data: null, orderable: false, render: function render(evaluation) {
+							if (!evaluation.visibility) evaluation.visibility = evaluation.form.visibility;
+							var label = void 0;
+							switch (evaluation.status) {
+								case 'complete':
+									label = 'success';
+									break;
+								case 'pending':
+									label = 'warning';
+									break;
+								default:
+									label = 'danger';
+									break;
+							}
+							var eyeType = void 0,
+							    visBtnType = void 0;
+							switch (evaluation.visibility) {
+								case 'visible':
+									eyeType = 'open';
+									visBtnType = 'btn-info';
+									break;
+								case 'anonymous':
+								case 'under faculty threshold':
+									eyeType = 'close';
+									visBtnType = '';
+									break;
+								case 'hidden':
+									eyeType = 'close';
+									visBtnType = 'btn-default';
+									break;
+							}
+							return '<span class="status">\n\t\t\t\t\t\t\t\t<span class="label label-' + label + '">\n\t\t\t\t\t\t\t\t\t' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["a" /* ucfirst */])(evaluation.status) + '\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t<br />\n\t\t\t\t\t\t\t<button type="button"\n\t\t\t\t\t\t\t\t\tclass="visibility visibility-' + evaluation.visibility + ' btn ' + visBtnType + ' btn-xs"\n\t\t\t\t\t\t\t\t\tdata-eval-type="' + evaluation.form.type + '"\n\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '"\n\t\t\t\t\t\t\t\t\tdata-current-visibility="' + evaluation.visibility + '">\n\t\t\t\t\t\t\t\t' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["a" /* ucfirst */])(evaluation.visibility) + '\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-eye-' + eyeType + '"></span>\n\t\t\t\t\t\t\t</button>';
+						} }, { data: null, orderable: false, render: function render(evaluation) {
+							var buttonClass = void 0,
+							    buttonType = void 0,
+							    glyphicon = void 0,
+							    buttonText = void 0;
+							if (evaluation.status === "disabled") {
+								buttonClass = "enableEval";
+								buttonType = "success";
+								glyphicon = "ok";
+								buttonText = "Enable";
+							} else {
+								buttonClass = "disableEval";
+								buttonType = "danger";
+								glyphicon = "remove";
+								buttonText = "Disable";
+							}
+
+							return '<span>\n\t\t\t\t\t\t\t\t<button class="' + buttonClass + ' btn btn-' + buttonType + ' btn-xs"\n\t\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '">\n\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-' + glyphicon + '"></span>\n\t\t\t\t\t\t\t\t\t' + buttonText + '\n\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t<span class="cancel">\n\t\t\t\t\t\t\t\t' + (evaluation.status === 'pending' ? '<button class="cancelEval btn btn-danger btn-xs"\n\t\t\t\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '">\n\t\t\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-remove"></span>\n\t\t\t\t\t\t\t\t\t\t\tCancel\n\t\t\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t\t\t\t<button class="send-reminder btn btn-primary btn-xs"\n\t\t\t\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '">\n\t\t\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-send"></span>\n\t\t\t\t\t\t\t\t\t\t\tSend reminder\n\t\t\t\t\t\t\t\t\t\t</button>' : '') + '\n\t\t\t\t\t\t\t</span>';
+						} }],
+					order: [[0, 'desc']],
+					deferRender: true
+				};
+			}
+		},
+
+		components: {
+			EvaluationDataTable: __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue___default.a
+		}
+	});
+}
 
 /***/ })
 
-},[388]);
+},[385]);
 });
-//# sourceMappingURL=vue-request.js.map
+//# sourceMappingURL=vue-manage.js.map
