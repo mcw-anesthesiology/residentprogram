@@ -13,7 +13,8 @@
 	</style>
 @stop
 
-@section("body")
+@section("blockless-body")
+<div class="container body-block">
 	<div class="row">
 		<h2 class="sub-header">
 			Milestones
@@ -25,14 +26,26 @@
 			</button>
 		</h2>
     	<data-table id="milestones-table"
-			:thead="milestonesThead" :config="milestonesConfig" />
+			:thead="milestonesThead" :config="milestonesConfig"></data-table>
 	</div>
 	
-	<ordering-list v-model="orderedMilestones" :items="milestones">
-		<template scope="milestone">
-			@{{ milestone.title }}
-		</template>
-	</ordering-list>
+	<alert-list v-model="milestoneAlerts"></alert-list>
+	
+	<show-hide-button class="btn btn-info"
+		v-model="show.milestoneOrder" text="order milestones"></show-hide-button>
+	
+	<div v-cloak v-if="show.milestoneOrder" class="panel panel-default">
+		<div class="panel-heading">
+			Order milestones
+		</div>
+		<div class="panel-body">
+			<ordering-list v-model="orderedMilestones" :items="milestones">
+				<template scope="milestone">
+					@{{ milestone.title }}
+				</template>
+			</ordering-list>
+		</div>
+	</div>
 </div>
 <div class="container body-block">
 	<div class="row">
@@ -46,8 +59,27 @@
 			</button>
 		</h2>
 		<data-table id="competencies-table"
-			:thead="competenciesThead" :config="competenciesConfig" />
+			:thead="competenciesThead" :config="competenciesConfig"></data-table>
 	</div>
+	
+	<alert-list v-model="competencyAlerts"></alert-list>
+	
+	<show-hide-button class="btn btn-info"
+		v-model="show.competencyOrder" text="order competencies"></show-hide-button>
+	
+	<div v-cloak v-if="show.competencyOrder" class="panel panel-default">
+		<div class="panel-heading">
+			Order competencies
+		</div>
+		<div class="panel-body">
+			<ordering-list v-model="orderedCompetencies" :items="competencies">
+				<template scope="competency">
+					@{{ competency.title }}
+				</template>
+			</ordering-list>
+		</div>
+	</div>
+</div>
 
 	<!-- Add Milestone Modal -->
 	<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="add-milestone-modal-title" aria-hidden="true" id="add-milestone-modal">

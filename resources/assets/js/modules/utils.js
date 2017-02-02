@@ -76,6 +76,12 @@ export function getFetchHeaders(){
 	return headers;
 }
 
+export function jsonOrThrow(response){
+	if(response.ok)
+		return response.json();
+	throw new Error(response.statusText);
+}
+
 export function fetchMilestoneGroups(){
 	return fetch('/milestones', {
 		method: 'GET',
