@@ -6,8 +6,6 @@ import SelectTwo from '../vue-components/SelectTwo.vue';
 import moment from 'moment';
 import indefinite from 'indefinite';
 
-import 'vue-flatpickr/theme/flatpickr.min.css';
-
 import { groupUsers, groupForms } from '../modules/utils.js';
 import {
 	isoDateStringObject,
