@@ -1,9 +1,11 @@
 import Vue from 'vue';
 
+import AlertList from '../../vue-components/AlertList.vue';
 import DataTable from '../../vue-components/DataTable.vue';
 import OrderingList from '../../vue-components/OrderingList.vue';
+import ShowHideButton from '../../vue-components/ShowHideButton.vue';
 
-import { getFetchHeaders } from '../../modules/utils.js';
+import { getFetchHeaders, jsonOrThrow } from '../../modules/utils.js';
 
 export default function createManageMilestonesCompetencies(el, propsData){
 	
@@ -20,6 +22,12 @@ export default function createManageMilestonesCompetencies(el, propsData){
 				competencies: [],
 				
 				orderedMilestones: [],
+				orderedCompetencies: [],
+				
+				show: {
+					milestoneOrder: false,
+					competencyOrder: false
+				},
 				
 				milestoneAlerts: [],
 				competencyAlerts: []
@@ -31,12 +39,7 @@ export default function createManageMilestonesCompetencies(el, propsData){
 				method: 'GET',
 				headers: getFetchHeaders(),
 				credentials: 'same-origin'
-			}).then(response => {
-				if(response.ok)
-					return response.json();
-				
-				throw new Error(response.statusText);
-			}).then(milestones => {
+			}).then(jsonOrThrow).then(milestones => {
 				this.milestones = milestones;
 			}).catch(err => {
 				console.error(err);
@@ -44,6 +47,16 @@ export default function createManageMilestonesCompetencies(el, propsData){
 					type: 'error',
 					html: '<strong>Error: </strong> Problem fetching milestones'
 				});
+			});
+			
+			fetch('/competencies', {
+				method: 'GET',
+				headers: getFetchHeaders(),
+				credentials: 'same-origin'
+			}).then(jsonOrThrow).then(competencies => {
+				this.competencies = competencies;
+			}).catch(err => {
+				console.error(err);
 			});
 		},
 		
@@ -165,8 +178,10 @@ export default function createManageMilestonesCompetencies(el, propsData){
 		},
 		
 		components: {
+			AlertList,
 			DataTable,
-			OrderingList
+			OrderingList,
+			ShowHideButton
 		}
 	});
 }
