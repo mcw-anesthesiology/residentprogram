@@ -752,14 +752,8 @@ if (false) {(function () {
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-03027238", Component.options)
   } else {
-    if (module.hot.data.cssModules && JSON.stringify(module.hot.data.cssModules) !== JSON.stringify(cssModules)) {
-      delete Component.options._Ctor
-    }
     hotAPI.reload("data-v-03027238", Component.options)
   }
-  module.hot.dispose(function (data) {
-    data.cssModules = cssModules
-  })
 })()}
 
 module.exports = Component.exports
@@ -793,14 +787,8 @@ if (false) {(function () {
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-e84f7814", Component.options)
   } else {
-    if (module.hot.data.cssModules && JSON.stringify(module.hot.data.cssModules) !== JSON.stringify(cssModules)) {
-      delete Component.options._Ctor
-    }
     hotAPI.reload("data-v-e84f7814", Component.options)
   }
-  module.hot.dispose(function (data) {
-    data.cssModules = cssModules
-  })
 })()}
 
 module.exports = Component.exports
@@ -968,14 +956,8 @@ if (false) {(function () {
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-0aef040e", Component.options)
   } else {
-    if (module.hot.data.cssModules && JSON.stringify(module.hot.data.cssModules) !== JSON.stringify(cssModules)) {
-      delete Component.options._Ctor
-    }
     hotAPI.reload("data-v-0aef040e", Component.options)
   }
-  module.hot.dispose(function (data) {
-    data.cssModules = cssModules
-  })
 })()}
 
 module.exports = Component.exports
@@ -1013,14 +995,8 @@ if (false) {(function () {
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-09008ada", Component.options)
   } else {
-    if (module.hot.data.cssModules && JSON.stringify(module.hot.data.cssModules) !== JSON.stringify(cssModules)) {
-      delete Component.options._Ctor
-    }
     hotAPI.reload("data-v-09008ada", Component.options)
   }
-  module.hot.dispose(function (data) {
-    data.cssModules = cssModules
-  })
 })()}
 
 module.exports = Component.exports
@@ -1058,14 +1034,8 @@ if (false) {(function () {
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-aaf882ea", Component.options)
   } else {
-    if (module.hot.data.cssModules && JSON.stringify(module.hot.data.cssModules) !== JSON.stringify(cssModules)) {
-      delete Component.options._Ctor
-    }
     hotAPI.reload("data-v-aaf882ea", Component.options)
   }
-  module.hot.dispose(function (data) {
-    data.cssModules = cssModules
-  })
 })()}
 
 module.exports = Component.exports
@@ -2137,14 +2107,8 @@ if (false) {(function () {
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-3fa97b60", Component.options)
   } else {
-    if (module.hot.data.cssModules && JSON.stringify(module.hot.data.cssModules) !== JSON.stringify(cssModules)) {
-      delete Component.options._Ctor
-    }
     hotAPI.reload("data-v-3fa97b60", Component.options)
   }
-  module.hot.dispose(function (data) {
-    data.cssModules = cssModules
-  })
 })()}
 
 module.exports = Component.exports
@@ -2182,14 +2146,8 @@ if (false) {(function () {
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-27da62f6", Component.options)
   } else {
-    if (module.hot.data.cssModules && JSON.stringify(module.hot.data.cssModules) !== JSON.stringify(cssModules)) {
-      delete Component.options._Ctor
-    }
     hotAPI.reload("data-v-27da62f6", Component.options)
   }
-  module.hot.dispose(function (data) {
-    data.cssModules = cssModules
-  })
 })()}
 
 module.exports = Component.exports

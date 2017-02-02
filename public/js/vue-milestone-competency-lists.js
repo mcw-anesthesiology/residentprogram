@@ -128,14 +128,8 @@ if (false) {(function () {
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-2d613f1b", Component.options)
   } else {
-    if (module.hot.data.cssModules && JSON.stringify(module.hot.data.cssModules) !== JSON.stringify(cssModules)) {
-      delete Component.options._Ctor
-    }
     hotAPI.reload("data-v-2d613f1b", Component.options)
   }
-  module.hot.dispose(function (data) {
-    data.cssModules = cssModules
-  })
 })()}
 
 module.exports = Component.exports
@@ -478,14 +472,8 @@ if (false) {(function () {
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-6739f1e8", Component.options)
   } else {
-    if (module.hot.data.cssModules && JSON.stringify(module.hot.data.cssModules) !== JSON.stringify(cssModules)) {
-      delete Component.options._Ctor
-    }
     hotAPI.reload("data-v-6739f1e8", Component.options)
   }
-  module.hot.dispose(function (data) {
-    data.cssModules = cssModules
-  })
 })()}
 
 module.exports = Component.exports

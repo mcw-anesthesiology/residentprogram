@@ -15639,14 +15639,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_get_own_property_descriptor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_get_own_property_descriptor__);
 
 //
-// element-dataset 2.2.3
+// element-dataset 2.2.5
 //
 // element-dataset is released under the terms of the BSD-3-Clause license.
 // (c) 2015 - 2017 Mark Milstein <mark@epiloque.com> 
 //
 // For all details and documentation: https://github.com/epiloque/element-dataset
 //
-
+  
 
 
 
