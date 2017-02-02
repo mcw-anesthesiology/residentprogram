@@ -4,19 +4,27 @@
 		<fieldset class="show-container">
 			<legend>Show</legend>
 			<label v-for="(part, name) of show">
-				<input type="checkbox" v-model="show[name]" />
+				<input type="checkbox" :value="part"
+					@change="show = Object.assign({}, show, {[name]: !part})"/>
 				{{ camelCaseToWords(name) }}
 			</label>
 		</fieldset>
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<span class="panel-title">Chart settings</span>
-			</div>
-			<div class="panel-body">
+		<div class="row">
+			<div class="col-md-6">
 				<label class="containing-label">
-					<select class="form-control" v-model="chart.size">
-						<option value="fullSize">Full size</option>
-						<option value="fit">Fit</option>
+					Table height
+					<select class="form-control" v-model="tableHeight">
+						<option :value="false">Full size</option>
+						<option value="500px">Fixed</option>
+					</select>
+				</label>
+			</div>
+			<div class="col-md-6">
+				<label class="containing-label">
+					Chart height
+					<select class="form-control" v-model="chartHeight">
+						<option :value="false">Full size</option>
+						<option value="625px">Fixed</option>
 					</select>
 				</label>
 			</div>
@@ -31,7 +39,8 @@
 			</div>
 			<div v-if="show.ratios && show.graphs">
 				<h3>Ratios</h3>
-				<div class="list-chart-container-container">
+				<div class="list-chart-container-container"
+						:style="listChartContainerContainerStyle">
 					<div class="list-chart-container" :style="listChartContainerStyle">
 						<chartjs-chart id="chart-ratios" type="horizontalBar"
 							:data="ratiosGraphData" :options="listChartConfig" />
@@ -94,9 +103,8 @@ export default {
 				averageCompletionTimes: false,
 				lastCompleted: false
 			},
-			chart: {
-				size: 'fullSize'
-			}
+			tableHeight: '500px',
+			chartHeight: '625px'
 		};
 	},
 	computed: {
@@ -110,21 +118,20 @@ export default {
 				order: [[0, 'asc']],
 				stateSave: true,
 				scrollX: true,
-				scrollY: '500px',
+				scrollY: this.tableHeight,
 				scrollCollapse: true,
-				paging: false,
-				fixedColumns: true
+				paging: false
+			};
+		},
+		listChartContainerContainerStyle(){
+			return {
+				height: this.chartHeight
 			};
 		},
 		listChartContainerStyle(){
-			return this.chart.size === 'fullSize'
-			? {
+			return {
 				width: '100%',
-				height: `${15 * this.report.userStats.length}px`
-			}
-			: {
-				width: '100%',
-				height: '100%'
+				height: `${20 * this.report.userStats.length}px`
 			};
 		},
 		listChartConfig(){
@@ -214,7 +221,7 @@ export default {
 			return {
 				order: [[0, 'asc']],
 				stateSave: true,
-				scrollY: '500px',
+				scrollY: this.tableHeight,
 				scrollCollapse: true,
 				paging: false,
 				columns: [
@@ -236,7 +243,7 @@ export default {
 			return {
 				order: [[0, 'asc']],
 				stateSave: true,
-				scrollY: '500px',
+				scrollY: this.tableHeight,
 				scrollCollapse: true,
 				paging: false,
 				columns: [
@@ -255,6 +262,13 @@ export default {
 		},
 		lastCompletedData(){
 			return this.report.lastCompleted;
+		}
+	},
+	watch: {
+		show(){
+			this.$nextTick(() => {
+				$(window).resize();
+			});
 		}
 	},
 	methods: {
@@ -288,7 +302,6 @@ export default {
 	}
 
 	.list-chart-container-container {
-		height: 625px;
 		overflow: auto;
 	}
 </style>
