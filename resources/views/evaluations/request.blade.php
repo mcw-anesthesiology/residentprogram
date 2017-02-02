@@ -279,18 +279,19 @@
 		You will then be able to select from the entire lists.
 	</p>
 	@endif
-	@if($user->isType("resident") && $requestType == "faculty" && $pendingEvalCount > 0)
+	@if($user->isType("resident") && $requestType == "faculty")
 </div>
 <div class="container body-block">
 	<h3 class="sub-header">Evaluations in progress</h3>
 	<evaluation-data-table range="allTime" :thead="pendingFacultyEvalsThead"
 		:config="pendingFacultyEvalsConfig"/>
-	@endif
+		
 </div>
 <div class="container body-block">
 	<h3 class="sub-header">Completed faculty evaluations</h3>
 	<evaluation-data-table range="allTime" :thead="completeFacultyEvalsThead"
 		:config="completeFacultyEvalsConfig" />
+	@endif
 @stop
 
 @section("script")
