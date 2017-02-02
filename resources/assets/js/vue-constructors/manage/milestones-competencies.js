@@ -3,6 +3,8 @@ import Vue from 'vue';
 import DataTable from '../../vue-components/DataTable.vue';
 import OrderingList from '../../vue-components/OrderingList.vue';
 
+import { getFetchHeaders } from '../../modules/utils.js';
+
 export default function createManageMilestonesCompetencies(el, propsData){
 	
 	return new Vue({
@@ -15,8 +17,34 @@ export default function createManageMilestonesCompetencies(el, propsData){
 		data(){
 			return {
 				milestones: [],
-				competencies: []
+				competencies: [],
+				
+				orderedMilestones: [],
+				
+				milestoneAlerts: [],
+				competencyAlerts: []
 			};
+		},
+		
+		mounted(){
+			fetch('/milestones', {
+				method: 'GET',
+				headers: getFetchHeaders(),
+				credentials: 'same-origin'
+			}).then(response => {
+				if(response.ok)
+					return response.json();
+				
+				throw new Error(response.statusText);
+			}).then(milestones => {
+				this.milestones = milestones;
+			}).catch(err => {
+				console.error(err);
+				this.milestoneAlerts.push({
+					type: 'error',
+					html: '<strong>Error: </strong> Problem fetching milestones'
+				});
+			});
 		},
 		
 		computed: {
