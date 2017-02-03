@@ -17,27 +17,28 @@ return webpackJsonp([3,10],[
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_striptags__ = __webpack_require__(315);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_striptags___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_striptags__);
-/* harmony export (immutable) */ __webpack_exports__["r"] = appendAlert;
-/* harmony export (immutable) */ __webpack_exports__["e"] = ucfirst;
-/* harmony export (immutable) */ __webpack_exports__["f"] = camelCaseToWords;
-/* harmony export (immutable) */ __webpack_exports__["k"] = snakeCaseToWords;
-/* harmony export (immutable) */ __webpack_exports__["j"] = kebabCaseToWords;
-/* harmony export (immutable) */ __webpack_exports__["s"] = nl2br;
-/* harmony export (immutable) */ __webpack_exports__["c"] = escapeCsv;
-/* harmony export (immutable) */ __webpack_exports__["a"] = getFetchHeaders;
-/* harmony export (immutable) */ __webpack_exports__["b"] = jsonOrThrow;
-/* harmony export (immutable) */ __webpack_exports__["p"] = fetchMilestoneGroups;
-/* harmony export (immutable) */ __webpack_exports__["t"] = fetchUserGroups;
-/* harmony export (immutable) */ __webpack_exports__["i"] = fetchUsers;
-/* harmony export (immutable) */ __webpack_exports__["g"] = groupUsers;
-/* harmony export (immutable) */ __webpack_exports__["u"] = fetchForms;
-/* harmony export (immutable) */ __webpack_exports__["n"] = fetchFormGroups;
-/* harmony export (immutable) */ __webpack_exports__["h"] = groupForms;
-/* harmony export (immutable) */ __webpack_exports__["q"] = sortSelect2Objects;
-/* harmony export (immutable) */ __webpack_exports__["l"] = sortNumbers;
-/* harmony export (immutable) */ __webpack_exports__["d"] = sortIgnoreCase;
-/* harmony export (immutable) */ __webpack_exports__["o"] = sortPropIgnoreCase;
-/* harmony export (immutable) */ __webpack_exports__["m"] = htmlLabelReplacements;
+/* harmony export (immutable) */ __webpack_exports__["s"] = appendAlert;
+/* harmony export (immutable) */ __webpack_exports__["f"] = ucfirst;
+/* harmony export (immutable) */ __webpack_exports__["g"] = camelCaseToWords;
+/* harmony export (immutable) */ __webpack_exports__["l"] = snakeCaseToWords;
+/* harmony export (immutable) */ __webpack_exports__["k"] = kebabCaseToWords;
+/* harmony export (immutable) */ __webpack_exports__["t"] = nl2br;
+/* harmony export (immutable) */ __webpack_exports__["d"] = escapeCsv;
+/* harmony export (immutable) */ __webpack_exports__["b"] = getFetchHeaders;
+/* harmony export (immutable) */ __webpack_exports__["c"] = jsonOrThrow;
+/* harmony export (immutable) */ __webpack_exports__["q"] = fetchMilestoneGroups;
+/* harmony export (immutable) */ __webpack_exports__["u"] = fetchUserGroups;
+/* harmony export (immutable) */ __webpack_exports__["j"] = fetchUsers;
+/* harmony export (immutable) */ __webpack_exports__["h"] = groupUsers;
+/* harmony export (immutable) */ __webpack_exports__["v"] = fetchForms;
+/* harmony export (immutable) */ __webpack_exports__["o"] = fetchFormGroups;
+/* harmony export (immutable) */ __webpack_exports__["i"] = groupForms;
+/* harmony export (immutable) */ __webpack_exports__["r"] = sortSelect2Objects;
+/* harmony export (immutable) */ __webpack_exports__["m"] = sortNumbers;
+/* harmony export (immutable) */ __webpack_exports__["a"] = sortPropNumbers;
+/* harmony export (immutable) */ __webpack_exports__["e"] = sortIgnoreCase;
+/* harmony export (immutable) */ __webpack_exports__["p"] = sortPropIgnoreCase;
+/* harmony export (immutable) */ __webpack_exports__["n"] = htmlLabelReplacements;
 
 
 function appendAlert(alertText) {
@@ -331,6 +332,12 @@ function sortNumbers(a, b) {
 	return Number(a) - Number(b);
 }
 
+function sortPropNumbers(prop) {
+	return function (a, b) {
+		return sortNumbers(a[prop], b[prop]);
+	};
+}
+
 function sortIgnoreCase(a, b) {
 	a = a.toLowerCase();
 	b = b.toLowerCase();
@@ -613,7 +620,7 @@ function renderAccountStatus(status) {
 			labelContext = 'label-default';
 			break;
 	}
-	return '<span class="label ' + labelContext + '">' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["e" /* ucfirst */])(status) + '</span>';
+	return '<span class="label ' + labelContext + '">' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["f" /* ucfirst */])(status) + '</span>';
 }
 
 function renderEvaluationStatus(status) {
@@ -637,12 +644,12 @@ function renderEvaluationStatus(status) {
 			labelContext = 'label-default';
 			break;
 	}
-	return '<span class="label ' + labelContext + '">' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["e" /* ucfirst */])(status) + '</span>';
+	return '<span class="label ' + labelContext + '">' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["f" /* ucfirst */])(status) + '</span>';
 }
 
 function renderTrainingLevel(trainingLevel) {
 	if (trainingLevel) {
-		if (trainingLevel.indexOf("ca-") > -1) return trainingLevel.toUpperCase();else return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["e" /* ucfirst */])(trainingLevel);
+		if (trainingLevel.indexOf("ca-") > -1) return trainingLevel.toUpperCase();else return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["f" /* ucfirst */])(trainingLevel);
 	}
 
 	return '';
@@ -651,7 +658,7 @@ function renderTrainingLevel(trainingLevel) {
 function renderSecondaryTrainingLevel(secondaryTrainingLevel) {
 	if (secondaryTrainingLevel) {
 		var allCaps = ['raaps'];
-		if (allCaps.indexOf(secondaryTrainingLevel) > -1) return secondaryTrainingLevel.toUpperCase();else return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["e" /* ucfirst */])(secondaryTrainingLevel);
+		if (allCaps.indexOf(secondaryTrainingLevel) > -1) return secondaryTrainingLevel.toUpperCase();else return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["f" /* ucfirst */])(secondaryTrainingLevel);
 	}
 
 	return '';
@@ -2876,27 +2883,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "createEditAndDeleteButtons", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["q"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "getDataAttributes", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["r"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js__ = __webpack_require__(2);
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "appendAlert", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["r"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ucfirst", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["e"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "camelCaseToWords", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["f"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "snakeCaseToWords", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["k"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "kebabCaseToWords", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["j"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "nl2br", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["s"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "escapeCsv", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["c"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "getFetchHeaders", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["a"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "jsonOrThrow", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["b"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchMilestoneGroups", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["p"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchUserGroups", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["t"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchUsers", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["i"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "groupUsers", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["g"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchForms", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["u"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchFormGroups", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["n"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "groupForms", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["h"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortSelect2Objects", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["q"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortNumbers", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["l"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortIgnoreCase", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["d"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortPropIgnoreCase", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["o"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "htmlLabelReplacements", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["m"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "appendAlert", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["s"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ucfirst", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["f"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "camelCaseToWords", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["g"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "snakeCaseToWords", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["l"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "kebabCaseToWords", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["k"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "nl2br", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["t"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "escapeCsv", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["d"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "getFetchHeaders", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["b"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "jsonOrThrow", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["c"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchMilestoneGroups", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["q"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchUserGroups", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["u"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchUsers", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["j"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "groupUsers", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["h"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchForms", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["v"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchFormGroups", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["o"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "groupForms", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["i"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortSelect2Objects", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["r"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortNumbers", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["m"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortPropNumbers", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["a"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortIgnoreCase", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["e"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortPropIgnoreCase", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["p"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "htmlLabelReplacements", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["n"]; });
 
 
 

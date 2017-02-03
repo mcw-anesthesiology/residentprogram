@@ -23,6 +23,31 @@ class MilestoneController extends RestController
 	];
 
 	protected $model = \App\Milestone::class;
+	
+	public function saveOrder(Request $request){
+		Milestone::whereNotNull('order')->update(['order' => null]);
+		$successes = [];
+		$errors = [];
+		foreach($request->input('orderMap', []) as $orderPair){
+			try {
+				Milestone::where('id', $orderPair['id'])
+					->update(['order' => $orderPair['order']]);
+				$successes[] = $orderPair['id'];
+			} catch (\Exception $e){
+				$errors[] = !empty($orderPair['id'])
+					? $orderPair['id']
+					: 'Unknown';
+			}
+		}
+		
+		$results = [];
+		if(!empty($successes))
+			$results['success'] = $successes;
+		if(!empty($errors))
+			$results['error'] = $errors;
+			
+		return $results;
+	}
 
 	public function destroy(Request $request, $id){
 		$milestone = Milestone::findOrFail($id);

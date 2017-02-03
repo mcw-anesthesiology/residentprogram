@@ -440,6 +440,39 @@ class AdminTest extends TestCase
             ]))
             ->seeInDatabase("milestones", $milestone);
     }
+    
+    public function testOrderMilestones(){
+        $milestones = factory(App\Milestone::class, 2)->create();
+		$this->actingAs($this->user)
+			->post('/milestones/order', [
+				'_method' => 'PATCH',
+				'orderMap' => [
+					[
+						'id' => $milestones[1]->id,
+						'order' => 0
+					],
+					[
+						'id' => $milestones[0]->id,
+						'order' => 1
+					]
+				]
+			])->seeJson([
+				'success' => [
+					$milestones[1]->id,
+					$milestones[0]->id
+				]
+			]);
+			
+		$this->seeInDatabase('milestones', [
+			'id' => $milestones[0]->id,
+			'order' => 1
+		]);
+		
+		$this->seeInDatabase('milestones', [
+			'id' => $milestones[1]->id,
+			'order' => 0
+		]);
+    }
 
     public function testDeleteMilestone(){
         $faker = Faker::create();
@@ -480,6 +513,39 @@ class AdminTest extends TestCase
                 "_method" => "PATCH"
             ]))
             ->seeInDatabase("competencies", $competency);
+    }
+	
+	public function testOrderCompetencies(){
+        $competencies = factory(App\Competency::class, 2)->create();
+		$this->actingAs($this->user)
+			->post('/competencies/order', [
+				'_method' => 'PATCH',
+				'orderMap' => [
+					[
+						'id' => $competencies[1]->id,
+						'order' => 0
+					],
+					[
+						'id' => $competencies[0]->id,
+						'order' => 1
+					]
+				]
+			])->seeJson([
+				'success' => [
+					$competencies[1]->id,
+					$competencies[0]->id
+				]
+			]);
+			
+		$this->seeInDatabase('competencies', [
+			'id' => $competencies[0]->id,
+			'order' => 1
+		]);
+		
+		$this->seeInDatabase('competencies', [
+			'id' => $competencies[1]->id,
+			'order' => 0
+		]);
     }
 
     public function testDeleteCompetency(){

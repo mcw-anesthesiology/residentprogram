@@ -10,12 +10,16 @@
 		#milestone-levels-container .form-group label textarea {
 			font-weight: normal;
 		}
+		
+		.center-block {
+			margin: 2em auto;
+		}
 	</style>
 @stop
 
 @section("blockless-body")
 <div class="container body-block">
-	<div class="row">
+	<div class="row" v-if="milestones">
 		<h2 class="sub-header">
 			Milestones
 			<button class="btn btn-success btn-xs"
@@ -25,13 +29,11 @@
 				Add New
 			</button>
 		</h2>
-    	<data-table id="milestones-table"
-			:thead="milestonesThead" :config="milestonesConfig"></data-table>
+    	<data-table id="milestones-table" :thead="milestonesThead"
+			:data="milestones" :config="milestonesConfig"></data-table>
 	</div>
 	
-	<alert-list v-model="milestoneAlerts"></alert-list>
-	
-	<show-hide-button class="btn btn-info"
+	<show-hide-button v-cloak class="btn btn-info center-block"
 		v-model="show.milestoneOrder" text="order milestones"></show-hide-button>
 	
 	<div v-cloak v-if="show.milestoneOrder" class="panel panel-default">
@@ -45,10 +47,18 @@
 				</template>
 			</ordering-list>
 		</div>
+		<div class="panel-footer text-center">
+			<button type="button" class="btn btn-primary"
+					@click="saveMilestoneOrder">
+				Save milestone order
+			</button>
+		</div>
 	</div>
+	
+	<alert-list v-model="milestoneAlerts"></alert-list>
 </div>
 <div class="container body-block">
-	<div class="row">
+	<div class="row" v-if="competencies">
 		<h2 class="sub-header">
 			Competencies
 			<button class="btn btn-success btn-xs" data-toggle="modal"
@@ -58,13 +68,11 @@
 				Add New
 			</button>
 		</h2>
-		<data-table id="competencies-table"
-			:thead="competenciesThead" :config="competenciesConfig"></data-table>
+		<data-table id="competencies-table" :thead="competenciesThead"
+			:data="competencies" :config="competenciesConfig"></data-table>
 	</div>
 	
-	<alert-list v-model="competencyAlerts"></alert-list>
-	
-	<show-hide-button class="btn btn-info"
+	<show-hide-button v-cloak class="btn btn-info center-block"
 		v-model="show.competencyOrder" text="order competencies"></show-hide-button>
 	
 	<div v-cloak v-if="show.competencyOrder" class="panel panel-default">
@@ -78,7 +86,15 @@
 				</template>
 			</ordering-list>
 		</div>
+		<div class="panel-footer text-center">
+			<button type="button" class="btn btn-primary"
+					@click="saveCompetencyOrder">
+				Save competency order
+			</button>
+		</div>
 	</div>
+	
+	<alert-list v-model="competencyAlerts"></alert-list>
 </div>
 
 	<!-- Add Milestone Modal -->
