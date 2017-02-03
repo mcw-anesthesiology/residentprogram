@@ -80,9 +80,20 @@ import { getAverageLevel } from '../../modules/report-utils.js';
 import { isoDateString } from '../../modules/date-utils.js';
 
 export default {
-	props: [
-		'report'
-	],
+	props: {
+		report: {
+			type: Object,
+			required: true
+		},
+		milestones: {
+			type: Array,
+			required: true
+		},
+		competencies: {
+			type: Array,
+			required: true
+		}
+	},
 	data(){
 		return {
 			show: {
@@ -103,6 +114,22 @@ export default {
 		};
 	},
 	computed: {
+		orderedMilestones(){
+			if(!this.report.milestones)
+				return [];
+				
+			return this.milestones.filter(milestone =>
+				milestone.id in this.report.milestones
+			);
+		},
+		orderedCompetencies(){
+			if(!this.report.competencies)
+				return [];
+				
+			return this.competencies.filter(competency =>
+				competency.id in this.report.competencies
+			);
+		},
 		colsPerItem(){
 			return [
 				this.show.averages,
@@ -156,20 +183,20 @@ export default {
 					row.push({rowspan: this.nameRowspan, text: 'Name'});
 				
 				if(this.show.milestones){
-					for(let milestoneId in this.report.milestones){
+					this.orderedMilestones.map(milestone => {
 						row.push({
 							colspan: this.colsPerItem,
-							text: this.report.milestones[milestoneId]
+							text: milestone.title
 						});
-					}
+					});
 				}
 				if(this.show.competencies){
-					for(let competencyId in this.report.competencies){
+					this.orderedCompetencies.map(competency => {
 						row.push({
 							colspan: this.colsPerItem,
-							text: this.report.competencies[competencyId]
+							text: competency.title
 						});
-					}
+					});
 				}
 				if(this.show.totals)
 					row.push({colspan: 3, text: 'Total'});
@@ -183,29 +210,7 @@ export default {
 			if(this.nameRowspan === 1)
 				row.push({rowspan: this.nameRowspan, text: 'Name'});
 			if(this.show.milestones){
-				// eslint-disable-next-line no-unused-vars
-				for(let milestoneId in this.report.milestones){
-					if(this.colsPerItem > 1){
-						if(this.show.averages)
-							row.push({text: 'Average'});
-						if(this.show.averageLevels)
-							row.push({text: 'Average Level'});
-						if(this.show.standardDeviations)
-							row.push({text: 'Std. Dev.'});
-						if(this.show.evaluationCounts)
-							row.push({text: '#'});
-					}
-					else{
-						row.push({
-							colspan: this.colsPerItem,
-							text: this.report.milestones[milestoneId]
-						});
-					}
-				}
-			}
-			if(this.show.competencies){
-				// eslint-disable-next-line no-unused-vars
-				for(let competencyId in this.report.competencies){
+				this.orderedMilestones.map(milestone => {
 					if(this.colsPerItem > 1){
 						if(this.show.averages)
 							row.push({text: 'Average'});
@@ -219,10 +224,30 @@ export default {
 					else {
 						row.push({
 							colspan: this.colsPerItem,
-							text: this.report.competencies[competencyId]
+							text: milestone.title
 						});
 					}
-				}
+				});
+			}
+			if(this.show.competencies){
+				this.orderedCompetencies.map(competency => {
+					if(this.colsPerItem > 1){
+						if(this.show.averages)
+							row.push({text: 'Average'});
+						if(this.show.averageLevels)
+							row.push({text: 'Average Level'});
+						if(this.show.standardDeviations)
+							row.push({text: 'Std. Dev.'});
+						if(this.show.evaluationCounts)
+							row.push({text: '#'});
+					}
+					else {
+						row.push({
+							colspan: this.colsPerItem,
+							text: competency.title
+						});
+					}
+				});
 			}
 			if(this.show.totals){
 				row.push({text: '# Evaluators'});
@@ -253,22 +278,22 @@ export default {
 				let row = [];
 				row.push(`<a href="/profile/${subjectId}" target="_blank">${this.report.subjects[subjectId]}</a>`);
 				if(this.show.milestones){
-					for(let milestoneId in this.report.milestones){
+					this.orderedMilestones.map(milestone => {
 						if(this.show.averages)
 							row.push(
 								this.report.subjectMilestone
 										&& this.report.subjectMilestone[subjectId]
-										&& this.report.subjectMilestone[subjectId][milestoneId]
-									? parseFloat(this.report.subjectMilestone[subjectId][milestoneId]).toFixed(2)
+										&& this.report.subjectMilestone[subjectId][milestone.id]
+									? parseFloat(this.report.subjectMilestone[subjectId][milestone.id]).toFixed(2)
 									: ''
 							);
-						
+							
 						if(this.show.averageLevels)
 							row.push(getAverageLevel(
 								this.report.subjectMilestone
 										&& this.report.subjectMilestone[subjectId]
-										&& this.report.subjectMilestone[subjectId][milestoneId]
-									? parseFloat(this.report.subjectMilestone[subjectId][milestoneId]).toFixed(2)
+										&& this.report.subjectMilestone[subjectId][milestone.id]
+									? parseFloat(this.report.subjectMilestone[subjectId][milestone.id]).toFixed(2)
 									: 0
 							));
 
@@ -276,8 +301,8 @@ export default {
 							row.push(
 								this.report.subjectMilestoneDeviations
 										&& this.report.subjectMilestoneDeviations[subjectId]
-										&& this.report.subjectMilestoneDeviations[subjectId][milestoneId]
-									? parseFloat(this.report.subjectMilestoneDeviations[subjectId][milestoneId]).toFixed(2)
+										&& this.report.subjectMilestoneDeviations[subjectId][milestone.id]
+									? parseFloat(this.report.subjectMilestoneDeviations[subjectId][milestone.id]).toFixed(2)
 									: ''
 							);
 							
@@ -285,24 +310,24 @@ export default {
 							row.push(
 								this.report.subjectMilestoneEvals
 										&& this.report.subjectMilestoneEvals[subjectId]
-										&& this.report.subjectMilestoneEvals[subjectId][milestoneId]
-									? parseFloat(this.report.subjectMilestoneEvals[subjectId][milestoneId]).toFixed()
+										&& this.report.subjectMilestoneEvals[subjectId][milestone.id]
+									? parseFloat(this.report.subjectMilestoneEvals[subjectId][milestone.id]).toFixed()
 									: 0
 							);
 							
 						if(this.colsPerItem === 0)
 							row.push('');
-					}
+					});
 				}
 
 				if(this.show.competencies){
-					for(let competencyId in this.report.competencies){
+					this.orderedCompetencies.map(competency => {
 						if(this.show.averages)
 							row.push(
 								this.report.subjectCompetency
 										&& this.report.subjectCompetency[subjectId]
-										&& this.report.subjectCompetency[subjectId][competencyId]
-									? parseFloat(this.report.subjectCompetency[subjectId][competencyId]).toFixed(2)
+										&& this.report.subjectCompetency[subjectId][competency.id]
+									? parseFloat(this.report.subjectCompetency[subjectId][competency.id]).toFixed(2)
 									: ''
 							);
 							
@@ -310,8 +335,8 @@ export default {
 							row.push(getAverageLevel(
 								this.report.subjectCompetency
 										&& this.report.subjectCompetency[subjectId]
-										&& this.report.subjectCompetency[subjectId][competencyId]
-									? parseFloat(this.report.subjectCompetency[subjectId][competencyId]).toFixed(2)
+										&& this.report.subjectCompetency[subjectId][competency.id]
+									? parseFloat(this.report.subjectCompetency[subjectId][competency.id]).toFixed(2)
 									: 0
 							));
 
@@ -319,8 +344,8 @@ export default {
 							row.push(
 								this.report.subjectCompetencyDeviations
 										&& this.report.subjectCompetencyDeviations[subjectId]
-										&& this.report.subjectCompetencyDeviations[subjectId][competencyId]
-									? parseFloat(this.report.subjectCompetencyDeviations[subjectId][competencyId]).toFixed(2)
+										&& this.report.subjectCompetencyDeviations[subjectId][competency.id]
+									? parseFloat(this.report.subjectCompetencyDeviations[subjectId][competency.id]).toFixed(2)
 									: ''
 							);
 
@@ -328,14 +353,14 @@ export default {
 							row.push(
 								this.report.subjectCompetencyEvals
 										&& this.report.subjectCompetencyEvals[subjectId]
-										&& this.report.subjectCompetencyEvals[subjectId][competencyId]
-									? parseFloat(this.report.subjectCompetencyEvals[subjectId][competencyId]).toFixed()
+										&& this.report.subjectCompetencyEvals[subjectId][competency.id]
+									? parseFloat(this.report.subjectCompetencyEvals[subjectId][competency.id]).toFixed()
 									: 0
 							);
 							
 						if(this.colsPerItem === 0)
 							row.push('');
-					}
+					});
 				}
 
 				if(this.show.totals){

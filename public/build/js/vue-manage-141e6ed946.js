@@ -2173,7 +2173,7 @@ function createManageMilestonesCompetencies(el, propsData) {
 			milestonesConfig: function milestonesConfig() {
 				return {
 					columns: [{ data: 'order', render: function render(order, type) {
-							if (['sort', 'type'].includes(type)) return order != null ? order : Infinity;
+							if (['sort', 'type'].includes(type)) return order != null ? Number(order) + 1 : Number.MAX_VALUE;
 
 							return order != null ? Number(order) + 1 : '';
 						}
@@ -2197,7 +2197,7 @@ function createManageMilestonesCompetencies(el, propsData) {
 			competenciesConfig: function competenciesConfig() {
 				return {
 					columns: [{ data: 'order', render: function render(order, type) {
-							if (['sort', 'type'].includes(type)) return order != null ? order : Infinity;
+							if (['sort', 'type'].includes(type)) return order != null ? Number(order) + 1 : Number.MAX_VALUE;
 
 							return order != null ? Number(order) + 1 : '';
 						}
