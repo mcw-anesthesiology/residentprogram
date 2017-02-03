@@ -1,12 +1,12 @@
 <template>
 	<div class="container body-block">
-		<h3>Statistics</h3>
+		<h3>{{ title }}</h3>
 		<fieldset class="show-container">
 			<legend>Show</legend>
-			<label v-for="(part, name) of show">
-				<input type="checkbox" :value="part"
-					@change="show = Object.assign({}, show, {[name]: !part})"/>
-				{{ camelCaseToWords(name) }}
+			<label v-for="field of availableFields">
+				<input type="checkbox" :value="show[field]"
+					@change="show = Object.assign({}, show, {[field]: !show[field]})"/>
+				{{ camelCaseToWords(field) }}
 			</label>
 		</fieldset>
 		<div class="row">
@@ -88,6 +88,10 @@ import { createDateCell, renderDateCell } from '../../modules/datatable-utils.js
 
 export default {
 	props: {
+		title: {
+			type: String,
+			default: 'Statistics'
+		},
 		report: {
 			type: Object,
 			required: true
@@ -108,6 +112,20 @@ export default {
 		};
 	},
 	computed: {
+		availableFields(){
+			let fields = [
+				'ratios',
+				'graphs',
+				'noRequests',
+				'noneCompleted',
+				'lastCompleted',
+			];
+			
+			if(this.report.statsType === 'evaluator')
+				fields.push('averageCompletionTimes');
+				
+			return fields;
+		},
 		listTableClass(){
 			return {
 				'col-md-6': true
@@ -171,6 +189,8 @@ export default {
 					stat.totalRequests,
 					stat.completed,
 					stat.ratio
+						? `${stat.ratio}%`
+						: ''
 				]);
 			}
 
@@ -214,7 +234,7 @@ export default {
 		},
 		averageCompletionTimesThead(){
 			return [
-				['User', 'Time']
+				['User', 'Average Time']
 			];
 		},
 		averageCompletionTimesConfig(){
@@ -226,7 +246,23 @@ export default {
 				paging: false,
 				columns: [
 					{data: 'name'},
-					{data: 'time'}
+					{
+						data: 'time',
+						render(time, type, obj){
+							if(['sort', 'type'].includes(type))
+								return obj.epoch;
+
+							let [days, hours, minutes] = time.split(', ');
+							return [
+								`<b>${days},</b>`,
+								`<span>${hours},</span>`,
+								`<i>${minutes}</i>`
+							].join(' ');
+						},
+						createdCell(td){
+							td.classList.add('time-period-cell');
+						}
+					}
 				],
 				fixedHeader: true
 			};
@@ -303,5 +339,20 @@ export default {
 
 	.list-chart-container-container {
 		overflow: auto;
+	}
+</style>
+
+<style>
+	.time-period-cell > * {
+		display: inline-block;
+	}
+
+	.time-period-cell b {
+		width: 4.5em;
+		margin-right: 0;
+	}
+	
+	.time-period-cell span {
+		margin-right: 0.5em;
 	}
 </style>

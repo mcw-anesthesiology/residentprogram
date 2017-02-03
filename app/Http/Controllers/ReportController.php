@@ -152,19 +152,24 @@ class ReportController extends Controller
 
                     $time = 0;
 					$timeEvals = $userEvaluations->where("status", "complete")->get();
-                    foreach($timeEvals as $eval){
-                        $time += $eval->complete_date->getTimestamp()-$eval->request_date->getTimestamp();
-                    }
-                    $num = $timeEvals->count();
-                    if($time > 0 && $num > 0)
-                        $time = round($time/$num);
-                    $d1 = new DateTime();
-                    $d2 = new DateTime();
-                    $d2->add(new DateInterval("PT".$time."S"));
-					$times[] = [
-						"name" => $user->full_name,
-						"time" => $d2->diff($d1)->format("%a days %H hours")
-					];
+					if(count($timeEvals) > 0){
+						foreach($timeEvals as $eval){
+	                        $time += $eval->complete_date->getTimestamp()-$eval->request_date->getTimestamp();
+	                    }
+	                    $num = $timeEvals->count();
+	                    if($time > 0 && $num > 0)
+	                        $time = round($time/$num);
+	                    $d1 = new DateTime();
+	                    $d2 = new DateTime();
+	                    $d2->add(new DateInterval("PT".$time."S"));
+						$diff = $d2->diff($d1);
+						$times[] = [
+							"name" => $user->full_name,
+							"time" => $diff
+								->format("%a days, %H hours, %i minutes"),
+							"epoch" => $diff->format('%U')
+						];
+					}
                 }
                 else {
                     $eval = $userEvals->where("status", "complete")
@@ -179,7 +184,8 @@ class ReportController extends Controller
                 Log::error("Problem with user in stats: ".$e);
             }
         }
-        $data = compact("noneRequested", "noneCompleted", "lastCompleted",
+        $data = compact('evaluationType', 'userType', 'statsType',
+			"noneRequested", "noneCompleted", "lastCompleted",
 			"userStats", "statEvalData");
         if($statsType == 'evaluator')
             $data["averageCompletionTimes"] = $times;
