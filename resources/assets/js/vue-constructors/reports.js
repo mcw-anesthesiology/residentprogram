@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 
 import Reports from '../vue-components/Reports/Reports.vue';
 import TraineeReport from '../vue-components/Reports/TraineeReport.vue';
+import FacultyReport from '../vue-components/Reports/FacultyReport.vue';
 import FormReport from '../vue-components/Reports/FormReport.vue';
 import NeedsReport from '../vue-components/Reports/Needs/Report.vue';
 import PendingEvalsReport from '../vue-components/Reports/PendingEvalsReport.vue';
@@ -18,6 +19,10 @@ export function createReports(el){
 				{
 					path: '/trainee',
 					component: TraineeReport
+				},
+				{
+					path: '/faculty',
+					component: FacultyReport
 				},
 				{
 					path: '/form',

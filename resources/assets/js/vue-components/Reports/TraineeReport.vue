@@ -139,7 +139,11 @@ import BootstrapAlert from '../BootstrapAlert.vue';
 import SelectTwo from '../SelectTwo.vue';
 import SvgIcon from '../SvgIcon.vue';
 
-import { getFetchHeaders, fetchMilestoneGroups } from '../../modules/utils.js';
+import {
+	getFetchHeaders,
+	jsonOrThrow,
+	fetchMilestoneGroups
+} from '../../modules/utils.js';
 import { isoDateStringObject, currentQuarter } from '../../modules/date-utils.js';
 
 export default {
@@ -210,7 +214,7 @@ export default {
 
 	watch: {
 		filterMilestones(shouldFilter){
-			if(shouldFilter){
+			if(shouldFilter && this.milestoneGroups.length === 0){
 				fetchMilestoneGroups().then(milestoneGroups => {
 					this.milestoneGroups = milestoneGroups;
 				});
@@ -220,9 +224,10 @@ export default {
 	computed: {
 		filteredUsers(){
 			let groupedUsers = this.currentTrainingLevel === 'all'
-				? this.groupedUsers
-				: this.groupedUsers
-					.filter(userGroup => userGroup.text.toUpperCase() === this.currentTrainingLevel.toUpperCase());
+				? this.groupedUsers.filter(userGroup =>
+					userGroup.text.toLowerCase() !== 'faculty')
+				: this.groupedUsers.filter(userGroup =>
+					userGroup.text.toLowerCase() === this.currentTrainingLevel.toLowerCase());
 			
 			return this.show.inactiveUsers
 				? groupedUsers
@@ -283,17 +288,8 @@ export default {
 				method: 'POST',
 				headers: getFetchHeaders(),
 				credentials: 'same-origin',
-				body: JSON.stringify({
-					startDate: this.dates.startDate,
-					endDate: this.dates.endDate
-				})
-			}).then(response => {
-				if(response.ok)
-					return response.json();
-				let err = new Error(response.statusText);
-				err.response = response;
-				throw err;
-			}).then(stats => {
+				body: JSON.stringify(this.dates)
+			}).then(jsonOrThrow).then(stats => {
 				this.stats = Object.assign({}, this.stats, stats);
 			}).catch(err => {
 				console.error(err);

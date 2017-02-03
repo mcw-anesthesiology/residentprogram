@@ -37,6 +37,7 @@ export default {
 		reportTypes(){
 			return [
 				'trainee',
+				'faculty',
 				'form',
 				'needs-evaluations',
 				'pending-requests'
