@@ -123,9 +123,21 @@
 			</template>
 			<template v-else>
 				<stats-report v-if="subjectStats" :report="subjectStats"
-					title="Trainee evaluation statistics by trainee" />
+						title="Trainee evaluation statistics by trainee">
+					<p class="text-center">
+						Trainee list can be filtered by
+						<b>Trainee current training level</b>
+						above
+					</p>
+				</stats-report>
 				<stats-report v-if="evaluatorStats" :report="evaluatorStats"
-					title="Faculty evaluation statistics by trainee" />
+						title="Faculty evaluation statistics by trainee">
+					<p class="text-center">
+						Trainee list can be filtered by
+						<b>Trainee current training level</b>
+						above
+					</p>
+				</stats-report>
 				<aggregate-report :report="report" />
 			</template>
 		</div>
@@ -288,22 +300,26 @@ export default {
 				console.error(err);
 			});
 
-			fetch('/report/stats/trainee/resident', {
+			fetch('/report/stats/trainee/trainee', {
 				method: 'POST',
 				headers: getFetchHeaders(),
 				credentials: 'same-origin',
-				body: JSON.stringify(this.dates)
+				body: JSON.stringify(Object.assign({}, this.dates, {
+					trainingLevel: this.currentTrainingLevel
+				}))
 			}).then(jsonOrThrow).then(stats => {
 				this.subjectStats = stats;
 			}).catch(err => {
 				console.error(err);
 			});
 			
-			fetch('/report/stats/faculty/resident', {
+			fetch('/report/stats/faculty/trainee', {
 				method: 'POST',
 				headers: getFetchHeaders(),
 				credentials: 'same-origin',
-				body: JSON.stringify(this.dates)
+				body: JSON.stringify(Object.assign({}, this.dates, {
+					trainingLevel: this.currentTrainingLevel
+				}))
 			}).then(jsonOrThrow).then(stats => {
 				this.evaluatorStats = stats;
 			}).catch(err => {

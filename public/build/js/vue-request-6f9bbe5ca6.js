@@ -1218,7 +1218,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			type: String,
 			default: __WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__["DATE_RANGES"].CURRENT_QUARTER,
 			validator: function validator(value) {
-				return Object.values(__WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__["DATE_RANGES"]).indexOf(value) !== -1;
+				return Object.values(__WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__["DATE_RANGES"]).includes(value);
 			}
 		}
 	},
@@ -1516,7 +1516,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_indefinite___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_indefinite__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__ = __webpack_require__(8);
 /* harmony export (immutable) */ __webpack_exports__["createRequest"] = createRequest;
 
 
@@ -1578,7 +1578,7 @@ function createRequest(el, propsData) {
 					evaluationDate: true
 				};
 
-				if (['resident', 'self'].indexOf(this.requestType) !== -1 && this.user.type === 'resident') required.subjectId = false;
+				if (['resident', 'self'].includes(this.requestType) && this.user.type === 'resident') required.subjectId = false;
 
 				if (this.requestType === 'resident' && this.user.type === 'faculty' || this.requestType === 'staff' && this.user.type === 'staff' || this.requestType === 'faculty' && this.user.type === 'resident' || this.requestType === 'self') required.evaluatorId = false;
 
@@ -1770,7 +1770,7 @@ function createRequest(el, propsData) {
 				if (Array.isArray(this.evaluationDateJson)) {
 					var newJson = options.filter(function (_ref) {
 						var id = _ref.id;
-						return _this5.evaluationDateJson.indexOf(id) !== -1;
+						return _this5.evaluationDateJson.includes(id);
 					}).map(function (_ref2) {
 						var id = _ref2.id;
 						return id;
@@ -1824,7 +1824,7 @@ function getRequestType() {
 	});
 	var type = paths[paths.length - 1];
 
-	if (['faculty', 'staff', 'self'].indexOf(type) !== -1) return type;
+	if (['faculty', 'staff', 'self'].includes(type)) return type;
 
 	return 'resident';
 }
@@ -1893,7 +1893,7 @@ module.exports = Component.exports
   }
 })();
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(55)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(56)(module)))
 
 /***/ })
 

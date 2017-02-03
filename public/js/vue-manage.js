@@ -1183,7 +1183,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			type: String,
 			default: __WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__["DATE_RANGES"].CURRENT_QUARTER,
 			validator: function validator(value) {
-				return Object.values(__WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__["DATE_RANGES"]).indexOf(value) !== -1;
+				return Object.values(__WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__["DATE_RANGES"]).includes(value);
 			}
 		}
 	},
@@ -1319,7 +1319,7 @@ module.exports = Component.exports
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(8);
 /* harmony export (immutable) */ __webpack_exports__["a"] = createManageEvaluations;
 
 

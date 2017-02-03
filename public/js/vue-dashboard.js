@@ -1242,7 +1242,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			type: String,
 			default: 'error',
 			validator: function validator(type) {
-				return ['info', 'success', 'warning', 'error', 'danger'].indexOf(type) !== -1;
+				return ['info', 'success', 'warning', 'error', 'danger'].includes(type);
 			}
 		},
 		text: {
@@ -1307,7 +1307,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			type: String,
 			default: __WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__["DATE_RANGES"].CURRENT_QUARTER,
 			validator: function validator(value) {
-				return Object.values(__WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__["DATE_RANGES"]).indexOf(value) !== -1;
+				return Object.values(__WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__["DATE_RANGES"]).includes(value);
 			}
 		}
 	},
@@ -1469,7 +1469,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 8:
+/***/ 7:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
@@ -1510,14 +1510,14 @@ module.exports = Component.exports
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_EvaluationDataTable_vue__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_EvaluationDataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__vue_components_EvaluationDataTable_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__ = __webpack_require__(8);
 /* harmony export (immutable) */ __webpack_exports__["a"] = createAdminDashboard;
 
 
@@ -1822,11 +1822,11 @@ module.exports = Component.exports
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(8);
 /* harmony export (immutable) */ __webpack_exports__["a"] = createFacultyDashboard;
 
 
@@ -2008,11 +2008,11 @@ function createFacultyDashboard(el, propsData) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(8);
 /* harmony export (immutable) */ __webpack_exports__["a"] = createResidentDashboard;
 
 
@@ -2233,11 +2233,11 @@ function createResidentDashboard(el, propsData) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_EvaluationDataTable_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(8);
 /* harmony export (immutable) */ __webpack_exports__["a"] = createStaffDashboard;
 
 
