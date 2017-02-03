@@ -1,5 +1,6 @@
 <template>
 	<div class="individual-report container body-block">
+		<alert-list v-model="alerts" />
 		<template v-if="report.subjectEvaluations[subjectId] && report.subjectEvaluations[subjectId].length > 0">
 			<h2>
 				Individual Report
@@ -123,6 +124,7 @@
 import Color from 'color';
 
 import BootstrapAlert from '../BootstrapAlert.vue';
+import AlertList from '../AlertList.vue';
 import BootstrapButtonInput from '../BootstrapButtonInput.vue';
 import ChartjsChart from '../ChartjsChart.vue';
 import DataTable from '../DataTable.vue';
@@ -141,7 +143,6 @@ import {
 	renderIdToEvalUrl,
 	renderDateCell,
 	renderDateRangeCell,
-	createDateRangeCell,
 	renderTrainingLevel
 } from '../../modules/datatable-utils.js';
 import {
@@ -170,7 +171,9 @@ export default {
 				charts: true
 			},
 			chartType: 'radar',
-			chartOrientation: 'vertical'
+			chartOrientation: 'vertical',
+			
+			alerts: []
 		};
 	},
 	computed: {
@@ -208,10 +211,7 @@ export default {
 			return {
 				columns: [
 					{ render: renderIdToEvalUrl },
-					{
-						render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
-					},
+					null,
 					null,
 					null
 				]
@@ -221,7 +221,7 @@ export default {
 			try {
 				return this.report.subjectEvaluations[this.subjectId].map(request => [
 					String(request.evaluation_id),
-					request,
+					renderDateRangeCell('evaluation_date_start', 'evaluation_date_end')(request),
 					`${request.evaluator_last}, ${request.evaluator_first}`,
 					request.form_title
 				]);
@@ -299,10 +299,7 @@ export default {
 			return {
 				columns: [
 					{ render: renderIdToEvalUrl },
-					{
-						render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
-					},
+					null,
 					null,
 					null,
 					null
@@ -322,7 +319,7 @@ export default {
 			try {
 				return this.report.subjectTextResponses[this.subjectId].map(response => [
 					String(response.evaluation_id),
-					response,
+					renderDateRangeCell('evaluation_date_start', 'evaluation_date_end')(response),
 					`${response.last_name}, ${response.first_name}`,
 					response.form_title,
 					response.response
@@ -604,6 +601,12 @@ export default {
 				};
 
 				pdfmake.createPdf(docDefinition).download(filename);
+			}).catch(err => {
+				console.error(err);
+				this.alerts.push({
+					type: 'error',
+					html: `<strong>Error: </strong> There was a problem exporting the report for ${this.report.subjectEvaluations[this.subjectId]}`
+				});
 			});
 
 		}
@@ -611,6 +614,7 @@ export default {
 
 	components: {
 		BootstrapAlert,
+		AlertList,
 		BootstrapButtonInput,
 		ChartjsChart,
 		DataTable,

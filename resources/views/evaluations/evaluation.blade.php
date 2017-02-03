@@ -30,10 +30,6 @@
 			font-size: 1.5em;
 		}
 
-		.question {
-			page-break-inside: avoid;
-		}
-
 		.subject-image {
 			text-align: center;
 		}

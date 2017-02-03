@@ -10,7 +10,7 @@
 })(this, function() {
 return webpackJsonp([8,10],{
 
-/***/ 117:
+/***/ 121:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -122,7 +122,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 222:
+/***/ 228:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -137,7 +137,51 @@ exports.push([module.i, "\n.milestone-competency-question-lists[data-v-6739f1e8]
 
 /***/ }),
 
-/***/ 355:
+/***/ 36:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: {
+		value: {
+			type: Boolean,
+			required: true
+		},
+		text: {
+			type: String,
+			required: false
+		}
+	}
+};
+
+/***/ }),
+
+/***/ 361:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -206,61 +250,17 @@ if (false) {
 
 /***/ }),
 
-/***/ 36:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = {
-	props: {
-		value: {
-			type: Boolean,
-			required: true
-		},
-		text: {
-			type: String,
-			required: false
-		}
-	}
-};
-
-/***/ }),
-
-/***/ 379:
+/***/ 386:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(222);
+var content = __webpack_require__(228);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(4)("6898a5de", content, false);
+var update = __webpack_require__(3)("6898a5de", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -305,14 +305,14 @@ if (false) {
 
 /***/ }),
 
-/***/ 392:
+/***/ 399:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_MilestoneCompetencyQuestionLists_vue__ = __webpack_require__(96);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_MilestoneCompetencyQuestionLists_vue__ = __webpack_require__(97);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_MilestoneCompetencyQuestionLists_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_MilestoneCompetencyQuestionLists_vue__);
 /* harmony export (immutable) */ __webpack_exports__["renderMilestoneCompetencyLists"] = renderMilestoneCompetencyLists;
 
@@ -442,18 +442,18 @@ function renderMilestoneCompetencyLists(milestoneQuestions, competencyQuestions)
 
 /***/ }),
 
-/***/ 96:
+/***/ 97:
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(379)
+__webpack_require__(386)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(117),
+  __webpack_require__(121),
   /* template */
-  __webpack_require__(355),
+  __webpack_require__(361),
   /* scopeId */
   "data-v-6739f1e8",
   /* cssModules */
@@ -481,6 +481,6 @@ module.exports = Component.exports
 
 /***/ })
 
-},[392]);
+},[399]);
 });
 //# sourceMappingURL=vue-milestone-competency-lists.js.map

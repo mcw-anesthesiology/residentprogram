@@ -57,7 +57,7 @@ class ReportController extends Controller
         return view("report.stats", $data);
     }
 
-    public function getStats(Request $request, $type){
+    public function getStats(Request $request, $evaluationType, $userType){
 		if($request->has("startDate")){
 			$startDate = Carbon::parse($request->input("startDate"));
 			$startDate->timezone = "America/Chicago";
@@ -70,12 +70,18 @@ class ReportController extends Controller
         if($request->input("user") && $request->input("user") != "all"){
             $users = User::where("id", $request->input("user"))->get();
         } else {
-            switch($type){
+            switch($userType){
                 case "faculty":
                     $users = User::where("status", "active")->where("type", "faculty")->with("evaluatorEvaluations.form")->get();
                     break;
+				case "trainee":
                 case "resident":
-                    $users = User::where("status", "active")->where("type", "resident")->where("training_level", "!=", "fellow")->with("subjectEvaluations.form")->get();
+                    $users = User::where("status", "active")->where("type", "resident");
+					if($request->has('trainingLevel') && $request->input('trainingLevel') != 'all')
+						$users->where('training_level', $request->input('trainingLevel'));
+					elseif($userType == 'resident')
+						$users->where("training_level", "!=", "fellow");
+					$users = $users->with("subjectEvaluations.form")->get();
                     break;
                 case "fellow":
                     $users = User::where("status", "active")->where("type", "resident")->where("training_level", "fellow")->with("subjectEvaluations.form")->get();
@@ -86,22 +92,33 @@ class ReportController extends Controller
 		$times = [];
 		$userStats = [];
 		
+		$statsType = ($evaluationType == 'faculty' xor $userType == 'faculty')
+			? 'evaluator'
+			: 'subject';
+			
         foreach($users as $user){
 			
             try {
-                $userEvaluations = $type == "faculty"
+				$userEvaluations = ($statsType == 'evaluator')
 					? $user->evaluatorEvaluations()
 					: $user->subjectEvaluations();
+					
                 if(!empty($startDate))
                     $userEvaluations->where("evaluation_date_end", ">=", $startDate);
                 if(!empty($endDate))
                     $userEvaluations->where("evaluation_date_end", "<=", $endDate);
-
-                $userEvaluations->whereIn("status", ["pending", "complete"])
-                    ->whereHas("form", function($query){
+					
+				$whereHasFilter = ($evaluationType == 'faculty')
+					? function($query){
+						$query->where('type', 'faculty');
+					}
+					: function($query){
                         $query->whereIn("type", ["resident", "fellow"])
                             ->where("evaluator_type", "faculty");
-                    });
+                    };
+
+                $userEvaluations->whereIn("status", ["pending", "complete"])
+                    ->whereHas("form", $whereHasFilter);
 
                 $userEvals = $userEvaluations->get();
 				
@@ -118,7 +135,7 @@ class ReportController extends Controller
                     "completed" => $userEvals->where("status", "complete")->count(),
                     "ratio" => $userEvals->count() == 0 ? 0 : round(($userEvals->where("status", "complete")->count()/$userEvals->count()) * 100)
                 ];
-
+                
                 // Line chart
                 if(count($users) == 1){
                     $statEvalData = $userEvaluations->get([
@@ -129,7 +146,7 @@ class ReportController extends Controller
                     ])->toArray();
                 }
 
-                if($type == "faculty"){
+                if($statsType == 'evaluator'){
                     $eval = $userEvals->where("status", "complete")
                         ->sortByDesc("complete_date")->first();
                     if(!empty($eval))
@@ -140,19 +157,23 @@ class ReportController extends Controller
 
                     $time = 0;
 					$timeEvals = $userEvaluations->where("status", "complete")->get();
-                    foreach($timeEvals as $eval){
-                        $time += $eval->complete_date->getTimestamp()-$eval->request_date->getTimestamp();
-                    }
-                    $num = $timeEvals->count();
-                    if($time > 0 && $num > 0)
-                        $time = round($time/$num);
-                    $d1 = new DateTime();
-                    $d2 = new DateTime();
-                    $d2->add(new DateInterval("PT".$time."S"));
-					$times[] = [
-						"name" => $user->full_name,
-						"time" => $d2->diff($d1)->format("%a days %H hours")
-					];
+					if(count($timeEvals) > 0){
+						foreach($timeEvals as $eval){
+	                        $time += $eval->complete_date->getTimestamp()-$eval->request_date->getTimestamp();
+	                    }
+	                    $num = $timeEvals->count();
+	                    if($time > 0 && $num > 0)
+	                        $time = round($time/$num);
+	                    $d1 = new DateTime();
+	                    $d2 = new DateTime();
+	                    $d2->add(new DateInterval("PT".$time."S"));
+						$times[] = [
+							"name" => $user->full_name,
+							"time" => $d2->diff($d1)
+								->format("%a days, %h hours, %i minutes"),
+							"timespan" => $time
+						];
+					}
                 }
                 else {
                     $eval = $userEvals->where("status", "complete")
@@ -167,10 +188,14 @@ class ReportController extends Controller
                 Log::error("Problem with user in stats: ".$e);
             }
         }
-        $data = compact("noneRequested", "noneCompleted", "lastCompleted",
-			"userStats", "statEvalData");
-        if($type == "faculty")
+        $data = compact('evaluationType', 'userType', 'statsType',
+			"noneRequested", "noneCompleted", "lastCompleted",
+			"userStats", "statEvalData", "startDate", "endDate");
+        if($statsType == 'evaluator')
             $data["averageCompletionTimes"] = $times;
+			
+		if(in_array($userType, ['trainee', 'resident']) && $request->has('trainingLevel'))
+			$data['trainingLevel'] = $request->input('trainingLevel');
 
 		return $data;
     }

@@ -53,7 +53,6 @@ class FacultyTest extends TestCase
     public function testDashboard(){
         $this->actingAs($this->user)
             ->visit("/")
-            ->see("Resident Evaluation System")
             ->see("Account type: Faculty");
     }
 
