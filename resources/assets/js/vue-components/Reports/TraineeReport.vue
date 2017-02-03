@@ -284,7 +284,7 @@ export default {
 				console.error(err);
 			});
 
-			const statsPromise = fetch('/report/stats/resident', {
+			const statsPromise = fetch('/report/stats/trainee/resident', {
 				method: 'POST',
 				headers: getFetchHeaders(),
 				credentials: 'same-origin',

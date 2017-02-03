@@ -57,7 +57,7 @@ class ReportController extends Controller
         return view("report.stats", $data);
     }
 
-    public function getStats(Request $request, $type){
+    public function getStats(Request $request, $evaluationType, $userType){
 		if($request->has("startDate")){
 			$startDate = Carbon::parse($request->input("startDate"));
 			$startDate->timezone = "America/Chicago";
@@ -70,10 +70,11 @@ class ReportController extends Controller
         if($request->input("user") && $request->input("user") != "all"){
             $users = User::where("id", $request->input("user"))->get();
         } else {
-            switch($type){
+            switch($userType){
                 case "faculty":
                     $users = User::where("status", "active")->where("type", "faculty")->with("evaluatorEvaluations.form")->get();
                     break;
+				case "trainee":
                 case "resident":
                     $users = User::where("status", "active")->where("type", "resident")->where("training_level", "!=", "fellow")->with("subjectEvaluations.form")->get();
                     break;
@@ -86,22 +87,33 @@ class ReportController extends Controller
 		$times = [];
 		$userStats = [];
 		
+		$statsType = ($evaluationType == 'faculty' xor $userType == 'faculty')
+			? 'evaluator'
+			: 'subject';
+			
         foreach($users as $user){
 			
             try {
-                $userEvaluations = $type == "faculty"
+				$userEvaluations = ($statsType == 'evaluator')
 					? $user->evaluatorEvaluations()
 					: $user->subjectEvaluations();
+					
                 if(!empty($startDate))
                     $userEvaluations->where("evaluation_date_end", ">=", $startDate);
                 if(!empty($endDate))
                     $userEvaluations->where("evaluation_date_end", "<=", $endDate);
-
-                $userEvaluations->whereIn("status", ["pending", "complete"])
-                    ->whereHas("form", function($query){
+					
+				$whereHasFilter = ($evaluationType == 'faculty')
+					? function($query){
+						$query->where('type', 'faculty');
+					}
+					: function($query){
                         $query->whereIn("type", ["resident", "fellow"])
                             ->where("evaluator_type", "faculty");
-                    });
+                    };
+
+                $userEvaluations->whereIn("status", ["pending", "complete"])
+                    ->whereHas("form", $whereHasFilter);
 
                 $userEvals = $userEvaluations->get();
 				
@@ -118,7 +130,7 @@ class ReportController extends Controller
                     "completed" => $userEvals->where("status", "complete")->count(),
                     "ratio" => $userEvals->count() == 0 ? 0 : round(($userEvals->where("status", "complete")->count()/$userEvals->count()) * 100)
                 ];
-
+                
                 // Line chart
                 if(count($users) == 1){
                     $statEvalData = $userEvaluations->get([
@@ -129,7 +141,7 @@ class ReportController extends Controller
                     ])->toArray();
                 }
 
-                if($type == "faculty"){
+                if($statsType == 'evaluator'){
                     $eval = $userEvals->where("status", "complete")
                         ->sortByDesc("complete_date")->first();
                     if(!empty($eval))
@@ -169,7 +181,7 @@ class ReportController extends Controller
         }
         $data = compact("noneRequested", "noneCompleted", "lastCompleted",
 			"userStats", "statEvalData");
-        if($type == "faculty")
+        if($statsType == 'evaluator')
             $data["averageCompletionTimes"] = $times;
 
 		return $data;

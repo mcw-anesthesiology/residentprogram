@@ -1009,7 +1009,7 @@ class ReportTest extends TestCase
         $endDate->second = 0;
 
         $this->actingAs($this->admin)
-            ->post("/report/stats/faculty", [
+            ->post("/report/stats/trainee/faculty", [
                 "startDate" => $startDate,
                 "endDate" => $endDate,
                 "user" => "all"
@@ -1082,7 +1082,7 @@ class ReportTest extends TestCase
         $endDate->second = 0;
 
         $this->actingAs($this->admin)
-            ->post("/report/stats/faculty", [
+            ->post("/report/stats/trainee/faculty", [
                 "startDate" => $startDate,
                 "endDate" => $endDate,
                 "user" => $this->faculty->id,
@@ -1168,7 +1168,7 @@ class ReportTest extends TestCase
         $endDate->second = 0;
 
         $this->actingAs($this->admin)
-            ->post("/report/stats/resident", [
+            ->post("/report/stats/trainee/resident", [
                 "startDate" => $startDate,
                 "endDate" => $endDate,
                 "user" => "all"
@@ -1254,7 +1254,7 @@ class ReportTest extends TestCase
         $endDate->second = 0;
 
         $this->actingAs($this->admin)
-            ->post("/report/stats/resident", [
+            ->post("/report/stats/trainee/resident", [
                 "startDate" => $startDate,
                 "endDate" => $endDate,
                 "user" => $this->residents[0]->id
