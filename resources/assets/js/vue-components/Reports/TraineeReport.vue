@@ -122,7 +122,10 @@
 					:subject="subject" ref="individualReports" />
 			</template>
 			<template v-else>
-				<stats-report v-if="stats" :report="stats" />
+				<stats-report v-if="subjectStats" :report="subjectStats"
+					title="Trainee evaluation statistics" />
+				<stats-report v-if="evaluatorStats" :report="evaluatorStats"
+					title="Faculty evaluation statistics" />
 				<aggregate-report :report="report" />
 			</template>
 		</div>
@@ -172,7 +175,8 @@ export default {
 			},
 
 			report: null,
-			stats: null,
+			subjectStats: null,
+			evaluatorStats: null,
 
 			milestoneGroups: []
 		};
@@ -261,7 +265,7 @@ export default {
 			this.milestones = newMilestones;
 		},
 		runReport(){
-			const reportPromise = fetch('/report/aggregate', {
+			fetch('/report/aggregate', {
 				method: 'POST',
 				headers: getFetchHeaders(),
 				credentials: 'same-origin',
@@ -284,18 +288,27 @@ export default {
 				console.error(err);
 			});
 
-			const statsPromise = fetch('/report/stats/trainee/resident', {
+			fetch('/report/stats/trainee/resident', {
 				method: 'POST',
 				headers: getFetchHeaders(),
 				credentials: 'same-origin',
 				body: JSON.stringify(this.dates)
 			}).then(jsonOrThrow).then(stats => {
-				this.stats = Object.assign({}, this.stats, stats);
+				this.subjectStats = stats;
 			}).catch(err => {
 				console.error(err);
 			});
-
-			return Promise.all([reportPromise, statsPromise]);
+			
+			fetch('/report/stats/faculty/resident', {
+				method: 'POST',
+				headers: getFetchHeaders(),
+				credentials: 'same-origin',
+				body: JSON.stringify(this.dates)
+			}).then(jsonOrThrow).then(stats => {
+				this.evaluatorStats = stats;
+			}).catch(err => {
+				console.error(err);
+			});
 		},
 		printAll(){
 			this.$refs.individualReports.map(individual => {
