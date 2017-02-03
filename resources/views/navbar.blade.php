@@ -7,7 +7,7 @@
 		<span class="icon-bar"></span>
 		<span class="icon-bar"></span>
 	  </button>
-	  <a class="navbar-brand" href="/dashboard">Resident Evaluation System</a>
+	  <a class="navbar-brand" href="/dashboard">Trainee Evaluation System</a>
 	</div>
 	<div class="navbar-collapse collapse">
 	  <ul class="nav navbar-nav navbar-right">

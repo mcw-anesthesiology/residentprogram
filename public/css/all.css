@@ -8929,6 +8929,7 @@ body {
 
 .question {
 	margin-bottom: 50px;
+	page-break-inside: avoid;
 }
 
 /*.flexbox .question {

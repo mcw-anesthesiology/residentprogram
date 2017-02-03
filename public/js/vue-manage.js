@@ -13,41 +13,6 @@ return webpackJsonp([4,10],{
 /***/ 10:
 /***/ (function(module, exports, __webpack_require__) {
 
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(20),
-  /* template */
-  __webpack_require__(28),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/BootstrapAlert.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] BootstrapAlert.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-03027238", Component.options)
-  } else {
-    hotAPI.reload("data-v-03027238", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 11:
-/***/ (function(module, exports, __webpack_require__) {
-
 
 /* styles */
 __webpack_require__(33)
@@ -84,7 +49,42 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 118:
+/***/ 11:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(20),
+  /* template */
+  __webpack_require__(28),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/BootstrapAlert.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] BootstrapAlert.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-03027238", Component.options)
+  } else {
+    hotAPI.reload("data-v-03027238", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 122:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -173,7 +173,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var _this = this;
 
 			return this.items.filter(function (item) {
-				return !(_this.value.indexOf(item) !== -1);
+				return !_this.value.includes(item);
 			});
 		}
 	},
@@ -585,7 +585,7 @@ function a(e,t){function n(){e._flatpickr&&E(e._flatpickr),e._flatpickr=oe,oe.el
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__);
 //
 //
@@ -642,7 +642,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			type: String,
 			default: 'error',
 			validator: function validator(type) {
-				return ['info', 'success', 'warning', 'error', 'danger'].indexOf(type) !== -1;
+				return ['info', 'success', 'warning', 'error', 'danger'].includes(type);
 			}
 		},
 		text: {
@@ -1024,21 +1024,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
-/***/ 225:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.list-group-item[data-v-6fc18dbc] {\n\tcursor: pointer;\n}\n.list-group-item[data-v-6fc18dbc]:focus,\n.list-group-item[data-v-6fc18dbc]:hover {\n\tcolor: #555;\n\tbackground-color: #f5f5f5;\n}\n.list-group-item.active[data-v-6fc18dbc]:focus,\n.list-group-item.active[data-v-6fc18dbc]:hover {\n\tcolor: white;\n\tbackground-color: rgba(51, 123, 184, 0.85);\n}\n.item-controls[data-v-6fc18dbc] {\n\tmargin-top: 1em;\n\tdisplay: flex;\n\tjustify-content: space-between;\n}\n.item-controls .form-control[data-v-6fc18dbc] {\n\twidth: 5em;\n}\n.item-controls-buttons[data-v-6fc18dbc] {\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/OrderingList.vue?1b542ab1"],"names":[],"mappings":";AA4JA;CACA,gBAAA;CACA;AAEA;;CAEA,YAAA;CACA,0BAAA;CACA;AAEA;;CAEA,aAAA;CACA,2CAAA;CACA;AAEA;CACA,gBAAA;CACA,cAAA;CACA,+BAAA;CACA;AAEA;CACA,WAAA;CACA;AAEA;CAEA","file":"OrderingList.vue","sourcesContent":["<template>\n\t<div class=\"row\">\n\t\t<div class=\"col-md-6\">\n\t\t\t<ul class=\"list-group\">\n\t\t\t\t<li v-for=\"item of itemsRemaining\" class=\"list-group-item\"\n\t\t\t\t\t\t:key=\"itemKey in item && `bank-${item[itemKey]}`\"\n\t\t\t\t\t\t@click=\"addItem(item)\">\n\t\t\t\t\t<slot v-bind=\"item\">\n\t\t\t\t\t\t{{ item }}\n\t\t\t\t\t</slot>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</div>\n\t\t<div class=\"col-md-6\">\n\t\t\t<ol class=\"list-group\" ref=\"orderedList\">\n\t\t\t\t<li v-for=\"(item, index) of value\" class=\"list-group-item\"\n\t\t\t\t\t\t:class=\"{active: activeItem === index}\"\n\t\t\t\t\t\t:key=\"itemKey in item && item[itemKey]\"\n\t\t\t\t\t\t@click=\"removeItem(index)\">\n\t\t\t\t\t<slot v-bind=\"item\">\n\t\t\t\t\t\t{{ item }}\n\t\t\t\t\t</slot>\n\t\t\t\t\t<div class=\"item-controls\">\n\t\t\t\t\t\t<input type=\"number\" class=\"form-control\"\n\t\t\t\t\t\t\t:value=\"index + 1\" @click=\"$event.stopPropagation()\"\n\t\t\t\t\t\t\t@change=\"moveItemTo($event, index)\" />\n\t\t\t\t\t\t<div class=\"item-controls-buttons\">\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\tv-if=\"index > 0\"\n\t\t\t\t\t\t\t\t\t@click=\"moveItemUp($event, index)\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-arrow-up\"></span>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\tv-if=\"index < value.length - 1\"\n\t\t\t\t\t\t\t\t\t@click=\"moveItemDown($event, index)\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-arrow-down\"></span>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</li>\n\t\t\t</ol>\n\t\t\t<div v-if=\"value.length > 0\" class=\"text-center\">\n\t\t\t\t<button type=\"button\" class=\"btn btn-warning\"\n\t\t\t\t\t\t@click=\"$emit('input', [])\">\n\t\t\t\t\tClear list\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nexport default {\n\tprops: {\n\t\tvalue: {\n\t\t\ttype: Array,\n\t\t\trequired: true,\n\t\t\tdefault(){\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\titems: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\titemKey: {\n\t\t\ttype: String,\n\t\t\tdefault: 'id'\n\t\t}\n\t},\n\t\n\tdata(){\n\t\treturn {\n\t\t\tactiveItem: null,\n\t\t\tactiveItemTimeoutId: null\n\t\t};\n\t},\n\t\n\tcomputed: {\n\t\titemsRemaining(){\n\t\t\treturn this.items.filter(item => !this.value.includes(item));\n\t\t}\n\t},\n\twatch: {\n\t\tactiveItem(){\n\t\t\tif(this.activeItemTimeoutId)\n\t\t\t\twindow.clearTimeout(this.activeItemTimeoutId);\n\t\t\t\n\t\t\tthis.activeItemTimeoutId = window.setTimeout(() => {\n\t\t\t\tif(this.activeItemTimeoutId){\n\t\t\t\t\tthis.activeItem = null;\n\t\t\t\t\tthis.activeItemTimeoutId = null;\n\t\t\t\t}\n\t\t\t}, 1000);\n\t\t}\n\t},\n\t\n\tmethods: {\n\t\taddItem(item){\n\t\t\tthis.$emit('input', this.value.concat(item));\n\t\t},\n\t\tremoveItem(index){\n\t\t\tif(event.defaultPrevented)\n\t\t\t\treturn;\n\t\t\t\n\t\t\tlet value = this.value.slice();\n\t\t\tvalue.splice(index, 1);\n\t\t\tthis.$emit('input', value);\n\t\t},\n\t\tmoveItemTo(event, index){\n\t\t\tlet newIndex = event.target.value - 1;\n\t\t\t\n\t\t\tif(newIndex < 0 || newIndex > this.value.length - 1)\n\t\t\t\treturn;\n\t\t\t\n\t\t\tlet value = this.value.slice();\n\t\t\tvalue.splice(newIndex, 0, value.splice(index, 1)[0]);\n\t\t\t\n\t\t\tthis.activeItem = newIndex;\n\t\t\tthis.$emit('input', value);\n\t\t},\n\t\tmoveItemUp(event, index){\n\t\t\tevent.preventDefault();\n\t\t\tevent.stopPropagation();\n\n\t\t\tif(index === 0)\n\t\t\t\treturn;\n\t\t\t\t\n\t\t\tlet newIndex = index - 1;\n\t\t\tlet value = this.value.slice();\n\t\t\t\n\t\t\tvalue.splice(newIndex, 0, value.splice(index, 1)[0]);\n\t\t\t\n\t\t\tthis.activeItem = newIndex;\n\t\t\tthis.$emit('input', value);\n\t\t},\n\t\tmoveItemDown(event, index){\n\t\t\tevent.preventDefault();\n\t\t\tevent.stopPropagation();\n\t\t\t\n\t\t\tif(index === this.value.length - 1)\n\t\t\t\treturn;\n\t\t\t\n\t\t\tlet newIndex = index + 1;\n\t\t\tlet value = this.value.slice();\n\t\t\t\n\t\t\tvalue.splice(newIndex, 0, value.splice(index, 1)[0]);\n\t\t\t\n\t\t\tthis.activeItem = newIndex;\n\t\t\tthis.$emit('input', value);\n\t\t}\n\t}\n};\n</script>\n\n<style scoped>\n\t.list-group-item {\n\t\tcursor: pointer;\n\t}\n\t\n\t.list-group-item:focus,\n\t.list-group-item:hover {\n\t\tcolor: #555;\n\t\tbackground-color: #f5f5f5;\n\t}\n\t\n\t.list-group-item.active:focus,\n\t.list-group-item.active:hover {\n\t\tcolor: white;\n\t\tbackground-color: rgba(51, 123, 184, 0.85);\n\t}\n\t\n\t.item-controls {\n\t\tmargin-top: 1em;\n\t\tdisplay: flex;\n\t\tjustify-content: space-between;\n\t}\n\t\n\t.item-controls .form-control {\n\t\twidth: 5em;\n\t}\n\t\n\t.item-controls-buttons {\n\t\t\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
-
-// exports
-
-
-/***/ }),
-
 /***/ 23:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1048,6 +1033,21 @@ exports = module.exports = __webpack_require__(1)();
 
 // module
 exports.push([module.i, ".flatpickr-input{cursor:pointer;z-index:1}.flatpickr-mobileInput{width:0;height:0}.flatpickr-calendar,.flatpickr-mobileInput{opacity:0;visibility:hidden;position:absolute;box-sizing:border-box;padding:0}.flatpickr-calendar{background:transparent;overflow:hidden;max-height:0;text-align:center;-webkit-animation:none;animation:none;direction:ltr;border:0;font-size:14px;line-height:24px;border-radius:5px;width:293.75px;background:#fff;box-shadow:1px 0 0 #e6e6e6,-1px 0 0 #e6e6e6,0 1px 0 #e6e6e6,0 -1px 0 #e6e6e6,0 3px 13px rgba(0,0,0,.08);z-index:5}.flatpickr-calendar.inline,.flatpickr-calendar.open{opacity:1;visibility:visible;overflow:visible;max-height:640px}.flatpickr-calendar.open{display:inline-block;z-index:6;-webkit-animation:a .5s cubic-bezier(0,1,.5,1);animation:a .5s cubic-bezier(0,1,.5,1)}.flatpickr-calendar.inline{display:block;position:relative}.flatpickr-calendar.static{position:relative;top:2px}.flatpickr-calendar.static.open{display:block}.flatpickr-calendar.hasWeeks{width:auto}.flatpickr-calendar.dateIsPicked.hasTime .flatpickr-time{height:40px}.flatpickr-calendar.noCalendar.hasTime .flatpickr-time{height:auto}.flatpickr-calendar:after,.flatpickr-calendar:before{position:absolute;display:block;pointer-events:none;border:solid transparent;content:\"\";height:0;width:0;left:22px}.flatpickr-calendar.rightMost:after,.flatpickr-calendar.rightMost:before{left:auto;right:22px}.flatpickr-calendar:before{border-width:5px;margin:0 -5px}.flatpickr-calendar:after{border-width:4px;margin:0 -4px}.flatpickr-calendar.arrowTop:after,.flatpickr-calendar.arrowTop:before{bottom:100%}.flatpickr-calendar.arrowTop:before{border-bottom-color:#e6e6e6}.flatpickr-calendar.arrowTop:after{border-bottom-color:#fff}.flatpickr-calendar.arrowBottom:after,.flatpickr-calendar.arrowBottom:before{top:100%}.flatpickr-calendar.arrowBottom:before{border-top-color:#e6e6e6}.flatpickr-calendar.arrowBottom:after{border-top-color:#fff}.flatpickr-month{background:transparent;color:rgba(0,0,0,.9);fill:rgba(0,0,0,.9);height:28px;line-height:24px;text-align:center;position:relative;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;z-index:2}.flatpickr-next-month,.flatpickr-prev-month{text-decoration:none;cursor:pointer;position:absolute;top:10px;height:16px;line-height:16px}.flatpickr-next-month i,.flatpickr-prev-month i{position:relative}.flatpickr-next-month.flatpickr-prev-month,.flatpickr-prev-month.flatpickr-prev-month{left:calc(3.57% - 1.5px)}.flatpickr-next-month.flatpickr-next-month,.flatpickr-prev-month.flatpickr-next-month{right:calc(3.57% - 1.5px)}.flatpickr-next-month:hover,.flatpickr-prev-month:hover{color:#959ea9}.flatpickr-next-month:hover svg,.flatpickr-prev-month:hover svg{fill:#f64747}.flatpickr-next-month svg,.flatpickr-prev-month svg{width:14px}.flatpickr-next-month svg path,.flatpickr-prev-month svg path{-webkit-transition:fill .1s;transition:fill .1s;fill:inherit}.numInputWrapper{position:relative;height:auto}.numInputWrapper input,.numInputWrapper span{display:inline-block}.numInputWrapper input{width:100%}.numInputWrapper span{position:absolute;right:0;width:14px;padding:0 4px 0 2px;height:50%;line-height:50%;opacity:0;z-index:4;cursor:pointer;border:1px solid rgba(57,57,57,.05);box-sizing:border-box}.numInputWrapper span:hover{background:rgba(0,0,0,.1)}.numInputWrapper span:active{background:rgba(0,0,0,.2)}.numInputWrapper span:after{display:block;content:\"\";position:absolute;top:33%}.numInputWrapper span.arrowUp{top:0;border-bottom:0}.numInputWrapper span.arrowUp:after{border-left:4px solid transparent;border-right:4px solid transparent;border-bottom:4px solid rgba(57,57,57,.6)}.numInputWrapper span.arrowDown{top:50%}.numInputWrapper span.arrowDown:after{border-left:4px solid transparent;border-right:4px solid transparent;border-top:4px solid rgba(57,57,57,.6)}.numInputWrapper span svg{width:inherit;height:auto}.numInputWrapper span svg path{fill:rgba(0,0,0,.5)}.numInputWrapper:hover{background:rgba(0,0,0,.05)}.numInputWrapper:hover span{opacity:1}.flatpickr-current-month{font-size:135%;line-height:inherit;font-weight:300;color:inherit;position:absolute;width:75%;left:12.5%;top:5px;display:inline-block;text-align:center}.flatpickr-current-month span.cur-month{font-family:inherit;font-weight:700;color:inherit;display:inline-block;padding-left:7px}.flatpickr-current-month .numInputWrapper{width:6ch;width:7ch\\0;display:inline-block}.flatpickr-current-month .numInputWrapper span.arrowUp:after{border-bottom-color:rgba(0,0,0,.9)}.flatpickr-current-month .numInputWrapper span.arrowDown:after{border-top-color:rgba(0,0,0,.9)}.flatpickr-current-month input.cur-year{background:transparent;box-sizing:border-box;color:inherit;cursor:default;padding:0 0 0 .5ch;margin:0;display:inline;font-size:inherit;font-family:inherit;font-weight:300;line-height:inherit;height:auto;border:0;border-radius:0;vertical-align:initial}.flatpickr-current-month input.cur-year:focus{outline:0}.flatpickr-current-month input.cur-year[disabled],.flatpickr-current-month input.cur-year[disabled]:hover{font-size:100%;color:rgba(0,0,0,.5);background:transparent;pointer-events:none}.flatpickr-weekdays{background:transparent;text-align:center;overflow:hidden}.flatpickr-days{padding:0 2.375px;outline:0;text-align:left;width:293.75px;box-sizing:border-box;display:inline-block;display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;border-right:1px solid transparent}.flatpickr-day{background:none;border:1px solid transparent;border-radius:150px;box-sizing:border-box;color:#393939;cursor:pointer;font-weight:400;width:14.2857143%;-ms-flex-preferred-size:14.2857143%;flex-basis:14.2857143%;max-width:38px;height:38px;line-height:38px;margin:0 1.5px;display:inline-block;display:inline-block\\9;position:relative;-ms-flex-pack:center;-webkit-box-pack:center;justify-content:center;text-align:center}.flatpickr-day.inRange,.flatpickr-day.nextMonthDay.inRange,.flatpickr-day.nextMonthDay.today.inRange,.flatpickr-day.nextMonthDay:focus,.flatpickr-day.nextMonthDay:hover,.flatpickr-day.prevMonthDay.inRange,.flatpickr-day.prevMonthDay.today.inRange,.flatpickr-day.prevMonthDay:focus,.flatpickr-day.prevMonthDay:hover,.flatpickr-day.today.inRange,.flatpickr-day:focus,.flatpickr-day:hover{cursor:pointer;outline:0;background:#e6e6e6;border-color:#e6e6e6}.flatpickr-day.today{border-color:#959ea9}.flatpickr-day.today:focus,.flatpickr-day.today:hover{border-color:#959ea9;background:#959ea9;color:#fff}.flatpickr-day.endRange,.flatpickr-day.endRange.nextMonthDay,.flatpickr-day.endRange.prevMonthDay,.flatpickr-day.endRange:focus,.flatpickr-day.endRange:hover,.flatpickr-day.selected,.flatpickr-day.selected.nextMonthDay,.flatpickr-day.selected.prevMonthDay,.flatpickr-day.selected:focus,.flatpickr-day.selected:hover,.flatpickr-day.startRange,.flatpickr-day.startRange.nextMonthDay,.flatpickr-day.startRange.prevMonthDay,.flatpickr-day.startRange:focus,.flatpickr-day.startRange:hover{background:#569ff7;color:#fff;border-color:#569ff7}.flatpickr-day.endRange.startRange,.flatpickr-day.selected.startRange,.flatpickr-day.startRange.startRange{border-radius:50px 0 0 50px}.flatpickr-day.endRange.endRange,.flatpickr-day.selected.endRange,.flatpickr-day.startRange.endRange{border-radius:0 50px 50px 0}.flatpickr-day.inRange{border-radius:0;box-shadow:-3.75px 0 0 #e6e6e6,3.75px 0 0 #e6e6e6}.flatpickr-day.disabled,.flatpickr-day.disabled:hover{pointer-events:none}.flatpickr-day.disabled,.flatpickr-day.disabled:hover,.flatpickr-day.nextMonthDay,.flatpickr-day.notAllowed,.flatpickr-day.notAllowed.nextMonthDay,.flatpickr-day.notAllowed.prevMonthDay,.flatpickr-day.prevMonthDay{color:rgba(57,57,57,.3);background:transparent;border-color:transparent;cursor:default}span.flatpickr-weekday{cursor:default;font-size:90%;color:rgba(0,0,0,.54);height:27.166666666666668px;line-height:24px;background:transparent;text-align:center;display:block;float:left;width:14.28%;font-weight:700;margin:0;padding-top:3.166666666666667px}.rangeMode .flatpickr-day{margin-top:1px}.flatpickr-weekwrapper{display:inline-block;float:left;z-index:2}.flatpickr-weekwrapper .flatpickr-weeks{padding:0 12px;box-shadow:1px 0 0 #e6e6e6}.flatpickr-weekwrapper .flatpickr-weekday{float:none;width:100%}.flatpickr-weekwrapper span.flatpickr-day{display:block;width:100%;max-width:none;margin:0;border:0}.flatpickr-innerContainer{display:block;display:-webkit-box;display:-ms-flexbox;display:flex;box-sizing:border-box;overflow:hidden}.flatpickr-rContainer{display:inline-block;padding:0;box-sizing:border-box;z-index:2}.flatpickr-time{text-align:center;outline:0;display:block;height:0;line-height:40px;max-height:40px;box-sizing:border-box;overflow:hidden;-webkit-transition:height .33s cubic-bezier(0,1,.5,1);transition:height .33s cubic-bezier(0,1,.5,1);display:-webkit-box;display:-ms-flexbox;display:flex;border-top:1px solid #e6e6e6}.flatpickr-time:after{content:\"\";display:table;clear:both}.flatpickr-time .numInputWrapper{-webkit-box-flex:1;-ms-flex:1;flex:1;width:40%;height:40px;float:left;z-index:3}.flatpickr-time .numInputWrapper span.arrowUp:after{border-bottom-color:#393939}.flatpickr-time .numInputWrapper span.arrowDown:after{border-top-color:#393939}.flatpickr-time.hasSeconds .numInputWrapper{width:26%}.flatpickr-time.time24hr .numInputWrapper{width:49%}.flatpickr-time input{background:transparent;box-shadow:none;border:0;border-radius:0;text-align:center;margin:0;padding:0;height:inherit;line-height:inherit;cursor:pointer;color:#393939;font-size:14px;position:relative;box-sizing:border-box}.flatpickr-time input.flatpickr-hour{font-weight:700}.flatpickr-time input.flatpickr-minute,.flatpickr-time input.flatpickr-second{font-weight:400}.flatpickr-time input:focus{outline:0;border:0}.flatpickr-time .flatpickr-am-pm,.flatpickr-time .flatpickr-time-separator{height:inherit;display:inline-block;float:left;line-height:inherit;color:#393939;font-weight:700;width:2%;z-index:3;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.flatpickr-time .flatpickr-am-pm{outline:0;width:18%;cursor:pointer;text-align:center;font-weight:400}.flatpickr-time .flatpickr-am-pm:focus,.flatpickr-time .flatpickr-am-pm:hover{background:#f0f0f0}.hasTime .flatpickr-days,.hasWeeks .flatpickr-days{border-bottom:0;border-bottom-right-radius:0;border-bottom-left-radius:0}.hasWeeks .flatpickr-days{border-left:0}@media (-ms-high-contrast:none){.flatpickr-month{padding:0}.flatpickr-month svg{top:0!important}}@-webkit-keyframes a{0%{opacity:0;-webkit-transform:translate3d(0,-20px,0);transform:translate3d(0,-20px,0)}to{opacity:1;-webkit-transform:none;transform:none}}@keyframes a{0%{opacity:0;-webkit-transform:translate3d(0,-20px,0);transform:translate3d(0,-20px,0)}to{opacity:1;-webkit-transform:none;transform:none}}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 231:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.list-group-item[data-v-6fc18dbc] {\n\tcursor: pointer;\n}\n.list-group-item[data-v-6fc18dbc]:focus,\n.list-group-item[data-v-6fc18dbc]:hover {\n\tcolor: #555;\n\tbackground-color: #f5f5f5;\n}\n.list-group-item.active[data-v-6fc18dbc]:focus,\n.list-group-item.active[data-v-6fc18dbc]:hover {\n\tcolor: white;\n\tbackground-color: rgba(51, 123, 184, 0.85);\n}\n.item-controls[data-v-6fc18dbc] {\n\tmargin-top: 1em;\n\tdisplay: flex;\n\tjustify-content: space-between;\n}\n.item-controls .form-control[data-v-6fc18dbc] {\n\twidth: 5em;\n}\n.item-controls-buttons[data-v-6fc18dbc] {\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/OrderingList.vue?1b542ab1"],"names":[],"mappings":";AA4JA;CACA,gBAAA;CACA;AAEA;;CAEA,YAAA;CACA,0BAAA;CACA;AAEA;;CAEA,aAAA;CACA,2CAAA;CACA;AAEA;CACA,gBAAA;CACA,cAAA;CACA,+BAAA;CACA;AAEA;CACA,WAAA;CACA;AAEA;CAEA","file":"OrderingList.vue","sourcesContent":["<template>\n\t<div class=\"row\">\n\t\t<div class=\"col-md-6\">\n\t\t\t<ul class=\"list-group\">\n\t\t\t\t<li v-for=\"item of itemsRemaining\" class=\"list-group-item\"\n\t\t\t\t\t\t:key=\"itemKey in item && `bank-${item[itemKey]}`\"\n\t\t\t\t\t\t@click=\"addItem(item)\">\n\t\t\t\t\t<slot v-bind=\"item\">\n\t\t\t\t\t\t{{ item }}\n\t\t\t\t\t</slot>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</div>\n\t\t<div class=\"col-md-6\">\n\t\t\t<ol class=\"list-group\" ref=\"orderedList\">\n\t\t\t\t<li v-for=\"(item, index) of value\" class=\"list-group-item\"\n\t\t\t\t\t\t:class=\"{active: activeItem === index}\"\n\t\t\t\t\t\t:key=\"itemKey in item && item[itemKey]\"\n\t\t\t\t\t\t@click=\"removeItem(index)\">\n\t\t\t\t\t<slot v-bind=\"item\">\n\t\t\t\t\t\t{{ item }}\n\t\t\t\t\t</slot>\n\t\t\t\t\t<div class=\"item-controls\">\n\t\t\t\t\t\t<input type=\"number\" class=\"form-control\"\n\t\t\t\t\t\t\t:value=\"index + 1\" @click=\"$event.stopPropagation()\"\n\t\t\t\t\t\t\t@change=\"moveItemTo($event, index)\" />\n\t\t\t\t\t\t<div class=\"item-controls-buttons\">\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\tv-if=\"index > 0\"\n\t\t\t\t\t\t\t\t\t@click=\"moveItemUp($event, index)\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-arrow-up\"></span>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\tv-if=\"index < value.length - 1\"\n\t\t\t\t\t\t\t\t\t@click=\"moveItemDown($event, index)\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-arrow-down\"></span>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</li>\n\t\t\t</ol>\n\t\t\t<div v-if=\"value.length > 0\" class=\"text-center\">\n\t\t\t\t<button type=\"button\" class=\"btn btn-warning\"\n\t\t\t\t\t\t@click=\"$emit('input', [])\">\n\t\t\t\t\tClear list\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nexport default {\n\tprops: {\n\t\tvalue: {\n\t\t\ttype: Array,\n\t\t\trequired: true,\n\t\t\tdefault(){\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\titems: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\titemKey: {\n\t\t\ttype: String,\n\t\t\tdefault: 'id'\n\t\t}\n\t},\n\t\n\tdata(){\n\t\treturn {\n\t\t\tactiveItem: null,\n\t\t\tactiveItemTimeoutId: null\n\t\t};\n\t},\n\t\n\tcomputed: {\n\t\titemsRemaining(){\n\t\t\treturn this.items.filter(item => !this.value.includes(item));\n\t\t}\n\t},\n\twatch: {\n\t\tactiveItem(){\n\t\t\tif(this.activeItemTimeoutId)\n\t\t\t\twindow.clearTimeout(this.activeItemTimeoutId);\n\t\t\t\n\t\t\tthis.activeItemTimeoutId = window.setTimeout(() => {\n\t\t\t\tif(this.activeItemTimeoutId){\n\t\t\t\t\tthis.activeItem = null;\n\t\t\t\t\tthis.activeItemTimeoutId = null;\n\t\t\t\t}\n\t\t\t}, 1000);\n\t\t}\n\t},\n\t\n\tmethods: {\n\t\taddItem(item){\n\t\t\tthis.$emit('input', this.value.concat(item));\n\t\t},\n\t\tremoveItem(index){\n\t\t\tif(event.defaultPrevented)\n\t\t\t\treturn;\n\t\t\t\n\t\t\tlet value = this.value.slice();\n\t\t\tvalue.splice(index, 1);\n\t\t\tthis.$emit('input', value);\n\t\t},\n\t\tmoveItemTo(event, index){\n\t\t\tlet newIndex = event.target.value - 1;\n\t\t\t\n\t\t\tif(newIndex < 0 || newIndex > this.value.length - 1)\n\t\t\t\treturn;\n\t\t\t\n\t\t\tlet value = this.value.slice();\n\t\t\tvalue.splice(newIndex, 0, value.splice(index, 1)[0]);\n\t\t\t\n\t\t\tthis.activeItem = newIndex;\n\t\t\tthis.$emit('input', value);\n\t\t},\n\t\tmoveItemUp(event, index){\n\t\t\tevent.preventDefault();\n\t\t\tevent.stopPropagation();\n\n\t\t\tif(index === 0)\n\t\t\t\treturn;\n\t\t\t\t\n\t\t\tlet newIndex = index - 1;\n\t\t\tlet value = this.value.slice();\n\t\t\t\n\t\t\tvalue.splice(newIndex, 0, value.splice(index, 1)[0]);\n\t\t\t\n\t\t\tthis.activeItem = newIndex;\n\t\t\tthis.$emit('input', value);\n\t\t},\n\t\tmoveItemDown(event, index){\n\t\t\tevent.preventDefault();\n\t\t\tevent.stopPropagation();\n\t\t\t\n\t\t\tif(index === this.value.length - 1)\n\t\t\t\treturn;\n\t\t\t\n\t\t\tlet newIndex = index + 1;\n\t\t\tlet value = this.value.slice();\n\t\t\t\n\t\t\tvalue.splice(newIndex, 0, value.splice(index, 1)[0]);\n\t\t\t\n\t\t\tthis.activeItem = newIndex;\n\t\t\tthis.$emit('input', value);\n\t\t}\n\t}\n};\n</script>\n\n<style scoped>\n\t.list-group-item {\n\t\tcursor: pointer;\n\t}\n\t\n\t.list-group-item:focus,\n\t.list-group-item:hover {\n\t\tcolor: #555;\n\t\tbackground-color: #f5f5f5;\n\t}\n\t\n\t.list-group-item.active:focus,\n\t.list-group-item.active:hover {\n\t\tcolor: white;\n\t\tbackground-color: rgba(51, 123, 184, 0.85);\n\t}\n\t\n\t.item-controls {\n\t\tmargin-top: 1em;\n\t\tdisplay: flex;\n\t\tjustify-content: space-between;\n\t}\n\t\n\t.item-controls .form-control {\n\t\twidth: 5em;\n\t}\n\t\n\t.item-controls-buttons {\n\t\t\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -1503,7 +1503,7 @@ var content = __webpack_require__(24);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(4)("61c00345", content, false);
+var update = __webpack_require__(3)("61c00345", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -1520,18 +1520,18 @@ if(false) {
 
 /***/ }),
 
-/***/ 323:
+/***/ 329:
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(382)
+__webpack_require__(389)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(118),
+  __webpack_require__(122),
   /* template */
-  __webpack_require__(358),
+  __webpack_require__(364),
   /* scopeId */
   "data-v-6fc18dbc",
   /* cssModules */
@@ -1569,7 +1569,7 @@ var content = __webpack_require__(25);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(4)("81860a04", content, false);
+var update = __webpack_require__(3)("81860a04", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -1593,7 +1593,7 @@ if(false) {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DataTable_vue__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__DataTable_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__ = __webpack_require__(5);
 //
@@ -1624,7 +1624,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			type: String,
 			default: __WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__["DATE_RANGES"].CURRENT_QUARTER,
 			validator: function validator(value) {
-				return Object.values(__WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__["DATE_RANGES"]).indexOf(value) !== -1;
+				return Object.values(__WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__["DATE_RANGES"]).includes(value);
 			}
 		}
 	},
@@ -1656,7 +1656,51 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 358:
+/***/ 36:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: {
+		value: {
+			type: Boolean,
+			required: true
+		},
+		text: {
+			type: String,
+			required: false
+		}
+	}
+};
+
+/***/ }),
+
+/***/ 364:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1762,61 +1806,17 @@ if (false) {
 
 /***/ }),
 
-/***/ 36:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = {
-	props: {
-		value: {
-			type: Boolean,
-			required: true
-		},
-		text: {
-			type: String,
-			required: false
-		}
-	}
-};
-
-/***/ }),
-
-/***/ 382:
+/***/ 389:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(225);
+var content = __webpack_require__(231);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(4)("4b5d5ad8", content, false);
+var update = __webpack_require__(3)("4b5d5ad8", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -1861,14 +1861,14 @@ if (false) {
 
 /***/ }),
 
-/***/ 391:
+/***/ 398:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__evaluations_js__ = __webpack_require__(92);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__evaluations_js__ = __webpack_require__(93);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageEvaluations", function() { return __WEBPACK_IMPORTED_MODULE_0__evaluations_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__milestones_competencies_js__ = __webpack_require__(93);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__milestones_competencies_js__ = __webpack_require__(94);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageMilestonesCompetencies", function() { return __WEBPACK_IMPORTED_MODULE_1__milestones_competencies_js__["a"]; });
 
 
@@ -1920,7 +1920,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 8:
+/***/ 6:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
@@ -1994,16 +1994,16 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 92:
+/***/ 93:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(8);
 /* harmony export (immutable) */ __webpack_exports__["a"] = createManageEvaluations;
 
 
@@ -2109,17 +2109,17 @@ function createManageEvaluations(el, propsData) {
 
 /***/ }),
 
-/***/ 93:
+/***/ 94:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_OrderingList_vue__ = __webpack_require__(323);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_OrderingList_vue__ = __webpack_require__(329);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_OrderingList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__vue_components_OrderingList_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_ShowHideButton_vue__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_ShowHideButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__vue_components_ShowHideButton_vue__);
@@ -2256,6 +2256,6 @@ function createManageMilestonesCompetencies(el, propsData) {
 
 /***/ })
 
-},[391]);
+},[398]);
 });
 //# sourceMappingURL=vue-manage.js.map

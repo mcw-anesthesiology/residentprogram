@@ -122,7 +122,22 @@
 					:subject="subject" ref="individualReports" />
 			</template>
 			<template v-else>
-				<stats-report v-if="stats" :report="stats" />
+				<stats-report v-if="subjectStats" :report="subjectStats"
+						title="Trainee evaluation statistics by trainee">
+					<p class="text-center">
+						Trainee list can be filtered by
+						<b>Trainee current training level</b>
+						above
+					</p>
+				</stats-report>
+				<stats-report v-if="evaluatorStats" :report="evaluatorStats"
+						title="Faculty evaluation statistics by trainee">
+					<p class="text-center">
+						Trainee list can be filtered by
+						<b>Trainee current training level</b>
+						above
+					</p>
+				</stats-report>
 				<aggregate-report :report="report" />
 			</template>
 		</div>
@@ -139,7 +154,11 @@ import BootstrapAlert from '../BootstrapAlert.vue';
 import SelectTwo from '../SelectTwo.vue';
 import SvgIcon from '../SvgIcon.vue';
 
-import { getFetchHeaders, fetchMilestoneGroups } from '../../modules/utils.js';
+import {
+	getFetchHeaders,
+	jsonOrThrow,
+	fetchMilestoneGroups
+} from '../../modules/utils.js';
 import { isoDateStringObject, currentQuarter } from '../../modules/date-utils.js';
 
 export default {
@@ -168,7 +187,8 @@ export default {
 			},
 
 			report: null,
-			stats: null,
+			subjectStats: null,
+			evaluatorStats: null,
 
 			milestoneGroups: []
 		};
@@ -210,7 +230,7 @@ export default {
 
 	watch: {
 		filterMilestones(shouldFilter){
-			if(shouldFilter){
+			if(shouldFilter && this.milestoneGroups.length === 0){
 				fetchMilestoneGroups().then(milestoneGroups => {
 					this.milestoneGroups = milestoneGroups;
 				});
@@ -220,9 +240,10 @@ export default {
 	computed: {
 		filteredUsers(){
 			let groupedUsers = this.currentTrainingLevel === 'all'
-				? this.groupedUsers
-				: this.groupedUsers
-					.filter(userGroup => userGroup.text.toUpperCase() === this.currentTrainingLevel.toUpperCase());
+				? this.groupedUsers.filter(userGroup =>
+					userGroup.text.toLowerCase() !== 'faculty')
+				: this.groupedUsers.filter(userGroup =>
+					userGroup.text.toLowerCase() === this.currentTrainingLevel.toLowerCase());
 			
 			return this.show.inactiveUsers
 				? groupedUsers
@@ -256,7 +277,7 @@ export default {
 			this.milestones = newMilestones;
 		},
 		runReport(){
-			const reportPromise = fetch('/report/aggregate', {
+			fetch('/report/aggregate', {
 				method: 'POST',
 				headers: getFetchHeaders(),
 				credentials: 'same-origin',
@@ -279,27 +300,31 @@ export default {
 				console.error(err);
 			});
 
-			const statsPromise = fetch('/report/stats/resident', {
+			fetch('/report/stats/trainee/trainee', {
 				method: 'POST',
 				headers: getFetchHeaders(),
 				credentials: 'same-origin',
-				body: JSON.stringify({
-					startDate: this.dates.startDate,
-					endDate: this.dates.endDate
-				})
-			}).then(response => {
-				if(response.ok)
-					return response.json();
-				let err = new Error(response.statusText);
-				err.response = response;
-				throw err;
-			}).then(stats => {
-				this.stats = Object.assign({}, this.stats, stats);
+				body: JSON.stringify(Object.assign({}, this.dates, {
+					trainingLevel: this.currentTrainingLevel
+				}))
+			}).then(jsonOrThrow).then(stats => {
+				this.subjectStats = stats;
 			}).catch(err => {
 				console.error(err);
 			});
-
-			return Promise.all([reportPromise, statsPromise]);
+			
+			fetch('/report/stats/faculty/trainee', {
+				method: 'POST',
+				headers: getFetchHeaders(),
+				credentials: 'same-origin',
+				body: JSON.stringify(Object.assign({}, this.dates, {
+					trainingLevel: this.currentTrainingLevel
+				}))
+			}).then(jsonOrThrow).then(stats => {
+				this.evaluatorStats = stats;
+			}).catch(err => {
+				console.error(err);
+			});
 		},
 		printAll(){
 			this.$refs.individualReports.map(individual => {

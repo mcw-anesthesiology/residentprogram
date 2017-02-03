@@ -92,4 +92,4 @@ Route::post('report/needs/evaluations', 'ReportController@needsEvaluations');
 Route::post('report/pending-requests', 'ReportController@pendingRequests');
 
 Route::get('report/stats/{type}', 'ReportController@stats');
-Route::post('report/stats/{type}', 'ReportController@getStats');
+Route::post('report/stats/{evaluationType}/{userType}', 'ReportController@getStats');

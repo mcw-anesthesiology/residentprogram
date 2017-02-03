@@ -3,10 +3,12 @@
 		<h3>Aggregate</h3>
 		<fieldset class="show-container">
 			<legend>Show</legend>
-			<label v-for="(part, name) of show">
-				<input type="checkbox" v-model="show[name]" />
-				{{ camelCaseToWords(name) }}
-			</label>
+			<div>
+				<label v-for="(part, name) of show">
+					<input type="checkbox" v-model="show[name]" />
+					{{ camelCaseToWords(name) }}
+				</label>
+			</div>
 		</fieldset>
 
 		<data-table id="aggregate-table" :bordered="true" :thead="tableThead"
@@ -452,8 +454,13 @@ export default {
 </script>
 
 <style scoped>
-	.show-container label + label {
-		margin-left: 2em;
+	.show-container div {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	.show-container div label {
+		margin: 0.5em 1em;
 	}
 
 	.graphs-container {

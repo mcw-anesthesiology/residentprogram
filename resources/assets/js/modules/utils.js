@@ -269,6 +269,10 @@ export function sortIgnoreCase(a, b){
 	return 0;
 }
 
+export function sortPropIgnoreCase(prop){
+	return (a, b) => sortIgnoreCase(a[prop], b[prop]);
+}
+
 export function htmlLabelReplacements(html, replacements){
 	html = html.replace(/<span class="label label-info">/g, '[[')
 		.replace(/<\/span>/g, ']]');
