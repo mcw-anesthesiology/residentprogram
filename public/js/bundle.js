@@ -17,25 +17,26 @@ return webpackJsonp([3,10],[
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_striptags__ = __webpack_require__(312);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_striptags___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_striptags__);
-/* harmony export (immutable) */ __webpack_exports__["q"] = appendAlert;
+/* harmony export (immutable) */ __webpack_exports__["r"] = appendAlert;
 /* harmony export (immutable) */ __webpack_exports__["a"] = ucfirst;
 /* harmony export (immutable) */ __webpack_exports__["b"] = camelCaseToWords;
 /* harmony export (immutable) */ __webpack_exports__["j"] = snakeCaseToWords;
 /* harmony export (immutable) */ __webpack_exports__["i"] = kebabCaseToWords;
-/* harmony export (immutable) */ __webpack_exports__["r"] = nl2br;
+/* harmony export (immutable) */ __webpack_exports__["s"] = nl2br;
 /* harmony export (immutable) */ __webpack_exports__["c"] = escapeCsv;
 /* harmony export (immutable) */ __webpack_exports__["e"] = getFetchHeaders;
 /* harmony export (immutable) */ __webpack_exports__["n"] = jsonOrThrow;
-/* harmony export (immutable) */ __webpack_exports__["o"] = fetchMilestoneGroups;
-/* harmony export (immutable) */ __webpack_exports__["s"] = fetchUserGroups;
+/* harmony export (immutable) */ __webpack_exports__["p"] = fetchMilestoneGroups;
+/* harmony export (immutable) */ __webpack_exports__["t"] = fetchUserGroups;
 /* harmony export (immutable) */ __webpack_exports__["h"] = fetchUsers;
 /* harmony export (immutable) */ __webpack_exports__["f"] = groupUsers;
-/* harmony export (immutable) */ __webpack_exports__["t"] = fetchForms;
+/* harmony export (immutable) */ __webpack_exports__["u"] = fetchForms;
 /* harmony export (immutable) */ __webpack_exports__["m"] = fetchFormGroups;
 /* harmony export (immutable) */ __webpack_exports__["g"] = groupForms;
-/* harmony export (immutable) */ __webpack_exports__["p"] = sortSelect2Objects;
+/* harmony export (immutable) */ __webpack_exports__["q"] = sortSelect2Objects;
 /* harmony export (immutable) */ __webpack_exports__["k"] = sortNumbers;
 /* harmony export (immutable) */ __webpack_exports__["d"] = sortIgnoreCase;
+/* harmony export (immutable) */ __webpack_exports__["o"] = sortPropIgnoreCase;
 /* harmony export (immutable) */ __webpack_exports__["l"] = htmlLabelReplacements;
 
 
@@ -340,6 +341,12 @@ function sortIgnoreCase(a, b) {
 	return 0;
 }
 
+function sortPropIgnoreCase(prop) {
+	return function (a, b) {
+		return sortIgnoreCase(a[prop], b[prop]);
+	};
+}
+
 function htmlLabelReplacements(html, replacements) {
 	html = html.replace(/<span class="label label-info">/g, '[[').replace(/<\/span>/g, ']]');
 
@@ -501,7 +508,8 @@ function allTime() {
 
 /***/ }),
 /* 6 */,
-/* 7 */
+/* 7 */,
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -654,7 +662,7 @@ function renderIdToEvalUrl(id) {
 }
 
 function renderSubjectEvalUrl(url, type, evaluation) {
-	if (['sort', 'type'].indexOf(type) !== -1) {
+	if (['sort', 'type'].includes(type)) {
 		if (evaluation.seen_by_subject_at) {
 			return evaluation.id;
 		} else {
@@ -666,7 +674,7 @@ function renderSubjectEvalUrl(url, type, evaluation) {
 }
 
 function renderEvaluatorEvalUrl(url, type, evaluation) {
-	if (['sort', 'type'].indexOf(type) !== -1) {
+	if (['sort', 'type'].includes(type)) {
 		if (evaluation.seen_by_evaluator_at) {
 			return evaluation.id;
 		} else {
@@ -696,13 +704,12 @@ function getDataAttributes(thing) {
 
 	var dataAttributes = '';
 	Object.getOwnPropertyNames(thing).forEach(function (propName) {
-		if (!(excludes.indexOf(propName) !== -1) && thing[propName] != null) dataAttributes += 'data-' + propName + '="' + thing[propName] + '" ';
+		if (!excludes.includes(propName) && thing[propName] != null) dataAttributes += 'data-' + propName + '="' + thing[propName] + '" ';
 	});
 	return dataAttributes;
 }
 
 /***/ }),
-/* 8 */,
 /* 9 */,
 /* 10 */,
 /* 11 */
@@ -788,7 +795,7 @@ module.exports = !__webpack_require__(48)(function(){
 "use strict";
 
 
-var uri = __webpack_require__(79);
+var uri = __webpack_require__(80);
 
 var ValidationError = exports.ValidationError = function ValidationError (message, instance, schema, propertyPath, name, argument) {
   if (propertyPath) {
@@ -1302,7 +1309,8 @@ module.exports = function(it){
 /* 52 */,
 /* 53 */,
 /* 54 */,
-/* 55 */
+/* 55 */,
+/* 56 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -1330,7 +1338,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -1387,11 +1395,11 @@ window.Chart = module.exports = Chart;
 
 
 /***/ }),
-/* 57 */,
-/* 58 */
+/* 58 */,
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global    = __webpack_require__(59)
+var global    = __webpack_require__(60)
   , core      = __webpack_require__(42)
   , ctx       = __webpack_require__(197)
   , hide      = __webpack_require__(201)
@@ -1454,7 +1462,7 @@ $export.R = 128; // real proto method for `library`
 module.exports = $export;
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports) {
 
 // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
@@ -1463,7 +1471,7 @@ var global = module.exports = typeof window != 'undefined' && window.Math == Mat
 if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = !__webpack_require__(34) && !__webpack_require__(48)(function(){
@@ -1471,12 +1479,12 @@ module.exports = !__webpack_require__(34) && !__webpack_require__(48)(function()
 });
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject       = __webpack_require__(195)
-  , IE8_DOM_DEFINE = __webpack_require__(60)
-  , toPrimitive    = __webpack_require__(64)
+  , IE8_DOM_DEFINE = __webpack_require__(61)
+  , toPrimitive    = __webpack_require__(65)
   , dP             = Object.defineProperty;
 
 exports.f = __webpack_require__(34) ? Object.defineProperty : function defineProperty(O, P, Attributes){
@@ -1492,7 +1500,7 @@ exports.f = __webpack_require__(34) ? Object.defineProperty : function definePro
 };
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports) {
 
 module.exports = function(bitmap, value){
@@ -1505,7 +1513,7 @@ module.exports = function(bitmap, value){
 };
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // to indexed object, toObject with fallback for non-array-like ES3 strings
@@ -1516,7 +1524,7 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.1 ToPrimitive(input [, PreferredType])
@@ -1533,7 +1541,6 @@ module.exports = function(it, S){
 };
 
 /***/ }),
-/* 65 */,
 /* 66 */,
 /* 67 */,
 /* 68 */,
@@ -1543,7 +1550,8 @@ module.exports = function(it, S){
 /* 72 */,
 /* 73 */,
 /* 74 */,
-/* 75 */
+/* 75 */,
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/punycode v1.4.1 by @mathias */
@@ -2079,13 +2087,13 @@ module.exports = function(it, S){
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(55)(module), __webpack_require__(40)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(56)(module), __webpack_require__(40)))
 
 /***/ }),
-/* 76 */,
 /* 77 */,
 /* 78 */,
-/* 79 */
+/* 79 */,
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2112,7 +2120,7 @@ module.exports = function(it, S){
 
 
 
-var punycode = __webpack_require__(75);
+var punycode = __webpack_require__(76);
 var util = __webpack_require__(318);
 
 exports.parse = urlParse;
@@ -2824,7 +2832,6 @@ Url.prototype.parseHost = function() {
 
 
 /***/ }),
-/* 80 */,
 /* 81 */,
 /* 82 */,
 /* 83 */,
@@ -2849,7 +2856,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "generateCaseLogDetailsReport", function() { return __WEBPACK_IMPORTED_MODULE_0__case_log_details_schema_js__["c"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "generateCaseLogDetailsReportCharts", function() { return __WEBPACK_IMPORTED_MODULE_0__case_log_details_schema_js__["d"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "generateCaseLogLocationReportTable", function() { return __WEBPACK_IMPORTED_MODULE_0__case_log_details_schema_js__["e"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__ = __webpack_require__(8);
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "unlimitTableEvals", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["l"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "unlimitRestTableEvals", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["m"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "createDateCell", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["j"]; });
@@ -2869,25 +2876,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "createEditAndDeleteButtons", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["q"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "getDataAttributes", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["r"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js__ = __webpack_require__(2);
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "appendAlert", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["q"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "appendAlert", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["r"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ucfirst", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["a"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "camelCaseToWords", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["b"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "snakeCaseToWords", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["j"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "kebabCaseToWords", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["i"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "nl2br", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["r"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "nl2br", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["s"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "escapeCsv", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["c"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "getFetchHeaders", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["e"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "jsonOrThrow", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["n"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchMilestoneGroups", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["o"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchUserGroups", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["s"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchMilestoneGroups", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["p"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchUserGroups", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["t"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchUsers", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["h"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "groupUsers", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["f"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchForms", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["t"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchForms", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["u"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchFormGroups", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["m"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "groupForms", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["g"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortSelect2Objects", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["p"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortSelect2Objects", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["q"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortNumbers", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["k"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortIgnoreCase", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["d"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortPropIgnoreCase", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["o"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "htmlLabelReplacements", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["l"]; });
 
 
@@ -3411,7 +3419,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_chart_js__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jsonschema__ = __webpack_require__(246);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jsonschema___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_jsonschema__);
@@ -3491,7 +3499,7 @@ function renderCaseLogDetailsSchema(schema, responses) {
 					checkbox.type = 'checkbox';
 					checkbox.name = 'details[' + name + '][]';
 					checkbox.value = input.value || input.label;
-					if (responses && responses[name] && responses[name].indexOf(checkbox.value) !== -1) checkbox.checked = true;
+					if (responses && responses[name] && responses[name].includes(checkbox.value)) checkbox.checked = true;
 					if (responses) checkbox.readonly = true;
 					label.appendChild(checkbox);
 					label.appendChild(document.createTextNode(input.label));
@@ -3570,7 +3578,7 @@ function generateCaseLogDetailsReportCharts(report, name, container) {
 		for (var _iterator = container.querySelectorAll('row')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 			var section = _step.value;
 
-			if (!section.hasAttribute('data-report-group-name') || !(reportGroupNames.indexOf(section.getAttribute('data-report-group-name')) !== -1)) container.removeChild(section);
+			if (!section.hasAttribute('data-report-group-name') || !reportGroupNames.includes(section.getAttribute('data-report-group-name'))) container.removeChild(section);
 		}
 	} catch (err) {
 		_didIteratorError = true;
@@ -3588,7 +3596,7 @@ function generateCaseLogDetailsReportCharts(report, name, container) {
 	}
 
 	for (var chartName in charts) {
-		if (!(reportGroupNames.indexOf(chartName) !== -1)) {
+		if (!reportGroupNames.includes(chartName)) {
 			charts[chartName].destroy();
 			delete charts[chartName];
 		}
@@ -15513,7 +15521,7 @@ module.exports = function(it){
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(49)
-  , document = __webpack_require__(59).document
+  , document = __webpack_require__(60).document
   // in old IE typeof document.createElement is 'object'
   , is = isObject(document) && isObject(document.createElement);
 module.exports = function(it){
@@ -15533,8 +15541,8 @@ module.exports = function(it, key){
 /* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var dP         = __webpack_require__(61)
-  , createDesc = __webpack_require__(62);
+var dP         = __webpack_require__(62)
+  , createDesc = __webpack_require__(63);
 module.exports = __webpack_require__(34) ? function(object, key, value){
   return dP.f(object, key, createDesc(1, value));
 } : function(object, key, value){
@@ -15557,11 +15565,11 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
 /***/ (function(module, exports, __webpack_require__) {
 
 var pIE            = __webpack_require__(204)
-  , createDesc     = __webpack_require__(62)
-  , toIObject      = __webpack_require__(63)
-  , toPrimitive    = __webpack_require__(64)
+  , createDesc     = __webpack_require__(63)
+  , toIObject      = __webpack_require__(64)
+  , toPrimitive    = __webpack_require__(65)
   , has            = __webpack_require__(200)
-  , IE8_DOM_DEFINE = __webpack_require__(60)
+  , IE8_DOM_DEFINE = __webpack_require__(61)
   , gOPD           = Object.getOwnPropertyDescriptor;
 
 exports.f = __webpack_require__(34) ? gOPD : function getOwnPropertyDescriptor(O, P){
@@ -15584,7 +15592,7 @@ exports.f = {}.propertyIsEnumerable;
 /***/ (function(module, exports, __webpack_require__) {
 
 // most Object methods by ES6 should accept primitives
-var $export = __webpack_require__(58)
+var $export = __webpack_require__(59)
   , core    = __webpack_require__(42)
   , fails   = __webpack_require__(48);
 module.exports = function(KEY, exec){
@@ -15598,16 +15606,16 @@ module.exports = function(KEY, exec){
 /* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var $export = __webpack_require__(58);
+var $export = __webpack_require__(59);
 // 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
-$export($export.S + $export.F * !__webpack_require__(34), 'Object', {defineProperty: __webpack_require__(61).f});
+$export($export.S + $export.F * !__webpack_require__(34), 'Object', {defineProperty: __webpack_require__(62).f});
 
 /***/ }),
 /* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
-var toIObject                 = __webpack_require__(63)
+var toIObject                 = __webpack_require__(64)
   , $getOwnPropertyDescriptor = __webpack_require__(203).f;
 
 __webpack_require__(205)('getOwnPropertyDescriptor', function(){
@@ -16571,7 +16579,7 @@ module.exports.validate = function (instance, schema, options) {
 "use strict";
 
 
-var urilib = __webpack_require__(79);
+var urilib = __webpack_require__(80);
 
 var attribute = __webpack_require__(245);
 var helpers = __webpack_require__(35);
@@ -18107,7 +18115,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 }).call(this);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(55)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(56)(module)))
 
 /***/ }),
 /* 316 */,

@@ -1,38 +1,44 @@
 <template>
 	<div class="container body-block">
 		<h3>{{ title }}</h3>
-		<fieldset class="show-container">
-			<legend>Show</legend>
-			<label v-for="field of availableFields">
-				<input type="checkbox" :value="show[field]"
-					@change="show = Object.assign({}, show, {[field]: !show[field]})"/>
-				{{ camelCaseToWords(field) }}
-			</label>
-		</fieldset>
-		<div class="row">
-			<div class="col-md-6">
-				<label class="containing-label">
-					Table height
-					<select class="form-control" v-model="tableHeight">
-						<option :value="false">Full size</option>
-						<option value="500px">Fixed</option>
-					</select>
-				</label>
-			</div>
-			<div class="col-md-6">
-				<label class="containing-label">
-					Chart height
-					<select class="form-control" v-model="chartHeight">
-						<option :value="false">Full size</option>
-						<option value="625px">Fixed</option>
-					</select>
-				</label>
+		<div class="controls">
+			<fieldset class="show-container">
+				<legend>Show</legend>
+				<div>
+					<label v-for="field of availableFields">
+						<input type="checkbox" :value="show[field]"
+							@change="show = Object.assign({}, show, {[field]: !show[field]})"/>
+						{{ camelCaseToWords(field) }}
+					</label>
+				</div>
+			</fieldset>
+			<div class="row">
+				<div class="col-md-6">
+					<label class="containing-label">
+						Table height
+						<select class="form-control" v-model="tableHeight">
+							<option :value="false">Full size</option>
+							<option value="500px">Fixed</option>
+						</select>
+					</label>
+				</div>
+				<div class="col-md-6">
+					<label class="containing-label">
+						Chart height
+						<select class="form-control" v-model="chartHeight">
+							<option :value="false">Full size</option>
+							<option value="625px">Fixed</option>
+						</select>
+					</label>
+				</div>
 			</div>
 		</div>
 		
+		<slot></slot>
+		
 		<alert-list v-model="alerts" />
 		
-		<button type="button" class="btn btn-primary center-block"
+		<button type="button" class="export-button btn btn-primary center-block"
 				@click="exportPdf">
 			Export PDF
 			<svg-icon src="/img/icons/pdf.svg" />
@@ -41,44 +47,40 @@
 		<div class="stats-report-container">
 			<div v-if="show.ratios">
 				<h3>Ratios</h3>
-				<data-table id="stats-ratios" :bordered="true"
-					:thead="ratiosThead" :config="listTableConfig"
-					:data="ratiosData" />
+				<data-table :bordered="true" :thead="ratiosThead"
+					:config="listTableConfig" :data="ratiosData" />
 			</div>
 			<div v-if="show.ratios && show.graphs">
 				<h3>Ratios</h3>
 				<div class="list-chart-container-container"
 						:style="listChartContainerContainerStyle">
 					<div class="list-chart-container" :style="listChartContainerStyle">
-						<chartjs-chart id="chart-ratios" type="horizontalBar"
+						<chartjs-chart type="horizontalBar"
 							:data="ratiosGraphData" :options="listChartConfig" />
 					</div>
 				</div>
 			</div>
 			<div v-if="show.noRequests">
 				<h3>No requests</h3>
-				<data-table id="stats-no-requests" :bordered="true"
-					:thead="noRequestsThead" :config="listTableConfig"
-					:data="noRequestsData" />
+				<data-table :bordered="true" :thead="noRequestsThead"
+					:config="listTableConfig" :data="noRequestsData" />
 			</div>
 			<div v-if="show.noneCompleted">
 				<h3>None completed</h3>
-				<data-table id="stats-none-completed" :bordered="true"
-					:thead="noneCompletedThead" :config="listTableConfig"
-					:data="noneCompletedData" />
+				<data-table :bordered="true" :thead="noneCompletedThead"
+					:config="listTableConfig" :data="noneCompletedData" />
 			</div>
 			<div v-if="show.averageCompletionTimes">
 				<h3>Average completion times</h3>
-				<data-table id="stats-average-completion-times" :bordered="true"
+				<data-table :bordered="true"
 					:thead="averageCompletionTimesThead"
 					:config="averageCompletionTimesConfig"
 					:data="averageCompletionTimesData" />
 			</div>
 			<div v-if="show.lastCompleted">
 				<h3>Last completed evaluations</h3>
-				<data-table id="stats-last-completed" :bordered="true"
-					:thead="lastCompletedThead" :config="lastCompletedConfig"
-					:data="lastCompletedData" />
+				<data-table :bordered="true" :thead="lastCompletedThead"
+					:config="lastCompletedConfig" :data="lastCompletedData" />
 			</div>
 		</div>
 	</div>
@@ -93,7 +95,7 @@ import DataTable from '../DataTable.vue';
 import SvgIcon from '../SvgIcon.vue';
 
 import { CHART_COLORS } from '../../modules/constants.js';
-import { camelCaseToWords } from '../../modules/utils.js';
+import { camelCaseToWords, sortPropIgnoreCase } from '../../modules/utils.js';
 import {
 	createDateCell,
 	renderDateCell,
@@ -193,20 +195,18 @@ export default {
 			]];
 		},
 		ratiosData(){
-			let data = [];
-			for(let stat of this.report.userStats){
-				data.push([
-					stat.name,
-					stat.requested,
-					stat.totalRequests,
-					stat.completed,
-					stat.ratio
-						? `${stat.ratio}%`
-						: ''
-				]);
-			}
-
-			return data;
+			if(!this.report.userStats || this.report.userStats.length === 0)
+				return [];
+			
+			return this.report.userStats.map(stat => [
+				stat.name,
+				stat.requested,
+				stat.totalRequests,
+				stat.completed,
+				stat.ratio
+					? `${stat.ratio}%`
+					: ''
+			]);
 		},
 		ratiosGraphData(){
 			let color = Color(CHART_COLORS.OTHER[0]);
@@ -234,6 +234,9 @@ export default {
 			];
 		},
 		noRequestsData(){
+			if(!this.report.noneRequested || this.report.noneRequested.length === 0)
+				return [];
+
 			return this.report.noneRequested.map(name => [name]);
 		},
 		noneCompletedThead(){
@@ -242,6 +245,9 @@ export default {
 			];
 		},
 		noneCompletedData(){
+			if(!this.report.noneCompleted || this.report.noneCompleted.length === 0)
+				return [];
+
 			return this.report.noneCompleted.map(name => [name]);
 		},
 		averageCompletionTimesThead(){
@@ -257,11 +263,12 @@ export default {
 				scrollCollapse: true,
 				paging: false,
 				columns: [
-					null,
+					{ data: 'name' },
 					{
+						data: 'time',
 						render(time, type, obj){
 							if(['sort', 'type'].includes(type))
-								return obj.epoch;
+								return obj.timespan;
 
 							let [days, hours, minutes] = time.split(', ');
 							return [
@@ -279,10 +286,7 @@ export default {
 			};
 		},
 		averageCompletionTimesData(){
-			return this.report.averageCompletionTimes.map(obj => [
-				obj.name,
-				obj.time
-			]);
+			return this.report.averageCompletionTimes || [];
 		},
 		lastCompletedThead(){
 			return [
@@ -310,6 +314,9 @@ export default {
 			};
 		},
 		lastCompletedData(){
+			if(!this.report.lastCompleted || this.report.lastCompleted.length === 0)
+				return [];
+
 			return this.report.lastCompleted.map(obj => [
 				obj.name,
 				obj.evaluation.complete_date,
@@ -336,7 +343,7 @@ export default {
 				const filename = `${this.title} - ${new Date().toLocaleString()}`;
 				
 				let content = [
-					{ text: this.title, style: 'heading' },
+					{ text: this.title, style: 'title' },
 					{
 						table: {
 							headerRows: 1,
@@ -351,64 +358,97 @@ export default {
 										: this.report.endDate,
 								]
 							]
-						}
+						},
+						style: 'table'
 					}
 				];
 				
 				if(this.ratiosData.length > 0)
 					content.push({
+						text: 'Ratios',
+						style: 'heading'
+					},
+					{
 						table: {
 							headerRows: 1,
 							body: JSON.parse(JSON.stringify([
 								this.ratiosThead[0].map(tableHeader),
-								...this.ratiosData
+								...this.ratiosData.sort(sortPropIgnoreCase(0))
 							]))
-						}
+						},
+						style: 'table'
 					});
 					
 				if(this.noRequestsData.length > 0)
 					content.push({
+						text: 'No requests',
+						style: 'heading',
+						pageBreak: 'before'
+					},
+					{
 						table: {
 							headerRows: 1,
 							body: JSON.parse(JSON.stringify([
 								this.noRequestsThead[0].map(tableHeader),
-								...this.noRequestsData
+								...this.noRequestsData.sort(sortPropIgnoreCase(0))
 							]))
-						}
+						},
+						style: 'table'
 					});
 					
 				if(this.noneCompletedData.length > 0)
 					content.push({
+						text: 'None completed',
+						style: 'heading',
+						pageBreak: 'before'
+					},
+					{
 						table: {
 							headerRows: 1,
 							body: JSON.parse(JSON.stringify([
 								this.noneCompletedThead[0].map(tableHeader),
-								...this.noneCompletedData
+								...this.noneCompletedData.sort(sortPropIgnoreCase(0))
 							]))
-						}
+						},
+						style: 'table'
 					});
 					
 				if(this.lastCompletedData.length > 0)
 					content.push({
+						text: 'Last completed evaluation',
+						style: 'heading',
+						pageBreak: 'before'
+					},
+					{
 						table: {
 							headerRows: 1,
 							body: JSON.parse(JSON.stringify([
 								this.lastCompletedThead[0].map(tableHeader),
-								...this.lastCompletedData
+								...this.lastCompletedData.sort(sortPropIgnoreCase(0))
 							]))
-						}
+						},
+						style: 'table'
 					});
 					
 				if(this.report.statsType === 'evaluator'
 						&& this.averageCompletionTimesData.length > 0)
 					content.push({
+						text: 'Average completion time',
+						style: 'heading',
+						pageBreak: 'before'
+					},
+					{
 						table: {
 							headerRows: 1,
 							body: JSON.parse(JSON.stringify([
 								this.averageCompletionTimesThead[0].map(tableHeader),
-								...this.averageCompletionTimesData
+								...this.averageCompletionTimesData.map(obj => [
+									obj.name,
+									obj.time
+								]).sort(sortPropIgnoreCase(0))
 							]))
-						}
+						},
+						style: 'table'
 					});
 					
 				// TODO: Chart, improved styling
@@ -417,14 +457,22 @@ export default {
 					pageSize: 'LETTER',
 					content,
 					styles: {
+						title: {
+							bold: true,
+							fontSize: 24,
+							margin: [0, 20, 0, 10]
+						},
 						heading: {
 							bold: true,
 							fontSize: 20,
-							margin: [0, 20, 0, 10]
+							margin: [0, 10, 0, 5]
 						},
 						tableHeader: {
 							bold: true,
 							fontSize: 14
+						},
+						table: {
+							margin: [0, 20]
 						}
 					}
 				};
@@ -449,8 +497,17 @@ export default {
 </script>
 
 <style scoped>
-	.show-container label + label {
-		margin-left: 2em;
+	.show-container div {
+		display: flex;
+		flex-wrap: wrap;
+	}
+	
+	.show-container div label {
+		margin: 0.5em 1em;
+	}
+	
+	.controls {
+		margin-bottom: 2em;
 	}
 
 	.stats-report-container {
@@ -471,6 +528,10 @@ export default {
 	.list-chart-container-container {
 		overflow: auto;
 	}
+	
+	.export-button {
+		margin-top: 2em;
+	}
 </style>
 
 <style>
@@ -479,11 +540,11 @@ export default {
 	}
 
 	.time-period-cell b {
-		width: 4.5em;
+		width: 5em;
 		margin-right: 0;
 	}
 	
 	.time-period-cell span {
-		margin-right: 0.5em;
+		margin-right: 1em;
 	}
 </style>

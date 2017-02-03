@@ -76,7 +76,12 @@ class ReportController extends Controller
                     break;
 				case "trainee":
                 case "resident":
-                    $users = User::where("status", "active")->where("type", "resident")->where("training_level", "!=", "fellow")->with("subjectEvaluations.form")->get();
+                    $users = User::where("status", "active")->where("type", "resident");
+					if($request->has('trainingLevel') && $request->input('trainingLevel') != 'all')
+						$users->where('training_level', $request->input('trainingLevel'));
+					elseif($userType == 'resident')
+						$users->where("training_level", "!=", "fellow");
+					$users = $users->with("subjectEvaluations.form")->get();
                     break;
                 case "fellow":
                     $users = User::where("status", "active")->where("type", "resident")->where("training_level", "fellow")->with("subjectEvaluations.form")->get();
@@ -162,12 +167,11 @@ class ReportController extends Controller
 	                    $d1 = new DateTime();
 	                    $d2 = new DateTime();
 	                    $d2->add(new DateInterval("PT".$time."S"));
-						$diff = $d2->diff($d1);
 						$times[] = [
 							"name" => $user->full_name,
-							"time" => $diff
-								->format("%a days, %H hours, %i minutes"),
-							"epoch" => $diff->format('%U')
+							"time" => $d2->diff($d1)
+								->format("%a days, %h hours, %i minutes"),
+							"timespan" => $time
 						];
 					}
                 }
