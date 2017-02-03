@@ -29,6 +29,14 @@
 				</label>
 			</div>
 		</div>
+		
+		<alert-list v-model="alerts" />
+		
+		<button type="button" class="btn btn-primary center-block"
+				@click="exportPdf">
+			Export PDF
+			<svg-icon src="/img/icons/pdf.svg" />
+		</button>
 
 		<div class="stats-report-container">
 			<div v-if="show.ratios">
@@ -79,12 +87,19 @@
 <script>
 import Color from 'color';
 
+import AlertList from '../AlertList.vue';
 import ChartjsChart from '../ChartjsChart.vue';
 import DataTable from '../DataTable.vue';
+import SvgIcon from '../SvgIcon.vue';
 
 import { CHART_COLORS } from '../../modules/constants.js';
 import { camelCaseToWords } from '../../modules/utils.js';
-import { createDateCell, renderDateCell } from '../../modules/datatable-utils.js';
+import {
+	createDateCell,
+	renderDateCell,
+	renderIdToEvalUrl
+} from '../../modules/datatable-utils.js';
+import { tableHeader } from '../../modules/report-utils.js';
 
 export default {
 	props: {
@@ -108,7 +123,9 @@ export default {
 				lastCompleted: false
 			},
 			tableHeight: '500px',
-			chartHeight: '625px'
+			chartHeight: '625px',
+			
+			alerts: []
 		};
 	},
 	computed: {
@@ -125,11 +142,6 @@ export default {
 				fields.push('averageCompletionTimes');
 				
 			return fields;
-		},
-		listTableClass(){
-			return {
-				'col-md-6': true
-			};
 		},
 		listTableConfig(){
 			return {
@@ -245,9 +257,8 @@ export default {
 				scrollCollapse: true,
 				paging: false,
 				columns: [
-					{data: 'name'},
+					null,
 					{
-						data: 'time',
 						render(time, type, obj){
 							if(['sort', 'type'].includes(type))
 								return obj.epoch;
@@ -268,7 +279,10 @@ export default {
 			};
 		},
 		averageCompletionTimesData(){
-			return this.report.averageCompletionTimes;
+			return this.report.averageCompletionTimes.map(obj => [
+				obj.name,
+				obj.time
+			]);
 		},
 		lastCompletedThead(){
 			return [
@@ -283,21 +297,24 @@ export default {
 				scrollCollapse: true,
 				paging: false,
 				columns: [
-					{data: 'name'},
+					null,
 					{
-						data: 'evaluation.complete_date',
 						render: renderDateCell,
 						createdCell: createDateCell
 					},
 					{
-						data: 'evaluation.url'
+						render: renderIdToEvalUrl
 					}
 				],
 				fixedHeader: true
 			};
 		},
 		lastCompletedData(){
-			return this.report.lastCompleted;
+			return this.report.lastCompleted.map(obj => [
+				obj.name,
+				obj.evaluation.complete_date,
+				obj.evaluation.id
+			]);
 		}
 	},
 	watch: {
@@ -308,11 +325,125 @@ export default {
 		}
 	},
 	methods: {
-		camelCaseToWords
+		camelCaseToWords,
+		exportPdf(){
+			Promise.all([
+				import('pdfmake/build/pdfmake.js'),
+				import('../../vfs_fonts.json')
+			]).then(([pdfmake, vfs]) => {
+				pdfmake.vfs = vfs;
+				
+				const filename = `${this.title} - ${new Date().toLocaleString()}`;
+				
+				let content = [
+					{ text: this.title, style: 'heading' },
+					{
+						table: {
+							headerRows: 1,
+							body: [
+								['Start date', 'End date'].map(tableHeader),
+								[
+									this.report.startDate.date
+										? this.report.startDate.date.split(' ')[0]
+										: this.report.startDate,
+									this.report.endDate.date
+										? this.report.endDate.date.split(' ')[0]
+										: this.report.endDate,
+								]
+							]
+						}
+					}
+				];
+				
+				if(this.ratiosData.length > 0)
+					content.push({
+						table: {
+							headerRows: 1,
+							body: JSON.parse(JSON.stringify([
+								this.ratiosThead[0].map(tableHeader),
+								...this.ratiosData
+							]))
+						}
+					});
+					
+				if(this.noRequestsData.length > 0)
+					content.push({
+						table: {
+							headerRows: 1,
+							body: JSON.parse(JSON.stringify([
+								this.noRequestsThead[0].map(tableHeader),
+								...this.noRequestsData
+							]))
+						}
+					});
+					
+				if(this.noneCompletedData.length > 0)
+					content.push({
+						table: {
+							headerRows: 1,
+							body: JSON.parse(JSON.stringify([
+								this.noneCompletedThead[0].map(tableHeader),
+								...this.noneCompletedData
+							]))
+						}
+					});
+					
+				if(this.lastCompletedData.length > 0)
+					content.push({
+						table: {
+							headerRows: 1,
+							body: JSON.parse(JSON.stringify([
+								this.lastCompletedThead[0].map(tableHeader),
+								...this.lastCompletedData
+							]))
+						}
+					});
+					
+				if(this.report.statsType === 'evaluator'
+						&& this.averageCompletionTimesData.length > 0)
+					content.push({
+						table: {
+							headerRows: 1,
+							body: JSON.parse(JSON.stringify([
+								this.averageCompletionTimesThead[0].map(tableHeader),
+								...this.averageCompletionTimesData
+							]))
+						}
+					});
+					
+				// TODO: Chart, improved styling
+				
+				const docDefinition = {
+					pageSize: 'LETTER',
+					content,
+					styles: {
+						heading: {
+							bold: true,
+							fontSize: 20,
+							margin: [0, 20, 0, 10]
+						},
+						tableHeader: {
+							bold: true,
+							fontSize: 14
+						}
+					}
+				};
+				
+				pdfmake.createPdf(docDefinition).download(filename);
+			}).catch(err => {
+				console.error(err);
+				this.alerts.push({
+					type: 'error',
+					html: `<strong>Error:</strong> There was a problem exporting the ${this.title} PDF`
+				});
+			});
+		}
 	},
 	components: {
+		AlertList,
 		ChartjsChart,
-		DataTable
+		DataTable,
+		SvgIcon
 	}
 };
 </script>

@@ -1260,7 +1260,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 388:
+/***/ 392:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1425,6 +1425,6 @@ function createManageEvaluations(el, propsData) {
 
 /***/ })
 
-},[388]);
+},[392]);
 });
 //# sourceMappingURL=vue-manage.js.map
