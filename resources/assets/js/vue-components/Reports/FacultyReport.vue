@@ -57,7 +57,7 @@ export default {
 	
 	methods: {
 		runReport(){
-			fetch('/report/stats/faculty', {
+			fetch('/report/stats/trainee/faculty', {
 				method: 'POST',
 				headers: getFetchHeaders(),
 				credentials: 'same-origin',
