@@ -99,7 +99,8 @@ import { camelCaseToWords, sortPropIgnoreCase } from '../../modules/utils.js';
 import {
 	createDateCell,
 	renderDateCell,
-	renderIdToEvalUrl
+	renderIdToEvalUrl,
+	renderTrainingLevel
 } from '../../modules/datatable-utils.js';
 import { tableHeader } from '../../modules/report-utils.js';
 
@@ -342,21 +343,29 @@ export default {
 				
 				const filename = `${this.title} - ${new Date().toLocaleString()}`;
 				
+				let reportParamHeader = ['Start date', 'End date'];
+				let reportParamBody = [
+					this.report.startDate.date
+						? this.report.startDate.date.split(' ')[0]
+						: this.report.startDate,
+					this.report.endDate.date
+						? this.report.endDate.date.split(' ')[0]
+						: this.report.endDate,
+				];
+				
+				if(this.report.trainingLevel){
+					reportParamHeader.push('Training level');
+					reportParamBody.push(renderTrainingLevel(this.report.trainingLevel));
+				}
+				
 				let content = [
 					{ text: this.title, style: 'title' },
 					{
 						table: {
 							headerRows: 1,
 							body: [
-								['Start date', 'End date'].map(tableHeader),
-								[
-									this.report.startDate.date
-										? this.report.startDate.date.split(' ')[0]
-										: this.report.startDate,
-									this.report.endDate.date
-										? this.report.endDate.date.split(' ')[0]
-										: this.report.endDate,
-								]
+								reportParamHeader.map(tableHeader),
+								reportParamBody
 							]
 						},
 						style: 'table'

@@ -193,6 +193,9 @@ class ReportController extends Controller
 			"userStats", "statEvalData", "startDate", "endDate");
         if($statsType == 'evaluator')
             $data["averageCompletionTimes"] = $times;
+			
+		if(in_array($userType, ['trainee', 'resident']) && $request->has('trainingLevel'))
+			$data['trainingLevel'] = $request->input('trainingLevel');
 
 		return $data;
     }
