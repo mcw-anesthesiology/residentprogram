@@ -45,7 +45,7 @@
 									<label>
 										<input type="checkbox"
 												:value="child.id"
-												v-model="milestones" />
+												v-model="milestonesFilter" />
 										{{ child.text }}
 									</label>
 								</div>
@@ -54,6 +54,8 @@
 					</div>
 				</div>
 			</fieldset>
+			
+			<alert-list v-model="alerts" />
 
 			<div class="btn-lg-submit-container">
 				<button type="button" class="btn btn-lg btn-primary"
@@ -138,7 +140,8 @@
 						above
 					</p>
 				</stats-report>
-				<aggregate-report :report="report" />
+				<aggregate-report :report="report"
+					:milestones="milestones" :competencies="competencies" />
 			</template>
 		</div>
 	</div>
@@ -150,6 +153,7 @@ import IndividualReport from './IndividualReport.vue';
 import StartEndDate from '../StartEndDate.vue';
 import StatsReport from './StatsReport.vue';
 import TrainingLevelSelect from './TrainingLevelSelect.vue';
+import AlertList from '../AlertList.vue';
 import BootstrapAlert from '../BootstrapAlert.vue';
 import SelectTwo from '../SelectTwo.vue';
 import SvgIcon from '../SvgIcon.vue';
@@ -157,7 +161,9 @@ import SvgIcon from '../SvgIcon.vue';
 import {
 	getFetchHeaders,
 	jsonOrThrow,
-	fetchMilestoneGroups
+	fetchMilestones,
+	groupMilestones,
+	fetchCompetencies
 } from '../../modules/utils.js';
 import { isoDateStringObject, currentQuarter } from '../../modules/date-utils.js';
 
@@ -179,7 +185,7 @@ export default {
 			currentTrainingLevel: 'all',
 			traineeId: null,
 			filterMilestones: false,
-			milestones: [],
+			milestonesFilter: [],
 			multipleTrainees: false,
 
 			show: {
@@ -190,10 +196,33 @@ export default {
 			subjectStats: null,
 			evaluatorStats: null,
 
-			milestoneGroups: []
+			milestones: [],
+			competencies: [],
+			
+			alerts: []
 		};
 	},
 	mounted(){
+		fetchMilestones().then(milestones => {
+			this.milestones = milestones;
+		}).catch(err => {
+			console.log(err);
+			this.alerts.push({
+				type: 'error',
+				html: '<strong>Error:</strong> There was a problem fetching milestones'
+			});
+		});
+		
+		fetchCompetencies().then(competencies => {
+			this.competencies = competencies;
+		}).catch(err => {
+			console.log(err);
+			this.alerts.push({
+				type: 'error',
+				html: '<strong>Error:</strong> There was a problem fetching competencies'
+			});
+		});
+		
 		$(this.$refs.currentTrainingLevelHintGlyph).popover({
 			title: 'Current training level',
 			content: `
@@ -228,16 +257,10 @@ export default {
 		});
 	},
 
-	watch: {
-		filterMilestones(shouldFilter){
-			if(shouldFilter && this.milestoneGroups.length === 0){
-				fetchMilestoneGroups().then(milestoneGroups => {
-					this.milestoneGroups = milestoneGroups;
-				});
-			}
-		}
-	},
 	computed: {
+		milestoneGroups(){
+			return groupMilestones(this.milestones);
+		},
 		filteredUsers(){
 			let groupedUsers = this.currentTrainingLevel === 'all'
 				? this.groupedUsers.filter(userGroup =>
@@ -263,18 +286,18 @@ export default {
 		isEntireMilestoneGroupSelected(index){
 			let groupIds = this.milestoneGroups[index].children.map(child => child.id);
 			return groupIds.every(id => {
-				return this.milestones.includes(id);
+				return this.milestonesFilter.includes(id);
 			});
 		},
 		toggleEntireMilestoneGroup(index){
 			let groupIds = this.milestoneGroups[index].children.map(child => child.id);
-			let newMilestones = this.milestones.filter(milestone => {
+			let newMilestones = this.milestonesFilter.filter(milestone => {
 				return !groupIds.includes(milestone);
 			});
 			if(!this.isEntireMilestoneGroupSelected(index)){
 				newMilestones = newMilestones.concat(groupIds);
 			}
-			this.milestones = newMilestones;
+			this.milestonesFilter = newMilestones;
 		},
 		runReport(){
 			fetch('/report/aggregate', {
@@ -286,7 +309,7 @@ export default {
 					endDate: this.dates.endDate,
 					trainingLevel: this.trainingLevel,
 					currentTrainingLevel: this.currentTrainingLevel,
-					milestones: this.milestones
+					milestones: this.milestonesFilter
 				})
 			}).then(response => {
 				if(response.ok)
@@ -338,6 +361,7 @@ export default {
 		IndividualReport,
 		StatsReport,
 		TrainingLevelSelect,
+		AlertList,
 		BootstrapAlert,
 		SelectTwo,
 		SvgIcon

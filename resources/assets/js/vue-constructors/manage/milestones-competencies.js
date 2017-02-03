@@ -60,8 +60,8 @@ export default function createManageMilestonesCompetencies(el, propsData){
 						{data: 'order', render(order, type){
 							if(['sort', 'type'].includes(type))
 								return order != null
-									? order
-									: Infinity;
+									? Number(order) + 1
+									: Number.MAX_VALUE;
 							
 							return order != null
 								? Number(order) + 1
@@ -123,8 +123,8 @@ export default function createManageMilestonesCompetencies(el, propsData){
 						{data: 'order', render(order, type){
 							if(['sort', 'type'].includes(type))
 								return order != null
-									? order
-									: Infinity;
+									? Number(order) + 1
+									: Number.MAX_VALUE;
 							
 							return order != null
 								? Number(order) + 1

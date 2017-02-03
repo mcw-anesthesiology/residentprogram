@@ -59,7 +59,6 @@ export function nl2br(text){
 }
 
 export function escapeCsv(text){
-	console.log(`"${striptags(text)}"`);
 	return `"${striptags(text)}"`;
 }
 
@@ -82,48 +81,58 @@ export function jsonOrThrow(response){
 	throw new Error(response.statusText);
 }
 
+export function fetchCompetencies(){
+	return fetch('/competencies', {
+		method: 'GET',
+		headers: getFetchHeaders(),
+		credentials: 'same-origin'
+	}).then(jsonOrThrow).then(competencies =>
+		competencies.sort(sortPropNumbers('order'))
+	);
+}
+
 export function fetchMilestoneGroups(){
+	return fetchMilestones().then(groupMilestones);
+}
+
+export function fetchMilestones(){
 	return fetch('/milestones', {
 		method: 'GET',
 		headers: getFetchHeaders(),
 		credentials: 'same-origin'
-	}).then(response => {
-		if(response.ok)
-			return response.json();
-		else {
-			let err = new Error(response.statusText);
-			err.response = response;
-			throw err;
-		}
-	}).then(milestones => {
-		let milestoneGroups = {};
-		for(let milestone of milestones){
-			let groupTitle = ucfirst(milestone.type);
-			if(milestone.training_level)
-				groupTitle += ` — ${milestone.training_level}`;
-			if(!milestoneGroups[groupTitle])
-				milestoneGroups[groupTitle] = {
-					text: groupTitle,
-					children: []
-				};
-			milestoneGroups[groupTitle].children.push({
-				id: milestone.id.toString(),
-				text: milestone.title
-			});
-		}
-		for(let groupTitle in milestoneGroups){
-			let milestoneGroup = milestoneGroups[groupTitle];
-			milestoneGroup.children.sort((a, b) => {
-				if(a.text < b.text)
-					return 1;
-				else if(a.text > b.text)
-					return -1;
-				else
-					return 0;
-			});
-		}
-		return Object.values(milestoneGroups);
-	});
+	}).then(jsonOrThrow).then(milestones =>
+		milestones.sort(sortPropNumbers('order'))
+	);
+}
+
+export function groupMilestones(milestones){
+	let milestoneGroups = {};
+	for(let milestone of milestones){
+		let groupTitle = ucfirst(milestone.type);
+		if(milestone.training_level)
+			groupTitle += ` — ${milestone.training_level}`;
+		if(!milestoneGroups[groupTitle])
+			milestoneGroups[groupTitle] = {
+				text: groupTitle,
+				children: []
+			};
+		milestoneGroups[groupTitle].children.push({
+			id: milestone.id.toString(),
+			text: milestone.title
+		});
+	}
+	for(let groupTitle in milestoneGroups){
+		let milestoneGroup = milestoneGroups[groupTitle];
+		milestoneGroup.children.sort((a, b) => {
+			if(a.text < b.text)
+				return 1;
+			else if(a.text > b.text)
+				return -1;
+			else
+				return 0;
+		});
+	}
+	return Object.values(milestoneGroups);
 }
 
 export function fetchUserGroups(){
@@ -253,7 +262,22 @@ export function sortSelect2Objects(a, b){
 	return 0;
 }
 
+export function sortEmptyLast(a, b){
+	let aEmpty = (a == null || (typeof a === 'string' && a.trim() === ''));
+	let bEmpty = (b == null || (typeof b === 'string' && b.trim() === ''));
+	if(aEmpty && bEmpty)
+		return 0;
+	if(aEmpty)
+		return 1;
+	if(bEmpty)
+		return -1;
+}
+
 export function sortNumbers(a, b){
+	let emptyVal = sortEmptyLast(a, b);
+	if(emptyVal != null)
+		return emptyVal;
+		
 	return Number(a) - Number(b);
 }
 
@@ -262,6 +286,10 @@ export function sortPropNumbers(prop){
 }
 
 export function sortIgnoreCase(a, b){
+	let emptyVal = sortEmptyLast(a, b);
+	if(emptyVal != null)
+		return emptyVal;
+	
 	a = a.toLowerCase();
 	b = b.toLowerCase();
 	
