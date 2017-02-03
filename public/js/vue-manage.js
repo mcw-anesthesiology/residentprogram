@@ -140,6 +140,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = {
 	props: {
@@ -827,9 +829,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			var rows = this.data.map(function (row) {
 				return row.map(function (cell) {
-					return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["c" /* escapeCsv */])(cell.toString());
+					return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["d" /* escapeCsv */])(cell.toString());
 				}).join(',');
-			}).sort(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["d" /* sortIgnoreCase */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["e" /* sortIgnoreCase */]);
 			var table = header.concat(rows);
 			__WEBPACK_IMPORTED_MODULE_0_downloadjs___default()(table.join('\n'), this.exportFilename + '.csv', 'text/csv');
 		}
@@ -1015,7 +1017,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			this.$emit('input', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["isoDateStringObject"])(dates));
 		},
 
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["f" /* camelCaseToWords */]
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["g" /* camelCaseToWords */]
 	},
 	components: {
 		VueFlatpickr: __WEBPACK_IMPORTED_MODULE_0_vue_flatpickr___default.a
@@ -1047,7 +1049,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.list-group-item[data-v-6fc18dbc] {\n\tcursor: pointer;\n}\n.list-group-item[data-v-6fc18dbc]:focus,\n.list-group-item[data-v-6fc18dbc]:hover {\n\tcolor: #555;\n\tbackground-color: #f5f5f5;\n}\n.list-group-item.active[data-v-6fc18dbc]:focus,\n.list-group-item.active[data-v-6fc18dbc]:hover {\n\tcolor: white;\n\tbackground-color: rgba(51, 123, 184, 0.85);\n}\n.item-controls[data-v-6fc18dbc] {\n\tmargin-top: 1em;\n\tdisplay: flex;\n\tjustify-content: space-between;\n}\n.item-controls .form-control[data-v-6fc18dbc] {\n\twidth: 5em;\n}\n.item-controls-buttons[data-v-6fc18dbc] {\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/OrderingList.vue?1b542ab1"],"names":[],"mappings":";AA4JA;CACA,gBAAA;CACA;AAEA;;CAEA,YAAA;CACA,0BAAA;CACA;AAEA;;CAEA,aAAA;CACA,2CAAA;CACA;AAEA;CACA,gBAAA;CACA,cAAA;CACA,+BAAA;CACA;AAEA;CACA,WAAA;CACA;AAEA;CAEA","file":"OrderingList.vue","sourcesContent":["<template>\n\t<div class=\"row\">\n\t\t<div class=\"col-md-6\">\n\t\t\t<ul class=\"list-group\">\n\t\t\t\t<li v-for=\"item of itemsRemaining\" class=\"list-group-item\"\n\t\t\t\t\t\t:key=\"itemKey in item && `bank-${item[itemKey]}`\"\n\t\t\t\t\t\t@click=\"addItem(item)\">\n\t\t\t\t\t<slot v-bind=\"item\">\n\t\t\t\t\t\t{{ item }}\n\t\t\t\t\t</slot>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</div>\n\t\t<div class=\"col-md-6\">\n\t\t\t<ol class=\"list-group\" ref=\"orderedList\">\n\t\t\t\t<li v-for=\"(item, index) of value\" class=\"list-group-item\"\n\t\t\t\t\t\t:class=\"{active: activeItem === index}\"\n\t\t\t\t\t\t:key=\"itemKey in item && item[itemKey]\"\n\t\t\t\t\t\t@click=\"removeItem(index)\">\n\t\t\t\t\t<slot v-bind=\"item\">\n\t\t\t\t\t\t{{ item }}\n\t\t\t\t\t</slot>\n\t\t\t\t\t<div class=\"item-controls\">\n\t\t\t\t\t\t<input type=\"number\" class=\"form-control\"\n\t\t\t\t\t\t\t:value=\"index + 1\" @click=\"$event.stopPropagation()\"\n\t\t\t\t\t\t\t@change=\"moveItemTo($event, index)\" />\n\t\t\t\t\t\t<div class=\"item-controls-buttons\">\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\tv-if=\"index > 0\"\n\t\t\t\t\t\t\t\t\t@click=\"moveItemUp($event, index)\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-arrow-up\"></span>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\tv-if=\"index < value.length - 1\"\n\t\t\t\t\t\t\t\t\t@click=\"moveItemDown($event, index)\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-arrow-down\"></span>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</li>\n\t\t\t</ol>\n\t\t\t<div v-if=\"value.length > 0\" class=\"text-center\">\n\t\t\t\t<button type=\"button\" class=\"btn btn-warning\"\n\t\t\t\t\t\t@click=\"$emit('input', [])\">\n\t\t\t\t\tClear list\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nexport default {\n\tprops: {\n\t\tvalue: {\n\t\t\ttype: Array,\n\t\t\trequired: true,\n\t\t\tdefault(){\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\titems: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\titemKey: {\n\t\t\ttype: String,\n\t\t\tdefault: 'id'\n\t\t}\n\t},\n\t\n\tdata(){\n\t\treturn {\n\t\t\tactiveItem: null,\n\t\t\tactiveItemTimeoutId: null\n\t\t};\n\t},\n\t\n\tcomputed: {\n\t\titemsRemaining(){\n\t\t\treturn this.items.filter(item => !this.value.includes(item));\n\t\t}\n\t},\n\twatch: {\n\t\tactiveItem(){\n\t\t\tif(this.activeItemTimeoutId)\n\t\t\t\twindow.clearTimeout(this.activeItemTimeoutId);\n\t\t\t\n\t\t\tthis.activeItemTimeoutId = window.setTimeout(() => {\n\t\t\t\tif(this.activeItemTimeoutId){\n\t\t\t\t\tthis.activeItem = null;\n\t\t\t\t\tthis.activeItemTimeoutId = null;\n\t\t\t\t}\n\t\t\t}, 1000);\n\t\t}\n\t},\n\t\n\tmethods: {\n\t\taddItem(item){\n\t\t\tthis.$emit('input', this.value.concat(item));\n\t\t},\n\t\tremoveItem(index){\n\t\t\tif(event.defaultPrevented)\n\t\t\t\treturn;\n\t\t\t\n\t\t\tlet value = this.value.slice();\n\t\t\tvalue.splice(index, 1);\n\t\t\tthis.$emit('input', value);\n\t\t},\n\t\tmoveItemTo(event, index){\n\t\t\tlet newIndex = event.target.value - 1;\n\t\t\t\n\t\t\tif(newIndex < 0 || newIndex > this.value.length - 1)\n\t\t\t\treturn;\n\t\t\t\n\t\t\tlet value = this.value.slice();\n\t\t\tvalue.splice(newIndex, 0, value.splice(index, 1)[0]);\n\t\t\t\n\t\t\tthis.activeItem = newIndex;\n\t\t\tthis.$emit('input', value);\n\t\t},\n\t\tmoveItemUp(event, index){\n\t\t\tevent.preventDefault();\n\t\t\tevent.stopPropagation();\n\n\t\t\tif(index === 0)\n\t\t\t\treturn;\n\t\t\t\t\n\t\t\tlet newIndex = index - 1;\n\t\t\tlet value = this.value.slice();\n\t\t\t\n\t\t\tvalue.splice(newIndex, 0, value.splice(index, 1)[0]);\n\t\t\t\n\t\t\tthis.activeItem = newIndex;\n\t\t\tthis.$emit('input', value);\n\t\t},\n\t\tmoveItemDown(event, index){\n\t\t\tevent.preventDefault();\n\t\t\tevent.stopPropagation();\n\t\t\t\n\t\t\tif(index === this.value.length - 1)\n\t\t\t\treturn;\n\t\t\t\n\t\t\tlet newIndex = index + 1;\n\t\t\tlet value = this.value.slice();\n\t\t\t\n\t\t\tvalue.splice(newIndex, 0, value.splice(index, 1)[0]);\n\t\t\t\n\t\t\tthis.activeItem = newIndex;\n\t\t\tthis.$emit('input', value);\n\t\t}\n\t}\n};\n</script>\n\n<style scoped>\n\t.list-group-item {\n\t\tcursor: pointer;\n\t}\n\t\n\t.list-group-item:focus,\n\t.list-group-item:hover {\n\t\tcolor: #555;\n\t\tbackground-color: #f5f5f5;\n\t}\n\t\n\t.list-group-item.active:focus,\n\t.list-group-item.active:hover {\n\t\tcolor: white;\n\t\tbackground-color: rgba(51, 123, 184, 0.85);\n\t}\n\t\n\t.item-controls {\n\t\tmargin-top: 1em;\n\t\tdisplay: flex;\n\t\tjustify-content: space-between;\n\t}\n\t\n\t.item-controls .form-control {\n\t\twidth: 5em;\n\t}\n\t\n\t.item-controls-buttons {\n\t\t\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.list-group-item[data-v-6fc18dbc] {\n\tcursor: pointer;\n}\n.list-group-item[data-v-6fc18dbc]:focus,\n.list-group-item[data-v-6fc18dbc]:hover {\n\tcolor: #555;\n\tbackground-color: #f5f5f5;\n}\n.list-group-item.active[data-v-6fc18dbc]:focus,\n.list-group-item.active[data-v-6fc18dbc]:hover {\n\tcolor: white;\n\tbackground-color: rgba(51, 123, 184, 0.85);\n}\n.item-controls[data-v-6fc18dbc] {\n\tmargin-top: 1em;\n\tdisplay: flex;\n\tjustify-content: space-between;\n}\n.item-controls .form-control[data-v-6fc18dbc] {\n\twidth: 5em;\n}\n.item-controls-buttons[data-v-6fc18dbc] {\n}\n", "", {"version":3,"sources":["/./resources/assets/js/vue-components/OrderingList.vue?9094167c"],"names":[],"mappings":";AA8JA;CACA,gBAAA;CACA;AAEA;;CAEA,YAAA;CACA,0BAAA;CACA;AAEA;;CAEA,aAAA;CACA,2CAAA;CACA;AAEA;CACA,gBAAA;CACA,cAAA;CACA,+BAAA;CACA;AAEA;CACA,WAAA;CACA;AAEA;CAEA","file":"OrderingList.vue","sourcesContent":["<template>\n\t<div class=\"row\">\n\t\t<div class=\"col-md-6\">\n\t\t\t<b>Unordered items</b>\n\t\t\t<ul class=\"list-group\">\n\t\t\t\t<li v-for=\"item of itemsRemaining\" class=\"list-group-item\"\n\t\t\t\t\t\t:key=\"itemKey in item && `bank-${item[itemKey]}`\"\n\t\t\t\t\t\t@click=\"addItem(item)\">\n\t\t\t\t\t<slot v-bind=\"item\">\n\t\t\t\t\t\t{{ item }}\n\t\t\t\t\t</slot>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</div>\n\t\t<div class=\"col-md-6\">\n\t\t\t<b>Ordered list</b>\n\t\t\t<ol class=\"list-group\" ref=\"orderedList\">\n\t\t\t\t<li v-for=\"(item, index) of value\" class=\"list-group-item\"\n\t\t\t\t\t\t:class=\"{active: activeItem === index}\"\n\t\t\t\t\t\t:key=\"itemKey in item && item[itemKey]\"\n\t\t\t\t\t\t@click=\"removeItem(index)\">\n\t\t\t\t\t<slot v-bind=\"item\">\n\t\t\t\t\t\t{{ item }}\n\t\t\t\t\t</slot>\n\t\t\t\t\t<div class=\"item-controls\">\n\t\t\t\t\t\t<input type=\"number\" class=\"form-control\"\n\t\t\t\t\t\t\t:value=\"index + 1\" @click=\"$event.stopPropagation()\"\n\t\t\t\t\t\t\t@change=\"moveItemTo($event, index)\" />\n\t\t\t\t\t\t<div class=\"item-controls-buttons\">\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\tv-if=\"index > 0\"\n\t\t\t\t\t\t\t\t\t@click=\"moveItemUp($event, index)\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-arrow-up\"></span>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\tv-if=\"index < value.length - 1\"\n\t\t\t\t\t\t\t\t\t@click=\"moveItemDown($event, index)\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-arrow-down\"></span>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</li>\n\t\t\t</ol>\n\t\t\t<div v-if=\"value.length > 0\" class=\"text-center\">\n\t\t\t\t<button type=\"button\" class=\"btn btn-warning\"\n\t\t\t\t\t\t@click=\"$emit('input', [])\">\n\t\t\t\t\tClear list\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nexport default {\n\tprops: {\n\t\tvalue: {\n\t\t\ttype: Array,\n\t\t\trequired: true,\n\t\t\tdefault(){\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\titems: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\titemKey: {\n\t\t\ttype: String,\n\t\t\tdefault: 'id'\n\t\t}\n\t},\n\t\n\tdata(){\n\t\treturn {\n\t\t\tactiveItem: null,\n\t\t\tactiveItemTimeoutId: null\n\t\t};\n\t},\n\t\n\tcomputed: {\n\t\titemsRemaining(){\n\t\t\treturn this.items.filter(item => !this.value.includes(item));\n\t\t}\n\t},\n\twatch: {\n\t\tactiveItem(){\n\t\t\tif(this.activeItemTimeoutId)\n\t\t\t\twindow.clearTimeout(this.activeItemTimeoutId);\n\t\t\t\n\t\t\tthis.activeItemTimeoutId = window.setTimeout(() => {\n\t\t\t\tif(this.activeItemTimeoutId){\n\t\t\t\t\tthis.activeItem = null;\n\t\t\t\t\tthis.activeItemTimeoutId = null;\n\t\t\t\t}\n\t\t\t}, 1000);\n\t\t}\n\t},\n\t\n\tmethods: {\n\t\taddItem(item){\n\t\t\tthis.$emit('input', this.value.concat(item));\n\t\t},\n\t\tremoveItem(index){\n\t\t\tif(event.defaultPrevented)\n\t\t\t\treturn;\n\t\t\t\n\t\t\tlet value = this.value.slice();\n\t\t\tvalue.splice(index, 1);\n\t\t\tthis.$emit('input', value);\n\t\t},\n\t\tmoveItemTo(event, index){\n\t\t\tlet newIndex = event.target.value - 1;\n\t\t\t\n\t\t\tif(newIndex < 0 || newIndex > this.value.length - 1)\n\t\t\t\treturn;\n\t\t\t\n\t\t\tlet value = this.value.slice();\n\t\t\tvalue.splice(newIndex, 0, value.splice(index, 1)[0]);\n\t\t\t\n\t\t\tthis.activeItem = newIndex;\n\t\t\tthis.$emit('input', value);\n\t\t},\n\t\tmoveItemUp(event, index){\n\t\t\tevent.preventDefault();\n\t\t\tevent.stopPropagation();\n\n\t\t\tif(index === 0)\n\t\t\t\treturn;\n\t\t\t\t\n\t\t\tlet newIndex = index - 1;\n\t\t\tlet value = this.value.slice();\n\t\t\t\n\t\t\tvalue.splice(newIndex, 0, value.splice(index, 1)[0]);\n\t\t\t\n\t\t\tthis.activeItem = newIndex;\n\t\t\tthis.$emit('input', value);\n\t\t},\n\t\tmoveItemDown(event, index){\n\t\t\tevent.preventDefault();\n\t\t\tevent.stopPropagation();\n\t\t\t\n\t\t\tif(index === this.value.length - 1)\n\t\t\t\treturn;\n\t\t\t\n\t\t\tlet newIndex = index + 1;\n\t\t\tlet value = this.value.slice();\n\t\t\t\n\t\t\tvalue.splice(newIndex, 0, value.splice(index, 1)[0]);\n\t\t\t\n\t\t\tthis.activeItem = newIndex;\n\t\t\tthis.$emit('input', value);\n\t\t}\n\t}\n};\n</script>\n\n<style scoped>\n\t.list-group-item {\n\t\tcursor: pointer;\n\t}\n\t\n\t.list-group-item:focus,\n\t.list-group-item:hover {\n\t\tcolor: #555;\n\t\tbackground-color: #f5f5f5;\n\t}\n\t\n\t.list-group-item.active:focus,\n\t.list-group-item.active:hover {\n\t\tcolor: white;\n\t\tbackground-color: rgba(51, 123, 184, 0.85);\n\t}\n\t\n\t.item-controls {\n\t\tmargin-top: 1em;\n\t\tdisplay: flex;\n\t\tjustify-content: space-between;\n\t}\n\t\n\t.item-controls .form-control {\n\t\twidth: 5em;\n\t}\n\t\n\t.item-controls-buttons {\n\t\t\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -1708,7 +1710,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col-md-6"
-  }, [_c('ul', {
+  }, [_c('b', [_vm._v("Unordered items")]), _vm._v(" "), _c('ul', {
     staticClass: "list-group"
   }, _vm._l((_vm.itemsRemaining), function(item) {
     return _c('li', {
@@ -1722,7 +1724,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_vm._t("default", [_vm._v("\n\t\t\t\t\t" + _vm._s(item) + "\n\t\t\t\t")], null, item)], 2)
   }))]), _vm._v(" "), _c('div', {
     staticClass: "col-md-6"
-  }, [_c('ol', {
+  }, [_c('b', [_vm._v("Ordered list")]), _vm._v(" "), _c('ol', {
     ref: "orderedList",
     staticClass: "list-group"
   }, _vm._l((_vm.value), function(item, index) {
@@ -2075,7 +2077,7 @@ function createManageEvaluations(el, propsData) {
 									visBtnType = 'btn-default';
 									break;
 							}
-							return '<span class="status">\n\t\t\t\t\t\t\t\t<span class="label label-' + label + '">\n\t\t\t\t\t\t\t\t\t' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["e" /* ucfirst */])(evaluation.status) + '\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t<br />\n\t\t\t\t\t\t\t<button type="button"\n\t\t\t\t\t\t\t\t\tclass="visibility visibility-' + evaluation.visibility + ' btn ' + visBtnType + ' btn-xs"\n\t\t\t\t\t\t\t\t\tdata-eval-type="' + evaluation.form.type + '"\n\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '"\n\t\t\t\t\t\t\t\t\tdata-current-visibility="' + evaluation.visibility + '">\n\t\t\t\t\t\t\t\t' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["e" /* ucfirst */])(evaluation.visibility) + '\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-eye-' + eyeType + '"></span>\n\t\t\t\t\t\t\t</button>';
+							return '<span class="status">\n\t\t\t\t\t\t\t\t<span class="label label-' + label + '">\n\t\t\t\t\t\t\t\t\t' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["f" /* ucfirst */])(evaluation.status) + '\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t<br />\n\t\t\t\t\t\t\t<button type="button"\n\t\t\t\t\t\t\t\t\tclass="visibility visibility-' + evaluation.visibility + ' btn ' + visBtnType + ' btn-xs"\n\t\t\t\t\t\t\t\t\tdata-eval-type="' + evaluation.form.type + '"\n\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '"\n\t\t\t\t\t\t\t\t\tdata-current-visibility="' + evaluation.visibility + '">\n\t\t\t\t\t\t\t\t' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["f" /* ucfirst */])(evaluation.visibility) + '\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-eye-' + eyeType + '"></span>\n\t\t\t\t\t\t\t</button>';
 						} }, { data: null, orderable: false, render: function render(evaluation) {
 							var buttonClass = void 0,
 							    buttonType = void 0,
@@ -2143,8 +2145,8 @@ function createManageMilestonesCompetencies(el, propsData) {
 
 		data: function data() {
 			return {
-				milestones: [],
-				competencies: [],
+				milestones: null,
+				competencies: null,
 
 				orderedMilestones: [],
 				orderedCompetencies: [],
@@ -2159,50 +2161,23 @@ function createManageMilestonesCompetencies(el, propsData) {
 			};
 		},
 		mounted: function mounted() {
-			var _this = this;
-
-			fetch('/milestones', {
-				method: 'GET',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* getFetchHeaders */])(),
-				credentials: 'same-origin'
-			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* jsonOrThrow */]).then(function (milestones) {
-				_this.milestones = milestones;
-			}).catch(function (err) {
-				console.error(err);
-				_this.milestoneAlerts.push({
-					type: 'error',
-					html: '<strong>Error: </strong> Problem fetching milestones'
-				});
-			});
-
-			fetch('/competencies', {
-				method: 'GET',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* getFetchHeaders */])(),
-				credentials: 'same-origin'
-			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* jsonOrThrow */]).then(function (competencies) {
-				_this.competencies = competencies;
-			}).catch(function (err) {
-				console.error(err);
-			});
+			this.fetchMilestones();
+			this.fetchCompetencies();
 		},
 
 
 		computed: {
 			milestonesThead: function milestonesThead() {
-				return [['Title', 'Type', 'Subspecialty', 'Description', 'Action']];
+				return [['Order', 'Title', 'Type', 'Subspecialty', 'Description', 'Action']];
 			},
 			milestonesConfig: function milestonesConfig() {
 				return {
-					ajax: {
-						url: '/milestones',
-						data: {
-							with: {
-								forms: true
-							}
-						},
-						dataSrc: ''
-					},
-					columns: [{ data: 'title' }, { data: 'type' }, { data: 'training_level' }, { data: 'description' }, { data: null, searchable: false, orderable: false, render: function render(milestone) {
+					columns: [{ data: 'order', render: function render(order, type) {
+							if (['sort', 'type'].includes(type)) return order != null ? order : Infinity;
+
+							return order != null ? Number(order) + 1 : '';
+						}
+					}, { data: 'title' }, { data: 'type' }, { data: 'training_level' }, { data: 'description' }, { data: null, searchable: false, orderable: false, render: function render(milestone) {
 							var milestoneData = 'data-id="' + milestone.id + '"\n\t\t\t\t\t\t\t\tdata-title="' + milestone.title + '"\n\t\t\t\t\t\t\t\tdata-type="' + milestone.type + '"\n\t\t\t\t\t\t\t\tdata-training-level="' + milestone.training_level + '"\n\t\t\t\t\t\t\t\tdata-description="' + milestone.description + '"';
 
 							var editButton = '\n\t\t\t\t\t\t\t<button type="button"\n\t\t\t\t\t\t\t\t\tclass="edit-milestone-button btn btn-info btn-xs"\n\t\t\t\t\t\t\t\t\t' + milestoneData + '>\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-edit"></span>\n\t\t\t\t\t\t\t\tEdit\n\t\t\t\t\t\t\t</button>';
@@ -2217,20 +2192,16 @@ function createManageMilestonesCompetencies(el, propsData) {
 				};
 			},
 			competenciesThead: function competenciesThead() {
-				return [['Title', 'Description', 'Action']];
+				return [['Order', 'Title', 'Description', 'Action']];
 			},
 			competenciesConfig: function competenciesConfig() {
 				return {
-					ajax: {
-						url: '/competencies',
-						data: {
-							with: {
-								forms: true
-							}
-						},
-						dataSrc: ''
-					},
-					columns: [{ data: 'title' }, { data: 'description' }, { data: null, searchable: false, orderable: false, render: function render(competency) {
+					columns: [{ data: 'order', render: function render(order, type) {
+							if (['sort', 'type'].includes(type)) return order != null ? order : Infinity;
+
+							return order != null ? Number(order) + 1 : '';
+						}
+					}, { data: 'title' }, { data: 'description' }, { data: null, searchable: false, orderable: false, render: function render(competency) {
 							var competencyData = 'data-id="' + competency.id + '"\n\t\t\t\t\t\t\t\tdata-title="' + competency.title + '"\n\t\t\t\t\t\t\t\tdata-description="' + competency.description + '"';
 
 							var editButton = '\n\t\t\t\t\t\t\t<button type="button"\n\t\t\t\t\t\t\t\t\tclass="edit-competency-button btn btn-info btn-xs"\n\t\t\t\t\t\t\t\t\t' + competencyData + '>\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-edit"></span>\n\t\t\t\t\t\t\t\tEdit\n\t\t\t\t\t\t\t</button>';
@@ -2243,7 +2214,139 @@ function createManageMilestonesCompetencies(el, propsData) {
 			}
 		},
 
-		methods: {},
+		watch: {
+			competencies: function competencies(_competencies) {
+				this.orderedCompetencies = _competencies.filter(function (competency) {
+					return competency.order != null;
+				}).sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* sortPropNumbers */])('order'));
+			},
+			milestones: function milestones(_milestones) {
+				this.orderedMilestones = _milestones.filter(function (milestone) {
+					return milestone.order != null;
+				}).sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* sortPropNumbers */])('order'));
+			}
+		},
+
+		methods: {
+			fetchMilestones: function fetchMilestones() {
+				var _this = this;
+
+				var query = $.param({
+					with: {
+						forms: true
+					}
+				});
+
+				return fetch('/milestones?' + query, {
+					method: 'GET',
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* getFetchHeaders */])(),
+					credentials: 'same-origin'
+				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* jsonOrThrow */]).then(function (milestones) {
+					_this.milestones = milestones;
+				}).catch(function (err) {
+					console.error(err);
+					_this.milestoneAlerts.push({
+						type: 'error',
+						html: '<strong>Error: </strong> Problem fetching milestones'
+					});
+				});
+			},
+			fetchCompetencies: function fetchCompetencies() {
+				var _this2 = this;
+
+				var query = $.param({
+					with: {
+						forms: true
+					}
+				});
+
+				return fetch('/competencies?' + query, {
+					method: 'GET',
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* getFetchHeaders */])(),
+					credentials: 'same-origin'
+				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* jsonOrThrow */]).then(function (competencies) {
+					_this2.competencies = competencies;
+				}).catch(function (err) {
+					console.error(err);
+					_this2.competencyAlerts.push({
+						type: 'error',
+						html: '<strong>Error: </strong> Problem fetching competencies'
+					});
+				});
+			},
+			saveMilestoneOrder: function saveMilestoneOrder() {
+				var _this3 = this;
+
+				var orderMap = this.orderedMilestones.map(function (milestone, index) {
+					return {
+						id: milestone.id,
+						order: index
+					};
+				});
+
+				fetch('/milestones/order', {
+					method: 'POST',
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* getFetchHeaders */])(),
+					credentials: 'same-origin',
+					body: JSON.stringify({
+						_method: 'PATCH',
+						orderMap: orderMap
+					})
+				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* jsonOrThrow */]).then(function (results) {
+					if (results.success && results.success.length === _this3.orderedMilestones.length) _this3.milestoneAlerts.push({
+						type: 'success',
+						text: 'All orders saved successfully'
+					});else if (results.error && results.error.length === _this3.orderedMilestones.length) throw new Error(results);else _this3.milestoneAlerts.push({
+						type: 'warning',
+						text: 'Some orders were not saved successfully'
+					});
+				}).catch(function (err) {
+					console.error(err);
+					_this3.milestoneAlerts.push({
+						type: 'error',
+						text: 'There was a problem saving the orders'
+					});
+				});
+
+				this.fetchMilestones();
+			},
+			saveCompetencyOrder: function saveCompetencyOrder() {
+				var _this4 = this;
+
+				var orderMap = this.orderedCompetencies.map(function (competency, index) {
+					return {
+						id: competency.id,
+						order: index
+					};
+				});
+
+				fetch('/competencies/order', {
+					method: 'POST',
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* getFetchHeaders */])(),
+					credentials: 'same-origin',
+					body: JSON.stringify({
+						_method: 'PATCH',
+						orderMap: orderMap
+					})
+				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* jsonOrThrow */]).then(function (results) {
+					if (results.success && results.success.length === _this4.orderedCompetencies.length) _this4.competencyAlerts.push({
+						type: 'success',
+						text: 'All orders saved successfully'
+					});else if (results.error && results.error.length === _this4.orderedCompetencies.length) throw new Error(results);else _this4.competencyAlerts.push({
+						type: 'warning',
+						text: 'Some orders were not saved successfully'
+					});
+				}).catch(function (err) {
+					console.error(err);
+					_this4.competencyAlerts.push({
+						type: 'error',
+						text: 'There was a problem saving the orders'
+					});
+				});
+
+				this.fetchCompetencies();
+			}
+		},
 
 		components: {
 			AlertList: __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default.a,

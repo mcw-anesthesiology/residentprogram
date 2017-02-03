@@ -5,7 +5,11 @@ import DataTable from '../../vue-components/DataTable.vue';
 import OrderingList from '../../vue-components/OrderingList.vue';
 import ShowHideButton from '../../vue-components/ShowHideButton.vue';
 
-import { getFetchHeaders, jsonOrThrow } from '../../modules/utils.js';
+import {
+	getFetchHeaders,
+	jsonOrThrow,
+	sortPropNumbers
+} from '../../modules/utils.js';
 
 export default function createManageMilestonesCompetencies(el, propsData){
 	
@@ -18,8 +22,8 @@ export default function createManageMilestonesCompetencies(el, propsData){
 		
 		data(){
 			return {
-				milestones: [],
-				competencies: [],
+				milestones: null,
+				competencies: null,
 				
 				orderedMilestones: [],
 				orderedCompetencies: [],
@@ -35,34 +39,14 @@ export default function createManageMilestonesCompetencies(el, propsData){
 		},
 		
 		mounted(){
-			fetch('/milestones', {
-				method: 'GET',
-				headers: getFetchHeaders(),
-				credentials: 'same-origin'
-			}).then(jsonOrThrow).then(milestones => {
-				this.milestones = milestones;
-			}).catch(err => {
-				console.error(err);
-				this.milestoneAlerts.push({
-					type: 'error',
-					html: '<strong>Error: </strong> Problem fetching milestones'
-				});
-			});
-			
-			fetch('/competencies', {
-				method: 'GET',
-				headers: getFetchHeaders(),
-				credentials: 'same-origin'
-			}).then(jsonOrThrow).then(competencies => {
-				this.competencies = competencies;
-			}).catch(err => {
-				console.error(err);
-			});
+			this.fetchMilestones();
+			this.fetchCompetencies();
 		},
 		
 		computed: {
 			milestonesThead(){
 				return [[
+					'Order',
 					'Title',
 					'Type',
 					'Subspecialty',
@@ -72,16 +56,17 @@ export default function createManageMilestonesCompetencies(el, propsData){
 			},
 			milestonesConfig(){
 				return {
-					ajax: {
-						url: '/milestones',
-						data: {
-							with: {
-								forms: true
-							}
-						},
-						dataSrc: ''
-					},
 					columns: [
+						{data: 'order', render(order, type){
+							if(['sort', 'type'].includes(type))
+								return order != null
+									? order
+									: Infinity;
+							
+							return order != null
+								? Number(order) + 1
+								: '';
+						}},
 						{data: 'title'},
 						{data: 'type'},
 						{data: 'training_level'},
@@ -126,6 +111,7 @@ export default function createManageMilestonesCompetencies(el, propsData){
 			
 			competenciesThead(){
 				return [[
+					'Order',
 					'Title',
 					'Description',
 					'Action'
@@ -133,16 +119,17 @@ export default function createManageMilestonesCompetencies(el, propsData){
 			},
 			competenciesConfig(){
 				return {
-					ajax: {
-						url: '/competencies',
-						data: {
-							with: {
-								forms: true
-							}
-						},
-						dataSrc: ''
-					},
 					columns: [
+						{data: 'order', render(order, type){
+							if(['sort', 'type'].includes(type))
+								return order != null
+									? order
+									: Infinity;
+							
+							return order != null
+								? Number(order) + 1
+								: '';
+						}},
 						{data: 'title'},
 						{data: 'description'},
 						{data: null, searchable: false, orderable: false, render: function(competency){
@@ -173,8 +160,134 @@ export default function createManageMilestonesCompetencies(el, propsData){
 			},
 		},
 		
+		watch: {
+			competencies(competencies){
+				this.orderedCompetencies = competencies.filter(competency =>
+					competency.order != null).sort(sortPropNumbers('order'));
+			},
+			milestones(milestones){
+				this.orderedMilestones = milestones.filter(milestone =>
+					milestone.order != null).sort(sortPropNumbers('order'));
+			}
+		},
+		
 		methods: {
-			
+			fetchMilestones(){
+				const query = $.param({
+					with: {
+						forms: true
+					}
+				});
+				
+				return fetch(`/milestones?${query}`, {
+					method: 'GET',
+					headers: getFetchHeaders(),
+					credentials: 'same-origin'
+				}).then(jsonOrThrow).then(milestones => {
+					this.milestones = milestones;
+				}).catch(err => {
+					console.error(err);
+					this.milestoneAlerts.push({
+						type: 'error',
+						html: '<strong>Error: </strong> Problem fetching milestones'
+					});
+				});
+			},
+			fetchCompetencies(){
+				const query = $.param({
+					with: {
+						forms: true
+					}
+				});
+				
+				return fetch(`/competencies?${query}`, {
+					method: 'GET',
+					headers: getFetchHeaders(),
+					credentials: 'same-origin',
+				}).then(jsonOrThrow).then(competencies => {
+					this.competencies = competencies;
+				}).catch(err => {
+					console.error(err);
+					this.competencyAlerts.push({
+						type: 'error',
+						html: '<strong>Error: </strong> Problem fetching competencies'
+					});
+				});
+			},
+			saveMilestoneOrder(){
+				const orderMap = this.orderedMilestones.map((milestone, index) => ({
+					id: milestone.id,
+					order: index
+				}));
+				
+				fetch('/milestones/order', {
+					method: 'POST',
+					headers: getFetchHeaders(),
+					credentials: 'same-origin',
+					body: JSON.stringify({
+						_method: 'PATCH',
+						orderMap
+					})
+				}).then(jsonOrThrow).then(results => {
+					if(results.success && results.success.length === this.orderedMilestones.length)
+						this.milestoneAlerts.push({
+							type: 'success',
+							text: 'All orders saved successfully'
+						});
+					else if(results.error && results.error.length === this.orderedMilestones.length)
+						throw new Error(results);
+					else
+						this.milestoneAlerts.push({
+							type: 'warning',
+							text: 'Some orders were not saved successfully'
+						});
+				}).catch(err => {
+					console.error(err);
+					this.milestoneAlerts.push({
+						type: 'error',
+						text: 'There was a problem saving the orders'
+					});
+				});
+				
+				this.fetchMilestones();
+			},
+			saveCompetencyOrder(){
+				const orderMap = this.orderedCompetencies.map((competency, index) => ({
+					id: competency.id,
+					order: index
+				}));
+				
+				fetch('/competencies/order', {
+					method: 'POST',
+					headers: getFetchHeaders(),
+					credentials: 'same-origin',
+					body: JSON.stringify({
+						_method: 'PATCH',
+						orderMap
+					})
+				}).then(jsonOrThrow).then(results => {
+					if(results.success && results.success.length === this.orderedCompetencies.length)
+						this.competencyAlerts.push({
+							type: 'success',
+							text: 'All orders saved successfully'
+						});
+					else if(results.error && results.error.length === this.orderedCompetencies.length)
+						throw new Error(results);
+					else
+						this.competencyAlerts.push({
+							type: 'warning',
+							text: 'Some orders were not saved successfully'
+						});
+				}).catch(err => {
+					console.error(err);
+					this.competencyAlerts.push({
+						type: 'error',
+						text: 'There was a problem saving the orders'
+					});
+				});
+				
+				this.fetchCompetencies();
+			}
 		},
 		
 		components: {

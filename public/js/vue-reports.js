@@ -1019,9 +1019,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			var rows = this.data.map(function (row) {
 				return row.map(function (cell) {
-					return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["c" /* escapeCsv */])(cell.toString());
+					return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["d" /* escapeCsv */])(cell.toString());
 				}).join(',');
-			}).sort(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["d" /* sortIgnoreCase */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["e" /* sortIgnoreCase */]);
 			var table = header.concat(rows);
 			__WEBPACK_IMPORTED_MODULE_0_downloadjs___default()(table.join('\n'), this.exportFilename + '.csv', 'text/csv');
 		}
@@ -1206,7 +1206,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			this.$emit('input', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__["isoDateStringObject"])(dates));
 		},
 
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["f" /* camelCaseToWords */]
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["g" /* camelCaseToWords */]
 	},
 	components: {
 		VueFlatpickr: __WEBPACK_IMPORTED_MODULE_0_vue_flatpickr___default.a
@@ -2010,7 +2010,7 @@ function createResponseLegend(valueMap) {
 	var labels = [];
 	var values = [];
 
-	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_0__utils_js__["l" /* sortNumbers */]);
+	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_0__utils_js__["m" /* sortNumbers */]);
 
 	keys.map(function (key) {
 		labels.push(valueMap.get(key));
@@ -9359,7 +9359,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 	methods: {
-		snakeCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["k" /* snakeCaseToWords */]
+		snakeCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["l" /* snakeCaseToWords */]
 	},
 	components: {
 		ListPaginator: __WEBPACK_IMPORTED_MODULE_0__ListPaginator_vue___default.a
@@ -9528,7 +9528,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 			subject: this.defaultSubject,
 			body: {
 				markdown: this.defaultBodyMarkdown,
-				html: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["m" /* htmlLabelReplacements */])(md.render(this.defaultBodyMarkdown), this.emailReplacements)
+				html: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["n" /* htmlLabelReplacements */])(md.render(this.defaultBodyMarkdown), this.emailReplacements)
 			},
 			editorType: 'medium',
 
@@ -9546,7 +9546,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 			return ['medium', 'markdown'];
 		},
 		groupedPossibleRecipients: function groupedPossibleRecipients() {
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["g" /* groupUsers */])(this.possibleRecipients);
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["h" /* groupUsers */])(this.possibleRecipients);
 		},
 		toDisplayValue: function toDisplayValue() {
 			if (this.possibleRecipients || Array.isArray(this.to)) return (this.to ? this.to.length : '0') + ' recipients';
@@ -9563,7 +9563,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 		defaultBody: function defaultBody() {
 			return {
 				markdown: this.defaultBodyMarkdown,
-				html: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["m" /* htmlLabelReplacements */])(md.render(this.defaultBodyMarkdown), this.emailReplacements)
+				html: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["n" /* htmlLabelReplacements */])(md.render(this.defaultBodyMarkdown), this.emailReplacements)
 			};
 		}
 	},
@@ -9639,7 +9639,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 
 			fetch(this.target, {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["a" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["b" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(body)
 			}).then(function (response) {
@@ -9676,7 +9676,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 			});
 		},
 
-		ucfirst: __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["e" /* ucfirst */]
+		ucfirst: __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["f" /* ucfirst */]
 	},
 	components: {
 		AlertList: __WEBPACK_IMPORTED_MODULE_1__AlertList_vue___default.a,
@@ -9777,7 +9777,7 @@ var _md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 	},
 
 	methods: {
-		ucfirst: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["e" /* ucfirst */]
+		ucfirst: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["f" /* ucfirst */]
 	},
 
 	components: {
@@ -9994,7 +9994,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		this.editor.subscribe('editableInput', __WEBPACK_IMPORTED_MODULE_3_lodash_debounce___default()(function () {
 			var html = _this.editor.getContent();
 
-			_this.$emit('input', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["m" /* htmlLabelReplacements */])(html, _this.replacements));
+			_this.$emit('input', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["n" /* htmlLabelReplacements */])(html, _this.replacements));
 		}, 500));
 
 		this.$refs.container.querySelector('.medium-editor-element').classList.add('form-control');
@@ -10458,8 +10458,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 	methods: {
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["f" /* camelCaseToWords */],
-		ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["e" /* ucfirst */]
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["g" /* camelCaseToWords */],
+		ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["f" /* ucfirst */]
 	},
 	components: {
 		BootstrapButtonInput: __WEBPACK_IMPORTED_MODULE_1__BootstrapButtonInput_vue___default.a,
@@ -10531,10 +10531,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			fetch('/report/stats/trainee/faculty', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["a" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["b" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(this.dates)
-			}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["b" /* jsonOrThrow */]).then(function (stats) {
+			}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["c" /* jsonOrThrow */]).then(function (stats) {
 				_this.evaluatorStats = stats;
 			}).catch(function (err) {
 				console.error(err);
@@ -10546,10 +10546,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			fetch('/report/stats/faculty/faculty', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["a" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["b" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(this.dates)
-			}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["b" /* jsonOrThrow */]).then(function (stats) {
+			}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["c" /* jsonOrThrow */]).then(function (stats) {
 				_this.subjectStats = stats;
 			}).catch(function (err) {
 				console.error(err);
@@ -10817,7 +10817,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	created: function created() {
 		var _this3 = this;
 
-		__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["n" /* fetchFormGroups */])().then(function (groupedForms) {
+		__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["o" /* fetchFormGroups */])().then(function (groupedForms) {
 			_this3.groupedForms = groupedForms;
 		}).catch(function (err) {
 			_this3.alerts.push({
@@ -10835,7 +10835,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			fetch('/report/form', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["a" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_utils_js__["b" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -11042,7 +11042,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 	methods: {
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["f" /* camelCaseToWords */]
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["g" /* camelCaseToWords */]
 	},
 	components: {
 		FormReportQuestionOptionStats: __WEBPACK_IMPORTED_MODULE_1__FormReportQuestionOptionStats_vue___default.a,
@@ -11485,8 +11485,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 		}
 	},
 	methods: {
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_8__modules_utils_js__["f" /* camelCaseToWords */],
-		ucfirst: __WEBPACK_IMPORTED_MODULE_8__modules_utils_js__["e" /* ucfirst */],
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_8__modules_utils_js__["g" /* camelCaseToWords */],
+		ucfirst: __WEBPACK_IMPORTED_MODULE_8__modules_utils_js__["f" /* ucfirst */],
 		renderDateCell: __WEBPACK_IMPORTED_MODULE_9__modules_datatable_utils_js__["i" /* renderDateCell */],
 		exportPdf: function exportPdf() {
 			var _this = this;
@@ -11855,7 +11855,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 	methods: {
 		renderTrainingLevel: __WEBPACK_IMPORTED_MODULE_4__modules_datatable_utils_js__["h" /* renderTrainingLevel */],
-		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["e" /* ucfirst */]
+		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["f" /* ucfirst */]
 	},
 	components: {
 		EvaluationDetailsListItem: __WEBPACK_IMPORTED_MODULE_0__EvaluationDetailsListItem_vue___default.a,
@@ -11980,7 +11980,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 	methods: {
-		groupUsers: __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["g" /* groupUsers */]
+		groupUsers: __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["h" /* groupUsers */]
 	},
 	components: {
 		EvaluationListItem: __WEBPACK_IMPORTED_MODULE_1__EvaluationListItem_vue___default.a,
@@ -12103,7 +12103,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			fetch('/report/needs/evaluations', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -12122,7 +12122,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			fetch('/report/needs/competencies', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -12140,7 +12140,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			fetch('/report/needs/milestones', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -12154,7 +12154,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			});
 		},
 
-		groupUsers: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["g" /* groupUsers */]
+		groupUsers: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["h" /* groupUsers */]
 	},
 
 	components: {
@@ -12242,7 +12242,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			fetch('/report/pending-requests', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["a" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["b" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -12315,14 +12315,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			return ['trainee', 'faculty', 'form', 'needs-evaluations', 'pending-requests'];
 		},
 		groupedUsers: function groupedUsers() {
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["g" /* groupUsers */])(this.users);
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["h" /* groupUsers */])(this.users);
 		}
 	},
 
 	created: function created() {
 		var _this = this;
 
-		__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["i" /* fetchUsers */])().then(function (users) {
+		__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["j" /* fetchUsers */])().then(function (users) {
 			_this.users = users;
 		}).catch(function (err) {
 			console.error(err);
@@ -12331,7 +12331,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 	methods: {
-		kebabCaseToWords: __WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["j" /* kebabCaseToWords */]
+		kebabCaseToWords: __WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["k" /* kebabCaseToWords */]
 	}
 };
 
@@ -12656,7 +12656,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 		}
 	},
 	methods: {
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["f" /* camelCaseToWords */],
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["g" /* camelCaseToWords */],
 		exportPdf: function exportPdf() {
 			var _this = this;
 
@@ -12691,7 +12691,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				}, {
 					table: {
 						headerRows: 1,
-						body: JSON.parse(JSON.stringify([_this.ratiosThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["b" /* tableHeader */])].concat(_toConsumableArray(_this.ratiosData.sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["o" /* sortPropIgnoreCase */])(0))))))
+						body: JSON.parse(JSON.stringify([_this.ratiosThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["b" /* tableHeader */])].concat(_toConsumableArray(_this.ratiosData.sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["p" /* sortPropIgnoreCase */])(0))))))
 					},
 					style: 'table'
 				});
@@ -12703,7 +12703,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				}, {
 					table: {
 						headerRows: 1,
-						body: JSON.parse(JSON.stringify([_this.noRequestsThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["b" /* tableHeader */])].concat(_toConsumableArray(_this.noRequestsData.sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["o" /* sortPropIgnoreCase */])(0))))))
+						body: JSON.parse(JSON.stringify([_this.noRequestsThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["b" /* tableHeader */])].concat(_toConsumableArray(_this.noRequestsData.sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["p" /* sortPropIgnoreCase */])(0))))))
 					},
 					style: 'table'
 				});
@@ -12715,7 +12715,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				}, {
 					table: {
 						headerRows: 1,
-						body: JSON.parse(JSON.stringify([_this.noneCompletedThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["b" /* tableHeader */])].concat(_toConsumableArray(_this.noneCompletedData.sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["o" /* sortPropIgnoreCase */])(0))))))
+						body: JSON.parse(JSON.stringify([_this.noneCompletedThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["b" /* tableHeader */])].concat(_toConsumableArray(_this.noneCompletedData.sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["p" /* sortPropIgnoreCase */])(0))))))
 					},
 					style: 'table'
 				});
@@ -12727,7 +12727,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				}, {
 					table: {
 						headerRows: 1,
-						body: JSON.parse(JSON.stringify([_this.lastCompletedThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["b" /* tableHeader */])].concat(_toConsumableArray(_this.lastCompletedData.sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["o" /* sortPropIgnoreCase */])(0))))))
+						body: JSON.parse(JSON.stringify([_this.lastCompletedThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["b" /* tableHeader */])].concat(_toConsumableArray(_this.lastCompletedData.sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["p" /* sortPropIgnoreCase */])(0))))))
 					},
 					style: 'table'
 				});
@@ -12741,7 +12741,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 						headerRows: 1,
 						body: JSON.parse(JSON.stringify([_this.averageCompletionTimesThead[0].map(__WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__["b" /* tableHeader */])].concat(_toConsumableArray(_this.averageCompletionTimesData.map(function (obj) {
 							return [obj.name, obj.time];
-						}).sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["o" /* sortPropIgnoreCase */])(0))))))
+						}).sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["p" /* sortPropIgnoreCase */])(0))))))
 					},
 					style: 'table'
 				});
@@ -13022,7 +13022,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			var _this = this;
 
 			if (shouldFilter && this.milestoneGroups.length === 0) {
-				__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__modules_utils_js__["p" /* fetchMilestoneGroups */])().then(function (milestoneGroups) {
+				__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__modules_utils_js__["q" /* fetchMilestoneGroups */])().then(function (milestoneGroups) {
 					_this.milestoneGroups = milestoneGroups;
 				});
 			}
@@ -13087,7 +13087,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 			fetch('/report/aggregate', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__modules_utils_js__["a" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__modules_utils_js__["b" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -13109,12 +13109,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 			fetch('/report/stats/trainee/trainee', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__modules_utils_js__["a" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__modules_utils_js__["b" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(Object.assign({}, this.dates, {
 					trainingLevel: this.currentTrainingLevel
 				}))
-			}).then(__WEBPACK_IMPORTED_MODULE_8__modules_utils_js__["b" /* jsonOrThrow */]).then(function (stats) {
+			}).then(__WEBPACK_IMPORTED_MODULE_8__modules_utils_js__["c" /* jsonOrThrow */]).then(function (stats) {
 				_this5.subjectStats = stats;
 			}).catch(function (err) {
 				console.error(err);
@@ -13122,12 +13122,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 			fetch('/report/stats/faculty/trainee', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__modules_utils_js__["a" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__modules_utils_js__["b" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(Object.assign({}, this.dates, {
 					trainingLevel: this.currentTrainingLevel
 				}))
-			}).then(__WEBPACK_IMPORTED_MODULE_8__modules_utils_js__["b" /* jsonOrThrow */]).then(function (stats) {
+			}).then(__WEBPACK_IMPORTED_MODULE_8__modules_utils_js__["c" /* jsonOrThrow */]).then(function (stats) {
 				_this5.evaluatorStats = stats;
 			}).catch(function (err) {
 				console.error(err);

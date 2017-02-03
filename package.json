@@ -10,14 +10,17 @@
   "private": true,
   "scripts": {
     "start": "yarn watch",
-    "build": "npm-run-all clean build:*",
+    "build": "run-s clean build:webpack wait build:gulp",
     "build:webpack": "webpack -p",
     "build:gulp": "gulp --production",
     "watch": "run-p watch:*",
     "watch:webpack": "webpack --progress --colors --watch",
     "watch:gulp": "DISABLE_NOTIFIER=true gulp watch",
     "clean": "rm -f public/js/* && rm -f public/css/*.css && rm -f public/css/*.map && rm -f public/build/js/* && rm -f public/build/css/*.css && rm -f public/build/css/*.map && rm -f public/build/rev-manifest.json",
-    "remake": "yarn run clean && webpack && sleep 1 && gulp",
+    "wait": "sleep 1",
+    "remake": "run-s clean make:webpack wait make:gulp",
+    "make:webpack": "webpack",
+    "make:gulp": "gulp",
     "analyze:bundle": "webpack-bundle-analyzer ./public/js/stats.json"
   },
   "browserslist": [

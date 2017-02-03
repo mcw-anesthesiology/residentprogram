@@ -1,6 +1,7 @@
 <template>
 	<div class="row">
 		<div class="col-md-6">
+			<b>Unordered items</b>
 			<ul class="list-group">
 				<li v-for="item of itemsRemaining" class="list-group-item"
 						:key="itemKey in item && `bank-${item[itemKey]}`"
@@ -12,6 +13,7 @@
 			</ul>
 		</div>
 		<div class="col-md-6">
+			<b>Ordered list</b>
 			<ol class="list-group" ref="orderedList">
 				<li v-for="(item, index) of value" class="list-group-item"
 						:class="{active: activeItem === index}"

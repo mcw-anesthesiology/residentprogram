@@ -257,6 +257,10 @@ export function sortNumbers(a, b){
 	return Number(a) - Number(b);
 }
 
+export function sortPropNumbers(prop){
+	return (a, b) => sortNumbers(a[prop], b[prop]);
+}
+
 export function sortIgnoreCase(a, b){
 	a = a.toLowerCase();
 	b = b.toLowerCase();
