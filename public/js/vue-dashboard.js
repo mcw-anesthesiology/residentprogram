@@ -1449,7 +1449,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 385:
+/***/ 389:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2408,6 +2408,6 @@ function createStaffDashboard(el, propsData) {
 
 /***/ })
 
-},[385]);
+},[389]);
 });
 //# sourceMappingURL=vue-dashboard.js.map

@@ -14,9 +14,9 @@
 		</div>
 		
 		<stats-report v-if="evaluatorStats"
-			:report="evaluatorStats" title="Trainee evaluation statistics" />
+			:report="evaluatorStats" title="Trainee evaluation statistics by faculty" />
 		<stats-report v-if="subjectStats"
-			:report="subjectStats" title="Faculty evaluation statistics" />
+			:report="subjectStats" title="Faculty evaluation statistics by faculty" />
 	</div>
 </template>
 

@@ -186,7 +186,7 @@ class ReportController extends Controller
         }
         $data = compact('evaluationType', 'userType', 'statsType',
 			"noneRequested", "noneCompleted", "lastCompleted",
-			"userStats", "statEvalData");
+			"userStats", "statEvalData", "startDate", "endDate");
         if($statsType == 'evaluator')
             $data["averageCompletionTimes"] = $times;
 

@@ -123,9 +123,9 @@
 			</template>
 			<template v-else>
 				<stats-report v-if="subjectStats" :report="subjectStats"
-					title="Trainee evaluation statistics" />
+					title="Trainee evaluation statistics by trainee" />
 				<stats-report v-if="evaluatorStats" :report="evaluatorStats"
-					title="Faculty evaluation statistics" />
+					title="Faculty evaluation statistics by trainee" />
 				<aggregate-report :report="report" />
 			</template>
 		</div>
