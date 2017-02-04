@@ -829,9 +829,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			var rows = this.data.map(function (row) {
 				return row.map(function (cell) {
-					return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["d" /* escapeCsv */])(cell.toString());
+					return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["e" /* escapeCsv */])(cell.toString());
 				}).join(',');
-			}).sort(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["e" /* sortIgnoreCase */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["f" /* sortIgnoreCase */]);
 			var table = header.concat(rows);
 			__WEBPACK_IMPORTED_MODULE_0_downloadjs___default()(table.join('\n'), this.exportFilename + '.csv', 'text/csv');
 		}
@@ -864,7 +864,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_flatpickr_theme_flatpickr_min_css__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_flatpickr_theme_flatpickr_min_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_flatpickr_theme_flatpickr_min_css__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__ = __webpack_require__(6);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -1597,7 +1597,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__DataTable_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__ = __webpack_require__(6);
 //
 //
 //
@@ -1922,7 +1922,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 6:
+/***/ 5:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
@@ -2077,7 +2077,7 @@ function createManageEvaluations(el, propsData) {
 									visBtnType = 'btn-default';
 									break;
 							}
-							return '<span class="status">\n\t\t\t\t\t\t\t\t<span class="label label-' + label + '">\n\t\t\t\t\t\t\t\t\t' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["f" /* ucfirst */])(evaluation.status) + '\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t<br />\n\t\t\t\t\t\t\t<button type="button"\n\t\t\t\t\t\t\t\t\tclass="visibility visibility-' + evaluation.visibility + ' btn ' + visBtnType + ' btn-xs"\n\t\t\t\t\t\t\t\t\tdata-eval-type="' + evaluation.form.type + '"\n\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '"\n\t\t\t\t\t\t\t\t\tdata-current-visibility="' + evaluation.visibility + '">\n\t\t\t\t\t\t\t\t' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["f" /* ucfirst */])(evaluation.visibility) + '\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-eye-' + eyeType + '"></span>\n\t\t\t\t\t\t\t</button>';
+							return '<span class="status">\n\t\t\t\t\t\t\t\t<span class="label label-' + label + '">\n\t\t\t\t\t\t\t\t\t' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["b" /* ucfirst */])(evaluation.status) + '\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t<br />\n\t\t\t\t\t\t\t<button type="button"\n\t\t\t\t\t\t\t\t\tclass="visibility visibility-' + evaluation.visibility + ' btn ' + visBtnType + ' btn-xs"\n\t\t\t\t\t\t\t\t\tdata-eval-type="' + evaluation.form.type + '"\n\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '"\n\t\t\t\t\t\t\t\t\tdata-current-visibility="' + evaluation.visibility + '">\n\t\t\t\t\t\t\t\t' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["b" /* ucfirst */])(evaluation.visibility) + '\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-eye-' + eyeType + '"></span>\n\t\t\t\t\t\t\t</button>';
 						} }, { data: null, orderable: false, render: function render(evaluation) {
 							var buttonClass = void 0,
 							    buttonType = void 0,
@@ -2117,7 +2117,7 @@ function createManageEvaluations(el, propsData) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue__);
@@ -2127,6 +2127,7 @@ function createManageEvaluations(el, propsData) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_ShowHideButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__vue_components_ShowHideButton_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(2);
 /* harmony export (immutable) */ __webpack_exports__["a"] = createManageMilestonesCompetencies;
+
 
 
 
@@ -2228,6 +2229,7 @@ function createManageMilestonesCompetencies(el, propsData) {
 		},
 
 		methods: {
+			ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* ucfirst */],
 			fetchMilestones: function fetchMilestones() {
 				var _this = this;
 
@@ -2239,9 +2241,9 @@ function createManageMilestonesCompetencies(el, propsData) {
 
 				return fetch('/milestones?' + query, {
 					method: 'GET',
-					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* getFetchHeaders */])(),
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* jsonOrThrow */]).then(function (milestones) {
+				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["d" /* jsonOrThrow */]).then(function (milestones) {
 					_this.milestones = milestones;
 				}).catch(function (err) {
 					console.error(err);
@@ -2262,9 +2264,9 @@ function createManageMilestonesCompetencies(el, propsData) {
 
 				return fetch('/competencies?' + query, {
 					method: 'GET',
-					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* getFetchHeaders */])(),
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* jsonOrThrow */]).then(function (competencies) {
+				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["d" /* jsonOrThrow */]).then(function (competencies) {
 					_this2.competencies = competencies;
 				}).catch(function (err) {
 					console.error(err);
@@ -2286,13 +2288,13 @@ function createManageMilestonesCompetencies(el, propsData) {
 
 				fetch('/milestones/order', {
 					method: 'POST',
-					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* getFetchHeaders */])(),
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify({
 						_method: 'PATCH',
 						orderMap: orderMap
 					})
-				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* jsonOrThrow */]).then(function (results) {
+				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["d" /* jsonOrThrow */]).then(function (results) {
 					if (results.success && results.success.length === _this3.orderedMilestones.length) _this3.milestoneAlerts.push({
 						type: 'success',
 						text: 'All orders saved successfully'
@@ -2322,13 +2324,13 @@ function createManageMilestonesCompetencies(el, propsData) {
 
 				fetch('/competencies/order', {
 					method: 'POST',
-					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* getFetchHeaders */])(),
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify({
 						_method: 'PATCH',
 						orderMap: orderMap
 					})
-				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* jsonOrThrow */]).then(function (results) {
+				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["d" /* jsonOrThrow */]).then(function (results) {
 					if (results.success && results.success.length === _this4.orderedCompetencies.length) _this4.competencyAlerts.push({
 						type: 'success',
 						text: 'All orders saved successfully'

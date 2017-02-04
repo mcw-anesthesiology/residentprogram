@@ -43,7 +43,18 @@
 		<div class="panel-body">
 			<ordering-list v-model="orderedMilestones" :items="milestones">
 				<template scope="milestone">
-					@{{ milestone.title }}
+					<div>
+						<template v-if="milestone.training_level">
+							<b>
+								@{{ milestone.training_level }}
+							</b>
+							—
+						</template>
+						<i>@{{ ucfirst(milestone.type) }}</i>
+					</div>
+					<div>
+						@{{ milestone.title }}
+					</div>
 				</template>
 			</ordering-list>
 		</div>
