@@ -18,14 +18,14 @@ return webpackJsonp([3,10],[
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_striptags__ = __webpack_require__(315);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_striptags___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_striptags__);
 /* harmony export (immutable) */ __webpack_exports__["v"] = appendAlert;
-/* harmony export (immutable) */ __webpack_exports__["f"] = ucfirst;
+/* harmony export (immutable) */ __webpack_exports__["b"] = ucfirst;
 /* harmony export (immutable) */ __webpack_exports__["g"] = camelCaseToWords;
 /* harmony export (immutable) */ __webpack_exports__["l"] = snakeCaseToWords;
 /* harmony export (immutable) */ __webpack_exports__["k"] = kebabCaseToWords;
 /* harmony export (immutable) */ __webpack_exports__["w"] = nl2br;
-/* harmony export (immutable) */ __webpack_exports__["d"] = escapeCsv;
-/* harmony export (immutable) */ __webpack_exports__["b"] = getFetchHeaders;
-/* harmony export (immutable) */ __webpack_exports__["c"] = jsonOrThrow;
+/* harmony export (immutable) */ __webpack_exports__["e"] = escapeCsv;
+/* harmony export (immutable) */ __webpack_exports__["c"] = getFetchHeaders;
+/* harmony export (immutable) */ __webpack_exports__["d"] = jsonOrThrow;
 /* harmony export (immutable) */ __webpack_exports__["r"] = fetchCompetencies;
 /* harmony export (immutable) */ __webpack_exports__["t"] = fetchMilestoneGroups;
 /* harmony export (immutable) */ __webpack_exports__["q"] = fetchMilestones;
@@ -40,7 +40,7 @@ return webpackJsonp([3,10],[
 /* harmony export (immutable) */ __webpack_exports__["z"] = sortEmptyLast;
 /* harmony export (immutable) */ __webpack_exports__["m"] = sortNumbers;
 /* harmony export (immutable) */ __webpack_exports__["a"] = sortPropNumbers;
-/* harmony export (immutable) */ __webpack_exports__["e"] = sortIgnoreCase;
+/* harmony export (immutable) */ __webpack_exports__["f"] = sortIgnoreCase;
 /* harmony export (immutable) */ __webpack_exports__["p"] = sortPropIgnoreCase;
 /* harmony export (immutable) */ __webpack_exports__["n"] = htmlLabelReplacements;
 
@@ -398,7 +398,8 @@ function htmlLabelReplacements(html, replacements) {
 /***/ }),
 /* 3 */,
 /* 4 */,
-/* 5 */
+/* 5 */,
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -543,7 +544,6 @@ function allTime() {
 }
 
 /***/ }),
-/* 6 */,
 /* 7 */,
 /* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -555,7 +555,7 @@ function allTime() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_twix___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_twix__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants_js__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__date_utils_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__date_utils_js__ = __webpack_require__(6);
 /* harmony export (immutable) */ __webpack_exports__["l"] = unlimitTableEvals;
 /* harmony export (immutable) */ __webpack_exports__["m"] = unlimitRestTableEvals;
 /* harmony export (immutable) */ __webpack_exports__["j"] = createDateCell;
@@ -649,7 +649,7 @@ function renderAccountStatus(status) {
 			labelContext = 'label-default';
 			break;
 	}
-	return '<span class="label ' + labelContext + '">' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["f" /* ucfirst */])(status) + '</span>';
+	return '<span class="label ' + labelContext + '">' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["b" /* ucfirst */])(status) + '</span>';
 }
 
 function renderEvaluationStatus(status) {
@@ -673,12 +673,12 @@ function renderEvaluationStatus(status) {
 			labelContext = 'label-default';
 			break;
 	}
-	return '<span class="label ' + labelContext + '">' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["f" /* ucfirst */])(status) + '</span>';
+	return '<span class="label ' + labelContext + '">' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["b" /* ucfirst */])(status) + '</span>';
 }
 
 function renderTrainingLevel(trainingLevel) {
 	if (trainingLevel) {
-		if (trainingLevel.indexOf("ca-") > -1) return trainingLevel.toUpperCase();else return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["f" /* ucfirst */])(trainingLevel);
+		if (trainingLevel.indexOf("ca-") > -1) return trainingLevel.toUpperCase();else return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["b" /* ucfirst */])(trainingLevel);
 	}
 
 	return '';
@@ -687,7 +687,7 @@ function renderTrainingLevel(trainingLevel) {
 function renderSecondaryTrainingLevel(secondaryTrainingLevel) {
 	if (secondaryTrainingLevel) {
 		var allCaps = ['raaps'];
-		if (allCaps.indexOf(secondaryTrainingLevel) > -1) return secondaryTrainingLevel.toUpperCase();else return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["f" /* ucfirst */])(secondaryTrainingLevel);
+		if (allCaps.indexOf(secondaryTrainingLevel) > -1) return secondaryTrainingLevel.toUpperCase();else return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["b" /* ucfirst */])(secondaryTrainingLevel);
 	}
 
 	return '';
@@ -2913,14 +2913,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "getDataAttributes", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["r"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js__ = __webpack_require__(2);
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "appendAlert", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["v"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ucfirst", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["f"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ucfirst", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["b"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "camelCaseToWords", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["g"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "snakeCaseToWords", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["l"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "kebabCaseToWords", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["k"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "nl2br", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["w"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "escapeCsv", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["d"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "getFetchHeaders", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["b"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "jsonOrThrow", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["c"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "escapeCsv", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["e"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "getFetchHeaders", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["c"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "jsonOrThrow", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["d"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchCompetencies", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["r"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchMilestoneGroups", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["t"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchMilestones", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["q"]; });
@@ -2935,7 +2935,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortEmptyLast", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["z"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortNumbers", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["m"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortPropNumbers", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["a"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortIgnoreCase", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["e"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortIgnoreCase", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["f"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortPropIgnoreCase", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["p"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "htmlLabelReplacements", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["n"]; });
 

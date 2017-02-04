@@ -10,6 +10,7 @@ import {
 	jsonOrThrow,
 	sortPropNumbers
 } from '../../modules/utils.js';
+import { ucfirst } from '../../modules/utils.js';
 
 export default function createManageMilestonesCompetencies(el, propsData){
 	
@@ -172,6 +173,7 @@ export default function createManageMilestonesCompetencies(el, propsData){
 		},
 		
 		methods: {
+			ucfirst,
 			fetchMilestones(){
 				const query = $.param({
 					with: {
@@ -241,6 +243,8 @@ export default function createManageMilestonesCompetencies(el, propsData){
 							type: 'warning',
 							text: 'Some orders were not saved successfully'
 						});
+						
+					this.fetchMilestones();
 				}).catch(err => {
 					console.error(err);
 					this.milestoneAlerts.push({
@@ -248,8 +252,6 @@ export default function createManageMilestonesCompetencies(el, propsData){
 						text: 'There was a problem saving the orders'
 					});
 				});
-				
-				this.fetchMilestones();
 			},
 			saveCompetencyOrder(){
 				const orderMap = this.orderedCompetencies.map((competency, index) => ({
@@ -278,6 +280,7 @@ export default function createManageMilestonesCompetencies(el, propsData){
 							type: 'warning',
 							text: 'Some orders were not saved successfully'
 						});
+					this.fetchCompetencies();
 				}).catch(err => {
 					console.error(err);
 					this.competencyAlerts.push({
@@ -285,8 +288,6 @@ export default function createManageMilestonesCompetencies(el, propsData){
 						text: 'There was a problem saving the orders'
 					});
 				});
-				
-				this.fetchCompetencies();
 			}
 		},
 		

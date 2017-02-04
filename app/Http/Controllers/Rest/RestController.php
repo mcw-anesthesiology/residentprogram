@@ -87,9 +87,16 @@ class RestController extends Controller
 			}
 		}
 
-		$results = $query->take($request->input("limit"), null)
-			->orderBy("id", $request->input("order", "desc"))
-			->get();
+		$query->take($request->input("limit"), null);
+		
+		if($request->has('orderBy')){
+			$orderBy = $request->input('orderBy');
+			$query->orderBy($orderBy[0], $orderBy[1]);
+		}
+		else
+			$query->orderBy("id", $request->input("order", "desc"));
+			
+		$results = $query->get();
 
 		if(!$user->isType("admin"))
 			return $results->each(function($result){
