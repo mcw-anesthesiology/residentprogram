@@ -605,7 +605,7 @@ export default {
 				console.error(err);
 				this.alerts.push({
 					type: 'error',
-					html: `<strong>Error: </strong> There was a problem exporting the report for ${this.report.subjectEvaluations[this.subjectId]}`
+					html: `<strong>Error: </strong> There was a problem exporting the report for ${this.report.subjects[this.subjectId]}`
 				});
 			});
 
