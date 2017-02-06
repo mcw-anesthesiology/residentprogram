@@ -1,6 +1,7 @@
 /* eslint-env node */
 const webpack = require('webpack');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const ManifestPlugin = require('webpack-manifest-plugin');
 
 module.exports = {
 	entry: {
@@ -18,9 +19,11 @@ module.exports = {
 		'vue-manage': './resources/assets/js/vue-constructors/manage/index.js'
 	},
 	output: {
-		path: './public/js/',
-		publicPath: '/js/',
-		filename: '[name].js',
+		path: './public/build/js/',
+		publicPath: '/build/js/',
+		filename: process.env.NODE_ENV === 'production'
+			? '[name]-[chunkhash].js'
+			: '[name].js',
 		libraryTarget: 'umd'
 	},
 	target: 'web',
@@ -66,7 +69,8 @@ module.exports = {
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'disabled',
 			generateStatsFile: true
-		})
+		}),
+		new ManifestPlugin()
 	],
 	resolve: {
 		alias: {

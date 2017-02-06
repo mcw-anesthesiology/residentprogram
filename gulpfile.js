@@ -4,7 +4,7 @@ const elixir = require('laravel-elixir');
 const size = require("gulp-size");
 const each = require('gulp-each');
 const fc2json = require('gulp-file-contents-to-json');
-const glob = require('glob');
+const mergeJson = require('gulp-merge-json');
 
 const bowerPath = './bower_components/';
 const npmPath = './node_modules/';
@@ -100,6 +100,25 @@ gulp.task('buildfonts', function(){
 		.pipe(gulp.dest('./resources/assets/js'));
 });
 
+gulp.task('merge-manifests', () => {
+	gulp.src(['./public/build/js/manifest.json', './public/build/rev-manifest.json'])
+		.pipe(mergeJson({
+			fileName: 'rev-manifest.json',
+			edit(json){
+				for(let key in json){
+					if(!key.startsWith('js/') && !key.startsWith('css/')){
+						let val = json[key];
+						delete json[key];
+						json[`js/${key}`] = `js/${val}`;
+					}
+				}
+				
+				return json;
+			}
+		}))
+		.pipe(gulp.dest('./public/build/'));
+});
+
 elixir(function(mix) {
 	mix.scripts([
 			...relativeToResourcesSubdir(scripts),
@@ -122,17 +141,14 @@ elixir(function(mix) {
 		]);
 	mix.version([
 		'js/all.js',
-		'css/all.css',
-		'js/iframeResizer.min.js',
-
-		...stripFirstDirectory(glob.sync('public/js/*.js')),
-		...stripFirstDirectory(glob.sync('public/css/*.css'))
+		'css/all.css'
+	]);
+	
+	mix.task('merge-manifests', [
+		'./public/build/js/manifest.json',
+		'./public/js/all.js'
 	]);
 });
-
-function stripFirstDirectory(arr){
-	return arr.map(path => path.substring(path.indexOf('/') + 1));
-}
 
 function relativeToResourcesSubdir(arr){
 	return arr.map(path => '../../../' + path);

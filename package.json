@@ -10,8 +10,8 @@
   "private": true,
   "scripts": {
     "start": "yarn watch",
-    "build": "run-s clean build:webpack wait build:gulp",
-    "build:webpack": "webpack -p",
+    "build": "run-s build:webpack wait build:gulp",
+    "build:webpack": "NODE_ENV=production webpack -p",
     "build:gulp": "gulp --production",
     "watch": "run-p watch:*",
     "watch:webpack": "webpack --progress --colors --watch",
@@ -21,7 +21,7 @@
     "remake": "run-s clean make:webpack wait make:gulp",
     "make:webpack": "webpack",
     "make:gulp": "gulp",
-    "analyze:bundle": "webpack-bundle-analyzer ./public/js/stats.json"
+    "analyze:bundle": "webpack-bundle-analyzer ./public/build/js/stats.json"
   },
   "browserslist": [
     "> 1%",
@@ -53,6 +53,7 @@
     "gulp": "^3.9.0",
     "gulp-each": "^0.2.0",
     "gulp-file-contents-to-json": "^0.2.1",
+    "gulp-merge-json": "^0.6.0",
     "gulp-size": "^2.1.0",
     "iframe-resizer": "^3.5.5",
     "indefinite": "^1.0.1",
@@ -74,6 +75,7 @@
     "vue-template-compiler": "^2.1.6",
     "webpack": "beta",
     "webpack-bundle-analyzer": "^2.2.1",
+    "webpack-manifest-plugin": "^1.1.0",
     "whatwg-fetch": "^2.0.1"
   },
   "dependencies": {
