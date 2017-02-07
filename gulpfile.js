@@ -146,7 +146,8 @@ elixir(function(mix) {
 	
 	mix.task('merge-manifests', [
 		'./public/build/js/manifest.json',
-		'./public/js/all.js'
+		'./public/js/*.js',
+		'./public/css/*.css'
 	]);
 });
 
