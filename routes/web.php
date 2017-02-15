@@ -13,6 +13,7 @@
 
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout');
+Route::post('/auth', 'Auth\LoginController@externalLogin');
 
 Route::get('/', function(){
 	return redirect('dashboard');
