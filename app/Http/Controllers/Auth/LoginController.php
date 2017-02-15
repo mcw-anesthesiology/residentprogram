@@ -75,4 +75,28 @@ class LoginController extends Controller
                 'error' => $error
             ]);
     }
+	
+	public function externalLogin(Request $request){
+		$this->validateLogin($request);
+		
+		if($this->hasTooManyLoginAttempts($request)){
+			$this->fireLockoutEvent($request);
+			
+			return response()->json([
+				'status' => 'failed'
+			], 429);
+		}
+		
+		if($this->attemptLogin($request))
+			return response()->json([
+				'status' => 'success',
+				'user' => $this->guard()->user()
+			]);
+		
+		$this->incrementLoginAttempts($request);
+		
+		return response()->json([
+			'status' => 'failed'
+		], 401);
+	}
 }
