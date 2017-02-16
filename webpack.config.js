@@ -31,23 +31,23 @@ module.exports = {
 		rules: [
 			{
 				test: /\.vue$/,
-				loader: 'vue-loader'
+				use: 'vue-loader'
 			},
 			{
 				test: /\.js$/,
 				exclude: /node_modules/,
-				loader: 'babel-loader'
+				use: 'babel-loader'
 			},
 			{
 				test: /\.css$/,
-				loaders: [
+				use: [
 					'style-loader',
 					'css-loader'
 				]
 			},
 			{
 				test: /element-dataset/,
-				loader: 'apply-loader'
+				use: 'apply-loader'
 			}
 		]
 	},
