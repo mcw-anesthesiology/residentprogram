@@ -180,7 +180,7 @@ class RestController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, $id){
-		if($this->model::destroy($id) == 1){
+		if($this->model::destroy($id)){
 			if($request->ajax())
 				return "success";
 			else
@@ -188,7 +188,7 @@ class RestController extends Controller
 		}
 		else {
 			if($request->ajax())
-				throw new Exception("Problem deleting object");
+				throw new \Exception("Problem deleting object");
 			else
 				return back()->with("error", "Problem deleting object");
 		}
