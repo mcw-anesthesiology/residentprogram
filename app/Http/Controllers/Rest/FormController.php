@@ -123,7 +123,7 @@ class FormController extends RestController
 
         if(in_array($request->input('formType'), ['resident', 'fellow'])){
 			foreach($request->input('items') as $item){
-				if($item['milestones'] && count($item['milestones']) > 0){
+				if(!empty($item['milestones']) && count($item['milestones']) > 0){
 					foreach($item['milestones'] as $milestoneId){
 						MilestoneQuestion::create([
 							'form_id' => $form->id,
@@ -132,7 +132,7 @@ class FormController extends RestController
 						]);
 					}
 				}
-				if($item['competencies']){
+				if(!empty($item['competencies'])){
 					foreach($item['competencies'] as $competencyId){
 						CompetencyQuestion::create([
 							'form_id' => $form->id,
