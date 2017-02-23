@@ -8,14 +8,14 @@ use App\User;
 use Mail;
 use Log;
 
-class SendReminders extends Command
+class FacultyReminders extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'reminders:send {frequency}';
+    protected $signature = 'send:faculty-reminders {frequency}';
 
     /**
      * The console command description.
@@ -73,7 +73,7 @@ class SendReminders extends Command
 				$data = compact('frequency', 'pendingEvals', 'emailUser',
 					'numPending');
 				
-                Mail::send('emails.reminder', $data, function($message) use ($emailUser){
+                Mail::send('emails.reminders.faculty', $data, function($message) use ($emailUser){
                     $message->from('reminders@residentprogram.com', 'ResidentProgram Reminders');
                     $message->to($emailUser->email);
                     $message->replyTo(config('app.admin_email'));

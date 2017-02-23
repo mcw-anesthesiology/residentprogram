@@ -1,4 +1,4 @@
-<h1>Hello!</h1>
+<p>Hello Dr {{ $emailUser->last_name }}!</p>
 
 <p>
 	This is your {{ $frequency }} reminder from ResidentProgram.com.
@@ -54,8 +54,12 @@
 </p>
 
 <p>
-	As always, if you have any questions or comments about the system, you can
+	As always, if you have any questions or comments about the system you can
 	contact me from the <a href="{{ url("/contact") }}">contact page</a>
 	or by emailing me directly at
 	<a href="mailto:{{ config("app.admin_email") }}">{{ config("app.admin_email") }}</a>.
+</p>
+
+<p>
+	Thank you!
 </p>
