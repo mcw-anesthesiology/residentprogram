@@ -67,6 +67,7 @@ class ResidentReminders extends Command
 			}
 		}
 		
+		$notNeeded = [];
 		$success = [];
 		$fail = [];
 
@@ -114,6 +115,9 @@ class ResidentReminders extends Command
 					if(config('app.env') != 'production')
 						sleep(1);
 				}
+				else {
+					$notNeeded[] = $resident;
+				}
 			} catch (\Exception $e){
 				$fail[] = $resident;
 				Log::error($e);
@@ -124,10 +128,13 @@ class ResidentReminders extends Command
 		
 		$progress->finish();
 		
+		$numNotNeeded = count($notNeeded);
 		$numSuccessful = count($success);
 		$numFailed = count($fail);
 		
 		$this->info("\n\nDone!\n");
+		if($notNeeded)
+			$this->info("Not needed:\t\t{$numNotNeeded}");
 		$this->info("Successful:\t\t{$numSuccessful}");
 		if($numFailed > 0)
 			$this->error("Failed:\t\t{$numFailed}");
