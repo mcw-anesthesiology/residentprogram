@@ -841,4 +841,97 @@ class AdminTest extends TestCase
 	            "pager" => $directory[2]->pager,
 	        ]);
     }
+    
+    public function testResidentReminders(){
+		$faker = Faker::create();
+        $otherResident = factory(App\User::class, 'resident')->create();
+        $evals = [
+			[
+				factory(App\Evaluation::class, 'complete')->create([
+					'form_id' => $this->form->id,
+					'subject_id' => $this->resident->id,
+					'evaluator_id' => $this->faculty->id,
+					'requested_by_id' => $this->resident->id,
+					'request_date' => $faker->dateTimeBetween(Carbon::now()->startOfMonth(), Carbon::now())
+				]),
+				factory(App\Evaluation::class)->create([
+					'form_id' => $this->form->id,
+					'subject_id' => $this->resident->id,
+					'evaluator_id' => $this->faculty->id,
+					'requested_by_id' => $this->resident->id,
+					'request_date' => $faker->dateTimeBetween(Carbon::now()->startOfMonth(), Carbon::now())
+				])
+			],
+			[
+				factory(App\Evaluation::class, 'complete')->create([
+					'form_id' => $this->form->id,
+					'subject_id' => $otherResident->id,
+					'evaluator_id' => $this->faculty->id,
+					'requested_by_id' => $otherResident->id,
+					'request_date' => $faker->dateTime(Carbon::now()->startOfMonth()->subDay(1))
+				]),
+				factory(App\Evaluation::class)->create([
+					'form_id' => $this->form->id,
+					'subject_id' => $otherResident->id,
+					'evaluator_id' => $this->faculty->id,
+					'requested_by_id' => $this->faculty->id,
+					'request_date' => $faker->dateTimeBetween(Carbon::now()->startOfMonth(), Carbon::now())
+				])
+			]
+        ];
+		
+		$facultyEvals = [
+			factory(App\Evaluation::class, 'complete', 2)->create([
+				'form_id' => $this->facultyForm->id,
+				'subject_id' => $this->faculty->id,
+				'evaluator_id' => $this->resident->id,
+				'requested_by_id' => $this->resident->id,
+				'complete_date' => $faker->dateTimeBetween(Carbon::now()->startOfMonth(), Carbon::now())
+			]),
+			[
+				factory(App\Evaluation::class, 'complete')->create([
+					'form_id' => $this->facultyForm->id,
+					'subject_id' => $this->faculty->id,
+					'evaluator_id' => $otherResident->id,
+					'requested_by_id' => $otherResident->id,
+					'complete_date' => $faker->dateTimeBetween(Carbon::now()->startOfMonth(), Carbon::now())
+				]),
+				factory(App\Evaluation::class, 'complete')->create([
+					'form_id' => $this->facultyForm->id,
+					'subject_id' => $this->faculty->id,
+					'evaluator_id' => $otherResident->id,
+					'requested_by_id' => $otherResident->id,
+					'complete_date' => $faker->dateTime(Carbon::now()->startOfMonth()->subDay(1))
+				]),
+			]
+		];
+		
+		$requirements = Setting::get('monthlyResidentRequirements');
+		
+		$resident = $this->resident;
+		
+		Mail::shouldReceive('send')
+			->twice()
+			->andReturnUsing(function($view, $data)
+					use ($resident, $otherResident, $requirements){
+				$this->assertEquals('emails.reminders.resident', $view);
+				if($data['resident']->id == $resident->id){
+					$this->assertEquals(2, $data['monthRequests']);
+					$this->assertEquals(2, $data['monthFacultyEvals']);
+				}
+				elseif($data['resident']->id == $otherResident->id){
+					$this->assertEquals(0, $data['monthRequests']);
+					$this->assertEquals(1, $data['monthFacultyEvals']);
+				}
+				$this->assertEquals($requirements, $data['requirements']);
+				$this->assertEquals($requirements['evaluationRequests'],
+					$data['requestsNeeded'] + $data['monthRequests']);
+				$this->assertEquals($requirements['facultyEvaluations'],
+					$data['facultyEvalsNeeded'] + $data['monthFacultyEvals']);
+			});
+			
+		Artisan::call('send:resident-reminders');
+		
+		$this->assertStringEndsWith("Done!\n\nSuccessful:\t\t2\n", Artisan::output());
+    }
 }

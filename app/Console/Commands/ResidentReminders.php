@@ -83,6 +83,7 @@ class ResidentReminders extends Command
 					->filter(function($eval){
 						return $eval->form->type == 'faculty'
 							&& $eval->subject->type == 'faculty'
+							&& $eval->status == 'complete'
 							&& $eval->complete_date >= Carbon::now()->firstOfMonth();
 					})->count();
 										
