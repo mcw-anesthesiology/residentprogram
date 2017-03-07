@@ -178,4 +178,10 @@ export default {
 	.refresh-button-container {
 		text-align: right;
 	}
+	
+	@media print {
+		.refresh-button-container {
+			display: none;
+		}
+	}
 </style>
