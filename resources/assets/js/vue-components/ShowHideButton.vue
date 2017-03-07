@@ -35,3 +35,11 @@ export default {
 	}
 };
 </script>
+
+<style scoped>
+	@media print {
+		button {
+			display: none;
+		}
+	}
+</style>

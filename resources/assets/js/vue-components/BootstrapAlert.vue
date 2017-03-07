@@ -49,3 +49,9 @@ export default {
 	}
 };
 </script>
+
+<style scoped>
+	.alert {
+		page-break-inside: avoid;
+	}
+</style>

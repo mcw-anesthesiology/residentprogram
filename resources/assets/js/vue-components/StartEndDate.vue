@@ -16,7 +16,7 @@
 					Start Date
 					<vue-flatpickr class="form-control"
 						:value="value.startDate" :options="flatpickrOptions"
-						@input="handleInput('startDate', arguments[0])"/>
+						@input="startDate = arguments[0]"/>
 				</label>
 			</div>
 			<div class="col-sm-6 col-md-4">
@@ -24,7 +24,7 @@
 					End Date
 					<vue-flatpickr class="form-control"
 						:value="value.endDate" :options="flatpickrOptions"
-						@input="handleInput('endDate', arguments[0])"/>
+						@input="endDate = arguments[0]"/>
 				</label>
 			</div>
 		</div>
@@ -60,6 +60,8 @@ export default {
 	},
 	data(){
 		return {
+			startDate: this.value.startDate,
+			endDate: this.value.endDate,
 			dateRange: DATE_RANGES.CUSTOM
 		};
 	},
@@ -67,6 +69,12 @@ export default {
 		this.matchDateRangeWithValue();
 	},
 	computed: {
+		dates(){
+			return {
+				startDate: this.startDate,
+				endDate: this.endDate
+			};
+		},
 		DATE_RANGES(){
 			let ranges = Object.assign({}, DATE_RANGES);
 			if(!this.allTime)
@@ -89,6 +97,9 @@ export default {
 		lastYear
 	},
 	watch: {
+		dates(dates){
+			this.$emit('input', dates);
+		},
 		value(){
 			this.matchDateRangeWithValue();
 		},
@@ -125,10 +136,6 @@ export default {
 
 			this.dateRange = DATE_RANGES.CUSTOM;
 		},
-		handleInput(prop, value){
-			let newValue = Object.assign({}, this.value, {[prop]: value});
-			this.$emit('input', newValue);
-		},
 		datesEqual(dates1, dates2){
 			dates1 = isoDateStringObject(dates1);
 			dates2 = isoDateStringObject(dates2);
@@ -137,7 +144,9 @@ export default {
 				&& dates1.endDate === dates2.endDate;
 		},
 		setDate(dates){
-			this.$emit('input', isoDateStringObject(dates));
+			dates = isoDateStringObject(dates);
+			this.startDate = dates.startDate;
+			this.endDate = dates.endDate;
 		},
 		camelCaseToWords
 	},

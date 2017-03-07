@@ -374,6 +374,10 @@ body {
     table{
     	width: 100%;
     }
+	
+	.question-footer {
+		display: none;
+	}
 }
 
 .center-block {

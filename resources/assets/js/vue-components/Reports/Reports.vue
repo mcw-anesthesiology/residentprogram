@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="container body-block">
+		<div class="container body-block reports-selector">
 			<fieldset>
 				<legend>Report type</legend>
 				<div class="form-inline">
@@ -65,5 +65,11 @@ export default {
 <style scoped>
 	.report-type-option {
 		margin: 0 1em;
+	}
+	
+	@media print {
+		.reports-selector {
+			display: none;
+		}
 	}
 </style>

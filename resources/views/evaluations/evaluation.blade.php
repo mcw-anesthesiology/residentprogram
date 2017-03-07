@@ -37,6 +37,10 @@
 		.subject-image img {
 			width: 300px;
 		}
+		
+		hr {
+			page-break-before: always;
+		}
 	</style>
 @stop
 
@@ -161,7 +165,12 @@
 					—
 					{{ $evaluation->evaluation_date_end->toFormattedDateString() }}
 				</div>
+				
+				
 				{!! App\Helpers\FormReader::read($evaluation->form->xml_path) !!}
+				
+				<hr />
+				
 	@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id)
 				<div class="submit-container text-center">
 					<button type="submit" id="complete-form" name="evaluation_id" value="{{ $evaluation->viewable_id }}" class="btn btn-primary btn-lg">Complete evaluation</button>

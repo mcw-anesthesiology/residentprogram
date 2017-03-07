@@ -3,11 +3,13 @@
 		<div class="container body-block">
 			<h1>Form report</h1>
 			<start-end-date v-model="dates" />
-			<label class="containing-label">
-				Form
-				<select-two class="form-control" :options="groupedForms"
-						v-model="formId"></select-two>
-			</label>
+			<div class="form-group">
+				<label class="containing-label">
+					Form
+					<select-two class="form-control" :options="groupedForms"
+					v-model="formId"></select-two>
+				</label>
+			</div>
 			
 			<alert-list v-model="alerts" />
 			
@@ -20,66 +22,69 @@
 		</div>
 
 		<div v-if="report" class="container body-block">
-			
-			<bootstrap-alert v-if="report.evals.length > 0" type="info">
-				
-				<div class="row">
-					<div class="col-md-8">
-						<h2>
-							{{ report.evals.length }} evaluations
-						</h2>
-					</div>
-					<div class="col-md-4 text-right">
-						<show-hide-button class="btn btn-info"
-								v-model="show.allEvals">
-							all
-						</show-hide-button>
-					</div>
-				</div>
-				
-				<data-table v-if="show.allEvals"
-					:thead="evalsThead" :config="allEvalsConfig" />
-
-			</bootstrap-alert>
-			<bootstrap-alert v-else type="warning"
-				:text="`No evaluations found for ${report.formContents.title} in report parameters.`" />
-			
-			<section>
-				<label class="containing-label">
-					User
-					<select-two class="form-control" :options="groupedUsers"
-							v-model="subjectId">
-						<option value="">All</option>
-					</select-two>
-				</label>
-				
-				<section v-if="subjectId">
-					<bootstrap-alert type="info"
-							v-if="report.subjectEvals[subjectId] && report.subjectEvals[subjectId].length > 0">
-						
-						<div class="row">
-							<div class="col-md-8">
-								<h2>
-									{{ report.subjectEvals[subjectId].length }}
-									{{ subject.full_name }} evaluations
-								</h2>
-							</div>
-							<div class="col-md-4 text-right">
-								<show-hide-button class="btn btn-info"
-										v-model="show.subjectEvals">
-									all
-								</show-hide-button>
-							</div>
+			<div class="report-evaluations">
+				<bootstrap-alert v-if="report.evals.length > 0" type="info">
+					
+					<div class="row">
+						<div class="col-md-8">
+							<h2>
+								{{ report.evals.length }} total form evaluations
+							</h2>
 						</div>
-						
-						<data-table v-if="show.subjectEvals"
-							:thead="evalsThead" :config="subjectEvalsConfig" />
+						<div class="col-md-4 text-right">
+							<show-hide-button class="btn btn-info"
+									v-model="show.allEvals">
+								all
+							</show-hide-button>
+						</div>
+					</div>
+					
+					<data-table v-if="show.allEvals"
+						:thead="evalsThead" :config="allEvalsConfig" />
 
-					</bootstrap-alert>
-					<bootstrap-alert v-else type="warning"
-						:text="`No evaluations found for ${subject.full_name} in report parameters.`" />
+				</bootstrap-alert>
+				<bootstrap-alert v-else type="warning"
+					:text="`No evaluations found for ${report.formContents.title} in report parameters.`" />
+				
+				<section>
+					<div class="form-group">
+						<label class="containing-label">
+							User
+							<select-two class="form-control" :options="groupedUsers"
+									v-model="subjectId">
+								<option value="">All</option>
+							</select-two>
+						</label>
+					</div>
+					
+					<section v-if="subjectId">
+						<bootstrap-alert type="info"
+								v-if="report.subjectEvals[subjectId] && report.subjectEvals[subjectId].length > 0">
+							
+							<div class="row">
+								<div class="col-md-8">
+									<h2>
+										{{ report.subjectEvals[subjectId].length }}
+										{{ subject.full_name }} evaluations
+									</h2>
+								</div>
+								<div class="col-md-4 text-right">
+									<show-hide-button class="btn btn-info"
+											v-model="show.subjectEvals">
+										all
+									</show-hide-button>
+								</div>
+							</div>
+							
+							<data-table v-if="show.subjectEvals"
+								:thead="evalsThead" :config="subjectEvalsConfig" />
+
+						</bootstrap-alert>
+						<bootstrap-alert v-else type="warning"
+							:text="`No evaluations found for ${subject.full_name} in report parameters.`" />
+					</section>
 				</section>
-			</section>
+			</div>
 			
 			<h2 class="form-title" v-if="reportContents.title">
 				{{ reportContents.title }}
@@ -90,6 +95,7 @@
 
 				</div>
 			</template>
+			<hr />
 		</div>
 	</div>
 </template>
@@ -340,5 +346,20 @@ export default {
 	
 	h2.form-title {
 		margin: 60px 0 20px;
+		page-break-before: always;
+	}
+	
+	.report-evaluations {
+		page-break-inside: avoid;
+	}
+	
+	hr {
+		page-break-before: always;
+	}
+	
+	@media print {
+		.btn-lg-submit-container {
+			display: none;
+		}
 	}
 </style>
