@@ -218,7 +218,7 @@ export function fetchForms(){
 	return fetch('/forms', {
 		method: 'GET',
 		headers: getFetchHeaders(),
-		credentials: 'same-origin',
+		credentials: 'same-origin'
 	}).then(response => response.json());
 }
 

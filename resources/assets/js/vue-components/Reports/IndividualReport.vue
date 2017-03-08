@@ -149,6 +149,8 @@ import {
 import {
 	createRadarScaleCallback,
 	tableHeader,
+	fullWidthTable,
+	borderedStripedTable,
 	createResponseLegend
 } from '../../modules/report-utils.js';
 
@@ -453,16 +455,15 @@ export default {
 			Promise.all([
 				import('pdfmake/build/pdfmake.js'),
 				import('../../vfs_fonts.json')
-			]).then(imports => {
-				const [pdfmake, vfs] = imports;
+			]).then(([pdfmake, vfs]) => {
 				pdfmake.vfs = vfs;
 
 				const filename = `${this.report.subjects[this.subjectId]} - ${new Date().toLocaleString()}`; // FIXME
 
 				let content = [
 					{ text: 'Report parameters', style: 'heading' },
-					{
-						table: {
+					borderedStripedTable({
+						table: fullWidthTable({
 							headerRows: 1,
 							body: [
 								['Name', 'Training level', 'Start date', 'End date'].map(tableHeader),
@@ -477,18 +478,19 @@ export default {
 										: this.report.endDate
 								]
 							]
-						}
-					},
+						})
+					}),
 					{ text: 'Evaluations included in report', style: 'heading' },
-					{
+					borderedStripedTable({
 						table: {
 							headerRows: 1,
+							widths: ['auto', 'auto', 'auto', '*'],
 							body: JSON.parse(JSON.stringify([
 								this.evaluationsThead[0].map(tableHeader),
 								...this.evaluationsData
 							]))
 						}
-					}
+					})
 				];
 
 				if(this.show.competencies || this.show.milestones)
@@ -500,29 +502,31 @@ export default {
 				if(this.show.competencies)
 					content.push(
 						{ text: 'Competencies', style: 'heading' },
-						{
+						borderedStripedTable({
 							table: {
 								headerRows: 1,
+								widths: ['*', 'auto', 'auto'],
 								body: JSON.parse(JSON.stringify([
 									this.competenciesThead[0].map(tableHeader),
 									...this.competenciesData
 								]))
 							}
-						}
+						})
 					);
 
 				if(this.show.milestones)
 					content.push(
 						{ text: 'Milestones', style: 'heading' },
-						{
+						borderedStripedTable({
 							table: {
 								headerRows: 1,
+								widths: ['*', 'auto', 'auto'],
 								body: JSON.parse(JSON.stringify([
 									this.milestonesThead[0].map(tableHeader),
 									...this.milestonesData
 								]))
 							}
-						}
+						})
 					);
 
 				let charts = [];
@@ -532,18 +536,18 @@ export default {
 						if(this.show.competencies && this.$refs.competencyChart && this.$refs.competencyChart.chart)
 							cols.push({
 								image: this.$refs.competencyChart.chart.toBase64Image(),
-								width: 250
+								width: '*'
 							});
 						else
-							cols.push({ text: '', width: 250 });
+							cols.push({ text: '', width: '*' });
 
 						if(this.show.milestones && this.$refs.milestoneChart && this.$refs.milestoneChart.chart)
 							cols.push({
 								image: this.$refs.milestoneChart.chart.toBase64Image(),
-								width: 250
+								width: '*'
 							});
 						else
-							cols.push({ text: '', width: 250 });
+							cols.push({ text: '', width: '*' });
 
 						charts = [
 							{
@@ -559,13 +563,13 @@ export default {
 							charts.push({
 								pageBreak: 'before',
 								image: this.$refs.competencyChart.chart.toBase64Image(),
-								width: 550
+								width: '*'
 							});
 
 						if(this.show.milestones && this.$refs.milestoneChart && this.$refs.milestoneChart.chart)
 							charts.push({
 								image: this.$refs.milestoneChart.chart.toBase64Image(),
-								width: 550,
+								width: '*',
 								pageBreak: 'after'
 							});
 					}
@@ -574,20 +578,21 @@ export default {
 
 				content.push(
 					{ text: 'Comments', style: 'heading' },
-					{
+					borderedStripedTable({
 						table: {
 							headerRows: 1,
+							widths: ['auto', 'auto', 'auto', 'auto', '*'],
 							body: JSON.parse(JSON.stringify([
 								this.commentsThead[0].map(tableHeader),
 								...this.commentsData
 							]))
 						}
-					}
+					})
 				);
 
 				let docDefinition = {
 					pageSize: 'LETTER',
-					content: content,
+					content,
 					styles: {
 						heading: {
 							bold: true,

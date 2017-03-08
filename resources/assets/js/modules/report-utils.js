@@ -33,6 +33,31 @@ export function tableHeader(text){
 	};
 }
 
+export function fullWidthTable(table){
+	table.widths = Array(table.body[0].length).fill('*');
+	return table;
+}
+
+export function borderedStripedTable(element){
+	element.layout = {
+		hLineWidth: (i, node) =>
+			i === node.table.headerRows
+				? 2
+				: 1,
+		vLineWidth: () => 1,
+		hLineColor: () => '#555',
+		vLineColor: () => '#555',
+		fillColor(i, node){
+			return (i >= node.table.headerRows
+					&& i % 2 === 1)
+				? '#f3f3f3'
+				: '#fff';
+		}
+	};
+	
+	return element;
+}
+
 export function getAverageLevel(average){
 	let level = Math.floor(average) / 2;
 	return level >= 1
