@@ -76,8 +76,9 @@
 								</div>
 							</div>
 							
-							<data-table v-if="show.subjectEvals"
-								:thead="evalsThead" :config="subjectEvalsConfig" />
+							<data-table v-if="subjectEvals && show.subjectEvals"
+								:thead="evalsThead" :data="subjectEvals"
+								:config="subjectEvalsConfig" />
 
 						</bootstrap-alert>
 						<bootstrap-alert v-else type="warning"
@@ -85,6 +86,13 @@
 					</section>
 				</section>
 			</div>
+			
+			<button type="button" class="btn btn-default"
+					v-if="this.reportContents && this.reportContents.items.length > 0"
+					@click="exportPdf">
+				Export PDF
+				<svg-icon src="/img/icons/pdf.svg" />
+			</button>
 			
 			<h2 class="form-title" v-if="reportContents.title">
 				{{ reportContents.title }}
@@ -101,6 +109,8 @@
 </template>
 
 <script>
+import moment from 'moment';
+
 import StartEndDate from '../StartEndDate.vue';
 import SelectTwo from '../SelectTwo.vue';
 import FormReportQuestion from './FormReportQuestion.vue';
@@ -108,9 +118,23 @@ import DataTable from '../DataTable.vue';
 import BootstrapAlert from '../BootstrapAlert.vue';
 import AlertList from '../AlertList.vue';
 import ShowHideButton from '../ShowHideButton.vue';
+import SvgIcon from '../SvgIcon.vue';
 
-import { getFetchHeaders, fetchFormGroups } from '../../modules/utils.js';
-import { isoDateStringObject, currentQuarter } from '../../modules/date-utils.js';
+import {
+	getFetchHeaders,
+	jsonOrThrow,
+	fetchFormGroups
+} from '../../modules/utils.js';
+import {
+	isoDateStringObject,
+	currentQuarter,
+	renderDateRange
+} from '../../modules/date-utils.js';
+import {
+	tableHeader,
+	fullWidthTable,
+	borderedStripedTable
+} from '../../modules/report-utils.js';
 import {
 	renderDateCell,
 	createDateCell,
@@ -138,10 +162,15 @@ export default {
 			report: null,
 
 			groupedForms: [],
+			subjectEvals: [],
 			
 			show: {
 				allEvals: false,
 				subjectEvals: false
+			},
+			
+			pdfOptions: {
+				questionPageBreak: null
 			},
 			
 			alerts: []
@@ -246,27 +275,6 @@ export default {
 		},
 		subjectEvalsConfig(){
 			return {
-				ajax: {
-					url: '/evaluations',
-					data: {
-						id: this.report.subjectEvals[this.subjectId].slice(),
-						with: {
-							subject: [
-								'full_name'
-							],
-							evaluator: [
-								'full_name'
-							],
-							requestor: [
-								'full_name'
-							],
-							form: [
-								'title'
-							]
-						}
-					},
-					dataSrc: ''
-				},
 				columns: [
 					{data: 'url'},
 					{data: 'subject.full_name'},
@@ -284,6 +292,35 @@ export default {
 				],
 				order: [[0, 'desc']]
 			};
+		}
+	},
+	watch: {
+		subjectId(subjectId){
+			let query = $.param({
+				id: this.report.subjectEvals[subjectId].slice(),
+				with: {
+					subject: [
+						'full_name'
+					],
+					evaluator: [
+						'full_name'
+					],
+					requestor: [
+						'full_name'
+					],
+					form: [
+						'title'
+					]
+				}
+			});
+			
+			fetch(`/evaluations?${query}`, {
+				method: 'GET',
+				headers: getFetchHeaders(),
+				credentials: 'same-origin',
+			}).then(jsonOrThrow).then(subjectEvals => {
+				this.subjectEvals = subjectEvals;
+			});
 		}
 	},
 
@@ -324,6 +361,245 @@ export default {
 				});
 				console.error(err);
 			});
+		},
+		exportPdf(){
+			if(!this.reportContents || this.reportContents.items.length < 1)
+				return;
+				
+			let hasSubject = (this.report.subjectEvals[this.subjectId]
+				&& this.report.subjectEvals[this.subjectId].length > 0);
+			
+			Promise.all([
+				import('pdfmake/build/pdfmake.js'),
+				import('../../vfs_fonts.json')
+			]).then(([pdfmake, vfs]) => {
+				pdfmake.vfs = vfs;
+				
+				const filename = `${this.reportContents.title} - ${this.dates.startDate} -- ${this.dates.endDate}.pdf`;
+				
+				let content = [
+					{ text: 'Form Report', style: 'h1' },
+					{
+						table: fullWidthTable({
+							headerRows: 1,
+							body: [
+								['Form', 'Start date', 'End date'].concat(
+									hasSubject
+										? ['Subject']
+										: []
+								).map(tableHeader),
+								[
+									this.reportContents.title,
+									this.dates.startDate,
+									this.dates.endDate
+								].concat(hasSubject
+									? [this.subject.full_name]
+									: []
+								)
+							]
+						})
+					},
+					
+					{ text: `Evaluations for ${this.subject.full_name} included in report`, style: 'h2'},
+					borderedStripedTable({
+						table: {
+							headerRows: 1,
+							widths: [
+								'auto',
+								'auto',
+								'auto',
+								'*',
+								'auto',
+								'auto'
+							],
+							body: [
+								[
+									'#',
+									'Evaluator',
+									'Requested by',
+									'Form',
+									'Evaluation date',
+									'Completed'
+								],
+								...this.subjectEvals.map(subjectEval => [
+									subjectEval.id,
+									subjectEval.evaluator.full_name,
+									subjectEval.requestor.full_name,
+									subjectEval.form.title,
+									renderDateRange(
+										subjectEval.evaluation_date_start,
+										subjectEval.evaluation_date_end
+									),
+									moment(subjectEval.complete_date).calendar()
+								])
+							]
+						}
+					}),
+					
+					{ text: this.reportContents.title, style: 'h2' },
+					{
+						margin: 0,
+						type: 'none',
+						ol: this.reportContents.items.filter(item =>
+								item.type === 'question').map(item => {
+							let questionHeading = {
+								margin: [0, 20, 0, 5],
+								columns: [
+									{
+										width: 'auto',
+										margin: [0, 0, 5, 0],
+										text: `${item.id.toUpperCase()}: `,
+										fontSize: 16,
+										bold: true
+									},
+									{
+										width: '*',
+										text: item.text,
+										fontSize: 16
+									}
+								]
+							};
+							
+							let questionBody = '';
+							switch(item.questionType){
+								case 'checkbox':
+								case 'radio':
+								case 'radiononnumeric':
+									questionBody = borderedStripedTable({
+										table: {
+											headerRows: 2,
+											widths: ['auto', 'auto', '*'].concat(
+												hasSubject
+													? ['*', '*']
+													: []
+											),
+											body: [
+												[
+													{
+														text: 'Option text',
+														rowSpan: 2,
+														style: 'tableHeader'
+													},
+													{
+														text: 'Value',
+														rowSpan: 2,
+														style: 'tableHeader'
+													},
+													{
+														text: 'Responses',
+														colSpan: hasSubject
+															? 3
+															: null,
+														style: 'tableHeader'
+													}
+												].concat(hasSubject
+													? [
+														{},
+														{}
+													]
+													: []
+												),
+												[
+													'',
+													''
+												].concat(hasSubject
+													? [
+														'Subject #',
+														'Subject %'
+													]
+													: []
+												).concat([
+													'Overall %'
+												]).map(tableHeader)
+											].concat(
+												item.options.map(option => [
+													option.text,
+													option.value
+												].concat(hasSubject
+													? [
+														option.responses || '',
+														option.percentage
+															? `${option.percentage}%`
+															: ''
+													]
+													: []
+												).concat([
+													option.averagePercentage
+														? `${option.averagePercentage}%`
+														: ''
+												]))
+											)
+										}
+									});
+									break;
+								case 'text':
+									if(hasSubject && item.subjectResponseValues)
+										questionBody = {
+											table: {
+												headerRows: 1,
+												widths: ['auto', 'auto', 'auto', '*'],
+												body: [
+													[
+														'Evaluation',
+														'Evaluator',
+														'Evaluation date',
+														'Response'
+													].map(tableHeader)
+												].concat(
+													Object.keys(item.subjectResponseValues).map(evaluation => [
+														evaluation,
+														'', // FIXME
+														'', // FIXME
+														item.subjectResponseValues[evaluation]
+													])
+												)
+											}
+										};
+									break;
+							}
+							
+							return {
+								pageBreak: this.pdfOptions.questionPageBreak,
+								stack: [
+									questionHeading,
+									questionBody
+								]
+							};
+						})
+					}
+				];
+				
+				let docDefinition = {
+					pageSize: 'LETTER',
+					content,
+					styles: {
+						h1: {
+							bold: true,
+							fontSize: 24,
+							margin: [0, 20],
+						},
+						h2: {
+							bold: true,
+							fontSize: 20,
+							margin: [0, 10]
+						},
+						tableHeader: {
+							bold: true,
+							fontSize: 14
+						}
+					}
+				};
+				
+				console.log(content);
+				
+				pdfmake.createPdf(docDefinition).download(filename);
+			}).catch(err => {
+				console.error(err);
+				this.alerts.push({
+					type: 'error',
+					html: `<strong>Error:</strong> There was a problem exporting the report for ${this.reportContents.title}`
+				});
+			});
 		}
 	},
 
@@ -334,7 +610,8 @@ export default {
 		DataTable,
 		BootstrapAlert,
 		AlertList,
-		ShowHideButton
+		ShowHideButton,
+		SvgIcon
 	}
 };
 </script>
