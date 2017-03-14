@@ -489,7 +489,8 @@ class MainController extends Controller
 					&& in_array($evaluation->visibility, ["visible", "anonymous"]))
 					|| $evaluation->evaluator_id == $user->id
 					|| $user->watchedForms->pluck("form_id")->contains($evaluation->form_id)
-					|| $user->isType("admin")){
+					|| $user->isType("admin")
+					|| $user->training_level == 'residency-director'){
 
 				if($user->isType("admin") || $evaluation->evaluator_id == $user->id){
 					switch($evaluation->evaluator->type){
