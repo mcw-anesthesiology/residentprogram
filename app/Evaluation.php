@@ -92,6 +92,13 @@ class Evaluation extends Model
 	public function getEvaluatorIdAttribute($evaluatorId){
 		if(Auth::check() && !Auth::user()->isType('admin')
 				&& $this->visibility == 'anonymous'
+				&& !(Auth::user()->training_level == 'residency-director'
+					&& in_array($this->training_level, [
+						'intern',
+						'ca-1',
+						'ca-2',
+						'ca-3'
+					]))
 				&& Auth::user()->id != $evaluatorId)
 			return null;
 
@@ -101,6 +108,13 @@ class Evaluation extends Model
 	public function getRequestedByIdAttribute($requestedById){
 		if(Auth::check() && !Auth::user()->isType('admin')
 				&& $this->visibility == 'anonymous'
+				&& !(Auth::user()->training_level == 'residency-director'
+					&& in_array($this->training_level, [
+						'intern',
+						'ca-1',
+						'ca-2',
+						'ca-3'
+					]))
 				&& Auth::user()->id != $requestedById)
 			return null;
 
@@ -150,6 +164,13 @@ class Evaluation extends Model
 	public function isAnonymousToUser(){
 		return (Auth::check() && !Auth::user()->isType('admin')
 				&& $this->visibility == 'anonymous'
+				&& !(Auth::user()->training_level == 'residency-director'
+					&& in_array($this->training_level, [
+						'intern',
+						'ca-1',
+						'ca-2',
+						'ca-3'
+					]))
 				&& Auth::user()->id != $this->requested_by_id
 				&& Auth::user()->id != $this->evaluator_id);
 	}
@@ -231,6 +252,17 @@ class Evaluation extends Model
 
 	public function hideFields(){
 		$this->addHidden($this->userHidden);
+		
+		// HACK: Quick fix to let residency director see all evals
+		if(Auth::user()->training_level == 'residency-director'
+				&& in_array($this->training_level, [
+					'intern',
+					'ca-1',
+					'ca-2',
+					'ca-3'
+				])){
+			return;
+		}
 
 		if($this->isAnonymousToUser()){
 			$this->hashids = true;

@@ -19,6 +19,9 @@
 		<li><a href="/request">Create Evaluation</a></li>
 		<li><a href="/dashboard">View Evaluations</a></li>
 		<li><a href="/dashboard/faculty">View Faculty Evaluations</a></li>
+        @if($user->training_level == 'residency-directory')
+        <li><a href="/all-evaluations">All evaluations</a></li>
+        @endif
 	  @elseif($user->isType("staff"))
 		<li><a href="/request/staff">Create Evaluation</a></li>
 		<li><a href="/dashboard">View Evaluations</a></li>

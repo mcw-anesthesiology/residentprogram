@@ -49,6 +49,13 @@
 @endif
 </div>
 
+@if($user->training_level == 'residency-director')
+<div class="container body-block">
+	<h2 class="sub-header">All evaluations</h2>
+	<evaluation-data-table :thead="allThead" :config="allConfig" />
+</div>
+@endif
+
 @push('scripts')
 	<script>
 		var propsData = {

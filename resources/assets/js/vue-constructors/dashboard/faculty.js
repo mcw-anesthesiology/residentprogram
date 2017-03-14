@@ -231,7 +231,57 @@ export default function createFacultyDashboard(el, propsData){
 						$(row).addClass('view-evaluation');
 					}
 				}));
-			}
+			},
+			allThead(){
+				return [[
+					'#',
+					'Resident',
+					'Evaluator',
+					'Evaluation Form',
+					'Evaluation Date',
+					'Requested',
+					'Completed'
+				]];
+			},
+			allConfig(){
+				return {
+					ajax: {
+						url: "/evaluations",
+						data: {
+							with: {
+								subject: ["full_name"],
+								evaluator: ["full_name"],
+								form: ["title"],
+							},
+							whereHas: {
+								form: {
+									type: 'resident',
+									evaluator_type: 'faculty'
+								}
+							},
+							status: "complete"
+						},
+						dataSrc: ""
+					},
+					columns: [
+						{data: "url"},
+						{data: "subject.full_name"},
+						{data: "evaluator.full_name"},
+						{data: "form.title"},
+						{
+							data: null,
+							render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+							createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+						},
+						{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
+						{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
+					],
+					order: [[0, "desc"]],
+					createdRow(row){
+						$(row).addClass("view-evaluation");
+					}
+				};
+			},
 		},
 		components: {
 			AlertList,
