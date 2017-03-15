@@ -34,6 +34,14 @@ class EvaluationScope implements Scope {
 							'ca-3'
 						]);
 					}
+				})->orWhere(function($query) use ($user){
+					if($user->usesFeature('FACULTY_EVALS')){
+						$query->whereHas('subject', function($subjectQuery){
+							$subjectQuery->where('type', 'faculty');
+						})->whereHas('form', function($formQuery) use ($user){
+							$formQuery->where('type', 'faculty');
+						})->where('subject_id', '!=', $user->id);
+					}
 				});
 
 		return $builder;

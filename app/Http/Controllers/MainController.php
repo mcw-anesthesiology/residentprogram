@@ -486,11 +486,13 @@ class MainController extends Controller
 
 	        $data = compact("evaluation", "subjectString", "evaluatorString", "statusLabel");
 	        if((($evaluation->subject_id == $user->id || $user->mentees->contains($evaluation->subject))
-					&& in_array($evaluation->visibility, ["visible", "anonymous"]))
-					|| $evaluation->evaluator_id == $user->id
-					|| $user->watchedForms->pluck("form_id")->contains($evaluation->form_id)
-					|| $user->isType("admin")
-					|| $user->training_level == 'residency-director'){
+				&& in_array($evaluation->visibility, ["visible", "anonymous"]))
+				|| $evaluation->evaluator_id == $user->id
+				|| $user->watchedForms->pluck("form_id")->contains($evaluation->form_id)
+				|| $user->isType("admin")
+				|| $user->training_level == 'residency-director'
+                || ($user->usesFeature('FACULTY_EVALS') && $evaluation->form->type == 'faculty')
+            ){
 
 				if($user->isType("admin") || $evaluation->evaluator_id == $user->id){
 					switch($evaluation->evaluator->type){

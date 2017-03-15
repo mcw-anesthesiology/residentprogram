@@ -19,10 +19,6 @@ export default function createManageEvaluations(el, propsData){
 		},
 		propsData,
 		
-		data(){
-			
-		},
-		
 		computed: {
 			thead(){
 				return [[

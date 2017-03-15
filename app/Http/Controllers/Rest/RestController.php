@@ -39,8 +39,11 @@ class RestController extends Controller
 						$fields[] = "first_name";
 						$fields[] = "last_name";
 					}
-					if($relationship == "form" && !in_array("visibility", $fields)){
-						$fields[] = "visibility";
+					if($relationship == "form"){
+						if(!in_array("visibility", $fields))
+							$fields[] = "visibility";
+						if(!in_array('type', $fields))
+							$fields[] = 'type';
 					}
 					$withArray[$relationship] = function($query) use ($fields){
 						$query->select(array_merge(["id"], $fields));
