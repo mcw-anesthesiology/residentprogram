@@ -49,7 +49,7 @@
 @endif
 </div>
 
-@if($user->training_level == 'residency-director')
+@if($user->usesFeature('RESIDENT_EVALS'))
 <div class="container body-block">
 	<h2 class="sub-header">All evaluations</h2>
 	<evaluation-data-table :thead="allThead" :config="allConfig" />

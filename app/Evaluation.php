@@ -92,7 +92,7 @@ class Evaluation extends Model
 	public function getEvaluatorIdAttribute($evaluatorId){
 		if(Auth::check() && !Auth::user()->isType('admin')
 				&& $this->visibility == 'anonymous'
-				&& !(Auth::user()->training_level == 'residency-director'
+				&& !(Auth::user()->usesFeature('RESIDENT_EVALS')
 					&& in_array($this->training_level, [
 						'intern',
 						'ca-1',
@@ -108,7 +108,7 @@ class Evaluation extends Model
 	public function getRequestedByIdAttribute($requestedById){
 		if(Auth::check() && !Auth::user()->isType('admin')
 				&& $this->visibility == 'anonymous'
-				&& !(Auth::user()->training_level == 'residency-director'
+				&& !(Auth::user()->usesFeature('RESIDENT_EVALS')
 					&& in_array($this->training_level, [
 						'intern',
 						'ca-1',
@@ -164,7 +164,7 @@ class Evaluation extends Model
 	public function isAnonymousToUser(){
 		return (Auth::check() && !Auth::user()->isType('admin')
 				&& in_array($this->visibility, ['anonymous', 'under faculty threshold'])
-				&& !(Auth::user()->training_level == 'residency-director'
+				&& !(Auth::user()->usesFeature('RESIDENT_EVALS')
 					&& in_array($this->training_level, [
 						'intern',
 						'ca-1',
@@ -254,8 +254,7 @@ class Evaluation extends Model
 		$user = Auth::user();
 		$this->addHidden($this->userHidden);
 		
-		// HACK: Quick fix to let residency director see all evals
-		if(Auth::user()->training_level == 'residency-director'
+		if(Auth::user()->usesFeature('RESIDENT_EVALS')
 				&& in_array($this->training_level, [
 					'intern',
 					'ca-1',

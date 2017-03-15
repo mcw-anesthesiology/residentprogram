@@ -490,7 +490,12 @@ class MainController extends Controller
 				|| $evaluation->evaluator_id == $user->id
 				|| $user->watchedForms->pluck("form_id")->contains($evaluation->form_id)
 				|| $user->isType("admin")
-				|| $user->training_level == 'residency-director'
+				|| $user->usesFeature('RESIDENT_EVALS') && in_array($evaluation->training_level, [
+                    'intern',
+                    'ca-1',
+                    'ca-2',
+                    'ca-3'
+                ])
                 || ($user->usesFeature('FACULTY_EVALS') && $evaluation->form->type == 'faculty')
             ){
 

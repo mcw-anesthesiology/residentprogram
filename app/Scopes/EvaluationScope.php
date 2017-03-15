@@ -26,7 +26,7 @@ class EvaluationScope implements Scope {
 				})->orWhere(function($query) use ($user){
 					$query->whereIn("form_id", $user->watchedForms->pluck("form_id"));
 				})->orWhere(function($query) use ($user){
-					if($user->training_level == 'residency-director'){
+					if($user->usesFeature('RESIDENT_EVALS')){
 						$query->whereIn('training_level', [
 							'intern',
 							'ca-1',
