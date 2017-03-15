@@ -10,7 +10,7 @@ class UserFeatureController extends RestController
 {
 
 	protected $relationships = [
-		"users"
+		"user"
 	];
 
 	protected $attributes = [

@@ -5,7 +5,7 @@
 		<alert-list v-model="alerts" />
 	</div>
 	
-	@include("dashboard.type.".$user->type)
+	@include("dashboard.type." . $user->type)
 
 	<!-- Cancel Modal -->
 	<div class="modal fade bs-cancel-modal-sm" tabindex="-1" role="dialog" aria-labelledby="modalCancel" aria-hidden="true">

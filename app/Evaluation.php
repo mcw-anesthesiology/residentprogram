@@ -163,7 +163,7 @@ class Evaluation extends Model
 
 	public function isAnonymousToUser(){
 		return (Auth::check() && !Auth::user()->isType('admin')
-				&& $this->visibility == 'anonymous'
+				&& in_array($this->visibility, ['anonymous', 'under faculty threshold'])
 				&& !(Auth::user()->training_level == 'residency-director'
 					&& in_array($this->training_level, [
 						'intern',
@@ -251,6 +251,7 @@ class Evaluation extends Model
     }
 
 	public function hideFields(){
+		$user = Auth::user();
 		$this->addHidden($this->userHidden);
 		
 		// HACK: Quick fix to let residency director see all evals
@@ -274,7 +275,11 @@ class Evaluation extends Model
 			}
 		}
 
-		if($this->isAnonymousToUser() && $this->form->type == 'faculty')
+		if($this->isAnonymousToUser() && $this->form->type == 'faculty'
+				&& (
+					!$user->usesFeature('FACULTY_EVALS')
+					|| $this->subject_id == $user->id)
+				)
 			$this->addHidden([
 				'evaluation_date_start',
 				'evaluation_date_end',
@@ -282,7 +287,6 @@ class Evaluation extends Model
 				'complete_date'
 			]);
 
-		$user = Auth::user();
 		if(!Auth::check() || $user->id != $this->subject_id)
 			$this->addHidden('seen_by_subject_at');
 		if(!Auth::check() || $user->id != $this->evaluator_id)

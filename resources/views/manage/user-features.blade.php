@@ -36,7 +36,9 @@
 						<div class="form-group">
 							<label for="user-feature-feature">Feature</label>
 							<select class="form-control" id="user-feature-feature" name="feature">
-								<option value="CASE_LOG">Case Log</option>
+	@foreach(config("constants.FEATURE_NAMES") as $feature => $featureName)
+								<option value="{{ $feature }}">{{ $featureName }}</option>
+	@endforeach
 							</select>
 						</div>
 					</div>
