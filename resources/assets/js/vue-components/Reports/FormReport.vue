@@ -47,14 +47,26 @@
 					:text="`No evaluations found for ${report.formContents.title} in report parameters.`" />
 				
 				<section>
-					<div class="form-group">
-						<label class="containing-label">
-							User
-							<select-two class="form-control" :options="groupedUsers"
-									v-model="subjectId">
-								<option value="">All</option>
-							</select-two>
-						</label>
+					<div class="form-horizontal">
+						
+						<div class="form-group">
+							<div class="col-sm-10">
+								<label class="containing-label">
+									User
+									<select-two class="form-control" :options="groupedUsers"
+											v-model="subjectId">
+										<option value="">All</option>
+									</select-two>
+								</label>								
+							</div>
+							<div class="col-sm-2">
+								<button type="button" v-if="subjectId"
+										class="btn btn-default labelless-button"
+										@click="subjectId = null">
+									Clear user
+								</button>								
+							</div>
+						</div>
 					</div>
 					
 					<section v-if="subjectId">
@@ -87,8 +99,8 @@
 				</section>
 			</div>
 			
-			<button type="button" class="btn btn-default"
-					v-if="this.reportContents && this.reportContents.items.length > 0"
+			<button type="button" class="btn btn-default center-block"
+					v-if="this.reportContents && this.subjectId && this.reportContents.items.length > 0"
 					@click="exportPdf">
 				Export PDF
 				<svg-icon src="/img/icons/pdf.svg" />
@@ -195,6 +207,10 @@ export default {
 						? this.report.subjectResponseValues[this.subjectId][item.id]
 						: null;
 				}
+				else {
+					item.subjectResponses = null;
+					item.subjectResponseValues = null;
+				}
 
 				item.averageResponses = this.report.averageResponses[item.id];
 
@@ -208,6 +224,10 @@ export default {
 							option.percentage = this.report.subjectPercentages[this.subjectId]
 								? this.report.subjectPercentages[this.subjectId][item.id][option.value]
 								: 0;
+						}
+						else {
+							option.responses = null;
+							option.percentage = null;
 						}
 						option.averagePercentage = this.report.averagePercentages[item.id]
 							? this.report.averagePercentages[item.id][option.value]
@@ -296,6 +316,11 @@ export default {
 	},
 	watch: {
 		subjectId(subjectId){
+			if(!subjectId || !this.report.subjectEvals[subjectId]){
+				this.subjectEvals = [];
+				return;
+			}
+
 			let query = $.param({
 				id: this.report.subjectEvals[subjectId].slice(),
 				with: {
@@ -534,7 +559,7 @@ export default {
 									break;
 								case 'text':
 									if(hasSubject && item.subjectResponseValues)
-										questionBody = {
+										questionBody = borderedStripedTable({
 											table: {
 												headerRows: 1,
 												widths: ['auto', 'auto', 'auto', '*'],
@@ -546,15 +571,18 @@ export default {
 														'Response'
 													].map(tableHeader)
 												].concat(
-													Object.keys(item.subjectResponseValues).map(evaluation => [
-														evaluation,
-														'', // FIXME
-														'', // FIXME
-														item.subjectResponseValues[evaluation]
+													Object.keys(item.subjectResponseValues).map(evaluationId => [
+														evaluationId,
+														this.report.evaluators[evaluationId].full_name,
+														renderDateRange(
+															this.report.evaluations[evaluationId].evaluation_date_start,
+															this.report.evaluations[evaluationId].evaluation_date_end
+														),
+														item.subjectResponseValues[evaluationId]
 													])
 												)
 											}
-										};
+										});
 									break;
 							}
 							

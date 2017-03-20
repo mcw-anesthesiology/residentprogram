@@ -695,15 +695,17 @@ class ReportController extends Controller
 		$subjectEvals = [];
 		$averageResponses = [];
 		$evals = [];
+		$evaluations = [];
 		$subjects = [];
+		$evaluators = [];
 		$questions = [];
 		$questionResponses = [];
 		$averagePercentages = [];
 		$subjectResponseValues = [];
 
 		$chunkCallback = function($responses) use(&$subjectResponses, &$subjectEvals,
-				&$averageResponses, &$evals, &$subjects, &$questions,
-				&$questionResponses, &$subjectResponseValues){
+				&$averageResponses, &$evals, &$subjects, &$evaluators, &$evaluations,
+				&$questions, &$questionResponses, &$subjectResponseValues){
             foreach($responses as $response){
                 if(!isset($subjectResponses[$response->subject_id][$response->question_id][$response->response]))
                     $subjectResponses[$response->subject_id][$response->question_id][$response->response] = 0;
@@ -716,9 +718,20 @@ class ReportController extends Controller
                     $subjectEvals[$response->subject_id][] = $response->evaluation_id;
                 if(!in_array($response->evaluation_id, $evals))
                     $evals[] = $response->evaluation_id;
+				if(!isset($evaluations[$response->evaluation_id]))
+					$evaluations[$response->evaluation_id] = [
+						'id' => $response->evaluation_id,
+						'evaluation_date_start' => $response->evaluation_date_start,
+						'evaluation_date_end' => $response->evaluation_date_end
+					];
 
                 if(!isset($subjects[$response->subject_id]))
                     $subjects[$response->subject_id] = 1;
+				if(!isset($evaluators[$response->evaluation_id]))
+					$evaluators[$response->evaluation_id] = [
+						'id' => $response->evaluator_id,
+						'full_name' => "{$response->evaluator_last}, {$response->evaluator_first}"
+					];
                 if(!isset($questions[$response->question_id]))
                     $questions[$response->question_id] = 1;
                 if(!isset($questionResponses[$response->question_id][$response->response]))
@@ -740,7 +753,10 @@ class ReportController extends Controller
             ->where("evaluation_date_end", ">", $startDate)
             ->where("evaluation_date_start", "<", $endDate);
 
-		$query->select("evaluation_id", "evaluator_id", "subject_id", "response", "question_id");
+		$query->select("evaluation_id", "evaluator_id", "subject_id", "response",
+			"question_id", "evaluation_date_start", "evaluation_date_end",
+			"evaluators.first_name as evaluator_first",
+			"evaluators.last_name as evaluator_last");
 
     	$query->chunk(10000, $chunkCallback);
 
@@ -754,7 +770,10 @@ class ReportController extends Controller
             ->where("evaluation_date_end", ">=", $startDate)
             ->where("evaluation_date_start", "<=", $endDate);
 
-        $textQuery->select("evaluation_id", "evaluator_id", "subject_id", "response", "question_id");
+        $textQuery->select("evaluation_id", "evaluator_id", "subject_id", "response",
+			"question_id", "evaluation_date_start", "evaluation_date_end",
+			"evaluators.first_name as evaluator_first",
+			"evaluators.last_name as evaluator_last");
 
     	$textQuery->chunk(10000, $chunkCallback);
 
@@ -788,7 +807,7 @@ class ReportController extends Controller
         $data = compact("evals", "subjectEvals", "subjectResponses",
 			"averageResponses", "subjectPercentages", "averagePercentages",
 			"questionResponses", "subjectResponseValues", "startDate", "endDate",
-			"formContents");
+			"formContents", "evaluators", "evaluations");
 			
     	return $data;
     }
