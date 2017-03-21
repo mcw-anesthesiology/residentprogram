@@ -40,7 +40,8 @@
 @stop
 
 @section("body")
-	<h1>Manage Alumni
+	<h1>
+		Manage Alumni
 		<button type="button" class="btn btn-success btn-sm" id="add-alum-button"><span class="glyphicon glyphicon-plus"></span> Add alumn</button>
 		<a href="/manage/alumni/import" role="button" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-import"></span> Import alumni</a>
 		<button type="button" class="btn btn-info btn-sm" id="send-many-emails-button"><span class="glyphicon glyphicon-send"></span> Send group email</button>
@@ -48,11 +49,7 @@
 	<div class="alumni-list table-responsive">
 		<table class="table table-striped datatable" id="alumni-table" width="100%">
 			<thead>
-				<th>Name</th>
-				<th>Email</th>
-				<th>Address</th>
-				<th>Graduated</th>
-				<th></th>
+				
 			</thead>
 		</table>
 	</div>
@@ -157,8 +154,16 @@
 	</div>
 @stop
 
+@section('blockless-body')
+	<div id="alumni"></div>
+@stop
+
 @section("script")
+	<script src="{{ elixir('js/vue-deps.js') }}"></script>
+	<script src="{{ elixir('js/vue-manage.js') }}"></script>
 	<script>
+		createManageAlumni('#alumni');
+	
 		var replacements = [
 			"Name",
 			"First name",
