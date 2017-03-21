@@ -124,34 +124,34 @@ export default {
 </script>
 
 <style scoped>
-.evaluation-list-item {
-	border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-	padding: 5px 0;
-}
+	.evaluation-list-item {
+		border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+		padding: 5px 0;
+	}
 
-.evaluation-list-item:nth-child(even) {
-	background-color: rgba(0, 0, 0, 0.05);
-}
+	.evaluation-list-item:nth-child(even){
+		background-color: rgba(0, 0, 0, 0.05);
+	}
 
-.evaluation-list-item .row {
-	margin: 0;
-}
+	.evaluation-list-item .row {
+		margin: 0;
+	}
 
-.name {
-	font-size: 1.15em;
-}
+	.name {
+		font-size: 1.15em;
+	}
 
-.evaluation-list-item div section {
-	display: inline-block;
-}
+	.evaluation-list-item div section {
+		display: inline-block;
+	}
 
-.evaluation-list-item .details {
-	padding: 10px 20px 0;
-}
+	.evaluation-list-item .details {
+		padding: 10px 20px 0;
+	}
 
-img {
-	border-radius: 100%;
-	object-fit: cover;
-	object-position: center;
-}
+	img {
+		border-radius: 100%;
+		object-fit: cover;
+		object-position: center;
+	}
 </style>
