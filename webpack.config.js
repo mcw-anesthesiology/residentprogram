@@ -1,4 +1,5 @@
 /* eslint-env node */
+const path = require('path');
 const webpack = require('webpack');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const ManifestPlugin = require('webpack-manifest-plugin');
@@ -19,7 +20,7 @@ module.exports = {
 		'vue-manage': './resources/assets/js/vue-constructors/manage/index.js'
 	},
 	output: {
-		path: './public/build/js/',
+		path: path.resolve(__dirname, 'public/build/js/'),
 		publicPath: '/build/js/',
 		filename: process.env.NODE_ENV === 'production'
 			? '[name]-[chunkhash].js'
