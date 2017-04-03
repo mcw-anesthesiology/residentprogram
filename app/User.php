@@ -79,6 +79,15 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
             // In the future, plan to change resident -> trainee
             if($type == "trainee")
                 $type = "resident";
+                
+            // Specifically not a fellow
+			if($type == 'RESIDENT' && $this->type == 'resident' && in_array($this->training_level, [
+				'intern',
+				'ca-1',
+				'ca-2',
+				'ca-3'
+            ]))
+                return true;
 
 			if($this->type == $type || $this->type == "resident" && $this->training_level == $type)
 				return true;

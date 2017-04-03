@@ -451,7 +451,8 @@ class MainController extends Controller
 				$id = Hashids::decode($id)[0];
 				$evaluation = Evaluation::with('form.milestoneQuestions.milestone', 'form.competencyQuestions.competency')->findOrFail($id);
 			}
-	        if($user->isType("admin") || $user->mentees->contains($evaluation->subject) || $user->id == $evaluation->subject_id)
+	        if($user->isType("admin") || $user->mentees->contains($evaluation->subject) || $user->id == $evaluation->subject_id
+					|| ($user->usesFeature('RESIDENT_EVALS') && $evaluation->subject->isType('RESIDENT')))
 	            $subjectString = "<a href='/profile/{$evaluation->subject_id}'>{$evaluation->subject->full_name}</a>";
 	        else
 	            $subjectString = $evaluation->subject->full_name;
@@ -685,7 +686,8 @@ class MainController extends Controller
         $profileUser = User::find($id);
         if(empty($profileUser))
             return back()->with("error", "That user doesn't exist or have a profile");
-        if(!($user->isType("admin") || $user->mentees->contains($profileUser) || $user->id == $profileUser->id))
+        if(!($user->isType("admin") || $user->mentees->contains($profileUser) || $user->id == $profileUser->id
+				|| ($user->usesFeature('RESIDENT_EVALS') && $profileUser->isType('RESIDENT'))))
             return back()->with("error", "You are not allowed to see that user's profile");
 
         $today = Carbon::now();

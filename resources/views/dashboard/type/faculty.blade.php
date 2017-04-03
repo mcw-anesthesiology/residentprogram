@@ -52,7 +52,7 @@
 @if($user->usesFeature('RESIDENT_EVALS'))
 <div class="container body-block">
 	<h2 class="sub-header">All evaluations</h2>
-	<evaluation-data-table :thead="allThead" :config="allConfig" />
+	<evaluation-data-table id="all-resident-evals-table" :thead="allThead" :config="allConfig" />
 </div>
 @endif
 
