@@ -4,7 +4,7 @@
 		Flagged Evaluations
 	</h2>
 	<data-table :thead="flaggedEvalsThead" :config="flaggedEvalsConfig"
-		:data="flaggedEvals" />
+		:data="flaggedEvals"></data-table>
 </div>
 
 <div class="container body-block">
@@ -13,7 +13,7 @@
 		Trainee Evaluations
 	</h2>
 	<evaluation-data-table id="admin-trainee-evaluations-table"
-		:thead="traineeEvalsThead" :config="traineeEvalsConfig" />
+		:thead="traineeEvalsThead" :config="traineeEvalsConfig"></evaluation-data-table>
 </div>
 
 <div v-if="watchedForms && watchedForms.length > 0" v-cloak
@@ -28,7 +28,7 @@
 		</div>
 		<div class="panel-body">
 			<evaluation-data-table :id="`admin-watched-form-${watchedForms[index].form.id}-table`"
-				:thead="watchedFormThead" :config="config" />
+				:thead="watchedFormThead" :config="config"></evaluation-data-table>
 		</div>
 	</div>
 </div>
@@ -40,7 +40,7 @@
 		Self Evaluations
 	</h2>
 	<evaluation-data-table id="admin-self-evals-table"
-		:thead="selfEvalThead" :config="selfEvalConfig" />
+		:thead="selfEvalThead" :config="selfEvalConfig"></evaluation-data-table>
 </div>
 
 <div class="container body-block">
@@ -49,7 +49,7 @@
 		Staff Evaluations
 	</h2>
 	<evaluation-data-table id="admin-staff-evals-table"
-		:thead="staffEvalThead" :config="staffEvalConfig" />
+		:thead="staffEvalThead" :config="staffEvalConfig"></evaluation-data-table>
 </div>
 
 
