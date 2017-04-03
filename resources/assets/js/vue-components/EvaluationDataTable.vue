@@ -17,11 +17,20 @@
 import DataTable from './DataTable.vue';
 import StartEndDate from './StartEndDate.vue';
 
+import * as localforage from 'localforage';
+import moment from 'moment';
+
 import * as dateUtils from '../modules/date-utils.js';
+
+window.localforage = localforage;
 
 export default {
 	extends: DataTable,
 	props: {
+		id: {
+			type: String,
+			required: false
+		},
 		range: {
 			type: String,
 			default: dateUtils.DATE_RANGES.CURRENT_QUARTER,
@@ -35,14 +44,39 @@ export default {
 			dates: dateUtils.isoDateStringObject(dateUtils[this.range]())
 		};
 	},
+	mounted(){
+		if(this.id){
+			localforage.getItem(this.localforageKey).then(state => {
+				if(state){
+					let now = moment();
+					if(state.createdAt >= now.subtract(6, 'hours').toDate()){
+						this.dates = state.dates;
+					}
+					else {
+						localforage.removeItem(this.localforageKey);
+					}
+				}
+			});
+		}
+	},
 	computed: {
+		localforageKey(){
+			if(this.id)
+				return `${this.id}-evaluation-data-table`;
+		},
+		evaluationConfig(){
+			return Object.assign({
+				stateSave: true,
+				deferRender: true
+			}, this.config);
+		},
 		datedConfig(){
-			if(!this.config || !('ajax' in this.config)
+			if(!this.evaluationConfig || !('ajax' in this.evaluationConfig)
 					|| (!this.dates.startDate && !this.dates.endDate))
-				return this.config;
+				return this.evaluationConfig;
 				
-			let config = Object.assign({}, this.config, {
-				ajax: JSON.parse(JSON.stringify(this.config.ajax))
+			let config = Object.assign({}, this.evaluationConfig, {
+				ajax: JSON.parse(JSON.stringify(this.evaluationConfig.ajax))
 			});
 			
 			
@@ -56,6 +90,18 @@ export default {
 				];
 				
 			return config;
+		}
+	},
+	watch: {
+		dates(dates){
+			if(this.id){
+				localforage.setItem(this.localforageKey, {
+					dates,
+					createdAt: new Date()
+				}).catch(err => {
+					console.error(err);
+				});
+			}
 		}
 	},
 	components: {

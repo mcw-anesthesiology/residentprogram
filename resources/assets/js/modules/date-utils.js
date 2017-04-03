@@ -15,6 +15,13 @@ export function isoDateStringObject(dates){
 	return dates;
 }
 
+export function datesEqual(dates1, dates2){
+	dates1 = isoDateStringObject(dates1);
+	dates2 = isoDateStringObject(dates2);
+
+	return dates1.startDate === dates2.startDate
+		&& dates1.endDate === dates2.endDate;
+}
 
 export function renderDateRange(startDate, endDate, explicit = false){
 	let range = moment(startDate).twix(endDate, {allDay: true});

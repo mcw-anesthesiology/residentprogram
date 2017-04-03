@@ -15,16 +15,14 @@
 				<label class="containing-label">
 					Start Date
 					<vue-flatpickr class="form-control"
-						:value="value.startDate" :options="flatpickrOptions"
-						@input="startDate = arguments[0]"/>
+						:options="flatpickrOptions" v-model="startDate" />
 				</label>
 			</div>
 			<div class="col-sm-6 col-md-4">
 				<label class="containing-label">
 					End Date
 					<vue-flatpickr class="form-control"
-						:value="value.endDate" :options="flatpickrOptions"
-						@input="endDate = arguments[0]"/>
+						:options="flatpickrOptions" v-model="endDate" />
 				</label>
 			</div>
 		</div>
@@ -39,6 +37,7 @@ import { camelCaseToWords } from '../modules/utils.js';
 import {
 	DATE_RANGES,
 	isoDateStringObject,
+	datesEqual,
 	currentQuarter,
 	lastQuarter,
 	currentSemester,
@@ -100,8 +99,10 @@ export default {
 		dates(dates){
 			this.$emit('input', dates);
 		},
-		value(){
+		value(value){
 			this.matchDateRangeWithValue();
+			this.startDate = value.startDate;
+			this.endDate = value.endDate;
 		},
 		dateRange(dateRange){
 			if(dateRange === DATE_RANGES.ALL_TIME)
@@ -136,18 +137,12 @@ export default {
 
 			this.dateRange = DATE_RANGES.CUSTOM;
 		},
-		datesEqual(dates1, dates2){
-			dates1 = isoDateStringObject(dates1);
-			dates2 = isoDateStringObject(dates2);
-
-			return dates1.startDate === dates2.startDate
-				&& dates1.endDate === dates2.endDate;
-		},
 		setDate(dates){
 			dates = isoDateStringObject(dates);
 			this.startDate = dates.startDate;
 			this.endDate = dates.endDate;
 		},
+		datesEqual,
 		camelCaseToWords
 	},
 	components: {
