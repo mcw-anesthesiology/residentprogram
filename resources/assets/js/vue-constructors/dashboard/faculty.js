@@ -9,7 +9,8 @@ import {
 	createDateTimeCell,
 	renderDateRangeCell,
 	createDateRangeCell,
-	renderEvaluationStatus
+	renderEvaluationStatus,
+	renderSubjectCell
 } from '../../modules/datatable-utils.js';
 
 export default function createFacultyDashboard(el, propsData){
@@ -79,9 +80,9 @@ export default function createFacultyDashboard(el, propsData){
 						{data: 'request_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
 						{data: null, orderable: false, searchable: false, render: evaluation => {
 							if(evaluation.requested_by_id === this.user.id)
-								return `<button class="btn btn-danger btn-xs cancel-eval-button"
-										data-id="${evaluation.id}">
-									<span class="glyphicon glyphicon-remove"></span>
+								return `<button class='btn btn-danger btn-xs cancel-eval-button'
+										data-id='${evaluation.id}'>
+									<span class='glyphicon glyphicon-remove'></span>
 									Cancel
 								</button>`;
 
@@ -107,32 +108,32 @@ export default function createFacultyDashboard(el, propsData){
 			completeConfig(){
 				return {
 					ajax: {
-						url: "/evaluations",
+						url: '/evaluations',
 						data: {
 							with: {
-								subject: ["full_name"],
-								form: ["title"],
+								subject: ['full_name'],
+								form: ['title'],
 							},
 							evaluator_id: this.user.id,
-							status: "complete"
+							status: 'complete'
 						},
-						dataSrc: ""
+						dataSrc: ''
 					},
 					columns: [
-						{data: "url"},
-						{data: "subject.full_name"},
-						{data: "form.title"},
+						{data: 'url'},
+						{data: 'subject.full_name'},
+						{data: 'form.title'},
 						{
 							data: null,
 							render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
 							createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
 						},
-						{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
-						{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
+						{data: 'request_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
+						{data: 'complete_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
 					],
-					order: [[0, "desc"]],
+					order: [[0, 'desc']],
 					createdRow(row){
-						$(row).addClass("view-evaluation");
+						$(row).addClass('view-evaluation');
 					}
 				};
 			},
@@ -246,12 +247,12 @@ export default function createFacultyDashboard(el, propsData){
 			allConfig(){
 				return {
 					ajax: {
-						url: "/evaluations",
+						url: '/evaluations',
 						data: {
 							with: {
-								subject: ["full_name"],
-								evaluator: ["full_name"],
-								form: ["title"],
+								subject: ['full_name'],
+								evaluator: ['full_name'],
+								form: ['title'],
 							},
 							whereHas: {
 								form: {
@@ -259,26 +260,26 @@ export default function createFacultyDashboard(el, propsData){
 									evaluator_type: 'faculty'
 								}
 							},
-							status: "complete"
+							status: 'complete'
 						},
-						dataSrc: ""
+						dataSrc: ''
 					},
 					columns: [
-						{data: "url"},
-						{data: "subject.full_name"},
-						{data: "evaluator.full_name"},
-						{data: "form.title"},
+						{data: 'url'},
+						{data: 'subject.full_name', render: renderSubjectCell},
+						{data: 'evaluator.full_name'},
+						{data: 'form.title'},
 						{
 							data: null,
 							render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
 							createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
 						},
-						{data: "request_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
-						{data: "complete_date", render: renderDateTimeCell, createdCell: createDateTimeCell},
+						{data: 'request_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
+						{data: 'complete_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
 					],
-					order: [[0, "desc"]],
+					order: [[0, 'desc']],
 					createdRow(row){
-						$(row).addClass("view-evaluation");
+						$(row).addClass('view-evaluation');
 					}
 				};
 			},

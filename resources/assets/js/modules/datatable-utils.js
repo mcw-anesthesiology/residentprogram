@@ -183,6 +183,13 @@ export function renderNewTag(type, evaluation){
 		return NEW_ITEM_TAG;
 }
 
+export function renderSubjectCell(name, type, evaluation){
+	if(type === 'display')
+		return `<a href="/profile/${evaluation.subject_id}">${name}</a>`;
+	
+	return name;
+}
+
 export function createEditAndDeleteButtons(thing, name){
 	let dataAttributes = getDataAttributes(thing);
 
