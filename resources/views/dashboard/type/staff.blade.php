@@ -2,7 +2,7 @@
 @if($user->evaluatorEvaluations()->where("status", "pending")->count() > 0)
 	<h2 class="sub-header"><span class="glyphicon glyphicon-inbox"></span> Pending</h2>
 	<evaluation-data-table id="staff-pending-evals-table"
-		range="allTime" :thead="pendingThead" :config="pendingConfig" />
+		range="allTime" :thead="pendingThead" :config="pendingConfig"></evaluation-data-table>
 @else
 	<p class="lead">You have no pending evaluation requests, why not <a href="/request/staff">create one?</a></p>
 @endif
@@ -20,7 +20,7 @@
 		</div>
 		<div class="panel-body">
 			<evaluation-data-table :id="`staff-mentee-${mentees[index].id}-evals-table`"
-				:thead="menteeThead" :config="config" />
+				:thead="menteeThead" :config="config"></evaluation-data-table>
 		</div>
 	</div>
 </div>
@@ -37,7 +37,7 @@
 		</div>
 		<div class="panel-body">
 			<evaluation-data-table :id="`staff-watched-form-${watchedForms[index].form.id}-table`"
-				:thead="watchedFormThead" :config="config" />
+				:thead="watchedFormThead" :config="config"></evaluation-data-table>
 		</div>
 	</div>
 </div>
@@ -45,7 +45,7 @@
 <div class="container body-block">
 	<h2 class="sub-header"><span class="glyphicon glyphicon-check"></span> Completed Evaluations</h2>
 	<evaluation-data-table id="staff-completed-evals-table"
-		:thead="completeThead" :config="completeConfig" />
+		:thead="completeThead" :config="completeConfig"></evaluation-data-table>
 </div>
 
 
