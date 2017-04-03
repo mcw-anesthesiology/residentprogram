@@ -79,8 +79,9 @@ module.exports = {
 			'vue-flatpickr': '@jacobmischka/vue-flatpickr'
 		}
 	},
-	externals: [
-		'moment'
-	],
+	externals: {
+		moment: 'moment',
+		jquery: 'jQuery'
+	},
 	devtool: 'source-map'
 };
