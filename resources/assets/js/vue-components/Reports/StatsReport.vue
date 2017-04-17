@@ -216,7 +216,7 @@ export default {
 				labels: this.report.userStats.map(userStat => userStat.name),
 				datasets: [
 					{
-						label: 'Requested / Completed %',
+						label: 'Completed / Requested %',
 						backgroundColor: backgroundColor.rgbString(),
 						borderColor: color.rgbString(),
 						borderWidth: 1,

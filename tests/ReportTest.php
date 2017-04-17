@@ -1106,44 +1106,7 @@ class ReportTest extends TestCase
 	                "completed" => 4,
 	                "ratio" => 80
 	            ]
-			],
-			'statEvalData' => [
-	            [
-	                "id" => $this->evals[0][0]->id,
-	                "request_date" => $this->evals[0][0]->request_date->toDateTimeString(),
-	                "complete_date" => $this->evals[0][0]->complete_date->toDateTimeString(),
-	                "status" => $this->evals[0][0]->status,
-	                "url" => "<a href='/evaluation/{$this->evals[0][0]->id}'>{$this->evals[0][0]->id}</a>"
-	            ],
-	            [
-	                "id" => $this->evals[0][1]->id,
-	                "request_date" => $this->evals[0][1]->request_date->toDateTimeString(),
-	                "complete_date" => $this->evals[0][1]->complete_date->toDateTimeString(),
-	                "status" => $this->evals[0][1]->status,
-	                "url" => "<a href='/evaluation/{$this->evals[0][1]->id}'>{$this->evals[0][1]->id}</a>"
-	            ],
-	            [
-	                "id" => $this->evals[1][0]->id,
-	                "request_date" => $this->evals[1][0]->request_date->toDateTimeString(),
-	                "complete_date" => $this->evals[1][0]->complete_date->toDateTimeString(),
-	                "status" => $this->evals[1][0]->status,
-	                "url" => "<a href='/evaluation/{$this->evals[1][0]->id}'>{$this->evals[1][0]->id}</a>"
-	            ],
-	            [
-	                "id" => $this->evals[1][1]->id,
-	                "request_date" => $this->evals[1][1]->request_date->toDateTimeString(),
-	                "complete_date" => $this->evals[1][1]->complete_date->toDateTimeString(),
-	                "status" => $this->evals[1][1]->status,
-	                "url" => "<a href='/evaluation/{$this->evals[1][1]->id}'>{$this->evals[1][1]->id}</a>"
-	            ],
-	            [
-	                "id" => $moreEvals[0]->id,
-	                "request_date" => $moreEvals[0]->request_date->toDateTimeString(),
-	                "complete_date" => null,
-	                "status" => $moreEvals[0]->status,
-	                "url" => "<a href='/evaluation/{$moreEvals[0]->id}'>{$moreEvals[0]->id}</a>"
-	            ]
-	        ]
+			]
 		]);
     }
 
@@ -1277,29 +1240,6 @@ class ReportTest extends TestCase
 	                "totalRequests" => 3,
 	                "completed" => 2,
 	                "ratio" => 67.0
-	            ]
-	        ],
-			'statEvalData' => [
-	            [
-	                "id" => $this->evals[0][0]->id,
-	                "request_date" => $this->evals[0][0]->request_date->toDateTimeString(),
-	                "complete_date" => $this->evals[0][0]->complete_date->toDateTimeString(),
-	                "status" => $this->evals[0][0]->status,
-	                "url" => "<a href='/evaluation/{$this->evals[0][0]->id}'>{$this->evals[0][0]->id}</a>"
-	            ],
-	            [
-	                "id" => $this->evals[0][1]->id,
-	                "request_date" => $this->evals[0][1]->request_date->toDateTimeString(),
-	                "complete_date" => $this->evals[0][1]->complete_date->toDateTimeString(),
-	                "status" => $this->evals[0][1]->status,
-	                "url" => "<a href='/evaluation/{$this->evals[0][1]->id}'>{$this->evals[0][1]->id}</a>"
-	            ],
-	            [
-	                "id" => $moreEvals[0]->id,
-	                "request_date" => $moreEvals[0]->request_date->toDateTimeString(),
-	                "complete_date" => null,
-	                "status" => $moreEvals[0]->status,
-	                "url" => "<a href='/evaluation/{$moreEvals[0]->id}'>{$moreEvals[0]->id}</a>"
 	            ]
 	        ]
 		]);

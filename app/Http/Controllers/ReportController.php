@@ -99,15 +99,14 @@ class ReportController extends Controller
         foreach($users as $user){
 			
             try {
-				$userEvaluations = ($statsType == 'evaluator')
+				$requestsQuery = ($statsType == 'evaluator')
 					? $user->evaluatorEvaluations()
 					: $user->subjectEvaluations();
 					
-                if(!empty($startDate))
-                    $userEvaluations->where("evaluation_date_end", ">=", $startDate);
-                if(!empty($endDate))
-                    $userEvaluations->where("evaluation_date_start", "<=", $endDate);
-					
+				$completeQuery = ($statsType == 'evaluator')
+					? $user->evaluatorEvaluations()
+					: $user->subjectEvaluations();
+				
 				$whereHasFilter = ($evaluationType == 'faculty')
 					? function($query){
 						$query->where('type', 'faculty');
@@ -117,46 +116,42 @@ class ReportController extends Controller
                             ->where("evaluator_type", "faculty");
                     };
 
-                $userEvaluations->whereIn("status", ["pending", "complete"])
-                    ->whereHas("form", $whereHasFilter);
-
-                $userEvals = $userEvaluations->get();
 				
-				if($userEvals->count() == 0)
+				if (!empty($startDate)) {
+					$requestsQuery = $requestsQuery->where("request_date", ">=", $startDate);
+					$completeQuery = $completeQuery->where("complete_date", ">=", $startDate);
+				}
+				if (!empty($endDate)) {
+					$requestsQuery = $requestsQuery->where("request_date", "<=", $endDate);
+					$completeQuery = $completeQuery->where("complete_date", "<=", $endDate);					
+				}
+
+
+				$requestsQuery = $requestsQuery->whereIn("status", ["pending", "complete"])
+                    ->whereHas("form", $whereHasFilter);
+				$completeQuery = $completeQuery->whereIn("status", ["pending", "complete"])
+                    ->whereHas("form", $whereHasFilter);
+					
+				$userRequests = $requestsQuery->get();
+				$userCompleted = $completeQuery->get();
+				
+				if($userRequests->count() == 0)
 					$noneRequested[] = $user->full_name;
-				if($userEvals->where("status", "complete")->count() == 0)
+				if($userCompleted->where("status", "complete")->count() == 0)
 					$noneCompleted[] = $user->full_name;
 					
 				$userStats[] = [
                     "id" => $user->id,
                     "name" => $user->full_name,
-                    "requested" => $userEvals->where("requested_by_id", $user->id)->count(),
-                    "totalRequests" => $userEvals->count(),
-                    "completed" => $userEvals->where("status", "complete")->count(),
-                    "ratio" => $userEvals->count() == 0 ? 0 : round(($userEvals->where("status", "complete")->count()/$userEvals->count()) * 100)
+                    "requested" => $userRequests->where("requested_by_id", $user->id)->count(),
+                    "totalRequests" => $userRequests->count(),
+                    "completed" => $userCompleted->where("status", "complete")->count(),
+                    "ratio" => $userRequests->count() == 0 ? 0 : round(($userCompleted->where("status", "complete")->count()/$userRequests->count()) * 100)
                 ];
                 
-                // Line chart
-                if(count($users) == 1){
-                    $statEvalData = $userEvaluations->get([
-                        "id",
-                        "request_date",
-                        "complete_date",
-                        "status"
-                    ])->toArray();
-                }
-
                 if($statsType == 'evaluator'){
-                    $eval = $userEvals->where("status", "complete")
-                        ->sortByDesc("complete_date")->first();
-                    if(!empty($eval))
-						$lastCompleted[] = [
-							"name" => $user->full_name,
-							"evaluation" => $eval
-						];
-
                     $time = 0;
-					$timeEvals = $userEvaluations->where("status", "complete")->get();
+					$timeEvals = $completeQuery->where("status", "complete")->get();
 					if(count($timeEvals) > 0){
 						foreach($timeEvals as $eval){
 	                        $time += $eval->complete_date->getTimestamp()-$eval->request_date->getTimestamp();
@@ -175,22 +170,21 @@ class ReportController extends Controller
 						];
 					}
                 }
-                else {
-                    $eval = $userEvals->where("status", "complete")
-                        ->sortByDesc("complete_date")->first();
-                    if(!empty($eval))
-						$lastCompleted[] = [
-							"name" => $user->full_name,
-							"evaluation" => $eval
-						];
-                }
+				
+				$eval = $userCompleted->where("status", "complete")
+					->sortByDesc("complete_date")->first();
+				if(!empty($eval))
+					$lastCompleted[] = [
+						"name" => $user->full_name,
+						"evaluation" => $eval
+					];
             } catch(\Exception $e){
                 Log::error("Problem with user in stats: ".$e);
             }
         }
         $data = compact('evaluationType', 'userType', 'statsType',
 			"noneRequested", "noneCompleted", "lastCompleted",
-			"userStats", "statEvalData", "startDate", "endDate");
+			"userStats", "startDate", "endDate");
         if($statsType == 'evaluator')
             $data["averageCompletionTimes"] = $times;
 			
