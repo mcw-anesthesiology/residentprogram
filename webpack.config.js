@@ -75,8 +75,7 @@ module.exports = {
 	],
 	resolve: {
 		alias: {
-			'vue$': 'vue/dist/vue.common.js',
-			'vue-flatpickr': '@jacobmischka/vue-flatpickr'
+			'vue$': 'vue/dist/vue.common.js'
 		}
 	},
 	externals: {
