@@ -106,7 +106,7 @@ class ReportController extends Controller
                 if(!empty($startDate))
                     $userEvaluations->where("evaluation_date_end", ">=", $startDate);
                 if(!empty($endDate))
-                    $userEvaluations->where("evaluation_date_end", "<=", $endDate);
+                    $userEvaluations->where("evaluation_date_start", "<=", $endDate);
 					
 				$whereHasFilter = ($evaluationType == 'faculty')
 					? function($query){
