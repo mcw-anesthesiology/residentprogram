@@ -1,9 +1,3 @@
-@if(!empty($statEvalData))
-<script type="application/json" id="stat-eval-data">
-	{!! json_encode($statEvalData) !!}
-</script>
-@endif
-
 @if(!empty($userStats))
 <div class="container body-block">
 <h3>Evaluation Statistics</h3>
