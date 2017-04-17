@@ -138,8 +138,9 @@
 						<label class="containing-label">
 							Evaluation period type
 							<select class="form-control" id="edit-form-period-type">
-								<option value="month">Month</option>
-								<option value="quarter">Quarter</option>
+	@foreach(config('constants.EVALUATION_DATE_PERIODS') as $period)
+								<option value="{{ $period }}">{{ ucfirst($period) }}</option>
+	@endforeach
 							</select>
 						</label>
 					</div>

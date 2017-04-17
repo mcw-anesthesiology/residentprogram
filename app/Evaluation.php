@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Scopes\EvaluationScope;
 
+use Carbon\Carbon;
+
 use Auth;
 use Debugbar;
 use Hashids;
@@ -274,14 +276,8 @@ class Evaluation extends Model
 			}
 		}
 
-		if($this->isAnonymousToUser() && $this->form->type == 'faculty'
-				&& (
-					!$user->usesFeature('FACULTY_EVALS')
-					|| $this->subject_id == $user->id)
-				)
+		if($this->isAnonymousToUser() && $this->form->type == 'faculty')
 			$this->addHidden([
-				'evaluation_date_start',
-				'evaluation_date_end',
 				'request_date',
 				'complete_date'
 			]);

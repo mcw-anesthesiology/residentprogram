@@ -11,7 +11,9 @@ import {
 	isoDateStringObject,
 	renderDateRange,
 	currentQuarter,
-	lastQuarter
+	lastQuarter,
+	currentYear,
+	lastYear
 } from '../modules/date-utils.js';
 import {
 	renderEvaluatorEvalUrl,
@@ -132,11 +134,19 @@ export function createRequest(el, propsData){
 					return;
 				
 				let dates = [];
-				if(form.evaluation_period_type === 'quarter'){
+				if (form.evaluation_period_type === 'quarter') {
 					dates = [
 						lastQuarter(),
 						currentQuarter()
 					];
+				}
+				else if (form.evaluation_period_type === 'year') {
+					dates = [
+						currentYear()
+					];
+					
+					if (moment().month() === 6) // July
+						dates.push(lastYear());
 				}
 				else {
 					let startDate = moment().startOf('month');
