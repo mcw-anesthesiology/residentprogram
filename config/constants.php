@@ -18,5 +18,11 @@ return [
 		'radio',
 		'radiononnumeric',
 		'checkbox'
+	],
+	
+	'EVALUATION_DATE_PERIODS' => [
+		'month',
+		'quarter',
+		'year'
 	]
 ];

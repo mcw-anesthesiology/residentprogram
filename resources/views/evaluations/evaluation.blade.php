@@ -82,10 +82,10 @@
 	@if($user->isType("admin") || ($user->id != $evaluation->evaluator_id && $evaluation->evaluator && $evaluation->visibility == "visible"))
 						<th>{{ ucfirst($evaluation->evaluator->type) }}</th>
 	@endif
-	@if($evaluation->status == "complete" && !($evaluation->isAnonymousToUser() && $evaluation->form->type == "faculty"))
+	@if($evaluation->status == "complete")
 						<th>Evaluation Date</th>
 	@endif
-	@if(!($evaluation->subject->isType("faculty") && $user->id == $evaluation->subject_id))
+	@if(!$evaluation->isAnonymousToUser())
 						<th>Requested</th>
 		@if($evaluation->status == "complete")
 						<th>Completed</th>
@@ -106,7 +106,7 @@
 	@if($user->isType("admin") || ($user->id != $evaluation->evaluator_id && $evaluation->visibility == "visible"))
 						<td>{!! $evaluatorString !!}</td>
 	@endif
-	@if($evaluation->status == "complete" && !($evaluation->isAnonymousToUser() && $evaluation->form->type == "faculty"))
+	@if($evaluation->status == "complete")
 						<td>
 							{{ $evaluation->evaluation_date_start->format("F Y") == $evaluation->evaluation_date_end->format("F Y")
 							 	? $evaluation->evaluation_date_start->format("F Y")
@@ -114,7 +114,7 @@
 							}}
 						</td>
 	@endif
-	@if(!($evaluation->subject->isType("faculty") && $user->id == $evaluation->subject_id))
+	@if(!$evaluation->isAnonymousToUser())
 						<td>{{ $evaluation->request_date }}</td>
 		@if($evaluation->status == "complete")
 						<td>{{ $evaluation->complete_date }}</td>

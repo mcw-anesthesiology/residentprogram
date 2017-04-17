@@ -24,7 +24,7 @@ export default function createAnonymousFacultyDashboard(el){
 					'#',
 					'Faculty',
 					'Evaluation form',
-					'Evaluation date'
+					'Academic year'
 				]];
 			},
 			anonymousFacultyEvalsConfig(){

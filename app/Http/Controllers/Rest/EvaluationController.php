@@ -60,8 +60,6 @@ class EvaluationController extends RestController
 		"requested_by_id",
 		"status",
 		"training_level",
-		"request_date",
-		"complete_date",
 		"evaluation_date_start",
 		"evaluation_date_end"
 	];

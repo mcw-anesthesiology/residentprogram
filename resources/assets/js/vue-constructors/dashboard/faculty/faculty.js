@@ -4,7 +4,9 @@ import AlertList from '../../../vue-components/AlertList.vue';
 import EvaluationDataTable from '../../../vue-components/EvaluationDataTable.vue';
 
 import {
-	renderSubjectEvalUrl
+	renderSubjectEvalUrl,
+	renderDateRangeCell,
+	createDateRangeCell
 } from '../../../modules/datatable-utils.js';
 
 export default function createFacultyFacultyDashboard(el, propsData){
@@ -28,7 +30,8 @@ export default function createFacultyFacultyDashboard(el, propsData){
 			facultyEvalsThead(){
 				return [[
 					'#',
-					'Evaluation form'
+					'Evaluation form',
+					'Academic year'
 				]];
 			},
 			facultyEvalsConfig(){
@@ -37,7 +40,9 @@ export default function createFacultyFacultyDashboard(el, propsData){
 						url: '/evaluations',
 						data: {
 							with: {
-								form: ['title']
+								form: [
+									'title'
+								]
 							},
 							whereHas: {
 								form: {
@@ -50,7 +55,12 @@ export default function createFacultyFacultyDashboard(el, propsData){
 					},
 					columns: [
 						{data: 'url', render: renderSubjectEvalUrl},
-						{data: 'form.title'}
+						{data: 'form.title'},
+						{
+							data: null,
+							render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+							createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+						}
 					],
 					order: [[0, 'desc']],
 					createdRow(row){
