@@ -1,14 +1,14 @@
 import Vue from 'vue';
 
-import EvaluationDataTable from '../../vue-components/EvaluationDataTable.vue';
+import EvaluationDataTable from 'vue-components/EvaluationDataTable.vue';
 
-import { ucfirst } from '../../modules/utils.js';
+import { ucfirst } from 'modules/utils.js';
 import {
 	renderDateTimeCell,
 	createDateTimeCell,
 	renderDateRangeCell,
 	createDateRangeCell
-} from '../../modules/datatable-utils.js';
+} from 'modules/datatable-utils.js';
 
 export default function createManageEvaluations(el, propsData){
 	

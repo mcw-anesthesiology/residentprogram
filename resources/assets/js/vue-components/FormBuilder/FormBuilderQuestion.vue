@@ -111,8 +111,8 @@ import FormBuilderOption from './FormBuilderOption.vue';
 import SelectTwo from '../SelectTwo.vue';
 import AlertList from '../AlertList.vue';
 
-import { STANDARD_OPTIONS } from '../../modules/constants.js';
-import { sortSelect2Objects } from '../../modules/utils.js';
+import { STANDARD_OPTIONS } from 'modules/constants.js';
+import { sortSelect2Objects } from 'modules/utils.js';
 
 export default {
 	props: [

@@ -1,16 +1,16 @@
 import Vue from 'vue';
 
-import AlertList from '../../vue-components/AlertList.vue';
-import DataTable from '../../vue-components/DataTable.vue';
-import OrderingList from '../../vue-components/OrderingList.vue';
-import ShowHideButton from '../../vue-components/ShowHideButton.vue';
+import AlertList from 'vue-components/AlertList.vue';
+import DataTable from 'vue-components/DataTable.vue';
+import OrderingList from 'vue-components/OrderingList.vue';
+import ShowHideButton from 'vue-components/ShowHideButton.vue';
 
 import {
 	getFetchHeaders,
 	jsonOrThrow,
 	sortPropNumbers
-} from '../../modules/utils.js';
-import { ucfirst } from '../../modules/utils.js';
+} from 'modules/utils.js';
+import { ucfirst } from 'modules/utils.js';
 
 export default function createManageMilestonesCompetencies(el, propsData){
 	

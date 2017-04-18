@@ -31,7 +31,7 @@ import MarkdownIt from 'markdown-it';
 
 import ReplacementList from './ReplacementList.vue';
 
-import { htmlLabelReplacements } from '../modules/utils.js';
+import { htmlLabelReplacements } from 'modules/utils.js';
 
 const md = new MarkdownIt();
 

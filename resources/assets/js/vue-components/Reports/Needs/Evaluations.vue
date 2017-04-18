@@ -53,8 +53,8 @@ import EvaluationListItem from './EvaluationListItem.vue';
 import ComponentList from '../../ComponentList.vue';
 import EmailEditor from '../../EmailEditor.vue';
 
-import { groupUsers } from '../../../modules/utils.js';
-import { ADMIN_EMAIL } from '../../../modules/constants.js';
+import { groupUsers } from 'modules/utils.js';
+import { ADMIN_EMAIL } from 'modules/constants.js';
 
 export default {
 	props: {

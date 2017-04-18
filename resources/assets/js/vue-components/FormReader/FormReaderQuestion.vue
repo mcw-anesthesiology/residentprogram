@@ -39,7 +39,7 @@ import MarkdownIt from 'markdown-it';
 
 import FormReaderQuestionOption from './FormReaderQuestionOption.vue';
 
-import { ucfirst } from '../../modules/utils.js';
+import { ucfirst } from 'modules/utils.js';
 
 const md = new MarkdownIt();
 

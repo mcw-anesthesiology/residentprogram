@@ -33,7 +33,7 @@
 import VueFlatpickr from 'vue-flatpickr';
 import 'vue-flatpickr/theme/flatpickr.min.css';
 
-import { camelCaseToWords } from '../modules/utils.js';
+import { camelCaseToWords } from 'modules/utils.js';
 import * as dateUtils from 'modules/date-utils.js';
 
 export default {
