@@ -67,8 +67,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 	];
 
 	protected $appends = ["full_name", "specific_type", "profile_link"];
-    
-    protected $deepFeatures = null;
+	
+	protected $deepFeatures = null;
 
 	public function getFullNameAttribute(){
 		return $this->last_name . ", " . $this->first_name;
@@ -182,18 +182,18 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 	}
 
 	public function usesFeature($feature, $deep = true){
-        if ($deep) {
-            if (empty($this->deepFeatures))
-                $this->deepFeatures = $this->userFeatures->pluck("feature")
-                    ->merge($this->typeFeatures())
-                    ->merge($this->trainingLevelFeatures())
-                    ->merge($this->secondaryTrainingLevelFeatures())
-                    ->contains($feature);
-                    
-            return $this->deepFeatures->contains($feature);
-        }
+		if ($deep) {
+			if (empty($this->deepFeatures))
+				$this->deepFeatures = $this->userFeatures->pluck("feature")
+					->merge($this->typeFeatures())
+					->merge($this->trainingLevelFeatures())
+					->merge($this->secondaryTrainingLevelFeatures())
+					->contains($feature);
+					
+			return $this->deepFeatures->contains($feature);
+		}
 		
-        return $this->userFeatures->pluck('feature')->contains($feature);
+		return $this->userFeatures->pluck('feature')->contains($feature);
 	}
 
 	public function caseLogs(){

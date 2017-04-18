@@ -6,22 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class MilestoneQuestion extends Model
 {
-    //
-    protected $table = "milestones_questions";
+	//
+	protected $table = "milestones_questions";
 
-    protected $casts = [
-        "id" => "integer",
-        "form_id" => "integer",
-        "milestone_id" => "integer"
-    ];
+	protected $casts = [
+		"id" => "integer",
+		"form_id" => "integer",
+		"milestone_id" => "integer"
+	];
 
-    protected $fillable = ["form_id", "question_id", "milestone_id"];
+	protected $fillable = ["form_id", "question_id", "milestone_id"];
 
-    public function form(){
-        return $this->belongsTo("App\Form");
-    }
+	public function form(){
+		return $this->belongsTo("App\Form");
+	}
 
-    public function milestone(){
-        return $this->belongsTo("App\Milestone");
-    }
+	public function milestone(){
+		return $this->belongsTo("App\Milestone");
+	}
 }

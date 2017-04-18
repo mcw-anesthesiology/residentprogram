@@ -8,15 +8,15 @@ use Hashids;
 
 class TextResponse extends Model
 {
-    protected $table = "text_responses";
+	protected $table = "text_responses";
 
-    protected $casts = [
-        "id" => "integer",
-        "evaluation_id" => "integer",
-        "response" => "string"
-    ];
+	protected $casts = [
+		"id" => "integer",
+		"evaluation_id" => "integer",
+		"response" => "string"
+	];
 
-    protected $fillable = ["evaluation_id", "question_id", "response"];
+	protected $fillable = ["evaluation_id", "question_id", "response"];
 
 	private $hashids = false;
 
@@ -27,9 +27,9 @@ class TextResponse extends Model
 		return $evalId;
 	}
 
-    public function evaluation(){
-        return $this->belongsTo("App\Evaluation");
-    }
+	public function evaluation(){
+		return $this->belongsTo("App\Evaluation");
+	}
 
 	public function hashEvaluationId(){
 		$this->hashids = true;

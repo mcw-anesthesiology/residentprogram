@@ -10,18 +10,18 @@ use \DOMDocument;
 
 class Form extends Model
 {
-    protected $table = "forms";
+	protected $table = "forms";
 
-    protected $casts = [
-        "id" => "integer"
-    ];
+	protected $casts = [
+		"id" => "integer"
+	];
 
-    protected $fillable = [
-        "title",
-        "status",
-        "visibility",
-        "evaluation_period_type"
-    ];
+	protected $fillable = [
+		"title",
+		"status",
+		"visibility",
+		"evaluation_period_type"
+	];
 
 	protected $hidden = [
 		'contents'
@@ -92,29 +92,29 @@ class Form extends Model
 		return $formContents;
 	}
 
-    public function evaluations(){
-        return $this->hasMany("App\Evaluation");
-    }
+	public function evaluations(){
+		return $this->hasMany("App\Evaluation");
+	}
 
-    public function milestones(){
-        return $this->belongsToMany("App\Milestone", "milestones_questions");
-    }
+	public function milestones(){
+		return $this->belongsToMany("App\Milestone", "milestones_questions");
+	}
 
 	public function milestoneQuestions(){
 		return $this->hasMany('App\MilestoneQuestion');
 	}
 
-    public function competencies(){
-        return $this->belongsToMany("App\Competency", "competencies_questions");
-    }
+	public function competencies(){
+		return $this->belongsToMany("App\Competency", "competencies_questions");
+	}
 
 	public function competencyQuestions(){
 		return $this->hasMany('App\CompetencyQuestion');
 	}
 
-    public function watchedForms(){
-        return $this->hasMany("App\WatchedForm");
-    }
+	public function watchedForms(){
+		return $this->hasMany("App\WatchedForm");
+	}
 
 	public function watchers(){
 		return $this->belongsToMany("App\User", "watched_forms");
@@ -122,7 +122,7 @@ class Form extends Model
 
 	public function hideFields(){
 		$this->addHidden($this->userHidden);
-        
-        return $this;
+		
+		return $this;
 	}
 }

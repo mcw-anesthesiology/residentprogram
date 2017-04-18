@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserFeature extends Model
 {
-    protected $table = "user_features";
+	protected $table = "user_features";
 
 	protected $fillable = [
 		"feature",

@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Competency extends Model
 {
-    protected $table = "competencies";
+	protected $table = "competencies";
 
-    protected $casts = [
-        "id" => "integer"
-    ];
+	protected $casts = [
+		"id" => "integer"
+	];
 
-    protected $fillable = ["title", "description"];
+	protected $fillable = ["title", "description"];
 
-    public function forms(){
-        return $this->belongsToMany("App\Form", "competencies_questions");
-    }
+	public function forms(){
+		return $this->belongsToMany("App\Form", "competencies_questions");
+	}
 }
