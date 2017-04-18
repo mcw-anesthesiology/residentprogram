@@ -7,17 +7,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DirectoryEntry extends Model
 {
-    use SoftDeletes;
+	use SoftDeletes;
 
-    protected $table = "directory";
+	protected $table = "directory";
 
-    protected $dates = ["created_at", "updated_at", "deleted_at"];
+	protected $dates = ["created_at", "updated_at", "deleted_at"];
 
-    protected $fillable = [
-        "first_name",
-        "last_name",
-        "pager"
-    ];
+	protected $fillable = [
+		"first_name",
+		"last_name",
+		"pager"
+	];
 
 	protected $hidden = ["created_at", "updated_at", "deleted_at"];
 }

@@ -8,14 +8,14 @@ use Hashids;
 
 class Response extends Model
 {
-    protected $table = "responses";
+	protected $table = "responses";
 
-    protected $casts = [
-        "id" => "integer",
-        "evaluation_id" => "integer",
-        "response" => "integer",
-        "weight" => "integer"
-    ];
+	protected $casts = [
+		"id" => "integer",
+		"evaluation_id" => "integer",
+		"response" => "integer",
+		"weight" => "integer"
+	];
 
 	protected $fillable = ["evaluation_id", "question_id", "response", "weight"];
 
@@ -28,15 +28,15 @@ class Response extends Model
 		return $evalId;
 	}
 
-    public function evaluation(){
-        return $this->belongsTo("App\Evaluation");
-    }
+	public function evaluation(){
+		return $this->belongsTo("App\Evaluation");
+	}
 
-    public function milestoneQuestions(){
-        return $this->hasMany("App\MilestoneQuestion", "question_id", "question_id")->where("form_id", $this->evaluation->form_id);
-    }
+	public function milestoneQuestions(){
+		return $this->hasMany("App\MilestoneQuestion", "question_id", "question_id")->where("form_id", $this->evaluation->form_id);
+	}
 
-    public function competencyQuestions(){
+	public function competencyQuestions(){
 		return $this->hasMany("App\CompetencyQuestion", "question_id", "question_id")->where("form_id", $this->evaluation->form_id);
 	}
 

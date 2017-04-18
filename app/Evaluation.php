@@ -22,33 +22,33 @@ class Evaluation extends Model
 		static::addGlobalScope(new EvaluationScope);
 	}
 
-    protected $table = 'evaluations';
+	protected $table = 'evaluations';
 
-    protected $casts = [
-        'id' => 'integer',
-        'form_id' => 'integer',
-        'evaluator_id' => 'integer',
-        'subject_id' => 'integer',
-        'requested_by_id' => 'integer'
-    ];
+	protected $casts = [
+		'id' => 'integer',
+		'form_id' => 'integer',
+		'evaluator_id' => 'integer',
+		'subject_id' => 'integer',
+		'requested_by_id' => 'integer'
+	];
 
-    protected $fillable = [
-        'form_id',
-        'evaluator_id',
-        'subject_id',
-        'requested_by_id',
-        'status',
-        'training_level',
-        'request_date',
-        'complete_date',
-        'evaluation_date_start',
+	protected $fillable = [
+		'form_id',
+		'evaluator_id',
+		'subject_id',
+		'requested_by_id',
+		'status',
+		'training_level',
+		'request_date',
+		'complete_date',
+		'evaluation_date_start',
 		'evaluation_date_end',
-        'archive_date',
-        'request_ip',
-        'complete_ip'
-    ];
+		'archive_date',
+		'request_ip',
+		'complete_ip'
+	];
 
-    protected $dates = [
+	protected $dates = [
 		'request_date',
 		'complete_date',
 		'evaluation_date_start',
@@ -73,7 +73,7 @@ class Evaluation extends Model
 		'flag'
 	];
 
-    protected $appends = ['url'];
+	protected $appends = ['url'];
 
 	private $hashids = false;
 
@@ -128,36 +128,36 @@ class Evaluation extends Model
 			$this->load('form');
 		if(empty($this->form))
 			return $visibility;
-        return empty($visibility) ? $this->form->visibility : $visibility;
+		return empty($visibility) ? $this->form->visibility : $visibility;
 	}
 
-    public function getUrlAttribute(){
-        return "<a href='/evaluation/{$this->id}'>{$this->id}</a>";
-    }
+	public function getUrlAttribute(){
+		return "<a href='/evaluation/{$this->id}'>{$this->id}</a>";
+	}
 
-    public function evaluator(){
-        return $this->belongsTo('App\User', 'evaluator_id');
-    }
+	public function evaluator(){
+		return $this->belongsTo('App\User', 'evaluator_id');
+	}
 
-    public function subject(){
-        return $this->belongsTo('App\User', 'subject_id');
-    }
+	public function subject(){
+		return $this->belongsTo('App\User', 'subject_id');
+	}
 
-    public function requestor(){
-        return $this->belongsTo('App\User', 'requested_by_id');
-    }
+	public function requestor(){
+		return $this->belongsTo('App\User', 'requested_by_id');
+	}
 
-    public function form(){
-        return $this->belongsTo('App\Form');
-    }
+	public function form(){
+		return $this->belongsTo('App\Form');
+	}
 
-    public function responses(){
+	public function responses(){
 		return $this->hasMany('App\Response');
-    }
+	}
 
-    public function textResponses(){
-        return $this->hasMany('App\TextResponse');
-    }
+	public function textResponses(){
+		return $this->hasMany('App\TextResponse');
+	}
 
 	public function flag(){
 		return $this->hasOne('App\FlaggedEvaluation');
@@ -177,21 +177,21 @@ class Evaluation extends Model
 				&& Auth::user()->id != $this->evaluator_id);
 	}
 
-    public function scopeNotHidden($query){
-        return $query->ofVisibility(['visible', 'anonymous']);
-    }
+	public function scopeNotHidden($query){
+		return $query->ofVisibility(['visible', 'anonymous']);
+	}
 
-    public function scopeOfVisibility($query, $visibilities){
-        if(!is_array($visibilities))
-            $visibilities = [$visibilities];
-        return $query->where(function($query) use ($visibilities){
-            $query->whereIn('visibility', $visibilities)->orWhere(function($query) use ($visibilities){
-                $query->whereNull('visibility')->whereHas('form', function($query) use ($visibilities){
-                    $query->whereIn('visibility', $visibilities);
-                });
-            });
-        });
-    }
+	public function scopeOfVisibility($query, $visibilities){
+		if(!is_array($visibilities))
+			$visibilities = [$visibilities];
+		return $query->where(function($query) use ($visibilities){
+			$query->whereIn('visibility', $visibilities)->orWhere(function($query) use ($visibilities){
+				$query->whereNull('visibility')->whereHas('form', function($query) use ($visibilities){
+					$query->whereIn('visibility', $visibilities);
+				});
+			});
+		});
+	}
 	
 	public function scopeOfType($query, $type) {
 		return $query->whereHas('form', function($innerQuery) use ($type) {
@@ -199,64 +199,64 @@ class Evaluation extends Model
 		});
 	}
 
-    public function sendNotification($reminder = false){
-        try{
-            $email = $this->evaluator->email;
-            $data = [
+	public function sendNotification($reminder = false){
+		try{
+			$email = $this->evaluator->email;
+			$data = [
 				'evaluation' => $this
-            ];
+			];
 
-            if($reminder){
-                $emailView = 'emails.evaluation-reminder';
-                $emailSubject = 'Evaluation Reminder';
-            }
-            else{
-                $emailView = 'emails.notification';
-                $emailSubject = 'Evaluation Request Notification';
-            }
+			if($reminder){
+				$emailView = 'emails.evaluation-reminder';
+				$emailSubject = 'Evaluation Reminder';
+			}
+			else{
+				$emailView = 'emails.notification';
+				$emailSubject = 'Evaluation Request Notification';
+			}
 
-            Mail::send($emailView, $data, function($message) use($email, $emailSubject){
-                $message->to($email);
-                $message->from('notifications@residentprogram.com', 'Resident Program Notifications');
-                $message->replyTo(config('app.admin_email'));
-                $message->subject($emailSubject);
-            });
-            return true;
-        }
-        catch (\Exception $e){
-            Log::error('Problem sending notification: '.$e);
-        }
-        return false;
-    }
+			Mail::send($emailView, $data, function($message) use($email, $emailSubject){
+				$message->to($email);
+				$message->from('notifications@residentprogram.com', 'Resident Program Notifications');
+				$message->replyTo(config('app.admin_email'));
+				$message->subject($emailSubject);
+			});
+			return true;
+		}
+		catch (\Exception $e){
+			Log::error('Problem sending notification: '.$e);
+		}
+		return false;
+	}
 
-    public function sendHashLink(){
-        try{
-            if($this->status != 'pending')
-                throw new \Exception('Evaluation already complete');
-            if(empty($this->completion_hash))
-                throw new \Exception('No hash');
-            $email = $this->evaluator->email;
-            $data = [
-                'evaluationHash' => $this->completion_hash,
-                'hashExpires' => $this->hash_expires,
-                'evaluatorName' => $this->evaluator->full_name,
-                'subjectLast' => $this->subject->last_name,
-                'formTitle' => $this->form->title
-            ];
-            Mail::send('emails.hash-link', $data, function($message) use($email){
-                $message->to($email);
-                $message->from('notifications@residentprogram.com', 'Resident Program Notifications');
-                $message->replyTo(config('app.admin_email'));
-                $message->subject('Evaluation Completion Link');
-            });
-        }
-        catch (\Exception $e){
-            Log::error('Problem sending hash link: ' . $e);
+	public function sendHashLink(){
+		try{
+			if($this->status != 'pending')
+				throw new \Exception('Evaluation already complete');
+			if(empty($this->completion_hash))
+				throw new \Exception('No hash');
+			$email = $this->evaluator->email;
+			$data = [
+				'evaluationHash' => $this->completion_hash,
+				'hashExpires' => $this->hash_expires,
+				'evaluatorName' => $this->evaluator->full_name,
+				'subjectLast' => $this->subject->last_name,
+				'formTitle' => $this->form->title
+			];
+			Mail::send('emails.hash-link', $data, function($message) use($email){
+				$message->to($email);
+				$message->from('notifications@residentprogram.com', 'Resident Program Notifications');
+				$message->replyTo(config('app.admin_email'));
+				$message->subject('Evaluation Completion Link');
+			});
+		}
+		catch (\Exception $e){
+			Log::error('Problem sending hash link: ' . $e);
 			throw $e;
-        }
+		}
 
 		return true;
-    }
+	}
 
 	public function hideFields(){
 		$user = Auth::user();

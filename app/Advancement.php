@@ -10,7 +10,7 @@ use App\User;
 
 class Advancement extends Model
 {
-    protected $table = "advancements";
+	protected $table = "advancements";
 
 	protected $fillable = [
 		"user_id",

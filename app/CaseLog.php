@@ -22,7 +22,7 @@ class CaseLog extends Model
 
 	protected $table = "case_logs";
 
-    protected $fillable = [
+	protected $fillable = [
 		"user_id",
 		"location_id",
 		"case_date",
