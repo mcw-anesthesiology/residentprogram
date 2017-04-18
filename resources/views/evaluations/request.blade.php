@@ -145,11 +145,13 @@
 						</div>
 						<div class="panel-body">
 							<p>
-								The faculty member you are evaluating will not be able to see the date you select.
-								The only information shown to faculty is the evaluation itself.
+								Faculty evaluations are anonymous. 
+								The only information shown to faculty is the academic
+								year and the evaluation itself.
 							</p>
 							<p>
-								Evaluations are released to the faculty in groups of 3, or at the end of the academic year.
+								Evaluations are released to the faculty in
+								groups of 3, or at the end of the academic year.
 							</p>
 						</div>
 					</div>

@@ -24,6 +24,9 @@ export function datesEqual(dates1, dates2){
 }
 
 export function renderDateRange(startDate, endDate, explicit = false){
+	if (startDate === null && endDate === null)
+		return 'All time';
+	
 	let range = moment(startDate).twix(endDate, {allDay: true});
 	return range.start().startOf('month') && range.end().endOf('month') && !explicit
 		? range.format({
@@ -50,7 +53,7 @@ export const DATE_RANGES = {
 	ALL_TIME: 'allTime'
 };
 
-export function currentQuarter(){
+export function currentQuarter() {
 	let startDate = moment().startOf('month');
 	while(startDate.month() % 3 !== 0)
 		startDate.subtract(1, 'month');
@@ -62,7 +65,7 @@ export function currentQuarter(){
 	};
 }
 
-export function lastQuarter(){
+export function lastQuarter() {
 	let startDate = moment().startOf('month');
 	while(startDate.month() % 3 !== 0)
 		startDate.subtract(1, 'month');
@@ -75,7 +78,7 @@ export function lastQuarter(){
 	};
 }
 
-export function currentSemester(){
+export function currentSemester() {
 	let startDate = moment().startOf('month');
 	while(startDate.month() % 6 !== 0)
 		startDate.subtract(1, 'month');
@@ -87,7 +90,7 @@ export function currentSemester(){
 	};
 }
 
-export function lastSemester(){
+export function lastSemester() {
 	let startDate = moment().startOf('month');
 	while(startDate.month() % 6 !== 0)
 		startDate.subtract(1, 'month');
@@ -100,7 +103,7 @@ export function lastSemester(){
 	};
 }
 
-export function currentYear(){
+export function currentYear() {
 	let startDate = moment().startOf('month');
 	while(startDate.month() !== 6)
 		startDate.subtract(1, 'month');
@@ -112,7 +115,7 @@ export function currentYear(){
 	};
 }
 
-export function lastYear(){
+export function lastYear() {
 	let startDate = moment().startOf('month');
 	while(startDate.month() !== 6)
 		startDate.subtract(1, 'month');
@@ -125,9 +128,30 @@ export function lastYear(){
 	};
 }
 
-export function allTime(){
+export function allTime() {
 	return {
 		startDate: null,
 		endDate: null
+	};
+}
+
+export function academicYearForDate(date) {
+	date = moment(date);
+	
+	
+	let startYear = (date.month() >= 6) // July
+		? date.year()
+		: date.year() - 1;
+		
+	let startDate = {
+		year: startYear,
+		month: 6,
+		day: 1
+	};
+	let endDate = moment(startDate).add(1, 'year').subtract(1, 'day');
+	
+	return {
+		startDate,
+		endDate
 	};
 }

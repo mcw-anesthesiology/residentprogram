@@ -1,7 +1,7 @@
 <div class="container body-block">
 	<h2 class="sub-header">Faculty Evaluations</h2>
-	<evaluation-data-table :thead="facultyEvalsThead"
-		:config="facultyEvalsConfig"></evaluation-data-table>
+	<academic-year-evaluation-data-table :thead="facultyEvalsThead"
+		:config="facultyEvalsConfig"></academic-year-evaluation-data-table>
 </div>
 
 @push('scripts')

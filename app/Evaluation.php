@@ -192,6 +192,12 @@ class Evaluation extends Model
             });
         });
     }
+	
+	public function scopeOfType($query, $type) {
+		return $query->whereHas('form', function($innerQuery) use ($type) {
+			$innerQuery->where('type', $type);
+		});
+	}
 
     public function sendNotification($reminder = false){
         try{

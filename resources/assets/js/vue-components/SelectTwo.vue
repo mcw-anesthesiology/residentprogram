@@ -66,7 +66,7 @@ export default {
 			return options;
 		},
 		stringValue(){
-			if(!this.value)
+			if(!this.value && this.value !== 0)
 				return '';
 
 			if(Array.isArray(this.value)){

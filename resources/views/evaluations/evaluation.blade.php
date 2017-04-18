@@ -86,7 +86,13 @@
 						<th>Evaluation Date</th>
 	@endif
 	@if(!$evaluation->isAnonymousToUser())
-						<th>Requested</th>
+						<th>
+							{{
+								($user->id == $evaluation->requested_by_id && $user->id == $evaluation->evaluator_id)
+									? 'Created'
+									: 'Requested'
+							}}
+						</th>
 		@if($evaluation->status == "complete")
 						<th>Completed</th>
 		@endif
