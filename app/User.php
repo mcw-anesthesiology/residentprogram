@@ -11,6 +11,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
+use Auth;
 use DB;
 use Log;
 use Mail;
@@ -50,7 +51,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      *
      * @var array
      */
-    protected $hidden = ['password', 'remember_token', 'created_at', 'updated_at'];
+    protected $hidden = [
+        'password',
+        'remember_token',
+        'updated_at'
+    ];
 
 	protected $userHidden = [ // Fields hidden to non-admins
 		"username",
@@ -248,6 +253,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
 	public function hideFields(){
 		$this->addHidden($this->userHidden);
+        
+        if (Auth::check() && Auth::id() != $this->id)
+            $this->addHidden('created_at');
         
         return $this;
 	}

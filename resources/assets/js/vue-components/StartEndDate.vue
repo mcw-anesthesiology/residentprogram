@@ -5,8 +5,8 @@
 				<label class="containing-label">
 					Date Range
 					<select class="form-control" v-model="dateRange">
-						<option v-for="range of DATE_RANGES" :value="range">
-							{{ camelCaseToWords(range) }}
+						<option v-for="(range, name) of dateRanges" :value="name">
+							{{ camelCaseToWords(name) }}
 						</option>
 					</select>
 				</label>
@@ -34,17 +34,7 @@ import VueFlatpickr from 'vue-flatpickr';
 import 'vue-flatpickr/theme/flatpickr.min.css';
 
 import { camelCaseToWords } from '../modules/utils.js';
-import {
-	DATE_RANGES,
-	isoDateStringObject,
-	datesEqual,
-	currentQuarter,
-	lastQuarter,
-	currentSemester,
-	lastSemester,
-	currentYear,
-	lastYear
-} from '../modules/date-utils.js';
+import * as dateUtils from 'modules/date-utils.js';
 
 export default {
 	props: {
@@ -52,16 +42,34 @@ export default {
 			type: Object,
 			required: true
 		},
+		hideDates: {
+			type: Boolean,
+			default: false
+		},
 		allTime: {
 			type: Boolean,
 			default: false
+		},
+		ranges: {
+			type: Object,
+			default() {
+				return {
+					[dateUtils.DATE_RANGES.CUSTOM]: null,
+					[dateUtils.DATE_RANGES.CURRENT_QUARTER]: dateUtils.currentQuarter(),
+					[dateUtils.DATE_RANGES.LAST_QUARTER]: dateUtils.lastQuarter(),
+					[dateUtils.DATE_RANGES.CURRENT_SEMESTER]: dateUtils.currentSemester(),
+					[dateUtils.DATE_RANGES.LAST_SEMESTER]: dateUtils.lastSemester(),
+					[dateUtils.DATE_RANGES.CURRENT_YEAR]: dateUtils.currentYear(),
+					[dateUtils.DATE_RANGES.LAST_YEAR]: dateUtils.lastYear()
+				};
+			}
 		}
 	},
 	data(){
 		return {
 			startDate: this.value.startDate,
 			endDate: this.value.endDate,
-			dateRange: DATE_RANGES.CUSTOM
+			dateRange: dateUtils.DATE_RANGES.CUSTOM
 		};
 	},
 	created(){
@@ -74,10 +82,12 @@ export default {
 				endDate: this.endDate
 			};
 		},
-		DATE_RANGES(){
-			let ranges = Object.assign({}, DATE_RANGES);
-			if(!this.allTime)
-				delete ranges.ALL_TIME;
+		dateRanges(){
+			let ranges = Object.assign({}, this.ranges);
+			if(this.allTime && !ranges[dateUtils.DATE_RANGES.ALL_TIME])
+				ranges[dateUtils.DATE_RANGES.ALL_TIME] = dateUtils.allTime();
+			else
+				delete ranges[dateUtils.DATE_RANGES.ALL_TIME];
 			
 			return ranges;
 		},
@@ -87,13 +97,7 @@ export default {
 				altInputClass: 'form-control appear-not-readonly',
 				altFormat: 'M j, Y'
 			};
-		},
-		currentQuarter,
-		lastQuarter,
-		currentSemester,
-		lastSemester,
-		currentYear,
-		lastYear
+		}
 	},
 	watch: {
 		dates(dates){
@@ -105,44 +109,40 @@ export default {
 			this.endDate = value.endDate;
 		},
 		dateRange(dateRange){
-			if(dateRange === DATE_RANGES.ALL_TIME)
-				this.setDate({
-					startDate: null,
-					endDate: null
-				});
+			if(dateRange === dateUtils.DATE_RANGES.ALL_TIME)
+				this.setDate(dateUtils.allTime());
 			
-			if(dateRange !== DATE_RANGES.CUSTOM && this[dateRange]
-					&& !this.datesEqual(this.value, this[dateRange]))
-				this.setDate(this[dateRange]);
+			if(dateRange !== dateUtils.DATE_RANGES.CUSTOM && this.dateRanges[dateRange]
+					&& !dateUtils.datesEqual(this.value, this.dateRanges[dateRange]))
+				this.setDate(this.dateRanges[dateRange]);
 		}
 	},
 	methods: {
 		matchDateRangeWithValue(value = this.value){
 			if(this.allTime && !value.startDate && !value.endDate){
-				this.dateRange = this.DATE_RANGES.ALL_TIME;
+				this.dateRange = dateUtils.DATE_RANGES.ALL_TIME;
 				return;
 			}
 			
-			if(this.dateRange && this.dateRange !== DATE_RANGES.CUSTOM
-					&& this[this.dateRange]
-					&& this.datesEqual(value, this[this.dateRange]))
+			if(this.dateRange && this.dateRange !== dateUtils.DATE_RANGES.CUSTOM
+					&& this.dateRanges[this.dateRange]
+					&& dateUtils.datesEqual(value, this.dateRanges[this.dateRange]))
 				return;
 
-			for(let range of Object.values(DATE_RANGES)){
-				if(this[range] && this.datesEqual(value, this[range])){
+			for(let range of Object.values(dateUtils.DATE_RANGES)){
+				if(this.dateRanges[range] && dateUtils.datesEqual(value, this.dateRanges[range])){
 					this.dateRange = range;
 					return;
 				}
 			}
 
-			this.dateRange = DATE_RANGES.CUSTOM;
+			this.dateRange = dateUtils.DATE_RANGES.CUSTOM;
 		},
 		setDate(dates){
-			dates = isoDateStringObject(dates);
+			dates = dateUtils.isoDateStringObject(dates);
 			this.startDate = dates.startDate;
 			this.endDate = dates.endDate;
 		},
-		datesEqual,
 		camelCaseToWords
 	},
 	components: {

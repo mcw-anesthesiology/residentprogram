@@ -1,22 +1,29 @@
 import Vue from 'vue';
 
-import AlertList from '../../../vue-components/AlertList.vue';
-import EvaluationDataTable from '../../../vue-components/EvaluationDataTable.vue';
+import AlertList from 'vue-components/AlertList.vue';
+import AcademicYearEvaluationDataTable from 'vue-components/AcademicYearEvaluationDataTable.vue';
 
 import {
 	createDateRangeCell,
 	renderDateRangeCell
-} from '../../../modules/datatable-utils.js';
+} from 'modules/datatable-utils.js';
 
-export default function createAnonymousFacultyDashboard(el){
+export default function createAnonymousFacultyDashboard(el, propsData){
 	
 	return new Vue({
 		el,
+		props: {
+			user: {
+				type: Object,
+				required: true
+			}
+		},
 		data(){
 			return {
 				alerts: []
 			};
 		},
+		propsData,
 		
 		computed: {
 			anonymousFacultyEvalsThead(){
@@ -64,7 +71,7 @@ export default function createAnonymousFacultyDashboard(el){
 		
 		components: {
 			AlertList,
-			EvaluationDataTable
+			AcademicYearEvaluationDataTable
 		}
 	});
 }

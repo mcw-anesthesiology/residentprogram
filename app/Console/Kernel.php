@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\User;
 
 use Mail;
+use App\Console\Commands\ChangeFacultyEvalDatesToAcademicYear;
 
 class Kernel extends ConsoleKernel
 {
@@ -19,6 +20,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+		\App\Console\Commands\ChangeFacultyEvalDatesToAcademicYear::class,
         \App\Console\Commands\FacultyReminders::class,
 		\App\Console\Commands\ResidentReminders::class,
 		\App\Console\Commands\RunAdvancements::class,
