@@ -18,44 +18,44 @@ use Mail;
 
 class User extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
 {
-    use Authenticatable, Authorizable, CanResetPassword, Notifiable;
+	use Authenticatable, Authorizable, CanResetPassword, Notifiable;
 
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'users';
+	/**
+	 * The database table used by the model.
+	 *
+	 * @var string
+	 */
+	protected $table = 'users';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        "username",
-        "training_level",
+	/**
+	 * The attributes that are mass assignable.
+	 *
+	 * @var array
+	 */
+	protected $fillable = [
+		"username",
+		"training_level",
 		"secondary_training_level",
-        "first_name",
-        "last_name",
-        "email",
-        "status"
-    ];
+		"first_name",
+		"last_name",
+		"email",
+		"status"
+	];
 
-    protected $casts = [
-        "id" => "integer"
-    ];
+	protected $casts = [
+		"id" => "integer"
+	];
 
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-        'updated_at'
-    ];
+	/**
+	 * The attributes excluded from the model's JSON form.
+	 *
+	 * @var array
+	 */
+	protected $hidden = [
+		'password',
+		'remember_token',
+		'updated_at'
+	];
 
 	protected $userHidden = [ // Fields hidden to non-admins
 		"username",
@@ -67,32 +67,34 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 	];
 
 	protected $appends = ["full_name", "specific_type", "profile_link"];
+    
+    protected $deepFeatures = null;
 
 	public function getFullNameAttribute(){
 		return $this->last_name . ", " . $this->first_name;
 	}
 
-    public function getProfileLinkAttribute(){
-        return "<a href=\"/profile/{$this->id}\">{$this->full_name}</a>";
-    }
+	public function getProfileLinkAttribute(){
+		return "<a href=\"/profile/{$this->id}\">{$this->full_name}</a>";
+	}
 
 	public function isType($types){
 		if(!is_array($types))
 			$types = [$types];
 		foreach($types as $type){
-            // Allow to query for 'trainee' even though they're currently all residents
-            // In the future, plan to change resident -> trainee
-            if($type == "trainee")
-                $type = "resident";
-                
-            // Specifically not a fellow
+			// Allow to query for 'trainee' even though they're currently all residents
+			// In the future, plan to change resident -> trainee
+			if($type == "trainee")
+				$type = "resident";
+				
+			// Specifically not a fellow
 			if($type == 'RESIDENT' && $this->type == 'resident' && in_array($this->training_level, [
 				'intern',
 				'ca-1',
 				'ca-2',
 				'ca-3'
-            ]))
-                return true;
+			]))
+				return true;
 
 			if($this->type == $type || $this->type == "resident" && $this->training_level == $type)
 				return true;
@@ -107,33 +109,33 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		return $this->type;
 	}
 
-    public function evaluatorEvaluations(){
-        return $this->hasMany("App\Evaluation", "evaluator_id");
-    }
+	public function evaluatorEvaluations(){
+		return $this->hasMany("App\Evaluation", "evaluator_id");
+	}
 
-    public function subjectEvaluations(){
-        return $this->hasMany("App\Evaluation", "subject_id");
-    }
+	public function subjectEvaluations(){
+		return $this->hasMany("App\Evaluation", "subject_id");
+	}
 
-    public function requestedEvaluations(){
-        return $this->hasMany("App\Evaluation", "requested_by_id");
-    }
+	public function requestedEvaluations(){
+		return $this->hasMany("App\Evaluation", "requested_by_id");
+	}
 
-    public function blockAssignments(){
-        return $this->hasMany("App\BlockAssignment");
-    }
+	public function blockAssignments(){
+		return $this->hasMany("App\BlockAssignment");
+	}
 
-    public function mentors(){
-        return $this->belongsToMany("App\User", "mentorships", "mentee_id", "mentor_id")->where("mentorships.status", "active");
-    }
+	public function mentors(){
+		return $this->belongsToMany("App\User", "mentorships", "mentee_id", "mentor_id")->where("mentorships.status", "active");
+	}
 
-    public function mentees(){
-        return $this->belongsToMany("App\User", "mentorships", "mentor_id", "mentee_id")->where("mentorships.status", "active");
-    }
+	public function mentees(){
+		return $this->belongsToMany("App\User", "mentorships", "mentor_id", "mentee_id")->where("mentorships.status", "active");
+	}
 
-    public function watchedForms(){
-        return $this->hasMany("App\WatchedForm");
-    }
+	public function watchedForms(){
+		return $this->hasMany("App\WatchedForm");
+	}
 
 	public function formsBeingWatched(){
 		return $this->belongsToMany("App\Form", "watched_forms");
@@ -179,84 +181,91 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 			->pluck("feature");
 	}
 
-	public function usesFeature($feature){
-		return $this->userFeatures->pluck("feature")
-			->merge($this->typeFeatures())
-			->merge($this->trainingLevelFeatures())
-			->merge($this->secondaryTrainingLevelFeatures())
-			->contains($feature);
+	public function usesFeature($feature, $deep = true){
+        if ($deep) {
+            if (empty($this->deepFeatures))
+                $this->deepFeatures = $this->userFeatures->pluck("feature")
+                    ->merge($this->typeFeatures())
+                    ->merge($this->trainingLevelFeatures())
+                    ->merge($this->secondaryTrainingLevelFeatures())
+                    ->contains($feature);
+                    
+            return $this->deepFeatures->contains($feature);
+        }
+		
+        return $this->userFeatures->pluck('feature')->contains($feature);
 	}
 
 	public function caseLogs(){
 		return $this->hasMany("App\CaseLog");
 	}
 
-    public function scopeFormerResidents($query){
-        return $query->where(function($userQuery){
-            $userQuery->where("type", "!=", "resident")->orWhere(function($inactiveQuery){
-                $inactiveQuery->where("type", "resident")->where("status", "!=", "active");
-            });
-        })->whereHas("subjectEvaluations", function($evalsQuery){
-            $evalsQuery->where("status", "complete")->whereHas("form", function($formQuery){
-                $formQuery->where("type", "resident");
-            });
-        });
+	public function scopeFormerResidents($query){
+		return $query->where(function($userQuery){
+			$userQuery->where("type", "!=", "resident")->orWhere(function($inactiveQuery){
+				$inactiveQuery->where("type", "resident")->where("status", "!=", "active");
+			});
+		})->whereHas("subjectEvaluations", function($evalsQuery){
+			$evalsQuery->where("status", "complete")->whereHas("form", function($formQuery){
+				$formQuery->where("type", "resident");
+			});
+		});
 
-    }
+	}
 
-    public function resetPassword(){
-        $password = str_random(12);
-        $this->password = bcrypt($password);
-        try{
-            $data = [
-                "password" => $password,
-                "lastName" => $this->last_name
-            ];
-            $email = $this->email;
-            $this->save();
-            Mail::send("emails.manual-password-reset", $data, function($message) use ($email){
-                $message->from("admin@residentprogram.com", "ResidentProgram");
-                $message->to($email);
-                $message->replyTo(config("app.admin_email"));
-                $message->subject("Password reset");
-            });
-            return true;
-        } catch(\Exception $e){
-            Log::error("Problem resetting password: ".$e);
-        }
-        return false;
-    }
+	public function resetPassword(){
+		$password = str_random(12);
+		$this->password = bcrypt($password);
+		try{
+			$data = [
+				"password" => $password,
+				"lastName" => $this->last_name
+			];
+			$email = $this->email;
+			$this->save();
+			Mail::send("emails.manual-password-reset", $data, function($message) use ($email){
+				$message->from("admin@residentprogram.com", "ResidentProgram");
+				$message->to($email);
+				$message->replyTo(config("app.admin_email"));
+				$message->subject("Password reset");
+			});
+			return true;
+		} catch(\Exception $e){
+			Log::error("Problem resetting password: ".$e);
+		}
+		return false;
+	}
 
-    public function sendNewAccountEmail($password = null){
-        $data = [
-            "firstName" => $this->first_name,
-            "lastName" => $this->last_name,
-            "username" => $this->username,
-            "userType" => $this->specific_type,
-            "password" => $password
-        ];
-        $email = $this->email;
-        try{
-            Mail::send("emails.new-account", $data, function($message) use ($email){
-                $message->from("admin@residentprogram.com", "ResidentProgram");
-                $message->to($email);
-                $message->replyTo(config("app.admin_email"));
-                $message->subject("Welcome!");
-            });
-            return true;
-        }
-        catch(\Exception $e){
-            Log::error("Problem sending email: ".$e);
-        }
-        return false;
-    }
+	public function sendNewAccountEmail($password = null){
+		$data = [
+			"firstName" => $this->first_name,
+			"lastName" => $this->last_name,
+			"username" => $this->username,
+			"userType" => $this->specific_type,
+			"password" => $password
+		];
+		$email = $this->email;
+		try{
+			Mail::send("emails.new-account", $data, function($message) use ($email){
+				$message->from("admin@residentprogram.com", "ResidentProgram");
+				$message->to($email);
+				$message->replyTo(config("app.admin_email"));
+				$message->subject("Welcome!");
+			});
+			return true;
+		}
+		catch(\Exception $e){
+			Log::error("Problem sending email: ".$e);
+		}
+		return false;
+	}
 
 	public function hideFields(){
 		$this->addHidden($this->userHidden);
-        
-        if (Auth::check() && Auth::id() != $this->id)
-            $this->addHidden('created_at');
-        
-        return $this;
+		
+		if (Auth::check() && Auth::id() != $this->id)
+			$this->addHidden('created_at');
+		
+		return $this;
 	}
 }
