@@ -68,9 +68,9 @@
 import EvaluationDetailsListItem from './EvaluationDetailsListItem.vue';
 import ShowHideButton from '../../ShowHideButton.vue';
 
-import { PLACEHOLDER_USER_IMAGE_PATH } from '../../../modules/constants.js';
-import { ucfirst } from '../../../modules/utils.js';
-import { renderTrainingLevel } from '../../../modules/datatable-utils.js';
+import { PLACEHOLDER_USER_IMAGE_PATH } from 'modules/constants.js';
+import { ucfirst } from 'modules/utils.js';
+import { renderTrainingLevel } from 'modules/datatable-utils.js';
 
 export default {
 	props: {

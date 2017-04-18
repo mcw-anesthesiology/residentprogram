@@ -32,7 +32,7 @@
 <script>
 import download from 'downloadjs';
 
-import { escapeCsv, sortIgnoreCase } from '../modules/utils.js';
+import { escapeCsv, sortIgnoreCase } from 'modules/utils.js';
 
 export default {
 	props: {

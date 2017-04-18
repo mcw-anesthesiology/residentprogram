@@ -1,12 +1,12 @@
 import Vue from 'vue';
 
-import EvaluationDataTable from '../vue-components/EvaluationDataTable.vue';
-import SelectTwo from '../vue-components/SelectTwo.vue';
+import EvaluationDataTable from 'vue-components/EvaluationDataTable.vue';
+import SelectTwo from 'vue-components/SelectTwo.vue';
 
 import moment from 'moment';
 import indefinite from 'indefinite';
 
-import { groupUsers, groupForms } from '../modules/utils.js';
+import { groupUsers, groupForms } from 'modules/utils.js';
 import {
 	isoDateStringObject,
 	renderDateRange,
@@ -14,14 +14,14 @@ import {
 	lastQuarter,
 	currentYear,
 	lastYear
-} from '../modules/date-utils.js';
+} from 'modules/date-utils.js';
 import {
 	renderEvaluatorEvalUrl,
 	createDateRangeCell,
 	renderDateRangeCell,
 	createDateTimeCell,
 	renderDateTimeCell
-} from '../modules/datatable-utils.js';
+} from 'modules/datatable-utils.js';
 
 export function createRequest(el, propsData){
 

@@ -46,8 +46,8 @@ import TrainingLevelSelect from '../TrainingLevelSelect.vue';
 import SelectTwo from '../../SelectTwo.vue';
 import EmailEditor from '../../EmailEditor.vue';
 
-import { getFetchHeaders, groupUsers } from '../../../modules/utils.js';
-import { isoDateStringObject, currentQuarter } from '../../../modules/date-utils.js';
+import { getFetchHeaders, groupUsers } from 'modules/utils.js';
+import { isoDateStringObject, currentQuarter } from 'modules/date-utils.js';
 
 export default {
 	data(){

@@ -136,17 +136,17 @@ import {
 	getFetchHeaders,
 	jsonOrThrow,
 	fetchFormGroups
-} from '../../modules/utils.js';
+} from 'modules/utils.js';
 import {
 	isoDateStringObject,
 	currentQuarter,
 	renderDateRange
-} from '../../modules/date-utils.js';
+} from 'modules/date-utils.js';
 import {
 	tableHeader,
 	fullWidthTable,
 	borderedStripedTable
-} from '../../modules/report-utils.js';
+} from 'modules/report-utils.js';
 import {
 	renderDateCell,
 	createDateCell,
@@ -155,7 +155,7 @@ import {
 	renderDateRangeCell,
 	createDateRangeCell,
 	renderEvaluationStatus
-} from '../../modules/datatable-utils.js';
+} from 'modules/datatable-utils.js';
 
 export default {
 	props: {

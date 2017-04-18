@@ -164,8 +164,8 @@ import {
 	fetchMilestones,
 	groupMilestones,
 	fetchCompetencies
-} from '../../modules/utils.js';
-import { isoDateStringObject, currentQuarter } from '../../modules/date-utils.js';
+} from 'modules/utils.js';
+import { isoDateStringObject, currentQuarter } from 'modules/date-utils.js';
 
 export default {
 	props: {

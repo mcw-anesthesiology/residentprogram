@@ -94,15 +94,15 @@ import ChartjsChart from '../ChartjsChart.vue';
 import DataTable from '../DataTable.vue';
 import SvgIcon from '../SvgIcon.vue';
 
-import { CHART_COLORS } from '../../modules/constants.js';
-import { camelCaseToWords, sortPropIgnoreCase } from '../../modules/utils.js';
+import { CHART_COLORS } from 'modules/constants.js';
+import { camelCaseToWords, sortPropIgnoreCase } from 'modules/utils.js';
 import {
 	createDateCell,
 	renderDateCell,
 	renderIdToEvalUrl,
 	renderTrainingLevel
-} from '../../modules/datatable-utils.js';
-import { tableHeader } from '../../modules/report-utils.js';
+} from 'modules/datatable-utils.js';
+import { tableHeader } from 'modules/report-utils.js';
 
 export default {
 	props: {

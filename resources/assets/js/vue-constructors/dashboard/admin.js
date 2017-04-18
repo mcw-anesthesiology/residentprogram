@@ -1,17 +1,17 @@
 import Vue from 'vue';
 
-import AlertList from '../../vue-components/AlertList.vue';
-import DataTable from '../../vue-components/DataTable.vue';
-import EvaluationDataTable from '../../vue-components/EvaluationDataTable.vue';
+import AlertList from 'vue-components/AlertList.vue';
+import DataTable from 'vue-components/DataTable.vue';
+import EvaluationDataTable from 'vue-components/EvaluationDataTable.vue';
 
-import { getFetchHeaders } from '../../modules/utils.js';
+import { getFetchHeaders } from 'modules/utils.js';
 import {
 	renderDateRangeCell,
 	createDateRangeCell,
 	renderDateTimeCell,
 	renderEvaluationStatus,
 	createDateTimeCell
-} from '../../modules/datatable-utils.js';
+} from 'modules/datatable-utils.js';
 
 export default function createAdminDashboard(el, propsData){
 		

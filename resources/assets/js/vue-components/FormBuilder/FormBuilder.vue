@@ -57,7 +57,7 @@ import AlertList from '../AlertList.vue';
 import {
 	getFetchHeaders,
 	fetchMilestoneGroups
-} from '../../modules/utils.js';
+} from 'modules/utils.js';
 
 export default {
 	props: [

@@ -6,7 +6,7 @@
 import Chart from 'chart.js';
 import ElementResizeDetector from 'element-resize-detector';
 
-import { CHART_TYPES } from '../modules/constants.js';
+import { CHART_TYPES } from 'modules/constants.js';
 
 const erd = ElementResizeDetector({
 	strategy: 'scroll'
