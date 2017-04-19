@@ -1,0 +1,243 @@
+{
+	"id": "https://www.residentprogram.com/schemas/merit-report.json#",
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"title": "Merit Report",
+	"type": "object",
+	"properties": {
+		"title": {"type": "string"},
+		"version": {"type": "number"},
+		"pages": {
+			"type": "array",
+			"items": {
+				"$ref": "#/definitions/section"
+			}
+		}
+	},
+	"required": [
+		"title",
+		"version",
+		"sections"
+	],
+	"definitions": {
+		"section": {
+			"title": "Section",
+			"type": "object",
+			"properties": {
+				"type": {"enum": ["section"]},
+				"title": {"type": "string"},
+				"items": {
+					"type": "array",
+					"items": {
+						"oneOf": [
+							{"$ref": "#/definitions/section"},
+							{"$ref": "#/definitions/item"},
+							{"$ref": "#/definitions/instruction"}
+						]
+					}
+				}
+			},
+			"required": ["title", "items"]
+		},
+		"instruction": {
+			"title": "Instruction block",
+			"type": "object",
+			"properties": {
+				"type": {"enum": ["instruction"]},
+				"text": {"type": "string"}
+			}
+		},
+		"item": {
+			"title": "Item",
+			"type": "object",
+			"properties": {
+				"type": {"enum": ["item"]},
+				"text": {"type": "string"},
+				"selected": {"type": "boolean"},
+				"questions": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/question"
+					}
+				}
+			}
+		},
+		"question": {
+			"title": "Question",
+			"type": "object",
+			"oneOf": [
+				{"$ref": "#/definitions/question/definitions/text"},
+				{"$ref": "#/definitions/question/definitions/number"},
+				{"$ref": "#/definitions/question/definitions/checkbox"},
+				{"$ref": "#/definitions/question/definitions/radio"},
+				{"$ref": "#/definitions/question/definitions/list"}
+			],
+			"definitions": {
+				"properties": {
+					"title": "Question properties",
+					"type": "array",
+					"items": {
+						"type": "string",
+						"enum": [
+							"required"
+						]
+					}
+				},
+				"text": {
+					"title": "Text question",
+					"type": "object",
+					"properties": {
+						"type": {"enum": ["text", "textarea"]},
+						"text": {"type": "string"},
+						"description": {"type": "string"},
+						"placeholder": {"type": "string"},
+						"properties": {"$ref": "#/definitions/question/definitions/properties"},
+						"value": {"type": "string"}
+					},
+					"required": [
+						"type",
+						"text"
+					]
+				},
+				"number": {
+					"title": "Number question",
+					"type": "object",
+					"properties": {
+						"type": {"enum": ["number"]},
+						"text": {"type": "string"},
+						"description": {"type": "string"},
+						"placeholder": {"type": "string"},
+						"min": {"type": "number"},
+						"max": {"type": "number"},
+						"properties": {"$ref": "#/definitions/question/definitions/properties"},
+						"value": {"type": "number"}
+					},
+					"required": [
+						"type",
+						"text"
+					]
+				},
+				"checkbox": {
+					"title": "Checkbox question",
+					"type": "object",
+					"properties": {
+						"type": {"enum": ["checkbox"]},
+						"text": {"type": "string"},
+						"description": {"type": "string"},
+						"options": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"text": {"type": "string"},
+									"description": {"type": "string"},
+									"value": {
+										"oneOf": [
+											{"type": "string"},
+											{"type": "number"}
+										]
+									},
+									"checked": {"type": "boolean"}
+								},
+								"required": [
+									"text"
+								]
+							}
+						}
+					},
+					"required": [
+						"type",
+						"text",
+						"options"
+					]
+				},
+				"radio": {
+					"title": "Radio question",
+					"type": "object",
+					"properties": {
+						"type": {"enum": ["radio"]},
+						"text": {"type": "string"},
+						"description": {"type": "string"},
+						"options": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"text": {"type": "string"},
+									"description": {"type": "string"},
+									"value": {
+										"oneOf": [
+											{"type": "string"},
+											{"type": "number"}
+										]
+									},
+									"checked": {"type": "boolean"}
+								},
+								"required": [
+									"text"
+								]
+							}
+						}
+					},
+					"required": [
+						"type",
+						"text",
+						"options"
+					]
+				},
+				"list": {
+					"title": "List question",
+					"type": "object",
+					"properties": {
+						"type": {"enum": ["list"]},
+						"text": {"type": "string"},
+						"description": {"type": "string"},
+						"items": {
+							"type": "array",
+							"items": {
+								"oneOf": [
+									{"$ref": "#/definitions/question/definitions/list/definitions/text"},
+									{"$ref": "#/definitions/question/definitions/list/definitions/publication"}
+								]
+							}
+						}
+					},
+					"required": [
+						"type",
+						"text"
+					],
+					"definitions": {
+						"text": {
+							"title": "Text list item",
+							"type": "object",
+							"properties": {
+								"type": {"enum": ["text"]},
+								"text": {"type": "string"}
+							},
+							"required": [
+								"type",
+								"text"
+							]
+						},
+						"publication": {
+							"title": "Publication list item",
+							"type": "object",
+							"properties": {
+								"type": {"enum": ["publication"]},
+								"title": {"type": "string"},
+								"author": {"type": "string"},
+								"link": {"type": "string"},
+								"role": {"type": "string"}
+							},
+							"required": [
+								"type",
+								"title",
+								"author",
+								"role"
+							]
+						}
+					}
+				}
+			}
+		}
+	}
+}
