@@ -187,8 +187,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 				$this->deepFeatures = $this->userFeatures->pluck("feature")
 					->merge($this->typeFeatures())
 					->merge($this->trainingLevelFeatures())
-					->merge($this->secondaryTrainingLevelFeatures())
-					->contains($feature);
+					->merge($this->secondaryTrainingLevelFeatures());
 					
 			return $this->deepFeatures->contains($feature);
 		}
