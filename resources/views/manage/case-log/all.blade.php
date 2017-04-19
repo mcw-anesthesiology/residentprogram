@@ -272,17 +272,17 @@
 					}
 					else
 						appendAlert("There was a problem saving the schema. Please verify the JSON is valid and matches "
-							+ "<a href='/schemas/case-log-details-schema.json' target='_blank'>the schema</a>.", schemaGroup);
+							+ "<a href='/schemas/case-log-details.json' target='_blank'>the schema</a>.", schemaGroup);
 				}).fail(function(err){
 					appendAlert("There was a problem saving the schema. Please verify the JSON is valid and matches "
-						+ "<a href='/schemas/case-log-details-schema.json' target='_blank'>the schema</a>.", schemaGroup);
+						+ "<a href='/schemas/case-log-details.json' target='_blank'>the schema</a>.", schemaGroup);
 				}).always(function(){
 					button.prop("disabled", false).removeClass("disabled");
 				});
 			} catch(err){
 				schemaGroup.addClass("has-error");
 				appendAlert("There was a problem saving the schema. Please verify the JSON is valid and matches "
-					+ "<a href='/schemas/case-log-details-schema.json' target='_blank'>the schema</a>.", schemaGroup);
+					+ "<a href='/schemas/case-log-details.json' target='_blank'>the schema</a>.", schemaGroup);
 			}
 		});
 

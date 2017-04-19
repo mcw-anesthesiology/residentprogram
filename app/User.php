@@ -198,6 +198,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 	public function caseLogs(){
 		return $this->hasMany("App\CaseLog");
 	}
+	
+	public function meritReports() {
+		return $this->hasMany('App\MeritReport');
+	}
 
 	public function scopeFormerResidents($query){
 		return $query->where(function($userQuery){
