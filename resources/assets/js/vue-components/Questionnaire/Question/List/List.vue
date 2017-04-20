@@ -4,9 +4,7 @@
 			<legend>
 				{{ text }}
 			</legend>
-			<template v-for="(item, index) of items">
-				
-			</template>
+			<list-items :ordered="ordered" :items="items" @change="onChange" />
 		</fieldset>
 		<show-hide-button v-model="show.description">
 			description
@@ -18,6 +16,7 @@
 </template>
 
 <script>
+import ListItems from './Items.vue';
 import ShowHideButton from 'vue-components/ShowHideButton.vue';
 
 import snarkdown from 'snarkdown';
@@ -44,6 +43,10 @@ export default {
 		items: {
 			type: Array,
 			required: true
+		},
+		ordered: {
+			type: Boolean,
+			default: false
 		}
 	},
 	
@@ -54,18 +57,14 @@ export default {
 	},
 	
 	methods: {
-		onCheck(index) {
-			let options = Array.slice(this.options);
-			options[index] = Object.assign({}, options[index], {
-				selected: !options[index].selected
-			});
-			
-			this.$emit('change', options);
+		onChange(items) {
+			this.$emit('change', {items});
 		},
 		snarkdown
 	},
 	
 	components: {
+		ListItems,
 		ShowHideButton
 	}
 };

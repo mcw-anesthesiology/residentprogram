@@ -29,8 +29,7 @@ import snarkdown from 'snarkdown';
 
 export default {
 	model: {
-		prop: 'options',
-		event: 'change'
+		prop: 'options'
 	},
 	props: {
 		type: {
@@ -65,7 +64,7 @@ export default {
 				selected: !options[index].selected
 			});
 			
-			this.$emit('change', options);
+			this.$emit('input', {options});
 		},
 		snarkdown
 	},

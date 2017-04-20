@@ -1,7 +1,7 @@
 {
 	"id": "https://www.residentprogram.com/schemas/merit-report.json#",
 	"$schema": "http://json-schema.org/draft-04/schema#",
-	"title": "Merit Report",
+	"title": "Merit Report Checklist",
 	"type": "object",
 	"properties": {
 		"title": {"type": "string"},
@@ -36,7 +36,7 @@
 					}
 				}
 			},
-			"required": ["title", "items"]
+			"required": ["items"]
 		},
 		"instruction": {
 			"title": "Instruction block",
@@ -47,7 +47,7 @@
 			}
 		},
 		"item": {
-			"title": "Item",
+			"title": "Checklist item",
 			"type": "object",
 			"properties": {
 				"type": {"enum": ["item"]},
@@ -191,6 +191,7 @@
 						"type": {"enum": ["list"]},
 						"text": {"type": "string"},
 						"description": {"type": "string"},
+						"ordered": {"type": "boolean"},
 						"items": {
 							"type": "array",
 							"items": {

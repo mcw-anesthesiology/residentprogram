@@ -29,8 +29,7 @@ import snarkdown from 'snarkdown';
 
 export default {
 	model: {
-		prop: 'options',
-		event: 'change'
+		prop: 'options'
 	},
 	props: {
 		type: {
@@ -68,7 +67,7 @@ export default {
 				return newOption;
 			});
 			
-			this.$emit('change', options);
+			this.$emit('input', {options});
 		},
 		snarkdown
 	},
