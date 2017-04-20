@@ -2,8 +2,8 @@
 	<div class="form-group">
 		<label class="containing-label" :title="description">
 			{{ text }}
-			<input type="number" :min="min" :max="max"
-				:value="value" @input="onInput" />
+			<input type="number" class="form-control"
+				:min="min" :max="max" :value="value" @input="onInput" />
 		</label>
 		<show-hide-button v-model="show.description">
 			description
@@ -64,7 +64,7 @@ export default {
 	
 	methods: {
 		onInput(event) {
-			this.$emit('input', Number(event.target.value));
+			this.$emit('input', {value: Number(event.target.value)});
 		}
 	},
 	

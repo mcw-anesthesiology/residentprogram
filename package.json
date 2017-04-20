@@ -10,7 +10,7 @@
   "private": true,
   "scripts": {
     "start": "yarn watch",
-    "build": "run-s build:webpack wait build:gulp",
+    "build": "run-s schemas build:webpack wait build:gulp",
     "build:webpack": "NODE_ENV=production webpack -p",
     "build:gulp": "gulp --production",
     "schemas": "rm -f public/schemas/* ; cp resources/assets/schemas/* public/schemas/",
@@ -18,7 +18,7 @@
     "watch:webpack": "webpack --progress --colors --watch",
     "watch:gulp": "DISABLE_NOTIFIER=true gulp watch",
     "clean": "rm -f public/js/* && rm -f public/css/*.css && rm -f public/css/*.map && rm -f public/build/js/* && rm -f public/build/css/*.css && rm -f public/build/css/*.map && rm -f public/build/rev-manifest.json",
-    "wait": "sleep 1",
+    "wait": "sleep 2",
     "remake": "run-s clean make:webpack wait make:gulp",
     "make:webpack": "webpack",
     "make:gulp": "gulp",
