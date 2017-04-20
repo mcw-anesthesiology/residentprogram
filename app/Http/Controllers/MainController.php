@@ -211,9 +211,14 @@ class MainController extends Controller
 					->each($hideModelFields);
 			}
 			elseif($user->isType($evaluatorTypes)){
+                $evalTypes = [$user->specific_type];
+                // FIXME: Remove this if/when trainee user type is added
+                if ($user->isType('fellow') && $requestType == 'faculty')
+                    $evalTypes[] = $user->type;
+                    
 				$forms = Form::where("status", "active")
 					->whereIn("type", $subjectTypes)
-					->where("evaluator_type", $user->specific_type)
+					->whereIn("evaluator_type", $evalTypes)
 					->orderBy("title")
 					->get()
 					->each($hideModelFields);;
