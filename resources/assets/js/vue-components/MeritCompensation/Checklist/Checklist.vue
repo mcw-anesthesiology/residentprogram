@@ -4,7 +4,7 @@
 		<questionnaire-pager :pages="pages" @submit="handleSubmit">
 			<template scope="pager">
 				<checklist-section v-bind="pager.page"
-					@input="handleInput(pages.pageNum, arguments[0])" />
+					@input="handleInput(pager.pageNum, arguments[0])" />
 			</template>
 		</questionnaire-pager>
 	</div>
@@ -40,6 +40,11 @@ export default {
 		handleSubmit() {
 			// TODO
 			console.log('SUBMIT!');
+			console.log(JSON.stringify({
+				title: this.title,
+				version: this.version,
+				pages: this.pages
+			}, null, 4));
 		}
 	},
 	

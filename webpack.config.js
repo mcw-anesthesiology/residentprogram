@@ -17,7 +17,8 @@ module.exports = {
 		'vue-milestone-competency-lists': './resources/assets/js/vue-constructors/milestone-competency-lists.js',
 		'vue-request': './resources/assets/js/vue-constructors/request.js',
 		'vue-dashboard': './resources/assets/js/vue-constructors/dashboard/index.js',
-		'vue-manage': './resources/assets/js/vue-constructors/manage/index.js'
+		'vue-manage': './resources/assets/js/vue-constructors/manage/index.js',
+		'vue-merit-reports': './resources/assets/js/vue-constructors/merit-reports/index.js'
 	},
 	output: {
 		path: path.resolve(__dirname, 'public/build/js/'),
@@ -61,7 +62,8 @@ module.exports = {
 				'vue-milestone-competency-lists',
 				'vue-request',
 				'vue-dashboard',
-				'vue-manage'
+				'vue-manage',
+				'vue-merit-reports'
 			]
 		}),
 		new webpack.optimize.CommonsChunkPlugin({

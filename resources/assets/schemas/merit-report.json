@@ -36,7 +36,7 @@
 					}
 				}
 			},
-			"required": ["items"]
+			"required": ["type", "items"]
 		},
 		"instruction": {
 			"title": "Instruction block",
@@ -59,7 +59,8 @@
 						"$ref": "#/definitions/question"
 					}
 				}
-			}
+			},
+			"required": ["type", "text"]
 		},
 		"question": {
 			"title": "Question",
@@ -138,9 +139,7 @@
 									},
 									"checked": {"type": "boolean"}
 								},
-								"required": [
-									"text"
-								]
+								"required": ["text", "value"]
 							}
 						}
 					},

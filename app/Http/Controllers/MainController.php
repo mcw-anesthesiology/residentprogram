@@ -779,4 +779,8 @@ class MainController extends Controller
     public function calendar(Request $request){
         return view("calendar");
     }
+    
+    public function merit() {
+        return view('merit-reports');
+    }
 }

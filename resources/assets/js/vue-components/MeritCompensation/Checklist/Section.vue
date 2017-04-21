@@ -27,7 +27,7 @@ export default {
 					...item
 				},
 				on: {
-					input(item) {
+					input: item => {
 						let items = this.items.slice();
 						items[index] = Object.assign({}, items[index], item);
 						

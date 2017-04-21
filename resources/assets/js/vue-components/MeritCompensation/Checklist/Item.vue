@@ -2,7 +2,7 @@
 	<div class="checklist-item">
 		<div class="checkbox">
 			<input type="checkbox" :checked="selected"
-				@change="this.$emit('input', {selected: !selected})" />
+				@change="$emit('input', {selected: !selected})" />
 		</div>
 		<div class="content">
 			<div class="item-text">
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import QuestionnaireQuestion from 'vue-components/Questionnaire/Question';
+import QuestionnaireQuestion from 'vue-components/Questionnaire/Question/Question.vue';
 
 export default {
 	props: {
@@ -46,6 +46,8 @@ export default {
 		handleQuestionInput(index, question) {
 			let questions = this.questions.slice();
 			questions[index] = Object.assign({}, questions[index], question);
+			
+			// FIXME: When deselecting item question responses aren't removed
 			
 			this.$emit('input', {questions});
 		}

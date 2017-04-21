@@ -5,10 +5,10 @@
 			<input type="number" class="form-control"
 				:min="min" :max="max" :value="value" @input="onInput" />
 		</label>
-		<show-hide-button v-model="show.description">
+		<show-hide-button v-if="description" v-model="show.description">
 			description
 		</show-hide-button>
-		<div v-show="show.description">
+		<div v-if="description" v-show="show.description">
 			{{ markedUpDescription }}
 		</div>
 	</div>
@@ -55,10 +55,18 @@ export default {
 			default: null
 		}
 	},
+	data() {
+		return {
+			show: {
+				description: false
+			}
+		};
+	},
 	
 	computed: {
 		markedUpDescription() {
-			return snarkdown(this.description);
+			if (this.description)
+				return snarkdown(this.description);
 		}
 	},
 	

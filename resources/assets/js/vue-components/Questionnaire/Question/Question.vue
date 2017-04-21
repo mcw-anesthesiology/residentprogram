@@ -30,7 +30,7 @@ export default {
 				...this.question
 			},
 			on: {
-				input(question) {
+				input: question => {
 					this.$emit('input', question);
 				}
 			}
