@@ -6,10 +6,10 @@
 			</legend>
 			<list-items :ordered="ordered" :items="items" @change="onChange" />
 		</fieldset>
-		<show-hide-button v-model="show.description">
+		<show-hide-button v-if="description" v-model="show.description">
 			description
 		</show-hide-button>
-		<div v-show="show.description" class="question-description">
+		<div v-if="description" v-show="show.description">
 			{{ markedUpDescription }}
 		</div>
 	</div>
@@ -49,10 +49,18 @@ export default {
 			default: false
 		}
 	},
+	data() {
+		return {
+			show: {
+				description: false
+			}
+		};
+	},
 	
 	computed: {
 		markedUpDescription() {
-			return snarkdown(this.description);
+			if (this.description)
+				return snarkdown(this.description);
 		}
 	},
 	

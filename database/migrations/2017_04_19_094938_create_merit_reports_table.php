@@ -16,6 +16,7 @@ class CreateMeritReportsTable extends Migration
         Schema::create('merit_reports', function (Blueprint $table) {
             $table->increments('id');
 			$table->integer('user_id');
+			$table->integer('form_id');
 			$table->date('period_start');
 			$table->date('period_end');
 			$table->longText('report'); // JSON not currently supported by production db

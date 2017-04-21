@@ -13,10 +13,10 @@
 				</div>
 			</label>
 		</fieldset>
-		<show-hide-button v-model="show.description">
+		<show-hide-button v-if="description" v-model="show.description">
 			description
 		</show-hide-button>
-		<div v-show="show.description" class="question-description">
+		<div v-if="description" v-show="show.description">
 			{{ markedUpDescription }}
 		</div>
 	</div>
@@ -50,10 +50,18 @@ export default {
 			required: true
 		}
 	},
+	data() {
+		return {
+			show: {
+				description: false
+			}
+		};
+	},
 	
 	computed: {
 		markedUpDescription() {
-			return snarkdown(this.description);
+			if (this.description)
+				return snarkdown(this.description);
 		}
 	},
 	
@@ -61,7 +69,7 @@ export default {
 		onCheck(index) {
 			let options = Array.slice(this.options);
 			options[index] = Object.assign({}, options[index], {
-				selected: !options[index].selected
+				checked: !options[index].checked
 			});
 			
 			this.$emit('input', {options});

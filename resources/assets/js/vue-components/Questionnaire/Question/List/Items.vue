@@ -29,7 +29,7 @@ export default {
 					...item
 				},
 				on: {
-					change(item) {
+					change: item => {
 						let items = Array.slice(this.items);
 						items[index] = Object.assign({}, items[index], item);
 						

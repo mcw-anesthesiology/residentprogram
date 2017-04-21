@@ -22,6 +22,9 @@
 			"alias": {
 				"vue-flatpickr": "@jacobmischka/vue-flatpickr"
 			}
+		}],
+		["transform-object-rest-spread", {
+			"useBuiltIns": true
 		}]
 	]
 }
