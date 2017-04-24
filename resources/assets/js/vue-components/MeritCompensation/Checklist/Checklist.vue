@@ -1,9 +1,11 @@
 <template>
 	<div class="checklist">
 		<h1>{{ title }}</h1>
-		<questionnaire-pager :pages="pages" @submit="handleSubmit">
+		<questionnaire-pager :pages="pages" :readonly="readonly"
+				@submit="handleSubmit">
 			<template scope="pager">
-				<checklist-section v-bind="pager.page"
+				<checklist-section v-bind="pager.page" :page="true"
+					:readonly="readonly"
 					@input="handleInput(pager.pageNum, arguments[0])" />
 			</template>
 		</questionnaire-pager>
@@ -27,6 +29,10 @@ export default {
 		pages: {
 			type: Array,
 			required: true
+		},
+		readonly: {
+			type: Boolean,
+			default: false
 		}
 	},
 	
@@ -38,13 +44,7 @@ export default {
 			this.$emit('input', {pages});
 		},
 		handleSubmit() {
-			// TODO
-			console.log('SUBMIT!');
-			console.log(JSON.stringify({
-				title: this.title,
-				version: this.version,
-				pages: this.pages
-			}, null, 4));
+			this.$emit('submit');
 		}
 	},
 	
@@ -54,3 +54,21 @@ export default {
 	}
 };
 </script>
+
+<style scoped>
+	.checklist {
+		font-size: 1.25em;
+	}
+	
+	@media (min-width: 768px) {
+		.checklist {
+			padding: 0 1em;
+		}
+	}
+	
+	@media (min-width: 1200px) {
+		.checklist {
+			padding: 0 2em;
+		}
+	}
+</style>

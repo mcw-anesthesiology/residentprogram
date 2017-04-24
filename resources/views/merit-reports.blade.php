@@ -3,7 +3,8 @@
 @section('blockless-body')
 	<div class="body-block">
 		<merit-compensation-checklist v-bind="checklist"
-			@input="handleInput"></merit-compensation-checklist>
+			@input="handleInput" @submit="handleSubmit">
+		</merit-compensation-checklist>
 	</div>
 @stop
 

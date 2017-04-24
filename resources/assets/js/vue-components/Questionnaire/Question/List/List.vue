@@ -47,6 +47,10 @@ export default {
 		ordered: {
 			type: Boolean,
 			default: false
+		},
+		readonly: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data() {

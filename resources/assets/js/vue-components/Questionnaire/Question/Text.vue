@@ -2,10 +2,12 @@
 	<div class="form-group">
 		<label class="containing-label" :title="description">
 			{{ text }}
-			<textarea v-if="type === 'texarea'" class="form-control"
-				:value="value" @input="onInput"></textarea>
-			<input type="text" v-else class="form-control"
-				:value="value" @input="onInput" />
+			<textarea v-if="type === 'texarea'" class="form-control appear-not-readonly"
+				:value="value" :readonly="readonly"
+				@input="onInput"></textarea>
+			<input type="text" v-else class="form-control appear-not-readonly"
+				:value="value" :readonly="readonly"
+				@input="onInput" />
 		</label>
 		<show-hide-button v-if="description" v-model="show.description">
 			description
@@ -47,6 +49,10 @@ export default {
 		value: {
 			type: String,
 			default: ''
+		},
+		readonly: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data() {

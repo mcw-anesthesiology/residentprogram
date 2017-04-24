@@ -28,3 +28,11 @@ export default {
 	}
 };
 </script>
+
+<style scoped>
+	.instruction-block {
+		margin: 1em;
+		padding: 1em;
+		font-size: 1.25em;
+	}
+</style>

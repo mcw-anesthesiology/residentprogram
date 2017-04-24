@@ -6,7 +6,12 @@
 
 <script>
 export default {
-	
+	props: {
+		readonly: {
+			type: Boolean,
+			default: false
+		}
+	}
 };
 </script>
 
