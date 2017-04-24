@@ -1,14 +1,14 @@
 <template>
 	<div class="checklist-item">
 		<div class="checkbox">
-			<input type="checkbox" :checked="selected"
-				@change="$emit('input', {selected: !selected})" />
+			<input type="checkbox" :checked="checked"
+				@change="handleCheck" />
 		</div>
 		<div class="content">
 			<div class="item-text">
 				{{ text }}
 			</div>
-			<div v-if="selected" class="item-questions">
+			<div v-if="checked" class="item-questions">
 				<questionnaire-question v-for="(question, index) of questions"
 					:question="question"
 					@input="handleQuestionInput(index, arguments[0])" />
@@ -32,7 +32,7 @@ export default {
 			type: String,
 			required: true
 		},
-		selected: {
+		checked: {
 			type: Boolean,
 			default: false
 		},
@@ -43,13 +43,42 @@ export default {
 	},
 	
 	methods: {
+		handleCheck() {
+			let checked = !this.checked;
+			let item = {checked};
+			
+			if (!checked) {
+				let questions = this.questions.map(this.clearQuestion);
+				item.questions = questions;
+			}
+			
+			this.$emit('input', item);
+		},
 		handleQuestionInput(index, question) {
 			let questions = this.questions.slice();
 			questions[index] = Object.assign({}, questions[index], question);
 			
-			// FIXME: When deselecting item question responses aren't removed
-			
 			this.$emit('input', {questions});
+		},
+		clearQuestion(question) {
+			question = Object.assign({}, question);
+			switch (question.type) {
+				case 'text':
+				case 'number':
+					delete question.value;
+					break;
+				case 'checkbox':
+				case 'radio':
+					question.options = question.options.map(option =>
+						Object.assign({}, option, {checked: false})
+					);
+					break;
+				case 'list':
+					delete question.items;
+					break;
+			}
+			
+			return question;
 		}
 	},
 	

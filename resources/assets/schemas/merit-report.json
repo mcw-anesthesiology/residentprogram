@@ -52,7 +52,7 @@
 			"properties": {
 				"type": {"enum": ["item"]},
 				"text": {"type": "string"},
-				"selected": {"type": "boolean"},
+				"checked": {"type": "boolean"},
 				"questions": {
 					"type": "array",
 					"items": {
