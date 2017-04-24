@@ -1,7 +1,6 @@
 {
-	"id": "https://www.residentprogram.com/schemas/merit-report.json#",
-	"$schema": "http://json-schema.org/draft-04/schema#",
-	"title": "Merit Report",
+	"$id": "https://www.residentprogram.com/schemas/merit-report.json#",
+	"title": "Merit Report Checklist",
 	"type": "object",
 	"properties": {
 		"title": {"type": "string"},
@@ -23,7 +22,7 @@
 			"title": "Section",
 			"type": "object",
 			"properties": {
-				"type": {"enum": ["section"]},
+				"type": {"const": "section"},
 				"title": {"type": "string"},
 				"items": {
 					"type": "array",
@@ -36,30 +35,31 @@
 					}
 				}
 			},
-			"required": ["title", "items"]
+			"required": ["type", "items"]
 		},
 		"instruction": {
 			"title": "Instruction block",
 			"type": "object",
 			"properties": {
-				"type": {"enum": ["instruction"]},
+				"type": {"const": "instruction"},
 				"text": {"type": "string"}
 			}
 		},
 		"item": {
-			"title": "Item",
+			"title": "Checklist item",
 			"type": "object",
 			"properties": {
-				"type": {"enum": ["item"]},
+				"type": {"const": "item"},
 				"text": {"type": "string"},
-				"selected": {"type": "boolean"},
+				"checked": {"type": "boolean"},
 				"questions": {
 					"type": "array",
 					"items": {
 						"$ref": "#/definitions/question"
 					}
 				}
-			}
+			},
+			"required": ["type", "text"]
 		},
 		"question": {
 			"title": "Question",
@@ -102,7 +102,7 @@
 					"title": "Number question",
 					"type": "object",
 					"properties": {
-						"type": {"enum": ["number"]},
+						"type": {"const": "number"},
 						"text": {"type": "string"},
 						"description": {"type": "string"},
 						"placeholder": {"type": "string"},
@@ -120,7 +120,7 @@
 					"title": "Checkbox question",
 					"type": "object",
 					"properties": {
-						"type": {"enum": ["checkbox"]},
+						"type": {"const": "checkbox"},
 						"text": {"type": "string"},
 						"description": {"type": "string"},
 						"options": {
@@ -138,9 +138,7 @@
 									},
 									"checked": {"type": "boolean"}
 								},
-								"required": [
-									"text"
-								]
+								"required": ["text", "value"]
 							}
 						}
 					},
@@ -154,7 +152,7 @@
 					"title": "Radio question",
 					"type": "object",
 					"properties": {
-						"type": {"enum": ["radio"]},
+						"type": {"const": "radio"},
 						"text": {"type": "string"},
 						"description": {"type": "string"},
 						"options": {
@@ -188,9 +186,10 @@
 					"title": "List question",
 					"type": "object",
 					"properties": {
-						"type": {"enum": ["list"]},
+						"type": {"const": "list"},
 						"text": {"type": "string"},
 						"description": {"type": "string"},
+						"ordered": {"type": "boolean"},
 						"items": {
 							"type": "array",
 							"items": {
@@ -210,7 +209,7 @@
 							"title": "Text list item",
 							"type": "object",
 							"properties": {
-								"type": {"enum": ["text"]},
+								"type": {"const": "text"},
 								"text": {"type": "string"}
 							},
 							"required": [
@@ -222,7 +221,7 @@
 							"title": "Publication list item",
 							"type": "object",
 							"properties": {
-								"type": {"enum": ["publication"]},
+								"type": {"const": "publication"},
 								"title": {"type": "string"},
 								"author": {"type": "string"},
 								"link": {"type": "string"},

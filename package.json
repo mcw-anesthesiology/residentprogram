@@ -31,6 +31,7 @@
   ],
   "devDependencies": {
     "@jacobmischka/vue-flatpickr": "^2.2.10",
+    "ajv": "^5.0.0",
     "apply-loader": "^1.0.0",
     "babel-core": "^6.10.4",
     "babel-eslint": "^7.1.1",
