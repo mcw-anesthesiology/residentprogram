@@ -2,8 +2,9 @@
 	<div class="form-group">
 		<label class="containing-label" :title="description">
 			{{ text }}
-			<input type="number" class="form-control"
-				:min="min" :max="max" :value="value" @input="onInput" />
+			<input type="number" class="form-control appear-not-readonly"
+				:min="min" :max="max" :value="value" :readonly="readonly"
+				@input="onInput" />
 		</label>
 		<show-hide-button v-if="description" v-model="show.description">
 			description
@@ -53,6 +54,10 @@ export default {
 		value: {
 			type: Number,
 			default: null
+		},
+		readonly: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data() {

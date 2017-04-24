@@ -20,6 +20,14 @@ export default {
 		items: {
 			type: Array,
 			required: true
+		},
+		page: {
+			type: Boolean,
+			default: false
+		},
+		readonly: {
+			type: Boolean,
+			default: false
 		}
 	},
 	
@@ -29,6 +37,7 @@ export default {
 			
 			return h(componentName, {
 				props: {
+					readonly: this.readonly,
 					...item
 				},
 				on: {
@@ -45,7 +54,11 @@ export default {
 		if (this.title)
 			items.unshift(h('h1', this.title));
 		
-		return h('section', items);
+		return h('section', {
+			class: {
+				page: this.page
+			}
+		}, items);
 	},
 	
 	components: {

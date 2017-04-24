@@ -1,5 +1,5 @@
 <template>
-	<div class="pager">
+	<div class="questionnaire-pager">
 		<div class="pager-content">
 			<slot :page="page" :page-num="currentPage"></slot>
 		</div>
@@ -9,19 +9,29 @@
 					@click="goBack">
 				{{ backText }}
 			</button>
-			<progress :value="currentPage" :max="pages.length">
-				{{ `${currentPage} / ${pages.length}` }}
-			</progress>
-			<button type="button" class="btn btn-default"
-					:disabled="!canAdvancePage"
+			
+			<progress-bullets :max="pages.length" :value="currentPage + 1" />
+			
+			<button v-if="currentPage < pages.length - 1" type="button"
+					class="btn btn-default" :disabled="!canAdvancePage"
 					@click="advance">
-				{{ currentPage === pages.length - 1 ? submitText : nextText }}
+				{{ nextText }}
 			</button>
+			<button v-else-if="!readonly" type="button"
+					class="btn btn-primary" :disabled="!canAdvancePage"
+					@click="submit">
+				{{ submitText }}
+			</button>
+			<div v-else>
+				<!-- To preserve spacing -->
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import ProgressBullets from 'vue-components/ProgressBullets.vue';
+
 export default {
 	props: {
 		pages: {
@@ -45,6 +55,10 @@ export default {
 		backText: {
 			type: String,
 			default: 'Back'
+		},
+		readonly: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data() {
@@ -68,34 +82,49 @@ export default {
 				this.currentPage--;
 		},
 		advance() {
-			if (this.canAdvancePage) {
-				if (this.currentPage < this.pages.length - 1)
-					this.currentPage++;
-				else
-					this.$emit('submit');
-			}
+			if (this.canAdvancePage)
+				this.currentPage++;
+		},
+		submit() {
+			if (this.canAdvancePage)
+				this.$emit('submit');
 		}
+	},
+	
+	components: {
+		ProgressBullets
 	}
 };
 </script>
 
 <style scoped>
-	.page-controls {
+	.pager-controls {
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
 		justify-content: space-between;
+		align-items: center;
 	}
 	
-	@media (min-width: 768px) {
-		.page-controls progress {
-			order: 1;
+	.pager-controls button,
+	.pager-controls div {
+		width: 100px;
+		margin: 0.5em;
+	}
+	
+	.pager-controls .progress-bullets {
+		margin: 0.5em 2em;
+		flex-grow: 1;
+	}
+	
+	@media (max-width: 768px) {
+		.pager-controls .progress-bullets {
 			width: 100%;
-			flex-shrink: 0;
-			flex-grow: 1;
+			order: 1;
 		}
 		
-		.page-controls button {
+		.pager-controls button,
+		.pager-controls div {
 			order: 2;
 		}
 	}

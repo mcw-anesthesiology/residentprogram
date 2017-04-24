@@ -78,3 +78,7 @@ Route::delete('case_log_details_schemas/{type}', 'Rest\CaseLogDetailsSchemaContr
 Route::resource('case_log_details_schemas', 'Rest\CaseLogDetailsSchemaController', ['only' => [
 	'index', 'store', 'show'
 ]]);
+
+Route::resource('merits', 'Rest\MeritReportController', ['only' => [
+	'index', 'store', 'show', 'update', 'destroy'
+]]);

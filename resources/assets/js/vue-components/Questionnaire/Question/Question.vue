@@ -13,6 +13,10 @@ export default {
 		question: {
 			type: Object,
 			required: true
+		},
+		readonly: {
+			type: Boolean,
+			default: false
 		}
 	},
 	
@@ -27,6 +31,7 @@ export default {
 		
 		return h(questionComponent, {
 			props: {
+				readonly: this.readonly,
 				...this.question
 			},
 			on: {

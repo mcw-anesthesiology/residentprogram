@@ -24,6 +24,7 @@ export default {
 			
 			return h(componentName, {
 				props: {
+					readonly: this.readonly,
 					...item
 				},
 				on: {
@@ -40,7 +41,11 @@ export default {
 		if (this.title)
 			items.unshift(h('h1', this.title));
 		
-		return h('section', items);
+		return h('section', {
+			class: {
+				page: this.page
+			}
+		}, items);
 	},
 	
 	components: {
@@ -51,7 +56,33 @@ export default {
 </script>
 
 <style scoped>
+	section {
+		font-size: 0.95em;
+		padding: 1em;
+		margin: 0.5em;
+		border-left: 2px solid rgba(0, 0, 0, 0.15);
+	}
+	
+	section.page {
+		border: none;
+	}
+	
 	section h1 {
-		font-size: 1.5em;
+		font-size: 1.75em;
+		margin: 0 0 1em;
+	}
+	
+	@media (min-width: 768px) {
+		section {
+			padding: 1.5em;
+			margin: 1em;
+		}
+	}
+	
+	@media (min-width: 1200px) {
+		section {
+			padding: 2em;
+			margin: 2em;
+		}
 	}
 </style>

@@ -24,7 +24,7 @@ export default function createAdminSupervisorMeritReports(el) {
 							items: [
 								{
 									type: 'instruction',
-									text: 'INSTRUCTION BLOCK TEXT'
+									text: 'Instruction block text'
 								},
 								{
 									type: 'item',
@@ -32,14 +32,33 @@ export default function createAdminSupervisorMeritReports(el) {
 									questions: [
 										{
 											type: 'text',
-											text: 'Text question',
-											value: ''
+											text: 'Text question'
 										},
-									]
+									],
+								},
+								{
+									type: 'item',
+									text: 'Item 2',
+									questions: [
+										{
+											type: 'text',
+											text: 'Text question'
+										},
+									],
+								},
+								{
+									type: 'item',
+									text: 'Item 3',
+									questions: [
+										{
+											type: 'text',
+											text: 'Text question'
+										},
+									],
 								},
 								{
 									type: 'section',
-									title: 'Section 1',
+									title: 'Nested Section 1',
 									items: [
 										{
 											type: 'item',
@@ -51,7 +70,7 @@ export default function createAdminSupervisorMeritReports(el) {
 													options: [
 														{
 															text: 'A',
-															value: 'a'
+															value: 'a',
 														},
 														{
 															text: 'B',
@@ -59,7 +78,7 @@ export default function createAdminSupervisorMeritReports(el) {
 														}
 													]
 												}
-											]
+											],
 										}
 									]
 								}
@@ -90,6 +109,9 @@ export default function createAdminSupervisorMeritReports(el) {
 		methods: {
 			handleInput(checklist) {
 				this.checklist = Object.assign({}, this.checklist, checklist);
+			},
+			handleSubmit() {
+				console.log(JSON.stringify(this.checklist, null, 4));
 			}
 		},
 		

@@ -3,28 +3,32 @@
 		<div class="form-group">
 			<label class="containing-label">
 				Title
-				<input type="text" class="form-control" :value="title"
+				<input type="text" class="form-control appear-not-readonly"
+					:value="title" :readonly="readonly"
 					@input="$emit({title: $event.target.value})" />
 			</label>
 		</div>
 		<div class="form-group">
 			<label class="containing-label">
 				Author
-				<input type="text" class="form-control" :value="author"
+				<input type="text" class="form-control appear-not-readonly"
+					:value="author" :readonly="readonly"
 					@input="$emit({author: $event.target.value})" />
 			</label>
 		</div>
 		<div class="form-group">
 			<label class="containing-label">
 				Link
-				<input type="text" class="form-control" :value="link"
+				<input type="text" class="form-control appear-not-readonly"
+					:value="link" :readonly="readonly"
 					@input="$emit({link: $event.target.value})" />
 			</label>
 		</div>
 		<div class="form-group">
 			<label class="containing-label">
 				Role
-				<input type="text" class="form-control" :value="role"
+				<input type="text" class="form-control appear-not-readonly"
+					:value="role" :readonly="readonly"
 					@input="$emit({role: $event.target.value})" />
 			</label>
 		</div>
@@ -59,6 +63,10 @@ export default {
 			type: String,
 			default: ''
 		},
+		readonly: {
+			type: Boolean,
+			default: false
+		}
 	}
 };
 </script>

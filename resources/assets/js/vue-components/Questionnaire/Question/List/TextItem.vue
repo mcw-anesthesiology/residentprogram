@@ -1,6 +1,7 @@
 <template>
 	<li>
-		<input type="text" class="form-control" :value="text"
+		<input type="text" class="form-control appear-not-readonly"
+			:value="text" :readonly="readonly"
 			@input="$emit({text: $event.target.value})" />
 	</li>
 </template>
@@ -20,6 +21,10 @@ export default {
 		text: {
 			type: String,
 			default: ''
+		},
+		readonly: {
+			type: Boolean,
+			default: false
 		}
 	}
 };

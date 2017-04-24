@@ -1,17 +1,20 @@
 <template>
-	<div class="form-group">
+	<div class="checkbox-question form-group">
 		<fieldset :title="description">
 			<legend>
 				{{ text }}
 			</legend>
-			<label v-for="(option, index) of options" :title="option.description">
-				{{ option.text }}
-				<input type="checkbox" :value="option.value" :checked="option.checked"
-					@change="onCheck(index)" />
-				<div v-if="option.description" class="question-description">
-					{{ snarkdown(option.description) }}
-				</div>
-			</label>
+			<div class="options">
+				<label v-for="(option, index) of options" :title="option.description">
+					{{ option.text }}
+					<input type="checkbox" :value="option.value"
+						:checked="option.checked" :disabled="readonly"
+						@change="onCheck(index)" />
+					<div v-if="option.description" class="question-description">
+						{{ snarkdown(option.description) }}
+					</div>
+				</label>				
+			</div>
 		</fieldset>
 		<show-hide-button v-if="description" v-model="show.description">
 			description
@@ -48,6 +51,10 @@ export default {
 		options: {
 			type: Array,
 			required: true
+		},
+		readonly: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data() {
@@ -82,3 +89,22 @@ export default {
 	}
 };
 </script>
+
+<style scoped>
+	.checkbox-question {
+		font-size: 1.25em;
+	}
+	
+	legend {
+		margin: 0;
+	}
+
+	.options {
+		display: flex;
+		flex-wrap: wrap;
+	}
+	
+	.options label {
+		padding: 1em;
+	}
+</style>

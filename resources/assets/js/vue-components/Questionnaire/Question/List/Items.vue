@@ -8,6 +8,10 @@ export default {
 		ordered: {
 			type: Boolean,
 			default: false
+		},
+		readonly: {
+			type: Boolean,
+			default: false
 		}
 	},
 	
@@ -26,6 +30,7 @@ export default {
 			
 			return h(itemComponent, {
 				props: {
+					readonly: this.readonly,
 					...item
 				},
 				on: {

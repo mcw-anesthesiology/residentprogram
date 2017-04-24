@@ -1,18 +1,17 @@
 <template>
 	<div class="checklist-item">
-		<div class="checkbox">
-			<input type="checkbox" :checked="checked"
+		<label class="containing-label">
+			<input type="checkbox" :checked="checked" :disabled="readonly"
 				@change="handleCheck" />
-		</div>
-		<div class="content">
-			<div class="item-text">
+							
+			<span class="item-text">
 				{{ text }}
-			</div>
-			<div v-if="checked" class="item-questions">
-				<questionnaire-question v-for="(question, index) of questions"
-					:question="question"
-					@input="handleQuestionInput(index, arguments[0])" />
-			</div>
+			</span>
+		</label>
+		<div v-if="checked" class="item-questions">
+			<questionnaire-question v-for="(question, index) of questions"
+				:question="question" :readonly="readonly"
+				@input="handleQuestionInput(index, arguments[0])" />
 		</div>
 	</div>
 </template>
@@ -39,6 +38,10 @@ export default {
 		questions: {
 			type: Array,
 			required: false
+		},
+		readonly: {
+			type: Boolean,
+			default: false
 		}
 	},
 	
@@ -87,3 +90,42 @@ export default {
 	}
 };
 </script>
+
+<style scoped>
+	label {
+		display: flex;
+		font-size: 1.75em;
+	}
+	
+	input[type="checkbox"] {
+		width: 1em;
+		height: 1em;
+		padding: 0.5em;
+		margin-right: 1em;
+	}
+	
+	.item-questions {
+		margin-left: 3em;
+		padding: 1em;
+	}
+	
+	@media (min-width: 768px) {
+		input[type="checkbox"] {
+			margin-right: 1.5em;
+		}
+		
+		.item-questions {
+			margin-left: 4em;
+		}
+	}
+	
+	@media (min-width: 768px) {
+		input[type="checkbox"] {
+			margin-right: 2em;
+		}
+		
+		.item-questions {
+			margin-left: 5em;
+		}
+	}
+</style>
