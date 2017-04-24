@@ -46,6 +46,7 @@
             <li><a href="/manage/alumni">Alumni</a></li>
 			<li><a href="/manage/user-features">User features</a></li>
 			<li><a href="/manage/case-logs">Case logs</a></li>
+            <li><a href="/manage/merit">Merit</a></li>
 		  </ul>
 		</li>
 	  @endif
