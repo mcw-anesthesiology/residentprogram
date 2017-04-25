@@ -10,33 +10,6 @@
 })(this, function() {
 return webpackJsonp([8,11],{
 
-/***/ 109:
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(module) {(function() {
-  var isNode = (typeof module !== 'undefined' && this.module !== module);
-
-  var indefinite = function (noun, capitalize) {
-    var phrase = (/[aeiou]/.test(noun.charAt(0).toLowerCase()) ? 'an ' : 'a ') + noun;
-    if (capitalize) {
-      return phrase.charAt(0).toUpperCase() + phrase.slice(1);
-    } else {
-      return phrase;
-    }
-  };
-
-  /* istanbul ignore else */
-  if (isNode) {
-    module.exports = indefinite;
-  } else {
-    window.indefinite = indefinite;
-  }
-})();
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(63)(module)))
-
-/***/ }),
-
 /***/ 11:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -115,14 +88,41 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ 122:
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(module) {(function() {
+  var isNode = (typeof module !== 'undefined' && this.module !== module);
+
+  var indefinite = function (noun, capitalize) {
+    var phrase = (/[aeiou]/.test(noun.charAt(0).toLowerCase()) ? 'an ' : 'a ') + noun;
+    if (capitalize) {
+      return phrase.charAt(0).toUpperCase() + phrase.slice(1);
+    } else {
+      return phrase;
+    }
+  };
+
+  /* istanbul ignore else */
+  if (isNode) {
+    module.exports = indefinite;
+  } else {
+    window.indefinite = indefinite;
+  }
+})();
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(67)(module)))
+
+/***/ }),
+
 /***/ 14:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(44),
+  __webpack_require__(45),
   /* template */
-  __webpack_require__(49),
+  __webpack_require__(50),
   /* scopeId */
   null,
   /* cssModules */
@@ -1458,7 +1458,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 44:
+/***/ 45:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1467,7 +1467,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__DataTable_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_localforage__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_localforage__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_localforage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_localforage__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_moment__);
@@ -1578,344 +1578,7 @@ window.localforage = __WEBPACK_IMPORTED_MODULE_2_localforage__;
 
 /***/ }),
 
-/***/ 459:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_SelectTwo_vue__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_SelectTwo_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_SelectTwo_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_indefinite__ = __webpack_require__(109);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_indefinite___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_indefinite__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__ = __webpack_require__(8);
-/* harmony export (immutable) */ __webpack_exports__["createRequest"] = createRequest;
-
-
-
-
-
-
-
-
-
-
-
-
-function createRequest(el, propsData) {
-
-	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
-		el: el,
-		props: {
-			user: Object,
-			evaluators: Array,
-			subjects: Array,
-			forms: Array
-		},
-		propsData: propsData,
-		data: function data() {
-			var requestType = getRequestType();
-			return {
-				requestType: requestType,
-				subjectId: null,
-				evaluatorId: null,
-				formId: null,
-				evaluationDateJson: null,
-
-				sendHash: requestType === 'staff',
-				forceNotification: false,
-				hashExpiresIn: '30',
-
-				allowMultiple: {
-					subjects: false,
-					evaluators: false,
-					evaluationDate: false
-				},
-
-				error: {
-					subjectId: null,
-					evaluatorId: null,
-					formId: null,
-					evaluationDate: null
-				}
-			};
-		},
-
-		computed: {
-			required: function required() {
-				var required = {
-					subjectId: true,
-					evaluatorId: true,
-					formId: true,
-					evaluationDate: true
-				};
-
-				if (['resident', 'self'].includes(this.requestType) && this.user.type === 'resident') required.subjectId = false;
-
-				if (this.requestType === 'resident' && this.user.type === 'faculty' || this.requestType === 'staff' && this.user.type === 'staff' || this.requestType === 'faculty' && this.user.type === 'resident' || this.requestType === 'self') required.evaluatorId = false;
-
-				return required;
-			},
-			requirementsAreMet: function requirementsAreMet() {
-				var _this = this;
-
-				return !Object.keys(this.required).some(function (requirement) {
-					return _this.required[requirement] && (!_this[requirement] || _this[requirement].length === 0);
-				});
-			},
-			fieldNouns: function fieldNouns() {
-				return {
-					subjectId: 'subject',
-					evaluatorId: 'evaluator',
-					formId: 'form',
-					evaluationDate: 'evaluation date'
-				};
-			},
-			subject: function subject() {
-				var subjectId = Number(this.subjectId);
-				return this.subjects[0].find(function (subject) {
-					return subject.id === subjectId;
-				});
-			},
-			evaluatorOptions: function evaluatorOptions() {
-				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["h" /* groupUsers */])(this.evaluators[0]);
-			},
-			subjectOptions: function subjectOptions() {
-				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["h" /* groupUsers */])(this.subjects[0]);
-			},
-			subjectForms: function subjectForms() {
-				var forms = this.forms;
-				if (this.subjectId && this.subject && this.subject.type === 'resident') {
-					forms = this.subject.training_level === 'fellow' ? forms.filter(function (form) {
-						return form.type === 'fellow';
-					}) : forms.filter(function (form) {
-						return form.type === 'resident';
-					});
-				}
-
-				return forms;
-			},
-			formOptions: function formOptions() {
-				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["i" /* groupForms */])(this.subjectForms);
-			},
-			evaluationDate: function evaluationDate() {
-				if (this.evaluationDateJson) return Array.isArray(this.evaluationDateJson) ? this.evaluationDateJson.map(JSON.parse) : JSON.parse(this.evaluationDateJson);
-			},
-			evaluationDates: function evaluationDates() {
-				var _this2 = this;
-
-				var form = this.forms.find(function (form) {
-					return form.id === Number(_this2.formId);
-				});
-
-				if (!form) return;
-
-				var dates = [];
-				if (form.evaluation_period_type === 'quarter') {
-					dates = [__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["lastQuarter"])(), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["currentQuarter"])()];
-				} else if (form.evaluation_period_type === 'year') {
-					dates = [__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["currentYear"])()];
-
-					if (__WEBPACK_IMPORTED_MODULE_3_moment___default()().month() === 6) // July
-						dates.push(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["lastYear"])());
-				} else {
-					var startDate = __WEBPACK_IMPORTED_MODULE_3_moment___default()().startOf('month');
-					var endDate = __WEBPACK_IMPORTED_MODULE_3_moment___default()(endDate).endOf('month');
-					for (var i = 0; i < 3; i++) {
-						dates.push({
-							startDate: startDate,
-							endDate: endDate
-						});
-						startDate = __WEBPACK_IMPORTED_MODULE_3_moment___default()(startDate).subtract(1, 'month');
-						endDate = __WEBPACK_IMPORTED_MODULE_3_moment___default()(startDate).endOf('month');
-					}
-					dates.reverse();
-				}
-
-				return dates;
-			},
-			evaluationDateOptions: function evaluationDateOptions() {
-				if (this.evaluationDates) return this.evaluationDates.map(function (date) {
-					return {
-						id: JSON.stringify(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["isoDateStringObject"])(date)),
-						text: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["renderDateRange"])(date.startDate, date.endDate)
-					};
-				});
-			},
-			pendingFacultyEvalsThead: function pendingFacultyEvalsThead() {
-				return [['#', 'Faculty', 'Form', 'Evaluation date', 'Started', '']];
-			},
-			pendingFacultyEvalsConfig: function pendingFacultyEvalsConfig() {
-				var _this3 = this;
-
-				if (this.user.type !== 'resident' || this.requestType !== 'faculty') return;
-
-				return {
-					ajax: {
-						url: '/evaluations',
-						data: {
-							whereHas: {
-								form: {
-									type: 'faculty'
-								}
-							},
-							with: {
-								subject: ['full_name'],
-								form: ['title']
-							},
-							evaluator_id: this.user.id,
-							status: 'pending'
-						},
-						dataSrc: ''
-					},
-					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["f" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, {
-						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["a" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["b" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["c" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["d" /* createDateTimeCell */] }, { data: null, render: function render(evaluation) {
-							if (evaluation.requested_by_id === _this3.user.id) return '<button class="btn btn-danger btn-xs cancel-eval-button" ' + 'data-id="' + evaluation.id + '"><span class="glyphicon glyphicon-remove"></span> ' + 'Cancel</button>';
-
-							return '';
-						} }],
-					order: [[0, 'desc']],
-					createdRow: function createdRow(row) {
-						$(row).addClass('view-evaluation');
-					}
-				};
-			},
-			completeFacultyEvalsThead: function completeFacultyEvalsThead() {
-				return [['#', 'Faculty', 'Form', 'Evaluation date', 'Started', 'Completed']];
-			},
-			completeFacultyEvalsConfig: function completeFacultyEvalsConfig() {
-				return {
-					ajax: {
-						url: '/evaluations',
-						data: {
-							whereHas: {
-								form: {
-									type: 'faculty'
-								}
-							},
-							with: {
-								subject: ['full_name'],
-								form: ['title']
-							},
-							evaluator_id: this.user.id,
-							status: 'complete'
-						},
-						dataSrc: ''
-					},
-					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["f" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, {
-						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["a" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["b" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["c" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["d" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["c" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["d" /* createDateTimeCell */] }],
-					order: [[0, 'desc']],
-					createdRow: function createdRow(row) {
-						$(row).addClass('view-evaluation');
-					}
-				};
-			}
-		},
-		watch: {
-			allowMultiple: function allowMultiple(_allowMultiple) {
-				var _this4 = this;
-
-				Object.keys(_allowMultiple).map(function (field) {
-					if (_allowMultiple[field] && !Array.isArray(_this4[field])) _this4[field] = [_this4[field]];else if (!_allowMultiple[field] && Array.isArray(_this4[field])) _this4[field] = _this4[field][0];
-				});
-			},
-			subjectId: function subjectId() {
-				this.checkField('subjectId', 'subject');
-			},
-			evaluatorId: function evaluatorId() {
-				this.checkField('evaluatorId', 'evaluator');
-			},
-			formId: function formId() {
-				this.checkField('formId', 'form');
-			},
-			evaluationDate: function evaluationDate() {
-				this.checkField('evaluationDate', 'evaluation date');
-			},
-			evaluationDateOptions: function evaluationDateOptions(options) {
-				var _this5 = this;
-
-				if (!options && this.evaluationDateJson) this.evaluationDateJson = null;
-
-				if (!options || !this.evaluationDateJson) return;
-
-				if (Array.isArray(this.evaluationDateJson)) {
-					var newJson = options.filter(function (_ref) {
-						var id = _ref.id;
-						return _this5.evaluationDateJson.includes(id);
-					}).map(function (_ref2) {
-						var id = _ref2.id;
-						return id;
-					});
-
-					if (newJson.length !== this.evaluationDateJson.length) this.evaluationDateJson = newJson;
-				} else {
-					if (!options.some(function (_ref3) {
-						var id = _ref3.id;
-						return id === _this5.evaluationDateJson;
-					})) this.evaluationDateJson = null;
-				}
-			},
-			formOptions: function formOptions() {
-				var formId = Number(this.formId);
-				if (formId && !this.subjectForms.find(function (form) {
-					return form.id === formId;
-				})) this.formId = null;
-			}
-		},
-		methods: {
-			clearDay: function clearDay() {
-				this.$refs.evaluationDayFlatpickr.fp.clear();
-			},
-			checkField: function checkField(field, noun) {
-				this.error[field] = this.required[field] && (!this[field] || this[field].length === 0) ? 'Please select ' + __WEBPACK_IMPORTED_MODULE_4_indefinite___default()(noun) : null;
-
-				return this.error[field];
-			},
-			checkSubmit: function checkSubmit(event) {
-				var _this6 = this;
-
-				Object.keys(this.required).map(function (field) {
-					_this6.checkField(field, _this6.fieldNouns[field]);
-				});
-
-				if (!this.requirementsAreMet) event.preventDefault();
-			}
-		},
-		components: {
-			EvaluationDataTable: __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue___default.a,
-			SelectTwo: __WEBPACK_IMPORTED_MODULE_2__vue_components_SelectTwo_vue___default.a
-		}
-	});
-}
-
-function getRequestType() {
-	var paths = window.location.pathname.split('/');
-	paths = paths.filter(function (path) {
-		return path.length > 0;
-	});
-	var type = paths[paths.length - 1];
-
-	if (['faculty', 'staff', 'self'].includes(type)) return type;
-
-	return 'resident';
-}
-
-/***/ }),
-
-/***/ 48:
+/***/ 49:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var require;var require;/*!
@@ -4235,7 +3898,7 @@ module.exports = localforage_js;
 
 /***/ }),
 
-/***/ 49:
+/***/ 50:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -4271,8 +3934,345 @@ if (false) {
   }
 }
 
+/***/ }),
+
+/***/ 526:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_SelectTwo_vue__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_SelectTwo_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_SelectTwo_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_indefinite__ = __webpack_require__(122);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_indefinite___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_indefinite__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__ = __webpack_require__(8);
+/* harmony export (immutable) */ __webpack_exports__["createRequest"] = createRequest;
+
+
+
+
+
+
+
+
+
+
+
+
+function createRequest(el, propsData) {
+
+	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+		el: el,
+		props: {
+			user: Object,
+			evaluators: Array,
+			subjects: Array,
+			forms: Array
+		},
+		propsData: propsData,
+		data: function data() {
+			var requestType = getRequestType();
+			return {
+				requestType: requestType,
+				subjectId: null,
+				evaluatorId: null,
+				formId: null,
+				evaluationDateJson: null,
+
+				sendHash: requestType === 'staff',
+				forceNotification: false,
+				hashExpiresIn: '30',
+
+				allowMultiple: {
+					subjects: false,
+					evaluators: false,
+					evaluationDate: false
+				},
+
+				error: {
+					subjectId: null,
+					evaluatorId: null,
+					formId: null,
+					evaluationDate: null
+				}
+			};
+		},
+
+		computed: {
+			required: function required() {
+				var required = {
+					subjectId: true,
+					evaluatorId: true,
+					formId: true,
+					evaluationDate: true
+				};
+
+				if (['resident', 'self'].includes(this.requestType) && this.user.type === 'resident') required.subjectId = false;
+
+				if (this.requestType === 'resident' && this.user.type === 'faculty' || this.requestType === 'staff' && this.user.type === 'staff' || this.requestType === 'faculty' && this.user.type === 'resident' || this.requestType === 'self') required.evaluatorId = false;
+
+				return required;
+			},
+			requirementsAreMet: function requirementsAreMet() {
+				var _this = this;
+
+				return !Object.keys(this.required).some(function (requirement) {
+					return _this.required[requirement] && (!_this[requirement] || _this[requirement].length === 0);
+				});
+			},
+			fieldNouns: function fieldNouns() {
+				return {
+					subjectId: 'subject',
+					evaluatorId: 'evaluator',
+					formId: 'form',
+					evaluationDate: 'evaluation date'
+				};
+			},
+			subject: function subject() {
+				var subjectId = Number(this.subjectId);
+				return this.subjects[0].find(function (subject) {
+					return subject.id === subjectId;
+				});
+			},
+			evaluatorOptions: function evaluatorOptions() {
+				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["h" /* groupUsers */])(this.evaluators[0]);
+			},
+			subjectOptions: function subjectOptions() {
+				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["h" /* groupUsers */])(this.subjects[0]);
+			},
+			subjectForms: function subjectForms() {
+				var forms = this.forms;
+				if (this.subjectId && this.subject && this.subject.type === 'resident') {
+					forms = this.subject.training_level === 'fellow' ? forms.filter(function (form) {
+						return form.type === 'fellow';
+					}) : forms.filter(function (form) {
+						return form.type === 'resident';
+					});
+				}
+
+				return forms;
+			},
+			formOptions: function formOptions() {
+				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["i" /* groupForms */])(this.subjectForms);
+			},
+			evaluationDate: function evaluationDate() {
+				if (this.evaluationDateJson) return Array.isArray(this.evaluationDateJson) ? this.evaluationDateJson.map(JSON.parse) : JSON.parse(this.evaluationDateJson);
+			},
+			evaluationDates: function evaluationDates() {
+				var _this2 = this;
+
+				var form = this.forms.find(function (form) {
+					return form.id === Number(_this2.formId);
+				});
+
+				if (!form) return;
+
+				var dates = [];
+				if (form.evaluation_period_type === 'quarter') {
+					dates = [__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["lastQuarter"])(), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["currentQuarter"])()];
+				} else if (form.evaluation_period_type === 'year') {
+					dates = [__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["currentYear"])()];
+
+					if (__WEBPACK_IMPORTED_MODULE_3_moment___default()().month() === 6) // July
+						dates.push(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["lastYear"])());
+				} else {
+					var startDate = __WEBPACK_IMPORTED_MODULE_3_moment___default()().startOf('month');
+					var endDate = __WEBPACK_IMPORTED_MODULE_3_moment___default()(endDate).endOf('month');
+					for (var i = 0; i < 3; i++) {
+						dates.push({
+							startDate: startDate,
+							endDate: endDate
+						});
+						startDate = __WEBPACK_IMPORTED_MODULE_3_moment___default()(startDate).subtract(1, 'month');
+						endDate = __WEBPACK_IMPORTED_MODULE_3_moment___default()(startDate).endOf('month');
+					}
+					dates.reverse();
+				}
+
+				return dates;
+			},
+			evaluationDateOptions: function evaluationDateOptions() {
+				if (this.evaluationDates) return this.evaluationDates.map(function (date) {
+					return {
+						id: JSON.stringify(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["isoDateStringObject"])(date)),
+						text: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["renderDateRange"])(date.startDate, date.endDate)
+					};
+				});
+			},
+			pendingFacultyEvalsThead: function pendingFacultyEvalsThead() {
+				return [['#', 'Faculty', 'Form', 'Evaluation date', 'Started', '']];
+			},
+			pendingFacultyEvalsConfig: function pendingFacultyEvalsConfig() {
+				var _this3 = this;
+
+				if (this.user.type !== 'resident' || this.requestType !== 'faculty') return;
+
+				return {
+					ajax: {
+						url: '/evaluations',
+						data: {
+							whereHas: {
+								form: {
+									type: 'faculty'
+								}
+							},
+							with: {
+								subject: ['full_name'],
+								form: ['title']
+							},
+							evaluator_id: this.user.id,
+							status: 'pending'
+						},
+						dataSrc: ''
+					},
+					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["f" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, {
+						data: null,
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["a" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["b" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["c" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["d" /* createDateTimeCell */] }, { data: null, render: function render(evaluation) {
+							if (evaluation.requested_by_id === _this3.user.id) return '<button class="btn btn-danger btn-xs cancel-eval-button" ' + 'data-id="' + evaluation.id + '"><span class="glyphicon glyphicon-remove"></span> ' + 'Cancel</button>';
+
+							return '';
+						} }],
+					order: [[0, 'desc']],
+					createdRow: function createdRow(row) {
+						$(row).addClass('view-evaluation');
+					}
+				};
+			},
+			completeFacultyEvalsThead: function completeFacultyEvalsThead() {
+				return [['#', 'Faculty', 'Form', 'Evaluation date', 'Started', 'Completed']];
+			},
+			completeFacultyEvalsConfig: function completeFacultyEvalsConfig() {
+				return {
+					ajax: {
+						url: '/evaluations',
+						data: {
+							whereHas: {
+								form: {
+									type: 'faculty'
+								}
+							},
+							with: {
+								subject: ['full_name'],
+								form: ['title']
+							},
+							evaluator_id: this.user.id,
+							status: 'complete'
+						},
+						dataSrc: ''
+					},
+					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["f" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, {
+						data: null,
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["a" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["b" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["c" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["d" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["c" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["d" /* createDateTimeCell */] }],
+					order: [[0, 'desc']],
+					createdRow: function createdRow(row) {
+						$(row).addClass('view-evaluation');
+					}
+				};
+			}
+		},
+		watch: {
+			allowMultiple: function allowMultiple(_allowMultiple) {
+				var _this4 = this;
+
+				Object.keys(_allowMultiple).map(function (field) {
+					if (_allowMultiple[field] && !Array.isArray(_this4[field])) _this4[field] = [_this4[field]];else if (!_allowMultiple[field] && Array.isArray(_this4[field])) _this4[field] = _this4[field][0];
+				});
+			},
+			subjectId: function subjectId() {
+				this.checkField('subjectId', 'subject');
+			},
+			evaluatorId: function evaluatorId() {
+				this.checkField('evaluatorId', 'evaluator');
+			},
+			formId: function formId() {
+				this.checkField('formId', 'form');
+			},
+			evaluationDate: function evaluationDate() {
+				this.checkField('evaluationDate', 'evaluation date');
+			},
+			evaluationDateOptions: function evaluationDateOptions(options) {
+				var _this5 = this;
+
+				if (!options && this.evaluationDateJson) this.evaluationDateJson = null;
+
+				if (!options || !this.evaluationDateJson) return;
+
+				if (Array.isArray(this.evaluationDateJson)) {
+					var newJson = options.filter(function (_ref) {
+						var id = _ref.id;
+						return _this5.evaluationDateJson.includes(id);
+					}).map(function (_ref2) {
+						var id = _ref2.id;
+						return id;
+					});
+
+					if (newJson.length !== this.evaluationDateJson.length) this.evaluationDateJson = newJson;
+				} else {
+					if (!options.some(function (_ref3) {
+						var id = _ref3.id;
+						return id === _this5.evaluationDateJson;
+					})) this.evaluationDateJson = null;
+				}
+			},
+			formOptions: function formOptions() {
+				var formId = Number(this.formId);
+				if (formId && !this.subjectForms.find(function (form) {
+					return form.id === formId;
+				})) this.formId = null;
+			}
+		},
+		methods: {
+			clearDay: function clearDay() {
+				this.$refs.evaluationDayFlatpickr.fp.clear();
+			},
+			checkField: function checkField(field, noun) {
+				this.error[field] = this.required[field] && (!this[field] || this[field].length === 0) ? 'Please select ' + __WEBPACK_IMPORTED_MODULE_4_indefinite___default()(noun) : null;
+
+				return this.error[field];
+			},
+			checkSubmit: function checkSubmit(event) {
+				var _this6 = this;
+
+				Object.keys(this.required).map(function (field) {
+					_this6.checkField(field, _this6.fieldNouns[field]);
+				});
+
+				if (!this.requirementsAreMet) event.preventDefault();
+			}
+		},
+		components: {
+			EvaluationDataTable: __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue___default.a,
+			SelectTwo: __WEBPACK_IMPORTED_MODULE_2__vue_components_SelectTwo_vue___default.a
+		}
+	});
+}
+
+function getRequestType() {
+	var paths = window.location.pathname.split('/');
+	paths = paths.filter(function (path) {
+		return path.length > 0;
+	});
+	var type = paths[paths.length - 1];
+
+	if (['faculty', 'staff', 'self'].includes(type)) return type;
+
+	return 'resident';
+}
+
 /***/ })
 
-},[459]);
+},[526]);
 });
 //# sourceMappingURL=vue-request.js.map

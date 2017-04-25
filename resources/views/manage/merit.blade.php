@@ -1,7 +1,14 @@
 @extends('app')
 
 @section('blockless-body')
-	<json-schema-editor schema-url="/schemas/merit-report.json"></json-schema-editor>
+	<div class="container body-block">
+		<div v-if="merit">
+			<h2>{{ merit.name }}</h2>
+			<json-schema-editor :current-value="merit.form"
+				schema-url="/schemas/merit-report.json" name="merit form"
+				@submit="handleMeritSubmit"></json-schema-editor>			
+		</div>
+	</div>
 @stop
 
 @push('scripts')

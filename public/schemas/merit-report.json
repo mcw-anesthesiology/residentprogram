@@ -15,14 +15,14 @@
 	"required": [
 		"title",
 		"version",
-		"sections"
+		"pages"
 	],
 	"definitions": {
 		"section": {
 			"title": "Section",
 			"type": "object",
 			"properties": {
-				"type": {"const": "section"},
+				"type": {"enum": ["section"]},
 				"title": {"type": "string"},
 				"items": {
 					"type": "array",
@@ -41,7 +41,7 @@
 			"title": "Instruction block",
 			"type": "object",
 			"properties": {
-				"type": {"const": "instruction"},
+				"type": {"enum": ["instruction"]},
 				"text": {"type": "string"}
 			}
 		},
@@ -49,7 +49,7 @@
 			"title": "Checklist item",
 			"type": "object",
 			"properties": {
-				"type": {"const": "item"},
+				"type": {"enum": ["item"]},
 				"text": {"type": "string"},
 				"checked": {"type": "boolean"},
 				"questions": {
@@ -102,7 +102,7 @@
 					"title": "Number question",
 					"type": "object",
 					"properties": {
-						"type": {"const": "number"},
+						"type": {"enum": ["number"]},
 						"text": {"type": "string"},
 						"description": {"type": "string"},
 						"placeholder": {"type": "string"},
@@ -120,7 +120,7 @@
 					"title": "Checkbox question",
 					"type": "object",
 					"properties": {
-						"type": {"const": "checkbox"},
+						"type": {"enum": ["checkbox"]},
 						"text": {"type": "string"},
 						"description": {"type": "string"},
 						"options": {
@@ -152,7 +152,7 @@
 					"title": "Radio question",
 					"type": "object",
 					"properties": {
-						"type": {"const": "radio"},
+						"type": {"enum": ["radio"]},
 						"text": {"type": "string"},
 						"description": {"type": "string"},
 						"options": {
@@ -186,7 +186,7 @@
 					"title": "List question",
 					"type": "object",
 					"properties": {
-						"type": {"const": "list"},
+						"type": {"enum": ["list"]},
 						"text": {"type": "string"},
 						"description": {"type": "string"},
 						"ordered": {"type": "boolean"},
@@ -209,7 +209,7 @@
 							"title": "Text list item",
 							"type": "object",
 							"properties": {
-								"type": {"const": "text"},
+								"type": {"enum": ["text"]},
 								"text": {"type": "string"}
 							},
 							"required": [
@@ -221,7 +221,7 @@
 							"title": "Publication list item",
 							"type": "object",
 							"properties": {
-								"type": {"const": "publication"},
+								"type": {"enum": ["publication"]},
 								"title": {"type": "string"},
 								"author": {"type": "string"},
 								"link": {"type": "string"},
