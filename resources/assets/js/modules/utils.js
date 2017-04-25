@@ -30,6 +30,10 @@ export function ucfirst(str){
 	return str.charAt(0).toUpperCase() + str.substring(1);
 }
 
+export function ucfirstWords(str) {
+	return str.split(' ').map(ucfirst).join(' ');
+}
+
 export function camelCaseToWords(str){
 	let result = '';
 	for(let char of str){

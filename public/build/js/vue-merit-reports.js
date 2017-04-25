@@ -8,15 +8,54 @@
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
 })(this, function() {
-return webpackJsonp([4,11],{
+return webpackJsonp([5,11],{
 
-/***/ 108:
+/***/ 105:
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(490)
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(187),
+  /* template */
+  __webpack_require__(448),
+  /* scopeId */
+  "data-v-16c471bd",
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Questionnaire/Instruction.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Instruction.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-16c471bd", Component.options)
+  } else {
+    hotAPI.reload("data-v-16c471bd", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 121:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_MeritCompensation_Checklist_Checklist_vue__ = __webpack_require__(361);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_MeritCompensation_Checklist_Checklist_vue__ = __webpack_require__(418);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_MeritCompensation_Checklist_Checklist_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_MeritCompensation_Checklist_Checklist_vue__);
 /* harmony export (immutable) */ __webpack_exports__["a"] = createAdminSupervisorMeritReports;
 
@@ -117,14 +156,14 @@ function createAdminSupervisorMeritReports(el) {
 
 /***/ }),
 
-/***/ 135:
+/***/ 180:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Section_vue__ = __webpack_require__(363);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Section_vue__ = __webpack_require__(420);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Section_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Section_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Questionnaire_Pager_vue__ = __webpack_require__(366);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Questionnaire_Pager_vue__ = __webpack_require__(424);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Questionnaire_Pager_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Questionnaire_Pager_vue__);
 //
 //
@@ -184,12 +223,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 136:
+/***/ 181:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Questionnaire_Question_Question_vue__ = __webpack_require__(371);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Questionnaire_Question_Question_vue__ = __webpack_require__(429);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Questionnaire_Question_Question_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Questionnaire_Question_Question_vue__);
 //
 //
@@ -285,16 +324,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 137:
+/***/ 182:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Item_vue__ = __webpack_require__(362);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Item_vue__ = __webpack_require__(419);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Item_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Item_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Questionnaire_Instruction_vue__ = __webpack_require__(93);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Questionnaire_Instruction_vue__ = __webpack_require__(105);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Questionnaire_Instruction_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Questionnaire_Instruction_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Questionnaire_Section_vue__ = __webpack_require__(374);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Questionnaire_Section_vue__ = __webpack_require__(432);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Questionnaire_Section_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Questionnaire_Section_vue__);
 
 
@@ -355,12 +394,61 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 141:
+/***/ 186:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_snarkdown__ = __webpack_require__(43);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: {
+		type: {
+			type: String,
+			default: 'bar'
+		},
+		min: {
+			type: Number,
+			default: 0
+		},
+		max: {
+			type: Number,
+			required: true
+		},
+		value: {
+			type: Number,
+			required: true
+		},
+		stepName: {
+			type: String,
+			default: 'Page'
+		}
+	},
+
+	computed: {
+		label: function label() {
+			return this.stepName + ' ' + this.value + ' of ' + this.max;
+		}
+	}
+};
+
+/***/ }),
+
+/***/ 187:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_snarkdown__ = __webpack_require__(44);
 //
 //
 //
@@ -393,12 +481,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 142:
+/***/ 188:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ProgressBullets_vue__ = __webpack_require__(470);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ProgressBullets_vue__ = __webpack_require__(423);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ProgressBullets_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ProgressBullets_vue__);
 //
 //
@@ -498,14 +586,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 143:
+/***/ 189:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ShowHideButton_vue__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ShowHideButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ShowHideButton_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_snarkdown__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_snarkdown__ = __webpack_require__(44);
 //
 //
 //
@@ -600,7 +688,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 144:
+/***/ 190:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -656,16 +744,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 145:
+/***/ 191:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Items_vue__ = __webpack_require__(368);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Items_vue__ = __webpack_require__(426);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Items_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Items_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShowHideButton_vue__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShowHideButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ShowHideButton_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_snarkdown__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_snarkdown__ = __webpack_require__(44);
 //
 //
 //
@@ -752,14 +840,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 146:
+/***/ 192:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ShowHideButton_vue__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ShowHideButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ShowHideButton_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_snarkdown__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_snarkdown__ = __webpack_require__(44);
 //
 //
 //
@@ -850,20 +938,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 147:
+/***/ 193:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Text_vue__ = __webpack_require__(373);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Text_vue__ = __webpack_require__(431);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Text_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Text_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Number_vue__ = __webpack_require__(370);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Number_vue__ = __webpack_require__(428);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Number_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Number_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Checkbox_vue__ = __webpack_require__(367);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Checkbox_vue__ = __webpack_require__(425);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Checkbox_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Checkbox_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Radio_vue__ = __webpack_require__(372);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Radio_vue__ = __webpack_require__(430);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Radio_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Radio_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__List_List_vue__ = __webpack_require__(369);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__List_List_vue__ = __webpack_require__(427);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__List_List_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__List_List_vue__);
 
 
@@ -919,14 +1007,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 148:
+/***/ 194:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ShowHideButton_vue__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ShowHideButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ShowHideButton_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_snarkdown__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_snarkdown__ = __webpack_require__(44);
 //
 //
 //
@@ -1024,14 +1112,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 149:
+/***/ 195:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ShowHideButton_vue__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ShowHideButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ShowHideButton_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_snarkdown__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_snarkdown__ = __webpack_require__(44);
 //
 //
 //
@@ -1117,12 +1205,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 150:
+/***/ 196:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Instruction_vue__ = __webpack_require__(93);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Instruction_vue__ = __webpack_require__(105);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Instruction_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Instruction_vue__);
 
 
@@ -1239,7 +1327,112 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 260:
+/***/ 27:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\n@media print {\nbutton[data-v-38459c74] {\n\t\tdisplay: none;\n}\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ShowHideButton.vue?47c685e9"],"names":[],"mappings":";AAuCA;AACA;EACA,cAAA;CACA;CACA","file":"ShowHideButton.vue","sourcesContent":["<template>\n\t<button type=\"button\" class=\"btn\"\n\t\t\t@click=\"$emit('input', !value)\">\n\t\t\t\n\t\t<slot name=\"left-glyph\"></slot>\n\t\t\t\n\t\t<slot v-if=\"value\" name=\"true\">\n\t\t\tHide\n\t\t</slot>\n\t\t<slot v-else name=\"false\">\n\t\t\tShow\n\t\t</slot>\n\n\t\t<slot>\n\t\t\t{{ text }}\n\t\t</slot>\n\t\t\n\t\t<slot name=\"glyph\">\n\t\t\t<span class=\"glyphicon glyphicon-triangle-bottom\"></span>\n\t\t</slot>\n\t</button>\n</template>\n\n<script>\nexport default {\n\tprops: {\n\t\tvalue: {\n\t\t\ttype: Boolean,\n\t\t\trequired: true\n\t\t},\n\t\ttext: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t}\n\t}\n};\n</script>\n\n<style scoped>\n\t@media print {\n\t\tbutton {\n\t\t\tdisplay: none;\n\t\t}\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 287:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\nlabel[data-v-024c0c7e] {\n\tdisplay: flex;\n\tfont-size: 1.75em;\n}\ninput[type=\"checkbox\"][data-v-024c0c7e] {\n\twidth: 1em;\n\theight: 1em;\n\tpadding: 0.5em;\n\tmargin-right: 1em;\n}\n.item-questions[data-v-024c0c7e] {\n\tmargin-left: 3em;\n\tpadding: 1em;\n}\n@media (min-width: 768px) {\ninput[type=\"checkbox\"][data-v-024c0c7e] {\n\t\tmargin-right: 1.5em;\n}\n.item-questions[data-v-024c0c7e] {\n\t\tmargin-left: 4em;\n}\n}\n@media (min-width: 768px) {\ninput[type=\"checkbox\"][data-v-024c0c7e] {\n\t\tmargin-right: 2em;\n}\n.item-questions[data-v-024c0c7e] {\n\t\tmargin-left: 5em;\n}\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/MeritCompensation/Checklist/Item.vue?e40d8240"],"names":[],"mappings":";AA8FA;CACA,cAAA;CACA,kBAAA;CACA;AAEA;CACA,WAAA;CACA,YAAA;CACA,eAAA;CACA,kBAAA;CACA;AAEA;CACA,iBAAA;CACA,aAAA;CACA;AAEA;AACA;EACA,oBAAA;CACA;AAEA;EACA,iBAAA;CACA;CACA;AAEA;AACA;EACA,kBAAA;CACA;AAEA;EACA,iBAAA;CACA;CACA","file":"Item.vue","sourcesContent":["<template>\n\t<div class=\"checklist-item\">\n\t\t<label class=\"containing-label\">\n\t\t\t<input type=\"checkbox\" :checked=\"checked\" :disabled=\"readonly\"\n\t\t\t\t@change=\"handleCheck\" />\n\t\t\t\t\t\t\t\n\t\t\t<span class=\"item-text\">\n\t\t\t\t{{ text }}\n\t\t\t</span>\n\t\t</label>\n\t\t<div v-if=\"checked\" class=\"item-questions\">\n\t\t\t<questionnaire-question v-for=\"(question, index) of questions\"\n\t\t\t\t:question=\"question\" :readonly=\"readonly\"\n\t\t\t\t@input=\"handleQuestionInput(index, arguments[0])\" />\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport QuestionnaireQuestion from 'vue-components/Questionnaire/Question/Question.vue';\n\nexport default {\n\tprops: {\n\t\ttype: {\n\t\t\ttype: String,\n\t\t\tvalidator(type) {\n\t\t\t\treturn type === 'item';\n\t\t\t}\n\t\t},\n\t\ttext: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t},\n\t\tchecked: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t},\n\t\tquestions: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\treadonly: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t}\n\t},\n\t\n\tmethods: {\n\t\thandleCheck() {\n\t\t\tlet checked = !this.checked;\n\t\t\tlet item = {checked};\n\t\t\t\n\t\t\tif (!checked) {\n\t\t\t\tlet questions = this.questions.map(this.clearQuestion);\n\t\t\t\titem.questions = questions;\n\t\t\t}\n\t\t\t\n\t\t\tthis.$emit('input', item);\n\t\t},\n\t\thandleQuestionInput(index, question) {\n\t\t\tlet questions = this.questions.slice();\n\t\t\tquestions[index] = Object.assign({}, questions[index], question);\n\t\t\t\n\t\t\tthis.$emit('input', {questions});\n\t\t},\n\t\tclearQuestion(question) {\n\t\t\tquestion = Object.assign({}, question);\n\t\t\tswitch (question.type) {\n\t\t\t\tcase 'text':\n\t\t\t\tcase 'number':\n\t\t\t\t\tdelete question.value;\n\t\t\t\t\tbreak;\n\t\t\t\tcase 'checkbox':\n\t\t\t\tcase 'radio':\n\t\t\t\t\tquestion.options = question.options.map(option =>\n\t\t\t\t\t\tObject.assign({}, option, {checked: false})\n\t\t\t\t\t);\n\t\t\t\t\tbreak;\n\t\t\t\tcase 'list':\n\t\t\t\t\tdelete question.items;\n\t\t\t\t\tbreak;\n\t\t\t}\n\t\t\t\n\t\t\treturn question;\n\t\t}\n\t},\n\t\n\tcomponents: {\n\t\tQuestionnaireQuestion\n\t}\n};\n</script>\n\n<style scoped>\n\tlabel {\n\t\tdisplay: flex;\n\t\tfont-size: 1.75em;\n\t}\n\t\n\tinput[type=\"checkbox\"] {\n\t\twidth: 1em;\n\t\theight: 1em;\n\t\tpadding: 0.5em;\n\t\tmargin-right: 1em;\n\t}\n\t\n\t.item-questions {\n\t\tmargin-left: 3em;\n\t\tpadding: 1em;\n\t}\n\t\n\t@media (min-width: 768px) {\n\t\tinput[type=\"checkbox\"] {\n\t\t\tmargin-right: 1.5em;\n\t\t}\n\t\t\n\t\t.item-questions {\n\t\t\tmargin-left: 4em;\n\t\t}\n\t}\n\t\n\t@media (min-width: 768px) {\n\t\tinput[type=\"checkbox\"] {\n\t\t\tmargin-right: 2em;\n\t\t}\n\t\t\n\t\t.item-questions {\n\t\t\tmargin-left: 5em;\n\t\t}\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 290:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.checklist[data-v-08bc7d30] {\n\tfont-size: 1.25em;\n}\n@media (min-width: 768px) {\n.checklist[data-v-08bc7d30] {\n\t\tpadding: 0 1em;\n}\n}\n@media (min-width: 1200px) {\n.checklist[data-v-08bc7d30] {\n\t\tpadding: 0 2em;\n}\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/MeritCompensation/Checklist/Checklist.vue?093cf9cb"],"names":[],"mappings":";AA0DA;CACA,kBAAA;CACA;AAEA;AACA;EACA,eAAA;CACA;CACA;AAEA;AACA;EACA,eAAA;CACA;CACA","file":"Checklist.vue","sourcesContent":["<template>\n\t<div class=\"checklist\">\n\t\t<h1>{{ title }}</h1>\n\t\t<questionnaire-pager :pages=\"pages\" :readonly=\"readonly\"\n\t\t\t\t@submit=\"handleSubmit\">\n\t\t\t<template scope=\"pager\">\n\t\t\t\t<checklist-section v-bind=\"pager.page\" :page=\"true\"\n\t\t\t\t\t:readonly=\"readonly\"\n\t\t\t\t\t@input=\"handleInput(pager.pageNum, arguments[0])\" />\n\t\t\t</template>\n\t\t</questionnaire-pager>\n\t</div>\n</template>\n\n<script>\nimport ChecklistSection from './Section.vue';\nimport QuestionnairePager from 'vue-components/Questionnaire/Pager.vue';\n\nexport default {\n\tprops: {\n\t\ttitle: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t},\n\t\tversion: {\n\t\t\ttype: Number,\n\t\t\trequired: true\n\t\t},\n\t\tpages: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\treadonly: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t}\n\t},\n\t\n\tmethods: {\n\t\thandleInput(pageNum, page) {\n\t\t\tlet pages = this.pages.slice();\n\t\t\tpages[pageNum] = Object.assign({}, pages[pageNum], page);\n\t\t\t\n\t\t\tthis.$emit('input', {pages});\n\t\t},\n\t\thandleSubmit() {\n\t\t\tthis.$emit('submit');\n\t\t}\n\t},\n\t\n\tcomponents: {\n\t\tChecklistSection,\n\t\tQuestionnairePager\n\t}\n};\n</script>\n\n<style scoped>\n\t.checklist {\n\t\tfont-size: 1.25em;\n\t}\n\t\n\t@media (min-width: 768px) {\n\t\t.checklist {\n\t\t\tpadding: 0 1em;\n\t\t}\n\t}\n\t\n\t@media (min-width: 1200px) {\n\t\t.checklist {\n\t\t\tpadding: 0 2em;\n\t\t}\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 291:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.checkbox-question[data-v-098680db] {\n\tfont-size: 1.25em;\n}\nlegend[data-v-098680db] {\n\tmargin: 0;\n}\n.options[data-v-098680db] {\n\tdisplay: flex;\n\tflex-wrap: wrap;\n}\n.options label[data-v-098680db] {\n\tpadding: 1em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Questionnaire/Question/Checkbox.vue?712897fa"],"names":[],"mappings":";AA6FA;CACA,kBAAA;CACA;AAEA;CACA,UAAA;CACA;AAEA;CACA,cAAA;CACA,gBAAA;CACA;AAEA;CACA,aAAA;CACA","file":"Checkbox.vue","sourcesContent":["<template>\n\t<div class=\"checkbox-question form-group\">\n\t\t<fieldset :title=\"description\">\n\t\t\t<legend>\n\t\t\t\t{{ text }}\n\t\t\t</legend>\n\t\t\t<div class=\"options\">\n\t\t\t\t<label v-for=\"(option, index) of options\" :title=\"option.description\">\n\t\t\t\t\t{{ option.text }}\n\t\t\t\t\t<input type=\"checkbox\" :value=\"option.value\"\n\t\t\t\t\t\t:checked=\"option.checked\" :disabled=\"readonly\"\n\t\t\t\t\t\t@change=\"onCheck(index)\" />\n\t\t\t\t\t<div v-if=\"option.description\" class=\"question-description\">\n\t\t\t\t\t\t{{ snarkdown(option.description) }}\n\t\t\t\t\t</div>\n\t\t\t\t</label>\t\t\t\t\n\t\t\t</div>\n\t\t</fieldset>\n\t\t<show-hide-button v-if=\"description\" v-model=\"show.description\">\n\t\t\tdescription\n\t\t</show-hide-button>\n\t\t<div v-if=\"description\" v-show=\"show.description\">\n\t\t\t{{ markedUpDescription }}\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport ShowHideButton from 'vue-components/ShowHideButton.vue';\n\nimport snarkdown from 'snarkdown';\n\nexport default {\n\tmodel: {\n\t\tprop: 'options'\n\t},\n\tprops: {\n\t\ttype: {\n\t\t\ttype: String,\n\t\t\tvalidator(type) {\n\t\t\t\treturn type === 'checkbox';\n\t\t\t}\n\t\t},\n\t\ttext: {\n\t\t\ttype: String\n\t\t},\n\t\tdescription: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\toptions: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\treadonly: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t}\n\t},\n\tdata() {\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tdescription: false\n\t\t\t}\n\t\t};\n\t},\n\t\n\tcomputed: {\n\t\tmarkedUpDescription() {\n\t\t\tif (this.description)\n\t\t\t\treturn snarkdown(this.description);\n\t\t}\n\t},\n\t\n\tmethods: {\n\t\tonCheck(index) {\n\t\t\tlet options = Array.slice(this.options);\n\t\t\toptions[index] = Object.assign({}, options[index], {\n\t\t\t\tchecked: !options[index].checked\n\t\t\t});\n\t\t\t\n\t\t\tthis.$emit('input', {options});\n\t\t},\n\t\tsnarkdown\n\t},\n\t\n\tcomponents: {\n\t\tShowHideButton\n\t}\n};\n</script>\n\n<style scoped>\n\t.checkbox-question {\n\t\tfont-size: 1.25em;\n\t}\n\t\n\tlegend {\n\t\tmargin: 0;\n\t}\n\n\t.options {\n\t\tdisplay: flex;\n\t\tflex-wrap: wrap;\n\t}\n\t\n\t.options label {\n\t\tpadding: 1em;\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 292:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.instruction-block[data-v-16c471bd] {\n\tmargin: 1em;\n\tpadding: 1em;\n\tfont-size: 1.25em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Questionnaire/Instruction.vue?6cc16874"],"names":[],"mappings":";AAgCA;CACA,YAAA;CACA,aAAA;CACA,kBAAA;CACA","file":"Instruction.vue","sourcesContent":["<template>\n\t<div class=\"instruction-block\">\n\t\t{{ markedUpText }}\n\t</div>\n</template>\n\n<script>\nimport snarkdown from 'snarkdown';\n\nexport default {\n\tprops: {\n\t\ttype: {\n\t\t\ttype: String,\n\t\t\tvalidator(type) {\n\t\t\t\treturn type === 'instruction';\n\t\t\t}\n\t\t},\n\t\ttext: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t}\n\t},\n\t\n\tcomputed: {\n\t\tmarkedUpText() {\n\t\t\treturn snarkdown(this.text);\n\t\t}\n\t}\n};\n</script>\n\n<style scoped>\n\t.instruction-block {\n\t\tmargin: 1em;\n\t\tpadding: 1em;\n\t\tfont-size: 1.25em;\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 302:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.radio-question[data-v-3b7f8513] {\n\tfont-size: 1.25em;\n}\nlegend[data-v-3b7f8513] {\n\tmargin: 0;\n}\n.options[data-v-3b7f8513] {\n\tdisplay: flex;\n\tflex-wrap: wrap;\n}\n.options label[data-v-3b7f8513] {\n\tpadding: 1em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Questionnaire/Question/Radio.vue?6dd3bb5a"],"names":[],"mappings":";AAgGA;CACA,kBAAA;CACA;AAEA;CACA,UAAA;CACA;AAEA;CACA,cAAA;CACA,gBAAA;CACA;AAEA;CACA,aAAA;CACA","file":"Radio.vue","sourcesContent":["<template>\n\t<div class=\"radio-question form-group\">\n\t\t<fieldset :title=\"description\">\n\t\t\t<legend>\n\t\t\t\t{{ text }}\n\t\t\t</legend>\n\t\t\t<div class=\"options\">\n\t\t\t\t<label v-for=\"(option, index) of options\" :title=\"option.description\">\n\t\t\t\t\t{{ option.text }}\n\t\t\t\t\t<input type=\"radio\" :value=\"option.value\"\n\t\t\t\t\t\t:checked=\"option.checked\" :disabled=\"readonly\"\n\t\t\t\t\t\t@change=\"onCheck(index)\" />\n\t\t\t\t\t<div v-if=\"option.description\" class=\"question-description\">\n\t\t\t\t\t\t{{ snarkdown(option.description) }}\n\t\t\t\t\t</div>\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t</fieldset>\n\t\t<show-hide-button v-if=\"description\" v-model=\"show.description\">\n\t\t\tdescription\n\t\t</show-hide-button>\n\t\t<div v-if=\"description\" v-show=\"show.description\">\n\t\t\t{{ markedUpDescription }}\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport ShowHideButton from 'vue-components/ShowHideButton.vue';\n\nimport snarkdown from 'snarkdown';\n\nexport default {\n\tmodel: {\n\t\tprop: 'options'\n\t},\n\tprops: {\n\t\ttype: {\n\t\t\ttype: String,\n\t\t\tvalidator(type) {\n\t\t\t\treturn type === 'radio';\n\t\t\t}\n\t\t},\n\t\ttext: {\n\t\t\ttype: String\n\t\t},\n\t\tdescription: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\toptions: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\treadonly: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t}\n\t},\n\tdata() {\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tdescription: false\n\t\t\t}\n\t\t};\n\t},\n\t\n\tcomputed: {\n\t\tmarkedUpDescription() {\n\t\t\tif (this.description)\n\t\t\t\treturn snarkdown(this.description);\n\t\t}\n\t},\n\t\n\tmethods: {\n\t\tonCheck(index) {\n\t\t\tlet options = this.options.map((option, i) => {\n\t\t\t\tlet newOption = Object.assign({}, option);\n\t\t\t\t\n\t\t\t\tnewOption.checked = (i === index);\n\t\t\t\t\n\t\t\t\treturn newOption;\n\t\t\t});\n\t\t\t\n\t\t\tthis.$emit('input', {options});\n\t\t},\n\t\tsnarkdown\n\t},\n\t\n\tcomponents: {\n\t\tShowHideButton\n\t}\n};\n</script>\n\n<style scoped>\n\t.radio-question {\n\t\tfont-size: 1.25em;\n\t}\n\t\n\tlegend {\n\t\tmargin: 0;\n\t}\n\t\n\t.options {\n\t\tdisplay: flex;\n\t\tflex-wrap: wrap;\n\t}\n\t\n\t.options label {\n\t\tpadding: 1em;\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 309:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.progress-bullets[data-v-7b09133f] {\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\tjustify-content: center;\n\talign-items: center;\n}\n.bullet[data-v-7b09133f] {\n\tmargin: 1em;\n\twidth: 0.5em;\n\theight: 0.5em;\n\tborder-radius: 0.5em;\n\tbackground-color: rgba(0, 0, 0, 0.35);\n}\n.bullet.filled[data-v-7b09133f] {\n\tbackground-color: rgba(0, 0, 0, 0.75);\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ProgressBullets.vue?68cf27ae"],"names":[],"mappings":";AA4CA;CACA,cAAA;CACA,gBAAA;CACA,wBAAA;CACA,oBAAA;CACA;AAEA;CACA,YAAA;CACA,aAAA;CACA,cAAA;CACA,qBAAA;CACA,sCAAA;CACA;AAEA;CACA,sCAAA;CACA","file":"ProgressBullets.vue","sourcesContent":["<template>\n\t<div class=\"progress-bullets\"\n\t\t\trole=\"progressbar\" :aria-valuemin=\"min\" :aria-valuemax=\"max\"\n\t\t\t:aria-valuenow=\"value\" :title=\"label\">\n\t\t<div v-for=\"i in max\" class=\"bullet\" :class=\"{filled: i <= value}\">\n\t\t\t\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nexport default {\n\tprops: {\n\t\ttype: {\n\t\t\ttype: String,\n\t\t\tdefault: 'bar'\n\t\t},\n\t\tmin: {\n\t\t\ttype: Number,\n\t\t\tdefault: 0\n\t\t},\n\t\tmax: {\n\t\t\ttype: Number,\n\t\t\trequired: true\n\t\t},\n\t\tvalue: {\n\t\t\ttype: Number,\n\t\t\trequired: true\n\t\t},\n\t\tstepName: {\n\t\t\ttype: String,\n\t\t\tdefault: 'Page'\n\t\t}\n\t},\n\t\n\tcomputed: {\n\t\tlabel() {\n\t\t\treturn `${this.stepName} ${this.value} of ${this.max}`;\n\t\t}\n\t}\n};\n</script>\n\n<style scoped>\n\t.progress-bullets {\n\t\tdisplay: flex;\n\t\tflex-wrap: wrap;\n\t\tjustify-content: center;\n\t\talign-items: center;\n\t}\n\t\n\t.bullet {\n\t\tmargin: 1em;\n\t\twidth: 0.5em;\n\t\theight: 0.5em;\n\t\tborder-radius: 0.5em;\n\t\tbackground-color: rgba(0, 0, 0, 0.35);\n\t}\n\t\n\t.bullet.filled {\n\t\tbackground-color: rgba(0, 0, 0, 0.75);\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 313:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -1254,7 +1447,7 @@ exports.push([module.i, "\n.pager-controls[data-v-a814e09c] {\n\tdisplay: flex;\
 
 /***/ }),
 
-/***/ 261:
+/***/ 314:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -1263,21 +1456,6 @@ exports = module.exports = __webpack_require__(1)();
 
 // module
 exports.push([module.i, "\nsection[data-v-a8188cb2] {\n\tfont-size: 0.95em;\n\tpadding: 1em;\n\tmargin: 0.5em;\n\tborder-left: 2px solid rgba(0, 0, 0, 0.15);\n}\nsection.page[data-v-a8188cb2] {\n\tborder: none;\n}\nsection h1[data-v-a8188cb2] {\n\tfont-size: 1.75em;\n\tmargin: 0 0 1em;\n}\n@media (min-width: 768px) {\nsection[data-v-a8188cb2] {\n\t\tpadding: 1.5em;\n\t\tmargin: 1em;\n}\n}\n@media (min-width: 1200px) {\nsection[data-v-a8188cb2] {\n\t\tpadding: 2em;\n\t\tmargin: 2em;\n}\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/MeritCompensation/Checklist/Section.vue?355d6f90"],"names":[],"mappings":";AA0DA;CACA,kBAAA;CACA,aAAA;CACA,cAAA;CACA,2CAAA;CACA;AAEA;CACA,aAAA;CACA;AAEA;CACA,kBAAA;CACA,gBAAA;CACA;AAEA;AACA;EACA,eAAA;EACA,YAAA;CACA;CACA;AAEA;AACA;EACA,aAAA;EACA,YAAA;CACA;CACA","file":"Section.vue","sourcesContent":["<script>\nimport ChecklistItem from './Item.vue';\nimport QuestionnaireInstruction from 'vue-components/Questionnaire/Instruction.vue';\nimport QuestionnaireSection from 'vue-components/Questionnaire/Section.vue';\n\nexport default {\n\textends: QuestionnaireSection,\n\tname: 'checklist-section',\n\t\n\trender(h) {\n\t\tlet items = this.items.map((item, index) => {\n\t\t\tlet componentName;\n\t\t\tswitch (item.type) {\n\t\t\t\tcase 'section':\n\t\t\t\t\tcomponentName = 'checklist-section';\n\t\t\t\t\tbreak;\n\t\t\t\tcase 'instruction':\n\t\t\t\t\tcomponentName = 'questionnaire-instruction';\n\t\t\t\t\tbreak;\n\t\t\t\tcase 'item':\n\t\t\t\t\tcomponentName = 'checklist-item';\n\t\t\t\t\tbreak;\n\t\t\t}\n\t\t\t\n\t\t\treturn h(componentName, {\n\t\t\t\tprops: {\n\t\t\t\t\treadonly: this.readonly,\n\t\t\t\t\t...item\n\t\t\t\t},\n\t\t\t\ton: {\n\t\t\t\t\tinput: item => {\n\t\t\t\t\t\tlet items = this.items.slice();\n\t\t\t\t\t\titems[index] = Object.assign({}, items[index], item);\n\t\t\t\t\t\t\n\t\t\t\t\t\tthis.$emit('input', {items});\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t});\n\t\t});\n\t\t\n\t\tif (this.title)\n\t\t\titems.unshift(h('h1', this.title));\n\t\t\n\t\treturn h('section', {\n\t\t\tclass: {\n\t\t\t\tpage: this.page\n\t\t\t}\n\t\t}, items);\n\t},\n\t\n\tcomponents: {\n\t\tChecklistItem,\n\t\tQuestionnaireInstruction\n\t}\n};\n</script>\n\n<style scoped>\n\tsection {\n\t\tfont-size: 0.95em;\n\t\tpadding: 1em;\n\t\tmargin: 0.5em;\n\t\tborder-left: 2px solid rgba(0, 0, 0, 0.15);\n\t}\n\t\n\tsection.page {\n\t\tborder: none;\n\t}\n\t\n\tsection h1 {\n\t\tfont-size: 1.75em;\n\t\tmargin: 0 0 1em;\n\t}\n\t\n\t@media (min-width: 768px) {\n\t\tsection {\n\t\t\tpadding: 1.5em;\n\t\t\tmargin: 1em;\n\t\t}\n\t}\n\t\n\t@media (min-width: 1200px) {\n\t\tsection {\n\t\t\tpadding: 2em;\n\t\t\tmargin: 2em;\n\t\t}\n\t}\n</style>\n"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-
-/***/ 27:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)();
-// imports
-
-
-// module
-exports.push([module.i, "\n@media print {\nbutton[data-v-38459c74] {\n\t\tdisplay: none;\n}\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ShowHideButton.vue?47c685e9"],"names":[],"mappings":";AAuCA;AACA;EACA,cAAA;CACA;CACA","file":"ShowHideButton.vue","sourcesContent":["<template>\n\t<button type=\"button\" class=\"btn\"\n\t\t\t@click=\"$emit('input', !value)\">\n\t\t\t\n\t\t<slot name=\"left-glyph\"></slot>\n\t\t\t\n\t\t<slot v-if=\"value\" name=\"true\">\n\t\t\tHide\n\t\t</slot>\n\t\t<slot v-else name=\"false\">\n\t\t\tShow\n\t\t</slot>\n\n\t\t<slot>\n\t\t\t{{ text }}\n\t\t</slot>\n\t\t\n\t\t<slot name=\"glyph\">\n\t\t\t<span class=\"glyphicon glyphicon-triangle-bottom\"></span>\n\t\t</slot>\n\t</button>\n</template>\n\n<script>\nexport default {\n\tprops: {\n\t\tvalue: {\n\t\t\ttype: Boolean,\n\t\t\trequired: true\n\t\t},\n\t\ttext: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t}\n\t}\n};\n</script>\n\n<style scoped>\n\t@media print {\n\t\tbutton {\n\t\t\tdisplay: none;\n\t\t}\n\t}\n</style>\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -1312,18 +1490,45 @@ if (false) {
 
 /***/ }),
 
-/***/ 361:
+/***/ 39:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(27);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("3a51e218", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-38459c74&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ShowHideButton.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-38459c74&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ShowHideButton.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 418:
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(476)
+__webpack_require__(488)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(135),
+  __webpack_require__(180),
   /* template */
-  __webpack_require__(387),
+  __webpack_require__(445),
   /* scopeId */
   "data-v-08bc7d30",
   /* cssModules */
@@ -1351,18 +1556,18 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 362:
+/***/ 419:
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(474)
+__webpack_require__(485)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(136),
+  __webpack_require__(181),
   /* template */
-  __webpack_require__(383),
+  __webpack_require__(441),
   /* scopeId */
   "data-v-024c0c7e",
   /* cssModules */
@@ -1390,16 +1595,16 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 363:
+/***/ 420:
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(445)
+__webpack_require__(512)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(137),
+  __webpack_require__(182),
   /* template */
   null,
   /* scopeId */
@@ -1428,18 +1633,57 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 366:
+/***/ 423:
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(444)
+__webpack_require__(507)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(142),
+  __webpack_require__(186),
   /* template */
-  __webpack_require__(416),
+  __webpack_require__(473),
+  /* scopeId */
+  "data-v-7b09133f",
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ProgressBullets.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] ProgressBullets.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7b09133f", Component.options)
+  } else {
+    hotAPI.reload("data-v-7b09133f", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 424:
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(511)
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(188),
+  /* template */
+  __webpack_require__(476),
   /* scopeId */
   "data-v-a814e09c",
   /* cssModules */
@@ -1467,18 +1711,18 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 367:
+/***/ 425:
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(482)
+__webpack_require__(489)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(143),
+  __webpack_require__(189),
   /* template */
-  __webpack_require__(388),
+  __webpack_require__(446),
   /* scopeId */
   "data-v-098680db",
   /* cssModules */
@@ -1506,12 +1750,12 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 368:
+/***/ 426:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(144),
+  __webpack_require__(190),
   /* template */
   null,
   /* scopeId */
@@ -1540,14 +1784,14 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 369:
+/***/ 427:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(145),
+  __webpack_require__(191),
   /* template */
-  __webpack_require__(382),
+  __webpack_require__(440),
   /* scopeId */
   null,
   /* cssModules */
@@ -1575,14 +1819,14 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 370:
+/***/ 428:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(146),
+  __webpack_require__(192),
   /* template */
-  __webpack_require__(392),
+  __webpack_require__(450),
   /* scopeId */
   null,
   /* cssModules */
@@ -1610,12 +1854,12 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 371:
+/***/ 429:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(147),
+  __webpack_require__(193),
   /* template */
   null,
   /* scopeId */
@@ -1644,18 +1888,18 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 372:
+/***/ 430:
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(480)
+__webpack_require__(500)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(148),
+  __webpack_require__(194),
   /* template */
-  __webpack_require__(402),
+  __webpack_require__(461),
   /* scopeId */
   "data-v-3b7f8513",
   /* cssModules */
@@ -1683,14 +1927,14 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 373:
+/***/ 431:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(149),
+  __webpack_require__(195),
   /* template */
-  __webpack_require__(397),
+  __webpack_require__(456),
   /* scopeId */
   null,
   /* cssModules */
@@ -1718,12 +1962,12 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 374:
+/***/ 432:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(150),
+  __webpack_require__(196),
   /* template */
   null,
   /* scopeId */
@@ -1752,477 +1996,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 382:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "form-group"
-  }, [_c('fieldset', {
-    attrs: {
-      "title": _vm.description
-    }
-  }, [_c('legend', [_vm._v("\n\t\t\t" + _vm._s(_vm.text) + "\n\t\t")]), _vm._v(" "), _c('list-items', {
-    attrs: {
-      "ordered": _vm.ordered,
-      "items": _vm.items
-    },
-    on: {
-      "change": _vm.onChange
-    }
-  })], 1), _vm._v(" "), (_vm.description) ? _c('show-hide-button', {
-    model: {
-      value: (_vm.show.description),
-      callback: function($$v) {
-        _vm.show.description = $$v
-      },
-      expression: "show.description"
-    }
-  }, [_vm._v("\n\t\tdescription\n\t")]) : _vm._e(), _vm._v(" "), (_vm.description) ? _c('div', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.show.description),
-      expression: "show.description"
-    }]
-  }, [_vm._v("\n\t\t" + _vm._s(_vm.markedUpDescription) + "\n\t")]) : _vm._e()], 1)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-013e02b2", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 383:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "checklist-item"
-  }, [_c('label', {
-    staticClass: "containing-label"
-  }, [_c('input', {
-    attrs: {
-      "type": "checkbox",
-      "disabled": _vm.readonly
-    },
-    domProps: {
-      "checked": _vm.checked
-    },
-    on: {
-      "change": _vm.handleCheck
-    }
-  }), _vm._v(" "), _c('span', {
-    staticClass: "item-text"
-  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.text) + "\n\t\t")])]), _vm._v(" "), (_vm.checked) ? _c('div', {
-    staticClass: "item-questions"
-  }, _vm._l((_vm.questions), function(question, index) {
-    return _c('questionnaire-question', {
-      attrs: {
-        "question": question,
-        "readonly": _vm.readonly
-      },
-      on: {
-        "input": function($event) {
-          _vm.handleQuestionInput(index, arguments[0])
-        }
-      }
-    })
-  })) : _vm._e()])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-024c0c7e", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 387:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "checklist"
-  }, [_c('h1', [_vm._v(_vm._s(_vm.title))]), _vm._v(" "), _c('questionnaire-pager', {
-    attrs: {
-      "pages": _vm.pages,
-      "readonly": _vm.readonly
-    },
-    on: {
-      "submit": _vm.handleSubmit
-    },
-    scopedSlots: _vm._u([
-      ["default", function(pager) {
-        return [_c('checklist-section', _vm._b({
-          attrs: {
-            "page": true,
-            "readonly": _vm.readonly
-          },
-          on: {
-            "input": function($event) {
-              _vm.handleInput(pager.pageNum, arguments[0])
-            }
-          }
-        }, 'checklist-section', pager.page))]
-      }]
-    ])
-  })], 1)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-08bc7d30", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 388:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "checkbox-question form-group"
-  }, [_c('fieldset', {
-    attrs: {
-      "title": _vm.description
-    }
-  }, [_c('legend', [_vm._v("\n\t\t\t" + _vm._s(_vm.text) + "\n\t\t")]), _vm._v(" "), _c('div', {
-    staticClass: "options"
-  }, _vm._l((_vm.options), function(option, index) {
-    return _c('label', {
-      attrs: {
-        "title": option.description
-      }
-    }, [_vm._v("\n\t\t\t\t" + _vm._s(option.text) + "\n\t\t\t\t"), _c('input', {
-      attrs: {
-        "type": "checkbox",
-        "disabled": _vm.readonly
-      },
-      domProps: {
-        "value": option.value,
-        "checked": option.checked
-      },
-      on: {
-        "change": function($event) {
-          _vm.onCheck(index)
-        }
-      }
-    }), _vm._v(" "), (option.description) ? _c('div', {
-      staticClass: "question-description"
-    }, [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.snarkdown(option.description)) + "\n\t\t\t\t")]) : _vm._e()])
-  }))]), _vm._v(" "), (_vm.description) ? _c('show-hide-button', {
-    model: {
-      value: (_vm.show.description),
-      callback: function($$v) {
-        _vm.show.description = $$v
-      },
-      expression: "show.description"
-    }
-  }, [_vm._v("\n\t\tdescription\n\t")]) : _vm._e(), _vm._v(" "), (_vm.description) ? _c('div', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.show.description),
-      expression: "show.description"
-    }]
-  }, [_vm._v("\n\t\t" + _vm._s(_vm.markedUpDescription) + "\n\t")]) : _vm._e()], 1)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-098680db", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 39:
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(27);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(2)("3a51e218", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-38459c74&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ShowHideButton.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-38459c74&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ShowHideButton.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-
-/***/ 390:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "instruction-block"
-  }, [_vm._v("\n\t" + _vm._s(_vm.markedUpText) + "\n")])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-16c471bd", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 392:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    staticClass: "containing-label",
-    attrs: {
-      "title": _vm.description
-    }
-  }, [_vm._v("\n\t\t" + _vm._s(_vm.text) + "\n\t\t"), _c('input', {
-    staticClass: "form-control appear-not-readonly",
-    attrs: {
-      "type": "number",
-      "min": _vm.min,
-      "max": _vm.max,
-      "readonly": _vm.readonly
-    },
-    domProps: {
-      "value": _vm.value
-    },
-    on: {
-      "input": _vm.onInput
-    }
-  })]), _vm._v(" "), (_vm.description) ? _c('show-hide-button', {
-    model: {
-      value: (_vm.show.description),
-      callback: function($$v) {
-        _vm.show.description = $$v
-      },
-      expression: "show.description"
-    }
-  }, [_vm._v("\n\t\tdescription\n\t")]) : _vm._e(), _vm._v(" "), (_vm.description) ? _c('div', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.show.description),
-      expression: "show.description"
-    }]
-  }, [_vm._v("\n\t\t" + _vm._s(_vm.markedUpDescription) + "\n\t")]) : _vm._e()], 1)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-1fd00d61", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 397:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    staticClass: "containing-label",
-    attrs: {
-      "title": _vm.description
-    }
-  }, [_vm._v("\n\t\t" + _vm._s(_vm.text) + "\n\t\t"), (_vm.type === 'texarea') ? _c('textarea', {
-    staticClass: "form-control appear-not-readonly",
-    attrs: {
-      "readonly": _vm.readonly
-    },
-    domProps: {
-      "value": _vm.value
-    },
-    on: {
-      "input": _vm.onInput
-    }
-  }) : _c('input', {
-    staticClass: "form-control appear-not-readonly",
-    attrs: {
-      "type": "text",
-      "readonly": _vm.readonly
-    },
-    domProps: {
-      "value": _vm.value
-    },
-    on: {
-      "input": _vm.onInput
-    }
-  })]), _vm._v(" "), (_vm.description) ? _c('show-hide-button', {
-    model: {
-      value: (_vm.show.description),
-      callback: function($$v) {
-        _vm.show.description = $$v
-      },
-      expression: "show.description"
-    }
-  }, [_vm._v("\n\t\tdescription\n\t")]) : _vm._e(), _vm._v(" "), (_vm.description) ? _c('div', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.show.description),
-      expression: "show.description"
-    }]
-  }, [_vm._v("\n\t\t" + _vm._s(_vm.markedUpDescription) + "\n\t")]) : _vm._e()], 1)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-3340e545", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 402:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "radio-question form-group"
-  }, [_c('fieldset', {
-    attrs: {
-      "title": _vm.description
-    }
-  }, [_c('legend', [_vm._v("\n\t\t\t" + _vm._s(_vm.text) + "\n\t\t")]), _vm._v(" "), _c('div', {
-    staticClass: "options"
-  }, _vm._l((_vm.options), function(option, index) {
-    return _c('label', {
-      attrs: {
-        "title": option.description
-      }
-    }, [_vm._v("\n\t\t\t\t" + _vm._s(option.text) + "\n\t\t\t\t"), _c('input', {
-      attrs: {
-        "type": "radio",
-        "disabled": _vm.readonly
-      },
-      domProps: {
-        "value": option.value,
-        "checked": option.checked
-      },
-      on: {
-        "change": function($event) {
-          _vm.onCheck(index)
-        }
-      }
-    }), _vm._v(" "), (option.description) ? _c('div', {
-      staticClass: "question-description"
-    }, [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.snarkdown(option.description)) + "\n\t\t\t\t")]) : _vm._e()])
-  }))]), _vm._v(" "), (_vm.description) ? _c('show-hide-button', {
-    model: {
-      value: (_vm.show.description),
-      callback: function($$v) {
-        _vm.show.description = $$v
-      },
-      expression: "show.description"
-    }
-  }, [_vm._v("\n\t\tdescription\n\t")]) : _vm._e(), _vm._v(" "), (_vm.description) ? _c('div', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.show.description),
-      expression: "show.description"
-    }]
-  }, [_vm._v("\n\t\t" + _vm._s(_vm.markedUpDescription) + "\n\t")]) : _vm._e()], 1)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-3b7f8513", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 416:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "questionnaire-pager"
-  }, [_c('div', {
-    staticClass: "pager-content"
-  }, [_vm._t("default", null, {
-    page: _vm.page,
-    pageNum: _vm.currentPage
-  })], 2), _vm._v(" "), _c('div', {
-    staticClass: "pager-controls"
-  }, [_c('button', {
-    staticClass: "btn btn-default",
-    attrs: {
-      "type": "button",
-      "disabled": _vm.currentPage === 0
-    },
-    on: {
-      "click": _vm.goBack
-    }
-  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.backText) + "\n\t\t")]), _vm._v(" "), _c('progress-bullets', {
-    attrs: {
-      "max": _vm.pages.length,
-      "value": _vm.currentPage + 1
-    }
-  }), _vm._v(" "), (_vm.currentPage < _vm.pages.length - 1) ? _c('button', {
-    staticClass: "btn btn-default",
-    attrs: {
-      "type": "button",
-      "disabled": !_vm.canAdvancePage
-    },
-    on: {
-      "click": _vm.advance
-    }
-  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.nextText) + "\n\t\t")]) : (!_vm.readonly) ? _c('button', {
-    staticClass: "btn btn-primary",
-    attrs: {
-      "type": "button",
-      "disabled": !_vm.canAdvancePage
-    },
-    on: {
-      "click": _vm.submit
-    }
-  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.submitText) + "\n\t\t")]) : _c('div')], 1)])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-a814e09c", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 43:
+/***/ 44:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2340,29 +2114,94 @@ function parse(md) {
 
 /***/ }),
 
-/***/ 444:
+/***/ 440:
 /***/ (function(module, exports, __webpack_require__) {
 
-// style-loader: Adds some css to the DOM by adding a <style> tag
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "form-group"
+  }, [_c('fieldset', {
+    attrs: {
+      "title": _vm.description
+    }
+  }, [_c('legend', [_vm._v("\n\t\t\t" + _vm._s(_vm.text) + "\n\t\t")]), _vm._v(" "), _c('list-items', {
+    attrs: {
+      "ordered": _vm.ordered,
+      "items": _vm.items
+    },
+    on: {
+      "change": _vm.onChange
+    }
+  })], 1), _vm._v(" "), (_vm.description) ? _c('show-hide-button', {
+    model: {
+      value: (_vm.show.description),
+      callback: function($$v) {
+        _vm.show.description = $$v
+      },
+      expression: "show.description"
+    }
+  }, [_vm._v("\n\t\tdescription\n\t")]) : _vm._e(), _vm._v(" "), (_vm.description) ? _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.show.description),
+      expression: "show.description"
+    }]
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.markedUpDescription) + "\n\t")]) : _vm._e()], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-013e02b2", module.exports)
+  }
+}
 
-// load the styles
-var content = __webpack_require__(260);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(2)("8ed4c90e", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js?sourceMap!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-a814e09c&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Pager.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js?sourceMap!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-a814e09c&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Pager.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
+/***/ }),
+
+/***/ 441:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "checklist-item"
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_c('input', {
+    attrs: {
+      "type": "checkbox",
+      "disabled": _vm.readonly
+    },
+    domProps: {
+      "checked": _vm.checked
+    },
+    on: {
+      "change": _vm.handleCheck
+    }
+  }), _vm._v(" "), _c('span', {
+    staticClass: "item-text"
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.text) + "\n\t\t")])]), _vm._v(" "), (_vm.checked) ? _c('div', {
+    staticClass: "item-questions"
+  }, _vm._l((_vm.questions), function(question, index) {
+    return _c('questionnaire-question', {
+      attrs: {
+        "question": question,
+        "readonly": _vm.readonly
+      },
+      on: {
+        "input": function($event) {
+          _vm.handleQuestionInput(index, arguments[0])
+        }
+      }
+    })
+  })) : _vm._e()])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-024c0c7e", module.exports)
+  }
 }
 
 /***/ }),
@@ -2370,146 +2209,298 @@ if(false) {
 /***/ 445:
 /***/ (function(module, exports, __webpack_require__) {
 
-// style-loader: Adds some css to the DOM by adding a <style> tag
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "checklist"
+  }, [_c('h1', [_vm._v(_vm._s(_vm.title))]), _vm._v(" "), _c('questionnaire-pager', {
+    attrs: {
+      "pages": _vm.pages,
+      "readonly": _vm.readonly
+    },
+    on: {
+      "submit": _vm.handleSubmit
+    },
+    scopedSlots: _vm._u([
+      ["default", function(pager) {
+        return [_c('checklist-section', _vm._b({
+          attrs: {
+            "page": true,
+            "readonly": _vm.readonly
+          },
+          on: {
+            "input": function($event) {
+              _vm.handleInput(pager.pageNum, arguments[0])
+            }
+          }
+        }, 'checklist-section', pager.page))]
+      }]
+    ])
+  })], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-08bc7d30", module.exports)
+  }
+}
 
-// load the styles
-var content = __webpack_require__(261);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(2)("3805909a", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js?sourceMap!../../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-a8188cb2&scoped=true!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Section.vue", function() {
-     var newContent = require("!!../../../../../../node_modules/css-loader/index.js?sourceMap!../../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-a8188cb2&scoped=true!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Section.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
+/***/ }),
+
+/***/ 446:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "checkbox-question form-group"
+  }, [_c('fieldset', {
+    attrs: {
+      "title": _vm.description
+    }
+  }, [_c('legend', [_vm._v("\n\t\t\t" + _vm._s(_vm.text) + "\n\t\t")]), _vm._v(" "), _c('div', {
+    staticClass: "options"
+  }, _vm._l((_vm.options), function(option, index) {
+    return _c('label', {
+      attrs: {
+        "title": option.description
+      }
+    }, [_vm._v("\n\t\t\t\t" + _vm._s(option.text) + "\n\t\t\t\t"), _c('input', {
+      attrs: {
+        "type": "checkbox",
+        "disabled": _vm.readonly
+      },
+      domProps: {
+        "value": option.value,
+        "checked": option.checked
+      },
+      on: {
+        "change": function($event) {
+          _vm.onCheck(index)
+        }
+      }
+    }), _vm._v(" "), (option.description) ? _c('div', {
+      staticClass: "question-description"
+    }, [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.snarkdown(option.description)) + "\n\t\t\t\t")]) : _vm._e()])
+  }))]), _vm._v(" "), (_vm.description) ? _c('show-hide-button', {
+    model: {
+      value: (_vm.show.description),
+      callback: function($$v) {
+        _vm.show.description = $$v
+      },
+      expression: "show.description"
+    }
+  }, [_vm._v("\n\t\tdescription\n\t")]) : _vm._e(), _vm._v(" "), (_vm.description) ? _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.show.description),
+      expression: "show.description"
+    }]
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.markedUpDescription) + "\n\t")]) : _vm._e()], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-098680db", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 448:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "instruction-block"
+  }, [_vm._v("\n\t" + _vm._s(_vm.markedUpText) + "\n")])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-16c471bd", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 450:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "containing-label",
+    attrs: {
+      "title": _vm.description
+    }
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.text) + "\n\t\t"), _c('input', {
+    staticClass: "form-control appear-not-readonly",
+    attrs: {
+      "type": "number",
+      "min": _vm.min,
+      "max": _vm.max,
+      "readonly": _vm.readonly
+    },
+    domProps: {
+      "value": _vm.value
+    },
+    on: {
+      "input": _vm.onInput
+    }
+  })]), _vm._v(" "), (_vm.description) ? _c('show-hide-button', {
+    model: {
+      value: (_vm.show.description),
+      callback: function($$v) {
+        _vm.show.description = $$v
+      },
+      expression: "show.description"
+    }
+  }, [_vm._v("\n\t\tdescription\n\t")]) : _vm._e(), _vm._v(" "), (_vm.description) ? _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.show.description),
+      expression: "show.description"
+    }]
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.markedUpDescription) + "\n\t")]) : _vm._e()], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-1fd00d61", module.exports)
+  }
 }
 
 /***/ }),
 
 /***/ 456:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__admin_supervisor_js__ = __webpack_require__(108);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createAdminSupervisorMeritReports", function() { return __WEBPACK_IMPORTED_MODULE_0__admin_supervisor_js__["a"]; });
-
-// export { default as createFacultyMeritReports } from './faculty.js';
-
-/***/ }),
-
-/***/ 468:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = {
-	props: {
-		type: {
-			type: String,
-			default: 'bar'
-		},
-		min: {
-			type: Number,
-			default: 0
-		},
-		max: {
-			type: Number,
-			required: true
-		},
-		value: {
-			type: Number,
-			required: true
-		},
-		stepName: {
-			type: String,
-			default: 'Page'
-		}
-	},
-
-	computed: {
-		label: function label() {
-			return this.stepName + ' ' + this.value + ' of ' + this.max;
-		}
-	}
-};
-
-/***/ }),
-
-/***/ 469:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(1)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.progress-bullets[data-v-7b09133f] {\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\tjustify-content: center;\n\talign-items: center;\n}\n.bullet[data-v-7b09133f] {\n\tmargin: 1em;\n\twidth: 0.5em;\n\theight: 0.5em;\n\tborder-radius: 0.5em;\n\tbackground-color: rgba(0, 0, 0, 0.35);\n}\n.bullet.filled[data-v-7b09133f] {\n\tbackground-color: rgba(0, 0, 0, 0.75);\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ProgressBullets.vue?68cf27ae"],"names":[],"mappings":";AA4CA;CACA,cAAA;CACA,gBAAA;CACA,wBAAA;CACA,oBAAA;CACA;AAEA;CACA,YAAA;CACA,aAAA;CACA,cAAA;CACA,qBAAA;CACA,sCAAA;CACA;AAEA;CACA,sCAAA;CACA","file":"ProgressBullets.vue","sourcesContent":["<template>\n\t<div class=\"progress-bullets\"\n\t\t\trole=\"progressbar\" :aria-valuemin=\"min\" :aria-valuemax=\"max\"\n\t\t\t:aria-valuenow=\"value\" :title=\"label\">\n\t\t<div v-for=\"i in max\" class=\"bullet\" :class=\"{filled: i <= value}\">\n\t\t\t\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nexport default {\n\tprops: {\n\t\ttype: {\n\t\t\ttype: String,\n\t\t\tdefault: 'bar'\n\t\t},\n\t\tmin: {\n\t\t\ttype: Number,\n\t\t\tdefault: 0\n\t\t},\n\t\tmax: {\n\t\t\ttype: Number,\n\t\t\trequired: true\n\t\t},\n\t\tvalue: {\n\t\t\ttype: Number,\n\t\t\trequired: true\n\t\t},\n\t\tstepName: {\n\t\t\ttype: String,\n\t\t\tdefault: 'Page'\n\t\t}\n\t},\n\t\n\tcomputed: {\n\t\tlabel() {\n\t\t\treturn `${this.stepName} ${this.value} of ${this.max}`;\n\t\t}\n\t}\n};\n</script>\n\n<style scoped>\n\t.progress-bullets {\n\t\tdisplay: flex;\n\t\tflex-wrap: wrap;\n\t\tjustify-content: center;\n\t\talign-items: center;\n\t}\n\t\n\t.bullet {\n\t\tmargin: 1em;\n\t\twidth: 0.5em;\n\t\theight: 0.5em;\n\t\tborder-radius: 0.5em;\n\t\tbackground-color: rgba(0, 0, 0, 0.35);\n\t}\n\t\n\t.bullet.filled {\n\t\tbackground-color: rgba(0, 0, 0, 0.75);\n\t}\n</style>\n"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-
-/***/ 470:
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/* styles */
-__webpack_require__(472)
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(468),
-  /* template */
-  __webpack_require__(471),
-  /* scopeId */
-  "data-v-7b09133f",
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ProgressBullets.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] ProgressBullets.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "containing-label",
+    attrs: {
+      "title": _vm.description
+    }
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.text) + "\n\t\t"), (_vm.type === 'texarea') ? _c('textarea', {
+    staticClass: "form-control appear-not-readonly",
+    attrs: {
+      "readonly": _vm.readonly
+    },
+    domProps: {
+      "value": _vm.value
+    },
+    on: {
+      "input": _vm.onInput
+    }
+  }) : _c('input', {
+    staticClass: "form-control appear-not-readonly",
+    attrs: {
+      "type": "text",
+      "readonly": _vm.readonly
+    },
+    domProps: {
+      "value": _vm.value
+    },
+    on: {
+      "input": _vm.onInput
+    }
+  })]), _vm._v(" "), (_vm.description) ? _c('show-hide-button', {
+    model: {
+      value: (_vm.show.description),
+      callback: function($$v) {
+        _vm.show.description = $$v
+      },
+      expression: "show.description"
+    }
+  }, [_vm._v("\n\t\tdescription\n\t")]) : _vm._e(), _vm._v(" "), (_vm.description) ? _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.show.description),
+      expression: "show.description"
+    }]
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.markedUpDescription) + "\n\t")]) : _vm._e()], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
   module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7b09133f", Component.options)
-  } else {
-    hotAPI.reload("data-v-7b09133f", Component.options)
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-3340e545", module.exports)
   }
-})()}
-
-module.exports = Component.exports
-
+}
 
 /***/ }),
 
-/***/ 471:
+/***/ 461:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "radio-question form-group"
+  }, [_c('fieldset', {
+    attrs: {
+      "title": _vm.description
+    }
+  }, [_c('legend', [_vm._v("\n\t\t\t" + _vm._s(_vm.text) + "\n\t\t")]), _vm._v(" "), _c('div', {
+    staticClass: "options"
+  }, _vm._l((_vm.options), function(option, index) {
+    return _c('label', {
+      attrs: {
+        "title": option.description
+      }
+    }, [_vm._v("\n\t\t\t\t" + _vm._s(option.text) + "\n\t\t\t\t"), _c('input', {
+      attrs: {
+        "type": "radio",
+        "disabled": _vm.readonly
+      },
+      domProps: {
+        "value": option.value,
+        "checked": option.checked
+      },
+      on: {
+        "change": function($event) {
+          _vm.onCheck(index)
+        }
+      }
+    }), _vm._v(" "), (option.description) ? _c('div', {
+      staticClass: "question-description"
+    }, [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.snarkdown(option.description)) + "\n\t\t\t\t")]) : _vm._e()])
+  }))]), _vm._v(" "), (_vm.description) ? _c('show-hide-button', {
+    model: {
+      value: (_vm.show.description),
+      callback: function($$v) {
+        _vm.show.description = $$v
+      },
+      expression: "show.description"
+    }
+  }, [_vm._v("\n\t\tdescription\n\t")]) : _vm._e(), _vm._v(" "), (_vm.description) ? _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.show.description),
+      expression: "show.description"
+    }]
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.markedUpDescription) + "\n\t")]) : _vm._e()], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-3b7f8513", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 473:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2541,55 +2532,70 @@ if (false) {
 
 /***/ }),
 
-/***/ 472:
+/***/ 476:
 /***/ (function(module, exports, __webpack_require__) {
 
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(469);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(2)("1feb5b8b", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-7b09133f&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ProgressBullets.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-7b09133f&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ProgressBullets.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "questionnaire-pager"
+  }, [_c('div', {
+    staticClass: "pager-content"
+  }, [_vm._t("default", null, {
+    page: _vm.page,
+    pageNum: _vm.currentPage
+  })], 2), _vm._v(" "), _c('div', {
+    staticClass: "pager-controls"
+  }, [_c('button', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "type": "button",
+      "disabled": _vm.currentPage === 0
+    },
+    on: {
+      "click": _vm.goBack
+    }
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.backText) + "\n\t\t")]), _vm._v(" "), _c('progress-bullets', {
+    attrs: {
+      "max": _vm.pages.length,
+      "value": _vm.currentPage + 1
+    }
+  }), _vm._v(" "), (_vm.currentPage < _vm.pages.length - 1) ? _c('button', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "type": "button",
+      "disabled": !_vm.canAdvancePage
+    },
+    on: {
+      "click": _vm.advance
+    }
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.nextText) + "\n\t\t")]) : (!_vm.readonly) ? _c('button', {
+    staticClass: "btn btn-primary",
+    attrs: {
+      "type": "button",
+      "disabled": !_vm.canAdvancePage
+    },
+    on: {
+      "click": _vm.submit
+    }
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.submitText) + "\n\t\t")]) : _c('div')], 1)])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-a814e09c", module.exports)
+  }
 }
 
 /***/ }),
 
-/***/ 473:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)();
-// imports
-
-
-// module
-exports.push([module.i, "\nlabel[data-v-024c0c7e] {\n\tdisplay: flex;\n\tfont-size: 1.75em;\n}\ninput[type=\"checkbox\"][data-v-024c0c7e] {\n\twidth: 1em;\n\theight: 1em;\n\tpadding: 0.5em;\n\tmargin-right: 1em;\n}\n.item-questions[data-v-024c0c7e] {\n\tmargin-left: 3em;\n\tpadding: 1em;\n}\n@media (min-width: 768px) {\ninput[type=\"checkbox\"][data-v-024c0c7e] {\n\t\tmargin-right: 1.5em;\n}\n.item-questions[data-v-024c0c7e] {\n\t\tmargin-left: 4em;\n}\n}\n@media (min-width: 768px) {\ninput[type=\"checkbox\"][data-v-024c0c7e] {\n\t\tmargin-right: 2em;\n}\n.item-questions[data-v-024c0c7e] {\n\t\tmargin-left: 5em;\n}\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/MeritCompensation/Checklist/Item.vue?e40d8240"],"names":[],"mappings":";AA8FA;CACA,cAAA;CACA,kBAAA;CACA;AAEA;CACA,WAAA;CACA,YAAA;CACA,eAAA;CACA,kBAAA;CACA;AAEA;CACA,iBAAA;CACA,aAAA;CACA;AAEA;AACA;EACA,oBAAA;CACA;AAEA;EACA,iBAAA;CACA;CACA;AAEA;AACA;EACA,kBAAA;CACA;AAEA;EACA,iBAAA;CACA;CACA","file":"Item.vue","sourcesContent":["<template>\n\t<div class=\"checklist-item\">\n\t\t<label class=\"containing-label\">\n\t\t\t<input type=\"checkbox\" :checked=\"checked\" :disabled=\"readonly\"\n\t\t\t\t@change=\"handleCheck\" />\n\t\t\t\t\t\t\t\n\t\t\t<span class=\"item-text\">\n\t\t\t\t{{ text }}\n\t\t\t</span>\n\t\t</label>\n\t\t<div v-if=\"checked\" class=\"item-questions\">\n\t\t\t<questionnaire-question v-for=\"(question, index) of questions\"\n\t\t\t\t:question=\"question\" :readonly=\"readonly\"\n\t\t\t\t@input=\"handleQuestionInput(index, arguments[0])\" />\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport QuestionnaireQuestion from 'vue-components/Questionnaire/Question/Question.vue';\n\nexport default {\n\tprops: {\n\t\ttype: {\n\t\t\ttype: String,\n\t\t\tvalidator(type) {\n\t\t\t\treturn type === 'item';\n\t\t\t}\n\t\t},\n\t\ttext: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t},\n\t\tchecked: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t},\n\t\tquestions: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\treadonly: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t}\n\t},\n\t\n\tmethods: {\n\t\thandleCheck() {\n\t\t\tlet checked = !this.checked;\n\t\t\tlet item = {checked};\n\t\t\t\n\t\t\tif (!checked) {\n\t\t\t\tlet questions = this.questions.map(this.clearQuestion);\n\t\t\t\titem.questions = questions;\n\t\t\t}\n\t\t\t\n\t\t\tthis.$emit('input', item);\n\t\t},\n\t\thandleQuestionInput(index, question) {\n\t\t\tlet questions = this.questions.slice();\n\t\t\tquestions[index] = Object.assign({}, questions[index], question);\n\t\t\t\n\t\t\tthis.$emit('input', {questions});\n\t\t},\n\t\tclearQuestion(question) {\n\t\t\tquestion = Object.assign({}, question);\n\t\t\tswitch (question.type) {\n\t\t\t\tcase 'text':\n\t\t\t\tcase 'number':\n\t\t\t\t\tdelete question.value;\n\t\t\t\t\tbreak;\n\t\t\t\tcase 'checkbox':\n\t\t\t\tcase 'radio':\n\t\t\t\t\tquestion.options = question.options.map(option =>\n\t\t\t\t\t\tObject.assign({}, option, {checked: false})\n\t\t\t\t\t);\n\t\t\t\t\tbreak;\n\t\t\t\tcase 'list':\n\t\t\t\t\tdelete question.items;\n\t\t\t\t\tbreak;\n\t\t\t}\n\t\t\t\n\t\t\treturn question;\n\t\t}\n\t},\n\t\n\tcomponents: {\n\t\tQuestionnaireQuestion\n\t}\n};\n</script>\n\n<style scoped>\n\tlabel {\n\t\tdisplay: flex;\n\t\tfont-size: 1.75em;\n\t}\n\t\n\tinput[type=\"checkbox\"] {\n\t\twidth: 1em;\n\t\theight: 1em;\n\t\tpadding: 0.5em;\n\t\tmargin-right: 1em;\n\t}\n\t\n\t.item-questions {\n\t\tmargin-left: 3em;\n\t\tpadding: 1em;\n\t}\n\t\n\t@media (min-width: 768px) {\n\t\tinput[type=\"checkbox\"] {\n\t\t\tmargin-right: 1.5em;\n\t\t}\n\t\t\n\t\t.item-questions {\n\t\t\tmargin-left: 4em;\n\t\t}\n\t}\n\t\n\t@media (min-width: 768px) {\n\t\tinput[type=\"checkbox\"] {\n\t\t\tmargin-right: 2em;\n\t\t}\n\t\t\n\t\t.item-questions {\n\t\t\tmargin-left: 5em;\n\t\t}\n\t}\n</style>\n"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-
-/***/ 474:
+/***/ 485:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(473);
+var content = __webpack_require__(287);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -2610,28 +2616,13 @@ if(false) {
 
 /***/ }),
 
-/***/ 475:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.checklist[data-v-08bc7d30] {\n\tfont-size: 1.25em;\n}\n@media (min-width: 768px) {\n.checklist[data-v-08bc7d30] {\n\t\tpadding: 0 1em;\n}\n}\n@media (min-width: 1200px) {\n.checklist[data-v-08bc7d30] {\n\t\tpadding: 0 2em;\n}\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/MeritCompensation/Checklist/Checklist.vue?093cf9cb"],"names":[],"mappings":";AA0DA;CACA,kBAAA;CACA;AAEA;AACA;EACA,eAAA;CACA;CACA;AAEA;AACA;EACA,eAAA;CACA;CACA","file":"Checklist.vue","sourcesContent":["<template>\n\t<div class=\"checklist\">\n\t\t<h1>{{ title }}</h1>\n\t\t<questionnaire-pager :pages=\"pages\" :readonly=\"readonly\"\n\t\t\t\t@submit=\"handleSubmit\">\n\t\t\t<template scope=\"pager\">\n\t\t\t\t<checklist-section v-bind=\"pager.page\" :page=\"true\"\n\t\t\t\t\t:readonly=\"readonly\"\n\t\t\t\t\t@input=\"handleInput(pager.pageNum, arguments[0])\" />\n\t\t\t</template>\n\t\t</questionnaire-pager>\n\t</div>\n</template>\n\n<script>\nimport ChecklistSection from './Section.vue';\nimport QuestionnairePager from 'vue-components/Questionnaire/Pager.vue';\n\nexport default {\n\tprops: {\n\t\ttitle: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t},\n\t\tversion: {\n\t\t\ttype: Number,\n\t\t\trequired: true\n\t\t},\n\t\tpages: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\treadonly: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t}\n\t},\n\t\n\tmethods: {\n\t\thandleInput(pageNum, page) {\n\t\t\tlet pages = this.pages.slice();\n\t\t\tpages[pageNum] = Object.assign({}, pages[pageNum], page);\n\t\t\t\n\t\t\tthis.$emit('input', {pages});\n\t\t},\n\t\thandleSubmit() {\n\t\t\tthis.$emit('submit');\n\t\t}\n\t},\n\t\n\tcomponents: {\n\t\tChecklistSection,\n\t\tQuestionnairePager\n\t}\n};\n</script>\n\n<style scoped>\n\t.checklist {\n\t\tfont-size: 1.25em;\n\t}\n\t\n\t@media (min-width: 768px) {\n\t\t.checklist {\n\t\t\tpadding: 0 1em;\n\t\t}\n\t}\n\t\n\t@media (min-width: 1200px) {\n\t\t.checklist {\n\t\t\tpadding: 0 2em;\n\t\t}\n\t}\n</style>\n"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-
-/***/ 476:
+/***/ 488:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(475);
+var content = __webpack_require__(290);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -2652,28 +2643,40 @@ if(false) {
 
 /***/ }),
 
-/***/ 477:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.instruction-block[data-v-16c471bd] {\n\tmargin: 1em;\n\tpadding: 1em;\n\tfont-size: 1.25em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Questionnaire/Instruction.vue?6cc16874"],"names":[],"mappings":";AAgCA;CACA,YAAA;CACA,aAAA;CACA,kBAAA;CACA","file":"Instruction.vue","sourcesContent":["<template>\n\t<div class=\"instruction-block\">\n\t\t{{ markedUpText }}\n\t</div>\n</template>\n\n<script>\nimport snarkdown from 'snarkdown';\n\nexport default {\n\tprops: {\n\t\ttype: {\n\t\t\ttype: String,\n\t\t\tvalidator(type) {\n\t\t\t\treturn type === 'instruction';\n\t\t\t}\n\t\t},\n\t\ttext: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t}\n\t},\n\t\n\tcomputed: {\n\t\tmarkedUpText() {\n\t\t\treturn snarkdown(this.text);\n\t\t}\n\t}\n};\n</script>\n\n<style scoped>\n\t.instruction-block {\n\t\tmargin: 1em;\n\t\tpadding: 1em;\n\t\tfont-size: 1.25em;\n\t}\n</style>\n"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-
-/***/ 478:
+/***/ 489:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(477);
+var content = __webpack_require__(291);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("7931c154", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js?sourceMap!../../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-098680db&scoped=true!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Checkbox.vue", function() {
+     var newContent = require("!!../../../../../../node_modules/css-loader/index.js?sourceMap!../../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-098680db&scoped=true!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Checkbox.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 490:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(292);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -2694,28 +2697,13 @@ if(false) {
 
 /***/ }),
 
-/***/ 479:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.radio-question[data-v-3b7f8513] {\n\tfont-size: 1.25em;\n}\nlegend[data-v-3b7f8513] {\n\tmargin: 0;\n}\n.options[data-v-3b7f8513] {\n\tdisplay: flex;\n\tflex-wrap: wrap;\n}\n.options label[data-v-3b7f8513] {\n\tpadding: 1em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Questionnaire/Question/Radio.vue?6dd3bb5a"],"names":[],"mappings":";AAgGA;CACA,kBAAA;CACA;AAEA;CACA,UAAA;CACA;AAEA;CACA,cAAA;CACA,gBAAA;CACA;AAEA;CACA,aAAA;CACA","file":"Radio.vue","sourcesContent":["<template>\n\t<div class=\"radio-question form-group\">\n\t\t<fieldset :title=\"description\">\n\t\t\t<legend>\n\t\t\t\t{{ text }}\n\t\t\t</legend>\n\t\t\t<div class=\"options\">\n\t\t\t\t<label v-for=\"(option, index) of options\" :title=\"option.description\">\n\t\t\t\t\t{{ option.text }}\n\t\t\t\t\t<input type=\"radio\" :value=\"option.value\"\n\t\t\t\t\t\t:checked=\"option.checked\" :disabled=\"readonly\"\n\t\t\t\t\t\t@change=\"onCheck(index)\" />\n\t\t\t\t\t<div v-if=\"option.description\" class=\"question-description\">\n\t\t\t\t\t\t{{ snarkdown(option.description) }}\n\t\t\t\t\t</div>\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t</fieldset>\n\t\t<show-hide-button v-if=\"description\" v-model=\"show.description\">\n\t\t\tdescription\n\t\t</show-hide-button>\n\t\t<div v-if=\"description\" v-show=\"show.description\">\n\t\t\t{{ markedUpDescription }}\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport ShowHideButton from 'vue-components/ShowHideButton.vue';\n\nimport snarkdown from 'snarkdown';\n\nexport default {\n\tmodel: {\n\t\tprop: 'options'\n\t},\n\tprops: {\n\t\ttype: {\n\t\t\ttype: String,\n\t\t\tvalidator(type) {\n\t\t\t\treturn type === 'radio';\n\t\t\t}\n\t\t},\n\t\ttext: {\n\t\t\ttype: String\n\t\t},\n\t\tdescription: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\toptions: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\treadonly: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t}\n\t},\n\tdata() {\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tdescription: false\n\t\t\t}\n\t\t};\n\t},\n\t\n\tcomputed: {\n\t\tmarkedUpDescription() {\n\t\t\tif (this.description)\n\t\t\t\treturn snarkdown(this.description);\n\t\t}\n\t},\n\t\n\tmethods: {\n\t\tonCheck(index) {\n\t\t\tlet options = this.options.map((option, i) => {\n\t\t\t\tlet newOption = Object.assign({}, option);\n\t\t\t\t\n\t\t\t\tnewOption.checked = (i === index);\n\t\t\t\t\n\t\t\t\treturn newOption;\n\t\t\t});\n\t\t\t\n\t\t\tthis.$emit('input', {options});\n\t\t},\n\t\tsnarkdown\n\t},\n\t\n\tcomponents: {\n\t\tShowHideButton\n\t}\n};\n</script>\n\n<style scoped>\n\t.radio-question {\n\t\tfont-size: 1.25em;\n\t}\n\t\n\tlegend {\n\t\tmargin: 0;\n\t}\n\t\n\t.options {\n\t\tdisplay: flex;\n\t\tflex-wrap: wrap;\n\t}\n\t\n\t.options label {\n\t\tpadding: 1em;\n\t}\n</style>\n"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-
-/***/ 480:
+/***/ 500:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(479);
+var content = __webpack_require__(302);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -2736,38 +2724,23 @@ if(false) {
 
 /***/ }),
 
-/***/ 481:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.checkbox-question[data-v-098680db] {\n\tfont-size: 1.25em;\n}\nlegend[data-v-098680db] {\n\tmargin: 0;\n}\n.options[data-v-098680db] {\n\tdisplay: flex;\n\tflex-wrap: wrap;\n}\n.options label[data-v-098680db] {\n\tpadding: 1em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Questionnaire/Question/Checkbox.vue?712897fa"],"names":[],"mappings":";AA6FA;CACA,kBAAA;CACA;AAEA;CACA,UAAA;CACA;AAEA;CACA,cAAA;CACA,gBAAA;CACA;AAEA;CACA,aAAA;CACA","file":"Checkbox.vue","sourcesContent":["<template>\n\t<div class=\"checkbox-question form-group\">\n\t\t<fieldset :title=\"description\">\n\t\t\t<legend>\n\t\t\t\t{{ text }}\n\t\t\t</legend>\n\t\t\t<div class=\"options\">\n\t\t\t\t<label v-for=\"(option, index) of options\" :title=\"option.description\">\n\t\t\t\t\t{{ option.text }}\n\t\t\t\t\t<input type=\"checkbox\" :value=\"option.value\"\n\t\t\t\t\t\t:checked=\"option.checked\" :disabled=\"readonly\"\n\t\t\t\t\t\t@change=\"onCheck(index)\" />\n\t\t\t\t\t<div v-if=\"option.description\" class=\"question-description\">\n\t\t\t\t\t\t{{ snarkdown(option.description) }}\n\t\t\t\t\t</div>\n\t\t\t\t</label>\t\t\t\t\n\t\t\t</div>\n\t\t</fieldset>\n\t\t<show-hide-button v-if=\"description\" v-model=\"show.description\">\n\t\t\tdescription\n\t\t</show-hide-button>\n\t\t<div v-if=\"description\" v-show=\"show.description\">\n\t\t\t{{ markedUpDescription }}\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport ShowHideButton from 'vue-components/ShowHideButton.vue';\n\nimport snarkdown from 'snarkdown';\n\nexport default {\n\tmodel: {\n\t\tprop: 'options'\n\t},\n\tprops: {\n\t\ttype: {\n\t\t\ttype: String,\n\t\t\tvalidator(type) {\n\t\t\t\treturn type === 'checkbox';\n\t\t\t}\n\t\t},\n\t\ttext: {\n\t\t\ttype: String\n\t\t},\n\t\tdescription: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\toptions: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\treadonly: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t}\n\t},\n\tdata() {\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tdescription: false\n\t\t\t}\n\t\t};\n\t},\n\t\n\tcomputed: {\n\t\tmarkedUpDescription() {\n\t\t\tif (this.description)\n\t\t\t\treturn snarkdown(this.description);\n\t\t}\n\t},\n\t\n\tmethods: {\n\t\tonCheck(index) {\n\t\t\tlet options = Array.slice(this.options);\n\t\t\toptions[index] = Object.assign({}, options[index], {\n\t\t\t\tchecked: !options[index].checked\n\t\t\t});\n\t\t\t\n\t\t\tthis.$emit('input', {options});\n\t\t},\n\t\tsnarkdown\n\t},\n\t\n\tcomponents: {\n\t\tShowHideButton\n\t}\n};\n</script>\n\n<style scoped>\n\t.checkbox-question {\n\t\tfont-size: 1.25em;\n\t}\n\t\n\tlegend {\n\t\tmargin: 0;\n\t}\n\n\t.options {\n\t\tdisplay: flex;\n\t\tflex-wrap: wrap;\n\t}\n\t\n\t.options label {\n\t\tpadding: 1em;\n\t}\n</style>\n"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-
-/***/ 482:
+/***/ 507:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(481);
+var content = __webpack_require__(309);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(2)("7931c154", content, false);
+var update = __webpack_require__(2)("1feb5b8b", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js?sourceMap!../../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-098680db&scoped=true!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Checkbox.vue", function() {
-     var newContent = require("!!../../../../../../node_modules/css-loader/index.js?sourceMap!../../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-098680db&scoped=true!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Checkbox.vue");
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-7b09133f&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ProgressBullets.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-7b09133f&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ProgressBullets.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -2775,6 +2748,72 @@ if(false) {
  // When the module is disposed, remove the <style> tags
  module.hot.dispose(function() { update(); });
 }
+
+/***/ }),
+
+/***/ 511:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(313);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("8ed4c90e", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js?sourceMap!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-a814e09c&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Pager.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js?sourceMap!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-a814e09c&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Pager.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 512:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(314);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("3805909a", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js?sourceMap!../../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-a8188cb2&scoped=true!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Section.vue", function() {
+     var newContent = require("!!../../../../../../node_modules/css-loader/index.js?sourceMap!../../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-a8188cb2&scoped=true!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Section.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 523:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__admin_supervisor_js__ = __webpack_require__(121);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createAdminSupervisorMeritReports", function() { return __WEBPACK_IMPORTED_MODULE_0__admin_supervisor_js__["a"]; });
+
+// export { default as createFacultyMeritReports } from './faculty.js';
 
 /***/ }),
 
@@ -2815,47 +2854,8 @@ if (false) {(function () {
 module.exports = Component.exports
 
 
-/***/ }),
-
-/***/ 93:
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/* styles */
-__webpack_require__(478)
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(141),
-  /* template */
-  __webpack_require__(390),
-  /* scopeId */
-  "data-v-16c471bd",
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Questionnaire/Instruction.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Instruction.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-16c471bd", Component.options)
-  } else {
-    hotAPI.reload("data-v-16c471bd", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
 /***/ })
 
-},[456]);
+},[523]);
 });
 //# sourceMappingURL=vue-merit-reports.js.map

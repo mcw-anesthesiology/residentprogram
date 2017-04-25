@@ -1,6 +1,5 @@
 {
-	"id": "https://www.residentprogram.com/schemas/merit-report.json#",
-	"$schema": "http://json-schema.org/draft-04/schema#",
+	"$id": "https://www.residentprogram.com/schemas/merit-report.json#",
 	"title": "Merit Report Checklist",
 	"type": "object",
 	"properties": {
@@ -16,7 +15,7 @@
 	"required": [
 		"title",
 		"version",
-		"sections"
+		"pages"
 	],
 	"definitions": {
 		"section": {
