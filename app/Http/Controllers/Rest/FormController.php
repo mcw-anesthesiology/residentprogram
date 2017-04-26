@@ -92,6 +92,9 @@ class FormController extends RestController
 				$question = $formXml->addChild('question');
 				$question->addAttribute('name', $item['questionId']);
 				$question->addAttribute('type', $item['questionType']);
+				if ($item['required'])
+					$question->addAttribute('required', 'required');
+				
 				$question->addChild('text', htmlspecialchars($item['text']));
 				if($item['weight'])
 					$question->addAttribute('weight', $item['weight']);
