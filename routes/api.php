@@ -11,6 +11,10 @@
 |
 */
 
+Route::resource('setting', 'SettingController', ['only' => [
+	'index', 'show', 'update', 'destroy'
+]]);
+
 Route::patch('users/{id}/password', 'Rest\UserController@password');
 Route::patch('users/{id}/welcome', 'Rest\UserController@welcome');
 Route::resource('users', 'Rest\UserController', ['only' => [
@@ -80,5 +84,9 @@ Route::resource('case_log_details_schemas', 'Rest\CaseLogDetailsSchemaController
 ]]);
 
 Route::resource('merits', 'Rest\MeritReportController', ['only' => [
+	'index', 'store', 'show', 'update', 'destroy'
+]]);
+
+Route::resource('merit-forms', 'Rest\MeritReportFormController', ['only' => [
 	'index', 'store', 'show', 'update', 'destroy'
 ]]);

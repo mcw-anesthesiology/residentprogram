@@ -11,6 +11,7 @@ class MeritReport extends Model
 	protected $casts = [
 		'id' => 'integer',
 		'user_id' => 'integer',
+		'form_id' => 'integer',
 		'report' => 'array'
 	];
 	
@@ -30,5 +31,9 @@ class MeritReport extends Model
 	
 	public function user() {
 		return $this->belongsTo('App\User');
+	}
+	
+	public function form() {
+		return $this->belongsTo('App\MeritReportForm', 'form_id');
 	}
 }

@@ -103,8 +103,14 @@ export default {
 				let sortedItems = sortFunctions.has(this.sortBy)
 					? this.filteredItems.sort(sortFunctions.get(this.sortBy))
 					: this.filteredItems.sort((a, b) => {
-						let aValue = a[this.sortBy].toUpperCase();
-						let bValue = b[this.sortBy].toUpperCase();
+						let aValue = a[this.sortBy];
+						let bValue = b[this.sortBy];
+						
+						if (Number.isNaN(aValue))
+							aValue = aValue.toUpperCase();
+						
+						if (Number.isNaN(bValue))
+							bValue = bValue.toUpperCase();
 						
 						if(aValue < bValue)
 							return -1;
