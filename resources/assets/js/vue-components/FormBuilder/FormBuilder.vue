@@ -5,7 +5,9 @@
 				<div class="col-md-6">
 					<div class="form-group">
 						<label for="form-title">Form title</label>
-						<input type="text" v-model.trim="title" id="form-title" class="form-control input-lg" name="formTitle" placeholder="Form Title" required />
+						<input type="text" v-model.trim="title" id="form-title"
+							class="form-control input-lg" name="formTitle"
+							placeholder="Form Title" required />
 					</div>
 				</div>
 				<div class="col-md-3">
@@ -27,6 +29,7 @@
 						<select class="form-control input-lg" v-model="periodType" id="form-period-type">
 							<option value="month">Month</option>
 							<option value="quarter">Quarter</option>
+							<option value="year">Year</option>
 						</select>
 					</div>
 				</div>
@@ -35,16 +38,51 @@
 		<div class="form-body">
 			<div class="form-items">
 				<template v-for="(item, index) of items">
-					<form-builder-instruction v-if="item.type === 'instruction'" v-bind="item" v-on:change="changeItem(index, $event)" v-on:input="changeItem(index, $event)" v-on:remove="removeItem(index)"></form-builder-instruction>
-					<form-builder-question v-if="item.type === 'question'" v-bind="item" v-bind:formType="formType" v-bind:groupedMilestones="groupedMilestones" v-bind:allCompetencies="competencies" v-bind:customOptions="customOptions" v-on:change="changeItem(index, $event)" v-on:remove="removeItem(index)"></form-builder-question>
+					<div class="form-item">
+						<form-builder-instruction v-if="item.type === 'instruction'"
+							v-bind="item" @change="changeItem(index, $event)"
+							@input="changeItem(index, $event)"
+							@remove="removeItem(index)">
+						</form-builder-instruction>
+						<form-builder-question v-if="item.type === 'question'"
+							v-bind="item" :formType="formType"
+							:groupedMilestones="groupedMilestones"
+							:allCompetencies="competencies"
+							:customOptions="customOptions"
+							@change="changeItem(index, $event)"
+							@remove="removeItem(index)">
+						</form-builder-question>
+						<div class="btn-group-vertical">
+							<button type="button" class="btn btn-default"
+									:disabled="index === 0"
+									@click="moveItem(index, index - 1)">
+								<span class="glyphicon glyphicon-arrow-up"></span>
+							</button>
+							<button type="button" class="btn btn-default"
+									:disabled="index === items.length - 1"
+									@click="moveItem(index, index + 1)">
+								<span class="glyphicon glyphicon-arrow-down"></span>
+							</button>
+						</div>
+					</div>
 				</template>
 			</div>
 		</div>
 		<div id="form-footer">
 			<alert-list v-model="alerts" />
-			<button type="button" v-on:click="addInstruction" class="btn btn-default" id="add-instruction-block">Add instruction block</button>
-			<button type="button" v-on:click="addQuestion" class="btn btn-info" id="addQuestion">Add Question</button>
-			<button type="submit" v-on:click="submitForm" class="btn btn-success">Submit Form</button>
+			<button type="button" class="btn btn-default"
+					id="add-instruction-block"
+					@click="addInstruction">
+				Add instruction block
+			</button>
+			<button type="button" class="btn btn-info" id="addQuestion"
+					@click="addQuestion">
+				Add question
+			</button>
+			<button type="submit" class="btn btn-success"
+					@click="submitForm">
+				Submit form
+			</button>
 		</div>
 	</div>
 </template>
@@ -99,13 +137,13 @@ export default {
 		};
 	},
 	methods: {
-		addInstruction(){
+		addInstruction() {
 			this.items.push({
 				type: 'instruction',
 				text: ''
 			});
 		},
-		addQuestion(){
+		addQuestion() {
 			this.items.push({
 				type: 'question',
 				text: '',
@@ -118,16 +156,24 @@ export default {
 				weight: 100
 			});
 		},
-		changeItem(index, item){
+		changeItem(index, item) {
 			this.items.splice(index, 1, Object.assign(this.items[index], item));
 		},
-		removeItem(index){
-			let item = this.items[index];
-			if(item.type === 'question' && item.questionIdNum === this.nextQuestionIdNum - 1)
-				this.nextQuestionIdNum--;
-			this.items.splice(index, 1);
+		moveItem(index, newIndex) {
+			this.items.splice(newIndex, 0, this.items.splice(index, 1)[0]);
+			this.adjustQuestionIdNums();
 		},
-		submitForm(event){
+		removeItem(index) {
+			this.items.splice(index, 1);
+			this.adjustQuestionIdNums();
+		},
+		adjustQuestionIdNums() {
+			this.items = this.items.map((item, index) =>
+				Object.assign({}, item, {questionIdNum: index + 1})
+			);
+			this.nextQuestionIdNum = this.items.length;
+		},
+		submitForm(event) {
 			event.preventDefault();
 			let requestBody = JSON.stringify({
 				title: this.title,
@@ -139,7 +185,7 @@ export default {
 				})
 			});
 
-			if(this.isFormValid()){
+			if (this.isFormValid()) {
 				fetch('/forms', {
 					method: 'POST',
 					headers: getFetchHeaders(),
@@ -164,8 +210,8 @@ export default {
 				});
 			}
 		},
-		isFormValid(){
-			if(!this.title){
+		isFormValid() {
+			if (!this.title) {
 				this.alerts.push({
 					type: 'error',
 					text: 'Please enter a title for the form'
@@ -173,7 +219,7 @@ export default {
 				return false;
 			}
 
-			if(!this.items || this.items.length < 1){
+			if (!this.items || this.items.length < 1) {
 				this.alerts.push({
 					type: 'error',
 					text: 'Please enter at least one question'
@@ -181,16 +227,16 @@ export default {
 				return false;
 			}
 
-			for(let item of this.items){
-				if(item.type === 'question'){
-					if(!item.text){
+			for (let item of this.items) {
+				if (item.type === 'question') {
+					if (!item.text) {
 						this.alerts.push({
 							type: 'error',
 							text: `Please enter question text for question ${item.questionIdNum}`
 						});
 						return false;
 					}
-					if(['radio', 'radiononnumeric', 'checkbox'].includes(item.questionType)){
+					if (['radio', 'radiononnumeric', 'checkbox'].includes(item.questionType)) {
 						if(!item.options || item.options.length < 1){
 							this.alerts.push({
 								type: 'error',
@@ -199,8 +245,8 @@ export default {
 							return false;
 						}
 
-						for(let option of item.options){
-							if(!('value' in option)){
+						for (let option of item.options) {
+							if (!('value' in option)) {
 								this.alerts.push({
 									type: 'error',
 									text: `An option cannot be submitted without a value. Please either assign a value or remove the option text and description for each option in question ${item.questionIdNum}`
@@ -210,8 +256,8 @@ export default {
 						}
 					}
 				}
-				else if(item.type === 'instruction'){
-					if(!item.text){
+				else if (item.type === 'instruction') {
+					if (!item.text) {
 						this.alerts.push({
 							type: 'error',
 							text: 'Please complete or remove all empty instruction blocks'
@@ -232,12 +278,12 @@ export default {
 		}
 	},
 	watch: {
-		oldFormContents(formContents){
+		oldFormContents(formContents) {
 			this.title = formContents.title;
 			this.formType = formContents.formType;
 			this.items = formContents.items.slice();
-			for(let item of this.items){
-				if(item.questionIdNum && item.questionIdNum >= this.nextQuestionIdNum)
+			for (let item of this.items) {
+				if (item.questionIdNum && item.questionIdNum >= this.nextQuestionIdNum)
 					this.nextQuestionIdNum = item.questionIdNum + 1;
 			}
 		}
@@ -251,5 +297,14 @@ export default {
 </script>
 
 <style scoped>
-
+	.form-item {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
+	
+	.form-item .form-block {
+		flex-grow: 1;
+	}
 </style>
