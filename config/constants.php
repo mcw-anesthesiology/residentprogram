@@ -1,6 +1,14 @@
 <?php
 
 return [
+	
+	'FLAGGED_ACTIONS' => [
+		'date' => 'Change date',
+		'form' => 'Change form',
+		'subject' => 'Change subject',
+		'response' => 'Change responses',
+		'delete' => 'Delete evaluation'
+	],
 
 	'FEATURES' => [
 		'CASE_LOG' => 'CASE_LOG',
@@ -24,5 +32,9 @@ return [
 		'month',
 		'quarter',
 		'year'
+	],
+	
+	'MERIT_REPORT_TYPES' => [
+		'faculty_yearly' => 'Yearly faculty merit report'
 	]
 ];

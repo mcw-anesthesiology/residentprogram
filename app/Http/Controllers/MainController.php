@@ -84,7 +84,7 @@ class MainController extends Controller
                 break;
             case "admin":
                 $numFlagged = Evaluation::has("flag")->count();
-                $flaggedActions = Setting::get('flaggedActions');
+                $flaggedActions = config('constants.FLAGGED_ACTIONS');
                 break;
         }
         $data = compact("mentees", "numFlagged", "numStaffEvals", "numSelfEvals",
@@ -520,7 +520,7 @@ class MainController extends Controller
 							$possibleForms = Form::where("status", "active")->where("type", "resident")->where("evaluator_type", "staff")->orderBy("title")->get();
 							break;
 					}
-					$flaggedActions = Setting::get("flaggedActions");
+					$flaggedActions = config('constants.FLAGGED_ACTIONS');
 					$data += compact("subjectType", "possibleSubjects", "possibleForms", "flaggedActions");
 				}
 

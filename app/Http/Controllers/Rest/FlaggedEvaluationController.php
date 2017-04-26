@@ -47,7 +47,7 @@ class FlaggedEvaluationController extends RestController
 
 		$flag = FlaggedEvaluation::create($request->all());
 		try{
-			$flaggedActions = Setting::get("flaggedActions");
+			$flaggedActions = config('constants.FLAGGED_ACTIONS');
 
 			$data = [];
 			$data["flaggerName"] = $user->full_name;

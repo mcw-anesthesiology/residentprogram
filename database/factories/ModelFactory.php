@@ -193,7 +193,7 @@ $factory->define(App\TextResponse::class, function(Faker $faker){
 $factory->define(App\FlaggedEvaluation::class, function(Faker $faker){
     return [
         // "evaluation_id" => $overrides["evaluation_id"],
-        "requested_action" => array_rand(Setting::get("flaggedActions")),
+        "requested_action" => array_rand(config('constants.FLAGGED_ACTIONS')),
         "reason" => $faker->word
     ];
 });

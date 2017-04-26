@@ -116,7 +116,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			if (this.showDescriptions.hasOwnProperty(type)) this.showDescriptions[type] = !this.showDescriptions[type];
 		},
 		ucfirst: function ucfirst(str) {
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["b" /* ucfirst */])(str);
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["c" /* ucfirst */])(str);
 		}
 	},
 	components: {
@@ -349,7 +349,7 @@ if(false) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_MilestoneCompetencyQuestionLists_vue__ = __webpack_require__(124);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_MilestoneCompetencyQuestionLists_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_MilestoneCompetencyQuestionLists_vue__);

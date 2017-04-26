@@ -10,7 +10,7 @@
 })(this, function() {
 return webpackJsonp([4,11],{
 
-/***/ 11:
+/***/ 10:
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -49,11 +49,50 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ 103:
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(505)
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(169),
+  /* template */
+  __webpack_require__(470),
+  /* scopeId */
+  "data-v-6d54e2f6",
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ComponentList.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] ComponentList.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6d54e2f6", Component.options)
+  } else {
+    hotAPI.reload("data-v-6d54e2f6", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ 118:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue__);
@@ -127,7 +166,7 @@ function createManageEvaluations(el, propsData) {
 									visBtnType = 'btn-default';
 									break;
 							}
-							return '<span class="status">\n\t\t\t\t\t\t\t\t<span class="label label-' + label + '">\n\t\t\t\t\t\t\t\t\t' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["b" /* ucfirst */])(evaluation.status) + '\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t<br />\n\t\t\t\t\t\t\t<button type="button"\n\t\t\t\t\t\t\t\t\tclass="visibility visibility-' + evaluation.visibility + ' btn ' + visBtnType + ' btn-xs"\n\t\t\t\t\t\t\t\t\tdata-eval-type="' + evaluation.form.type + '"\n\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '"\n\t\t\t\t\t\t\t\t\tdata-current-visibility="' + evaluation.visibility + '">\n\t\t\t\t\t\t\t\t' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["b" /* ucfirst */])(evaluation.visibility) + '\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-eye-' + eyeType + '"></span>\n\t\t\t\t\t\t\t</button>';
+							return '<span class="status">\n\t\t\t\t\t\t\t\t<span class="label label-' + label + '">\n\t\t\t\t\t\t\t\t\t' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["c" /* ucfirst */])(evaluation.status) + '\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t<br />\n\t\t\t\t\t\t\t<button type="button"\n\t\t\t\t\t\t\t\t\tclass="visibility visibility-' + evaluation.visibility + ' btn ' + visBtnType + ' btn-xs"\n\t\t\t\t\t\t\t\t\tdata-eval-type="' + evaluation.form.type + '"\n\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '"\n\t\t\t\t\t\t\t\t\tdata-current-visibility="' + evaluation.visibility + '">\n\t\t\t\t\t\t\t\t' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["c" /* ucfirst */])(evaluation.visibility) + '\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-eye-' + eyeType + '"></span>\n\t\t\t\t\t\t\t</button>';
 						} }, { data: null, orderable: false, render: function render(evaluation) {
 							var buttonClass = void 0,
 							    buttonType = void 0,
@@ -162,10 +201,176 @@ function createManageEvaluations(el, propsData) {
 /***/ }),
 
 /***/ 119:
-/***/ (function(module, __webpack_exports__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: SyntaxError: Unexpected token (32:4)\n\n\u001b[0m \u001b[90m 30 | \u001b[39m\t\t\t\t\tmethod\u001b[33m:\u001b[39m \u001b[32m'POST'\u001b[39m\u001b[33m,\u001b[39m\n \u001b[90m 31 | \u001b[39m\t\t\t\t\tdata\u001b[33m:\u001b[39m \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 32 | \u001b[39m\t\t\t\t})\n \u001b[90m    | \u001b[39m\t\t\t\t\u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 33 | \u001b[39m\t\t\t}\n \u001b[90m 34 | \u001b[39m\t\t}\u001b[33m,\u001b[39m\n \u001b[90m 35 | \u001b[39m\t\t\u001b[0m\n");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_ComponentList_vue__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_ComponentList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_ComponentList_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_JsonSchemaEditor_vue__ = __webpack_require__(415);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_JsonSchemaEditor_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__vue_components_JsonSchemaEditor_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_SelectTwo_vue__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_SelectTwo_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__vue_components_SelectTwo_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__vue_components_Manage_Merit_ReportListItem_vue__ = __webpack_require__(531);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__vue_components_Manage_Merit_ReportListItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__vue_components_Manage_Merit_ReportListItem_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_utils_js__ = __webpack_require__(3);
+/* harmony export (immutable) */ __webpack_exports__["a"] = createManageMerit;
+
+
+
+
+
+
+
+
+
+
+
+var reportTypeFormsKey = 'reportTypeForms';
+
+function createManageMerit(el, propsData) {
+	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+		el: el,
+		props: {
+			meritReportTypes: {
+				type: Object,
+				required: true
+			}
+		},
+		data: function data() {
+			return {
+				meritForms: [],
+				meritReportTypeForms: {},
+
+				merit: null,
+				alerts: []
+			};
+		},
+
+		propsData: propsData,
+
+		mounted: function mounted() {
+			this.fetchMerits();
+			this.fetchReportTypeForms();
+		},
+
+
+		computed: {
+			reports: function reports() {
+				return [];
+			},
+			formFields: function formFields() {
+				return ['id', 'name'];
+			}
+		},
+
+		methods: {
+			fetchMerits: function fetchMerits() {
+				var _this = this;
+
+				fetch('/merit-forms', {
+					method: 'GET',
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["a" /* getFetchHeaders */])(),
+					credentials: 'same-origin'
+				}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["b" /* jsonOrThrow */]).then(function (meritForms) {
+					_this.meritForms = meritForms;
+				}).catch(function (err) {
+					console.error(err);
+					_this.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem fetching merit forms'
+					});
+				});
+			},
+			fetchReportTypeForms: function fetchReportTypeForms() {
+				var _this2 = this;
+
+				fetch('/setting/' + reportTypeFormsKey, {
+					method: 'GET',
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["a" /* getFetchHeaders */])(),
+					credentials: 'same-origin'
+				}).then(function (response) {
+					if (response.ok) return response.json();
+
+					if (response.status === 404) return {};
+
+					throw Error(response.statusText);
+				}).then(function (reportTypeForms) {
+					_this2.meritReportTypeForms = reportTypeForms;
+				}).catch(function (err) {
+					console.error(err);
+					_this2.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem fetching merit report type forms'
+					});
+				});
+			},
+			addMerit: function addMerit() {
+				this.merit = {
+					name: null,
+					version: 0,
+					form: null
+				};
+			},
+			handleMeritSubmit: function handleMeritSubmit(form) {
+				var _this3 = this;
+
+				var merit = Object.assign({}, this.merit, { form: form });
+				merit.version++;
+
+				fetch('/merit-forms', {
+					method: 'POST',
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["a" /* getFetchHeaders */])(),
+					credentials: 'same-origin',
+					body: JSON.stringify(merit)
+				}).then(function (response) {
+					if (!response.ok) throw Error(response.statusText);
+
+					_this3.merit = null;
+					_this3.fetchMerits();
+				}).catch(function (err) {
+					console.error(err);
+				});
+			},
+			handleReportTypeInput: function handleReportTypeInput(reportType, meritForm) {
+				var _this4 = this;
+
+				console.log(reportType, meritForm);
+				if (!meritForm || meritForm === this.meritReportTypeForms[reportType]) return;
+
+				fetch('/setting/' + reportTypeFormsKey + '.' + reportType, {
+					method: 'POST', // PATCH
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["a" /* getFetchHeaders */])(),
+					credentials: 'same-origin',
+					body: JSON.stringify({
+						_method: 'PATCH',
+						value: meritForm
+					})
+				}).then(function (response) {
+					if (response.ok) _this4.fetchReportTypeForms();else throw Error(response.statusText);
+				}).catch(function (err) {
+					console.error(err);
+					_this4.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem saving report type form'
+					});
+				});
+			}
+		},
+
+		components: {
+			AlertList: __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default.a,
+			ComponentList: __WEBPACK_IMPORTED_MODULE_2__vue_components_ComponentList_vue___default.a,
+			JsonSchemaEditor: __WEBPACK_IMPORTED_MODULE_3__vue_components_JsonSchemaEditor_vue___default.a,
+			SelectTwo: __WEBPACK_IMPORTED_MODULE_4__vue_components_SelectTwo_vue___default.a,
+
+			MeritReportListItem: __WEBPACK_IMPORTED_MODULE_5__vue_components_Manage_Merit_ReportListItem_vue___default.a
+		}
+	});
+}
 
 /***/ }),
 
@@ -212,11 +417,11 @@ module.exports = Component.exports
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_OrderingList_vue__ = __webpack_require__(421);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_OrderingList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__vue_components_OrderingList_vue__);
@@ -316,17 +521,17 @@ function createManageMilestonesCompetencies(el, propsData) {
 			competencies: function competencies(_competencies) {
 				this.orderedCompetencies = _competencies.filter(function (competency) {
 					return competency.order != null;
-				}).sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* sortPropNumbers */])('order'));
+				}).sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["g" /* sortPropNumbers */])('order'));
 			},
 			milestones: function milestones(_milestones) {
 				this.orderedMilestones = _milestones.filter(function (milestone) {
 					return milestone.order != null;
-				}).sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* sortPropNumbers */])('order'));
+				}).sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["g" /* sortPropNumbers */])('order'));
 			}
 		},
 
 		methods: {
-			ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* ucfirst */],
+			ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* ucfirst */],
 			fetchMilestones: function fetchMilestones() {
 				var _this = this;
 
@@ -338,9 +543,9 @@ function createManageMilestonesCompetencies(el, propsData) {
 
 				return fetch('/milestones?' + query, {
 					method: 'GET',
-					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* getFetchHeaders */])(),
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["d" /* jsonOrThrow */]).then(function (milestones) {
+				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* jsonOrThrow */]).then(function (milestones) {
 					_this.milestones = milestones;
 				}).catch(function (err) {
 					console.error(err);
@@ -361,9 +566,9 @@ function createManageMilestonesCompetencies(el, propsData) {
 
 				return fetch('/competencies?' + query, {
 					method: 'GET',
-					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* getFetchHeaders */])(),
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["d" /* jsonOrThrow */]).then(function (competencies) {
+				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* jsonOrThrow */]).then(function (competencies) {
 					_this2.competencies = competencies;
 				}).catch(function (err) {
 					console.error(err);
@@ -385,13 +590,13 @@ function createManageMilestonesCompetencies(el, propsData) {
 
 				fetch('/milestones/order', {
 					method: 'POST',
-					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* getFetchHeaders */])(),
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify({
 						_method: 'PATCH',
 						orderMap: orderMap
 					})
-				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["d" /* jsonOrThrow */]).then(function (results) {
+				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* jsonOrThrow */]).then(function (results) {
 					if (results.success && results.success.length === _this3.orderedMilestones.length) _this3.milestoneAlerts.push({
 						type: 'success',
 						text: 'All orders saved successfully'
@@ -421,13 +626,13 @@ function createManageMilestonesCompetencies(el, propsData) {
 
 				fetch('/competencies/order', {
 					method: 'POST',
-					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* getFetchHeaders */])(),
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify({
 						_method: 'PATCH',
 						orderMap: orderMap
 					})
-				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["d" /* jsonOrThrow */]).then(function (results) {
+				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* jsonOrThrow */]).then(function (results) {
 					if (results.success && results.success.length === _this4.orderedCompetencies.length) _this4.competencyAlerts.push({
 						type: 'success',
 						text: 'All orders saved successfully'
@@ -496,6 +701,862 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ 134:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var KEYWORDS = [
+  'multipleOf',
+  'maximum',
+  'exclusiveMaximum',
+  'minimum',
+  'exclusiveMinimum',
+  'maxLength',
+  'minLength',
+  'pattern',
+  'additionalItems',
+  'maxItems',
+  'minItems',
+  'uniqueItems',
+  'maxProperties',
+  'minProperties',
+  'required',
+  'additionalProperties',
+  'enum',
+  'format',
+  'const'
+];
+
+module.exports = function (metaSchema, keywordsJsonPointers) {
+  for (var i=0; i<keywordsJsonPointers.length; i++) {
+    metaSchema = JSON.parse(JSON.stringify(metaSchema));
+    var segments = keywordsJsonPointers[i].split('/');
+    var keywords = metaSchema;
+    var j;
+    for (j=1; j<segments.length; j++)
+      keywords = keywords[segments[j]];
+
+    for (j=0; j<KEYWORDS.length; j++) {
+      var key = KEYWORDS[j];
+      var schema = keywords[key];
+      if (schema) {
+        keywords[key] = {
+          anyOf: [
+            schema,
+            { $ref: 'https://raw.githubusercontent.com/epoberezkin/ajv/master/lib/refs/$data.json#' }
+          ]
+        };
+      }
+    }
+  }
+
+  return metaSchema;
+};
+
+
+/***/ }),
+
+/***/ 135:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var compileSchema = __webpack_require__(140)
+  , resolve = __webpack_require__(56)
+  , Cache = __webpack_require__(136)
+  , SchemaObject = __webpack_require__(71)
+  , stableStringify = __webpack_require__(89)
+  , formats = __webpack_require__(139)
+  , rules = __webpack_require__(141)
+  , $dataMetaSchema = __webpack_require__(134)
+  , patternGroups = __webpack_require__(162)
+  , util = __webpack_require__(43)
+  , co = __webpack_require__(78);
+
+module.exports = Ajv;
+
+Ajv.prototype.validate = validate;
+Ajv.prototype.compile = compile;
+Ajv.prototype.addSchema = addSchema;
+Ajv.prototype.addMetaSchema = addMetaSchema;
+Ajv.prototype.validateSchema = validateSchema;
+Ajv.prototype.getSchema = getSchema;
+Ajv.prototype.removeSchema = removeSchema;
+Ajv.prototype.addFormat = addFormat;
+Ajv.prototype.errorsText = errorsText;
+
+Ajv.prototype._addSchema = _addSchema;
+Ajv.prototype._compile = _compile;
+
+Ajv.prototype.compileAsync = __webpack_require__(138);
+var customKeyword = __webpack_require__(161);
+Ajv.prototype.addKeyword = customKeyword.add;
+Ajv.prototype.getKeyword = customKeyword.get;
+Ajv.prototype.removeKeyword = customKeyword.remove;
+
+var errorClasses = __webpack_require__(55);
+Ajv.ValidationError = errorClasses.Validation;
+Ajv.MissingRefError = errorClasses.MissingRef;
+Ajv.$dataMetaSchema = $dataMetaSchema;
+
+var META_SCHEMA_ID = 'http://json-schema.org/draft-06/schema';
+
+var META_IGNORE_OPTIONS = [ 'removeAdditional', 'useDefaults', 'coerceTypes' ];
+var META_SUPPORT_DATA = ['/properties'];
+
+/**
+ * Creates validator instance.
+ * Usage: `Ajv(opts)`
+ * @param {Object} opts optional options
+ * @return {Object} ajv instance
+ */
+function Ajv(opts) {
+  if (!(this instanceof Ajv)) return new Ajv(opts);
+  opts = this._opts = util.copy(opts) || {};
+  this._schemas = {};
+  this._refs = {};
+  this._fragments = {};
+  this._formats = formats(opts.format);
+  var schemaUriFormat = this._schemaUriFormat = this._formats['uri-reference'];
+  this._schemaUriFormatFunc = function (str) { return schemaUriFormat.test(str); };
+
+  this._cache = opts.cache || new Cache;
+  this._loadingSchemas = {};
+  this._compilations = [];
+  this.RULES = rules();
+  this._getId = chooseGetId(opts);
+
+  opts.loopRequired = opts.loopRequired || Infinity;
+  if (opts.errorDataPath == 'property') opts._errorDataPathProperty = true;
+  if (opts.serialize === undefined) opts.serialize = stableStringify;
+  this._metaOpts = getMetaSchemaOptions(this);
+
+  if (opts.formats) addInitialFormats(this);
+  addDraft6MetaSchema(this);
+  if (typeof opts.meta == 'object') this.addMetaSchema(opts.meta);
+  addInitialSchemas(this);
+  if (opts.patternGroups) patternGroups(this);
+}
+
+
+
+/**
+ * Validate data using schema
+ * Schema will be compiled and cached (using serialized JSON as key. [json-stable-stringify](https://github.com/substack/json-stable-stringify) is used to serialize.
+ * @this   Ajv
+ * @param  {String|Object} schemaKeyRef key, ref or schema object
+ * @param  {Any} data to be validated
+ * @return {Boolean} validation result. Errors from the last validation will be available in `ajv.errors` (and also in compiled schema: `schema.errors`).
+ */
+function validate(schemaKeyRef, data) {
+  var v;
+  if (typeof schemaKeyRef == 'string') {
+    v = this.getSchema(schemaKeyRef);
+    if (!v) throw new Error('no schema with key or ref "' + schemaKeyRef + '"');
+  } else {
+    var schemaObj = this._addSchema(schemaKeyRef);
+    v = schemaObj.validate || this._compile(schemaObj);
+  }
+
+  var valid = v(data);
+  if (v.$async === true)
+    return this._opts.async == '*' ? co(valid) : valid;
+  this.errors = v.errors;
+  return valid;
+}
+
+
+/**
+ * Create validating function for passed schema.
+ * @this   Ajv
+ * @param  {Object} schema schema object
+ * @param  {Boolean} _meta true if schema is a meta-schema. Used internally to compile meta schemas of custom keywords.
+ * @return {Function} validating function
+ */
+function compile(schema, _meta) {
+  var schemaObj = this._addSchema(schema, undefined, _meta);
+  return schemaObj.validate || this._compile(schemaObj);
+}
+
+
+/**
+ * Adds schema to the instance.
+ * @this   Ajv
+ * @param {Object|Array} schema schema or array of schemas. If array is passed, `key` and other parameters will be ignored.
+ * @param {String} key Optional schema key. Can be passed to `validate` method instead of schema object or id/ref. One schema per instance can have empty `id` and `key`.
+ * @param {Boolean} _skipValidation true to skip schema validation. Used internally, option validateSchema should be used instead.
+ * @param {Boolean} _meta true if schema is a meta-schema. Used internally, addMetaSchema should be used instead.
+ */
+function addSchema(schema, key, _skipValidation, _meta) {
+  if (Array.isArray(schema)){
+    for (var i=0; i<schema.length; i++) this.addSchema(schema[i], undefined, _skipValidation, _meta);
+    return;
+  }
+  var id = this._getId(schema);
+  if (id !== undefined && typeof id != 'string')
+    throw new Error('schema id must be string');
+  key = resolve.normalizeId(key || id);
+  checkUnique(this, key);
+  this._schemas[key] = this._addSchema(schema, _skipValidation, _meta, true);
+}
+
+
+/**
+ * Add schema that will be used to validate other schemas
+ * options in META_IGNORE_OPTIONS are alway set to false
+ * @this   Ajv
+ * @param {Object} schema schema object
+ * @param {String} key optional schema key
+ * @param {Boolean} skipValidation true to skip schema validation, can be used to override validateSchema option for meta-schema
+ */
+function addMetaSchema(schema, key, skipValidation) {
+  this.addSchema(schema, key, skipValidation, true);
+}
+
+
+/**
+ * Validate schema
+ * @this   Ajv
+ * @param {Object} schema schema to validate
+ * @param {Boolean} throwOrLogError pass true to throw (or log) an error if invalid
+ * @return {Boolean} true if schema is valid
+ */
+function validateSchema(schema, throwOrLogError) {
+  var $schema = schema.$schema;
+  if ($schema !== undefined && typeof $schema != 'string')
+    throw new Error('$schema must be a string');
+  $schema = $schema || this._opts.defaultMeta || defaultMeta(this);
+  if (!$schema) {
+    console.warn('meta-schema not available');
+    this.errors = null;
+    return true;
+  }
+  var currentUriFormat = this._formats.uri;
+  this._formats.uri = typeof currentUriFormat == 'function'
+                      ? this._schemaUriFormatFunc
+                      : this._schemaUriFormat;
+  var valid;
+  try { valid = this.validate($schema, schema); }
+  finally { this._formats.uri = currentUriFormat; }
+  if (!valid && throwOrLogError) {
+    var message = 'schema is invalid: ' + this.errorsText();
+    if (this._opts.validateSchema == 'log') console.error(message);
+    else throw new Error(message);
+  }
+  return valid;
+}
+
+
+function defaultMeta(self) {
+  var meta = self._opts.meta;
+  self._opts.defaultMeta = typeof meta == 'object'
+                            ? self._getId(meta) || meta
+                            : self.getSchema(META_SCHEMA_ID)
+                              ? META_SCHEMA_ID
+                              : undefined;
+  return self._opts.defaultMeta;
+}
+
+
+/**
+ * Get compiled schema from the instance by `key` or `ref`.
+ * @this   Ajv
+ * @param  {String} keyRef `key` that was passed to `addSchema` or full schema reference (`schema.id` or resolved id).
+ * @return {Function} schema validating function (with property `schema`).
+ */
+function getSchema(keyRef) {
+  var schemaObj = _getSchemaObj(this, keyRef);
+  switch (typeof schemaObj) {
+    case 'object': return schemaObj.validate || this._compile(schemaObj);
+    case 'string': return this.getSchema(schemaObj);
+    case 'undefined': return _getSchemaFragment(this, keyRef);
+  }
+}
+
+
+function _getSchemaFragment(self, ref) {
+  var res = resolve.schema.call(self, { schema: {} }, ref);
+  if (res) {
+    var schema = res.schema
+      , root = res.root
+      , baseId = res.baseId;
+    var v = compileSchema.call(self, schema, root, undefined, baseId);
+    self._fragments[ref] = new SchemaObject({
+      ref: ref,
+      fragment: true,
+      schema: schema,
+      root: root,
+      baseId: baseId,
+      validate: v
+    });
+    return v;
+  }
+}
+
+
+function _getSchemaObj(self, keyRef) {
+  keyRef = resolve.normalizeId(keyRef);
+  return self._schemas[keyRef] || self._refs[keyRef] || self._fragments[keyRef];
+}
+
+
+/**
+ * Remove cached schema(s).
+ * If no parameter is passed all schemas but meta-schemas are removed.
+ * If RegExp is passed all schemas with key/id matching pattern but meta-schemas are removed.
+ * Even if schema is referenced by other schemas it still can be removed as other schemas have local references.
+ * @this   Ajv
+ * @param  {String|Object|RegExp} schemaKeyRef key, ref, pattern to match key/ref or schema object
+ */
+function removeSchema(schemaKeyRef) {
+  if (schemaKeyRef instanceof RegExp) {
+    _removeAllSchemas(this, this._schemas, schemaKeyRef);
+    _removeAllSchemas(this, this._refs, schemaKeyRef);
+    return;
+  }
+  switch (typeof schemaKeyRef) {
+    case 'undefined':
+      _removeAllSchemas(this, this._schemas);
+      _removeAllSchemas(this, this._refs);
+      this._cache.clear();
+      return;
+    case 'string':
+      var schemaObj = _getSchemaObj(this, schemaKeyRef);
+      if (schemaObj) this._cache.del(schemaObj.cacheKey);
+      delete this._schemas[schemaKeyRef];
+      delete this._refs[schemaKeyRef];
+      return;
+    case 'object':
+      var serialize = this._opts.serialize;
+      var cacheKey = serialize ? serialize(schemaKeyRef) : schemaKeyRef;
+      this._cache.del(cacheKey);
+      var id = this._getId(schemaKeyRef);
+      if (id) {
+        id = resolve.normalizeId(id);
+        delete this._schemas[id];
+        delete this._refs[id];
+      }
+  }
+}
+
+
+function _removeAllSchemas(self, schemas, regex) {
+  for (var keyRef in schemas) {
+    var schemaObj = schemas[keyRef];
+    if (!schemaObj.meta && (!regex || regex.test(keyRef))) {
+      self._cache.del(schemaObj.cacheKey);
+      delete schemas[keyRef];
+    }
+  }
+}
+
+
+/* @this   Ajv */
+function _addSchema(schema, skipValidation, meta, shouldAddSchema) {
+  if (typeof schema != 'object' && typeof schema != 'boolean')
+    throw new Error('schema should be object or boolean');
+  var serialize = this._opts.serialize;
+  var cacheKey = serialize ? serialize(schema) : schema;
+  var cached = this._cache.get(cacheKey);
+  if (cached) return cached;
+
+  shouldAddSchema = shouldAddSchema || this._opts.addUsedSchema !== false;
+
+  var id = resolve.normalizeId(this._getId(schema));
+  if (id && shouldAddSchema) checkUnique(this, id);
+
+  var willValidate = this._opts.validateSchema !== false && !skipValidation;
+  var recursiveMeta;
+  if (willValidate && !(recursiveMeta = id && id == resolve.normalizeId(schema.$schema)))
+    this.validateSchema(schema, true);
+
+  var localRefs = resolve.ids.call(this, schema);
+
+  var schemaObj = new SchemaObject({
+    id: id,
+    schema: schema,
+    localRefs: localRefs,
+    cacheKey: cacheKey,
+    meta: meta
+  });
+
+  if (id[0] != '#' && shouldAddSchema) this._refs[id] = schemaObj;
+  this._cache.put(cacheKey, schemaObj);
+
+  if (willValidate && recursiveMeta) this.validateSchema(schema, true);
+
+  return schemaObj;
+}
+
+
+/* @this   Ajv */
+function _compile(schemaObj, root) {
+  if (schemaObj.compiling) {
+    schemaObj.validate = callValidate;
+    callValidate.schema = schemaObj.schema;
+    callValidate.errors = null;
+    callValidate.root = root ? root : callValidate;
+    if (schemaObj.schema.$async === true)
+      callValidate.$async = true;
+    return callValidate;
+  }
+  schemaObj.compiling = true;
+
+  var currentOpts;
+  if (schemaObj.meta) {
+    currentOpts = this._opts;
+    this._opts = this._metaOpts;
+  }
+
+  var v;
+  try { v = compileSchema.call(this, schemaObj.schema, root, schemaObj.localRefs); }
+  finally {
+    schemaObj.compiling = false;
+    if (schemaObj.meta) this._opts = currentOpts;
+  }
+
+  schemaObj.validate = v;
+  schemaObj.refs = v.refs;
+  schemaObj.refVal = v.refVal;
+  schemaObj.root = v.root;
+  return v;
+
+
+  function callValidate() {
+    var _validate = schemaObj.validate;
+    var result = _validate.apply(null, arguments);
+    callValidate.errors = _validate.errors;
+    return result;
+  }
+}
+
+
+function chooseGetId(opts) {
+  switch (opts.schemaId) {
+    case '$id': return _get$Id;
+    case 'id': return _getId;
+    default: return _get$IdOrId;
+  }
+}
+
+
+function _getId(schema) {
+  if (schema.$id) console.warn('schema $id ignored', schema.$id);
+  return schema.id;
+}
+
+
+function _get$Id(schema) {
+  if (schema.id) console.warn('schema id ignored', schema.id);
+  return schema.$id;
+}
+
+
+function _get$IdOrId(schema) {
+  if (schema.$id && schema.id && schema.$id != schema.id)
+    throw new Error('schema $id is different from id');
+  return schema.$id || schema.id;
+}
+
+
+/**
+ * Convert array of error message objects to string
+ * @this   Ajv
+ * @param  {Array<Object>} errors optional array of validation errors, if not passed errors from the instance are used.
+ * @param  {Object} options optional options with properties `separator` and `dataVar`.
+ * @return {String} human readable string with all errors descriptions
+ */
+function errorsText(errors, options) {
+  errors = errors || this.errors;
+  if (!errors) return 'No errors';
+  options = options || {};
+  var separator = options.separator === undefined ? ', ' : options.separator;
+  var dataVar = options.dataVar === undefined ? 'data' : options.dataVar;
+
+  var text = '';
+  for (var i=0; i<errors.length; i++) {
+    var e = errors[i];
+    if (e) text += dataVar + e.dataPath + ' ' + e.message + separator;
+  }
+  return text.slice(0, -separator.length);
+}
+
+
+/**
+ * Add custom format
+ * @this   Ajv
+ * @param {String} name format name
+ * @param {String|RegExp|Function} format string is converted to RegExp; function should return boolean (true when valid)
+ */
+function addFormat(name, format) {
+  if (typeof format == 'string') format = new RegExp(format);
+  this._formats[name] = format;
+}
+
+
+function addDraft6MetaSchema(self) {
+  var $dataSchema;
+  if (self._opts.$data) {
+    $dataSchema = __webpack_require__(163);
+    self.addMetaSchema($dataSchema, $dataSchema.$id, true);
+  }
+  if (self._opts.meta === false) return;
+  var metaSchema = __webpack_require__(164);
+  if (self._opts.$data) metaSchema = $dataMetaSchema(metaSchema, META_SUPPORT_DATA);
+  self.addMetaSchema(metaSchema, META_SCHEMA_ID, true);
+  self._refs['http://json-schema.org/schema'] = META_SCHEMA_ID;
+}
+
+
+function addInitialSchemas(self) {
+  var optsSchemas = self._opts.schemas;
+  if (!optsSchemas) return;
+  if (Array.isArray(optsSchemas)) self.addSchema(optsSchemas);
+  else for (var key in optsSchemas) self.addSchema(optsSchemas[key], key);
+}
+
+
+function addInitialFormats(self) {
+  for (var name in self._opts.formats) {
+    var format = self._opts.formats[name];
+    self.addFormat(name, format);
+  }
+}
+
+
+function checkUnique(self, id) {
+  if (self._schemas[id] || self._refs[id])
+    throw new Error('schema with key or id "' + id + '" already exists');
+}
+
+
+function getMetaSchemaOptions(self) {
+  var metaOpts = util.copy(self._opts);
+  for (var i=0; i<META_IGNORE_OPTIONS.length; i++)
+    delete metaOpts[META_IGNORE_OPTIONS[i]];
+  return metaOpts;
+}
+
+
+/***/ }),
+
+/***/ 136:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+
+var Cache = module.exports = function Cache() {
+  this._cache = {};
+};
+
+
+Cache.prototype.put = function Cache_put(key, value) {
+  this._cache[key] = value;
+};
+
+
+Cache.prototype.get = function Cache_get(key) {
+  return this._cache[key];
+};
+
+
+Cache.prototype.del = function Cache_del(key) {
+  delete this._cache[key];
+};
+
+
+Cache.prototype.clear = function Cache_clear() {
+  this._cache = {};
+};
+
+
+/***/ }),
+
+/***/ 137:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+//all requires must be explicit because browserify won't work with dynamic requires
+module.exports = {
+  '$ref': __webpack_require__(158),
+  allOf: __webpack_require__(143),
+  anyOf: __webpack_require__(144),
+  const: __webpack_require__(145),
+  contains: __webpack_require__(146),
+  dependencies: __webpack_require__(148),
+  'enum': __webpack_require__(149),
+  format: __webpack_require__(150),
+  items: __webpack_require__(151),
+  maximum: __webpack_require__(72),
+  minimum: __webpack_require__(72),
+  maxItems: __webpack_require__(73),
+  minItems: __webpack_require__(73),
+  maxLength: __webpack_require__(74),
+  minLength: __webpack_require__(74),
+  maxProperties: __webpack_require__(75),
+  minProperties: __webpack_require__(75),
+  multipleOf: __webpack_require__(152),
+  not: __webpack_require__(153),
+  oneOf: __webpack_require__(154),
+  pattern: __webpack_require__(155),
+  properties: __webpack_require__(156),
+  propertyNames: __webpack_require__(157),
+  required: __webpack_require__(159),
+  uniqueItems: __webpack_require__(160),
+  validate: __webpack_require__(76)
+};
+
+
+/***/ }),
+
+/***/ 138:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var MissingRefError = __webpack_require__(55).MissingRef;
+
+module.exports = compileAsync;
+
+
+/**
+ * Creates validating function for passed schema with asynchronous loading of missing schemas.
+ * `loadSchema` option should be a function that accepts schema uri and returns promise that resolves with the schema.
+ * @this  Ajv
+ * @param {Object}   schema schema object
+ * @param {Boolean}  meta optional true to compile meta-schema; this parameter can be skipped
+ * @param {Function} callback an optional node-style callback, it is called with 2 parameters: error (or null) and validating function.
+ * @return {Promise} promise that resolves with a validating function.
+ */
+function compileAsync(schema, meta, callback) {
+  /* eslint no-shadow: 0 */
+  /* global Promise */
+  /* jshint validthis: true */
+  var self = this;
+  if (typeof this._opts.loadSchema != 'function')
+    throw new Error('options.loadSchema should be a function');
+
+  if (typeof meta == 'function') {
+    callback = meta;
+    meta = undefined;
+  }
+
+  var p = loadMetaSchemaOf(schema).then(function () {
+    var schemaObj = self._addSchema(schema, undefined, meta);
+    return schemaObj.validate || _compileAsync(schemaObj);
+  });
+
+  if (callback) {
+    p.then(
+      function(v) { callback(null, v); },
+      callback
+    );
+  }
+
+  return p;
+
+
+  function loadMetaSchemaOf(sch) {
+    var $schema = sch.$schema;
+    return $schema && !self.getSchema($schema)
+            ? compileAsync.call(self, { $ref: $schema }, true)
+            : Promise.resolve();
+  }
+
+
+  function _compileAsync(schemaObj) {
+    try { return self._compile(schemaObj); }
+    catch(e) {
+      if (e instanceof MissingRefError) return loadMissingSchema(e);
+      throw e;
+    }
+
+
+    function loadMissingSchema(e) {
+      var ref = e.missingSchema;
+      if (added(ref)) throw new Error('Schema ' + ref + ' is loaded but ' + e.missingRef + ' cannot be resolved');
+
+      var schemaPromise = self._loadingSchemas[ref];
+      if (!schemaPromise) {
+        schemaPromise = self._loadingSchemas[ref] = self._opts.loadSchema(ref);
+        schemaPromise.then(removePromise, removePromise);
+      }
+
+      return schemaPromise.then(function (sch) {
+        if (!added(ref)) {
+          return loadMetaSchemaOf(sch).then(function () {
+            if (!added(ref)) self.addSchema(sch, ref, undefined, meta);
+          });
+        }
+      }).then(function() {
+        return _compileAsync(schemaObj);
+      });
+
+      function removePromise() {
+        delete self._loadingSchemas[ref];
+      }
+
+      function added(ref) {
+        return self._refs[ref] || self._schemas[ref];
+      }
+    }
+  }
+}
+
+
+/***/ }),
+
+/***/ 139:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var util = __webpack_require__(43);
+
+var DATE = /^\d\d\d\d-(\d\d)-(\d\d)$/;
+var DAYS = [0,31,29,31,30,31,30,31,31,30,31,30,31];
+var TIME = /^(\d\d):(\d\d):(\d\d)(\.\d+)?(z|[+-]\d\d:\d\d)?$/i;
+var HOSTNAME = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[-0-9a-z]{0,61}[0-9a-z])?)*$/i;
+var URI = /^(?:[a-z][a-z0-9+\-.]*:)(?:\/?\/(?:(?:[a-z0-9\-._~!$&'()*+,;=:]|%[0-9a-f]{2})*@)?(?:\[(?:(?:(?:(?:[0-9a-f]{1,4}:){6}|::(?:[0-9a-f]{1,4}:){5}|(?:[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:){4}|(?:(?:[0-9a-f]{1,4}:){0,1}[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:){3}|(?:(?:[0-9a-f]{1,4}:){0,2}[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:){2}|(?:(?:[0-9a-f]{1,4}:){0,3}[0-9a-f]{1,4})?::[0-9a-f]{1,4}:|(?:(?:[0-9a-f]{1,4}:){0,4}[0-9a-f]{1,4})?::)(?:[0-9a-f]{1,4}:[0-9a-f]{1,4}|(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?))|(?:(?:[0-9a-f]{1,4}:){0,5}[0-9a-f]{1,4})?::[0-9a-f]{1,4}|(?:(?:[0-9a-f]{1,4}:){0,6}[0-9a-f]{1,4})?::)|[Vv][0-9a-f]+\.[a-z0-9\-._~!$&'()*+,;=:]+)\]|(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?)|(?:[a-z0-9\-._~!$&'()*+,;=]|%[0-9a-f]{2})*)(?::\d*)?(?:\/(?:[a-z0-9\-._~!$&'()*+,;=:@]|%[0-9a-f]{2})*)*|\/(?:(?:[a-z0-9\-._~!$&'()*+,;=:@]|%[0-9a-f]{2})+(?:\/(?:[a-z0-9\-._~!$&'()*+,;=:@]|%[0-9a-f]{2})*)*)?|(?:[a-z0-9\-._~!$&'()*+,;=:@]|%[0-9a-f]{2})+(?:\/(?:[a-z0-9\-._~!$&'()*+,;=:@]|%[0-9a-f]{2})*)*)(?:\?(?:[a-z0-9\-._~!$&'()*+,;=:@\/?]|%[0-9a-f]{2})*)?(?:\#(?:[a-z0-9\-._~!$&'()*+,;=:@\/?]|%[0-9a-f]{2})*)?$/i;
+var URIREF = /^(?:[a-z][a-z0-9+\-.]*:)?(?:\/?\/(?:(?:[a-z0-9\-._~!$&'()*+,;=:]|%[0-9a-f]{2})*@)?(?:\[(?:(?:(?:(?:[0-9a-f]{1,4}:){6}|::(?:[0-9a-f]{1,4}:){5}|(?:[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:){4}|(?:(?:[0-9a-f]{1,4}:){0,1}[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:){3}|(?:(?:[0-9a-f]{1,4}:){0,2}[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:){2}|(?:(?:[0-9a-f]{1,4}:){0,3}[0-9a-f]{1,4})?::[0-9a-f]{1,4}:|(?:(?:[0-9a-f]{1,4}:){0,4}[0-9a-f]{1,4})?::)(?:[0-9a-f]{1,4}:[0-9a-f]{1,4}|(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?))|(?:(?:[0-9a-f]{1,4}:){0,5}[0-9a-f]{1,4})?::[0-9a-f]{1,4}|(?:(?:[0-9a-f]{1,4}:){0,6}[0-9a-f]{1,4})?::)|[Vv][0-9a-f]+\.[a-z0-9\-._~!$&'()*+,;=:]+)\]|(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?)|(?:[a-z0-9\-._~!$&'"()*+,;=]|%[0-9a-f]{2})*)(?::\d*)?(?:\/(?:[a-z0-9\-._~!$&'"()*+,;=:@]|%[0-9a-f]{2})*)*|\/(?:(?:[a-z0-9\-._~!$&'"()*+,;=:@]|%[0-9a-f]{2})+(?:\/(?:[a-z0-9\-._~!$&'"()*+,;=:@]|%[0-9a-f]{2})*)*)?|(?:[a-z0-9\-._~!$&'"()*+,;=:@]|%[0-9a-f]{2})+(?:\/(?:[a-z0-9\-._~!$&'"()*+,;=:@]|%[0-9a-f]{2})*)*)?(?:\?(?:[a-z0-9\-._~!$&'"()*+,;=:@\/?]|%[0-9a-f]{2})*)?(?:\#(?:[a-z0-9\-._~!$&'"()*+,;=:@\/?]|%[0-9a-f]{2})*)?$/i;
+// uri-template: https://tools.ietf.org/html/rfc6570
+var URITEMPLATE = /^(?:(?:[^\x00-\x20"'<>%\\^`{|}]|%[0-9a-f]{2})|\{[+#.\/;?&=,!@|]?(?:[a-z0-9_]|%[0-9a-f]{2})+(?:\:[1-9][0-9]{0,3}|\*)?(?:,(?:[a-z0-9_]|%[0-9a-f]{2})+(?:\:[1-9][0-9]{0,3}|\*)?)*\})*$/i;
+// For the source: https://gist.github.com/dperini/729294
+// For test cases: https://mathiasbynens.be/demo/url-regex
+// @todo Delete current URL in favour of the commented out URL rule when this issue is fixed https://github.com/eslint/eslint/issues/7983.
+// var URL = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u{00a1}-\u{ffff}0-9]+-?)*[a-z\u{00a1}-\u{ffff}0-9]+)(?:\.(?:[a-z\u{00a1}-\u{ffff}0-9]+-?)*[a-z\u{00a1}-\u{ffff}0-9]+)*(?:\.(?:[a-z\u{00a1}-\u{ffff}]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?$/iu;
+var URL = /^(?:(?:http[s\u017F]?|ftp):\/\/)(?:(?:[\0-\x08\x0E-\x1F!-\x9F\xA1-\u167F\u1681-\u1FFF\u200B-\u2027\u202A-\u202E\u2030-\u205E\u2060-\u2FFF\u3001-\uD7FF\uE000-\uFEFE\uFF00-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])+(?::(?:[\0-\x08\x0E-\x1F!-\x9F\xA1-\u167F\u1681-\u1FFF\u200B-\u2027\u202A-\u202E\u2030-\u205E\u2060-\u2FFF\u3001-\uD7FF\uE000-\uFEFE\uFF00-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])*)?@)?(?:(?!10(?:\.[0-9]{1,3}){3})(?!127(?:\.[0-9]{1,3}){3})(?!169\.254(?:\.[0-9]{1,3}){2})(?!192\.168(?:\.[0-9]{1,3}){2})(?!172\.(?:1[6-9]|2[0-9]|3[01])(?:\.[0-9]{1,3}){2})(?:[1-9][0-9]?|1[0-9][0-9]|2[01][0-9]|22[0-3])(?:\.(?:1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])){2}(?:\.(?:[1-9][0-9]?|1[0-9][0-9]|2[0-4][0-9]|25[0-4]))|(?:(?:(?:[0-9KSa-z\xA1-\uD7FF\uE000-\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])+\-?)*(?:[0-9KSa-z\xA1-\uD7FF\uE000-\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])+)(?:\.(?:(?:[0-9KSa-z\xA1-\uD7FF\uE000-\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])+\-?)*(?:[0-9KSa-z\xA1-\uD7FF\uE000-\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])+)*(?:\.(?:(?:[KSa-z\xA1-\uD7FF\uE000-\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]){2,})))(?::[0-9]{2,5})?(?:\/(?:[\0-\x08\x0E-\x1F!-\x9F\xA1-\u167F\u1681-\u1FFF\u200B-\u2027\u202A-\u202E\u2030-\u205E\u2060-\u2FFF\u3001-\uD7FF\uE000-\uFEFE\uFF00-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])*)?$/i;
+var UUID = /^(?:urn\:uuid\:)?[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i;
+var JSON_POINTER = /^(?:\/(?:[^~\/]|~0|~1)*)*$|^\#(?:\/(?:[a-z0-9_\-\.!$&'()*+,;:=@]|%[0-9a-f]{2}|~0|~1)*)*$/i;
+var RELATIVE_JSON_POINTER = /^(?:0|[1-9][0-9]*)(?:\#|(?:\/(?:[^~\/]|~0|~1)*)*)$/;
+
+
+module.exports = formats;
+
+function formats(mode) {
+  mode = mode == 'full' ? 'full' : 'fast';
+  return util.copy(formats[mode]);
+}
+
+
+formats.fast = {
+  // date: http://tools.ietf.org/html/rfc3339#section-5.6
+  date: /^\d\d\d\d-[0-1]\d-[0-3]\d$/,
+  // date-time: http://tools.ietf.org/html/rfc3339#section-5.6
+  time: /^[0-2]\d:[0-5]\d:[0-5]\d(?:\.\d+)?(?:z|[+-]\d\d:\d\d)?$/i,
+  'date-time': /^\d\d\d\d-[0-1]\d-[0-3]\d[t\s][0-2]\d:[0-5]\d:[0-5]\d(?:\.\d+)?(?:z|[+-]\d\d:\d\d)$/i,
+  // uri: https://github.com/mafintosh/is-my-json-valid/blob/master/formats.js
+  uri: /^(?:[a-z][a-z0-9+-.]*)(?:\:|\/)\/?[^\s]*$/i,
+  'uri-reference': /^(?:(?:[a-z][a-z0-9+-.]*:)?\/\/)?[^\s]*$/i,
+  'uri-template': URITEMPLATE,
+  url: URL,
+  // email (sources from jsen validator):
+  // http://stackoverflow.com/questions/201323/using-a-regular-expression-to-validate-an-email-address#answer-8829363
+  // http://www.w3.org/TR/html5/forms.html#valid-e-mail-address (search for 'willful violation')
+  email: /^[a-z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)*$/i,
+  hostname: HOSTNAME,
+  // optimized https://www.safaribooksonline.com/library/view/regular-expressions-cookbook/9780596802837/ch07s16.html
+  ipv4: /^(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?)$/,
+  // optimized http://stackoverflow.com/questions/53497/regular-expression-that-matches-valid-ipv6-addresses
+  ipv6: /^\s*(?:(?:(?:[0-9a-f]{1,4}:){7}(?:[0-9a-f]{1,4}|:))|(?:(?:[0-9a-f]{1,4}:){6}(?::[0-9a-f]{1,4}|(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(?:(?:[0-9a-f]{1,4}:){5}(?:(?:(?::[0-9a-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(?:(?:[0-9a-f]{1,4}:){4}(?:(?:(?::[0-9a-f]{1,4}){1,3})|(?:(?::[0-9a-f]{1,4})?:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(?:(?:[0-9a-f]{1,4}:){3}(?:(?:(?::[0-9a-f]{1,4}){1,4})|(?:(?::[0-9a-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(?:(?:[0-9a-f]{1,4}:){2}(?:(?:(?::[0-9a-f]{1,4}){1,5})|(?:(?::[0-9a-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(?:(?:[0-9a-f]{1,4}:){1}(?:(?:(?::[0-9a-f]{1,4}){1,6})|(?:(?::[0-9a-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(?::(?:(?:(?::[0-9a-f]{1,4}){1,7})|(?:(?::[0-9a-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(?:%.+)?\s*$/i,
+  regex: regex,
+  // uuid: http://tools.ietf.org/html/rfc4122
+  uuid: UUID,
+  // JSON-pointer: https://tools.ietf.org/html/rfc6901
+  // uri fragment: https://tools.ietf.org/html/rfc3986#appendix-A
+  'json-pointer': JSON_POINTER,
+  // relative JSON-pointer: http://tools.ietf.org/html/draft-luff-relative-json-pointer-00
+  'relative-json-pointer': RELATIVE_JSON_POINTER
+};
+
+
+formats.full = {
+  date: date,
+  time: time,
+  'date-time': date_time,
+  uri: uri,
+  'uri-reference': URIREF,
+  'uri-template': URITEMPLATE,
+  url: URL,
+  email: /^[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&''*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i,
+  hostname: hostname,
+  ipv4: /^(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?)$/,
+  ipv6: /^\s*(?:(?:(?:[0-9a-f]{1,4}:){7}(?:[0-9a-f]{1,4}|:))|(?:(?:[0-9a-f]{1,4}:){6}(?::[0-9a-f]{1,4}|(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(?:(?:[0-9a-f]{1,4}:){5}(?:(?:(?::[0-9a-f]{1,4}){1,2})|:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(?:(?:[0-9a-f]{1,4}:){4}(?:(?:(?::[0-9a-f]{1,4}){1,3})|(?:(?::[0-9a-f]{1,4})?:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(?:(?:[0-9a-f]{1,4}:){3}(?:(?:(?::[0-9a-f]{1,4}){1,4})|(?:(?::[0-9a-f]{1,4}){0,2}:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(?:(?:[0-9a-f]{1,4}:){2}(?:(?:(?::[0-9a-f]{1,4}){1,5})|(?:(?::[0-9a-f]{1,4}){0,3}:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(?:(?:[0-9a-f]{1,4}:){1}(?:(?:(?::[0-9a-f]{1,4}){1,6})|(?:(?::[0-9a-f]{1,4}){0,4}:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(?::(?:(?:(?::[0-9a-f]{1,4}){1,7})|(?:(?::[0-9a-f]{1,4}){0,5}:(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(?:%.+)?\s*$/i,
+  regex: regex,
+  uuid: UUID,
+  'json-pointer': JSON_POINTER,
+  'relative-json-pointer': RELATIVE_JSON_POINTER
+};
+
+
+function date(str) {
+  // full-date from http://tools.ietf.org/html/rfc3339#section-5.6
+  var matches = str.match(DATE);
+  if (!matches) return false;
+
+  var month = +matches[1];
+  var day = +matches[2];
+  return month >= 1 && month <= 12 && day >= 1 && day <= DAYS[month];
+}
+
+
+function time(str, full) {
+  var matches = str.match(TIME);
+  if (!matches) return false;
+
+  var hour = matches[1];
+  var minute = matches[2];
+  var second = matches[3];
+  var timeZone = matches[5];
+  return hour <= 23 && minute <= 59 && second <= 59 && (!full || timeZone);
+}
+
+
+var DATE_TIME_SEPARATOR = /t|\s/i;
+function date_time(str) {
+  // http://tools.ietf.org/html/rfc3339#section-5.6
+  var dateTime = str.split(DATE_TIME_SEPARATOR);
+  return dateTime.length == 2 && date(dateTime[0]) && time(dateTime[1], true);
+}
+
+
+function hostname(str) {
+  // https://tools.ietf.org/html/rfc1034#section-3.5
+  // https://tools.ietf.org/html/rfc1123#section-2
+  return str.length <= 255 && HOSTNAME.test(str);
+}
+
+
+var NOT_URI_FRAGMENT = /\/|\:/;
+function uri(str) {
+  // http://jmrware.com/articles/2009/uri_regexp/URI_regex.html + optional protocol + required "."
+  return NOT_URI_FRAGMENT.test(str) && URI.test(str);
+}
+
+
+var Z_ANCHOR = /[^\\]\\Z/;
+function regex(str) {
+  if (Z_ANCHOR.test(str)) return false;
+  try {
+    new RegExp(str);
+    return true;
+  } catch(e) {
+    return false;
+  }
+}
+
+
+/***/ }),
+
 /***/ 14:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -528,6 +1589,3558 @@ if (false) {(function () {
 
 module.exports = Component.exports
 
+
+/***/ }),
+
+/***/ 140:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var resolve = __webpack_require__(56)
+  , util = __webpack_require__(43)
+  , errorClasses = __webpack_require__(55)
+  , stableStringify = __webpack_require__(89);
+
+var validateGenerator = __webpack_require__(76);
+
+/**
+ * Functions below are used inside compiled validations function
+ */
+
+var co = __webpack_require__(78);
+var ucs2length = util.ucs2length;
+var equal = __webpack_require__(70);
+
+// this error is thrown by async schemas to return validation errors via exception
+var ValidationError = errorClasses.Validation;
+
+module.exports = compile;
+
+
+/**
+ * Compiles schema to validation function
+ * @this   Ajv
+ * @param  {Object} schema schema object
+ * @param  {Object} root object with information about the root schema for this schema
+ * @param  {Object} localRefs the hash of local references inside the schema (created by resolve.id), used for inline resolution
+ * @param  {String} baseId base ID for IDs in the schema
+ * @return {Function} validation function
+ */
+function compile(schema, root, localRefs, baseId) {
+  /* jshint validthis: true, evil: true */
+  /* eslint no-shadow: 0 */
+  var self = this
+    , opts = this._opts
+    , refVal = [ undefined ]
+    , refs = {}
+    , patterns = []
+    , patternsHash = {}
+    , defaults = []
+    , defaultsHash = {}
+    , customRules = [];
+
+  root = root || { schema: schema, refVal: refVal, refs: refs };
+
+  var c = checkCompiling.call(this, schema, root, baseId);
+  var compilation = this._compilations[c.index];
+  if (c.compiling) return (compilation.callValidate = callValidate);
+
+  var formats = this._formats;
+  var RULES = this.RULES;
+
+  try {
+    var v = localCompile(schema, root, localRefs, baseId);
+    compilation.validate = v;
+    var cv = compilation.callValidate;
+    if (cv) {
+      cv.schema = v.schema;
+      cv.errors = null;
+      cv.refs = v.refs;
+      cv.refVal = v.refVal;
+      cv.root = v.root;
+      cv.$async = v.$async;
+      if (opts.sourceCode) cv.source = v.source;
+    }
+    return v;
+  } finally {
+    endCompiling.call(this, schema, root, baseId);
+  }
+
+  function callValidate() {
+    var validate = compilation.validate;
+    var result = validate.apply(null, arguments);
+    callValidate.errors = validate.errors;
+    return result;
+  }
+
+  function localCompile(_schema, _root, localRefs, baseId) {
+    var isRoot = !_root || (_root && _root.schema == _schema);
+    if (_root.schema != root.schema)
+      return compile.call(self, _schema, _root, localRefs, baseId);
+
+    var $async = _schema.$async === true;
+
+    var sourceCode = validateGenerator({
+      isTop: true,
+      schema: _schema,
+      isRoot: isRoot,
+      baseId: baseId,
+      root: _root,
+      schemaPath: '',
+      errSchemaPath: '#',
+      errorPath: '""',
+      MissingRefError: errorClasses.MissingRef,
+      RULES: RULES,
+      validate: validateGenerator,
+      util: util,
+      resolve: resolve,
+      resolveRef: resolveRef,
+      usePattern: usePattern,
+      useDefault: useDefault,
+      useCustomRule: useCustomRule,
+      opts: opts,
+      formats: formats,
+      self: self
+    });
+
+    sourceCode = vars(refVal, refValCode) + vars(patterns, patternCode)
+                   + vars(defaults, defaultCode) + vars(customRules, customRuleCode)
+                   + sourceCode;
+
+    if (opts.processCode) sourceCode = opts.processCode(sourceCode);
+    // console.log('\n\n\n *** \n', JSON.stringify(sourceCode));
+    var validate;
+    try {
+      var makeValidate = new Function(
+        'self',
+        'RULES',
+        'formats',
+        'root',
+        'refVal',
+        'defaults',
+        'customRules',
+        'co',
+        'equal',
+        'ucs2length',
+        'ValidationError',
+        sourceCode
+      );
+
+      validate = makeValidate(
+        self,
+        RULES,
+        formats,
+        root,
+        refVal,
+        defaults,
+        customRules,
+        co,
+        equal,
+        ucs2length,
+        ValidationError
+      );
+
+      refVal[0] = validate;
+    } catch(e) {
+      console.error('Error compiling schema, function code:', sourceCode);
+      throw e;
+    }
+
+    validate.schema = _schema;
+    validate.errors = null;
+    validate.refs = refs;
+    validate.refVal = refVal;
+    validate.root = isRoot ? validate : _root;
+    if ($async) validate.$async = true;
+    if (opts.sourceCode === true) {
+      validate.source = {
+        code: sourceCode,
+        patterns: patterns,
+        defaults: defaults
+      };
+    }
+
+    return validate;
+  }
+
+  function resolveRef(baseId, ref, isRoot) {
+    ref = resolve.url(baseId, ref);
+    var refIndex = refs[ref];
+    var _refVal, refCode;
+    if (refIndex !== undefined) {
+      _refVal = refVal[refIndex];
+      refCode = 'refVal[' + refIndex + ']';
+      return resolvedRef(_refVal, refCode);
+    }
+    if (!isRoot && root.refs) {
+      var rootRefId = root.refs[ref];
+      if (rootRefId !== undefined) {
+        _refVal = root.refVal[rootRefId];
+        refCode = addLocalRef(ref, _refVal);
+        return resolvedRef(_refVal, refCode);
+      }
+    }
+
+    refCode = addLocalRef(ref);
+    var v = resolve.call(self, localCompile, root, ref);
+    if (v === undefined) {
+      var localSchema = localRefs && localRefs[ref];
+      if (localSchema) {
+        v = resolve.inlineRef(localSchema, opts.inlineRefs)
+            ? localSchema
+            : compile.call(self, localSchema, root, localRefs, baseId);
+      }
+    }
+
+    if (v !== undefined) {
+      replaceLocalRef(ref, v);
+      return resolvedRef(v, refCode);
+    }
+  }
+
+  function addLocalRef(ref, v) {
+    var refId = refVal.length;
+    refVal[refId] = v;
+    refs[ref] = refId;
+    return 'refVal' + refId;
+  }
+
+  function replaceLocalRef(ref, v) {
+    var refId = refs[ref];
+    refVal[refId] = v;
+  }
+
+  function resolvedRef(refVal, code) {
+    return typeof refVal == 'object' || typeof refVal == 'boolean'
+            ? { code: code, schema: refVal, inline: true }
+            : { code: code, $async: refVal && refVal.$async };
+  }
+
+  function usePattern(regexStr) {
+    var index = patternsHash[regexStr];
+    if (index === undefined) {
+      index = patternsHash[regexStr] = patterns.length;
+      patterns[index] = regexStr;
+    }
+    return 'pattern' + index;
+  }
+
+  function useDefault(value) {
+    switch (typeof value) {
+      case 'boolean':
+      case 'number':
+        return '' + value;
+      case 'string':
+        return util.toQuotedString(value);
+      case 'object':
+        if (value === null) return 'null';
+        var valueStr = stableStringify(value);
+        var index = defaultsHash[valueStr];
+        if (index === undefined) {
+          index = defaultsHash[valueStr] = defaults.length;
+          defaults[index] = value;
+        }
+        return 'default' + index;
+    }
+  }
+
+  function useCustomRule(rule, schema, parentSchema, it) {
+    var validateSchema = rule.definition.validateSchema;
+    if (validateSchema && self._opts.validateSchema !== false) {
+      var valid = validateSchema(schema);
+      if (!valid) {
+        var message = 'keyword schema is invalid: ' + self.errorsText(validateSchema.errors);
+        if (self._opts.validateSchema == 'log') console.error(message);
+        else throw new Error(message);
+      }
+    }
+
+    var compile = rule.definition.compile
+      , inline = rule.definition.inline
+      , macro = rule.definition.macro;
+
+    var validate;
+    if (compile) {
+      validate = compile.call(self, schema, parentSchema, it);
+    } else if (macro) {
+      validate = macro.call(self, schema, parentSchema, it);
+      if (opts.validateSchema !== false) self.validateSchema(validate, true);
+    } else if (inline) {
+      validate = inline.call(self, it, rule.keyword, schema, parentSchema);
+    } else {
+      validate = rule.definition.validate;
+      if (!validate) return;
+    }
+
+    if (validate === undefined)
+      throw new Error('custom keyword "' + rule.keyword + '"failed to compile');
+
+    var index = customRules.length;
+    customRules[index] = validate;
+
+    return {
+      code: 'customRule' + index,
+      validate: validate
+    };
+  }
+}
+
+
+/**
+ * Checks if the schema is currently compiled
+ * @this   Ajv
+ * @param  {Object} schema schema to compile
+ * @param  {Object} root root object
+ * @param  {String} baseId base schema ID
+ * @return {Object} object with properties "index" (compilation index) and "compiling" (boolean)
+ */
+function checkCompiling(schema, root, baseId) {
+  /* jshint validthis: true */
+  var index = compIndex.call(this, schema, root, baseId);
+  if (index >= 0) return { index: index, compiling: true };
+  index = this._compilations.length;
+  this._compilations[index] = {
+    schema: schema,
+    root: root,
+    baseId: baseId
+  };
+  return { index: index, compiling: false };
+}
+
+
+/**
+ * Removes the schema from the currently compiled list
+ * @this   Ajv
+ * @param  {Object} schema schema to compile
+ * @param  {Object} root root object
+ * @param  {String} baseId base schema ID
+ */
+function endCompiling(schema, root, baseId) {
+  /* jshint validthis: true */
+  var i = compIndex.call(this, schema, root, baseId);
+  if (i >= 0) this._compilations.splice(i, 1);
+}
+
+
+/**
+ * Index of schema compilation in the currently compiled list
+ * @this   Ajv
+ * @param  {Object} schema schema to compile
+ * @param  {Object} root root object
+ * @param  {String} baseId base schema ID
+ * @return {Integer} compilation index
+ */
+function compIndex(schema, root, baseId) {
+  /* jshint validthis: true */
+  for (var i=0; i<this._compilations.length; i++) {
+    var c = this._compilations[i];
+    if (c.schema == schema && c.root == root && c.baseId == baseId) return i;
+  }
+  return -1;
+}
+
+
+function patternCode(i, patterns) {
+  return 'var pattern' + i + ' = new RegExp(' + util.toQuotedString(patterns[i]) + ');';
+}
+
+
+function defaultCode(i) {
+  return 'var default' + i + ' = defaults[' + i + '];';
+}
+
+
+function refValCode(i, refVal) {
+  return refVal[i] === undefined ? '' : 'var refVal' + i + ' = refVal[' + i + '];';
+}
+
+
+function customRuleCode(i) {
+  return 'var customRule' + i + ' = customRules[' + i + '];';
+}
+
+
+function vars(arr, statement) {
+  if (!arr.length) return '';
+  var code = '';
+  for (var i=0; i<arr.length; i++)
+    code += statement(i, arr);
+  return code;
+}
+
+
+/***/ }),
+
+/***/ 141:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var ruleModules = __webpack_require__(137)
+  , toHash = __webpack_require__(43).toHash;
+
+module.exports = function rules() {
+  var RULES = [
+    { type: 'number',
+      rules: [ { 'maximum': ['exclusiveMaximum'] },
+               { 'minimum': ['exclusiveMinimum'] }, 'multipleOf', 'format'] },
+    { type: 'string',
+      rules: [ 'maxLength', 'minLength', 'pattern', 'format' ] },
+    { type: 'array',
+      rules: [ 'maxItems', 'minItems', 'uniqueItems', 'contains', 'items' ] },
+    { type: 'object',
+      rules: [ 'maxProperties', 'minProperties', 'required', 'dependencies', 'propertyNames',
+               { 'properties': ['additionalProperties', 'patternProperties'] } ] },
+    { rules: [ '$ref', 'const', 'enum', 'not', 'anyOf', 'oneOf', 'allOf' ] }
+  ];
+
+  var ALL = [ 'type' ];
+  var KEYWORDS = [
+    'additionalItems', '$schema', 'id', 'title',
+    'description', 'default', 'definitions'
+  ];
+  var TYPES = [ 'number', 'integer', 'string', 'array', 'object', 'boolean', 'null' ];
+  RULES.all = toHash(ALL);
+
+  RULES.forEach(function (group) {
+    group.rules = group.rules.map(function (keyword) {
+      var implKeywords;
+      if (typeof keyword == 'object') {
+        var key = Object.keys(keyword)[0];
+        implKeywords = keyword[key];
+        keyword = key;
+        implKeywords.forEach(function (k) {
+          ALL.push(k);
+          RULES.all[k] = true;
+        });
+      }
+      ALL.push(keyword);
+      var rule = RULES.all[keyword] = {
+        keyword: keyword,
+        code: ruleModules[keyword],
+        implements: implKeywords
+      };
+      return rule;
+    });
+  });
+
+  RULES.keywords = toHash(ALL.concat(KEYWORDS));
+  RULES.types = toHash(TYPES);
+  RULES.custom = {};
+
+  return RULES;
+};
+
+
+/***/ }),
+
+/***/ 142:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// https://mathiasbynens.be/notes/javascript-encoding
+// https://github.com/bestiejs/punycode.js - punycode.ucs2.decode
+module.exports = function ucs2length(str) {
+  var length = 0
+    , len = str.length
+    , pos = 0
+    , value;
+  while (pos < len) {
+    length++;
+    value = str.charCodeAt(pos++);
+    if (value >= 0xD800 && value <= 0xDBFF && pos < len) {
+      // high surrogate, and there is a next character
+      value = str.charCodeAt(pos);
+      if ((value & 0xFC00) == 0xDC00) pos++; // low surrogate
+    }
+  }
+  return length;
+};
+
+
+/***/ }),
+
+/***/ 143:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_allOf(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $it = it.util.copy(it);
+  var $closingBraces = '';
+  $it.level++;
+  var $nextValid = 'valid' + $it.level;
+  var $currentBaseId = $it.baseId,
+    $allSchemasEmpty = true;
+  var arr1 = $schema;
+  if (arr1) {
+    var $sch, $i = -1,
+      l1 = arr1.length - 1;
+    while ($i < l1) {
+      $sch = arr1[$i += 1];
+      if (it.util.schemaHasRules($sch, it.RULES.all)) {
+        $allSchemasEmpty = false;
+        $it.schema = $sch;
+        $it.schemaPath = $schemaPath + '[' + $i + ']';
+        $it.errSchemaPath = $errSchemaPath + '/' + $i;
+        out += '  ' + (it.validate($it)) + ' ';
+        $it.baseId = $currentBaseId;
+        if ($breakOnError) {
+          out += ' if (' + ($nextValid) + ') { ';
+          $closingBraces += '}';
+        }
+      }
+    }
+  }
+  if ($breakOnError) {
+    if ($allSchemasEmpty) {
+      out += ' if (true) { ';
+    } else {
+      out += ' ' + ($closingBraces.slice(0, -1)) + ' ';
+    }
+  }
+  out = it.util.cleanUpCode(out);
+  return out;
+}
+
+
+/***/ }),
+
+/***/ 144:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_anyOf(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $valid = 'valid' + $lvl;
+  var $errs = 'errs__' + $lvl;
+  var $it = it.util.copy(it);
+  var $closingBraces = '';
+  $it.level++;
+  var $nextValid = 'valid' + $it.level;
+  var $noEmptySchema = $schema.every(function($sch) {
+    return it.util.schemaHasRules($sch, it.RULES.all);
+  });
+  if ($noEmptySchema) {
+    var $currentBaseId = $it.baseId;
+    out += ' var ' + ($errs) + ' = errors; var ' + ($valid) + ' = false;  ';
+    var $wasComposite = it.compositeRule;
+    it.compositeRule = $it.compositeRule = true;
+    var arr1 = $schema;
+    if (arr1) {
+      var $sch, $i = -1,
+        l1 = arr1.length - 1;
+      while ($i < l1) {
+        $sch = arr1[$i += 1];
+        $it.schema = $sch;
+        $it.schemaPath = $schemaPath + '[' + $i + ']';
+        $it.errSchemaPath = $errSchemaPath + '/' + $i;
+        out += '  ' + (it.validate($it)) + ' ';
+        $it.baseId = $currentBaseId;
+        out += ' ' + ($valid) + ' = ' + ($valid) + ' || ' + ($nextValid) + '; if (!' + ($valid) + ') { ';
+        $closingBraces += '}';
+      }
+    }
+    it.compositeRule = $it.compositeRule = $wasComposite;
+    out += ' ' + ($closingBraces) + ' if (!' + ($valid) + ') {   var err =   '; /* istanbul ignore else */
+    if (it.createErrors !== false) {
+      out += ' { keyword: \'' + ('anyOf') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: {} ';
+      if (it.opts.messages !== false) {
+        out += ' , message: \'should match some schema in anyOf\' ';
+      }
+      if (it.opts.verbose) {
+        out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+      }
+      out += ' } ';
+    } else {
+      out += ' {} ';
+    }
+    out += ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+    if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+      if (it.async) {
+        out += ' throw new ValidationError(vErrors); ';
+      } else {
+        out += ' validate.errors = vErrors; return false; ';
+      }
+    }
+    out += ' } else {  errors = ' + ($errs) + '; if (vErrors !== null) { if (' + ($errs) + ') vErrors.length = ' + ($errs) + '; else vErrors = null; } ';
+    if (it.opts.allErrors) {
+      out += ' } ';
+    }
+    out = it.util.cleanUpCode(out);
+  } else {
+    if ($breakOnError) {
+      out += ' if (true) { ';
+    }
+  }
+  return out;
+}
+
+
+/***/ }),
+
+/***/ 145:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_const(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $valid = 'valid' + $lvl;
+  var $isData = it.opts.$data && $schema && $schema.$data,
+    $schemaValue;
+  if ($isData) {
+    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
+    $schemaValue = 'schema' + $lvl;
+  } else {
+    $schemaValue = $schema;
+  }
+  if (!$isData) {
+    out += ' var schema' + ($lvl) + ' = validate.schema' + ($schemaPath) + ';';
+  }
+  out += 'var ' + ($valid) + ' = equal(' + ($data) + ', schema' + ($lvl) + '); if (!' + ($valid) + ') {   ';
+  var $$outStack = $$outStack || [];
+  $$outStack.push(out);
+  out = ''; /* istanbul ignore else */
+  if (it.createErrors !== false) {
+    out += ' { keyword: \'' + ('const') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: {} ';
+    if (it.opts.messages !== false) {
+      out += ' , message: \'should be equal to constant\' ';
+    }
+    if (it.opts.verbose) {
+      out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+    }
+    out += ' } ';
+  } else {
+    out += ' {} ';
+  }
+  var __err = out;
+  out = $$outStack.pop();
+  if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+    if (it.async) {
+      out += ' throw new ValidationError([' + (__err) + ']); ';
+    } else {
+      out += ' validate.errors = [' + (__err) + ']; return false; ';
+    }
+  } else {
+    out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+  }
+  out += ' }';
+  if ($breakOnError) {
+    out += ' else { ';
+  }
+  return out;
+}
+
+
+/***/ }),
+
+/***/ 146:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_contains(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $valid = 'valid' + $lvl;
+  var $errs = 'errs__' + $lvl;
+  var $it = it.util.copy(it);
+  var $closingBraces = '';
+  $it.level++;
+  var $nextValid = 'valid' + $it.level;
+  var $idx = 'i' + $lvl,
+    $dataNxt = $it.dataLevel = it.dataLevel + 1,
+    $nextData = 'data' + $dataNxt,
+    $currentBaseId = it.baseId,
+    $nonEmptySchema = it.util.schemaHasRules($schema, it.RULES.all);
+  out += 'var ' + ($errs) + ' = errors;var ' + ($valid) + ';';
+  if ($nonEmptySchema) {
+    var $wasComposite = it.compositeRule;
+    it.compositeRule = $it.compositeRule = true;
+    $it.schema = $schema;
+    $it.schemaPath = $schemaPath;
+    $it.errSchemaPath = $errSchemaPath;
+    out += ' for (var ' + ($idx) + ' = 0; ' + ($idx) + ' < ' + ($data) + '.length; ' + ($idx) + '++) { ';
+    $it.errorPath = it.util.getPathExpr(it.errorPath, $idx, it.opts.jsonPointers, true);
+    var $passData = $data + '[' + $idx + ']';
+    $it.dataPathArr[$dataNxt] = $idx;
+    var $code = it.validate($it);
+    $it.baseId = $currentBaseId;
+    if (it.util.varOccurences($code, $nextData) < 2) {
+      out += ' ' + (it.util.varReplace($code, $nextData, $passData)) + ' ';
+    } else {
+      out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ' + ($code) + ' ';
+    }
+    out += ' if (' + ($nextValid) + ') break; }  ';
+    it.compositeRule = $it.compositeRule = $wasComposite;
+    out += ' ' + ($closingBraces) + ' if (!' + ($nextValid) + ') {';
+  } else {
+    out += ' if (' + ($data) + '.length == 0) {';
+  }
+  var $$outStack = $$outStack || [];
+  $$outStack.push(out);
+  out = ''; /* istanbul ignore else */
+  if (it.createErrors !== false) {
+    out += ' { keyword: \'' + ('contains') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: {} ';
+    if (it.opts.messages !== false) {
+      out += ' , message: \'should contain a valid item\' ';
+    }
+    if (it.opts.verbose) {
+      out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+    }
+    out += ' } ';
+  } else {
+    out += ' {} ';
+  }
+  var __err = out;
+  out = $$outStack.pop();
+  if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+    if (it.async) {
+      out += ' throw new ValidationError([' + (__err) + ']); ';
+    } else {
+      out += ' validate.errors = [' + (__err) + ']; return false; ';
+    }
+  } else {
+    out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+  }
+  out += ' } else { ';
+  if ($nonEmptySchema) {
+    out += '  errors = ' + ($errs) + '; if (vErrors !== null) { if (' + ($errs) + ') vErrors.length = ' + ($errs) + '; else vErrors = null; } ';
+  }
+  if (it.opts.allErrors) {
+    out += ' } ';
+  }
+  out = it.util.cleanUpCode(out);
+  return out;
+}
+
+
+/***/ }),
+
+/***/ 147:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_custom(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $errorKeyword;
+  var $data = 'data' + ($dataLvl || '');
+  var $valid = 'valid' + $lvl;
+  var $errs = 'errs__' + $lvl;
+  var $isData = it.opts.$data && $schema && $schema.$data,
+    $schemaValue;
+  if ($isData) {
+    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
+    $schemaValue = 'schema' + $lvl;
+  } else {
+    $schemaValue = $schema;
+  }
+  var $rule = this,
+    $definition = 'definition' + $lvl,
+    $rDef = $rule.definition,
+    $closingBraces = '';
+  var $compile, $inline, $macro, $ruleValidate, $validateCode;
+  if ($isData && $rDef.$data) {
+    $validateCode = 'keywordValidate' + $lvl;
+    var $validateSchema = $rDef.validateSchema;
+    out += ' var ' + ($definition) + ' = RULES.custom[\'' + ($keyword) + '\'].definition; var ' + ($validateCode) + ' = ' + ($definition) + '.validate;';
+  } else {
+    $ruleValidate = it.useCustomRule($rule, $schema, it.schema, it);
+    if (!$ruleValidate) return;
+    $schemaValue = 'validate.schema' + $schemaPath;
+    $validateCode = $ruleValidate.code;
+    $compile = $rDef.compile;
+    $inline = $rDef.inline;
+    $macro = $rDef.macro;
+  }
+  var $ruleErrs = $validateCode + '.errors',
+    $i = 'i' + $lvl,
+    $ruleErr = 'ruleErr' + $lvl,
+    $asyncKeyword = $rDef.async;
+  if ($asyncKeyword && !it.async) throw new Error('async keyword in sync schema');
+  if (!($inline || $macro)) {
+    out += '' + ($ruleErrs) + ' = null;';
+  }
+  out += 'var ' + ($errs) + ' = errors;var ' + ($valid) + ';';
+  if ($isData && $rDef.$data) {
+    $closingBraces += '}';
+    out += ' if (' + ($schemaValue) + ' === undefined) { ' + ($valid) + ' = true; } else { ';
+    if ($validateSchema) {
+      $closingBraces += '}';
+      out += ' ' + ($valid) + ' = ' + ($definition) + '.validateSchema(' + ($schemaValue) + '); if (' + ($valid) + ') { ';
+    }
+  }
+  if ($inline) {
+    if ($rDef.statements) {
+      out += ' ' + ($ruleValidate.validate) + ' ';
+    } else {
+      out += ' ' + ($valid) + ' = ' + ($ruleValidate.validate) + '; ';
+    }
+  } else if ($macro) {
+    var $it = it.util.copy(it);
+    var $closingBraces = '';
+    $it.level++;
+    var $nextValid = 'valid' + $it.level;
+    $it.schema = $ruleValidate.validate;
+    $it.schemaPath = '';
+    var $wasComposite = it.compositeRule;
+    it.compositeRule = $it.compositeRule = true;
+    var $code = it.validate($it).replace(/validate\.schema/g, $validateCode);
+    it.compositeRule = $it.compositeRule = $wasComposite;
+    out += ' ' + ($code);
+  } else {
+    var $$outStack = $$outStack || [];
+    $$outStack.push(out);
+    out = '';
+    out += '  ' + ($validateCode) + '.call( ';
+    if (it.opts.passContext) {
+      out += 'this';
+    } else {
+      out += 'self';
+    }
+    if ($compile || $rDef.schema === false) {
+      out += ' , ' + ($data) + ' ';
+    } else {
+      out += ' , ' + ($schemaValue) + ' , ' + ($data) + ' , validate.schema' + (it.schemaPath) + ' ';
+    }
+    out += ' , (dataPath || \'\')';
+    if (it.errorPath != '""') {
+      out += ' + ' + (it.errorPath);
+    }
+    var $parentData = $dataLvl ? 'data' + (($dataLvl - 1) || '') : 'parentData',
+      $parentDataProperty = $dataLvl ? it.dataPathArr[$dataLvl] : 'parentDataProperty';
+    out += ' , ' + ($parentData) + ' , ' + ($parentDataProperty) + ' , rootData )  ';
+    var def_callRuleValidate = out;
+    out = $$outStack.pop();
+    if ($rDef.errors === false) {
+      out += ' ' + ($valid) + ' = ';
+      if ($asyncKeyword) {
+        out += '' + (it.yieldAwait);
+      }
+      out += '' + (def_callRuleValidate) + '; ';
+    } else {
+      if ($asyncKeyword) {
+        $ruleErrs = 'customErrors' + $lvl;
+        out += ' var ' + ($ruleErrs) + ' = null; try { ' + ($valid) + ' = ' + (it.yieldAwait) + (def_callRuleValidate) + '; } catch (e) { ' + ($valid) + ' = false; if (e instanceof ValidationError) ' + ($ruleErrs) + ' = e.errors; else throw e; } ';
+      } else {
+        out += ' ' + ($ruleErrs) + ' = null; ' + ($valid) + ' = ' + (def_callRuleValidate) + '; ';
+      }
+    }
+  }
+  if ($rDef.modifying) {
+    out += ' if (' + ($parentData) + ') ' + ($data) + ' = ' + ($parentData) + '[' + ($parentDataProperty) + '];';
+  }
+  out += '' + ($closingBraces);
+  if ($rDef.valid) {
+    if ($breakOnError) {
+      out += ' if (true) { ';
+    }
+  } else {
+    out += ' if ( ';
+    if ($rDef.valid === undefined) {
+      out += ' !';
+      if ($macro) {
+        out += '' + ($nextValid);
+      } else {
+        out += '' + ($valid);
+      }
+    } else {
+      out += ' ' + (!$rDef.valid) + ' ';
+    }
+    out += ') { ';
+    $errorKeyword = $rule.keyword;
+    var $$outStack = $$outStack || [];
+    $$outStack.push(out);
+    out = '';
+    var $$outStack = $$outStack || [];
+    $$outStack.push(out);
+    out = ''; /* istanbul ignore else */
+    if (it.createErrors !== false) {
+      out += ' { keyword: \'' + ($errorKeyword || 'custom') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { keyword: \'' + ($rule.keyword) + '\' } ';
+      if (it.opts.messages !== false) {
+        out += ' , message: \'should pass "' + ($rule.keyword) + '" keyword validation\' ';
+      }
+      if (it.opts.verbose) {
+        out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+      }
+      out += ' } ';
+    } else {
+      out += ' {} ';
+    }
+    var __err = out;
+    out = $$outStack.pop();
+    if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+      if (it.async) {
+        out += ' throw new ValidationError([' + (__err) + ']); ';
+      } else {
+        out += ' validate.errors = [' + (__err) + ']; return false; ';
+      }
+    } else {
+      out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+    }
+    var def_customError = out;
+    out = $$outStack.pop();
+    if ($inline) {
+      if ($rDef.errors) {
+        if ($rDef.errors != 'full') {
+          out += '  for (var ' + ($i) + '=' + ($errs) + '; ' + ($i) + '<errors; ' + ($i) + '++) { var ' + ($ruleErr) + ' = vErrors[' + ($i) + ']; if (' + ($ruleErr) + '.dataPath === undefined) ' + ($ruleErr) + '.dataPath = (dataPath || \'\') + ' + (it.errorPath) + '; if (' + ($ruleErr) + '.schemaPath === undefined) { ' + ($ruleErr) + '.schemaPath = "' + ($errSchemaPath) + '"; } ';
+          if (it.opts.verbose) {
+            out += ' ' + ($ruleErr) + '.schema = ' + ($schemaValue) + '; ' + ($ruleErr) + '.data = ' + ($data) + '; ';
+          }
+          out += ' } ';
+        }
+      } else {
+        if ($rDef.errors === false) {
+          out += ' ' + (def_customError) + ' ';
+        } else {
+          out += ' if (' + ($errs) + ' == errors) { ' + (def_customError) + ' } else {  for (var ' + ($i) + '=' + ($errs) + '; ' + ($i) + '<errors; ' + ($i) + '++) { var ' + ($ruleErr) + ' = vErrors[' + ($i) + ']; if (' + ($ruleErr) + '.dataPath === undefined) ' + ($ruleErr) + '.dataPath = (dataPath || \'\') + ' + (it.errorPath) + '; if (' + ($ruleErr) + '.schemaPath === undefined) { ' + ($ruleErr) + '.schemaPath = "' + ($errSchemaPath) + '"; } ';
+          if (it.opts.verbose) {
+            out += ' ' + ($ruleErr) + '.schema = ' + ($schemaValue) + '; ' + ($ruleErr) + '.data = ' + ($data) + '; ';
+          }
+          out += ' } } ';
+        }
+      }
+    } else if ($macro) {
+      out += '   var err =   '; /* istanbul ignore else */
+      if (it.createErrors !== false) {
+        out += ' { keyword: \'' + ($errorKeyword || 'custom') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { keyword: \'' + ($rule.keyword) + '\' } ';
+        if (it.opts.messages !== false) {
+          out += ' , message: \'should pass "' + ($rule.keyword) + '" keyword validation\' ';
+        }
+        if (it.opts.verbose) {
+          out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+        }
+        out += ' } ';
+      } else {
+        out += ' {} ';
+      }
+      out += ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+      if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+        if (it.async) {
+          out += ' throw new ValidationError(vErrors); ';
+        } else {
+          out += ' validate.errors = vErrors; return false; ';
+        }
+      }
+    } else {
+      if ($rDef.errors === false) {
+        out += ' ' + (def_customError) + ' ';
+      } else {
+        out += ' if (Array.isArray(' + ($ruleErrs) + ')) { if (vErrors === null) vErrors = ' + ($ruleErrs) + '; else vErrors = vErrors.concat(' + ($ruleErrs) + '); errors = vErrors.length;  for (var ' + ($i) + '=' + ($errs) + '; ' + ($i) + '<errors; ' + ($i) + '++) { var ' + ($ruleErr) + ' = vErrors[' + ($i) + ']; if (' + ($ruleErr) + '.dataPath === undefined) ' + ($ruleErr) + '.dataPath = (dataPath || \'\') + ' + (it.errorPath) + ';  ' + ($ruleErr) + '.schemaPath = "' + ($errSchemaPath) + '";  ';
+        if (it.opts.verbose) {
+          out += ' ' + ($ruleErr) + '.schema = ' + ($schemaValue) + '; ' + ($ruleErr) + '.data = ' + ($data) + '; ';
+        }
+        out += ' } } else { ' + (def_customError) + ' } ';
+      }
+    }
+    out += ' } ';
+    if ($breakOnError) {
+      out += ' else { ';
+    }
+  }
+  return out;
+}
+
+
+/***/ }),
+
+/***/ 148:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_dependencies(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $errs = 'errs__' + $lvl;
+  var $it = it.util.copy(it);
+  var $closingBraces = '';
+  $it.level++;
+  var $nextValid = 'valid' + $it.level;
+  var $schemaDeps = {},
+    $propertyDeps = {},
+    $ownProperties = it.opts.ownProperties;
+  for ($property in $schema) {
+    var $sch = $schema[$property];
+    var $deps = Array.isArray($sch) ? $propertyDeps : $schemaDeps;
+    $deps[$property] = $sch;
+  }
+  out += 'var ' + ($errs) + ' = errors;';
+  var $currentErrorPath = it.errorPath;
+  out += 'var missing' + ($lvl) + ';';
+  for (var $property in $propertyDeps) {
+    $deps = $propertyDeps[$property];
+    if ($deps.length) {
+      out += ' if ( ' + ($data) + (it.util.getProperty($property)) + ' !== undefined ';
+      if ($ownProperties) {
+        out += ' && Object.prototype.hasOwnProperty.call(' + ($data) + ', \'' + (it.util.escapeQuotes($property)) + '\') ';
+      }
+      if ($breakOnError) {
+        out += ' && ( ';
+        var arr1 = $deps;
+        if (arr1) {
+          var $propertyKey, $i = -1,
+            l1 = arr1.length - 1;
+          while ($i < l1) {
+            $propertyKey = arr1[$i += 1];
+            if ($i) {
+              out += ' || ';
+            }
+            var $prop = it.util.getProperty($propertyKey),
+              $useData = $data + $prop;
+            out += ' ( ( ' + ($useData) + ' === undefined ';
+            if ($ownProperties) {
+              out += ' || ! Object.prototype.hasOwnProperty.call(' + ($data) + ', \'' + (it.util.escapeQuotes($propertyKey)) + '\') ';
+            }
+            out += ') && (missing' + ($lvl) + ' = ' + (it.util.toQuotedString(it.opts.jsonPointers ? $propertyKey : $prop)) + ') ) ';
+          }
+        }
+        out += ')) {  ';
+        var $propertyPath = 'missing' + $lvl,
+          $missingProperty = '\' + ' + $propertyPath + ' + \'';
+        if (it.opts._errorDataPathProperty) {
+          it.errorPath = it.opts.jsonPointers ? it.util.getPathExpr($currentErrorPath, $propertyPath, true) : $currentErrorPath + ' + ' + $propertyPath;
+        }
+        var $$outStack = $$outStack || [];
+        $$outStack.push(out);
+        out = ''; /* istanbul ignore else */
+        if (it.createErrors !== false) {
+          out += ' { keyword: \'' + ('dependencies') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { property: \'' + (it.util.escapeQuotes($property)) + '\', missingProperty: \'' + ($missingProperty) + '\', depsCount: ' + ($deps.length) + ', deps: \'' + (it.util.escapeQuotes($deps.length == 1 ? $deps[0] : $deps.join(", "))) + '\' } ';
+          if (it.opts.messages !== false) {
+            out += ' , message: \'should have ';
+            if ($deps.length == 1) {
+              out += 'property ' + (it.util.escapeQuotes($deps[0]));
+            } else {
+              out += 'properties ' + (it.util.escapeQuotes($deps.join(", ")));
+            }
+            out += ' when property ' + (it.util.escapeQuotes($property)) + ' is present\' ';
+          }
+          if (it.opts.verbose) {
+            out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+          }
+          out += ' } ';
+        } else {
+          out += ' {} ';
+        }
+        var __err = out;
+        out = $$outStack.pop();
+        if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+          if (it.async) {
+            out += ' throw new ValidationError([' + (__err) + ']); ';
+          } else {
+            out += ' validate.errors = [' + (__err) + ']; return false; ';
+          }
+        } else {
+          out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+        }
+      } else {
+        out += ' ) { ';
+        var arr2 = $deps;
+        if (arr2) {
+          var $propertyKey, i2 = -1,
+            l2 = arr2.length - 1;
+          while (i2 < l2) {
+            $propertyKey = arr2[i2 += 1];
+            var $prop = it.util.getProperty($propertyKey),
+              $missingProperty = it.util.escapeQuotes($propertyKey),
+              $useData = $data + $prop;
+            if (it.opts._errorDataPathProperty) {
+              it.errorPath = it.util.getPath($currentErrorPath, $propertyKey, it.opts.jsonPointers);
+            }
+            out += ' if ( ' + ($useData) + ' === undefined ';
+            if ($ownProperties) {
+              out += ' || ! Object.prototype.hasOwnProperty.call(' + ($data) + ', \'' + (it.util.escapeQuotes($propertyKey)) + '\') ';
+            }
+            out += ') {  var err =   '; /* istanbul ignore else */
+            if (it.createErrors !== false) {
+              out += ' { keyword: \'' + ('dependencies') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { property: \'' + (it.util.escapeQuotes($property)) + '\', missingProperty: \'' + ($missingProperty) + '\', depsCount: ' + ($deps.length) + ', deps: \'' + (it.util.escapeQuotes($deps.length == 1 ? $deps[0] : $deps.join(", "))) + '\' } ';
+              if (it.opts.messages !== false) {
+                out += ' , message: \'should have ';
+                if ($deps.length == 1) {
+                  out += 'property ' + (it.util.escapeQuotes($deps[0]));
+                } else {
+                  out += 'properties ' + (it.util.escapeQuotes($deps.join(", ")));
+                }
+                out += ' when property ' + (it.util.escapeQuotes($property)) + ' is present\' ';
+              }
+              if (it.opts.verbose) {
+                out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+              }
+              out += ' } ';
+            } else {
+              out += ' {} ';
+            }
+            out += ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; } ';
+          }
+        }
+      }
+      out += ' }   ';
+      if ($breakOnError) {
+        $closingBraces += '}';
+        out += ' else { ';
+      }
+    }
+  }
+  it.errorPath = $currentErrorPath;
+  var $currentBaseId = $it.baseId;
+  for (var $property in $schemaDeps) {
+    var $sch = $schemaDeps[$property];
+    if (it.util.schemaHasRules($sch, it.RULES.all)) {
+      out += ' ' + ($nextValid) + ' = true; if ( ' + ($data) + (it.util.getProperty($property)) + ' !== undefined ';
+      if ($ownProperties) {
+        out += ' && Object.prototype.hasOwnProperty.call(' + ($data) + ', \'' + (it.util.escapeQuotes($property)) + '\') ';
+      }
+      out += ') { ';
+      $it.schema = $sch;
+      $it.schemaPath = $schemaPath + it.util.getProperty($property);
+      $it.errSchemaPath = $errSchemaPath + '/' + it.util.escapeFragment($property);
+      out += '  ' + (it.validate($it)) + ' ';
+      $it.baseId = $currentBaseId;
+      out += ' }  ';
+      if ($breakOnError) {
+        out += ' if (' + ($nextValid) + ') { ';
+        $closingBraces += '}';
+      }
+    }
+  }
+  if ($breakOnError) {
+    out += '   ' + ($closingBraces) + ' if (' + ($errs) + ' == errors) {';
+  }
+  out = it.util.cleanUpCode(out);
+  return out;
+}
+
+
+/***/ }),
+
+/***/ 149:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_enum(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $valid = 'valid' + $lvl;
+  var $isData = it.opts.$data && $schema && $schema.$data,
+    $schemaValue;
+  if ($isData) {
+    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
+    $schemaValue = 'schema' + $lvl;
+  } else {
+    $schemaValue = $schema;
+  }
+  var $i = 'i' + $lvl,
+    $vSchema = 'schema' + $lvl;
+  if (!$isData) {
+    out += ' var ' + ($vSchema) + ' = validate.schema' + ($schemaPath) + ';';
+  }
+  out += 'var ' + ($valid) + ';';
+  if ($isData) {
+    out += ' if (schema' + ($lvl) + ' === undefined) ' + ($valid) + ' = true; else if (!Array.isArray(schema' + ($lvl) + ')) ' + ($valid) + ' = false; else {';
+  }
+  out += '' + ($valid) + ' = false;for (var ' + ($i) + '=0; ' + ($i) + '<' + ($vSchema) + '.length; ' + ($i) + '++) if (equal(' + ($data) + ', ' + ($vSchema) + '[' + ($i) + '])) { ' + ($valid) + ' = true; break; }';
+  if ($isData) {
+    out += '  }  ';
+  }
+  out += ' if (!' + ($valid) + ') {   ';
+  var $$outStack = $$outStack || [];
+  $$outStack.push(out);
+  out = ''; /* istanbul ignore else */
+  if (it.createErrors !== false) {
+    out += ' { keyword: \'' + ('enum') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { allowedValues: schema' + ($lvl) + ' } ';
+    if (it.opts.messages !== false) {
+      out += ' , message: \'should be equal to one of the allowed values\' ';
+    }
+    if (it.opts.verbose) {
+      out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+    }
+    out += ' } ';
+  } else {
+    out += ' {} ';
+  }
+  var __err = out;
+  out = $$outStack.pop();
+  if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+    if (it.async) {
+      out += ' throw new ValidationError([' + (__err) + ']); ';
+    } else {
+      out += ' validate.errors = [' + (__err) + ']; return false; ';
+    }
+  } else {
+    out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+  }
+  out += ' }';
+  if ($breakOnError) {
+    out += ' else { ';
+  }
+  return out;
+}
+
+
+/***/ }),
+
+/***/ 15:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(23),
+  /* template */
+  __webpack_require__(33),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/SelectTwo.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] SelectTwo.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2434126b", Component.options)
+  } else {
+    hotAPI.reload("data-v-2434126b", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 150:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_format(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  if (it.opts.format === false) {
+    if ($breakOnError) {
+      out += ' if (true) { ';
+    }
+    return out;
+  }
+  var $isData = it.opts.$data && $schema && $schema.$data,
+    $schemaValue;
+  if ($isData) {
+    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
+    $schemaValue = 'schema' + $lvl;
+  } else {
+    $schemaValue = $schema;
+  }
+  var $unknownFormats = it.opts.unknownFormats,
+    $allowUnknown = Array.isArray($unknownFormats);
+  if ($isData) {
+    var $format = 'format' + $lvl,
+      $isObject = 'isObject' + $lvl,
+      $formatType = 'formatType' + $lvl;
+    out += ' var ' + ($format) + ' = formats[' + ($schemaValue) + ']; var ' + ($isObject) + ' = typeof ' + ($format) + ' == \'object\' && !(' + ($format) + ' instanceof RegExp) && ' + ($format) + '.validate; var ' + ($formatType) + ' = ' + ($isObject) + ' && ' + ($format) + '.type || \'string\'; if (' + ($isObject) + ') { ';
+    if (it.async) {
+      out += ' var async' + ($lvl) + ' = ' + ($format) + '.async; ';
+    }
+    out += ' ' + ($format) + ' = ' + ($format) + '.validate; } if (  ';
+    if ($isData) {
+      out += ' (' + ($schemaValue) + ' !== undefined && typeof ' + ($schemaValue) + ' != \'string\') || ';
+    }
+    out += ' (';
+    if ($unknownFormats != 'ignore') {
+      out += ' (' + ($schemaValue) + ' && !' + ($format) + ' ';
+      if ($allowUnknown) {
+        out += ' && self._opts.unknownFormats.indexOf(' + ($schemaValue) + ') == -1 ';
+      }
+      out += ') || ';
+    }
+    out += ' (' + ($format) + ' && ' + ($formatType) + ' == \'' + ($ruleType) + '\' && !(typeof ' + ($format) + ' == \'function\' ? ';
+    if (it.async) {
+      out += ' (async' + ($lvl) + ' ? ' + (it.yieldAwait) + ' ' + ($format) + '(' + ($data) + ') : ' + ($format) + '(' + ($data) + ')) ';
+    } else {
+      out += ' ' + ($format) + '(' + ($data) + ') ';
+    }
+    out += ' : ' + ($format) + '.test(' + ($data) + '))))) {';
+  } else {
+    var $format = it.formats[$schema];
+    if (!$format) {
+      if ($unknownFormats == 'ignore') {
+        console.warn('unknown format "' + $schema + '" ignored in schema at path "' + it.errSchemaPath + '"');
+        if ($breakOnError) {
+          out += ' if (true) { ';
+        }
+        return out;
+      } else if ($allowUnknown && $unknownFormats.indexOf($schema) >= 0) {
+        if ($breakOnError) {
+          out += ' if (true) { ';
+        }
+        return out;
+      } else {
+        throw new Error('unknown format "' + $schema + '" is used in schema at path "' + it.errSchemaPath + '"');
+      }
+    }
+    var $isObject = typeof $format == 'object' && !($format instanceof RegExp) && $format.validate;
+    var $formatType = $isObject && $format.type || 'string';
+    if ($isObject) {
+      var $async = $format.async === true;
+      $format = $format.validate;
+    }
+    if ($formatType != $ruleType) {
+      if ($breakOnError) {
+        out += ' if (true) { ';
+      }
+      return out;
+    }
+    if ($async) {
+      if (!it.async) throw new Error('async format in sync schema');
+      var $formatRef = 'formats' + it.util.getProperty($schema) + '.validate';
+      out += ' if (!(' + (it.yieldAwait) + ' ' + ($formatRef) + '(' + ($data) + '))) { ';
+    } else {
+      out += ' if (! ';
+      var $formatRef = 'formats' + it.util.getProperty($schema);
+      if ($isObject) $formatRef += '.validate';
+      if (typeof $format == 'function') {
+        out += ' ' + ($formatRef) + '(' + ($data) + ') ';
+      } else {
+        out += ' ' + ($formatRef) + '.test(' + ($data) + ') ';
+      }
+      out += ') { ';
+    }
+  }
+  var $$outStack = $$outStack || [];
+  $$outStack.push(out);
+  out = ''; /* istanbul ignore else */
+  if (it.createErrors !== false) {
+    out += ' { keyword: \'' + ('format') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { format:  ';
+    if ($isData) {
+      out += '' + ($schemaValue);
+    } else {
+      out += '' + (it.util.toQuotedString($schema));
+    }
+    out += '  } ';
+    if (it.opts.messages !== false) {
+      out += ' , message: \'should match format "';
+      if ($isData) {
+        out += '\' + ' + ($schemaValue) + ' + \'';
+      } else {
+        out += '' + (it.util.escapeQuotes($schema));
+      }
+      out += '"\' ';
+    }
+    if (it.opts.verbose) {
+      out += ' , schema:  ';
+      if ($isData) {
+        out += 'validate.schema' + ($schemaPath);
+      } else {
+        out += '' + (it.util.toQuotedString($schema));
+      }
+      out += '         , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+    }
+    out += ' } ';
+  } else {
+    out += ' {} ';
+  }
+  var __err = out;
+  out = $$outStack.pop();
+  if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+    if (it.async) {
+      out += ' throw new ValidationError([' + (__err) + ']); ';
+    } else {
+      out += ' validate.errors = [' + (__err) + ']; return false; ';
+    }
+  } else {
+    out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+  }
+  out += ' } ';
+  if ($breakOnError) {
+    out += ' else { ';
+  }
+  return out;
+}
+
+
+/***/ }),
+
+/***/ 151:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_items(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $valid = 'valid' + $lvl;
+  var $errs = 'errs__' + $lvl;
+  var $it = it.util.copy(it);
+  var $closingBraces = '';
+  $it.level++;
+  var $nextValid = 'valid' + $it.level;
+  var $idx = 'i' + $lvl,
+    $dataNxt = $it.dataLevel = it.dataLevel + 1,
+    $nextData = 'data' + $dataNxt,
+    $currentBaseId = it.baseId;
+  out += 'var ' + ($errs) + ' = errors;var ' + ($valid) + ';';
+  if (Array.isArray($schema)) {
+    var $additionalItems = it.schema.additionalItems;
+    if ($additionalItems === false) {
+      out += ' ' + ($valid) + ' = ' + ($data) + '.length <= ' + ($schema.length) + '; ';
+      var $currErrSchemaPath = $errSchemaPath;
+      $errSchemaPath = it.errSchemaPath + '/additionalItems';
+      out += '  if (!' + ($valid) + ') {   ';
+      var $$outStack = $$outStack || [];
+      $$outStack.push(out);
+      out = ''; /* istanbul ignore else */
+      if (it.createErrors !== false) {
+        out += ' { keyword: \'' + ('additionalItems') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { limit: ' + ($schema.length) + ' } ';
+        if (it.opts.messages !== false) {
+          out += ' , message: \'should NOT have more than ' + ($schema.length) + ' items\' ';
+        }
+        if (it.opts.verbose) {
+          out += ' , schema: false , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+        }
+        out += ' } ';
+      } else {
+        out += ' {} ';
+      }
+      var __err = out;
+      out = $$outStack.pop();
+      if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+        if (it.async) {
+          out += ' throw new ValidationError([' + (__err) + ']); ';
+        } else {
+          out += ' validate.errors = [' + (__err) + ']; return false; ';
+        }
+      } else {
+        out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+      }
+      out += ' } ';
+      $errSchemaPath = $currErrSchemaPath;
+      if ($breakOnError) {
+        $closingBraces += '}';
+        out += ' else { ';
+      }
+    }
+    var arr1 = $schema;
+    if (arr1) {
+      var $sch, $i = -1,
+        l1 = arr1.length - 1;
+      while ($i < l1) {
+        $sch = arr1[$i += 1];
+        if (it.util.schemaHasRules($sch, it.RULES.all)) {
+          out += ' ' + ($nextValid) + ' = true; if (' + ($data) + '.length > ' + ($i) + ') { ';
+          var $passData = $data + '[' + $i + ']';
+          $it.schema = $sch;
+          $it.schemaPath = $schemaPath + '[' + $i + ']';
+          $it.errSchemaPath = $errSchemaPath + '/' + $i;
+          $it.errorPath = it.util.getPathExpr(it.errorPath, $i, it.opts.jsonPointers, true);
+          $it.dataPathArr[$dataNxt] = $i;
+          var $code = it.validate($it);
+          $it.baseId = $currentBaseId;
+          if (it.util.varOccurences($code, $nextData) < 2) {
+            out += ' ' + (it.util.varReplace($code, $nextData, $passData)) + ' ';
+          } else {
+            out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ' + ($code) + ' ';
+          }
+          out += ' }  ';
+          if ($breakOnError) {
+            out += ' if (' + ($nextValid) + ') { ';
+            $closingBraces += '}';
+          }
+        }
+      }
+    }
+    if (typeof $additionalItems == 'object' && it.util.schemaHasRules($additionalItems, it.RULES.all)) {
+      $it.schema = $additionalItems;
+      $it.schemaPath = it.schemaPath + '.additionalItems';
+      $it.errSchemaPath = it.errSchemaPath + '/additionalItems';
+      out += ' ' + ($nextValid) + ' = true; if (' + ($data) + '.length > ' + ($schema.length) + ') {  for (var ' + ($idx) + ' = ' + ($schema.length) + '; ' + ($idx) + ' < ' + ($data) + '.length; ' + ($idx) + '++) { ';
+      $it.errorPath = it.util.getPathExpr(it.errorPath, $idx, it.opts.jsonPointers, true);
+      var $passData = $data + '[' + $idx + ']';
+      $it.dataPathArr[$dataNxt] = $idx;
+      var $code = it.validate($it);
+      $it.baseId = $currentBaseId;
+      if (it.util.varOccurences($code, $nextData) < 2) {
+        out += ' ' + (it.util.varReplace($code, $nextData, $passData)) + ' ';
+      } else {
+        out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ' + ($code) + ' ';
+      }
+      if ($breakOnError) {
+        out += ' if (!' + ($nextValid) + ') break; ';
+      }
+      out += ' } }  ';
+      if ($breakOnError) {
+        out += ' if (' + ($nextValid) + ') { ';
+        $closingBraces += '}';
+      }
+    }
+  } else if (it.util.schemaHasRules($schema, it.RULES.all)) {
+    $it.schema = $schema;
+    $it.schemaPath = $schemaPath;
+    $it.errSchemaPath = $errSchemaPath;
+    out += '  for (var ' + ($idx) + ' = ' + (0) + '; ' + ($idx) + ' < ' + ($data) + '.length; ' + ($idx) + '++) { ';
+    $it.errorPath = it.util.getPathExpr(it.errorPath, $idx, it.opts.jsonPointers, true);
+    var $passData = $data + '[' + $idx + ']';
+    $it.dataPathArr[$dataNxt] = $idx;
+    var $code = it.validate($it);
+    $it.baseId = $currentBaseId;
+    if (it.util.varOccurences($code, $nextData) < 2) {
+      out += ' ' + (it.util.varReplace($code, $nextData, $passData)) + ' ';
+    } else {
+      out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ' + ($code) + ' ';
+    }
+    if ($breakOnError) {
+      out += ' if (!' + ($nextValid) + ') break; ';
+    }
+    out += ' }';
+  }
+  if ($breakOnError) {
+    out += ' ' + ($closingBraces) + ' if (' + ($errs) + ' == errors) {';
+  }
+  out = it.util.cleanUpCode(out);
+  return out;
+}
+
+
+/***/ }),
+
+/***/ 152:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_multipleOf(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $isData = it.opts.$data && $schema && $schema.$data,
+    $schemaValue;
+  if ($isData) {
+    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
+    $schemaValue = 'schema' + $lvl;
+  } else {
+    $schemaValue = $schema;
+  }
+  out += 'var division' + ($lvl) + ';if (';
+  if ($isData) {
+    out += ' ' + ($schemaValue) + ' !== undefined && ( typeof ' + ($schemaValue) + ' != \'number\' || ';
+  }
+  out += ' (division' + ($lvl) + ' = ' + ($data) + ' / ' + ($schemaValue) + ', ';
+  if (it.opts.multipleOfPrecision) {
+    out += ' Math.abs(Math.round(division' + ($lvl) + ') - division' + ($lvl) + ') > 1e-' + (it.opts.multipleOfPrecision) + ' ';
+  } else {
+    out += ' division' + ($lvl) + ' !== parseInt(division' + ($lvl) + ') ';
+  }
+  out += ' ) ';
+  if ($isData) {
+    out += '  )  ';
+  }
+  out += ' ) {   ';
+  var $$outStack = $$outStack || [];
+  $$outStack.push(out);
+  out = ''; /* istanbul ignore else */
+  if (it.createErrors !== false) {
+    out += ' { keyword: \'' + ('multipleOf') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { multipleOf: ' + ($schemaValue) + ' } ';
+    if (it.opts.messages !== false) {
+      out += ' , message: \'should be multiple of ';
+      if ($isData) {
+        out += '\' + ' + ($schemaValue);
+      } else {
+        out += '' + ($schema) + '\'';
+      }
+    }
+    if (it.opts.verbose) {
+      out += ' , schema:  ';
+      if ($isData) {
+        out += 'validate.schema' + ($schemaPath);
+      } else {
+        out += '' + ($schema);
+      }
+      out += '         , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+    }
+    out += ' } ';
+  } else {
+    out += ' {} ';
+  }
+  var __err = out;
+  out = $$outStack.pop();
+  if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+    if (it.async) {
+      out += ' throw new ValidationError([' + (__err) + ']); ';
+    } else {
+      out += ' validate.errors = [' + (__err) + ']; return false; ';
+    }
+  } else {
+    out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+  }
+  out += '} ';
+  if ($breakOnError) {
+    out += ' else { ';
+  }
+  return out;
+}
+
+
+/***/ }),
+
+/***/ 153:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_not(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $errs = 'errs__' + $lvl;
+  var $it = it.util.copy(it);
+  $it.level++;
+  var $nextValid = 'valid' + $it.level;
+  if (it.util.schemaHasRules($schema, it.RULES.all)) {
+    $it.schema = $schema;
+    $it.schemaPath = $schemaPath;
+    $it.errSchemaPath = $errSchemaPath;
+    out += ' var ' + ($errs) + ' = errors;  ';
+    var $wasComposite = it.compositeRule;
+    it.compositeRule = $it.compositeRule = true;
+    $it.createErrors = false;
+    var $allErrorsOption;
+    if ($it.opts.allErrors) {
+      $allErrorsOption = $it.opts.allErrors;
+      $it.opts.allErrors = false;
+    }
+    out += ' ' + (it.validate($it)) + ' ';
+    $it.createErrors = true;
+    if ($allErrorsOption) $it.opts.allErrors = $allErrorsOption;
+    it.compositeRule = $it.compositeRule = $wasComposite;
+    out += ' if (' + ($nextValid) + ') {   ';
+    var $$outStack = $$outStack || [];
+    $$outStack.push(out);
+    out = ''; /* istanbul ignore else */
+    if (it.createErrors !== false) {
+      out += ' { keyword: \'' + ('not') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: {} ';
+      if (it.opts.messages !== false) {
+        out += ' , message: \'should NOT be valid\' ';
+      }
+      if (it.opts.verbose) {
+        out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+      }
+      out += ' } ';
+    } else {
+      out += ' {} ';
+    }
+    var __err = out;
+    out = $$outStack.pop();
+    if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+      if (it.async) {
+        out += ' throw new ValidationError([' + (__err) + ']); ';
+      } else {
+        out += ' validate.errors = [' + (__err) + ']; return false; ';
+      }
+    } else {
+      out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+    }
+    out += ' } else {  errors = ' + ($errs) + '; if (vErrors !== null) { if (' + ($errs) + ') vErrors.length = ' + ($errs) + '; else vErrors = null; } ';
+    if (it.opts.allErrors) {
+      out += ' } ';
+    }
+  } else {
+    out += '  var err =   '; /* istanbul ignore else */
+    if (it.createErrors !== false) {
+      out += ' { keyword: \'' + ('not') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: {} ';
+      if (it.opts.messages !== false) {
+        out += ' , message: \'should NOT be valid\' ';
+      }
+      if (it.opts.verbose) {
+        out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+      }
+      out += ' } ';
+    } else {
+      out += ' {} ';
+    }
+    out += ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+    if ($breakOnError) {
+      out += ' if (false) { ';
+    }
+  }
+  return out;
+}
+
+
+/***/ }),
+
+/***/ 154:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_oneOf(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $valid = 'valid' + $lvl;
+  var $errs = 'errs__' + $lvl;
+  var $it = it.util.copy(it);
+  var $closingBraces = '';
+  $it.level++;
+  var $nextValid = 'valid' + $it.level;
+  out += 'var ' + ($errs) + ' = errors;var prevValid' + ($lvl) + ' = false;var ' + ($valid) + ' = false;';
+  var $currentBaseId = $it.baseId;
+  var $wasComposite = it.compositeRule;
+  it.compositeRule = $it.compositeRule = true;
+  var arr1 = $schema;
+  if (arr1) {
+    var $sch, $i = -1,
+      l1 = arr1.length - 1;
+    while ($i < l1) {
+      $sch = arr1[$i += 1];
+      if (it.util.schemaHasRules($sch, it.RULES.all)) {
+        $it.schema = $sch;
+        $it.schemaPath = $schemaPath + '[' + $i + ']';
+        $it.errSchemaPath = $errSchemaPath + '/' + $i;
+        out += '  ' + (it.validate($it)) + ' ';
+        $it.baseId = $currentBaseId;
+      } else {
+        out += ' var ' + ($nextValid) + ' = true; ';
+      }
+      if ($i) {
+        out += ' if (' + ($nextValid) + ' && prevValid' + ($lvl) + ') ' + ($valid) + ' = false; else { ';
+        $closingBraces += '}';
+      }
+      out += ' if (' + ($nextValid) + ') ' + ($valid) + ' = prevValid' + ($lvl) + ' = true;';
+    }
+  }
+  it.compositeRule = $it.compositeRule = $wasComposite;
+  out += '' + ($closingBraces) + 'if (!' + ($valid) + ') {   var err =   '; /* istanbul ignore else */
+  if (it.createErrors !== false) {
+    out += ' { keyword: \'' + ('oneOf') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: {} ';
+    if (it.opts.messages !== false) {
+      out += ' , message: \'should match exactly one schema in oneOf\' ';
+    }
+    if (it.opts.verbose) {
+      out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+    }
+    out += ' } ';
+  } else {
+    out += ' {} ';
+  }
+  out += ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+  if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+    if (it.async) {
+      out += ' throw new ValidationError(vErrors); ';
+    } else {
+      out += ' validate.errors = vErrors; return false; ';
+    }
+  }
+  out += '} else {  errors = ' + ($errs) + '; if (vErrors !== null) { if (' + ($errs) + ') vErrors.length = ' + ($errs) + '; else vErrors = null; }';
+  if (it.opts.allErrors) {
+    out += ' } ';
+  }
+  return out;
+}
+
+
+/***/ }),
+
+/***/ 155:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_pattern(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $isData = it.opts.$data && $schema && $schema.$data,
+    $schemaValue;
+  if ($isData) {
+    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
+    $schemaValue = 'schema' + $lvl;
+  } else {
+    $schemaValue = $schema;
+  }
+  var $regexp = $isData ? '(new RegExp(' + $schemaValue + '))' : it.usePattern($schema);
+  out += 'if ( ';
+  if ($isData) {
+    out += ' (' + ($schemaValue) + ' !== undefined && typeof ' + ($schemaValue) + ' != \'string\') || ';
+  }
+  out += ' !' + ($regexp) + '.test(' + ($data) + ') ) {   ';
+  var $$outStack = $$outStack || [];
+  $$outStack.push(out);
+  out = ''; /* istanbul ignore else */
+  if (it.createErrors !== false) {
+    out += ' { keyword: \'' + ('pattern') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { pattern:  ';
+    if ($isData) {
+      out += '' + ($schemaValue);
+    } else {
+      out += '' + (it.util.toQuotedString($schema));
+    }
+    out += '  } ';
+    if (it.opts.messages !== false) {
+      out += ' , message: \'should match pattern "';
+      if ($isData) {
+        out += '\' + ' + ($schemaValue) + ' + \'';
+      } else {
+        out += '' + (it.util.escapeQuotes($schema));
+      }
+      out += '"\' ';
+    }
+    if (it.opts.verbose) {
+      out += ' , schema:  ';
+      if ($isData) {
+        out += 'validate.schema' + ($schemaPath);
+      } else {
+        out += '' + (it.util.toQuotedString($schema));
+      }
+      out += '         , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+    }
+    out += ' } ';
+  } else {
+    out += ' {} ';
+  }
+  var __err = out;
+  out = $$outStack.pop();
+  if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+    if (it.async) {
+      out += ' throw new ValidationError([' + (__err) + ']); ';
+    } else {
+      out += ' validate.errors = [' + (__err) + ']; return false; ';
+    }
+  } else {
+    out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+  }
+  out += '} ';
+  if ($breakOnError) {
+    out += ' else { ';
+  }
+  return out;
+}
+
+
+/***/ }),
+
+/***/ 156:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_properties(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $valid = 'valid' + $lvl;
+  var $errs = 'errs__' + $lvl;
+  var $it = it.util.copy(it);
+  var $closingBraces = '';
+  $it.level++;
+  var $nextValid = 'valid' + $it.level;
+  var $key = 'key' + $lvl,
+    $idx = 'idx' + $lvl,
+    $dataNxt = $it.dataLevel = it.dataLevel + 1,
+    $nextData = 'data' + $dataNxt,
+    $dataProperties = 'dataProperties' + $lvl;
+  var $schemaKeys = Object.keys($schema || {}),
+    $pProperties = it.schema.patternProperties || {},
+    $pPropertyKeys = Object.keys($pProperties),
+    $aProperties = it.schema.additionalProperties,
+    $someProperties = $schemaKeys.length || $pPropertyKeys.length,
+    $noAdditional = $aProperties === false,
+    $additionalIsSchema = typeof $aProperties == 'object' && Object.keys($aProperties).length,
+    $removeAdditional = it.opts.removeAdditional,
+    $checkAdditional = $noAdditional || $additionalIsSchema || $removeAdditional,
+    $ownProperties = it.opts.ownProperties,
+    $currentBaseId = it.baseId;
+  var $required = it.schema.required;
+  if ($required && !(it.opts.v5 && $required.$data) && $required.length < it.opts.loopRequired) var $requiredHash = it.util.toHash($required);
+  if (it.opts.patternGroups) {
+    var $pgProperties = it.schema.patternGroups || {},
+      $pgPropertyKeys = Object.keys($pgProperties);
+  }
+  out += 'var ' + ($errs) + ' = errors;var ' + ($nextValid) + ' = true;';
+  if ($ownProperties) {
+    out += ' var ' + ($dataProperties) + ' = undefined;';
+  }
+  if ($checkAdditional) {
+    if ($ownProperties) {
+      out += ' ' + ($dataProperties) + ' = ' + ($dataProperties) + ' || Object.keys(' + ($data) + '); for (var ' + ($idx) + '=0; ' + ($idx) + '<' + ($dataProperties) + '.length; ' + ($idx) + '++) { var ' + ($key) + ' = ' + ($dataProperties) + '[' + ($idx) + ']; ';
+    } else {
+      out += ' for (var ' + ($key) + ' in ' + ($data) + ') { ';
+    }
+    if ($someProperties) {
+      out += ' var isAdditional' + ($lvl) + ' = !(false ';
+      if ($schemaKeys.length) {
+        if ($schemaKeys.length > 5) {
+          out += ' || validate.schema' + ($schemaPath) + '[' + ($key) + '] ';
+        } else {
+          var arr1 = $schemaKeys;
+          if (arr1) {
+            var $propertyKey, i1 = -1,
+              l1 = arr1.length - 1;
+            while (i1 < l1) {
+              $propertyKey = arr1[i1 += 1];
+              out += ' || ' + ($key) + ' == ' + (it.util.toQuotedString($propertyKey)) + ' ';
+            }
+          }
+        }
+      }
+      if ($pPropertyKeys.length) {
+        var arr2 = $pPropertyKeys;
+        if (arr2) {
+          var $pProperty, $i = -1,
+            l2 = arr2.length - 1;
+          while ($i < l2) {
+            $pProperty = arr2[$i += 1];
+            out += ' || ' + (it.usePattern($pProperty)) + '.test(' + ($key) + ') ';
+          }
+        }
+      }
+      if (it.opts.patternGroups && $pgPropertyKeys.length) {
+        var arr3 = $pgPropertyKeys;
+        if (arr3) {
+          var $pgProperty, $i = -1,
+            l3 = arr3.length - 1;
+          while ($i < l3) {
+            $pgProperty = arr3[$i += 1];
+            out += ' || ' + (it.usePattern($pgProperty)) + '.test(' + ($key) + ') ';
+          }
+        }
+      }
+      out += ' ); if (isAdditional' + ($lvl) + ') { ';
+    }
+    if ($removeAdditional == 'all') {
+      out += ' delete ' + ($data) + '[' + ($key) + ']; ';
+    } else {
+      var $currentErrorPath = it.errorPath;
+      var $additionalProperty = '\' + ' + $key + ' + \'';
+      if (it.opts._errorDataPathProperty) {
+        it.errorPath = it.util.getPathExpr(it.errorPath, $key, it.opts.jsonPointers);
+      }
+      if ($noAdditional) {
+        if ($removeAdditional) {
+          out += ' delete ' + ($data) + '[' + ($key) + ']; ';
+        } else {
+          out += ' ' + ($nextValid) + ' = false; ';
+          var $currErrSchemaPath = $errSchemaPath;
+          $errSchemaPath = it.errSchemaPath + '/additionalProperties';
+          var $$outStack = $$outStack || [];
+          $$outStack.push(out);
+          out = ''; /* istanbul ignore else */
+          if (it.createErrors !== false) {
+            out += ' { keyword: \'' + ('additionalProperties') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { additionalProperty: \'' + ($additionalProperty) + '\' } ';
+            if (it.opts.messages !== false) {
+              out += ' , message: \'should NOT have additional properties\' ';
+            }
+            if (it.opts.verbose) {
+              out += ' , schema: false , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+            }
+            out += ' } ';
+          } else {
+            out += ' {} ';
+          }
+          var __err = out;
+          out = $$outStack.pop();
+          if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+            if (it.async) {
+              out += ' throw new ValidationError([' + (__err) + ']); ';
+            } else {
+              out += ' validate.errors = [' + (__err) + ']; return false; ';
+            }
+          } else {
+            out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+          }
+          $errSchemaPath = $currErrSchemaPath;
+          if ($breakOnError) {
+            out += ' break; ';
+          }
+        }
+      } else if ($additionalIsSchema) {
+        if ($removeAdditional == 'failing') {
+          out += ' var ' + ($errs) + ' = errors;  ';
+          var $wasComposite = it.compositeRule;
+          it.compositeRule = $it.compositeRule = true;
+          $it.schema = $aProperties;
+          $it.schemaPath = it.schemaPath + '.additionalProperties';
+          $it.errSchemaPath = it.errSchemaPath + '/additionalProperties';
+          $it.errorPath = it.opts._errorDataPathProperty ? it.errorPath : it.util.getPathExpr(it.errorPath, $key, it.opts.jsonPointers);
+          var $passData = $data + '[' + $key + ']';
+          $it.dataPathArr[$dataNxt] = $key;
+          var $code = it.validate($it);
+          $it.baseId = $currentBaseId;
+          if (it.util.varOccurences($code, $nextData) < 2) {
+            out += ' ' + (it.util.varReplace($code, $nextData, $passData)) + ' ';
+          } else {
+            out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ' + ($code) + ' ';
+          }
+          out += ' if (!' + ($nextValid) + ') { errors = ' + ($errs) + '; if (validate.errors !== null) { if (errors) validate.errors.length = errors; else validate.errors = null; } delete ' + ($data) + '[' + ($key) + ']; }  ';
+          it.compositeRule = $it.compositeRule = $wasComposite;
+        } else {
+          $it.schema = $aProperties;
+          $it.schemaPath = it.schemaPath + '.additionalProperties';
+          $it.errSchemaPath = it.errSchemaPath + '/additionalProperties';
+          $it.errorPath = it.opts._errorDataPathProperty ? it.errorPath : it.util.getPathExpr(it.errorPath, $key, it.opts.jsonPointers);
+          var $passData = $data + '[' + $key + ']';
+          $it.dataPathArr[$dataNxt] = $key;
+          var $code = it.validate($it);
+          $it.baseId = $currentBaseId;
+          if (it.util.varOccurences($code, $nextData) < 2) {
+            out += ' ' + (it.util.varReplace($code, $nextData, $passData)) + ' ';
+          } else {
+            out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ' + ($code) + ' ';
+          }
+          if ($breakOnError) {
+            out += ' if (!' + ($nextValid) + ') break; ';
+          }
+        }
+      }
+      it.errorPath = $currentErrorPath;
+    }
+    if ($someProperties) {
+      out += ' } ';
+    }
+    out += ' }  ';
+    if ($breakOnError) {
+      out += ' if (' + ($nextValid) + ') { ';
+      $closingBraces += '}';
+    }
+  }
+  var $useDefaults = it.opts.useDefaults && !it.compositeRule;
+  if ($schemaKeys.length) {
+    var arr4 = $schemaKeys;
+    if (arr4) {
+      var $propertyKey, i4 = -1,
+        l4 = arr4.length - 1;
+      while (i4 < l4) {
+        $propertyKey = arr4[i4 += 1];
+        var $sch = $schema[$propertyKey];
+        if (it.util.schemaHasRules($sch, it.RULES.all)) {
+          var $prop = it.util.getProperty($propertyKey),
+            $passData = $data + $prop,
+            $hasDefault = $useDefaults && $sch.default !== undefined;
+          $it.schema = $sch;
+          $it.schemaPath = $schemaPath + $prop;
+          $it.errSchemaPath = $errSchemaPath + '/' + it.util.escapeFragment($propertyKey);
+          $it.errorPath = it.util.getPath(it.errorPath, $propertyKey, it.opts.jsonPointers);
+          $it.dataPathArr[$dataNxt] = it.util.toQuotedString($propertyKey);
+          var $code = it.validate($it);
+          $it.baseId = $currentBaseId;
+          if (it.util.varOccurences($code, $nextData) < 2) {
+            $code = it.util.varReplace($code, $nextData, $passData);
+            var $useData = $passData;
+          } else {
+            var $useData = $nextData;
+            out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ';
+          }
+          if ($hasDefault) {
+            out += ' ' + ($code) + ' ';
+          } else {
+            if ($requiredHash && $requiredHash[$propertyKey]) {
+              out += ' if ( ' + ($useData) + ' === undefined ';
+              if ($ownProperties) {
+                out += ' || ! Object.prototype.hasOwnProperty.call(' + ($data) + ', \'' + (it.util.escapeQuotes($propertyKey)) + '\') ';
+              }
+              out += ') { ' + ($nextValid) + ' = false; ';
+              var $currentErrorPath = it.errorPath,
+                $currErrSchemaPath = $errSchemaPath,
+                $missingProperty = it.util.escapeQuotes($propertyKey);
+              if (it.opts._errorDataPathProperty) {
+                it.errorPath = it.util.getPath($currentErrorPath, $propertyKey, it.opts.jsonPointers);
+              }
+              $errSchemaPath = it.errSchemaPath + '/required';
+              var $$outStack = $$outStack || [];
+              $$outStack.push(out);
+              out = ''; /* istanbul ignore else */
+              if (it.createErrors !== false) {
+                out += ' { keyword: \'' + ('required') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { missingProperty: \'' + ($missingProperty) + '\' } ';
+                if (it.opts.messages !== false) {
+                  out += ' , message: \'';
+                  if (it.opts._errorDataPathProperty) {
+                    out += 'is a required property';
+                  } else {
+                    out += 'should have required property \\\'' + ($missingProperty) + '\\\'';
+                  }
+                  out += '\' ';
+                }
+                if (it.opts.verbose) {
+                  out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+                }
+                out += ' } ';
+              } else {
+                out += ' {} ';
+              }
+              var __err = out;
+              out = $$outStack.pop();
+              if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+                if (it.async) {
+                  out += ' throw new ValidationError([' + (__err) + ']); ';
+                } else {
+                  out += ' validate.errors = [' + (__err) + ']; return false; ';
+                }
+              } else {
+                out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+              }
+              $errSchemaPath = $currErrSchemaPath;
+              it.errorPath = $currentErrorPath;
+              out += ' } else { ';
+            } else {
+              if ($breakOnError) {
+                out += ' if ( ' + ($useData) + ' === undefined ';
+                if ($ownProperties) {
+                  out += ' || ! Object.prototype.hasOwnProperty.call(' + ($data) + ', \'' + (it.util.escapeQuotes($propertyKey)) + '\') ';
+                }
+                out += ') { ' + ($nextValid) + ' = true; } else { ';
+              } else {
+                out += ' if (' + ($useData) + ' !== undefined ';
+                if ($ownProperties) {
+                  out += ' &&   Object.prototype.hasOwnProperty.call(' + ($data) + ', \'' + (it.util.escapeQuotes($propertyKey)) + '\') ';
+                }
+                out += ' ) { ';
+              }
+            }
+            out += ' ' + ($code) + ' } ';
+          }
+        }
+        if ($breakOnError) {
+          out += ' if (' + ($nextValid) + ') { ';
+          $closingBraces += '}';
+        }
+      }
+    }
+  }
+  if ($pPropertyKeys.length) {
+    var arr5 = $pPropertyKeys;
+    if (arr5) {
+      var $pProperty, i5 = -1,
+        l5 = arr5.length - 1;
+      while (i5 < l5) {
+        $pProperty = arr5[i5 += 1];
+        var $sch = $pProperties[$pProperty];
+        if (it.util.schemaHasRules($sch, it.RULES.all)) {
+          $it.schema = $sch;
+          $it.schemaPath = it.schemaPath + '.patternProperties' + it.util.getProperty($pProperty);
+          $it.errSchemaPath = it.errSchemaPath + '/patternProperties/' + it.util.escapeFragment($pProperty);
+          if ($ownProperties) {
+            out += ' ' + ($dataProperties) + ' = ' + ($dataProperties) + ' || Object.keys(' + ($data) + '); for (var ' + ($idx) + '=0; ' + ($idx) + '<' + ($dataProperties) + '.length; ' + ($idx) + '++) { var ' + ($key) + ' = ' + ($dataProperties) + '[' + ($idx) + ']; ';
+          } else {
+            out += ' for (var ' + ($key) + ' in ' + ($data) + ') { ';
+          }
+          out += ' if (' + (it.usePattern($pProperty)) + '.test(' + ($key) + ')) { ';
+          $it.errorPath = it.util.getPathExpr(it.errorPath, $key, it.opts.jsonPointers);
+          var $passData = $data + '[' + $key + ']';
+          $it.dataPathArr[$dataNxt] = $key;
+          var $code = it.validate($it);
+          $it.baseId = $currentBaseId;
+          if (it.util.varOccurences($code, $nextData) < 2) {
+            out += ' ' + (it.util.varReplace($code, $nextData, $passData)) + ' ';
+          } else {
+            out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ' + ($code) + ' ';
+          }
+          if ($breakOnError) {
+            out += ' if (!' + ($nextValid) + ') break; ';
+          }
+          out += ' } ';
+          if ($breakOnError) {
+            out += ' else ' + ($nextValid) + ' = true; ';
+          }
+          out += ' }  ';
+          if ($breakOnError) {
+            out += ' if (' + ($nextValid) + ') { ';
+            $closingBraces += '}';
+          }
+        }
+      }
+    }
+  }
+  if (it.opts.patternGroups && $pgPropertyKeys.length) {
+    var arr6 = $pgPropertyKeys;
+    if (arr6) {
+      var $pgProperty, i6 = -1,
+        l6 = arr6.length - 1;
+      while (i6 < l6) {
+        $pgProperty = arr6[i6 += 1];
+        var $pgSchema = $pgProperties[$pgProperty],
+          $sch = $pgSchema.schema;
+        if (it.util.schemaHasRules($sch, it.RULES.all)) {
+          $it.schema = $sch;
+          $it.schemaPath = it.schemaPath + '.patternGroups' + it.util.getProperty($pgProperty) + '.schema';
+          $it.errSchemaPath = it.errSchemaPath + '/patternGroups/' + it.util.escapeFragment($pgProperty) + '/schema';
+          out += ' var pgPropCount' + ($lvl) + ' = 0;  ';
+          if ($ownProperties) {
+            out += ' ' + ($dataProperties) + ' = ' + ($dataProperties) + ' || Object.keys(' + ($data) + '); for (var ' + ($idx) + '=0; ' + ($idx) + '<' + ($dataProperties) + '.length; ' + ($idx) + '++) { var ' + ($key) + ' = ' + ($dataProperties) + '[' + ($idx) + ']; ';
+          } else {
+            out += ' for (var ' + ($key) + ' in ' + ($data) + ') { ';
+          }
+          out += ' if (' + (it.usePattern($pgProperty)) + '.test(' + ($key) + ')) { pgPropCount' + ($lvl) + '++; ';
+          $it.errorPath = it.util.getPathExpr(it.errorPath, $key, it.opts.jsonPointers);
+          var $passData = $data + '[' + $key + ']';
+          $it.dataPathArr[$dataNxt] = $key;
+          var $code = it.validate($it);
+          $it.baseId = $currentBaseId;
+          if (it.util.varOccurences($code, $nextData) < 2) {
+            out += ' ' + (it.util.varReplace($code, $nextData, $passData)) + ' ';
+          } else {
+            out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ' + ($code) + ' ';
+          }
+          if ($breakOnError) {
+            out += ' if (!' + ($nextValid) + ') break; ';
+          }
+          out += ' } ';
+          if ($breakOnError) {
+            out += ' else ' + ($nextValid) + ' = true; ';
+          }
+          out += ' }  ';
+          if ($breakOnError) {
+            out += ' if (' + ($nextValid) + ') { ';
+            $closingBraces += '}';
+          }
+          var $pgMin = $pgSchema.minimum,
+            $pgMax = $pgSchema.maximum;
+          if ($pgMin !== undefined || $pgMax !== undefined) {
+            out += ' var ' + ($valid) + ' = true; ';
+            var $currErrSchemaPath = $errSchemaPath;
+            if ($pgMin !== undefined) {
+              var $limit = $pgMin,
+                $reason = 'minimum',
+                $moreOrLess = 'less';
+              out += ' ' + ($valid) + ' = pgPropCount' + ($lvl) + ' >= ' + ($pgMin) + '; ';
+              $errSchemaPath = it.errSchemaPath + '/patternGroups/minimum';
+              out += '  if (!' + ($valid) + ') {   ';
+              var $$outStack = $$outStack || [];
+              $$outStack.push(out);
+              out = ''; /* istanbul ignore else */
+              if (it.createErrors !== false) {
+                out += ' { keyword: \'' + ('patternGroups') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { reason: \'' + ($reason) + '\', limit: ' + ($limit) + ', pattern: \'' + (it.util.escapeQuotes($pgProperty)) + '\' } ';
+                if (it.opts.messages !== false) {
+                  out += ' , message: \'should NOT have ' + ($moreOrLess) + ' than ' + ($limit) + ' properties matching pattern "' + (it.util.escapeQuotes($pgProperty)) + '"\' ';
+                }
+                if (it.opts.verbose) {
+                  out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+                }
+                out += ' } ';
+              } else {
+                out += ' {} ';
+              }
+              var __err = out;
+              out = $$outStack.pop();
+              if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+                if (it.async) {
+                  out += ' throw new ValidationError([' + (__err) + ']); ';
+                } else {
+                  out += ' validate.errors = [' + (__err) + ']; return false; ';
+                }
+              } else {
+                out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+              }
+              out += ' } ';
+              if ($pgMax !== undefined) {
+                out += ' else ';
+              }
+            }
+            if ($pgMax !== undefined) {
+              var $limit = $pgMax,
+                $reason = 'maximum',
+                $moreOrLess = 'more';
+              out += ' ' + ($valid) + ' = pgPropCount' + ($lvl) + ' <= ' + ($pgMax) + '; ';
+              $errSchemaPath = it.errSchemaPath + '/patternGroups/maximum';
+              out += '  if (!' + ($valid) + ') {   ';
+              var $$outStack = $$outStack || [];
+              $$outStack.push(out);
+              out = ''; /* istanbul ignore else */
+              if (it.createErrors !== false) {
+                out += ' { keyword: \'' + ('patternGroups') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { reason: \'' + ($reason) + '\', limit: ' + ($limit) + ', pattern: \'' + (it.util.escapeQuotes($pgProperty)) + '\' } ';
+                if (it.opts.messages !== false) {
+                  out += ' , message: \'should NOT have ' + ($moreOrLess) + ' than ' + ($limit) + ' properties matching pattern "' + (it.util.escapeQuotes($pgProperty)) + '"\' ';
+                }
+                if (it.opts.verbose) {
+                  out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+                }
+                out += ' } ';
+              } else {
+                out += ' {} ';
+              }
+              var __err = out;
+              out = $$outStack.pop();
+              if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+                if (it.async) {
+                  out += ' throw new ValidationError([' + (__err) + ']); ';
+                } else {
+                  out += ' validate.errors = [' + (__err) + ']; return false; ';
+                }
+              } else {
+                out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+              }
+              out += ' } ';
+            }
+            $errSchemaPath = $currErrSchemaPath;
+            if ($breakOnError) {
+              out += ' if (' + ($valid) + ') { ';
+              $closingBraces += '}';
+            }
+          }
+        }
+      }
+    }
+  }
+  if ($breakOnError) {
+    out += ' ' + ($closingBraces) + ' if (' + ($errs) + ' == errors) {';
+  }
+  out = it.util.cleanUpCode(out);
+  return out;
+}
+
+
+/***/ }),
+
+/***/ 157:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_propertyNames(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $errs = 'errs__' + $lvl;
+  var $it = it.util.copy(it);
+  var $closingBraces = '';
+  $it.level++;
+  var $nextValid = 'valid' + $it.level;
+  if (it.util.schemaHasRules($schema, it.RULES.all)) {
+    $it.schema = $schema;
+    $it.schemaPath = $schemaPath;
+    $it.errSchemaPath = $errSchemaPath;
+    var $key = 'key' + $lvl,
+      $idx = 'idx' + $lvl,
+      $i = 'i' + $lvl,
+      $invalidName = '\' + ' + $key + ' + \'',
+      $dataNxt = $it.dataLevel = it.dataLevel + 1,
+      $nextData = 'data' + $dataNxt,
+      $dataProperties = 'dataProperties' + $lvl,
+      $ownProperties = it.opts.ownProperties,
+      $currentBaseId = it.baseId;
+    out += ' var ' + ($errs) + ' = errors; ';
+    if ($ownProperties) {
+      out += ' var ' + ($dataProperties) + ' = undefined; ';
+    }
+    if ($ownProperties) {
+      out += ' ' + ($dataProperties) + ' = ' + ($dataProperties) + ' || Object.keys(' + ($data) + '); for (var ' + ($idx) + '=0; ' + ($idx) + '<' + ($dataProperties) + '.length; ' + ($idx) + '++) { var ' + ($key) + ' = ' + ($dataProperties) + '[' + ($idx) + ']; ';
+    } else {
+      out += ' for (var ' + ($key) + ' in ' + ($data) + ') { ';
+    }
+    out += ' var startErrs' + ($lvl) + ' = errors; ';
+    var $passData = $key;
+    var $wasComposite = it.compositeRule;
+    it.compositeRule = $it.compositeRule = true;
+    var $code = it.validate($it);
+    $it.baseId = $currentBaseId;
+    if (it.util.varOccurences($code, $nextData) < 2) {
+      out += ' ' + (it.util.varReplace($code, $nextData, $passData)) + ' ';
+    } else {
+      out += ' var ' + ($nextData) + ' = ' + ($passData) + '; ' + ($code) + ' ';
+    }
+    it.compositeRule = $it.compositeRule = $wasComposite;
+    out += ' if (!' + ($nextValid) + ') { for (var ' + ($i) + '=startErrs' + ($lvl) + '; ' + ($i) + '<errors; ' + ($i) + '++) { vErrors[' + ($i) + '].propertyName = ' + ($key) + '; }   var err =   '; /* istanbul ignore else */
+    if (it.createErrors !== false) {
+      out += ' { keyword: \'' + ('propertyNames') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { propertyName: \'' + ($invalidName) + '\' } ';
+      if (it.opts.messages !== false) {
+        out += ' , message: \'property name \\\'' + ($invalidName) + '\\\' is invalid\' ';
+      }
+      if (it.opts.verbose) {
+        out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+      }
+      out += ' } ';
+    } else {
+      out += ' {} ';
+    }
+    out += ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+    if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+      if (it.async) {
+        out += ' throw new ValidationError(vErrors); ';
+      } else {
+        out += ' validate.errors = vErrors; return false; ';
+      }
+    }
+    if ($breakOnError) {
+      out += ' break; ';
+    }
+    out += ' } }';
+  }
+  if ($breakOnError) {
+    out += ' ' + ($closingBraces) + ' if (' + ($errs) + ' == errors) {';
+  }
+  out = it.util.cleanUpCode(out);
+  return out;
+}
+
+
+/***/ }),
+
+/***/ 158:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_ref(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $valid = 'valid' + $lvl;
+  var $async, $refCode;
+  if ($schema == '#' || $schema == '#/') {
+    if (it.isRoot) {
+      $async = it.async;
+      $refCode = 'validate';
+    } else {
+      $async = it.root.schema.$async === true;
+      $refCode = 'root.refVal[0]';
+    }
+  } else {
+    var $refVal = it.resolveRef(it.baseId, $schema, it.isRoot);
+    if ($refVal === undefined) {
+      var $message = it.MissingRefError.message(it.baseId, $schema);
+      if (it.opts.missingRefs == 'fail') {
+        console.error($message);
+        var $$outStack = $$outStack || [];
+        $$outStack.push(out);
+        out = ''; /* istanbul ignore else */
+        if (it.createErrors !== false) {
+          out += ' { keyword: \'' + ('$ref') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { ref: \'' + (it.util.escapeQuotes($schema)) + '\' } ';
+          if (it.opts.messages !== false) {
+            out += ' , message: \'can\\\'t resolve reference ' + (it.util.escapeQuotes($schema)) + '\' ';
+          }
+          if (it.opts.verbose) {
+            out += ' , schema: ' + (it.util.toQuotedString($schema)) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+          }
+          out += ' } ';
+        } else {
+          out += ' {} ';
+        }
+        var __err = out;
+        out = $$outStack.pop();
+        if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+          if (it.async) {
+            out += ' throw new ValidationError([' + (__err) + ']); ';
+          } else {
+            out += ' validate.errors = [' + (__err) + ']; return false; ';
+          }
+        } else {
+          out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+        }
+        if ($breakOnError) {
+          out += ' if (false) { ';
+        }
+      } else if (it.opts.missingRefs == 'ignore') {
+        console.warn($message);
+        if ($breakOnError) {
+          out += ' if (true) { ';
+        }
+      } else {
+        throw new it.MissingRefError(it.baseId, $schema, $message);
+      }
+    } else if ($refVal.inline) {
+      var $it = it.util.copy(it);
+      $it.level++;
+      var $nextValid = 'valid' + $it.level;
+      $it.schema = $refVal.schema;
+      $it.schemaPath = '';
+      $it.errSchemaPath = $schema;
+      var $code = it.validate($it).replace(/validate\.schema/g, $refVal.code);
+      out += ' ' + ($code) + ' ';
+      if ($breakOnError) {
+        out += ' if (' + ($nextValid) + ') { ';
+      }
+    } else {
+      $async = $refVal.$async === true;
+      $refCode = $refVal.code;
+    }
+  }
+  if ($refCode) {
+    var $$outStack = $$outStack || [];
+    $$outStack.push(out);
+    out = '';
+    if (it.opts.passContext) {
+      out += ' ' + ($refCode) + '.call(this, ';
+    } else {
+      out += ' ' + ($refCode) + '( ';
+    }
+    out += ' ' + ($data) + ', (dataPath || \'\')';
+    if (it.errorPath != '""') {
+      out += ' + ' + (it.errorPath);
+    }
+    var $parentData = $dataLvl ? 'data' + (($dataLvl - 1) || '') : 'parentData',
+      $parentDataProperty = $dataLvl ? it.dataPathArr[$dataLvl] : 'parentDataProperty';
+    out += ' , ' + ($parentData) + ' , ' + ($parentDataProperty) + ', rootData)  ';
+    var __callValidate = out;
+    out = $$outStack.pop();
+    if ($async) {
+      if (!it.async) throw new Error('async schema referenced by sync schema');
+      if ($breakOnError) {
+        out += ' var ' + ($valid) + '; ';
+      }
+      out += ' try { ' + (it.yieldAwait) + ' ' + (__callValidate) + '; ';
+      if ($breakOnError) {
+        out += ' ' + ($valid) + ' = true; ';
+      }
+      out += ' } catch (e) { if (!(e instanceof ValidationError)) throw e; if (vErrors === null) vErrors = e.errors; else vErrors = vErrors.concat(e.errors); errors = vErrors.length; ';
+      if ($breakOnError) {
+        out += ' ' + ($valid) + ' = false; ';
+      }
+      out += ' } ';
+      if ($breakOnError) {
+        out += ' if (' + ($valid) + ') { ';
+      }
+    } else {
+      out += ' if (!' + (__callValidate) + ') { if (vErrors === null) vErrors = ' + ($refCode) + '.errors; else vErrors = vErrors.concat(' + ($refCode) + '.errors); errors = vErrors.length; } ';
+      if ($breakOnError) {
+        out += ' else { ';
+      }
+    }
+  }
+  return out;
+}
+
+
+/***/ }),
+
+/***/ 159:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_required(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $valid = 'valid' + $lvl;
+  var $isData = it.opts.$data && $schema && $schema.$data,
+    $schemaValue;
+  if ($isData) {
+    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
+    $schemaValue = 'schema' + $lvl;
+  } else {
+    $schemaValue = $schema;
+  }
+  var $vSchema = 'schema' + $lvl;
+  if (!$isData) {
+    if ($schema.length < it.opts.loopRequired && it.schema.properties && Object.keys(it.schema.properties).length) {
+      var $required = [];
+      var arr1 = $schema;
+      if (arr1) {
+        var $property, i1 = -1,
+          l1 = arr1.length - 1;
+        while (i1 < l1) {
+          $property = arr1[i1 += 1];
+          var $propertySch = it.schema.properties[$property];
+          if (!($propertySch && it.util.schemaHasRules($propertySch, it.RULES.all))) {
+            $required[$required.length] = $property;
+          }
+        }
+      }
+    } else {
+      var $required = $schema;
+    }
+  }
+  if ($isData || $required.length) {
+    var $currentErrorPath = it.errorPath,
+      $loopRequired = $isData || $required.length >= it.opts.loopRequired,
+      $ownProperties = it.opts.ownProperties;
+    if ($breakOnError) {
+      out += ' var missing' + ($lvl) + '; ';
+      if ($loopRequired) {
+        if (!$isData) {
+          out += ' var ' + ($vSchema) + ' = validate.schema' + ($schemaPath) + '; ';
+        }
+        var $i = 'i' + $lvl,
+          $propertyPath = 'schema' + $lvl + '[' + $i + ']',
+          $missingProperty = '\' + ' + $propertyPath + ' + \'';
+        if (it.opts._errorDataPathProperty) {
+          it.errorPath = it.util.getPathExpr($currentErrorPath, $propertyPath, it.opts.jsonPointers);
+        }
+        out += ' var ' + ($valid) + ' = true; ';
+        if ($isData) {
+          out += ' if (schema' + ($lvl) + ' === undefined) ' + ($valid) + ' = true; else if (!Array.isArray(schema' + ($lvl) + ')) ' + ($valid) + ' = false; else {';
+        }
+        out += ' for (var ' + ($i) + ' = 0; ' + ($i) + ' < ' + ($vSchema) + '.length; ' + ($i) + '++) { ' + ($valid) + ' = ' + ($data) + '[' + ($vSchema) + '[' + ($i) + ']] !== undefined ';
+        if ($ownProperties) {
+          out += ' &&   Object.prototype.hasOwnProperty.call(' + ($data) + ', ' + ($vSchema) + '[' + ($i) + ']) ';
+        }
+        out += '; if (!' + ($valid) + ') break; } ';
+        if ($isData) {
+          out += '  }  ';
+        }
+        out += '  if (!' + ($valid) + ') {   ';
+        var $$outStack = $$outStack || [];
+        $$outStack.push(out);
+        out = ''; /* istanbul ignore else */
+        if (it.createErrors !== false) {
+          out += ' { keyword: \'' + ('required') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { missingProperty: \'' + ($missingProperty) + '\' } ';
+          if (it.opts.messages !== false) {
+            out += ' , message: \'';
+            if (it.opts._errorDataPathProperty) {
+              out += 'is a required property';
+            } else {
+              out += 'should have required property \\\'' + ($missingProperty) + '\\\'';
+            }
+            out += '\' ';
+          }
+          if (it.opts.verbose) {
+            out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+          }
+          out += ' } ';
+        } else {
+          out += ' {} ';
+        }
+        var __err = out;
+        out = $$outStack.pop();
+        if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+          if (it.async) {
+            out += ' throw new ValidationError([' + (__err) + ']); ';
+          } else {
+            out += ' validate.errors = [' + (__err) + ']; return false; ';
+          }
+        } else {
+          out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+        }
+        out += ' } else { ';
+      } else {
+        out += ' if ( ';
+        var arr2 = $required;
+        if (arr2) {
+          var $propertyKey, $i = -1,
+            l2 = arr2.length - 1;
+          while ($i < l2) {
+            $propertyKey = arr2[$i += 1];
+            if ($i) {
+              out += ' || ';
+            }
+            var $prop = it.util.getProperty($propertyKey),
+              $useData = $data + $prop;
+            out += ' ( ( ' + ($useData) + ' === undefined ';
+            if ($ownProperties) {
+              out += ' || ! Object.prototype.hasOwnProperty.call(' + ($data) + ', \'' + (it.util.escapeQuotes($propertyKey)) + '\') ';
+            }
+            out += ') && (missing' + ($lvl) + ' = ' + (it.util.toQuotedString(it.opts.jsonPointers ? $propertyKey : $prop)) + ') ) ';
+          }
+        }
+        out += ') {  ';
+        var $propertyPath = 'missing' + $lvl,
+          $missingProperty = '\' + ' + $propertyPath + ' + \'';
+        if (it.opts._errorDataPathProperty) {
+          it.errorPath = it.opts.jsonPointers ? it.util.getPathExpr($currentErrorPath, $propertyPath, true) : $currentErrorPath + ' + ' + $propertyPath;
+        }
+        var $$outStack = $$outStack || [];
+        $$outStack.push(out);
+        out = ''; /* istanbul ignore else */
+        if (it.createErrors !== false) {
+          out += ' { keyword: \'' + ('required') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { missingProperty: \'' + ($missingProperty) + '\' } ';
+          if (it.opts.messages !== false) {
+            out += ' , message: \'';
+            if (it.opts._errorDataPathProperty) {
+              out += 'is a required property';
+            } else {
+              out += 'should have required property \\\'' + ($missingProperty) + '\\\'';
+            }
+            out += '\' ';
+          }
+          if (it.opts.verbose) {
+            out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+          }
+          out += ' } ';
+        } else {
+          out += ' {} ';
+        }
+        var __err = out;
+        out = $$outStack.pop();
+        if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+          if (it.async) {
+            out += ' throw new ValidationError([' + (__err) + ']); ';
+          } else {
+            out += ' validate.errors = [' + (__err) + ']; return false; ';
+          }
+        } else {
+          out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+        }
+        out += ' } else { ';
+      }
+    } else {
+      if ($loopRequired) {
+        if (!$isData) {
+          out += ' var ' + ($vSchema) + ' = validate.schema' + ($schemaPath) + '; ';
+        }
+        var $i = 'i' + $lvl,
+          $propertyPath = 'schema' + $lvl + '[' + $i + ']',
+          $missingProperty = '\' + ' + $propertyPath + ' + \'';
+        if (it.opts._errorDataPathProperty) {
+          it.errorPath = it.util.getPathExpr($currentErrorPath, $propertyPath, it.opts.jsonPointers);
+        }
+        if ($isData) {
+          out += ' if (' + ($vSchema) + ' && !Array.isArray(' + ($vSchema) + ')) {  var err =   '; /* istanbul ignore else */
+          if (it.createErrors !== false) {
+            out += ' { keyword: \'' + ('required') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { missingProperty: \'' + ($missingProperty) + '\' } ';
+            if (it.opts.messages !== false) {
+              out += ' , message: \'';
+              if (it.opts._errorDataPathProperty) {
+                out += 'is a required property';
+              } else {
+                out += 'should have required property \\\'' + ($missingProperty) + '\\\'';
+              }
+              out += '\' ';
+            }
+            if (it.opts.verbose) {
+              out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+            }
+            out += ' } ';
+          } else {
+            out += ' {} ';
+          }
+          out += ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; } else if (' + ($vSchema) + ' !== undefined) { ';
+        }
+        out += ' for (var ' + ($i) + ' = 0; ' + ($i) + ' < ' + ($vSchema) + '.length; ' + ($i) + '++) { if (' + ($data) + '[' + ($vSchema) + '[' + ($i) + ']] === undefined ';
+        if ($ownProperties) {
+          out += ' || ! Object.prototype.hasOwnProperty.call(' + ($data) + ', ' + ($vSchema) + '[' + ($i) + ']) ';
+        }
+        out += ') {  var err =   '; /* istanbul ignore else */
+        if (it.createErrors !== false) {
+          out += ' { keyword: \'' + ('required') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { missingProperty: \'' + ($missingProperty) + '\' } ';
+          if (it.opts.messages !== false) {
+            out += ' , message: \'';
+            if (it.opts._errorDataPathProperty) {
+              out += 'is a required property';
+            } else {
+              out += 'should have required property \\\'' + ($missingProperty) + '\\\'';
+            }
+            out += '\' ';
+          }
+          if (it.opts.verbose) {
+            out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+          }
+          out += ' } ';
+        } else {
+          out += ' {} ';
+        }
+        out += ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; } } ';
+        if ($isData) {
+          out += '  }  ';
+        }
+      } else {
+        var arr3 = $required;
+        if (arr3) {
+          var $propertyKey, i3 = -1,
+            l3 = arr3.length - 1;
+          while (i3 < l3) {
+            $propertyKey = arr3[i3 += 1];
+            var $prop = it.util.getProperty($propertyKey),
+              $missingProperty = it.util.escapeQuotes($propertyKey),
+              $useData = $data + $prop;
+            if (it.opts._errorDataPathProperty) {
+              it.errorPath = it.util.getPath($currentErrorPath, $propertyKey, it.opts.jsonPointers);
+            }
+            out += ' if ( ' + ($useData) + ' === undefined ';
+            if ($ownProperties) {
+              out += ' || ! Object.prototype.hasOwnProperty.call(' + ($data) + ', \'' + (it.util.escapeQuotes($propertyKey)) + '\') ';
+            }
+            out += ') {  var err =   '; /* istanbul ignore else */
+            if (it.createErrors !== false) {
+              out += ' { keyword: \'' + ('required') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { missingProperty: \'' + ($missingProperty) + '\' } ';
+              if (it.opts.messages !== false) {
+                out += ' , message: \'';
+                if (it.opts._errorDataPathProperty) {
+                  out += 'is a required property';
+                } else {
+                  out += 'should have required property \\\'' + ($missingProperty) + '\\\'';
+                }
+                out += '\' ';
+              }
+              if (it.opts.verbose) {
+                out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+              }
+              out += ' } ';
+            } else {
+              out += ' {} ';
+            }
+            out += ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; } ';
+          }
+        }
+      }
+    }
+    it.errorPath = $currentErrorPath;
+  } else if ($breakOnError) {
+    out += ' if (true) {';
+  }
+  return out;
+}
+
+
+/***/ }),
+
+/***/ 160:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_uniqueItems(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $data = 'data' + ($dataLvl || '');
+  var $valid = 'valid' + $lvl;
+  var $isData = it.opts.$data && $schema && $schema.$data,
+    $schemaValue;
+  if ($isData) {
+    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
+    $schemaValue = 'schema' + $lvl;
+  } else {
+    $schemaValue = $schema;
+  }
+  if (($schema || $isData) && it.opts.uniqueItems !== false) {
+    if ($isData) {
+      out += ' var ' + ($valid) + '; if (' + ($schemaValue) + ' === false || ' + ($schemaValue) + ' === undefined) ' + ($valid) + ' = true; else if (typeof ' + ($schemaValue) + ' != \'boolean\') ' + ($valid) + ' = false; else { ';
+    }
+    out += ' var ' + ($valid) + ' = true; if (' + ($data) + '.length > 1) { var i = ' + ($data) + '.length, j; outer: for (;i--;) { for (j = i; j--;) { if (equal(' + ($data) + '[i], ' + ($data) + '[j])) { ' + ($valid) + ' = false; break outer; } } } } ';
+    if ($isData) {
+      out += '  }  ';
+    }
+    out += ' if (!' + ($valid) + ') {   ';
+    var $$outStack = $$outStack || [];
+    $$outStack.push(out);
+    out = ''; /* istanbul ignore else */
+    if (it.createErrors !== false) {
+      out += ' { keyword: \'' + ('uniqueItems') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { i: i, j: j } ';
+      if (it.opts.messages !== false) {
+        out += ' , message: \'should NOT have duplicate items (items ## \' + j + \' and \' + i + \' are identical)\' ';
+      }
+      if (it.opts.verbose) {
+        out += ' , schema:  ';
+        if ($isData) {
+          out += 'validate.schema' + ($schemaPath);
+        } else {
+          out += '' + ($schema);
+        }
+        out += '         , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+      }
+      out += ' } ';
+    } else {
+      out += ' {} ';
+    }
+    var __err = out;
+    out = $$outStack.pop();
+    if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+      if (it.async) {
+        out += ' throw new ValidationError([' + (__err) + ']); ';
+      } else {
+        out += ' validate.errors = [' + (__err) + ']; return false; ';
+      }
+    } else {
+      out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+    }
+    out += ' } ';
+    if ($breakOnError) {
+      out += ' else { ';
+    }
+  } else {
+    if ($breakOnError) {
+      out += ' if (true) { ';
+    }
+  }
+  return out;
+}
+
+
+/***/ }),
+
+/***/ 161:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var IDENTIFIER = /^[a-z_$][a-z0-9_$\-]*$/i;
+var customRuleCode = __webpack_require__(147);
+
+module.exports = {
+  add: addKeyword,
+  get: getKeyword,
+  remove: removeKeyword
+};
+
+/**
+ * Define custom keyword
+ * @this  Ajv
+ * @param {String} keyword custom keyword, should be unique (including different from all standard, custom and macro keywords).
+ * @param {Object} definition keyword definition object with properties `type` (type(s) which the keyword applies to), `validate` or `compile`.
+ */
+function addKeyword(keyword, definition) {
+  /* jshint validthis: true */
+  /* eslint no-shadow: 0 */
+  var RULES = this.RULES;
+
+  if (RULES.keywords[keyword])
+    throw new Error('Keyword ' + keyword + ' is already defined');
+
+  if (!IDENTIFIER.test(keyword))
+    throw new Error('Keyword ' + keyword + ' is not a valid identifier');
+
+  if (definition) {
+    if (definition.macro && definition.valid !== undefined)
+      throw new Error('"valid" option cannot be used with macro keywords');
+
+    var dataType = definition.type;
+    if (Array.isArray(dataType)) {
+      var i, len = dataType.length;
+      for (i=0; i<len; i++) checkDataType(dataType[i]);
+      for (i=0; i<len; i++) _addRule(keyword, dataType[i], definition);
+    } else {
+      if (dataType) checkDataType(dataType);
+      _addRule(keyword, dataType, definition);
+    }
+
+    var $data = definition.$data === true && this._opts.$data;
+    if ($data && !definition.validate)
+      throw new Error('$data support: "validate" function is not defined');
+
+    var metaSchema = definition.metaSchema;
+    if (metaSchema) {
+      if ($data) {
+        metaSchema = {
+          anyOf: [
+            metaSchema,
+            { '$ref': 'https://raw.githubusercontent.com/epoberezkin/ajv/master/lib/refs/$data.json#' }
+          ]
+        };
+      }
+      definition.validateSchema = this.compile(metaSchema, true);
+    }
+  }
+
+  RULES.keywords[keyword] = RULES.all[keyword] = true;
+
+
+  function _addRule(keyword, dataType, definition) {
+    var ruleGroup;
+    for (var i=0; i<RULES.length; i++) {
+      var rg = RULES[i];
+      if (rg.type == dataType) {
+        ruleGroup = rg;
+        break;
+      }
+    }
+
+    if (!ruleGroup) {
+      ruleGroup = { type: dataType, rules: [] };
+      RULES.push(ruleGroup);
+    }
+
+    var rule = {
+      keyword: keyword,
+      definition: definition,
+      custom: true,
+      code: customRuleCode,
+      implements: definition.implements
+    };
+    ruleGroup.rules.push(rule);
+    RULES.custom[keyword] = rule;
+  }
+
+
+  function checkDataType(dataType) {
+    if (!RULES.types[dataType]) throw new Error('Unknown type ' + dataType);
+  }
+}
+
+
+/**
+ * Get keyword
+ * @this  Ajv
+ * @param {String} keyword pre-defined or custom keyword.
+ * @return {Object|Boolean} custom keyword definition, `true` if it is a predefined keyword, `false` otherwise.
+ */
+function getKeyword(keyword) {
+  /* jshint validthis: true */
+  var rule = this.RULES.custom[keyword];
+  return rule ? rule.definition : this.RULES.keywords[keyword] || false;
+}
+
+
+/**
+ * Remove keyword
+ * @this  Ajv
+ * @param {String} keyword pre-defined or custom keyword.
+ */
+function removeKeyword(keyword) {
+  /* jshint validthis: true */
+  var RULES = this.RULES;
+  delete RULES.keywords[keyword];
+  delete RULES.all[keyword];
+  delete RULES.custom[keyword];
+  for (var i=0; i<RULES.length; i++) {
+    var rules = RULES[i].rules;
+    for (var j=0; j<rules.length; j++) {
+      if (rules[j].keyword == keyword) {
+        rules.splice(j, 1);
+        break;
+      }
+    }
+  }
+}
+
+
+/***/ }),
+
+/***/ 162:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var META_SCHEMA_ID = 'http://json-schema.org/draft-06/schema';
+
+module.exports = function (ajv) {
+  var defaultMeta = ajv._opts.defaultMeta;
+  var metaSchemaRef = typeof defaultMeta == 'string'
+                      ? { $ref: defaultMeta }
+                      : ajv.getSchema(META_SCHEMA_ID)
+                        ? { $ref: META_SCHEMA_ID }
+                        : {};
+
+  ajv.addKeyword('patternGroups', {
+    // implemented in properties.jst
+    metaSchema: {
+      type: 'object',
+      additionalProperties: {
+        type: 'object',
+        required: [ 'schema' ],
+        properties: {
+          maximum: {
+            type: 'integer',
+            minimum: 0
+          },
+          minimum: {
+            type: 'integer',
+            minimum: 0
+          },
+          schema: metaSchemaRef
+        },
+        additionalProperties: false
+      }
+    }
+  });
+  ajv.RULES.all.properties.implements.push('patternGroups');
+};
+
+
+/***/ }),
+
+/***/ 163:
+/***/ (function(module, exports) {
+
+module.exports = {
+	"$schema": "http://json-schema.org/draft-06/schema#",
+	"$id": "https://raw.githubusercontent.com/epoberezkin/ajv/master/lib/refs/$data.json#",
+	"description": "Meta-schema for $data reference (JSON-schema extension proposal)",
+	"type": "object",
+	"required": [
+		"$data"
+	],
+	"properties": {
+		"$data": {
+			"type": "string",
+			"anyOf": [
+				{
+					"format": "relative-json-pointer"
+				},
+				{
+					"format": "json-pointer"
+				}
+			]
+		}
+	},
+	"additionalProperties": false
+};
+
+/***/ }),
+
+/***/ 164:
+/***/ (function(module, exports) {
+
+module.exports = {
+	"$schema": "http://json-schema.org/draft-06/schema#",
+	"$id": "http://json-schema.org/draft-06/schema#",
+	"title": "Core schema meta-schema",
+	"definitions": {
+		"schemaArray": {
+			"type": "array",
+			"minItems": 1,
+			"items": {
+				"$ref": "#"
+			}
+		},
+		"nonNegativeInteger": {
+			"type": "integer",
+			"minimum": 0
+		},
+		"nonNegativeIntegerDefault0": {
+			"allOf": [
+				{
+					"$ref": "#/definitions/nonNegativeInteger"
+				},
+				{
+					"default": 0
+				}
+			]
+		},
+		"simpleTypes": {
+			"enum": [
+				"array",
+				"boolean",
+				"integer",
+				"null",
+				"number",
+				"object",
+				"string"
+			]
+		},
+		"stringArray": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			},
+			"uniqueItems": true,
+			"default": []
+		}
+	},
+	"type": [
+		"object",
+		"boolean"
+	],
+	"properties": {
+		"$id": {
+			"type": "string",
+			"format": "uri-reference"
+		},
+		"$schema": {
+			"type": "string",
+			"format": "uri"
+		},
+		"$ref": {
+			"type": "string",
+			"format": "uri-reference"
+		},
+		"title": {
+			"type": "string"
+		},
+		"description": {
+			"type": "string"
+		},
+		"default": {},
+		"multipleOf": {
+			"type": "number",
+			"exclusiveMinimum": 0
+		},
+		"maximum": {
+			"type": "number"
+		},
+		"exclusiveMaximum": {
+			"type": "number"
+		},
+		"minimum": {
+			"type": "number"
+		},
+		"exclusiveMinimum": {
+			"type": "number"
+		},
+		"maxLength": {
+			"$ref": "#/definitions/nonNegativeInteger"
+		},
+		"minLength": {
+			"$ref": "#/definitions/nonNegativeIntegerDefault0"
+		},
+		"pattern": {
+			"type": "string",
+			"format": "regex"
+		},
+		"additionalItems": {
+			"$ref": "#"
+		},
+		"items": {
+			"anyOf": [
+				{
+					"$ref": "#"
+				},
+				{
+					"$ref": "#/definitions/schemaArray"
+				}
+			],
+			"default": {}
+		},
+		"maxItems": {
+			"$ref": "#/definitions/nonNegativeInteger"
+		},
+		"minItems": {
+			"$ref": "#/definitions/nonNegativeIntegerDefault0"
+		},
+		"uniqueItems": {
+			"type": "boolean",
+			"default": false
+		},
+		"contains": {
+			"$ref": "#"
+		},
+		"maxProperties": {
+			"$ref": "#/definitions/nonNegativeInteger"
+		},
+		"minProperties": {
+			"$ref": "#/definitions/nonNegativeIntegerDefault0"
+		},
+		"required": {
+			"$ref": "#/definitions/stringArray"
+		},
+		"additionalProperties": {
+			"$ref": "#"
+		},
+		"definitions": {
+			"type": "object",
+			"additionalProperties": {
+				"$ref": "#"
+			},
+			"default": {}
+		},
+		"properties": {
+			"type": "object",
+			"additionalProperties": {
+				"$ref": "#"
+			},
+			"default": {}
+		},
+		"patternProperties": {
+			"type": "object",
+			"additionalProperties": {
+				"$ref": "#"
+			},
+			"default": {}
+		},
+		"dependencies": {
+			"type": "object",
+			"additionalProperties": {
+				"anyOf": [
+					{
+						"$ref": "#"
+					},
+					{
+						"$ref": "#/definitions/stringArray"
+					}
+				]
+			}
+		},
+		"propertyNames": {
+			"$ref": "#"
+		},
+		"const": {},
+		"enum": {
+			"type": "array",
+			"minItems": 1,
+			"uniqueItems": true
+		},
+		"type": {
+			"anyOf": [
+				{
+					"$ref": "#/definitions/simpleTypes"
+				},
+				{
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/simpleTypes"
+					},
+					"minItems": 1,
+					"uniqueItems": true
+				}
+			]
+		},
+		"format": {
+			"type": "string"
+		},
+		"allOf": {
+			"$ref": "#/definitions/schemaArray"
+		},
+		"anyOf": {
+			"$ref": "#/definitions/schemaArray"
+		},
+		"oneOf": {
+			"$ref": "#/definitions/schemaArray"
+		},
+		"not": {
+			"$ref": "#"
+		}
+	},
+	"default": {}
+};
+
+/***/ }),
+
+/***/ 169:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ListPaginator_vue__ = __webpack_require__(416);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ListPaginator_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ListPaginator_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lunr__ = __webpack_require__(349);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lunr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lunr__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__ = __webpack_require__(46);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: {
+		fields: {
+			type: Array,
+			default: function _default() {
+				return [];
+			}
+		},
+		items: {
+			type: Array,
+			required: true
+		}
+	},
+	data: function data() {
+		return {
+			query: null,
+			page: 0,
+			itemsPerPage: 10,
+			sortBy: this.fields[0],
+			sortOrder: 'asc'
+		};
+	},
+
+	computed: {
+		itemMap: function itemMap() {
+			var map = new Map();
+			this.items.map(function (item) {
+				map.set(item.id, item);
+			});
+
+			return map;
+		},
+		index: function index() {
+			var fields = this.fields;
+
+			var index = __WEBPACK_IMPORTED_MODULE_1_lunr___default()(function () {
+				var _this = this;
+
+				fields.map(function (field) {
+					var name = void 0,
+					    options = void 0;
+					if (typeof field === 'string') {
+						name = field;
+					} else {
+						name = field.name;
+						options = field;
+					}
+					_this.field(name, options);
+				});
+			});
+
+			this.items.map(function (item) {
+				index.add(item);
+			});
+
+			return index;
+		},
+		filteredItems: function filteredItems() {
+			var _this2 = this;
+
+			if (this.query) {
+				var refs = this.index.search(this.query);
+				return refs.map(function (ref) {
+					return _this2.itemMap.get(ref.ref);
+				});
+			}
+
+			return this.items;
+		},
+		sortedItems: function sortedItems() {
+			var _this3 = this;
+
+			if (this.sortBy && this.sortOrder) {
+
+				var sortedItems = __WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__["a" /* sortFunctions */].has(this.sortBy) ? this.filteredItems.sort(__WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__["a" /* sortFunctions */].get(this.sortBy)) : this.filteredItems.sort(function (a, b) {
+					var aValue = a[_this3.sortBy];
+					var bValue = b[_this3.sortBy];
+
+					if (Number.isNaN(aValue)) aValue = aValue.toUpperCase();
+
+					if (Number.isNaN(bValue)) bValue = bValue.toUpperCase();
+
+					if (aValue < bValue) return -1;
+					if (aValue > bValue) return 1;
+					return 0;
+				});
+
+				return this.sortOrder === 'asc' ? sortedItems : sortedItems.reverse();
+			}
+
+			return this.filteredItems;
+		},
+		paginatedItems: function paginatedItems() {
+			var paginatedItems = [];
+			var items = this.sortedItems.slice();
+			while (items.length > 0) {
+				paginatedItems.push(items.splice(0, this.itemsPerPage));
+			}return paginatedItems;
+		},
+		currentPageItems: function currentPageItems() {
+			return this.paginatedItems[this.page];
+		}
+	},
+	methods: {
+		snakeCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["e" /* snakeCaseToWords */]
+	},
+	components: {
+		ListPaginator: __WEBPACK_IMPORTED_MODULE_0__ListPaginator_vue___default.a
+	}
+};
 
 /***/ }),
 
@@ -784,6 +5397,265 @@ function updateLink(linkElement, obj) {
 
 /***/ }),
 
+/***/ 177:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AlertList_vue__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__AlertList_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShowHideButton_vue__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShowHideButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ShowHideButton_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ajv__ = __webpack_require__(135);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ajv___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_ajv__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__ = __webpack_require__(3);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+var ajv = new __WEBPACK_IMPORTED_MODULE_2_ajv___default.a({
+	allErrors: true
+});
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: {
+		schemaUrl: {
+			type: String,
+			required: true
+		},
+		name: {
+			type: String,
+			default: 'JSON'
+		},
+		currentValue: {
+			type: String,
+			default: ''
+		}
+	},
+	data: function data() {
+		return {
+			newJson: null,
+			schema: null,
+
+			show: {
+				schema: false
+			},
+			alerts: []
+		};
+	},
+	mounted: function mounted() {
+		var _this = this;
+
+		fetch(this.schemaUrl).then(function (response) {
+			if (response.ok) return response.text();
+
+			throw new Error(response.statusText);
+		}).then(function (schema) {
+			_this.schema = schema;
+			_this.schemaValidator = ajv.compile(JSON.parse(schema));
+		}).catch(function (err) {
+			console.error(err);
+			_this.alerts.push({
+				type: 'error',
+				html: '<strong>Error:</strong> There was a problem fetching the schema'
+			});
+		});
+	},
+
+
+	computed: {
+		newJsonObject: function newJsonObject() {
+			try {
+				return JSON.parse(this.newJson);
+			} catch (err) {
+				console.error(err);
+			}
+		},
+		schemaErrors: function schemaErrors() {
+			if (this.newJson && !this.newJsonObject) return [{
+				message: 'Input is not valid JSON'
+			}];
+
+			if (this.newJsonObject && this.schemaValidator) return this.schemaValidator.errors;
+
+			return [];
+		},
+		isSchemaValid: function isSchemaValid() {
+			if (this.newJsonObject && this.schemaValidator) return this.schemaValidator(this.newJsonObject);
+
+			return false;
+		}
+	},
+
+	methods: {
+		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["c" /* ucfirst */],
+		ucfirstWords: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["d" /* ucfirstWords */],
+		formatJson: function formatJson() {
+			if (this.newJsonObject) this.newJson = JSON.stringify(this.newJsonObject, null, 4);
+		},
+		submitJson: function submitJson() {
+			this.$emit('submit', this.newJson);
+		}
+	},
+
+	components: {
+		AlertList: __WEBPACK_IMPORTED_MODULE_0__AlertList_vue___default.a,
+		ShowHideButton: __WEBPACK_IMPORTED_MODULE_1__ShowHideButton_vue___default.a
+	}
+};
+
+/***/ }),
+
+/***/ 178:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PaginatorLink_vue__ = __webpack_require__(422);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PaginatorLink_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__PaginatorLink_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: {
+		value: Number,
+		itemsPerPage: Number,
+		paginatedItems: Array
+	},
+	watch: {
+		itemsPerPage: function itemsPerPage() {
+			if (this.value >= this.paginatedItems.length) this.setPage(this.paginatedItems.length - 1);
+		}
+	},
+	methods: {
+		setPage: function setPage(page) {
+			this.$emit('input', page);
+		}
+	},
+	components: {
+		PaginatorLink: __WEBPACK_IMPORTED_MODULE_0__PaginatorLink_vue___default.a
+	}
+};
+
+/***/ }),
+
 /***/ 184:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -943,6 +5815,37 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			this.activeItem = newIndex;
 			this.$emit('input', value);
+		}
+	}
+};
+
+/***/ }),
+
+/***/ 185:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: {
+		value: Number,
+		text: {
+			type: String,
+			required: false
+		},
+		active: Boolean
+	},
+	methods: {
+		emitPage: function emitPage() {
+			if (!this.active) this.$emit('click', this.value);
 		}
 	}
 };
@@ -1206,9 +6109,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			var rows = this.data.map(function (row) {
 				return row.map(function (cell) {
-					return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["e" /* escapeCsv */])(cell.toString());
+					return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["h" /* escapeCsv */])(cell.toString());
 				}).join(',');
-			}).sort(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["f" /* sortIgnoreCase */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["i" /* sortIgnoreCase */]);
 			var table = header.concat(rows);
 			__WEBPACK_IMPORTED_MODULE_0_downloadjs___default()(table.join('\n'), this.exportFilename + '.csv', 'text/csv');
 		}
@@ -1226,6 +6129,171 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		$(this.$refs.table).DataTable({
 			retrieve: true
 		}).clear().destroy();
+	}
+};
+
+/***/ }),
+
+/***/ 23:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: {
+		options: {
+			type: Array,
+			required: false
+		},
+		name: {
+			type: String,
+			required: false
+		},
+		id: {
+			type: String,
+			required: false
+		},
+		required: {
+			type: Boolean,
+			required: false
+		},
+		value: {
+			required: true
+		},
+		multiple: {
+			type: Boolean,
+			default: false
+		},
+		placeholder: {
+			type: String,
+			default: 'Please select'
+		}
+	},
+	computed: {
+		stringOptions: function stringOptions() {
+			if (!this.options) return [];
+
+			var options = this.options.slice();
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+
+			try {
+				for (var _iterator = options[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var option = _step.value;
+
+					if (option.id) option.id = option.id.toString();
+					if (option.children) {
+						var _iteratorNormalCompletion2 = true;
+						var _didIteratorError2 = false;
+						var _iteratorError2 = undefined;
+
+						try {
+							for (var _iterator2 = option.children[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+								var child = _step2.value;
+
+								if (child.id) child.id = child.id.toString();
+							}
+						} catch (err) {
+							_didIteratorError2 = true;
+							_iteratorError2 = err;
+						} finally {
+							try {
+								if (!_iteratorNormalCompletion2 && _iterator2.return) {
+									_iterator2.return();
+								}
+							} finally {
+								if (_didIteratorError2) {
+									throw _iteratorError2;
+								}
+							}
+						}
+					}
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator.return) {
+						_iterator.return();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
+			}
+
+			return options;
+		},
+		stringValue: function stringValue() {
+			if (!this.value && this.value !== 0) return '';
+
+			if (Array.isArray(this.value)) {
+				return this.value.slice().map(function (value) {
+					return value.toString();
+				});
+			} else {
+				return this.value.toString();
+			}
+		}
+	},
+	mounted: function mounted() {
+		var _this = this;
+
+		$(this.$el).on('change', function () {
+			_this.$emit('input', $(_this.$el).val());
+		});
+
+		$(this.$el).val(this.stringValue).select2({
+			placeholder: this.placeholder,
+			tags: this.multiple,
+			createTag: function createTag() {
+				return undefined;
+			}
+		});
+	},
+	updated: function updated() {
+		$(this.$el).val(this.stringValue).select2({
+			placeholder: this.placeholder,
+			tags: this.multiple,
+			createTag: function createTag() {
+				return undefined;
+			}
+		}).trigger('change');
+	},
+
+	watch: {
+		multiple: function multiple(_multiple) {
+			if (this.value) {
+				if (_multiple && !Array.isArray(this.value)) this.$emit('input', [this.value]);else if (!_multiple && Array.isArray(this.value)) this.$emit('input', this.value[0]);
+			}
+		},
+		stringValue: function stringValue(_stringValue) {
+			$(this.$el).val(_stringValue).trigger('change.select2');
+		}
+	},
+	beforeDestroyed: function beforeDestroyed() {
+		$(this.$el).off().select2('destroy');
 	}
 };
 
@@ -1443,7 +6511,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			this.endDate = dates.endDate;
 		},
 
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["g" /* camelCaseToWords */]
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["j" /* camelCaseToWords */]
 	},
 	components: {
 		VueFlatpickr: __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr___default.a
@@ -1497,6 +6565,21 @@ exports.push([module.i, "\n.refresh-button-container[data-v-4d4c1aff] {\n\ttext-
 
 /***/ }),
 
+/***/ 289:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.paginator[data-v-05c830ce] {\n\ttext-align: center;\n}\nnav span[data-v-05c830ce] {\n\tmargin: 0 0.25em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ListPaginator.vue?1568a33a"],"names":[],"mappings":";AAqEA;CACA,mBAAA;CACA;AAEA;CACA,iBAAA;CACA","file":"ListPaginator.vue","sourcesContent":["<template>\n\t<section class=\"paginator\">\n\t\t<div class=\"form-inline\">\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tCurrent page:\n\t\t\t\t\t<input type=\"number\" class=\"form-control\" :value=\"value + 1\"\n\t\t\t\t\t\tmin=\"1\" :max=\"paginatedItems.length\"\n\t\t\t\t\t\t@input=\"$emit('input', Number($event.target.value) - 1)\" />\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tItems per page:\n\t\t\t\t\t<select class=\"form-control\" :value=\"itemsPerPage\"\n\t\t\t\t\t\t\t@input=\"$emit('pageSize', Number($event.target.value))\">\n\t\t\t\t\t\t<option value=\"5\">5</option>\n\t\t\t\t\t\t<option value=\"10\">10</option>\n\t\t\t\t\t\t<option value=\"20\">20</option>\n\t\t\t\t\t\t<option value=\"50\">50</option>\n\t\t\t\t\t\t<option value=\"100\">100</option>\n\t\t\t\t\t</select>\n\t\t\t\t</label>\n\t\t\t</div>\t\t\t\n\t\t</div>\n\t\t<nav v-if=\"itemsPerPage && paginatedItems.length > 1\">\n\t\t\t<div class=\"btn-group\">\n\t\t\t\t<paginator-link :value=\"value - 1\" text=\"← Prev\"\n\t\t\t\t\t:active=\"value === 0\" @click=\"setPage\" />\n\n\t\t\t\t<paginator-link v-for=\"(pageItems, pageNum) of paginatedItems\"\n\t\t\t\t\t:value=\"pageNum\" :active=\"pageNum === value\"\n\t\t\t\t\t@click=\"setPage\" />\n\n\t\t\t\t<paginator-link :value=\"value + 1\" text=\"Next →\"\n\t\t\t\t\t:active=\"value === paginatedItems.length - 1\"\n\t\t\t\t\t@click=\"setPage\" />\n\t\t\t</div>\n\t\t</nav>\n\t</section>\n</template>\n\n<script>\nimport PaginatorLink from './PaginatorLink.vue';\n\nexport default {\n\tprops: {\n\t\tvalue: Number,\n\t\titemsPerPage: Number,\n\t\tpaginatedItems: Array\n\t},\n\twatch: {\n\t\titemsPerPage(){\n\t\t\tif(this.value >= this.paginatedItems.length)\n\t\t\t\tthis.setPage(this.paginatedItems.length - 1);\n\t\t}\n\t},\n\tmethods: {\n\t\tsetPage(page){\n\t\t\tthis.$emit('input', page);\n\t\t}\n\t},\n\tcomponents: {\n\t\tPaginatorLink\n\t}\n};\n</script>\n\n<style scoped>\n\t.paginator {\n\t\ttext-align: center;\n\t}\n\n\tnav span {\n\t\tmargin: 0 0.25em;\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+
 /***/ 29:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1512,6 +6595,21 @@ exports.push([module.i, "\n.form-horizontal[data-v-7d00f708] {\n\toverflow-x: hi
 
 /***/ }),
 
+/***/ 294:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\ntextarea[data-v-227f018b] {\n\twidth: 100%;\n\theight: 400px;\n\tfont-family: monospace;\n\twhite-space: pre;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/JsonSchemaEditor.vue?3368b8a6"],"names":[],"mappings":";AA+KA;CACA,YAAA;CACA,cAAA;CACA,uBAAA;CACA,iBAAA;CACA","file":"JsonSchemaEditor.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"panel panel-default\">\n\t\t\t<div class=\"panel-heading\">\n\t\t\t\t{{ ucfirstWords(name) }} Editor\n\t\t\t</div>\n\t\t\t<div class=\"panel-body\">\n\t\t\t\t<div class=\"row\">\n\t\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t\t<div class=\"json-container form-group\"\n\t\t\t\t\t\t\t\t:class=\"{\n\t\t\t\t\t\t\t\t\t'has-error': newJson && !isSchemaValid,\n\t\t\t\t\t\t\t\t\t'has-success': newJson && isSchemaValid\n\t\t\t\t\t\t\t\t}\">\n\t\t\t\t\t\t\t<label class=\"control-label containing-label\">\n\t\t\t\t\t\t\t\tNew {{ name }}\n\t\t\t\t\t\t\t\t<textarea class=\"input-json form-control\"\n\t\t\t\t\t\t\t\t\tv-model.lazy=\"newJson\"></textarea>\n\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t<ul v-if=\"newJson && !isSchemaValid\" class=\"help-block\">\n\t\t\t\t\t\t\t\t<li v-for=\"error of schemaErrors\">\n\t\t\t\t\t\t\t\t\t{{ ucfirst(error.message) }}\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t<span v-else-if=\"newJson && isSchemaValid\" class=\"help-block\">\n\t\t\t\t\t\t\t\t{{ ucfirst(name) }} valid!\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\n\t\t\t\t\t\t<show-hide-button v-model=\"show.schema\">\n\t\t\t\t\t\t\tschema\n\t\t\t\t\t\t</show-hide-button>\n\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-info\"\n\t\t\t\t\t\t\t\t:disabled=\"!newJsonObject\" @click=\"formatJson\">\n\t\t\t\t\t\t\tFormat JSON\n\t\t\t\t\t\t</button>\n\t\t\t\t\t\t<div v-if=\"show.schema\" class=\"json-container\">\n\t\t\t\t\t\t\t<label class=\"containing-label control-label\">\n\t\t\t\t\t\t\t\tSchema\n\t\t\t\t\t\t\t\t<textarea class=\"schema-json form-control\"\n\t\t\t\t\t\t\t\t\treadonly :value=\"schema\"></textarea>\n\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t\t<div class=\"json-container\">\n\t\t\t\t\t\t\t<label class=\"containing-label control-label\">\n\t\t\t\t\t\t\t\tCurrent {{ name }}\n\t\t\t\t\t\t\t\t<textarea class=\"previous-json form-control\"\n\t\t\t\t\t\t\t\t\treadonly :value=\"currentValue\"></textarea>\n\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<alert-list v-model=\"alerts\" />\n\t\t<div class=\"btn-lg-submit-container\">\n\t\t\t<button type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t:disabled=\"!isSchemaValid\"\n\t\t\t\t\t@click=\"submitJson\">\n\t\t\t\tSubmit\n\t\t\t</button>\n\t\t\t<button type=\"button\" class=\"btn btn-lg btn-default\"\n\t\t\t\t\t@click=\"$emit('close')\">\n\t\t\t\tClose\n\t\t\t</button>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport AlertList from 'vue-components/AlertList.vue';\nimport ShowHideButton from 'vue-components/ShowHideButton.vue';\n\nimport Ajv from 'ajv';\n\nimport { ucfirst, ucfirstWords } from 'modules/utils.js';\n\nconst ajv = new Ajv({\n\tallErrors: true\n});\n\nexport default {\n\tprops: {\n\t\tschemaUrl: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t},\n\t\tname: {\n\t\t\ttype: String,\n\t\t\tdefault: 'JSON'\n\t\t},\n\t\tcurrentValue: {\n\t\t\ttype: String,\n\t\t\tdefault: ''\n\t\t}\n\t},\n\tdata() {\n\t\treturn {\n\t\t\tnewJson: null,\n\t\t\tschema: null,\n\t\t\t\n\t\t\tshow: {\n\t\t\t\tschema: false\n\t\t\t},\n\t\t\talerts: []\n\t\t};\n\t},\n\t\n\tmounted() {\n\t\tfetch(this.schemaUrl).then(response => {\n\t\t\tif (response.ok)\n\t\t\t\treturn response.text();\n\t\t\t\t\n\t\t\tthrow new Error(response.statusText);\n\t\t}).then(schema => {\n\t\t\tthis.schema = schema;\n\t\t\tthis.schemaValidator = ajv.compile(JSON.parse(schema));\n\t\t}).catch(err => {\n\t\t\tconsole.error(err);\n\t\t\tthis.alerts.push({\n\t\t\t\ttype: 'error',\n\t\t\t\thtml: `<strong>Error:</strong> There was a problem fetching the schema`\n\t\t\t});\n\t\t});\n\t},\n\t\n\tcomputed: {\n\t\tnewJsonObject() {\n\t\t\ttry {\n\t\t\t\treturn JSON.parse(this.newJson);\n\t\t\t} catch (err) {\n\t\t\t\tconsole.error(err);\n\t\t\t}\n\t\t},\n\t\tschemaErrors() {\n\t\t\tif (this.newJson && !this.newJsonObject)\n\t\t\t\treturn [{\n\t\t\t\t\tmessage: `Input is not valid JSON`\n\t\t\t\t}];\n\t\t\t\n\t\t\tif (this.newJsonObject && this.schemaValidator)\n\t\t\t\treturn this.schemaValidator.errors;\n\t\t\t\n\t\t\treturn [];\n\t\t},\n\t\tisSchemaValid() {\n\t\t\tif (this.newJsonObject && this.schemaValidator)\n\t\t\t\treturn this.schemaValidator(this.newJsonObject);\n\t\t\t\t\n\t\t\treturn false;\n\t\t}\n\t},\n\t\n\tmethods: {\n\t\tucfirst,\n\t\tucfirstWords,\n\t\tformatJson() {\n\t\t\tif (this.newJsonObject)\t\t\t\n\t\t\t\tthis.newJson = JSON.stringify(this.newJsonObject, null, 4);\n\t\t},\n\t\tsubmitJson() {\n\t\t\tthis.$emit('submit', this.newJson);\n\t\t}\n\t},\n\t\n\tcomponents: {\n\t\tAlertList,\n\t\tShowHideButton\n\t}\n};\n</script>\n\n<style scoped>\n\ttextarea {\n\t\twidth: 100%;\n\t\theight: 400px;\n\t\tfont-family: monospace;\n\t\twhite-space: pre;\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+
 /***/ 30:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1521,6 +6619,21 @@ exports = module.exports = __webpack_require__(1)();
 
 // module
 exports.push([module.i, "\n.alert[data-v-8d03363a] {\n\tpage-break-inside: avoid;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/BootstrapAlert.vue?6c1ead4e"],"names":[],"mappings":";AAqDA;CACA,yBAAA;CACA","file":"BootstrapAlert.vue","sourcesContent":["<template>\n\t<div class=\"alert\" :class=\"alertTypeClass\">\n\t\t<button v-if=\"dismissable\" type=\"button\" class=\"close\" aria-label=\"Close\"\n\t\t\t\t@click=\"$emit('close')\">\n\t\t\t<span aria-hidden=\"true\">&times;</span>\n\t\t</button>\n\t\t{{ text }}\n\t\t<div v-if=\"html\" v-html=\"html\"></div>\n\t\t<slot></slot>\n\t</div>\n</template>\n\n<script>\nexport default {\n\tprops: {\n\t\ttype: {\n\t\t\ttype: String,\n\t\t\tdefault: 'error',\n\t\t\tvalidator(type){\n\t\t\t\treturn [\n\t\t\t\t\t'info',\n\t\t\t\t\t'success',\n\t\t\t\t\t'warning',\n\t\t\t\t\t'error',\n\t\t\t\t\t'danger'\n\t\t\t\t].includes(type);\n\t\t\t}\n\t\t},\n\t\ttext: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\thtml: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\tdismissable: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t}\n\t},\n\tcomputed: {\n\t\talertTypeClass(){\n\t\t\tif(this.type === 'error')\n\t\t\t\treturn 'alert-danger';\n\t\t\t\n\t\t\treturn `alert-${this.type}`;\n\t\t}\n\t}\n};\n</script>\n\n<style scoped>\n\t.alert {\n\t\tpage-break-inside: avoid;\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 307:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.list-header[data-v-6d54e2f6] {\n\ttext-align: right;\n}\n.list-header input[type=\"search\"][data-v-6d54e2f6] {\n\twidth: 300px;\n}\n.list[data-v-6d54e2f6] {\n\tpadding: 0;\n}\n.list li[data-v-6d54e2f6] {\n\tlist-style: none;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ComponentList.vue?ec8863c8"],"names":[],"mappings":";AAsJA;CACA,kBAAA;CACA;AAEA;CACA,aAAA;CACA;AAEA;CACA,WAAA;CACA;AAEA;CACA,iBAAA;CACA","file":"ComponentList.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"list-header form-inline\">\n\t\t\t<select class=\"form-control\" v-model=\"sortBy\">\n\t\t\t\t<option v-for=\"field of fields\" :value=\"field\">\n\t\t\t\t\t{{ snakeCaseToWords(field) }}\n\t\t\t\t</option>\n\t\t\t</select>\n\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t@click=\"sortOrder = sortOrder === 'asc' ? 'desc' : 'asc'\">\n\t\t\t\t<span v-if=\"sortOrder === 'asc'\"\n\t\t\t\t\tclass=\"glyphicon glyphicon-sort-by-alphabet\"></span>\n\t\t\t\t<span v-else\n\t\t\t\t\tclass=\"glyphicon glyphicon-sort-by-alphabet-alt\"></span>\n\t\t\t</button>\n\t\t\t<input type=\"search\" class=\"form-control\" v-model=\"query\"\n\t\t\t\tplaceholder=\"Search\" />\n\t\t</div>\n\t\t<ol class=\"list\">\n\t\t\t<slot v-for=\"item of currentPageItems\" v-bind=\"item\"></slot>\n\t\t</ol>\n\t\t<list-paginator v-model=\"page\" :paginatedItems=\"paginatedItems\"\n\t\t\t:itemsPerPage=\"itemsPerPage\"\n\t\t\t@pageSize=\"itemsPerPage = arguments[0]\" />\n\t</div>\n</template>\n\n<script>\nimport ListPaginator from './ListPaginator.vue';\n\nimport lunr from 'lunr';\n\nimport { snakeCaseToWords } from 'modules/utils.js';\nimport { sortFunctions } from 'modules/report-utils.js';\n\nexport default {\n\tprops: {\n\t\tfields: {\n\t\t\ttype: Array,\n\t\t\tdefault(){\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\titems: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tquery: null,\n\t\t\tpage: 0,\n\t\t\titemsPerPage: 10,\n\t\t\tsortBy: this.fields[0],\n\t\t\tsortOrder: 'asc'\n\t\t};\n\t},\n\tcomputed: {\n\t\titemMap(){\n\t\t\tlet map = new Map();\n\t\t\tthis.items.map(item => {\n\t\t\t\tmap.set(item.id, item);\n\t\t\t});\n\n\t\t\treturn map;\n\t\t},\n\t\tindex(){\n\t\t\tlet fields = this.fields;\n\n\t\t\tlet index = lunr(function(){\n\t\t\t\tfields.map(field => {\n\t\t\t\t\tlet name, options;\n\t\t\t\t\tif(typeof field === 'string'){\n\t\t\t\t\t\tname = field;\n\t\t\t\t\t}\n\t\t\t\t\telse{\n\t\t\t\t\t\tname = field.name;\n\t\t\t\t\t\toptions = field;\n\t\t\t\t\t}\n\t\t\t\t\tthis.field(name, options);\n\t\t\t\t});\n\t\t\t});\n\n\t\t\tthis.items.map(item => {\n\t\t\t\tindex.add(item);\n\t\t\t});\n\n\t\t\treturn index;\n\t\t},\n\t\tfilteredItems(){\n\t\t\tif(this.query){\n\t\t\t\tlet refs = this.index.search(this.query);\n\t\t\t\treturn refs.map(ref => {\n\t\t\t\t\treturn this.itemMap.get(ref.ref);\n\t\t\t\t});\n\t\t\t}\n\n\t\t\treturn this.items;\n\t\t},\n\t\tsortedItems(){\n\t\t\tif(this.sortBy && this.sortOrder){\n\t\t\t\t\n\t\t\t\tlet sortedItems = sortFunctions.has(this.sortBy)\n\t\t\t\t\t? this.filteredItems.sort(sortFunctions.get(this.sortBy))\n\t\t\t\t\t: this.filteredItems.sort((a, b) => {\n\t\t\t\t\t\tlet aValue = a[this.sortBy];\n\t\t\t\t\t\tlet bValue = b[this.sortBy];\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (Number.isNaN(aValue))\n\t\t\t\t\t\t\taValue = aValue.toUpperCase();\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (Number.isNaN(bValue))\n\t\t\t\t\t\t\tbValue = bValue.toUpperCase();\n\t\t\t\t\t\t\n\t\t\t\t\t\tif(aValue < bValue)\n\t\t\t\t\t\t\treturn -1;\n\t\t\t\t\t\tif(aValue > bValue)\n\t\t\t\t\t\t\treturn 1;\n\t\t\t\t\t\treturn 0;\n\t\t\t\t\t});\n\t\t\t\t\n\t\t\t\treturn this.sortOrder === 'asc'\n\t\t\t\t\t? sortedItems\n\t\t\t\t\t: sortedItems.reverse();\n\t\t\t}\n\t\t\t\n\t\t\treturn this.filteredItems;\n\t\t},\n\t\tpaginatedItems(){\n\t\t\tlet paginatedItems = [];\n\t\t\tlet items = this.sortedItems.slice();\n\t\t\twhile(items.length > 0)\n\t\t\t\tpaginatedItems.push(items.splice(0, this.itemsPerPage));\n\n\t\t\treturn paginatedItems;\n\t\t},\n\t\tcurrentPageItems(){\n\t\t\treturn this.paginatedItems[this.page];\n\t\t}\n\t},\n\tmethods: {\n\t\tsnakeCaseToWords\n\t},\n\tcomponents: {\n\t\tListPaginator\n\t}\n};\n</script>\n\n<style scoped>\n\t.list-header {\n\t\ttext-align: right;\n\t}\n\n\t.list-header input[type=\"search\"] {\n\t\twidth: 300px;\n\t}\n\t\n\t.list {\n\t\tpadding: 0;\n\t}\n\n\t.list li {\n\t\tlist-style: none;\n\t}\n</style>\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -1746,6 +6859,495 @@ if(false) {
 
 /***/ }),
 
+/***/ 33:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('select', {
+    attrs: {
+      "name": _vm.name,
+      "id": _vm.id,
+      "required": _vm.required,
+      "multiple": _vm.multiple
+    }
+  }, [_vm._t("default"), _vm._v(" "), _vm._l((_vm.stringOptions), function(option) {
+    return [(option.children && option.children.length > 0) ? _c('optgroup', {
+      attrs: {
+        "label": option.text
+      }
+    }, _vm._l((option.children), function(child) {
+      return _c('option', {
+        domProps: {
+          "value": child.id
+        }
+      }, [_vm._v("\n\t\t\t\t" + _vm._s(child.text) + "\n\t\t\t")])
+    })) : (option.id) ? _c('option', {
+      domProps: {
+        "value": option.id
+      }
+    }, [_vm._v("\n\t\t\t" + _vm._s(option.text) + "\n\t\t")]) : _vm._e()]
+  })], 2)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-2434126b", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 332:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports.parse = __webpack_require__(333);
+exports.stringify = __webpack_require__(334);
+
+
+/***/ }),
+
+/***/ 333:
+/***/ (function(module, exports) {
+
+var at, // The index of the current character
+    ch, // The current character
+    escapee = {
+        '"':  '"',
+        '\\': '\\',
+        '/':  '/',
+        b:    '\b',
+        f:    '\f',
+        n:    '\n',
+        r:    '\r',
+        t:    '\t'
+    },
+    text,
+
+    error = function (m) {
+        // Call error when something is wrong.
+        throw {
+            name:    'SyntaxError',
+            message: m,
+            at:      at,
+            text:    text
+        };
+    },
+    
+    next = function (c) {
+        // If a c parameter is provided, verify that it matches the current character.
+        if (c && c !== ch) {
+            error("Expected '" + c + "' instead of '" + ch + "'");
+        }
+        
+        // Get the next character. When there are no more characters,
+        // return the empty string.
+        
+        ch = text.charAt(at);
+        at += 1;
+        return ch;
+    },
+    
+    number = function () {
+        // Parse a number value.
+        var number,
+            string = '';
+        
+        if (ch === '-') {
+            string = '-';
+            next('-');
+        }
+        while (ch >= '0' && ch <= '9') {
+            string += ch;
+            next();
+        }
+        if (ch === '.') {
+            string += '.';
+            while (next() && ch >= '0' && ch <= '9') {
+                string += ch;
+            }
+        }
+        if (ch === 'e' || ch === 'E') {
+            string += ch;
+            next();
+            if (ch === '-' || ch === '+') {
+                string += ch;
+                next();
+            }
+            while (ch >= '0' && ch <= '9') {
+                string += ch;
+                next();
+            }
+        }
+        number = +string;
+        if (!isFinite(number)) {
+            error("Bad number");
+        } else {
+            return number;
+        }
+    },
+    
+    string = function () {
+        // Parse a string value.
+        var hex,
+            i,
+            string = '',
+            uffff;
+        
+        // When parsing for string values, we must look for " and \ characters.
+        if (ch === '"') {
+            while (next()) {
+                if (ch === '"') {
+                    next();
+                    return string;
+                } else if (ch === '\\') {
+                    next();
+                    if (ch === 'u') {
+                        uffff = 0;
+                        for (i = 0; i < 4; i += 1) {
+                            hex = parseInt(next(), 16);
+                            if (!isFinite(hex)) {
+                                break;
+                            }
+                            uffff = uffff * 16 + hex;
+                        }
+                        string += String.fromCharCode(uffff);
+                    } else if (typeof escapee[ch] === 'string') {
+                        string += escapee[ch];
+                    } else {
+                        break;
+                    }
+                } else {
+                    string += ch;
+                }
+            }
+        }
+        error("Bad string");
+    },
+
+    white = function () {
+
+// Skip whitespace.
+
+        while (ch && ch <= ' ') {
+            next();
+        }
+    },
+
+    word = function () {
+
+// true, false, or null.
+
+        switch (ch) {
+        case 't':
+            next('t');
+            next('r');
+            next('u');
+            next('e');
+            return true;
+        case 'f':
+            next('f');
+            next('a');
+            next('l');
+            next('s');
+            next('e');
+            return false;
+        case 'n':
+            next('n');
+            next('u');
+            next('l');
+            next('l');
+            return null;
+        }
+        error("Unexpected '" + ch + "'");
+    },
+
+    value,  // Place holder for the value function.
+
+    array = function () {
+
+// Parse an array value.
+
+        var array = [];
+
+        if (ch === '[') {
+            next('[');
+            white();
+            if (ch === ']') {
+                next(']');
+                return array;   // empty array
+            }
+            while (ch) {
+                array.push(value());
+                white();
+                if (ch === ']') {
+                    next(']');
+                    return array;
+                }
+                next(',');
+                white();
+            }
+        }
+        error("Bad array");
+    },
+
+    object = function () {
+
+// Parse an object value.
+
+        var key,
+            object = {};
+
+        if (ch === '{') {
+            next('{');
+            white();
+            if (ch === '}') {
+                next('}');
+                return object;   // empty object
+            }
+            while (ch) {
+                key = string();
+                white();
+                next(':');
+                if (Object.hasOwnProperty.call(object, key)) {
+                    error('Duplicate key "' + key + '"');
+                }
+                object[key] = value();
+                white();
+                if (ch === '}') {
+                    next('}');
+                    return object;
+                }
+                next(',');
+                white();
+            }
+        }
+        error("Bad object");
+    };
+
+value = function () {
+
+// Parse a JSON value. It could be an object, an array, a string, a number,
+// or a word.
+
+    white();
+    switch (ch) {
+    case '{':
+        return object();
+    case '[':
+        return array();
+    case '"':
+        return string();
+    case '-':
+        return number();
+    default:
+        return ch >= '0' && ch <= '9' ? number() : word();
+    }
+};
+
+// Return the json_parse function. It will have access to all of the above
+// functions and variables.
+
+module.exports = function (source, reviver) {
+    var result;
+    
+    text = source;
+    at = 0;
+    ch = ' ';
+    result = value();
+    white();
+    if (ch) {
+        error("Syntax error");
+    }
+
+    // If there is a reviver function, we recursively walk the new structure,
+    // passing each name/value pair to the reviver function for possible
+    // transformation, starting with a temporary root object that holds the result
+    // in an empty key. If there is not a reviver function, we simply return the
+    // result.
+
+    return typeof reviver === 'function' ? (function walk(holder, key) {
+        var k, v, value = holder[key];
+        if (value && typeof value === 'object') {
+            for (k in value) {
+                if (Object.prototype.hasOwnProperty.call(value, k)) {
+                    v = walk(value, k);
+                    if (v !== undefined) {
+                        value[k] = v;
+                    } else {
+                        delete value[k];
+                    }
+                }
+            }
+        }
+        return reviver.call(holder, key, value);
+    }({'': result}, '')) : result;
+};
+
+
+/***/ }),
+
+/***/ 334:
+/***/ (function(module, exports) {
+
+var cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
+    escapable = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
+    gap,
+    indent,
+    meta = {    // table of character substitutions
+        '\b': '\\b',
+        '\t': '\\t',
+        '\n': '\\n',
+        '\f': '\\f',
+        '\r': '\\r',
+        '"' : '\\"',
+        '\\': '\\\\'
+    },
+    rep;
+
+function quote(string) {
+    // If the string contains no control characters, no quote characters, and no
+    // backslash characters, then we can safely slap some quotes around it.
+    // Otherwise we must also replace the offending characters with safe escape
+    // sequences.
+    
+    escapable.lastIndex = 0;
+    return escapable.test(string) ? '"' + string.replace(escapable, function (a) {
+        var c = meta[a];
+        return typeof c === 'string' ? c :
+            '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
+    }) + '"' : '"' + string + '"';
+}
+
+function str(key, holder) {
+    // Produce a string from holder[key].
+    var i,          // The loop counter.
+        k,          // The member key.
+        v,          // The member value.
+        length,
+        mind = gap,
+        partial,
+        value = holder[key];
+    
+    // If the value has a toJSON method, call it to obtain a replacement value.
+    if (value && typeof value === 'object' &&
+            typeof value.toJSON === 'function') {
+        value = value.toJSON(key);
+    }
+    
+    // If we were called with a replacer function, then call the replacer to
+    // obtain a replacement value.
+    if (typeof rep === 'function') {
+        value = rep.call(holder, key, value);
+    }
+    
+    // What happens next depends on the value's type.
+    switch (typeof value) {
+        case 'string':
+            return quote(value);
+        
+        case 'number':
+            // JSON numbers must be finite. Encode non-finite numbers as null.
+            return isFinite(value) ? String(value) : 'null';
+        
+        case 'boolean':
+        case 'null':
+            // If the value is a boolean or null, convert it to a string. Note:
+            // typeof null does not produce 'null'. The case is included here in
+            // the remote chance that this gets fixed someday.
+            return String(value);
+            
+        case 'object':
+            if (!value) return 'null';
+            gap += indent;
+            partial = [];
+            
+            // Array.isArray
+            if (Object.prototype.toString.apply(value) === '[object Array]') {
+                length = value.length;
+                for (i = 0; i < length; i += 1) {
+                    partial[i] = str(i, value) || 'null';
+                }
+                
+                // Join all of the elements together, separated with commas, and
+                // wrap them in brackets.
+                v = partial.length === 0 ? '[]' : gap ?
+                    '[\n' + gap + partial.join(',\n' + gap) + '\n' + mind + ']' :
+                    '[' + partial.join(',') + ']';
+                gap = mind;
+                return v;
+            }
+            
+            // If the replacer is an array, use it to select the members to be
+            // stringified.
+            if (rep && typeof rep === 'object') {
+                length = rep.length;
+                for (i = 0; i < length; i += 1) {
+                    k = rep[i];
+                    if (typeof k === 'string') {
+                        v = str(k, value);
+                        if (v) {
+                            partial.push(quote(k) + (gap ? ': ' : ':') + v);
+                        }
+                    }
+                }
+            }
+            else {
+                // Otherwise, iterate through all of the keys in the object.
+                for (k in value) {
+                    if (Object.prototype.hasOwnProperty.call(value, k)) {
+                        v = str(k, value);
+                        if (v) {
+                            partial.push(quote(k) + (gap ? ': ' : ':') + v);
+                        }
+                    }
+                }
+            }
+            
+        // Join all of the member texts together, separated with commas,
+        // and wrap them in braces.
+
+        v = partial.length === 0 ? '{}' : gap ?
+            '{\n' + gap + partial.join(',\n' + gap) + '\n' + mind + '}' :
+            '{' + partial.join(',') + '}';
+        gap = mind;
+        return v;
+    }
+}
+
+module.exports = function (value, replacer, space) {
+    var i;
+    gap = '';
+    indent = '';
+    
+    // If the space parameter is a number, make an indent string containing that
+    // many spaces.
+    if (typeof space === 'number') {
+        for (i = 0; i < space; i += 1) {
+            indent += ' ';
+        }
+    }
+    // If the space parameter is a string, it will be used as the indent string.
+    else if (typeof space === 'string') {
+        indent = space;
+    }
+
+    // If there is a replacer, it must be a function or an array.
+    // Otherwise, throw an error.
+    rep = replacer;
+    if (replacer && typeof replacer !== 'function'
+    && (typeof replacer !== 'object' || typeof replacer.length !== 'number')) {
+        throw new Error('JSON.stringify');
+    }
+    
+    // Make a fake root object containing our value under the key of ''.
+    // Return the result of stringifying the value.
+    return str('', {'': value});
+};
+
+
+/***/ }),
+
 /***/ 34:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1771,6 +7373,2090 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-38459c74", module.exports)
   }
 }
+
+/***/ }),
+
+/***/ 349:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
+ * lunr - http://lunrjs.com - A bit like Solr, but much smaller and not as bright - 0.7.2
+ * Copyright (C) 2016 Oliver Nightingale
+ * @license MIT
+ */
+
+;(function(){
+
+/**
+ * Convenience function for instantiating a new lunr index and configuring it
+ * with the default pipeline functions and the passed config function.
+ *
+ * When using this convenience function a new index will be created with the
+ * following functions already in the pipeline:
+ *
+ * lunr.StopWordFilter - filters out any stop words before they enter the
+ * index
+ *
+ * lunr.stemmer - stems the tokens before entering the index.
+ *
+ * Example:
+ *
+ *     var idx = lunr(function () {
+ *       this.field('title', 10)
+ *       this.field('tags', 100)
+ *       this.field('body')
+ *       
+ *       this.ref('cid')
+ *       
+ *       this.pipeline.add(function () {
+ *         // some custom pipeline function
+ *       })
+ *       
+ *     })
+ *
+ * @param {Function} config A function that will be called with the new instance
+ * of the lunr.Index as both its context and first parameter. It can be used to
+ * customize the instance of new lunr.Index.
+ * @namespace
+ * @module
+ * @returns {lunr.Index}
+ *
+ */
+var lunr = function (config) {
+  var idx = new lunr.Index
+
+  idx.pipeline.add(
+    lunr.trimmer,
+    lunr.stopWordFilter,
+    lunr.stemmer
+  )
+
+  if (config) config.call(idx, idx)
+
+  return idx
+}
+
+lunr.version = "0.7.2"
+/*!
+ * lunr.utils
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * A namespace containing utils for the rest of the lunr library
+ */
+lunr.utils = {}
+
+/**
+ * Print a warning message to the console.
+ *
+ * @param {String} message The message to be printed.
+ * @memberOf Utils
+ */
+lunr.utils.warn = (function (global) {
+  return function (message) {
+    if (global.console && console.warn) {
+      console.warn(message)
+    }
+  }
+})(this)
+
+/**
+ * Convert an object to a string.
+ *
+ * In the case of `null` and `undefined` the function returns
+ * the empty string, in all other cases the result of calling
+ * `toString` on the passed object is returned.
+ *
+ * @param {Any} obj The object to convert to a string.
+ * @return {String} string representation of the passed object.
+ * @memberOf Utils
+ */
+lunr.utils.asString = function (obj) {
+  if (obj === void 0 || obj === null) {
+    return ""
+  } else {
+    return obj.toString()
+  }
+}
+/*!
+ * lunr.EventEmitter
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * lunr.EventEmitter is an event emitter for lunr. It manages adding and removing event handlers and triggering events and their handlers.
+ *
+ * @constructor
+ */
+lunr.EventEmitter = function () {
+  this.events = {}
+}
+
+/**
+ * Binds a handler function to a specific event(s).
+ *
+ * Can bind a single function to many different events in one call.
+ *
+ * @param {String} [eventName] The name(s) of events to bind this function to.
+ * @param {Function} fn The function to call when an event is fired.
+ * @memberOf EventEmitter
+ */
+lunr.EventEmitter.prototype.addListener = function () {
+  var args = Array.prototype.slice.call(arguments),
+      fn = args.pop(),
+      names = args
+
+  if (typeof fn !== "function") throw new TypeError ("last argument must be a function")
+
+  names.forEach(function (name) {
+    if (!this.hasHandler(name)) this.events[name] = []
+    this.events[name].push(fn)
+  }, this)
+}
+
+/**
+ * Removes a handler function from a specific event.
+ *
+ * @param {String} eventName The name of the event to remove this function from.
+ * @param {Function} fn The function to remove from an event.
+ * @memberOf EventEmitter
+ */
+lunr.EventEmitter.prototype.removeListener = function (name, fn) {
+  if (!this.hasHandler(name)) return
+
+  var fnIndex = this.events[name].indexOf(fn)
+  this.events[name].splice(fnIndex, 1)
+
+  if (!this.events[name].length) delete this.events[name]
+}
+
+/**
+ * Calls all functions bound to the given event.
+ *
+ * Additional data can be passed to the event handler as arguments to `emit`
+ * after the event name.
+ *
+ * @param {String} eventName The name of the event to emit.
+ * @memberOf EventEmitter
+ */
+lunr.EventEmitter.prototype.emit = function (name) {
+  if (!this.hasHandler(name)) return
+
+  var args = Array.prototype.slice.call(arguments, 1)
+
+  this.events[name].forEach(function (fn) {
+    fn.apply(undefined, args)
+  })
+}
+
+/**
+ * Checks whether a handler has ever been stored against an event.
+ *
+ * @param {String} eventName The name of the event to check.
+ * @private
+ * @memberOf EventEmitter
+ */
+lunr.EventEmitter.prototype.hasHandler = function (name) {
+  return name in this.events
+}
+
+/*!
+ * lunr.tokenizer
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * A function for splitting a string into tokens ready to be inserted into
+ * the search index. Uses `lunr.tokenizer.separator` to split strings, change
+ * the value of this property to change how strings are split into tokens.
+ *
+ * @module
+ * @param {String} obj The string to convert into tokens
+ * @see lunr.tokenizer.separator
+ * @returns {Array}
+ */
+lunr.tokenizer = function (obj) {
+  if (!arguments.length || obj == null || obj == undefined) return []
+  if (Array.isArray(obj)) return obj.map(function (t) { return lunr.utils.asString(t).toLowerCase() })
+
+  // TODO: This exists so that the deprecated property lunr.tokenizer.seperator can still be used. By
+  // default it is set to false and so the correctly spelt lunr.tokenizer.separator is used unless
+  // the user is using the old property to customise the tokenizer.
+  //
+  // This should be removed when version 1.0.0 is released.
+  var separator = lunr.tokenizer.seperator || lunr.tokenizer.separator
+
+  return obj.toString().trim().toLowerCase().split(separator)
+}
+
+/**
+ * This property is legacy alias for lunr.tokenizer.separator to maintain backwards compatability.
+ * When introduced the token was spelt incorrectly. It will remain until 1.0.0 when it will be removed,
+ * all code should use the correctly spelt lunr.tokenizer.separator property instead.
+ *
+ * @static
+ * @see lunr.tokenizer.separator
+ * @deprecated since 0.7.2 will be removed in 1.0.0
+ * @private
+ * @see lunr.tokenizer
+ */
+lunr.tokenizer.seperator = false
+
+/**
+ * The sperator used to split a string into tokens. Override this property to change the behaviour of
+ * `lunr.tokenizer` behaviour when tokenizing strings. By default this splits on whitespace and hyphens.
+ *
+ * @static
+ * @see lunr.tokenizer
+ */
+lunr.tokenizer.separator = /[\s\-]+/
+
+/**
+ * Loads a previously serialised tokenizer.
+ *
+ * A tokenizer function to be loaded must already be registered with lunr.tokenizer.
+ * If the serialised tokenizer has not been registered then an error will be thrown.
+ *
+ * @param {String} label The label of the serialised tokenizer.
+ * @returns {Function}
+ * @memberOf tokenizer
+ */
+lunr.tokenizer.load = function (label) {
+  var fn = this.registeredFunctions[label]
+
+  if (!fn) {
+    throw new Error('Cannot load un-registered function: ' + label)
+  }
+
+  return fn
+}
+
+lunr.tokenizer.label = 'default'
+
+lunr.tokenizer.registeredFunctions = {
+  'default': lunr.tokenizer
+}
+
+/**
+ * Register a tokenizer function.
+ *
+ * Functions that are used as tokenizers should be registered if they are to be used with a serialised index.
+ *
+ * Registering a function does not add it to an index, functions must still be associated with a specific index for them to be used when indexing and searching documents.
+ *
+ * @param {Function} fn The function to register.
+ * @param {String} label The label to register this function with
+ * @memberOf tokenizer
+ */
+lunr.tokenizer.registerFunction = function (fn, label) {
+  if (label in this.registeredFunctions) {
+    lunr.utils.warn('Overwriting existing tokenizer: ' + label)
+  }
+
+  fn.label = label
+  this.registeredFunctions[label] = fn
+}
+/*!
+ * lunr.Pipeline
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * lunr.Pipelines maintain an ordered list of functions to be applied to all
+ * tokens in documents entering the search index and queries being ran against
+ * the index.
+ *
+ * An instance of lunr.Index created with the lunr shortcut will contain a
+ * pipeline with a stop word filter and an English language stemmer. Extra
+ * functions can be added before or after either of these functions or these
+ * default functions can be removed.
+ *
+ * When run the pipeline will call each function in turn, passing a token, the
+ * index of that token in the original list of all tokens and finally a list of
+ * all the original tokens.
+ *
+ * The output of functions in the pipeline will be passed to the next function
+ * in the pipeline. To exclude a token from entering the index the function
+ * should return undefined, the rest of the pipeline will not be called with
+ * this token.
+ *
+ * For serialisation of pipelines to work, all functions used in an instance of
+ * a pipeline should be registered with lunr.Pipeline. Registered functions can
+ * then be loaded. If trying to load a serialised pipeline that uses functions
+ * that are not registered an error will be thrown.
+ *
+ * If not planning on serialising the pipeline then registering pipeline functions
+ * is not necessary.
+ *
+ * @constructor
+ */
+lunr.Pipeline = function () {
+  this._stack = []
+}
+
+lunr.Pipeline.registeredFunctions = {}
+
+/**
+ * Register a function with the pipeline.
+ *
+ * Functions that are used in the pipeline should be registered if the pipeline
+ * needs to be serialised, or a serialised pipeline needs to be loaded.
+ *
+ * Registering a function does not add it to a pipeline, functions must still be
+ * added to instances of the pipeline for them to be used when running a pipeline.
+ *
+ * @param {Function} fn The function to check for.
+ * @param {String} label The label to register this function with
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.registerFunction = function (fn, label) {
+  if (label in this.registeredFunctions) {
+    lunr.utils.warn('Overwriting existing registered function: ' + label)
+  }
+
+  fn.label = label
+  lunr.Pipeline.registeredFunctions[fn.label] = fn
+}
+
+/**
+ * Warns if the function is not registered as a Pipeline function.
+ *
+ * @param {Function} fn The function to check for.
+ * @private
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.warnIfFunctionNotRegistered = function (fn) {
+  var isRegistered = fn.label && (fn.label in this.registeredFunctions)
+
+  if (!isRegistered) {
+    lunr.utils.warn('Function is not registered with pipeline. This may cause problems when serialising the index.\n', fn)
+  }
+}
+
+/**
+ * Loads a previously serialised pipeline.
+ *
+ * All functions to be loaded must already be registered with lunr.Pipeline.
+ * If any function from the serialised data has not been registered then an
+ * error will be thrown.
+ *
+ * @param {Object} serialised The serialised pipeline to load.
+ * @returns {lunr.Pipeline}
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.load = function (serialised) {
+  var pipeline = new lunr.Pipeline
+
+  serialised.forEach(function (fnName) {
+    var fn = lunr.Pipeline.registeredFunctions[fnName]
+
+    if (fn) {
+      pipeline.add(fn)
+    } else {
+      throw new Error('Cannot load un-registered function: ' + fnName)
+    }
+  })
+
+  return pipeline
+}
+
+/**
+ * Adds new functions to the end of the pipeline.
+ *
+ * Logs a warning if the function has not been registered.
+ *
+ * @param {Function} functions Any number of functions to add to the pipeline.
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.prototype.add = function () {
+  var fns = Array.prototype.slice.call(arguments)
+
+  fns.forEach(function (fn) {
+    lunr.Pipeline.warnIfFunctionNotRegistered(fn)
+    this._stack.push(fn)
+  }, this)
+}
+
+/**
+ * Adds a single function after a function that already exists in the
+ * pipeline.
+ *
+ * Logs a warning if the function has not been registered.
+ *
+ * @param {Function} existingFn A function that already exists in the pipeline.
+ * @param {Function} newFn The new function to add to the pipeline.
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.prototype.after = function (existingFn, newFn) {
+  lunr.Pipeline.warnIfFunctionNotRegistered(newFn)
+
+  var pos = this._stack.indexOf(existingFn)
+  if (pos == -1) {
+    throw new Error('Cannot find existingFn')
+  }
+
+  pos = pos + 1
+  this._stack.splice(pos, 0, newFn)
+}
+
+/**
+ * Adds a single function before a function that already exists in the
+ * pipeline.
+ *
+ * Logs a warning if the function has not been registered.
+ *
+ * @param {Function} existingFn A function that already exists in the pipeline.
+ * @param {Function} newFn The new function to add to the pipeline.
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.prototype.before = function (existingFn, newFn) {
+  lunr.Pipeline.warnIfFunctionNotRegistered(newFn)
+
+  var pos = this._stack.indexOf(existingFn)
+  if (pos == -1) {
+    throw new Error('Cannot find existingFn')
+  }
+
+  this._stack.splice(pos, 0, newFn)
+}
+
+/**
+ * Removes a function from the pipeline.
+ *
+ * @param {Function} fn The function to remove from the pipeline.
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.prototype.remove = function (fn) {
+  var pos = this._stack.indexOf(fn)
+  if (pos == -1) {
+    return
+  }
+
+  this._stack.splice(pos, 1)
+}
+
+/**
+ * Runs the current list of functions that make up the pipeline against the
+ * passed tokens.
+ *
+ * @param {Array} tokens The tokens to run through the pipeline.
+ * @returns {Array}
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.prototype.run = function (tokens) {
+  var out = [],
+      tokenLength = tokens.length,
+      stackLength = this._stack.length
+
+  for (var i = 0; i < tokenLength; i++) {
+    var token = tokens[i]
+
+    for (var j = 0; j < stackLength; j++) {
+      token = this._stack[j](token, i, tokens)
+      if (token === void 0 || token === '') break
+    };
+
+    if (token !== void 0 && token !== '') out.push(token)
+  };
+
+  return out
+}
+
+/**
+ * Resets the pipeline by removing any existing processors.
+ *
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.prototype.reset = function () {
+  this._stack = []
+}
+
+/**
+ * Returns a representation of the pipeline ready for serialisation.
+ *
+ * Logs a warning if the function has not been registered.
+ *
+ * @returns {Array}
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.prototype.toJSON = function () {
+  return this._stack.map(function (fn) {
+    lunr.Pipeline.warnIfFunctionNotRegistered(fn)
+
+    return fn.label
+  })
+}
+/*!
+ * lunr.Vector
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * lunr.Vectors implement vector related operations for
+ * a series of elements.
+ *
+ * @constructor
+ */
+lunr.Vector = function () {
+  this._magnitude = null
+  this.list = undefined
+  this.length = 0
+}
+
+/**
+ * lunr.Vector.Node is a simple struct for each node
+ * in a lunr.Vector.
+ *
+ * @private
+ * @param {Number} The index of the node in the vector.
+ * @param {Object} The data at this node in the vector.
+ * @param {lunr.Vector.Node} The node directly after this node in the vector.
+ * @constructor
+ * @memberOf Vector
+ */
+lunr.Vector.Node = function (idx, val, next) {
+  this.idx = idx
+  this.val = val
+  this.next = next
+}
+
+/**
+ * Inserts a new value at a position in a vector.
+ *
+ * @param {Number} The index at which to insert a value.
+ * @param {Object} The object to insert in the vector.
+ * @memberOf Vector.
+ */
+lunr.Vector.prototype.insert = function (idx, val) {
+  this._magnitude = undefined;
+  var list = this.list
+
+  if (!list) {
+    this.list = new lunr.Vector.Node (idx, val, list)
+    return this.length++
+  }
+
+  if (idx < list.idx) {
+    this.list = new lunr.Vector.Node (idx, val, list)
+    return this.length++
+  }
+
+  var prev = list,
+      next = list.next
+
+  while (next != undefined) {
+    if (idx < next.idx) {
+      prev.next = new lunr.Vector.Node (idx, val, next)
+      return this.length++
+    }
+
+    prev = next, next = next.next
+  }
+
+  prev.next = new lunr.Vector.Node (idx, val, next)
+  return this.length++
+}
+
+/**
+ * Calculates the magnitude of this vector.
+ *
+ * @returns {Number}
+ * @memberOf Vector
+ */
+lunr.Vector.prototype.magnitude = function () {
+  if (this._magnitude) return this._magnitude
+  var node = this.list,
+      sumOfSquares = 0,
+      val
+
+  while (node) {
+    val = node.val
+    sumOfSquares += val * val
+    node = node.next
+  }
+
+  return this._magnitude = Math.sqrt(sumOfSquares)
+}
+
+/**
+ * Calculates the dot product of this vector and another vector.
+ *
+ * @param {lunr.Vector} otherVector The vector to compute the dot product with.
+ * @returns {Number}
+ * @memberOf Vector
+ */
+lunr.Vector.prototype.dot = function (otherVector) {
+  var node = this.list,
+      otherNode = otherVector.list,
+      dotProduct = 0
+
+  while (node && otherNode) {
+    if (node.idx < otherNode.idx) {
+      node = node.next
+    } else if (node.idx > otherNode.idx) {
+      otherNode = otherNode.next
+    } else {
+      dotProduct += node.val * otherNode.val
+      node = node.next
+      otherNode = otherNode.next
+    }
+  }
+
+  return dotProduct
+}
+
+/**
+ * Calculates the cosine similarity between this vector and another
+ * vector.
+ *
+ * @param {lunr.Vector} otherVector The other vector to calculate the
+ * similarity with.
+ * @returns {Number}
+ * @memberOf Vector
+ */
+lunr.Vector.prototype.similarity = function (otherVector) {
+  return this.dot(otherVector) / (this.magnitude() * otherVector.magnitude())
+}
+/*!
+ * lunr.SortedSet
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * lunr.SortedSets are used to maintain an array of uniq values in a sorted
+ * order.
+ *
+ * @constructor
+ */
+lunr.SortedSet = function () {
+  this.length = 0
+  this.elements = []
+}
+
+/**
+ * Loads a previously serialised sorted set.
+ *
+ * @param {Array} serialisedData The serialised set to load.
+ * @returns {lunr.SortedSet}
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.load = function (serialisedData) {
+  var set = new this
+
+  set.elements = serialisedData
+  set.length = serialisedData.length
+
+  return set
+}
+
+/**
+ * Inserts new items into the set in the correct position to maintain the
+ * order.
+ *
+ * @param {Object} The objects to add to this set.
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.prototype.add = function () {
+  var i, element
+
+  for (i = 0; i < arguments.length; i++) {
+    element = arguments[i]
+    if (~this.indexOf(element)) continue
+    this.elements.splice(this.locationFor(element), 0, element)
+  }
+
+  this.length = this.elements.length
+}
+
+/**
+ * Converts this sorted set into an array.
+ *
+ * @returns {Array}
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.prototype.toArray = function () {
+  return this.elements.slice()
+}
+
+/**
+ * Creates a new array with the results of calling a provided function on every
+ * element in this sorted set.
+ *
+ * Delegates to Array.prototype.map and has the same signature.
+ *
+ * @param {Function} fn The function that is called on each element of the
+ * set.
+ * @param {Object} ctx An optional object that can be used as the context
+ * for the function fn.
+ * @returns {Array}
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.prototype.map = function (fn, ctx) {
+  return this.elements.map(fn, ctx)
+}
+
+/**
+ * Executes a provided function once per sorted set element.
+ *
+ * Delegates to Array.prototype.forEach and has the same signature.
+ *
+ * @param {Function} fn The function that is called on each element of the
+ * set.
+ * @param {Object} ctx An optional object that can be used as the context
+ * @memberOf SortedSet
+ * for the function fn.
+ */
+lunr.SortedSet.prototype.forEach = function (fn, ctx) {
+  return this.elements.forEach(fn, ctx)
+}
+
+/**
+ * Returns the index at which a given element can be found in the
+ * sorted set, or -1 if it is not present.
+ *
+ * @param {Object} elem The object to locate in the sorted set.
+ * @returns {Number}
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.prototype.indexOf = function (elem) {
+  var start = 0,
+      end = this.elements.length,
+      sectionLength = end - start,
+      pivot = start + Math.floor(sectionLength / 2),
+      pivotElem = this.elements[pivot]
+
+  while (sectionLength > 1) {
+    if (pivotElem === elem) return pivot
+
+    if (pivotElem < elem) start = pivot
+    if (pivotElem > elem) end = pivot
+
+    sectionLength = end - start
+    pivot = start + Math.floor(sectionLength / 2)
+    pivotElem = this.elements[pivot]
+  }
+
+  if (pivotElem === elem) return pivot
+
+  return -1
+}
+
+/**
+ * Returns the position within the sorted set that an element should be
+ * inserted at to maintain the current order of the set.
+ *
+ * This function assumes that the element to search for does not already exist
+ * in the sorted set.
+ *
+ * @param {Object} elem The elem to find the position for in the set
+ * @returns {Number}
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.prototype.locationFor = function (elem) {
+  var start = 0,
+      end = this.elements.length,
+      sectionLength = end - start,
+      pivot = start + Math.floor(sectionLength / 2),
+      pivotElem = this.elements[pivot]
+
+  while (sectionLength > 1) {
+    if (pivotElem < elem) start = pivot
+    if (pivotElem > elem) end = pivot
+
+    sectionLength = end - start
+    pivot = start + Math.floor(sectionLength / 2)
+    pivotElem = this.elements[pivot]
+  }
+
+  if (pivotElem > elem) return pivot
+  if (pivotElem < elem) return pivot + 1
+}
+
+/**
+ * Creates a new lunr.SortedSet that contains the elements in the intersection
+ * of this set and the passed set.
+ *
+ * @param {lunr.SortedSet} otherSet The set to intersect with this set.
+ * @returns {lunr.SortedSet}
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.prototype.intersect = function (otherSet) {
+  var intersectSet = new lunr.SortedSet,
+      i = 0, j = 0,
+      a_len = this.length, b_len = otherSet.length,
+      a = this.elements, b = otherSet.elements
+
+  while (true) {
+    if (i > a_len - 1 || j > b_len - 1) break
+
+    if (a[i] === b[j]) {
+      intersectSet.add(a[i])
+      i++, j++
+      continue
+    }
+
+    if (a[i] < b[j]) {
+      i++
+      continue
+    }
+
+    if (a[i] > b[j]) {
+      j++
+      continue
+    }
+  };
+
+  return intersectSet
+}
+
+/**
+ * Makes a copy of this set
+ *
+ * @returns {lunr.SortedSet}
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.prototype.clone = function () {
+  var clone = new lunr.SortedSet
+
+  clone.elements = this.toArray()
+  clone.length = clone.elements.length
+
+  return clone
+}
+
+/**
+ * Creates a new lunr.SortedSet that contains the elements in the union
+ * of this set and the passed set.
+ *
+ * @param {lunr.SortedSet} otherSet The set to union with this set.
+ * @returns {lunr.SortedSet}
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.prototype.union = function (otherSet) {
+  var longSet, shortSet, unionSet
+
+  if (this.length >= otherSet.length) {
+    longSet = this, shortSet = otherSet
+  } else {
+    longSet = otherSet, shortSet = this
+  }
+
+  unionSet = longSet.clone()
+
+  for(var i = 0, shortSetElements = shortSet.toArray(); i < shortSetElements.length; i++){
+    unionSet.add(shortSetElements[i])
+  }
+
+  return unionSet
+}
+
+/**
+ * Returns a representation of the sorted set ready for serialisation.
+ *
+ * @returns {Array}
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.prototype.toJSON = function () {
+  return this.toArray()
+}
+/*!
+ * lunr.Index
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * lunr.Index is object that manages a search index.  It contains the indexes
+ * and stores all the tokens and document lookups.  It also provides the main
+ * user facing API for the library.
+ *
+ * @constructor
+ */
+lunr.Index = function () {
+  this._fields = []
+  this._ref = 'id'
+  this.pipeline = new lunr.Pipeline
+  this.documentStore = new lunr.Store
+  this.tokenStore = new lunr.TokenStore
+  this.corpusTokens = new lunr.SortedSet
+  this.eventEmitter =  new lunr.EventEmitter
+  this.tokenizerFn = lunr.tokenizer
+
+  this._idfCache = {}
+
+  this.on('add', 'remove', 'update', (function () {
+    this._idfCache = {}
+  }).bind(this))
+}
+
+/**
+ * Bind a handler to events being emitted by the index.
+ *
+ * The handler can be bound to many events at the same time.
+ *
+ * @param {String} [eventName] The name(s) of events to bind the function to.
+ * @param {Function} fn The serialised set to load.
+ * @memberOf Index
+ */
+lunr.Index.prototype.on = function () {
+  var args = Array.prototype.slice.call(arguments)
+  return this.eventEmitter.addListener.apply(this.eventEmitter, args)
+}
+
+/**
+ * Removes a handler from an event being emitted by the index.
+ *
+ * @param {String} eventName The name of events to remove the function from.
+ * @param {Function} fn The serialised set to load.
+ * @memberOf Index
+ */
+lunr.Index.prototype.off = function (name, fn) {
+  return this.eventEmitter.removeListener(name, fn)
+}
+
+/**
+ * Loads a previously serialised index.
+ *
+ * Issues a warning if the index being imported was serialised
+ * by a different version of lunr.
+ *
+ * @param {Object} serialisedData The serialised set to load.
+ * @returns {lunr.Index}
+ * @memberOf Index
+ */
+lunr.Index.load = function (serialisedData) {
+  if (serialisedData.version !== lunr.version) {
+    lunr.utils.warn('version mismatch: current ' + lunr.version + ' importing ' + serialisedData.version)
+  }
+
+  var idx = new this
+
+  idx._fields = serialisedData.fields
+  idx._ref = serialisedData.ref
+
+  idx.tokenizer(lunr.tokenizer.load(serialisedData.tokenizer))
+  idx.documentStore = lunr.Store.load(serialisedData.documentStore)
+  idx.tokenStore = lunr.TokenStore.load(serialisedData.tokenStore)
+  idx.corpusTokens = lunr.SortedSet.load(serialisedData.corpusTokens)
+  idx.pipeline = lunr.Pipeline.load(serialisedData.pipeline)
+
+  return idx
+}
+
+/**
+ * Adds a field to the list of fields that will be searchable within documents
+ * in the index.
+ *
+ * An optional boost param can be passed to affect how much tokens in this field
+ * rank in search results, by default the boost value is 1.
+ *
+ * Fields should be added before any documents are added to the index, fields
+ * that are added after documents are added to the index will only apply to new
+ * documents added to the index.
+ *
+ * @param {String} fieldName The name of the field within the document that
+ * should be indexed
+ * @param {Number} boost An optional boost that can be applied to terms in this
+ * field.
+ * @returns {lunr.Index}
+ * @memberOf Index
+ */
+lunr.Index.prototype.field = function (fieldName, opts) {
+  var opts = opts || {},
+      field = { name: fieldName, boost: opts.boost || 1 }
+
+  this._fields.push(field)
+  return this
+}
+
+/**
+ * Sets the property used to uniquely identify documents added to the index,
+ * by default this property is 'id'.
+ *
+ * This should only be changed before adding documents to the index, changing
+ * the ref property without resetting the index can lead to unexpected results.
+ *
+ * The value of ref can be of any type but it _must_ be stably comparable and
+ * orderable.
+ *
+ * @param {String} refName The property to use to uniquely identify the
+ * documents in the index.
+ * @param {Boolean} emitEvent Whether to emit add events, defaults to true
+ * @returns {lunr.Index}
+ * @memberOf Index
+ */
+lunr.Index.prototype.ref = function (refName) {
+  this._ref = refName
+  return this
+}
+
+/**
+ * Sets the tokenizer used for this index.
+ *
+ * By default the index will use the default tokenizer, lunr.tokenizer. The tokenizer
+ * should only be changed before adding documents to the index. Changing the tokenizer
+ * without re-building the index can lead to unexpected results.
+ *
+ * @param {Function} fn The function to use as a tokenizer.
+ * @returns {lunr.Index}
+ * @memberOf Index
+ */
+lunr.Index.prototype.tokenizer = function (fn) {
+  var isRegistered = fn.label && (fn.label in lunr.tokenizer.registeredFunctions)
+
+  if (!isRegistered) {
+    lunr.utils.warn('Function is not a registered tokenizer. This may cause problems when serialising the index')
+  }
+
+  this.tokenizerFn = fn
+  return this
+}
+
+/**
+ * Add a document to the index.
+ *
+ * This is the way new documents enter the index, this function will run the
+ * fields from the document through the index's pipeline and then add it to
+ * the index, it will then show up in search results.
+ *
+ * An 'add' event is emitted with the document that has been added and the index
+ * the document has been added to. This event can be silenced by passing false
+ * as the second argument to add.
+ *
+ * @param {Object} doc The document to add to the index.
+ * @param {Boolean} emitEvent Whether or not to emit events, default true.
+ * @memberOf Index
+ */
+lunr.Index.prototype.add = function (doc, emitEvent) {
+  var docTokens = {},
+      allDocumentTokens = new lunr.SortedSet,
+      docRef = doc[this._ref],
+      emitEvent = emitEvent === undefined ? true : emitEvent
+
+  this._fields.forEach(function (field) {
+    var fieldTokens = this.pipeline.run(this.tokenizerFn(doc[field.name]))
+
+    docTokens[field.name] = fieldTokens
+
+    for (var i = 0; i < fieldTokens.length; i++) {
+      var token = fieldTokens[i]
+      allDocumentTokens.add(token)
+      this.corpusTokens.add(token)
+    }
+  }, this)
+
+  this.documentStore.set(docRef, allDocumentTokens)
+
+  for (var i = 0; i < allDocumentTokens.length; i++) {
+    var token = allDocumentTokens.elements[i]
+    var tf = 0;
+
+    for (var j = 0; j < this._fields.length; j++){
+      var field = this._fields[j]
+      var fieldTokens = docTokens[field.name]
+      var fieldLength = fieldTokens.length
+
+      if (!fieldLength) continue
+
+      var tokenCount = 0
+      for (var k = 0; k < fieldLength; k++){
+        if (fieldTokens[k] === token){
+          tokenCount++
+        }
+      }
+
+      tf += (tokenCount / fieldLength * field.boost)
+    }
+
+    this.tokenStore.add(token, { ref: docRef, tf: tf })
+  };
+
+  if (emitEvent) this.eventEmitter.emit('add', doc, this)
+}
+
+/**
+ * Removes a document from the index.
+ *
+ * To make sure documents no longer show up in search results they can be
+ * removed from the index using this method.
+ *
+ * The document passed only needs to have the same ref property value as the
+ * document that was added to the index, they could be completely different
+ * objects.
+ *
+ * A 'remove' event is emitted with the document that has been removed and the index
+ * the document has been removed from. This event can be silenced by passing false
+ * as the second argument to remove.
+ *
+ * @param {Object} doc The document to remove from the index.
+ * @param {Boolean} emitEvent Whether to emit remove events, defaults to true
+ * @memberOf Index
+ */
+lunr.Index.prototype.remove = function (doc, emitEvent) {
+  var docRef = doc[this._ref],
+      emitEvent = emitEvent === undefined ? true : emitEvent
+
+  if (!this.documentStore.has(docRef)) return
+
+  var docTokens = this.documentStore.get(docRef)
+
+  this.documentStore.remove(docRef)
+
+  docTokens.forEach(function (token) {
+    this.tokenStore.remove(token, docRef)
+  }, this)
+
+  if (emitEvent) this.eventEmitter.emit('remove', doc, this)
+}
+
+/**
+ * Updates a document in the index.
+ *
+ * When a document contained within the index gets updated, fields changed,
+ * added or removed, to make sure it correctly matched against search queries,
+ * it should be updated in the index.
+ *
+ * This method is just a wrapper around `remove` and `add`
+ *
+ * An 'update' event is emitted with the document that has been updated and the index.
+ * This event can be silenced by passing false as the second argument to update. Only
+ * an update event will be fired, the 'add' and 'remove' events of the underlying calls
+ * are silenced.
+ *
+ * @param {Object} doc The document to update in the index.
+ * @param {Boolean} emitEvent Whether to emit update events, defaults to true
+ * @see Index.prototype.remove
+ * @see Index.prototype.add
+ * @memberOf Index
+ */
+lunr.Index.prototype.update = function (doc, emitEvent) {
+  var emitEvent = emitEvent === undefined ? true : emitEvent
+
+  this.remove(doc, false)
+  this.add(doc, false)
+
+  if (emitEvent) this.eventEmitter.emit('update', doc, this)
+}
+
+/**
+ * Calculates the inverse document frequency for a token within the index.
+ *
+ * @param {String} token The token to calculate the idf of.
+ * @see Index.prototype.idf
+ * @private
+ * @memberOf Index
+ */
+lunr.Index.prototype.idf = function (term) {
+  var cacheKey = "@" + term
+  if (Object.prototype.hasOwnProperty.call(this._idfCache, cacheKey)) return this._idfCache[cacheKey]
+
+  var documentFrequency = this.tokenStore.count(term),
+      idf = 1
+
+  if (documentFrequency > 0) {
+    idf = 1 + Math.log(this.documentStore.length / documentFrequency)
+  }
+
+  return this._idfCache[cacheKey] = idf
+}
+
+/**
+ * Searches the index using the passed query.
+ *
+ * Queries should be a string, multiple words are allowed and will lead to an
+ * AND based query, e.g. `idx.search('foo bar')` will run a search for
+ * documents containing both 'foo' and 'bar'.
+ *
+ * All query tokens are passed through the same pipeline that document tokens
+ * are passed through, so any language processing involved will be run on every
+ * query term.
+ *
+ * Each query term is expanded, so that the term 'he' might be expanded to
+ * 'hello' and 'help' if those terms were already included in the index.
+ *
+ * Matching documents are returned as an array of objects, each object contains
+ * the matching document ref, as set for this index, and the similarity score
+ * for this document against the query.
+ *
+ * @param {String} query The query to search the index with.
+ * @returns {Object}
+ * @see Index.prototype.idf
+ * @see Index.prototype.documentVector
+ * @memberOf Index
+ */
+lunr.Index.prototype.search = function (query) {
+  var queryTokens = this.pipeline.run(this.tokenizerFn(query)),
+      queryVector = new lunr.Vector,
+      documentSets = [],
+      fieldBoosts = this._fields.reduce(function (memo, f) { return memo + f.boost }, 0)
+
+  var hasSomeToken = queryTokens.some(function (token) {
+    return this.tokenStore.has(token)
+  }, this)
+
+  if (!hasSomeToken) return []
+
+  queryTokens
+    .forEach(function (token, i, tokens) {
+      var tf = 1 / tokens.length * this._fields.length * fieldBoosts,
+          self = this
+
+      var set = this.tokenStore.expand(token).reduce(function (memo, key) {
+        var pos = self.corpusTokens.indexOf(key),
+            idf = self.idf(key),
+            similarityBoost = 1,
+            set = new lunr.SortedSet
+
+        // if the expanded key is not an exact match to the token then
+        // penalise the score for this key by how different the key is
+        // to the token.
+        if (key !== token) {
+          var diff = Math.max(3, key.length - token.length)
+          similarityBoost = 1 / Math.log(diff)
+        }
+
+        // calculate the query tf-idf score for this token
+        // applying an similarityBoost to ensure exact matches
+        // these rank higher than expanded terms
+        if (pos > -1) queryVector.insert(pos, tf * idf * similarityBoost)
+
+        // add all the documents that have this key into a set
+        // ensuring that the type of key is preserved
+        var matchingDocuments = self.tokenStore.get(key),
+            refs = Object.keys(matchingDocuments),
+            refsLen = refs.length
+
+        for (var i = 0; i < refsLen; i++) {
+          set.add(matchingDocuments[refs[i]].ref)
+        }
+
+        return memo.union(set)
+      }, new lunr.SortedSet)
+
+      documentSets.push(set)
+    }, this)
+
+  var documentSet = documentSets.reduce(function (memo, set) {
+    return memo.intersect(set)
+  })
+
+  return documentSet
+    .map(function (ref) {
+      return { ref: ref, score: queryVector.similarity(this.documentVector(ref)) }
+    }, this)
+    .sort(function (a, b) {
+      return b.score - a.score
+    })
+}
+
+/**
+ * Generates a vector containing all the tokens in the document matching the
+ * passed documentRef.
+ *
+ * The vector contains the tf-idf score for each token contained in the
+ * document with the passed documentRef.  The vector will contain an element
+ * for every token in the indexes corpus, if the document does not contain that
+ * token the element will be 0.
+ *
+ * @param {Object} documentRef The ref to find the document with.
+ * @returns {lunr.Vector}
+ * @private
+ * @memberOf Index
+ */
+lunr.Index.prototype.documentVector = function (documentRef) {
+  var documentTokens = this.documentStore.get(documentRef),
+      documentTokensLength = documentTokens.length,
+      documentVector = new lunr.Vector
+
+  for (var i = 0; i < documentTokensLength; i++) {
+    var token = documentTokens.elements[i],
+        tf = this.tokenStore.get(token)[documentRef].tf,
+        idf = this.idf(token)
+
+    documentVector.insert(this.corpusTokens.indexOf(token), tf * idf)
+  };
+
+  return documentVector
+}
+
+/**
+ * Returns a representation of the index ready for serialisation.
+ *
+ * @returns {Object}
+ * @memberOf Index
+ */
+lunr.Index.prototype.toJSON = function () {
+  return {
+    version: lunr.version,
+    fields: this._fields,
+    ref: this._ref,
+    tokenizer: this.tokenizerFn.label,
+    documentStore: this.documentStore.toJSON(),
+    tokenStore: this.tokenStore.toJSON(),
+    corpusTokens: this.corpusTokens.toJSON(),
+    pipeline: this.pipeline.toJSON()
+  }
+}
+
+/**
+ * Applies a plugin to the current index.
+ *
+ * A plugin is a function that is called with the index as its context.
+ * Plugins can be used to customise or extend the behaviour the index
+ * in some way. A plugin is just a function, that encapsulated the custom
+ * behaviour that should be applied to the index.
+ *
+ * The plugin function will be called with the index as its argument, additional
+ * arguments can also be passed when calling use. The function will be called
+ * with the index as its context.
+ *
+ * Example:
+ *
+ *     var myPlugin = function (idx, arg1, arg2) {
+ *       // `this` is the index to be extended
+ *       // apply any extensions etc here.
+ *     }
+ *
+ *     var idx = lunr(function () {
+ *       this.use(myPlugin, 'arg1', 'arg2')
+ *     })
+ *
+ * @param {Function} plugin The plugin to apply.
+ * @memberOf Index
+ */
+lunr.Index.prototype.use = function (plugin) {
+  var args = Array.prototype.slice.call(arguments, 1)
+  args.unshift(this)
+  plugin.apply(this, args)
+}
+/*!
+ * lunr.Store
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * lunr.Store is a simple key-value store used for storing sets of tokens for
+ * documents stored in index.
+ *
+ * @constructor
+ * @module
+ */
+lunr.Store = function () {
+  this.store = {}
+  this.length = 0
+}
+
+/**
+ * Loads a previously serialised store
+ *
+ * @param {Object} serialisedData The serialised store to load.
+ * @returns {lunr.Store}
+ * @memberOf Store
+ */
+lunr.Store.load = function (serialisedData) {
+  var store = new this
+
+  store.length = serialisedData.length
+  store.store = Object.keys(serialisedData.store).reduce(function (memo, key) {
+    memo[key] = lunr.SortedSet.load(serialisedData.store[key])
+    return memo
+  }, {})
+
+  return store
+}
+
+/**
+ * Stores the given tokens in the store against the given id.
+ *
+ * @param {Object} id The key used to store the tokens against.
+ * @param {Object} tokens The tokens to store against the key.
+ * @memberOf Store
+ */
+lunr.Store.prototype.set = function (id, tokens) {
+  if (!this.has(id)) this.length++
+  this.store[id] = tokens
+}
+
+/**
+ * Retrieves the tokens from the store for a given key.
+ *
+ * @param {Object} id The key to lookup and retrieve from the store.
+ * @returns {Object}
+ * @memberOf Store
+ */
+lunr.Store.prototype.get = function (id) {
+  return this.store[id]
+}
+
+/**
+ * Checks whether the store contains a key.
+ *
+ * @param {Object} id The id to look up in the store.
+ * @returns {Boolean}
+ * @memberOf Store
+ */
+lunr.Store.prototype.has = function (id) {
+  return id in this.store
+}
+
+/**
+ * Removes the value for a key in the store.
+ *
+ * @param {Object} id The id to remove from the store.
+ * @memberOf Store
+ */
+lunr.Store.prototype.remove = function (id) {
+  if (!this.has(id)) return
+
+  delete this.store[id]
+  this.length--
+}
+
+/**
+ * Returns a representation of the store ready for serialisation.
+ *
+ * @returns {Object}
+ * @memberOf Store
+ */
+lunr.Store.prototype.toJSON = function () {
+  return {
+    store: this.store,
+    length: this.length
+  }
+}
+
+/*!
+ * lunr.stemmer
+ * Copyright (C) 2016 Oliver Nightingale
+ * Includes code from - http://tartarus.org/~martin/PorterStemmer/js.txt
+ */
+
+/**
+ * lunr.stemmer is an english language stemmer, this is a JavaScript
+ * implementation of the PorterStemmer taken from http://tartarus.org/~martin
+ *
+ * @module
+ * @param {String} str The string to stem
+ * @returns {String}
+ * @see lunr.Pipeline
+ */
+lunr.stemmer = (function(){
+  var step2list = {
+      "ational" : "ate",
+      "tional" : "tion",
+      "enci" : "ence",
+      "anci" : "ance",
+      "izer" : "ize",
+      "bli" : "ble",
+      "alli" : "al",
+      "entli" : "ent",
+      "eli" : "e",
+      "ousli" : "ous",
+      "ization" : "ize",
+      "ation" : "ate",
+      "ator" : "ate",
+      "alism" : "al",
+      "iveness" : "ive",
+      "fulness" : "ful",
+      "ousness" : "ous",
+      "aliti" : "al",
+      "iviti" : "ive",
+      "biliti" : "ble",
+      "logi" : "log"
+    },
+
+    step3list = {
+      "icate" : "ic",
+      "ative" : "",
+      "alize" : "al",
+      "iciti" : "ic",
+      "ical" : "ic",
+      "ful" : "",
+      "ness" : ""
+    },
+
+    c = "[^aeiou]",          // consonant
+    v = "[aeiouy]",          // vowel
+    C = c + "[^aeiouy]*",    // consonant sequence
+    V = v + "[aeiou]*",      // vowel sequence
+
+    mgr0 = "^(" + C + ")?" + V + C,               // [C]VC... is m>0
+    meq1 = "^(" + C + ")?" + V + C + "(" + V + ")?$",  // [C]VC[V] is m=1
+    mgr1 = "^(" + C + ")?" + V + C + V + C,       // [C]VCVC... is m>1
+    s_v = "^(" + C + ")?" + v;                   // vowel in stem
+
+  var re_mgr0 = new RegExp(mgr0);
+  var re_mgr1 = new RegExp(mgr1);
+  var re_meq1 = new RegExp(meq1);
+  var re_s_v = new RegExp(s_v);
+
+  var re_1a = /^(.+?)(ss|i)es$/;
+  var re2_1a = /^(.+?)([^s])s$/;
+  var re_1b = /^(.+?)eed$/;
+  var re2_1b = /^(.+?)(ed|ing)$/;
+  var re_1b_2 = /.$/;
+  var re2_1b_2 = /(at|bl|iz)$/;
+  var re3_1b_2 = new RegExp("([^aeiouylsz])\\1$");
+  var re4_1b_2 = new RegExp("^" + C + v + "[^aeiouwxy]$");
+
+  var re_1c = /^(.+?[^aeiou])y$/;
+  var re_2 = /^(.+?)(ational|tional|enci|anci|izer|bli|alli|entli|eli|ousli|ization|ation|ator|alism|iveness|fulness|ousness|aliti|iviti|biliti|logi)$/;
+
+  var re_3 = /^(.+?)(icate|ative|alize|iciti|ical|ful|ness)$/;
+
+  var re_4 = /^(.+?)(al|ance|ence|er|ic|able|ible|ant|ement|ment|ent|ou|ism|ate|iti|ous|ive|ize)$/;
+  var re2_4 = /^(.+?)(s|t)(ion)$/;
+
+  var re_5 = /^(.+?)e$/;
+  var re_5_1 = /ll$/;
+  var re3_5 = new RegExp("^" + C + v + "[^aeiouwxy]$");
+
+  var porterStemmer = function porterStemmer(w) {
+    var   stem,
+      suffix,
+      firstch,
+      re,
+      re2,
+      re3,
+      re4;
+
+    if (w.length < 3) { return w; }
+
+    firstch = w.substr(0,1);
+    if (firstch == "y") {
+      w = firstch.toUpperCase() + w.substr(1);
+    }
+
+    // Step 1a
+    re = re_1a
+    re2 = re2_1a;
+
+    if (re.test(w)) { w = w.replace(re,"$1$2"); }
+    else if (re2.test(w)) { w = w.replace(re2,"$1$2"); }
+
+    // Step 1b
+    re = re_1b;
+    re2 = re2_1b;
+    if (re.test(w)) {
+      var fp = re.exec(w);
+      re = re_mgr0;
+      if (re.test(fp[1])) {
+        re = re_1b_2;
+        w = w.replace(re,"");
+      }
+    } else if (re2.test(w)) {
+      var fp = re2.exec(w);
+      stem = fp[1];
+      re2 = re_s_v;
+      if (re2.test(stem)) {
+        w = stem;
+        re2 = re2_1b_2;
+        re3 = re3_1b_2;
+        re4 = re4_1b_2;
+        if (re2.test(w)) {  w = w + "e"; }
+        else if (re3.test(w)) { re = re_1b_2; w = w.replace(re,""); }
+        else if (re4.test(w)) { w = w + "e"; }
+      }
+    }
+
+    // Step 1c - replace suffix y or Y by i if preceded by a non-vowel which is not the first letter of the word (so cry -> cri, by -> by, say -> say)
+    re = re_1c;
+    if (re.test(w)) {
+      var fp = re.exec(w);
+      stem = fp[1];
+      w = stem + "i";
+    }
+
+    // Step 2
+    re = re_2;
+    if (re.test(w)) {
+      var fp = re.exec(w);
+      stem = fp[1];
+      suffix = fp[2];
+      re = re_mgr0;
+      if (re.test(stem)) {
+        w = stem + step2list[suffix];
+      }
+    }
+
+    // Step 3
+    re = re_3;
+    if (re.test(w)) {
+      var fp = re.exec(w);
+      stem = fp[1];
+      suffix = fp[2];
+      re = re_mgr0;
+      if (re.test(stem)) {
+        w = stem + step3list[suffix];
+      }
+    }
+
+    // Step 4
+    re = re_4;
+    re2 = re2_4;
+    if (re.test(w)) {
+      var fp = re.exec(w);
+      stem = fp[1];
+      re = re_mgr1;
+      if (re.test(stem)) {
+        w = stem;
+      }
+    } else if (re2.test(w)) {
+      var fp = re2.exec(w);
+      stem = fp[1] + fp[2];
+      re2 = re_mgr1;
+      if (re2.test(stem)) {
+        w = stem;
+      }
+    }
+
+    // Step 5
+    re = re_5;
+    if (re.test(w)) {
+      var fp = re.exec(w);
+      stem = fp[1];
+      re = re_mgr1;
+      re2 = re_meq1;
+      re3 = re3_5;
+      if (re.test(stem) || (re2.test(stem) && !(re3.test(stem)))) {
+        w = stem;
+      }
+    }
+
+    re = re_5_1;
+    re2 = re_mgr1;
+    if (re.test(w) && re2.test(w)) {
+      re = re_1b_2;
+      w = w.replace(re,"");
+    }
+
+    // and turn initial Y back to y
+
+    if (firstch == "y") {
+      w = firstch.toLowerCase() + w.substr(1);
+    }
+
+    return w;
+  };
+
+  return porterStemmer;
+})();
+
+lunr.Pipeline.registerFunction(lunr.stemmer, 'stemmer')
+/*!
+ * lunr.stopWordFilter
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * lunr.generateStopWordFilter builds a stopWordFilter function from the provided
+ * list of stop words.
+ *
+ * The built in lunr.stopWordFilter is built using this generator and can be used
+ * to generate custom stopWordFilters for applications or non English languages.
+ *
+ * @module
+ * @param {Array} token The token to pass through the filter
+ * @returns {Function}
+ * @see lunr.Pipeline
+ * @see lunr.stopWordFilter
+ */
+lunr.generateStopWordFilter = function (stopWords) {
+  var words = stopWords.reduce(function (memo, stopWord) {
+    memo[stopWord] = stopWord
+    return memo
+  }, {})
+
+  return function (token) {
+    if (token && words[token] !== token) return token
+  }
+}
+
+/**
+ * lunr.stopWordFilter is an English language stop word list filter, any words
+ * contained in the list will not be passed through the filter.
+ *
+ * This is intended to be used in the Pipeline. If the token does not pass the
+ * filter then undefined will be returned.
+ *
+ * @module
+ * @param {String} token The token to pass through the filter
+ * @returns {String}
+ * @see lunr.Pipeline
+ */
+lunr.stopWordFilter = lunr.generateStopWordFilter([
+  'a',
+  'able',
+  'about',
+  'across',
+  'after',
+  'all',
+  'almost',
+  'also',
+  'am',
+  'among',
+  'an',
+  'and',
+  'any',
+  'are',
+  'as',
+  'at',
+  'be',
+  'because',
+  'been',
+  'but',
+  'by',
+  'can',
+  'cannot',
+  'could',
+  'dear',
+  'did',
+  'do',
+  'does',
+  'either',
+  'else',
+  'ever',
+  'every',
+  'for',
+  'from',
+  'get',
+  'got',
+  'had',
+  'has',
+  'have',
+  'he',
+  'her',
+  'hers',
+  'him',
+  'his',
+  'how',
+  'however',
+  'i',
+  'if',
+  'in',
+  'into',
+  'is',
+  'it',
+  'its',
+  'just',
+  'least',
+  'let',
+  'like',
+  'likely',
+  'may',
+  'me',
+  'might',
+  'most',
+  'must',
+  'my',
+  'neither',
+  'no',
+  'nor',
+  'not',
+  'of',
+  'off',
+  'often',
+  'on',
+  'only',
+  'or',
+  'other',
+  'our',
+  'own',
+  'rather',
+  'said',
+  'say',
+  'says',
+  'she',
+  'should',
+  'since',
+  'so',
+  'some',
+  'than',
+  'that',
+  'the',
+  'their',
+  'them',
+  'then',
+  'there',
+  'these',
+  'they',
+  'this',
+  'tis',
+  'to',
+  'too',
+  'twas',
+  'us',
+  'wants',
+  'was',
+  'we',
+  'were',
+  'what',
+  'when',
+  'where',
+  'which',
+  'while',
+  'who',
+  'whom',
+  'why',
+  'will',
+  'with',
+  'would',
+  'yet',
+  'you',
+  'your'
+])
+
+lunr.Pipeline.registerFunction(lunr.stopWordFilter, 'stopWordFilter')
+/*!
+ * lunr.trimmer
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * lunr.trimmer is a pipeline function for trimming non word
+ * characters from the begining and end of tokens before they
+ * enter the index.
+ *
+ * This implementation may not work correctly for non latin
+ * characters and should either be removed or adapted for use
+ * with languages with non-latin characters.
+ *
+ * @module
+ * @param {String} token The token to pass through the filter
+ * @returns {String}
+ * @see lunr.Pipeline
+ */
+lunr.trimmer = function (token) {
+  return token.replace(/^\W+/, '').replace(/\W+$/, '')
+}
+
+lunr.Pipeline.registerFunction(lunr.trimmer, 'trimmer')
+/*!
+ * lunr.stemmer
+ * Copyright (C) 2016 Oliver Nightingale
+ * Includes code from - http://tartarus.org/~martin/PorterStemmer/js.txt
+ */
+
+/**
+ * lunr.TokenStore is used for efficient storing and lookup of the reverse
+ * index of token to document ref.
+ *
+ * @constructor
+ */
+lunr.TokenStore = function () {
+  this.root = { docs: {} }
+  this.length = 0
+}
+
+/**
+ * Loads a previously serialised token store
+ *
+ * @param {Object} serialisedData The serialised token store to load.
+ * @returns {lunr.TokenStore}
+ * @memberOf TokenStore
+ */
+lunr.TokenStore.load = function (serialisedData) {
+  var store = new this
+
+  store.root = serialisedData.root
+  store.length = serialisedData.length
+
+  return store
+}
+
+/**
+ * Adds a new token doc pair to the store.
+ *
+ * By default this function starts at the root of the current store, however
+ * it can start at any node of any token store if required.
+ *
+ * @param {String} token The token to store the doc under
+ * @param {Object} doc The doc to store against the token
+ * @param {Object} root An optional node at which to start looking for the
+ * correct place to enter the doc, by default the root of this lunr.TokenStore
+ * is used.
+ * @memberOf TokenStore
+ */
+lunr.TokenStore.prototype.add = function (token, doc, root) {
+  var root = root || this.root,
+      key = token.charAt(0),
+      rest = token.slice(1)
+
+  if (!(key in root)) root[key] = {docs: {}}
+
+  if (rest.length === 0) {
+    root[key].docs[doc.ref] = doc
+    this.length += 1
+    return
+  } else {
+    return this.add(rest, doc, root[key])
+  }
+}
+
+/**
+ * Checks whether this key is contained within this lunr.TokenStore.
+ *
+ * By default this function starts at the root of the current store, however
+ * it can start at any node of any token store if required.
+ *
+ * @param {String} token The token to check for
+ * @param {Object} root An optional node at which to start
+ * @memberOf TokenStore
+ */
+lunr.TokenStore.prototype.has = function (token) {
+  if (!token) return false
+
+  var node = this.root
+
+  for (var i = 0; i < token.length; i++) {
+    if (!node[token.charAt(i)]) return false
+
+    node = node[token.charAt(i)]
+  }
+
+  return true
+}
+
+/**
+ * Retrieve a node from the token store for a given token.
+ *
+ * By default this function starts at the root of the current store, however
+ * it can start at any node of any token store if required.
+ *
+ * @param {String} token The token to get the node for.
+ * @param {Object} root An optional node at which to start.
+ * @returns {Object}
+ * @see TokenStore.prototype.get
+ * @memberOf TokenStore
+ */
+lunr.TokenStore.prototype.getNode = function (token) {
+  if (!token) return {}
+
+  var node = this.root
+
+  for (var i = 0; i < token.length; i++) {
+    if (!node[token.charAt(i)]) return {}
+
+    node = node[token.charAt(i)]
+  }
+
+  return node
+}
+
+/**
+ * Retrieve the documents for a node for the given token.
+ *
+ * By default this function starts at the root of the current store, however
+ * it can start at any node of any token store if required.
+ *
+ * @param {String} token The token to get the documents for.
+ * @param {Object} root An optional node at which to start.
+ * @returns {Object}
+ * @memberOf TokenStore
+ */
+lunr.TokenStore.prototype.get = function (token, root) {
+  return this.getNode(token, root).docs || {}
+}
+
+lunr.TokenStore.prototype.count = function (token, root) {
+  return Object.keys(this.get(token, root)).length
+}
+
+/**
+ * Remove the document identified by ref from the token in the store.
+ *
+ * By default this function starts at the root of the current store, however
+ * it can start at any node of any token store if required.
+ *
+ * @param {String} token The token to get the documents for.
+ * @param {String} ref The ref of the document to remove from this token.
+ * @param {Object} root An optional node at which to start.
+ * @returns {Object}
+ * @memberOf TokenStore
+ */
+lunr.TokenStore.prototype.remove = function (token, ref) {
+  if (!token) return
+  var node = this.root
+
+  for (var i = 0; i < token.length; i++) {
+    if (!(token.charAt(i) in node)) return
+    node = node[token.charAt(i)]
+  }
+
+  delete node.docs[ref]
+}
+
+/**
+ * Find all the possible suffixes of the passed token using tokens
+ * currently in the store.
+ *
+ * @param {String} token The token to expand.
+ * @returns {Array}
+ * @memberOf TokenStore
+ */
+lunr.TokenStore.prototype.expand = function (token, memo) {
+  var root = this.getNode(token),
+      docs = root.docs || {},
+      memo = memo || []
+
+  if (Object.keys(docs).length) memo.push(token)
+
+  Object.keys(root)
+    .forEach(function (key) {
+      if (key === 'docs') return
+
+      memo.concat(this.expand(token + key, memo))
+    }, this)
+
+  return memo
+}
+
+/**
+ * Returns a representation of the token store ready for serialisation.
+ *
+ * @returns {Object}
+ * @memberOf TokenStore
+ */
+lunr.TokenStore.prototype.toJSON = function () {
+  return {
+    root: this.root,
+    length: this.length
+  }
+}
+
+  /**
+   * export the module via AMD, CommonJS or as a browser global
+   * Export code from https://github.com/umdjs/umd/blob/master/returnExports.js
+   */
+  ;(function (root, factory) {
+    if (true) {
+      // AMD. Register as an anonymous module.
+      !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
+				__WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+    } else if (typeof exports === 'object') {
+      /**
+       * Node. Does not work with strict CommonJS, but
+       * only CommonJS-like enviroments that support module.exports,
+       * like Node.
+       */
+      module.exports = factory()
+    } else {
+      // Browser globals (root is window)
+      root.lunr = factory()
+    }
+  }(this, function () {
+    /**
+     * Just return a value to define the module export.
+     * This example returns an object, but the module
+     * can return a function as the exported value.
+     */
+    return lunr
+  }))
+})();
+
 
 /***/ }),
 
@@ -2063,6 +9749,84 @@ if(false) {
 
 /***/ }),
 
+/***/ 415:
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(492)
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(177),
+  /* template */
+  __webpack_require__(451),
+  /* scopeId */
+  "data-v-227f018b",
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/JsonSchemaEditor.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] JsonSchemaEditor.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-227f018b", Component.options)
+  } else {
+    hotAPI.reload("data-v-227f018b", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 416:
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(487)
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(178),
+  /* template */
+  __webpack_require__(444),
+  /* scopeId */
+  "data-v-05c830ce",
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ListPaginator.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] ListPaginator.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-05c830ce", Component.options)
+  } else {
+    hotAPI.reload("data-v-05c830ce", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ 42:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2129,18 +9893,455 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ 422:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(185),
+  /* template */
+  __webpack_require__(447),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/PaginatorLink.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] PaginatorLink.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-115d9766", Component.options)
+  } else {
+    hotAPI.reload("data-v-115d9766", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 43:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+
+module.exports = {
+  copy: copy,
+  checkDataType: checkDataType,
+  checkDataTypes: checkDataTypes,
+  coerceToTypes: coerceToTypes,
+  toHash: toHash,
+  getProperty: getProperty,
+  escapeQuotes: escapeQuotes,
+  ucs2length: __webpack_require__(142),
+  varOccurences: varOccurences,
+  varReplace: varReplace,
+  cleanUpCode: cleanUpCode,
+  finalCleanUpCode: finalCleanUpCode,
+  schemaHasRules: schemaHasRules,
+  schemaHasRulesExcept: schemaHasRulesExcept,
+  toQuotedString: toQuotedString,
+  getPathExpr: getPathExpr,
+  getPath: getPath,
+  getData: getData,
+  unescapeFragment: unescapeFragment,
+  escapeFragment: escapeFragment,
+  escapeJsonPointer: escapeJsonPointer
+};
+
+
+function copy(o, to) {
+  to = to || {};
+  for (var key in o) to[key] = o[key];
+  return to;
+}
+
+
+function checkDataType(dataType, data, negate) {
+  var EQUAL = negate ? ' !== ' : ' === '
+    , AND = negate ? ' || ' : ' && '
+    , OK = negate ? '!' : ''
+    , NOT = negate ? '' : '!';
+  switch (dataType) {
+    case 'null': return data + EQUAL + 'null';
+    case 'array': return OK + 'Array.isArray(' + data + ')';
+    case 'object': return '(' + OK + data + AND +
+                          'typeof ' + data + EQUAL + '"object"' + AND +
+                          NOT + 'Array.isArray(' + data + '))';
+    case 'integer': return '(typeof ' + data + EQUAL + '"number"' + AND +
+                           NOT + '(' + data + ' % 1)' +
+                           AND + data + EQUAL + data + ')';
+    default: return 'typeof ' + data + EQUAL + '"' + dataType + '"';
+  }
+}
+
+
+function checkDataTypes(dataTypes, data) {
+  switch (dataTypes.length) {
+    case 1: return checkDataType(dataTypes[0], data, true);
+    default:
+      var code = '';
+      var types = toHash(dataTypes);
+      if (types.array && types.object) {
+        code = types.null ? '(': '(!' + data + ' || ';
+        code += 'typeof ' + data + ' !== "object")';
+        delete types.null;
+        delete types.array;
+        delete types.object;
+      }
+      if (types.number) delete types.integer;
+      for (var t in types)
+        code += (code ? ' && ' : '' ) + checkDataType(t, data, true);
+
+      return code;
+  }
+}
+
+
+var COERCE_TO_TYPES = toHash([ 'string', 'number', 'integer', 'boolean', 'null' ]);
+function coerceToTypes(optionCoerceTypes, dataTypes) {
+  if (Array.isArray(dataTypes)) {
+    var types = [];
+    for (var i=0; i<dataTypes.length; i++) {
+      var t = dataTypes[i];
+      if (COERCE_TO_TYPES[t]) types[types.length] = t;
+      else if (optionCoerceTypes === 'array' && t === 'array') types[types.length] = t;
+    }
+    if (types.length) return types;
+  } else if (COERCE_TO_TYPES[dataTypes]) {
+    return [dataTypes];
+  } else if (optionCoerceTypes === 'array' && dataTypes === 'array') {
+    return ['array'];
+  }
+}
+
+
+function toHash(arr) {
+  var hash = {};
+  for (var i=0; i<arr.length; i++) hash[arr[i]] = true;
+  return hash;
+}
+
+
+var IDENTIFIER = /^[a-z$_][a-z$_0-9]*$/i;
+var SINGLE_QUOTE = /'|\\/g;
+function getProperty(key) {
+  return typeof key == 'number'
+          ? '[' + key + ']'
+          : IDENTIFIER.test(key)
+            ? '.' + key
+            : "['" + escapeQuotes(key) + "']";
+}
+
+
+function escapeQuotes(str) {
+  return str.replace(SINGLE_QUOTE, '\\$&')
+            .replace(/\n/g, '\\n')
+            .replace(/\r/g, '\\r')
+            .replace(/\f/g, '\\f')
+            .replace(/\t/g, '\\t');
+}
+
+
+function varOccurences(str, dataVar) {
+  dataVar += '[^0-9]';
+  var matches = str.match(new RegExp(dataVar, 'g'));
+  return matches ? matches.length : 0;
+}
+
+
+function varReplace(str, dataVar, expr) {
+  dataVar += '([^0-9])';
+  expr = expr.replace(/\$/g, '$$$$');
+  return str.replace(new RegExp(dataVar, 'g'), expr + '$1');
+}
+
+
+var EMPTY_ELSE = /else\s*{\s*}/g
+  , EMPTY_IF_NO_ELSE = /if\s*\([^)]+\)\s*\{\s*\}(?!\s*else)/g
+  , EMPTY_IF_WITH_ELSE = /if\s*\(([^)]+)\)\s*\{\s*\}\s*else(?!\s*if)/g;
+function cleanUpCode(out) {
+  return out.replace(EMPTY_ELSE, '')
+            .replace(EMPTY_IF_NO_ELSE, '')
+            .replace(EMPTY_IF_WITH_ELSE, 'if (!($1))');
+}
+
+
+var ERRORS_REGEXP = /[^v\.]errors/g
+  , REMOVE_ERRORS = /var errors = 0;|var vErrors = null;|validate.errors = vErrors;/g
+  , REMOVE_ERRORS_ASYNC = /var errors = 0;|var vErrors = null;/g
+  , RETURN_VALID = 'return errors === 0;'
+  , RETURN_TRUE = 'validate.errors = null; return true;'
+  , RETURN_ASYNC = /if \(errors === 0\) return data;\s*else throw new ValidationError\(vErrors\);/
+  , RETURN_DATA_ASYNC = 'return data;'
+  , ROOTDATA_REGEXP = /[^A-Za-z_$]rootData[^A-Za-z0-9_$]/g
+  , REMOVE_ROOTDATA = /if \(rootData === undefined\) rootData = data;/;
+
+function finalCleanUpCode(out, async) {
+  var matches = out.match(ERRORS_REGEXP);
+  if (matches && matches.length == 2) {
+    out = async
+          ? out.replace(REMOVE_ERRORS_ASYNC, '')
+               .replace(RETURN_ASYNC, RETURN_DATA_ASYNC)
+          : out.replace(REMOVE_ERRORS, '')
+               .replace(RETURN_VALID, RETURN_TRUE);
+  }
+
+  matches = out.match(ROOTDATA_REGEXP);
+  if (!matches || matches.length !== 3) return out;
+  return out.replace(REMOVE_ROOTDATA, '');
+}
+
+
+function schemaHasRules(schema, rules) {
+  if (typeof schema == 'boolean') return !schema;
+  for (var key in schema) if (rules[key]) return true;
+}
+
+
+function schemaHasRulesExcept(schema, rules, exceptKeyword) {
+  if (typeof schema == 'boolean') return !schema && exceptKeyword != 'not';
+  for (var key in schema) if (key != exceptKeyword && rules[key]) return true;
+}
+
+
+function toQuotedString(str) {
+  return '\'' + escapeQuotes(str) + '\'';
+}
+
+
+function getPathExpr(currentPath, expr, jsonPointers, isNumber) {
+  var path = jsonPointers // false by default
+              ? '\'/\' + ' + expr + (isNumber ? '' : '.replace(/~/g, \'~0\').replace(/\\//g, \'~1\')')
+              : (isNumber ? '\'[\' + ' + expr + ' + \']\'' : '\'[\\\'\' + ' + expr + ' + \'\\\']\'');
+  return joinPaths(currentPath, path);
+}
+
+
+function getPath(currentPath, prop, jsonPointers) {
+  var path = jsonPointers // false by default
+              ? toQuotedString('/' + escapeJsonPointer(prop))
+              : toQuotedString(getProperty(prop));
+  return joinPaths(currentPath, path);
+}
+
+
+var JSON_POINTER = /^\/(?:[^~]|~0|~1)*$/;
+var RELATIVE_JSON_POINTER = /^([0-9]+)(#|\/(?:[^~]|~0|~1)*)?$/;
+function getData($data, lvl, paths) {
+  var up, jsonPointer, data, matches;
+  if ($data === '') return 'rootData';
+  if ($data[0] == '/') {
+    if (!JSON_POINTER.test($data)) throw new Error('Invalid JSON-pointer: ' + $data);
+    jsonPointer = $data;
+    data = 'rootData';
+  } else {
+    matches = $data.match(RELATIVE_JSON_POINTER);
+    if (!matches) throw new Error('Invalid JSON-pointer: ' + $data);
+    up = +matches[1];
+    jsonPointer = matches[2];
+    if (jsonPointer == '#') {
+      if (up >= lvl) throw new Error('Cannot access property/index ' + up + ' levels up, current level is ' + lvl);
+      return paths[lvl - up];
+    }
+
+    if (up > lvl) throw new Error('Cannot access data ' + up + ' levels up, current level is ' + lvl);
+    data = 'data' + ((lvl - up) || '');
+    if (!jsonPointer) return data;
+  }
+
+  var expr = data;
+  var segments = jsonPointer.split('/');
+  for (var i=0; i<segments.length; i++) {
+    var segment = segments[i];
+    if (segment) {
+      data += getProperty(unescapeJsonPointer(segment));
+      expr += ' && ' + data;
+    }
+  }
+  return expr;
+}
+
+
+function joinPaths (a, b) {
+  if (a == '""') return b;
+  return (a + ' + ' + b).replace(/' \+ '/g, '');
+}
+
+
+function unescapeFragment(str) {
+  return unescapeJsonPointer(decodeURIComponent(str));
+}
+
+
+function escapeFragment(str) {
+  return encodeURIComponent(escapeJsonPointer(str));
+}
+
+
+function escapeJsonPointer(str) {
+  return str.replace(/~/g, '~0').replace(/\//g, '~1');
+}
+
+
+function unescapeJsonPointer(str) {
+  return str.replace(/~1/g, '/').replace(/~0/g, '~');
+}
+
+
+/***/ }),
+
+/***/ 444:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('section', {
+    staticClass: "paginator"
+  }, [_c('div', {
+    staticClass: "form-inline"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\t\tCurrent page:\n\t\t\t\t"), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "number",
+      "min": "1",
+      "max": _vm.paginatedItems.length
+    },
+    domProps: {
+      "value": _vm.value + 1
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('input', Number($event.target.value) - 1)
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\t\tItems per page:\n\t\t\t\t"), _c('select', {
+    staticClass: "form-control",
+    domProps: {
+      "value": _vm.itemsPerPage
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('pageSize', Number($event.target.value))
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "5"
+    }
+  }, [_vm._v("5")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "10"
+    }
+  }, [_vm._v("10")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "20"
+    }
+  }, [_vm._v("20")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "50"
+    }
+  }, [_vm._v("50")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "100"
+    }
+  }, [_vm._v("100")])])])])]), _vm._v(" "), (_vm.itemsPerPage && _vm.paginatedItems.length > 1) ? _c('nav', [_c('div', {
+    staticClass: "btn-group"
+  }, [_c('paginator-link', {
+    attrs: {
+      "value": _vm.value - 1,
+      "text": "← Prev",
+      "active": _vm.value === 0
+    },
+    on: {
+      "click": _vm.setPage
+    }
+  }), _vm._v(" "), _vm._l((_vm.paginatedItems), function(pageItems, pageNum) {
+    return _c('paginator-link', {
+      attrs: {
+        "value": pageNum,
+        "active": pageNum === _vm.value
+      },
+      on: {
+        "click": _vm.setPage
+      }
+    })
+  }), _vm._v(" "), _c('paginator-link', {
+    attrs: {
+      "value": _vm.value + 1,
+      "text": "Next →",
+      "active": _vm.value === _vm.paginatedItems.length - 1
+    },
+    on: {
+      "click": _vm.setPage
+    }
+  })], 2)]) : _vm._e()])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-05c830ce", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 447:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "type": "button",
+      "href": "#",
+      "disabled": _vm.active
+    },
+    on: {
+      "click": _vm.emitPage
+    }
+  }, [_vm._v("\n\t" + _vm._s(_vm.text || _vm.value + 1) + "\n")])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-115d9766", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ 45:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DataTable_vue__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DataTable_vue__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__DataTable_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_localforage__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_localforage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_localforage__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__ = __webpack_require__(7);
 //
@@ -2249,6 +10450,325 @@ window.localforage = __WEBPACK_IMPORTED_MODULE_2_localforage__;
 
 /***/ }),
 
+/***/ 451:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('div', {
+    staticClass: "panel panel-default"
+  }, [_c('div', {
+    staticClass: "panel-heading"
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.ucfirstWords(_vm.name)) + " Editor\n\t\t")]), _vm._v(" "), _c('div', {
+    staticClass: "panel-body"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-6"
+  }, [_c('div', {
+    staticClass: "json-container form-group",
+    class: {
+      'has-error': _vm.newJson && !_vm.isSchemaValid,
+        'has-success': _vm.newJson && _vm.isSchemaValid
+    }
+  }, [_c('label', {
+    staticClass: "control-label containing-label"
+  }, [_vm._v("\n\t\t\t\t\t\t\tNew " + _vm._s(_vm.name) + "\n\t\t\t\t\t\t\t"), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model.lazy",
+      value: (_vm.newJson),
+      expression: "newJson",
+      modifiers: {
+        "lazy": true
+      }
+    }],
+    staticClass: "input-json form-control",
+    domProps: {
+      "value": (_vm.newJson)
+    },
+    on: {
+      "change": function($event) {
+        _vm.newJson = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), (_vm.newJson && !_vm.isSchemaValid) ? _c('ul', {
+    staticClass: "help-block"
+  }, _vm._l((_vm.schemaErrors), function(error) {
+    return _c('li', [_vm._v("\n\t\t\t\t\t\t\t\t" + _vm._s(_vm.ucfirst(error.message)) + "\n\t\t\t\t\t\t\t")])
+  })) : (_vm.newJson && _vm.isSchemaValid) ? _c('span', {
+    staticClass: "help-block"
+  }, [_vm._v("\n\t\t\t\t\t\t\t" + _vm._s(_vm.ucfirst(_vm.name)) + " valid!\n\t\t\t\t\t\t")]) : _vm._e()]), _vm._v(" "), _c('show-hide-button', {
+    model: {
+      value: (_vm.show.schema),
+      callback: function($$v) {
+        _vm.show.schema = $$v
+      },
+      expression: "show.schema"
+    }
+  }, [_vm._v("\n\t\t\t\t\t\tschema\n\t\t\t\t\t")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-info",
+    attrs: {
+      "type": "button",
+      "disabled": !_vm.newJsonObject
+    },
+    on: {
+      "click": _vm.formatJson
+    }
+  }, [_vm._v("\n\t\t\t\t\t\tFormat JSON\n\t\t\t\t\t")]), _vm._v(" "), (_vm.show.schema) ? _c('div', {
+    staticClass: "json-container"
+  }, [_c('label', {
+    staticClass: "containing-label control-label"
+  }, [_vm._v("\n\t\t\t\t\t\t\tSchema\n\t\t\t\t\t\t\t"), _c('textarea', {
+    staticClass: "schema-json form-control",
+    attrs: {
+      "readonly": ""
+    },
+    domProps: {
+      "value": _vm.schema
+    }
+  })])]) : _vm._e()], 1), _vm._v(" "), _c('div', {
+    staticClass: "col-md-6"
+  }, [_c('div', {
+    staticClass: "json-container"
+  }, [_c('label', {
+    staticClass: "containing-label control-label"
+  }, [_vm._v("\n\t\t\t\t\t\t\tCurrent " + _vm._s(_vm.name) + "\n\t\t\t\t\t\t\t"), _c('textarea', {
+    staticClass: "previous-json form-control",
+    attrs: {
+      "readonly": ""
+    },
+    domProps: {
+      "value": _vm.currentValue
+    }
+  })])])])])])]), _vm._v(" "), _c('alert-list', {
+    model: {
+      value: (_vm.alerts),
+      callback: function($$v) {
+        _vm.alerts = $$v
+      },
+      expression: "alerts"
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "btn-lg-submit-container"
+  }, [_c('button', {
+    staticClass: "btn btn-lg btn-primary",
+    attrs: {
+      "type": "button",
+      "disabled": !_vm.isSchemaValid
+    },
+    on: {
+      "click": _vm.submitJson
+    }
+  }, [_vm._v("\n\t\t\tSubmit\n\t\t")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-lg btn-default",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.$emit('close')
+      }
+    }
+  }, [_vm._v("\n\t\t\tClose\n\t\t")])])], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-227f018b", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 46:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_js__ = __webpack_require__(3);
+/* harmony export (immutable) */ __webpack_exports__["e"] = createRadarScaleCallback;
+/* harmony export (immutable) */ __webpack_exports__["f"] = createResponseLegend;
+/* harmony export (immutable) */ __webpack_exports__["c"] = tableHeader;
+/* harmony export (immutable) */ __webpack_exports__["b"] = fullWidthTable;
+/* harmony export (immutable) */ __webpack_exports__["d"] = borderedStripedTable;
+/* harmony export (immutable) */ __webpack_exports__["g"] = getAverageLevel;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return sortFunctions; });
+
+
+function createRadarScaleCallback(valueMap) {
+	return function (value) {
+		return valueMap.get(value) || '';
+	};
+}
+
+function createResponseLegend(valueMap) {
+	var labels = [];
+	var values = [];
+
+	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_0__utils_js__["f" /* sortNumbers */]);
+
+	keys.map(function (key) {
+		labels.push(valueMap.get(key));
+		values.push(key.toString());
+	});
+
+	return {
+		table: {
+			headerRows: 1,
+			body: [labels.map(tableHeader), values]
+		}
+	};
+}
+
+function tableHeader(text) {
+	return {
+		text: text,
+		style: 'tableHeader'
+	};
+}
+
+function fullWidthTable(table) {
+	table.widths = Array(table.body[0].length).fill('*');
+	return table;
+}
+
+function borderedStripedTable(element) {
+	element.layout = {
+		hLineWidth: function hLineWidth(i, node) {
+			return i === node.table.headerRows ? 2 : 1;
+		},
+		vLineWidth: function vLineWidth() {
+			return 1;
+		},
+		hLineColor: function hLineColor() {
+			return '#555';
+		},
+		vLineColor: function vLineColor() {
+			return '#555';
+		},
+		fillColor: function fillColor(i, node) {
+			return i >= node.table.headerRows && i % 2 === 1 ? '#f3f3f3' : '#fff';
+		}
+	};
+
+	return element;
+}
+
+function getAverageLevel(average) {
+	var level = Math.floor(average) / 2;
+	return level >= 1 ? 'Level ' + level : 'Not Level 1';
+}
+
+var sortFunctions = new Map([['training_level', function (a, b) {
+	var sortOrder = ['intern', 'ca-1', 'ca-2', 'ca-3', 'fellow'];
+
+	var aLevel = a.training_level.toLowerCase();
+	var bLevel = b.training_level.toLowerCase();
+
+	return sortOrder.indexOf(aLevel) - sortOrder.indexOf(bLevel);
+}]]);
+
+/***/ }),
+
+/***/ 470:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('div', {
+    staticClass: "list-header form-inline"
+  }, [_c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sortBy),
+      expression: "sortBy"
+    }],
+    staticClass: "form-control",
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.sortBy = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, _vm._l((_vm.fields), function(field) {
+    return _c('option', {
+      domProps: {
+        "value": field
+      }
+    }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.snakeCaseToWords(field)) + "\n\t\t\t")])
+  })), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.sortOrder = _vm.sortOrder === 'asc' ? 'desc' : 'asc'
+      }
+    }
+  }, [(_vm.sortOrder === 'asc') ? _c('span', {
+    staticClass: "glyphicon glyphicon-sort-by-alphabet"
+  }) : _c('span', {
+    staticClass: "glyphicon glyphicon-sort-by-alphabet-alt"
+  })]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.query),
+      expression: "query"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "search",
+      "placeholder": "Search"
+    },
+    domProps: {
+      "value": (_vm.query)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.query = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('ol', {
+    staticClass: "list"
+  }, [_vm._l((_vm.currentPageItems), function(item) {
+    return _vm._t("default", null, null, item)
+  })], 2), _vm._v(" "), _c('list-paginator', {
+    attrs: {
+      "paginatedItems": _vm.paginatedItems,
+      "itemsPerPage": _vm.itemsPerPage
+    },
+    on: {
+      "pageSize": function($event) {
+        _vm.itemsPerPage = arguments[0]
+      }
+    },
+    model: {
+      value: (_vm.page),
+      callback: function($$v) {
+        _vm.page = $$v
+      },
+      expression: "page"
+    }
+  })], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-6d54e2f6", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ 481:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2351,6 +10871,33 @@ if (false) {
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-d93fa1b2", module.exports)
   }
+}
+
+/***/ }),
+
+/***/ 487:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(289);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("6a4ac0ec", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-05c830ce&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ListPaginator.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-05c830ce&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ListPaginator.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
 }
 
 /***/ }),
@@ -4675,6 +13222,68 @@ module.exports = localforage_js;
 
 /***/ }),
 
+/***/ 492:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(294);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("4f6e6a40", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-227f018b&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./JsonSchemaEditor.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-227f018b&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./JsonSchemaEditor.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 5:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(20),
+  /* template */
+  __webpack_require__(36),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/AlertList.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] AlertList.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4ff56c56", Component.options)
+  } else {
+    hotAPI.reload("data-v-4ff56c56", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ 50:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4709,6 +13318,33 @@ if (false) {
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-c24d553a", module.exports)
   }
+}
+
+/***/ }),
+
+/***/ 505:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(307);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("93a615da", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-6d54e2f6&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ComponentList.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-6d54e2f6&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ComponentList.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
 }
 
 /***/ }),
@@ -4750,30 +13386,99 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__milestones_competencies_js__ = __webpack_require__(120);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageMilestonesCompetencies", function() { return __WEBPACK_IMPORTED_MODULE_1__milestones_competencies_js__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__merit_js__ = __webpack_require__(119);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__merit_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__merit_js__);
-/* harmony reexport (binding) */ if(__webpack_require__.o(__WEBPACK_IMPORTED_MODULE_2__merit_js__, "default")) __webpack_require__.d(__webpack_exports__, "createManageMerit", function() { return __WEBPACK_IMPORTED_MODULE_2__merit_js__["default"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageMerit", function() { return __WEBPACK_IMPORTED_MODULE_2__merit_js__["a"]; });
 
 
 
 
 /***/ }),
 
-/***/ 6:
+/***/ 530:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: {
+		id: {
+			type: Number,
+			required: true
+		},
+		name: {
+			type: String,
+			required: true
+		},
+		version: {
+			type: Number,
+			required: true
+		},
+		form: {
+			type: String,
+			required: true
+		}
+	},
+
+	computed: {
+		formObject: function formObject() {
+			return JSON.parse(this.form);
+		}
+	},
+
+	methods: {
+		handleClick: function handleClick() {
+			this.$emit('click');
+		}
+	}
+};
+
+/***/ }),
+
+/***/ 531:
 /***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(534)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(20),
+  __webpack_require__(530),
   /* template */
-  __webpack_require__(36),
+  __webpack_require__(532),
   /* scopeId */
-  null,
+  "data-v-333b21d8",
   /* cssModules */
   null
 )
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/AlertList.vue"
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Manage/Merit/ReportListItem.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] AlertList.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] ReportListItem.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -4782,13 +13487,1684 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4ff56c56", Component.options)
+    hotAPI.createRecord("data-v-333b21d8", Component.options)
   } else {
-    hotAPI.reload("data-v-4ff56c56", Component.options)
+    hotAPI.reload("data-v-333b21d8", Component.options)
   }
 })()}
 
 module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 532:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "merit-report-list-item"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-sm-1 id-cell"
+  }, [_c('small', [_vm._v("#")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.id))])]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-5 name-cell"
+  }, [_c('span', {
+    staticClass: "name"
+  }, [_vm._v(_vm._s(_vm.name))])]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-3 version-cell"
+  }, [_c('small', [_vm._v("Version")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.version))])]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-3 controls-cell text-right"
+  }, [_c('button', {
+    staticClass: "btn btn-sm btn-info",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.handleClick
+    }
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-pencil"
+  }), _vm._v("\n\t\t\t\tView / edit\n\t\t\t")])])])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-333b21d8", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 533:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.merit-report-list-item[data-v-333b21d8] {\n\tborder-bottom: 1px solid rgba(0, 0, 0, 0.25);\n\tpadding: 5px 0;\n}\n.merit-report-list-item[data-v-333b21d8]:nth-child(even) {\n\tbackground-color: rgba(0, 0, 0, 0.05);\n}\nsmall[data-v-333b21d8] {\n\tfont-size: 0.75em;\n\tcolor: rgba(0, 0, 0, 0.55);\n\tdisplay: block;\n}\n.name-cell[data-v-333b21d8] {\n\tposition: relative;\n\tbottom: 0;\n}\n.name[data-v-333b21d8] {\n\tfont-size: 1.25em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Manage/Merit/ReportListItem.vue?21cab94b"],"names":[],"mappings":";AA6DA;CACA,6CAAA;CACA,eAAA;CACA;AAEA;CACA,sCAAA;CACA;AAEA;CACA,kBAAA;CACA,2BAAA;CACA,eAAA;CACA;AAEA;CACA,mBAAA;CACA,UAAA;CACA;AAEA;CACA,kBAAA;CACA","file":"ReportListItem.vue","sourcesContent":["<template>\n\t<div class=\"merit-report-list-item\">\n\t\t<div class=\"row\">\n\t\t\t<div class=\"col-sm-1 id-cell\">\n\t\t\t\t<small>#</small>\n\t\t\t\t<span>{{ id }}</span>\n\t\t\t</div>\n\t\t\t<div class=\"col-sm-5 name-cell\">\n\t\t\t\t<span class=\"name\">{{ name }}</span>\n\t\t\t</div>\n\t\t\t<div class=\"col-sm-3 version-cell\">\n\t\t\t\t<small>Version</small>\n\t\t\t\t<span>{{ version }}</span>\n\t\t\t</div>\n\t\t\t<div class=\"col-sm-3 controls-cell text-right\">\n\t\t\t\t<button type=\"button\" class=\"btn btn-sm btn-info\"\n\t\t\t\t\t\t@click=\"handleClick\">\n\t\t\t\t\t<span class=\"glyphicon glyphicon-pencil\"></span>\n\t\t\t\t\tView / edit\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nexport default {\n\tprops: {\n\t\tid: {\n\t\t\ttype: Number,\n\t\t\trequired: true\n\t\t},\n\t\tname: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t},\n\t\tversion: {\n\t\t\ttype: Number,\n\t\t\trequired: true\n\t\t},\n\t\tform: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t}\n\t},\n\t\n\tcomputed: {\n\t\tformObject() {\n\t\t\treturn JSON.parse(this.form);\n\t\t}\n\t},\n\t\n\tmethods: {\n\t\thandleClick() {\n\t\t\tthis.$emit('click');\n\t\t}\n\t}\n};\n</script>\n\n<style scoped>\n\t.merit-report-list-item {\n\t\tborder-bottom: 1px solid rgba(0, 0, 0, 0.25);\n\t\tpadding: 5px 0;\n\t}\n\t\n\t.merit-report-list-item:nth-child(even) {\n\t\tbackground-color: rgba(0, 0, 0, 0.05);\n\t}\n\t\n\tsmall {\n\t\tfont-size: 0.75em;\n\t\tcolor: rgba(0, 0, 0, 0.55);\n\t\tdisplay: block;\n\t}\n\t\n\t.name-cell {\n\t\tposition: relative;\n\t\tbottom: 0;\n\t}\n\t\n\t.name {\n\t\tfont-size: 1.25em;\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 534:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(533);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("7df1cf0e", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js?sourceMap!../../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-333b21d8&scoped=true!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ReportListItem.vue", function() {
+     var newContent = require("!!../../../../../../node_modules/css-loader/index.js?sourceMap!../../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-333b21d8&scoped=true!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ReportListItem.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 55:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var resolve = __webpack_require__(56);
+
+module.exports = {
+  Validation: errorSubclass(ValidationError),
+  MissingRef: errorSubclass(MissingRefError)
+};
+
+
+function ValidationError(errors) {
+  this.message = 'validation failed';
+  this.errors = errors;
+  this.ajv = this.validation = true;
+}
+
+
+MissingRefError.message = function (baseId, ref) {
+  return 'can\'t resolve reference ' + ref + ' from id ' + baseId;
+};
+
+
+function MissingRefError(baseId, ref, message) {
+  this.message = message || MissingRefError.message(baseId, ref);
+  this.missingRef = resolve.url(baseId, ref);
+  this.missingSchema = resolve.normalizeId(resolve.fullPath(this.missingRef));
+}
+
+
+function errorSubclass(Subclass) {
+  Subclass.prototype = Object.create(Error.prototype);
+  Subclass.prototype.constructor = Subclass;
+  return Subclass;
+}
+
+
+/***/ }),
+
+/***/ 56:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var url = __webpack_require__(65)
+  , equal = __webpack_require__(70)
+  , util = __webpack_require__(43)
+  , SchemaObject = __webpack_require__(71);
+
+module.exports = resolve;
+
+resolve.normalizeId = normalizeId;
+resolve.fullPath = getFullPath;
+resolve.url = resolveUrl;
+resolve.ids = resolveIds;
+resolve.inlineRef = inlineRef;
+resolve.schema = resolveSchema;
+
+/**
+ * [resolve and compile the references ($ref)]
+ * @this   Ajv
+ * @param  {Function} compile reference to schema compilation funciton (localCompile)
+ * @param  {Object} root object with information about the root schema for the current schema
+ * @param  {String} ref reference to resolve
+ * @return {Object|Function} schema object (if the schema can be inlined) or validation function
+ */
+function resolve(compile, root, ref) {
+  /* jshint validthis: true */
+  var refVal = this._refs[ref];
+  if (typeof refVal == 'string') {
+    if (this._refs[refVal]) refVal = this._refs[refVal];
+    else return resolve.call(this, compile, root, refVal);
+  }
+
+  refVal = refVal || this._schemas[ref];
+  if (refVal instanceof SchemaObject) {
+    return inlineRef(refVal.schema, this._opts.inlineRefs)
+            ? refVal.schema
+            : refVal.validate || this._compile(refVal);
+  }
+
+  var res = resolveSchema.call(this, root, ref);
+  var schema, v, baseId;
+  if (res) {
+    schema = res.schema;
+    root = res.root;
+    baseId = res.baseId;
+  }
+
+  if (schema instanceof SchemaObject) {
+    v = schema.validate || compile.call(this, schema.schema, root, undefined, baseId);
+  } else if (schema !== undefined) {
+    v = inlineRef(schema, this._opts.inlineRefs)
+        ? schema
+        : compile.call(this, schema, root, undefined, baseId);
+  }
+
+  return v;
+}
+
+
+/**
+ * Resolve schema, its root and baseId
+ * @this Ajv
+ * @param  {Object} root root object with properties schema, refVal, refs
+ * @param  {String} ref  reference to resolve
+ * @return {Object} object with properties schema, root, baseId
+ */
+function resolveSchema(root, ref) {
+  /* jshint validthis: true */
+  var p = url.parse(ref, false, true)
+    , refPath = _getFullPath(p)
+    , baseId = getFullPath(this._getId(root.schema));
+  if (refPath !== baseId) {
+    var id = normalizeId(refPath);
+    var refVal = this._refs[id];
+    if (typeof refVal == 'string') {
+      return resolveRecursive.call(this, root, refVal, p);
+    } else if (refVal instanceof SchemaObject) {
+      if (!refVal.validate) this._compile(refVal);
+      root = refVal;
+    } else {
+      refVal = this._schemas[id];
+      if (refVal instanceof SchemaObject) {
+        if (!refVal.validate) this._compile(refVal);
+        if (id == normalizeId(ref))
+          return { schema: refVal, root: root, baseId: baseId };
+        root = refVal;
+      } else {
+        return;
+      }
+    }
+    if (!root.schema) return;
+    baseId = getFullPath(this._getId(root.schema));
+  }
+  return getJsonPointer.call(this, p, baseId, root.schema, root);
+}
+
+
+/* @this Ajv */
+function resolveRecursive(root, ref, parsedRef) {
+  /* jshint validthis: true */
+  var res = resolveSchema.call(this, root, ref);
+  if (res) {
+    var schema = res.schema;
+    var baseId = res.baseId;
+    root = res.root;
+    var id = this._getId(schema);
+    if (id) baseId = resolveUrl(baseId, id);
+    return getJsonPointer.call(this, parsedRef, baseId, schema, root);
+  }
+}
+
+
+var PREVENT_SCOPE_CHANGE = util.toHash(['properties', 'patternProperties', 'enum', 'dependencies', 'definitions']);
+/* @this Ajv */
+function getJsonPointer(parsedRef, baseId, schema, root) {
+  /* jshint validthis: true */
+  parsedRef.hash = parsedRef.hash || '';
+  if (parsedRef.hash.slice(0,2) != '#/') return;
+  var parts = parsedRef.hash.split('/');
+
+  for (var i = 1; i < parts.length; i++) {
+    var part = parts[i];
+    if (part) {
+      part = util.unescapeFragment(part);
+      schema = schema[part];
+      if (schema === undefined) break;
+      var id;
+      if (!PREVENT_SCOPE_CHANGE[part]) {
+        id = this._getId(schema);
+        if (id) baseId = resolveUrl(baseId, id);
+        if (schema.$ref) {
+          var $ref = resolveUrl(baseId, schema.$ref);
+          var res = resolveSchema.call(this, root, $ref);
+          if (res) {
+            schema = res.schema;
+            root = res.root;
+            baseId = res.baseId;
+          }
+        }
+      }
+    }
+  }
+  if (schema !== undefined && schema !== root.schema)
+    return { schema: schema, root: root, baseId: baseId };
+}
+
+
+var SIMPLE_INLINED = util.toHash([
+  'type', 'format', 'pattern',
+  'maxLength', 'minLength',
+  'maxProperties', 'minProperties',
+  'maxItems', 'minItems',
+  'maximum', 'minimum',
+  'uniqueItems', 'multipleOf',
+  'required', 'enum'
+]);
+function inlineRef(schema, limit) {
+  if (limit === false) return false;
+  if (limit === undefined || limit === true) return checkNoRef(schema);
+  else if (limit) return countKeys(schema) <= limit;
+}
+
+
+function checkNoRef(schema) {
+  var item;
+  if (Array.isArray(schema)) {
+    for (var i=0; i<schema.length; i++) {
+      item = schema[i];
+      if (typeof item == 'object' && !checkNoRef(item)) return false;
+    }
+  } else {
+    for (var key in schema) {
+      if (key == '$ref') return false;
+      item = schema[key];
+      if (typeof item == 'object' && !checkNoRef(item)) return false;
+    }
+  }
+  return true;
+}
+
+
+function countKeys(schema) {
+  var count = 0, item;
+  if (Array.isArray(schema)) {
+    for (var i=0; i<schema.length; i++) {
+      item = schema[i];
+      if (typeof item == 'object') count += countKeys(item);
+      if (count == Infinity) return Infinity;
+    }
+  } else {
+    for (var key in schema) {
+      if (key == '$ref') return Infinity;
+      if (SIMPLE_INLINED[key]) {
+        count++;
+      } else {
+        item = schema[key];
+        if (typeof item == 'object') count += countKeys(item) + 1;
+        if (count == Infinity) return Infinity;
+      }
+    }
+  }
+  return count;
+}
+
+
+function getFullPath(id, normalize) {
+  if (normalize !== false) id = normalizeId(id);
+  var p = url.parse(id, false, true);
+  return _getFullPath(p);
+}
+
+
+function _getFullPath(p) {
+  var protocolSeparator = p.protocol || p.href.slice(0,2) == '//' ? '//' : '';
+  return (p.protocol||'') + protocolSeparator + (p.host||'') + (p.path||'')  + '#';
+}
+
+
+var TRAILING_SLASH_HASH = /#\/?$/;
+function normalizeId(id) {
+  return id ? id.replace(TRAILING_SLASH_HASH, '') : '';
+}
+
+
+function resolveUrl(baseId, id) {
+  id = normalizeId(id);
+  return url.resolve(baseId, id);
+}
+
+
+/* @this Ajv */
+function resolveIds(schema) {
+  /* eslint no-shadow: 0 */
+  /* jshint validthis: true */
+  var id = normalizeId(this._getId(schema));
+  var localRefs = {};
+  _resolveIds.call(this, schema, getFullPath(id, false), id);
+  return localRefs;
+
+  /* @this Ajv */
+  function _resolveIds(schema, fullPath, baseId) {
+    /* jshint validthis: true */
+    if (Array.isArray(schema)) {
+      for (var i=0; i<schema.length; i++)
+        _resolveIds.call(this, schema[i], fullPath+'/'+i, baseId);
+    } else if (schema && typeof schema == 'object') {
+      var id = this._getId(schema);
+      if (typeof id == 'string') {
+        id = baseId = normalizeId(baseId ? url.resolve(baseId, id) : id);
+
+        var refVal = this._refs[id];
+        if (typeof refVal == 'string') refVal = this._refs[refVal];
+        if (refVal && refVal.schema) {
+          if (!equal(schema, refVal.schema))
+            throw new Error('id "' + id + '" resolves to more than one schema');
+        } else if (id != normalizeId(fullPath)) {
+          if (id[0] == '#') {
+            if (localRefs[id] && !equal(schema, localRefs[id]))
+              throw new Error('id "' + id + '" resolves to more than one schema');
+            localRefs[id] = schema;
+          } else {
+            this._refs[id] = fullPath;
+          }
+        }
+      }
+      for (var key in schema)
+        _resolveIds.call(this, schema[key], fullPath+'/'+util.escapeFragment(key), baseId);
+    }
+  }
+}
+
+
+/***/ }),
+
+/***/ 70:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/*eslint complexity: 0*/
+
+module.exports = function equal(a, b) {
+  if (a === b) return true;
+
+  var arrA = Array.isArray(a)
+    , arrB = Array.isArray(b)
+    , i;
+
+  if (arrA && arrB) {
+    if (a.length != b.length) return false;
+    for (i = 0; i < a.length; i++)
+      if (!equal(a[i], b[i])) return false;
+    return true;
+  }
+
+  if (arrA != arrB) return false;
+
+  if (a && b && typeof a === 'object' && typeof b === 'object') {
+    var keys = Object.keys(a);
+    if (keys.length !== Object.keys(b).length) return false;
+
+    var dateA = a instanceof Date
+      , dateB = b instanceof Date;
+    if (dateA && dateB) return a.getTime() == b.getTime();
+    if (dateA != dateB) return false;
+
+    var regexpA = a instanceof RegExp
+      , regexpB = b instanceof RegExp;
+    if (regexpA && regexpB) return a.toString() == b.toString();
+    if (regexpA != regexpB) return false;
+
+    for (i = 0; i < keys.length; i++)
+      if (!Object.prototype.hasOwnProperty.call(b, keys[i])) return false;
+
+    for (i = 0; i < keys.length; i++)
+      if(!equal(a[keys[i]], b[keys[i]])) return false;
+
+    return true;
+  }
+
+  return false;
+};
+
+
+/***/ }),
+
+/***/ 71:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var util = __webpack_require__(43);
+
+module.exports = SchemaObject;
+
+function SchemaObject(obj) {
+  util.copy(obj, this);
+}
+
+
+/***/ }),
+
+/***/ 72:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate__limit(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $errorKeyword;
+  var $data = 'data' + ($dataLvl || '');
+  var $isData = it.opts.$data && $schema && $schema.$data,
+    $schemaValue;
+  if ($isData) {
+    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
+    $schemaValue = 'schema' + $lvl;
+  } else {
+    $schemaValue = $schema;
+  }
+  var $isMax = $keyword == 'maximum',
+    $exclusiveKeyword = $isMax ? 'exclusiveMaximum' : 'exclusiveMinimum',
+    $schemaExcl = it.schema[$exclusiveKeyword],
+    $isDataExcl = it.opts.$data && $schemaExcl && $schemaExcl.$data,
+    $op = $isMax ? '<' : '>',
+    $notOp = $isMax ? '>' : '<';
+  if ($isDataExcl) {
+    var $schemaValueExcl = it.util.getData($schemaExcl.$data, $dataLvl, it.dataPathArr),
+      $exclusive = 'exclusive' + $lvl,
+      $exclType = 'exclType' + $lvl,
+      $exclIsNumber = 'exclIsNumber' + $lvl,
+      $opExpr = 'op' + $lvl,
+      $opStr = '\' + ' + $opExpr + ' + \'';
+    out += ' var schemaExcl' + ($lvl) + ' = ' + ($schemaValueExcl) + '; ';
+    $schemaValueExcl = 'schemaExcl' + $lvl;
+    out += ' var ' + ($exclusive) + '; var ' + ($exclType) + ' = typeof ' + ($schemaValueExcl) + '; if (' + ($exclType) + ' != \'boolean\' && ' + ($exclType) + ' != \'undefined\' && ' + ($exclType) + ' != \'number\') { ';
+    var $errorKeyword = $exclusiveKeyword;
+    var $$outStack = $$outStack || [];
+    $$outStack.push(out);
+    out = ''; /* istanbul ignore else */
+    if (it.createErrors !== false) {
+      out += ' { keyword: \'' + ($errorKeyword || '_exclusiveLimit') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: {} ';
+      if (it.opts.messages !== false) {
+        out += ' , message: \'' + ($exclusiveKeyword) + ' should be boolean\' ';
+      }
+      if (it.opts.verbose) {
+        out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+      }
+      out += ' } ';
+    } else {
+      out += ' {} ';
+    }
+    var __err = out;
+    out = $$outStack.pop();
+    if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+      if (it.async) {
+        out += ' throw new ValidationError([' + (__err) + ']); ';
+      } else {
+        out += ' validate.errors = [' + (__err) + ']; return false; ';
+      }
+    } else {
+      out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+    }
+    out += ' } else if ( ';
+    if ($isData) {
+      out += ' (' + ($schemaValue) + ' !== undefined && typeof ' + ($schemaValue) + ' != \'number\') || ';
+    }
+    out += ' ' + ($exclType) + ' == \'number\' ? ( (' + ($exclusive) + ' = ' + ($schemaValue) + ' === undefined || ' + ($schemaValueExcl) + ' ' + ($op) + '= ' + ($schemaValue) + ') ? ' + ($data) + ' ' + ($notOp) + '= ' + ($schemaValueExcl) + ' : ' + ($data) + ' ' + ($notOp) + ' ' + ($schemaValue) + ' ) : ( (' + ($exclusive) + ' = ' + ($schemaValueExcl) + ' === true) ? ' + ($data) + ' ' + ($notOp) + '= ' + ($schemaValue) + ' : ' + ($data) + ' ' + ($notOp) + ' ' + ($schemaValue) + ' ) || ' + ($data) + ' !== ' + ($data) + ') { var op' + ($lvl) + ' = ' + ($exclusive) + ' ? \'' + ($op) + '\' : \'' + ($op) + '=\';';
+  } else {
+    var $exclIsNumber = typeof $schemaExcl == 'number',
+      $opStr = $op;
+    if ($exclIsNumber && $isData) {
+      var $opExpr = '\'' + $opStr + '\'';
+      out += ' if ( ';
+      if ($isData) {
+        out += ' (' + ($schemaValue) + ' !== undefined && typeof ' + ($schemaValue) + ' != \'number\') || ';
+      }
+      out += ' ( ' + ($schemaValue) + ' === undefined || ' + ($schemaExcl) + ' ' + ($op) + '= ' + ($schemaValue) + ' ? ' + ($data) + ' ' + ($notOp) + '= ' + ($schemaExcl) + ' : ' + ($data) + ' ' + ($notOp) + ' ' + ($schemaValue) + ' ) || ' + ($data) + ' !== ' + ($data) + ') { ';
+    } else {
+      if ($exclIsNumber && $schema === undefined) {
+        $schemaValue = $schemaExcl;
+        $notOp += '=';
+      } else {
+        if ($exclIsNumber) $schemaValue = Math[$isMax ? 'min' : 'max']($schemaExcl, $schema);
+        if ($schemaExcl === ($exclIsNumber ? $schemaValue : true)) $notOp += '=';
+        else $opStr += '=';
+      }
+      var $opExpr = '\'' + $opStr + '\'';
+      out += ' if ( ';
+      if ($isData) {
+        out += ' (' + ($schemaValue) + ' !== undefined && typeof ' + ($schemaValue) + ' != \'number\') || ';
+      }
+      out += ' ' + ($data) + ' ' + ($notOp) + ' ' + ($schemaValue) + ' || ' + ($data) + ' !== ' + ($data) + ') { ';
+    }
+  }
+  var $errorKeyword = $keyword;
+  var $$outStack = $$outStack || [];
+  $$outStack.push(out);
+  out = ''; /* istanbul ignore else */
+  if (it.createErrors !== false) {
+    out += ' { keyword: \'' + ($errorKeyword || '_limit') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { comparison: ' + ($opExpr) + ', limit: ' + ($schemaValue) + ', exclusive: ' + ($exclusive) + ' } ';
+    if (it.opts.messages !== false) {
+      out += ' , message: \'should be ' + ($opStr) + ' ';
+      if ($isData) {
+        out += '\' + ' + ($schemaValue);
+      } else {
+        out += '' + ($schema) + '\'';
+      }
+    }
+    if (it.opts.verbose) {
+      out += ' , schema:  ';
+      if ($isData) {
+        out += 'validate.schema' + ($schemaPath);
+      } else {
+        out += '' + ($schema);
+      }
+      out += '         , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+    }
+    out += ' } ';
+  } else {
+    out += ' {} ';
+  }
+  var __err = out;
+  out = $$outStack.pop();
+  if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+    if (it.async) {
+      out += ' throw new ValidationError([' + (__err) + ']); ';
+    } else {
+      out += ' validate.errors = [' + (__err) + ']; return false; ';
+    }
+  } else {
+    out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+  }
+  out += ' } ';
+  if ($breakOnError) {
+    out += ' else { ';
+  }
+  return out;
+}
+
+
+/***/ }),
+
+/***/ 73:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate__limitItems(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $errorKeyword;
+  var $data = 'data' + ($dataLvl || '');
+  var $isData = it.opts.$data && $schema && $schema.$data,
+    $schemaValue;
+  if ($isData) {
+    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
+    $schemaValue = 'schema' + $lvl;
+  } else {
+    $schemaValue = $schema;
+  }
+  var $op = $keyword == 'maxItems' ? '>' : '<';
+  out += 'if ( ';
+  if ($isData) {
+    out += ' (' + ($schemaValue) + ' !== undefined && typeof ' + ($schemaValue) + ' != \'number\') || ';
+  }
+  out += ' ' + ($data) + '.length ' + ($op) + ' ' + ($schemaValue) + ') { ';
+  var $errorKeyword = $keyword;
+  var $$outStack = $$outStack || [];
+  $$outStack.push(out);
+  out = ''; /* istanbul ignore else */
+  if (it.createErrors !== false) {
+    out += ' { keyword: \'' + ($errorKeyword || '_limitItems') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { limit: ' + ($schemaValue) + ' } ';
+    if (it.opts.messages !== false) {
+      out += ' , message: \'should NOT have ';
+      if ($keyword == 'maxItems') {
+        out += 'more';
+      } else {
+        out += 'less';
+      }
+      out += ' than ';
+      if ($isData) {
+        out += '\' + ' + ($schemaValue) + ' + \'';
+      } else {
+        out += '' + ($schema);
+      }
+      out += ' items\' ';
+    }
+    if (it.opts.verbose) {
+      out += ' , schema:  ';
+      if ($isData) {
+        out += 'validate.schema' + ($schemaPath);
+      } else {
+        out += '' + ($schema);
+      }
+      out += '         , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+    }
+    out += ' } ';
+  } else {
+    out += ' {} ';
+  }
+  var __err = out;
+  out = $$outStack.pop();
+  if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+    if (it.async) {
+      out += ' throw new ValidationError([' + (__err) + ']); ';
+    } else {
+      out += ' validate.errors = [' + (__err) + ']; return false; ';
+    }
+  } else {
+    out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+  }
+  out += '} ';
+  if ($breakOnError) {
+    out += ' else { ';
+  }
+  return out;
+}
+
+
+/***/ }),
+
+/***/ 74:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate__limitLength(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $errorKeyword;
+  var $data = 'data' + ($dataLvl || '');
+  var $isData = it.opts.$data && $schema && $schema.$data,
+    $schemaValue;
+  if ($isData) {
+    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
+    $schemaValue = 'schema' + $lvl;
+  } else {
+    $schemaValue = $schema;
+  }
+  var $op = $keyword == 'maxLength' ? '>' : '<';
+  out += 'if ( ';
+  if ($isData) {
+    out += ' (' + ($schemaValue) + ' !== undefined && typeof ' + ($schemaValue) + ' != \'number\') || ';
+  }
+  if (it.opts.unicode === false) {
+    out += ' ' + ($data) + '.length ';
+  } else {
+    out += ' ucs2length(' + ($data) + ') ';
+  }
+  out += ' ' + ($op) + ' ' + ($schemaValue) + ') { ';
+  var $errorKeyword = $keyword;
+  var $$outStack = $$outStack || [];
+  $$outStack.push(out);
+  out = ''; /* istanbul ignore else */
+  if (it.createErrors !== false) {
+    out += ' { keyword: \'' + ($errorKeyword || '_limitLength') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { limit: ' + ($schemaValue) + ' } ';
+    if (it.opts.messages !== false) {
+      out += ' , message: \'should NOT be ';
+      if ($keyword == 'maxLength') {
+        out += 'longer';
+      } else {
+        out += 'shorter';
+      }
+      out += ' than ';
+      if ($isData) {
+        out += '\' + ' + ($schemaValue) + ' + \'';
+      } else {
+        out += '' + ($schema);
+      }
+      out += ' characters\' ';
+    }
+    if (it.opts.verbose) {
+      out += ' , schema:  ';
+      if ($isData) {
+        out += 'validate.schema' + ($schemaPath);
+      } else {
+        out += '' + ($schema);
+      }
+      out += '         , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+    }
+    out += ' } ';
+  } else {
+    out += ' {} ';
+  }
+  var __err = out;
+  out = $$outStack.pop();
+  if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+    if (it.async) {
+      out += ' throw new ValidationError([' + (__err) + ']); ';
+    } else {
+      out += ' validate.errors = [' + (__err) + ']; return false; ';
+    }
+  } else {
+    out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+  }
+  out += '} ';
+  if ($breakOnError) {
+    out += ' else { ';
+  }
+  return out;
+}
+
+
+/***/ }),
+
+/***/ 75:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate__limitProperties(it, $keyword, $ruleType) {
+  var out = ' ';
+  var $lvl = it.level;
+  var $dataLvl = it.dataLevel;
+  var $schema = it.schema[$keyword];
+  var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+  var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+  var $breakOnError = !it.opts.allErrors;
+  var $errorKeyword;
+  var $data = 'data' + ($dataLvl || '');
+  var $isData = it.opts.$data && $schema && $schema.$data,
+    $schemaValue;
+  if ($isData) {
+    out += ' var schema' + ($lvl) + ' = ' + (it.util.getData($schema.$data, $dataLvl, it.dataPathArr)) + '; ';
+    $schemaValue = 'schema' + $lvl;
+  } else {
+    $schemaValue = $schema;
+  }
+  var $op = $keyword == 'maxProperties' ? '>' : '<';
+  out += 'if ( ';
+  if ($isData) {
+    out += ' (' + ($schemaValue) + ' !== undefined && typeof ' + ($schemaValue) + ' != \'number\') || ';
+  }
+  out += ' Object.keys(' + ($data) + ').length ' + ($op) + ' ' + ($schemaValue) + ') { ';
+  var $errorKeyword = $keyword;
+  var $$outStack = $$outStack || [];
+  $$outStack.push(out);
+  out = ''; /* istanbul ignore else */
+  if (it.createErrors !== false) {
+    out += ' { keyword: \'' + ($errorKeyword || '_limitProperties') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { limit: ' + ($schemaValue) + ' } ';
+    if (it.opts.messages !== false) {
+      out += ' , message: \'should NOT have ';
+      if ($keyword == 'maxProperties') {
+        out += 'more';
+      } else {
+        out += 'less';
+      }
+      out += ' than ';
+      if ($isData) {
+        out += '\' + ' + ($schemaValue) + ' + \'';
+      } else {
+        out += '' + ($schema);
+      }
+      out += ' properties\' ';
+    }
+    if (it.opts.verbose) {
+      out += ' , schema:  ';
+      if ($isData) {
+        out += 'validate.schema' + ($schemaPath);
+      } else {
+        out += '' + ($schema);
+      }
+      out += '         , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+    }
+    out += ' } ';
+  } else {
+    out += ' {} ';
+  }
+  var __err = out;
+  out = $$outStack.pop();
+  if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+    if (it.async) {
+      out += ' throw new ValidationError([' + (__err) + ']); ';
+    } else {
+      out += ' validate.errors = [' + (__err) + ']; return false; ';
+    }
+  } else {
+    out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+  }
+  out += '} ';
+  if ($breakOnError) {
+    out += ' else { ';
+  }
+  return out;
+}
+
+
+/***/ }),
+
+/***/ 76:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function generate_validate(it, $keyword, $ruleType) {
+  var out = '';
+  var $async = it.schema.$async === true,
+    $refKeywords = it.util.schemaHasRulesExcept(it.schema, it.RULES.all, '$ref'),
+    $id = it.self._getId(it.schema);
+  if (it.isTop) {
+    if ($async) {
+      it.async = true;
+      var $es7 = it.opts.async == 'es7';
+      it.yieldAwait = $es7 ? 'await' : 'yield';
+    }
+    out += ' var validate = ';
+    if ($async) {
+      if ($es7) {
+        out += ' (async function ';
+      } else {
+        if (it.opts.async != '*') {
+          out += 'co.wrap';
+        }
+        out += '(function* ';
+      }
+    } else {
+      out += ' (function ';
+    }
+    out += ' (data, dataPath, parentData, parentDataProperty, rootData) { \'use strict\'; ';
+    if ($id && (it.opts.sourceCode || it.opts.processCode)) {
+      out += ' ' + ('/\*# sourceURL=' + $id + ' */') + ' ';
+    }
+  }
+  if (typeof it.schema == 'boolean' || !($refKeywords || it.schema.$ref)) {
+    var $keyword = 'false schema';
+    var $lvl = it.level;
+    var $dataLvl = it.dataLevel;
+    var $schema = it.schema[$keyword];
+    var $schemaPath = it.schemaPath + it.util.getProperty($keyword);
+    var $errSchemaPath = it.errSchemaPath + '/' + $keyword;
+    var $breakOnError = !it.opts.allErrors;
+    var $errorKeyword;
+    var $data = 'data' + ($dataLvl || '');
+    var $valid = 'valid' + $lvl;
+    if (it.schema === false) {
+      if (it.isTop) {
+        $breakOnError = true;
+      } else {
+        out += ' var ' + ($valid) + ' = false; ';
+      }
+      var $$outStack = $$outStack || [];
+      $$outStack.push(out);
+      out = ''; /* istanbul ignore else */
+      if (it.createErrors !== false) {
+        out += ' { keyword: \'' + ($errorKeyword || 'false schema') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: {} ';
+        if (it.opts.messages !== false) {
+          out += ' , message: \'boolean schema is false\' ';
+        }
+        if (it.opts.verbose) {
+          out += ' , schema: false , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+        }
+        out += ' } ';
+      } else {
+        out += ' {} ';
+      }
+      var __err = out;
+      out = $$outStack.pop();
+      if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+        if (it.async) {
+          out += ' throw new ValidationError([' + (__err) + ']); ';
+        } else {
+          out += ' validate.errors = [' + (__err) + ']; return false; ';
+        }
+      } else {
+        out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+      }
+    } else {
+      if (it.isTop) {
+        if ($async) {
+          out += ' return data; ';
+        } else {
+          out += ' validate.errors = null; return true; ';
+        }
+      } else {
+        out += ' var ' + ($valid) + ' = true; ';
+      }
+    }
+    if (it.isTop) {
+      out += ' }); return validate; ';
+    }
+    return out;
+  }
+  if (it.isTop) {
+    var $top = it.isTop,
+      $lvl = it.level = 0,
+      $dataLvl = it.dataLevel = 0,
+      $data = 'data';
+    it.rootId = it.resolve.fullPath(it.self._getId(it.root.schema));
+    it.baseId = it.baseId || it.rootId;
+    delete it.isTop;
+    it.dataPathArr = [undefined];
+    out += ' var vErrors = null; ';
+    out += ' var errors = 0;     ';
+    out += ' if (rootData === undefined) rootData = data; ';
+  } else {
+    var $lvl = it.level,
+      $dataLvl = it.dataLevel,
+      $data = 'data' + ($dataLvl || '');
+    if ($id) it.baseId = it.resolve.url(it.baseId, $id);
+    if ($async && !it.async) throw new Error('async schema in sync schema');
+    out += ' var errs_' + ($lvl) + ' = errors;';
+  }
+  var $valid = 'valid' + $lvl,
+    $breakOnError = !it.opts.allErrors,
+    $closingBraces1 = '',
+    $closingBraces2 = '';
+  var $errorKeyword;
+  var $typeSchema = it.schema.type,
+    $typeIsArray = Array.isArray($typeSchema);
+  if ($typeSchema && it.opts.coerceTypes) {
+    var $coerceToTypes = it.util.coerceToTypes(it.opts.coerceTypes, $typeSchema);
+    if ($coerceToTypes) {
+      var $schemaPath = it.schemaPath + '.type',
+        $errSchemaPath = it.errSchemaPath + '/type',
+        $method = $typeIsArray ? 'checkDataTypes' : 'checkDataType';
+      out += ' if (' + (it.util[$method]($typeSchema, $data, true)) + ') {  ';
+      var $dataType = 'dataType' + $lvl,
+        $coerced = 'coerced' + $lvl;
+      out += ' var ' + ($dataType) + ' = typeof ' + ($data) + '; ';
+      if (it.opts.coerceTypes == 'array') {
+        out += ' if (' + ($dataType) + ' == \'object\' && Array.isArray(' + ($data) + ')) ' + ($dataType) + ' = \'array\'; ';
+      }
+      out += ' var ' + ($coerced) + ' = undefined; ';
+      var $bracesCoercion = '';
+      var arr1 = $coerceToTypes;
+      if (arr1) {
+        var $type, $i = -1,
+          l1 = arr1.length - 1;
+        while ($i < l1) {
+          $type = arr1[$i += 1];
+          if ($i) {
+            out += ' if (' + ($coerced) + ' === undefined) { ';
+            $bracesCoercion += '}';
+          }
+          if (it.opts.coerceTypes == 'array' && $type != 'array') {
+            out += ' if (' + ($dataType) + ' == \'array\' && ' + ($data) + '.length == 1) { ' + ($coerced) + ' = ' + ($data) + ' = ' + ($data) + '[0]; ' + ($dataType) + ' = typeof ' + ($data) + ';  } ';
+          }
+          if ($type == 'string') {
+            out += ' if (' + ($dataType) + ' == \'number\' || ' + ($dataType) + ' == \'boolean\') ' + ($coerced) + ' = \'\' + ' + ($data) + '; else if (' + ($data) + ' === null) ' + ($coerced) + ' = \'\'; ';
+          } else if ($type == 'number' || $type == 'integer') {
+            out += ' if (' + ($dataType) + ' == \'boolean\' || ' + ($data) + ' === null || (' + ($dataType) + ' == \'string\' && ' + ($data) + ' && ' + ($data) + ' == +' + ($data) + ' ';
+            if ($type == 'integer') {
+              out += ' && !(' + ($data) + ' % 1)';
+            }
+            out += ')) ' + ($coerced) + ' = +' + ($data) + '; ';
+          } else if ($type == 'boolean') {
+            out += ' if (' + ($data) + ' === \'false\' || ' + ($data) + ' === 0 || ' + ($data) + ' === null) ' + ($coerced) + ' = false; else if (' + ($data) + ' === \'true\' || ' + ($data) + ' === 1) ' + ($coerced) + ' = true; ';
+          } else if ($type == 'null') {
+            out += ' if (' + ($data) + ' === \'\' || ' + ($data) + ' === 0 || ' + ($data) + ' === false) ' + ($coerced) + ' = null; ';
+          } else if (it.opts.coerceTypes == 'array' && $type == 'array') {
+            out += ' if (' + ($dataType) + ' == \'string\' || ' + ($dataType) + ' == \'number\' || ' + ($dataType) + ' == \'boolean\' || ' + ($data) + ' == null) ' + ($coerced) + ' = [' + ($data) + ']; ';
+          }
+        }
+      }
+      out += ' ' + ($bracesCoercion) + ' if (' + ($coerced) + ' === undefined) {   ';
+      var $$outStack = $$outStack || [];
+      $$outStack.push(out);
+      out = ''; /* istanbul ignore else */
+      if (it.createErrors !== false) {
+        out += ' { keyword: \'' + ($errorKeyword || 'type') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { type: \'';
+        if ($typeIsArray) {
+          out += '' + ($typeSchema.join(","));
+        } else {
+          out += '' + ($typeSchema);
+        }
+        out += '\' } ';
+        if (it.opts.messages !== false) {
+          out += ' , message: \'should be ';
+          if ($typeIsArray) {
+            out += '' + ($typeSchema.join(","));
+          } else {
+            out += '' + ($typeSchema);
+          }
+          out += '\' ';
+        }
+        if (it.opts.verbose) {
+          out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+        }
+        out += ' } ';
+      } else {
+        out += ' {} ';
+      }
+      var __err = out;
+      out = $$outStack.pop();
+      if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+        if (it.async) {
+          out += ' throw new ValidationError([' + (__err) + ']); ';
+        } else {
+          out += ' validate.errors = [' + (__err) + ']; return false; ';
+        }
+      } else {
+        out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+      }
+      out += ' } else {  ';
+      var $parentData = $dataLvl ? 'data' + (($dataLvl - 1) || '') : 'parentData',
+        $parentDataProperty = $dataLvl ? it.dataPathArr[$dataLvl] : 'parentDataProperty';
+      out += ' ' + ($data) + ' = ' + ($coerced) + '; ';
+      if (!$dataLvl) {
+        out += 'if (' + ($parentData) + ' !== undefined)';
+      }
+      out += ' ' + ($parentData) + '[' + ($parentDataProperty) + '] = ' + ($coerced) + '; } } ';
+    }
+  }
+  if (it.schema.$ref && $refKeywords) {
+    if (it.opts.extendRefs == 'fail') {
+      throw new Error('$ref: validation keywords used in schema at path "' + it.errSchemaPath + '" (see option extendRefs)');
+    } else if (it.opts.extendRefs !== true) {
+      $refKeywords = false;
+      console.warn('$ref: keywords ignored in schema at path "' + it.errSchemaPath + '"');
+    }
+  }
+  if (it.schema.$ref && !$refKeywords) {
+    out += ' ' + (it.RULES.all.$ref.code(it, '$ref')) + ' ';
+    if ($breakOnError) {
+      out += ' } if (errors === ';
+      if ($top) {
+        out += '0';
+      } else {
+        out += 'errs_' + ($lvl);
+      }
+      out += ') { ';
+      $closingBraces2 += '}';
+    }
+  } else {
+    if (it.opts.v5 && it.schema.patternGroups) {
+      console.warn('keyword "patternGroups" is deprecated and disabled. Use option patternGroups: true to enable.');
+    }
+    var arr2 = it.RULES;
+    if (arr2) {
+      var $rulesGroup, i2 = -1,
+        l2 = arr2.length - 1;
+      while (i2 < l2) {
+        $rulesGroup = arr2[i2 += 1];
+        if ($shouldUseGroup($rulesGroup)) {
+          if ($rulesGroup.type) {
+            out += ' if (' + (it.util.checkDataType($rulesGroup.type, $data)) + ') { ';
+          }
+          if (it.opts.useDefaults && !it.compositeRule) {
+            if ($rulesGroup.type == 'object' && it.schema.properties) {
+              var $schema = it.schema.properties,
+                $schemaKeys = Object.keys($schema);
+              var arr3 = $schemaKeys;
+              if (arr3) {
+                var $propertyKey, i3 = -1,
+                  l3 = arr3.length - 1;
+                while (i3 < l3) {
+                  $propertyKey = arr3[i3 += 1];
+                  var $sch = $schema[$propertyKey];
+                  if ($sch.default !== undefined) {
+                    var $passData = $data + it.util.getProperty($propertyKey);
+                    out += '  if (' + ($passData) + ' === undefined) ' + ($passData) + ' = ';
+                    if (it.opts.useDefaults == 'shared') {
+                      out += ' ' + (it.useDefault($sch.default)) + ' ';
+                    } else {
+                      out += ' ' + (JSON.stringify($sch.default)) + ' ';
+                    }
+                    out += '; ';
+                  }
+                }
+              }
+            } else if ($rulesGroup.type == 'array' && Array.isArray(it.schema.items)) {
+              var arr4 = it.schema.items;
+              if (arr4) {
+                var $sch, $i = -1,
+                  l4 = arr4.length - 1;
+                while ($i < l4) {
+                  $sch = arr4[$i += 1];
+                  if ($sch.default !== undefined) {
+                    var $passData = $data + '[' + $i + ']';
+                    out += '  if (' + ($passData) + ' === undefined) ' + ($passData) + ' = ';
+                    if (it.opts.useDefaults == 'shared') {
+                      out += ' ' + (it.useDefault($sch.default)) + ' ';
+                    } else {
+                      out += ' ' + (JSON.stringify($sch.default)) + ' ';
+                    }
+                    out += '; ';
+                  }
+                }
+              }
+            }
+          }
+          var arr5 = $rulesGroup.rules;
+          if (arr5) {
+            var $rule, i5 = -1,
+              l5 = arr5.length - 1;
+            while (i5 < l5) {
+              $rule = arr5[i5 += 1];
+              if ($shouldUseRule($rule)) {
+                var $code = $rule.code(it, $rule.keyword, $rulesGroup.type);
+                if ($code) {
+                  out += ' ' + ($code) + ' ';
+                  if ($breakOnError) {
+                    $closingBraces1 += '}';
+                  }
+                }
+              }
+            }
+          }
+          if ($breakOnError) {
+            out += ' ' + ($closingBraces1) + ' ';
+            $closingBraces1 = '';
+          }
+          if ($rulesGroup.type) {
+            out += ' } ';
+            if ($typeSchema && $typeSchema === $rulesGroup.type) {
+              var $typeChecked = true;
+              out += ' else { ';
+              var $schemaPath = it.schemaPath + '.type',
+                $errSchemaPath = it.errSchemaPath + '/type';
+              var $$outStack = $$outStack || [];
+              $$outStack.push(out);
+              out = ''; /* istanbul ignore else */
+              if (it.createErrors !== false) {
+                out += ' { keyword: \'' + ($errorKeyword || 'type') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { type: \'';
+                if ($typeIsArray) {
+                  out += '' + ($typeSchema.join(","));
+                } else {
+                  out += '' + ($typeSchema);
+                }
+                out += '\' } ';
+                if (it.opts.messages !== false) {
+                  out += ' , message: \'should be ';
+                  if ($typeIsArray) {
+                    out += '' + ($typeSchema.join(","));
+                  } else {
+                    out += '' + ($typeSchema);
+                  }
+                  out += '\' ';
+                }
+                if (it.opts.verbose) {
+                  out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+                }
+                out += ' } ';
+              } else {
+                out += ' {} ';
+              }
+              var __err = out;
+              out = $$outStack.pop();
+              if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+                if (it.async) {
+                  out += ' throw new ValidationError([' + (__err) + ']); ';
+                } else {
+                  out += ' validate.errors = [' + (__err) + ']; return false; ';
+                }
+              } else {
+                out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+              }
+              out += ' } ';
+            }
+          }
+          if ($breakOnError) {
+            out += ' if (errors === ';
+            if ($top) {
+              out += '0';
+            } else {
+              out += 'errs_' + ($lvl);
+            }
+            out += ') { ';
+            $closingBraces2 += '}';
+          }
+        }
+      }
+    }
+  }
+  if ($typeSchema && !$typeChecked && !(it.opts.coerceTypes && $coerceToTypes)) {
+    var $schemaPath = it.schemaPath + '.type',
+      $errSchemaPath = it.errSchemaPath + '/type',
+      $method = $typeIsArray ? 'checkDataTypes' : 'checkDataType';
+    out += ' if (' + (it.util[$method]($typeSchema, $data, true)) + ') {   ';
+    var $$outStack = $$outStack || [];
+    $$outStack.push(out);
+    out = ''; /* istanbul ignore else */
+    if (it.createErrors !== false) {
+      out += ' { keyword: \'' + ($errorKeyword || 'type') + '\' , dataPath: (dataPath || \'\') + ' + (it.errorPath) + ' , schemaPath: ' + (it.util.toQuotedString($errSchemaPath)) + ' , params: { type: \'';
+      if ($typeIsArray) {
+        out += '' + ($typeSchema.join(","));
+      } else {
+        out += '' + ($typeSchema);
+      }
+      out += '\' } ';
+      if (it.opts.messages !== false) {
+        out += ' , message: \'should be ';
+        if ($typeIsArray) {
+          out += '' + ($typeSchema.join(","));
+        } else {
+          out += '' + ($typeSchema);
+        }
+        out += '\' ';
+      }
+      if (it.opts.verbose) {
+        out += ' , schema: validate.schema' + ($schemaPath) + ' , parentSchema: validate.schema' + (it.schemaPath) + ' , data: ' + ($data) + ' ';
+      }
+      out += ' } ';
+    } else {
+      out += ' {} ';
+    }
+    var __err = out;
+    out = $$outStack.pop();
+    if (!it.compositeRule && $breakOnError) { /* istanbul ignore if */
+      if (it.async) {
+        out += ' throw new ValidationError([' + (__err) + ']); ';
+      } else {
+        out += ' validate.errors = [' + (__err) + ']; return false; ';
+      }
+    } else {
+      out += ' var err = ' + (__err) + ';  if (vErrors === null) vErrors = [err]; else vErrors.push(err); errors++; ';
+    }
+    out += ' }';
+  }
+  if ($breakOnError) {
+    out += ' ' + ($closingBraces2) + ' ';
+  }
+  if ($top) {
+    if ($async) {
+      out += ' if (errors === 0) return data;           ';
+      out += ' else throw new ValidationError(vErrors); ';
+    } else {
+      out += ' validate.errors = vErrors; ';
+      out += ' return errors === 0;       ';
+    }
+    out += ' }); return validate;';
+  } else {
+    out += ' var ' + ($valid) + ' = errors === errs_' + ($lvl) + ';';
+  }
+  out = it.util.cleanUpCode(out);
+  if ($top) {
+    out = it.util.finalCleanUpCode(out, $async);
+  }
+
+  function $shouldUseGroup($rulesGroup) {
+    var rules = $rulesGroup.rules;
+    for (var i = 0; i < rules.length; i++)
+      if ($shouldUseRule(rules[i])) return true;
+  }
+
+  function $shouldUseRule($rule) {
+    return it.schema[$rule.keyword] !== undefined || ($rule.implements && $ruleImlementsSomeKeyword($rule));
+  }
+
+  function $ruleImlementsSomeKeyword($rule) {
+    var impl = $rule.implements;
+    for (var i = 0; i < impl.length; i++)
+      if (it.schema[impl[i]] !== undefined) return true;
+  }
+  return out;
+}
+
+
+/***/ }),
+
+/***/ 78:
+/***/ (function(module, exports) {
+
+
+/**
+ * slice() reference.
+ */
+
+var slice = Array.prototype.slice;
+
+/**
+ * Expose `co`.
+ */
+
+module.exports = co['default'] = co.co = co;
+
+/**
+ * Wrap the given generator `fn` into a
+ * function that returns a promise.
+ * This is a separate function so that
+ * every `co()` call doesn't create a new,
+ * unnecessary closure.
+ *
+ * @param {GeneratorFunction} fn
+ * @return {Function}
+ * @api public
+ */
+
+co.wrap = function (fn) {
+  createPromise.__generatorFunction__ = fn;
+  return createPromise;
+  function createPromise() {
+    return co.call(this, fn.apply(this, arguments));
+  }
+};
+
+/**
+ * Execute the generator function or a generator
+ * and return a promise.
+ *
+ * @param {Function} fn
+ * @return {Promise}
+ * @api public
+ */
+
+function co(gen) {
+  var ctx = this;
+  var args = slice.call(arguments, 1)
+
+  // we wrap everything in a promise to avoid promise chaining,
+  // which leads to memory leak errors.
+  // see https://github.com/tj/co/issues/180
+  return new Promise(function(resolve, reject) {
+    if (typeof gen === 'function') gen = gen.apply(ctx, args);
+    if (!gen || typeof gen.next !== 'function') return resolve(gen);
+
+    onFulfilled();
+
+    /**
+     * @param {Mixed} res
+     * @return {Promise}
+     * @api private
+     */
+
+    function onFulfilled(res) {
+      var ret;
+      try {
+        ret = gen.next(res);
+      } catch (e) {
+        return reject(e);
+      }
+      next(ret);
+    }
+
+    /**
+     * @param {Error} err
+     * @return {Promise}
+     * @api private
+     */
+
+    function onRejected(err) {
+      var ret;
+      try {
+        ret = gen.throw(err);
+      } catch (e) {
+        return reject(e);
+      }
+      next(ret);
+    }
+
+    /**
+     * Get the next value in the generator,
+     * return a promise.
+     *
+     * @param {Object} ret
+     * @return {Promise}
+     * @api private
+     */
+
+    function next(ret) {
+      if (ret.done) return resolve(ret.value);
+      var value = toPromise.call(ctx, ret.value);
+      if (value && isPromise(value)) return value.then(onFulfilled, onRejected);
+      return onRejected(new TypeError('You may only yield a function, promise, generator, array, or object, '
+        + 'but the following object was passed: "' + String(ret.value) + '"'));
+    }
+  });
+}
+
+/**
+ * Convert a `yield`ed value into a promise.
+ *
+ * @param {Mixed} obj
+ * @return {Promise}
+ * @api private
+ */
+
+function toPromise(obj) {
+  if (!obj) return obj;
+  if (isPromise(obj)) return obj;
+  if (isGeneratorFunction(obj) || isGenerator(obj)) return co.call(this, obj);
+  if ('function' == typeof obj) return thunkToPromise.call(this, obj);
+  if (Array.isArray(obj)) return arrayToPromise.call(this, obj);
+  if (isObject(obj)) return objectToPromise.call(this, obj);
+  return obj;
+}
+
+/**
+ * Convert a thunk to a promise.
+ *
+ * @param {Function}
+ * @return {Promise}
+ * @api private
+ */
+
+function thunkToPromise(fn) {
+  var ctx = this;
+  return new Promise(function (resolve, reject) {
+    fn.call(ctx, function (err, res) {
+      if (err) return reject(err);
+      if (arguments.length > 2) res = slice.call(arguments, 1);
+      resolve(res);
+    });
+  });
+}
+
+/**
+ * Convert an array of "yieldables" to a promise.
+ * Uses `Promise.all()` internally.
+ *
+ * @param {Array} obj
+ * @return {Promise}
+ * @api private
+ */
+
+function arrayToPromise(obj) {
+  return Promise.all(obj.map(toPromise, this));
+}
+
+/**
+ * Convert an object of "yieldables" to a promise.
+ * Uses `Promise.all()` internally.
+ *
+ * @param {Object} obj
+ * @return {Promise}
+ * @api private
+ */
+
+function objectToPromise(obj){
+  var results = new obj.constructor();
+  var keys = Object.keys(obj);
+  var promises = [];
+  for (var i = 0; i < keys.length; i++) {
+    var key = keys[i];
+    var promise = toPromise.call(this, obj[key]);
+    if (promise && isPromise(promise)) defer(promise, key);
+    else results[key] = obj[key];
+  }
+  return Promise.all(promises).then(function () {
+    return results;
+  });
+
+  function defer(promise, key) {
+    // predefine the key in the result
+    results[key] = undefined;
+    promises.push(promise.then(function (res) {
+      results[key] = res;
+    }));
+  }
+}
+
+/**
+ * Check if `obj` is a promise.
+ *
+ * @param {Object} obj
+ * @return {Boolean}
+ * @api private
+ */
+
+function isPromise(obj) {
+  return 'function' == typeof obj.then;
+}
+
+/**
+ * Check if `obj` is a generator.
+ *
+ * @param {Mixed} obj
+ * @return {Boolean}
+ * @api private
+ */
+
+function isGenerator(obj) {
+  return 'function' == typeof obj.next && 'function' == typeof obj.throw;
+}
+
+/**
+ * Check if `obj` is a generator function.
+ *
+ * @param {Mixed} obj
+ * @return {Boolean}
+ * @api private
+ */
+function isGeneratorFunction(obj) {
+  var constructor = obj.constructor;
+  if (!constructor) return false;
+  if ('GeneratorFunction' === constructor.name || 'GeneratorFunction' === constructor.displayName) return true;
+  return isGenerator(constructor.prototype);
+}
+
+/**
+ * Check for plain object.
+ *
+ * @param {Mixed} val
+ * @return {Boolean}
+ * @api private
+ */
+
+function isObject(val) {
+  return Object == val.constructor;
+}
+
+
+/***/ }),
+
+/***/ 89:
+/***/ (function(module, exports, __webpack_require__) {
+
+var json = typeof JSON !== 'undefined' ? JSON : __webpack_require__(332);
+
+module.exports = function (obj, opts) {
+    if (!opts) opts = {};
+    if (typeof opts === 'function') opts = { cmp: opts };
+    var space = opts.space || '';
+    if (typeof space === 'number') space = Array(space+1).join(' ');
+    var cycles = (typeof opts.cycles === 'boolean') ? opts.cycles : false;
+    var replacer = opts.replacer || function(key, value) { return value; };
+
+    var cmp = opts.cmp && (function (f) {
+        return function (node) {
+            return function (a, b) {
+                var aobj = { key: a, value: node[a] };
+                var bobj = { key: b, value: node[b] };
+                return f(aobj, bobj);
+            };
+        };
+    })(opts.cmp);
+
+    var seen = [];
+    return (function stringify (parent, key, node, level) {
+        var indent = space ? ('\n' + new Array(level + 1).join(space)) : '';
+        var colonSeparator = space ? ': ' : ':';
+
+        if (node && node.toJSON && typeof node.toJSON === 'function') {
+            node = node.toJSON();
+        }
+
+        node = replacer.call(parent, key, node);
+
+        if (node === undefined) {
+            return;
+        }
+        if (typeof node !== 'object' || node === null) {
+            return json.stringify(node);
+        }
+        if (isArray(node)) {
+            var out = [];
+            for (var i = 0; i < node.length; i++) {
+                var item = stringify(node, i, node[i], level+1) || json.stringify(null);
+                out.push(indent + space + item);
+            }
+            return '[' + out.join(',') + indent + ']';
+        }
+        else {
+            if (seen.indexOf(node) !== -1) {
+                if (cycles) return json.stringify('__cycle__');
+                throw new TypeError('Converting circular structure to JSON');
+            }
+            else seen.push(node);
+
+            var keys = objectKeys(node).sort(cmp && cmp(node));
+            var out = [];
+            for (var i = 0; i < keys.length; i++) {
+                var key = keys[i];
+                var value = stringify(node, key, node[key], level+1);
+
+                if(!value) continue;
+
+                var keyValue = json.stringify(key)
+                    + colonSeparator
+                    + value;
+                ;
+                out.push(indent + space + keyValue);
+            }
+            seen.splice(seen.indexOf(node), 1);
+            return '{' + out.join(',') + indent + '}';
+        }
+    })({ '': obj }, '', obj, 0);
+};
+
+var isArray = Array.isArray || function (x) {
+    return {}.toString.call(x) === '[object Array]';
+};
+
+var objectKeys = Object.keys || function (obj) {
+    var has = Object.prototype.hasOwnProperty || function () { return true };
+    var keys = [];
+    for (var key in obj) {
+        if (has.call(obj, key)) keys.push(key);
+    }
+    return keys;
+};
 
 
 /***/ }),

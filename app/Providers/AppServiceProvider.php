@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 
 use Carbon\Carbon;
 
+use Setting;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -17,6 +19,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Carbon::setToStringFormat("d-M-Y g:i A");
+		
+		// Initialize settings values
+		addSettingIfEmpty('facultyEvalThreshold', 3);
+		addSettingIfEmpty('facultyEvalTimeThreshold', '3 months ago');
+		addSettingIfEmpty('monthlyResidentRequirements.evaluationRequests', 3);
+		addSettingIfEmpty('monthlyResidentRequirements.facultyEvaluations', 2);
     }
 
     /**
@@ -29,4 +37,11 @@ class AppServiceProvider extends ServiceProvider
         if($this->app->environment('production'))
 			$this->app->register(\Jenssegers\Rollbar\RollbarServiceProvider::class);
     }
+}
+
+function addSettingIfEmpty($key, $value) {
+	if (!Setting::get($key)) {
+		Setting::set($key, $value);
+		Setting::save();
+	}
 }

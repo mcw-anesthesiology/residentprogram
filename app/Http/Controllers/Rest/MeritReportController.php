@@ -10,10 +10,12 @@ class MeritReportController extends RestController
 {
 
 	protected $relationships = [
-		"user"
+		'user',
+		'form'
 	];
 
 	protected $attributes = [
+		'id',
 		'report',
 		'period_start',
 		'period_end'

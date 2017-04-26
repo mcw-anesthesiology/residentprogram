@@ -61,6 +61,10 @@
 					@click="submitJson">
 				Submit
 			</button>
+			<button type="button" class="btn btn-lg btn-default"
+					@click="$emit('close')">
+				Close
+			</button>
 		</div>
 	</div>
 </template>
