@@ -19,6 +19,7 @@ class CreateMeritReportsTable extends Migration
 			$table->integer('form_id');
 			$table->date('period_start');
 			$table->date('period_end');
+			$table->string('status');
 			$table->longText('report'); // JSON not currently supported by production db
             $table->timestamps();
         });

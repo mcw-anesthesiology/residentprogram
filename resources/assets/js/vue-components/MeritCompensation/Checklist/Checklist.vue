@@ -9,6 +9,11 @@
 					@input="handleInput(pager.pageNum, arguments[0])" />
 			</template>
 		</questionnaire-pager>
+		
+		<button type="button" class="btn btn-info center-block"
+				@click="handleSave">
+			Save progress
+		</button>
 	</div>
 </template>
 
@@ -42,6 +47,9 @@ export default {
 			pages[pageNum] = Object.assign({}, pages[pageNum], page);
 			
 			this.$emit('input', {pages});
+		},
+		handleSave() {
+			this.$emit('save');
 		},
 		handleSubmit() {
 			this.$emit('submit');

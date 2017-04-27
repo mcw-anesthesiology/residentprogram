@@ -14,6 +14,7 @@ import moment from 'moment';
 import {
 	academicYearForDate,
 	datesEqual,
+	isoDateString,
 	isoDateStringObject,
 	renderDateRange
 } from 'modules/date-utils.js';
@@ -24,9 +25,17 @@ export default {
 			type: Object,
 			required: true
 		},
-		startDate: {
+		minDate: {
 			type: String,
-			required: true
+			default() {
+				return isoDateString(moment());
+			}
+		},
+		maxDate: {
+			type: String,
+			default() {
+				return academicYearForDate(moment().add(1, 'year')).startDate;
+			}
 		},
 		descending: {
 			type: Boolean,
@@ -46,8 +55,8 @@ export default {
 	
 	computed: {
 		academicYears() {
-			let nextYear = moment(academicYearForDate(moment().add(1, 'year')).startDate);
-			let d = moment(this.startDate);
+			let maxDate = moment(this.maxDate);
+			let d = moment(this.minDate);
 			
 			let years = [];
 			
@@ -55,7 +64,7 @@ export default {
 				years.push(academicYearForDate(d.clone()));
 				
 				d.add(1, 'year');
-			} while (d < nextYear);
+			} while (d < maxDate);
 			
 			if (this.descending)
 				years.reverse();

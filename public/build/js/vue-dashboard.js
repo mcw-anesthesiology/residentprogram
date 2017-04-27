@@ -1591,9 +1591,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			type: Object,
 			required: true
 		},
-		startDate: {
+		minDate: {
 			type: String,
-			required: true
+			default: function _default() {
+				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__["isoDateString"])(__WEBPACK_IMPORTED_MODULE_1_moment___default()());
+			}
+		},
+		maxDate: {
+			type: String,
+			default: function _default() {
+				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__["academicYearForDate"])(__WEBPACK_IMPORTED_MODULE_1_moment___default()().add(1, 'year')).startDate;
+			}
 		},
 		descending: {
 			type: Boolean,
@@ -1614,8 +1622,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	computed: {
 		academicYears: function academicYears() {
-			var nextYear = __WEBPACK_IMPORTED_MODULE_1_moment___default()(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__["academicYearForDate"])(__WEBPACK_IMPORTED_MODULE_1_moment___default()().add(1, 'year')).startDate);
-			var d = __WEBPACK_IMPORTED_MODULE_1_moment___default()(this.startDate);
+			var maxDate = __WEBPACK_IMPORTED_MODULE_1_moment___default()(this.maxDate);
+			var d = __WEBPACK_IMPORTED_MODULE_1_moment___default()(this.minDate);
 
 			var years = [];
 
@@ -1623,7 +1631,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				years.push(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__["academicYearForDate"])(d.clone()));
 
 				d.add(1, 'year');
-			} while (d < nextYear);
+			} while (d < maxDate);
 
 			if (this.descending) years.reverse();
 
@@ -3172,7 +3180,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "containing-label"
   }, [_vm._v("\n\t\t\t\tAcademic year\n\t\t\t\t"), _c('academic-year-selector', {
     attrs: {
-      "start-date": _vm.startDate
+      "min-date": _vm.startDate
     },
     model: {
       value: (_vm.dates),

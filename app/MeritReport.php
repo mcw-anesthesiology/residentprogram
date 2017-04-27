@@ -19,7 +19,8 @@ class MeritReport extends Model
 		'user_id',
 		'period_start',
 		'period_end',
-		'report'
+		'report',
+		'status'
 	];
 	
 	protected $dates = [
