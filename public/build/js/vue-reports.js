@@ -96,7 +96,7 @@ var UNESCAPE_ALL_RE = new RegExp(UNESCAPE_MD_RE.source + '|' + ENTITY_RE.source,
 
 var DIGITAL_ENTITY_TEST_RE = /^#((?:x[a-f0-9]{1,8}|[0-9]{1,8}))/i;
 
-var entities = __webpack_require__(93);
+var entities = __webpack_require__(107);
 
 function replaceEntityPattern(match, name) {
   var code = 0;
@@ -202,7 +202,7 @@ function isWhiteSpace(code) {
 ////////////////////////////////////////////////////////////////////////////////
 
 /*eslint-disable max-len*/
-var UNICODE_PUNCT_RE = __webpack_require__(64);
+var UNICODE_PUNCT_RE = __webpack_require__(71);
 
 // Currently without astral characters support.
 function isPunctChar(ch) {
@@ -273,8 +273,8 @@ function normalizeReference(str) {
 // bundled size (e.g. a browser build).
 //
 exports.lib                 = {};
-exports.lib.mdurl           = __webpack_require__(97);
-exports.lib.ucmicro         = __webpack_require__(407);
+exports.lib.mdurl           = __webpack_require__(111);
+exports.lib.ucmicro         = __webpack_require__(416);
 
 exports.assign              = assign;
 exports.isString            = isString;
@@ -300,9 +300,9 @@ exports.normalizeReference  = normalizeReference;
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(20),
+  __webpack_require__(22),
   /* template */
-  __webpack_require__(36),
+  __webpack_require__(37),
   /* scopeId */
   null,
   /* cssModules */
@@ -337,13 +337,13 @@ module.exports = Component.exports
 
 
 /* styles */
-__webpack_require__(39)
+__webpack_require__(40)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(24),
+  __webpack_require__(25),
   /* template */
-  __webpack_require__(34),
+  __webpack_require__(35),
   /* scopeId */
   "data-v-38459c74",
   /* cssModules */
@@ -370,18 +370,19 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 10 */
+/* 10 */,
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(40)
+__webpack_require__(41)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(22),
+  __webpack_require__(24),
   /* template */
-  __webpack_require__(35),
+  __webpack_require__(36),
   /* scopeId */
   "data-v-4d4c1aff",
   /* cssModules */
@@ -408,92 +409,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 11 */,
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-
-/* styles */
-__webpack_require__(41)
-
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(25),
+  __webpack_require__(16),
   /* template */
-  __webpack_require__(37),
-  /* scopeId */
-  "data-v-7d00f708",
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/StartEndDate.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] StartEndDate.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7d00f708", Component.options)
-  } else {
-    hotAPI.reload("data-v-7d00f708", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/* styles */
-__webpack_require__(42)
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(21),
-  /* template */
-  __webpack_require__(38),
-  /* scopeId */
-  "data-v-8d03363a",
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/BootstrapAlert.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] BootstrapAlert.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-8d03363a", Component.options)
-  } else {
-    hotAPI.reload("data-v-8d03363a", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 14 */,
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(23),
-  /* template */
-  __webpack_require__(33),
+  __webpack_require__(19),
   /* scopeId */
   null,
   /* cssModules */
@@ -520,8 +443,249 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 16 */,
-/* 17 */
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(42)
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(26),
+  /* template */
+  __webpack_require__(38),
+  /* scopeId */
+  "data-v-7d00f708",
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/StartEndDate.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] StartEndDate.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7d00f708", Component.options)
+  } else {
+    hotAPI.reload("data-v-7d00f708", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(43)
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(23),
+  /* template */
+  __webpack_require__(39),
+  /* scopeId */
+  "data-v-8d03363a",
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/BootstrapAlert.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] BootstrapAlert.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-8d03363a", Component.options)
+  } else {
+    hotAPI.reload("data-v-8d03363a", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 15 */,
+/* 16 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: {
+		options: {
+			type: Array,
+			required: false
+		},
+		name: {
+			type: String,
+			required: false
+		},
+		id: {
+			type: String,
+			required: false
+		},
+		required: {
+			type: Boolean,
+			required: false
+		},
+		value: {
+			required: true
+		},
+		multiple: {
+			type: Boolean,
+			default: false
+		},
+		placeholder: {
+			type: String,
+			default: 'Please select'
+		}
+	},
+	computed: {
+		stringOptions: function stringOptions() {
+			if (!this.options) return [];
+
+			var options = this.options.slice();
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+
+			try {
+				for (var _iterator = options[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var option = _step.value;
+
+					if (option.id) option.id = option.id.toString();
+					if (option.children) {
+						var _iteratorNormalCompletion2 = true;
+						var _didIteratorError2 = false;
+						var _iteratorError2 = undefined;
+
+						try {
+							for (var _iterator2 = option.children[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+								var child = _step2.value;
+
+								if (child.id) child.id = child.id.toString();
+							}
+						} catch (err) {
+							_didIteratorError2 = true;
+							_iteratorError2 = err;
+						} finally {
+							try {
+								if (!_iteratorNormalCompletion2 && _iterator2.return) {
+									_iterator2.return();
+								}
+							} finally {
+								if (_didIteratorError2) {
+									throw _iteratorError2;
+								}
+							}
+						}
+					}
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator.return) {
+						_iterator.return();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
+			}
+
+			return options;
+		},
+		stringValue: function stringValue() {
+			if (!this.value && this.value !== 0) return '';
+
+			if (Array.isArray(this.value)) {
+				return this.value.slice().map(function (value) {
+					return value.toString();
+				});
+			} else {
+				return this.value.toString();
+			}
+		}
+	},
+	mounted: function mounted() {
+		var _this = this;
+
+		$(this.$el).on('change', function () {
+			_this.$emit('input', $(_this.$el).val());
+		});
+
+		$(this.$el).val(this.stringValue).select2({
+			placeholder: this.placeholder,
+			tags: this.multiple,
+			createTag: function createTag() {
+				return undefined;
+			}
+		});
+	},
+	updated: function updated() {
+		$(this.$el).val(this.stringValue).select2({
+			placeholder: this.placeholder,
+			tags: this.multiple,
+			createTag: function createTag() {
+				return undefined;
+			}
+		}).trigger('change');
+	},
+
+	watch: {
+		multiple: function multiple(_multiple) {
+			if (this.value) {
+				if (_multiple && !Array.isArray(this.value)) this.$emit('input', [this.value]);else if (!_multiple && Array.isArray(this.value)) this.$emit('input', this.value[0]);
+			}
+		},
+		stringValue: function stringValue(_stringValue) {
+			$(this.$el).val(_stringValue).trigger('change.select2');
+		}
+	},
+	beforeDestroyed: function beforeDestroyed() {
+		$(this.$el).off().select2('destroy');
+	}
+};
+
+/***/ }),
+/* 17 */,
+/* 18 */
 /***/ (function(module, exports) {
 
 /*
@@ -773,8 +937,46 @@ function updateLink(linkElement, obj) {
 
 
 /***/ }),
-/* 18 */,
 /* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('select', {
+    attrs: {
+      "name": _vm.name,
+      "id": _vm.id,
+      "required": _vm.required,
+      "multiple": _vm.multiple
+    }
+  }, [_vm._t("default"), _vm._v(" "), _vm._l((_vm.stringOptions), function(option) {
+    return [(option.children && option.children.length > 0) ? _c('optgroup', {
+      attrs: {
+        "label": option.text
+      }
+    }, _vm._l((option.children), function(child) {
+      return _c('option', {
+        domProps: {
+          "value": child.id
+        }
+      }, [_vm._v("\n\t\t\t\t" + _vm._s(child.text) + "\n\t\t\t")])
+    })) : (option.id) ? _c('option', {
+      domProps: {
+        "value": option.id
+      }
+    }, [_vm._v("\n\t\t\t" + _vm._s(option.text) + "\n\t\t")]) : _vm._e()]
+  })], 2)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-2434126b", module.exports)
+  }
+}
+
+/***/ }),
+/* 20 */,
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 !function(e,t){ true?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports.INDEX=t():e.INDEX=t()}(this,function(){return function(e){function t(a){if(n[a])return n[a].exports;var r=n[a]={exports:{},id:a,loaded:!1};return e[a].call(r.exports,r,r.exports,t),r.loaded=!0,r.exports}var n={};return t.m=e,t.c=n,t.p=".",t(0)}([function(e,t,n){"use strict";function a(e){return e&&e.__esModule?e:{default:e}}Object.defineProperty(t,"__esModule",{value:!0});var r=n(6),i=a(r),o=n(42),c=a(o),l=function(e){e.component("Flatpickr",c.default)};t.default=(0,i.default)(c.default,{install:l})},function(e,t){var n=e.exports={version:"2.4.0"};"number"==typeof __e&&(__e=n)},function(e,t,n){e.exports=!n(3)(function(){return 7!=Object.defineProperty({},"a",{get:function(){return 7}}).a})},function(e,t){e.exports=function(e){try{return!!e()}catch(e){return!0}}},function(e,t){var n=e.exports="undefined"!=typeof window&&window.Math==Math?window:"undefined"!=typeof self&&self.Math==Math?self:Function("return this")();"number"==typeof __g&&(__g=n)},function(e,t){e.exports=function(e){return"object"==typeof e?null!==e:"function"==typeof e}},function(e,t,n){e.exports={default:n(14),__esModule:!0}},function(e,t){e.exports=function(e){if(void 0==e)throw TypeError("Can't call method on  "+e);return e}},function(e,t,n){var a=n(18);e.exports=Object("z").propertyIsEnumerable(0)?Object:function(e){return"String"==a(e)?e.split(""):Object(e)}},function(e,t){var n=Math.ceil,a=Math.floor;e.exports=function(e){return isNaN(e=+e)?0:(e>0?a:n)(e)}},function(e,t,n){var a=n(8),r=n(7);e.exports=function(e){return a(r(e))}},function(e,t,n){"use strict";function a(e){return e&&e.__esModule?e:{default:e}}Object.defineProperty(t,"__esModule",{value:!0});var r=n(6),i=a(r),o=n(12),c=a(o),l=n(41),s=a(l);t.default={props:{placeholder:{type:String,default:""},options:{type:Object,default:function(){return{}}},value:{type:String,default:""}},data:function(){return{fp:null}},computed:{fpOptions:function(){return(0,c.default)(this.options)}},watch:{value:function(e){this.fp.setDate(e)},fpOptions:function(e){var t=JSON.parse(e);for(var n in t)this.fp.set(n,t[n])}},mounted:function(){var e=this,t=this.options.onValueUpdate;this.fp=new s.default(this.$el,(0,i.default)(this.options,{onValueUpdate:function(){e.onInput(e.$el.value),"function"==typeof t&&t()}})),this.$emit("FlatpickrRef",this.fp)},destroyed:function(){this.fp.destroy(),this.fp=null},methods:{onInput:function(e){"string"==typeof e?this.$emit("input",e):this.$emit("input",e.target.value)}}}},function(e,t,n){e.exports={default:n(13),__esModule:!0}},function(e,t,n){var a=n(1),r=a.JSON||(a.JSON={stringify:JSON.stringify});e.exports=function(e){return r.stringify.apply(r,arguments)}},function(e,t,n){n(40),e.exports=n(1).Object.assign},function(e,t){e.exports=function(e){if("function"!=typeof e)throw TypeError(e+" is not a function!");return e}},function(e,t,n){var a=n(5);e.exports=function(e){if(!a(e))throw TypeError(e+" is not an object!");return e}},function(e,t,n){var a=n(10),r=n(36),i=n(35);e.exports=function(e){return function(t,n,o){var c,l=a(t),s=r(l.length),u=i(o,s);if(e&&n!=n){for(;s>u;)if(c=l[u++],c!=c)return!0}else for(;s>u;u++)if((e||u in l)&&l[u]===n)return e||u||0;return!e&&-1}}},function(e,t){var n={}.toString;e.exports=function(e){return n.call(e).slice(8,-1)}},function(e,t,n){var a=n(15);e.exports=function(e,t,n){if(a(e),void 0===t)return e;switch(n){case 1:return function(n){return e.call(t,n)};case 2:return function(n,a){return e.call(t,n,a)};case 3:return function(n,a,r){return e.call(t,n,a,r)}}return function(){return e.apply(t,arguments)}}},function(e,t,n){var a=n(5),r=n(4).document,i=a(r)&&a(r.createElement);e.exports=function(e){return i?r.createElement(e):{}}},function(e,t){e.exports="constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf".split(",")},function(e,t,n){var a=n(4),r=n(1),i=n(19),o=n(24),c="prototype",l=function(e,t,n){var s,u,d,f=e&l.F,p=e&l.G,m=e&l.S,g=e&l.P,h=e&l.B,v=e&l.W,D=p?r:r[t]||(r[t]={}),b=D[c],y=p?a:m?a[t]:(a[t]||{})[c];p&&(n=t);for(s in n)u=!f&&y&&void 0!==y[s],u&&s in D||(d=u?y[s]:n[s],D[s]=p&&"function"!=typeof y[s]?n[s]:h&&u?i(d,a):v&&y[s]==d?function(e){var t=function(t,n,a){if(this instanceof e){switch(arguments.length){case 0:return new e;case 1:return new e(t);case 2:return new e(t,n)}return new e(t,n,a)}return e.apply(this,arguments)};return t[c]=e[c],t}(d):g&&"function"==typeof d?i(Function.call,d):d,g&&((D.virtual||(D.virtual={}))[s]=d,e&l.R&&b&&!b[s]&&o(b,s,d)))};l.F=1,l.G=2,l.S=4,l.P=8,l.B=16,l.W=32,l.U=64,l.R=128,e.exports=l},function(e,t){var n={}.hasOwnProperty;e.exports=function(e,t){return n.call(e,t)}},function(e,t,n){var a=n(27),r=n(32);e.exports=n(2)?function(e,t,n){return a.f(e,t,r(1,n))}:function(e,t,n){return e[t]=n,e}},function(e,t,n){e.exports=!n(2)&&!n(3)(function(){return 7!=Object.defineProperty(n(20)("div"),"a",{get:function(){return 7}}).a})},function(e,t,n){"use strict";var a=n(30),r=n(28),i=n(31),o=n(37),c=n(8),l=Object.assign;e.exports=!l||n(3)(function(){var e={},t={},n=Symbol(),a="abcdefghijklmnopqrst";return e[n]=7,a.split("").forEach(function(e){t[e]=e}),7!=l({},e)[n]||Object.keys(l({},t)).join("")!=a})?function(e,t){for(var n=o(e),l=arguments.length,s=1,u=r.f,d=i.f;l>s;)for(var f,p=c(arguments[s++]),m=u?a(p).concat(u(p)):a(p),g=m.length,h=0;g>h;)d.call(p,f=m[h++])&&(n[f]=p[f]);return n}:l},function(e,t,n){var a=n(16),r=n(25),i=n(38),o=Object.defineProperty;t.f=n(2)?Object.defineProperty:function(e,t,n){if(a(e),t=i(t,!0),a(n),r)try{return o(e,t,n)}catch(e){}if("get"in n||"set"in n)throw TypeError("Accessors not supported!");return"value"in n&&(e[t]=n.value),e}},function(e,t){t.f=Object.getOwnPropertySymbols},function(e,t,n){var a=n(23),r=n(10),i=n(17)(!1),o=n(33)("IE_PROTO");e.exports=function(e,t){var n,c=r(e),l=0,s=[];for(n in c)n!=o&&a(c,n)&&s.push(n);for(;t.length>l;)a(c,n=t[l++])&&(~i(s,n)||s.push(n));return s}},function(e,t,n){var a=n(29),r=n(21);e.exports=Object.keys||function(e){return a(e,r)}},function(e,t){t.f={}.propertyIsEnumerable},function(e,t){e.exports=function(e,t){return{enumerable:!(1&e),configurable:!(2&e),writable:!(4&e),value:t}}},function(e,t,n){var a=n(34)("keys"),r=n(39);e.exports=function(e){return a[e]||(a[e]=r(e))}},function(e,t,n){var a=n(4),r="__core-js_shared__",i=a[r]||(a[r]={});e.exports=function(e){return i[e]||(i[e]={})}},function(e,t,n){var a=n(9),r=Math.max,i=Math.min;e.exports=function(e,t){return e=a(e),e<0?r(e+t,0):i(e,t)}},function(e,t,n){var a=n(9),r=Math.min;e.exports=function(e){return e>0?r(a(e),9007199254740991):0}},function(e,t,n){var a=n(7);e.exports=function(e){return Object(a(e))}},function(e,t,n){var a=n(5);e.exports=function(e,t){if(!a(e))return e;var n,r;if(t&&"function"==typeof(n=e.toString)&&!a(r=n.call(e)))return r;if("function"==typeof(n=e.valueOf)&&!a(r=n.call(e)))return r;if(!t&&"function"==typeof(n=e.toString)&&!a(r=n.call(e)))return r;throw TypeError("Can't convert object to primitive value")}},function(e,t){var n=0,a=Math.random();e.exports=function(e){return"Symbol(".concat(void 0===e?"":e,")_",(++n+a).toString(36))}},function(e,t,n){var a=n(22);a(a.S+a.F,"Object",{assign:n(26)})},function(e,t,n){/*! flatpickr v2.3.4, @license MIT */
@@ -783,12 +985,12 @@ function a(e,t){function n(){e._flatpickr&&E(e._flatpickr),e._flatpickr=oe,oe.el
 //# sourceMappingURL=index.js.map
 
 /***/ }),
-/* 20 */
+/* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__);
 //
 //
@@ -820,7 +1022,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 21 */
+/* 23 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -870,12 +1072,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 22 */
+/* 24 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_downloadjs__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_downloadjs__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_downloadjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_downloadjs__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_utils_js__ = __webpack_require__(3);
 //
@@ -1052,171 +1254,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 23 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = {
-	props: {
-		options: {
-			type: Array,
-			required: false
-		},
-		name: {
-			type: String,
-			required: false
-		},
-		id: {
-			type: String,
-			required: false
-		},
-		required: {
-			type: Boolean,
-			required: false
-		},
-		value: {
-			required: true
-		},
-		multiple: {
-			type: Boolean,
-			default: false
-		},
-		placeholder: {
-			type: String,
-			default: 'Please select'
-		}
-	},
-	computed: {
-		stringOptions: function stringOptions() {
-			if (!this.options) return [];
-
-			var options = this.options.slice();
-			var _iteratorNormalCompletion = true;
-			var _didIteratorError = false;
-			var _iteratorError = undefined;
-
-			try {
-				for (var _iterator = options[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-					var option = _step.value;
-
-					if (option.id) option.id = option.id.toString();
-					if (option.children) {
-						var _iteratorNormalCompletion2 = true;
-						var _didIteratorError2 = false;
-						var _iteratorError2 = undefined;
-
-						try {
-							for (var _iterator2 = option.children[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-								var child = _step2.value;
-
-								if (child.id) child.id = child.id.toString();
-							}
-						} catch (err) {
-							_didIteratorError2 = true;
-							_iteratorError2 = err;
-						} finally {
-							try {
-								if (!_iteratorNormalCompletion2 && _iterator2.return) {
-									_iterator2.return();
-								}
-							} finally {
-								if (_didIteratorError2) {
-									throw _iteratorError2;
-								}
-							}
-						}
-					}
-				}
-			} catch (err) {
-				_didIteratorError = true;
-				_iteratorError = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion && _iterator.return) {
-						_iterator.return();
-					}
-				} finally {
-					if (_didIteratorError) {
-						throw _iteratorError;
-					}
-				}
-			}
-
-			return options;
-		},
-		stringValue: function stringValue() {
-			if (!this.value && this.value !== 0) return '';
-
-			if (Array.isArray(this.value)) {
-				return this.value.slice().map(function (value) {
-					return value.toString();
-				});
-			} else {
-				return this.value.toString();
-			}
-		}
-	},
-	mounted: function mounted() {
-		var _this = this;
-
-		$(this.$el).on('change', function () {
-			_this.$emit('input', $(_this.$el).val());
-		});
-
-		$(this.$el).val(this.stringValue).select2({
-			placeholder: this.placeholder,
-			tags: this.multiple,
-			createTag: function createTag() {
-				return undefined;
-			}
-		});
-	},
-	updated: function updated() {
-		$(this.$el).val(this.stringValue).select2({
-			placeholder: this.placeholder,
-			tags: this.multiple,
-			createTag: function createTag() {
-				return undefined;
-			}
-		}).trigger('change');
-	},
-
-	watch: {
-		multiple: function multiple(_multiple) {
-			if (this.value) {
-				if (_multiple && !Array.isArray(this.value)) this.$emit('input', [this.value]);else if (!_multiple && Array.isArray(this.value)) this.$emit('input', this.value[0]);
-			}
-		},
-		stringValue: function stringValue(_stringValue) {
-			$(this.$el).val(_stringValue).trigger('change.select2');
-		}
-	},
-	beforeDestroyed: function beforeDestroyed() {
-		$(this.$el).off().select2('destroy');
-	}
-};
-
-/***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1259,14 +1297,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jacobmischka_vue_flatpickr_theme_flatpickr_min_css__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jacobmischka_vue_flatpickr_theme_flatpickr_min_css__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jacobmischka_vue_flatpickr_theme_flatpickr_min_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__jacobmischka_vue_flatpickr_theme_flatpickr_min_css__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__ = __webpack_require__(7);
@@ -1435,7 +1473,95 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 };
 
 /***/ }),
-/* 26 */
+/* 27 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_js__ = __webpack_require__(3);
+/* harmony export (immutable) */ __webpack_exports__["e"] = createRadarScaleCallback;
+/* harmony export (immutable) */ __webpack_exports__["f"] = createResponseLegend;
+/* harmony export (immutable) */ __webpack_exports__["c"] = tableHeader;
+/* harmony export (immutable) */ __webpack_exports__["b"] = fullWidthTable;
+/* harmony export (immutable) */ __webpack_exports__["d"] = borderedStripedTable;
+/* harmony export (immutable) */ __webpack_exports__["g"] = getAverageLevel;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return sortFunctions; });
+
+
+function createRadarScaleCallback(valueMap) {
+	return function (value) {
+		return valueMap.get(value) || '';
+	};
+}
+
+function createResponseLegend(valueMap) {
+	var labels = [];
+	var values = [];
+
+	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_0__utils_js__["f" /* sortNumbers */]);
+
+	keys.map(function (key) {
+		labels.push(valueMap.get(key));
+		values.push(key.toString());
+	});
+
+	return {
+		table: {
+			headerRows: 1,
+			body: [labels.map(tableHeader), values]
+		}
+	};
+}
+
+function tableHeader(text) {
+	return {
+		text: text,
+		style: 'tableHeader'
+	};
+}
+
+function fullWidthTable(table) {
+	table.widths = Array(table.body[0].length).fill('*');
+	return table;
+}
+
+function borderedStripedTable(element) {
+	element.layout = {
+		hLineWidth: function hLineWidth(i, node) {
+			return i === node.table.headerRows ? 2 : 1;
+		},
+		vLineWidth: function vLineWidth() {
+			return 1;
+		},
+		hLineColor: function hLineColor() {
+			return '#555';
+		},
+		vLineColor: function vLineColor() {
+			return '#555';
+		},
+		fillColor: function fillColor(i, node) {
+			return i >= node.table.headerRows && i % 2 === 1 ? '#f3f3f3' : '#fff';
+		}
+	};
+
+	return element;
+}
+
+function getAverageLevel(average) {
+	var level = Math.floor(average) / 2;
+	return level >= 1 ? 'Level ' + level : 'Not Level 1';
+}
+
+var sortFunctions = new Map([['training_level', function (a, b) {
+	var sortOrder = ['intern', 'ca-1', 'ca-2', 'ca-3', 'fellow'];
+
+	var aLevel = a.training_level.toLowerCase();
+	var bLevel = b.training_level.toLowerCase();
+
+	return sortOrder.indexOf(aLevel) - sortOrder.indexOf(bLevel);
+}]]);
+
+/***/ }),
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -1449,7 +1575,7 @@ exports.push([module.i, ".flatpickr-input{cursor:pointer;z-index:1}.flatpickr-mo
 
 
 /***/ }),
-/* 27 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -1463,7 +1589,7 @@ exports.push([module.i, "\n@media print {\nbutton[data-v-38459c74] {\n\t\tdispla
 
 
 /***/ }),
-/* 28 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -1477,7 +1603,7 @@ exports.push([module.i, "\n.refresh-button-container[data-v-4d4c1aff] {\n\ttext-
 
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -1491,7 +1617,7 @@ exports.push([module.i, "\n.form-horizontal[data-v-7d00f708] {\n\toverflow-x: hi
 
 
 /***/ }),
-/* 30 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -1505,7 +1631,7 @@ exports.push([module.i, "\n.alert[data-v-8d03363a] {\n\tpage-break-inside: avoid
 
 
 /***/ }),
-/* 31 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//download.js v4.2, by dandavis; 2008-2016. [MIT] see http://danml.com/download.html for tests/usage
@@ -1681,16 +1807,16 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 32 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(26);
+var content = __webpack_require__(28);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(17)(content, {});
+var update = __webpack_require__(18)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -1707,45 +1833,7 @@ if(false) {
 }
 
 /***/ }),
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('select', {
-    attrs: {
-      "name": _vm.name,
-      "id": _vm.id,
-      "required": _vm.required,
-      "multiple": _vm.multiple
-    }
-  }, [_vm._t("default"), _vm._v(" "), _vm._l((_vm.stringOptions), function(option) {
-    return [(option.children && option.children.length > 0) ? _c('optgroup', {
-      attrs: {
-        "label": option.text
-      }
-    }, _vm._l((option.children), function(child) {
-      return _c('option', {
-        domProps: {
-          "value": child.id
-        }
-      }, [_vm._v("\n\t\t\t\t" + _vm._s(child.text) + "\n\t\t\t")])
-    })) : (option.id) ? _c('option', {
-      domProps: {
-        "value": option.id
-      }
-    }, [_vm._v("\n\t\t\t" + _vm._s(option.text) + "\n\t\t")]) : _vm._e()]
-  })], 2)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-2434126b", module.exports)
-  }
-}
-
-/***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1772,7 +1860,7 @@ if (false) {
 }
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1832,7 +1920,7 @@ if (false) {
 }
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1858,7 +1946,7 @@ if (false) {
 }
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1939,7 +2027,7 @@ if (false) {
 }
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1976,13 +2064,13 @@ if (false) {
 }
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(27);
+var content = __webpack_require__(29);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -2002,13 +2090,13 @@ if(false) {
 }
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(28);
+var content = __webpack_require__(30);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -2028,13 +2116,13 @@ if(false) {
 }
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(29);
+var content = __webpack_require__(31);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -2054,13 +2142,13 @@ if(false) {
 }
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(30);
+var content = __webpack_require__(32);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -2080,97 +2168,9 @@ if(false) {
 }
 
 /***/ }),
-/* 43 */,
 /* 44 */,
 /* 45 */,
-/* 46 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_js__ = __webpack_require__(3);
-/* harmony export (immutable) */ __webpack_exports__["e"] = createRadarScaleCallback;
-/* harmony export (immutable) */ __webpack_exports__["f"] = createResponseLegend;
-/* harmony export (immutable) */ __webpack_exports__["c"] = tableHeader;
-/* harmony export (immutable) */ __webpack_exports__["b"] = fullWidthTable;
-/* harmony export (immutable) */ __webpack_exports__["d"] = borderedStripedTable;
-/* harmony export (immutable) */ __webpack_exports__["g"] = getAverageLevel;
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return sortFunctions; });
-
-
-function createRadarScaleCallback(valueMap) {
-	return function (value) {
-		return valueMap.get(value) || '';
-	};
-}
-
-function createResponseLegend(valueMap) {
-	var labels = [];
-	var values = [];
-
-	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_0__utils_js__["f" /* sortNumbers */]);
-
-	keys.map(function (key) {
-		labels.push(valueMap.get(key));
-		values.push(key.toString());
-	});
-
-	return {
-		table: {
-			headerRows: 1,
-			body: [labels.map(tableHeader), values]
-		}
-	};
-}
-
-function tableHeader(text) {
-	return {
-		text: text,
-		style: 'tableHeader'
-	};
-}
-
-function fullWidthTable(table) {
-	table.widths = Array(table.body[0].length).fill('*');
-	return table;
-}
-
-function borderedStripedTable(element) {
-	element.layout = {
-		hLineWidth: function hLineWidth(i, node) {
-			return i === node.table.headerRows ? 2 : 1;
-		},
-		vLineWidth: function vLineWidth() {
-			return 1;
-		},
-		hLineColor: function hLineColor() {
-			return '#555';
-		},
-		vLineColor: function vLineColor() {
-			return '#555';
-		},
-		fillColor: function fillColor(i, node) {
-			return i >= node.table.headerRows && i % 2 === 1 ? '#f3f3f3' : '#fff';
-		}
-	};
-
-	return element;
-}
-
-function getAverageLevel(average) {
-	var level = Math.floor(average) / 2;
-	return level >= 1 ? 'Level ' + level : 'Not Level 1';
-}
-
-var sortFunctions = new Map([['training_level', function (a, b) {
-	var sortOrder = ['intern', 'ca-1', 'ca-2', 'ca-3', 'fellow'];
-
-	var aLevel = a.training_level.toLowerCase();
-	var bLevel = b.training_level.toLowerCase();
-
-	return sortOrder.indexOf(aLevel) - sortOrder.indexOf(bLevel);
-}]]);
-
-/***/ }),
+/* 46 */,
 /* 47 */,
 /* 48 */,
 /* 49 */,
@@ -2181,9 +2181,9 @@ var sortFunctions = new Map([['training_level', function (a, b) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(168),
+  __webpack_require__(181),
   /* template */
-  __webpack_require__(460),
+  __webpack_require__(467),
   /* scopeId */
   null,
   /* cssModules */
@@ -2215,13 +2215,51 @@ module.exports = Component.exports
 
 
 /* styles */
-__webpack_require__(502)
+__webpack_require__(80)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(213),
+  __webpack_require__(58),
   /* template */
-  __webpack_require__(464),
+  __webpack_require__(78),
+  /* scopeId */
+  "data-v-6d54e2f6",
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ComponentList.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] ComponentList.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6d54e2f6", Component.options)
+  } else {
+    hotAPI.reload("data-v-6d54e2f6", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(508)
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(224),
+  /* template */
+  __webpack_require__(471),
   /* scopeId */
   null,
   /* cssModules */
@@ -2248,17 +2286,279 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 54 */,
 /* 55 */,
 /* 56 */,
 /* 57 */,
 /* 58 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ListPaginator_vue__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ListPaginator_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ListPaginator_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lunr__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lunr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lunr__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__ = __webpack_require__(27);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: {
+		fields: {
+			type: Array,
+			default: function _default() {
+				return [];
+			}
+		},
+		items: {
+			type: Array,
+			required: true
+		}
+	},
+	data: function data() {
+		return {
+			query: null,
+			page: 0,
+			itemsPerPage: 10,
+			sortBy: this.fields[0],
+			sortOrder: 'asc'
+		};
+	},
+
+	computed: {
+		itemMap: function itemMap() {
+			var map = new Map();
+			this.items.map(function (item) {
+				map.set(item.id, item);
+			});
+
+			return map;
+		},
+		index: function index() {
+			var fields = this.fields;
+
+			var index = __WEBPACK_IMPORTED_MODULE_1_lunr___default()(function () {
+				var _this = this;
+
+				fields.map(function (field) {
+					var name = void 0,
+					    options = void 0;
+					if (typeof field === 'string') {
+						name = field;
+					} else {
+						name = field.name;
+						options = field;
+					}
+					_this.field(name, options);
+				});
+			});
+
+			this.items.map(function (item) {
+				index.add(item);
+			});
+
+			return index;
+		},
+		filteredItems: function filteredItems() {
+			var _this2 = this;
+
+			if (this.query) {
+				var refs = this.index.search(this.query);
+				return refs.map(function (ref) {
+					return _this2.itemMap.get(ref.ref);
+				});
+			}
+
+			return this.items;
+		},
+		sortedItems: function sortedItems() {
+			var _this3 = this;
+
+			if (this.sortBy && this.sortOrder) {
+
+				var sortedItems = __WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__["a" /* sortFunctions */].has(this.sortBy) ? this.filteredItems.sort(__WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__["a" /* sortFunctions */].get(this.sortBy)) : this.filteredItems.sort(function (a, b) {
+					var aValue = a[_this3.sortBy];
+					var bValue = b[_this3.sortBy];
+
+					if (Number.isNaN(aValue)) aValue = aValue.toUpperCase();
+
+					if (Number.isNaN(bValue)) bValue = bValue.toUpperCase();
+
+					if (aValue < bValue) return -1;
+					if (aValue > bValue) return 1;
+					return 0;
+				});
+
+				return this.sortOrder === 'asc' ? sortedItems : sortedItems.reverse();
+			}
+
+			return this.filteredItems;
+		},
+		paginatedItems: function paginatedItems() {
+			var paginatedItems = [];
+			var items = this.sortedItems.slice();
+			while (items.length > 0) {
+				paginatedItems.push(items.splice(0, this.itemsPerPage));
+			}return paginatedItems;
+		},
+		currentPageItems: function currentPageItems() {
+			return this.paginatedItems[this.page];
+		}
+	},
+	methods: {
+		snakeCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["e" /* snakeCaseToWords */]
+	},
+	components: {
+		ListPaginator: __WEBPACK_IMPORTED_MODULE_0__ListPaginator_vue___default.a
+	}
+};
+
+/***/ }),
+/* 59 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PaginatorLink_vue__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PaginatorLink_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__PaginatorLink_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: {
+		value: Number,
+		itemsPerPage: Number,
+		paginatedItems: Array
+	},
+	watch: {
+		itemsPerPage: function itemsPerPage() {
+			if (this.value >= this.paginatedItems.length) this.setPage(this.paginatedItems.length - 1);
+		}
+	},
+	methods: {
+		setPage: function setPage(page) {
+			this.$emit('input', page);
+		}
+	},
+	components: {
+		PaginatorLink: __WEBPACK_IMPORTED_MODULE_0__PaginatorLink_vue___default.a
+	}
+};
+
+/***/ }),
+/* 60 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: {
+		value: Number,
+		text: {
+			type: String,
+			required: false
+		},
+		active: Boolean
+	},
+	methods: {
+		emitPage: function emitPage() {
+			if (!this.active) this.$emit('click', this.value);
+		}
+	}
+};
+
+/***/ }),
+/* 61 */,
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var clone = __webpack_require__(265);
-var convert = __webpack_require__(266);
-var string = __webpack_require__(268);
+var clone = __webpack_require__(276);
+var convert = __webpack_require__(277);
+var string = __webpack_require__(279);
 
 var Color = function (obj) {
 	if (obj instanceof Color) {
@@ -2717,20 +3017,2131 @@ module.exports = Color;
 
 
 /***/ }),
-/* 59 */,
-/* 60 */,
-/* 61 */
+/* 63 */,
+/* 64 */,
+/* 65 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.paginator[data-v-05c830ce] {\n\ttext-align: center;\n}\nnav span[data-v-05c830ce] {\n\tmargin: 0 0.25em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ListPaginator.vue?1568a33a"],"names":[],"mappings":";AAqEA;CACA,mBAAA;CACA;AAEA;CACA,iBAAA;CACA","file":"ListPaginator.vue","sourcesContent":["<template>\n\t<section class=\"paginator\">\n\t\t<div class=\"form-inline\">\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tCurrent page:\n\t\t\t\t\t<input type=\"number\" class=\"form-control\" :value=\"value + 1\"\n\t\t\t\t\t\tmin=\"1\" :max=\"paginatedItems.length\"\n\t\t\t\t\t\t@input=\"$emit('input', Number($event.target.value) - 1)\" />\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tItems per page:\n\t\t\t\t\t<select class=\"form-control\" :value=\"itemsPerPage\"\n\t\t\t\t\t\t\t@input=\"$emit('pageSize', Number($event.target.value))\">\n\t\t\t\t\t\t<option value=\"5\">5</option>\n\t\t\t\t\t\t<option value=\"10\">10</option>\n\t\t\t\t\t\t<option value=\"20\">20</option>\n\t\t\t\t\t\t<option value=\"50\">50</option>\n\t\t\t\t\t\t<option value=\"100\">100</option>\n\t\t\t\t\t</select>\n\t\t\t\t</label>\n\t\t\t</div>\t\t\t\n\t\t</div>\n\t\t<nav v-if=\"itemsPerPage && paginatedItems.length > 1\">\n\t\t\t<div class=\"btn-group\">\n\t\t\t\t<paginator-link :value=\"value - 1\" text=\"← Prev\"\n\t\t\t\t\t:active=\"value === 0\" @click=\"setPage\" />\n\n\t\t\t\t<paginator-link v-for=\"(pageItems, pageNum) of paginatedItems\"\n\t\t\t\t\t:value=\"pageNum\" :active=\"pageNum === value\"\n\t\t\t\t\t@click=\"setPage\" />\n\n\t\t\t\t<paginator-link :value=\"value + 1\" text=\"Next →\"\n\t\t\t\t\t:active=\"value === paginatedItems.length - 1\"\n\t\t\t\t\t@click=\"setPage\" />\n\t\t\t</div>\n\t\t</nav>\n\t</section>\n</template>\n\n<script>\nimport PaginatorLink from './PaginatorLink.vue';\n\nexport default {\n\tprops: {\n\t\tvalue: Number,\n\t\titemsPerPage: Number,\n\t\tpaginatedItems: Array\n\t},\n\twatch: {\n\t\titemsPerPage(){\n\t\t\tif(this.value >= this.paginatedItems.length)\n\t\t\t\tthis.setPage(this.paginatedItems.length - 1);\n\t\t}\n\t},\n\tmethods: {\n\t\tsetPage(page){\n\t\t\tthis.$emit('input', page);\n\t\t}\n\t},\n\tcomponents: {\n\t\tPaginatorLink\n\t}\n};\n</script>\n\n<style scoped>\n\t.paginator {\n\t\ttext-align: center;\n\t}\n\n\tnav span {\n\t\tmargin: 0 0.25em;\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+/* 66 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.list-header[data-v-6d54e2f6] {\n\ttext-align: right;\n}\n.list-header input[type=\"search\"][data-v-6d54e2f6] {\n\twidth: 300px;\n}\n.list[data-v-6d54e2f6] {\n\tpadding: 0;\n}\n.list li[data-v-6d54e2f6] {\n\tlist-style: none;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ComponentList.vue?ec8863c8"],"names":[],"mappings":";AAsJA;CACA,kBAAA;CACA;AAEA;CACA,aAAA;CACA;AAEA;CACA,WAAA;CACA;AAEA;CACA,iBAAA;CACA","file":"ComponentList.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"list-header form-inline\">\n\t\t\t<select class=\"form-control\" v-model=\"sortBy\">\n\t\t\t\t<option v-for=\"field of fields\" :value=\"field\">\n\t\t\t\t\t{{ snakeCaseToWords(field) }}\n\t\t\t\t</option>\n\t\t\t</select>\n\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t@click=\"sortOrder = sortOrder === 'asc' ? 'desc' : 'asc'\">\n\t\t\t\t<span v-if=\"sortOrder === 'asc'\"\n\t\t\t\t\tclass=\"glyphicon glyphicon-sort-by-alphabet\"></span>\n\t\t\t\t<span v-else\n\t\t\t\t\tclass=\"glyphicon glyphicon-sort-by-alphabet-alt\"></span>\n\t\t\t</button>\n\t\t\t<input type=\"search\" class=\"form-control\" v-model=\"query\"\n\t\t\t\tplaceholder=\"Search\" />\n\t\t</div>\n\t\t<ol class=\"list\">\n\t\t\t<slot v-for=\"item of currentPageItems\" v-bind=\"item\"></slot>\n\t\t</ol>\n\t\t<list-paginator v-model=\"page\" :paginatedItems=\"paginatedItems\"\n\t\t\t:itemsPerPage=\"itemsPerPage\"\n\t\t\t@pageSize=\"itemsPerPage = arguments[0]\" />\n\t</div>\n</template>\n\n<script>\nimport ListPaginator from './ListPaginator.vue';\n\nimport lunr from 'lunr';\n\nimport { snakeCaseToWords } from 'modules/utils.js';\nimport { sortFunctions } from 'modules/report-utils.js';\n\nexport default {\n\tprops: {\n\t\tfields: {\n\t\t\ttype: Array,\n\t\t\tdefault(){\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\titems: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tquery: null,\n\t\t\tpage: 0,\n\t\t\titemsPerPage: 10,\n\t\t\tsortBy: this.fields[0],\n\t\t\tsortOrder: 'asc'\n\t\t};\n\t},\n\tcomputed: {\n\t\titemMap(){\n\t\t\tlet map = new Map();\n\t\t\tthis.items.map(item => {\n\t\t\t\tmap.set(item.id, item);\n\t\t\t});\n\n\t\t\treturn map;\n\t\t},\n\t\tindex(){\n\t\t\tlet fields = this.fields;\n\n\t\t\tlet index = lunr(function(){\n\t\t\t\tfields.map(field => {\n\t\t\t\t\tlet name, options;\n\t\t\t\t\tif(typeof field === 'string'){\n\t\t\t\t\t\tname = field;\n\t\t\t\t\t}\n\t\t\t\t\telse{\n\t\t\t\t\t\tname = field.name;\n\t\t\t\t\t\toptions = field;\n\t\t\t\t\t}\n\t\t\t\t\tthis.field(name, options);\n\t\t\t\t});\n\t\t\t});\n\n\t\t\tthis.items.map(item => {\n\t\t\t\tindex.add(item);\n\t\t\t});\n\n\t\t\treturn index;\n\t\t},\n\t\tfilteredItems(){\n\t\t\tif(this.query){\n\t\t\t\tlet refs = this.index.search(this.query);\n\t\t\t\treturn refs.map(ref => {\n\t\t\t\t\treturn this.itemMap.get(ref.ref);\n\t\t\t\t});\n\t\t\t}\n\n\t\t\treturn this.items;\n\t\t},\n\t\tsortedItems(){\n\t\t\tif(this.sortBy && this.sortOrder){\n\t\t\t\t\n\t\t\t\tlet sortedItems = sortFunctions.has(this.sortBy)\n\t\t\t\t\t? this.filteredItems.sort(sortFunctions.get(this.sortBy))\n\t\t\t\t\t: this.filteredItems.sort((a, b) => {\n\t\t\t\t\t\tlet aValue = a[this.sortBy];\n\t\t\t\t\t\tlet bValue = b[this.sortBy];\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (Number.isNaN(aValue))\n\t\t\t\t\t\t\taValue = aValue.toUpperCase();\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (Number.isNaN(bValue))\n\t\t\t\t\t\t\tbValue = bValue.toUpperCase();\n\t\t\t\t\t\t\n\t\t\t\t\t\tif(aValue < bValue)\n\t\t\t\t\t\t\treturn -1;\n\t\t\t\t\t\tif(aValue > bValue)\n\t\t\t\t\t\t\treturn 1;\n\t\t\t\t\t\treturn 0;\n\t\t\t\t\t});\n\t\t\t\t\n\t\t\t\treturn this.sortOrder === 'asc'\n\t\t\t\t\t? sortedItems\n\t\t\t\t\t: sortedItems.reverse();\n\t\t\t}\n\t\t\t\n\t\t\treturn this.filteredItems;\n\t\t},\n\t\tpaginatedItems(){\n\t\t\tlet paginatedItems = [];\n\t\t\tlet items = this.sortedItems.slice();\n\t\t\twhile(items.length > 0)\n\t\t\t\tpaginatedItems.push(items.splice(0, this.itemsPerPage));\n\n\t\t\treturn paginatedItems;\n\t\t},\n\t\tcurrentPageItems(){\n\t\t\treturn this.paginatedItems[this.page];\n\t\t}\n\t},\n\tmethods: {\n\t\tsnakeCaseToWords\n\t},\n\tcomponents: {\n\t\tListPaginator\n\t}\n};\n</script>\n\n<style scoped>\n\t.list-header {\n\t\ttext-align: right;\n\t}\n\n\t.list-header input[type=\"search\"] {\n\t\twidth: 300px;\n\t}\n\t\n\t.list {\n\t\tpadding: 0;\n\t}\n\n\t.list li {\n\t\tlist-style: none;\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+/* 67 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
+ * lunr - http://lunrjs.com - A bit like Solr, but much smaller and not as bright - 0.7.2
+ * Copyright (C) 2016 Oliver Nightingale
+ * @license MIT
+ */
+
+;(function(){
+
+/**
+ * Convenience function for instantiating a new lunr index and configuring it
+ * with the default pipeline functions and the passed config function.
+ *
+ * When using this convenience function a new index will be created with the
+ * following functions already in the pipeline:
+ *
+ * lunr.StopWordFilter - filters out any stop words before they enter the
+ * index
+ *
+ * lunr.stemmer - stems the tokens before entering the index.
+ *
+ * Example:
+ *
+ *     var idx = lunr(function () {
+ *       this.field('title', 10)
+ *       this.field('tags', 100)
+ *       this.field('body')
+ *       
+ *       this.ref('cid')
+ *       
+ *       this.pipeline.add(function () {
+ *         // some custom pipeline function
+ *       })
+ *       
+ *     })
+ *
+ * @param {Function} config A function that will be called with the new instance
+ * of the lunr.Index as both its context and first parameter. It can be used to
+ * customize the instance of new lunr.Index.
+ * @namespace
+ * @module
+ * @returns {lunr.Index}
+ *
+ */
+var lunr = function (config) {
+  var idx = new lunr.Index
+
+  idx.pipeline.add(
+    lunr.trimmer,
+    lunr.stopWordFilter,
+    lunr.stemmer
+  )
+
+  if (config) config.call(idx, idx)
+
+  return idx
+}
+
+lunr.version = "0.7.2"
+/*!
+ * lunr.utils
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * A namespace containing utils for the rest of the lunr library
+ */
+lunr.utils = {}
+
+/**
+ * Print a warning message to the console.
+ *
+ * @param {String} message The message to be printed.
+ * @memberOf Utils
+ */
+lunr.utils.warn = (function (global) {
+  return function (message) {
+    if (global.console && console.warn) {
+      console.warn(message)
+    }
+  }
+})(this)
+
+/**
+ * Convert an object to a string.
+ *
+ * In the case of `null` and `undefined` the function returns
+ * the empty string, in all other cases the result of calling
+ * `toString` on the passed object is returned.
+ *
+ * @param {Any} obj The object to convert to a string.
+ * @return {String} string representation of the passed object.
+ * @memberOf Utils
+ */
+lunr.utils.asString = function (obj) {
+  if (obj === void 0 || obj === null) {
+    return ""
+  } else {
+    return obj.toString()
+  }
+}
+/*!
+ * lunr.EventEmitter
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * lunr.EventEmitter is an event emitter for lunr. It manages adding and removing event handlers and triggering events and their handlers.
+ *
+ * @constructor
+ */
+lunr.EventEmitter = function () {
+  this.events = {}
+}
+
+/**
+ * Binds a handler function to a specific event(s).
+ *
+ * Can bind a single function to many different events in one call.
+ *
+ * @param {String} [eventName] The name(s) of events to bind this function to.
+ * @param {Function} fn The function to call when an event is fired.
+ * @memberOf EventEmitter
+ */
+lunr.EventEmitter.prototype.addListener = function () {
+  var args = Array.prototype.slice.call(arguments),
+      fn = args.pop(),
+      names = args
+
+  if (typeof fn !== "function") throw new TypeError ("last argument must be a function")
+
+  names.forEach(function (name) {
+    if (!this.hasHandler(name)) this.events[name] = []
+    this.events[name].push(fn)
+  }, this)
+}
+
+/**
+ * Removes a handler function from a specific event.
+ *
+ * @param {String} eventName The name of the event to remove this function from.
+ * @param {Function} fn The function to remove from an event.
+ * @memberOf EventEmitter
+ */
+lunr.EventEmitter.prototype.removeListener = function (name, fn) {
+  if (!this.hasHandler(name)) return
+
+  var fnIndex = this.events[name].indexOf(fn)
+  this.events[name].splice(fnIndex, 1)
+
+  if (!this.events[name].length) delete this.events[name]
+}
+
+/**
+ * Calls all functions bound to the given event.
+ *
+ * Additional data can be passed to the event handler as arguments to `emit`
+ * after the event name.
+ *
+ * @param {String} eventName The name of the event to emit.
+ * @memberOf EventEmitter
+ */
+lunr.EventEmitter.prototype.emit = function (name) {
+  if (!this.hasHandler(name)) return
+
+  var args = Array.prototype.slice.call(arguments, 1)
+
+  this.events[name].forEach(function (fn) {
+    fn.apply(undefined, args)
+  })
+}
+
+/**
+ * Checks whether a handler has ever been stored against an event.
+ *
+ * @param {String} eventName The name of the event to check.
+ * @private
+ * @memberOf EventEmitter
+ */
+lunr.EventEmitter.prototype.hasHandler = function (name) {
+  return name in this.events
+}
+
+/*!
+ * lunr.tokenizer
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * A function for splitting a string into tokens ready to be inserted into
+ * the search index. Uses `lunr.tokenizer.separator` to split strings, change
+ * the value of this property to change how strings are split into tokens.
+ *
+ * @module
+ * @param {String} obj The string to convert into tokens
+ * @see lunr.tokenizer.separator
+ * @returns {Array}
+ */
+lunr.tokenizer = function (obj) {
+  if (!arguments.length || obj == null || obj == undefined) return []
+  if (Array.isArray(obj)) return obj.map(function (t) { return lunr.utils.asString(t).toLowerCase() })
+
+  // TODO: This exists so that the deprecated property lunr.tokenizer.seperator can still be used. By
+  // default it is set to false and so the correctly spelt lunr.tokenizer.separator is used unless
+  // the user is using the old property to customise the tokenizer.
+  //
+  // This should be removed when version 1.0.0 is released.
+  var separator = lunr.tokenizer.seperator || lunr.tokenizer.separator
+
+  return obj.toString().trim().toLowerCase().split(separator)
+}
+
+/**
+ * This property is legacy alias for lunr.tokenizer.separator to maintain backwards compatability.
+ * When introduced the token was spelt incorrectly. It will remain until 1.0.0 when it will be removed,
+ * all code should use the correctly spelt lunr.tokenizer.separator property instead.
+ *
+ * @static
+ * @see lunr.tokenizer.separator
+ * @deprecated since 0.7.2 will be removed in 1.0.0
+ * @private
+ * @see lunr.tokenizer
+ */
+lunr.tokenizer.seperator = false
+
+/**
+ * The sperator used to split a string into tokens. Override this property to change the behaviour of
+ * `lunr.tokenizer` behaviour when tokenizing strings. By default this splits on whitespace and hyphens.
+ *
+ * @static
+ * @see lunr.tokenizer
+ */
+lunr.tokenizer.separator = /[\s\-]+/
+
+/**
+ * Loads a previously serialised tokenizer.
+ *
+ * A tokenizer function to be loaded must already be registered with lunr.tokenizer.
+ * If the serialised tokenizer has not been registered then an error will be thrown.
+ *
+ * @param {String} label The label of the serialised tokenizer.
+ * @returns {Function}
+ * @memberOf tokenizer
+ */
+lunr.tokenizer.load = function (label) {
+  var fn = this.registeredFunctions[label]
+
+  if (!fn) {
+    throw new Error('Cannot load un-registered function: ' + label)
+  }
+
+  return fn
+}
+
+lunr.tokenizer.label = 'default'
+
+lunr.tokenizer.registeredFunctions = {
+  'default': lunr.tokenizer
+}
+
+/**
+ * Register a tokenizer function.
+ *
+ * Functions that are used as tokenizers should be registered if they are to be used with a serialised index.
+ *
+ * Registering a function does not add it to an index, functions must still be associated with a specific index for them to be used when indexing and searching documents.
+ *
+ * @param {Function} fn The function to register.
+ * @param {String} label The label to register this function with
+ * @memberOf tokenizer
+ */
+lunr.tokenizer.registerFunction = function (fn, label) {
+  if (label in this.registeredFunctions) {
+    lunr.utils.warn('Overwriting existing tokenizer: ' + label)
+  }
+
+  fn.label = label
+  this.registeredFunctions[label] = fn
+}
+/*!
+ * lunr.Pipeline
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * lunr.Pipelines maintain an ordered list of functions to be applied to all
+ * tokens in documents entering the search index and queries being ran against
+ * the index.
+ *
+ * An instance of lunr.Index created with the lunr shortcut will contain a
+ * pipeline with a stop word filter and an English language stemmer. Extra
+ * functions can be added before or after either of these functions or these
+ * default functions can be removed.
+ *
+ * When run the pipeline will call each function in turn, passing a token, the
+ * index of that token in the original list of all tokens and finally a list of
+ * all the original tokens.
+ *
+ * The output of functions in the pipeline will be passed to the next function
+ * in the pipeline. To exclude a token from entering the index the function
+ * should return undefined, the rest of the pipeline will not be called with
+ * this token.
+ *
+ * For serialisation of pipelines to work, all functions used in an instance of
+ * a pipeline should be registered with lunr.Pipeline. Registered functions can
+ * then be loaded. If trying to load a serialised pipeline that uses functions
+ * that are not registered an error will be thrown.
+ *
+ * If not planning on serialising the pipeline then registering pipeline functions
+ * is not necessary.
+ *
+ * @constructor
+ */
+lunr.Pipeline = function () {
+  this._stack = []
+}
+
+lunr.Pipeline.registeredFunctions = {}
+
+/**
+ * Register a function with the pipeline.
+ *
+ * Functions that are used in the pipeline should be registered if the pipeline
+ * needs to be serialised, or a serialised pipeline needs to be loaded.
+ *
+ * Registering a function does not add it to a pipeline, functions must still be
+ * added to instances of the pipeline for them to be used when running a pipeline.
+ *
+ * @param {Function} fn The function to check for.
+ * @param {String} label The label to register this function with
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.registerFunction = function (fn, label) {
+  if (label in this.registeredFunctions) {
+    lunr.utils.warn('Overwriting existing registered function: ' + label)
+  }
+
+  fn.label = label
+  lunr.Pipeline.registeredFunctions[fn.label] = fn
+}
+
+/**
+ * Warns if the function is not registered as a Pipeline function.
+ *
+ * @param {Function} fn The function to check for.
+ * @private
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.warnIfFunctionNotRegistered = function (fn) {
+  var isRegistered = fn.label && (fn.label in this.registeredFunctions)
+
+  if (!isRegistered) {
+    lunr.utils.warn('Function is not registered with pipeline. This may cause problems when serialising the index.\n', fn)
+  }
+}
+
+/**
+ * Loads a previously serialised pipeline.
+ *
+ * All functions to be loaded must already be registered with lunr.Pipeline.
+ * If any function from the serialised data has not been registered then an
+ * error will be thrown.
+ *
+ * @param {Object} serialised The serialised pipeline to load.
+ * @returns {lunr.Pipeline}
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.load = function (serialised) {
+  var pipeline = new lunr.Pipeline
+
+  serialised.forEach(function (fnName) {
+    var fn = lunr.Pipeline.registeredFunctions[fnName]
+
+    if (fn) {
+      pipeline.add(fn)
+    } else {
+      throw new Error('Cannot load un-registered function: ' + fnName)
+    }
+  })
+
+  return pipeline
+}
+
+/**
+ * Adds new functions to the end of the pipeline.
+ *
+ * Logs a warning if the function has not been registered.
+ *
+ * @param {Function} functions Any number of functions to add to the pipeline.
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.prototype.add = function () {
+  var fns = Array.prototype.slice.call(arguments)
+
+  fns.forEach(function (fn) {
+    lunr.Pipeline.warnIfFunctionNotRegistered(fn)
+    this._stack.push(fn)
+  }, this)
+}
+
+/**
+ * Adds a single function after a function that already exists in the
+ * pipeline.
+ *
+ * Logs a warning if the function has not been registered.
+ *
+ * @param {Function} existingFn A function that already exists in the pipeline.
+ * @param {Function} newFn The new function to add to the pipeline.
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.prototype.after = function (existingFn, newFn) {
+  lunr.Pipeline.warnIfFunctionNotRegistered(newFn)
+
+  var pos = this._stack.indexOf(existingFn)
+  if (pos == -1) {
+    throw new Error('Cannot find existingFn')
+  }
+
+  pos = pos + 1
+  this._stack.splice(pos, 0, newFn)
+}
+
+/**
+ * Adds a single function before a function that already exists in the
+ * pipeline.
+ *
+ * Logs a warning if the function has not been registered.
+ *
+ * @param {Function} existingFn A function that already exists in the pipeline.
+ * @param {Function} newFn The new function to add to the pipeline.
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.prototype.before = function (existingFn, newFn) {
+  lunr.Pipeline.warnIfFunctionNotRegistered(newFn)
+
+  var pos = this._stack.indexOf(existingFn)
+  if (pos == -1) {
+    throw new Error('Cannot find existingFn')
+  }
+
+  this._stack.splice(pos, 0, newFn)
+}
+
+/**
+ * Removes a function from the pipeline.
+ *
+ * @param {Function} fn The function to remove from the pipeline.
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.prototype.remove = function (fn) {
+  var pos = this._stack.indexOf(fn)
+  if (pos == -1) {
+    return
+  }
+
+  this._stack.splice(pos, 1)
+}
+
+/**
+ * Runs the current list of functions that make up the pipeline against the
+ * passed tokens.
+ *
+ * @param {Array} tokens The tokens to run through the pipeline.
+ * @returns {Array}
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.prototype.run = function (tokens) {
+  var out = [],
+      tokenLength = tokens.length,
+      stackLength = this._stack.length
+
+  for (var i = 0; i < tokenLength; i++) {
+    var token = tokens[i]
+
+    for (var j = 0; j < stackLength; j++) {
+      token = this._stack[j](token, i, tokens)
+      if (token === void 0 || token === '') break
+    };
+
+    if (token !== void 0 && token !== '') out.push(token)
+  };
+
+  return out
+}
+
+/**
+ * Resets the pipeline by removing any existing processors.
+ *
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.prototype.reset = function () {
+  this._stack = []
+}
+
+/**
+ * Returns a representation of the pipeline ready for serialisation.
+ *
+ * Logs a warning if the function has not been registered.
+ *
+ * @returns {Array}
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.prototype.toJSON = function () {
+  return this._stack.map(function (fn) {
+    lunr.Pipeline.warnIfFunctionNotRegistered(fn)
+
+    return fn.label
+  })
+}
+/*!
+ * lunr.Vector
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * lunr.Vectors implement vector related operations for
+ * a series of elements.
+ *
+ * @constructor
+ */
+lunr.Vector = function () {
+  this._magnitude = null
+  this.list = undefined
+  this.length = 0
+}
+
+/**
+ * lunr.Vector.Node is a simple struct for each node
+ * in a lunr.Vector.
+ *
+ * @private
+ * @param {Number} The index of the node in the vector.
+ * @param {Object} The data at this node in the vector.
+ * @param {lunr.Vector.Node} The node directly after this node in the vector.
+ * @constructor
+ * @memberOf Vector
+ */
+lunr.Vector.Node = function (idx, val, next) {
+  this.idx = idx
+  this.val = val
+  this.next = next
+}
+
+/**
+ * Inserts a new value at a position in a vector.
+ *
+ * @param {Number} The index at which to insert a value.
+ * @param {Object} The object to insert in the vector.
+ * @memberOf Vector.
+ */
+lunr.Vector.prototype.insert = function (idx, val) {
+  this._magnitude = undefined;
+  var list = this.list
+
+  if (!list) {
+    this.list = new lunr.Vector.Node (idx, val, list)
+    return this.length++
+  }
+
+  if (idx < list.idx) {
+    this.list = new lunr.Vector.Node (idx, val, list)
+    return this.length++
+  }
+
+  var prev = list,
+      next = list.next
+
+  while (next != undefined) {
+    if (idx < next.idx) {
+      prev.next = new lunr.Vector.Node (idx, val, next)
+      return this.length++
+    }
+
+    prev = next, next = next.next
+  }
+
+  prev.next = new lunr.Vector.Node (idx, val, next)
+  return this.length++
+}
+
+/**
+ * Calculates the magnitude of this vector.
+ *
+ * @returns {Number}
+ * @memberOf Vector
+ */
+lunr.Vector.prototype.magnitude = function () {
+  if (this._magnitude) return this._magnitude
+  var node = this.list,
+      sumOfSquares = 0,
+      val
+
+  while (node) {
+    val = node.val
+    sumOfSquares += val * val
+    node = node.next
+  }
+
+  return this._magnitude = Math.sqrt(sumOfSquares)
+}
+
+/**
+ * Calculates the dot product of this vector and another vector.
+ *
+ * @param {lunr.Vector} otherVector The vector to compute the dot product with.
+ * @returns {Number}
+ * @memberOf Vector
+ */
+lunr.Vector.prototype.dot = function (otherVector) {
+  var node = this.list,
+      otherNode = otherVector.list,
+      dotProduct = 0
+
+  while (node && otherNode) {
+    if (node.idx < otherNode.idx) {
+      node = node.next
+    } else if (node.idx > otherNode.idx) {
+      otherNode = otherNode.next
+    } else {
+      dotProduct += node.val * otherNode.val
+      node = node.next
+      otherNode = otherNode.next
+    }
+  }
+
+  return dotProduct
+}
+
+/**
+ * Calculates the cosine similarity between this vector and another
+ * vector.
+ *
+ * @param {lunr.Vector} otherVector The other vector to calculate the
+ * similarity with.
+ * @returns {Number}
+ * @memberOf Vector
+ */
+lunr.Vector.prototype.similarity = function (otherVector) {
+  return this.dot(otherVector) / (this.magnitude() * otherVector.magnitude())
+}
+/*!
+ * lunr.SortedSet
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * lunr.SortedSets are used to maintain an array of uniq values in a sorted
+ * order.
+ *
+ * @constructor
+ */
+lunr.SortedSet = function () {
+  this.length = 0
+  this.elements = []
+}
+
+/**
+ * Loads a previously serialised sorted set.
+ *
+ * @param {Array} serialisedData The serialised set to load.
+ * @returns {lunr.SortedSet}
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.load = function (serialisedData) {
+  var set = new this
+
+  set.elements = serialisedData
+  set.length = serialisedData.length
+
+  return set
+}
+
+/**
+ * Inserts new items into the set in the correct position to maintain the
+ * order.
+ *
+ * @param {Object} The objects to add to this set.
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.prototype.add = function () {
+  var i, element
+
+  for (i = 0; i < arguments.length; i++) {
+    element = arguments[i]
+    if (~this.indexOf(element)) continue
+    this.elements.splice(this.locationFor(element), 0, element)
+  }
+
+  this.length = this.elements.length
+}
+
+/**
+ * Converts this sorted set into an array.
+ *
+ * @returns {Array}
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.prototype.toArray = function () {
+  return this.elements.slice()
+}
+
+/**
+ * Creates a new array with the results of calling a provided function on every
+ * element in this sorted set.
+ *
+ * Delegates to Array.prototype.map and has the same signature.
+ *
+ * @param {Function} fn The function that is called on each element of the
+ * set.
+ * @param {Object} ctx An optional object that can be used as the context
+ * for the function fn.
+ * @returns {Array}
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.prototype.map = function (fn, ctx) {
+  return this.elements.map(fn, ctx)
+}
+
+/**
+ * Executes a provided function once per sorted set element.
+ *
+ * Delegates to Array.prototype.forEach and has the same signature.
+ *
+ * @param {Function} fn The function that is called on each element of the
+ * set.
+ * @param {Object} ctx An optional object that can be used as the context
+ * @memberOf SortedSet
+ * for the function fn.
+ */
+lunr.SortedSet.prototype.forEach = function (fn, ctx) {
+  return this.elements.forEach(fn, ctx)
+}
+
+/**
+ * Returns the index at which a given element can be found in the
+ * sorted set, or -1 if it is not present.
+ *
+ * @param {Object} elem The object to locate in the sorted set.
+ * @returns {Number}
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.prototype.indexOf = function (elem) {
+  var start = 0,
+      end = this.elements.length,
+      sectionLength = end - start,
+      pivot = start + Math.floor(sectionLength / 2),
+      pivotElem = this.elements[pivot]
+
+  while (sectionLength > 1) {
+    if (pivotElem === elem) return pivot
+
+    if (pivotElem < elem) start = pivot
+    if (pivotElem > elem) end = pivot
+
+    sectionLength = end - start
+    pivot = start + Math.floor(sectionLength / 2)
+    pivotElem = this.elements[pivot]
+  }
+
+  if (pivotElem === elem) return pivot
+
+  return -1
+}
+
+/**
+ * Returns the position within the sorted set that an element should be
+ * inserted at to maintain the current order of the set.
+ *
+ * This function assumes that the element to search for does not already exist
+ * in the sorted set.
+ *
+ * @param {Object} elem The elem to find the position for in the set
+ * @returns {Number}
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.prototype.locationFor = function (elem) {
+  var start = 0,
+      end = this.elements.length,
+      sectionLength = end - start,
+      pivot = start + Math.floor(sectionLength / 2),
+      pivotElem = this.elements[pivot]
+
+  while (sectionLength > 1) {
+    if (pivotElem < elem) start = pivot
+    if (pivotElem > elem) end = pivot
+
+    sectionLength = end - start
+    pivot = start + Math.floor(sectionLength / 2)
+    pivotElem = this.elements[pivot]
+  }
+
+  if (pivotElem > elem) return pivot
+  if (pivotElem < elem) return pivot + 1
+}
+
+/**
+ * Creates a new lunr.SortedSet that contains the elements in the intersection
+ * of this set and the passed set.
+ *
+ * @param {lunr.SortedSet} otherSet The set to intersect with this set.
+ * @returns {lunr.SortedSet}
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.prototype.intersect = function (otherSet) {
+  var intersectSet = new lunr.SortedSet,
+      i = 0, j = 0,
+      a_len = this.length, b_len = otherSet.length,
+      a = this.elements, b = otherSet.elements
+
+  while (true) {
+    if (i > a_len - 1 || j > b_len - 1) break
+
+    if (a[i] === b[j]) {
+      intersectSet.add(a[i])
+      i++, j++
+      continue
+    }
+
+    if (a[i] < b[j]) {
+      i++
+      continue
+    }
+
+    if (a[i] > b[j]) {
+      j++
+      continue
+    }
+  };
+
+  return intersectSet
+}
+
+/**
+ * Makes a copy of this set
+ *
+ * @returns {lunr.SortedSet}
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.prototype.clone = function () {
+  var clone = new lunr.SortedSet
+
+  clone.elements = this.toArray()
+  clone.length = clone.elements.length
+
+  return clone
+}
+
+/**
+ * Creates a new lunr.SortedSet that contains the elements in the union
+ * of this set and the passed set.
+ *
+ * @param {lunr.SortedSet} otherSet The set to union with this set.
+ * @returns {lunr.SortedSet}
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.prototype.union = function (otherSet) {
+  var longSet, shortSet, unionSet
+
+  if (this.length >= otherSet.length) {
+    longSet = this, shortSet = otherSet
+  } else {
+    longSet = otherSet, shortSet = this
+  }
+
+  unionSet = longSet.clone()
+
+  for(var i = 0, shortSetElements = shortSet.toArray(); i < shortSetElements.length; i++){
+    unionSet.add(shortSetElements[i])
+  }
+
+  return unionSet
+}
+
+/**
+ * Returns a representation of the sorted set ready for serialisation.
+ *
+ * @returns {Array}
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.prototype.toJSON = function () {
+  return this.toArray()
+}
+/*!
+ * lunr.Index
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * lunr.Index is object that manages a search index.  It contains the indexes
+ * and stores all the tokens and document lookups.  It also provides the main
+ * user facing API for the library.
+ *
+ * @constructor
+ */
+lunr.Index = function () {
+  this._fields = []
+  this._ref = 'id'
+  this.pipeline = new lunr.Pipeline
+  this.documentStore = new lunr.Store
+  this.tokenStore = new lunr.TokenStore
+  this.corpusTokens = new lunr.SortedSet
+  this.eventEmitter =  new lunr.EventEmitter
+  this.tokenizerFn = lunr.tokenizer
+
+  this._idfCache = {}
+
+  this.on('add', 'remove', 'update', (function () {
+    this._idfCache = {}
+  }).bind(this))
+}
+
+/**
+ * Bind a handler to events being emitted by the index.
+ *
+ * The handler can be bound to many events at the same time.
+ *
+ * @param {String} [eventName] The name(s) of events to bind the function to.
+ * @param {Function} fn The serialised set to load.
+ * @memberOf Index
+ */
+lunr.Index.prototype.on = function () {
+  var args = Array.prototype.slice.call(arguments)
+  return this.eventEmitter.addListener.apply(this.eventEmitter, args)
+}
+
+/**
+ * Removes a handler from an event being emitted by the index.
+ *
+ * @param {String} eventName The name of events to remove the function from.
+ * @param {Function} fn The serialised set to load.
+ * @memberOf Index
+ */
+lunr.Index.prototype.off = function (name, fn) {
+  return this.eventEmitter.removeListener(name, fn)
+}
+
+/**
+ * Loads a previously serialised index.
+ *
+ * Issues a warning if the index being imported was serialised
+ * by a different version of lunr.
+ *
+ * @param {Object} serialisedData The serialised set to load.
+ * @returns {lunr.Index}
+ * @memberOf Index
+ */
+lunr.Index.load = function (serialisedData) {
+  if (serialisedData.version !== lunr.version) {
+    lunr.utils.warn('version mismatch: current ' + lunr.version + ' importing ' + serialisedData.version)
+  }
+
+  var idx = new this
+
+  idx._fields = serialisedData.fields
+  idx._ref = serialisedData.ref
+
+  idx.tokenizer(lunr.tokenizer.load(serialisedData.tokenizer))
+  idx.documentStore = lunr.Store.load(serialisedData.documentStore)
+  idx.tokenStore = lunr.TokenStore.load(serialisedData.tokenStore)
+  idx.corpusTokens = lunr.SortedSet.load(serialisedData.corpusTokens)
+  idx.pipeline = lunr.Pipeline.load(serialisedData.pipeline)
+
+  return idx
+}
+
+/**
+ * Adds a field to the list of fields that will be searchable within documents
+ * in the index.
+ *
+ * An optional boost param can be passed to affect how much tokens in this field
+ * rank in search results, by default the boost value is 1.
+ *
+ * Fields should be added before any documents are added to the index, fields
+ * that are added after documents are added to the index will only apply to new
+ * documents added to the index.
+ *
+ * @param {String} fieldName The name of the field within the document that
+ * should be indexed
+ * @param {Number} boost An optional boost that can be applied to terms in this
+ * field.
+ * @returns {lunr.Index}
+ * @memberOf Index
+ */
+lunr.Index.prototype.field = function (fieldName, opts) {
+  var opts = opts || {},
+      field = { name: fieldName, boost: opts.boost || 1 }
+
+  this._fields.push(field)
+  return this
+}
+
+/**
+ * Sets the property used to uniquely identify documents added to the index,
+ * by default this property is 'id'.
+ *
+ * This should only be changed before adding documents to the index, changing
+ * the ref property without resetting the index can lead to unexpected results.
+ *
+ * The value of ref can be of any type but it _must_ be stably comparable and
+ * orderable.
+ *
+ * @param {String} refName The property to use to uniquely identify the
+ * documents in the index.
+ * @param {Boolean} emitEvent Whether to emit add events, defaults to true
+ * @returns {lunr.Index}
+ * @memberOf Index
+ */
+lunr.Index.prototype.ref = function (refName) {
+  this._ref = refName
+  return this
+}
+
+/**
+ * Sets the tokenizer used for this index.
+ *
+ * By default the index will use the default tokenizer, lunr.tokenizer. The tokenizer
+ * should only be changed before adding documents to the index. Changing the tokenizer
+ * without re-building the index can lead to unexpected results.
+ *
+ * @param {Function} fn The function to use as a tokenizer.
+ * @returns {lunr.Index}
+ * @memberOf Index
+ */
+lunr.Index.prototype.tokenizer = function (fn) {
+  var isRegistered = fn.label && (fn.label in lunr.tokenizer.registeredFunctions)
+
+  if (!isRegistered) {
+    lunr.utils.warn('Function is not a registered tokenizer. This may cause problems when serialising the index')
+  }
+
+  this.tokenizerFn = fn
+  return this
+}
+
+/**
+ * Add a document to the index.
+ *
+ * This is the way new documents enter the index, this function will run the
+ * fields from the document through the index's pipeline and then add it to
+ * the index, it will then show up in search results.
+ *
+ * An 'add' event is emitted with the document that has been added and the index
+ * the document has been added to. This event can be silenced by passing false
+ * as the second argument to add.
+ *
+ * @param {Object} doc The document to add to the index.
+ * @param {Boolean} emitEvent Whether or not to emit events, default true.
+ * @memberOf Index
+ */
+lunr.Index.prototype.add = function (doc, emitEvent) {
+  var docTokens = {},
+      allDocumentTokens = new lunr.SortedSet,
+      docRef = doc[this._ref],
+      emitEvent = emitEvent === undefined ? true : emitEvent
+
+  this._fields.forEach(function (field) {
+    var fieldTokens = this.pipeline.run(this.tokenizerFn(doc[field.name]))
+
+    docTokens[field.name] = fieldTokens
+
+    for (var i = 0; i < fieldTokens.length; i++) {
+      var token = fieldTokens[i]
+      allDocumentTokens.add(token)
+      this.corpusTokens.add(token)
+    }
+  }, this)
+
+  this.documentStore.set(docRef, allDocumentTokens)
+
+  for (var i = 0; i < allDocumentTokens.length; i++) {
+    var token = allDocumentTokens.elements[i]
+    var tf = 0;
+
+    for (var j = 0; j < this._fields.length; j++){
+      var field = this._fields[j]
+      var fieldTokens = docTokens[field.name]
+      var fieldLength = fieldTokens.length
+
+      if (!fieldLength) continue
+
+      var tokenCount = 0
+      for (var k = 0; k < fieldLength; k++){
+        if (fieldTokens[k] === token){
+          tokenCount++
+        }
+      }
+
+      tf += (tokenCount / fieldLength * field.boost)
+    }
+
+    this.tokenStore.add(token, { ref: docRef, tf: tf })
+  };
+
+  if (emitEvent) this.eventEmitter.emit('add', doc, this)
+}
+
+/**
+ * Removes a document from the index.
+ *
+ * To make sure documents no longer show up in search results they can be
+ * removed from the index using this method.
+ *
+ * The document passed only needs to have the same ref property value as the
+ * document that was added to the index, they could be completely different
+ * objects.
+ *
+ * A 'remove' event is emitted with the document that has been removed and the index
+ * the document has been removed from. This event can be silenced by passing false
+ * as the second argument to remove.
+ *
+ * @param {Object} doc The document to remove from the index.
+ * @param {Boolean} emitEvent Whether to emit remove events, defaults to true
+ * @memberOf Index
+ */
+lunr.Index.prototype.remove = function (doc, emitEvent) {
+  var docRef = doc[this._ref],
+      emitEvent = emitEvent === undefined ? true : emitEvent
+
+  if (!this.documentStore.has(docRef)) return
+
+  var docTokens = this.documentStore.get(docRef)
+
+  this.documentStore.remove(docRef)
+
+  docTokens.forEach(function (token) {
+    this.tokenStore.remove(token, docRef)
+  }, this)
+
+  if (emitEvent) this.eventEmitter.emit('remove', doc, this)
+}
+
+/**
+ * Updates a document in the index.
+ *
+ * When a document contained within the index gets updated, fields changed,
+ * added or removed, to make sure it correctly matched against search queries,
+ * it should be updated in the index.
+ *
+ * This method is just a wrapper around `remove` and `add`
+ *
+ * An 'update' event is emitted with the document that has been updated and the index.
+ * This event can be silenced by passing false as the second argument to update. Only
+ * an update event will be fired, the 'add' and 'remove' events of the underlying calls
+ * are silenced.
+ *
+ * @param {Object} doc The document to update in the index.
+ * @param {Boolean} emitEvent Whether to emit update events, defaults to true
+ * @see Index.prototype.remove
+ * @see Index.prototype.add
+ * @memberOf Index
+ */
+lunr.Index.prototype.update = function (doc, emitEvent) {
+  var emitEvent = emitEvent === undefined ? true : emitEvent
+
+  this.remove(doc, false)
+  this.add(doc, false)
+
+  if (emitEvent) this.eventEmitter.emit('update', doc, this)
+}
+
+/**
+ * Calculates the inverse document frequency for a token within the index.
+ *
+ * @param {String} token The token to calculate the idf of.
+ * @see Index.prototype.idf
+ * @private
+ * @memberOf Index
+ */
+lunr.Index.prototype.idf = function (term) {
+  var cacheKey = "@" + term
+  if (Object.prototype.hasOwnProperty.call(this._idfCache, cacheKey)) return this._idfCache[cacheKey]
+
+  var documentFrequency = this.tokenStore.count(term),
+      idf = 1
+
+  if (documentFrequency > 0) {
+    idf = 1 + Math.log(this.documentStore.length / documentFrequency)
+  }
+
+  return this._idfCache[cacheKey] = idf
+}
+
+/**
+ * Searches the index using the passed query.
+ *
+ * Queries should be a string, multiple words are allowed and will lead to an
+ * AND based query, e.g. `idx.search('foo bar')` will run a search for
+ * documents containing both 'foo' and 'bar'.
+ *
+ * All query tokens are passed through the same pipeline that document tokens
+ * are passed through, so any language processing involved will be run on every
+ * query term.
+ *
+ * Each query term is expanded, so that the term 'he' might be expanded to
+ * 'hello' and 'help' if those terms were already included in the index.
+ *
+ * Matching documents are returned as an array of objects, each object contains
+ * the matching document ref, as set for this index, and the similarity score
+ * for this document against the query.
+ *
+ * @param {String} query The query to search the index with.
+ * @returns {Object}
+ * @see Index.prototype.idf
+ * @see Index.prototype.documentVector
+ * @memberOf Index
+ */
+lunr.Index.prototype.search = function (query) {
+  var queryTokens = this.pipeline.run(this.tokenizerFn(query)),
+      queryVector = new lunr.Vector,
+      documentSets = [],
+      fieldBoosts = this._fields.reduce(function (memo, f) { return memo + f.boost }, 0)
+
+  var hasSomeToken = queryTokens.some(function (token) {
+    return this.tokenStore.has(token)
+  }, this)
+
+  if (!hasSomeToken) return []
+
+  queryTokens
+    .forEach(function (token, i, tokens) {
+      var tf = 1 / tokens.length * this._fields.length * fieldBoosts,
+          self = this
+
+      var set = this.tokenStore.expand(token).reduce(function (memo, key) {
+        var pos = self.corpusTokens.indexOf(key),
+            idf = self.idf(key),
+            similarityBoost = 1,
+            set = new lunr.SortedSet
+
+        // if the expanded key is not an exact match to the token then
+        // penalise the score for this key by how different the key is
+        // to the token.
+        if (key !== token) {
+          var diff = Math.max(3, key.length - token.length)
+          similarityBoost = 1 / Math.log(diff)
+        }
+
+        // calculate the query tf-idf score for this token
+        // applying an similarityBoost to ensure exact matches
+        // these rank higher than expanded terms
+        if (pos > -1) queryVector.insert(pos, tf * idf * similarityBoost)
+
+        // add all the documents that have this key into a set
+        // ensuring that the type of key is preserved
+        var matchingDocuments = self.tokenStore.get(key),
+            refs = Object.keys(matchingDocuments),
+            refsLen = refs.length
+
+        for (var i = 0; i < refsLen; i++) {
+          set.add(matchingDocuments[refs[i]].ref)
+        }
+
+        return memo.union(set)
+      }, new lunr.SortedSet)
+
+      documentSets.push(set)
+    }, this)
+
+  var documentSet = documentSets.reduce(function (memo, set) {
+    return memo.intersect(set)
+  })
+
+  return documentSet
+    .map(function (ref) {
+      return { ref: ref, score: queryVector.similarity(this.documentVector(ref)) }
+    }, this)
+    .sort(function (a, b) {
+      return b.score - a.score
+    })
+}
+
+/**
+ * Generates a vector containing all the tokens in the document matching the
+ * passed documentRef.
+ *
+ * The vector contains the tf-idf score for each token contained in the
+ * document with the passed documentRef.  The vector will contain an element
+ * for every token in the indexes corpus, if the document does not contain that
+ * token the element will be 0.
+ *
+ * @param {Object} documentRef The ref to find the document with.
+ * @returns {lunr.Vector}
+ * @private
+ * @memberOf Index
+ */
+lunr.Index.prototype.documentVector = function (documentRef) {
+  var documentTokens = this.documentStore.get(documentRef),
+      documentTokensLength = documentTokens.length,
+      documentVector = new lunr.Vector
+
+  for (var i = 0; i < documentTokensLength; i++) {
+    var token = documentTokens.elements[i],
+        tf = this.tokenStore.get(token)[documentRef].tf,
+        idf = this.idf(token)
+
+    documentVector.insert(this.corpusTokens.indexOf(token), tf * idf)
+  };
+
+  return documentVector
+}
+
+/**
+ * Returns a representation of the index ready for serialisation.
+ *
+ * @returns {Object}
+ * @memberOf Index
+ */
+lunr.Index.prototype.toJSON = function () {
+  return {
+    version: lunr.version,
+    fields: this._fields,
+    ref: this._ref,
+    tokenizer: this.tokenizerFn.label,
+    documentStore: this.documentStore.toJSON(),
+    tokenStore: this.tokenStore.toJSON(),
+    corpusTokens: this.corpusTokens.toJSON(),
+    pipeline: this.pipeline.toJSON()
+  }
+}
+
+/**
+ * Applies a plugin to the current index.
+ *
+ * A plugin is a function that is called with the index as its context.
+ * Plugins can be used to customise or extend the behaviour the index
+ * in some way. A plugin is just a function, that encapsulated the custom
+ * behaviour that should be applied to the index.
+ *
+ * The plugin function will be called with the index as its argument, additional
+ * arguments can also be passed when calling use. The function will be called
+ * with the index as its context.
+ *
+ * Example:
+ *
+ *     var myPlugin = function (idx, arg1, arg2) {
+ *       // `this` is the index to be extended
+ *       // apply any extensions etc here.
+ *     }
+ *
+ *     var idx = lunr(function () {
+ *       this.use(myPlugin, 'arg1', 'arg2')
+ *     })
+ *
+ * @param {Function} plugin The plugin to apply.
+ * @memberOf Index
+ */
+lunr.Index.prototype.use = function (plugin) {
+  var args = Array.prototype.slice.call(arguments, 1)
+  args.unshift(this)
+  plugin.apply(this, args)
+}
+/*!
+ * lunr.Store
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * lunr.Store is a simple key-value store used for storing sets of tokens for
+ * documents stored in index.
+ *
+ * @constructor
+ * @module
+ */
+lunr.Store = function () {
+  this.store = {}
+  this.length = 0
+}
+
+/**
+ * Loads a previously serialised store
+ *
+ * @param {Object} serialisedData The serialised store to load.
+ * @returns {lunr.Store}
+ * @memberOf Store
+ */
+lunr.Store.load = function (serialisedData) {
+  var store = new this
+
+  store.length = serialisedData.length
+  store.store = Object.keys(serialisedData.store).reduce(function (memo, key) {
+    memo[key] = lunr.SortedSet.load(serialisedData.store[key])
+    return memo
+  }, {})
+
+  return store
+}
+
+/**
+ * Stores the given tokens in the store against the given id.
+ *
+ * @param {Object} id The key used to store the tokens against.
+ * @param {Object} tokens The tokens to store against the key.
+ * @memberOf Store
+ */
+lunr.Store.prototype.set = function (id, tokens) {
+  if (!this.has(id)) this.length++
+  this.store[id] = tokens
+}
+
+/**
+ * Retrieves the tokens from the store for a given key.
+ *
+ * @param {Object} id The key to lookup and retrieve from the store.
+ * @returns {Object}
+ * @memberOf Store
+ */
+lunr.Store.prototype.get = function (id) {
+  return this.store[id]
+}
+
+/**
+ * Checks whether the store contains a key.
+ *
+ * @param {Object} id The id to look up in the store.
+ * @returns {Boolean}
+ * @memberOf Store
+ */
+lunr.Store.prototype.has = function (id) {
+  return id in this.store
+}
+
+/**
+ * Removes the value for a key in the store.
+ *
+ * @param {Object} id The id to remove from the store.
+ * @memberOf Store
+ */
+lunr.Store.prototype.remove = function (id) {
+  if (!this.has(id)) return
+
+  delete this.store[id]
+  this.length--
+}
+
+/**
+ * Returns a representation of the store ready for serialisation.
+ *
+ * @returns {Object}
+ * @memberOf Store
+ */
+lunr.Store.prototype.toJSON = function () {
+  return {
+    store: this.store,
+    length: this.length
+  }
+}
+
+/*!
+ * lunr.stemmer
+ * Copyright (C) 2016 Oliver Nightingale
+ * Includes code from - http://tartarus.org/~martin/PorterStemmer/js.txt
+ */
+
+/**
+ * lunr.stemmer is an english language stemmer, this is a JavaScript
+ * implementation of the PorterStemmer taken from http://tartarus.org/~martin
+ *
+ * @module
+ * @param {String} str The string to stem
+ * @returns {String}
+ * @see lunr.Pipeline
+ */
+lunr.stemmer = (function(){
+  var step2list = {
+      "ational" : "ate",
+      "tional" : "tion",
+      "enci" : "ence",
+      "anci" : "ance",
+      "izer" : "ize",
+      "bli" : "ble",
+      "alli" : "al",
+      "entli" : "ent",
+      "eli" : "e",
+      "ousli" : "ous",
+      "ization" : "ize",
+      "ation" : "ate",
+      "ator" : "ate",
+      "alism" : "al",
+      "iveness" : "ive",
+      "fulness" : "ful",
+      "ousness" : "ous",
+      "aliti" : "al",
+      "iviti" : "ive",
+      "biliti" : "ble",
+      "logi" : "log"
+    },
+
+    step3list = {
+      "icate" : "ic",
+      "ative" : "",
+      "alize" : "al",
+      "iciti" : "ic",
+      "ical" : "ic",
+      "ful" : "",
+      "ness" : ""
+    },
+
+    c = "[^aeiou]",          // consonant
+    v = "[aeiouy]",          // vowel
+    C = c + "[^aeiouy]*",    // consonant sequence
+    V = v + "[aeiou]*",      // vowel sequence
+
+    mgr0 = "^(" + C + ")?" + V + C,               // [C]VC... is m>0
+    meq1 = "^(" + C + ")?" + V + C + "(" + V + ")?$",  // [C]VC[V] is m=1
+    mgr1 = "^(" + C + ")?" + V + C + V + C,       // [C]VCVC... is m>1
+    s_v = "^(" + C + ")?" + v;                   // vowel in stem
+
+  var re_mgr0 = new RegExp(mgr0);
+  var re_mgr1 = new RegExp(mgr1);
+  var re_meq1 = new RegExp(meq1);
+  var re_s_v = new RegExp(s_v);
+
+  var re_1a = /^(.+?)(ss|i)es$/;
+  var re2_1a = /^(.+?)([^s])s$/;
+  var re_1b = /^(.+?)eed$/;
+  var re2_1b = /^(.+?)(ed|ing)$/;
+  var re_1b_2 = /.$/;
+  var re2_1b_2 = /(at|bl|iz)$/;
+  var re3_1b_2 = new RegExp("([^aeiouylsz])\\1$");
+  var re4_1b_2 = new RegExp("^" + C + v + "[^aeiouwxy]$");
+
+  var re_1c = /^(.+?[^aeiou])y$/;
+  var re_2 = /^(.+?)(ational|tional|enci|anci|izer|bli|alli|entli|eli|ousli|ization|ation|ator|alism|iveness|fulness|ousness|aliti|iviti|biliti|logi)$/;
+
+  var re_3 = /^(.+?)(icate|ative|alize|iciti|ical|ful|ness)$/;
+
+  var re_4 = /^(.+?)(al|ance|ence|er|ic|able|ible|ant|ement|ment|ent|ou|ism|ate|iti|ous|ive|ize)$/;
+  var re2_4 = /^(.+?)(s|t)(ion)$/;
+
+  var re_5 = /^(.+?)e$/;
+  var re_5_1 = /ll$/;
+  var re3_5 = new RegExp("^" + C + v + "[^aeiouwxy]$");
+
+  var porterStemmer = function porterStemmer(w) {
+    var   stem,
+      suffix,
+      firstch,
+      re,
+      re2,
+      re3,
+      re4;
+
+    if (w.length < 3) { return w; }
+
+    firstch = w.substr(0,1);
+    if (firstch == "y") {
+      w = firstch.toUpperCase() + w.substr(1);
+    }
+
+    // Step 1a
+    re = re_1a
+    re2 = re2_1a;
+
+    if (re.test(w)) { w = w.replace(re,"$1$2"); }
+    else if (re2.test(w)) { w = w.replace(re2,"$1$2"); }
+
+    // Step 1b
+    re = re_1b;
+    re2 = re2_1b;
+    if (re.test(w)) {
+      var fp = re.exec(w);
+      re = re_mgr0;
+      if (re.test(fp[1])) {
+        re = re_1b_2;
+        w = w.replace(re,"");
+      }
+    } else if (re2.test(w)) {
+      var fp = re2.exec(w);
+      stem = fp[1];
+      re2 = re_s_v;
+      if (re2.test(stem)) {
+        w = stem;
+        re2 = re2_1b_2;
+        re3 = re3_1b_2;
+        re4 = re4_1b_2;
+        if (re2.test(w)) {  w = w + "e"; }
+        else if (re3.test(w)) { re = re_1b_2; w = w.replace(re,""); }
+        else if (re4.test(w)) { w = w + "e"; }
+      }
+    }
+
+    // Step 1c - replace suffix y or Y by i if preceded by a non-vowel which is not the first letter of the word (so cry -> cri, by -> by, say -> say)
+    re = re_1c;
+    if (re.test(w)) {
+      var fp = re.exec(w);
+      stem = fp[1];
+      w = stem + "i";
+    }
+
+    // Step 2
+    re = re_2;
+    if (re.test(w)) {
+      var fp = re.exec(w);
+      stem = fp[1];
+      suffix = fp[2];
+      re = re_mgr0;
+      if (re.test(stem)) {
+        w = stem + step2list[suffix];
+      }
+    }
+
+    // Step 3
+    re = re_3;
+    if (re.test(w)) {
+      var fp = re.exec(w);
+      stem = fp[1];
+      suffix = fp[2];
+      re = re_mgr0;
+      if (re.test(stem)) {
+        w = stem + step3list[suffix];
+      }
+    }
+
+    // Step 4
+    re = re_4;
+    re2 = re2_4;
+    if (re.test(w)) {
+      var fp = re.exec(w);
+      stem = fp[1];
+      re = re_mgr1;
+      if (re.test(stem)) {
+        w = stem;
+      }
+    } else if (re2.test(w)) {
+      var fp = re2.exec(w);
+      stem = fp[1] + fp[2];
+      re2 = re_mgr1;
+      if (re2.test(stem)) {
+        w = stem;
+      }
+    }
+
+    // Step 5
+    re = re_5;
+    if (re.test(w)) {
+      var fp = re.exec(w);
+      stem = fp[1];
+      re = re_mgr1;
+      re2 = re_meq1;
+      re3 = re3_5;
+      if (re.test(stem) || (re2.test(stem) && !(re3.test(stem)))) {
+        w = stem;
+      }
+    }
+
+    re = re_5_1;
+    re2 = re_mgr1;
+    if (re.test(w) && re2.test(w)) {
+      re = re_1b_2;
+      w = w.replace(re,"");
+    }
+
+    // and turn initial Y back to y
+
+    if (firstch == "y") {
+      w = firstch.toLowerCase() + w.substr(1);
+    }
+
+    return w;
+  };
+
+  return porterStemmer;
+})();
+
+lunr.Pipeline.registerFunction(lunr.stemmer, 'stemmer')
+/*!
+ * lunr.stopWordFilter
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * lunr.generateStopWordFilter builds a stopWordFilter function from the provided
+ * list of stop words.
+ *
+ * The built in lunr.stopWordFilter is built using this generator and can be used
+ * to generate custom stopWordFilters for applications or non English languages.
+ *
+ * @module
+ * @param {Array} token The token to pass through the filter
+ * @returns {Function}
+ * @see lunr.Pipeline
+ * @see lunr.stopWordFilter
+ */
+lunr.generateStopWordFilter = function (stopWords) {
+  var words = stopWords.reduce(function (memo, stopWord) {
+    memo[stopWord] = stopWord
+    return memo
+  }, {})
+
+  return function (token) {
+    if (token && words[token] !== token) return token
+  }
+}
+
+/**
+ * lunr.stopWordFilter is an English language stop word list filter, any words
+ * contained in the list will not be passed through the filter.
+ *
+ * This is intended to be used in the Pipeline. If the token does not pass the
+ * filter then undefined will be returned.
+ *
+ * @module
+ * @param {String} token The token to pass through the filter
+ * @returns {String}
+ * @see lunr.Pipeline
+ */
+lunr.stopWordFilter = lunr.generateStopWordFilter([
+  'a',
+  'able',
+  'about',
+  'across',
+  'after',
+  'all',
+  'almost',
+  'also',
+  'am',
+  'among',
+  'an',
+  'and',
+  'any',
+  'are',
+  'as',
+  'at',
+  'be',
+  'because',
+  'been',
+  'but',
+  'by',
+  'can',
+  'cannot',
+  'could',
+  'dear',
+  'did',
+  'do',
+  'does',
+  'either',
+  'else',
+  'ever',
+  'every',
+  'for',
+  'from',
+  'get',
+  'got',
+  'had',
+  'has',
+  'have',
+  'he',
+  'her',
+  'hers',
+  'him',
+  'his',
+  'how',
+  'however',
+  'i',
+  'if',
+  'in',
+  'into',
+  'is',
+  'it',
+  'its',
+  'just',
+  'least',
+  'let',
+  'like',
+  'likely',
+  'may',
+  'me',
+  'might',
+  'most',
+  'must',
+  'my',
+  'neither',
+  'no',
+  'nor',
+  'not',
+  'of',
+  'off',
+  'often',
+  'on',
+  'only',
+  'or',
+  'other',
+  'our',
+  'own',
+  'rather',
+  'said',
+  'say',
+  'says',
+  'she',
+  'should',
+  'since',
+  'so',
+  'some',
+  'than',
+  'that',
+  'the',
+  'their',
+  'them',
+  'then',
+  'there',
+  'these',
+  'they',
+  'this',
+  'tis',
+  'to',
+  'too',
+  'twas',
+  'us',
+  'wants',
+  'was',
+  'we',
+  'were',
+  'what',
+  'when',
+  'where',
+  'which',
+  'while',
+  'who',
+  'whom',
+  'why',
+  'will',
+  'with',
+  'would',
+  'yet',
+  'you',
+  'your'
+])
+
+lunr.Pipeline.registerFunction(lunr.stopWordFilter, 'stopWordFilter')
+/*!
+ * lunr.trimmer
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * lunr.trimmer is a pipeline function for trimming non word
+ * characters from the begining and end of tokens before they
+ * enter the index.
+ *
+ * This implementation may not work correctly for non latin
+ * characters and should either be removed or adapted for use
+ * with languages with non-latin characters.
+ *
+ * @module
+ * @param {String} token The token to pass through the filter
+ * @returns {String}
+ * @see lunr.Pipeline
+ */
+lunr.trimmer = function (token) {
+  return token.replace(/^\W+/, '').replace(/\W+$/, '')
+}
+
+lunr.Pipeline.registerFunction(lunr.trimmer, 'trimmer')
+/*!
+ * lunr.stemmer
+ * Copyright (C) 2016 Oliver Nightingale
+ * Includes code from - http://tartarus.org/~martin/PorterStemmer/js.txt
+ */
+
+/**
+ * lunr.TokenStore is used for efficient storing and lookup of the reverse
+ * index of token to document ref.
+ *
+ * @constructor
+ */
+lunr.TokenStore = function () {
+  this.root = { docs: {} }
+  this.length = 0
+}
+
+/**
+ * Loads a previously serialised token store
+ *
+ * @param {Object} serialisedData The serialised token store to load.
+ * @returns {lunr.TokenStore}
+ * @memberOf TokenStore
+ */
+lunr.TokenStore.load = function (serialisedData) {
+  var store = new this
+
+  store.root = serialisedData.root
+  store.length = serialisedData.length
+
+  return store
+}
+
+/**
+ * Adds a new token doc pair to the store.
+ *
+ * By default this function starts at the root of the current store, however
+ * it can start at any node of any token store if required.
+ *
+ * @param {String} token The token to store the doc under
+ * @param {Object} doc The doc to store against the token
+ * @param {Object} root An optional node at which to start looking for the
+ * correct place to enter the doc, by default the root of this lunr.TokenStore
+ * is used.
+ * @memberOf TokenStore
+ */
+lunr.TokenStore.prototype.add = function (token, doc, root) {
+  var root = root || this.root,
+      key = token.charAt(0),
+      rest = token.slice(1)
+
+  if (!(key in root)) root[key] = {docs: {}}
+
+  if (rest.length === 0) {
+    root[key].docs[doc.ref] = doc
+    this.length += 1
+    return
+  } else {
+    return this.add(rest, doc, root[key])
+  }
+}
+
+/**
+ * Checks whether this key is contained within this lunr.TokenStore.
+ *
+ * By default this function starts at the root of the current store, however
+ * it can start at any node of any token store if required.
+ *
+ * @param {String} token The token to check for
+ * @param {Object} root An optional node at which to start
+ * @memberOf TokenStore
+ */
+lunr.TokenStore.prototype.has = function (token) {
+  if (!token) return false
+
+  var node = this.root
+
+  for (var i = 0; i < token.length; i++) {
+    if (!node[token.charAt(i)]) return false
+
+    node = node[token.charAt(i)]
+  }
+
+  return true
+}
+
+/**
+ * Retrieve a node from the token store for a given token.
+ *
+ * By default this function starts at the root of the current store, however
+ * it can start at any node of any token store if required.
+ *
+ * @param {String} token The token to get the node for.
+ * @param {Object} root An optional node at which to start.
+ * @returns {Object}
+ * @see TokenStore.prototype.get
+ * @memberOf TokenStore
+ */
+lunr.TokenStore.prototype.getNode = function (token) {
+  if (!token) return {}
+
+  var node = this.root
+
+  for (var i = 0; i < token.length; i++) {
+    if (!node[token.charAt(i)]) return {}
+
+    node = node[token.charAt(i)]
+  }
+
+  return node
+}
+
+/**
+ * Retrieve the documents for a node for the given token.
+ *
+ * By default this function starts at the root of the current store, however
+ * it can start at any node of any token store if required.
+ *
+ * @param {String} token The token to get the documents for.
+ * @param {Object} root An optional node at which to start.
+ * @returns {Object}
+ * @memberOf TokenStore
+ */
+lunr.TokenStore.prototype.get = function (token, root) {
+  return this.getNode(token, root).docs || {}
+}
+
+lunr.TokenStore.prototype.count = function (token, root) {
+  return Object.keys(this.get(token, root)).length
+}
+
+/**
+ * Remove the document identified by ref from the token in the store.
+ *
+ * By default this function starts at the root of the current store, however
+ * it can start at any node of any token store if required.
+ *
+ * @param {String} token The token to get the documents for.
+ * @param {String} ref The ref of the document to remove from this token.
+ * @param {Object} root An optional node at which to start.
+ * @returns {Object}
+ * @memberOf TokenStore
+ */
+lunr.TokenStore.prototype.remove = function (token, ref) {
+  if (!token) return
+  var node = this.root
+
+  for (var i = 0; i < token.length; i++) {
+    if (!(token.charAt(i) in node)) return
+    node = node[token.charAt(i)]
+  }
+
+  delete node.docs[ref]
+}
+
+/**
+ * Find all the possible suffixes of the passed token using tokens
+ * currently in the store.
+ *
+ * @param {String} token The token to expand.
+ * @returns {Array}
+ * @memberOf TokenStore
+ */
+lunr.TokenStore.prototype.expand = function (token, memo) {
+  var root = this.getNode(token),
+      docs = root.docs || {},
+      memo = memo || []
+
+  if (Object.keys(docs).length) memo.push(token)
+
+  Object.keys(root)
+    .forEach(function (key) {
+      if (key === 'docs') return
+
+      memo.concat(this.expand(token + key, memo))
+    }, this)
+
+  return memo
+}
+
+/**
+ * Returns a representation of the token store ready for serialisation.
+ *
+ * @returns {Object}
+ * @memberOf TokenStore
+ */
+lunr.TokenStore.prototype.toJSON = function () {
+  return {
+    root: this.root,
+    length: this.length
+  }
+}
+
+  /**
+   * export the module via AMD, CommonJS or as a browser global
+   * Export code from https://github.com/umdjs/umd/blob/master/returnExports.js
+   */
+  ;(function (root, factory) {
+    if (true) {
+      // AMD. Register as an anonymous module.
+      !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
+				__WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+    } else if (typeof exports === 'object') {
+      /**
+       * Node. Does not work with strict CommonJS, but
+       * only CommonJS-like enviroments that support module.exports,
+       * like Node.
+       */
+      module.exports = factory()
+    } else {
+      // Browser globals (root is window)
+      root.lunr = factory()
+    }
+  }(this, function () {
+    /**
+     * Just return a value to define the module export.
+     * This example returns an object, but the module
+     * can return a function as the exported value.
+     */
+    return lunr
+  }))
+})();
+
+
+/***/ }),
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 
-module.exports = __webpack_require__(355);
+module.exports = __webpack_require__(364);
 
 
 /***/ }),
-/* 62 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3089,7 +5500,7 @@ module.exports = Ruler;
 
 
 /***/ }),
-/* 63 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3293,31 +5704,380 @@ module.exports = Token;
 
 
 /***/ }),
-/* 64 */
+/* 71 */
 /***/ (function(module, exports) {
 
 module.exports=/[!-#%-\*,-/:;\?@\[-\]_\{\}\xA1\xA7\xAB\xB6\xB7\xBB\xBF\u037E\u0387\u055A-\u055F\u0589\u058A\u05BE\u05C0\u05C3\u05C6\u05F3\u05F4\u0609\u060A\u060C\u060D\u061B\u061E\u061F\u066A-\u066D\u06D4\u0700-\u070D\u07F7-\u07F9\u0830-\u083E\u085E\u0964\u0965\u0970\u0AF0\u0DF4\u0E4F\u0E5A\u0E5B\u0F04-\u0F12\u0F14\u0F3A-\u0F3D\u0F85\u0FD0-\u0FD4\u0FD9\u0FDA\u104A-\u104F\u10FB\u1360-\u1368\u1400\u166D\u166E\u169B\u169C\u16EB-\u16ED\u1735\u1736\u17D4-\u17D6\u17D8-\u17DA\u1800-\u180A\u1944\u1945\u1A1E\u1A1F\u1AA0-\u1AA6\u1AA8-\u1AAD\u1B5A-\u1B60\u1BFC-\u1BFF\u1C3B-\u1C3F\u1C7E\u1C7F\u1CC0-\u1CC7\u1CD3\u2010-\u2027\u2030-\u2043\u2045-\u2051\u2053-\u205E\u207D\u207E\u208D\u208E\u2308-\u230B\u2329\u232A\u2768-\u2775\u27C5\u27C6\u27E6-\u27EF\u2983-\u2998\u29D8-\u29DB\u29FC\u29FD\u2CF9-\u2CFC\u2CFE\u2CFF\u2D70\u2E00-\u2E2E\u2E30-\u2E44\u3001-\u3003\u3008-\u3011\u3014-\u301F\u3030\u303D\u30A0\u30FB\uA4FE\uA4FF\uA60D-\uA60F\uA673\uA67E\uA6F2-\uA6F7\uA874-\uA877\uA8CE\uA8CF\uA8F8-\uA8FA\uA8FC\uA92E\uA92F\uA95F\uA9C1-\uA9CD\uA9DE\uA9DF\uAA5C-\uAA5F\uAADE\uAADF\uAAF0\uAAF1\uABEB\uFD3E\uFD3F\uFE10-\uFE19\uFE30-\uFE52\uFE54-\uFE61\uFE63\uFE68\uFE6A\uFE6B\uFF01-\uFF03\uFF05-\uFF0A\uFF0C-\uFF0F\uFF1A\uFF1B\uFF1F\uFF20\uFF3B-\uFF3D\uFF3F\uFF5B\uFF5D\uFF5F-\uFF65]|\uD800[\uDD00-\uDD02\uDF9F\uDFD0]|\uD801\uDD6F|\uD802[\uDC57\uDD1F\uDD3F\uDE50-\uDE58\uDE7F\uDEF0-\uDEF6\uDF39-\uDF3F\uDF99-\uDF9C]|\uD804[\uDC47-\uDC4D\uDCBB\uDCBC\uDCBE-\uDCC1\uDD40-\uDD43\uDD74\uDD75\uDDC5-\uDDC9\uDDCD\uDDDB\uDDDD-\uDDDF\uDE38-\uDE3D\uDEA9]|\uD805[\uDC4B-\uDC4F\uDC5B\uDC5D\uDCC6\uDDC1-\uDDD7\uDE41-\uDE43\uDE60-\uDE6C\uDF3C-\uDF3E]|\uD807[\uDC41-\uDC45\uDC70\uDC71]|\uD809[\uDC70-\uDC74]|\uD81A[\uDE6E\uDE6F\uDEF5\uDF37-\uDF3B\uDF44]|\uD82F\uDC9F|\uD836[\uDE87-\uDE8B]|\uD83A[\uDD5E\uDD5F]/
 
 /***/ }),
-/* 65 */,
-/* 66 */,
-/* 67 */,
-/* 68 */,
-/* 69 */,
-/* 70 */,
-/* 71 */,
 /* 72 */,
 /* 73 */,
-/* 74 */,
-/* 75 */,
-/* 76 */,
-/* 77 */,
-/* 78 */,
+/* 74 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(79)
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(59),
+  /* template */
+  __webpack_require__(76),
+  /* scopeId */
+  "data-v-05c830ce",
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ListPaginator.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] ListPaginator.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-05c830ce", Component.options)
+  } else {
+    hotAPI.reload("data-v-05c830ce", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 75 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(60),
+  /* template */
+  __webpack_require__(77),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/PaginatorLink.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] PaginatorLink.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-115d9766", Component.options)
+  } else {
+    hotAPI.reload("data-v-115d9766", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 76 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('section', {
+    staticClass: "paginator"
+  }, [_c('div', {
+    staticClass: "form-inline"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\t\tCurrent page:\n\t\t\t\t"), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "number",
+      "min": "1",
+      "max": _vm.paginatedItems.length
+    },
+    domProps: {
+      "value": _vm.value + 1
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('input', Number($event.target.value) - 1)
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\t\tItems per page:\n\t\t\t\t"), _c('select', {
+    staticClass: "form-control",
+    domProps: {
+      "value": _vm.itemsPerPage
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('pageSize', Number($event.target.value))
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "5"
+    }
+  }, [_vm._v("5")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "10"
+    }
+  }, [_vm._v("10")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "20"
+    }
+  }, [_vm._v("20")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "50"
+    }
+  }, [_vm._v("50")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "100"
+    }
+  }, [_vm._v("100")])])])])]), _vm._v(" "), (_vm.itemsPerPage && _vm.paginatedItems.length > 1) ? _c('nav', [_c('div', {
+    staticClass: "btn-group"
+  }, [_c('paginator-link', {
+    attrs: {
+      "value": _vm.value - 1,
+      "text": "← Prev",
+      "active": _vm.value === 0
+    },
+    on: {
+      "click": _vm.setPage
+    }
+  }), _vm._v(" "), _vm._l((_vm.paginatedItems), function(pageItems, pageNum) {
+    return _c('paginator-link', {
+      attrs: {
+        "value": pageNum,
+        "active": pageNum === _vm.value
+      },
+      on: {
+        "click": _vm.setPage
+      }
+    })
+  }), _vm._v(" "), _c('paginator-link', {
+    attrs: {
+      "value": _vm.value + 1,
+      "text": "Next →",
+      "active": _vm.value === _vm.paginatedItems.length - 1
+    },
+    on: {
+      "click": _vm.setPage
+    }
+  })], 2)]) : _vm._e()])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-05c830ce", module.exports)
+  }
+}
+
+/***/ }),
+/* 77 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "type": "button",
+      "href": "#",
+      "disabled": _vm.active
+    },
+    on: {
+      "click": _vm.emitPage
+    }
+  }, [_vm._v("\n\t" + _vm._s(_vm.text || _vm.value + 1) + "\n")])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-115d9766", module.exports)
+  }
+}
+
+/***/ }),
+/* 78 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('div', {
+    staticClass: "list-header form-inline"
+  }, [_c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sortBy),
+      expression: "sortBy"
+    }],
+    staticClass: "form-control",
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.sortBy = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, _vm._l((_vm.fields), function(field) {
+    return _c('option', {
+      domProps: {
+        "value": field
+      }
+    }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.snakeCaseToWords(field)) + "\n\t\t\t")])
+  })), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.sortOrder = _vm.sortOrder === 'asc' ? 'desc' : 'asc'
+      }
+    }
+  }, [(_vm.sortOrder === 'asc') ? _c('span', {
+    staticClass: "glyphicon glyphicon-sort-by-alphabet"
+  }) : _c('span', {
+    staticClass: "glyphicon glyphicon-sort-by-alphabet-alt"
+  })]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.query),
+      expression: "query"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "search",
+      "placeholder": "Search"
+    },
+    domProps: {
+      "value": (_vm.query)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.query = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('ol', {
+    staticClass: "list"
+  }, [_vm._l((_vm.currentPageItems), function(item) {
+    return _vm._t("default", null, null, item)
+  })], 2), _vm._v(" "), _c('list-paginator', {
+    attrs: {
+      "paginatedItems": _vm.paginatedItems,
+      "itemsPerPage": _vm.itemsPerPage
+    },
+    on: {
+      "pageSize": function($event) {
+        _vm.itemsPerPage = arguments[0]
+      }
+    },
+    model: {
+      value: (_vm.page),
+      callback: function($$v) {
+        _vm.page = $$v
+      },
+      expression: "page"
+    }
+  })], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-6d54e2f6", module.exports)
+  }
+}
+
+/***/ }),
 /* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(65);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("6a4ac0ec", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-05c830ce&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ListPaginator.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-05c830ce&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ListPaginator.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 80 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(66);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("93a615da", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-6d54e2f6&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ComponentList.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-6d54e2f6&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ComponentList.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 81 */,
+/* 82 */,
+/* 83 */,
+/* 84 */,
+/* 85 */,
+/* 86 */,
+/* 87 */,
+/* 88 */,
+/* 89 */,
+/* 90 */,
+/* 91 */,
+/* 92 */,
+/* 93 */
+/***/ (function(module, exports, __webpack_require__) {
+
 /* MIT license */
-var cssKeywords = __webpack_require__(57);
+var cssKeywords = __webpack_require__(61);
 
 // NOTE: conversions should only return primitive values (i.e. arrays, or
 //       values that give correct `typeof` results).
@@ -4180,14 +6940,14 @@ convert.rgb.gray = function (rgb) {
 
 
 /***/ }),
-/* 80 */,
-/* 81 */,
-/* 82 */,
-/* 83 */,
-/* 84 */,
-/* 85 */,
-/* 86 */,
-/* 87 */
+/* 94 */,
+/* 95 */,
+/* 96 */,
+/* 97 */,
+/* 98 */,
+/* 99 */,
+/* 100 */,
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4233,7 +6993,7 @@ detector.isLegacyOpera = function() {
 
 
 /***/ }),
-/* 88 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4259,11 +7019,11 @@ utils.forEach = function(collection, callback) {
 
 
 /***/ }),
-/* 89 */,
-/* 90 */
+/* 103 */,
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(91);
+var root = __webpack_require__(105);
 
 /** Built-in value references. */
 var Symbol = root.Symbol;
@@ -4272,10 +7032,10 @@ module.exports = Symbol;
 
 
 /***/ }),
-/* 91 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var freeGlobal = __webpack_require__(341);
+var freeGlobal = __webpack_require__(351);
 
 /** Detect free variable `self`. */
 var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
@@ -4287,7 +7047,7 @@ module.exports = root;
 
 
 /***/ }),
-/* 92 */
+/* 106 */
 /***/ (function(module, exports) {
 
 /**
@@ -4324,7 +7084,7 @@ module.exports = isObject;
 
 
 /***/ }),
-/* 93 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4333,11 +7093,11 @@ module.exports = isObject;
 
 
 /*eslint quotes:0*/
-module.exports = __webpack_require__(329);
+module.exports = __webpack_require__(339);
 
 
 /***/ }),
-/* 94 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4372,7 +7132,7 @@ module.exports.HTML_OPEN_CLOSE_TAG_RE = HTML_OPEN_CLOSE_TAG_RE;
 
 
 /***/ }),
-/* 95 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4506,7 +7266,7 @@ module.exports.postProcess = function emphasis(state) {
 
 
 /***/ }),
-/* 96 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4630,47 +7390,47 @@ module.exports.postProcess = function strikethrough(state) {
 
 
 /***/ }),
-/* 97 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 
-module.exports.encode = __webpack_require__(395);
-module.exports.decode = __webpack_require__(394);
-module.exports.format = __webpack_require__(396);
-module.exports.parse  = __webpack_require__(397);
+module.exports.encode = __webpack_require__(404);
+module.exports.decode = __webpack_require__(403);
+module.exports.format = __webpack_require__(405);
+module.exports.parse  = __webpack_require__(406);
 
 
 /***/ }),
-/* 98 */,
-/* 99 */
+/* 112 */,
+/* 113 */
 /***/ (function(module, exports) {
 
 module.exports=/[\0-\x1F\x7F-\x9F]/
 
 /***/ }),
-/* 100 */
+/* 114 */
 /***/ (function(module, exports) {
 
 module.exports=/[ \xA0\u1680\u2000-\u200A\u202F\u205F\u3000]/
 
 /***/ }),
-/* 101 */
+/* 115 */
 /***/ (function(module, exports) {
 
 module.exports=/[\0-\uD7FF\uE000-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]/
 
 /***/ }),
-/* 102 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(167),
+  __webpack_require__(180),
   /* template */
-  __webpack_require__(478),
+  __webpack_require__(484),
   /* scopeId */
   null,
   /* cssModules */
@@ -4697,56 +7457,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 103 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(505)
+__webpack_require__(509)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(169),
+  __webpack_require__(182),
   /* template */
-  __webpack_require__(470),
-  /* scopeId */
-  "data-v-6d54e2f6",
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ComponentList.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] ComponentList.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6d54e2f6", Component.options)
-  } else {
-    hotAPI.reload("data-v-6d54e2f6", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 104 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/* styles */
-__webpack_require__(503)
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(170),
-  /* template */
-  __webpack_require__(467),
+  __webpack_require__(474),
   /* scopeId */
   "data-v-5b23c1a4",
   /* cssModules */
@@ -4773,19 +7495,19 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 105 */,
-/* 106 */
+/* 118 */,
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(516)
+__webpack_require__(521)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(205),
+  __webpack_require__(216),
   /* template */
-  __webpack_require__(484),
+  __webpack_require__(490),
   /* scopeId */
   "data-v-fe5e41f8",
   /* cssModules */
@@ -4812,19 +7534,19 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 107 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(509)
-__webpack_require__(508)
+__webpack_require__(514)
+__webpack_require__(513)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(210),
+  __webpack_require__(221),
   /* template */
-  __webpack_require__(474),
+  __webpack_require__(480),
   /* scopeId */
   "data-v-7cfd5fbe",
   /* cssModules */
@@ -4851,14 +7573,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 108 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(212),
+  __webpack_require__(223),
   /* template */
-  __webpack_require__(465),
+  __webpack_require__(472),
   /* scopeId */
   null,
   /* cssModules */
@@ -4885,30 +7607,30 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 109 */,
-/* 110 */,
-/* 111 */,
-/* 112 */,
-/* 113 */,
-/* 114 */,
-/* 115 */,
-/* 116 */,
-/* 117 */,
-/* 118 */,
-/* 119 */,
-/* 120 */,
-/* 121 */,
 /* 122 */,
 /* 123 */,
 /* 124 */,
-/* 125 */
+/* 125 */,
+/* 126 */,
+/* 127 */,
+/* 128 */,
+/* 129 */,
+/* 130 */,
+/* 131 */,
+/* 132 */,
+/* 133 */,
+/* 134 */,
+/* 135 */,
+/* 136 */,
+/* 137 */,
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(199),
+  __webpack_require__(210),
   /* template */
-  __webpack_require__(463),
+  __webpack_require__(470),
   /* scopeId */
   null,
   /* cssModules */
@@ -4935,18 +7657,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 126 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(506)
+__webpack_require__(511)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(200),
+  __webpack_require__(211),
   /* template */
-  __webpack_require__(471),
+  __webpack_require__(477),
   /* scopeId */
   "data-v-70d4db5d",
   /* cssModules */
@@ -4973,14 +7695,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 127 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(207),
+  __webpack_require__(218),
   /* template */
-  __webpack_require__(443),
+  __webpack_require__(451),
   /* scopeId */
   null,
   /* cssModules */
@@ -5007,14 +7729,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 128 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(208),
+  __webpack_require__(219),
   /* template */
-  __webpack_require__(459),
+  __webpack_require__(466),
   /* scopeId */
   null,
   /* cssModules */
@@ -5041,18 +7763,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 129 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(495)
+__webpack_require__(500)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(209),
+  __webpack_require__(220),
   /* template */
-  __webpack_require__(453),
+  __webpack_require__(459),
   /* scopeId */
   "data-v-29d12b6c",
   /* cssModules */
@@ -5079,19 +7801,19 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 130 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(494)
-__webpack_require__(493)
+__webpack_require__(499)
+__webpack_require__(498)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(211),
+  __webpack_require__(222),
   /* template */
-  __webpack_require__(452),
+  __webpack_require__(458),
   /* scopeId */
   "data-v-26074fc7",
   /* cssModules */
@@ -5118,7 +7840,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 131 */
+/* 144 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7525,11 +10247,11 @@ if (inBrowser && window.Vue) {
 
 /* harmony default export */ __webpack_exports__["a"] = VueRouter;
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(54)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(55)))
 
 /***/ }),
-/* 132 */,
-/* 133 */
+/* 145 */,
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7543,9 +10265,9 @@ if (inBrowser && window.Vue) {
 
 
 
-var base64 = __webpack_require__(217)
-var ieee754 = __webpack_require__(330)
-var isArray = __webpack_require__(331)
+var base64 = __webpack_require__(228)
+var ieee754 = __webpack_require__(340)
+var isArray = __webpack_require__(341)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -9323,22 +12045,9 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20)))
 
 /***/ }),
-/* 134 */,
-/* 135 */,
-/* 136 */,
-/* 137 */,
-/* 138 */,
-/* 139 */,
-/* 140 */,
-/* 141 */,
-/* 142 */,
-/* 143 */,
-/* 144 */,
-/* 145 */,
-/* 146 */,
 /* 147 */,
 /* 148 */,
 /* 149 */,
@@ -9359,7 +12068,20 @@ function isnan (val) {
 /* 164 */,
 /* 165 */,
 /* 166 */,
-/* 167 */
+/* 167 */,
+/* 168 */,
+/* 169 */,
+/* 170 */,
+/* 171 */,
+/* 172 */,
+/* 173 */,
+/* 174 */,
+/* 175 */,
+/* 176 */,
+/* 177 */,
+/* 178 */,
+/* 179 */,
+/* 180 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9394,16 +12116,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 168 */
+/* 181 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js__ = __webpack_require__(77);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js__ = __webpack_require__(91);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_chart_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_element_resize_detector__ = __webpack_require__(322);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_element_resize_detector__ = __webpack_require__(332);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_element_resize_detector___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_element_resize_detector__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_constants_js__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_constants_js__ = __webpack_require__(17);
 //
 //
 //
@@ -9515,174 +12237,16 @@ var erd = __WEBPACK_IMPORTED_MODULE_1_element_resize_detector___default()({
 };
 
 /***/ }),
-/* 169 */
+/* 182 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ListPaginator_vue__ = __webpack_require__(416);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ListPaginator_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ListPaginator_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lunr__ = __webpack_require__(349);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lunr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lunr__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__ = __webpack_require__(46);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = {
-	props: {
-		fields: {
-			type: Array,
-			default: function _default() {
-				return [];
-			}
-		},
-		items: {
-			type: Array,
-			required: true
-		}
-	},
-	data: function data() {
-		return {
-			query: null,
-			page: 0,
-			itemsPerPage: 10,
-			sortBy: this.fields[0],
-			sortOrder: 'asc'
-		};
-	},
-
-	computed: {
-		itemMap: function itemMap() {
-			var map = new Map();
-			this.items.map(function (item) {
-				map.set(item.id, item);
-			});
-
-			return map;
-		},
-		index: function index() {
-			var fields = this.fields;
-
-			var index = __WEBPACK_IMPORTED_MODULE_1_lunr___default()(function () {
-				var _this = this;
-
-				fields.map(function (field) {
-					var name = void 0,
-					    options = void 0;
-					if (typeof field === 'string') {
-						name = field;
-					} else {
-						name = field.name;
-						options = field;
-					}
-					_this.field(name, options);
-				});
-			});
-
-			this.items.map(function (item) {
-				index.add(item);
-			});
-
-			return index;
-		},
-		filteredItems: function filteredItems() {
-			var _this2 = this;
-
-			if (this.query) {
-				var refs = this.index.search(this.query);
-				return refs.map(function (ref) {
-					return _this2.itemMap.get(ref.ref);
-				});
-			}
-
-			return this.items;
-		},
-		sortedItems: function sortedItems() {
-			var _this3 = this;
-
-			if (this.sortBy && this.sortOrder) {
-
-				var sortedItems = __WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__["a" /* sortFunctions */].has(this.sortBy) ? this.filteredItems.sort(__WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__["a" /* sortFunctions */].get(this.sortBy)) : this.filteredItems.sort(function (a, b) {
-					var aValue = a[_this3.sortBy];
-					var bValue = b[_this3.sortBy];
-
-					if (Number.isNaN(aValue)) aValue = aValue.toUpperCase();
-
-					if (Number.isNaN(bValue)) bValue = bValue.toUpperCase();
-
-					if (aValue < bValue) return -1;
-					if (aValue > bValue) return 1;
-					return 0;
-				});
-
-				return this.sortOrder === 'asc' ? sortedItems : sortedItems.reverse();
-			}
-
-			return this.filteredItems;
-		},
-		paginatedItems: function paginatedItems() {
-			var paginatedItems = [];
-			var items = this.sortedItems.slice();
-			while (items.length > 0) {
-				paginatedItems.push(items.splice(0, this.itemsPerPage));
-			}return paginatedItems;
-		},
-		currentPageItems: function currentPageItems() {
-			return this.paginatedItems[this.page];
-		}
-	},
-	methods: {
-		snakeCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["e" /* snakeCaseToWords */]
-	},
-	components: {
-		ListPaginator: __WEBPACK_IMPORTED_MODULE_0__ListPaginator_vue___default.a
-	}
-};
-
-/***/ }),
-/* 170 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_markdown_it__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_markdown_it__ = __webpack_require__(68);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_markdown_it___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_markdown_it__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AlertList_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AlertList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__MediumEditor_vue__ = __webpack_require__(417);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__MediumEditor_vue__ = __webpack_require__(426);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__MediumEditor_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__MediumEditor_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ShowHideButton_vue__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ShowHideButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__ShowHideButton_vue__);
@@ -9992,18 +12556,18 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 };
 
 /***/ }),
-/* 171 */,
-/* 172 */,
-/* 173 */,
-/* 174 */,
-/* 175 */
+/* 183 */,
+/* 184 */,
+/* 185 */,
+/* 186 */,
+/* 187 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_markdown_it__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_markdown_it__ = __webpack_require__(68);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_markdown_it___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_markdown_it__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormReaderQuestionOption_vue__ = __webpack_require__(414);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormReaderQuestionOption_vue__ = __webpack_require__(423);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormReaderQuestionOption_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__FormReaderQuestionOption_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(3);
 //
@@ -10092,12 +12656,12 @@ var _md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 };
 
 /***/ }),
-/* 176 */
+/* 188 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_markdown_it__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_markdown_it__ = __webpack_require__(68);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_markdown_it___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_markdown_it__);
 //
 //
@@ -10147,95 +12711,22 @@ var _md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 };
 
 /***/ }),
-/* 177 */,
-/* 178 */
+/* 189 */,
+/* 190 */,
+/* 191 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PaginatorLink_vue__ = __webpack_require__(422);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PaginatorLink_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__PaginatorLink_vue__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = {
-	props: {
-		value: Number,
-		itemsPerPage: Number,
-		paginatedItems: Array
-	},
-	watch: {
-		itemsPerPage: function itemsPerPage() {
-			if (this.value >= this.paginatedItems.length) this.setPage(this.paginatedItems.length - 1);
-		}
-	},
-	methods: {
-		setPage: function setPage(page) {
-			this.$emit('input', page);
-		}
-	},
-	components: {
-		PaginatorLink: __WEBPACK_IMPORTED_MODULE_0__PaginatorLink_vue___default.a
-	}
-};
-
-/***/ }),
-/* 179 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_medium_editor__ = __webpack_require__(398);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_medium_editor__ = __webpack_require__(407);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_medium_editor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_medium_editor__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_medium_editor_dist_css_medium_editor_css__ = __webpack_require__(403);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_medium_editor_dist_css_medium_editor_css__ = __webpack_require__(412);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_medium_editor_dist_css_medium_editor_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_medium_editor_dist_css_medium_editor_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_medium_editor_dist_css_themes_bootstrap_css__ = __webpack_require__(404);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_medium_editor_dist_css_themes_bootstrap_css__ = __webpack_require__(413);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_medium_editor_dist_css_themes_bootstrap_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_medium_editor_dist_css_themes_bootstrap_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_lodash_debounce__ = __webpack_require__(344);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_lodash_debounce__ = __webpack_require__(354);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_lodash_debounce___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_lodash_debounce__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ReplacementList_vue__ = __webpack_require__(433);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ReplacementList_vue__ = __webpack_require__(441);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ReplacementList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__ReplacementList_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(3);
 //
@@ -10330,53 +12821,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 180 */,
-/* 181 */,
-/* 182 */,
-/* 183 */,
-/* 184 */,
-/* 185 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = {
-	props: {
-		value: Number,
-		text: {
-			type: String,
-			required: false
-		},
-		active: Boolean
-	},
-	methods: {
-		emitPage: function emitPage() {
-			if (!this.active) this.$emit('click', this.value);
-		}
-	}
-};
-
-/***/ }),
-/* 186 */,
-/* 187 */,
-/* 188 */,
-/* 189 */,
-/* 190 */,
-/* 191 */,
 /* 192 */,
 /* 193 */,
 /* 194 */,
 /* 195 */,
 /* 196 */,
-/* 197 */
+/* 197 */,
+/* 198 */,
+/* 199 */,
+/* 200 */,
+/* 201 */,
+/* 202 */,
+/* 203 */,
+/* 204 */,
+/* 205 */,
+/* 206 */,
+/* 207 */,
+/* 208 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10421,23 +12882,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 198 */
+/* 209 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_color__ = __webpack_require__(58);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_color__ = __webpack_require__(62);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_color___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_color__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BootstrapButtonInput_vue__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BootstrapButtonInput_vue__ = __webpack_require__(116);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BootstrapButtonInput_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__BootstrapButtonInput_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ChartjsChart_vue__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ChartjsChart_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__ChartjsChart_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__DataTable_vue__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__DataTable_vue__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__DataTable_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_constants_js__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_constants_js__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_datatable_utils_js__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_report_utils_js__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_report_utils_js__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__modules_date_utils_js__ = __webpack_require__(7);
 //
 //
@@ -10828,14 +13289,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 199 */
+/* 210 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__StatsReport_vue__ = __webpack_require__(107);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__StatsReport_vue__ = __webpack_require__(120);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__StatsReport_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__StatsReport_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__AlertList_vue__);
@@ -10928,32 +13389,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 200 */
+/* 211 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SelectTwo_vue__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SelectTwo_vue__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SelectTwo_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__SelectTwo_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__FormReportQuestion_vue__ = __webpack_require__(435);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__FormReportQuestion_vue__ = __webpack_require__(443);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__FormReportQuestion_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__FormReportQuestion_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__DataTable_vue__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__DataTable_vue__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__DataTable_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__BootstrapAlert_vue__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__BootstrapAlert_vue__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__BootstrapAlert_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__BootstrapAlert_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__AlertList_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__AlertList_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ShowHideButton_vue__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ShowHideButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__ShowHideButton_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__SvgIcon_vue__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__SvgIcon_vue__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__SvgIcon_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__SvgIcon_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__modules_utils_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__modules_date_utils_js__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__ = __webpack_require__(8);
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -11285,7 +13746,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 			var hasSubject = this.report.subjectEvals[this.subjectId] && this.report.subjectEvals[this.subjectId].length > 0;
 
-			Promise.all([__webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, 68)), __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, 69))]).then(function (_ref) {
+			Promise.all([__webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, 82)), __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, 83))]).then(function (_ref) {
 				var _ref2 = _slicedToArray(_ref, 2),
 				    pdfmake = _ref2[0],
 				    vfs = _ref2[1];
@@ -11422,20 +13883,20 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 };
 
 /***/ }),
-/* 201 */
+/* 212 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormReader_FormReaderQuestion_vue__ = __webpack_require__(413);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormReader_FormReaderQuestion_vue__ = __webpack_require__(422);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormReader_FormReaderQuestion_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__FormReader_FormReaderQuestion_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormReportQuestionOptionStats_vue__ = __webpack_require__(436);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormReportQuestionOptionStats_vue__ = __webpack_require__(444);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormReportQuestionOptionStats_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__FormReportQuestionOptionStats_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ChartjsChart_vue__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ChartjsChart_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__ChartjsChart_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ShowHideButton_vue__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ShowHideButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__ShowHideButton_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_constants_js__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_constants_js__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(3);
 //
 //
@@ -11606,7 +14067,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 202 */
+/* 213 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11643,29 +14104,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 203 */
+/* 214 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_color__ = __webpack_require__(58);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_color__ = __webpack_require__(62);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_color___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_color__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BootstrapAlert_vue__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BootstrapAlert_vue__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BootstrapAlert_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__BootstrapAlert_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__AlertList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__BootstrapButtonInput_vue__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__BootstrapButtonInput_vue__ = __webpack_require__(116);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__BootstrapButtonInput_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__BootstrapButtonInput_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ChartjsChart_vue__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ChartjsChart_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__ChartjsChart_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DataTable_vue__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DataTable_vue__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__DataTable_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__SvgIcon_vue__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__SvgIcon_vue__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__SvgIcon_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__SvgIcon_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_constants_js__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_constants_js__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__modules_utils_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__modules_datatable_utils_js__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__modules_report_utils_js__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__modules_report_utils_js__ = __webpack_require__(27);
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -12050,7 +14511,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 			if (!this.report.subjectEvaluations[this.subjectId]) return;
 
-			Promise.all([__webpack_require__.e/* import() */(0/* duplicate */).then(__webpack_require__.bind(null, 68)), __webpack_require__.e/* import() */(1/* duplicate */).then(__webpack_require__.bind(null, 69))]).then(function (_ref) {
+			Promise.all([__webpack_require__.e/* import() */(0/* duplicate */).then(__webpack_require__.bind(null, 82)), __webpack_require__.e/* import() */(1/* duplicate */).then(__webpack_require__.bind(null, 83))]).then(function (_ref) {
 				var _ref2 = _slicedToArray(_ref, 2),
 				    pdfmake = _ref2[0],
 				    vfs = _ref2[1];
@@ -12172,12 +14633,12 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 };
 
 /***/ }),
-/* 204 */
+/* 215 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_datatable_utils_js__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__ = __webpack_require__(7);
@@ -12287,16 +14748,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 205 */
+/* 216 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__EvaluationDetailsListItem_vue__ = __webpack_require__(438);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__EvaluationDetailsListItem_vue__ = __webpack_require__(446);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__EvaluationDetailsListItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__EvaluationDetailsListItem_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShowHideButton_vue__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShowHideButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ShowHideButton_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_constants_js__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_constants_js__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_datatable_utils_js__ = __webpack_require__(8);
 //
@@ -12425,21 +14886,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 206 */
+/* 217 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EvaluationListItem_vue__ = __webpack_require__(106);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EvaluationListItem_vue__ = __webpack_require__(119);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EvaluationListItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__EvaluationListItem_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ComponentList_vue__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ComponentList_vue__ = __webpack_require__(53);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ComponentList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__ComponentList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__EmailEditor_vue__ = __webpack_require__(104);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__EmailEditor_vue__ = __webpack_require__(117);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__EmailEditor_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__EmailEditor_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__ = __webpack_require__(17);
 //
 //
 //
@@ -12551,20 +15012,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 207 */
+/* 218 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Evaluations_vue__ = __webpack_require__(439);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Evaluations_vue__ = __webpack_require__(447);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Evaluations_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Evaluations_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TrainingLevelSelect_vue__ = __webpack_require__(108);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TrainingLevelSelect_vue__ = __webpack_require__(121);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TrainingLevelSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__TrainingLevelSelect_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SelectTwo_vue__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SelectTwo_vue__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SelectTwo_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__SelectTwo_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__EmailEditor_vue__ = __webpack_require__(104);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__EmailEditor_vue__ = __webpack_require__(117);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__EmailEditor_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__EmailEditor_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__ = __webpack_require__(7);
@@ -12728,18 +15189,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 208 */
+/* 219 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Needs_EvaluationListItem_vue__ = __webpack_require__(106);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Needs_EvaluationListItem_vue__ = __webpack_require__(119);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Needs_EvaluationListItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Needs_EvaluationListItem_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__AlertList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ComponentList_vue__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ComponentList_vue__ = __webpack_require__(53);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ComponentList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__ComponentList_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_date_utils_js__ = __webpack_require__(7);
@@ -12833,7 +15294,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 209 */
+/* 220 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12897,25 +15358,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 210 */
+/* 221 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_color__ = __webpack_require__(58);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_color__ = __webpack_require__(62);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_color___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_color__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AlertList_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AlertList_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ChartjsChart_vue__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ChartjsChart_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__ChartjsChart_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__DataTable_vue__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__DataTable_vue__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__DataTable_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__SvgIcon_vue__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__SvgIcon_vue__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__SvgIcon_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__SvgIcon_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_utils_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__ = __webpack_require__(27);
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -13221,7 +15682,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 		exportPdf: function exportPdf() {
 			var _this = this;
 
-			Promise.all([__webpack_require__.e/* import() */(0/* duplicate */).then(__webpack_require__.bind(null, 68)), __webpack_require__.e/* import() */(1/* duplicate */).then(__webpack_require__.bind(null, 69))]).then(function (_ref) {
+			Promise.all([__webpack_require__.e/* import() */(0/* duplicate */).then(__webpack_require__.bind(null, 82)), __webpack_require__.e/* import() */(1/* duplicate */).then(__webpack_require__.bind(null, 83))]).then(function (_ref) {
 				var _ref2 = _slicedToArray(_ref, 2),
 				    pdfmake = _ref2[0],
 				    vfs = _ref2[1];
@@ -13352,28 +15813,28 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 };
 
 /***/ }),
-/* 211 */
+/* 222 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AggregateReport_vue__ = __webpack_require__(434);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AggregateReport_vue__ = __webpack_require__(442);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AggregateReport_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__AggregateReport_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__IndividualReport_vue__ = __webpack_require__(437);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__IndividualReport_vue__ = __webpack_require__(445);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__IndividualReport_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__IndividualReport_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__StartEndDate_vue__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__StartEndDate_vue__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__StartEndDate_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__StartEndDate_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__StatsReport_vue__ = __webpack_require__(107);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__StatsReport_vue__ = __webpack_require__(120);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__StatsReport_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__StatsReport_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__TrainingLevelSelect_vue__ = __webpack_require__(108);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__TrainingLevelSelect_vue__ = __webpack_require__(121);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__TrainingLevelSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__TrainingLevelSelect_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__AlertList_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__AlertList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__BootstrapAlert_vue__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__BootstrapAlert_vue__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__BootstrapAlert_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__BootstrapAlert_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__SelectTwo_vue__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__SelectTwo_vue__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__SelectTwo_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__SelectTwo_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__SvgIcon_vue__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__SvgIcon_vue__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__SvgIcon_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__SvgIcon_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__modules_utils_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__modules_date_utils_js__ = __webpack_require__(7);
@@ -13727,7 +16188,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 212 */
+/* 223 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13755,7 +16216,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 213 */
+/* 224 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13794,10 +16255,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 214 */,
-/* 215 */,
-/* 216 */,
-/* 217 */
+/* 225 */,
+/* 226 */,
+/* 227 */,
+/* 228 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13918,13 +16379,13 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 218 */
+/* 229 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(219);
+var utils = __webpack_require__(230);
 
 module.exports = function batchProcessorMaker(options) {
     options             = options || {};
@@ -14063,7 +16524,7 @@ function Batch() {
 
 
 /***/ }),
-/* 219 */
+/* 230 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14085,17 +16546,6 @@ function getOption(options, name, defaultValue) {
 
 
 /***/ }),
-/* 220 */,
-/* 221 */,
-/* 222 */,
-/* 223 */,
-/* 224 */,
-/* 225 */,
-/* 226 */,
-/* 227 */,
-/* 228 */,
-/* 229 */,
-/* 230 */,
 /* 231 */,
 /* 232 */,
 /* 233 */,
@@ -14130,7 +16580,18 @@ function getOption(options, name, defaultValue) {
 /* 262 */,
 /* 263 */,
 /* 264 */,
-/* 265 */
+/* 265 */,
+/* 266 */,
+/* 267 */,
+/* 268 */,
+/* 269 */,
+/* 270 */,
+/* 271 */,
+/* 272 */,
+/* 273 */,
+/* 274 */,
+/* 275 */,
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {var clone = (function() {
@@ -14294,14 +16755,14 @@ if (typeof module === 'object' && module.exports) {
   module.exports = clone;
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(133).Buffer))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(146).Buffer))
 
 /***/ }),
-/* 266 */
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var conversions = __webpack_require__(79);
-var route = __webpack_require__(267);
+var conversions = __webpack_require__(93);
+var route = __webpack_require__(278);
 
 var convert = {};
 
@@ -14381,10 +16842,10 @@ module.exports = convert;
 
 
 /***/ }),
-/* 267 */
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var conversions = __webpack_require__(79);
+var conversions = __webpack_require__(93);
 
 /*
 	this function routes a model to all other models.
@@ -14485,11 +16946,11 @@ module.exports = function (fromModel) {
 
 
 /***/ }),
-/* 268 */
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var colorNames = __webpack_require__(57);
+var colorNames = __webpack_require__(61);
 
 module.exports = {
    getRgba: getRgba,
@@ -14712,23 +17173,23 @@ for (var name in colorNames) {
 
 
 /***/ }),
-/* 269 */,
-/* 270 */,
-/* 271 */,
-/* 272 */,
-/* 273 */,
-/* 274 */,
-/* 275 */,
-/* 276 */,
-/* 277 */,
-/* 278 */,
-/* 279 */,
 /* 280 */,
 /* 281 */,
 /* 282 */,
 /* 283 */,
 /* 284 */,
-/* 285 */
+/* 285 */,
+/* 286 */,
+/* 287 */,
+/* 288 */,
+/* 289 */,
+/* 290 */,
+/* 291 */,
+/* 292 */,
+/* 293 */,
+/* 294 */,
+/* 295 */,
+/* 296 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -14742,95 +17203,6 @@ exports.push([module.i, "@-webkit-keyframes medium-editor-image-loading {\n  0% 
 
 
 /***/ }),
-/* 286 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)();
-// imports
-
-
-// module
-exports.push([module.i, ".medium-toolbar-arrow-under:after {\n  border-color: #428bca transparent transparent transparent;\n  top: 60px; }\n\n.medium-toolbar-arrow-over:before {\n  border-color: transparent transparent #428bca transparent; }\n\n.medium-editor-toolbar {\n  background-color: #428bca;\n  border: 1px solid #357ebd;\n  border-radius: 4px; }\n  .medium-editor-toolbar li button {\n    background-color: transparent;\n    border: none;\n    border-right: 1px solid #357ebd;\n    box-sizing: border-box;\n    color: #fff;\n    height: 60px;\n    min-width: 60px;\n    -webkit-transition: background-color .2s ease-in, color .2s ease-in;\n            transition: background-color .2s ease-in, color .2s ease-in; }\n    .medium-editor-toolbar li button:hover {\n      background-color: #3276b1;\n      color: #fff; }\n  .medium-editor-toolbar li .medium-editor-button-first {\n    border-bottom-left-radius: 4px;\n    border-top-left-radius: 4px; }\n  .medium-editor-toolbar li .medium-editor-button-last {\n    border-bottom-right-radius: 4px;\n    border-right: none;\n    border-top-right-radius: 4px; }\n  .medium-editor-toolbar li .medium-editor-button-active {\n    background-color: #3276b1;\n    color: #fff; }\n\n.medium-editor-toolbar-form {\n  background: #428bca;\n  border-radius: 4px;\n  color: #fff; }\n  .medium-editor-toolbar-form .medium-editor-toolbar-input {\n    background: #428bca;\n    color: #fff;\n    height: 60px; }\n    .medium-editor-toolbar-form .medium-editor-toolbar-input::-webkit-input-placeholder {\n      color: #fff;\n      color: rgba(255, 255, 255, 0.8); }\n    .medium-editor-toolbar-form .medium-editor-toolbar-input:-moz-placeholder {\n      /* Firefox 18- */\n      color: #fff;\n      color: rgba(255, 255, 255, 0.8); }\n    .medium-editor-toolbar-form .medium-editor-toolbar-input::-moz-placeholder {\n      /* Firefox 19+ */\n      color: #fff;\n      color: rgba(255, 255, 255, 0.8); }\n    .medium-editor-toolbar-form .medium-editor-toolbar-input:-ms-input-placeholder {\n      color: #fff;\n      color: rgba(255, 255, 255, 0.8); }\n  .medium-editor-toolbar-form a {\n    color: #fff; }\n\n.medium-editor-toolbar-anchor-preview {\n  background: #428bca;\n  border-radius: 4px;\n  color: #fff; }\n\n.medium-editor-placeholder:after {\n  color: #357ebd; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 287 */,
-/* 288 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.btn[data-v-0409124b] {\n\tmargin-top: 1px;\n}\naside[data-v-0409124b] {\n\tfont-size: 0.8em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ReplacementList.vue?6173db7f"],"names":[],"mappings":";AAsCA;CACA,gBAAA;CACA;AAEA;CACA,iBAAA;CACA","file":"ReplacementList.vue","sourcesContent":["<template>\n\t<aside>\n\t\t<show-hide-button v-model=\"show.replacements\"\n\t\t\t\tclass=\"btn btn-default btn-xs\">\n\t\t\tReplacements:\n\t\t</show-hide-button>\n\t\t<ul v-show=\"show.replacements\">\n\t\t\t<li v-for=\"replacement of replacements\">\n\t\t\t\t[[{{ replacement }}]]\n\t\t\t</li>\n\t\t</ul>\n\t</aside>\n</template>\n\n<script>\nimport ShowHideButton from './ShowHideButton.vue';\n\nexport default {\n\tprops: {\n\t\treplacements: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\treplacements: false\n\t\t\t}\n\t\t};\n\t},\n\tcomponents: {\n\t\tShowHideButton\n\t}\n};\n</script>\n\n<style scoped>\n\t.btn {\n\t\tmargin-top: 1px;\n\t}\n\n\taside {\n\t\tfont-size: 0.8em;\n\t}\n</style>\n"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-/* 289 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.paginator[data-v-05c830ce] {\n\ttext-align: center;\n}\nnav span[data-v-05c830ce] {\n\tmargin: 0 0.25em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ListPaginator.vue?1568a33a"],"names":[],"mappings":";AAqEA;CACA,mBAAA;CACA;AAEA;CACA,iBAAA;CACA","file":"ListPaginator.vue","sourcesContent":["<template>\n\t<section class=\"paginator\">\n\t\t<div class=\"form-inline\">\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tCurrent page:\n\t\t\t\t\t<input type=\"number\" class=\"form-control\" :value=\"value + 1\"\n\t\t\t\t\t\tmin=\"1\" :max=\"paginatedItems.length\"\n\t\t\t\t\t\t@input=\"$emit('input', Number($event.target.value) - 1)\" />\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tItems per page:\n\t\t\t\t\t<select class=\"form-control\" :value=\"itemsPerPage\"\n\t\t\t\t\t\t\t@input=\"$emit('pageSize', Number($event.target.value))\">\n\t\t\t\t\t\t<option value=\"5\">5</option>\n\t\t\t\t\t\t<option value=\"10\">10</option>\n\t\t\t\t\t\t<option value=\"20\">20</option>\n\t\t\t\t\t\t<option value=\"50\">50</option>\n\t\t\t\t\t\t<option value=\"100\">100</option>\n\t\t\t\t\t</select>\n\t\t\t\t</label>\n\t\t\t</div>\t\t\t\n\t\t</div>\n\t\t<nav v-if=\"itemsPerPage && paginatedItems.length > 1\">\n\t\t\t<div class=\"btn-group\">\n\t\t\t\t<paginator-link :value=\"value - 1\" text=\"← Prev\"\n\t\t\t\t\t:active=\"value === 0\" @click=\"setPage\" />\n\n\t\t\t\t<paginator-link v-for=\"(pageItems, pageNum) of paginatedItems\"\n\t\t\t\t\t:value=\"pageNum\" :active=\"pageNum === value\"\n\t\t\t\t\t@click=\"setPage\" />\n\n\t\t\t\t<paginator-link :value=\"value + 1\" text=\"Next →\"\n\t\t\t\t\t:active=\"value === paginatedItems.length - 1\"\n\t\t\t\t\t@click=\"setPage\" />\n\t\t\t</div>\n\t\t</nav>\n\t</section>\n</template>\n\n<script>\nimport PaginatorLink from './PaginatorLink.vue';\n\nexport default {\n\tprops: {\n\t\tvalue: Number,\n\t\titemsPerPage: Number,\n\t\tpaginatedItems: Array\n\t},\n\twatch: {\n\t\titemsPerPage(){\n\t\t\tif(this.value >= this.paginatedItems.length)\n\t\t\t\tthis.setPage(this.paginatedItems.length - 1);\n\t\t}\n\t},\n\tmethods: {\n\t\tsetPage(page){\n\t\t\tthis.$emit('input', page);\n\t\t}\n\t},\n\tcomponents: {\n\t\tPaginatorLink\n\t}\n};\n</script>\n\n<style scoped>\n\t.paginator {\n\t\ttext-align: center;\n\t}\n\n\tnav span {\n\t\tmargin: 0 0.25em;\n\t}\n</style>\n"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-/* 290 */,
-/* 291 */,
-/* 292 */,
-/* 293 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.show-container div[data-v-170d0144] {\n\tdisplay: flex;\n\tflex-wrap: wrap;\n}\n.show-container div label[data-v-170d0144] {\n\tmargin: 0.5em 1em;\n}\n.graphs-container[data-v-170d0144] {\n\tmargin: 2em 0;\n}\n.graphs-container .chart-options[data-v-170d0144] {\n\tmargin: 2em 0 0;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/AggregateReport.vue?69de9ee2"],"names":[],"mappings":";AAieA;CACA,cAAA;CACA,gBAAA;CACA;AAEA;CACA,kBAAA;CACA;AAEA;CACA,cAAA;CACA;AAEA;CACA,gBAAA;CACA","file":"AggregateReport.vue","sourcesContent":["<template>\n\t<div class=\"container body-block\">\n\t\t<h3>Aggregate</h3>\n\t\t<fieldset class=\"show-container\">\n\t\t\t<legend>Show</legend>\n\t\t\t<div>\n\t\t\t\t<label v-for=\"(part, name) of show\">\n\t\t\t\t\t<input type=\"checkbox\" v-model=\"show[name]\" />\n\t\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t</fieldset>\n\n\t\t<data-table id=\"aggregate-table\" :bordered=\"true\" :thead=\"tableThead\"\n\t\t\t:data=\"tableData\" :config=\"tableConfig\" :exportable=\"true\"\n\t\t\t:exportFilename=\"tableExportFilename\" />\n\t\t\t\n\t\t<div class=\"graphs-container\" v-if=\"show.charts\">\n\t\t\t<div class=\"row\">\n\t\t\t\t<div v-if=\"show.competencies\" :class=\"chartWidth\">\n\t\t\t\t\t<chartjs-chart id=\"aggregate-competency-chart\" :type=\"chartType\"\n\t\t\t\t\t\t:options=\"chartOptions\" :data=\"competencyChartData\" />\n\t\t\t\t</div>\n\t\t\t\t<div v-if=\"show.milestones\" :class=\"chartWidth\">\n\t\t\t\t\t<chartjs-chart id=\"aggregate-milestone-chart\" :type=\"chartType\"\n\t\t\t\t\t\t:options=\"chartOptions\" :data=\"milestoneChartData\" />\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"row chart-options\">\n\t\t\t\t<div class=\"col-sm-offset-5 col-sm-2\">\n\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t<span class=\"panel-title\">Chart options</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t<fieldset v-if=\"show.milestones && show.competencies\">\n\t\t\t\t\t\t\t\t<legend>Orientation</legend>\n\t\t\t\t\t\t\t\t<div class=\"btn-group btn-group-justified\" data-toggle=\"buttons\">\n\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"horizontal\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-horizontal\"></span>\n\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"vertical\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-vertical\"></span>\n\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</fieldset>\n\n\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\t\tType\n\t\t\t\t\t\t\t\t\t<select class=\"form-control\" v-model=\"chartType\">\n\t\t\t\t\t\t\t\t\t\t<option v-for=\"type of chartTypes\" :value=\"type\">\n\t\t\t\t\t\t\t\t\t\t\t{{ ucfirst(type) }}\n\t\t\t\t\t\t\t\t\t\t</option>\n\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport Color from 'color';\n\nimport BootstrapButtonInput from '../BootstrapButtonInput.vue';\nimport ChartjsChart from '../ChartjsChart.vue';\nimport DataTable from '../DataTable.vue';\n\nimport { CHART_COLORS } from 'modules/constants.js';\nimport { camelCaseToWords, ucfirst } from 'modules/utils.js';\nimport { renderTrainingLevel } from 'modules/datatable-utils.js';\nimport { getAverageLevel } from 'modules/report-utils.js';\nimport { isoDateString } from 'modules/date-utils.js';\n\nexport default {\n\tprops: {\n\t\treport: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t},\n\t\tmilestones: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\tcompetencies: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tmilestones: false,\n\t\t\t\tcompetencies: true,\n\t\t\t\taverages: true,\n\t\t\t\taverageLevels: false,\n\t\t\t\tevaluationCounts: true,\n\t\t\t\tstandardDeviations: false,\n\t\t\t\ttotals: true,\n\t\t\t\tcharts: true\n\t\t\t},\n\t\t\ttransformations: {\n\t\t\t\tlevelRatings: false\n\t\t\t},\n\t\t\tchartType: 'radar',\n\t\t\tchartOrientation: 'vertical'\n\t\t};\n\t},\n\tcomputed: {\n\t\torderedMilestones(){\n\t\t\tif(!this.report.milestones)\n\t\t\t\treturn [];\n\t\t\t\t\n\t\t\treturn this.milestones.filter(milestone =>\n\t\t\t\tmilestone.id in this.report.milestones\n\t\t\t);\n\t\t},\n\t\torderedCompetencies(){\n\t\t\tif(!this.report.competencies)\n\t\t\t\treturn [];\n\t\t\t\t\n\t\t\treturn this.competencies.filter(competency =>\n\t\t\t\tcompetency.id in this.report.competencies\n\t\t\t);\n\t\t},\n\t\tcolsPerItem(){\n\t\t\treturn [\n\t\t\t\tthis.show.averages,\n\t\t\t\tthis.show.averageLevels,\n\t\t\t\tthis.show.evaluationCounts,\n\t\t\t\tthis.show.standardDeviations\n\t\t\t].filter(col => col).length;\n\t\t},\n\t\tnameRowspan(){\n\t\t\tlet rowspan = 1;\n\t\t\tif(this.show.milestones && this.show.competencies)\n\t\t\t\trowspan++;\n\t\t\tif(this.showSomething && this.colsPerItem > 1)\n\t\t\t\trowspan++;\n\t\t\t\t\n\t\t\treturn rowspan;\n\t\t},\n\t\tshowSomething(){\n\t\t\treturn this.show.milestones || this.show.competencies || this.show.totals;\n\t\t},\n\t\tmilestoneColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.milestones).length;\n\t\t},\n\t\tcompetencyColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.competencies).length;\n\t\t},\n\t\ttableThead(){\n\t\t\tlet thead = [];\n\t\t\tlet row;\n\t\t\tif(this.show.milestones && this.show.competencies){\n\t\t\t\trow = [];\n\t\t\t\trow.push({rowspan: this.nameRowspan, text: 'Name'});\n\t\t\t\trow.push({\n\t\t\t\t\tcolspan: this.milestoneColspan,\n\t\t\t\t\ttext: 'Milestones'\n\t\t\t\t});\n\t\t\t\trow.push({\n\t\t\t\t\tcolspan: this.competencyColspan,\n\t\t\t\t\ttext: 'Competencies'\n\t\t\t\t});\n\t\t\t\tif(this.show.totals)\n\t\t\t\t\trow.push({colspan: 3, text: 'All'});\n\n\t\t\t\tthead.push(row);\n\t\t\t}\n\n\n\t\t\tif(this.showSomething && this.colsPerItem > 1){\n\t\t\t\trow = [];\n\t\t\t\tif(this.nameRowspan === 2)\n\t\t\t\t\trow.push({rowspan: this.nameRowspan, text: 'Name'});\n\t\t\t\t\n\t\t\t\tif(this.show.milestones){\n\t\t\t\t\tthis.orderedMilestones.map(milestone => {\n\t\t\t\t\t\trow.push({\n\t\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\t\ttext: milestone.title\n\t\t\t\t\t\t});\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t\tif(this.show.competencies){\n\t\t\t\t\tthis.orderedCompetencies.map(competency => {\n\t\t\t\t\t\trow.push({\n\t\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\t\ttext: competency.title\n\t\t\t\t\t\t});\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t\tif(this.show.totals)\n\t\t\t\t\trow.push({colspan: 3, text: 'Total'});\n\n\t\t\t\tif(row.length > 0)\n\t\t\t\t\tthead.push(row);\n\t\t\t}\n\t\t\t\n\n\t\t\trow = [];\n\t\t\tif(this.nameRowspan === 1)\n\t\t\t\trow.push({rowspan: this.nameRowspan, text: 'Name'});\n\t\t\tif(this.show.milestones){\n\t\t\t\tthis.orderedMilestones.map(milestone => {\n\t\t\t\t\tif(this.colsPerItem > 1){\n\t\t\t\t\t\tif(this.show.averages)\n\t\t\t\t\t\t\trow.push({text: 'Average'});\n\t\t\t\t\t\tif(this.show.averageLevels)\n\t\t\t\t\t\t\trow.push({text: 'Average Level'});\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push({text: 'Std. Dev.'});\n\t\t\t\t\t\tif(this.show.evaluationCounts)\n\t\t\t\t\t\t\trow.push({text: '#'});\n\t\t\t\t\t}\n\t\t\t\t\telse {\n\t\t\t\t\t\trow.push({\n\t\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\t\ttext: milestone.title\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t}\n\t\t\tif(this.show.competencies){\n\t\t\t\tthis.orderedCompetencies.map(competency => {\n\t\t\t\t\tif(this.colsPerItem > 1){\n\t\t\t\t\t\tif(this.show.averages)\n\t\t\t\t\t\t\trow.push({text: 'Average'});\n\t\t\t\t\t\tif(this.show.averageLevels)\n\t\t\t\t\t\t\trow.push({text: 'Average Level'});\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push({text: 'Std. Dev.'});\n\t\t\t\t\t\tif(this.show.evaluationCounts)\n\t\t\t\t\t\t\trow.push({text: '#'});\n\t\t\t\t\t}\n\t\t\t\t\telse {\n\t\t\t\t\t\trow.push({\n\t\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\t\ttext: competency.title\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t}\n\t\t\tif(this.show.totals){\n\t\t\t\trow.push({text: '# Evaluators'});\n\t\t\t\trow.push({text: '# Evaluations'});\n\t\t\t\trow.push({text: '# Trainee Requests'});\n\t\t\t}\n\n\t\t\tif(row.length > 0)\n\t\t\t\tthead.push(row);\n\n\t\t\treturn thead;\n\t\t},\n\t\ttableConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tdom: 'lfprtip',\n\t\t\t\tscrollX: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tfixedColumns: true,\n\t\t\t};\n\t\t},\n\t\ttableData(){\n\t\t\tlet data = [];\n\t\t\tfor(let subjectId in this.report.subjects){\n\t\t\t\tlet row = [];\n\t\t\t\trow.push(`<a href=\"/profile/${subjectId}\" target=\"_blank\">${this.report.subjects[subjectId]}</a>`);\n\t\t\t\tif(this.show.milestones){\n\t\t\t\t\tthis.orderedMilestones.map(milestone => {\n\t\t\t\t\t\tif(this.show.averages)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectMilestone\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId][milestone.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestone[subjectId][milestone.id]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\tif(this.show.averageLevels)\n\t\t\t\t\t\t\trow.push(getAverageLevel(\n\t\t\t\t\t\t\t\tthis.report.subjectMilestone\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId][milestone.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestone[subjectId][milestone.id]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t\t));\n\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectMilestoneDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneDeviations[subjectId][milestone.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestoneDeviations[subjectId][milestone.id]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\tif(this.show.evaluationCounts)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectMilestoneEvals\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneEvals[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneEvals[subjectId][milestone.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestoneEvals[subjectId][milestone.id]).toFixed()\n\t\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\tif(this.colsPerItem === 0)\n\t\t\t\t\t\t\trow.push('');\n\t\t\t\t\t});\n\t\t\t\t}\n\n\t\t\t\tif(this.show.competencies){\n\t\t\t\t\tthis.orderedCompetencies.map(competency => {\n\t\t\t\t\t\tif(this.show.averages)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectCompetency\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId][competency.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetency[subjectId][competency.id]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\tif(this.show.averageLevels)\n\t\t\t\t\t\t\trow.push(getAverageLevel(\n\t\t\t\t\t\t\t\tthis.report.subjectCompetency\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId][competency.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetency[subjectId][competency.id]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t\t));\n\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectCompetencyDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyDeviations[subjectId][competency.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetencyDeviations[subjectId][competency.id]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\n\t\t\t\t\t\tif(this.show.evaluationCounts)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectCompetencyEvals\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyEvals[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyEvals[subjectId][competency.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetencyEvals[subjectId][competency.id]).toFixed()\n\t\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\tif(this.colsPerItem === 0)\n\t\t\t\t\t\t\trow.push('');\n\t\t\t\t\t});\n\t\t\t\t}\n\n\t\t\t\tif(this.show.totals){\n\t\t\t\t\trow.push(\n\t\t\t\t\t\tthis.report.subjectEvaluators[subjectId]\n\t\t\t\t\t\t\t? Object.keys(this.report.subjectEvaluators[subjectId]).length\n\t\t\t\t\t\t\t: 0\n\t\t\t\t\t);\n\t\t\t\t\trow.push(\n\t\t\t\t\t\tthis.report.subjectEvals[subjectId]\n\t\t\t\t\t\t\t? Object.keys(this.report.subjectEvals[subjectId]).length\n\t\t\t\t\t\t\t: 0\n\t\t\t\t\t);\n\t\t\t\t\trow.push(\n\t\t\t\t\t\tthis.report.subjectRequests[subjectId]\n\t\t\t\t\t\t\t? Object.keys(this.report.subjectRequests[subjectId]).length\n\t\t\t\t\t\t\t: 0\n\t\t\t\t\t);\n\t\t\t\t}\n\n\t\t\t\tdata.push(row);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\t\ttableExportFilename(){\n\t\t\tlet level = this.report.trainingLevel === 'all'\n\t\t\t\t? ''\n\t\t\t\t: renderTrainingLevel(this.report.trainingLevel);\n\t\t\tlet start = isoDateString(new Date(this.report.startDate.date));\n\t\t\tlet end = isoDateString(new Date(this.report.endDate.date));\n\t\t\tlet now = new Date().toLocaleString();\n\t\t\treturn `Aggregate Report ${level}, ${start} - ${end}, exported ${now}`;\n\t\t},\n\t\tchartTypes(){\n\t\t\treturn [\n\t\t\t\t'radar',\n\t\t\t\t'line',\n\t\t\t\t'bar'\n\t\t\t];\n\t\t},\n\t\tchartWidth(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': this.chartOrientation === 'horizontal',\n\t\t\t\t'col-md-12': this.chartOrientation === 'vertical'\n\t\t\t};\n\t\t},\n\t\tchartOptions(){\n\t\t\treturn {\n\t\t\t\tlegend: {\n\t\t\t\t\tlabels: {\n\t\t\t\t\t\tfontSize: 18,\n\t\t\t\t\t\tfontColor: '#333'\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tcallbacks: {\n\t\t\t\t\t\tlabel(tooltip, data){\n\t\t\t\t\t\t\tlet value = parseFloat(tooltip.yLabel).toFixed(2);\n\t\t\t\t\t\t\tlet name = data.datasets[tooltip.datasetIndex].label;\n\t\t\t\t\t\t\treturn `${name}: ${value}`;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t};\n\t\t},\n\t\tcompetencyChartData(){\n\t\t\tlet color = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: Object.values(this.report.competencies),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Average Competencies',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: Object.values(this.report.averageCompetency)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tmilestoneChartData(){\n\t\t\tlet color = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: Object.values(this.report.milestones),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Average Milestones',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: Object.values(this.report.averageMilestone)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords,\n\t\tucfirst\n\t},\n\tcomponents: {\n\t\tBootstrapButtonInput,\n\t\tChartjsChart,\n\t\tDataTable\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-container div {\n\t\tdisplay: flex;\n\t\tflex-wrap: wrap;\n\t}\n\n\t.show-container div label {\n\t\tmargin: 0.5em 1em;\n\t}\n\n\t.graphs-container {\n\t\tmargin: 2em 0;\n\t}\n\n\t.graphs-container .chart-options {\n\t\tmargin: 2em 0 0;\n\t}\n</style>\n"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-/* 294 */,
-/* 295 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.popover dd {\n\tpadding: 0 1em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/TraineeReport.vue?84dd5cd2"],"names":[],"mappings":";AAgZA;CACA,eAAA;CACA","file":"TraineeReport.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block\">\n\t\t\t<h1>Trainee report</h1>\n\t\t\t<start-end-date v-model=\"dates\" />\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"form-group col-sm-6\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tEvaluation training level\n\t\t\t\t\t\t<training-level-select v-model=\"trainingLevel\" />\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group col-sm-6\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tTrainee current training level\n\t\t\t\t\t\t<span class=\"glyphicon glyphicon-question-sign\"\n\t\t\t\t\t\t\t\tref=\"currentTrainingLevelHintGlyph\"></span>\n\t\t\t\t\t\t<training-level-select v-model=\"currentTrainingLevel\" />\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"checkbox\" v-model=\"filterMilestones\" />\n\t\t\t\t\tFilter milestones\n\t\t\t\t</label>\n\t\t\t</div>\n\n\t\t\t<fieldset v-if=\"filterMilestones\">\n\t\t\t\t<legend>Milestones</legend>\n\t\t\t\t<div class=\"filter-milestones-container\">\n\t\t\t\t\t<div v-for=\"(milestoneGroup, index) of milestoneGroups\" class=\"milestone-group\">\n\t\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t\t<label class=\"panel-title\">\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t:checked=\"isEntireMilestoneGroupSelected(index)\"\n\t\t\t\t\t\t\t\t\t\t\t@click=\"toggleEntireMilestoneGroup(index)\" />\n\t\t\t\t\t\t\t\t\t{{ milestoneGroup.text }}\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t\t<div v-for=\"child of milestoneGroup.children\" class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t\t:value=\"child.id\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"milestonesFilter\" />\n\t\t\t\t\t\t\t\t\t\t{{ child.text }}\n\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\t\t\t\n\t\t\t<alert-list v-model=\"alerts\" />\n\n\t\t\t<div class=\"btn-lg-submit-container\">\n\t\t\t\t<button type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t\t@click=\"runReport\">\n\t\t\t\t\tRun report\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div v-if=\"report\">\n\t\t\t<div class=\"container body-block\">\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t<div class=\"col-md-4\">\n\t\t\t\t\t\t\t<bootstrap-alert type=\"info\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-info-sign\"></span>\n\t\t\t\t\t\t\t\tSelect a subject to show\n\t\t\t\t\t\t\t\tindividual reports.\n\t\t\t\t\t\t\t</bootstrap-alert>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"col-sm-10 col-md-7\">\n\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\tSubject\n\t\t\t\t\t\t\t\t<div class=\"input-group\">\n\t\t\t\t\t\t\t\t\t<select-two class=\"form-control\" v-if=\"filteredUsers\"\n\t\t\t\t\t\t\t\t\t\t\t:options=\"filteredUsers\" v-model=\"traineeId\"\n\t\t\t\t\t\t\t\t\t\t\t:multiple=\"multipleTrainees\">\n\t\t\t\t\t\t\t\t\t\t<option v-if=\"!multipleTrainees\" value=\"\">All</option>\n\t\t\t\t\t\t\t\t\t</select-two>\n\t\t\t\t\t\t\t\t\t<span class=\"input-group-addon\">\n\t\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"show.inactiveUsers\" />\n\t\t\t\t\t\t\t\t\t\t\tShow inactive\n\t\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<span class=\"input-group-addon\">\n\t\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"multipleTrainees\" />\n\t\t\t\t\t\t\t\t\t\t\tSelect multiple\n\t\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"col-sm-2 col-md-1\">\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default labelless-button\"\n\t\t\t\t\t\t\t\t\t@click=\"traineeId = null\">\n\t\t\t\t\t\t\t\tClear\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t\t<div class=\"btn-lg-submit-container\">\n\t\t\t\t\t\t<button v-if=\"report && subjects && subjects.length > 0\"\n\t\t\t\t\t\t\t\ttype=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t\t\t\t@click=\"printAll\">\n\t\t\t\t\t\t\tExport all\n\t\t\t\t\t\t\t<svg-icon src=\"/img/icons/pdf.svg\" />\n\t\t\t\t\t\t</button>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t\n\t\t\t<template v-if=\"subjects && subjects.length > 0\">\n\t\t\t\t<individual-report v-for=\"subject of subjects\" :report=\"report\"\n\t\t\t\t\t:subject=\"subject\" ref=\"individualReports\" />\n\t\t\t</template>\n\t\t\t<template v-else>\n\t\t\t\t<stats-report v-if=\"subjectStats\" :report=\"subjectStats\"\n\t\t\t\t\t\ttitle=\"Trainee evaluation statistics by trainee\">\n\t\t\t\t\t<p class=\"text-center\">\n\t\t\t\t\t\tTrainee list can be filtered by\n\t\t\t\t\t\t<b>Trainee current training level</b>\n\t\t\t\t\t\tabove\n\t\t\t\t\t</p>\n\t\t\t\t</stats-report>\n\t\t\t\t<stats-report v-if=\"evaluatorStats\" :report=\"evaluatorStats\"\n\t\t\t\t\t\ttitle=\"Faculty evaluation statistics by trainee\">\n\t\t\t\t\t<p class=\"text-center\">\n\t\t\t\t\t\tTrainee list can be filtered by\n\t\t\t\t\t\t<b>Trainee current training level</b>\n\t\t\t\t\t\tabove\n\t\t\t\t\t</p>\n\t\t\t\t</stats-report>\n\t\t\t\t<aggregate-report :report=\"report\"\n\t\t\t\t\t:milestones=\"milestones\" :competencies=\"competencies\" />\n\t\t\t</template>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport AggregateReport from './AggregateReport.vue';\nimport IndividualReport from './IndividualReport.vue';\nimport StartEndDate from '../StartEndDate.vue';\nimport StatsReport from './StatsReport.vue';\nimport TrainingLevelSelect from './TrainingLevelSelect.vue';\nimport AlertList from '../AlertList.vue';\nimport BootstrapAlert from '../BootstrapAlert.vue';\nimport SelectTwo from '../SelectTwo.vue';\nimport SvgIcon from '../SvgIcon.vue';\n\nimport {\n\tgetFetchHeaders,\n\tjsonOrThrow,\n\tfetchMilestones,\n\tgroupMilestones,\n\tfetchCompetencies\n} from 'modules/utils.js';\nimport { isoDateStringObject, currentQuarter } from 'modules/date-utils.js';\n\nexport default {\n\tprops: {\n\t\tusers: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\tgroupedUsers: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tdates: isoDateStringObject(currentQuarter()),\n\t\t\ttrainingLevel: 'all',\n\t\t\tcurrentTrainingLevel: 'all',\n\t\t\ttraineeId: null,\n\t\t\tfilterMilestones: false,\n\t\t\tmilestonesFilter: [],\n\t\t\tmultipleTrainees: false,\n\n\t\t\tshow: {\n\t\t\t\tinactiveUsers: false\n\t\t\t},\n\n\t\t\treport: null,\n\t\t\tsubjectStats: null,\n\t\t\tevaluatorStats: null,\n\n\t\t\tmilestones: [],\n\t\t\tcompetencies: [],\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\tmounted(){\n\t\tfetchMilestones().then(milestones => {\n\t\t\tthis.milestones = milestones;\n\t\t}).catch(err => {\n\t\t\tconsole.log(err);\n\t\t\tthis.alerts.push({\n\t\t\t\ttype: 'error',\n\t\t\t\thtml: '<strong>Error:</strong> There was a problem fetching milestones'\n\t\t\t});\n\t\t});\n\t\t\n\t\tfetchCompetencies().then(competencies => {\n\t\t\tthis.competencies = competencies;\n\t\t}).catch(err => {\n\t\t\tconsole.log(err);\n\t\t\tthis.alerts.push({\n\t\t\t\ttype: 'error',\n\t\t\t\thtml: '<strong>Error:</strong> There was a problem fetching competencies'\n\t\t\t});\n\t\t});\n\t\t\n\t\t$(this.$refs.currentTrainingLevelHintGlyph).popover({\n\t\t\ttitle: 'Current training level',\n\t\t\tcontent: `\n\t\t\t\t<p>\n\t\t\t\t\tSelecting a <b>current training level</b> will include only\n\t\t\t\t\tactive trainees for that level, whether they have completed\n\t\t\t\t\tevaluations or not.\n\t\t\t\t</p>\n\t\t\t\t<p>\n\t\t\t\t\tAny trainees with completed evaluations associated with the\n\t\t\t\t\t<b>evaluation training level</b> who are not currently\n\t\t\t\t\tin the selected <b>current training level</b> will be\n\t\t\t\t\texcluded.\n\t\t\t\t</p>\n\t\t\t\t<dd>\n\t\t\t\t\t<dt>Example:</dt>\n\t\t\t\t\t<dd>\n\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\tJane is currently a fellow, but she completed her\n\t\t\t\t\t\t\tresidency a month late, at the end of July.\n\t\t\t\t\t\t</p>\n\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\tWhen running reports for July for the incoming CA-3s,\n\t\t\t\t\t\t\tJane's July CA-3 evaluations will be excluded\n\t\t\t\t\t\t\tfrom the report by selecting a\n\t\t\t\t\t\t\t<b>current training level</b> of <i>CA-3</i>.\n\t\t\t\t\t\t</p>\n\t\t\t\t\t</dd>\n\t\t\t\t</dd>`,\n\t\t\thtml: true,\n\t\t\tplacement: 'auto top'\n\t\t});\n\t},\n\n\tcomputed: {\n\t\tmilestoneGroups(){\n\t\t\treturn groupMilestones(this.milestones);\n\t\t},\n\t\tfilteredUsers(){\n\t\t\tlet groupedUsers = this.currentTrainingLevel === 'all'\n\t\t\t\t? this.groupedUsers.filter(userGroup =>\n\t\t\t\t\tuserGroup.text.toLowerCase() !== 'faculty')\n\t\t\t\t: this.groupedUsers.filter(userGroup =>\n\t\t\t\t\tuserGroup.text.toLowerCase() === this.currentTrainingLevel.toLowerCase());\n\t\t\t\n\t\t\treturn this.show.inactiveUsers\n\t\t\t\t? groupedUsers\n\t\t\t\t: groupedUsers.filter(userGroup => userGroup.text !== 'Inactive');\n\n\t\t},\n\t\tsubjects(){\n\t\t\tif(this.traineeId){\n\t\t\t\tlet traineeId = Array.isArray(this.traineeId)\n\t\t\t\t\t? this.traineeId\n\t\t\t\t\t: [this.traineeId];\n\t\t\t\treturn this.users.filter(user => traineeId.includes(user.id.toString()));\n\t\t\t}\n\t\t}\n\t},\n\tmethods: {\n\t\tisEntireMilestoneGroupSelected(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\treturn groupIds.every(id => {\n\t\t\t\treturn this.milestonesFilter.includes(id);\n\t\t\t});\n\t\t},\n\t\ttoggleEntireMilestoneGroup(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\tlet newMilestones = this.milestonesFilter.filter(milestone => {\n\t\t\t\treturn !groupIds.includes(milestone);\n\t\t\t});\n\t\t\tif(!this.isEntireMilestoneGroupSelected(index)){\n\t\t\t\tnewMilestones = newMilestones.concat(groupIds);\n\t\t\t}\n\t\t\tthis.milestonesFilter = newMilestones;\n\t\t},\n\t\trunReport(){\n\t\t\tfetch('/report/aggregate', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate,\n\t\t\t\t\ttrainingLevel: this.trainingLevel,\n\t\t\t\t\tcurrentTrainingLevel: this.currentTrainingLevel,\n\t\t\t\t\tmilestones: this.milestonesFilter\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(report => {\n\t\t\t\tthis.report = Object.assign({}, this.report, report);\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\n\t\t\tfetch('/report/stats/trainee/trainee', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify(Object.assign({}, this.dates, {\n\t\t\t\t\ttrainingLevel: this.currentTrainingLevel\n\t\t\t\t}))\n\t\t\t}).then(jsonOrThrow).then(stats => {\n\t\t\t\tthis.subjectStats = stats;\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t\t\n\t\t\tfetch('/report/stats/faculty/trainee', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify(Object.assign({}, this.dates, {\n\t\t\t\t\ttrainingLevel: this.currentTrainingLevel\n\t\t\t\t}))\n\t\t\t}).then(jsonOrThrow).then(stats => {\n\t\t\t\tthis.evaluatorStats = stats;\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t},\n\t\tprintAll(){\n\t\t\tthis.$refs.individualReports.map(individual => {\n\t\t\t\tindividual.exportPdf();\n\t\t\t});\n\t\t}\n\t},\n\tcomponents: {\n\t\tStartEndDate,\n\t\tAggregateReport,\n\t\tIndividualReport,\n\t\tStatsReport,\n\t\tTrainingLevelSelect,\n\t\tAlertList,\n\t\tBootstrapAlert,\n\t\tSelectTwo,\n\t\tSvgIcon\n\t}\n};\n</script>\n\n<style scoped>\n\t.filter-milestones-container {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tflex-wrap: wrap;\n\t\tjustify-content: flex-start;\n\t\talign-items: stretch;\n\t}\n\n\t.milestone-group {\n\t\tflex-grow: 0;\n\t\tflex-shrink: 1;\n\t\twidth: 250px;\n\t\tmin-width: 200px;\n\t\tmax-width: 100%;\n\t\tmargin: 10px;\n\t}\n\n\t.milestone-group .panel-body {\n\t\theight: 300px;\n\t\toverflow: auto;\n\t}\n\n\t.milestone-group .panel-body label {\n\t\tfont-weight: normal;\n\t}\n</style>\n\n<style>\n\t.popover dd {\n\t\tpadding: 0 1em;\n\t}\n</style>\n"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-/* 296 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.filter-milestones-container[data-v-26074fc7] {\n\tdisplay: flex;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tjustify-content: flex-start;\n\talign-items: stretch;\n}\n.milestone-group[data-v-26074fc7] {\n\tflex-grow: 0;\n\tflex-shrink: 1;\n\twidth: 250px;\n\tmin-width: 200px;\n\tmax-width: 100%;\n\tmargin: 10px;\n}\n.milestone-group .panel-body[data-v-26074fc7] {\n\theight: 300px;\n\toverflow: auto;\n}\n.milestone-group .panel-body label[data-v-26074fc7] {\n\tfont-weight: normal;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/TraineeReport.vue?84dd5cd2"],"names":[],"mappings":";AAoXA;CACA,cAAA;CACA,oBAAA;CACA,gBAAA;CACA,4BAAA;CACA,qBAAA;CACA;AAEA;CACA,aAAA;CACA,eAAA;CACA,aAAA;CACA,iBAAA;CACA,gBAAA;CACA,aAAA;CACA;AAEA;CACA,cAAA;CACA,eAAA;CACA;AAEA;CACA,oBAAA;CACA","file":"TraineeReport.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block\">\n\t\t\t<h1>Trainee report</h1>\n\t\t\t<start-end-date v-model=\"dates\" />\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"form-group col-sm-6\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tEvaluation training level\n\t\t\t\t\t\t<training-level-select v-model=\"trainingLevel\" />\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group col-sm-6\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tTrainee current training level\n\t\t\t\t\t\t<span class=\"glyphicon glyphicon-question-sign\"\n\t\t\t\t\t\t\t\tref=\"currentTrainingLevelHintGlyph\"></span>\n\t\t\t\t\t\t<training-level-select v-model=\"currentTrainingLevel\" />\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"checkbox\" v-model=\"filterMilestones\" />\n\t\t\t\t\tFilter milestones\n\t\t\t\t</label>\n\t\t\t</div>\n\n\t\t\t<fieldset v-if=\"filterMilestones\">\n\t\t\t\t<legend>Milestones</legend>\n\t\t\t\t<div class=\"filter-milestones-container\">\n\t\t\t\t\t<div v-for=\"(milestoneGroup, index) of milestoneGroups\" class=\"milestone-group\">\n\t\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t\t<label class=\"panel-title\">\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t:checked=\"isEntireMilestoneGroupSelected(index)\"\n\t\t\t\t\t\t\t\t\t\t\t@click=\"toggleEntireMilestoneGroup(index)\" />\n\t\t\t\t\t\t\t\t\t{{ milestoneGroup.text }}\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t\t<div v-for=\"child of milestoneGroup.children\" class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t\t:value=\"child.id\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"milestonesFilter\" />\n\t\t\t\t\t\t\t\t\t\t{{ child.text }}\n\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\t\t\t\n\t\t\t<alert-list v-model=\"alerts\" />\n\n\t\t\t<div class=\"btn-lg-submit-container\">\n\t\t\t\t<button type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t\t@click=\"runReport\">\n\t\t\t\t\tRun report\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div v-if=\"report\">\n\t\t\t<div class=\"container body-block\">\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t<div class=\"col-md-4\">\n\t\t\t\t\t\t\t<bootstrap-alert type=\"info\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-info-sign\"></span>\n\t\t\t\t\t\t\t\tSelect a subject to show\n\t\t\t\t\t\t\t\tindividual reports.\n\t\t\t\t\t\t\t</bootstrap-alert>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"col-sm-10 col-md-7\">\n\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\tSubject\n\t\t\t\t\t\t\t\t<div class=\"input-group\">\n\t\t\t\t\t\t\t\t\t<select-two class=\"form-control\" v-if=\"filteredUsers\"\n\t\t\t\t\t\t\t\t\t\t\t:options=\"filteredUsers\" v-model=\"traineeId\"\n\t\t\t\t\t\t\t\t\t\t\t:multiple=\"multipleTrainees\">\n\t\t\t\t\t\t\t\t\t\t<option v-if=\"!multipleTrainees\" value=\"\">All</option>\n\t\t\t\t\t\t\t\t\t</select-two>\n\t\t\t\t\t\t\t\t\t<span class=\"input-group-addon\">\n\t\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"show.inactiveUsers\" />\n\t\t\t\t\t\t\t\t\t\t\tShow inactive\n\t\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<span class=\"input-group-addon\">\n\t\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"multipleTrainees\" />\n\t\t\t\t\t\t\t\t\t\t\tSelect multiple\n\t\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"col-sm-2 col-md-1\">\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default labelless-button\"\n\t\t\t\t\t\t\t\t\t@click=\"traineeId = null\">\n\t\t\t\t\t\t\t\tClear\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t\t<div class=\"btn-lg-submit-container\">\n\t\t\t\t\t\t<button v-if=\"report && subjects && subjects.length > 0\"\n\t\t\t\t\t\t\t\ttype=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t\t\t\t@click=\"printAll\">\n\t\t\t\t\t\t\tExport all\n\t\t\t\t\t\t\t<svg-icon src=\"/img/icons/pdf.svg\" />\n\t\t\t\t\t\t</button>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t\n\t\t\t<template v-if=\"subjects && subjects.length > 0\">\n\t\t\t\t<individual-report v-for=\"subject of subjects\" :report=\"report\"\n\t\t\t\t\t:subject=\"subject\" ref=\"individualReports\" />\n\t\t\t</template>\n\t\t\t<template v-else>\n\t\t\t\t<stats-report v-if=\"subjectStats\" :report=\"subjectStats\"\n\t\t\t\t\t\ttitle=\"Trainee evaluation statistics by trainee\">\n\t\t\t\t\t<p class=\"text-center\">\n\t\t\t\t\t\tTrainee list can be filtered by\n\t\t\t\t\t\t<b>Trainee current training level</b>\n\t\t\t\t\t\tabove\n\t\t\t\t\t</p>\n\t\t\t\t</stats-report>\n\t\t\t\t<stats-report v-if=\"evaluatorStats\" :report=\"evaluatorStats\"\n\t\t\t\t\t\ttitle=\"Faculty evaluation statistics by trainee\">\n\t\t\t\t\t<p class=\"text-center\">\n\t\t\t\t\t\tTrainee list can be filtered by\n\t\t\t\t\t\t<b>Trainee current training level</b>\n\t\t\t\t\t\tabove\n\t\t\t\t\t</p>\n\t\t\t\t</stats-report>\n\t\t\t\t<aggregate-report :report=\"report\"\n\t\t\t\t\t:milestones=\"milestones\" :competencies=\"competencies\" />\n\t\t\t</template>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport AggregateReport from './AggregateReport.vue';\nimport IndividualReport from './IndividualReport.vue';\nimport StartEndDate from '../StartEndDate.vue';\nimport StatsReport from './StatsReport.vue';\nimport TrainingLevelSelect from './TrainingLevelSelect.vue';\nimport AlertList from '../AlertList.vue';\nimport BootstrapAlert from '../BootstrapAlert.vue';\nimport SelectTwo from '../SelectTwo.vue';\nimport SvgIcon from '../SvgIcon.vue';\n\nimport {\n\tgetFetchHeaders,\n\tjsonOrThrow,\n\tfetchMilestones,\n\tgroupMilestones,\n\tfetchCompetencies\n} from 'modules/utils.js';\nimport { isoDateStringObject, currentQuarter } from 'modules/date-utils.js';\n\nexport default {\n\tprops: {\n\t\tusers: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\tgroupedUsers: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tdates: isoDateStringObject(currentQuarter()),\n\t\t\ttrainingLevel: 'all',\n\t\t\tcurrentTrainingLevel: 'all',\n\t\t\ttraineeId: null,\n\t\t\tfilterMilestones: false,\n\t\t\tmilestonesFilter: [],\n\t\t\tmultipleTrainees: false,\n\n\t\t\tshow: {\n\t\t\t\tinactiveUsers: false\n\t\t\t},\n\n\t\t\treport: null,\n\t\t\tsubjectStats: null,\n\t\t\tevaluatorStats: null,\n\n\t\t\tmilestones: [],\n\t\t\tcompetencies: [],\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\tmounted(){\n\t\tfetchMilestones().then(milestones => {\n\t\t\tthis.milestones = milestones;\n\t\t}).catch(err => {\n\t\t\tconsole.log(err);\n\t\t\tthis.alerts.push({\n\t\t\t\ttype: 'error',\n\t\t\t\thtml: '<strong>Error:</strong> There was a problem fetching milestones'\n\t\t\t});\n\t\t});\n\t\t\n\t\tfetchCompetencies().then(competencies => {\n\t\t\tthis.competencies = competencies;\n\t\t}).catch(err => {\n\t\t\tconsole.log(err);\n\t\t\tthis.alerts.push({\n\t\t\t\ttype: 'error',\n\t\t\t\thtml: '<strong>Error:</strong> There was a problem fetching competencies'\n\t\t\t});\n\t\t});\n\t\t\n\t\t$(this.$refs.currentTrainingLevelHintGlyph).popover({\n\t\t\ttitle: 'Current training level',\n\t\t\tcontent: `\n\t\t\t\t<p>\n\t\t\t\t\tSelecting a <b>current training level</b> will include only\n\t\t\t\t\tactive trainees for that level, whether they have completed\n\t\t\t\t\tevaluations or not.\n\t\t\t\t</p>\n\t\t\t\t<p>\n\t\t\t\t\tAny trainees with completed evaluations associated with the\n\t\t\t\t\t<b>evaluation training level</b> who are not currently\n\t\t\t\t\tin the selected <b>current training level</b> will be\n\t\t\t\t\texcluded.\n\t\t\t\t</p>\n\t\t\t\t<dd>\n\t\t\t\t\t<dt>Example:</dt>\n\t\t\t\t\t<dd>\n\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\tJane is currently a fellow, but she completed her\n\t\t\t\t\t\t\tresidency a month late, at the end of July.\n\t\t\t\t\t\t</p>\n\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\tWhen running reports for July for the incoming CA-3s,\n\t\t\t\t\t\t\tJane's July CA-3 evaluations will be excluded\n\t\t\t\t\t\t\tfrom the report by selecting a\n\t\t\t\t\t\t\t<b>current training level</b> of <i>CA-3</i>.\n\t\t\t\t\t\t</p>\n\t\t\t\t\t</dd>\n\t\t\t\t</dd>`,\n\t\t\thtml: true,\n\t\t\tplacement: 'auto top'\n\t\t});\n\t},\n\n\tcomputed: {\n\t\tmilestoneGroups(){\n\t\t\treturn groupMilestones(this.milestones);\n\t\t},\n\t\tfilteredUsers(){\n\t\t\tlet groupedUsers = this.currentTrainingLevel === 'all'\n\t\t\t\t? this.groupedUsers.filter(userGroup =>\n\t\t\t\t\tuserGroup.text.toLowerCase() !== 'faculty')\n\t\t\t\t: this.groupedUsers.filter(userGroup =>\n\t\t\t\t\tuserGroup.text.toLowerCase() === this.currentTrainingLevel.toLowerCase());\n\t\t\t\n\t\t\treturn this.show.inactiveUsers\n\t\t\t\t? groupedUsers\n\t\t\t\t: groupedUsers.filter(userGroup => userGroup.text !== 'Inactive');\n\n\t\t},\n\t\tsubjects(){\n\t\t\tif(this.traineeId){\n\t\t\t\tlet traineeId = Array.isArray(this.traineeId)\n\t\t\t\t\t? this.traineeId\n\t\t\t\t\t: [this.traineeId];\n\t\t\t\treturn this.users.filter(user => traineeId.includes(user.id.toString()));\n\t\t\t}\n\t\t}\n\t},\n\tmethods: {\n\t\tisEntireMilestoneGroupSelected(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\treturn groupIds.every(id => {\n\t\t\t\treturn this.milestonesFilter.includes(id);\n\t\t\t});\n\t\t},\n\t\ttoggleEntireMilestoneGroup(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\tlet newMilestones = this.milestonesFilter.filter(milestone => {\n\t\t\t\treturn !groupIds.includes(milestone);\n\t\t\t});\n\t\t\tif(!this.isEntireMilestoneGroupSelected(index)){\n\t\t\t\tnewMilestones = newMilestones.concat(groupIds);\n\t\t\t}\n\t\t\tthis.milestonesFilter = newMilestones;\n\t\t},\n\t\trunReport(){\n\t\t\tfetch('/report/aggregate', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate,\n\t\t\t\t\ttrainingLevel: this.trainingLevel,\n\t\t\t\t\tcurrentTrainingLevel: this.currentTrainingLevel,\n\t\t\t\t\tmilestones: this.milestonesFilter\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(report => {\n\t\t\t\tthis.report = Object.assign({}, this.report, report);\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\n\t\t\tfetch('/report/stats/trainee/trainee', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify(Object.assign({}, this.dates, {\n\t\t\t\t\ttrainingLevel: this.currentTrainingLevel\n\t\t\t\t}))\n\t\t\t}).then(jsonOrThrow).then(stats => {\n\t\t\t\tthis.subjectStats = stats;\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t\t\n\t\t\tfetch('/report/stats/faculty/trainee', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify(Object.assign({}, this.dates, {\n\t\t\t\t\ttrainingLevel: this.currentTrainingLevel\n\t\t\t\t}))\n\t\t\t}).then(jsonOrThrow).then(stats => {\n\t\t\t\tthis.evaluatorStats = stats;\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t},\n\t\tprintAll(){\n\t\t\tthis.$refs.individualReports.map(individual => {\n\t\t\t\tindividual.exportPdf();\n\t\t\t});\n\t\t}\n\t},\n\tcomponents: {\n\t\tStartEndDate,\n\t\tAggregateReport,\n\t\tIndividualReport,\n\t\tStatsReport,\n\t\tTrainingLevelSelect,\n\t\tAlertList,\n\t\tBootstrapAlert,\n\t\tSelectTwo,\n\t\tSvgIcon\n\t}\n};\n</script>\n\n<style scoped>\n\t.filter-milestones-container {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tflex-wrap: wrap;\n\t\tjustify-content: flex-start;\n\t\talign-items: stretch;\n\t}\n\n\t.milestone-group {\n\t\tflex-grow: 0;\n\t\tflex-shrink: 1;\n\t\twidth: 250px;\n\t\tmin-width: 200px;\n\t\tmax-width: 100%;\n\t\tmargin: 10px;\n\t}\n\n\t.milestone-group .panel-body {\n\t\theight: 300px;\n\t\toverflow: auto;\n\t}\n\n\t.milestone-group .panel-body label {\n\t\tfont-weight: normal;\n\t}\n</style>\n\n<style>\n\t.popover dd {\n\t\tpadding: 0 1em;\n\t}\n</style>\n"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
 /* 297 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14839,7 +17211,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.report-type-option[data-v-29d12b6c] {\n\tmargin: 0 1em;\n}\n@media print {\n.reports-selector[data-v-29d12b6c] {\n\t\tdisplay: none;\n}\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/Reports.vue?59ec51ae"],"names":[],"mappings":";AAiEA;CACA,cAAA;CACA;AAEA;AACA;EACA,cAAA;CACA;CACA","file":"Reports.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block reports-selector\">\n\t\t\t<fieldset>\n\t\t\t\t<legend>Report type</legend>\n\t\t\t\t<div class=\"form-inline\">\n\t\t\t\t\t<label >\n\t\t\t\t\t\t<router-link v-for=\"type of reportTypes\" :to=\"type\"\n\t\t\t\t\t\t\t\tclass=\"report-type-option btn btn-default\"\n\t\t\t\t\t\t\t\tactive-class=\"disabled\">\n\t\t\t\t\t\t\t{{ kebabCaseToWords(type) }}\n\t\t\t\t\t\t</router-link>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\t\t</div>\n\n\t\t<router-view :users=\"users\" :groupedUsers=\"groupedUsers\"></router-view>\n\t</div>\n</template>\n\n<script>\nimport {\n\tkebabCaseToWords,\n\tfetchUsers,\n\tgroupUsers\n} from 'modules/utils.js';\n\nexport default {\n\tdata(){\n\t\treturn {\n\t\t\treportType: 'trainee',\n\t\t\tusers: []\n\t\t};\n\t},\n\tcomputed: {\n\t\treportTypes(){\n\t\t\treturn [\n\t\t\t\t'trainee',\n\t\t\t\t'faculty',\n\t\t\t\t'form',\n\t\t\t\t'needs-evaluations',\n\t\t\t\t'pending-requests'\n\t\t\t];\n\t\t},\n\t\tgroupedUsers(){\n\t\t\treturn groupUsers(this.users);\n\t\t}\n\t},\n\n\tcreated(){\n\t\tfetchUsers().then(users => {\n\t\t\tthis.users = users;\n\t\t}).catch(err => {\n\t\t\tconsole.error(err);\n\t\t});\n\t},\n\n\tmethods: {\n\t\tkebabCaseToWords\n\t}\n};\n</script>\n\n<style scoped>\n\t.report-type-option {\n\t\tmargin: 0 1em;\n\t}\n\t\n\t@media print {\n\t\t.reports-selector {\n\t\t\tdisplay: none;\n\t\t}\n\t}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, ".medium-toolbar-arrow-under:after {\n  border-color: #428bca transparent transparent transparent;\n  top: 60px; }\n\n.medium-toolbar-arrow-over:before {\n  border-color: transparent transparent #428bca transparent; }\n\n.medium-editor-toolbar {\n  background-color: #428bca;\n  border: 1px solid #357ebd;\n  border-radius: 4px; }\n  .medium-editor-toolbar li button {\n    background-color: transparent;\n    border: none;\n    border-right: 1px solid #357ebd;\n    box-sizing: border-box;\n    color: #fff;\n    height: 60px;\n    min-width: 60px;\n    -webkit-transition: background-color .2s ease-in, color .2s ease-in;\n            transition: background-color .2s ease-in, color .2s ease-in; }\n    .medium-editor-toolbar li button:hover {\n      background-color: #3276b1;\n      color: #fff; }\n  .medium-editor-toolbar li .medium-editor-button-first {\n    border-bottom-left-radius: 4px;\n    border-top-left-radius: 4px; }\n  .medium-editor-toolbar li .medium-editor-button-last {\n    border-bottom-right-radius: 4px;\n    border-right: none;\n    border-top-right-radius: 4px; }\n  .medium-editor-toolbar li .medium-editor-button-active {\n    background-color: #3276b1;\n    color: #fff; }\n\n.medium-editor-toolbar-form {\n  background: #428bca;\n  border-radius: 4px;\n  color: #fff; }\n  .medium-editor-toolbar-form .medium-editor-toolbar-input {\n    background: #428bca;\n    color: #fff;\n    height: 60px; }\n    .medium-editor-toolbar-form .medium-editor-toolbar-input::-webkit-input-placeholder {\n      color: #fff;\n      color: rgba(255, 255, 255, 0.8); }\n    .medium-editor-toolbar-form .medium-editor-toolbar-input:-moz-placeholder {\n      /* Firefox 18- */\n      color: #fff;\n      color: rgba(255, 255, 255, 0.8); }\n    .medium-editor-toolbar-form .medium-editor-toolbar-input::-moz-placeholder {\n      /* Firefox 19+ */\n      color: #fff;\n      color: rgba(255, 255, 255, 0.8); }\n    .medium-editor-toolbar-form .medium-editor-toolbar-input:-ms-input-placeholder {\n      color: #fff;\n      color: rgba(255, 255, 255, 0.8); }\n  .medium-editor-toolbar-form a {\n    color: #fff; }\n\n.medium-editor-toolbar-anchor-preview {\n  background: #428bca;\n  border-radius: 4px;\n  color: #fff; }\n\n.medium-editor-placeholder:after {\n  color: #357ebd; }\n", ""]);
 
 // exports
 
@@ -14854,13 +17226,89 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
+exports.push([module.i, "\n.btn[data-v-0409124b] {\n\tmargin-top: 1px;\n}\naside[data-v-0409124b] {\n\tfont-size: 0.8em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ReplacementList.vue?6173db7f"],"names":[],"mappings":";AAsCA;CACA,gBAAA;CACA;AAEA;CACA,iBAAA;CACA","file":"ReplacementList.vue","sourcesContent":["<template>\n\t<aside>\n\t\t<show-hide-button v-model=\"show.replacements\"\n\t\t\t\tclass=\"btn btn-default btn-xs\">\n\t\t\tReplacements:\n\t\t</show-hide-button>\n\t\t<ul v-show=\"show.replacements\">\n\t\t\t<li v-for=\"replacement of replacements\">\n\t\t\t\t[[{{ replacement }}]]\n\t\t\t</li>\n\t\t</ul>\n\t</aside>\n</template>\n\n<script>\nimport ShowHideButton from './ShowHideButton.vue';\n\nexport default {\n\tprops: {\n\t\treplacements: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\treplacements: false\n\t\t\t}\n\t\t};\n\t},\n\tcomponents: {\n\t\tShowHideButton\n\t}\n};\n</script>\n\n<style scoped>\n\t.btn {\n\t\tmargin-top: 1px;\n\t}\n\n\taside {\n\t\tfont-size: 0.8em;\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+/* 300 */,
+/* 301 */,
+/* 302 */,
+/* 303 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.show-container div[data-v-170d0144] {\n\tdisplay: flex;\n\tflex-wrap: wrap;\n}\n.show-container div label[data-v-170d0144] {\n\tmargin: 0.5em 1em;\n}\n.graphs-container[data-v-170d0144] {\n\tmargin: 2em 0;\n}\n.graphs-container .chart-options[data-v-170d0144] {\n\tmargin: 2em 0 0;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/AggregateReport.vue?69de9ee2"],"names":[],"mappings":";AAieA;CACA,cAAA;CACA,gBAAA;CACA;AAEA;CACA,kBAAA;CACA;AAEA;CACA,cAAA;CACA;AAEA;CACA,gBAAA;CACA","file":"AggregateReport.vue","sourcesContent":["<template>\n\t<div class=\"container body-block\">\n\t\t<h3>Aggregate</h3>\n\t\t<fieldset class=\"show-container\">\n\t\t\t<legend>Show</legend>\n\t\t\t<div>\n\t\t\t\t<label v-for=\"(part, name) of show\">\n\t\t\t\t\t<input type=\"checkbox\" v-model=\"show[name]\" />\n\t\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t</fieldset>\n\n\t\t<data-table id=\"aggregate-table\" :bordered=\"true\" :thead=\"tableThead\"\n\t\t\t:data=\"tableData\" :config=\"tableConfig\" :exportable=\"true\"\n\t\t\t:exportFilename=\"tableExportFilename\" />\n\t\t\t\n\t\t<div class=\"graphs-container\" v-if=\"show.charts\">\n\t\t\t<div class=\"row\">\n\t\t\t\t<div v-if=\"show.competencies\" :class=\"chartWidth\">\n\t\t\t\t\t<chartjs-chart id=\"aggregate-competency-chart\" :type=\"chartType\"\n\t\t\t\t\t\t:options=\"chartOptions\" :data=\"competencyChartData\" />\n\t\t\t\t</div>\n\t\t\t\t<div v-if=\"show.milestones\" :class=\"chartWidth\">\n\t\t\t\t\t<chartjs-chart id=\"aggregate-milestone-chart\" :type=\"chartType\"\n\t\t\t\t\t\t:options=\"chartOptions\" :data=\"milestoneChartData\" />\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"row chart-options\">\n\t\t\t\t<div class=\"col-sm-offset-5 col-sm-2\">\n\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t<span class=\"panel-title\">Chart options</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t<fieldset v-if=\"show.milestones && show.competencies\">\n\t\t\t\t\t\t\t\t<legend>Orientation</legend>\n\t\t\t\t\t\t\t\t<div class=\"btn-group btn-group-justified\" data-toggle=\"buttons\">\n\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"horizontal\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-horizontal\"></span>\n\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"vertical\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-vertical\"></span>\n\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</fieldset>\n\n\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\t\tType\n\t\t\t\t\t\t\t\t\t<select class=\"form-control\" v-model=\"chartType\">\n\t\t\t\t\t\t\t\t\t\t<option v-for=\"type of chartTypes\" :value=\"type\">\n\t\t\t\t\t\t\t\t\t\t\t{{ ucfirst(type) }}\n\t\t\t\t\t\t\t\t\t\t</option>\n\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport Color from 'color';\n\nimport BootstrapButtonInput from '../BootstrapButtonInput.vue';\nimport ChartjsChart from '../ChartjsChart.vue';\nimport DataTable from '../DataTable.vue';\n\nimport { CHART_COLORS } from 'modules/constants.js';\nimport { camelCaseToWords, ucfirst } from 'modules/utils.js';\nimport { renderTrainingLevel } from 'modules/datatable-utils.js';\nimport { getAverageLevel } from 'modules/report-utils.js';\nimport { isoDateString } from 'modules/date-utils.js';\n\nexport default {\n\tprops: {\n\t\treport: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t},\n\t\tmilestones: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\tcompetencies: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tmilestones: false,\n\t\t\t\tcompetencies: true,\n\t\t\t\taverages: true,\n\t\t\t\taverageLevels: false,\n\t\t\t\tevaluationCounts: true,\n\t\t\t\tstandardDeviations: false,\n\t\t\t\ttotals: true,\n\t\t\t\tcharts: true\n\t\t\t},\n\t\t\ttransformations: {\n\t\t\t\tlevelRatings: false\n\t\t\t},\n\t\t\tchartType: 'radar',\n\t\t\tchartOrientation: 'vertical'\n\t\t};\n\t},\n\tcomputed: {\n\t\torderedMilestones(){\n\t\t\tif(!this.report.milestones)\n\t\t\t\treturn [];\n\t\t\t\t\n\t\t\treturn this.milestones.filter(milestone =>\n\t\t\t\tmilestone.id in this.report.milestones\n\t\t\t);\n\t\t},\n\t\torderedCompetencies(){\n\t\t\tif(!this.report.competencies)\n\t\t\t\treturn [];\n\t\t\t\t\n\t\t\treturn this.competencies.filter(competency =>\n\t\t\t\tcompetency.id in this.report.competencies\n\t\t\t);\n\t\t},\n\t\tcolsPerItem(){\n\t\t\treturn [\n\t\t\t\tthis.show.averages,\n\t\t\t\tthis.show.averageLevels,\n\t\t\t\tthis.show.evaluationCounts,\n\t\t\t\tthis.show.standardDeviations\n\t\t\t].filter(col => col).length;\n\t\t},\n\t\tnameRowspan(){\n\t\t\tlet rowspan = 1;\n\t\t\tif(this.show.milestones && this.show.competencies)\n\t\t\t\trowspan++;\n\t\t\tif(this.showSomething && this.colsPerItem > 1)\n\t\t\t\trowspan++;\n\t\t\t\t\n\t\t\treturn rowspan;\n\t\t},\n\t\tshowSomething(){\n\t\t\treturn this.show.milestones || this.show.competencies || this.show.totals;\n\t\t},\n\t\tmilestoneColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.milestones).length;\n\t\t},\n\t\tcompetencyColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.competencies).length;\n\t\t},\n\t\ttableThead(){\n\t\t\tlet thead = [];\n\t\t\tlet row;\n\t\t\tif(this.show.milestones && this.show.competencies){\n\t\t\t\trow = [];\n\t\t\t\trow.push({rowspan: this.nameRowspan, text: 'Name'});\n\t\t\t\trow.push({\n\t\t\t\t\tcolspan: this.milestoneColspan,\n\t\t\t\t\ttext: 'Milestones'\n\t\t\t\t});\n\t\t\t\trow.push({\n\t\t\t\t\tcolspan: this.competencyColspan,\n\t\t\t\t\ttext: 'Competencies'\n\t\t\t\t});\n\t\t\t\tif(this.show.totals)\n\t\t\t\t\trow.push({colspan: 3, text: 'All'});\n\n\t\t\t\tthead.push(row);\n\t\t\t}\n\n\n\t\t\tif(this.showSomething && this.colsPerItem > 1){\n\t\t\t\trow = [];\n\t\t\t\tif(this.nameRowspan === 2)\n\t\t\t\t\trow.push({rowspan: this.nameRowspan, text: 'Name'});\n\t\t\t\t\n\t\t\t\tif(this.show.milestones){\n\t\t\t\t\tthis.orderedMilestones.map(milestone => {\n\t\t\t\t\t\trow.push({\n\t\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\t\ttext: milestone.title\n\t\t\t\t\t\t});\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t\tif(this.show.competencies){\n\t\t\t\t\tthis.orderedCompetencies.map(competency => {\n\t\t\t\t\t\trow.push({\n\t\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\t\ttext: competency.title\n\t\t\t\t\t\t});\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t\tif(this.show.totals)\n\t\t\t\t\trow.push({colspan: 3, text: 'Total'});\n\n\t\t\t\tif(row.length > 0)\n\t\t\t\t\tthead.push(row);\n\t\t\t}\n\t\t\t\n\n\t\t\trow = [];\n\t\t\tif(this.nameRowspan === 1)\n\t\t\t\trow.push({rowspan: this.nameRowspan, text: 'Name'});\n\t\t\tif(this.show.milestones){\n\t\t\t\tthis.orderedMilestones.map(milestone => {\n\t\t\t\t\tif(this.colsPerItem > 1){\n\t\t\t\t\t\tif(this.show.averages)\n\t\t\t\t\t\t\trow.push({text: 'Average'});\n\t\t\t\t\t\tif(this.show.averageLevels)\n\t\t\t\t\t\t\trow.push({text: 'Average Level'});\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push({text: 'Std. Dev.'});\n\t\t\t\t\t\tif(this.show.evaluationCounts)\n\t\t\t\t\t\t\trow.push({text: '#'});\n\t\t\t\t\t}\n\t\t\t\t\telse {\n\t\t\t\t\t\trow.push({\n\t\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\t\ttext: milestone.title\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t}\n\t\t\tif(this.show.competencies){\n\t\t\t\tthis.orderedCompetencies.map(competency => {\n\t\t\t\t\tif(this.colsPerItem > 1){\n\t\t\t\t\t\tif(this.show.averages)\n\t\t\t\t\t\t\trow.push({text: 'Average'});\n\t\t\t\t\t\tif(this.show.averageLevels)\n\t\t\t\t\t\t\trow.push({text: 'Average Level'});\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push({text: 'Std. Dev.'});\n\t\t\t\t\t\tif(this.show.evaluationCounts)\n\t\t\t\t\t\t\trow.push({text: '#'});\n\t\t\t\t\t}\n\t\t\t\t\telse {\n\t\t\t\t\t\trow.push({\n\t\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\t\ttext: competency.title\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t}\n\t\t\tif(this.show.totals){\n\t\t\t\trow.push({text: '# Evaluators'});\n\t\t\t\trow.push({text: '# Evaluations'});\n\t\t\t\trow.push({text: '# Trainee Requests'});\n\t\t\t}\n\n\t\t\tif(row.length > 0)\n\t\t\t\tthead.push(row);\n\n\t\t\treturn thead;\n\t\t},\n\t\ttableConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tdom: 'lfprtip',\n\t\t\t\tscrollX: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tfixedColumns: true,\n\t\t\t};\n\t\t},\n\t\ttableData(){\n\t\t\tlet data = [];\n\t\t\tfor(let subjectId in this.report.subjects){\n\t\t\t\tlet row = [];\n\t\t\t\trow.push(`<a href=\"/profile/${subjectId}\" target=\"_blank\">${this.report.subjects[subjectId]}</a>`);\n\t\t\t\tif(this.show.milestones){\n\t\t\t\t\tthis.orderedMilestones.map(milestone => {\n\t\t\t\t\t\tif(this.show.averages)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectMilestone\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId][milestone.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestone[subjectId][milestone.id]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\tif(this.show.averageLevels)\n\t\t\t\t\t\t\trow.push(getAverageLevel(\n\t\t\t\t\t\t\t\tthis.report.subjectMilestone\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId][milestone.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestone[subjectId][milestone.id]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t\t));\n\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectMilestoneDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneDeviations[subjectId][milestone.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestoneDeviations[subjectId][milestone.id]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\tif(this.show.evaluationCounts)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectMilestoneEvals\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneEvals[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneEvals[subjectId][milestone.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestoneEvals[subjectId][milestone.id]).toFixed()\n\t\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\tif(this.colsPerItem === 0)\n\t\t\t\t\t\t\trow.push('');\n\t\t\t\t\t});\n\t\t\t\t}\n\n\t\t\t\tif(this.show.competencies){\n\t\t\t\t\tthis.orderedCompetencies.map(competency => {\n\t\t\t\t\t\tif(this.show.averages)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectCompetency\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId][competency.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetency[subjectId][competency.id]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\tif(this.show.averageLevels)\n\t\t\t\t\t\t\trow.push(getAverageLevel(\n\t\t\t\t\t\t\t\tthis.report.subjectCompetency\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId][competency.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetency[subjectId][competency.id]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t\t));\n\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectCompetencyDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyDeviations[subjectId][competency.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetencyDeviations[subjectId][competency.id]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\n\t\t\t\t\t\tif(this.show.evaluationCounts)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectCompetencyEvals\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyEvals[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyEvals[subjectId][competency.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetencyEvals[subjectId][competency.id]).toFixed()\n\t\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\tif(this.colsPerItem === 0)\n\t\t\t\t\t\t\trow.push('');\n\t\t\t\t\t});\n\t\t\t\t}\n\n\t\t\t\tif(this.show.totals){\n\t\t\t\t\trow.push(\n\t\t\t\t\t\tthis.report.subjectEvaluators[subjectId]\n\t\t\t\t\t\t\t? Object.keys(this.report.subjectEvaluators[subjectId]).length\n\t\t\t\t\t\t\t: 0\n\t\t\t\t\t);\n\t\t\t\t\trow.push(\n\t\t\t\t\t\tthis.report.subjectEvals[subjectId]\n\t\t\t\t\t\t\t? Object.keys(this.report.subjectEvals[subjectId]).length\n\t\t\t\t\t\t\t: 0\n\t\t\t\t\t);\n\t\t\t\t\trow.push(\n\t\t\t\t\t\tthis.report.subjectRequests[subjectId]\n\t\t\t\t\t\t\t? Object.keys(this.report.subjectRequests[subjectId]).length\n\t\t\t\t\t\t\t: 0\n\t\t\t\t\t);\n\t\t\t\t}\n\n\t\t\t\tdata.push(row);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\t\ttableExportFilename(){\n\t\t\tlet level = this.report.trainingLevel === 'all'\n\t\t\t\t? ''\n\t\t\t\t: renderTrainingLevel(this.report.trainingLevel);\n\t\t\tlet start = isoDateString(new Date(this.report.startDate.date));\n\t\t\tlet end = isoDateString(new Date(this.report.endDate.date));\n\t\t\tlet now = new Date().toLocaleString();\n\t\t\treturn `Aggregate Report ${level}, ${start} - ${end}, exported ${now}`;\n\t\t},\n\t\tchartTypes(){\n\t\t\treturn [\n\t\t\t\t'radar',\n\t\t\t\t'line',\n\t\t\t\t'bar'\n\t\t\t];\n\t\t},\n\t\tchartWidth(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': this.chartOrientation === 'horizontal',\n\t\t\t\t'col-md-12': this.chartOrientation === 'vertical'\n\t\t\t};\n\t\t},\n\t\tchartOptions(){\n\t\t\treturn {\n\t\t\t\tlegend: {\n\t\t\t\t\tlabels: {\n\t\t\t\t\t\tfontSize: 18,\n\t\t\t\t\t\tfontColor: '#333'\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tcallbacks: {\n\t\t\t\t\t\tlabel(tooltip, data){\n\t\t\t\t\t\t\tlet value = parseFloat(tooltip.yLabel).toFixed(2);\n\t\t\t\t\t\t\tlet name = data.datasets[tooltip.datasetIndex].label;\n\t\t\t\t\t\t\treturn `${name}: ${value}`;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t};\n\t\t},\n\t\tcompetencyChartData(){\n\t\t\tlet color = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: Object.values(this.report.competencies),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Average Competencies',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: Object.values(this.report.averageCompetency)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tmilestoneChartData(){\n\t\t\tlet color = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: Object.values(this.report.milestones),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Average Milestones',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: Object.values(this.report.averageMilestone)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords,\n\t\tucfirst\n\t},\n\tcomponents: {\n\t\tBootstrapButtonInput,\n\t\tChartjsChart,\n\t\tDataTable\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-container div {\n\t\tdisplay: flex;\n\t\tflex-wrap: wrap;\n\t}\n\n\t.show-container div label {\n\t\tmargin: 0.5em 1em;\n\t}\n\n\t.graphs-container {\n\t\tmargin: 2em 0;\n\t}\n\n\t.graphs-container .chart-options {\n\t\tmargin: 2em 0 0;\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+/* 304 */,
+/* 305 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.popover dd {\n\tpadding: 0 1em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/TraineeReport.vue?84dd5cd2"],"names":[],"mappings":";AAgZA;CACA,eAAA;CACA","file":"TraineeReport.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block\">\n\t\t\t<h1>Trainee report</h1>\n\t\t\t<start-end-date v-model=\"dates\" />\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"form-group col-sm-6\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tEvaluation training level\n\t\t\t\t\t\t<training-level-select v-model=\"trainingLevel\" />\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group col-sm-6\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tTrainee current training level\n\t\t\t\t\t\t<span class=\"glyphicon glyphicon-question-sign\"\n\t\t\t\t\t\t\t\tref=\"currentTrainingLevelHintGlyph\"></span>\n\t\t\t\t\t\t<training-level-select v-model=\"currentTrainingLevel\" />\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"checkbox\" v-model=\"filterMilestones\" />\n\t\t\t\t\tFilter milestones\n\t\t\t\t</label>\n\t\t\t</div>\n\n\t\t\t<fieldset v-if=\"filterMilestones\">\n\t\t\t\t<legend>Milestones</legend>\n\t\t\t\t<div class=\"filter-milestones-container\">\n\t\t\t\t\t<div v-for=\"(milestoneGroup, index) of milestoneGroups\" class=\"milestone-group\">\n\t\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t\t<label class=\"panel-title\">\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t:checked=\"isEntireMilestoneGroupSelected(index)\"\n\t\t\t\t\t\t\t\t\t\t\t@click=\"toggleEntireMilestoneGroup(index)\" />\n\t\t\t\t\t\t\t\t\t{{ milestoneGroup.text }}\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t\t<div v-for=\"child of milestoneGroup.children\" class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t\t:value=\"child.id\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"milestonesFilter\" />\n\t\t\t\t\t\t\t\t\t\t{{ child.text }}\n\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\t\t\t\n\t\t\t<alert-list v-model=\"alerts\" />\n\n\t\t\t<div class=\"btn-lg-submit-container\">\n\t\t\t\t<button type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t\t@click=\"runReport\">\n\t\t\t\t\tRun report\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div v-if=\"report\">\n\t\t\t<div class=\"container body-block\">\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t<div class=\"col-md-4\">\n\t\t\t\t\t\t\t<bootstrap-alert type=\"info\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-info-sign\"></span>\n\t\t\t\t\t\t\t\tSelect a subject to show\n\t\t\t\t\t\t\t\tindividual reports.\n\t\t\t\t\t\t\t</bootstrap-alert>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"col-sm-10 col-md-7\">\n\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\tSubject\n\t\t\t\t\t\t\t\t<div class=\"input-group\">\n\t\t\t\t\t\t\t\t\t<select-two class=\"form-control\" v-if=\"filteredUsers\"\n\t\t\t\t\t\t\t\t\t\t\t:options=\"filteredUsers\" v-model=\"traineeId\"\n\t\t\t\t\t\t\t\t\t\t\t:multiple=\"multipleTrainees\">\n\t\t\t\t\t\t\t\t\t\t<option v-if=\"!multipleTrainees\" value=\"\">All</option>\n\t\t\t\t\t\t\t\t\t</select-two>\n\t\t\t\t\t\t\t\t\t<span class=\"input-group-addon\">\n\t\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"show.inactiveUsers\" />\n\t\t\t\t\t\t\t\t\t\t\tShow inactive\n\t\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<span class=\"input-group-addon\">\n\t\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"multipleTrainees\" />\n\t\t\t\t\t\t\t\t\t\t\tSelect multiple\n\t\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"col-sm-2 col-md-1\">\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default labelless-button\"\n\t\t\t\t\t\t\t\t\t@click=\"traineeId = null\">\n\t\t\t\t\t\t\t\tClear\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t\t<div class=\"btn-lg-submit-container\">\n\t\t\t\t\t\t<button v-if=\"report && subjects && subjects.length > 0\"\n\t\t\t\t\t\t\t\ttype=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t\t\t\t@click=\"printAll\">\n\t\t\t\t\t\t\tExport all\n\t\t\t\t\t\t\t<svg-icon src=\"/img/icons/pdf.svg\" />\n\t\t\t\t\t\t</button>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t\n\t\t\t<template v-if=\"subjects && subjects.length > 0\">\n\t\t\t\t<individual-report v-for=\"subject of subjects\" :report=\"report\"\n\t\t\t\t\t:subject=\"subject\" ref=\"individualReports\" />\n\t\t\t</template>\n\t\t\t<template v-else>\n\t\t\t\t<stats-report v-if=\"subjectStats\" :report=\"subjectStats\"\n\t\t\t\t\t\ttitle=\"Trainee evaluation statistics by trainee\">\n\t\t\t\t\t<p class=\"text-center\">\n\t\t\t\t\t\tTrainee list can be filtered by\n\t\t\t\t\t\t<b>Trainee current training level</b>\n\t\t\t\t\t\tabove\n\t\t\t\t\t</p>\n\t\t\t\t</stats-report>\n\t\t\t\t<stats-report v-if=\"evaluatorStats\" :report=\"evaluatorStats\"\n\t\t\t\t\t\ttitle=\"Faculty evaluation statistics by trainee\">\n\t\t\t\t\t<p class=\"text-center\">\n\t\t\t\t\t\tTrainee list can be filtered by\n\t\t\t\t\t\t<b>Trainee current training level</b>\n\t\t\t\t\t\tabove\n\t\t\t\t\t</p>\n\t\t\t\t</stats-report>\n\t\t\t\t<aggregate-report :report=\"report\"\n\t\t\t\t\t:milestones=\"milestones\" :competencies=\"competencies\" />\n\t\t\t</template>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport AggregateReport from './AggregateReport.vue';\nimport IndividualReport from './IndividualReport.vue';\nimport StartEndDate from '../StartEndDate.vue';\nimport StatsReport from './StatsReport.vue';\nimport TrainingLevelSelect from './TrainingLevelSelect.vue';\nimport AlertList from '../AlertList.vue';\nimport BootstrapAlert from '../BootstrapAlert.vue';\nimport SelectTwo from '../SelectTwo.vue';\nimport SvgIcon from '../SvgIcon.vue';\n\nimport {\n\tgetFetchHeaders,\n\tjsonOrThrow,\n\tfetchMilestones,\n\tgroupMilestones,\n\tfetchCompetencies\n} from 'modules/utils.js';\nimport { isoDateStringObject, currentQuarter } from 'modules/date-utils.js';\n\nexport default {\n\tprops: {\n\t\tusers: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\tgroupedUsers: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tdates: isoDateStringObject(currentQuarter()),\n\t\t\ttrainingLevel: 'all',\n\t\t\tcurrentTrainingLevel: 'all',\n\t\t\ttraineeId: null,\n\t\t\tfilterMilestones: false,\n\t\t\tmilestonesFilter: [],\n\t\t\tmultipleTrainees: false,\n\n\t\t\tshow: {\n\t\t\t\tinactiveUsers: false\n\t\t\t},\n\n\t\t\treport: null,\n\t\t\tsubjectStats: null,\n\t\t\tevaluatorStats: null,\n\n\t\t\tmilestones: [],\n\t\t\tcompetencies: [],\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\tmounted(){\n\t\tfetchMilestones().then(milestones => {\n\t\t\tthis.milestones = milestones;\n\t\t}).catch(err => {\n\t\t\tconsole.log(err);\n\t\t\tthis.alerts.push({\n\t\t\t\ttype: 'error',\n\t\t\t\thtml: '<strong>Error:</strong> There was a problem fetching milestones'\n\t\t\t});\n\t\t});\n\t\t\n\t\tfetchCompetencies().then(competencies => {\n\t\t\tthis.competencies = competencies;\n\t\t}).catch(err => {\n\t\t\tconsole.log(err);\n\t\t\tthis.alerts.push({\n\t\t\t\ttype: 'error',\n\t\t\t\thtml: '<strong>Error:</strong> There was a problem fetching competencies'\n\t\t\t});\n\t\t});\n\t\t\n\t\t$(this.$refs.currentTrainingLevelHintGlyph).popover({\n\t\t\ttitle: 'Current training level',\n\t\t\tcontent: `\n\t\t\t\t<p>\n\t\t\t\t\tSelecting a <b>current training level</b> will include only\n\t\t\t\t\tactive trainees for that level, whether they have completed\n\t\t\t\t\tevaluations or not.\n\t\t\t\t</p>\n\t\t\t\t<p>\n\t\t\t\t\tAny trainees with completed evaluations associated with the\n\t\t\t\t\t<b>evaluation training level</b> who are not currently\n\t\t\t\t\tin the selected <b>current training level</b> will be\n\t\t\t\t\texcluded.\n\t\t\t\t</p>\n\t\t\t\t<dd>\n\t\t\t\t\t<dt>Example:</dt>\n\t\t\t\t\t<dd>\n\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\tJane is currently a fellow, but she completed her\n\t\t\t\t\t\t\tresidency a month late, at the end of July.\n\t\t\t\t\t\t</p>\n\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\tWhen running reports for July for the incoming CA-3s,\n\t\t\t\t\t\t\tJane's July CA-3 evaluations will be excluded\n\t\t\t\t\t\t\tfrom the report by selecting a\n\t\t\t\t\t\t\t<b>current training level</b> of <i>CA-3</i>.\n\t\t\t\t\t\t</p>\n\t\t\t\t\t</dd>\n\t\t\t\t</dd>`,\n\t\t\thtml: true,\n\t\t\tplacement: 'auto top'\n\t\t});\n\t},\n\n\tcomputed: {\n\t\tmilestoneGroups(){\n\t\t\treturn groupMilestones(this.milestones);\n\t\t},\n\t\tfilteredUsers(){\n\t\t\tlet groupedUsers = this.currentTrainingLevel === 'all'\n\t\t\t\t? this.groupedUsers.filter(userGroup =>\n\t\t\t\t\tuserGroup.text.toLowerCase() !== 'faculty')\n\t\t\t\t: this.groupedUsers.filter(userGroup =>\n\t\t\t\t\tuserGroup.text.toLowerCase() === this.currentTrainingLevel.toLowerCase());\n\t\t\t\n\t\t\treturn this.show.inactiveUsers\n\t\t\t\t? groupedUsers\n\t\t\t\t: groupedUsers.filter(userGroup => userGroup.text !== 'Inactive');\n\n\t\t},\n\t\tsubjects(){\n\t\t\tif(this.traineeId){\n\t\t\t\tlet traineeId = Array.isArray(this.traineeId)\n\t\t\t\t\t? this.traineeId\n\t\t\t\t\t: [this.traineeId];\n\t\t\t\treturn this.users.filter(user => traineeId.includes(user.id.toString()));\n\t\t\t}\n\t\t}\n\t},\n\tmethods: {\n\t\tisEntireMilestoneGroupSelected(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\treturn groupIds.every(id => {\n\t\t\t\treturn this.milestonesFilter.includes(id);\n\t\t\t});\n\t\t},\n\t\ttoggleEntireMilestoneGroup(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\tlet newMilestones = this.milestonesFilter.filter(milestone => {\n\t\t\t\treturn !groupIds.includes(milestone);\n\t\t\t});\n\t\t\tif(!this.isEntireMilestoneGroupSelected(index)){\n\t\t\t\tnewMilestones = newMilestones.concat(groupIds);\n\t\t\t}\n\t\t\tthis.milestonesFilter = newMilestones;\n\t\t},\n\t\trunReport(){\n\t\t\tfetch('/report/aggregate', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate,\n\t\t\t\t\ttrainingLevel: this.trainingLevel,\n\t\t\t\t\tcurrentTrainingLevel: this.currentTrainingLevel,\n\t\t\t\t\tmilestones: this.milestonesFilter\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(report => {\n\t\t\t\tthis.report = Object.assign({}, this.report, report);\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\n\t\t\tfetch('/report/stats/trainee/trainee', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify(Object.assign({}, this.dates, {\n\t\t\t\t\ttrainingLevel: this.currentTrainingLevel\n\t\t\t\t}))\n\t\t\t}).then(jsonOrThrow).then(stats => {\n\t\t\t\tthis.subjectStats = stats;\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t\t\n\t\t\tfetch('/report/stats/faculty/trainee', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify(Object.assign({}, this.dates, {\n\t\t\t\t\ttrainingLevel: this.currentTrainingLevel\n\t\t\t\t}))\n\t\t\t}).then(jsonOrThrow).then(stats => {\n\t\t\t\tthis.evaluatorStats = stats;\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t},\n\t\tprintAll(){\n\t\t\tthis.$refs.individualReports.map(individual => {\n\t\t\t\tindividual.exportPdf();\n\t\t\t});\n\t\t}\n\t},\n\tcomponents: {\n\t\tStartEndDate,\n\t\tAggregateReport,\n\t\tIndividualReport,\n\t\tStatsReport,\n\t\tTrainingLevelSelect,\n\t\tAlertList,\n\t\tBootstrapAlert,\n\t\tSelectTwo,\n\t\tSvgIcon\n\t}\n};\n</script>\n\n<style scoped>\n\t.filter-milestones-container {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tflex-wrap: wrap;\n\t\tjustify-content: flex-start;\n\t\talign-items: stretch;\n\t}\n\n\t.milestone-group {\n\t\tflex-grow: 0;\n\t\tflex-shrink: 1;\n\t\twidth: 250px;\n\t\tmin-width: 200px;\n\t\tmax-width: 100%;\n\t\tmargin: 10px;\n\t}\n\n\t.milestone-group .panel-body {\n\t\theight: 300px;\n\t\toverflow: auto;\n\t}\n\n\t.milestone-group .panel-body label {\n\t\tfont-weight: normal;\n\t}\n</style>\n\n<style>\n\t.popover dd {\n\t\tpadding: 0 1em;\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+/* 306 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.filter-milestones-container[data-v-26074fc7] {\n\tdisplay: flex;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tjustify-content: flex-start;\n\talign-items: stretch;\n}\n.milestone-group[data-v-26074fc7] {\n\tflex-grow: 0;\n\tflex-shrink: 1;\n\twidth: 250px;\n\tmin-width: 200px;\n\tmax-width: 100%;\n\tmargin: 10px;\n}\n.milestone-group .panel-body[data-v-26074fc7] {\n\theight: 300px;\n\toverflow: auto;\n}\n.milestone-group .panel-body label[data-v-26074fc7] {\n\tfont-weight: normal;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/TraineeReport.vue?84dd5cd2"],"names":[],"mappings":";AAoXA;CACA,cAAA;CACA,oBAAA;CACA,gBAAA;CACA,4BAAA;CACA,qBAAA;CACA;AAEA;CACA,aAAA;CACA,eAAA;CACA,aAAA;CACA,iBAAA;CACA,gBAAA;CACA,aAAA;CACA;AAEA;CACA,cAAA;CACA,eAAA;CACA;AAEA;CACA,oBAAA;CACA","file":"TraineeReport.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block\">\n\t\t\t<h1>Trainee report</h1>\n\t\t\t<start-end-date v-model=\"dates\" />\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"form-group col-sm-6\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tEvaluation training level\n\t\t\t\t\t\t<training-level-select v-model=\"trainingLevel\" />\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group col-sm-6\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tTrainee current training level\n\t\t\t\t\t\t<span class=\"glyphicon glyphicon-question-sign\"\n\t\t\t\t\t\t\t\tref=\"currentTrainingLevelHintGlyph\"></span>\n\t\t\t\t\t\t<training-level-select v-model=\"currentTrainingLevel\" />\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"checkbox\" v-model=\"filterMilestones\" />\n\t\t\t\t\tFilter milestones\n\t\t\t\t</label>\n\t\t\t</div>\n\n\t\t\t<fieldset v-if=\"filterMilestones\">\n\t\t\t\t<legend>Milestones</legend>\n\t\t\t\t<div class=\"filter-milestones-container\">\n\t\t\t\t\t<div v-for=\"(milestoneGroup, index) of milestoneGroups\" class=\"milestone-group\">\n\t\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t\t<label class=\"panel-title\">\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t:checked=\"isEntireMilestoneGroupSelected(index)\"\n\t\t\t\t\t\t\t\t\t\t\t@click=\"toggleEntireMilestoneGroup(index)\" />\n\t\t\t\t\t\t\t\t\t{{ milestoneGroup.text }}\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t\t<div v-for=\"child of milestoneGroup.children\" class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t\t:value=\"child.id\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"milestonesFilter\" />\n\t\t\t\t\t\t\t\t\t\t{{ child.text }}\n\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\t\t\t\n\t\t\t<alert-list v-model=\"alerts\" />\n\n\t\t\t<div class=\"btn-lg-submit-container\">\n\t\t\t\t<button type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t\t@click=\"runReport\">\n\t\t\t\t\tRun report\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div v-if=\"report\">\n\t\t\t<div class=\"container body-block\">\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t<div class=\"col-md-4\">\n\t\t\t\t\t\t\t<bootstrap-alert type=\"info\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-info-sign\"></span>\n\t\t\t\t\t\t\t\tSelect a subject to show\n\t\t\t\t\t\t\t\tindividual reports.\n\t\t\t\t\t\t\t</bootstrap-alert>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"col-sm-10 col-md-7\">\n\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\tSubject\n\t\t\t\t\t\t\t\t<div class=\"input-group\">\n\t\t\t\t\t\t\t\t\t<select-two class=\"form-control\" v-if=\"filteredUsers\"\n\t\t\t\t\t\t\t\t\t\t\t:options=\"filteredUsers\" v-model=\"traineeId\"\n\t\t\t\t\t\t\t\t\t\t\t:multiple=\"multipleTrainees\">\n\t\t\t\t\t\t\t\t\t\t<option v-if=\"!multipleTrainees\" value=\"\">All</option>\n\t\t\t\t\t\t\t\t\t</select-two>\n\t\t\t\t\t\t\t\t\t<span class=\"input-group-addon\">\n\t\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"show.inactiveUsers\" />\n\t\t\t\t\t\t\t\t\t\t\tShow inactive\n\t\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<span class=\"input-group-addon\">\n\t\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"multipleTrainees\" />\n\t\t\t\t\t\t\t\t\t\t\tSelect multiple\n\t\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"col-sm-2 col-md-1\">\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default labelless-button\"\n\t\t\t\t\t\t\t\t\t@click=\"traineeId = null\">\n\t\t\t\t\t\t\t\tClear\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t\t<div class=\"btn-lg-submit-container\">\n\t\t\t\t\t\t<button v-if=\"report && subjects && subjects.length > 0\"\n\t\t\t\t\t\t\t\ttype=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t\t\t\t@click=\"printAll\">\n\t\t\t\t\t\t\tExport all\n\t\t\t\t\t\t\t<svg-icon src=\"/img/icons/pdf.svg\" />\n\t\t\t\t\t\t</button>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t\n\t\t\t<template v-if=\"subjects && subjects.length > 0\">\n\t\t\t\t<individual-report v-for=\"subject of subjects\" :report=\"report\"\n\t\t\t\t\t:subject=\"subject\" ref=\"individualReports\" />\n\t\t\t</template>\n\t\t\t<template v-else>\n\t\t\t\t<stats-report v-if=\"subjectStats\" :report=\"subjectStats\"\n\t\t\t\t\t\ttitle=\"Trainee evaluation statistics by trainee\">\n\t\t\t\t\t<p class=\"text-center\">\n\t\t\t\t\t\tTrainee list can be filtered by\n\t\t\t\t\t\t<b>Trainee current training level</b>\n\t\t\t\t\t\tabove\n\t\t\t\t\t</p>\n\t\t\t\t</stats-report>\n\t\t\t\t<stats-report v-if=\"evaluatorStats\" :report=\"evaluatorStats\"\n\t\t\t\t\t\ttitle=\"Faculty evaluation statistics by trainee\">\n\t\t\t\t\t<p class=\"text-center\">\n\t\t\t\t\t\tTrainee list can be filtered by\n\t\t\t\t\t\t<b>Trainee current training level</b>\n\t\t\t\t\t\tabove\n\t\t\t\t\t</p>\n\t\t\t\t</stats-report>\n\t\t\t\t<aggregate-report :report=\"report\"\n\t\t\t\t\t:milestones=\"milestones\" :competencies=\"competencies\" />\n\t\t\t</template>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport AggregateReport from './AggregateReport.vue';\nimport IndividualReport from './IndividualReport.vue';\nimport StartEndDate from '../StartEndDate.vue';\nimport StatsReport from './StatsReport.vue';\nimport TrainingLevelSelect from './TrainingLevelSelect.vue';\nimport AlertList from '../AlertList.vue';\nimport BootstrapAlert from '../BootstrapAlert.vue';\nimport SelectTwo from '../SelectTwo.vue';\nimport SvgIcon from '../SvgIcon.vue';\n\nimport {\n\tgetFetchHeaders,\n\tjsonOrThrow,\n\tfetchMilestones,\n\tgroupMilestones,\n\tfetchCompetencies\n} from 'modules/utils.js';\nimport { isoDateStringObject, currentQuarter } from 'modules/date-utils.js';\n\nexport default {\n\tprops: {\n\t\tusers: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\tgroupedUsers: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tdates: isoDateStringObject(currentQuarter()),\n\t\t\ttrainingLevel: 'all',\n\t\t\tcurrentTrainingLevel: 'all',\n\t\t\ttraineeId: null,\n\t\t\tfilterMilestones: false,\n\t\t\tmilestonesFilter: [],\n\t\t\tmultipleTrainees: false,\n\n\t\t\tshow: {\n\t\t\t\tinactiveUsers: false\n\t\t\t},\n\n\t\t\treport: null,\n\t\t\tsubjectStats: null,\n\t\t\tevaluatorStats: null,\n\n\t\t\tmilestones: [],\n\t\t\tcompetencies: [],\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\tmounted(){\n\t\tfetchMilestones().then(milestones => {\n\t\t\tthis.milestones = milestones;\n\t\t}).catch(err => {\n\t\t\tconsole.log(err);\n\t\t\tthis.alerts.push({\n\t\t\t\ttype: 'error',\n\t\t\t\thtml: '<strong>Error:</strong> There was a problem fetching milestones'\n\t\t\t});\n\t\t});\n\t\t\n\t\tfetchCompetencies().then(competencies => {\n\t\t\tthis.competencies = competencies;\n\t\t}).catch(err => {\n\t\t\tconsole.log(err);\n\t\t\tthis.alerts.push({\n\t\t\t\ttype: 'error',\n\t\t\t\thtml: '<strong>Error:</strong> There was a problem fetching competencies'\n\t\t\t});\n\t\t});\n\t\t\n\t\t$(this.$refs.currentTrainingLevelHintGlyph).popover({\n\t\t\ttitle: 'Current training level',\n\t\t\tcontent: `\n\t\t\t\t<p>\n\t\t\t\t\tSelecting a <b>current training level</b> will include only\n\t\t\t\t\tactive trainees for that level, whether they have completed\n\t\t\t\t\tevaluations or not.\n\t\t\t\t</p>\n\t\t\t\t<p>\n\t\t\t\t\tAny trainees with completed evaluations associated with the\n\t\t\t\t\t<b>evaluation training level</b> who are not currently\n\t\t\t\t\tin the selected <b>current training level</b> will be\n\t\t\t\t\texcluded.\n\t\t\t\t</p>\n\t\t\t\t<dd>\n\t\t\t\t\t<dt>Example:</dt>\n\t\t\t\t\t<dd>\n\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\tJane is currently a fellow, but she completed her\n\t\t\t\t\t\t\tresidency a month late, at the end of July.\n\t\t\t\t\t\t</p>\n\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\tWhen running reports for July for the incoming CA-3s,\n\t\t\t\t\t\t\tJane's July CA-3 evaluations will be excluded\n\t\t\t\t\t\t\tfrom the report by selecting a\n\t\t\t\t\t\t\t<b>current training level</b> of <i>CA-3</i>.\n\t\t\t\t\t\t</p>\n\t\t\t\t\t</dd>\n\t\t\t\t</dd>`,\n\t\t\thtml: true,\n\t\t\tplacement: 'auto top'\n\t\t});\n\t},\n\n\tcomputed: {\n\t\tmilestoneGroups(){\n\t\t\treturn groupMilestones(this.milestones);\n\t\t},\n\t\tfilteredUsers(){\n\t\t\tlet groupedUsers = this.currentTrainingLevel === 'all'\n\t\t\t\t? this.groupedUsers.filter(userGroup =>\n\t\t\t\t\tuserGroup.text.toLowerCase() !== 'faculty')\n\t\t\t\t: this.groupedUsers.filter(userGroup =>\n\t\t\t\t\tuserGroup.text.toLowerCase() === this.currentTrainingLevel.toLowerCase());\n\t\t\t\n\t\t\treturn this.show.inactiveUsers\n\t\t\t\t? groupedUsers\n\t\t\t\t: groupedUsers.filter(userGroup => userGroup.text !== 'Inactive');\n\n\t\t},\n\t\tsubjects(){\n\t\t\tif(this.traineeId){\n\t\t\t\tlet traineeId = Array.isArray(this.traineeId)\n\t\t\t\t\t? this.traineeId\n\t\t\t\t\t: [this.traineeId];\n\t\t\t\treturn this.users.filter(user => traineeId.includes(user.id.toString()));\n\t\t\t}\n\t\t}\n\t},\n\tmethods: {\n\t\tisEntireMilestoneGroupSelected(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\treturn groupIds.every(id => {\n\t\t\t\treturn this.milestonesFilter.includes(id);\n\t\t\t});\n\t\t},\n\t\ttoggleEntireMilestoneGroup(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\tlet newMilestones = this.milestonesFilter.filter(milestone => {\n\t\t\t\treturn !groupIds.includes(milestone);\n\t\t\t});\n\t\t\tif(!this.isEntireMilestoneGroupSelected(index)){\n\t\t\t\tnewMilestones = newMilestones.concat(groupIds);\n\t\t\t}\n\t\t\tthis.milestonesFilter = newMilestones;\n\t\t},\n\t\trunReport(){\n\t\t\tfetch('/report/aggregate', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate,\n\t\t\t\t\ttrainingLevel: this.trainingLevel,\n\t\t\t\t\tcurrentTrainingLevel: this.currentTrainingLevel,\n\t\t\t\t\tmilestones: this.milestonesFilter\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(report => {\n\t\t\t\tthis.report = Object.assign({}, this.report, report);\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\n\t\t\tfetch('/report/stats/trainee/trainee', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify(Object.assign({}, this.dates, {\n\t\t\t\t\ttrainingLevel: this.currentTrainingLevel\n\t\t\t\t}))\n\t\t\t}).then(jsonOrThrow).then(stats => {\n\t\t\t\tthis.subjectStats = stats;\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t\t\n\t\t\tfetch('/report/stats/faculty/trainee', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify(Object.assign({}, this.dates, {\n\t\t\t\t\ttrainingLevel: this.currentTrainingLevel\n\t\t\t\t}))\n\t\t\t}).then(jsonOrThrow).then(stats => {\n\t\t\t\tthis.evaluatorStats = stats;\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t},\n\t\tprintAll(){\n\t\t\tthis.$refs.individualReports.map(individual => {\n\t\t\t\tindividual.exportPdf();\n\t\t\t});\n\t\t}\n\t},\n\tcomponents: {\n\t\tStartEndDate,\n\t\tAggregateReport,\n\t\tIndividualReport,\n\t\tStatsReport,\n\t\tTrainingLevelSelect,\n\t\tAlertList,\n\t\tBootstrapAlert,\n\t\tSelectTwo,\n\t\tSvgIcon\n\t}\n};\n</script>\n\n<style scoped>\n\t.filter-milestones-container {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tflex-wrap: wrap;\n\t\tjustify-content: flex-start;\n\t\talign-items: stretch;\n\t}\n\n\t.milestone-group {\n\t\tflex-grow: 0;\n\t\tflex-shrink: 1;\n\t\twidth: 250px;\n\t\tmin-width: 200px;\n\t\tmax-width: 100%;\n\t\tmargin: 10px;\n\t}\n\n\t.milestone-group .panel-body {\n\t\theight: 300px;\n\t\toverflow: auto;\n\t}\n\n\t.milestone-group .panel-body label {\n\t\tfont-weight: normal;\n\t}\n</style>\n\n<style>\n\t.popover dd {\n\t\tpadding: 0 1em;\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+/* 307 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.report-type-option[data-v-29d12b6c] {\n\tmargin: 0 1em;\n}\n@media print {\n.reports-selector[data-v-29d12b6c] {\n\t\tdisplay: none;\n}\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/Reports.vue?59ec51ae"],"names":[],"mappings":";AAiEA;CACA,cAAA;CACA;AAEA;AACA;EACA,cAAA;CACA;CACA","file":"Reports.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block reports-selector\">\n\t\t\t<fieldset>\n\t\t\t\t<legend>Report type</legend>\n\t\t\t\t<div class=\"form-inline\">\n\t\t\t\t\t<label >\n\t\t\t\t\t\t<router-link v-for=\"type of reportTypes\" :to=\"type\"\n\t\t\t\t\t\t\t\tclass=\"report-type-option btn btn-default\"\n\t\t\t\t\t\t\t\tactive-class=\"disabled\">\n\t\t\t\t\t\t\t{{ kebabCaseToWords(type) }}\n\t\t\t\t\t\t</router-link>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\t\t</div>\n\n\t\t<router-view :users=\"users\" :groupedUsers=\"groupedUsers\"></router-view>\n\t</div>\n</template>\n\n<script>\nimport {\n\tkebabCaseToWords,\n\tfetchUsers,\n\tgroupUsers\n} from 'modules/utils.js';\n\nexport default {\n\tdata(){\n\t\treturn {\n\t\t\treportType: 'trainee',\n\t\t\tusers: []\n\t\t};\n\t},\n\tcomputed: {\n\t\treportTypes(){\n\t\t\treturn [\n\t\t\t\t'trainee',\n\t\t\t\t'faculty',\n\t\t\t\t'form',\n\t\t\t\t'needs-evaluations',\n\t\t\t\t'pending-requests'\n\t\t\t];\n\t\t},\n\t\tgroupedUsers(){\n\t\t\treturn groupUsers(this.users);\n\t\t}\n\t},\n\n\tcreated(){\n\t\tfetchUsers().then(users => {\n\t\t\tthis.users = users;\n\t\t}).catch(err => {\n\t\t\tconsole.error(err);\n\t\t});\n\t},\n\n\tmethods: {\n\t\tkebabCaseToWords\n\t}\n};\n</script>\n\n<style scoped>\n\t.report-type-option {\n\t\tmargin: 0 1em;\n\t}\n\t\n\t@media print {\n\t\t.reports-selector {\n\t\t\tdisplay: none;\n\t\t}\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+/* 308 */,
+/* 309 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
 exports.push([module.i, "\n.question-option-stats[data-v-2f4974f7] {\n\tdisplay: flex;\n\tflex-direction: column;\n\tflex-grow: 1;\n\tjustify-content: flex-end;\n}\ntable[data-v-2f4974f7] {\n\twidth: 40%;\n\tmargin: 0 auto;\n}\ntable th[data-v-2f4974f7] {\n\twhite-space: nowrap;\n}\ntable td[data-v-2f4974f7] {\n\ttext-align: center;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/FormReportQuestionOptionStats.vue?663ee435"],"names":[],"mappings":";AAiCA;CACA,cAAA;CACA,uBAAA;CACA,aAAA;CACA,0BAAA;CACA;AAEA;CACA,WAAA;CACA,eAAA;CACA;AAEA;CACA,oBAAA;CACA;AAEA;CACA,mBAAA;CACA","file":"FormReportQuestionOptionStats.vue","sourcesContent":["<template>\n\t<div class=\"question-option-stats\">\n\t\t<table v-if=\"responses || percentage || averagePercentage\"\n\t\t\t\tclass=\"table table-bordered\">\n\t\t\t<tbody>\n\t\t\t\t<tr v-if=\"responses != null\">\n\t\t\t\t\t<th>Subject responses</th>\n\t\t\t\t\t<td>{{ responses }}</td>\n\t\t\t\t</tr>\n\t\t\t\t<tr v-if=\"percentage != null\">\n\t\t\t\t\t<th>Subject percentage</th>\n\t\t\t\t\t<td>{{ percentage }}%</td>\n\t\t\t\t</tr>\n\t\t\t\t<tr v-if=\"averagePercentage != null\">\n\t\t\t\t\t<th>Overall percentage</th>\n\t\t\t\t\t<td>{{ averagePercentage }}%</td>\n\t\t\t\t</tr>\n\t\t\t</tbody>\n\t\t</table>\n\t</div>\n</template>\n\n<script>\nexport default {\n\tprops: {\n\t\tresponses: Number,\n\t\tpercentage: Number,\n\t\taveragePercentage: Number\n\t}\n};\n</script>\n\n<style scoped>\n\t.question-option-stats {\n\t\tdisplay: flex;\n\t\tflex-direction: column;\n\t\tflex-grow: 1;\n\t\tjustify-content: flex-end;\n\t}\n\n\ttable {\n\t\twidth: 40%;\n\t\tmargin: 0 auto;\n\t}\n\t\n\ttable th {\n\t\twhite-space: nowrap;\n\t}\n\n\ttable td {\n\t\ttext-align: center;\n\t}\n</style>\n"],"sourceRoot":""}]);
 
 // exports
 
 
 /***/ }),
-/* 300 */
+/* 310 */,
+/* 311 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -14874,7 +17322,7 @@ exports.push([module.i, "\n.list-group-item .row small[data-v-358055d0] {\n\tdis
 
 
 /***/ }),
-/* 301 */
+/* 312 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -14888,8 +17336,8 @@ exports.push([module.i, "\n.show-email-button-container[data-v-358a2420] {\n\tte
 
 
 /***/ }),
-/* 302 */,
-/* 303 */
+/* 313 */,
+/* 314 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -14903,7 +17351,7 @@ exports.push([module.i, "\n.individual-report section[data-v-405f959c] {\n\tmarg
 
 
 /***/ }),
-/* 304 */
+/* 315 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -14917,7 +17365,7 @@ exports.push([module.i, "\n.svg-icon,\n.svg-icon > svg {\n\tdisplay: inline-bloc
 
 
 /***/ }),
-/* 305 */
+/* 316 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -14931,22 +17379,8 @@ exports.push([module.i, "\nul[data-v-5b23c1a4] {\n\tcolumns: 150px 3;\n}\nfields
 
 
 /***/ }),
-/* 306 */,
-/* 307 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.list-header[data-v-6d54e2f6] {\n\ttext-align: right;\n}\n.list-header input[type=\"search\"][data-v-6d54e2f6] {\n\twidth: 300px;\n}\n.list[data-v-6d54e2f6] {\n\tpadding: 0;\n}\n.list li[data-v-6d54e2f6] {\n\tlist-style: none;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ComponentList.vue?ec8863c8"],"names":[],"mappings":";AAsJA;CACA,kBAAA;CACA;AAEA;CACA,aAAA;CACA;AAEA;CACA,WAAA;CACA;AAEA;CACA,iBAAA;CACA","file":"ComponentList.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"list-header form-inline\">\n\t\t\t<select class=\"form-control\" v-model=\"sortBy\">\n\t\t\t\t<option v-for=\"field of fields\" :value=\"field\">\n\t\t\t\t\t{{ snakeCaseToWords(field) }}\n\t\t\t\t</option>\n\t\t\t</select>\n\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t@click=\"sortOrder = sortOrder === 'asc' ? 'desc' : 'asc'\">\n\t\t\t\t<span v-if=\"sortOrder === 'asc'\"\n\t\t\t\t\tclass=\"glyphicon glyphicon-sort-by-alphabet\"></span>\n\t\t\t\t<span v-else\n\t\t\t\t\tclass=\"glyphicon glyphicon-sort-by-alphabet-alt\"></span>\n\t\t\t</button>\n\t\t\t<input type=\"search\" class=\"form-control\" v-model=\"query\"\n\t\t\t\tplaceholder=\"Search\" />\n\t\t</div>\n\t\t<ol class=\"list\">\n\t\t\t<slot v-for=\"item of currentPageItems\" v-bind=\"item\"></slot>\n\t\t</ol>\n\t\t<list-paginator v-model=\"page\" :paginatedItems=\"paginatedItems\"\n\t\t\t:itemsPerPage=\"itemsPerPage\"\n\t\t\t@pageSize=\"itemsPerPage = arguments[0]\" />\n\t</div>\n</template>\n\n<script>\nimport ListPaginator from './ListPaginator.vue';\n\nimport lunr from 'lunr';\n\nimport { snakeCaseToWords } from 'modules/utils.js';\nimport { sortFunctions } from 'modules/report-utils.js';\n\nexport default {\n\tprops: {\n\t\tfields: {\n\t\t\ttype: Array,\n\t\t\tdefault(){\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\titems: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tquery: null,\n\t\t\tpage: 0,\n\t\t\titemsPerPage: 10,\n\t\t\tsortBy: this.fields[0],\n\t\t\tsortOrder: 'asc'\n\t\t};\n\t},\n\tcomputed: {\n\t\titemMap(){\n\t\t\tlet map = new Map();\n\t\t\tthis.items.map(item => {\n\t\t\t\tmap.set(item.id, item);\n\t\t\t});\n\n\t\t\treturn map;\n\t\t},\n\t\tindex(){\n\t\t\tlet fields = this.fields;\n\n\t\t\tlet index = lunr(function(){\n\t\t\t\tfields.map(field => {\n\t\t\t\t\tlet name, options;\n\t\t\t\t\tif(typeof field === 'string'){\n\t\t\t\t\t\tname = field;\n\t\t\t\t\t}\n\t\t\t\t\telse{\n\t\t\t\t\t\tname = field.name;\n\t\t\t\t\t\toptions = field;\n\t\t\t\t\t}\n\t\t\t\t\tthis.field(name, options);\n\t\t\t\t});\n\t\t\t});\n\n\t\t\tthis.items.map(item => {\n\t\t\t\tindex.add(item);\n\t\t\t});\n\n\t\t\treturn index;\n\t\t},\n\t\tfilteredItems(){\n\t\t\tif(this.query){\n\t\t\t\tlet refs = this.index.search(this.query);\n\t\t\t\treturn refs.map(ref => {\n\t\t\t\t\treturn this.itemMap.get(ref.ref);\n\t\t\t\t});\n\t\t\t}\n\n\t\t\treturn this.items;\n\t\t},\n\t\tsortedItems(){\n\t\t\tif(this.sortBy && this.sortOrder){\n\t\t\t\t\n\t\t\t\tlet sortedItems = sortFunctions.has(this.sortBy)\n\t\t\t\t\t? this.filteredItems.sort(sortFunctions.get(this.sortBy))\n\t\t\t\t\t: this.filteredItems.sort((a, b) => {\n\t\t\t\t\t\tlet aValue = a[this.sortBy];\n\t\t\t\t\t\tlet bValue = b[this.sortBy];\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (Number.isNaN(aValue))\n\t\t\t\t\t\t\taValue = aValue.toUpperCase();\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (Number.isNaN(bValue))\n\t\t\t\t\t\t\tbValue = bValue.toUpperCase();\n\t\t\t\t\t\t\n\t\t\t\t\t\tif(aValue < bValue)\n\t\t\t\t\t\t\treturn -1;\n\t\t\t\t\t\tif(aValue > bValue)\n\t\t\t\t\t\t\treturn 1;\n\t\t\t\t\t\treturn 0;\n\t\t\t\t\t});\n\t\t\t\t\n\t\t\t\treturn this.sortOrder === 'asc'\n\t\t\t\t\t? sortedItems\n\t\t\t\t\t: sortedItems.reverse();\n\t\t\t}\n\t\t\t\n\t\t\treturn this.filteredItems;\n\t\t},\n\t\tpaginatedItems(){\n\t\t\tlet paginatedItems = [];\n\t\t\tlet items = this.sortedItems.slice();\n\t\t\twhile(items.length > 0)\n\t\t\t\tpaginatedItems.push(items.splice(0, this.itemsPerPage));\n\n\t\t\treturn paginatedItems;\n\t\t},\n\t\tcurrentPageItems(){\n\t\t\treturn this.paginatedItems[this.page];\n\t\t}\n\t},\n\tmethods: {\n\t\tsnakeCaseToWords\n\t},\n\tcomponents: {\n\t\tListPaginator\n\t}\n};\n</script>\n\n<style scoped>\n\t.list-header {\n\t\ttext-align: right;\n\t}\n\n\t.list-header input[type=\"search\"] {\n\t\twidth: 300px;\n\t}\n\t\n\t.list {\n\t\tpadding: 0;\n\t}\n\n\t.list li {\n\t\tlist-style: none;\n\t}\n</style>\n"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-/* 308 */
+/* 317 */,
+/* 318 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -14960,8 +17394,8 @@ exports.push([module.i, "\nh2[data-v-70d4db5d] {\n\tmargin-top: 0;\n}\nh2.form-t
 
 
 /***/ }),
-/* 309 */,
-/* 310 */
+/* 319 */,
+/* 320 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -14975,7 +17409,7 @@ exports.push([module.i, "\n.time-period-cell > * {\n\tdisplay: inline-block;\n}\
 
 
 /***/ }),
-/* 311 */
+/* 321 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -14989,12 +17423,12 @@ exports.push([module.i, "\n.show-container div[data-v-7cfd5fbe] {\n\tdisplay: fl
 
 
 /***/ }),
-/* 312 */,
-/* 313 */,
-/* 314 */,
-/* 315 */,
-/* 316 */,
-/* 317 */
+/* 322 */,
+/* 323 */,
+/* 324 */,
+/* 325 */,
+/* 326 */,
+/* 327 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -15008,7 +17442,7 @@ exports.push([module.i, "\ntextarea[data-v-e89af052] {\n\tdisplay: none;\n}\n.me
 
 
 /***/ }),
-/* 318 */
+/* 328 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -15022,8 +17456,8 @@ exports.push([module.i, "\n.evaluation-list-item[data-v-fe5e41f8] {\n\tborder-bo
 
 
 /***/ }),
-/* 319 */,
-/* 320 */
+/* 329 */,
+/* 330 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15034,7 +17468,7 @@ exports.push([module.i, "\n.evaluation-list-item[data-v-fe5e41f8] {\n\tborder-bo
 
 
 
-var browserDetector = __webpack_require__(87);
+var browserDetector = __webpack_require__(101);
 
 module.exports = function(options) {
     options             = options || {};
@@ -15244,7 +17678,7 @@ module.exports = function(options) {
 
 
 /***/ }),
-/* 321 */
+/* 331 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15255,7 +17689,7 @@ module.exports = function(options) {
 
 
 
-var forEach = __webpack_require__(88).forEach;
+var forEach = __webpack_require__(102).forEach;
 
 module.exports = function(options) {
     options             = options || {};
@@ -15887,25 +18321,25 @@ module.exports = function(options) {
 
 
 /***/ }),
-/* 322 */
+/* 332 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var forEach                 = __webpack_require__(88).forEach;
-var elementUtilsMaker       = __webpack_require__(323);
-var listenerHandlerMaker    = __webpack_require__(326);
-var idGeneratorMaker        = __webpack_require__(324);
-var idHandlerMaker          = __webpack_require__(325);
-var reporterMaker           = __webpack_require__(327);
-var browserDetector         = __webpack_require__(87);
-var batchProcessorMaker     = __webpack_require__(218);
-var stateHandler            = __webpack_require__(328);
+var forEach                 = __webpack_require__(102).forEach;
+var elementUtilsMaker       = __webpack_require__(333);
+var listenerHandlerMaker    = __webpack_require__(336);
+var idGeneratorMaker        = __webpack_require__(334);
+var idHandlerMaker          = __webpack_require__(335);
+var reporterMaker           = __webpack_require__(337);
+var browserDetector         = __webpack_require__(101);
+var batchProcessorMaker     = __webpack_require__(229);
+var stateHandler            = __webpack_require__(338);
 
 //Detection strategies.
-var objectStrategyMaker     = __webpack_require__(320);
-var scrollStrategyMaker     = __webpack_require__(321);
+var objectStrategyMaker     = __webpack_require__(330);
+var scrollStrategyMaker     = __webpack_require__(331);
 
 function isCollection(obj) {
     return Array.isArray(obj) || obj.length !== undefined;
@@ -16215,7 +18649,7 @@ function getOption(options, name, defaultValue) {
 
 
 /***/ }),
-/* 323 */
+/* 333 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16274,7 +18708,7 @@ module.exports = function(options) {
 
 
 /***/ }),
-/* 324 */
+/* 334 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16299,7 +18733,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 325 */
+/* 335 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16353,7 +18787,7 @@ module.exports = function(options) {
 
 
 /***/ }),
-/* 326 */
+/* 336 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16420,7 +18854,7 @@ module.exports = function(idHandler) {
 
 
 /***/ }),
-/* 327 */
+/* 337 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16469,7 +18903,7 @@ module.exports = function(quiet) {
 };
 
 /***/ }),
-/* 328 */
+/* 338 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16498,7 +18932,7 @@ module.exports = {
 
 
 /***/ }),
-/* 329 */
+/* 339 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -18630,7 +21064,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 330 */
+/* 340 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -18720,7 +21154,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 331 */
+/* 341 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -18731,13 +21165,13 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 332 */,
-/* 333 */,
-/* 334 */,
-/* 335 */,
-/* 336 */,
-/* 337 */,
-/* 338 */
+/* 342 */,
+/* 343 */,
+/* 344 */,
+/* 345 */,
+/* 346 */,
+/* 347 */,
+/* 348 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18893,7 +21327,7 @@ function createNormalizer() {
 function compile(self) {
 
   // Load & clone RE patterns.
-  var re = self.re = __webpack_require__(339)(self.__opts__);
+  var re = self.re = __webpack_require__(349)(self.__opts__);
 
   // Define dynamic patterns
   var tlds = self.__tlds__.slice();
@@ -19381,7 +21815,7 @@ module.exports = LinkifyIt;
 
 
 /***/ }),
-/* 339 */
+/* 349 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19392,10 +21826,10 @@ module.exports = function (opts) {
   var re = {};
 
   // Use direct extract instead of `regenerate` to reduse browserified size
-  re.src_Any = __webpack_require__(101).source;
-  re.src_Cc  = __webpack_require__(99).source;
-  re.src_Z   = __webpack_require__(100).source;
-  re.src_P   = __webpack_require__(64).source;
+  re.src_Any = __webpack_require__(115).source;
+  re.src_Cc  = __webpack_require__(113).source;
+  re.src_Z   = __webpack_require__(114).source;
+  re.src_P   = __webpack_require__(71).source;
 
   // \p{\Z\P\Cc\CF} (white spaces + control + format + punctuation)
   re.src_ZPCc = [ re.src_Z, re.src_P, re.src_Cc ].join('|');
@@ -19565,12 +21999,12 @@ module.exports = function (opts) {
 
 
 /***/ }),
-/* 340 */
+/* 350 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(90),
-    getRawTag = __webpack_require__(342),
-    objectToString = __webpack_require__(343);
+var Symbol = __webpack_require__(104),
+    getRawTag = __webpack_require__(352),
+    objectToString = __webpack_require__(353);
 
 /** `Object#toString` result references. */
 var nullTag = '[object Null]',
@@ -19599,7 +22033,7 @@ module.exports = baseGetTag;
 
 
 /***/ }),
-/* 341 */
+/* 351 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
@@ -19607,13 +22041,13 @@ var freeGlobal = typeof global == 'object' && global && global.Object === Object
 
 module.exports = freeGlobal;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20)))
 
 /***/ }),
-/* 342 */
+/* 352 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(90);
+var Symbol = __webpack_require__(104);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -19662,7 +22096,7 @@ module.exports = getRawTag;
 
 
 /***/ }),
-/* 343 */
+/* 353 */
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -19690,12 +22124,12 @@ module.exports = objectToString;
 
 
 /***/ }),
-/* 344 */
+/* 354 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(92),
-    now = __webpack_require__(347),
-    toNumber = __webpack_require__(348);
+var isObject = __webpack_require__(106),
+    now = __webpack_require__(357),
+    toNumber = __webpack_require__(358);
 
 /** Error message constants. */
 var FUNC_ERROR_TEXT = 'Expected a function';
@@ -19884,7 +22318,7 @@ module.exports = debounce;
 
 
 /***/ }),
-/* 345 */
+/* 355 */
 /***/ (function(module, exports) {
 
 /**
@@ -19919,11 +22353,11 @@ module.exports = isObjectLike;
 
 
 /***/ }),
-/* 346 */
+/* 356 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(340),
-    isObjectLike = __webpack_require__(345);
+var baseGetTag = __webpack_require__(350),
+    isObjectLike = __webpack_require__(355);
 
 /** `Object#toString` result references. */
 var symbolTag = '[object Symbol]';
@@ -19954,10 +22388,10 @@ module.exports = isSymbol;
 
 
 /***/ }),
-/* 347 */
+/* 357 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(91);
+var root = __webpack_require__(105);
 
 /**
  * Gets the timestamp of the number of milliseconds that have elapsed since
@@ -19983,11 +22417,11 @@ module.exports = now;
 
 
 /***/ }),
-/* 348 */
+/* 358 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(92),
-    isSymbol = __webpack_require__(346);
+var isObject = __webpack_require__(106),
+    isSymbol = __webpack_require__(356);
 
 /** Used as references for various `Number` constants. */
 var NAN = 0 / 0;
@@ -20055,2090 +22489,7 @@ module.exports = toNumber;
 
 
 /***/ }),
-/* 349 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
- * lunr - http://lunrjs.com - A bit like Solr, but much smaller and not as bright - 0.7.2
- * Copyright (C) 2016 Oliver Nightingale
- * @license MIT
- */
-
-;(function(){
-
-/**
- * Convenience function for instantiating a new lunr index and configuring it
- * with the default pipeline functions and the passed config function.
- *
- * When using this convenience function a new index will be created with the
- * following functions already in the pipeline:
- *
- * lunr.StopWordFilter - filters out any stop words before they enter the
- * index
- *
- * lunr.stemmer - stems the tokens before entering the index.
- *
- * Example:
- *
- *     var idx = lunr(function () {
- *       this.field('title', 10)
- *       this.field('tags', 100)
- *       this.field('body')
- *       
- *       this.ref('cid')
- *       
- *       this.pipeline.add(function () {
- *         // some custom pipeline function
- *       })
- *       
- *     })
- *
- * @param {Function} config A function that will be called with the new instance
- * of the lunr.Index as both its context and first parameter. It can be used to
- * customize the instance of new lunr.Index.
- * @namespace
- * @module
- * @returns {lunr.Index}
- *
- */
-var lunr = function (config) {
-  var idx = new lunr.Index
-
-  idx.pipeline.add(
-    lunr.trimmer,
-    lunr.stopWordFilter,
-    lunr.stemmer
-  )
-
-  if (config) config.call(idx, idx)
-
-  return idx
-}
-
-lunr.version = "0.7.2"
-/*!
- * lunr.utils
- * Copyright (C) 2016 Oliver Nightingale
- */
-
-/**
- * A namespace containing utils for the rest of the lunr library
- */
-lunr.utils = {}
-
-/**
- * Print a warning message to the console.
- *
- * @param {String} message The message to be printed.
- * @memberOf Utils
- */
-lunr.utils.warn = (function (global) {
-  return function (message) {
-    if (global.console && console.warn) {
-      console.warn(message)
-    }
-  }
-})(this)
-
-/**
- * Convert an object to a string.
- *
- * In the case of `null` and `undefined` the function returns
- * the empty string, in all other cases the result of calling
- * `toString` on the passed object is returned.
- *
- * @param {Any} obj The object to convert to a string.
- * @return {String} string representation of the passed object.
- * @memberOf Utils
- */
-lunr.utils.asString = function (obj) {
-  if (obj === void 0 || obj === null) {
-    return ""
-  } else {
-    return obj.toString()
-  }
-}
-/*!
- * lunr.EventEmitter
- * Copyright (C) 2016 Oliver Nightingale
- */
-
-/**
- * lunr.EventEmitter is an event emitter for lunr. It manages adding and removing event handlers and triggering events and their handlers.
- *
- * @constructor
- */
-lunr.EventEmitter = function () {
-  this.events = {}
-}
-
-/**
- * Binds a handler function to a specific event(s).
- *
- * Can bind a single function to many different events in one call.
- *
- * @param {String} [eventName] The name(s) of events to bind this function to.
- * @param {Function} fn The function to call when an event is fired.
- * @memberOf EventEmitter
- */
-lunr.EventEmitter.prototype.addListener = function () {
-  var args = Array.prototype.slice.call(arguments),
-      fn = args.pop(),
-      names = args
-
-  if (typeof fn !== "function") throw new TypeError ("last argument must be a function")
-
-  names.forEach(function (name) {
-    if (!this.hasHandler(name)) this.events[name] = []
-    this.events[name].push(fn)
-  }, this)
-}
-
-/**
- * Removes a handler function from a specific event.
- *
- * @param {String} eventName The name of the event to remove this function from.
- * @param {Function} fn The function to remove from an event.
- * @memberOf EventEmitter
- */
-lunr.EventEmitter.prototype.removeListener = function (name, fn) {
-  if (!this.hasHandler(name)) return
-
-  var fnIndex = this.events[name].indexOf(fn)
-  this.events[name].splice(fnIndex, 1)
-
-  if (!this.events[name].length) delete this.events[name]
-}
-
-/**
- * Calls all functions bound to the given event.
- *
- * Additional data can be passed to the event handler as arguments to `emit`
- * after the event name.
- *
- * @param {String} eventName The name of the event to emit.
- * @memberOf EventEmitter
- */
-lunr.EventEmitter.prototype.emit = function (name) {
-  if (!this.hasHandler(name)) return
-
-  var args = Array.prototype.slice.call(arguments, 1)
-
-  this.events[name].forEach(function (fn) {
-    fn.apply(undefined, args)
-  })
-}
-
-/**
- * Checks whether a handler has ever been stored against an event.
- *
- * @param {String} eventName The name of the event to check.
- * @private
- * @memberOf EventEmitter
- */
-lunr.EventEmitter.prototype.hasHandler = function (name) {
-  return name in this.events
-}
-
-/*!
- * lunr.tokenizer
- * Copyright (C) 2016 Oliver Nightingale
- */
-
-/**
- * A function for splitting a string into tokens ready to be inserted into
- * the search index. Uses `lunr.tokenizer.separator` to split strings, change
- * the value of this property to change how strings are split into tokens.
- *
- * @module
- * @param {String} obj The string to convert into tokens
- * @see lunr.tokenizer.separator
- * @returns {Array}
- */
-lunr.tokenizer = function (obj) {
-  if (!arguments.length || obj == null || obj == undefined) return []
-  if (Array.isArray(obj)) return obj.map(function (t) { return lunr.utils.asString(t).toLowerCase() })
-
-  // TODO: This exists so that the deprecated property lunr.tokenizer.seperator can still be used. By
-  // default it is set to false and so the correctly spelt lunr.tokenizer.separator is used unless
-  // the user is using the old property to customise the tokenizer.
-  //
-  // This should be removed when version 1.0.0 is released.
-  var separator = lunr.tokenizer.seperator || lunr.tokenizer.separator
-
-  return obj.toString().trim().toLowerCase().split(separator)
-}
-
-/**
- * This property is legacy alias for lunr.tokenizer.separator to maintain backwards compatability.
- * When introduced the token was spelt incorrectly. It will remain until 1.0.0 when it will be removed,
- * all code should use the correctly spelt lunr.tokenizer.separator property instead.
- *
- * @static
- * @see lunr.tokenizer.separator
- * @deprecated since 0.7.2 will be removed in 1.0.0
- * @private
- * @see lunr.tokenizer
- */
-lunr.tokenizer.seperator = false
-
-/**
- * The sperator used to split a string into tokens. Override this property to change the behaviour of
- * `lunr.tokenizer` behaviour when tokenizing strings. By default this splits on whitespace and hyphens.
- *
- * @static
- * @see lunr.tokenizer
- */
-lunr.tokenizer.separator = /[\s\-]+/
-
-/**
- * Loads a previously serialised tokenizer.
- *
- * A tokenizer function to be loaded must already be registered with lunr.tokenizer.
- * If the serialised tokenizer has not been registered then an error will be thrown.
- *
- * @param {String} label The label of the serialised tokenizer.
- * @returns {Function}
- * @memberOf tokenizer
- */
-lunr.tokenizer.load = function (label) {
-  var fn = this.registeredFunctions[label]
-
-  if (!fn) {
-    throw new Error('Cannot load un-registered function: ' + label)
-  }
-
-  return fn
-}
-
-lunr.tokenizer.label = 'default'
-
-lunr.tokenizer.registeredFunctions = {
-  'default': lunr.tokenizer
-}
-
-/**
- * Register a tokenizer function.
- *
- * Functions that are used as tokenizers should be registered if they are to be used with a serialised index.
- *
- * Registering a function does not add it to an index, functions must still be associated with a specific index for them to be used when indexing and searching documents.
- *
- * @param {Function} fn The function to register.
- * @param {String} label The label to register this function with
- * @memberOf tokenizer
- */
-lunr.tokenizer.registerFunction = function (fn, label) {
-  if (label in this.registeredFunctions) {
-    lunr.utils.warn('Overwriting existing tokenizer: ' + label)
-  }
-
-  fn.label = label
-  this.registeredFunctions[label] = fn
-}
-/*!
- * lunr.Pipeline
- * Copyright (C) 2016 Oliver Nightingale
- */
-
-/**
- * lunr.Pipelines maintain an ordered list of functions to be applied to all
- * tokens in documents entering the search index and queries being ran against
- * the index.
- *
- * An instance of lunr.Index created with the lunr shortcut will contain a
- * pipeline with a stop word filter and an English language stemmer. Extra
- * functions can be added before or after either of these functions or these
- * default functions can be removed.
- *
- * When run the pipeline will call each function in turn, passing a token, the
- * index of that token in the original list of all tokens and finally a list of
- * all the original tokens.
- *
- * The output of functions in the pipeline will be passed to the next function
- * in the pipeline. To exclude a token from entering the index the function
- * should return undefined, the rest of the pipeline will not be called with
- * this token.
- *
- * For serialisation of pipelines to work, all functions used in an instance of
- * a pipeline should be registered with lunr.Pipeline. Registered functions can
- * then be loaded. If trying to load a serialised pipeline that uses functions
- * that are not registered an error will be thrown.
- *
- * If not planning on serialising the pipeline then registering pipeline functions
- * is not necessary.
- *
- * @constructor
- */
-lunr.Pipeline = function () {
-  this._stack = []
-}
-
-lunr.Pipeline.registeredFunctions = {}
-
-/**
- * Register a function with the pipeline.
- *
- * Functions that are used in the pipeline should be registered if the pipeline
- * needs to be serialised, or a serialised pipeline needs to be loaded.
- *
- * Registering a function does not add it to a pipeline, functions must still be
- * added to instances of the pipeline for them to be used when running a pipeline.
- *
- * @param {Function} fn The function to check for.
- * @param {String} label The label to register this function with
- * @memberOf Pipeline
- */
-lunr.Pipeline.registerFunction = function (fn, label) {
-  if (label in this.registeredFunctions) {
-    lunr.utils.warn('Overwriting existing registered function: ' + label)
-  }
-
-  fn.label = label
-  lunr.Pipeline.registeredFunctions[fn.label] = fn
-}
-
-/**
- * Warns if the function is not registered as a Pipeline function.
- *
- * @param {Function} fn The function to check for.
- * @private
- * @memberOf Pipeline
- */
-lunr.Pipeline.warnIfFunctionNotRegistered = function (fn) {
-  var isRegistered = fn.label && (fn.label in this.registeredFunctions)
-
-  if (!isRegistered) {
-    lunr.utils.warn('Function is not registered with pipeline. This may cause problems when serialising the index.\n', fn)
-  }
-}
-
-/**
- * Loads a previously serialised pipeline.
- *
- * All functions to be loaded must already be registered with lunr.Pipeline.
- * If any function from the serialised data has not been registered then an
- * error will be thrown.
- *
- * @param {Object} serialised The serialised pipeline to load.
- * @returns {lunr.Pipeline}
- * @memberOf Pipeline
- */
-lunr.Pipeline.load = function (serialised) {
-  var pipeline = new lunr.Pipeline
-
-  serialised.forEach(function (fnName) {
-    var fn = lunr.Pipeline.registeredFunctions[fnName]
-
-    if (fn) {
-      pipeline.add(fn)
-    } else {
-      throw new Error('Cannot load un-registered function: ' + fnName)
-    }
-  })
-
-  return pipeline
-}
-
-/**
- * Adds new functions to the end of the pipeline.
- *
- * Logs a warning if the function has not been registered.
- *
- * @param {Function} functions Any number of functions to add to the pipeline.
- * @memberOf Pipeline
- */
-lunr.Pipeline.prototype.add = function () {
-  var fns = Array.prototype.slice.call(arguments)
-
-  fns.forEach(function (fn) {
-    lunr.Pipeline.warnIfFunctionNotRegistered(fn)
-    this._stack.push(fn)
-  }, this)
-}
-
-/**
- * Adds a single function after a function that already exists in the
- * pipeline.
- *
- * Logs a warning if the function has not been registered.
- *
- * @param {Function} existingFn A function that already exists in the pipeline.
- * @param {Function} newFn The new function to add to the pipeline.
- * @memberOf Pipeline
- */
-lunr.Pipeline.prototype.after = function (existingFn, newFn) {
-  lunr.Pipeline.warnIfFunctionNotRegistered(newFn)
-
-  var pos = this._stack.indexOf(existingFn)
-  if (pos == -1) {
-    throw new Error('Cannot find existingFn')
-  }
-
-  pos = pos + 1
-  this._stack.splice(pos, 0, newFn)
-}
-
-/**
- * Adds a single function before a function that already exists in the
- * pipeline.
- *
- * Logs a warning if the function has not been registered.
- *
- * @param {Function} existingFn A function that already exists in the pipeline.
- * @param {Function} newFn The new function to add to the pipeline.
- * @memberOf Pipeline
- */
-lunr.Pipeline.prototype.before = function (existingFn, newFn) {
-  lunr.Pipeline.warnIfFunctionNotRegistered(newFn)
-
-  var pos = this._stack.indexOf(existingFn)
-  if (pos == -1) {
-    throw new Error('Cannot find existingFn')
-  }
-
-  this._stack.splice(pos, 0, newFn)
-}
-
-/**
- * Removes a function from the pipeline.
- *
- * @param {Function} fn The function to remove from the pipeline.
- * @memberOf Pipeline
- */
-lunr.Pipeline.prototype.remove = function (fn) {
-  var pos = this._stack.indexOf(fn)
-  if (pos == -1) {
-    return
-  }
-
-  this._stack.splice(pos, 1)
-}
-
-/**
- * Runs the current list of functions that make up the pipeline against the
- * passed tokens.
- *
- * @param {Array} tokens The tokens to run through the pipeline.
- * @returns {Array}
- * @memberOf Pipeline
- */
-lunr.Pipeline.prototype.run = function (tokens) {
-  var out = [],
-      tokenLength = tokens.length,
-      stackLength = this._stack.length
-
-  for (var i = 0; i < tokenLength; i++) {
-    var token = tokens[i]
-
-    for (var j = 0; j < stackLength; j++) {
-      token = this._stack[j](token, i, tokens)
-      if (token === void 0 || token === '') break
-    };
-
-    if (token !== void 0 && token !== '') out.push(token)
-  };
-
-  return out
-}
-
-/**
- * Resets the pipeline by removing any existing processors.
- *
- * @memberOf Pipeline
- */
-lunr.Pipeline.prototype.reset = function () {
-  this._stack = []
-}
-
-/**
- * Returns a representation of the pipeline ready for serialisation.
- *
- * Logs a warning if the function has not been registered.
- *
- * @returns {Array}
- * @memberOf Pipeline
- */
-lunr.Pipeline.prototype.toJSON = function () {
-  return this._stack.map(function (fn) {
-    lunr.Pipeline.warnIfFunctionNotRegistered(fn)
-
-    return fn.label
-  })
-}
-/*!
- * lunr.Vector
- * Copyright (C) 2016 Oliver Nightingale
- */
-
-/**
- * lunr.Vectors implement vector related operations for
- * a series of elements.
- *
- * @constructor
- */
-lunr.Vector = function () {
-  this._magnitude = null
-  this.list = undefined
-  this.length = 0
-}
-
-/**
- * lunr.Vector.Node is a simple struct for each node
- * in a lunr.Vector.
- *
- * @private
- * @param {Number} The index of the node in the vector.
- * @param {Object} The data at this node in the vector.
- * @param {lunr.Vector.Node} The node directly after this node in the vector.
- * @constructor
- * @memberOf Vector
- */
-lunr.Vector.Node = function (idx, val, next) {
-  this.idx = idx
-  this.val = val
-  this.next = next
-}
-
-/**
- * Inserts a new value at a position in a vector.
- *
- * @param {Number} The index at which to insert a value.
- * @param {Object} The object to insert in the vector.
- * @memberOf Vector.
- */
-lunr.Vector.prototype.insert = function (idx, val) {
-  this._magnitude = undefined;
-  var list = this.list
-
-  if (!list) {
-    this.list = new lunr.Vector.Node (idx, val, list)
-    return this.length++
-  }
-
-  if (idx < list.idx) {
-    this.list = new lunr.Vector.Node (idx, val, list)
-    return this.length++
-  }
-
-  var prev = list,
-      next = list.next
-
-  while (next != undefined) {
-    if (idx < next.idx) {
-      prev.next = new lunr.Vector.Node (idx, val, next)
-      return this.length++
-    }
-
-    prev = next, next = next.next
-  }
-
-  prev.next = new lunr.Vector.Node (idx, val, next)
-  return this.length++
-}
-
-/**
- * Calculates the magnitude of this vector.
- *
- * @returns {Number}
- * @memberOf Vector
- */
-lunr.Vector.prototype.magnitude = function () {
-  if (this._magnitude) return this._magnitude
-  var node = this.list,
-      sumOfSquares = 0,
-      val
-
-  while (node) {
-    val = node.val
-    sumOfSquares += val * val
-    node = node.next
-  }
-
-  return this._magnitude = Math.sqrt(sumOfSquares)
-}
-
-/**
- * Calculates the dot product of this vector and another vector.
- *
- * @param {lunr.Vector} otherVector The vector to compute the dot product with.
- * @returns {Number}
- * @memberOf Vector
- */
-lunr.Vector.prototype.dot = function (otherVector) {
-  var node = this.list,
-      otherNode = otherVector.list,
-      dotProduct = 0
-
-  while (node && otherNode) {
-    if (node.idx < otherNode.idx) {
-      node = node.next
-    } else if (node.idx > otherNode.idx) {
-      otherNode = otherNode.next
-    } else {
-      dotProduct += node.val * otherNode.val
-      node = node.next
-      otherNode = otherNode.next
-    }
-  }
-
-  return dotProduct
-}
-
-/**
- * Calculates the cosine similarity between this vector and another
- * vector.
- *
- * @param {lunr.Vector} otherVector The other vector to calculate the
- * similarity with.
- * @returns {Number}
- * @memberOf Vector
- */
-lunr.Vector.prototype.similarity = function (otherVector) {
-  return this.dot(otherVector) / (this.magnitude() * otherVector.magnitude())
-}
-/*!
- * lunr.SortedSet
- * Copyright (C) 2016 Oliver Nightingale
- */
-
-/**
- * lunr.SortedSets are used to maintain an array of uniq values in a sorted
- * order.
- *
- * @constructor
- */
-lunr.SortedSet = function () {
-  this.length = 0
-  this.elements = []
-}
-
-/**
- * Loads a previously serialised sorted set.
- *
- * @param {Array} serialisedData The serialised set to load.
- * @returns {lunr.SortedSet}
- * @memberOf SortedSet
- */
-lunr.SortedSet.load = function (serialisedData) {
-  var set = new this
-
-  set.elements = serialisedData
-  set.length = serialisedData.length
-
-  return set
-}
-
-/**
- * Inserts new items into the set in the correct position to maintain the
- * order.
- *
- * @param {Object} The objects to add to this set.
- * @memberOf SortedSet
- */
-lunr.SortedSet.prototype.add = function () {
-  var i, element
-
-  for (i = 0; i < arguments.length; i++) {
-    element = arguments[i]
-    if (~this.indexOf(element)) continue
-    this.elements.splice(this.locationFor(element), 0, element)
-  }
-
-  this.length = this.elements.length
-}
-
-/**
- * Converts this sorted set into an array.
- *
- * @returns {Array}
- * @memberOf SortedSet
- */
-lunr.SortedSet.prototype.toArray = function () {
-  return this.elements.slice()
-}
-
-/**
- * Creates a new array with the results of calling a provided function on every
- * element in this sorted set.
- *
- * Delegates to Array.prototype.map and has the same signature.
- *
- * @param {Function} fn The function that is called on each element of the
- * set.
- * @param {Object} ctx An optional object that can be used as the context
- * for the function fn.
- * @returns {Array}
- * @memberOf SortedSet
- */
-lunr.SortedSet.prototype.map = function (fn, ctx) {
-  return this.elements.map(fn, ctx)
-}
-
-/**
- * Executes a provided function once per sorted set element.
- *
- * Delegates to Array.prototype.forEach and has the same signature.
- *
- * @param {Function} fn The function that is called on each element of the
- * set.
- * @param {Object} ctx An optional object that can be used as the context
- * @memberOf SortedSet
- * for the function fn.
- */
-lunr.SortedSet.prototype.forEach = function (fn, ctx) {
-  return this.elements.forEach(fn, ctx)
-}
-
-/**
- * Returns the index at which a given element can be found in the
- * sorted set, or -1 if it is not present.
- *
- * @param {Object} elem The object to locate in the sorted set.
- * @returns {Number}
- * @memberOf SortedSet
- */
-lunr.SortedSet.prototype.indexOf = function (elem) {
-  var start = 0,
-      end = this.elements.length,
-      sectionLength = end - start,
-      pivot = start + Math.floor(sectionLength / 2),
-      pivotElem = this.elements[pivot]
-
-  while (sectionLength > 1) {
-    if (pivotElem === elem) return pivot
-
-    if (pivotElem < elem) start = pivot
-    if (pivotElem > elem) end = pivot
-
-    sectionLength = end - start
-    pivot = start + Math.floor(sectionLength / 2)
-    pivotElem = this.elements[pivot]
-  }
-
-  if (pivotElem === elem) return pivot
-
-  return -1
-}
-
-/**
- * Returns the position within the sorted set that an element should be
- * inserted at to maintain the current order of the set.
- *
- * This function assumes that the element to search for does not already exist
- * in the sorted set.
- *
- * @param {Object} elem The elem to find the position for in the set
- * @returns {Number}
- * @memberOf SortedSet
- */
-lunr.SortedSet.prototype.locationFor = function (elem) {
-  var start = 0,
-      end = this.elements.length,
-      sectionLength = end - start,
-      pivot = start + Math.floor(sectionLength / 2),
-      pivotElem = this.elements[pivot]
-
-  while (sectionLength > 1) {
-    if (pivotElem < elem) start = pivot
-    if (pivotElem > elem) end = pivot
-
-    sectionLength = end - start
-    pivot = start + Math.floor(sectionLength / 2)
-    pivotElem = this.elements[pivot]
-  }
-
-  if (pivotElem > elem) return pivot
-  if (pivotElem < elem) return pivot + 1
-}
-
-/**
- * Creates a new lunr.SortedSet that contains the elements in the intersection
- * of this set and the passed set.
- *
- * @param {lunr.SortedSet} otherSet The set to intersect with this set.
- * @returns {lunr.SortedSet}
- * @memberOf SortedSet
- */
-lunr.SortedSet.prototype.intersect = function (otherSet) {
-  var intersectSet = new lunr.SortedSet,
-      i = 0, j = 0,
-      a_len = this.length, b_len = otherSet.length,
-      a = this.elements, b = otherSet.elements
-
-  while (true) {
-    if (i > a_len - 1 || j > b_len - 1) break
-
-    if (a[i] === b[j]) {
-      intersectSet.add(a[i])
-      i++, j++
-      continue
-    }
-
-    if (a[i] < b[j]) {
-      i++
-      continue
-    }
-
-    if (a[i] > b[j]) {
-      j++
-      continue
-    }
-  };
-
-  return intersectSet
-}
-
-/**
- * Makes a copy of this set
- *
- * @returns {lunr.SortedSet}
- * @memberOf SortedSet
- */
-lunr.SortedSet.prototype.clone = function () {
-  var clone = new lunr.SortedSet
-
-  clone.elements = this.toArray()
-  clone.length = clone.elements.length
-
-  return clone
-}
-
-/**
- * Creates a new lunr.SortedSet that contains the elements in the union
- * of this set and the passed set.
- *
- * @param {lunr.SortedSet} otherSet The set to union with this set.
- * @returns {lunr.SortedSet}
- * @memberOf SortedSet
- */
-lunr.SortedSet.prototype.union = function (otherSet) {
-  var longSet, shortSet, unionSet
-
-  if (this.length >= otherSet.length) {
-    longSet = this, shortSet = otherSet
-  } else {
-    longSet = otherSet, shortSet = this
-  }
-
-  unionSet = longSet.clone()
-
-  for(var i = 0, shortSetElements = shortSet.toArray(); i < shortSetElements.length; i++){
-    unionSet.add(shortSetElements[i])
-  }
-
-  return unionSet
-}
-
-/**
- * Returns a representation of the sorted set ready for serialisation.
- *
- * @returns {Array}
- * @memberOf SortedSet
- */
-lunr.SortedSet.prototype.toJSON = function () {
-  return this.toArray()
-}
-/*!
- * lunr.Index
- * Copyright (C) 2016 Oliver Nightingale
- */
-
-/**
- * lunr.Index is object that manages a search index.  It contains the indexes
- * and stores all the tokens and document lookups.  It also provides the main
- * user facing API for the library.
- *
- * @constructor
- */
-lunr.Index = function () {
-  this._fields = []
-  this._ref = 'id'
-  this.pipeline = new lunr.Pipeline
-  this.documentStore = new lunr.Store
-  this.tokenStore = new lunr.TokenStore
-  this.corpusTokens = new lunr.SortedSet
-  this.eventEmitter =  new lunr.EventEmitter
-  this.tokenizerFn = lunr.tokenizer
-
-  this._idfCache = {}
-
-  this.on('add', 'remove', 'update', (function () {
-    this._idfCache = {}
-  }).bind(this))
-}
-
-/**
- * Bind a handler to events being emitted by the index.
- *
- * The handler can be bound to many events at the same time.
- *
- * @param {String} [eventName] The name(s) of events to bind the function to.
- * @param {Function} fn The serialised set to load.
- * @memberOf Index
- */
-lunr.Index.prototype.on = function () {
-  var args = Array.prototype.slice.call(arguments)
-  return this.eventEmitter.addListener.apply(this.eventEmitter, args)
-}
-
-/**
- * Removes a handler from an event being emitted by the index.
- *
- * @param {String} eventName The name of events to remove the function from.
- * @param {Function} fn The serialised set to load.
- * @memberOf Index
- */
-lunr.Index.prototype.off = function (name, fn) {
-  return this.eventEmitter.removeListener(name, fn)
-}
-
-/**
- * Loads a previously serialised index.
- *
- * Issues a warning if the index being imported was serialised
- * by a different version of lunr.
- *
- * @param {Object} serialisedData The serialised set to load.
- * @returns {lunr.Index}
- * @memberOf Index
- */
-lunr.Index.load = function (serialisedData) {
-  if (serialisedData.version !== lunr.version) {
-    lunr.utils.warn('version mismatch: current ' + lunr.version + ' importing ' + serialisedData.version)
-  }
-
-  var idx = new this
-
-  idx._fields = serialisedData.fields
-  idx._ref = serialisedData.ref
-
-  idx.tokenizer(lunr.tokenizer.load(serialisedData.tokenizer))
-  idx.documentStore = lunr.Store.load(serialisedData.documentStore)
-  idx.tokenStore = lunr.TokenStore.load(serialisedData.tokenStore)
-  idx.corpusTokens = lunr.SortedSet.load(serialisedData.corpusTokens)
-  idx.pipeline = lunr.Pipeline.load(serialisedData.pipeline)
-
-  return idx
-}
-
-/**
- * Adds a field to the list of fields that will be searchable within documents
- * in the index.
- *
- * An optional boost param can be passed to affect how much tokens in this field
- * rank in search results, by default the boost value is 1.
- *
- * Fields should be added before any documents are added to the index, fields
- * that are added after documents are added to the index will only apply to new
- * documents added to the index.
- *
- * @param {String} fieldName The name of the field within the document that
- * should be indexed
- * @param {Number} boost An optional boost that can be applied to terms in this
- * field.
- * @returns {lunr.Index}
- * @memberOf Index
- */
-lunr.Index.prototype.field = function (fieldName, opts) {
-  var opts = opts || {},
-      field = { name: fieldName, boost: opts.boost || 1 }
-
-  this._fields.push(field)
-  return this
-}
-
-/**
- * Sets the property used to uniquely identify documents added to the index,
- * by default this property is 'id'.
- *
- * This should only be changed before adding documents to the index, changing
- * the ref property without resetting the index can lead to unexpected results.
- *
- * The value of ref can be of any type but it _must_ be stably comparable and
- * orderable.
- *
- * @param {String} refName The property to use to uniquely identify the
- * documents in the index.
- * @param {Boolean} emitEvent Whether to emit add events, defaults to true
- * @returns {lunr.Index}
- * @memberOf Index
- */
-lunr.Index.prototype.ref = function (refName) {
-  this._ref = refName
-  return this
-}
-
-/**
- * Sets the tokenizer used for this index.
- *
- * By default the index will use the default tokenizer, lunr.tokenizer. The tokenizer
- * should only be changed before adding documents to the index. Changing the tokenizer
- * without re-building the index can lead to unexpected results.
- *
- * @param {Function} fn The function to use as a tokenizer.
- * @returns {lunr.Index}
- * @memberOf Index
- */
-lunr.Index.prototype.tokenizer = function (fn) {
-  var isRegistered = fn.label && (fn.label in lunr.tokenizer.registeredFunctions)
-
-  if (!isRegistered) {
-    lunr.utils.warn('Function is not a registered tokenizer. This may cause problems when serialising the index')
-  }
-
-  this.tokenizerFn = fn
-  return this
-}
-
-/**
- * Add a document to the index.
- *
- * This is the way new documents enter the index, this function will run the
- * fields from the document through the index's pipeline and then add it to
- * the index, it will then show up in search results.
- *
- * An 'add' event is emitted with the document that has been added and the index
- * the document has been added to. This event can be silenced by passing false
- * as the second argument to add.
- *
- * @param {Object} doc The document to add to the index.
- * @param {Boolean} emitEvent Whether or not to emit events, default true.
- * @memberOf Index
- */
-lunr.Index.prototype.add = function (doc, emitEvent) {
-  var docTokens = {},
-      allDocumentTokens = new lunr.SortedSet,
-      docRef = doc[this._ref],
-      emitEvent = emitEvent === undefined ? true : emitEvent
-
-  this._fields.forEach(function (field) {
-    var fieldTokens = this.pipeline.run(this.tokenizerFn(doc[field.name]))
-
-    docTokens[field.name] = fieldTokens
-
-    for (var i = 0; i < fieldTokens.length; i++) {
-      var token = fieldTokens[i]
-      allDocumentTokens.add(token)
-      this.corpusTokens.add(token)
-    }
-  }, this)
-
-  this.documentStore.set(docRef, allDocumentTokens)
-
-  for (var i = 0; i < allDocumentTokens.length; i++) {
-    var token = allDocumentTokens.elements[i]
-    var tf = 0;
-
-    for (var j = 0; j < this._fields.length; j++){
-      var field = this._fields[j]
-      var fieldTokens = docTokens[field.name]
-      var fieldLength = fieldTokens.length
-
-      if (!fieldLength) continue
-
-      var tokenCount = 0
-      for (var k = 0; k < fieldLength; k++){
-        if (fieldTokens[k] === token){
-          tokenCount++
-        }
-      }
-
-      tf += (tokenCount / fieldLength * field.boost)
-    }
-
-    this.tokenStore.add(token, { ref: docRef, tf: tf })
-  };
-
-  if (emitEvent) this.eventEmitter.emit('add', doc, this)
-}
-
-/**
- * Removes a document from the index.
- *
- * To make sure documents no longer show up in search results they can be
- * removed from the index using this method.
- *
- * The document passed only needs to have the same ref property value as the
- * document that was added to the index, they could be completely different
- * objects.
- *
- * A 'remove' event is emitted with the document that has been removed and the index
- * the document has been removed from. This event can be silenced by passing false
- * as the second argument to remove.
- *
- * @param {Object} doc The document to remove from the index.
- * @param {Boolean} emitEvent Whether to emit remove events, defaults to true
- * @memberOf Index
- */
-lunr.Index.prototype.remove = function (doc, emitEvent) {
-  var docRef = doc[this._ref],
-      emitEvent = emitEvent === undefined ? true : emitEvent
-
-  if (!this.documentStore.has(docRef)) return
-
-  var docTokens = this.documentStore.get(docRef)
-
-  this.documentStore.remove(docRef)
-
-  docTokens.forEach(function (token) {
-    this.tokenStore.remove(token, docRef)
-  }, this)
-
-  if (emitEvent) this.eventEmitter.emit('remove', doc, this)
-}
-
-/**
- * Updates a document in the index.
- *
- * When a document contained within the index gets updated, fields changed,
- * added or removed, to make sure it correctly matched against search queries,
- * it should be updated in the index.
- *
- * This method is just a wrapper around `remove` and `add`
- *
- * An 'update' event is emitted with the document that has been updated and the index.
- * This event can be silenced by passing false as the second argument to update. Only
- * an update event will be fired, the 'add' and 'remove' events of the underlying calls
- * are silenced.
- *
- * @param {Object} doc The document to update in the index.
- * @param {Boolean} emitEvent Whether to emit update events, defaults to true
- * @see Index.prototype.remove
- * @see Index.prototype.add
- * @memberOf Index
- */
-lunr.Index.prototype.update = function (doc, emitEvent) {
-  var emitEvent = emitEvent === undefined ? true : emitEvent
-
-  this.remove(doc, false)
-  this.add(doc, false)
-
-  if (emitEvent) this.eventEmitter.emit('update', doc, this)
-}
-
-/**
- * Calculates the inverse document frequency for a token within the index.
- *
- * @param {String} token The token to calculate the idf of.
- * @see Index.prototype.idf
- * @private
- * @memberOf Index
- */
-lunr.Index.prototype.idf = function (term) {
-  var cacheKey = "@" + term
-  if (Object.prototype.hasOwnProperty.call(this._idfCache, cacheKey)) return this._idfCache[cacheKey]
-
-  var documentFrequency = this.tokenStore.count(term),
-      idf = 1
-
-  if (documentFrequency > 0) {
-    idf = 1 + Math.log(this.documentStore.length / documentFrequency)
-  }
-
-  return this._idfCache[cacheKey] = idf
-}
-
-/**
- * Searches the index using the passed query.
- *
- * Queries should be a string, multiple words are allowed and will lead to an
- * AND based query, e.g. `idx.search('foo bar')` will run a search for
- * documents containing both 'foo' and 'bar'.
- *
- * All query tokens are passed through the same pipeline that document tokens
- * are passed through, so any language processing involved will be run on every
- * query term.
- *
- * Each query term is expanded, so that the term 'he' might be expanded to
- * 'hello' and 'help' if those terms were already included in the index.
- *
- * Matching documents are returned as an array of objects, each object contains
- * the matching document ref, as set for this index, and the similarity score
- * for this document against the query.
- *
- * @param {String} query The query to search the index with.
- * @returns {Object}
- * @see Index.prototype.idf
- * @see Index.prototype.documentVector
- * @memberOf Index
- */
-lunr.Index.prototype.search = function (query) {
-  var queryTokens = this.pipeline.run(this.tokenizerFn(query)),
-      queryVector = new lunr.Vector,
-      documentSets = [],
-      fieldBoosts = this._fields.reduce(function (memo, f) { return memo + f.boost }, 0)
-
-  var hasSomeToken = queryTokens.some(function (token) {
-    return this.tokenStore.has(token)
-  }, this)
-
-  if (!hasSomeToken) return []
-
-  queryTokens
-    .forEach(function (token, i, tokens) {
-      var tf = 1 / tokens.length * this._fields.length * fieldBoosts,
-          self = this
-
-      var set = this.tokenStore.expand(token).reduce(function (memo, key) {
-        var pos = self.corpusTokens.indexOf(key),
-            idf = self.idf(key),
-            similarityBoost = 1,
-            set = new lunr.SortedSet
-
-        // if the expanded key is not an exact match to the token then
-        // penalise the score for this key by how different the key is
-        // to the token.
-        if (key !== token) {
-          var diff = Math.max(3, key.length - token.length)
-          similarityBoost = 1 / Math.log(diff)
-        }
-
-        // calculate the query tf-idf score for this token
-        // applying an similarityBoost to ensure exact matches
-        // these rank higher than expanded terms
-        if (pos > -1) queryVector.insert(pos, tf * idf * similarityBoost)
-
-        // add all the documents that have this key into a set
-        // ensuring that the type of key is preserved
-        var matchingDocuments = self.tokenStore.get(key),
-            refs = Object.keys(matchingDocuments),
-            refsLen = refs.length
-
-        for (var i = 0; i < refsLen; i++) {
-          set.add(matchingDocuments[refs[i]].ref)
-        }
-
-        return memo.union(set)
-      }, new lunr.SortedSet)
-
-      documentSets.push(set)
-    }, this)
-
-  var documentSet = documentSets.reduce(function (memo, set) {
-    return memo.intersect(set)
-  })
-
-  return documentSet
-    .map(function (ref) {
-      return { ref: ref, score: queryVector.similarity(this.documentVector(ref)) }
-    }, this)
-    .sort(function (a, b) {
-      return b.score - a.score
-    })
-}
-
-/**
- * Generates a vector containing all the tokens in the document matching the
- * passed documentRef.
- *
- * The vector contains the tf-idf score for each token contained in the
- * document with the passed documentRef.  The vector will contain an element
- * for every token in the indexes corpus, if the document does not contain that
- * token the element will be 0.
- *
- * @param {Object} documentRef The ref to find the document with.
- * @returns {lunr.Vector}
- * @private
- * @memberOf Index
- */
-lunr.Index.prototype.documentVector = function (documentRef) {
-  var documentTokens = this.documentStore.get(documentRef),
-      documentTokensLength = documentTokens.length,
-      documentVector = new lunr.Vector
-
-  for (var i = 0; i < documentTokensLength; i++) {
-    var token = documentTokens.elements[i],
-        tf = this.tokenStore.get(token)[documentRef].tf,
-        idf = this.idf(token)
-
-    documentVector.insert(this.corpusTokens.indexOf(token), tf * idf)
-  };
-
-  return documentVector
-}
-
-/**
- * Returns a representation of the index ready for serialisation.
- *
- * @returns {Object}
- * @memberOf Index
- */
-lunr.Index.prototype.toJSON = function () {
-  return {
-    version: lunr.version,
-    fields: this._fields,
-    ref: this._ref,
-    tokenizer: this.tokenizerFn.label,
-    documentStore: this.documentStore.toJSON(),
-    tokenStore: this.tokenStore.toJSON(),
-    corpusTokens: this.corpusTokens.toJSON(),
-    pipeline: this.pipeline.toJSON()
-  }
-}
-
-/**
- * Applies a plugin to the current index.
- *
- * A plugin is a function that is called with the index as its context.
- * Plugins can be used to customise or extend the behaviour the index
- * in some way. A plugin is just a function, that encapsulated the custom
- * behaviour that should be applied to the index.
- *
- * The plugin function will be called with the index as its argument, additional
- * arguments can also be passed when calling use. The function will be called
- * with the index as its context.
- *
- * Example:
- *
- *     var myPlugin = function (idx, arg1, arg2) {
- *       // `this` is the index to be extended
- *       // apply any extensions etc here.
- *     }
- *
- *     var idx = lunr(function () {
- *       this.use(myPlugin, 'arg1', 'arg2')
- *     })
- *
- * @param {Function} plugin The plugin to apply.
- * @memberOf Index
- */
-lunr.Index.prototype.use = function (plugin) {
-  var args = Array.prototype.slice.call(arguments, 1)
-  args.unshift(this)
-  plugin.apply(this, args)
-}
-/*!
- * lunr.Store
- * Copyright (C) 2016 Oliver Nightingale
- */
-
-/**
- * lunr.Store is a simple key-value store used for storing sets of tokens for
- * documents stored in index.
- *
- * @constructor
- * @module
- */
-lunr.Store = function () {
-  this.store = {}
-  this.length = 0
-}
-
-/**
- * Loads a previously serialised store
- *
- * @param {Object} serialisedData The serialised store to load.
- * @returns {lunr.Store}
- * @memberOf Store
- */
-lunr.Store.load = function (serialisedData) {
-  var store = new this
-
-  store.length = serialisedData.length
-  store.store = Object.keys(serialisedData.store).reduce(function (memo, key) {
-    memo[key] = lunr.SortedSet.load(serialisedData.store[key])
-    return memo
-  }, {})
-
-  return store
-}
-
-/**
- * Stores the given tokens in the store against the given id.
- *
- * @param {Object} id The key used to store the tokens against.
- * @param {Object} tokens The tokens to store against the key.
- * @memberOf Store
- */
-lunr.Store.prototype.set = function (id, tokens) {
-  if (!this.has(id)) this.length++
-  this.store[id] = tokens
-}
-
-/**
- * Retrieves the tokens from the store for a given key.
- *
- * @param {Object} id The key to lookup and retrieve from the store.
- * @returns {Object}
- * @memberOf Store
- */
-lunr.Store.prototype.get = function (id) {
-  return this.store[id]
-}
-
-/**
- * Checks whether the store contains a key.
- *
- * @param {Object} id The id to look up in the store.
- * @returns {Boolean}
- * @memberOf Store
- */
-lunr.Store.prototype.has = function (id) {
-  return id in this.store
-}
-
-/**
- * Removes the value for a key in the store.
- *
- * @param {Object} id The id to remove from the store.
- * @memberOf Store
- */
-lunr.Store.prototype.remove = function (id) {
-  if (!this.has(id)) return
-
-  delete this.store[id]
-  this.length--
-}
-
-/**
- * Returns a representation of the store ready for serialisation.
- *
- * @returns {Object}
- * @memberOf Store
- */
-lunr.Store.prototype.toJSON = function () {
-  return {
-    store: this.store,
-    length: this.length
-  }
-}
-
-/*!
- * lunr.stemmer
- * Copyright (C) 2016 Oliver Nightingale
- * Includes code from - http://tartarus.org/~martin/PorterStemmer/js.txt
- */
-
-/**
- * lunr.stemmer is an english language stemmer, this is a JavaScript
- * implementation of the PorterStemmer taken from http://tartarus.org/~martin
- *
- * @module
- * @param {String} str The string to stem
- * @returns {String}
- * @see lunr.Pipeline
- */
-lunr.stemmer = (function(){
-  var step2list = {
-      "ational" : "ate",
-      "tional" : "tion",
-      "enci" : "ence",
-      "anci" : "ance",
-      "izer" : "ize",
-      "bli" : "ble",
-      "alli" : "al",
-      "entli" : "ent",
-      "eli" : "e",
-      "ousli" : "ous",
-      "ization" : "ize",
-      "ation" : "ate",
-      "ator" : "ate",
-      "alism" : "al",
-      "iveness" : "ive",
-      "fulness" : "ful",
-      "ousness" : "ous",
-      "aliti" : "al",
-      "iviti" : "ive",
-      "biliti" : "ble",
-      "logi" : "log"
-    },
-
-    step3list = {
-      "icate" : "ic",
-      "ative" : "",
-      "alize" : "al",
-      "iciti" : "ic",
-      "ical" : "ic",
-      "ful" : "",
-      "ness" : ""
-    },
-
-    c = "[^aeiou]",          // consonant
-    v = "[aeiouy]",          // vowel
-    C = c + "[^aeiouy]*",    // consonant sequence
-    V = v + "[aeiou]*",      // vowel sequence
-
-    mgr0 = "^(" + C + ")?" + V + C,               // [C]VC... is m>0
-    meq1 = "^(" + C + ")?" + V + C + "(" + V + ")?$",  // [C]VC[V] is m=1
-    mgr1 = "^(" + C + ")?" + V + C + V + C,       // [C]VCVC... is m>1
-    s_v = "^(" + C + ")?" + v;                   // vowel in stem
-
-  var re_mgr0 = new RegExp(mgr0);
-  var re_mgr1 = new RegExp(mgr1);
-  var re_meq1 = new RegExp(meq1);
-  var re_s_v = new RegExp(s_v);
-
-  var re_1a = /^(.+?)(ss|i)es$/;
-  var re2_1a = /^(.+?)([^s])s$/;
-  var re_1b = /^(.+?)eed$/;
-  var re2_1b = /^(.+?)(ed|ing)$/;
-  var re_1b_2 = /.$/;
-  var re2_1b_2 = /(at|bl|iz)$/;
-  var re3_1b_2 = new RegExp("([^aeiouylsz])\\1$");
-  var re4_1b_2 = new RegExp("^" + C + v + "[^aeiouwxy]$");
-
-  var re_1c = /^(.+?[^aeiou])y$/;
-  var re_2 = /^(.+?)(ational|tional|enci|anci|izer|bli|alli|entli|eli|ousli|ization|ation|ator|alism|iveness|fulness|ousness|aliti|iviti|biliti|logi)$/;
-
-  var re_3 = /^(.+?)(icate|ative|alize|iciti|ical|ful|ness)$/;
-
-  var re_4 = /^(.+?)(al|ance|ence|er|ic|able|ible|ant|ement|ment|ent|ou|ism|ate|iti|ous|ive|ize)$/;
-  var re2_4 = /^(.+?)(s|t)(ion)$/;
-
-  var re_5 = /^(.+?)e$/;
-  var re_5_1 = /ll$/;
-  var re3_5 = new RegExp("^" + C + v + "[^aeiouwxy]$");
-
-  var porterStemmer = function porterStemmer(w) {
-    var   stem,
-      suffix,
-      firstch,
-      re,
-      re2,
-      re3,
-      re4;
-
-    if (w.length < 3) { return w; }
-
-    firstch = w.substr(0,1);
-    if (firstch == "y") {
-      w = firstch.toUpperCase() + w.substr(1);
-    }
-
-    // Step 1a
-    re = re_1a
-    re2 = re2_1a;
-
-    if (re.test(w)) { w = w.replace(re,"$1$2"); }
-    else if (re2.test(w)) { w = w.replace(re2,"$1$2"); }
-
-    // Step 1b
-    re = re_1b;
-    re2 = re2_1b;
-    if (re.test(w)) {
-      var fp = re.exec(w);
-      re = re_mgr0;
-      if (re.test(fp[1])) {
-        re = re_1b_2;
-        w = w.replace(re,"");
-      }
-    } else if (re2.test(w)) {
-      var fp = re2.exec(w);
-      stem = fp[1];
-      re2 = re_s_v;
-      if (re2.test(stem)) {
-        w = stem;
-        re2 = re2_1b_2;
-        re3 = re3_1b_2;
-        re4 = re4_1b_2;
-        if (re2.test(w)) {  w = w + "e"; }
-        else if (re3.test(w)) { re = re_1b_2; w = w.replace(re,""); }
-        else if (re4.test(w)) { w = w + "e"; }
-      }
-    }
-
-    // Step 1c - replace suffix y or Y by i if preceded by a non-vowel which is not the first letter of the word (so cry -> cri, by -> by, say -> say)
-    re = re_1c;
-    if (re.test(w)) {
-      var fp = re.exec(w);
-      stem = fp[1];
-      w = stem + "i";
-    }
-
-    // Step 2
-    re = re_2;
-    if (re.test(w)) {
-      var fp = re.exec(w);
-      stem = fp[1];
-      suffix = fp[2];
-      re = re_mgr0;
-      if (re.test(stem)) {
-        w = stem + step2list[suffix];
-      }
-    }
-
-    // Step 3
-    re = re_3;
-    if (re.test(w)) {
-      var fp = re.exec(w);
-      stem = fp[1];
-      suffix = fp[2];
-      re = re_mgr0;
-      if (re.test(stem)) {
-        w = stem + step3list[suffix];
-      }
-    }
-
-    // Step 4
-    re = re_4;
-    re2 = re2_4;
-    if (re.test(w)) {
-      var fp = re.exec(w);
-      stem = fp[1];
-      re = re_mgr1;
-      if (re.test(stem)) {
-        w = stem;
-      }
-    } else if (re2.test(w)) {
-      var fp = re2.exec(w);
-      stem = fp[1] + fp[2];
-      re2 = re_mgr1;
-      if (re2.test(stem)) {
-        w = stem;
-      }
-    }
-
-    // Step 5
-    re = re_5;
-    if (re.test(w)) {
-      var fp = re.exec(w);
-      stem = fp[1];
-      re = re_mgr1;
-      re2 = re_meq1;
-      re3 = re3_5;
-      if (re.test(stem) || (re2.test(stem) && !(re3.test(stem)))) {
-        w = stem;
-      }
-    }
-
-    re = re_5_1;
-    re2 = re_mgr1;
-    if (re.test(w) && re2.test(w)) {
-      re = re_1b_2;
-      w = w.replace(re,"");
-    }
-
-    // and turn initial Y back to y
-
-    if (firstch == "y") {
-      w = firstch.toLowerCase() + w.substr(1);
-    }
-
-    return w;
-  };
-
-  return porterStemmer;
-})();
-
-lunr.Pipeline.registerFunction(lunr.stemmer, 'stemmer')
-/*!
- * lunr.stopWordFilter
- * Copyright (C) 2016 Oliver Nightingale
- */
-
-/**
- * lunr.generateStopWordFilter builds a stopWordFilter function from the provided
- * list of stop words.
- *
- * The built in lunr.stopWordFilter is built using this generator and can be used
- * to generate custom stopWordFilters for applications or non English languages.
- *
- * @module
- * @param {Array} token The token to pass through the filter
- * @returns {Function}
- * @see lunr.Pipeline
- * @see lunr.stopWordFilter
- */
-lunr.generateStopWordFilter = function (stopWords) {
-  var words = stopWords.reduce(function (memo, stopWord) {
-    memo[stopWord] = stopWord
-    return memo
-  }, {})
-
-  return function (token) {
-    if (token && words[token] !== token) return token
-  }
-}
-
-/**
- * lunr.stopWordFilter is an English language stop word list filter, any words
- * contained in the list will not be passed through the filter.
- *
- * This is intended to be used in the Pipeline. If the token does not pass the
- * filter then undefined will be returned.
- *
- * @module
- * @param {String} token The token to pass through the filter
- * @returns {String}
- * @see lunr.Pipeline
- */
-lunr.stopWordFilter = lunr.generateStopWordFilter([
-  'a',
-  'able',
-  'about',
-  'across',
-  'after',
-  'all',
-  'almost',
-  'also',
-  'am',
-  'among',
-  'an',
-  'and',
-  'any',
-  'are',
-  'as',
-  'at',
-  'be',
-  'because',
-  'been',
-  'but',
-  'by',
-  'can',
-  'cannot',
-  'could',
-  'dear',
-  'did',
-  'do',
-  'does',
-  'either',
-  'else',
-  'ever',
-  'every',
-  'for',
-  'from',
-  'get',
-  'got',
-  'had',
-  'has',
-  'have',
-  'he',
-  'her',
-  'hers',
-  'him',
-  'his',
-  'how',
-  'however',
-  'i',
-  'if',
-  'in',
-  'into',
-  'is',
-  'it',
-  'its',
-  'just',
-  'least',
-  'let',
-  'like',
-  'likely',
-  'may',
-  'me',
-  'might',
-  'most',
-  'must',
-  'my',
-  'neither',
-  'no',
-  'nor',
-  'not',
-  'of',
-  'off',
-  'often',
-  'on',
-  'only',
-  'or',
-  'other',
-  'our',
-  'own',
-  'rather',
-  'said',
-  'say',
-  'says',
-  'she',
-  'should',
-  'since',
-  'so',
-  'some',
-  'than',
-  'that',
-  'the',
-  'their',
-  'them',
-  'then',
-  'there',
-  'these',
-  'they',
-  'this',
-  'tis',
-  'to',
-  'too',
-  'twas',
-  'us',
-  'wants',
-  'was',
-  'we',
-  'were',
-  'what',
-  'when',
-  'where',
-  'which',
-  'while',
-  'who',
-  'whom',
-  'why',
-  'will',
-  'with',
-  'would',
-  'yet',
-  'you',
-  'your'
-])
-
-lunr.Pipeline.registerFunction(lunr.stopWordFilter, 'stopWordFilter')
-/*!
- * lunr.trimmer
- * Copyright (C) 2016 Oliver Nightingale
- */
-
-/**
- * lunr.trimmer is a pipeline function for trimming non word
- * characters from the begining and end of tokens before they
- * enter the index.
- *
- * This implementation may not work correctly for non latin
- * characters and should either be removed or adapted for use
- * with languages with non-latin characters.
- *
- * @module
- * @param {String} token The token to pass through the filter
- * @returns {String}
- * @see lunr.Pipeline
- */
-lunr.trimmer = function (token) {
-  return token.replace(/^\W+/, '').replace(/\W+$/, '')
-}
-
-lunr.Pipeline.registerFunction(lunr.trimmer, 'trimmer')
-/*!
- * lunr.stemmer
- * Copyright (C) 2016 Oliver Nightingale
- * Includes code from - http://tartarus.org/~martin/PorterStemmer/js.txt
- */
-
-/**
- * lunr.TokenStore is used for efficient storing and lookup of the reverse
- * index of token to document ref.
- *
- * @constructor
- */
-lunr.TokenStore = function () {
-  this.root = { docs: {} }
-  this.length = 0
-}
-
-/**
- * Loads a previously serialised token store
- *
- * @param {Object} serialisedData The serialised token store to load.
- * @returns {lunr.TokenStore}
- * @memberOf TokenStore
- */
-lunr.TokenStore.load = function (serialisedData) {
-  var store = new this
-
-  store.root = serialisedData.root
-  store.length = serialisedData.length
-
-  return store
-}
-
-/**
- * Adds a new token doc pair to the store.
- *
- * By default this function starts at the root of the current store, however
- * it can start at any node of any token store if required.
- *
- * @param {String} token The token to store the doc under
- * @param {Object} doc The doc to store against the token
- * @param {Object} root An optional node at which to start looking for the
- * correct place to enter the doc, by default the root of this lunr.TokenStore
- * is used.
- * @memberOf TokenStore
- */
-lunr.TokenStore.prototype.add = function (token, doc, root) {
-  var root = root || this.root,
-      key = token.charAt(0),
-      rest = token.slice(1)
-
-  if (!(key in root)) root[key] = {docs: {}}
-
-  if (rest.length === 0) {
-    root[key].docs[doc.ref] = doc
-    this.length += 1
-    return
-  } else {
-    return this.add(rest, doc, root[key])
-  }
-}
-
-/**
- * Checks whether this key is contained within this lunr.TokenStore.
- *
- * By default this function starts at the root of the current store, however
- * it can start at any node of any token store if required.
- *
- * @param {String} token The token to check for
- * @param {Object} root An optional node at which to start
- * @memberOf TokenStore
- */
-lunr.TokenStore.prototype.has = function (token) {
-  if (!token) return false
-
-  var node = this.root
-
-  for (var i = 0; i < token.length; i++) {
-    if (!node[token.charAt(i)]) return false
-
-    node = node[token.charAt(i)]
-  }
-
-  return true
-}
-
-/**
- * Retrieve a node from the token store for a given token.
- *
- * By default this function starts at the root of the current store, however
- * it can start at any node of any token store if required.
- *
- * @param {String} token The token to get the node for.
- * @param {Object} root An optional node at which to start.
- * @returns {Object}
- * @see TokenStore.prototype.get
- * @memberOf TokenStore
- */
-lunr.TokenStore.prototype.getNode = function (token) {
-  if (!token) return {}
-
-  var node = this.root
-
-  for (var i = 0; i < token.length; i++) {
-    if (!node[token.charAt(i)]) return {}
-
-    node = node[token.charAt(i)]
-  }
-
-  return node
-}
-
-/**
- * Retrieve the documents for a node for the given token.
- *
- * By default this function starts at the root of the current store, however
- * it can start at any node of any token store if required.
- *
- * @param {String} token The token to get the documents for.
- * @param {Object} root An optional node at which to start.
- * @returns {Object}
- * @memberOf TokenStore
- */
-lunr.TokenStore.prototype.get = function (token, root) {
-  return this.getNode(token, root).docs || {}
-}
-
-lunr.TokenStore.prototype.count = function (token, root) {
-  return Object.keys(this.get(token, root)).length
-}
-
-/**
- * Remove the document identified by ref from the token in the store.
- *
- * By default this function starts at the root of the current store, however
- * it can start at any node of any token store if required.
- *
- * @param {String} token The token to get the documents for.
- * @param {String} ref The ref of the document to remove from this token.
- * @param {Object} root An optional node at which to start.
- * @returns {Object}
- * @memberOf TokenStore
- */
-lunr.TokenStore.prototype.remove = function (token, ref) {
-  if (!token) return
-  var node = this.root
-
-  for (var i = 0; i < token.length; i++) {
-    if (!(token.charAt(i) in node)) return
-    node = node[token.charAt(i)]
-  }
-
-  delete node.docs[ref]
-}
-
-/**
- * Find all the possible suffixes of the passed token using tokens
- * currently in the store.
- *
- * @param {String} token The token to expand.
- * @returns {Array}
- * @memberOf TokenStore
- */
-lunr.TokenStore.prototype.expand = function (token, memo) {
-  var root = this.getNode(token),
-      docs = root.docs || {},
-      memo = memo || []
-
-  if (Object.keys(docs).length) memo.push(token)
-
-  Object.keys(root)
-    .forEach(function (key) {
-      if (key === 'docs') return
-
-      memo.concat(this.expand(token + key, memo))
-    }, this)
-
-  return memo
-}
-
-/**
- * Returns a representation of the token store ready for serialisation.
- *
- * @returns {Object}
- * @memberOf TokenStore
- */
-lunr.TokenStore.prototype.toJSON = function () {
-  return {
-    root: this.root,
-    length: this.length
-  }
-}
-
-  /**
-   * export the module via AMD, CommonJS or as a browser global
-   * Export code from https://github.com/umdjs/umd/blob/master/returnExports.js
-   */
-  ;(function (root, factory) {
-    if (true) {
-      // AMD. Register as an anonymous module.
-      !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
-				__WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
-    } else if (typeof exports === 'object') {
-      /**
-       * Node. Does not work with strict CommonJS, but
-       * only CommonJS-like enviroments that support module.exports,
-       * like Node.
-       */
-      module.exports = factory()
-    } else {
-      // Browser globals (root is window)
-      root.lunr = factory()
-    }
-  }(this, function () {
-    /**
-     * Just return a value to define the module export.
-     * This example returns an object, but the module
-     * can return a function as the exported value.
-     */
-    return lunr
-  }))
-})();
-
-
-/***/ }),
-/* 350 */
+/* 359 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22218,7 +22569,7 @@ module.exports = [
 
 
 /***/ }),
-/* 351 */
+/* 360 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22226,13 +22577,13 @@ module.exports = [
 
 
 
-exports.parseLinkLabel       = __webpack_require__(353);
-exports.parseLinkDestination = __webpack_require__(352);
-exports.parseLinkTitle       = __webpack_require__(354);
+exports.parseLinkLabel       = __webpack_require__(362);
+exports.parseLinkDestination = __webpack_require__(361);
+exports.parseLinkTitle       = __webpack_require__(363);
 
 
 /***/ }),
-/* 352 */
+/* 361 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22319,7 +22670,7 @@ module.exports = function parseLinkDestination(str, pos, max) {
 
 
 /***/ }),
-/* 353 */
+/* 362 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22374,7 +22725,7 @@ module.exports = function parseLinkLabel(state, start, disableNested) {
 
 
 /***/ }),
-/* 354 */
+/* 363 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22434,7 +22785,7 @@ module.exports = function parseLinkTitle(str, pos, max) {
 
 
 /***/ }),
-/* 355 */
+/* 364 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22444,20 +22795,20 @@ module.exports = function parseLinkTitle(str, pos, max) {
 
 
 var utils        = __webpack_require__(4);
-var helpers      = __webpack_require__(351);
-var Renderer     = __webpack_require__(362);
-var ParserCore   = __webpack_require__(357);
-var ParserBlock  = __webpack_require__(356);
-var ParserInline = __webpack_require__(358);
-var LinkifyIt    = __webpack_require__(338);
-var mdurl        = __webpack_require__(97);
-var punycode     = __webpack_require__(98);
+var helpers      = __webpack_require__(360);
+var Renderer     = __webpack_require__(371);
+var ParserCore   = __webpack_require__(366);
+var ParserBlock  = __webpack_require__(365);
+var ParserInline = __webpack_require__(367);
+var LinkifyIt    = __webpack_require__(348);
+var mdurl        = __webpack_require__(111);
+var punycode     = __webpack_require__(112);
 
 
 var config = {
-  'default': __webpack_require__(360),
-  zero: __webpack_require__(361),
-  commonmark: __webpack_require__(359)
+  'default': __webpack_require__(369),
+  zero: __webpack_require__(370),
+  commonmark: __webpack_require__(368)
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -23022,7 +23373,7 @@ module.exports = MarkdownIt;
 
 
 /***/ }),
-/* 356 */
+/* 365 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23034,23 +23385,23 @@ module.exports = MarkdownIt;
 
 
 
-var Ruler           = __webpack_require__(62);
+var Ruler           = __webpack_require__(69);
 
 
 var _rules = [
   // First 2 params - rule name & source. Secondary array - list of rules,
   // which can be terminated by this one.
-  [ 'table',      __webpack_require__(374),      [ 'paragraph', 'reference' ] ],
-  [ 'code',       __webpack_require__(364) ],
-  [ 'fence',      __webpack_require__(365),      [ 'paragraph', 'reference', 'blockquote', 'list' ] ],
-  [ 'blockquote', __webpack_require__(363), [ 'paragraph', 'reference', 'list' ] ],
-  [ 'hr',         __webpack_require__(367),         [ 'paragraph', 'reference', 'blockquote', 'list' ] ],
-  [ 'list',       __webpack_require__(370),       [ 'paragraph', 'reference', 'blockquote' ] ],
-  [ 'reference',  __webpack_require__(372) ],
-  [ 'heading',    __webpack_require__(366),    [ 'paragraph', 'reference', 'blockquote' ] ],
-  [ 'lheading',   __webpack_require__(369) ],
-  [ 'html_block', __webpack_require__(368), [ 'paragraph', 'reference', 'blockquote' ] ],
-  [ 'paragraph',  __webpack_require__(371) ]
+  [ 'table',      __webpack_require__(383),      [ 'paragraph', 'reference' ] ],
+  [ 'code',       __webpack_require__(373) ],
+  [ 'fence',      __webpack_require__(374),      [ 'paragraph', 'reference', 'blockquote', 'list' ] ],
+  [ 'blockquote', __webpack_require__(372), [ 'paragraph', 'reference', 'list' ] ],
+  [ 'hr',         __webpack_require__(376),         [ 'paragraph', 'reference', 'blockquote', 'list' ] ],
+  [ 'list',       __webpack_require__(379),       [ 'paragraph', 'reference', 'blockquote' ] ],
+  [ 'reference',  __webpack_require__(381) ],
+  [ 'heading',    __webpack_require__(375),    [ 'paragraph', 'reference', 'blockquote' ] ],
+  [ 'lheading',   __webpack_require__(378) ],
+  [ 'html_block', __webpack_require__(377), [ 'paragraph', 'reference', 'blockquote' ] ],
+  [ 'paragraph',  __webpack_require__(380) ]
 ];
 
 
@@ -23144,14 +23495,14 @@ ParserBlock.prototype.parse = function (src, md, env, outTokens) {
 };
 
 
-ParserBlock.prototype.State = __webpack_require__(373);
+ParserBlock.prototype.State = __webpack_require__(382);
 
 
 module.exports = ParserBlock;
 
 
 /***/ }),
-/* 357 */
+/* 366 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23164,16 +23515,16 @@ module.exports = ParserBlock;
 
 
 
-var Ruler  = __webpack_require__(62);
+var Ruler  = __webpack_require__(69);
 
 
 var _rules = [
-  [ 'normalize',      __webpack_require__(378)      ],
-  [ 'block',          __webpack_require__(375)          ],
-  [ 'inline',         __webpack_require__(376)         ],
-  [ 'linkify',        __webpack_require__(377)        ],
-  [ 'replacements',   __webpack_require__(379)   ],
-  [ 'smartquotes',    __webpack_require__(380)    ]
+  [ 'normalize',      __webpack_require__(387)      ],
+  [ 'block',          __webpack_require__(384)          ],
+  [ 'inline',         __webpack_require__(385)         ],
+  [ 'linkify',        __webpack_require__(386)        ],
+  [ 'replacements',   __webpack_require__(388)   ],
+  [ 'smartquotes',    __webpack_require__(389)    ]
 ];
 
 
@@ -23209,14 +23560,14 @@ Core.prototype.process = function (state) {
   }
 };
 
-Core.prototype.State = __webpack_require__(381);
+Core.prototype.State = __webpack_require__(390);
 
 
 module.exports = Core;
 
 
 /***/ }),
-/* 358 */
+/* 367 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23228,31 +23579,31 @@ module.exports = Core;
 
 
 
-var Ruler           = __webpack_require__(62);
+var Ruler           = __webpack_require__(69);
 
 
 ////////////////////////////////////////////////////////////////////////////////
 // Parser rules
 
 var _rules = [
-  [ 'text',            __webpack_require__(392) ],
-  [ 'newline',         __webpack_require__(390) ],
-  [ 'escape',          __webpack_require__(386) ],
-  [ 'backticks',       __webpack_require__(383) ],
-  [ 'strikethrough',   __webpack_require__(96).tokenize ],
-  [ 'emphasis',        __webpack_require__(95).tokenize ],
-  [ 'link',            __webpack_require__(389) ],
-  [ 'image',           __webpack_require__(388) ],
-  [ 'autolink',        __webpack_require__(382) ],
-  [ 'html_inline',     __webpack_require__(387) ],
-  [ 'entity',          __webpack_require__(385) ]
+  [ 'text',            __webpack_require__(401) ],
+  [ 'newline',         __webpack_require__(399) ],
+  [ 'escape',          __webpack_require__(395) ],
+  [ 'backticks',       __webpack_require__(392) ],
+  [ 'strikethrough',   __webpack_require__(110).tokenize ],
+  [ 'emphasis',        __webpack_require__(109).tokenize ],
+  [ 'link',            __webpack_require__(398) ],
+  [ 'image',           __webpack_require__(397) ],
+  [ 'autolink',        __webpack_require__(391) ],
+  [ 'html_inline',     __webpack_require__(396) ],
+  [ 'entity',          __webpack_require__(394) ]
 ];
 
 var _rules2 = [
-  [ 'balance_pairs',   __webpack_require__(384) ],
-  [ 'strikethrough',   __webpack_require__(96).postProcess ],
-  [ 'emphasis',        __webpack_require__(95).postProcess ],
-  [ 'text_collapse',   __webpack_require__(393) ]
+  [ 'balance_pairs',   __webpack_require__(393) ],
+  [ 'strikethrough',   __webpack_require__(110).postProcess ],
+  [ 'emphasis',        __webpack_require__(109).postProcess ],
+  [ 'text_collapse',   __webpack_require__(402) ]
 ];
 
 
@@ -23393,14 +23744,14 @@ ParserInline.prototype.parse = function (str, md, env, outTokens) {
 };
 
 
-ParserInline.prototype.State = __webpack_require__(391);
+ParserInline.prototype.State = __webpack_require__(400);
 
 
 module.exports = ParserInline;
 
 
 /***/ }),
-/* 359 */
+/* 368 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23487,7 +23838,7 @@ module.exports = {
 
 
 /***/ }),
-/* 360 */
+/* 369 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23535,7 +23886,7 @@ module.exports = {
 
 
 /***/ }),
-/* 361 */
+/* 370 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23604,7 +23955,7 @@ module.exports = {
 
 
 /***/ }),
-/* 362 */
+/* 371 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23946,7 +24297,7 @@ module.exports = Renderer;
 
 
 /***/ }),
-/* 363 */
+/* 372 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24239,7 +24590,7 @@ module.exports = function blockquote(state, startLine, endLine, silent) {
 
 
 /***/ }),
-/* 364 */
+/* 373 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24280,7 +24631,7 @@ module.exports = function code(state, startLine, endLine/*, silent*/) {
 
 
 /***/ }),
-/* 365 */
+/* 374 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24381,7 +24732,7 @@ module.exports = function fence(state, startLine, endLine, silent) {
 
 
 /***/ }),
-/* 366 */
+/* 375 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24443,7 +24794,7 @@ module.exports = function heading(state, startLine, endLine, silent) {
 
 
 /***/ }),
-/* 367 */
+/* 376 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24495,7 +24846,7 @@ module.exports = function hr(state, startLine, endLine, silent) {
 
 
 /***/ }),
-/* 368 */
+/* 377 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24504,8 +24855,8 @@ module.exports = function hr(state, startLine, endLine, silent) {
 
 
 
-var block_names = __webpack_require__(350);
-var HTML_OPEN_CLOSE_TAG_RE = __webpack_require__(94).HTML_OPEN_CLOSE_TAG_RE;
+var block_names = __webpack_require__(359);
+var HTML_OPEN_CLOSE_TAG_RE = __webpack_require__(108).HTML_OPEN_CLOSE_TAG_RE;
 
 // An array of opening and corresponding closing sequences for html tags,
 // last argument defines whether it can terminate a paragraph or not
@@ -24576,7 +24927,7 @@ module.exports = function html_block(state, startLine, endLine, silent) {
 
 
 /***/ }),
-/* 369 */
+/* 378 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24666,7 +25017,7 @@ module.exports = function lheading(state, startLine, endLine/*, silent*/) {
 
 
 /***/ }),
-/* 370 */
+/* 379 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25011,7 +25362,7 @@ module.exports = function list(state, startLine, endLine, silent) {
 
 
 /***/ }),
-/* 371 */
+/* 380 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25070,7 +25421,7 @@ module.exports = function paragraph(state, startLine/*, endLine*/) {
 
 
 /***/ }),
-/* 372 */
+/* 381 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25275,7 +25626,7 @@ module.exports = function reference(state, startLine, _endLine, silent) {
 
 
 /***/ }),
-/* 373 */
+/* 382 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25283,7 +25634,7 @@ module.exports = function reference(state, startLine, _endLine, silent) {
 
 
 
-var Token = __webpack_require__(63);
+var Token = __webpack_require__(70);
 var isSpace = __webpack_require__(4).isSpace;
 
 
@@ -25512,7 +25863,7 @@ module.exports = StateBlock;
 
 
 /***/ }),
-/* 374 */
+/* 383 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25715,7 +26066,7 @@ module.exports = function table(state, startLine, endLine, silent) {
 
 
 /***/ }),
-/* 375 */
+/* 384 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25738,7 +26089,7 @@ module.exports = function block(state) {
 
 
 /***/ }),
-/* 376 */
+/* 385 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25758,7 +26109,7 @@ module.exports = function inline(state) {
 
 
 /***/ }),
-/* 377 */
+/* 386 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25898,7 +26249,7 @@ module.exports = function linkify(state) {
 
 
 /***/ }),
-/* 378 */
+/* 387 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25925,7 +26276,7 @@ module.exports = function inline(state) {
 
 
 /***/ }),
-/* 379 */
+/* 388 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26039,7 +26390,7 @@ module.exports = function replace(state) {
 
 
 /***/ }),
-/* 380 */
+/* 389 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26239,7 +26590,7 @@ module.exports = function smartquotes(state) {
 
 
 /***/ }),
-/* 381 */
+/* 390 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26247,7 +26598,7 @@ module.exports = function smartquotes(state) {
 //
 
 
-var Token = __webpack_require__(63);
+var Token = __webpack_require__(70);
 
 
 function StateCore(src, md, env) {
@@ -26266,7 +26617,7 @@ module.exports = StateCore;
 
 
 /***/ }),
-/* 382 */
+/* 391 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26345,7 +26696,7 @@ module.exports = function autolink(state, silent) {
 
 
 /***/ }),
-/* 383 */
+/* 392 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26395,7 +26746,7 @@ module.exports = function backtick(state, silent) {
 
 
 /***/ }),
-/* 384 */
+/* 393 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26446,7 +26797,7 @@ module.exports = function link_pairs(state) {
 
 
 /***/ }),
-/* 385 */
+/* 394 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26454,7 +26805,7 @@ module.exports = function link_pairs(state) {
 
 
 
-var entities          = __webpack_require__(93);
+var entities          = __webpack_require__(107);
 var has               = __webpack_require__(4).has;
 var isValidEntityCode = __webpack_require__(4).isValidEntityCode;
 var fromCodePoint     = __webpack_require__(4).fromCodePoint;
@@ -26501,7 +26852,7 @@ module.exports = function entity(state, silent) {
 
 
 /***/ }),
-/* 386 */
+/* 395 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26560,7 +26911,7 @@ module.exports = function escape(state, silent) {
 
 
 /***/ }),
-/* 387 */
+/* 396 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26569,7 +26920,7 @@ module.exports = function escape(state, silent) {
 
 
 
-var HTML_TAG_RE = __webpack_require__(94).HTML_TAG_RE;
+var HTML_TAG_RE = __webpack_require__(108).HTML_TAG_RE;
 
 
 function isLetter(ch) {
@@ -26614,7 +26965,7 @@ module.exports = function html_inline(state, silent) {
 
 
 /***/ }),
-/* 388 */
+/* 397 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26773,7 +27124,7 @@ module.exports = function image(state, silent) {
 
 
 /***/ }),
-/* 389 */
+/* 398 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26930,7 +27281,7 @@ module.exports = function link(state, silent) {
 
 
 /***/ }),
-/* 390 */
+/* 399 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26979,7 +27330,7 @@ module.exports = function newline(state, silent) {
 
 
 /***/ }),
-/* 391 */
+/* 400 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26988,7 +27339,7 @@ module.exports = function newline(state, silent) {
 
 
 
-var Token          = __webpack_require__(63);
+var Token          = __webpack_require__(70);
 var isWhiteSpace   = __webpack_require__(4).isWhiteSpace;
 var isPunctChar    = __webpack_require__(4).isPunctChar;
 var isMdAsciiPunct = __webpack_require__(4).isMdAsciiPunct;
@@ -27116,7 +27467,7 @@ module.exports = StateInline;
 
 
 /***/ }),
-/* 392 */
+/* 401 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27212,7 +27563,7 @@ module.exports = function text(state, silent) {
 
 
 /***/ }),
-/* 393 */
+/* 402 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27252,7 +27603,7 @@ module.exports = function text_collapse(state) {
 
 
 /***/ }),
-/* 394 */
+/* 403 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27381,7 +27732,7 @@ module.exports = decode;
 
 
 /***/ }),
-/* 395 */
+/* 404 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27486,7 +27837,7 @@ module.exports = encode;
 
 
 /***/ }),
-/* 396 */
+/* 405 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27518,7 +27869,7 @@ module.exports = function format(url) {
 
 
 /***/ }),
-/* 397 */
+/* 406 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27837,7 +28188,7 @@ module.exports = urlParse;
 
 
 /***/ }),
-/* 398 */
+/* 407 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process) {var __WEBPACK_AMD_DEFINE_RESULT__;/*global self, document, DOMException */
@@ -35718,23 +36069,23 @@ MediumEditor.version = MediumEditor.parseVersionString.call(this, ({
     return MediumEditor;
 }()));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(54)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(55)))
 
 /***/ }),
-/* 399 */,
-/* 400 */,
-/* 401 */,
-/* 402 */,
-/* 403 */
+/* 408 */,
+/* 409 */,
+/* 410 */,
+/* 411 */,
+/* 412 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(285);
+var content = __webpack_require__(296);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(17)(content, {});
+var update = __webpack_require__(18)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -35751,16 +36102,16 @@ if(false) {
 }
 
 /***/ }),
-/* 404 */
+/* 413 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(286);
+var content = __webpack_require__(297);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(17)(content, {});
+var update = __webpack_require__(18)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -35777,40 +36128,40 @@ if(false) {
 }
 
 /***/ }),
-/* 405 */,
-/* 406 */
+/* 414 */,
+/* 415 */
 /***/ (function(module, exports) {
 
 module.exports=/[\xAD\u0600-\u0605\u061C\u06DD\u070F\u08E2\u180E\u200B-\u200F\u202A-\u202E\u2060-\u2064\u2066-\u206F\uFEFF\uFFF9-\uFFFB]|\uD804\uDCBD|\uD82F[\uDCA0-\uDCA3]|\uD834[\uDD73-\uDD7A]|\uDB40[\uDC01\uDC20-\uDC7F]/
 
 /***/ }),
-/* 407 */
+/* 416 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.Any = __webpack_require__(101);
-exports.Cc  = __webpack_require__(99);
-exports.Cf  = __webpack_require__(406);
-exports.P   = __webpack_require__(64);
-exports.Z   = __webpack_require__(100);
+exports.Any = __webpack_require__(115);
+exports.Cc  = __webpack_require__(113);
+exports.Cf  = __webpack_require__(415);
+exports.P   = __webpack_require__(71);
+exports.Z   = __webpack_require__(114);
 
 
 /***/ }),
-/* 408 */,
-/* 409 */,
-/* 410 */,
-/* 411 */,
-/* 412 */,
-/* 413 */
+/* 417 */,
+/* 418 */,
+/* 419 */,
+/* 420 */,
+/* 421 */,
+/* 422 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(175),
+  __webpack_require__(187),
   /* template */
-  __webpack_require__(472),
+  __webpack_require__(478),
   /* scopeId */
   null,
   /* cssModules */
@@ -35837,14 +36188,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 414 */
+/* 423 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(176),
+  __webpack_require__(188),
   /* template */
-  __webpack_require__(466),
+  __webpack_require__(473),
   /* scopeId */
   null,
   /* cssModules */
@@ -35871,57 +36222,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 415 */,
-/* 416 */
+/* 424 */,
+/* 425 */,
+/* 426 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(487)
+__webpack_require__(520)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(178),
+  __webpack_require__(191),
   /* template */
-  __webpack_require__(444),
-  /* scopeId */
-  "data-v-05c830ce",
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ListPaginator.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] ListPaginator.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-05c830ce", Component.options)
-  } else {
-    hotAPI.reload("data-v-05c830ce", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 417 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/* styles */
-__webpack_require__(515)
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(179),
-  /* template */
-  __webpack_require__(483),
+  __webpack_require__(489),
   /* scopeId */
   "data-v-e89af052",
   /* cssModules */
@@ -35948,66 +36262,32 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 418 */,
-/* 419 */,
-/* 420 */,
-/* 421 */,
-/* 422 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(185),
-  /* template */
-  __webpack_require__(447),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/PaginatorLink.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] PaginatorLink.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-115d9766", Component.options)
-  } else {
-    hotAPI.reload("data-v-115d9766", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 423 */,
-/* 424 */,
-/* 425 */,
-/* 426 */,
 /* 427 */,
 /* 428 */,
 /* 429 */,
 /* 430 */,
 /* 431 */,
 /* 432 */,
-/* 433 */
+/* 433 */,
+/* 434 */,
+/* 435 */,
+/* 436 */,
+/* 437 */,
+/* 438 */,
+/* 439 */,
+/* 440 */,
+/* 441 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(486)
+__webpack_require__(492)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(197),
+  __webpack_require__(208),
   /* template */
-  __webpack_require__(442),
+  __webpack_require__(450),
   /* scopeId */
   "data-v-0409124b",
   /* cssModules */
@@ -36034,18 +36314,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 434 */
+/* 442 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(491)
+__webpack_require__(496)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(198),
+  __webpack_require__(209),
   /* template */
-  __webpack_require__(449),
+  __webpack_require__(455),
   /* scopeId */
   "data-v-170d0144",
   /* cssModules */
@@ -36072,14 +36352,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 435 */
+/* 443 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(201),
+  __webpack_require__(212),
   /* template */
-  __webpack_require__(479),
+  __webpack_require__(485),
   /* scopeId */
   null,
   /* cssModules */
@@ -36106,18 +36386,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 436 */
+/* 444 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(497)
+__webpack_require__(502)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(202),
+  __webpack_require__(213),
   /* template */
-  __webpack_require__(455),
+  __webpack_require__(461),
   /* scopeId */
   "data-v-2f4974f7",
   /* cssModules */
@@ -36144,18 +36424,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 437 */
+/* 445 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(501)
+__webpack_require__(507)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(203),
+  __webpack_require__(214),
   /* template */
-  __webpack_require__(462),
+  __webpack_require__(469),
   /* scopeId */
   "data-v-405f959c",
   /* cssModules */
@@ -36182,18 +36462,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 438 */
+/* 446 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(498)
+__webpack_require__(504)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(204),
+  __webpack_require__(215),
   /* template */
-  __webpack_require__(457),
+  __webpack_require__(464),
   /* scopeId */
   "data-v-358055d0",
   /* cssModules */
@@ -36220,18 +36500,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 439 */
+/* 447 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(499)
+__webpack_require__(505)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(206),
+  __webpack_require__(217),
   /* template */
-  __webpack_require__(458),
+  __webpack_require__(465),
   /* scopeId */
   "data-v-358a2420",
   /* cssModules */
@@ -36258,9 +36538,9 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 440 */,
-/* 441 */,
-/* 442 */
+/* 448 */,
+/* 449 */,
+/* 450 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -36293,7 +36573,7 @@ if (false) {
 }
 
 /***/ }),
-/* 443 */
+/* 451 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -36393,137 +36673,10 @@ if (false) {
 }
 
 /***/ }),
-/* 444 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('section', {
-    staticClass: "paginator"
-  }, [_c('div', {
-    staticClass: "form-inline"
-  }, [_c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    staticClass: "containing-label"
-  }, [_vm._v("\n\t\t\t\tCurrent page:\n\t\t\t\t"), _c('input', {
-    staticClass: "form-control",
-    attrs: {
-      "type": "number",
-      "min": "1",
-      "max": _vm.paginatedItems.length
-    },
-    domProps: {
-      "value": _vm.value + 1
-    },
-    on: {
-      "input": function($event) {
-        _vm.$emit('input', Number($event.target.value) - 1)
-      }
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    staticClass: "containing-label"
-  }, [_vm._v("\n\t\t\t\tItems per page:\n\t\t\t\t"), _c('select', {
-    staticClass: "form-control",
-    domProps: {
-      "value": _vm.itemsPerPage
-    },
-    on: {
-      "input": function($event) {
-        _vm.$emit('pageSize', Number($event.target.value))
-      }
-    }
-  }, [_c('option', {
-    attrs: {
-      "value": "5"
-    }
-  }, [_vm._v("5")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "10"
-    }
-  }, [_vm._v("10")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "20"
-    }
-  }, [_vm._v("20")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "50"
-    }
-  }, [_vm._v("50")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "100"
-    }
-  }, [_vm._v("100")])])])])]), _vm._v(" "), (_vm.itemsPerPage && _vm.paginatedItems.length > 1) ? _c('nav', [_c('div', {
-    staticClass: "btn-group"
-  }, [_c('paginator-link', {
-    attrs: {
-      "value": _vm.value - 1,
-      "text": "← Prev",
-      "active": _vm.value === 0
-    },
-    on: {
-      "click": _vm.setPage
-    }
-  }), _vm._v(" "), _vm._l((_vm.paginatedItems), function(pageItems, pageNum) {
-    return _c('paginator-link', {
-      attrs: {
-        "value": pageNum,
-        "active": pageNum === _vm.value
-      },
-      on: {
-        "click": _vm.setPage
-      }
-    })
-  }), _vm._v(" "), _c('paginator-link', {
-    attrs: {
-      "value": _vm.value + 1,
-      "text": "Next →",
-      "active": _vm.value === _vm.paginatedItems.length - 1
-    },
-    on: {
-      "click": _vm.setPage
-    }
-  })], 2)]) : _vm._e()])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-05c830ce", module.exports)
-  }
-}
-
-/***/ }),
-/* 445 */,
-/* 446 */,
-/* 447 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    staticClass: "btn btn-default",
-    attrs: {
-      "type": "button",
-      "href": "#",
-      "disabled": _vm.active
-    },
-    on: {
-      "click": _vm.emitPage
-    }
-  }, [_vm._v("\n\t" + _vm._s(_vm.text || _vm.value + 1) + "\n")])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-115d9766", module.exports)
-  }
-}
-
-/***/ }),
-/* 448 */,
-/* 449 */
+/* 452 */,
+/* 453 */,
+/* 454 */,
+/* 455 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -36683,9 +36836,9 @@ if (false) {
 }
 
 /***/ }),
-/* 450 */,
-/* 451 */,
-/* 452 */
+/* 456 */,
+/* 457 */,
+/* 458 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -37010,7 +37163,7 @@ if (false) {
 }
 
 /***/ }),
-/* 453 */
+/* 459 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -37042,8 +37195,8 @@ if (false) {
 }
 
 /***/ }),
-/* 454 */,
-/* 455 */
+/* 460 */,
+/* 461 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -37062,8 +37215,9 @@ if (false) {
 }
 
 /***/ }),
-/* 456 */,
-/* 457 */
+/* 462 */,
+/* 463 */,
+/* 464 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -37153,7 +37307,7 @@ if (false) {
 }
 
 /***/ }),
-/* 458 */
+/* 465 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -37244,7 +37398,7 @@ if (false) {
 }
 
 /***/ }),
-/* 459 */
+/* 466 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -37304,7 +37458,7 @@ if (false) {
 }
 
 /***/ }),
-/* 460 */
+/* 467 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -37326,8 +37480,8 @@ if (false) {
 }
 
 /***/ }),
-/* 461 */,
-/* 462 */
+/* 468 */,
+/* 469 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -37545,7 +37699,7 @@ if (false) {
 }
 
 /***/ }),
-/* 463 */
+/* 470 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -37598,7 +37752,7 @@ if (false) {
 }
 
 /***/ }),
-/* 464 */
+/* 471 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -37618,7 +37772,7 @@ if (false) {
 }
 
 /***/ }),
-/* 465 */
+/* 472 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -37667,7 +37821,7 @@ if (false) {
 }
 
 /***/ }),
-/* 466 */
+/* 473 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -37719,7 +37873,7 @@ if (false) {
 }
 
 /***/ }),
-/* 467 */
+/* 474 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -37922,107 +38076,9 @@ if (false) {
 }
 
 /***/ }),
-/* 468 */,
-/* 469 */,
-/* 470 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('div', {
-    staticClass: "list-header form-inline"
-  }, [_c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.sortBy),
-      expression: "sortBy"
-    }],
-    staticClass: "form-control",
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.sortBy = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, _vm._l((_vm.fields), function(field) {
-    return _c('option', {
-      domProps: {
-        "value": field
-      }
-    }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.snakeCaseToWords(field)) + "\n\t\t\t")])
-  })), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-default",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.sortOrder = _vm.sortOrder === 'asc' ? 'desc' : 'asc'
-      }
-    }
-  }, [(_vm.sortOrder === 'asc') ? _c('span', {
-    staticClass: "glyphicon glyphicon-sort-by-alphabet"
-  }) : _c('span', {
-    staticClass: "glyphicon glyphicon-sort-by-alphabet-alt"
-  })]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.query),
-      expression: "query"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "type": "search",
-      "placeholder": "Search"
-    },
-    domProps: {
-      "value": (_vm.query)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.query = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('ol', {
-    staticClass: "list"
-  }, [_vm._l((_vm.currentPageItems), function(item) {
-    return _vm._t("default", null, null, item)
-  })], 2), _vm._v(" "), _c('list-paginator', {
-    attrs: {
-      "paginatedItems": _vm.paginatedItems,
-      "itemsPerPage": _vm.itemsPerPage
-    },
-    on: {
-      "pageSize": function($event) {
-        _vm.itemsPerPage = arguments[0]
-      }
-    },
-    model: {
-      value: (_vm.page),
-      callback: function($$v) {
-        _vm.page = $$v
-      },
-      expression: "page"
-    }
-  })], 1)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-6d54e2f6", module.exports)
-  }
-}
-
-/***/ }),
-/* 471 */
+/* 475 */,
+/* 476 */,
+/* 477 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -38196,7 +38252,7 @@ if (false) {
 }
 
 /***/ }),
-/* 472 */
+/* 478 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -38264,8 +38320,8 @@ if (false) {
 }
 
 /***/ }),
-/* 473 */,
-/* 474 */
+/* 479 */,
+/* 480 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -38434,10 +38490,10 @@ if (false) {
 }
 
 /***/ }),
-/* 475 */,
-/* 476 */,
-/* 477 */,
-/* 478 */
+/* 481 */,
+/* 482 */,
+/* 483 */,
+/* 484 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -38469,7 +38525,7 @@ if (false) {
 }
 
 /***/ }),
-/* 479 */
+/* 485 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -38606,10 +38662,10 @@ if (false) {
 }
 
 /***/ }),
-/* 480 */,
-/* 481 */,
-/* 482 */,
-/* 483 */
+/* 486 */,
+/* 487 */,
+/* 488 */,
+/* 489 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -38646,7 +38702,7 @@ if (false) {
 }
 
 /***/ }),
-/* 484 */
+/* 490 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -38746,14 +38802,14 @@ if (false) {
 }
 
 /***/ }),
-/* 485 */,
-/* 486 */
+/* 491 */,
+/* 492 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(288);
+var content = __webpack_require__(299);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -38773,42 +38829,16 @@ if(false) {
 }
 
 /***/ }),
-/* 487 */
+/* 493 */,
+/* 494 */,
+/* 495 */,
+/* 496 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(289);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(2)("6a4ac0ec", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-05c830ce&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ListPaginator.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-05c830ce&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ListPaginator.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 488 */,
-/* 489 */,
-/* 490 */,
-/* 491 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(293);
+var content = __webpack_require__(303);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -38828,14 +38858,14 @@ if(false) {
 }
 
 /***/ }),
-/* 492 */,
-/* 493 */
+/* 497 */,
+/* 498 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(295);
+var content = __webpack_require__(305);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -38855,13 +38885,13 @@ if(false) {
 }
 
 /***/ }),
-/* 494 */
+/* 499 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(296);
+var content = __webpack_require__(306);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -38881,13 +38911,13 @@ if(false) {
 }
 
 /***/ }),
-/* 495 */
+/* 500 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(297);
+var content = __webpack_require__(307);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -38907,14 +38937,14 @@ if(false) {
 }
 
 /***/ }),
-/* 496 */,
-/* 497 */
+/* 501 */,
+/* 502 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(299);
+var content = __webpack_require__(309);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -38934,13 +38964,14 @@ if(false) {
 }
 
 /***/ }),
-/* 498 */
+/* 503 */,
+/* 504 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(300);
+var content = __webpack_require__(311);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -38960,13 +38991,13 @@ if(false) {
 }
 
 /***/ }),
-/* 499 */
+/* 505 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(301);
+var content = __webpack_require__(312);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -38986,14 +39017,14 @@ if(false) {
 }
 
 /***/ }),
-/* 500 */,
-/* 501 */
+/* 506 */,
+/* 507 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(303);
+var content = __webpack_require__(314);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -39013,13 +39044,13 @@ if(false) {
 }
 
 /***/ }),
-/* 502 */
+/* 508 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(304);
+var content = __webpack_require__(315);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -39039,13 +39070,13 @@ if(false) {
 }
 
 /***/ }),
-/* 503 */
+/* 509 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(305);
+var content = __webpack_require__(316);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -39065,40 +39096,14 @@ if(false) {
 }
 
 /***/ }),
-/* 504 */,
-/* 505 */
+/* 510 */,
+/* 511 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(307);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(2)("93a615da", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-6d54e2f6&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ComponentList.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-6d54e2f6&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ComponentList.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 506 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(308);
+var content = __webpack_require__(318);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -39118,14 +39123,14 @@ if(false) {
 }
 
 /***/ }),
-/* 507 */,
-/* 508 */
+/* 512 */,
+/* 513 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(310);
+var content = __webpack_require__(320);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -39145,13 +39150,13 @@ if(false) {
 }
 
 /***/ }),
-/* 509 */
+/* 514 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(311);
+var content = __webpack_require__(321);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -39171,18 +39176,18 @@ if(false) {
 }
 
 /***/ }),
-/* 510 */,
-/* 511 */,
-/* 512 */,
-/* 513 */,
-/* 514 */,
-/* 515 */
+/* 515 */,
+/* 516 */,
+/* 517 */,
+/* 518 */,
+/* 519 */,
+/* 520 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(317);
+var content = __webpack_require__(327);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -39202,13 +39207,13 @@ if(false) {
 }
 
 /***/ }),
-/* 516 */
+/* 521 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(318);
+var content = __webpack_require__(328);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -39228,33 +39233,33 @@ if(false) {
 }
 
 /***/ }),
-/* 517 */,
-/* 518 */,
-/* 519 */,
-/* 520 */,
-/* 521 */,
 /* 522 */,
 /* 523 */,
 /* 524 */,
-/* 525 */
+/* 525 */,
+/* 526 */,
+/* 527 */,
+/* 528 */,
+/* 529 */,
+/* 530 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(131);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_Reports_Reports_vue__ = __webpack_require__(129);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(144);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_Reports_Reports_vue__ = __webpack_require__(142);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_Reports_Reports_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_Reports_Reports_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_Reports_TraineeReport_vue__ = __webpack_require__(130);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_Reports_TraineeReport_vue__ = __webpack_require__(143);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_Reports_TraineeReport_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__vue_components_Reports_TraineeReport_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_Reports_FacultyReport_vue__ = __webpack_require__(125);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_Reports_FacultyReport_vue__ = __webpack_require__(138);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_Reports_FacultyReport_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__vue_components_Reports_FacultyReport_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__vue_components_Reports_FormReport_vue__ = __webpack_require__(126);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__vue_components_Reports_FormReport_vue__ = __webpack_require__(139);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__vue_components_Reports_FormReport_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__vue_components_Reports_FormReport_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__vue_components_Reports_Needs_Report_vue__ = __webpack_require__(127);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__vue_components_Reports_Needs_Report_vue__ = __webpack_require__(140);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__vue_components_Reports_Needs_Report_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__vue_components_Reports_Needs_Report_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__vue_components_Reports_PendingEvalsReport_vue__ = __webpack_require__(128);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__vue_components_Reports_PendingEvalsReport_vue__ = __webpack_require__(141);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__vue_components_Reports_PendingEvalsReport_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__vue_components_Reports_PendingEvalsReport_vue__);
 /* harmony export (immutable) */ __webpack_exports__["createReports"] = createReports;
 
@@ -39297,6 +39302,6 @@ function createReports(el) {
 }
 
 /***/ })
-],[525]);
+],[530]);
 });
 //# sourceMappingURL=vue-reports.js.map

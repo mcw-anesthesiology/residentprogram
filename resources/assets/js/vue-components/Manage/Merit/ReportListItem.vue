@@ -18,12 +18,25 @@
 					<span class="glyphicon glyphicon-pencil"></span>
 					View / edit
 				</button>
+				<confirmation-button class="btn btn-sm btn-danger"
+						pressed-class="btn btn-sm btn-warning"
+						@click="$emit('delete', id)">
+					<span class="glyphicon glyphicon-remove"></span>
+					Delete
+					
+					<template slot="pressed">
+						<span class="glyphicon glyphicon-trash"></span>
+						Confirm delete
+					</template>
+				</confirmation-button>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
+
 export default {
 	props: {
 		id: {
@@ -54,6 +67,10 @@ export default {
 		handleClick() {
 			this.$emit('click');
 		}
+	},
+	
+	components: {
+		ConfirmationButton
 	}
 };
 </script>
