@@ -27,7 +27,8 @@
 		
 		<component-list :fields="formFields" :items="meritForms" v-cloak>
 			<template scope="item">
-				<merit-report-list-item v-bind="item" @click="merit = item">
+				<merit-report-list-item v-bind="item" @click="merit = item"
+					@delete="removeMeritForm(item.id)">
 				</merit-report-list-item>
 			</template>
 		</component-list>

@@ -8,20 +8,111 @@
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
 })(this, function() {
-return webpackJsonp([4,11],{
+return webpackJsonp([3,11],{
 
-/***/ 10:
+/***/ 103:
+/***/ (function(module, exports, __webpack_require__) {
+
+var json = typeof JSON !== 'undefined' ? JSON : __webpack_require__(342);
+
+module.exports = function (obj, opts) {
+    if (!opts) opts = {};
+    if (typeof opts === 'function') opts = { cmp: opts };
+    var space = opts.space || '';
+    if (typeof space === 'number') space = Array(space+1).join(' ');
+    var cycles = (typeof opts.cycles === 'boolean') ? opts.cycles : false;
+    var replacer = opts.replacer || function(key, value) { return value; };
+
+    var cmp = opts.cmp && (function (f) {
+        return function (node) {
+            return function (a, b) {
+                var aobj = { key: a, value: node[a] };
+                var bobj = { key: b, value: node[b] };
+                return f(aobj, bobj);
+            };
+        };
+    })(opts.cmp);
+
+    var seen = [];
+    return (function stringify (parent, key, node, level) {
+        var indent = space ? ('\n' + new Array(level + 1).join(space)) : '';
+        var colonSeparator = space ? ': ' : ':';
+
+        if (node && node.toJSON && typeof node.toJSON === 'function') {
+            node = node.toJSON();
+        }
+
+        node = replacer.call(parent, key, node);
+
+        if (node === undefined) {
+            return;
+        }
+        if (typeof node !== 'object' || node === null) {
+            return json.stringify(node);
+        }
+        if (isArray(node)) {
+            var out = [];
+            for (var i = 0; i < node.length; i++) {
+                var item = stringify(node, i, node[i], level+1) || json.stringify(null);
+                out.push(indent + space + item);
+            }
+            return '[' + out.join(',') + indent + ']';
+        }
+        else {
+            if (seen.indexOf(node) !== -1) {
+                if (cycles) return json.stringify('__cycle__');
+                throw new TypeError('Converting circular structure to JSON');
+            }
+            else seen.push(node);
+
+            var keys = objectKeys(node).sort(cmp && cmp(node));
+            var out = [];
+            for (var i = 0; i < keys.length; i++) {
+                var key = keys[i];
+                var value = stringify(node, key, node[key], level+1);
+
+                if(!value) continue;
+
+                var keyValue = json.stringify(key)
+                    + colonSeparator
+                    + value;
+                ;
+                out.push(indent + space + keyValue);
+            }
+            seen.splice(seen.indexOf(node), 1);
+            return '{' + out.join(',') + indent + '}';
+        }
+    })({ '': obj }, '', obj, 0);
+};
+
+var isArray = Array.isArray || function (x) {
+    return {}.toString.call(x) === '[object Array]';
+};
+
+var objectKeys = Object.keys || function (obj) {
+    var has = Object.prototype.hasOwnProperty || function () { return true };
+    var keys = [];
+    for (var key in obj) {
+        if (has.call(obj, key)) keys.push(key);
+    }
+    return keys;
+};
+
+
+/***/ }),
+
+/***/ 11:
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(40)
+__webpack_require__(41)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(22),
+  __webpack_require__(24),
   /* template */
-  __webpack_require__(35),
+  __webpack_require__(36),
   /* scopeId */
   "data-v-4d4c1aff",
   /* cssModules */
@@ -49,26 +140,22 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 103:
+/***/ 12:
 /***/ (function(module, exports, __webpack_require__) {
-
-
-/* styles */
-__webpack_require__(505)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(169),
+  __webpack_require__(16),
   /* template */
-  __webpack_require__(470),
+  __webpack_require__(19),
   /* scopeId */
-  "data-v-6d54e2f6",
+  null,
   /* cssModules */
   null
 )
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ComponentList.vue"
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/SelectTwo.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] ComponentList.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] SelectTwo.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -77,9 +164,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6d54e2f6", Component.options)
+    hotAPI.createRecord("data-v-2434126b", Component.options)
   } else {
-    hotAPI.reload("data-v-6d54e2f6", Component.options)
+    hotAPI.reload("data-v-2434126b", Component.options)
   }
 })()}
 
@@ -88,13 +175,52 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 118:
+/***/ 13:
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(42)
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(26),
+  /* template */
+  __webpack_require__(38),
+  /* scopeId */
+  "data-v-7d00f708",
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/StartEndDate.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] StartEndDate.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7d00f708", Component.options)
+  } else {
+    hotAPI.reload("data-v-7d00f708", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 131:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(8);
@@ -200,7 +326,7 @@ function createManageEvaluations(el, propsData) {
 
 /***/ }),
 
-/***/ 119:
+/***/ 132:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -208,13 +334,13 @@ function createManageEvaluations(el, propsData) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_ComponentList_vue__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_ComponentList_vue__ = __webpack_require__(53);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_ComponentList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_ComponentList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_JsonSchemaEditor_vue__ = __webpack_require__(415);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_JsonSchemaEditor_vue__ = __webpack_require__(424);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_JsonSchemaEditor_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__vue_components_JsonSchemaEditor_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_SelectTwo_vue__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_SelectTwo_vue__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_SelectTwo_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__vue_components_SelectTwo_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__vue_components_Manage_Merit_ReportListItem_vue__ = __webpack_require__(531);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__vue_components_Manage_Merit_ReportListItem_vue__ = __webpack_require__(425);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__vue_components_Manage_Merit_ReportListItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__vue_components_Manage_Merit_ReportListItem_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_utils_js__ = __webpack_require__(3);
 /* harmony export (immutable) */ __webpack_exports__["a"] = createManageMerit;
@@ -333,13 +459,61 @@ function createManageMerit(el, propsData) {
 					_this3.fetchMerits();
 				}).catch(function (err) {
 					console.error(err);
+					_this3.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem saving the merit form'
+					});
+				});
+			},
+			removeMeritForm: function removeMeritForm(formId) {
+				var _this4 = this;
+
+				fetch('/merit-forms/' + formId, {
+					method: 'POST', // DELETE
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["a" /* getFetchHeaders */])(),
+					credentials: 'same-origin',
+					body: JSON.stringify({
+						_method: 'DELETE'
+					})
+				}).then(function (response) {
+					if (!response.ok) throw Error(response.statusText);
+
+					var reportTypeRemovalPromises = [];
+
+					for (var reportType in _this4.meritReportTypeForms) {
+						var form = _this4.meritReportTypeForms[reportType];
+
+						if (Number(formId) === Number(form)) reportTypeRemovalPromises.push(fetch('/setting/' + reportTypeFormsKey + '.' + reportType, {
+							method: 'POST', // DELETE
+							headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["a" /* getFetchHeaders */])(),
+							credentials: 'same-origin',
+							body: JSON.stringify({
+								_method: 'DELETE'
+							})
+						}));
+					}
+
+					if (reportTypeRemovalPromises.length > 0) {
+						Promise.all(reportTypeRemovalPromises).then(function () {
+							_this4.fetchReportTypeForms();
+						});
+					}
+
+					_this4.fetchMerits();
+				}).catch(function (err) {
+					console.error(err);
+					_this4.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem removing the merit form'
+					});
 				});
 			},
 			handleReportTypeInput: function handleReportTypeInput(reportType, meritForm) {
-				var _this4 = this;
+				var _this5 = this;
 
-				console.log(reportType, meritForm);
 				if (!meritForm || meritForm === this.meritReportTypeForms[reportType]) return;
+
+				meritForm = Number(meritForm);
 
 				fetch('/setting/' + reportTypeFormsKey + '.' + reportType, {
 					method: 'POST', // PATCH
@@ -350,12 +524,34 @@ function createManageMerit(el, propsData) {
 						value: meritForm
 					})
 				}).then(function (response) {
-					if (response.ok) _this4.fetchReportTypeForms();else throw Error(response.statusText);
+					if (response.ok) _this5.fetchReportTypeForms();else throw Error(response.statusText);
 				}).catch(function (err) {
 					console.error(err);
-					_this4.alerts.push({
+					_this5.alerts.push({
 						type: 'error',
 						html: '<strong>Error:</strong> There was a problem saving report type form'
+					});
+				});
+			},
+			removeReportTypeForm: function removeReportTypeForm(reportType) {
+				var _this6 = this;
+
+				fetch('/setting/' + reportTypeFormsKey + '.' + reportType, {
+					method: 'POST', // DELETE
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["a" /* getFetchHeaders */])(),
+					credentials: 'same-origin',
+					body: JSON.stringify({
+						_method: 'DELETE'
+					})
+				}).then(function (response) {
+					if (!response.ok) throw Error(response.statusText);
+
+					_this6.fetchReportTypeForms();
+				}).catch(function (err) {
+					console.error(err);
+					_this6.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem removing the type form'
 					});
 				});
 			}
@@ -374,46 +570,7 @@ function createManageMerit(el, propsData) {
 
 /***/ }),
 
-/***/ 12:
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/* styles */
-__webpack_require__(41)
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(25),
-  /* template */
-  __webpack_require__(37),
-  /* scopeId */
-  "data-v-7d00f708",
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/StartEndDate.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] StartEndDate.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7d00f708", Component.options)
-  } else {
-    hotAPI.reload("data-v-7d00f708", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 120:
+/***/ 133:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -421,9 +578,9 @@ module.exports = Component.exports
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_OrderingList_vue__ = __webpack_require__(421);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_OrderingList_vue__ = __webpack_require__(430);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_OrderingList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__vue_components_OrderingList_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_ShowHideButton_vue__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_ShowHideButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__vue_components_ShowHideButton_vue__);
@@ -662,18 +819,18 @@ function createManageMilestonesCompetencies(el, propsData) {
 
 /***/ }),
 
-/***/ 13:
+/***/ 14:
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(42)
+__webpack_require__(43)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(21),
+  __webpack_require__(23),
   /* template */
-  __webpack_require__(38),
+  __webpack_require__(39),
   /* scopeId */
   "data-v-8d03363a",
   /* cssModules */
@@ -701,7 +858,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 134:
+/***/ 147:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -758,23 +915,23 @@ module.exports = function (metaSchema, keywordsJsonPointers) {
 
 /***/ }),
 
-/***/ 135:
+/***/ 148:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var compileSchema = __webpack_require__(140)
-  , resolve = __webpack_require__(56)
-  , Cache = __webpack_require__(136)
-  , SchemaObject = __webpack_require__(71)
-  , stableStringify = __webpack_require__(89)
-  , formats = __webpack_require__(139)
-  , rules = __webpack_require__(141)
-  , $dataMetaSchema = __webpack_require__(134)
-  , patternGroups = __webpack_require__(162)
-  , util = __webpack_require__(43)
-  , co = __webpack_require__(78);
+var compileSchema = __webpack_require__(153)
+  , resolve = __webpack_require__(57)
+  , Cache = __webpack_require__(149)
+  , SchemaObject = __webpack_require__(85)
+  , stableStringify = __webpack_require__(103)
+  , formats = __webpack_require__(152)
+  , rules = __webpack_require__(154)
+  , $dataMetaSchema = __webpack_require__(147)
+  , patternGroups = __webpack_require__(175)
+  , util = __webpack_require__(44)
+  , co = __webpack_require__(92);
 
 module.exports = Ajv;
 
@@ -791,13 +948,13 @@ Ajv.prototype.errorsText = errorsText;
 Ajv.prototype._addSchema = _addSchema;
 Ajv.prototype._compile = _compile;
 
-Ajv.prototype.compileAsync = __webpack_require__(138);
-var customKeyword = __webpack_require__(161);
+Ajv.prototype.compileAsync = __webpack_require__(151);
+var customKeyword = __webpack_require__(174);
 Ajv.prototype.addKeyword = customKeyword.add;
 Ajv.prototype.getKeyword = customKeyword.get;
 Ajv.prototype.removeKeyword = customKeyword.remove;
 
-var errorClasses = __webpack_require__(55);
+var errorClasses = __webpack_require__(56);
 Ajv.ValidationError = errorClasses.Validation;
 Ajv.MissingRefError = errorClasses.MissingRef;
 Ajv.$dataMetaSchema = $dataMetaSchema;
@@ -1200,11 +1357,11 @@ function addFormat(name, format) {
 function addDraft6MetaSchema(self) {
   var $dataSchema;
   if (self._opts.$data) {
-    $dataSchema = __webpack_require__(163);
+    $dataSchema = __webpack_require__(176);
     self.addMetaSchema($dataSchema, $dataSchema.$id, true);
   }
   if (self._opts.meta === false) return;
-  var metaSchema = __webpack_require__(164);
+  var metaSchema = __webpack_require__(177);
   if (self._opts.$data) metaSchema = $dataMetaSchema(metaSchema, META_SUPPORT_DATA);
   self.addMetaSchema(metaSchema, META_SCHEMA_ID, true);
   self._refs['http://json-schema.org/schema'] = META_SCHEMA_ID;
@@ -1243,7 +1400,7 @@ function getMetaSchemaOptions(self) {
 
 /***/ }),
 
-/***/ 136:
+/***/ 149:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1277,7 +1434,42 @@ Cache.prototype.clear = function Cache_clear() {
 
 /***/ }),
 
-/***/ 137:
+/***/ 15:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(46),
+  /* template */
+  __webpack_require__(50),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/EvaluationDataTable.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] EvaluationDataTable.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-c24d553a", Component.options)
+  } else {
+    hotAPI.reload("data-v-c24d553a", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 150:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1285,44 +1477,44 @@ Cache.prototype.clear = function Cache_clear() {
 
 //all requires must be explicit because browserify won't work with dynamic requires
 module.exports = {
-  '$ref': __webpack_require__(158),
-  allOf: __webpack_require__(143),
-  anyOf: __webpack_require__(144),
-  const: __webpack_require__(145),
-  contains: __webpack_require__(146),
-  dependencies: __webpack_require__(148),
-  'enum': __webpack_require__(149),
-  format: __webpack_require__(150),
-  items: __webpack_require__(151),
-  maximum: __webpack_require__(72),
-  minimum: __webpack_require__(72),
-  maxItems: __webpack_require__(73),
-  minItems: __webpack_require__(73),
-  maxLength: __webpack_require__(74),
-  minLength: __webpack_require__(74),
-  maxProperties: __webpack_require__(75),
-  minProperties: __webpack_require__(75),
-  multipleOf: __webpack_require__(152),
-  not: __webpack_require__(153),
-  oneOf: __webpack_require__(154),
-  pattern: __webpack_require__(155),
-  properties: __webpack_require__(156),
-  propertyNames: __webpack_require__(157),
-  required: __webpack_require__(159),
-  uniqueItems: __webpack_require__(160),
-  validate: __webpack_require__(76)
+  '$ref': __webpack_require__(171),
+  allOf: __webpack_require__(156),
+  anyOf: __webpack_require__(157),
+  const: __webpack_require__(158),
+  contains: __webpack_require__(159),
+  dependencies: __webpack_require__(161),
+  'enum': __webpack_require__(162),
+  format: __webpack_require__(163),
+  items: __webpack_require__(164),
+  maximum: __webpack_require__(86),
+  minimum: __webpack_require__(86),
+  maxItems: __webpack_require__(87),
+  minItems: __webpack_require__(87),
+  maxLength: __webpack_require__(88),
+  minLength: __webpack_require__(88),
+  maxProperties: __webpack_require__(89),
+  minProperties: __webpack_require__(89),
+  multipleOf: __webpack_require__(165),
+  not: __webpack_require__(166),
+  oneOf: __webpack_require__(167),
+  pattern: __webpack_require__(168),
+  properties: __webpack_require__(169),
+  propertyNames: __webpack_require__(170),
+  required: __webpack_require__(172),
+  uniqueItems: __webpack_require__(173),
+  validate: __webpack_require__(90)
 };
 
 
 /***/ }),
 
-/***/ 138:
+/***/ 151:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var MissingRefError = __webpack_require__(55).MissingRef;
+var MissingRefError = __webpack_require__(56).MissingRef;
 
 module.exports = compileAsync;
 
@@ -1414,13 +1606,13 @@ function compileAsync(schema, meta, callback) {
 
 /***/ }),
 
-/***/ 139:
+/***/ 152:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var util = __webpack_require__(43);
+var util = __webpack_require__(44);
 
 var DATE = /^\d\d\d\d-(\d\d)-(\d\d)$/;
 var DAYS = [0,31,29,31,30,31,30,31,31,30,31,30,31];
@@ -1557,61 +1749,26 @@ function regex(str) {
 
 /***/ }),
 
-/***/ 14:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(45),
-  /* template */
-  __webpack_require__(50),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/EvaluationDataTable.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] EvaluationDataTable.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-c24d553a", Component.options)
-  } else {
-    hotAPI.reload("data-v-c24d553a", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 140:
+/***/ 153:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var resolve = __webpack_require__(56)
-  , util = __webpack_require__(43)
-  , errorClasses = __webpack_require__(55)
-  , stableStringify = __webpack_require__(89);
+var resolve = __webpack_require__(57)
+  , util = __webpack_require__(44)
+  , errorClasses = __webpack_require__(56)
+  , stableStringify = __webpack_require__(103);
 
-var validateGenerator = __webpack_require__(76);
+var validateGenerator = __webpack_require__(90);
 
 /**
  * Functions below are used inside compiled validations function
  */
 
-var co = __webpack_require__(78);
+var co = __webpack_require__(92);
 var ucs2length = util.ucs2length;
-var equal = __webpack_require__(70);
+var equal = __webpack_require__(84);
 
 // this error is thrown by async schemas to return validation errors via exception
 var ValidationError = errorClasses.Validation;
@@ -1973,14 +2130,14 @@ function vars(arr, statement) {
 
 /***/ }),
 
-/***/ 141:
+/***/ 154:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var ruleModules = __webpack_require__(137)
-  , toHash = __webpack_require__(43).toHash;
+var ruleModules = __webpack_require__(150)
+  , toHash = __webpack_require__(44).toHash;
 
 module.exports = function rules() {
   var RULES = [
@@ -2037,7 +2194,7 @@ module.exports = function rules() {
 
 /***/ }),
 
-/***/ 142:
+/***/ 155:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2065,7 +2222,7 @@ module.exports = function ucs2length(str) {
 
 /***/ }),
 
-/***/ 143:
+/***/ 156:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2116,7 +2273,7 @@ module.exports = function generate_allOf(it, $keyword, $ruleType) {
 
 /***/ }),
 
-/***/ 144:
+/***/ 157:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2197,7 +2354,7 @@ module.exports = function generate_anyOf(it, $keyword, $ruleType) {
 
 /***/ }),
 
-/***/ 145:
+/***/ 158:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2260,7 +2417,7 @@ module.exports = function generate_const(it, $keyword, $ruleType) {
 
 /***/ }),
 
-/***/ 146:
+/***/ 159:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2349,7 +2506,172 @@ module.exports = function generate_contains(it, $keyword, $ruleType) {
 
 /***/ }),
 
-/***/ 147:
+/***/ 16:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: {
+		options: {
+			type: Array,
+			required: false
+		},
+		name: {
+			type: String,
+			required: false
+		},
+		id: {
+			type: String,
+			required: false
+		},
+		required: {
+			type: Boolean,
+			required: false
+		},
+		value: {
+			required: true
+		},
+		multiple: {
+			type: Boolean,
+			default: false
+		},
+		placeholder: {
+			type: String,
+			default: 'Please select'
+		}
+	},
+	computed: {
+		stringOptions: function stringOptions() {
+			if (!this.options) return [];
+
+			var options = this.options.slice();
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+
+			try {
+				for (var _iterator = options[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var option = _step.value;
+
+					if (option.id) option.id = option.id.toString();
+					if (option.children) {
+						var _iteratorNormalCompletion2 = true;
+						var _didIteratorError2 = false;
+						var _iteratorError2 = undefined;
+
+						try {
+							for (var _iterator2 = option.children[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+								var child = _step2.value;
+
+								if (child.id) child.id = child.id.toString();
+							}
+						} catch (err) {
+							_didIteratorError2 = true;
+							_iteratorError2 = err;
+						} finally {
+							try {
+								if (!_iteratorNormalCompletion2 && _iterator2.return) {
+									_iterator2.return();
+								}
+							} finally {
+								if (_didIteratorError2) {
+									throw _iteratorError2;
+								}
+							}
+						}
+					}
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator.return) {
+						_iterator.return();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
+			}
+
+			return options;
+		},
+		stringValue: function stringValue() {
+			if (!this.value && this.value !== 0) return '';
+
+			if (Array.isArray(this.value)) {
+				return this.value.slice().map(function (value) {
+					return value.toString();
+				});
+			} else {
+				return this.value.toString();
+			}
+		}
+	},
+	mounted: function mounted() {
+		var _this = this;
+
+		$(this.$el).on('change', function () {
+			_this.$emit('input', $(_this.$el).val());
+		});
+
+		$(this.$el).val(this.stringValue).select2({
+			placeholder: this.placeholder,
+			tags: this.multiple,
+			createTag: function createTag() {
+				return undefined;
+			}
+		});
+	},
+	updated: function updated() {
+		$(this.$el).val(this.stringValue).select2({
+			placeholder: this.placeholder,
+			tags: this.multiple,
+			createTag: function createTag() {
+				return undefined;
+			}
+		}).trigger('change');
+	},
+
+	watch: {
+		multiple: function multiple(_multiple) {
+			if (this.value) {
+				if (_multiple && !Array.isArray(this.value)) this.$emit('input', [this.value]);else if (!_multiple && Array.isArray(this.value)) this.$emit('input', this.value[0]);
+			}
+		},
+		stringValue: function stringValue(_stringValue) {
+			$(this.$el).val(_stringValue).trigger('change.select2');
+		}
+	},
+	beforeDestroyed: function beforeDestroyed() {
+		$(this.$el).off().select2('destroy');
+	}
+};
+
+/***/ }),
+
+/***/ 160:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2583,7 +2905,7 @@ module.exports = function generate_custom(it, $keyword, $ruleType) {
 
 /***/ }),
 
-/***/ 148:
+/***/ 161:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2758,7 +3080,7 @@ module.exports = function generate_dependencies(it, $keyword, $ruleType) {
 
 /***/ }),
 
-/***/ 149:
+/***/ 162:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2831,42 +3153,7 @@ module.exports = function generate_enum(it, $keyword, $ruleType) {
 
 /***/ }),
 
-/***/ 15:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(23),
-  /* template */
-  __webpack_require__(33),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/SelectTwo.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] SelectTwo.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2434126b", Component.options)
-  } else {
-    hotAPI.reload("data-v-2434126b", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 150:
+/***/ 163:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3023,7 +3310,7 @@ module.exports = function generate_format(it, $keyword, $ruleType) {
 
 /***/ }),
 
-/***/ 151:
+/***/ 164:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3171,7 +3458,7 @@ module.exports = function generate_items(it, $keyword, $ruleType) {
 
 /***/ }),
 
-/***/ 152:
+/***/ 165:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3255,7 +3542,7 @@ module.exports = function generate_multipleOf(it, $keyword, $ruleType) {
 
 /***/ }),
 
-/***/ 153:
+/***/ 166:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3346,7 +3633,7 @@ module.exports = function generate_not(it, $keyword, $ruleType) {
 
 /***/ }),
 
-/***/ 154:
+/***/ 167:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3424,7 +3711,7 @@ module.exports = function generate_oneOf(it, $keyword, $ruleType) {
 
 /***/ }),
 
-/***/ 155:
+/***/ 168:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3506,7 +3793,7 @@ module.exports = function generate_pattern(it, $keyword, $ruleType) {
 
 /***/ }),
 
-/***/ 156:
+/***/ 169:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3982,7 +4269,7 @@ module.exports = function generate_properties(it, $keyword, $ruleType) {
 
 /***/ }),
 
-/***/ 157:
+/***/ 170:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4071,7 +4358,7 @@ module.exports = function generate_propertyNames(it, $keyword, $ruleType) {
 
 /***/ }),
 
-/***/ 158:
+/***/ 171:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4202,7 +4489,7 @@ module.exports = function generate_ref(it, $keyword, $ruleType) {
 
 /***/ }),
 
-/***/ 159:
+/***/ 172:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4478,7 +4765,7 @@ module.exports = function generate_required(it, $keyword, $ruleType) {
 
 /***/ }),
 
-/***/ 160:
+/***/ 173:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4557,14 +4844,14 @@ module.exports = function generate_uniqueItems(it, $keyword, $ruleType) {
 
 /***/ }),
 
-/***/ 161:
+/***/ 174:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var IDENTIFIER = /^[a-z_$][a-z0-9_$\-]*$/i;
-var customRuleCode = __webpack_require__(147);
+var customRuleCode = __webpack_require__(160);
 
 module.exports = {
   add: addKeyword,
@@ -4695,7 +4982,7 @@ function removeKeyword(keyword) {
 
 /***/ }),
 
-/***/ 162:
+/***/ 175:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4739,7 +5026,7 @@ module.exports = function (ajv) {
 
 /***/ }),
 
-/***/ 163:
+/***/ 176:
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -4768,7 +5055,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 164:
+/***/ 177:
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -4985,166 +5272,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 169:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ListPaginator_vue__ = __webpack_require__(416);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ListPaginator_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ListPaginator_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lunr__ = __webpack_require__(349);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lunr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lunr__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__ = __webpack_require__(46);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = {
-	props: {
-		fields: {
-			type: Array,
-			default: function _default() {
-				return [];
-			}
-		},
-		items: {
-			type: Array,
-			required: true
-		}
-	},
-	data: function data() {
-		return {
-			query: null,
-			page: 0,
-			itemsPerPage: 10,
-			sortBy: this.fields[0],
-			sortOrder: 'asc'
-		};
-	},
-
-	computed: {
-		itemMap: function itemMap() {
-			var map = new Map();
-			this.items.map(function (item) {
-				map.set(item.id, item);
-			});
-
-			return map;
-		},
-		index: function index() {
-			var fields = this.fields;
-
-			var index = __WEBPACK_IMPORTED_MODULE_1_lunr___default()(function () {
-				var _this = this;
-
-				fields.map(function (field) {
-					var name = void 0,
-					    options = void 0;
-					if (typeof field === 'string') {
-						name = field;
-					} else {
-						name = field.name;
-						options = field;
-					}
-					_this.field(name, options);
-				});
-			});
-
-			this.items.map(function (item) {
-				index.add(item);
-			});
-
-			return index;
-		},
-		filteredItems: function filteredItems() {
-			var _this2 = this;
-
-			if (this.query) {
-				var refs = this.index.search(this.query);
-				return refs.map(function (ref) {
-					return _this2.itemMap.get(ref.ref);
-				});
-			}
-
-			return this.items;
-		},
-		sortedItems: function sortedItems() {
-			var _this3 = this;
-
-			if (this.sortBy && this.sortOrder) {
-
-				var sortedItems = __WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__["a" /* sortFunctions */].has(this.sortBy) ? this.filteredItems.sort(__WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__["a" /* sortFunctions */].get(this.sortBy)) : this.filteredItems.sort(function (a, b) {
-					var aValue = a[_this3.sortBy];
-					var bValue = b[_this3.sortBy];
-
-					if (Number.isNaN(aValue)) aValue = aValue.toUpperCase();
-
-					if (Number.isNaN(bValue)) bValue = bValue.toUpperCase();
-
-					if (aValue < bValue) return -1;
-					if (aValue > bValue) return 1;
-					return 0;
-				});
-
-				return this.sortOrder === 'asc' ? sortedItems : sortedItems.reverse();
-			}
-
-			return this.filteredItems;
-		},
-		paginatedItems: function paginatedItems() {
-			var paginatedItems = [];
-			var items = this.sortedItems.slice();
-			while (items.length > 0) {
-				paginatedItems.push(items.splice(0, this.itemsPerPage));
-			}return paginatedItems;
-		},
-		currentPageItems: function currentPageItems() {
-			return this.paginatedItems[this.page];
-		}
-	},
-	methods: {
-		snakeCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["e" /* snakeCaseToWords */]
-	},
-	components: {
-		ListPaginator: __WEBPACK_IMPORTED_MODULE_0__ListPaginator_vue___default.a
-	}
-};
-
-/***/ }),
-
-/***/ 17:
+/***/ 18:
 /***/ (function(module, exports) {
 
 /*
@@ -5397,7 +5525,7 @@ function updateLink(linkElement, obj) {
 
 /***/ }),
 
-/***/ 177:
+/***/ 189:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5406,7 +5534,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__AlertList_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShowHideButton_vue__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShowHideButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ShowHideButton_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ajv__ = __webpack_require__(135);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ajv__ = __webpack_require__(148);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ajv___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_ajv__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__ = __webpack_require__(3);
 //
@@ -5581,19 +5709,52 @@ var ajv = new __WEBPACK_IMPORTED_MODULE_2_ajv___default.a({
 
 /***/ }),
 
-/***/ 178:
+/***/ 19:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('select', {
+    attrs: {
+      "name": _vm.name,
+      "id": _vm.id,
+      "required": _vm.required,
+      "multiple": _vm.multiple
+    }
+  }, [_vm._t("default"), _vm._v(" "), _vm._l((_vm.stringOptions), function(option) {
+    return [(option.children && option.children.length > 0) ? _c('optgroup', {
+      attrs: {
+        "label": option.text
+      }
+    }, _vm._l((option.children), function(child) {
+      return _c('option', {
+        domProps: {
+          "value": child.id
+        }
+      }, [_vm._v("\n\t\t\t\t" + _vm._s(child.text) + "\n\t\t\t")])
+    })) : (option.id) ? _c('option', {
+      domProps: {
+        "value": option.id
+      }
+    }, [_vm._v("\n\t\t\t" + _vm._s(option.text) + "\n\t\t")]) : _vm._e()]
+  })], 2)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-2434126b", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 190:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PaginatorLink_vue__ = __webpack_require__(422);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PaginatorLink_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__PaginatorLink_vue__);
-//
-//
-//
-//
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ConfirmationButton_vue__ = __webpack_require__(536);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ConfirmationButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ConfirmationButton_vue__);
 //
 //
 //
@@ -5635,28 +5796,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = {
 	props: {
-		value: Number,
-		itemsPerPage: Number,
-		paginatedItems: Array
-	},
-	watch: {
-		itemsPerPage: function itemsPerPage() {
-			if (this.value >= this.paginatedItems.length) this.setPage(this.paginatedItems.length - 1);
+		id: {
+			type: Number,
+			required: true
+		},
+		name: {
+			type: String,
+			required: true
+		},
+		version: {
+			type: Number,
+			required: true
+		},
+		form: {
+			type: String,
+			required: true
 		}
 	},
+
+	computed: {
+		formObject: function formObject() {
+			return JSON.parse(this.form);
+		}
+	},
+
 	methods: {
-		setPage: function setPage(page) {
-			this.$emit('input', page);
+		handleClick: function handleClick() {
+			this.$emit('click');
 		}
 	},
+
 	components: {
-		PaginatorLink: __WEBPACK_IMPORTED_MODULE_0__PaginatorLink_vue___default.a
+		ConfirmationButton: __WEBPACK_IMPORTED_MODULE_0__ConfirmationButton_vue___default.a
 	}
 };
 
 /***/ }),
 
-/***/ 184:
+/***/ 196:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5821,38 +5998,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 185:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = {
-	props: {
-		value: Number,
-		text: {
-			type: String,
-			required: false
-		},
-		active: Boolean
-	},
-	methods: {
-		emitPage: function emitPage() {
-			if (!this.active) this.$emit('click', this.value);
-		}
-	}
-};
-
-/***/ }),
-
-/***/ 19:
+/***/ 21:
 /***/ (function(module, exports, __webpack_require__) {
 
 !function(e,t){ true?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports.INDEX=t():e.INDEX=t()}(this,function(){return function(e){function t(a){if(n[a])return n[a].exports;var r=n[a]={exports:{},id:a,loaded:!1};return e[a].call(r.exports,r,r.exports,t),r.loaded=!0,r.exports}var n={};return t.m=e,t.c=n,t.p=".",t(0)}([function(e,t,n){"use strict";function a(e){return e&&e.__esModule?e:{default:e}}Object.defineProperty(t,"__esModule",{value:!0});var r=n(6),i=a(r),o=n(42),c=a(o),l=function(e){e.component("Flatpickr",c.default)};t.default=(0,i.default)(c.default,{install:l})},function(e,t){var n=e.exports={version:"2.4.0"};"number"==typeof __e&&(__e=n)},function(e,t,n){e.exports=!n(3)(function(){return 7!=Object.defineProperty({},"a",{get:function(){return 7}}).a})},function(e,t){e.exports=function(e){try{return!!e()}catch(e){return!0}}},function(e,t){var n=e.exports="undefined"!=typeof window&&window.Math==Math?window:"undefined"!=typeof self&&self.Math==Math?self:Function("return this")();"number"==typeof __g&&(__g=n)},function(e,t){e.exports=function(e){return"object"==typeof e?null!==e:"function"==typeof e}},function(e,t,n){e.exports={default:n(14),__esModule:!0}},function(e,t){e.exports=function(e){if(void 0==e)throw TypeError("Can't call method on  "+e);return e}},function(e,t,n){var a=n(18);e.exports=Object("z").propertyIsEnumerable(0)?Object:function(e){return"String"==a(e)?e.split(""):Object(e)}},function(e,t){var n=Math.ceil,a=Math.floor;e.exports=function(e){return isNaN(e=+e)?0:(e>0?a:n)(e)}},function(e,t,n){var a=n(8),r=n(7);e.exports=function(e){return a(r(e))}},function(e,t,n){"use strict";function a(e){return e&&e.__esModule?e:{default:e}}Object.defineProperty(t,"__esModule",{value:!0});var r=n(6),i=a(r),o=n(12),c=a(o),l=n(41),s=a(l);t.default={props:{placeholder:{type:String,default:""},options:{type:Object,default:function(){return{}}},value:{type:String,default:""}},data:function(){return{fp:null}},computed:{fpOptions:function(){return(0,c.default)(this.options)}},watch:{value:function(e){this.fp.setDate(e)},fpOptions:function(e){var t=JSON.parse(e);for(var n in t)this.fp.set(n,t[n])}},mounted:function(){var e=this,t=this.options.onValueUpdate;this.fp=new s.default(this.$el,(0,i.default)(this.options,{onValueUpdate:function(){e.onInput(e.$el.value),"function"==typeof t&&t()}})),this.$emit("FlatpickrRef",this.fp)},destroyed:function(){this.fp.destroy(),this.fp=null},methods:{onInput:function(e){"string"==typeof e?this.$emit("input",e):this.$emit("input",e.target.value)}}}},function(e,t,n){e.exports={default:n(13),__esModule:!0}},function(e,t,n){var a=n(1),r=a.JSON||(a.JSON={stringify:JSON.stringify});e.exports=function(e){return r.stringify.apply(r,arguments)}},function(e,t,n){n(40),e.exports=n(1).Object.assign},function(e,t){e.exports=function(e){if("function"!=typeof e)throw TypeError(e+" is not a function!");return e}},function(e,t,n){var a=n(5);e.exports=function(e){if(!a(e))throw TypeError(e+" is not an object!");return e}},function(e,t,n){var a=n(10),r=n(36),i=n(35);e.exports=function(e){return function(t,n,o){var c,l=a(t),s=r(l.length),u=i(o,s);if(e&&n!=n){for(;s>u;)if(c=l[u++],c!=c)return!0}else for(;s>u;u++)if((e||u in l)&&l[u]===n)return e||u||0;return!e&&-1}}},function(e,t){var n={}.toString;e.exports=function(e){return n.call(e).slice(8,-1)}},function(e,t,n){var a=n(15);e.exports=function(e,t,n){if(a(e),void 0===t)return e;switch(n){case 1:return function(n){return e.call(t,n)};case 2:return function(n,a){return e.call(t,n,a)};case 3:return function(n,a,r){return e.call(t,n,a,r)}}return function(){return e.apply(t,arguments)}}},function(e,t,n){var a=n(5),r=n(4).document,i=a(r)&&a(r.createElement);e.exports=function(e){return i?r.createElement(e):{}}},function(e,t){e.exports="constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf".split(",")},function(e,t,n){var a=n(4),r=n(1),i=n(19),o=n(24),c="prototype",l=function(e,t,n){var s,u,d,f=e&l.F,p=e&l.G,m=e&l.S,g=e&l.P,h=e&l.B,v=e&l.W,D=p?r:r[t]||(r[t]={}),b=D[c],y=p?a:m?a[t]:(a[t]||{})[c];p&&(n=t);for(s in n)u=!f&&y&&void 0!==y[s],u&&s in D||(d=u?y[s]:n[s],D[s]=p&&"function"!=typeof y[s]?n[s]:h&&u?i(d,a):v&&y[s]==d?function(e){var t=function(t,n,a){if(this instanceof e){switch(arguments.length){case 0:return new e;case 1:return new e(t);case 2:return new e(t,n)}return new e(t,n,a)}return e.apply(this,arguments)};return t[c]=e[c],t}(d):g&&"function"==typeof d?i(Function.call,d):d,g&&((D.virtual||(D.virtual={}))[s]=d,e&l.R&&b&&!b[s]&&o(b,s,d)))};l.F=1,l.G=2,l.S=4,l.P=8,l.B=16,l.W=32,l.U=64,l.R=128,e.exports=l},function(e,t){var n={}.hasOwnProperty;e.exports=function(e,t){return n.call(e,t)}},function(e,t,n){var a=n(27),r=n(32);e.exports=n(2)?function(e,t,n){return a.f(e,t,r(1,n))}:function(e,t,n){return e[t]=n,e}},function(e,t,n){e.exports=!n(2)&&!n(3)(function(){return 7!=Object.defineProperty(n(20)("div"),"a",{get:function(){return 7}}).a})},function(e,t,n){"use strict";var a=n(30),r=n(28),i=n(31),o=n(37),c=n(8),l=Object.assign;e.exports=!l||n(3)(function(){var e={},t={},n=Symbol(),a="abcdefghijklmnopqrst";return e[n]=7,a.split("").forEach(function(e){t[e]=e}),7!=l({},e)[n]||Object.keys(l({},t)).join("")!=a})?function(e,t){for(var n=o(e),l=arguments.length,s=1,u=r.f,d=i.f;l>s;)for(var f,p=c(arguments[s++]),m=u?a(p).concat(u(p)):a(p),g=m.length,h=0;g>h;)d.call(p,f=m[h++])&&(n[f]=p[f]);return n}:l},function(e,t,n){var a=n(16),r=n(25),i=n(38),o=Object.defineProperty;t.f=n(2)?Object.defineProperty:function(e,t,n){if(a(e),t=i(t,!0),a(n),r)try{return o(e,t,n)}catch(e){}if("get"in n||"set"in n)throw TypeError("Accessors not supported!");return"value"in n&&(e[t]=n.value),e}},function(e,t){t.f=Object.getOwnPropertySymbols},function(e,t,n){var a=n(23),r=n(10),i=n(17)(!1),o=n(33)("IE_PROTO");e.exports=function(e,t){var n,c=r(e),l=0,s=[];for(n in c)n!=o&&a(c,n)&&s.push(n);for(;t.length>l;)a(c,n=t[l++])&&(~i(s,n)||s.push(n));return s}},function(e,t,n){var a=n(29),r=n(21);e.exports=Object.keys||function(e){return a(e,r)}},function(e,t){t.f={}.propertyIsEnumerable},function(e,t){e.exports=function(e,t){return{enumerable:!(1&e),configurable:!(2&e),writable:!(4&e),value:t}}},function(e,t,n){var a=n(34)("keys"),r=n(39);e.exports=function(e){return a[e]||(a[e]=r(e))}},function(e,t,n){var a=n(4),r="__core-js_shared__",i=a[r]||(a[r]={});e.exports=function(e){return i[e]||(i[e]={})}},function(e,t,n){var a=n(9),r=Math.max,i=Math.min;e.exports=function(e,t){return e=a(e),e<0?r(e+t,0):i(e,t)}},function(e,t,n){var a=n(9),r=Math.min;e.exports=function(e){return e>0?r(a(e),9007199254740991):0}},function(e,t,n){var a=n(7);e.exports=function(e){return Object(a(e))}},function(e,t,n){var a=n(5);e.exports=function(e,t){if(!a(e))return e;var n,r;if(t&&"function"==typeof(n=e.toString)&&!a(r=n.call(e)))return r;if("function"==typeof(n=e.valueOf)&&!a(r=n.call(e)))return r;if(!t&&"function"==typeof(n=e.toString)&&!a(r=n.call(e)))return r;throw TypeError("Can't convert object to primitive value")}},function(e,t){var n=0,a=Math.random();e.exports=function(e){return"Symbol(".concat(void 0===e?"":e,")_",(++n+a).toString(36))}},function(e,t,n){var a=n(22);a(a.S+a.F,"Object",{assign:n(26)})},function(e,t,n){/*! flatpickr v2.3.4, @license MIT */
@@ -5862,12 +6008,12 @@ function a(e,t){function n(){e._flatpickr&&E(e._flatpickr),e._flatpickr=oe,oe.el
 
 /***/ }),
 
-/***/ 20:
+/***/ 22:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__);
 //
 //
@@ -5900,7 +6046,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 21:
+/***/ 23:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5951,12 +6097,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 22:
+/***/ 24:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_downloadjs__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_downloadjs__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_downloadjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_downloadjs__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_utils_js__ = __webpack_require__(3);
 //
@@ -6134,172 +6280,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 23:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = {
-	props: {
-		options: {
-			type: Array,
-			required: false
-		},
-		name: {
-			type: String,
-			required: false
-		},
-		id: {
-			type: String,
-			required: false
-		},
-		required: {
-			type: Boolean,
-			required: false
-		},
-		value: {
-			required: true
-		},
-		multiple: {
-			type: Boolean,
-			default: false
-		},
-		placeholder: {
-			type: String,
-			default: 'Please select'
-		}
-	},
-	computed: {
-		stringOptions: function stringOptions() {
-			if (!this.options) return [];
-
-			var options = this.options.slice();
-			var _iteratorNormalCompletion = true;
-			var _didIteratorError = false;
-			var _iteratorError = undefined;
-
-			try {
-				for (var _iterator = options[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-					var option = _step.value;
-
-					if (option.id) option.id = option.id.toString();
-					if (option.children) {
-						var _iteratorNormalCompletion2 = true;
-						var _didIteratorError2 = false;
-						var _iteratorError2 = undefined;
-
-						try {
-							for (var _iterator2 = option.children[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-								var child = _step2.value;
-
-								if (child.id) child.id = child.id.toString();
-							}
-						} catch (err) {
-							_didIteratorError2 = true;
-							_iteratorError2 = err;
-						} finally {
-							try {
-								if (!_iteratorNormalCompletion2 && _iterator2.return) {
-									_iterator2.return();
-								}
-							} finally {
-								if (_didIteratorError2) {
-									throw _iteratorError2;
-								}
-							}
-						}
-					}
-				}
-			} catch (err) {
-				_didIteratorError = true;
-				_iteratorError = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion && _iterator.return) {
-						_iterator.return();
-					}
-				} finally {
-					if (_didIteratorError) {
-						throw _iteratorError;
-					}
-				}
-			}
-
-			return options;
-		},
-		stringValue: function stringValue() {
-			if (!this.value && this.value !== 0) return '';
-
-			if (Array.isArray(this.value)) {
-				return this.value.slice().map(function (value) {
-					return value.toString();
-				});
-			} else {
-				return this.value.toString();
-			}
-		}
-	},
-	mounted: function mounted() {
-		var _this = this;
-
-		$(this.$el).on('change', function () {
-			_this.$emit('input', $(_this.$el).val());
-		});
-
-		$(this.$el).val(this.stringValue).select2({
-			placeholder: this.placeholder,
-			tags: this.multiple,
-			createTag: function createTag() {
-				return undefined;
-			}
-		});
-	},
-	updated: function updated() {
-		$(this.$el).val(this.stringValue).select2({
-			placeholder: this.placeholder,
-			tags: this.multiple,
-			createTag: function createTag() {
-				return undefined;
-			}
-		}).trigger('change');
-	},
-
-	watch: {
-		multiple: function multiple(_multiple) {
-			if (this.value) {
-				if (_multiple && !Array.isArray(this.value)) this.$emit('input', [this.value]);else if (!_multiple && Array.isArray(this.value)) this.$emit('input', this.value[0]);
-			}
-		},
-		stringValue: function stringValue(_stringValue) {
-			$(this.$el).val(_stringValue).trigger('change.select2');
-		}
-	},
-	beforeDestroyed: function beforeDestroyed() {
-		$(this.$el).off().select2('destroy');
-	}
-};
-
-/***/ }),
-
-/***/ 24:
+/***/ 25:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6343,14 +6324,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 25:
+/***/ 26:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jacobmischka_vue_flatpickr_theme_flatpickr_min_css__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jacobmischka_vue_flatpickr_theme_flatpickr_min_css__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jacobmischka_vue_flatpickr_theme_flatpickr_min_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__jacobmischka_vue_flatpickr_theme_flatpickr_min_css__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__ = __webpack_require__(7);
@@ -6520,7 +6501,96 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
-/***/ 26:
+/***/ 27:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_js__ = __webpack_require__(3);
+/* harmony export (immutable) */ __webpack_exports__["e"] = createRadarScaleCallback;
+/* harmony export (immutable) */ __webpack_exports__["f"] = createResponseLegend;
+/* harmony export (immutable) */ __webpack_exports__["c"] = tableHeader;
+/* harmony export (immutable) */ __webpack_exports__["b"] = fullWidthTable;
+/* harmony export (immutable) */ __webpack_exports__["d"] = borderedStripedTable;
+/* harmony export (immutable) */ __webpack_exports__["g"] = getAverageLevel;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return sortFunctions; });
+
+
+function createRadarScaleCallback(valueMap) {
+	return function (value) {
+		return valueMap.get(value) || '';
+	};
+}
+
+function createResponseLegend(valueMap) {
+	var labels = [];
+	var values = [];
+
+	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_0__utils_js__["f" /* sortNumbers */]);
+
+	keys.map(function (key) {
+		labels.push(valueMap.get(key));
+		values.push(key.toString());
+	});
+
+	return {
+		table: {
+			headerRows: 1,
+			body: [labels.map(tableHeader), values]
+		}
+	};
+}
+
+function tableHeader(text) {
+	return {
+		text: text,
+		style: 'tableHeader'
+	};
+}
+
+function fullWidthTable(table) {
+	table.widths = Array(table.body[0].length).fill('*');
+	return table;
+}
+
+function borderedStripedTable(element) {
+	element.layout = {
+		hLineWidth: function hLineWidth(i, node) {
+			return i === node.table.headerRows ? 2 : 1;
+		},
+		vLineWidth: function vLineWidth() {
+			return 1;
+		},
+		hLineColor: function hLineColor() {
+			return '#555';
+		},
+		vLineColor: function vLineColor() {
+			return '#555';
+		},
+		fillColor: function fillColor(i, node) {
+			return i >= node.table.headerRows && i % 2 === 1 ? '#f3f3f3' : '#fff';
+		}
+	};
+
+	return element;
+}
+
+function getAverageLevel(average) {
+	var level = Math.floor(average) / 2;
+	return level >= 1 ? 'Level ' + level : 'Not Level 1';
+}
+
+var sortFunctions = new Map([['training_level', function (a, b) {
+	var sortOrder = ['intern', 'ca-1', 'ca-2', 'ca-3', 'fellow'];
+
+	var aLevel = a.training_level.toLowerCase();
+	var bLevel = b.training_level.toLowerCase();
+
+	return sortOrder.indexOf(aLevel) - sortOrder.indexOf(bLevel);
+}]]);
+
+/***/ }),
+
+/***/ 28:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -6535,7 +6605,7 @@ exports.push([module.i, ".flatpickr-input{cursor:pointer;z-index:1}.flatpickr-mo
 
 /***/ }),
 
-/***/ 27:
+/***/ 29:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -6550,7 +6620,7 @@ exports.push([module.i, "\n@media print {\nbutton[data-v-38459c74] {\n\t\tdispla
 
 /***/ }),
 
-/***/ 28:
+/***/ 30:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -6565,37 +6635,7 @@ exports.push([module.i, "\n.refresh-button-container[data-v-4d4c1aff] {\n\ttext-
 
 /***/ }),
 
-/***/ 289:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.paginator[data-v-05c830ce] {\n\ttext-align: center;\n}\nnav span[data-v-05c830ce] {\n\tmargin: 0 0.25em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ListPaginator.vue?1568a33a"],"names":[],"mappings":";AAqEA;CACA,mBAAA;CACA;AAEA;CACA,iBAAA;CACA","file":"ListPaginator.vue","sourcesContent":["<template>\n\t<section class=\"paginator\">\n\t\t<div class=\"form-inline\">\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tCurrent page:\n\t\t\t\t\t<input type=\"number\" class=\"form-control\" :value=\"value + 1\"\n\t\t\t\t\t\tmin=\"1\" :max=\"paginatedItems.length\"\n\t\t\t\t\t\t@input=\"$emit('input', Number($event.target.value) - 1)\" />\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tItems per page:\n\t\t\t\t\t<select class=\"form-control\" :value=\"itemsPerPage\"\n\t\t\t\t\t\t\t@input=\"$emit('pageSize', Number($event.target.value))\">\n\t\t\t\t\t\t<option value=\"5\">5</option>\n\t\t\t\t\t\t<option value=\"10\">10</option>\n\t\t\t\t\t\t<option value=\"20\">20</option>\n\t\t\t\t\t\t<option value=\"50\">50</option>\n\t\t\t\t\t\t<option value=\"100\">100</option>\n\t\t\t\t\t</select>\n\t\t\t\t</label>\n\t\t\t</div>\t\t\t\n\t\t</div>\n\t\t<nav v-if=\"itemsPerPage && paginatedItems.length > 1\">\n\t\t\t<div class=\"btn-group\">\n\t\t\t\t<paginator-link :value=\"value - 1\" text=\"← Prev\"\n\t\t\t\t\t:active=\"value === 0\" @click=\"setPage\" />\n\n\t\t\t\t<paginator-link v-for=\"(pageItems, pageNum) of paginatedItems\"\n\t\t\t\t\t:value=\"pageNum\" :active=\"pageNum === value\"\n\t\t\t\t\t@click=\"setPage\" />\n\n\t\t\t\t<paginator-link :value=\"value + 1\" text=\"Next →\"\n\t\t\t\t\t:active=\"value === paginatedItems.length - 1\"\n\t\t\t\t\t@click=\"setPage\" />\n\t\t\t</div>\n\t\t</nav>\n\t</section>\n</template>\n\n<script>\nimport PaginatorLink from './PaginatorLink.vue';\n\nexport default {\n\tprops: {\n\t\tvalue: Number,\n\t\titemsPerPage: Number,\n\t\tpaginatedItems: Array\n\t},\n\twatch: {\n\t\titemsPerPage(){\n\t\t\tif(this.value >= this.paginatedItems.length)\n\t\t\t\tthis.setPage(this.paginatedItems.length - 1);\n\t\t}\n\t},\n\tmethods: {\n\t\tsetPage(page){\n\t\t\tthis.$emit('input', page);\n\t\t}\n\t},\n\tcomponents: {\n\t\tPaginatorLink\n\t}\n};\n</script>\n\n<style scoped>\n\t.paginator {\n\t\ttext-align: center;\n\t}\n\n\tnav span {\n\t\tmargin: 0 0.25em;\n\t}\n</style>\n"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-
-/***/ 29:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.form-horizontal[data-v-7d00f708] {\n\toverflow-x: hidden;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/StartEndDate.vue?3c215a36"],"names":[],"mappings":";AA0JA;CACA,mBAAA;CACA","file":"StartEndDate.vue","sourcesContent":["<template>\n\t<div class=\"form-horizontal\" ref=\"container\">\n\t\t<div class=\"form-group\">\n\t\t\t<div class=\"col-md-4\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tDate Range\n\t\t\t\t\t<select class=\"form-control\" v-model=\"dateRange\">\n\t\t\t\t\t\t<option v-for=\"(range, name) of dateRanges\" :value=\"name\">\n\t\t\t\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t\t\t\t</option>\n\t\t\t\t\t</select>\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t\t<div class=\"col-sm-6 col-md-4\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tStart Date\n\t\t\t\t\t<vue-flatpickr class=\"form-control\"\n\t\t\t\t\t\t:options=\"flatpickrOptions\" v-model=\"startDate\" />\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t\t<div class=\"col-sm-6 col-md-4\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tEnd Date\n\t\t\t\t\t<vue-flatpickr class=\"form-control\"\n\t\t\t\t\t\t:options=\"flatpickrOptions\" v-model=\"endDate\" />\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport VueFlatpickr from 'vue-flatpickr';\nimport 'vue-flatpickr/theme/flatpickr.min.css';\n\nimport { camelCaseToWords } from 'modules/utils.js';\nimport * as dateUtils from 'modules/date-utils.js';\n\nexport default {\n\tprops: {\n\t\tvalue: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t},\n\t\thideDates: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t},\n\t\tallTime: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t},\n\t\tranges: {\n\t\t\ttype: Object,\n\t\t\tdefault() {\n\t\t\t\treturn {\n\t\t\t\t\t[dateUtils.DATE_RANGES.CUSTOM]: null,\n\t\t\t\t\t[dateUtils.DATE_RANGES.CURRENT_QUARTER]: dateUtils.currentQuarter(),\n\t\t\t\t\t[dateUtils.DATE_RANGES.LAST_QUARTER]: dateUtils.lastQuarter(),\n\t\t\t\t\t[dateUtils.DATE_RANGES.CURRENT_SEMESTER]: dateUtils.currentSemester(),\n\t\t\t\t\t[dateUtils.DATE_RANGES.LAST_SEMESTER]: dateUtils.lastSemester(),\n\t\t\t\t\t[dateUtils.DATE_RANGES.CURRENT_YEAR]: dateUtils.currentYear(),\n\t\t\t\t\t[dateUtils.DATE_RANGES.LAST_YEAR]: dateUtils.lastYear()\n\t\t\t\t};\n\t\t\t}\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tstartDate: this.value.startDate,\n\t\t\tendDate: this.value.endDate,\n\t\t\tdateRange: dateUtils.DATE_RANGES.CUSTOM\n\t\t};\n\t},\n\tcreated(){\n\t\tthis.matchDateRangeWithValue();\n\t},\n\tcomputed: {\n\t\tdates(){\n\t\t\treturn {\n\t\t\t\tstartDate: this.startDate,\n\t\t\t\tendDate: this.endDate\n\t\t\t};\n\t\t},\n\t\tdateRanges(){\n\t\t\tlet ranges = Object.assign({}, this.ranges);\n\t\t\tif(this.allTime && !ranges[dateUtils.DATE_RANGES.ALL_TIME])\n\t\t\t\tranges[dateUtils.DATE_RANGES.ALL_TIME] = dateUtils.allTime();\n\t\t\telse\n\t\t\t\tdelete ranges[dateUtils.DATE_RANGES.ALL_TIME];\n\t\t\t\n\t\t\treturn ranges;\n\t\t},\n\t\tflatpickrOptions(){\n\t\t\treturn {\n\t\t\t\taltInput: true,\n\t\t\t\taltInputClass: 'form-control appear-not-readonly',\n\t\t\t\taltFormat: 'M j, Y'\n\t\t\t};\n\t\t}\n\t},\n\twatch: {\n\t\tdates(dates){\n\t\t\tthis.$emit('input', dates);\n\t\t},\n\t\tvalue(value){\n\t\t\tthis.matchDateRangeWithValue();\n\t\t\tthis.startDate = value.startDate;\n\t\t\tthis.endDate = value.endDate;\n\t\t},\n\t\tdateRange(dateRange){\n\t\t\tif(dateRange === dateUtils.DATE_RANGES.ALL_TIME)\n\t\t\t\tthis.setDate(dateUtils.allTime());\n\t\t\t\n\t\t\tif(dateRange !== dateUtils.DATE_RANGES.CUSTOM && this.dateRanges[dateRange]\n\t\t\t\t\t&& !dateUtils.datesEqual(this.value, this.dateRanges[dateRange]))\n\t\t\t\tthis.setDate(this.dateRanges[dateRange]);\n\t\t}\n\t},\n\tmethods: {\n\t\tmatchDateRangeWithValue(value = this.value){\n\t\t\tif(this.allTime && !value.startDate && !value.endDate){\n\t\t\t\tthis.dateRange = dateUtils.DATE_RANGES.ALL_TIME;\n\t\t\t\treturn;\n\t\t\t}\n\t\t\t\n\t\t\tif(this.dateRange && this.dateRange !== dateUtils.DATE_RANGES.CUSTOM\n\t\t\t\t\t&& this.dateRanges[this.dateRange]\n\t\t\t\t\t&& dateUtils.datesEqual(value, this.dateRanges[this.dateRange]))\n\t\t\t\treturn;\n\n\t\t\tfor(let range of Object.values(dateUtils.DATE_RANGES)){\n\t\t\t\tif(this.dateRanges[range] && dateUtils.datesEqual(value, this.dateRanges[range])){\n\t\t\t\t\tthis.dateRange = range;\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t}\n\n\t\t\tthis.dateRange = dateUtils.DATE_RANGES.CUSTOM;\n\t\t},\n\t\tsetDate(dates){\n\t\t\tdates = dateUtils.isoDateStringObject(dates);\n\t\t\tthis.startDate = dates.startDate;\n\t\t\tthis.endDate = dates.endDate;\n\t\t},\n\t\tcamelCaseToWords\n\t},\n\tcomponents: {\n\t\tVueFlatpickr\n\t}\n};\n</script>\n\n<style scoped>\n\t.form-horizontal {\n\t\toverflow-x: hidden;\n\t}\n</style>\n"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-
-/***/ 294:
+/***/ 304:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -6610,7 +6650,37 @@ exports.push([module.i, "\ntextarea[data-v-227f018b] {\n\twidth: 100%;\n\theight
 
 /***/ }),
 
-/***/ 30:
+/***/ 31:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.form-horizontal[data-v-7d00f708] {\n\toverflow-x: hidden;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/StartEndDate.vue?3c215a36"],"names":[],"mappings":";AA0JA;CACA,mBAAA;CACA","file":"StartEndDate.vue","sourcesContent":["<template>\n\t<div class=\"form-horizontal\" ref=\"container\">\n\t\t<div class=\"form-group\">\n\t\t\t<div class=\"col-md-4\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tDate Range\n\t\t\t\t\t<select class=\"form-control\" v-model=\"dateRange\">\n\t\t\t\t\t\t<option v-for=\"(range, name) of dateRanges\" :value=\"name\">\n\t\t\t\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t\t\t\t</option>\n\t\t\t\t\t</select>\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t\t<div class=\"col-sm-6 col-md-4\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tStart Date\n\t\t\t\t\t<vue-flatpickr class=\"form-control\"\n\t\t\t\t\t\t:options=\"flatpickrOptions\" v-model=\"startDate\" />\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t\t<div class=\"col-sm-6 col-md-4\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tEnd Date\n\t\t\t\t\t<vue-flatpickr class=\"form-control\"\n\t\t\t\t\t\t:options=\"flatpickrOptions\" v-model=\"endDate\" />\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport VueFlatpickr from 'vue-flatpickr';\nimport 'vue-flatpickr/theme/flatpickr.min.css';\n\nimport { camelCaseToWords } from 'modules/utils.js';\nimport * as dateUtils from 'modules/date-utils.js';\n\nexport default {\n\tprops: {\n\t\tvalue: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t},\n\t\thideDates: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t},\n\t\tallTime: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t},\n\t\tranges: {\n\t\t\ttype: Object,\n\t\t\tdefault() {\n\t\t\t\treturn {\n\t\t\t\t\t[dateUtils.DATE_RANGES.CUSTOM]: null,\n\t\t\t\t\t[dateUtils.DATE_RANGES.CURRENT_QUARTER]: dateUtils.currentQuarter(),\n\t\t\t\t\t[dateUtils.DATE_RANGES.LAST_QUARTER]: dateUtils.lastQuarter(),\n\t\t\t\t\t[dateUtils.DATE_RANGES.CURRENT_SEMESTER]: dateUtils.currentSemester(),\n\t\t\t\t\t[dateUtils.DATE_RANGES.LAST_SEMESTER]: dateUtils.lastSemester(),\n\t\t\t\t\t[dateUtils.DATE_RANGES.CURRENT_YEAR]: dateUtils.currentYear(),\n\t\t\t\t\t[dateUtils.DATE_RANGES.LAST_YEAR]: dateUtils.lastYear()\n\t\t\t\t};\n\t\t\t}\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tstartDate: this.value.startDate,\n\t\t\tendDate: this.value.endDate,\n\t\t\tdateRange: dateUtils.DATE_RANGES.CUSTOM\n\t\t};\n\t},\n\tcreated(){\n\t\tthis.matchDateRangeWithValue();\n\t},\n\tcomputed: {\n\t\tdates(){\n\t\t\treturn {\n\t\t\t\tstartDate: this.startDate,\n\t\t\t\tendDate: this.endDate\n\t\t\t};\n\t\t},\n\t\tdateRanges(){\n\t\t\tlet ranges = Object.assign({}, this.ranges);\n\t\t\tif(this.allTime && !ranges[dateUtils.DATE_RANGES.ALL_TIME])\n\t\t\t\tranges[dateUtils.DATE_RANGES.ALL_TIME] = dateUtils.allTime();\n\t\t\telse\n\t\t\t\tdelete ranges[dateUtils.DATE_RANGES.ALL_TIME];\n\t\t\t\n\t\t\treturn ranges;\n\t\t},\n\t\tflatpickrOptions(){\n\t\t\treturn {\n\t\t\t\taltInput: true,\n\t\t\t\taltInputClass: 'form-control appear-not-readonly',\n\t\t\t\taltFormat: 'M j, Y'\n\t\t\t};\n\t\t}\n\t},\n\twatch: {\n\t\tdates(dates){\n\t\t\tthis.$emit('input', dates);\n\t\t},\n\t\tvalue(value){\n\t\t\tthis.matchDateRangeWithValue();\n\t\t\tthis.startDate = value.startDate;\n\t\t\tthis.endDate = value.endDate;\n\t\t},\n\t\tdateRange(dateRange){\n\t\t\tif(dateRange === dateUtils.DATE_RANGES.ALL_TIME)\n\t\t\t\tthis.setDate(dateUtils.allTime());\n\t\t\t\n\t\t\tif(dateRange !== dateUtils.DATE_RANGES.CUSTOM && this.dateRanges[dateRange]\n\t\t\t\t\t&& !dateUtils.datesEqual(this.value, this.dateRanges[dateRange]))\n\t\t\t\tthis.setDate(this.dateRanges[dateRange]);\n\t\t}\n\t},\n\tmethods: {\n\t\tmatchDateRangeWithValue(value = this.value){\n\t\t\tif(this.allTime && !value.startDate && !value.endDate){\n\t\t\t\tthis.dateRange = dateUtils.DATE_RANGES.ALL_TIME;\n\t\t\t\treturn;\n\t\t\t}\n\t\t\t\n\t\t\tif(this.dateRange && this.dateRange !== dateUtils.DATE_RANGES.CUSTOM\n\t\t\t\t\t&& this.dateRanges[this.dateRange]\n\t\t\t\t\t&& dateUtils.datesEqual(value, this.dateRanges[this.dateRange]))\n\t\t\t\treturn;\n\n\t\t\tfor(let range of Object.values(dateUtils.DATE_RANGES)){\n\t\t\t\tif(this.dateRanges[range] && dateUtils.datesEqual(value, this.dateRanges[range])){\n\t\t\t\t\tthis.dateRange = range;\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t}\n\n\t\t\tthis.dateRange = dateUtils.DATE_RANGES.CUSTOM;\n\t\t},\n\t\tsetDate(dates){\n\t\t\tdates = dateUtils.isoDateStringObject(dates);\n\t\t\tthis.startDate = dates.startDate;\n\t\t\tthis.endDate = dates.endDate;\n\t\t},\n\t\tcamelCaseToWords\n\t},\n\tcomponents: {\n\t\tVueFlatpickr\n\t}\n};\n</script>\n\n<style scoped>\n\t.form-horizontal {\n\t\toverflow-x: hidden;\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 310:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.merit-report-list-item[data-v-333b21d8] {\n\tborder-bottom: 1px solid rgba(0, 0, 0, 0.25);\n\tpadding: 5px 0;\n}\n.merit-report-list-item[data-v-333b21d8]:nth-child(even) {\n\tbackground-color: rgba(0, 0, 0, 0.05);\n}\nsmall[data-v-333b21d8] {\n\tfont-size: 0.75em;\n\tcolor: rgba(0, 0, 0, 0.55);\n\tdisplay: block;\n}\n.name-cell[data-v-333b21d8] {\n\tposition: relative;\n\tbottom: 0;\n}\n.name[data-v-333b21d8] {\n\tfont-size: 1.25em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Manage/Merit/ReportListItem.vue?41412758"],"names":[],"mappings":";AA8EA;CACA,6CAAA;CACA,eAAA;CACA;AAEA;CACA,sCAAA;CACA;AAEA;CACA,kBAAA;CACA,2BAAA;CACA,eAAA;CACA;AAEA;CACA,mBAAA;CACA,UAAA;CACA;AAEA;CACA,kBAAA;CACA","file":"ReportListItem.vue","sourcesContent":["<template>\n\t<div class=\"merit-report-list-item\">\n\t\t<div class=\"row\">\n\t\t\t<div class=\"col-sm-1 id-cell\">\n\t\t\t\t<small>#</small>\n\t\t\t\t<span>{{ id }}</span>\n\t\t\t</div>\n\t\t\t<div class=\"col-sm-5 name-cell\">\n\t\t\t\t<span class=\"name\">{{ name }}</span>\n\t\t\t</div>\n\t\t\t<div class=\"col-sm-3 version-cell\">\n\t\t\t\t<small>Version</small>\n\t\t\t\t<span>{{ version }}</span>\n\t\t\t</div>\n\t\t\t<div class=\"col-sm-3 controls-cell text-right\">\n\t\t\t\t<button type=\"button\" class=\"btn btn-sm btn-info\"\n\t\t\t\t\t\t@click=\"handleClick\">\n\t\t\t\t\t<span class=\"glyphicon glyphicon-pencil\"></span>\n\t\t\t\t\tView / edit\n\t\t\t\t</button>\n\t\t\t\t<confirmation-button class=\"btn btn-sm btn-danger\"\n\t\t\t\t\t\tpressed-class=\"btn btn-sm btn-warning\"\n\t\t\t\t\t\t@click=\"$emit('delete', id)\">\n\t\t\t\t\t<span class=\"glyphicon glyphicon-remove\"></span>\n\t\t\t\t\tDelete\n\t\t\t\t\t\n\t\t\t\t\t<template slot=\"pressed\">\n\t\t\t\t\t\t<span class=\"glyphicon glyphicon-trash\"></span>\n\t\t\t\t\t\tConfirm delete\n\t\t\t\t\t</template>\n\t\t\t\t</confirmation-button>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport ConfirmationButton from 'vue-components/ConfirmationButton.vue';\n\nexport default {\n\tprops: {\n\t\tid: {\n\t\t\ttype: Number,\n\t\t\trequired: true\n\t\t},\n\t\tname: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t},\n\t\tversion: {\n\t\t\ttype: Number,\n\t\t\trequired: true\n\t\t},\n\t\tform: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t}\n\t},\n\t\n\tcomputed: {\n\t\tformObject() {\n\t\t\treturn JSON.parse(this.form);\n\t\t}\n\t},\n\t\n\tmethods: {\n\t\thandleClick() {\n\t\t\tthis.$emit('click');\n\t\t}\n\t},\n\t\n\tcomponents: {\n\t\tConfirmationButton\n\t}\n};\n</script>\n\n<style scoped>\n\t.merit-report-list-item {\n\t\tborder-bottom: 1px solid rgba(0, 0, 0, 0.25);\n\t\tpadding: 5px 0;\n\t}\n\t\n\t.merit-report-list-item:nth-child(even) {\n\t\tbackground-color: rgba(0, 0, 0, 0.05);\n\t}\n\t\n\tsmall {\n\t\tfont-size: 0.75em;\n\t\tcolor: rgba(0, 0, 0, 0.55);\n\t\tdisplay: block;\n\t}\n\t\n\t.name-cell {\n\t\tposition: relative;\n\t\tbottom: 0;\n\t}\n\t\n\t.name {\n\t\tfont-size: 1.25em;\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 32:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -6625,7 +6695,7 @@ exports.push([module.i, "\n.alert[data-v-8d03363a] {\n\tpage-break-inside: avoid
 
 /***/ }),
 
-/***/ 307:
+/***/ 325:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -6633,14 +6703,14 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.list-header[data-v-6d54e2f6] {\n\ttext-align: right;\n}\n.list-header input[type=\"search\"][data-v-6d54e2f6] {\n\twidth: 300px;\n}\n.list[data-v-6d54e2f6] {\n\tpadding: 0;\n}\n.list li[data-v-6d54e2f6] {\n\tlist-style: none;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ComponentList.vue?ec8863c8"],"names":[],"mappings":";AAsJA;CACA,kBAAA;CACA;AAEA;CACA,aAAA;CACA;AAEA;CACA,WAAA;CACA;AAEA;CACA,iBAAA;CACA","file":"ComponentList.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"list-header form-inline\">\n\t\t\t<select class=\"form-control\" v-model=\"sortBy\">\n\t\t\t\t<option v-for=\"field of fields\" :value=\"field\">\n\t\t\t\t\t{{ snakeCaseToWords(field) }}\n\t\t\t\t</option>\n\t\t\t</select>\n\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t@click=\"sortOrder = sortOrder === 'asc' ? 'desc' : 'asc'\">\n\t\t\t\t<span v-if=\"sortOrder === 'asc'\"\n\t\t\t\t\tclass=\"glyphicon glyphicon-sort-by-alphabet\"></span>\n\t\t\t\t<span v-else\n\t\t\t\t\tclass=\"glyphicon glyphicon-sort-by-alphabet-alt\"></span>\n\t\t\t</button>\n\t\t\t<input type=\"search\" class=\"form-control\" v-model=\"query\"\n\t\t\t\tplaceholder=\"Search\" />\n\t\t</div>\n\t\t<ol class=\"list\">\n\t\t\t<slot v-for=\"item of currentPageItems\" v-bind=\"item\"></slot>\n\t\t</ol>\n\t\t<list-paginator v-model=\"page\" :paginatedItems=\"paginatedItems\"\n\t\t\t:itemsPerPage=\"itemsPerPage\"\n\t\t\t@pageSize=\"itemsPerPage = arguments[0]\" />\n\t</div>\n</template>\n\n<script>\nimport ListPaginator from './ListPaginator.vue';\n\nimport lunr from 'lunr';\n\nimport { snakeCaseToWords } from 'modules/utils.js';\nimport { sortFunctions } from 'modules/report-utils.js';\n\nexport default {\n\tprops: {\n\t\tfields: {\n\t\t\ttype: Array,\n\t\t\tdefault(){\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\titems: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tquery: null,\n\t\t\tpage: 0,\n\t\t\titemsPerPage: 10,\n\t\t\tsortBy: this.fields[0],\n\t\t\tsortOrder: 'asc'\n\t\t};\n\t},\n\tcomputed: {\n\t\titemMap(){\n\t\t\tlet map = new Map();\n\t\t\tthis.items.map(item => {\n\t\t\t\tmap.set(item.id, item);\n\t\t\t});\n\n\t\t\treturn map;\n\t\t},\n\t\tindex(){\n\t\t\tlet fields = this.fields;\n\n\t\t\tlet index = lunr(function(){\n\t\t\t\tfields.map(field => {\n\t\t\t\t\tlet name, options;\n\t\t\t\t\tif(typeof field === 'string'){\n\t\t\t\t\t\tname = field;\n\t\t\t\t\t}\n\t\t\t\t\telse{\n\t\t\t\t\t\tname = field.name;\n\t\t\t\t\t\toptions = field;\n\t\t\t\t\t}\n\t\t\t\t\tthis.field(name, options);\n\t\t\t\t});\n\t\t\t});\n\n\t\t\tthis.items.map(item => {\n\t\t\t\tindex.add(item);\n\t\t\t});\n\n\t\t\treturn index;\n\t\t},\n\t\tfilteredItems(){\n\t\t\tif(this.query){\n\t\t\t\tlet refs = this.index.search(this.query);\n\t\t\t\treturn refs.map(ref => {\n\t\t\t\t\treturn this.itemMap.get(ref.ref);\n\t\t\t\t});\n\t\t\t}\n\n\t\t\treturn this.items;\n\t\t},\n\t\tsortedItems(){\n\t\t\tif(this.sortBy && this.sortOrder){\n\t\t\t\t\n\t\t\t\tlet sortedItems = sortFunctions.has(this.sortBy)\n\t\t\t\t\t? this.filteredItems.sort(sortFunctions.get(this.sortBy))\n\t\t\t\t\t: this.filteredItems.sort((a, b) => {\n\t\t\t\t\t\tlet aValue = a[this.sortBy];\n\t\t\t\t\t\tlet bValue = b[this.sortBy];\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (Number.isNaN(aValue))\n\t\t\t\t\t\t\taValue = aValue.toUpperCase();\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (Number.isNaN(bValue))\n\t\t\t\t\t\t\tbValue = bValue.toUpperCase();\n\t\t\t\t\t\t\n\t\t\t\t\t\tif(aValue < bValue)\n\t\t\t\t\t\t\treturn -1;\n\t\t\t\t\t\tif(aValue > bValue)\n\t\t\t\t\t\t\treturn 1;\n\t\t\t\t\t\treturn 0;\n\t\t\t\t\t});\n\t\t\t\t\n\t\t\t\treturn this.sortOrder === 'asc'\n\t\t\t\t\t? sortedItems\n\t\t\t\t\t: sortedItems.reverse();\n\t\t\t}\n\t\t\t\n\t\t\treturn this.filteredItems;\n\t\t},\n\t\tpaginatedItems(){\n\t\t\tlet paginatedItems = [];\n\t\t\tlet items = this.sortedItems.slice();\n\t\t\twhile(items.length > 0)\n\t\t\t\tpaginatedItems.push(items.splice(0, this.itemsPerPage));\n\n\t\t\treturn paginatedItems;\n\t\t},\n\t\tcurrentPageItems(){\n\t\t\treturn this.paginatedItems[this.page];\n\t\t}\n\t},\n\tmethods: {\n\t\tsnakeCaseToWords\n\t},\n\tcomponents: {\n\t\tListPaginator\n\t}\n};\n</script>\n\n<style scoped>\n\t.list-header {\n\t\ttext-align: right;\n\t}\n\n\t.list-header input[type=\"search\"] {\n\t\twidth: 300px;\n\t}\n\t\n\t.list {\n\t\tpadding: 0;\n\t}\n\n\t.list li {\n\t\tlist-style: none;\n\t}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.list-group-item[data-v-d93fa1b2] {\n\tcursor: pointer;\n}\n.list-group-item[data-v-d93fa1b2]:focus,\n.list-group-item[data-v-d93fa1b2]:hover {\n\tcolor: #555;\n\tbackground-color: #f5f5f5;\n}\n.list-group-item.active[data-v-d93fa1b2]:focus,\n.list-group-item.active[data-v-d93fa1b2]:hover {\n\tcolor: white;\n\tbackground-color: rgba(51, 123, 184, 0.85);\n}\n.item-controls[data-v-d93fa1b2] {\n\tmargin-top: 1em;\n\tdisplay: flex;\n\tjustify-content: space-between;\n}\n.item-controls .form-control[data-v-d93fa1b2] {\n\twidth: 5em;\n}\n.item-controls-buttons[data-v-d93fa1b2] {\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/OrderingList.vue?9094167c"],"names":[],"mappings":";AA8JA;CACA,gBAAA;CACA;AAEA;;CAEA,YAAA;CACA,0BAAA;CACA;AAEA;;CAEA,aAAA;CACA,2CAAA;CACA;AAEA;CACA,gBAAA;CACA,cAAA;CACA,+BAAA;CACA;AAEA;CACA,WAAA;CACA;AAEA;CAEA","file":"OrderingList.vue","sourcesContent":["<template>\n\t<div class=\"row\">\n\t\t<div class=\"col-md-6\">\n\t\t\t<b>Unordered items</b>\n\t\t\t<ul class=\"list-group\">\n\t\t\t\t<li v-for=\"item of itemsRemaining\" class=\"list-group-item\"\n\t\t\t\t\t\t:key=\"itemKey in item && `bank-${item[itemKey]}`\"\n\t\t\t\t\t\t@click=\"addItem(item)\">\n\t\t\t\t\t<slot v-bind=\"item\">\n\t\t\t\t\t\t{{ item }}\n\t\t\t\t\t</slot>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</div>\n\t\t<div class=\"col-md-6\">\n\t\t\t<b>Ordered list</b>\n\t\t\t<ol class=\"list-group\" ref=\"orderedList\">\n\t\t\t\t<li v-for=\"(item, index) of value\" class=\"list-group-item\"\n\t\t\t\t\t\t:class=\"{active: activeItem === index}\"\n\t\t\t\t\t\t:key=\"itemKey in item && item[itemKey]\"\n\t\t\t\t\t\t@click=\"removeItem(index)\">\n\t\t\t\t\t<slot v-bind=\"item\">\n\t\t\t\t\t\t{{ item }}\n\t\t\t\t\t</slot>\n\t\t\t\t\t<div class=\"item-controls\">\n\t\t\t\t\t\t<input type=\"number\" class=\"form-control\"\n\t\t\t\t\t\t\t:value=\"index + 1\" @click=\"$event.stopPropagation()\"\n\t\t\t\t\t\t\t@change=\"moveItemTo($event, index)\" />\n\t\t\t\t\t\t<div class=\"item-controls-buttons\">\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\tv-if=\"index > 0\"\n\t\t\t\t\t\t\t\t\t@click=\"moveItemUp($event, index)\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-arrow-up\"></span>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\tv-if=\"index < value.length - 1\"\n\t\t\t\t\t\t\t\t\t@click=\"moveItemDown($event, index)\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-arrow-down\"></span>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</li>\n\t\t\t</ol>\n\t\t\t<div v-if=\"value.length > 0\" class=\"text-center\">\n\t\t\t\t<button type=\"button\" class=\"btn btn-warning\"\n\t\t\t\t\t\t@click=\"$emit('input', [])\">\n\t\t\t\t\tClear list\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nexport default {\n\tprops: {\n\t\tvalue: {\n\t\t\ttype: Array,\n\t\t\trequired: true,\n\t\t\tdefault(){\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\titems: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\titemKey: {\n\t\t\ttype: String,\n\t\t\tdefault: 'id'\n\t\t}\n\t},\n\t\n\tdata(){\n\t\treturn {\n\t\t\tactiveItem: null,\n\t\t\tactiveItemTimeoutId: null\n\t\t};\n\t},\n\t\n\tcomputed: {\n\t\titemsRemaining(){\n\t\t\treturn this.items.filter(item => !this.value.includes(item));\n\t\t}\n\t},\n\twatch: {\n\t\tactiveItem(){\n\t\t\tif(this.activeItemTimeoutId)\n\t\t\t\twindow.clearTimeout(this.activeItemTimeoutId);\n\t\t\t\n\t\t\tthis.activeItemTimeoutId = window.setTimeout(() => {\n\t\t\t\tif(this.activeItemTimeoutId){\n\t\t\t\t\tthis.activeItem = null;\n\t\t\t\t\tthis.activeItemTimeoutId = null;\n\t\t\t\t}\n\t\t\t}, 1000);\n\t\t}\n\t},\n\t\n\tmethods: {\n\t\taddItem(item){\n\t\t\tthis.$emit('input', this.value.concat(item));\n\t\t},\n\t\tremoveItem(index){\n\t\t\tif(event.defaultPrevented)\n\t\t\t\treturn;\n\t\t\t\n\t\t\tlet value = this.value.slice();\n\t\t\tvalue.splice(index, 1);\n\t\t\tthis.$emit('input', value);\n\t\t},\n\t\tmoveItemTo(event, index){\n\t\t\tlet newIndex = event.target.value - 1;\n\t\t\t\n\t\t\tif(newIndex < 0 || newIndex > this.value.length - 1)\n\t\t\t\treturn;\n\t\t\t\n\t\t\tlet value = this.value.slice();\n\t\t\tvalue.splice(newIndex, 0, value.splice(index, 1)[0]);\n\t\t\t\n\t\t\tthis.activeItem = newIndex;\n\t\t\tthis.$emit('input', value);\n\t\t},\n\t\tmoveItemUp(event, index){\n\t\t\tevent.preventDefault();\n\t\t\tevent.stopPropagation();\n\n\t\t\tif(index === 0)\n\t\t\t\treturn;\n\t\t\t\t\n\t\t\tlet newIndex = index - 1;\n\t\t\tlet value = this.value.slice();\n\t\t\t\n\t\t\tvalue.splice(newIndex, 0, value.splice(index, 1)[0]);\n\t\t\t\n\t\t\tthis.activeItem = newIndex;\n\t\t\tthis.$emit('input', value);\n\t\t},\n\t\tmoveItemDown(event, index){\n\t\t\tevent.preventDefault();\n\t\t\tevent.stopPropagation();\n\t\t\t\n\t\t\tif(index === this.value.length - 1)\n\t\t\t\treturn;\n\t\t\t\n\t\t\tlet newIndex = index + 1;\n\t\t\tlet value = this.value.slice();\n\t\t\t\n\t\t\tvalue.splice(newIndex, 0, value.splice(index, 1)[0]);\n\t\t\t\n\t\t\tthis.activeItem = newIndex;\n\t\t\tthis.$emit('input', value);\n\t\t}\n\t}\n};\n</script>\n\n<style scoped>\n\t.list-group-item {\n\t\tcursor: pointer;\n\t}\n\t\n\t.list-group-item:focus,\n\t.list-group-item:hover {\n\t\tcolor: #555;\n\t\tbackground-color: #f5f5f5;\n\t}\n\t\n\t.list-group-item.active:focus,\n\t.list-group-item.active:hover {\n\t\tcolor: white;\n\t\tbackground-color: rgba(51, 123, 184, 0.85);\n\t}\n\t\n\t.item-controls {\n\t\tmargin-top: 1em;\n\t\tdisplay: flex;\n\t\tjustify-content: space-between;\n\t}\n\t\n\t.item-controls .form-control {\n\t\twidth: 5em;\n\t}\n\t\n\t.item-controls-buttons {\n\t\t\n\t}\n</style>\n"],"sourceRoot":""}]);
 
 // exports
 
 
 /***/ }),
 
-/***/ 31:
+/***/ 33:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//download.js v4.2, by dandavis; 2008-2016. [MIT] see http://danml.com/download.html for tests/usage
@@ -6817,31 +6887,16 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ 315:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.list-group-item[data-v-d93fa1b2] {\n\tcursor: pointer;\n}\n.list-group-item[data-v-d93fa1b2]:focus,\n.list-group-item[data-v-d93fa1b2]:hover {\n\tcolor: #555;\n\tbackground-color: #f5f5f5;\n}\n.list-group-item.active[data-v-d93fa1b2]:focus,\n.list-group-item.active[data-v-d93fa1b2]:hover {\n\tcolor: white;\n\tbackground-color: rgba(51, 123, 184, 0.85);\n}\n.item-controls[data-v-d93fa1b2] {\n\tmargin-top: 1em;\n\tdisplay: flex;\n\tjustify-content: space-between;\n}\n.item-controls .form-control[data-v-d93fa1b2] {\n\twidth: 5em;\n}\n.item-controls-buttons[data-v-d93fa1b2] {\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/OrderingList.vue?9094167c"],"names":[],"mappings":";AA8JA;CACA,gBAAA;CACA;AAEA;;CAEA,YAAA;CACA,0BAAA;CACA;AAEA;;CAEA,aAAA;CACA,2CAAA;CACA;AAEA;CACA,gBAAA;CACA,cAAA;CACA,+BAAA;CACA;AAEA;CACA,WAAA;CACA;AAEA;CAEA","file":"OrderingList.vue","sourcesContent":["<template>\n\t<div class=\"row\">\n\t\t<div class=\"col-md-6\">\n\t\t\t<b>Unordered items</b>\n\t\t\t<ul class=\"list-group\">\n\t\t\t\t<li v-for=\"item of itemsRemaining\" class=\"list-group-item\"\n\t\t\t\t\t\t:key=\"itemKey in item && `bank-${item[itemKey]}`\"\n\t\t\t\t\t\t@click=\"addItem(item)\">\n\t\t\t\t\t<slot v-bind=\"item\">\n\t\t\t\t\t\t{{ item }}\n\t\t\t\t\t</slot>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</div>\n\t\t<div class=\"col-md-6\">\n\t\t\t<b>Ordered list</b>\n\t\t\t<ol class=\"list-group\" ref=\"orderedList\">\n\t\t\t\t<li v-for=\"(item, index) of value\" class=\"list-group-item\"\n\t\t\t\t\t\t:class=\"{active: activeItem === index}\"\n\t\t\t\t\t\t:key=\"itemKey in item && item[itemKey]\"\n\t\t\t\t\t\t@click=\"removeItem(index)\">\n\t\t\t\t\t<slot v-bind=\"item\">\n\t\t\t\t\t\t{{ item }}\n\t\t\t\t\t</slot>\n\t\t\t\t\t<div class=\"item-controls\">\n\t\t\t\t\t\t<input type=\"number\" class=\"form-control\"\n\t\t\t\t\t\t\t:value=\"index + 1\" @click=\"$event.stopPropagation()\"\n\t\t\t\t\t\t\t@change=\"moveItemTo($event, index)\" />\n\t\t\t\t\t\t<div class=\"item-controls-buttons\">\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\tv-if=\"index > 0\"\n\t\t\t\t\t\t\t\t\t@click=\"moveItemUp($event, index)\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-arrow-up\"></span>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\tv-if=\"index < value.length - 1\"\n\t\t\t\t\t\t\t\t\t@click=\"moveItemDown($event, index)\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-arrow-down\"></span>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</li>\n\t\t\t</ol>\n\t\t\t<div v-if=\"value.length > 0\" class=\"text-center\">\n\t\t\t\t<button type=\"button\" class=\"btn btn-warning\"\n\t\t\t\t\t\t@click=\"$emit('input', [])\">\n\t\t\t\t\tClear list\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nexport default {\n\tprops: {\n\t\tvalue: {\n\t\t\ttype: Array,\n\t\t\trequired: true,\n\t\t\tdefault(){\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\titems: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\titemKey: {\n\t\t\ttype: String,\n\t\t\tdefault: 'id'\n\t\t}\n\t},\n\t\n\tdata(){\n\t\treturn {\n\t\t\tactiveItem: null,\n\t\t\tactiveItemTimeoutId: null\n\t\t};\n\t},\n\t\n\tcomputed: {\n\t\titemsRemaining(){\n\t\t\treturn this.items.filter(item => !this.value.includes(item));\n\t\t}\n\t},\n\twatch: {\n\t\tactiveItem(){\n\t\t\tif(this.activeItemTimeoutId)\n\t\t\t\twindow.clearTimeout(this.activeItemTimeoutId);\n\t\t\t\n\t\t\tthis.activeItemTimeoutId = window.setTimeout(() => {\n\t\t\t\tif(this.activeItemTimeoutId){\n\t\t\t\t\tthis.activeItem = null;\n\t\t\t\t\tthis.activeItemTimeoutId = null;\n\t\t\t\t}\n\t\t\t}, 1000);\n\t\t}\n\t},\n\t\n\tmethods: {\n\t\taddItem(item){\n\t\t\tthis.$emit('input', this.value.concat(item));\n\t\t},\n\t\tremoveItem(index){\n\t\t\tif(event.defaultPrevented)\n\t\t\t\treturn;\n\t\t\t\n\t\t\tlet value = this.value.slice();\n\t\t\tvalue.splice(index, 1);\n\t\t\tthis.$emit('input', value);\n\t\t},\n\t\tmoveItemTo(event, index){\n\t\t\tlet newIndex = event.target.value - 1;\n\t\t\t\n\t\t\tif(newIndex < 0 || newIndex > this.value.length - 1)\n\t\t\t\treturn;\n\t\t\t\n\t\t\tlet value = this.value.slice();\n\t\t\tvalue.splice(newIndex, 0, value.splice(index, 1)[0]);\n\t\t\t\n\t\t\tthis.activeItem = newIndex;\n\t\t\tthis.$emit('input', value);\n\t\t},\n\t\tmoveItemUp(event, index){\n\t\t\tevent.preventDefault();\n\t\t\tevent.stopPropagation();\n\n\t\t\tif(index === 0)\n\t\t\t\treturn;\n\t\t\t\t\n\t\t\tlet newIndex = index - 1;\n\t\t\tlet value = this.value.slice();\n\t\t\t\n\t\t\tvalue.splice(newIndex, 0, value.splice(index, 1)[0]);\n\t\t\t\n\t\t\tthis.activeItem = newIndex;\n\t\t\tthis.$emit('input', value);\n\t\t},\n\t\tmoveItemDown(event, index){\n\t\t\tevent.preventDefault();\n\t\t\tevent.stopPropagation();\n\t\t\t\n\t\t\tif(index === this.value.length - 1)\n\t\t\t\treturn;\n\t\t\t\n\t\t\tlet newIndex = index + 1;\n\t\t\tlet value = this.value.slice();\n\t\t\t\n\t\t\tvalue.splice(newIndex, 0, value.splice(index, 1)[0]);\n\t\t\t\n\t\t\tthis.activeItem = newIndex;\n\t\t\tthis.$emit('input', value);\n\t\t}\n\t}\n};\n</script>\n\n<style scoped>\n\t.list-group-item {\n\t\tcursor: pointer;\n\t}\n\t\n\t.list-group-item:focus,\n\t.list-group-item:hover {\n\t\tcolor: #555;\n\t\tbackground-color: #f5f5f5;\n\t}\n\t\n\t.list-group-item.active:focus,\n\t.list-group-item.active:hover {\n\t\tcolor: white;\n\t\tbackground-color: rgba(51, 123, 184, 0.85);\n\t}\n\t\n\t.item-controls {\n\t\tmargin-top: 1em;\n\t\tdisplay: flex;\n\t\tjustify-content: space-between;\n\t}\n\t\n\t.item-controls .form-control {\n\t\twidth: 5em;\n\t}\n\t\n\t.item-controls-buttons {\n\t\t\n\t}\n</style>\n"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-
-/***/ 32:
+/***/ 34:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(26);
+var content = __webpack_require__(28);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(17)(content, {});
+var update = __webpack_require__(18)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -6859,55 +6914,16 @@ if(false) {
 
 /***/ }),
 
-/***/ 33:
+/***/ 342:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('select', {
-    attrs: {
-      "name": _vm.name,
-      "id": _vm.id,
-      "required": _vm.required,
-      "multiple": _vm.multiple
-    }
-  }, [_vm._t("default"), _vm._v(" "), _vm._l((_vm.stringOptions), function(option) {
-    return [(option.children && option.children.length > 0) ? _c('optgroup', {
-      attrs: {
-        "label": option.text
-      }
-    }, _vm._l((option.children), function(child) {
-      return _c('option', {
-        domProps: {
-          "value": child.id
-        }
-      }, [_vm._v("\n\t\t\t\t" + _vm._s(child.text) + "\n\t\t\t")])
-    })) : (option.id) ? _c('option', {
-      domProps: {
-        "value": option.id
-      }
-    }, [_vm._v("\n\t\t\t" + _vm._s(option.text) + "\n\t\t")]) : _vm._e()]
-  })], 2)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-2434126b", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 332:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports.parse = __webpack_require__(333);
-exports.stringify = __webpack_require__(334);
+exports.parse = __webpack_require__(343);
+exports.stringify = __webpack_require__(344);
 
 
 /***/ }),
 
-/***/ 333:
+/***/ 343:
 /***/ (function(module, exports) {
 
 var at, // The index of the current character
@@ -7187,7 +7203,7 @@ module.exports = function (source, reviver) {
 
 /***/ }),
 
-/***/ 334:
+/***/ 344:
 /***/ (function(module, exports) {
 
 var cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
@@ -7348,7 +7364,7 @@ module.exports = function (value, replacer, space) {
 
 /***/ }),
 
-/***/ 34:
+/***/ 35:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -7376,2091 +7392,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 349:
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
- * lunr - http://lunrjs.com - A bit like Solr, but much smaller and not as bright - 0.7.2
- * Copyright (C) 2016 Oliver Nightingale
- * @license MIT
- */
-
-;(function(){
-
-/**
- * Convenience function for instantiating a new lunr index and configuring it
- * with the default pipeline functions and the passed config function.
- *
- * When using this convenience function a new index will be created with the
- * following functions already in the pipeline:
- *
- * lunr.StopWordFilter - filters out any stop words before they enter the
- * index
- *
- * lunr.stemmer - stems the tokens before entering the index.
- *
- * Example:
- *
- *     var idx = lunr(function () {
- *       this.field('title', 10)
- *       this.field('tags', 100)
- *       this.field('body')
- *       
- *       this.ref('cid')
- *       
- *       this.pipeline.add(function () {
- *         // some custom pipeline function
- *       })
- *       
- *     })
- *
- * @param {Function} config A function that will be called with the new instance
- * of the lunr.Index as both its context and first parameter. It can be used to
- * customize the instance of new lunr.Index.
- * @namespace
- * @module
- * @returns {lunr.Index}
- *
- */
-var lunr = function (config) {
-  var idx = new lunr.Index
-
-  idx.pipeline.add(
-    lunr.trimmer,
-    lunr.stopWordFilter,
-    lunr.stemmer
-  )
-
-  if (config) config.call(idx, idx)
-
-  return idx
-}
-
-lunr.version = "0.7.2"
-/*!
- * lunr.utils
- * Copyright (C) 2016 Oliver Nightingale
- */
-
-/**
- * A namespace containing utils for the rest of the lunr library
- */
-lunr.utils = {}
-
-/**
- * Print a warning message to the console.
- *
- * @param {String} message The message to be printed.
- * @memberOf Utils
- */
-lunr.utils.warn = (function (global) {
-  return function (message) {
-    if (global.console && console.warn) {
-      console.warn(message)
-    }
-  }
-})(this)
-
-/**
- * Convert an object to a string.
- *
- * In the case of `null` and `undefined` the function returns
- * the empty string, in all other cases the result of calling
- * `toString` on the passed object is returned.
- *
- * @param {Any} obj The object to convert to a string.
- * @return {String} string representation of the passed object.
- * @memberOf Utils
- */
-lunr.utils.asString = function (obj) {
-  if (obj === void 0 || obj === null) {
-    return ""
-  } else {
-    return obj.toString()
-  }
-}
-/*!
- * lunr.EventEmitter
- * Copyright (C) 2016 Oliver Nightingale
- */
-
-/**
- * lunr.EventEmitter is an event emitter for lunr. It manages adding and removing event handlers and triggering events and their handlers.
- *
- * @constructor
- */
-lunr.EventEmitter = function () {
-  this.events = {}
-}
-
-/**
- * Binds a handler function to a specific event(s).
- *
- * Can bind a single function to many different events in one call.
- *
- * @param {String} [eventName] The name(s) of events to bind this function to.
- * @param {Function} fn The function to call when an event is fired.
- * @memberOf EventEmitter
- */
-lunr.EventEmitter.prototype.addListener = function () {
-  var args = Array.prototype.slice.call(arguments),
-      fn = args.pop(),
-      names = args
-
-  if (typeof fn !== "function") throw new TypeError ("last argument must be a function")
-
-  names.forEach(function (name) {
-    if (!this.hasHandler(name)) this.events[name] = []
-    this.events[name].push(fn)
-  }, this)
-}
-
-/**
- * Removes a handler function from a specific event.
- *
- * @param {String} eventName The name of the event to remove this function from.
- * @param {Function} fn The function to remove from an event.
- * @memberOf EventEmitter
- */
-lunr.EventEmitter.prototype.removeListener = function (name, fn) {
-  if (!this.hasHandler(name)) return
-
-  var fnIndex = this.events[name].indexOf(fn)
-  this.events[name].splice(fnIndex, 1)
-
-  if (!this.events[name].length) delete this.events[name]
-}
-
-/**
- * Calls all functions bound to the given event.
- *
- * Additional data can be passed to the event handler as arguments to `emit`
- * after the event name.
- *
- * @param {String} eventName The name of the event to emit.
- * @memberOf EventEmitter
- */
-lunr.EventEmitter.prototype.emit = function (name) {
-  if (!this.hasHandler(name)) return
-
-  var args = Array.prototype.slice.call(arguments, 1)
-
-  this.events[name].forEach(function (fn) {
-    fn.apply(undefined, args)
-  })
-}
-
-/**
- * Checks whether a handler has ever been stored against an event.
- *
- * @param {String} eventName The name of the event to check.
- * @private
- * @memberOf EventEmitter
- */
-lunr.EventEmitter.prototype.hasHandler = function (name) {
-  return name in this.events
-}
-
-/*!
- * lunr.tokenizer
- * Copyright (C) 2016 Oliver Nightingale
- */
-
-/**
- * A function for splitting a string into tokens ready to be inserted into
- * the search index. Uses `lunr.tokenizer.separator` to split strings, change
- * the value of this property to change how strings are split into tokens.
- *
- * @module
- * @param {String} obj The string to convert into tokens
- * @see lunr.tokenizer.separator
- * @returns {Array}
- */
-lunr.tokenizer = function (obj) {
-  if (!arguments.length || obj == null || obj == undefined) return []
-  if (Array.isArray(obj)) return obj.map(function (t) { return lunr.utils.asString(t).toLowerCase() })
-
-  // TODO: This exists so that the deprecated property lunr.tokenizer.seperator can still be used. By
-  // default it is set to false and so the correctly spelt lunr.tokenizer.separator is used unless
-  // the user is using the old property to customise the tokenizer.
-  //
-  // This should be removed when version 1.0.0 is released.
-  var separator = lunr.tokenizer.seperator || lunr.tokenizer.separator
-
-  return obj.toString().trim().toLowerCase().split(separator)
-}
-
-/**
- * This property is legacy alias for lunr.tokenizer.separator to maintain backwards compatability.
- * When introduced the token was spelt incorrectly. It will remain until 1.0.0 when it will be removed,
- * all code should use the correctly spelt lunr.tokenizer.separator property instead.
- *
- * @static
- * @see lunr.tokenizer.separator
- * @deprecated since 0.7.2 will be removed in 1.0.0
- * @private
- * @see lunr.tokenizer
- */
-lunr.tokenizer.seperator = false
-
-/**
- * The sperator used to split a string into tokens. Override this property to change the behaviour of
- * `lunr.tokenizer` behaviour when tokenizing strings. By default this splits on whitespace and hyphens.
- *
- * @static
- * @see lunr.tokenizer
- */
-lunr.tokenizer.separator = /[\s\-]+/
-
-/**
- * Loads a previously serialised tokenizer.
- *
- * A tokenizer function to be loaded must already be registered with lunr.tokenizer.
- * If the serialised tokenizer has not been registered then an error will be thrown.
- *
- * @param {String} label The label of the serialised tokenizer.
- * @returns {Function}
- * @memberOf tokenizer
- */
-lunr.tokenizer.load = function (label) {
-  var fn = this.registeredFunctions[label]
-
-  if (!fn) {
-    throw new Error('Cannot load un-registered function: ' + label)
-  }
-
-  return fn
-}
-
-lunr.tokenizer.label = 'default'
-
-lunr.tokenizer.registeredFunctions = {
-  'default': lunr.tokenizer
-}
-
-/**
- * Register a tokenizer function.
- *
- * Functions that are used as tokenizers should be registered if they are to be used with a serialised index.
- *
- * Registering a function does not add it to an index, functions must still be associated with a specific index for them to be used when indexing and searching documents.
- *
- * @param {Function} fn The function to register.
- * @param {String} label The label to register this function with
- * @memberOf tokenizer
- */
-lunr.tokenizer.registerFunction = function (fn, label) {
-  if (label in this.registeredFunctions) {
-    lunr.utils.warn('Overwriting existing tokenizer: ' + label)
-  }
-
-  fn.label = label
-  this.registeredFunctions[label] = fn
-}
-/*!
- * lunr.Pipeline
- * Copyright (C) 2016 Oliver Nightingale
- */
-
-/**
- * lunr.Pipelines maintain an ordered list of functions to be applied to all
- * tokens in documents entering the search index and queries being ran against
- * the index.
- *
- * An instance of lunr.Index created with the lunr shortcut will contain a
- * pipeline with a stop word filter and an English language stemmer. Extra
- * functions can be added before or after either of these functions or these
- * default functions can be removed.
- *
- * When run the pipeline will call each function in turn, passing a token, the
- * index of that token in the original list of all tokens and finally a list of
- * all the original tokens.
- *
- * The output of functions in the pipeline will be passed to the next function
- * in the pipeline. To exclude a token from entering the index the function
- * should return undefined, the rest of the pipeline will not be called with
- * this token.
- *
- * For serialisation of pipelines to work, all functions used in an instance of
- * a pipeline should be registered with lunr.Pipeline. Registered functions can
- * then be loaded. If trying to load a serialised pipeline that uses functions
- * that are not registered an error will be thrown.
- *
- * If not planning on serialising the pipeline then registering pipeline functions
- * is not necessary.
- *
- * @constructor
- */
-lunr.Pipeline = function () {
-  this._stack = []
-}
-
-lunr.Pipeline.registeredFunctions = {}
-
-/**
- * Register a function with the pipeline.
- *
- * Functions that are used in the pipeline should be registered if the pipeline
- * needs to be serialised, or a serialised pipeline needs to be loaded.
- *
- * Registering a function does not add it to a pipeline, functions must still be
- * added to instances of the pipeline for them to be used when running a pipeline.
- *
- * @param {Function} fn The function to check for.
- * @param {String} label The label to register this function with
- * @memberOf Pipeline
- */
-lunr.Pipeline.registerFunction = function (fn, label) {
-  if (label in this.registeredFunctions) {
-    lunr.utils.warn('Overwriting existing registered function: ' + label)
-  }
-
-  fn.label = label
-  lunr.Pipeline.registeredFunctions[fn.label] = fn
-}
-
-/**
- * Warns if the function is not registered as a Pipeline function.
- *
- * @param {Function} fn The function to check for.
- * @private
- * @memberOf Pipeline
- */
-lunr.Pipeline.warnIfFunctionNotRegistered = function (fn) {
-  var isRegistered = fn.label && (fn.label in this.registeredFunctions)
-
-  if (!isRegistered) {
-    lunr.utils.warn('Function is not registered with pipeline. This may cause problems when serialising the index.\n', fn)
-  }
-}
-
-/**
- * Loads a previously serialised pipeline.
- *
- * All functions to be loaded must already be registered with lunr.Pipeline.
- * If any function from the serialised data has not been registered then an
- * error will be thrown.
- *
- * @param {Object} serialised The serialised pipeline to load.
- * @returns {lunr.Pipeline}
- * @memberOf Pipeline
- */
-lunr.Pipeline.load = function (serialised) {
-  var pipeline = new lunr.Pipeline
-
-  serialised.forEach(function (fnName) {
-    var fn = lunr.Pipeline.registeredFunctions[fnName]
-
-    if (fn) {
-      pipeline.add(fn)
-    } else {
-      throw new Error('Cannot load un-registered function: ' + fnName)
-    }
-  })
-
-  return pipeline
-}
-
-/**
- * Adds new functions to the end of the pipeline.
- *
- * Logs a warning if the function has not been registered.
- *
- * @param {Function} functions Any number of functions to add to the pipeline.
- * @memberOf Pipeline
- */
-lunr.Pipeline.prototype.add = function () {
-  var fns = Array.prototype.slice.call(arguments)
-
-  fns.forEach(function (fn) {
-    lunr.Pipeline.warnIfFunctionNotRegistered(fn)
-    this._stack.push(fn)
-  }, this)
-}
-
-/**
- * Adds a single function after a function that already exists in the
- * pipeline.
- *
- * Logs a warning if the function has not been registered.
- *
- * @param {Function} existingFn A function that already exists in the pipeline.
- * @param {Function} newFn The new function to add to the pipeline.
- * @memberOf Pipeline
- */
-lunr.Pipeline.prototype.after = function (existingFn, newFn) {
-  lunr.Pipeline.warnIfFunctionNotRegistered(newFn)
-
-  var pos = this._stack.indexOf(existingFn)
-  if (pos == -1) {
-    throw new Error('Cannot find existingFn')
-  }
-
-  pos = pos + 1
-  this._stack.splice(pos, 0, newFn)
-}
-
-/**
- * Adds a single function before a function that already exists in the
- * pipeline.
- *
- * Logs a warning if the function has not been registered.
- *
- * @param {Function} existingFn A function that already exists in the pipeline.
- * @param {Function} newFn The new function to add to the pipeline.
- * @memberOf Pipeline
- */
-lunr.Pipeline.prototype.before = function (existingFn, newFn) {
-  lunr.Pipeline.warnIfFunctionNotRegistered(newFn)
-
-  var pos = this._stack.indexOf(existingFn)
-  if (pos == -1) {
-    throw new Error('Cannot find existingFn')
-  }
-
-  this._stack.splice(pos, 0, newFn)
-}
-
-/**
- * Removes a function from the pipeline.
- *
- * @param {Function} fn The function to remove from the pipeline.
- * @memberOf Pipeline
- */
-lunr.Pipeline.prototype.remove = function (fn) {
-  var pos = this._stack.indexOf(fn)
-  if (pos == -1) {
-    return
-  }
-
-  this._stack.splice(pos, 1)
-}
-
-/**
- * Runs the current list of functions that make up the pipeline against the
- * passed tokens.
- *
- * @param {Array} tokens The tokens to run through the pipeline.
- * @returns {Array}
- * @memberOf Pipeline
- */
-lunr.Pipeline.prototype.run = function (tokens) {
-  var out = [],
-      tokenLength = tokens.length,
-      stackLength = this._stack.length
-
-  for (var i = 0; i < tokenLength; i++) {
-    var token = tokens[i]
-
-    for (var j = 0; j < stackLength; j++) {
-      token = this._stack[j](token, i, tokens)
-      if (token === void 0 || token === '') break
-    };
-
-    if (token !== void 0 && token !== '') out.push(token)
-  };
-
-  return out
-}
-
-/**
- * Resets the pipeline by removing any existing processors.
- *
- * @memberOf Pipeline
- */
-lunr.Pipeline.prototype.reset = function () {
-  this._stack = []
-}
-
-/**
- * Returns a representation of the pipeline ready for serialisation.
- *
- * Logs a warning if the function has not been registered.
- *
- * @returns {Array}
- * @memberOf Pipeline
- */
-lunr.Pipeline.prototype.toJSON = function () {
-  return this._stack.map(function (fn) {
-    lunr.Pipeline.warnIfFunctionNotRegistered(fn)
-
-    return fn.label
-  })
-}
-/*!
- * lunr.Vector
- * Copyright (C) 2016 Oliver Nightingale
- */
-
-/**
- * lunr.Vectors implement vector related operations for
- * a series of elements.
- *
- * @constructor
- */
-lunr.Vector = function () {
-  this._magnitude = null
-  this.list = undefined
-  this.length = 0
-}
-
-/**
- * lunr.Vector.Node is a simple struct for each node
- * in a lunr.Vector.
- *
- * @private
- * @param {Number} The index of the node in the vector.
- * @param {Object} The data at this node in the vector.
- * @param {lunr.Vector.Node} The node directly after this node in the vector.
- * @constructor
- * @memberOf Vector
- */
-lunr.Vector.Node = function (idx, val, next) {
-  this.idx = idx
-  this.val = val
-  this.next = next
-}
-
-/**
- * Inserts a new value at a position in a vector.
- *
- * @param {Number} The index at which to insert a value.
- * @param {Object} The object to insert in the vector.
- * @memberOf Vector.
- */
-lunr.Vector.prototype.insert = function (idx, val) {
-  this._magnitude = undefined;
-  var list = this.list
-
-  if (!list) {
-    this.list = new lunr.Vector.Node (idx, val, list)
-    return this.length++
-  }
-
-  if (idx < list.idx) {
-    this.list = new lunr.Vector.Node (idx, val, list)
-    return this.length++
-  }
-
-  var prev = list,
-      next = list.next
-
-  while (next != undefined) {
-    if (idx < next.idx) {
-      prev.next = new lunr.Vector.Node (idx, val, next)
-      return this.length++
-    }
-
-    prev = next, next = next.next
-  }
-
-  prev.next = new lunr.Vector.Node (idx, val, next)
-  return this.length++
-}
-
-/**
- * Calculates the magnitude of this vector.
- *
- * @returns {Number}
- * @memberOf Vector
- */
-lunr.Vector.prototype.magnitude = function () {
-  if (this._magnitude) return this._magnitude
-  var node = this.list,
-      sumOfSquares = 0,
-      val
-
-  while (node) {
-    val = node.val
-    sumOfSquares += val * val
-    node = node.next
-  }
-
-  return this._magnitude = Math.sqrt(sumOfSquares)
-}
-
-/**
- * Calculates the dot product of this vector and another vector.
- *
- * @param {lunr.Vector} otherVector The vector to compute the dot product with.
- * @returns {Number}
- * @memberOf Vector
- */
-lunr.Vector.prototype.dot = function (otherVector) {
-  var node = this.list,
-      otherNode = otherVector.list,
-      dotProduct = 0
-
-  while (node && otherNode) {
-    if (node.idx < otherNode.idx) {
-      node = node.next
-    } else if (node.idx > otherNode.idx) {
-      otherNode = otherNode.next
-    } else {
-      dotProduct += node.val * otherNode.val
-      node = node.next
-      otherNode = otherNode.next
-    }
-  }
-
-  return dotProduct
-}
-
-/**
- * Calculates the cosine similarity between this vector and another
- * vector.
- *
- * @param {lunr.Vector} otherVector The other vector to calculate the
- * similarity with.
- * @returns {Number}
- * @memberOf Vector
- */
-lunr.Vector.prototype.similarity = function (otherVector) {
-  return this.dot(otherVector) / (this.magnitude() * otherVector.magnitude())
-}
-/*!
- * lunr.SortedSet
- * Copyright (C) 2016 Oliver Nightingale
- */
-
-/**
- * lunr.SortedSets are used to maintain an array of uniq values in a sorted
- * order.
- *
- * @constructor
- */
-lunr.SortedSet = function () {
-  this.length = 0
-  this.elements = []
-}
-
-/**
- * Loads a previously serialised sorted set.
- *
- * @param {Array} serialisedData The serialised set to load.
- * @returns {lunr.SortedSet}
- * @memberOf SortedSet
- */
-lunr.SortedSet.load = function (serialisedData) {
-  var set = new this
-
-  set.elements = serialisedData
-  set.length = serialisedData.length
-
-  return set
-}
-
-/**
- * Inserts new items into the set in the correct position to maintain the
- * order.
- *
- * @param {Object} The objects to add to this set.
- * @memberOf SortedSet
- */
-lunr.SortedSet.prototype.add = function () {
-  var i, element
-
-  for (i = 0; i < arguments.length; i++) {
-    element = arguments[i]
-    if (~this.indexOf(element)) continue
-    this.elements.splice(this.locationFor(element), 0, element)
-  }
-
-  this.length = this.elements.length
-}
-
-/**
- * Converts this sorted set into an array.
- *
- * @returns {Array}
- * @memberOf SortedSet
- */
-lunr.SortedSet.prototype.toArray = function () {
-  return this.elements.slice()
-}
-
-/**
- * Creates a new array with the results of calling a provided function on every
- * element in this sorted set.
- *
- * Delegates to Array.prototype.map and has the same signature.
- *
- * @param {Function} fn The function that is called on each element of the
- * set.
- * @param {Object} ctx An optional object that can be used as the context
- * for the function fn.
- * @returns {Array}
- * @memberOf SortedSet
- */
-lunr.SortedSet.prototype.map = function (fn, ctx) {
-  return this.elements.map(fn, ctx)
-}
-
-/**
- * Executes a provided function once per sorted set element.
- *
- * Delegates to Array.prototype.forEach and has the same signature.
- *
- * @param {Function} fn The function that is called on each element of the
- * set.
- * @param {Object} ctx An optional object that can be used as the context
- * @memberOf SortedSet
- * for the function fn.
- */
-lunr.SortedSet.prototype.forEach = function (fn, ctx) {
-  return this.elements.forEach(fn, ctx)
-}
-
-/**
- * Returns the index at which a given element can be found in the
- * sorted set, or -1 if it is not present.
- *
- * @param {Object} elem The object to locate in the sorted set.
- * @returns {Number}
- * @memberOf SortedSet
- */
-lunr.SortedSet.prototype.indexOf = function (elem) {
-  var start = 0,
-      end = this.elements.length,
-      sectionLength = end - start,
-      pivot = start + Math.floor(sectionLength / 2),
-      pivotElem = this.elements[pivot]
-
-  while (sectionLength > 1) {
-    if (pivotElem === elem) return pivot
-
-    if (pivotElem < elem) start = pivot
-    if (pivotElem > elem) end = pivot
-
-    sectionLength = end - start
-    pivot = start + Math.floor(sectionLength / 2)
-    pivotElem = this.elements[pivot]
-  }
-
-  if (pivotElem === elem) return pivot
-
-  return -1
-}
-
-/**
- * Returns the position within the sorted set that an element should be
- * inserted at to maintain the current order of the set.
- *
- * This function assumes that the element to search for does not already exist
- * in the sorted set.
- *
- * @param {Object} elem The elem to find the position for in the set
- * @returns {Number}
- * @memberOf SortedSet
- */
-lunr.SortedSet.prototype.locationFor = function (elem) {
-  var start = 0,
-      end = this.elements.length,
-      sectionLength = end - start,
-      pivot = start + Math.floor(sectionLength / 2),
-      pivotElem = this.elements[pivot]
-
-  while (sectionLength > 1) {
-    if (pivotElem < elem) start = pivot
-    if (pivotElem > elem) end = pivot
-
-    sectionLength = end - start
-    pivot = start + Math.floor(sectionLength / 2)
-    pivotElem = this.elements[pivot]
-  }
-
-  if (pivotElem > elem) return pivot
-  if (pivotElem < elem) return pivot + 1
-}
-
-/**
- * Creates a new lunr.SortedSet that contains the elements in the intersection
- * of this set and the passed set.
- *
- * @param {lunr.SortedSet} otherSet The set to intersect with this set.
- * @returns {lunr.SortedSet}
- * @memberOf SortedSet
- */
-lunr.SortedSet.prototype.intersect = function (otherSet) {
-  var intersectSet = new lunr.SortedSet,
-      i = 0, j = 0,
-      a_len = this.length, b_len = otherSet.length,
-      a = this.elements, b = otherSet.elements
-
-  while (true) {
-    if (i > a_len - 1 || j > b_len - 1) break
-
-    if (a[i] === b[j]) {
-      intersectSet.add(a[i])
-      i++, j++
-      continue
-    }
-
-    if (a[i] < b[j]) {
-      i++
-      continue
-    }
-
-    if (a[i] > b[j]) {
-      j++
-      continue
-    }
-  };
-
-  return intersectSet
-}
-
-/**
- * Makes a copy of this set
- *
- * @returns {lunr.SortedSet}
- * @memberOf SortedSet
- */
-lunr.SortedSet.prototype.clone = function () {
-  var clone = new lunr.SortedSet
-
-  clone.elements = this.toArray()
-  clone.length = clone.elements.length
-
-  return clone
-}
-
-/**
- * Creates a new lunr.SortedSet that contains the elements in the union
- * of this set and the passed set.
- *
- * @param {lunr.SortedSet} otherSet The set to union with this set.
- * @returns {lunr.SortedSet}
- * @memberOf SortedSet
- */
-lunr.SortedSet.prototype.union = function (otherSet) {
-  var longSet, shortSet, unionSet
-
-  if (this.length >= otherSet.length) {
-    longSet = this, shortSet = otherSet
-  } else {
-    longSet = otherSet, shortSet = this
-  }
-
-  unionSet = longSet.clone()
-
-  for(var i = 0, shortSetElements = shortSet.toArray(); i < shortSetElements.length; i++){
-    unionSet.add(shortSetElements[i])
-  }
-
-  return unionSet
-}
-
-/**
- * Returns a representation of the sorted set ready for serialisation.
- *
- * @returns {Array}
- * @memberOf SortedSet
- */
-lunr.SortedSet.prototype.toJSON = function () {
-  return this.toArray()
-}
-/*!
- * lunr.Index
- * Copyright (C) 2016 Oliver Nightingale
- */
-
-/**
- * lunr.Index is object that manages a search index.  It contains the indexes
- * and stores all the tokens and document lookups.  It also provides the main
- * user facing API for the library.
- *
- * @constructor
- */
-lunr.Index = function () {
-  this._fields = []
-  this._ref = 'id'
-  this.pipeline = new lunr.Pipeline
-  this.documentStore = new lunr.Store
-  this.tokenStore = new lunr.TokenStore
-  this.corpusTokens = new lunr.SortedSet
-  this.eventEmitter =  new lunr.EventEmitter
-  this.tokenizerFn = lunr.tokenizer
-
-  this._idfCache = {}
-
-  this.on('add', 'remove', 'update', (function () {
-    this._idfCache = {}
-  }).bind(this))
-}
-
-/**
- * Bind a handler to events being emitted by the index.
- *
- * The handler can be bound to many events at the same time.
- *
- * @param {String} [eventName] The name(s) of events to bind the function to.
- * @param {Function} fn The serialised set to load.
- * @memberOf Index
- */
-lunr.Index.prototype.on = function () {
-  var args = Array.prototype.slice.call(arguments)
-  return this.eventEmitter.addListener.apply(this.eventEmitter, args)
-}
-
-/**
- * Removes a handler from an event being emitted by the index.
- *
- * @param {String} eventName The name of events to remove the function from.
- * @param {Function} fn The serialised set to load.
- * @memberOf Index
- */
-lunr.Index.prototype.off = function (name, fn) {
-  return this.eventEmitter.removeListener(name, fn)
-}
-
-/**
- * Loads a previously serialised index.
- *
- * Issues a warning if the index being imported was serialised
- * by a different version of lunr.
- *
- * @param {Object} serialisedData The serialised set to load.
- * @returns {lunr.Index}
- * @memberOf Index
- */
-lunr.Index.load = function (serialisedData) {
-  if (serialisedData.version !== lunr.version) {
-    lunr.utils.warn('version mismatch: current ' + lunr.version + ' importing ' + serialisedData.version)
-  }
-
-  var idx = new this
-
-  idx._fields = serialisedData.fields
-  idx._ref = serialisedData.ref
-
-  idx.tokenizer(lunr.tokenizer.load(serialisedData.tokenizer))
-  idx.documentStore = lunr.Store.load(serialisedData.documentStore)
-  idx.tokenStore = lunr.TokenStore.load(serialisedData.tokenStore)
-  idx.corpusTokens = lunr.SortedSet.load(serialisedData.corpusTokens)
-  idx.pipeline = lunr.Pipeline.load(serialisedData.pipeline)
-
-  return idx
-}
-
-/**
- * Adds a field to the list of fields that will be searchable within documents
- * in the index.
- *
- * An optional boost param can be passed to affect how much tokens in this field
- * rank in search results, by default the boost value is 1.
- *
- * Fields should be added before any documents are added to the index, fields
- * that are added after documents are added to the index will only apply to new
- * documents added to the index.
- *
- * @param {String} fieldName The name of the field within the document that
- * should be indexed
- * @param {Number} boost An optional boost that can be applied to terms in this
- * field.
- * @returns {lunr.Index}
- * @memberOf Index
- */
-lunr.Index.prototype.field = function (fieldName, opts) {
-  var opts = opts || {},
-      field = { name: fieldName, boost: opts.boost || 1 }
-
-  this._fields.push(field)
-  return this
-}
-
-/**
- * Sets the property used to uniquely identify documents added to the index,
- * by default this property is 'id'.
- *
- * This should only be changed before adding documents to the index, changing
- * the ref property without resetting the index can lead to unexpected results.
- *
- * The value of ref can be of any type but it _must_ be stably comparable and
- * orderable.
- *
- * @param {String} refName The property to use to uniquely identify the
- * documents in the index.
- * @param {Boolean} emitEvent Whether to emit add events, defaults to true
- * @returns {lunr.Index}
- * @memberOf Index
- */
-lunr.Index.prototype.ref = function (refName) {
-  this._ref = refName
-  return this
-}
-
-/**
- * Sets the tokenizer used for this index.
- *
- * By default the index will use the default tokenizer, lunr.tokenizer. The tokenizer
- * should only be changed before adding documents to the index. Changing the tokenizer
- * without re-building the index can lead to unexpected results.
- *
- * @param {Function} fn The function to use as a tokenizer.
- * @returns {lunr.Index}
- * @memberOf Index
- */
-lunr.Index.prototype.tokenizer = function (fn) {
-  var isRegistered = fn.label && (fn.label in lunr.tokenizer.registeredFunctions)
-
-  if (!isRegistered) {
-    lunr.utils.warn('Function is not a registered tokenizer. This may cause problems when serialising the index')
-  }
-
-  this.tokenizerFn = fn
-  return this
-}
-
-/**
- * Add a document to the index.
- *
- * This is the way new documents enter the index, this function will run the
- * fields from the document through the index's pipeline and then add it to
- * the index, it will then show up in search results.
- *
- * An 'add' event is emitted with the document that has been added and the index
- * the document has been added to. This event can be silenced by passing false
- * as the second argument to add.
- *
- * @param {Object} doc The document to add to the index.
- * @param {Boolean} emitEvent Whether or not to emit events, default true.
- * @memberOf Index
- */
-lunr.Index.prototype.add = function (doc, emitEvent) {
-  var docTokens = {},
-      allDocumentTokens = new lunr.SortedSet,
-      docRef = doc[this._ref],
-      emitEvent = emitEvent === undefined ? true : emitEvent
-
-  this._fields.forEach(function (field) {
-    var fieldTokens = this.pipeline.run(this.tokenizerFn(doc[field.name]))
-
-    docTokens[field.name] = fieldTokens
-
-    for (var i = 0; i < fieldTokens.length; i++) {
-      var token = fieldTokens[i]
-      allDocumentTokens.add(token)
-      this.corpusTokens.add(token)
-    }
-  }, this)
-
-  this.documentStore.set(docRef, allDocumentTokens)
-
-  for (var i = 0; i < allDocumentTokens.length; i++) {
-    var token = allDocumentTokens.elements[i]
-    var tf = 0;
-
-    for (var j = 0; j < this._fields.length; j++){
-      var field = this._fields[j]
-      var fieldTokens = docTokens[field.name]
-      var fieldLength = fieldTokens.length
-
-      if (!fieldLength) continue
-
-      var tokenCount = 0
-      for (var k = 0; k < fieldLength; k++){
-        if (fieldTokens[k] === token){
-          tokenCount++
-        }
-      }
-
-      tf += (tokenCount / fieldLength * field.boost)
-    }
-
-    this.tokenStore.add(token, { ref: docRef, tf: tf })
-  };
-
-  if (emitEvent) this.eventEmitter.emit('add', doc, this)
-}
-
-/**
- * Removes a document from the index.
- *
- * To make sure documents no longer show up in search results they can be
- * removed from the index using this method.
- *
- * The document passed only needs to have the same ref property value as the
- * document that was added to the index, they could be completely different
- * objects.
- *
- * A 'remove' event is emitted with the document that has been removed and the index
- * the document has been removed from. This event can be silenced by passing false
- * as the second argument to remove.
- *
- * @param {Object} doc The document to remove from the index.
- * @param {Boolean} emitEvent Whether to emit remove events, defaults to true
- * @memberOf Index
- */
-lunr.Index.prototype.remove = function (doc, emitEvent) {
-  var docRef = doc[this._ref],
-      emitEvent = emitEvent === undefined ? true : emitEvent
-
-  if (!this.documentStore.has(docRef)) return
-
-  var docTokens = this.documentStore.get(docRef)
-
-  this.documentStore.remove(docRef)
-
-  docTokens.forEach(function (token) {
-    this.tokenStore.remove(token, docRef)
-  }, this)
-
-  if (emitEvent) this.eventEmitter.emit('remove', doc, this)
-}
-
-/**
- * Updates a document in the index.
- *
- * When a document contained within the index gets updated, fields changed,
- * added or removed, to make sure it correctly matched against search queries,
- * it should be updated in the index.
- *
- * This method is just a wrapper around `remove` and `add`
- *
- * An 'update' event is emitted with the document that has been updated and the index.
- * This event can be silenced by passing false as the second argument to update. Only
- * an update event will be fired, the 'add' and 'remove' events of the underlying calls
- * are silenced.
- *
- * @param {Object} doc The document to update in the index.
- * @param {Boolean} emitEvent Whether to emit update events, defaults to true
- * @see Index.prototype.remove
- * @see Index.prototype.add
- * @memberOf Index
- */
-lunr.Index.prototype.update = function (doc, emitEvent) {
-  var emitEvent = emitEvent === undefined ? true : emitEvent
-
-  this.remove(doc, false)
-  this.add(doc, false)
-
-  if (emitEvent) this.eventEmitter.emit('update', doc, this)
-}
-
-/**
- * Calculates the inverse document frequency for a token within the index.
- *
- * @param {String} token The token to calculate the idf of.
- * @see Index.prototype.idf
- * @private
- * @memberOf Index
- */
-lunr.Index.prototype.idf = function (term) {
-  var cacheKey = "@" + term
-  if (Object.prototype.hasOwnProperty.call(this._idfCache, cacheKey)) return this._idfCache[cacheKey]
-
-  var documentFrequency = this.tokenStore.count(term),
-      idf = 1
-
-  if (documentFrequency > 0) {
-    idf = 1 + Math.log(this.documentStore.length / documentFrequency)
-  }
-
-  return this._idfCache[cacheKey] = idf
-}
-
-/**
- * Searches the index using the passed query.
- *
- * Queries should be a string, multiple words are allowed and will lead to an
- * AND based query, e.g. `idx.search('foo bar')` will run a search for
- * documents containing both 'foo' and 'bar'.
- *
- * All query tokens are passed through the same pipeline that document tokens
- * are passed through, so any language processing involved will be run on every
- * query term.
- *
- * Each query term is expanded, so that the term 'he' might be expanded to
- * 'hello' and 'help' if those terms were already included in the index.
- *
- * Matching documents are returned as an array of objects, each object contains
- * the matching document ref, as set for this index, and the similarity score
- * for this document against the query.
- *
- * @param {String} query The query to search the index with.
- * @returns {Object}
- * @see Index.prototype.idf
- * @see Index.prototype.documentVector
- * @memberOf Index
- */
-lunr.Index.prototype.search = function (query) {
-  var queryTokens = this.pipeline.run(this.tokenizerFn(query)),
-      queryVector = new lunr.Vector,
-      documentSets = [],
-      fieldBoosts = this._fields.reduce(function (memo, f) { return memo + f.boost }, 0)
-
-  var hasSomeToken = queryTokens.some(function (token) {
-    return this.tokenStore.has(token)
-  }, this)
-
-  if (!hasSomeToken) return []
-
-  queryTokens
-    .forEach(function (token, i, tokens) {
-      var tf = 1 / tokens.length * this._fields.length * fieldBoosts,
-          self = this
-
-      var set = this.tokenStore.expand(token).reduce(function (memo, key) {
-        var pos = self.corpusTokens.indexOf(key),
-            idf = self.idf(key),
-            similarityBoost = 1,
-            set = new lunr.SortedSet
-
-        // if the expanded key is not an exact match to the token then
-        // penalise the score for this key by how different the key is
-        // to the token.
-        if (key !== token) {
-          var diff = Math.max(3, key.length - token.length)
-          similarityBoost = 1 / Math.log(diff)
-        }
-
-        // calculate the query tf-idf score for this token
-        // applying an similarityBoost to ensure exact matches
-        // these rank higher than expanded terms
-        if (pos > -1) queryVector.insert(pos, tf * idf * similarityBoost)
-
-        // add all the documents that have this key into a set
-        // ensuring that the type of key is preserved
-        var matchingDocuments = self.tokenStore.get(key),
-            refs = Object.keys(matchingDocuments),
-            refsLen = refs.length
-
-        for (var i = 0; i < refsLen; i++) {
-          set.add(matchingDocuments[refs[i]].ref)
-        }
-
-        return memo.union(set)
-      }, new lunr.SortedSet)
-
-      documentSets.push(set)
-    }, this)
-
-  var documentSet = documentSets.reduce(function (memo, set) {
-    return memo.intersect(set)
-  })
-
-  return documentSet
-    .map(function (ref) {
-      return { ref: ref, score: queryVector.similarity(this.documentVector(ref)) }
-    }, this)
-    .sort(function (a, b) {
-      return b.score - a.score
-    })
-}
-
-/**
- * Generates a vector containing all the tokens in the document matching the
- * passed documentRef.
- *
- * The vector contains the tf-idf score for each token contained in the
- * document with the passed documentRef.  The vector will contain an element
- * for every token in the indexes corpus, if the document does not contain that
- * token the element will be 0.
- *
- * @param {Object} documentRef The ref to find the document with.
- * @returns {lunr.Vector}
- * @private
- * @memberOf Index
- */
-lunr.Index.prototype.documentVector = function (documentRef) {
-  var documentTokens = this.documentStore.get(documentRef),
-      documentTokensLength = documentTokens.length,
-      documentVector = new lunr.Vector
-
-  for (var i = 0; i < documentTokensLength; i++) {
-    var token = documentTokens.elements[i],
-        tf = this.tokenStore.get(token)[documentRef].tf,
-        idf = this.idf(token)
-
-    documentVector.insert(this.corpusTokens.indexOf(token), tf * idf)
-  };
-
-  return documentVector
-}
-
-/**
- * Returns a representation of the index ready for serialisation.
- *
- * @returns {Object}
- * @memberOf Index
- */
-lunr.Index.prototype.toJSON = function () {
-  return {
-    version: lunr.version,
-    fields: this._fields,
-    ref: this._ref,
-    tokenizer: this.tokenizerFn.label,
-    documentStore: this.documentStore.toJSON(),
-    tokenStore: this.tokenStore.toJSON(),
-    corpusTokens: this.corpusTokens.toJSON(),
-    pipeline: this.pipeline.toJSON()
-  }
-}
-
-/**
- * Applies a plugin to the current index.
- *
- * A plugin is a function that is called with the index as its context.
- * Plugins can be used to customise or extend the behaviour the index
- * in some way. A plugin is just a function, that encapsulated the custom
- * behaviour that should be applied to the index.
- *
- * The plugin function will be called with the index as its argument, additional
- * arguments can also be passed when calling use. The function will be called
- * with the index as its context.
- *
- * Example:
- *
- *     var myPlugin = function (idx, arg1, arg2) {
- *       // `this` is the index to be extended
- *       // apply any extensions etc here.
- *     }
- *
- *     var idx = lunr(function () {
- *       this.use(myPlugin, 'arg1', 'arg2')
- *     })
- *
- * @param {Function} plugin The plugin to apply.
- * @memberOf Index
- */
-lunr.Index.prototype.use = function (plugin) {
-  var args = Array.prototype.slice.call(arguments, 1)
-  args.unshift(this)
-  plugin.apply(this, args)
-}
-/*!
- * lunr.Store
- * Copyright (C) 2016 Oliver Nightingale
- */
-
-/**
- * lunr.Store is a simple key-value store used for storing sets of tokens for
- * documents stored in index.
- *
- * @constructor
- * @module
- */
-lunr.Store = function () {
-  this.store = {}
-  this.length = 0
-}
-
-/**
- * Loads a previously serialised store
- *
- * @param {Object} serialisedData The serialised store to load.
- * @returns {lunr.Store}
- * @memberOf Store
- */
-lunr.Store.load = function (serialisedData) {
-  var store = new this
-
-  store.length = serialisedData.length
-  store.store = Object.keys(serialisedData.store).reduce(function (memo, key) {
-    memo[key] = lunr.SortedSet.load(serialisedData.store[key])
-    return memo
-  }, {})
-
-  return store
-}
-
-/**
- * Stores the given tokens in the store against the given id.
- *
- * @param {Object} id The key used to store the tokens against.
- * @param {Object} tokens The tokens to store against the key.
- * @memberOf Store
- */
-lunr.Store.prototype.set = function (id, tokens) {
-  if (!this.has(id)) this.length++
-  this.store[id] = tokens
-}
-
-/**
- * Retrieves the tokens from the store for a given key.
- *
- * @param {Object} id The key to lookup and retrieve from the store.
- * @returns {Object}
- * @memberOf Store
- */
-lunr.Store.prototype.get = function (id) {
-  return this.store[id]
-}
-
-/**
- * Checks whether the store contains a key.
- *
- * @param {Object} id The id to look up in the store.
- * @returns {Boolean}
- * @memberOf Store
- */
-lunr.Store.prototype.has = function (id) {
-  return id in this.store
-}
-
-/**
- * Removes the value for a key in the store.
- *
- * @param {Object} id The id to remove from the store.
- * @memberOf Store
- */
-lunr.Store.prototype.remove = function (id) {
-  if (!this.has(id)) return
-
-  delete this.store[id]
-  this.length--
-}
-
-/**
- * Returns a representation of the store ready for serialisation.
- *
- * @returns {Object}
- * @memberOf Store
- */
-lunr.Store.prototype.toJSON = function () {
-  return {
-    store: this.store,
-    length: this.length
-  }
-}
-
-/*!
- * lunr.stemmer
- * Copyright (C) 2016 Oliver Nightingale
- * Includes code from - http://tartarus.org/~martin/PorterStemmer/js.txt
- */
-
-/**
- * lunr.stemmer is an english language stemmer, this is a JavaScript
- * implementation of the PorterStemmer taken from http://tartarus.org/~martin
- *
- * @module
- * @param {String} str The string to stem
- * @returns {String}
- * @see lunr.Pipeline
- */
-lunr.stemmer = (function(){
-  var step2list = {
-      "ational" : "ate",
-      "tional" : "tion",
-      "enci" : "ence",
-      "anci" : "ance",
-      "izer" : "ize",
-      "bli" : "ble",
-      "alli" : "al",
-      "entli" : "ent",
-      "eli" : "e",
-      "ousli" : "ous",
-      "ization" : "ize",
-      "ation" : "ate",
-      "ator" : "ate",
-      "alism" : "al",
-      "iveness" : "ive",
-      "fulness" : "ful",
-      "ousness" : "ous",
-      "aliti" : "al",
-      "iviti" : "ive",
-      "biliti" : "ble",
-      "logi" : "log"
-    },
-
-    step3list = {
-      "icate" : "ic",
-      "ative" : "",
-      "alize" : "al",
-      "iciti" : "ic",
-      "ical" : "ic",
-      "ful" : "",
-      "ness" : ""
-    },
-
-    c = "[^aeiou]",          // consonant
-    v = "[aeiouy]",          // vowel
-    C = c + "[^aeiouy]*",    // consonant sequence
-    V = v + "[aeiou]*",      // vowel sequence
-
-    mgr0 = "^(" + C + ")?" + V + C,               // [C]VC... is m>0
-    meq1 = "^(" + C + ")?" + V + C + "(" + V + ")?$",  // [C]VC[V] is m=1
-    mgr1 = "^(" + C + ")?" + V + C + V + C,       // [C]VCVC... is m>1
-    s_v = "^(" + C + ")?" + v;                   // vowel in stem
-
-  var re_mgr0 = new RegExp(mgr0);
-  var re_mgr1 = new RegExp(mgr1);
-  var re_meq1 = new RegExp(meq1);
-  var re_s_v = new RegExp(s_v);
-
-  var re_1a = /^(.+?)(ss|i)es$/;
-  var re2_1a = /^(.+?)([^s])s$/;
-  var re_1b = /^(.+?)eed$/;
-  var re2_1b = /^(.+?)(ed|ing)$/;
-  var re_1b_2 = /.$/;
-  var re2_1b_2 = /(at|bl|iz)$/;
-  var re3_1b_2 = new RegExp("([^aeiouylsz])\\1$");
-  var re4_1b_2 = new RegExp("^" + C + v + "[^aeiouwxy]$");
-
-  var re_1c = /^(.+?[^aeiou])y$/;
-  var re_2 = /^(.+?)(ational|tional|enci|anci|izer|bli|alli|entli|eli|ousli|ization|ation|ator|alism|iveness|fulness|ousness|aliti|iviti|biliti|logi)$/;
-
-  var re_3 = /^(.+?)(icate|ative|alize|iciti|ical|ful|ness)$/;
-
-  var re_4 = /^(.+?)(al|ance|ence|er|ic|able|ible|ant|ement|ment|ent|ou|ism|ate|iti|ous|ive|ize)$/;
-  var re2_4 = /^(.+?)(s|t)(ion)$/;
-
-  var re_5 = /^(.+?)e$/;
-  var re_5_1 = /ll$/;
-  var re3_5 = new RegExp("^" + C + v + "[^aeiouwxy]$");
-
-  var porterStemmer = function porterStemmer(w) {
-    var   stem,
-      suffix,
-      firstch,
-      re,
-      re2,
-      re3,
-      re4;
-
-    if (w.length < 3) { return w; }
-
-    firstch = w.substr(0,1);
-    if (firstch == "y") {
-      w = firstch.toUpperCase() + w.substr(1);
-    }
-
-    // Step 1a
-    re = re_1a
-    re2 = re2_1a;
-
-    if (re.test(w)) { w = w.replace(re,"$1$2"); }
-    else if (re2.test(w)) { w = w.replace(re2,"$1$2"); }
-
-    // Step 1b
-    re = re_1b;
-    re2 = re2_1b;
-    if (re.test(w)) {
-      var fp = re.exec(w);
-      re = re_mgr0;
-      if (re.test(fp[1])) {
-        re = re_1b_2;
-        w = w.replace(re,"");
-      }
-    } else if (re2.test(w)) {
-      var fp = re2.exec(w);
-      stem = fp[1];
-      re2 = re_s_v;
-      if (re2.test(stem)) {
-        w = stem;
-        re2 = re2_1b_2;
-        re3 = re3_1b_2;
-        re4 = re4_1b_2;
-        if (re2.test(w)) {  w = w + "e"; }
-        else if (re3.test(w)) { re = re_1b_2; w = w.replace(re,""); }
-        else if (re4.test(w)) { w = w + "e"; }
-      }
-    }
-
-    // Step 1c - replace suffix y or Y by i if preceded by a non-vowel which is not the first letter of the word (so cry -> cri, by -> by, say -> say)
-    re = re_1c;
-    if (re.test(w)) {
-      var fp = re.exec(w);
-      stem = fp[1];
-      w = stem + "i";
-    }
-
-    // Step 2
-    re = re_2;
-    if (re.test(w)) {
-      var fp = re.exec(w);
-      stem = fp[1];
-      suffix = fp[2];
-      re = re_mgr0;
-      if (re.test(stem)) {
-        w = stem + step2list[suffix];
-      }
-    }
-
-    // Step 3
-    re = re_3;
-    if (re.test(w)) {
-      var fp = re.exec(w);
-      stem = fp[1];
-      suffix = fp[2];
-      re = re_mgr0;
-      if (re.test(stem)) {
-        w = stem + step3list[suffix];
-      }
-    }
-
-    // Step 4
-    re = re_4;
-    re2 = re2_4;
-    if (re.test(w)) {
-      var fp = re.exec(w);
-      stem = fp[1];
-      re = re_mgr1;
-      if (re.test(stem)) {
-        w = stem;
-      }
-    } else if (re2.test(w)) {
-      var fp = re2.exec(w);
-      stem = fp[1] + fp[2];
-      re2 = re_mgr1;
-      if (re2.test(stem)) {
-        w = stem;
-      }
-    }
-
-    // Step 5
-    re = re_5;
-    if (re.test(w)) {
-      var fp = re.exec(w);
-      stem = fp[1];
-      re = re_mgr1;
-      re2 = re_meq1;
-      re3 = re3_5;
-      if (re.test(stem) || (re2.test(stem) && !(re3.test(stem)))) {
-        w = stem;
-      }
-    }
-
-    re = re_5_1;
-    re2 = re_mgr1;
-    if (re.test(w) && re2.test(w)) {
-      re = re_1b_2;
-      w = w.replace(re,"");
-    }
-
-    // and turn initial Y back to y
-
-    if (firstch == "y") {
-      w = firstch.toLowerCase() + w.substr(1);
-    }
-
-    return w;
-  };
-
-  return porterStemmer;
-})();
-
-lunr.Pipeline.registerFunction(lunr.stemmer, 'stemmer')
-/*!
- * lunr.stopWordFilter
- * Copyright (C) 2016 Oliver Nightingale
- */
-
-/**
- * lunr.generateStopWordFilter builds a stopWordFilter function from the provided
- * list of stop words.
- *
- * The built in lunr.stopWordFilter is built using this generator and can be used
- * to generate custom stopWordFilters for applications or non English languages.
- *
- * @module
- * @param {Array} token The token to pass through the filter
- * @returns {Function}
- * @see lunr.Pipeline
- * @see lunr.stopWordFilter
- */
-lunr.generateStopWordFilter = function (stopWords) {
-  var words = stopWords.reduce(function (memo, stopWord) {
-    memo[stopWord] = stopWord
-    return memo
-  }, {})
-
-  return function (token) {
-    if (token && words[token] !== token) return token
-  }
-}
-
-/**
- * lunr.stopWordFilter is an English language stop word list filter, any words
- * contained in the list will not be passed through the filter.
- *
- * This is intended to be used in the Pipeline. If the token does not pass the
- * filter then undefined will be returned.
- *
- * @module
- * @param {String} token The token to pass through the filter
- * @returns {String}
- * @see lunr.Pipeline
- */
-lunr.stopWordFilter = lunr.generateStopWordFilter([
-  'a',
-  'able',
-  'about',
-  'across',
-  'after',
-  'all',
-  'almost',
-  'also',
-  'am',
-  'among',
-  'an',
-  'and',
-  'any',
-  'are',
-  'as',
-  'at',
-  'be',
-  'because',
-  'been',
-  'but',
-  'by',
-  'can',
-  'cannot',
-  'could',
-  'dear',
-  'did',
-  'do',
-  'does',
-  'either',
-  'else',
-  'ever',
-  'every',
-  'for',
-  'from',
-  'get',
-  'got',
-  'had',
-  'has',
-  'have',
-  'he',
-  'her',
-  'hers',
-  'him',
-  'his',
-  'how',
-  'however',
-  'i',
-  'if',
-  'in',
-  'into',
-  'is',
-  'it',
-  'its',
-  'just',
-  'least',
-  'let',
-  'like',
-  'likely',
-  'may',
-  'me',
-  'might',
-  'most',
-  'must',
-  'my',
-  'neither',
-  'no',
-  'nor',
-  'not',
-  'of',
-  'off',
-  'often',
-  'on',
-  'only',
-  'or',
-  'other',
-  'our',
-  'own',
-  'rather',
-  'said',
-  'say',
-  'says',
-  'she',
-  'should',
-  'since',
-  'so',
-  'some',
-  'than',
-  'that',
-  'the',
-  'their',
-  'them',
-  'then',
-  'there',
-  'these',
-  'they',
-  'this',
-  'tis',
-  'to',
-  'too',
-  'twas',
-  'us',
-  'wants',
-  'was',
-  'we',
-  'were',
-  'what',
-  'when',
-  'where',
-  'which',
-  'while',
-  'who',
-  'whom',
-  'why',
-  'will',
-  'with',
-  'would',
-  'yet',
-  'you',
-  'your'
-])
-
-lunr.Pipeline.registerFunction(lunr.stopWordFilter, 'stopWordFilter')
-/*!
- * lunr.trimmer
- * Copyright (C) 2016 Oliver Nightingale
- */
-
-/**
- * lunr.trimmer is a pipeline function for trimming non word
- * characters from the begining and end of tokens before they
- * enter the index.
- *
- * This implementation may not work correctly for non latin
- * characters and should either be removed or adapted for use
- * with languages with non-latin characters.
- *
- * @module
- * @param {String} token The token to pass through the filter
- * @returns {String}
- * @see lunr.Pipeline
- */
-lunr.trimmer = function (token) {
-  return token.replace(/^\W+/, '').replace(/\W+$/, '')
-}
-
-lunr.Pipeline.registerFunction(lunr.trimmer, 'trimmer')
-/*!
- * lunr.stemmer
- * Copyright (C) 2016 Oliver Nightingale
- * Includes code from - http://tartarus.org/~martin/PorterStemmer/js.txt
- */
-
-/**
- * lunr.TokenStore is used for efficient storing and lookup of the reverse
- * index of token to document ref.
- *
- * @constructor
- */
-lunr.TokenStore = function () {
-  this.root = { docs: {} }
-  this.length = 0
-}
-
-/**
- * Loads a previously serialised token store
- *
- * @param {Object} serialisedData The serialised token store to load.
- * @returns {lunr.TokenStore}
- * @memberOf TokenStore
- */
-lunr.TokenStore.load = function (serialisedData) {
-  var store = new this
-
-  store.root = serialisedData.root
-  store.length = serialisedData.length
-
-  return store
-}
-
-/**
- * Adds a new token doc pair to the store.
- *
- * By default this function starts at the root of the current store, however
- * it can start at any node of any token store if required.
- *
- * @param {String} token The token to store the doc under
- * @param {Object} doc The doc to store against the token
- * @param {Object} root An optional node at which to start looking for the
- * correct place to enter the doc, by default the root of this lunr.TokenStore
- * is used.
- * @memberOf TokenStore
- */
-lunr.TokenStore.prototype.add = function (token, doc, root) {
-  var root = root || this.root,
-      key = token.charAt(0),
-      rest = token.slice(1)
-
-  if (!(key in root)) root[key] = {docs: {}}
-
-  if (rest.length === 0) {
-    root[key].docs[doc.ref] = doc
-    this.length += 1
-    return
-  } else {
-    return this.add(rest, doc, root[key])
-  }
-}
-
-/**
- * Checks whether this key is contained within this lunr.TokenStore.
- *
- * By default this function starts at the root of the current store, however
- * it can start at any node of any token store if required.
- *
- * @param {String} token The token to check for
- * @param {Object} root An optional node at which to start
- * @memberOf TokenStore
- */
-lunr.TokenStore.prototype.has = function (token) {
-  if (!token) return false
-
-  var node = this.root
-
-  for (var i = 0; i < token.length; i++) {
-    if (!node[token.charAt(i)]) return false
-
-    node = node[token.charAt(i)]
-  }
-
-  return true
-}
-
-/**
- * Retrieve a node from the token store for a given token.
- *
- * By default this function starts at the root of the current store, however
- * it can start at any node of any token store if required.
- *
- * @param {String} token The token to get the node for.
- * @param {Object} root An optional node at which to start.
- * @returns {Object}
- * @see TokenStore.prototype.get
- * @memberOf TokenStore
- */
-lunr.TokenStore.prototype.getNode = function (token) {
-  if (!token) return {}
-
-  var node = this.root
-
-  for (var i = 0; i < token.length; i++) {
-    if (!node[token.charAt(i)]) return {}
-
-    node = node[token.charAt(i)]
-  }
-
-  return node
-}
-
-/**
- * Retrieve the documents for a node for the given token.
- *
- * By default this function starts at the root of the current store, however
- * it can start at any node of any token store if required.
- *
- * @param {String} token The token to get the documents for.
- * @param {Object} root An optional node at which to start.
- * @returns {Object}
- * @memberOf TokenStore
- */
-lunr.TokenStore.prototype.get = function (token, root) {
-  return this.getNode(token, root).docs || {}
-}
-
-lunr.TokenStore.prototype.count = function (token, root) {
-  return Object.keys(this.get(token, root)).length
-}
-
-/**
- * Remove the document identified by ref from the token in the store.
- *
- * By default this function starts at the root of the current store, however
- * it can start at any node of any token store if required.
- *
- * @param {String} token The token to get the documents for.
- * @param {String} ref The ref of the document to remove from this token.
- * @param {Object} root An optional node at which to start.
- * @returns {Object}
- * @memberOf TokenStore
- */
-lunr.TokenStore.prototype.remove = function (token, ref) {
-  if (!token) return
-  var node = this.root
-
-  for (var i = 0; i < token.length; i++) {
-    if (!(token.charAt(i) in node)) return
-    node = node[token.charAt(i)]
-  }
-
-  delete node.docs[ref]
-}
-
-/**
- * Find all the possible suffixes of the passed token using tokens
- * currently in the store.
- *
- * @param {String} token The token to expand.
- * @returns {Array}
- * @memberOf TokenStore
- */
-lunr.TokenStore.prototype.expand = function (token, memo) {
-  var root = this.getNode(token),
-      docs = root.docs || {},
-      memo = memo || []
-
-  if (Object.keys(docs).length) memo.push(token)
-
-  Object.keys(root)
-    .forEach(function (key) {
-      if (key === 'docs') return
-
-      memo.concat(this.expand(token + key, memo))
-    }, this)
-
-  return memo
-}
-
-/**
- * Returns a representation of the token store ready for serialisation.
- *
- * @returns {Object}
- * @memberOf TokenStore
- */
-lunr.TokenStore.prototype.toJSON = function () {
-  return {
-    root: this.root,
-    length: this.length
-  }
-}
-
-  /**
-   * export the module via AMD, CommonJS or as a browser global
-   * Export code from https://github.com/umdjs/umd/blob/master/returnExports.js
-   */
-  ;(function (root, factory) {
-    if (true) {
-      // AMD. Register as an anonymous module.
-      !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
-				__WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
-    } else if (typeof exports === 'object') {
-      /**
-       * Node. Does not work with strict CommonJS, but
-       * only CommonJS-like enviroments that support module.exports,
-       * like Node.
-       */
-      module.exports = factory()
-    } else {
-      // Browser globals (root is window)
-      root.lunr = factory()
-    }
-  }(this, function () {
-    /**
-     * Just return a value to define the module export.
-     * This example returns an object, but the module
-     * can return a function as the exported value.
-     */
-    return lunr
-  }))
-})();
-
-
-/***/ }),
-
-/***/ 35:
+/***/ 36:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -9521,7 +7453,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 36:
+/***/ 37:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -9548,7 +7480,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 37:
+/***/ 38:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -9630,7 +7562,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 38:
+/***/ 39:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -9668,13 +7600,13 @@ if (false) {
 
 /***/ }),
 
-/***/ 39:
+/***/ 40:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(27);
+var content = __webpack_require__(29);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -9695,13 +7627,13 @@ if(false) {
 
 /***/ }),
 
-/***/ 40:
+/***/ 41:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(28);
+var content = __webpack_require__(30);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -9722,13 +7654,13 @@ if(false) {
 
 /***/ }),
 
-/***/ 41:
+/***/ 42:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(29);
+var content = __webpack_require__(31);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -9749,18 +7681,18 @@ if(false) {
 
 /***/ }),
 
-/***/ 415:
+/***/ 424:
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(492)
+__webpack_require__(497)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(177),
+  __webpack_require__(189),
   /* template */
-  __webpack_require__(451),
+  __webpack_require__(457),
   /* scopeId */
   "data-v-227f018b",
   /* cssModules */
@@ -9788,26 +7720,26 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 416:
+/***/ 425:
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(487)
+__webpack_require__(503)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(178),
+  __webpack_require__(190),
   /* template */
-  __webpack_require__(444),
+  __webpack_require__(462),
   /* scopeId */
-  "data-v-05c830ce",
+  "data-v-333b21d8",
   /* cssModules */
   null
 )
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ListPaginator.vue"
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Manage/Merit/ReportListItem.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] ListPaginator.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] ReportListItem.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -9816,9 +7748,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-05c830ce", Component.options)
+    hotAPI.createRecord("data-v-333b21d8", Component.options)
   } else {
-    hotAPI.reload("data-v-05c830ce", Component.options)
+    hotAPI.reload("data-v-333b21d8", Component.options)
   }
 })()}
 
@@ -9827,13 +7759,13 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 42:
+/***/ 43:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(30);
+var content = __webpack_require__(32);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -9854,18 +7786,18 @@ if(false) {
 
 /***/ }),
 
-/***/ 421:
+/***/ 430:
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(513)
+__webpack_require__(518)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(184),
+  __webpack_require__(196),
   /* template */
-  __webpack_require__(481),
+  __webpack_require__(487),
   /* scopeId */
   "data-v-d93fa1b2",
   /* cssModules */
@@ -9893,42 +7825,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 422:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(185),
-  /* template */
-  __webpack_require__(447),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/PaginatorLink.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] PaginatorLink.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-115d9766", Component.options)
-  } else {
-    hotAPI.reload("data-v-115d9766", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 43:
+/***/ 44:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9943,7 +7840,7 @@ module.exports = {
   toHash: toHash,
   getProperty: getProperty,
   escapeQuotes: escapeQuotes,
-  ucs2length: __webpack_require__(142),
+  ucs2length: __webpack_require__(155),
   varOccurences: varOccurences,
   varReplace: varReplace,
   cleanUpCode: cleanUpCode,
@@ -10201,256 +8098,7 @@ function unescapeJsonPointer(str) {
 
 /***/ }),
 
-/***/ 444:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('section', {
-    staticClass: "paginator"
-  }, [_c('div', {
-    staticClass: "form-inline"
-  }, [_c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    staticClass: "containing-label"
-  }, [_vm._v("\n\t\t\t\tCurrent page:\n\t\t\t\t"), _c('input', {
-    staticClass: "form-control",
-    attrs: {
-      "type": "number",
-      "min": "1",
-      "max": _vm.paginatedItems.length
-    },
-    domProps: {
-      "value": _vm.value + 1
-    },
-    on: {
-      "input": function($event) {
-        _vm.$emit('input', Number($event.target.value) - 1)
-      }
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    staticClass: "containing-label"
-  }, [_vm._v("\n\t\t\t\tItems per page:\n\t\t\t\t"), _c('select', {
-    staticClass: "form-control",
-    domProps: {
-      "value": _vm.itemsPerPage
-    },
-    on: {
-      "input": function($event) {
-        _vm.$emit('pageSize', Number($event.target.value))
-      }
-    }
-  }, [_c('option', {
-    attrs: {
-      "value": "5"
-    }
-  }, [_vm._v("5")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "10"
-    }
-  }, [_vm._v("10")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "20"
-    }
-  }, [_vm._v("20")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "50"
-    }
-  }, [_vm._v("50")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "100"
-    }
-  }, [_vm._v("100")])])])])]), _vm._v(" "), (_vm.itemsPerPage && _vm.paginatedItems.length > 1) ? _c('nav', [_c('div', {
-    staticClass: "btn-group"
-  }, [_c('paginator-link', {
-    attrs: {
-      "value": _vm.value - 1,
-      "text": "← Prev",
-      "active": _vm.value === 0
-    },
-    on: {
-      "click": _vm.setPage
-    }
-  }), _vm._v(" "), _vm._l((_vm.paginatedItems), function(pageItems, pageNum) {
-    return _c('paginator-link', {
-      attrs: {
-        "value": pageNum,
-        "active": pageNum === _vm.value
-      },
-      on: {
-        "click": _vm.setPage
-      }
-    })
-  }), _vm._v(" "), _c('paginator-link', {
-    attrs: {
-      "value": _vm.value + 1,
-      "text": "Next →",
-      "active": _vm.value === _vm.paginatedItems.length - 1
-    },
-    on: {
-      "click": _vm.setPage
-    }
-  })], 2)]) : _vm._e()])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-05c830ce", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 447:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    staticClass: "btn btn-default",
-    attrs: {
-      "type": "button",
-      "href": "#",
-      "disabled": _vm.active
-    },
-    on: {
-      "click": _vm.emitPage
-    }
-  }, [_vm._v("\n\t" + _vm._s(_vm.text || _vm.value + 1) + "\n")])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-115d9766", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 45:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DataTable_vue__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__DataTable_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_localforage__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_localforage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_localforage__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__ = __webpack_require__(7);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-
-
-
-
-
-window.localforage = __WEBPACK_IMPORTED_MODULE_2_localforage__;
-
-/* harmony default export */ __webpack_exports__["default"] = {
-	extends: __WEBPACK_IMPORTED_MODULE_0__DataTable_vue___default.a,
-	props: {
-		id: {
-			type: String,
-			required: false
-		},
-		range: {
-			type: String,
-			default: __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].CURRENT_QUARTER,
-			validator: function validator(value) {
-				return Object.values(__WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"]).includes(value);
-			}
-		}
-	},
-	data: function data() {
-		return {
-			dates: __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["isoDateStringObject"](__WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__[this.range]())
-		};
-	},
-	mounted: function mounted() {
-		var _this = this;
-
-		if (this.id) {
-			__WEBPACK_IMPORTED_MODULE_2_localforage__["getItem"](this.localforageKey).then(function (state) {
-				if (state) {
-					var now = __WEBPACK_IMPORTED_MODULE_3_moment___default()();
-					if (state.createdAt >= now.subtract(6, 'hours').toDate()) {
-						_this.dates = state.dates;
-					} else {
-						__WEBPACK_IMPORTED_MODULE_2_localforage__["removeItem"](_this.localforageKey);
-					}
-				}
-			});
-		}
-	},
-
-	computed: {
-		localforageKey: function localforageKey() {
-			if (this.id) return this.id + '-evaluation-data-table';
-		},
-		evaluationConfig: function evaluationConfig() {
-			return Object.assign({
-				stateSave: true,
-				deferRender: true
-			}, this.config);
-		},
-		datedConfig: function datedConfig() {
-			if (!this.evaluationConfig || !('ajax' in this.evaluationConfig) || !this.dates.startDate && !this.dates.endDate) return this.evaluationConfig;
-
-			var config = Object.assign({}, this.evaluationConfig, {
-				ajax: JSON.parse(JSON.stringify(this.evaluationConfig.ajax))
-			});
-
-			if (this.dates.endDate) config.ajax.data.evaluation_date_start = ['<=', __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["isoDateString"](this.dates.endDate)];
-			if (this.dates.startDate) config.ajax.data.evaluation_date_end = ['>=', __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["isoDateString"](this.dates.startDate)];
-
-			return config;
-		}
-	},
-	watch: {
-		dates: function dates(_dates) {
-			if (this.id) {
-				__WEBPACK_IMPORTED_MODULE_2_localforage__["setItem"](this.localforageKey, {
-					dates: _dates,
-					createdAt: new Date()
-				}).catch(function (err) {
-					console.error(err);
-				});
-			}
-		}
-	},
-	components: {
-		DataTable: __WEBPACK_IMPORTED_MODULE_0__DataTable_vue___default.a,
-		StartEndDate: __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue___default.a
-	}
-};
-
-/***/ }),
-
-/***/ 451:
+/***/ 457:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -10585,191 +8233,179 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_js__ = __webpack_require__(3);
-/* harmony export (immutable) */ __webpack_exports__["e"] = createRadarScaleCallback;
-/* harmony export (immutable) */ __webpack_exports__["f"] = createResponseLegend;
-/* harmony export (immutable) */ __webpack_exports__["c"] = tableHeader;
-/* harmony export (immutable) */ __webpack_exports__["b"] = fullWidthTable;
-/* harmony export (immutable) */ __webpack_exports__["d"] = borderedStripedTable;
-/* harmony export (immutable) */ __webpack_exports__["g"] = getAverageLevel;
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return sortFunctions; });
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DataTable_vue__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__DataTable_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_localforage__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_localforage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_localforage__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__ = __webpack_require__(7);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
-function createRadarScaleCallback(valueMap) {
-	return function (value) {
-		return valueMap.get(value) || '';
-	};
-}
 
-function createResponseLegend(valueMap) {
-	var labels = [];
-	var values = [];
 
-	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_0__utils_js__["f" /* sortNumbers */]);
 
-	keys.map(function (key) {
-		labels.push(valueMap.get(key));
-		values.push(key.toString());
-	});
 
-	return {
-		table: {
-			headerRows: 1,
-			body: [labels.map(tableHeader), values]
+
+
+
+window.localforage = __WEBPACK_IMPORTED_MODULE_2_localforage__;
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	extends: __WEBPACK_IMPORTED_MODULE_0__DataTable_vue___default.a,
+	props: {
+		id: {
+			type: String,
+			required: false
+		},
+		range: {
+			type: String,
+			default: __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"].CURRENT_QUARTER,
+			validator: function validator(value) {
+				return Object.values(__WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["DATE_RANGES"]).includes(value);
+			}
 		}
-	};
-}
+	},
+	data: function data() {
+		return {
+			dates: __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["isoDateStringObject"](__WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__[this.range]())
+		};
+	},
+	mounted: function mounted() {
+		var _this = this;
 
-function tableHeader(text) {
-	return {
-		text: text,
-		style: 'tableHeader'
-	};
-}
-
-function fullWidthTable(table) {
-	table.widths = Array(table.body[0].length).fill('*');
-	return table;
-}
-
-function borderedStripedTable(element) {
-	element.layout = {
-		hLineWidth: function hLineWidth(i, node) {
-			return i === node.table.headerRows ? 2 : 1;
-		},
-		vLineWidth: function vLineWidth() {
-			return 1;
-		},
-		hLineColor: function hLineColor() {
-			return '#555';
-		},
-		vLineColor: function vLineColor() {
-			return '#555';
-		},
-		fillColor: function fillColor(i, node) {
-			return i >= node.table.headerRows && i % 2 === 1 ? '#f3f3f3' : '#fff';
+		if (this.id) {
+			__WEBPACK_IMPORTED_MODULE_2_localforage__["getItem"](this.localforageKey).then(function (state) {
+				if (state) {
+					var now = __WEBPACK_IMPORTED_MODULE_3_moment___default()();
+					if (state.createdAt >= now.subtract(6, 'hours').toDate()) {
+						_this.dates = state.dates;
+					} else {
+						__WEBPACK_IMPORTED_MODULE_2_localforage__["removeItem"](_this.localforageKey);
+					}
+				}
+			});
 		}
-	};
+	},
 
-	return element;
-}
+	computed: {
+		localforageKey: function localforageKey() {
+			if (this.id) return this.id + '-evaluation-data-table';
+		},
+		evaluationConfig: function evaluationConfig() {
+			return Object.assign({
+				stateSave: true,
+				deferRender: true
+			}, this.config);
+		},
+		datedConfig: function datedConfig() {
+			if (!this.evaluationConfig || !('ajax' in this.evaluationConfig) || !this.dates.startDate && !this.dates.endDate) return this.evaluationConfig;
 
-function getAverageLevel(average) {
-	var level = Math.floor(average) / 2;
-	return level >= 1 ? 'Level ' + level : 'Not Level 1';
-}
+			var config = Object.assign({}, this.evaluationConfig, {
+				ajax: JSON.parse(JSON.stringify(this.evaluationConfig.ajax))
+			});
 
-var sortFunctions = new Map([['training_level', function (a, b) {
-	var sortOrder = ['intern', 'ca-1', 'ca-2', 'ca-3', 'fellow'];
+			if (this.dates.endDate) config.ajax.data.evaluation_date_start = ['<=', __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["isoDateString"](this.dates.endDate)];
+			if (this.dates.startDate) config.ajax.data.evaluation_date_end = ['>=', __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["isoDateString"](this.dates.startDate)];
 
-	var aLevel = a.training_level.toLowerCase();
-	var bLevel = b.training_level.toLowerCase();
-
-	return sortOrder.indexOf(aLevel) - sortOrder.indexOf(bLevel);
-}]]);
+			return config;
+		}
+	},
+	watch: {
+		dates: function dates(_dates) {
+			if (this.id) {
+				__WEBPACK_IMPORTED_MODULE_2_localforage__["setItem"](this.localforageKey, {
+					dates: _dates,
+					createdAt: new Date()
+				}).catch(function (err) {
+					console.error(err);
+				});
+			}
+		}
+	},
+	components: {
+		DataTable: __WEBPACK_IMPORTED_MODULE_0__DataTable_vue___default.a,
+		StartEndDate: __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue___default.a
+	}
+};
 
 /***/ }),
 
-/***/ 470:
+/***/ 462:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('div', {
-    staticClass: "list-header form-inline"
-  }, [_c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.sortBy),
-      expression: "sortBy"
-    }],
-    staticClass: "form-control",
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.sortBy = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, _vm._l((_vm.fields), function(field) {
-    return _c('option', {
-      domProps: {
-        "value": field
-      }
-    }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.snakeCaseToWords(field)) + "\n\t\t\t")])
-  })), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-default",
+  return _c('div', {
+    staticClass: "merit-report-list-item"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-sm-1 id-cell"
+  }, [_c('small', [_vm._v("#")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.id))])]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-5 name-cell"
+  }, [_c('span', {
+    staticClass: "name"
+  }, [_vm._v(_vm._s(_vm.name))])]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-3 version-cell"
+  }, [_c('small', [_vm._v("Version")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.version))])]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-3 controls-cell text-right"
+  }, [_c('button', {
+    staticClass: "btn btn-sm btn-info",
     attrs: {
       "type": "button"
     },
     on: {
+      "click": _vm.handleClick
+    }
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-pencil"
+  }), _vm._v("\n\t\t\t\tView / edit\n\t\t\t")]), _vm._v(" "), _c('confirmation-button', {
+    staticClass: "btn btn-sm btn-danger",
+    attrs: {
+      "pressed-class": "btn btn-sm btn-warning"
+    },
+    on: {
       "click": function($event) {
-        _vm.sortOrder = _vm.sortOrder === 'asc' ? 'desc' : 'asc'
+        _vm.$emit('delete', _vm.id)
       }
     }
-  }, [(_vm.sortOrder === 'asc') ? _c('span', {
-    staticClass: "glyphicon glyphicon-sort-by-alphabet"
-  }) : _c('span', {
-    staticClass: "glyphicon glyphicon-sort-by-alphabet-alt"
-  })]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.query),
-      expression: "query"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "type": "search",
-      "placeholder": "Search"
-    },
-    domProps: {
-      "value": (_vm.query)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.query = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('ol', {
-    staticClass: "list"
-  }, [_vm._l((_vm.currentPageItems), function(item) {
-    return _vm._t("default", null, null, item)
-  })], 2), _vm._v(" "), _c('list-paginator', {
-    attrs: {
-      "paginatedItems": _vm.paginatedItems,
-      "itemsPerPage": _vm.itemsPerPage
-    },
-    on: {
-      "pageSize": function($event) {
-        _vm.itemsPerPage = arguments[0]
-      }
-    },
-    model: {
-      value: (_vm.page),
-      callback: function($$v) {
-        _vm.page = $$v
-      },
-      expression: "page"
-    }
-  })], 1)
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-remove"
+  }), _vm._v("\n\t\t\t\tDelete\n\t\t\t\t\n\t\t\t\t"), _c('template', {
+    slot: "pressed"
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-trash"
+  }), _vm._v("\n\t\t\t\t\tConfirm delete\n\t\t\t\t")])], 2)], 1)])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-6d54e2f6", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-333b21d8", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ 481:
+/***/ 487:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -10871,33 +8507,6 @@ if (false) {
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-d93fa1b2", module.exports)
   }
-}
-
-/***/ }),
-
-/***/ 487:
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(289);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(2)("6a4ac0ec", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-05c830ce&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ListPaginator.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-05c830ce&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ListPaginator.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
 }
 
 /***/ }),
@@ -13218,17 +10827,17 @@ module.exports = localforage_js;
 
 },{"3":3}]},{},[4])(4)
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20)))
 
 /***/ }),
 
-/***/ 492:
+/***/ 497:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(294);
+var content = __webpack_require__(304);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -13254,9 +10863,9 @@ if(false) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(20),
+  __webpack_require__(22),
   /* template */
-  __webpack_require__(36),
+  __webpack_require__(37),
   /* scopeId */
   null,
   /* cssModules */
@@ -13322,244 +10931,13 @@ if (false) {
 
 /***/ }),
 
-/***/ 505:
+/***/ 503:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(307);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(2)("93a615da", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-6d54e2f6&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ComponentList.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-6d54e2f6&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ComponentList.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-
-/***/ 513:
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(315);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(2)("701a0232", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-d93fa1b2&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./OrderingList.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-d93fa1b2&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./OrderingList.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-
-/***/ 522:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__evaluations_js__ = __webpack_require__(118);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageEvaluations", function() { return __WEBPACK_IMPORTED_MODULE_0__evaluations_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__milestones_competencies_js__ = __webpack_require__(120);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageMilestonesCompetencies", function() { return __WEBPACK_IMPORTED_MODULE_1__milestones_competencies_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__merit_js__ = __webpack_require__(119);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageMerit", function() { return __WEBPACK_IMPORTED_MODULE_2__merit_js__["a"]; });
-
-
-
-
-/***/ }),
-
-/***/ 530:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = {
-	props: {
-		id: {
-			type: Number,
-			required: true
-		},
-		name: {
-			type: String,
-			required: true
-		},
-		version: {
-			type: Number,
-			required: true
-		},
-		form: {
-			type: String,
-			required: true
-		}
-	},
-
-	computed: {
-		formObject: function formObject() {
-			return JSON.parse(this.form);
-		}
-	},
-
-	methods: {
-		handleClick: function handleClick() {
-			this.$emit('click');
-		}
-	}
-};
-
-/***/ }),
-
-/***/ 531:
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/* styles */
-__webpack_require__(534)
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(530),
-  /* template */
-  __webpack_require__(532),
-  /* scopeId */
-  "data-v-333b21d8",
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Manage/Merit/ReportListItem.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] ReportListItem.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-333b21d8", Component.options)
-  } else {
-    hotAPI.reload("data-v-333b21d8", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 532:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "merit-report-list-item"
-  }, [_c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-sm-1 id-cell"
-  }, [_c('small', [_vm._v("#")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.id))])]), _vm._v(" "), _c('div', {
-    staticClass: "col-sm-5 name-cell"
-  }, [_c('span', {
-    staticClass: "name"
-  }, [_vm._v(_vm._s(_vm.name))])]), _vm._v(" "), _c('div', {
-    staticClass: "col-sm-3 version-cell"
-  }, [_c('small', [_vm._v("Version")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.version))])]), _vm._v(" "), _c('div', {
-    staticClass: "col-sm-3 controls-cell text-right"
-  }, [_c('button', {
-    staticClass: "btn btn-sm btn-info",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": _vm.handleClick
-    }
-  }, [_c('span', {
-    staticClass: "glyphicon glyphicon-pencil"
-  }), _vm._v("\n\t\t\t\tView / edit\n\t\t\t")])])])])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-333b21d8", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 533:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.merit-report-list-item[data-v-333b21d8] {\n\tborder-bottom: 1px solid rgba(0, 0, 0, 0.25);\n\tpadding: 5px 0;\n}\n.merit-report-list-item[data-v-333b21d8]:nth-child(even) {\n\tbackground-color: rgba(0, 0, 0, 0.05);\n}\nsmall[data-v-333b21d8] {\n\tfont-size: 0.75em;\n\tcolor: rgba(0, 0, 0, 0.55);\n\tdisplay: block;\n}\n.name-cell[data-v-333b21d8] {\n\tposition: relative;\n\tbottom: 0;\n}\n.name[data-v-333b21d8] {\n\tfont-size: 1.25em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Manage/Merit/ReportListItem.vue?21cab94b"],"names":[],"mappings":";AA6DA;CACA,6CAAA;CACA,eAAA;CACA;AAEA;CACA,sCAAA;CACA;AAEA;CACA,kBAAA;CACA,2BAAA;CACA,eAAA;CACA;AAEA;CACA,mBAAA;CACA,UAAA;CACA;AAEA;CACA,kBAAA;CACA","file":"ReportListItem.vue","sourcesContent":["<template>\n\t<div class=\"merit-report-list-item\">\n\t\t<div class=\"row\">\n\t\t\t<div class=\"col-sm-1 id-cell\">\n\t\t\t\t<small>#</small>\n\t\t\t\t<span>{{ id }}</span>\n\t\t\t</div>\n\t\t\t<div class=\"col-sm-5 name-cell\">\n\t\t\t\t<span class=\"name\">{{ name }}</span>\n\t\t\t</div>\n\t\t\t<div class=\"col-sm-3 version-cell\">\n\t\t\t\t<small>Version</small>\n\t\t\t\t<span>{{ version }}</span>\n\t\t\t</div>\n\t\t\t<div class=\"col-sm-3 controls-cell text-right\">\n\t\t\t\t<button type=\"button\" class=\"btn btn-sm btn-info\"\n\t\t\t\t\t\t@click=\"handleClick\">\n\t\t\t\t\t<span class=\"glyphicon glyphicon-pencil\"></span>\n\t\t\t\t\tView / edit\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nexport default {\n\tprops: {\n\t\tid: {\n\t\t\ttype: Number,\n\t\t\trequired: true\n\t\t},\n\t\tname: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t},\n\t\tversion: {\n\t\t\ttype: Number,\n\t\t\trequired: true\n\t\t},\n\t\tform: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t}\n\t},\n\t\n\tcomputed: {\n\t\tformObject() {\n\t\t\treturn JSON.parse(this.form);\n\t\t}\n\t},\n\t\n\tmethods: {\n\t\thandleClick() {\n\t\t\tthis.$emit('click');\n\t\t}\n\t}\n};\n</script>\n\n<style scoped>\n\t.merit-report-list-item {\n\t\tborder-bottom: 1px solid rgba(0, 0, 0, 0.25);\n\t\tpadding: 5px 0;\n\t}\n\t\n\t.merit-report-list-item:nth-child(even) {\n\t\tbackground-color: rgba(0, 0, 0, 0.05);\n\t}\n\t\n\tsmall {\n\t\tfont-size: 0.75em;\n\t\tcolor: rgba(0, 0, 0, 0.55);\n\t\tdisplay: block;\n\t}\n\t\n\t.name-cell {\n\t\tposition: relative;\n\t\tbottom: 0;\n\t}\n\t\n\t.name {\n\t\tfont-size: 1.25em;\n\t}\n</style>\n"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-
-/***/ 534:
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(533);
+var content = __webpack_require__(310);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -13580,13 +10958,217 @@ if(false) {
 
 /***/ }),
 
-/***/ 55:
+/***/ 518:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(325);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("701a0232", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-d93fa1b2&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./OrderingList.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-d93fa1b2&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./OrderingList.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 527:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__evaluations_js__ = __webpack_require__(131);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageEvaluations", function() { return __WEBPACK_IMPORTED_MODULE_0__evaluations_js__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__milestones_competencies_js__ = __webpack_require__(133);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageMilestonesCompetencies", function() { return __WEBPACK_IMPORTED_MODULE_1__milestones_competencies_js__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__merit_js__ = __webpack_require__(132);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageMerit", function() { return __WEBPACK_IMPORTED_MODULE_2__merit_js__["a"]; });
+
+
+
+
+/***/ }),
+
+/***/ 53:
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(80)
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(58),
+  /* template */
+  __webpack_require__(78),
+  /* scopeId */
+  "data-v-6d54e2f6",
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ComponentList.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] ComponentList.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6d54e2f6", Component.options)
+  } else {
+    hotAPI.reload("data-v-6d54e2f6", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 535:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: {
+		class: {
+			type: String,
+			required: false
+		},
+		pressedClass: {
+			type: String,
+			required: false
+		},
+		timeout: {
+			type: Number,
+			required: false,
+			default: 3000
+		}
+	},
+	data: function data() {
+		return {
+			pressed: false
+		};
+	},
+
+
+	computed: {
+		currentClass: function currentClass() {
+			return this.pressedClass && this.pressed ? this.pressedClass : this.class;
+		}
+	},
+
+	methods: {
+		handleClick: function handleClick() {
+			var _this = this;
+
+			if (this.pressed) {
+				this.$emit('click');
+				this.pressed = false;
+				if (this.pressedTimeout) clearTimeout(this.pressedTimeout);
+			} else {
+				this.pressed = true;
+				this.pressedTimeout = setTimeout(function () {
+					_this.pressed = false;
+				}, this.timeout);
+			}
+		}
+	}
+};
+
+/***/ }),
+
+/***/ 536:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(535),
+  /* template */
+  __webpack_require__(537),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ConfirmationButton.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] ConfirmationButton.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4aea83c8", Component.options)
+  } else {
+    hotAPI.reload("data-v-4aea83c8", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 537:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    class: _vm.currentClass,
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.handleClick
+    }
+  }, [(_vm.pressed) ? _vm._t("pressed") : _vm._t("default")], 2)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-4aea83c8", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 56:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var resolve = __webpack_require__(56);
+var resolve = __webpack_require__(57);
 
 module.exports = {
   Validation: errorSubclass(ValidationError),
@@ -13622,16 +11204,16 @@ function errorSubclass(Subclass) {
 
 /***/ }),
 
-/***/ 56:
+/***/ 57:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var url = __webpack_require__(65)
-  , equal = __webpack_require__(70)
-  , util = __webpack_require__(43)
-  , SchemaObject = __webpack_require__(71);
+var url = __webpack_require__(72)
+  , equal = __webpack_require__(84)
+  , util = __webpack_require__(44)
+  , SchemaObject = __webpack_require__(85);
 
 module.exports = resolve;
 
@@ -13900,7 +11482,2742 @@ function resolveIds(schema) {
 
 /***/ }),
 
-/***/ 70:
+/***/ 58:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ListPaginator_vue__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ListPaginator_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ListPaginator_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lunr__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lunr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lunr__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__ = __webpack_require__(27);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: {
+		fields: {
+			type: Array,
+			default: function _default() {
+				return [];
+			}
+		},
+		items: {
+			type: Array,
+			required: true
+		}
+	},
+	data: function data() {
+		return {
+			query: null,
+			page: 0,
+			itemsPerPage: 10,
+			sortBy: this.fields[0],
+			sortOrder: 'asc'
+		};
+	},
+
+	computed: {
+		itemMap: function itemMap() {
+			var map = new Map();
+			this.items.map(function (item) {
+				map.set(item.id, item);
+			});
+
+			return map;
+		},
+		index: function index() {
+			var fields = this.fields;
+
+			var index = __WEBPACK_IMPORTED_MODULE_1_lunr___default()(function () {
+				var _this = this;
+
+				fields.map(function (field) {
+					var name = void 0,
+					    options = void 0;
+					if (typeof field === 'string') {
+						name = field;
+					} else {
+						name = field.name;
+						options = field;
+					}
+					_this.field(name, options);
+				});
+			});
+
+			this.items.map(function (item) {
+				index.add(item);
+			});
+
+			return index;
+		},
+		filteredItems: function filteredItems() {
+			var _this2 = this;
+
+			if (this.query) {
+				var refs = this.index.search(this.query);
+				return refs.map(function (ref) {
+					return _this2.itemMap.get(ref.ref);
+				});
+			}
+
+			return this.items;
+		},
+		sortedItems: function sortedItems() {
+			var _this3 = this;
+
+			if (this.sortBy && this.sortOrder) {
+
+				var sortedItems = __WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__["a" /* sortFunctions */].has(this.sortBy) ? this.filteredItems.sort(__WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__["a" /* sortFunctions */].get(this.sortBy)) : this.filteredItems.sort(function (a, b) {
+					var aValue = a[_this3.sortBy];
+					var bValue = b[_this3.sortBy];
+
+					if (Number.isNaN(aValue)) aValue = aValue.toUpperCase();
+
+					if (Number.isNaN(bValue)) bValue = bValue.toUpperCase();
+
+					if (aValue < bValue) return -1;
+					if (aValue > bValue) return 1;
+					return 0;
+				});
+
+				return this.sortOrder === 'asc' ? sortedItems : sortedItems.reverse();
+			}
+
+			return this.filteredItems;
+		},
+		paginatedItems: function paginatedItems() {
+			var paginatedItems = [];
+			var items = this.sortedItems.slice();
+			while (items.length > 0) {
+				paginatedItems.push(items.splice(0, this.itemsPerPage));
+			}return paginatedItems;
+		},
+		currentPageItems: function currentPageItems() {
+			return this.paginatedItems[this.page];
+		}
+	},
+	methods: {
+		snakeCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["e" /* snakeCaseToWords */]
+	},
+	components: {
+		ListPaginator: __WEBPACK_IMPORTED_MODULE_0__ListPaginator_vue___default.a
+	}
+};
+
+/***/ }),
+
+/***/ 59:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PaginatorLink_vue__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PaginatorLink_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__PaginatorLink_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: {
+		value: Number,
+		itemsPerPage: Number,
+		paginatedItems: Array
+	},
+	watch: {
+		itemsPerPage: function itemsPerPage() {
+			if (this.value >= this.paginatedItems.length) this.setPage(this.paginatedItems.length - 1);
+		}
+	},
+	methods: {
+		setPage: function setPage(page) {
+			this.$emit('input', page);
+		}
+	},
+	components: {
+		PaginatorLink: __WEBPACK_IMPORTED_MODULE_0__PaginatorLink_vue___default.a
+	}
+};
+
+/***/ }),
+
+/***/ 60:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: {
+		value: Number,
+		text: {
+			type: String,
+			required: false
+		},
+		active: Boolean
+	},
+	methods: {
+		emitPage: function emitPage() {
+			if (!this.active) this.$emit('click', this.value);
+		}
+	}
+};
+
+/***/ }),
+
+/***/ 65:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.paginator[data-v-05c830ce] {\n\ttext-align: center;\n}\nnav span[data-v-05c830ce] {\n\tmargin: 0 0.25em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ListPaginator.vue?1568a33a"],"names":[],"mappings":";AAqEA;CACA,mBAAA;CACA;AAEA;CACA,iBAAA;CACA","file":"ListPaginator.vue","sourcesContent":["<template>\n\t<section class=\"paginator\">\n\t\t<div class=\"form-inline\">\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tCurrent page:\n\t\t\t\t\t<input type=\"number\" class=\"form-control\" :value=\"value + 1\"\n\t\t\t\t\t\tmin=\"1\" :max=\"paginatedItems.length\"\n\t\t\t\t\t\t@input=\"$emit('input', Number($event.target.value) - 1)\" />\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tItems per page:\n\t\t\t\t\t<select class=\"form-control\" :value=\"itemsPerPage\"\n\t\t\t\t\t\t\t@input=\"$emit('pageSize', Number($event.target.value))\">\n\t\t\t\t\t\t<option value=\"5\">5</option>\n\t\t\t\t\t\t<option value=\"10\">10</option>\n\t\t\t\t\t\t<option value=\"20\">20</option>\n\t\t\t\t\t\t<option value=\"50\">50</option>\n\t\t\t\t\t\t<option value=\"100\">100</option>\n\t\t\t\t\t</select>\n\t\t\t\t</label>\n\t\t\t</div>\t\t\t\n\t\t</div>\n\t\t<nav v-if=\"itemsPerPage && paginatedItems.length > 1\">\n\t\t\t<div class=\"btn-group\">\n\t\t\t\t<paginator-link :value=\"value - 1\" text=\"← Prev\"\n\t\t\t\t\t:active=\"value === 0\" @click=\"setPage\" />\n\n\t\t\t\t<paginator-link v-for=\"(pageItems, pageNum) of paginatedItems\"\n\t\t\t\t\t:value=\"pageNum\" :active=\"pageNum === value\"\n\t\t\t\t\t@click=\"setPage\" />\n\n\t\t\t\t<paginator-link :value=\"value + 1\" text=\"Next →\"\n\t\t\t\t\t:active=\"value === paginatedItems.length - 1\"\n\t\t\t\t\t@click=\"setPage\" />\n\t\t\t</div>\n\t\t</nav>\n\t</section>\n</template>\n\n<script>\nimport PaginatorLink from './PaginatorLink.vue';\n\nexport default {\n\tprops: {\n\t\tvalue: Number,\n\t\titemsPerPage: Number,\n\t\tpaginatedItems: Array\n\t},\n\twatch: {\n\t\titemsPerPage(){\n\t\t\tif(this.value >= this.paginatedItems.length)\n\t\t\t\tthis.setPage(this.paginatedItems.length - 1);\n\t\t}\n\t},\n\tmethods: {\n\t\tsetPage(page){\n\t\t\tthis.$emit('input', page);\n\t\t}\n\t},\n\tcomponents: {\n\t\tPaginatorLink\n\t}\n};\n</script>\n\n<style scoped>\n\t.paginator {\n\t\ttext-align: center;\n\t}\n\n\tnav span {\n\t\tmargin: 0 0.25em;\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 66:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.list-header[data-v-6d54e2f6] {\n\ttext-align: right;\n}\n.list-header input[type=\"search\"][data-v-6d54e2f6] {\n\twidth: 300px;\n}\n.list[data-v-6d54e2f6] {\n\tpadding: 0;\n}\n.list li[data-v-6d54e2f6] {\n\tlist-style: none;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ComponentList.vue?ec8863c8"],"names":[],"mappings":";AAsJA;CACA,kBAAA;CACA;AAEA;CACA,aAAA;CACA;AAEA;CACA,WAAA;CACA;AAEA;CACA,iBAAA;CACA","file":"ComponentList.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"list-header form-inline\">\n\t\t\t<select class=\"form-control\" v-model=\"sortBy\">\n\t\t\t\t<option v-for=\"field of fields\" :value=\"field\">\n\t\t\t\t\t{{ snakeCaseToWords(field) }}\n\t\t\t\t</option>\n\t\t\t</select>\n\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t@click=\"sortOrder = sortOrder === 'asc' ? 'desc' : 'asc'\">\n\t\t\t\t<span v-if=\"sortOrder === 'asc'\"\n\t\t\t\t\tclass=\"glyphicon glyphicon-sort-by-alphabet\"></span>\n\t\t\t\t<span v-else\n\t\t\t\t\tclass=\"glyphicon glyphicon-sort-by-alphabet-alt\"></span>\n\t\t\t</button>\n\t\t\t<input type=\"search\" class=\"form-control\" v-model=\"query\"\n\t\t\t\tplaceholder=\"Search\" />\n\t\t</div>\n\t\t<ol class=\"list\">\n\t\t\t<slot v-for=\"item of currentPageItems\" v-bind=\"item\"></slot>\n\t\t</ol>\n\t\t<list-paginator v-model=\"page\" :paginatedItems=\"paginatedItems\"\n\t\t\t:itemsPerPage=\"itemsPerPage\"\n\t\t\t@pageSize=\"itemsPerPage = arguments[0]\" />\n\t</div>\n</template>\n\n<script>\nimport ListPaginator from './ListPaginator.vue';\n\nimport lunr from 'lunr';\n\nimport { snakeCaseToWords } from 'modules/utils.js';\nimport { sortFunctions } from 'modules/report-utils.js';\n\nexport default {\n\tprops: {\n\t\tfields: {\n\t\t\ttype: Array,\n\t\t\tdefault(){\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\titems: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tquery: null,\n\t\t\tpage: 0,\n\t\t\titemsPerPage: 10,\n\t\t\tsortBy: this.fields[0],\n\t\t\tsortOrder: 'asc'\n\t\t};\n\t},\n\tcomputed: {\n\t\titemMap(){\n\t\t\tlet map = new Map();\n\t\t\tthis.items.map(item => {\n\t\t\t\tmap.set(item.id, item);\n\t\t\t});\n\n\t\t\treturn map;\n\t\t},\n\t\tindex(){\n\t\t\tlet fields = this.fields;\n\n\t\t\tlet index = lunr(function(){\n\t\t\t\tfields.map(field => {\n\t\t\t\t\tlet name, options;\n\t\t\t\t\tif(typeof field === 'string'){\n\t\t\t\t\t\tname = field;\n\t\t\t\t\t}\n\t\t\t\t\telse{\n\t\t\t\t\t\tname = field.name;\n\t\t\t\t\t\toptions = field;\n\t\t\t\t\t}\n\t\t\t\t\tthis.field(name, options);\n\t\t\t\t});\n\t\t\t});\n\n\t\t\tthis.items.map(item => {\n\t\t\t\tindex.add(item);\n\t\t\t});\n\n\t\t\treturn index;\n\t\t},\n\t\tfilteredItems(){\n\t\t\tif(this.query){\n\t\t\t\tlet refs = this.index.search(this.query);\n\t\t\t\treturn refs.map(ref => {\n\t\t\t\t\treturn this.itemMap.get(ref.ref);\n\t\t\t\t});\n\t\t\t}\n\n\t\t\treturn this.items;\n\t\t},\n\t\tsortedItems(){\n\t\t\tif(this.sortBy && this.sortOrder){\n\t\t\t\t\n\t\t\t\tlet sortedItems = sortFunctions.has(this.sortBy)\n\t\t\t\t\t? this.filteredItems.sort(sortFunctions.get(this.sortBy))\n\t\t\t\t\t: this.filteredItems.sort((a, b) => {\n\t\t\t\t\t\tlet aValue = a[this.sortBy];\n\t\t\t\t\t\tlet bValue = b[this.sortBy];\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (Number.isNaN(aValue))\n\t\t\t\t\t\t\taValue = aValue.toUpperCase();\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (Number.isNaN(bValue))\n\t\t\t\t\t\t\tbValue = bValue.toUpperCase();\n\t\t\t\t\t\t\n\t\t\t\t\t\tif(aValue < bValue)\n\t\t\t\t\t\t\treturn -1;\n\t\t\t\t\t\tif(aValue > bValue)\n\t\t\t\t\t\t\treturn 1;\n\t\t\t\t\t\treturn 0;\n\t\t\t\t\t});\n\t\t\t\t\n\t\t\t\treturn this.sortOrder === 'asc'\n\t\t\t\t\t? sortedItems\n\t\t\t\t\t: sortedItems.reverse();\n\t\t\t}\n\t\t\t\n\t\t\treturn this.filteredItems;\n\t\t},\n\t\tpaginatedItems(){\n\t\t\tlet paginatedItems = [];\n\t\t\tlet items = this.sortedItems.slice();\n\t\t\twhile(items.length > 0)\n\t\t\t\tpaginatedItems.push(items.splice(0, this.itemsPerPage));\n\n\t\t\treturn paginatedItems;\n\t\t},\n\t\tcurrentPageItems(){\n\t\t\treturn this.paginatedItems[this.page];\n\t\t}\n\t},\n\tmethods: {\n\t\tsnakeCaseToWords\n\t},\n\tcomponents: {\n\t\tListPaginator\n\t}\n};\n</script>\n\n<style scoped>\n\t.list-header {\n\t\ttext-align: right;\n\t}\n\n\t.list-header input[type=\"search\"] {\n\t\twidth: 300px;\n\t}\n\t\n\t.list {\n\t\tpadding: 0;\n\t}\n\n\t.list li {\n\t\tlist-style: none;\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 67:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
+ * lunr - http://lunrjs.com - A bit like Solr, but much smaller and not as bright - 0.7.2
+ * Copyright (C) 2016 Oliver Nightingale
+ * @license MIT
+ */
+
+;(function(){
+
+/**
+ * Convenience function for instantiating a new lunr index and configuring it
+ * with the default pipeline functions and the passed config function.
+ *
+ * When using this convenience function a new index will be created with the
+ * following functions already in the pipeline:
+ *
+ * lunr.StopWordFilter - filters out any stop words before they enter the
+ * index
+ *
+ * lunr.stemmer - stems the tokens before entering the index.
+ *
+ * Example:
+ *
+ *     var idx = lunr(function () {
+ *       this.field('title', 10)
+ *       this.field('tags', 100)
+ *       this.field('body')
+ *       
+ *       this.ref('cid')
+ *       
+ *       this.pipeline.add(function () {
+ *         // some custom pipeline function
+ *       })
+ *       
+ *     })
+ *
+ * @param {Function} config A function that will be called with the new instance
+ * of the lunr.Index as both its context and first parameter. It can be used to
+ * customize the instance of new lunr.Index.
+ * @namespace
+ * @module
+ * @returns {lunr.Index}
+ *
+ */
+var lunr = function (config) {
+  var idx = new lunr.Index
+
+  idx.pipeline.add(
+    lunr.trimmer,
+    lunr.stopWordFilter,
+    lunr.stemmer
+  )
+
+  if (config) config.call(idx, idx)
+
+  return idx
+}
+
+lunr.version = "0.7.2"
+/*!
+ * lunr.utils
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * A namespace containing utils for the rest of the lunr library
+ */
+lunr.utils = {}
+
+/**
+ * Print a warning message to the console.
+ *
+ * @param {String} message The message to be printed.
+ * @memberOf Utils
+ */
+lunr.utils.warn = (function (global) {
+  return function (message) {
+    if (global.console && console.warn) {
+      console.warn(message)
+    }
+  }
+})(this)
+
+/**
+ * Convert an object to a string.
+ *
+ * In the case of `null` and `undefined` the function returns
+ * the empty string, in all other cases the result of calling
+ * `toString` on the passed object is returned.
+ *
+ * @param {Any} obj The object to convert to a string.
+ * @return {String} string representation of the passed object.
+ * @memberOf Utils
+ */
+lunr.utils.asString = function (obj) {
+  if (obj === void 0 || obj === null) {
+    return ""
+  } else {
+    return obj.toString()
+  }
+}
+/*!
+ * lunr.EventEmitter
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * lunr.EventEmitter is an event emitter for lunr. It manages adding and removing event handlers and triggering events and their handlers.
+ *
+ * @constructor
+ */
+lunr.EventEmitter = function () {
+  this.events = {}
+}
+
+/**
+ * Binds a handler function to a specific event(s).
+ *
+ * Can bind a single function to many different events in one call.
+ *
+ * @param {String} [eventName] The name(s) of events to bind this function to.
+ * @param {Function} fn The function to call when an event is fired.
+ * @memberOf EventEmitter
+ */
+lunr.EventEmitter.prototype.addListener = function () {
+  var args = Array.prototype.slice.call(arguments),
+      fn = args.pop(),
+      names = args
+
+  if (typeof fn !== "function") throw new TypeError ("last argument must be a function")
+
+  names.forEach(function (name) {
+    if (!this.hasHandler(name)) this.events[name] = []
+    this.events[name].push(fn)
+  }, this)
+}
+
+/**
+ * Removes a handler function from a specific event.
+ *
+ * @param {String} eventName The name of the event to remove this function from.
+ * @param {Function} fn The function to remove from an event.
+ * @memberOf EventEmitter
+ */
+lunr.EventEmitter.prototype.removeListener = function (name, fn) {
+  if (!this.hasHandler(name)) return
+
+  var fnIndex = this.events[name].indexOf(fn)
+  this.events[name].splice(fnIndex, 1)
+
+  if (!this.events[name].length) delete this.events[name]
+}
+
+/**
+ * Calls all functions bound to the given event.
+ *
+ * Additional data can be passed to the event handler as arguments to `emit`
+ * after the event name.
+ *
+ * @param {String} eventName The name of the event to emit.
+ * @memberOf EventEmitter
+ */
+lunr.EventEmitter.prototype.emit = function (name) {
+  if (!this.hasHandler(name)) return
+
+  var args = Array.prototype.slice.call(arguments, 1)
+
+  this.events[name].forEach(function (fn) {
+    fn.apply(undefined, args)
+  })
+}
+
+/**
+ * Checks whether a handler has ever been stored against an event.
+ *
+ * @param {String} eventName The name of the event to check.
+ * @private
+ * @memberOf EventEmitter
+ */
+lunr.EventEmitter.prototype.hasHandler = function (name) {
+  return name in this.events
+}
+
+/*!
+ * lunr.tokenizer
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * A function for splitting a string into tokens ready to be inserted into
+ * the search index. Uses `lunr.tokenizer.separator` to split strings, change
+ * the value of this property to change how strings are split into tokens.
+ *
+ * @module
+ * @param {String} obj The string to convert into tokens
+ * @see lunr.tokenizer.separator
+ * @returns {Array}
+ */
+lunr.tokenizer = function (obj) {
+  if (!arguments.length || obj == null || obj == undefined) return []
+  if (Array.isArray(obj)) return obj.map(function (t) { return lunr.utils.asString(t).toLowerCase() })
+
+  // TODO: This exists so that the deprecated property lunr.tokenizer.seperator can still be used. By
+  // default it is set to false and so the correctly spelt lunr.tokenizer.separator is used unless
+  // the user is using the old property to customise the tokenizer.
+  //
+  // This should be removed when version 1.0.0 is released.
+  var separator = lunr.tokenizer.seperator || lunr.tokenizer.separator
+
+  return obj.toString().trim().toLowerCase().split(separator)
+}
+
+/**
+ * This property is legacy alias for lunr.tokenizer.separator to maintain backwards compatability.
+ * When introduced the token was spelt incorrectly. It will remain until 1.0.0 when it will be removed,
+ * all code should use the correctly spelt lunr.tokenizer.separator property instead.
+ *
+ * @static
+ * @see lunr.tokenizer.separator
+ * @deprecated since 0.7.2 will be removed in 1.0.0
+ * @private
+ * @see lunr.tokenizer
+ */
+lunr.tokenizer.seperator = false
+
+/**
+ * The sperator used to split a string into tokens. Override this property to change the behaviour of
+ * `lunr.tokenizer` behaviour when tokenizing strings. By default this splits on whitespace and hyphens.
+ *
+ * @static
+ * @see lunr.tokenizer
+ */
+lunr.tokenizer.separator = /[\s\-]+/
+
+/**
+ * Loads a previously serialised tokenizer.
+ *
+ * A tokenizer function to be loaded must already be registered with lunr.tokenizer.
+ * If the serialised tokenizer has not been registered then an error will be thrown.
+ *
+ * @param {String} label The label of the serialised tokenizer.
+ * @returns {Function}
+ * @memberOf tokenizer
+ */
+lunr.tokenizer.load = function (label) {
+  var fn = this.registeredFunctions[label]
+
+  if (!fn) {
+    throw new Error('Cannot load un-registered function: ' + label)
+  }
+
+  return fn
+}
+
+lunr.tokenizer.label = 'default'
+
+lunr.tokenizer.registeredFunctions = {
+  'default': lunr.tokenizer
+}
+
+/**
+ * Register a tokenizer function.
+ *
+ * Functions that are used as tokenizers should be registered if they are to be used with a serialised index.
+ *
+ * Registering a function does not add it to an index, functions must still be associated with a specific index for them to be used when indexing and searching documents.
+ *
+ * @param {Function} fn The function to register.
+ * @param {String} label The label to register this function with
+ * @memberOf tokenizer
+ */
+lunr.tokenizer.registerFunction = function (fn, label) {
+  if (label in this.registeredFunctions) {
+    lunr.utils.warn('Overwriting existing tokenizer: ' + label)
+  }
+
+  fn.label = label
+  this.registeredFunctions[label] = fn
+}
+/*!
+ * lunr.Pipeline
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * lunr.Pipelines maintain an ordered list of functions to be applied to all
+ * tokens in documents entering the search index and queries being ran against
+ * the index.
+ *
+ * An instance of lunr.Index created with the lunr shortcut will contain a
+ * pipeline with a stop word filter and an English language stemmer. Extra
+ * functions can be added before or after either of these functions or these
+ * default functions can be removed.
+ *
+ * When run the pipeline will call each function in turn, passing a token, the
+ * index of that token in the original list of all tokens and finally a list of
+ * all the original tokens.
+ *
+ * The output of functions in the pipeline will be passed to the next function
+ * in the pipeline. To exclude a token from entering the index the function
+ * should return undefined, the rest of the pipeline will not be called with
+ * this token.
+ *
+ * For serialisation of pipelines to work, all functions used in an instance of
+ * a pipeline should be registered with lunr.Pipeline. Registered functions can
+ * then be loaded. If trying to load a serialised pipeline that uses functions
+ * that are not registered an error will be thrown.
+ *
+ * If not planning on serialising the pipeline then registering pipeline functions
+ * is not necessary.
+ *
+ * @constructor
+ */
+lunr.Pipeline = function () {
+  this._stack = []
+}
+
+lunr.Pipeline.registeredFunctions = {}
+
+/**
+ * Register a function with the pipeline.
+ *
+ * Functions that are used in the pipeline should be registered if the pipeline
+ * needs to be serialised, or a serialised pipeline needs to be loaded.
+ *
+ * Registering a function does not add it to a pipeline, functions must still be
+ * added to instances of the pipeline for them to be used when running a pipeline.
+ *
+ * @param {Function} fn The function to check for.
+ * @param {String} label The label to register this function with
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.registerFunction = function (fn, label) {
+  if (label in this.registeredFunctions) {
+    lunr.utils.warn('Overwriting existing registered function: ' + label)
+  }
+
+  fn.label = label
+  lunr.Pipeline.registeredFunctions[fn.label] = fn
+}
+
+/**
+ * Warns if the function is not registered as a Pipeline function.
+ *
+ * @param {Function} fn The function to check for.
+ * @private
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.warnIfFunctionNotRegistered = function (fn) {
+  var isRegistered = fn.label && (fn.label in this.registeredFunctions)
+
+  if (!isRegistered) {
+    lunr.utils.warn('Function is not registered with pipeline. This may cause problems when serialising the index.\n', fn)
+  }
+}
+
+/**
+ * Loads a previously serialised pipeline.
+ *
+ * All functions to be loaded must already be registered with lunr.Pipeline.
+ * If any function from the serialised data has not been registered then an
+ * error will be thrown.
+ *
+ * @param {Object} serialised The serialised pipeline to load.
+ * @returns {lunr.Pipeline}
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.load = function (serialised) {
+  var pipeline = new lunr.Pipeline
+
+  serialised.forEach(function (fnName) {
+    var fn = lunr.Pipeline.registeredFunctions[fnName]
+
+    if (fn) {
+      pipeline.add(fn)
+    } else {
+      throw new Error('Cannot load un-registered function: ' + fnName)
+    }
+  })
+
+  return pipeline
+}
+
+/**
+ * Adds new functions to the end of the pipeline.
+ *
+ * Logs a warning if the function has not been registered.
+ *
+ * @param {Function} functions Any number of functions to add to the pipeline.
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.prototype.add = function () {
+  var fns = Array.prototype.slice.call(arguments)
+
+  fns.forEach(function (fn) {
+    lunr.Pipeline.warnIfFunctionNotRegistered(fn)
+    this._stack.push(fn)
+  }, this)
+}
+
+/**
+ * Adds a single function after a function that already exists in the
+ * pipeline.
+ *
+ * Logs a warning if the function has not been registered.
+ *
+ * @param {Function} existingFn A function that already exists in the pipeline.
+ * @param {Function} newFn The new function to add to the pipeline.
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.prototype.after = function (existingFn, newFn) {
+  lunr.Pipeline.warnIfFunctionNotRegistered(newFn)
+
+  var pos = this._stack.indexOf(existingFn)
+  if (pos == -1) {
+    throw new Error('Cannot find existingFn')
+  }
+
+  pos = pos + 1
+  this._stack.splice(pos, 0, newFn)
+}
+
+/**
+ * Adds a single function before a function that already exists in the
+ * pipeline.
+ *
+ * Logs a warning if the function has not been registered.
+ *
+ * @param {Function} existingFn A function that already exists in the pipeline.
+ * @param {Function} newFn The new function to add to the pipeline.
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.prototype.before = function (existingFn, newFn) {
+  lunr.Pipeline.warnIfFunctionNotRegistered(newFn)
+
+  var pos = this._stack.indexOf(existingFn)
+  if (pos == -1) {
+    throw new Error('Cannot find existingFn')
+  }
+
+  this._stack.splice(pos, 0, newFn)
+}
+
+/**
+ * Removes a function from the pipeline.
+ *
+ * @param {Function} fn The function to remove from the pipeline.
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.prototype.remove = function (fn) {
+  var pos = this._stack.indexOf(fn)
+  if (pos == -1) {
+    return
+  }
+
+  this._stack.splice(pos, 1)
+}
+
+/**
+ * Runs the current list of functions that make up the pipeline against the
+ * passed tokens.
+ *
+ * @param {Array} tokens The tokens to run through the pipeline.
+ * @returns {Array}
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.prototype.run = function (tokens) {
+  var out = [],
+      tokenLength = tokens.length,
+      stackLength = this._stack.length
+
+  for (var i = 0; i < tokenLength; i++) {
+    var token = tokens[i]
+
+    for (var j = 0; j < stackLength; j++) {
+      token = this._stack[j](token, i, tokens)
+      if (token === void 0 || token === '') break
+    };
+
+    if (token !== void 0 && token !== '') out.push(token)
+  };
+
+  return out
+}
+
+/**
+ * Resets the pipeline by removing any existing processors.
+ *
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.prototype.reset = function () {
+  this._stack = []
+}
+
+/**
+ * Returns a representation of the pipeline ready for serialisation.
+ *
+ * Logs a warning if the function has not been registered.
+ *
+ * @returns {Array}
+ * @memberOf Pipeline
+ */
+lunr.Pipeline.prototype.toJSON = function () {
+  return this._stack.map(function (fn) {
+    lunr.Pipeline.warnIfFunctionNotRegistered(fn)
+
+    return fn.label
+  })
+}
+/*!
+ * lunr.Vector
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * lunr.Vectors implement vector related operations for
+ * a series of elements.
+ *
+ * @constructor
+ */
+lunr.Vector = function () {
+  this._magnitude = null
+  this.list = undefined
+  this.length = 0
+}
+
+/**
+ * lunr.Vector.Node is a simple struct for each node
+ * in a lunr.Vector.
+ *
+ * @private
+ * @param {Number} The index of the node in the vector.
+ * @param {Object} The data at this node in the vector.
+ * @param {lunr.Vector.Node} The node directly after this node in the vector.
+ * @constructor
+ * @memberOf Vector
+ */
+lunr.Vector.Node = function (idx, val, next) {
+  this.idx = idx
+  this.val = val
+  this.next = next
+}
+
+/**
+ * Inserts a new value at a position in a vector.
+ *
+ * @param {Number} The index at which to insert a value.
+ * @param {Object} The object to insert in the vector.
+ * @memberOf Vector.
+ */
+lunr.Vector.prototype.insert = function (idx, val) {
+  this._magnitude = undefined;
+  var list = this.list
+
+  if (!list) {
+    this.list = new lunr.Vector.Node (idx, val, list)
+    return this.length++
+  }
+
+  if (idx < list.idx) {
+    this.list = new lunr.Vector.Node (idx, val, list)
+    return this.length++
+  }
+
+  var prev = list,
+      next = list.next
+
+  while (next != undefined) {
+    if (idx < next.idx) {
+      prev.next = new lunr.Vector.Node (idx, val, next)
+      return this.length++
+    }
+
+    prev = next, next = next.next
+  }
+
+  prev.next = new lunr.Vector.Node (idx, val, next)
+  return this.length++
+}
+
+/**
+ * Calculates the magnitude of this vector.
+ *
+ * @returns {Number}
+ * @memberOf Vector
+ */
+lunr.Vector.prototype.magnitude = function () {
+  if (this._magnitude) return this._magnitude
+  var node = this.list,
+      sumOfSquares = 0,
+      val
+
+  while (node) {
+    val = node.val
+    sumOfSquares += val * val
+    node = node.next
+  }
+
+  return this._magnitude = Math.sqrt(sumOfSquares)
+}
+
+/**
+ * Calculates the dot product of this vector and another vector.
+ *
+ * @param {lunr.Vector} otherVector The vector to compute the dot product with.
+ * @returns {Number}
+ * @memberOf Vector
+ */
+lunr.Vector.prototype.dot = function (otherVector) {
+  var node = this.list,
+      otherNode = otherVector.list,
+      dotProduct = 0
+
+  while (node && otherNode) {
+    if (node.idx < otherNode.idx) {
+      node = node.next
+    } else if (node.idx > otherNode.idx) {
+      otherNode = otherNode.next
+    } else {
+      dotProduct += node.val * otherNode.val
+      node = node.next
+      otherNode = otherNode.next
+    }
+  }
+
+  return dotProduct
+}
+
+/**
+ * Calculates the cosine similarity between this vector and another
+ * vector.
+ *
+ * @param {lunr.Vector} otherVector The other vector to calculate the
+ * similarity with.
+ * @returns {Number}
+ * @memberOf Vector
+ */
+lunr.Vector.prototype.similarity = function (otherVector) {
+  return this.dot(otherVector) / (this.magnitude() * otherVector.magnitude())
+}
+/*!
+ * lunr.SortedSet
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * lunr.SortedSets are used to maintain an array of uniq values in a sorted
+ * order.
+ *
+ * @constructor
+ */
+lunr.SortedSet = function () {
+  this.length = 0
+  this.elements = []
+}
+
+/**
+ * Loads a previously serialised sorted set.
+ *
+ * @param {Array} serialisedData The serialised set to load.
+ * @returns {lunr.SortedSet}
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.load = function (serialisedData) {
+  var set = new this
+
+  set.elements = serialisedData
+  set.length = serialisedData.length
+
+  return set
+}
+
+/**
+ * Inserts new items into the set in the correct position to maintain the
+ * order.
+ *
+ * @param {Object} The objects to add to this set.
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.prototype.add = function () {
+  var i, element
+
+  for (i = 0; i < arguments.length; i++) {
+    element = arguments[i]
+    if (~this.indexOf(element)) continue
+    this.elements.splice(this.locationFor(element), 0, element)
+  }
+
+  this.length = this.elements.length
+}
+
+/**
+ * Converts this sorted set into an array.
+ *
+ * @returns {Array}
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.prototype.toArray = function () {
+  return this.elements.slice()
+}
+
+/**
+ * Creates a new array with the results of calling a provided function on every
+ * element in this sorted set.
+ *
+ * Delegates to Array.prototype.map and has the same signature.
+ *
+ * @param {Function} fn The function that is called on each element of the
+ * set.
+ * @param {Object} ctx An optional object that can be used as the context
+ * for the function fn.
+ * @returns {Array}
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.prototype.map = function (fn, ctx) {
+  return this.elements.map(fn, ctx)
+}
+
+/**
+ * Executes a provided function once per sorted set element.
+ *
+ * Delegates to Array.prototype.forEach and has the same signature.
+ *
+ * @param {Function} fn The function that is called on each element of the
+ * set.
+ * @param {Object} ctx An optional object that can be used as the context
+ * @memberOf SortedSet
+ * for the function fn.
+ */
+lunr.SortedSet.prototype.forEach = function (fn, ctx) {
+  return this.elements.forEach(fn, ctx)
+}
+
+/**
+ * Returns the index at which a given element can be found in the
+ * sorted set, or -1 if it is not present.
+ *
+ * @param {Object} elem The object to locate in the sorted set.
+ * @returns {Number}
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.prototype.indexOf = function (elem) {
+  var start = 0,
+      end = this.elements.length,
+      sectionLength = end - start,
+      pivot = start + Math.floor(sectionLength / 2),
+      pivotElem = this.elements[pivot]
+
+  while (sectionLength > 1) {
+    if (pivotElem === elem) return pivot
+
+    if (pivotElem < elem) start = pivot
+    if (pivotElem > elem) end = pivot
+
+    sectionLength = end - start
+    pivot = start + Math.floor(sectionLength / 2)
+    pivotElem = this.elements[pivot]
+  }
+
+  if (pivotElem === elem) return pivot
+
+  return -1
+}
+
+/**
+ * Returns the position within the sorted set that an element should be
+ * inserted at to maintain the current order of the set.
+ *
+ * This function assumes that the element to search for does not already exist
+ * in the sorted set.
+ *
+ * @param {Object} elem The elem to find the position for in the set
+ * @returns {Number}
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.prototype.locationFor = function (elem) {
+  var start = 0,
+      end = this.elements.length,
+      sectionLength = end - start,
+      pivot = start + Math.floor(sectionLength / 2),
+      pivotElem = this.elements[pivot]
+
+  while (sectionLength > 1) {
+    if (pivotElem < elem) start = pivot
+    if (pivotElem > elem) end = pivot
+
+    sectionLength = end - start
+    pivot = start + Math.floor(sectionLength / 2)
+    pivotElem = this.elements[pivot]
+  }
+
+  if (pivotElem > elem) return pivot
+  if (pivotElem < elem) return pivot + 1
+}
+
+/**
+ * Creates a new lunr.SortedSet that contains the elements in the intersection
+ * of this set and the passed set.
+ *
+ * @param {lunr.SortedSet} otherSet The set to intersect with this set.
+ * @returns {lunr.SortedSet}
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.prototype.intersect = function (otherSet) {
+  var intersectSet = new lunr.SortedSet,
+      i = 0, j = 0,
+      a_len = this.length, b_len = otherSet.length,
+      a = this.elements, b = otherSet.elements
+
+  while (true) {
+    if (i > a_len - 1 || j > b_len - 1) break
+
+    if (a[i] === b[j]) {
+      intersectSet.add(a[i])
+      i++, j++
+      continue
+    }
+
+    if (a[i] < b[j]) {
+      i++
+      continue
+    }
+
+    if (a[i] > b[j]) {
+      j++
+      continue
+    }
+  };
+
+  return intersectSet
+}
+
+/**
+ * Makes a copy of this set
+ *
+ * @returns {lunr.SortedSet}
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.prototype.clone = function () {
+  var clone = new lunr.SortedSet
+
+  clone.elements = this.toArray()
+  clone.length = clone.elements.length
+
+  return clone
+}
+
+/**
+ * Creates a new lunr.SortedSet that contains the elements in the union
+ * of this set and the passed set.
+ *
+ * @param {lunr.SortedSet} otherSet The set to union with this set.
+ * @returns {lunr.SortedSet}
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.prototype.union = function (otherSet) {
+  var longSet, shortSet, unionSet
+
+  if (this.length >= otherSet.length) {
+    longSet = this, shortSet = otherSet
+  } else {
+    longSet = otherSet, shortSet = this
+  }
+
+  unionSet = longSet.clone()
+
+  for(var i = 0, shortSetElements = shortSet.toArray(); i < shortSetElements.length; i++){
+    unionSet.add(shortSetElements[i])
+  }
+
+  return unionSet
+}
+
+/**
+ * Returns a representation of the sorted set ready for serialisation.
+ *
+ * @returns {Array}
+ * @memberOf SortedSet
+ */
+lunr.SortedSet.prototype.toJSON = function () {
+  return this.toArray()
+}
+/*!
+ * lunr.Index
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * lunr.Index is object that manages a search index.  It contains the indexes
+ * and stores all the tokens and document lookups.  It also provides the main
+ * user facing API for the library.
+ *
+ * @constructor
+ */
+lunr.Index = function () {
+  this._fields = []
+  this._ref = 'id'
+  this.pipeline = new lunr.Pipeline
+  this.documentStore = new lunr.Store
+  this.tokenStore = new lunr.TokenStore
+  this.corpusTokens = new lunr.SortedSet
+  this.eventEmitter =  new lunr.EventEmitter
+  this.tokenizerFn = lunr.tokenizer
+
+  this._idfCache = {}
+
+  this.on('add', 'remove', 'update', (function () {
+    this._idfCache = {}
+  }).bind(this))
+}
+
+/**
+ * Bind a handler to events being emitted by the index.
+ *
+ * The handler can be bound to many events at the same time.
+ *
+ * @param {String} [eventName] The name(s) of events to bind the function to.
+ * @param {Function} fn The serialised set to load.
+ * @memberOf Index
+ */
+lunr.Index.prototype.on = function () {
+  var args = Array.prototype.slice.call(arguments)
+  return this.eventEmitter.addListener.apply(this.eventEmitter, args)
+}
+
+/**
+ * Removes a handler from an event being emitted by the index.
+ *
+ * @param {String} eventName The name of events to remove the function from.
+ * @param {Function} fn The serialised set to load.
+ * @memberOf Index
+ */
+lunr.Index.prototype.off = function (name, fn) {
+  return this.eventEmitter.removeListener(name, fn)
+}
+
+/**
+ * Loads a previously serialised index.
+ *
+ * Issues a warning if the index being imported was serialised
+ * by a different version of lunr.
+ *
+ * @param {Object} serialisedData The serialised set to load.
+ * @returns {lunr.Index}
+ * @memberOf Index
+ */
+lunr.Index.load = function (serialisedData) {
+  if (serialisedData.version !== lunr.version) {
+    lunr.utils.warn('version mismatch: current ' + lunr.version + ' importing ' + serialisedData.version)
+  }
+
+  var idx = new this
+
+  idx._fields = serialisedData.fields
+  idx._ref = serialisedData.ref
+
+  idx.tokenizer(lunr.tokenizer.load(serialisedData.tokenizer))
+  idx.documentStore = lunr.Store.load(serialisedData.documentStore)
+  idx.tokenStore = lunr.TokenStore.load(serialisedData.tokenStore)
+  idx.corpusTokens = lunr.SortedSet.load(serialisedData.corpusTokens)
+  idx.pipeline = lunr.Pipeline.load(serialisedData.pipeline)
+
+  return idx
+}
+
+/**
+ * Adds a field to the list of fields that will be searchable within documents
+ * in the index.
+ *
+ * An optional boost param can be passed to affect how much tokens in this field
+ * rank in search results, by default the boost value is 1.
+ *
+ * Fields should be added before any documents are added to the index, fields
+ * that are added after documents are added to the index will only apply to new
+ * documents added to the index.
+ *
+ * @param {String} fieldName The name of the field within the document that
+ * should be indexed
+ * @param {Number} boost An optional boost that can be applied to terms in this
+ * field.
+ * @returns {lunr.Index}
+ * @memberOf Index
+ */
+lunr.Index.prototype.field = function (fieldName, opts) {
+  var opts = opts || {},
+      field = { name: fieldName, boost: opts.boost || 1 }
+
+  this._fields.push(field)
+  return this
+}
+
+/**
+ * Sets the property used to uniquely identify documents added to the index,
+ * by default this property is 'id'.
+ *
+ * This should only be changed before adding documents to the index, changing
+ * the ref property without resetting the index can lead to unexpected results.
+ *
+ * The value of ref can be of any type but it _must_ be stably comparable and
+ * orderable.
+ *
+ * @param {String} refName The property to use to uniquely identify the
+ * documents in the index.
+ * @param {Boolean} emitEvent Whether to emit add events, defaults to true
+ * @returns {lunr.Index}
+ * @memberOf Index
+ */
+lunr.Index.prototype.ref = function (refName) {
+  this._ref = refName
+  return this
+}
+
+/**
+ * Sets the tokenizer used for this index.
+ *
+ * By default the index will use the default tokenizer, lunr.tokenizer. The tokenizer
+ * should only be changed before adding documents to the index. Changing the tokenizer
+ * without re-building the index can lead to unexpected results.
+ *
+ * @param {Function} fn The function to use as a tokenizer.
+ * @returns {lunr.Index}
+ * @memberOf Index
+ */
+lunr.Index.prototype.tokenizer = function (fn) {
+  var isRegistered = fn.label && (fn.label in lunr.tokenizer.registeredFunctions)
+
+  if (!isRegistered) {
+    lunr.utils.warn('Function is not a registered tokenizer. This may cause problems when serialising the index')
+  }
+
+  this.tokenizerFn = fn
+  return this
+}
+
+/**
+ * Add a document to the index.
+ *
+ * This is the way new documents enter the index, this function will run the
+ * fields from the document through the index's pipeline and then add it to
+ * the index, it will then show up in search results.
+ *
+ * An 'add' event is emitted with the document that has been added and the index
+ * the document has been added to. This event can be silenced by passing false
+ * as the second argument to add.
+ *
+ * @param {Object} doc The document to add to the index.
+ * @param {Boolean} emitEvent Whether or not to emit events, default true.
+ * @memberOf Index
+ */
+lunr.Index.prototype.add = function (doc, emitEvent) {
+  var docTokens = {},
+      allDocumentTokens = new lunr.SortedSet,
+      docRef = doc[this._ref],
+      emitEvent = emitEvent === undefined ? true : emitEvent
+
+  this._fields.forEach(function (field) {
+    var fieldTokens = this.pipeline.run(this.tokenizerFn(doc[field.name]))
+
+    docTokens[field.name] = fieldTokens
+
+    for (var i = 0; i < fieldTokens.length; i++) {
+      var token = fieldTokens[i]
+      allDocumentTokens.add(token)
+      this.corpusTokens.add(token)
+    }
+  }, this)
+
+  this.documentStore.set(docRef, allDocumentTokens)
+
+  for (var i = 0; i < allDocumentTokens.length; i++) {
+    var token = allDocumentTokens.elements[i]
+    var tf = 0;
+
+    for (var j = 0; j < this._fields.length; j++){
+      var field = this._fields[j]
+      var fieldTokens = docTokens[field.name]
+      var fieldLength = fieldTokens.length
+
+      if (!fieldLength) continue
+
+      var tokenCount = 0
+      for (var k = 0; k < fieldLength; k++){
+        if (fieldTokens[k] === token){
+          tokenCount++
+        }
+      }
+
+      tf += (tokenCount / fieldLength * field.boost)
+    }
+
+    this.tokenStore.add(token, { ref: docRef, tf: tf })
+  };
+
+  if (emitEvent) this.eventEmitter.emit('add', doc, this)
+}
+
+/**
+ * Removes a document from the index.
+ *
+ * To make sure documents no longer show up in search results they can be
+ * removed from the index using this method.
+ *
+ * The document passed only needs to have the same ref property value as the
+ * document that was added to the index, they could be completely different
+ * objects.
+ *
+ * A 'remove' event is emitted with the document that has been removed and the index
+ * the document has been removed from. This event can be silenced by passing false
+ * as the second argument to remove.
+ *
+ * @param {Object} doc The document to remove from the index.
+ * @param {Boolean} emitEvent Whether to emit remove events, defaults to true
+ * @memberOf Index
+ */
+lunr.Index.prototype.remove = function (doc, emitEvent) {
+  var docRef = doc[this._ref],
+      emitEvent = emitEvent === undefined ? true : emitEvent
+
+  if (!this.documentStore.has(docRef)) return
+
+  var docTokens = this.documentStore.get(docRef)
+
+  this.documentStore.remove(docRef)
+
+  docTokens.forEach(function (token) {
+    this.tokenStore.remove(token, docRef)
+  }, this)
+
+  if (emitEvent) this.eventEmitter.emit('remove', doc, this)
+}
+
+/**
+ * Updates a document in the index.
+ *
+ * When a document contained within the index gets updated, fields changed,
+ * added or removed, to make sure it correctly matched against search queries,
+ * it should be updated in the index.
+ *
+ * This method is just a wrapper around `remove` and `add`
+ *
+ * An 'update' event is emitted with the document that has been updated and the index.
+ * This event can be silenced by passing false as the second argument to update. Only
+ * an update event will be fired, the 'add' and 'remove' events of the underlying calls
+ * are silenced.
+ *
+ * @param {Object} doc The document to update in the index.
+ * @param {Boolean} emitEvent Whether to emit update events, defaults to true
+ * @see Index.prototype.remove
+ * @see Index.prototype.add
+ * @memberOf Index
+ */
+lunr.Index.prototype.update = function (doc, emitEvent) {
+  var emitEvent = emitEvent === undefined ? true : emitEvent
+
+  this.remove(doc, false)
+  this.add(doc, false)
+
+  if (emitEvent) this.eventEmitter.emit('update', doc, this)
+}
+
+/**
+ * Calculates the inverse document frequency for a token within the index.
+ *
+ * @param {String} token The token to calculate the idf of.
+ * @see Index.prototype.idf
+ * @private
+ * @memberOf Index
+ */
+lunr.Index.prototype.idf = function (term) {
+  var cacheKey = "@" + term
+  if (Object.prototype.hasOwnProperty.call(this._idfCache, cacheKey)) return this._idfCache[cacheKey]
+
+  var documentFrequency = this.tokenStore.count(term),
+      idf = 1
+
+  if (documentFrequency > 0) {
+    idf = 1 + Math.log(this.documentStore.length / documentFrequency)
+  }
+
+  return this._idfCache[cacheKey] = idf
+}
+
+/**
+ * Searches the index using the passed query.
+ *
+ * Queries should be a string, multiple words are allowed and will lead to an
+ * AND based query, e.g. `idx.search('foo bar')` will run a search for
+ * documents containing both 'foo' and 'bar'.
+ *
+ * All query tokens are passed through the same pipeline that document tokens
+ * are passed through, so any language processing involved will be run on every
+ * query term.
+ *
+ * Each query term is expanded, so that the term 'he' might be expanded to
+ * 'hello' and 'help' if those terms were already included in the index.
+ *
+ * Matching documents are returned as an array of objects, each object contains
+ * the matching document ref, as set for this index, and the similarity score
+ * for this document against the query.
+ *
+ * @param {String} query The query to search the index with.
+ * @returns {Object}
+ * @see Index.prototype.idf
+ * @see Index.prototype.documentVector
+ * @memberOf Index
+ */
+lunr.Index.prototype.search = function (query) {
+  var queryTokens = this.pipeline.run(this.tokenizerFn(query)),
+      queryVector = new lunr.Vector,
+      documentSets = [],
+      fieldBoosts = this._fields.reduce(function (memo, f) { return memo + f.boost }, 0)
+
+  var hasSomeToken = queryTokens.some(function (token) {
+    return this.tokenStore.has(token)
+  }, this)
+
+  if (!hasSomeToken) return []
+
+  queryTokens
+    .forEach(function (token, i, tokens) {
+      var tf = 1 / tokens.length * this._fields.length * fieldBoosts,
+          self = this
+
+      var set = this.tokenStore.expand(token).reduce(function (memo, key) {
+        var pos = self.corpusTokens.indexOf(key),
+            idf = self.idf(key),
+            similarityBoost = 1,
+            set = new lunr.SortedSet
+
+        // if the expanded key is not an exact match to the token then
+        // penalise the score for this key by how different the key is
+        // to the token.
+        if (key !== token) {
+          var diff = Math.max(3, key.length - token.length)
+          similarityBoost = 1 / Math.log(diff)
+        }
+
+        // calculate the query tf-idf score for this token
+        // applying an similarityBoost to ensure exact matches
+        // these rank higher than expanded terms
+        if (pos > -1) queryVector.insert(pos, tf * idf * similarityBoost)
+
+        // add all the documents that have this key into a set
+        // ensuring that the type of key is preserved
+        var matchingDocuments = self.tokenStore.get(key),
+            refs = Object.keys(matchingDocuments),
+            refsLen = refs.length
+
+        for (var i = 0; i < refsLen; i++) {
+          set.add(matchingDocuments[refs[i]].ref)
+        }
+
+        return memo.union(set)
+      }, new lunr.SortedSet)
+
+      documentSets.push(set)
+    }, this)
+
+  var documentSet = documentSets.reduce(function (memo, set) {
+    return memo.intersect(set)
+  })
+
+  return documentSet
+    .map(function (ref) {
+      return { ref: ref, score: queryVector.similarity(this.documentVector(ref)) }
+    }, this)
+    .sort(function (a, b) {
+      return b.score - a.score
+    })
+}
+
+/**
+ * Generates a vector containing all the tokens in the document matching the
+ * passed documentRef.
+ *
+ * The vector contains the tf-idf score for each token contained in the
+ * document with the passed documentRef.  The vector will contain an element
+ * for every token in the indexes corpus, if the document does not contain that
+ * token the element will be 0.
+ *
+ * @param {Object} documentRef The ref to find the document with.
+ * @returns {lunr.Vector}
+ * @private
+ * @memberOf Index
+ */
+lunr.Index.prototype.documentVector = function (documentRef) {
+  var documentTokens = this.documentStore.get(documentRef),
+      documentTokensLength = documentTokens.length,
+      documentVector = new lunr.Vector
+
+  for (var i = 0; i < documentTokensLength; i++) {
+    var token = documentTokens.elements[i],
+        tf = this.tokenStore.get(token)[documentRef].tf,
+        idf = this.idf(token)
+
+    documentVector.insert(this.corpusTokens.indexOf(token), tf * idf)
+  };
+
+  return documentVector
+}
+
+/**
+ * Returns a representation of the index ready for serialisation.
+ *
+ * @returns {Object}
+ * @memberOf Index
+ */
+lunr.Index.prototype.toJSON = function () {
+  return {
+    version: lunr.version,
+    fields: this._fields,
+    ref: this._ref,
+    tokenizer: this.tokenizerFn.label,
+    documentStore: this.documentStore.toJSON(),
+    tokenStore: this.tokenStore.toJSON(),
+    corpusTokens: this.corpusTokens.toJSON(),
+    pipeline: this.pipeline.toJSON()
+  }
+}
+
+/**
+ * Applies a plugin to the current index.
+ *
+ * A plugin is a function that is called with the index as its context.
+ * Plugins can be used to customise or extend the behaviour the index
+ * in some way. A plugin is just a function, that encapsulated the custom
+ * behaviour that should be applied to the index.
+ *
+ * The plugin function will be called with the index as its argument, additional
+ * arguments can also be passed when calling use. The function will be called
+ * with the index as its context.
+ *
+ * Example:
+ *
+ *     var myPlugin = function (idx, arg1, arg2) {
+ *       // `this` is the index to be extended
+ *       // apply any extensions etc here.
+ *     }
+ *
+ *     var idx = lunr(function () {
+ *       this.use(myPlugin, 'arg1', 'arg2')
+ *     })
+ *
+ * @param {Function} plugin The plugin to apply.
+ * @memberOf Index
+ */
+lunr.Index.prototype.use = function (plugin) {
+  var args = Array.prototype.slice.call(arguments, 1)
+  args.unshift(this)
+  plugin.apply(this, args)
+}
+/*!
+ * lunr.Store
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * lunr.Store is a simple key-value store used for storing sets of tokens for
+ * documents stored in index.
+ *
+ * @constructor
+ * @module
+ */
+lunr.Store = function () {
+  this.store = {}
+  this.length = 0
+}
+
+/**
+ * Loads a previously serialised store
+ *
+ * @param {Object} serialisedData The serialised store to load.
+ * @returns {lunr.Store}
+ * @memberOf Store
+ */
+lunr.Store.load = function (serialisedData) {
+  var store = new this
+
+  store.length = serialisedData.length
+  store.store = Object.keys(serialisedData.store).reduce(function (memo, key) {
+    memo[key] = lunr.SortedSet.load(serialisedData.store[key])
+    return memo
+  }, {})
+
+  return store
+}
+
+/**
+ * Stores the given tokens in the store against the given id.
+ *
+ * @param {Object} id The key used to store the tokens against.
+ * @param {Object} tokens The tokens to store against the key.
+ * @memberOf Store
+ */
+lunr.Store.prototype.set = function (id, tokens) {
+  if (!this.has(id)) this.length++
+  this.store[id] = tokens
+}
+
+/**
+ * Retrieves the tokens from the store for a given key.
+ *
+ * @param {Object} id The key to lookup and retrieve from the store.
+ * @returns {Object}
+ * @memberOf Store
+ */
+lunr.Store.prototype.get = function (id) {
+  return this.store[id]
+}
+
+/**
+ * Checks whether the store contains a key.
+ *
+ * @param {Object} id The id to look up in the store.
+ * @returns {Boolean}
+ * @memberOf Store
+ */
+lunr.Store.prototype.has = function (id) {
+  return id in this.store
+}
+
+/**
+ * Removes the value for a key in the store.
+ *
+ * @param {Object} id The id to remove from the store.
+ * @memberOf Store
+ */
+lunr.Store.prototype.remove = function (id) {
+  if (!this.has(id)) return
+
+  delete this.store[id]
+  this.length--
+}
+
+/**
+ * Returns a representation of the store ready for serialisation.
+ *
+ * @returns {Object}
+ * @memberOf Store
+ */
+lunr.Store.prototype.toJSON = function () {
+  return {
+    store: this.store,
+    length: this.length
+  }
+}
+
+/*!
+ * lunr.stemmer
+ * Copyright (C) 2016 Oliver Nightingale
+ * Includes code from - http://tartarus.org/~martin/PorterStemmer/js.txt
+ */
+
+/**
+ * lunr.stemmer is an english language stemmer, this is a JavaScript
+ * implementation of the PorterStemmer taken from http://tartarus.org/~martin
+ *
+ * @module
+ * @param {String} str The string to stem
+ * @returns {String}
+ * @see lunr.Pipeline
+ */
+lunr.stemmer = (function(){
+  var step2list = {
+      "ational" : "ate",
+      "tional" : "tion",
+      "enci" : "ence",
+      "anci" : "ance",
+      "izer" : "ize",
+      "bli" : "ble",
+      "alli" : "al",
+      "entli" : "ent",
+      "eli" : "e",
+      "ousli" : "ous",
+      "ization" : "ize",
+      "ation" : "ate",
+      "ator" : "ate",
+      "alism" : "al",
+      "iveness" : "ive",
+      "fulness" : "ful",
+      "ousness" : "ous",
+      "aliti" : "al",
+      "iviti" : "ive",
+      "biliti" : "ble",
+      "logi" : "log"
+    },
+
+    step3list = {
+      "icate" : "ic",
+      "ative" : "",
+      "alize" : "al",
+      "iciti" : "ic",
+      "ical" : "ic",
+      "ful" : "",
+      "ness" : ""
+    },
+
+    c = "[^aeiou]",          // consonant
+    v = "[aeiouy]",          // vowel
+    C = c + "[^aeiouy]*",    // consonant sequence
+    V = v + "[aeiou]*",      // vowel sequence
+
+    mgr0 = "^(" + C + ")?" + V + C,               // [C]VC... is m>0
+    meq1 = "^(" + C + ")?" + V + C + "(" + V + ")?$",  // [C]VC[V] is m=1
+    mgr1 = "^(" + C + ")?" + V + C + V + C,       // [C]VCVC... is m>1
+    s_v = "^(" + C + ")?" + v;                   // vowel in stem
+
+  var re_mgr0 = new RegExp(mgr0);
+  var re_mgr1 = new RegExp(mgr1);
+  var re_meq1 = new RegExp(meq1);
+  var re_s_v = new RegExp(s_v);
+
+  var re_1a = /^(.+?)(ss|i)es$/;
+  var re2_1a = /^(.+?)([^s])s$/;
+  var re_1b = /^(.+?)eed$/;
+  var re2_1b = /^(.+?)(ed|ing)$/;
+  var re_1b_2 = /.$/;
+  var re2_1b_2 = /(at|bl|iz)$/;
+  var re3_1b_2 = new RegExp("([^aeiouylsz])\\1$");
+  var re4_1b_2 = new RegExp("^" + C + v + "[^aeiouwxy]$");
+
+  var re_1c = /^(.+?[^aeiou])y$/;
+  var re_2 = /^(.+?)(ational|tional|enci|anci|izer|bli|alli|entli|eli|ousli|ization|ation|ator|alism|iveness|fulness|ousness|aliti|iviti|biliti|logi)$/;
+
+  var re_3 = /^(.+?)(icate|ative|alize|iciti|ical|ful|ness)$/;
+
+  var re_4 = /^(.+?)(al|ance|ence|er|ic|able|ible|ant|ement|ment|ent|ou|ism|ate|iti|ous|ive|ize)$/;
+  var re2_4 = /^(.+?)(s|t)(ion)$/;
+
+  var re_5 = /^(.+?)e$/;
+  var re_5_1 = /ll$/;
+  var re3_5 = new RegExp("^" + C + v + "[^aeiouwxy]$");
+
+  var porterStemmer = function porterStemmer(w) {
+    var   stem,
+      suffix,
+      firstch,
+      re,
+      re2,
+      re3,
+      re4;
+
+    if (w.length < 3) { return w; }
+
+    firstch = w.substr(0,1);
+    if (firstch == "y") {
+      w = firstch.toUpperCase() + w.substr(1);
+    }
+
+    // Step 1a
+    re = re_1a
+    re2 = re2_1a;
+
+    if (re.test(w)) { w = w.replace(re,"$1$2"); }
+    else if (re2.test(w)) { w = w.replace(re2,"$1$2"); }
+
+    // Step 1b
+    re = re_1b;
+    re2 = re2_1b;
+    if (re.test(w)) {
+      var fp = re.exec(w);
+      re = re_mgr0;
+      if (re.test(fp[1])) {
+        re = re_1b_2;
+        w = w.replace(re,"");
+      }
+    } else if (re2.test(w)) {
+      var fp = re2.exec(w);
+      stem = fp[1];
+      re2 = re_s_v;
+      if (re2.test(stem)) {
+        w = stem;
+        re2 = re2_1b_2;
+        re3 = re3_1b_2;
+        re4 = re4_1b_2;
+        if (re2.test(w)) {  w = w + "e"; }
+        else if (re3.test(w)) { re = re_1b_2; w = w.replace(re,""); }
+        else if (re4.test(w)) { w = w + "e"; }
+      }
+    }
+
+    // Step 1c - replace suffix y or Y by i if preceded by a non-vowel which is not the first letter of the word (so cry -> cri, by -> by, say -> say)
+    re = re_1c;
+    if (re.test(w)) {
+      var fp = re.exec(w);
+      stem = fp[1];
+      w = stem + "i";
+    }
+
+    // Step 2
+    re = re_2;
+    if (re.test(w)) {
+      var fp = re.exec(w);
+      stem = fp[1];
+      suffix = fp[2];
+      re = re_mgr0;
+      if (re.test(stem)) {
+        w = stem + step2list[suffix];
+      }
+    }
+
+    // Step 3
+    re = re_3;
+    if (re.test(w)) {
+      var fp = re.exec(w);
+      stem = fp[1];
+      suffix = fp[2];
+      re = re_mgr0;
+      if (re.test(stem)) {
+        w = stem + step3list[suffix];
+      }
+    }
+
+    // Step 4
+    re = re_4;
+    re2 = re2_4;
+    if (re.test(w)) {
+      var fp = re.exec(w);
+      stem = fp[1];
+      re = re_mgr1;
+      if (re.test(stem)) {
+        w = stem;
+      }
+    } else if (re2.test(w)) {
+      var fp = re2.exec(w);
+      stem = fp[1] + fp[2];
+      re2 = re_mgr1;
+      if (re2.test(stem)) {
+        w = stem;
+      }
+    }
+
+    // Step 5
+    re = re_5;
+    if (re.test(w)) {
+      var fp = re.exec(w);
+      stem = fp[1];
+      re = re_mgr1;
+      re2 = re_meq1;
+      re3 = re3_5;
+      if (re.test(stem) || (re2.test(stem) && !(re3.test(stem)))) {
+        w = stem;
+      }
+    }
+
+    re = re_5_1;
+    re2 = re_mgr1;
+    if (re.test(w) && re2.test(w)) {
+      re = re_1b_2;
+      w = w.replace(re,"");
+    }
+
+    // and turn initial Y back to y
+
+    if (firstch == "y") {
+      w = firstch.toLowerCase() + w.substr(1);
+    }
+
+    return w;
+  };
+
+  return porterStemmer;
+})();
+
+lunr.Pipeline.registerFunction(lunr.stemmer, 'stemmer')
+/*!
+ * lunr.stopWordFilter
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * lunr.generateStopWordFilter builds a stopWordFilter function from the provided
+ * list of stop words.
+ *
+ * The built in lunr.stopWordFilter is built using this generator and can be used
+ * to generate custom stopWordFilters for applications or non English languages.
+ *
+ * @module
+ * @param {Array} token The token to pass through the filter
+ * @returns {Function}
+ * @see lunr.Pipeline
+ * @see lunr.stopWordFilter
+ */
+lunr.generateStopWordFilter = function (stopWords) {
+  var words = stopWords.reduce(function (memo, stopWord) {
+    memo[stopWord] = stopWord
+    return memo
+  }, {})
+
+  return function (token) {
+    if (token && words[token] !== token) return token
+  }
+}
+
+/**
+ * lunr.stopWordFilter is an English language stop word list filter, any words
+ * contained in the list will not be passed through the filter.
+ *
+ * This is intended to be used in the Pipeline. If the token does not pass the
+ * filter then undefined will be returned.
+ *
+ * @module
+ * @param {String} token The token to pass through the filter
+ * @returns {String}
+ * @see lunr.Pipeline
+ */
+lunr.stopWordFilter = lunr.generateStopWordFilter([
+  'a',
+  'able',
+  'about',
+  'across',
+  'after',
+  'all',
+  'almost',
+  'also',
+  'am',
+  'among',
+  'an',
+  'and',
+  'any',
+  'are',
+  'as',
+  'at',
+  'be',
+  'because',
+  'been',
+  'but',
+  'by',
+  'can',
+  'cannot',
+  'could',
+  'dear',
+  'did',
+  'do',
+  'does',
+  'either',
+  'else',
+  'ever',
+  'every',
+  'for',
+  'from',
+  'get',
+  'got',
+  'had',
+  'has',
+  'have',
+  'he',
+  'her',
+  'hers',
+  'him',
+  'his',
+  'how',
+  'however',
+  'i',
+  'if',
+  'in',
+  'into',
+  'is',
+  'it',
+  'its',
+  'just',
+  'least',
+  'let',
+  'like',
+  'likely',
+  'may',
+  'me',
+  'might',
+  'most',
+  'must',
+  'my',
+  'neither',
+  'no',
+  'nor',
+  'not',
+  'of',
+  'off',
+  'often',
+  'on',
+  'only',
+  'or',
+  'other',
+  'our',
+  'own',
+  'rather',
+  'said',
+  'say',
+  'says',
+  'she',
+  'should',
+  'since',
+  'so',
+  'some',
+  'than',
+  'that',
+  'the',
+  'their',
+  'them',
+  'then',
+  'there',
+  'these',
+  'they',
+  'this',
+  'tis',
+  'to',
+  'too',
+  'twas',
+  'us',
+  'wants',
+  'was',
+  'we',
+  'were',
+  'what',
+  'when',
+  'where',
+  'which',
+  'while',
+  'who',
+  'whom',
+  'why',
+  'will',
+  'with',
+  'would',
+  'yet',
+  'you',
+  'your'
+])
+
+lunr.Pipeline.registerFunction(lunr.stopWordFilter, 'stopWordFilter')
+/*!
+ * lunr.trimmer
+ * Copyright (C) 2016 Oliver Nightingale
+ */
+
+/**
+ * lunr.trimmer is a pipeline function for trimming non word
+ * characters from the begining and end of tokens before they
+ * enter the index.
+ *
+ * This implementation may not work correctly for non latin
+ * characters and should either be removed or adapted for use
+ * with languages with non-latin characters.
+ *
+ * @module
+ * @param {String} token The token to pass through the filter
+ * @returns {String}
+ * @see lunr.Pipeline
+ */
+lunr.trimmer = function (token) {
+  return token.replace(/^\W+/, '').replace(/\W+$/, '')
+}
+
+lunr.Pipeline.registerFunction(lunr.trimmer, 'trimmer')
+/*!
+ * lunr.stemmer
+ * Copyright (C) 2016 Oliver Nightingale
+ * Includes code from - http://tartarus.org/~martin/PorterStemmer/js.txt
+ */
+
+/**
+ * lunr.TokenStore is used for efficient storing and lookup of the reverse
+ * index of token to document ref.
+ *
+ * @constructor
+ */
+lunr.TokenStore = function () {
+  this.root = { docs: {} }
+  this.length = 0
+}
+
+/**
+ * Loads a previously serialised token store
+ *
+ * @param {Object} serialisedData The serialised token store to load.
+ * @returns {lunr.TokenStore}
+ * @memberOf TokenStore
+ */
+lunr.TokenStore.load = function (serialisedData) {
+  var store = new this
+
+  store.root = serialisedData.root
+  store.length = serialisedData.length
+
+  return store
+}
+
+/**
+ * Adds a new token doc pair to the store.
+ *
+ * By default this function starts at the root of the current store, however
+ * it can start at any node of any token store if required.
+ *
+ * @param {String} token The token to store the doc under
+ * @param {Object} doc The doc to store against the token
+ * @param {Object} root An optional node at which to start looking for the
+ * correct place to enter the doc, by default the root of this lunr.TokenStore
+ * is used.
+ * @memberOf TokenStore
+ */
+lunr.TokenStore.prototype.add = function (token, doc, root) {
+  var root = root || this.root,
+      key = token.charAt(0),
+      rest = token.slice(1)
+
+  if (!(key in root)) root[key] = {docs: {}}
+
+  if (rest.length === 0) {
+    root[key].docs[doc.ref] = doc
+    this.length += 1
+    return
+  } else {
+    return this.add(rest, doc, root[key])
+  }
+}
+
+/**
+ * Checks whether this key is contained within this lunr.TokenStore.
+ *
+ * By default this function starts at the root of the current store, however
+ * it can start at any node of any token store if required.
+ *
+ * @param {String} token The token to check for
+ * @param {Object} root An optional node at which to start
+ * @memberOf TokenStore
+ */
+lunr.TokenStore.prototype.has = function (token) {
+  if (!token) return false
+
+  var node = this.root
+
+  for (var i = 0; i < token.length; i++) {
+    if (!node[token.charAt(i)]) return false
+
+    node = node[token.charAt(i)]
+  }
+
+  return true
+}
+
+/**
+ * Retrieve a node from the token store for a given token.
+ *
+ * By default this function starts at the root of the current store, however
+ * it can start at any node of any token store if required.
+ *
+ * @param {String} token The token to get the node for.
+ * @param {Object} root An optional node at which to start.
+ * @returns {Object}
+ * @see TokenStore.prototype.get
+ * @memberOf TokenStore
+ */
+lunr.TokenStore.prototype.getNode = function (token) {
+  if (!token) return {}
+
+  var node = this.root
+
+  for (var i = 0; i < token.length; i++) {
+    if (!node[token.charAt(i)]) return {}
+
+    node = node[token.charAt(i)]
+  }
+
+  return node
+}
+
+/**
+ * Retrieve the documents for a node for the given token.
+ *
+ * By default this function starts at the root of the current store, however
+ * it can start at any node of any token store if required.
+ *
+ * @param {String} token The token to get the documents for.
+ * @param {Object} root An optional node at which to start.
+ * @returns {Object}
+ * @memberOf TokenStore
+ */
+lunr.TokenStore.prototype.get = function (token, root) {
+  return this.getNode(token, root).docs || {}
+}
+
+lunr.TokenStore.prototype.count = function (token, root) {
+  return Object.keys(this.get(token, root)).length
+}
+
+/**
+ * Remove the document identified by ref from the token in the store.
+ *
+ * By default this function starts at the root of the current store, however
+ * it can start at any node of any token store if required.
+ *
+ * @param {String} token The token to get the documents for.
+ * @param {String} ref The ref of the document to remove from this token.
+ * @param {Object} root An optional node at which to start.
+ * @returns {Object}
+ * @memberOf TokenStore
+ */
+lunr.TokenStore.prototype.remove = function (token, ref) {
+  if (!token) return
+  var node = this.root
+
+  for (var i = 0; i < token.length; i++) {
+    if (!(token.charAt(i) in node)) return
+    node = node[token.charAt(i)]
+  }
+
+  delete node.docs[ref]
+}
+
+/**
+ * Find all the possible suffixes of the passed token using tokens
+ * currently in the store.
+ *
+ * @param {String} token The token to expand.
+ * @returns {Array}
+ * @memberOf TokenStore
+ */
+lunr.TokenStore.prototype.expand = function (token, memo) {
+  var root = this.getNode(token),
+      docs = root.docs || {},
+      memo = memo || []
+
+  if (Object.keys(docs).length) memo.push(token)
+
+  Object.keys(root)
+    .forEach(function (key) {
+      if (key === 'docs') return
+
+      memo.concat(this.expand(token + key, memo))
+    }, this)
+
+  return memo
+}
+
+/**
+ * Returns a representation of the token store ready for serialisation.
+ *
+ * @returns {Object}
+ * @memberOf TokenStore
+ */
+lunr.TokenStore.prototype.toJSON = function () {
+  return {
+    root: this.root,
+    length: this.length
+  }
+}
+
+  /**
+   * export the module via AMD, CommonJS or as a browser global
+   * Export code from https://github.com/umdjs/umd/blob/master/returnExports.js
+   */
+  ;(function (root, factory) {
+    if (true) {
+      // AMD. Register as an anonymous module.
+      !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
+				__WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+    } else if (typeof exports === 'object') {
+      /**
+       * Node. Does not work with strict CommonJS, but
+       * only CommonJS-like enviroments that support module.exports,
+       * like Node.
+       */
+      module.exports = factory()
+    } else {
+      // Browser globals (root is window)
+      root.lunr = factory()
+    }
+  }(this, function () {
+    /**
+     * Just return a value to define the module export.
+     * This example returns an object, but the module
+     * can return a function as the exported value.
+     */
+    return lunr
+  }))
+})();
+
+
+/***/ }),
+
+/***/ 74:
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(79)
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(59),
+  /* template */
+  __webpack_require__(76),
+  /* scopeId */
+  "data-v-05c830ce",
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ListPaginator.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] ListPaginator.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-05c830ce", Component.options)
+  } else {
+    hotAPI.reload("data-v-05c830ce", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 75:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(60),
+  /* template */
+  __webpack_require__(77),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/PaginatorLink.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] PaginatorLink.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-115d9766", Component.options)
+  } else {
+    hotAPI.reload("data-v-115d9766", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 76:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('section', {
+    staticClass: "paginator"
+  }, [_c('div', {
+    staticClass: "form-inline"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\t\tCurrent page:\n\t\t\t\t"), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "number",
+      "min": "1",
+      "max": _vm.paginatedItems.length
+    },
+    domProps: {
+      "value": _vm.value + 1
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('input', Number($event.target.value) - 1)
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\t\tItems per page:\n\t\t\t\t"), _c('select', {
+    staticClass: "form-control",
+    domProps: {
+      "value": _vm.itemsPerPage
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('pageSize', Number($event.target.value))
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "5"
+    }
+  }, [_vm._v("5")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "10"
+    }
+  }, [_vm._v("10")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "20"
+    }
+  }, [_vm._v("20")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "50"
+    }
+  }, [_vm._v("50")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "100"
+    }
+  }, [_vm._v("100")])])])])]), _vm._v(" "), (_vm.itemsPerPage && _vm.paginatedItems.length > 1) ? _c('nav', [_c('div', {
+    staticClass: "btn-group"
+  }, [_c('paginator-link', {
+    attrs: {
+      "value": _vm.value - 1,
+      "text": "← Prev",
+      "active": _vm.value === 0
+    },
+    on: {
+      "click": _vm.setPage
+    }
+  }), _vm._v(" "), _vm._l((_vm.paginatedItems), function(pageItems, pageNum) {
+    return _c('paginator-link', {
+      attrs: {
+        "value": pageNum,
+        "active": pageNum === _vm.value
+      },
+      on: {
+        "click": _vm.setPage
+      }
+    })
+  }), _vm._v(" "), _c('paginator-link', {
+    attrs: {
+      "value": _vm.value + 1,
+      "text": "Next →",
+      "active": _vm.value === _vm.paginatedItems.length - 1
+    },
+    on: {
+      "click": _vm.setPage
+    }
+  })], 2)]) : _vm._e()])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-05c830ce", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 77:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "type": "button",
+      "href": "#",
+      "disabled": _vm.active
+    },
+    on: {
+      "click": _vm.emitPage
+    }
+  }, [_vm._v("\n\t" + _vm._s(_vm.text || _vm.value + 1) + "\n")])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-115d9766", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 78:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('div', {
+    staticClass: "list-header form-inline"
+  }, [_c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sortBy),
+      expression: "sortBy"
+    }],
+    staticClass: "form-control",
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.sortBy = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, _vm._l((_vm.fields), function(field) {
+    return _c('option', {
+      domProps: {
+        "value": field
+      }
+    }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.snakeCaseToWords(field)) + "\n\t\t\t")])
+  })), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.sortOrder = _vm.sortOrder === 'asc' ? 'desc' : 'asc'
+      }
+    }
+  }, [(_vm.sortOrder === 'asc') ? _c('span', {
+    staticClass: "glyphicon glyphicon-sort-by-alphabet"
+  }) : _c('span', {
+    staticClass: "glyphicon glyphicon-sort-by-alphabet-alt"
+  })]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.query),
+      expression: "query"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "search",
+      "placeholder": "Search"
+    },
+    domProps: {
+      "value": (_vm.query)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.query = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('ol', {
+    staticClass: "list"
+  }, [_vm._l((_vm.currentPageItems), function(item) {
+    return _vm._t("default", null, null, item)
+  })], 2), _vm._v(" "), _c('list-paginator', {
+    attrs: {
+      "paginatedItems": _vm.paginatedItems,
+      "itemsPerPage": _vm.itemsPerPage
+    },
+    on: {
+      "pageSize": function($event) {
+        _vm.itemsPerPage = arguments[0]
+      }
+    },
+    model: {
+      value: (_vm.page),
+      callback: function($$v) {
+        _vm.page = $$v
+      },
+      expression: "page"
+    }
+  })], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-6d54e2f6", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 79:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(65);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("6a4ac0ec", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-05c830ce&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ListPaginator.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-05c830ce&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ListPaginator.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 80:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(66);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("93a615da", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-6d54e2f6&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ComponentList.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-6d54e2f6&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ComponentList.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 84:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13953,13 +14270,13 @@ module.exports = function equal(a, b) {
 
 /***/ }),
 
-/***/ 71:
+/***/ 85:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var util = __webpack_require__(43);
+var util = __webpack_require__(44);
 
 module.exports = SchemaObject;
 
@@ -13970,7 +14287,7 @@ function SchemaObject(obj) {
 
 /***/ }),
 
-/***/ 72:
+/***/ 86:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14116,7 +14433,7 @@ module.exports = function generate__limit(it, $keyword, $ruleType) {
 
 /***/ }),
 
-/***/ 73:
+/***/ 87:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14200,7 +14517,7 @@ module.exports = function generate__limitItems(it, $keyword, $ruleType) {
 
 /***/ }),
 
-/***/ 74:
+/***/ 88:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14289,7 +14606,7 @@ module.exports = function generate__limitLength(it, $keyword, $ruleType) {
 
 /***/ }),
 
-/***/ 75:
+/***/ 89:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14373,7 +14690,46 @@ module.exports = function generate__limitProperties(it, $keyword, $ruleType) {
 
 /***/ }),
 
-/***/ 76:
+/***/ 9:
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(40)
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(25),
+  /* template */
+  __webpack_require__(35),
+  /* scopeId */
+  "data-v-38459c74",
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ShowHideButton.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] ShowHideButton.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-38459c74", Component.options)
+  } else {
+    hotAPI.reload("data-v-38459c74", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 90:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14834,7 +15190,7 @@ module.exports = function generate_validate(it, $keyword, $ruleType) {
 
 /***/ }),
 
-/***/ 78:
+/***/ 92:
 /***/ (function(module, exports) {
 
 
@@ -15076,138 +15432,8 @@ function isObject(val) {
 }
 
 
-/***/ }),
-
-/***/ 89:
-/***/ (function(module, exports, __webpack_require__) {
-
-var json = typeof JSON !== 'undefined' ? JSON : __webpack_require__(332);
-
-module.exports = function (obj, opts) {
-    if (!opts) opts = {};
-    if (typeof opts === 'function') opts = { cmp: opts };
-    var space = opts.space || '';
-    if (typeof space === 'number') space = Array(space+1).join(' ');
-    var cycles = (typeof opts.cycles === 'boolean') ? opts.cycles : false;
-    var replacer = opts.replacer || function(key, value) { return value; };
-
-    var cmp = opts.cmp && (function (f) {
-        return function (node) {
-            return function (a, b) {
-                var aobj = { key: a, value: node[a] };
-                var bobj = { key: b, value: node[b] };
-                return f(aobj, bobj);
-            };
-        };
-    })(opts.cmp);
-
-    var seen = [];
-    return (function stringify (parent, key, node, level) {
-        var indent = space ? ('\n' + new Array(level + 1).join(space)) : '';
-        var colonSeparator = space ? ': ' : ':';
-
-        if (node && node.toJSON && typeof node.toJSON === 'function') {
-            node = node.toJSON();
-        }
-
-        node = replacer.call(parent, key, node);
-
-        if (node === undefined) {
-            return;
-        }
-        if (typeof node !== 'object' || node === null) {
-            return json.stringify(node);
-        }
-        if (isArray(node)) {
-            var out = [];
-            for (var i = 0; i < node.length; i++) {
-                var item = stringify(node, i, node[i], level+1) || json.stringify(null);
-                out.push(indent + space + item);
-            }
-            return '[' + out.join(',') + indent + ']';
-        }
-        else {
-            if (seen.indexOf(node) !== -1) {
-                if (cycles) return json.stringify('__cycle__');
-                throw new TypeError('Converting circular structure to JSON');
-            }
-            else seen.push(node);
-
-            var keys = objectKeys(node).sort(cmp && cmp(node));
-            var out = [];
-            for (var i = 0; i < keys.length; i++) {
-                var key = keys[i];
-                var value = stringify(node, key, node[key], level+1);
-
-                if(!value) continue;
-
-                var keyValue = json.stringify(key)
-                    + colonSeparator
-                    + value;
-                ;
-                out.push(indent + space + keyValue);
-            }
-            seen.splice(seen.indexOf(node), 1);
-            return '{' + out.join(',') + indent + '}';
-        }
-    })({ '': obj }, '', obj, 0);
-};
-
-var isArray = Array.isArray || function (x) {
-    return {}.toString.call(x) === '[object Array]';
-};
-
-var objectKeys = Object.keys || function (obj) {
-    var has = Object.prototype.hasOwnProperty || function () { return true };
-    var keys = [];
-    for (var key in obj) {
-        if (has.call(obj, key)) keys.push(key);
-    }
-    return keys;
-};
-
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/* styles */
-__webpack_require__(39)
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(24),
-  /* template */
-  __webpack_require__(34),
-  /* scopeId */
-  "data-v-38459c74",
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ShowHideButton.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] ShowHideButton.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-38459c74", Component.options)
-  } else {
-    hotAPI.reload("data-v-38459c74", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
 /***/ })
 
-},[522]);
+},[527]);
 });
 //# sourceMappingURL=vue-manage.js.map
