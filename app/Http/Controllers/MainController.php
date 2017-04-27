@@ -781,6 +781,12 @@ class MainController extends Controller
     }
     
     public function merit() {
-        return view('merit-reports');
+        
+        $meritReportTypes = config('constants.MERIT_REPORT_TYPES');
+		$meritReportTypeForms = Setting::get('reportTypeForms');
+		
+		$data = compact('meritReportTypes', 'meritReportTypeForms');
+        
+        return view('merit-reports', $data);
     }
 }

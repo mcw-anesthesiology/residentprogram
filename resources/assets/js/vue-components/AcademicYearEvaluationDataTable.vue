@@ -5,7 +5,7 @@
 				<label class="containing-label">
 					Academic year
 					<academic-year-selector v-model="dates"
-						:start-date="startDate" />
+						:min-date="startDate" />
 				</label>
 			</div>
 		</div>
