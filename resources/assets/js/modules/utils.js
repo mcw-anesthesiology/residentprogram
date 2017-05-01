@@ -1,11 +1,11 @@
 import striptags from 'striptags';
 
-export function appendAlert(alertText, parent = '#alert-container', alertType = 'danger', dismissable = true){
+export function appendAlert(alertText, parent = '#alert-container', alertType = 'danger', dismissable = true) {
 	let alert = document.createElement("div");
 	alert.className = "alert alert-" + alertType;
 	alert.role = "alert";
 
-	if(dismissable){
+	if (dismissable) {
 		alert.className += " alert-dismissable";
 		let close = document.createElement("button");
 		close.type = "button";
@@ -26,7 +26,7 @@ export function appendAlert(alertText, parent = '#alert-container', alertType = 
 	$(parent).append(alert);
 }
 
-export function ucfirst(str){
+export function ucfirst(str) {
 	return str.charAt(0).toUpperCase() + str.substring(1);
 }
 
@@ -34,13 +34,13 @@ export function ucfirstWords(str) {
 	return str.split(' ').map(ucfirst).join(' ');
 }
 
-export function camelCaseToWords(str){
+export function camelCaseToWords(str) {
 	let result = '';
-	for(let char of str){
-		if(result === ''){
+	for(let char of str) {
+		if (result === '') {
 			result += char.toUpperCase();
 		}
-		else if(char === char.toUpperCase()){
+		else if (char === char.toUpperCase()) {
 			result += ' ' + char.toLowerCase();
 		}
 		else {
@@ -50,23 +50,23 @@ export function camelCaseToWords(str){
 	return result;
 }
 
-export function snakeCaseToWords(str){
+export function snakeCaseToWords(str) {
 	return str.charAt(0).toUpperCase() + str.substring(1).replace('_', ' ');
 }
 
-export function kebabCaseToWords(str){
+export function kebabCaseToWords(str) {
 	return str.charAt(0).toUpperCase() + str.substring(1).replace('-', ' ');
 }
 
-export function nl2br(text){
+export function nl2br(text) {
 	return text.replace(/(?:\r\n|\r|\n)/g, '<br />');
 }
 
-export function escapeCsv(text){
+export function escapeCsv(text) {
 	return `"${striptags(text)}"`;
 }
 
-export function getFetchHeaders(){
+export function getFetchHeaders() {
 	const csrfToken = document.querySelector('meta[name="csrf-token"]')
 		.getAttribute('content');
 
@@ -79,13 +79,21 @@ export function getFetchHeaders(){
 	return headers;
 }
 
-export function jsonOrThrow(response){
-	if(response.ok)
-		return response.json();
+export function okOrThrow(response) {
+	if (response.ok)
+		return response;
+	
 	throw new Error(response.statusText);
 }
 
-export function fetchCompetencies(){
+export function jsonOrThrow(response) {
+	if (response.ok)
+		return response.json();
+
+	throw new Error(response.statusText);
+}
+
+export function fetchCompetencies() {
 	return fetch('/competencies', {
 		method: 'GET',
 		headers: getFetchHeaders(),
@@ -95,11 +103,11 @@ export function fetchCompetencies(){
 	);
 }
 
-export function fetchMilestoneGroups(){
+export function fetchMilestoneGroups() {
 	return fetchMilestones().then(groupMilestones);
 }
 
-export function fetchMilestones(){
+export function fetchMilestones() {
 	return fetch('/milestones', {
 		method: 'GET',
 		headers: getFetchHeaders(),
@@ -109,13 +117,13 @@ export function fetchMilestones(){
 	);
 }
 
-export function groupMilestones(milestones){
+export function groupMilestones(milestones) {
 	let milestoneGroups = {};
-	for(let milestone of milestones){
+	for(let milestone of milestones) {
 		let groupTitle = ucfirst(milestone.type);
-		if(milestone.training_level)
+		if (milestone.training_level)
 			groupTitle += ` — ${milestone.training_level}`;
-		if(!milestoneGroups[groupTitle])
+		if (!milestoneGroups[groupTitle])
 			milestoneGroups[groupTitle] = {
 				text: groupTitle,
 				children: []
@@ -125,12 +133,12 @@ export function groupMilestones(milestones){
 			text: milestone.title
 		});
 	}
-	for(let groupTitle in milestoneGroups){
+	for(let groupTitle in milestoneGroups) {
 		let milestoneGroup = milestoneGroups[groupTitle];
 		milestoneGroup.children.sort((a, b) => {
-			if(a.text < b.text)
+			if (a.text < b.text)
 				return 1;
-			else if(a.text > b.text)
+			else if (a.text > b.text)
 				return -1;
 			else
 				return 0;
@@ -139,11 +147,11 @@ export function groupMilestones(milestones){
 	return Object.values(milestoneGroups);
 }
 
-export function fetchUserGroups(){
+export function fetchUserGroups() {
 	return fetchUsers().then(groupUsers);
 }
 
-export function fetchUsers(){
+export function fetchUsers() {
 	return fetch('/users', {
 		method: 'GET',
 		headers: getFetchHeaders(),
@@ -151,7 +159,7 @@ export function fetchUsers(){
 	}).then(response => response.json());
 }
 
-export function groupUsers(users){
+export function groupUsers(users) {
 	let groups = {
 		intern: {
 			text: 'Intern',
@@ -193,14 +201,14 @@ export function groupUsers(users){
 			text: user.full_name
 		};
 
-		if(user.status === 'active'){
-			if(user.type){
-				if(user.type === 'resident' && user.training_level
-				&& groups[user.training_level]){
+		if (user.status === 'active') {
+			if (user.type) {
+				if (user.type === 'resident' && user.training_level
+				&& groups[user.training_level]) {
 
 					groups[user.training_level].children.push(select2Obj);
 				}
-				else if(groups[user.type]){
+				else if (groups[user.type]) {
 					groups[user.type].children.push(select2Obj);
 				}
 			}
@@ -218,7 +226,7 @@ export function groupUsers(users){
 	return groupedUsers;
 }
 
-export function fetchForms(){
+export function fetchForms() {
 	return fetch('/forms', {
 		method: 'GET',
 		headers: getFetchHeaders(),
@@ -226,16 +234,16 @@ export function fetchForms(){
 	}).then(response => response.json());
 }
 
-export function fetchFormGroups(){
+export function fetchFormGroups() {
 	return fetchForms().then(groupForms);
 }
 
-export function groupForms(forms){
+export function groupForms(forms) {
 	let groups = {};
 
 	forms.map(form => {
-		if(form.type){
-			if(!groups[form.type]){
+		if (form.type) {
+			if (!groups[form.type]) {
 				groups[form.type] = {
 					text: ucfirst(form.type),
 					children: []
@@ -257,59 +265,59 @@ export function groupForms(forms){
 	return groupedForms;
 }
 
-export function sortSelect2Objects(a, b){
-	if(a.text < b.text)
+export function sortSelect2Objects(a, b) {
+	if (a.text < b.text)
 		return -1;
-	if(a.text > b.text)
+	if (a.text > b.text)
 		return 1;
 
 	return 0;
 }
 
-export function sortEmptyLast(a, b){
+export function sortEmptyLast(a, b) {
 	let aEmpty = (a == null || (typeof a === 'string' && a.trim() === ''));
 	let bEmpty = (b == null || (typeof b === 'string' && b.trim() === ''));
-	if(aEmpty && bEmpty)
+	if (aEmpty && bEmpty)
 		return 0;
-	if(aEmpty)
+	if (aEmpty)
 		return 1;
-	if(bEmpty)
+	if (bEmpty)
 		return -1;
 }
 
-export function sortNumbers(a, b){
+export function sortNumbers(a, b) {
 	let emptyVal = sortEmptyLast(a, b);
-	if(emptyVal != null)
+	if (emptyVal != null)
 		return emptyVal;
 		
 	return Number(a) - Number(b);
 }
 
-export function sortPropNumbers(prop){
+export function sortPropNumbers(prop) {
 	return (a, b) => sortNumbers(a[prop], b[prop]);
 }
 
-export function sortIgnoreCase(a, b){
+export function sortIgnoreCase(a, b) {
 	let emptyVal = sortEmptyLast(a, b);
-	if(emptyVal != null)
+	if (emptyVal != null)
 		return emptyVal;
 	
 	a = a.toLowerCase();
 	b = b.toLowerCase();
 	
-	if(a < b)
+	if (a < b)
 		return -1;
-	if(a > b)
+	if (a > b)
 		return 1;
 	
 	return 0;
 }
 
-export function sortPropIgnoreCase(prop){
+export function sortPropIgnoreCase(prop) {
 	return (a, b) => sortIgnoreCase(a[prop], b[prop]);
 }
 
-export function htmlLabelReplacements(html, replacements){
+export function htmlLabelReplacements(html, replacements) {
 	html = html.replace(/<span class="label label-info">/g, '[[')
 		.replace(/<\/span>/g, ']]');
 	

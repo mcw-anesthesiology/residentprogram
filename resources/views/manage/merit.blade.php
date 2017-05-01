@@ -26,10 +26,11 @@
 		</div>
 		
 		<ul v-cloak>
-			<merit-report-list-item v-for="forms of groupedMeritForms"
+			<merit-form-list-item v-for="forms of groupedMeritForms"
 				:key="forms[0].name" :forms="forms"
 				@click="editMeritForm(forms)"
-				@delete="removeMeritForms(forms)" />
+				@delete="removeMeritForms(forms)">
+			</merit-form-list-item>
 		</ul>
 		
 		<alert-list v-model="alerts"></alert-list>

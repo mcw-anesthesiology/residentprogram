@@ -10,15 +10,30 @@
 			</template>
 		</questionnaire-pager>
 		
-		<button type="button" class="btn btn-info center-block"
-				@click="handleSave">
-			Save progress
-		</button>
+		<div class="text-center">
+			<button type="button" v-if="readonly" class="btn btn-default"
+					@click="handleClose">
+				Close
+			</button>
+			<confirmation-button v-else class="btn btn-default"
+					pressed-class="btn btn-warning" @click="handleClose">
+				Close
+				<template slot="pressed">
+					Yes, close without saving
+				</template>
+			</confirmation-button>
+			
+			<button type="button" class="btn btn-info"
+					@click="handleSave">
+				Save progress
+			</button>			
+		</div>
 	</div>
 </template>
 
 <script>
 import ChecklistSection from './Section.vue';
+import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
 import QuestionnairePager from 'vue-components/Questionnaire/Pager.vue';
 
 export default {
@@ -49,11 +64,15 @@ export default {
 		},
 		handleSubmit() {
 			this.$emit('submit');
+		},
+		handleClose() {
+			this.$emit('close');
 		}
 	},
 	
 	components: {
 		ChecklistSection,
+		ConfirmationButton,
 		QuestionnairePager
 	}
 };

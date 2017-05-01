@@ -44,6 +44,10 @@ export default {
 		items: {
 			type: Array,
 			required: true
+		},
+		fieldAccessors: {
+			type: Object,
+			required: false
 		}
 	},
 	data(){
@@ -82,6 +86,11 @@ export default {
 			});
 
 			this.items.map(item => {
+				if (this.fieldAccessors) {
+					for (let field in this.fieldAccessors) {
+						item[field] = this.fieldAccessors[field](item);
+					}
+				}
 				index.add(item);
 			});
 
@@ -103,8 +112,16 @@ export default {
 				let sortedItems = sortFunctions.has(this.sortBy)
 					? this.filteredItems.sort(sortFunctions.get(this.sortBy))
 					: this.filteredItems.sort((a, b) => {
-						let aValue = a[this.sortBy];
-						let bValue = b[this.sortBy];
+						let aValue;
+						let bValue;
+						
+						if (this.fieldAccessors && this.sortBy in this.fieldAccessors) {
+							aValue = this.fieldAccessors[this.sortBy](a);
+							bValue = this.fieldAccessors[this.sortBy](b);
+						} else {
+							aValue = a[this.sortBy];
+							bValue = b[this.sortBy];
+						}
 						
 						if (Number.isNaN(aValue))
 							aValue = aValue.toUpperCase();

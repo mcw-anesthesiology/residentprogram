@@ -67,6 +67,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = {
 	props: {
@@ -96,6 +97,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		placeholder: {
 			type: String,
 			default: 'Please select'
+		},
+		readonly: {
+			type: Boolean,
+			default: false
 		}
 	},
 	computed: {
@@ -215,13 +220,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* styles */
-__webpack_require__(508)
+__webpack_require__(512)
 
 var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(188),
   /* template */
-  __webpack_require__(466),
+  __webpack_require__(469),
   /* scopeId */
   "data-v-2c14a78c",
   /* cssModules */
@@ -258,7 +263,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "name": _vm.name,
       "id": _vm.id,
       "required": _vm.required,
-      "multiple": _vm.multiple
+      "multiple": _vm.multiple,
+      "disabled": _vm.readonly
     }
   }, [_vm._t("default"), _vm._v(" "), _vm._l((_vm.stringOptions), function(option) {
     return [(option.children && option.children.length > 0) ? _c('optgroup', {
@@ -297,7 +303,7 @@ __webpack_require__(43)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(23),
+  __webpack_require__(24),
   /* template */
   __webpack_require__(39),
   /* scopeId */
@@ -332,9 +338,9 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormBuilderInstruction_vue__ = __webpack_require__(425);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormBuilderInstruction_vue__ = __webpack_require__(427);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormBuilderInstruction_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__FormBuilderInstruction_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormBuilderQuestion_vue__ = __webpack_require__(427);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormBuilderQuestion_vue__ = __webpack_require__(429);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormBuilderQuestion_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__FormBuilderQuestion_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__AlertList_vue__);
@@ -402,7 +408,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	created: function created() {
 		var _this = this;
 
-		__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["u" /* fetchMilestoneGroups */])().then(function (milestoneGroups) {
+		__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["v" /* fetchMilestoneGroups */])().then(function (milestoneGroups) {
 			_this.groupedMilestones = milestoneGroups;
 		}).catch(function (err) {
 			console.error(err);
@@ -748,7 +754,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormBuilderOption_vue__ = __webpack_require__(426);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormBuilderOption_vue__ = __webpack_require__(428);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormBuilderOption_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__FormBuilderOption_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SelectTwo_vue__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SelectTwo_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__SelectTwo_vue__);
@@ -909,7 +915,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					id: competency.id,
 					text: competency.title
 				};
-			}).sort(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["v" /* sortSelect2Objects */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["w" /* sortSelect2Objects */]);
 		}
 	},
 	methods: {
@@ -1043,7 +1049,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 22:
+/***/ 23:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1081,7 +1087,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 23:
+/***/ 24:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1132,7 +1138,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 314:
+/***/ 315:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -1162,7 +1168,7 @@ exports.push([module.i, "\n.alert[data-v-8d03363a] {\n\tpage-break-inside: avoid
 
 /***/ }),
 
-/***/ 328:
+/***/ 330:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -1177,7 +1183,7 @@ exports.push([module.i, "\n.form-builder-question-option[data-v-855ce662] {\n\tm
 
 /***/ }),
 
-/***/ 332:
+/***/ 334:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -1257,14 +1263,14 @@ if (false) {
 
 /***/ }),
 
-/***/ 425:
+/***/ 427:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(189),
   /* template */
-  __webpack_require__(490),
+  __webpack_require__(494),
   /* scopeId */
   null,
   /* cssModules */
@@ -1292,18 +1298,18 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 426:
+/***/ 428:
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(522)
+__webpack_require__(527)
 
 var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(190),
   /* template */
-  __webpack_require__(488),
+  __webpack_require__(492),
   /* scopeId */
   "data-v-855ce662",
   /* cssModules */
@@ -1331,18 +1337,18 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 427:
+/***/ 429:
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(526)
+__webpack_require__(531)
 
 var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(191),
   /* template */
-  __webpack_require__(495),
+  __webpack_require__(499),
   /* scopeId */
   "data-v-e2c7d180",
   /* cssModules */
@@ -1397,7 +1403,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 466:
+/***/ 469:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1621,7 +1627,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 488:
+/***/ 492:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1727,7 +1733,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 490:
+/***/ 494:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1783,7 +1789,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 495:
+/***/ 499:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2045,7 +2051,7 @@ if (false) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(22),
+  __webpack_require__(23),
   /* template */
   __webpack_require__(37),
   /* scopeId */
@@ -2075,13 +2081,13 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 508:
+/***/ 512:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(314);
+var content = __webpack_require__(315);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -2102,13 +2108,13 @@ if(false) {
 
 /***/ }),
 
-/***/ 522:
+/***/ 527:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(328);
+var content = __webpack_require__(330);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -2129,13 +2135,13 @@ if(false) {
 
 /***/ }),
 
-/***/ 526:
+/***/ 531:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(332);
+var content = __webpack_require__(334);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -2156,12 +2162,12 @@ if(false) {
 
 /***/ }),
 
-/***/ 532:
+/***/ 537:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_FormBuilder_FormBuilder_vue__ = __webpack_require__(141);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_FormBuilder_FormBuilder_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_FormBuilder_FormBuilder_vue__);
@@ -2189,6 +2195,6 @@ function createFormBuilder(el) {
 
 /***/ })
 
-},[532]);
+},[537]);
 });
 //# sourceMappingURL=vue-form-builder.js.map
