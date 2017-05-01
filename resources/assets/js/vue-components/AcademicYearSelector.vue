@@ -1,5 +1,5 @@
 <template>
-	<select-two v-model.number="yearIndex">
+	<select-two v-model.number="yearIndex" :readonly="readonly">
 		<option v-for="(year, index) of academicYears" :value="index">
 			{{ renderDateRange(year.startDate, year.endDate) }}
 		</option>
@@ -43,6 +43,10 @@ export default {
 			default: true
 		},
 		allTime: {
+			type: Boolean,
+			default: false
+		},
+		readonly: {
 			type: Boolean,
 			default: false
 		}

@@ -1,5 +1,6 @@
 <template>
-	<select :name="name" :id="id" :required="required" v-bind:multiple="multiple">
+	<select :name="name" :id="id" :required="required" v-bind:multiple="multiple"
+			:disabled="readonly">
 		<slot></slot>
 		<template v-for="option of stringOptions">
 			<optgroup v-if="option.children && option.children.length > 0"
@@ -44,6 +45,10 @@ export default {
 		placeholder: {
 			type: String,
 			default: 'Please select'
+		},
+		readonly: {
+			type: Boolean,
+			default: false
 		}
 	},
 	computed: {

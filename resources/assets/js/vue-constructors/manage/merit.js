@@ -5,7 +5,7 @@ import ComponentList from 'vue-components/ComponentList.vue';
 import JsonSchemaEditor from 'vue-components/JsonSchemaEditor.vue';
 import SelectTwo from 'vue-components/SelectTwo.vue';
 
-import MeritReportListItem from 'vue-components/Manage/Merit/ReportListItem.vue';
+import MeritFormListItem from 'vue-components/Manage/Merit/FormListItem.vue';
 
 import { getFetchHeaders, jsonOrThrow } from 'modules/utils.js';
 
@@ -260,7 +260,7 @@ export default function createManageMerit(el, propsData) {
 			JsonSchemaEditor,
 			SelectTwo,
 			
-			MeritReportListItem
+			MeritFormListItem
 		}
 	});
 }

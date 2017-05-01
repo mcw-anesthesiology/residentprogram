@@ -1,9 +1,17 @@
 <template>
 	<div>
-		<academic-year-selector v-model="dates" />
+		<div class="form-group">
+			<label class="containing-label">
+				Report period
+				<academic-year-selector v-model="dates" :readonly="readonly" />
+			</label>
+		</div>
 		<merit-compensation-checklist v-bind="checklist"
-			:title="title"
-			@save="handleSave" @submit="handleSubmit" />
+			:title="title" :readonly="readonly"
+			@input="handleChecklistInput"
+			@save="handleSave"
+			@close="handleClose"
+			@submit="handleSubmit" />
 	</div>
 </template>
 
@@ -14,6 +22,10 @@ import AcademicYearSelector from 'vue-components/AcademicYearSelector.vue';
 
 export default {
 	props: {
+		id: {
+			type: Number,
+			required: false
+		},
 		period_start: {
 			type: String,
 			required: true
@@ -23,7 +35,7 @@ export default {
 			required: true
 		},
 		report: {
-			type: String,
+			type: Object,
 			required: true
 		},
 		status: {
@@ -41,17 +53,23 @@ export default {
 				startDate: this.period_start,
 				endDate: this.period_end
 			},
-			checklist: JSON.parse(this.report)
+			checklist: this.report
 		};
 	},
 	
 	computed: {
-
+		readonly() {
+			return this.status !== 'pending';
+		}
 	},
 	
 	methods: {
+		handleChecklistInput(checklist) {
+			this.checklist = Object.assign({}, this.checklist, checklist);
+		},
 		handleSave() {
 			this.$emit('save', {
+				id: this.id,
 				period_start: this.dates.startDate,
 				period_end: this.dates.endDate,
 				report: this.checklist,
@@ -60,11 +78,15 @@ export default {
 		},
 		handleSubmit() {
 			this.$emit('submit', {
+				id: this.id,
 				period_start: this.dates.startDate,
 				period_end: this.dates.endDate,
 				report: this.checklist,
 				status: 'complete'
 			});
+		},
+		handleClose() {
+			this.$emit('close');
 		}
 	},
 	

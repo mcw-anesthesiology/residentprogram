@@ -17,6 +17,7 @@ class MeritReport extends Model
 	
 	protected $fillable = [
 		'user_id',
+		'form_id',
 		'period_start',
 		'period_end',
 		'report',
