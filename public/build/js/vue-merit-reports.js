@@ -475,6 +475,10 @@ function createFacultyMeritReports(el, propsData) {
 					});
 				}
 			},
+			currentYearlyMeritDateRange: function currentYearlyMeritDateRange() {
+				// FIXME
+				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_date_utils_js__["isoDateStringObject"])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_date_utils_js__["academicYearForDate"])(new Date()));
+			},
 			meritReportFields: function meritReportFields() {
 				return ['id', 'form_name'];
 			},
@@ -489,14 +493,19 @@ function createFacultyMeritReports(el, propsData) {
 				return this.meritCompensationReport.status !== 'pending';
 			},
 			needsToCompleteReport: function needsToCompleteReport() {
-				// FIXME
-				return true;
+				var _this2 = this;
+
+				if (!this.meritReports || this.meritReports.length === 0) return true;
+
+				return !this.meritReports.some(function (report) {
+					return report.period_start === _this2.currentYearlyMeritDateRange.startDate && report.period_end === _this2.currentYearlyMeritDateRange.endDate;
+				});
 			}
 		},
 
 		methods: {
 			fetchPastMeritReports: function fetchPastMeritReports() {
-				var _this2 = this;
+				var _this3 = this;
 
 				var query = $.param({
 					where: {
@@ -512,10 +521,10 @@ function createFacultyMeritReports(el, propsData) {
 					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["a" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
 				}).then(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["b" /* jsonOrThrow */]).then(function (merits) {
-					_this2.meritReports = merits;
+					_this3.meritReports = merits;
 				}).catch(function (err) {
 					console.error(err);
-					_this2.alerts.push({
+					_this3.alerts.push({
 						type: 'error',
 						html: '<strong>Error:</strong> There was a problem fetching past merit reports'
 					});
@@ -524,8 +533,7 @@ function createFacultyMeritReports(el, propsData) {
 			addMeritReport: function addMeritReport() {
 				if (!this.yearlyFacultyMeritForm) return;
 
-				// FIXME
-				var dates = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_date_utils_js__["isoDateStringObject"])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_date_utils_js__["academicYearForDate"])(new Date()));
+				var dates = this.currentYearlyMeritDateRange;
 
 				this.meritCompensationReport = {
 					period_start: dates.startDate,
@@ -535,17 +543,17 @@ function createFacultyMeritReports(el, propsData) {
 				};
 			},
 			fetchMeritForms: function fetchMeritForms() {
-				var _this3 = this;
+				var _this4 = this;
 
 				fetch('/merit-forms', {
 					method: 'GET',
 					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["a" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
 				}).then(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["b" /* jsonOrThrow */]).then(function (meritForms) {
-					_this3.meritForms = meritForms;
+					_this4.meritForms = meritForms;
 				}).catch(function (err) {
 					console.error(err);
-					_this3.alerts.push({
+					_this4.alerts.push({
 						type: 'error',
 						html: '<strong>Error:</strong> There was a problem fetching merit forms'
 					});
@@ -555,7 +563,7 @@ function createFacultyMeritReports(el, propsData) {
 				this.meritCompensationReport = null;
 			},
 			handleSubmit: function handleSubmit(meritReport) {
-				var _this4 = this;
+				var _this5 = this;
 
 				if (this.meritReportReadonly) return;
 
@@ -576,11 +584,11 @@ function createFacultyMeritReports(el, propsData) {
 					credentials: 'same-origin',
 					body: JSON.stringify(meritReport)
 				}).then(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["c" /* okOrThrow */]).then(function () {
-					_this4.meritCompensationReport = null;
-					_this4.fetchPastMeritReports();
+					_this5.meritCompensationReport = null;
+					_this5.fetchPastMeritReports();
 				}).catch(function (err) {
 					console.error(err);
-					_this4.alerts.push({
+					_this5.alerts.push({
 						type: 'error',
 						html: '<strong>Error:</strong> There was a problem saving the report'
 					});
@@ -3457,6 +3465,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		fieldAccessors: {
 			type: Object,
 			required: false
+		},
+		defaultSortBy: {
+			type: String,
+			required: false
+		},
+		defaultSortOrder: {
+			type: String,
+			validator: function validator(order) {
+				return ['asc', 'desc'].includes(order);
+			},
+
+			default: 'asc'
 		}
 	},
 	data: function data() {
@@ -3464,8 +3484,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			query: null,
 			page: 0,
 			itemsPerPage: 10,
-			sortBy: this.fields[0],
-			sortOrder: 'asc'
+			sortBy: this.defaultSortBy || this.fields[0],
+			sortOrder: this.defaultSortOrder
 		};
 	},
 
@@ -3527,7 +3547,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			if (this.sortBy && this.sortOrder) {
 
-				var sortedItems = __WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__["a" /* sortFunctions */].has(this.sortBy) ? this.filteredItems.sort(__WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__["a" /* sortFunctions */].get(this.sortBy)) : this.filteredItems.sort(function (a, b) {
+				return __WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__["a" /* sortFunctions */].has(this.sortBy) ? this.filteredItems.sort(__WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__["a" /* sortFunctions */].get(this.sortBy)) : this.filteredItems.sort(function (a, b) {
 					var aValue = void 0;
 					var bValue = void 0;
 
@@ -3543,12 +3563,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 					if (Number.isNaN(bValue)) bValue = bValue.toUpperCase();
 
-					if (aValue < bValue) return -1;
-					if (aValue > bValue) return 1;
+					if (aValue < bValue) return _this4.sortOrder === 'asc' ? -1 : 1;
+					if (aValue > bValue) return _this4.sortOrder === 'asc' ? 1 : -1;
 					return 0;
 				});
-
-				return this.sortOrder === 'asc' ? sortedItems : sortedItems.reverse();
 			}
 
 			return this.filteredItems;
@@ -3565,7 +3583,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 	methods: {
-		snakeCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["d" /* snakeCaseToWords */]
+		renderFieldName: function renderFieldName(field) {
+			if (field === 'id') return 'ID';
+
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["d" /* snakeCaseToWords */])(field);
+		}
 	},
 	components: {
 		ListPaginator: __WEBPACK_IMPORTED_MODULE_0__ListPaginator_vue___default.a
@@ -4264,7 +4286,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.list-header[data-v-6d54e2f6] {\n\ttext-align: right;\n}\n.list-header input[type=\"search\"][data-v-6d54e2f6] {\n\twidth: 300px;\n}\n.list[data-v-6d54e2f6] {\n\tpadding: 0;\n}\n.list li[data-v-6d54e2f6] {\n\tlist-style: none;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ComponentList.vue?49f94f8c"],"names":[],"mappings":";AAuKA;CACA,kBAAA;CACA;AAEA;CACA,aAAA;CACA;AAEA;CACA,WAAA;CACA;AAEA;CACA,iBAAA;CACA","file":"ComponentList.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"list-header form-inline\">\n\t\t\t<select class=\"form-control\" v-model=\"sortBy\">\n\t\t\t\t<option v-for=\"field of fields\" :value=\"field\">\n\t\t\t\t\t{{ snakeCaseToWords(field) }}\n\t\t\t\t</option>\n\t\t\t</select>\n\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t@click=\"sortOrder = sortOrder === 'asc' ? 'desc' : 'asc'\">\n\t\t\t\t<span v-if=\"sortOrder === 'asc'\"\n\t\t\t\t\tclass=\"glyphicon glyphicon-sort-by-alphabet\"></span>\n\t\t\t\t<span v-else\n\t\t\t\t\tclass=\"glyphicon glyphicon-sort-by-alphabet-alt\"></span>\n\t\t\t</button>\n\t\t\t<input type=\"search\" class=\"form-control\" v-model=\"query\"\n\t\t\t\tplaceholder=\"Search\" />\n\t\t</div>\n\t\t<ol class=\"list\">\n\t\t\t<slot v-for=\"item of currentPageItems\" v-bind=\"item\"></slot>\n\t\t</ol>\n\t\t<list-paginator v-model=\"page\" :paginatedItems=\"paginatedItems\"\n\t\t\t:itemsPerPage=\"itemsPerPage\"\n\t\t\t@pageSize=\"itemsPerPage = arguments[0]\" />\n\t</div>\n</template>\n\n<script>\nimport ListPaginator from './ListPaginator.vue';\n\nimport lunr from 'lunr';\n\nimport { snakeCaseToWords } from 'modules/utils.js';\nimport { sortFunctions } from 'modules/report-utils.js';\n\nexport default {\n\tprops: {\n\t\tfields: {\n\t\t\ttype: Array,\n\t\t\tdefault(){\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\titems: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\tfieldAccessors: {\n\t\t\ttype: Object,\n\t\t\trequired: false\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tquery: null,\n\t\t\tpage: 0,\n\t\t\titemsPerPage: 10,\n\t\t\tsortBy: this.fields[0],\n\t\t\tsortOrder: 'asc'\n\t\t};\n\t},\n\tcomputed: {\n\t\titemMap(){\n\t\t\tlet map = new Map();\n\t\t\tthis.items.map(item => {\n\t\t\t\tmap.set(item.id, item);\n\t\t\t});\n\n\t\t\treturn map;\n\t\t},\n\t\tindex(){\n\t\t\tlet fields = this.fields;\n\n\t\t\tlet index = lunr(function(){\n\t\t\t\tfields.map(field => {\n\t\t\t\t\tlet name, options;\n\t\t\t\t\tif(typeof field === 'string'){\n\t\t\t\t\t\tname = field;\n\t\t\t\t\t}\n\t\t\t\t\telse{\n\t\t\t\t\t\tname = field.name;\n\t\t\t\t\t\toptions = field;\n\t\t\t\t\t}\n\t\t\t\t\tthis.field(name, options);\n\t\t\t\t});\n\t\t\t});\n\n\t\t\tthis.items.map(item => {\n\t\t\t\tif (this.fieldAccessors) {\n\t\t\t\t\tfor (let field in this.fieldAccessors) {\n\t\t\t\t\t\titem[field] = this.fieldAccessors[field](item);\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\tindex.add(item);\n\t\t\t});\n\n\t\t\treturn index;\n\t\t},\n\t\tfilteredItems(){\n\t\t\tif(this.query){\n\t\t\t\tlet refs = this.index.search(this.query);\n\t\t\t\treturn refs.map(ref => {\n\t\t\t\t\treturn this.itemMap.get(ref.ref);\n\t\t\t\t});\n\t\t\t}\n\n\t\t\treturn this.items;\n\t\t},\n\t\tsortedItems(){\n\t\t\tif(this.sortBy && this.sortOrder){\n\t\t\t\t\n\t\t\t\tlet sortedItems = sortFunctions.has(this.sortBy)\n\t\t\t\t\t? this.filteredItems.sort(sortFunctions.get(this.sortBy))\n\t\t\t\t\t: this.filteredItems.sort((a, b) => {\n\t\t\t\t\t\tlet aValue;\n\t\t\t\t\t\tlet bValue;\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (this.fieldAccessors && this.sortBy in this.fieldAccessors) {\n\t\t\t\t\t\t\taValue = this.fieldAccessors[this.sortBy](a);\n\t\t\t\t\t\t\tbValue = this.fieldAccessors[this.sortBy](b);\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\taValue = a[this.sortBy];\n\t\t\t\t\t\t\tbValue = b[this.sortBy];\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (Number.isNaN(aValue))\n\t\t\t\t\t\t\taValue = aValue.toUpperCase();\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (Number.isNaN(bValue))\n\t\t\t\t\t\t\tbValue = bValue.toUpperCase();\n\t\t\t\t\t\t\n\t\t\t\t\t\tif(aValue < bValue)\n\t\t\t\t\t\t\treturn -1;\n\t\t\t\t\t\tif(aValue > bValue)\n\t\t\t\t\t\t\treturn 1;\n\t\t\t\t\t\treturn 0;\n\t\t\t\t\t});\n\t\t\t\t\n\t\t\t\treturn this.sortOrder === 'asc'\n\t\t\t\t\t? sortedItems\n\t\t\t\t\t: sortedItems.reverse();\n\t\t\t}\n\t\t\t\n\t\t\treturn this.filteredItems;\n\t\t},\n\t\tpaginatedItems(){\n\t\t\tlet paginatedItems = [];\n\t\t\tlet items = this.sortedItems.slice();\n\t\t\twhile(items.length > 0)\n\t\t\t\tpaginatedItems.push(items.splice(0, this.itemsPerPage));\n\n\t\t\treturn paginatedItems;\n\t\t},\n\t\tcurrentPageItems(){\n\t\t\treturn this.paginatedItems[this.page];\n\t\t}\n\t},\n\tmethods: {\n\t\tsnakeCaseToWords\n\t},\n\tcomponents: {\n\t\tListPaginator\n\t}\n};\n</script>\n\n<style scoped>\n\t.list-header {\n\t\ttext-align: right;\n\t}\n\n\t.list-header input[type=\"search\"] {\n\t\twidth: 300px;\n\t}\n\t\n\t.list {\n\t\tpadding: 0;\n\t}\n\n\t.list li {\n\t\tlist-style: none;\n\t}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.list-header[data-v-6d54e2f6] {\n\ttext-align: right;\n}\n.list-header input[type=\"search\"][data-v-6d54e2f6] {\n\twidth: 300px;\n}\n.list[data-v-6d54e2f6] {\n\tpadding: 0;\n}\n.list li[data-v-6d54e2f6] {\n\tlist-style: none;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ComponentList.vue?209ac950"],"names":[],"mappings":";AAuLA;CACA,kBAAA;CACA;AAEA;CACA,aAAA;CACA;AAEA;CACA,WAAA;CACA;AAEA;CACA,iBAAA;CACA","file":"ComponentList.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"list-header form-inline\">\n\t\t\t<select class=\"form-control\" v-model=\"sortBy\">\n\t\t\t\t<option v-for=\"field of fields\" :value=\"field\">\n\t\t\t\t\t{{ renderFieldName(field) }}\n\t\t\t\t</option>\n\t\t\t</select>\n\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t@click=\"sortOrder = sortOrder === 'asc' ? 'desc' : 'asc'\">\n\t\t\t\t<span v-if=\"sortOrder === 'asc'\"\n\t\t\t\t\tclass=\"glyphicon glyphicon-sort-by-alphabet\"></span>\n\t\t\t\t<span v-else\n\t\t\t\t\tclass=\"glyphicon glyphicon-sort-by-alphabet-alt\"></span>\n\t\t\t</button>\n\t\t\t<input type=\"search\" class=\"form-control\" v-model=\"query\"\n\t\t\t\tplaceholder=\"Search\" />\n\t\t</div>\n\t\t<ol class=\"list\">\n\t\t\t<slot v-for=\"item of currentPageItems\" v-bind=\"item\"></slot>\n\t\t</ol>\n\t\t<list-paginator v-model=\"page\" :paginatedItems=\"paginatedItems\"\n\t\t\t:itemsPerPage=\"itemsPerPage\"\n\t\t\t@pageSize=\"itemsPerPage = arguments[0]\" />\n\t</div>\n</template>\n\n<script>\nimport ListPaginator from './ListPaginator.vue';\n\nimport lunr from 'lunr';\n\nimport { snakeCaseToWords } from 'modules/utils.js';\nimport { sortFunctions } from 'modules/report-utils.js';\n\nexport default {\n\tprops: {\n\t\tfields: {\n\t\t\ttype: Array,\n\t\t\tdefault(){\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\titems: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\tfieldAccessors: {\n\t\t\ttype: Object,\n\t\t\trequired: false\n\t\t},\n\t\tdefaultSortBy: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\tdefaultSortOrder: {\n\t\t\ttype: String,\n\t\t\tvalidator(order) {\n\t\t\t\treturn ['asc', 'desc'].includes(order);\n\t\t\t},\n\t\t\tdefault: 'asc'\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tquery: null,\n\t\t\tpage: 0,\n\t\t\titemsPerPage: 10,\n\t\t\tsortBy: this.defaultSortBy || this.fields[0],\n\t\t\tsortOrder: this.defaultSortOrder\n\t\t};\n\t},\n\tcomputed: {\n\t\titemMap(){\n\t\t\tlet map = new Map();\n\t\t\tthis.items.map(item => {\n\t\t\t\tmap.set(item.id, item);\n\t\t\t});\n\n\t\t\treturn map;\n\t\t},\n\t\tindex(){\n\t\t\tlet fields = this.fields;\n\n\t\t\tlet index = lunr(function(){\n\t\t\t\tfields.map(field => {\n\t\t\t\t\tlet name, options;\n\t\t\t\t\tif(typeof field === 'string'){\n\t\t\t\t\t\tname = field;\n\t\t\t\t\t}\n\t\t\t\t\telse{\n\t\t\t\t\t\tname = field.name;\n\t\t\t\t\t\toptions = field;\n\t\t\t\t\t}\n\t\t\t\t\tthis.field(name, options);\n\t\t\t\t});\n\t\t\t});\n\n\t\t\tthis.items.map(item => {\n\t\t\t\tif (this.fieldAccessors) {\n\t\t\t\t\tfor (let field in this.fieldAccessors) {\n\t\t\t\t\t\titem[field] = this.fieldAccessors[field](item);\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\tindex.add(item);\n\t\t\t});\n\n\t\t\treturn index;\n\t\t},\n\t\tfilteredItems(){\n\t\t\tif(this.query){\n\t\t\t\tlet refs = this.index.search(this.query);\n\t\t\t\treturn refs.map(ref => {\n\t\t\t\t\treturn this.itemMap.get(ref.ref);\n\t\t\t\t});\n\t\t\t}\n\n\t\t\treturn this.items;\n\t\t},\n\t\tsortedItems(){\n\t\t\tif(this.sortBy && this.sortOrder){\n\t\t\t\t\n\t\t\t\treturn sortFunctions.has(this.sortBy)\n\t\t\t\t\t? this.filteredItems.sort(sortFunctions.get(this.sortBy))\n\t\t\t\t\t: this.filteredItems.sort((a, b) => {\n\t\t\t\t\t\tlet aValue;\n\t\t\t\t\t\tlet bValue;\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (this.fieldAccessors && this.sortBy in this.fieldAccessors) {\n\t\t\t\t\t\t\taValue = this.fieldAccessors[this.sortBy](a);\n\t\t\t\t\t\t\tbValue = this.fieldAccessors[this.sortBy](b);\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\taValue = a[this.sortBy];\n\t\t\t\t\t\t\tbValue = b[this.sortBy];\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (Number.isNaN(aValue))\n\t\t\t\t\t\t\taValue = aValue.toUpperCase();\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (Number.isNaN(bValue))\n\t\t\t\t\t\t\tbValue = bValue.toUpperCase();\n\t\t\t\t\t\t\n\t\t\t\t\t\tif(aValue < bValue)\n\t\t\t\t\t\t\treturn this.sortOrder === 'asc'\n\t\t\t\t\t\t\t\t? -1\n\t\t\t\t\t\t\t\t: 1;\n\t\t\t\t\t\tif(aValue > bValue)\n\t\t\t\t\t\t\treturn this.sortOrder === 'asc'\n\t\t\t\t\t\t\t\t? 1\n\t\t\t\t\t\t\t\t: -1;\n\t\t\t\t\t\treturn 0;\n\t\t\t\t\t});\n\t\t\t}\n\t\t\t\n\t\t\treturn this.filteredItems;\n\t\t},\n\t\tpaginatedItems(){\n\t\t\tlet paginatedItems = [];\n\t\t\tlet items = this.sortedItems.slice();\n\t\t\twhile(items.length > 0)\n\t\t\t\tpaginatedItems.push(items.splice(0, this.itemsPerPage));\n\n\t\t\treturn paginatedItems;\n\t\t},\n\t\tcurrentPageItems(){\n\t\t\treturn this.paginatedItems[this.page];\n\t\t}\n\t},\n\tmethods: {\n\t\trenderFieldName(field) {\n\t\t\tif (field === 'id')\n\t\t\t\treturn 'ID';\n\t\t\t\n\t\t\treturn snakeCaseToWords(field);\n\t\t}\n\t},\n\tcomponents: {\n\t\tListPaginator\n\t}\n};\n</script>\n\n<style scoped>\n\t.list-header {\n\t\ttext-align: right;\n\t}\n\n\t.list-header input[type=\"search\"] {\n\t\twidth: 300px;\n\t}\n\t\n\t.list {\n\t\tpadding: 0;\n\t}\n\n\t.list li {\n\t\tlist-style: none;\n\t}\n</style>\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -6602,7 +6624,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": field
       }
-    }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.snakeCaseToWords(field)) + "\n\t\t\t")])
+    }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.renderFieldName(field)) + "\n\t\t\t")])
   })), _vm._v(" "), _c('button', {
     staticClass: "btn btn-default",
     attrs: {

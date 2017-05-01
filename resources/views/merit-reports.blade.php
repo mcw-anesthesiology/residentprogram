@@ -33,7 +33,8 @@
 	<div class="container body-block">
 		<component-list v-if="meritReports" :items="meritReports"
 				:fields="meritReportFields"
-				:field-accessors="meritReportFieldAccessors">
+				:field-accessors="meritReportFieldAccessors"
+				default-sort-order="desc">
 			<template scope="item">
 				<merit-report-list-item v-bind="item" @click="handleViewReport">
 				</merit-report-list-item>
