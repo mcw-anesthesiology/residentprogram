@@ -9,7 +9,6 @@ class MeritReportForm extends Model
     protected $table = 'merit_reports_forms';
 	
 	protected $fillable = [
-		'id',
 		'name',
 		'version',
 		'form'

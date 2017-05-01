@@ -47,7 +47,7 @@
 							<label class="containing-label control-label">
 								Current {{ name }}
 								<textarea class="previous-json form-control"
-									readonly :value="currentValue"></textarea>
+									readonly :value="pastValues[0].form"></textarea>
 							</label>
 						</div>
 					</div>
@@ -91,9 +91,9 @@ export default {
 			type: String,
 			default: 'JSON'
 		},
-		currentValue: {
-			type: String,
-			default: ''
+		pastValues: {
+			type: Array,
+			default: []
 		}
 	},
 	data() {

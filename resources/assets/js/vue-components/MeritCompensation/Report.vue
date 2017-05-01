@@ -1,9 +1,9 @@
 <template>
 	<div>
-		<academic-year-selector :value="dates"
-			@input="handleDatesInput" />
+		<academic-year-selector v-model="dates" />
 		<merit-compensation-checklist v-bind="checklist"
-			@input="handleChecklistInput" @save="handleSave" @submit="handleSubmit" />
+			:title="title"
+			@save="handleSave" @submit="handleSubmit" />
 	</div>
 </template>
 
@@ -29,37 +29,42 @@ export default {
 		status: {
 			type: String,
 			default: 'pending'
+		},
+		title: {
+			type: String,
+			require: true
 		}
 	},
 	data() {
 		return {
-			
+			dates: {
+				startDate: this.period_start,
+				endDate: this.period_end
+			},
+			checklist: JSON.parse(this.report)
 		};
 	},
 	
 	computed: {
-		dates() {
-			return {
-				startDate: this.period_start,
-				endDate: this.period_end
-			};
-		}
+
 	},
 	
 	methods: {
-		handleDatesInput(dates) {
-			this.$emit('input', {
-				period_start: dates.startDate,
-				period_end: dates.endDate
-			});
-		},
-		handleChecklistInput(checklist) {
-			this.$emit('input', {
-				report: Object.assign({}, this.report, checklist)
+		handleSave() {
+			this.$emit('save', {
+				period_start: this.dates.startDate,
+				period_end: this.dates.endDate,
+				report: this.checklist,
+				status: this.status
 			});
 		},
 		handleSubmit() {
-			this.$emit('submit');
+			this.$emit('submit', {
+				period_start: this.dates.startDate,
+				period_end: this.dates.endDate,
+				report: this.checklist,
+				status: 'complete'
+			});
 		}
 	},
 	
