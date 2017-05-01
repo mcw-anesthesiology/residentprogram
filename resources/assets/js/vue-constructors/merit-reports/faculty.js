@@ -5,7 +5,11 @@ import MeritCompensationReport from 'vue-components/MeritCompensation/Report.vue
 import MeritReportListItem from 'vue-components/MeritCompensation/ReportListItem.vue';
 
 import { getFetchHeaders, okOrThrow, jsonOrThrow } from 'modules/utils.js';
-import { academicYearForDate, isoDateStringObject } from 'modules/date-utils.js';
+import {
+	academicYearForDate,
+	isoDateStringObject,
+	datesEqual
+} from 'modules/date-utils.js';
 
 export default function createFacultyMeritReports(el, propsData) {
 	return new Vue({
@@ -77,11 +81,16 @@ export default function createFacultyMeritReports(el, propsData) {
 			needsToCompleteReport() {
 				if (!this.meritReports || this.meritReports.length === 0)
 					return true;
+					
 				
-				return !this.meritReports.some(report =>
-					report.period_start === this.currentYearlyMeritDateRange.startDate
-					&& report.period_end === this.currentYearlyMeritDateRange.endDate
-				);
+				return !this.meritReports.some(report => {
+					let periodDates = {
+						startDate: report.period_start,
+						endDate: report.period_end
+					};
+					
+					return datesEqual(periodDates, this.currentYearlyMeritDateRange);
+				});
 			}
 		},
 		

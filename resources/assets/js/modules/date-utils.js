@@ -8,7 +8,7 @@ export function isoDateStringObject(dates){
 	dates = Object.assign({}, dates);
 	Object.keys(dates).map(key => {
 		let date = dates[key];
-		if(date && typeof date !== 'string')
+		if(date)
 			dates[key] = isoDateString(date);
 	});
 
