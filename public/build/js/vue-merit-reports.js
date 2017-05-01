@@ -498,7 +498,12 @@ function createFacultyMeritReports(el, propsData) {
 				if (!this.meritReports || this.meritReports.length === 0) return true;
 
 				return !this.meritReports.some(function (report) {
-					return report.period_start === _this2.currentYearlyMeritDateRange.startDate && report.period_end === _this2.currentYearlyMeritDateRange.endDate;
+					var periodDates = {
+						startDate: report.period_start,
+						endDate: report.period_end
+					};
+
+					return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_date_utils_js__["datesEqual"])(periodDates, _this2.currentYearlyMeritDateRange);
 				});
 			}
 		},
