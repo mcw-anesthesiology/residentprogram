@@ -3,8 +3,6 @@
 	"title": "Merit Report Checklist",
 	"type": "object",
 	"properties": {
-		"title": {"type": "string"},
-		"version": {"type": "number"},
 		"pages": {
 			"type": "array",
 			"items": {
@@ -13,8 +11,6 @@
 		}
 	},
 	"required": [
-		"title",
-		"version",
 		"pages"
 	],
 	"definitions": {

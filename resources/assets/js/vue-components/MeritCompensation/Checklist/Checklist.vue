@@ -27,10 +27,6 @@ export default {
 			type: String,
 			required: true
 		},
-		version: {
-			type: Number,
-			required: true
-		},
 		pages: {
 			type: Array,
 			required: true

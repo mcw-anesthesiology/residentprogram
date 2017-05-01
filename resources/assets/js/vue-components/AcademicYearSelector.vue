@@ -28,13 +28,14 @@ export default {
 		minDate: {
 			type: String,
 			default() {
-				return isoDateString(moment());
+				return isoDateString(academicYearForDate(moment()).endDate);
 			}
 		},
 		maxDate: {
 			type: String,
 			default() {
-				return academicYearForDate(moment().add(1, 'year')).startDate;
+				return isoDateString(
+					academicYearForDate(moment().add(1, 'year')).startDate);
 			}
 		},
 		descending: {

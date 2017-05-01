@@ -1,16 +1,12 @@
 <template>
 	<div class="merit-report-list-item">
 		<div class="row">
-			<div class="col-sm-1 id-cell">
-				<small>#</small>
-				<span>{{ id }}</span>
-			</div>
-			<div class="col-sm-5 name-cell">
-				<span class="name">{{ name }}</span>
+			<div class="col-sm-6 name-cell">
+				<span class="name">{{ currentForm.name }}</span>
 			</div>
 			<div class="col-sm-3 version-cell">
 				<small>Version</small>
-				<span>{{ version }}</span>
+				<span>{{ currentForm.version }}</span>
 			</div>
 			<div class="col-sm-3 controls-cell text-right">
 				<button type="button" class="btn btn-sm btn-info"
@@ -20,7 +16,7 @@
 				</button>
 				<confirmation-button class="btn btn-sm btn-danger"
 						pressed-class="btn btn-sm btn-warning"
-						@click="$emit('delete', id)">
+						@click="$emit('delete')">
 					<span class="glyphicon glyphicon-remove"></span>
 					Delete
 					
@@ -39,27 +35,15 @@ import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
 
 export default {
 	props: {
-		id: {
-			type: Number,
-			required: true
-		},
-		name: {
-			type: String,
-			required: true
-		},
-		version: {
-			type: Number,
-			required: true
-		},
-		form: {
-			type: String,
+		forms: {
+			type: Array,
 			required: true
 		}
 	},
 	
 	computed: {
-		formObject() {
-			return JSON.parse(this.form);
+		currentForm() {
+			return this.forms[0];
 		}
 	},
 	

@@ -19,19 +19,18 @@
 						@input="merit = Object.assign({}, merit, {name: $event.target.value})" />
 				</label>
 			</div>
-			<json-schema-editor :current-value="merit.form"
+			<json-schema-editor :past-values="pastMeritForms"
 				schema-url="/schemas/merit-report.json" name="merit form"
 				@submit="handleMeritSubmit"
 				@close="merit = null"></json-schema-editor>
 		</div>
 		
-		<component-list :fields="formFields" :items="meritForms" v-cloak>
-			<template scope="item">
-				<merit-report-list-item v-bind="item" @click="merit = item"
-					@delete="removeMeritForm(item.id)">
-				</merit-report-list-item>
-			</template>
-		</component-list>
+		<ul v-cloak>
+			<merit-report-list-item v-for="forms of groupedMeritForms"
+				:key="forms[0].name" :forms="forms"
+				@click="editMeritForm(forms)"
+				@delete="removeMeritForms(forms)" />
+		</ul>
 		
 		<alert-list v-model="alerts"></alert-list>
 	</div>
@@ -48,7 +47,7 @@
 					<select-two class="form-control"
 							:value="meritReportTypeForms[reportType]"
 							@input="handleReportTypeInput(reportType, arguments[0])">
-						<option v-for="form of meritForms" :value="form.id">
+						<option v-for="form of currentForms" :value="form.name">
 							@{{ form.name }}
 						</option>
 					</select-two>

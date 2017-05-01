@@ -4,7 +4,8 @@
 	<div class="container body-block">
 		<merit-compensation-report v-if="meritCompensationReport"
 			v-bind="meritCompensationReport"
-			@input="handleReportInput"
+			:title="yearlyFacultyMeritForm.name"
+			@save="handleSave"
 			@submit="handleSubmit">
 		</merit-compensation-report>
 		

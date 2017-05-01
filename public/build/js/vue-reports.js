@@ -96,7 +96,7 @@ var UNESCAPE_ALL_RE = new RegExp(UNESCAPE_MD_RE.source + '|' + ENTITY_RE.source,
 
 var DIGITAL_ENTITY_TEST_RE = /^#((?:x[a-f0-9]{1,8}|[0-9]{1,8}))/i;
 
-var entities = __webpack_require__(107);
+var entities = __webpack_require__(110);
 
 function replaceEntityPattern(match, name) {
   var code = 0;
@@ -202,7 +202,7 @@ function isWhiteSpace(code) {
 ////////////////////////////////////////////////////////////////////////////////
 
 /*eslint-disable max-len*/
-var UNICODE_PUNCT_RE = __webpack_require__(71);
+var UNICODE_PUNCT_RE = __webpack_require__(72);
 
 // Currently without astral characters support.
 function isPunctChar(ch) {
@@ -273,8 +273,8 @@ function normalizeReference(str) {
 // bundled size (e.g. a browser build).
 //
 exports.lib                 = {};
-exports.lib.mdurl           = __webpack_require__(111);
-exports.lib.ucmicro         = __webpack_require__(416);
+exports.lib.mdurl           = __webpack_require__(114);
+exports.lib.ucmicro         = __webpack_require__(422);
 
 exports.assign              = assign;
 exports.isString            = isString;
@@ -374,6 +374,40 @@ module.exports = Component.exports
 /* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(13),
+  /* template */
+  __webpack_require__(15),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/SelectTwo.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] SelectTwo.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2434126b", Component.options)
+  } else {
+    hotAPI.reload("data-v-2434126b", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
 
 /* styles */
 __webpack_require__(41)
@@ -409,118 +443,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(16),
-  /* template */
-  __webpack_require__(19),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/SelectTwo.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] SelectTwo.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2434126b", Component.options)
-  } else {
-    hotAPI.reload("data-v-2434126b", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
 /* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/* styles */
-__webpack_require__(42)
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(26),
-  /* template */
-  __webpack_require__(38),
-  /* scopeId */
-  "data-v-7d00f708",
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/StartEndDate.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] StartEndDate.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7d00f708", Component.options)
-  } else {
-    hotAPI.reload("data-v-7d00f708", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/* styles */
-__webpack_require__(43)
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(23),
-  /* template */
-  __webpack_require__(39),
-  /* scopeId */
-  "data-v-8d03363a",
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/BootstrapAlert.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] BootstrapAlert.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-8d03363a", Component.options)
-  } else {
-    hotAPI.reload("data-v-8d03363a", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 15 */,
-/* 16 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -684,8 +607,123 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(42)
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(26),
+  /* template */
+  __webpack_require__(38),
+  /* scopeId */
+  "data-v-7d00f708",
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/StartEndDate.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] StartEndDate.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7d00f708", Component.options)
+  } else {
+    hotAPI.reload("data-v-7d00f708", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('select', {
+    attrs: {
+      "name": _vm.name,
+      "id": _vm.id,
+      "required": _vm.required,
+      "multiple": _vm.multiple
+    }
+  }, [_vm._t("default"), _vm._v(" "), _vm._l((_vm.stringOptions), function(option) {
+    return [(option.children && option.children.length > 0) ? _c('optgroup', {
+      attrs: {
+        "label": option.text
+      }
+    }, _vm._l((option.children), function(child) {
+      return _c('option', {
+        domProps: {
+          "value": child.id
+        }
+      }, [_vm._v("\n\t\t\t\t" + _vm._s(child.text) + "\n\t\t\t")])
+    })) : (option.id) ? _c('option', {
+      domProps: {
+        "value": option.id
+      }
+    }, [_vm._v("\n\t\t\t" + _vm._s(option.text) + "\n\t\t")]) : _vm._e()]
+  })], 2)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-2434126b", module.exports)
+  }
+}
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(43)
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(23),
+  /* template */
+  __webpack_require__(39),
+  /* scopeId */
+  "data-v-8d03363a",
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/BootstrapAlert.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] BootstrapAlert.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-8d03363a", Component.options)
+  } else {
+    hotAPI.reload("data-v-8d03363a", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
 /* 17 */,
-/* 18 */
+/* 18 */,
+/* 19 */
 /***/ (function(module, exports) {
 
 /*
@@ -937,44 +975,6 @@ function updateLink(linkElement, obj) {
 
 
 /***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('select', {
-    attrs: {
-      "name": _vm.name,
-      "id": _vm.id,
-      "required": _vm.required,
-      "multiple": _vm.multiple
-    }
-  }, [_vm._t("default"), _vm._v(" "), _vm._l((_vm.stringOptions), function(option) {
-    return [(option.children && option.children.length > 0) ? _c('optgroup', {
-      attrs: {
-        "label": option.text
-      }
-    }, _vm._l((option.children), function(child) {
-      return _c('option', {
-        domProps: {
-          "value": child.id
-        }
-      }, [_vm._v("\n\t\t\t\t" + _vm._s(child.text) + "\n\t\t\t")])
-    })) : (option.id) ? _c('option', {
-      domProps: {
-        "value": option.id
-      }
-    }, [_vm._v("\n\t\t\t" + _vm._s(option.text) + "\n\t\t")]) : _vm._e()]
-  })], 2)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-2434126b", module.exports)
-  }
-}
-
-/***/ }),
 /* 20 */,
 /* 21 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -990,7 +990,7 @@ function a(e,t){function n(){e._flatpickr&&E(e._flatpickr),e._flatpickr=oe,oe.el
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__);
 //
 //
@@ -1816,7 +1816,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 var content = __webpack_require__(28);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(18)(content, {});
+var update = __webpack_require__(19)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -2181,9 +2181,9 @@ if(false) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(181),
+  __webpack_require__(185),
   /* template */
-  __webpack_require__(467),
+  __webpack_require__(473),
   /* scopeId */
   null,
   /* cssModules */
@@ -2215,13 +2215,13 @@ module.exports = Component.exports
 
 
 /* styles */
-__webpack_require__(80)
+__webpack_require__(83)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(58),
+  __webpack_require__(59),
   /* template */
-  __webpack_require__(78),
+  __webpack_require__(81),
   /* scopeId */
   "data-v-6d54e2f6",
   /* cssModules */
@@ -2253,13 +2253,13 @@ module.exports = Component.exports
 
 
 /* styles */
-__webpack_require__(508)
+__webpack_require__(515)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(224),
+  __webpack_require__(230),
   /* template */
-  __webpack_require__(471),
+  __webpack_require__(478),
   /* scopeId */
   null,
   /* cssModules */
@@ -2289,14 +2289,15 @@ module.exports = Component.exports
 /* 55 */,
 /* 56 */,
 /* 57 */,
-/* 58 */
+/* 58 */,
+/* 59 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ListPaginator_vue__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ListPaginator_vue__ = __webpack_require__(76);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ListPaginator_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ListPaginator_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lunr__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lunr__ = __webpack_require__(68);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lunr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lunr__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__ = __webpack_require__(27);
@@ -2447,12 +2448,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PaginatorLink_vue__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PaginatorLink_vue__ = __webpack_require__(77);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PaginatorLink_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__PaginatorLink_vue__);
 //
 //
@@ -2521,7 +2522,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2551,14 +2552,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 61 */,
-/* 62 */
+/* 62 */,
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var clone = __webpack_require__(276);
-var convert = __webpack_require__(277);
-var string = __webpack_require__(279);
+var clone = __webpack_require__(282);
+var convert = __webpack_require__(283);
+var string = __webpack_require__(285);
 
 var Color = function (obj) {
 	if (obj instanceof Color) {
@@ -3017,9 +3018,9 @@ module.exports = Color;
 
 
 /***/ }),
-/* 63 */,
 /* 64 */,
-/* 65 */
+/* 65 */,
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -3033,7 +3034,7 @@ exports.push([module.i, "\n.paginator[data-v-05c830ce] {\n\ttext-align: center;\
 
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -3047,7 +3048,7 @@ exports.push([module.i, "\n.list-header[data-v-6d54e2f6] {\n\ttext-align: right;
 
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -5130,18 +5131,18 @@ lunr.TokenStore.prototype.toJSON = function () {
 
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 
-module.exports = __webpack_require__(364);
+module.exports = __webpack_require__(370);
 
 
 /***/ }),
-/* 69 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5500,7 +5501,7 @@ module.exports = Ruler;
 
 
 /***/ }),
-/* 70 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5704,26 +5705,27 @@ module.exports = Token;
 
 
 /***/ }),
-/* 71 */
+/* 72 */
 /***/ (function(module, exports) {
 
 module.exports=/[!-#%-\*,-/:;\?@\[-\]_\{\}\xA1\xA7\xAB\xB6\xB7\xBB\xBF\u037E\u0387\u055A-\u055F\u0589\u058A\u05BE\u05C0\u05C3\u05C6\u05F3\u05F4\u0609\u060A\u060C\u060D\u061B\u061E\u061F\u066A-\u066D\u06D4\u0700-\u070D\u07F7-\u07F9\u0830-\u083E\u085E\u0964\u0965\u0970\u0AF0\u0DF4\u0E4F\u0E5A\u0E5B\u0F04-\u0F12\u0F14\u0F3A-\u0F3D\u0F85\u0FD0-\u0FD4\u0FD9\u0FDA\u104A-\u104F\u10FB\u1360-\u1368\u1400\u166D\u166E\u169B\u169C\u16EB-\u16ED\u1735\u1736\u17D4-\u17D6\u17D8-\u17DA\u1800-\u180A\u1944\u1945\u1A1E\u1A1F\u1AA0-\u1AA6\u1AA8-\u1AAD\u1B5A-\u1B60\u1BFC-\u1BFF\u1C3B-\u1C3F\u1C7E\u1C7F\u1CC0-\u1CC7\u1CD3\u2010-\u2027\u2030-\u2043\u2045-\u2051\u2053-\u205E\u207D\u207E\u208D\u208E\u2308-\u230B\u2329\u232A\u2768-\u2775\u27C5\u27C6\u27E6-\u27EF\u2983-\u2998\u29D8-\u29DB\u29FC\u29FD\u2CF9-\u2CFC\u2CFE\u2CFF\u2D70\u2E00-\u2E2E\u2E30-\u2E44\u3001-\u3003\u3008-\u3011\u3014-\u301F\u3030\u303D\u30A0\u30FB\uA4FE\uA4FF\uA60D-\uA60F\uA673\uA67E\uA6F2-\uA6F7\uA874-\uA877\uA8CE\uA8CF\uA8F8-\uA8FA\uA8FC\uA92E\uA92F\uA95F\uA9C1-\uA9CD\uA9DE\uA9DF\uAA5C-\uAA5F\uAADE\uAADF\uAAF0\uAAF1\uABEB\uFD3E\uFD3F\uFE10-\uFE19\uFE30-\uFE52\uFE54-\uFE61\uFE63\uFE68\uFE6A\uFE6B\uFF01-\uFF03\uFF05-\uFF0A\uFF0C-\uFF0F\uFF1A\uFF1B\uFF1F\uFF20\uFF3B-\uFF3D\uFF3F\uFF5B\uFF5D\uFF5F-\uFF65]|\uD800[\uDD00-\uDD02\uDF9F\uDFD0]|\uD801\uDD6F|\uD802[\uDC57\uDD1F\uDD3F\uDE50-\uDE58\uDE7F\uDEF0-\uDEF6\uDF39-\uDF3F\uDF99-\uDF9C]|\uD804[\uDC47-\uDC4D\uDCBB\uDCBC\uDCBE-\uDCC1\uDD40-\uDD43\uDD74\uDD75\uDDC5-\uDDC9\uDDCD\uDDDB\uDDDD-\uDDDF\uDE38-\uDE3D\uDEA9]|\uD805[\uDC4B-\uDC4F\uDC5B\uDC5D\uDCC6\uDDC1-\uDDD7\uDE41-\uDE43\uDE60-\uDE6C\uDF3C-\uDF3E]|\uD807[\uDC41-\uDC45\uDC70\uDC71]|\uD809[\uDC70-\uDC74]|\uD81A[\uDE6E\uDE6F\uDEF5\uDF37-\uDF3B\uDF44]|\uD82F\uDC9F|\uD836[\uDE87-\uDE8B]|\uD83A[\uDD5E\uDD5F]/
 
 /***/ }),
-/* 72 */,
 /* 73 */,
-/* 74 */
+/* 74 */,
+/* 75 */,
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(79)
+__webpack_require__(82)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(59),
+  __webpack_require__(60),
   /* template */
-  __webpack_require__(76),
+  __webpack_require__(78),
   /* scopeId */
   "data-v-05c830ce",
   /* cssModules */
@@ -5750,14 +5752,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 75 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(60),
+  __webpack_require__(61),
   /* template */
-  __webpack_require__(77),
+  __webpack_require__(79),
   /* scopeId */
   null,
   /* cssModules */
@@ -5784,7 +5786,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 76 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -5886,7 +5888,7 @@ if (false) {
 }
 
 /***/ }),
-/* 77 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -5911,7 +5913,8 @@ if (false) {
 }
 
 /***/ }),
-/* 78 */
+/* 80 */,
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -6009,13 +6012,13 @@ if (false) {
 }
 
 /***/ }),
-/* 79 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(65);
+var content = __webpack_require__(66);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -6035,13 +6038,13 @@ if(false) {
 }
 
 /***/ }),
-/* 80 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(66);
+var content = __webpack_require__(67);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -6061,9 +6064,6 @@ if(false) {
 }
 
 /***/ }),
-/* 81 */,
-/* 82 */,
-/* 83 */,
 /* 84 */,
 /* 85 */,
 /* 86 */,
@@ -6073,11 +6073,14 @@ if(false) {
 /* 90 */,
 /* 91 */,
 /* 92 */,
-/* 93 */
+/* 93 */,
+/* 94 */,
+/* 95 */,
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var cssKeywords = __webpack_require__(61);
+var cssKeywords = __webpack_require__(62);
 
 // NOTE: conversions should only return primitive values (i.e. arrays, or
 //       values that give correct `typeof` results).
@@ -6940,14 +6943,14 @@ convert.rgb.gray = function (rgb) {
 
 
 /***/ }),
-/* 94 */,
-/* 95 */,
-/* 96 */,
 /* 97 */,
 /* 98 */,
 /* 99 */,
 /* 100 */,
-/* 101 */
+/* 101 */,
+/* 102 */,
+/* 103 */,
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6993,7 +6996,7 @@ detector.isLegacyOpera = function() {
 
 
 /***/ }),
-/* 102 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7019,11 +7022,11 @@ utils.forEach = function(collection, callback) {
 
 
 /***/ }),
-/* 103 */,
-/* 104 */
+/* 106 */,
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(105);
+var root = __webpack_require__(108);
 
 /** Built-in value references. */
 var Symbol = root.Symbol;
@@ -7032,10 +7035,10 @@ module.exports = Symbol;
 
 
 /***/ }),
-/* 105 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var freeGlobal = __webpack_require__(351);
+var freeGlobal = __webpack_require__(357);
 
 /** Detect free variable `self`. */
 var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
@@ -7047,7 +7050,7 @@ module.exports = root;
 
 
 /***/ }),
-/* 106 */
+/* 109 */
 /***/ (function(module, exports) {
 
 /**
@@ -7084,7 +7087,7 @@ module.exports = isObject;
 
 
 /***/ }),
-/* 107 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7093,11 +7096,11 @@ module.exports = isObject;
 
 
 /*eslint quotes:0*/
-module.exports = __webpack_require__(339);
+module.exports = __webpack_require__(345);
 
 
 /***/ }),
-/* 108 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7132,7 +7135,7 @@ module.exports.HTML_OPEN_CLOSE_TAG_RE = HTML_OPEN_CLOSE_TAG_RE;
 
 
 /***/ }),
-/* 109 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7266,7 +7269,7 @@ module.exports.postProcess = function emphasis(state) {
 
 
 /***/ }),
-/* 110 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7390,47 +7393,47 @@ module.exports.postProcess = function strikethrough(state) {
 
 
 /***/ }),
-/* 111 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 
-module.exports.encode = __webpack_require__(404);
-module.exports.decode = __webpack_require__(403);
-module.exports.format = __webpack_require__(405);
-module.exports.parse  = __webpack_require__(406);
+module.exports.encode = __webpack_require__(410);
+module.exports.decode = __webpack_require__(409);
+module.exports.format = __webpack_require__(411);
+module.exports.parse  = __webpack_require__(412);
 
 
 /***/ }),
-/* 112 */,
-/* 113 */
+/* 115 */,
+/* 116 */
 /***/ (function(module, exports) {
 
 module.exports=/[\0-\x1F\x7F-\x9F]/
 
 /***/ }),
-/* 114 */
+/* 117 */
 /***/ (function(module, exports) {
 
 module.exports=/[ \xA0\u1680\u2000-\u200A\u202F\u205F\u3000]/
 
 /***/ }),
-/* 115 */
+/* 118 */
 /***/ (function(module, exports) {
 
 module.exports=/[\0-\uD7FF\uE000-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]/
 
 /***/ }),
-/* 116 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(180),
+  __webpack_require__(184),
   /* template */
-  __webpack_require__(484),
+  __webpack_require__(491),
   /* scopeId */
   null,
   /* cssModules */
@@ -7457,18 +7460,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 117 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(509)
+__webpack_require__(516)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(182),
+  __webpack_require__(187),
   /* template */
-  __webpack_require__(474),
+  __webpack_require__(481),
   /* scopeId */
   "data-v-5b23c1a4",
   /* cssModules */
@@ -7495,19 +7498,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 118 */,
-/* 119 */
+/* 121 */,
+/* 122 */,
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(521)
+__webpack_require__(528)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(216),
+  __webpack_require__(222),
   /* template */
-  __webpack_require__(490),
+  __webpack_require__(497),
   /* scopeId */
   "data-v-fe5e41f8",
   /* cssModules */
@@ -7534,19 +7538,19 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 120 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(514)
-__webpack_require__(513)
+__webpack_require__(521)
+__webpack_require__(520)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(221),
+  __webpack_require__(227),
   /* template */
-  __webpack_require__(480),
+  __webpack_require__(487),
   /* scopeId */
   "data-v-7cfd5fbe",
   /* cssModules */
@@ -7573,14 +7577,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 121 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(223),
+  __webpack_require__(229),
   /* template */
-  __webpack_require__(472),
+  __webpack_require__(479),
   /* scopeId */
   null,
   /* cssModules */
@@ -7607,10 +7611,6 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 122 */,
-/* 123 */,
-/* 124 */,
-/* 125 */,
 /* 126 */,
 /* 127 */,
 /* 128 */,
@@ -7623,14 +7623,19 @@ module.exports = Component.exports
 /* 135 */,
 /* 136 */,
 /* 137 */,
-/* 138 */
+/* 138 */,
+/* 139 */,
+/* 140 */,
+/* 141 */,
+/* 142 */,
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(210),
+  __webpack_require__(216),
   /* template */
-  __webpack_require__(470),
+  __webpack_require__(476),
   /* scopeId */
   null,
   /* cssModules */
@@ -7657,18 +7662,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 139 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(511)
+__webpack_require__(518)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(211),
+  __webpack_require__(217),
   /* template */
-  __webpack_require__(477),
+  __webpack_require__(484),
   /* scopeId */
   "data-v-70d4db5d",
   /* cssModules */
@@ -7695,14 +7700,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 140 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(218),
+  __webpack_require__(224),
   /* template */
-  __webpack_require__(451),
+  __webpack_require__(457),
   /* scopeId */
   null,
   /* cssModules */
@@ -7729,14 +7734,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 141 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(219),
+  __webpack_require__(225),
   /* template */
-  __webpack_require__(466),
+  __webpack_require__(472),
   /* scopeId */
   null,
   /* cssModules */
@@ -7763,18 +7768,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 142 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(500)
+__webpack_require__(507)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(220),
+  __webpack_require__(226),
   /* template */
-  __webpack_require__(459),
+  __webpack_require__(465),
   /* scopeId */
   "data-v-29d12b6c",
   /* cssModules */
@@ -7801,19 +7806,19 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 143 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(499)
-__webpack_require__(498)
+__webpack_require__(506)
+__webpack_require__(505)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(222),
+  __webpack_require__(228),
   /* template */
-  __webpack_require__(458),
+  __webpack_require__(464),
   /* scopeId */
   "data-v-26074fc7",
   /* cssModules */
@@ -7840,7 +7845,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 144 */
+/* 149 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10250,8 +10255,8 @@ if (inBrowser && window.Vue) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(55)))
 
 /***/ }),
-/* 145 */,
-/* 146 */
+/* 150 */,
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10265,9 +10270,9 @@ if (inBrowser && window.Vue) {
 
 
 
-var base64 = __webpack_require__(228)
-var ieee754 = __webpack_require__(340)
-var isArray = __webpack_require__(341)
+var base64 = __webpack_require__(234)
+var ieee754 = __webpack_require__(346)
+var isArray = __webpack_require__(347)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -12048,11 +12053,6 @@ function isnan (val) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20)))
 
 /***/ }),
-/* 147 */,
-/* 148 */,
-/* 149 */,
-/* 150 */,
-/* 151 */,
 /* 152 */,
 /* 153 */,
 /* 154 */,
@@ -12081,7 +12081,11 @@ function isnan (val) {
 /* 177 */,
 /* 178 */,
 /* 179 */,
-/* 180 */
+/* 180 */,
+/* 181 */,
+/* 182 */,
+/* 183 */,
+/* 184 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12116,16 +12120,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 181 */
+/* 185 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js__ = __webpack_require__(91);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js__ = __webpack_require__(94);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_chart_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_element_resize_detector__ = __webpack_require__(332);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_element_resize_detector__ = __webpack_require__(338);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_element_resize_detector___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_element_resize_detector__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_constants_js__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_constants_js__ = __webpack_require__(18);
 //
 //
 //
@@ -12237,16 +12241,17 @@ var erd = __WEBPACK_IMPORTED_MODULE_1_element_resize_detector___default()({
 };
 
 /***/ }),
-/* 182 */
+/* 186 */,
+/* 187 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_markdown_it__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_markdown_it__ = __webpack_require__(69);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_markdown_it___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_markdown_it__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AlertList_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AlertList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__MediumEditor_vue__ = __webpack_require__(426);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__MediumEditor_vue__ = __webpack_require__(432);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__MediumEditor_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__MediumEditor_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ShowHideButton_vue__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ShowHideButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__ShowHideButton_vue__);
@@ -12556,18 +12561,18 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 };
 
 /***/ }),
-/* 183 */,
-/* 184 */,
-/* 185 */,
-/* 186 */,
-/* 187 */
+/* 188 */,
+/* 189 */,
+/* 190 */,
+/* 191 */,
+/* 192 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_markdown_it__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_markdown_it__ = __webpack_require__(69);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_markdown_it___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_markdown_it__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormReaderQuestionOption_vue__ = __webpack_require__(423);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormReaderQuestionOption_vue__ = __webpack_require__(429);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormReaderQuestionOption_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__FormReaderQuestionOption_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(3);
 //
@@ -12656,12 +12661,12 @@ var _md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 };
 
 /***/ }),
-/* 188 */
+/* 193 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_markdown_it__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_markdown_it__ = __webpack_require__(69);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_markdown_it___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_markdown_it__);
 //
 //
@@ -12711,22 +12716,22 @@ var _md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 };
 
 /***/ }),
-/* 189 */,
-/* 190 */,
-/* 191 */
+/* 194 */,
+/* 195 */,
+/* 196 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_medium_editor__ = __webpack_require__(407);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_medium_editor__ = __webpack_require__(413);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_medium_editor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_medium_editor__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_medium_editor_dist_css_medium_editor_css__ = __webpack_require__(412);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_medium_editor_dist_css_medium_editor_css__ = __webpack_require__(418);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_medium_editor_dist_css_medium_editor_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_medium_editor_dist_css_medium_editor_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_medium_editor_dist_css_themes_bootstrap_css__ = __webpack_require__(413);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_medium_editor_dist_css_themes_bootstrap_css__ = __webpack_require__(419);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_medium_editor_dist_css_themes_bootstrap_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_medium_editor_dist_css_themes_bootstrap_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_lodash_debounce__ = __webpack_require__(354);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_lodash_debounce__ = __webpack_require__(360);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_lodash_debounce___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_lodash_debounce__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ReplacementList_vue__ = __webpack_require__(441);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ReplacementList_vue__ = __webpack_require__(447);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ReplacementList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__ReplacementList_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(3);
 //
@@ -12821,11 +12826,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 192 */,
-/* 193 */,
-/* 194 */,
-/* 195 */,
-/* 196 */,
 /* 197 */,
 /* 198 */,
 /* 199 */,
@@ -12837,7 +12837,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* 205 */,
 /* 206 */,
 /* 207 */,
-/* 208 */
+/* 208 */,
+/* 209 */,
+/* 210 */,
+/* 211 */,
+/* 212 */,
+/* 213 */,
+/* 214 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12882,20 +12888,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 209 */
+/* 215 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_color__ = __webpack_require__(62);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_color__ = __webpack_require__(63);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_color___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_color__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BootstrapButtonInput_vue__ = __webpack_require__(116);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BootstrapButtonInput_vue__ = __webpack_require__(119);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BootstrapButtonInput_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__BootstrapButtonInput_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ChartjsChart_vue__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ChartjsChart_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__ChartjsChart_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__DataTable_vue__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__DataTable_vue__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__DataTable_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_constants_js__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_constants_js__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_datatable_utils_js__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_report_utils_js__ = __webpack_require__(27);
@@ -13289,14 +13295,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 210 */
+/* 216 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__StatsReport_vue__ = __webpack_require__(120);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__StatsReport_vue__ = __webpack_require__(124);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__StatsReport_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__StatsReport_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__AlertList_vue__);
@@ -13389,22 +13395,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 211 */
+/* 217 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SelectTwo_vue__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SelectTwo_vue__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SelectTwo_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__SelectTwo_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__FormReportQuestion_vue__ = __webpack_require__(443);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__FormReportQuestion_vue__ = __webpack_require__(449);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__FormReportQuestion_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__FormReportQuestion_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__DataTable_vue__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__DataTable_vue__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__DataTable_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__BootstrapAlert_vue__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__BootstrapAlert_vue__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__BootstrapAlert_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__BootstrapAlert_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__AlertList_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__AlertList_vue__);
@@ -13746,7 +13752,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 			var hasSubject = this.report.subjectEvals[this.subjectId] && this.report.subjectEvals[this.subjectId].length > 0;
 
-			Promise.all([__webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, 82)), __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, 83))]).then(function (_ref) {
+			Promise.all([__webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, 85)), __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, 86))]).then(function (_ref) {
 				var _ref2 = _slicedToArray(_ref, 2),
 				    pdfmake = _ref2[0],
 				    vfs = _ref2[1];
@@ -13883,20 +13889,20 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 };
 
 /***/ }),
-/* 212 */
+/* 218 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormReader_FormReaderQuestion_vue__ = __webpack_require__(422);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormReader_FormReaderQuestion_vue__ = __webpack_require__(428);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormReader_FormReaderQuestion_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__FormReader_FormReaderQuestion_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormReportQuestionOptionStats_vue__ = __webpack_require__(444);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormReportQuestionOptionStats_vue__ = __webpack_require__(450);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormReportQuestionOptionStats_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__FormReportQuestionOptionStats_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ChartjsChart_vue__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ChartjsChart_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__ChartjsChart_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ShowHideButton_vue__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ShowHideButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__ShowHideButton_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_constants_js__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_constants_js__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(3);
 //
 //
@@ -14067,7 +14073,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 213 */
+/* 219 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14104,26 +14110,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 214 */
+/* 220 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_color__ = __webpack_require__(62);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_color__ = __webpack_require__(63);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_color___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_color__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BootstrapAlert_vue__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BootstrapAlert_vue__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__BootstrapAlert_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__BootstrapAlert_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__AlertList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__BootstrapButtonInput_vue__ = __webpack_require__(116);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__BootstrapButtonInput_vue__ = __webpack_require__(119);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__BootstrapButtonInput_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__BootstrapButtonInput_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ChartjsChart_vue__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ChartjsChart_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__ChartjsChart_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DataTable_vue__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DataTable_vue__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__DataTable_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__SvgIcon_vue__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__SvgIcon_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__SvgIcon_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_constants_js__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_constants_js__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__modules_utils_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__modules_datatable_utils_js__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__modules_report_utils_js__ = __webpack_require__(27);
@@ -14511,7 +14517,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 			if (!this.report.subjectEvaluations[this.subjectId]) return;
 
-			Promise.all([__webpack_require__.e/* import() */(0/* duplicate */).then(__webpack_require__.bind(null, 82)), __webpack_require__.e/* import() */(1/* duplicate */).then(__webpack_require__.bind(null, 83))]).then(function (_ref) {
+			Promise.all([__webpack_require__.e/* import() */(0/* duplicate */).then(__webpack_require__.bind(null, 85)), __webpack_require__.e/* import() */(1/* duplicate */).then(__webpack_require__.bind(null, 86))]).then(function (_ref) {
 				var _ref2 = _slicedToArray(_ref, 2),
 				    pdfmake = _ref2[0],
 				    vfs = _ref2[1];
@@ -14633,7 +14639,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 };
 
 /***/ }),
-/* 215 */
+/* 221 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14748,16 +14754,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 216 */
+/* 222 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__EvaluationDetailsListItem_vue__ = __webpack_require__(446);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__EvaluationDetailsListItem_vue__ = __webpack_require__(452);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__EvaluationDetailsListItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__EvaluationDetailsListItem_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShowHideButton_vue__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ShowHideButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ShowHideButton_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_constants_js__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_constants_js__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_datatable_utils_js__ = __webpack_require__(8);
 //
@@ -14886,21 +14892,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 217 */
+/* 223 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EvaluationListItem_vue__ = __webpack_require__(119);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EvaluationListItem_vue__ = __webpack_require__(123);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EvaluationListItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__EvaluationListItem_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ComponentList_vue__ = __webpack_require__(53);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ComponentList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__ComponentList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__EmailEditor_vue__ = __webpack_require__(117);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__EmailEditor_vue__ = __webpack_require__(120);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__EmailEditor_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__EmailEditor_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__ = __webpack_require__(18);
 //
 //
 //
@@ -15012,20 +15018,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 218 */
+/* 224 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Evaluations_vue__ = __webpack_require__(447);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Evaluations_vue__ = __webpack_require__(453);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Evaluations_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Evaluations_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TrainingLevelSelect_vue__ = __webpack_require__(121);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TrainingLevelSelect_vue__ = __webpack_require__(125);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TrainingLevelSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__TrainingLevelSelect_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SelectTwo_vue__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SelectTwo_vue__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SelectTwo_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__SelectTwo_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__EmailEditor_vue__ = __webpack_require__(117);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__EmailEditor_vue__ = __webpack_require__(120);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__EmailEditor_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__EmailEditor_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__ = __webpack_require__(7);
@@ -15189,14 +15195,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 219 */
+/* 225 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Needs_EvaluationListItem_vue__ = __webpack_require__(119);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Needs_EvaluationListItem_vue__ = __webpack_require__(123);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Needs_EvaluationListItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Needs_EvaluationListItem_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__AlertList_vue__);
@@ -15294,7 +15300,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 220 */
+/* 226 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15358,22 +15364,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 221 */
+/* 227 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_color__ = __webpack_require__(62);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_color__ = __webpack_require__(63);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_color___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_color__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AlertList_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AlertList_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ChartjsChart_vue__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ChartjsChart_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__ChartjsChart_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__DataTable_vue__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__DataTable_vue__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__DataTable_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__SvgIcon_vue__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__SvgIcon_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__SvgIcon_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_utils_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__modules_report_utils_js__ = __webpack_require__(27);
@@ -15682,7 +15688,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 		exportPdf: function exportPdf() {
 			var _this = this;
 
-			Promise.all([__webpack_require__.e/* import() */(0/* duplicate */).then(__webpack_require__.bind(null, 82)), __webpack_require__.e/* import() */(1/* duplicate */).then(__webpack_require__.bind(null, 83))]).then(function (_ref) {
+			Promise.all([__webpack_require__.e/* import() */(0/* duplicate */).then(__webpack_require__.bind(null, 85)), __webpack_require__.e/* import() */(1/* duplicate */).then(__webpack_require__.bind(null, 86))]).then(function (_ref) {
 				var _ref2 = _slicedToArray(_ref, 2),
 				    pdfmake = _ref2[0],
 				    vfs = _ref2[1];
@@ -15813,26 +15819,26 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 };
 
 /***/ }),
-/* 222 */
+/* 228 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AggregateReport_vue__ = __webpack_require__(442);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AggregateReport_vue__ = __webpack_require__(448);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AggregateReport_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__AggregateReport_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__IndividualReport_vue__ = __webpack_require__(445);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__IndividualReport_vue__ = __webpack_require__(451);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__IndividualReport_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__IndividualReport_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__StartEndDate_vue__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__StartEndDate_vue__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__StartEndDate_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__StartEndDate_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__StatsReport_vue__ = __webpack_require__(120);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__StatsReport_vue__ = __webpack_require__(124);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__StatsReport_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__StatsReport_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__TrainingLevelSelect_vue__ = __webpack_require__(121);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__TrainingLevelSelect_vue__ = __webpack_require__(125);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__TrainingLevelSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__TrainingLevelSelect_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__AlertList_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__AlertList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__BootstrapAlert_vue__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__BootstrapAlert_vue__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__BootstrapAlert_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__BootstrapAlert_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__SelectTwo_vue__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__SelectTwo_vue__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__SelectTwo_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__SelectTwo_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__SvgIcon_vue__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__SvgIcon_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__SvgIcon_vue__);
@@ -16188,7 +16194,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 223 */
+/* 229 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16216,7 +16222,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 224 */
+/* 230 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16255,10 +16261,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 225 */,
-/* 226 */,
-/* 227 */,
-/* 228 */
+/* 231 */,
+/* 232 */,
+/* 233 */,
+/* 234 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16379,13 +16385,13 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 229 */
+/* 235 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(230);
+var utils = __webpack_require__(236);
 
 module.exports = function batchProcessorMaker(options) {
     options             = options || {};
@@ -16524,7 +16530,7 @@ function Batch() {
 
 
 /***/ }),
-/* 230 */
+/* 236 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16546,12 +16552,6 @@ function getOption(options, name, defaultValue) {
 
 
 /***/ }),
-/* 231 */,
-/* 232 */,
-/* 233 */,
-/* 234 */,
-/* 235 */,
-/* 236 */,
 /* 237 */,
 /* 238 */,
 /* 239 */,
@@ -16591,7 +16591,13 @@ function getOption(options, name, defaultValue) {
 /* 273 */,
 /* 274 */,
 /* 275 */,
-/* 276 */
+/* 276 */,
+/* 277 */,
+/* 278 */,
+/* 279 */,
+/* 280 */,
+/* 281 */,
+/* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {var clone = (function() {
@@ -16755,14 +16761,14 @@ if (typeof module === 'object' && module.exports) {
   module.exports = clone;
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(146).Buffer))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151).Buffer))
 
 /***/ }),
-/* 277 */
+/* 283 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var conversions = __webpack_require__(93);
-var route = __webpack_require__(278);
+var conversions = __webpack_require__(96);
+var route = __webpack_require__(284);
 
 var convert = {};
 
@@ -16842,10 +16848,10 @@ module.exports = convert;
 
 
 /***/ }),
-/* 278 */
+/* 284 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var conversions = __webpack_require__(93);
+var conversions = __webpack_require__(96);
 
 /*
 	this function routes a model to all other models.
@@ -16946,11 +16952,11 @@ module.exports = function (fromModel) {
 
 
 /***/ }),
-/* 279 */
+/* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var colorNames = __webpack_require__(61);
+var colorNames = __webpack_require__(62);
 
 module.exports = {
    getRgba: getRgba,
@@ -17173,12 +17179,6 @@ for (var name in colorNames) {
 
 
 /***/ }),
-/* 280 */,
-/* 281 */,
-/* 282 */,
-/* 283 */,
-/* 284 */,
-/* 285 */,
 /* 286 */,
 /* 287 */,
 /* 288 */,
@@ -17189,7 +17189,13 @@ for (var name in colorNames) {
 /* 293 */,
 /* 294 */,
 /* 295 */,
-/* 296 */
+/* 296 */,
+/* 297 */,
+/* 298 */,
+/* 299 */,
+/* 300 */,
+/* 301 */,
+/* 302 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -17203,38 +17209,6 @@ exports.push([module.i, "@-webkit-keyframes medium-editor-image-loading {\n  0% 
 
 
 /***/ }),
-/* 297 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)();
-// imports
-
-
-// module
-exports.push([module.i, ".medium-toolbar-arrow-under:after {\n  border-color: #428bca transparent transparent transparent;\n  top: 60px; }\n\n.medium-toolbar-arrow-over:before {\n  border-color: transparent transparent #428bca transparent; }\n\n.medium-editor-toolbar {\n  background-color: #428bca;\n  border: 1px solid #357ebd;\n  border-radius: 4px; }\n  .medium-editor-toolbar li button {\n    background-color: transparent;\n    border: none;\n    border-right: 1px solid #357ebd;\n    box-sizing: border-box;\n    color: #fff;\n    height: 60px;\n    min-width: 60px;\n    -webkit-transition: background-color .2s ease-in, color .2s ease-in;\n            transition: background-color .2s ease-in, color .2s ease-in; }\n    .medium-editor-toolbar li button:hover {\n      background-color: #3276b1;\n      color: #fff; }\n  .medium-editor-toolbar li .medium-editor-button-first {\n    border-bottom-left-radius: 4px;\n    border-top-left-radius: 4px; }\n  .medium-editor-toolbar li .medium-editor-button-last {\n    border-bottom-right-radius: 4px;\n    border-right: none;\n    border-top-right-radius: 4px; }\n  .medium-editor-toolbar li .medium-editor-button-active {\n    background-color: #3276b1;\n    color: #fff; }\n\n.medium-editor-toolbar-form {\n  background: #428bca;\n  border-radius: 4px;\n  color: #fff; }\n  .medium-editor-toolbar-form .medium-editor-toolbar-input {\n    background: #428bca;\n    color: #fff;\n    height: 60px; }\n    .medium-editor-toolbar-form .medium-editor-toolbar-input::-webkit-input-placeholder {\n      color: #fff;\n      color: rgba(255, 255, 255, 0.8); }\n    .medium-editor-toolbar-form .medium-editor-toolbar-input:-moz-placeholder {\n      /* Firefox 18- */\n      color: #fff;\n      color: rgba(255, 255, 255, 0.8); }\n    .medium-editor-toolbar-form .medium-editor-toolbar-input::-moz-placeholder {\n      /* Firefox 19+ */\n      color: #fff;\n      color: rgba(255, 255, 255, 0.8); }\n    .medium-editor-toolbar-form .medium-editor-toolbar-input:-ms-input-placeholder {\n      color: #fff;\n      color: rgba(255, 255, 255, 0.8); }\n  .medium-editor-toolbar-form a {\n    color: #fff; }\n\n.medium-editor-toolbar-anchor-preview {\n  background: #428bca;\n  border-radius: 4px;\n  color: #fff; }\n\n.medium-editor-placeholder:after {\n  color: #357ebd; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 298 */,
-/* 299 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.btn[data-v-0409124b] {\n\tmargin-top: 1px;\n}\naside[data-v-0409124b] {\n\tfont-size: 0.8em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ReplacementList.vue?6173db7f"],"names":[],"mappings":";AAsCA;CACA,gBAAA;CACA;AAEA;CACA,iBAAA;CACA","file":"ReplacementList.vue","sourcesContent":["<template>\n\t<aside>\n\t\t<show-hide-button v-model=\"show.replacements\"\n\t\t\t\tclass=\"btn btn-default btn-xs\">\n\t\t\tReplacements:\n\t\t</show-hide-button>\n\t\t<ul v-show=\"show.replacements\">\n\t\t\t<li v-for=\"replacement of replacements\">\n\t\t\t\t[[{{ replacement }}]]\n\t\t\t</li>\n\t\t</ul>\n\t</aside>\n</template>\n\n<script>\nimport ShowHideButton from './ShowHideButton.vue';\n\nexport default {\n\tprops: {\n\t\treplacements: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\treplacements: false\n\t\t\t}\n\t\t};\n\t},\n\tcomponents: {\n\t\tShowHideButton\n\t}\n};\n</script>\n\n<style scoped>\n\t.btn {\n\t\tmargin-top: 1px;\n\t}\n\n\taside {\n\t\tfont-size: 0.8em;\n\t}\n</style>\n"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-/* 300 */,
-/* 301 */,
-/* 302 */,
 /* 303 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17243,7 +17217,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.show-container div[data-v-170d0144] {\n\tdisplay: flex;\n\tflex-wrap: wrap;\n}\n.show-container div label[data-v-170d0144] {\n\tmargin: 0.5em 1em;\n}\n.graphs-container[data-v-170d0144] {\n\tmargin: 2em 0;\n}\n.graphs-container .chart-options[data-v-170d0144] {\n\tmargin: 2em 0 0;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/AggregateReport.vue?69de9ee2"],"names":[],"mappings":";AAieA;CACA,cAAA;CACA,gBAAA;CACA;AAEA;CACA,kBAAA;CACA;AAEA;CACA,cAAA;CACA;AAEA;CACA,gBAAA;CACA","file":"AggregateReport.vue","sourcesContent":["<template>\n\t<div class=\"container body-block\">\n\t\t<h3>Aggregate</h3>\n\t\t<fieldset class=\"show-container\">\n\t\t\t<legend>Show</legend>\n\t\t\t<div>\n\t\t\t\t<label v-for=\"(part, name) of show\">\n\t\t\t\t\t<input type=\"checkbox\" v-model=\"show[name]\" />\n\t\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t</fieldset>\n\n\t\t<data-table id=\"aggregate-table\" :bordered=\"true\" :thead=\"tableThead\"\n\t\t\t:data=\"tableData\" :config=\"tableConfig\" :exportable=\"true\"\n\t\t\t:exportFilename=\"tableExportFilename\" />\n\t\t\t\n\t\t<div class=\"graphs-container\" v-if=\"show.charts\">\n\t\t\t<div class=\"row\">\n\t\t\t\t<div v-if=\"show.competencies\" :class=\"chartWidth\">\n\t\t\t\t\t<chartjs-chart id=\"aggregate-competency-chart\" :type=\"chartType\"\n\t\t\t\t\t\t:options=\"chartOptions\" :data=\"competencyChartData\" />\n\t\t\t\t</div>\n\t\t\t\t<div v-if=\"show.milestones\" :class=\"chartWidth\">\n\t\t\t\t\t<chartjs-chart id=\"aggregate-milestone-chart\" :type=\"chartType\"\n\t\t\t\t\t\t:options=\"chartOptions\" :data=\"milestoneChartData\" />\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"row chart-options\">\n\t\t\t\t<div class=\"col-sm-offset-5 col-sm-2\">\n\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t<span class=\"panel-title\">Chart options</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t<fieldset v-if=\"show.milestones && show.competencies\">\n\t\t\t\t\t\t\t\t<legend>Orientation</legend>\n\t\t\t\t\t\t\t\t<div class=\"btn-group btn-group-justified\" data-toggle=\"buttons\">\n\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"horizontal\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-horizontal\"></span>\n\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"vertical\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-vertical\"></span>\n\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</fieldset>\n\n\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\t\tType\n\t\t\t\t\t\t\t\t\t<select class=\"form-control\" v-model=\"chartType\">\n\t\t\t\t\t\t\t\t\t\t<option v-for=\"type of chartTypes\" :value=\"type\">\n\t\t\t\t\t\t\t\t\t\t\t{{ ucfirst(type) }}\n\t\t\t\t\t\t\t\t\t\t</option>\n\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport Color from 'color';\n\nimport BootstrapButtonInput from '../BootstrapButtonInput.vue';\nimport ChartjsChart from '../ChartjsChart.vue';\nimport DataTable from '../DataTable.vue';\n\nimport { CHART_COLORS } from 'modules/constants.js';\nimport { camelCaseToWords, ucfirst } from 'modules/utils.js';\nimport { renderTrainingLevel } from 'modules/datatable-utils.js';\nimport { getAverageLevel } from 'modules/report-utils.js';\nimport { isoDateString } from 'modules/date-utils.js';\n\nexport default {\n\tprops: {\n\t\treport: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t},\n\t\tmilestones: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\tcompetencies: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tmilestones: false,\n\t\t\t\tcompetencies: true,\n\t\t\t\taverages: true,\n\t\t\t\taverageLevels: false,\n\t\t\t\tevaluationCounts: true,\n\t\t\t\tstandardDeviations: false,\n\t\t\t\ttotals: true,\n\t\t\t\tcharts: true\n\t\t\t},\n\t\t\ttransformations: {\n\t\t\t\tlevelRatings: false\n\t\t\t},\n\t\t\tchartType: 'radar',\n\t\t\tchartOrientation: 'vertical'\n\t\t};\n\t},\n\tcomputed: {\n\t\torderedMilestones(){\n\t\t\tif(!this.report.milestones)\n\t\t\t\treturn [];\n\t\t\t\t\n\t\t\treturn this.milestones.filter(milestone =>\n\t\t\t\tmilestone.id in this.report.milestones\n\t\t\t);\n\t\t},\n\t\torderedCompetencies(){\n\t\t\tif(!this.report.competencies)\n\t\t\t\treturn [];\n\t\t\t\t\n\t\t\treturn this.competencies.filter(competency =>\n\t\t\t\tcompetency.id in this.report.competencies\n\t\t\t);\n\t\t},\n\t\tcolsPerItem(){\n\t\t\treturn [\n\t\t\t\tthis.show.averages,\n\t\t\t\tthis.show.averageLevels,\n\t\t\t\tthis.show.evaluationCounts,\n\t\t\t\tthis.show.standardDeviations\n\t\t\t].filter(col => col).length;\n\t\t},\n\t\tnameRowspan(){\n\t\t\tlet rowspan = 1;\n\t\t\tif(this.show.milestones && this.show.competencies)\n\t\t\t\trowspan++;\n\t\t\tif(this.showSomething && this.colsPerItem > 1)\n\t\t\t\trowspan++;\n\t\t\t\t\n\t\t\treturn rowspan;\n\t\t},\n\t\tshowSomething(){\n\t\t\treturn this.show.milestones || this.show.competencies || this.show.totals;\n\t\t},\n\t\tmilestoneColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.milestones).length;\n\t\t},\n\t\tcompetencyColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.competencies).length;\n\t\t},\n\t\ttableThead(){\n\t\t\tlet thead = [];\n\t\t\tlet row;\n\t\t\tif(this.show.milestones && this.show.competencies){\n\t\t\t\trow = [];\n\t\t\t\trow.push({rowspan: this.nameRowspan, text: 'Name'});\n\t\t\t\trow.push({\n\t\t\t\t\tcolspan: this.milestoneColspan,\n\t\t\t\t\ttext: 'Milestones'\n\t\t\t\t});\n\t\t\t\trow.push({\n\t\t\t\t\tcolspan: this.competencyColspan,\n\t\t\t\t\ttext: 'Competencies'\n\t\t\t\t});\n\t\t\t\tif(this.show.totals)\n\t\t\t\t\trow.push({colspan: 3, text: 'All'});\n\n\t\t\t\tthead.push(row);\n\t\t\t}\n\n\n\t\t\tif(this.showSomething && this.colsPerItem > 1){\n\t\t\t\trow = [];\n\t\t\t\tif(this.nameRowspan === 2)\n\t\t\t\t\trow.push({rowspan: this.nameRowspan, text: 'Name'});\n\t\t\t\t\n\t\t\t\tif(this.show.milestones){\n\t\t\t\t\tthis.orderedMilestones.map(milestone => {\n\t\t\t\t\t\trow.push({\n\t\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\t\ttext: milestone.title\n\t\t\t\t\t\t});\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t\tif(this.show.competencies){\n\t\t\t\t\tthis.orderedCompetencies.map(competency => {\n\t\t\t\t\t\trow.push({\n\t\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\t\ttext: competency.title\n\t\t\t\t\t\t});\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t\tif(this.show.totals)\n\t\t\t\t\trow.push({colspan: 3, text: 'Total'});\n\n\t\t\t\tif(row.length > 0)\n\t\t\t\t\tthead.push(row);\n\t\t\t}\n\t\t\t\n\n\t\t\trow = [];\n\t\t\tif(this.nameRowspan === 1)\n\t\t\t\trow.push({rowspan: this.nameRowspan, text: 'Name'});\n\t\t\tif(this.show.milestones){\n\t\t\t\tthis.orderedMilestones.map(milestone => {\n\t\t\t\t\tif(this.colsPerItem > 1){\n\t\t\t\t\t\tif(this.show.averages)\n\t\t\t\t\t\t\trow.push({text: 'Average'});\n\t\t\t\t\t\tif(this.show.averageLevels)\n\t\t\t\t\t\t\trow.push({text: 'Average Level'});\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push({text: 'Std. Dev.'});\n\t\t\t\t\t\tif(this.show.evaluationCounts)\n\t\t\t\t\t\t\trow.push({text: '#'});\n\t\t\t\t\t}\n\t\t\t\t\telse {\n\t\t\t\t\t\trow.push({\n\t\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\t\ttext: milestone.title\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t}\n\t\t\tif(this.show.competencies){\n\t\t\t\tthis.orderedCompetencies.map(competency => {\n\t\t\t\t\tif(this.colsPerItem > 1){\n\t\t\t\t\t\tif(this.show.averages)\n\t\t\t\t\t\t\trow.push({text: 'Average'});\n\t\t\t\t\t\tif(this.show.averageLevels)\n\t\t\t\t\t\t\trow.push({text: 'Average Level'});\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push({text: 'Std. Dev.'});\n\t\t\t\t\t\tif(this.show.evaluationCounts)\n\t\t\t\t\t\t\trow.push({text: '#'});\n\t\t\t\t\t}\n\t\t\t\t\telse {\n\t\t\t\t\t\trow.push({\n\t\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\t\ttext: competency.title\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t}\n\t\t\tif(this.show.totals){\n\t\t\t\trow.push({text: '# Evaluators'});\n\t\t\t\trow.push({text: '# Evaluations'});\n\t\t\t\trow.push({text: '# Trainee Requests'});\n\t\t\t}\n\n\t\t\tif(row.length > 0)\n\t\t\t\tthead.push(row);\n\n\t\t\treturn thead;\n\t\t},\n\t\ttableConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tdom: 'lfprtip',\n\t\t\t\tscrollX: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tfixedColumns: true,\n\t\t\t};\n\t\t},\n\t\ttableData(){\n\t\t\tlet data = [];\n\t\t\tfor(let subjectId in this.report.subjects){\n\t\t\t\tlet row = [];\n\t\t\t\trow.push(`<a href=\"/profile/${subjectId}\" target=\"_blank\">${this.report.subjects[subjectId]}</a>`);\n\t\t\t\tif(this.show.milestones){\n\t\t\t\t\tthis.orderedMilestones.map(milestone => {\n\t\t\t\t\t\tif(this.show.averages)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectMilestone\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId][milestone.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestone[subjectId][milestone.id]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\tif(this.show.averageLevels)\n\t\t\t\t\t\t\trow.push(getAverageLevel(\n\t\t\t\t\t\t\t\tthis.report.subjectMilestone\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId][milestone.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestone[subjectId][milestone.id]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t\t));\n\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectMilestoneDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneDeviations[subjectId][milestone.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestoneDeviations[subjectId][milestone.id]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\tif(this.show.evaluationCounts)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectMilestoneEvals\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneEvals[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneEvals[subjectId][milestone.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestoneEvals[subjectId][milestone.id]).toFixed()\n\t\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\tif(this.colsPerItem === 0)\n\t\t\t\t\t\t\trow.push('');\n\t\t\t\t\t});\n\t\t\t\t}\n\n\t\t\t\tif(this.show.competencies){\n\t\t\t\t\tthis.orderedCompetencies.map(competency => {\n\t\t\t\t\t\tif(this.show.averages)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectCompetency\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId][competency.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetency[subjectId][competency.id]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\tif(this.show.averageLevels)\n\t\t\t\t\t\t\trow.push(getAverageLevel(\n\t\t\t\t\t\t\t\tthis.report.subjectCompetency\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId][competency.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetency[subjectId][competency.id]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t\t));\n\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectCompetencyDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyDeviations[subjectId][competency.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetencyDeviations[subjectId][competency.id]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\n\t\t\t\t\t\tif(this.show.evaluationCounts)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectCompetencyEvals\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyEvals[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyEvals[subjectId][competency.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetencyEvals[subjectId][competency.id]).toFixed()\n\t\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\tif(this.colsPerItem === 0)\n\t\t\t\t\t\t\trow.push('');\n\t\t\t\t\t});\n\t\t\t\t}\n\n\t\t\t\tif(this.show.totals){\n\t\t\t\t\trow.push(\n\t\t\t\t\t\tthis.report.subjectEvaluators[subjectId]\n\t\t\t\t\t\t\t? Object.keys(this.report.subjectEvaluators[subjectId]).length\n\t\t\t\t\t\t\t: 0\n\t\t\t\t\t);\n\t\t\t\t\trow.push(\n\t\t\t\t\t\tthis.report.subjectEvals[subjectId]\n\t\t\t\t\t\t\t? Object.keys(this.report.subjectEvals[subjectId]).length\n\t\t\t\t\t\t\t: 0\n\t\t\t\t\t);\n\t\t\t\t\trow.push(\n\t\t\t\t\t\tthis.report.subjectRequests[subjectId]\n\t\t\t\t\t\t\t? Object.keys(this.report.subjectRequests[subjectId]).length\n\t\t\t\t\t\t\t: 0\n\t\t\t\t\t);\n\t\t\t\t}\n\n\t\t\t\tdata.push(row);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\t\ttableExportFilename(){\n\t\t\tlet level = this.report.trainingLevel === 'all'\n\t\t\t\t? ''\n\t\t\t\t: renderTrainingLevel(this.report.trainingLevel);\n\t\t\tlet start = isoDateString(new Date(this.report.startDate.date));\n\t\t\tlet end = isoDateString(new Date(this.report.endDate.date));\n\t\t\tlet now = new Date().toLocaleString();\n\t\t\treturn `Aggregate Report ${level}, ${start} - ${end}, exported ${now}`;\n\t\t},\n\t\tchartTypes(){\n\t\t\treturn [\n\t\t\t\t'radar',\n\t\t\t\t'line',\n\t\t\t\t'bar'\n\t\t\t];\n\t\t},\n\t\tchartWidth(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': this.chartOrientation === 'horizontal',\n\t\t\t\t'col-md-12': this.chartOrientation === 'vertical'\n\t\t\t};\n\t\t},\n\t\tchartOptions(){\n\t\t\treturn {\n\t\t\t\tlegend: {\n\t\t\t\t\tlabels: {\n\t\t\t\t\t\tfontSize: 18,\n\t\t\t\t\t\tfontColor: '#333'\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tcallbacks: {\n\t\t\t\t\t\tlabel(tooltip, data){\n\t\t\t\t\t\t\tlet value = parseFloat(tooltip.yLabel).toFixed(2);\n\t\t\t\t\t\t\tlet name = data.datasets[tooltip.datasetIndex].label;\n\t\t\t\t\t\t\treturn `${name}: ${value}`;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t};\n\t\t},\n\t\tcompetencyChartData(){\n\t\t\tlet color = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: Object.values(this.report.competencies),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Average Competencies',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: Object.values(this.report.averageCompetency)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tmilestoneChartData(){\n\t\t\tlet color = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: Object.values(this.report.milestones),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Average Milestones',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: Object.values(this.report.averageMilestone)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords,\n\t\tucfirst\n\t},\n\tcomponents: {\n\t\tBootstrapButtonInput,\n\t\tChartjsChart,\n\t\tDataTable\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-container div {\n\t\tdisplay: flex;\n\t\tflex-wrap: wrap;\n\t}\n\n\t.show-container div label {\n\t\tmargin: 0.5em 1em;\n\t}\n\n\t.graphs-container {\n\t\tmargin: 2em 0;\n\t}\n\n\t.graphs-container .chart-options {\n\t\tmargin: 2em 0 0;\n\t}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, ".medium-toolbar-arrow-under:after {\n  border-color: #428bca transparent transparent transparent;\n  top: 60px; }\n\n.medium-toolbar-arrow-over:before {\n  border-color: transparent transparent #428bca transparent; }\n\n.medium-editor-toolbar {\n  background-color: #428bca;\n  border: 1px solid #357ebd;\n  border-radius: 4px; }\n  .medium-editor-toolbar li button {\n    background-color: transparent;\n    border: none;\n    border-right: 1px solid #357ebd;\n    box-sizing: border-box;\n    color: #fff;\n    height: 60px;\n    min-width: 60px;\n    -webkit-transition: background-color .2s ease-in, color .2s ease-in;\n            transition: background-color .2s ease-in, color .2s ease-in; }\n    .medium-editor-toolbar li button:hover {\n      background-color: #3276b1;\n      color: #fff; }\n  .medium-editor-toolbar li .medium-editor-button-first {\n    border-bottom-left-radius: 4px;\n    border-top-left-radius: 4px; }\n  .medium-editor-toolbar li .medium-editor-button-last {\n    border-bottom-right-radius: 4px;\n    border-right: none;\n    border-top-right-radius: 4px; }\n  .medium-editor-toolbar li .medium-editor-button-active {\n    background-color: #3276b1;\n    color: #fff; }\n\n.medium-editor-toolbar-form {\n  background: #428bca;\n  border-radius: 4px;\n  color: #fff; }\n  .medium-editor-toolbar-form .medium-editor-toolbar-input {\n    background: #428bca;\n    color: #fff;\n    height: 60px; }\n    .medium-editor-toolbar-form .medium-editor-toolbar-input::-webkit-input-placeholder {\n      color: #fff;\n      color: rgba(255, 255, 255, 0.8); }\n    .medium-editor-toolbar-form .medium-editor-toolbar-input:-moz-placeholder {\n      /* Firefox 18- */\n      color: #fff;\n      color: rgba(255, 255, 255, 0.8); }\n    .medium-editor-toolbar-form .medium-editor-toolbar-input::-moz-placeholder {\n      /* Firefox 19+ */\n      color: #fff;\n      color: rgba(255, 255, 255, 0.8); }\n    .medium-editor-toolbar-form .medium-editor-toolbar-input:-ms-input-placeholder {\n      color: #fff;\n      color: rgba(255, 255, 255, 0.8); }\n  .medium-editor-toolbar-form a {\n    color: #fff; }\n\n.medium-editor-toolbar-anchor-preview {\n  background: #428bca;\n  border-radius: 4px;\n  color: #fff; }\n\n.medium-editor-placeholder:after {\n  color: #357ebd; }\n", ""]);
 
 // exports
 
@@ -17258,40 +17232,14 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.popover dd {\n\tpadding: 0 1em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/TraineeReport.vue?84dd5cd2"],"names":[],"mappings":";AAgZA;CACA,eAAA;CACA","file":"TraineeReport.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block\">\n\t\t\t<h1>Trainee report</h1>\n\t\t\t<start-end-date v-model=\"dates\" />\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"form-group col-sm-6\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tEvaluation training level\n\t\t\t\t\t\t<training-level-select v-model=\"trainingLevel\" />\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group col-sm-6\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tTrainee current training level\n\t\t\t\t\t\t<span class=\"glyphicon glyphicon-question-sign\"\n\t\t\t\t\t\t\t\tref=\"currentTrainingLevelHintGlyph\"></span>\n\t\t\t\t\t\t<training-level-select v-model=\"currentTrainingLevel\" />\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"checkbox\" v-model=\"filterMilestones\" />\n\t\t\t\t\tFilter milestones\n\t\t\t\t</label>\n\t\t\t</div>\n\n\t\t\t<fieldset v-if=\"filterMilestones\">\n\t\t\t\t<legend>Milestones</legend>\n\t\t\t\t<div class=\"filter-milestones-container\">\n\t\t\t\t\t<div v-for=\"(milestoneGroup, index) of milestoneGroups\" class=\"milestone-group\">\n\t\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t\t<label class=\"panel-title\">\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t:checked=\"isEntireMilestoneGroupSelected(index)\"\n\t\t\t\t\t\t\t\t\t\t\t@click=\"toggleEntireMilestoneGroup(index)\" />\n\t\t\t\t\t\t\t\t\t{{ milestoneGroup.text }}\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t\t<div v-for=\"child of milestoneGroup.children\" class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t\t:value=\"child.id\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"milestonesFilter\" />\n\t\t\t\t\t\t\t\t\t\t{{ child.text }}\n\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\t\t\t\n\t\t\t<alert-list v-model=\"alerts\" />\n\n\t\t\t<div class=\"btn-lg-submit-container\">\n\t\t\t\t<button type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t\t@click=\"runReport\">\n\t\t\t\t\tRun report\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div v-if=\"report\">\n\t\t\t<div class=\"container body-block\">\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t<div class=\"col-md-4\">\n\t\t\t\t\t\t\t<bootstrap-alert type=\"info\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-info-sign\"></span>\n\t\t\t\t\t\t\t\tSelect a subject to show\n\t\t\t\t\t\t\t\tindividual reports.\n\t\t\t\t\t\t\t</bootstrap-alert>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"col-sm-10 col-md-7\">\n\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\tSubject\n\t\t\t\t\t\t\t\t<div class=\"input-group\">\n\t\t\t\t\t\t\t\t\t<select-two class=\"form-control\" v-if=\"filteredUsers\"\n\t\t\t\t\t\t\t\t\t\t\t:options=\"filteredUsers\" v-model=\"traineeId\"\n\t\t\t\t\t\t\t\t\t\t\t:multiple=\"multipleTrainees\">\n\t\t\t\t\t\t\t\t\t\t<option v-if=\"!multipleTrainees\" value=\"\">All</option>\n\t\t\t\t\t\t\t\t\t</select-two>\n\t\t\t\t\t\t\t\t\t<span class=\"input-group-addon\">\n\t\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"show.inactiveUsers\" />\n\t\t\t\t\t\t\t\t\t\t\tShow inactive\n\t\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<span class=\"input-group-addon\">\n\t\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"multipleTrainees\" />\n\t\t\t\t\t\t\t\t\t\t\tSelect multiple\n\t\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"col-sm-2 col-md-1\">\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default labelless-button\"\n\t\t\t\t\t\t\t\t\t@click=\"traineeId = null\">\n\t\t\t\t\t\t\t\tClear\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t\t<div class=\"btn-lg-submit-container\">\n\t\t\t\t\t\t<button v-if=\"report && subjects && subjects.length > 0\"\n\t\t\t\t\t\t\t\ttype=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t\t\t\t@click=\"printAll\">\n\t\t\t\t\t\t\tExport all\n\t\t\t\t\t\t\t<svg-icon src=\"/img/icons/pdf.svg\" />\n\t\t\t\t\t\t</button>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t\n\t\t\t<template v-if=\"subjects && subjects.length > 0\">\n\t\t\t\t<individual-report v-for=\"subject of subjects\" :report=\"report\"\n\t\t\t\t\t:subject=\"subject\" ref=\"individualReports\" />\n\t\t\t</template>\n\t\t\t<template v-else>\n\t\t\t\t<stats-report v-if=\"subjectStats\" :report=\"subjectStats\"\n\t\t\t\t\t\ttitle=\"Trainee evaluation statistics by trainee\">\n\t\t\t\t\t<p class=\"text-center\">\n\t\t\t\t\t\tTrainee list can be filtered by\n\t\t\t\t\t\t<b>Trainee current training level</b>\n\t\t\t\t\t\tabove\n\t\t\t\t\t</p>\n\t\t\t\t</stats-report>\n\t\t\t\t<stats-report v-if=\"evaluatorStats\" :report=\"evaluatorStats\"\n\t\t\t\t\t\ttitle=\"Faculty evaluation statistics by trainee\">\n\t\t\t\t\t<p class=\"text-center\">\n\t\t\t\t\t\tTrainee list can be filtered by\n\t\t\t\t\t\t<b>Trainee current training level</b>\n\t\t\t\t\t\tabove\n\t\t\t\t\t</p>\n\t\t\t\t</stats-report>\n\t\t\t\t<aggregate-report :report=\"report\"\n\t\t\t\t\t:milestones=\"milestones\" :competencies=\"competencies\" />\n\t\t\t</template>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport AggregateReport from './AggregateReport.vue';\nimport IndividualReport from './IndividualReport.vue';\nimport StartEndDate from '../StartEndDate.vue';\nimport StatsReport from './StatsReport.vue';\nimport TrainingLevelSelect from './TrainingLevelSelect.vue';\nimport AlertList from '../AlertList.vue';\nimport BootstrapAlert from '../BootstrapAlert.vue';\nimport SelectTwo from '../SelectTwo.vue';\nimport SvgIcon from '../SvgIcon.vue';\n\nimport {\n\tgetFetchHeaders,\n\tjsonOrThrow,\n\tfetchMilestones,\n\tgroupMilestones,\n\tfetchCompetencies\n} from 'modules/utils.js';\nimport { isoDateStringObject, currentQuarter } from 'modules/date-utils.js';\n\nexport default {\n\tprops: {\n\t\tusers: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\tgroupedUsers: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tdates: isoDateStringObject(currentQuarter()),\n\t\t\ttrainingLevel: 'all',\n\t\t\tcurrentTrainingLevel: 'all',\n\t\t\ttraineeId: null,\n\t\t\tfilterMilestones: false,\n\t\t\tmilestonesFilter: [],\n\t\t\tmultipleTrainees: false,\n\n\t\t\tshow: {\n\t\t\t\tinactiveUsers: false\n\t\t\t},\n\n\t\t\treport: null,\n\t\t\tsubjectStats: null,\n\t\t\tevaluatorStats: null,\n\n\t\t\tmilestones: [],\n\t\t\tcompetencies: [],\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\tmounted(){\n\t\tfetchMilestones().then(milestones => {\n\t\t\tthis.milestones = milestones;\n\t\t}).catch(err => {\n\t\t\tconsole.log(err);\n\t\t\tthis.alerts.push({\n\t\t\t\ttype: 'error',\n\t\t\t\thtml: '<strong>Error:</strong> There was a problem fetching milestones'\n\t\t\t});\n\t\t});\n\t\t\n\t\tfetchCompetencies().then(competencies => {\n\t\t\tthis.competencies = competencies;\n\t\t}).catch(err => {\n\t\t\tconsole.log(err);\n\t\t\tthis.alerts.push({\n\t\t\t\ttype: 'error',\n\t\t\t\thtml: '<strong>Error:</strong> There was a problem fetching competencies'\n\t\t\t});\n\t\t});\n\t\t\n\t\t$(this.$refs.currentTrainingLevelHintGlyph).popover({\n\t\t\ttitle: 'Current training level',\n\t\t\tcontent: `\n\t\t\t\t<p>\n\t\t\t\t\tSelecting a <b>current training level</b> will include only\n\t\t\t\t\tactive trainees for that level, whether they have completed\n\t\t\t\t\tevaluations or not.\n\t\t\t\t</p>\n\t\t\t\t<p>\n\t\t\t\t\tAny trainees with completed evaluations associated with the\n\t\t\t\t\t<b>evaluation training level</b> who are not currently\n\t\t\t\t\tin the selected <b>current training level</b> will be\n\t\t\t\t\texcluded.\n\t\t\t\t</p>\n\t\t\t\t<dd>\n\t\t\t\t\t<dt>Example:</dt>\n\t\t\t\t\t<dd>\n\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\tJane is currently a fellow, but she completed her\n\t\t\t\t\t\t\tresidency a month late, at the end of July.\n\t\t\t\t\t\t</p>\n\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\tWhen running reports for July for the incoming CA-3s,\n\t\t\t\t\t\t\tJane's July CA-3 evaluations will be excluded\n\t\t\t\t\t\t\tfrom the report by selecting a\n\t\t\t\t\t\t\t<b>current training level</b> of <i>CA-3</i>.\n\t\t\t\t\t\t</p>\n\t\t\t\t\t</dd>\n\t\t\t\t</dd>`,\n\t\t\thtml: true,\n\t\t\tplacement: 'auto top'\n\t\t});\n\t},\n\n\tcomputed: {\n\t\tmilestoneGroups(){\n\t\t\treturn groupMilestones(this.milestones);\n\t\t},\n\t\tfilteredUsers(){\n\t\t\tlet groupedUsers = this.currentTrainingLevel === 'all'\n\t\t\t\t? this.groupedUsers.filter(userGroup =>\n\t\t\t\t\tuserGroup.text.toLowerCase() !== 'faculty')\n\t\t\t\t: this.groupedUsers.filter(userGroup =>\n\t\t\t\t\tuserGroup.text.toLowerCase() === this.currentTrainingLevel.toLowerCase());\n\t\t\t\n\t\t\treturn this.show.inactiveUsers\n\t\t\t\t? groupedUsers\n\t\t\t\t: groupedUsers.filter(userGroup => userGroup.text !== 'Inactive');\n\n\t\t},\n\t\tsubjects(){\n\t\t\tif(this.traineeId){\n\t\t\t\tlet traineeId = Array.isArray(this.traineeId)\n\t\t\t\t\t? this.traineeId\n\t\t\t\t\t: [this.traineeId];\n\t\t\t\treturn this.users.filter(user => traineeId.includes(user.id.toString()));\n\t\t\t}\n\t\t}\n\t},\n\tmethods: {\n\t\tisEntireMilestoneGroupSelected(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\treturn groupIds.every(id => {\n\t\t\t\treturn this.milestonesFilter.includes(id);\n\t\t\t});\n\t\t},\n\t\ttoggleEntireMilestoneGroup(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\tlet newMilestones = this.milestonesFilter.filter(milestone => {\n\t\t\t\treturn !groupIds.includes(milestone);\n\t\t\t});\n\t\t\tif(!this.isEntireMilestoneGroupSelected(index)){\n\t\t\t\tnewMilestones = newMilestones.concat(groupIds);\n\t\t\t}\n\t\t\tthis.milestonesFilter = newMilestones;\n\t\t},\n\t\trunReport(){\n\t\t\tfetch('/report/aggregate', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate,\n\t\t\t\t\ttrainingLevel: this.trainingLevel,\n\t\t\t\t\tcurrentTrainingLevel: this.currentTrainingLevel,\n\t\t\t\t\tmilestones: this.milestonesFilter\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(report => {\n\t\t\t\tthis.report = Object.assign({}, this.report, report);\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\n\t\t\tfetch('/report/stats/trainee/trainee', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify(Object.assign({}, this.dates, {\n\t\t\t\t\ttrainingLevel: this.currentTrainingLevel\n\t\t\t\t}))\n\t\t\t}).then(jsonOrThrow).then(stats => {\n\t\t\t\tthis.subjectStats = stats;\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t\t\n\t\t\tfetch('/report/stats/faculty/trainee', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify(Object.assign({}, this.dates, {\n\t\t\t\t\ttrainingLevel: this.currentTrainingLevel\n\t\t\t\t}))\n\t\t\t}).then(jsonOrThrow).then(stats => {\n\t\t\t\tthis.evaluatorStats = stats;\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t},\n\t\tprintAll(){\n\t\t\tthis.$refs.individualReports.map(individual => {\n\t\t\t\tindividual.exportPdf();\n\t\t\t});\n\t\t}\n\t},\n\tcomponents: {\n\t\tStartEndDate,\n\t\tAggregateReport,\n\t\tIndividualReport,\n\t\tStatsReport,\n\t\tTrainingLevelSelect,\n\t\tAlertList,\n\t\tBootstrapAlert,\n\t\tSelectTwo,\n\t\tSvgIcon\n\t}\n};\n</script>\n\n<style scoped>\n\t.filter-milestones-container {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tflex-wrap: wrap;\n\t\tjustify-content: flex-start;\n\t\talign-items: stretch;\n\t}\n\n\t.milestone-group {\n\t\tflex-grow: 0;\n\t\tflex-shrink: 1;\n\t\twidth: 250px;\n\t\tmin-width: 200px;\n\t\tmax-width: 100%;\n\t\tmargin: 10px;\n\t}\n\n\t.milestone-group .panel-body {\n\t\theight: 300px;\n\t\toverflow: auto;\n\t}\n\n\t.milestone-group .panel-body label {\n\t\tfont-weight: normal;\n\t}\n</style>\n\n<style>\n\t.popover dd {\n\t\tpadding: 0 1em;\n\t}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.btn[data-v-0409124b] {\n\tmargin-top: 1px;\n}\naside[data-v-0409124b] {\n\tfont-size: 0.8em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ReplacementList.vue?6173db7f"],"names":[],"mappings":";AAsCA;CACA,gBAAA;CACA;AAEA;CACA,iBAAA;CACA","file":"ReplacementList.vue","sourcesContent":["<template>\n\t<aside>\n\t\t<show-hide-button v-model=\"show.replacements\"\n\t\t\t\tclass=\"btn btn-default btn-xs\">\n\t\t\tReplacements:\n\t\t</show-hide-button>\n\t\t<ul v-show=\"show.replacements\">\n\t\t\t<li v-for=\"replacement of replacements\">\n\t\t\t\t[[{{ replacement }}]]\n\t\t\t</li>\n\t\t</ul>\n\t</aside>\n</template>\n\n<script>\nimport ShowHideButton from './ShowHideButton.vue';\n\nexport default {\n\tprops: {\n\t\treplacements: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\treplacements: false\n\t\t\t}\n\t\t};\n\t},\n\tcomponents: {\n\t\tShowHideButton\n\t}\n};\n</script>\n\n<style scoped>\n\t.btn {\n\t\tmargin-top: 1px;\n\t}\n\n\taside {\n\t\tfont-size: 0.8em;\n\t}\n</style>\n"],"sourceRoot":""}]);
 
 // exports
 
 
 /***/ }),
-/* 306 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.filter-milestones-container[data-v-26074fc7] {\n\tdisplay: flex;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tjustify-content: flex-start;\n\talign-items: stretch;\n}\n.milestone-group[data-v-26074fc7] {\n\tflex-grow: 0;\n\tflex-shrink: 1;\n\twidth: 250px;\n\tmin-width: 200px;\n\tmax-width: 100%;\n\tmargin: 10px;\n}\n.milestone-group .panel-body[data-v-26074fc7] {\n\theight: 300px;\n\toverflow: auto;\n}\n.milestone-group .panel-body label[data-v-26074fc7] {\n\tfont-weight: normal;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/TraineeReport.vue?84dd5cd2"],"names":[],"mappings":";AAoXA;CACA,cAAA;CACA,oBAAA;CACA,gBAAA;CACA,4BAAA;CACA,qBAAA;CACA;AAEA;CACA,aAAA;CACA,eAAA;CACA,aAAA;CACA,iBAAA;CACA,gBAAA;CACA,aAAA;CACA;AAEA;CACA,cAAA;CACA,eAAA;CACA;AAEA;CACA,oBAAA;CACA","file":"TraineeReport.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block\">\n\t\t\t<h1>Trainee report</h1>\n\t\t\t<start-end-date v-model=\"dates\" />\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"form-group col-sm-6\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tEvaluation training level\n\t\t\t\t\t\t<training-level-select v-model=\"trainingLevel\" />\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group col-sm-6\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tTrainee current training level\n\t\t\t\t\t\t<span class=\"glyphicon glyphicon-question-sign\"\n\t\t\t\t\t\t\t\tref=\"currentTrainingLevelHintGlyph\"></span>\n\t\t\t\t\t\t<training-level-select v-model=\"currentTrainingLevel\" />\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"checkbox\" v-model=\"filterMilestones\" />\n\t\t\t\t\tFilter milestones\n\t\t\t\t</label>\n\t\t\t</div>\n\n\t\t\t<fieldset v-if=\"filterMilestones\">\n\t\t\t\t<legend>Milestones</legend>\n\t\t\t\t<div class=\"filter-milestones-container\">\n\t\t\t\t\t<div v-for=\"(milestoneGroup, index) of milestoneGroups\" class=\"milestone-group\">\n\t\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t\t<label class=\"panel-title\">\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t:checked=\"isEntireMilestoneGroupSelected(index)\"\n\t\t\t\t\t\t\t\t\t\t\t@click=\"toggleEntireMilestoneGroup(index)\" />\n\t\t\t\t\t\t\t\t\t{{ milestoneGroup.text }}\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t\t<div v-for=\"child of milestoneGroup.children\" class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t\t:value=\"child.id\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"milestonesFilter\" />\n\t\t\t\t\t\t\t\t\t\t{{ child.text }}\n\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\t\t\t\n\t\t\t<alert-list v-model=\"alerts\" />\n\n\t\t\t<div class=\"btn-lg-submit-container\">\n\t\t\t\t<button type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t\t@click=\"runReport\">\n\t\t\t\t\tRun report\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div v-if=\"report\">\n\t\t\t<div class=\"container body-block\">\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t<div class=\"col-md-4\">\n\t\t\t\t\t\t\t<bootstrap-alert type=\"info\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-info-sign\"></span>\n\t\t\t\t\t\t\t\tSelect a subject to show\n\t\t\t\t\t\t\t\tindividual reports.\n\t\t\t\t\t\t\t</bootstrap-alert>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"col-sm-10 col-md-7\">\n\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\tSubject\n\t\t\t\t\t\t\t\t<div class=\"input-group\">\n\t\t\t\t\t\t\t\t\t<select-two class=\"form-control\" v-if=\"filteredUsers\"\n\t\t\t\t\t\t\t\t\t\t\t:options=\"filteredUsers\" v-model=\"traineeId\"\n\t\t\t\t\t\t\t\t\t\t\t:multiple=\"multipleTrainees\">\n\t\t\t\t\t\t\t\t\t\t<option v-if=\"!multipleTrainees\" value=\"\">All</option>\n\t\t\t\t\t\t\t\t\t</select-two>\n\t\t\t\t\t\t\t\t\t<span class=\"input-group-addon\">\n\t\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"show.inactiveUsers\" />\n\t\t\t\t\t\t\t\t\t\t\tShow inactive\n\t\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<span class=\"input-group-addon\">\n\t\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"multipleTrainees\" />\n\t\t\t\t\t\t\t\t\t\t\tSelect multiple\n\t\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"col-sm-2 col-md-1\">\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default labelless-button\"\n\t\t\t\t\t\t\t\t\t@click=\"traineeId = null\">\n\t\t\t\t\t\t\t\tClear\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t\t<div class=\"btn-lg-submit-container\">\n\t\t\t\t\t\t<button v-if=\"report && subjects && subjects.length > 0\"\n\t\t\t\t\t\t\t\ttype=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t\t\t\t@click=\"printAll\">\n\t\t\t\t\t\t\tExport all\n\t\t\t\t\t\t\t<svg-icon src=\"/img/icons/pdf.svg\" />\n\t\t\t\t\t\t</button>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t\n\t\t\t<template v-if=\"subjects && subjects.length > 0\">\n\t\t\t\t<individual-report v-for=\"subject of subjects\" :report=\"report\"\n\t\t\t\t\t:subject=\"subject\" ref=\"individualReports\" />\n\t\t\t</template>\n\t\t\t<template v-else>\n\t\t\t\t<stats-report v-if=\"subjectStats\" :report=\"subjectStats\"\n\t\t\t\t\t\ttitle=\"Trainee evaluation statistics by trainee\">\n\t\t\t\t\t<p class=\"text-center\">\n\t\t\t\t\t\tTrainee list can be filtered by\n\t\t\t\t\t\t<b>Trainee current training level</b>\n\t\t\t\t\t\tabove\n\t\t\t\t\t</p>\n\t\t\t\t</stats-report>\n\t\t\t\t<stats-report v-if=\"evaluatorStats\" :report=\"evaluatorStats\"\n\t\t\t\t\t\ttitle=\"Faculty evaluation statistics by trainee\">\n\t\t\t\t\t<p class=\"text-center\">\n\t\t\t\t\t\tTrainee list can be filtered by\n\t\t\t\t\t\t<b>Trainee current training level</b>\n\t\t\t\t\t\tabove\n\t\t\t\t\t</p>\n\t\t\t\t</stats-report>\n\t\t\t\t<aggregate-report :report=\"report\"\n\t\t\t\t\t:milestones=\"milestones\" :competencies=\"competencies\" />\n\t\t\t</template>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport AggregateReport from './AggregateReport.vue';\nimport IndividualReport from './IndividualReport.vue';\nimport StartEndDate from '../StartEndDate.vue';\nimport StatsReport from './StatsReport.vue';\nimport TrainingLevelSelect from './TrainingLevelSelect.vue';\nimport AlertList from '../AlertList.vue';\nimport BootstrapAlert from '../BootstrapAlert.vue';\nimport SelectTwo from '../SelectTwo.vue';\nimport SvgIcon from '../SvgIcon.vue';\n\nimport {\n\tgetFetchHeaders,\n\tjsonOrThrow,\n\tfetchMilestones,\n\tgroupMilestones,\n\tfetchCompetencies\n} from 'modules/utils.js';\nimport { isoDateStringObject, currentQuarter } from 'modules/date-utils.js';\n\nexport default {\n\tprops: {\n\t\tusers: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\tgroupedUsers: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tdates: isoDateStringObject(currentQuarter()),\n\t\t\ttrainingLevel: 'all',\n\t\t\tcurrentTrainingLevel: 'all',\n\t\t\ttraineeId: null,\n\t\t\tfilterMilestones: false,\n\t\t\tmilestonesFilter: [],\n\t\t\tmultipleTrainees: false,\n\n\t\t\tshow: {\n\t\t\t\tinactiveUsers: false\n\t\t\t},\n\n\t\t\treport: null,\n\t\t\tsubjectStats: null,\n\t\t\tevaluatorStats: null,\n\n\t\t\tmilestones: [],\n\t\t\tcompetencies: [],\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\tmounted(){\n\t\tfetchMilestones().then(milestones => {\n\t\t\tthis.milestones = milestones;\n\t\t}).catch(err => {\n\t\t\tconsole.log(err);\n\t\t\tthis.alerts.push({\n\t\t\t\ttype: 'error',\n\t\t\t\thtml: '<strong>Error:</strong> There was a problem fetching milestones'\n\t\t\t});\n\t\t});\n\t\t\n\t\tfetchCompetencies().then(competencies => {\n\t\t\tthis.competencies = competencies;\n\t\t}).catch(err => {\n\t\t\tconsole.log(err);\n\t\t\tthis.alerts.push({\n\t\t\t\ttype: 'error',\n\t\t\t\thtml: '<strong>Error:</strong> There was a problem fetching competencies'\n\t\t\t});\n\t\t});\n\t\t\n\t\t$(this.$refs.currentTrainingLevelHintGlyph).popover({\n\t\t\ttitle: 'Current training level',\n\t\t\tcontent: `\n\t\t\t\t<p>\n\t\t\t\t\tSelecting a <b>current training level</b> will include only\n\t\t\t\t\tactive trainees for that level, whether they have completed\n\t\t\t\t\tevaluations or not.\n\t\t\t\t</p>\n\t\t\t\t<p>\n\t\t\t\t\tAny trainees with completed evaluations associated with the\n\t\t\t\t\t<b>evaluation training level</b> who are not currently\n\t\t\t\t\tin the selected <b>current training level</b> will be\n\t\t\t\t\texcluded.\n\t\t\t\t</p>\n\t\t\t\t<dd>\n\t\t\t\t\t<dt>Example:</dt>\n\t\t\t\t\t<dd>\n\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\tJane is currently a fellow, but she completed her\n\t\t\t\t\t\t\tresidency a month late, at the end of July.\n\t\t\t\t\t\t</p>\n\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\tWhen running reports for July for the incoming CA-3s,\n\t\t\t\t\t\t\tJane's July CA-3 evaluations will be excluded\n\t\t\t\t\t\t\tfrom the report by selecting a\n\t\t\t\t\t\t\t<b>current training level</b> of <i>CA-3</i>.\n\t\t\t\t\t\t</p>\n\t\t\t\t\t</dd>\n\t\t\t\t</dd>`,\n\t\t\thtml: true,\n\t\t\tplacement: 'auto top'\n\t\t});\n\t},\n\n\tcomputed: {\n\t\tmilestoneGroups(){\n\t\t\treturn groupMilestones(this.milestones);\n\t\t},\n\t\tfilteredUsers(){\n\t\t\tlet groupedUsers = this.currentTrainingLevel === 'all'\n\t\t\t\t? this.groupedUsers.filter(userGroup =>\n\t\t\t\t\tuserGroup.text.toLowerCase() !== 'faculty')\n\t\t\t\t: this.groupedUsers.filter(userGroup =>\n\t\t\t\t\tuserGroup.text.toLowerCase() === this.currentTrainingLevel.toLowerCase());\n\t\t\t\n\t\t\treturn this.show.inactiveUsers\n\t\t\t\t? groupedUsers\n\t\t\t\t: groupedUsers.filter(userGroup => userGroup.text !== 'Inactive');\n\n\t\t},\n\t\tsubjects(){\n\t\t\tif(this.traineeId){\n\t\t\t\tlet traineeId = Array.isArray(this.traineeId)\n\t\t\t\t\t? this.traineeId\n\t\t\t\t\t: [this.traineeId];\n\t\t\t\treturn this.users.filter(user => traineeId.includes(user.id.toString()));\n\t\t\t}\n\t\t}\n\t},\n\tmethods: {\n\t\tisEntireMilestoneGroupSelected(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\treturn groupIds.every(id => {\n\t\t\t\treturn this.milestonesFilter.includes(id);\n\t\t\t});\n\t\t},\n\t\ttoggleEntireMilestoneGroup(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\tlet newMilestones = this.milestonesFilter.filter(milestone => {\n\t\t\t\treturn !groupIds.includes(milestone);\n\t\t\t});\n\t\t\tif(!this.isEntireMilestoneGroupSelected(index)){\n\t\t\t\tnewMilestones = newMilestones.concat(groupIds);\n\t\t\t}\n\t\t\tthis.milestonesFilter = newMilestones;\n\t\t},\n\t\trunReport(){\n\t\t\tfetch('/report/aggregate', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate,\n\t\t\t\t\ttrainingLevel: this.trainingLevel,\n\t\t\t\t\tcurrentTrainingLevel: this.currentTrainingLevel,\n\t\t\t\t\tmilestones: this.milestonesFilter\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(report => {\n\t\t\t\tthis.report = Object.assign({}, this.report, report);\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\n\t\t\tfetch('/report/stats/trainee/trainee', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify(Object.assign({}, this.dates, {\n\t\t\t\t\ttrainingLevel: this.currentTrainingLevel\n\t\t\t\t}))\n\t\t\t}).then(jsonOrThrow).then(stats => {\n\t\t\t\tthis.subjectStats = stats;\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t\t\n\t\t\tfetch('/report/stats/faculty/trainee', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify(Object.assign({}, this.dates, {\n\t\t\t\t\ttrainingLevel: this.currentTrainingLevel\n\t\t\t\t}))\n\t\t\t}).then(jsonOrThrow).then(stats => {\n\t\t\t\tthis.evaluatorStats = stats;\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t},\n\t\tprintAll(){\n\t\t\tthis.$refs.individualReports.map(individual => {\n\t\t\t\tindividual.exportPdf();\n\t\t\t});\n\t\t}\n\t},\n\tcomponents: {\n\t\tStartEndDate,\n\t\tAggregateReport,\n\t\tIndividualReport,\n\t\tStatsReport,\n\t\tTrainingLevelSelect,\n\t\tAlertList,\n\t\tBootstrapAlert,\n\t\tSelectTwo,\n\t\tSvgIcon\n\t}\n};\n</script>\n\n<style scoped>\n\t.filter-milestones-container {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tflex-wrap: wrap;\n\t\tjustify-content: flex-start;\n\t\talign-items: stretch;\n\t}\n\n\t.milestone-group {\n\t\tflex-grow: 0;\n\t\tflex-shrink: 1;\n\t\twidth: 250px;\n\t\tmin-width: 200px;\n\t\tmax-width: 100%;\n\t\tmargin: 10px;\n\t}\n\n\t.milestone-group .panel-body {\n\t\theight: 300px;\n\t\toverflow: auto;\n\t}\n\n\t.milestone-group .panel-body label {\n\t\tfont-weight: normal;\n\t}\n</style>\n\n<style>\n\t.popover dd {\n\t\tpadding: 0 1em;\n\t}\n</style>\n"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-/* 307 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.report-type-option[data-v-29d12b6c] {\n\tmargin: 0 1em;\n}\n@media print {\n.reports-selector[data-v-29d12b6c] {\n\t\tdisplay: none;\n}\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/Reports.vue?59ec51ae"],"names":[],"mappings":";AAiEA;CACA,cAAA;CACA;AAEA;AACA;EACA,cAAA;CACA;CACA","file":"Reports.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block reports-selector\">\n\t\t\t<fieldset>\n\t\t\t\t<legend>Report type</legend>\n\t\t\t\t<div class=\"form-inline\">\n\t\t\t\t\t<label >\n\t\t\t\t\t\t<router-link v-for=\"type of reportTypes\" :to=\"type\"\n\t\t\t\t\t\t\t\tclass=\"report-type-option btn btn-default\"\n\t\t\t\t\t\t\t\tactive-class=\"disabled\">\n\t\t\t\t\t\t\t{{ kebabCaseToWords(type) }}\n\t\t\t\t\t\t</router-link>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\t\t</div>\n\n\t\t<router-view :users=\"users\" :groupedUsers=\"groupedUsers\"></router-view>\n\t</div>\n</template>\n\n<script>\nimport {\n\tkebabCaseToWords,\n\tfetchUsers,\n\tgroupUsers\n} from 'modules/utils.js';\n\nexport default {\n\tdata(){\n\t\treturn {\n\t\t\treportType: 'trainee',\n\t\t\tusers: []\n\t\t};\n\t},\n\tcomputed: {\n\t\treportTypes(){\n\t\t\treturn [\n\t\t\t\t'trainee',\n\t\t\t\t'faculty',\n\t\t\t\t'form',\n\t\t\t\t'needs-evaluations',\n\t\t\t\t'pending-requests'\n\t\t\t];\n\t\t},\n\t\tgroupedUsers(){\n\t\t\treturn groupUsers(this.users);\n\t\t}\n\t},\n\n\tcreated(){\n\t\tfetchUsers().then(users => {\n\t\t\tthis.users = users;\n\t\t}).catch(err => {\n\t\t\tconsole.error(err);\n\t\t});\n\t},\n\n\tmethods: {\n\t\tkebabCaseToWords\n\t}\n};\n</script>\n\n<style scoped>\n\t.report-type-option {\n\t\tmargin: 0 1em;\n\t}\n\t\n\t@media print {\n\t\t.reports-selector {\n\t\t\tdisplay: none;\n\t\t}\n\t}\n</style>\n"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
+/* 306 */,
+/* 307 */,
 /* 308 */,
 /* 309 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -17301,7 +17249,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.question-option-stats[data-v-2f4974f7] {\n\tdisplay: flex;\n\tflex-direction: column;\n\tflex-grow: 1;\n\tjustify-content: flex-end;\n}\ntable[data-v-2f4974f7] {\n\twidth: 40%;\n\tmargin: 0 auto;\n}\ntable th[data-v-2f4974f7] {\n\twhite-space: nowrap;\n}\ntable td[data-v-2f4974f7] {\n\ttext-align: center;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/FormReportQuestionOptionStats.vue?663ee435"],"names":[],"mappings":";AAiCA;CACA,cAAA;CACA,uBAAA;CACA,aAAA;CACA,0BAAA;CACA;AAEA;CACA,WAAA;CACA,eAAA;CACA;AAEA;CACA,oBAAA;CACA;AAEA;CACA,mBAAA;CACA","file":"FormReportQuestionOptionStats.vue","sourcesContent":["<template>\n\t<div class=\"question-option-stats\">\n\t\t<table v-if=\"responses || percentage || averagePercentage\"\n\t\t\t\tclass=\"table table-bordered\">\n\t\t\t<tbody>\n\t\t\t\t<tr v-if=\"responses != null\">\n\t\t\t\t\t<th>Subject responses</th>\n\t\t\t\t\t<td>{{ responses }}</td>\n\t\t\t\t</tr>\n\t\t\t\t<tr v-if=\"percentage != null\">\n\t\t\t\t\t<th>Subject percentage</th>\n\t\t\t\t\t<td>{{ percentage }}%</td>\n\t\t\t\t</tr>\n\t\t\t\t<tr v-if=\"averagePercentage != null\">\n\t\t\t\t\t<th>Overall percentage</th>\n\t\t\t\t\t<td>{{ averagePercentage }}%</td>\n\t\t\t\t</tr>\n\t\t\t</tbody>\n\t\t</table>\n\t</div>\n</template>\n\n<script>\nexport default {\n\tprops: {\n\t\tresponses: Number,\n\t\tpercentage: Number,\n\t\taveragePercentage: Number\n\t}\n};\n</script>\n\n<style scoped>\n\t.question-option-stats {\n\t\tdisplay: flex;\n\t\tflex-direction: column;\n\t\tflex-grow: 1;\n\t\tjustify-content: flex-end;\n\t}\n\n\ttable {\n\t\twidth: 40%;\n\t\tmargin: 0 auto;\n\t}\n\t\n\ttable th {\n\t\twhite-space: nowrap;\n\t}\n\n\ttable td {\n\t\ttext-align: center;\n\t}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.show-container div[data-v-170d0144] {\n\tdisplay: flex;\n\tflex-wrap: wrap;\n}\n.show-container div label[data-v-170d0144] {\n\tmargin: 0.5em 1em;\n}\n.graphs-container[data-v-170d0144] {\n\tmargin: 2em 0;\n}\n.graphs-container .chart-options[data-v-170d0144] {\n\tmargin: 2em 0 0;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/AggregateReport.vue?69de9ee2"],"names":[],"mappings":";AAieA;CACA,cAAA;CACA,gBAAA;CACA;AAEA;CACA,kBAAA;CACA;AAEA;CACA,cAAA;CACA;AAEA;CACA,gBAAA;CACA","file":"AggregateReport.vue","sourcesContent":["<template>\n\t<div class=\"container body-block\">\n\t\t<h3>Aggregate</h3>\n\t\t<fieldset class=\"show-container\">\n\t\t\t<legend>Show</legend>\n\t\t\t<div>\n\t\t\t\t<label v-for=\"(part, name) of show\">\n\t\t\t\t\t<input type=\"checkbox\" v-model=\"show[name]\" />\n\t\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t</fieldset>\n\n\t\t<data-table id=\"aggregate-table\" :bordered=\"true\" :thead=\"tableThead\"\n\t\t\t:data=\"tableData\" :config=\"tableConfig\" :exportable=\"true\"\n\t\t\t:exportFilename=\"tableExportFilename\" />\n\t\t\t\n\t\t<div class=\"graphs-container\" v-if=\"show.charts\">\n\t\t\t<div class=\"row\">\n\t\t\t\t<div v-if=\"show.competencies\" :class=\"chartWidth\">\n\t\t\t\t\t<chartjs-chart id=\"aggregate-competency-chart\" :type=\"chartType\"\n\t\t\t\t\t\t:options=\"chartOptions\" :data=\"competencyChartData\" />\n\t\t\t\t</div>\n\t\t\t\t<div v-if=\"show.milestones\" :class=\"chartWidth\">\n\t\t\t\t\t<chartjs-chart id=\"aggregate-milestone-chart\" :type=\"chartType\"\n\t\t\t\t\t\t:options=\"chartOptions\" :data=\"milestoneChartData\" />\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"row chart-options\">\n\t\t\t\t<div class=\"col-sm-offset-5 col-sm-2\">\n\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t<span class=\"panel-title\">Chart options</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t<fieldset v-if=\"show.milestones && show.competencies\">\n\t\t\t\t\t\t\t\t<legend>Orientation</legend>\n\t\t\t\t\t\t\t\t<div class=\"btn-group btn-group-justified\" data-toggle=\"buttons\">\n\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"horizontal\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-horizontal\"></span>\n\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"vertical\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-vertical\"></span>\n\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</fieldset>\n\n\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\t\tType\n\t\t\t\t\t\t\t\t\t<select class=\"form-control\" v-model=\"chartType\">\n\t\t\t\t\t\t\t\t\t\t<option v-for=\"type of chartTypes\" :value=\"type\">\n\t\t\t\t\t\t\t\t\t\t\t{{ ucfirst(type) }}\n\t\t\t\t\t\t\t\t\t\t</option>\n\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport Color from 'color';\n\nimport BootstrapButtonInput from '../BootstrapButtonInput.vue';\nimport ChartjsChart from '../ChartjsChart.vue';\nimport DataTable from '../DataTable.vue';\n\nimport { CHART_COLORS } from 'modules/constants.js';\nimport { camelCaseToWords, ucfirst } from 'modules/utils.js';\nimport { renderTrainingLevel } from 'modules/datatable-utils.js';\nimport { getAverageLevel } from 'modules/report-utils.js';\nimport { isoDateString } from 'modules/date-utils.js';\n\nexport default {\n\tprops: {\n\t\treport: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t},\n\t\tmilestones: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\tcompetencies: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tmilestones: false,\n\t\t\t\tcompetencies: true,\n\t\t\t\taverages: true,\n\t\t\t\taverageLevels: false,\n\t\t\t\tevaluationCounts: true,\n\t\t\t\tstandardDeviations: false,\n\t\t\t\ttotals: true,\n\t\t\t\tcharts: true\n\t\t\t},\n\t\t\ttransformations: {\n\t\t\t\tlevelRatings: false\n\t\t\t},\n\t\t\tchartType: 'radar',\n\t\t\tchartOrientation: 'vertical'\n\t\t};\n\t},\n\tcomputed: {\n\t\torderedMilestones(){\n\t\t\tif(!this.report.milestones)\n\t\t\t\treturn [];\n\t\t\t\t\n\t\t\treturn this.milestones.filter(milestone =>\n\t\t\t\tmilestone.id in this.report.milestones\n\t\t\t);\n\t\t},\n\t\torderedCompetencies(){\n\t\t\tif(!this.report.competencies)\n\t\t\t\treturn [];\n\t\t\t\t\n\t\t\treturn this.competencies.filter(competency =>\n\t\t\t\tcompetency.id in this.report.competencies\n\t\t\t);\n\t\t},\n\t\tcolsPerItem(){\n\t\t\treturn [\n\t\t\t\tthis.show.averages,\n\t\t\t\tthis.show.averageLevels,\n\t\t\t\tthis.show.evaluationCounts,\n\t\t\t\tthis.show.standardDeviations\n\t\t\t].filter(col => col).length;\n\t\t},\n\t\tnameRowspan(){\n\t\t\tlet rowspan = 1;\n\t\t\tif(this.show.milestones && this.show.competencies)\n\t\t\t\trowspan++;\n\t\t\tif(this.showSomething && this.colsPerItem > 1)\n\t\t\t\trowspan++;\n\t\t\t\t\n\t\t\treturn rowspan;\n\t\t},\n\t\tshowSomething(){\n\t\t\treturn this.show.milestones || this.show.competencies || this.show.totals;\n\t\t},\n\t\tmilestoneColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.milestones).length;\n\t\t},\n\t\tcompetencyColspan(){\n\t\t\treturn this.colsPerItem * Object.keys(this.report.competencies).length;\n\t\t},\n\t\ttableThead(){\n\t\t\tlet thead = [];\n\t\t\tlet row;\n\t\t\tif(this.show.milestones && this.show.competencies){\n\t\t\t\trow = [];\n\t\t\t\trow.push({rowspan: this.nameRowspan, text: 'Name'});\n\t\t\t\trow.push({\n\t\t\t\t\tcolspan: this.milestoneColspan,\n\t\t\t\t\ttext: 'Milestones'\n\t\t\t\t});\n\t\t\t\trow.push({\n\t\t\t\t\tcolspan: this.competencyColspan,\n\t\t\t\t\ttext: 'Competencies'\n\t\t\t\t});\n\t\t\t\tif(this.show.totals)\n\t\t\t\t\trow.push({colspan: 3, text: 'All'});\n\n\t\t\t\tthead.push(row);\n\t\t\t}\n\n\n\t\t\tif(this.showSomething && this.colsPerItem > 1){\n\t\t\t\trow = [];\n\t\t\t\tif(this.nameRowspan === 2)\n\t\t\t\t\trow.push({rowspan: this.nameRowspan, text: 'Name'});\n\t\t\t\t\n\t\t\t\tif(this.show.milestones){\n\t\t\t\t\tthis.orderedMilestones.map(milestone => {\n\t\t\t\t\t\trow.push({\n\t\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\t\ttext: milestone.title\n\t\t\t\t\t\t});\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t\tif(this.show.competencies){\n\t\t\t\t\tthis.orderedCompetencies.map(competency => {\n\t\t\t\t\t\trow.push({\n\t\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\t\ttext: competency.title\n\t\t\t\t\t\t});\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t\tif(this.show.totals)\n\t\t\t\t\trow.push({colspan: 3, text: 'Total'});\n\n\t\t\t\tif(row.length > 0)\n\t\t\t\t\tthead.push(row);\n\t\t\t}\n\t\t\t\n\n\t\t\trow = [];\n\t\t\tif(this.nameRowspan === 1)\n\t\t\t\trow.push({rowspan: this.nameRowspan, text: 'Name'});\n\t\t\tif(this.show.milestones){\n\t\t\t\tthis.orderedMilestones.map(milestone => {\n\t\t\t\t\tif(this.colsPerItem > 1){\n\t\t\t\t\t\tif(this.show.averages)\n\t\t\t\t\t\t\trow.push({text: 'Average'});\n\t\t\t\t\t\tif(this.show.averageLevels)\n\t\t\t\t\t\t\trow.push({text: 'Average Level'});\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push({text: 'Std. Dev.'});\n\t\t\t\t\t\tif(this.show.evaluationCounts)\n\t\t\t\t\t\t\trow.push({text: '#'});\n\t\t\t\t\t}\n\t\t\t\t\telse {\n\t\t\t\t\t\trow.push({\n\t\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\t\ttext: milestone.title\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t}\n\t\t\tif(this.show.competencies){\n\t\t\t\tthis.orderedCompetencies.map(competency => {\n\t\t\t\t\tif(this.colsPerItem > 1){\n\t\t\t\t\t\tif(this.show.averages)\n\t\t\t\t\t\t\trow.push({text: 'Average'});\n\t\t\t\t\t\tif(this.show.averageLevels)\n\t\t\t\t\t\t\trow.push({text: 'Average Level'});\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push({text: 'Std. Dev.'});\n\t\t\t\t\t\tif(this.show.evaluationCounts)\n\t\t\t\t\t\t\trow.push({text: '#'});\n\t\t\t\t\t}\n\t\t\t\t\telse {\n\t\t\t\t\t\trow.push({\n\t\t\t\t\t\t\tcolspan: this.colsPerItem,\n\t\t\t\t\t\t\ttext: competency.title\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t}\n\t\t\tif(this.show.totals){\n\t\t\t\trow.push({text: '# Evaluators'});\n\t\t\t\trow.push({text: '# Evaluations'});\n\t\t\t\trow.push({text: '# Trainee Requests'});\n\t\t\t}\n\n\t\t\tif(row.length > 0)\n\t\t\t\tthead.push(row);\n\n\t\t\treturn thead;\n\t\t},\n\t\ttableConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tdom: 'lfprtip',\n\t\t\t\tscrollX: true,\n\t\t\t\tscrollY: '500px',\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tfixedColumns: true,\n\t\t\t};\n\t\t},\n\t\ttableData(){\n\t\t\tlet data = [];\n\t\t\tfor(let subjectId in this.report.subjects){\n\t\t\t\tlet row = [];\n\t\t\t\trow.push(`<a href=\"/profile/${subjectId}\" target=\"_blank\">${this.report.subjects[subjectId]}</a>`);\n\t\t\t\tif(this.show.milestones){\n\t\t\t\t\tthis.orderedMilestones.map(milestone => {\n\t\t\t\t\t\tif(this.show.averages)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectMilestone\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId][milestone.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestone[subjectId][milestone.id]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\tif(this.show.averageLevels)\n\t\t\t\t\t\t\trow.push(getAverageLevel(\n\t\t\t\t\t\t\t\tthis.report.subjectMilestone\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestone[subjectId][milestone.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestone[subjectId][milestone.id]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t\t));\n\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectMilestoneDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneDeviations[subjectId][milestone.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestoneDeviations[subjectId][milestone.id]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\tif(this.show.evaluationCounts)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectMilestoneEvals\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneEvals[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectMilestoneEvals[subjectId][milestone.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectMilestoneEvals[subjectId][milestone.id]).toFixed()\n\t\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\tif(this.colsPerItem === 0)\n\t\t\t\t\t\t\trow.push('');\n\t\t\t\t\t});\n\t\t\t\t}\n\n\t\t\t\tif(this.show.competencies){\n\t\t\t\t\tthis.orderedCompetencies.map(competency => {\n\t\t\t\t\t\tif(this.show.averages)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectCompetency\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId][competency.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetency[subjectId][competency.id]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\tif(this.show.averageLevels)\n\t\t\t\t\t\t\trow.push(getAverageLevel(\n\t\t\t\t\t\t\t\tthis.report.subjectCompetency\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetency[subjectId][competency.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetency[subjectId][competency.id]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t\t));\n\n\t\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectCompetencyDeviations\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyDeviations[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyDeviations[subjectId][competency.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetencyDeviations[subjectId][competency.id]).toFixed(2)\n\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t);\n\n\t\t\t\t\t\tif(this.show.evaluationCounts)\n\t\t\t\t\t\t\trow.push(\n\t\t\t\t\t\t\t\tthis.report.subjectCompetencyEvals\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyEvals[subjectId]\n\t\t\t\t\t\t\t\t\t\t&& this.report.subjectCompetencyEvals[subjectId][competency.id]\n\t\t\t\t\t\t\t\t\t? parseFloat(this.report.subjectCompetencyEvals[subjectId][competency.id]).toFixed()\n\t\t\t\t\t\t\t\t\t: 0\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\tif(this.colsPerItem === 0)\n\t\t\t\t\t\t\trow.push('');\n\t\t\t\t\t});\n\t\t\t\t}\n\n\t\t\t\tif(this.show.totals){\n\t\t\t\t\trow.push(\n\t\t\t\t\t\tthis.report.subjectEvaluators[subjectId]\n\t\t\t\t\t\t\t? Object.keys(this.report.subjectEvaluators[subjectId]).length\n\t\t\t\t\t\t\t: 0\n\t\t\t\t\t);\n\t\t\t\t\trow.push(\n\t\t\t\t\t\tthis.report.subjectEvals[subjectId]\n\t\t\t\t\t\t\t? Object.keys(this.report.subjectEvals[subjectId]).length\n\t\t\t\t\t\t\t: 0\n\t\t\t\t\t);\n\t\t\t\t\trow.push(\n\t\t\t\t\t\tthis.report.subjectRequests[subjectId]\n\t\t\t\t\t\t\t? Object.keys(this.report.subjectRequests[subjectId]).length\n\t\t\t\t\t\t\t: 0\n\t\t\t\t\t);\n\t\t\t\t}\n\n\t\t\t\tdata.push(row);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\t\ttableExportFilename(){\n\t\t\tlet level = this.report.trainingLevel === 'all'\n\t\t\t\t? ''\n\t\t\t\t: renderTrainingLevel(this.report.trainingLevel);\n\t\t\tlet start = isoDateString(new Date(this.report.startDate.date));\n\t\t\tlet end = isoDateString(new Date(this.report.endDate.date));\n\t\t\tlet now = new Date().toLocaleString();\n\t\t\treturn `Aggregate Report ${level}, ${start} - ${end}, exported ${now}`;\n\t\t},\n\t\tchartTypes(){\n\t\t\treturn [\n\t\t\t\t'radar',\n\t\t\t\t'line',\n\t\t\t\t'bar'\n\t\t\t];\n\t\t},\n\t\tchartWidth(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': this.chartOrientation === 'horizontal',\n\t\t\t\t'col-md-12': this.chartOrientation === 'vertical'\n\t\t\t};\n\t\t},\n\t\tchartOptions(){\n\t\t\treturn {\n\t\t\t\tlegend: {\n\t\t\t\t\tlabels: {\n\t\t\t\t\t\tfontSize: 18,\n\t\t\t\t\t\tfontColor: '#333'\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tcallbacks: {\n\t\t\t\t\t\tlabel(tooltip, data){\n\t\t\t\t\t\t\tlet value = parseFloat(tooltip.yLabel).toFixed(2);\n\t\t\t\t\t\t\tlet name = data.datasets[tooltip.datasetIndex].label;\n\t\t\t\t\t\t\treturn `${name}: ${value}`;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t};\n\t\t},\n\t\tcompetencyChartData(){\n\t\t\tlet color = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: Object.values(this.report.competencies),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Average Competencies',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: Object.values(this.report.averageCompetency)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tmilestoneChartData(){\n\t\t\tlet color = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: Object.values(this.report.milestones),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Average Milestones',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: Object.values(this.report.averageMilestone)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords,\n\t\tucfirst\n\t},\n\tcomponents: {\n\t\tBootstrapButtonInput,\n\t\tChartjsChart,\n\t\tDataTable\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-container div {\n\t\tdisplay: flex;\n\t\tflex-wrap: wrap;\n\t}\n\n\t.show-container div label {\n\t\tmargin: 0.5em 1em;\n\t}\n\n\t.graphs-container {\n\t\tmargin: 2em 0;\n\t}\n\n\t.graphs-container .chart-options {\n\t\tmargin: 2em 0 0;\n\t}\n</style>\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -17316,7 +17264,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.list-group-item .row small[data-v-358055d0] {\n\tdisplay: block;\n}\n.list-group-item .row a[data-v-358055d0] {\n\tdisplay: block;\n}\n.evaluation-date-field[data-v-358055d0] {\n\tcursor: help;\n}\n.row + .row[data-v-358055d0] {\n\tmargin-top: 10px;\n}\nsmall[data-v-358055d0] {\n\tcolor: rgba(0, 0, 0, 0.5);\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/Needs/EvaluationDetailsListItem.vue?48d13658"],"names":[],"mappings":";AAmHA;CACA,eAAA;CACA;AAEA;CACA,eAAA;CACA;AAEA;CACA,aAAA;CACA;AAEA;CACA,iBAAA;CACA;AAEA;CACA,0BAAA;CACA","file":"EvaluationDetailsListItem.vue","sourcesContent":["<template>\n\t<li class=\"list-group-item\">\n\t\t<div class=\"row\">\n\t\t\t<div class=\"col-md-1\">\n\t\t\t\t<small>#</small>\n\t\t\t\t<a :href=\"`/evaluation/${evaluation.id}`\" target=\"_blank\">\n\t\t\t\t\t{{ evaluation.id }}\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t\t<div class=\"col-md-3\">\n\t\t\t\t<small>Evaluator</small>\n\t\t\t\t<a :href=\"`/profile/${evaluation.evaluator.id}`\" target=\"_blank\">\n\t\t\t\t\t{{ evaluation.evaluator.full_name }}\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t\t<div class=\"col-md-3\">\n\t\t\t\t<small>Requested by</small>\n\t\t\t\t<a :href=\"`/profile/${evaluation.requestor.id}`\" target=\"_blank\">\n\t\t\t\t\t{{ evaluation.requestor.full_name }}\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t\t<div class=\"col-md-3\">\n\t\t\t\t<small>Form</small>\n\t\t\t\t<a :href=\"`/manage/forms/${evaluation.form.id}`\" target=\"_blank\">\n\t\t\t\t\t{{ evaluation.form.title }}\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t\t<div class=\"col-md-2 text-right\"\n\t\t\t\tv-html=\"renderEvaluationStatus(evaluation.status)\">\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"row\">\n\t\t\t<div class=\"col-md-offset-2 col-md-2\">\n\t\t\t\t<small>Evaluation date</small>\n\t\t\t\t<span class=\"evaluation-date-field\"\n\t\t\t\t\t\t@mouseenter=\"hovering.evaluationDate = true\"\n\t\t\t\t\t\t@mouseleave=\"hovering.evaluationDate = false\">\n\t\t\t\t\t{{ evaluationDate }}\n\t\t\t\t</span>\n\t\t\t</div>\n\t\t\t<div class=\"col-md-offset-1 col-md-2\">\n\t\t\t\t<small>Requested</small>\n\t\t\t\t<span class=\"evaluation-date-field\"\n\t\t\t\t\t\t@mouseenter=\"hovering.requestDate = true\"\n\t\t\t\t\t\t@mouseleave=\"hovering.requestDate = false\">\n\t\t\t\t\t{{ requestDate }}\n\t\t\t\t</span>\n\t\t\t</div>\n\t\t\t<div class=\"col-md-offset-1 col-md-2\">\n\t\t\t\t<small>Completed</small>\n\t\t\t\t<span class=\"evaluation-date-field\"\n\t\t\t\t\t\t@mouseenter=\"hovering.completeDate = true\"\n\t\t\t\t\t\t@mouseleave=\"hovering.completeDate = false\">\n\t\t\t\t\t{{ completeDate }}\n\t\t\t\t</span>\n\t\t\t</div>\n\t\t</div>\n\t</li>\n</template>\n\n<script>\nimport moment from 'moment';\n\nimport { renderEvaluationStatus } from 'modules/datatable-utils.js';\nimport { renderDateRange } from 'modules/date-utils.js';\n\nexport default {\n\tprops: {\n\t\tevaluation: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\thovering: {\n\t\t\t\tevaluationDate: false,\n\t\t\t\trequestDate: false,\n\t\t\t\tcompleteDate: false\n\t\t\t}\n\t\t};\n\t},\n\tcomputed: {\n\t\tevaluationDate(){\n\t\t\tif(!this.evaluation.evaluation_date_start\n\t\t\t\t\t|| !this.evaluation.evaluation_date_end)\n\t\t\t\treturn '';\n\t\t\t\n\t\t\treturn renderDateRange(this.evaluation.evaluation_date_start,\n\t\t\t\tthis.evaluation.evaluation_date_end, !this.hovering.evaluationDate);\n\t\t},\n\t\trequestDate(){\n\t\t\tif(!this.evaluation.request_date)\n\t\t\t\treturn '';\n\t\t\t\n\t\t\treturn this.hovering.requestDate\n\t\t\t\t? moment(this.evaluation.request_date).format('ll LT')\n\t\t\t\t: moment(this.evaluation.request_date).calendar();\n\t\t},\n\t\tcompleteDate(){\n\t\t\tif(!this.evaluation.complete_date)\n\t\t\t\treturn '';\n\t\t\t\n\t\t\treturn this.hovering.completeDate\n\t\t\t\t? moment(this.evaluation.complete_date).format('ll LT')\n\t\t\t\t: moment(this.evaluation.complete_date).calendar();\n\t\t}\n\t},\n\tmethods: {\n\t\trenderEvaluationStatus\n\t}\n};\n</script>\n\n<style scoped>\n\t.list-group-item .row small {\n\t\tdisplay: block;\n\t}\n\n\t.list-group-item .row a {\n\t\tdisplay: block;\n\t}\n\n\t.evaluation-date-field {\n\t\tcursor: help;\n\t}\n\t\n\t.row + .row {\n\t\tmargin-top: 10px;\n\t}\n\t\n\tsmall {\n\t\tcolor: rgba(0, 0, 0, 0.5);\n\t}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.popover dd {\n\tpadding: 0 1em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/TraineeReport.vue?84dd5cd2"],"names":[],"mappings":";AAgZA;CACA,eAAA;CACA","file":"TraineeReport.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block\">\n\t\t\t<h1>Trainee report</h1>\n\t\t\t<start-end-date v-model=\"dates\" />\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"form-group col-sm-6\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tEvaluation training level\n\t\t\t\t\t\t<training-level-select v-model=\"trainingLevel\" />\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group col-sm-6\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tTrainee current training level\n\t\t\t\t\t\t<span class=\"glyphicon glyphicon-question-sign\"\n\t\t\t\t\t\t\t\tref=\"currentTrainingLevelHintGlyph\"></span>\n\t\t\t\t\t\t<training-level-select v-model=\"currentTrainingLevel\" />\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"checkbox\" v-model=\"filterMilestones\" />\n\t\t\t\t\tFilter milestones\n\t\t\t\t</label>\n\t\t\t</div>\n\n\t\t\t<fieldset v-if=\"filterMilestones\">\n\t\t\t\t<legend>Milestones</legend>\n\t\t\t\t<div class=\"filter-milestones-container\">\n\t\t\t\t\t<div v-for=\"(milestoneGroup, index) of milestoneGroups\" class=\"milestone-group\">\n\t\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t\t<label class=\"panel-title\">\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t:checked=\"isEntireMilestoneGroupSelected(index)\"\n\t\t\t\t\t\t\t\t\t\t\t@click=\"toggleEntireMilestoneGroup(index)\" />\n\t\t\t\t\t\t\t\t\t{{ milestoneGroup.text }}\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t\t<div v-for=\"child of milestoneGroup.children\" class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t\t:value=\"child.id\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"milestonesFilter\" />\n\t\t\t\t\t\t\t\t\t\t{{ child.text }}\n\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\t\t\t\n\t\t\t<alert-list v-model=\"alerts\" />\n\n\t\t\t<div class=\"btn-lg-submit-container\">\n\t\t\t\t<button type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t\t@click=\"runReport\">\n\t\t\t\t\tRun report\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div v-if=\"report\">\n\t\t\t<div class=\"container body-block\">\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t<div class=\"col-md-4\">\n\t\t\t\t\t\t\t<bootstrap-alert type=\"info\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-info-sign\"></span>\n\t\t\t\t\t\t\t\tSelect a subject to show\n\t\t\t\t\t\t\t\tindividual reports.\n\t\t\t\t\t\t\t</bootstrap-alert>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"col-sm-10 col-md-7\">\n\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\tSubject\n\t\t\t\t\t\t\t\t<div class=\"input-group\">\n\t\t\t\t\t\t\t\t\t<select-two class=\"form-control\" v-if=\"filteredUsers\"\n\t\t\t\t\t\t\t\t\t\t\t:options=\"filteredUsers\" v-model=\"traineeId\"\n\t\t\t\t\t\t\t\t\t\t\t:multiple=\"multipleTrainees\">\n\t\t\t\t\t\t\t\t\t\t<option v-if=\"!multipleTrainees\" value=\"\">All</option>\n\t\t\t\t\t\t\t\t\t</select-two>\n\t\t\t\t\t\t\t\t\t<span class=\"input-group-addon\">\n\t\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"show.inactiveUsers\" />\n\t\t\t\t\t\t\t\t\t\t\tShow inactive\n\t\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<span class=\"input-group-addon\">\n\t\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"multipleTrainees\" />\n\t\t\t\t\t\t\t\t\t\t\tSelect multiple\n\t\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"col-sm-2 col-md-1\">\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default labelless-button\"\n\t\t\t\t\t\t\t\t\t@click=\"traineeId = null\">\n\t\t\t\t\t\t\t\tClear\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t\t<div class=\"btn-lg-submit-container\">\n\t\t\t\t\t\t<button v-if=\"report && subjects && subjects.length > 0\"\n\t\t\t\t\t\t\t\ttype=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t\t\t\t@click=\"printAll\">\n\t\t\t\t\t\t\tExport all\n\t\t\t\t\t\t\t<svg-icon src=\"/img/icons/pdf.svg\" />\n\t\t\t\t\t\t</button>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t\n\t\t\t<template v-if=\"subjects && subjects.length > 0\">\n\t\t\t\t<individual-report v-for=\"subject of subjects\" :report=\"report\"\n\t\t\t\t\t:subject=\"subject\" ref=\"individualReports\" />\n\t\t\t</template>\n\t\t\t<template v-else>\n\t\t\t\t<stats-report v-if=\"subjectStats\" :report=\"subjectStats\"\n\t\t\t\t\t\ttitle=\"Trainee evaluation statistics by trainee\">\n\t\t\t\t\t<p class=\"text-center\">\n\t\t\t\t\t\tTrainee list can be filtered by\n\t\t\t\t\t\t<b>Trainee current training level</b>\n\t\t\t\t\t\tabove\n\t\t\t\t\t</p>\n\t\t\t\t</stats-report>\n\t\t\t\t<stats-report v-if=\"evaluatorStats\" :report=\"evaluatorStats\"\n\t\t\t\t\t\ttitle=\"Faculty evaluation statistics by trainee\">\n\t\t\t\t\t<p class=\"text-center\">\n\t\t\t\t\t\tTrainee list can be filtered by\n\t\t\t\t\t\t<b>Trainee current training level</b>\n\t\t\t\t\t\tabove\n\t\t\t\t\t</p>\n\t\t\t\t</stats-report>\n\t\t\t\t<aggregate-report :report=\"report\"\n\t\t\t\t\t:milestones=\"milestones\" :competencies=\"competencies\" />\n\t\t\t</template>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport AggregateReport from './AggregateReport.vue';\nimport IndividualReport from './IndividualReport.vue';\nimport StartEndDate from '../StartEndDate.vue';\nimport StatsReport from './StatsReport.vue';\nimport TrainingLevelSelect from './TrainingLevelSelect.vue';\nimport AlertList from '../AlertList.vue';\nimport BootstrapAlert from '../BootstrapAlert.vue';\nimport SelectTwo from '../SelectTwo.vue';\nimport SvgIcon from '../SvgIcon.vue';\n\nimport {\n\tgetFetchHeaders,\n\tjsonOrThrow,\n\tfetchMilestones,\n\tgroupMilestones,\n\tfetchCompetencies\n} from 'modules/utils.js';\nimport { isoDateStringObject, currentQuarter } from 'modules/date-utils.js';\n\nexport default {\n\tprops: {\n\t\tusers: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\tgroupedUsers: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tdates: isoDateStringObject(currentQuarter()),\n\t\t\ttrainingLevel: 'all',\n\t\t\tcurrentTrainingLevel: 'all',\n\t\t\ttraineeId: null,\n\t\t\tfilterMilestones: false,\n\t\t\tmilestonesFilter: [],\n\t\t\tmultipleTrainees: false,\n\n\t\t\tshow: {\n\t\t\t\tinactiveUsers: false\n\t\t\t},\n\n\t\t\treport: null,\n\t\t\tsubjectStats: null,\n\t\t\tevaluatorStats: null,\n\n\t\t\tmilestones: [],\n\t\t\tcompetencies: [],\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\tmounted(){\n\t\tfetchMilestones().then(milestones => {\n\t\t\tthis.milestones = milestones;\n\t\t}).catch(err => {\n\t\t\tconsole.log(err);\n\t\t\tthis.alerts.push({\n\t\t\t\ttype: 'error',\n\t\t\t\thtml: '<strong>Error:</strong> There was a problem fetching milestones'\n\t\t\t});\n\t\t});\n\t\t\n\t\tfetchCompetencies().then(competencies => {\n\t\t\tthis.competencies = competencies;\n\t\t}).catch(err => {\n\t\t\tconsole.log(err);\n\t\t\tthis.alerts.push({\n\t\t\t\ttype: 'error',\n\t\t\t\thtml: '<strong>Error:</strong> There was a problem fetching competencies'\n\t\t\t});\n\t\t});\n\t\t\n\t\t$(this.$refs.currentTrainingLevelHintGlyph).popover({\n\t\t\ttitle: 'Current training level',\n\t\t\tcontent: `\n\t\t\t\t<p>\n\t\t\t\t\tSelecting a <b>current training level</b> will include only\n\t\t\t\t\tactive trainees for that level, whether they have completed\n\t\t\t\t\tevaluations or not.\n\t\t\t\t</p>\n\t\t\t\t<p>\n\t\t\t\t\tAny trainees with completed evaluations associated with the\n\t\t\t\t\t<b>evaluation training level</b> who are not currently\n\t\t\t\t\tin the selected <b>current training level</b> will be\n\t\t\t\t\texcluded.\n\t\t\t\t</p>\n\t\t\t\t<dd>\n\t\t\t\t\t<dt>Example:</dt>\n\t\t\t\t\t<dd>\n\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\tJane is currently a fellow, but she completed her\n\t\t\t\t\t\t\tresidency a month late, at the end of July.\n\t\t\t\t\t\t</p>\n\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\tWhen running reports for July for the incoming CA-3s,\n\t\t\t\t\t\t\tJane's July CA-3 evaluations will be excluded\n\t\t\t\t\t\t\tfrom the report by selecting a\n\t\t\t\t\t\t\t<b>current training level</b> of <i>CA-3</i>.\n\t\t\t\t\t\t</p>\n\t\t\t\t\t</dd>\n\t\t\t\t</dd>`,\n\t\t\thtml: true,\n\t\t\tplacement: 'auto top'\n\t\t});\n\t},\n\n\tcomputed: {\n\t\tmilestoneGroups(){\n\t\t\treturn groupMilestones(this.milestones);\n\t\t},\n\t\tfilteredUsers(){\n\t\t\tlet groupedUsers = this.currentTrainingLevel === 'all'\n\t\t\t\t? this.groupedUsers.filter(userGroup =>\n\t\t\t\t\tuserGroup.text.toLowerCase() !== 'faculty')\n\t\t\t\t: this.groupedUsers.filter(userGroup =>\n\t\t\t\t\tuserGroup.text.toLowerCase() === this.currentTrainingLevel.toLowerCase());\n\t\t\t\n\t\t\treturn this.show.inactiveUsers\n\t\t\t\t? groupedUsers\n\t\t\t\t: groupedUsers.filter(userGroup => userGroup.text !== 'Inactive');\n\n\t\t},\n\t\tsubjects(){\n\t\t\tif(this.traineeId){\n\t\t\t\tlet traineeId = Array.isArray(this.traineeId)\n\t\t\t\t\t? this.traineeId\n\t\t\t\t\t: [this.traineeId];\n\t\t\t\treturn this.users.filter(user => traineeId.includes(user.id.toString()));\n\t\t\t}\n\t\t}\n\t},\n\tmethods: {\n\t\tisEntireMilestoneGroupSelected(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\treturn groupIds.every(id => {\n\t\t\t\treturn this.milestonesFilter.includes(id);\n\t\t\t});\n\t\t},\n\t\ttoggleEntireMilestoneGroup(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\tlet newMilestones = this.milestonesFilter.filter(milestone => {\n\t\t\t\treturn !groupIds.includes(milestone);\n\t\t\t});\n\t\t\tif(!this.isEntireMilestoneGroupSelected(index)){\n\t\t\t\tnewMilestones = newMilestones.concat(groupIds);\n\t\t\t}\n\t\t\tthis.milestonesFilter = newMilestones;\n\t\t},\n\t\trunReport(){\n\t\t\tfetch('/report/aggregate', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate,\n\t\t\t\t\ttrainingLevel: this.trainingLevel,\n\t\t\t\t\tcurrentTrainingLevel: this.currentTrainingLevel,\n\t\t\t\t\tmilestones: this.milestonesFilter\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(report => {\n\t\t\t\tthis.report = Object.assign({}, this.report, report);\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\n\t\t\tfetch('/report/stats/trainee/trainee', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify(Object.assign({}, this.dates, {\n\t\t\t\t\ttrainingLevel: this.currentTrainingLevel\n\t\t\t\t}))\n\t\t\t}).then(jsonOrThrow).then(stats => {\n\t\t\t\tthis.subjectStats = stats;\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t\t\n\t\t\tfetch('/report/stats/faculty/trainee', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify(Object.assign({}, this.dates, {\n\t\t\t\t\ttrainingLevel: this.currentTrainingLevel\n\t\t\t\t}))\n\t\t\t}).then(jsonOrThrow).then(stats => {\n\t\t\t\tthis.evaluatorStats = stats;\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t},\n\t\tprintAll(){\n\t\t\tthis.$refs.individualReports.map(individual => {\n\t\t\t\tindividual.exportPdf();\n\t\t\t});\n\t\t}\n\t},\n\tcomponents: {\n\t\tStartEndDate,\n\t\tAggregateReport,\n\t\tIndividualReport,\n\t\tStatsReport,\n\t\tTrainingLevelSelect,\n\t\tAlertList,\n\t\tBootstrapAlert,\n\t\tSelectTwo,\n\t\tSvgIcon\n\t}\n};\n</script>\n\n<style scoped>\n\t.filter-milestones-container {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tflex-wrap: wrap;\n\t\tjustify-content: flex-start;\n\t\talign-items: stretch;\n\t}\n\n\t.milestone-group {\n\t\tflex-grow: 0;\n\t\tflex-shrink: 1;\n\t\twidth: 250px;\n\t\tmin-width: 200px;\n\t\tmax-width: 100%;\n\t\tmargin: 10px;\n\t}\n\n\t.milestone-group .panel-body {\n\t\theight: 300px;\n\t\toverflow: auto;\n\t}\n\n\t.milestone-group .panel-body label {\n\t\tfont-weight: normal;\n\t}\n</style>\n\n<style>\n\t.popover dd {\n\t\tpadding: 0 1em;\n\t}\n</style>\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -17330,14 +17278,13 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.show-email-button-container[data-v-358a2420] {\n\ttext-align: right;\n\tmargin-bottom: 20px;\n}\n.email-editor-container[data-v-358a2420] {\n\tmargin-bottom: 60px;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/Needs/Evaluations.vue?730478aa"],"names":[],"mappings":";AAkJA;CACA,kBAAA;CACA,oBAAA;CACA;AAEA;CACA,oBAAA;CACA","file":"Evaluations.vue","sourcesContent":["<template>\n\t<section>\n\t\t<h2>Needs evaluations</h2>\n\t\t\n\t\t<div v-if=\"show.emailEditor\" class=\"panel panel-default email-editor-container\">\n\t\t\t<div class=\"panel-body\">\n\t\t\t\t<email-editor\n\t\t\t\t\tfrom=\"reminders\"\n\t\t\t\t\ttarget=\"/emails/reminders\"\n\t\t\t\t\ttitle=\"Send reminders\"\n\t\t\t\t\tdefaultSubject=\"Please request evaluations!\"\n\t\t\t\t\t:defaultTo=\"selectedUsers\"\n\t\t\t\t\t:possibleRecipients=\"trainees\"\n\t\t\t\t\t:defaultBodyMarkdown=\"markdownTemplates.get(markdownTemplate)\"\n\t\t\t\t\t:emailReplacements=\"emailReplacements\"\n\t\t\t\t\t:additionalFields=\"additionalEmailFields\"\n\t\t\t\t\t@close=\"show.emailEditor = false\" />\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tEmail template\n\t\t\t\t\t<select class=\"form-control\" v-model=\"markdownTemplate\">\n\t\t\t\t\t\t<option v-for=\"template of Array.from(markdownTemplates.keys())\"\n\t\t\t\t\t\t\t\t:value=\"template\">\n\t\t\t\t\t\t\t{{ template }}\n\t\t\t\t\t\t</option>\n\t\t\t\t\t</select>\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t</div>\n\t\t\n\t\t<div v-else class=\"show-email-button-container\">\n\t\t\t<button type=\"button\" class=\"btn btn-primary\"\n\t\t\t\t\t@click=\"show.emailEditor = true\">\n\t\t\t\t<span class=\"glyphicon glyphicon-pencil\"></span>\n\t\t\t\tCompose reminders\n\t\t\t</button>\n\t\t</div>\n\t\t\n\t\t<section>\n\t\t\t<component-list :items=\"trainees\" :fields=\"traineeFields\">\n\t\t\t\t<template scope=\"item\">\n\t\t\t\t\t<evaluation-list-item :user=\"item\" />\n\t\t\t\t</template>\n\t\t\t</component-list>\n\t\t</section>\n\t\t\n\t</section>\n</template>\n\n<script>\nimport moment from 'moment';\n\nimport EvaluationListItem from './EvaluationListItem.vue';\nimport ComponentList from '../../ComponentList.vue';\nimport EmailEditor from '../../EmailEditor.vue';\n\nimport { groupUsers } from 'modules/utils.js';\nimport { ADMIN_EMAIL } from 'modules/constants.js';\n\nexport default {\n\tprops: {\n\t\tdates: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t},\n\t\tevalThreshold: {\n\t\t\trequired: true\n\t\t},\n\t\ttrainees: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tselectedUsers: [],\n\t\t\tmarkdownTemplate: 'Default',\n\t\t\tshow: {\n\t\t\t\temailEditor: false\n\t\t\t}\n\t\t};\n\t},\n\tcomputed: {\n\t\ttraineeFields(){\n\t\t\treturn [\n\t\t\t\t'full_name',\n\t\t\t\t'training_level'\n\t\t\t];\n\t\t},\n\t\tmarkdownTemplates(){\n\t\t\tlet startDate = moment(this.dates.startDate).format('LL');\n\t\t\tlet endDate = moment(this.dates.endDate).format('LL');\n\t\t\treturn new Map([\n\t\t\t\t[\n\t\t\t\t\t'Default',\n\t\t\t\t\t`Hello Dr. [[Name]],\n\nYou have [[# Completed]] evaluations completed for between ${startDate} and ${endDate}.\n\n**You are required to have ${this.evalThreshold} evaluations completed for this period.**\nPlease request at least [[# Needed]] more evaluations as soon as possible.\n\nIf you have any issues or questions about the system, please contact [${ADMIN_EMAIL}](mailto:${ADMIN_EMAIL}).\n\nThank you!`\n\t\t\t\t],\n\t\t\t\t[\n\t\t\t\t\t'CCC',\n\t\t\t\t\t`Hello Dr. [[Name]],\n\nThe Clinical Competency Committee will be meeting soon to evaluate your performance from ${startDate} to ${endDate}.\n\nYou currently have [[# Completed]] evaluations completed for this period;\nhowever, **you are required to have ${this.evalThreshold} evaluations completed for this period.**\nPlease request at least [[# Needed]] more evaluations as soon as possible.\n\nIf you have any issues or questions about the system, please contact [${ADMIN_EMAIL}](mailto:${ADMIN_EMAIL}).\n\nThank you!`\n\t\t\t\t]\n\t\t\t]);\n\t\t},\n\t\temailReplacements(){\n\t\t\treturn [\n\t\t\t\t'Name',\n\t\t\t\t'# Completed',\n\t\t\t\t'# Needed'\n\t\t\t];\n\t\t},\n\t\tadditionalEmailFields(){\n\t\t\treturn {\n\t\t\t\tevalsRequired: this.evalThreshold\n\t\t\t};\n\t\t}\n\t},\n\tmethods: {\n\t\tgroupUsers\n\t},\n\tcomponents: {\n\t\tEvaluationListItem,\n\t\tComponentList,\n\t\tEmailEditor\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-email-button-container {\n\t\ttext-align: right;\n\t\tmargin-bottom: 20px;\n\t}\n\n\t.email-editor-container {\n\t\tmargin-bottom: 60px;\n\t}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.filter-milestones-container[data-v-26074fc7] {\n\tdisplay: flex;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tjustify-content: flex-start;\n\talign-items: stretch;\n}\n.milestone-group[data-v-26074fc7] {\n\tflex-grow: 0;\n\tflex-shrink: 1;\n\twidth: 250px;\n\tmin-width: 200px;\n\tmax-width: 100%;\n\tmargin: 10px;\n}\n.milestone-group .panel-body[data-v-26074fc7] {\n\theight: 300px;\n\toverflow: auto;\n}\n.milestone-group .panel-body label[data-v-26074fc7] {\n\tfont-weight: normal;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/TraineeReport.vue?84dd5cd2"],"names":[],"mappings":";AAoXA;CACA,cAAA;CACA,oBAAA;CACA,gBAAA;CACA,4BAAA;CACA,qBAAA;CACA;AAEA;CACA,aAAA;CACA,eAAA;CACA,aAAA;CACA,iBAAA;CACA,gBAAA;CACA,aAAA;CACA;AAEA;CACA,cAAA;CACA,eAAA;CACA;AAEA;CACA,oBAAA;CACA","file":"TraineeReport.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block\">\n\t\t\t<h1>Trainee report</h1>\n\t\t\t<start-end-date v-model=\"dates\" />\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"form-group col-sm-6\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tEvaluation training level\n\t\t\t\t\t\t<training-level-select v-model=\"trainingLevel\" />\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group col-sm-6\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tTrainee current training level\n\t\t\t\t\t\t<span class=\"glyphicon glyphicon-question-sign\"\n\t\t\t\t\t\t\t\tref=\"currentTrainingLevelHintGlyph\"></span>\n\t\t\t\t\t\t<training-level-select v-model=\"currentTrainingLevel\" />\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label>\n\t\t\t\t\t<input type=\"checkbox\" v-model=\"filterMilestones\" />\n\t\t\t\t\tFilter milestones\n\t\t\t\t</label>\n\t\t\t</div>\n\n\t\t\t<fieldset v-if=\"filterMilestones\">\n\t\t\t\t<legend>Milestones</legend>\n\t\t\t\t<div class=\"filter-milestones-container\">\n\t\t\t\t\t<div v-for=\"(milestoneGroup, index) of milestoneGroups\" class=\"milestone-group\">\n\t\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t\t<label class=\"panel-title\">\n\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t:checked=\"isEntireMilestoneGroupSelected(index)\"\n\t\t\t\t\t\t\t\t\t\t\t@click=\"toggleEntireMilestoneGroup(index)\" />\n\t\t\t\t\t\t\t\t\t{{ milestoneGroup.text }}\n\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t\t<div v-for=\"child of milestoneGroup.children\" class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\"\n\t\t\t\t\t\t\t\t\t\t\t\t:value=\"child.id\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"milestonesFilter\" />\n\t\t\t\t\t\t\t\t\t\t{{ child.text }}\n\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\t\t\t\n\t\t\t<alert-list v-model=\"alerts\" />\n\n\t\t\t<div class=\"btn-lg-submit-container\">\n\t\t\t\t<button type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t\t@click=\"runReport\">\n\t\t\t\t\tRun report\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div v-if=\"report\">\n\t\t\t<div class=\"container body-block\">\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t<div class=\"col-md-4\">\n\t\t\t\t\t\t\t<bootstrap-alert type=\"info\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-info-sign\"></span>\n\t\t\t\t\t\t\t\tSelect a subject to show\n\t\t\t\t\t\t\t\tindividual reports.\n\t\t\t\t\t\t\t</bootstrap-alert>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"col-sm-10 col-md-7\">\n\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\tSubject\n\t\t\t\t\t\t\t\t<div class=\"input-group\">\n\t\t\t\t\t\t\t\t\t<select-two class=\"form-control\" v-if=\"filteredUsers\"\n\t\t\t\t\t\t\t\t\t\t\t:options=\"filteredUsers\" v-model=\"traineeId\"\n\t\t\t\t\t\t\t\t\t\t\t:multiple=\"multipleTrainees\">\n\t\t\t\t\t\t\t\t\t\t<option v-if=\"!multipleTrainees\" value=\"\">All</option>\n\t\t\t\t\t\t\t\t\t</select-two>\n\t\t\t\t\t\t\t\t\t<span class=\"input-group-addon\">\n\t\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"show.inactiveUsers\" />\n\t\t\t\t\t\t\t\t\t\t\tShow inactive\n\t\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<span class=\"input-group-addon\">\n\t\t\t\t\t\t\t\t\t\t<label>\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"multipleTrainees\" />\n\t\t\t\t\t\t\t\t\t\t\tSelect multiple\n\t\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"col-sm-2 col-md-1\">\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default labelless-button\"\n\t\t\t\t\t\t\t\t\t@click=\"traineeId = null\">\n\t\t\t\t\t\t\t\tClear\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t\t<div class=\"btn-lg-submit-container\">\n\t\t\t\t\t\t<button v-if=\"report && subjects && subjects.length > 0\"\n\t\t\t\t\t\t\t\ttype=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t\t\t\t@click=\"printAll\">\n\t\t\t\t\t\t\tExport all\n\t\t\t\t\t\t\t<svg-icon src=\"/img/icons/pdf.svg\" />\n\t\t\t\t\t\t</button>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t\n\t\t\t<template v-if=\"subjects && subjects.length > 0\">\n\t\t\t\t<individual-report v-for=\"subject of subjects\" :report=\"report\"\n\t\t\t\t\t:subject=\"subject\" ref=\"individualReports\" />\n\t\t\t</template>\n\t\t\t<template v-else>\n\t\t\t\t<stats-report v-if=\"subjectStats\" :report=\"subjectStats\"\n\t\t\t\t\t\ttitle=\"Trainee evaluation statistics by trainee\">\n\t\t\t\t\t<p class=\"text-center\">\n\t\t\t\t\t\tTrainee list can be filtered by\n\t\t\t\t\t\t<b>Trainee current training level</b>\n\t\t\t\t\t\tabove\n\t\t\t\t\t</p>\n\t\t\t\t</stats-report>\n\t\t\t\t<stats-report v-if=\"evaluatorStats\" :report=\"evaluatorStats\"\n\t\t\t\t\t\ttitle=\"Faculty evaluation statistics by trainee\">\n\t\t\t\t\t<p class=\"text-center\">\n\t\t\t\t\t\tTrainee list can be filtered by\n\t\t\t\t\t\t<b>Trainee current training level</b>\n\t\t\t\t\t\tabove\n\t\t\t\t\t</p>\n\t\t\t\t</stats-report>\n\t\t\t\t<aggregate-report :report=\"report\"\n\t\t\t\t\t:milestones=\"milestones\" :competencies=\"competencies\" />\n\t\t\t</template>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport AggregateReport from './AggregateReport.vue';\nimport IndividualReport from './IndividualReport.vue';\nimport StartEndDate from '../StartEndDate.vue';\nimport StatsReport from './StatsReport.vue';\nimport TrainingLevelSelect from './TrainingLevelSelect.vue';\nimport AlertList from '../AlertList.vue';\nimport BootstrapAlert from '../BootstrapAlert.vue';\nimport SelectTwo from '../SelectTwo.vue';\nimport SvgIcon from '../SvgIcon.vue';\n\nimport {\n\tgetFetchHeaders,\n\tjsonOrThrow,\n\tfetchMilestones,\n\tgroupMilestones,\n\tfetchCompetencies\n} from 'modules/utils.js';\nimport { isoDateStringObject, currentQuarter } from 'modules/date-utils.js';\n\nexport default {\n\tprops: {\n\t\tusers: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\tgroupedUsers: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tdates: isoDateStringObject(currentQuarter()),\n\t\t\ttrainingLevel: 'all',\n\t\t\tcurrentTrainingLevel: 'all',\n\t\t\ttraineeId: null,\n\t\t\tfilterMilestones: false,\n\t\t\tmilestonesFilter: [],\n\t\t\tmultipleTrainees: false,\n\n\t\t\tshow: {\n\t\t\t\tinactiveUsers: false\n\t\t\t},\n\n\t\t\treport: null,\n\t\t\tsubjectStats: null,\n\t\t\tevaluatorStats: null,\n\n\t\t\tmilestones: [],\n\t\t\tcompetencies: [],\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\tmounted(){\n\t\tfetchMilestones().then(milestones => {\n\t\t\tthis.milestones = milestones;\n\t\t}).catch(err => {\n\t\t\tconsole.log(err);\n\t\t\tthis.alerts.push({\n\t\t\t\ttype: 'error',\n\t\t\t\thtml: '<strong>Error:</strong> There was a problem fetching milestones'\n\t\t\t});\n\t\t});\n\t\t\n\t\tfetchCompetencies().then(competencies => {\n\t\t\tthis.competencies = competencies;\n\t\t}).catch(err => {\n\t\t\tconsole.log(err);\n\t\t\tthis.alerts.push({\n\t\t\t\ttype: 'error',\n\t\t\t\thtml: '<strong>Error:</strong> There was a problem fetching competencies'\n\t\t\t});\n\t\t});\n\t\t\n\t\t$(this.$refs.currentTrainingLevelHintGlyph).popover({\n\t\t\ttitle: 'Current training level',\n\t\t\tcontent: `\n\t\t\t\t<p>\n\t\t\t\t\tSelecting a <b>current training level</b> will include only\n\t\t\t\t\tactive trainees for that level, whether they have completed\n\t\t\t\t\tevaluations or not.\n\t\t\t\t</p>\n\t\t\t\t<p>\n\t\t\t\t\tAny trainees with completed evaluations associated with the\n\t\t\t\t\t<b>evaluation training level</b> who are not currently\n\t\t\t\t\tin the selected <b>current training level</b> will be\n\t\t\t\t\texcluded.\n\t\t\t\t</p>\n\t\t\t\t<dd>\n\t\t\t\t\t<dt>Example:</dt>\n\t\t\t\t\t<dd>\n\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\tJane is currently a fellow, but she completed her\n\t\t\t\t\t\t\tresidency a month late, at the end of July.\n\t\t\t\t\t\t</p>\n\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\tWhen running reports for July for the incoming CA-3s,\n\t\t\t\t\t\t\tJane's July CA-3 evaluations will be excluded\n\t\t\t\t\t\t\tfrom the report by selecting a\n\t\t\t\t\t\t\t<b>current training level</b> of <i>CA-3</i>.\n\t\t\t\t\t\t</p>\n\t\t\t\t\t</dd>\n\t\t\t\t</dd>`,\n\t\t\thtml: true,\n\t\t\tplacement: 'auto top'\n\t\t});\n\t},\n\n\tcomputed: {\n\t\tmilestoneGroups(){\n\t\t\treturn groupMilestones(this.milestones);\n\t\t},\n\t\tfilteredUsers(){\n\t\t\tlet groupedUsers = this.currentTrainingLevel === 'all'\n\t\t\t\t? this.groupedUsers.filter(userGroup =>\n\t\t\t\t\tuserGroup.text.toLowerCase() !== 'faculty')\n\t\t\t\t: this.groupedUsers.filter(userGroup =>\n\t\t\t\t\tuserGroup.text.toLowerCase() === this.currentTrainingLevel.toLowerCase());\n\t\t\t\n\t\t\treturn this.show.inactiveUsers\n\t\t\t\t? groupedUsers\n\t\t\t\t: groupedUsers.filter(userGroup => userGroup.text !== 'Inactive');\n\n\t\t},\n\t\tsubjects(){\n\t\t\tif(this.traineeId){\n\t\t\t\tlet traineeId = Array.isArray(this.traineeId)\n\t\t\t\t\t? this.traineeId\n\t\t\t\t\t: [this.traineeId];\n\t\t\t\treturn this.users.filter(user => traineeId.includes(user.id.toString()));\n\t\t\t}\n\t\t}\n\t},\n\tmethods: {\n\t\tisEntireMilestoneGroupSelected(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\treturn groupIds.every(id => {\n\t\t\t\treturn this.milestonesFilter.includes(id);\n\t\t\t});\n\t\t},\n\t\ttoggleEntireMilestoneGroup(index){\n\t\t\tlet groupIds = this.milestoneGroups[index].children.map(child => child.id);\n\t\t\tlet newMilestones = this.milestonesFilter.filter(milestone => {\n\t\t\t\treturn !groupIds.includes(milestone);\n\t\t\t});\n\t\t\tif(!this.isEntireMilestoneGroupSelected(index)){\n\t\t\t\tnewMilestones = newMilestones.concat(groupIds);\n\t\t\t}\n\t\t\tthis.milestonesFilter = newMilestones;\n\t\t},\n\t\trunReport(){\n\t\t\tfetch('/report/aggregate', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate,\n\t\t\t\t\ttrainingLevel: this.trainingLevel,\n\t\t\t\t\tcurrentTrainingLevel: this.currentTrainingLevel,\n\t\t\t\t\tmilestones: this.milestonesFilter\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}).then(report => {\n\t\t\t\tthis.report = Object.assign({}, this.report, report);\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\n\t\t\tfetch('/report/stats/trainee/trainee', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify(Object.assign({}, this.dates, {\n\t\t\t\t\ttrainingLevel: this.currentTrainingLevel\n\t\t\t\t}))\n\t\t\t}).then(jsonOrThrow).then(stats => {\n\t\t\t\tthis.subjectStats = stats;\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t\t\n\t\t\tfetch('/report/stats/faculty/trainee', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify(Object.assign({}, this.dates, {\n\t\t\t\t\ttrainingLevel: this.currentTrainingLevel\n\t\t\t\t}))\n\t\t\t}).then(jsonOrThrow).then(stats => {\n\t\t\t\tthis.evaluatorStats = stats;\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t},\n\t\tprintAll(){\n\t\t\tthis.$refs.individualReports.map(individual => {\n\t\t\t\tindividual.exportPdf();\n\t\t\t});\n\t\t}\n\t},\n\tcomponents: {\n\t\tStartEndDate,\n\t\tAggregateReport,\n\t\tIndividualReport,\n\t\tStatsReport,\n\t\tTrainingLevelSelect,\n\t\tAlertList,\n\t\tBootstrapAlert,\n\t\tSelectTwo,\n\t\tSvgIcon\n\t}\n};\n</script>\n\n<style scoped>\n\t.filter-milestones-container {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tflex-wrap: wrap;\n\t\tjustify-content: flex-start;\n\t\talign-items: stretch;\n\t}\n\n\t.milestone-group {\n\t\tflex-grow: 0;\n\t\tflex-shrink: 1;\n\t\twidth: 250px;\n\t\tmin-width: 200px;\n\t\tmax-width: 100%;\n\t\tmargin: 10px;\n\t}\n\n\t.milestone-group .panel-body {\n\t\theight: 300px;\n\t\toverflow: auto;\n\t}\n\n\t.milestone-group .panel-body label {\n\t\tfont-weight: normal;\n\t}\n</style>\n\n<style>\n\t.popover dd {\n\t\tpadding: 0 1em;\n\t}\n</style>\n"],"sourceRoot":""}]);
 
 // exports
 
 
 /***/ }),
-/* 313 */,
-/* 314 */
+/* 313 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -17345,12 +17292,13 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.individual-report section[data-v-405f959c] {\n\tmargin: 2em 0 0;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/IndividualReport.vue?5df9ef94"],"names":[],"mappings":";AAwnBA;CACA,gBAAA;CACA","file":"IndividualReport.vue","sourcesContent":["<template>\n\t<div class=\"individual-report container body-block\">\n\t\t<alert-list v-model=\"alerts\" />\n\t\t<template v-if=\"report.subjectEvaluations[subjectId] && report.subjectEvaluations[subjectId].length > 0\">\n\t\t\t<h2>\n\t\t\t\tIndividual Report\n\t\t\t\t<small>\n\t\t\t\t\t{{ report.subjects[subjectId] }}\n\t\t\t\t</small>\n\t\t\t</h2>\n\n\n\t\t\t<section>\n\t\t\t\t<h3>Evaluations included in report</h3>\n\t\t\t\t<data-table :bordered=\"true\" :thead=\"evaluationsThead\"\n\t\t\t\t\t:config=\"evaluationsConfig\" :data=\"evaluationsData\" />\n\n\t\t\t\t<button type=\"button\" class=\"btn btn-default center-block\"\n\t\t\t\t\t\t@click=\"exportPdf\">\n\t\t\t\t\tExport PDF\n\t\t\t\t\t<svg-icon src=\"/img/icons/pdf.svg\" />\n\t\t\t\t</button>\n\t\t\t</section>\n\n\t\t\t<section>\n\t\t\t\t<fieldset class=\"show-container\">\n\t\t\t\t\t<legend>Show</legend>\n\t\t\t\t\t<label v-for=\"(part, name) of show\">\n\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"show[name]\" />\n\t\t\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t\t\t</label>\n\t\t\t\t</fieldset>\n\n\t\t\t\t<div class=\"row\">\n\t\t\t\t\t<div :class=\"milestoneCompetencyWidth\" v-if=\"show.competencies\">\n\t\t\t\t\t\t<h4>Competencies</h4>\n\t\t\t\t\t\t<data-table :bordered=\"true\"\n\t\t\t\t\t\t\t:thead=\"competenciesThead\" :data=\"competenciesData\" />\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div :class=\"milestoneCompetencyWidth\" v-if=\"show.milestones\">\n\t\t\t\t\t\t<h4>Milestones</h4>\n\t\t\t\t\t\t<data-table :bordered=\"true\"\n\t\t\t\t\t\t\t:thead=\"milestonesThead\" :data=\"milestonesData\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</section>\n\n\t\t\t<section v-if=\"show.charts\">\n\t\t\t\t<div class=\"row charts\">\n\t\t\t\t\t<div v-if=\"show.competencies\" :class=\"chartWidth\">\n\t\t\t\t\t\t<chartjs-chart v-if=\"competencyChartData\"\n\t\t\t\t\t\t\t:type=\"chartType\"\n\t\t\t\t\t\t\t:options=\"chartOptions\" :data=\"competencyChartData\"\n\t\t\t\t\t\t\t:shouldEmit=\"true\" ref=\"competencyChart\" />\n\t\t\t\t\t</div>\n\t\t\t\t\t<div v-if=\"show.milestones\" :class=\"chartWidth\">\n\t\t\t\t\t\t<chartjs-chart v-if=\"milestoneChartData\"\n\t\t\t\t\t\t\t:type=\"chartType\"\n\t\t\t\t\t\t\t:options=\"chartOptions\" :data=\"milestoneChartData\"\n\t\t\t\t\t\t\t:shouldEmit=\"true\" ref=\"milestoneChart\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\t\t\t\t<div class=\"row chart-options\">\n\t\t\t\t\t<div class=\"col-sm-offset-5 col-sm-2\">\n\t\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t\t<span class=\"panel-title\">Chart options</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t\t<fieldset v-if=\"show.milestones && show.competencies\">\n\t\t\t\t\t\t\t\t\t<legend>Orientation</legend>\n\t\t\t\t\t\t\t\t\t<div class=\"btn-group btn-group-justified\" data-toggle=\"buttons\">\n\t\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"horizontal\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-horizontal\"></span>\n\t\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"vertical\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-vertical\"></span>\n\t\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</fieldset>\n\n\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\t\t\tType\n\t\t\t\t\t\t\t\t\t\t<select class=\"form-control\" v-model=\"chartType\">\n\t\t\t\t\t\t\t\t\t\t\t<option v-for=\"type of chartTypes\" :value=\"type\">\n\t\t\t\t\t\t\t\t\t\t\t\t{{ ucfirst(type) }}\n\t\t\t\t\t\t\t\t\t\t\t</option>\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</section>\n\n\t\t\t<section>\n\t\t\t\t<h3>Comments</h3>\n\t\t\t\t<data-table :bordered=\"true\" :thead=\"commentsThead\"\n\t\t\t\t\t:config=\"commentsConfig\" :data=\"commentsData\" />\n\n\t\t\t\t<button type=\"button\" class=\"btn btn-primary center-block\"\n\t\t\t\t\t\t@click=\"exportPdf\">\n\t\t\t\t\tExport PDF\n\t\t\t\t\t<svg-icon src=\"/img/icons/pdf.svg\" />\n\t\t\t\t</button>\n\t\t\t</section>\n\n\t\t</template>\n\t\t<bootstrap-alert v-else type=\"warning\">\n\t\t\tNo <strong>{{ trainingLevelDisplay }}</strong> evaluations found for\n\t\t\t<strong>{{ subject.full_name }}</strong>\n\t\t\tbetween <strong>{{ renderDateCell(report.startDate.date) }}</strong>\n\t\t\tand <strong>{{ renderDateCell(report.endDate.date) }}</strong>.\n\t\t</bootstrap-alert>\n\t</div>\n</template>\n\n<script>\nimport Color from 'color';\n\nimport BootstrapAlert from '../BootstrapAlert.vue';\nimport AlertList from '../AlertList.vue';\nimport BootstrapButtonInput from '../BootstrapButtonInput.vue';\nimport ChartjsChart from '../ChartjsChart.vue';\nimport DataTable from '../DataTable.vue';\nimport SvgIcon from '../SvgIcon.vue';\n\nimport {\n\tCHART_COLORS,\n\tRESIDENT_VALUE_MAP,\n\tFELLOWSHIP_VALUE_MAPS\n} from 'modules/constants.js';\nimport {\n\tcamelCaseToWords,\n\tucfirst\n} from 'modules/utils.js';\nimport {\n\trenderIdToEvalUrl,\n\trenderDateCell,\n\trenderDateRangeCell,\n\trenderTrainingLevel\n} from 'modules/datatable-utils.js';\nimport {\n\tcreateRadarScaleCallback,\n\ttableHeader,\n\tfullWidthTable,\n\tborderedStripedTable,\n\tcreateResponseLegend\n} from 'modules/report-utils.js';\n\nexport default {\n\tprops: {\n\t\tsubject: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t},\n\t\treport: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tmilestones: true,\n\t\t\t\tcompetencies: true,\n\t\t\t\tstandardDeviations: false,\n\t\t\t\tcharts: true\n\t\t\t},\n\t\t\tchartType: 'radar',\n\t\t\tchartOrientation: 'vertical',\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\tcomputed: {\n\t\tsubjectId(){\n\t\t\treturn this.subject.id;\n\t\t},\n\t\ttrainingLevelDisplay(){\n\t\t\tif(this.report.trainingLevel === 'all')\n\t\t\t\treturn;\n\t\t\t\t\n\t\t\treturn renderTrainingLevel(this.report.trainingLevel);\n\t\t},\n\t\tvalueMap(){\n\t\t\tif(this.report.trainingLevel === 'fellow')\n\t\t\t\treturn FELLOWSHIP_VALUE_MAPS.get(this.subject.secondary_training_level)\n\t\t\t\t\t|| FELLOWSHIP_VALUE_MAPS.get(null);\n\t\t\t\t\n\t\t\treturn RESIDENT_VALUE_MAP;\n\t\t},\n\t\tmilestoneCompetencyWidth(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': this.show.milestones && this.show.competencies,\n\t\t\t\t'col-md-12': !this.show.milestones || !this.show.competencies\n\t\t\t};\n\t\t},\n\t\tevaluationsThead(){\n\t\t\treturn [[\n\t\t\t\t'#',\n\t\t\t\t'Evaluation date',\n\t\t\t\t'Evaluator',\n\t\t\t\t'Evaluation form'\n\t\t\t]];\n\t\t},\n\t\tevaluationsConfig(){\n\t\t\treturn {\n\t\t\t\tcolumns: [\n\t\t\t\t\t{ render: renderIdToEvalUrl },\n\t\t\t\t\tnull,\n\t\t\t\t\tnull,\n\t\t\t\t\tnull\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tevaluationsData(){\n\t\t\ttry {\n\t\t\t\treturn this.report.subjectEvaluations[this.subjectId].map(request => [\n\t\t\t\t\tString(request.evaluation_id),\n\t\t\t\t\trenderDateRangeCell('evaluation_date_start', 'evaluation_date_end')(request),\n\t\t\t\t\t`${request.evaluator_last}, ${request.evaluator_first}`,\n\t\t\t\t\trequest.form_title\n\t\t\t\t]);\n\t\t\t} catch(err) {\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\tcompetenciesThead(){\n\t\t\tlet tr = [\n\t\t\t\t'Competency',\n\t\t\t\t'Average'\n\t\t\t];\n\t\t\tif(this.show.standardDeviations)\n\t\t\t\ttr.push('Standard Deviation');\n\t\t\ttr.push('Number of Evaluations');\n\n\t\t\treturn [tr];\n\t\t},\n\t\tcompetenciesData(){\n\t\t\tlet data = [];\n\t\t\tfor(let competencyId in this.report.subjectCompetency[this.subjectId]){\n\t\t\t\tlet tr = [String(this.report.competencies[competencyId])];\n\t\t\t\tif(this.report.subjectCompetency[this.subjectId][competencyId]){\n\t\t\t\t\ttr.push(String(Math.round10(this.report.subjectCompetency[this.subjectId][competencyId], -2)));\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\ttr.push(String(Math.round10(this.report.subjectCompetencyDeviations[this.subjectId][competencyId], -2)));\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\ttr.push('');\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\ttr.push('');\n\t\t\t\t}\n\t\t\t\ttr.push(String(this.report.subjectCompetencyEvals[this.subjectId][competencyId] || 0));\n\t\t\t\tdata.push(tr);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\t\tmilestonesThead(){\n\t\t\tlet tr = [\n\t\t\t\t'Milestone',\n\t\t\t\t'Average'\n\t\t\t];\n\n\t\t\tif(this.show.standardDeviations)\n\t\t\t\ttr.push('Standard Deviation');\n\t\t\ttr.push('Number of Evaluations');\n\n\t\t\treturn [tr];\n\t\t},\n\t\tmilestonesData(){\n\t\t\tlet data = [];\n\t\t\tfor(let milestoneId in this.report.subjectMilestone[this.subjectId]){\n\t\t\t\tlet tr = [String(this.report.milestones[milestoneId])];\n\t\t\t\tif(this.report.subjectMilestone[this.subjectId][milestoneId]){\n\t\t\t\t\ttr.push(String(Math.round10(this.report.subjectMilestone[this.subjectId][milestoneId], -2)));\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\ttr.push(String(Math.round10(this.report.subjectMilestoneDeviations[this.subjectId][milestoneId], -2)));\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\ttr.push('');\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\ttr.push('');\n\t\t\t\t}\n\n\t\t\t\ttr.push(String(this.report.subjectMilestoneEvals[this.subjectId][milestoneId] || 0));\n\n\t\t\t\tdata.push(tr);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\n\t\tcommentsConfig(){\n\t\t\treturn {\n\t\t\t\tcolumns: [\n\t\t\t\t\t{ render: renderIdToEvalUrl },\n\t\t\t\t\tnull,\n\t\t\t\t\tnull,\n\t\t\t\t\tnull,\n\t\t\t\t\tnull\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tcommentsThead(){\n\t\t\treturn [[\n\t\t\t\t'#',\n\t\t\t\t'Evaluation Date',\n\t\t\t\t'Evaluator',\n\t\t\t\t'Evaluation Form',\n\t\t\t\t'Comment'\n\t\t\t]];\n\t\t},\n\t\tcommentsData(){\n\t\t\ttry {\n\t\t\t\treturn this.report.subjectTextResponses[this.subjectId].map(response => [\n\t\t\t\t\tString(response.evaluation_id),\n\t\t\t\t\trenderDateRangeCell('evaluation_date_start', 'evaluation_date_end')(response),\n\t\t\t\t\t`${response.last_name}, ${response.first_name}`,\n\t\t\t\t\tresponse.form_title,\n\t\t\t\t\tresponse.response\n\t\t\t\t]);\n\t\t\t} catch(err) {\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\n\t\tchartTypes(){\n\t\t\treturn [\n\t\t\t\t'radar',\n\t\t\t\t'line',\n\t\t\t\t'bar'\n\t\t\t];\n\t\t},\n\t\tchartWidth(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': this.chartOrientation === 'horizontal',\n\t\t\t\t'col-md-12': this.chartOrientation === 'vertical'\n\t\t\t};\n\t\t},\n\t\tchartOptions(){\n\t\t\treturn {\n\t\t\t\tanimation: false,\n\t\t\t\tlegend: {\n\t\t\t\t\tlabels: {\n\t\t\t\t\t\tfontSize: 18,\n\t\t\t\t\t\tfontColor: '#333'\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tcallbacks: {\n\t\t\t\t\t\tlabel(tooltip, data){\n\t\t\t\t\t\t\tlet value = parseFloat(tooltip.yLabel).toFixed(2);\n\t\t\t\t\t\t\tlet name = data.datasets[tooltip.datasetIndex].label;\n\t\t\t\t\t\t\treturn `${name}: ${value}`;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\tscale: {\n\t\t\t\t\tticks: {\n\t\t\t\t\t\tbeginAtZero: true,\n\t\t\t\t\t\tuserCallback: createRadarScaleCallback(this.valueMap)\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t};\n\t\t},\n\t\tcompetencyChartData(){\n\t\t\tlet averageColor = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet averageBackgroundColor = averageColor.clone().alpha(0.2);\n\n\t\t\tlet subjectColor = Color(CHART_COLORS.SUBJECT);\n\t\t\tlet subjectBackgroundColor = subjectColor.clone().alpha(0.2);\n\t\t\ttry {\n\t\t\t\treturn {\n\t\t\t\t\tlabels: Object.values(this.report.competencies),\n\t\t\t\t\tdatasets: [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tlabel: 'Average Competency',\n\t\t\t\t\t\t\tbackgroundColor: averageBackgroundColor.rgbString(),\n\t\t\t\t\t\t\tborderColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tpointBackgroundColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBorderColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tdata: Object.values(this.report.averageCompetency)\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tlabel: 'Subject Competency',\n\t\t\t\t\t\t\tbackgroundColor: subjectBackgroundColor.rgbString(),\n\t\t\t\t\t\t\tborderColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tpointBackgroundColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBorderColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tdata: Object.values(this.report.subjectCompetency[this.subjectId])\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t};\n\t\t\t} catch(err) {\n\t\t\t\treturn null;\n\t\t\t}\n\t\t},\n\t\tmilestoneChartData(){\n\t\t\tlet averageColor = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet averageBackgroundColor = averageColor.clone().alpha(0.2);\n\n\t\t\tlet subjectColor = Color(CHART_COLORS.SUBJECT);\n\t\t\tlet subjectBackgroundColor = subjectColor.clone().alpha(0.2);\n\t\t\ttry {\n\t\t\t\treturn {\n\t\t\t\t\tlabels: Object.values(this.report.milestones),\n\t\t\t\t\tdatasets: [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tlabel: 'Average Milestone',\n\t\t\t\t\t\t\tbackgroundColor: averageBackgroundColor.rgbString(),\n\t\t\t\t\t\t\tborderColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tpointBackgroundColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBorderColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tdata: Object.values(this.report.averageMilestone)\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tlabel: 'Subject Milestone',\n\t\t\t\t\t\t\tbackgroundColor: subjectBackgroundColor.rgbString(),\n\t\t\t\t\t\t\tborderColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tpointBackgroundColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBorderColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tdata: Object.values(this.report.subjectMilestone[this.subjectId])\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t};\n\t\t\t} catch(err) {\n\t\t\t\treturn null;\n\t\t\t}\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords,\n\t\tucfirst,\n\t\trenderDateCell,\n\t\texportPdf(){\n\t\t\tif(!this.report.subjectEvaluations[this.subjectId])\n\t\t\t\treturn;\n\n\t\t\tPromise.all([\n\t\t\t\timport('pdfmake/build/pdfmake.js'),\n\t\t\t\timport('../../vfs_fonts.json')\n\t\t\t]).then(([pdfmake, vfs]) => {\n\t\t\t\tpdfmake.vfs = vfs;\n\n\t\t\t\tconst filename = `${this.report.subjects[this.subjectId]} - ${new Date().toLocaleString()}`; // FIXME\n\n\t\t\t\tlet content = [\n\t\t\t\t\t{ text: 'Report parameters', style: 'heading' },\n\t\t\t\t\tborderedStripedTable({\n\t\t\t\t\t\ttable: fullWidthTable({\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: [\n\t\t\t\t\t\t\t\t['Name', 'Training level', 'Start date', 'End date'].map(tableHeader),\n\t\t\t\t\t\t\t\t[\n\t\t\t\t\t\t\t\t\tthis.report.subjects[this.subjectId],\n\t\t\t\t\t\t\t\t\tthis.report.trainingLevel,\n\t\t\t\t\t\t\t\t\tthis.report.startDate.date\n\t\t\t\t\t\t\t\t\t\t? this.report.startDate.date.split(' ')[0]\n\t\t\t\t\t\t\t\t\t\t: this.report.startDate,\n\t\t\t\t\t\t\t\t\tthis.report.endDate.date\n\t\t\t\t\t\t\t\t\t\t? this.report.endDate.date.split(' ')[0]\n\t\t\t\t\t\t\t\t\t\t: this.report.endDate\n\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t})\n\t\t\t\t\t}),\n\t\t\t\t\t{ text: 'Evaluations included in report', style: 'heading' },\n\t\t\t\t\tborderedStripedTable({\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\twidths: ['auto', 'auto', 'auto', '*'],\n\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\tthis.evaluationsThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t...this.evaluationsData\n\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t}\n\t\t\t\t\t})\n\t\t\t\t];\n\n\t\t\t\tif(this.show.competencies || this.show.milestones)\n\t\t\t\t\tcontent.push(\n\t\t\t\t\t\t{ text: 'Score mapping', style: 'heading' },\n\t\t\t\t\t\tcreateResponseLegend(this.valueMap)\n\t\t\t\t\t);\n\n\t\t\t\tif(this.show.competencies)\n\t\t\t\t\tcontent.push(\n\t\t\t\t\t\t{ text: 'Competencies', style: 'heading' },\n\t\t\t\t\t\tborderedStripedTable({\n\t\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\t\twidths: ['*', 'auto', 'auto'],\n\t\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\t\tthis.competenciesThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t\t...this.competenciesData\n\t\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t})\n\t\t\t\t\t);\n\n\t\t\t\tif(this.show.milestones)\n\t\t\t\t\tcontent.push(\n\t\t\t\t\t\t{ text: 'Milestones', style: 'heading' },\n\t\t\t\t\t\tborderedStripedTable({\n\t\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\t\twidths: ['*', 'auto', 'auto'],\n\t\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\t\tthis.milestonesThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t\t...this.milestonesData\n\t\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t})\n\t\t\t\t\t);\n\n\t\t\t\tlet charts = [];\n\t\t\t\tif(this.show.charts){\n\t\t\t\t\tif(this.chartOrientation === 'horizontal'){\n\t\t\t\t\t\tlet cols = [];\n\t\t\t\t\t\tif(this.show.competencies && this.$refs.competencyChart && this.$refs.competencyChart.chart)\n\t\t\t\t\t\t\tcols.push({\n\t\t\t\t\t\t\t\timage: this.$refs.competencyChart.chart.toBase64Image(),\n\t\t\t\t\t\t\t\twidth: '*'\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\telse\n\t\t\t\t\t\t\tcols.push({ text: '', width: '*' });\n\n\t\t\t\t\t\tif(this.show.milestones && this.$refs.milestoneChart && this.$refs.milestoneChart.chart)\n\t\t\t\t\t\t\tcols.push({\n\t\t\t\t\t\t\t\timage: this.$refs.milestoneChart.chart.toBase64Image(),\n\t\t\t\t\t\t\t\twidth: '*'\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\telse\n\t\t\t\t\t\t\tcols.push({ text: '', width: '*' });\n\n\t\t\t\t\t\tcharts = [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\tpageBreak: 'before',\n\t\t\t\t\t\t\t\tcolumns: cols,\n\t\t\t\t\t\t\t\tcolumnGap: 10\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t];\n\t\t\t\t\t}\n\t\t\t\t\telse {\n\t\t\t\t\t\tcharts = [];\n\t\t\t\t\t\tif(this.show.competencies && this.$refs.competencyChart && this.$refs.competencyChart.chart)\n\t\t\t\t\t\t\tcharts.push({\n\t\t\t\t\t\t\t\tpageBreak: 'before',\n\t\t\t\t\t\t\t\timage: this.$refs.competencyChart.chart.toBase64Image(),\n\t\t\t\t\t\t\t\twidth: '*'\n\t\t\t\t\t\t\t});\n\n\t\t\t\t\t\tif(this.show.milestones && this.$refs.milestoneChart && this.$refs.milestoneChart.chart)\n\t\t\t\t\t\t\tcharts.push({\n\t\t\t\t\t\t\t\timage: this.$refs.milestoneChart.chart.toBase64Image(),\n\t\t\t\t\t\t\t\twidth: '*',\n\t\t\t\t\t\t\t\tpageBreak: 'after'\n\t\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t\tcontent.push(...charts);\n\t\t\t\t}\n\n\t\t\t\tcontent.push(\n\t\t\t\t\t{ text: 'Comments', style: 'heading' },\n\t\t\t\t\tborderedStripedTable({\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\twidths: ['auto', 'auto', 'auto', 'auto', '*'],\n\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\tthis.commentsThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t...this.commentsData\n\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t}\n\t\t\t\t\t})\n\t\t\t\t);\n\n\t\t\t\tlet docDefinition = {\n\t\t\t\t\tpageSize: 'LETTER',\n\t\t\t\t\tcontent,\n\t\t\t\t\tstyles: {\n\t\t\t\t\t\theading: {\n\t\t\t\t\t\t\tbold: true,\n\t\t\t\t\t\t\tfontSize: 20,\n\t\t\t\t\t\t\tmargin: [0, 20, 0, 10]\n\t\t\t\t\t\t},\n\t\t\t\t\t\ttableHeader: {\n\t\t\t\t\t\t\tbold: true,\n\t\t\t\t\t\t\tfontSize: 14\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t};\n\n\t\t\t\tpdfmake.createPdf(docDefinition).download(filename);\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\thtml: `<strong>Error: </strong> There was a problem exporting the report for ${this.report.subjects[this.subjectId]}`\n\t\t\t\t});\n\t\t\t});\n\n\t\t}\n\t},\n\n\tcomponents: {\n\t\tBootstrapAlert,\n\t\tAlertList,\n\t\tBootstrapButtonInput,\n\t\tChartjsChart,\n\t\tDataTable,\n\t\tSvgIcon\n\t}\n};\n</script>\n\n<style scoped>\n\t.individual-report section {\n\t\tmargin: 2em 0 0;\n\t}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.report-type-option[data-v-29d12b6c] {\n\tmargin: 0 1em;\n}\n@media print {\n.reports-selector[data-v-29d12b6c] {\n\t\tdisplay: none;\n}\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/Reports.vue?59ec51ae"],"names":[],"mappings":";AAiEA;CACA,cAAA;CACA;AAEA;AACA;EACA,cAAA;CACA;CACA","file":"Reports.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block reports-selector\">\n\t\t\t<fieldset>\n\t\t\t\t<legend>Report type</legend>\n\t\t\t\t<div class=\"form-inline\">\n\t\t\t\t\t<label >\n\t\t\t\t\t\t<router-link v-for=\"type of reportTypes\" :to=\"type\"\n\t\t\t\t\t\t\t\tclass=\"report-type-option btn btn-default\"\n\t\t\t\t\t\t\t\tactive-class=\"disabled\">\n\t\t\t\t\t\t\t{{ kebabCaseToWords(type) }}\n\t\t\t\t\t\t</router-link>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\t\t</div>\n\n\t\t<router-view :users=\"users\" :groupedUsers=\"groupedUsers\"></router-view>\n\t</div>\n</template>\n\n<script>\nimport {\n\tkebabCaseToWords,\n\tfetchUsers,\n\tgroupUsers\n} from 'modules/utils.js';\n\nexport default {\n\tdata(){\n\t\treturn {\n\t\t\treportType: 'trainee',\n\t\t\tusers: []\n\t\t};\n\t},\n\tcomputed: {\n\t\treportTypes(){\n\t\t\treturn [\n\t\t\t\t'trainee',\n\t\t\t\t'faculty',\n\t\t\t\t'form',\n\t\t\t\t'needs-evaluations',\n\t\t\t\t'pending-requests'\n\t\t\t];\n\t\t},\n\t\tgroupedUsers(){\n\t\t\treturn groupUsers(this.users);\n\t\t}\n\t},\n\n\tcreated(){\n\t\tfetchUsers().then(users => {\n\t\t\tthis.users = users;\n\t\t}).catch(err => {\n\t\t\tconsole.error(err);\n\t\t});\n\t},\n\n\tmethods: {\n\t\tkebabCaseToWords\n\t}\n};\n</script>\n\n<style scoped>\n\t.report-type-option {\n\t\tmargin: 0 1em;\n\t}\n\t\n\t@media print {\n\t\t.reports-selector {\n\t\t\tdisplay: none;\n\t\t}\n\t}\n</style>\n"],"sourceRoot":""}]);
 
 // exports
 
 
 /***/ }),
+/* 314 */,
 /* 315 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17359,13 +17307,14 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.svg-icon,\n.svg-icon > svg {\n\tdisplay: inline-block;\n\twidth: 1em;\n\theight: 1em;\n\tstroke-width: 0;\n\tstroke: currentColor;\n\tfill: currentColor;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/SvgIcon.vue?782cfc92"],"names":[],"mappings":";AAkCA;;CAEA,sBAAA;CACA,WAAA;CACA,YAAA;CACA,gBAAA;CACA,qBAAA;CACA,mBAAA;CACA","file":"SvgIcon.vue","sourcesContent":["<template>\n\t<span class=\"svg-icon\" v-html=\"svg\"></span>\n</template>\n\n<script>\n\nexport default {\n\tprops: {\n\t\tsrc: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tsvg: null\n\t\t};\n\t},\n\tcreated(){\n\t\tfetch(this.src).then(response => {\n\t\t\tif(response.ok)\n\t\t\t\treturn response.text();\n\t\t\t\n\t\t\tthrow new Error('Unable to load icon');\n\t\t}).then(svg => {\n\t\t\tthis.svg = svg;\n\t\t}).catch(err => {\n\t\t\tconsole.err(err.message);\n\t\t});\n\t}\n};\n</script>\n\n<style>\n\t.svg-icon,\n\t.svg-icon > svg {\n\t\tdisplay: inline-block;\n\t\twidth: 1em;\n\t\theight: 1em;\n\t\tstroke-width: 0;\n\t\tstroke: currentColor;\n\t\tfill: currentColor;\n\t}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.question-option-stats[data-v-2f4974f7] {\n\tdisplay: flex;\n\tflex-direction: column;\n\tflex-grow: 1;\n\tjustify-content: flex-end;\n}\ntable[data-v-2f4974f7] {\n\twidth: 40%;\n\tmargin: 0 auto;\n}\ntable th[data-v-2f4974f7] {\n\twhite-space: nowrap;\n}\ntable td[data-v-2f4974f7] {\n\ttext-align: center;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/FormReportQuestionOptionStats.vue?663ee435"],"names":[],"mappings":";AAiCA;CACA,cAAA;CACA,uBAAA;CACA,aAAA;CACA,0BAAA;CACA;AAEA;CACA,WAAA;CACA,eAAA;CACA;AAEA;CACA,oBAAA;CACA;AAEA;CACA,mBAAA;CACA","file":"FormReportQuestionOptionStats.vue","sourcesContent":["<template>\n\t<div class=\"question-option-stats\">\n\t\t<table v-if=\"responses || percentage || averagePercentage\"\n\t\t\t\tclass=\"table table-bordered\">\n\t\t\t<tbody>\n\t\t\t\t<tr v-if=\"responses != null\">\n\t\t\t\t\t<th>Subject responses</th>\n\t\t\t\t\t<td>{{ responses }}</td>\n\t\t\t\t</tr>\n\t\t\t\t<tr v-if=\"percentage != null\">\n\t\t\t\t\t<th>Subject percentage</th>\n\t\t\t\t\t<td>{{ percentage }}%</td>\n\t\t\t\t</tr>\n\t\t\t\t<tr v-if=\"averagePercentage != null\">\n\t\t\t\t\t<th>Overall percentage</th>\n\t\t\t\t\t<td>{{ averagePercentage }}%</td>\n\t\t\t\t</tr>\n\t\t\t</tbody>\n\t\t</table>\n\t</div>\n</template>\n\n<script>\nexport default {\n\tprops: {\n\t\tresponses: Number,\n\t\tpercentage: Number,\n\t\taveragePercentage: Number\n\t}\n};\n</script>\n\n<style scoped>\n\t.question-option-stats {\n\t\tdisplay: flex;\n\t\tflex-direction: column;\n\t\tflex-grow: 1;\n\t\tjustify-content: flex-end;\n\t}\n\n\ttable {\n\t\twidth: 40%;\n\t\tmargin: 0 auto;\n\t}\n\t\n\ttable th {\n\t\twhite-space: nowrap;\n\t}\n\n\ttable td {\n\t\ttext-align: center;\n\t}\n</style>\n"],"sourceRoot":""}]);
 
 // exports
 
 
 /***/ }),
-/* 316 */
+/* 316 */,
+/* 317 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -17373,13 +17322,12 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\nul[data-v-5b23c1a4] {\n\tcolumns: 150px 3;\n}\nfieldset label[data-v-5b23c1a4] {\n\tmargin: 0 1em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/EmailEditor.vue?0d1af47c"],"names":[],"mappings":";AAgUA;CACA,iBAAA;CACA;AAEA;CACA,cAAA;CACA","file":"EmailEditor.vue","sourcesContent":["<template>\n\t<div class=\"panel panel-default\">\n\t\t<div class=\"panel-heading\">\n\t\t\t<h3 class=\"heading-title\">\n\t\t\t\t{{ title }}\n\t\t\t</h3>\n\t\t</div>\n\t\t<div class=\"panel-body\">\n\t\t\t<section>\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<label for=\"email-to\">To</label>\n\t\t\t\t\t<div class=\"input-group\">\n\t\t\t\t\t\t<input type=\"text\" id=\"email-to\"\n\t\t\t\t\t\t\tclass=\"form-control appear-not-readonly\"\n\t\t\t\t\t\t\t:value=\"toDisplayValue\" readonly />\n\t\t\t\t\t\t<span v-if=\"Array.isArray(to) && !possibleRecipients\"\n\t\t\t\t\t\t\t\tclass=\"input-group-btn\">\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\t@click=\"show.recipients = !show.recipients\">\n\t\t\t\t\t\t\t\tShow recipients\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-triangle-bottom\"></span>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</span>\n\t\t\t\t\t\t<span v-if=\"possibleRecipients\" class=\"input-group-btn\">\n\t\t\t\t\t\t\t<show-hide-button class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\tv-model=\"show.possibleRecipients\">\n\t\t\t\t\t\t\t\trecipients\n\t\t\t\t\t\t\t</show-hide-button>\n\t\t\t\t\t\t</span>\n\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t\t<div v-if=\"Array.isArray(to) && !possibleRecipients\"\n\t\t\t\t\t\t\tv-show=\"show.recipients\">\n\t\t\t\t\t\t<ul class=\"list-group\">\n\t\t\t\t\t\t\t<li v-for=\"recipient of to\" class=\"list-group-item\">\n\t\t\t\t\t\t\t\t{{ recipient.full_name || recipient }}\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t\t<div v-if=\"possibleRecipients\" v-show=\"show.possibleRecipients\">\n\t\t\t\t\t\t<div class=\"well row\">\n\t\t\t\t\t\t\t<template v-for=\"possibleRecipientGroup of groupedPossibleRecipients\">\n\t\t\t\t\t\t\t\t<template v-if=\"possibleRecipientGroup.children && possibleRecipientGroup.children.length > 0\">\n\t\t\t\t\t\t\t\t\t<b>{{ possibleRecipientGroup.text }}</b>\n\t\t\t\t\t\t\t\t\t<ul>\n\t\t\t\t\t\t\t\t\t\t<li v-for=\"possibleRecipient of possibleRecipientGroup.children\">\n\t\t\t\t\t\t\t\t\t\t\t<label :class=\"{'normal-text-label': !to.includes(possibleRecipient.id)}\">\n\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"to\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t:value=\"possibleRecipient.id\" />\n\t\t\t\t\t\t\t\t\t\t\t\t{{ possibleRecipient.text || possibleRecipient }}\n\t\t\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t</template>\n\t\t\t\t\t\t\t</template>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<label for=\"email-subject\">Subject</label>\n\t\t\t\t\t<input type=\"text\" id=\"email-subject\" class=\"form-control\"\n\t\t\t\t\t\tv-model=\"subject\" />\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<label for=\"email-body\">Body</label>\n\t\t\t\t\t<medium-editor v-model=\"body.html\" id=\"email-body\"\n\t\t\t\t\t\t:replacements=\"emailReplacements\" />\n\t\t\t\t</div>\n\t\t\t\t\n\t\t\t\t<alert-list v-if=\"alerts && alerts.length > 0\" v-model=\"alerts\" />\n\t\t\t</section>\n\t\t</div>\n\t\t<div class=\"panel-footer text-right\">\n\t\t\t<button type=\"button\" class=\"btn btn-primary\" @click=\"send\">\n\t\t\t\t<span class=\"glyphicon glyphicon-send\"></span>\n\t\t\t\tSend emails\n\t\t\t</button>\n\t\t\t\n\t\t\t<button type=\"button\" class=\"btn btn-default\" @click=\"$emit('close')\">\n\t\t\t\tClose\n\t\t\t</button>\n\t\t</div>\n\t</div>\n\t\n</template>\n\n<script>\nimport MarkdownIt from 'markdown-it';\n\nimport AlertList from './AlertList.vue';\nimport MediumEditor from './MediumEditor.vue';\nimport ShowHideButton from './ShowHideButton.vue';\n\nimport {\n\tucfirst,\n\tgetFetchHeaders,\n\tgroupUsers,\n\thtmlLabelReplacements\n} from 'modules/utils.js';\n\nconst md = new MarkdownIt();\n\nexport default {\n\tprops: {\n\t\tfrom: {\n\t\t\ttype: String,\n\t\t\tdefault: 'admin'\n\t\t},\n\t\ttarget: {\n\t\t\ttype: String,\n\t\t\tdefault: '/emails'\n\t\t},\n\t\t\n\t\ttitle: {\n\t\t\ttype: String,\n\t\t\tdefault: 'Email editor'\n\t\t},\n\n\t\tdefaultTo: {\n\t\t\tdefault(){\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\tdefaultSubject: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\tdefaultBodyMarkdown: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\t\n\t\tpossibleRecipients: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\temailReplacements: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\tadditionalFields: {\n\t\t\ttype: Object,\n\t\t\trequired: false\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tto: this.defaultTo,\n\t\t\tsubject: this.defaultSubject,\n\t\t\tbody: {\n\t\t\t\tmarkdown: this.defaultBodyMarkdown,\n\t\t\t\thtml: htmlLabelReplacements(md.render(this.defaultBodyMarkdown),\n\t\t\t\t\tthis.emailReplacements)\n\t\t\t},\n\t\t\teditorType: 'medium',\n\t\t\t\n\t\t\tshow: {\n\t\t\t\trecipients: false,\n\t\t\t\tpossibleRecipients: false\n\t\t\t},\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\tcomputed: {\n\t\teditorTypes(){\n\t\t\treturn [\n\t\t\t\t'medium',\n\t\t\t\t'markdown'\n\t\t\t];\n\t\t},\n\t\tgroupedPossibleRecipients(){\n\t\t\treturn groupUsers(this.possibleRecipients);\n\t\t},\n\t\ttoDisplayValue(){\n\t\t\tif(this.possibleRecipients || Array.isArray(this.to))\n\t\t\t\treturn `${this.to ? this.to.length : '0'} recipients`;\n\t\t\tif(typeof this.to === 'string')\n\t\t\t\treturn this.to;\n\t\t\tif(this.to && this.to.full_name && this.to.email)\n\t\t\t\treturn `${this.to.full_name} <${this.to.email}>`;\n\t\t},\n\t\talertTypeClass(){\n\t\t\treturn {\n\t\t\t\t'alert-success': this.alert.type === 'success',\n\t\t\t\t'alert-info': this.alert.type === 'info',\n\t\t\t\t'alert-danger': this.alert.type === 'error'\n\t\t\t};\n\t\t},\n\t\tdefaultBody(){\n\t\t\treturn {\n\t\t\t\tmarkdown: this.defaultBodyMarkdown,\n\t\t\t\thtml: htmlLabelReplacements(md.render(this.defaultBodyMarkdown),\n\t\t\t\t\tthis.emailReplacements)\n\t\t\t};\n\t\t}\n\t},\n\twatch: {\n\t\tdefaultTo(defaultTo){\n\t\t\tthis.to = defaultTo;\n\t\t},\n\t\tdefaultSubject(defaultSubject){\n\t\t\tthis.subject = defaultSubject;\n\t\t},\n\t\tdefaultBody(defaultBody){\n\t\t\tthis.body = defaultBody;\n\t\t}\n\t},\n\tmethods: {\n\t\tgetPossibleRecipient(id){\n\t\t\treturn this.possibleRecipients.find(user => user.id === Number(id));\n\t\t},\n\t\tgetRecipientCompleted(id){\n\t\t\tlet recipient = this.getPossibleRecipient(id);\n\t\t\treturn recipient && recipient.subject_evaluations\n\t\t\t\t? recipient.subject_evaluations.length\n\t\t\t\t: 0;\n\t\t},\n\t\tsend(){\n\t\t\t// FIXME: numCompleted shouldn't be added here\n\t\t\t\n\t\t\tlet body = {\n\t\t\t\tsubject: this.subject,\n\t\t\t\tbody: this.body.html\n\t\t\t};\n\t\t\t\n\t\t\tif(Array.isArray(this.to))\n\t\t\t\tbody.to = this.to.map(id => ({\n\t\t\t\t\tid: id,\n\t\t\t\t\tnumCompleted: this.getRecipientCompleted(id)\n\t\t\t\t}));\n\t\t\telse if(this.to.id)\n\t\t\t\tbody.to = {\n\t\t\t\t\tid: this.to.id,\n\t\t\t\t\tnumCompleted: this.to.subject_evaluations.length\n\t\t\t\t};\n\t\t\telse if(!Number.isNaN(this.to))\n\t\t\t\tbody.to = {\n\t\t\t\t\tid: this.to,\n\t\t\t\t\tnumCompleted: this.getRecipientCompleted(this.to)\n\t\t\t\t};\n\n\t\t\t\n\t\t\tif(this.additionalFields)\n\t\t\t\tbody = Object.assign(body, this.additionalFields);\n\t\t\t\t\n\t\t\tlet error = false;\n\t\t\tif(!body.to || (Array.isArray(body.to) && body.to.length === 0)){\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\thtml: `Please select a recipient.`\n\t\t\t\t});\n\t\t\t\terror = true;\n\t\t\t}\n\t\t\tif(!body.subject){\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\thtml: `Please enter a subject.`\n\t\t\t\t});\n\t\t\t\terror = true;\n\t\t\t}\n\t\t\tif(!body.body){\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\thtml: `Please enter a message body.`\n\t\t\t\t});\n\t\t\t\terror = true;\n\t\t\t}\n\t\t\tif(error)\n\t\t\t\treturn;\n\t\t\t\n\t\t\tfetch(this.target, {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify(body)\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\telse\n\t\t\t\t\tthrow new Error('There was a problem sending the emails');\n\t\t\t}).then(response => {\n\t\t\t\tif(response.success){\n\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\ttype: 'success',\n\t\t\t\t\t\ttext: `${response.success.length} emails successfully sent.`\n\t\t\t\t\t});\n\t\t\t\t\tthis.to = this.to.filter(id => !response.success.includes(id));\n\t\t\t\t}\n\t\t\t\t\t\n\t\t\t\t\n\t\t\t\tif(response.error && response.error.length > 0){\n\t\t\t\t\tlet userNames = response.error\n\t\t\t\t\t\t.map(id => this.possibleRecipients.find(user => user.id === Number(id)).full_name);\n\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\thtml: `Error sending emails to the following users: <ul>\n\t\t\t\t\t\t\t${userNames.map(name => `<li>${name}</li>`).join('')}\n\t\t\t\t\t\t</ul>`\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t}).catch(err => {\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttext: err.message,\n\t\t\t\t\ttype: 'error'\n\t\t\t\t});\n\t\t\t});\n\t\t},\n\t\tucfirst\n\t},\n\tcomponents: {\n\t\tAlertList,\n\t\tMediumEditor,\n\t\tShowHideButton\n\t}\n};\n</script>\n\n<style scoped>\n\tul {\n\t\tcolumns: 150px 3;\n\t}\n\t\n\tfieldset label {\n\t\tmargin: 0 1em;\n\t}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.list-group-item .row small[data-v-358055d0] {\n\tdisplay: block;\n}\n.list-group-item .row a[data-v-358055d0] {\n\tdisplay: block;\n}\n.evaluation-date-field[data-v-358055d0] {\n\tcursor: help;\n}\n.row + .row[data-v-358055d0] {\n\tmargin-top: 10px;\n}\nsmall[data-v-358055d0] {\n\tcolor: rgba(0, 0, 0, 0.5);\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/Needs/EvaluationDetailsListItem.vue?48d13658"],"names":[],"mappings":";AAmHA;CACA,eAAA;CACA;AAEA;CACA,eAAA;CACA;AAEA;CACA,aAAA;CACA;AAEA;CACA,iBAAA;CACA;AAEA;CACA,0BAAA;CACA","file":"EvaluationDetailsListItem.vue","sourcesContent":["<template>\n\t<li class=\"list-group-item\">\n\t\t<div class=\"row\">\n\t\t\t<div class=\"col-md-1\">\n\t\t\t\t<small>#</small>\n\t\t\t\t<a :href=\"`/evaluation/${evaluation.id}`\" target=\"_blank\">\n\t\t\t\t\t{{ evaluation.id }}\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t\t<div class=\"col-md-3\">\n\t\t\t\t<small>Evaluator</small>\n\t\t\t\t<a :href=\"`/profile/${evaluation.evaluator.id}`\" target=\"_blank\">\n\t\t\t\t\t{{ evaluation.evaluator.full_name }}\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t\t<div class=\"col-md-3\">\n\t\t\t\t<small>Requested by</small>\n\t\t\t\t<a :href=\"`/profile/${evaluation.requestor.id}`\" target=\"_blank\">\n\t\t\t\t\t{{ evaluation.requestor.full_name }}\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t\t<div class=\"col-md-3\">\n\t\t\t\t<small>Form</small>\n\t\t\t\t<a :href=\"`/manage/forms/${evaluation.form.id}`\" target=\"_blank\">\n\t\t\t\t\t{{ evaluation.form.title }}\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t\t<div class=\"col-md-2 text-right\"\n\t\t\t\tv-html=\"renderEvaluationStatus(evaluation.status)\">\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"row\">\n\t\t\t<div class=\"col-md-offset-2 col-md-2\">\n\t\t\t\t<small>Evaluation date</small>\n\t\t\t\t<span class=\"evaluation-date-field\"\n\t\t\t\t\t\t@mouseenter=\"hovering.evaluationDate = true\"\n\t\t\t\t\t\t@mouseleave=\"hovering.evaluationDate = false\">\n\t\t\t\t\t{{ evaluationDate }}\n\t\t\t\t</span>\n\t\t\t</div>\n\t\t\t<div class=\"col-md-offset-1 col-md-2\">\n\t\t\t\t<small>Requested</small>\n\t\t\t\t<span class=\"evaluation-date-field\"\n\t\t\t\t\t\t@mouseenter=\"hovering.requestDate = true\"\n\t\t\t\t\t\t@mouseleave=\"hovering.requestDate = false\">\n\t\t\t\t\t{{ requestDate }}\n\t\t\t\t</span>\n\t\t\t</div>\n\t\t\t<div class=\"col-md-offset-1 col-md-2\">\n\t\t\t\t<small>Completed</small>\n\t\t\t\t<span class=\"evaluation-date-field\"\n\t\t\t\t\t\t@mouseenter=\"hovering.completeDate = true\"\n\t\t\t\t\t\t@mouseleave=\"hovering.completeDate = false\">\n\t\t\t\t\t{{ completeDate }}\n\t\t\t\t</span>\n\t\t\t</div>\n\t\t</div>\n\t</li>\n</template>\n\n<script>\nimport moment from 'moment';\n\nimport { renderEvaluationStatus } from 'modules/datatable-utils.js';\nimport { renderDateRange } from 'modules/date-utils.js';\n\nexport default {\n\tprops: {\n\t\tevaluation: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\thovering: {\n\t\t\t\tevaluationDate: false,\n\t\t\t\trequestDate: false,\n\t\t\t\tcompleteDate: false\n\t\t\t}\n\t\t};\n\t},\n\tcomputed: {\n\t\tevaluationDate(){\n\t\t\tif(!this.evaluation.evaluation_date_start\n\t\t\t\t\t|| !this.evaluation.evaluation_date_end)\n\t\t\t\treturn '';\n\t\t\t\n\t\t\treturn renderDateRange(this.evaluation.evaluation_date_start,\n\t\t\t\tthis.evaluation.evaluation_date_end, !this.hovering.evaluationDate);\n\t\t},\n\t\trequestDate(){\n\t\t\tif(!this.evaluation.request_date)\n\t\t\t\treturn '';\n\t\t\t\n\t\t\treturn this.hovering.requestDate\n\t\t\t\t? moment(this.evaluation.request_date).format('ll LT')\n\t\t\t\t: moment(this.evaluation.request_date).calendar();\n\t\t},\n\t\tcompleteDate(){\n\t\t\tif(!this.evaluation.complete_date)\n\t\t\t\treturn '';\n\t\t\t\n\t\t\treturn this.hovering.completeDate\n\t\t\t\t? moment(this.evaluation.complete_date).format('ll LT')\n\t\t\t\t: moment(this.evaluation.complete_date).calendar();\n\t\t}\n\t},\n\tmethods: {\n\t\trenderEvaluationStatus\n\t}\n};\n</script>\n\n<style scoped>\n\t.list-group-item .row small {\n\t\tdisplay: block;\n\t}\n\n\t.list-group-item .row a {\n\t\tdisplay: block;\n\t}\n\n\t.evaluation-date-field {\n\t\tcursor: help;\n\t}\n\t\n\t.row + .row {\n\t\tmargin-top: 10px;\n\t}\n\t\n\tsmall {\n\t\tcolor: rgba(0, 0, 0, 0.5);\n\t}\n</style>\n"],"sourceRoot":""}]);
 
 // exports
 
 
 /***/ }),
-/* 317 */,
 /* 318 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17388,7 +17336,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\nh2[data-v-70d4db5d] {\n\tmargin-top: 0;\n}\nh2.form-title[data-v-70d4db5d] {\n\tmargin: 60px 0 20px;\n\tpage-break-before: always;\n}\n.report-evaluations[data-v-70d4db5d] {\n\tpage-break-inside: avoid;\n}\nhr[data-v-70d4db5d] {\n\tpage-break-before: always;\n}\n@media print {\n.btn-lg-submit-container[data-v-70d4db5d] {\n\t\tdisplay: none;\n}\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/FormReport.vue?74f8b73e"],"names":[],"mappings":";AAuoBA;CACA,cAAA;CACA;AAEA;CACA,oBAAA;CACA,0BAAA;CACA;AAEA;CACA,yBAAA;CACA;AAEA;CACA,0BAAA;CACA;AAEA;AACA;EACA,cAAA;CACA;CACA","file":"FormReport.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block\">\n\t\t\t<h1>Form report</h1>\n\t\t\t<start-end-date v-model=\"dates\" />\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tForm\n\t\t\t\t\t<select-two class=\"form-control\" :options=\"groupedForms\"\n\t\t\t\t\tv-model=\"formId\"></select-two>\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t\t\n\t\t\t<alert-list v-model=\"alerts\" />\n\t\t\t\n\t\t\t<div class=\"btn-lg-submit-container\">\n\t\t\t\t<button type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t\t@click=\"runReport\">\n\t\t\t\t\tRun report\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div v-if=\"report\" class=\"container body-block\">\n\t\t\t<div class=\"report-evaluations\">\n\t\t\t\t<bootstrap-alert v-if=\"report.evals.length > 0\" type=\"info\">\n\t\t\t\t\t\n\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t<div class=\"col-md-8\">\n\t\t\t\t\t\t\t<h2>\n\t\t\t\t\t\t\t\t{{ report.evals.length }} total form evaluations\n\t\t\t\t\t\t\t</h2>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"col-md-4 text-right\">\n\t\t\t\t\t\t\t<show-hide-button class=\"btn btn-info\"\n\t\t\t\t\t\t\t\t\tv-model=\"show.allEvals\">\n\t\t\t\t\t\t\t\tall\n\t\t\t\t\t\t\t</show-hide-button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t\t<data-table v-if=\"show.allEvals\"\n\t\t\t\t\t\t:thead=\"evalsThead\" :config=\"allEvalsConfig\" />\n\n\t\t\t\t</bootstrap-alert>\n\t\t\t\t<bootstrap-alert v-else type=\"warning\"\n\t\t\t\t\t:text=\"`No evaluations found for ${report.formContents.title} in report parameters.`\" />\n\t\t\t\t\n\t\t\t\t<section>\n\t\t\t\t\t<div class=\"form-horizontal\">\n\t\t\t\t\t\t\n\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n\t\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\t\tUser\n\t\t\t\t\t\t\t\t\t<select-two class=\"form-control\" :options=\"groupedUsers\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"subjectId\">\n\t\t\t\t\t\t\t\t\t\t<option value=\"\">All</option>\n\t\t\t\t\t\t\t\t\t</select-two>\n\t\t\t\t\t\t\t\t</label>\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"col-sm-2\">\n\t\t\t\t\t\t\t\t<button type=\"button\" v-if=\"subjectId\"\n\t\t\t\t\t\t\t\t\t\tclass=\"btn btn-default labelless-button\"\n\t\t\t\t\t\t\t\t\t\t@click=\"subjectId = null\">\n\t\t\t\t\t\t\t\t\tClear user\n\t\t\t\t\t\t\t\t</button>\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t\t<section v-if=\"subjectId\">\n\t\t\t\t\t\t<bootstrap-alert type=\"info\"\n\t\t\t\t\t\t\t\tv-if=\"report.subjectEvals[subjectId] && report.subjectEvals[subjectId].length > 0\">\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t<div class=\"col-md-8\">\n\t\t\t\t\t\t\t\t\t<h2>\n\t\t\t\t\t\t\t\t\t\t{{ report.subjectEvals[subjectId].length }}\n\t\t\t\t\t\t\t\t\t\t{{ subject.full_name }} evaluations\n\t\t\t\t\t\t\t\t\t</h2>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"col-md-4 text-right\">\n\t\t\t\t\t\t\t\t\t<show-hide-button class=\"btn btn-info\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"show.subjectEvals\">\n\t\t\t\t\t\t\t\t\t\tall\n\t\t\t\t\t\t\t\t\t</show-hide-button>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<data-table v-if=\"subjectEvals && show.subjectEvals\"\n\t\t\t\t\t\t\t\t:thead=\"evalsThead\" :data=\"subjectEvals\"\n\t\t\t\t\t\t\t\t:config=\"subjectEvalsConfig\" />\n\n\t\t\t\t\t\t</bootstrap-alert>\n\t\t\t\t\t\t<bootstrap-alert v-else type=\"warning\"\n\t\t\t\t\t\t\t:text=\"`No evaluations found for ${subject.full_name} in report parameters.`\" />\n\t\t\t\t\t</section>\n\t\t\t\t</section>\n\t\t\t</div>\n\t\t\t\n\t\t\t<button type=\"button\" class=\"btn btn-default center-block\"\n\t\t\t\t\tv-if=\"this.reportContents && this.subjectId && this.reportContents.items.length > 0\"\n\t\t\t\t\t@click=\"exportPdf\">\n\t\t\t\tExport PDF\n\t\t\t\t<svg-icon src=\"/img/icons/pdf.svg\" />\n\t\t\t</button>\n\t\t\t\n\t\t\t<h2 class=\"form-title\" v-if=\"reportContents.title\">\n\t\t\t\t{{ reportContents.title }}\n\t\t\t</h2>\n\t\t\t<template v-for=\"item of reportContents.items\">\n\t\t\t\t<form-report-question v-if=\"item.type === 'question'\" v-bind=\"item\" />\n\t\t\t\t<div v-if=\"item.type === 'instruction'\">\n\n\t\t\t\t</div>\n\t\t\t</template>\n\t\t\t<hr />\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport moment from 'moment';\n\nimport StartEndDate from '../StartEndDate.vue';\nimport SelectTwo from '../SelectTwo.vue';\nimport FormReportQuestion from './FormReportQuestion.vue';\nimport DataTable from '../DataTable.vue';\nimport BootstrapAlert from '../BootstrapAlert.vue';\nimport AlertList from '../AlertList.vue';\nimport ShowHideButton from '../ShowHideButton.vue';\nimport SvgIcon from '../SvgIcon.vue';\n\nimport {\n\tgetFetchHeaders,\n\tjsonOrThrow,\n\tfetchFormGroups\n} from 'modules/utils.js';\nimport {\n\tisoDateStringObject,\n\tcurrentQuarter,\n\trenderDateRange\n} from 'modules/date-utils.js';\nimport {\n\ttableHeader,\n\tfullWidthTable,\n\tborderedStripedTable\n} from 'modules/report-utils.js';\nimport {\n\trenderDateCell,\n\tcreateDateCell,\n\trenderDateTimeCell,\n\tcreateDateTimeCell,\n\trenderDateRangeCell,\n\tcreateDateRangeCell,\n\trenderEvaluationStatus\n} from 'modules/datatable-utils.js';\n\nexport default {\n\tprops: {\n\t\tusers: {\n\t\t\ttype: Array\n\t\t},\n\t\tgroupedUsers: {\n\t\t\ttype: Array\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tdates: isoDateStringObject(currentQuarter()),\n\t\t\tformId: null,\n\t\t\tsubjectId: null,\n\t\t\treport: null,\n\n\t\t\tgroupedForms: [],\n\t\t\tsubjectEvals: [],\n\t\t\t\n\t\t\tshow: {\n\t\t\t\tallEvals: false,\n\t\t\t\tsubjectEvals: false\n\t\t\t},\n\t\t\t\n\t\t\tpdfOptions: {\n\t\t\t\tquestionPageBreak: null\n\t\t\t},\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\n\tcomputed: {\n\t\tsubject(){\n\t\t\tif(this.subjectId)\n\t\t\t\treturn this.users.find(user => user.id === Number(this.subjectId));\n\t\t},\n\t\treportContents(){\n\t\t\tlet reportContents = this.report.formContents;\n\n\t\t\treportContents.items.map(item => {\n\t\t\t\titem.weight = Number(item.weight);\n\t\t\t\tif(this.subjectId && this.report.subjectEvals[this.subjectId]){\n\t\t\t\t\titem.subjectResponses = this.report.subjectResponses[this.subjectId]\n\t\t\t\t\t\t? this.report.subjectResponses[this.subjectId][item.id]\n\t\t\t\t\t\t: null;\n\t\t\t\t\titem.subjectResponseValues = this.report.subjectResponseValues[this.subjectId]\n\t\t\t\t\t\t? this.report.subjectResponseValues[this.subjectId][item.id]\n\t\t\t\t\t\t: null;\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\titem.subjectResponses = null;\n\t\t\t\t\titem.subjectResponseValues = null;\n\t\t\t\t}\n\n\t\t\t\titem.averageResponses = this.report.averageResponses[item.id];\n\n\t\t\t\tif(item.type === 'question' && ['checkbox', 'radio', 'radiononnumeric']\n\t\t\t\t\t\t.includes(item.questionType)){\n\t\t\t\t\titem.options.map(option => {\n\t\t\t\t\t\tif(this.subjectId && this.report.subjectEvals[this.subjectId]){\n\t\t\t\t\t\t\toption.responses = this.report.subjectResponses[this.subjectId]\n\t\t\t\t\t\t\t\t? this.report.subjectResponses[this.subjectId][item.id][option.value]\n\t\t\t\t\t\t\t\t: 0;\n\t\t\t\t\t\t\toption.percentage = this.report.subjectPercentages[this.subjectId]\n\t\t\t\t\t\t\t\t? this.report.subjectPercentages[this.subjectId][item.id][option.value]\n\t\t\t\t\t\t\t\t: 0;\n\t\t\t\t\t\t}\n\t\t\t\t\t\telse {\n\t\t\t\t\t\t\toption.responses = null;\n\t\t\t\t\t\t\toption.percentage = null;\n\t\t\t\t\t\t}\n\t\t\t\t\t\toption.averagePercentage = this.report.averagePercentages[item.id]\n\t\t\t\t\t\t\t? this.report.averagePercentages[item.id][option.value]\n\t\t\t\t\t\t\t: 0;\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t});\n\n\t\t\treturn reportContents;\n\t\t},\n\t\t\n\t\tevalsThead(){\n\t\t\treturn [[\n\t\t\t\t'#',\n\t\t\t\t'Subject',\n\t\t\t\t'Evaluator',\n\t\t\t\t'Requested By',\n\t\t\t\t'Form',\n\t\t\t\t'Evaluation Date',\n\t\t\t\t'Request Date',\n\t\t\t\t'Complete Date',\n\t\t\t\t'Status'\n\t\t\t]];\n\t\t},\n\t\tallEvalsConfig(){\n\t\t\treturn {\n\t\t\t\tajax: {\n\t\t\t\t\turl: '/evaluations',\n\t\t\t\t\tdata: {\n\t\t\t\t\t\tid: this.report.evals.slice(),\n\t\t\t\t\t\twith: {\n\t\t\t\t\t\t\tsubject: [\n\t\t\t\t\t\t\t\t'full_name'\n\t\t\t\t\t\t\t],\n\t\t\t\t\t\t\tevaluator: [\n\t\t\t\t\t\t\t\t'full_name'\n\t\t\t\t\t\t\t],\n\t\t\t\t\t\t\trequestor: [\n\t\t\t\t\t\t\t\t'full_name'\n\t\t\t\t\t\t\t],\n\t\t\t\t\t\t\tform: [\n\t\t\t\t\t\t\t\t'title'\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\tdataSrc: ''\n\t\t\t\t},\n\t\t\t\tcolumns: [\n\t\t\t\t\t{data: 'url'},\n\t\t\t\t\t{data: 'subject.full_name'},\n\t\t\t\t\t{data: 'evaluator.full_name'},\n\t\t\t\t\t{data: 'requestor.full_name'},\n\t\t\t\t\t{data: 'form.title'},\n\t\t\t\t\t{\n\t\t\t\t\t\tdata: null,\n\t\t\t\t\t\trender: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),\n\t\t\t\t\t\tcreatedCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')\n\t\t\t\t\t},\n\t\t\t\t\t{data: 'request_date', render: renderDateCell, createdCell: createDateCell},\n\t\t\t\t\t{data: 'complete_date', render: renderDateTimeCell, createdCell: createDateTimeCell},\n\t\t\t\t\t{data: 'status', render: renderEvaluationStatus}\n\t\t\t\t],\n\t\t\t\torder: [[0, 'desc']]\n\t\t\t};\n\t\t},\n\t\tsubjectEvalsConfig(){\n\t\t\treturn {\n\t\t\t\tcolumns: [\n\t\t\t\t\t{data: 'url'},\n\t\t\t\t\t{data: 'subject.full_name'},\n\t\t\t\t\t{data: 'evaluator.full_name'},\n\t\t\t\t\t{data: 'requestor.full_name'},\n\t\t\t\t\t{data: 'form.title'},\n\t\t\t\t\t{\n\t\t\t\t\t\tdata: null,\n\t\t\t\t\t\trender: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),\n\t\t\t\t\t\tcreatedCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')\n\t\t\t\t\t},\n\t\t\t\t\t{data: \"request_date\", render: renderDateCell, createdCell: createDateCell},\n\t\t\t\t\t{data: \"complete_date\", render: renderDateTimeCell, createdCell: createDateTimeCell},\n\t\t\t\t\t{data: \"status\", render: renderEvaluationStatus}\n\t\t\t\t],\n\t\t\t\torder: [[0, 'desc']]\n\t\t\t};\n\t\t}\n\t},\n\twatch: {\n\t\tsubjectId(subjectId){\n\t\t\tif(!subjectId || !this.report.subjectEvals[subjectId]){\n\t\t\t\tthis.subjectEvals = [];\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tlet query = $.param({\n\t\t\t\tid: this.report.subjectEvals[subjectId].slice(),\n\t\t\t\twith: {\n\t\t\t\t\tsubject: [\n\t\t\t\t\t\t'full_name'\n\t\t\t\t\t],\n\t\t\t\t\tevaluator: [\n\t\t\t\t\t\t'full_name'\n\t\t\t\t\t],\n\t\t\t\t\trequestor: [\n\t\t\t\t\t\t'full_name'\n\t\t\t\t\t],\n\t\t\t\t\tform: [\n\t\t\t\t\t\t'title'\n\t\t\t\t\t]\n\t\t\t\t}\n\t\t\t});\n\t\t\t\n\t\t\tfetch(`/evaluations?${query}`, {\n\t\t\t\tmethod: 'GET',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t}).then(jsonOrThrow).then(subjectEvals => {\n\t\t\t\tthis.subjectEvals = subjectEvals;\n\t\t\t});\n\t\t}\n\t},\n\n\tcreated(){\n\t\tfetchFormGroups().then(groupedForms => {\n\t\t\tthis.groupedForms = groupedForms;\n\t\t}).catch(err => {\n\t\t\tthis.alerts.push({\n\t\t\t\ttype: 'error',\n\t\t\t\thtml: '<strong>Error: </strong> There was a problem fetching the list of forms'\n\t\t\t});\n\t\t\tconsole.error(err);\n\t\t});\n\t},\n\n\tmethods: {\n\t\trunReport(){\n\t\t\tfetch('/report/form', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate,\n\t\t\t\t\t'form_id': this.formId\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\telse\n\t\t\t\t\tthrow new Error(response.statusText);\n\t\t\t}).then(report => {\n\t\t\t\tthis.report = Object.assign({}, this.report, report);\n\t\t\t}).catch(err => {\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\thtml: '<strong>Error: </strong> There was a problem running the report'\n\t\t\t\t});\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t},\n\t\texportPdf(){\n\t\t\tif(!this.reportContents || this.reportContents.items.length < 1)\n\t\t\t\treturn;\n\t\t\t\t\n\t\t\tlet hasSubject = (this.report.subjectEvals[this.subjectId]\n\t\t\t\t&& this.report.subjectEvals[this.subjectId].length > 0);\n\t\t\t\n\t\t\tPromise.all([\n\t\t\t\timport('pdfmake/build/pdfmake.js'),\n\t\t\t\timport('../../vfs_fonts.json')\n\t\t\t]).then(([pdfmake, vfs]) => {\n\t\t\t\tpdfmake.vfs = vfs;\n\t\t\t\t\n\t\t\t\tconst filename = `${this.reportContents.title} - ${this.dates.startDate} -- ${this.dates.endDate}.pdf`;\n\t\t\t\t\n\t\t\t\tlet content = [\n\t\t\t\t\t{ text: 'Form Report', style: 'h1' },\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: fullWidthTable({\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: [\n\t\t\t\t\t\t\t\t['Form', 'Start date', 'End date'].concat(\n\t\t\t\t\t\t\t\t\thasSubject\n\t\t\t\t\t\t\t\t\t\t? ['Subject']\n\t\t\t\t\t\t\t\t\t\t: []\n\t\t\t\t\t\t\t\t).map(tableHeader),\n\t\t\t\t\t\t\t\t[\n\t\t\t\t\t\t\t\t\tthis.reportContents.title,\n\t\t\t\t\t\t\t\t\tthis.dates.startDate,\n\t\t\t\t\t\t\t\t\tthis.dates.endDate\n\t\t\t\t\t\t\t\t].concat(hasSubject\n\t\t\t\t\t\t\t\t\t? [this.subject.full_name]\n\t\t\t\t\t\t\t\t\t: []\n\t\t\t\t\t\t\t\t)\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t})\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\t{ text: `Evaluations for ${this.subject.full_name} included in report`, style: 'h2'},\n\t\t\t\t\tborderedStripedTable({\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\twidths: [\n\t\t\t\t\t\t\t\t'auto',\n\t\t\t\t\t\t\t\t'auto',\n\t\t\t\t\t\t\t\t'auto',\n\t\t\t\t\t\t\t\t'*',\n\t\t\t\t\t\t\t\t'auto',\n\t\t\t\t\t\t\t\t'auto'\n\t\t\t\t\t\t\t],\n\t\t\t\t\t\t\tbody: [\n\t\t\t\t\t\t\t\t[\n\t\t\t\t\t\t\t\t\t'#',\n\t\t\t\t\t\t\t\t\t'Evaluator',\n\t\t\t\t\t\t\t\t\t'Requested by',\n\t\t\t\t\t\t\t\t\t'Form',\n\t\t\t\t\t\t\t\t\t'Evaluation date',\n\t\t\t\t\t\t\t\t\t'Completed'\n\t\t\t\t\t\t\t\t],\n\t\t\t\t\t\t\t\t...this.subjectEvals.map(subjectEval => [\n\t\t\t\t\t\t\t\t\tsubjectEval.id,\n\t\t\t\t\t\t\t\t\tsubjectEval.evaluator.full_name,\n\t\t\t\t\t\t\t\t\tsubjectEval.requestor.full_name,\n\t\t\t\t\t\t\t\t\tsubjectEval.form.title,\n\t\t\t\t\t\t\t\t\trenderDateRange(\n\t\t\t\t\t\t\t\t\t\tsubjectEval.evaluation_date_start,\n\t\t\t\t\t\t\t\t\t\tsubjectEval.evaluation_date_end\n\t\t\t\t\t\t\t\t\t),\n\t\t\t\t\t\t\t\t\tmoment(subjectEval.complete_date).calendar()\n\t\t\t\t\t\t\t\t])\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t}\n\t\t\t\t\t}),\n\t\t\t\t\t\n\t\t\t\t\t{ text: this.reportContents.title, style: 'h2' },\n\t\t\t\t\t{\n\t\t\t\t\t\tmargin: 0,\n\t\t\t\t\t\ttype: 'none',\n\t\t\t\t\t\tol: this.reportContents.items.filter(item =>\n\t\t\t\t\t\t\t\titem.type === 'question').map(item => {\n\t\t\t\t\t\t\tlet questionHeading = {\n\t\t\t\t\t\t\t\tmargin: [0, 20, 0, 5],\n\t\t\t\t\t\t\t\tcolumns: [\n\t\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\twidth: 'auto',\n\t\t\t\t\t\t\t\t\t\tmargin: [0, 0, 5, 0],\n\t\t\t\t\t\t\t\t\t\ttext: `${item.id.toUpperCase()}: `,\n\t\t\t\t\t\t\t\t\t\tfontSize: 16,\n\t\t\t\t\t\t\t\t\t\tbold: true\n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\twidth: '*',\n\t\t\t\t\t\t\t\t\t\ttext: item.text,\n\t\t\t\t\t\t\t\t\t\tfontSize: 16\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t};\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\tlet questionBody = '';\n\t\t\t\t\t\t\tswitch(item.questionType){\n\t\t\t\t\t\t\t\tcase 'checkbox':\n\t\t\t\t\t\t\t\tcase 'radio':\n\t\t\t\t\t\t\t\tcase 'radiononnumeric':\n\t\t\t\t\t\t\t\t\tquestionBody = borderedStripedTable({\n\t\t\t\t\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\t\t\t\t\theaderRows: 2,\n\t\t\t\t\t\t\t\t\t\t\twidths: ['auto', 'auto', '*'].concat(\n\t\t\t\t\t\t\t\t\t\t\t\thasSubject\n\t\t\t\t\t\t\t\t\t\t\t\t\t? ['*', '*']\n\t\t\t\t\t\t\t\t\t\t\t\t\t: []\n\t\t\t\t\t\t\t\t\t\t\t),\n\t\t\t\t\t\t\t\t\t\t\tbody: [\n\t\t\t\t\t\t\t\t\t\t\t\t[\n\t\t\t\t\t\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\ttext: 'Option text',\n\t\t\t\t\t\t\t\t\t\t\t\t\t\trowSpan: 2,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tstyle: 'tableHeader'\n\t\t\t\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\ttext: 'Value',\n\t\t\t\t\t\t\t\t\t\t\t\t\t\trowSpan: 2,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tstyle: 'tableHeader'\n\t\t\t\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\ttext: 'Responses',\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tcolSpan: hasSubject\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t? 3\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t: null,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tstyle: 'tableHeader'\n\t\t\t\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t\t\t\t].concat(hasSubject\n\t\t\t\t\t\t\t\t\t\t\t\t\t? [\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{},\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{}\n\t\t\t\t\t\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t\t\t\t\t\t\t: []\n\t\t\t\t\t\t\t\t\t\t\t\t),\n\t\t\t\t\t\t\t\t\t\t\t\t[\n\t\t\t\t\t\t\t\t\t\t\t\t\t'',\n\t\t\t\t\t\t\t\t\t\t\t\t\t''\n\t\t\t\t\t\t\t\t\t\t\t\t].concat(hasSubject\n\t\t\t\t\t\t\t\t\t\t\t\t\t? [\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t'Subject #',\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t'Subject %'\n\t\t\t\t\t\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t\t\t\t\t\t\t: []\n\t\t\t\t\t\t\t\t\t\t\t\t).concat([\n\t\t\t\t\t\t\t\t\t\t\t\t\t'Overall %'\n\t\t\t\t\t\t\t\t\t\t\t\t]).map(tableHeader)\n\t\t\t\t\t\t\t\t\t\t\t].concat(\n\t\t\t\t\t\t\t\t\t\t\t\titem.options.map(option => [\n\t\t\t\t\t\t\t\t\t\t\t\t\toption.text,\n\t\t\t\t\t\t\t\t\t\t\t\t\toption.value\n\t\t\t\t\t\t\t\t\t\t\t\t].concat(hasSubject\n\t\t\t\t\t\t\t\t\t\t\t\t\t? [\n\t\t\t\t\t\t\t\t\t\t\t\t\t\toption.responses || '',\n\t\t\t\t\t\t\t\t\t\t\t\t\t\toption.percentage\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t? `${option.percentage}%`\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t\t\t\t\t\t\t: []\n\t\t\t\t\t\t\t\t\t\t\t\t).concat([\n\t\t\t\t\t\t\t\t\t\t\t\t\toption.averagePercentage\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t? `${option.averagePercentage}%`\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t\t\t\t\t\t)\n\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t});\n\t\t\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\t\tcase 'text':\n\t\t\t\t\t\t\t\t\tif(hasSubject && item.subjectResponseValues)\n\t\t\t\t\t\t\t\t\t\tquestionBody = borderedStripedTable({\n\t\t\t\t\t\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\t\t\t\t\t\twidths: ['auto', 'auto', 'auto', '*'],\n\t\t\t\t\t\t\t\t\t\t\t\tbody: [\n\t\t\t\t\t\t\t\t\t\t\t\t\t[\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t'Evaluation',\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t'Evaluator',\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t'Evaluation date',\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t'Response'\n\t\t\t\t\t\t\t\t\t\t\t\t\t].map(tableHeader)\n\t\t\t\t\t\t\t\t\t\t\t\t].concat(\n\t\t\t\t\t\t\t\t\t\t\t\t\tObject.keys(item.subjectResponseValues).map(evaluationId => [\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tevaluationId,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tthis.report.evaluators[evaluationId].full_name,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\trenderDateRange(\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tthis.report.evaluations[evaluationId].evaluation_date_start,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tthis.report.evaluations[evaluationId].evaluation_date_end\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t),\n\t\t\t\t\t\t\t\t\t\t\t\t\t\titem.subjectResponseValues[evaluationId]\n\t\t\t\t\t\t\t\t\t\t\t\t\t])\n\t\t\t\t\t\t\t\t\t\t\t\t)\n\t\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t\t});\n\t\t\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\treturn {\n\t\t\t\t\t\t\t\tpageBreak: this.pdfOptions.questionPageBreak,\n\t\t\t\t\t\t\t\tstack: [\n\t\t\t\t\t\t\t\t\tquestionHeading,\n\t\t\t\t\t\t\t\t\tquestionBody\n\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t};\n\t\t\t\t\t\t})\n\t\t\t\t\t}\n\t\t\t\t];\n\t\t\t\t\n\t\t\t\tlet docDefinition = {\n\t\t\t\t\tpageSize: 'LETTER',\n\t\t\t\t\tcontent,\n\t\t\t\t\tstyles: {\n\t\t\t\t\t\th1: {\n\t\t\t\t\t\t\tbold: true,\n\t\t\t\t\t\t\tfontSize: 24,\n\t\t\t\t\t\t\tmargin: [0, 20],\n\t\t\t\t\t\t},\n\t\t\t\t\t\th2: {\n\t\t\t\t\t\t\tbold: true,\n\t\t\t\t\t\t\tfontSize: 20,\n\t\t\t\t\t\t\tmargin: [0, 10]\n\t\t\t\t\t\t},\n\t\t\t\t\t\ttableHeader: {\n\t\t\t\t\t\t\tbold: true,\n\t\t\t\t\t\t\tfontSize: 14\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t};\n\t\t\t\t\n\t\t\t\tconsole.log(content);\n\t\t\t\t\n\t\t\t\tpdfmake.createPdf(docDefinition).download(filename);\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\thtml: `<strong>Error:</strong> There was a problem exporting the report for ${this.reportContents.title}`\n\t\t\t\t});\n\t\t\t});\n\t\t}\n\t},\n\n\tcomponents: {\n\t\tStartEndDate,\n\t\tSelectTwo,\n\t\tFormReportQuestion,\n\t\tDataTable,\n\t\tBootstrapAlert,\n\t\tAlertList,\n\t\tShowHideButton,\n\t\tSvgIcon\n\t}\n};\n</script>\n\n<style scoped>\n\th2 {\n\t\tmargin-top: 0;\n\t}\n\t\n\th2.form-title {\n\t\tmargin: 60px 0 20px;\n\t\tpage-break-before: always;\n\t}\n\t\n\t.report-evaluations {\n\t\tpage-break-inside: avoid;\n\t}\n\t\n\thr {\n\t\tpage-break-before: always;\n\t}\n\t\n\t@media print {\n\t\t.btn-lg-submit-container {\n\t\t\tdisplay: none;\n\t\t}\n\t}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.show-email-button-container[data-v-358a2420] {\n\ttext-align: right;\n\tmargin-bottom: 20px;\n}\n.email-editor-container[data-v-358a2420] {\n\tmargin-bottom: 60px;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/Needs/Evaluations.vue?730478aa"],"names":[],"mappings":";AAkJA;CACA,kBAAA;CACA,oBAAA;CACA;AAEA;CACA,oBAAA;CACA","file":"Evaluations.vue","sourcesContent":["<template>\n\t<section>\n\t\t<h2>Needs evaluations</h2>\n\t\t\n\t\t<div v-if=\"show.emailEditor\" class=\"panel panel-default email-editor-container\">\n\t\t\t<div class=\"panel-body\">\n\t\t\t\t<email-editor\n\t\t\t\t\tfrom=\"reminders\"\n\t\t\t\t\ttarget=\"/emails/reminders\"\n\t\t\t\t\ttitle=\"Send reminders\"\n\t\t\t\t\tdefaultSubject=\"Please request evaluations!\"\n\t\t\t\t\t:defaultTo=\"selectedUsers\"\n\t\t\t\t\t:possibleRecipients=\"trainees\"\n\t\t\t\t\t:defaultBodyMarkdown=\"markdownTemplates.get(markdownTemplate)\"\n\t\t\t\t\t:emailReplacements=\"emailReplacements\"\n\t\t\t\t\t:additionalFields=\"additionalEmailFields\"\n\t\t\t\t\t@close=\"show.emailEditor = false\" />\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tEmail template\n\t\t\t\t\t<select class=\"form-control\" v-model=\"markdownTemplate\">\n\t\t\t\t\t\t<option v-for=\"template of Array.from(markdownTemplates.keys())\"\n\t\t\t\t\t\t\t\t:value=\"template\">\n\t\t\t\t\t\t\t{{ template }}\n\t\t\t\t\t\t</option>\n\t\t\t\t\t</select>\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t</div>\n\t\t\n\t\t<div v-else class=\"show-email-button-container\">\n\t\t\t<button type=\"button\" class=\"btn btn-primary\"\n\t\t\t\t\t@click=\"show.emailEditor = true\">\n\t\t\t\t<span class=\"glyphicon glyphicon-pencil\"></span>\n\t\t\t\tCompose reminders\n\t\t\t</button>\n\t\t</div>\n\t\t\n\t\t<section>\n\t\t\t<component-list :items=\"trainees\" :fields=\"traineeFields\">\n\t\t\t\t<template scope=\"item\">\n\t\t\t\t\t<evaluation-list-item :user=\"item\" />\n\t\t\t\t</template>\n\t\t\t</component-list>\n\t\t</section>\n\t\t\n\t</section>\n</template>\n\n<script>\nimport moment from 'moment';\n\nimport EvaluationListItem from './EvaluationListItem.vue';\nimport ComponentList from '../../ComponentList.vue';\nimport EmailEditor from '../../EmailEditor.vue';\n\nimport { groupUsers } from 'modules/utils.js';\nimport { ADMIN_EMAIL } from 'modules/constants.js';\n\nexport default {\n\tprops: {\n\t\tdates: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t},\n\t\tevalThreshold: {\n\t\t\trequired: true\n\t\t},\n\t\ttrainees: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tselectedUsers: [],\n\t\t\tmarkdownTemplate: 'Default',\n\t\t\tshow: {\n\t\t\t\temailEditor: false\n\t\t\t}\n\t\t};\n\t},\n\tcomputed: {\n\t\ttraineeFields(){\n\t\t\treturn [\n\t\t\t\t'full_name',\n\t\t\t\t'training_level'\n\t\t\t];\n\t\t},\n\t\tmarkdownTemplates(){\n\t\t\tlet startDate = moment(this.dates.startDate).format('LL');\n\t\t\tlet endDate = moment(this.dates.endDate).format('LL');\n\t\t\treturn new Map([\n\t\t\t\t[\n\t\t\t\t\t'Default',\n\t\t\t\t\t`Hello Dr. [[Name]],\n\nYou have [[# Completed]] evaluations completed for between ${startDate} and ${endDate}.\n\n**You are required to have ${this.evalThreshold} evaluations completed for this period.**\nPlease request at least [[# Needed]] more evaluations as soon as possible.\n\nIf you have any issues or questions about the system, please contact [${ADMIN_EMAIL}](mailto:${ADMIN_EMAIL}).\n\nThank you!`\n\t\t\t\t],\n\t\t\t\t[\n\t\t\t\t\t'CCC',\n\t\t\t\t\t`Hello Dr. [[Name]],\n\nThe Clinical Competency Committee will be meeting soon to evaluate your performance from ${startDate} to ${endDate}.\n\nYou currently have [[# Completed]] evaluations completed for this period;\nhowever, **you are required to have ${this.evalThreshold} evaluations completed for this period.**\nPlease request at least [[# Needed]] more evaluations as soon as possible.\n\nIf you have any issues or questions about the system, please contact [${ADMIN_EMAIL}](mailto:${ADMIN_EMAIL}).\n\nThank you!`\n\t\t\t\t]\n\t\t\t]);\n\t\t},\n\t\temailReplacements(){\n\t\t\treturn [\n\t\t\t\t'Name',\n\t\t\t\t'# Completed',\n\t\t\t\t'# Needed'\n\t\t\t];\n\t\t},\n\t\tadditionalEmailFields(){\n\t\t\treturn {\n\t\t\t\tevalsRequired: this.evalThreshold\n\t\t\t};\n\t\t}\n\t},\n\tmethods: {\n\t\tgroupUsers\n\t},\n\tcomponents: {\n\t\tEvaluationListItem,\n\t\tComponentList,\n\t\tEmailEditor\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-email-button-container {\n\t\ttext-align: right;\n\t\tmargin-bottom: 20px;\n\t}\n\n\t.email-editor-container {\n\t\tmargin-bottom: 60px;\n\t}\n</style>\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -17403,7 +17351,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "\n.time-period-cell > * {\n\tdisplay: inline-block;\n}\n.time-period-cell b {\n\twidth: 5em;\n\tmargin-right: 0;\n}\n.time-period-cell span {\n\tmargin-right: 1em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/StatsReport.vue?110c26d7"],"names":[],"mappings":";AAkiBA;CACA,sBAAA;CACA;AAEA;CACA,WAAA;CACA,gBAAA;CACA;AAEA;CACA,kBAAA;CACA","file":"StatsReport.vue","sourcesContent":["<template>\n\t<div class=\"container body-block\">\n\t\t<h3>{{ title }}</h3>\n\t\t<div class=\"controls\">\n\t\t\t<fieldset class=\"show-container\">\n\t\t\t\t<legend>Show</legend>\n\t\t\t\t<div>\n\t\t\t\t\t<label v-for=\"field of availableFields\">\n\t\t\t\t\t\t<input type=\"checkbox\" :value=\"show[field]\"\n\t\t\t\t\t\t\t@change=\"show = Object.assign({}, show, {[field]: !show[field]})\"/>\n\t\t\t\t\t\t{{ camelCaseToWords(field) }}\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tTable height\n\t\t\t\t\t\t<select class=\"form-control\" v-model=\"tableHeight\">\n\t\t\t\t\t\t\t<option :value=\"false\">Full size</option>\n\t\t\t\t\t\t\t<option value=\"500px\">Fixed</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tChart height\n\t\t\t\t\t\t<select class=\"form-control\" v-model=\"chartHeight\">\n\t\t\t\t\t\t\t<option :value=\"false\">Full size</option>\n\t\t\t\t\t\t\t<option value=\"625px\">Fixed</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t\n\t\t<slot></slot>\n\t\t\n\t\t<alert-list v-model=\"alerts\" />\n\t\t\n\t\t<button type=\"button\" class=\"export-button btn btn-primary center-block\"\n\t\t\t\t@click=\"exportPdf\">\n\t\t\tExport PDF\n\t\t\t<svg-icon src=\"/img/icons/pdf.svg\" />\n\t\t</button>\n\n\t\t<div class=\"stats-report-container\">\n\t\t\t<div v-if=\"show.ratios\">\n\t\t\t\t<h3>Ratios</h3>\n\t\t\t\t<data-table :bordered=\"true\" :thead=\"ratiosThead\"\n\t\t\t\t\t:config=\"listTableConfig\" :data=\"ratiosData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.ratios && show.graphs\">\n\t\t\t\t<h3>Ratios</h3>\n\t\t\t\t<div class=\"list-chart-container-container\"\n\t\t\t\t\t\t:style=\"listChartContainerContainerStyle\">\n\t\t\t\t\t<div class=\"list-chart-container\" :style=\"listChartContainerStyle\">\n\t\t\t\t\t\t<chartjs-chart type=\"horizontalBar\"\n\t\t\t\t\t\t\t:data=\"ratiosGraphData\" :options=\"listChartConfig\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div v-if=\"show.noRequests\">\n\t\t\t\t<h3>No requests</h3>\n\t\t\t\t<data-table :bordered=\"true\" :thead=\"noRequestsThead\"\n\t\t\t\t\t:config=\"listTableConfig\" :data=\"noRequestsData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.noneCompleted\">\n\t\t\t\t<h3>None completed</h3>\n\t\t\t\t<data-table :bordered=\"true\" :thead=\"noneCompletedThead\"\n\t\t\t\t\t:config=\"listTableConfig\" :data=\"noneCompletedData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.averageCompletionTimes\">\n\t\t\t\t<h3>Average completion times</h3>\n\t\t\t\t<data-table :bordered=\"true\"\n\t\t\t\t\t:thead=\"averageCompletionTimesThead\"\n\t\t\t\t\t:config=\"averageCompletionTimesConfig\"\n\t\t\t\t\t:data=\"averageCompletionTimesData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.lastCompleted\">\n\t\t\t\t<h3>Last completed evaluations</h3>\n\t\t\t\t<data-table :bordered=\"true\" :thead=\"lastCompletedThead\"\n\t\t\t\t\t:config=\"lastCompletedConfig\" :data=\"lastCompletedData\" />\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport Color from 'color';\n\nimport AlertList from '../AlertList.vue';\nimport ChartjsChart from '../ChartjsChart.vue';\nimport DataTable from '../DataTable.vue';\nimport SvgIcon from '../SvgIcon.vue';\n\nimport { CHART_COLORS } from 'modules/constants.js';\nimport { camelCaseToWords, sortPropIgnoreCase } from 'modules/utils.js';\nimport {\n\tcreateDateCell,\n\trenderDateCell,\n\trenderIdToEvalUrl,\n\trenderTrainingLevel\n} from 'modules/datatable-utils.js';\nimport { tableHeader } from 'modules/report-utils.js';\n\nexport default {\n\tprops: {\n\t\ttitle: {\n\t\t\ttype: String,\n\t\t\tdefault: 'Statistics'\n\t\t},\n\t\treport: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tratios: false,\n\t\t\t\tgraphs: false,\n\t\t\t\tnoRequests: false,\n\t\t\t\tnoneCompleted: false,\n\t\t\t\taverageCompletionTimes: false,\n\t\t\t\tlastCompleted: false\n\t\t\t},\n\t\t\ttableHeight: '500px',\n\t\t\tchartHeight: '625px',\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\tcomputed: {\n\t\tavailableFields(){\n\t\t\tlet fields = [\n\t\t\t\t'ratios',\n\t\t\t\t'graphs',\n\t\t\t\t'noRequests',\n\t\t\t\t'noneCompleted',\n\t\t\t\t'lastCompleted',\n\t\t\t];\n\t\t\t\n\t\t\tif(this.report.statsType === 'evaluator')\n\t\t\t\tfields.push('averageCompletionTimes');\n\t\t\t\t\n\t\t\treturn fields;\n\t\t},\n\t\tlistTableConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollX: true,\n\t\t\t\tscrollY: this.tableHeight,\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false\n\t\t\t};\n\t\t},\n\t\tlistChartContainerContainerStyle(){\n\t\t\treturn {\n\t\t\t\theight: this.chartHeight\n\t\t\t};\n\t\t},\n\t\tlistChartContainerStyle(){\n\t\t\treturn {\n\t\t\t\twidth: '100%',\n\t\t\t\theight: `${20 * this.report.userStats.length}px`\n\t\t\t};\n\t\t},\n\t\tlistChartConfig(){\n\t\t\treturn {\n\t\t\t\tmaintainAspectRatio: false,\n\t\t\t\tlegend: {\n\t\t\t\t\tlabels: {\n\t\t\t\t\t\tfontSize: 18,\n\t\t\t\t\t\tfontColor: '#333'\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tcallbacks: {\n\t\t\t\t\t\tlabel(tooltip){\n\t\t\t\t\t\t\tlet value = parseFloat(tooltip.xLabel).toFixed();\n\t\t\t\t\t\t\treturn `${value}%`;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t};\n\t\t},\n\t\tratiosThead(){\n\t\t\treturn [[\n\t\t\t\t'User',\n\t\t\t\t'Requested',\n\t\t\t\t'Total Requests',\n\t\t\t\t'Total Completed',\n\t\t\t\t'Total Ratio'\n\t\t\t]];\n\t\t},\n\t\tratiosData(){\n\t\t\tif(!this.report.userStats || this.report.userStats.length === 0)\n\t\t\t\treturn [];\n\t\t\t\n\t\t\treturn this.report.userStats.map(stat => [\n\t\t\t\tstat.name,\n\t\t\t\tstat.requested,\n\t\t\t\tstat.totalRequests,\n\t\t\t\tstat.completed,\n\t\t\t\tstat.ratio\n\t\t\t\t\t? `${stat.ratio}%`\n\t\t\t\t\t: ''\n\t\t\t]);\n\t\t},\n\t\tratiosGraphData(){\n\t\t\tlet color = Color(CHART_COLORS.OTHER[0]);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: this.report.userStats.map(userStat => userStat.name),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Completed / Requested %',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tborderWidth: 1,\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: this.report.userStats.map(userStat => userStat.ratio)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tnoRequestsThead(){\n\t\t\treturn [\n\t\t\t\t['No requests']\n\t\t\t];\n\t\t},\n\t\tnoRequestsData(){\n\t\t\tif(!this.report.noneRequested || this.report.noneRequested.length === 0)\n\t\t\t\treturn [];\n\n\t\t\treturn this.report.noneRequested.map(name => [name]);\n\t\t},\n\t\tnoneCompletedThead(){\n\t\t\treturn [\n\t\t\t\t['No completed evals']\n\t\t\t];\n\t\t},\n\t\tnoneCompletedData(){\n\t\t\tif(!this.report.noneCompleted || this.report.noneCompleted.length === 0)\n\t\t\t\treturn [];\n\n\t\t\treturn this.report.noneCompleted.map(name => [name]);\n\t\t},\n\t\taverageCompletionTimesThead(){\n\t\t\treturn [\n\t\t\t\t['User', 'Average Time']\n\t\t\t];\n\t\t},\n\t\taverageCompletionTimesConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollY: this.tableHeight,\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tcolumns: [\n\t\t\t\t\t{ data: 'name' },\n\t\t\t\t\t{\n\t\t\t\t\t\tdata: 'time',\n\t\t\t\t\t\trender(time, type, obj){\n\t\t\t\t\t\t\tif(['sort', 'type'].includes(type))\n\t\t\t\t\t\t\t\treturn obj.timespan;\n\n\t\t\t\t\t\t\tlet [days, hours, minutes] = time.split(', ');\n\t\t\t\t\t\t\treturn [\n\t\t\t\t\t\t\t\t`<b>${days},</b>`,\n\t\t\t\t\t\t\t\t`<span>${hours},</span>`,\n\t\t\t\t\t\t\t\t`<i>${minutes}</i>`\n\t\t\t\t\t\t\t].join(' ');\n\t\t\t\t\t\t},\n\t\t\t\t\t\tcreatedCell(td){\n\t\t\t\t\t\t\ttd.classList.add('time-period-cell');\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\tfixedHeader: true\n\t\t\t};\n\t\t},\n\t\taverageCompletionTimesData(){\n\t\t\treturn this.report.averageCompletionTimes || [];\n\t\t},\n\t\tlastCompletedThead(){\n\t\t\treturn [\n\t\t\t\t['User', 'Completed', 'Evaluation']\n\t\t\t];\n\t\t},\n\t\tlastCompletedConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollY: this.tableHeight,\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tcolumns: [\n\t\t\t\t\tnull,\n\t\t\t\t\t{\n\t\t\t\t\t\trender: renderDateCell,\n\t\t\t\t\t\tcreatedCell: createDateCell\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\trender: renderIdToEvalUrl\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\tfixedHeader: true\n\t\t\t};\n\t\t},\n\t\tlastCompletedData(){\n\t\t\tif(!this.report.lastCompleted || this.report.lastCompleted.length === 0)\n\t\t\t\treturn [];\n\n\t\t\treturn this.report.lastCompleted.map(obj => [\n\t\t\t\tobj.name,\n\t\t\t\tobj.evaluation.complete_date,\n\t\t\t\tobj.evaluation.id\n\t\t\t]);\n\t\t}\n\t},\n\twatch: {\n\t\tshow(){\n\t\t\tthis.$nextTick(() => {\n\t\t\t\t$(window).resize();\n\t\t\t});\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords,\n\t\texportPdf(){\n\t\t\tPromise.all([\n\t\t\t\timport('pdfmake/build/pdfmake.js'),\n\t\t\t\timport('../../vfs_fonts.json')\n\t\t\t]).then(([pdfmake, vfs]) => {\n\t\t\t\tpdfmake.vfs = vfs;\n\t\t\t\t\n\t\t\t\tconst filename = `${this.title} - ${new Date().toLocaleString()}`;\n\t\t\t\t\n\t\t\t\tlet reportParamHeader = ['Start date', 'End date'];\n\t\t\t\tlet reportParamBody = [\n\t\t\t\t\tthis.report.startDate.date\n\t\t\t\t\t\t? this.report.startDate.date.split(' ')[0]\n\t\t\t\t\t\t: this.report.startDate,\n\t\t\t\t\tthis.report.endDate.date\n\t\t\t\t\t\t? this.report.endDate.date.split(' ')[0]\n\t\t\t\t\t\t: this.report.endDate,\n\t\t\t\t];\n\t\t\t\t\n\t\t\t\tif(this.report.trainingLevel){\n\t\t\t\t\treportParamHeader.push('Training level');\n\t\t\t\t\treportParamBody.push(renderTrainingLevel(this.report.trainingLevel));\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\tlet content = [\n\t\t\t\t\t{ text: this.title, style: 'title' },\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: [\n\t\t\t\t\t\t\t\treportParamHeader.map(tableHeader),\n\t\t\t\t\t\t\t\treportParamBody\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t},\n\t\t\t\t\t\tstyle: 'table'\n\t\t\t\t\t}\n\t\t\t\t];\n\t\t\t\t\n\t\t\t\tif(this.ratiosData.length > 0)\n\t\t\t\t\tcontent.push({\n\t\t\t\t\t\ttext: 'Ratios',\n\t\t\t\t\t\tstyle: 'heading'\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\tthis.ratiosThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t...this.ratiosData.sort(sortPropIgnoreCase(0))\n\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t},\n\t\t\t\t\t\tstyle: 'table'\n\t\t\t\t\t});\n\t\t\t\t\t\n\t\t\t\tif(this.noRequestsData.length > 0)\n\t\t\t\t\tcontent.push({\n\t\t\t\t\t\ttext: 'No requests',\n\t\t\t\t\t\tstyle: 'heading',\n\t\t\t\t\t\tpageBreak: 'before'\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\tthis.noRequestsThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t...this.noRequestsData.sort(sortPropIgnoreCase(0))\n\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t},\n\t\t\t\t\t\tstyle: 'table'\n\t\t\t\t\t});\n\t\t\t\t\t\n\t\t\t\tif(this.noneCompletedData.length > 0)\n\t\t\t\t\tcontent.push({\n\t\t\t\t\t\ttext: 'None completed',\n\t\t\t\t\t\tstyle: 'heading',\n\t\t\t\t\t\tpageBreak: 'before'\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\tthis.noneCompletedThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t...this.noneCompletedData.sort(sortPropIgnoreCase(0))\n\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t},\n\t\t\t\t\t\tstyle: 'table'\n\t\t\t\t\t});\n\t\t\t\t\t\n\t\t\t\tif(this.lastCompletedData.length > 0)\n\t\t\t\t\tcontent.push({\n\t\t\t\t\t\ttext: 'Last completed evaluation',\n\t\t\t\t\t\tstyle: 'heading',\n\t\t\t\t\t\tpageBreak: 'before'\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\tthis.lastCompletedThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t...this.lastCompletedData.sort(sortPropIgnoreCase(0))\n\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t},\n\t\t\t\t\t\tstyle: 'table'\n\t\t\t\t\t});\n\t\t\t\t\t\n\t\t\t\tif(this.report.statsType === 'evaluator'\n\t\t\t\t\t\t&& this.averageCompletionTimesData.length > 0)\n\t\t\t\t\tcontent.push({\n\t\t\t\t\t\ttext: 'Average completion time',\n\t\t\t\t\t\tstyle: 'heading',\n\t\t\t\t\t\tpageBreak: 'before'\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\tthis.averageCompletionTimesThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t...this.averageCompletionTimesData.map(obj => [\n\t\t\t\t\t\t\t\t\tobj.name,\n\t\t\t\t\t\t\t\t\tobj.time\n\t\t\t\t\t\t\t\t]).sort(sortPropIgnoreCase(0))\n\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t},\n\t\t\t\t\t\tstyle: 'table'\n\t\t\t\t\t});\n\t\t\t\t\t\n\t\t\t\t// TODO: Chart, improved styling\n\t\t\t\t\n\t\t\t\tconst docDefinition = {\n\t\t\t\t\tpageSize: 'LETTER',\n\t\t\t\t\tcontent,\n\t\t\t\t\tstyles: {\n\t\t\t\t\t\ttitle: {\n\t\t\t\t\t\t\tbold: true,\n\t\t\t\t\t\t\tfontSize: 24,\n\t\t\t\t\t\t\tmargin: [0, 20, 0, 10]\n\t\t\t\t\t\t},\n\t\t\t\t\t\theading: {\n\t\t\t\t\t\t\tbold: true,\n\t\t\t\t\t\t\tfontSize: 20,\n\t\t\t\t\t\t\tmargin: [0, 10, 0, 5]\n\t\t\t\t\t\t},\n\t\t\t\t\t\ttableHeader: {\n\t\t\t\t\t\t\tbold: true,\n\t\t\t\t\t\t\tfontSize: 14\n\t\t\t\t\t\t},\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\tmargin: [0, 20]\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t};\n\t\t\t\t\n\t\t\t\tpdfmake.createPdf(docDefinition).download(filename);\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\thtml: `<strong>Error:</strong> There was a problem exporting the ${this.title} PDF`\n\t\t\t\t});\n\t\t\t});\n\t\t}\n\t},\n\tcomponents: {\n\t\tAlertList,\n\t\tChartjsChart,\n\t\tDataTable,\n\t\tSvgIcon\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-container div {\n\t\tdisplay: flex;\n\t\tflex-wrap: wrap;\n\t}\n\t\n\t.show-container div label {\n\t\tmargin: 0.5em 1em;\n\t}\n\t\n\t.controls {\n\t\tmargin-bottom: 2em;\n\t}\n\n\t.stats-report-container {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tflex-wrap: wrap;\n\t\tjustify-content: space-between;\n\t\talign-items: stretch;\n\t}\n\n\t.stats-report-container > div {\n\t\twidth: calc(50% - 20px);\n\t\tmargin: 10px;\n\t\tflex-grow: 1;\n\t\tflex-shrink: 0;\n\t}\n\n\t.list-chart-container-container {\n\t\toverflow: auto;\n\t}\n\t\n\t.export-button {\n\t\tmargin-top: 2em;\n\t}\n</style>\n\n<style>\n\t.time-period-cell > * {\n\t\tdisplay: inline-block;\n\t}\n\n\t.time-period-cell b {\n\t\twidth: 5em;\n\t\tmargin-right: 0;\n\t}\n\t\n\t.time-period-cell span {\n\t\tmargin-right: 1em;\n\t}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.individual-report section[data-v-405f959c] {\n\tmargin: 2em 0 0;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/IndividualReport.vue?5df9ef94"],"names":[],"mappings":";AAwnBA;CACA,gBAAA;CACA","file":"IndividualReport.vue","sourcesContent":["<template>\n\t<div class=\"individual-report container body-block\">\n\t\t<alert-list v-model=\"alerts\" />\n\t\t<template v-if=\"report.subjectEvaluations[subjectId] && report.subjectEvaluations[subjectId].length > 0\">\n\t\t\t<h2>\n\t\t\t\tIndividual Report\n\t\t\t\t<small>\n\t\t\t\t\t{{ report.subjects[subjectId] }}\n\t\t\t\t</small>\n\t\t\t</h2>\n\n\n\t\t\t<section>\n\t\t\t\t<h3>Evaluations included in report</h3>\n\t\t\t\t<data-table :bordered=\"true\" :thead=\"evaluationsThead\"\n\t\t\t\t\t:config=\"evaluationsConfig\" :data=\"evaluationsData\" />\n\n\t\t\t\t<button type=\"button\" class=\"btn btn-default center-block\"\n\t\t\t\t\t\t@click=\"exportPdf\">\n\t\t\t\t\tExport PDF\n\t\t\t\t\t<svg-icon src=\"/img/icons/pdf.svg\" />\n\t\t\t\t</button>\n\t\t\t</section>\n\n\t\t\t<section>\n\t\t\t\t<fieldset class=\"show-container\">\n\t\t\t\t\t<legend>Show</legend>\n\t\t\t\t\t<label v-for=\"(part, name) of show\">\n\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"show[name]\" />\n\t\t\t\t\t\t{{ camelCaseToWords(name) }}\n\t\t\t\t\t</label>\n\t\t\t\t</fieldset>\n\n\t\t\t\t<div class=\"row\">\n\t\t\t\t\t<div :class=\"milestoneCompetencyWidth\" v-if=\"show.competencies\">\n\t\t\t\t\t\t<h4>Competencies</h4>\n\t\t\t\t\t\t<data-table :bordered=\"true\"\n\t\t\t\t\t\t\t:thead=\"competenciesThead\" :data=\"competenciesData\" />\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div :class=\"milestoneCompetencyWidth\" v-if=\"show.milestones\">\n\t\t\t\t\t\t<h4>Milestones</h4>\n\t\t\t\t\t\t<data-table :bordered=\"true\"\n\t\t\t\t\t\t\t:thead=\"milestonesThead\" :data=\"milestonesData\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</section>\n\n\t\t\t<section v-if=\"show.charts\">\n\t\t\t\t<div class=\"row charts\">\n\t\t\t\t\t<div v-if=\"show.competencies\" :class=\"chartWidth\">\n\t\t\t\t\t\t<chartjs-chart v-if=\"competencyChartData\"\n\t\t\t\t\t\t\t:type=\"chartType\"\n\t\t\t\t\t\t\t:options=\"chartOptions\" :data=\"competencyChartData\"\n\t\t\t\t\t\t\t:shouldEmit=\"true\" ref=\"competencyChart\" />\n\t\t\t\t\t</div>\n\t\t\t\t\t<div v-if=\"show.milestones\" :class=\"chartWidth\">\n\t\t\t\t\t\t<chartjs-chart v-if=\"milestoneChartData\"\n\t\t\t\t\t\t\t:type=\"chartType\"\n\t\t\t\t\t\t\t:options=\"chartOptions\" :data=\"milestoneChartData\"\n\t\t\t\t\t\t\t:shouldEmit=\"true\" ref=\"milestoneChart\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\t\t\t\t<div class=\"row chart-options\">\n\t\t\t\t\t<div class=\"col-sm-offset-5 col-sm-2\">\n\t\t\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\t\t\t<span class=\"panel-title\">Chart options</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"panel-body\">\n\t\t\t\t\t\t\t\t<fieldset v-if=\"show.milestones && show.competencies\">\n\t\t\t\t\t\t\t\t\t<legend>Orientation</legend>\n\t\t\t\t\t\t\t\t\t<div class=\"btn-group btn-group-justified\" data-toggle=\"buttons\">\n\t\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"horizontal\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-horizontal\"></span>\n\t\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t\t\t<bootstrap-button-input type=\"radio\" option=\"vertical\"\n\t\t\t\t\t\t\t\t\t\t\t\tv-model=\"chartOrientation\">\n\t\t\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-option-vertical\"></span>\n\t\t\t\t\t\t\t\t\t\t</bootstrap-button-input>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</fieldset>\n\n\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\t\t\tType\n\t\t\t\t\t\t\t\t\t\t<select class=\"form-control\" v-model=\"chartType\">\n\t\t\t\t\t\t\t\t\t\t\t<option v-for=\"type of chartTypes\" :value=\"type\">\n\t\t\t\t\t\t\t\t\t\t\t\t{{ ucfirst(type) }}\n\t\t\t\t\t\t\t\t\t\t\t</option>\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</section>\n\n\t\t\t<section>\n\t\t\t\t<h3>Comments</h3>\n\t\t\t\t<data-table :bordered=\"true\" :thead=\"commentsThead\"\n\t\t\t\t\t:config=\"commentsConfig\" :data=\"commentsData\" />\n\n\t\t\t\t<button type=\"button\" class=\"btn btn-primary center-block\"\n\t\t\t\t\t\t@click=\"exportPdf\">\n\t\t\t\t\tExport PDF\n\t\t\t\t\t<svg-icon src=\"/img/icons/pdf.svg\" />\n\t\t\t\t</button>\n\t\t\t</section>\n\n\t\t</template>\n\t\t<bootstrap-alert v-else type=\"warning\">\n\t\t\tNo <strong>{{ trainingLevelDisplay }}</strong> evaluations found for\n\t\t\t<strong>{{ subject.full_name }}</strong>\n\t\t\tbetween <strong>{{ renderDateCell(report.startDate.date) }}</strong>\n\t\t\tand <strong>{{ renderDateCell(report.endDate.date) }}</strong>.\n\t\t</bootstrap-alert>\n\t</div>\n</template>\n\n<script>\nimport Color from 'color';\n\nimport BootstrapAlert from '../BootstrapAlert.vue';\nimport AlertList from '../AlertList.vue';\nimport BootstrapButtonInput from '../BootstrapButtonInput.vue';\nimport ChartjsChart from '../ChartjsChart.vue';\nimport DataTable from '../DataTable.vue';\nimport SvgIcon from '../SvgIcon.vue';\n\nimport {\n\tCHART_COLORS,\n\tRESIDENT_VALUE_MAP,\n\tFELLOWSHIP_VALUE_MAPS\n} from 'modules/constants.js';\nimport {\n\tcamelCaseToWords,\n\tucfirst\n} from 'modules/utils.js';\nimport {\n\trenderIdToEvalUrl,\n\trenderDateCell,\n\trenderDateRangeCell,\n\trenderTrainingLevel\n} from 'modules/datatable-utils.js';\nimport {\n\tcreateRadarScaleCallback,\n\ttableHeader,\n\tfullWidthTable,\n\tborderedStripedTable,\n\tcreateResponseLegend\n} from 'modules/report-utils.js';\n\nexport default {\n\tprops: {\n\t\tsubject: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t},\n\t\treport: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tmilestones: true,\n\t\t\t\tcompetencies: true,\n\t\t\t\tstandardDeviations: false,\n\t\t\t\tcharts: true\n\t\t\t},\n\t\t\tchartType: 'radar',\n\t\t\tchartOrientation: 'vertical',\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\tcomputed: {\n\t\tsubjectId(){\n\t\t\treturn this.subject.id;\n\t\t},\n\t\ttrainingLevelDisplay(){\n\t\t\tif(this.report.trainingLevel === 'all')\n\t\t\t\treturn;\n\t\t\t\t\n\t\t\treturn renderTrainingLevel(this.report.trainingLevel);\n\t\t},\n\t\tvalueMap(){\n\t\t\tif(this.report.trainingLevel === 'fellow')\n\t\t\t\treturn FELLOWSHIP_VALUE_MAPS.get(this.subject.secondary_training_level)\n\t\t\t\t\t|| FELLOWSHIP_VALUE_MAPS.get(null);\n\t\t\t\t\n\t\t\treturn RESIDENT_VALUE_MAP;\n\t\t},\n\t\tmilestoneCompetencyWidth(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': this.show.milestones && this.show.competencies,\n\t\t\t\t'col-md-12': !this.show.milestones || !this.show.competencies\n\t\t\t};\n\t\t},\n\t\tevaluationsThead(){\n\t\t\treturn [[\n\t\t\t\t'#',\n\t\t\t\t'Evaluation date',\n\t\t\t\t'Evaluator',\n\t\t\t\t'Evaluation form'\n\t\t\t]];\n\t\t},\n\t\tevaluationsConfig(){\n\t\t\treturn {\n\t\t\t\tcolumns: [\n\t\t\t\t\t{ render: renderIdToEvalUrl },\n\t\t\t\t\tnull,\n\t\t\t\t\tnull,\n\t\t\t\t\tnull\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tevaluationsData(){\n\t\t\ttry {\n\t\t\t\treturn this.report.subjectEvaluations[this.subjectId].map(request => [\n\t\t\t\t\tString(request.evaluation_id),\n\t\t\t\t\trenderDateRangeCell('evaluation_date_start', 'evaluation_date_end')(request),\n\t\t\t\t\t`${request.evaluator_last}, ${request.evaluator_first}`,\n\t\t\t\t\trequest.form_title\n\t\t\t\t]);\n\t\t\t} catch(err) {\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\tcompetenciesThead(){\n\t\t\tlet tr = [\n\t\t\t\t'Competency',\n\t\t\t\t'Average'\n\t\t\t];\n\t\t\tif(this.show.standardDeviations)\n\t\t\t\ttr.push('Standard Deviation');\n\t\t\ttr.push('Number of Evaluations');\n\n\t\t\treturn [tr];\n\t\t},\n\t\tcompetenciesData(){\n\t\t\tlet data = [];\n\t\t\tfor(let competencyId in this.report.subjectCompetency[this.subjectId]){\n\t\t\t\tlet tr = [String(this.report.competencies[competencyId])];\n\t\t\t\tif(this.report.subjectCompetency[this.subjectId][competencyId]){\n\t\t\t\t\ttr.push(String(Math.round10(this.report.subjectCompetency[this.subjectId][competencyId], -2)));\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\ttr.push(String(Math.round10(this.report.subjectCompetencyDeviations[this.subjectId][competencyId], -2)));\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\ttr.push('');\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\ttr.push('');\n\t\t\t\t}\n\t\t\t\ttr.push(String(this.report.subjectCompetencyEvals[this.subjectId][competencyId] || 0));\n\t\t\t\tdata.push(tr);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\t\tmilestonesThead(){\n\t\t\tlet tr = [\n\t\t\t\t'Milestone',\n\t\t\t\t'Average'\n\t\t\t];\n\n\t\t\tif(this.show.standardDeviations)\n\t\t\t\ttr.push('Standard Deviation');\n\t\t\ttr.push('Number of Evaluations');\n\n\t\t\treturn [tr];\n\t\t},\n\t\tmilestonesData(){\n\t\t\tlet data = [];\n\t\t\tfor(let milestoneId in this.report.subjectMilestone[this.subjectId]){\n\t\t\t\tlet tr = [String(this.report.milestones[milestoneId])];\n\t\t\t\tif(this.report.subjectMilestone[this.subjectId][milestoneId]){\n\t\t\t\t\ttr.push(String(Math.round10(this.report.subjectMilestone[this.subjectId][milestoneId], -2)));\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\ttr.push(String(Math.round10(this.report.subjectMilestoneDeviations[this.subjectId][milestoneId], -2)));\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\ttr.push('');\n\t\t\t\t\tif(this.show.standardDeviations)\n\t\t\t\t\t\ttr.push('');\n\t\t\t\t}\n\n\t\t\t\ttr.push(String(this.report.subjectMilestoneEvals[this.subjectId][milestoneId] || 0));\n\n\t\t\t\tdata.push(tr);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\n\t\tcommentsConfig(){\n\t\t\treturn {\n\t\t\t\tcolumns: [\n\t\t\t\t\t{ render: renderIdToEvalUrl },\n\t\t\t\t\tnull,\n\t\t\t\t\tnull,\n\t\t\t\t\tnull,\n\t\t\t\t\tnull\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tcommentsThead(){\n\t\t\treturn [[\n\t\t\t\t'#',\n\t\t\t\t'Evaluation Date',\n\t\t\t\t'Evaluator',\n\t\t\t\t'Evaluation Form',\n\t\t\t\t'Comment'\n\t\t\t]];\n\t\t},\n\t\tcommentsData(){\n\t\t\ttry {\n\t\t\t\treturn this.report.subjectTextResponses[this.subjectId].map(response => [\n\t\t\t\t\tString(response.evaluation_id),\n\t\t\t\t\trenderDateRangeCell('evaluation_date_start', 'evaluation_date_end')(response),\n\t\t\t\t\t`${response.last_name}, ${response.first_name}`,\n\t\t\t\t\tresponse.form_title,\n\t\t\t\t\tresponse.response\n\t\t\t\t]);\n\t\t\t} catch(err) {\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\n\t\tchartTypes(){\n\t\t\treturn [\n\t\t\t\t'radar',\n\t\t\t\t'line',\n\t\t\t\t'bar'\n\t\t\t];\n\t\t},\n\t\tchartWidth(){\n\t\t\treturn {\n\t\t\t\t'col-md-6': this.chartOrientation === 'horizontal',\n\t\t\t\t'col-md-12': this.chartOrientation === 'vertical'\n\t\t\t};\n\t\t},\n\t\tchartOptions(){\n\t\t\treturn {\n\t\t\t\tanimation: false,\n\t\t\t\tlegend: {\n\t\t\t\t\tlabels: {\n\t\t\t\t\t\tfontSize: 18,\n\t\t\t\t\t\tfontColor: '#333'\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tcallbacks: {\n\t\t\t\t\t\tlabel(tooltip, data){\n\t\t\t\t\t\t\tlet value = parseFloat(tooltip.yLabel).toFixed(2);\n\t\t\t\t\t\t\tlet name = data.datasets[tooltip.datasetIndex].label;\n\t\t\t\t\t\t\treturn `${name}: ${value}`;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\tscale: {\n\t\t\t\t\tticks: {\n\t\t\t\t\t\tbeginAtZero: true,\n\t\t\t\t\t\tuserCallback: createRadarScaleCallback(this.valueMap)\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t};\n\t\t},\n\t\tcompetencyChartData(){\n\t\t\tlet averageColor = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet averageBackgroundColor = averageColor.clone().alpha(0.2);\n\n\t\t\tlet subjectColor = Color(CHART_COLORS.SUBJECT);\n\t\t\tlet subjectBackgroundColor = subjectColor.clone().alpha(0.2);\n\t\t\ttry {\n\t\t\t\treturn {\n\t\t\t\t\tlabels: Object.values(this.report.competencies),\n\t\t\t\t\tdatasets: [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tlabel: 'Average Competency',\n\t\t\t\t\t\t\tbackgroundColor: averageBackgroundColor.rgbString(),\n\t\t\t\t\t\t\tborderColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tpointBackgroundColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBorderColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tdata: Object.values(this.report.averageCompetency)\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tlabel: 'Subject Competency',\n\t\t\t\t\t\t\tbackgroundColor: subjectBackgroundColor.rgbString(),\n\t\t\t\t\t\t\tborderColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tpointBackgroundColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBorderColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tdata: Object.values(this.report.subjectCompetency[this.subjectId])\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t};\n\t\t\t} catch(err) {\n\t\t\t\treturn null;\n\t\t\t}\n\t\t},\n\t\tmilestoneChartData(){\n\t\t\tlet averageColor = Color(CHART_COLORS.AVERAGE);\n\t\t\tlet averageBackgroundColor = averageColor.clone().alpha(0.2);\n\n\t\t\tlet subjectColor = Color(CHART_COLORS.SUBJECT);\n\t\t\tlet subjectBackgroundColor = subjectColor.clone().alpha(0.2);\n\t\t\ttry {\n\t\t\t\treturn {\n\t\t\t\t\tlabels: Object.values(this.report.milestones),\n\t\t\t\t\tdatasets: [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tlabel: 'Average Milestone',\n\t\t\t\t\t\t\tbackgroundColor: averageBackgroundColor.rgbString(),\n\t\t\t\t\t\t\tborderColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tpointBackgroundColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBorderColor: averageColor.rgbString(),\n\t\t\t\t\t\t\tdata: Object.values(this.report.averageMilestone)\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tlabel: 'Subject Milestone',\n\t\t\t\t\t\t\tbackgroundColor: subjectBackgroundColor.rgbString(),\n\t\t\t\t\t\t\tborderColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tpointBackgroundColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\t\tpointHoverBorderColor: subjectColor.rgbString(),\n\t\t\t\t\t\t\tdata: Object.values(this.report.subjectMilestone[this.subjectId])\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t};\n\t\t\t} catch(err) {\n\t\t\t\treturn null;\n\t\t\t}\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords,\n\t\tucfirst,\n\t\trenderDateCell,\n\t\texportPdf(){\n\t\t\tif(!this.report.subjectEvaluations[this.subjectId])\n\t\t\t\treturn;\n\n\t\t\tPromise.all([\n\t\t\t\timport('pdfmake/build/pdfmake.js'),\n\t\t\t\timport('../../vfs_fonts.json')\n\t\t\t]).then(([pdfmake, vfs]) => {\n\t\t\t\tpdfmake.vfs = vfs;\n\n\t\t\t\tconst filename = `${this.report.subjects[this.subjectId]} - ${new Date().toLocaleString()}`; // FIXME\n\n\t\t\t\tlet content = [\n\t\t\t\t\t{ text: 'Report parameters', style: 'heading' },\n\t\t\t\t\tborderedStripedTable({\n\t\t\t\t\t\ttable: fullWidthTable({\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: [\n\t\t\t\t\t\t\t\t['Name', 'Training level', 'Start date', 'End date'].map(tableHeader),\n\t\t\t\t\t\t\t\t[\n\t\t\t\t\t\t\t\t\tthis.report.subjects[this.subjectId],\n\t\t\t\t\t\t\t\t\tthis.report.trainingLevel,\n\t\t\t\t\t\t\t\t\tthis.report.startDate.date\n\t\t\t\t\t\t\t\t\t\t? this.report.startDate.date.split(' ')[0]\n\t\t\t\t\t\t\t\t\t\t: this.report.startDate,\n\t\t\t\t\t\t\t\t\tthis.report.endDate.date\n\t\t\t\t\t\t\t\t\t\t? this.report.endDate.date.split(' ')[0]\n\t\t\t\t\t\t\t\t\t\t: this.report.endDate\n\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t})\n\t\t\t\t\t}),\n\t\t\t\t\t{ text: 'Evaluations included in report', style: 'heading' },\n\t\t\t\t\tborderedStripedTable({\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\twidths: ['auto', 'auto', 'auto', '*'],\n\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\tthis.evaluationsThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t...this.evaluationsData\n\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t}\n\t\t\t\t\t})\n\t\t\t\t];\n\n\t\t\t\tif(this.show.competencies || this.show.milestones)\n\t\t\t\t\tcontent.push(\n\t\t\t\t\t\t{ text: 'Score mapping', style: 'heading' },\n\t\t\t\t\t\tcreateResponseLegend(this.valueMap)\n\t\t\t\t\t);\n\n\t\t\t\tif(this.show.competencies)\n\t\t\t\t\tcontent.push(\n\t\t\t\t\t\t{ text: 'Competencies', style: 'heading' },\n\t\t\t\t\t\tborderedStripedTable({\n\t\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\t\twidths: ['*', 'auto', 'auto'],\n\t\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\t\tthis.competenciesThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t\t...this.competenciesData\n\t\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t})\n\t\t\t\t\t);\n\n\t\t\t\tif(this.show.milestones)\n\t\t\t\t\tcontent.push(\n\t\t\t\t\t\t{ text: 'Milestones', style: 'heading' },\n\t\t\t\t\t\tborderedStripedTable({\n\t\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\t\twidths: ['*', 'auto', 'auto'],\n\t\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\t\tthis.milestonesThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t\t...this.milestonesData\n\t\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t})\n\t\t\t\t\t);\n\n\t\t\t\tlet charts = [];\n\t\t\t\tif(this.show.charts){\n\t\t\t\t\tif(this.chartOrientation === 'horizontal'){\n\t\t\t\t\t\tlet cols = [];\n\t\t\t\t\t\tif(this.show.competencies && this.$refs.competencyChart && this.$refs.competencyChart.chart)\n\t\t\t\t\t\t\tcols.push({\n\t\t\t\t\t\t\t\timage: this.$refs.competencyChart.chart.toBase64Image(),\n\t\t\t\t\t\t\t\twidth: '*'\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\telse\n\t\t\t\t\t\t\tcols.push({ text: '', width: '*' });\n\n\t\t\t\t\t\tif(this.show.milestones && this.$refs.milestoneChart && this.$refs.milestoneChart.chart)\n\t\t\t\t\t\t\tcols.push({\n\t\t\t\t\t\t\t\timage: this.$refs.milestoneChart.chart.toBase64Image(),\n\t\t\t\t\t\t\t\twidth: '*'\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\telse\n\t\t\t\t\t\t\tcols.push({ text: '', width: '*' });\n\n\t\t\t\t\t\tcharts = [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\tpageBreak: 'before',\n\t\t\t\t\t\t\t\tcolumns: cols,\n\t\t\t\t\t\t\t\tcolumnGap: 10\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t];\n\t\t\t\t\t}\n\t\t\t\t\telse {\n\t\t\t\t\t\tcharts = [];\n\t\t\t\t\t\tif(this.show.competencies && this.$refs.competencyChart && this.$refs.competencyChart.chart)\n\t\t\t\t\t\t\tcharts.push({\n\t\t\t\t\t\t\t\tpageBreak: 'before',\n\t\t\t\t\t\t\t\timage: this.$refs.competencyChart.chart.toBase64Image(),\n\t\t\t\t\t\t\t\twidth: '*'\n\t\t\t\t\t\t\t});\n\n\t\t\t\t\t\tif(this.show.milestones && this.$refs.milestoneChart && this.$refs.milestoneChart.chart)\n\t\t\t\t\t\t\tcharts.push({\n\t\t\t\t\t\t\t\timage: this.$refs.milestoneChart.chart.toBase64Image(),\n\t\t\t\t\t\t\t\twidth: '*',\n\t\t\t\t\t\t\t\tpageBreak: 'after'\n\t\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t\tcontent.push(...charts);\n\t\t\t\t}\n\n\t\t\t\tcontent.push(\n\t\t\t\t\t{ text: 'Comments', style: 'heading' },\n\t\t\t\t\tborderedStripedTable({\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\twidths: ['auto', 'auto', 'auto', 'auto', '*'],\n\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\tthis.commentsThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t...this.commentsData\n\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t}\n\t\t\t\t\t})\n\t\t\t\t);\n\n\t\t\t\tlet docDefinition = {\n\t\t\t\t\tpageSize: 'LETTER',\n\t\t\t\t\tcontent,\n\t\t\t\t\tstyles: {\n\t\t\t\t\t\theading: {\n\t\t\t\t\t\t\tbold: true,\n\t\t\t\t\t\t\tfontSize: 20,\n\t\t\t\t\t\t\tmargin: [0, 20, 0, 10]\n\t\t\t\t\t\t},\n\t\t\t\t\t\ttableHeader: {\n\t\t\t\t\t\t\tbold: true,\n\t\t\t\t\t\t\tfontSize: 14\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t};\n\n\t\t\t\tpdfmake.createPdf(docDefinition).download(filename);\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\thtml: `<strong>Error: </strong> There was a problem exporting the report for ${this.report.subjects[this.subjectId]}`\n\t\t\t\t});\n\t\t\t});\n\n\t\t}\n\t},\n\n\tcomponents: {\n\t\tBootstrapAlert,\n\t\tAlertList,\n\t\tBootstrapButtonInput,\n\t\tChartjsChart,\n\t\tDataTable,\n\t\tSvgIcon\n\t}\n};\n</script>\n\n<style scoped>\n\t.individual-report section {\n\t\tmargin: 2em 0 0;\n\t}\n</style>\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -17417,18 +17365,76 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
+exports.push([module.i, "\n.svg-icon,\n.svg-icon > svg {\n\tdisplay: inline-block;\n\twidth: 1em;\n\theight: 1em;\n\tstroke-width: 0;\n\tstroke: currentColor;\n\tfill: currentColor;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/SvgIcon.vue?782cfc92"],"names":[],"mappings":";AAkCA;;CAEA,sBAAA;CACA,WAAA;CACA,YAAA;CACA,gBAAA;CACA,qBAAA;CACA,mBAAA;CACA","file":"SvgIcon.vue","sourcesContent":["<template>\n\t<span class=\"svg-icon\" v-html=\"svg\"></span>\n</template>\n\n<script>\n\nexport default {\n\tprops: {\n\t\tsrc: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tsvg: null\n\t\t};\n\t},\n\tcreated(){\n\t\tfetch(this.src).then(response => {\n\t\t\tif(response.ok)\n\t\t\t\treturn response.text();\n\t\t\t\n\t\t\tthrow new Error('Unable to load icon');\n\t\t}).then(svg => {\n\t\t\tthis.svg = svg;\n\t\t}).catch(err => {\n\t\t\tconsole.err(err.message);\n\t\t});\n\t}\n};\n</script>\n\n<style>\n\t.svg-icon,\n\t.svg-icon > svg {\n\t\tdisplay: inline-block;\n\t\twidth: 1em;\n\t\theight: 1em;\n\t\tstroke-width: 0;\n\t\tstroke: currentColor;\n\t\tfill: currentColor;\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+/* 322 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\nul[data-v-5b23c1a4] {\n\tcolumns: 150px 3;\n}\nfieldset label[data-v-5b23c1a4] {\n\tmargin: 0 1em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/EmailEditor.vue?0d1af47c"],"names":[],"mappings":";AAgUA;CACA,iBAAA;CACA;AAEA;CACA,cAAA;CACA","file":"EmailEditor.vue","sourcesContent":["<template>\n\t<div class=\"panel panel-default\">\n\t\t<div class=\"panel-heading\">\n\t\t\t<h3 class=\"heading-title\">\n\t\t\t\t{{ title }}\n\t\t\t</h3>\n\t\t</div>\n\t\t<div class=\"panel-body\">\n\t\t\t<section>\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<label for=\"email-to\">To</label>\n\t\t\t\t\t<div class=\"input-group\">\n\t\t\t\t\t\t<input type=\"text\" id=\"email-to\"\n\t\t\t\t\t\t\tclass=\"form-control appear-not-readonly\"\n\t\t\t\t\t\t\t:value=\"toDisplayValue\" readonly />\n\t\t\t\t\t\t<span v-if=\"Array.isArray(to) && !possibleRecipients\"\n\t\t\t\t\t\t\t\tclass=\"input-group-btn\">\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\t@click=\"show.recipients = !show.recipients\">\n\t\t\t\t\t\t\t\tShow recipients\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-triangle-bottom\"></span>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</span>\n\t\t\t\t\t\t<span v-if=\"possibleRecipients\" class=\"input-group-btn\">\n\t\t\t\t\t\t\t<show-hide-button class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\tv-model=\"show.possibleRecipients\">\n\t\t\t\t\t\t\t\trecipients\n\t\t\t\t\t\t\t</show-hide-button>\n\t\t\t\t\t\t</span>\n\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t\t<div v-if=\"Array.isArray(to) && !possibleRecipients\"\n\t\t\t\t\t\t\tv-show=\"show.recipients\">\n\t\t\t\t\t\t<ul class=\"list-group\">\n\t\t\t\t\t\t\t<li v-for=\"recipient of to\" class=\"list-group-item\">\n\t\t\t\t\t\t\t\t{{ recipient.full_name || recipient }}\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t\t<div v-if=\"possibleRecipients\" v-show=\"show.possibleRecipients\">\n\t\t\t\t\t\t<div class=\"well row\">\n\t\t\t\t\t\t\t<template v-for=\"possibleRecipientGroup of groupedPossibleRecipients\">\n\t\t\t\t\t\t\t\t<template v-if=\"possibleRecipientGroup.children && possibleRecipientGroup.children.length > 0\">\n\t\t\t\t\t\t\t\t\t<b>{{ possibleRecipientGroup.text }}</b>\n\t\t\t\t\t\t\t\t\t<ul>\n\t\t\t\t\t\t\t\t\t\t<li v-for=\"possibleRecipient of possibleRecipientGroup.children\">\n\t\t\t\t\t\t\t\t\t\t\t<label :class=\"{'normal-text-label': !to.includes(possibleRecipient.id)}\">\n\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" v-model=\"to\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t:value=\"possibleRecipient.id\" />\n\t\t\t\t\t\t\t\t\t\t\t\t{{ possibleRecipient.text || possibleRecipient }}\n\t\t\t\t\t\t\t\t\t\t\t</label>\n\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t</template>\n\t\t\t\t\t\t\t</template>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<label for=\"email-subject\">Subject</label>\n\t\t\t\t\t<input type=\"text\" id=\"email-subject\" class=\"form-control\"\n\t\t\t\t\t\tv-model=\"subject\" />\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<label for=\"email-body\">Body</label>\n\t\t\t\t\t<medium-editor v-model=\"body.html\" id=\"email-body\"\n\t\t\t\t\t\t:replacements=\"emailReplacements\" />\n\t\t\t\t</div>\n\t\t\t\t\n\t\t\t\t<alert-list v-if=\"alerts && alerts.length > 0\" v-model=\"alerts\" />\n\t\t\t</section>\n\t\t</div>\n\t\t<div class=\"panel-footer text-right\">\n\t\t\t<button type=\"button\" class=\"btn btn-primary\" @click=\"send\">\n\t\t\t\t<span class=\"glyphicon glyphicon-send\"></span>\n\t\t\t\tSend emails\n\t\t\t</button>\n\t\t\t\n\t\t\t<button type=\"button\" class=\"btn btn-default\" @click=\"$emit('close')\">\n\t\t\t\tClose\n\t\t\t</button>\n\t\t</div>\n\t</div>\n\t\n</template>\n\n<script>\nimport MarkdownIt from 'markdown-it';\n\nimport AlertList from './AlertList.vue';\nimport MediumEditor from './MediumEditor.vue';\nimport ShowHideButton from './ShowHideButton.vue';\n\nimport {\n\tucfirst,\n\tgetFetchHeaders,\n\tgroupUsers,\n\thtmlLabelReplacements\n} from 'modules/utils.js';\n\nconst md = new MarkdownIt();\n\nexport default {\n\tprops: {\n\t\tfrom: {\n\t\t\ttype: String,\n\t\t\tdefault: 'admin'\n\t\t},\n\t\ttarget: {\n\t\t\ttype: String,\n\t\t\tdefault: '/emails'\n\t\t},\n\t\t\n\t\ttitle: {\n\t\t\ttype: String,\n\t\t\tdefault: 'Email editor'\n\t\t},\n\n\t\tdefaultTo: {\n\t\t\tdefault(){\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\tdefaultSubject: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\tdefaultBodyMarkdown: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\t\n\t\tpossibleRecipients: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\temailReplacements: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\tadditionalFields: {\n\t\t\ttype: Object,\n\t\t\trequired: false\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tto: this.defaultTo,\n\t\t\tsubject: this.defaultSubject,\n\t\t\tbody: {\n\t\t\t\tmarkdown: this.defaultBodyMarkdown,\n\t\t\t\thtml: htmlLabelReplacements(md.render(this.defaultBodyMarkdown),\n\t\t\t\t\tthis.emailReplacements)\n\t\t\t},\n\t\t\teditorType: 'medium',\n\t\t\t\n\t\t\tshow: {\n\t\t\t\trecipients: false,\n\t\t\t\tpossibleRecipients: false\n\t\t\t},\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\tcomputed: {\n\t\teditorTypes(){\n\t\t\treturn [\n\t\t\t\t'medium',\n\t\t\t\t'markdown'\n\t\t\t];\n\t\t},\n\t\tgroupedPossibleRecipients(){\n\t\t\treturn groupUsers(this.possibleRecipients);\n\t\t},\n\t\ttoDisplayValue(){\n\t\t\tif(this.possibleRecipients || Array.isArray(this.to))\n\t\t\t\treturn `${this.to ? this.to.length : '0'} recipients`;\n\t\t\tif(typeof this.to === 'string')\n\t\t\t\treturn this.to;\n\t\t\tif(this.to && this.to.full_name && this.to.email)\n\t\t\t\treturn `${this.to.full_name} <${this.to.email}>`;\n\t\t},\n\t\talertTypeClass(){\n\t\t\treturn {\n\t\t\t\t'alert-success': this.alert.type === 'success',\n\t\t\t\t'alert-info': this.alert.type === 'info',\n\t\t\t\t'alert-danger': this.alert.type === 'error'\n\t\t\t};\n\t\t},\n\t\tdefaultBody(){\n\t\t\treturn {\n\t\t\t\tmarkdown: this.defaultBodyMarkdown,\n\t\t\t\thtml: htmlLabelReplacements(md.render(this.defaultBodyMarkdown),\n\t\t\t\t\tthis.emailReplacements)\n\t\t\t};\n\t\t}\n\t},\n\twatch: {\n\t\tdefaultTo(defaultTo){\n\t\t\tthis.to = defaultTo;\n\t\t},\n\t\tdefaultSubject(defaultSubject){\n\t\t\tthis.subject = defaultSubject;\n\t\t},\n\t\tdefaultBody(defaultBody){\n\t\t\tthis.body = defaultBody;\n\t\t}\n\t},\n\tmethods: {\n\t\tgetPossibleRecipient(id){\n\t\t\treturn this.possibleRecipients.find(user => user.id === Number(id));\n\t\t},\n\t\tgetRecipientCompleted(id){\n\t\t\tlet recipient = this.getPossibleRecipient(id);\n\t\t\treturn recipient && recipient.subject_evaluations\n\t\t\t\t? recipient.subject_evaluations.length\n\t\t\t\t: 0;\n\t\t},\n\t\tsend(){\n\t\t\t// FIXME: numCompleted shouldn't be added here\n\t\t\t\n\t\t\tlet body = {\n\t\t\t\tsubject: this.subject,\n\t\t\t\tbody: this.body.html\n\t\t\t};\n\t\t\t\n\t\t\tif(Array.isArray(this.to))\n\t\t\t\tbody.to = this.to.map(id => ({\n\t\t\t\t\tid: id,\n\t\t\t\t\tnumCompleted: this.getRecipientCompleted(id)\n\t\t\t\t}));\n\t\t\telse if(this.to.id)\n\t\t\t\tbody.to = {\n\t\t\t\t\tid: this.to.id,\n\t\t\t\t\tnumCompleted: this.to.subject_evaluations.length\n\t\t\t\t};\n\t\t\telse if(!Number.isNaN(this.to))\n\t\t\t\tbody.to = {\n\t\t\t\t\tid: this.to,\n\t\t\t\t\tnumCompleted: this.getRecipientCompleted(this.to)\n\t\t\t\t};\n\n\t\t\t\n\t\t\tif(this.additionalFields)\n\t\t\t\tbody = Object.assign(body, this.additionalFields);\n\t\t\t\t\n\t\t\tlet error = false;\n\t\t\tif(!body.to || (Array.isArray(body.to) && body.to.length === 0)){\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\thtml: `Please select a recipient.`\n\t\t\t\t});\n\t\t\t\terror = true;\n\t\t\t}\n\t\t\tif(!body.subject){\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\thtml: `Please enter a subject.`\n\t\t\t\t});\n\t\t\t\terror = true;\n\t\t\t}\n\t\t\tif(!body.body){\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\thtml: `Please enter a message body.`\n\t\t\t\t});\n\t\t\t\terror = true;\n\t\t\t}\n\t\t\tif(error)\n\t\t\t\treturn;\n\t\t\t\n\t\t\tfetch(this.target, {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify(body)\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\telse\n\t\t\t\t\tthrow new Error('There was a problem sending the emails');\n\t\t\t}).then(response => {\n\t\t\t\tif(response.success){\n\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\ttype: 'success',\n\t\t\t\t\t\ttext: `${response.success.length} emails successfully sent.`\n\t\t\t\t\t});\n\t\t\t\t\tthis.to = this.to.filter(id => !response.success.includes(id));\n\t\t\t\t}\n\t\t\t\t\t\n\t\t\t\t\n\t\t\t\tif(response.error && response.error.length > 0){\n\t\t\t\t\tlet userNames = response.error\n\t\t\t\t\t\t.map(id => this.possibleRecipients.find(user => user.id === Number(id)).full_name);\n\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\thtml: `Error sending emails to the following users: <ul>\n\t\t\t\t\t\t\t${userNames.map(name => `<li>${name}</li>`).join('')}\n\t\t\t\t\t\t</ul>`\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t}).catch(err => {\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttext: err.message,\n\t\t\t\t\ttype: 'error'\n\t\t\t\t});\n\t\t\t});\n\t\t},\n\t\tucfirst\n\t},\n\tcomponents: {\n\t\tAlertList,\n\t\tMediumEditor,\n\t\tShowHideButton\n\t}\n};\n</script>\n\n<style scoped>\n\tul {\n\t\tcolumns: 150px 3;\n\t}\n\t\n\tfieldset label {\n\t\tmargin: 0 1em;\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+/* 323 */,
+/* 324 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\nh2[data-v-70d4db5d] {\n\tmargin-top: 0;\n}\nh2.form-title[data-v-70d4db5d] {\n\tmargin: 60px 0 20px;\n\tpage-break-before: always;\n}\n.report-evaluations[data-v-70d4db5d] {\n\tpage-break-inside: avoid;\n}\nhr[data-v-70d4db5d] {\n\tpage-break-before: always;\n}\n@media print {\n.btn-lg-submit-container[data-v-70d4db5d] {\n\t\tdisplay: none;\n}\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/FormReport.vue?74f8b73e"],"names":[],"mappings":";AAuoBA;CACA,cAAA;CACA;AAEA;CACA,oBAAA;CACA,0BAAA;CACA;AAEA;CACA,yBAAA;CACA;AAEA;CACA,0BAAA;CACA;AAEA;AACA;EACA,cAAA;CACA;CACA","file":"FormReport.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"container body-block\">\n\t\t\t<h1>Form report</h1>\n\t\t\t<start-end-date v-model=\"dates\" />\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tForm\n\t\t\t\t\t<select-two class=\"form-control\" :options=\"groupedForms\"\n\t\t\t\t\tv-model=\"formId\"></select-two>\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t\t\n\t\t\t<alert-list v-model=\"alerts\" />\n\t\t\t\n\t\t\t<div class=\"btn-lg-submit-container\">\n\t\t\t\t<button type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t\t@click=\"runReport\">\n\t\t\t\t\tRun report\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div v-if=\"report\" class=\"container body-block\">\n\t\t\t<div class=\"report-evaluations\">\n\t\t\t\t<bootstrap-alert v-if=\"report.evals.length > 0\" type=\"info\">\n\t\t\t\t\t\n\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t<div class=\"col-md-8\">\n\t\t\t\t\t\t\t<h2>\n\t\t\t\t\t\t\t\t{{ report.evals.length }} total form evaluations\n\t\t\t\t\t\t\t</h2>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"col-md-4 text-right\">\n\t\t\t\t\t\t\t<show-hide-button class=\"btn btn-info\"\n\t\t\t\t\t\t\t\t\tv-model=\"show.allEvals\">\n\t\t\t\t\t\t\t\tall\n\t\t\t\t\t\t\t</show-hide-button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t\t<data-table v-if=\"show.allEvals\"\n\t\t\t\t\t\t:thead=\"evalsThead\" :config=\"allEvalsConfig\" />\n\n\t\t\t\t</bootstrap-alert>\n\t\t\t\t<bootstrap-alert v-else type=\"warning\"\n\t\t\t\t\t:text=\"`No evaluations found for ${report.formContents.title} in report parameters.`\" />\n\t\t\t\t\n\t\t\t\t<section>\n\t\t\t\t\t<div class=\"form-horizontal\">\n\t\t\t\t\t\t\n\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t<div class=\"col-sm-10\">\n\t\t\t\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\t\t\t\tUser\n\t\t\t\t\t\t\t\t\t<select-two class=\"form-control\" :options=\"groupedUsers\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"subjectId\">\n\t\t\t\t\t\t\t\t\t\t<option value=\"\">All</option>\n\t\t\t\t\t\t\t\t\t</select-two>\n\t\t\t\t\t\t\t\t</label>\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"col-sm-2\">\n\t\t\t\t\t\t\t\t<button type=\"button\" v-if=\"subjectId\"\n\t\t\t\t\t\t\t\t\t\tclass=\"btn btn-default labelless-button\"\n\t\t\t\t\t\t\t\t\t\t@click=\"subjectId = null\">\n\t\t\t\t\t\t\t\t\tClear user\n\t\t\t\t\t\t\t\t</button>\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t\t<section v-if=\"subjectId\">\n\t\t\t\t\t\t<bootstrap-alert type=\"info\"\n\t\t\t\t\t\t\t\tv-if=\"report.subjectEvals[subjectId] && report.subjectEvals[subjectId].length > 0\">\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t<div class=\"col-md-8\">\n\t\t\t\t\t\t\t\t\t<h2>\n\t\t\t\t\t\t\t\t\t\t{{ report.subjectEvals[subjectId].length }}\n\t\t\t\t\t\t\t\t\t\t{{ subject.full_name }} evaluations\n\t\t\t\t\t\t\t\t\t</h2>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"col-md-4 text-right\">\n\t\t\t\t\t\t\t\t\t<show-hide-button class=\"btn btn-info\"\n\t\t\t\t\t\t\t\t\t\t\tv-model=\"show.subjectEvals\">\n\t\t\t\t\t\t\t\t\t\tall\n\t\t\t\t\t\t\t\t\t</show-hide-button>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<data-table v-if=\"subjectEvals && show.subjectEvals\"\n\t\t\t\t\t\t\t\t:thead=\"evalsThead\" :data=\"subjectEvals\"\n\t\t\t\t\t\t\t\t:config=\"subjectEvalsConfig\" />\n\n\t\t\t\t\t\t</bootstrap-alert>\n\t\t\t\t\t\t<bootstrap-alert v-else type=\"warning\"\n\t\t\t\t\t\t\t:text=\"`No evaluations found for ${subject.full_name} in report parameters.`\" />\n\t\t\t\t\t</section>\n\t\t\t\t</section>\n\t\t\t</div>\n\t\t\t\n\t\t\t<button type=\"button\" class=\"btn btn-default center-block\"\n\t\t\t\t\tv-if=\"this.reportContents && this.subjectId && this.reportContents.items.length > 0\"\n\t\t\t\t\t@click=\"exportPdf\">\n\t\t\t\tExport PDF\n\t\t\t\t<svg-icon src=\"/img/icons/pdf.svg\" />\n\t\t\t</button>\n\t\t\t\n\t\t\t<h2 class=\"form-title\" v-if=\"reportContents.title\">\n\t\t\t\t{{ reportContents.title }}\n\t\t\t</h2>\n\t\t\t<template v-for=\"item of reportContents.items\">\n\t\t\t\t<form-report-question v-if=\"item.type === 'question'\" v-bind=\"item\" />\n\t\t\t\t<div v-if=\"item.type === 'instruction'\">\n\n\t\t\t\t</div>\n\t\t\t</template>\n\t\t\t<hr />\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport moment from 'moment';\n\nimport StartEndDate from '../StartEndDate.vue';\nimport SelectTwo from '../SelectTwo.vue';\nimport FormReportQuestion from './FormReportQuestion.vue';\nimport DataTable from '../DataTable.vue';\nimport BootstrapAlert from '../BootstrapAlert.vue';\nimport AlertList from '../AlertList.vue';\nimport ShowHideButton from '../ShowHideButton.vue';\nimport SvgIcon from '../SvgIcon.vue';\n\nimport {\n\tgetFetchHeaders,\n\tjsonOrThrow,\n\tfetchFormGroups\n} from 'modules/utils.js';\nimport {\n\tisoDateStringObject,\n\tcurrentQuarter,\n\trenderDateRange\n} from 'modules/date-utils.js';\nimport {\n\ttableHeader,\n\tfullWidthTable,\n\tborderedStripedTable\n} from 'modules/report-utils.js';\nimport {\n\trenderDateCell,\n\tcreateDateCell,\n\trenderDateTimeCell,\n\tcreateDateTimeCell,\n\trenderDateRangeCell,\n\tcreateDateRangeCell,\n\trenderEvaluationStatus\n} from 'modules/datatable-utils.js';\n\nexport default {\n\tprops: {\n\t\tusers: {\n\t\t\ttype: Array\n\t\t},\n\t\tgroupedUsers: {\n\t\t\ttype: Array\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tdates: isoDateStringObject(currentQuarter()),\n\t\t\tformId: null,\n\t\t\tsubjectId: null,\n\t\t\treport: null,\n\n\t\t\tgroupedForms: [],\n\t\t\tsubjectEvals: [],\n\t\t\t\n\t\t\tshow: {\n\t\t\t\tallEvals: false,\n\t\t\t\tsubjectEvals: false\n\t\t\t},\n\t\t\t\n\t\t\tpdfOptions: {\n\t\t\t\tquestionPageBreak: null\n\t\t\t},\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\n\tcomputed: {\n\t\tsubject(){\n\t\t\tif(this.subjectId)\n\t\t\t\treturn this.users.find(user => user.id === Number(this.subjectId));\n\t\t},\n\t\treportContents(){\n\t\t\tlet reportContents = this.report.formContents;\n\n\t\t\treportContents.items.map(item => {\n\t\t\t\titem.weight = Number(item.weight);\n\t\t\t\tif(this.subjectId && this.report.subjectEvals[this.subjectId]){\n\t\t\t\t\titem.subjectResponses = this.report.subjectResponses[this.subjectId]\n\t\t\t\t\t\t? this.report.subjectResponses[this.subjectId][item.id]\n\t\t\t\t\t\t: null;\n\t\t\t\t\titem.subjectResponseValues = this.report.subjectResponseValues[this.subjectId]\n\t\t\t\t\t\t? this.report.subjectResponseValues[this.subjectId][item.id]\n\t\t\t\t\t\t: null;\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\titem.subjectResponses = null;\n\t\t\t\t\titem.subjectResponseValues = null;\n\t\t\t\t}\n\n\t\t\t\titem.averageResponses = this.report.averageResponses[item.id];\n\n\t\t\t\tif(item.type === 'question' && ['checkbox', 'radio', 'radiononnumeric']\n\t\t\t\t\t\t.includes(item.questionType)){\n\t\t\t\t\titem.options.map(option => {\n\t\t\t\t\t\tif(this.subjectId && this.report.subjectEvals[this.subjectId]){\n\t\t\t\t\t\t\toption.responses = this.report.subjectResponses[this.subjectId]\n\t\t\t\t\t\t\t\t? this.report.subjectResponses[this.subjectId][item.id][option.value]\n\t\t\t\t\t\t\t\t: 0;\n\t\t\t\t\t\t\toption.percentage = this.report.subjectPercentages[this.subjectId]\n\t\t\t\t\t\t\t\t? this.report.subjectPercentages[this.subjectId][item.id][option.value]\n\t\t\t\t\t\t\t\t: 0;\n\t\t\t\t\t\t}\n\t\t\t\t\t\telse {\n\t\t\t\t\t\t\toption.responses = null;\n\t\t\t\t\t\t\toption.percentage = null;\n\t\t\t\t\t\t}\n\t\t\t\t\t\toption.averagePercentage = this.report.averagePercentages[item.id]\n\t\t\t\t\t\t\t? this.report.averagePercentages[item.id][option.value]\n\t\t\t\t\t\t\t: 0;\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t});\n\n\t\t\treturn reportContents;\n\t\t},\n\t\t\n\t\tevalsThead(){\n\t\t\treturn [[\n\t\t\t\t'#',\n\t\t\t\t'Subject',\n\t\t\t\t'Evaluator',\n\t\t\t\t'Requested By',\n\t\t\t\t'Form',\n\t\t\t\t'Evaluation Date',\n\t\t\t\t'Request Date',\n\t\t\t\t'Complete Date',\n\t\t\t\t'Status'\n\t\t\t]];\n\t\t},\n\t\tallEvalsConfig(){\n\t\t\treturn {\n\t\t\t\tajax: {\n\t\t\t\t\turl: '/evaluations',\n\t\t\t\t\tdata: {\n\t\t\t\t\t\tid: this.report.evals.slice(),\n\t\t\t\t\t\twith: {\n\t\t\t\t\t\t\tsubject: [\n\t\t\t\t\t\t\t\t'full_name'\n\t\t\t\t\t\t\t],\n\t\t\t\t\t\t\tevaluator: [\n\t\t\t\t\t\t\t\t'full_name'\n\t\t\t\t\t\t\t],\n\t\t\t\t\t\t\trequestor: [\n\t\t\t\t\t\t\t\t'full_name'\n\t\t\t\t\t\t\t],\n\t\t\t\t\t\t\tform: [\n\t\t\t\t\t\t\t\t'title'\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\tdataSrc: ''\n\t\t\t\t},\n\t\t\t\tcolumns: [\n\t\t\t\t\t{data: 'url'},\n\t\t\t\t\t{data: 'subject.full_name'},\n\t\t\t\t\t{data: 'evaluator.full_name'},\n\t\t\t\t\t{data: 'requestor.full_name'},\n\t\t\t\t\t{data: 'form.title'},\n\t\t\t\t\t{\n\t\t\t\t\t\tdata: null,\n\t\t\t\t\t\trender: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),\n\t\t\t\t\t\tcreatedCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')\n\t\t\t\t\t},\n\t\t\t\t\t{data: 'request_date', render: renderDateCell, createdCell: createDateCell},\n\t\t\t\t\t{data: 'complete_date', render: renderDateTimeCell, createdCell: createDateTimeCell},\n\t\t\t\t\t{data: 'status', render: renderEvaluationStatus}\n\t\t\t\t],\n\t\t\t\torder: [[0, 'desc']]\n\t\t\t};\n\t\t},\n\t\tsubjectEvalsConfig(){\n\t\t\treturn {\n\t\t\t\tcolumns: [\n\t\t\t\t\t{data: 'url'},\n\t\t\t\t\t{data: 'subject.full_name'},\n\t\t\t\t\t{data: 'evaluator.full_name'},\n\t\t\t\t\t{data: 'requestor.full_name'},\n\t\t\t\t\t{data: 'form.title'},\n\t\t\t\t\t{\n\t\t\t\t\t\tdata: null,\n\t\t\t\t\t\trender: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),\n\t\t\t\t\t\tcreatedCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')\n\t\t\t\t\t},\n\t\t\t\t\t{data: \"request_date\", render: renderDateCell, createdCell: createDateCell},\n\t\t\t\t\t{data: \"complete_date\", render: renderDateTimeCell, createdCell: createDateTimeCell},\n\t\t\t\t\t{data: \"status\", render: renderEvaluationStatus}\n\t\t\t\t],\n\t\t\t\torder: [[0, 'desc']]\n\t\t\t};\n\t\t}\n\t},\n\twatch: {\n\t\tsubjectId(subjectId){\n\t\t\tif(!subjectId || !this.report.subjectEvals[subjectId]){\n\t\t\t\tthis.subjectEvals = [];\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tlet query = $.param({\n\t\t\t\tid: this.report.subjectEvals[subjectId].slice(),\n\t\t\t\twith: {\n\t\t\t\t\tsubject: [\n\t\t\t\t\t\t'full_name'\n\t\t\t\t\t],\n\t\t\t\t\tevaluator: [\n\t\t\t\t\t\t'full_name'\n\t\t\t\t\t],\n\t\t\t\t\trequestor: [\n\t\t\t\t\t\t'full_name'\n\t\t\t\t\t],\n\t\t\t\t\tform: [\n\t\t\t\t\t\t'title'\n\t\t\t\t\t]\n\t\t\t\t}\n\t\t\t});\n\t\t\t\n\t\t\tfetch(`/evaluations?${query}`, {\n\t\t\t\tmethod: 'GET',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t}).then(jsonOrThrow).then(subjectEvals => {\n\t\t\t\tthis.subjectEvals = subjectEvals;\n\t\t\t});\n\t\t}\n\t},\n\n\tcreated(){\n\t\tfetchFormGroups().then(groupedForms => {\n\t\t\tthis.groupedForms = groupedForms;\n\t\t}).catch(err => {\n\t\t\tthis.alerts.push({\n\t\t\t\ttype: 'error',\n\t\t\t\thtml: '<strong>Error: </strong> There was a problem fetching the list of forms'\n\t\t\t});\n\t\t\tconsole.error(err);\n\t\t});\n\t},\n\n\tmethods: {\n\t\trunReport(){\n\t\t\tfetch('/report/form', {\n\t\t\t\tmethod: 'POST',\n\t\t\t\theaders: getFetchHeaders(),\n\t\t\t\tcredentials: 'same-origin',\n\t\t\t\tbody: JSON.stringify({\n\t\t\t\t\tstartDate: this.dates.startDate,\n\t\t\t\t\tendDate: this.dates.endDate,\n\t\t\t\t\t'form_id': this.formId\n\t\t\t\t})\n\t\t\t}).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\telse\n\t\t\t\t\tthrow new Error(response.statusText);\n\t\t\t}).then(report => {\n\t\t\t\tthis.report = Object.assign({}, this.report, report);\n\t\t\t}).catch(err => {\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\thtml: '<strong>Error: </strong> There was a problem running the report'\n\t\t\t\t});\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t},\n\t\texportPdf(){\n\t\t\tif(!this.reportContents || this.reportContents.items.length < 1)\n\t\t\t\treturn;\n\t\t\t\t\n\t\t\tlet hasSubject = (this.report.subjectEvals[this.subjectId]\n\t\t\t\t&& this.report.subjectEvals[this.subjectId].length > 0);\n\t\t\t\n\t\t\tPromise.all([\n\t\t\t\timport('pdfmake/build/pdfmake.js'),\n\t\t\t\timport('../../vfs_fonts.json')\n\t\t\t]).then(([pdfmake, vfs]) => {\n\t\t\t\tpdfmake.vfs = vfs;\n\t\t\t\t\n\t\t\t\tconst filename = `${this.reportContents.title} - ${this.dates.startDate} -- ${this.dates.endDate}.pdf`;\n\t\t\t\t\n\t\t\t\tlet content = [\n\t\t\t\t\t{ text: 'Form Report', style: 'h1' },\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: fullWidthTable({\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: [\n\t\t\t\t\t\t\t\t['Form', 'Start date', 'End date'].concat(\n\t\t\t\t\t\t\t\t\thasSubject\n\t\t\t\t\t\t\t\t\t\t? ['Subject']\n\t\t\t\t\t\t\t\t\t\t: []\n\t\t\t\t\t\t\t\t).map(tableHeader),\n\t\t\t\t\t\t\t\t[\n\t\t\t\t\t\t\t\t\tthis.reportContents.title,\n\t\t\t\t\t\t\t\t\tthis.dates.startDate,\n\t\t\t\t\t\t\t\t\tthis.dates.endDate\n\t\t\t\t\t\t\t\t].concat(hasSubject\n\t\t\t\t\t\t\t\t\t? [this.subject.full_name]\n\t\t\t\t\t\t\t\t\t: []\n\t\t\t\t\t\t\t\t)\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t})\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\t{ text: `Evaluations for ${this.subject.full_name} included in report`, style: 'h2'},\n\t\t\t\t\tborderedStripedTable({\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\twidths: [\n\t\t\t\t\t\t\t\t'auto',\n\t\t\t\t\t\t\t\t'auto',\n\t\t\t\t\t\t\t\t'auto',\n\t\t\t\t\t\t\t\t'*',\n\t\t\t\t\t\t\t\t'auto',\n\t\t\t\t\t\t\t\t'auto'\n\t\t\t\t\t\t\t],\n\t\t\t\t\t\t\tbody: [\n\t\t\t\t\t\t\t\t[\n\t\t\t\t\t\t\t\t\t'#',\n\t\t\t\t\t\t\t\t\t'Evaluator',\n\t\t\t\t\t\t\t\t\t'Requested by',\n\t\t\t\t\t\t\t\t\t'Form',\n\t\t\t\t\t\t\t\t\t'Evaluation date',\n\t\t\t\t\t\t\t\t\t'Completed'\n\t\t\t\t\t\t\t\t],\n\t\t\t\t\t\t\t\t...this.subjectEvals.map(subjectEval => [\n\t\t\t\t\t\t\t\t\tsubjectEval.id,\n\t\t\t\t\t\t\t\t\tsubjectEval.evaluator.full_name,\n\t\t\t\t\t\t\t\t\tsubjectEval.requestor.full_name,\n\t\t\t\t\t\t\t\t\tsubjectEval.form.title,\n\t\t\t\t\t\t\t\t\trenderDateRange(\n\t\t\t\t\t\t\t\t\t\tsubjectEval.evaluation_date_start,\n\t\t\t\t\t\t\t\t\t\tsubjectEval.evaluation_date_end\n\t\t\t\t\t\t\t\t\t),\n\t\t\t\t\t\t\t\t\tmoment(subjectEval.complete_date).calendar()\n\t\t\t\t\t\t\t\t])\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t}\n\t\t\t\t\t}),\n\t\t\t\t\t\n\t\t\t\t\t{ text: this.reportContents.title, style: 'h2' },\n\t\t\t\t\t{\n\t\t\t\t\t\tmargin: 0,\n\t\t\t\t\t\ttype: 'none',\n\t\t\t\t\t\tol: this.reportContents.items.filter(item =>\n\t\t\t\t\t\t\t\titem.type === 'question').map(item => {\n\t\t\t\t\t\t\tlet questionHeading = {\n\t\t\t\t\t\t\t\tmargin: [0, 20, 0, 5],\n\t\t\t\t\t\t\t\tcolumns: [\n\t\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\twidth: 'auto',\n\t\t\t\t\t\t\t\t\t\tmargin: [0, 0, 5, 0],\n\t\t\t\t\t\t\t\t\t\ttext: `${item.id.toUpperCase()}: `,\n\t\t\t\t\t\t\t\t\t\tfontSize: 16,\n\t\t\t\t\t\t\t\t\t\tbold: true\n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\twidth: '*',\n\t\t\t\t\t\t\t\t\t\ttext: item.text,\n\t\t\t\t\t\t\t\t\t\tfontSize: 16\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t};\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\tlet questionBody = '';\n\t\t\t\t\t\t\tswitch(item.questionType){\n\t\t\t\t\t\t\t\tcase 'checkbox':\n\t\t\t\t\t\t\t\tcase 'radio':\n\t\t\t\t\t\t\t\tcase 'radiononnumeric':\n\t\t\t\t\t\t\t\t\tquestionBody = borderedStripedTable({\n\t\t\t\t\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\t\t\t\t\theaderRows: 2,\n\t\t\t\t\t\t\t\t\t\t\twidths: ['auto', 'auto', '*'].concat(\n\t\t\t\t\t\t\t\t\t\t\t\thasSubject\n\t\t\t\t\t\t\t\t\t\t\t\t\t? ['*', '*']\n\t\t\t\t\t\t\t\t\t\t\t\t\t: []\n\t\t\t\t\t\t\t\t\t\t\t),\n\t\t\t\t\t\t\t\t\t\t\tbody: [\n\t\t\t\t\t\t\t\t\t\t\t\t[\n\t\t\t\t\t\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\ttext: 'Option text',\n\t\t\t\t\t\t\t\t\t\t\t\t\t\trowSpan: 2,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tstyle: 'tableHeader'\n\t\t\t\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\ttext: 'Value',\n\t\t\t\t\t\t\t\t\t\t\t\t\t\trowSpan: 2,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tstyle: 'tableHeader'\n\t\t\t\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\ttext: 'Responses',\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tcolSpan: hasSubject\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t? 3\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t: null,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tstyle: 'tableHeader'\n\t\t\t\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t\t\t\t].concat(hasSubject\n\t\t\t\t\t\t\t\t\t\t\t\t\t? [\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{},\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{}\n\t\t\t\t\t\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t\t\t\t\t\t\t: []\n\t\t\t\t\t\t\t\t\t\t\t\t),\n\t\t\t\t\t\t\t\t\t\t\t\t[\n\t\t\t\t\t\t\t\t\t\t\t\t\t'',\n\t\t\t\t\t\t\t\t\t\t\t\t\t''\n\t\t\t\t\t\t\t\t\t\t\t\t].concat(hasSubject\n\t\t\t\t\t\t\t\t\t\t\t\t\t? [\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t'Subject #',\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t'Subject %'\n\t\t\t\t\t\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t\t\t\t\t\t\t: []\n\t\t\t\t\t\t\t\t\t\t\t\t).concat([\n\t\t\t\t\t\t\t\t\t\t\t\t\t'Overall %'\n\t\t\t\t\t\t\t\t\t\t\t\t]).map(tableHeader)\n\t\t\t\t\t\t\t\t\t\t\t].concat(\n\t\t\t\t\t\t\t\t\t\t\t\titem.options.map(option => [\n\t\t\t\t\t\t\t\t\t\t\t\t\toption.text,\n\t\t\t\t\t\t\t\t\t\t\t\t\toption.value\n\t\t\t\t\t\t\t\t\t\t\t\t].concat(hasSubject\n\t\t\t\t\t\t\t\t\t\t\t\t\t? [\n\t\t\t\t\t\t\t\t\t\t\t\t\t\toption.responses || '',\n\t\t\t\t\t\t\t\t\t\t\t\t\t\toption.percentage\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t? `${option.percentage}%`\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t\t\t\t\t\t\t: []\n\t\t\t\t\t\t\t\t\t\t\t\t).concat([\n\t\t\t\t\t\t\t\t\t\t\t\t\toption.averagePercentage\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t? `${option.averagePercentage}%`\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t: ''\n\t\t\t\t\t\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t\t\t\t\t\t)\n\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t});\n\t\t\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\t\tcase 'text':\n\t\t\t\t\t\t\t\t\tif(hasSubject && item.subjectResponseValues)\n\t\t\t\t\t\t\t\t\t\tquestionBody = borderedStripedTable({\n\t\t\t\t\t\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\t\t\t\t\t\twidths: ['auto', 'auto', 'auto', '*'],\n\t\t\t\t\t\t\t\t\t\t\t\tbody: [\n\t\t\t\t\t\t\t\t\t\t\t\t\t[\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t'Evaluation',\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t'Evaluator',\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t'Evaluation date',\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t'Response'\n\t\t\t\t\t\t\t\t\t\t\t\t\t].map(tableHeader)\n\t\t\t\t\t\t\t\t\t\t\t\t].concat(\n\t\t\t\t\t\t\t\t\t\t\t\t\tObject.keys(item.subjectResponseValues).map(evaluationId => [\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tevaluationId,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tthis.report.evaluators[evaluationId].full_name,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\trenderDateRange(\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tthis.report.evaluations[evaluationId].evaluation_date_start,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tthis.report.evaluations[evaluationId].evaluation_date_end\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t),\n\t\t\t\t\t\t\t\t\t\t\t\t\t\titem.subjectResponseValues[evaluationId]\n\t\t\t\t\t\t\t\t\t\t\t\t\t])\n\t\t\t\t\t\t\t\t\t\t\t\t)\n\t\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t\t});\n\t\t\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\treturn {\n\t\t\t\t\t\t\t\tpageBreak: this.pdfOptions.questionPageBreak,\n\t\t\t\t\t\t\t\tstack: [\n\t\t\t\t\t\t\t\t\tquestionHeading,\n\t\t\t\t\t\t\t\t\tquestionBody\n\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t};\n\t\t\t\t\t\t})\n\t\t\t\t\t}\n\t\t\t\t];\n\t\t\t\t\n\t\t\t\tlet docDefinition = {\n\t\t\t\t\tpageSize: 'LETTER',\n\t\t\t\t\tcontent,\n\t\t\t\t\tstyles: {\n\t\t\t\t\t\th1: {\n\t\t\t\t\t\t\tbold: true,\n\t\t\t\t\t\t\tfontSize: 24,\n\t\t\t\t\t\t\tmargin: [0, 20],\n\t\t\t\t\t\t},\n\t\t\t\t\t\th2: {\n\t\t\t\t\t\t\tbold: true,\n\t\t\t\t\t\t\tfontSize: 20,\n\t\t\t\t\t\t\tmargin: [0, 10]\n\t\t\t\t\t\t},\n\t\t\t\t\t\ttableHeader: {\n\t\t\t\t\t\t\tbold: true,\n\t\t\t\t\t\t\tfontSize: 14\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t};\n\t\t\t\t\n\t\t\t\tconsole.log(content);\n\t\t\t\t\n\t\t\t\tpdfmake.createPdf(docDefinition).download(filename);\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\thtml: `<strong>Error:</strong> There was a problem exporting the report for ${this.reportContents.title}`\n\t\t\t\t});\n\t\t\t});\n\t\t}\n\t},\n\n\tcomponents: {\n\t\tStartEndDate,\n\t\tSelectTwo,\n\t\tFormReportQuestion,\n\t\tDataTable,\n\t\tBootstrapAlert,\n\t\tAlertList,\n\t\tShowHideButton,\n\t\tSvgIcon\n\t}\n};\n</script>\n\n<style scoped>\n\th2 {\n\t\tmargin-top: 0;\n\t}\n\t\n\th2.form-title {\n\t\tmargin: 60px 0 20px;\n\t\tpage-break-before: always;\n\t}\n\t\n\t.report-evaluations {\n\t\tpage-break-inside: avoid;\n\t}\n\t\n\thr {\n\t\tpage-break-before: always;\n\t}\n\t\n\t@media print {\n\t\t.btn-lg-submit-container {\n\t\t\tdisplay: none;\n\t\t}\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+/* 325 */,
+/* 326 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.time-period-cell > * {\n\tdisplay: inline-block;\n}\n.time-period-cell b {\n\twidth: 5em;\n\tmargin-right: 0;\n}\n.time-period-cell span {\n\tmargin-right: 1em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/StatsReport.vue?110c26d7"],"names":[],"mappings":";AAkiBA;CACA,sBAAA;CACA;AAEA;CACA,WAAA;CACA,gBAAA;CACA;AAEA;CACA,kBAAA;CACA","file":"StatsReport.vue","sourcesContent":["<template>\n\t<div class=\"container body-block\">\n\t\t<h3>{{ title }}</h3>\n\t\t<div class=\"controls\">\n\t\t\t<fieldset class=\"show-container\">\n\t\t\t\t<legend>Show</legend>\n\t\t\t\t<div>\n\t\t\t\t\t<label v-for=\"field of availableFields\">\n\t\t\t\t\t\t<input type=\"checkbox\" :value=\"show[field]\"\n\t\t\t\t\t\t\t@change=\"show = Object.assign({}, show, {[field]: !show[field]})\"/>\n\t\t\t\t\t\t{{ camelCaseToWords(field) }}\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tTable height\n\t\t\t\t\t\t<select class=\"form-control\" v-model=\"tableHeight\">\n\t\t\t\t\t\t\t<option :value=\"false\">Full size</option>\n\t\t\t\t\t\t\t<option value=\"500px\">Fixed</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tChart height\n\t\t\t\t\t\t<select class=\"form-control\" v-model=\"chartHeight\">\n\t\t\t\t\t\t\t<option :value=\"false\">Full size</option>\n\t\t\t\t\t\t\t<option value=\"625px\">Fixed</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t\n\t\t<slot></slot>\n\t\t\n\t\t<alert-list v-model=\"alerts\" />\n\t\t\n\t\t<button type=\"button\" class=\"export-button btn btn-primary center-block\"\n\t\t\t\t@click=\"exportPdf\">\n\t\t\tExport PDF\n\t\t\t<svg-icon src=\"/img/icons/pdf.svg\" />\n\t\t</button>\n\n\t\t<div class=\"stats-report-container\">\n\t\t\t<div v-if=\"show.ratios\">\n\t\t\t\t<h3>Ratios</h3>\n\t\t\t\t<data-table :bordered=\"true\" :thead=\"ratiosThead\"\n\t\t\t\t\t:config=\"listTableConfig\" :data=\"ratiosData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.ratios && show.graphs\">\n\t\t\t\t<h3>Ratios</h3>\n\t\t\t\t<div class=\"list-chart-container-container\"\n\t\t\t\t\t\t:style=\"listChartContainerContainerStyle\">\n\t\t\t\t\t<div class=\"list-chart-container\" :style=\"listChartContainerStyle\">\n\t\t\t\t\t\t<chartjs-chart type=\"horizontalBar\"\n\t\t\t\t\t\t\t:data=\"ratiosGraphData\" :options=\"listChartConfig\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div v-if=\"show.noRequests\">\n\t\t\t\t<h3>No requests</h3>\n\t\t\t\t<data-table :bordered=\"true\" :thead=\"noRequestsThead\"\n\t\t\t\t\t:config=\"listTableConfig\" :data=\"noRequestsData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.noneCompleted\">\n\t\t\t\t<h3>None completed</h3>\n\t\t\t\t<data-table :bordered=\"true\" :thead=\"noneCompletedThead\"\n\t\t\t\t\t:config=\"listTableConfig\" :data=\"noneCompletedData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.averageCompletionTimes\">\n\t\t\t\t<h3>Average completion times</h3>\n\t\t\t\t<data-table :bordered=\"true\"\n\t\t\t\t\t:thead=\"averageCompletionTimesThead\"\n\t\t\t\t\t:config=\"averageCompletionTimesConfig\"\n\t\t\t\t\t:data=\"averageCompletionTimesData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.lastCompleted\">\n\t\t\t\t<h3>Last completed evaluations</h3>\n\t\t\t\t<data-table :bordered=\"true\" :thead=\"lastCompletedThead\"\n\t\t\t\t\t:config=\"lastCompletedConfig\" :data=\"lastCompletedData\" />\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport Color from 'color';\n\nimport AlertList from '../AlertList.vue';\nimport ChartjsChart from '../ChartjsChart.vue';\nimport DataTable from '../DataTable.vue';\nimport SvgIcon from '../SvgIcon.vue';\n\nimport { CHART_COLORS } from 'modules/constants.js';\nimport { camelCaseToWords, sortPropIgnoreCase } from 'modules/utils.js';\nimport {\n\tcreateDateCell,\n\trenderDateCell,\n\trenderIdToEvalUrl,\n\trenderTrainingLevel\n} from 'modules/datatable-utils.js';\nimport { tableHeader } from 'modules/report-utils.js';\n\nexport default {\n\tprops: {\n\t\ttitle: {\n\t\t\ttype: String,\n\t\t\tdefault: 'Statistics'\n\t\t},\n\t\treport: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tratios: false,\n\t\t\t\tgraphs: false,\n\t\t\t\tnoRequests: false,\n\t\t\t\tnoneCompleted: false,\n\t\t\t\taverageCompletionTimes: false,\n\t\t\t\tlastCompleted: false\n\t\t\t},\n\t\t\ttableHeight: '500px',\n\t\t\tchartHeight: '625px',\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\tcomputed: {\n\t\tavailableFields(){\n\t\t\tlet fields = [\n\t\t\t\t'ratios',\n\t\t\t\t'graphs',\n\t\t\t\t'noRequests',\n\t\t\t\t'noneCompleted',\n\t\t\t\t'lastCompleted',\n\t\t\t];\n\t\t\t\n\t\t\tif(this.report.statsType === 'evaluator')\n\t\t\t\tfields.push('averageCompletionTimes');\n\t\t\t\t\n\t\t\treturn fields;\n\t\t},\n\t\tlistTableConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollX: true,\n\t\t\t\tscrollY: this.tableHeight,\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false\n\t\t\t};\n\t\t},\n\t\tlistChartContainerContainerStyle(){\n\t\t\treturn {\n\t\t\t\theight: this.chartHeight\n\t\t\t};\n\t\t},\n\t\tlistChartContainerStyle(){\n\t\t\treturn {\n\t\t\t\twidth: '100%',\n\t\t\t\theight: `${20 * this.report.userStats.length}px`\n\t\t\t};\n\t\t},\n\t\tlistChartConfig(){\n\t\t\treturn {\n\t\t\t\tmaintainAspectRatio: false,\n\t\t\t\tlegend: {\n\t\t\t\t\tlabels: {\n\t\t\t\t\t\tfontSize: 18,\n\t\t\t\t\t\tfontColor: '#333'\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tcallbacks: {\n\t\t\t\t\t\tlabel(tooltip){\n\t\t\t\t\t\t\tlet value = parseFloat(tooltip.xLabel).toFixed();\n\t\t\t\t\t\t\treturn `${value}%`;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t};\n\t\t},\n\t\tratiosThead(){\n\t\t\treturn [[\n\t\t\t\t'User',\n\t\t\t\t'Requested',\n\t\t\t\t'Total Requests',\n\t\t\t\t'Total Completed',\n\t\t\t\t'Total Ratio'\n\t\t\t]];\n\t\t},\n\t\tratiosData(){\n\t\t\tif(!this.report.userStats || this.report.userStats.length === 0)\n\t\t\t\treturn [];\n\t\t\t\n\t\t\treturn this.report.userStats.map(stat => [\n\t\t\t\tstat.name,\n\t\t\t\tstat.requested,\n\t\t\t\tstat.totalRequests,\n\t\t\t\tstat.completed,\n\t\t\t\tstat.ratio\n\t\t\t\t\t? `${stat.ratio}%`\n\t\t\t\t\t: ''\n\t\t\t]);\n\t\t},\n\t\tratiosGraphData(){\n\t\t\tlet color = Color(CHART_COLORS.OTHER[0]);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: this.report.userStats.map(userStat => userStat.name),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Completed / Requested %',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tborderWidth: 1,\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: this.report.userStats.map(userStat => userStat.ratio)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tnoRequestsThead(){\n\t\t\treturn [\n\t\t\t\t['No requests']\n\t\t\t];\n\t\t},\n\t\tnoRequestsData(){\n\t\t\tif(!this.report.noneRequested || this.report.noneRequested.length === 0)\n\t\t\t\treturn [];\n\n\t\t\treturn this.report.noneRequested.map(name => [name]);\n\t\t},\n\t\tnoneCompletedThead(){\n\t\t\treturn [\n\t\t\t\t['No completed evals']\n\t\t\t];\n\t\t},\n\t\tnoneCompletedData(){\n\t\t\tif(!this.report.noneCompleted || this.report.noneCompleted.length === 0)\n\t\t\t\treturn [];\n\n\t\t\treturn this.report.noneCompleted.map(name => [name]);\n\t\t},\n\t\taverageCompletionTimesThead(){\n\t\t\treturn [\n\t\t\t\t['User', 'Average Time']\n\t\t\t];\n\t\t},\n\t\taverageCompletionTimesConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollY: this.tableHeight,\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tcolumns: [\n\t\t\t\t\t{ data: 'name' },\n\t\t\t\t\t{\n\t\t\t\t\t\tdata: 'time',\n\t\t\t\t\t\trender(time, type, obj){\n\t\t\t\t\t\t\tif(['sort', 'type'].includes(type))\n\t\t\t\t\t\t\t\treturn obj.timespan;\n\n\t\t\t\t\t\t\tlet [days, hours, minutes] = time.split(', ');\n\t\t\t\t\t\t\treturn [\n\t\t\t\t\t\t\t\t`<b>${days},</b>`,\n\t\t\t\t\t\t\t\t`<span>${hours},</span>`,\n\t\t\t\t\t\t\t\t`<i>${minutes}</i>`\n\t\t\t\t\t\t\t].join(' ');\n\t\t\t\t\t\t},\n\t\t\t\t\t\tcreatedCell(td){\n\t\t\t\t\t\t\ttd.classList.add('time-period-cell');\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\tfixedHeader: true\n\t\t\t};\n\t\t},\n\t\taverageCompletionTimesData(){\n\t\t\treturn this.report.averageCompletionTimes || [];\n\t\t},\n\t\tlastCompletedThead(){\n\t\t\treturn [\n\t\t\t\t['User', 'Completed', 'Evaluation']\n\t\t\t];\n\t\t},\n\t\tlastCompletedConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollY: this.tableHeight,\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tcolumns: [\n\t\t\t\t\tnull,\n\t\t\t\t\t{\n\t\t\t\t\t\trender: renderDateCell,\n\t\t\t\t\t\tcreatedCell: createDateCell\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\trender: renderIdToEvalUrl\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\tfixedHeader: true\n\t\t\t};\n\t\t},\n\t\tlastCompletedData(){\n\t\t\tif(!this.report.lastCompleted || this.report.lastCompleted.length === 0)\n\t\t\t\treturn [];\n\n\t\t\treturn this.report.lastCompleted.map(obj => [\n\t\t\t\tobj.name,\n\t\t\t\tobj.evaluation.complete_date,\n\t\t\t\tobj.evaluation.id\n\t\t\t]);\n\t\t}\n\t},\n\twatch: {\n\t\tshow(){\n\t\t\tthis.$nextTick(() => {\n\t\t\t\t$(window).resize();\n\t\t\t});\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords,\n\t\texportPdf(){\n\t\t\tPromise.all([\n\t\t\t\timport('pdfmake/build/pdfmake.js'),\n\t\t\t\timport('../../vfs_fonts.json')\n\t\t\t]).then(([pdfmake, vfs]) => {\n\t\t\t\tpdfmake.vfs = vfs;\n\t\t\t\t\n\t\t\t\tconst filename = `${this.title} - ${new Date().toLocaleString()}`;\n\t\t\t\t\n\t\t\t\tlet reportParamHeader = ['Start date', 'End date'];\n\t\t\t\tlet reportParamBody = [\n\t\t\t\t\tthis.report.startDate.date\n\t\t\t\t\t\t? this.report.startDate.date.split(' ')[0]\n\t\t\t\t\t\t: this.report.startDate,\n\t\t\t\t\tthis.report.endDate.date\n\t\t\t\t\t\t? this.report.endDate.date.split(' ')[0]\n\t\t\t\t\t\t: this.report.endDate,\n\t\t\t\t];\n\t\t\t\t\n\t\t\t\tif(this.report.trainingLevel){\n\t\t\t\t\treportParamHeader.push('Training level');\n\t\t\t\t\treportParamBody.push(renderTrainingLevel(this.report.trainingLevel));\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\tlet content = [\n\t\t\t\t\t{ text: this.title, style: 'title' },\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: [\n\t\t\t\t\t\t\t\treportParamHeader.map(tableHeader),\n\t\t\t\t\t\t\t\treportParamBody\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t},\n\t\t\t\t\t\tstyle: 'table'\n\t\t\t\t\t}\n\t\t\t\t];\n\t\t\t\t\n\t\t\t\tif(this.ratiosData.length > 0)\n\t\t\t\t\tcontent.push({\n\t\t\t\t\t\ttext: 'Ratios',\n\t\t\t\t\t\tstyle: 'heading'\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\tthis.ratiosThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t...this.ratiosData.sort(sortPropIgnoreCase(0))\n\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t},\n\t\t\t\t\t\tstyle: 'table'\n\t\t\t\t\t});\n\t\t\t\t\t\n\t\t\t\tif(this.noRequestsData.length > 0)\n\t\t\t\t\tcontent.push({\n\t\t\t\t\t\ttext: 'No requests',\n\t\t\t\t\t\tstyle: 'heading',\n\t\t\t\t\t\tpageBreak: 'before'\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\tthis.noRequestsThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t...this.noRequestsData.sort(sortPropIgnoreCase(0))\n\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t},\n\t\t\t\t\t\tstyle: 'table'\n\t\t\t\t\t});\n\t\t\t\t\t\n\t\t\t\tif(this.noneCompletedData.length > 0)\n\t\t\t\t\tcontent.push({\n\t\t\t\t\t\ttext: 'None completed',\n\t\t\t\t\t\tstyle: 'heading',\n\t\t\t\t\t\tpageBreak: 'before'\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\tthis.noneCompletedThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t...this.noneCompletedData.sort(sortPropIgnoreCase(0))\n\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t},\n\t\t\t\t\t\tstyle: 'table'\n\t\t\t\t\t});\n\t\t\t\t\t\n\t\t\t\tif(this.lastCompletedData.length > 0)\n\t\t\t\t\tcontent.push({\n\t\t\t\t\t\ttext: 'Last completed evaluation',\n\t\t\t\t\t\tstyle: 'heading',\n\t\t\t\t\t\tpageBreak: 'before'\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\tthis.lastCompletedThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t...this.lastCompletedData.sort(sortPropIgnoreCase(0))\n\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t},\n\t\t\t\t\t\tstyle: 'table'\n\t\t\t\t\t});\n\t\t\t\t\t\n\t\t\t\tif(this.report.statsType === 'evaluator'\n\t\t\t\t\t\t&& this.averageCompletionTimesData.length > 0)\n\t\t\t\t\tcontent.push({\n\t\t\t\t\t\ttext: 'Average completion time',\n\t\t\t\t\t\tstyle: 'heading',\n\t\t\t\t\t\tpageBreak: 'before'\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\tthis.averageCompletionTimesThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t...this.averageCompletionTimesData.map(obj => [\n\t\t\t\t\t\t\t\t\tobj.name,\n\t\t\t\t\t\t\t\t\tobj.time\n\t\t\t\t\t\t\t\t]).sort(sortPropIgnoreCase(0))\n\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t},\n\t\t\t\t\t\tstyle: 'table'\n\t\t\t\t\t});\n\t\t\t\t\t\n\t\t\t\t// TODO: Chart, improved styling\n\t\t\t\t\n\t\t\t\tconst docDefinition = {\n\t\t\t\t\tpageSize: 'LETTER',\n\t\t\t\t\tcontent,\n\t\t\t\t\tstyles: {\n\t\t\t\t\t\ttitle: {\n\t\t\t\t\t\t\tbold: true,\n\t\t\t\t\t\t\tfontSize: 24,\n\t\t\t\t\t\t\tmargin: [0, 20, 0, 10]\n\t\t\t\t\t\t},\n\t\t\t\t\t\theading: {\n\t\t\t\t\t\t\tbold: true,\n\t\t\t\t\t\t\tfontSize: 20,\n\t\t\t\t\t\t\tmargin: [0, 10, 0, 5]\n\t\t\t\t\t\t},\n\t\t\t\t\t\ttableHeader: {\n\t\t\t\t\t\t\tbold: true,\n\t\t\t\t\t\t\tfontSize: 14\n\t\t\t\t\t\t},\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\tmargin: [0, 20]\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t};\n\t\t\t\t\n\t\t\t\tpdfmake.createPdf(docDefinition).download(filename);\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\thtml: `<strong>Error:</strong> There was a problem exporting the ${this.title} PDF`\n\t\t\t\t});\n\t\t\t});\n\t\t}\n\t},\n\tcomponents: {\n\t\tAlertList,\n\t\tChartjsChart,\n\t\tDataTable,\n\t\tSvgIcon\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-container div {\n\t\tdisplay: flex;\n\t\tflex-wrap: wrap;\n\t}\n\t\n\t.show-container div label {\n\t\tmargin: 0.5em 1em;\n\t}\n\t\n\t.controls {\n\t\tmargin-bottom: 2em;\n\t}\n\n\t.stats-report-container {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tflex-wrap: wrap;\n\t\tjustify-content: space-between;\n\t\talign-items: stretch;\n\t}\n\n\t.stats-report-container > div {\n\t\twidth: calc(50% - 20px);\n\t\tmargin: 10px;\n\t\tflex-grow: 1;\n\t\tflex-shrink: 0;\n\t}\n\n\t.list-chart-container-container {\n\t\toverflow: auto;\n\t}\n\t\n\t.export-button {\n\t\tmargin-top: 2em;\n\t}\n</style>\n\n<style>\n\t.time-period-cell > * {\n\t\tdisplay: inline-block;\n\t}\n\n\t.time-period-cell b {\n\t\twidth: 5em;\n\t\tmargin-right: 0;\n\t}\n\t\n\t.time-period-cell span {\n\t\tmargin-right: 1em;\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+/* 327 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
 exports.push([module.i, "\n.show-container div[data-v-7cfd5fbe] {\n\tdisplay: flex;\n\tflex-wrap: wrap;\n}\n.show-container div label[data-v-7cfd5fbe] {\n\tmargin: 0.5em 1em;\n}\n.controls[data-v-7cfd5fbe] {\n\tmargin-bottom: 2em;\n}\n.stats-report-container[data-v-7cfd5fbe] {\n\tdisplay: flex;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n\tjustify-content: space-between;\n\talign-items: stretch;\n}\n.stats-report-container > div[data-v-7cfd5fbe] {\n\twidth: calc(50% - 20px);\n\tmargin: 10px;\n\tflex-grow: 1;\n\tflex-shrink: 0;\n}\n.list-chart-container-container[data-v-7cfd5fbe] {\n\toverflow: auto;\n}\n.export-button[data-v-7cfd5fbe] {\n\tmargin-top: 2em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/StatsReport.vue?110c26d7"],"names":[],"mappings":";AA4fA;CACA,cAAA;CACA,gBAAA;CACA;AAEA;CACA,kBAAA;CACA;AAEA;CACA,mBAAA;CACA;AAEA;CACA,cAAA;CACA,oBAAA;CACA,gBAAA;CACA,+BAAA;CACA,qBAAA;CACA;AAEA;CACA,wBAAA;CACA,aAAA;CACA,aAAA;CACA,eAAA;CACA;AAEA;CACA,eAAA;CACA;AAEA;CACA,gBAAA;CACA","file":"StatsReport.vue","sourcesContent":["<template>\n\t<div class=\"container body-block\">\n\t\t<h3>{{ title }}</h3>\n\t\t<div class=\"controls\">\n\t\t\t<fieldset class=\"show-container\">\n\t\t\t\t<legend>Show</legend>\n\t\t\t\t<div>\n\t\t\t\t\t<label v-for=\"field of availableFields\">\n\t\t\t\t\t\t<input type=\"checkbox\" :value=\"show[field]\"\n\t\t\t\t\t\t\t@change=\"show = Object.assign({}, show, {[field]: !show[field]})\"/>\n\t\t\t\t\t\t{{ camelCaseToWords(field) }}\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</fieldset>\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tTable height\n\t\t\t\t\t\t<select class=\"form-control\" v-model=\"tableHeight\">\n\t\t\t\t\t\t\t<option :value=\"false\">Full size</option>\n\t\t\t\t\t\t\t<option value=\"500px\">Fixed</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tChart height\n\t\t\t\t\t\t<select class=\"form-control\" v-model=\"chartHeight\">\n\t\t\t\t\t\t\t<option :value=\"false\">Full size</option>\n\t\t\t\t\t\t\t<option value=\"625px\">Fixed</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t\n\t\t<slot></slot>\n\t\t\n\t\t<alert-list v-model=\"alerts\" />\n\t\t\n\t\t<button type=\"button\" class=\"export-button btn btn-primary center-block\"\n\t\t\t\t@click=\"exportPdf\">\n\t\t\tExport PDF\n\t\t\t<svg-icon src=\"/img/icons/pdf.svg\" />\n\t\t</button>\n\n\t\t<div class=\"stats-report-container\">\n\t\t\t<div v-if=\"show.ratios\">\n\t\t\t\t<h3>Ratios</h3>\n\t\t\t\t<data-table :bordered=\"true\" :thead=\"ratiosThead\"\n\t\t\t\t\t:config=\"listTableConfig\" :data=\"ratiosData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.ratios && show.graphs\">\n\t\t\t\t<h3>Ratios</h3>\n\t\t\t\t<div class=\"list-chart-container-container\"\n\t\t\t\t\t\t:style=\"listChartContainerContainerStyle\">\n\t\t\t\t\t<div class=\"list-chart-container\" :style=\"listChartContainerStyle\">\n\t\t\t\t\t\t<chartjs-chart type=\"horizontalBar\"\n\t\t\t\t\t\t\t:data=\"ratiosGraphData\" :options=\"listChartConfig\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div v-if=\"show.noRequests\">\n\t\t\t\t<h3>No requests</h3>\n\t\t\t\t<data-table :bordered=\"true\" :thead=\"noRequestsThead\"\n\t\t\t\t\t:config=\"listTableConfig\" :data=\"noRequestsData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.noneCompleted\">\n\t\t\t\t<h3>None completed</h3>\n\t\t\t\t<data-table :bordered=\"true\" :thead=\"noneCompletedThead\"\n\t\t\t\t\t:config=\"listTableConfig\" :data=\"noneCompletedData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.averageCompletionTimes\">\n\t\t\t\t<h3>Average completion times</h3>\n\t\t\t\t<data-table :bordered=\"true\"\n\t\t\t\t\t:thead=\"averageCompletionTimesThead\"\n\t\t\t\t\t:config=\"averageCompletionTimesConfig\"\n\t\t\t\t\t:data=\"averageCompletionTimesData\" />\n\t\t\t</div>\n\t\t\t<div v-if=\"show.lastCompleted\">\n\t\t\t\t<h3>Last completed evaluations</h3>\n\t\t\t\t<data-table :bordered=\"true\" :thead=\"lastCompletedThead\"\n\t\t\t\t\t:config=\"lastCompletedConfig\" :data=\"lastCompletedData\" />\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport Color from 'color';\n\nimport AlertList from '../AlertList.vue';\nimport ChartjsChart from '../ChartjsChart.vue';\nimport DataTable from '../DataTable.vue';\nimport SvgIcon from '../SvgIcon.vue';\n\nimport { CHART_COLORS } from 'modules/constants.js';\nimport { camelCaseToWords, sortPropIgnoreCase } from 'modules/utils.js';\nimport {\n\tcreateDateCell,\n\trenderDateCell,\n\trenderIdToEvalUrl,\n\trenderTrainingLevel\n} from 'modules/datatable-utils.js';\nimport { tableHeader } from 'modules/report-utils.js';\n\nexport default {\n\tprops: {\n\t\ttitle: {\n\t\t\ttype: String,\n\t\t\tdefault: 'Statistics'\n\t\t},\n\t\treport: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tratios: false,\n\t\t\t\tgraphs: false,\n\t\t\t\tnoRequests: false,\n\t\t\t\tnoneCompleted: false,\n\t\t\t\taverageCompletionTimes: false,\n\t\t\t\tlastCompleted: false\n\t\t\t},\n\t\t\ttableHeight: '500px',\n\t\t\tchartHeight: '625px',\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\tcomputed: {\n\t\tavailableFields(){\n\t\t\tlet fields = [\n\t\t\t\t'ratios',\n\t\t\t\t'graphs',\n\t\t\t\t'noRequests',\n\t\t\t\t'noneCompleted',\n\t\t\t\t'lastCompleted',\n\t\t\t];\n\t\t\t\n\t\t\tif(this.report.statsType === 'evaluator')\n\t\t\t\tfields.push('averageCompletionTimes');\n\t\t\t\t\n\t\t\treturn fields;\n\t\t},\n\t\tlistTableConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollX: true,\n\t\t\t\tscrollY: this.tableHeight,\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false\n\t\t\t};\n\t\t},\n\t\tlistChartContainerContainerStyle(){\n\t\t\treturn {\n\t\t\t\theight: this.chartHeight\n\t\t\t};\n\t\t},\n\t\tlistChartContainerStyle(){\n\t\t\treturn {\n\t\t\t\twidth: '100%',\n\t\t\t\theight: `${20 * this.report.userStats.length}px`\n\t\t\t};\n\t\t},\n\t\tlistChartConfig(){\n\t\t\treturn {\n\t\t\t\tmaintainAspectRatio: false,\n\t\t\t\tlegend: {\n\t\t\t\t\tlabels: {\n\t\t\t\t\t\tfontSize: 18,\n\t\t\t\t\t\tfontColor: '#333'\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tcallbacks: {\n\t\t\t\t\t\tlabel(tooltip){\n\t\t\t\t\t\t\tlet value = parseFloat(tooltip.xLabel).toFixed();\n\t\t\t\t\t\t\treturn `${value}%`;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t};\n\t\t},\n\t\tratiosThead(){\n\t\t\treturn [[\n\t\t\t\t'User',\n\t\t\t\t'Requested',\n\t\t\t\t'Total Requests',\n\t\t\t\t'Total Completed',\n\t\t\t\t'Total Ratio'\n\t\t\t]];\n\t\t},\n\t\tratiosData(){\n\t\t\tif(!this.report.userStats || this.report.userStats.length === 0)\n\t\t\t\treturn [];\n\t\t\t\n\t\t\treturn this.report.userStats.map(stat => [\n\t\t\t\tstat.name,\n\t\t\t\tstat.requested,\n\t\t\t\tstat.totalRequests,\n\t\t\t\tstat.completed,\n\t\t\t\tstat.ratio\n\t\t\t\t\t? `${stat.ratio}%`\n\t\t\t\t\t: ''\n\t\t\t]);\n\t\t},\n\t\tratiosGraphData(){\n\t\t\tlet color = Color(CHART_COLORS.OTHER[0]);\n\t\t\tlet backgroundColor = color.clone().alpha(0.2);\n\t\t\treturn {\n\t\t\t\tlabels: this.report.userStats.map(userStat => userStat.name),\n\t\t\t\tdatasets: [\n\t\t\t\t\t{\n\t\t\t\t\t\tlabel: 'Completed / Requested %',\n\t\t\t\t\t\tbackgroundColor: backgroundColor.rgbString(),\n\t\t\t\t\t\tborderColor: color.rgbString(),\n\t\t\t\t\t\tborderWidth: 1,\n\t\t\t\t\t\tpointBackgroundColor: color.rgbString(),\n\t\t\t\t\t\tpointBorderColor: '#fff',\n\t\t\t\t\t\tpointHoverBackgroundColor: '#fff',\n\t\t\t\t\t\tpointHoverBorderColor: color.rgbString(),\n\t\t\t\t\t\tdata: this.report.userStats.map(userStat => userStat.ratio)\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t};\n\t\t},\n\t\tnoRequestsThead(){\n\t\t\treturn [\n\t\t\t\t['No requests']\n\t\t\t];\n\t\t},\n\t\tnoRequestsData(){\n\t\t\tif(!this.report.noneRequested || this.report.noneRequested.length === 0)\n\t\t\t\treturn [];\n\n\t\t\treturn this.report.noneRequested.map(name => [name]);\n\t\t},\n\t\tnoneCompletedThead(){\n\t\t\treturn [\n\t\t\t\t['No completed evals']\n\t\t\t];\n\t\t},\n\t\tnoneCompletedData(){\n\t\t\tif(!this.report.noneCompleted || this.report.noneCompleted.length === 0)\n\t\t\t\treturn [];\n\n\t\t\treturn this.report.noneCompleted.map(name => [name]);\n\t\t},\n\t\taverageCompletionTimesThead(){\n\t\t\treturn [\n\t\t\t\t['User', 'Average Time']\n\t\t\t];\n\t\t},\n\t\taverageCompletionTimesConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollY: this.tableHeight,\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tcolumns: [\n\t\t\t\t\t{ data: 'name' },\n\t\t\t\t\t{\n\t\t\t\t\t\tdata: 'time',\n\t\t\t\t\t\trender(time, type, obj){\n\t\t\t\t\t\t\tif(['sort', 'type'].includes(type))\n\t\t\t\t\t\t\t\treturn obj.timespan;\n\n\t\t\t\t\t\t\tlet [days, hours, minutes] = time.split(', ');\n\t\t\t\t\t\t\treturn [\n\t\t\t\t\t\t\t\t`<b>${days},</b>`,\n\t\t\t\t\t\t\t\t`<span>${hours},</span>`,\n\t\t\t\t\t\t\t\t`<i>${minutes}</i>`\n\t\t\t\t\t\t\t].join(' ');\n\t\t\t\t\t\t},\n\t\t\t\t\t\tcreatedCell(td){\n\t\t\t\t\t\t\ttd.classList.add('time-period-cell');\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\tfixedHeader: true\n\t\t\t};\n\t\t},\n\t\taverageCompletionTimesData(){\n\t\t\treturn this.report.averageCompletionTimes || [];\n\t\t},\n\t\tlastCompletedThead(){\n\t\t\treturn [\n\t\t\t\t['User', 'Completed', 'Evaluation']\n\t\t\t];\n\t\t},\n\t\tlastCompletedConfig(){\n\t\t\treturn {\n\t\t\t\torder: [[0, 'asc']],\n\t\t\t\tstateSave: true,\n\t\t\t\tscrollY: this.tableHeight,\n\t\t\t\tscrollCollapse: true,\n\t\t\t\tpaging: false,\n\t\t\t\tcolumns: [\n\t\t\t\t\tnull,\n\t\t\t\t\t{\n\t\t\t\t\t\trender: renderDateCell,\n\t\t\t\t\t\tcreatedCell: createDateCell\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\trender: renderIdToEvalUrl\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\tfixedHeader: true\n\t\t\t};\n\t\t},\n\t\tlastCompletedData(){\n\t\t\tif(!this.report.lastCompleted || this.report.lastCompleted.length === 0)\n\t\t\t\treturn [];\n\n\t\t\treturn this.report.lastCompleted.map(obj => [\n\t\t\t\tobj.name,\n\t\t\t\tobj.evaluation.complete_date,\n\t\t\t\tobj.evaluation.id\n\t\t\t]);\n\t\t}\n\t},\n\twatch: {\n\t\tshow(){\n\t\t\tthis.$nextTick(() => {\n\t\t\t\t$(window).resize();\n\t\t\t});\n\t\t}\n\t},\n\tmethods: {\n\t\tcamelCaseToWords,\n\t\texportPdf(){\n\t\t\tPromise.all([\n\t\t\t\timport('pdfmake/build/pdfmake.js'),\n\t\t\t\timport('../../vfs_fonts.json')\n\t\t\t]).then(([pdfmake, vfs]) => {\n\t\t\t\tpdfmake.vfs = vfs;\n\t\t\t\t\n\t\t\t\tconst filename = `${this.title} - ${new Date().toLocaleString()}`;\n\t\t\t\t\n\t\t\t\tlet reportParamHeader = ['Start date', 'End date'];\n\t\t\t\tlet reportParamBody = [\n\t\t\t\t\tthis.report.startDate.date\n\t\t\t\t\t\t? this.report.startDate.date.split(' ')[0]\n\t\t\t\t\t\t: this.report.startDate,\n\t\t\t\t\tthis.report.endDate.date\n\t\t\t\t\t\t? this.report.endDate.date.split(' ')[0]\n\t\t\t\t\t\t: this.report.endDate,\n\t\t\t\t];\n\t\t\t\t\n\t\t\t\tif(this.report.trainingLevel){\n\t\t\t\t\treportParamHeader.push('Training level');\n\t\t\t\t\treportParamBody.push(renderTrainingLevel(this.report.trainingLevel));\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\tlet content = [\n\t\t\t\t\t{ text: this.title, style: 'title' },\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: [\n\t\t\t\t\t\t\t\treportParamHeader.map(tableHeader),\n\t\t\t\t\t\t\t\treportParamBody\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t},\n\t\t\t\t\t\tstyle: 'table'\n\t\t\t\t\t}\n\t\t\t\t];\n\t\t\t\t\n\t\t\t\tif(this.ratiosData.length > 0)\n\t\t\t\t\tcontent.push({\n\t\t\t\t\t\ttext: 'Ratios',\n\t\t\t\t\t\tstyle: 'heading'\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\tthis.ratiosThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t...this.ratiosData.sort(sortPropIgnoreCase(0))\n\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t},\n\t\t\t\t\t\tstyle: 'table'\n\t\t\t\t\t});\n\t\t\t\t\t\n\t\t\t\tif(this.noRequestsData.length > 0)\n\t\t\t\t\tcontent.push({\n\t\t\t\t\t\ttext: 'No requests',\n\t\t\t\t\t\tstyle: 'heading',\n\t\t\t\t\t\tpageBreak: 'before'\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\tthis.noRequestsThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t...this.noRequestsData.sort(sortPropIgnoreCase(0))\n\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t},\n\t\t\t\t\t\tstyle: 'table'\n\t\t\t\t\t});\n\t\t\t\t\t\n\t\t\t\tif(this.noneCompletedData.length > 0)\n\t\t\t\t\tcontent.push({\n\t\t\t\t\t\ttext: 'None completed',\n\t\t\t\t\t\tstyle: 'heading',\n\t\t\t\t\t\tpageBreak: 'before'\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\tthis.noneCompletedThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t...this.noneCompletedData.sort(sortPropIgnoreCase(0))\n\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t},\n\t\t\t\t\t\tstyle: 'table'\n\t\t\t\t\t});\n\t\t\t\t\t\n\t\t\t\tif(this.lastCompletedData.length > 0)\n\t\t\t\t\tcontent.push({\n\t\t\t\t\t\ttext: 'Last completed evaluation',\n\t\t\t\t\t\tstyle: 'heading',\n\t\t\t\t\t\tpageBreak: 'before'\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\tthis.lastCompletedThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t...this.lastCompletedData.sort(sortPropIgnoreCase(0))\n\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t},\n\t\t\t\t\t\tstyle: 'table'\n\t\t\t\t\t});\n\t\t\t\t\t\n\t\t\t\tif(this.report.statsType === 'evaluator'\n\t\t\t\t\t\t&& this.averageCompletionTimesData.length > 0)\n\t\t\t\t\tcontent.push({\n\t\t\t\t\t\ttext: 'Average completion time',\n\t\t\t\t\t\tstyle: 'heading',\n\t\t\t\t\t\tpageBreak: 'before'\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\theaderRows: 1,\n\t\t\t\t\t\t\tbody: JSON.parse(JSON.stringify([\n\t\t\t\t\t\t\t\tthis.averageCompletionTimesThead[0].map(tableHeader),\n\t\t\t\t\t\t\t\t...this.averageCompletionTimesData.map(obj => [\n\t\t\t\t\t\t\t\t\tobj.name,\n\t\t\t\t\t\t\t\t\tobj.time\n\t\t\t\t\t\t\t\t]).sort(sortPropIgnoreCase(0))\n\t\t\t\t\t\t\t]))\n\t\t\t\t\t\t},\n\t\t\t\t\t\tstyle: 'table'\n\t\t\t\t\t});\n\t\t\t\t\t\n\t\t\t\t// TODO: Chart, improved styling\n\t\t\t\t\n\t\t\t\tconst docDefinition = {\n\t\t\t\t\tpageSize: 'LETTER',\n\t\t\t\t\tcontent,\n\t\t\t\t\tstyles: {\n\t\t\t\t\t\ttitle: {\n\t\t\t\t\t\t\tbold: true,\n\t\t\t\t\t\t\tfontSize: 24,\n\t\t\t\t\t\t\tmargin: [0, 20, 0, 10]\n\t\t\t\t\t\t},\n\t\t\t\t\t\theading: {\n\t\t\t\t\t\t\tbold: true,\n\t\t\t\t\t\t\tfontSize: 20,\n\t\t\t\t\t\t\tmargin: [0, 10, 0, 5]\n\t\t\t\t\t\t},\n\t\t\t\t\t\ttableHeader: {\n\t\t\t\t\t\t\tbold: true,\n\t\t\t\t\t\t\tfontSize: 14\n\t\t\t\t\t\t},\n\t\t\t\t\t\ttable: {\n\t\t\t\t\t\t\tmargin: [0, 20]\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t};\n\t\t\t\t\n\t\t\t\tpdfmake.createPdf(docDefinition).download(filename);\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\thtml: `<strong>Error:</strong> There was a problem exporting the ${this.title} PDF`\n\t\t\t\t});\n\t\t\t});\n\t\t}\n\t},\n\tcomponents: {\n\t\tAlertList,\n\t\tChartjsChart,\n\t\tDataTable,\n\t\tSvgIcon\n\t}\n};\n</script>\n\n<style scoped>\n\t.show-container div {\n\t\tdisplay: flex;\n\t\tflex-wrap: wrap;\n\t}\n\t\n\t.show-container div label {\n\t\tmargin: 0.5em 1em;\n\t}\n\t\n\t.controls {\n\t\tmargin-bottom: 2em;\n\t}\n\n\t.stats-report-container {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tflex-wrap: wrap;\n\t\tjustify-content: space-between;\n\t\talign-items: stretch;\n\t}\n\n\t.stats-report-container > div {\n\t\twidth: calc(50% - 20px);\n\t\tmargin: 10px;\n\t\tflex-grow: 1;\n\t\tflex-shrink: 0;\n\t}\n\n\t.list-chart-container-container {\n\t\toverflow: auto;\n\t}\n\t\n\t.export-button {\n\t\tmargin-top: 2em;\n\t}\n</style>\n\n<style>\n\t.time-period-cell > * {\n\t\tdisplay: inline-block;\n\t}\n\n\t.time-period-cell b {\n\t\twidth: 5em;\n\t\tmargin-right: 0;\n\t}\n\t\n\t.time-period-cell span {\n\t\tmargin-right: 1em;\n\t}\n</style>\n"],"sourceRoot":""}]);
 
 // exports
 
 
 /***/ }),
-/* 322 */,
-/* 323 */,
-/* 324 */,
-/* 325 */,
-/* 326 */,
-/* 327 */
+/* 328 */,
+/* 329 */,
+/* 330 */,
+/* 331 */,
+/* 332 */,
+/* 333 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -17442,7 +17448,7 @@ exports.push([module.i, "\ntextarea[data-v-e89af052] {\n\tdisplay: none;\n}\n.me
 
 
 /***/ }),
-/* 328 */
+/* 334 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
@@ -17456,8 +17462,8 @@ exports.push([module.i, "\n.evaluation-list-item[data-v-fe5e41f8] {\n\tborder-bo
 
 
 /***/ }),
-/* 329 */,
-/* 330 */
+/* 335 */,
+/* 336 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17468,7 +17474,7 @@ exports.push([module.i, "\n.evaluation-list-item[data-v-fe5e41f8] {\n\tborder-bo
 
 
 
-var browserDetector = __webpack_require__(101);
+var browserDetector = __webpack_require__(104);
 
 module.exports = function(options) {
     options             = options || {};
@@ -17678,7 +17684,7 @@ module.exports = function(options) {
 
 
 /***/ }),
-/* 331 */
+/* 337 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17689,7 +17695,7 @@ module.exports = function(options) {
 
 
 
-var forEach = __webpack_require__(102).forEach;
+var forEach = __webpack_require__(105).forEach;
 
 module.exports = function(options) {
     options             = options || {};
@@ -18321,25 +18327,25 @@ module.exports = function(options) {
 
 
 /***/ }),
-/* 332 */
+/* 338 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var forEach                 = __webpack_require__(102).forEach;
-var elementUtilsMaker       = __webpack_require__(333);
-var listenerHandlerMaker    = __webpack_require__(336);
-var idGeneratorMaker        = __webpack_require__(334);
-var idHandlerMaker          = __webpack_require__(335);
-var reporterMaker           = __webpack_require__(337);
-var browserDetector         = __webpack_require__(101);
-var batchProcessorMaker     = __webpack_require__(229);
-var stateHandler            = __webpack_require__(338);
+var forEach                 = __webpack_require__(105).forEach;
+var elementUtilsMaker       = __webpack_require__(339);
+var listenerHandlerMaker    = __webpack_require__(342);
+var idGeneratorMaker        = __webpack_require__(340);
+var idHandlerMaker          = __webpack_require__(341);
+var reporterMaker           = __webpack_require__(343);
+var browserDetector         = __webpack_require__(104);
+var batchProcessorMaker     = __webpack_require__(235);
+var stateHandler            = __webpack_require__(344);
 
 //Detection strategies.
-var objectStrategyMaker     = __webpack_require__(330);
-var scrollStrategyMaker     = __webpack_require__(331);
+var objectStrategyMaker     = __webpack_require__(336);
+var scrollStrategyMaker     = __webpack_require__(337);
 
 function isCollection(obj) {
     return Array.isArray(obj) || obj.length !== undefined;
@@ -18649,7 +18655,7 @@ function getOption(options, name, defaultValue) {
 
 
 /***/ }),
-/* 333 */
+/* 339 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18708,7 +18714,7 @@ module.exports = function(options) {
 
 
 /***/ }),
-/* 334 */
+/* 340 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18733,7 +18739,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 335 */
+/* 341 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18787,7 +18793,7 @@ module.exports = function(options) {
 
 
 /***/ }),
-/* 336 */
+/* 342 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18854,7 +18860,7 @@ module.exports = function(idHandler) {
 
 
 /***/ }),
-/* 337 */
+/* 343 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18903,7 +18909,7 @@ module.exports = function(quiet) {
 };
 
 /***/ }),
-/* 338 */
+/* 344 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18932,7 +18938,7 @@ module.exports = {
 
 
 /***/ }),
-/* 339 */
+/* 345 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -21064,7 +21070,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 340 */
+/* 346 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -21154,7 +21160,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 341 */
+/* 347 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -21165,13 +21171,13 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 342 */,
-/* 343 */,
-/* 344 */,
-/* 345 */,
-/* 346 */,
-/* 347 */,
-/* 348 */
+/* 348 */,
+/* 349 */,
+/* 350 */,
+/* 351 */,
+/* 352 */,
+/* 353 */,
+/* 354 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21327,7 +21333,7 @@ function createNormalizer() {
 function compile(self) {
 
   // Load & clone RE patterns.
-  var re = self.re = __webpack_require__(349)(self.__opts__);
+  var re = self.re = __webpack_require__(355)(self.__opts__);
 
   // Define dynamic patterns
   var tlds = self.__tlds__.slice();
@@ -21815,7 +21821,7 @@ module.exports = LinkifyIt;
 
 
 /***/ }),
-/* 349 */
+/* 355 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21826,10 +21832,10 @@ module.exports = function (opts) {
   var re = {};
 
   // Use direct extract instead of `regenerate` to reduse browserified size
-  re.src_Any = __webpack_require__(115).source;
-  re.src_Cc  = __webpack_require__(113).source;
-  re.src_Z   = __webpack_require__(114).source;
-  re.src_P   = __webpack_require__(71).source;
+  re.src_Any = __webpack_require__(118).source;
+  re.src_Cc  = __webpack_require__(116).source;
+  re.src_Z   = __webpack_require__(117).source;
+  re.src_P   = __webpack_require__(72).source;
 
   // \p{\Z\P\Cc\CF} (white spaces + control + format + punctuation)
   re.src_ZPCc = [ re.src_Z, re.src_P, re.src_Cc ].join('|');
@@ -21999,12 +22005,12 @@ module.exports = function (opts) {
 
 
 /***/ }),
-/* 350 */
+/* 356 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(104),
-    getRawTag = __webpack_require__(352),
-    objectToString = __webpack_require__(353);
+var Symbol = __webpack_require__(107),
+    getRawTag = __webpack_require__(358),
+    objectToString = __webpack_require__(359);
 
 /** `Object#toString` result references. */
 var nullTag = '[object Null]',
@@ -22033,7 +22039,7 @@ module.exports = baseGetTag;
 
 
 /***/ }),
-/* 351 */
+/* 357 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
@@ -22044,10 +22050,10 @@ module.exports = freeGlobal;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20)))
 
 /***/ }),
-/* 352 */
+/* 358 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(104);
+var Symbol = __webpack_require__(107);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -22096,7 +22102,7 @@ module.exports = getRawTag;
 
 
 /***/ }),
-/* 353 */
+/* 359 */
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -22124,12 +22130,12 @@ module.exports = objectToString;
 
 
 /***/ }),
-/* 354 */
+/* 360 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(106),
-    now = __webpack_require__(357),
-    toNumber = __webpack_require__(358);
+var isObject = __webpack_require__(109),
+    now = __webpack_require__(363),
+    toNumber = __webpack_require__(364);
 
 /** Error message constants. */
 var FUNC_ERROR_TEXT = 'Expected a function';
@@ -22318,7 +22324,7 @@ module.exports = debounce;
 
 
 /***/ }),
-/* 355 */
+/* 361 */
 /***/ (function(module, exports) {
 
 /**
@@ -22353,11 +22359,11 @@ module.exports = isObjectLike;
 
 
 /***/ }),
-/* 356 */
+/* 362 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(350),
-    isObjectLike = __webpack_require__(355);
+var baseGetTag = __webpack_require__(356),
+    isObjectLike = __webpack_require__(361);
 
 /** `Object#toString` result references. */
 var symbolTag = '[object Symbol]';
@@ -22388,10 +22394,10 @@ module.exports = isSymbol;
 
 
 /***/ }),
-/* 357 */
+/* 363 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(105);
+var root = __webpack_require__(108);
 
 /**
  * Gets the timestamp of the number of milliseconds that have elapsed since
@@ -22417,11 +22423,11 @@ module.exports = now;
 
 
 /***/ }),
-/* 358 */
+/* 364 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(106),
-    isSymbol = __webpack_require__(356);
+var isObject = __webpack_require__(109),
+    isSymbol = __webpack_require__(362);
 
 /** Used as references for various `Number` constants. */
 var NAN = 0 / 0;
@@ -22489,7 +22495,7 @@ module.exports = toNumber;
 
 
 /***/ }),
-/* 359 */
+/* 365 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22569,7 +22575,7 @@ module.exports = [
 
 
 /***/ }),
-/* 360 */
+/* 366 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22577,13 +22583,13 @@ module.exports = [
 
 
 
-exports.parseLinkLabel       = __webpack_require__(362);
-exports.parseLinkDestination = __webpack_require__(361);
-exports.parseLinkTitle       = __webpack_require__(363);
+exports.parseLinkLabel       = __webpack_require__(368);
+exports.parseLinkDestination = __webpack_require__(367);
+exports.parseLinkTitle       = __webpack_require__(369);
 
 
 /***/ }),
-/* 361 */
+/* 367 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22670,7 +22676,7 @@ module.exports = function parseLinkDestination(str, pos, max) {
 
 
 /***/ }),
-/* 362 */
+/* 368 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22725,7 +22731,7 @@ module.exports = function parseLinkLabel(state, start, disableNested) {
 
 
 /***/ }),
-/* 363 */
+/* 369 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22785,7 +22791,7 @@ module.exports = function parseLinkTitle(str, pos, max) {
 
 
 /***/ }),
-/* 364 */
+/* 370 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22795,20 +22801,20 @@ module.exports = function parseLinkTitle(str, pos, max) {
 
 
 var utils        = __webpack_require__(4);
-var helpers      = __webpack_require__(360);
-var Renderer     = __webpack_require__(371);
-var ParserCore   = __webpack_require__(366);
-var ParserBlock  = __webpack_require__(365);
-var ParserInline = __webpack_require__(367);
-var LinkifyIt    = __webpack_require__(348);
-var mdurl        = __webpack_require__(111);
-var punycode     = __webpack_require__(112);
+var helpers      = __webpack_require__(366);
+var Renderer     = __webpack_require__(377);
+var ParserCore   = __webpack_require__(372);
+var ParserBlock  = __webpack_require__(371);
+var ParserInline = __webpack_require__(373);
+var LinkifyIt    = __webpack_require__(354);
+var mdurl        = __webpack_require__(114);
+var punycode     = __webpack_require__(115);
 
 
 var config = {
-  'default': __webpack_require__(369),
-  zero: __webpack_require__(370),
-  commonmark: __webpack_require__(368)
+  'default': __webpack_require__(375),
+  zero: __webpack_require__(376),
+  commonmark: __webpack_require__(374)
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -23373,7 +23379,7 @@ module.exports = MarkdownIt;
 
 
 /***/ }),
-/* 365 */
+/* 371 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23385,23 +23391,23 @@ module.exports = MarkdownIt;
 
 
 
-var Ruler           = __webpack_require__(69);
+var Ruler           = __webpack_require__(70);
 
 
 var _rules = [
   // First 2 params - rule name & source. Secondary array - list of rules,
   // which can be terminated by this one.
-  [ 'table',      __webpack_require__(383),      [ 'paragraph', 'reference' ] ],
-  [ 'code',       __webpack_require__(373) ],
-  [ 'fence',      __webpack_require__(374),      [ 'paragraph', 'reference', 'blockquote', 'list' ] ],
-  [ 'blockquote', __webpack_require__(372), [ 'paragraph', 'reference', 'list' ] ],
-  [ 'hr',         __webpack_require__(376),         [ 'paragraph', 'reference', 'blockquote', 'list' ] ],
-  [ 'list',       __webpack_require__(379),       [ 'paragraph', 'reference', 'blockquote' ] ],
-  [ 'reference',  __webpack_require__(381) ],
-  [ 'heading',    __webpack_require__(375),    [ 'paragraph', 'reference', 'blockquote' ] ],
-  [ 'lheading',   __webpack_require__(378) ],
-  [ 'html_block', __webpack_require__(377), [ 'paragraph', 'reference', 'blockquote' ] ],
-  [ 'paragraph',  __webpack_require__(380) ]
+  [ 'table',      __webpack_require__(389),      [ 'paragraph', 'reference' ] ],
+  [ 'code',       __webpack_require__(379) ],
+  [ 'fence',      __webpack_require__(380),      [ 'paragraph', 'reference', 'blockquote', 'list' ] ],
+  [ 'blockquote', __webpack_require__(378), [ 'paragraph', 'reference', 'list' ] ],
+  [ 'hr',         __webpack_require__(382),         [ 'paragraph', 'reference', 'blockquote', 'list' ] ],
+  [ 'list',       __webpack_require__(385),       [ 'paragraph', 'reference', 'blockquote' ] ],
+  [ 'reference',  __webpack_require__(387) ],
+  [ 'heading',    __webpack_require__(381),    [ 'paragraph', 'reference', 'blockquote' ] ],
+  [ 'lheading',   __webpack_require__(384) ],
+  [ 'html_block', __webpack_require__(383), [ 'paragraph', 'reference', 'blockquote' ] ],
+  [ 'paragraph',  __webpack_require__(386) ]
 ];
 
 
@@ -23495,14 +23501,14 @@ ParserBlock.prototype.parse = function (src, md, env, outTokens) {
 };
 
 
-ParserBlock.prototype.State = __webpack_require__(382);
+ParserBlock.prototype.State = __webpack_require__(388);
 
 
 module.exports = ParserBlock;
 
 
 /***/ }),
-/* 366 */
+/* 372 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23515,16 +23521,16 @@ module.exports = ParserBlock;
 
 
 
-var Ruler  = __webpack_require__(69);
+var Ruler  = __webpack_require__(70);
 
 
 var _rules = [
-  [ 'normalize',      __webpack_require__(387)      ],
-  [ 'block',          __webpack_require__(384)          ],
-  [ 'inline',         __webpack_require__(385)         ],
-  [ 'linkify',        __webpack_require__(386)        ],
-  [ 'replacements',   __webpack_require__(388)   ],
-  [ 'smartquotes',    __webpack_require__(389)    ]
+  [ 'normalize',      __webpack_require__(393)      ],
+  [ 'block',          __webpack_require__(390)          ],
+  [ 'inline',         __webpack_require__(391)         ],
+  [ 'linkify',        __webpack_require__(392)        ],
+  [ 'replacements',   __webpack_require__(394)   ],
+  [ 'smartquotes',    __webpack_require__(395)    ]
 ];
 
 
@@ -23560,14 +23566,14 @@ Core.prototype.process = function (state) {
   }
 };
 
-Core.prototype.State = __webpack_require__(390);
+Core.prototype.State = __webpack_require__(396);
 
 
 module.exports = Core;
 
 
 /***/ }),
-/* 367 */
+/* 373 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23579,31 +23585,31 @@ module.exports = Core;
 
 
 
-var Ruler           = __webpack_require__(69);
+var Ruler           = __webpack_require__(70);
 
 
 ////////////////////////////////////////////////////////////////////////////////
 // Parser rules
 
 var _rules = [
-  [ 'text',            __webpack_require__(401) ],
-  [ 'newline',         __webpack_require__(399) ],
-  [ 'escape',          __webpack_require__(395) ],
-  [ 'backticks',       __webpack_require__(392) ],
-  [ 'strikethrough',   __webpack_require__(110).tokenize ],
-  [ 'emphasis',        __webpack_require__(109).tokenize ],
-  [ 'link',            __webpack_require__(398) ],
-  [ 'image',           __webpack_require__(397) ],
-  [ 'autolink',        __webpack_require__(391) ],
-  [ 'html_inline',     __webpack_require__(396) ],
-  [ 'entity',          __webpack_require__(394) ]
+  [ 'text',            __webpack_require__(407) ],
+  [ 'newline',         __webpack_require__(405) ],
+  [ 'escape',          __webpack_require__(401) ],
+  [ 'backticks',       __webpack_require__(398) ],
+  [ 'strikethrough',   __webpack_require__(113).tokenize ],
+  [ 'emphasis',        __webpack_require__(112).tokenize ],
+  [ 'link',            __webpack_require__(404) ],
+  [ 'image',           __webpack_require__(403) ],
+  [ 'autolink',        __webpack_require__(397) ],
+  [ 'html_inline',     __webpack_require__(402) ],
+  [ 'entity',          __webpack_require__(400) ]
 ];
 
 var _rules2 = [
-  [ 'balance_pairs',   __webpack_require__(393) ],
-  [ 'strikethrough',   __webpack_require__(110).postProcess ],
-  [ 'emphasis',        __webpack_require__(109).postProcess ],
-  [ 'text_collapse',   __webpack_require__(402) ]
+  [ 'balance_pairs',   __webpack_require__(399) ],
+  [ 'strikethrough',   __webpack_require__(113).postProcess ],
+  [ 'emphasis',        __webpack_require__(112).postProcess ],
+  [ 'text_collapse',   __webpack_require__(408) ]
 ];
 
 
@@ -23744,14 +23750,14 @@ ParserInline.prototype.parse = function (str, md, env, outTokens) {
 };
 
 
-ParserInline.prototype.State = __webpack_require__(400);
+ParserInline.prototype.State = __webpack_require__(406);
 
 
 module.exports = ParserInline;
 
 
 /***/ }),
-/* 368 */
+/* 374 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23838,7 +23844,7 @@ module.exports = {
 
 
 /***/ }),
-/* 369 */
+/* 375 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23886,7 +23892,7 @@ module.exports = {
 
 
 /***/ }),
-/* 370 */
+/* 376 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23955,7 +23961,7 @@ module.exports = {
 
 
 /***/ }),
-/* 371 */
+/* 377 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24297,7 +24303,7 @@ module.exports = Renderer;
 
 
 /***/ }),
-/* 372 */
+/* 378 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24590,7 +24596,7 @@ module.exports = function blockquote(state, startLine, endLine, silent) {
 
 
 /***/ }),
-/* 373 */
+/* 379 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24631,7 +24637,7 @@ module.exports = function code(state, startLine, endLine/*, silent*/) {
 
 
 /***/ }),
-/* 374 */
+/* 380 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24732,7 +24738,7 @@ module.exports = function fence(state, startLine, endLine, silent) {
 
 
 /***/ }),
-/* 375 */
+/* 381 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24794,7 +24800,7 @@ module.exports = function heading(state, startLine, endLine, silent) {
 
 
 /***/ }),
-/* 376 */
+/* 382 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24846,7 +24852,7 @@ module.exports = function hr(state, startLine, endLine, silent) {
 
 
 /***/ }),
-/* 377 */
+/* 383 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24855,8 +24861,8 @@ module.exports = function hr(state, startLine, endLine, silent) {
 
 
 
-var block_names = __webpack_require__(359);
-var HTML_OPEN_CLOSE_TAG_RE = __webpack_require__(108).HTML_OPEN_CLOSE_TAG_RE;
+var block_names = __webpack_require__(365);
+var HTML_OPEN_CLOSE_TAG_RE = __webpack_require__(111).HTML_OPEN_CLOSE_TAG_RE;
 
 // An array of opening and corresponding closing sequences for html tags,
 // last argument defines whether it can terminate a paragraph or not
@@ -24927,7 +24933,7 @@ module.exports = function html_block(state, startLine, endLine, silent) {
 
 
 /***/ }),
-/* 378 */
+/* 384 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25017,7 +25023,7 @@ module.exports = function lheading(state, startLine, endLine/*, silent*/) {
 
 
 /***/ }),
-/* 379 */
+/* 385 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25362,7 +25368,7 @@ module.exports = function list(state, startLine, endLine, silent) {
 
 
 /***/ }),
-/* 380 */
+/* 386 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25421,7 +25427,7 @@ module.exports = function paragraph(state, startLine/*, endLine*/) {
 
 
 /***/ }),
-/* 381 */
+/* 387 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25626,7 +25632,7 @@ module.exports = function reference(state, startLine, _endLine, silent) {
 
 
 /***/ }),
-/* 382 */
+/* 388 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25634,7 +25640,7 @@ module.exports = function reference(state, startLine, _endLine, silent) {
 
 
 
-var Token = __webpack_require__(70);
+var Token = __webpack_require__(71);
 var isSpace = __webpack_require__(4).isSpace;
 
 
@@ -25863,7 +25869,7 @@ module.exports = StateBlock;
 
 
 /***/ }),
-/* 383 */
+/* 389 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26066,7 +26072,7 @@ module.exports = function table(state, startLine, endLine, silent) {
 
 
 /***/ }),
-/* 384 */
+/* 390 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26089,7 +26095,7 @@ module.exports = function block(state) {
 
 
 /***/ }),
-/* 385 */
+/* 391 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26109,7 +26115,7 @@ module.exports = function inline(state) {
 
 
 /***/ }),
-/* 386 */
+/* 392 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26249,7 +26255,7 @@ module.exports = function linkify(state) {
 
 
 /***/ }),
-/* 387 */
+/* 393 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26276,7 +26282,7 @@ module.exports = function inline(state) {
 
 
 /***/ }),
-/* 388 */
+/* 394 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26390,7 +26396,7 @@ module.exports = function replace(state) {
 
 
 /***/ }),
-/* 389 */
+/* 395 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26590,7 +26596,7 @@ module.exports = function smartquotes(state) {
 
 
 /***/ }),
-/* 390 */
+/* 396 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26598,7 +26604,7 @@ module.exports = function smartquotes(state) {
 //
 
 
-var Token = __webpack_require__(70);
+var Token = __webpack_require__(71);
 
 
 function StateCore(src, md, env) {
@@ -26617,7 +26623,7 @@ module.exports = StateCore;
 
 
 /***/ }),
-/* 391 */
+/* 397 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26696,7 +26702,7 @@ module.exports = function autolink(state, silent) {
 
 
 /***/ }),
-/* 392 */
+/* 398 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26746,7 +26752,7 @@ module.exports = function backtick(state, silent) {
 
 
 /***/ }),
-/* 393 */
+/* 399 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26797,7 +26803,7 @@ module.exports = function link_pairs(state) {
 
 
 /***/ }),
-/* 394 */
+/* 400 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26805,7 +26811,7 @@ module.exports = function link_pairs(state) {
 
 
 
-var entities          = __webpack_require__(107);
+var entities          = __webpack_require__(110);
 var has               = __webpack_require__(4).has;
 var isValidEntityCode = __webpack_require__(4).isValidEntityCode;
 var fromCodePoint     = __webpack_require__(4).fromCodePoint;
@@ -26852,7 +26858,7 @@ module.exports = function entity(state, silent) {
 
 
 /***/ }),
-/* 395 */
+/* 401 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26911,7 +26917,7 @@ module.exports = function escape(state, silent) {
 
 
 /***/ }),
-/* 396 */
+/* 402 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26920,7 +26926,7 @@ module.exports = function escape(state, silent) {
 
 
 
-var HTML_TAG_RE = __webpack_require__(108).HTML_TAG_RE;
+var HTML_TAG_RE = __webpack_require__(111).HTML_TAG_RE;
 
 
 function isLetter(ch) {
@@ -26965,7 +26971,7 @@ module.exports = function html_inline(state, silent) {
 
 
 /***/ }),
-/* 397 */
+/* 403 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27124,7 +27130,7 @@ module.exports = function image(state, silent) {
 
 
 /***/ }),
-/* 398 */
+/* 404 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27281,7 +27287,7 @@ module.exports = function link(state, silent) {
 
 
 /***/ }),
-/* 399 */
+/* 405 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27330,7 +27336,7 @@ module.exports = function newline(state, silent) {
 
 
 /***/ }),
-/* 400 */
+/* 406 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27339,7 +27345,7 @@ module.exports = function newline(state, silent) {
 
 
 
-var Token          = __webpack_require__(70);
+var Token          = __webpack_require__(71);
 var isWhiteSpace   = __webpack_require__(4).isWhiteSpace;
 var isPunctChar    = __webpack_require__(4).isPunctChar;
 var isMdAsciiPunct = __webpack_require__(4).isMdAsciiPunct;
@@ -27467,7 +27473,7 @@ module.exports = StateInline;
 
 
 /***/ }),
-/* 401 */
+/* 407 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27563,7 +27569,7 @@ module.exports = function text(state, silent) {
 
 
 /***/ }),
-/* 402 */
+/* 408 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27603,7 +27609,7 @@ module.exports = function text_collapse(state) {
 
 
 /***/ }),
-/* 403 */
+/* 409 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27732,7 +27738,7 @@ module.exports = decode;
 
 
 /***/ }),
-/* 404 */
+/* 410 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27837,7 +27843,7 @@ module.exports = encode;
 
 
 /***/ }),
-/* 405 */
+/* 411 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27869,7 +27875,7 @@ module.exports = function format(url) {
 
 
 /***/ }),
-/* 406 */
+/* 412 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28188,7 +28194,7 @@ module.exports = urlParse;
 
 
 /***/ }),
-/* 407 */
+/* 413 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process) {var __WEBPACK_AMD_DEFINE_RESULT__;/*global self, document, DOMException */
@@ -36072,20 +36078,20 @@ MediumEditor.version = MediumEditor.parseVersionString.call(this, ({
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(55)))
 
 /***/ }),
-/* 408 */,
-/* 409 */,
-/* 410 */,
-/* 411 */,
-/* 412 */
+/* 414 */,
+/* 415 */,
+/* 416 */,
+/* 417 */,
+/* 418 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(296);
+var content = __webpack_require__(302);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(18)(content, {});
+var update = __webpack_require__(19)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -36102,16 +36108,16 @@ if(false) {
 }
 
 /***/ }),
-/* 413 */
+/* 419 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(297);
+var content = __webpack_require__(303);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(18)(content, {});
+var update = __webpack_require__(19)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -36128,40 +36134,40 @@ if(false) {
 }
 
 /***/ }),
-/* 414 */,
-/* 415 */
+/* 420 */,
+/* 421 */
 /***/ (function(module, exports) {
 
 module.exports=/[\xAD\u0600-\u0605\u061C\u06DD\u070F\u08E2\u180E\u200B-\u200F\u202A-\u202E\u2060-\u2064\u2066-\u206F\uFEFF\uFFF9-\uFFFB]|\uD804\uDCBD|\uD82F[\uDCA0-\uDCA3]|\uD834[\uDD73-\uDD7A]|\uDB40[\uDC01\uDC20-\uDC7F]/
 
 /***/ }),
-/* 416 */
+/* 422 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.Any = __webpack_require__(115);
-exports.Cc  = __webpack_require__(113);
-exports.Cf  = __webpack_require__(415);
-exports.P   = __webpack_require__(71);
-exports.Z   = __webpack_require__(114);
+exports.Any = __webpack_require__(118);
+exports.Cc  = __webpack_require__(116);
+exports.Cf  = __webpack_require__(421);
+exports.P   = __webpack_require__(72);
+exports.Z   = __webpack_require__(117);
 
 
 /***/ }),
-/* 417 */,
-/* 418 */,
-/* 419 */,
-/* 420 */,
-/* 421 */,
-/* 422 */
+/* 423 */,
+/* 424 */,
+/* 425 */,
+/* 426 */,
+/* 427 */,
+/* 428 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(187),
+  __webpack_require__(192),
   /* template */
-  __webpack_require__(478),
+  __webpack_require__(485),
   /* scopeId */
   null,
   /* cssModules */
@@ -36188,14 +36194,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 423 */
+/* 429 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(188),
+  __webpack_require__(193),
   /* template */
-  __webpack_require__(473),
+  __webpack_require__(480),
   /* scopeId */
   null,
   /* cssModules */
@@ -36222,20 +36228,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 424 */,
-/* 425 */,
-/* 426 */
+/* 430 */,
+/* 431 */,
+/* 432 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(520)
+__webpack_require__(527)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(191),
+  __webpack_require__(196),
   /* template */
-  __webpack_require__(489),
+  __webpack_require__(496),
   /* scopeId */
   "data-v-e89af052",
   /* cssModules */
@@ -36262,12 +36268,6 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 427 */,
-/* 428 */,
-/* 429 */,
-/* 430 */,
-/* 431 */,
-/* 432 */,
 /* 433 */,
 /* 434 */,
 /* 435 */,
@@ -36276,18 +36276,24 @@ module.exports = Component.exports
 /* 438 */,
 /* 439 */,
 /* 440 */,
-/* 441 */
+/* 441 */,
+/* 442 */,
+/* 443 */,
+/* 444 */,
+/* 445 */,
+/* 446 */,
+/* 447 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(492)
+__webpack_require__(499)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(208),
+  __webpack_require__(214),
   /* template */
-  __webpack_require__(450),
+  __webpack_require__(456),
   /* scopeId */
   "data-v-0409124b",
   /* cssModules */
@@ -36314,18 +36320,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 442 */
+/* 448 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(496)
+__webpack_require__(503)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(209),
+  __webpack_require__(215),
   /* template */
-  __webpack_require__(455),
+  __webpack_require__(461),
   /* scopeId */
   "data-v-170d0144",
   /* cssModules */
@@ -36352,14 +36358,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 443 */
+/* 449 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(212),
+  __webpack_require__(218),
   /* template */
-  __webpack_require__(485),
+  __webpack_require__(492),
   /* scopeId */
   null,
   /* cssModules */
@@ -36386,18 +36392,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 444 */
+/* 450 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(502)
+__webpack_require__(509)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(213),
+  __webpack_require__(219),
   /* template */
-  __webpack_require__(461),
+  __webpack_require__(467),
   /* scopeId */
   "data-v-2f4974f7",
   /* cssModules */
@@ -36424,18 +36430,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 445 */
+/* 451 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(507)
+__webpack_require__(514)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(214),
+  __webpack_require__(220),
   /* template */
-  __webpack_require__(469),
+  __webpack_require__(475),
   /* scopeId */
   "data-v-405f959c",
   /* cssModules */
@@ -36462,18 +36468,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 446 */
+/* 452 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(504)
+__webpack_require__(511)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(215),
+  __webpack_require__(221),
   /* template */
-  __webpack_require__(464),
+  __webpack_require__(470),
   /* scopeId */
   "data-v-358055d0",
   /* cssModules */
@@ -36500,18 +36506,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 447 */
+/* 453 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(505)
+__webpack_require__(512)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(217),
+  __webpack_require__(223),
   /* template */
-  __webpack_require__(465),
+  __webpack_require__(471),
   /* scopeId */
   "data-v-358a2420",
   /* cssModules */
@@ -36538,9 +36544,9 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 448 */,
-/* 449 */,
-/* 450 */
+/* 454 */,
+/* 455 */,
+/* 456 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -36573,7 +36579,7 @@ if (false) {
 }
 
 /***/ }),
-/* 451 */
+/* 457 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -36673,10 +36679,10 @@ if (false) {
 }
 
 /***/ }),
-/* 452 */,
-/* 453 */,
-/* 454 */,
-/* 455 */
+/* 458 */,
+/* 459 */,
+/* 460 */,
+/* 461 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -36836,9 +36842,9 @@ if (false) {
 }
 
 /***/ }),
-/* 456 */,
-/* 457 */,
-/* 458 */
+/* 462 */,
+/* 463 */,
+/* 464 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -37163,7 +37169,7 @@ if (false) {
 }
 
 /***/ }),
-/* 459 */
+/* 465 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -37195,8 +37201,8 @@ if (false) {
 }
 
 /***/ }),
-/* 460 */,
-/* 461 */
+/* 466 */,
+/* 467 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -37215,9 +37221,9 @@ if (false) {
 }
 
 /***/ }),
-/* 462 */,
-/* 463 */,
-/* 464 */
+/* 468 */,
+/* 469 */,
+/* 470 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -37307,7 +37313,7 @@ if (false) {
 }
 
 /***/ }),
-/* 465 */
+/* 471 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -37398,7 +37404,7 @@ if (false) {
 }
 
 /***/ }),
-/* 466 */
+/* 472 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -37458,7 +37464,7 @@ if (false) {
 }
 
 /***/ }),
-/* 467 */
+/* 473 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -37480,8 +37486,8 @@ if (false) {
 }
 
 /***/ }),
-/* 468 */,
-/* 469 */
+/* 474 */,
+/* 475 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -37699,7 +37705,7 @@ if (false) {
 }
 
 /***/ }),
-/* 470 */
+/* 476 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -37752,7 +37758,8 @@ if (false) {
 }
 
 /***/ }),
-/* 471 */
+/* 477 */,
+/* 478 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -37772,7 +37779,7 @@ if (false) {
 }
 
 /***/ }),
-/* 472 */
+/* 479 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -37821,7 +37828,7 @@ if (false) {
 }
 
 /***/ }),
-/* 473 */
+/* 480 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -37873,7 +37880,7 @@ if (false) {
 }
 
 /***/ }),
-/* 474 */
+/* 481 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -38076,9 +38083,9 @@ if (false) {
 }
 
 /***/ }),
-/* 475 */,
-/* 476 */,
-/* 477 */
+/* 482 */,
+/* 483 */,
+/* 484 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -38252,7 +38259,7 @@ if (false) {
 }
 
 /***/ }),
-/* 478 */
+/* 485 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -38320,8 +38327,8 @@ if (false) {
 }
 
 /***/ }),
-/* 479 */,
-/* 480 */
+/* 486 */,
+/* 487 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -38490,10 +38497,10 @@ if (false) {
 }
 
 /***/ }),
-/* 481 */,
-/* 482 */,
-/* 483 */,
-/* 484 */
+/* 488 */,
+/* 489 */,
+/* 490 */,
+/* 491 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -38525,7 +38532,7 @@ if (false) {
 }
 
 /***/ }),
-/* 485 */
+/* 492 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -38662,10 +38669,10 @@ if (false) {
 }
 
 /***/ }),
-/* 486 */,
-/* 487 */,
-/* 488 */,
-/* 489 */
+/* 493 */,
+/* 494 */,
+/* 495 */,
+/* 496 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -38702,7 +38709,7 @@ if (false) {
 }
 
 /***/ }),
-/* 490 */
+/* 497 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -38802,14 +38809,14 @@ if (false) {
 }
 
 /***/ }),
-/* 491 */,
-/* 492 */
+/* 498 */,
+/* 499 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(299);
+var content = __webpack_require__(305);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -38829,16 +38836,16 @@ if(false) {
 }
 
 /***/ }),
-/* 493 */,
-/* 494 */,
-/* 495 */,
-/* 496 */
+/* 500 */,
+/* 501 */,
+/* 502 */,
+/* 503 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(303);
+var content = __webpack_require__(309);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -38858,14 +38865,14 @@ if(false) {
 }
 
 /***/ }),
-/* 497 */,
-/* 498 */
+/* 504 */,
+/* 505 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(305);
+var content = __webpack_require__(311);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -38885,13 +38892,13 @@ if(false) {
 }
 
 /***/ }),
-/* 499 */
+/* 506 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(306);
+var content = __webpack_require__(312);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -38911,13 +38918,13 @@ if(false) {
 }
 
 /***/ }),
-/* 500 */
+/* 507 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(307);
+var content = __webpack_require__(313);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -38937,14 +38944,14 @@ if(false) {
 }
 
 /***/ }),
-/* 501 */,
-/* 502 */
+/* 508 */,
+/* 509 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(309);
+var content = __webpack_require__(315);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -38964,14 +38971,14 @@ if(false) {
 }
 
 /***/ }),
-/* 503 */,
-/* 504 */
+/* 510 */,
+/* 511 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(311);
+var content = __webpack_require__(317);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -38991,13 +38998,13 @@ if(false) {
 }
 
 /***/ }),
-/* 505 */
+/* 512 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(312);
+var content = __webpack_require__(318);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -39017,14 +39024,14 @@ if(false) {
 }
 
 /***/ }),
-/* 506 */,
-/* 507 */
+/* 513 */,
+/* 514 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(314);
+var content = __webpack_require__(320);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -39044,13 +39051,13 @@ if(false) {
 }
 
 /***/ }),
-/* 508 */
+/* 515 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(315);
+var content = __webpack_require__(321);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -39070,13 +39077,13 @@ if(false) {
 }
 
 /***/ }),
-/* 509 */
+/* 516 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(316);
+var content = __webpack_require__(322);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -39096,14 +39103,14 @@ if(false) {
 }
 
 /***/ }),
-/* 510 */,
-/* 511 */
+/* 517 */,
+/* 518 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(318);
+var content = __webpack_require__(324);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -39123,14 +39130,14 @@ if(false) {
 }
 
 /***/ }),
-/* 512 */,
-/* 513 */
+/* 519 */,
+/* 520 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(320);
+var content = __webpack_require__(326);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -39150,13 +39157,13 @@ if(false) {
 }
 
 /***/ }),
-/* 514 */
+/* 521 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(321);
+var content = __webpack_require__(327);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -39176,18 +39183,18 @@ if(false) {
 }
 
 /***/ }),
-/* 515 */,
-/* 516 */,
-/* 517 */,
-/* 518 */,
-/* 519 */,
-/* 520 */
+/* 522 */,
+/* 523 */,
+/* 524 */,
+/* 525 */,
+/* 526 */,
+/* 527 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(327);
+var content = __webpack_require__(333);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -39207,13 +39214,13 @@ if(false) {
 }
 
 /***/ }),
-/* 521 */
+/* 528 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(328);
+var content = __webpack_require__(334);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -39233,33 +39240,33 @@ if(false) {
 }
 
 /***/ }),
-/* 522 */,
-/* 523 */,
-/* 524 */,
-/* 525 */,
-/* 526 */,
-/* 527 */,
-/* 528 */,
 /* 529 */,
-/* 530 */
+/* 530 */,
+/* 531 */,
+/* 532 */,
+/* 533 */,
+/* 534 */,
+/* 535 */,
+/* 536 */,
+/* 537 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(144);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_Reports_Reports_vue__ = __webpack_require__(142);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(149);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_Reports_Reports_vue__ = __webpack_require__(147);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_Reports_Reports_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_Reports_Reports_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_Reports_TraineeReport_vue__ = __webpack_require__(143);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_Reports_TraineeReport_vue__ = __webpack_require__(148);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_Reports_TraineeReport_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__vue_components_Reports_TraineeReport_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_Reports_FacultyReport_vue__ = __webpack_require__(138);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_Reports_FacultyReport_vue__ = __webpack_require__(143);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_Reports_FacultyReport_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__vue_components_Reports_FacultyReport_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__vue_components_Reports_FormReport_vue__ = __webpack_require__(139);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__vue_components_Reports_FormReport_vue__ = __webpack_require__(144);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__vue_components_Reports_FormReport_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__vue_components_Reports_FormReport_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__vue_components_Reports_Needs_Report_vue__ = __webpack_require__(140);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__vue_components_Reports_Needs_Report_vue__ = __webpack_require__(145);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__vue_components_Reports_Needs_Report_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__vue_components_Reports_Needs_Report_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__vue_components_Reports_PendingEvalsReport_vue__ = __webpack_require__(141);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__vue_components_Reports_PendingEvalsReport_vue__ = __webpack_require__(146);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__vue_components_Reports_PendingEvalsReport_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__vue_components_Reports_PendingEvalsReport_vue__);
 /* harmony export (immutable) */ __webpack_exports__["createReports"] = createReports;
 
@@ -39302,6 +39309,6 @@ function createReports(el) {
 }
 
 /***/ })
-],[530]);
+],[537]);
 });
 //# sourceMappingURL=vue-reports.js.map

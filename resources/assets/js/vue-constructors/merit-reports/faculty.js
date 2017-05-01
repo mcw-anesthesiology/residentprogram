@@ -40,8 +40,10 @@ export default function createFacultyMeritReports(el, propsData) {
 					&& this.meritReportTypeForms.faculty_yearly
 					&& this.meritForms
 				) {
-					return this.meritForms.find(form =>
-						form.id === Number(this.meritReportTypeForms.faculty_yearly)
+					let forms = Array.slice(this.meritForms);
+					forms.sort((a, b) => Number(b.version) - Number(a.version));
+					return forms.find(form =>
+						form.name === this.meritReportTypeForms.faculty_yearly
 					);
 				}
 			}
@@ -77,8 +79,8 @@ export default function createFacultyMeritReports(el, propsData) {
 					});
 				});
 			},
-			handleReportInput(report) {
-				this.meritReport = Object.assign({}, this.meritReport, report);
+			handleSave() {
+				// TODO
 			},
 			handleSubmit() {
 				// TODO
