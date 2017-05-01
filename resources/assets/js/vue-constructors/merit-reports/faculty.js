@@ -56,6 +56,10 @@ export default function createFacultyMeritReports(el, propsData) {
 					);
 				}
 			},
+			currentYearlyMeritDateRange() {
+				// FIXME
+				return isoDateStringObject(academicYearForDate(new Date()));
+			},
 			meritReportFields() {
 				return [
 					'id',
@@ -71,8 +75,13 @@ export default function createFacultyMeritReports(el, propsData) {
 				return this.meritCompensationReport.status !== 'pending';
 			},
 			needsToCompleteReport() {
-				// FIXME
-				return true;
+				if (!this.meritReports || this.meritReports.length === 0)
+					return true;
+				
+				return !this.meritReports.some(report =>
+					report.period_start === this.currentYearlyMeritDateRange.startDate
+					&& report.period_end === this.currentYearlyMeritDateRange.endDate
+				);
 			}
 		},
 		
@@ -106,8 +115,7 @@ export default function createFacultyMeritReports(el, propsData) {
 				if (!this.yearlyFacultyMeritForm)
 					return;
 					
-				// FIXME
-				let dates = isoDateStringObject(academicYearForDate(new Date()));
+				let dates = this.currentYearlyMeritDateRange;
 				
 				this.meritCompensationReport = {
 					period_start: dates.startDate,
