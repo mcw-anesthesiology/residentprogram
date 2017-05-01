@@ -8,7 +8,7 @@
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
 })(this, function() {
-return webpackJsonp([8,11],[
+return webpackJsonp([3,11],[
 /* 0 */,
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -31,8 +31,8 @@ module.exports = root;
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsNative = __webpack_require__(59),
-    getValue = __webpack_require__(72);
+var baseIsNative = __webpack_require__(54),
+    getValue = __webpack_require__(67);
 
 /**
  * Gets the native function at `key` of `object`.
@@ -51,13 +51,12 @@ module.exports = getNative;
 
 
 /***/ }),
-/* 6 */,
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(39),
+  __webpack_require__(109),
   /* template */
   __webpack_require__(114),
   /* scopeId */
@@ -86,12 +85,13 @@ module.exports = Component.exports
 
 
 /***/ }),
+/* 7 */,
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Symbol = __webpack_require__(16),
-    getRawTag = __webpack_require__(69),
-    objectToString = __webpack_require__(95);
+    getRawTag = __webpack_require__(64),
+    objectToString = __webpack_require__(90);
 
 /** `Object#toString` result references. */
 var nullTag = '[object Null]',
@@ -158,11 +158,11 @@ module.exports = isObjectLike;
 /* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var listCacheClear = __webpack_require__(82),
-    listCacheDelete = __webpack_require__(83),
-    listCacheGet = __webpack_require__(84),
-    listCacheHas = __webpack_require__(85),
-    listCacheSet = __webpack_require__(86);
+var listCacheClear = __webpack_require__(77),
+    listCacheDelete = __webpack_require__(78),
+    listCacheGet = __webpack_require__(79),
+    listCacheHas = __webpack_require__(80),
+    listCacheSet = __webpack_require__(81);
 
 /**
  * Creates an list cache object.
@@ -223,7 +223,7 @@ module.exports = assocIndexOf;
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isKeyable = __webpack_require__(79);
+var isKeyable = __webpack_require__(74);
 
 /**
  * Gets the data for `map`.
@@ -314,9 +314,7 @@ module.exports = isArray;
 
 
 /***/ }),
-/* 18 */,
-/* 19 */,
-/* 20 */
+/* 18 */
 /***/ (function(module, exports) {
 
 /**
@@ -353,14 +351,16 @@ module.exports = isObject;
 
 
 /***/ }),
+/* 19 */,
+/* 20 */,
 /* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var mapCacheClear = __webpack_require__(87),
-    mapCacheDelete = __webpack_require__(88),
-    mapCacheGet = __webpack_require__(89),
-    mapCacheHas = __webpack_require__(90),
-    mapCacheSet = __webpack_require__(91);
+var mapCacheClear = __webpack_require__(82),
+    mapCacheDelete = __webpack_require__(83),
+    mapCacheGet = __webpack_require__(84),
+    mapCacheHas = __webpack_require__(85),
+    mapCacheSet = __webpack_require__(86);
 
 /**
  * Creates a map cache object to store key-value pairs.
@@ -394,9 +394,9 @@ module.exports = MapCache;
 /* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var SetCache = __webpack_require__(47),
-    arraySome = __webpack_require__(54),
-    cacheHas = __webpack_require__(64);
+var SetCache = __webpack_require__(42),
+    arraySome = __webpack_require__(49),
+    cacheHas = __webpack_require__(59);
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG = 1,
@@ -488,7 +488,7 @@ var freeGlobal = typeof global == 'object' && global && global.Object === Object
 
 module.exports = freeGlobal;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(35)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34)))
 
 /***/ }),
 /* 24 */
@@ -570,7 +570,7 @@ module.exports = eq;
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var root = __webpack_require__(1),
-    stubFalse = __webpack_require__(110);
+    stubFalse = __webpack_require__(105);
 
 /** Detect free variable `exports`. */
 var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
@@ -608,14 +608,14 @@ var isBuffer = nativeIsBuffer || stubFalse;
 
 module.exports = isBuffer;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)(module)))
 
 /***/ }),
 /* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(8),
-    isObject = __webpack_require__(20);
+    isObject = __webpack_require__(18);
 
 /** `Object#toString` result references. */
 var asyncTag = '[object AsyncFunction]',
@@ -698,9 +698,9 @@ module.exports = isLength;
 /* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsTypedArray = __webpack_require__(60),
-    baseUnary = __webpack_require__(63),
-    nodeUtil = __webpack_require__(94);
+var baseIsTypedArray = __webpack_require__(55),
+    baseUnary = __webpack_require__(58),
+    nodeUtil = __webpack_require__(89);
 
 /* Node.js helper references. */
 var nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
@@ -730,6 +730,40 @@ module.exports = isTypedArray;
 /***/ }),
 /* 30 */,
 /* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(37),
+  /* template */
+  __webpack_require__(107),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/SelectTwo.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] SelectTwo.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2434126b", Component.options)
+  } else {
+    hotAPI.reload("data-v-2434126b", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -767,42 +801,10 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 32 */,
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(41),
-  /* template */
-  __webpack_require__(113),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/SelectTwo.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] SelectTwo.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2434126b", Component.options)
-  } else {
-    hotAPI.reload("data-v-2434126b", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 34 */
+/* 33 */,
+/* 34 */,
+/* 35 */,
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -811,7 +813,7 @@ __webpack_require__(116)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(40),
+  __webpack_require__(110),
   /* template */
   __webpack_require__(115),
   /* scopeId */
@@ -840,173 +842,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 35 */,
-/* 36 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/* styles */
-__webpack_require__(128)
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(120),
-  /* template */
-  __webpack_require__(126),
-  /* scopeId */
-  "data-v-7d00f708",
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/StartEndDate.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] StartEndDate.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7d00f708", Component.options)
-  } else {
-    hotAPI.reload("data-v-7d00f708", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 37 */,
-/* 38 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(129),
-  /* template */
-  __webpack_require__(137),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/EvaluationDataTable.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] EvaluationDataTable.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-c24d553a", Component.options)
-  } else {
-    hotAPI.reload("data-v-c24d553a", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 39 */
+/* 37 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__);
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = {
-	props: {
-		value: {
-			type: Array,
-			required: true
-		}
-	},
-	methods: {
-		removeAlert: function removeAlert(index) {
-			var alerts = this.value.slice();
-			alerts.splice(index, 1);
-			this.$emit('input', alerts);
-		}
-	},
-	components: {
-		BootstrapAlert: __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue___default.a
-	}
-};
-
-/***/ }),
-/* 40 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = {
-	props: {
-		type: {
-			type: String,
-			default: 'error',
-			validator: function validator(type) {
-				return ['info', 'success', 'warning', 'error', 'danger'].includes(type);
-			}
-		},
-		text: {
-			type: String,
-			required: false
-		},
-		html: {
-			type: String,
-			required: false
-		},
-		dismissable: {
-			type: Boolean,
-			default: false
-		}
-	},
-	computed: {
-		alertTypeClass: function alertTypeClass() {
-			if (this.type === 'error') return 'alert-danger';
-
-			return 'alert-' + this.type;
-		}
-	}
-};
-
-/***/ }),
-/* 41 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_isEqual__ = __webpack_require__(107);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_isEqual__ = __webpack_require__(102);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_isEqual___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash_isEqual__);
 //
 //
@@ -1170,21 +1011,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 42 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.alert[data-v-8d03363a] {\n\tpage-break-inside: avoid;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/BootstrapAlert.vue?6c1ead4e"],"names":[],"mappings":";AAqDA;CACA,yBAAA;CACA","file":"BootstrapAlert.vue","sourcesContent":["<template>\n\t<div class=\"alert\" :class=\"alertTypeClass\">\n\t\t<button v-if=\"dismissable\" type=\"button\" class=\"close\" aria-label=\"Close\"\n\t\t\t\t@click=\"$emit('close')\">\n\t\t\t<span aria-hidden=\"true\">&times;</span>\n\t\t</button>\n\t\t{{ text }}\n\t\t<div v-if=\"html\" v-html=\"html\"></div>\n\t\t<slot></slot>\n\t</div>\n</template>\n\n<script>\nexport default {\n\tprops: {\n\t\ttype: {\n\t\t\ttype: String,\n\t\t\tdefault: 'error',\n\t\t\tvalidator(type){\n\t\t\t\treturn [\n\t\t\t\t\t'info',\n\t\t\t\t\t'success',\n\t\t\t\t\t'warning',\n\t\t\t\t\t'error',\n\t\t\t\t\t'danger'\n\t\t\t\t].includes(type);\n\t\t\t}\n\t\t},\n\t\ttext: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\thtml: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\tdismissable: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t}\n\t},\n\tcomputed: {\n\t\talertTypeClass(){\n\t\t\tif(this.type === 'error')\n\t\t\t\treturn 'alert-danger';\n\t\t\t\n\t\t\treturn `alert-${this.type}`;\n\t\t}\n\t}\n};\n</script>\n\n<style scoped>\n\t.alert {\n\t\tpage-break-inside: avoid;\n\t}\n</style>\n"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-/* 43 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getNative = __webpack_require__(5),
@@ -1197,14 +1024,14 @@ module.exports = DataView;
 
 
 /***/ }),
-/* 44 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var hashClear = __webpack_require__(73),
-    hashDelete = __webpack_require__(74),
-    hashGet = __webpack_require__(75),
-    hashHas = __webpack_require__(76),
-    hashSet = __webpack_require__(77);
+var hashClear = __webpack_require__(68),
+    hashDelete = __webpack_require__(69),
+    hashGet = __webpack_require__(70),
+    hashHas = __webpack_require__(71),
+    hashSet = __webpack_require__(72);
 
 /**
  * Creates a hash object.
@@ -1235,7 +1062,7 @@ module.exports = Hash;
 
 
 /***/ }),
-/* 45 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getNative = __webpack_require__(5),
@@ -1248,7 +1075,7 @@ module.exports = Promise;
 
 
 /***/ }),
-/* 46 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getNative = __webpack_require__(5),
@@ -1261,12 +1088,12 @@ module.exports = Set;
 
 
 /***/ }),
-/* 47 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var MapCache = __webpack_require__(21),
-    setCacheAdd = __webpack_require__(97),
-    setCacheHas = __webpack_require__(98);
+    setCacheAdd = __webpack_require__(92),
+    setCacheHas = __webpack_require__(93);
 
 /**
  *
@@ -1294,15 +1121,15 @@ module.exports = SetCache;
 
 
 /***/ }),
-/* 48 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ListCache = __webpack_require__(10),
-    stackClear = __webpack_require__(100),
-    stackDelete = __webpack_require__(101),
-    stackGet = __webpack_require__(102),
-    stackHas = __webpack_require__(103),
-    stackSet = __webpack_require__(104);
+    stackClear = __webpack_require__(95),
+    stackDelete = __webpack_require__(96),
+    stackGet = __webpack_require__(97),
+    stackHas = __webpack_require__(98),
+    stackSet = __webpack_require__(99);
 
 /**
  * Creates a stack cache object to store key-value pairs.
@@ -1327,7 +1154,7 @@ module.exports = Stack;
 
 
 /***/ }),
-/* 49 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var root = __webpack_require__(1);
@@ -1339,7 +1166,7 @@ module.exports = Uint8Array;
 
 
 /***/ }),
-/* 50 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getNative = __webpack_require__(5),
@@ -1352,7 +1179,7 @@ module.exports = WeakMap;
 
 
 /***/ }),
-/* 51 */
+/* 46 */
 /***/ (function(module, exports) {
 
 /**
@@ -1383,14 +1210,14 @@ module.exports = arrayFilter;
 
 
 /***/ }),
-/* 52 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseTimes = __webpack_require__(62),
-    isArguments = __webpack_require__(105),
+var baseTimes = __webpack_require__(57),
+    isArguments = __webpack_require__(100),
     isArray = __webpack_require__(17),
     isBuffer = __webpack_require__(26),
-    isIndex = __webpack_require__(78),
+    isIndex = __webpack_require__(73),
     isTypedArray = __webpack_require__(29);
 
 /** Used for built-in method references. */
@@ -1438,7 +1265,7 @@ module.exports = arrayLikeKeys;
 
 
 /***/ }),
-/* 53 */
+/* 48 */
 /***/ (function(module, exports) {
 
 /**
@@ -1464,7 +1291,7 @@ module.exports = arrayPush;
 
 
 /***/ }),
-/* 54 */
+/* 49 */
 /***/ (function(module, exports) {
 
 /**
@@ -1493,10 +1320,10 @@ module.exports = arraySome;
 
 
 /***/ }),
-/* 55 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayPush = __webpack_require__(53),
+var arrayPush = __webpack_require__(48),
     isArray = __webpack_require__(17);
 
 /**
@@ -1519,7 +1346,7 @@ module.exports = baseGetAllKeys;
 
 
 /***/ }),
-/* 56 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(8),
@@ -1543,10 +1370,10 @@ module.exports = baseIsArguments;
 
 
 /***/ }),
-/* 57 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsEqualDeep = __webpack_require__(58),
+var baseIsEqualDeep = __webpack_require__(53),
     isObjectLike = __webpack_require__(9);
 
 /**
@@ -1577,14 +1404,14 @@ module.exports = baseIsEqual;
 
 
 /***/ }),
-/* 58 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Stack = __webpack_require__(48),
+var Stack = __webpack_require__(43),
     equalArrays = __webpack_require__(22),
-    equalByTag = __webpack_require__(66),
-    equalObjects = __webpack_require__(67),
-    getTag = __webpack_require__(71),
+    equalByTag = __webpack_require__(61),
+    equalObjects = __webpack_require__(62),
+    getTag = __webpack_require__(66),
     isArray = __webpack_require__(17),
     isBuffer = __webpack_require__(26),
     isTypedArray = __webpack_require__(29);
@@ -1666,12 +1493,12 @@ module.exports = baseIsEqualDeep;
 
 
 /***/ }),
-/* 59 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isFunction = __webpack_require__(27),
-    isMasked = __webpack_require__(80),
-    isObject = __webpack_require__(20),
+    isMasked = __webpack_require__(75),
+    isObject = __webpack_require__(18),
     toSource = __webpack_require__(24);
 
 /**
@@ -1719,7 +1546,7 @@ module.exports = baseIsNative;
 
 
 /***/ }),
-/* 60 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(8),
@@ -1785,11 +1612,11 @@ module.exports = baseIsTypedArray;
 
 
 /***/ }),
-/* 61 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isPrototype = __webpack_require__(81),
-    nativeKeys = __webpack_require__(93);
+var isPrototype = __webpack_require__(76),
+    nativeKeys = __webpack_require__(88);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -1821,7 +1648,7 @@ module.exports = baseKeys;
 
 
 /***/ }),
-/* 62 */
+/* 57 */
 /***/ (function(module, exports) {
 
 /**
@@ -1847,7 +1674,7 @@ module.exports = baseTimes;
 
 
 /***/ }),
-/* 63 */
+/* 58 */
 /***/ (function(module, exports) {
 
 /**
@@ -1867,7 +1694,7 @@ module.exports = baseUnary;
 
 
 /***/ }),
-/* 64 */
+/* 59 */
 /***/ (function(module, exports) {
 
 /**
@@ -1886,7 +1713,7 @@ module.exports = cacheHas;
 
 
 /***/ }),
-/* 65 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var root = __webpack_require__(1);
@@ -1898,15 +1725,15 @@ module.exports = coreJsData;
 
 
 /***/ }),
-/* 66 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Symbol = __webpack_require__(16),
-    Uint8Array = __webpack_require__(49),
+    Uint8Array = __webpack_require__(44),
     eq = __webpack_require__(25),
     equalArrays = __webpack_require__(22),
-    mapToArray = __webpack_require__(92),
-    setToArray = __webpack_require__(99);
+    mapToArray = __webpack_require__(87),
+    setToArray = __webpack_require__(94);
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG = 1,
@@ -2016,10 +1843,10 @@ module.exports = equalByTag;
 
 
 /***/ }),
-/* 67 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getAllKeys = __webpack_require__(68);
+var getAllKeys = __webpack_require__(63);
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG = 1;
@@ -2111,12 +1938,12 @@ module.exports = equalObjects;
 
 
 /***/ }),
-/* 68 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetAllKeys = __webpack_require__(55),
-    getSymbols = __webpack_require__(70),
-    keys = __webpack_require__(108);
+var baseGetAllKeys = __webpack_require__(50),
+    getSymbols = __webpack_require__(65),
+    keys = __webpack_require__(103);
 
 /**
  * Creates an array of own enumerable property names and symbols of `object`.
@@ -2133,7 +1960,7 @@ module.exports = getAllKeys;
 
 
 /***/ }),
-/* 69 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Symbol = __webpack_require__(16);
@@ -2185,11 +2012,11 @@ module.exports = getRawTag;
 
 
 /***/ }),
-/* 70 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayFilter = __webpack_require__(51),
-    stubArray = __webpack_require__(109);
+var arrayFilter = __webpack_require__(46),
+    stubArray = __webpack_require__(104);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -2221,14 +2048,14 @@ module.exports = getSymbols;
 
 
 /***/ }),
-/* 71 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var DataView = __webpack_require__(43),
+var DataView = __webpack_require__(38),
     Map = __webpack_require__(15),
-    Promise = __webpack_require__(45),
-    Set = __webpack_require__(46),
-    WeakMap = __webpack_require__(50),
+    Promise = __webpack_require__(40),
+    Set = __webpack_require__(41),
+    WeakMap = __webpack_require__(45),
     baseGetTag = __webpack_require__(8),
     toSource = __webpack_require__(24);
 
@@ -2285,7 +2112,7 @@ module.exports = getTag;
 
 
 /***/ }),
-/* 72 */
+/* 67 */
 /***/ (function(module, exports) {
 
 /**
@@ -2304,7 +2131,7 @@ module.exports = getValue;
 
 
 /***/ }),
-/* 73 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var nativeCreate = __webpack_require__(13);
@@ -2325,7 +2152,7 @@ module.exports = hashClear;
 
 
 /***/ }),
-/* 74 */
+/* 69 */
 /***/ (function(module, exports) {
 
 /**
@@ -2348,7 +2175,7 @@ module.exports = hashDelete;
 
 
 /***/ }),
-/* 75 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var nativeCreate = __webpack_require__(13);
@@ -2384,7 +2211,7 @@ module.exports = hashGet;
 
 
 /***/ }),
-/* 76 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var nativeCreate = __webpack_require__(13);
@@ -2413,7 +2240,7 @@ module.exports = hashHas;
 
 
 /***/ }),
-/* 77 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var nativeCreate = __webpack_require__(13);
@@ -2442,7 +2269,7 @@ module.exports = hashSet;
 
 
 /***/ }),
-/* 78 */
+/* 73 */
 /***/ (function(module, exports) {
 
 /** Used as references for various `Number` constants. */
@@ -2470,7 +2297,7 @@ module.exports = isIndex;
 
 
 /***/ }),
-/* 79 */
+/* 74 */
 /***/ (function(module, exports) {
 
 /**
@@ -2491,10 +2318,10 @@ module.exports = isKeyable;
 
 
 /***/ }),
-/* 80 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var coreJsData = __webpack_require__(65);
+var coreJsData = __webpack_require__(60);
 
 /** Used to detect methods masquerading as native. */
 var maskSrcKey = (function() {
@@ -2517,7 +2344,7 @@ module.exports = isMasked;
 
 
 /***/ }),
-/* 81 */
+/* 76 */
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -2541,7 +2368,7 @@ module.exports = isPrototype;
 
 
 /***/ }),
-/* 82 */
+/* 77 */
 /***/ (function(module, exports) {
 
 /**
@@ -2560,7 +2387,7 @@ module.exports = listCacheClear;
 
 
 /***/ }),
-/* 83 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var assocIndexOf = __webpack_require__(11);
@@ -2601,7 +2428,7 @@ module.exports = listCacheDelete;
 
 
 /***/ }),
-/* 84 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var assocIndexOf = __webpack_require__(11);
@@ -2626,7 +2453,7 @@ module.exports = listCacheGet;
 
 
 /***/ }),
-/* 85 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var assocIndexOf = __webpack_require__(11);
@@ -2648,7 +2475,7 @@ module.exports = listCacheHas;
 
 
 /***/ }),
-/* 86 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var assocIndexOf = __webpack_require__(11);
@@ -2680,10 +2507,10 @@ module.exports = listCacheSet;
 
 
 /***/ }),
-/* 87 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Hash = __webpack_require__(44),
+var Hash = __webpack_require__(39),
     ListCache = __webpack_require__(10),
     Map = __webpack_require__(15);
 
@@ -2707,7 +2534,7 @@ module.exports = mapCacheClear;
 
 
 /***/ }),
-/* 88 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getMapData = __webpack_require__(12);
@@ -2731,7 +2558,7 @@ module.exports = mapCacheDelete;
 
 
 /***/ }),
-/* 89 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getMapData = __webpack_require__(12);
@@ -2753,7 +2580,7 @@ module.exports = mapCacheGet;
 
 
 /***/ }),
-/* 90 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getMapData = __webpack_require__(12);
@@ -2775,7 +2602,7 @@ module.exports = mapCacheHas;
 
 
 /***/ }),
-/* 91 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getMapData = __webpack_require__(12);
@@ -2803,7 +2630,7 @@ module.exports = mapCacheSet;
 
 
 /***/ }),
-/* 92 */
+/* 87 */
 /***/ (function(module, exports) {
 
 /**
@@ -2827,10 +2654,10 @@ module.exports = mapToArray;
 
 
 /***/ }),
-/* 93 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var overArg = __webpack_require__(96);
+var overArg = __webpack_require__(91);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeKeys = overArg(Object.keys, Object);
@@ -2839,7 +2666,7 @@ module.exports = nativeKeys;
 
 
 /***/ }),
-/* 94 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var freeGlobal = __webpack_require__(23);
@@ -2865,10 +2692,10 @@ var nodeUtil = (function() {
 
 module.exports = nodeUtil;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)(module)))
 
 /***/ }),
-/* 95 */
+/* 90 */
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -2896,7 +2723,7 @@ module.exports = objectToString;
 
 
 /***/ }),
-/* 96 */
+/* 91 */
 /***/ (function(module, exports) {
 
 /**
@@ -2917,7 +2744,7 @@ module.exports = overArg;
 
 
 /***/ }),
-/* 97 */
+/* 92 */
 /***/ (function(module, exports) {
 
 /** Used to stand-in for `undefined` hash values. */
@@ -2942,7 +2769,7 @@ module.exports = setCacheAdd;
 
 
 /***/ }),
-/* 98 */
+/* 93 */
 /***/ (function(module, exports) {
 
 /**
@@ -2962,7 +2789,7 @@ module.exports = setCacheHas;
 
 
 /***/ }),
-/* 99 */
+/* 94 */
 /***/ (function(module, exports) {
 
 /**
@@ -2986,7 +2813,7 @@ module.exports = setToArray;
 
 
 /***/ }),
-/* 100 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ListCache = __webpack_require__(10);
@@ -3007,7 +2834,7 @@ module.exports = stackClear;
 
 
 /***/ }),
-/* 101 */
+/* 96 */
 /***/ (function(module, exports) {
 
 /**
@@ -3031,7 +2858,7 @@ module.exports = stackDelete;
 
 
 /***/ }),
-/* 102 */
+/* 97 */
 /***/ (function(module, exports) {
 
 /**
@@ -3051,7 +2878,7 @@ module.exports = stackGet;
 
 
 /***/ }),
-/* 103 */
+/* 98 */
 /***/ (function(module, exports) {
 
 /**
@@ -3071,7 +2898,7 @@ module.exports = stackHas;
 
 
 /***/ }),
-/* 104 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ListCache = __webpack_require__(10),
@@ -3111,10 +2938,10 @@ module.exports = stackSet;
 
 
 /***/ }),
-/* 105 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsArguments = __webpack_require__(56),
+var baseIsArguments = __webpack_require__(51),
     isObjectLike = __webpack_require__(9);
 
 /** Used for built-in method references. */
@@ -3153,7 +2980,7 @@ module.exports = isArguments;
 
 
 /***/ }),
-/* 106 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isFunction = __webpack_require__(27),
@@ -3192,10 +3019,10 @@ module.exports = isArrayLike;
 
 
 /***/ }),
-/* 107 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsEqual = __webpack_require__(57);
+var baseIsEqual = __webpack_require__(52);
 
 /**
  * Performs a deep comparison between two values to determine if they are
@@ -3233,12 +3060,12 @@ module.exports = isEqual;
 
 
 /***/ }),
-/* 108 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayLikeKeys = __webpack_require__(52),
-    baseKeys = __webpack_require__(61),
-    isArrayLike = __webpack_require__(106);
+var arrayLikeKeys = __webpack_require__(47),
+    baseKeys = __webpack_require__(56),
+    isArrayLike = __webpack_require__(101);
 
 /**
  * Creates an array of the own enumerable property names of `object`.
@@ -3276,7 +3103,7 @@ module.exports = keys;
 
 
 /***/ }),
-/* 109 */
+/* 104 */
 /***/ (function(module, exports) {
 
 /**
@@ -3305,7 +3132,7 @@ module.exports = stubArray;
 
 
 /***/ }),
-/* 110 */
+/* 105 */
 /***/ (function(module, exports) {
 
 /**
@@ -3329,7 +3156,218 @@ module.exports = stubFalse;
 
 
 /***/ }),
+/* 106 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(128)
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(120),
+  /* template */
+  __webpack_require__(126),
+  /* scopeId */
+  "data-v-7d00f708",
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/StartEndDate.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] StartEndDate.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7d00f708", Component.options)
+  } else {
+    hotAPI.reload("data-v-7d00f708", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 107 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('select', {
+    attrs: {
+      "name": _vm.name,
+      "id": _vm.id,
+      "required": _vm.required,
+      "multiple": _vm.multiple
+    }
+  }, [_vm._t("default"), _vm._v(" "), _vm._l((_vm.stringOptions), function(option) {
+    return [(option.children && option.children.length > 0) ? _c('optgroup', {
+      attrs: {
+        "label": option.text
+      }
+    }, _vm._l((option.children), function(child) {
+      return _c('option', {
+        domProps: {
+          "value": child.id
+        }
+      }, [_vm._v("\n\t\t\t\t" + _vm._s(child.text) + "\n\t\t\t")])
+    })) : (option.id) ? _c('option', {
+      domProps: {
+        "value": option.id
+      }
+    }, [_vm._v("\n\t\t\t" + _vm._s(option.text) + "\n\t\t")]) : _vm._e()]
+  })], 2)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-2434126b", module.exports)
+  }
+}
+
+/***/ }),
+/* 108 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(131),
+  /* template */
+  __webpack_require__(152),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/EvaluationDataTable.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] EvaluationDataTable.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-c24d553a", Component.options)
+  } else {
+    hotAPI.reload("data-v-c24d553a", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 109 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__);
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: {
+		value: {
+			type: Array,
+			required: true
+		}
+	},
+	methods: {
+		removeAlert: function removeAlert(index) {
+			var alerts = this.value.slice();
+			alerts.splice(index, 1);
+			this.$emit('input', alerts);
+		}
+	},
+	components: {
+		BootstrapAlert: __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue___default.a
+	}
+};
+
+/***/ }),
+/* 110 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: {
+		type: {
+			type: String,
+			default: 'error',
+			validator: function validator(type) {
+				return ['info', 'success', 'warning', 'error', 'danger'].includes(type);
+			}
+		},
+		text: {
+			type: String,
+			required: false
+		},
+		html: {
+			type: String,
+			required: false
+		},
+		dismissable: {
+			type: Boolean,
+			default: false
+		}
+	},
+	computed: {
+		alertTypeClass: function alertTypeClass() {
+			if (this.type === 'error') return 'alert-danger';
+
+			return 'alert-' + this.type;
+		}
+	}
+};
+
+/***/ }),
 /* 111 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.alert[data-v-8d03363a] {\n\tpage-break-inside: avoid;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/BootstrapAlert.vue?6c1ead4e"],"names":[],"mappings":";AAqDA;CACA,yBAAA;CACA","file":"BootstrapAlert.vue","sourcesContent":["<template>\n\t<div class=\"alert\" :class=\"alertTypeClass\">\n\t\t<button v-if=\"dismissable\" type=\"button\" class=\"close\" aria-label=\"Close\"\n\t\t\t\t@click=\"$emit('close')\">\n\t\t\t<span aria-hidden=\"true\">&times;</span>\n\t\t</button>\n\t\t{{ text }}\n\t\t<div v-if=\"html\" v-html=\"html\"></div>\n\t\t<slot></slot>\n\t</div>\n</template>\n\n<script>\nexport default {\n\tprops: {\n\t\ttype: {\n\t\t\ttype: String,\n\t\t\tdefault: 'error',\n\t\t\tvalidator(type){\n\t\t\t\treturn [\n\t\t\t\t\t'info',\n\t\t\t\t\t'success',\n\t\t\t\t\t'warning',\n\t\t\t\t\t'error',\n\t\t\t\t\t'danger'\n\t\t\t\t].includes(type);\n\t\t\t}\n\t\t},\n\t\ttext: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\thtml: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\tdismissable: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t}\n\t},\n\tcomputed: {\n\t\talertTypeClass(){\n\t\t\tif(this.type === 'error')\n\t\t\t\treturn 'alert-danger';\n\t\t\t\n\t\t\treturn `alert-${this.type}`;\n\t\t}\n\t}\n};\n</script>\n\n<style scoped>\n\t.alert {\n\t\tpage-break-inside: avoid;\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+/* 112 */
 /***/ (function(module, exports) {
 
 /*
@@ -3581,18 +3619,18 @@ function updateLink(linkElement, obj) {
 
 
 /***/ }),
-/* 112 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(138)
+__webpack_require__(155)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(130),
-  /* template */
   __webpack_require__(136),
+  /* template */
+  __webpack_require__(149),
   /* scopeId */
   "data-v-38459c74",
   /* cssModules */
@@ -3617,44 +3655,6 @@ if (false) {(function () {
 
 module.exports = Component.exports
 
-
-/***/ }),
-/* 113 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('select', {
-    attrs: {
-      "name": _vm.name,
-      "id": _vm.id,
-      "required": _vm.required,
-      "multiple": _vm.multiple
-    }
-  }, [_vm._t("default"), _vm._v(" "), _vm._l((_vm.stringOptions), function(option) {
-    return [(option.children && option.children.length > 0) ? _c('optgroup', {
-      attrs: {
-        "label": option.text
-      }
-    }, _vm._l((option.children), function(child) {
-      return _c('option', {
-        domProps: {
-          "value": child.id
-        }
-      }, [_vm._v("\n\t\t\t\t" + _vm._s(child.text) + "\n\t\t\t")])
-    })) : (option.id) ? _c('option', {
-      domProps: {
-        "value": option.id
-      }
-    }, [_vm._v("\n\t\t\t" + _vm._s(option.text) + "\n\t\t")]) : _vm._e()]
-  })], 2)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-2434126b", module.exports)
-  }
-}
 
 /***/ }),
 /* 114 */
@@ -3726,11 +3726,11 @@ if (false) {
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(42);
+var content = __webpack_require__(111);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("32a3a524", content, false);
+var update = __webpack_require__(4)("32a3a524", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -3938,7 +3938,7 @@ function a(e,t){function n(){e._flatpickr&&E(e._flatpickr),e._flatpickr=oe,oe.el
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_downloadjs__ = __webpack_require__(117);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_downloadjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_downloadjs__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_utils_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_utils_js__ = __webpack_require__(3);
 //
 //
 //
@@ -4122,8 +4122,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jacobmischka_vue_flatpickr_theme_flatpickr_min_css__ = __webpack_require__(124);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jacobmischka_vue_flatpickr_theme_flatpickr_min_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__jacobmischka_vue_flatpickr_theme_flatpickr_min_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__ = __webpack_require__(19);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -4340,7 +4340,7 @@ exports.push([module.i, "\n.form-horizontal[data-v-7d00f708] {\n\toverflow-x: hi
 var content = __webpack_require__(121);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(111)(content, {});
+var update = __webpack_require__(112)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -4508,7 +4508,7 @@ var content = __webpack_require__(122);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("7c69b925", content, false);
+var update = __webpack_require__(4)("7c69b925", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -4534,7 +4534,7 @@ var content = __webpack_require__(123);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("258ff97b", content, false);
+var update = __webpack_require__(4)("258ff97b", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -4550,20 +4550,59 @@ if(false) {
 }
 
 /***/ }),
-/* 129 */
+/* 129 */,
+/* 130 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(154)
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(132),
+  /* template */
+  __webpack_require__(148),
+  /* scopeId */
+  "data-v-2c14a78c",
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormBuilder/FormBuilder.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] FormBuilder.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2c14a78c", Component.options)
+  } else {
+    hotAPI.reload("data-v-2c14a78c", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 131 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DataTable_vue__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DataTable_vue__ = __webpack_require__(32);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__DataTable_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__ = __webpack_require__(106);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__StartEndDate_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_localforage__ = __webpack_require__(135);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_localforage__ = __webpack_require__(144);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_localforage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_localforage__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__ = __webpack_require__(19);
 //
 //
 //
@@ -4669,7 +4708,828 @@ window.localforage = __WEBPACK_IMPORTED_MODULE_2_localforage__;
 };
 
 /***/ }),
-/* 130 */
+/* 132 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormBuilderInstruction_vue__ = __webpack_require__(145);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormBuilderInstruction_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__FormBuilderInstruction_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormBuilderQuestion_vue__ = __webpack_require__(147);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormBuilderQuestion_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__FormBuilderQuestion_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__AlertList_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__ = __webpack_require__(3);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: {
+		oldFormContents: {
+			type: Object,
+			required: false
+		},
+		fixedFormType: {
+			type: String,
+			required: false
+		},
+		fixedPeriodType: {
+			type: String,
+			required: false
+		},
+		defaultFormType: {
+			type: String,
+			required: false
+		},
+		defaultPeriodType: {
+			type: String,
+			required: false
+		},
+		showMilestonesCompetencies: {
+			type: Boolean,
+			default: true
+		}
+	},
+	data: function data() {
+		return {
+			title: '',
+			formType: this.fixedFormType || this.defaultFormType || 'resident',
+			periodType: this.fixedPeriodType || this.defaultPeriodType || 'month',
+			nextQuestionIdNum: 1,
+			groupedMilestones: [],
+			competencies: [],
+			items: [],
+			customOptions: [],
+
+			alerts: []
+		};
+	},
+	mounted: function mounted() {
+		var _this = this;
+
+		if (this.showMilestonesCompetencies) {
+			__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["d" /* fetchMilestoneGroups */])().then(function (milestoneGroups) {
+				_this.groupedMilestones = milestoneGroups;
+			}).catch(function (err) {
+				console.error(err);
+			});
+
+			fetch('/competencies', { credentials: 'same-origin' }).then(function (response) {
+				if (response.ok) return response.json();else {
+					var err = new Error(response.statusText);
+					err.response = response;
+					throw err;
+				}
+			}).then(function (competencies) {
+				_this.competencies = competencies;
+			}).catch(function (err) {
+				console.error(err);
+			});
+		}
+	},
+
+
+	methods: {
+		addInstruction: function addInstruction() {
+			this.items.push({
+				type: 'instruction',
+				text: ''
+			});
+		},
+		addQuestion: function addQuestion() {
+			this.items.push({
+				type: 'question',
+				text: '',
+				questionIdNum: this.nextQuestionIdNum++,
+				questionType: 'radio',
+				milestones: null,
+				competencies: null,
+				options: [],
+				required: false,
+				weight: 100
+			});
+		},
+		changeItem: function changeItem(index, item) {
+			this.items.splice(index, 1, Object.assign({}, this.items[index], item));
+		},
+		moveItem: function moveItem(index, newIndex) {
+			this.items.splice(newIndex, 0, this.items.splice(index, 1)[0]);
+			this.adjustQuestionIdNums();
+		},
+		removeItem: function removeItem(index) {
+			this.items.splice(index, 1);
+			this.adjustQuestionIdNums();
+		},
+		adjustQuestionIdNums: function adjustQuestionIdNums() {
+			this.items = this.items.map(function (item, index) {
+				return Object.assign({}, item, { questionIdNum: index + 1 });
+			});
+			this.nextQuestionIdNum = this.items.length;
+		},
+		submitForm: function submitForm(event) {
+			event.preventDefault();
+			if (this.isFormValid()) {
+				this.$emit('submit', {
+					title: this.title,
+					formType: this.formType,
+					evaluation_period_type: this.periodType,
+					items: this.items.map(function (item) {
+						if (item.type === 'question') item.questionId = 'q' + item.questionIdNum;
+
+						return item;
+					})
+				});
+			}
+		},
+		isFormValid: function isFormValid() {
+			if (!this.title) {
+				this.alerts.push({
+					type: 'error',
+					text: 'Please enter a title for the form'
+				});
+				return false;
+			}
+
+			if (!this.items || this.items.length < 1) {
+				this.alerts.push({
+					type: 'error',
+					text: 'Please enter at least one question'
+				});
+				return false;
+			}
+
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+
+			try {
+				for (var _iterator = this.items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var item = _step.value;
+
+					if (item.type === 'question') {
+						if (!item.text) {
+							this.alerts.push({
+								type: 'error',
+								text: 'Please enter question text for question ' + item.questionIdNum
+							});
+							return false;
+						}
+						if (['radio', 'radiononnumeric', 'checkbox'].includes(item.questionType)) {
+							if (!item.options || item.options.length < 1) {
+								this.alerts.push({
+									type: 'error',
+									text: 'Please add at least one option for each multiple-choice question'
+								});
+								return false;
+							}
+
+							var _iteratorNormalCompletion2 = true;
+							var _didIteratorError2 = false;
+							var _iteratorError2 = undefined;
+
+							try {
+								for (var _iterator2 = item.options[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+									var option = _step2.value;
+
+									if (!('value' in option)) {
+										this.alerts.push({
+											type: 'error',
+											text: 'An option cannot be submitted without a value. Please either assign a value or remove the option text and description for each option in question ' + item.questionIdNum
+										});
+										return false;
+									}
+								}
+							} catch (err) {
+								_didIteratorError2 = true;
+								_iteratorError2 = err;
+							} finally {
+								try {
+									if (!_iteratorNormalCompletion2 && _iterator2.return) {
+										_iterator2.return();
+									}
+								} finally {
+									if (_didIteratorError2) {
+										throw _iteratorError2;
+									}
+								}
+							}
+						}
+					} else if (item.type === 'instruction') {
+						if (!item.text) {
+							this.alerts.push({
+								type: 'error',
+								text: 'Please complete or remove all empty instruction blocks'
+							});
+							return false;
+						}
+					} else {
+						this.alerts.push({
+							type: 'error',
+							text: 'Unrecognized item type in form'
+						});
+						return false;
+					}
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator.return) {
+						_iterator.return();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
+			}
+
+			return true;
+		}
+	},
+	watch: {
+		oldFormContents: function oldFormContents(formContents) {
+			this.title = formContents.title;
+			this.formType = formContents.formType;
+			this.items = formContents.items.slice();
+			var _iteratorNormalCompletion3 = true;
+			var _didIteratorError3 = false;
+			var _iteratorError3 = undefined;
+
+			try {
+				for (var _iterator3 = this.items[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+					var item = _step3.value;
+
+					if (item.questionIdNum && item.questionIdNum >= this.nextQuestionIdNum) this.nextQuestionIdNum = item.questionIdNum + 1;
+				}
+			} catch (err) {
+				_didIteratorError3 = true;
+				_iteratorError3 = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion3 && _iterator3.return) {
+						_iterator3.return();
+					}
+				} finally {
+					if (_didIteratorError3) {
+						throw _iteratorError3;
+					}
+				}
+			}
+		}
+	},
+	components: {
+		FormBuilderInstruction: __WEBPACK_IMPORTED_MODULE_0__FormBuilderInstruction_vue___default.a,
+		FormBuilderQuestion: __WEBPACK_IMPORTED_MODULE_1__FormBuilderQuestion_vue___default.a,
+		AlertList: __WEBPACK_IMPORTED_MODULE_2__AlertList_vue___default.a
+	}
+};
+
+/***/ }),
+/* 133 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: ['text'],
+	data: function data() {
+		return {};
+	},
+
+	methods: {
+		onInput: function onInput(event) {
+			this.$emit('input', event.target.value);
+		}
+	}
+};
+
+/***/ }),
+/* 134 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: ['type', 'text', 'value', 'description', 'isWorkingOption'],
+	computed: {
+		displayType: function displayType() {
+			if (this.type === 'checkbox') return 'checkbox';else return 'radio';
+		}
+	},
+	data: function data() {
+		return {
+			isFocused: false
+		};
+	},
+
+	methods: {
+		handleInputFocus: function handleInputFocus(field) {
+			this.isFocused = true;
+			this.$emit('focus', field);
+		},
+		handleInputBlur: function handleInputBlur(field) {
+			this.isFocused = false;
+			this.$emit('blur', field);
+		}
+	}
+};
+
+/***/ }),
+/* 135 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormBuilderOption_vue__ = __webpack_require__(146);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormBuilderOption_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__FormBuilderOption_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SelectTwo_vue__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SelectTwo_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__SelectTwo_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__AlertList_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__ = __webpack_require__(3);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: {
+		formType: {
+			type: String,
+			required: true
+		},
+		groupedMilestones: {
+			type: Array,
+			required: false
+		},
+		allCompetencies: {
+			type: Array,
+			required: false
+		},
+		questionIdNum: {
+			type: Number,
+			required: true
+		},
+		text: {
+			type: String,
+			required: true
+		},
+		questionType: {
+			type: String,
+			required: true
+		},
+		milestones: {
+			type: Array,
+			required: false
+		},
+		competencies: {
+			type: Array,
+			required: false
+		},
+		options: {
+			type: Array,
+			required: false
+		},
+		required: {
+			type: Boolean,
+			default: false
+		},
+		customOptions: {
+			type: Array,
+			required: false
+		},
+		showMilestonesCompetencies: {
+			type: Boolean,
+			default: true
+		}
+	},
+	data: function data() {
+		return {
+			workingOption: {
+				text: '',
+				value: '',
+				description: ''
+			},
+
+			alerts: []
+		};
+	},
+
+	computed: {
+		questionId: function questionId() {
+			return 'q' + this.questionIdNum;
+		},
+		shouldShowMilestonesAndCompetencies: function shouldShowMilestonesAndCompetencies() {
+			return ['radio', 'number'].includes(this.questionType) && ['resident', 'self-resident', 'fellow', 'self-fellow'].includes(this.formType);
+		},
+		optionsWithWorking: function optionsWithWorking() {
+			if (this.options) {
+				var options = this.options.slice();
+				options.push(this.workingOption);
+				return options;
+			}
+		},
+		workingOptionIndex: function workingOptionIndex() {
+			if (this.options) return this.options.length;
+		},
+		competencyOptions: function competencyOptions() {
+			return this.allCompetencies.map(function (competency) {
+				return {
+					id: competency.id,
+					text: competency.title
+				};
+			}).sort(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["e" /* sortSelect2Objects */]);
+		}
+	},
+	methods: {
+		changeQuestionType: function changeQuestionType(event) {
+			var questionType = event.target.value;
+			var options = [];
+
+			this.$emit('change', { questionType: questionType, options: options });
+		},
+		handleWorkingOptionInput: function handleWorkingOptionInput(index, option) {
+			if (index === this.workingOptionIndex) this.workingOption = Object.assign({}, this.workingOption, option);
+		},
+		handleOptionChange: function handleOptionChange(index, option) {
+			if (index === this.workingOptionIndex) {
+				var options = this.options.slice();
+				options.push(Object.assign({}, this.workingOption, option));
+				this.workingOption = {
+					text: '',
+					value: '',
+					description: ''
+				};
+				this.$emit('change', { options: options });
+			} else {
+				var _options = this.options.slice();
+				_options[index] = Object.assign(_options[index], option);
+				if (!_options[index].text && !_options[index].value && !_options[index].description) _options.splice(index, 1);
+
+				this.$emit('change', { options: _options });
+			}
+		},
+		setStandardOptions: function setStandardOptions() {
+			var options = void 0;
+			switch (this.formType) {
+				case 'resident':
+				case 'self-resident':
+					options = __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["b" /* STANDARD_OPTIONS */].RESIDENT.slice();
+					break;
+				case 'fellow':
+				case 'self-fellow':
+					options = __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["b" /* STANDARD_OPTIONS */].FELLOW.slice();
+					break;
+				case 'faculty':
+					if (this.questionType === 'radiononnumeric') options = __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["b" /* STANDARD_OPTIONS */].FACULTY.slice();
+					break;
+			}
+
+			if (!options) {
+				this.alerts.push({
+					type: 'error',
+					text: 'No standard options found for form type and question type'
+				});
+				return;
+			}
+
+			this.$emit('change', { options: options });
+		},
+		setMilestoneOptions: function setMilestoneOptions() {
+			var _this = this;
+
+			if (this.milestones.length !== 1) {
+				this.alerts.push({
+					type: 'error',
+					text: 'You can only use milestone options with a single selected milestone'
+				});
+				return;
+			}
+			fetch('/milestones/' + this.milestones[0], { credentials: 'same-origin' }).then(function (response) {
+				if (response.ok) return response.json();else throw new Error(response);
+			}).then(function (milestone) {
+				if (!milestone || !milestone.levels || milestone.levels.length < 1) {
+					_this.alerts.push({
+						type: 'error',
+						text: 'No milestone levels found'
+					});
+					return;
+				}
+				var options = [{
+					value: 0,
+					text: 'Not yet ' + milestone.levels[0].name
+				}];
+				var _iteratorNormalCompletion = true;
+				var _didIteratorError = false;
+				var _iteratorError = undefined;
+
+				try {
+					for (var _iterator = milestone.levels[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var level = _step.value;
+
+						var value = 2 * parseInt(level.level_number, 10);
+						options.push({ value: value - 1, text: '', description: '' });
+						options.push({ value: value, text: level.name, description: level.description });
+					}
+				} catch (err) {
+					_didIteratorError = true;
+					_iteratorError = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion && _iterator.return) {
+							_iterator.return();
+						}
+					} finally {
+						if (_didIteratorError) {
+							throw _iteratorError;
+						}
+					}
+				}
+
+				_this.$emit('change', { options: options });
+			}).catch(function (err) {
+				console.error(err);
+			});
+		},
+		setCustomOptions: function setCustomOptions() {
+			if (this.customOptions.length < 1) {
+				this.alerts.push({
+					type: 'error',
+					text: 'No custom options set'
+				});
+				return;
+			}
+
+			this.$emit('change', { options: this.customOptions.slice() });
+		}
+	},
+	components: {
+		FormBuilderOption: __WEBPACK_IMPORTED_MODULE_0__FormBuilderOption_vue___default.a,
+		SelectTwo: __WEBPACK_IMPORTED_MODULE_1__SelectTwo_vue___default.a,
+		AlertList: __WEBPACK_IMPORTED_MODULE_2__AlertList_vue___default.a
+	}
+};
+
+/***/ }),
+/* 136 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4712,9 +5572,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 131 */,
-/* 132 */,
-/* 133 */
+/* 137 */,
+/* 138 */,
+/* 139 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.form-item[data-v-2c14a78c] {\n\tdisplay: flex;\n\tflex-direction: row;\n\tjustify-content: center;\n\talign-items: center;\n}\n.form-item .form-block[data-v-2c14a78c] {\n\tflex-grow: 1;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormBuilder/FormBuilder.vue?d3df36f0"],"names":[],"mappings":";AA+SA;CACA,cAAA;CACA,oBAAA;CACA,wBAAA;CACA,oBAAA;CACA;AAEA;CACA,aAAA;CACA","file":"FormBuilder.vue","sourcesContent":["<template>\n\t<div class=\"form-header\">\n\t\t<div class=\"container-fluid\">\n\t\t\t<div class=\"row\">\n\t\t\t\t<div :class=\"fixedFormType ? 'col-md-9' : 'col-md-6'\">\n\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t<label for=\"form-title\">Form title</label>\n\t\t\t\t\t\t<input type=\"text\" v-model.trim=\"title\" id=\"form-title\"\n\t\t\t\t\t\t\tclass=\"form-control input-lg\" name=\"formTitle\"\n\t\t\t\t\t\t\tplaceholder=\"Form Title\" required />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-3\">\n\t\t\t\t\t<div class=\"form-group\" v-if=\"!fixedFormType\">\n\t\t\t\t\t\t<label for=\"form-type\">Form type</label>\n\t\t\t\t\t\t<select class=\"form-control input-lg\" v-model=\"formType\" id=\"form-type\" name=\"form_type\">\n\t\t\t\t\t\t\t<option value=\"resident\">Resident/Intern</option>\n\t\t\t\t\t\t\t<option value=\"self-resident\">Resident/Intern (self)</option>\n\t\t\t\t\t\t\t<option value=\"fellow\">Fellow</option>\n\t\t\t\t\t\t\t<option value=\"self-fellow\">Fellow (self)</option>\n\t\t\t\t\t\t\t<option value=\"faculty\">Faculty</option>\n\t\t\t\t\t\t\t<option value=\"staff\">Staff</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-3\">\n\t\t\t\t\t<div class=\"form-group\" v-if=\"!fixedPeriodType\">\n\t\t\t\t\t\t<label for=\"form-period-type\">Evaluation period type</label>\n\t\t\t\t\t\t<select class=\"form-control input-lg\" v-model=\"periodType\" id=\"form-period-type\">\n\t\t\t\t\t\t\t<option value=\"month\">Month</option>\n\t\t\t\t\t\t\t<option value=\"quarter\">Quarter</option>\n\t\t\t\t\t\t\t<option value=\"year\">Year</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"form-body\">\n\t\t\t<div class=\"form-items\">\n\t\t\t\t<template v-for=\"(item, index) of items\">\n\t\t\t\t\t<div class=\"form-item\">\n\t\t\t\t\t\t<form-builder-instruction v-if=\"item.type === 'instruction'\"\n\t\t\t\t\t\t\tv-bind=\"item\" @change=\"changeItem(index, $event)\"\n\t\t\t\t\t\t\t@input=\"changeItem(index, $event)\"\n\t\t\t\t\t\t\t@remove=\"removeItem(index)\">\n\t\t\t\t\t\t</form-builder-instruction>\n\t\t\t\t\t\t<form-builder-question v-if=\"item.type === 'question'\"\n\t\t\t\t\t\t\tv-bind=\"item\" :form-type=\"formType\"\n\t\t\t\t\t\t\t:grouped-milestones=\"groupedMilestones\"\n\t\t\t\t\t\t\t:all-competencies=\"competencies\"\n\t\t\t\t\t\t\t:custom-options=\"customOptions\"\n\t\t\t\t\t\t\t:show-milestones-competencies=\"showMilestonesCompetencies\"\n\t\t\t\t\t\t\t@change=\"changeItem(index, $event)\"\n\t\t\t\t\t\t\t@remove=\"removeItem(index)\">\n\t\t\t\t\t\t</form-builder-question>\n\t\t\t\t\t\t<div class=\"btn-group-vertical\">\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\t:disabled=\"index === 0\"\n\t\t\t\t\t\t\t\t\t@click=\"moveItem(index, index - 1)\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-arrow-up\"></span>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\t:disabled=\"index === items.length - 1\"\n\t\t\t\t\t\t\t\t\t@click=\"moveItem(index, index + 1)\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-arrow-down\"></span>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</template>\n\t\t\t</div>\n\t\t</div>\n\t\t<div id=\"form-footer\">\n\t\t\t<alert-list v-model=\"alerts\" />\n\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\tid=\"add-instruction-block\"\n\t\t\t\t\t@click=\"addInstruction\">\n\t\t\t\tAdd instruction block\n\t\t\t</button>\n\t\t\t<button type=\"button\" class=\"btn btn-info\" id=\"addQuestion\"\n\t\t\t\t\t@click=\"addQuestion\">\n\t\t\t\tAdd question\n\t\t\t</button>\n\t\t\t<button type=\"submit\" class=\"btn btn-success\"\n\t\t\t\t\t@click=\"submitForm\">\n\t\t\t\tSubmit form\n\t\t\t</button>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport FormBuilderInstruction from './FormBuilderInstruction.vue';\nimport FormBuilderQuestion from './FormBuilderQuestion.vue';\nimport AlertList from '../AlertList.vue';\n\nimport { fetchMilestoneGroups } from 'modules/utils.js';\n\nexport default {\n\tprops: {\n\t\toldFormContents: {\n\t\t\ttype: Object,\n\t\t\trequired: false\n\t\t},\n\t\tfixedFormType: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\tfixedPeriodType: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\tdefaultFormType: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\tdefaultPeriodType: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\tshowMilestonesCompetencies: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\ttitle: '',\n\t\t\tformType: this.fixedFormType || this.defaultFormType || 'resident',\n\t\t\tperiodType: this.fixedPeriodType || this.defaultPeriodType || 'month',\n\t\t\tnextQuestionIdNum: 1,\n\t\t\tgroupedMilestones: [],\n\t\t\tcompetencies: [],\n\t\t\titems: [],\n\t\t\tcustomOptions: [],\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\t\n\tmounted(){\n\t\tif (this.showMilestonesCompetencies) {\n\t\t\tfetchMilestoneGroups().then(milestoneGroups => {\n\t\t\t\tthis.groupedMilestones = milestoneGroups;\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\n\t\t\tfetch('/competencies', { credentials: 'same-origin' }).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\telse {\n\t\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\t\terr.response = response;\n\t\t\t\t\tthrow err;\n\t\t\t\t}\n\t\t\t}).then(competencies => {\n\t\t\t\tthis.competencies = competencies;\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\t\t\t\n\t\t}\n\t},\n\t\n\tmethods: {\n\t\taddInstruction() {\n\t\t\tthis.items.push({\n\t\t\t\ttype: 'instruction',\n\t\t\t\ttext: ''\n\t\t\t});\n\t\t},\n\t\taddQuestion() {\n\t\t\tthis.items.push({\n\t\t\t\ttype: 'question',\n\t\t\t\ttext: '',\n\t\t\t\tquestionIdNum: this.nextQuestionIdNum++,\n\t\t\t\tquestionType: 'radio',\n\t\t\t\tmilestones: null,\n\t\t\t\tcompetencies: null,\n\t\t\t\toptions: [],\n\t\t\t\trequired: false,\n\t\t\t\tweight: 100\n\t\t\t});\n\t\t},\n\t\tchangeItem(index, item) {\n\t\t\tthis.items.splice(index, 1, Object.assign({}, this.items[index], item));\n\t\t},\n\t\tmoveItem(index, newIndex) {\n\t\t\tthis.items.splice(newIndex, 0, this.items.splice(index, 1)[0]);\n\t\t\tthis.adjustQuestionIdNums();\n\t\t},\n\t\tremoveItem(index) {\n\t\t\tthis.items.splice(index, 1);\n\t\t\tthis.adjustQuestionIdNums();\n\t\t},\n\t\tadjustQuestionIdNums() {\n\t\t\tthis.items = this.items.map((item, index) =>\n\t\t\t\tObject.assign({}, item, {questionIdNum: index + 1})\n\t\t\t);\n\t\t\tthis.nextQuestionIdNum = this.items.length;\n\t\t},\n\t\tsubmitForm(event) {\n\t\t\tevent.preventDefault();\n\t\t\tif (this.isFormValid()) {\n\t\t\t\tthis.$emit('submit', {\n\t\t\t\t\ttitle: this.title,\n\t\t\t\t\tformType: this.formType,\n\t\t\t\t\tevaluation_period_type: this.periodType,\n\t\t\t\t\titems: this.items.map(item => {\n\t\t\t\t\t\tif (item.type === 'question')\n\t\t\t\t\t\t\titem.questionId = `q${item.questionIdNum}`;\n\n\t\t\t\t\t\treturn item;\n\t\t\t\t\t})\n\t\t\t\t});\n\t\t\t}\n\t\t},\n\t\tisFormValid() {\n\t\t\tif (!this.title) {\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\ttext: 'Please enter a title for the form'\n\t\t\t\t});\n\t\t\t\treturn false;\n\t\t\t}\n\n\t\t\tif (!this.items || this.items.length < 1) {\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\ttext: 'Please enter at least one question'\n\t\t\t\t});\n\t\t\t\treturn false;\n\t\t\t}\n\n\t\t\tfor (let item of this.items) {\n\t\t\t\tif (item.type === 'question') {\n\t\t\t\t\tif (!item.text) {\n\t\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\t\ttext: `Please enter question text for question ${item.questionIdNum}`\n\t\t\t\t\t\t});\n\t\t\t\t\t\treturn false;\n\t\t\t\t\t}\n\t\t\t\t\tif (['radio', 'radiononnumeric', 'checkbox'].includes(item.questionType)) {\n\t\t\t\t\t\tif(!item.options || item.options.length < 1){\n\t\t\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\t\t\ttext: `Please add at least one option for each multiple-choice question`\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t\treturn false;\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\tfor (let option of item.options) {\n\t\t\t\t\t\t\tif (!('value' in option)) {\n\t\t\t\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\t\t\t\ttext: `An option cannot be submitted without a value. Please either assign a value or remove the option text and description for each option in question ${item.questionIdNum}`\n\t\t\t\t\t\t\t\t});\n\t\t\t\t\t\t\t\treturn false;\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\telse if (item.type === 'instruction') {\n\t\t\t\t\tif (!item.text) {\n\t\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\t\ttext: 'Please complete or remove all empty instruction blocks'\n\t\t\t\t\t\t});\n\t\t\t\t\t\treturn false;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\ttext: 'Unrecognized item type in form'\n\t\t\t\t\t});\n\t\t\t\t\treturn false;\n\t\t\t\t}\n\t\t\t}\n\n\t\t\treturn true;\n\t\t}\n\t},\n\twatch: {\n\t\toldFormContents(formContents) {\n\t\t\tthis.title = formContents.title;\n\t\t\tthis.formType = formContents.formType;\n\t\t\tthis.items = formContents.items.slice();\n\t\t\tfor (let item of this.items) {\n\t\t\t\tif (item.questionIdNum && item.questionIdNum >= this.nextQuestionIdNum)\n\t\t\t\t\tthis.nextQuestionIdNum = item.questionIdNum + 1;\n\t\t\t}\n\t\t}\n\t},\n\tcomponents: {\n\t\tFormBuilderInstruction,\n\t\tFormBuilderQuestion,\n\t\tAlertList\n\t}\n};\n</script>\n\n<style scoped>\n\t.form-item {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tjustify-content: center;\n\t\talign-items: center;\n\t}\n\t\n\t.form-item .form-block {\n\t\tflex-grow: 1;\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -4728,8 +5602,36 @@ exports.push([module.i, "\n@media print {\nbutton[data-v-38459c74] {\n\t\tdispla
 
 
 /***/ }),
-/* 134 */,
-/* 135 */
+/* 141 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.form-builder-question-option[data-v-855ce662] {\n\tmargin-top: 10px;\n}\n.working-option[data-v-855ce662] {\n\topacity: 0.5;\n}\n.working-option[data-v-855ce662]:hover,\n.working-option.is-focused[data-v-855ce662],\n.working-option[data-v-855ce662]:active {\n\topacity: 1;\n}\ntextarea.form-option-description[data-v-855ce662] {\n\tresize: vertical;\n\theight: 100px;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormBuilder/FormBuilderOption.vue?42fcc6c0"],"names":[],"mappings":";AAoEA;CACA,iBAAA;CACA;AAEA;CACA,aAAA;CACA;AAEA;;;CAGA,WAAA;CACA;AAEA;CACA,iBAAA;CACA,cAAA;CACA","file":"FormBuilderOption.vue","sourcesContent":["<template>\n\t<div class=\"form-builder-question-option col-lg-2 col-md-3 col-sm-6 text-center\" v-bind:class=\"{ 'working-option': isWorkingOption, 'is-focused': isFocused }\">\n\t\t<input v-bind:type=\"displayType\" disabled/>\n\t\t<input type=\"text\" v-bind:value=\"text\"\n\t\t\tclass=\"form-input form-option form-option-text form-control\"\n\t\t\tplaceholder=\"Option Text\"\n\t\t\tv-on:input=\"$emit('input', {text: $event.target.value})\"\n\t\t\tv-on:change=\"$emit('change', {text: $event.target.value})\"\n\t\t\tv-on:focus=\"handleInputFocus('text')\"\n\t\t\tv-on:blur=\"handleInputBlur('text')\"\n\t\t\t/>\n\t\t<input v-bind:type=\"type === 'radio' ? 'number' : 'text'\"\n\t\t\tv-bind:value=\"value\"\n\t\t\tclass=\"form-input form-option form-option-value form-control\"\n\t\t\tplaceholder=\"Option Value\"\n\t\t\tv-on:input=\"$emit('input', {value: $event.target.value})\"\n\t\t\tv-on:change=\"$emit('change', {value: $event.target.value})\"\n\t\t\tv-on:focus=\"handleInputFocus('value')\"\n\t\t\tv-on:blur=\"handleInputBlur('value')\"\n\t\t\t/>\n\t\t<textarea v-bind:value=\"description\"\n\t\t\tclass=\"form-input form-option form-option-description form-control\"\n\t\t\tplaceholder=\"Hover Description\"\n\t\t\tv-on:input=\"$emit('input', {description: $event.target.value})\"\n\t\t\tv-on:change=\"$emit('change', {description: $event.target.value})\"\n\t\t\tv-on:focus=\"handleInputFocus('description')\"\n\t\t\tv-on:blur=\"handleInputBlur('description')\"\n\t\t\t>\n\t\t</textarea>\n\t</div>\n</template>\n\n<script>\nexport default {\n\tprops: [\n\t\t'type',\n\t\t'text',\n\t\t'value',\n\t\t'description',\n\t\t'isWorkingOption'\n\t],\n\tcomputed: {\n\t\tdisplayType(){\n\t\t\tif(this.type === 'checkbox')\n\t\t\t\treturn 'checkbox';\n\t\t\telse\n\t\t\t\treturn 'radio';\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tisFocused: false\n\t\t};\n\t},\n\tmethods: {\n\t\thandleInputFocus(field){\n\t\t\tthis.isFocused = true;\n\t\t\tthis.$emit('focus', field);\n\t\t},\n\t\thandleInputBlur(field){\n\t\t\tthis.isFocused = false;\n\t\t\tthis.$emit('blur', field);\n\t\t}\n\t}\n};\n</script>\n\n<style scoped>\n\t.form-builder-question-option {\n\t\tmargin-top: 10px;\n\t}\n\n\t.working-option {\n\t\topacity: 0.5;\n\t}\n\n\t.working-option:hover,\n\t.working-option.is-focused,\n\t.working-option:active {\n\t\topacity: 1;\n\t}\n\n\ttextarea.form-option-description {\n\t\tresize: vertical;\n\t\theight: 100px;\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+/* 142 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.question-id[data-v-e2c7d180] {\n\tfont-size: larger;\n\ttext-transform: uppercase;\n\tfont-weight: bold;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormBuilder/FormBuilderQuestion.vue?7628c427"],"names":[],"mappings":";AAsUA;CACA,kBAAA;CACA,0BAAA;CACA,kBAAA;CACA","file":"FormBuilderQuestion.vue","sourcesContent":["<template>\n\t<div :id=\"questionId\" class=\"form-question panel panel-default form-block\">\n\t\t<div class=\"panel-heading form-horizontal\">\n\t\t\t<div class=\"panel-title form-group\">\n\t\t\t\t<div class=\"col-sm-12\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tQuestion Text\n\t\t\t\t\t\t<div class=\"input-group\">\n\t\t\t\t\t\t\t<span class=\"question-id input-group-addon\">{{questionId}}</span>\n\t\t\t\t\t\t\t<input type=\"text\" :value=\"text\" @input=\"$emit('change', {text: $event.target.value})\" class=\"form-input form-question-text form-control\" placeholder=\"Question Text\" required />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"hr-question\"></div>\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"col-md-4\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tQuestion Type\n\t\t\t\t\t\t<select :value=\"questionType\" @change=\"changeQuestionType\" class=\"form-control form-question-type\" name=\"questionType\">\n\t\t\t\t\t\t\t<option value=\"radio\">Radio</option>\n\t\t\t\t\t\t\t<option value=\"text\">Text</option>\n\t\t\t\t\t\t\t<option value=\"radiononnumeric\">Radio (non-numeric)</option>\n\t\t\t\t\t\t\t<option value=\"number\">Number</option>\n\t\t\t\t\t\t\t<option value=\"checkbox\">Checkbox</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t<label>Question Options</label>\n\t\t\t\t\t<div class=\"btn-group btn-group-justified\">\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button @click=\"setStandardOptions\" class=\"form-question-standard-options btn btn-info\" type=\"button\">\n\t\t\t\t\t\t\t\tStandard\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button :disabled=\"!milestones || milestones.length !== 1\" @click=\"setMilestoneOptions\"\n\t\t\t\t\t\t\t\t\tclass=\"form-question-milestone-level-options btn btn-info\" type=\"button\">\n\t\t\t\t\t\t\t\tMilestone\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button :disabled=\"!customOptions || customOptions.length < 1\" @click=\"setCustomOptions\"\n\t\t\t\t\t\t\t\t\tclass=\"form-question-custom-options btn btn-info\" type=\"button\">\n\t\t\t\t\t\t\t\tCustom\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-1 labelless-button\">\n\t\t\t\t\t<button @click=\"$emit('remove')\" class=\"form-block-delete btn btn-danger del-btn\" type=\"button\">\n\t\t\t\t\t\tDelete\n\t\t\t\t\t</button>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-1\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tRequired\n\t\t\t\t\t\t<input type=\"checkbox\" :checked=\"required\"\n\t\t\t\t\t\t\tclass=\"form-control form-question-required\" value=\"required\"\n\t\t\t\t\t\t\t@change=\"$emit('change', {required: $event.target.checked})\" />\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<template v-if=\"showMilestonesCompetencies\">\n\t\t\t\t<div class=\"hr-question\"></div>\n\t\t\t\t<div class=\"row\">\n\t\t\t\t\t<div class=\"col-md-8\">\n\t\t\t\t\t\t<label v-show=\"shouldShowMilestonesAndCompetencies\" class=\"containing-label\">\n\t\t\t\t\t\t\tQuestion Milestones\n\t\t\t\t\t\t\t<select-two :value=\"milestones\" :options=\"groupedMilestones\"\n\t\t\t\t\t\t\t\t:multiple=\"true\" @input=\"$emit('change', {milestones: arguments[0]})\"\n\t\t\t\t\t\t\t\tclass=\"form-control form-question-milestone\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"col-md-4\">\n\t\t\t\t\t\t<label v-show=\"shouldShowMilestonesAndCompetencies\" class=\"containing-label\">\n\t\t\t\t\t\t\tQuestion Competency\n\t\t\t\t\t\t\t<select-two :value=\"competencies\" placeholder=\"Competency\"\n\t\t\t\t\t\t\t\tclass=\"form-control form-question-competency\"\n\t\t\t\t\t\t\t\t:options=\"competencyOptions\" :multiple=\"true\"\n\t\t\t\t\t\t\t\t@input=\"$emit('change', {competencies: arguments[0]})\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\t\t\t\t\n\t\t\t</template>\n\t\t</div>\n\t\t<div class=\"panel-body\">\n\t\t\t<div class=\"row form-options\" style=\"margin-bottom:5px;\">\n\t\t\t\t<template v-if=\"['radio', 'radiononnumeric', 'checkbox'].includes(questionType)\">\n\t\t\t\t\t<form-builder-option v-for=\"(option, index) of optionsWithWorking\"\n\t\t\t\t\t\tv-bind=\"option\" :type=\"questionType\"\n\t\t\t\t\t\t:is-working-option=\"option === workingOption\"\n\t\t\t\t\t\t@input=\"handleWorkingOptionInput(index, arguments[0])\"\n\t\t\t\t\t\t@change=\"handleOptionChange(index, arguments[0])\" />\n\t\t\t\t</template>\n\n\t\t\t\t<div v-if=\"questionType === 'text'\" class=\"col-sm-12\">\n\t\t\t\t\t<textarea class=\"form-control\" placeholder=\"Text\" disabled />\n\t\t\t\t</div>\n\n\t\t\t\t<div v-if=\"questionType === 'number'\" class=\"col-md-8\">\n\t\t\t\t\t<input type=\"number\" class=\"form-control\" placeholder=\"Number\" disabled />\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<alert-list v-model=\"alerts\" />\n\t</div>\n</template>\n\n<script>\nimport FormBuilderOption from './FormBuilderOption.vue';\nimport SelectTwo from '../SelectTwo.vue';\nimport AlertList from '../AlertList.vue';\n\nimport { STANDARD_OPTIONS } from 'modules/constants.js';\nimport { sortSelect2Objects } from 'modules/utils.js';\n\nexport default {\n\tprops: {\n\t\tformType: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t},\n\t\tgroupedMilestones: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\tallCompetencies: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\tquestionIdNum: {\n\t\t\ttype: Number,\n\t\t\trequired: true\n\t\t},\n\t\ttext: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t},\n\t\tquestionType: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t},\n\t\tmilestones: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\tcompetencies: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\toptions: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\trequired: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t},\n\t\tcustomOptions: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\tshowMilestonesCompetencies: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tworkingOption: {\n\t\t\t\ttext: '',\n\t\t\t\tvalue: '',\n\t\t\t\tdescription: ''\n\t\t\t},\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\tcomputed: {\n\t\tquestionId(){\n\t\t\treturn `q${this.questionIdNum}`;\n\t\t},\n\t\tshouldShowMilestonesAndCompetencies(){\n\t\t\treturn ['radio', 'number'].includes(this.questionType) && [\n\t\t\t\t'resident',\n\t\t\t\t'self-resident',\n\t\t\t\t'fellow',\n\t\t\t\t'self-fellow'\n\t\t\t].includes(this.formType);\n\t\t},\n\t\toptionsWithWorking(){\n\t\t\tif(this.options){\n\t\t\t\tlet options = this.options.slice();\n\t\t\t\toptions.push(this.workingOption);\n\t\t\t\treturn options;\n\t\t\t}\n\t\t},\n\t\tworkingOptionIndex(){\n\t\t\tif(this.options)\n\t\t\t\treturn this.options.length;\n\t\t},\n\t\tcompetencyOptions(){\n\t\t\treturn this.allCompetencies.map(competency => ({\n\t\t\t\tid: competency.id,\n\t\t\t\ttext: competency.title\n\t\t\t})).sort(sortSelect2Objects);\n\t\t}\n\t},\n\tmethods: {\n\t\tchangeQuestionType(event){\n\t\t\tconst questionType = event.target.value;\n\t\t\tlet options = [];\n\n\t\t\tthis.$emit('change', {questionType: questionType, options: options});\n\t\t},\n\t\thandleWorkingOptionInput(index, option){\n\t\t\tif(index === this.workingOptionIndex)\n\t\t\t\tthis.workingOption = Object.assign({}, this.workingOption, option);\n\t\t},\n\t\thandleOptionChange(index, option){\n\t\t\tif(index === this.workingOptionIndex){\n\t\t\t\tlet options = this.options.slice();\n\t\t\t\toptions.push(Object.assign({}, this.workingOption, option));\n\t\t\t\tthis.workingOption = {\n\t\t\t\t\ttext: '',\n\t\t\t\t\tvalue: '',\n\t\t\t\t\tdescription: ''\n\t\t\t\t};\n\t\t\t\tthis.$emit('change', {options: options});\n\t\t\t}\n\t\t\telse {\n\t\t\t\tlet options = this.options.slice();\n\t\t\t\toptions[index] = Object.assign(options[index], option);\n\t\t\t\tif(!options[index].text && !options[index].value && !options[index].description)\n\t\t\t\t\toptions.splice(index, 1);\n\n\t\t\t\tthis.$emit('change', {options: options});\n\t\t\t}\n\t\t},\n\n\t\tsetStandardOptions(){\n\t\t\tlet options;\n\t\t\tswitch(this.formType){\n\t\t\t\tcase 'resident':\n\t\t\t\tcase 'self-resident':\n\t\t\t\t\toptions = STANDARD_OPTIONS.RESIDENT.slice();\n\t\t\t\t\tbreak;\n\t\t\t\tcase 'fellow':\n\t\t\t\tcase 'self-fellow':\n\t\t\t\t\toptions = STANDARD_OPTIONS.FELLOW.slice();\n\t\t\t\t\tbreak;\n\t\t\t\tcase 'faculty':\n\t\t\t\t\tif(this.questionType === 'radiononnumeric')\n\t\t\t\t\t\toptions = STANDARD_OPTIONS.FACULTY.slice();\n\t\t\t\t\tbreak;\n\t\t\t}\n\n\t\t\tif(!options){\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\ttext: 'No standard options found for form type and question type'\n\t\t\t\t});\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tthis.$emit('change', {options: options});\n\t\t},\n\t\tsetMilestoneOptions(){\n\t\t\tif(this.milestones.length !== 1){\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\ttext: 'You can only use milestone options with a single selected milestone'\n\t\t\t\t});\n\t\t\t\treturn;\n\t\t\t}\n\t\t\tfetch(`/milestones/${this.milestones[0]}`, { credentials: 'same-origin' }).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\telse\n\t\t\t\t\tthrow new Error(response);\n\t\t\t}).then(milestone => {\n\t\t\t\tif(!milestone || !milestone.levels || milestone.levels.length < 1){\n\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\ttext: 'No milestone levels found'\n\t\t\t\t\t});\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t\tlet options = [{\n\t\t\t\t\tvalue: 0,\n\t\t\t\t\ttext: `Not yet ${milestone.levels[0].name}`\n\t\t\t\t}];\n\t\t\t\tfor(let level of milestone.levels){\n\t\t\t\t\tlet value = 2 * parseInt(level.level_number, 10);\n\t\t\t\t\toptions.push({value: value - 1, text: '', description: ''});\n\t\t\t\t\toptions.push({value: value, text: level.name, description: level.description});\n\t\t\t\t}\n\n\t\t\t\tthis.$emit('change', {options: options});\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t},\n\t\tsetCustomOptions(){\n\t\t\tif(this.customOptions.length < 1){\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\ttext: 'No custom options set'\n\t\t\t\t});\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tthis.$emit('change', {options: this.customOptions.slice()});\n\t\t}\n\t},\n\tcomponents: {\n\t\tFormBuilderOption,\n\t\tSelectTwo,\n\t\tAlertList\n\t}\n};\n</script>\n\n<style scoped>\n\t.question-id {\n\t\tfont-size: larger;\n\t\ttext-transform: uppercase;\n\t\tfont-weight: bold;\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+/* 143 */,
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var require;var require;/*!
@@ -7045,1021 +7947,17 @@ module.exports = localforage_js;
 
 },{"3":3}]},{},[4])(4)
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(35)))
-
-/***/ }),
-/* 136 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    staticClass: "btn",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.$emit('input', !_vm.value)
-      }
-    }
-  }, [_vm._t("left-glyph"), _vm._v(" "), (_vm.value) ? _vm._t("true", [_vm._v("\n\t\tHide\n\t")]) : _vm._t("false", [_vm._v("\n\t\tShow\n\t")]), _vm._v(" "), _vm._t("default", [_vm._v("\n\t\t" + _vm._s(_vm.text) + "\n\t")]), _vm._v(" "), _vm._t("glyph", [_c('span', {
-    staticClass: "glyphicon glyphicon-triangle-bottom"
-  })])], 2)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-38459c74", module.exports)
-  }
-}
-
-/***/ }),
-/* 137 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('fieldset', [_c('legend', [_vm._v("Evaluation Date filter")]), _vm._v(" "), _c('start-end-date', {
-    attrs: {
-      "allTime": true
-    },
-    model: {
-      value: (_vm.dates),
-      callback: function($$v) {
-        _vm.dates = $$v
-      },
-      expression: "dates"
-    }
-  })], 1), _vm._v(" "), _c('data-table', {
-    attrs: {
-      "id": _vm.id,
-      "striped": _vm.striped,
-      "bordered": _vm.bordered,
-      "thead": _vm.thead,
-      "config": _vm.datedConfig,
-      "data": _vm.data,
-      "exportable": _vm.exportable,
-      "exportFilename": _vm.exportFilename
-    }
-  }, [_vm._t("default")], 2)], 1)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-c24d553a", module.exports)
-  }
-}
-
-/***/ }),
-/* 138 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(133);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(3)("3a51e218", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-38459c74&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ShowHideButton.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-38459c74&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ShowHideButton.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 139 */,
-/* 140 */,
-/* 141 */,
-/* 142 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/* styles */
-__webpack_require__(167)
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(144),
-  /* template */
-  __webpack_require__(163),
-  /* scopeId */
-  "data-v-2c14a78c",
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormBuilder/FormBuilder.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] FormBuilder.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2c14a78c", Component.options)
-  } else {
-    hotAPI.reload("data-v-2c14a78c", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 143 */,
-/* 144 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormBuilderInstruction_vue__ = __webpack_require__(160);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormBuilderInstruction_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__FormBuilderInstruction_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormBuilderQuestion_vue__ = __webpack_require__(162);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormBuilderQuestion_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__FormBuilderQuestion_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__AlertList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__ = __webpack_require__(4);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = {
-	props: {
-		oldFormContents: {
-			type: Object,
-			required: false
-		},
-		fixedFormType: {
-			type: String,
-			required: false
-		},
-		fixedPeriodType: {
-			type: String,
-			required: false
-		},
-		defaultFormType: {
-			type: String,
-			required: false
-		},
-		defaultPeriodType: {
-			type: String,
-			required: false
-		},
-		showMilestonesCompetencies: {
-			type: Boolean,
-			default: true
-		}
-	},
-	data: function data() {
-		return {
-			title: '',
-			formType: this.fixedFormType || this.defaultFormType || 'resident',
-			periodType: this.fixedPeriodType || this.defaultPeriodType || 'month',
-			nextQuestionIdNum: 1,
-			groupedMilestones: [],
-			competencies: [],
-			items: [],
-			customOptions: [],
-
-			alerts: []
-		};
-	},
-	mounted: function mounted() {
-		var _this = this;
-
-		if (this.showMilestonesCompetencies) {
-			__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["d" /* fetchMilestoneGroups */])().then(function (milestoneGroups) {
-				_this.groupedMilestones = milestoneGroups;
-			}).catch(function (err) {
-				console.error(err);
-			});
-
-			fetch('/competencies', { credentials: 'same-origin' }).then(function (response) {
-				if (response.ok) return response.json();else {
-					var err = new Error(response.statusText);
-					err.response = response;
-					throw err;
-				}
-			}).then(function (competencies) {
-				_this.competencies = competencies;
-			}).catch(function (err) {
-				console.error(err);
-			});
-		}
-	},
-
-
-	methods: {
-		addInstruction: function addInstruction() {
-			this.items.push({
-				type: 'instruction',
-				text: ''
-			});
-		},
-		addQuestion: function addQuestion() {
-			this.items.push({
-				type: 'question',
-				text: '',
-				questionIdNum: this.nextQuestionIdNum++,
-				questionType: 'radio',
-				milestones: null,
-				competencies: null,
-				options: [],
-				required: false,
-				weight: 100
-			});
-		},
-		changeItem: function changeItem(index, item) {
-			this.items.splice(index, 1, Object.assign({}, this.items[index], item));
-		},
-		moveItem: function moveItem(index, newIndex) {
-			this.items.splice(newIndex, 0, this.items.splice(index, 1)[0]);
-			this.adjustQuestionIdNums();
-		},
-		removeItem: function removeItem(index) {
-			this.items.splice(index, 1);
-			this.adjustQuestionIdNums();
-		},
-		adjustQuestionIdNums: function adjustQuestionIdNums() {
-			this.items = this.items.map(function (item, index) {
-				return Object.assign({}, item, { questionIdNum: index + 1 });
-			});
-			this.nextQuestionIdNum = this.items.length;
-		},
-		submitForm: function submitForm(event) {
-			event.preventDefault();
-			if (this.isFormValid()) {
-				this.$emit('submit', {
-					title: this.title,
-					formType: this.formType,
-					evaluation_period_type: this.periodType,
-					items: this.items.map(function (item) {
-						if (item.type === 'question') item.questionId = 'q' + item.questionIdNum;
-
-						return item;
-					})
-				});
-			}
-		},
-		isFormValid: function isFormValid() {
-			if (!this.title) {
-				this.alerts.push({
-					type: 'error',
-					text: 'Please enter a title for the form'
-				});
-				return false;
-			}
-
-			if (!this.items || this.items.length < 1) {
-				this.alerts.push({
-					type: 'error',
-					text: 'Please enter at least one question'
-				});
-				return false;
-			}
-
-			var _iteratorNormalCompletion = true;
-			var _didIteratorError = false;
-			var _iteratorError = undefined;
-
-			try {
-				for (var _iterator = this.items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-					var item = _step.value;
-
-					if (item.type === 'question') {
-						if (!item.text) {
-							this.alerts.push({
-								type: 'error',
-								text: 'Please enter question text for question ' + item.questionIdNum
-							});
-							return false;
-						}
-						if (['radio', 'radiononnumeric', 'checkbox'].includes(item.questionType)) {
-							if (!item.options || item.options.length < 1) {
-								this.alerts.push({
-									type: 'error',
-									text: 'Please add at least one option for each multiple-choice question'
-								});
-								return false;
-							}
-
-							var _iteratorNormalCompletion2 = true;
-							var _didIteratorError2 = false;
-							var _iteratorError2 = undefined;
-
-							try {
-								for (var _iterator2 = item.options[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-									var option = _step2.value;
-
-									if (!('value' in option)) {
-										this.alerts.push({
-											type: 'error',
-											text: 'An option cannot be submitted without a value. Please either assign a value or remove the option text and description for each option in question ' + item.questionIdNum
-										});
-										return false;
-									}
-								}
-							} catch (err) {
-								_didIteratorError2 = true;
-								_iteratorError2 = err;
-							} finally {
-								try {
-									if (!_iteratorNormalCompletion2 && _iterator2.return) {
-										_iterator2.return();
-									}
-								} finally {
-									if (_didIteratorError2) {
-										throw _iteratorError2;
-									}
-								}
-							}
-						}
-					} else if (item.type === 'instruction') {
-						if (!item.text) {
-							this.alerts.push({
-								type: 'error',
-								text: 'Please complete or remove all empty instruction blocks'
-							});
-							return false;
-						}
-					} else {
-						this.alerts.push({
-							type: 'error',
-							text: 'Unrecognized item type in form'
-						});
-						return false;
-					}
-				}
-			} catch (err) {
-				_didIteratorError = true;
-				_iteratorError = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion && _iterator.return) {
-						_iterator.return();
-					}
-				} finally {
-					if (_didIteratorError) {
-						throw _iteratorError;
-					}
-				}
-			}
-
-			return true;
-		}
-	},
-	watch: {
-		oldFormContents: function oldFormContents(formContents) {
-			this.title = formContents.title;
-			this.formType = formContents.formType;
-			this.items = formContents.items.slice();
-			var _iteratorNormalCompletion3 = true;
-			var _didIteratorError3 = false;
-			var _iteratorError3 = undefined;
-
-			try {
-				for (var _iterator3 = this.items[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-					var item = _step3.value;
-
-					if (item.questionIdNum && item.questionIdNum >= this.nextQuestionIdNum) this.nextQuestionIdNum = item.questionIdNum + 1;
-				}
-			} catch (err) {
-				_didIteratorError3 = true;
-				_iteratorError3 = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion3 && _iterator3.return) {
-						_iterator3.return();
-					}
-				} finally {
-					if (_didIteratorError3) {
-						throw _iteratorError3;
-					}
-				}
-			}
-		}
-	},
-	components: {
-		FormBuilderInstruction: __WEBPACK_IMPORTED_MODULE_0__FormBuilderInstruction_vue___default.a,
-		FormBuilderQuestion: __WEBPACK_IMPORTED_MODULE_1__FormBuilderQuestion_vue___default.a,
-		AlertList: __WEBPACK_IMPORTED_MODULE_2__AlertList_vue___default.a
-	}
-};
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34)))
 
 /***/ }),
 /* 145 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = {
-	props: ['text'],
-	data: function data() {
-		return {};
-	},
-
-	methods: {
-		onInput: function onInput(event) {
-			this.$emit('input', event.target.value);
-		}
-	}
-};
-
-/***/ }),
-/* 146 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = {
-	props: ['type', 'text', 'value', 'description', 'isWorkingOption'],
-	computed: {
-		displayType: function displayType() {
-			if (this.type === 'checkbox') return 'checkbox';else return 'radio';
-		}
-	},
-	data: function data() {
-		return {
-			isFocused: false
-		};
-	},
-
-	methods: {
-		handleInputFocus: function handleInputFocus(field) {
-			this.isFocused = true;
-			this.$emit('focus', field);
-		},
-		handleInputBlur: function handleInputBlur(field) {
-			this.isFocused = false;
-			this.$emit('blur', field);
-		}
-	}
-};
-
-/***/ }),
-/* 147 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormBuilderOption_vue__ = __webpack_require__(161);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormBuilderOption_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__FormBuilderOption_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SelectTwo_vue__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SelectTwo_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__SelectTwo_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__AlertList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__ = __webpack_require__(4);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = {
-	props: {
-		formType: {
-			type: String,
-			required: true
-		},
-		groupedMilestones: {
-			type: Array,
-			required: false
-		},
-		allCompetencies: {
-			type: Array,
-			required: false
-		},
-		questionIdNum: {
-			type: Number,
-			required: true
-		},
-		text: {
-			type: String,
-			required: true
-		},
-		questionType: {
-			type: String,
-			required: true
-		},
-		milestones: {
-			type: Array,
-			required: false
-		},
-		competencies: {
-			type: Array,
-			required: false
-		},
-		options: {
-			type: Array,
-			required: false
-		},
-		required: {
-			type: Boolean,
-			default: false
-		},
-		customOptions: {
-			type: Array,
-			required: false
-		},
-		showMilestonesCompetencies: {
-			type: Boolean,
-			default: true
-		}
-	},
-	data: function data() {
-		return {
-			workingOption: {
-				text: '',
-				value: '',
-				description: ''
-			},
-
-			alerts: []
-		};
-	},
-
-	computed: {
-		questionId: function questionId() {
-			return 'q' + this.questionIdNum;
-		},
-		shouldShowMilestonesAndCompetencies: function shouldShowMilestonesAndCompetencies() {
-			return ['radio', 'number'].includes(this.questionType) && ['resident', 'self-resident', 'fellow', 'self-fellow'].includes(this.formType);
-		},
-		optionsWithWorking: function optionsWithWorking() {
-			if (this.options) {
-				var options = this.options.slice();
-				options.push(this.workingOption);
-				return options;
-			}
-		},
-		workingOptionIndex: function workingOptionIndex() {
-			if (this.options) return this.options.length;
-		},
-		competencyOptions: function competencyOptions() {
-			return this.allCompetencies.map(function (competency) {
-				return {
-					id: competency.id,
-					text: competency.title
-				};
-			}).sort(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["e" /* sortSelect2Objects */]);
-		}
-	},
-	methods: {
-		changeQuestionType: function changeQuestionType(event) {
-			var questionType = event.target.value;
-			var options = [];
-
-			this.$emit('change', { questionType: questionType, options: options });
-		},
-		handleWorkingOptionInput: function handleWorkingOptionInput(index, option) {
-			if (index === this.workingOptionIndex) this.workingOption = Object.assign({}, this.workingOption, option);
-		},
-		handleOptionChange: function handleOptionChange(index, option) {
-			if (index === this.workingOptionIndex) {
-				var options = this.options.slice();
-				options.push(Object.assign({}, this.workingOption, option));
-				this.workingOption = {
-					text: '',
-					value: '',
-					description: ''
-				};
-				this.$emit('change', { options: options });
-			} else {
-				var _options = this.options.slice();
-				_options[index] = Object.assign(_options[index], option);
-				if (!_options[index].text && !_options[index].value && !_options[index].description) _options.splice(index, 1);
-
-				this.$emit('change', { options: _options });
-			}
-		},
-		setStandardOptions: function setStandardOptions() {
-			var options = void 0;
-			switch (this.formType) {
-				case 'resident':
-				case 'self-resident':
-					options = __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["b" /* STANDARD_OPTIONS */].RESIDENT.slice();
-					break;
-				case 'fellow':
-				case 'self-fellow':
-					options = __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["b" /* STANDARD_OPTIONS */].FELLOW.slice();
-					break;
-				case 'faculty':
-					if (this.questionType === 'radiononnumeric') options = __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["b" /* STANDARD_OPTIONS */].FACULTY.slice();
-					break;
-			}
-
-			if (!options) {
-				this.alerts.push({
-					type: 'error',
-					text: 'No standard options found for form type and question type'
-				});
-				return;
-			}
-
-			this.$emit('change', { options: options });
-		},
-		setMilestoneOptions: function setMilestoneOptions() {
-			var _this = this;
-
-			if (this.milestones.length !== 1) {
-				this.alerts.push({
-					type: 'error',
-					text: 'You can only use milestone options with a single selected milestone'
-				});
-				return;
-			}
-			fetch('/milestones/' + this.milestones[0], { credentials: 'same-origin' }).then(function (response) {
-				if (response.ok) return response.json();else throw new Error(response);
-			}).then(function (milestone) {
-				if (!milestone || !milestone.levels || milestone.levels.length < 1) {
-					_this.alerts.push({
-						type: 'error',
-						text: 'No milestone levels found'
-					});
-					return;
-				}
-				var options = [{
-					value: 0,
-					text: 'Not yet ' + milestone.levels[0].name
-				}];
-				var _iteratorNormalCompletion = true;
-				var _didIteratorError = false;
-				var _iteratorError = undefined;
-
-				try {
-					for (var _iterator = milestone.levels[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-						var level = _step.value;
-
-						var value = 2 * parseInt(level.level_number, 10);
-						options.push({ value: value - 1, text: '', description: '' });
-						options.push({ value: value, text: level.name, description: level.description });
-					}
-				} catch (err) {
-					_didIteratorError = true;
-					_iteratorError = err;
-				} finally {
-					try {
-						if (!_iteratorNormalCompletion && _iterator.return) {
-							_iterator.return();
-						}
-					} finally {
-						if (_didIteratorError) {
-							throw _iteratorError;
-						}
-					}
-				}
-
-				_this.$emit('change', { options: options });
-			}).catch(function (err) {
-				console.error(err);
-			});
-		},
-		setCustomOptions: function setCustomOptions() {
-			if (this.customOptions.length < 1) {
-				this.alerts.push({
-					type: 'error',
-					text: 'No custom options set'
-				});
-				return;
-			}
-
-			this.$emit('change', { options: this.customOptions.slice() });
-		}
-	},
-	components: {
-		FormBuilderOption: __WEBPACK_IMPORTED_MODULE_0__FormBuilderOption_vue___default.a,
-		SelectTwo: __WEBPACK_IMPORTED_MODULE_1__SelectTwo_vue___default.a,
-		AlertList: __WEBPACK_IMPORTED_MODULE_2__AlertList_vue___default.a
-	}
-};
-
-/***/ }),
-/* 148 */,
-/* 149 */,
-/* 150 */,
-/* 151 */,
-/* 152 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.form-item[data-v-2c14a78c] {\n\tdisplay: flex;\n\tflex-direction: row;\n\tjustify-content: center;\n\talign-items: center;\n}\n.form-item .form-block[data-v-2c14a78c] {\n\tflex-grow: 1;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormBuilder/FormBuilder.vue?d3df36f0"],"names":[],"mappings":";AA+SA;CACA,cAAA;CACA,oBAAA;CACA,wBAAA;CACA,oBAAA;CACA;AAEA;CACA,aAAA;CACA","file":"FormBuilder.vue","sourcesContent":["<template>\n\t<div class=\"form-header\">\n\t\t<div class=\"container-fluid\">\n\t\t\t<div class=\"row\">\n\t\t\t\t<div :class=\"fixedFormType ? 'col-md-9' : 'col-md-6'\">\n\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t<label for=\"form-title\">Form title</label>\n\t\t\t\t\t\t<input type=\"text\" v-model.trim=\"title\" id=\"form-title\"\n\t\t\t\t\t\t\tclass=\"form-control input-lg\" name=\"formTitle\"\n\t\t\t\t\t\t\tplaceholder=\"Form Title\" required />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-3\">\n\t\t\t\t\t<div class=\"form-group\" v-if=\"!fixedFormType\">\n\t\t\t\t\t\t<label for=\"form-type\">Form type</label>\n\t\t\t\t\t\t<select class=\"form-control input-lg\" v-model=\"formType\" id=\"form-type\" name=\"form_type\">\n\t\t\t\t\t\t\t<option value=\"resident\">Resident/Intern</option>\n\t\t\t\t\t\t\t<option value=\"self-resident\">Resident/Intern (self)</option>\n\t\t\t\t\t\t\t<option value=\"fellow\">Fellow</option>\n\t\t\t\t\t\t\t<option value=\"self-fellow\">Fellow (self)</option>\n\t\t\t\t\t\t\t<option value=\"faculty\">Faculty</option>\n\t\t\t\t\t\t\t<option value=\"staff\">Staff</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-3\">\n\t\t\t\t\t<div class=\"form-group\" v-if=\"!fixedPeriodType\">\n\t\t\t\t\t\t<label for=\"form-period-type\">Evaluation period type</label>\n\t\t\t\t\t\t<select class=\"form-control input-lg\" v-model=\"periodType\" id=\"form-period-type\">\n\t\t\t\t\t\t\t<option value=\"month\">Month</option>\n\t\t\t\t\t\t\t<option value=\"quarter\">Quarter</option>\n\t\t\t\t\t\t\t<option value=\"year\">Year</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"form-body\">\n\t\t\t<div class=\"form-items\">\n\t\t\t\t<template v-for=\"(item, index) of items\">\n\t\t\t\t\t<div class=\"form-item\">\n\t\t\t\t\t\t<form-builder-instruction v-if=\"item.type === 'instruction'\"\n\t\t\t\t\t\t\tv-bind=\"item\" @change=\"changeItem(index, $event)\"\n\t\t\t\t\t\t\t@input=\"changeItem(index, $event)\"\n\t\t\t\t\t\t\t@remove=\"removeItem(index)\">\n\t\t\t\t\t\t</form-builder-instruction>\n\t\t\t\t\t\t<form-builder-question v-if=\"item.type === 'question'\"\n\t\t\t\t\t\t\tv-bind=\"item\" :form-type=\"formType\"\n\t\t\t\t\t\t\t:grouped-milestones=\"groupedMilestones\"\n\t\t\t\t\t\t\t:all-competencies=\"competencies\"\n\t\t\t\t\t\t\t:custom-options=\"customOptions\"\n\t\t\t\t\t\t\t:show-milestones-competencies=\"showMilestonesCompetencies\"\n\t\t\t\t\t\t\t@change=\"changeItem(index, $event)\"\n\t\t\t\t\t\t\t@remove=\"removeItem(index)\">\n\t\t\t\t\t\t</form-builder-question>\n\t\t\t\t\t\t<div class=\"btn-group-vertical\">\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\t:disabled=\"index === 0\"\n\t\t\t\t\t\t\t\t\t@click=\"moveItem(index, index - 1)\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-arrow-up\"></span>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\t:disabled=\"index === items.length - 1\"\n\t\t\t\t\t\t\t\t\t@click=\"moveItem(index, index + 1)\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-arrow-down\"></span>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</template>\n\t\t\t</div>\n\t\t</div>\n\t\t<div id=\"form-footer\">\n\t\t\t<alert-list v-model=\"alerts\" />\n\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\tid=\"add-instruction-block\"\n\t\t\t\t\t@click=\"addInstruction\">\n\t\t\t\tAdd instruction block\n\t\t\t</button>\n\t\t\t<button type=\"button\" class=\"btn btn-info\" id=\"addQuestion\"\n\t\t\t\t\t@click=\"addQuestion\">\n\t\t\t\tAdd question\n\t\t\t</button>\n\t\t\t<button type=\"submit\" class=\"btn btn-success\"\n\t\t\t\t\t@click=\"submitForm\">\n\t\t\t\tSubmit form\n\t\t\t</button>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport FormBuilderInstruction from './FormBuilderInstruction.vue';\nimport FormBuilderQuestion from './FormBuilderQuestion.vue';\nimport AlertList from '../AlertList.vue';\n\nimport { fetchMilestoneGroups } from 'modules/utils.js';\n\nexport default {\n\tprops: {\n\t\toldFormContents: {\n\t\t\ttype: Object,\n\t\t\trequired: false\n\t\t},\n\t\tfixedFormType: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\tfixedPeriodType: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\tdefaultFormType: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\tdefaultPeriodType: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\tshowMilestonesCompetencies: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\ttitle: '',\n\t\t\tformType: this.fixedFormType || this.defaultFormType || 'resident',\n\t\t\tperiodType: this.fixedPeriodType || this.defaultPeriodType || 'month',\n\t\t\tnextQuestionIdNum: 1,\n\t\t\tgroupedMilestones: [],\n\t\t\tcompetencies: [],\n\t\t\titems: [],\n\t\t\tcustomOptions: [],\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\t\n\tmounted(){\n\t\tif (this.showMilestonesCompetencies) {\n\t\t\tfetchMilestoneGroups().then(milestoneGroups => {\n\t\t\t\tthis.groupedMilestones = milestoneGroups;\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\n\t\t\tfetch('/competencies', { credentials: 'same-origin' }).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\telse {\n\t\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\t\terr.response = response;\n\t\t\t\t\tthrow err;\n\t\t\t\t}\n\t\t\t}).then(competencies => {\n\t\t\t\tthis.competencies = competencies;\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\t\t\t\n\t\t}\n\t},\n\t\n\tmethods: {\n\t\taddInstruction() {\n\t\t\tthis.items.push({\n\t\t\t\ttype: 'instruction',\n\t\t\t\ttext: ''\n\t\t\t});\n\t\t},\n\t\taddQuestion() {\n\t\t\tthis.items.push({\n\t\t\t\ttype: 'question',\n\t\t\t\ttext: '',\n\t\t\t\tquestionIdNum: this.nextQuestionIdNum++,\n\t\t\t\tquestionType: 'radio',\n\t\t\t\tmilestones: null,\n\t\t\t\tcompetencies: null,\n\t\t\t\toptions: [],\n\t\t\t\trequired: false,\n\t\t\t\tweight: 100\n\t\t\t});\n\t\t},\n\t\tchangeItem(index, item) {\n\t\t\tthis.items.splice(index, 1, Object.assign({}, this.items[index], item));\n\t\t},\n\t\tmoveItem(index, newIndex) {\n\t\t\tthis.items.splice(newIndex, 0, this.items.splice(index, 1)[0]);\n\t\t\tthis.adjustQuestionIdNums();\n\t\t},\n\t\tremoveItem(index) {\n\t\t\tthis.items.splice(index, 1);\n\t\t\tthis.adjustQuestionIdNums();\n\t\t},\n\t\tadjustQuestionIdNums() {\n\t\t\tthis.items = this.items.map((item, index) =>\n\t\t\t\tObject.assign({}, item, {questionIdNum: index + 1})\n\t\t\t);\n\t\t\tthis.nextQuestionIdNum = this.items.length;\n\t\t},\n\t\tsubmitForm(event) {\n\t\t\tevent.preventDefault();\n\t\t\tif (this.isFormValid()) {\n\t\t\t\tthis.$emit('submit', {\n\t\t\t\t\ttitle: this.title,\n\t\t\t\t\tformType: this.formType,\n\t\t\t\t\tevaluation_period_type: this.periodType,\n\t\t\t\t\titems: this.items.map(item => {\n\t\t\t\t\t\tif (item.type === 'question')\n\t\t\t\t\t\t\titem.questionId = `q${item.questionIdNum}`;\n\n\t\t\t\t\t\treturn item;\n\t\t\t\t\t})\n\t\t\t\t});\n\t\t\t}\n\t\t},\n\t\tisFormValid() {\n\t\t\tif (!this.title) {\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\ttext: 'Please enter a title for the form'\n\t\t\t\t});\n\t\t\t\treturn false;\n\t\t\t}\n\n\t\t\tif (!this.items || this.items.length < 1) {\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\ttext: 'Please enter at least one question'\n\t\t\t\t});\n\t\t\t\treturn false;\n\t\t\t}\n\n\t\t\tfor (let item of this.items) {\n\t\t\t\tif (item.type === 'question') {\n\t\t\t\t\tif (!item.text) {\n\t\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\t\ttext: `Please enter question text for question ${item.questionIdNum}`\n\t\t\t\t\t\t});\n\t\t\t\t\t\treturn false;\n\t\t\t\t\t}\n\t\t\t\t\tif (['radio', 'radiononnumeric', 'checkbox'].includes(item.questionType)) {\n\t\t\t\t\t\tif(!item.options || item.options.length < 1){\n\t\t\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\t\t\ttext: `Please add at least one option for each multiple-choice question`\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t\treturn false;\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\tfor (let option of item.options) {\n\t\t\t\t\t\t\tif (!('value' in option)) {\n\t\t\t\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\t\t\t\ttext: `An option cannot be submitted without a value. Please either assign a value or remove the option text and description for each option in question ${item.questionIdNum}`\n\t\t\t\t\t\t\t\t});\n\t\t\t\t\t\t\t\treturn false;\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\telse if (item.type === 'instruction') {\n\t\t\t\t\tif (!item.text) {\n\t\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\t\ttext: 'Please complete or remove all empty instruction blocks'\n\t\t\t\t\t\t});\n\t\t\t\t\t\treturn false;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\ttext: 'Unrecognized item type in form'\n\t\t\t\t\t});\n\t\t\t\t\treturn false;\n\t\t\t\t}\n\t\t\t}\n\n\t\t\treturn true;\n\t\t}\n\t},\n\twatch: {\n\t\toldFormContents(formContents) {\n\t\t\tthis.title = formContents.title;\n\t\t\tthis.formType = formContents.formType;\n\t\t\tthis.items = formContents.items.slice();\n\t\t\tfor (let item of this.items) {\n\t\t\t\tif (item.questionIdNum && item.questionIdNum >= this.nextQuestionIdNum)\n\t\t\t\t\tthis.nextQuestionIdNum = item.questionIdNum + 1;\n\t\t\t}\n\t\t}\n\t},\n\tcomponents: {\n\t\tFormBuilderInstruction,\n\t\tFormBuilderQuestion,\n\t\tAlertList\n\t}\n};\n</script>\n\n<style scoped>\n\t.form-item {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tjustify-content: center;\n\t\talign-items: center;\n\t}\n\t\n\t.form-item .form-block {\n\t\tflex-grow: 1;\n\t}\n</style>\n"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-/* 153 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.form-builder-question-option[data-v-855ce662] {\n\tmargin-top: 10px;\n}\n.working-option[data-v-855ce662] {\n\topacity: 0.5;\n}\n.working-option[data-v-855ce662]:hover,\n.working-option.is-focused[data-v-855ce662],\n.working-option[data-v-855ce662]:active {\n\topacity: 1;\n}\ntextarea.form-option-description[data-v-855ce662] {\n\tresize: vertical;\n\theight: 100px;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormBuilder/FormBuilderOption.vue?42fcc6c0"],"names":[],"mappings":";AAoEA;CACA,iBAAA;CACA;AAEA;CACA,aAAA;CACA;AAEA;;;CAGA,WAAA;CACA;AAEA;CACA,iBAAA;CACA,cAAA;CACA","file":"FormBuilderOption.vue","sourcesContent":["<template>\n\t<div class=\"form-builder-question-option col-lg-2 col-md-3 col-sm-6 text-center\" v-bind:class=\"{ 'working-option': isWorkingOption, 'is-focused': isFocused }\">\n\t\t<input v-bind:type=\"displayType\" disabled/>\n\t\t<input type=\"text\" v-bind:value=\"text\"\n\t\t\tclass=\"form-input form-option form-option-text form-control\"\n\t\t\tplaceholder=\"Option Text\"\n\t\t\tv-on:input=\"$emit('input', {text: $event.target.value})\"\n\t\t\tv-on:change=\"$emit('change', {text: $event.target.value})\"\n\t\t\tv-on:focus=\"handleInputFocus('text')\"\n\t\t\tv-on:blur=\"handleInputBlur('text')\"\n\t\t\t/>\n\t\t<input v-bind:type=\"type === 'radio' ? 'number' : 'text'\"\n\t\t\tv-bind:value=\"value\"\n\t\t\tclass=\"form-input form-option form-option-value form-control\"\n\t\t\tplaceholder=\"Option Value\"\n\t\t\tv-on:input=\"$emit('input', {value: $event.target.value})\"\n\t\t\tv-on:change=\"$emit('change', {value: $event.target.value})\"\n\t\t\tv-on:focus=\"handleInputFocus('value')\"\n\t\t\tv-on:blur=\"handleInputBlur('value')\"\n\t\t\t/>\n\t\t<textarea v-bind:value=\"description\"\n\t\t\tclass=\"form-input form-option form-option-description form-control\"\n\t\t\tplaceholder=\"Hover Description\"\n\t\t\tv-on:input=\"$emit('input', {description: $event.target.value})\"\n\t\t\tv-on:change=\"$emit('change', {description: $event.target.value})\"\n\t\t\tv-on:focus=\"handleInputFocus('description')\"\n\t\t\tv-on:blur=\"handleInputBlur('description')\"\n\t\t\t>\n\t\t</textarea>\n\t</div>\n</template>\n\n<script>\nexport default {\n\tprops: [\n\t\t'type',\n\t\t'text',\n\t\t'value',\n\t\t'description',\n\t\t'isWorkingOption'\n\t],\n\tcomputed: {\n\t\tdisplayType(){\n\t\t\tif(this.type === 'checkbox')\n\t\t\t\treturn 'checkbox';\n\t\t\telse\n\t\t\t\treturn 'radio';\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tisFocused: false\n\t\t};\n\t},\n\tmethods: {\n\t\thandleInputFocus(field){\n\t\t\tthis.isFocused = true;\n\t\t\tthis.$emit('focus', field);\n\t\t},\n\t\thandleInputBlur(field){\n\t\t\tthis.isFocused = false;\n\t\t\tthis.$emit('blur', field);\n\t\t}\n\t}\n};\n</script>\n\n<style scoped>\n\t.form-builder-question-option {\n\t\tmargin-top: 10px;\n\t}\n\n\t.working-option {\n\t\topacity: 0.5;\n\t}\n\n\t.working-option:hover,\n\t.working-option.is-focused,\n\t.working-option:active {\n\t\topacity: 1;\n\t}\n\n\ttextarea.form-option-description {\n\t\tresize: vertical;\n\t\theight: 100px;\n\t}\n</style>\n"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-/* 154 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.question-id[data-v-e2c7d180] {\n\tfont-size: larger;\n\ttext-transform: uppercase;\n\tfont-weight: bold;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormBuilder/FormBuilderQuestion.vue?7628c427"],"names":[],"mappings":";AAsUA;CACA,kBAAA;CACA,0BAAA;CACA,kBAAA;CACA","file":"FormBuilderQuestion.vue","sourcesContent":["<template>\n\t<div :id=\"questionId\" class=\"form-question panel panel-default form-block\">\n\t\t<div class=\"panel-heading form-horizontal\">\n\t\t\t<div class=\"panel-title form-group\">\n\t\t\t\t<div class=\"col-sm-12\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tQuestion Text\n\t\t\t\t\t\t<div class=\"input-group\">\n\t\t\t\t\t\t\t<span class=\"question-id input-group-addon\">{{questionId}}</span>\n\t\t\t\t\t\t\t<input type=\"text\" :value=\"text\" @input=\"$emit('change', {text: $event.target.value})\" class=\"form-input form-question-text form-control\" placeholder=\"Question Text\" required />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"hr-question\"></div>\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"col-md-4\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tQuestion Type\n\t\t\t\t\t\t<select :value=\"questionType\" @change=\"changeQuestionType\" class=\"form-control form-question-type\" name=\"questionType\">\n\t\t\t\t\t\t\t<option value=\"radio\">Radio</option>\n\t\t\t\t\t\t\t<option value=\"text\">Text</option>\n\t\t\t\t\t\t\t<option value=\"radiononnumeric\">Radio (non-numeric)</option>\n\t\t\t\t\t\t\t<option value=\"number\">Number</option>\n\t\t\t\t\t\t\t<option value=\"checkbox\">Checkbox</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t<label>Question Options</label>\n\t\t\t\t\t<div class=\"btn-group btn-group-justified\">\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button @click=\"setStandardOptions\" class=\"form-question-standard-options btn btn-info\" type=\"button\">\n\t\t\t\t\t\t\t\tStandard\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button :disabled=\"!milestones || milestones.length !== 1\" @click=\"setMilestoneOptions\"\n\t\t\t\t\t\t\t\t\tclass=\"form-question-milestone-level-options btn btn-info\" type=\"button\">\n\t\t\t\t\t\t\t\tMilestone\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button :disabled=\"!customOptions || customOptions.length < 1\" @click=\"setCustomOptions\"\n\t\t\t\t\t\t\t\t\tclass=\"form-question-custom-options btn btn-info\" type=\"button\">\n\t\t\t\t\t\t\t\tCustom\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-1 labelless-button\">\n\t\t\t\t\t<button @click=\"$emit('remove')\" class=\"form-block-delete btn btn-danger del-btn\" type=\"button\">\n\t\t\t\t\t\tDelete\n\t\t\t\t\t</button>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-1\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tRequired\n\t\t\t\t\t\t<input type=\"checkbox\" :checked=\"required\"\n\t\t\t\t\t\t\tclass=\"form-control form-question-required\" value=\"required\"\n\t\t\t\t\t\t\t@change=\"$emit('change', {required: $event.target.checked})\" />\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<template v-if=\"showMilestonesCompetencies\">\n\t\t\t\t<div class=\"hr-question\"></div>\n\t\t\t\t<div class=\"row\">\n\t\t\t\t\t<div class=\"col-md-8\">\n\t\t\t\t\t\t<label v-show=\"shouldShowMilestonesAndCompetencies\" class=\"containing-label\">\n\t\t\t\t\t\t\tQuestion Milestones\n\t\t\t\t\t\t\t<select-two :value=\"milestones\" :options=\"groupedMilestones\"\n\t\t\t\t\t\t\t\t:multiple=\"true\" @input=\"$emit('change', {milestones: arguments[0]})\"\n\t\t\t\t\t\t\t\tclass=\"form-control form-question-milestone\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"col-md-4\">\n\t\t\t\t\t\t<label v-show=\"shouldShowMilestonesAndCompetencies\" class=\"containing-label\">\n\t\t\t\t\t\t\tQuestion Competency\n\t\t\t\t\t\t\t<select-two :value=\"competencies\" placeholder=\"Competency\"\n\t\t\t\t\t\t\t\tclass=\"form-control form-question-competency\"\n\t\t\t\t\t\t\t\t:options=\"competencyOptions\" :multiple=\"true\"\n\t\t\t\t\t\t\t\t@input=\"$emit('change', {competencies: arguments[0]})\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\t\t\t\t\n\t\t\t</template>\n\t\t</div>\n\t\t<div class=\"panel-body\">\n\t\t\t<div class=\"row form-options\" style=\"margin-bottom:5px;\">\n\t\t\t\t<template v-if=\"['radio', 'radiononnumeric', 'checkbox'].includes(questionType)\">\n\t\t\t\t\t<form-builder-option v-for=\"(option, index) of optionsWithWorking\"\n\t\t\t\t\t\tv-bind=\"option\" :type=\"questionType\"\n\t\t\t\t\t\t:is-working-option=\"option === workingOption\"\n\t\t\t\t\t\t@input=\"handleWorkingOptionInput(index, arguments[0])\"\n\t\t\t\t\t\t@change=\"handleOptionChange(index, arguments[0])\" />\n\t\t\t\t</template>\n\n\t\t\t\t<div v-if=\"questionType === 'text'\" class=\"col-sm-12\">\n\t\t\t\t\t<textarea class=\"form-control\" placeholder=\"Text\" disabled />\n\t\t\t\t</div>\n\n\t\t\t\t<div v-if=\"questionType === 'number'\" class=\"col-md-8\">\n\t\t\t\t\t<input type=\"number\" class=\"form-control\" placeholder=\"Number\" disabled />\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<alert-list v-model=\"alerts\" />\n\t</div>\n</template>\n\n<script>\nimport FormBuilderOption from './FormBuilderOption.vue';\nimport SelectTwo from '../SelectTwo.vue';\nimport AlertList from '../AlertList.vue';\n\nimport { STANDARD_OPTIONS } from 'modules/constants.js';\nimport { sortSelect2Objects } from 'modules/utils.js';\n\nexport default {\n\tprops: {\n\t\tformType: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t},\n\t\tgroupedMilestones: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\tallCompetencies: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\tquestionIdNum: {\n\t\t\ttype: Number,\n\t\t\trequired: true\n\t\t},\n\t\ttext: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t},\n\t\tquestionType: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t},\n\t\tmilestones: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\tcompetencies: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\toptions: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\trequired: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t},\n\t\tcustomOptions: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\tshowMilestonesCompetencies: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tworkingOption: {\n\t\t\t\ttext: '',\n\t\t\t\tvalue: '',\n\t\t\t\tdescription: ''\n\t\t\t},\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\tcomputed: {\n\t\tquestionId(){\n\t\t\treturn `q${this.questionIdNum}`;\n\t\t},\n\t\tshouldShowMilestonesAndCompetencies(){\n\t\t\treturn ['radio', 'number'].includes(this.questionType) && [\n\t\t\t\t'resident',\n\t\t\t\t'self-resident',\n\t\t\t\t'fellow',\n\t\t\t\t'self-fellow'\n\t\t\t].includes(this.formType);\n\t\t},\n\t\toptionsWithWorking(){\n\t\t\tif(this.options){\n\t\t\t\tlet options = this.options.slice();\n\t\t\t\toptions.push(this.workingOption);\n\t\t\t\treturn options;\n\t\t\t}\n\t\t},\n\t\tworkingOptionIndex(){\n\t\t\tif(this.options)\n\t\t\t\treturn this.options.length;\n\t\t},\n\t\tcompetencyOptions(){\n\t\t\treturn this.allCompetencies.map(competency => ({\n\t\t\t\tid: competency.id,\n\t\t\t\ttext: competency.title\n\t\t\t})).sort(sortSelect2Objects);\n\t\t}\n\t},\n\tmethods: {\n\t\tchangeQuestionType(event){\n\t\t\tconst questionType = event.target.value;\n\t\t\tlet options = [];\n\n\t\t\tthis.$emit('change', {questionType: questionType, options: options});\n\t\t},\n\t\thandleWorkingOptionInput(index, option){\n\t\t\tif(index === this.workingOptionIndex)\n\t\t\t\tthis.workingOption = Object.assign({}, this.workingOption, option);\n\t\t},\n\t\thandleOptionChange(index, option){\n\t\t\tif(index === this.workingOptionIndex){\n\t\t\t\tlet options = this.options.slice();\n\t\t\t\toptions.push(Object.assign({}, this.workingOption, option));\n\t\t\t\tthis.workingOption = {\n\t\t\t\t\ttext: '',\n\t\t\t\t\tvalue: '',\n\t\t\t\t\tdescription: ''\n\t\t\t\t};\n\t\t\t\tthis.$emit('change', {options: options});\n\t\t\t}\n\t\t\telse {\n\t\t\t\tlet options = this.options.slice();\n\t\t\t\toptions[index] = Object.assign(options[index], option);\n\t\t\t\tif(!options[index].text && !options[index].value && !options[index].description)\n\t\t\t\t\toptions.splice(index, 1);\n\n\t\t\t\tthis.$emit('change', {options: options});\n\t\t\t}\n\t\t},\n\n\t\tsetStandardOptions(){\n\t\t\tlet options;\n\t\t\tswitch(this.formType){\n\t\t\t\tcase 'resident':\n\t\t\t\tcase 'self-resident':\n\t\t\t\t\toptions = STANDARD_OPTIONS.RESIDENT.slice();\n\t\t\t\t\tbreak;\n\t\t\t\tcase 'fellow':\n\t\t\t\tcase 'self-fellow':\n\t\t\t\t\toptions = STANDARD_OPTIONS.FELLOW.slice();\n\t\t\t\t\tbreak;\n\t\t\t\tcase 'faculty':\n\t\t\t\t\tif(this.questionType === 'radiononnumeric')\n\t\t\t\t\t\toptions = STANDARD_OPTIONS.FACULTY.slice();\n\t\t\t\t\tbreak;\n\t\t\t}\n\n\t\t\tif(!options){\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\ttext: 'No standard options found for form type and question type'\n\t\t\t\t});\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tthis.$emit('change', {options: options});\n\t\t},\n\t\tsetMilestoneOptions(){\n\t\t\tif(this.milestones.length !== 1){\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\ttext: 'You can only use milestone options with a single selected milestone'\n\t\t\t\t});\n\t\t\t\treturn;\n\t\t\t}\n\t\t\tfetch(`/milestones/${this.milestones[0]}`, { credentials: 'same-origin' }).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\telse\n\t\t\t\t\tthrow new Error(response);\n\t\t\t}).then(milestone => {\n\t\t\t\tif(!milestone || !milestone.levels || milestone.levels.length < 1){\n\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\ttext: 'No milestone levels found'\n\t\t\t\t\t});\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t\tlet options = [{\n\t\t\t\t\tvalue: 0,\n\t\t\t\t\ttext: `Not yet ${milestone.levels[0].name}`\n\t\t\t\t}];\n\t\t\t\tfor(let level of milestone.levels){\n\t\t\t\t\tlet value = 2 * parseInt(level.level_number, 10);\n\t\t\t\t\toptions.push({value: value - 1, text: '', description: ''});\n\t\t\t\t\toptions.push({value: value, text: level.name, description: level.description});\n\t\t\t\t}\n\n\t\t\t\tthis.$emit('change', {options: options});\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t},\n\t\tsetCustomOptions(){\n\t\t\tif(this.customOptions.length < 1){\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\ttext: 'No custom options set'\n\t\t\t\t});\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tthis.$emit('change', {options: this.customOptions.slice()});\n\t\t}\n\t},\n\tcomponents: {\n\t\tFormBuilderOption,\n\t\tSelectTwo,\n\t\tAlertList\n\t}\n};\n</script>\n\n<style scoped>\n\t.question-id {\n\t\tfont-size: larger;\n\t\ttext-transform: uppercase;\n\t\tfont-weight: bold;\n\t}\n</style>\n"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-/* 155 */,
-/* 156 */,
-/* 157 */,
-/* 158 */,
-/* 159 */,
-/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(145),
+  __webpack_require__(133),
   /* template */
-  __webpack_require__(165),
+  __webpack_require__(151),
   /* scopeId */
   null,
   /* cssModules */
@@ -8086,18 +7984,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 161 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(168)
+__webpack_require__(156)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(146),
+  __webpack_require__(134),
   /* template */
-  __webpack_require__(164),
+  __webpack_require__(150),
   /* scopeId */
   "data-v-855ce662",
   /* cssModules */
@@ -8124,18 +8022,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 162 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(169)
+__webpack_require__(157)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(147),
+  __webpack_require__(135),
   /* template */
-  __webpack_require__(166),
+  __webpack_require__(153),
   /* scopeId */
   "data-v-e2c7d180",
   /* cssModules */
@@ -8162,7 +8060,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 163 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -8420,7 +8318,34 @@ if (false) {
 }
 
 /***/ }),
-/* 164 */
+/* 149 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    staticClass: "btn",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.$emit('input', !_vm.value)
+      }
+    }
+  }, [_vm._t("left-glyph"), _vm._v(" "), (_vm.value) ? _vm._t("true", [_vm._v("\n\t\tHide\n\t")]) : _vm._t("false", [_vm._v("\n\t\tShow\n\t")]), _vm._v(" "), _vm._t("default", [_vm._v("\n\t\t" + _vm._s(_vm.text) + "\n\t")]), _vm._v(" "), _vm._t("glyph", [_c('span', {
+    staticClass: "glyphicon glyphicon-triangle-bottom"
+  })])], 2)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-38459c74", module.exports)
+  }
+}
+
+/***/ }),
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -8525,7 +8450,7 @@ if (false) {
 }
 
 /***/ }),
-/* 165 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -8580,7 +8505,44 @@ if (false) {
 }
 
 /***/ }),
-/* 166 */
+/* 152 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('fieldset', [_c('legend', [_vm._v("Evaluation Date filter")]), _vm._v(" "), _c('start-end-date', {
+    attrs: {
+      "allTime": true
+    },
+    model: {
+      value: (_vm.dates),
+      callback: function($$v) {
+        _vm.dates = $$v
+      },
+      expression: "dates"
+    }
+  })], 1), _vm._v(" "), _c('data-table', {
+    attrs: {
+      "id": _vm.id,
+      "striped": _vm.striped,
+      "bordered": _vm.bordered,
+      "thead": _vm.thead,
+      "config": _vm.datedConfig,
+      "data": _vm.data,
+      "exportable": _vm.exportable,
+      "exportFilename": _vm.exportFilename
+    }
+  }, [_vm._t("default")], 2)], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-c24d553a", module.exports)
+  }
+}
+
+/***/ }),
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -8836,17 +8798,17 @@ if (false) {
 }
 
 /***/ }),
-/* 167 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(152);
+var content = __webpack_require__(139);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("6196982b", content, false);
+var update = __webpack_require__(4)("6196982b", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -8862,17 +8824,43 @@ if(false) {
 }
 
 /***/ }),
-/* 168 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(153);
+var content = __webpack_require__(140);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("8c924c0e", content, false);
+var update = __webpack_require__(4)("3a51e218", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-38459c74&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ShowHideButton.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-38459c74&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ShowHideButton.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 156 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(141);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(4)("8c924c0e", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -8888,17 +8876,17 @@ if(false) {
 }
 
 /***/ }),
-/* 169 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(154);
+var content = __webpack_require__(142);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("942b6cd4", content, false);
+var update = __webpack_require__(4)("942b6cd4", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -8914,6 +8902,18 @@ if(false) {
 }
 
 /***/ }),
+/* 158 */,
+/* 159 */,
+/* 160 */,
+/* 161 */,
+/* 162 */,
+/* 163 */,
+/* 164 */,
+/* 165 */,
+/* 166 */,
+/* 167 */,
+/* 168 */,
+/* 169 */,
 /* 170 */,
 /* 171 */,
 /* 172 */,
@@ -8954,16 +8954,25 @@ if(false) {
 /* 207 */,
 /* 208 */,
 /* 209 */,
-/* 210 */
+/* 210 */,
+/* 211 */,
+/* 212 */,
+/* 213 */,
+/* 214 */,
+/* 215 */,
+/* 216 */,
+/* 217 */,
+/* 218 */,
+/* 219 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue__ = __webpack_require__(108);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_EvaluationDataTable_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(20);
 /* harmony export (immutable) */ __webpack_exports__["a"] = createManageEvaluations;
 
 
@@ -9065,21 +9074,158 @@ function createManageEvaluations(el, propsData) {
 }
 
 /***/ }),
-/* 211 */
+/* 220 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue__ = __webpack_require__(32);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_OrderingList_vue__ = __webpack_require__(433);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_FormBuilder_FormBuilder_vue__ = __webpack_require__(130);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_FormBuilder_FormBuilder_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__vue_components_FormBuilder_FormBuilder_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__ = __webpack_require__(20);
+/* harmony export (immutable) */ __webpack_exports__["a"] = createManageFaculty360;
+
+
+
+
+
+
+
+
+
+function createManageFaculty360(el) {
+	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+		el: el,
+		props: {},
+		data: function data() {
+			return {
+				forms: null,
+
+				formToEdit: null,
+
+				show: {
+					createForm: false
+				},
+
+				alerts: []
+			};
+		},
+		mounted: function mounted() {
+			this.fetchForms();
+		},
+
+
+		computed: {
+			formsThead: function formsThead() {
+				return [['Title', 'Created', 'Status', 'View', 'Action']];
+			},
+			formsConfig: function formsConfig() {
+				return {
+					columns: [{ data: 'title' }, {
+						data: 'created_at',
+						render: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["a" /* renderDateTimeCell */],
+						createdCell: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["b" /* createDateTimeCell */]
+					}, {
+						data: 'status',
+						render: function render(status, type) {
+							if (type === 'display') {
+								var label = status === 'active' ? 'label-success' : 'label-danger';
+
+								return '<span class="status label ' + label + '">\n\t\t\t\t\t\t\t\t\t\t\t' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["c" /* ucfirst */])(status) + '\n\t\t\t\t\t\t\t\t\t\t</span>';
+							}
+
+							return status;
+						}
+					}, {
+						data: 'id',
+						render: function render(id, type) {
+							if (type === 'display') {
+								return '<a href="/faculty360/forms/' + id + '/view"\n\t\t\t\t\t\t\t\t\t\t\t\ttarget="_blank">\n\t\t\t\t\t\t\t\t\t\t\tView form\n\t\t\t\t\t\t\t\t\t\t</a>';
+							}
+
+							return id;
+						}
+					}, {
+						data: null,
+						orderable: false,
+						searchable: false,
+						render: function render() {
+							// TODO
+							return 'TODO';
+						}
+					}]
+				};
+			}
+		},
+
+		methods: {
+			fetchForms: function fetchForms() {
+				var _this = this;
+
+				fetch('/faculty360/forms', {
+					method: 'GET',
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["a" /* getFetchHeaders */])(),
+					credentials: 'same-origin'
+				}).then(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["b" /* jsonOrThrow */]).then(function (forms) {
+					_this.forms = forms;
+				}).catch(function (err) {
+					console.error(err);
+					_this.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem fetching forms'
+					});
+				});
+			},
+			handleFormSubmit: function handleFormSubmit(form) {
+				var _this2 = this;
+
+				fetch('/faculty360/forms', {
+					method: 'POST',
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["a" /* getFetchHeaders */])(),
+					credentials: 'same-origin',
+					body: JSON.stringify(form)
+				}).then(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["b" /* jsonOrThrow */]).then(function () {
+					_this2.show.createForm = false;
+					_this2.fetchForms();
+				}).catch(function (err) {
+					console.error(err);
+					_this2.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem saving the form'
+					});
+				});
+			}
+		},
+
+		components: {
+			AlertList: __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default.a,
+			DataTable: __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue___default.a,
+			FormBuilder: __WEBPACK_IMPORTED_MODULE_3__vue_components_FormBuilder_FormBuilder_vue___default.a
+		}
+	});
+}
+
+/***/ }),
+/* 221 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_OrderingList_vue__ = __webpack_require__(442);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_OrderingList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__vue_components_OrderingList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_ShowHideButton_vue__ = __webpack_require__(112);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_ShowHideButton_vue__ = __webpack_require__(113);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_ShowHideButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__vue_components_ShowHideButton_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(3);
 /* harmony export (immutable) */ __webpack_exports__["a"] = createManageMilestonesCompetencies;
 
 
@@ -9313,16 +9459,6 @@ function createManageMilestonesCompetencies(el, propsData) {
 }
 
 /***/ }),
-/* 212 */,
-/* 213 */,
-/* 214 */,
-/* 215 */,
-/* 216 */,
-/* 217 */,
-/* 218 */,
-/* 219 */,
-/* 220 */,
-/* 221 */,
 /* 222 */,
 /* 223 */,
 /* 224 */,
@@ -9335,7 +9471,16 @@ function createManageMilestonesCompetencies(el, propsData) {
 /* 231 */,
 /* 232 */,
 /* 233 */,
-/* 234 */
+/* 234 */,
+/* 235 */,
+/* 236 */,
+/* 237 */,
+/* 238 */,
+/* 239 */,
+/* 240 */,
+/* 241 */,
+/* 242 */,
+/* 243 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9499,15 +9644,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 235 */,
-/* 236 */,
-/* 237 */,
-/* 238 */,
-/* 239 */,
-/* 240 */,
-/* 241 */,
-/* 242 */,
-/* 243 */,
 /* 244 */,
 /* 245 */,
 /* 246 */,
@@ -9607,7 +9743,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* 340 */,
 /* 341 */,
 /* 342 */,
-/* 343 */
+/* 343 */,
+/* 344 */,
+/* 345 */,
+/* 346 */,
+/* 347 */,
+/* 348 */,
+/* 349 */,
+/* 350 */,
+/* 351 */,
+/* 352 */,
+/* 353 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -9621,16 +9767,6 @@ exports.push([module.i, "\n.list-group-item[data-v-d93fa1b2] {\n\tcursor: pointe
 
 
 /***/ }),
-/* 344 */,
-/* 345 */,
-/* 346 */,
-/* 347 */,
-/* 348 */,
-/* 349 */,
-/* 350 */,
-/* 351 */,
-/* 352 */,
-/* 353 */,
 /* 354 */,
 /* 355 */,
 /* 356 */,
@@ -9710,18 +9846,27 @@ exports.push([module.i, "\n.list-group-item[data-v-d93fa1b2] {\n\tcursor: pointe
 /* 430 */,
 /* 431 */,
 /* 432 */,
-/* 433 */
+/* 433 */,
+/* 434 */,
+/* 435 */,
+/* 436 */,
+/* 437 */,
+/* 438 */,
+/* 439 */,
+/* 440 */,
+/* 441 */,
+/* 442 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(489)
+__webpack_require__(498)
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(234),
+  __webpack_require__(243),
   /* template */
-  __webpack_require__(469),
+  __webpack_require__(477),
   /* scopeId */
   "data-v-d93fa1b2",
   /* cssModules */
@@ -9748,15 +9893,6 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 434 */,
-/* 435 */,
-/* 436 */,
-/* 437 */,
-/* 438 */,
-/* 439 */,
-/* 440 */,
-/* 441 */,
-/* 442 */,
 /* 443 */,
 /* 444 */,
 /* 445 */,
@@ -9783,7 +9919,15 @@ module.exports = Component.exports
 /* 466 */,
 /* 467 */,
 /* 468 */,
-/* 469 */
+/* 469 */,
+/* 470 */,
+/* 471 */,
+/* 472 */,
+/* 473 */,
+/* 474 */,
+/* 475 */,
+/* 476 */,
+/* 477 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -9888,14 +10032,6 @@ if (false) {
 }
 
 /***/ }),
-/* 470 */,
-/* 471 */,
-/* 472 */,
-/* 473 */,
-/* 474 */,
-/* 475 */,
-/* 476 */,
-/* 477 */,
 /* 478 */,
 /* 479 */,
 /* 480 */,
@@ -9907,17 +10043,26 @@ if (false) {
 /* 486 */,
 /* 487 */,
 /* 488 */,
-/* 489 */
+/* 489 */,
+/* 490 */,
+/* 491 */,
+/* 492 */,
+/* 493 */,
+/* 494 */,
+/* 495 */,
+/* 496 */,
+/* 497 */,
+/* 498 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(343);
+var content = __webpack_require__(353);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("701a0232", content, false);
+var update = __webpack_require__(4)("701a0232", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -9933,30 +10078,6 @@ if(false) {
 }
 
 /***/ }),
-/* 490 */,
-/* 491 */,
-/* 492 */,
-/* 493 */,
-/* 494 */,
-/* 495 */,
-/* 496 */,
-/* 497 */,
-/* 498 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__evaluations_js__ = __webpack_require__(210);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageEvaluations", function() { return __WEBPACK_IMPORTED_MODULE_0__evaluations_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__faculty360_js__ = __webpack_require__(514);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageFaculty360", function() { return __WEBPACK_IMPORTED_MODULE_1__faculty360_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__milestones_competencies_js__ = __webpack_require__(211);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageMilestonesCompetencies", function() { return __WEBPACK_IMPORTED_MODULE_2__milestones_competencies_js__["a"]; });
-
-
-
-
-/***/ }),
 /* 499 */,
 /* 500 */,
 /* 501 */,
@@ -9965,150 +10086,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* 504 */,
 /* 505 */,
 /* 506 */,
-/* 507 */,
-/* 508 */,
-/* 509 */,
-/* 510 */,
-/* 511 */,
-/* 512 */,
-/* 513 */,
-/* 514 */
+/* 507 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_FormBuilder_FormBuilder_vue__ = __webpack_require__(142);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_FormBuilder_FormBuilder_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__vue_components_FormBuilder_FormBuilder_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__ = __webpack_require__(19);
-/* harmony export (immutable) */ __webpack_exports__["a"] = createManageFaculty360;
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__evaluations_js__ = __webpack_require__(219);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageEvaluations", function() { return __WEBPACK_IMPORTED_MODULE_0__evaluations_js__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__faculty360_js__ = __webpack_require__(220);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageFaculty360", function() { return __WEBPACK_IMPORTED_MODULE_1__faculty360_js__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__milestones_competencies_js__ = __webpack_require__(221);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageMilestonesCompetencies", function() { return __WEBPACK_IMPORTED_MODULE_2__milestones_competencies_js__["a"]; });
 
 
 
-
-
-
-
-
-
-function createManageFaculty360(el) {
-	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
-		el: el,
-		props: {},
-		data: function data() {
-			return {
-				forms: null,
-
-				formToEdit: null,
-
-				show: {
-					createForm: false
-				},
-
-				alerts: []
-			};
-		},
-		mounted: function mounted() {
-			this.fetchForms();
-		},
-
-
-		computed: {
-			formsThead: function formsThead() {
-				return [['Title', 'Created', 'Status', 'View', 'Action']];
-			},
-			formsConfig: function formsConfig() {
-				return {
-					columns: [{ data: 'title' }, {
-						data: 'created_at',
-						render: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["a" /* renderDateTimeCell */],
-						createdCell: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["b" /* createDateTimeCell */]
-					}, {
-						data: 'status',
-						render: function render(status, type) {
-							if (type === 'display') {
-								var label = status === 'active' ? 'label-success' : 'label-danger';
-
-								return '<span class="status label ' + label + '">\n\t\t\t\t\t\t\t\t\t\t\t' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["c" /* ucfirst */])(status) + '\n\t\t\t\t\t\t\t\t\t\t</span>';
-							}
-
-							return status;
-						}
-					}, {
-						data: 'id',
-						render: function render(id, type) {
-							if (type === 'display') {
-								return '<a href="/faculty360/forms/' + id + '/view"\n\t\t\t\t\t\t\t\t\t\t\t\ttarget="_blank">\n\t\t\t\t\t\t\t\t\t\t\tView form\n\t\t\t\t\t\t\t\t\t\t</a>';
-							}
-
-							return id;
-						}
-					}, {
-						data: null,
-						orderable: false,
-						searchable: false,
-						render: function render() {
-							// TODO
-							return 'TODO';
-						}
-					}]
-				};
-			}
-		},
-
-		methods: {
-			fetchForms: function fetchForms() {
-				var _this = this;
-
-				fetch('/faculty360/forms', {
-					method: 'GET',
-					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["a" /* getFetchHeaders */])(),
-					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["b" /* jsonOrThrow */]).then(function (forms) {
-					_this.forms = forms;
-				}).catch(function (err) {
-					console.error(err);
-					_this.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem fetching forms'
-					});
-				});
-			},
-			handleFormSubmit: function handleFormSubmit(form) {
-				var _this2 = this;
-
-				fetch('/faculty360/forms', {
-					method: 'POST',
-					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["a" /* getFetchHeaders */])(),
-					credentials: 'same-origin',
-					body: JSON.stringify(form)
-				}).then(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["b" /* jsonOrThrow */]).then(function () {
-					_this2.show.createForm = false;
-					_this2.fetchForms();
-				}).catch(function (err) {
-					console.error(err);
-					_this2.alerts.push({
-						type: 'error',
-						html: '<strong>Error:</strong> There was a problem saving the form'
-					});
-				});
-			}
-		},
-
-		components: {
-			AlertList: __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default.a,
-			DataTable: __WEBPACK_IMPORTED_MODULE_2__vue_components_DataTable_vue___default.a,
-			FormBuilder: __WEBPACK_IMPORTED_MODULE_3__vue_components_FormBuilder_FormBuilder_vue___default.a
-		}
-	});
-}
 
 /***/ })
-],[498]);
+],[507]);
 });
 //# sourceMappingURL=vue-manage.js.map

@@ -3,7 +3,7 @@
 		<div class="list-header form-inline">
 			<select class="form-control" v-model="sortBy">
 				<option v-for="field of fields" :value="field">
-					{{ snakeCaseToWords(field) }}
+					{{ renderFieldName(field) }}
 				</option>
 			</select>
 			<button type="button" class="btn btn-default"
@@ -44,6 +44,21 @@ export default {
 		items: {
 			type: Array,
 			required: true
+		},
+		fieldAccessors: {
+			type: Object,
+			required: false
+		},
+		defaultSortBy: {
+			type: String,
+			required: false
+		},
+		defaultSortOrder: {
+			type: String,
+			validator(order) {
+				return ['asc', 'desc'].includes(order);
+			},
+			default: 'asc'
 		}
 	},
 	data(){
@@ -51,8 +66,8 @@ export default {
 			query: null,
 			page: 0,
 			itemsPerPage: 10,
-			sortBy: this.fields[0],
-			sortOrder: 'asc'
+			sortBy: this.defaultSortBy || this.fields[0],
+			sortOrder: this.defaultSortOrder
 		};
 	},
 	computed: {
@@ -99,25 +114,25 @@ export default {
 		},
 		sortedItems(){
 			if(this.sortBy && this.sortOrder){
-				
-				let sortedItems = sortFunctions.has(this.sortBy)
+
+				return sortFunctions.has(this.sortBy)
 					? this.filteredItems.sort(sortFunctions.get(this.sortBy))
 					: this.filteredItems.sort((a, b) => {
 						let aValue = a[this.sortBy].toUpperCase();
 						let bValue = b[this.sortBy].toUpperCase();
-						
+
 						if(aValue < bValue)
-							return -1;
+							return this.sortOrder === 'asc'
+								? -1
+								: 1;
 						if(aValue > bValue)
-							return 1;
+							return this.sortOrder === 'asc'
+								? 1
+								: -1;
 						return 0;
 					});
-				
-				return this.sortOrder === 'asc'
-					? sortedItems
-					: sortedItems.reverse();
 			}
-			
+
 			return this.filteredItems;
 		},
 		paginatedItems(){
@@ -133,7 +148,12 @@ export default {
 		}
 	},
 	methods: {
-		snakeCaseToWords
+		renderFieldName(field) {
+			if (field === 'id')
+				return 'ID';
+
+			return snakeCaseToWords(field);
+		}
 	},
 	components: {
 		ListPaginator
@@ -149,7 +169,7 @@ export default {
 	.list-header input[type="search"] {
 		width: 300px;
 	}
-	
+
 	.list {
 		padding: 0;
 	}
