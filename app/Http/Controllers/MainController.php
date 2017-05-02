@@ -787,6 +787,6 @@ class MainController extends Controller
 		
 		$data = compact('meritReportTypes', 'meritReportTypeForms');
         
-        return view('merit-reports', $data);
+        return view('merit-report.merit-reports', $data);
     }
 }

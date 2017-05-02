@@ -9,7 +9,7 @@
 					@input="handleInput(pager.pageNum, arguments[0])" />
 			</template>
 		</questionnaire-pager>
-		
+
 		<div class="text-center">
 			<button type="button" v-if="readonly" class="btn btn-default"
 					@click="handleClose">
@@ -22,11 +22,11 @@
 					Yes, close without saving
 				</template>
 			</confirmation-button>
-			
-			<button type="button" class="btn btn-info"
+
+			<button v-if="!readonly" type="button" class="btn btn-info"
 					@click="handleSave">
 				Save progress
-			</button>			
+			</button>
 		</div>
 	</div>
 </template>
@@ -51,12 +51,12 @@ export default {
 			default: false
 		}
 	},
-	
+
 	methods: {
 		handleInput(pageNum, page) {
 			let pages = this.pages.slice();
 			pages[pageNum] = Object.assign({}, pages[pageNum], page);
-			
+
 			this.$emit('input', {pages});
 		},
 		handleSave() {
@@ -69,7 +69,7 @@ export default {
 			this.$emit('close');
 		}
 	},
-	
+
 	components: {
 		ChecklistSection,
 		ConfirmationButton,
@@ -82,13 +82,13 @@ export default {
 	.checklist {
 		font-size: 1.25em;
 	}
-	
+
 	@media (min-width: 768px) {
 		.checklist {
 			padding: 0 1em;
 		}
 	}
-	
+
 	@media (min-width: 1200px) {
 		.checklist {
 			padding: 0 2em;

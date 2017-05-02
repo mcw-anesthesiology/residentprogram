@@ -9079,7 +9079,7 @@ body {
     table{
     	width: 100%;
     }
-	
+
 	.question-footer {
 		display: none;
 	}
@@ -9106,7 +9106,8 @@ body {
 .containing-label > textarea,
 .containing-label > select,
 .containing-label > .select2,
-.containing-label > .input-group {
+.containing-label > .input-group,
+.containing-label > button {
 	margin-top: 5px;
 	font-weight: normal;
 }

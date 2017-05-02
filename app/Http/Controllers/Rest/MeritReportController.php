@@ -7,32 +7,35 @@ use Illuminate\Http\Request;
 use App\MeritReport;
 
 use Auth;
+use Log;
 
 class MeritReportController extends RestController
 {
 	public function __construct() {
 		$this->middleware('auth');
 		$this->middleware('type:admin')->only('destroy');
-		
+
 		// Users can only submit reports for themselves
 		$this->middleware(function ($request, $next) {
-			if (Auth::id() === $request->input('user_id'))
+			if (Auth::id() == $request->input('user_id'))
 				return $next($request);
-				
+
 			return response('Not allowed.', 403);
 		})->only(['store', 'update']);
-		
+
 		// Don't allow editing complete/disabled reports
 		$this->middleware(function ($request, $next) {
 			try {
-				$reportId = $request->route()->parameters()['id'];
+				Log::debug($request->route()->parameters());
+				$reportId = $request->route()->parameters()['merit'];
 				$meritReport = MeritReport::findOrFail($reportId);
-				if ($meritReport->status == 'in-progress')
+				Log::debug($meritReport);
+				if ($meritReport->status == 'pending')
 					return $next($request);
-					
+
 				throw new \Exception();
 			} catch (\Exception $e) {
-				// Nothing to do
+				Log::debug($e);
 			}
 
 			return response('Not allowed.', 403);

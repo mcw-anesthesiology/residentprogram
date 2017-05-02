@@ -11,7 +11,7 @@
 			</div>
 			<div class="col-sm-4">
 				<small>Period</small>
-				<span>{{ renderDateRange(dates) }}</span>
+				<span>{{ renderDateRange(period_start, period_end) }}</span>
 			</div>
 			<div class="col-sm-2">
 				<button type="button" class="btn btn-info btn-sm"
@@ -58,14 +58,8 @@ export default {
 			required: false
 		}
 	},
-	
+
 	computed: {
-		dates() {
-			return {
-				startDate: this.period_start,
-				endDate: this.period_end
-			};
-		},
 		viewEditText() {
 			return this.status === 'pending'
 				? 'Complete'
@@ -77,7 +71,7 @@ export default {
 				: 'glyphicon-list-alt';
 		}
 	},
-	
+
 	methods: {
 		renderDateRange
 	}
@@ -93,7 +87,7 @@ export default {
 	.merit-report-list-item:nth-child(even) {
 		background-color: rgba(0, 0, 0, 0.05);
 	}
-	
+
 	small {
 		font-size: 0.75em;
 		color: rgba(0, 0, 0, 0.55);
