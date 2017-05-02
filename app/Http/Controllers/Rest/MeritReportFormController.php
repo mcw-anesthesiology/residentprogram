@@ -8,6 +8,14 @@ use App\MeritReport;
 
 class MeritReportFormController extends RestController
 {
+	public function __construct() {
+		$this->middleware('auth');
+		$this->middleware('type:auth')->only([
+			'store',
+			'update',
+			'destroy'
+		]);
+	}
 
 	protected $attributes = [
 		'id',

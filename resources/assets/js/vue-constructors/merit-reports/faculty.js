@@ -1,5 +1,6 @@
 import Vue from 'vue';
 
+import AlertList from 'vue-components/AlertList.vue';
 import ComponentList from 'vue-components/ComponentList.vue';
 import MeritCompensationReport from 'vue-components/MeritCompensation/Report.vue';
 import MeritReportListItem from 'vue-components/MeritCompensation/ReportListItem.vue';
@@ -8,7 +9,8 @@ import { getFetchHeaders, okOrThrow, jsonOrThrow } from 'modules/utils.js';
 import {
 	academicYearForDate,
 	isoDateStringObject,
-	datesEqual
+	datesEqual,
+	renderDateRange
 } from 'modules/date-utils.js';
 
 export default function createFacultyMeritReports(el, propsData) {
@@ -31,21 +33,21 @@ export default function createFacultyMeritReports(el, propsData) {
 		data() {
 			return {
 				meritForms: null,
-				
+
 				meritCompensationReport: null,
-				
+
 				meritReports: null,
-				
+
 				alerts: []
 			};
 		},
 		propsData,
-		
+
 		mounted() {
 			this.fetchMeritForms();
 			this.fetchPastMeritReports();
 		},
-		
+
 		computed: {
 			yearlyFacultyMeritForm() {
 				if (
@@ -78,25 +80,30 @@ export default function createFacultyMeritReports(el, propsData) {
 			meritReportReadonly() {
 				return this.meritCompensationReport.status !== 'pending';
 			},
-			needsToCompleteReport() {
+			needsToStartReport() {
 				if (!this.meritReports || this.meritReports.length === 0)
 					return true;
-					
-				
+
+
 				return !this.meritReports.some(report => {
 					let periodDates = {
 						startDate: report.period_start,
 						endDate: report.period_end
 					};
-					
+
 					return datesEqual(periodDates, this.currentYearlyMeritDateRange);
 				});
+			},
+			inProgressReport() {
+				return this.meritReports.find(report =>
+					report.status === 'pending');
 			}
 		},
-		
+
 		methods: {
+			renderDateRange,
 			fetchPastMeritReports() {
-				
+
 				let query = $.param({
 					where: {
 						user_id: this.user.id
@@ -105,7 +112,7 @@ export default function createFacultyMeritReports(el, propsData) {
 						form: true
 					}
 				});
-				
+
 				fetch(`/merits?${query}`, {
 					method: 'GET',
 					headers: getFetchHeaders(),
@@ -123,15 +130,18 @@ export default function createFacultyMeritReports(el, propsData) {
 			addMeritReport() {
 				if (!this.yearlyFacultyMeritForm)
 					return;
-					
+
 				let dates = this.currentYearlyMeritDateRange;
-				
+
 				this.meritCompensationReport = {
 					period_start: dates.startDate,
 					period_end: dates.endDate,
 					report: JSON.parse(this.yearlyFacultyMeritForm.form),
 					status: 'pending'
 				};
+			},
+			finishMeritReport() {
+				this.meritCompensationReport = Object.assign({}, this.inProgressReport);
 			},
 			fetchMeritForms() {
 				fetch('/merit-forms', {
@@ -154,20 +164,20 @@ export default function createFacultyMeritReports(el, propsData) {
 			handleSubmit(meritReport) {
 				if (this.meritReportReadonly)
 					return;
-				
+
 				const url = meritReport.id
 					? `/merits/${meritReport.id}`
 					: '/merits';
-					
+
 				let method = 'POST';
 				if (meritReport.id) {
 					// method = 'PATCH';
 					meritReport._method = 'PATCH';
 				}
-				
+
 				meritReport.user_id = this.user.id;
 				meritReport.form_id = this.yearlyFacultyMeritForm.id;
-				
+
 				fetch(url, {
 					method,
 					headers: getFetchHeaders(),
@@ -192,8 +202,9 @@ export default function createFacultyMeritReports(el, propsData) {
 				this.meritCompensationReport = this.meritReports[0];
 			},
 		},
-		
+
 		components: {
+			AlertList,
 			ComponentList,
 			MeritCompensationReport,
 			MeritReportListItem

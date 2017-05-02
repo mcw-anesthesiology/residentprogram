@@ -1,24 +1,42 @@
 <template>
 	<div>
-		<div class="list-header form-inline">
-			<select class="form-control" v-model="sortBy">
-				<option v-for="field of fields" :value="field">
-					{{ renderFieldName(field) }}
-				</option>
-			</select>
-			<button type="button" class="btn btn-default"
-					@click="sortOrder = sortOrder === 'asc' ? 'desc' : 'asc'">
-				<span v-if="sortOrder === 'asc'"
-					class="glyphicon glyphicon-sort-by-alphabet"></span>
-				<span v-else
-					class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
-			</button>
-			<input type="search" class="form-control" v-model="query"
-				placeholder="Search" />
+		<div class="list-header-controls form-inline">
+			<div class="form-group">
+				<label class="containing-label">
+					Sort
+					<div class="input-group">
+						<select class="form-control" v-model="sortBy">
+							<option v-for="field of fields" :value="field">
+								{{ renderFieldName(field) }}
+							</option>
+						</select>
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default"
+									@click="sortOrder = sortOrder === 'asc' ? 'desc' : 'asc'">
+								<span v-if="sortOrder === 'asc'"
+									class="glyphicon glyphicon-sort-by-alphabet"></span>
+								<span v-else
+									class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
+							</button>
+						</span>
+					</div>
+				</label>
+			</div>
+			<div class="form-group">
+				<label class="containing-label">
+					Search
+					<input type="search" class="form-control" v-model="query"
+						placeholder="Search" />
+				</label>
+			</div>
 		</div>
-		<ol class="list">
-			<slot v-for="item of currentPageItems" v-bind="item"></slot>
-		</ol>
+		<div class="list-container">
+			<slot name="header"></slot>
+			<ol class="list">
+				<slot v-for="item of currentPageItems" v-bind="item"></slot>
+			</ol>
+			<slot name="footer"></slot>
+		</div>
 		<list-paginator v-model="page" :paginatedItems="paginatedItems"
 			:itemsPerPage="itemsPerPage"
 			@pageSize="itemsPerPage = arguments[0]" />
@@ -119,13 +137,13 @@ export default {
 		},
 		sortedItems(){
 			if(this.sortBy && this.sortOrder){
-				
+
 				return sortFunctions.has(this.sortBy)
 					? this.filteredItems.sort(sortFunctions.get(this.sortBy))
 					: this.filteredItems.sort((a, b) => {
 						let aValue;
 						let bValue;
-						
+
 						if (this.fieldAccessors && this.sortBy in this.fieldAccessors) {
 							aValue = this.fieldAccessors[this.sortBy](a);
 							bValue = this.fieldAccessors[this.sortBy](b);
@@ -133,13 +151,13 @@ export default {
 							aValue = a[this.sortBy];
 							bValue = b[this.sortBy];
 						}
-						
+
 						if (Number.isNaN(aValue))
 							aValue = aValue.toUpperCase();
-						
+
 						if (Number.isNaN(bValue))
 							bValue = bValue.toUpperCase();
-						
+
 						if(aValue < bValue)
 							return this.sortOrder === 'asc'
 								? -1
@@ -151,7 +169,7 @@ export default {
 						return 0;
 					});
 			}
-			
+
 			return this.filteredItems;
 		},
 		paginatedItems(){
@@ -170,7 +188,7 @@ export default {
 		renderFieldName(field) {
 			if (field === 'id')
 				return 'ID';
-			
+
 			return snakeCaseToWords(field);
 		}
 	},
@@ -181,19 +199,36 @@ export default {
 </script>
 
 <style scoped>
-	.list-header {
+	.list-header-controls {
 		text-align: right;
 	}
 
-	.list-header input[type="search"] {
+	.list-header-controls input[type="search"] {
 		width: 300px;
+		max-width: 100%;
 	}
-	
+
+	.list-header-controls.form-inline .input-group > .form-control {
+		width: auto;
+	}
+
+	.list-container {
+		margin: 3em 0;
+	}
+
 	.list {
 		padding: 0;
 	}
 
 	.list li {
 		list-style: none;
+	}
+
+	.containing-label {
+		text-align: left;
+	}
+
+	.containing-label > * {
+		display: block;
 	}
 </style>

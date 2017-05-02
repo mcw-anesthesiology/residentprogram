@@ -80,7 +80,7 @@
     "vue-loader": "^10.0.2",
     "vue-router": "^2.1.1",
     "vue-template-compiler": "^2.1.6",
-    "webpack": "beta",
+    "webpack": "^2.4.1",
     "webpack-bundle-analyzer": "^2.2.1",
     "webpack-manifest-plugin": "^1.1.0",
     "whatwg-fetch": "^2.0.1"

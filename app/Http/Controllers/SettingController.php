@@ -10,9 +10,12 @@ class SettingController extends Controller
 {
 	public function __construct() {
 		$this->middleware('auth');
-		$this->middleware('type:admin');
+		$this->middleware('type:admin')->only([
+			'update',
+			'destroy'
+		]);
 	}
-	
+
     /**
      * Display a listing of the resource.
      *
@@ -32,12 +35,12 @@ class SettingController extends Controller
     public function show($id)
     {
         $value = Setting::get($id);
-		
+
 		if (empty($value))
 			return response()->json([
 				'status' => 'error'
 			], 404);
-			
+
 		return $value;
     }
 
@@ -52,7 +55,7 @@ class SettingController extends Controller
     {
         Setting::set($id, $request->input('value'));
 		Setting::save();
-		
+
 		return response()->json([
 			'status' => 'success'
 		]);
