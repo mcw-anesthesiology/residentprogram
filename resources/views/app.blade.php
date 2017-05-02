@@ -42,9 +42,10 @@
 			ga('send', 'pageview');
 		</script>
 	@endif
-		<link href="{{ elixir("css/all.css") }}" rel="stylesheet" />
+		<link rel="stylesheet" href="{{ elixir("css/all.css") }}" />
 
 		@yield("head")
+		@stack('stylesheets')
 	</head>
 	<body>
 	{{-- TODO: Should not do this, use inheretence --}}

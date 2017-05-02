@@ -1,10 +1,14 @@
 @extends("app")
 
+@push('stylesheets')
+	<link rel="stylesheet" href="{{ elixir("css/vue-dashboard.css") }}" />
+@endpush
+
 @section("blockless-body")
 	<div class="container">
 		<alert-list v-model="alerts" />
 	</div>
-	
+
 	@include("dashboard.type." . $user->type)
 
 	<!-- Cancel Modal -->

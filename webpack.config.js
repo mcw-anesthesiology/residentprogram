@@ -1,8 +1,9 @@
 /* eslint-env node */
 const path = require('path');
 const webpack = require('webpack');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const ManifestPlugin = require('webpack-manifest-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
 	entry: {
@@ -33,7 +34,12 @@ module.exports = {
 		rules: [
 			{
 				test: /\.vue$/,
-				use: 'vue-loader'
+				use: {
+					loader: 'vue-loader',
+					options: {
+						extractCSS: true
+					}
+				}
 			},
 			{
 				test: /\.js$/,
@@ -42,10 +48,10 @@ module.exports = {
 			},
 			{
 				test: /\.css$/,
-				use: [
-					'style-loader',
-					'css-loader'
-				]
+				use: ExtractTextPlugin.extract({
+					fallback: 'style-loader',
+					use: 'css-loader'
+				})
 			},
 			{
 				test: /element-dataset/,
@@ -72,6 +78,12 @@ module.exports = {
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'disabled',
 			generateStatsFile: true
+		}),
+		new ExtractTextPlugin({
+			filename: process.env.NODE_ENV === 'production'
+				? '../css/[name]-[contenthash].css'
+				: '../css/[name].css',
+			allChunks: true
 		}),
 		new ManifestPlugin()
 	],

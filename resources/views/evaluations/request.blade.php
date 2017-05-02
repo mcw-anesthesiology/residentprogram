@@ -24,6 +24,10 @@
 	</style>
 @stop
 
+@push('stylesheets')
+	<link rel="stylesheet" href="{{ elixir("css/vue-request.css") }}" />
+@endpush
+
 @section("body")
 	<div class="page-header">
 		<h1>
@@ -125,7 +129,7 @@
 				</select-two>
 			</div>
 		</div>
-		
+
 		<div v-visible.once="formId">
 			<div class="row">
 				<div class="col-md-offset-1 col-md-10">
@@ -145,7 +149,7 @@
 						</div>
 						<div class="panel-body">
 							<p>
-								Faculty evaluations are anonymous. 
+								Faculty evaluations are anonymous.
 								The only information shown to faculty is the academic
 								year and the evaluation itself.
 							</p>
@@ -178,7 +182,7 @@
 								Select an evaluation period
 							</option>
 						</select-two>
-		
+
 	@if($user->isType('admin'))
 						<span class="input-group-addon">
 							<label title="Allows you to make requests for multiple months at once">
@@ -206,7 +210,7 @@
 			</div>
 		</div>
 
-		
+
 
 	@if($user->isType("admin"))
 		<div class="form-group">
@@ -273,11 +277,11 @@
 	<p>
 		Selecting a block is used to filter the lists to others who are scheduled
 		in the same locations as you. This filter is not perfect.
-		
+
 		If the doctor you are looking for is missing after selecting a block,
 		or an entire block is missing for you from the list, please select
 		"select from all" for the block.
-		
+
 		You will then be able to select from the entire lists.
 	</p>
 	@endif
@@ -287,7 +291,7 @@
 	<h3 class="sub-header">Evaluations in progress</h3>
 	<evaluation-data-table range="allTime" :thead="pendingFacultyEvalsThead"
 		:config="pendingFacultyEvalsConfig"/>
-		
+
 </div>
 <div class="container body-block">
 	<h3 class="sub-header">Completed faculty evaluations</h3>

@@ -9,6 +9,10 @@
 	</style>
 @stop
 
+@push('stylesheets')
+	<link rel="stylesheet" href="{{ elixir("css/vue-milestone-competency-lists.css") }}" />
+@endpush
+
 @section("body")
 	<div id="form">
 		{!! App\Helpers\FormReader::read($form->xml_path) !!}
