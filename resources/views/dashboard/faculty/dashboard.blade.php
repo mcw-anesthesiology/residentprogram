@@ -1,5 +1,9 @@
 @extends("app")
 
+@push('stylesheets')
+	<link rel="stylesheet" href="{{ elixir("css/vue-dashboard.css") }}" />
+@endpush
+
 @section("blockless-body")
 	@include("dashboard.faculty." . $user->type)
 @stop

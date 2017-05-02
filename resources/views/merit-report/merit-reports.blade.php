@@ -1,5 +1,9 @@
 @extends('app')
 
+@push('stylesheets')
+	<link rel="stylesheet" href="{{ elixir("css/vue-merit-reports.css") }}" />
+@endpush
+
 @section('blockless-body')
 	@if($user->isType('admin') || $user->usesFeature('FACULTY_EVALS'))
 		@include("merit-report.admin-supervisor")

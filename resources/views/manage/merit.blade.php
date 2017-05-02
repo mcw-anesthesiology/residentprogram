@@ -1,5 +1,9 @@
 @extends('app')
 
+@push('stylesheets')
+	<link rel="stylesheet" href="{{ elixir("css/vue-manage.css") }}" />
+@endpush
+
 @section('blockless-body')
 	<div class="container body-block">
 		<h1>
@@ -24,7 +28,7 @@
 				@submit="handleMeritSubmit"
 				@close="merit = null"></json-schema-editor>
 		</div>
-		
+
 		<ul v-cloak>
 			<merit-form-list-item v-for="forms of groupedMeritForms"
 				:key="forms[0].name" :forms="forms"
@@ -32,10 +36,10 @@
 				@delete="removeMeritForms(forms)">
 			</merit-form-list-item>
 		</ul>
-		
+
 		<alert-list v-model="alerts"></alert-list>
 	</div>
-	
+
 	<div class="container body-block" v-cloak>
 		<h2>Report forms</h2>
 		<div v-for="(reportName, reportType) of meritReportTypes" class="row">
@@ -65,7 +69,7 @@
 		var propsData = {
 			meritReportTypes: {!! json_encode(config('constants.MERIT_REPORT_TYPES')) !!}
 		};
-		
+
 		var vm = createManageMerit('main', propsData);
 	</script>
 @endpush

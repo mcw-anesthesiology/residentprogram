@@ -10,12 +10,16 @@
 		#milestone-levels-container .form-group label textarea {
 			font-weight: normal;
 		}
-		
+
 		.center-block {
 			margin: 2em auto;
 		}
 	</style>
 @stop
+
+@push('stylesheets')
+	<link rel="stylesheet" href="{{ elixir("css/vue-manage.css") }}" />
+@endpush
 
 @section("blockless-body")
 <div class="container body-block">
@@ -32,10 +36,10 @@
     	<data-table id="milestones-table" :thead="milestonesThead"
 			:data="milestones" :config="milestonesConfig"></data-table>
 	</div>
-	
+
 	<show-hide-button v-cloak class="btn btn-info center-block"
 		v-model="show.milestoneOrder" text="order milestones"></show-hide-button>
-	
+
 	<div v-cloak v-if="show.milestoneOrder" class="panel panel-default">
 		<div class="panel-heading">
 			Order milestones
@@ -65,7 +69,7 @@
 			</button>
 		</div>
 	</div>
-	
+
 	<alert-list v-model="milestoneAlerts"></alert-list>
 </div>
 <div class="container body-block">
@@ -82,10 +86,10 @@
 		<data-table id="competencies-table" :thead="competenciesThead"
 			:data="competencies" :config="competenciesConfig"></data-table>
 	</div>
-	
+
 	<show-hide-button v-cloak class="btn btn-info center-block"
 		v-model="show.competencyOrder" text="order competencies"></show-hide-button>
-	
+
 	<div v-cloak v-if="show.competencyOrder" class="panel panel-default">
 		<div class="panel-heading">
 			Order competencies
@@ -104,7 +108,7 @@
 			</button>
 		</div>
 	</div>
-	
+
 	<alert-list v-model="competencyAlerts"></alert-list>
 </div>
 
@@ -399,7 +403,7 @@
 						$(tableSelector).DataTable({
 							retrieve: true
 						}).ajax.reload();
-						
+
 					modal.modal("hide");
 				}
 				else

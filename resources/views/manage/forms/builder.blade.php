@@ -1,5 +1,9 @@
 @extends("app")
 
+@push('stylesheets')
+	<link rel="stylesheet" href="{{ elixir("css/vue-form-builder.css") }}" />
+@endpush
+
 @section("body")
 	<h2 class="sub-header">Form Builder</h2>
 	<form id="evaluation-form" method="POST" action="/forms">

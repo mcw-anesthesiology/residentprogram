@@ -1,5 +1,6 @@
 /* eslint-env node */
 const gulp = require('gulp');
+const util = require('gulp-util');
 const elixir = require('laravel-elixir');
 const size = require("gulp-size");
 const each = require('gulp-each');
@@ -107,12 +108,20 @@ gulp.task('merge-manifests', () => {
 			edit(json){
 				for(let key in json){
 					if(!key.startsWith('js/') && !key.startsWith('css/')){
+						let dir = (key.endsWith('.css') || key.endsWith('.css.map'))
+							? 'css'
+							: 'js';
+
 						let val = json[key];
+
+						if (dir === 'css')
+							val = val.replace('../css/', '');
+
 						delete json[key];
-						json[`js/${key}`] = `js/${val}`;
+						json[`${dir}/${key}`] = `${dir}/${val}`;
 					}
 				}
-				
+
 				return json;
 			}
 		}))
@@ -139,11 +148,14 @@ elixir(function(mix) {
 			'milestone-competency-radar-chart.css',
 			'navbar.css'
 		]);
-	mix.version([
-		'js/all.js',
-		'css/all.css'
-	]);
-	
+
+	if (util.env.production) {
+		mix.version([
+			'js/all.js',
+			'css/all.css'
+		]);
+	}
+
 	mix.task('merge-manifests', [
 		'./public/build/js/manifest.json',
 		'./public/js/*.js',
