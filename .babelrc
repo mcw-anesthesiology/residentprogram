@@ -25,6 +25,7 @@
 		}],
 		["transform-object-rest-spread", {
 			"useBuiltIns": true
-		}]
+		}],
+		"transform-vue-jsx"
 	]
 }

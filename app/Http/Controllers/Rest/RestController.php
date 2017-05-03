@@ -16,7 +16,7 @@ class RestController extends Controller
 	protected $attributes = [];
 	protected $relationshipAttributes = [];
 
-    public function __construct(){
+    public function __construct() {
         $this->middleware("auth");
         $this->middleware("type:admin");
     }
@@ -26,40 +26,40 @@ class RestController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request){
+    public function index(Request $request) {
 		$user = Auth::user();
 		$withArray = [];
-		if($request->has("with")){
-			foreach(array_only($request->input("with"), $this->relationships) as $relationship => $fields){
-				if(is_array($fields)){
-					if(in_array("full_name", $fields)){
+		if ($request->has("with")) {
+			foreach (array_only($request->input("with"), $this->relationships) as $relationship => $fields) {
+				if (is_array($fields)) {
+					if (in_array("full_name", $fields)) {
 						$index = array_search("full_name", $fields);
 						unset($fields[$index]);
 						array_values($fields);
 						$fields[] = "first_name";
 						$fields[] = "last_name";
 					}
-					if($relationship == "form"){
-						if(!in_array("visibility", $fields))
+					if ($relationship == "form") {
+						if (!in_array("visibility", $fields))
 							$fields[] = "visibility";
-						if(!in_array('type', $fields))
+						if (!in_array('type', $fields))
 							$fields[] = 'type';
 					}
-					$withArray[$relationship] = function($query) use ($fields){
+					$withArray[$relationship] = function($query) use ($fields) {
 						$query->select(array_merge(["id"], $fields));
 					};
 				}
 				else {
-					if($fields && $fields !== "false")
+					if ($fields && $fields !== "false")
 						$withArray[] = $relationship;
 				}
 			}
 		}
 
         $query = $this->model::with($withArray);
-		foreach($request->intersect($this->attributes) as $name => $value){
-			if(is_array($value)){
-				if(count($value) == 2 && in_array($value[0], [
+		foreach ($request->intersect($this->attributes) as $name => $value) {
+			if (is_array($value)) {
+				if (count($value) == 2 && in_array($value[0], [
 					'>',
 					'<',
 					'=',
@@ -76,12 +76,18 @@ class RestController extends Controller
 			}
 		}
 
-		if($request->has("whereHas") && !empty($this->relationshipAttributes)){
-			foreach(array_keys(array_only($request->input("whereHas"), array_keys($this->relationshipAttributes))) as $relationship){
+		if ($request->has('has') && !empty($this->relationshipAttributes)) {
+			foreach (array_only($request->input('has'), $this->relationshipAttributes) as $relationship) {
+				$query->has($relationship);
+			}
+		}
+
+		if ($request->has("whereHas") && !empty($this->relationshipAttributes)) {
+			foreach (array_keys(array_only($request->input("whereHas"), array_keys($this->relationshipAttributes))) as $relationship) {
 				$relationshipAttributes = $this->relationshipAttributes[$relationship];
-				$query->whereHas($relationship, function($query) use ($request, $relationship, $relationshipAttributes){
-					foreach(array_only($request->input("whereHas")[$relationship], $relationshipAttributes) as $attribute => $value){
-						if(is_array($value))
+				$query->whereHas($relationship, function($query) use ($request, $relationship, $relationshipAttributes) {
+					foreach (array_only($request->input("whereHas")[$relationship], $relationshipAttributes) as $attribute => $value) {
+						if (is_array($value))
 							$query->whereIn($attribute, $value);
 						else
 							$query->where($attribute, "=", $value);
@@ -91,24 +97,24 @@ class RestController extends Controller
 		}
 
 		$query->take($request->input("limit"), null);
-		
-		if($request->has('orderBy')){
+
+		if ($request->has('orderBy')) {
 			$orderBy = $request->input('orderBy');
 			$query->orderBy($orderBy[0], $orderBy[1]);
 		}
 		else
 			$query->orderBy("id", $request->input("order", "desc"));
-			
+
 		$results = $query->get();
 
-		if(!$user->isType("admin"))
-			return $results->each(function($result){
-				if(method_exists($result, "hideFields"))
+		if (!$user->isType("admin"))
+			return $results->each(function($result) {
+				if (method_exists($result, "hideFields"))
 					$result->hideFields();
-				collect($result->getRelations())->each(function($rel){
+				collect($result->getRelations())->each(function($rel) {
 					$rels = collect($rel);
-					foreach($rels as $rel){
-						if($rel && method_exists($rel, "hideFields"))
+					foreach ($rels as $rel) {
+						if ($rel && method_exists($rel, "hideFields"))
 							$rel->hideFields();
 					}
 				});
@@ -123,9 +129,9 @@ class RestController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request){
+    public function store(Request $request) {
         $this->model::create($request->all());
-		if($request->ajax())
+		if ($request->ajax())
 			return "success";
 		else
 			return back();
@@ -137,21 +143,21 @@ class RestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id){
+    public function show($id) {
 		$user = Auth::user();
 		try {
 			$result = $this->model::with($this->relationships)->findOrFail($id);
-		} catch (\Exception $e){
+		} catch (\Exception $e) {
 			$result = $this->model::with($this->relationships)->findOrFail(Hashids::decode($id)[0]);
 		}
 
-		if(!$user->isType("admin")){
-			if(method_exists($result, "hideFields"))
+		if (!$user->isType("admin")) {
+			if (method_exists($result, "hideFields"))
 				$result->hideFields();
-			collect($result->getRelations())->each(function($rel){
+			collect($result->getRelations())->each(function($rel) {
 				$rels = collect($rel);
-				foreach($rels as $rel){
-					if($rel && method_exists($rel, "hideFields"))
+				foreach ($rels as $rel) {
+					if ($rel && method_exists($rel, "hideFields"))
 						$rel->hideFields();
 				}
 			});
@@ -167,10 +173,10 @@ class RestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id){
+    public function update(Request $request, $id) {
         $this->model::findOrFail($id)->update($request->all());
 
-		if($request->ajax())
+		if ($request->ajax())
 			return "success";
 		else
 			return back();
@@ -182,15 +188,15 @@ class RestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id){
-		if($this->model::destroy($id)){
-			if($request->ajax())
+    public function destroy(Request $request, $id) {
+		if ($this->model::destroy($id)) {
+			if ($request->ajax())
 				return "success";
 			else
 				return back();
 		}
 		else {
-			if($request->ajax())
+			if ($request->ajax())
 				throw new \Exception("Problem deleting object");
 			else
 				return back()->with("error", "Problem deleting object");

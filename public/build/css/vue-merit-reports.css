@@ -42,6 +42,19 @@ nav span[data-v-05c830ce] {
 	margin: 0 0.25em;
 }
 
+.merit-report-list-item[data-v-6c389d6a] {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+	padding: 5px 0;
+}
+.merit-report-list-item[data-v-6c389d6a]:nth-child(even) {
+	background-color: rgba(0, 0, 0, 0.05);
+}
+small[data-v-6c389d6a] {
+	font-size: 0.75em;
+	color: rgba(0, 0, 0, 0.55);
+	display: block;
+}
+
 .checklist[data-v-08bc7d30] {
 	font-size: 1.25em;
 }
@@ -189,19 +202,6 @@ legend[data-v-3b7f8513] {
 }
 .bullet.filled[data-v-7b09133f] {
 	background-color: rgba(0, 0, 0, 0.75);
-}
-
-.merit-report-list-item[data-v-6c389d6a] {
-	border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-	padding: 5px 0;
-}
-.merit-report-list-item[data-v-6c389d6a]:nth-child(even) {
-	background-color: rgba(0, 0, 0, 0.05);
-}
-small[data-v-6c389d6a] {
-	font-size: 0.75em;
-	color: rgba(0, 0, 0, 0.55);
-	display: block;
 }
 
 /*# sourceMappingURL=vue-merit-reports.css.map*/
