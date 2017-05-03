@@ -37,7 +37,8 @@
 			</ol>
 			<slot name="footer"></slot>
 		</div>
-		<list-paginator v-model="page" :paginatedItems="paginatedItems"
+		<list-paginator v-if="paginate"
+			v-model="page" :paginatedItems="paginatedItems"
 			:itemsPerPage="itemsPerPage"
 			@pageSize="itemsPerPage = arguments[0]" />
 	</div>
@@ -77,6 +78,10 @@ export default {
 				return ['asc', 'desc'].includes(order);
 			},
 			default: 'asc'
+		},
+		paginate: {
+			type: Boolean,
+			default: true
 		}
 	},
 	data(){
@@ -173,6 +178,9 @@ export default {
 			return this.filteredItems;
 		},
 		paginatedItems(){
+			if (!this.paginate)
+				return this.sortedItems;
+
 			let paginatedItems = [];
 			let items = this.sortedItems.slice();
 			while(items.length > 0)
@@ -181,6 +189,9 @@ export default {
 			return paginatedItems;
 		},
 		currentPageItems(){
+			if (!this.paginate)
+				return this.sortedItems;
+
 			return this.paginatedItems[this.page];
 		}
 	},

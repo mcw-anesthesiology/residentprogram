@@ -9,34 +9,35 @@ use App\User;
 class UserController extends RestController
 {
 
-	public function __construct(){
-        $this->middleware("auth");
-		$this->middleware("type:admin", ["except" => [
+	public function __construct() {
+        $this->middleware('auth');
+		$this->middleware('type:admin', ['except' => [
 			'index',
 			'show'
 		]]);
     }
 
 	protected $relationships = [
-		"subjectEvaluations",
-		"evaluatorEvaluations",
-		"requestedEvaluations",
-		"mentees",
-		"watchedForms"
+		'subjectEvaluations',
+		'evaluatorEvaluations',
+		'requestedEvaluations',
+		'mentees',
+		'watchedForms',
+		'meritReports'
 	];
 
 	protected $attributes = [
-		"id",
-		"username",
-		"type",
-		"status",
-		"training_level",
-		"first_name",
-		"last_name",
-		"email",
-		"notifications",
-		"reminder_frequency",
-		"specific_type"
+		'id',
+		'username',
+		'type',
+		'status',
+		'training_level',
+		'first_name',
+		'last_name',
+		'email',
+		'notifications',
+		'reminder_frequency',
+		'specific_type'
 	];
 
 	protected $model = \App\User::class;
@@ -139,7 +140,7 @@ class UserController extends RestController
 		else
 			return back();
 	}
-	
+
 	protected function getExtension($file){
 		if(!empty($file->extension()))
 			return $file->extension();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Rest;
 use Illuminate\Http\Request;
 
 use App\MeritReport;
+use App\User;
 
 use Auth;
 use Log;
@@ -14,6 +15,15 @@ class MeritReportController extends RestController
 	public function __construct() {
 		$this->middleware('auth');
 		$this->middleware('type:admin')->only('destroy');
+
+		// Only allow admins and FACULTY_EVALS users to show all by user
+		$this->middleware(function ($request, $next) {
+			$user = Auth::user();
+			if ($user->isType('admin') || $user->usesFeature('FACULTY_EVALS'))
+				return $next($request);
+
+			return response('Not allowed.', 403);
+		})->only('byUser');
 
 		// Users can only submit reports for themselves
 		$this->middleware(function ($request, $next) {
@@ -58,5 +68,11 @@ class MeritReportController extends RestController
 	];
 
 	protected $model = \App\MeritReport::class;
+
+	public function byUser() {
+		return User::whereHas('meritReports', function ($query) {
+			return $query->where('status', 'complete');
+		})->with('meritReports', 'meritReports.form')->get();
+	}
 
 }
