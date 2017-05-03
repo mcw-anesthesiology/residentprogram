@@ -211,6 +211,17 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		});
 
 	}
+	
+	public function scopeOfType($query, $type) {
+		if (is_array($type))
+			return $query->whereIn('type', $type);
+		else
+			return $query->where('type', $type);
+	}
+	
+	public function scopeActive($query) {
+		return $query->where('status', 'active');
+	}
 
 	public function resetPassword(){
 		$password = str_random(12);
