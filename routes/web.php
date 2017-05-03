@@ -94,3 +94,7 @@ Route::post('report/pending-requests', 'ReportController@pendingRequests');
 
 Route::get('report/stats/{type}', 'ReportController@stats');
 Route::post('report/stats/{evaluationType}/{userType}', 'ReportController@getStats');
+
+// TODO: Change url?
+Route::get('faculty360', 'FacultyPeerEvaluationController@request');
+Route::post('faculty360', 'FacultyPeerEvaluationController@createEvaluation');

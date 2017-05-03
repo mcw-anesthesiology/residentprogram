@@ -318,3 +318,10 @@ export function htmlLabelReplacements(html, replacements){
 	
 	return html;
 }
+
+export function errorToAlert(err) {
+	return {
+		type: 'error',
+		html: `<strong>Error:</strong> ${err.message}`
+	};
+}
