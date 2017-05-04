@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Carbon\Carbon;
+
 use App\Evaluation;
 use App\Milestone;
 use App\User;
@@ -12,20 +14,18 @@ use Auth;
 
 class FacultyPeerEvaluationController extends Controller
 {
+	const ALLOWED_USER_TYPES = [
+		'faculty',
+		'staff'
+	];
+	
     public function __construct() {
 		$this->middleware(function ($request, $next) {
-			if (!Auth::check() || Auth::user()->isType('faculty'))
+			if (!Auth::check() || Auth::user()->isType(self::ALLOWED_USER_TYPES))
 				return $next($request);
 				
 			return response('Not allowed', 403);
 		})->only('request');
-		
-		// Allow @mcw.edu email addresses to request,
-		// disallow residents
-		$this->middleware(function ($request, $next) {
-			// TODO
-			
-		})->only('createEvaluation');
 	}
 	
 	public function request() {
@@ -52,25 +52,9 @@ class FacultyPeerEvaluationController extends Controller
 		return view('faculty360.request', $data);
 	}
 	
-	public function createEvaluation(Request $request) {
-		
-	}
-	
-	public function validateEmail(Request $request) {
-		if ($request->has('email') && self::emailValid($request->input('email')))
-			return response()->json([
-				'email' => $email,
-				'valid' => true
-			]);
-		
-		return response()->json([
-			'email' => $email,
-			'valid' => false
-		]);
-	}
-	
-	private static function emailValid($email) {
-		return (User::ofType(['faculty','staff'])->where('email', $email)
-			->count() == 0);
-	}
+	public function evaluate(Request $request, $hash) {
+		$evaluation = FacultyPeerEvaluation::where('hash', $hash)
+			->where('hash_expires', '>', Carbon::now())
+			->firstOrFail();
+	}	
 }

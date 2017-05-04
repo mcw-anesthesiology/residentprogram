@@ -2,7 +2,7 @@
 	<div class="form-header">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-md-6">
+				<div :class="fixedFormType ? 'col-md-9' : 'col-md-6'">
 					<div class="form-group">
 						<label for="form-title">Form title</label>
 						<input type="text" v-model.trim="title" id="form-title"
@@ -11,7 +11,7 @@
 					</div>
 				</div>
 				<div class="col-md-3">
-					<div class="form-group">
+					<div class="form-group" v-if="!fixedFormType">
 						<label for="form-type">Form type</label>
 						<select class="form-control input-lg" v-model="formType" id="form-type" name="form_type">
 							<option value="resident">Resident/Intern</option>
@@ -92,15 +92,19 @@ import FormBuilderInstruction from './FormBuilderInstruction.vue';
 import FormBuilderQuestion from './FormBuilderQuestion.vue';
 import AlertList from '../AlertList.vue';
 
-import {
-	getFetchHeaders,
-	fetchMilestoneGroups
-} from 'modules/utils.js';
+import { fetchMilestoneGroups } from 'modules/utils.js';
 
 export default {
-	props: [
-		'oldFormContents'
-	],
+	props: {
+		oldFormContents: {
+			type: Object,
+			required: false
+		},
+		fixedFormType: {
+			type: Boolean,
+			default: false
+		}
+	},
 	created(){
 		fetchMilestoneGroups().then(milestoneGroups => {
 			this.groupedMilestones = milestoneGroups;
@@ -175,38 +179,15 @@ export default {
 		},
 		submitForm(event) {
 			event.preventDefault();
-			let requestBody = JSON.stringify({
-				title: this.title,
-				formType: this.formType,
-				evaluation_period_type: this.periodType,
-				items: this.items.map(item => {
-					item.questionId = `q${item.questionIdNum}`;
-					return item;
-				})
-			});
-
 			if (this.isFormValid()) {
-				fetch('/forms', {
-					method: 'POST',
-					headers: getFetchHeaders(),
-					credentials: 'same-origin',
-					body: requestBody
-				}).then(response => {
-					if(response.ok)
-						return response.text();
-					else
-						throw new Error(response);
-				}).then(response => {
-					if(response === 'success')
-						window.location = '/manage/forms';
-					else
-						throw new Error(response);
-				}).catch(err => {
-					this.alerts.push({
-						type: 'error',
-						text: 'Error saving form'
-					});
-					console.error(err);
+				this.$emit('submit', {
+					title: this.title,
+					formType: this.formType,
+					evaluation_period_type: this.periodType,
+					items: this.items.map(item => {
+						item.questionId = `q${item.questionIdNum}`;
+						return item;
+					})
 				});
 			}
 		},
