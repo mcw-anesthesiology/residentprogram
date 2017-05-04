@@ -78,3 +78,12 @@ Route::delete('case_log_details_schemas/{type}', 'Rest\CaseLogDetailsSchemaContr
 Route::resource('case_log_details_schemas', 'Rest\CaseLogDetailsSchemaController', ['only' => [
 	'index', 'store', 'show'
 ]]);
+
+Route::get('faculty360/forms/{id}/view', 'Rest\FacultyPeerFormController@view');
+Route::resource('faculty360/forms', 'Rest\FacultyPeerFormController', ['only' => [
+	'index', 'store', 'create', 'show', 'destroy'
+]]);
+
+Route::resource('faculty360/evaluations', 'Rest\FacultyPeerEvaluationController', ['only' => [
+	'index', 'store', 'show', 'destroy'
+]]);
