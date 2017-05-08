@@ -53,7 +53,17 @@ class LoginController extends Controller
 	 * @Override AuthenticatesUsers
 	 */
 	protected function credentials(Request $request){
-		return $request->only($this->username(), 'password') + ['status' => 'active'];
+		$credentials = $request->only('password') + ['status' => 'active'];
+		
+		$login = $request->input($this->username());
+		
+		$field = filter_var($login, FILTER_VALIDATE_EMAIL)
+			? 'email'
+			: $this->username();
+			
+		$credentials[$field] = $login;
+		
+		return $credentials;
 	}
 	
 	/**
