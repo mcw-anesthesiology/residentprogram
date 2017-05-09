@@ -77,18 +77,6 @@
 	</div>
 </div>
 
-<div id="faculty-360-forms-block" class="container body-block">
-	<h2 class="sub-header">
-		Faculty 360 forms
-		<a href="/faculty360/forms/create" class="btn btn-success btn-xs">
-			<span class="glyphicon glyphicon-plus"></span>
-			Add new
-		</a>
-	</h2>
-	<data-table :thead="faculty360Thead" :config="faculty360Config">
-	</data-table>
-</div>
-
 
 	<!-- Add Modal -->
 	<div class="modal fade bs-add-modal" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true" id="addModal" v-pre>
@@ -167,14 +155,6 @@
 		</div>
 	</div>
 @stop
-
-@push('scripts')
-	<script src="{{ elixir('js/vue-deps.js') }}"></script>
-	<script src="{{ elixir('js/vue-manage.js') }}"></script>
-	<script>
-		createManageForms('#faculty-360-forms-block');
-	</script>
-@endpush
 
 @section("script")
 	<script>

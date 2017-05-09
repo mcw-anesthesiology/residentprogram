@@ -80,6 +80,7 @@ Route::get('manage/alumni/import', 'ManageController@importAlumni');
 Route::get('manage/watched-forms', 'ManageController@watchedForms');
 Route::get('manage/user-features', 'ManageController@userFeatures');
 Route::get('manage/case-logs', 'ManageController@caseLogs');
+Route::get('manage/faculty360', 'ManageController@faculty360');
 
 Route::get('reports', 'ReportController@reports');
 

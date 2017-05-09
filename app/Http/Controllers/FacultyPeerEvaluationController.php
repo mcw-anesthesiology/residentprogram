@@ -12,6 +12,7 @@ use App\FacultyPeerForm;
 use App\User;
 
 use Auth;
+use Hashids;
 use Log;
 
 class FacultyPeerEvaluationController extends Controller
@@ -30,6 +31,36 @@ class FacultyPeerEvaluationController extends Controller
 				? response('Not allowed', 403)
 				: redirect('dashboard')->with('error', 'You are not currently allowed to create a Faculty 360 evaluation');
 		})->only(['request', 'evaluate']);
+
+		$this->middleware(function ($request, $next) {
+			try {
+				$eval = FacultyPeerEvaluation::findOrFail(
+					Hashids::decode($request->route()->parameters()['id']));
+
+				if (
+					Auth::check()
+					&& (
+						Auth::user()->isType('admin')
+						|| Auth::id() == $eval->subject_id
+						|| Auth::user()->usesFeature('FACULTY_EVALS')
+					)
+				)
+					return $next($request);
+			} catch (ModelNotFoundException $e) {
+				return $request->ajax()
+					? response('Not found', 404)
+					: back()->with('error', 'No evaluation found for given identifier');
+			} catch (\Exception $e) {
+				return $request->ajax()
+					? response('Error', 500)
+					: back()->with('error', 'There was a problem viewing the evaluation');
+			}
+
+			return $request->ajax()
+				? response('Not allowed', 403)
+				: back()->with('error', 'You are not allowed to view that faculty 360 evaluation');
+
+		})->only('view');
 	}
 
 	public function request() {
@@ -85,5 +116,13 @@ class FacultyPeerEvaluationController extends Controller
 			Log::debug($e);
 			return back()->with('error', 'There was a problem completing the evaluation, sorry about that! Please let me know at jmischka@mcw.edu');
 		}
+	}
+
+	public function view(Request $request, $id) {
+		$evaluation = FacultyPeerEvaluation::findOrFail(Hashids::decode($id));
+
+		$data = compact('evaluation');
+
+		return view('faculty360.view', $data);
 	}
 }

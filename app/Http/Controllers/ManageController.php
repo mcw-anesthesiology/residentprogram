@@ -347,4 +347,8 @@ class ManageController extends Controller
 
 		return view("manage.case-log.all", $data);
 	}
+
+    public function faculty360() {
+        return view('manage.faculty360');
+    }
 }
