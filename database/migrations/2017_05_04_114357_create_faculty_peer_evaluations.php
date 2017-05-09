@@ -25,8 +25,10 @@ class CreateFacultyPeerEvaluations extends Migration
 			$table->string('hash')->unique();
 			$table->dateTime('hash_expires');
 			
+			$table->string('requested_by');
+			
 			$table->string('request_ip');
-			$table->string('complete_ip');
+			$table->string('complete_ip')->nullable();
 			
             $table->timestamps();
 			$table->softDeletes();

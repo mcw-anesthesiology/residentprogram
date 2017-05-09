@@ -24,7 +24,7 @@
 					</div>
 				</div>
 				<div class="col-md-3">
-					<div class="form-group">
+					<div class="form-group" v-if="!fixedPeriodType">
 						<label for="form-period-type">Evaluation period type</label>
 						<select class="form-control input-lg" v-model="periodType" id="form-period-type">
 							<option value="month">Month</option>
@@ -45,10 +45,11 @@
 							@remove="removeItem(index)">
 						</form-builder-instruction>
 						<form-builder-question v-if="item.type === 'question'"
-							v-bind="item" :formType="formType"
-							:groupedMilestones="groupedMilestones"
-							:allCompetencies="competencies"
-							:customOptions="customOptions"
+							v-bind="item" :form-type="formType"
+							:grouped-milestones="groupedMilestones"
+							:all-competencies="competencies"
+							:custom-options="customOptions"
+							:show-milestones-competencies="showMilestonesCompetencies"
 							@change="changeItem(index, $event)"
 							@remove="removeItem(index)">
 						</form-builder-question>
@@ -101,36 +102,31 @@ export default {
 			required: false
 		},
 		fixedFormType: {
+			type: String,
+			required: false
+		},
+		fixedPeriodType: {
+			type: String,
+			required: false
+		},
+		defaultFormType: {
+			type: String,
+			required: false
+		},
+		defaultPeriodType: {
+			type: String,
+			required: false
+		},
+		showMilestonesCompetencies: {
 			type: Boolean,
-			default: false
+			default: true
 		}
-	},
-	created(){
-		fetchMilestoneGroups().then(milestoneGroups => {
-			this.groupedMilestones = milestoneGroups;
-		}).catch(err => {
-			console.error(err);
-		});
-
-		fetch('/competencies', { credentials: 'same-origin' }).then(response => {
-			if(response.ok)
-				return response.json();
-			else {
-				let err = new Error(response.statusText);
-				err.response = response;
-				throw err;
-			}
-		}).then(competencies => {
-			this.competencies = competencies;
-		}).catch(err => {
-			console.error(err);
-		});
 	},
 	data(){
 		return {
 			title: '',
-			formType: 'resident',
-			periodType: 'month',
+			formType: this.fixedFormType || this.defaultFormType || 'resident',
+			periodType: this.fixedPeriodType || this.defaultPeriodType || 'month',
 			nextQuestionIdNum: 1,
 			groupedMilestones: [],
 			competencies: [],
@@ -140,6 +136,31 @@ export default {
 			alerts: []
 		};
 	},
+	
+	mounted(){
+		if (this.showMilestonesCompetencies) {
+			fetchMilestoneGroups().then(milestoneGroups => {
+				this.groupedMilestones = milestoneGroups;
+			}).catch(err => {
+				console.error(err);
+			});
+
+			fetch('/competencies', { credentials: 'same-origin' }).then(response => {
+				if(response.ok)
+					return response.json();
+				else {
+					let err = new Error(response.statusText);
+					err.response = response;
+					throw err;
+				}
+			}).then(competencies => {
+				this.competencies = competencies;
+			}).catch(err => {
+				console.error(err);
+			});			
+		}
+	},
+	
 	methods: {
 		addInstruction() {
 			this.items.push({
@@ -153,8 +174,8 @@ export default {
 				text: '',
 				questionIdNum: this.nextQuestionIdNum++,
 				questionType: 'radio',
-				milestones: [],
-				competencies: '',
+				milestones: null,
+				competencies: null,
 				options: [],
 				required: false,
 				weight: 100

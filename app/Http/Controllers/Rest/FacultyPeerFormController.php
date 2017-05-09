@@ -22,6 +22,8 @@ class FacultyPeerFormController extends RestController
 	protected $model = \App\FacultyPeerForm::class;
 	
 	public function __construct() {
+		$this->middleware('auth')->except('view');
+		$this->middleware('type:admin')->except('view');
 		$this->middleware('shared')->only(['create', 'view']);
 	}
 	
@@ -44,17 +46,24 @@ class FacultyPeerFormController extends RestController
 		$form->contents = [
 			'items' => $request->input('items')
 		];
+		$form->status = 'active';
 		$form->save();
 		$form = $form->fresh();
 
 		if($request->ajax())
-			return "success";
+			return [
+				'status' => 'success',
+				'id' => $form->id
+			];
 		else
     		return redirect("faculty360/forms/view/{$form->id}");
 	}
 	
 	public function view(Request $request, $id) {
-		return view('faculty360.forms.view');
+		$form = FacultyPeerForm::findOrFail($id);
+		$data = compact('form');
+		
+		return view('faculty360.forms.view', $data);
 	}
 	
 	public function destroy(Request $request, $id) {

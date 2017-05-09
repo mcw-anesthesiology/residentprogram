@@ -3516,6 +3516,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -3530,36 +3531,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			required: false
 		},
 		fixedFormType: {
+			type: String,
+			required: false
+		},
+		fixedPeriodType: {
+			type: String,
+			required: false
+		},
+		defaultFormType: {
+			type: String,
+			required: false
+		},
+		defaultPeriodType: {
+			type: String,
+			required: false
+		},
+		showMilestonesCompetencies: {
 			type: Boolean,
-			default: false
+			default: true
 		}
-	},
-	created: function created() {
-		var _this = this;
-
-		__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["a" /* fetchMilestoneGroups */])().then(function (milestoneGroups) {
-			_this.groupedMilestones = milestoneGroups;
-		}).catch(function (err) {
-			console.error(err);
-		});
-
-		fetch('/competencies', { credentials: 'same-origin' }).then(function (response) {
-			if (response.ok) return response.json();else {
-				var err = new Error(response.statusText);
-				err.response = response;
-				throw err;
-			}
-		}).then(function (competencies) {
-			_this.competencies = competencies;
-		}).catch(function (err) {
-			console.error(err);
-		});
 	},
 	data: function data() {
 		return {
 			title: '',
-			formType: 'resident',
-			periodType: 'month',
+			formType: this.fixedFormType || this.defaultFormType || 'resident',
+			periodType: this.fixedPeriodType || this.defaultPeriodType || 'month',
 			nextQuestionIdNum: 1,
 			groupedMilestones: [],
 			competencies: [],
@@ -3569,6 +3565,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			alerts: []
 		};
 	},
+	mounted: function mounted() {
+		var _this = this;
+
+		if (this.showMilestonesCompetencies) {
+			__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["d" /* fetchMilestoneGroups */])().then(function (milestoneGroups) {
+				_this.groupedMilestones = milestoneGroups;
+			}).catch(function (err) {
+				console.error(err);
+			});
+
+			fetch('/competencies', { credentials: 'same-origin' }).then(function (response) {
+				if (response.ok) return response.json();else {
+					var err = new Error(response.statusText);
+					err.response = response;
+					throw err;
+				}
+			}).then(function (competencies) {
+				_this.competencies = competencies;
+			}).catch(function (err) {
+				console.error(err);
+			});
+		}
+	},
+
 
 	methods: {
 		addInstruction: function addInstruction() {
@@ -3583,8 +3603,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				text: '',
 				questionIdNum: this.nextQuestionIdNum++,
 				questionType: 'radio',
-				milestones: [],
-				competencies: '',
+				milestones: null,
+				competencies: null,
 				options: [],
 				required: false,
 				weight: 100
@@ -3986,6 +4006,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -3995,7 +4017,56 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = {
-	props: ['formType', 'groupedMilestones', 'allCompetencies', 'questionIdNum', 'text', 'questionType', 'milestones', 'competencies', 'options', 'required', 'customOptions'],
+	props: {
+		formType: {
+			type: String,
+			required: true
+		},
+		groupedMilestones: {
+			type: Array,
+			required: false
+		},
+		allCompetencies: {
+			type: Array,
+			required: false
+		},
+		questionIdNum: {
+			type: Number,
+			required: true
+		},
+		text: {
+			type: String,
+			required: true
+		},
+		questionType: {
+			type: String,
+			required: true
+		},
+		milestones: {
+			type: Array,
+			required: false
+		},
+		competencies: {
+			type: Array,
+			required: false
+		},
+		options: {
+			type: Array,
+			required: false
+		},
+		required: {
+			type: Boolean,
+			default: false
+		},
+		customOptions: {
+			type: Array,
+			required: false
+		},
+		showMilestonesCompetencies: {
+			type: Boolean,
+			default: true
+		}
+	},
 	data: function data() {
 		return {
 			workingOption: {
@@ -4031,7 +4102,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					id: competency.id,
 					text: competency.title
 				};
-			}).sort(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["b" /* sortSelect2Objects */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["e" /* sortSelect2Objects */]);
 		}
 	},
 	methods: {
@@ -4176,7 +4247,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n.form-item[data-v-2c14a78c] {\n\tdisplay: flex;\n\tflex-direction: row;\n\tjustify-content: center;\n\talign-items: center;\n}\n.form-item .form-block[data-v-2c14a78c] {\n\tflex-grow: 1;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormBuilder/FormBuilder.vue?2c9db702"],"names":[],"mappings":";AAwRA;CACA,cAAA;CACA,oBAAA;CACA,wBAAA;CACA,oBAAA;CACA;AAEA;CACA,aAAA;CACA","file":"FormBuilder.vue","sourcesContent":["<template>\n\t<div class=\"form-header\">\n\t\t<div class=\"container-fluid\">\n\t\t\t<div class=\"row\">\n\t\t\t\t<div :class=\"fixedFormType ? 'col-md-9' : 'col-md-6'\">\n\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t<label for=\"form-title\">Form title</label>\n\t\t\t\t\t\t<input type=\"text\" v-model.trim=\"title\" id=\"form-title\"\n\t\t\t\t\t\t\tclass=\"form-control input-lg\" name=\"formTitle\"\n\t\t\t\t\t\t\tplaceholder=\"Form Title\" required />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-3\">\n\t\t\t\t\t<div class=\"form-group\" v-if=\"!fixedFormType\">\n\t\t\t\t\t\t<label for=\"form-type\">Form type</label>\n\t\t\t\t\t\t<select class=\"form-control input-lg\" v-model=\"formType\" id=\"form-type\" name=\"form_type\">\n\t\t\t\t\t\t\t<option value=\"resident\">Resident/Intern</option>\n\t\t\t\t\t\t\t<option value=\"self-resident\">Resident/Intern (self)</option>\n\t\t\t\t\t\t\t<option value=\"fellow\">Fellow</option>\n\t\t\t\t\t\t\t<option value=\"self-fellow\">Fellow (self)</option>\n\t\t\t\t\t\t\t<option value=\"faculty\">Faculty</option>\n\t\t\t\t\t\t\t<option value=\"staff\">Staff</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-3\">\n\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t<label for=\"form-period-type\">Evaluation period type</label>\n\t\t\t\t\t\t<select class=\"form-control input-lg\" v-model=\"periodType\" id=\"form-period-type\">\n\t\t\t\t\t\t\t<option value=\"month\">Month</option>\n\t\t\t\t\t\t\t<option value=\"quarter\">Quarter</option>\n\t\t\t\t\t\t\t<option value=\"year\">Year</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"form-body\">\n\t\t\t<div class=\"form-items\">\n\t\t\t\t<template v-for=\"(item, index) of items\">\n\t\t\t\t\t<div class=\"form-item\">\n\t\t\t\t\t\t<form-builder-instruction v-if=\"item.type === 'instruction'\"\n\t\t\t\t\t\t\tv-bind=\"item\" @change=\"changeItem(index, $event)\"\n\t\t\t\t\t\t\t@input=\"changeItem(index, $event)\"\n\t\t\t\t\t\t\t@remove=\"removeItem(index)\">\n\t\t\t\t\t\t</form-builder-instruction>\n\t\t\t\t\t\t<form-builder-question v-if=\"item.type === 'question'\"\n\t\t\t\t\t\t\tv-bind=\"item\" :formType=\"formType\"\n\t\t\t\t\t\t\t:groupedMilestones=\"groupedMilestones\"\n\t\t\t\t\t\t\t:allCompetencies=\"competencies\"\n\t\t\t\t\t\t\t:customOptions=\"customOptions\"\n\t\t\t\t\t\t\t@change=\"changeItem(index, $event)\"\n\t\t\t\t\t\t\t@remove=\"removeItem(index)\">\n\t\t\t\t\t\t</form-builder-question>\n\t\t\t\t\t\t<div class=\"btn-group-vertical\">\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\t:disabled=\"index === 0\"\n\t\t\t\t\t\t\t\t\t@click=\"moveItem(index, index - 1)\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-arrow-up\"></span>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\t:disabled=\"index === items.length - 1\"\n\t\t\t\t\t\t\t\t\t@click=\"moveItem(index, index + 1)\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-arrow-down\"></span>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</template>\n\t\t\t</div>\n\t\t</div>\n\t\t<div id=\"form-footer\">\n\t\t\t<alert-list v-model=\"alerts\" />\n\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\tid=\"add-instruction-block\"\n\t\t\t\t\t@click=\"addInstruction\">\n\t\t\t\tAdd instruction block\n\t\t\t</button>\n\t\t\t<button type=\"button\" class=\"btn btn-info\" id=\"addQuestion\"\n\t\t\t\t\t@click=\"addQuestion\">\n\t\t\t\tAdd question\n\t\t\t</button>\n\t\t\t<button type=\"submit\" class=\"btn btn-success\"\n\t\t\t\t\t@click=\"submitForm\">\n\t\t\t\tSubmit form\n\t\t\t</button>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport FormBuilderInstruction from './FormBuilderInstruction.vue';\nimport FormBuilderQuestion from './FormBuilderQuestion.vue';\nimport AlertList from '../AlertList.vue';\n\nimport { fetchMilestoneGroups } from 'modules/utils.js';\n\nexport default {\n\tprops: {\n\t\toldFormContents: {\n\t\t\ttype: Object,\n\t\t\trequired: false\n\t\t},\n\t\tfixedFormType: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t}\n\t},\n\tcreated(){\n\t\tfetchMilestoneGroups().then(milestoneGroups => {\n\t\t\tthis.groupedMilestones = milestoneGroups;\n\t\t}).catch(err => {\n\t\t\tconsole.error(err);\n\t\t});\n\n\t\tfetch('/competencies', { credentials: 'same-origin' }).then(response => {\n\t\t\tif(response.ok)\n\t\t\t\treturn response.json();\n\t\t\telse {\n\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\terr.response = response;\n\t\t\t\tthrow err;\n\t\t\t}\n\t\t}).then(competencies => {\n\t\t\tthis.competencies = competencies;\n\t\t}).catch(err => {\n\t\t\tconsole.error(err);\n\t\t});\n\t},\n\tdata(){\n\t\treturn {\n\t\t\ttitle: '',\n\t\t\tformType: 'resident',\n\t\t\tperiodType: 'month',\n\t\t\tnextQuestionIdNum: 1,\n\t\t\tgroupedMilestones: [],\n\t\t\tcompetencies: [],\n\t\t\titems: [],\n\t\t\tcustomOptions: [],\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\tmethods: {\n\t\taddInstruction() {\n\t\t\tthis.items.push({\n\t\t\t\ttype: 'instruction',\n\t\t\t\ttext: ''\n\t\t\t});\n\t\t},\n\t\taddQuestion() {\n\t\t\tthis.items.push({\n\t\t\t\ttype: 'question',\n\t\t\t\ttext: '',\n\t\t\t\tquestionIdNum: this.nextQuestionIdNum++,\n\t\t\t\tquestionType: 'radio',\n\t\t\t\tmilestones: [],\n\t\t\t\tcompetencies: '',\n\t\t\t\toptions: [],\n\t\t\t\trequired: false,\n\t\t\t\tweight: 100\n\t\t\t});\n\t\t},\n\t\tchangeItem(index, item) {\n\t\t\tthis.items.splice(index, 1, Object.assign(this.items[index], item));\n\t\t},\n\t\tmoveItem(index, newIndex) {\n\t\t\tthis.items.splice(newIndex, 0, this.items.splice(index, 1)[0]);\n\t\t\tthis.adjustQuestionIdNums();\n\t\t},\n\t\tremoveItem(index) {\n\t\t\tthis.items.splice(index, 1);\n\t\t\tthis.adjustQuestionIdNums();\n\t\t},\n\t\tadjustQuestionIdNums() {\n\t\t\tthis.items = this.items.map((item, index) =>\n\t\t\t\tObject.assign({}, item, {questionIdNum: index + 1})\n\t\t\t);\n\t\t\tthis.nextQuestionIdNum = this.items.length;\n\t\t},\n\t\tsubmitForm(event) {\n\t\t\tevent.preventDefault();\n\t\t\tif (this.isFormValid()) {\n\t\t\t\tthis.$emit('submit', {\n\t\t\t\t\ttitle: this.title,\n\t\t\t\t\tformType: this.formType,\n\t\t\t\t\tevaluation_period_type: this.periodType,\n\t\t\t\t\titems: this.items.map(item => {\n\t\t\t\t\t\titem.questionId = `q${item.questionIdNum}`;\n\t\t\t\t\t\treturn item;\n\t\t\t\t\t})\n\t\t\t\t});\n\t\t\t}\n\t\t},\n\t\tisFormValid() {\n\t\t\tif (!this.title) {\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\ttext: 'Please enter a title for the form'\n\t\t\t\t});\n\t\t\t\treturn false;\n\t\t\t}\n\n\t\t\tif (!this.items || this.items.length < 1) {\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\ttext: 'Please enter at least one question'\n\t\t\t\t});\n\t\t\t\treturn false;\n\t\t\t}\n\n\t\t\tfor (let item of this.items) {\n\t\t\t\tif (item.type === 'question') {\n\t\t\t\t\tif (!item.text) {\n\t\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\t\ttext: `Please enter question text for question ${item.questionIdNum}`\n\t\t\t\t\t\t});\n\t\t\t\t\t\treturn false;\n\t\t\t\t\t}\n\t\t\t\t\tif (['radio', 'radiononnumeric', 'checkbox'].includes(item.questionType)) {\n\t\t\t\t\t\tif(!item.options || item.options.length < 1){\n\t\t\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\t\t\ttext: `Please add at least one option for each multiple-choice question`\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t\treturn false;\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\tfor (let option of item.options) {\n\t\t\t\t\t\t\tif (!('value' in option)) {\n\t\t\t\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\t\t\t\ttext: `An option cannot be submitted without a value. Please either assign a value or remove the option text and description for each option in question ${item.questionIdNum}`\n\t\t\t\t\t\t\t\t});\n\t\t\t\t\t\t\t\treturn false;\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\telse if (item.type === 'instruction') {\n\t\t\t\t\tif (!item.text) {\n\t\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\t\ttext: 'Please complete or remove all empty instruction blocks'\n\t\t\t\t\t\t});\n\t\t\t\t\t\treturn false;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\ttext: 'Unrecognized item type in form'\n\t\t\t\t\t});\n\t\t\t\t\treturn false;\n\t\t\t\t}\n\t\t\t}\n\n\t\t\treturn true;\n\t\t}\n\t},\n\twatch: {\n\t\toldFormContents(formContents) {\n\t\t\tthis.title = formContents.title;\n\t\t\tthis.formType = formContents.formType;\n\t\t\tthis.items = formContents.items.slice();\n\t\t\tfor (let item of this.items) {\n\t\t\t\tif (item.questionIdNum && item.questionIdNum >= this.nextQuestionIdNum)\n\t\t\t\t\tthis.nextQuestionIdNum = item.questionIdNum + 1;\n\t\t\t}\n\t\t}\n\t},\n\tcomponents: {\n\t\tFormBuilderInstruction,\n\t\tFormBuilderQuestion,\n\t\tAlertList\n\t}\n};\n</script>\n\n<style scoped>\n\t.form-item {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tjustify-content: center;\n\t\talign-items: center;\n\t}\n\t\n\t.form-item .form-block {\n\t\tflex-grow: 1;\n\t}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.form-item[data-v-2c14a78c] {\n\tdisplay: flex;\n\tflex-direction: row;\n\tjustify-content: center;\n\talign-items: center;\n}\n.form-item .form-block[data-v-2c14a78c] {\n\tflex-grow: 1;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormBuilder/FormBuilder.vue?446fb5d2"],"names":[],"mappings":";AA6SA;CACA,cAAA;CACA,oBAAA;CACA,wBAAA;CACA,oBAAA;CACA;AAEA;CACA,aAAA;CACA","file":"FormBuilder.vue","sourcesContent":["<template>\n\t<div class=\"form-header\">\n\t\t<div class=\"container-fluid\">\n\t\t\t<div class=\"row\">\n\t\t\t\t<div :class=\"fixedFormType ? 'col-md-9' : 'col-md-6'\">\n\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t<label for=\"form-title\">Form title</label>\n\t\t\t\t\t\t<input type=\"text\" v-model.trim=\"title\" id=\"form-title\"\n\t\t\t\t\t\t\tclass=\"form-control input-lg\" name=\"formTitle\"\n\t\t\t\t\t\t\tplaceholder=\"Form Title\" required />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-3\">\n\t\t\t\t\t<div class=\"form-group\" v-if=\"!fixedFormType\">\n\t\t\t\t\t\t<label for=\"form-type\">Form type</label>\n\t\t\t\t\t\t<select class=\"form-control input-lg\" v-model=\"formType\" id=\"form-type\" name=\"form_type\">\n\t\t\t\t\t\t\t<option value=\"resident\">Resident/Intern</option>\n\t\t\t\t\t\t\t<option value=\"self-resident\">Resident/Intern (self)</option>\n\t\t\t\t\t\t\t<option value=\"fellow\">Fellow</option>\n\t\t\t\t\t\t\t<option value=\"self-fellow\">Fellow (self)</option>\n\t\t\t\t\t\t\t<option value=\"faculty\">Faculty</option>\n\t\t\t\t\t\t\t<option value=\"staff\">Staff</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-3\">\n\t\t\t\t\t<div class=\"form-group\" v-if=\"!fixedPeriodType\">\n\t\t\t\t\t\t<label for=\"form-period-type\">Evaluation period type</label>\n\t\t\t\t\t\t<select class=\"form-control input-lg\" v-model=\"periodType\" id=\"form-period-type\">\n\t\t\t\t\t\t\t<option value=\"month\">Month</option>\n\t\t\t\t\t\t\t<option value=\"quarter\">Quarter</option>\n\t\t\t\t\t\t\t<option value=\"year\">Year</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"form-body\">\n\t\t\t<div class=\"form-items\">\n\t\t\t\t<template v-for=\"(item, index) of items\">\n\t\t\t\t\t<div class=\"form-item\">\n\t\t\t\t\t\t<form-builder-instruction v-if=\"item.type === 'instruction'\"\n\t\t\t\t\t\t\tv-bind=\"item\" @change=\"changeItem(index, $event)\"\n\t\t\t\t\t\t\t@input=\"changeItem(index, $event)\"\n\t\t\t\t\t\t\t@remove=\"removeItem(index)\">\n\t\t\t\t\t\t</form-builder-instruction>\n\t\t\t\t\t\t<form-builder-question v-if=\"item.type === 'question'\"\n\t\t\t\t\t\t\tv-bind=\"item\" :form-type=\"formType\"\n\t\t\t\t\t\t\t:grouped-milestones=\"groupedMilestones\"\n\t\t\t\t\t\t\t:all-competencies=\"competencies\"\n\t\t\t\t\t\t\t:custom-options=\"customOptions\"\n\t\t\t\t\t\t\t:show-milestones-competencies=\"showMilestonesCompetencies\"\n\t\t\t\t\t\t\t@change=\"changeItem(index, $event)\"\n\t\t\t\t\t\t\t@remove=\"removeItem(index)\">\n\t\t\t\t\t\t</form-builder-question>\n\t\t\t\t\t\t<div class=\"btn-group-vertical\">\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\t:disabled=\"index === 0\"\n\t\t\t\t\t\t\t\t\t@click=\"moveItem(index, index - 1)\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-arrow-up\"></span>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\t:disabled=\"index === items.length - 1\"\n\t\t\t\t\t\t\t\t\t@click=\"moveItem(index, index + 1)\">\n\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-arrow-down\"></span>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</template>\n\t\t\t</div>\n\t\t</div>\n\t\t<div id=\"form-footer\">\n\t\t\t<alert-list v-model=\"alerts\" />\n\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\tid=\"add-instruction-block\"\n\t\t\t\t\t@click=\"addInstruction\">\n\t\t\t\tAdd instruction block\n\t\t\t</button>\n\t\t\t<button type=\"button\" class=\"btn btn-info\" id=\"addQuestion\"\n\t\t\t\t\t@click=\"addQuestion\">\n\t\t\t\tAdd question\n\t\t\t</button>\n\t\t\t<button type=\"submit\" class=\"btn btn-success\"\n\t\t\t\t\t@click=\"submitForm\">\n\t\t\t\tSubmit form\n\t\t\t</button>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport FormBuilderInstruction from './FormBuilderInstruction.vue';\nimport FormBuilderQuestion from './FormBuilderQuestion.vue';\nimport AlertList from '../AlertList.vue';\n\nimport { fetchMilestoneGroups } from 'modules/utils.js';\n\nexport default {\n\tprops: {\n\t\toldFormContents: {\n\t\t\ttype: Object,\n\t\t\trequired: false\n\t\t},\n\t\tfixedFormType: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\tfixedPeriodType: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\tdefaultFormType: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\tdefaultPeriodType: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\tshowMilestonesCompetencies: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\ttitle: '',\n\t\t\tformType: this.fixedFormType || this.defaultFormType || 'resident',\n\t\t\tperiodType: this.fixedPeriodType || this.defaultPeriodType || 'month',\n\t\t\tnextQuestionIdNum: 1,\n\t\t\tgroupedMilestones: [],\n\t\t\tcompetencies: [],\n\t\t\titems: [],\n\t\t\tcustomOptions: [],\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\t\n\tmounted(){\n\t\tif (this.showMilestonesCompetencies) {\n\t\t\tfetchMilestoneGroups().then(milestoneGroups => {\n\t\t\t\tthis.groupedMilestones = milestoneGroups;\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\n\t\t\tfetch('/competencies', { credentials: 'same-origin' }).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\telse {\n\t\t\t\t\tlet err = new Error(response.statusText);\n\t\t\t\t\terr.response = response;\n\t\t\t\t\tthrow err;\n\t\t\t\t}\n\t\t\t}).then(competencies => {\n\t\t\t\tthis.competencies = competencies;\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\t\t\t\n\t\t}\n\t},\n\t\n\tmethods: {\n\t\taddInstruction() {\n\t\t\tthis.items.push({\n\t\t\t\ttype: 'instruction',\n\t\t\t\ttext: ''\n\t\t\t});\n\t\t},\n\t\taddQuestion() {\n\t\t\tthis.items.push({\n\t\t\t\ttype: 'question',\n\t\t\t\ttext: '',\n\t\t\t\tquestionIdNum: this.nextQuestionIdNum++,\n\t\t\t\tquestionType: 'radio',\n\t\t\t\tmilestones: null,\n\t\t\t\tcompetencies: null,\n\t\t\t\toptions: [],\n\t\t\t\trequired: false,\n\t\t\t\tweight: 100\n\t\t\t});\n\t\t},\n\t\tchangeItem(index, item) {\n\t\t\tthis.items.splice(index, 1, Object.assign(this.items[index], item));\n\t\t},\n\t\tmoveItem(index, newIndex) {\n\t\t\tthis.items.splice(newIndex, 0, this.items.splice(index, 1)[0]);\n\t\t\tthis.adjustQuestionIdNums();\n\t\t},\n\t\tremoveItem(index) {\n\t\t\tthis.items.splice(index, 1);\n\t\t\tthis.adjustQuestionIdNums();\n\t\t},\n\t\tadjustQuestionIdNums() {\n\t\t\tthis.items = this.items.map((item, index) =>\n\t\t\t\tObject.assign({}, item, {questionIdNum: index + 1})\n\t\t\t);\n\t\t\tthis.nextQuestionIdNum = this.items.length;\n\t\t},\n\t\tsubmitForm(event) {\n\t\t\tevent.preventDefault();\n\t\t\tif (this.isFormValid()) {\n\t\t\t\tthis.$emit('submit', {\n\t\t\t\t\ttitle: this.title,\n\t\t\t\t\tformType: this.formType,\n\t\t\t\t\tevaluation_period_type: this.periodType,\n\t\t\t\t\titems: this.items.map(item => {\n\t\t\t\t\t\titem.questionId = `q${item.questionIdNum}`;\n\t\t\t\t\t\treturn item;\n\t\t\t\t\t})\n\t\t\t\t});\n\t\t\t}\n\t\t},\n\t\tisFormValid() {\n\t\t\tif (!this.title) {\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\ttext: 'Please enter a title for the form'\n\t\t\t\t});\n\t\t\t\treturn false;\n\t\t\t}\n\n\t\t\tif (!this.items || this.items.length < 1) {\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\ttext: 'Please enter at least one question'\n\t\t\t\t});\n\t\t\t\treturn false;\n\t\t\t}\n\n\t\t\tfor (let item of this.items) {\n\t\t\t\tif (item.type === 'question') {\n\t\t\t\t\tif (!item.text) {\n\t\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\t\ttext: `Please enter question text for question ${item.questionIdNum}`\n\t\t\t\t\t\t});\n\t\t\t\t\t\treturn false;\n\t\t\t\t\t}\n\t\t\t\t\tif (['radio', 'radiononnumeric', 'checkbox'].includes(item.questionType)) {\n\t\t\t\t\t\tif(!item.options || item.options.length < 1){\n\t\t\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\t\t\ttext: `Please add at least one option for each multiple-choice question`\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t\treturn false;\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\tfor (let option of item.options) {\n\t\t\t\t\t\t\tif (!('value' in option)) {\n\t\t\t\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\t\t\t\ttext: `An option cannot be submitted without a value. Please either assign a value or remove the option text and description for each option in question ${item.questionIdNum}`\n\t\t\t\t\t\t\t\t});\n\t\t\t\t\t\t\t\treturn false;\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\telse if (item.type === 'instruction') {\n\t\t\t\t\tif (!item.text) {\n\t\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\t\ttext: 'Please complete or remove all empty instruction blocks'\n\t\t\t\t\t\t});\n\t\t\t\t\t\treturn false;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\ttext: 'Unrecognized item type in form'\n\t\t\t\t\t});\n\t\t\t\t\treturn false;\n\t\t\t\t}\n\t\t\t}\n\n\t\t\treturn true;\n\t\t}\n\t},\n\twatch: {\n\t\toldFormContents(formContents) {\n\t\t\tthis.title = formContents.title;\n\t\t\tthis.formType = formContents.formType;\n\t\t\tthis.items = formContents.items.slice();\n\t\t\tfor (let item of this.items) {\n\t\t\t\tif (item.questionIdNum && item.questionIdNum >= this.nextQuestionIdNum)\n\t\t\t\t\tthis.nextQuestionIdNum = item.questionIdNum + 1;\n\t\t\t}\n\t\t}\n\t},\n\tcomponents: {\n\t\tFormBuilderInstruction,\n\t\tFormBuilderQuestion,\n\t\tAlertList\n\t}\n};\n</script>\n\n<style scoped>\n\t.form-item {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tjustify-content: center;\n\t\talign-items: center;\n\t}\n\t\n\t.form-item .form-block {\n\t\tflex-grow: 1;\n\t}\n</style>\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -4204,7 +4275,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n.question-id[data-v-e2c7d180] {\n\tfont-size: larger;\n\ttext-transform: uppercase;\n\tfont-weight: bold;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormBuilder/FormBuilderQuestion.vue?02ed3a3a"],"names":[],"mappings":";AA+RA;CACA,kBAAA;CACA,0BAAA;CACA,kBAAA;CACA","file":"FormBuilderQuestion.vue","sourcesContent":["<template>\n\t<div :id=\"questionId\" class=\"form-question panel panel-default form-block\">\n\t\t<div class=\"panel-heading form-horizontal\">\n\t\t\t<div class=\"panel-title form-group\">\n\t\t\t\t<div class=\"col-sm-12\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tQuestion Text\n\t\t\t\t\t\t<div class=\"input-group\">\n\t\t\t\t\t\t\t<span class=\"question-id input-group-addon\">{{questionId}}</span>\n\t\t\t\t\t\t\t<input type=\"text\" :value=\"text\" @input=\"$emit('change', {text: $event.target.value})\" class=\"form-input form-question-text form-control\" placeholder=\"Question Text\" required />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"hr-question\"></div>\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"col-md-4\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tQuestion Type\n\t\t\t\t\t\t<select :value=\"questionType\" @change=\"changeQuestionType\" class=\"form-control form-question-type\" name=\"questionType\">\n\t\t\t\t\t\t\t<option value=\"radio\">Radio</option>\n\t\t\t\t\t\t\t<option value=\"text\">Text</option>\n\t\t\t\t\t\t\t<option value=\"radiononnumeric\">Radio (non-numeric)</option>\n\t\t\t\t\t\t\t<option value=\"number\">Number</option>\n\t\t\t\t\t\t\t<option value=\"checkbox\">Checkbox</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t<label>Question Options</label>\n\t\t\t\t\t<div class=\"btn-group btn-group-justified\">\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button @click=\"setStandardOptions\" class=\"form-question-standard-options btn btn-info\" type=\"button\">\n\t\t\t\t\t\t\t\tStandard\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button :disabled=\"!milestones || milestones.length !== 1\" @click=\"setMilestoneOptions\"\n\t\t\t\t\t\t\t\t\tclass=\"form-question-milestone-level-options btn btn-info\" type=\"button\">\n\t\t\t\t\t\t\t\tMilestone\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button :disabled=\"!customOptions || customOptions.length < 1\" @click=\"setCustomOptions\"\n\t\t\t\t\t\t\t\t\tclass=\"form-question-custom-options btn btn-info\" type=\"button\">\n\t\t\t\t\t\t\t\tCustom\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-1 labelless-button\">\n\t\t\t\t\t<button @click=\"$emit('remove')\" class=\"form-block-delete btn btn-danger del-btn\" type=\"button\">\n\t\t\t\t\t\tDelete\n\t\t\t\t\t</button>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-1\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tRequired\n\t\t\t\t\t\t<input type=\"checkbox\" :checked=\"required\"\n\t\t\t\t\t\t\tclass=\"form-control form-question-required\" value=\"required\"\n\t\t\t\t\t\t\t@change=\"$emit('change', {required: $event.target.checked})\" />\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"hr-question\"></div>\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"col-md-8\">\n\t\t\t\t\t<label v-show=\"shouldShowMilestonesAndCompetencies\" class=\"containing-label\">\n\t\t\t\t\t\tQuestion Milestones\n\t\t\t\t\t\t<select-two :value=\"milestones\" :options=\"groupedMilestones\"\n\t\t\t\t\t\t\t:multiple=\"true\" @input=\"$emit('change', {milestones: arguments[0]})\"\n\t\t\t\t\t\t\tclass=\"form-control form-question-milestone\" />\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-4\">\n\t\t\t\t\t<label v-show=\"shouldShowMilestonesAndCompetencies\" class=\"containing-label\">\n\t\t\t\t\t\tQuestion Competency\n\t\t\t\t\t\t<select-two :value=\"competencies\" placeholder=\"Competency\"\n\t\t\t\t\t\t\tclass=\"form-control form-question-competency\"\n\t\t\t\t\t\t\t:options=\"competencyOptions\" :multiple=\"true\"\n\t\t\t\t\t\t\t@input=\"$emit('change', {competencies: arguments[0]})\" />\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"panel-body\">\n\t\t\t<div class=\"row form-options\" style=\"margin-bottom:5px;\">\n\t\t\t\t<template v-if=\"['radio', 'radiononnumeric', 'checkbox'].includes(questionType)\">\n\t\t\t\t\t<form-builder-option v-for=\"(option, index) of optionsWithWorking\"\n\t\t\t\t\t\tv-bind=\"option\" :type=\"questionType\"\n\t\t\t\t\t\t:is-working-option=\"option === workingOption\"\n\t\t\t\t\t\t@input=\"handleWorkingOptionInput(index, arguments[0])\"\n\t\t\t\t\t\t@change=\"handleOptionChange(index, arguments[0])\" />\n\t\t\t\t</template>\n\n\t\t\t\t<div v-if=\"questionType === 'text'\" class=\"col-sm-12\">\n\t\t\t\t\t<textarea class=\"form-control\" placeholder=\"Text\" disabled />\n\t\t\t\t</div>\n\n\t\t\t\t<div v-if=\"questionType === 'number'\" class=\"col-md-8\">\n\t\t\t\t\t<input type=\"number\" class=\"form-control\" placeholder=\"Number\" disabled />\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<alert-list v-model=\"alerts\" />\n\t</div>\n</template>\n\n<script>\nimport FormBuilderOption from './FormBuilderOption.vue';\nimport SelectTwo from '../SelectTwo.vue';\nimport AlertList from '../AlertList.vue';\n\nimport { STANDARD_OPTIONS } from 'modules/constants.js';\nimport { sortSelect2Objects } from 'modules/utils.js';\n\nexport default {\n\tprops: [\n\t\t'formType',\n\t\t'groupedMilestones',\n\t\t'allCompetencies',\n\t\t'questionIdNum',\n\t\t'text',\n\t\t'questionType',\n\t\t'milestones',\n\t\t'competencies',\n\t\t'options',\n\t\t'required',\n\t\t'customOptions'\n\t],\n\tdata(){\n\t\treturn {\n\t\t\tworkingOption: {\n\t\t\t\ttext: '',\n\t\t\t\tvalue: '',\n\t\t\t\tdescription: ''\n\t\t\t},\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\tcomputed: {\n\t\tquestionId(){\n\t\t\treturn `q${this.questionIdNum}`;\n\t\t},\n\t\tshouldShowMilestonesAndCompetencies(){\n\t\t\treturn ['radio', 'number'].includes(this.questionType) && [\n\t\t\t\t'resident',\n\t\t\t\t'self-resident',\n\t\t\t\t'fellow',\n\t\t\t\t'self-fellow'\n\t\t\t].includes(this.formType);\n\t\t},\n\t\toptionsWithWorking(){\n\t\t\tif(this.options){\n\t\t\t\tlet options = this.options.slice();\n\t\t\t\toptions.push(this.workingOption);\n\t\t\t\treturn options;\n\t\t\t}\n\t\t},\n\t\tworkingOptionIndex(){\n\t\t\tif(this.options)\n\t\t\t\treturn this.options.length;\n\t\t},\n\t\tcompetencyOptions(){\n\t\t\treturn this.allCompetencies.map(competency => ({\n\t\t\t\tid: competency.id,\n\t\t\t\ttext: competency.title\n\t\t\t})).sort(sortSelect2Objects);\n\t\t}\n\t},\n\tmethods: {\n\t\tchangeQuestionType(event){\n\t\t\tconst questionType = event.target.value;\n\t\t\tlet options = [];\n\n\t\t\tthis.$emit('change', {questionType: questionType, options: options});\n\t\t},\n\t\thandleWorkingOptionInput(index, option){\n\t\t\tif(index === this.workingOptionIndex)\n\t\t\t\tthis.workingOption = Object.assign({}, this.workingOption, option);\n\t\t},\n\t\thandleOptionChange(index, option){\n\t\t\tif(index === this.workingOptionIndex){\n\t\t\t\tlet options = this.options.slice();\n\t\t\t\toptions.push(Object.assign({}, this.workingOption, option));\n\t\t\t\tthis.workingOption = {\n\t\t\t\t\ttext: '',\n\t\t\t\t\tvalue: '',\n\t\t\t\t\tdescription: ''\n\t\t\t\t};\n\t\t\t\tthis.$emit('change', {options: options});\n\t\t\t}\n\t\t\telse {\n\t\t\t\tlet options = this.options.slice();\n\t\t\t\toptions[index] = Object.assign(options[index], option);\n\t\t\t\tif(!options[index].text && !options[index].value && !options[index].description)\n\t\t\t\t\toptions.splice(index, 1);\n\n\t\t\t\tthis.$emit('change', {options: options});\n\t\t\t}\n\t\t},\n\n\t\tsetStandardOptions(){\n\t\t\tlet options;\n\t\t\tswitch(this.formType){\n\t\t\t\tcase 'resident':\n\t\t\t\tcase 'self-resident':\n\t\t\t\t\toptions = STANDARD_OPTIONS.RESIDENT.slice();\n\t\t\t\t\tbreak;\n\t\t\t\tcase 'fellow':\n\t\t\t\tcase 'self-fellow':\n\t\t\t\t\toptions = STANDARD_OPTIONS.FELLOW.slice();\n\t\t\t\t\tbreak;\n\t\t\t\tcase 'faculty':\n\t\t\t\t\tif(this.questionType === 'radiononnumeric')\n\t\t\t\t\t\toptions = STANDARD_OPTIONS.FACULTY.slice();\n\t\t\t\t\tbreak;\n\t\t\t}\n\n\t\t\tif(!options){\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\ttext: 'No standard options found for form type and question type'\n\t\t\t\t});\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tthis.$emit('change', {options: options});\n\t\t},\n\t\tsetMilestoneOptions(){\n\t\t\tif(this.milestones.length !== 1){\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\ttext: 'You can only use milestone options with a single selected milestone'\n\t\t\t\t});\n\t\t\t\treturn;\n\t\t\t}\n\t\t\tfetch(`/milestones/${this.milestones[0]}`, { credentials: 'same-origin' }).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\telse\n\t\t\t\t\tthrow new Error(response);\n\t\t\t}).then(milestone => {\n\t\t\t\tif(!milestone || !milestone.levels || milestone.levels.length < 1){\n\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\ttext: 'No milestone levels found'\n\t\t\t\t\t});\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t\tlet options = [{\n\t\t\t\t\tvalue: 0,\n\t\t\t\t\ttext: `Not yet ${milestone.levels[0].name}`\n\t\t\t\t}];\n\t\t\t\tfor(let level of milestone.levels){\n\t\t\t\t\tlet value = 2 * parseInt(level.level_number, 10);\n\t\t\t\t\toptions.push({value: value - 1, text: '', description: ''});\n\t\t\t\t\toptions.push({value: value, text: level.name, description: level.description});\n\t\t\t\t}\n\n\t\t\t\tthis.$emit('change', {options: options});\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t},\n\t\tsetCustomOptions(){\n\t\t\tif(this.customOptions.length < 1){\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\ttext: 'No custom options set'\n\t\t\t\t});\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tthis.$emit('change', {options: this.customOptions.slice()});\n\t\t}\n\t},\n\tcomponents: {\n\t\tFormBuilderOption,\n\t\tSelectTwo,\n\t\tAlertList\n\t}\n};\n</script>\n\n<style scoped>\n\t.question-id {\n\t\tfont-size: larger;\n\t\ttext-transform: uppercase;\n\t\tfont-weight: bold;\n\t}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.question-id[data-v-e2c7d180] {\n\tfont-size: larger;\n\ttext-transform: uppercase;\n\tfont-weight: bold;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormBuilder/FormBuilderQuestion.vue?7628c427"],"names":[],"mappings":";AAsUA;CACA,kBAAA;CACA,0BAAA;CACA,kBAAA;CACA","file":"FormBuilderQuestion.vue","sourcesContent":["<template>\n\t<div :id=\"questionId\" class=\"form-question panel panel-default form-block\">\n\t\t<div class=\"panel-heading form-horizontal\">\n\t\t\t<div class=\"panel-title form-group\">\n\t\t\t\t<div class=\"col-sm-12\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tQuestion Text\n\t\t\t\t\t\t<div class=\"input-group\">\n\t\t\t\t\t\t\t<span class=\"question-id input-group-addon\">{{questionId}}</span>\n\t\t\t\t\t\t\t<input type=\"text\" :value=\"text\" @input=\"$emit('change', {text: $event.target.value})\" class=\"form-input form-question-text form-control\" placeholder=\"Question Text\" required />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"hr-question\"></div>\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"col-md-4\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tQuestion Type\n\t\t\t\t\t\t<select :value=\"questionType\" @change=\"changeQuestionType\" class=\"form-control form-question-type\" name=\"questionType\">\n\t\t\t\t\t\t\t<option value=\"radio\">Radio</option>\n\t\t\t\t\t\t\t<option value=\"text\">Text</option>\n\t\t\t\t\t\t\t<option value=\"radiononnumeric\">Radio (non-numeric)</option>\n\t\t\t\t\t\t\t<option value=\"number\">Number</option>\n\t\t\t\t\t\t\t<option value=\"checkbox\">Checkbox</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t<label>Question Options</label>\n\t\t\t\t\t<div class=\"btn-group btn-group-justified\">\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button @click=\"setStandardOptions\" class=\"form-question-standard-options btn btn-info\" type=\"button\">\n\t\t\t\t\t\t\t\tStandard\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button :disabled=\"!milestones || milestones.length !== 1\" @click=\"setMilestoneOptions\"\n\t\t\t\t\t\t\t\t\tclass=\"form-question-milestone-level-options btn btn-info\" type=\"button\">\n\t\t\t\t\t\t\t\tMilestone\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button :disabled=\"!customOptions || customOptions.length < 1\" @click=\"setCustomOptions\"\n\t\t\t\t\t\t\t\t\tclass=\"form-question-custom-options btn btn-info\" type=\"button\">\n\t\t\t\t\t\t\t\tCustom\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-1 labelless-button\">\n\t\t\t\t\t<button @click=\"$emit('remove')\" class=\"form-block-delete btn btn-danger del-btn\" type=\"button\">\n\t\t\t\t\t\tDelete\n\t\t\t\t\t</button>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-1\">\n\t\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\t\tRequired\n\t\t\t\t\t\t<input type=\"checkbox\" :checked=\"required\"\n\t\t\t\t\t\t\tclass=\"form-control form-question-required\" value=\"required\"\n\t\t\t\t\t\t\t@change=\"$emit('change', {required: $event.target.checked})\" />\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<template v-if=\"showMilestonesCompetencies\">\n\t\t\t\t<div class=\"hr-question\"></div>\n\t\t\t\t<div class=\"row\">\n\t\t\t\t\t<div class=\"col-md-8\">\n\t\t\t\t\t\t<label v-show=\"shouldShowMilestonesAndCompetencies\" class=\"containing-label\">\n\t\t\t\t\t\t\tQuestion Milestones\n\t\t\t\t\t\t\t<select-two :value=\"milestones\" :options=\"groupedMilestones\"\n\t\t\t\t\t\t\t\t:multiple=\"true\" @input=\"$emit('change', {milestones: arguments[0]})\"\n\t\t\t\t\t\t\t\tclass=\"form-control form-question-milestone\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"col-md-4\">\n\t\t\t\t\t\t<label v-show=\"shouldShowMilestonesAndCompetencies\" class=\"containing-label\">\n\t\t\t\t\t\t\tQuestion Competency\n\t\t\t\t\t\t\t<select-two :value=\"competencies\" placeholder=\"Competency\"\n\t\t\t\t\t\t\t\tclass=\"form-control form-question-competency\"\n\t\t\t\t\t\t\t\t:options=\"competencyOptions\" :multiple=\"true\"\n\t\t\t\t\t\t\t\t@input=\"$emit('change', {competencies: arguments[0]})\" />\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\t\t\t\t\n\t\t\t</template>\n\t\t</div>\n\t\t<div class=\"panel-body\">\n\t\t\t<div class=\"row form-options\" style=\"margin-bottom:5px;\">\n\t\t\t\t<template v-if=\"['radio', 'radiononnumeric', 'checkbox'].includes(questionType)\">\n\t\t\t\t\t<form-builder-option v-for=\"(option, index) of optionsWithWorking\"\n\t\t\t\t\t\tv-bind=\"option\" :type=\"questionType\"\n\t\t\t\t\t\t:is-working-option=\"option === workingOption\"\n\t\t\t\t\t\t@input=\"handleWorkingOptionInput(index, arguments[0])\"\n\t\t\t\t\t\t@change=\"handleOptionChange(index, arguments[0])\" />\n\t\t\t\t</template>\n\n\t\t\t\t<div v-if=\"questionType === 'text'\" class=\"col-sm-12\">\n\t\t\t\t\t<textarea class=\"form-control\" placeholder=\"Text\" disabled />\n\t\t\t\t</div>\n\n\t\t\t\t<div v-if=\"questionType === 'number'\" class=\"col-md-8\">\n\t\t\t\t\t<input type=\"number\" class=\"form-control\" placeholder=\"Number\" disabled />\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<alert-list v-model=\"alerts\" />\n\t</div>\n</template>\n\n<script>\nimport FormBuilderOption from './FormBuilderOption.vue';\nimport SelectTwo from '../SelectTwo.vue';\nimport AlertList from '../AlertList.vue';\n\nimport { STANDARD_OPTIONS } from 'modules/constants.js';\nimport { sortSelect2Objects } from 'modules/utils.js';\n\nexport default {\n\tprops: {\n\t\tformType: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t},\n\t\tgroupedMilestones: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\tallCompetencies: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\tquestionIdNum: {\n\t\t\ttype: Number,\n\t\t\trequired: true\n\t\t},\n\t\ttext: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t},\n\t\tquestionType: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t},\n\t\tmilestones: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\tcompetencies: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\toptions: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\trequired: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t},\n\t\tcustomOptions: {\n\t\t\ttype: Array,\n\t\t\trequired: false\n\t\t},\n\t\tshowMilestonesCompetencies: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tworkingOption: {\n\t\t\t\ttext: '',\n\t\t\t\tvalue: '',\n\t\t\t\tdescription: ''\n\t\t\t},\n\t\t\t\n\t\t\talerts: []\n\t\t};\n\t},\n\tcomputed: {\n\t\tquestionId(){\n\t\t\treturn `q${this.questionIdNum}`;\n\t\t},\n\t\tshouldShowMilestonesAndCompetencies(){\n\t\t\treturn ['radio', 'number'].includes(this.questionType) && [\n\t\t\t\t'resident',\n\t\t\t\t'self-resident',\n\t\t\t\t'fellow',\n\t\t\t\t'self-fellow'\n\t\t\t].includes(this.formType);\n\t\t},\n\t\toptionsWithWorking(){\n\t\t\tif(this.options){\n\t\t\t\tlet options = this.options.slice();\n\t\t\t\toptions.push(this.workingOption);\n\t\t\t\treturn options;\n\t\t\t}\n\t\t},\n\t\tworkingOptionIndex(){\n\t\t\tif(this.options)\n\t\t\t\treturn this.options.length;\n\t\t},\n\t\tcompetencyOptions(){\n\t\t\treturn this.allCompetencies.map(competency => ({\n\t\t\t\tid: competency.id,\n\t\t\t\ttext: competency.title\n\t\t\t})).sort(sortSelect2Objects);\n\t\t}\n\t},\n\tmethods: {\n\t\tchangeQuestionType(event){\n\t\t\tconst questionType = event.target.value;\n\t\t\tlet options = [];\n\n\t\t\tthis.$emit('change', {questionType: questionType, options: options});\n\t\t},\n\t\thandleWorkingOptionInput(index, option){\n\t\t\tif(index === this.workingOptionIndex)\n\t\t\t\tthis.workingOption = Object.assign({}, this.workingOption, option);\n\t\t},\n\t\thandleOptionChange(index, option){\n\t\t\tif(index === this.workingOptionIndex){\n\t\t\t\tlet options = this.options.slice();\n\t\t\t\toptions.push(Object.assign({}, this.workingOption, option));\n\t\t\t\tthis.workingOption = {\n\t\t\t\t\ttext: '',\n\t\t\t\t\tvalue: '',\n\t\t\t\t\tdescription: ''\n\t\t\t\t};\n\t\t\t\tthis.$emit('change', {options: options});\n\t\t\t}\n\t\t\telse {\n\t\t\t\tlet options = this.options.slice();\n\t\t\t\toptions[index] = Object.assign(options[index], option);\n\t\t\t\tif(!options[index].text && !options[index].value && !options[index].description)\n\t\t\t\t\toptions.splice(index, 1);\n\n\t\t\t\tthis.$emit('change', {options: options});\n\t\t\t}\n\t\t},\n\n\t\tsetStandardOptions(){\n\t\t\tlet options;\n\t\t\tswitch(this.formType){\n\t\t\t\tcase 'resident':\n\t\t\t\tcase 'self-resident':\n\t\t\t\t\toptions = STANDARD_OPTIONS.RESIDENT.slice();\n\t\t\t\t\tbreak;\n\t\t\t\tcase 'fellow':\n\t\t\t\tcase 'self-fellow':\n\t\t\t\t\toptions = STANDARD_OPTIONS.FELLOW.slice();\n\t\t\t\t\tbreak;\n\t\t\t\tcase 'faculty':\n\t\t\t\t\tif(this.questionType === 'radiononnumeric')\n\t\t\t\t\t\toptions = STANDARD_OPTIONS.FACULTY.slice();\n\t\t\t\t\tbreak;\n\t\t\t}\n\n\t\t\tif(!options){\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\ttext: 'No standard options found for form type and question type'\n\t\t\t\t});\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tthis.$emit('change', {options: options});\n\t\t},\n\t\tsetMilestoneOptions(){\n\t\t\tif(this.milestones.length !== 1){\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\ttext: 'You can only use milestone options with a single selected milestone'\n\t\t\t\t});\n\t\t\t\treturn;\n\t\t\t}\n\t\t\tfetch(`/milestones/${this.milestones[0]}`, { credentials: 'same-origin' }).then(response => {\n\t\t\t\tif(response.ok)\n\t\t\t\t\treturn response.json();\n\t\t\t\telse\n\t\t\t\t\tthrow new Error(response);\n\t\t\t}).then(milestone => {\n\t\t\t\tif(!milestone || !milestone.levels || milestone.levels.length < 1){\n\t\t\t\t\tthis.alerts.push({\n\t\t\t\t\t\ttype: 'error',\n\t\t\t\t\t\ttext: 'No milestone levels found'\n\t\t\t\t\t});\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t\tlet options = [{\n\t\t\t\t\tvalue: 0,\n\t\t\t\t\ttext: `Not yet ${milestone.levels[0].name}`\n\t\t\t\t}];\n\t\t\t\tfor(let level of milestone.levels){\n\t\t\t\t\tlet value = 2 * parseInt(level.level_number, 10);\n\t\t\t\t\toptions.push({value: value - 1, text: '', description: ''});\n\t\t\t\t\toptions.push({value: value, text: level.name, description: level.description});\n\t\t\t\t}\n\n\t\t\t\tthis.$emit('change', {options: options});\n\t\t\t}).catch(err => {\n\t\t\t\tconsole.error(err);\n\t\t\t});\n\t\t},\n\t\tsetCustomOptions(){\n\t\t\tif(this.customOptions.length < 1){\n\t\t\t\tthis.alerts.push({\n\t\t\t\t\ttype: 'error',\n\t\t\t\t\ttext: 'No custom options set'\n\t\t\t\t});\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tthis.$emit('change', {options: this.customOptions.slice()});\n\t\t}\n\t},\n\tcomponents: {\n\t\tFormBuilderOption,\n\t\tSelectTwo,\n\t\tAlertList\n\t}\n};\n</script>\n\n<style scoped>\n\t.question-id {\n\t\tfont-size: larger;\n\t\ttext-transform: uppercase;\n\t\tfont-weight: bold;\n\t}\n</style>\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -4430,7 +4501,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("Staff")])])]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "col-md-3"
-  }, [_c('div', {
+  }, [(!_vm.fixedPeriodType) ? _c('div', {
     staticClass: "form-group"
   }, [_c('label', {
     attrs: {
@@ -4470,7 +4541,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": "year"
     }
-  }, [_vm._v("Year")])])])])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("Year")])])]) : _vm._e()])])]), _vm._v(" "), _c('div', {
     staticClass: "form-body"
   }, [_c('div', {
     staticClass: "form-items"
@@ -4491,10 +4562,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, 'form-builder-instruction', item)) : _vm._e(), _vm._v(" "), (item.type === 'question') ? _c('form-builder-question', _vm._b({
       attrs: {
-        "formType": _vm.formType,
-        "groupedMilestones": _vm.groupedMilestones,
-        "allCompetencies": _vm.competencies,
-        "customOptions": _vm.customOptions
+        "form-type": _vm.formType,
+        "grouped-milestones": _vm.groupedMilestones,
+        "all-competencies": _vm.competencies,
+        "custom-options": _vm.customOptions,
+        "show-milestones-competencies": _vm.showMilestonesCompetencies
       },
       on: {
         "change": function($event) {
@@ -4887,7 +4959,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         })
       }
     }
-  })])])]), _vm._v(" "), _c('div', {
+  })])])]), _vm._v(" "), (_vm.showMilestonesCompetencies) ? [_c('div', {
     staticClass: "hr-question"
   }), _vm._v(" "), _c('div', {
     staticClass: "row"
@@ -4901,7 +4973,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "shouldShowMilestonesAndCompetencies"
     }],
     staticClass: "containing-label"
-  }, [_vm._v("\n\t\t\t\t\tQuestion Milestones\n\t\t\t\t\t"), _c('select-two', {
+  }, [_vm._v("\n\t\t\t\t\t\tQuestion Milestones\n\t\t\t\t\t\t"), _c('select-two', {
     staticClass: "form-control form-question-milestone",
     attrs: {
       "value": _vm.milestones,
@@ -4925,7 +4997,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "shouldShowMilestonesAndCompetencies"
     }],
     staticClass: "containing-label"
-  }, [_vm._v("\n\t\t\t\t\tQuestion Competency\n\t\t\t\t\t"), _c('select-two', {
+  }, [_vm._v("\n\t\t\t\t\t\tQuestion Competency\n\t\t\t\t\t\t"), _c('select-two', {
     staticClass: "form-control form-question-competency",
     attrs: {
       "value": _vm.competencies,
@@ -4940,7 +5012,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         })
       }
     }
-  })], 1)])])]), _vm._v(" "), _c('div', {
+  })], 1)])])] : _vm._e()], 2), _vm._v(" "), _c('div', {
     staticClass: "panel-body"
   }, [_c('div', {
     staticClass: "row form-options",
@@ -5445,7 +5517,7 @@ function createFormBuilder(el, propsData) {
 
 				fetch('/forms', {
 					method: 'POST',
-					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["d" /* getFetchHeaders */])(),
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["b" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify(form)
 				}).then(function (response) {
