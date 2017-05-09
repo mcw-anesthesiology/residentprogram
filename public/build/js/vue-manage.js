@@ -3847,9 +3847,9 @@ function createManageEvaluations(el, propsData) {
 					},
 					columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'evaluator.full_name' }, { data: 'requestor.full_name' }, { data: 'form.title' }, {
 						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* createDateTimeCell */] }, { data: null, orderable: false, render: function render(evaluation) {
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: null, orderable: false, render: function render(evaluation) {
 							if (!evaluation.visibility) evaluation.visibility = evaluation.form.visibility;
 							var label = void 0;
 							switch (evaluation.status) {
@@ -4778,10 +4778,90 @@ if(false) {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__evaluations_js__ = __webpack_require__(210);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageEvaluations", function() { return __WEBPACK_IMPORTED_MODULE_0__evaluations_js__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__milestones_competencies_js__ = __webpack_require__(211);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageMilestonesCompetencies", function() { return __WEBPACK_IMPORTED_MODULE_1__milestones_competencies_js__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__forms_js__ = __webpack_require__(513);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageForms", function() { return __WEBPACK_IMPORTED_MODULE_1__forms_js__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__milestones_competencies_js__ = __webpack_require__(211);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createManageMilestonesCompetencies", function() { return __WEBPACK_IMPORTED_MODULE_2__milestones_competencies_js__["a"]; });
 
 
+
+
+/***/ }),
+
+/***/ 513:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_DataTable_vue__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_DataTable_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(19);
+/* harmony export (immutable) */ __webpack_exports__["a"] = createManageForms;
+
+
+
+
+
+
+
+function createManageForms(el) {
+	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+		el: el,
+
+		computed: {
+			faculty360Thead: function faculty360Thead() {
+				return [['Title', 'Created', 'Status', 'View', 'Action']];
+			},
+			faculty360Config: function faculty360Config() {
+				return {
+					ajax: {
+						url: '/faculty360/forms',
+						dataSrc: ''
+					},
+					columns: [{ data: 'title' }, {
+						data: 'created_at',
+						render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateTimeCell */],
+						createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateTimeCell */]
+					}, {
+						data: 'status',
+						render: function render(status, type) {
+							if (type === 'display') {
+								var label = status === 'active' ? 'label-success' : 'label-danger';
+
+								return '<span class="status label ' + label + '">\n\t\t\t\t\t\t\t\t\t\t\t' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["c" /* ucfirst */])(status) + '\n\t\t\t\t\t\t\t\t\t\t</span>';
+							}
+
+							return status;
+						}
+					}, {
+						data: 'id',
+						render: function render(id, type) {
+							if (type === 'display') {
+								return '<a href="/faculty360/forms/' + id + '/view"\n\t\t\t\t\t\t\t\t\t\t\t\ttarget="_blank">\n\t\t\t\t\t\t\t\t\t\t\tView form\n\t\t\t\t\t\t\t\t\t\t</a>';
+							}
+
+							return id;
+						}
+					}, {
+						data: null,
+						orderable: false,
+						searchable: false,
+						render: function render() {
+							// FIXME
+							return '';
+						}
+					}]
+				};
+			}
+		},
+
+		components: {
+			DataTable: __WEBPACK_IMPORTED_MODULE_1__vue_components_DataTable_vue___default.a
+		}
+	});
+}
 
 /***/ }),
 
