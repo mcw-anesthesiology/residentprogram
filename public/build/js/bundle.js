@@ -1536,7 +1536,7 @@ function renderAccountStatus(status) {
 			labelContext = 'label-default';
 			break;
 	}
-	return '<span class="label ' + labelContext + '">' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["a" /* ucfirst */])(status) + '</span>';
+	return '<span class="label ' + labelContext + '">' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["c" /* ucfirst */])(status) + '</span>';
 }
 
 function renderEvaluationStatus(status) {
@@ -1560,12 +1560,12 @@ function renderEvaluationStatus(status) {
 			labelContext = 'label-default';
 			break;
 	}
-	return '<span class="label ' + labelContext + '">' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["a" /* ucfirst */])(status) + '</span>';
+	return '<span class="label ' + labelContext + '">' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["c" /* ucfirst */])(status) + '</span>';
 }
 
 function renderTrainingLevel(trainingLevel) {
 	if (trainingLevel) {
-		if (trainingLevel.indexOf("ca-") > -1) return trainingLevel.toUpperCase();else return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["a" /* ucfirst */])(trainingLevel);
+		if (trainingLevel.indexOf("ca-") > -1) return trainingLevel.toUpperCase();else return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["c" /* ucfirst */])(trainingLevel);
 	}
 
 	return '';
@@ -1574,7 +1574,7 @@ function renderTrainingLevel(trainingLevel) {
 function renderSecondaryTrainingLevel(secondaryTrainingLevel) {
 	if (secondaryTrainingLevel) {
 		var allCaps = ['raaps'];
-		if (allCaps.indexOf(secondaryTrainingLevel) > -1) return secondaryTrainingLevel.toUpperCase();else return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["a" /* ucfirst */])(secondaryTrainingLevel);
+		if (allCaps.indexOf(secondaryTrainingLevel) > -1) return secondaryTrainingLevel.toUpperCase();else return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["c" /* ucfirst */])(secondaryTrainingLevel);
 	}
 
 	return '';
@@ -1589,11 +1589,11 @@ function renderSubjectEvalUrl(url, type, evaluation) {
 		if (evaluation.seen_by_subject_at) {
 			return evaluation.id;
 		} else {
-			if (typeof evaluation.id === 'number') return evaluation.id * __WEBPACK_IMPORTED_MODULE_2__constants_js__["b" /* UNSEEN_EVALUATION_PRIORITY */];else return '~' + evaluation.id;
+			if (typeof evaluation.id === 'number') return evaluation.id * __WEBPACK_IMPORTED_MODULE_2__constants_js__["c" /* UNSEEN_EVALUATION_PRIORITY */];else return '~' + evaluation.id;
 		}
 	}
 
-	if (evaluation.seen_by_subject_at) return url;else return __WEBPACK_IMPORTED_MODULE_2__constants_js__["c" /* NEW_ITEM_TAG */] + ' ' + url;
+	if (evaluation.seen_by_subject_at) return url;else return __WEBPACK_IMPORTED_MODULE_2__constants_js__["d" /* NEW_ITEM_TAG */] + ' ' + url;
 }
 
 function renderEvaluatorEvalUrl(url, type, evaluation) {
@@ -1601,15 +1601,15 @@ function renderEvaluatorEvalUrl(url, type, evaluation) {
 		if (evaluation.seen_by_evaluator_at) {
 			return evaluation.id;
 		} else {
-			if (typeof evaluation.id === 'number') return evaluation.id * __WEBPACK_IMPORTED_MODULE_2__constants_js__["b" /* UNSEEN_EVALUATION_PRIORITY */];else return '~' + evaluation.id;
+			if (typeof evaluation.id === 'number') return evaluation.id * __WEBPACK_IMPORTED_MODULE_2__constants_js__["c" /* UNSEEN_EVALUATION_PRIORITY */];else return '~' + evaluation.id;
 		}
 	}
 
-	if (evaluation.seen_by_evaluator_at) return url;else return __WEBPACK_IMPORTED_MODULE_2__constants_js__["c" /* NEW_ITEM_TAG */] + ' ' + url;
+	if (evaluation.seen_by_evaluator_at) return url;else return __WEBPACK_IMPORTED_MODULE_2__constants_js__["d" /* NEW_ITEM_TAG */] + ' ' + url;
 }
 
 function renderNewTag(type, evaluation) {
-	if (evaluation.seen_by_evaluator_at) return '';else return __WEBPACK_IMPORTED_MODULE_2__constants_js__["c" /* NEW_ITEM_TAG */];
+	if (evaluation.seen_by_evaluator_at) return '';else return __WEBPACK_IMPORTED_MODULE_2__constants_js__["d" /* NEW_ITEM_TAG */];
 }
 
 function renderSubjectCell(name, type, evaluation) {
@@ -2421,14 +2421,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "getDataAttributes", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["s"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js__ = __webpack_require__(4);
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "appendAlert", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["w"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ucfirst", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["a"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ucfirst", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["c"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "camelCaseToWords", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["k"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "snakeCaseToWords", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["p"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "kebabCaseToWords", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["o"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "nl2br", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["x"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "escapeCsv", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["i"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "getFetchHeaders", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["b"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "jsonOrThrow", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["c"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "getFetchHeaders", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["a"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "jsonOrThrow", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["b"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchCompetencies", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["u"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchMilestoneGroups", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["d"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchMilestones", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["t"]; });
@@ -17236,11 +17236,11 @@ module.exports = Validator;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return ADMIN_EMAIL; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return NEW_ITEM_TAG; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return UNSEEN_EVALUATION_PRIORITY; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return PLACEHOLDER_USER_IMAGE_PATH; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return STANDARD_OPTIONS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ADMIN_EMAIL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return NEW_ITEM_TAG; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return UNSEEN_EVALUATION_PRIORITY; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return PLACEHOLDER_USER_IMAGE_PATH; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return STANDARD_OPTIONS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return RESIDENT_VALUE_MAP; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return FELLOWSHIP_VALUE_MAPS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return CHART_TYPES; });
@@ -17281,14 +17281,14 @@ var CHART_COLORS = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_striptags__ = __webpack_require__(421);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_striptags___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_striptags__);
 /* harmony export (immutable) */ __webpack_exports__["w"] = appendAlert;
-/* harmony export (immutable) */ __webpack_exports__["a"] = ucfirst;
+/* harmony export (immutable) */ __webpack_exports__["c"] = ucfirst;
 /* harmony export (immutable) */ __webpack_exports__["k"] = camelCaseToWords;
 /* harmony export (immutable) */ __webpack_exports__["p"] = snakeCaseToWords;
 /* harmony export (immutable) */ __webpack_exports__["o"] = kebabCaseToWords;
 /* harmony export (immutable) */ __webpack_exports__["x"] = nl2br;
 /* harmony export (immutable) */ __webpack_exports__["i"] = escapeCsv;
-/* harmony export (immutable) */ __webpack_exports__["b"] = getFetchHeaders;
-/* harmony export (immutable) */ __webpack_exports__["c"] = jsonOrThrow;
+/* harmony export (immutable) */ __webpack_exports__["a"] = getFetchHeaders;
+/* harmony export (immutable) */ __webpack_exports__["b"] = jsonOrThrow;
 /* harmony export (immutable) */ __webpack_exports__["u"] = fetchCompetencies;
 /* harmony export (immutable) */ __webpack_exports__["d"] = fetchMilestoneGroups;
 /* harmony export (immutable) */ __webpack_exports__["t"] = fetchMilestones;

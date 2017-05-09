@@ -4139,14 +4139,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			switch (this.formType) {
 				case 'resident':
 				case 'self-resident':
-					options = __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["a" /* STANDARD_OPTIONS */].RESIDENT.slice();
+					options = __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["b" /* STANDARD_OPTIONS */].RESIDENT.slice();
 					break;
 				case 'fellow':
 				case 'self-fellow':
-					options = __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["a" /* STANDARD_OPTIONS */].FELLOW.slice();
+					options = __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["b" /* STANDARD_OPTIONS */].FELLOW.slice();
 					break;
 				case 'faculty':
-					if (this.questionType === 'radiononnumeric') options = __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["a" /* STANDARD_OPTIONS */].FACULTY.slice();
+					if (this.questionType === 'radiononnumeric') options = __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["b" /* STANDARD_OPTIONS */].FACULTY.slice();
 					break;
 			}
 
@@ -5224,10 +5224,10 @@ function createFaculty360CreateForm(el) {
 
 				fetch('/faculty360/forms', {
 					method: 'POST',
-					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["b" /* getFetchHeaders */])(),
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["a" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify(form)
-				}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["c" /* jsonOrThrow */]).then(function (response) {
+				}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["b" /* jsonOrThrow */]).then(function (response) {
 					_this.newFormId = response.id;
 					_this.redirectTimeout = window.setTimeout(function () {
 						window.location = '/faculty360/forms/' + response.id + '/view';
@@ -5261,7 +5261,7 @@ function createFaculty360CreateForm(el) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_SelectTwo_vue__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_SelectTwo_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_SelectTwo_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__ = __webpack_require__(4);
-/* harmony export (immutable) */ __webpack_exports__["a"] = createFcaulty360Request;
+/* harmony export (immutable) */ __webpack_exports__["a"] = createFaculty360Request;
 
 
 
@@ -5269,7 +5269,7 @@ function createFaculty360CreateForm(el) {
 
 
 
-function createFcaulty360Request(el, propsData) {
+function createFaculty360Request(el, propsData) {
 	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 		el: el,
 		props: {
@@ -5280,14 +5280,21 @@ function createFcaulty360Request(el, propsData) {
 			faculty: {
 				type: Array,
 				required: true
+			},
+			forms: {
+				type: Array,
+				required: true
 			}
 		},
 		data: function data() {
 			return {
 				facultyId: null,
+				formId: this.forms.length === 1 ? this.forms[0].id : null,
 				email: null,
 
 				emailError: null,
+
+				requestSuccessful: false,
 
 				alerts: []
 			};
@@ -5319,10 +5326,11 @@ function createFcaulty360Request(el, propsData) {
 
 				fetch('/faculty360/evaluations', {
 					method: 'POST',
-					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["b" /* getFetchHeaders */])(),
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["a" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify({
-						faculty_id: this.facultyId,
+						subject_id: this.facultyId,
+						form_id: this.formId,
 						email: this.email
 					})
 				}).then(function (response) {
@@ -5330,11 +5338,13 @@ function createFcaulty360Request(el, propsData) {
 
 					if (response.status === 403) throw new Error("You aren't currently elligible to evaluate faculty");
 
-					if (response.status === 404) throw new Error('Please select a faculty member to evaluate');
+					if (response.status === 404) throw new Error('Please complete all fields');
 
 					throw new Error('There was a problem creating the evaluation');
 				}).then(function (response) {
-					// TODO
+					_this.requestSuccessful = true;
+
+					if (response.hash) window.location = '/faculty360/evaluate/' + response.hash;
 				}).catch(function (err) {
 					console.error(err);
 					_this.alerts.push(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["g" /* errorToAlert */])(err));
@@ -5495,7 +5505,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 	methods: {
-		ucfirst: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["a" /* ucfirst */],
+		ucfirst: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["c" /* ucfirst */],
 		snarkdown: __WEBPACK_IMPORTED_MODULE_0_snarkdown__["a" /* default */],
 		handleOptionInput: function handleOptionInput(index, option) {
 			if (this.readonly) return;
@@ -6089,7 +6099,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__create_form_js__ = __webpack_require__(208);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createFaculty360CreateForm", function() { return __WEBPACK_IMPORTED_MODULE_1__create_form_js__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__view_form_js__ = __webpack_require__(505);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createViewFaculty360Form", function() { return __WEBPACK_IMPORTED_MODULE_2__view_form_js__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createFaculty360ViewForm", function() { return __WEBPACK_IMPORTED_MODULE_2__view_form_js__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__evaluate_js__ = __webpack_require__(510);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createFaculty360Evaluate", function() { return __WEBPACK_IMPORTED_MODULE_3__evaluate_js__["a"]; });
+
 
 
 
@@ -6114,13 +6127,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_FormReader_FormReader_vue__ = __webpack_require__(507);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_FormReader_FormReader_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_FormReader_FormReader_vue__);
-/* harmony export (immutable) */ __webpack_exports__["a"] = createViewFaculty360Form;
+/* harmony export (immutable) */ __webpack_exports__["a"] = createFaculty360ViewForm;
 
 
 
 
 
-function createViewFaculty360Form(el, propsData) {
+function createFaculty360ViewForm(el, propsData) {
 	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 		el: el,
 		props: {
@@ -6181,6 +6194,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -6213,11 +6227,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.$emit('input', { contents: contents });
 		},
 		handleSave: function handleSave() {
-			// TODO
+			if (!this.readonly) this.$emit('save', {
+				contents: this.contents
+			});
 		},
 		handleSubmit: function handleSubmit() {
 			if (!this.readonly) this.$emit('submit', {
-				title: this.title,
 				contents: this.contents
 			});
 		}
@@ -6232,13 +6247,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* 507 */
 /***/ (function(module, exports, __webpack_require__) {
 
+
+/* styles */
+__webpack_require__(512)
+
 var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(506),
   /* template */
   __webpack_require__(508),
   /* scopeId */
-  null,
+  "data-v-439e6c2c",
   /* cssModules */
   null
 )
@@ -6278,6 +6297,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, 'form-reader-question', item)) : _vm._e(), _vm._v(" "), (item.type === 'instruction') ? _c('div', {
+      staticClass: "instruction-block",
       domProps: {
         "innerHTML": _vm._s(_vm.snarkdown(item.text))
       }
@@ -6426,6 +6446,149 @@ function parse(md) {
 /* harmony default export */ __webpack_exports__["a"] = parse;
 //# sourceMappingURL=snarkdown.es.js.map
 
+
+/***/ }),
+/* 510 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_FormReader_FormReader_vue__ = __webpack_require__(507);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_FormReader_FormReader_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_FormReader_FormReader_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_constants_js__ = __webpack_require__(37);
+/* harmony export (immutable) */ __webpack_exports__["a"] = createFaculty360Evaluate;
+
+
+
+
+
+
+
+
+function createFaculty360Evaluate(el, propsData) {
+	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+		el: el,
+		props: {
+			evaluation: {
+				type: Object,
+				required: true
+			}
+		},
+		data: function data() {
+			return {
+				contents: this.evaluation.contents,
+
+				submitSuccessful: false,
+
+				alerts: []
+			};
+		},
+
+		propsData: propsData,
+
+		methods: {
+			handleInput: function handleInput(form) {
+				this.contents = form.contents;
+			},
+			handleSave: function handleSave(form) {
+				var _this = this;
+
+				fetch('/faculty360/evaluations/' + this.evaluation.hash + '/save', {
+					method: 'POST', // PATCH
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["a" /* getFetchHeaders */])(),
+					credentials: 'same-origin',
+					body: JSON.stringify({
+						_method: 'PATCH',
+						contents: form.contents
+					})
+				}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["b" /* jsonOrThrow */]).then(function () {
+					_this.alerts.push({
+						type: 'success',
+						text: 'Progress saved successfully!'
+					});
+				}).catch(function (err) {
+					console.error(err);
+					_this.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem\n\t\t\t\t\t\t\tsaving your progress. Please let me know at\n\t\t\t\t\t\t\t<a href="mailto:' + __WEBPACK_IMPORTED_MODULE_4__modules_constants_js__["a" /* ADMIN_EMAIL */] + '">\n\t\t\t\t\t\t\t\t' + __WEBPACK_IMPORTED_MODULE_4__modules_constants_js__["a" /* ADMIN_EMAIL */] + '\n\t\t\t\t\t\t\t</a>'
+					});
+				});
+				console.log(form);
+			},
+			handleSubmit: function handleSubmit(form) {
+				var _this2 = this;
+
+				fetch('/faculty360/evaluations/' + this.evaluation.hash + '/submit', {
+					method: 'POST', // PATCH
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["a" /* getFetchHeaders */])(),
+					credentials: 'same-origin',
+					body: JSON.stringify({
+						_method: 'PATCH',
+						contents: form.contents
+					})
+				}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["b" /* jsonOrThrow */]).then(function () {
+					_this2.submitSuccessful = true;
+				}).catch(function (err) {
+					console.error(err);
+					_this2.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem\n\t\t\t\t\t\t\tsubmitting the form. Please let me know at\n\t\t\t\t\t\t\t<a href="mailto:' + __WEBPACK_IMPORTED_MODULE_4__modules_constants_js__["a" /* ADMIN_EMAIL */] + '">\n\t\t\t\t\t\t\t\t' + __WEBPACK_IMPORTED_MODULE_4__modules_constants_js__["a" /* ADMIN_EMAIL */] + '\n\t\t\t\t\t\t\t</a>'
+					});
+				});
+				console.log(form);
+			}
+		},
+
+		components: {
+			AlertList: __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default.a,
+			FormReader: __WEBPACK_IMPORTED_MODULE_2__vue_components_FormReader_FormReader_vue___default.a
+		}
+	});
+}
+
+/***/ }),
+/* 511 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\nh2[data-v-439e6c2c] {\n\tmargin-bottom: 2em;\n}\n.instruction-block[data-v-439e6c2c] {\n\tfont-size: 1.25em;\n\tpadding: 1.5em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormReader/FormReader.vue?e47133d4"],"names":[],"mappings":";AAkFA;CACA,mBAAA;CACA;AAEA;CACA,kBAAA;CACA,eAAA;CACA","file":"FormReader.vue","sourcesContent":["<template>\n\t<div>\n\t\t<h2 v-if=\"title\">\n\t\t\t{{ title }}\n\t\t</h2>\n\t\t<template v-for=\"(item, index) of contents.items\">\n\t\t\t<form-reader-question v-if=\"item.type === 'question'\"\n\t\t\t\tv-bind=\"item\"\n\t\t\t\t:readonly=\"readonly\"\n\t\t\t\t@input=\"handleInput(index, arguments[0])\" />\n\t\t\t<div v-if=\"item.type === 'instruction'\"\n\t\t\t\tclass=\"instruction-block\"\n\t\t\t\tv-html=\"snarkdown(item.text)\">\n\t\t\t</div>\n\t\t</template>\n\n\t\t<div v-if=\"!readonly\" class=\"btn-lg-submit-container\">\n\t\t\t<button type=\"button\" class=\"btn btn-lg btn-default\"\n\t\t\t\t\t@click=\"handleSave\">\n\t\t\t\tSave\n\t\t\t</button>\n\t\t\t<button type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t@click=\"handleSubmit\">\n\t\t\t\tSubmit\n\t\t\t</button>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport FormReaderQuestion from './FormReaderQuestion.vue';\n\nimport snarkdown from 'snarkdown';\n\nexport default {\n\tprops: {\n\t\ttitle: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t},\n\t\tcontents: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t},\n\t\treadonly: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t}\n\t},\n\n\tmethods: {\n\t\tsnarkdown,\n\t\thandleInput(index, question) {\n\t\t\tif (this.readonly)\n\t\t\t\treturn;\n\n\t\t\tlet items = this.contents.items.slice();\n\t\t\titems.splice(index, 1, Object.assign({}, this.contents.items[index], question));\n\t\t\tlet contents = Object.assign({}, contents, {items});\n\t\t\tthis.$emit('input', {contents});\n\t\t},\n\t\thandleSave() {\n\t\t\tif (!this.readonly)\n\t\t\t\tthis.$emit('save', {\n\t\t\t\t\tcontents: this.contents\n\t\t\t\t});\n\t\t},\n\t\thandleSubmit() {\n\t\t\tif (!this.readonly)\n\t\t\t\tthis.$emit('submit', {\n\t\t\t\t\tcontents: this.contents\n\t\t\t\t});\n\t\t}\n\t},\n\n\tcomponents: {\n\t\tFormReaderQuestion\n\t}\n};\n</script>\n\n<style scoped>\n\th2 {\n\t\tmargin-bottom: 2em;\n\t}\n\n\t.instruction-block {\n\t\tfont-size: 1.25em;\n\t\tpadding: 1.5em;\n\t}\n</style>\n"],"sourceRoot":""}]);
+
+// exports
+
+
+/***/ }),
+/* 512 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(511);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(3)("e6c560d2", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js?sourceMap!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-439e6c2c&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormReader.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js?sourceMap!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-439e6c2c&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormReader.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
 
 /***/ })
 ],[495]);
