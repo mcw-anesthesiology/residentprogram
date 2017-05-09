@@ -9,10 +9,11 @@
 				:readonly="readonly"
 				@input="handleInput(index, arguments[0])" />
 			<div v-if="item.type === 'instruction'"
+				class="instruction-block"
 				v-html="snarkdown(item.text)">
 			</div>
 		</template>
-		
+
 		<div v-if="!readonly" class="btn-lg-submit-container">
 			<button type="button" class="btn btn-lg btn-default"
 					@click="handleSave">
@@ -46,25 +47,27 @@ export default {
 			default: false
 		}
 	},
-	
+
 	methods: {
 		snarkdown,
 		handleInput(index, question) {
 			if (this.readonly)
 				return;
-			
+
 			let items = this.contents.items.slice();
 			items.splice(index, 1, Object.assign({}, this.contents.items[index], question));
 			let contents = Object.assign({}, contents, {items});
 			this.$emit('input', {contents});
 		},
 		handleSave() {
-			// TODO
+			if (!this.readonly)
+				this.$emit('save', {
+					contents: this.contents
+				});
 		},
 		handleSubmit() {
 			if (!this.readonly)
 				this.$emit('submit', {
-					title: this.title,
 					contents: this.contents
 				});
 		}
@@ -75,3 +78,14 @@ export default {
 	}
 };
 </script>
+
+<style scoped>
+	h2 {
+		margin-bottom: 2em;
+	}
+
+	.instruction-block {
+		font-size: 1.25em;
+		padding: 1.5em;
+	}
+</style>

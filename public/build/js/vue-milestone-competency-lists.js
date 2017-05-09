@@ -269,7 +269,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			if (this.showDescriptions.hasOwnProperty(type)) this.showDescriptions[type] = !this.showDescriptions[type];
 		},
 		ucfirst: function ucfirst(str) {
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["a" /* ucfirst */])(str);
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["c" /* ucfirst */])(str);
 		}
 	},
 	components: {

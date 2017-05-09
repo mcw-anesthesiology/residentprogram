@@ -9,7 +9,7 @@ import {
 	errorToAlert
 } from 'modules/utils.js';
 
-export default function createFcaulty360Request(el, propsData) {
+export default function createFaculty360Request(el, propsData) {
 	return new Vue({
 		el,
 		props: {
@@ -20,20 +20,29 @@ export default function createFcaulty360Request(el, propsData) {
 			faculty: {
 				type: Array,
 				required: true
+			},
+			forms: {
+				type: Array,
+				required: true
 			}
 		},
 		data() {
 			return {
 				facultyId: null,
+				formId: this.forms.length === 1
+					? this.forms[0].id
+					: null,
 				email: null,
-				
+
 				emailError: null,
-				
+
+				requestSuccessful: false,
+
 				alerts: []
 			};
 		},
 		propsData,
-		
+
 		computed: {
 			emailIsValid() {
 				return (this.email !== null && this.email.endsWith('@mcw.edu'));
@@ -44,11 +53,11 @@ export default function createFcaulty360Request(el, propsData) {
 			sortedFaculty() {
 				let faculty = this.faculty.slice();
 				faculty.sort(sortPropIgnoreCase('full_name'));
-				
+
 				return faculty;
 			}
 		},
-		
+
 		methods: {
 			validateEmail() {
 				if (!this.email || this.emailIsValid)
@@ -62,29 +71,33 @@ export default function createFcaulty360Request(el, propsData) {
 					headers: getFetchHeaders(),
 					credentials: 'same-origin',
 					body: JSON.stringify({
-						faculty_id: this.facultyId,
+						subject_id: this.facultyId,
+						form_id: this.formId,
 						email: this.email
 					})
 				}).then(response => {
 					if (response.ok)
 						return response.json();
-						
+
 					if (response.status === 403)
 						throw new Error("You aren't currently elligible to evaluate faculty");
-					
+
 					if (response.status === 404)
-						throw new Error('Please select a faculty member to evaluate');
-					
+						throw new Error('Please complete all fields');
+
 					throw new Error('There was a problem creating the evaluation');
 				}).then(response => {
-					// TODO
+					this.requestSuccessful = true;
+
+					if (response.hash)
+						window.location = `/faculty360/evaluate/${response.hash}`;
 				}).catch(err => {
 					console.error(err);
 					this.alerts.push(errorToAlert(err));
 				});
 			}
 		},
-		
+
 		components: {
 			AlertList,
 			SelectTwo

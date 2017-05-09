@@ -12551,7 +12551,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 
 			fetch(this.target, {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["b" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(body)
 			}).then(function (response) {
@@ -12588,7 +12588,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 			});
 		},
 
-		ucfirst: __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["a" /* ucfirst */]
+		ucfirst: __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["c" /* ucfirst */]
 	},
 	components: {
 		AlertList: __WEBPACK_IMPORTED_MODULE_1__AlertList_vue___default.a,
@@ -12724,7 +12724,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 	methods: {
-		ucfirst: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["a" /* ucfirst */],
+		ucfirst: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["c" /* ucfirst */],
 		snarkdown: __WEBPACK_IMPORTED_MODULE_0_snarkdown__["a" /* default */],
 		handleOptionInput: function handleOptionInput(index, option) {
 			if (this.readonly) return;
@@ -13488,7 +13488,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 	methods: {
 		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["k" /* camelCaseToWords */],
-		ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* ucfirst */]
+		ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* ucfirst */]
 	},
 	components: {
 		BootstrapButtonInput: __WEBPACK_IMPORTED_MODULE_1__BootstrapButtonInput_vue___default.a,
@@ -13560,10 +13560,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			fetch('/report/stats/trainee/faculty', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["b" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(this.dates)
-			}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["c" /* jsonOrThrow */]).then(function (stats) {
+			}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["b" /* jsonOrThrow */]).then(function (stats) {
 				_this.evaluatorStats = stats;
 			}).catch(function (err) {
 				console.error(err);
@@ -13575,10 +13575,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			fetch('/report/stats/faculty/faculty', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["b" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(this.dates)
-			}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["c" /* jsonOrThrow */]).then(function (stats) {
+			}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["b" /* jsonOrThrow */]).then(function (stats) {
 				_this.subjectStats = stats;
 			}).catch(function (err) {
 				console.error(err);
@@ -13900,9 +13900,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 			fetch('/evaluations?' + query, {
 				method: 'GET',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["b" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin'
-			}).then(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["c" /* jsonOrThrow */]).then(function (subjectEvals) {
+			}).then(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["b" /* jsonOrThrow */]).then(function (subjectEvals) {
 				_this3.subjectEvals = subjectEvals;
 			});
 		}
@@ -13929,7 +13929,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 			fetch('/report/form', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["b" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -14729,7 +14729,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 	},
 	methods: {
 		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["k" /* camelCaseToWords */],
-		ucfirst: __WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["a" /* ucfirst */],
+		ucfirst: __WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["c" /* ucfirst */],
 		renderDateCell: __WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["j" /* renderDateCell */],
 		saveCharts: function saveCharts() {
 			if (this.$refs.competencyChart && this.$refs.competencyChart.chart) __WEBPACK_IMPORTED_MODULE_1_downloadjs___default()(this.$refs.competencyChart.chart.toBase64Image(), 'Competencies chart - ' + this.report.subjects[this.subjectId] + ' - ' + new Date().toLocaleString() + '.png');
@@ -15075,7 +15075,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		placeholderUserImagePath: {
 			type: String,
-			default: __WEBPACK_IMPORTED_MODULE_2__modules_constants_js__["d" /* PLACEHOLDER_USER_IMAGE_PATH */]
+			default: __WEBPACK_IMPORTED_MODULE_2__modules_constants_js__["e" /* PLACEHOLDER_USER_IMAGE_PATH */]
 		}
 	},
 	data: function data() {
@@ -15106,7 +15106,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 	methods: {
 		renderTrainingLevel: __WEBPACK_IMPORTED_MODULE_4__modules_datatable_utils_js__["i" /* renderTrainingLevel */],
-		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["a" /* ucfirst */]
+		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["c" /* ucfirst */]
 	},
 	components: {
 		EvaluationDetailsListItem: __WEBPACK_IMPORTED_MODULE_0__EvaluationDetailsListItem_vue___default.a,
@@ -15219,7 +15219,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		markdownTemplates: function markdownTemplates() {
 			var startDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(this.dates.startDate).format('LL');
 			var endDate = __WEBPACK_IMPORTED_MODULE_0_moment___default()(this.dates.endDate).format('LL');
-			return new Map([['Default', 'Hello Dr. [[Name]],\n\nYou have [[# Completed]] evaluations completed for between ' + startDate + ' and ' + endDate + '.\n\n**You are required to have ' + this.evalThreshold + ' evaluations completed for this period.**\nPlease request at least [[# Needed]] more evaluations as soon as possible.\n\nIf you have any issues or questions about the system, please contact [' + __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__["e" /* ADMIN_EMAIL */] + '](mailto:' + __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__["e" /* ADMIN_EMAIL */] + ').\n\nThank you!'], ['CCC', 'Hello Dr. [[Name]],\n\nThe Clinical Competency Committee will be meeting soon to evaluate your performance from ' + startDate + ' to ' + endDate + '.\n\nYou currently have [[# Completed]] evaluations completed for this period;\nhowever, **you are required to have ' + this.evalThreshold + ' evaluations completed for this period.**\nPlease request at least [[# Needed]] more evaluations as soon as possible.\n\nIf you have any issues or questions about the system, please contact [' + __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__["e" /* ADMIN_EMAIL */] + '](mailto:' + __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__["e" /* ADMIN_EMAIL */] + ').\n\nThank you!']]);
+			return new Map([['Default', 'Hello Dr. [[Name]],\n\nYou have [[# Completed]] evaluations completed for between ' + startDate + ' and ' + endDate + '.\n\n**You are required to have ' + this.evalThreshold + ' evaluations completed for this period.**\nPlease request at least [[# Needed]] more evaluations as soon as possible.\n\nIf you have any issues or questions about the system, please contact [' + __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__["a" /* ADMIN_EMAIL */] + '](mailto:' + __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__["a" /* ADMIN_EMAIL */] + ').\n\nThank you!'], ['CCC', 'Hello Dr. [[Name]],\n\nThe Clinical Competency Committee will be meeting soon to evaluate your performance from ' + startDate + ' to ' + endDate + '.\n\nYou currently have [[# Completed]] evaluations completed for this period;\nhowever, **you are required to have ' + this.evalThreshold + ' evaluations completed for this period.**\nPlease request at least [[# Needed]] more evaluations as soon as possible.\n\nIf you have any issues or questions about the system, please contact [' + __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__["a" /* ADMIN_EMAIL */] + '](mailto:' + __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__["a" /* ADMIN_EMAIL */] + ').\n\nThank you!']]);
 		},
 		emailReplacements: function emailReplacements() {
 			return ['Name', '# Completed', '# Needed'];
@@ -15354,7 +15354,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			fetch('/report/needs/evaluations', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -15373,7 +15373,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			fetch('/report/needs/competencies', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -15391,7 +15391,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			fetch('/report/needs/milestones', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -15493,7 +15493,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			fetch('/report/pending-requests', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["b" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -16351,7 +16351,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			fetch('/report/aggregate', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["b" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					startDate: this.dates.startDate,
@@ -16373,12 +16373,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			fetch('/report/stats/trainee/trainee', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["b" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(Object.assign({}, this.dates, {
 					trainingLevel: this.currentTrainingLevel
 				}))
-			}).then(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["c" /* jsonOrThrow */]).then(function (stats) {
+			}).then(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["b" /* jsonOrThrow */]).then(function (stats) {
 				_this4.subjectStats = stats;
 			}).catch(function (err) {
 				console.error(err);
@@ -16386,12 +16386,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			fetch('/report/stats/faculty/trainee', {
 				method: 'POST',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["b" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(Object.assign({}, this.dates, {
 					trainingLevel: this.currentTrainingLevel
 				}))
-			}).then(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["c" /* jsonOrThrow */]).then(function (stats) {
+			}).then(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["b" /* jsonOrThrow */]).then(function (stats) {
 				_this4.evaluatorStats = stats;
 			}).catch(function (err) {
 				console.error(err);

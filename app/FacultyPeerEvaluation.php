@@ -4,17 +4,22 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Carbon\Carbon;
+
+use Log;
+use Mail;
+
 class FacultyPeerEvaluation extends Model
 {
     protected $table = 'faculty_peer_evaluations';
-	
+
 	protected $casts = [
 		'id' => 'integer',
 		'form_id' => 'integer',
 		'subject_id' => 'integer',
-		'responses' => 'array'
+		'contents' => 'array'
 	];
-	
+
 	protected $dates = [
 		'evaluation_date_start',
 		'evaluation_date_end',
@@ -22,7 +27,7 @@ class FacultyPeerEvaluation extends Model
 		'updated_at',
 		'deleted_at'
 	];
-	
+
 	protected $userHidden = [
 		'evaluator_email',
 		'hash',
@@ -30,30 +35,29 @@ class FacultyPeerEvaluation extends Model
 		'request_ip',
 		'complete_ip'
 	];
-	
+
 	public function subject() {
 		return $this->belongsTo('App\User', 'subject_id');
 	}
-	
+
 	public function form() {
 		return $this->belongsTo('App\FacultyPeerForm', 'form_id');
 	}
-	
+
 	public function sendHashLink() {
 		try{
 			if($this->status != 'pending')
 				throw new \Exception('Evaluation already complete');
-			if(empty($this->completion_hash))
+			if(empty($this->hash))
 				throw new \Exception('No hash');
-			$email = $this->evaluator->email;
+			$email = $this->evaluator_email;
 			$data = [
-				'evaluationHash' => $this->completion_hash,
-				'hashExpires' => $this->hash_expires,
-				'evaluatorName' => $this->evaluator->full_name,
+				'evaluationHash' => $this->hash,
+				'hashExpires' => Carbon::parse($this->hash_expires)->toFormattedDateString(),
 				'subjectLast' => $this->subject->last_name,
 				'formTitle' => $this->form->title
 			];
-			Mail::send('emails.hash-link', $data, function($message) use($email){
+			Mail::send('emails.faculty360.hash-link', $data, function($message) use($email){
 				$message->to($email);
 				$message->from('notifications@residentprogram.com', 'Resident Program Notifications');
 				$message->replyTo(config('app.admin_email'));
@@ -67,7 +71,13 @@ class FacultyPeerEvaluation extends Model
 
 		return true;
 	}
-	
+
+	public function scopeByHash($query, $hash) {
+		return $query->where('hash', $hash)
+			->where('hash_expires', '>', Carbon::now())
+			->where('status', 'pending'); // ?
+	}
+
 	public function hideFields() {
 		$this->addHidden($this->userHidden);
 	}

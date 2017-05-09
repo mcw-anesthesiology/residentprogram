@@ -4139,14 +4139,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			switch (this.formType) {
 				case 'resident':
 				case 'self-resident':
-					options = __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["a" /* STANDARD_OPTIONS */].RESIDENT.slice();
+					options = __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["b" /* STANDARD_OPTIONS */].RESIDENT.slice();
 					break;
 				case 'fellow':
 				case 'self-fellow':
-					options = __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["a" /* STANDARD_OPTIONS */].FELLOW.slice();
+					options = __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["b" /* STANDARD_OPTIONS */].FELLOW.slice();
 					break;
 				case 'faculty':
-					if (this.questionType === 'radiononnumeric') options = __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["a" /* STANDARD_OPTIONS */].FACULTY.slice();
+					if (this.questionType === 'radiononnumeric') options = __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["b" /* STANDARD_OPTIONS */].FACULTY.slice();
 					break;
 			}
 
@@ -5518,7 +5518,7 @@ function createFormBuilder(el, propsData) {
 
 				fetch('/forms', {
 					method: 'POST',
-					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["b" /* getFetchHeaders */])(),
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["a" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify(form)
 				}).then(function (response) {

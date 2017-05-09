@@ -7150,7 +7150,7 @@ function createAdminDashboard(el, propsData) {
 
 			fetch('/flagged_evaluations?' + $.param(flaggedEvalsBody), {
 				method: 'GET',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["b" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin'
 			}).then(function (response) {
 				if (response.ok) return response.json();else throw new Error(response.type);
@@ -7175,7 +7175,7 @@ function createAdminDashboard(el, propsData) {
 					var flaggedEvalId = $(event.target).data('id');
 					fetch('/flagged_evaluations/' + flaggedEvalId, {
 						method: 'POST', // DELETE
-						headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["b" /* getFetchHeaders */])(),
+						headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["a" /* getFetchHeaders */])(),
 						credentials: 'same-origin',
 						body: JSON.stringify({
 							_method: 'DELETE'

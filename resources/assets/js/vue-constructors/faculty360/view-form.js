@@ -3,7 +3,7 @@ import Vue from 'vue';
 import AlertList from 'vue-components/AlertList.vue';
 import FormReader from 'vue-components/FormReader/FormReader.vue';
 
-export default function createViewFaculty360Form(el, propsData) {
+export default function createFaculty360ViewForm(el, propsData) {
 	return new Vue({
 		el,
 		props: {
@@ -18,7 +18,7 @@ export default function createViewFaculty360Form(el, propsData) {
 			};
 		},
 		propsData,
-		
+
 		components: {
 			AlertList,
 			FormReader
