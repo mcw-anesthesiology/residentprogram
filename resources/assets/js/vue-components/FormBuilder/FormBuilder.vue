@@ -182,7 +182,7 @@ export default {
 			});
 		},
 		changeItem(index, item) {
-			this.items.splice(index, 1, Object.assign(this.items[index], item));
+			this.items.splice(index, 1, Object.assign({}, this.items[index], item));
 		},
 		moveItem(index, newIndex) {
 			this.items.splice(newIndex, 0, this.items.splice(index, 1)[0]);
@@ -206,7 +206,9 @@ export default {
 					formType: this.formType,
 					evaluation_period_type: this.periodType,
 					items: this.items.map(item => {
-						item.questionId = `q${item.questionIdNum}`;
+						if (item.type === 'question')
+							item.questionId = `q${item.questionIdNum}`;
+
 						return item;
 					})
 				});
