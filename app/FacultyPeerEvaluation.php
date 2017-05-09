@@ -33,8 +33,15 @@ class FacultyPeerEvaluation extends Model
 		'hash',
 		'hash_expires',
 		'request_ip',
-		'complete_ip'
+		'complete_ip',
+		'created_at',
+		'updated_at',
+		'deleted_at'
 	];
+
+	public function getIdAttribute($id) {
+		return Hashids::encode($id);
+	}
 
 	public function subject() {
 		return $this->belongsTo('App\User', 'subject_id');
