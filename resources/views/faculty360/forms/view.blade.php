@@ -17,6 +17,6 @@
 			form: {!! $form->toJson() !!}
 		};
 
-		createViewFaculty360Form('main', propsData);
+		createFaculty360ViewForm('main', propsData);
 	</script>
 @endpush

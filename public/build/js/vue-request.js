@@ -5297,9 +5297,9 @@ function createRequest(el, propsData) {
 					},
 					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["f" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, {
 						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["a" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["b" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["c" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["d" /* createDateTimeCell */] }, { data: null, render: function render(evaluation) {
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: null, render: function render(evaluation) {
 							if (evaluation.requested_by_id === _this3.user.id) return '<button class="btn btn-danger btn-xs cancel-eval-button" ' + 'data-id="' + evaluation.id + '"><span class="glyphicon glyphicon-remove"></span> ' + 'Cancel</button>';
 
 							return '';
@@ -5334,9 +5334,9 @@ function createRequest(el, propsData) {
 					},
 					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["f" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, {
 						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["a" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["b" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["c" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["d" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["c" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["d" /* createDateTimeCell */] }],
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["b" /* createDateTimeCell */] }],
 					order: [[0, 'desc']],
 					createdRow: function createdRow(row) {
 						$(row).addClass('view-evaluation');

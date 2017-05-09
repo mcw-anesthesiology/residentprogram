@@ -13,7 +13,8 @@
 	</style>
 @stop
 
-@section("body")
+@section("blockless-body")
+<div class="container body-block" v-pre>
 	<div class="row">
 		<h2 class="sub-header">Evaluation forms <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add new</button></h2>
 		<div class="table-responsive">
@@ -34,7 +35,7 @@
 	</div>
 </div>
 
-<div class="container body-block">
+<div class="container body-block" v-pre>
 	<div class="row">
 		<h2 class="sub-header">Fellow-specific evaluation forms <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add new</button></h2>
 		<div class="table-responsive">
@@ -55,7 +56,7 @@
 	</div>
 </div>
 
-<div class="container body-block">
+<div class="container body-block" v-pre>
 	<div class="row">
 		<h2 class="sub-header">Faculty evaluation forms <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add new</button></h2>
 		<div class="table-responsive">
@@ -74,10 +75,23 @@
 			</table>
 		</div>
 	</div>
+</div>
+
+<div id="faculty-360-forms-block" class="container body-block">
+	<h2 class="sub-header">
+		Faculty 360 forms
+		<a href="/faculty360/forms/create" class="btn btn-success btn-xs">
+			<span class="glyphicon glyphicon-plus"></span>
+			Add new
+		</a>
+	</h2>
+	<data-table :thead="faculty360Thead" :config="faculty360Config">
+	</data-table>
+</div>
 
 
 	<!-- Add Modal -->
-	<div class="modal fade bs-add-modal" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true" id="addModal">
+	<div class="modal fade bs-add-modal" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true" id="addModal" v-pre>
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	      <div class="modal-header">
@@ -112,7 +126,7 @@
 	</div>
 
 	<!-- Edit modal -->
-	<div class="modal fade bs-edit-modal" tabindex="-1" role="dialog" aria-labelledby="edit-form-modal-title" aria-hidden="true" id="edit-form-modal">
+	<div class="modal fade bs-edit-modal" tabindex="-1" role="dialog" aria-labelledby="edit-form-modal-title" aria-hidden="true" id="edit-form-modal" v-pre>
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -153,6 +167,14 @@
 		</div>
 	</div>
 @stop
+
+@push('scripts')
+	<script src="{{ elixir('js/vue-deps.js') }}"></script>
+	<script src="{{ elixir('js/vue-manage.js') }}"></script>
+	<script>
+		createManageForms('#faculty-360-forms-block');
+	</script>
+@endpush
 
 @section("script")
 	<script>
@@ -268,7 +290,7 @@
 						return form.visibility;
 					}},
 					{data: null, orderable: false, searchable: false, render: function(form, type){
-						return '<a href="/manage/forms/' + form.id + '">View Form</a>';
+						return '<a href="/manage/forms/' + form.id + '" target="_blank">View Form</a>';
 					}},
 					{data: null, orderable: false, render: function(form, type){
 						// TODO

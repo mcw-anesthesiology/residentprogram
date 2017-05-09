@@ -13862,9 +13862,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				},
 				columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'evaluator.full_name' }, { data: 'requestor.full_name' }, { data: 'form.title' }, {
 					data: null,
-					render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["a" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-					createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["b" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-				}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["j" /* renderDateCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["k" /* createDateCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["c" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["d" /* createDateTimeCell */] }, { data: 'status', render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["g" /* renderEvaluationStatus */] }],
+					render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+					createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+				}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["j" /* renderDateCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["k" /* createDateCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'status', render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["g" /* renderEvaluationStatus */] }],
 				order: [[0, 'desc']]
 			};
 		},
@@ -13872,9 +13872,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 			return {
 				columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'evaluator.full_name' }, { data: 'requestor.full_name' }, { data: 'form.title' }, {
 					data: null,
-					render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["a" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-					createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["b" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-				}, { data: "request_date", render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["j" /* renderDateCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["k" /* createDateCell */] }, { data: "complete_date", render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["c" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["d" /* createDateTimeCell */] }, { data: "status", render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["g" /* renderEvaluationStatus */] }],
+					render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+					createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+				}, { data: "request_date", render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["j" /* renderDateCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["k" /* createDateCell */] }, { data: "complete_date", render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: "status", render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["g" /* renderEvaluationStatus */] }],
 				order: [[0, 'desc']]
 			};
 		}
@@ -14551,7 +14551,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 		evaluationsData: function evaluationsData() {
 			try {
 				return this.report.subjectEvaluations[this.subjectId].map(function (request) {
-					return [String(request.evaluation_id), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["a" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')(request), request.evaluator_last + ', ' + request.evaluator_first, request.form_title];
+					return [String(request.evaluation_id), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')(request), request.evaluator_last + ', ' + request.evaluator_first, request.form_title];
 				});
 			} catch (err) {
 				return [];
@@ -14619,7 +14619,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 		commentsData: function commentsData() {
 			try {
 				return this.report.subjectTextResponses[this.subjectId].map(function (response) {
-					return [String(response.evaluation_id), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["a" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')(response), response.last_name + ', ' + response.first_name, response.form_title, response.response];
+					return [String(response.evaluation_id), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')(response), response.last_name + ', ' + response.first_name, response.form_title, response.response];
 				});
 			} catch (err) {
 				return [];
