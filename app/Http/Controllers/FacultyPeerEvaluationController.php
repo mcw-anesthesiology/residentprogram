@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 use Carbon\Carbon;
@@ -24,7 +25,9 @@ class FacultyPeerEvaluationController extends Controller
 			if (!Auth::check() || Auth::user()->isType(self::ALLOWED_USER_TYPES))
 				return $next($request);
 				
-			return response('Not allowed', 403);
+			return $request->ajax()
+				? response('Not allowed', 403)
+				: back()->with('error', 'You are not currently allowed to create a Faculty 360 evaluation');
 		})->only('request');
 	}
 	
@@ -53,8 +56,19 @@ class FacultyPeerEvaluationController extends Controller
 	}
 	
 	public function evaluate(Request $request, $hash) {
-		$evaluation = FacultyPeerEvaluation::where('hash', $hash)
-			->where('hash_expires', '>', Carbon::now())
-			->firstOrFail();
+		try {
+			$evaluation = FacultyPeerEvaluation::where('hash', $hash)
+				->where('hash_expires', '>', Carbon::now())
+				->firstOrFail();
+				
+			// TODO
+		} catch (ModelNotFoundException $e) {
+			$message = 'No evaluation found for the given identifier';
+			return $request->ajax()
+				? response()->json(['error' => $message], 404)
+				: back()->with('error', $message);
+		} catch (\Exception $e) {
+			return back()->with('error', 'There was a problem completing the evaluation, sorry about that! Please let me know at jmischka@mcw.edu');
+		}
 	}	
 }
