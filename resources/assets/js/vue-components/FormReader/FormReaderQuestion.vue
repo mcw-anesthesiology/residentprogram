@@ -9,18 +9,26 @@
 
 		<div class="question-body panel-body">
 
-			<form-reader-question-option v-if="['radio', 'radiononnumeric', 'checkbox'].includes(questionType)"
-					v-for="option of options" v-bind="option" :questionType="questionType"
-					:questionId="questionId" :required="required" :showDescription="showDescriptions"
-					:readonly="readonly" />
-
+			<template v-if="isOptionQuestion">
+				<form-reader-question-option v-for="(option, index) of options"
+					v-bind="option" :questionType="questionType"
+					:questionId="questionId" :required="required"
+					:showDescription="showDescriptions"
+					:readonly="readonly"
+					@input="handleOptionInput(index, arguments[0])">
+				</form-reader-question-option>
+			</template>
 			<div v-else class="question-option">
 				<textarea v-if="questionType === 'text'" class="form-control"
-					:name="questionId" :required="required" :readonly="readonly">
+					:name="questionId" :value="value"
+					:required="required" :readonly="readonly"
+					@input="handleInput">
 				</textarea>
 
 				<input type="number" v-if="questionType === 'number'" class="form-control"
-					:name="questionId" :required="required" :readonly="readonly" />
+					:name="questionId" :value="value"
+					:required="required" :readonly="readonly"
+					@input="handleInput" />
 			</div>
 		</div>
 
@@ -74,7 +82,11 @@ export default {
 		},
 		options: {
 			type: Array,
-			required: true
+			required: false
+		},
+		value: {
+			type: [String, Number],
+			required: false
 		},
 		readonly: {
 			type: Boolean,
@@ -87,22 +99,45 @@ export default {
 		};
 	},
 	computed: {
-		hasDescriptions(){
+		hasDescriptions() {
 			let hasDescriptions = false;
 
-			if(this.options)
+			if (this.options)
 				this.options.map(option => {
-					if(option.description)
+					if (option.description)
 						hasDescriptions = true;
 				});
 
 			return hasDescriptions;
+		},
+		isOptionQuestion() {
+			return [
+				'radio',
+				'radiononnumeric',
+				'checkbox'
+			].includes(this.questionType);
 		}
 	},
 
 	methods: {
 		ucfirst,
-		snarkdown
+		snarkdown,
+		handleOptionInput(index, option) {
+			if (this.readonly)
+				return;
+			
+			let options = (['radiononnumeric', 'radio'].includes(this.questionType) && option.checked)
+				? this.options.map(option => Object.assign({}, option, {checked: false}))
+				: this.options.slice();
+			options.splice(index, 1, Object.assign({}, options[index], option));
+			this.$emit('input', {options});
+		},
+		handleInput(event) {
+			if (this.readonly)
+				return;
+			
+			this.$emit('input', {value: event.target.value});
+		}
 	},
 
 	components: {

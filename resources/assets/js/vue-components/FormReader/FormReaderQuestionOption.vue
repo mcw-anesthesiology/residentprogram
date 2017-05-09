@@ -4,9 +4,11 @@
 			<span :title="description">
 				<input v-if="questionType === 'checkbox'" type="checkbox"
 					:name="`${questionId}[]`" :value="value"
-					:required="required" :disabled="readonly" />
+					:checked="checked" :required="required"
+					:disabled="readonly" @change="handleInput" />
 				<input v-else type="radio" :name="questionId" :value="value"
-					:required="required" :disabled="readonly" />
+					:checked="checked" :required="required"
+					:disabled="readonly" @change="handleInput" />
 				<br />
 				{{ text }}
 			</span>
@@ -49,6 +51,11 @@ export default {
 			type: String,
 			required: true
 		},
+		checked: {
+			type: Boolean,
+			default: false
+		},
+		
 		required: {
 			type: Boolean,
 			default: false
@@ -61,7 +68,10 @@ export default {
 	},
 	
 	methods: {
-		snarkdown
+		snarkdown,
+		handleInput(event) {
+			this.$emit('input', {checked: event.target.checked});
+		}
 	}
 };
 </script>

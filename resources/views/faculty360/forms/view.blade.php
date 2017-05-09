@@ -4,7 +4,7 @@
 	<div class="container body-block">
 		<form-reader v-bind="form" readonly>
 		</form-reader>
-		
+
 		<alert-list v-model="alerts"></alert-list>
 	</div>
 @stop
@@ -16,7 +16,7 @@
 		var propsData = {
 			form: {!! $form->toJson() !!}
 		};
-		
+
 		createViewFaculty360Form('main', propsData);
 	</script>
 @endpush

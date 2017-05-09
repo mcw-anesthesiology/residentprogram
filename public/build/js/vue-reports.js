@@ -12645,6 +12645,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -12683,7 +12691,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		options: {
 			type: Array,
-			required: true
+			required: false
+		},
+		value: {
+			type: [String, Number],
+			required: false
 		},
 		readonly: {
 			type: Boolean,
@@ -12705,12 +12717,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			});
 
 			return hasDescriptions;
+		},
+		isOptionQuestion: function isOptionQuestion() {
+			return ['radio', 'radiononnumeric', 'checkbox'].includes(this.questionType);
 		}
 	},
 
 	methods: {
 		ucfirst: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["a" /* ucfirst */],
-		snarkdown: __WEBPACK_IMPORTED_MODULE_0_snarkdown__["a" /* default */]
+		snarkdown: __WEBPACK_IMPORTED_MODULE_0_snarkdown__["a" /* default */],
+		handleOptionInput: function handleOptionInput(index, option) {
+			if (this.readonly) return;
+
+			var options = ['radiononnumeric', 'radio'].includes(this.questionType) && option.checked ? this.options.map(function (option) {
+				return Object.assign({}, option, { checked: false });
+			}) : this.options.slice();
+			options.splice(index, 1, Object.assign({}, options[index], option));
+			this.$emit('input', { options: options });
+		},
+		handleInput: function handleInput(event) {
+			if (this.readonly) return;
+
+			this.$emit('input', { value: event.target.value });
+		}
 	},
 
 	components: {
@@ -12725,6 +12754,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_snarkdown__ = __webpack_require__(509);
+//
+//
 //
 //
 //
@@ -12776,6 +12807,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			type: String,
 			required: true
 		},
+		checked: {
+			type: Boolean,
+			default: false
+		},
+
 		required: {
 			type: Boolean,
 			default: false
@@ -12788,7 +12824,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 	methods: {
-		snarkdown: __WEBPACK_IMPORTED_MODULE_0_snarkdown__["a" /* default */]
+		snarkdown: __WEBPACK_IMPORTED_MODULE_0_snarkdown__["a" /* default */],
+		handleInput: function handleInput(event) {
+			this.$emit('input', { checked: event.target.checked });
+		}
 	}
 };
 
@@ -40154,7 +40193,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "disabled": _vm.readonly
     },
     domProps: {
-      "value": _vm.value
+      "value": _vm.value,
+      "checked": _vm.checked
+    },
+    on: {
+      "change": _vm.handleInput
     }
   }) : _c('input', {
     attrs: {
@@ -40164,7 +40207,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "disabled": _vm.readonly
     },
     domProps: {
-      "value": _vm.value
+      "value": _vm.value,
+      "checked": _vm.checked
+    },
+    on: {
+      "change": _vm.handleInput
     }
   }), _vm._v(" "), _c('br'), _vm._v("\n\t\t\t" + _vm._s(_vm.text) + "\n\t\t")])]), _vm._v(" "), (_vm.description) ? _c('div', {
     directives: [{
@@ -40681,34 +40728,51 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })])]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "question-body panel-body"
-  }, _vm._l((_vm.options), function(option) {
-    return (['radio', 'radiononnumeric', 'checkbox'].includes(_vm.questionType)) ? _c('form-reader-question-option', _vm._b({
+  }, [(_vm.isOptionQuestion) ? _vm._l((_vm.options), function(option, index) {
+    return _c('form-reader-question-option', _vm._b({
       attrs: {
         "questionType": _vm.questionType,
         "questionId": _vm.questionId,
         "required": _vm.required,
         "showDescription": _vm.showDescriptions,
         "readonly": _vm.readonly
+      },
+      on: {
+        "input": function($event) {
+          _vm.handleOptionInput(index, arguments[0])
+        }
       }
-    }, 'form-reader-question-option', option)) : _c('div', {
-      staticClass: "question-option"
-    }, [(_vm.questionType === 'text') ? _c('textarea', {
-      staticClass: "form-control",
-      attrs: {
-        "name": _vm.questionId,
-        "required": _vm.required,
-        "readonly": _vm.readonly
-      }
-    }) : _vm._e(), _vm._v(" "), (_vm.questionType === 'number') ? _c('input', {
-      staticClass: "form-control",
-      attrs: {
-        "type": "number",
-        "name": _vm.questionId,
-        "required": _vm.required,
-        "readonly": _vm.readonly
-      }
-    }) : _vm._e()])
-  })), _vm._v(" "), (_vm.hasDescriptions) ? _c('div', {
+    }, 'form-reader-question-option', option))
+  }) : _c('div', {
+    staticClass: "question-option"
+  }, [(_vm.questionType === 'text') ? _c('textarea', {
+    staticClass: "form-control",
+    attrs: {
+      "name": _vm.questionId,
+      "required": _vm.required,
+      "readonly": _vm.readonly
+    },
+    domProps: {
+      "value": _vm.value
+    },
+    on: {
+      "input": _vm.handleInput
+    }
+  }) : _vm._e(), _vm._v(" "), (_vm.questionType === 'number') ? _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "number",
+      "name": _vm.questionId,
+      "required": _vm.required,
+      "readonly": _vm.readonly
+    },
+    domProps: {
+      "value": _vm.value
+    },
+    on: {
+      "input": _vm.handleInput
+    }
+  }) : _vm._e()])], 2), _vm._v(" "), (_vm.hasDescriptions) ? _c('div', {
     staticClass: "question-footer panel-footer"
   }, [_c('div', {
     staticClass: "question-description-toggle"
