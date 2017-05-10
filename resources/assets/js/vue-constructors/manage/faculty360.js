@@ -4,9 +4,12 @@ import AlertList from 'vue-components/AlertList.vue';
 import ComponentList from 'vue-components/ComponentList.vue';
 import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
 import DataTable from 'vue-components/DataTable.vue';
+import RichDate from 'vue-components/RichDate.vue';
+import RichDateRange from 'vue-components/RichDateRange.vue';
 import StartEndDate from 'vue-components/StartEndDate.vue';
 
 import FormBuilder from 'vue-components/FormBuilder/FormBuilder.vue';
+import FormReader from 'vue-components/FormReader/FormReader.vue';
 
 import moment from 'moment';
 
@@ -18,6 +21,7 @@ import {
 import {
 	isoDateStringObject,
 	currentYear,
+	renderDateTime,
 	renderDateRange
 } from 'modules/date-utils.js';
 import {
@@ -41,6 +45,7 @@ export default function createManageFaculty360(el) {
 				evaluationDates: isoDateStringObject(currentYear()),
 
 				formToEdit: null,
+				viewedEvaluation: null,
 
 				show: {
 					createForm: false
@@ -149,6 +154,7 @@ export default function createManageFaculty360(el) {
 
 		methods: {
 			ucfirst,
+			renderDateTime,
 			renderDateRange,
 			getEvaluationStatusLabel,
 			fetchForms() {
@@ -173,6 +179,9 @@ export default function createManageFaculty360(el) {
 					with: {
 						subject: [
 							'full_name'
+						],
+						form: [
+							'title'
 						]
 					}
 				});
@@ -192,7 +201,9 @@ export default function createManageFaculty360(el) {
 				});
 			},
 
-			toggleEvaluationStatus(evaluation) {
+			toggleEvaluationStatus(evaluation, event) {
+				event.preventDefault();
+
 				const newStatus = evaluation.status === 'disabled'
 					? evaluation.complete_date !== null
 						? 'completed'
@@ -217,7 +228,9 @@ export default function createManageFaculty360(el) {
 					});
 				});
 			},
-			resendEvaluationHash(evaluation) {
+			resendEvaluationHash(evaluation, event) {
+				event.preventDefault();
+
 				fetch(`/faculty360/evaluations/${evaluation.id}/send-new`, {
 					method: 'GET',
 					headers: getFetchHeaders(),
@@ -234,6 +247,12 @@ export default function createManageFaculty360(el) {
 						html: '<strong>Error:</strong> There was a problem sending a new completion link'
 					});
 				});
+			},
+			viewEvaluation(evaluation, event) {
+				if (event.defaultPrevented)
+					return;
+
+				this.viewedEvaluation = evaluation;
 			},
 
 
@@ -261,9 +280,12 @@ export default function createManageFaculty360(el) {
 			ComponentList,
 			ConfirmationButton,
 			DataTable,
+			RichDate,
+			RichDateRange,
 			StartEndDate,
 
-			FormBuilder
+			FormBuilder,
+			FormReader
 		}
 	});
 }

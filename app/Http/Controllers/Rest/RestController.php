@@ -21,14 +21,9 @@ class RestController extends Controller
         $this->middleware("type:admin");
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request){
-		$user = Auth::user();
+	protected function getWithArray(Request $request) {
 		$withArray = [];
+
 		if($request->has("with")){
 			foreach(array_only($request->input("with"), $this->relationships) as $relationship => $fields){
 				if(is_array($fields)){
@@ -56,7 +51,17 @@ class RestController extends Controller
 			}
 		}
 
-        $query = $this->model::with($withArray);
+		return $withArray;
+	}
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request){
+		$user = Auth::user();
+        $query = $this->model::with($this->getWithArray($request));
 		foreach($request->intersect($this->attributes) as $name => $value){
 			if(is_array($value)){
 				if(count($value) == 2 && in_array($value[0], [
@@ -91,14 +96,14 @@ class RestController extends Controller
 		}
 
 		$query->take($request->input("limit"), null);
-		
+
 		if($request->has('orderBy')){
 			$orderBy = $request->input('orderBy');
 			$query->orderBy($orderBy[0], $orderBy[1]);
 		}
 		else
 			$query->orderBy("id", $request->input("order", "desc"));
-			
+
 		$results = $query->get();
 
 		if(!$user->isType("admin"))

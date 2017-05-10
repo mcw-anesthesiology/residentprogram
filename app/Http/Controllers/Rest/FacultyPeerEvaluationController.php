@@ -23,6 +23,22 @@ class FacultyPeerEvaluationController extends RestController
 		'staff'
 	];
 
+	protected $relationships = [
+		'subject',
+		'form'
+	];
+
+	protected $attributes = [
+		'id',
+		'form_id',
+		'subject_id',
+		'status',
+		'evaluation_date_start',
+		'evaluation_date_end'
+	];
+
+	protected $model = \App\FacultyPeerEvaluation::class;
+
 	public function __construct(){
 		// Allow @mcw.edu email addresses to request,
 		// disallow residents
@@ -99,28 +115,35 @@ class FacultyPeerEvaluationController extends RestController
 		$this->middleware('type:admin')->only(['sendHash', 'update']);
 	}
 
-	protected $relationships = [
-		"subject",
-		"form"
-	];
+	// @Override
+	// Remove form visibility addition
+	protected function getWithArray(Request $request) {
+		$withArray = [];
 
-	protected $relationshipAttributes = [
-		"form" => [
-			"type",
-			"evaluator_type"
-		]
-	];
+		if($request->has("with")){
+			foreach(array_only($request->input("with"), $this->relationships) as $relationship => $fields){
+				if(is_array($fields)){
+					if(in_array("full_name", $fields)){
+						$index = array_search("full_name", $fields);
+						unset($fields[$index]);
+						array_values($fields);
+						$fields[] = "first_name";
+						$fields[] = "last_name";
+					}
 
-	protected $attributes = [
-		"id",
-		"form_id",
-		"subject_id",
-		"status",
-		"evaluation_date_start",
-		"evaluation_date_end"
-	];
+					$withArray[$relationship] = function($query) use ($fields){
+						$query->select(array_merge(["id"], $fields));
+					};
+				}
+				else {
+					if($fields && $fields !== "false")
+						$withArray[] = $relationship;
+				}
+			}
+		}
 
-	protected $model = \App\FacultyPeerEvaluation::class;
+		return $withArray;
+	}
 
 	public function store(Request $request) {
 		$hashExpires = Carbon::now()->addMonth(); // FIXME

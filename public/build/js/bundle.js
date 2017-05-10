@@ -514,6 +514,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["isoDateString"] = isoDateString;
 /* harmony export (immutable) */ __webpack_exports__["isoDateStringObject"] = isoDateStringObject;
 /* harmony export (immutable) */ __webpack_exports__["datesEqual"] = datesEqual;
+/* harmony export (immutable) */ __webpack_exports__["renderDate"] = renderDate;
+/* harmony export (immutable) */ __webpack_exports__["renderDateTime"] = renderDateTime;
 /* harmony export (immutable) */ __webpack_exports__["renderDateRange"] = renderDateRange;
 /* harmony export (immutable) */ __webpack_exports__["renderDateRangeExplicit"] = renderDateRangeExplicit;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DATE_RANGES", function() { return DATE_RANGES; });
@@ -546,6 +548,14 @@ function datesEqual(dates1, dates2) {
 	dates2 = isoDateStringObject(dates2);
 
 	return dates1.startDate === dates2.startDate && dates1.endDate === dates2.endDate;
+}
+
+function renderDate(date) {
+	return date ? __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).format('MMMM Y') : '';
+}
+
+function renderDateTime(date) {
+	return date ? __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).calendar() : '';
 }
 
 function renderDateRange(startDate, endDate) {
@@ -947,13 +957,13 @@ function createDateRangeCell(start, end) {
 function renderDateCell(date, type) {
 	if (type === 'sort' || type === 'type') return date ? __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).valueOf() : '';
 
-	return date ? __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).format('MMMM Y') : '';
+	return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__date_utils_js__["renderDate"])(date);
 }
 
 function renderDateTimeCell(date, type) {
 	if (type === 'sort' || type === 'type') return date ? __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).valueOf() : '';
 
-	return date ? __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).calendar() : '';
+	return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__date_utils_js__["renderDateTime"])(date);
 }
 
 function renderDateRangeCell(start, end) {
