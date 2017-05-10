@@ -5,6 +5,7 @@
 		.faculty360-evaluation-list-item {
 			border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 			padding: 5px 0;
+			cursor: pointer;
 		}
 
 		.faculty360-evaluation-list-item:nth-child(even) {
@@ -15,7 +16,8 @@
 			margin: 0;
 		}
 
-		.faculty360-evaluation-list-item small {
+		.faculty360-evaluation-list-item small,
+		.evaluation-details-panel small {
 			display: block;
 			font-size: 0.85em;
 			color: rgba(0, 0, 0, 0.55);
@@ -55,6 +57,64 @@
 		</data-table>
 	</div>
 
+	<div v-if="viewedEvaluation" v-cloak class="container body-block">
+		<div class="evaluation-details-panel panel panel-default">
+			<div class="panel-heading">
+				Evaluation details
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-sm-2">
+						<small>ID</small>
+						@{{ viewedEvaluation.id }}
+					</div>
+					<div class="col-sm-4">
+						<small>Faculty</small>
+						@{{ viewedEvaluation.subject.full_name }}
+					</div>
+					<div class="col-sm-4">
+						<small>Evaluation date</small>
+						<rich-date-range :date="viewedEvaluation"
+							start="evaluation_date_start"
+							end="evaluation_date_end">
+						</rich-date-range>
+					</div>
+					<div class="col-sm-2">
+						<small>Status</small>
+						<span :class="`label ${getEvaluationStatusLabel(viewedEvaluation.status)}`">
+							@{{ ucfirst(viewedEvaluation.status) }}
+						</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-3 col-sm-offset-1">
+						<small>Evaluator email</small>
+						@{{ viewedEvaluation.evaluator_email }}
+					</div>
+					<div class="col-sm-3">
+						<small>Created</small>
+						<rich-date :date="viewedEvaluation.request_date" time>
+						</rich-date>
+					</div>
+					<div class="col-sm-3">
+						<small>Completed</small>
+						<rich-date :date="viewedEvaluation.complete_date" time>
+						</rich-date>
+					</div>
+				</div>
+			</div>
+		</div>
+		<form-reader v-bind="viewedEvaluation"
+			:title="viewedEvaluation.form.title" readonly>
+		</form-reader>
+		<div class="text-center">
+			<button type="button" class="btn btn-default"
+					@click="viewedEvaluation = null">
+				Close
+			</button>
+		</div>
+	</div>
+
 	<div class="container body-block">
 		<h2 class="sub-header">Evaluations</h2>
 		<div class="row">
@@ -69,23 +129,22 @@
 				reloadable
 				@reload="fetchEvaluations">
 			<template scope="evaluation">
-				<div class="faculty360-evaluation-list-item row">
+				<div class="faculty360-evaluation-list-item row"
+						@click="viewEvaluation(evaluation, $event)">
 					<div class="col-sm-2">
 						<small>ID</small>
 						@{{ evaluation.id }}
 					</div>
-					<div class="col-sm-4">
+					<div class="col-sm-3">
 						<small>Faculty</small>
 						@{{ evaluation.subject.full_name }}
 					</div>
-					<div class="col-sm-2">
+					<div class="col-sm-3">
 						<small>Evaluation date</small>
-						@{{
-							renderDateRange(
-								evaluation.evaluation_date_start,
-								evaluation.evaluation_date_end
-							)
-						}}
+						<rich-date-range :date="evaluation"
+							start="evaluation_date_start"
+							end="evaluation_date_end">
+						</rich-date-range>
 					</div>
 					<div class="col-sm-2">
 						<small>Status</small>
@@ -100,7 +159,7 @@
 										: 'btn-danger'
 								"
 								pressed-class="btn-warning"
-								@click="toggleEvaluationStatus(evaluation)">
+								@click="toggleEvaluationStatus(evaluation, $event)">
 							<span class="glyphicon"
 								:class="
 									evaluation.status === 'disabled'
@@ -118,7 +177,7 @@
 						<confirmation-button class="btn btn-sm"
 								unpressed-class="btn-info"
 								pressed-class="btn-warning"
-								@click="resendEvaluationHash(evaluation)">
+								@click="resendEvaluationHash(evaluation, $event)">
 							<span class="glyphicon glyphicon-send"></span>
 							Send new completion link
 						</confirmation-button>
