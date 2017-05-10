@@ -86,6 +86,7 @@ Route::resource('faculty360/forms', 'Rest\FacultyPeerFormController', ['only' =>
 
 Route::patch('faculty360/evaluations/{hash}/save', 'Rest\FacultyPeerEvaluationController@save');
 Route::patch('faculty360/evaluations/{hash}/submit', 'Rest\FacultyPeerEvaluationController@submit');
+Route::get('faculty360/evaluations/{hash}/send-new', 'Rest\FacultyPeerEvaluationController@sendHash');
 Route::resource('faculty360/evaluations', 'Rest\FacultyPeerEvaluationController', ['only' => [
-	'index', 'store', 'show', 'destroy'
+	'index', 'store', 'show', 'update', 'destroy'
 ]]);

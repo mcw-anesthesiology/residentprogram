@@ -40,8 +40,17 @@ class FacultyPeerEvaluation extends Model
 		'deleted_at'
 	];
 
+	protected $fillable = [
+		'status'
+	];
+
+	protected $hashids = false;
+
 	public function getIdAttribute($id) {
-		return Hashids::encode($id);
+		if ($this->hashids)
+			return Hashids::encode($id);
+
+		return $id;
 	}
 
 	public function subject() {
@@ -88,5 +97,6 @@ class FacultyPeerEvaluation extends Model
 
 	public function hideFields() {
 		$this->addHidden($this->userHidden);
+		$this->hashids = true;
 	}
 }

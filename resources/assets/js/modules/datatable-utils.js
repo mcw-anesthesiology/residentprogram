@@ -87,22 +87,26 @@ export function renderAccountStatus(status) {
 	return '<span class="label ' + labelContext + '">' + ucfirst(status) + '</span>';
 }
 
-export function getEvaluationStatusLabel(status) {
+export function getEvaluationStatusLabelType(status) {
 	switch (status) {
 		case 'complete':
-			return 'label-success';
+			return 'success';
 		case 'disabled':
 		case 'canceled by admin':
 		case 'canceled by faculty':
 		case 'canceled by resident':
 		case 'canceled by fellow':
 		case 'canceled by staff':
-			return 'label-danger';
+			return 'danger';
 		case 'pending':
-			return 'label-warning';
+			return 'warning';
 		default:
-			return 'label-default';
+			return 'default';
 	}
+}
+
+export function getEvaluationStatusLabel(status) {
+	return `label-${getEvaluationStatusLabelType(status)}`;
 }
 
 export function renderEvaluationStatus(status) {

@@ -60,9 +60,14 @@
 		<div class="row">
 			<start-end-date v-model="evaluationDates"></start-end-date>
 		</div>
-		<component-list v-if="evaluations" :items="evaluations"
+		<component-list v-if="evaluations"
+				:items="evaluations"
 				:fields="evaluationFields"
-				:field-accessors="evaluationFieldAccessors">
+				:field-accessors="evaluationFieldAccessors"
+				default-sort-by="id"
+				default-sort-order="desc"
+				reloadable
+				@reload="fetchEvaluations">
 			<template scope="evaluation">
 				<div class="faculty360-evaluation-list-item row">
 					<div class="col-sm-2">
@@ -89,13 +94,42 @@
 						</span>
 					</div>
 					<div class="col-sm-2">
-						<button type="button" class="btn btn-sm btn-info">
-							Button!
-						</button>
+						<confirmation-button class="btn btn-sm"
+								:unpressed-class="evaluation.status === 'disabled'
+										? 'btn-success'
+										: 'btn-danger'
+								"
+								pressed-class="btn-warning"
+								@click="toggleEvaluationStatus(evaluation)">
+							<span class="glyphicon"
+								:class="
+									evaluation.status === 'disabled'
+										? 'glyphicon-ok'
+										: 'glyphicon-remove'
+								">
+							</span>
+							@{{
+								evaluation.status === 'disabled'
+									? 'Enable'
+									: 'Disable'
+							}}
+						</confirmation-button>
+
+						<confirmation-button class="btn btn-sm"
+								unpressed-class="btn-info"
+								pressed-class="btn-warning"
+								@click="resendEvaluationHash(evaluation)">
+							<span class="glyphicon glyphicon-send"></span>
+							Send new completion link
+						</confirmation-button>
 					</div>
 				</div>
 			</template>
 		</component-list>
+	</div>
+
+	<div class="container">
+		<alert-list v-model="alerts"></alert-list>
 	</div>
 @stop
 

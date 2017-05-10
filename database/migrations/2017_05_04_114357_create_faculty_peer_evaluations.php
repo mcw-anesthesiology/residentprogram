@@ -20,6 +20,9 @@ class CreateFacultyPeerEvaluations extends Migration
 			$table->string('evaluator_email');
 			$table->date('evaluation_date_start');
 			$table->date('evaluation_date_end');
+			$table->dateTime('request_date');
+			$table->dateTime('complete_date')->nullable();
+
 			$table->longText('contents'); // JSON not currently supported in db
 
 			$table->string('hash')->unique();

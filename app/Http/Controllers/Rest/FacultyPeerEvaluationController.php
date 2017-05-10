@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 use Auth;
+use Hashids;
 use Log;
 
 use App\FacultyPeerEvaluation;
@@ -94,8 +95,8 @@ class FacultyPeerEvaluationController extends RestController
 				: redirect('dashboard')->with('error', 'You are not currently allowed to create a Faculty 360 evaluation');
 		})->only(['save', 'submit']);
 
-		$this->middleware('auth')->only('sendHash');
-		$this->middleware('type:admin')->only('sendHash');
+		$this->middleware('auth')->only(['sendHash', 'update']);
+		$this->middleware('type:admin')->only(['sendHash', 'update']);
 	}
 
 	protected $relationships = [
@@ -136,6 +137,7 @@ class FacultyPeerEvaluationController extends RestController
 		$dates = DateHelpers::getDateRangeFromPeriodType($form->evaluation_period_type);
 		$eval->evaluation_date_start = $dates['startDate'];
 		$eval->evaluation_date_end = $dates['endDate'];
+		$eval->request_date = Carbon::now();
 
 		$eval->contents = $form->contents;
 		$eval->hash = self::generateHash();
@@ -146,7 +148,6 @@ class FacultyPeerEvaluationController extends RestController
 		$eval->status = 'pending';
 
 		$eval->save();
-		$eval = $eval->fresh();
 
 		if (Auth::check()) {
 			return $request->ajax()
@@ -185,6 +186,7 @@ class FacultyPeerEvaluationController extends RestController
 		$eval->contents = $request->input('contents');
 		$eval->status = 'complete';
 		$eval->complete_ip = $request->ip();
+		$eval->complete_date = Carbon::now();
 		$eval->save();
 
 		// TODO: Redirect to proper success page for non-logged-in users?
@@ -197,11 +199,31 @@ class FacultyPeerEvaluationController extends RestController
 
 	public function sendHash(Request $request, $id){
 		$eval = FacultyPeerEvaluation::findOrFail($id);
+		$eval->hash = self::generateHash();
+		$eval->hash_expires = Carbon::now()->addMonth(); // FIXME
+		$eval->save();
 		$eval->sendHashLink();
 
 		return [
 			'status' => 'success'
 		];
+	}
+
+	public function update(Request $request, $id) {
+		$eval = FacultyPeerEvaluation::findOrFail($id);
+		foreach ($eval->getFillable() as $fillableAttribute) {
+			if ($request->has($fillableAttribute))
+				$eval->setAttribute($fillableAttribute, $request->input($fillableAttribute));
+		}
+		$success = $eval->save();
+
+		return $success
+			? [
+				'status' => 'success'
+			]
+			: response()->json([
+				'status' => 'failed'
+			], 500);
 	}
 
 	private static function emailValid($email) {
