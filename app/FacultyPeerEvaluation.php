@@ -3,15 +3,33 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 use Carbon\Carbon;
 
+use Auth;
 use Hashids;
 use Log;
 use Mail;
 
 class FacultyPeerEvaluation extends Model
 {
+	protected static function boot() {
+		parent::boot();
+
+		static::addGlobalScope('userEvals', function (Builder $builder) {
+			if (
+				!Auth::check()
+				|| Auth::user()->isType('admin')
+				|| Auth::user()->usesFeature('FACULTY_EVALS')
+			) {
+				return $builder;
+			}
+
+			return $builder->where('subject_id', Auth::id());
+		});
+	}
+
     protected $table = 'faculty_peer_evaluations';
 
 	protected $casts = [
@@ -44,6 +62,8 @@ class FacultyPeerEvaluation extends Model
 		'status'
 	];
 
+	protected $appends = ['url'];
+
 	protected $hashids = false;
 
 	public function getIdAttribute($id) {
@@ -51,6 +71,10 @@ class FacultyPeerEvaluation extends Model
 			return Hashids::encode($id);
 
 		return $id;
+	}
+
+	public function getUrlAttribute(){
+		return "<a href='/faculty360/view/{$this->id}'>{$this->id}</a>";
 	}
 
 	public function subject() {

@@ -35,6 +35,7 @@ class CreateFacultyPeerEvaluations extends Migration
 
 			$table->string('status');
 
+			$table->dateTime('seen_by_subject_at')->nullable();
             $table->timestamps();
 			$table->softDeletes();
         });

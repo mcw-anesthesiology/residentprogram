@@ -28,6 +28,8 @@ use App\CaseLogDetailsSchema;
 use App\Contact;
 use App\DirectoryEntry;
 use App\Evaluation;
+use App\FacultyPeerEvaluation;
+use App\FacultyPeerForm;
 use App\FlaggedEvaluation;
 use App\Form;
 use App\Location;
@@ -96,7 +98,10 @@ class MainController extends Controller
 		$user = Auth::user();
 		$threshold = Setting::get("facultyEvalThreshold");
 		$noEvaluations = (Evaluation::where("subject_id", $user->id)->where("status", "complete")->count() < $threshold);
-		$data = compact("noEvaluations");
+        $no360Evaluations = ( FacultyPeerEvaluation::where('subject_id', $user->id)
+                ->where('status', 'complete')
+                ->count() === 0);
+		$data = compact("noEvaluations", 'no360Evaluations');
         return view("dashboard.faculty.dashboard", $data);
     }
 
@@ -215,7 +220,7 @@ class MainController extends Controller
                 // FIXME: Remove this if/when trainee user type is added
                 if ($user->isType('fellow') && $requestType == 'faculty')
                     $evalTypes[] = $user->type;
-                    
+
 				$forms = Form::where("status", "active")
 					->whereIn("type", $subjectTypes)
 					->whereIn("evaluator_type", $evalTypes)
@@ -305,7 +310,7 @@ class MainController extends Controller
 
     public function createRequest(Request $request, $requestType = "resident"){
 		$user = Auth::user();
-		
+
 		try {
 			if($requestType == "faculty"){
 				if($user->type == "faculty")
@@ -338,7 +343,7 @@ class MainController extends Controller
 				if(!is_array($evaluators))
 					$evaluators = [$evaluators];
 			}
-            
+
             $evaluationDates = $request->input("evaluation_date");
             if(!is_array($evaluationDates) ||
 					array_key_exists('startDate', $evaluationDates))
