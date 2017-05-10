@@ -21,16 +21,19 @@ class SharedVariables
      */
     public function handle($request, Closure $next)
     {
-        View::share("user", Auth::user());
-        View::share("ADMIN_EMAIL", config("app.admin_email"));
+		View::share("ADMIN_EMAIL", config("app.admin_email"));
 
-        $milestoneGroups = [];
-        $milestones = Milestone::orderBy("title")->get();
-        foreach($milestones as $milestone){
-            $milestoneGroups[ucfirst($milestone->type)." ".$milestone->training_level][] = $milestone;
-        }
+		if (Auth::check()) {
+			View::share("user", Auth::user());
 
-        View::share("milestoneGroups", $milestoneGroups);
+			$milestoneGroups = [];
+			$milestones = Milestone::orderBy("title")->get();
+			foreach($milestones as $milestone){
+				$milestoneGroups[ucfirst($milestone->type)." ".$milestone->training_level][] = $milestone;
+			}
+
+			View::share("milestoneGroups", $milestoneGroups);
+		}
 
         return $next($request);
     }

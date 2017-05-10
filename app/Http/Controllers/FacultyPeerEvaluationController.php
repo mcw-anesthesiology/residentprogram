@@ -65,7 +65,7 @@ class FacultyPeerEvaluationController extends Controller
 		})->only('view');
 
 		$this->middleware('auth')->only('view');
-		$this->middleware('shared')->only('view');
+		$this->middleware('shared')->only(['view', 'request', 'evaluate']);
 	}
 
 	public function request() {
@@ -79,17 +79,6 @@ class FacultyPeerEvaluationController extends Controller
 		$forms = FacultyPeerForm::where('status', 'active')->get();
 
 		$data = compact('faculty', 'forms');
-
-		if (Auth::check()) {
-			$data['user'] = Auth::user();
-
-			$milestoneGroups = [];
-	        $milestones = Milestone::orderBy("title")->get();
-	        foreach($milestones as $milestone){
-	            $milestoneGroups[ucfirst($milestone->type)." ".$milestone->training_level][] = $milestone;
-	        }
-			$data['milestoneGroups'] = $milestoneGroups;
-		}
 
 		return view('faculty360.request', $data);
 	}

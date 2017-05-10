@@ -48,7 +48,7 @@ export default function createFaculty360Request(el, propsData) {
 				return (this.email !== null && this.email.endsWith('@mcw.edu'));
 			},
 			formIsValid() {
-				return (this.facultyId !== null && this.emailIsValid);
+				return (this.facultyId !== null && (this.user || this.emailIsValid));
 			},
 			sortedFaculty() {
 				let faculty = this.faculty.slice();
@@ -66,6 +66,9 @@ export default function createFaculty360Request(el, propsData) {
 					this.emailError = 'Please enter your mcw.edu email address';
 			},
 			handleSubmit() {
+				if (!this.formIsValid)
+					return;
+
 				fetch('/faculty360/evaluations', {
 					method: 'POST',
 					headers: getFetchHeaders(),
