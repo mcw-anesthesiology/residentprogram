@@ -29,6 +29,12 @@
 						placeholder="Search" />
 				</label>
 			</div>
+			<div v-if="reloadable" class="form-group">
+				<button type="button" class="btn btn-default labelless-button"
+						@click="$emit('reload')">
+					<span class="glyphicon glyphicon-refresh"></span>
+				</button>
+			</div>
 		</div>
 		<div class="list-container">
 			<slot name="header"></slot>
@@ -82,6 +88,10 @@ export default {
 		paginate: {
 			type: Boolean,
 			default: true
+		},
+		reloadable: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data(){

@@ -2,6 +2,7 @@ import Vue from 'vue';
 
 import AlertList from 'vue-components/AlertList.vue';
 import ComponentList from 'vue-components/ComponentList.vue';
+import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
 import DataTable from 'vue-components/DataTable.vue';
 import StartEndDate from 'vue-components/StartEndDate.vue';
 
@@ -21,6 +22,7 @@ import {
 } from 'modules/date-utils.js';
 import {
 	getFetchHeaders,
+	okOrThrow,
 	jsonOrThrow,
 	ucfirst
 } from 'modules/utils.js';
@@ -191,7 +193,47 @@ export default function createManageFaculty360(el) {
 			},
 
 			toggleEvaluationStatus(evaluation) {
+				const newStatus = evaluation.status === 'disabled'
+					? evaluation.complete_date !== null
+						? 'completed'
+						: 'pending'
+					: 'disabled';
 
+				fetch(`/faculty360/evaluations/${evaluation.id}`, {
+					method: 'POST', // PATCH
+					headers: getFetchHeaders(),
+					credentials: 'same-origin',
+					body: JSON.stringify({
+						_method: 'PATCH',
+						status: newStatus
+					})
+				}).then(okOrThrow).then(() => {
+					this.fetchEvaluations();
+				}).catch(err => {
+					console.error(err);
+					this.alerts.push({
+						type: 'error',
+						html: "<strong>Error:</strong> There was a problem changing the evaluation's status"
+					});
+				});
+			},
+			resendEvaluationHash(evaluation) {
+				fetch(`/faculty360/evaluations/${evaluation.id}/send-new`, {
+					method: 'GET',
+					headers: getFetchHeaders(),
+					credentials: 'same-origin'
+				}).then(okOrThrow).then(() => {
+					this.alerts.push({
+						type: 'success',
+						text: 'New link sent successfully!'
+					});
+				}).catch(err => {
+					console.error(err);
+					this.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem sending a new completion link'
+					});
+				});
 			},
 
 
@@ -217,6 +259,7 @@ export default function createManageFaculty360(el) {
 		components: {
 			AlertList,
 			ComponentList,
+			ConfirmationButton,
 			DataTable,
 			StartEndDate,
 
