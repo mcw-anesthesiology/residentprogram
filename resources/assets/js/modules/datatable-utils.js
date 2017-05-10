@@ -3,7 +3,7 @@ import 'twix';
 
 import { NEW_ITEM_TAG, UNSEEN_EVALUATION_PRIORITY } from './constants.js';
 import { ucfirst } from './utils.js';
-import { renderDateRange } from './date-utils.js';
+import { renderDate, renderDateTime, renderDateRange } from './date-utils.js';
 
 export function unlimitTableEvals() {
 	let dt = this.DataTable({
@@ -47,14 +47,14 @@ export function renderDateCell(date, type) {
 	if (type === 'sort' || type === 'type')
 		return date ? moment(date).valueOf() : '';
 
-	return date ? moment(date).format('MMMM Y') : '';
+	return renderDate(date);
 }
 
 export function renderDateTimeCell(date, type) {
 	if (type === 'sort' || type === 'type')
 		return date ? moment(date).valueOf() : '';
 
-	return date ? moment(date).calendar() : '';
+	return renderDateTime(date);
 }
 
 export function renderDateRangeCell(start, end) {
