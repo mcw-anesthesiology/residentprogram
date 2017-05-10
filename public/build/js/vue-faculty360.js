@@ -6099,7 +6099,7 @@ function createFaculty360Request(el, propsData) {
 				return this.email !== null && this.email.endsWith('@mcw.edu');
 			},
 			formIsValid: function formIsValid() {
-				return this.facultyId !== null && this.emailIsValid;
+				return this.facultyId !== null && (this.user || this.emailIsValid);
 			},
 			sortedFaculty: function sortedFaculty() {
 				var faculty = this.faculty.slice();
@@ -6115,6 +6115,8 @@ function createFaculty360Request(el, propsData) {
 			},
 			handleSubmit: function handleSubmit() {
 				var _this = this;
+
+				if (!this.formIsValid) return;
 
 				fetch('/faculty360/evaluations', {
 					method: 'POST',
