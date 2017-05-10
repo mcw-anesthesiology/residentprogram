@@ -1,18 +1,29 @@
 import Vue from 'vue';
 
 import AlertList from 'vue-components/AlertList.vue';
+import ComponentList from 'vue-components/ComponentList.vue';
 import DataTable from 'vue-components/DataTable.vue';
+import StartEndDate from 'vue-components/StartEndDate.vue';
+
 import FormBuilder from 'vue-components/FormBuilder/FormBuilder.vue';
 
+import moment from 'moment';
+
+import {
+	renderDateTimeCell,
+	createDateTimeCell,
+	getEvaluationStatusLabel
+} from 'modules/datatable-utils.js';
+import {
+	isoDateStringObject,
+	currentYear,
+	renderDateRange
+} from 'modules/date-utils.js';
 import {
 	getFetchHeaders,
 	jsonOrThrow,
 	ucfirst
 } from 'modules/utils.js';
-import {
-	renderDateTimeCell,
-	createDateTimeCell
-} from 'modules/datatable-utils.js';
 
 export default function createManageFaculty360(el) {
 	return new Vue({
@@ -23,6 +34,9 @@ export default function createManageFaculty360(el) {
 		data() {
 			return {
 				forms: null,
+				evaluations: null,
+
+				evaluationDates: isoDateStringObject(currentYear()),
 
 				formToEdit: null,
 
@@ -36,6 +50,7 @@ export default function createManageFaculty360(el) {
 
 		mounted() {
 			this.fetchForms();
+			this.fetchEvaluations();
 		},
 
 		computed: {
@@ -97,10 +112,43 @@ export default function createManageFaculty360(el) {
 						}
 					]
 				};
+			},
+			evaluationFields() {
+				return [
+					'id',
+					'faculty',
+					'evaluation_date'
+				];
+			},
+			evaluationFieldAccessors() {
+				return {
+					faculty(evaluation) {
+						return evaluation.subject.full_name;
+					},
+					evaluation_date(evaluation, action) {
+						if (action === 'sort') {
+							return moment(evaluation.evaluation_date_start).valueOf();
+						}
+
+						return renderDateRange(
+							evaluation.evaluation_date_start,
+							evaluation.evaluation_date_end
+						);
+					}
+				};
+			}
+		},
+
+		watch: {
+			evaluationDates() {
+				this.fetchEvaluations();
 			}
 		},
 
 		methods: {
+			ucfirst,
+			renderDateRange,
+			getEvaluationStatusLabel,
 			fetchForms() {
 				fetch('/faculty360/forms', {
 					method: 'GET',
@@ -116,6 +164,37 @@ export default function createManageFaculty360(el) {
 					});
 				});
 			},
+			fetchEvaluations() {
+				const query = $.param({
+					evaluation_date_start: this.evaluationDates.startDate,
+					evaluation_date_end: this.evaluationDates.endDate,
+					with: {
+						subject: [
+							'full_name'
+						]
+					}
+				});
+
+				fetch(`/faculty360/evaluations?${query}`, {
+					method: 'GET',
+					headers: getFetchHeaders(),
+					credentials: 'same-origin'
+				}).then(jsonOrThrow).then(evals => {
+					this.evaluations = evals;
+				}).catch(err => {
+					console.error(err);
+					this.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem fetching evaluations'
+					});
+				});
+			},
+
+			toggleEvaluationStatus(evaluation) {
+
+			},
+
+
 			handleFormSubmit(form) {
 				fetch('/faculty360/forms', {
 					method: 'POST',
@@ -137,7 +216,10 @@ export default function createManageFaculty360(el) {
 
 		components: {
 			AlertList,
+			ComponentList,
 			DataTable,
+			StartEndDate,
+
 			FormBuilder
 		}
 	});

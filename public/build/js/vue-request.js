@@ -1088,7 +1088,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jacobmischka_vue_flatpickr_theme_flatpickr_min_css__ = __webpack_require__(124);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jacobmischka_vue_flatpickr_theme_flatpickr_min_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__jacobmischka_vue_flatpickr_theme_flatpickr_min_css__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__ = __webpack_require__(18);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -1550,7 +1550,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_localforage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_localforage__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__ = __webpack_require__(18);
 //
 //
 //
@@ -1594,6 +1594,7 @@ window.localforage = __WEBPACK_IMPORTED_MODULE_2_localforage__;
 	},
 	data: function data() {
 		return {
+			// eslint-disable-next-line import/namespace
 			dates: __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["isoDateStringObject"](__WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__[this.range]())
 		};
 	},
@@ -4075,7 +4076,7 @@ module.exports = isArray;
 
 /***/ }),
 
-/***/ 18:
+/***/ 19:
 /***/ (function(module, exports) {
 
 /**
@@ -4408,7 +4409,7 @@ module.exports = isBuffer;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(8),
-    isObject = __webpack_require__(18);
+    isObject = __webpack_require__(19);
 
 /** `Object#toString` result references. */
 var asyncTag = '[object AsyncFunction]',
@@ -5181,7 +5182,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_indefinite__ = __webpack_require__(222);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_indefinite___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_indefinite__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__ = __webpack_require__(20);
 /* harmony export (immutable) */ __webpack_exports__["createRequest"] = createRequest;
 
@@ -5272,10 +5273,10 @@ function createRequest(el, propsData) {
 				});
 			},
 			evaluatorOptions: function evaluatorOptions() {
-				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["l" /* groupUsers */])(this.evaluators[0]);
+				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["n" /* groupUsers */])(this.evaluators[0]);
 			},
 			subjectOptions: function subjectOptions() {
-				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["l" /* groupUsers */])(this.subjects[0]);
+				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["n" /* groupUsers */])(this.subjects[0]);
 			},
 			subjectForms: function subjectForms() {
 				var forms = this.forms;
@@ -5290,7 +5291,7 @@ function createRequest(el, propsData) {
 				return forms;
 			},
 			formOptions: function formOptions() {
-				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["m" /* groupForms */])(this.subjectForms);
+				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["o" /* groupForms */])(this.subjectForms);
 			},
 			evaluationDate: function evaluationDate() {
 				if (this.evaluationDateJson) return Array.isArray(this.evaluationDateJson) ? this.evaluationDateJson.map(JSON.parse) : JSON.parse(this.evaluationDateJson);
@@ -5362,10 +5363,10 @@ function createRequest(el, propsData) {
 						},
 						dataSrc: ''
 					},
-					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["f" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, {
+					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["g" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, {
 						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
 					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: null, render: function render(evaluation) {
 							if (evaluation.requested_by_id === _this3.user.id) return '<button class="btn btn-danger btn-xs cancel-eval-button" ' + 'data-id="' + evaluation.id + '"><span class="glyphicon glyphicon-remove"></span> ' + 'Cancel</button>';
 
@@ -5399,10 +5400,10 @@ function createRequest(el, propsData) {
 						},
 						dataSrc: ''
 					},
-					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["f" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, {
+					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["g" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, {
 						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
 					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["b" /* createDateTimeCell */] }],
 					order: [[0, 'desc']],
 					createdRow: function createdRow(row) {
@@ -5632,7 +5633,7 @@ module.exports = baseIsEqualDeep;
 
 var isFunction = __webpack_require__(27),
     isMasked = __webpack_require__(75),
-    isObject = __webpack_require__(18),
+    isObject = __webpack_require__(19),
     toSource = __webpack_require__(24);
 
 /**

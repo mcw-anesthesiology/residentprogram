@@ -314,7 +314,8 @@ module.exports = isArray;
 
 
 /***/ }),
-/* 18 */
+/* 18 */,
+/* 19 */
 /***/ (function(module, exports) {
 
 /**
@@ -351,7 +352,6 @@ module.exports = isObject;
 
 
 /***/ }),
-/* 19 */,
 /* 20 */,
 /* 21 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -615,7 +615,7 @@ module.exports = isBuffer;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(8),
-    isObject = __webpack_require__(18);
+    isObject = __webpack_require__(19);
 
 /** `Object#toString` result references. */
 var asyncTag = '[object AsyncFunction]',
@@ -1498,7 +1498,7 @@ module.exports = baseIsEqualDeep;
 
 var isFunction = __webpack_require__(27),
     isMasked = __webpack_require__(75),
-    isObject = __webpack_require__(18),
+    isObject = __webpack_require__(19),
     toSource = __webpack_require__(24);
 
 /**
@@ -4086,7 +4086,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jacobmischka_vue_flatpickr_theme_flatpickr_min_css__ = __webpack_require__(124);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jacobmischka_vue_flatpickr_theme_flatpickr_min_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__jacobmischka_vue_flatpickr_theme_flatpickr_min_css__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__ = __webpack_require__(18);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -4528,7 +4528,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_localforage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_localforage__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__ = __webpack_require__(18);
 //
 //
 //
@@ -4572,6 +4572,7 @@ window.localforage = __WEBPACK_IMPORTED_MODULE_2_localforage__;
 	},
 	data: function data() {
 		return {
+			// eslint-disable-next-line import/namespace
 			dates: __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__["isoDateStringObject"](__WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__[this.range]())
 		};
 	},
@@ -7249,9 +7250,9 @@ function createAdminDashboard(el, propsData) {
 					},
 					columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'evaluator.full_name' }, { data: 'form.title' }, {
 						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'status', render: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["g" /* renderEvaluationStatus */] }],
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'status', render: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["h" /* renderEvaluationStatus */] }],
 					order: [[0, 'desc']],
 					createdRow: function createdRow(row) {
 						$(row).addClass('view-evaluation');
@@ -7279,9 +7280,9 @@ function createAdminDashboard(el, propsData) {
 						},
 						columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'evaluator.full_name' }, {
 							data: null,
-							render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-							createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-						}, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'status', render: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["g" /* renderEvaluationStatus */] }, { data: null, orderable: false, searchable: false, render: function render() {
+							render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+							createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+						}, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'status', render: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["h" /* renderEvaluationStatus */] }, { data: null, orderable: false, searchable: false, render: function render() {
 								return '';
 							}
 						}],
@@ -7314,9 +7315,9 @@ function createAdminDashboard(el, propsData) {
 					},
 					columns: [{ data: 'url' }, { data: 'evaluator.full_name' }, { data: 'form.title' }, {
 						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-					}, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'status', render: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["g" /* renderEvaluationStatus */] }, { data: null, orderable: false, searchable: false, render: function render() {
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+					}, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'status', render: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["h" /* renderEvaluationStatus */] }, { data: null, orderable: false, searchable: false, render: function render() {
 							return ''; // FIXME
 						}
 					}],
@@ -7349,9 +7350,9 @@ function createAdminDashboard(el, propsData) {
 					},
 					columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'evaluator.full_name' }, { data: 'form.title' }, {
 						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'status', render: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["g" /* renderEvaluationStatus */] }],
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'status', render: __WEBPACK_IMPORTED_MODULE_5__modules_datatable_utils_js__["h" /* renderEvaluationStatus */] }],
 					order: [[0, 'desc']],
 					createdRow: function createdRow(row) {
 						$(row).addClass('view-evaluation');
@@ -7435,10 +7436,10 @@ function createFacultyDashboard(el, propsData) {
 						},
 						dataSrc: ''
 					},
-					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["f" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, {
+					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["g" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, {
 						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
 					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: null, orderable: false, searchable: false, render: function render(evaluation) {
 							if (evaluation.requested_by_id === _this.user.id) return '<button class=\'btn btn-danger btn-xs cancel-eval-button\'\n\t\t\t\t\t\t\t\t\t\tdata-id=\'' + evaluation.id + '\'>\n\t\t\t\t\t\t\t\t\t<span class=\'glyphicon glyphicon-remove\'></span>\n\t\t\t\t\t\t\t\t\tCancel\n\t\t\t\t\t\t\t\t</button>';
 
@@ -7469,8 +7470,8 @@ function createFacultyDashboard(el, propsData) {
 					},
 					columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'form.title' }, {
 						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
 					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateTimeCell */] }],
 					order: [[0, 'desc']],
 					createdRow: function createdRow(row) {
@@ -7502,8 +7503,8 @@ function createFacultyDashboard(el, propsData) {
 							}
 						}, { data: 'form.title' }, {
 							data: null,
-							render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-							createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+							render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+							createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
 						}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateTimeCell */] }],
 						order: [[0, 'desc']],
 						createdRow: function createdRow(row) {
@@ -7532,9 +7533,9 @@ function createFacultyDashboard(el, propsData) {
 						},
 						columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'evaluator.full_name' }, {
 							data: null,
-							render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-							createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-						}, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'status', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["g" /* renderEvaluationStatus */] }, { data: null, orderable: false, searchable: false, render: function render() {
+							render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+							createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+						}, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'status', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["h" /* renderEvaluationStatus */] }, { data: null, orderable: false, searchable: false, render: function render() {
 								return '';
 							}
 						}],
@@ -7568,10 +7569,10 @@ function createFacultyDashboard(el, propsData) {
 						},
 						dataSrc: ''
 					},
-					columns: [{ data: 'url' }, { data: 'subject.full_name', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["h" /* renderSubjectCell */] }, { data: 'evaluator.full_name' }, { data: 'form.title' }, {
+					columns: [{ data: 'url' }, { data: 'subject.full_name', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["i" /* renderSubjectCell */] }, { data: 'evaluator.full_name' }, { data: 'form.title' }, {
 						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
 					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateTimeCell */] }],
 					order: [[0, 'desc']],
 					createdRow: function createdRow(row) {
@@ -7642,8 +7643,8 @@ function createAdminFacultyDashboard(el) {
 					},
 					columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'form.title' }, { data: 'evaluator.full_name' }, {
 						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
 					}, { data: null, render: function render() {
 							return '';
 						}
@@ -7724,8 +7725,8 @@ function createAnonymousFacultyDashboard(el, propsData) {
 					},
 					columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'form.title' }, {
 						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
 					}],
 					order: [[0, 'desc']],
 					createdRow: function createdRow(row) {
@@ -7801,10 +7802,10 @@ function createFacultyFacultyDashboard(el, propsData) {
 						},
 						dataSrc: ''
 					},
-					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* renderSubjectEvalUrl */] }, { data: 'form.title' }, {
+					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["f" /* renderSubjectEvalUrl */] }, { data: 'form.title' }, {
 						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
 					}],
 					order: [[0, 'desc']],
 					createdRow: function createdRow(row) {
@@ -7916,10 +7917,10 @@ function createResidentDashboard(el, propsData) {
 						},
 						dataSrc: ''
 					},
-					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["f" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, {
+					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["g" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, {
 						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
 					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: null, render: function render(evaluation) {
 							if (evaluation.requested_by_id === _this2.user.id) return '<button class="btn btn-danger btn-xs cancel-eval-button"\n\t\t\t\t\t\t\t\t\t\tdata-id="' + evaluation.id + '">\n\t\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-remove"></span>\n\t\t\t\t\t\t\t\t\tCancel\n\t\t\t\t\t\t\t\t</button>';
 
@@ -7953,15 +7954,15 @@ function createResidentDashboard(el, propsData) {
 						},
 						dataSrc: ''
 					},
-					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* renderSubjectEvalUrl */] }, { data: 'evaluator.full_name', render: function render(name) {
+					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["f" /* renderSubjectEvalUrl */] }, { data: 'evaluator.full_name', render: function render(name) {
 							if (!name) return '<i>Anonymous</i>';
 
 							return name;
 						}
 					}, { data: 'form.title' }, {
 						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
 					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateTimeCell */] }],
 					order: [[0, 'desc']],
 					createdRow: function createdRow(row) {
@@ -7990,14 +7991,14 @@ function createResidentDashboard(el, propsData) {
 						},
 						dataSrc: ''
 					},
-					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* renderSubjectEvalUrl */] }, { data: 'evaluator.full_name', render: function render(name) {
+					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["f" /* renderSubjectEvalUrl */] }, { data: 'evaluator.full_name', render: function render(name) {
 							if (!name) return '<i>Anonymous</i>';
 
 							return name;
 						} }, { data: 'form.title' }, {
 						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
 					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateTimeCell */] }],
 					order: [[0, 'desc']],
 					createdRow: function createdRow(row) {
@@ -8028,8 +8029,8 @@ function createResidentDashboard(el, propsData) {
 					},
 					columns: [{ data: 'url' }, { data: 'form.title' }, {
 						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
 					}, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateTimeCell */] }],
 					order: [[0, 'desc']],
 					createdRow: function createdRow(row) {
@@ -8110,10 +8111,10 @@ function createStaffDashboard(el, propsData) {
 						},
 						dataSrc: ''
 					},
-					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["f" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, {
+					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["g" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, {
 						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
 					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateTimeCell */] }],
 					order: [[0, 'desc']],
 					createdRow: function createdRow(row) {
@@ -8145,8 +8146,8 @@ function createStaffDashboard(el, propsData) {
 							}
 						}, { data: 'form.title' }, {
 							data: null,
-							render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-							createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+							render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+							createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
 						}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateTimeCell */] }],
 						order: [[0, 'desc']],
 						createdRow: function createdRow(row) {
@@ -8175,9 +8176,9 @@ function createStaffDashboard(el, propsData) {
 						},
 						columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'evaluator.full_name' }, {
 							data: null,
-							render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-							createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-						}, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'status', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["g" /* renderEvaluationStatus */] }, { data: null, orderable: false, searchable: false, render: function render() {
+							render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+							createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+						}, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'status', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["h" /* renderEvaluationStatus */] }, { data: null, orderable: false, searchable: false, render: function render() {
 								return '';
 							}
 						}],
@@ -8207,8 +8208,8 @@ function createStaffDashboard(el, propsData) {
 					},
 					columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'form.title' }, {
 						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
 					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateTimeCell */] }],
 					order: [[0, 'desc']],
 					createdRow: function createdRow(row) {
@@ -8255,7 +8256,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__DataTable_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AcademicYearSelector_vue__ = __webpack_require__(439);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AcademicYearSelector_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__AcademicYearSelector_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__ = __webpack_require__(18);
 //
 //
 //
@@ -8314,7 +8315,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__SelectTwo_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__SelectTwo_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__ = __webpack_require__(18);
 //
 //
 //
