@@ -595,7 +595,8 @@ module.exports = isArray;
 
 
 /***/ }),
-/* 18 */
+/* 18 */,
+/* 19 */
 /***/ (function(module, exports) {
 
 /**
@@ -632,7 +633,6 @@ module.exports = isObject;
 
 
 /***/ }),
-/* 19 */,
 /* 20 */,
 /* 21 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -896,7 +896,7 @@ module.exports = isBuffer;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(8),
-    isObject = __webpack_require__(18);
+    isObject = __webpack_require__(19);
 
 /** `Object#toString` result references. */
 var asyncTag = '[object AsyncFunction]',
@@ -1779,7 +1779,7 @@ module.exports = baseIsEqualDeep;
 
 var isFunction = __webpack_require__(27),
     isMasked = __webpack_require__(75),
-    isObject = __webpack_require__(18),
+    isObject = __webpack_require__(19),
     toSource = __webpack_require__(24);
 
 /**
@@ -4371,7 +4371,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jacobmischka_vue_flatpickr_theme_flatpickr_min_css__ = __webpack_require__(124);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__jacobmischka_vue_flatpickr_theme_flatpickr_min_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__jacobmischka_vue_flatpickr_theme_flatpickr_min_css__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_date_utils_js__ = __webpack_require__(18);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -4988,7 +4988,7 @@ function createResponseLegend(valueMap) {
 	var labels = [];
 	var values = [];
 
-	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_0__utils_js__["q" /* sortNumbers */]);
+	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_0__utils_js__["m" /* sortNumbers */]);
 
 	keys.map(function (key) {
 		labels.push(valueMap.get(key));
@@ -12723,6 +12723,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -12758,6 +12777,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			},
 
 			default: 'asc'
+		},
+		paginate: {
+			type: Boolean,
+			default: true
 		}
 	},
 	data: function data() {
@@ -12780,6 +12803,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			return map;
 		},
 		index: function index() {
+			var _this2 = this;
+
 			var fields = this.fields;
 
 			var index = __WEBPACK_IMPORTED_MODULE_1_lunr___default()(function () {
@@ -12799,34 +12824,51 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			});
 
 			this.items.map(function (item) {
+				if (_this2.fieldAccessors) {
+					for (var field in _this2.fieldAccessors) {
+						item[field] = _this2.fieldAccessors[field](item, 'search');
+					}
+				}
 				index.add(item);
 			});
 
 			return index;
 		},
 		filteredItems: function filteredItems() {
-			var _this2 = this;
+			var _this3 = this;
 
 			if (this.query) {
 				var refs = this.index.search(this.query);
 				return refs.map(function (ref) {
-					return _this2.itemMap.get(ref.ref);
+					return _this3.itemMap.get(ref.ref);
 				});
 			}
 
 			return this.items;
 		},
 		sortedItems: function sortedItems() {
-			var _this3 = this;
+			var _this4 = this;
 
 			if (this.sortBy && this.sortOrder) {
 
 				return __WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__["a" /* sortFunctions */].has(this.sortBy) ? this.filteredItems.sort(__WEBPACK_IMPORTED_MODULE_3__modules_report_utils_js__["a" /* sortFunctions */].get(this.sortBy)) : this.filteredItems.sort(function (a, b) {
-					var aValue = a[_this3.sortBy].toUpperCase();
-					var bValue = b[_this3.sortBy].toUpperCase();
+					var aValue = void 0;
+					var bValue = void 0;
 
-					if (aValue < bValue) return _this3.sortOrder === 'asc' ? -1 : 1;
-					if (aValue > bValue) return _this3.sortOrder === 'asc' ? 1 : -1;
+					if (_this4.fieldAccessors && _this4.sortBy in _this4.fieldAccessors) {
+						aValue = _this4.fieldAccessors[_this4.sortBy](a, 'sort');
+						bValue = _this4.fieldAccessors[_this4.sortBy](b, 'sort');
+					} else {
+						aValue = a[_this4.sortBy];
+						bValue = b[_this4.sortBy];
+					}
+
+					if (Number.isNaN(aValue)) aValue = aValue.toUpperCase();
+
+					if (Number.isNaN(bValue)) bValue = bValue.toUpperCase();
+
+					if (aValue < bValue) return _this4.sortOrder === 'asc' ? -1 : 1;
+					if (aValue > bValue) return _this4.sortOrder === 'asc' ? 1 : -1;
 					return 0;
 				});
 			}
@@ -12834,6 +12876,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			return this.filteredItems;
 		},
 		paginatedItems: function paginatedItems() {
+			if (!this.paginate) return this.sortedItems;
+
 			var paginatedItems = [];
 			var items = this.sortedItems.slice();
 			while (items.length > 0) {
@@ -12841,6 +12885,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			}return paginatedItems;
 		},
 		currentPageItems: function currentPageItems() {
+			if (!this.paginate) return this.sortedItems;
+
 			return this.paginatedItems[this.page];
 		}
 	},
@@ -12848,7 +12894,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		renderFieldName: function renderFieldName(field) {
 			if (field === 'id') return 'ID';
 
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["p" /* snakeCaseToWords */])(field);
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["l" /* snakeCaseToWords */])(field);
 		}
 	},
 	components: {
@@ -13036,7 +13082,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 			return ['medium', 'markdown'];
 		},
 		groupedPossibleRecipients: function groupedPossibleRecipients() {
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["l" /* groupUsers */])(this.possibleRecipients);
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["n" /* groupUsers */])(this.possibleRecipients);
 		},
 		toDisplayValue: function toDisplayValue() {
 			if (this.possibleRecipients || Array.isArray(this.to)) return (this.to ? this.to.length : '0') + ' recipients';
@@ -13453,7 +13499,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_datatable_utils_js__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_report_utils_js__ = __webpack_require__(137);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__modules_date_utils_js__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__modules_date_utils_js__ = __webpack_require__(18);
 //
 //
 //
@@ -13762,7 +13808,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			return data;
 		},
 		tableExportFilename: function tableExportFilename() {
-			var level = this.report.trainingLevel === 'all' ? '' : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_datatable_utils_js__["i" /* renderTrainingLevel */])(this.report.trainingLevel);
+			var level = this.report.trainingLevel === 'all' ? '' : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_datatable_utils_js__["j" /* renderTrainingLevel */])(this.report.trainingLevel);
 			var start = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__modules_date_utils_js__["isoDateString"])(new Date(this.report.startDate.date));
 			var end = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__modules_date_utils_js__["isoDateString"])(new Date(this.report.endDate.date));
 			var now = new Date().toLocaleString();
@@ -13855,7 +13901,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__AlertList_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_date_utils_js__ = __webpack_require__(18);
 //
 //
 //
@@ -13967,7 +14013,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__SvgIcon_vue__ = __webpack_require__(160);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__SvgIcon_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__SvgIcon_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__modules_utils_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__modules_date_utils_js__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__modules_date_utils_js__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__modules_report_utils_js__ = __webpack_require__(137);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__ = __webpack_require__(20);
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
@@ -14207,9 +14253,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				},
 				columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'evaluator.full_name' }, { data: 'requestor.full_name' }, { data: 'form.title' }, {
 					data: null,
-					render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-					createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-				}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["j" /* renderDateCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["k" /* createDateCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'status', render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["g" /* renderEvaluationStatus */] }],
+					render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+					createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+				}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["k" /* renderDateCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["l" /* createDateCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'status', render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["h" /* renderEvaluationStatus */] }],
 				order: [[0, 'desc']]
 			};
 		},
@@ -14217,9 +14263,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 			return {
 				columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'evaluator.full_name' }, { data: 'requestor.full_name' }, { data: 'form.title' }, {
 					data: null,
-					render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-					createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["d" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-				}, { data: "request_date", render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["j" /* renderDateCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["k" /* createDateCell */] }, { data: "complete_date", render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: "status", render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["g" /* renderEvaluationStatus */] }],
+					render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+					createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+				}, { data: "request_date", render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["k" /* renderDateCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["l" /* createDateCell */] }, { data: "complete_date", render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: "status", render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["h" /* renderEvaluationStatus */] }],
 				order: [[0, 'desc']]
 			};
 		}
@@ -14872,7 +14918,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 		trainingLevelDisplay: function trainingLevelDisplay() {
 			if (this.report.trainingLevel === 'all') return;
 
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["i" /* renderTrainingLevel */])(this.report.trainingLevel);
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["j" /* renderTrainingLevel */])(this.report.trainingLevel);
 		},
 		valueMap: function valueMap() {
 			if (this.report.trainingLevel === 'fellow') return __WEBPACK_IMPORTED_MODULE_8__modules_constants_js__["h" /* FELLOWSHIP_VALUE_MAPS */].get(this.subject.secondary_training_level) || __WEBPACK_IMPORTED_MODULE_8__modules_constants_js__["h" /* FELLOWSHIP_VALUE_MAPS */].get(null);
@@ -14890,13 +14936,13 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 		},
 		evaluationsConfig: function evaluationsConfig() {
 			return {
-				columns: [{ render: __WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["l" /* renderIdToEvalUrl */] }, null, null, null]
+				columns: [{ render: __WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["m" /* renderIdToEvalUrl */] }, null, null, null]
 			};
 		},
 		evaluationsData: function evaluationsData() {
 			try {
 				return this.report.subjectEvaluations[this.subjectId].map(function (request) {
-					return [String(request.evaluation_id), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')(request), request.evaluator_last + ', ' + request.evaluator_first, request.form_title];
+					return [String(request.evaluation_id), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')(request), request.evaluator_last + ', ' + request.evaluator_first, request.form_title];
 				});
 			} catch (err) {
 				return [];
@@ -14955,7 +15001,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 		},
 		commentsConfig: function commentsConfig() {
 			return {
-				columns: [{ render: __WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["l" /* renderIdToEvalUrl */] }, null, null, null, null]
+				columns: [{ render: __WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["m" /* renderIdToEvalUrl */] }, null, null, null, null]
 			};
 		},
 		commentsThead: function commentsThead() {
@@ -14964,7 +15010,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 		commentsData: function commentsData() {
 			try {
 				return this.report.subjectTextResponses[this.subjectId].map(function (response) {
-					return [String(response.evaluation_id), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["c" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')(response), response.last_name + ', ' + response.first_name, response.form_title, response.response];
+					return [String(response.evaluation_id), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')(response), response.last_name + ', ' + response.first_name, response.form_title, response.response];
 				});
 			} catch (err) {
 				return [];
@@ -15075,7 +15121,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 	methods: {
 		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["k" /* camelCaseToWords */],
 		ucfirst: __WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["c" /* ucfirst */],
-		renderDateCell: __WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["j" /* renderDateCell */],
+		renderDateCell: __WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["k" /* renderDateCell */],
 		saveCharts: function saveCharts() {
 			if (this.$refs.competencyChart && this.$refs.competencyChart.chart) __WEBPACK_IMPORTED_MODULE_1_downloadjs___default()(this.$refs.competencyChart.chart.toBase64Image(), 'Competencies chart - ' + this.report.subjects[this.subjectId] + ' - ' + new Date().toLocaleString() + '.png');
 			if (this.$refs.milestoneChart && this.$refs.milestoneChart.chart) __WEBPACK_IMPORTED_MODULE_1_downloadjs___default()(this.$refs.milestoneChart.chart.toBase64Image(), 'Milestones chart - ' + this.report.subjects[this.subjectId] + ' - ' + new Date().toLocaleString() + '.png');
@@ -15215,7 +15261,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_datatable_utils_js__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_date_utils_js__ = __webpack_require__(18);
 //
 //
 //
@@ -15317,7 +15363,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 	methods: {
-		renderEvaluationStatus: __WEBPACK_IMPORTED_MODULE_1__modules_datatable_utils_js__["g" /* renderEvaluationStatus */]
+		renderEvaluationStatus: __WEBPACK_IMPORTED_MODULE_1__modules_datatable_utils_js__["h" /* renderEvaluationStatus */]
 	}
 };
 
@@ -15450,7 +15496,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 	methods: {
-		renderTrainingLevel: __WEBPACK_IMPORTED_MODULE_4__modules_datatable_utils_js__["i" /* renderTrainingLevel */],
+		renderTrainingLevel: __WEBPACK_IMPORTED_MODULE_4__modules_datatable_utils_js__["j" /* renderTrainingLevel */],
 		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["c" /* ucfirst */]
 	},
 	components: {
@@ -15576,7 +15622,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 	methods: {
-		groupUsers: __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["l" /* groupUsers */]
+		groupUsers: __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["n" /* groupUsers */]
 	},
 	components: {
 		EvaluationListItem: __WEBPACK_IMPORTED_MODULE_1__EvaluationListItem_vue___default.a,
@@ -15602,7 +15648,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__EmailEditor_vue__ = __webpack_require__(201);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__EmailEditor_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__EmailEditor_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__ = __webpack_require__(18);
 //
 //
 //
@@ -15750,7 +15796,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			});
 		},
 
-		groupUsers: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["l" /* groupUsers */]
+		groupUsers: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["n" /* groupUsers */]
 	},
 
 	components: {
@@ -15777,7 +15823,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ComponentList_vue__ = __webpack_require__(200);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ComponentList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__ComponentList_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_date_utils_js__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_date_utils_js__ = __webpack_require__(18);
 //
 //
 //
@@ -15911,14 +15957,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			return ['trainee', 'faculty', 'form', 'needs-evaluations', 'pending-requests'];
 		},
 		groupedUsers: function groupedUsers() {
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["l" /* groupUsers */])(this.users);
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["n" /* groupUsers */])(this.users);
 		}
 	},
 
 	created: function created() {
 		var _this = this;
 
-		__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["n" /* fetchUsers */])().then(function (users) {
+		__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["p" /* fetchUsers */])().then(function (users) {
 			_this.users = users;
 		}).catch(function (err) {
 			console.error(err);
@@ -15927,7 +15973,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 	methods: {
-		kebabCaseToWords: __WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["o" /* kebabCaseToWords */]
+		kebabCaseToWords: __WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["q" /* kebabCaseToWords */]
 	}
 };
 
@@ -16228,10 +16274,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				scrollCollapse: true,
 				paging: false,
 				columns: [null, {
-					render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["j" /* renderDateCell */],
-					createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["k" /* createDateCell */]
+					render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["k" /* renderDateCell */],
+					createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["l" /* createDateCell */]
 				}, {
-					render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["l" /* renderIdToEvalUrl */]
+					render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["m" /* renderIdToEvalUrl */]
 				}],
 				fixedHeader: true
 			};
@@ -16270,7 +16316,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 				if (_this.report.trainingLevel) {
 					reportParamHeader.push('Training level');
-					reportParamBody.push(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["i" /* renderTrainingLevel */])(_this.report.trainingLevel));
+					reportParamBody.push(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["j" /* renderTrainingLevel */])(_this.report.trainingLevel));
 				}
 
 				var content = [{ text: _this.title, style: 'title' }, {
@@ -16411,7 +16457,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__SvgIcon_vue__ = __webpack_require__(160);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__SvgIcon_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__SvgIcon_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__modules_utils_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__modules_date_utils_js__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__modules_date_utils_js__ = __webpack_require__(18);
 //
 //
 //
@@ -17969,7 +18015,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n.list-header[data-v-6d54e2f6] {\n\ttext-align: right;\n}\n.list-header input[type=\"search\"][data-v-6d54e2f6] {\n\twidth: 300px;\n}\n.list[data-v-6d54e2f6] {\n\tpadding: 0;\n}\n.list li[data-v-6d54e2f6] {\n\tlist-style: none;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ComponentList.vue?0a64f913"],"names":[],"mappings":";AAoKA;CACA,kBAAA;CACA;AAEA;CACA,aAAA;CACA;AAEA;CACA,WAAA;CACA;AAEA;CACA,iBAAA;CACA","file":"ComponentList.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"list-header form-inline\">\n\t\t\t<select class=\"form-control\" v-model=\"sortBy\">\n\t\t\t\t<option v-for=\"field of fields\" :value=\"field\">\n\t\t\t\t\t{{ renderFieldName(field) }}\n\t\t\t\t</option>\n\t\t\t</select>\n\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t@click=\"sortOrder = sortOrder === 'asc' ? 'desc' : 'asc'\">\n\t\t\t\t<span v-if=\"sortOrder === 'asc'\"\n\t\t\t\t\tclass=\"glyphicon glyphicon-sort-by-alphabet\"></span>\n\t\t\t\t<span v-else\n\t\t\t\t\tclass=\"glyphicon glyphicon-sort-by-alphabet-alt\"></span>\n\t\t\t</button>\n\t\t\t<input type=\"search\" class=\"form-control\" v-model=\"query\"\n\t\t\t\tplaceholder=\"Search\" />\n\t\t</div>\n\t\t<ol class=\"list\">\n\t\t\t<slot v-for=\"item of currentPageItems\" v-bind=\"item\"></slot>\n\t\t</ol>\n\t\t<list-paginator v-model=\"page\" :paginatedItems=\"paginatedItems\"\n\t\t\t:itemsPerPage=\"itemsPerPage\"\n\t\t\t@pageSize=\"itemsPerPage = arguments[0]\" />\n\t</div>\n</template>\n\n<script>\nimport ListPaginator from './ListPaginator.vue';\n\nimport lunr from 'lunr';\n\nimport { snakeCaseToWords } from 'modules/utils.js';\nimport { sortFunctions } from 'modules/report-utils.js';\n\nexport default {\n\tprops: {\n\t\tfields: {\n\t\t\ttype: Array,\n\t\t\tdefault(){\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\titems: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\tfieldAccessors: {\n\t\t\ttype: Object,\n\t\t\trequired: false\n\t\t},\n\t\tdefaultSortBy: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\tdefaultSortOrder: {\n\t\t\ttype: String,\n\t\t\tvalidator(order) {\n\t\t\t\treturn ['asc', 'desc'].includes(order);\n\t\t\t},\n\t\t\tdefault: 'asc'\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tquery: null,\n\t\t\tpage: 0,\n\t\t\titemsPerPage: 10,\n\t\t\tsortBy: this.defaultSortBy || this.fields[0],\n\t\t\tsortOrder: this.defaultSortOrder\n\t\t};\n\t},\n\tcomputed: {\n\t\titemMap(){\n\t\t\tlet map = new Map();\n\t\t\tthis.items.map(item => {\n\t\t\t\tmap.set(item.id, item);\n\t\t\t});\n\n\t\t\treturn map;\n\t\t},\n\t\tindex(){\n\t\t\tlet fields = this.fields;\n\n\t\t\tlet index = lunr(function(){\n\t\t\t\tfields.map(field => {\n\t\t\t\t\tlet name, options;\n\t\t\t\t\tif(typeof field === 'string'){\n\t\t\t\t\t\tname = field;\n\t\t\t\t\t}\n\t\t\t\t\telse{\n\t\t\t\t\t\tname = field.name;\n\t\t\t\t\t\toptions = field;\n\t\t\t\t\t}\n\t\t\t\t\tthis.field(name, options);\n\t\t\t\t});\n\t\t\t});\n\n\t\t\tthis.items.map(item => {\n\t\t\t\tindex.add(item);\n\t\t\t});\n\n\t\t\treturn index;\n\t\t},\n\t\tfilteredItems(){\n\t\t\tif(this.query){\n\t\t\t\tlet refs = this.index.search(this.query);\n\t\t\t\treturn refs.map(ref => {\n\t\t\t\t\treturn this.itemMap.get(ref.ref);\n\t\t\t\t});\n\t\t\t}\n\n\t\t\treturn this.items;\n\t\t},\n\t\tsortedItems(){\n\t\t\tif(this.sortBy && this.sortOrder){\n\n\t\t\t\treturn sortFunctions.has(this.sortBy)\n\t\t\t\t\t? this.filteredItems.sort(sortFunctions.get(this.sortBy))\n\t\t\t\t\t: this.filteredItems.sort((a, b) => {\n\t\t\t\t\t\tlet aValue = a[this.sortBy].toUpperCase();\n\t\t\t\t\t\tlet bValue = b[this.sortBy].toUpperCase();\n\n\t\t\t\t\t\tif(aValue < bValue)\n\t\t\t\t\t\t\treturn this.sortOrder === 'asc'\n\t\t\t\t\t\t\t\t? -1\n\t\t\t\t\t\t\t\t: 1;\n\t\t\t\t\t\tif(aValue > bValue)\n\t\t\t\t\t\t\treturn this.sortOrder === 'asc'\n\t\t\t\t\t\t\t\t? 1\n\t\t\t\t\t\t\t\t: -1;\n\t\t\t\t\t\treturn 0;\n\t\t\t\t\t});\n\t\t\t}\n\n\t\t\treturn this.filteredItems;\n\t\t},\n\t\tpaginatedItems(){\n\t\t\tlet paginatedItems = [];\n\t\t\tlet items = this.sortedItems.slice();\n\t\t\twhile(items.length > 0)\n\t\t\t\tpaginatedItems.push(items.splice(0, this.itemsPerPage));\n\n\t\t\treturn paginatedItems;\n\t\t},\n\t\tcurrentPageItems(){\n\t\t\treturn this.paginatedItems[this.page];\n\t\t}\n\t},\n\tmethods: {\n\t\trenderFieldName(field) {\n\t\t\tif (field === 'id')\n\t\t\t\treturn 'ID';\n\n\t\t\treturn snakeCaseToWords(field);\n\t\t}\n\t},\n\tcomponents: {\n\t\tListPaginator\n\t}\n};\n</script>\n\n<style scoped>\n\t.list-header {\n\t\ttext-align: right;\n\t}\n\n\t.list-header input[type=\"search\"] {\n\t\twidth: 300px;\n\t}\n\n\t.list {\n\t\tpadding: 0;\n\t}\n\n\t.list li {\n\t\tlist-style: none;\n\t}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.list-header-controls[data-v-6d54e2f6] {\n\ttext-align: right;\n}\n.list-header-controls input[type=\"search\"][data-v-6d54e2f6] {\n\twidth: 300px;\n\tmax-width: 100%;\n}\n.list-header-controls.form-inline .input-group > .form-control[data-v-6d54e2f6] {\n\twidth: auto;\n}\n.list-container[data-v-6d54e2f6] {\n\tmargin: 3em 0;\n}\n.list[data-v-6d54e2f6] {\n\tpadding: 0;\n}\n.list li[data-v-6d54e2f6] {\n\tlist-style: none;\n}\n.containing-label[data-v-6d54e2f6] {\n\ttext-align: left;\n}\n.containing-label > *[data-v-6d54e2f6] {\n\tdisplay: block;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ComponentList.vue?16d848d4"],"names":[],"mappings":";AAoNA;CACA,kBAAA;CACA;AAEA;CACA,aAAA;CACA,gBAAA;CACA;AAEA;CACA,YAAA;CACA;AAEA;CACA,cAAA;CACA;AAEA;CACA,WAAA;CACA;AAEA;CACA,iBAAA;CACA;AAEA;CACA,iBAAA;CACA;AAEA;CACA,eAAA;CACA","file":"ComponentList.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"list-header-controls form-inline\">\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tSort\n\t\t\t\t\t<div class=\"input-group\">\n\t\t\t\t\t\t<select class=\"form-control\" v-model=\"sortBy\">\n\t\t\t\t\t\t\t<option v-for=\"field of fields\" :value=\"field\">\n\t\t\t\t\t\t\t\t{{ renderFieldName(field) }}\n\t\t\t\t\t\t\t</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t\t<span class=\"input-group-btn\">\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\"\n\t\t\t\t\t\t\t\t\t@click=\"sortOrder = sortOrder === 'asc' ? 'desc' : 'asc'\">\n\t\t\t\t\t\t\t\t<span v-if=\"sortOrder === 'asc'\"\n\t\t\t\t\t\t\t\t\tclass=\"glyphicon glyphicon-sort-by-alphabet\"></span>\n\t\t\t\t\t\t\t\t<span v-else\n\t\t\t\t\t\t\t\t\tclass=\"glyphicon glyphicon-sort-by-alphabet-alt\"></span>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</span>\n\t\t\t\t\t</div>\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t\t<div class=\"form-group\">\n\t\t\t\t<label class=\"containing-label\">\n\t\t\t\t\tSearch\n\t\t\t\t\t<input type=\"search\" class=\"form-control\" v-model=\"query\"\n\t\t\t\t\t\tplaceholder=\"Search\" />\n\t\t\t\t</label>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"list-container\">\n\t\t\t<slot name=\"header\"></slot>\n\t\t\t<ol class=\"list\">\n\t\t\t\t<slot v-for=\"item of currentPageItems\" v-bind=\"item\"></slot>\n\t\t\t</ol>\n\t\t\t<slot name=\"footer\"></slot>\n\t\t</div>\n\t\t<list-paginator v-if=\"paginate\"\n\t\t\tv-model=\"page\" :paginatedItems=\"paginatedItems\"\n\t\t\t:itemsPerPage=\"itemsPerPage\"\n\t\t\t@pageSize=\"itemsPerPage = arguments[0]\" />\n\t</div>\n</template>\n\n<script>\nimport ListPaginator from './ListPaginator.vue';\n\nimport lunr from 'lunr';\n\nimport { snakeCaseToWords } from 'modules/utils.js';\nimport { sortFunctions } from 'modules/report-utils.js';\n\nexport default {\n\tprops: {\n\t\tfields: {\n\t\t\ttype: Array,\n\t\t\tdefault(){\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\titems: {\n\t\t\ttype: Array,\n\t\t\trequired: true\n\t\t},\n\t\tfieldAccessors: {\n\t\t\ttype: Object,\n\t\t\trequired: false\n\t\t},\n\t\tdefaultSortBy: {\n\t\t\ttype: String,\n\t\t\trequired: false\n\t\t},\n\t\tdefaultSortOrder: {\n\t\t\ttype: String,\n\t\t\tvalidator(order) {\n\t\t\t\treturn ['asc', 'desc'].includes(order);\n\t\t\t},\n\t\t\tdefault: 'asc'\n\t\t},\n\t\tpaginate: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: true\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tquery: null,\n\t\t\tpage: 0,\n\t\t\titemsPerPage: 10,\n\t\t\tsortBy: this.defaultSortBy || this.fields[0],\n\t\t\tsortOrder: this.defaultSortOrder\n\t\t};\n\t},\n\tcomputed: {\n\t\titemMap(){\n\t\t\tlet map = new Map();\n\t\t\tthis.items.map(item => {\n\t\t\t\tmap.set(item.id, item);\n\t\t\t});\n\n\t\t\treturn map;\n\t\t},\n\t\tindex(){\n\t\t\tlet fields = this.fields;\n\n\t\t\tlet index = lunr(function(){\n\t\t\t\tfields.map(field => {\n\t\t\t\t\tlet name, options;\n\t\t\t\t\tif(typeof field === 'string'){\n\t\t\t\t\t\tname = field;\n\t\t\t\t\t}\n\t\t\t\t\telse{\n\t\t\t\t\t\tname = field.name;\n\t\t\t\t\t\toptions = field;\n\t\t\t\t\t}\n\t\t\t\t\tthis.field(name, options);\n\t\t\t\t});\n\t\t\t});\n\n\t\t\tthis.items.map(item => {\n\t\t\t\tif (this.fieldAccessors) {\n\t\t\t\t\tfor (let field in this.fieldAccessors) {\n\t\t\t\t\t\titem[field] = this.fieldAccessors[field](item, 'search');\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\tindex.add(item);\n\t\t\t});\n\n\t\t\treturn index;\n\t\t},\n\t\tfilteredItems(){\n\t\t\tif(this.query){\n\t\t\t\tlet refs = this.index.search(this.query);\n\t\t\t\treturn refs.map(ref => {\n\t\t\t\t\treturn this.itemMap.get(ref.ref);\n\t\t\t\t});\n\t\t\t}\n\n\t\t\treturn this.items;\n\t\t},\n\t\tsortedItems(){\n\t\t\tif(this.sortBy && this.sortOrder){\n\n\t\t\t\treturn sortFunctions.has(this.sortBy)\n\t\t\t\t\t? this.filteredItems.sort(sortFunctions.get(this.sortBy))\n\t\t\t\t\t: this.filteredItems.sort((a, b) => {\n\t\t\t\t\t\tlet aValue;\n\t\t\t\t\t\tlet bValue;\n\n\t\t\t\t\t\tif (this.fieldAccessors && this.sortBy in this.fieldAccessors) {\n\t\t\t\t\t\t\taValue = this.fieldAccessors[this.sortBy](a, 'sort');\n\t\t\t\t\t\t\tbValue = this.fieldAccessors[this.sortBy](b, 'sort');\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\taValue = a[this.sortBy];\n\t\t\t\t\t\t\tbValue = b[this.sortBy];\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\tif (Number.isNaN(aValue))\n\t\t\t\t\t\t\taValue = aValue.toUpperCase();\n\n\t\t\t\t\t\tif (Number.isNaN(bValue))\n\t\t\t\t\t\t\tbValue = bValue.toUpperCase();\n\n\t\t\t\t\t\tif(aValue < bValue)\n\t\t\t\t\t\t\treturn this.sortOrder === 'asc'\n\t\t\t\t\t\t\t\t? -1\n\t\t\t\t\t\t\t\t: 1;\n\t\t\t\t\t\tif(aValue > bValue)\n\t\t\t\t\t\t\treturn this.sortOrder === 'asc'\n\t\t\t\t\t\t\t\t? 1\n\t\t\t\t\t\t\t\t: -1;\n\t\t\t\t\t\treturn 0;\n\t\t\t\t\t});\n\t\t\t}\n\n\t\t\treturn this.filteredItems;\n\t\t},\n\t\tpaginatedItems(){\n\t\t\tif (!this.paginate)\n\t\t\t\treturn this.sortedItems;\n\n\t\t\tlet paginatedItems = [];\n\t\t\tlet items = this.sortedItems.slice();\n\t\t\twhile(items.length > 0)\n\t\t\t\tpaginatedItems.push(items.splice(0, this.itemsPerPage));\n\n\t\t\treturn paginatedItems;\n\t\t},\n\t\tcurrentPageItems(){\n\t\t\tif (!this.paginate)\n\t\t\t\treturn this.sortedItems;\n\n\t\t\treturn this.paginatedItems[this.page];\n\t\t}\n\t},\n\tmethods: {\n\t\trenderFieldName(field) {\n\t\t\tif (field === 'id')\n\t\t\t\treturn 'ID';\n\n\t\t\treturn snakeCaseToWords(field);\n\t\t}\n\t},\n\tcomponents: {\n\t\tListPaginator\n\t}\n};\n</script>\n\n<style scoped>\n\t.list-header-controls {\n\t\ttext-align: right;\n\t}\n\n\t.list-header-controls input[type=\"search\"] {\n\t\twidth: 300px;\n\t\tmax-width: 100%;\n\t}\n\n\t.list-header-controls.form-inline .input-group > .form-control {\n\t\twidth: auto;\n\t}\n\n\t.list-container {\n\t\tmargin: 3em 0;\n\t}\n\n\t.list {\n\t\tpadding: 0;\n\t}\n\n\t.list li {\n\t\tlist-style: none;\n\t}\n\n\t.containing-label {\n\t\ttext-align: left;\n\t}\n\n\t.containing-label > * {\n\t\tdisplay: block;\n\t}\n</style>\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -18040,7 +18086,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n.evaluation-list-item[data-v-fe5e41f8] {\n\tborder-bottom: 1px solid rgba(0, 0, 0, 0.25);\n\tpadding: 5px 0;\n}\n.evaluation-list-item[data-v-fe5e41f8]:nth-child(even){\n\tbackground-color: rgba(0, 0, 0, 0.05);\n}\n.evaluation-list-item .row[data-v-fe5e41f8] {\n\tmargin: 0;\n}\n.name[data-v-fe5e41f8] {\n\tfont-size: 1.15em;\n}\n.evaluation-list-item div section[data-v-fe5e41f8] {\n\tdisplay: inline-block;\n}\n.evaluation-list-item .details[data-v-fe5e41f8] {\n\tpadding: 10px 20px 0;\n}\nimg[data-v-fe5e41f8] {\n\tborder-radius: 100%;\n\tobject-fit: cover;\n\tobject-position: center;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/Needs/EvaluationListItem.vue?2c31b37c"],"names":[],"mappings":";AA8HA;CACA,6CAAA;CACA,eAAA;CACA;AAEA;CACA,sCAAA;CACA;AAEA;CACA,UAAA;CACA;AAEA;CACA,kBAAA;CACA;AAEA;CACA,sBAAA;CACA;AAEA;CACA,qBAAA;CACA;AAEA;CACA,oBAAA;CACA,kBAAA;CACA,wBAAA;CACA","file":"EvaluationListItem.vue","sourcesContent":["<template>\n\t<li class=\"evaluation-list-item\">\n\t\t<div class=\"row\">\n\t\t\t<div class=\"col-sm-4\">\n\t\t\t\t<img height=\"50\" width=\"50\" alt=\"\"\n\t\t\t\t\t:src=\"user.photo_path || placeholderUserImagePath\" />\n\t\t\t\t<a class=\"name\" :href=\"`/profile/${user.id}`\" target=\"_blank\">\n\t\t\t\t\t{{ user.full_name }}\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t\t\n\t\t\t<div class=\"col-sm-2\">\n\t\t\t\t{{\n\t\t\t\t\tuser.type === 'resident'\n\t\t\t\t\t\t? renderTrainingLevel(user.training_level)\n\t\t\t\t\t\t: ucfirst(user.type)\n\t\t\t\t}}\n\t\t\t</div>\n\n\t\t\t<section v-if=\"user.type === 'resident'\" class=\"col-sm-2\">\n\t\t\t\t<div>\n\t\t\t\t\t<b>\n\t\t\t\t\t\t{{ completeEvals.length }}\n\t\t\t\t\t\tcomplete evaluations\n\t\t\t\t\t</b>\n\t\t\t\t</div>\n\t\t\t\t<div>\n\t\t\t\t\t{{ pendingEvals.length }}\n\t\t\t\t\tpending evaluations\n\t\t\t\t</div>\n\t\t\t</section>\n\t\t\t<section v-else class=\"col-sm-2\">\n\t\t\t\t<div>\n\t\t\t\t\t<b>\n\t\t\t\t\t\t{{ pendingEvals.length }}\n\t\t\t\t\t\tpending evaluations\n\t\t\t\t\t</b>\n\t\t\t\t</div>\n\t\t\t\t<div>\n\t\t\t\t\t{{ completeEvals.length }}\n\t\t\t\t\tcomplete evaluations\n\t\t\t\t</div>\n\t\t\t</section>\n\n\t\t\t<div class=\"col-sm-4 text-right\">\n\t\t\t\t<show-hide-button class=\"btn btn-xs btn-info\"\n\t\t\t\t\t\tv-if=\"user[evals].length > 0\"\n\t\t\t\t\t\tv-model=\"show.evaluations\">\n\t\t\t\t\tevaluations\n\t\t\t\t</show-hide-button>\n\t\t\t</div>\n\t\t</div>\n\t\t<section class=\"details\" v-show=\"show.evaluations\">\n\t\t\t<h4>Evaluations</h4>\n\t\t\t<label>\n\t\t\t\t<input type=\"checkbox\" v-model=\"show.canceled\" />\n\t\t\t\tShow disabled and canceled\n\t\t\t</label>\n\t\t\t<ul class=\"list-group\">\n\t\t\t\t<evaluation-details-list-item v-for=\"detailsEval of detailsEvals\"\n\t\t\t\t \t:evaluation=\"detailsEval\" />\n\t\t\t</ul>\n\t\t</section>\n\t</li>\n</template>\n\n<script>\nimport EvaluationDetailsListItem from './EvaluationDetailsListItem.vue';\nimport ShowHideButton from '../../ShowHideButton.vue';\n\nimport { PLACEHOLDER_USER_IMAGE_PATH } from 'modules/constants.js';\nimport { ucfirst } from 'modules/utils.js';\nimport { renderTrainingLevel } from 'modules/datatable-utils.js';\n\nexport default {\n\tprops: {\n\t\tuser: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t},\n\t\tevals: {\n\t\t\ttype: String,\n\t\t\tdefault: 'subject_evaluations'\n\t\t},\n\t\tplaceholderUserImagePath: {\n\t\t\ttype: String,\n\t\t\tdefault: PLACEHOLDER_USER_IMAGE_PATH\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tevaluations: false,\n\t\t\t\tcanceled: false\n\t\t\t}\n\t\t};\n\t},\n\tcomputed: {\n\t\tcompleteEvals(){\n\t\t\treturn this.user[this.evals]\n\t\t\t\t.filter(evaluation => evaluation.status === 'complete');\n\t\t},\n\t\tpendingEvals(){\n\t\t\treturn this.user[this.evals]\n\t\t\t\t.filter(evaluation => evaluation.status === 'pending');\n\t\t},\n\t\tdetailsEvals(){\n\t\t\treturn this.show.canceled\n\t\t\t\t? this.user[this.evals]\n\t\t\t\t: this.user[this.evals]\n\t\t\t\t\t.filter(evaluation =>\n\t\t\t\t\t\t['complete', 'pending'].includes(evaluation.status));\n\t\t}\n\t},\n\tmethods: {\n\t\trenderTrainingLevel,\n\t\tucfirst\n\t},\n\tcomponents: {\n\t\tEvaluationDetailsListItem,\n\t\tShowHideButton\n\t}\n};\n</script>\n\n<style scoped>\n.evaluation-list-item {\n\tborder-bottom: 1px solid rgba(0, 0, 0, 0.25);\n\tpadding: 5px 0;\n}\n\n.evaluation-list-item:nth-child(even){\n\tbackground-color: rgba(0, 0, 0, 0.05);\n}\n\n.evaluation-list-item .row {\n\tmargin: 0;\n}\n\n.name {\n\tfont-size: 1.15em;\n}\n\n.evaluation-list-item div section {\n\tdisplay: inline-block;\n}\n\n.evaluation-list-item .details {\n\tpadding: 10px 20px 0;\n}\n\nimg {\n\tborder-radius: 100%;\n\tobject-fit: cover;\n\tobject-position: center;\n}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.evaluation-list-item[data-v-fe5e41f8] {\n\tborder-bottom: 1px solid rgba(0, 0, 0, 0.25);\n\tpadding: 5px 0;\n}\n.evaluation-list-item[data-v-fe5e41f8]:nth-child(even) {\n\tbackground-color: rgba(0, 0, 0, 0.05);\n}\n.evaluation-list-item .row[data-v-fe5e41f8] {\n\tmargin: 0;\n}\n.name[data-v-fe5e41f8] {\n\tfont-size: 1.15em;\n}\n.evaluation-list-item div section[data-v-fe5e41f8] {\n\tdisplay: inline-block;\n}\n.evaluation-list-item .details[data-v-fe5e41f8] {\n\tpadding: 10px 20px 0;\n}\nimg[data-v-fe5e41f8] {\n\tborder-radius: 100%;\n\tobject-fit: cover;\n\tobject-position: center;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Reports/Needs/EvaluationListItem.vue?367e52cf"],"names":[],"mappings":";AA8HA;CACA,6CAAA;CACA,eAAA;CACA;AAEA;CACA,sCAAA;CACA;AAEA;CACA,UAAA;CACA;AAEA;CACA,kBAAA;CACA;AAEA;CACA,sBAAA;CACA;AAEA;CACA,qBAAA;CACA;AAEA;CACA,oBAAA;CACA,kBAAA;CACA,wBAAA;CACA","file":"EvaluationListItem.vue","sourcesContent":["<template>\n\t<li class=\"evaluation-list-item\">\n\t\t<div class=\"row\">\n\t\t\t<div class=\"col-sm-4\">\n\t\t\t\t<img height=\"50\" width=\"50\" alt=\"\"\n\t\t\t\t\t:src=\"user.photo_path || placeholderUserImagePath\" />\n\t\t\t\t<a class=\"name\" :href=\"`/profile/${user.id}`\" target=\"_blank\">\n\t\t\t\t\t{{ user.full_name }}\n\t\t\t\t</a>\n\t\t\t</div>\n\n\t\t\t<div class=\"col-sm-2\">\n\t\t\t\t{{\n\t\t\t\t\tuser.type === 'resident'\n\t\t\t\t\t\t? renderTrainingLevel(user.training_level)\n\t\t\t\t\t\t: ucfirst(user.type)\n\t\t\t\t}}\n\t\t\t</div>\n\n\t\t\t<section v-if=\"user.type === 'resident'\" class=\"col-sm-2\">\n\t\t\t\t<div>\n\t\t\t\t\t<b>\n\t\t\t\t\t\t{{ completeEvals.length }}\n\t\t\t\t\t\tcomplete evaluations\n\t\t\t\t\t</b>\n\t\t\t\t</div>\n\t\t\t\t<div>\n\t\t\t\t\t{{ pendingEvals.length }}\n\t\t\t\t\tpending evaluations\n\t\t\t\t</div>\n\t\t\t</section>\n\t\t\t<section v-else class=\"col-sm-2\">\n\t\t\t\t<div>\n\t\t\t\t\t<b>\n\t\t\t\t\t\t{{ pendingEvals.length }}\n\t\t\t\t\t\tpending evaluations\n\t\t\t\t\t</b>\n\t\t\t\t</div>\n\t\t\t\t<div>\n\t\t\t\t\t{{ completeEvals.length }}\n\t\t\t\t\tcomplete evaluations\n\t\t\t\t</div>\n\t\t\t</section>\n\n\t\t\t<div class=\"col-sm-4 text-right\">\n\t\t\t\t<show-hide-button class=\"btn btn-xs btn-info\"\n\t\t\t\t\t\tv-if=\"user[evals].length > 0\"\n\t\t\t\t\t\tv-model=\"show.evaluations\">\n\t\t\t\t\tevaluations\n\t\t\t\t</show-hide-button>\n\t\t\t</div>\n\t\t</div>\n\t\t<section class=\"details\" v-show=\"show.evaluations\">\n\t\t\t<h4>Evaluations</h4>\n\t\t\t<label>\n\t\t\t\t<input type=\"checkbox\" v-model=\"show.canceled\" />\n\t\t\t\tShow disabled and canceled\n\t\t\t</label>\n\t\t\t<ul class=\"list-group\">\n\t\t\t\t<evaluation-details-list-item v-for=\"detailsEval of detailsEvals\"\n\t\t\t\t \t:evaluation=\"detailsEval\" />\n\t\t\t</ul>\n\t\t</section>\n\t</li>\n</template>\n\n<script>\nimport EvaluationDetailsListItem from './EvaluationDetailsListItem.vue';\nimport ShowHideButton from '../../ShowHideButton.vue';\n\nimport { PLACEHOLDER_USER_IMAGE_PATH } from 'modules/constants.js';\nimport { ucfirst } from 'modules/utils.js';\nimport { renderTrainingLevel } from 'modules/datatable-utils.js';\n\nexport default {\n\tprops: {\n\t\tuser: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t},\n\t\tevals: {\n\t\t\ttype: String,\n\t\t\tdefault: 'subject_evaluations'\n\t\t},\n\t\tplaceholderUserImagePath: {\n\t\t\ttype: String,\n\t\t\tdefault: PLACEHOLDER_USER_IMAGE_PATH\n\t\t}\n\t},\n\tdata(){\n\t\treturn {\n\t\t\tshow: {\n\t\t\t\tevaluations: false,\n\t\t\t\tcanceled: false\n\t\t\t}\n\t\t};\n\t},\n\tcomputed: {\n\t\tcompleteEvals(){\n\t\t\treturn this.user[this.evals]\n\t\t\t\t.filter(evaluation => evaluation.status === 'complete');\n\t\t},\n\t\tpendingEvals(){\n\t\t\treturn this.user[this.evals]\n\t\t\t\t.filter(evaluation => evaluation.status === 'pending');\n\t\t},\n\t\tdetailsEvals(){\n\t\t\treturn this.show.canceled\n\t\t\t\t? this.user[this.evals]\n\t\t\t\t: this.user[this.evals]\n\t\t\t\t\t.filter(evaluation =>\n\t\t\t\t\t\t['complete', 'pending'].includes(evaluation.status));\n\t\t}\n\t},\n\tmethods: {\n\t\trenderTrainingLevel,\n\t\tucfirst\n\t},\n\tcomponents: {\n\t\tEvaluationDetailsListItem,\n\t\tShowHideButton\n\t}\n};\n</script>\n\n<style scoped>\n.evaluation-list-item {\n\tborder-bottom: 1px solid rgba(0, 0, 0, 0.25);\n\tpadding: 5px 0;\n}\n\n.evaluation-list-item:nth-child(even) {\n\tbackground-color: rgba(0, 0, 0, 0.05);\n}\n\n.evaluation-list-item .row {\n\tmargin: 0;\n}\n\n.name {\n\tfont-size: 1.15em;\n}\n\n.evaluation-list-item div section {\n\tdisplay: inline-block;\n}\n\n.evaluation-list-item .details {\n\tpadding: 10px 20px 0;\n}\n\nimg {\n\tborder-radius: 100%;\n\tobject-fit: cover;\n\tobject-position: center;\n}\n</style>\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -22589,7 +22635,7 @@ module.exports = function (opts) {
 /* 374 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(18),
+var isObject = __webpack_require__(19),
     now = __webpack_require__(376),
     toNumber = __webpack_require__(377);
 
@@ -22847,7 +22893,7 @@ module.exports = now;
 /* 377 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(18),
+var isObject = __webpack_require__(19),
     isSymbol = __webpack_require__(375);
 
 /** Used as references for various `Number` constants. */
@@ -40675,7 +40721,13 @@ if (false) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', [_c('div', {
-    staticClass: "list-header form-inline"
+    staticClass: "list-header-controls form-inline"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\t\tSort\n\t\t\t\t"), _c('div', {
+    staticClass: "input-group"
   }, [_c('select', {
     directives: [{
       name: "model",
@@ -40700,8 +40752,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": field
       }
-    }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.renderFieldName(field)) + "\n\t\t\t")])
-  })), _vm._v(" "), _c('button', {
+    }, [_vm._v("\n\t\t\t\t\t\t\t" + _vm._s(_vm.renderFieldName(field)) + "\n\t\t\t\t\t\t")])
+  })), _vm._v(" "), _c('span', {
+    staticClass: "input-group-btn"
+  }, [_c('button', {
     staticClass: "btn btn-default",
     attrs: {
       "type": "button"
@@ -40715,7 +40769,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "glyphicon glyphicon-sort-by-alphabet"
   }) : _c('span', {
     staticClass: "glyphicon glyphicon-sort-by-alphabet-alt"
-  })]), _vm._v(" "), _c('input', {
+  })])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\t\tSearch\n\t\t\t\t"), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -40736,11 +40794,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.query = $event.target.value
       }
     }
-  })]), _vm._v(" "), _c('ol', {
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "list-container"
+  }, [_vm._t("header"), _vm._v(" "), _c('ol', {
     staticClass: "list"
   }, [_vm._l((_vm.currentPageItems), function(item) {
     return _vm._t("default", null, null, item)
-  })], 2), _vm._v(" "), _c('list-paginator', {
+  })], 2), _vm._v(" "), _vm._t("footer")], 2), _vm._v(" "), (_vm.paginate) ? _c('list-paginator', {
     attrs: {
       "paginatedItems": _vm.paginatedItems,
       "itemsPerPage": _vm.itemsPerPage
@@ -40757,7 +40817,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "page"
     }
-  })], 1)
+  }) : _vm._e()], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

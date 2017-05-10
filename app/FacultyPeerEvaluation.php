@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use Carbon\Carbon;
 
+use Hashids;
 use Log;
 use Mail;
 

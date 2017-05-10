@@ -563,159 +563,7 @@ window.Chart = module.exports = Chart;
 
 /***/ }),
 
-/***/ 180:
-/***/ (function(module, exports, __webpack_require__) {
-
-var global    = __webpack_require__(181)
-  , core      = __webpack_require__(158)
-  , ctx       = __webpack_require__(322)
-  , hide      = __webpack_require__(326)
-  , PROTOTYPE = 'prototype';
-
-var $export = function(type, name, source){
-  var IS_FORCED = type & $export.F
-    , IS_GLOBAL = type & $export.G
-    , IS_STATIC = type & $export.S
-    , IS_PROTO  = type & $export.P
-    , IS_BIND   = type & $export.B
-    , IS_WRAP   = type & $export.W
-    , exports   = IS_GLOBAL ? core : core[name] || (core[name] = {})
-    , expProto  = exports[PROTOTYPE]
-    , target    = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE]
-    , key, own, out;
-  if(IS_GLOBAL)source = name;
-  for(key in source){
-    // contains in native
-    own = !IS_FORCED && target && target[key] !== undefined;
-    if(own && key in exports)continue;
-    // export native or passed
-    out = own ? target[key] : source[key];
-    // prevent global pollution for namespaces
-    exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
-    // bind timers to global for call from export context
-    : IS_BIND && own ? ctx(out, global)
-    // wrap global constructors for prevent change them in library
-    : IS_WRAP && target[key] == out ? (function(C){
-      var F = function(a, b, c){
-        if(this instanceof C){
-          switch(arguments.length){
-            case 0: return new C;
-            case 1: return new C(a);
-            case 2: return new C(a, b);
-          } return new C(a, b, c);
-        } return C.apply(this, arguments);
-      };
-      F[PROTOTYPE] = C[PROTOTYPE];
-      return F;
-    // make static versions for prototype methods
-    })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
-    // export proto methods to core.%CONSTRUCTOR%.methods.%NAME%
-    if(IS_PROTO){
-      (exports.virtual || (exports.virtual = {}))[key] = out;
-      // export proto methods to core.%CONSTRUCTOR%.prototype.%NAME%
-      if(type & $export.R && expProto && !expProto[key])hide(expProto, key, out);
-    }
-  }
-};
-// type bitmap
-$export.F = 1;   // forced
-$export.G = 2;   // global
-$export.S = 4;   // static
-$export.P = 8;   // proto
-$export.B = 16;  // bind
-$export.W = 32;  // wrap
-$export.U = 64;  // safe
-$export.R = 128; // real proto method for `library` 
-module.exports = $export;
-
-/***/ }),
-
-/***/ 181:
-/***/ (function(module, exports) {
-
-// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
-var global = module.exports = typeof window != 'undefined' && window.Math == Math
-  ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
-if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
-
-/***/ }),
-
-/***/ 182:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = !__webpack_require__(138) && !__webpack_require__(166)(function(){
-  return Object.defineProperty(__webpack_require__(324)('div'), 'a', {get: function(){ return 7; }}).a != 7;
-});
-
-/***/ }),
-
-/***/ 183:
-/***/ (function(module, exports, __webpack_require__) {
-
-var anObject       = __webpack_require__(320)
-  , IE8_DOM_DEFINE = __webpack_require__(182)
-  , toPrimitive    = __webpack_require__(186)
-  , dP             = Object.defineProperty;
-
-exports.f = __webpack_require__(138) ? Object.defineProperty : function defineProperty(O, P, Attributes){
-  anObject(O);
-  P = toPrimitive(P, true);
-  anObject(Attributes);
-  if(IE8_DOM_DEFINE)try {
-    return dP(O, P, Attributes);
-  } catch(e){ /* empty */ }
-  if('get' in Attributes || 'set' in Attributes)throw TypeError('Accessors not supported!');
-  if('value' in Attributes)O[P] = Attributes.value;
-  return O;
-};
-
-/***/ }),
-
-/***/ 184:
-/***/ (function(module, exports) {
-
-module.exports = function(bitmap, value){
-  return {
-    enumerable  : !(bitmap & 1),
-    configurable: !(bitmap & 2),
-    writable    : !(bitmap & 4),
-    value       : value
-  };
-};
-
-/***/ }),
-
-/***/ 185:
-/***/ (function(module, exports, __webpack_require__) {
-
-// to indexed object, toObject with fallback for non-array-like ES3 strings
-var IObject = __webpack_require__(327)
-  , defined = __webpack_require__(323);
-module.exports = function(it){
-  return IObject(defined(it));
-};
-
-/***/ }),
-
-/***/ 186:
-/***/ (function(module, exports, __webpack_require__) {
-
-// 7.1.1 ToPrimitive(input [, PreferredType])
-var isObject = __webpack_require__(167);
-// instead of the ES6 spec version, we didn't implement @@toPrimitive case
-// and the second argument - flag - preferred type is a string
-module.exports = function(it, S){
-  if(!isObject(it))return it;
-  var fn, val;
-  if(S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
-  if(typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it)))return val;
-  if(!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
-  throw TypeError("Can't convert object to primitive value");
-};
-
-/***/ }),
-
-/***/ 19:
+/***/ 18:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -888,6 +736,158 @@ function academicYearForDate(date) {
 		endDate: endDate
 	};
 }
+
+/***/ }),
+
+/***/ 180:
+/***/ (function(module, exports, __webpack_require__) {
+
+var global    = __webpack_require__(181)
+  , core      = __webpack_require__(158)
+  , ctx       = __webpack_require__(322)
+  , hide      = __webpack_require__(326)
+  , PROTOTYPE = 'prototype';
+
+var $export = function(type, name, source){
+  var IS_FORCED = type & $export.F
+    , IS_GLOBAL = type & $export.G
+    , IS_STATIC = type & $export.S
+    , IS_PROTO  = type & $export.P
+    , IS_BIND   = type & $export.B
+    , IS_WRAP   = type & $export.W
+    , exports   = IS_GLOBAL ? core : core[name] || (core[name] = {})
+    , expProto  = exports[PROTOTYPE]
+    , target    = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE]
+    , key, own, out;
+  if(IS_GLOBAL)source = name;
+  for(key in source){
+    // contains in native
+    own = !IS_FORCED && target && target[key] !== undefined;
+    if(own && key in exports)continue;
+    // export native or passed
+    out = own ? target[key] : source[key];
+    // prevent global pollution for namespaces
+    exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
+    // bind timers to global for call from export context
+    : IS_BIND && own ? ctx(out, global)
+    // wrap global constructors for prevent change them in library
+    : IS_WRAP && target[key] == out ? (function(C){
+      var F = function(a, b, c){
+        if(this instanceof C){
+          switch(arguments.length){
+            case 0: return new C;
+            case 1: return new C(a);
+            case 2: return new C(a, b);
+          } return new C(a, b, c);
+        } return C.apply(this, arguments);
+      };
+      F[PROTOTYPE] = C[PROTOTYPE];
+      return F;
+    // make static versions for prototype methods
+    })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
+    // export proto methods to core.%CONSTRUCTOR%.methods.%NAME%
+    if(IS_PROTO){
+      (exports.virtual || (exports.virtual = {}))[key] = out;
+      // export proto methods to core.%CONSTRUCTOR%.prototype.%NAME%
+      if(type & $export.R && expProto && !expProto[key])hide(expProto, key, out);
+    }
+  }
+};
+// type bitmap
+$export.F = 1;   // forced
+$export.G = 2;   // global
+$export.S = 4;   // static
+$export.P = 8;   // proto
+$export.B = 16;  // bind
+$export.W = 32;  // wrap
+$export.U = 64;  // safe
+$export.R = 128; // real proto method for `library` 
+module.exports = $export;
+
+/***/ }),
+
+/***/ 181:
+/***/ (function(module, exports) {
+
+// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+var global = module.exports = typeof window != 'undefined' && window.Math == Math
+  ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
+if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
+
+/***/ }),
+
+/***/ 182:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = !__webpack_require__(138) && !__webpack_require__(166)(function(){
+  return Object.defineProperty(__webpack_require__(324)('div'), 'a', {get: function(){ return 7; }}).a != 7;
+});
+
+/***/ }),
+
+/***/ 183:
+/***/ (function(module, exports, __webpack_require__) {
+
+var anObject       = __webpack_require__(320)
+  , IE8_DOM_DEFINE = __webpack_require__(182)
+  , toPrimitive    = __webpack_require__(186)
+  , dP             = Object.defineProperty;
+
+exports.f = __webpack_require__(138) ? Object.defineProperty : function defineProperty(O, P, Attributes){
+  anObject(O);
+  P = toPrimitive(P, true);
+  anObject(Attributes);
+  if(IE8_DOM_DEFINE)try {
+    return dP(O, P, Attributes);
+  } catch(e){ /* empty */ }
+  if('get' in Attributes || 'set' in Attributes)throw TypeError('Accessors not supported!');
+  if('value' in Attributes)O[P] = Attributes.value;
+  return O;
+};
+
+/***/ }),
+
+/***/ 184:
+/***/ (function(module, exports) {
+
+module.exports = function(bitmap, value){
+  return {
+    enumerable  : !(bitmap & 1),
+    configurable: !(bitmap & 2),
+    writable    : !(bitmap & 4),
+    value       : value
+  };
+};
+
+/***/ }),
+
+/***/ 185:
+/***/ (function(module, exports, __webpack_require__) {
+
+// to indexed object, toObject with fallback for non-array-like ES3 strings
+var IObject = __webpack_require__(327)
+  , defined = __webpack_require__(323);
+module.exports = function(it){
+  return IObject(defined(it));
+};
+
+/***/ }),
+
+/***/ 186:
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.1.1 ToPrimitive(input [, PreferredType])
+var isObject = __webpack_require__(167);
+// instead of the ES6 spec version, we didn't implement @@toPrimitive case
+// and the second argument - flag - preferred type is a string
+module.exports = function(it, S){
+  if(!isObject(it))return it;
+  var fn, val;
+  if(S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
+  if(typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it)))return val;
+  if(!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
+  throw TypeError("Can't convert object to primitive value");
+};
 
 /***/ }),
 
@@ -2181,26 +2181,27 @@ Url.prototype.parseHost = function() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_twix___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_twix__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants_js__ = __webpack_require__(35);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__date_utils_js__ = __webpack_require__(19);
-/* harmony export (immutable) */ __webpack_exports__["m"] = unlimitTableEvals;
-/* harmony export (immutable) */ __webpack_exports__["n"] = unlimitRestTableEvals;
-/* harmony export (immutable) */ __webpack_exports__["k"] = createDateCell;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__date_utils_js__ = __webpack_require__(18);
+/* harmony export (immutable) */ __webpack_exports__["n"] = unlimitTableEvals;
+/* harmony export (immutable) */ __webpack_exports__["o"] = unlimitRestTableEvals;
+/* harmony export (immutable) */ __webpack_exports__["l"] = createDateCell;
 /* harmony export (immutable) */ __webpack_exports__["b"] = createDateTimeCell;
-/* harmony export (immutable) */ __webpack_exports__["d"] = createDateRangeCell;
-/* harmony export (immutable) */ __webpack_exports__["j"] = renderDateCell;
+/* harmony export (immutable) */ __webpack_exports__["e"] = createDateRangeCell;
+/* harmony export (immutable) */ __webpack_exports__["k"] = renderDateCell;
 /* harmony export (immutable) */ __webpack_exports__["a"] = renderDateTimeCell;
-/* harmony export (immutable) */ __webpack_exports__["c"] = renderDateRangeCell;
-/* harmony export (immutable) */ __webpack_exports__["o"] = renderAccountStatus;
-/* harmony export (immutable) */ __webpack_exports__["g"] = renderEvaluationStatus;
-/* harmony export (immutable) */ __webpack_exports__["i"] = renderTrainingLevel;
-/* harmony export (immutable) */ __webpack_exports__["p"] = renderSecondaryTrainingLevel;
-/* harmony export (immutable) */ __webpack_exports__["l"] = renderIdToEvalUrl;
-/* harmony export (immutable) */ __webpack_exports__["e"] = renderSubjectEvalUrl;
-/* harmony export (immutable) */ __webpack_exports__["f"] = renderEvaluatorEvalUrl;
-/* harmony export (immutable) */ __webpack_exports__["q"] = renderNewTag;
-/* harmony export (immutable) */ __webpack_exports__["h"] = renderSubjectCell;
-/* harmony export (immutable) */ __webpack_exports__["r"] = createEditAndDeleteButtons;
-/* harmony export (immutable) */ __webpack_exports__["s"] = getDataAttributes;
+/* harmony export (immutable) */ __webpack_exports__["d"] = renderDateRangeCell;
+/* harmony export (immutable) */ __webpack_exports__["p"] = renderAccountStatus;
+/* harmony export (immutable) */ __webpack_exports__["c"] = getEvaluationStatusLabel;
+/* harmony export (immutable) */ __webpack_exports__["h"] = renderEvaluationStatus;
+/* harmony export (immutable) */ __webpack_exports__["j"] = renderTrainingLevel;
+/* harmony export (immutable) */ __webpack_exports__["q"] = renderSecondaryTrainingLevel;
+/* harmony export (immutable) */ __webpack_exports__["m"] = renderIdToEvalUrl;
+/* harmony export (immutable) */ __webpack_exports__["f"] = renderSubjectEvalUrl;
+/* harmony export (immutable) */ __webpack_exports__["g"] = renderEvaluatorEvalUrl;
+/* harmony export (immutable) */ __webpack_exports__["r"] = renderNewTag;
+/* harmony export (immutable) */ __webpack_exports__["i"] = renderSubjectCell;
+/* harmony export (immutable) */ __webpack_exports__["s"] = createEditAndDeleteButtons;
+/* harmony export (immutable) */ __webpack_exports__["t"] = getDataAttributes;
 
 
 
@@ -2279,28 +2280,26 @@ function renderAccountStatus(status) {
 	return '<span class="label ' + labelContext + '">' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["c" /* ucfirst */])(status) + '</span>';
 }
 
-function renderEvaluationStatus(status) {
-	var labelContext = void 0;
+function getEvaluationStatusLabel(status) {
 	switch (status) {
 		case 'complete':
-			labelContext = 'label-success';
-			break;
+			return 'label-success';
 		case 'disabled':
 		case 'canceled by admin':
 		case 'canceled by faculty':
 		case 'canceled by resident':
 		case 'canceled by fellow':
 		case 'canceled by staff':
-			labelContext = 'label-danger';
-			break;
+			return 'label-danger';
 		case 'pending':
-			labelContext = 'label-warning';
-			break;
+			return 'label-warning';
 		default:
-			labelContext = 'label-default';
-			break;
+			return 'label-default';
 	}
-	return '<span class="label ' + labelContext + '">' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["c" /* ucfirst */])(status) + '</span>';
+}
+
+function renderEvaluationStatus(status) {
+	return '<span class="label ' + getEvaluationStatusLabel(status) + '">\n\t\t\t' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["c" /* ucfirst */])(status) + '\n\t\t</span>';
 }
 
 function renderTrainingLevel(trainingLevel) {
@@ -2400,31 +2399,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "generateCaseLogDetailsReportCharts", function() { return __WEBPACK_IMPORTED_MODULE_0__case_log_details_schema_js__["d"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "generateCaseLogLocationReportTable", function() { return __WEBPACK_IMPORTED_MODULE_0__case_log_details_schema_js__["e"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__ = __webpack_require__(20);
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "unlimitTableEvals", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["m"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "unlimitRestTableEvals", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["n"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "createDateCell", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["k"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "unlimitTableEvals", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["n"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "unlimitRestTableEvals", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["o"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "createDateCell", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["l"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "createDateTimeCell", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["b"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "createDateRangeCell", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["d"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "renderDateCell", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["j"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "createDateRangeCell", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["e"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "renderDateCell", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["k"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "renderDateTimeCell", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["a"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "renderDateRangeCell", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["c"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "renderAccountStatus", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["o"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "renderEvaluationStatus", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["g"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "renderTrainingLevel", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["i"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "renderSecondaryTrainingLevel", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["p"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "renderIdToEvalUrl", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["l"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "renderSubjectEvalUrl", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["e"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "renderEvaluatorEvalUrl", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["f"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "renderNewTag", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["q"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "renderSubjectCell", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["h"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "createEditAndDeleteButtons", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["r"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "getDataAttributes", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["s"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "renderDateRangeCell", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["d"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "renderAccountStatus", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["p"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "getEvaluationStatusLabel", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["c"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "renderEvaluationStatus", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["h"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "renderTrainingLevel", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["j"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "renderSecondaryTrainingLevel", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["q"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "renderIdToEvalUrl", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["m"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "renderSubjectEvalUrl", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["f"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "renderEvaluatorEvalUrl", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["g"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "renderNewTag", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["r"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "renderSubjectCell", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["i"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "createEditAndDeleteButtons", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["s"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "getDataAttributes", function() { return __WEBPACK_IMPORTED_MODULE_1__datatable_utils_js__["t"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js__ = __webpack_require__(3);
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "appendAlert", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["w"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ucfirst", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["c"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "camelCaseToWords", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["k"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "snakeCaseToWords", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["p"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "kebabCaseToWords", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["o"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "snakeCaseToWords", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["l"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "kebabCaseToWords", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["q"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "nl2br", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["x"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "escapeCsv", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["i"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "getFetchHeaders", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["a"]; });
@@ -2434,14 +2434,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchMilestones", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["t"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "groupMilestones", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["v"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchUserGroups", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["y"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchUsers", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["n"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "groupUsers", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["l"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchUsers", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["p"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "groupUsers", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["n"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchForms", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["z"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "fetchFormGroups", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["s"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "groupForms", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["m"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "groupForms", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["o"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortSelect2Objects", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["e"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortEmptyLast", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["A"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortNumbers", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["q"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortNumbers", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["m"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortPropNumbers", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["h"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortIgnoreCase", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["j"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "sortPropIgnoreCase", function() { return __WEBPACK_IMPORTED_MODULE_2__utils_js__["f"]; });
@@ -11943,8 +11943,8 @@ module.exports = function(Chart) {
 /* harmony export (immutable) */ __webpack_exports__["w"] = appendAlert;
 /* harmony export (immutable) */ __webpack_exports__["c"] = ucfirst;
 /* harmony export (immutable) */ __webpack_exports__["k"] = camelCaseToWords;
-/* harmony export (immutable) */ __webpack_exports__["p"] = snakeCaseToWords;
-/* harmony export (immutable) */ __webpack_exports__["o"] = kebabCaseToWords;
+/* harmony export (immutable) */ __webpack_exports__["l"] = snakeCaseToWords;
+/* harmony export (immutable) */ __webpack_exports__["q"] = kebabCaseToWords;
 /* harmony export (immutable) */ __webpack_exports__["x"] = nl2br;
 /* harmony export (immutable) */ __webpack_exports__["i"] = escapeCsv;
 /* harmony export (immutable) */ __webpack_exports__["a"] = getFetchHeaders;
@@ -11954,14 +11954,14 @@ module.exports = function(Chart) {
 /* harmony export (immutable) */ __webpack_exports__["t"] = fetchMilestones;
 /* harmony export (immutable) */ __webpack_exports__["v"] = groupMilestones;
 /* harmony export (immutable) */ __webpack_exports__["y"] = fetchUserGroups;
-/* harmony export (immutable) */ __webpack_exports__["n"] = fetchUsers;
-/* harmony export (immutable) */ __webpack_exports__["l"] = groupUsers;
+/* harmony export (immutable) */ __webpack_exports__["p"] = fetchUsers;
+/* harmony export (immutable) */ __webpack_exports__["n"] = groupUsers;
 /* harmony export (immutable) */ __webpack_exports__["z"] = fetchForms;
 /* harmony export (immutable) */ __webpack_exports__["s"] = fetchFormGroups;
-/* harmony export (immutable) */ __webpack_exports__["m"] = groupForms;
+/* harmony export (immutable) */ __webpack_exports__["o"] = groupForms;
 /* harmony export (immutable) */ __webpack_exports__["e"] = sortSelect2Objects;
 /* harmony export (immutable) */ __webpack_exports__["A"] = sortEmptyLast;
-/* harmony export (immutable) */ __webpack_exports__["q"] = sortNumbers;
+/* harmony export (immutable) */ __webpack_exports__["m"] = sortNumbers;
 /* harmony export (immutable) */ __webpack_exports__["h"] = sortPropNumbers;
 /* harmony export (immutable) */ __webpack_exports__["j"] = sortIgnoreCase;
 /* harmony export (immutable) */ __webpack_exports__["f"] = sortPropIgnoreCase;

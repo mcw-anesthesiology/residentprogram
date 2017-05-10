@@ -2431,7 +2431,7 @@ module.exports = isArray;
 
 /***/ }),
 
-/***/ 18:
+/***/ 19:
 /***/ (function(module, exports) {
 
 /**
@@ -2737,7 +2737,7 @@ module.exports = isBuffer;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(8),
-    isObject = __webpack_require__(18);
+    isObject = __webpack_require__(19);
 
 /** `Object#toString` result references. */
 var asyncTag = '[object AsyncFunction]',
@@ -3693,7 +3693,7 @@ module.exports = baseIsEqualDeep;
 
 var isFunction = __webpack_require__(27),
     isMasked = __webpack_require__(75),
-    isObject = __webpack_require__(18),
+    isObject = __webpack_require__(19),
     toSource = __webpack_require__(24);
 
 /**
