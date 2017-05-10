@@ -99,4 +99,5 @@ Route::post('report/stats/{evaluationType}/{userType}', 'ReportController@getSta
 // TODO: Change url?
 Route::get('faculty360', 'FacultyPeerEvaluationController@request');
 Route::post('faculty360', 'FacultyPeerEvaluationController@createEvaluation');
+Route::get('faculty360/view/{id}', 'FacultyPeerEvaluationController@view');
 Route::get('faculty360/evaluate/{hash}', 'FacultyPeerEvaluationController@evaluate');

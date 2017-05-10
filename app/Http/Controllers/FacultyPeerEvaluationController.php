@@ -9,6 +9,7 @@ use Carbon\Carbon;
 
 use App\FacultyPeerEvaluation;
 use App\FacultyPeerForm;
+use App\Milestone;
 use App\User;
 
 use Auth;
@@ -35,7 +36,7 @@ class FacultyPeerEvaluationController extends Controller
 		$this->middleware(function ($request, $next) {
 			try {
 				$eval = FacultyPeerEvaluation::findOrFail(
-					Hashids::decode($request->route()->parameters()['id']));
+					Hashids::decode($request->route()->parameters()['id'])[0]);
 
 				if (
 					Auth::check()
@@ -51,6 +52,7 @@ class FacultyPeerEvaluationController extends Controller
 					? response('Not found', 404)
 					: back()->with('error', 'No evaluation found for given identifier');
 			} catch (\Exception $e) {
+				Log::debug($e);
 				return $request->ajax()
 					? response('Error', 500)
 					: back()->with('error', 'There was a problem viewing the evaluation');
@@ -61,6 +63,9 @@ class FacultyPeerEvaluationController extends Controller
 				: back()->with('error', 'You are not allowed to view that faculty 360 evaluation');
 
 		})->only('view');
+
+		$this->middleware('auth')->only('view');
+		$this->middleware('shared')->only('view');
 	}
 
 	public function request() {
@@ -119,10 +124,26 @@ class FacultyPeerEvaluationController extends Controller
 	}
 
 	public function view(Request $request, $id) {
-		$evaluation = FacultyPeerEvaluation::findOrFail(Hashids::decode($id));
+		try {
+			$evaluation = FacultyPeerEvaluation::with('form')
+				->where('id', Hashids::decode($id)[0])
+				->where('status', 'complete')
+				->firstOrFail();
 
-		$data = compact('evaluation');
+			if (Auth::id() == $evaluation->subject_id) {
+				$evaluation->seen_by_subject_at = Carbon::now();
+				$evaluation->save();
+			}
 
-		return view('faculty360.view', $data);
+			$evaluation->hideFields();
+
+			$data = compact('evaluation');
+
+			return view('faculty360.view', $data);
+		} catch (\Exception $e) {
+			// Nothing to do
+		}
+
+		return back()->with('error', "The faculty360 evaluation does not exist or you don't have permission to view it");
 	}
 }

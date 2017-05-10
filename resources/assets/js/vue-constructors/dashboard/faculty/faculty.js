@@ -10,7 +10,7 @@ import {
 } from 'modules/datatable-utils.js';
 
 export default function createFacultyFacultyDashboard(el, propsData){
-	
+
 	return new Vue({
 		el,
 		props: {
@@ -25,7 +25,7 @@ export default function createFacultyFacultyDashboard(el, propsData){
 			};
 		},
 		propsData,
-		
+
 		computed: {
 			facultyEvalsThead(){
 				return [[
@@ -67,9 +67,46 @@ export default function createFacultyFacultyDashboard(el, propsData){
 						$(row).addClass('view-evaluation');
 					}
 				};
+			},
+
+			faculty360Thead() {
+				return [[
+					'#',
+					'Evaluation form',
+					'Academic year'
+				]];
+			},
+			faculty360Config() {
+				return {
+					ajax: {
+						url: '/faculty360/evaluations',
+						data: {
+							with: {
+								form: [
+									'title'
+								]
+							},
+							subject_id: this.user.id
+						},
+						dataSrc: ''
+					},
+					columns: [
+						{data: 'url', render: renderSubjectEvalUrl},
+						{data: 'form.title'},
+						{
+							data: null,
+							render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+							createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+						}
+					],
+					order: [[0, 'desc']],
+					createdRow(row){
+						$(row).addClass('view-evaluation');
+					}
+				};
 			}
 		},
-		
+
 		components: {
 			AlertList,
 			AcademicYearEvaluationDataTable
