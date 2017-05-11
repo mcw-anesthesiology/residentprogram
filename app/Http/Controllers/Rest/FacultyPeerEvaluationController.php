@@ -111,6 +111,33 @@ class FacultyPeerEvaluationController extends RestController
 				: redirect('dashboard')->with('error', 'You are not currently allowed to create a Faculty 360 evaluation');
 		})->only(['save', 'submit']);
 
+		$this->middleware(function ($request, $next) {
+			try {
+				$hash = $request->route()->parameters()['hash'];
+				$eval = FacultyPeerEvaluation::byHash($hash)->firstOrFail();
+				if (self::validateContents(
+					$request->input('contents'),
+					$eval->form->contents
+				))
+					return $next($request);
+
+			} catch (ModelNotFoundException $e) {
+				return $request->ajax()
+				? response('Unable to find evaluation with given identifier', 404)
+				: back()->with('error', 'Unable to find form contents with given identifier');
+			} catch (\Exception $e) {
+				Log::debug($e);
+				$adminEmail = config('app.admin_email');
+				return $request->ajax()
+					? response('Problem validating contents', 500)
+					: back()->with('error', "There was a problem validating the evaluation contents. If this continues to happen please let me know at {$adminEmail}");
+			}
+
+			return $request->ajax()
+				? response('Contents do not validate', 400)
+				: back()->with('error', 'Form contents do not validate, please try again');
+		})->only(['save', 'submit']);
+
 		$this->middleware('auth')->only(['sendHash', 'update']);
 		$this->middleware('type:admin')->only(['sendHash', 'update']);
 	}
@@ -247,6 +274,91 @@ class FacultyPeerEvaluationController extends RestController
 			: response()->json([
 				'status' => 'failed'
 			], 500);
+	}
+
+	private static function validateContents($evalContents, $formContents) {
+		if (
+			empty($formContents)
+			|| empty($evalContents)
+			|| empty($formContents['items'])
+			|| empty($evalContents['items'])
+		)
+			return false;
+
+		try {
+			if (count($formContents['items']) != count($evalContents['items']))
+				return false;
+
+			foreach ($formContents['items'] as $index => $formItem) {
+				$evalItem = $evalContents['items'][$index];
+
+				foreach ($formItem as $itemKey => $formValue) {
+					if ($itemKey == 'text') {
+						if (!self::validateQuestionText($evalItem[$itemKey], $formValue))
+							return false;
+					} elseif (
+						$formItem['type'] == 'question'
+						&& in_array($formItem['questionType'], [
+							'radio',
+							'radiononnumeric',
+							'checkbox'
+						])
+						&& $itemKey == 'options'
+					) {
+						foreach ($formItem['options'] as $optionIndex => $formOption) {
+							$evalOption = $evalItem['options'][$optionIndex];
+
+							foreach ($formOption as $optionKey => $formOptionValue) {
+								if (
+									empty($evalOption[$optionKey]) != empty($formOptionValue)
+									|| $evalOption[$optionKey] != $formOptionValue
+								)
+									return false;
+							}
+						}
+					} else {
+						if (
+							empty($evalItem[$itemKey]) != empty($formValue)
+							|| $evalItem[$itemKey] != $formValue
+						)
+							return false;
+					}
+
+					if ($evalItem['type'] == 'question' && !empty($evalItem['required'])) {
+						if (in_array($evalItem['questionType'], [
+							'radio',
+							'radiononnumeric'
+						])) {
+							$optionChecked = false;
+
+							foreach ($evalItem['options'] as $evalOption) {
+								if (!empty($evalOption['checked']))
+									$optionChecked = true;
+							}
+
+							if (!$optionChecked)
+								return false;
+						} elseif ($evalItem['questionType'] != 'checkbox') {
+							if (empty($evalItem['value']))
+								return false;
+						}
+					}
+				}
+			}
+		} catch (\Exception $e) {
+			Log::debug($e);
+			return false;
+		}
+
+		return true;
+	}
+
+	private static function validateQuestionText($evalText, $formText) {
+		if (strpos($formText, '{{') !== false && strpos($formText, '}}') !== false) {
+			return true; // FIXME
+		}
+
+		return $evalText == $formText;
 	}
 
 	private static function emailValid($email) {
