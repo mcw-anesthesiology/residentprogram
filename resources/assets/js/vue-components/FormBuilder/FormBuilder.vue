@@ -231,8 +231,11 @@ export default {
 			this.adjustQuestionIdNums();
 		},
 		adjustQuestionIdNums() {
-			this.items = this.items.map((item, index) =>
-				Object.assign({}, item, {questionIdNum: index + 1})
+			let num = 1;
+			this.items = this.items.map(item =>
+				item.type === 'question'
+					? Object.assign({}, item, {questionIdNum: num++})
+					: Object.assign({}, item)
 			);
 			this.nextQuestionIdNum = this.items.length;
 		},
