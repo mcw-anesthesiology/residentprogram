@@ -20,6 +20,7 @@
 				Save
 			</button>
 			<button type="button" class="btn btn-lg btn-primary"
+					:disabled="!formIsValid"
 					@click="handleSubmit">
 				Submit
 			</button>
@@ -48,6 +49,33 @@ export default {
 		}
 	},
 
+	computed: {
+		formIsValid() {
+			if (this.readonly)
+				return;
+
+			for (let item of this.contents.items) {
+				if (item.type === 'question' && item.required) {
+					if (['radio', 'radiononnumeric'].includes(item.questionType)) {
+						let optionChecked = false;
+						for (let option of item.options) {
+							if (option.checked)
+								optionChecked = true;
+						}
+
+						if (!optionChecked)
+							return false;
+					} else if (item.questionType !== 'checkbox') {
+						if (!item.value)
+							return false;
+					}
+				}
+			}
+
+			return true;
+		}
+	},
+
 	methods: {
 		snarkdown,
 		handleInput(index, question) {
@@ -66,7 +94,7 @@ export default {
 				});
 		},
 		handleSubmit() {
-			if (!this.readonly)
+			if (!this.readonly && this.formIsValid)
 				this.$emit('submit', {
 					contents: this.contents
 				});

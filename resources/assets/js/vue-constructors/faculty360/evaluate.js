@@ -7,7 +7,14 @@ import {
 	getFetchHeaders,
 	jsonOrThrow
 } from 'modules/utils.js';
+import { processQuestionTemplates } from 'modules/evaluation-utils.js';
 import { ADMIN_EMAIL } from 'modules/constants.js';
+
+const questionTemplates = new Map([
+	['{{ subject_name }}', evaluation => evaluation.subject.full_name],
+	['{{ subject_first }}', evaluation => evaluation.subject.first_name],
+	['{{ subject_last }}', evaluation => evaluation.subject.last_name]
+]);
 
 export default function createFaculty360Evaluate(el, propsData) {
 	return new Vue({
@@ -20,7 +27,10 @@ export default function createFaculty360Evaluate(el, propsData) {
 		},
 		data() {
 			return {
-				contents: this.evaluation.contents,
+				contents: processQuestionTemplates(
+					this.evaluation,
+					questionTemplates
+				),
 
 				submitSuccessful: false,
 

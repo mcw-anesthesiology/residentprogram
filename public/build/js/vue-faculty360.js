@@ -5784,6 +5784,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -5805,6 +5806,71 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 
+	computed: {
+		formIsValid: function formIsValid() {
+			if (this.readonly) return;
+
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+
+			try {
+				for (var _iterator = this.contents.items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var item = _step.value;
+
+					if (item.type === 'question' && item.required) {
+						if (['radio', 'radiononnumeric'].includes(item.questionType)) {
+							var optionChecked = false;
+							var _iteratorNormalCompletion2 = true;
+							var _didIteratorError2 = false;
+							var _iteratorError2 = undefined;
+
+							try {
+								for (var _iterator2 = item.options[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+									var option = _step2.value;
+
+									if (option.checked) optionChecked = true;
+								}
+							} catch (err) {
+								_didIteratorError2 = true;
+								_iteratorError2 = err;
+							} finally {
+								try {
+									if (!_iteratorNormalCompletion2 && _iterator2.return) {
+										_iterator2.return();
+									}
+								} finally {
+									if (_didIteratorError2) {
+										throw _iteratorError2;
+									}
+								}
+							}
+
+							if (!optionChecked) return false;
+						} else if (item.questionType !== 'checkbox') {
+							if (!item.value) return false;
+						}
+					}
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator.return) {
+						_iterator.return();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
+			}
+
+			return true;
+		}
+	},
+
 	methods: {
 		snarkdown: __WEBPACK_IMPORTED_MODULE_1_snarkdown__["a" /* default */],
 		handleInput: function handleInput(index, question) {
@@ -5821,7 +5887,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			});
 		},
 		handleSubmit: function handleSubmit() {
-			if (!this.readonly) this.$emit('submit', {
+			if (!this.readonly && this.formIsValid) this.$emit('submit', {
 				contents: this.contents
 			});
 		}
@@ -5848,7 +5914,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\nh2[data-v-439e6c2c] {\n\tmargin-bottom: 2em;\n}\n.instruction-block[data-v-439e6c2c] {\n\tfont-size: 1.25em;\n\tpadding: 1.5em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormReader/FormReader.vue?e47133d4"],"names":[],"mappings":";AAkFA;CACA,mBAAA;CACA;AAEA;CACA,kBAAA;CACA,eAAA;CACA","file":"FormReader.vue","sourcesContent":["<template>\n\t<div>\n\t\t<h2 v-if=\"title\">\n\t\t\t{{ title }}\n\t\t</h2>\n\t\t<template v-for=\"(item, index) of contents.items\">\n\t\t\t<form-reader-question v-if=\"item.type === 'question'\"\n\t\t\t\tv-bind=\"item\"\n\t\t\t\t:readonly=\"readonly\"\n\t\t\t\t@input=\"handleInput(index, arguments[0])\" />\n\t\t\t<div v-if=\"item.type === 'instruction'\"\n\t\t\t\tclass=\"instruction-block\"\n\t\t\t\tv-html=\"snarkdown(item.text)\">\n\t\t\t</div>\n\t\t</template>\n\n\t\t<div v-if=\"!readonly\" class=\"btn-lg-submit-container\">\n\t\t\t<button type=\"button\" class=\"btn btn-lg btn-default\"\n\t\t\t\t\t@click=\"handleSave\">\n\t\t\t\tSave\n\t\t\t</button>\n\t\t\t<button type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t@click=\"handleSubmit\">\n\t\t\t\tSubmit\n\t\t\t</button>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport FormReaderQuestion from './FormReaderQuestion.vue';\n\nimport snarkdown from 'snarkdown';\n\nexport default {\n\tprops: {\n\t\ttitle: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t},\n\t\tcontents: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t},\n\t\treadonly: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t}\n\t},\n\n\tmethods: {\n\t\tsnarkdown,\n\t\thandleInput(index, question) {\n\t\t\tif (this.readonly)\n\t\t\t\treturn;\n\n\t\t\tlet items = this.contents.items.slice();\n\t\t\titems.splice(index, 1, Object.assign({}, this.contents.items[index], question));\n\t\t\tlet contents = Object.assign({}, contents, {items});\n\t\t\tthis.$emit('input', {contents});\n\t\t},\n\t\thandleSave() {\n\t\t\tif (!this.readonly)\n\t\t\t\tthis.$emit('save', {\n\t\t\t\t\tcontents: this.contents\n\t\t\t\t});\n\t\t},\n\t\thandleSubmit() {\n\t\t\tif (!this.readonly)\n\t\t\t\tthis.$emit('submit', {\n\t\t\t\t\tcontents: this.contents\n\t\t\t\t});\n\t\t}\n\t},\n\n\tcomponents: {\n\t\tFormReaderQuestion\n\t}\n};\n</script>\n\n<style scoped>\n\th2 {\n\t\tmargin-bottom: 2em;\n\t}\n\n\t.instruction-block {\n\t\tfont-size: 1.25em;\n\t\tpadding: 1.5em;\n\t}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, "\nh2[data-v-439e6c2c] {\n\tmargin-bottom: 2em;\n}\n.instruction-block[data-v-439e6c2c] {\n\tfont-size: 1.25em;\n\tpadding: 1.5em;\n}\n", "", {"version":3,"sources":["/home/mischka/projects/residentprogram/resources/assets/js/vue-components/FormReader/FormReader.vue?c8670962"],"names":[],"mappings":";AA8GA;CACA,mBAAA;CACA;AAEA;CACA,kBAAA;CACA,eAAA;CACA","file":"FormReader.vue","sourcesContent":["<template>\n\t<div>\n\t\t<h2 v-if=\"title\">\n\t\t\t{{ title }}\n\t\t</h2>\n\t\t<template v-for=\"(item, index) of contents.items\">\n\t\t\t<form-reader-question v-if=\"item.type === 'question'\"\n\t\t\t\tv-bind=\"item\"\n\t\t\t\t:readonly=\"readonly\"\n\t\t\t\t@input=\"handleInput(index, arguments[0])\" />\n\t\t\t<div v-if=\"item.type === 'instruction'\"\n\t\t\t\tclass=\"instruction-block\"\n\t\t\t\tv-html=\"snarkdown(item.text)\">\n\t\t\t</div>\n\t\t</template>\n\n\t\t<div v-if=\"!readonly\" class=\"btn-lg-submit-container\">\n\t\t\t<button type=\"button\" class=\"btn btn-lg btn-default\"\n\t\t\t\t\t@click=\"handleSave\">\n\t\t\t\tSave\n\t\t\t</button>\n\t\t\t<button type=\"button\" class=\"btn btn-lg btn-primary\"\n\t\t\t\t\t:disabled=\"!formIsValid\"\n\t\t\t\t\t@click=\"handleSubmit\">\n\t\t\t\tSubmit\n\t\t\t</button>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport FormReaderQuestion from './FormReaderQuestion.vue';\n\nimport snarkdown from 'snarkdown';\n\nexport default {\n\tprops: {\n\t\ttitle: {\n\t\t\ttype: String,\n\t\t\trequired: true\n\t\t},\n\t\tcontents: {\n\t\t\ttype: Object,\n\t\t\trequired: true\n\t\t},\n\t\treadonly: {\n\t\t\ttype: Boolean,\n\t\t\tdefault: false\n\t\t}\n\t},\n\n\tcomputed: {\n\t\tformIsValid() {\n\t\t\tif (this.readonly)\n\t\t\t\treturn;\n\n\t\t\tfor (let item of this.contents.items) {\n\t\t\t\tif (item.type === 'question' && item.required) {\n\t\t\t\t\tif (['radio', 'radiononnumeric'].includes(item.questionType)) {\n\t\t\t\t\t\tlet optionChecked = false;\n\t\t\t\t\t\tfor (let option of item.options) {\n\t\t\t\t\t\t\tif (option.checked)\n\t\t\t\t\t\t\t\toptionChecked = true;\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\tif (!optionChecked)\n\t\t\t\t\t\t\treturn false;\n\t\t\t\t\t} else if (item.questionType !== 'checkbox') {\n\t\t\t\t\t\tif (!item.value)\n\t\t\t\t\t\t\treturn false;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\n\t\t\treturn true;\n\t\t}\n\t},\n\n\tmethods: {\n\t\tsnarkdown,\n\t\thandleInput(index, question) {\n\t\t\tif (this.readonly)\n\t\t\t\treturn;\n\n\t\t\tlet items = this.contents.items.slice();\n\t\t\titems.splice(index, 1, Object.assign({}, this.contents.items[index], question));\n\t\t\tlet contents = Object.assign({}, contents, {items});\n\t\t\tthis.$emit('input', {contents});\n\t\t},\n\t\thandleSave() {\n\t\t\tif (!this.readonly)\n\t\t\t\tthis.$emit('save', {\n\t\t\t\t\tcontents: this.contents\n\t\t\t\t});\n\t\t},\n\t\thandleSubmit() {\n\t\t\tif (!this.readonly && this.formIsValid)\n\t\t\t\tthis.$emit('submit', {\n\t\t\t\t\tcontents: this.contents\n\t\t\t\t});\n\t\t}\n\t},\n\n\tcomponents: {\n\t\tFormReaderQuestion\n\t}\n};\n</script>\n\n<style scoped>\n\th2 {\n\t\tmargin-bottom: 2em;\n\t}\n\n\t.instruction-block {\n\t\tfont-size: 1.25em;\n\t\tpadding: 1.5em;\n\t}\n</style>\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -5897,7 +5963,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("\n\t\t\tSave\n\t\t")]), _vm._v(" "), _c('button', {
     staticClass: "btn btn-lg btn-primary",
     attrs: {
-      "type": "button"
+      "type": "button",
+      "disabled": !_vm.formIsValid
     },
     on: {
       "click": _vm.handleSubmit
@@ -6165,7 +6232,8 @@ function createFaculty360Request(el, propsData) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_FormReader_FormReader_vue__ = __webpack_require__(150);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_FormReader_FormReader_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_FormReader_FormReader_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_constants_js__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_evaluation_utils_js__ = __webpack_require__(528);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__ = __webpack_require__(35);
 /* harmony export (immutable) */ __webpack_exports__["a"] = createFaculty360Evaluate;
 
 
@@ -6174,6 +6242,15 @@ function createFaculty360Request(el, propsData) {
 
 
 
+
+
+var questionTemplates = new Map([['{{ subject_name }}', function (evaluation) {
+	return evaluation.subject.full_name;
+}], ['{{ subject_first }}', function (evaluation) {
+	return evaluation.subject.first_name;
+}], ['{{ subject_last }}', function (evaluation) {
+	return evaluation.subject.last_name;
+}]]);
 
 function createFaculty360Evaluate(el, propsData) {
 	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
@@ -6186,7 +6263,7 @@ function createFaculty360Evaluate(el, propsData) {
 		},
 		data: function data() {
 			return {
-				contents: this.evaluation.contents,
+				contents: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_evaluation_utils_js__["a" /* processQuestionTemplates */])(this.evaluation, questionTemplates),
 
 				submitSuccessful: false,
 
@@ -6220,7 +6297,7 @@ function createFaculty360Evaluate(el, propsData) {
 					console.error(err);
 					_this.alerts.push({
 						type: 'error',
-						html: '<strong>Error:</strong> There was a problem\n\t\t\t\t\t\t\tsaving your progress. Please let me know at\n\t\t\t\t\t\t\t<a href="mailto:' + __WEBPACK_IMPORTED_MODULE_4__modules_constants_js__["a" /* ADMIN_EMAIL */] + '">\n\t\t\t\t\t\t\t\t' + __WEBPACK_IMPORTED_MODULE_4__modules_constants_js__["a" /* ADMIN_EMAIL */] + '\n\t\t\t\t\t\t\t</a>'
+						html: '<strong>Error:</strong> There was a problem\n\t\t\t\t\t\t\tsaving your progress. Please let me know at\n\t\t\t\t\t\t\t<a href="mailto:' + __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__["a" /* ADMIN_EMAIL */] + '">\n\t\t\t\t\t\t\t\t' + __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__["a" /* ADMIN_EMAIL */] + '\n\t\t\t\t\t\t\t</a>'
 					});
 				});
 				console.log(form);
@@ -6242,7 +6319,7 @@ function createFaculty360Evaluate(el, propsData) {
 					console.error(err);
 					_this2.alerts.push({
 						type: 'error',
-						html: '<strong>Error:</strong> There was a problem\n\t\t\t\t\t\t\tsubmitting the form. Please let me know at\n\t\t\t\t\t\t\t<a href="mailto:' + __WEBPACK_IMPORTED_MODULE_4__modules_constants_js__["a" /* ADMIN_EMAIL */] + '">\n\t\t\t\t\t\t\t\t' + __WEBPACK_IMPORTED_MODULE_4__modules_constants_js__["a" /* ADMIN_EMAIL */] + '\n\t\t\t\t\t\t\t</a>'
+						html: '<strong>Error:</strong> There was a problem\n\t\t\t\t\t\t\tsubmitting the form. Please let me know at\n\t\t\t\t\t\t\t<a href="mailto:' + __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__["a" /* ADMIN_EMAIL */] + '">\n\t\t\t\t\t\t\t\t' + __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__["a" /* ADMIN_EMAIL */] + '\n\t\t\t\t\t\t\t</a>'
 					});
 				});
 				console.log(form);
@@ -6634,6 +6711,68 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+
+/***/ }),
+/* 519 */,
+/* 520 */,
+/* 521 */,
+/* 522 */,
+/* 523 */,
+/* 524 */,
+/* 525 */,
+/* 526 */,
+/* 527 */,
+/* 528 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = processQuestionTemplates;
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+function processQuestionTemplates(evaluation, templates) {
+	if (!evaluation || !evaluation.contents || !evaluation.contents.items) return;
+
+	if (!templates || templates.size === 0) return evaluation.contents;
+
+	var items = evaluation.contents.items.map(function (item) {
+		item = Object.assign({}, item);
+
+		var _iteratorNormalCompletion = true;
+		var _didIteratorError = false;
+		var _iteratorError = undefined;
+
+		try {
+			for (var _iterator = templates[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+				var _ref = _step.value;
+
+				var _ref2 = _slicedToArray(_ref, 2);
+
+				var template = _ref2[0];
+				var replacementFunc = _ref2[1];
+
+				var replacement = replacementFunc(evaluation);
+				item.text = item.text.replace(template, replacement);
+			}
+		} catch (err) {
+			_didIteratorError = true;
+			_iteratorError = err;
+		} finally {
+			try {
+				if (!_iteratorNormalCompletion && _iterator.return) {
+					_iterator.return();
+				}
+			} finally {
+				if (_didIteratorError) {
+					throw _iteratorError;
+				}
+			}
+		}
+
+		return item;
+	});
+
+	return Object.assign({}, evaluation.contents, { items: items });
+}
 
 /***/ })
 ],[518]);

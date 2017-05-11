@@ -18,7 +18,7 @@
 				Evaluation submitted successfully, thank you!
 			</p>
 		</div>
-		<form-reader v-else v-bind="evaluation"
+		<form-reader v-else
 			:title="evaluation.form.title"
 			:contents="contents"
 			@input="handleInput"
