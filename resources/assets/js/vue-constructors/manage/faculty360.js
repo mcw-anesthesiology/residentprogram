@@ -6,7 +6,7 @@ import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
 import DataTable from 'vue-components/DataTable.vue';
 import RichDate from 'vue-components/RichDate.vue';
 import RichDateRange from 'vue-components/RichDateRange.vue';
-import StartEndDate from 'vue-components/StartEndDate.vue';
+import AcademicYearSelector from 'vue-components/AcademicYearSelector.vue';
 
 import FormBuilder from 'vue-components/FormBuilder/FormBuilder.vue';
 import FormReader from 'vue-components/FormReader/FormReader.vue';
@@ -262,7 +262,7 @@ export default function createManageFaculty360(el) {
 			DataTable,
 			RichDate,
 			RichDateRange,
-			StartEndDate,
+			AcademicYearSelector,
 
 			FormBuilder,
 			FormReader
