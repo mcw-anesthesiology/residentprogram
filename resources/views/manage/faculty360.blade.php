@@ -26,6 +26,10 @@
 			font-size: 0.85em;
 			color: rgba(0, 0, 0, 0.55);
 		}
+
+		.cancel-button-container {
+			margin-top: 1em;
+		}
 	</style>
 @stop
 
@@ -39,7 +43,7 @@
 			default-period-type="year"
 			@submit="handleFormSubmit">
 		</form-builder>
-		<div class="text-center">
+		<div class="cancel-button-container text-center">
 			<button type="button" class="btn btn-default"
 					@click="show.createForm = false">
 				Cancel
