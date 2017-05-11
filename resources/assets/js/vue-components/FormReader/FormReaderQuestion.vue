@@ -114,7 +114,9 @@ export default {
 			return this.options.some(option => option.description);
 		},
 		resettable() {
-			return this.isOptionQuestion && !this.required;
+			return !this.readonly
+				&& this.isOptionQuestion
+				&& !this.required;
 		},
 		showFooter() {
 			return this.hasDescriptions || this.resettable;
@@ -136,6 +138,9 @@ export default {
 	methods: {
 		ucfirst,
 		resetOptions() {
+			if (this.readonly)
+				return;
+
 			let options = this.options.map(option => Object.assign({}, option, {checked: false}));
 			this.$emit('input', {options});
 		},
