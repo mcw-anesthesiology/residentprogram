@@ -179,7 +179,14 @@
 	<div class="container body-block">
 		<h2 class="sub-header">Evaluations</h2>
 		<div class="row">
-			<start-end-date v-model="evaluationDates"></start-end-date>
+			<div class="form-group">
+				<label class="containing-label">
+					Evaluation date academic year
+					<academic-year-selector v-model="evaluationDates"
+						start-date="2017-05-01">
+					</academic-year-selector>
+				</label>
+			</div>
 		</div>
 		<component-list v-if="evaluations"
 				:items="evaluations"
