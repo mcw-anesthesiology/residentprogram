@@ -71,19 +71,39 @@
 		</div>
 		<div id="form-footer">
 			<alert-list v-model="alerts" />
-			<button type="button" class="btn btn-default"
-					id="add-instruction-block"
-					@click="addInstruction">
-				Add instruction block
-			</button>
-			<button type="button" class="btn btn-info" id="addQuestion"
-					@click="addQuestion">
-				Add question
-			</button>
-			<button type="submit" class="btn btn-success"
-					@click="submitForm">
-				Submit form
-			</button>
+			<div>
+				<button type="button" class="btn btn-default"
+						id="add-instruction-block"
+						@click="addInstruction">
+					<span class="glyphicon glyphicon-pencil"></span>
+					Add instruction block
+				</button>
+				<button type="button" class="btn btn-info" id="addQuestion"
+						@click="addQuestion">
+					<span class="glyphicon glyphicon-question-sign"></span>
+					Add question
+				</button>
+				<show-hide-button class="btn btn-default"
+						v-model="show.customOptionsEditor">
+					custom options editor
+				</show-hide-button>
+			</div>
+
+			<div v-if="show.customOptionsEditor"
+					class="custom-options-editor-container">
+				<textarea class="custom-options-editor form-control"
+					rows="10"
+					:value="customOptionsString"
+					@change="changeCustomOptions">
+				</textarea>
+			</div>
+
+			<div class="btn-lg-submit-container">
+				<confirmation-button class="btn btn-lg btn-primary"
+						@click="submitForm">
+					Submit form
+				</confirmation-button>
+			</div>
 		</div>
 	</div>
 </template>
@@ -92,6 +112,8 @@
 import FormBuilderInstruction from './FormBuilderInstruction.vue';
 import FormBuilderQuestion from './FormBuilderQuestion.vue';
 import AlertList from '../AlertList.vue';
+import ShowHideButton from '../ShowHideButton.vue';
+import ConfirmationButton from '../ConfirmationButton.vue';
 
 import { fetchMilestoneGroups } from 'modules/utils.js';
 
@@ -132,11 +154,15 @@ export default {
 			competencies: [],
 			items: [],
 			customOptions: [],
-			
+
+			show: {
+				customOptionsEditor: false
+			},
+
 			alerts: []
 		};
 	},
-	
+
 	mounted(){
 		if (this.showMilestonesCompetencies) {
 			fetchMilestoneGroups().then(milestoneGroups => {
@@ -157,10 +183,22 @@ export default {
 				this.competencies = competencies;
 			}).catch(err => {
 				console.error(err);
-			});			
+			});
 		}
 	},
-	
+
+	computed: {
+		customOptionsString() {
+			try {
+				return JSON.stringify(this.customOptions, null, 4);
+			} catch (e) {
+				console.error(e);
+			}
+
+			return 'ERROR DISPLAYING CUSTOM OPTIONS';
+		}
+	},
+
 	methods: {
 		addInstruction() {
 			this.items.push({
@@ -198,8 +236,22 @@ export default {
 			);
 			this.nextQuestionIdNum = this.items.length;
 		},
-		submitForm(event) {
-			event.preventDefault();
+		changeCustomOptions(event) {
+			try {
+				let customOptions = JSON.parse(event.target.value);
+				if (Array.isArray(customOptions))
+					this.customOptions = customOptions;
+				else
+					throw new Error('Not an array');
+			} catch (err) {
+				console.error(err);
+				this.alerts.push({
+					type: 'error',
+					text: 'Unable to set custom options'
+				});
+			}
+		},
+		submitForm() {
 			if (this.isFormValid()) {
 				this.$emit('submit', {
 					title: this.title,
@@ -295,7 +347,9 @@ export default {
 	components: {
 		FormBuilderInstruction,
 		FormBuilderQuestion,
-		AlertList
+		AlertList,
+		ShowHideButton,
+		ConfirmationButton
 	}
 };
 </script>
@@ -307,8 +361,15 @@ export default {
 		justify-content: center;
 		align-items: center;
 	}
-	
+
 	.form-item .form-block {
 		flex-grow: 1;
+	}
+
+	.custom-options-editor {
+		display: block;
+		margin: 1em auto;
+		font-family: monospace;
+		white-space: pre;
 	}
 </style>
