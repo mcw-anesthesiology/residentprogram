@@ -5145,12 +5145,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		isOptionQuestion: function isOptionQuestion() {
 			return ['radio', 'radiononnumeric', 'checkbox'].includes(this.questionType);
+		},
+		renderedText: function renderedText() {
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_snarkdown__["a" /* default */])(this.text.replace('{{', '`{{').replace('}}', '}}`'));
 		}
 	},
 
 	methods: {
 		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["a" /* ucfirst */],
-		snarkdown: __WEBPACK_IMPORTED_MODULE_0_snarkdown__["a" /* default */],
 		resetOptions: function resetOptions() {
 			var options = this.options.map(function (option) {
 				return Object.assign({}, option, { checked: false });
@@ -5499,7 +5501,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "question-title panel-title"
   }, [_c('b', [_vm._v(_vm._s(_vm.ucfirst(_vm.questionId)) + ": ")]), _vm._v(" "), _c('span', {
     domProps: {
-      "innerHTML": _vm._s(_vm.snarkdown(_vm.text))
+      "innerHTML": _vm._s(_vm.renderedText)
     }
   })])]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "question-body panel-body"
