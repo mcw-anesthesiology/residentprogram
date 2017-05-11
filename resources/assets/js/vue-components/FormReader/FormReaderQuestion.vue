@@ -3,7 +3,7 @@
 		<div v-if="text" class="question-header panel-heading">
 			<h3 class="question-title panel-title">
 				<b>{{ ucfirst(questionId) }}: </b>
-				<span v-html="snarkdown(text)"></span>
+				<span v-html="renderedText"></span>
 			</h3>
 		</div>
 
@@ -125,12 +125,16 @@ export default {
 				'radiononnumeric',
 				'checkbox'
 			].includes(this.questionType);
+		},
+		renderedText() {
+			return snarkdown(this.text
+				.replace('{{', '`{{')
+				.replace('}}', '}}`'));
 		}
 	},
 
 	methods: {
 		ucfirst,
-		snarkdown,
 		resetOptions() {
 			let options = this.options.map(option => Object.assign({}, option, {checked: false}));
 			this.$emit('input', {options});
