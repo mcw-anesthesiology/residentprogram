@@ -237,7 +237,7 @@ export default {
 					? Object.assign({}, item, {questionIdNum: num++})
 					: Object.assign({}, item)
 			);
-			this.nextQuestionIdNum = this.items.length;
+			this.nextQuestionIdNum = num;
 		},
 		changeCustomOptions(event) {
 			try {
