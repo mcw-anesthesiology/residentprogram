@@ -5017,7 +5017,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_snarkdown__ = __webpack_require__(108);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormReaderQuestionOption_vue__ = __webpack_require__(152);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FormReaderQuestionOption_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__FormReaderQuestionOption_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ShowHideButton_vue__ = __webpack_require__(114);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ShowHideButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__ShowHideButton_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__ = __webpack_require__(4);
 //
 //
 //
@@ -5064,6 +5066,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+
 
 
 
@@ -5120,14 +5125,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 	computed: {
+		hasResponse: function hasResponse() {
+			return this.isOptionQuestion ? this.options.some(function (option) {
+				return option.checked;
+			}) : this.value;
+		},
 		hasDescriptions: function hasDescriptions() {
-			var hasDescriptions = false;
+			if (!this.options) return false;
 
-			if (this.options) this.options.map(function (option) {
-				if (option.description) hasDescriptions = true;
+			return this.options.some(function (option) {
+				return option.description;
 			});
-
-			return hasDescriptions;
+		},
+		resettable: function resettable() {
+			return this.isOptionQuestion && !this.required;
+		},
+		showFooter: function showFooter() {
+			return this.hasDescriptions || this.resettable;
 		},
 		isOptionQuestion: function isOptionQuestion() {
 			return ['radio', 'radiononnumeric', 'checkbox'].includes(this.questionType);
@@ -5135,8 +5149,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 	methods: {
-		ucfirst: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["a" /* ucfirst */],
+		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["a" /* ucfirst */],
 		snarkdown: __WEBPACK_IMPORTED_MODULE_0_snarkdown__["a" /* default */],
+		resetOptions: function resetOptions() {
+			var options = this.options.map(function (option) {
+				return Object.assign({}, option, { checked: false });
+			});
+			this.$emit('input', { options: options });
+		},
 		handleOptionInput: function handleOptionInput(index, option) {
 			if (this.readonly) return;
 
@@ -5154,7 +5174,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 	components: {
-		FormReaderQuestionOption: __WEBPACK_IMPORTED_MODULE_1__FormReaderQuestionOption_vue___default.a
+		FormReaderQuestionOption: __WEBPACK_IMPORTED_MODULE_1__FormReaderQuestionOption_vue___default.a,
+		ShowHideButton: __WEBPACK_IMPORTED_MODULE_2__ShowHideButton_vue___default.a
 	}
 };
 
@@ -5526,24 +5547,27 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "input": _vm.handleInput
     }
-  }) : _vm._e()])], 2), _vm._v(" "), (_vm.hasDescriptions) ? _c('div', {
+  }) : _vm._e()])], 2), _vm._v(" "), (_vm.showFooter) ? _c('div', {
     staticClass: "question-footer panel-footer"
-  }, [_c('div', {
-    staticClass: "question-description-toggle"
-  }, [_c('button', {
+  }, [(_vm.hasDescriptions) ? _c('show-hide-button', {
     staticClass: "btn btn-info",
+    model: {
+      value: (_vm.showDescriptions),
+      callback: function($$v) {
+        _vm.showDescriptions = $$v
+      },
+      expression: "showDescriptions"
+    }
+  }, [_vm._v("\n\t\t\tdescriptions\n\t\t")]) : _vm._e(), _vm._v(" "), (_vm.resettable) ? _c('button', {
+    staticClass: "btn btn-default",
     attrs: {
-      "type": "button"
+      "type": "button",
+      "disabled": !_vm.hasResponse
     },
     on: {
-      "click": function($event) {
-        _vm.showDescriptions = !_vm.showDescriptions
-      }
+      "click": _vm.resetOptions
     }
-  }, [_c('span', {
-    staticClass: "glyphicon",
-    class: _vm.showDescriptions ? 'glyphicon-zoom-out' : 'glyphicon-zoom-in'
-  }), _vm._v("\n\t\t\t\t" + _vm._s(_vm.showDescriptions ? 'Hide descriptions' : 'Show descriptions') + "\n\t\t\t")])])]) : _vm._e()])
+  }, [_vm._v("\n\t\t\tReset response\n\t\t")]) : _vm._e()], 1) : _vm._e()])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

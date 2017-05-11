@@ -32,14 +32,16 @@
 			</div>
 		</div>
 
-		<div v-if="hasDescriptions" class="question-footer panel-footer">
-			<div class="question-description-toggle">
-				<button type="button" class="btn btn-info"
-						@click="showDescriptions = !showDescriptions">
-					<span class="glyphicon" :class="showDescriptions ? 'glyphicon-zoom-out' : 'glyphicon-zoom-in'"></span>
-					{{ showDescriptions ? 'Hide descriptions' : 'Show descriptions' }}
-				</button>
-			</div>
+		<div v-if="showFooter" class="question-footer panel-footer">
+			<show-hide-button v-if="hasDescriptions" class="btn btn-info"
+					v-model="showDescriptions">
+				descriptions
+			</show-hide-button>
+			<button type="button" v-if="resettable" class="btn btn-default"
+					:disabled="!hasResponse"
+					@click="resetOptions">
+				Reset response
+			</button>
 		</div>
 	</div>
 </template>
@@ -48,6 +50,7 @@
 import snarkdown from 'snarkdown';
 
 import FormReaderQuestionOption from './FormReaderQuestionOption.vue';
+import ShowHideButton from 'vue-components/ShowHideButton.vue';
 
 import { ucfirst } from 'modules/utils.js';
 
@@ -99,16 +102,22 @@ export default {
 		};
 	},
 	computed: {
+		hasResponse() {
+			return this.isOptionQuestion
+				? this.options.some(option => option.checked)
+				: this.value;
+		},
 		hasDescriptions() {
-			let hasDescriptions = false;
+			if (!this.options)
+				return false;
 
-			if (this.options)
-				this.options.map(option => {
-					if (option.description)
-						hasDescriptions = true;
-				});
-
-			return hasDescriptions;
+			return this.options.some(option => option.description);
+		},
+		resettable() {
+			return this.isOptionQuestion && !this.required;
+		},
+		showFooter() {
+			return this.hasDescriptions || this.resettable;
 		},
 		isOptionQuestion() {
 			return [
@@ -122,10 +131,14 @@ export default {
 	methods: {
 		ucfirst,
 		snarkdown,
+		resetOptions() {
+			let options = this.options.map(option => Object.assign({}, option, {checked: false}));
+			this.$emit('input', {options});
+		},
 		handleOptionInput(index, option) {
 			if (this.readonly)
 				return;
-			
+
 			let options = (['radiononnumeric', 'radio'].includes(this.questionType) && option.checked)
 				? this.options.map(option => Object.assign({}, option, {checked: false}))
 				: this.options.slice();
@@ -135,13 +148,14 @@ export default {
 		handleInput(event) {
 			if (this.readonly)
 				return;
-			
+
 			this.$emit('input', {value: event.target.value});
 		}
 	},
 
 	components: {
-		FormReaderQuestionOption
+		FormReaderQuestionOption,
+		ShowHideButton
 	}
 };
 </script>
