@@ -57,13 +57,7 @@ export default {
 			for (let item of this.contents.items) {
 				if (item.type === 'question' && item.required) {
 					if (['radio', 'radiononnumeric'].includes(item.questionType)) {
-						let optionChecked = false;
-						for (let option of item.options) {
-							if (option.checked)
-								optionChecked = true;
-						}
-
-						if (!optionChecked)
+						if (!item.options.some(option => option.checked))
 							return false;
 					} else if (item.questionType !== 'checkbox') {
 						if (!item.value)
