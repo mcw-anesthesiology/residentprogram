@@ -5934,7 +5934,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			});
 		},
 		resettable: function resettable() {
-			return this.isOptionQuestion && !this.required;
+			return !this.readonly && this.isOptionQuestion && !this.required;
 		},
 		showFooter: function showFooter() {
 			return this.hasDescriptions || this.resettable;
@@ -5950,6 +5950,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	methods: {
 		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["a" /* ucfirst */],
 		resetOptions: function resetOptions() {
+			if (this.readonly) return;
+
 			var options = this.options.map(function (option) {
 				return Object.assign({}, option, { checked: false });
 			});
