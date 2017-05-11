@@ -92,7 +92,6 @@ export default function createFaculty360Evaluate(el, propsData) {
 							</a>`
 					});
 				});
-				console.log(form);
 			}
 		},
 
