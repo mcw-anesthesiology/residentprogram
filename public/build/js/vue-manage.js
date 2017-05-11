@@ -5361,6 +5361,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = {
 	props: ['text'],
@@ -9252,12 +9267,26 @@ if (false) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "container-fluid form-instruction-block form-block"
+    staticClass: "form-instruction-block panel panel-default form-block"
+  }, [_c('div', {
+    staticClass: "panel-heading"
   }, [_c('div', {
     staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-md-10"
-  }, [_c('label', [_vm._v("Instruction block")]), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('textarea', {
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "col-md-1 col-md-offset-1"
+  }, [_c('button', {
+    staticClass: "form-block-delete btn btn-danger del-btn",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.$emit('remove')
+      }
+    }
+  }, [_vm._v("Delete")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "panel-body"
+  }, [_c('textarea', {
     staticClass: "form-control form-instruction-text",
     attrs: {
       "required": ""
@@ -9272,26 +9301,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         })
       }
     }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-1 col-md-offset-1"
-  }, [_c('button', {
-    staticClass: "form-block-delete btn btn-danger del-btn",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.$emit('remove')
-      }
-    }
-  }, [_vm._v("Delete")])])])])
+  })])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('small', [_vm._v("Supports "), _c('a', {
+  return _c('div', {
+    staticClass: "col-md-10"
+  }, [_c('h3', {
+    staticClass: "panel-title"
+  }, [_vm._v("\n\t\t\t\t\tInstruction block\n\t\t\t\t")]), _vm._v(" "), _c('small', [_vm._v("\n\t\t\t\t\tSupports\n\t\t\t\t\t"), _c('a', {
     attrs: {
       "href": "http://daringfireball.net/projects/markdown/basics",
       "target": "_blank"
     }
-  }, [_vm._v("markdown")]), _vm._v(" (except inline HTML)")])
+  }, [_vm._v("\n\t\t\t\t\t\t\tmarkdown\n\t\t\t\t\t")]), _vm._v("\n\t\t\t\t\t(except inline HTML)\n\t\t\t\t")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
