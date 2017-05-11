@@ -14,13 +14,12 @@ import FormReader from 'vue-components/FormReader/FormReader.vue';
 import moment from 'moment';
 
 import {
-	renderDateTimeCell,
-	createDateTimeCell,
 	getEvaluationStatusLabel
 } from 'modules/datatable-utils.js';
 import {
 	isoDateStringObject,
 	currentYear,
+	renderDate,
 	renderDateTime,
 	renderDateRange
 } from 'modules/date-utils.js';
@@ -61,63 +60,21 @@ export default function createManageFaculty360(el) {
 		},
 
 		computed: {
-			formsThead() {
-				return [[
-					'Title',
-					'Created',
-					'Status',
-					'View',
-					'Action'
-				]];
+			formFields() {
+				return [
+					'id',
+					'title',
+					'created'
+				];
 			},
-			formsConfig() {
+			formFieldAccessors() {
 				return {
-					columns: [
-						{data: 'title'},
-						{
-							data: 'created_at',
-							render: renderDateTimeCell,
-							createdCell: createDateTimeCell
-						},
-						{
-							data: 'status',
-							render(status, type) {
-								if (type === 'display') {
-									let label = status === 'active'
-										? 'label-success'
-										: 'label-danger';
+					created(form, action) {
+						if (action === 'sort')
+							return moment(form.created_at).valueOf();
 
-									return `<span class="status label ${label}">
-											${ucfirst(status)}
-										</span>`;
-								}
-
-								return status;
-							}
-						},
-						{
-							data: 'id',
-							render(id, type) {
-								if (type === 'display') {
-									return `<a href="/faculty360/forms/${id}/view"
-												target="_blank">
-											View form
-										</a>`;
-								}
-
-								return id;
-							}
-						},
-						{
-							data: null,
-							orderable: false,
-							searchable: false,
-							render() {
-								// TODO
-								return 'TODO';
-							}
-						}
-					]
+						return renderDate(form.created_at);
+					}
 				};
 			},
 			evaluationFields() {
@@ -201,6 +158,29 @@ export default function createManageFaculty360(el) {
 				});
 			},
 
+			toggleFormStatus(form) {
+				const newStatus = form.status === 'active'
+					? 'inactive'
+					: 'active';
+
+				fetch(`/faculty360/forms/${form.id}`, {
+					method: 'POST', // PATCH
+					headers: getFetchHeaders(),
+					credentials: 'same-origin',
+					body: JSON.stringify({
+						_method: 'PATCH',
+						status: newStatus
+					})
+				}).then(okOrThrow).then(() => {
+					this.fetchForms();
+				}).catch(err => {
+					console.error(err);
+					this.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem changing the form status'
+					});
+				});
+			},
 			toggleEvaluationStatus(evaluation, event) {
 				event.preventDefault();
 

@@ -20,13 +20,13 @@ class FacultyPeerFormController extends RestController
 	];
 
 	protected $model = \App\FacultyPeerForm::class;
-	
+
 	public function __construct() {
 		$this->middleware('auth')->except('view');
 		$this->middleware('type:admin')->except('view');
 		$this->middleware('shared')->only(['create', 'view']);
 	}
-	
+
 	public function create() {
 		return view('faculty360.forms.create');
 	}
@@ -37,7 +37,7 @@ class FacultyPeerFormController extends RestController
 
 		if(!$request->has('items') || count($request->input('items')) == 0)
 			throw new \Exception('No items');
-			
+
 		// FIXME: Validate form contents
 
 		$form = new FacultyPeerForm();
@@ -58,14 +58,31 @@ class FacultyPeerFormController extends RestController
 		else
     		return redirect("faculty360/forms/view/{$form->id}");
 	}
-	
+
+	public function update(Request $request, $id) {
+		$form = FacultyPeerForm::findOrFail($id);
+		foreach ($form->getFillable() as $fillableAttribute) {
+			if ($request->has($fillableAttribute))
+				$form->setAttribute($fillableAttribute, $request->input($fillableAttribute));
+		}
+		$success = $form->save();
+
+		return $success
+			? [
+				'status' => 'success'
+			]
+			: response()->json([
+				'status' => 'failed'
+			], 500);
+	}
+
 	public function view(Request $request, $id) {
 		$form = FacultyPeerForm::findOrFail($id);
 		$data = compact('form');
-		
+
 		return view('faculty360.forms.view', $data);
 	}
-	
+
 	public function destroy(Request $request, $id) {
 		$form = FacultyPeerForm::findOrFail($id);
 		$form->status('disabled');

@@ -2,20 +2,24 @@
 
 @section('head')
 	<style>
-		.faculty360-evaluation-list-item {
+		.faculty360-evaluation-list-item,
+		.faculty360-form-list-item {
 			border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 			padding: 5px 0;
 			cursor: pointer;
 		}
 
-		.faculty360-evaluation-list-item:nth-child(even) {
+		.faculty360-evaluation-list-item:nth-child(even),
+		.faculty360-form-list-item:nth-child(even) {
 			background-color: rgba(0, 0, 0, 0.05);
 		}
 
-		.faculty360-evaluation-list-item .row {
+		.faculty360-evaluation-list-item .row,
+		.faculty360-form-list-item .row {
 			margin: 0;
 		}
 
+		.faculty360-form-list-item small,
 		.faculty360-evaluation-list-item small,
 		.evaluation-details-panel small {
 			display: block;
@@ -52,9 +56,57 @@
 				Add new
 			</a>
 		</h2>
-		<data-table v-if="forms"
-			:thead="formsThead" :config="formsConfig" :data="forms">
-		</data-table>
+		<component-list v-if="forms" :items="forms" :fields="formFields"
+				:field-accessors="formFieldAccessors"
+				reloadable
+				@reload="fetchForms">
+			<template scope="form">
+				<div class="faculty360-form-list-item row">
+					<div class="col-sm-4">
+						<small>Title</small>
+						@{{ form.title }}
+					</div>
+					<div class="col-sm-3">
+						<small>Created</small>
+						<rich-date :date="form.created_at"></rich-date>
+					</div>
+					<div class="col-sm-1">
+						<span :class="`label ${form.status === 'active'
+								? 'label-success' : 'label-danger' }`">
+							@{{ ucfirst(form.status) }}
+						</span>
+					</div>
+					<div class="col-sm-2">
+						<a :href="`/faculty360/forms/${form.id}/view`"
+								target="_blank">
+							View form
+						</a>
+					</div>
+					<div class="col-sm-2">
+						<confirmation-button class="btn btn-sm"
+								:unpressed-class="form.status === 'inactive'
+										? 'btn-success'
+										: 'btn-danger'
+								"
+								pressed-class="btn-warning"
+								@click="toggleFormStatus(form, $event)">
+							<span class="glyphicon"
+								:class="
+									form.status === 'inactive'
+										? 'glyphicon-ok'
+										: 'glyphicon-remove'
+								">
+							</span>
+							@{{
+								form.status === 'inactive'
+									? 'Enable'
+									: 'Disable'
+							}}
+						</confirmation-button>
+					</div>
+				</div>
+			</template>
+		</component-list>
 	</div>
 
 	<div v-if="viewedEvaluation" v-cloak class="container body-block">

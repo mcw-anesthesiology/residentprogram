@@ -12726,9 +12726,9 @@ function createManageEvaluations(el, propsData) {
 					},
 					columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'evaluator.full_name' }, { data: 'requestor.full_name' }, { data: 'form.title' }, {
 						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* createDateTimeCell */] }, { data: null, orderable: false, render: function render(evaluation) {
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["c" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: null, orderable: false, render: function render(evaluation) {
 							if (!evaluation.visibility) evaluation.visibility = evaluation.form.visibility;
 							var label = void 0;
 							switch (evaluation.status) {
@@ -12869,44 +12869,16 @@ function createManageFaculty360(el) {
 
 
 		computed: {
-			formsThead: function formsThead() {
-				return [['Title', 'Created', 'Status', 'View', 'Action']];
+			formFields: function formFields() {
+				return ['id', 'title', 'created'];
 			},
-			formsConfig: function formsConfig() {
+			formFieldAccessors: function formFieldAccessors() {
 				return {
-					columns: [{ data: 'title' }, {
-						data: 'created_at',
-						render: __WEBPACK_IMPORTED_MODULE_11__modules_datatable_utils_js__["a" /* renderDateTimeCell */],
-						createdCell: __WEBPACK_IMPORTED_MODULE_11__modules_datatable_utils_js__["b" /* createDateTimeCell */]
-					}, {
-						data: 'status',
-						render: function render(status, type) {
-							if (type === 'display') {
-								var label = status === 'active' ? 'label-success' : 'label-danger';
+					created: function created(form, action) {
+						if (action === 'sort') return __WEBPACK_IMPORTED_MODULE_10_moment___default()(form.created_at).valueOf();
 
-								return '<span class="status label ' + label + '">\n\t\t\t\t\t\t\t\t\t\t\t' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["a" /* ucfirst */])(status) + '\n\t\t\t\t\t\t\t\t\t\t</span>';
-							}
-
-							return status;
-						}
-					}, {
-						data: 'id',
-						render: function render(id, type) {
-							if (type === 'display') {
-								return '<a href="/faculty360/forms/' + id + '/view"\n\t\t\t\t\t\t\t\t\t\t\t\ttarget="_blank">\n\t\t\t\t\t\t\t\t\t\t\tView form\n\t\t\t\t\t\t\t\t\t\t</a>';
-							}
-
-							return id;
-						}
-					}, {
-						data: null,
-						orderable: false,
-						searchable: false,
-						render: function render() {
-							// TODO
-							return 'TODO';
-						}
-					}]
+						return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_date_utils_js__["renderDate"])(form.created_at);
+					}
 				};
 			},
 			evaluationFields: function evaluationFields() {
@@ -12938,7 +12910,7 @@ function createManageFaculty360(el) {
 			ucfirst: __WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["a" /* ucfirst */],
 			renderDateTime: __WEBPACK_IMPORTED_MODULE_12__modules_date_utils_js__["renderDateTime"],
 			renderDateRange: __WEBPACK_IMPORTED_MODULE_12__modules_date_utils_js__["renderDateRange"],
-			getEvaluationStatusLabel: __WEBPACK_IMPORTED_MODULE_11__modules_datatable_utils_js__["c" /* getEvaluationStatusLabel */],
+			getEvaluationStatusLabel: __WEBPACK_IMPORTED_MODULE_11__modules_datatable_utils_js__["a" /* getEvaluationStatusLabel */],
 			fetchForms: function fetchForms() {
 				var _this = this;
 
@@ -12982,8 +12954,31 @@ function createManageFaculty360(el) {
 					});
 				});
 			},
-			toggleEvaluationStatus: function toggleEvaluationStatus(evaluation, event) {
+			toggleFormStatus: function toggleFormStatus(form) {
 				var _this3 = this;
+
+				var newStatus = form.status === 'active' ? 'inactive' : 'active';
+
+				fetch('/faculty360/forms/' + form.id, {
+					method: 'POST', // PATCH
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["b" /* getFetchHeaders */])(),
+					credentials: 'same-origin',
+					body: JSON.stringify({
+						_method: 'PATCH',
+						status: newStatus
+					})
+				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["k" /* okOrThrow */]).then(function () {
+					_this3.fetchForms();
+				}).catch(function (err) {
+					console.error(err);
+					_this3.alerts.push({
+						type: 'error',
+						html: '<strong>Error:</strong> There was a problem changing the form status'
+					});
+				});
+			},
+			toggleEvaluationStatus: function toggleEvaluationStatus(evaluation, event) {
+				var _this4 = this;
 
 				event.preventDefault();
 
@@ -12998,17 +12993,17 @@ function createManageFaculty360(el) {
 						status: newStatus
 					})
 				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["k" /* okOrThrow */]).then(function () {
-					_this3.fetchEvaluations();
+					_this4.fetchEvaluations();
 				}).catch(function (err) {
 					console.error(err);
-					_this3.alerts.push({
+					_this4.alerts.push({
 						type: 'error',
 						html: "<strong>Error:</strong> There was a problem changing the evaluation's status"
 					});
 				});
 			},
 			resendEvaluationHash: function resendEvaluationHash(evaluation, event) {
-				var _this4 = this;
+				var _this5 = this;
 
 				event.preventDefault();
 
@@ -13017,13 +13012,13 @@ function createManageFaculty360(el) {
 					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["b" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
 				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["k" /* okOrThrow */]).then(function () {
-					_this4.alerts.push({
+					_this5.alerts.push({
 						type: 'success',
 						text: 'New link sent successfully!'
 					});
 				}).catch(function (err) {
 					console.error(err);
-					_this4.alerts.push({
+					_this5.alerts.push({
 						type: 'error',
 						html: '<strong>Error:</strong> There was a problem sending a new completion link'
 					});
@@ -13035,7 +13030,7 @@ function createManageFaculty360(el) {
 				this.viewedEvaluation = evaluation;
 			},
 			handleFormSubmit: function handleFormSubmit(form) {
-				var _this5 = this;
+				var _this6 = this;
 
 				fetch('/faculty360/forms', {
 					method: 'POST',
@@ -13043,11 +13038,11 @@ function createManageFaculty360(el) {
 					credentials: 'same-origin',
 					body: JSON.stringify(form)
 				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["c" /* jsonOrThrow */]).then(function () {
-					_this5.show.createForm = false;
-					_this5.fetchForms();
+					_this6.show.createForm = false;
+					_this6.fetchForms();
 				}).catch(function (err) {
 					console.error(err);
-					_this5.alerts.push({
+					_this6.alerts.push({
 						type: 'error',
 						html: '<strong>Error:</strong> There was a problem saving the form'
 					});

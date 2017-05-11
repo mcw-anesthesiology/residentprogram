@@ -1,10 +1,10 @@
 <p>
-	You have either requested or been requested to complete
-	a Faculty 360 evaluation:
+	You have requested to complete
 	<a href="{{ url("/faculty360/evaluate/".$evaluationHash) }}">
-		Dr. {{ $subjectLast }}, {{ $formTitle }}
-	</a>.
-	Please complete it at your earliest convenience.
+		a Faculty 360 evaluation for Dr. {{ $subjectLast }}
+	</a>
+</p>
+<p>
 	This link will expire <b>{{ $hashExpires }}</b>.
 </p>
 <p>

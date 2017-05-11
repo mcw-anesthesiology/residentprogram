@@ -81,7 +81,7 @@ Route::resource('case_log_details_schemas', 'Rest\CaseLogDetailsSchemaController
 
 Route::get('faculty360/forms/{id}/view', 'Rest\FacultyPeerFormController@view');
 Route::resource('faculty360/forms', 'Rest\FacultyPeerFormController', ['only' => [
-	'index', 'store', 'create', 'show', 'destroy'
+	'index', 'store', 'create', 'show', 'update', 'destroy'
 ]]);
 
 Route::patch('faculty360/evaluations/{hash}/save', 'Rest\FacultyPeerEvaluationController@save');
