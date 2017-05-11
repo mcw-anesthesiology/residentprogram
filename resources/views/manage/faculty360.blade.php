@@ -188,13 +188,17 @@
 			<template scope="evaluation">
 				<div class="faculty360-evaluation-list-item row"
 						@click="viewEvaluation(evaluation, $event)">
-					<div class="col-sm-2">
+					<div class="col-sm-1">
 						<small>#</small>
 						@{{ evaluation.id }}
 					</div>
 					<div class="col-sm-3">
 						<small>Faculty</small>
 						@{{ evaluation.subject.full_name }}
+					</div>
+					<div class="col-sm-2">
+						<small>Form</small>
+						@{{ evaluation.form.title }}
 					</div>
 					<div class="col-sm-3">
 						<small>Evaluation date</small>
@@ -203,8 +207,7 @@
 							end="evaluation_date_end">
 						</rich-date-range>
 					</div>
-					<div class="col-sm-2">
-						<small>Status</small>
+					<div class="col-sm-1">
 						<span :class="`label ${getEvaluationStatusLabel(evaluation.status)}`">
 							@{{ ucfirst(evaluation.status) }}
 						</span>
