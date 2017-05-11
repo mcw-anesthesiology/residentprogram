@@ -1,13 +1,28 @@
 <template>
-	<div class="container-fluid form-instruction-block form-block">
-		<div class="row">
-			<div class="col-md-10">
-				<label>Instruction block</label> <small>Supports <a href="http://daringfireball.net/projects/markdown/basics" target="_blank">markdown</a> (except inline HTML)</small>
-				<textarea v-bind:value="text" v-on:input="$emit('change', {text: $event.target.value})" class="form-control form-instruction-text" required></textarea>
+	<div class="form-instruction-block panel panel-default form-block">
+		<div class="panel-heading">
+			<div class="row">
+				<div class="col-md-10">
+					<h3 class="panel-title">
+						Instruction block
+					</h3>
+					<small>
+						Supports
+						<a href="http://daringfireball.net/projects/markdown/basics"
+								target="_blank">
+								markdown
+						</a>
+						(except inline HTML)
+					</small>
+				</div>
+				<div class="col-md-1 col-md-offset-1">
+					<button v-on:click="$emit('remove')" class="form-block-delete btn btn-danger del-btn" type="button">Delete</button>
+				</div>
 			</div>
-			<div class="col-md-1 col-md-offset-1">
-				<button v-on:click="$emit('remove')" class="form-block-delete btn btn-danger del-btn" type="button">Delete</button>
-			</div>
+		</div>
+
+		<div class="panel-body">
+			<textarea v-bind:value="text" v-on:input="$emit('change', {text: $event.target.value})" class="form-control form-instruction-text" required></textarea>
 		</div>
 	</div>
 </template>
