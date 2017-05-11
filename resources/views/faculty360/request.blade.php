@@ -5,10 +5,6 @@
 		h1 {
 			margin: 1em 0 2em;
 		}
-
-		.landing {
-			padding: 2em;
-		}
 	</style>
 @stop
 
@@ -21,10 +17,14 @@
 		</div>
 
 		<div v-if="requestSuccessful" v-cloak class="row">
-			<p class="lead landing">
-				Request successful! Please check your email for a link to
-				complete the evaluation.
-			</p>
+			<div class="row">
+				<div class="col-sm-offset-2 col-sm-8">
+					<p class="lead">
+						Request successful! Please check your email for a link to
+						complete the evaluation.
+					</p>
+				</div>
+			</div>
 		</div>
 		<div v-else>
 			<div class="row">
