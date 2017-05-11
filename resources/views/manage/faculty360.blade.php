@@ -58,11 +58,16 @@
 		</h2>
 		<component-list v-if="forms" :items="forms" :fields="formFields"
 				:field-accessors="formFieldAccessors"
+				default-sort-by="id" default-sort-order="desc"
 				reloadable
 				@reload="fetchForms">
 			<template scope="form">
 				<div class="faculty360-form-list-item row">
-					<div class="col-sm-4">
+					<div class="col-sm-1">
+						<small>#</small>
+						@{{ form.id }}
+					</div>
+					<div class="col-sm-3">
 						<small>Title</small>
 						@{{ form.title }}
 					</div>
@@ -117,7 +122,7 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-sm-2">
-						<small>ID</small>
+						<small>#</small>
 						@{{ viewedEvaluation.id }}
 					</div>
 					<div class="col-sm-4">
@@ -184,7 +189,7 @@
 				<div class="faculty360-evaluation-list-item row"
 						@click="viewEvaluation(evaluation, $event)">
 					<div class="col-sm-2">
-						<small>ID</small>
+						<small>#</small>
 						@{{ evaluation.id }}
 					</div>
 					<div class="col-sm-3">
