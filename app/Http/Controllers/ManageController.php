@@ -111,7 +111,33 @@ class ManageController extends Controller
 
     public function mentors(){
         $mentors = User::whereIn("type", ["faculty", "staff"])->get();
-        $data = compact("mentors");
+
+		$residents = User::where("type", "resident")->where("status", "active")->orderBy("last_name")->get();
+		$residentGroupNames = [
+			"intern" => "Intern",
+			"ca-1" => "CA-1",
+			"ca-2" => "CA-2",
+			"ca-3" => "CA-3",
+			"fellow" => "Fellow"
+		];
+        $residentGroups = [
+            "Intern" => [],
+            "CA-1" => [],
+            "CA-2" => [],
+            "CA-3" => [],
+            "Fellow" => [],
+            "Former Residents" => []
+        ];
+        foreach($residents as $resident){
+            $residentGroups[$residentGroupNames[$resident->training_level]][] = $resident;
+        }
+
+        $formerResidents = User::formerResidents()->orderBy("last_name")->get();
+        foreach($formerResidents as $resident){
+            $residentGroups["Former Residents"][] = $resident;
+        }
+
+        $data = compact("mentors", 'residentGroups');
         return view("manage.mentors", $data);
     }
 
