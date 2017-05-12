@@ -33,15 +33,27 @@
 		</div>
 
 		<div v-if="showFooter" class="question-footer panel-footer">
-			<show-hide-button v-if="hasDescriptions" class="btn btn-info"
-					v-model="showDescriptions">
-				descriptions
-			</show-hide-button>
-			<button type="button" v-if="resettable" class="btn btn-default"
-					:disabled="!hasResponse"
-					@click="resetOptions">
-				Reset response
-			</button>
+			<div>
+				<show-hide-button v-if="hasDescriptions" class="btn btn-info"
+						v-model="showDescriptions">
+					descriptions
+				</show-hide-button>
+				<button type="button" v-if="resettable" class="btn btn-default"
+						:disabled="!hasResponse"
+						@click="resetOptions">
+					Reset response
+				</button>
+			</div>
+			<div v-if="resettable">
+				<p>
+					<small>
+						If you do not feel you are able to accurately respond to
+						this question, please do not select any response.
+						If you would like to clear your response, please press
+						the <i>Reset response</i> button above.
+					</small>
+				</p>
+			</div>
 		</div>
 	</div>
 </template>
