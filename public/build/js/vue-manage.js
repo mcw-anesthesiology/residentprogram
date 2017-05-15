@@ -20198,17 +20198,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(29);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_date_utils_js__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modules_date_utils_js__ = __webpack_require__(16);
 //
 //
 //
 //
 //
 //
-
-
 
 
 
@@ -20251,7 +20247,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			return this.date[this.end];
 		},
 		dateString: function dateString() {
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_date_utils_js__["renderDateRange"])(this.startDate, this.endDate, this.hovered);
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__modules_date_utils_js__["renderDateRange"])(this.startDate, this.endDate, this.hovered);
 		}
 	},
 
