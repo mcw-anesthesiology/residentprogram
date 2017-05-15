@@ -81,6 +81,7 @@ Route::get('manage/watched-forms', 'ManageController@watchedForms');
 Route::get('manage/user-features', 'ManageController@userFeatures');
 Route::get('manage/case-logs', 'ManageController@caseLogs');
 Route::get('manage/merit', 'ManageController@merit');
+Route::get('manage/faculty360', 'ManageController@faculty360');
 
 Route::get('reports', 'ReportController@reports');
 
@@ -97,3 +98,9 @@ Route::get('report/stats/{type}', 'ReportController@stats');
 Route::post('report/stats/{evaluationType}/{userType}', 'ReportController@getStats');
 
 Route::get('merit', 'MainController@merit');
+
+// TODO: Change url?
+Route::get('faculty360', 'FacultyPeerEvaluationController@request');
+Route::post('faculty360', 'FacultyPeerEvaluationController@createEvaluation');
+Route::get('faculty360/view/{id}', 'FacultyPeerEvaluationController@view');
+Route::get('faculty360/evaluate/{hash}', 'FacultyPeerEvaluationController@evaluate');

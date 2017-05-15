@@ -21,18 +21,13 @@ class RestController extends Controller
         $this->middleware("type:admin");
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request) {
-		$user = Auth::user();
+	protected function getWithArray(Request $request) {
 		$withArray = [];
-		if ($request->has("with")) {
-			foreach (array_only($request->input("with"), $this->relationships) as $relationship => $fields) {
-				if (is_array($fields)) {
-					if (in_array("full_name", $fields)) {
+
+		if($request->has("with")){
+			foreach(array_only($request->input("with"), $this->relationships) as $relationship => $fields){
+				if(is_array($fields)){
+					if(in_array("full_name", $fields)){
 						$index = array_search("full_name", $fields);
 						unset($fields[$index]);
 						array_values($fields);
@@ -56,10 +51,21 @@ class RestController extends Controller
 			}
 		}
 
-        $query = $this->model::with($withArray);
-		foreach ($request->intersect($this->attributes) as $name => $value) {
-			if (is_array($value)) {
-				if (count($value) == 2 && in_array($value[0], [
+		return $withArray;
+	}
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request){
+		$user = Auth::user();
+        $query = $this->model::with($this->getWithArray($request));
+
+		foreach($request->intersect($this->attributes) as $name => $value){
+			if(is_array($value)){
+				if(count($value) == 2 && in_array($value[0], [
 					'>',
 					'<',
 					'=',

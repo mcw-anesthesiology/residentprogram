@@ -91,7 +91,7 @@
 		</main>
 
 	{{-- TODO: Should not do this, use inheretence --}}
-	@if(empty($noNavbar) || !$noNavbar)
+	@if(Auth::user() && (empty($noNavbar) || !$noNavbar))
 		@include("modals")
 	@endif
 		<script type="text/javascript" src="{{ elixir("js/all.js") }}"></script>

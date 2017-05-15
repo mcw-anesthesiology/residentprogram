@@ -1,6 +1,9 @@
 <template>
 	<button type="button" :class="currentClass" @click="handleClick">
-		<slot v-if="pressed" name="pressed"></slot>
+		<slot v-if="pressed" name="pressed">
+			<span class="glyphicon glyphicon-warning-sign"></span>
+			Click again to confirm
+		</slot>
 		<slot v-else></slot>
 	</button>
 </template>
@@ -9,6 +12,10 @@
 export default {
 	props: {
 		class: {
+			type: String,
+			required: false
+		},
+		unpressedClass: {
 			type: String,
 			required: false
 		},
@@ -27,15 +34,15 @@ export default {
 			pressed: false
 		};
 	},
-	
+
 	computed: {
 		currentClass(){
 			return (this.pressedClass && this.pressed)
 				? this.pressedClass
-				: this.class;
+				: this.unpressedClass || this.class;
 		}
 	},
-		
+
 	methods: {
 		handleClick(){
 			if(this.pressed){

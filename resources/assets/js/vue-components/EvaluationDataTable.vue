@@ -4,7 +4,7 @@
 			<legend>Evaluation Date filter</legend>
 			<start-end-date v-model="dates" :allTime="true" />
 		</fieldset>
-		
+
 		<data-table :id="id" :striped="striped" :bordered="bordered"
 				:thead="thead" :config="datedConfig" :data="data"
 				:exportable="exportable" :exportFilename="exportFilename">
@@ -41,6 +41,7 @@ export default {
 	},
 	data(){
 		return {
+			// eslint-disable-next-line import/namespace
 			dates: dateUtils.isoDateStringObject(dateUtils[this.range]())
 		};
 	},
@@ -74,12 +75,12 @@ export default {
 			if(!this.evaluationConfig || !('ajax' in this.evaluationConfig)
 					|| (!this.dates.startDate && !this.dates.endDate))
 				return this.evaluationConfig;
-				
+
 			let config = Object.assign({}, this.evaluationConfig, {
 				ajax: JSON.parse(JSON.stringify(this.evaluationConfig.ajax))
 			});
-			
-			
+
+
 			if(this.dates.endDate)
 				config.ajax.data.evaluation_date_start = [
 					'<=', dateUtils.isoDateString(this.dates.endDate)
@@ -88,7 +89,7 @@ export default {
 				config.ajax.data.evaluation_date_end = [
 					'>=', dateUtils.isoDateString(this.dates.startDate)
 				];
-				
+
 			return config;
 		}
 	},

@@ -82,7 +82,7 @@ export function getFetchHeaders() {
 export function okOrThrow(response) {
 	if (response.ok)
 		return response;
-	
+
 	throw new Error(response.statusText);
 }
 
@@ -289,7 +289,7 @@ export function sortNumbers(a, b) {
 	let emptyVal = sortEmptyLast(a, b);
 	if (emptyVal != null)
 		return emptyVal;
-		
+
 	return Number(a) - Number(b);
 }
 
@@ -301,15 +301,15 @@ export function sortIgnoreCase(a, b) {
 	let emptyVal = sortEmptyLast(a, b);
 	if (emptyVal != null)
 		return emptyVal;
-	
+
 	a = a.toLowerCase();
 	b = b.toLowerCase();
-	
+
 	if (a < b)
 		return -1;
 	if (a > b)
 		return 1;
-	
+
 	return 0;
 }
 
@@ -320,13 +320,20 @@ export function sortPropIgnoreCase(prop) {
 export function htmlLabelReplacements(html, replacements) {
 	html = html.replace(/<span class="label label-info">/g, '[[')
 		.replace(/<\/span>/g, ']]');
-	
-	
+
+
 	replacements.map(replacement => {
 		const pattern = new RegExp(`\\[\\[${replacement}\\]\\]`, 'g');
 		const label = `<span class="label label-info">${replacement}</span>`;
 		html = html.replace(pattern, label);
 	});
-	
+
 	return html;
+}
+
+export function errorToAlert(err) {
+	return {
+		type: 'error',
+		html: `<strong>Error:</strong> ${err.message}`
+	};
 }

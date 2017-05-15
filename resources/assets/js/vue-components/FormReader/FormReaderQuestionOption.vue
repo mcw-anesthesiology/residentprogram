@@ -4,43 +4,73 @@
 			<span :title="description">
 				<input v-if="questionType === 'checkbox'" type="checkbox"
 					:name="`${questionId}[]`" :value="value"
-					:required="required" :disabled="disabled" />
+					:checked="checked" :required="required"
+					:disabled="readonly" @change="handleInput" />
 				<input v-else type="radio" :name="questionId" :value="value"
-					:required="required" :disabled="disabled" />
+					:checked="checked" :required="required"
+					:disabled="readonly" @change="handleInput" />
 				<br />
 				{{ text }}
 			</span>
 		</label>
-		<div v-if="description" v-show="showDescription" class="description well"
-			v-html="md.render(description)">
+		<div v-if="description" v-show="showDescription"
+			class="description well"
+			v-html="snarkdown(description)">
 		</div>
 		<slot></slot>
 	</div>
 </template>
 
 <script>
-import MarkdownIt from 'markdown-it';
-
-const md = new MarkdownIt();
+import snarkdown from 'snarkdown';
 
 export default {
 	props: {
 		value: {
+			type: [String, Number],
 			required: true
 		},
-		text: String,
-		description: String,
-		disabled: Boolean,
+		text: {
+			type: String,
+			required: true
+		},
+		description: {
+			type: String,
+			required: false
+		},
+		readonly: {
+			type: Boolean,
+			default: false
+		},
 
-		questionType: String,
-		questionId: String,
-		required: Boolean,
+		questionType: {
+			type: String,
+			required: true
+		},
+		questionId: {
+			type: String,
+			required: true
+		},
+		checked: {
+			type: Boolean,
+			default: false
+		},
+		
+		required: {
+			type: Boolean,
+			default: false
+		},
 
-		showDescription: Boolean
+		showDescription: {
+			type: Boolean,
+			default: false
+		}
 	},
-	computed: {
-		md(){
-			return md;
+	
+	methods: {
+		snarkdown,
+		handleInput(event) {
+			this.$emit('input', {checked: event.target.checked});
 		}
 	}
 };

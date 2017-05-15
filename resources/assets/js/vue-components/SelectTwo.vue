@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import isEqual from 'lodash/isEqual';
+
 export default {
 	props: {
 		options: {
@@ -84,7 +86,9 @@ export default {
 	},
 	mounted(){
 		$(this.$el).on('change', () => {
-			this.$emit('input', $(this.$el).val());
+			let val = $(this.$el).val();
+			if (!isEqual(val, this.stringValue))
+				this.$emit('input', val);
 		});
 
 		$(this.$el).val(this.stringValue).select2({

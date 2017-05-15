@@ -62,26 +62,28 @@
 					</label>
 				</div>
 			</div>
-			<div class="hr-question"></div>
-			<div class="row">
-				<div class="col-md-8">
-					<label v-show="shouldShowMilestonesAndCompetencies" class="containing-label">
-						Question Milestones
-						<select-two :value="milestones" :options="groupedMilestones"
-							:multiple="true" @input="$emit('change', {milestones: arguments[0]})"
-							class="form-control form-question-milestone" />
-					</label>
-				</div>
-				<div class="col-md-4">
-					<label v-show="shouldShowMilestonesAndCompetencies" class="containing-label">
-						Question Competency
-						<select-two :value="competencies" placeholder="Competency"
-							class="form-control form-question-competency"
-							:options="competencyOptions" :multiple="true"
-							@input="$emit('change', {competencies: arguments[0]})" />
-					</label>
-				</div>
-			</div>
+			<template v-if="showMilestonesCompetencies">
+				<div class="hr-question"></div>
+				<div class="row">
+					<div class="col-md-8">
+						<label v-show="shouldShowMilestonesAndCompetencies" class="containing-label">
+							Question Milestones
+							<select-two :value="milestones" :options="groupedMilestones"
+								:multiple="true" @input="$emit('change', {milestones: arguments[0]})"
+								class="form-control form-question-milestone" />
+						</label>
+					</div>
+					<div class="col-md-4">
+						<label v-show="shouldShowMilestonesAndCompetencies" class="containing-label">
+							Question Competency
+							<select-two :value="competencies" placeholder="Competency"
+								class="form-control form-question-competency"
+								:options="competencyOptions" :multiple="true"
+								@input="$emit('change', {competencies: arguments[0]})" />
+						</label>
+					</div>
+				</div>				
+			</template>
 		</div>
 		<div class="panel-body">
 			<div class="row form-options" style="margin-bottom:5px;">
@@ -115,19 +117,56 @@ import { STANDARD_OPTIONS } from 'modules/constants.js';
 import { sortSelect2Objects } from 'modules/utils.js';
 
 export default {
-	props: [
-		'formType',
-		'groupedMilestones',
-		'allCompetencies',
-		'questionIdNum',
-		'text',
-		'questionType',
-		'milestones',
-		'competencies',
-		'options',
-		'required',
-		'customOptions'
-	],
+	props: {
+		formType: {
+			type: String,
+			required: true
+		},
+		groupedMilestones: {
+			type: Array,
+			required: false
+		},
+		allCompetencies: {
+			type: Array,
+			required: false
+		},
+		questionIdNum: {
+			type: Number,
+			required: true
+		},
+		text: {
+			type: String,
+			required: true
+		},
+		questionType: {
+			type: String,
+			required: true
+		},
+		milestones: {
+			type: Array,
+			required: false
+		},
+		competencies: {
+			type: Array,
+			required: false
+		},
+		options: {
+			type: Array,
+			required: false
+		},
+		required: {
+			type: Boolean,
+			default: false
+		},
+		customOptions: {
+			type: Array,
+			required: false
+		},
+		showMilestonesCompetencies: {
+			type: Boolean,
+			default: true
+		}
+	},
 	data(){
 		return {
 			workingOption: {

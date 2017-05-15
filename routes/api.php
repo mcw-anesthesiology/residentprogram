@@ -91,3 +91,15 @@ Route::resource('merits', 'Rest\MeritReportController', ['only' => [
 Route::resource('merit-forms', 'Rest\MeritReportFormController', ['only' => [
 	'index', 'store', 'show', 'update', 'destroy'
 ]]);
+
+Route::get('faculty360/forms/{id}/view', 'Rest\FacultyPeerFormController@view');
+Route::resource('faculty360/forms', 'Rest\FacultyPeerFormController', ['only' => [
+	'index', 'store', 'create', 'show', 'update', 'destroy'
+]]);
+
+Route::patch('faculty360/evaluations/{hash}/save', 'Rest\FacultyPeerEvaluationController@save');
+Route::patch('faculty360/evaluations/{hash}/submit', 'Rest\FacultyPeerEvaluationController@submit');
+Route::get('faculty360/evaluations/{hash}/send-new', 'Rest\FacultyPeerEvaluationController@sendHash');
+Route::resource('faculty360/evaluations', 'Rest\FacultyPeerEvaluationController', ['only' => [
+	'index', 'store', 'show', 'update', 'destroy'
+]]);

@@ -3,6 +3,12 @@
 	page-break-inside: avoid;
 }
 
+@media print {
+button[data-v-38459c74] {
+		display: none;
+}
+}
+
 .report-type-option[data-v-29d12b6c] {
 	margin: 0 1em;
 }
@@ -157,12 +163,6 @@ table td[data-v-2f4974f7] {
 	text-align: center;
 }
 
-@media print {
-button[data-v-38459c74] {
-		display: none;
-}
-}
-
 .show-email-button-container[data-v-358a2420] {
 	text-align: right;
 	margin-bottom: 20px;
@@ -175,7 +175,7 @@ button[data-v-38459c74] {
 	border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 	padding: 5px 0;
 }
-.evaluation-list-item[data-v-fe5e41f8]:nth-child(even){
+.evaluation-list-item[data-v-fe5e41f8]:nth-child(even) {
 	background-color: rgba(0, 0, 0, 0.05);
 }
 .evaluation-list-item .row[data-v-fe5e41f8] {

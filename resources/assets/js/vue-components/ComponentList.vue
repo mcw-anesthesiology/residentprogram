@@ -29,6 +29,12 @@
 						placeholder="Search" />
 				</label>
 			</div>
+			<div v-if="reloadable" class="form-group">
+				<button type="button" class="btn btn-default labelless-button"
+						@click="$emit('reload')">
+					<span class="glyphicon glyphicon-refresh"></span>
+				</button>
+			</div>
 		</div>
 		<div class="list-container">
 			<slot name="header"></slot>
@@ -82,6 +88,10 @@ export default {
 		paginate: {
 			type: Boolean,
 			default: true
+		},
+		reloadable: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data(){
@@ -122,7 +132,7 @@ export default {
 			this.items.map(item => {
 				if (this.fieldAccessors) {
 					for (let field in this.fieldAccessors) {
-						item[field] = this.fieldAccessors[field](item);
+						item[field] = this.fieldAccessors[field](item, 'search');
 					}
 				}
 				index.add(item);
@@ -150,8 +160,8 @@ export default {
 						let bValue;
 
 						if (this.fieldAccessors && this.sortBy in this.fieldAccessors) {
-							aValue = this.fieldAccessors[this.sortBy](a);
-							bValue = this.fieldAccessors[this.sortBy](b);
+							aValue = this.fieldAccessors[this.sortBy](a, 'sort');
+							bValue = this.fieldAccessors[this.sortBy](b, 'sort');
 						} else {
 							aValue = a[this.sortBy];
 							bValue = b[this.sortBy];
