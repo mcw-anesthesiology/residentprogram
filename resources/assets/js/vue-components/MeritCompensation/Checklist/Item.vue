@@ -3,12 +3,12 @@
 		<label class="containing-label">
 			<input type="checkbox" :checked="checked" :disabled="readonly"
 				@change="handleCheck" />
-							
+
 			<span class="item-text">
 				{{ text }}
 			</span>
 		</label>
-		<div v-if="checked" class="item-questions">
+		<div v-if="checked && hasQuestions" class="item-questions">
 			<questionnaire-question v-for="(question, index) of questions"
 				:question="question" :readonly="readonly"
 				@input="handleQuestionInput(index, arguments[0])" />
@@ -44,23 +44,29 @@ export default {
 			default: false
 		}
 	},
-	
+
+	computed: {
+		hasQuestions() {
+			return this.questions && this.questions.length > 0;
+		}
+	},
+
 	methods: {
 		handleCheck() {
 			let checked = !this.checked;
 			let item = {checked};
-			
+
 			if (!checked) {
 				let questions = this.questions.map(this.clearQuestion);
 				item.questions = questions;
 			}
-			
+
 			this.$emit('input', item);
 		},
 		handleQuestionInput(index, question) {
 			let questions = this.questions.slice();
 			questions[index] = Object.assign({}, questions[index], question);
-			
+
 			this.$emit('input', {questions});
 		},
 		clearQuestion(question) {
@@ -80,11 +86,11 @@ export default {
 					delete question.items;
 					break;
 			}
-			
+
 			return question;
 		}
 	},
-	
+
 	components: {
 		QuestionnaireQuestion
 	}
@@ -96,34 +102,39 @@ export default {
 		display: flex;
 		font-size: 1.75em;
 	}
-	
+
 	input[type="checkbox"] {
 		width: 1em;
 		height: 1em;
 		padding: 0.5em;
 		margin-right: 1em;
+		flex-shrink: 0;
 	}
-	
+
+	.item-text {
+		font-weight: normal;
+	}
+
 	.item-questions {
 		margin-left: 3em;
 		padding: 1em;
 	}
-	
+
 	@media (min-width: 768px) {
 		input[type="checkbox"] {
 			margin-right: 1.5em;
 		}
-		
+
 		.item-questions {
 			margin-left: 4em;
 		}
 	}
-	
+
 	@media (min-width: 768px) {
 		input[type="checkbox"] {
 			margin-right: 2em;
 		}
-		
+
 		.item-questions {
 			margin-left: 5em;
 		}

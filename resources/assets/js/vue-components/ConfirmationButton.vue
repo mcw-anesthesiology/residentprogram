@@ -11,10 +11,6 @@
 <script>
 export default {
 	props: {
-		class: {
-			type: String,
-			required: false
-		},
 		unpressedClass: {
 			type: String,
 			required: false
@@ -39,7 +35,7 @@ export default {
 		currentClass(){
 			return (this.pressedClass && this.pressed)
 				? this.pressedClass
-				: this.unpressedClass || this.class;
+				: this.unpressedClass;
 		}
 	},
 

@@ -26,7 +26,7 @@
 								{{ ucfirst(name) }} valid!
 							</span>
 						</div>
-						
+
 						<show-hide-button v-model="show.schema">
 							schema
 						</show-hide-button>
@@ -47,7 +47,7 @@
 							<label class="containing-label control-label">
 								Current {{ name }}
 								<textarea class="previous-json form-control"
-									readonly :value="pastValues[0].form"></textarea>
+									readonly :value="previousJson"></textarea>
 							</label>
 						</div>
 					</div>
@@ -100,19 +100,19 @@ export default {
 		return {
 			newJson: null,
 			schema: null,
-			
+
 			show: {
 				schema: false
 			},
 			alerts: []
 		};
 	},
-	
+
 	mounted() {
 		fetch(this.schemaUrl).then(response => {
 			if (response.ok)
 				return response.text();
-				
+
 			throw new Error(response.statusText);
 		}).then(schema => {
 			this.schema = schema;
@@ -125,8 +125,12 @@ export default {
 			});
 		});
 	},
-	
+
 	computed: {
+		previousJson() {
+			if (this.pastValues && this.pastValues.length > 0)
+				return this.pastValues[0].form;
+		},
 		newJsonObject() {
 			try {
 				return JSON.parse(this.newJson);
@@ -139,32 +143,32 @@ export default {
 				return [{
 					message: `Input is not valid JSON`
 				}];
-			
+
 			if (this.newJsonObject && this.schemaValidator)
 				return this.schemaValidator.errors;
-			
+
 			return [];
 		},
 		isSchemaValid() {
 			if (this.newJsonObject && this.schemaValidator)
 				return this.schemaValidator(this.newJsonObject);
-				
+
 			return false;
 		}
 	},
-	
+
 	methods: {
 		ucfirst,
 		ucfirstWords,
 		formatJson() {
-			if (this.newJsonObject)			
+			if (this.newJsonObject)
 				this.newJson = JSON.stringify(this.newJsonObject, null, 4);
 		},
 		submitJson() {
 			this.$emit('submit', this.newJson);
 		}
 	},
-	
+
 	components: {
 		AlertList,
 		ShowHideButton

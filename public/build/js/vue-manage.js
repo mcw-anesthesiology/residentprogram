@@ -4074,10 +4074,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: {
-		class: {
-			type: String,
-			required: false
-		},
 		unpressedClass: {
 			type: String,
 			required: false
@@ -4101,7 +4097,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	computed: {
 		currentClass: function currentClass() {
-			return this.pressedClass && this.pressed ? this.pressedClass : this.unpressedClass || this.class;
+			return this.pressedClass && this.pressed ? this.pressedClass : this.unpressedClass;
 		}
 	},
 
@@ -19817,6 +19813,9 @@ var ajv = new __WEBPACK_IMPORTED_MODULE_2_ajv___default.a({
 
 
 	computed: {
+		previousJson: function previousJson() {
+			if (this.pastValues && this.pastValues.length > 0) return this.pastValues[0].form;
+		},
 		newJsonObject: function newJsonObject() {
 			try {
 				return JSON.parse(this.newJson);
@@ -21316,7 +21315,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "readonly": ""
     },
     domProps: {
-      "value": _vm.pastValues[0].form
+      "value": _vm.previousJson
     }
   })])])])])])]), _vm._v(" "), _c('alert-list', {
     model: {

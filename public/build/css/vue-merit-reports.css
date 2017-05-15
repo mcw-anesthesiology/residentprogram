@@ -104,6 +104,10 @@ input[type="checkbox"][data-v-024c0c7e] {
 	height: 1em;
 	padding: 0.5em;
 	margin-right: 1em;
+	flex-shrink: 0;
+}
+.item-text[data-v-024c0c7e] {
+	font-weight: normal;
 }
 .item-questions[data-v-024c0c7e] {
 	margin-left: 3em;
