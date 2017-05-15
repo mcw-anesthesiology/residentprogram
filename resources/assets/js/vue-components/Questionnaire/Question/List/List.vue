@@ -1,8 +1,13 @@
 <template>
 	<div class="form-group">
 		<fieldset :title="description">
-			<legend v-if="text">
+			<legend v-if="text || itemCount">
 				{{ text }}
+				{{ text && itemCount ? '-' : '' }}
+				<span>
+					{{ itemCount }}
+					{{ itemCount === 1 ? 'item' : 'items' }}
+				</span>
 			</legend>
 			<list-items :ordered="ordered" :items="items" @change="onChange"
 				:readonly="readonly"/>
@@ -78,6 +83,9 @@ export default {
 	},
 
 	computed: {
+		itemCount() {
+			return this.items.length;
+		},
 		markedUpDescription() {
 			if (this.description)
 				return snarkdown(this.description);
