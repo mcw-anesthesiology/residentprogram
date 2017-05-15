@@ -1,11 +1,11 @@
 <template>
-	<div class="checklist-item">
+	<div class="checklist-item" :class="{checked, readonly, editable: !readonly}">
 		<label class="containing-label">
 			<input type="checkbox" :checked="checked" :disabled="readonly"
 				@change="handleCheck" />
 
 			<span class="item-text">
-				{{ text }}
+				{{ markedUpText }}
 			</span>
 		</label>
 		<div v-if="checked && hasQuestions" class="item-questions">
@@ -18,6 +18,8 @@
 
 <script>
 import QuestionnaireQuestion from 'vue-components/Questionnaire/Question/Question.vue';
+
+import snarkdown from 'snarkdown';
 
 export default {
 	props: {
@@ -48,6 +50,9 @@ export default {
 	computed: {
 		hasQuestions() {
 			return this.questions && this.questions.length > 0;
+		},
+		markedUpText() {
+			return snarkdown(this.text);
 		}
 	},
 
@@ -98,9 +103,28 @@ export default {
 </script>
 
 <style scoped>
+	.checklist-item {
+		padding-bottom: 0.25em;
+		margin-bottom: 0.75em;
+		border-bottom: 1px solid transparent;
+		color: rgba(0, 0, 0, 0.5);
+	}
+
+	.checklist-item:hover {
+		border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+	}
+
+	.checklist-item.editable:hover {
+		color: rgba(0, 0, 0, 0.95);
+	}
+
+	.checklist-item.checked {
+		color: rgba(0, 0, 0, 0.85);
+	}
+
 	label {
 		display: flex;
-		font-size: 1.75em;
+		font-size: 1.25em;
 	}
 
 	input[type="checkbox"] {
@@ -121,6 +145,10 @@ export default {
 	}
 
 	@media (min-width: 768px) {
+		label {
+			font-size: 1.35em;
+		}
+
 		input[type="checkbox"] {
 			margin-right: 1.5em;
 		}
@@ -130,7 +158,11 @@ export default {
 		}
 	}
 
-	@media (min-width: 768px) {
+	@media (min-width: 1200px) {
+		label {
+			font-size: 1.5em;
+		}
+
 		input[type="checkbox"] {
 			margin-right: 2em;
 		}
