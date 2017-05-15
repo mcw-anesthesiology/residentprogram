@@ -6,12 +6,12 @@
 				<span>{{ id }}</span>
 			</div>
 			<div class="col-sm-4">
-				<small>Name</small>
+				<small>Form</small>
 				<span>{{ form.name }}</span>
 			</div>
 			<div class="col-sm-4">
 				<small>Period</small>
-				<span>{{ renderDateRange(period_start, period_end) }}</span>
+				<rich-date-range :date="dates" />
 			</div>
 			<div class="col-sm-2">
 				<button type="button" class="btn btn-info btn-sm"
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { renderDateRange } from 'modules/date-utils.js';
+import RichDateRange from 'vue-components/RichDateRange.vue';
 
 export default {
 	props: {
@@ -60,6 +60,12 @@ export default {
 	},
 
 	computed: {
+		dates() {
+			return {
+				startDate: this.period_start,
+				endDate: this.period_end
+			};
+		},
 		viewEditText() {
 			return this.status === 'pending'
 				? 'Complete'
@@ -72,8 +78,8 @@ export default {
 		}
 	},
 
-	methods: {
-		renderDateRange
+	components: {
+		RichDateRange
 	}
 };
 </script>

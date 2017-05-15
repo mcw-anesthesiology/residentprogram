@@ -7794,7 +7794,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modules_date_utils_js__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__RichDateRange_vue__ = __webpack_require__(560);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__RichDateRange_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__RichDateRange_vue__);
 //
 //
 //
@@ -7857,6 +7858,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 	computed: {
+		dates: function dates() {
+			return {
+				startDate: this.period_start,
+				endDate: this.period_end
+			};
+		},
 		viewEditText: function viewEditText() {
 			return this.status === 'pending' ? 'Complete' : 'View';
 		},
@@ -7865,8 +7872,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 
-	methods: {
-		renderDateRange: __WEBPACK_IMPORTED_MODULE_0__modules_date_utils_js__["renderDateRange"]
+	components: {
+		RichDateRange: __WEBPACK_IMPORTED_MODULE_0__RichDateRange_vue___default.a
 	}
 });
 
@@ -8911,7 +8918,81 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* 331 */,
 /* 332 */,
 /* 333 */,
-/* 334 */,
+/* 334 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modules_date_utils_js__ = __webpack_require__(16);
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	props: {
+		date: {
+			type: Object,
+			required: true
+		},
+		start: {
+			type: String,
+			default: 'startDate'
+		},
+		end: {
+			type: String,
+			default: 'endDate'
+		},
+		time: {
+			type: Boolean,
+			default: false
+		}
+	},
+	data: function data() {
+		return {
+			hovered: false
+		};
+	},
+	mounted: function mounted() {
+		this.$refs.container.addEventListener('mouseenter', this.handleMouseEnter);
+
+		this.$refs.container.addEventListener('mouseleave', this.handleMouseLeave);
+	},
+
+
+	computed: {
+		startDate: function startDate() {
+			return this.date[this.start];
+		},
+		endDate: function endDate() {
+			return this.date[this.end];
+		},
+		dateString: function dateString() {
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__modules_date_utils_js__["renderDateRange"])(this.startDate, this.endDate, this.hovered);
+		}
+	},
+
+	methods: {
+		handleMouseEnter: function handleMouseEnter() {
+			this.hovered = true;
+		},
+		handleMouseLeave: function handleMouseLeave() {
+			this.hovered = false;
+		}
+	},
+
+	beforeDestroy: function beforeDestroy() {
+		this.$refs.container.removeEventListener('mouseenter', this.handleMouseEnter);
+
+		this.$refs.container.removeEventListener('mouseleave', this.handleMouseLeave);
+	}
+});
+
+/***/ }),
 /* 335 */,
 /* 336 */,
 /* 337 */,
@@ -9072,7 +9153,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 /* 452 */,
-/* 453 */,
+/* 453 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
 /* 454 */
 /***/ (function(module, exports) {
 
@@ -9764,7 +9850,50 @@ module.exports = Component.exports
 /* 557 */,
 /* 558 */,
 /* 559 */,
-/* 560 */,
+/* 560 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(453)
+}
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(334),
+  /* template */
+  __webpack_require__(592),
+  /* styles */
+  injectStyle,
+  /* scopeId */
+  "data-v-7a8a5f24",
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/RichDateRange.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] RichDateRange.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7a8a5f24", Component.options)
+  } else {
+    hotAPI.reload("data-v-7a8a5f24", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
 /* 561 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10267,9 +10396,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col-sm-2"
   }, [_c('small', [_vm._v("#")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.id))])]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-4"
-  }, [_c('small', [_vm._v("Name")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.form.name))])]), _vm._v(" "), _c('div', {
+  }, [_c('small', [_vm._v("Form")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.form.name))])]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-4"
-  }, [_c('small', [_vm._v("Period")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.renderDateRange(_vm.period_start, _vm.period_end)))])]), _vm._v(" "), _c('div', {
+  }, [_c('small', [_vm._v("Period")]), _vm._v(" "), _c('rich-date-range', {
+    attrs: {
+      "date": _vm.dates
+    }
+  })], 1), _vm._v(" "), _c('div', {
     staticClass: "col-sm-2"
   }, [_c('button', {
     staticClass: "btn btn-info btn-sm",
@@ -10337,7 +10470,23 @@ if (false) {
 
 /***/ }),
 /* 591 */,
-/* 592 */,
+/* 592 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', {
+    ref: "container"
+  }, [_vm._v("\n\t" + _vm._s(_vm.dateString) + "\n")])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-7a8a5f24", module.exports)
+  }
+}
+
+/***/ }),
 /* 593 */
 /***/ (function(module, exports, __webpack_require__) {
 

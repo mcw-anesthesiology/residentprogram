@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import moment from 'moment';
-
 import { renderDateRange } from 'modules/date-utils.js';
 
 export default {
