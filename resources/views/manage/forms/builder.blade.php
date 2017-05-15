@@ -5,23 +5,27 @@
 @endpush
 
 @section("body")
-	<h2 class="sub-header">Form Builder</h2>
+	<h1 class="sub-header">Form Builder</h1>
 	<form id="evaluation-form" method="POST" action="/forms">
 		{!! csrf_field() !!}
-		<div id="form-builder"></div>
+		<div id="form-builder">
+			<form-builder :old-form-contents="oldFormContents"
+				@submit="handleSubmit"></form-builder>
+				
+			<alert-list v-model="alerts"></alert-list>
+		</div>
 	</form>
-	<br />
 @stop
 
 @section("script")
 	<script src="{{ elixir('js/vue-deps.js') }}"></script>
 	<script src="{{ elixir('js/vue-form-builder.js') }}"></script>
 	<script>
-		var formContents = {!! $formContents or '""' !!};
-		var vm = createFormBuilder("#form-builder");
-		if(formContents){
-			vm.oldFormContents = formContents;
-		}
+		var propsData = {
+			oldFormContents: {!! $formContents or 'null' !!}
+		};
+		
+		var vm = createFormBuilder("#form-builder", propsData);
 
 		$("#evaluation-form").submit(checkForm);
 

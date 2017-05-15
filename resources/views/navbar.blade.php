@@ -7,8 +7,9 @@
 		<span class="icon-bar"></span>
 		<span class="icon-bar"></span>
 	  </button>
-	  <a class="navbar-brand" href="/dashboard">Trainee Evaluation System</a>
+	  <a class="navbar-brand" href="/">Trainee Evaluation System</a>
 	</div>
+@if(Auth::check() && !empty($user))
 	<div class="navbar-collapse collapse">
 	  <ul class="nav navbar-nav navbar-right">
 	  @if($user->isType("resident"))
@@ -47,6 +48,7 @@
 			<li><a href="/manage/user-features">User features</a></li>
 			<li><a href="/manage/case-logs">Case logs</a></li>
             <li><a href="/manage/merit">Merit</a></li>
+			<li><a href="/manage/faculty360">Faculty 360</a></li>
 		  </ul>
 		</li>
 	  @endif
@@ -82,5 +84,6 @@
 		</li>
 	  </ul>
 	</div>
+@endif
   </div>
 </div>

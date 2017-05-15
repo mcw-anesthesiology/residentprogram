@@ -23,10 +23,18 @@ export function datesEqual(dates1, dates2){
 		&& dates1.endDate === dates2.endDate;
 }
 
+export function renderDate(date) {
+	return date ? moment(date).format('MMMM Y') : '';
+}
+
+export function renderDateTime(date) {
+	return date ? moment(date).calendar() : '';
+}
+
 export function renderDateRange(startDate, endDate, explicit = false){
 	if (startDate === null && endDate === null)
 		return 'All time';
-	
+
 	let range = moment(startDate).twix(endDate, {allDay: true});
 	return range.start().startOf('month') && range.end().endOf('month') && !explicit
 		? range.format({
@@ -137,19 +145,19 @@ export function allTime() {
 
 export function academicYearForDate(date) {
 	date = moment(date);
-	
-	
+
+
 	let startYear = (date.month() >= 6) // July
 		? date.year()
 		: date.year() - 1;
-		
+
 	let startDate = {
 		year: startYear,
 		month: 6,
 		day: 1
 	};
 	let endDate = moment(startDate).add(1, 'year').subtract(1, 'day');
-	
+
 	return {
 		startDate,
 		endDate

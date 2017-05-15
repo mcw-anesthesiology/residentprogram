@@ -13,7 +13,8 @@
 	</style>
 @stop
 
-@section("body")
+@section("blockless-body")
+<div class="container body-block" v-pre>
 	<div class="row">
 		<h2 class="sub-header">Evaluation forms <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add new</button></h2>
 		<div class="table-responsive">
@@ -34,7 +35,7 @@
 	</div>
 </div>
 
-<div class="container body-block">
+<div class="container body-block" v-pre>
 	<div class="row">
 		<h2 class="sub-header">Fellow-specific evaluation forms <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add new</button></h2>
 		<div class="table-responsive">
@@ -55,7 +56,7 @@
 	</div>
 </div>
 
-<div class="container body-block">
+<div class="container body-block" v-pre>
 	<div class="row">
 		<h2 class="sub-header">Faculty evaluation forms <button class="addModal btn btn-success btn-xs" data-toggle="modal" data-target=".bs-add-modal" data-id="Form" id="addBtn"><span class="glyphicon glyphicon-plus"></span> Add new</button></h2>
 		<div class="table-responsive">
@@ -74,10 +75,11 @@
 			</table>
 		</div>
 	</div>
+</div>
 
 
 	<!-- Add Modal -->
-	<div class="modal fade bs-add-modal" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true" id="addModal">
+	<div class="modal fade bs-add-modal" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true" id="addModal" v-pre>
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	      <div class="modal-header">
@@ -112,7 +114,7 @@
 	</div>
 
 	<!-- Edit modal -->
-	<div class="modal fade bs-edit-modal" tabindex="-1" role="dialog" aria-labelledby="edit-form-modal-title" aria-hidden="true" id="edit-form-modal">
+	<div class="modal fade bs-edit-modal" tabindex="-1" role="dialog" aria-labelledby="edit-form-modal-title" aria-hidden="true" id="edit-form-modal" v-pre>
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -268,7 +270,7 @@
 						return form.visibility;
 					}},
 					{data: null, orderable: false, searchable: false, render: function(form, type){
-						return '<a href="/manage/forms/' + form.id + '">View Form</a>';
+						return '<a href="/manage/forms/' + form.id + '" target="_blank">View Form</a>';
 					}},
 					{data: null, orderable: false, render: function(form, type){
 						// TODO

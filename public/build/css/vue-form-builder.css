@@ -1,257 +1,23 @@
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.alert[data-v-8d03363a] {
+	page-break-inside: avoid;
+}
+
+.form-item[data-v-2c14a78c] {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+.form-item .form-block[data-v-2c14a78c] {
+	flex-grow: 1;
+}
+.custom-options-editor[data-v-2c14a78c] {
+	display: block;
+	margin: 1em auto;
+	font-family: monospace;
+	white-space: pre;
+}
 
 .question-id[data-v-e2c7d180] {
 	font-size: larger;
@@ -275,8 +41,10 @@ textarea.form-option-description[data-v-855ce662] {
 	height: 100px;
 }
 
-.alert[data-v-8d03363a] {
-	page-break-inside: avoid;
+@media print {
+button[data-v-38459c74] {
+		display: none;
+}
 }
 
 /*# sourceMappingURL=vue-form-builder.css.map*/

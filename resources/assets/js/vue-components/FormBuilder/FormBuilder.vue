@@ -2,14 +2,16 @@
 	<div class="form-header">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-md-6">
+				<div :class="fixedFormType ? 'col-md-9' : 'col-md-6'">
 					<div class="form-group">
 						<label for="form-title">Form title</label>
-						<input type="text" v-model.trim="title" id="form-title" class="form-control input-lg" name="formTitle" placeholder="Form Title" required />
+						<input type="text" v-model.trim="title" id="form-title"
+							class="form-control input-lg" name="formTitle"
+							placeholder="Form Title" required />
 					</div>
 				</div>
 				<div class="col-md-3">
-					<div class="form-group">
+					<div class="form-group" v-if="!fixedFormType">
 						<label for="form-type">Form type</label>
 						<select class="form-control input-lg" v-model="formType" id="form-type" name="form_type">
 							<option value="resident">Resident/Intern</option>
@@ -22,11 +24,12 @@
 					</div>
 				</div>
 				<div class="col-md-3">
-					<div class="form-group">
+					<div class="form-group" v-if="!fixedPeriodType">
 						<label for="form-period-type">Evaluation period type</label>
 						<select class="form-control input-lg" v-model="periodType" id="form-period-type">
 							<option value="month">Month</option>
 							<option value="quarter">Quarter</option>
+							<option value="year">Year</option>
 						</select>
 					</div>
 				</div>
@@ -35,16 +38,72 @@
 		<div class="form-body">
 			<div class="form-items">
 				<template v-for="(item, index) of items">
-					<form-builder-instruction v-if="item.type === 'instruction'" v-bind="item" v-on:change="changeItem(index, $event)" v-on:input="changeItem(index, $event)" v-on:remove="removeItem(index)"></form-builder-instruction>
-					<form-builder-question v-if="item.type === 'question'" v-bind="item" v-bind:formType="formType" v-bind:groupedMilestones="groupedMilestones" v-bind:allCompetencies="competencies" v-bind:customOptions="customOptions" v-on:change="changeItem(index, $event)" v-on:remove="removeItem(index)"></form-builder-question>
+					<div class="form-item">
+						<form-builder-instruction v-if="item.type === 'instruction'"
+							v-bind="item" @change="changeItem(index, $event)"
+							@input="changeItem(index, $event)"
+							@remove="removeItem(index)">
+						</form-builder-instruction>
+						<form-builder-question v-if="item.type === 'question'"
+							v-bind="item" :form-type="formType"
+							:grouped-milestones="groupedMilestones"
+							:all-competencies="competencies"
+							:custom-options="customOptions"
+							:show-milestones-competencies="showMilestonesCompetencies"
+							@change="changeItem(index, $event)"
+							@remove="removeItem(index)">
+						</form-builder-question>
+						<div class="btn-group-vertical">
+							<button type="button" class="btn btn-default"
+									:disabled="index === 0"
+									@click="moveItem(index, index - 1)">
+								<span class="glyphicon glyphicon-arrow-up"></span>
+							</button>
+							<button type="button" class="btn btn-default"
+									:disabled="index === items.length - 1"
+									@click="moveItem(index, index + 1)">
+								<span class="glyphicon glyphicon-arrow-down"></span>
+							</button>
+						</div>
+					</div>
 				</template>
 			</div>
 		</div>
 		<div id="form-footer">
 			<alert-list v-model="alerts" />
-			<button type="button" v-on:click="addInstruction" class="btn btn-default" id="add-instruction-block">Add instruction block</button>
-			<button type="button" v-on:click="addQuestion" class="btn btn-info" id="addQuestion">Add Question</button>
-			<button type="submit" v-on:click="submitForm" class="btn btn-success">Submit Form</button>
+			<div>
+				<button type="button" class="btn btn-default"
+						id="add-instruction-block"
+						@click="addInstruction">
+					<span class="glyphicon glyphicon-pencil"></span>
+					Add instruction block
+				</button>
+				<button type="button" class="btn btn-info" id="addQuestion"
+						@click="addQuestion">
+					<span class="glyphicon glyphicon-question-sign"></span>
+					Add question
+				</button>
+				<show-hide-button class="btn btn-default"
+						v-model="show.customOptionsEditor">
+					custom options editor
+				</show-hide-button>
+			</div>
+
+			<div v-if="show.customOptionsEditor"
+					class="custom-options-editor-container">
+				<textarea class="custom-options-editor form-control"
+					rows="10"
+					:value="customOptionsString"
+					@change="changeCustomOptions">
+				</textarea>
+			</div>
+
+			<div class="btn-lg-submit-container">
+				<confirmation-button class="btn btn-lg btn-primary"
+						@click="submitForm">
+					Submit form
+				</confirmation-button>
+			</div>
 		</div>
 	</div>
 </template>
@@ -53,119 +112,165 @@
 import FormBuilderInstruction from './FormBuilderInstruction.vue';
 import FormBuilderQuestion from './FormBuilderQuestion.vue';
 import AlertList from '../AlertList.vue';
+import ShowHideButton from '../ShowHideButton.vue';
+import ConfirmationButton from '../ConfirmationButton.vue';
 
-import {
-	getFetchHeaders,
-	fetchMilestoneGroups
-} from 'modules/utils.js';
+import { fetchMilestoneGroups } from 'modules/utils.js';
 
 export default {
-	props: [
-		'oldFormContents'
-	],
-	created(){
-		fetchMilestoneGroups().then(milestoneGroups => {
-			this.groupedMilestones = milestoneGroups;
-		}).catch(err => {
-			console.error(err);
-		});
-
-		fetch('/competencies', { credentials: 'same-origin' }).then(response => {
-			if(response.ok)
-				return response.json();
-			else {
-				let err = new Error(response.statusText);
-				err.response = response;
-				throw err;
-			}
-		}).then(competencies => {
-			this.competencies = competencies;
-		}).catch(err => {
-			console.error(err);
-		});
+	props: {
+		oldFormContents: {
+			type: Object,
+			required: false
+		},
+		fixedFormType: {
+			type: String,
+			required: false
+		},
+		fixedPeriodType: {
+			type: String,
+			required: false
+		},
+		defaultFormType: {
+			type: String,
+			required: false
+		},
+		defaultPeriodType: {
+			type: String,
+			required: false
+		},
+		showMilestonesCompetencies: {
+			type: Boolean,
+			default: true
+		}
 	},
 	data(){
 		return {
 			title: '',
-			formType: 'resident',
-			periodType: 'month',
+			formType: this.fixedFormType || this.defaultFormType || 'resident',
+			periodType: this.fixedPeriodType || this.defaultPeriodType || 'month',
 			nextQuestionIdNum: 1,
 			groupedMilestones: [],
 			competencies: [],
 			items: [],
 			customOptions: [],
-			
+
+			show: {
+				customOptionsEditor: false
+			},
+
 			alerts: []
 		};
 	},
+
+	mounted(){
+		if (this.showMilestonesCompetencies) {
+			fetchMilestoneGroups().then(milestoneGroups => {
+				this.groupedMilestones = milestoneGroups;
+			}).catch(err => {
+				console.error(err);
+			});
+
+			fetch('/competencies', { credentials: 'same-origin' }).then(response => {
+				if(response.ok)
+					return response.json();
+				else {
+					let err = new Error(response.statusText);
+					err.response = response;
+					throw err;
+				}
+			}).then(competencies => {
+				this.competencies = competencies;
+			}).catch(err => {
+				console.error(err);
+			});
+		}
+	},
+
+	computed: {
+		customOptionsString() {
+			try {
+				return JSON.stringify(this.customOptions, null, 4);
+			} catch (e) {
+				console.error(e);
+			}
+
+			return 'ERROR DISPLAYING CUSTOM OPTIONS';
+		}
+	},
+
 	methods: {
-		addInstruction(){
+		addInstruction() {
 			this.items.push({
 				type: 'instruction',
 				text: ''
 			});
 		},
-		addQuestion(){
+		addQuestion() {
 			this.items.push({
 				type: 'question',
 				text: '',
 				questionIdNum: this.nextQuestionIdNum++,
 				questionType: 'radio',
-				milestones: [],
-				competencies: '',
+				milestones: null,
+				competencies: null,
 				options: [],
 				required: false,
 				weight: 100
 			});
 		},
-		changeItem(index, item){
-			this.items.splice(index, 1, Object.assign(this.items[index], item));
+		changeItem(index, item) {
+			this.items.splice(index, 1, Object.assign({}, this.items[index], item));
 		},
-		removeItem(index){
-			let item = this.items[index];
-			if(item.type === 'question' && item.questionIdNum === this.nextQuestionIdNum - 1)
-				this.nextQuestionIdNum--;
+		moveItem(index, newIndex) {
+			this.items.splice(newIndex, 0, this.items.splice(index, 1)[0]);
+			this.adjustQuestionIdNums();
+		},
+		removeItem(index) {
 			this.items.splice(index, 1);
+			this.adjustQuestionIdNums();
 		},
-		submitForm(event){
-			event.preventDefault();
-			let requestBody = JSON.stringify({
-				title: this.title,
-				formType: this.formType,
-				evaluation_period_type: this.periodType,
-				items: this.items.map(item => {
-					item.questionId = `q${item.questionIdNum}`;
-					return item;
-				})
-			});
-
-			if(this.isFormValid()){
-				fetch('/forms', {
-					method: 'POST',
-					headers: getFetchHeaders(),
-					credentials: 'same-origin',
-					body: requestBody
-				}).then(response => {
-					if(response.ok)
-						return response.text();
-					else
-						throw new Error(response);
-				}).then(response => {
-					if(response === 'success')
-						window.location = '/manage/forms';
-					else
-						throw new Error(response);
-				}).catch(err => {
-					this.alerts.push({
-						type: 'error',
-						text: 'Error saving form'
-					});
-					console.error(err);
+		adjustQuestionIdNums() {
+			let num = 1;
+			this.items = this.items.map(item =>
+				item.type === 'question'
+					? Object.assign({}, item, {questionIdNum: num++})
+					: Object.assign({}, item)
+			);
+			this.nextQuestionIdNum = num;
+		},
+		changeCustomOptions(event) {
+			try {
+				let customOptions = JSON.parse(event.target.value);
+				if (Array.isArray(customOptions))
+					this.customOptions = customOptions;
+				else
+					throw new Error('Not an array');
+			} catch (err) {
+				console.error(err);
+				this.alerts.push({
+					type: 'error',
+					text: 'Unable to set custom options'
 				});
 			}
 		},
-		isFormValid(){
-			if(!this.title){
+		submitForm() {
+			if (this.isFormValid()) {
+				this.$emit('submit', {
+					title: this.title,
+					formType: this.formType,
+					evaluation_period_type: this.periodType,
+					items: this.items.map(item => {
+						if (item.type === 'question')
+							item.questionId = `q${item.questionIdNum}`;
+
+						return item;
+					})
+				});
+			}
+		},
+		isFormValid() {
+			if (!this.title) {
 				this.alerts.push({
 					type: 'error',
 					text: 'Please enter a title for the form'
@@ -173,7 +278,7 @@ export default {
 				return false;
 			}
 
-			if(!this.items || this.items.length < 1){
+			if (!this.items || this.items.length < 1) {
 				this.alerts.push({
 					type: 'error',
 					text: 'Please enter at least one question'
@@ -181,16 +286,16 @@ export default {
 				return false;
 			}
 
-			for(let item of this.items){
-				if(item.type === 'question'){
-					if(!item.text){
+			for (let item of this.items) {
+				if (item.type === 'question') {
+					if (!item.text) {
 						this.alerts.push({
 							type: 'error',
 							text: `Please enter question text for question ${item.questionIdNum}`
 						});
 						return false;
 					}
-					if(['radio', 'radiononnumeric', 'checkbox'].includes(item.questionType)){
+					if (['radio', 'radiononnumeric', 'checkbox'].includes(item.questionType)) {
 						if(!item.options || item.options.length < 1){
 							this.alerts.push({
 								type: 'error',
@@ -199,8 +304,8 @@ export default {
 							return false;
 						}
 
-						for(let option of item.options){
-							if(!('value' in option)){
+						for (let option of item.options) {
+							if (!('value' in option)) {
 								this.alerts.push({
 									type: 'error',
 									text: `An option cannot be submitted without a value. Please either assign a value or remove the option text and description for each option in question ${item.questionIdNum}`
@@ -210,8 +315,8 @@ export default {
 						}
 					}
 				}
-				else if(item.type === 'instruction'){
-					if(!item.text){
+				else if (item.type === 'instruction') {
+					if (!item.text) {
 						this.alerts.push({
 							type: 'error',
 							text: 'Please complete or remove all empty instruction blocks'
@@ -232,12 +337,12 @@ export default {
 		}
 	},
 	watch: {
-		oldFormContents(formContents){
+		oldFormContents(formContents) {
 			this.title = formContents.title;
 			this.formType = formContents.formType;
 			this.items = formContents.items.slice();
-			for(let item of this.items){
-				if(item.questionIdNum && item.questionIdNum >= this.nextQuestionIdNum)
+			for (let item of this.items) {
+				if (item.questionIdNum && item.questionIdNum >= this.nextQuestionIdNum)
 					this.nextQuestionIdNum = item.questionIdNum + 1;
 			}
 		}
@@ -245,11 +350,29 @@ export default {
 	components: {
 		FormBuilderInstruction,
 		FormBuilderQuestion,
-		AlertList
+		AlertList,
+		ShowHideButton,
+		ConfirmationButton
 	}
 };
 </script>
 
 <style scoped>
+	.form-item {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
 
+	.form-item .form-block {
+		flex-grow: 1;
+	}
+
+	.custom-options-editor {
+		display: block;
+		margin: 1em auto;
+		font-family: monospace;
+		white-space: pre;
+	}
 </style>

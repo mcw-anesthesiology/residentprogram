@@ -9,8 +9,8 @@ import { getFetchHeaders, okOrThrow, jsonOrThrow } from 'modules/utils.js';
 import {
 	academicYearForDate,
 	isoDateStringObject,
-	datesEqual,
-	renderDateRange
+	renderDateRange,
+	datesEqual
 } from 'modules/date-utils.js';
 
 export default function createFacultyMeritReports(el, propsData) {

@@ -15,11 +15,17 @@
 				<data-table :bordered="true" :thead="evaluationsThead"
 					:config="evaluationsConfig" :data="evaluationsData" />
 
-				<button type="button" class="btn btn-default center-block"
-						@click="exportPdf">
-					Export PDF
-					<svg-icon src="/img/icons/pdf.svg" />
-				</button>
+					<div class="text-center">
+						<button type="button" class="btn btn-primary"
+								@click="exportPdf">
+							Export PDF
+							<svg-icon src="/img/icons/pdf.svg" />
+						</button>
+						<button type="button" class="btn btn-default"
+								@click="saveCharts">
+							Save chart images
+						</button>
+					</div>
 			</section>
 
 			<section>
@@ -104,11 +110,18 @@
 				<data-table :bordered="true" :thead="commentsThead"
 					:config="commentsConfig" :data="commentsData" />
 
-				<button type="button" class="btn btn-primary center-block"
-						@click="exportPdf">
-					Export PDF
-					<svg-icon src="/img/icons/pdf.svg" />
-				</button>
+				<div class="text-center">
+					<button type="button" class="btn btn-primary"
+							@click="exportPdf">
+						Export PDF
+						<svg-icon src="/img/icons/pdf.svg" />
+					</button>
+					<button type="button" class="btn btn-default"
+							@click="saveCharts">
+						Save chart images
+					</button>
+				</div>
+				
 			</section>
 
 		</template>
@@ -123,6 +136,7 @@
 
 <script>
 import Color from 'color';
+import download from 'downloadjs';
 
 import BootstrapAlert from '../BootstrapAlert.vue';
 import AlertList from '../AlertList.vue';
@@ -448,6 +462,14 @@ export default {
 		camelCaseToWords,
 		ucfirst,
 		renderDateCell,
+		saveCharts() {
+			if (this.$refs.competencyChart && this.$refs.competencyChart.chart)
+				download(this.$refs.competencyChart.chart.toBase64Image(),
+					`Competencies chart - ${this.report.subjects[this.subjectId]} - ${new Date().toLocaleString()}.png`);
+			if (this.$refs.milestoneChart && this.$refs.milestoneChart.chart)
+				download(this.$refs.milestoneChart.chart.toBase64Image(),
+					`Milestones chart - ${this.report.subjects[this.subjectId]} - ${new Date().toLocaleString()}.png`);
+		},
 		exportPdf(){
 			if(!this.report.subjectEvaluations[this.subjectId])
 				return;
@@ -536,7 +558,7 @@ export default {
 						if(this.show.competencies && this.$refs.competencyChart && this.$refs.competencyChart.chart)
 							cols.push({
 								image: this.$refs.competencyChart.chart.toBase64Image(),
-								width: '*'
+								width: 200
 							});
 						else
 							cols.push({ text: '', width: '*' });
@@ -544,7 +566,7 @@ export default {
 						if(this.show.milestones && this.$refs.milestoneChart && this.$refs.milestoneChart.chart)
 							cols.push({
 								image: this.$refs.milestoneChart.chart.toBase64Image(),
-								width: '*'
+								width: 200
 							});
 						else
 							cols.push({ text: '', width: '*' });
@@ -563,13 +585,13 @@ export default {
 							charts.push({
 								pageBreak: 'before',
 								image: this.$refs.competencyChart.chart.toBase64Image(),
-								width: '*'
+								width: 500
 							});
 
 						if(this.show.milestones && this.$refs.milestoneChart && this.$refs.milestoneChart.chart)
 							charts.push({
 								image: this.$refs.milestoneChart.chart.toBase64Image(),
-								width: '*',
+								width: 500,
 								pageBreak: 'after'
 							});
 					}

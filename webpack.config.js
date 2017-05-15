@@ -19,6 +19,7 @@ module.exports = {
 		'vue-request': './resources/assets/js/vue-constructors/request.js',
 		'vue-dashboard': './resources/assets/js/vue-constructors/dashboard/index.js',
 		'vue-manage': './resources/assets/js/vue-constructors/manage/index.js',
+		'vue-faculty360': './resources/assets/js/vue-constructors/faculty360/index.js',
 		'vue-merit-reports': './resources/assets/js/vue-constructors/merit-reports/index.js'
 	},
 	output: {
@@ -69,6 +70,7 @@ module.exports = {
 				'vue-request',
 				'vue-dashboard',
 				'vue-manage',
+				'vue-faculty360',
 				'vue-merit-reports'
 			]
 		}),

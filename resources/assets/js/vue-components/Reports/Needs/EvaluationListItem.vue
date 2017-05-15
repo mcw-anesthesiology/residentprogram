@@ -8,7 +8,7 @@
 					{{ user.full_name }}
 				</a>
 			</div>
-			
+
 			<div class="col-sm-2">
 				{{
 					user.type === 'resident'
@@ -129,7 +129,7 @@ export default {
 	padding: 5px 0;
 }
 
-.evaluation-list-item:nth-child(even){
+.evaluation-list-item:nth-child(even) {
 	background-color: rgba(0, 0, 0, 0.05);
 }
 

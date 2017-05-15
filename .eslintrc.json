@@ -9,8 +9,11 @@
 		"es6": true,
 		"jquery": true
 	},
-	"plugins": ["vue", "compat"],
-	"extends": "eslint:recommended",
+	"plugins": ["vue", "compat", "import"],
+	"extends": [
+		"eslint:recommended",
+		"plugin:import/errors"
+	],
 	"rules": {
 		"no-console": "off",
 		"no-var": "warn",
@@ -29,6 +32,9 @@
 			"dataset"
 		],
 		"coverage": false,
-		"compiler": "babel"
+		"compiler": "babel",
+		"import/resolver": {
+			"babel-module": {}
+		}
 	}
 }
