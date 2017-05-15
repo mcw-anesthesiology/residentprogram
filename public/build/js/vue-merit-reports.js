@@ -8107,8 +8107,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ProgressBullets_vue__ = __webpack_require__(542);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ProgressBullets_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ProgressBullets_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PagerControls_vue__ = __webpack_require__(620);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PagerControls_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__PagerControls_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_dom_utils_js__ = __webpack_require__(622);
 //
 //
 //
@@ -8139,7 +8140,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
+
+
 
 
 
@@ -8159,7 +8161,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			type: String,
 			default: 'Submit'
 		},
-		nextText: {
+		forwardText: {
 			type: String,
 			default: 'Next page'
 		},
@@ -8183,17 +8185,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		page: function page() {
 			return this.pages[this.currentPage];
 		},
+		canGoBackPage: function canGoBackPage() {
+			return this.currentPage > 0;
+		},
 		canAdvancePage: function canAdvancePage() {
 			return this.pageValidator(this.currentPage);
 		}
 	},
 
 	methods: {
+		scrollToTop: function scrollToTop() {
+			$(this.$refs.pager).velocity('scroll', {
+				offset: -1 * __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_dom_utils_js__["a" /* getHeaderHeight */])()
+			});
+		},
 		goBack: function goBack() {
-			if (this.currentPage > 0) this.currentPage--;
+			if (this.canGoBackPage) {
+				this.currentPage--;
+				this.scrollToTop();
+			}
 		},
 		advance: function advance() {
-			if (this.canAdvancePage) this.currentPage++;
+			if (this.canAdvancePage) {
+				this.currentPage++;
+				this.scrollToTop();
+			}
 		},
 		submit: function submit() {
 			if (this.canAdvancePage) this.$emit('submit');
@@ -8201,7 +8217,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 	components: {
-		ProgressBullets: __WEBPACK_IMPORTED_MODULE_0__ProgressBullets_vue___default.a
+		PagerControls: __WEBPACK_IMPORTED_MODULE_0__PagerControls_vue___default.a
 	}
 });
 
@@ -9216,12 +9232,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ }),
 /* 455 */,
 /* 456 */,
-/* 457 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
+/* 457 */,
 /* 458 */
 /***/ (function(module, exports) {
 
@@ -9526,19 +9537,15 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(457)
-}
 var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(308),
   /* template */
   __webpack_require__(595),
   /* styles */
-  injectStyle,
+  null,
   /* scopeId */
-  "data-v-a814e09c",
+  null,
   /* moduleIdentifier (server only) */
   null
 )
@@ -10586,47 +10593,46 @@ if (false) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
+    ref: "pager",
     staticClass: "questionnaire-pager"
-  }, [_c('div', {
+  }, [_c('pager-controls', {
+    attrs: {
+      "current-page": _vm.currentPage,
+      "total-pages": _vm.pages.length,
+      "submit-text": _vm.submitText,
+      "forward-text": _vm.forwardText,
+      "back-text": _vm.backText,
+      "can-advance-page": _vm.canAdvancePage,
+      "can-go-back-page": _vm.canGoBackPage,
+      "readonly": _vm.readonly
+    },
+    on: {
+      "back": _vm.goBack,
+      "forward": _vm.advance,
+      "sumit": _vm.submit
+    }
+  }), _vm._v(" "), _c('div', {
     staticClass: "pager-content"
   }, [_vm._t("default", null, {
     page: _vm.page,
     pageNum: _vm.currentPage
-  })], 2), _vm._v(" "), _c('div', {
-    staticClass: "pager-controls"
-  }, [_c('button', {
-    staticClass: "btn btn-default",
+  })], 2), _vm._v(" "), _c('pager-controls', {
     attrs: {
-      "type": "button",
-      "disabled": _vm.currentPage === 0
+      "current-page": _vm.currentPage,
+      "total-pages": _vm.pages.length,
+      "submit-text": _vm.submitText,
+      "forward-text": _vm.forwardText,
+      "back-text": _vm.backText,
+      "can-advance-page": _vm.canAdvancePage,
+      "can-go-back-page": _vm.canGoBackPage,
+      "readonly": _vm.readonly
     },
     on: {
-      "click": _vm.goBack
+      "back": _vm.goBack,
+      "forward": _vm.advance,
+      "sumit": _vm.submit
     }
-  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.backText) + "\n\t\t")]), _vm._v(" "), _c('progress-bullets', {
-    attrs: {
-      "max": _vm.pages.length,
-      "value": _vm.currentPage + 1
-    }
-  }), _vm._v(" "), (_vm.currentPage < _vm.pages.length - 1) ? _c('button', {
-    staticClass: "btn btn-default",
-    attrs: {
-      "type": "button",
-      "disabled": !_vm.canAdvancePage
-    },
-    on: {
-      "click": _vm.advance
-    }
-  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.nextText) + "\n\t\t")]) : (!_vm.readonly) ? _c('button', {
-    staticClass: "btn btn-primary",
-    attrs: {
-      "type": "button",
-      "disabled": !_vm.canAdvancePage
-    },
-    on: {
-      "click": _vm.submit
-    }
-  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.submitText) + "\n\t\t")]) : _c('div')], 1)])
+  })], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -11127,6 +11133,201 @@ function getCheckedItemCount(report) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 618 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ProgressBullets_vue__ = __webpack_require__(542);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ProgressBullets_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ProgressBullets_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	props: {
+		currentPage: {
+			type: Number,
+			required: true
+		},
+		totalPages: {
+			type: Number,
+			required: true
+		},
+		submitText: {
+			type: String,
+			default: 'Submit'
+		},
+		forwardText: {
+			type: String,
+			default: 'Next page'
+		},
+		backText: {
+			type: String,
+			default: 'Back'
+		},
+		canGoBackPage: {
+			type: Boolean,
+			required: true
+		},
+		canAdvancePage: {
+			type: Boolean,
+			required: true
+		},
+		readonly: {
+			type: Boolean,
+			required: true
+		}
+	},
+
+	computed: {},
+
+	components: {
+		ProgressBullets: __WEBPACK_IMPORTED_MODULE_0__ProgressBullets_vue___default.a
+	}
+});
+
+/***/ }),
+/* 619 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 620 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(619)
+}
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(618),
+  /* template */
+  __webpack_require__(621),
+  /* styles */
+  injectStyle,
+  /* scopeId */
+  "data-v-8aa3b4f0",
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Questionnaire/PagerControls.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] PagerControls.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-8aa3b4f0", Component.options)
+  } else {
+    hotAPI.reload("data-v-8aa3b4f0", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 621 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "pager-controls"
+  }, [_c('button', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "type": "button",
+      "disabled": !_vm.canGoBackPage
+    },
+    on: {
+      "click": function($event) {
+        _vm.$emit('back')
+      }
+    }
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.backText) + "\n\t")]), _vm._v(" "), _c('progress-bullets', {
+    attrs: {
+      "max": _vm.totalPages,
+      "value": _vm.currentPage + 1
+    }
+  }), _vm._v(" "), (_vm.currentPage < _vm.totalPages - 1) ? _c('button', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "type": "button",
+      "disabled": !_vm.canAdvancePage
+    },
+    on: {
+      "click": function($event) {
+        _vm.$emit('forward')
+      }
+    }
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.forwardText) + "\n\t")]) : (!_vm.readonly) ? _c('button', {
+    staticClass: "btn btn-primary",
+    attrs: {
+      "type": "button",
+      "disabled": !_vm.canAdvancePage
+    },
+    on: {
+      "click": function($event) {
+        _vm.$emit('submit')
+      }
+    }
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.submitText) + "\n\t")]) : _c('div')], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-8aa3b4f0", module.exports)
+  }
+}
+
+/***/ }),
+/* 622 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = getHeaderHeight;
+function getHeaderHeight() {
+	return document.querySelector('#main-navbar').clientHeight;
+}
 
 /***/ })
 ],[343]);
