@@ -1,5 +1,9 @@
 @extends('app')
 
+@push('stylesheets')
+	<link rel="stylesheet" href="{{ elixir('css/vue-faculty360.css') }}" />
+@endpush
+
 @section('blockless-body')
 	<div class="container body-block">
 		<div v-if="newFormId" v-cloak>
@@ -16,9 +20,9 @@
 				default-period-type="year"
 				:show-milestones-competencies="false"
 				@submit="handleSubmit">
-			</form-builder>			
+			</form-builder>
 		</div>
-		
+
 		<alert-list v-model="alerts"></alert-list>
 	</div>
 @stop

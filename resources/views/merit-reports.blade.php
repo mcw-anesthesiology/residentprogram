@@ -1,5 +1,9 @@
 @extends('app')
 
+@push('stylesheets')
+	<link rel="stylesheet" href="{{ elixir('css/vue-merit-reports.css') }}" />
+@endpush
+
 @section('blockless-body')
 	<div class="container body-block">
 		<merit-compensation-report v-if="meritCompensationReport"
@@ -16,7 +20,7 @@
 							@click="addMeritReport">
 						Complete merit report
 					</button>
-				</div>			
+				</div>
 			</template>
 			<template v-else>
 				<p>
@@ -26,10 +30,10 @@
 						@click="viewMostRecentSubmission">
 					View your submission
 				</button>
-			</template>			
+			</template>
 		</template>
 	</div>
-	
+
 	<div class="container body-block">
 		<component-list v-if="meritReports" :items="meritReports"
 				:fields="meritReportFields"
@@ -52,7 +56,7 @@
 			meritReportTypes: {!! json_encode($meritReportTypes) !!},
 			meritReportTypeForms: {!! json_encode($meritReportTypeForms) !!}
 		};
-		
+
 		createFacultyMeritReports('main', propsData);
 	</script>
 @endpush

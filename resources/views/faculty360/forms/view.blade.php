@@ -1,5 +1,9 @@
 @extends('app')
 
+@push('stylesheets')
+	<link rel="stylesheet" href="{{ elixir('css/vue-faculty360.css') }}" />
+@endpush
+
 @section('blockless-body')
 	<div class="container body-block">
 		<form-reader v-bind="form" readonly>

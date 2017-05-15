@@ -1,5 +1,9 @@
 @extends('app')
 
+@push('stylesheets')
+	<link rel="stylesheet" href="{{ elixir('css/vue-manage.css') }}" />
+@endpush
+
 @section('head')
 	<style>
 		.faculty360-evaluation-list-item,

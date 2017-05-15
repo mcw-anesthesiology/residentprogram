@@ -83,6 +83,7 @@
     "snarkdown": "^1.2.2",
     "striptags": "^2.2.1",
     "style-loader": "^0.17.0",
+    "twix": "^1.1.3",
     "vue": "^2.3.2",
     "vue-loader": "^12.0.3",
     "vue-router": "^2.5.3",
@@ -91,8 +92,5 @@
     "webpack-bundle-analyzer": "^2.2.1",
     "webpack-manifest-plugin": "^1.1.0",
     "whatwg-fetch": "^2.0.1"
-  },
-  "dependencies": {
-    "twix": "^1.1.3"
   }
 }
