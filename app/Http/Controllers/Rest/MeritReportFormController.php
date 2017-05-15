@@ -10,7 +10,7 @@ class MeritReportFormController extends RestController
 {
 	public function __construct() {
 		$this->middleware('auth');
-		$this->middleware('type:auth')->only([
+		$this->middleware('type:admin')->only([
 			'store',
 			'update',
 			'destroy'

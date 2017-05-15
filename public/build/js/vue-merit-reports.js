@@ -3766,10 +3766,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: {
-		class: {
-			type: String,
-			required: false
-		},
 		unpressedClass: {
 			type: String,
 			required: false
@@ -3793,7 +3789,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	computed: {
 		currentClass: function currentClass() {
-			return this.pressedClass && this.pressed ? this.pressedClass : this.unpressedClass || this.class;
+			return this.pressedClass && this.pressed ? this.pressedClass : this.unpressedClass;
 		}
 	},
 
@@ -7562,6 +7558,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 
+	computed: {
+		hasQuestions: function hasQuestions() {
+			return this.questions && this.questions.length > 0;
+		}
+	},
+
 	methods: {
 		handleCheck: function handleCheck() {
 			var checked = !this.checked;
@@ -9779,7 +9781,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('span', {
     staticClass: "item-text"
-  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.text) + "\n\t\t")])]), _vm._v(" "), (_vm.checked) ? _c('div', {
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.text) + "\n\t\t")])]), _vm._v(" "), (_vm.checked && _vm.hasQuestions) ? _c('div', {
     staticClass: "item-questions"
   }, _vm._l((_vm.questions), function(question, index) {
     return _c('questionnaire-question', {

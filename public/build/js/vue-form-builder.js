@@ -3520,10 +3520,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: {
-		class: {
-			type: String,
-			required: false
-		},
 		unpressedClass: {
 			type: String,
 			required: false
@@ -3547,7 +3543,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	computed: {
 		currentClass: function currentClass() {
-			return this.pressedClass && this.pressed ? this.pressedClass : this.unpressedClass || this.class;
+			return this.pressedClass && this.pressed ? this.pressedClass : this.unpressedClass;
 		}
 	},
 
