@@ -8414,6 +8414,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -8472,6 +8477,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 	computed: {
+		itemCount: function itemCount() {
+			return this.items.length;
+		},
 		markedUpDescription: function markedUpDescription() {
 			if (this.description) return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_snarkdown__["a" /* default */])(this.description);
 		}
@@ -9945,7 +9953,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "title": _vm.description
     }
-  }, [(_vm.text) ? _c('legend', [_vm._v("\n\t\t\t" + _vm._s(_vm.text) + "\n\t\t")]) : _vm._e(), _vm._v(" "), _c('list-items', {
+  }, [(_vm.text || _vm.itemCount) ? _c('legend', [_vm._v("\n\t\t\t" + _vm._s(_vm.text) + "\n\t\t\t" + _vm._s(_vm.text && _vm.itemCount ? '-' : '') + "\n\t\t\t"), _c('span', [_vm._v("\n\t\t\t\t" + _vm._s(_vm.itemCount) + "\n\t\t\t\t" + _vm._s(_vm.itemCount === 1 ? 'item' : 'items') + "\n\t\t\t")])]) : _vm._e(), _vm._v(" "), _c('list-items', {
     attrs: {
       "ordered": _vm.ordered,
       "items": _vm.items,
