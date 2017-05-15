@@ -9,7 +9,7 @@ import { renderDateRange } from 'modules/date-utils.js';
 
 export default {
 	props: {
-		date: {
+		dates: {
 			type: Object,
 			required: true
 		},
@@ -42,10 +42,10 @@ export default {
 
 	computed: {
 		startDate() {
-			return this.date[this.start];
+			return this.dates[this.start];
 		},
 		endDate() {
-			return this.date[this.end];
+			return this.dates[this.end];
 		},
 		dateString() {
 			return renderDateRange(this.startDate, this.endDate, this.hovered);

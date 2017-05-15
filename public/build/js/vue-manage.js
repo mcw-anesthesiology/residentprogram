@@ -20210,7 +20210,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: {
-		date: {
+		dates: {
 			type: Object,
 			required: true
 		},
@@ -20241,10 +20241,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	computed: {
 		startDate: function startDate() {
-			return this.date[this.start];
+			return this.dates[this.start];
 		},
 		endDate: function endDate() {
-			return this.date[this.end];
+			return this.dates[this.end];
 		},
 		dateString: function dateString() {
 			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__modules_date_utils_js__["renderDateRange"])(this.startDate, this.endDate, this.hovered);

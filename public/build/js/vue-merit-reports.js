@@ -6885,15 +6885,19 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(617)
+}
 var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(301),
   /* template */
   __webpack_require__(590),
   /* styles */
-  null,
+  injectStyle,
   /* scopeId */
-  null,
+  "data-v-6ff62c0e",
   /* moduleIdentifier (server only) */
   null
 )
@@ -7688,6 +7692,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Checklist_Checklist_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Checklist_Checklist_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AcademicYearSelector_vue__ = __webpack_require__(153);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AcademicYearSelector_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AcademicYearSelector_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__RichDateRange_vue__ = __webpack_require__(560);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__RichDateRange_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__RichDateRange_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_merit_utils_js__ = __webpack_require__(616);
 //
 //
 //
@@ -7705,6 +7712,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
 
 
 
@@ -7751,6 +7778,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	computed: {
 		readonly: function readonly() {
 			return this.status !== 'pending';
+		},
+		checkedItems: function checkedItems() {
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_merit_utils_js__["a" /* getCheckedItemCount */])(this.report);
 		}
 	},
 
@@ -7784,7 +7814,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	components: {
 		MeritCompensationChecklist: __WEBPACK_IMPORTED_MODULE_0__Checklist_Checklist_vue___default.a,
 
-		AcademicYearSelector: __WEBPACK_IMPORTED_MODULE_1__AcademicYearSelector_vue___default.a
+		AcademicYearSelector: __WEBPACK_IMPORTED_MODULE_1__AcademicYearSelector_vue___default.a,
+		RichDateRange: __WEBPACK_IMPORTED_MODULE_2__RichDateRange_vue___default.a
 	}
 });
 
@@ -7796,6 +7827,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__RichDateRange_vue__ = __webpack_require__(560);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__RichDateRange_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__RichDateRange_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_merit_utils_js__ = __webpack_require__(616);
 //
 //
 //
@@ -7822,6 +7854,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+
+
 
 
 
@@ -7869,6 +7907,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		viewEditGlyph: function viewEditGlyph() {
 			return this.status === 'pending' ? 'glyphicon-pencil' : 'glyphicon-list-alt';
+		},
+		checkedItems: function checkedItems() {
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_merit_utils_js__["a" /* getCheckedItemCount */])(this.report);
 		}
 	},
 
@@ -8935,7 +8976,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: {
-		date: {
+		dates: {
 			type: Object,
 			required: true
 		},
@@ -8966,10 +9007,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	computed: {
 		startDate: function startDate() {
-			return this.date[this.start];
+			return this.dates[this.start];
 		},
 		endDate: function endDate() {
-			return this.date[this.end];
+			return this.dates[this.end];
 		},
 		dateString: function dateString() {
 			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__modules_date_utils_js__["renderDateRange"])(this.startDate, this.endDate, this.hovered);
@@ -10395,14 +10436,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "col-sm-2"
   }, [_c('small', [_vm._v("#")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.id))])]), _vm._v(" "), _c('div', {
-    staticClass: "col-sm-4"
+    staticClass: "col-sm-2"
   }, [_c('small', [_vm._v("Form")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.form.name))])]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-4"
   }, [_c('small', [_vm._v("Period")]), _vm._v(" "), _c('rich-date-range', {
     attrs: {
-      "date": _vm.dates
+      "dates": _vm.dates
     }
   })], 1), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-2"
+  }, [_c('small', [_vm._v("Checked items")]), _vm._v("\n\t\t\t" + _vm._s(_vm.checkedItems) + "\n\t\t")]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-2"
   }, [_c('button', {
     staticClass: "btn btn-info btn-sm",
@@ -10432,14 +10475,25 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('div', {
+  return _c('div', [(_vm.readonly) ? _c('div', {
+    staticClass: "form-summary panel panel-default"
+  }, [_c('div', {
+    staticClass: "panel-body"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-sm-6"
+  }, [_c('small', [_vm._v("Report period")]), _vm._v(" "), _c('rich-date-range', {
+    attrs: {
+      "dates": _vm.dates
+    }
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-6"
+  }, [_c('small', [_vm._v("Checked items")]), _vm._v("\n\t\t\t\t\t" + _vm._s(_vm.checkedItems) + "\n\t\t\t\t")])])])]) : _c('div', [_c('div', {
     staticClass: "form-group"
   }, [_c('label', {
     staticClass: "containing-label"
-  }, [_vm._v("\n\t\t\tReport period\n\t\t\t"), _c('academic-year-selector', {
-    attrs: {
-      "readonly": _vm.readonly
-    },
+  }, [_vm._v("\n\t\t\t\tReport period\n\t\t\t\t"), _c('academic-year-selector', {
     model: {
       value: (_vm.dates),
       callback: function($$v) {
@@ -10447,7 +10501,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "dates"
     }
-  })], 1)]), _vm._v(" "), _c('merit-compensation-checklist', _vm._b({
+  })], 1)])]), _vm._v(" "), _c('merit-compensation-checklist', _vm._b({
     attrs: {
       "title": _vm.title,
       "readonly": _vm.readonly
@@ -11013,6 +11067,55 @@ if (false) {
 
 /***/ }),
 /* 615 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 616 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = getCheckedItemCount;
+function getCheckedItemCount(report) {
+	if ('type' in report && report.type === 'item') return report.checked ? 1 : 0;
+
+	var count = 0;
+
+	var prop = 'type' in report && report.type === 'section' ? 'items' : 'pages';
+
+	if (prop in report) {
+		var _iteratorNormalCompletion = true;
+		var _didIteratorError = false;
+		var _iteratorError = undefined;
+
+		try {
+			for (var _iterator = report[prop][Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+				var item = _step.value;
+
+				count += getCheckedItemCount(item);
+			}
+		} catch (err) {
+			_didIteratorError = true;
+			_iteratorError = err;
+		} finally {
+			try {
+				if (!_iteratorNormalCompletion && _iterator.return) {
+					_iterator.return();
+				}
+			} finally {
+				if (_didIteratorError) {
+					throw _iteratorError;
+				}
+			}
+		}
+	}
+
+	return count;
+}
+
+/***/ }),
+/* 617 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
