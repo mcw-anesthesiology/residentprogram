@@ -1,36 +1,37 @@
 <template>
-	<div class="questionnaire-pager">
+	<div ref="pager" class="questionnaire-pager">
+		<pager-controls :current-page="currentPage"
+			:total-pages="pages.length"
+			:submit-text="submitText"
+			:forward-text="forwardText"
+			:back-text="backText"
+			:can-advance-page="canAdvancePage"
+			:can-go-back-page="canGoBackPage"
+			:readonly="readonly"
+			@back="goBack"
+			@forward="advance"
+			@sumit="submit" />
 		<div class="pager-content">
 			<slot :page="page" :page-num="currentPage"></slot>
 		</div>
-		<div class="pager-controls">
-			<button type="button" class="btn btn-default"
-					:disabled="currentPage === 0"
-					@click="goBack">
-				{{ backText }}
-			</button>
-			
-			<progress-bullets :max="pages.length" :value="currentPage + 1" />
-			
-			<button v-if="currentPage < pages.length - 1" type="button"
-					class="btn btn-default" :disabled="!canAdvancePage"
-					@click="advance">
-				{{ nextText }}
-			</button>
-			<button v-else-if="!readonly" type="button"
-					class="btn btn-primary" :disabled="!canAdvancePage"
-					@click="submit">
-				{{ submitText }}
-			</button>
-			<div v-else>
-				<!-- To preserve spacing -->
-			</div>
-		</div>
+		<pager-controls :current-page="currentPage"
+			:total-pages="pages.length"
+			:submit-text="submitText"
+			:forward-text="forwardText"
+			:back-text="backText"
+			:can-advance-page="canAdvancePage"
+			:can-go-back-page="canGoBackPage"
+			:readonly="readonly"
+			@back="goBack"
+			@forward="advance"
+			@sumit="submit" />
 	</div>
 </template>
 
 <script>
-import ProgressBullets from 'vue-components/ProgressBullets.vue';
+import PagerControls from './PagerControls.vue';
+
+import { getHeaderHeight } from 'modules/dom-utils.js';
 
 export default {
 	props: {
@@ -48,7 +49,7 @@ export default {
 			type: String,
 			default: 'Submit'
 		},
-		nextText: {
+		forwardText: {
 			type: String,
 			default: 'Next page'
 		},
@@ -66,66 +67,45 @@ export default {
 			currentPage: 0
 		};
 	},
-	
+
 	computed: {
 		page() {
 			return this.pages[this.currentPage];
+		},
+		canGoBackPage() {
+			return this.currentPage > 0;
 		},
 		canAdvancePage() {
 			return this.pageValidator(this.currentPage);
 		}
 	},
-	
+
 	methods: {
+		scrollToTop() {
+			$(this.$refs.pager).velocity('scroll', {
+				offset: -1 * getHeaderHeight()
+			});
+		},
 		goBack() {
-			if (this.currentPage > 0)
+			if (this.canGoBackPage) {
 				this.currentPage--;
+				this.scrollToTop();
+			}
 		},
 		advance() {
-			if (this.canAdvancePage)
+			if (this.canAdvancePage) {
 				this.currentPage++;
+				this.scrollToTop();
+			}
 		},
 		submit() {
 			if (this.canAdvancePage)
 				this.$emit('submit');
 		}
 	},
-	
+
 	components: {
-		ProgressBullets
+		PagerControls
 	}
 };
 </script>
-
-<style scoped>
-	.pager-controls {
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-		justify-content: space-between;
-		align-items: center;
-	}
-	
-	.pager-controls button,
-	.pager-controls div {
-		width: 100px;
-		margin: 0.5em;
-	}
-	
-	.pager-controls .progress-bullets {
-		margin: 0.5em 2em;
-		flex-grow: 1;
-	}
-	
-	@media (max-width: 768px) {
-		.pager-controls .progress-bullets {
-			width: 100%;
-			order: 1;
-		}
-		
-		.pager-controls button,
-		.pager-controls div {
-			order: 2;
-		}
-	}
-</style>
