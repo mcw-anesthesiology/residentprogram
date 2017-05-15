@@ -1,4 +1,7 @@
 <script>
+import TextItem from './TextItem.vue';
+import PublicationItem from './PublicationItem.vue';
+
 export default {
 	props: {
 		items: {
@@ -14,7 +17,7 @@ export default {
 			default: false
 		}
 	},
-	
+
 	render(h) {
 		let listEl = this.ordered ? 'ol' : 'ul';
 		return h(listEl, this.items.map((item, index) => {
@@ -27,22 +30,33 @@ export default {
 					itemComponent = 'publication-item';
 					break;
 			}
-			
+
 			return h(itemComponent, {
 				props: {
 					readonly: this.readonly,
 					...item
 				},
 				on: {
-					change: item => {
+					input: item => {
 						let items = Array.slice(this.items);
 						items[index] = Object.assign({}, items[index], item);
-						
+
+						this.$emit('change', items);
+					},
+					remove: () => {
+						let items = Array.slice(this.items);
+						items.splice(index, 1);
+
 						this.$emit('change', items);
 					}
 				}
 			});
 		}));
+	},
+
+	components: {
+		TextItem,
+		PublicationItem
 	}
 };
 </script>

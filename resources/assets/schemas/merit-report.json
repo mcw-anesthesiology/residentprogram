@@ -183,6 +183,7 @@
 					"type": "object",
 					"properties": {
 						"type": {"enum": ["list"]},
+						"listType": {"enum": ["text", "publication"]},
 						"text": {"type": "string"},
 						"description": {"type": "string"},
 						"ordered": {"type": "boolean"},
@@ -198,7 +199,7 @@
 					},
 					"required": [
 						"type",
-						"text"
+						"listType"
 					],
 					"definitions": {
 						"text": {
@@ -209,8 +210,7 @@
 								"text": {"type": "string"}
 							},
 							"required": [
-								"type",
-								"text"
+								"type"
 							]
 						},
 						"publication": {
@@ -224,10 +224,7 @@
 								"role": {"type": "string"}
 							},
 							"required": [
-								"type",
-								"title",
-								"author",
-								"role"
+								"type"
 							]
 						}
 					}

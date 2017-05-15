@@ -18,7 +18,9 @@
 					</div>
 				</div>
 				<div v-if="viewedReport" class="row">
-					<merit-report v-bind="viewedReport" @close="handleReportClose" />
+					<merit-report v-bind="viewedReport"
+						:title="viewedReport.form.name"
+						@close="handleReportClose" />
 				</div>
 			</div>
 		</div>

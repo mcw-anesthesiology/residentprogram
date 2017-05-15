@@ -158,6 +158,36 @@ legend[data-v-3b7f8513] {
 	padding: 1em;
 }
 
+li[data-v-737a1269] {
+	display: flex;
+}
+.item-controls[data-v-737a1269] {
+	flex-shrink: 0;
+	padding: 1em 1em 1em 0;
+}
+.item-contents[data-v-737a1269] {
+	flex-grow: 1;
+}
+
+.text-list-item {
+	margin-bottom: 1em;
+}
+
+li[data-v-9ce3a934] {
+	display: flex;
+}
+.item-controls[data-v-9ce3a934] {
+	flex-shrink: 0;
+	padding: 1em 1em 1em 0;
+}
+.item-contents[data-v-9ce3a934] {
+	flex-grow: 1;
+}
+
+.publication-list-item {
+	margin-bottom: 2em;
+}
+
 .instruction-block[data-v-16c471bd] {
 	margin: 1em;
 	padding: 1em;
