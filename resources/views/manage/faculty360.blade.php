@@ -139,7 +139,7 @@
 					</div>
 					<div class="col-sm-4">
 						<small>Evaluation date</small>
-						<rich-date-range :date="viewedEvaluation"
+						<rich-date-range :dates="viewedEvaluation"
 							start="evaluation_date_start"
 							end="evaluation_date_end">
 						</rich-date-range>
@@ -217,7 +217,7 @@
 					</div>
 					<div class="col-sm-3">
 						<small>Evaluation date</small>
-						<rich-date-range :date="evaluation"
+						<rich-date-range :dates="evaluation"
 							start="evaluation_date_start"
 							end="evaluation_date_end">
 						</rich-date-range>

@@ -5,13 +5,17 @@
 				<small>#</small>
 				<span>{{ id }}</span>
 			</div>
-			<div class="col-sm-4">
+			<div class="col-sm-2">
 				<small>Form</small>
 				<span>{{ form.name }}</span>
 			</div>
 			<div class="col-sm-4">
 				<small>Period</small>
-				<rich-date-range :date="dates" />
+				<rich-date-range :dates="dates" />
+			</div>
+			<div class="col-sm-2">
+				<small>Checked items</small>
+				{{ checkedItems }}
 			</div>
 			<div class="col-sm-2">
 				<button type="button" class="btn btn-info btn-sm"
@@ -26,6 +30,8 @@
 
 <script>
 import RichDateRange from 'vue-components/RichDateRange.vue';
+
+import { getCheckedItemCount } from 'modules/merit-utils.js';
 
 export default {
 	props: {
@@ -75,6 +81,9 @@ export default {
 			return this.status === 'pending'
 				? 'glyphicon-pencil'
 				: 'glyphicon-list-alt';
+		},
+		checkedItems() {
+			return getCheckedItemCount(this.report);
 		}
 	},
 

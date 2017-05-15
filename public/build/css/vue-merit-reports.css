@@ -59,6 +59,14 @@ small[data-v-6c389d6a] {
 	display: block;
 }
 
+small[data-v-6ff62c0e] {
+	font-size: 0.75em;
+	color: rgba(0, 0, 0, 0.55);
+	display: block;
+}
+
+
+
 .checklist[data-v-08bc7d30] {
 	font-size: 1.25em;
 }
