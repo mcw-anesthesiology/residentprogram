@@ -1,10 +1,16 @@
 <template>
 	<div class="form-group">
 		<fieldset :title="description">
-			<legend>
+			<legend v-if="text">
 				{{ text }}
 			</legend>
-			<list-items :ordered="ordered" :items="items" @change="onChange" />
+			<list-items :ordered="ordered" :items="items" @change="onChange"
+				:readonly="readonly"/>
+			<button v-if="!readonly" type="button" class="btn btn-sm btn-info"
+					@click="addItem">
+				<span class="glyphicon glyphicon-plus"></span>
+				Add item
+			</button>
 		</fieldset>
 		<show-hide-button v-if="description" v-model="show.description">
 			description
@@ -23,18 +29,26 @@ import snarkdown from 'snarkdown';
 
 export default {
 	model: {
-		prop: 'items',
-		event: 'change'
+		prop: 'items'
 	},
 	props: {
 		type: {
 			type: String,
+			required: true,
 			validator(type) {
-				return type === 'checkbox';
+				return type === 'list';
+			}
+		},
+		listType: {
+			type: String,
+			required: true,
+			validator(type) {
+				return ['text', 'publication'].includes(type);
 			}
 		},
 		text: {
-			type: String
+			type: String,
+			required: false
 		},
 		description: {
 			type: String,
@@ -42,7 +56,9 @@ export default {
 		},
 		items: {
 			type: Array,
-			required: true
+			default() {
+				return [];
+			}
 		},
 		ordered: {
 			type: Boolean,
@@ -60,21 +76,35 @@ export default {
 			}
 		};
 	},
-	
+
 	computed: {
 		markedUpDescription() {
 			if (this.description)
 				return snarkdown(this.description);
 		}
 	},
-	
+
 	methods: {
+		addItem() {
+			if (this.readonly)
+				return;
+
+			let items = Array.slice(this.items);
+			items.push({
+				type: this.listType
+			});
+
+			this.$emit('input', {items});
+		},
 		onChange(items) {
-			this.$emit('change', {items});
+			if (this.readonly)
+				return;
+
+			this.$emit('input', {items});
 		},
 		snarkdown
 	},
-	
+
 	components: {
 		ListItems,
 		ShowHideButton

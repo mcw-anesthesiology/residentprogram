@@ -1,41 +1,54 @@
 <template>
-	<li>
-		<div class="form-group">
-			<label class="containing-label">
-				Title
-				<input type="text" class="form-control appear-not-readonly"
-					:value="title" :readonly="readonly"
-					@input="$emit({title: $event.target.value})" />
-			</label>
+	<li class="publication-list-item">
+		<div class="item-controls">
+			<confirmation-button v-if="!readonly" class="btn btn-sm"
+					unpressed-class="btn-danger"
+					pressed-class="btn-warning"
+					@click="$emit('input', 'remove')">
+				<span class="glyphicon glyphicon-remove"></span>
+				Remove item
+			</confirmation-button>
 		</div>
-		<div class="form-group">
-			<label class="containing-label">
-				Author
-				<input type="text" class="form-control appear-not-readonly"
-					:value="author" :readonly="readonly"
-					@input="$emit({author: $event.target.value})" />
-			</label>
-		</div>
-		<div class="form-group">
-			<label class="containing-label">
-				Link
-				<input type="text" class="form-control appear-not-readonly"
-					:value="link" :readonly="readonly"
-					@input="$emit({link: $event.target.value})" />
-			</label>
-		</div>
-		<div class="form-group">
-			<label class="containing-label">
-				Role
-				<input type="text" class="form-control appear-not-readonly"
-					:value="role" :readonly="readonly"
-					@input="$emit({role: $event.target.value})" />
-			</label>
+		<div class="item-contents">
+			<div class="form-group">
+				<label class="containing-label">
+					Title
+					<input type="text" class="form-control appear-not-readonly"
+						:value="title" :readonly="readonly"
+						@input="$emit('input', {title: $event.target.value})" />
+				</label>
+			</div>
+			<div class="form-group">
+				<label class="containing-label">
+					Author
+					<input type="text" class="form-control appear-not-readonly"
+						:value="author" :readonly="readonly"
+						@input="$emit('input', {author: $event.target.value})" />
+				</label>
+			</div>
+			<div class="form-group">
+				<label class="containing-label">
+					Link
+					<input type="text" class="form-control appear-not-readonly"
+						:value="link" :readonly="readonly"
+						@input="$emit('input', {link: $event.target.value})" />
+				</label>
+			</div>
+			<div class="form-group">
+				<label class="containing-label">
+					Role
+					<input type="text" class="form-control appear-not-readonly"
+						:value="role" :readonly="readonly"
+						@input="$emit('input', {role: $event.target.value})" />
+				</label>
+			</div>
 		</div>
 	</li>
 </template>
 
 <script>
+import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
+
 export default {
 	model: {
 		prop: 'text'
@@ -43,6 +56,7 @@ export default {
 	props: {
 		type: {
 			type: String,
+			required: true,
 			validator(type) {
 				return type === 'publication';
 			}
@@ -67,6 +81,31 @@ export default {
 			type: Boolean,
 			default: false
 		}
+	},
+
+	components: {
+		ConfirmationButton
 	}
 };
 </script>
+
+<style scoped>
+	li {
+		display: flex;
+	}
+
+	.item-controls {
+		flex-shrink: 0;
+		padding: 1em 1em 1em 0;
+	}
+
+	.item-contents {
+		flex-grow: 1;
+	}
+</style>
+
+<style>
+	.publication-list-item {
+		margin-bottom: 2em;
+	}
+</style>
