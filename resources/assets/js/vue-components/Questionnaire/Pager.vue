@@ -88,14 +88,14 @@ export default {
 		},
 		goBack() {
 			if (this.canGoBackPage) {
-				this.currentPage--;
 				this.scrollToTop();
+				this.currentPage--;
 			}
 		},
 		advance() {
 			if (this.canAdvancePage) {
-				this.currentPage++;
 				this.scrollToTop();
+				this.currentPage++;
 			}
 		},
 		submit() {

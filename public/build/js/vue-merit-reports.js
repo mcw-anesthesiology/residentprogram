@@ -7515,6 +7515,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Questionnaire_Question_Question_vue__ = __webpack_require__(548);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Questionnaire_Question_Question_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Questionnaire_Question_Question_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_snarkdown__ = __webpack_require__(31);
 //
 //
 //
@@ -7533,6 +7534,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
+
 
 
 
@@ -7565,6 +7568,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	computed: {
 		hasQuestions: function hasQuestions() {
 			return this.questions && this.questions.length > 0;
+		},
+		markedUpText: function markedUpText() {
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_snarkdown__["a" /* default */])(this.text);
 		}
 	},
 
@@ -8201,14 +8207,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		goBack: function goBack() {
 			if (this.canGoBackPage) {
-				this.currentPage--;
 				this.scrollToTop();
+				this.currentPage--;
 			}
 		},
 		advance: function advance() {
 			if (this.canAdvancePage) {
-				this.currentPage++;
 				this.scrollToTop();
+				this.currentPage++;
 			}
 		},
 		submit: function submit() {
@@ -10010,7 +10016,10 @@ if (false) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "checklist-item"
+    staticClass: "checklist-item",
+    class: {
+      checked: _vm.checked, readonly: _vm.readonly, editable: !_vm.readonly
+    }
   }, [_c('label', {
     staticClass: "containing-label"
   }, [_c('input', {
@@ -10026,7 +10035,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('span', {
     staticClass: "item-text"
-  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.text) + "\n\t\t")])]), _vm._v(" "), (_vm.checked && _vm.hasQuestions) ? _c('div', {
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.markedUpText) + "\n\t\t")])]), _vm._v(" "), (_vm.checked && _vm.hasQuestions) ? _c('div', {
     staticClass: "item-questions"
   }, _vm._l((_vm.questions), function(question, index) {
     return _c('questionnaire-question', {

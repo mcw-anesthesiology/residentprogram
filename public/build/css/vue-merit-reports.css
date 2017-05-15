@@ -1,4 +1,4 @@
-
+@import url(https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed);
 .alert[data-v-8d03363a] {
 	page-break-inside: avoid;
 }
@@ -83,8 +83,8 @@ small[data-v-6ff62c0e] {
 
 section[data-v-a8188cb2] {
 	font-size: 0.95em;
-	padding: 1em;
-	margin: 0.5em;
+	padding: 0 1.5em;
+	margin: 1.5em 0;
 	border-left: 2px solid rgba(0, 0, 0, 0.15);
 }
 section.page[data-v-a8188cb2] {
@@ -92,24 +92,56 @@ section.page[data-v-a8188cb2] {
 }
 section h1[data-v-a8188cb2] {
 	font-size: 1.75em;
+	font-family: 'Roboto', sans-serif;
 	margin: 0 0 1em;
+}
+section.page > h1[data-v-a8188cb2] {
+	font-size: 2.5em;
+	font-family: 'Roboto Condensed', sans-serif;
 }
 @media (min-width: 768px) {
 section[data-v-a8188cb2] {
-		padding: 1.5em;
-		margin: 1em;
+		padding: 0 2.5em;
+		margin: 2.5em 0;
+}
+section h1[data-v-a8188cb2] {
+		font-size: 2em;
+}
+section.page > h1[data-v-a8188cb2] {
+		font-size: 3em;
 }
 }
 @media (min-width: 1200px) {
 section[data-v-a8188cb2] {
-		padding: 2em;
-		margin: 2em;
+		padding: 0 4em;
+		margin: 4em 0;
+}
+section h1[data-v-a8188cb2] {
+		font-size: 2.25em;
+}
+section.page > h1[data-v-a8188cb2] {
+		font-size: 4em;
 }
 }
 
+.checklist-item[data-v-024c0c7e] {
+	padding-bottom: 0.25em;
+	margin-bottom: 0.75em;
+	border-bottom: 1px solid transparent;
+	color: rgba(0, 0, 0, 0.5);
+}
+.checklist-item[data-v-024c0c7e]:hover {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+.checklist-item.editable[data-v-024c0c7e]:hover {
+	color: rgba(0, 0, 0, 0.95);
+}
+.checklist-item.checked[data-v-024c0c7e] {
+	color: rgba(0, 0, 0, 0.85);
+}
 label[data-v-024c0c7e] {
 	display: flex;
-	font-size: 1.75em;
+	font-size: 1.25em;
 }
 input[type="checkbox"][data-v-024c0c7e] {
 	width: 1em;
@@ -126,6 +158,9 @@ input[type="checkbox"][data-v-024c0c7e] {
 	padding: 1em;
 }
 @media (min-width: 768px) {
+label[data-v-024c0c7e] {
+		font-size: 1.35em;
+}
 input[type="checkbox"][data-v-024c0c7e] {
 		margin-right: 1.5em;
 }
@@ -133,7 +168,10 @@ input[type="checkbox"][data-v-024c0c7e] {
 		margin-left: 4em;
 }
 }
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
+label[data-v-024c0c7e] {
+		font-size: 1.5em;
+}
 input[type="checkbox"][data-v-024c0c7e] {
 		margin-right: 2em;
 }
