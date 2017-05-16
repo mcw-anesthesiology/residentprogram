@@ -10,7 +10,7 @@
 			:readonly="readonly"
 			@back="goBack"
 			@forward="advance"
-			@sumit="submit" />
+			@submit="submit" />
 		<div class="pager-content">
 			<slot :page="page" :page-num="currentPage"></slot>
 		</div>
@@ -24,7 +24,7 @@
 			:readonly="readonly"
 			@back="goBack"
 			@forward="advance"
-			@sumit="submit" />
+			@submit="submit" />
 	</div>
 </template>
 
