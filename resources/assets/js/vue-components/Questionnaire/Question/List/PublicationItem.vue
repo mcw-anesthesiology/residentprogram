@@ -4,7 +4,7 @@
 			<confirmation-button v-if="!readonly" class="btn btn-sm"
 					unpressed-class="btn-danger"
 					pressed-class="btn-warning"
-					@click="$emit('input', 'remove')">
+					@click="$emit('remove')">
 				<span class="glyphicon glyphicon-remove"></span>
 				Remove item
 			</confirmation-button>

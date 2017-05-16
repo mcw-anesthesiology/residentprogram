@@ -9,13 +9,18 @@
 				<small>Form</small>
 				<span>{{ form.name }}</span>
 			</div>
-			<div class="col-sm-4">
+			<div class="col-sm-3">
 				<small>Period</small>
 				<rich-date-range :dates="dates" />
 			</div>
-			<div class="col-sm-2">
+			<div class="col-sm-2 checked-items-container">
 				<small>Checked items</small>
 				{{ checkedItems }}
+			</div>
+			<div class="col-sm-1">
+				<span class="label" :class="statusLabel">
+					{{ ucfirst(status) }}
+				</span>
 			</div>
 			<div class="col-sm-2">
 				<button type="button" class="btn btn-info btn-sm"
@@ -31,6 +36,8 @@
 <script>
 import RichDateRange from 'vue-components/RichDateRange.vue';
 
+import { ucfirst } from 'modules/utils.js';
+import { getEvaluationStatusLabel } from 'modules/datatable-utils.js';
 import { getCheckedItemCount } from 'modules/merit-utils.js';
 
 export default {
@@ -82,9 +89,16 @@ export default {
 				? 'glyphicon-pencil'
 				: 'glyphicon-list-alt';
 		},
+		statusLabel() {
+			return getEvaluationStatusLabel(this.status);
+		},
 		checkedItems() {
 			return getCheckedItemCount(this.report);
 		}
+	},
+
+	methods: {
+		ucfirst
 	},
 
 	components: {
@@ -107,5 +121,9 @@ export default {
 		font-size: 0.75em;
 		color: rgba(0, 0, 0, 0.55);
 		display: block;
+	}
+
+	.checked-items-container {
+		text-align: right;
 	}
 </style>

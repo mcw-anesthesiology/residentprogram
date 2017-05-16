@@ -4,12 +4,12 @@ import AlertList from 'vue-components/AlertList.vue';
 import ComponentList from 'vue-components/ComponentList.vue';
 import MeritCompensationReport from 'vue-components/MeritCompensation/Report.vue';
 import MeritReportListItem from 'vue-components/MeritCompensation/ReportListItem.vue';
+import RichDateRange from 'vue-components/RichDateRange.vue';
 
 import { getFetchHeaders, okOrThrow, jsonOrThrow } from 'modules/utils.js';
 import {
 	academicYearForDate,
 	isoDateStringObject,
-	renderDateRange,
 	datesEqual
 } from 'modules/date-utils.js';
 
@@ -101,7 +101,6 @@ export default function createFacultyMeritReports(el, propsData) {
 		},
 
 		methods: {
-			renderDateRange,
 			fetchPastMeritReports() {
 
 				let query = $.param({
@@ -207,7 +206,8 @@ export default function createFacultyMeritReports(el, propsData) {
 			AlertList,
 			ComponentList,
 			MeritCompensationReport,
-			MeritReportListItem
+			MeritReportListItem,
+			RichDateRange
 		}
 	});
 }

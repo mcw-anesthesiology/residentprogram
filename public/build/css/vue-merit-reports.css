@@ -34,6 +34,14 @@ button[data-v-38459c74] {
 .containing-label > *[data-v-6d54e2f6] {
 	display: block;
 }
+.no-items-text[data-v-6d54e2f6] {
+	padding: 0.5em 0;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	border-left: none;
+	border-right: none;
+	text-align: center;
+	font-size: 1.25em;
+}
 
 .paginator[data-v-05c830ce] {
 	text-align: center;
@@ -57,6 +65,9 @@ small[data-v-6c389d6a] {
 	font-size: 0.75em;
 	color: rgba(0, 0, 0, 0.55);
 	display: block;
+}
+.checked-items-container[data-v-6c389d6a] {
+	text-align: right;
 }
 
 small[data-v-6ff62c0e] {
@@ -251,22 +262,22 @@ li[data-v-9ce3a934] {
 	justify-content: space-between;
 	align-items: center;
 }
-.pager-controls button[data-v-8aa3b4f0],
-.pager-controls div[data-v-8aa3b4f0] {
-	width: 100px;
+.button-container[data-v-8aa3b4f0] {
 	margin: 0.5em;
 }
-.pager-controls .progress-bullets[data-v-8aa3b4f0] {
+button[data-v-8aa3b4f0],
+confirmation-button[data-v-8aa3b4f0] {
+	min-width: 100px;
+}
+.progress-bullets[data-v-8aa3b4f0] {
 	margin: 0.5em 2em;
-	flex-grow: 1;
 }
 @media (max-width: 768px) {
-.pager-controls .progress-bullets[data-v-8aa3b4f0] {
+.progress-bullets[data-v-8aa3b4f0] {
 		width: 100%;
 		order: 1;
 }
-.pager-controls button[data-v-8aa3b4f0],
-	.pager-controls div[data-v-8aa3b4f0] {
+.button-container[data-v-8aa3b4f0] {
 		order: 2;
 }
 }
