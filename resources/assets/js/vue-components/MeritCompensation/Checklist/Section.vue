@@ -66,6 +66,7 @@ export default {
 	}
 
 	section.page {
+		margin: 0;
 		border: none;
 	}
 

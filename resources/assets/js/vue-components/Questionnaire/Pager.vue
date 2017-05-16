@@ -11,9 +11,23 @@
 			@back="goBack"
 			@forward="advance"
 			@submit="submit" />
+
+		<button type="button" class="scroll-button btn"
+				@click="scrollToBottom">
+			<span class="glyphicon glyphicon-arrow-down"></span>
+			Scroll to bottom
+		</button>
+
 		<div class="pager-content">
 			<slot :page="page" :page-num="currentPage"></slot>
 		</div>
+
+		<button type="button" class="scroll-button btn"
+				@click="scrollToTop">
+			<span class="glyphicon glyphicon-arrow-up"></span>
+			Scroll to top
+		</button>
+
 		<pager-controls :current-page="currentPage"
 			:total-pages="pages.length"
 			:submit-text="submitText"
@@ -86,6 +100,14 @@ export default {
 				offset: -1 * getHeaderHeight()
 			});
 		},
+		scrollToBottom() {
+			$(this.$refs.pager).velocity('scroll', {
+				offset: (
+					this.$refs.pager.clientHeight
+					- window.innerHeight
+				)
+			});
+		},
 		goBack() {
 			if (this.canGoBackPage) {
 				this.scrollToTop();
@@ -109,3 +131,14 @@ export default {
 	}
 };
 </script>
+
+<style scoped>
+	.scroll-button {
+		display: block;
+		margin-left: auto;
+	}
+
+	.scroll-button .glyphicon {
+		display: block;
+	}
+</style>
