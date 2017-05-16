@@ -77,13 +77,17 @@
 				:field-accessors="meritReportFieldAccessors"
 				default-sort-order="desc">
 			<template scope="item">
-				<merit-report-list-item v-bind="item" @click="handleViewReport">
+				<merit-report-list-item v-bind="item"
+					@click="handleViewReport"
+					@change="fetchPastMeritReports"
+					@alert="alerts.push(arguments[0])">
 				</merit-report-list-item>
 			</template>
 		</component-list>
 		<div v-else>
 			<p class="lead">
-				You don't have any submitted merit reports yet. Please submit one!
+				You don't have any submitted merit reports yet.
+				Please submit one!
 			</p>
 		</div>
 	</div>

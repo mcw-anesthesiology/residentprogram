@@ -46,4 +46,8 @@ class MeritReport extends Model
 	public function form() {
 		return $this->belongsTo('App\MeritReportForm', 'form_id');
 	}
+
+	public function revisions() {
+		return $this->hasMany('App\MeritReportRevision', 'merit_report_id');
+	}
 }

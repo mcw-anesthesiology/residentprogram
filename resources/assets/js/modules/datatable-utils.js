@@ -101,6 +101,8 @@ export function getEvaluationStatusLabelType(status) {
 			return 'danger';
 		case 'pending':
 			return 'warning';
+		case 'open for editing':
+			return 'info';
 		default:
 			return 'default';
 	}

@@ -12,7 +12,9 @@
 								:paginate="false">
 							<template scope="item">
 								<merit-report-list-item v-bind="item"
-									@click="handleReportClick" />
+									:user="user"
+									@click="handleReportClick"
+									@change="$emit('change')" />
 							</template>
 						</component-list>
 					</div>
@@ -20,28 +22,42 @@
 				<div v-if="viewedReport" class="row">
 					<merit-report v-bind="viewedReport"
 						:title="viewedReport.form.name"
-						@close="handleReportClose" />
+						@close="handleReportClose"
+						@save="handleReportSave"
+						@submit="handleReportSubmit" />
 				</div>
+
+				<alert-list v-model="alerts" />
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import HasAlerts from 'vue-mixins/HasAlerts.js';
+
 import ComponentList from 'vue-components/ComponentList.vue';
 import MeritReportListItem from './ReportListItem.vue';
 import MeritReport from './Report.vue';
 
+import { getFetchHeaders, okOrThrow } from 'modules/utils.js';
+
 export default {
+	mixins: [
+		HasAlerts
+	],
 	props: {
 		full_name: {
 			type: String,
 			required: true
 		},
-
 		merit_reports: {
 			type: Array,
 			required: true
+		},
+		user: {
+			type: Object,
+			required: false
 		}
 	},
 	data() {
@@ -71,6 +87,32 @@ export default {
 		},
 		handleReportClose() {
 			this.viewedReport = null;
+		},
+		handleReportSave(changes) {
+			this.updateReport(changes);
+		},
+		handleReportSubmit(changes) {
+			this.updateReport(Object.assign(changes, {
+				status: 'complete'
+			}));
+		},
+		updateReport(changes) {
+			fetch(`/merits/${changes.id}`, {
+				method: 'POST', // PATCH
+				headers: getFetchHeaders(),
+				credentials: 'same-origin',
+				body: JSON.stringify(Object.assign(changes, {
+					_method: 'PATCH'
+				}))
+			}).then(okOrThrow).then(() => {
+				this.$emit('change');
+			}).catch(err => {
+				console.error(err);
+				this.$emit('alert', {
+					type: 'error',
+					html: '<strong>Error:</strong> There was a problem updating the merit report'
+				});
+			});
 		}
 	},
 
