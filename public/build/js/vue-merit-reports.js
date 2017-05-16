@@ -8463,6 +8463,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -8520,6 +8534,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		scrollToTop: function scrollToTop() {
 			$(this.$refs.pager).velocity('scroll', {
 				offset: -1 * __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_dom_utils_js__["a" /* getHeaderHeight */])()
+			});
+		},
+		scrollToBottom: function scrollToBottom() {
+			$(this.$refs.pager).velocity('scroll', {
+				offset: this.$refs.pager.clientHeight - window.innerHeight
 			});
 		},
 		goBack: function goBack() {
@@ -10068,15 +10087,19 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(623)
+}
 var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(313),
   /* template */
   __webpack_require__(611),
   /* styles */
-  null,
+  injectStyle,
   /* scopeId */
-  null,
+  "data-v-a814e09c",
   /* moduleIdentifier (server only) */
   null
 )
@@ -11478,12 +11501,32 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "forward": _vm.advance,
       "submit": _vm.submit
     }
-  }), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), _c('button', {
+    staticClass: "scroll-button btn",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.scrollToBottom
+    }
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-arrow-down"
+  }), _vm._v("\n\t\tScroll to bottom\n\t")]), _vm._v(" "), _c('div', {
     staticClass: "pager-content"
   }, [_vm._t("default", null, {
     page: _vm.page,
     pageNum: _vm.currentPage
-  })], 2), _vm._v(" "), _c('pager-controls', {
+  })], 2), _vm._v(" "), _c('button', {
+    staticClass: "scroll-button btn",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.scrollToTop
+    }
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-arrow-up"
+  }), _vm._v("\n\t\tScroll to top\n\t")]), _vm._v(" "), _c('pager-controls', {
     attrs: {
       "current-page": _vm.currentPage,
       "total-pages": _vm.pages.length,
@@ -11540,6 +11583,12 @@ if (false) {
 		AlertList: __WEBPACK_IMPORTED_MODULE_0__vue_components_AlertList_vue___default.a
 	}
 });
+
+/***/ }),
+/* 623 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 ],[351]);

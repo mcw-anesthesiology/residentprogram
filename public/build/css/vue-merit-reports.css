@@ -103,6 +103,7 @@ section[data-v-a8188cb2] {
 	border-left: 2px solid rgba(0, 0, 0, 0.15);
 }
 section.page[data-v-a8188cb2] {
+	margin: 0;
 	border: none;
 }
 section h1[data-v-a8188cb2] {
@@ -257,6 +258,14 @@ li[data-v-9ce3a934] {
 	margin: 1em;
 	padding: 1em;
 	font-size: 1.25em;
+}
+
+.scroll-button[data-v-a814e09c] {
+	display: block;
+	margin-left: auto;
+}
+.scroll-button .glyphicon[data-v-a814e09c] {
+	display: block;
 }
 
 .pager-controls[data-v-8aa3b4f0] {
