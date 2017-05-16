@@ -3633,6 +3633,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: {
@@ -3648,6 +3649,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			type: Number,
 			required: false,
 			default: 3000
+		},
+		disabled: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data: function data() {
@@ -3694,7 +3699,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('button', {
     class: _vm.currentClass,
     attrs: {
-      "type": "button"
+      "type": "button",
+      "disabled": _vm.disabled
     },
     on: {
       "click": _vm.handleClick
@@ -4557,14 +4563,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			switch (this.formType) {
 				case 'resident':
 				case 'self-resident':
-					options = __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["b" /* STANDARD_OPTIONS */].RESIDENT.slice();
+					options = __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["d" /* STANDARD_OPTIONS */].RESIDENT.slice();
 					break;
 				case 'fellow':
 				case 'self-fellow':
-					options = __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["b" /* STANDARD_OPTIONS */].FELLOW.slice();
+					options = __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["d" /* STANDARD_OPTIONS */].FELLOW.slice();
 					break;
 				case 'faculty':
-					if (this.questionType === 'radiononnumeric') options = __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["b" /* STANDARD_OPTIONS */].FACULTY.slice();
+					if (this.questionType === 'radiononnumeric') options = __WEBPACK_IMPORTED_MODULE_3__modules_constants_js__["d" /* STANDARD_OPTIONS */].FACULTY.slice();
 					break;
 			}
 
@@ -4809,7 +4815,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 	methods: {
-		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["f" /* ucfirst */],
+		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["d" /* ucfirst */],
 		resetOptions: function resetOptions() {
 			if (this.readonly) return;
 
@@ -6572,7 +6578,7 @@ function createFaculty360Evaluate(el, propsData) {
 					console.error(err);
 					_this.alerts.push({
 						type: 'error',
-						html: '<strong>Error:</strong> There was a problem\n\t\t\t\t\t\t\tsaving your progress. Please let me know at\n\t\t\t\t\t\t\t<a href="mailto:' + __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__["a" /* ADMIN_EMAIL */] + '">\n\t\t\t\t\t\t\t\t' + __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__["a" /* ADMIN_EMAIL */] + '\n\t\t\t\t\t\t\t</a>'
+						html: '<strong>Error:</strong> There was a problem\n\t\t\t\t\t\t\tsaving your progress. Please let me know at\n\t\t\t\t\t\t\t<a href="mailto:' + __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__["c" /* ADMIN_EMAIL */] + '">\n\t\t\t\t\t\t\t\t' + __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__["c" /* ADMIN_EMAIL */] + '\n\t\t\t\t\t\t\t</a>'
 					});
 				});
 				console.log(form);
@@ -6594,7 +6600,7 @@ function createFaculty360Evaluate(el, propsData) {
 					console.error(err);
 					_this2.alerts.push({
 						type: 'error',
-						html: '<strong>Error:</strong> There was a problem\n\t\t\t\t\t\t\tsubmitting the form. Please let me know at\n\t\t\t\t\t\t\t<a href="mailto:' + __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__["a" /* ADMIN_EMAIL */] + '">\n\t\t\t\t\t\t\t\t' + __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__["a" /* ADMIN_EMAIL */] + '\n\t\t\t\t\t\t\t</a>'
+						html: '<strong>Error:</strong> There was a problem\n\t\t\t\t\t\t\tsubmitting the form. Please let me know at\n\t\t\t\t\t\t\t<a href="mailto:' + __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__["c" /* ADMIN_EMAIL */] + '">\n\t\t\t\t\t\t\t\t' + __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__["c" /* ADMIN_EMAIL */] + '\n\t\t\t\t\t\t\t</a>'
 					});
 				});
 			}

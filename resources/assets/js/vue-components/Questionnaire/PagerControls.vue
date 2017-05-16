@@ -1,30 +1,36 @@
 <template>
 	<div class="pager-controls">
-		<button type="button" class="btn btn-default"
-				:disabled="!canGoBackPage"
-				@click="$emit('back')">
-			{{ backText }}
-		</button>
+		<div class="button-container">
+			<button type="button" class="btn btn-default"
+					:disabled="!canGoBackPage"
+					@click="$emit('back')">
+				{{ backText }}
+			</button>
+		</div>
 
 		<progress-bullets :max="totalPages" :value="currentPage + 1" />
 
-		<button v-if="currentPage < totalPages - 1" type="button"
-				class="btn btn-default" :disabled="!canAdvancePage"
-				@click="$emit('forward')">
-			{{ forwardText }}
-		</button>
-		<button v-else-if="!readonly" type="button"
-				class="btn btn-primary" :disabled="!canAdvancePage"
-				@click="$emit('submit')">
-			{{ submitText }}
-		</button>
-		<div v-else>
-			<!-- To preserve spacing -->
+		<div class="button-container">
+			<button v-if="currentPage < totalPages - 1" type="button"
+					class="btn btn-default" :disabled="!canAdvancePage"
+					@click="$emit('forward')">
+				{{ forwardText }}
+			</button>
+			<confirmation-button v-else-if="!readonly"
+					class="btn btn-primary" pressed-class="btn-success"
+					:disabled="!canAdvancePage"
+					@click="$emit('submit')">
+				{{ submitText }}
+				<template slot="pressed">
+					Confirm
+				</template>
+			</confirmation-button>
 		</div>
 	</div>
 </template>
 
 <script>
+import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
 import ProgressBullets from 'vue-components/ProgressBullets.vue';
 
 export default {
@@ -68,6 +74,7 @@ export default {
 	},
 
 	components: {
+		ConfirmationButton,
 		ProgressBullets
 	}
 };
@@ -82,25 +89,26 @@ export default {
 		align-items: center;
 	}
 
-	.pager-controls button,
-	.pager-controls div {
-		width: 100px;
+	.button-container {
 		margin: 0.5em;
 	}
 
-	.pager-controls .progress-bullets {
+	button,
+	confirmation-button {
+		min-width: 100px;
+	}
+
+	.progress-bullets {
 		margin: 0.5em 2em;
-		flex-grow: 1;
 	}
 
 	@media (max-width: 768px) {
-		.pager-controls .progress-bullets {
+		.progress-bullets {
 			width: 100%;
 			order: 1;
 		}
 
-		.pager-controls button,
-		.pager-controls div {
+		.button-container {
 			order: 2;
 		}
 	}

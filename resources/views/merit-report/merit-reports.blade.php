@@ -5,12 +5,12 @@
 @endpush
 
 @section('blockless-body')
-	@if($user->isType('admin') || $user->usesFeature('FACULTY_EVALS'))
-		@include("merit-report.admin-supervisor")
-	@endif
-
 	@if($user->isType('faculty'))
 		@include('merit-report.faculty')
+	@endif
+
+	@if($user->isType('admin') || $user->usesFeature('FACULTY_EVALS'))
+		@include("merit-report.admin-supervisor")
 	@endif
 @stop
 

@@ -1,5 +1,6 @@
 <template>
-	<button type="button" :class="currentClass" @click="handleClick">
+	<button type="button" :class="currentClass" :disabled="disabled"
+			@click="handleClick">
 		<slot v-if="pressed" name="pressed">
 			<span class="glyphicon glyphicon-warning-sign"></span>
 			Click again to confirm
@@ -23,6 +24,10 @@ export default {
 			type: Number,
 			required: false,
 			default: 3000
+		},
+		disabled: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data(){

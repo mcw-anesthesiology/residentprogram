@@ -25,7 +25,7 @@
 
 			<button v-if="!readonly" type="button" class="btn btn-info"
 					@click="handleSave">
-				Save progress
+				Save and close
 			</button>
 		</div>
 	</div>

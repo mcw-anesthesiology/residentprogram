@@ -84,7 +84,8 @@ export function renderAccountStatus(status) {
 			labelContext = 'label-default';
 			break;
 	}
-	return '<span class="label ' + labelContext + '">' + ucfirst(status) + '</span>';
+
+	return `<span class="label ${labelContext}">${ucfirst(status)}</span>`;
 }
 
 export function getEvaluationStatusLabelType(status) {

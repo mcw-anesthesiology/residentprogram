@@ -38,9 +38,14 @@
 		</div>
 		<div class="list-container">
 			<slot name="header"></slot>
-			<ol class="list">
+
+			<ol v-if="itemsToShow" class="list">
 				<slot v-for="item of currentPageItems" v-bind="item"></slot>
 			</ol>
+			<p v-else class="no-items-text">
+				No items to show
+			</p>
+
 			<slot name="footer"></slot>
 		</div>
 		<list-paginator v-if="paginate"
@@ -62,7 +67,7 @@ export default {
 	props: {
 		fields: {
 			type: Array,
-			default(){
+			default() {
 				return [];
 			}
 		},
@@ -94,7 +99,7 @@ export default {
 			default: false
 		}
 	},
-	data(){
+	data() {
 		return {
 			query: null,
 			page: 0,
@@ -104,7 +109,7 @@ export default {
 		};
 	},
 	computed: {
-		itemMap(){
+		itemMap() {
 			let map = new Map();
 			this.items.map(item => {
 				map.set(item.id, item);
@@ -112,16 +117,15 @@ export default {
 
 			return map;
 		},
-		index(){
+		index() {
 			let fields = this.fields;
 
-			let index = lunr(function(){
+			let index = lunr(function() {
 				fields.map(field => {
 					let name, options;
-					if(typeof field === 'string'){
+					if (typeof field === 'string') {
 						name = field;
-					}
-					else{
+					} else {
 						name = field.name;
 						options = field;
 					}
@@ -140,8 +144,8 @@ export default {
 
 			return index;
 		},
-		filteredItems(){
-			if(this.query){
+		filteredItems() {
+			if (this.query) {
 				let refs = this.index.search(this.query);
 				return refs.map(ref => {
 					return this.itemMap.get(ref.ref);
@@ -150,8 +154,8 @@ export default {
 
 			return this.items;
 		},
-		sortedItems(){
-			if(this.sortBy && this.sortOrder){
+		sortedItems() {
+			if (this.sortBy && this.sortOrder) {
 
 				return sortFunctions.has(this.sortBy)
 					? this.filteredItems.sort(sortFunctions.get(this.sortBy))
@@ -173,11 +177,11 @@ export default {
 						if (Number.isNaN(bValue))
 							bValue = bValue.toUpperCase();
 
-						if(aValue < bValue)
+						if (aValue < bValue)
 							return this.sortOrder === 'asc'
 								? -1
 								: 1;
-						if(aValue > bValue)
+						if (aValue > bValue)
 							return this.sortOrder === 'asc'
 								? 1
 								: -1;
@@ -187,7 +191,7 @@ export default {
 
 			return this.filteredItems;
 		},
-		paginatedItems(){
+		paginatedItems() {
 			if (!this.paginate)
 				return this.sortedItems;
 
@@ -198,11 +202,14 @@ export default {
 
 			return paginatedItems;
 		},
-		currentPageItems(){
+		currentPageItems() {
 			if (!this.paginate)
 				return this.sortedItems;
 
 			return this.paginatedItems[this.page];
+		},
+		itemsToShow() {
+			return this.filteredItems && this.filteredItems.length > 0;
 		}
 	},
 	methods: {
@@ -251,5 +258,14 @@ export default {
 
 	.containing-label > * {
 		display: block;
+	}
+
+	.no-items-text {
+		padding: 0.5em 0;
+		border: 1px solid rgba(0, 0, 0, 0.15);
+		border-left: none;
+		border-right: none;
+		text-align: center;
+		font-size: 1.25em;
 	}
 </style>

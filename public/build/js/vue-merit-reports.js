@@ -3638,7 +3638,7 @@ function createResponseLegend(valueMap) {
 	var labels = [];
 	var values = [];
 
-	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_0__utils_js__["e" /* sortNumbers */]);
+	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_0__utils_js__["f" /* sortNumbers */]);
 
 	keys.map(function (key) {
 		labels.push(valueMap.get(key));
@@ -3763,6 +3763,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: {
@@ -3778,6 +3779,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			type: Number,
 			required: false,
 			default: 3000
+		},
+		disabled: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data: function data() {
@@ -3824,7 +3829,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('button', {
     class: _vm.currentClass,
     attrs: {
-      "type": "button"
+      "type": "button",
+      "disabled": _vm.disabled
     },
     on: {
       "click": _vm.handleClick
@@ -4031,6 +4037,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -4181,13 +4192,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			if (!this.paginate) return this.sortedItems;
 
 			return this.paginatedItems[this.page];
+		},
+		itemsToShow: function itemsToShow() {
+			return this.filteredItems && this.filteredItems.length > 0;
 		}
 	},
 	methods: {
 		renderFieldName: function renderFieldName(field) {
 			if (field === 'id') return 'ID';
 
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["d" /* snakeCaseToWords */])(field);
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["e" /* snakeCaseToWords */])(field);
 		}
 	},
 	components: {
@@ -6793,11 +6807,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "glyphicon glyphicon-refresh"
   })])]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "list-container"
-  }, [_vm._t("header"), _vm._v(" "), _c('ol', {
+  }, [_vm._t("header"), _vm._v(" "), (_vm.itemsToShow) ? _c('ol', {
     staticClass: "list"
   }, [_vm._l((_vm.currentPageItems), function(item) {
     return _vm._t("default", null, null, item)
-  })], 2), _vm._v(" "), _vm._t("footer")], 2), _vm._v(" "), (_vm.paginate) ? _c('list-paginator', {
+  })], 2) : _c('p', {
+    staticClass: "no-items-text"
+  }, [_vm._v("\n\t\t\tNo items to show\n\t\t")]), _vm._v(" "), _vm._t("footer")], 2), _vm._v(" "), (_vm.paginate) ? _c('list-paginator', {
     attrs: {
       "paginatedItems": _vm.paginatedItems,
       "itemsPerPage": _vm.itemsPerPage
@@ -7338,8 +7354,11 @@ function createAdminSupervisorMeritReports(el, propsData) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_MeritCompensation_Report_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__vue_components_MeritCompensation_Report_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_MeritCompensation_ReportListItem_vue__ = __webpack_require__(230);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__vue_components_MeritCompensation_ReportListItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__vue_components_MeritCompensation_ReportListItem_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__vue_components_RichDateRange_vue__ = __webpack_require__(175);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__vue_components_RichDateRange_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__vue_components_RichDateRange_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_utils_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_date_utils_js__ = __webpack_require__(16);
+
 
 
 
@@ -7403,7 +7422,7 @@ function createFacultyMeritReports(el, propsData) {
 			},
 			currentYearlyMeritDateRange: function currentYearlyMeritDateRange() {
 				// FIXME
-				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["isoDateStringObject"])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["academicYearForDate"])(new Date()));
+				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_date_utils_js__["isoDateStringObject"])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_date_utils_js__["academicYearForDate"])(new Date()));
 			},
 			meritReportFields: function meritReportFields() {
 				return ['id', 'form_name'];
@@ -7429,7 +7448,7 @@ function createFacultyMeritReports(el, propsData) {
 						endDate: report.period_end
 					};
 
-					return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["datesEqual"])(periodDates, _this2.currentYearlyMeritDateRange);
+					return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_date_utils_js__["datesEqual"])(periodDates, _this2.currentYearlyMeritDateRange);
 				});
 			},
 			inProgressReport: function inProgressReport() {
@@ -7440,7 +7459,6 @@ function createFacultyMeritReports(el, propsData) {
 		},
 
 		methods: {
-			renderDateRange: __WEBPACK_IMPORTED_MODULE_6__modules_date_utils_js__["renderDateRange"],
 			fetchPastMeritReports: function fetchPastMeritReports() {
 				var _this3 = this;
 
@@ -7455,9 +7473,9 @@ function createFacultyMeritReports(el, propsData) {
 
 				fetch('/merits?' + query, {
 					method: 'GET',
-					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* getFetchHeaders */])(),
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["a" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* jsonOrThrow */]).then(function (merits) {
+				}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["b" /* jsonOrThrow */]).then(function (merits) {
 					_this3.meritReports = merits;
 				}).catch(function (err) {
 					console.error(err);
@@ -7487,9 +7505,9 @@ function createFacultyMeritReports(el, propsData) {
 
 				fetch('/merit-forms', {
 					method: 'GET',
-					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* getFetchHeaders */])(),
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["a" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* jsonOrThrow */]).then(function (meritForms) {
+				}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["b" /* jsonOrThrow */]).then(function (meritForms) {
 					_this4.meritForms = meritForms;
 				}).catch(function (err) {
 					console.error(err);
@@ -7520,10 +7538,10 @@ function createFacultyMeritReports(el, propsData) {
 
 				fetch(url, {
 					method: method,
-					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* getFetchHeaders */])(),
+					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["a" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify(meritReport)
-				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* okOrThrow */]).then(function () {
+				}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["c" /* okOrThrow */]).then(function () {
 					_this5.meritCompensationReport = null;
 					_this5.fetchPastMeritReports();
 				}).catch(function (err) {
@@ -7548,7 +7566,8 @@ function createFacultyMeritReports(el, propsData) {
 			AlertList: __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default.a,
 			ComponentList: __WEBPACK_IMPORTED_MODULE_2__vue_components_ComponentList_vue___default.a,
 			MeritCompensationReport: __WEBPACK_IMPORTED_MODULE_3__vue_components_MeritCompensation_Report_vue___default.a,
-			MeritReportListItem: __WEBPACK_IMPORTED_MODULE_4__vue_components_MeritCompensation_ReportListItem_vue___default.a
+			MeritReportListItem: __WEBPACK_IMPORTED_MODULE_4__vue_components_MeritCompensation_ReportListItem_vue___default.a,
+			RichDateRange: __WEBPACK_IMPORTED_MODULE_5__vue_components_RichDateRange_vue___default.a
 		}
 	});
 }
@@ -8018,7 +8037,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__RichDateRange_vue__ = __webpack_require__(175);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__RichDateRange_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__RichDateRange_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_merit_utils_js__ = __webpack_require__(204);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_utils_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_datatable_utils_js__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_merit_utils_js__ = __webpack_require__(204);
 //
 //
 //
@@ -8049,6 +8070,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+
+
 
 
 
@@ -8099,9 +8127,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		viewEditGlyph: function viewEditGlyph() {
 			return this.status === 'pending' ? 'glyphicon-pencil' : 'glyphicon-list-alt';
 		},
+		statusLabel: function statusLabel() {
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_datatable_utils_js__["a" /* getEvaluationStatusLabel */])(this.status);
+		},
 		checkedItems: function checkedItems() {
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_merit_utils_js__["a" /* getCheckedItemCount */])(this.report);
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_merit_utils_js__["a" /* getCheckedItemCount */])(this.report);
 		}
+	},
+
+	methods: {
+		ucfirst: __WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["d" /* ucfirst */]
 	},
 
 	components: {
@@ -8418,8 +8453,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ProgressBullets_vue__ = __webpack_require__(554);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ProgressBullets_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ProgressBullets_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ConfirmationButton_vue__ = __webpack_require__(112);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ConfirmationButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ConfirmationButton_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ProgressBullets_vue__ = __webpack_require__(554);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ProgressBullets_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ProgressBullets_vue__);
 //
 //
 //
@@ -8446,6 +8483,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+
 
 
 
@@ -8488,7 +8531,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	computed: {},
 
 	components: {
-		ProgressBullets: __WEBPACK_IMPORTED_MODULE_0__ProgressBullets_vue___default.a
+		ConfirmationButton: __WEBPACK_IMPORTED_MODULE_0__ConfirmationButton_vue___default.a,
+		ProgressBullets: __WEBPACK_IMPORTED_MODULE_1__ProgressBullets_vue___default.a
 	}
 });
 
@@ -10594,7 +10638,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.handleSave
     }
-  }, [_vm._v("\n\t\t\tSave progress\n\t\t")]) : _vm._e()], 1)], 1)
+  }, [_vm._v("\n\t\t\tSave and close\n\t\t")]) : _vm._e()], 1)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -10936,14 +10980,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('small', [_vm._v("#")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.id))])]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-2"
   }, [_c('small', [_vm._v("Form")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.form.name))])]), _vm._v(" "), _c('div', {
-    staticClass: "col-sm-4"
+    staticClass: "col-sm-3"
   }, [_c('small', [_vm._v("Period")]), _vm._v(" "), _c('rich-date-range', {
     attrs: {
       "dates": _vm.dates
     }
   })], 1), _vm._v(" "), _c('div', {
-    staticClass: "col-sm-2"
+    staticClass: "col-sm-2 checked-items-container"
   }, [_c('small', [_vm._v("Checked items")]), _vm._v("\n\t\t\t" + _vm._s(_vm.checkedItems) + "\n\t\t")]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-1"
+  }, [_c('span', {
+    staticClass: "label",
+    class: _vm.statusLabel
+  }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.ucfirst(_vm.status)) + "\n\t\t\t")])]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-2"
   }, [_c('button', {
     staticClass: "btn btn-info btn-sm",
@@ -11110,6 +11159,8 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "pager-controls"
+  }, [_c('div', {
+    staticClass: "button-container"
   }, [_c('button', {
     staticClass: "btn btn-default",
     attrs: {
@@ -11121,12 +11172,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$emit('back')
       }
     }
-  }, [_vm._v("\n\t\t" + _vm._s(_vm.backText) + "\n\t")]), _vm._v(" "), _c('progress-bullets', {
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.backText) + "\n\t\t")])]), _vm._v(" "), _c('progress-bullets', {
     attrs: {
       "max": _vm.totalPages,
       "value": _vm.currentPage + 1
     }
-  }), _vm._v(" "), (_vm.currentPage < _vm.totalPages - 1) ? _c('button', {
+  }), _vm._v(" "), _c('div', {
+    staticClass: "button-container"
+  }, [(_vm.currentPage < _vm.totalPages - 1) ? _c('button', {
     staticClass: "btn btn-default",
     attrs: {
       "type": "button",
@@ -11137,10 +11190,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$emit('forward')
       }
     }
-  }, [_vm._v("\n\t\t" + _vm._s(_vm.forwardText) + "\n\t")]) : (!_vm.readonly) ? _c('button', {
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.forwardText) + "\n\t\t")]) : (!_vm.readonly) ? _c('confirmation-button', {
     staticClass: "btn btn-primary",
     attrs: {
-      "type": "button",
+      "pressed-class": "btn-success",
       "disabled": !_vm.canAdvancePage
     },
     on: {
@@ -11148,7 +11201,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$emit('submit')
       }
     }
-  }, [_vm._v("\n\t\t" + _vm._s(_vm.submitText) + "\n\t")]) : _c('div')], 1)
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.submitText) + "\n\t\t\t"), _c('template', {
+    slot: "pressed"
+  }, [_vm._v("\n\t\t\t\tConfirm\n\t\t\t")])], 2) : _vm._e()], 1)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -11175,7 +11230,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "click": function($event) {
-        _vm.$emit('input', 'remove')
+        _vm.$emit('remove')
       }
     }
   }, [_c('span', {
