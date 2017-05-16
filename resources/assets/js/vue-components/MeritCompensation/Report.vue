@@ -79,7 +79,10 @@ export default {
 
 	computed: {
 		readonly() {
-			return this.status !== 'pending';
+			return ![
+				'pending',
+				'open for editing'
+			].includes(this.status);
 		},
 		checkedItems() {
 			return getCheckedItemCount(this.report);

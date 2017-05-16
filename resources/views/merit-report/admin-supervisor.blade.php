@@ -7,8 +7,9 @@
 					:paginate="false"
 					reloadable
 					@reload="fetchUsersWithReports">
-				<template scope="user">
-					<user-with-merit-report-list-item v-bind="user">
+				<template scope="reportUser">
+					<user-with-merit-report-list-item v-bind="reportUser"
+						:user="user" @change="fetchUsersWithReports">
 					</user-with-merit-report-list-item>
 				</template>
 			</component-list>

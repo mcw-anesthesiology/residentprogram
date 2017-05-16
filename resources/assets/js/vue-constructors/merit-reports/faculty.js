@@ -1,6 +1,6 @@
 import Vue from 'vue';
+import HasAlerts from 'vue-mixins/HasAlerts.js';
 
-import AlertList from 'vue-components/AlertList.vue';
 import ComponentList from 'vue-components/ComponentList.vue';
 import MeritCompensationReport from 'vue-components/MeritCompensation/Report.vue';
 import MeritReportListItem from 'vue-components/MeritCompensation/ReportListItem.vue';
@@ -16,6 +16,9 @@ import {
 export default function createFacultyMeritReports(el, propsData) {
 	return new Vue({
 		el,
+		mixins: [
+			HasAlerts
+		],
 		props: {
 			user: {
 				type: Object,
@@ -78,7 +81,10 @@ export default function createFacultyMeritReports(el, propsData) {
 				};
 			},
 			meritReportReadonly() {
-				return this.meritCompensationReport.status !== 'pending';
+				return ![
+					'pending',
+					'open for editing'
+				].includes(this.meritCompensationReport.status);
 			},
 			needsToStartReport() {
 				if (!this.meritReports || this.meritReports.length === 0)
@@ -96,7 +102,7 @@ export default function createFacultyMeritReports(el, propsData) {
 			},
 			inProgressReport() {
 				return this.meritReports.find(report =>
-					report.status === 'pending');
+					['pending', 'open for editing'].includes(report.status));
 			}
 		},
 
@@ -203,7 +209,6 @@ export default function createFacultyMeritReports(el, propsData) {
 		},
 
 		components: {
-			AlertList,
 			ComponentList,
 			MeritCompensationReport,
 			MeritReportListItem,

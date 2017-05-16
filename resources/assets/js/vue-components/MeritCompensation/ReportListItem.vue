@@ -1,7 +1,7 @@
 <template>
 	<div class="merit-report-list-item">
 		<div class="row">
-			<div class="col-sm-2">
+			<div class="col-sm-1">
 				<small>#</small>
 				<span>{{ id }}</span>
 			</div>
@@ -17,7 +17,7 @@
 				<small>Checked items</small>
 				{{ checkedItems }}
 			</div>
-			<div class="col-sm-1">
+			<div class="col-sm-2">
 				<span class="label" :class="statusLabel">
 					{{ ucfirst(status) }}
 				</span>
@@ -28,15 +28,29 @@
 					<span class="glyphicon" :class="viewEditGlyph"></span>
 					{{ viewEditText }}
 				</button>
+
+				<confirmation-button v-if="userIsAdmin && status === 'complete'"
+						class="btn btn-xs btn-primary"
+						@click="openForEditing">
+					<span class="glyphicon glyphicon-edit"></span>
+					Open for editing
+				</confirmation-button>
+				<confirmation-button v-else-if="userIsAdmin && status === 'open for editing'"
+						class="btn btn-xs btn-primary"
+						@click="closeEditing">
+					<span class="glyphicon glyphicon-check"></span>
+					Close editing
+				</confirmation-button>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
 import RichDateRange from 'vue-components/RichDateRange.vue';
 
-import { ucfirst } from 'modules/utils.js';
+import { getFetchHeaders, okOrThrow, ucfirst } from 'modules/utils.js';
 import { getEvaluationStatusLabel } from 'modules/datatable-utils.js';
 import { getCheckedItemCount } from 'modules/merit-utils.js';
 
@@ -73,6 +87,9 @@ export default {
 	},
 
 	computed: {
+		userIsAdmin() {
+			return this.user && this.user.type === 'admin';
+		},
 		dates() {
 			return {
 				startDate: this.period_start,
@@ -80,12 +97,12 @@ export default {
 			};
 		},
 		viewEditText() {
-			return this.status === 'pending'
+			return ['pending', 'open for editing'].includes(this.status)
 				? 'Complete'
 				: 'View';
 		},
 		viewEditGlyph() {
-			return this.status === 'pending'
+			return ['pending', 'open for editing'].includes(this.status)
 				? 'glyphicon-pencil'
 				: 'glyphicon-list-alt';
 		},
@@ -98,10 +115,45 @@ export default {
 	},
 
 	methods: {
-		ucfirst
+		ucfirst,
+		openForEditing() {
+			if (this.user.type !== 'admin' || this.status !== 'complete')
+				return;
+
+			this.updateReport({
+				status: 'open for editing'
+			});
+		},
+		closeEditing() {
+			if (this.user.type !== 'admin' || this.status !== 'open for editing')
+				return;
+
+			this.updateReport({
+				status: 'complete'
+			});
+		},
+		updateReport(changes) {
+			fetch(`/merits/${this.id}`, {
+				method: 'POST', // PATCH
+				headers: getFetchHeaders(),
+				credentials: 'same-origin',
+				body: JSON.stringify(Object.assign(changes, {
+					_method: 'PATCH'
+				}))
+			}).then(okOrThrow).then(() => {
+				this.$emit('change');
+			}).catch(err => {
+				console.error(err);
+				this.$emit('alert', {
+					type: 'error',
+					html: '<strong>Error:</strong> There was a problem updating the merit report'
+				});
+			});
+		}
 	},
 
 	components: {
+		ConfirmationButton,
 		RichDateRange
 	}
 };

@@ -7346,8 +7346,7 @@ function createAdminSupervisorMeritReports(el, propsData) {
 /* harmony export (immutable) */ __webpack_exports__["a"] = createFacultyMeritReports;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_mixins_HasAlerts_js__ = __webpack_require__(622);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_ComponentList_vue__ = __webpack_require__(119);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_ComponentList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_ComponentList_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vue_components_MeritCompensation_Report_vue__ = __webpack_require__(229);
@@ -7372,6 +7371,7 @@ function createAdminSupervisorMeritReports(el, propsData) {
 function createFacultyMeritReports(el, propsData) {
 	return new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 		el: el,
+		mixins: [__WEBPACK_IMPORTED_MODULE_1__vue_mixins_HasAlerts_js__["a" /* default */]],
 		props: {
 			user: {
 				type: Object,
@@ -7435,7 +7435,7 @@ function createFacultyMeritReports(el, propsData) {
 				};
 			},
 			meritReportReadonly: function meritReportReadonly() {
-				return this.meritCompensationReport.status !== 'pending';
+				return !['pending', 'open for editing'].includes(this.meritCompensationReport.status);
 			},
 			needsToStartReport: function needsToStartReport() {
 				var _this2 = this;
@@ -7453,7 +7453,7 @@ function createFacultyMeritReports(el, propsData) {
 			},
 			inProgressReport: function inProgressReport() {
 				return this.meritReports.find(function (report) {
-					return report.status === 'pending';
+					return ['pending', 'open for editing'].includes(report.status);
 				});
 			}
 		},
@@ -7563,7 +7563,6 @@ function createFacultyMeritReports(el, propsData) {
 		},
 
 		components: {
-			AlertList: __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default.a,
 			ComponentList: __WEBPACK_IMPORTED_MODULE_2__vue_components_ComponentList_vue___default.a,
 			MeritCompensationReport: __WEBPACK_IMPORTED_MODULE_3__vue_components_MeritCompensation_Report_vue___default.a,
 			MeritReportListItem: __WEBPACK_IMPORTED_MODULE_4__vue_components_MeritCompensation_ReportListItem_vue___default.a,
@@ -7987,7 +7986,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	computed: {
 		readonly: function readonly() {
-			return this.status !== 'pending';
+			return !['pending', 'open for editing'].includes(this.status);
 		},
 		checkedItems: function checkedItems() {
 			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_merit_utils_js__["a" /* getCheckedItemCount */])(this.report);
@@ -8035,11 +8034,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__RichDateRange_vue__ = __webpack_require__(175);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__RichDateRange_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__RichDateRange_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_utils_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_datatable_utils_js__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_merit_utils_js__ = __webpack_require__(204);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ConfirmationButton_vue__ = __webpack_require__(112);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ConfirmationButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ConfirmationButton_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__RichDateRange_vue__ = __webpack_require__(175);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__RichDateRange_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__RichDateRange_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_merit_utils_js__ = __webpack_require__(204);
 //
 //
 //
@@ -8075,6 +8076,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -8115,6 +8130,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 	computed: {
+		userIsAdmin: function userIsAdmin() {
+			return this.user && this.user.type === 'admin';
+		},
 		dates: function dates() {
 			return {
 				startDate: this.period_start,
@@ -8122,25 +8140,60 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			};
 		},
 		viewEditText: function viewEditText() {
-			return this.status === 'pending' ? 'Complete' : 'View';
+			return ['pending', 'open for editing'].includes(this.status) ? 'Complete' : 'View';
 		},
 		viewEditGlyph: function viewEditGlyph() {
-			return this.status === 'pending' ? 'glyphicon-pencil' : 'glyphicon-list-alt';
+			return ['pending', 'open for editing'].includes(this.status) ? 'glyphicon-pencil' : 'glyphicon-list-alt';
 		},
 		statusLabel: function statusLabel() {
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_datatable_utils_js__["a" /* getEvaluationStatusLabel */])(this.status);
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* getEvaluationStatusLabel */])(this.status);
 		},
 		checkedItems: function checkedItems() {
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_merit_utils_js__["a" /* getCheckedItemCount */])(this.report);
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_merit_utils_js__["a" /* getCheckedItemCount */])(this.report);
 		}
 	},
 
 	methods: {
-		ucfirst: __WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["d" /* ucfirst */]
+		ucfirst: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["d" /* ucfirst */],
+		openForEditing: function openForEditing() {
+			if (this.user.type !== 'admin' || this.status !== 'complete') return;
+
+			this.updateReport({
+				status: 'open for editing'
+			});
+		},
+		closeEditing: function closeEditing() {
+			if (this.user.type !== 'admin' || this.status !== 'open for editing') return;
+
+			this.updateReport({
+				status: 'complete'
+			});
+		},
+		updateReport: function updateReport(changes) {
+			var _this = this;
+
+			fetch('/merits/' + this.id, {
+				method: 'POST', // PATCH
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["a" /* getFetchHeaders */])(),
+				credentials: 'same-origin',
+				body: JSON.stringify(Object.assign(changes, {
+					_method: 'PATCH'
+				}))
+			}).then(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["c" /* okOrThrow */]).then(function () {
+				_this.$emit('change');
+			}).catch(function (err) {
+				console.error(err);
+				_this.$emit('alert', {
+					type: 'error',
+					html: '<strong>Error:</strong> There was a problem updating the merit report'
+				});
+			});
+		}
 	},
 
 	components: {
-		RichDateRange: __WEBPACK_IMPORTED_MODULE_0__RichDateRange_vue___default.a
+		ConfirmationButton: __WEBPACK_IMPORTED_MODULE_0__ConfirmationButton_vue___default.a,
+		RichDateRange: __WEBPACK_IMPORTED_MODULE_1__RichDateRange_vue___default.a
 	}
 });
 
@@ -8150,12 +8203,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ComponentList_vue__ = __webpack_require__(119);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ComponentList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ComponentList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ReportListItem_vue__ = __webpack_require__(230);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ReportListItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ReportListItem_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Report_vue__ = __webpack_require__(229);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Report_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Report_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_mixins_HasAlerts_js__ = __webpack_require__(622);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ComponentList_vue__ = __webpack_require__(119);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ComponentList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ComponentList_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ReportListItem_vue__ = __webpack_require__(230);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ReportListItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__ReportListItem_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Report_vue__ = __webpack_require__(229);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Report_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Report_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__ = __webpack_require__(2);
 //
 //
 //
@@ -8185,21 +8240,35 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
+
+
+
 
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+	mixins: [__WEBPACK_IMPORTED_MODULE_0__vue_mixins_HasAlerts_js__["a" /* default */]],
 	props: {
 		full_name: {
 			type: String,
 			required: true
 		},
-
 		merit_reports: {
 			type: Array,
 			required: true
+		},
+		user: {
+			type: Object,
+			required: false
 		}
 	},
 	data: function data() {
@@ -8230,13 +8299,41 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		handleReportClose: function handleReportClose() {
 			this.viewedReport = null;
+		},
+		handleReportSave: function handleReportSave(changes) {
+			this.updateReport(changes);
+		},
+		handleReportSubmit: function handleReportSubmit(changes) {
+			this.updateReport(Object.assign(changes, {
+				status: 'complete'
+			}));
+		},
+		updateReport: function updateReport(changes) {
+			var _this = this;
+
+			fetch('/merits/' + changes.id, {
+				method: 'POST', // PATCH
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["a" /* getFetchHeaders */])(),
+				credentials: 'same-origin',
+				body: JSON.stringify(Object.assign(changes, {
+					_method: 'PATCH'
+				}))
+			}).then(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["c" /* okOrThrow */]).then(function () {
+				_this.$emit('change');
+			}).catch(function (err) {
+				console.error(err);
+				_this.$emit('alert', {
+					type: 'error',
+					html: '<strong>Error:</strong> There was a problem updating the merit report'
+				});
+			});
 		}
 	},
 
 	components: {
-		ComponentList: __WEBPACK_IMPORTED_MODULE_0__ComponentList_vue___default.a,
-		MeritReportListItem: __WEBPACK_IMPORTED_MODULE_1__ReportListItem_vue___default.a,
-		MeritReport: __WEBPACK_IMPORTED_MODULE_2__Report_vue___default.a
+		ComponentList: __WEBPACK_IMPORTED_MODULE_1__ComponentList_vue___default.a,
+		MeritReportListItem: __WEBPACK_IMPORTED_MODULE_2__ReportListItem_vue___default.a,
+		MeritReport: __WEBPACK_IMPORTED_MODULE_3__Report_vue___default.a
 	}
 });
 
@@ -10736,8 +10833,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       key: "default",
       fn: function(item) {
         return [_c('merit-report-list-item', _vm._b({
+          attrs: {
+            "user": _vm.user
+          },
           on: {
-            "click": _vm.handleReportClick
+            "click": _vm.handleReportClick,
+            "change": function($event) {
+              _vm.$emit('change')
+            }
           }
         }, 'merit-report-list-item', item))]
       }
@@ -10749,9 +10852,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "title": _vm.viewedReport.form.name
     },
     on: {
-      "close": _vm.handleReportClose
+      "close": _vm.handleReportClose,
+      "save": _vm.handleReportSave,
+      "submit": _vm.handleReportSubmit
     }
-  }, 'merit-report', _vm.viewedReport))], 1) : _vm._e()])])])
+  }, 'merit-report', _vm.viewedReport))], 1) : _vm._e(), _vm._v(" "), _c('alert-list', {
+    model: {
+      value: (_vm.alerts),
+      callback: function($$v) {
+        _vm.alerts = $$v
+      },
+      expression: "alerts"
+    }
+  })], 1)])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -10976,7 +11089,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "row"
   }, [_c('div', {
-    staticClass: "col-sm-2"
+    staticClass: "col-sm-1"
   }, [_c('small', [_vm._v("#")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.id))])]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-2"
   }, [_c('small', [_vm._v("Form")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.form.name))])]), _vm._v(" "), _c('div', {
@@ -10988,7 +11101,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })], 1), _vm._v(" "), _c('div', {
     staticClass: "col-sm-2 checked-items-container"
   }, [_c('small', [_vm._v("Checked items")]), _vm._v("\n\t\t\t" + _vm._s(_vm.checkedItems) + "\n\t\t")]), _vm._v(" "), _c('div', {
-    staticClass: "col-sm-1"
+    staticClass: "col-sm-2"
   }, [_c('span', {
     staticClass: "label",
     class: _vm.statusLabel
@@ -11007,7 +11120,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('span', {
     staticClass: "glyphicon",
     class: _vm.viewEditGlyph
-  }), _vm._v("\n\t\t\t\t" + _vm._s(_vm.viewEditText) + "\n\t\t\t")])])])])
+  }), _vm._v("\n\t\t\t\t" + _vm._s(_vm.viewEditText) + "\n\t\t\t")]), _vm._v(" "), (_vm.userIsAdmin && _vm.status === 'complete') ? _c('confirmation-button', {
+    staticClass: "btn btn-xs btn-primary",
+    on: {
+      "click": _vm.openForEditing
+    }
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-edit"
+  }), _vm._v("\n\t\t\t\tOpen for editing\n\t\t\t")]) : (_vm.userIsAdmin && _vm.status === 'open for editing') ? _c('confirmation-button', {
+    staticClass: "btn btn-xs btn-primary",
+    on: {
+      "click": _vm.closeEditing
+    }
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-check"
+  }), _vm._v("\n\t\t\t\tClose editing\n\t\t\t")]) : _vm._e()], 1)])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -11381,6 +11508,38 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-a814e09c", module.exports)
   }
 }
+
+/***/ }),
+/* 612 */,
+/* 613 */,
+/* 614 */,
+/* 615 */,
+/* 616 */,
+/* 617 */,
+/* 618 */,
+/* 619 */,
+/* 620 */,
+/* 621 */,
+/* 622 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_components_AlertList_vue__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_components_AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__vue_components_AlertList_vue__);
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+	data: function data() {
+		return {
+			alerts: []
+		};
+	},
+
+
+	components: {
+		AlertList: __WEBPACK_IMPORTED_MODULE_0__vue_components_AlertList_vue___default.a
+	}
+});
 
 /***/ })
 ],[351]);
