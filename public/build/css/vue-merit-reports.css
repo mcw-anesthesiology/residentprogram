@@ -66,8 +66,12 @@ small[data-v-6c389d6a] {
 	color: rgba(0, 0, 0, 0.55);
 	display: block;
 }
-.checked-items-container[data-v-6c389d6a] {
+.checked-items-cell[data-v-6c389d6a],
+.controls-cell[data-v-6c389d6a] {
 	text-align: right;
+}
+.controls-cell button[data-v-6c389d6a] {
+	margin: 0.1em;
 }
 
 small[data-v-6ff62c0e] {

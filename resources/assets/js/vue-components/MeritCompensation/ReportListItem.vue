@@ -13,7 +13,7 @@
 				<small>Period</small>
 				<rich-date-range :dates="dates" />
 			</div>
-			<div class="col-sm-2 checked-items-container">
+			<div class="col-sm-2 checked-items-cell">
 				<small>Checked items</small>
 				{{ checkedItems }}
 			</div>
@@ -22,8 +22,8 @@
 					{{ ucfirst(status) }}
 				</span>
 			</div>
-			<div class="col-sm-2">
-				<button type="button" class="btn btn-info btn-sm"
+			<div class="col-sm-2 controls-cell">
+				<button type="button" class="btn btn-info btn-xs"
 						@click="$emit('click', id)">
 					<span class="glyphicon" :class="viewEditGlyph"></span>
 					{{ viewEditText }}
@@ -175,7 +175,12 @@ export default {
 		display: block;
 	}
 
-	.checked-items-container {
+	.checked-items-cell,
+	.controls-cell {
 		text-align: right;
+	}
+
+	.controls-cell button {
+		margin: 0.1em;
 	}
 </style>

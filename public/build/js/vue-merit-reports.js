@@ -11099,16 +11099,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "dates": _vm.dates
     }
   })], 1), _vm._v(" "), _c('div', {
-    staticClass: "col-sm-2 checked-items-container"
+    staticClass: "col-sm-2 checked-items-cell"
   }, [_c('small', [_vm._v("Checked items")]), _vm._v("\n\t\t\t" + _vm._s(_vm.checkedItems) + "\n\t\t")]), _vm._v(" "), _c('div', {
     staticClass: "col-sm-2"
   }, [_c('span', {
     staticClass: "label",
     class: _vm.statusLabel
   }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.ucfirst(_vm.status)) + "\n\t\t\t")])]), _vm._v(" "), _c('div', {
-    staticClass: "col-sm-2"
+    staticClass: "col-sm-2 controls-cell"
   }, [_c('button', {
-    staticClass: "btn btn-info btn-sm",
+    staticClass: "btn btn-info btn-xs",
     attrs: {
       "type": "button"
     },
