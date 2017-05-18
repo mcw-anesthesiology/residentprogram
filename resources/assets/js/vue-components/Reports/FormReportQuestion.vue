@@ -1,5 +1,6 @@
 <template>
-	<div :class="`question panel ${required ? 'panel-primary' : 'panel-default'}`">
+	<div :class="`question panel ${required ? 'panel-primary' : 'panel-default'}`"
+			:style="{opacity: hide ? 0.7 : 1}">
 		<div v-if="text" class="question-header panel-heading">
 			<h3 class="question-title panel-title">
 				<b>{{ ucfirst(id) }}: </b>
@@ -65,6 +66,20 @@
 
 		<div v-if="hasDescriptions || options" class="question-footer panel-footer">
 			<div class="question-description-toggle">
+				<show-hide-button class="btn btn-info" :value="hide"
+						@input="$emit('hide', arguments[0])">
+					<template slot="glyph"></template>
+
+					<template slot="true">
+						Show
+					</template>
+					<template slot="false">
+						Hide
+					</template>
+
+					question in PDF
+				</show-hide-button>
+
 				<show-hide-button v-if="hasDescriptions" class="btn btn-info"
 						v-model="showDescriptions">
 					<template slot="true">
@@ -124,6 +139,10 @@ export default {
 			required: false
 		},
 		required: {
+			type: Boolean,
+			default: false
+		},
+		hide: {
 			type: Boolean,
 			default: false
 		},
