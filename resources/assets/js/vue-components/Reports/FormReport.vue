@@ -535,11 +535,29 @@ export default {
 						type: 'none',
 						ol: this.reportQuestions.filter((question, index) =>
 								!this.hideQuestions[index]).map(item => {
-							let questionHeading = {
-								margin: [0, 20, 0, 5],
-								text: item.text,
-								style: 'questionText'
-							};
+							let questionHeading = this.hideQuestions.some(hide => hide)
+								? {
+									margin: [0, 20, 0, 5],
+									text: item.text,
+									style: 'questionText'
+								}
+								: {
+									margin: [0, 20, 0, 5],
+									columns: [
+										{
+											width: 'auto',
+											margin: [0, 0, 5, 0],
+											text: `${item.id.toUpperCase()}: `,
+											bold: true,
+											style: 'questionText'
+										},
+										{
+											width: '*',
+											text: item.text,
+											style: 'questionText'
+										}
+									]
+								};
 
 							let questionBody = '';
 							switch(item.questionType){
