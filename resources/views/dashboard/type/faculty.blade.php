@@ -19,7 +19,7 @@
 			<h3 class="panel-title">@{{ mentees[index].full_name }}</h3>
 		</div>
 		<div class="panel-body">
-			<evaluation-data-table :id="`faculty-mentee-${mentees[index].id}-evals-table`"
+			<evaluation-data-table :id="'faculty-mentee-' + mentees[index].id + '-evals-table'"
 				:thead="menteeThead" :config="config"></evaluation-data-table>
 		</div>
 	</div>
@@ -36,7 +36,7 @@
 			<h3 class="panel-title">@{{ watchedForms[index].form.title }}</h3>
 		</div>
 		<div class="panel-body">
-			<evaluation-data-table :id="`faculty-watched-form-${watchedForms[index].form.id}-table`"
+			<evaluation-data-table :id="'faculty-watched-form-' + watchedForms[index].form.id + '-table'"
 				:thead="watchedFormThead" :config="config"></evaluation-data-table>
 		</div>
 	</div>
@@ -67,7 +67,7 @@
 			watchedForms: {!! $user->watchedForms()->with('form')->get()->toJson() !!},
 			mentees: {!! $user->mentees !!}
 		};
-		
+
 		createFacultyDashboard('main', propsData);
 	</script>
 @endpush
