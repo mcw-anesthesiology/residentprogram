@@ -10,9 +10,9 @@
 					v-model="formId"></select-two>
 				</label>
 			</div>
-			
+
 			<alert-list v-model="alerts" />
-			
+
 			<div class="btn-lg-submit-container">
 				<button type="button" class="btn btn-lg btn-primary"
 						@click="runReport">
@@ -24,7 +24,7 @@
 		<div v-if="report" class="container body-block">
 			<div class="report-evaluations">
 				<bootstrap-alert v-if="report.evals.length > 0" type="info">
-					
+
 					<div class="row">
 						<div class="col-md-8">
 							<h2>
@@ -38,17 +38,17 @@
 							</show-hide-button>
 						</div>
 					</div>
-					
+
 					<data-table v-if="show.allEvals"
 						:thead="evalsThead" :config="allEvalsConfig" />
 
 				</bootstrap-alert>
 				<bootstrap-alert v-else type="warning"
 					:text="`No evaluations found for ${report.formContents.title} in report parameters.`" />
-				
+
 				<section>
 					<div class="form-horizontal">
-						
+
 						<div class="form-group">
 							<div class="col-sm-10">
 								<label class="containing-label">
@@ -57,22 +57,22 @@
 											v-model="subjectId">
 										<option value="">All</option>
 									</select-two>
-								</label>								
+								</label>
 							</div>
 							<div class="col-sm-2">
 								<button type="button" v-if="subjectId"
 										class="btn btn-default labelless-button"
 										@click="subjectId = null">
 									Clear user
-								</button>								
+								</button>
 							</div>
 						</div>
 					</div>
-					
+
 					<section v-if="subjectId">
 						<bootstrap-alert type="info"
 								v-if="report.subjectEvals[subjectId] && report.subjectEvals[subjectId].length > 0">
-							
+
 							<div class="row">
 								<div class="col-md-8">
 									<h2>
@@ -87,7 +87,7 @@
 									</show-hide-button>
 								</div>
 							</div>
-							
+
 							<data-table v-if="subjectEvals && show.subjectEvals"
 								:thead="evalsThead" :data="subjectEvals"
 								:config="subjectEvalsConfig" />
@@ -98,14 +98,14 @@
 					</section>
 				</section>
 			</div>
-			
+
 			<button type="button" class="btn btn-default center-block"
 					v-if="this.reportContents && this.subjectId && this.reportContents.items.length > 0"
 					@click="exportPdf">
 				Export PDF
 				<svg-icon src="/img/icons/pdf.svg" />
 			</button>
-			
+
 			<h2 class="form-title" v-if="reportContents.title">
 				{{ reportContents.title }}
 			</h2>
@@ -144,6 +144,7 @@ import {
 } from 'modules/date-utils.js';
 import {
 	tableHeader,
+	pdfmakeStyle,
 	fullWidthTable,
 	borderedStripedTable
 } from 'modules/report-utils.js';
@@ -175,16 +176,16 @@ export default {
 
 			groupedForms: [],
 			subjectEvals: [],
-			
+
 			show: {
 				allEvals: false,
 				subjectEvals: false
 			},
-			
+
 			pdfOptions: {
 				questionPageBreak: null
 			},
-			
+
 			alerts: []
 		};
 	},
@@ -238,7 +239,7 @@ export default {
 
 			return reportContents;
 		},
-		
+
 		evalsThead(){
 			return [[
 				'#',
@@ -338,7 +339,7 @@ export default {
 					]
 				}
 			});
-			
+
 			fetch(`/evaluations?${query}`, {
 				method: 'GET',
 				headers: getFetchHeaders(),
@@ -390,18 +391,18 @@ export default {
 		exportPdf(){
 			if(!this.reportContents || this.reportContents.items.length < 1)
 				return;
-				
+
 			let hasSubject = (this.report.subjectEvals[this.subjectId]
 				&& this.report.subjectEvals[this.subjectId].length > 0);
-			
+
 			Promise.all([
 				import('pdfmake/build/pdfmake.js'),
 				import('../../vfs_fonts.json')
 			]).then(([pdfmake, vfs]) => {
 				pdfmake.vfs = vfs;
-				
+
 				const filename = `${this.reportContents.title} - ${this.dates.startDate} -- ${this.dates.endDate}.pdf`;
-				
+
 				let content = [
 					{ text: 'Form Report', style: 'h1' },
 					{
@@ -420,11 +421,11 @@ export default {
 								].concat(hasSubject
 									? [this.subject.full_name]
 									: []
-								)
+								).map(pdfmakeStyle('tableBody'))
 							]
 						})
 					},
-					
+
 					{ text: `Evaluations for ${this.subject.full_name} included in report`, style: 'h2'},
 					borderedStripedTable({
 						table: {
@@ -445,7 +446,7 @@ export default {
 									'Form',
 									'Evaluation date',
 									'Completed'
-								],
+								].map(tableHeader),
 								...this.subjectEvals.map(subjectEval => [
 									subjectEval.id,
 									subjectEval.evaluator.full_name,
@@ -456,11 +457,11 @@ export default {
 										subjectEval.evaluation_date_end
 									),
 									moment(subjectEval.complete_date).calendar()
-								])
+								]).map(row => row.map(pdfmakeStyle('tableBody')))
 							]
 						}
 					}),
-					
+
 					{ text: this.reportContents.title, style: 'h2' },
 					{
 						margin: 0,
@@ -474,17 +475,17 @@ export default {
 										width: 'auto',
 										margin: [0, 0, 5, 0],
 										text: `${item.id.toUpperCase()}: `,
-										fontSize: 16,
-										bold: true
+										bold: true,
+										style: 'questionText'
 									},
 									{
 										width: '*',
 										text: item.text,
-										fontSize: 16
+										style: 'questionText'
 									}
 								]
 							};
-							
+
 							let questionBody = '';
 							switch(item.questionType){
 								case 'checkbox':
@@ -552,7 +553,7 @@ export default {
 													option.averagePercentage
 														? `${option.averagePercentage}%`
 														: ''
-												]))
+												])).map(row => row.map(pdfmakeStyle('tableBody')))
 											)
 										}
 									});
@@ -579,13 +580,13 @@ export default {
 															this.report.evaluations[evaluationId].evaluation_date_end
 														),
 														item.subjectResponseValues[evaluationId]
-													])
+													]).map(row => row.map(pdfmakeStyle('tableBody')))
 												)
 											}
 										});
 									break;
 							}
-							
+
 							return {
 								pageBreak: this.pdfOptions.questionPageBreak,
 								stack: [
@@ -596,30 +597,34 @@ export default {
 						})
 					}
 				];
-				
+
 				let docDefinition = {
 					pageSize: 'LETTER',
 					content,
 					styles: {
 						h1: {
 							bold: true,
-							fontSize: 24,
+							fontSize: 20,
 							margin: [0, 20],
 						},
 						h2: {
 							bold: true,
-							fontSize: 20,
+							fontSize: 16,
 							margin: [0, 10]
+						},
+						questionText: {
+							fontSize: 11
 						},
 						tableHeader: {
 							bold: true,
-							fontSize: 14
+							fontSize: 10
+						},
+						tableBody: {
+							fontSize: 8
 						}
 					}
 				};
-				
-				console.log(content);
-				
+
 				pdfmake.createPdf(docDefinition).download(filename);
 			}).catch(err => {
 				console.error(err);
@@ -648,20 +653,20 @@ export default {
 	h2 {
 		margin-top: 0;
 	}
-	
+
 	h2.form-title {
 		margin: 60px 0 20px;
 		page-break-before: always;
 	}
-	
+
 	.report-evaluations {
 		page-break-inside: avoid;
 	}
-	
+
 	hr {
 		page-break-before: always;
 	}
-	
+
 	@media print {
 		.btn-lg-submit-container {
 			display: none;
