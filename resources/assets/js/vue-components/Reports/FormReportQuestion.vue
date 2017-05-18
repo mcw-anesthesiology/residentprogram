@@ -3,7 +3,7 @@
 		<div v-if="text" class="question-header panel-heading">
 			<h3 class="question-title panel-title">
 				<b>{{ ucfirst(id) }}: </b>
-				<span v-html="md.renderInline(text)"></span>
+				<span v-html="snarkdown(text)"></span>
 			</h3>
 		</div>
 
@@ -12,7 +12,7 @@
 				<form-reader-question-option v-if="['radio', 'radiononnumeric', 'checkbox'].includes(questionType)"
 						v-for="option of options" v-bind="option" :questionType="questionType"
 						:questionId="id" :required="required" :showDescription="showDescriptions"
-						:disabled="true">
+						readonly>
 					<form-report-question-option-stats v-bind="option" />
 				</form-reader-question-option>
 
@@ -75,18 +75,18 @@
 						<span class="glyphicon glyphicon-zoom-in"></span>
 						Show
 					</template>
-					
+
 					descriptions
-					
+
 					<template slot="glyph"></template>
 				</show-hide-button>
-				
+
 				<show-hide-button v-if="options" class="btn btn-info"
 						v-model="showChart">
 					<span slot="left-glyph" class="glyphicon glyphicon-stats"></span>
-					
+
 					chart
-					
+
 					<template slot="glyph"></template>
 				</show-hide-button>
 			</div>
@@ -95,28 +95,57 @@
 </template>
 
 <script>
-import FormReaderQuestion from '../FormReader/FormReaderQuestion.vue';
+import FormReaderQuestionOption from 'vue-components/FormReader/FormReaderQuestionOption.vue';
 import FormReportQuestionOptionStats from './FormReportQuestionOptionStats.vue';
 import ChartjsChart from '../ChartjsChart.vue';
 import ShowHideButton from '../ShowHideButton.vue';
 
+import snarkdown from 'snarkdown';
+
 import { CHART_COLORS } from 'modules/constants.js';
-import { camelCaseToWords } from 'modules/utils.js';
+import { camelCaseToWords, ucfirst } from 'modules/utils.js';
 
 export default {
-	extends: FormReaderQuestion,
 	props: {
+		id: {
+			type: String,
+			required: true
+		},
+		text: {
+			type: String,
+			required: true
+		},
+		questionType: {
+			type: String,
+			required: true
+		},
+		options: {
+			type: Array,
+			required: false
+		},
+		required: {
+			type: Boolean,
+			default: false
+		},
+
 		subjectResponses: Object,
 		averageResponses: Object,
 		subjectResponseValues: Object
 	},
 	data(){
 		return {
+			showDescriptions: false,
 			showChart: false,
 			chartType: 'pie'
 		};
 	},
 	computed: {
+		hasDescriptions() {
+			if (!this.options)
+				return false;
+
+			return this.options.some(option => option.description);
+		},
 		chartTypes(){
 			return [
 				'pie',
@@ -162,9 +191,12 @@ export default {
 		}
 	},
 	methods: {
-		camelCaseToWords
+		camelCaseToWords,
+		snarkdown,
+		ucfirst
 	},
 	components: {
+		FormReaderQuestionOption,
 		FormReportQuestionOptionStats,
 		ChartjsChart,
 		ShowHideButton
