@@ -3,7 +3,7 @@
 			role="progressbar" :aria-valuemin="min" :aria-valuemax="max"
 			:aria-valuenow="value" :title="label">
 		<div v-for="i in max" class="bullet" :class="{filled: i <= value}">
-			
+
 		</div>
 	</div>
 </template>
@@ -32,7 +32,7 @@ export default {
 			default: 'Page'
 		}
 	},
-	
+
 	computed: {
 		label() {
 			return `${this.stepName} ${this.value} of ${this.max}`;
@@ -43,20 +43,22 @@ export default {
 
 <style scoped>
 	.progress-bullets {
+		display: inline-block;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
 		align-items: center;
 	}
-	
+
 	.bullet {
+		display: inline-block;
 		margin: 1em;
 		width: 0.5em;
 		height: 0.5em;
 		border-radius: 0.5em;
 		background-color: rgba(0, 0, 0, 0.35);
 	}
-	
+
 	.bullet.filled {
 		background-color: rgba(0, 0, 0, 0.75);
 	}

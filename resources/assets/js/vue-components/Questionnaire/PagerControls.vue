@@ -90,6 +90,7 @@ export default {
 	}
 
 	.button-container {
+		display: inline-block;
 		margin: 0.5em;
 	}
 
@@ -99,6 +100,7 @@ export default {
 	}
 
 	.progress-bullets {
+		display: inline-block;
 		margin: 0.5em 2em;
 	}
 

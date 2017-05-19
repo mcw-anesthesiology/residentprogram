@@ -130,7 +130,6 @@ export default {
 	input[type="checkbox"] {
 		width: 1em;
 		height: 1em;
-		padding: 0.5em;
 		margin-right: 1em;
 		flex-shrink: 0;
 	}
