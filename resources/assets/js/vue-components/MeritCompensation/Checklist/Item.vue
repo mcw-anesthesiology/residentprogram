@@ -4,9 +4,7 @@
 			<input type="checkbox" :checked="checked" :disabled="readonly"
 				@change="handleCheck" />
 
-			<span class="item-text">
-				{{ markedUpText }}
-			</span>
+			<span class="item-text" v-html="markedUpText"></span>
 		</label>
 		<div v-if="checked && hasQuestions" class="item-questions">
 			<questionnaire-question v-for="(question, index) of questions"
@@ -44,6 +42,10 @@ export default {
 		readonly: {
 			type: Boolean,
 			default: false
+		},
+		subjectReadonly: {
+			type: Boolean,
+			default: false
 		}
 	},
 
@@ -61,7 +63,7 @@ export default {
 			let checked = !this.checked;
 			let item = {checked};
 
-			if (!checked) {
+			if (!checked && this.questions) {
 				let questions = this.questions.map(this.clearQuestion);
 				item.questions = questions;
 			}

@@ -6,10 +6,20 @@
 			</legend>
 			<div class="options">
 				<label v-for="(option, index) of options" :title="option.description">
-					{{ option.text }}
 					<input type="radio" :value="option.value"
 						:checked="option.checked" :disabled="readonly"
-						@change="onCheck(index)" />
+						@change="handleCheck(index)" />
+
+					<input type="text" v-if="option.editable"
+						class="form-control editable-option-text"
+						:value="option.text"
+						placholder="Other"
+						@click="handleCheck(index)"
+						@input="handleEditableOptionInput(index, $event.target.value)" />
+					<template v-else>
+						{{ option.text }}
+					</template>
+
 					<div v-if="option.description" class="question-description">
 						{{ snarkdown(option.description) }}
 					</div>
@@ -64,29 +74,35 @@ export default {
 			}
 		};
 	},
-	
+
 	computed: {
 		markedUpDescription() {
 			if (this.description)
 				return snarkdown(this.description);
 		}
 	},
-	
+
 	methods: {
-		onCheck(index) {
+		handleCheck(index) {
 			let options = this.options.map((option, i) => {
 				let newOption = Object.assign({}, option);
-				
+
 				newOption.checked = (i === index);
-				
+
 				return newOption;
 			});
-			
+
+			this.$emit('input', {options});
+		},
+		handleEditableOptionInput(index, value) {
+			let options = Array.slice(this.options);
+			options[index] = Object.assign({}, options[index], {text: value, value});
+
 			this.$emit('input', {options});
 		},
 		snarkdown
 	},
-	
+
 	components: {
 		ShowHideButton
 	}
@@ -97,17 +113,22 @@ export default {
 	.radio-question {
 		font-size: 1.25em;
 	}
-	
+
 	legend {
 		margin: 0;
 	}
-	
+
 	.options {
 		display: flex;
 		flex-wrap: wrap;
 	}
-	
+
 	.options label {
 		padding: 1em;
+	}
+
+	.editable-option-text {
+		display: inline-block;
+		width: auto;
 	}
 </style>

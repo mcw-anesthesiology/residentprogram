@@ -1,6 +1,10 @@
 <script>
 import TextItem from './TextItem.vue';
 import PublicationItem from './PublicationItem.vue';
+import CommitteeItem from './CommitteeItem.vue';
+import OngoingStudyItem from './OngoingStudyItem.vue';
+import GrantItem from './GrantItem.vue';
+import CertificationItem from './CertificationItem.vue';
 
 export default {
 	props: {
@@ -21,15 +25,8 @@ export default {
 	render(h) {
 		let listEl = this.ordered ? 'ol' : 'ul';
 		return h(listEl, this.items.map((item, index) => {
-			let itemComponent;
-			switch(item.type) {
-				case 'text':
-					itemComponent = 'text-item';
-					break;
-				case 'publication':
-					itemComponent = 'publication-item';
-					break;
-			}
+			const itemComponent = this.getItemComponent(item.type);
+
 
 			return h(itemComponent, {
 				props: {
@@ -54,9 +51,33 @@ export default {
 		}));
 	},
 
+	methods: {
+		getItemComponent(type) {
+			switch(type) {
+				case 'text':
+					return 'text-item';
+				case 'publication':
+					return 'publication-item';
+				case 'committee':
+					return 'committee-item';
+				case 'study':
+					return 'ongoing-study-item';
+				case 'grant':
+				case 'grantOther':
+					return 'grant-item';
+				case 'certification':
+					return 'certification-item';
+			}
+		}
+	},
+
 	components: {
 		TextItem,
-		PublicationItem
+		PublicationItem,
+		CommitteeItem,
+		OngoingStudyItem,
+		GrantItem,
+		CertificationItem
 	}
 };
 </script>

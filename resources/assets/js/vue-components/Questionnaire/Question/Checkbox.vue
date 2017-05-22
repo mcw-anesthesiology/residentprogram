@@ -6,14 +6,24 @@
 			</legend>
 			<div class="options">
 				<label v-for="(option, index) of options" :title="option.description">
-					{{ option.text }}
 					<input type="checkbox" :value="option.value"
 						:checked="option.checked" :disabled="readonly"
-						@change="onCheck(index)" />
+						@change="handleCheck(index)" />
+
+					<input type="text" v-if="option.editable"
+						class="form-control"
+						:value="option.text"
+						placholder="Other"
+						@click="handleCheck(index)"
+						@input="handleEditableOptionInput(index, $event.target.value)" />
+					<template v-else>
+						{{ option.text }}
+					</template>
+
 					<div v-if="option.description" class="question-description">
 						{{ snarkdown(option.description) }}
 					</div>
-				</label>				
+				</label>
 			</div>
 		</fieldset>
 		<show-hide-button v-if="description" v-model="show.description">
@@ -64,26 +74,32 @@ export default {
 			}
 		};
 	},
-	
+
 	computed: {
 		markedUpDescription() {
 			if (this.description)
 				return snarkdown(this.description);
 		}
 	},
-	
+
 	methods: {
-		onCheck(index) {
+		handleCheck(index) {
 			let options = Array.slice(this.options);
 			options[index] = Object.assign({}, options[index], {
 				checked: !options[index].checked
 			});
-			
+
+			this.$emit('input', {options});
+		},
+		handleEditableOptionInput(index, value) {
+			let options = Array.slice(this.options);
+			options[index] = Object.assign({}, options[index], {text: value, value});
+
 			this.$emit('input', {options});
 		},
 		snarkdown
 	},
-	
+
 	components: {
 		ShowHideButton
 	}
@@ -94,7 +110,7 @@ export default {
 	.checkbox-question {
 		font-size: 1.25em;
 	}
-	
+
 	legend {
 		margin: 0;
 	}
@@ -103,7 +119,7 @@ export default {
 		display: flex;
 		flex-wrap: wrap;
 	}
-	
+
 	.options label {
 		padding: 1em;
 	}

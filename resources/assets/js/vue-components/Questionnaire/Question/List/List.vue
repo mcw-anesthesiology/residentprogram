@@ -3,7 +3,7 @@
 		<fieldset :title="description">
 			<legend v-if="text || itemCount">
 				{{ text }}
-				{{ text && itemCount ? '-' : '' }}
+				{{ text && itemCount != null ? '-' : '' }}
 				<span>
 					{{ itemCount }}
 					{{ itemCount === 1 ? 'item' : 'items' }}
@@ -48,7 +48,15 @@ export default {
 			type: String,
 			required: true,
 			validator(type) {
-				return ['text', 'publication'].includes(type);
+				return [
+					'text',
+					'publication',
+					'committee',
+					'study',
+					'grant',
+					'grantOther',
+					'certification'
+				].includes(type);
 			}
 		},
 		text: {
@@ -57,6 +65,10 @@ export default {
 		},
 		description: {
 			type: String,
+			required: false
+		},
+		itemProps: {
+			type: Object,
 			required: false
 		},
 		items: {
@@ -98,9 +110,16 @@ export default {
 				return;
 
 			let items = Array.slice(this.items);
-			items.push({
+
+			const newItem = {
 				type: this.listType
-			});
+			};
+
+			if (this.itemProps) {
+				Object.assign(newItem, this.itemProps);
+			}
+
+			items.push(newItem);
 
 			this.$emit('input', {items});
 		},

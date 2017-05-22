@@ -18,7 +18,7 @@
 			"title": "Section",
 			"type": "object",
 			"properties": {
-				"type": {"enum": ["section"]},
+				"type": {"const": "section"},
 				"title": {"type": "string"},
 				"items": {
 					"type": "array",
@@ -37,7 +37,7 @@
 			"title": "Instruction block",
 			"type": "object",
 			"properties": {
-				"type": {"enum": ["instruction"]},
+				"type": {"const": "instruction"},
 				"text": {"type": "string"}
 			}
 		},
@@ -45,9 +45,10 @@
 			"title": "Checklist item",
 			"type": "object",
 			"properties": {
-				"type": {"enum": ["item"]},
+				"type": {"const": "item"},
 				"text": {"type": "string"},
 				"checked": {"type": "boolean"},
+				"subjectReadonly": {"type": "boolean"},
 				"questions": {
 					"type": "array",
 					"items": {
@@ -68,16 +69,6 @@
 				{"$ref": "#/definitions/question/definitions/list"}
 			],
 			"definitions": {
-				"properties": {
-					"title": "Question properties",
-					"type": "array",
-					"items": {
-						"type": "string",
-						"enum": [
-							"required"
-						]
-					}
-				},
 				"text": {
 					"title": "Text question",
 					"type": "object",
@@ -86,8 +77,8 @@
 						"text": {"type": "string"},
 						"description": {"type": "string"},
 						"placeholder": {"type": "string"},
-						"properties": {"$ref": "#/definitions/question/definitions/properties"},
-						"value": {"type": "string"}
+						"value": {"type": "string"},
+						"required": {"type": "boolean"}
 					},
 					"required": [
 						"type",
@@ -98,14 +89,14 @@
 					"title": "Number question",
 					"type": "object",
 					"properties": {
-						"type": {"enum": ["number"]},
+						"type": {"const": "number"},
 						"text": {"type": "string"},
 						"description": {"type": "string"},
 						"placeholder": {"type": "string"},
 						"min": {"type": "number"},
 						"max": {"type": "number"},
-						"properties": {"$ref": "#/definitions/question/definitions/properties"},
-						"value": {"type": "number"}
+						"value": {"type": "number"},
+						"required": {"type": "boolean"}
 					},
 					"required": [
 						"type",
@@ -116,9 +107,10 @@
 					"title": "Checkbox question",
 					"type": "object",
 					"properties": {
-						"type": {"enum": ["checkbox"]},
+						"type": {"const": "checkbox"},
 						"text": {"type": "string"},
 						"description": {"type": "string"},
+						"required": {"type": "boolean"},
 						"options": {
 							"type": "array",
 							"items": {
@@ -132,9 +124,13 @@
 											{"type": "number"}
 										]
 									},
+									"editable": {"type": "boolean"},
 									"checked": {"type": "boolean"}
 								},
-								"required": ["text", "value"]
+								"required": [
+									"text",
+									"value"
+								]
 							}
 						}
 					},
@@ -148,9 +144,10 @@
 					"title": "Radio question",
 					"type": "object",
 					"properties": {
-						"type": {"enum": ["radio"]},
+						"type": {"const": "radio"},
 						"text": {"type": "string"},
 						"description": {"type": "string"},
+						"required": {"type": "boolean"},
 						"options": {
 							"type": "array",
 							"items": {
@@ -164,10 +161,12 @@
 											{"type": "number"}
 										]
 									},
+									"editable": {"type": "boolean"},
 									"checked": {"type": "boolean"}
 								},
 								"required": [
-									"text"
+									"text",
+									"value"
 								]
 							}
 						}
@@ -182,17 +181,30 @@
 					"title": "List question",
 					"type": "object",
 					"properties": {
-						"type": {"enum": ["list"]},
-						"listType": {"enum": ["text", "publication"]},
+						"type": {"const": "list"},
+						"listType": {"enum": [
+							"text",
+							"publication",
+							"committee",
+							"study",
+							"grant",
+							"grantOther",
+							"certification"
+						]},
 						"text": {"type": "string"},
 						"description": {"type": "string"},
 						"ordered": {"type": "boolean"},
+						"itemProps": {"type": "object"},
 						"items": {
 							"type": "array",
 							"items": {
 								"oneOf": [
 									{"$ref": "#/definitions/question/definitions/list/definitions/text"},
-									{"$ref": "#/definitions/question/definitions/list/definitions/publication"}
+									{"$ref": "#/definitions/question/definitions/list/definitions/publication"},
+									{"$ref": "#/definitions/question/definitions/list/definitions/committee"},
+									{"$ref": "#/definitions/question/definitions/list/definitions/study"},
+									{"$ref": "#/definitions/question/definitions/list/definitions/grant"},
+									{"$ref": "#/definitions/question/definitions/list/definitions/certification"}
 								]
 							}
 						}
@@ -206,7 +218,7 @@
 							"title": "Text list item",
 							"type": "object",
 							"properties": {
-								"type": {"enum": ["text"]},
+								"type": {"const": "text"},
 								"text": {"type": "string"}
 							},
 							"required": [
@@ -217,11 +229,62 @@
 							"title": "Publication list item",
 							"type": "object",
 							"properties": {
-								"type": {"enum": ["publication"]},
+								"type": {"const": "publication"},
 								"title": {"type": "string"},
 								"author": {"type": "string"},
 								"link": {"type": "string"},
 								"role": {"type": "string"}
+							},
+							"required": [
+								"type"
+							]
+						},
+						"committee": {
+							"title": "Committee list item",
+							"type": "object",
+							"properties": {
+								"type": {"const": "committee"},
+								"name": {"type": "string"},
+								"role": {"enum": ["chair", "member"]}
+							},
+							"required": [
+								"type"
+							]
+						},
+						"study": {
+							"title": "Ongoing study list item",
+							"type": "object",
+							"properties": {
+								"type": {"const": "study"},
+								"title": {"type": "string"},
+								"role": {"type": "string"},
+								"approvalNumber": {"type": "string"},
+								"progress": {"type": "string"}
+							},
+							"required": [
+								"type"
+							]
+						},
+						"grant": {
+							"title": "Grant submission list item",
+							"type": "object",
+							"properties": {
+								"type": {"enum": ["grant", "grantOther"]},
+								"agency": {"type": "string"},
+								"project": {"type": "string"},
+								"amount": {"type": "number"}
+							},
+							"required": [
+								"type"
+							]
+						},
+						"certification": {
+							"title": "Certification list item",
+							"type": "object",
+							"properties": {
+								"type": {"const": "certification"},
+								"board": {"type": "string"},
+								"specialty": {"type": "string"}
 							},
 							"required": [
 								"type"
