@@ -9,8 +9,8 @@
 		<show-hide-button v-if="description" v-model="show.description">
 			description
 		</show-hide-button>
-		<div v-if="description" v-show="show.description">
-			{{ markedUpDescription }}
+		<div v-if="description" v-show="show.description"
+			v-html="markedUpDescription">
 		</div>
 	</div>
 </template>
@@ -67,20 +67,20 @@ export default {
 			}
 		};
 	},
-	
+
 	computed: {
 		markedUpDescription() {
 			if (this.description)
 				return snarkdown(this.description);
 		}
 	},
-	
+
 	methods: {
 		onInput(event) {
 			this.$emit('input', {value: Number(event.target.value)});
 		}
 	},
-	
+
 	components: {
 		ShowHideButton
 	}

@@ -7749,6 +7749,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		readonly: {
 			type: Boolean,
 			default: false
+		},
+		user: {
+			type: Object,
+			required: false
 		}
 	},
 
@@ -7834,6 +7838,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		subjectReadonly: {
 			type: Boolean,
 			default: false
+		},
+		user: {
+			type: Object,
+			required: false
 		}
 	},
 
@@ -7843,11 +7851,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		markedUpText: function markedUpText() {
 			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_snarkdown__["a" /* default */])(this.text);
+		},
+		readonlyToUser: function readonlyToUser() {
+			return this.readonly || this.subjectReadonly && (!this.user || this.user.type !== 'admin');
 		}
 	},
 
 	methods: {
 		handleCheck: function handleCheck() {
+			if (this.readonlyToUser) return;
+
 			var checked = !this.checked;
 			var item = { checked: checked };
 
@@ -7859,12 +7872,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.$emit('input', item);
 		},
 		handleQuestionInput: function handleQuestionInput(index, question) {
+			if (this.readonlyToUser) return;
+
 			var questions = this.questions.slice();
 			questions[index] = Object.assign({}, questions[index], question);
 
 			this.$emit('input', { questions: questions });
 		},
 		clearQuestion: function clearQuestion(question) {
+			if (this.readonlyToUser) return;
+
 			question = Object.assign({}, question);
 			switch (question.type) {
 				case 'text':
@@ -7912,6 +7929,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	extends: __WEBPACK_IMPORTED_MODULE_2__Questionnaire_Section_vue___default.a,
 	name: 'checklist-section',
 
+	props: {
+		user: {
+			type: Object,
+			required: false
+		}
+	},
+
 	render: function render(h) {
 		var _this = this;
 
@@ -7931,7 +7955,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			return h(componentName, {
 				props: Object.assign({
-					readonly: _this.readonly
+					readonly: _this.readonly,
+					user: _this.user
 				}, item),
 				on: {
 					input: function input(item) {
@@ -8007,6 +8032,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -8039,7 +8065,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		title: {
 			type: String,
-			require: true
+			required: true
+		},
+		user: {
+			type: Object,
+			required: false
 		}
 	},
 	data: function data() {
@@ -8315,6 +8345,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -8370,17 +8401,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.viewedReport = null;
 		},
 		handleReportSave: function handleReportSave(changes) {
-			this.updateReport(changes);
-		},
-		handleReportSubmit: function handleReportSubmit(changes) {
-			this.updateReport(Object.assign(changes, {
-				status: 'complete'
-			}));
-		},
-		updateReport: function updateReport(changes) {
 			var _this = this;
 
-			fetch('/merits/' + changes.id, {
+			this.updateReport(changes).then(function () {
+				_this.viewedReport = null;
+			});
+		},
+		handleReportSubmit: function handleReportSubmit(changes) {
+			var _this2 = this;
+
+			this.updateReport(Object.assign(changes, {
+				status: 'complete'
+			})).then(function () {
+				_this2.viewedReport = null;
+			});
+		},
+		updateReport: function updateReport(changes) {
+			var _this3 = this;
+
+			return fetch('/merits/' + changes.id, {
 				method: 'POST', // PATCH
 				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
@@ -8388,10 +8427,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					_method: 'PATCH'
 				}))
 			}).then(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["c" /* okOrThrow */]).then(function () {
-				_this.$emit('change');
+				_this3.$emit('change');
 			}).catch(function (err) {
 				console.error(err);
-				_this.$emit('alert', {
+				_this3.$emit('alert', {
 					type: 'error',
 					html: '<strong>Error:</strong> There was a problem updating the merit report'
 				});
@@ -8463,8 +8502,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_snarkdown__ = __webpack_require__(30);
-//
-//
 //
 //
 //
@@ -11284,8 +11321,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       rawName: "v-show",
       value: (_vm.show.description),
       expression: "show.description"
-    }]
-  }, [_vm._v("\n\t\t" + _vm._s(_vm.markedUpDescription) + "\n\t")]) : _vm._e()], 1)
+    }],
+    domProps: {
+      "innerHTML": _vm._s(_vm.markedUpDescription)
+    }
+  }) : _vm._e()], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -11303,14 +11343,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "checklist-item",
     class: {
-      checked: _vm.checked, readonly: _vm.readonly, editable: !_vm.readonly
+      checked: _vm.checked, readonly: _vm.readonly, editable: !_vm.readonlyToUser
     }
   }, [_c('label', {
     staticClass: "containing-label"
   }, [_c('input', {
     attrs: {
       "type": "checkbox",
-      "disabled": _vm.readonly
+      "disabled": _vm.readonlyToUser
     },
     domProps: {
       "checked": _vm.checked
@@ -11329,7 +11369,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     return _c('questionnaire-question', {
       attrs: {
         "question": question,
-        "readonly": _vm.readonly
+        "readonly": _vm.readonlyToUser
       },
       on: {
         "input": function($event) {
@@ -11370,7 +11410,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         return [_c('checklist-section', _vm._b({
           attrs: {
             "page": true,
-            "readonly": _vm.readonly
+            "readonly": _vm.readonly,
+            "user": _vm.user
           },
           on: {
             "input": function($event) {
@@ -11468,8 +11509,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }) : [_vm._v("\n\t\t\t\t\t" + _vm._s(option.text) + "\n\t\t\t\t")], _vm._v(" "), (option.description) ? _c('div', {
-      staticClass: "question-description"
-    }, [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.snarkdown(option.description)) + "\n\t\t\t\t")]) : _vm._e()], 2)
+      staticClass: "question-description",
+      domProps: {
+        "innerHTML": _vm._s(_vm.snarkdown(option.description))
+      }
+    }) : _vm._e()], 2)
   }))]), _vm._v(" "), (_vm.description) ? _c('show-hide-button', {
     model: {
       value: (_vm.show.description),
@@ -11539,7 +11583,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "row"
   }, [_c('merit-report', _vm._b({
     attrs: {
-      "title": _vm.viewedReport.form.name
+      "title": _vm.viewedReport.form.name,
+      "user": _vm.user
     },
     on: {
       "close": _vm.handleReportClose,
@@ -11605,8 +11650,11 @@ if (false) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "instruction-block"
-  }, [_vm._v("\n\t" + _vm._s(_vm.markedUpText) + "\n")])
+    staticClass: "instruction-block",
+    domProps: {
+      "innerHTML": _vm._s(_vm.markedUpText)
+    }
+  })
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -11657,8 +11705,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       rawName: "v-show",
       value: (_vm.show.description),
       expression: "show.description"
-    }]
-  }, [_vm._v("\n\t\t" + _vm._s(_vm.markedUpDescription) + "\n\t")]) : _vm._e()], 1)
+    }],
+    domProps: {
+      "innerHTML": _vm._s(_vm.markedUpDescription)
+    }
+  }) : _vm._e()], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -11721,8 +11772,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       rawName: "v-show",
       value: (_vm.show.description),
       expression: "show.description"
-    }]
-  }, [_vm._v("\n\t\t" + _vm._s(_vm.markedUpDescription) + "\n\t")]) : _vm._e()], 1)
+    }],
+    domProps: {
+      "innerHTML": _vm._s(_vm.markedUpDescription)
+    }
+  }) : _vm._e()], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -11786,8 +11840,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }) : [_vm._v("\n\t\t\t\t\t" + _vm._s(option.text) + "\n\t\t\t\t")], _vm._v(" "), (option.description) ? _c('div', {
-      staticClass: "question-description"
-    }, [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.snarkdown(option.description)) + "\n\t\t\t\t")]) : _vm._e()], 2)
+      staticClass: "question-description",
+      domProps: {
+        "innerHTML": _vm._s(_vm.snarkdown(option.description))
+      }
+    }) : _vm._e()], 2)
   }))]), _vm._v(" "), (_vm.description) ? _c('show-hide-button', {
     model: {
       value: (_vm.show.description),
@@ -12160,7 +12217,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })], 1)])]), _vm._v(" "), _c('merit-compensation-checklist', _vm._b({
     attrs: {
       "title": _vm.title,
-      "readonly": _vm.readonly
+      "readonly": _vm.readonly,
+      "user": _vm.user
     },
     on: {
       "input": _vm.handleChecklistInput,

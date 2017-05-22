@@ -7,6 +7,13 @@ export default {
 	extends: QuestionnaireSection,
 	name: 'checklist-section',
 
+	props: {
+		user: {
+			type: Object,
+			required: false
+		}
+	},
+
 	render(h) {
 		let items = this.items.map((item, index) => {
 			let componentName;
@@ -25,6 +32,7 @@ export default {
 			return h(componentName, {
 				props: {
 					readonly: this.readonly,
+					user: this.user,
 					...item
 				},
 				on: {
