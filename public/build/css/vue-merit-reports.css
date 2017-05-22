@@ -222,6 +222,10 @@ legend[data-v-3b7f8513] {
 .options label[data-v-3b7f8513] {
 	padding: 1em;
 }
+.editable-option-text[data-v-3b7f8513] {
+	display: inline-block;
+	width: auto;
+}
 
 li[data-v-737a1269] {
 	display: flex;
@@ -251,6 +255,32 @@ li[data-v-9ce3a934] {
 
 .publication-list-item {
 	margin-bottom: 2em;
+}
+
+li[data-v-6233e112] {
+	display: flex;
+}
+.item-controls[data-v-6233e112] {
+	flex-shrink: 0;
+	padding: 1em 1em 1em 0;
+}
+.item-contents[data-v-6233e112] {
+	flex-grow: 1;
+}
+
+li[data-v-1548f2c8] {
+	display: flex;
+}
+.item-controls[data-v-1548f2c8] {
+	flex-shrink: 0;
+	padding: 1em 1em 1em 0;
+}
+.item-contents[data-v-1548f2c8] {
+	flex-grow: 1;
+}
+
+.questionnaire-list-item {
+	margin-bottom: 1em;
 }
 
 .instruction-block[data-v-16c471bd] {

@@ -42,10 +42,6 @@ export default {
 			type: String,
 			required: false
 		},
-		properties: {
-			type: Array,
-			required: false
-		},
 		value: {
 			type: String,
 			default: ''
@@ -62,20 +58,20 @@ export default {
 			}
 		};
 	},
-	
+
 	computed: {
 		markedUpDescription() {
 			if (this.description)
 				return snarkdown(this.description);
 		}
 	},
-	
+
 	methods: {
 		onInput(event) {
 			this.$emit('input', {value: event.target.value});
 		}
 	},
-	
+
 	components: {
 		ShowHideButton
 	}
