@@ -22,6 +22,7 @@
 				<div v-if="viewedReport" class="row">
 					<merit-report v-bind="viewedReport"
 						:title="viewedReport.form.name"
+						:user="user"
 						@close="handleReportClose"
 						@save="handleReportSave"
 						@submit="handleReportSubmit" />
@@ -89,15 +90,19 @@ export default {
 			this.viewedReport = null;
 		},
 		handleReportSave(changes) {
-			this.updateReport(changes);
+			this.updateReport(changes).then(() => {
+				this.viewedReport = null;
+			});
 		},
 		handleReportSubmit(changes) {
 			this.updateReport(Object.assign(changes, {
 				status: 'complete'
-			}));
+			})).then(() => {
+				this.viewedReport = null;
+			});
 		},
 		updateReport(changes) {
-			fetch(`/merits/${changes.id}`, {
+			return fetch(`/merits/${changes.id}`, {
 				method: 'POST', // PATCH
 				headers: getFetchHeaders(),
 				credentials: 'same-origin',

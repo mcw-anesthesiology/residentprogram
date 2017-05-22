@@ -20,6 +20,7 @@
 		<merit-compensation-report v-if="meritCompensationReport"
 			v-bind="meritCompensationReport"
 			:title="yearlyFacultyMeritForm.name"
+			:user="user"
 			@close="handleClose"
 			@save="handleSubmit"
 			@submit="handleSubmit">

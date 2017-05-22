@@ -20,8 +20,8 @@
 		<show-hide-button v-if="description" v-model="show.description">
 			description
 		</show-hide-button>
-		<div v-if="description" v-show="show.description">
-			{{ markedUpDescription }}
+		<div v-if="description" v-show="show.description"
+			v-html="markedUpDescription">
 		</div>
 	</div>
 </template>

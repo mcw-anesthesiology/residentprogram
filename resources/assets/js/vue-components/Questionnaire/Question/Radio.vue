@@ -20,8 +20,8 @@
 						{{ option.text }}
 					</template>
 
-					<div v-if="option.description" class="question-description">
-						{{ snarkdown(option.description) }}
+					<div v-if="option.description" class="question-description"
+						v-html="snarkdown(option.description)">
 					</div>
 				</label>
 			</div>

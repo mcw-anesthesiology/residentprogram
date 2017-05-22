@@ -1,14 +1,14 @@
 <template>
-	<div class="checklist-item" :class="{checked, readonly, editable: !readonly}">
+	<div class="checklist-item" :class="{checked, readonly, editable: !readonlyToUser}">
 		<label class="containing-label">
-			<input type="checkbox" :checked="checked" :disabled="readonly"
+			<input type="checkbox" :checked="checked" :disabled="readonlyToUser"
 				@change="handleCheck" />
 
 			<span class="item-text" v-html="markedUpText"></span>
 		</label>
 		<div v-if="checked && hasQuestions" class="item-questions">
 			<questionnaire-question v-for="(question, index) of questions"
-				:question="question" :readonly="readonly"
+				:question="question" :readonly="readonlyToUser"
 				@input="handleQuestionInput(index, arguments[0])" />
 		</div>
 	</div>
@@ -46,6 +46,10 @@ export default {
 		subjectReadonly: {
 			type: Boolean,
 			default: false
+		},
+		user: {
+			type: Object,
+			required: false
 		}
 	},
 
@@ -55,11 +59,21 @@ export default {
 		},
 		markedUpText() {
 			return snarkdown(this.text);
+		},
+		readonlyToUser() {
+			return this.readonly || (
+				this.subjectReadonly && (
+					!this.user || this.user.type !== 'admin'
+				)
+			);
 		}
 	},
 
 	methods: {
 		handleCheck() {
+			if (this.readonlyToUser)
+				return;
+
 			let checked = !this.checked;
 			let item = {checked};
 
@@ -71,12 +85,18 @@ export default {
 			this.$emit('input', item);
 		},
 		handleQuestionInput(index, question) {
+			if (this.readonlyToUser)
+				return;
+
 			let questions = this.questions.slice();
 			questions[index] = Object.assign({}, questions[index], question);
 
 			this.$emit('input', {questions});
 		},
 		clearQuestion(question) {
+			if (this.readonlyToUser)
+				return;
+
 			question = Object.assign({}, question);
 			switch (question.type) {
 				case 'text':

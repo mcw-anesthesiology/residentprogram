@@ -1,7 +1,5 @@
 <template>
-	<div class="instruction-block">
-		{{ markedUpText }}
-	</div>
+	<div class="instruction-block" v-html="markedUpText"></div>
 </template>
 
 <script>
@@ -20,7 +18,7 @@ export default {
 			required: true
 		}
 	},
-	
+
 	computed: {
 		markedUpText() {
 			return snarkdown(this.text);

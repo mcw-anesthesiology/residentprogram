@@ -25,6 +25,7 @@
 
 		<merit-compensation-checklist v-bind="checklist"
 			:title="title" :readonly="readonly"
+			:user="user"
 			@input="handleChecklistInput"
 			@save="handleSave"
 			@close="handleClose"
@@ -64,7 +65,11 @@ export default {
 		},
 		title: {
 			type: String,
-			require: true
+			required: true
+		},
+		user: {
+			type: Object,
+			required: false
 		}
 	},
 	data() {

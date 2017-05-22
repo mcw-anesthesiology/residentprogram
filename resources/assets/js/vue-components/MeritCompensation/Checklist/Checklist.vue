@@ -5,7 +5,7 @@
 				@submit="handleSubmit">
 			<template scope="pager">
 				<checklist-section v-bind="pager.page" :page="true"
-					:readonly="readonly"
+					:readonly="readonly" :user="user"
 					@input="handleInput(pager.pageNum, arguments[0])" />
 			</template>
 		</questionnaire-pager>
@@ -49,6 +49,10 @@ export default {
 		readonly: {
 			type: Boolean,
 			default: false
+		},
+		user: {
+			type: Object,
+			required: false
 		}
 	},
 
