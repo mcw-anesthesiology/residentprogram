@@ -3763,7 +3763,7 @@ function createResponseLegend(valueMap) {
 	var labels = [];
 	var values = [];
 
-	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_0__utils_js__["f" /* sortNumbers */]);
+	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_0__utils_js__["g" /* sortNumbers */]);
 
 	keys.map(function (key) {
 		labels.push(valueMap.get(key));
@@ -4283,9 +4283,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			var rows = this.data.map(function (row) {
 				return row.map(function (cell) {
-					return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["m" /* escapeCsv */])(cell.toString());
+					return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["n" /* escapeCsv */])(cell.toString());
 				}).join(',');
-			}).sort(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["n" /* sortIgnoreCase */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["o" /* sortIgnoreCase */]);
 			var table = header.concat(rows);
 			__WEBPACK_IMPORTED_MODULE_0_downloadjs___default()(table.join('\n'), this.exportFilename + '.csv', 'text/csv');
 		}
@@ -4475,7 +4475,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			this.endDate = dates.endDate;
 		},
 
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["o" /* camelCaseToWords */]
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["p" /* camelCaseToWords */]
 	},
 	components: {
 		VueFlatpickr: __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr___default.a
@@ -5333,7 +5333,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		renderFieldName: function renderFieldName(field) {
 			if (field === 'id') return 'ID';
 
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["e" /* snakeCaseToWords */])(field);
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["f" /* snakeCaseToWords */])(field);
 		}
 	},
 	components: {
@@ -5646,7 +5646,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		var _this = this;
 
 		if (this.showMilestonesCompetencies) {
-			__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["g" /* fetchMilestoneGroups */])().then(function (milestoneGroups) {
+			__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["h" /* fetchMilestoneGroups */])().then(function (milestoneGroups) {
 				_this.groupedMilestones = milestoneGroups;
 			}).catch(function (err) {
 				console.error(err);
@@ -6221,7 +6221,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					id: competency.id,
 					text: competency.title
 				};
-			}).sort(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["h" /* sortSelect2Objects */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["i" /* sortSelect2Objects */]);
 		}
 	},
 	methods: {
@@ -15491,12 +15491,12 @@ function createManageMilestonesCompetencies(el, propsData) {
 			competencies: function competencies(_competencies) {
 				this.orderedCompetencies = _competencies.filter(function (competency) {
 					return competency.order != null;
-				}).sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["l" /* sortPropNumbers */])('order'));
+				}).sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["m" /* sortPropNumbers */])('order'));
 			},
 			milestones: function milestones(_milestones) {
 				this.orderedMilestones = _milestones.filter(function (milestone) {
 					return milestone.order != null;
-				}).sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["l" /* sortPropNumbers */])('order'));
+				}).sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["m" /* sortPropNumbers */])('order'));
 			}
 		},
 
@@ -20002,7 +20002,7 @@ var ajv = new __WEBPACK_IMPORTED_MODULE_2_ajv___default.a({
 
 	methods: {
 		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["d" /* ucfirst */],
-		ucfirstWords: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["k" /* ucfirstWords */],
+		ucfirstWords: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["l" /* ucfirstWords */],
 		formatJson: function formatJson() {
 			if (this.newJsonObject) this.newJson = JSON.stringify(this.newJsonObject, null, 4);
 		},

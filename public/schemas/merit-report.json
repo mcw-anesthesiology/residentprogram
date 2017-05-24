@@ -189,7 +189,8 @@
 							"study",
 							"grant",
 							"grantOther",
-							"certification"
+							"certification",
+							"editorialBoard"
 						]},
 						"text": {"type": "string"},
 						"description": {"type": "string"},
@@ -204,7 +205,8 @@
 									{"$ref": "#/definitions/question/definitions/list/definitions/committee"},
 									{"$ref": "#/definitions/question/definitions/list/definitions/study"},
 									{"$ref": "#/definitions/question/definitions/list/definitions/grant"},
-									{"$ref": "#/definitions/question/definitions/list/definitions/certification"}
+									{"$ref": "#/definitions/question/definitions/list/definitions/certification"},
+									{"$ref": "#/definitions/question/definitions/list/definitions/editorialBoard"}
 								]
 							}
 						}
@@ -285,6 +287,18 @@
 								"type": {"const": "certification"},
 								"board": {"type": "string"},
 								"specialty": {"type": "string"}
+							},
+							"required": [
+								"type"
+							]
+						},
+						"editorialBoard": {
+							"title": "Editorial board list item",
+							"type": "object",
+							"properties": {
+								"type": {"const": "editorialBoard"},
+								"journal": {"type": "string"},
+								"role": {"type": "string"}
 							},
 							"required": [
 								"type"

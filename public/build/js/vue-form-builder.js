@@ -3836,7 +3836,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		var _this = this;
 
 		if (this.showMilestonesCompetencies) {
-			__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["g" /* fetchMilestoneGroups */])().then(function (milestoneGroups) {
+			__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["h" /* fetchMilestoneGroups */])().then(function (milestoneGroups) {
 				_this.groupedMilestones = milestoneGroups;
 			}).catch(function (err) {
 				console.error(err);
@@ -4411,7 +4411,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					id: competency.id,
 					text: competency.title
 				};
-			}).sort(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["h" /* sortSelect2Objects */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["i" /* sortSelect2Objects */]);
 		}
 	},
 	methods: {

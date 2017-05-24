@@ -283,6 +283,24 @@ li[data-v-1548f2c8] {
 	margin-bottom: 1em;
 }
 
+.radio-question[data-v-2186235b] {
+	font-size: 1.25em;
+}
+legend[data-v-2186235b] {
+	margin: 0;
+}
+.options[data-v-2186235b] {
+	display: flex;
+	flex-wrap: wrap;
+}
+.options label[data-v-2186235b] {
+	padding: 1em;
+}
+.editable-option-text[data-v-2186235b] {
+	display: inline-block;
+	width: auto;
+}
+
 .instruction-block[data-v-16c471bd] {
 	margin: 1em;
 	padding: 1em;
