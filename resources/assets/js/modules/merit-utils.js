@@ -143,6 +143,10 @@ export function listItemIsValid(listItem) {
 			if (!listItem.journal || !listItem.role)
 				return false;
 			break;
+		case 'journalReview':
+			if (!listItem.journal || !listItem.reviews)
+				return false;
+			break;
 	}
 
 	return true;

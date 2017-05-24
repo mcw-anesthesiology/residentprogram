@@ -63,7 +63,8 @@ export default {
 					'grant',
 					'grantOther',
 					'certification',
-					'editorialBoard'
+					'editorialBoard',
+					'journalReview'
 				].includes(type);
 			}
 		},
