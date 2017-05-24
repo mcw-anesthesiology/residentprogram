@@ -3,7 +3,7 @@
 		<label class="containing-label" :class="{'has-warning': required && !value}"
 				:title="description">
 			{{ text }}
-			<input type="number" class="form-control appear-not-readonly"
+			<input type="number" class="form-control"
 				:min="min" :max="max" :value="value" :readonly="readonly"
 				@input="onInput" />
 		</label>

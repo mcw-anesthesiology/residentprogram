@@ -4,7 +4,7 @@
 			<label class="containing-label">
 				Board
 				<input type="text" class="form-control"
-					:value="board"
+					:value="board" :readonly="readonly"
 					@input="$emit('input', {board: $event.target.value})" />
 			</label>
 			<span v-if="!board" class="help-block">
@@ -15,7 +15,7 @@
 			<label class="containing-label">
 				Specialty
 				<input type="text" class="form-control"
-					:value="specialty"
+					:value="specialty" :readonly="readonly"
 					@input="$emit('input', {specialty: $event.target.value})" />
 			</label>
 			<span v-if="!specialty" class="help-block">

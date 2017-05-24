@@ -4,7 +4,7 @@
 			<label class="containing-label">
 				Study title
 				<input type="text" class="form-control"
-					:value="title"
+					:value="title" :readonly="readonly"
 					@input="$emit('input', {title: $event.target.value})" />
 			</label>
 

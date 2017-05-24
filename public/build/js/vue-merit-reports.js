@@ -12044,7 +12044,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "title": _vm.description
     }
   }, [_vm._v("\n\t\t" + _vm._s(_vm.text) + "\n\t\t"), _c('input', {
-    staticClass: "form-control appear-not-readonly",
+    staticClass: "form-control",
     attrs: {
       "type": "number",
       "min": _vm.min,
@@ -12105,7 +12105,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "title": _vm.description
     }
   }, [_vm._v("\n\t\t" + _vm._s(_vm.text) + "\n\t\t"), (_vm.type === 'texarea') ? _c('textarea', {
-    staticClass: "form-control appear-not-readonly",
+    staticClass: "form-control",
     attrs: {
       "readonly": _vm.readonly
     },
@@ -12116,7 +12116,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "input": _vm.onInput
     }
   }) : _c('input', {
-    staticClass: "form-control appear-not-readonly",
+    staticClass: "form-control",
     attrs: {
       "type": "text",
       "readonly": _vm.readonly
@@ -12270,7 +12270,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("\n\t\t\tBoard\n\t\t\t"), _c('input', {
     staticClass: "form-control",
     attrs: {
-      "type": "text"
+      "type": "text",
+      "readonly": _vm.readonly
     },
     domProps: {
       "value": _vm.board
@@ -12294,7 +12295,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("\n\t\t\tSpecialty\n\t\t\t"), _c('input', {
     staticClass: "form-control",
     attrs: {
-      "type": "text"
+      "type": "text",
+      "readonly": _vm.readonly
     },
     domProps: {
       "value": _vm.specialty
@@ -12345,7 +12347,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("\n\t\t\tStudy title\n\t\t\t"), _c('input', {
     staticClass: "form-control",
     attrs: {
-      "type": "text"
+      "type": "text",
+      "readonly": _vm.readonly
     },
     domProps: {
       "value": _vm.title
@@ -12682,7 +12685,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       'has-warning': !_vm.text
     }
   }, [_c('input', {
-    staticClass: "form-control appear-not-readonly",
+    staticClass: "form-control",
     attrs: {
       "type": "text",
       "readonly": _vm.readonly
@@ -12834,7 +12837,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('label', {
     staticClass: "containing-label"
   }, [_vm._v("\n\t\t\t\tTitle of publication\n\t\t\t\t"), _c('input', {
-    staticClass: "form-control appear-not-readonly",
+    staticClass: "form-control",
     attrs: {
       "type": "text",
       "readonly": _vm.readonly
@@ -12856,7 +12859,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('label', {
     staticClass: "containing-label"
   }, [_vm._v("\n\t\t\t\tPrimary author(s)\n\t\t\t\t"), _c('input', {
-    staticClass: "form-control appear-not-readonly",
+    staticClass: "form-control",
     attrs: {
       "type": "text",
       "readonly": _vm.readonly
@@ -12876,7 +12879,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('label', {
     staticClass: "containing-label"
   }, [_vm._v("\n\t\t\t\tLink (PubMed, MCW FCD, etc.)\n\t\t\t\t"), _c('input', {
-    staticClass: "form-control appear-not-readonly",
+    staticClass: "form-control",
     attrs: {
       "type": "text",
       "readonly": _vm.readonly
@@ -12899,7 +12902,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('label', {
     staticClass: "containing-label"
   }, [_vm._v("\n\t\t\t\tYour role on the project\n\t\t\t\t"), _c('input', {
-    staticClass: "form-control appear-not-readonly",
+    staticClass: "form-control",
     attrs: {
       "type": "text",
       "readonly": _vm.readonly
@@ -12950,7 +12953,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("\n\t\t\tFunding agency\n\t\t\t"), _c('input', {
     staticClass: "form-control",
     attrs: {
-      "type": "text"
+      "type": "text",
+      "readonly": _vm.readonly
     },
     domProps: {
       "value": _vm.agency
@@ -12974,7 +12978,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("\n\t\t\tProject\n\t\t\t"), _c('input', {
     staticClass: "form-control",
     attrs: {
-      "type": "text"
+      "type": "text",
+      "readonly": _vm.readonly
     },
     domProps: {
       "value": _vm.project
@@ -13002,7 +13007,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("$")]), _vm._v(" "), _c('input', {
     staticClass: "form-control",
     attrs: {
-      "type": "number"
+      "type": "number",
+      "readonly": _vm.readonly
     },
     domProps: {
       "value": _vm.amount
@@ -13292,7 +13298,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-control",
     attrs: {
       "type": "text",
-      "disabled": _vm.readonly
+      "readonly": _vm.readonly
     },
     domProps: {
       "value": _vm.journal
@@ -13319,7 +13325,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     return _c('label', [_c('input', {
       attrs: {
         "type": "radio",
-        "disabled": _vm.readonly
+        "readonly": _vm.readonly
       },
       domProps: {
         "value": predefinedRole,
@@ -13332,7 +13338,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('label', [_c('input', {
     attrs: {
       "type": "radio",
-      "disabled": _vm.readonly
+      "readonly": _vm.readonly
     },
     domProps: {
       "value": _vm.otherRole,
@@ -13352,7 +13358,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "text",
       "placeholder": "Other",
-      "disabled": _vm.readonly
+      "readonly": _vm.readonly
     },
     domProps: {
       "value": (_vm.otherRole)

@@ -11,7 +11,7 @@
 		</div>
 		<div class="item-contents">
 			<div :class="{'has-warning': !text}">
-				<input type="text" class="form-control appear-not-readonly"
+				<input type="text" class="form-control"
 					:value="text" :readonly="readonly"
 					@input="$emit('input', {text: $event.target.value})" />
 

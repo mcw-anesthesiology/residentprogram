@@ -5,7 +5,7 @@
 			<label class="containing-label">
 				Funding agency
 				<input type="text" class="form-control"
-					:value="agency"
+					:value="agency" :readonly="readonly"
 					@input="$emit('input', {agency: $event.target.value})" />
 			</label>
 
@@ -17,7 +17,7 @@
 			<label class="containing-label">
 				Project
 				<input type="text" class="form-control"
-					:value="project"
+					:value="project" :readonly="readonly"
 					@input="$emit('input', {project: $event.target.value})" />
 			</label>
 
@@ -31,7 +31,7 @@
 				<div class="input-group">
 					<span class="input-group-addon">$</span>
 					<input type="number" class="form-control"
-						:value="amount"
+						:value="amount" :readonly="readonly"
 						@input="$emit('input', {amount: Number($event.target.value)})" />
 				</div>
 			</label>
