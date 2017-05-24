@@ -29,18 +29,42 @@
 					{{ viewEditText }}
 				</button>
 
-				<confirmation-button v-if="userIsAdmin && status === 'complete'"
-						class="btn btn-xs btn-primary"
-						@click="openForEditing">
-					<span class="glyphicon glyphicon-edit"></span>
-					Open for editing
-				</confirmation-button>
-				<confirmation-button v-else-if="userIsAdmin && status === 'open for editing'"
-						class="btn btn-xs btn-primary"
-						@click="closeEditing">
-					<span class="glyphicon glyphicon-check"></span>
-					Close editing
-				</confirmation-button>
+				<template v-if="userIsAdmin">
+					<confirmation-button v-if="status === 'complete'"
+							class="btn btn-xs btn-primary"
+							@click="openForEditing">
+						<span class="glyphicon glyphicon-edit"></span>
+						Open for editing
+					</confirmation-button>
+					<confirmation-button v-else-if="status === 'open for editing'"
+							class="btn btn-xs btn-primary"
+							@click="closeEditing">
+						<span class="glyphicon glyphicon-check"></span>
+						Close editing
+					</confirmation-button>
+
+					<confirmation-button v-if="status === 'disabled'"
+							class="btn btn-xs btn-success"
+							@click="enableReport">
+						<span class="glyphicon glyphicon-check"></span>
+						Enable report
+					</confirmation-button>
+					<confirmation-yes-no v-else
+							default-class="btn btn-xs btn-danger"
+							yes-class="btn btn-xs btn-danger"
+							no-class="btn btn-xs btn-default"
+							@click="disableReport">
+						<span class="glyphicon glyphicon-remove"></span>
+						Disable report
+
+						<template slot="yes">
+							Yes, disable report
+						</template>
+						<template slot="no">
+							Cancel
+						</template>
+					</confirmation-yes-no>
+				</template>
 			</div>
 		</div>
 	</div>
@@ -48,6 +72,7 @@
 
 <script>
 import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
+import ConfirmationYesNo from 'vue-components/ConfirmationYesNo.vue';
 import RichDateRange from 'vue-components/RichDateRange.vue';
 
 import { getFetchHeaders, okOrThrow, ucfirst } from 'modules/utils.js';
@@ -132,6 +157,22 @@ export default {
 				status: 'complete'
 			});
 		},
+		disableReport() {
+			if (this.user.type !== 'admin')
+				return;
+
+			this.updateReport({
+				status: 'disabled'
+			});
+		},
+		enableReport() {
+			if (this.user.type !== 'admin')
+				return;
+
+			this.updateReport({
+				status: 'open for editing'
+			});
+		},
 		updateReport(changes) {
 			fetch(`/merits/${this.id}`, {
 				method: 'POST', // PATCH
@@ -154,6 +195,7 @@ export default {
 
 	components: {
 		ConfirmationButton,
+		ConfirmationYesNo,
 		RichDateRange
 	}
 };

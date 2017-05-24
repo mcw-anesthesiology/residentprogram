@@ -7734,10 +7734,12 @@ function createFacultyMeritReports(el, propsData) {
 						endDate: report.period_end
 					};
 
-					return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_date_utils_js__["datesEqual"])(periodDates, _this2.currentYearlyMeritDateRange);
+					return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_date_utils_js__["datesEqual"])(periodDates, _this2.currentYearlyMeritDateRange) && report.status === 'complete';
 				});
 			},
 			inProgressReport: function inProgressReport() {
+				if (!this.meritReports || this.meritReports.length === 0) return false;
+
 				return this.meritReports.find(function (report) {
 					return ['pending', 'open for editing'].includes(report.status);
 				});
@@ -8361,11 +8363,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ConfirmationButton_vue__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ConfirmationButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ConfirmationButton_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__RichDateRange_vue__ = __webpack_require__(162);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__RichDateRange_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__RichDateRange_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(28);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_merit_utils_js__ = __webpack_require__(205);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ConfirmationYesNo_vue__ = __webpack_require__(647);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ConfirmationYesNo_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ConfirmationYesNo_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__RichDateRange_vue__ = __webpack_require__(162);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__RichDateRange_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__RichDateRange_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_datatable_utils_js__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_merit_utils_js__ = __webpack_require__(205);
 //
 //
 //
@@ -8414,6 +8418,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -8471,15 +8500,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			return ['pending', 'open for editing'].includes(this.status) ? 'glyphicon-pencil' : 'glyphicon-list-alt';
 		},
 		statusLabel: function statusLabel() {
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__["a" /* getEvaluationStatusLabel */])(this.status);
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_datatable_utils_js__["a" /* getEvaluationStatusLabel */])(this.status);
 		},
 		checkedItems: function checkedItems() {
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_merit_utils_js__["a" /* getCheckedItemCount */])(this.report);
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_merit_utils_js__["a" /* getCheckedItemCount */])(this.report);
 		}
 	},
 
 	methods: {
-		ucfirst: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["d" /* ucfirst */],
+		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["d" /* ucfirst */],
 		openForEditing: function openForEditing() {
 			if (this.user.type !== 'admin' || this.status !== 'complete') return;
 
@@ -8494,17 +8523,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				status: 'complete'
 			});
 		},
+		disableReport: function disableReport() {
+			if (this.user.type !== 'admin') return;
+
+			this.updateReport({
+				status: 'disabled'
+			});
+		},
+		enableReport: function enableReport() {
+			if (this.user.type !== 'admin') return;
+
+			this.updateReport({
+				status: 'open for editing'
+			});
+		},
 		updateReport: function updateReport(changes) {
 			var _this = this;
 
 			fetch('/merits/' + this.id, {
 				method: 'POST', // PATCH
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["a" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(Object.assign(changes, {
 					_method: 'PATCH'
 				}))
-			}).then(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["c" /* okOrThrow */]).then(function () {
+			}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["c" /* okOrThrow */]).then(function () {
 				_this.$emit('change');
 			}).catch(function (err) {
 				console.error(err);
@@ -8518,7 +8561,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	components: {
 		ConfirmationButton: __WEBPACK_IMPORTED_MODULE_0__ConfirmationButton_vue___default.a,
-		RichDateRange: __WEBPACK_IMPORTED_MODULE_1__RichDateRange_vue___default.a
+		ConfirmationYesNo: __WEBPACK_IMPORTED_MODULE_1__ConfirmationYesNo_vue___default.a,
+		RichDateRange: __WEBPACK_IMPORTED_MODULE_2__RichDateRange_vue___default.a
 	}
 });
 
@@ -8536,6 +8580,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Report_vue__ = __webpack_require__(231);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Report_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Report_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__ = __webpack_require__(2);
+//
 //
 //
 //
@@ -11924,7 +11969,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "fields": _vm.meritReportFields,
       "items": _vm.merit_reports,
       "field-accessors": _vm.meritReportFieldAccessors,
-      "paginate": false
+      "paginate": false,
+      "default-sort-order": "desc"
     },
     scopedSlots: _vm._u([{
       key: "default",
@@ -12578,21 +12624,43 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('span', {
     staticClass: "glyphicon",
     class: _vm.viewEditGlyph
-  }), _vm._v("\n\t\t\t\t" + _vm._s(_vm.viewEditText) + "\n\t\t\t")]), _vm._v(" "), (_vm.userIsAdmin && _vm.status === 'complete') ? _c('confirmation-button', {
+  }), _vm._v("\n\t\t\t\t" + _vm._s(_vm.viewEditText) + "\n\t\t\t")]), _vm._v(" "), (_vm.userIsAdmin) ? [(_vm.status === 'complete') ? _c('confirmation-button', {
     staticClass: "btn btn-xs btn-primary",
     on: {
       "click": _vm.openForEditing
     }
   }, [_c('span', {
     staticClass: "glyphicon glyphicon-edit"
-  }), _vm._v("\n\t\t\t\tOpen for editing\n\t\t\t")]) : (_vm.userIsAdmin && _vm.status === 'open for editing') ? _c('confirmation-button', {
+  }), _vm._v("\n\t\t\t\t\tOpen for editing\n\t\t\t\t")]) : (_vm.status === 'open for editing') ? _c('confirmation-button', {
     staticClass: "btn btn-xs btn-primary",
     on: {
       "click": _vm.closeEditing
     }
   }, [_c('span', {
     staticClass: "glyphicon glyphicon-check"
-  }), _vm._v("\n\t\t\t\tClose editing\n\t\t\t")]) : _vm._e()], 1)])])
+  }), _vm._v("\n\t\t\t\t\tClose editing\n\t\t\t\t")]) : _vm._e(), _vm._v(" "), (_vm.status === 'disabled') ? _c('confirmation-button', {
+    staticClass: "btn btn-xs btn-success",
+    on: {
+      "click": _vm.enableReport
+    }
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-check"
+  }), _vm._v("\n\t\t\t\t\tEnable report\n\t\t\t\t")]) : _c('confirmation-yes-no', {
+    attrs: {
+      "default-class": "btn btn-xs btn-danger",
+      "yes-class": "btn btn-xs btn-danger",
+      "no-class": "btn btn-xs btn-default"
+    },
+    on: {
+      "click": _vm.disableReport
+    }
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-remove"
+  }), _vm._v("\n\t\t\t\t\tDisable report\n\n\t\t\t\t\t"), _c('template', {
+    slot: "yes"
+  }, [_vm._v("\n\t\t\t\t\t\tYes, disable report\n\t\t\t\t\t")]), _vm._v(" "), _c('template', {
+    slot: "no"
+  }, [_vm._v("\n\t\t\t\t\t\tCancel\n\t\t\t\t\t")])], 2)] : _vm._e()], 2)])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -13387,6 +13455,159 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 646 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	props: {
+		defaultClass: {
+			type: String,
+			required: false
+		},
+		yesClass: {
+			type: String,
+			required: false
+		},
+		noClass: {
+			type: String,
+			required: false
+		},
+		disabled: {
+			type: Boolean,
+			default: false
+		}
+	},
+	data: function data() {
+		return {
+			pressed: false
+		};
+	},
+
+
+	methods: {
+		handleConfirm: function handleConfirm() {
+			this.$emit('click');
+			this.pressed = false;
+		}
+	}
+});
+
+/***/ }),
+/* 647 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(646),
+  /* template */
+  __webpack_require__(648),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ConfirmationYesNo.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] ConfirmationYesNo.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-c1d823e4", Component.options)
+  } else {
+    hotAPI.reload("data-v-c1d823e4", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 648 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', [(!_vm.pressed) ? _c('button', {
+    class: _vm.defaultClass,
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.pressed = true
+      }
+    }
+  }, [_vm._t("default")], 2) : [_c('button', {
+    class: _vm.yesClass,
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.handleConfirm
+    }
+  }, [_vm._t("yes", [_c('span', {
+    staticClass: "glyphicon glyphicon-thumbs-up"
+  })])], 2), _vm._v(" "), _c('button', {
+    class: _vm.noClass,
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.pressed = false
+      }
+    }
+  }, [_vm._t("no", [_c('span', {
+    staticClass: "glyphicon glyphicon-thumbs-down"
+  })])], 2)]], 2)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-c1d823e4", module.exports)
+  }
+}
 
 /***/ })
 ],[358]);
