@@ -1,7 +1,8 @@
 <template>
-	<div class="radio-question form-group">
+	<div class="radio-question form-group"
+			:class="{'has-warning': (required && !hasResponse)}">
 		<fieldset :title="description">
-			<legend>
+			<legend class="control-label">
 				{{ text }}
 			</legend>
 			<div class="options">
@@ -26,6 +27,11 @@
 				</label>
 			</div>
 		</fieldset>
+
+		<span v-if="required && !hasResponse" class="help-block">
+			Please select a response
+		</span>
+
 		<show-hide-button v-if="description" v-model="show.description">
 			description
 		</show-hide-button>
@@ -52,7 +58,8 @@ export default {
 			}
 		},
 		text: {
-			type: String
+			type: String,
+			required: true
 		},
 		description: {
 			type: String,
@@ -61,6 +68,10 @@ export default {
 		options: {
 			type: Array,
 			required: true
+		},
+		required: {
+			type: Boolean,
+			default: false
 		},
 		readonly: {
 			type: Boolean,
@@ -79,6 +90,9 @@ export default {
 		markedUpDescription() {
 			if (this.description)
 				return snarkdown(this.description);
+		},
+		hasResponse() {
+			return this.options.some(option => option.checked);
 		}
 	},
 

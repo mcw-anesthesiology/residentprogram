@@ -90,7 +90,7 @@ export default {
 			return this.currentPage > 0;
 		},
 		canAdvancePage() {
-			return this.pageValidator(this.currentPage);
+			return this.pageValidator(this.pages[this.currentPage]);
 		}
 	},
 

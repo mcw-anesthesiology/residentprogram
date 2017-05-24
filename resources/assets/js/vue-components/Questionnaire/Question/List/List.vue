@@ -9,8 +9,14 @@
 					{{ itemCount === 1 ? 'item' : 'items' }}
 				</span>
 			</legend>
+
+			<bootstrap-alert v-if="items.length === 0"
+				type="warning" text="Please add at least one item">
+			</bootstrap-alert>
+
 			<list-items :ordered="ordered" :items="items" @change="onChange"
 				:readonly="readonly"/>
+
 			<button v-if="!readonly" type="button" class="btn btn-sm btn-info"
 					@click="addItem">
 				<span class="glyphicon glyphicon-plus"></span>
@@ -28,6 +34,7 @@
 
 <script>
 import ListItems from './Items.vue';
+import BootstrapAlert from 'vue-components/BootstrapAlert.vue';
 import ShowHideButton from 'vue-components/ShowHideButton.vue';
 
 import snarkdown from 'snarkdown';
@@ -134,6 +141,7 @@ export default {
 
 	components: {
 		ListItems,
+		BootstrapAlert,
 		ShowHideButton
 	}
 };

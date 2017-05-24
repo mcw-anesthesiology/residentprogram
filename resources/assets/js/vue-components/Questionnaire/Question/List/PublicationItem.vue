@@ -10,17 +10,20 @@
 			</confirmation-button>
 		</div>
 		<div class="item-contents">
-			<div class="form-group">
+			<div class="form-group" :class="{'has-warning': !title}">
 				<label class="containing-label">
-					Title
+					Title of publication
 					<input type="text" class="form-control appear-not-readonly"
 						:value="title" :readonly="readonly"
 						@input="$emit('input', {title: $event.target.value})" />
 				</label>
+				<span v-if="!title" class="help-block">
+					Please enter a title or remove this list item
+				</span>
 			</div>
 			<div class="form-group">
 				<label class="containing-label">
-					Author
+					Primary author(s)
 					<input type="text" class="form-control appear-not-readonly"
 						:value="author" :readonly="readonly"
 						@input="$emit('input', {author: $event.target.value})" />
@@ -28,19 +31,22 @@
 			</div>
 			<div class="form-group">
 				<label class="containing-label">
-					Link
+					Link (PubMed, MCW FCD, etc.)
 					<input type="text" class="form-control appear-not-readonly"
 						:value="link" :readonly="readonly"
 						@input="$emit('input', {link: $event.target.value})" />
 				</label>
 			</div>
-			<div class="form-group">
+			<div class="form-group" :class="{'has-warning': !role}">
 				<label class="containing-label">
-					Role
+					Your role on the project
 					<input type="text" class="form-control appear-not-readonly"
 						:value="role" :readonly="readonly"
 						@input="$emit('input', {role: $event.target.value})" />
 				</label>
+				<span v-if="!role" class="help-block">
+					Please enter your role or remove this list item
+				</span>
 			</div>
 		</div>
 	</li>

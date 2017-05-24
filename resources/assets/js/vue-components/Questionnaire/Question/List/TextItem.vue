@@ -10,9 +10,15 @@
 			</confirmation-button>
 		</div>
 		<div class="item-contents">
-			<input type="text" class="form-control appear-not-readonly"
-				:value="text" :readonly="readonly"
-				@input="$emit('input', {text: $event.target.value})" />
+			<div :class="{'has-warning': !text}">
+				<input type="text" class="form-control appear-not-readonly"
+					:value="text" :readonly="readonly"
+					@input="$emit('input', {text: $event.target.value})" />
+
+				<span v-if="!text" class="help-block">
+					Please complete or remove this list item
+				</span>
+			</div>
 		</div>
 	</li>
 </template>
