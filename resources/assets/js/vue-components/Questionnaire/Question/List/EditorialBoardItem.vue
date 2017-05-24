@@ -4,7 +4,7 @@
 			<label class="containing-label">
 				Journal
 				<input type="text" class="form-control"
-					:value="journal" :disabled="readonly"
+					:value="journal" :readonly="readonly"
 					@input="$emit('input', {journal: $event.target.value})" />
 			</label>
 			<span v-if="!journal" class="help-block">
@@ -20,7 +20,7 @@
 					<label v-for="predefinedRole of predefinedRoles">
 						<input type="radio" :value="predefinedRole"
 							:checked="role === predefinedRole"
-							:disabled="readonly"
+							:readonly="readonly"
 							@change="handleCheck" />
 						{{ kebabCaseToWords(predefinedRole) }}
 					</label>
@@ -28,12 +28,12 @@
 					<label>
 						<input type="radio" :value="otherRole"
 							:checked="role === otherRole"
-							:disabled="readonly"
+							:readonly="readonly"
 							@change="handleCheck" />
 						<input type="text"
 							class="form-control editable-option-text"
 							placeholder="Other"
-							:disabled="readonly"
+							:readonly="readonly"
 							v-model="otherRole"
 							@click="handleOtherCheck" />
 					</label>

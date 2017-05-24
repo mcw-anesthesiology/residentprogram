@@ -13,7 +13,7 @@
 			<div class="form-group" :class="{'has-warning': !title}">
 				<label class="containing-label">
 					Title of publication
-					<input type="text" class="form-control appear-not-readonly"
+					<input type="text" class="form-control"
 						:value="title" :readonly="readonly"
 						@input="$emit('input', {title: $event.target.value})" />
 				</label>
@@ -24,7 +24,7 @@
 			<div class="form-group">
 				<label class="containing-label">
 					Primary author(s)
-					<input type="text" class="form-control appear-not-readonly"
+					<input type="text" class="form-control"
 						:value="author" :readonly="readonly"
 						@input="$emit('input', {author: $event.target.value})" />
 				</label>
@@ -32,7 +32,7 @@
 			<div class="form-group">
 				<label class="containing-label">
 					Link (PubMed, MCW FCD, etc.)
-					<input type="text" class="form-control appear-not-readonly"
+					<input type="text" class="form-control"
 						:value="link" :readonly="readonly"
 						@input="$emit('input', {link: $event.target.value})" />
 				</label>
@@ -40,7 +40,7 @@
 			<div class="form-group" :class="{'has-warning': !role}">
 				<label class="containing-label">
 					Your role on the project
-					<input type="text" class="form-control appear-not-readonly"
+					<input type="text" class="form-control"
 						:value="role" :readonly="readonly"
 						@input="$emit('input', {role: $event.target.value})" />
 				</label>

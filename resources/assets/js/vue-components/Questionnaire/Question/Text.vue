@@ -3,10 +3,10 @@
 		<label class="containing-label" :class="{'has-warning': (required && !value)}"
 				:title="description">
 			{{ text }}
-			<textarea v-if="type === 'texarea'" class="form-control appear-not-readonly"
+			<textarea v-if="type === 'texarea'" class="form-control"
 				:value="value" :readonly="readonly"
 				@input="onInput"></textarea>
-			<input type="text" v-else class="form-control appear-not-readonly"
+			<input type="text" v-else class="form-control"
 				:value="value" :readonly="readonly"
 				@input="onInput" />
 		</label>
