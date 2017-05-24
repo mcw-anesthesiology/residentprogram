@@ -7187,7 +7187,8 @@ function questionIsValid(question) {
 			break;
 		case 'number':
 			if (question.value == null) return false;
-			if (question.value < question.min || question.value > question.max) return false;
+			if (question.min && question.value < question.min) return false;
+			if (question.max && question.value > question.max) return false;
 			break;
 		case 'checkbox':
 		case 'radio':

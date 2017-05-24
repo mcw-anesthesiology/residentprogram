@@ -51,6 +51,16 @@ class MeritReportController extends RestController
 			return response('Not allowed.', 403);
 		})->only('store');
 
+		$this->middleware(function ($request, $next) {
+			if ($request->input('status') == 'complete') {
+				if (self::formIsValid($request->input('report'))) {
+					return $next($request);
+				}
+
+				return response('Report not valid.', 400);
+			}
+		})->only(['store', 'update']);
+
 		// Allow users and admins to edit reports
 		$this->middleware(function ($request, $next) {
 			try {
@@ -106,5 +116,147 @@ class MeritReportController extends RestController
 		return $request->ajax()
 			? 'success'
 			: back();
+	}
+
+	protected static function formIsValid($form) {
+		if (empty($form['pages']))
+			return false;
+
+		foreach($form['pages'] as $page) {
+			if (!self::sectionIsValid($page))
+				return false;
+		}
+
+		return true;
+	}
+
+	protected static function sectionIsValid($section) {
+		if (!key_exists('items', $section) || empty($section['items']))
+			return true;
+
+		foreach ($section['items'] as $item) {
+			switch ($item['type']) {
+				case 'section':
+					if (!self::sectionIsValid($item))
+						return false;
+					break;
+				case 'item':
+					if (!self::itemIsValid($item))
+						return false;
+					break;
+			}
+		}
+
+		return true;
+	}
+
+	protected static function itemIsValid($item) {
+		if (empty($item['checked']) || !key_exists('questions', $item) || empty($item['questions']))
+			return true;
+
+		foreach ($item['questions'] as $question) {
+			if (!self::questionIsValid($question))
+				return false;
+		}
+
+		return true;
+	}
+
+	protected static function questionIsValid($question) {
+		if ($question['type'] != 'list' && empty($question['required']))
+			return true;
+
+		switch ($question['type']) {
+			case 'text':
+				if (empty($question['value']))
+					return false;
+				break;
+			case 'number':
+				if (!key_exists('value', $question))
+					return false;
+				if (!empty($question['min']) && $question['value'] < $question['min'])
+					return false;
+				if (!empty($question['max']) && $question['value'] > $question['max'])
+					return false;
+				break;
+			case 'checkbox':
+			case 'radio':
+				$optionChecked = false;
+				foreach ($question['options'] as $option) {
+					if (!empty($option['checked']))
+						$optionChecked = true;
+				}
+				if (!$optionChecked)
+					return false;
+				break;
+			case 'list':
+				return self::listQuestionIsValid($question);
+		}
+
+		return true;
+	}
+
+	protected static function listQuestionIsValid($list) {
+		if (!key_exists('items', $list) || empty($list['items']))
+			return false;
+
+		foreach ($list['items'] as $listItem) {
+			if (key_exists('itemProps', $list)) {
+				foreach ($list['itemProps'] as $key => $value) {
+					if ($listItem[$key] != $value)
+						return false;
+				}
+			}
+
+			if (!self::listItemIsValid($listItem))
+				return false;
+		}
+
+		return true;
+	}
+
+	protected static function listItemIsValid($listItem) {
+		switch ($listItem['type']) {
+			case 'text':
+				if (empty($listItem['text']))
+					return false;
+				break;
+			case 'publication':
+				if (empty($listItem['title']) || empty($listItem['role']))
+					return false;
+				break;
+			case 'committee':
+				if (empty($listItem['name']) || empty($listItem['role']))
+					return false;
+				break;
+			case 'study':
+				if (
+					empty($listItem['title'])
+					|| empty($listItem['role'])
+					|| empty($listItem['approvalNumber'])
+					|| empty($listItem['progress'])
+				)
+					return false;
+				break;
+			case 'grant':
+			case 'grantOther':
+				if (
+					empty($listItem['agency'])
+					|| empty($listItem['project'])
+					|| !key_exists('amount', $listItem)
+				)
+					return false;
+				break;
+			case 'certification':
+				if (empty($listItem['board']) || empty($listItem['specialty']))
+					return false;
+				break;
+			case 'editorialBoard':
+				if (empty($listItem['journal']) || empty($listItem['role']))
+					return false;
+				break;
+		}
+
+		return true;
 	}
 }
