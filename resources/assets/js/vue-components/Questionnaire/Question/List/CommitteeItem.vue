@@ -10,15 +10,18 @@
 			</confirmation-button>
 		</div>
 		<div class="item-contents">
-			<div class="form-group">
+			<div class="form-group" :class="{'has-warning': !name}">
 				<label class="containing-label">
 					Committee name
 					<input type="text" class="form-control"
 						:value="name" :readonly="readonly"
 						@input="$emit('input', {name: $event.target.value})" />
 				</label>
+				<span v-if="!name" class="help-block">
+					Please enter the committee name or remove this list item
+				</span>
 			</div>
-			<div class="form-group">
+			<div class="form-group" :class="{'has-warning': !role}">
 				<fieldset>
 					<legend>
 						Your role
@@ -30,6 +33,10 @@
 						@change="$emit('input', {role: $event.target.value})" />
 					{{ ucfirst(value) }}
 				</label>
+
+				<span v-if="!role" class="help-block">
+					Please select your role or remove this list item
+				</span>
 			</div>
 		</div>
 	</li>

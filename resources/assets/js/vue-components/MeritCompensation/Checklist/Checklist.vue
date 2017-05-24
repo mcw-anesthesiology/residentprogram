@@ -2,6 +2,7 @@
 	<div class="checklist">
 		<h1>{{ title }}</h1>
 		<questionnaire-pager :pages="pages" :readonly="readonly"
+				:page-validator="validatePage"
 				@submit="handleSubmit">
 			<template scope="pager">
 				<checklist-section v-bind="pager.page" :page="true"
@@ -36,6 +37,8 @@ import ChecklistSection from './Section.vue';
 import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
 import QuestionnairePager from 'vue-components/Questionnaire/Pager.vue';
 
+import { sectionIsValid } from 'modules/merit-utils.js';
+
 export default {
 	props: {
 		title: {
@@ -57,6 +60,9 @@ export default {
 	},
 
 	methods: {
+		validatePage(page) {
+			return sectionIsValid(page);
+		},
 		handleInput(pageNum, page) {
 			let pages = this.pages.slice();
 			pages[pageNum] = Object.assign({}, pages[pageNum], page);

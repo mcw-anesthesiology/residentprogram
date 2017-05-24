@@ -1,22 +1,31 @@
 <template>
 	<list-item :readonly="readonly" @remove="$emit('remove')">
-		<div class="form-group" v-if="type === 'grantOther'">
+		<div v-if="type === 'grantOther'" class="form-group"
+				:class="{'has-warning': !agency}">
 			<label class="containing-label">
 				Funding agency
 				<input type="text" class="form-control"
 					:value="agency"
 					@input="$emit('input', {agency: $event.target.value})" />
 			</label>
+
+			<span v-if="!agency" class="help-block">
+				Please enter the funding agency or remove this list item
+			</span>
 		</div>
-		<div class="form-group">
+		<div class="form-group" :class="{'has-warning': !project}">
 			<label class="containing-label">
 				Project
 				<input type="text" class="form-control"
 					:value="project"
 					@input="$emit('input', {project: $event.target.value})" />
 			</label>
+
+			<span v-if="!project" class="help-block">
+				Please enter the name of the project or remove this list item
+			</span>
 		</div>
-		<div class="form-group">
+		<div class="form-group" :class="{'has-warning': !amount}">
 			<label class="containing-label">
 				Funding amount
 				<div class="input-group">
@@ -26,6 +35,10 @@
 						@input="$emit('input', {amount: Number($event.target.value)})" />
 				</div>
 			</label>
+
+			<span v-if="!amount" class="help-block">
+				Please enter the funding amount or remove this list item
+			</span>
 		</div>
 	</list-item>
 </template>

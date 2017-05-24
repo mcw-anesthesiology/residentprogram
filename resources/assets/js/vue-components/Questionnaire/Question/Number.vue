@@ -1,6 +1,7 @@
 <template>
 	<div class="form-group">
-		<label class="containing-label" :title="description">
+		<label class="containing-label" :class="{'has-warning': required && !value}"
+				:title="description">
 			{{ text }}
 			<input type="number" class="form-control appear-not-readonly"
 				:min="min" :max="max" :value="value" :readonly="readonly"
@@ -29,7 +30,8 @@ export default {
 			}
 		},
 		text: {
-			type: String
+			type: String,
+			required: true
 		},
 		description: {
 			type: String,
@@ -54,6 +56,10 @@ export default {
 		value: {
 			type: Number,
 			default: null
+		},
+		required: {
+			type: Boolean,
+			default: false
 		},
 		readonly: {
 			type: Boolean,

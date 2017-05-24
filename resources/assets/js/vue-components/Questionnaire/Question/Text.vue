@@ -1,6 +1,7 @@
 <template>
 	<div class="form-group">
-		<label class="containing-label" :title="description">
+		<label class="containing-label" :class="{'has-warning': (required && !value)}"
+				:title="description">
 			{{ text }}
 			<textarea v-if="type === 'texarea'" class="form-control appear-not-readonly"
 				:value="value" :readonly="readonly"
@@ -32,7 +33,8 @@ export default {
 			}
 		},
 		text: {
-			type: String
+			type: String,
+			required: true
 		},
 		description: {
 			type: String,
@@ -45,6 +47,10 @@ export default {
 		value: {
 			type: String,
 			default: ''
+		},
+		required: {
+			type: Boolean,
+			default: false
 		},
 		readonly: {
 			type: Boolean,
