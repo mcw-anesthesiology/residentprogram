@@ -3952,7 +3952,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		var _this = this;
 
 		if (this.showMilestonesCompetencies) {
-			__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["g" /* fetchMilestoneGroups */])().then(function (milestoneGroups) {
+			__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["h" /* fetchMilestoneGroups */])().then(function (milestoneGroups) {
 				_this.groupedMilestones = milestoneGroups;
 			}).catch(function (err) {
 				console.error(err);
@@ -4527,7 +4527,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					id: competency.id,
 					text: competency.title
 				};
-			}).sort(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["h" /* sortSelect2Objects */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["i" /* sortSelect2Objects */]);
 		}
 	},
 	methods: {
@@ -6453,7 +6453,7 @@ function createFaculty360Request(el, propsData) {
 			},
 			sortedFaculty: function sortedFaculty() {
 				var faculty = this.faculty.slice();
-				faculty.sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["i" /* sortPropIgnoreCase */])('full_name'));
+				faculty.sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["j" /* sortPropIgnoreCase */])('full_name'));
 
 				return faculty;
 			}
@@ -6491,7 +6491,7 @@ function createFaculty360Request(el, propsData) {
 					if (response.hash) window.location = '/faculty360/evaluate/' + response.hash;
 				}).catch(function (err) {
 					console.error(err);
-					_this.alerts.push(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["j" /* errorToAlert */])(err));
+					_this.alerts.push(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["k" /* errorToAlert */])(err));
 				});
 			}
 		},

@@ -62,7 +62,8 @@ export default {
 					'study',
 					'grant',
 					'grantOther',
-					'certification'
+					'certification',
+					'editorialBoard'
 				].includes(type);
 			}
 		},

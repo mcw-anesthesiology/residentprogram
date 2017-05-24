@@ -5,6 +5,7 @@ import CommitteeItem from './CommitteeItem.vue';
 import OngoingStudyItem from './OngoingStudyItem.vue';
 import GrantItem from './GrantItem.vue';
 import CertificationItem from './CertificationItem.vue';
+import EditorialBoardItem from './EditorialBoardItem.vue';
 
 export default {
 	props: {
@@ -67,6 +68,8 @@ export default {
 					return 'grant-item';
 				case 'certification':
 					return 'certification-item';
+				case 'editorialBoard':
+					return 'editorial-board-item';
 			}
 		}
 	},
@@ -77,7 +80,8 @@ export default {
 		CommitteeItem,
 		OngoingStudyItem,
 		GrantItem,
-		CertificationItem
+		CertificationItem,
+		EditorialBoardItem
 	}
 };
 </script>

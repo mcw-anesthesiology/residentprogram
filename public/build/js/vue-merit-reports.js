@@ -3638,7 +3638,7 @@ function createResponseLegend(valueMap) {
 	var labels = [];
 	var values = [];
 
-	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_0__utils_js__["f" /* sortNumbers */]);
+	var keys = Array.from(valueMap.keys()).sort(__WEBPACK_IMPORTED_MODULE_0__utils_js__["g" /* sortNumbers */]);
 
 	keys.map(function (key) {
 		labels.push(valueMap.get(key));
@@ -4201,7 +4201,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		renderFieldName: function renderFieldName(field) {
 			if (field === 'id') return 'ID';
 
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["e" /* snakeCaseToWords */])(field);
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["f" /* snakeCaseToWords */])(field);
 		}
 	},
 	components: {
@@ -7312,6 +7312,9 @@ function listItemIsValid(listItem) {
 		case 'certification':
 			if (!listItem.board || !listItem.specialty) return false;
 			break;
+		case 'editorialBoard':
+			if (!listItem.journal || !listItem.role) return false;
+			break;
 	}
 
 	return true;
@@ -9410,6 +9413,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__GrantItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__GrantItem_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__CertificationItem_vue__ = __webpack_require__(569);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__CertificationItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__CertificationItem_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__EditorialBoardItem_vue__ = __webpack_require__(642);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__EditorialBoardItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__EditorialBoardItem_vue__);
+
 
 
 
@@ -9480,6 +9486,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					return 'grant-item';
 				case 'certification':
 					return 'certification-item';
+				case 'editorialBoard':
+					return 'editorial-board-item';
 			}
 		}
 	},
@@ -9490,7 +9498,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		CommitteeItem: __WEBPACK_IMPORTED_MODULE_2__CommitteeItem_vue___default.a,
 		OngoingStudyItem: __WEBPACK_IMPORTED_MODULE_3__OngoingStudyItem_vue___default.a,
 		GrantItem: __WEBPACK_IMPORTED_MODULE_4__GrantItem_vue___default.a,
-		CertificationItem: __WEBPACK_IMPORTED_MODULE_5__CertificationItem_vue___default.a
+		CertificationItem: __WEBPACK_IMPORTED_MODULE_5__CertificationItem_vue___default.a,
+		EditorialBoardItem: __WEBPACK_IMPORTED_MODULE_6__EditorialBoardItem_vue___default.a
 	}
 });
 
@@ -9564,7 +9573,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			type: String,
 			required: true,
 			validator: function validator(type) {
-				return ['text', 'publication', 'committee', 'study', 'grant', 'grantOther', 'certification'].includes(type);
+				return ['text', 'publication', 'committee', 'study', 'grant', 'grantOther', 'certification', 'editorialBoard'].includes(type);
 			}
 		},
 		text: {
@@ -13090,6 +13099,287 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-a814e09c", module.exports)
   }
 }
+
+/***/ }),
+/* 632 */,
+/* 633 */,
+/* 634 */,
+/* 635 */,
+/* 636 */,
+/* 637 */,
+/* 638 */,
+/* 639 */,
+/* 640 */,
+/* 641 */,
+/* 642 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(645)
+}
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(643),
+  /* template */
+  __webpack_require__(644),
+  /* styles */
+  injectStyle,
+  /* scopeId */
+  "data-v-2186235b",
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Questionnaire/Question/List/EditorialBoardItem.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] EditorialBoardItem.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2186235b", Component.options)
+  } else {
+    hotAPI.reload("data-v-2186235b", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 643 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Item_vue__ = __webpack_require__(193);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Item_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Item_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_utils_js__ = __webpack_require__(2);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	extends: __WEBPACK_IMPORTED_MODULE_0__Item_vue___default.a,
+	props: {
+		type: {
+			type: String,
+			required: true,
+			validator: function validator(type) {
+				return type === 'editorialBoard';
+			}
+		},
+		journal: {
+			type: String,
+			default: ''
+		},
+		role: {
+			type: String
+		}
+	},
+	data: function data() {
+		return {
+			otherRole: ''
+		};
+	},
+
+
+	computed: {
+		predefinedRoles: function predefinedRoles() {
+			return ['editor-in-chief', 'associate-editor', 'executive-editor', 'statistical-editor'];
+		}
+	},
+
+	methods: {
+		kebabCaseToWords: __WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["e" /* kebabCaseToWords */],
+		handleCheck: function handleCheck(event) {
+			if (this.readonly) return;
+
+			this.$emit('input', { role: event.target.value });
+		},
+		handleOtherCheck: function handleOtherCheck() {
+			if (this.readonly) return;
+
+			this.$emit('input', { role: this.otherRole });
+		}
+	},
+
+	components: {
+		ListItem: __WEBPACK_IMPORTED_MODULE_0__Item_vue___default.a
+	}
+});
+
+/***/ }),
+/* 644 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('list-item', {
+    attrs: {
+      "readonly": _vm.readonly
+    },
+    on: {
+      "remove": function($event) {
+        _vm.$emit('remove')
+      }
+    }
+  }, [_c('div', {
+    staticClass: "form-group",
+    class: {
+      'has-warning': !_vm.journal
+    }
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\tJournal\n\t\t\t"), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "disabled": _vm.readonly
+    },
+    domProps: {
+      "value": _vm.journal
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('input', {
+          journal: $event.target.value
+        })
+      }
+    }
+  })]), _vm._v(" "), (!_vm.journal) ? _c('span', {
+    staticClass: "help-block"
+  }, [_vm._v("\n\t\t\tPlease enter the journal name or remove this list item\n\t\t")]) : _vm._e()]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: {
+      'has-warning': !_vm.role
+    }
+  }, [_c('fieldset', {
+    staticClass: "radio-question"
+  }, [_c('legend', [_vm._v("\n\t\t\t\tRole\n\t\t\t")]), _vm._v(" "), _c('div', {
+    staticClass: "options"
+  }, [_vm._l((_vm.predefinedRoles), function(predefinedRole) {
+    return _c('label', [_c('input', {
+      attrs: {
+        "type": "radio",
+        "disabled": _vm.readonly
+      },
+      domProps: {
+        "value": predefinedRole,
+        "checked": _vm.role === predefinedRole
+      },
+      on: {
+        "change": _vm.handleCheck
+      }
+    }), _vm._v("\n\t\t\t\t\t" + _vm._s(_vm.kebabCaseToWords(predefinedRole)) + "\n\t\t\t\t")])
+  }), _vm._v(" "), _c('label', [_c('input', {
+    attrs: {
+      "type": "radio",
+      "disabled": _vm.readonly
+    },
+    domProps: {
+      "value": _vm.otherRole,
+      "checked": _vm.role === _vm.otherRole
+    },
+    on: {
+      "change": _vm.handleCheck
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.otherRole),
+      expression: "otherRole"
+    }],
+    staticClass: "form-control editable-option-text",
+    attrs: {
+      "type": "text",
+      "placeholder": "Other",
+      "disabled": _vm.readonly
+    },
+    domProps: {
+      "value": (_vm.otherRole)
+    },
+    on: {
+      "click": _vm.handleOtherCheck,
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.otherRole = $event.target.value
+      }
+    }
+  })])], 2)]), _vm._v(" "), (!_vm.role) ? _c('span', {
+    staticClass: "help-block"
+  }, [_vm._v("\n\t\t\tPlease select a role or remove this list item\n\t\t")]) : _vm._e()])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-2186235b", module.exports)
+  }
+}
+
+/***/ }),
+/* 645 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 ],[358]);

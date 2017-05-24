@@ -137,6 +137,10 @@ export function listItemIsValid(listItem) {
 			if (!listItem.board || !listItem.specialty)
 				return false;
 			break;
+		case 'editorialBoard':
+			if (!listItem.journal || !listItem.role)
+				return false;
+			break;
 	}
 
 	return true;
