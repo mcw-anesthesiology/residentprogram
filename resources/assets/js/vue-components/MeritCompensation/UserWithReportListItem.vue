@@ -9,7 +9,8 @@
 					<div class="col-sm-10">
 						<component-list :fields="meritReportFields" :items="merit_reports"
 								:field-accessors="meritReportFieldAccessors"
-								:paginate="false">
+								:paginate="false"
+								default-sort-order="desc">
 							<template scope="item">
 								<merit-report-list-item v-bind="item"
 									:user="user"

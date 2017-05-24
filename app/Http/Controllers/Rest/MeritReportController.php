@@ -52,13 +52,14 @@ class MeritReportController extends RestController
 		})->only('store');
 
 		$this->middleware(function ($request, $next) {
-			if ($request->input('status') == 'complete') {
-				if (self::formIsValid($request->input('report'))) {
+			if ($request->input('status') == 'complete' && $request->has('report')) {
+				if (self::reportIsValid($request->input('report'))) {
 					return $next($request);
 				}
-
 				return response('Report not valid.', 400);
 			}
+
+			return $next($request);
 		})->only(['store', 'update']);
 
 		// Allow users and admins to edit reports
@@ -91,7 +92,7 @@ class MeritReportController extends RestController
 
 	public function byUser() {
 		return User::whereHas('meritReports', function ($query) {
-			return $query->whereIn('status', ['complete', 'open for editing']);
+			return $query->where('status', '!=', 'pending');
 		})->with('meritReports', 'meritReports.form')->get();
 	}
 
@@ -118,7 +119,7 @@ class MeritReportController extends RestController
 			: back();
 	}
 
-	protected static function formIsValid($form) {
+	protected static function reportIsValid($form) {
 		if (empty($form['pages']))
 			return false;
 

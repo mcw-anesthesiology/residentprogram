@@ -97,10 +97,14 @@ export default function createFacultyMeritReports(el, propsData) {
 						endDate: report.period_end
 					};
 
-					return datesEqual(periodDates, this.currentYearlyMeritDateRange);
+					return (datesEqual(periodDates, this.currentYearlyMeritDateRange)
+						&& report.status === 'complete');
 				});
 			},
 			inProgressReport() {
+				if (!this.meritReports || this.meritReports.length === 0)
+					return false;
+
 				return this.meritReports.find(report =>
 					['pending', 'open for editing'].includes(report.status));
 			}

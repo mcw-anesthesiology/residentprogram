@@ -26,18 +26,7 @@
 			@submit="handleSubmit">
 		</merit-compensation-report>
 		<template v-else>
-			<template v-if="needsToStartReport">
-				<p class="lead">
-					You haven't submitted a merit report yet for this year, please do that!
-				</p>
-				<div class="btn-lg-submit-container">
-					<button type="button" class="btn btn-lg btn-primary"
-							@click="addMeritReport">
-						Complete merit report
-					</button>
-				</div>
-			</template>
-			<template v-else-if="inProgressReport">
+			<template v-if="inProgressReport">
 				<p class="lead">
 					You have a merit report in progress:
 					<span class="progress-form">
@@ -57,6 +46,18 @@
 					</button>
 				</div>
 			</template>
+			<template v-else-if="needsToStartReport">
+				<p class="lead">
+					You haven't submitted a merit report yet for this year, please do that!
+				</p>
+				<div class="btn-lg-submit-container">
+					<button type="button" class="btn btn-lg btn-primary"
+							@click="addMeritReport">
+						Complete merit report
+					</button>
+				</div>
+			</template>
+
 			<template v-else>
 				<p class="lead">
 					You've already completed your merit report for this year. Thanks!

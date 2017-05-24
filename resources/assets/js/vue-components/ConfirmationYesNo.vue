@@ -4,8 +4,8 @@
 				@click="pressed = true">
 			<slot></slot>
 		</button>
-		
-		
+
+
 		<template v-else>
 			<button type="button" :class="yesClass"
 					@click="handleConfirm">
@@ -37,6 +37,10 @@ export default {
 		noClass: {
 			type: String,
 			required: false
+		},
+		disabled: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data(){
@@ -44,7 +48,7 @@ export default {
 			pressed: false
 		};
 	},
-		
+
 	methods: {
 		handleConfirm(){
 			this.$emit('click');
