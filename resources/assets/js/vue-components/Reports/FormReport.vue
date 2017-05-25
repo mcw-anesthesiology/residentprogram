@@ -347,37 +347,11 @@ export default {
 		}
 	},
 	watch: {
-		subjectId(subjectId){
-			if(!subjectId || !this.report.subjectEvals[subjectId]){
-				this.subjectEvals = [];
-				return;
-			}
-
-			let query = $.param({
-				id: this.report.subjectEvals[subjectId].slice(),
-				with: {
-					subject: [
-						'full_name'
-					],
-					evaluator: [
-						'full_name'
-					],
-					requestor: [
-						'full_name'
-					],
-					form: [
-						'title'
-					]
-				}
-			});
-
-			fetch(`/evaluations?${query}`, {
-				method: 'GET',
-				headers: getFetchHeaders(),
-				credentials: 'same-origin',
-			}).then(jsonOrThrow).then(subjectEvals => {
-				this.subjectEvals = subjectEvals;
-			});
+		subjectId() {
+			this.fetchSubjectEvals();
+		},
+		report() {
+			this.fetchSubjectEvals();
 		}
 	},
 
@@ -416,6 +390,40 @@ export default {
 					type: 'error',
 					html: '<strong>Error: </strong> There was a problem running the report'
 				});
+				console.error(err);
+			});
+		},
+		fetchSubjectEvals(){
+			if(!this.subjectId || !this.report || !this.report.subjectEvals || !this.report.subjectEvals[this.subjectId]){
+				this.subjectEvals = [];
+				return;
+			}
+
+			let query = $.param({
+				id: this.report.subjectEvals[this.subjectId].slice(),
+				with: {
+					subject: [
+						'full_name'
+					],
+					evaluator: [
+						'full_name'
+					],
+					requestor: [
+						'full_name'
+					],
+					form: [
+						'title'
+					]
+				}
+			});
+
+			fetch(`/evaluations?${query}`, {
+				method: 'GET',
+				headers: getFetchHeaders(),
+				credentials: 'same-origin',
+			}).then(jsonOrThrow).then(subjectEvals => {
+				this.subjectEvals = subjectEvals;
+			}).catch(err => {
 				console.error(err);
 			});
 		},
