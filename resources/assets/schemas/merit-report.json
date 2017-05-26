@@ -191,7 +191,7 @@
 							"grantOther",
 							"certification",
 							"editorialBoard",
-							"journalReview",
+							"review",
 							"lecture",
 							"audienceLecture",
 							"mentorship",
@@ -213,7 +213,7 @@
 									{"$ref": "#/definitions/question/definitions/list/definitions/grant"},
 									{"$ref": "#/definitions/question/definitions/list/definitions/certification"},
 									{"$ref": "#/definitions/question/definitions/list/definitions/editorialBoard"},
-									{"$ref": "#/definitions/question/definitions/list/definitions/journalReview"},
+									{"$ref": "#/definitions/question/definitions/list/definitions/review"},
 									{"$ref": "#/definitions/question/definitions/list/definitions/lecture"},
 									{"$ref": "#/definitions/question/definitions/list/definitions/mentorship"}
 								]
@@ -313,12 +313,12 @@
 								"type"
 							]
 						},
-						"journalReview": {
+						"review": {
 							"title": "Journal reviewer list item",
 							"type": "object",
 							"properties": {
-								"type": {"const": "journalReview"},
-								"journal": {"type": "string"},
+								"type": {"const": "review"},
+								"work": {"type": "string"},
 								"reviews": {"type": "number"}
 							},
 							"required": [

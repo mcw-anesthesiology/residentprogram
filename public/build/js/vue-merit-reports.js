@@ -7286,8 +7286,8 @@ function listItemIsValid(listItem) {
 		case 'editorialBoard':
 			if (!listItem.journal || !listItem.role) return false;
 			break;
-		case 'journalReview':
-			if (!listItem.journal || !listItem.reviews) return false;
+		case 'review':
+			if (!listItem.work || !listItem.reviews) return false;
 			break;
 		case 'lecture':
 		case 'audienceLecture':
@@ -9663,8 +9663,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__CertificationItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__CertificationItem_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__EditorialBoardItem_vue__ = __webpack_require__(576);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__EditorialBoardItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__EditorialBoardItem_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__JournalReviewItem_vue__ = __webpack_require__(579);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__JournalReviewItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__JournalReviewItem_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ReviewItem_vue__ = __webpack_require__(659);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ReviewItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__ReviewItem_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__LectureItem_vue__ = __webpack_require__(653);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__LectureItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__LectureItem_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__MentorshipItem_vue__ = __webpack_require__(656);
@@ -9745,8 +9745,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					return 'certification-item';
 				case 'editorialBoard':
 					return 'editorial-board-item';
-				case 'journalReview':
-					return 'journal-review-item';
+				case 'review':
+					return 'review-item';
 				case 'lecture':
 				case 'audienceLecture':
 					return 'lecture-item';
@@ -9765,73 +9765,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		GrantItem: __WEBPACK_IMPORTED_MODULE_4__GrantItem_vue___default.a,
 		CertificationItem: __WEBPACK_IMPORTED_MODULE_5__CertificationItem_vue___default.a,
 		EditorialBoardItem: __WEBPACK_IMPORTED_MODULE_6__EditorialBoardItem_vue___default.a,
-		JournalReviewItem: __WEBPACK_IMPORTED_MODULE_7__JournalReviewItem_vue___default.a,
+		ReviewItem: __WEBPACK_IMPORTED_MODULE_7__ReviewItem_vue___default.a,
 		LectureItem: __WEBPACK_IMPORTED_MODULE_8__LectureItem_vue___default.a,
 		MentorshipItem: __WEBPACK_IMPORTED_MODULE_9__MentorshipItem_vue___default.a
 	}
 });
 
 /***/ }),
-/* 325 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Item_vue__ = __webpack_require__(162);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Item_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Item_vue__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	extends: __WEBPACK_IMPORTED_MODULE_0__Item_vue___default.a,
-	props: {
-		type: {
-			type: String,
-			required: true,
-			validator: function validator(type) {
-				return type === 'journalReview';
-			}
-		},
-		journal: {
-			type: String,
-			default: ''
-		},
-		reviews: {
-			type: Number,
-			default: 0
-		}
-	},
-
-	components: {
-		ListItem: __WEBPACK_IMPORTED_MODULE_0__Item_vue___default.a
-	}
-});
-
-/***/ }),
+/* 325 */,
 /* 326 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -11669,46 +11610,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 579 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(325),
-  /* template */
-  __webpack_require__(626),
-  /* styles */
-  null,
-  /* scopeId */
-  null,
-  /* moduleIdentifier (server only) */
-  null
-)
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Questionnaire/Question/List/JournalReviewItem.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] JournalReviewItem.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-56c9b82e", Component.options)
-  } else {
-    hotAPI.reload("data-v-56c9b82e", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
+/* 579 */,
 /* 580 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13017,78 +12919,7 @@ if (false) {
 
 /***/ }),
 /* 625 */,
-/* 626 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('list-item', {
-    attrs: {
-      "readonly": _vm.readonly
-    },
-    on: {
-      "remove": function($event) {
-        _vm.$emit('remove')
-      }
-    }
-  }, [_c('div', {
-    staticClass: "form-group",
-    class: {
-      'has-warning': !_vm.journal
-    }
-  }, [_c('label', {
-    staticClass: "containing-label"
-  }, [_vm._v("\n\t\t\tJournal\n\t\t\t"), _c('input', {
-    staticClass: "form-control",
-    attrs: {
-      "type": "text",
-      "readonly": _vm.readonly
-    },
-    domProps: {
-      "value": _vm.journal
-    },
-    on: {
-      "input": function($event) {
-        _vm.$emit('input', {
-          journal: $event.target.value
-        })
-      }
-    }
-  })]), _vm._v(" "), (!_vm.journal) ? _c('span', {
-    staticClass: "help-block"
-  }, [_vm._v("\n\t\t\tPlease enter the journal name or remove this list item\n\t\t")]) : _vm._e()]), _vm._v(" "), _c('div', {
-    staticClass: "form-group",
-    class: {
-      'has-warning': !_vm.reviews
-    }
-  }, [_c('label', {
-    staticClass: "containing-label"
-  }, [_vm._v("\n\t\t\tNumber of reviews\n\t\t\t"), _c('input', {
-    staticClass: "form-control",
-    attrs: {
-      "type": "number",
-      "readonly": _vm.readonly
-    },
-    domProps: {
-      "value": _vm.reviews
-    },
-    on: {
-      "input": function($event) {
-        _vm.$emit('input', {
-          reviews: Number($event.target.value)
-        })
-      }
-    }
-  })])])])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-56c9b82e", module.exports)
-  }
-}
-
-/***/ }),
+/* 626 */,
 /* 627 */,
 /* 628 */,
 /* 629 */
@@ -14248,6 +14079,191 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-1494d9f9", module.exports)
+  }
+}
+
+/***/ }),
+/* 658 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Item_vue__ = __webpack_require__(162);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Item_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Item_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	extends: __WEBPACK_IMPORTED_MODULE_0__Item_vue___default.a,
+	props: {
+		type: {
+			type: String,
+			required: true,
+			validator: function validator(type) {
+				return type === 'review';
+			}
+		},
+		work: {
+			type: String,
+			default: ''
+		},
+		reviews: {
+			type: Number,
+			default: 0
+		},
+		labels: {
+			type: Object,
+			required: false
+		}
+	},
+
+	computed: {
+		workLabel: function workLabel() {
+			return this.labels && this.labels.work ? this.labels.work : "What's being reviewed";
+		},
+		reviewsLabel: function reviewsLabel() {
+			return this.labels && this.labels.reviews ? this.labels.reviews : 'Number of reviews';
+		}
+	},
+
+	components: {
+		ListItem: __WEBPACK_IMPORTED_MODULE_0__Item_vue___default.a
+	}
+});
+
+/***/ }),
+/* 659 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(658),
+  /* template */
+  __webpack_require__(660),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Questionnaire/Question/List/ReviewItem.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] ReviewItem.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2c08b154", Component.options)
+  } else {
+    hotAPI.reload("data-v-2c08b154", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 660 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('list-item', {
+    attrs: {
+      "readonly": _vm.readonly
+    },
+    on: {
+      "remove": function($event) {
+        _vm.$emit('remove')
+      }
+    }
+  }, [_c('div', {
+    staticClass: "form-group",
+    class: {
+      'has-warning': !_vm.work
+    }
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.workLabel) + "\n\t\t\t"), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "readonly": _vm.readonly
+    },
+    domProps: {
+      "value": _vm.work
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('input', {
+          work: $event.target.value
+        })
+      }
+    }
+  })]), _vm._v(" "), (!_vm.work) ? _c('span', {
+    staticClass: "help-block"
+  }, [_vm._v("\n\t\t\tPlease enter the name of what's being reviewed or remove this list item\n\t\t")]) : _vm._e()]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: {
+      'has-warning': !_vm.reviews
+    }
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.reviewsLabel) + "\n\t\t\t"), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "number",
+      "readonly": _vm.readonly
+    },
+    domProps: {
+      "value": _vm.reviews
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('input', {
+          reviews: Number($event.target.value)
+        })
+      }
+    }
+  })])])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-2c08b154", module.exports)
   }
 }
 

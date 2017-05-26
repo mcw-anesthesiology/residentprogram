@@ -1,19 +1,19 @@
 <template>
 	<list-item :readonly="readonly" @remove="$emit('remove')">
-		<div class="form-group" :class="{'has-warning': !journal}">
+		<div class="form-group" :class="{'has-warning': !work}">
 			<label class="containing-label">
-				Journal
+				{{ workLabel }}
 				<input type="text" class="form-control"
-					:value="journal" :readonly="readonly"
-					@input="$emit('input', {journal: $event.target.value})" />
+					:value="work" :readonly="readonly"
+					@input="$emit('input', {work: $event.target.value})" />
 			</label>
-			<span v-if="!journal" class="help-block">
-				Please enter the journal name or remove this list item
+			<span v-if="!work" class="help-block">
+				Please enter the name of what's being reviewed or remove this list item
 			</span>
 		</div>
 		<div class="form-group" :class="{'has-warning': !reviews}">
 			<label class="containing-label">
-				Number of reviews
+				{{ reviewsLabel }}
 				<input type="number" class="form-control"
 					:value="reviews" :readonly="readonly"
 					@input="$emit('input', {reviews: Number($event.target.value)})" />
@@ -32,16 +32,33 @@ export default {
 			type: String,
 			required: true,
 			validator(type) {
-				return type === 'journalReview';
+				return type === 'review';
 			}
 		},
-		journal: {
+		work: {
 			type: String,
 			default: ''
 		},
 		reviews: {
 			type: Number,
 			default: 0
+		},
+		labels: {
+			type: Object,
+			required: false
+		}
+	},
+
+	computed: {
+		workLabel() {
+			return (this.labels && this.labels.work)
+				? this.labels.work
+				: "What's being reviewed";
+		},
+		reviewsLabel() {
+			return (this.labels && this.labels.reviews)
+				? this.labels.reviews
+				: 'Number of reviews';
 		}
 	},
 
