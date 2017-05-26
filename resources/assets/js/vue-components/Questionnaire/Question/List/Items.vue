@@ -79,6 +79,7 @@ export default {
 				case 'audienceLecture':
 					return 'lecture-item';
 				case 'mentorship':
+				case 'subjectMentorship':
 					return 'mentorship-item';
 			}
 		}

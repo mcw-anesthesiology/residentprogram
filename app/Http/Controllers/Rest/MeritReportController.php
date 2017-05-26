@@ -266,6 +266,7 @@ class MeritReportController extends RestController
 					return false;
 				break;
 			case 'mentorship':
+			case 'subjectMentorship':
 				if (empty($listItem['mentee']) || empty($listItem['subject']))
 					return false;
 				break;

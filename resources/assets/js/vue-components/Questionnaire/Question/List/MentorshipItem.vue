@@ -4,14 +4,15 @@
 			<label class="containing-label">
 				Mentee name
 				<input type="text" class="form-control"
-					:value="board" :readonly="readonly"
+					:value="mentee" :readonly="readonly"
 					@input="$emit('input', {mentee: $event.target.value})" />
 			</label>
 			<span v-if="!mentee" class="help-block">
 				Please enter the mentee / trainee name or remove this list item
 			</span>
 		</div>
-		<div class="form-group" :class="{'has-warning': !subject}">
+		<div v-if="type !== 'subjectMentorship'"
+				class="form-group" :class="{'has-warning': !subject}">
 			<label class="containing-label">
 				Project / program / mentorship subject
 				<input type="text" class="form-control"
@@ -28,14 +29,17 @@
 <script>
 import ListItem from './Item.vue';
 
-return {
+export default {
 	extends: ListItem,
 	props: {
 		type: {
 			type: String,
 			required: true,
 			validator(type) {
-				return type === 'mentorship';
+				return [
+					'mentorship',
+					'subjectMentorship'
+				].includes(type);
 			}
 		},
 		mentee: {

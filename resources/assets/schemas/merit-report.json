@@ -191,7 +191,11 @@
 							"grantOther",
 							"certification",
 							"editorialBoard",
-							"journalReview"
+							"journalReview",
+							"lecture",
+							"audienceLecture",
+							"mentorship",
+							"subjectMentorship"
 						]},
 						"text": {"type": "string"},
 						"description": {"type": "string"},
@@ -208,7 +212,9 @@
 									{"$ref": "#/definitions/question/definitions/list/definitions/grant"},
 									{"$ref": "#/definitions/question/definitions/list/definitions/certification"},
 									{"$ref": "#/definitions/question/definitions/list/definitions/editorialBoard"},
-									{"$ref": "#/definitions/question/definitions/list/definitions/journalReview"}
+									{"$ref": "#/definitions/question/definitions/list/definitions/journalReview"},
+									{"$ref": "#/definitions/question/definitions/list/definitions/lecture"},
+									{"$ref": "#/definitions/question/definitions/list/definitions/mentorship"}
 								]
 							}
 						}
@@ -338,7 +344,7 @@
 							"title": "Mentorship / advisorship list item",
 							"type": "object",
 							"properties": {
-								"type": {"const": "mentorship"},
+								"type": {"enum": ["mentorship", "subjectMentorship"]},
 								"mentee": {"type": "string"},
 								"subject": {"type": "string"}
 							},

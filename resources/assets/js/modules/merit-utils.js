@@ -153,6 +153,7 @@ export function listItemIsValid(listItem) {
 				return false;
 			break;
 		case 'mentorship':
+		case 'subjectMentorship':
 			if (!listItem.mentee || !listItem.subject)
 				return false;
 			break;
