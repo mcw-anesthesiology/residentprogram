@@ -7293,6 +7293,9 @@ function listItemIsValid(listItem) {
 		case 'audienceLecture':
 			if (!listItem.title || !listItem.date || !listItem.audience) return false;
 			break;
+		case 'mentorship':
+			if (!listItem.mentee || !listItem.subject) return false;
+			break;
 	}
 
 	return true;
@@ -9663,6 +9666,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__JournalReviewItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__JournalReviewItem_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__LectureItem_vue__ = __webpack_require__(653);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__LectureItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__LectureItem_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__MentorshipItem_vue__ = __webpack_require__(656);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__MentorshipItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__MentorshipItem_vue__);
+
 
 
 
@@ -9743,6 +9749,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				case 'lecture':
 				case 'audienceLecture':
 					return 'lecture-item';
+				case 'mentorship':
+					return 'mentorship-item';
 			}
 		}
 	},
@@ -9756,7 +9764,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		CertificationItem: __WEBPACK_IMPORTED_MODULE_5__CertificationItem_vue___default.a,
 		EditorialBoardItem: __WEBPACK_IMPORTED_MODULE_6__EditorialBoardItem_vue___default.a,
 		JournalReviewItem: __WEBPACK_IMPORTED_MODULE_7__JournalReviewItem_vue___default.a,
-		LectureItem: __WEBPACK_IMPORTED_MODULE_8__LectureItem_vue___default.a
+		LectureItem: __WEBPACK_IMPORTED_MODULE_8__LectureItem_vue___default.a,
+		MentorshipItem: __WEBPACK_IMPORTED_MODULE_9__MentorshipItem_vue___default.a
 	}
 });
 
@@ -9890,7 +9899,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			type: String,
 			required: true,
 			validator: function validator(type) {
-				return ['text', 'publication', 'committee', 'study', 'grant', 'grantOther', 'certification', 'editorialBoard', 'journalReview', 'lecture', 'audienceLecture'].includes(type);
+				return ['text', 'publication', 'committee', 'study', 'grant', 'grantOther', 'certification', 'editorialBoard', 'journalReview', 'lecture', 'audienceLecture', 'mentorship'].includes(type);
 			}
 		},
 		text: {
@@ -14044,6 +14053,126 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-3784f438", module.exports)
+  }
+}
+
+/***/ }),
+/* 655 */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed: SyntaxError: 'return' outside of function (31:0)\n\n\u001b[0m \u001b[90m 29 | \u001b[39m\u001b[36mimport\u001b[39m \u001b[33mListItem\u001b[39m from \u001b[32m'./Item.vue'\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m 30 | \u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 31 | \u001b[39m\u001b[36mreturn\u001b[39m {\n \u001b[90m    | \u001b[39m\u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 32 | \u001b[39m\t\u001b[36mextends\u001b[39m\u001b[33m:\u001b[39m \u001b[33mListItem\u001b[39m\u001b[33m,\u001b[39m\n \u001b[90m 33 | \u001b[39m\tprops\u001b[33m:\u001b[39m {\n \u001b[90m 34 | \u001b[39m\t\ttype\u001b[33m:\u001b[39m {\u001b[0m\n");
+
+/***/ }),
+/* 656 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(655),
+  /* template */
+  __webpack_require__(657),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/Questionnaire/Question/List/MentorshipItem.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] MentorshipItem.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1494d9f9", Component.options)
+  } else {
+    hotAPI.reload("data-v-1494d9f9", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 657 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('list-item', {
+    attrs: {
+      "readonly": _vm.readonly
+    },
+    on: {
+      "remove": function($event) {
+        _vm.$emit('remove')
+      }
+    }
+  }, [_c('div', {
+    staticClass: "form-group",
+    class: {
+      'has-warning': !_vm.mentee
+    }
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\tMentee name\n\t\t\t"), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "readonly": _vm.readonly
+    },
+    domProps: {
+      "value": _vm.board
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('input', {
+          mentee: $event.target.value
+        })
+      }
+    }
+  })]), _vm._v(" "), (!_vm.mentee) ? _c('span', {
+    staticClass: "help-block"
+  }, [_vm._v("\n\t\t\tPlease enter the mentee / trainee name or remove this list item\n\t\t")]) : _vm._e()]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: {
+      'has-warning': !_vm.subject
+    }
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\tProject / program / mentorship subject\n\t\t\t"), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "readonly": _vm.readonly
+    },
+    domProps: {
+      "value": _vm.subject
+    },
+    on: {
+      "input": function($event) {
+        _vm.$emit('input', {
+          subject: $event.target.value
+        })
+      }
+    }
+  })]), _vm._v(" "), (!_vm.subject) ? _c('span', {
+    staticClass: "help-block"
+  }, [_vm._v("\n\t\t\tPlease enter the mentorship subject or remove this list item\n\t\t")]) : _vm._e()])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-1494d9f9", module.exports)
   }
 }
 

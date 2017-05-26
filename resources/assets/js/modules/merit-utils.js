@@ -152,6 +152,10 @@ export function listItemIsValid(listItem) {
 			if (!listItem.title || !listItem.date || !listItem.audience)
 				return false;
 			break;
+		case 'mentorship':
+			if (!listItem.mentee || !listItem.subject)
+				return false;
+			break;
 	}
 
 	return true;

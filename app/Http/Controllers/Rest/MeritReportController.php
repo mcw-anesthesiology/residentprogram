@@ -265,6 +265,10 @@ class MeritReportController extends RestController
 				if (empty($listItem['title']) || empty($listItem['date']) || empty($listItem['audience']))
 					return false;
 				break;
+			case 'mentorship':
+				if (empty($listItem['mentee']) || empty($listItem['subject']))
+					return false;
+				break;
 		}
 
 		return true;
