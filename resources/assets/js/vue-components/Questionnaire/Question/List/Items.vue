@@ -6,7 +6,7 @@ import OngoingStudyItem from './OngoingStudyItem.vue';
 import GrantItem from './GrantItem.vue';
 import CertificationItem from './CertificationItem.vue';
 import EditorialBoardItem from './EditorialBoardItem.vue';
-import JournalReviewItem from './JournalReviewItem.vue';
+import ReviewItem from './ReviewItem.vue';
 import LectureItem from './LectureItem.vue';
 import MentorshipItem from './MentorshipItem.vue';
 
@@ -73,8 +73,8 @@ export default {
 					return 'certification-item';
 				case 'editorialBoard':
 					return 'editorial-board-item';
-				case 'journalReview':
-					return 'journal-review-item';
+				case 'review':
+					return 'review-item';
 				case 'lecture':
 				case 'audienceLecture':
 					return 'lecture-item';
@@ -93,7 +93,7 @@ export default {
 		GrantItem,
 		CertificationItem,
 		EditorialBoardItem,
-		JournalReviewItem,
+		ReviewItem,
 		LectureItem,
 		MentorshipItem
 	}
