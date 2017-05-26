@@ -2,7 +2,7 @@
 	<list-item :readonly="readonly" @remove="$emit('remove')">
 		<div class="form-group" :class="{'has-warning': !mentee}">
 			<label class="containing-label">
-				Mentee name
+				{{ menteeLabel }}
 				<input type="text" class="form-control"
 					:value="mentee" :readonly="readonly"
 					@input="$emit('input', {mentee: $event.target.value})" />
@@ -14,7 +14,7 @@
 		<div v-if="type !== 'subjectMentorship'"
 				class="form-group" :class="{'has-warning': !subject}">
 			<label class="containing-label">
-				Project / program / mentorship subject
+				{{ subjectLabel }}
 				<input type="text" class="form-control"
 					:value="subject" :readonly="readonly"
 					@input="$emit('input', {subject: $event.target.value})" />
@@ -49,6 +49,23 @@ export default {
 		subject: {
 			type: String,
 			default: ''
+		},
+		labels: {
+			type: Object,
+			required: false
+		}
+	},
+
+	computed: {
+		menteeLabel() {
+			return (this.labels && this.labels.mentee)
+				? this.labels.mentee
+				: 'Mentee name';
+		},
+		subjectLabel() {
+			return (this.labels && this.labels.subject)
+				? this.labels.subject
+				: 'Project / program / mentorship subject';
 		}
 	},
 

@@ -201,6 +201,7 @@
 						"description": {"type": "string"},
 						"ordered": {"type": "boolean"},
 						"itemProps": {"type": "object"},
+						"itemLabels": {"type": "object"},
 						"items": {
 							"type": "array",
 							"items": {

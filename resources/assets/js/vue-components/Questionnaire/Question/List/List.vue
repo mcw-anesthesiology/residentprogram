@@ -132,6 +132,9 @@ export default {
 				Object.assign(newItem, this.itemProps);
 			}
 
+			if (this.itemLabels)
+				newItem.labels = this.itemLabels;
+
 			items.push(newItem);
 
 			this.$emit('input', {items});

@@ -9963,6 +9963,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				Object.assign(newItem, this.itemProps);
 			}
 
+			if (this.itemLabels) newItem.labels = this.itemLabels;
+
 			items.push(newItem);
 
 			this.$emit('input', { items: items });
@@ -14114,6 +14116,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		subject: {
 			type: String,
 			default: ''
+		},
+		labels: {
+			type: Object,
+			required: false
+		}
+	},
+
+	computed: {
+		menteeLabel: function menteeLabel() {
+			return this.labels && this.labels.mentee ? this.labels.mentee : 'Mentee name';
+		},
+		subjectLabel: function subjectLabel() {
+			return this.labels && this.labels.subject ? this.labels.subject : 'Project / program / mentorship subject';
 		}
 	},
 
@@ -14183,7 +14198,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('label', {
     staticClass: "containing-label"
-  }, [_vm._v("\n\t\t\tMentee name\n\t\t\t"), _c('input', {
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.menteeLabel) + "\n\t\t\t"), _c('input', {
     staticClass: "form-control",
     attrs: {
       "type": "text",
@@ -14208,7 +14223,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('label', {
     staticClass: "containing-label"
-  }, [_vm._v("\n\t\t\tProject / program / mentorship subject\n\t\t\t"), _c('input', {
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.subjectLabel) + "\n\t\t\t"), _c('input', {
     staticClass: "form-control",
     attrs: {
       "type": "text",
