@@ -66,7 +66,8 @@ export default {
 					'editorialBoard',
 					'journalReview',
 					'lecture',
-					'audienceLecture'
+					'audienceLecture',
+					'mentorship'
 				].includes(type);
 			}
 		},

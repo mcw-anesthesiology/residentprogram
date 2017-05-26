@@ -8,6 +8,7 @@ import CertificationItem from './CertificationItem.vue';
 import EditorialBoardItem from './EditorialBoardItem.vue';
 import JournalReviewItem from './JournalReviewItem.vue';
 import LectureItem from './LectureItem.vue';
+import MentorshipItem from './MentorshipItem.vue';
 
 export default {
 	props: {
@@ -77,6 +78,8 @@ export default {
 				case 'lecture':
 				case 'audienceLecture':
 					return 'lecture-item';
+				case 'mentorship':
+					return 'mentorship-item';
 			}
 		}
 	},
@@ -90,7 +93,8 @@ export default {
 		CertificationItem,
 		EditorialBoardItem,
 		JournalReviewItem,
-		LectureItem
+		LectureItem,
+		MentorshipItem
 	}
 };
 </script>

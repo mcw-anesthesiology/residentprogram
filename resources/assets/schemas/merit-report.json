@@ -338,14 +338,9 @@
 							"title": "Mentorship / advisorship list item",
 							"type": "object",
 							"properties": {
-								"type": {"enum": [
-									"mentorship",
-									"projectMentorship",
-									"programMentorship"
-								]},
-								"trainee": {"type": "string"},
-								"project": {"type": "string"},
-								"program": {"type": "string"}
+								"type": {"const": "mentorship"},
+								"mentee": {"type": "string"},
+								"subject": {"type": "string"}
 							},
 							"required": [
 								"type"
