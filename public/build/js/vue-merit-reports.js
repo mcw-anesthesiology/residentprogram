@@ -7294,6 +7294,7 @@ function listItemIsValid(listItem) {
 			if (!listItem.title || !listItem.date || !listItem.audience) return false;
 			break;
 		case 'mentorship':
+		case 'subjectMentorship':
 			if (!listItem.mentee || !listItem.subject) return false;
 			break;
 	}
@@ -9750,6 +9751,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				case 'audienceLecture':
 					return 'lecture-item';
 				case 'mentorship':
+				case 'subjectMentorship':
 					return 'mentorship-item';
 			}
 		}
@@ -9899,7 +9901,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			type: String,
 			required: true,
 			validator: function validator(type) {
-				return ['text', 'publication', 'committee', 'study', 'grant', 'grantOther', 'certification', 'editorialBoard', 'journalReview', 'lecture', 'audienceLecture', 'mentorship'].includes(type);
+				return ['text', 'publication', 'committee', 'study', 'grant', 'grantOther', 'certification', 'editorialBoard', 'journalReview', 'lecture', 'audienceLecture', 'mentorship', 'subjectMentorship'].includes(type);
 			}
 		},
 		text: {
@@ -13993,7 +13995,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "input": function($event) {
         _vm.$emit('input', {
-          board: $event.target.value
+          title: $event.target.value
         })
       }
     }
@@ -14028,7 +14030,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('label', {
     staticClass: "containing-label"
-  }, [_vm._v("\n\t\t\tLecture audience (department, society, group, etc.)\n\t\t\t"), _c('input', {
+  }, [_vm._v("\n\t\t\tLecture audience (department, society, group, location, etc.)\n\t\t\t"), _c('input', {
     staticClass: "form-control",
     attrs: {
       "type": "text",
@@ -14058,9 +14060,67 @@ if (false) {
 
 /***/ }),
 /* 655 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-throw new Error("Module build failed: SyntaxError: 'return' outside of function (31:0)\n\n\u001b[0m \u001b[90m 29 | \u001b[39m\u001b[36mimport\u001b[39m \u001b[33mListItem\u001b[39m from \u001b[32m'./Item.vue'\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m 30 | \u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 31 | \u001b[39m\u001b[36mreturn\u001b[39m {\n \u001b[90m    | \u001b[39m\u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 32 | \u001b[39m\t\u001b[36mextends\u001b[39m\u001b[33m:\u001b[39m \u001b[33mListItem\u001b[39m\u001b[33m,\u001b[39m\n \u001b[90m 33 | \u001b[39m\tprops\u001b[33m:\u001b[39m {\n \u001b[90m 34 | \u001b[39m\t\ttype\u001b[33m:\u001b[39m {\u001b[0m\n");
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Item_vue__ = __webpack_require__(162);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Item_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Item_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	extends: __WEBPACK_IMPORTED_MODULE_0__Item_vue___default.a,
+	props: {
+		type: {
+			type: String,
+			required: true,
+			validator: function validator(type) {
+				return ['mentorship', 'subjectMentorship'].includes(type);
+			}
+		},
+		mentee: {
+			type: String,
+			default: ''
+		},
+		subject: {
+			type: String,
+			default: ''
+		}
+	},
+
+	components: {
+		ListItem: __WEBPACK_IMPORTED_MODULE_0__Item_vue___default.a
+	}
+});
 
 /***/ }),
 /* 656 */
@@ -14130,7 +14190,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "readonly": _vm.readonly
     },
     domProps: {
-      "value": _vm.board
+      "value": _vm.mentee
     },
     on: {
       "input": function($event) {
@@ -14141,7 +14201,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), (!_vm.mentee) ? _c('span', {
     staticClass: "help-block"
-  }, [_vm._v("\n\t\t\tPlease enter the mentee / trainee name or remove this list item\n\t\t")]) : _vm._e()]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\n\t\t\tPlease enter the mentee / trainee name or remove this list item\n\t\t")]) : _vm._e()]), _vm._v(" "), (_vm.type !== 'subjectMentorship') ? _c('div', {
     staticClass: "form-group",
     class: {
       'has-warning': !_vm.subject
@@ -14166,7 +14226,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), (!_vm.subject) ? _c('span', {
     staticClass: "help-block"
-  }, [_vm._v("\n\t\t\tPlease enter the mentorship subject or remove this list item\n\t\t")]) : _vm._e()])])
+  }, [_vm._v("\n\t\t\tPlease enter the mentorship subject or remove this list item\n\t\t")]) : _vm._e()]) : _vm._e()])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

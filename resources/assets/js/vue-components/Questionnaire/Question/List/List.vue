@@ -67,7 +67,8 @@ export default {
 					'journalReview',
 					'lecture',
 					'audienceLecture',
-					'mentorship'
+					'mentorship',
+					'subjectMentorship'
 				].includes(type);
 			}
 		},

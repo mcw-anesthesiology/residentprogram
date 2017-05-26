@@ -5,7 +5,7 @@
 				Lecture title
 				<input type="text" class="form-control"
 					:value="title" :readonly="readonly"
-					@input="$emit('input', {board: $event.target.value})" />
+					@input="$emit('input', {title: $event.target.value})" />
 			</label>
 			<span v-if="!title" class="help-block">
 				Please enter the lecture title or remove this list item
@@ -26,7 +26,7 @@
 		<div v-if="type !== 'audienceLecture'"
 				class="form-group" :class="{'has-warning': !audience}">
 			<label class="containing-label">
-				Lecture audience (department, society, group, etc.)
+				Lecture audience (department, society, group, location, etc.)
 				<input type="text" class="form-control"
 					:value="audience" :readonly="readonly"
 					@input="$emit('input', {audience: $event.target.value})" />
