@@ -64,7 +64,9 @@ export default {
 					'grantOther',
 					'certification',
 					'editorialBoard',
-					'journalReview'
+					'journalReview',
+					'lecture',
+					'audienceLecture'
 				].includes(type);
 			}
 		},

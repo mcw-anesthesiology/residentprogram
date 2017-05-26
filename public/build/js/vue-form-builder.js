@@ -823,46 +823,6 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(122),
-  /* template */
-  __webpack_require__(128),
-  /* styles */
-  null,
-  /* scopeId */
-  null,
-  /* moduleIdentifier (server only) */
-  null
-)
-Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ConfirmationButton.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] ConfirmationButton.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4aea83c8", Component.options)
-  } else {
-    hotAPI.reload("data-v-4aea83c8", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 34 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
   __webpack_require__(112)
@@ -893,6 +853,46 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-8d03363a", Component.options)
   } else {
     hotAPI.reload("data-v-8d03363a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(122),
+  /* template */
+  __webpack_require__(128),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ConfirmationButton.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] ConfirmationButton.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4aea83c8", Component.options)
+  } else {
+    hotAPI.reload("data-v-4aea83c8", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -3269,7 +3269,7 @@ if (false) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__);
 //
 //
@@ -3617,7 +3617,7 @@ var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(136),
   /* template */
-  __webpack_require__(165),
+  __webpack_require__(166),
   /* styles */
   injectStyle,
   /* scopeId */
@@ -3665,7 +3665,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__AlertList_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ShowHideButton_vue__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ShowHideButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__ShowHideButton_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ConfirmationButton_vue__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ConfirmationButton_vue__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ConfirmationButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__ConfirmationButton_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(2);
 //
@@ -4581,7 +4581,7 @@ var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(137),
   /* template */
-  __webpack_require__(171),
+  __webpack_require__(172),
   /* styles */
   null,
   /* scopeId */
@@ -4625,7 +4625,7 @@ var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(138),
   /* template */
-  __webpack_require__(170),
+  __webpack_require__(171),
   /* styles */
   injectStyle,
   /* scopeId */
@@ -4669,7 +4669,7 @@ var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(139),
   /* template */
-  __webpack_require__(173),
+  __webpack_require__(174),
   /* styles */
   injectStyle,
   /* scopeId */
@@ -4709,7 +4709,8 @@ module.exports = Component.exports
 /* 162 */,
 /* 163 */,
 /* 164 */,
-/* 165 */
+/* 165 */,
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -4992,11 +4993,11 @@ if (false) {
 }
 
 /***/ }),
-/* 166 */,
 /* 167 */,
 /* 168 */,
 /* 169 */,
-/* 170 */
+/* 170 */,
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -5101,7 +5102,7 @@ if (false) {
 }
 
 /***/ }),
-/* 171 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -5162,8 +5163,8 @@ if (false) {
 }
 
 /***/ }),
-/* 172 */,
-/* 173 */
+/* 173 */,
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -5419,7 +5420,6 @@ if (false) {
 }
 
 /***/ }),
-/* 174 */,
 /* 175 */,
 /* 176 */,
 /* 177 */,
@@ -5600,7 +5600,10 @@ if (false) {
 /* 352 */,
 /* 353 */,
 /* 354 */,
-/* 355 */
+/* 355 */,
+/* 356 */,
+/* 357 */,
+/* 358 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5668,6 +5671,6 @@ function createFormBuilder(el, propsData) {
 }
 
 /***/ })
-],[355]);
+],[358]);
 });
 //# sourceMappingURL=vue-form-builder.js.map

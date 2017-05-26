@@ -308,7 +308,7 @@ if (false) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__BootstrapAlert_vue__);
 //
 //
@@ -517,7 +517,7 @@ var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(135),
   /* template */
-  __webpack_require__(172),
+  __webpack_require__(173),
   /* styles */
   null,
   /* scopeId */
@@ -3893,7 +3893,7 @@ var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(133),
   /* template */
-  __webpack_require__(167),
+  __webpack_require__(168),
   /* styles */
   null,
   /* scopeId */
@@ -3926,7 +3926,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 167:
+/***/ 168:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -3959,7 +3959,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 172:
+/***/ 173:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -4074,7 +4074,7 @@ module.exports = MapCache;
 
 /***/ }),
 
-/***/ 192:
+/***/ 194:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
@@ -4082,7 +4082,7 @@ var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(298),
   /* template */
-  __webpack_require__(634),
+  __webpack_require__(644),
   /* styles */
   null,
   /* scopeId */
@@ -4842,7 +4842,7 @@ function createFacultyDashboard(el, propsData) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_AcademicYearEvaluationDataTable_vue__ = __webpack_require__(192);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_AcademicYearEvaluationDataTable_vue__ = __webpack_require__(194);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_AcademicYearEvaluationDataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_AcademicYearEvaluationDataTable_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(28);
 
@@ -4919,7 +4919,7 @@ function createAdminFacultyDashboard(el) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_AcademicYearEvaluationDataTable_vue__ = __webpack_require__(192);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_AcademicYearEvaluationDataTable_vue__ = __webpack_require__(194);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_AcademicYearEvaluationDataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_AcademicYearEvaluationDataTable_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(28);
 
@@ -5025,7 +5025,7 @@ function createAnonymousFacultyDashboard(el, propsData) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__vue_components_AlertList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_AcademicYearEvaluationDataTable_vue__ = __webpack_require__(192);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_AcademicYearEvaluationDataTable_vue__ = __webpack_require__(194);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_AcademicYearEvaluationDataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_AcademicYearEvaluationDataTable_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_datatable_utils_js__ = __webpack_require__(28);
 
@@ -5775,7 +5775,7 @@ module.exports = getNative;
 
 /***/ }),
 
-/***/ 34:
+/***/ 33:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
@@ -5865,7 +5865,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 353:
+/***/ 356:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7156,50 +7156,6 @@ module.exports = getAllKeys;
 
 /***/ }),
 
-/***/ 634:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    staticClass: "containing-label"
-  }, [_vm._v("\n\t\t\t\tAcademic year\n\t\t\t\t"), _c('academic-year-selector', {
-    attrs: {
-      "min-date": _vm.startDate
-    },
-    model: {
-      value: (_vm.dates),
-      callback: function($$v) {
-        _vm.dates = $$v
-      },
-      expression: "dates"
-    }
-  })], 1)])]), _vm._v(" "), _c('data-table', {
-    attrs: {
-      "id": _vm.id,
-      "striped": _vm.striped,
-      "bordered": _vm.bordered,
-      "thead": _vm.thead,
-      "config": _vm.datedConfig,
-      "data": _vm.data,
-      "exportable": _vm.exportable,
-      "exportFilename": _vm.exportFilename
-    }
-  }, [_vm._t("default")], 2)], 1)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-cb631b42", module.exports)
-  }
-}
-
-/***/ }),
-
 /***/ 64:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7250,6 +7206,50 @@ function getRawTag(value) {
 
 module.exports = getRawTag;
 
+
+/***/ }),
+
+/***/ 644:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "containing-label"
+  }, [_vm._v("\n\t\t\t\tAcademic year\n\t\t\t\t"), _c('academic-year-selector', {
+    attrs: {
+      "min-date": _vm.startDate
+    },
+    model: {
+      value: (_vm.dates),
+      callback: function($$v) {
+        _vm.dates = $$v
+      },
+      expression: "dates"
+    }
+  })], 1)])]), _vm._v(" "), _c('data-table', {
+    attrs: {
+      "id": _vm.id,
+      "striped": _vm.striped,
+      "bordered": _vm.bordered,
+      "thead": _vm.thead,
+      "config": _vm.datedConfig,
+      "data": _vm.data,
+      "exportable": _vm.exportable,
+      "exportFilename": _vm.exportFilename
+    }
+  }, [_vm._t("default")], 2)], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-cb631b42", module.exports)
+  }
+}
 
 /***/ }),
 
@@ -8306,6 +8306,6 @@ module.exports = stackSet;
 
 /***/ })
 
-},[353]);
+},[356]);
 });
 //# sourceMappingURL=vue-dashboard.js.map
