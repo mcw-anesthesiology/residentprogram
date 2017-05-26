@@ -7,6 +7,7 @@ import GrantItem from './GrantItem.vue';
 import CertificationItem from './CertificationItem.vue';
 import EditorialBoardItem from './EditorialBoardItem.vue';
 import JournalReviewItem from './JournalReviewItem.vue';
+import LectureItem from './LectureItem.vue';
 
 export default {
 	props: {
@@ -73,6 +74,9 @@ export default {
 					return 'editorial-board-item';
 				case 'journalReview':
 					return 'journal-review-item';
+				case 'lecture':
+				case 'audienceLecture':
+					return 'lecture-item';
 			}
 		}
 	},
@@ -85,7 +89,8 @@ export default {
 		GrantItem,
 		CertificationItem,
 		EditorialBoardItem,
-		JournalReviewItem
+		JournalReviewItem,
+		LectureItem
 	}
 };
 </script>

@@ -147,6 +147,11 @@ export function listItemIsValid(listItem) {
 			if (!listItem.journal || !listItem.reviews)
 				return false;
 			break;
+		case 'lecture':
+		case 'audienceLecture':
+			if (!listItem.title || !listItem.date || !listItem.audience)
+				return false;
+			break;
 	}
 
 	return true;

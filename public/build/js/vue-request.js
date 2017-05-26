@@ -3203,7 +3203,7 @@ var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(135),
   /* template */
-  __webpack_require__(172),
+  __webpack_require__(173),
   /* styles */
   null,
   /* scopeId */
@@ -6419,7 +6419,8 @@ module.exports = localforage_js;
 /* 169 */,
 /* 170 */,
 /* 171 */,
-/* 172 */
+/* 172 */,
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -6456,7 +6457,6 @@ if (false) {
 }
 
 /***/ }),
-/* 173 */,
 /* 174 */,
 /* 175 */,
 /* 176 */,
@@ -6669,7 +6669,10 @@ if (false) {
 /* 358 */,
 /* 359 */,
 /* 360 */,
-/* 361 */
+/* 361 */,
+/* 362 */,
+/* 363 */,
+/* 364 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7005,6 +7008,6 @@ function getRequestType() {
 }
 
 /***/ })
-],[361]);
+],[364]);
 });
 //# sourceMappingURL=vue-request.js.map
