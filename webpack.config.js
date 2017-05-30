@@ -9,7 +9,8 @@ module.exports = {
 		bundle: [
 			'whatwg-fetch',
 			'element-dataset',
-			'./resources/assets/js/modules',
+			'raf/polyfill',
+			'./resources/assets/js/modules'
 		],
 		'vue-deps': './resources/assets/js/vue-constructors/index.js',
 		'vue-form-builder': './resources/assets/js/vue-constructors/form-builder.js',
