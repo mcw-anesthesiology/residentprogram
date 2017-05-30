@@ -3,7 +3,10 @@
 </template>
 
 <script>
-import snarkdown from 'snarkdown';
+import { Parser as CommonmarkParser, HtmlRenderer } from 'commonmark';
+
+const reader = new CommonmarkParser();
+const writer = new HtmlRenderer();
 
 export default {
 	props: {
@@ -21,7 +24,7 @@ export default {
 
 	computed: {
 		markedUpText() {
-			return snarkdown(this.text);
+			return writer.render(reader.parse(this.text));
 		}
 	}
 };
@@ -32,5 +35,11 @@ export default {
 		margin: 1em;
 		padding: 1em;
 		font-size: 1.25em;
+	}
+</style>
+
+<style>
+	.instruction-block p {
+		margin-bottom: 1.5em;
 	}
 </style>
