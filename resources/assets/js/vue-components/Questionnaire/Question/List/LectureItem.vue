@@ -74,8 +74,11 @@ export default {
 		flatpickrOptions() {
 			return {
 				altInput: true,
-				altInputClass: 'form-control appear-not-readonly',
-				altFormat: 'M j, Y'
+				altInputClass: this.readonly
+					? 'form-control'
+					: 'form-control appear-not-readonly',
+				altFormat: 'M j, Y',
+				clickOpens: !this.readonly
 			};
 		}
 	},
