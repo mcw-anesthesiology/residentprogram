@@ -55,6 +55,9 @@
 	  @if($user->isType("admin") || $user->usesFeature(config("constants.FEATURES.CASE_LOG")))
 		<li><a href="/case-log">Case log</a></li>
 	  @endif
+	  @if($user->isType('admin') || $user->isType('faculty') || $user->usesFeature('FACULTY_EVALS'))
+		<li><a href="/merit">Faculty merit</a></li>
+	  @endif
 	  @if($user->isType("admin"))
 		<li><a href="/reports">Reports</a></li>
 	  @elseif($user->type == "resident" || ($user->type == "faculty" && $user->mentees()->count() > 0))
