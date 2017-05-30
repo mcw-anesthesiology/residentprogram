@@ -263,12 +263,13 @@
 							]
 						},
 						"study": {
-							"title": "Ongoing study list item",
+							"title": "Study list item",
 							"type": "object",
 							"properties": {
 								"type": {"const": "study"},
 								"title": {"type": "string"},
 								"role": {"type": "string"},
+								"yearInitiated": {"type": "string"},
 								"approvalNumber": {"type": "string"},
 								"progress": {"type": "string"}
 							},

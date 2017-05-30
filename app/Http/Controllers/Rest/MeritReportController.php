@@ -234,6 +234,7 @@ class MeritReportController extends RestController
 				if (
 					empty($listItem['title'])
 					|| empty($listItem['role'])
+					|| empty($listItem['yearInitiated'])
 					|| empty($listItem['approvalNumber'])
 					|| empty($listItem['progress'])
 				)

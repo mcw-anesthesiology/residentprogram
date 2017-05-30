@@ -2,7 +2,7 @@
 import TextItem from './TextItem.vue';
 import PublicationItem from './PublicationItem.vue';
 import CommitteeItem from './CommitteeItem.vue';
-import OngoingStudyItem from './OngoingStudyItem.vue';
+import StudyItem from './StudyItem.vue';
 import GrantItem from './GrantItem.vue';
 import CertificationItem from './CertificationItem.vue';
 import EditorialBoardItem from './EditorialBoardItem.vue';
@@ -65,7 +65,7 @@ export default {
 				case 'committee':
 					return 'committee-item';
 				case 'study':
-					return 'ongoing-study-item';
+					return 'study-item';
 				case 'grant':
 				case 'grantOther':
 					return 'grant-item';
@@ -89,7 +89,7 @@ export default {
 		TextItem,
 		PublicationItem,
 		CommitteeItem,
-		OngoingStudyItem,
+		StudyItem,
 		GrantItem,
 		CertificationItem,
 		EditorialBoardItem,
