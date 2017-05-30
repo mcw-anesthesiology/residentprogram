@@ -325,7 +325,40 @@ class ManageController extends Controller
 	}
 
 	public function watchedForms(Request $request){
-        return view("manage.watched-forms");
+		$groupNames = [
+			"intern" => "Intern",
+			"ca-1" => "CA-1",
+			"ca-2" => "CA-2",
+			"ca-3" => "CA-3",
+			"fellow" => "Fellow",
+			"faculty" => "Faculty",
+			"staff" => "Staff",
+			"admin" => "Administrator"
+		];
+
+		$userGroups = User::where("status", "active")->orderBy("last_name")
+			->get()->groupBy(function($item) use ($groupNames){
+				if($item["specific_type"] == "resident" && $item["training_level"])
+					return $groupNames[$item["training_level"]];
+				elseif($item["specific_type"])
+					return $groupNames[$item["specific_type"]];
+			})->sortBy(function($group, $name) use ($groupNames){
+				return array_search($name, array_values($groupNames));
+			});
+
+        $formGroups = Form::where("status", "active")->whereIn("type", ["resident", "fellow"])->orderBy("title")
+            ->get()->groupBy(function($form){
+                if($form->type == "fellow")
+                    return "Fellow";
+                elseif($form->evaluator_type == "staff")
+                    return "Staff";
+                else
+                    return "Resident";
+            });
+
+        $data = compact('formGroups', 'userGroups');
+
+        return view("manage.watched-forms", $data);
     }
 
 	public function userFeatures(Request $request){
