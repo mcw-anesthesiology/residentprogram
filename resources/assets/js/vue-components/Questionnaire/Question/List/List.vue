@@ -64,7 +64,7 @@ export default {
 					'grantOther',
 					'certification',
 					'editorialBoard',
-					'journalReview',
+					'review',
 					'lecture',
 					'audienceLecture',
 					'mentorship',
@@ -81,6 +81,10 @@ export default {
 			required: false
 		},
 		itemProps: {
+			type: Object,
+			required: false
+		},
+		itemLabels: {
 			type: Object,
 			required: false
 		},
