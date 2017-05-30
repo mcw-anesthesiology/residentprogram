@@ -10,9 +10,9 @@
 					v-model="formId"></select-two>
 				</label>
 			</div>
-			
+
 			<alert-list v-model="alerts" />
-			
+
 			<div class="btn-lg-submit-container">
 				<button type="button" class="btn btn-lg btn-primary"
 						@click="runReport">
@@ -24,7 +24,7 @@
 		<div v-if="report" class="container body-block">
 			<div class="report-evaluations">
 				<bootstrap-alert v-if="report.evals.length > 0" type="info">
-					
+
 					<div class="row">
 						<div class="col-md-8">
 							<h2>
@@ -38,17 +38,17 @@
 							</show-hide-button>
 						</div>
 					</div>
-					
+
 					<data-table v-if="show.allEvals"
 						:thead="evalsThead" :config="allEvalsConfig" />
 
 				</bootstrap-alert>
 				<bootstrap-alert v-else type="warning"
 					:text="`No evaluations found for ${report.formContents.title} in report parameters.`" />
-				
+
 				<section>
 					<div class="form-horizontal">
-						
+
 						<div class="form-group">
 							<div class="col-sm-10">
 								<label class="containing-label">
@@ -57,22 +57,22 @@
 											v-model="subjectId">
 										<option value="">All</option>
 									</select-two>
-								</label>								
+								</label>
 							</div>
 							<div class="col-sm-2">
 								<button type="button" v-if="subjectId"
 										class="btn btn-default labelless-button"
 										@click="subjectId = null">
 									Clear user
-								</button>								
+								</button>
 							</div>
 						</div>
 					</div>
-					
+
 					<section v-if="subjectId">
 						<bootstrap-alert type="info"
 								v-if="report.subjectEvals[subjectId] && report.subjectEvals[subjectId].length > 0">
-							
+
 							<div class="row">
 								<div class="col-md-8">
 									<h2>
@@ -87,7 +87,7 @@
 									</show-hide-button>
 								</div>
 							</div>
-							
+
 							<data-table v-if="subjectEvals && show.subjectEvals"
 								:thead="evalsThead" :data="subjectEvals"
 								:config="subjectEvalsConfig" />
@@ -98,23 +98,42 @@
 					</section>
 				</section>
 			</div>
-			
-			<button type="button" class="btn btn-default center-block"
-					v-if="this.reportContents && this.subjectId && this.reportContents.items.length > 0"
-					@click="exportPdf">
-				Export PDF
-				<svg-icon src="/img/icons/pdf.svg" />
-			</button>
-			
+
+			<div v-if="this.reportContents && this.subjectId && this.reportContents.items.length > 0"
+					class="panel panel-default">
+				<div class="panel-body">
+					<fieldset>
+						<legend>
+							Evaluation list style
+						</legend>
+
+						<label>
+							<input type="radio" value="details"
+								v-model="pdfOptions.evaluationListStyle" />
+							Detailed
+						</label>
+						<label>
+							<input type="radio" value="summary"
+								v-model="pdfOptions.evaluationListStyle" />
+							Summary
+						</label>
+					</fieldset>
+
+					<button type="button" class="btn btn-default center-block"
+							@click="exportPdf">
+						Export PDF
+						<svg-icon src="/img/icons/pdf.svg" />
+					</button>
+				</div>
+			</div>
+
 			<h2 class="form-title" v-if="reportContents.title">
 				{{ reportContents.title }}
 			</h2>
-			<template v-for="item of reportContents.items">
-				<form-report-question v-if="item.type === 'question'" v-bind="item" />
-				<div v-if="item.type === 'instruction'">
-
-				</div>
-			</template>
+			<form-report-question v-for="(question, index) of reportQuestions"
+				v-bind="question"
+				:hide="hideQuestions[index]"
+				@hide="hideQuestion(index, arguments[0])" />
 			<hr />
 		</div>
 	</div>
@@ -144,6 +163,7 @@ import {
 } from 'modules/date-utils.js';
 import {
 	tableHeader,
+	pdfmakeStyle,
 	fullWidthTable,
 	borderedStripedTable
 } from 'modules/report-utils.js';
@@ -175,16 +195,19 @@ export default {
 
 			groupedForms: [],
 			subjectEvals: [],
-			
+
+			hideQuestions: [],
+
 			show: {
 				allEvals: false,
 				subjectEvals: false
 			},
-			
+
 			pdfOptions: {
-				questionPageBreak: null
+				questionPageBreak: null,
+				evaluationListStyle: 'details'
 			},
-			
+
 			alerts: []
 		};
 	},
@@ -238,7 +261,16 @@ export default {
 
 			return reportContents;
 		},
-		
+		reportQuestions() {
+			if (!this.reportContents || !this.reportContents.items)
+				return [];
+
+			let questions = this.reportContents.items.filter(item => item.type === 'question');
+			this.hideQuestions = Array(questions.length).fill(false);
+
+			return questions;
+		},
+
 		evalsThead(){
 			return [[
 				'#',
@@ -315,37 +347,11 @@ export default {
 		}
 	},
 	watch: {
-		subjectId(subjectId){
-			if(!subjectId || !this.report.subjectEvals[subjectId]){
-				this.subjectEvals = [];
-				return;
-			}
-
-			let query = $.param({
-				id: this.report.subjectEvals[subjectId].slice(),
-				with: {
-					subject: [
-						'full_name'
-					],
-					evaluator: [
-						'full_name'
-					],
-					requestor: [
-						'full_name'
-					],
-					form: [
-						'title'
-					]
-				}
-			});
-			
-			fetch(`/evaluations?${query}`, {
-				method: 'GET',
-				headers: getFetchHeaders(),
-				credentials: 'same-origin',
-			}).then(jsonOrThrow).then(subjectEvals => {
-				this.subjectEvals = subjectEvals;
-			});
+		subjectId() {
+			this.fetchSubjectEvals();
+		},
+		report() {
+			this.fetchSubjectEvals();
 		}
 	},
 
@@ -387,104 +393,180 @@ export default {
 				console.error(err);
 			});
 		},
+		fetchSubjectEvals(){
+			if(!this.subjectId || !this.report || !this.report.subjectEvals || !this.report.subjectEvals[this.subjectId]){
+				this.subjectEvals = [];
+				return;
+			}
+
+			let query = $.param({
+				id: this.report.subjectEvals[this.subjectId].slice(),
+				with: {
+					subject: [
+						'full_name'
+					],
+					evaluator: [
+						'full_name'
+					],
+					requestor: [
+						'full_name'
+					],
+					form: [
+						'title'
+					]
+				}
+			});
+
+			fetch(`/evaluations?${query}`, {
+				method: 'GET',
+				headers: getFetchHeaders(),
+				credentials: 'same-origin',
+			}).then(jsonOrThrow).then(subjectEvals => {
+				this.subjectEvals = subjectEvals;
+			}).catch(err => {
+				console.error(err);
+			});
+		},
+		hideQuestion(questionIndex, hide) {
+			let hideQuestions = this.hideQuestions.slice();
+			hideQuestions.splice(questionIndex, 1, hide);
+
+			this.hideQuestions = hideQuestions;
+		},
 		exportPdf(){
 			if(!this.reportContents || this.reportContents.items.length < 1)
 				return;
-				
+
 			let hasSubject = (this.report.subjectEvals[this.subjectId]
 				&& this.report.subjectEvals[this.subjectId].length > 0);
-			
+
 			Promise.all([
 				import('pdfmake/build/pdfmake.js'),
 				import('../../vfs_fonts.json')
 			]).then(([pdfmake, vfs]) => {
 				pdfmake.vfs = vfs;
-				
-				const filename = `${this.reportContents.title} - ${this.dates.startDate} -- ${this.dates.endDate}.pdf`;
-				
+
+				const filename = hasSubject
+					? `${this.subject.full_name} - ${this.reportContents.title} - ${this.dates.startDate} -- ${this.dates.endDate}.pdf`
+					: `${this.reportContents.title} - ${this.dates.startDate} -- ${this.dates.endDate}.pdf`;
+
+				let evalCounts = {
+					subjectRequested: 0,
+					otherRequested: 0,
+					total: 0
+				};
+				if (this.pdfOptions.evaluationListStyle === 'summary') {
+					for (let evaluation of this.subjectEvals) {
+						if (evaluation.requested_by_id === evaluation.subject_id)
+							evalCounts.subjectRequested++;
+						else
+							evalCounts.otherRequested++;
+
+						evalCounts.total++;
+					}
+				}
+
 				let content = [
-					{ text: 'Form Report', style: 'h1' },
+					{
+						text: hasSubject
+							? `${this.reportContents.title} - Summary of evaluations for ${this.subject.full_name}`
+							: `${this.reportContents.title} - Summary of evaluations`,
+						style: 'h1'
+					},
 					{
 						table: fullWidthTable({
 							headerRows: 1,
 							body: [
-								['Form', 'Start date', 'End date'].concat(
-									hasSubject
-										? ['Subject']
-										: []
-								).map(tableHeader),
-								[
-									this.reportContents.title,
-									this.dates.startDate,
-									this.dates.endDate
-								].concat(hasSubject
+								(hasSubject
+									? ['Subject']
+									: []).concat(
+										['Form', 'Start date', 'End date']
+									).map(tableHeader),
+								(hasSubject
 									? [this.subject.full_name]
-									: []
-								)
+									: []).concat([
+										this.reportContents.title,
+										this.dates.startDate,
+										this.dates.endDate
+									]).map(pdfmakeStyle('tableBody'))
 							]
 						})
 					},
-					
-					{ text: `Evaluations for ${this.subject.full_name} included in report`, style: 'h2'},
-					borderedStripedTable({
-						table: {
-							headerRows: 1,
-							widths: [
-								'auto',
-								'auto',
-								'auto',
-								'*',
-								'auto',
-								'auto'
-							],
-							body: [
-								[
-									'#',
-									'Evaluator',
-									'Requested by',
-									'Form',
-									'Evaluation date',
-									'Completed'
-								],
-								...this.subjectEvals.map(subjectEval => [
-									subjectEval.id,
-									subjectEval.evaluator.full_name,
-									subjectEval.requestor.full_name,
-									subjectEval.form.title,
-									renderDateRange(
-										subjectEval.evaluation_date_start,
-										subjectEval.evaluation_date_end
-									),
-									moment(subjectEval.complete_date).calendar()
-								])
+
+					{ text: `Evaluations included in report`, style: 'h2'},
+					this.pdfOptions.evaluationListStyle === 'summary'
+						? {
+							ul: [
+								`${evalCounts.subjectRequested} requested by ${hasSubject ? this.subject.full_name : 'subject'}`,
+								`${evalCounts.otherRequested} requested by others`,
+								`${evalCounts.total} total`
 							]
 						}
-					}),
-					
+						: borderedStripedTable({
+							table: {
+								headerRows: 1,
+								widths: [
+									'auto',
+									'auto',
+									'auto',
+									'*',
+									'auto',
+									'auto'
+								],
+								body: [
+									[
+										'#',
+										'Evaluator',
+										'Requested by',
+										'Form',
+										'Evaluation date',
+										'Completed'
+									].map(tableHeader),
+									...this.subjectEvals.map(subjectEval => [
+										subjectEval.id,
+										subjectEval.evaluator.full_name,
+										subjectEval.requestor.full_name,
+										subjectEval.form.title,
+										renderDateRange(
+											subjectEval.evaluation_date_start,
+											subjectEval.evaluation_date_end
+										),
+										moment(subjectEval.complete_date).calendar()
+									]).map(row => row.map(pdfmakeStyle('tableBody')))
+								]
+							}
+						}),
+
 					{ text: this.reportContents.title, style: 'h2' },
 					{
 						margin: 0,
 						type: 'none',
-						ol: this.reportContents.items.filter(item =>
-								item.type === 'question').map(item => {
-							let questionHeading = {
-								margin: [0, 20, 0, 5],
-								columns: [
-									{
-										width: 'auto',
-										margin: [0, 0, 5, 0],
-										text: `${item.id.toUpperCase()}: `,
-										fontSize: 16,
-										bold: true
-									},
-									{
-										width: '*',
-										text: item.text,
-										fontSize: 16
-									}
-								]
-							};
-							
+						ol: this.reportQuestions.filter((question, index) =>
+								!this.hideQuestions[index]).map(item => {
+							let questionHeading = this.hideQuestions.some(hide => hide)
+								? {
+									margin: [0, 20, 0, 5],
+									text: item.text,
+									style: 'questionText'
+								}
+								: {
+									margin: [0, 20, 0, 5],
+									columns: [
+										{
+											width: 'auto',
+											margin: [0, 0, 5, 0],
+											text: `${item.id.toUpperCase()}: `,
+											bold: true,
+											style: 'questionText'
+										},
+										{
+											width: '*',
+											text: item.text,
+											style: 'questionText'
+										}
+									]
+								};
+
 							let questionBody = '';
 							switch(item.questionType){
 								case 'checkbox':
@@ -552,7 +634,7 @@ export default {
 													option.averagePercentage
 														? `${option.averagePercentage}%`
 														: ''
-												]))
+												])).map(row => row.map(pdfmakeStyle('tableBody')))
 											)
 										}
 									});
@@ -565,9 +647,9 @@ export default {
 												widths: ['auto', 'auto', 'auto', '*'],
 												body: [
 													[
-														'Evaluation',
+														'#',
 														'Evaluator',
-														'Evaluation date',
+														'Date',
 														'Response'
 													].map(tableHeader)
 												].concat(
@@ -579,13 +661,13 @@ export default {
 															this.report.evaluations[evaluationId].evaluation_date_end
 														),
 														item.subjectResponseValues[evaluationId]
-													])
+													]).map(row => row.map(pdfmakeStyle('tableBody')))
 												)
 											}
 										});
 									break;
 							}
-							
+
 							return {
 								pageBreak: this.pdfOptions.questionPageBreak,
 								stack: [
@@ -596,30 +678,34 @@ export default {
 						})
 					}
 				];
-				
+
 				let docDefinition = {
 					pageSize: 'LETTER',
 					content,
 					styles: {
 						h1: {
 							bold: true,
-							fontSize: 24,
+							fontSize: 20,
 							margin: [0, 20],
 						},
 						h2: {
 							bold: true,
-							fontSize: 20,
+							fontSize: 16,
 							margin: [0, 10]
+						},
+						questionText: {
+							fontSize: 11
 						},
 						tableHeader: {
 							bold: true,
-							fontSize: 14
+							fontSize: 10
+						},
+						tableBody: {
+							fontSize: 8
 						}
 					}
 				};
-				
-				console.log(content);
-				
+
 				pdfmake.createPdf(docDefinition).download(filename);
 			}).catch(err => {
 				console.error(err);
@@ -648,20 +734,20 @@ export default {
 	h2 {
 		margin-top: 0;
 	}
-	
+
 	h2.form-title {
 		margin: 60px 0 20px;
 		page-break-before: always;
 	}
-	
+
 	.report-evaluations {
 		page-break-inside: avoid;
 	}
-	
+
 	hr {
 		page-break-before: always;
 	}
-	
+
 	@media print {
 		.btn-lg-submit-container {
 			display: none;
