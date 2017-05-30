@@ -121,6 +121,7 @@ export function listItemIsValid(listItem) {
 			if (
 				!listItem.title
 				|| !listItem.role
+				|| !listItem.yearInitiated
 				|| !listItem.approvalNumber
 				|| !listItem.progress
 			)
