@@ -3,56 +3,67 @@
 		<div class="container body-block">
 			<h1>
 				Manage Alumni
-				<router-link to="add" class="btn btn-success btn-sm">
+				<router-link to="edit" class="btn btn-success btn-sm">
 					<span class="glyphicon glyphicon-plus"></span>
-					Add alum			
+					Add alum
 				</router-link>
 				<router-link to="import" class="btn btn-primary btn-sm">
 					<span class="glyphicon glyphicon-import"></span>
 					Import alumni
 				</router-link>
 			</h1>
-			
+
 			<alert-list v-model="alerts"></alert-list>
 		</div>
-		
-		<router-view></router-view>
-		
+
+		<router-view :alum="alumniBeingEdited" manage
+			@reload="fetchAlumni"
+			@close="handleClose">
+		</router-view>
+
 		<div class="container body-block">
 			<h2 class="sub-heading">Alumni</h2>
-			<component-list :items="alumni" :fields="alumniFields">
+			<component-list :items="alumni" :fields="alumniFields"
+					reloadable @reload="fetchAlumni">
 				<template scope="alum">
-					<alumni-list-item :alum="alum"></alumni-list-item>
+					<alumni-list-item :alum="alum"
+						@edit="editAlum(alum)"
+						@alert="this.alerts.push(arguments[0])"
+						@remove="removeAlum(alum)">
+					</alumni-list-item>
 				</template>
 			</component-list>
-		</div>		
+		</div>
 	</div>
 </template>
 
 <script>
 import moment from 'moment';
 
-import AlertList from '../AlertList.vue';
+import HasAlerts from 'vue-mixins/HasAlerts.js';
+
 import ComponentList from '../ComponentList.vue';
 import AlumniListItem from './Alumni/AlumniListItem.vue';
 
-import { getFetchHeaders, jsonOrThrow } from '../../modules/utils.js';
+import { getHeaderHeight } from 'modules/dom-utils.js';
+import { getFetchHeaders, okOrThrow, jsonOrThrow } from '../../modules/utils.js';
 
 export default {
+	mixins: [
+		HasAlerts
+	],
 	data(){
 		return {
 			alumni: [],
-			
-			alumniBeingEdited: {},
-			
-			alerts: []
+
+			alumniBeingEdited: null
 		};
 	},
-	
+
 	mounted(){
 		this.fetchAlumni();
 	},
-	
+
 	computed: {
 		alumniFields(){
 			return [
@@ -72,7 +83,7 @@ export default {
 			]);
 		}
 	},
-	
+
 	methods: {
 		fetchAlumni(){
 			fetch('/alumni', {
@@ -88,11 +99,41 @@ export default {
 					html: '<strong>Error:</strong> There was a problem fetching alumni'
 				});
 			});
+		},
+		editAlum(alum) {
+			this.alumniBeingEdited = alum;
+			this.$router.push('edit');
+			this.$nextTick(() => {
+				$('.edit-alum').velocity('scroll', {
+					offset: -1 * getHeaderHeight()
+				});
+			});
+		},
+		removeAlum(alum) {
+			fetch(`/alumni/${alum.id}`, {
+				method: 'POST', // DELETE
+				headers: getFetchHeaders(),
+				credentials: 'same-origin',
+				body: JSON.stringify({
+					_method: 'DELETE'
+				})
+			}).then(okOrThrow).then(() => {
+				this.fetchAlumni();
+			}).catch(err => {
+				console.error(err);
+				this.alerts.push({
+					type: 'error',
+					html: '<strong>Error:</strong> There was a problem removing the alum'
+				});
+			});
+		},
+		handleClose() {
+			this.alumniBeingEdited = null;
+			this.$router.go(-1);
 		}
 	},
-	
+
 	components: {
-		AlertList,
 		ComponentList,
 		AlumniListItem
 	}

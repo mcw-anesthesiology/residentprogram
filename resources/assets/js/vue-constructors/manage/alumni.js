@@ -2,7 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import ManageAlumni from '../../vue-components/Manage/Alumni.vue';
-import AddAlumni from '../../vue-components/Manage/Alumni/Add.vue';
+import EditAlumni from '../../vue-components/Manage/Alumni/Edit.vue';
 import ImportAlumni from '../../vue-components/Manage/Alumni/Import.vue';
 
 Vue.use(VueRouter);
@@ -13,8 +13,8 @@ export default function createAlumni(el){
 		router: new VueRouter({
 			routes: [
 				{
-					path: '/add',
-					component: AddAlumni
+					path: '/edit',
+					component: EditAlumni
 				},
 				{
 					path: '/import',

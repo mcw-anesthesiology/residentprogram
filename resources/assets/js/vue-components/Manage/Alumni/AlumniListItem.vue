@@ -16,41 +16,37 @@
 					{{ line }}
 				</div>
 			</div>
-			<div class="col-sm-2 graduation-date-cell">
-				<span class="short-date">
-					{{
-						alum.graduation_date
-							? moment(alum.graduation_date).format('Y')
-							: ''
-					}}
-				</span>
-				<span class="full-date">
-					{{
-						alum.graduation_date
-							? moment(alum.graduation_date).calendar()
-							: ''
-					}}
-				</span>
+			<div class="col-sm-1 graduation-date-cell">
+				<rich-date :date="alum.graduation_date"></rich-date>
 			</div>
 			<div class="col-sm-2">
-				<button type="button" class="btn btn-info btn-sm"
+				<button type="button" class="btn btn-info btn-xs"
 						@click="sendAlumEmail(alum.id)">
 					<span class="glyphicon glyphicon-send"></span>
 					Email
 				</button>
-				<button type="button" class="btn btn-info btn-sm"
-						@click="isBeingEdited = true">
+				<button type="button" class="btn btn-info btn-xs"
+						@click="$emit('edit')">
 					<span class="glyphicon glyphicon-pencil"></span>
 					Edit
 				</button>
+				<confirmation-button class="btn btn-xs"
+						unpressed-class="btn-danger"
+						pressed-class="btn-warning"
+						@click="$emit('remove')">
+					<span class="glyphicon glyphicon-remove"></span>
+					Delete
+				</confirmation-button>
 			</div>
 		</div>
-		
 	</li>
 </template>
 
 <script>
 import moment from 'moment';
+
+import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
+import RichDate from 'vue-components/RichDate.vue';
 
 import { PLACEHOLDER_USER_IMAGE_PATH } from '../../../modules/constants.js';
 
@@ -63,19 +59,16 @@ export default {
 	},
 	data(){
 		return {
-			isBeingEdited: false
+
 		};
 	},
-	
+
 	computed: {
 		placeholderUserImagePath(){
 			return PLACEHOLDER_USER_IMAGE_PATH;
-		},
-		years: {
-			
 		}
 	},
-	
+
 	methods: {
 		alumAddress(alum){
 			const joinProps = props => {
@@ -95,6 +88,11 @@ export default {
 			];
 		},
 		moment
+	},
+
+	components: {
+		ConfirmationButton,
+		RichDate
 	}
 };
 </script>
@@ -104,7 +102,7 @@ export default {
 		border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 		padding: 5px 0;
 	}
-	
+
 	.alum-list-item:nth-child(even){
 		background-color: rgba(0, 0, 0, 0.05);
 	}
@@ -122,11 +120,11 @@ export default {
 	.graduation-date-cell .full-date {
 		display: none;
 	}
-		
+
 	.graduation-date-cell:hover .short-date {
 		display: none;
 	}
-	
+
 	.graduation-date-cell:hover .full-date {
 		display: block;
 	}

@@ -13,7 +13,7 @@ export default {
 	props: {
 		date: {
 			type: [String, Date, Object],
-			required: true
+			required: false
 		},
 		time: {
 			type: Boolean,
@@ -36,6 +36,9 @@ export default {
 
 	computed: {
 		dateString() {
+			if (!this.date)
+				return '';
+
 			if (this.time) {
 				return this.hovered
 					? moment(this.date).format('ll LT')
