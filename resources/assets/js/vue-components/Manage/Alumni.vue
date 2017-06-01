@@ -43,7 +43,7 @@ import moment from 'moment';
 import HasAlerts from 'vue-mixins/HasAlerts.js';
 
 import ComponentList from '../ComponentList.vue';
-import AlumniListItem from './Alumni/AlumniListItem.vue';
+import AlumniListItem from 'vue-components/Alumni/AlumniListItem.vue';
 
 import { getHeaderHeight } from 'modules/dom-utils.js';
 import { getFetchHeaders, okOrThrow, jsonOrThrow } from '../../modules/utils.js';
