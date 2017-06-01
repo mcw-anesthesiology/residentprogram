@@ -259,7 +259,288 @@ module.exports = nativeCreate;
 
 
 /***/ }),
-/* 11 */,
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Utilities
+//
+
+
+
+function _class(obj) { return Object.prototype.toString.call(obj); }
+
+function isString(obj) { return _class(obj) === '[object String]'; }
+
+var _hasOwnProperty = Object.prototype.hasOwnProperty;
+
+function has(object, key) {
+  return _hasOwnProperty.call(object, key);
+}
+
+// Merge objects
+//
+function assign(obj /*from1, from2, from3, ...*/) {
+  var sources = Array.prototype.slice.call(arguments, 1);
+
+  sources.forEach(function (source) {
+    if (!source) { return; }
+
+    if (typeof source !== 'object') {
+      throw new TypeError(source + 'must be object');
+    }
+
+    Object.keys(source).forEach(function (key) {
+      obj[key] = source[key];
+    });
+  });
+
+  return obj;
+}
+
+// Remove element from array and put another array at those position.
+// Useful for some operations with tokens
+function arrayReplaceAt(src, pos, newElements) {
+  return [].concat(src.slice(0, pos), newElements, src.slice(pos + 1));
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+function isValidEntityCode(c) {
+  /*eslint no-bitwise:0*/
+  // broken sequence
+  if (c >= 0xD800 && c <= 0xDFFF) { return false; }
+  // never used
+  if (c >= 0xFDD0 && c <= 0xFDEF) { return false; }
+  if ((c & 0xFFFF) === 0xFFFF || (c & 0xFFFF) === 0xFFFE) { return false; }
+  // control codes
+  if (c >= 0x00 && c <= 0x08) { return false; }
+  if (c === 0x0B) { return false; }
+  if (c >= 0x0E && c <= 0x1F) { return false; }
+  if (c >= 0x7F && c <= 0x9F) { return false; }
+  // out of range
+  if (c > 0x10FFFF) { return false; }
+  return true;
+}
+
+function fromCodePoint(c) {
+  /*eslint no-bitwise:0*/
+  if (c > 0xffff) {
+    c -= 0x10000;
+    var surrogate1 = 0xd800 + (c >> 10),
+        surrogate2 = 0xdc00 + (c & 0x3ff);
+
+    return String.fromCharCode(surrogate1, surrogate2);
+  }
+  return String.fromCharCode(c);
+}
+
+
+var UNESCAPE_MD_RE  = /\\([!"#$%&'()*+,\-.\/:;<=>?@[\\\]^_`{|}~])/g;
+var ENTITY_RE       = /&([a-z#][a-z0-9]{1,31});/gi;
+var UNESCAPE_ALL_RE = new RegExp(UNESCAPE_MD_RE.source + '|' + ENTITY_RE.source, 'gi');
+
+var DIGITAL_ENTITY_TEST_RE = /^#((?:x[a-f0-9]{1,8}|[0-9]{1,8}))/i;
+
+var entities = __webpack_require__(234);
+
+function replaceEntityPattern(match, name) {
+  var code = 0;
+
+  if (has(entities, name)) {
+    return entities[name];
+  }
+
+  if (name.charCodeAt(0) === 0x23/* # */ && DIGITAL_ENTITY_TEST_RE.test(name)) {
+    code = name[1].toLowerCase() === 'x' ?
+      parseInt(name.slice(2), 16)
+    :
+      parseInt(name.slice(1), 10);
+    if (isValidEntityCode(code)) {
+      return fromCodePoint(code);
+    }
+  }
+
+  return match;
+}
+
+/*function replaceEntities(str) {
+  if (str.indexOf('&') < 0) { return str; }
+
+  return str.replace(ENTITY_RE, replaceEntityPattern);
+}*/
+
+function unescapeMd(str) {
+  if (str.indexOf('\\') < 0) { return str; }
+  return str.replace(UNESCAPE_MD_RE, '$1');
+}
+
+function unescapeAll(str) {
+  if (str.indexOf('\\') < 0 && str.indexOf('&') < 0) { return str; }
+
+  return str.replace(UNESCAPE_ALL_RE, function (match, escaped, entity) {
+    if (escaped) { return escaped; }
+    return replaceEntityPattern(match, entity);
+  });
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+var HTML_ESCAPE_TEST_RE = /[&<>"]/;
+var HTML_ESCAPE_REPLACE_RE = /[&<>"]/g;
+var HTML_REPLACEMENTS = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;'
+};
+
+function replaceUnsafeChar(ch) {
+  return HTML_REPLACEMENTS[ch];
+}
+
+function escapeHtml(str) {
+  if (HTML_ESCAPE_TEST_RE.test(str)) {
+    return str.replace(HTML_ESCAPE_REPLACE_RE, replaceUnsafeChar);
+  }
+  return str;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+var REGEXP_ESCAPE_RE = /[.?*+^$[\]\\(){}|-]/g;
+
+function escapeRE(str) {
+  return str.replace(REGEXP_ESCAPE_RE, '\\$&');
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+function isSpace(code) {
+  switch (code) {
+    case 0x09:
+    case 0x20:
+      return true;
+  }
+  return false;
+}
+
+// Zs (unicode class) || [\t\f\v\r\n]
+function isWhiteSpace(code) {
+  if (code >= 0x2000 && code <= 0x200A) { return true; }
+  switch (code) {
+    case 0x09: // \t
+    case 0x0A: // \n
+    case 0x0B: // \v
+    case 0x0C: // \f
+    case 0x0D: // \r
+    case 0x20:
+    case 0xA0:
+    case 0x1680:
+    case 0x202F:
+    case 0x205F:
+    case 0x3000:
+      return true;
+  }
+  return false;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+/*eslint-disable max-len*/
+var UNICODE_PUNCT_RE = __webpack_require__(202);
+
+// Currently without astral characters support.
+function isPunctChar(ch) {
+  return UNICODE_PUNCT_RE.test(ch);
+}
+
+
+// Markdown ASCII punctuation characters.
+//
+// !, ", #, $, %, &, ', (, ), *, +, ,, -, ., /, :, ;, <, =, >, ?, @, [, \, ], ^, _, `, {, |, }, or ~
+// http://spec.commonmark.org/0.15/#ascii-punctuation-character
+//
+// Don't confuse with unicode punctuation !!! It lacks some chars in ascii range.
+//
+function isMdAsciiPunct(ch) {
+  switch (ch) {
+    case 0x21/* ! */:
+    case 0x22/* " */:
+    case 0x23/* # */:
+    case 0x24/* $ */:
+    case 0x25/* % */:
+    case 0x26/* & */:
+    case 0x27/* ' */:
+    case 0x28/* ( */:
+    case 0x29/* ) */:
+    case 0x2A/* * */:
+    case 0x2B/* + */:
+    case 0x2C/* , */:
+    case 0x2D/* - */:
+    case 0x2E/* . */:
+    case 0x2F/* / */:
+    case 0x3A/* : */:
+    case 0x3B/* ; */:
+    case 0x3C/* < */:
+    case 0x3D/* = */:
+    case 0x3E/* > */:
+    case 0x3F/* ? */:
+    case 0x40/* @ */:
+    case 0x5B/* [ */:
+    case 0x5C/* \ */:
+    case 0x5D/* ] */:
+    case 0x5E/* ^ */:
+    case 0x5F/* _ */:
+    case 0x60/* ` */:
+    case 0x7B/* { */:
+    case 0x7C/* | */:
+    case 0x7D/* } */:
+    case 0x7E/* ~ */:
+      return true;
+    default:
+      return false;
+  }
+}
+
+// Hepler to unify [reference labels].
+//
+function normalizeReference(str) {
+  // use .toUpperCase() instead of .toLowerCase()
+  // here to avoid a conflict with Object.prototype
+  // members (most notably, `__proto__`)
+  return str.trim().replace(/\s+/g, ' ').toUpperCase();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Re-export libraries commonly used in both markdown-it and its plugins,
+// so plugins won't have to depend on them explicitly, which reduces their
+// bundled size (e.g. a browser build).
+//
+exports.lib                 = {};
+exports.lib.mdurl           = __webpack_require__(238);
+exports.lib.ucmicro         = __webpack_require__(597);
+
+exports.assign              = assign;
+exports.isString            = isString;
+exports.has                 = has;
+exports.unescapeMd          = unescapeMd;
+exports.unescapeAll         = unescapeAll;
+exports.isValidEntityCode   = isValidEntityCode;
+exports.fromCodePoint       = fromCodePoint;
+// exports.replaceEntities     = replaceEntities;
+exports.escapeHtml          = escapeHtml;
+exports.arrayReplaceAt      = arrayReplaceAt;
+exports.isSpace             = isSpace;
+exports.isWhiteSpace        = isWhiteSpace;
+exports.isMdAsciiPunct      = isMdAsciiPunct;
+exports.isPunctChar         = isPunctChar;
+exports.escapeRE            = escapeRE;
+exports.normalizeReference  = normalizeReference;
+
+
+/***/ }),
 /* 12 */,
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -4329,9 +4610,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			var rows = this.data.map(function (row) {
 				return row.map(function (cell) {
-					return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["n" /* escapeCsv */])(cell.toString());
+					return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["p" /* escapeCsv */])(cell.toString());
 				}).join(',');
-			}).sort(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["o" /* sortIgnoreCase */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["q" /* sortIgnoreCase */]);
 			var table = header.concat(rows);
 			__WEBPACK_IMPORTED_MODULE_0_downloadjs___default()(table.join('\n'), this.exportFilename + '.csv', 'text/csv');
 		}
@@ -4521,7 +4802,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			this.endDate = dates.endDate;
 		},
 
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["p" /* camelCaseToWords */]
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["r" /* camelCaseToWords */]
 	},
 	components: {
 		VueFlatpickr: __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr___default.a
@@ -14964,7 +15245,2138 @@ if (false) {
 
 /***/ }),
 /* 176 */,
-/* 177 */,
+/* 177 */
+/***/ (function(module, exports) {
+
+module.exports = {
+	"Aacute": "Á",
+	"aacute": "á",
+	"Abreve": "Ă",
+	"abreve": "ă",
+	"ac": "∾",
+	"acd": "∿",
+	"acE": "∾̳",
+	"Acirc": "Â",
+	"acirc": "â",
+	"acute": "´",
+	"Acy": "А",
+	"acy": "а",
+	"AElig": "Æ",
+	"aelig": "æ",
+	"af": "⁡",
+	"Afr": "𝔄",
+	"afr": "𝔞",
+	"Agrave": "À",
+	"agrave": "à",
+	"alefsym": "ℵ",
+	"aleph": "ℵ",
+	"Alpha": "Α",
+	"alpha": "α",
+	"Amacr": "Ā",
+	"amacr": "ā",
+	"amalg": "⨿",
+	"amp": "&",
+	"AMP": "&",
+	"andand": "⩕",
+	"And": "⩓",
+	"and": "∧",
+	"andd": "⩜",
+	"andslope": "⩘",
+	"andv": "⩚",
+	"ang": "∠",
+	"ange": "⦤",
+	"angle": "∠",
+	"angmsdaa": "⦨",
+	"angmsdab": "⦩",
+	"angmsdac": "⦪",
+	"angmsdad": "⦫",
+	"angmsdae": "⦬",
+	"angmsdaf": "⦭",
+	"angmsdag": "⦮",
+	"angmsdah": "⦯",
+	"angmsd": "∡",
+	"angrt": "∟",
+	"angrtvb": "⊾",
+	"angrtvbd": "⦝",
+	"angsph": "∢",
+	"angst": "Å",
+	"angzarr": "⍼",
+	"Aogon": "Ą",
+	"aogon": "ą",
+	"Aopf": "𝔸",
+	"aopf": "𝕒",
+	"apacir": "⩯",
+	"ap": "≈",
+	"apE": "⩰",
+	"ape": "≊",
+	"apid": "≋",
+	"apos": "'",
+	"ApplyFunction": "⁡",
+	"approx": "≈",
+	"approxeq": "≊",
+	"Aring": "Å",
+	"aring": "å",
+	"Ascr": "𝒜",
+	"ascr": "𝒶",
+	"Assign": "≔",
+	"ast": "*",
+	"asymp": "≈",
+	"asympeq": "≍",
+	"Atilde": "Ã",
+	"atilde": "ã",
+	"Auml": "Ä",
+	"auml": "ä",
+	"awconint": "∳",
+	"awint": "⨑",
+	"backcong": "≌",
+	"backepsilon": "϶",
+	"backprime": "‵",
+	"backsim": "∽",
+	"backsimeq": "⋍",
+	"Backslash": "∖",
+	"Barv": "⫧",
+	"barvee": "⊽",
+	"barwed": "⌅",
+	"Barwed": "⌆",
+	"barwedge": "⌅",
+	"bbrk": "⎵",
+	"bbrktbrk": "⎶",
+	"bcong": "≌",
+	"Bcy": "Б",
+	"bcy": "б",
+	"bdquo": "„",
+	"becaus": "∵",
+	"because": "∵",
+	"Because": "∵",
+	"bemptyv": "⦰",
+	"bepsi": "϶",
+	"bernou": "ℬ",
+	"Bernoullis": "ℬ",
+	"Beta": "Β",
+	"beta": "β",
+	"beth": "ℶ",
+	"between": "≬",
+	"Bfr": "𝔅",
+	"bfr": "𝔟",
+	"bigcap": "⋂",
+	"bigcirc": "◯",
+	"bigcup": "⋃",
+	"bigodot": "⨀",
+	"bigoplus": "⨁",
+	"bigotimes": "⨂",
+	"bigsqcup": "⨆",
+	"bigstar": "★",
+	"bigtriangledown": "▽",
+	"bigtriangleup": "△",
+	"biguplus": "⨄",
+	"bigvee": "⋁",
+	"bigwedge": "⋀",
+	"bkarow": "⤍",
+	"blacklozenge": "⧫",
+	"blacksquare": "▪",
+	"blacktriangle": "▴",
+	"blacktriangledown": "▾",
+	"blacktriangleleft": "◂",
+	"blacktriangleright": "▸",
+	"blank": "␣",
+	"blk12": "▒",
+	"blk14": "░",
+	"blk34": "▓",
+	"block": "█",
+	"bne": "=⃥",
+	"bnequiv": "≡⃥",
+	"bNot": "⫭",
+	"bnot": "⌐",
+	"Bopf": "𝔹",
+	"bopf": "𝕓",
+	"bot": "⊥",
+	"bottom": "⊥",
+	"bowtie": "⋈",
+	"boxbox": "⧉",
+	"boxdl": "┐",
+	"boxdL": "╕",
+	"boxDl": "╖",
+	"boxDL": "╗",
+	"boxdr": "┌",
+	"boxdR": "╒",
+	"boxDr": "╓",
+	"boxDR": "╔",
+	"boxh": "─",
+	"boxH": "═",
+	"boxhd": "┬",
+	"boxHd": "╤",
+	"boxhD": "╥",
+	"boxHD": "╦",
+	"boxhu": "┴",
+	"boxHu": "╧",
+	"boxhU": "╨",
+	"boxHU": "╩",
+	"boxminus": "⊟",
+	"boxplus": "⊞",
+	"boxtimes": "⊠",
+	"boxul": "┘",
+	"boxuL": "╛",
+	"boxUl": "╜",
+	"boxUL": "╝",
+	"boxur": "└",
+	"boxuR": "╘",
+	"boxUr": "╙",
+	"boxUR": "╚",
+	"boxv": "│",
+	"boxV": "║",
+	"boxvh": "┼",
+	"boxvH": "╪",
+	"boxVh": "╫",
+	"boxVH": "╬",
+	"boxvl": "┤",
+	"boxvL": "╡",
+	"boxVl": "╢",
+	"boxVL": "╣",
+	"boxvr": "├",
+	"boxvR": "╞",
+	"boxVr": "╟",
+	"boxVR": "╠",
+	"bprime": "‵",
+	"breve": "˘",
+	"Breve": "˘",
+	"brvbar": "¦",
+	"bscr": "𝒷",
+	"Bscr": "ℬ",
+	"bsemi": "⁏",
+	"bsim": "∽",
+	"bsime": "⋍",
+	"bsolb": "⧅",
+	"bsol": "\\",
+	"bsolhsub": "⟈",
+	"bull": "•",
+	"bullet": "•",
+	"bump": "≎",
+	"bumpE": "⪮",
+	"bumpe": "≏",
+	"Bumpeq": "≎",
+	"bumpeq": "≏",
+	"Cacute": "Ć",
+	"cacute": "ć",
+	"capand": "⩄",
+	"capbrcup": "⩉",
+	"capcap": "⩋",
+	"cap": "∩",
+	"Cap": "⋒",
+	"capcup": "⩇",
+	"capdot": "⩀",
+	"CapitalDifferentialD": "ⅅ",
+	"caps": "∩︀",
+	"caret": "⁁",
+	"caron": "ˇ",
+	"Cayleys": "ℭ",
+	"ccaps": "⩍",
+	"Ccaron": "Č",
+	"ccaron": "č",
+	"Ccedil": "Ç",
+	"ccedil": "ç",
+	"Ccirc": "Ĉ",
+	"ccirc": "ĉ",
+	"Cconint": "∰",
+	"ccups": "⩌",
+	"ccupssm": "⩐",
+	"Cdot": "Ċ",
+	"cdot": "ċ",
+	"cedil": "¸",
+	"Cedilla": "¸",
+	"cemptyv": "⦲",
+	"cent": "¢",
+	"centerdot": "·",
+	"CenterDot": "·",
+	"cfr": "𝔠",
+	"Cfr": "ℭ",
+	"CHcy": "Ч",
+	"chcy": "ч",
+	"check": "✓",
+	"checkmark": "✓",
+	"Chi": "Χ",
+	"chi": "χ",
+	"circ": "ˆ",
+	"circeq": "≗",
+	"circlearrowleft": "↺",
+	"circlearrowright": "↻",
+	"circledast": "⊛",
+	"circledcirc": "⊚",
+	"circleddash": "⊝",
+	"CircleDot": "⊙",
+	"circledR": "®",
+	"circledS": "Ⓢ",
+	"CircleMinus": "⊖",
+	"CirclePlus": "⊕",
+	"CircleTimes": "⊗",
+	"cir": "○",
+	"cirE": "⧃",
+	"cire": "≗",
+	"cirfnint": "⨐",
+	"cirmid": "⫯",
+	"cirscir": "⧂",
+	"ClockwiseContourIntegral": "∲",
+	"CloseCurlyDoubleQuote": "”",
+	"CloseCurlyQuote": "’",
+	"clubs": "♣",
+	"clubsuit": "♣",
+	"colon": ":",
+	"Colon": "∷",
+	"Colone": "⩴",
+	"colone": "≔",
+	"coloneq": "≔",
+	"comma": ",",
+	"commat": "@",
+	"comp": "∁",
+	"compfn": "∘",
+	"complement": "∁",
+	"complexes": "ℂ",
+	"cong": "≅",
+	"congdot": "⩭",
+	"Congruent": "≡",
+	"conint": "∮",
+	"Conint": "∯",
+	"ContourIntegral": "∮",
+	"copf": "𝕔",
+	"Copf": "ℂ",
+	"coprod": "∐",
+	"Coproduct": "∐",
+	"copy": "©",
+	"COPY": "©",
+	"copysr": "℗",
+	"CounterClockwiseContourIntegral": "∳",
+	"crarr": "↵",
+	"cross": "✗",
+	"Cross": "⨯",
+	"Cscr": "𝒞",
+	"cscr": "𝒸",
+	"csub": "⫏",
+	"csube": "⫑",
+	"csup": "⫐",
+	"csupe": "⫒",
+	"ctdot": "⋯",
+	"cudarrl": "⤸",
+	"cudarrr": "⤵",
+	"cuepr": "⋞",
+	"cuesc": "⋟",
+	"cularr": "↶",
+	"cularrp": "⤽",
+	"cupbrcap": "⩈",
+	"cupcap": "⩆",
+	"CupCap": "≍",
+	"cup": "∪",
+	"Cup": "⋓",
+	"cupcup": "⩊",
+	"cupdot": "⊍",
+	"cupor": "⩅",
+	"cups": "∪︀",
+	"curarr": "↷",
+	"curarrm": "⤼",
+	"curlyeqprec": "⋞",
+	"curlyeqsucc": "⋟",
+	"curlyvee": "⋎",
+	"curlywedge": "⋏",
+	"curren": "¤",
+	"curvearrowleft": "↶",
+	"curvearrowright": "↷",
+	"cuvee": "⋎",
+	"cuwed": "⋏",
+	"cwconint": "∲",
+	"cwint": "∱",
+	"cylcty": "⌭",
+	"dagger": "†",
+	"Dagger": "‡",
+	"daleth": "ℸ",
+	"darr": "↓",
+	"Darr": "↡",
+	"dArr": "⇓",
+	"dash": "‐",
+	"Dashv": "⫤",
+	"dashv": "⊣",
+	"dbkarow": "⤏",
+	"dblac": "˝",
+	"Dcaron": "Ď",
+	"dcaron": "ď",
+	"Dcy": "Д",
+	"dcy": "д",
+	"ddagger": "‡",
+	"ddarr": "⇊",
+	"DD": "ⅅ",
+	"dd": "ⅆ",
+	"DDotrahd": "⤑",
+	"ddotseq": "⩷",
+	"deg": "°",
+	"Del": "∇",
+	"Delta": "Δ",
+	"delta": "δ",
+	"demptyv": "⦱",
+	"dfisht": "⥿",
+	"Dfr": "𝔇",
+	"dfr": "𝔡",
+	"dHar": "⥥",
+	"dharl": "⇃",
+	"dharr": "⇂",
+	"DiacriticalAcute": "´",
+	"DiacriticalDot": "˙",
+	"DiacriticalDoubleAcute": "˝",
+	"DiacriticalGrave": "`",
+	"DiacriticalTilde": "˜",
+	"diam": "⋄",
+	"diamond": "⋄",
+	"Diamond": "⋄",
+	"diamondsuit": "♦",
+	"diams": "♦",
+	"die": "¨",
+	"DifferentialD": "ⅆ",
+	"digamma": "ϝ",
+	"disin": "⋲",
+	"div": "÷",
+	"divide": "÷",
+	"divideontimes": "⋇",
+	"divonx": "⋇",
+	"DJcy": "Ђ",
+	"djcy": "ђ",
+	"dlcorn": "⌞",
+	"dlcrop": "⌍",
+	"dollar": "$",
+	"Dopf": "𝔻",
+	"dopf": "𝕕",
+	"Dot": "¨",
+	"dot": "˙",
+	"DotDot": "⃜",
+	"doteq": "≐",
+	"doteqdot": "≑",
+	"DotEqual": "≐",
+	"dotminus": "∸",
+	"dotplus": "∔",
+	"dotsquare": "⊡",
+	"doublebarwedge": "⌆",
+	"DoubleContourIntegral": "∯",
+	"DoubleDot": "¨",
+	"DoubleDownArrow": "⇓",
+	"DoubleLeftArrow": "⇐",
+	"DoubleLeftRightArrow": "⇔",
+	"DoubleLeftTee": "⫤",
+	"DoubleLongLeftArrow": "⟸",
+	"DoubleLongLeftRightArrow": "⟺",
+	"DoubleLongRightArrow": "⟹",
+	"DoubleRightArrow": "⇒",
+	"DoubleRightTee": "⊨",
+	"DoubleUpArrow": "⇑",
+	"DoubleUpDownArrow": "⇕",
+	"DoubleVerticalBar": "∥",
+	"DownArrowBar": "⤓",
+	"downarrow": "↓",
+	"DownArrow": "↓",
+	"Downarrow": "⇓",
+	"DownArrowUpArrow": "⇵",
+	"DownBreve": "̑",
+	"downdownarrows": "⇊",
+	"downharpoonleft": "⇃",
+	"downharpoonright": "⇂",
+	"DownLeftRightVector": "⥐",
+	"DownLeftTeeVector": "⥞",
+	"DownLeftVectorBar": "⥖",
+	"DownLeftVector": "↽",
+	"DownRightTeeVector": "⥟",
+	"DownRightVectorBar": "⥗",
+	"DownRightVector": "⇁",
+	"DownTeeArrow": "↧",
+	"DownTee": "⊤",
+	"drbkarow": "⤐",
+	"drcorn": "⌟",
+	"drcrop": "⌌",
+	"Dscr": "𝒟",
+	"dscr": "𝒹",
+	"DScy": "Ѕ",
+	"dscy": "ѕ",
+	"dsol": "⧶",
+	"Dstrok": "Đ",
+	"dstrok": "đ",
+	"dtdot": "⋱",
+	"dtri": "▿",
+	"dtrif": "▾",
+	"duarr": "⇵",
+	"duhar": "⥯",
+	"dwangle": "⦦",
+	"DZcy": "Џ",
+	"dzcy": "џ",
+	"dzigrarr": "⟿",
+	"Eacute": "É",
+	"eacute": "é",
+	"easter": "⩮",
+	"Ecaron": "Ě",
+	"ecaron": "ě",
+	"Ecirc": "Ê",
+	"ecirc": "ê",
+	"ecir": "≖",
+	"ecolon": "≕",
+	"Ecy": "Э",
+	"ecy": "э",
+	"eDDot": "⩷",
+	"Edot": "Ė",
+	"edot": "ė",
+	"eDot": "≑",
+	"ee": "ⅇ",
+	"efDot": "≒",
+	"Efr": "𝔈",
+	"efr": "𝔢",
+	"eg": "⪚",
+	"Egrave": "È",
+	"egrave": "è",
+	"egs": "⪖",
+	"egsdot": "⪘",
+	"el": "⪙",
+	"Element": "∈",
+	"elinters": "⏧",
+	"ell": "ℓ",
+	"els": "⪕",
+	"elsdot": "⪗",
+	"Emacr": "Ē",
+	"emacr": "ē",
+	"empty": "∅",
+	"emptyset": "∅",
+	"EmptySmallSquare": "◻",
+	"emptyv": "∅",
+	"EmptyVerySmallSquare": "▫",
+	"emsp13": " ",
+	"emsp14": " ",
+	"emsp": " ",
+	"ENG": "Ŋ",
+	"eng": "ŋ",
+	"ensp": " ",
+	"Eogon": "Ę",
+	"eogon": "ę",
+	"Eopf": "𝔼",
+	"eopf": "𝕖",
+	"epar": "⋕",
+	"eparsl": "⧣",
+	"eplus": "⩱",
+	"epsi": "ε",
+	"Epsilon": "Ε",
+	"epsilon": "ε",
+	"epsiv": "ϵ",
+	"eqcirc": "≖",
+	"eqcolon": "≕",
+	"eqsim": "≂",
+	"eqslantgtr": "⪖",
+	"eqslantless": "⪕",
+	"Equal": "⩵",
+	"equals": "=",
+	"EqualTilde": "≂",
+	"equest": "≟",
+	"Equilibrium": "⇌",
+	"equiv": "≡",
+	"equivDD": "⩸",
+	"eqvparsl": "⧥",
+	"erarr": "⥱",
+	"erDot": "≓",
+	"escr": "ℯ",
+	"Escr": "ℰ",
+	"esdot": "≐",
+	"Esim": "⩳",
+	"esim": "≂",
+	"Eta": "Η",
+	"eta": "η",
+	"ETH": "Ð",
+	"eth": "ð",
+	"Euml": "Ë",
+	"euml": "ë",
+	"euro": "€",
+	"excl": "!",
+	"exist": "∃",
+	"Exists": "∃",
+	"expectation": "ℰ",
+	"exponentiale": "ⅇ",
+	"ExponentialE": "ⅇ",
+	"fallingdotseq": "≒",
+	"Fcy": "Ф",
+	"fcy": "ф",
+	"female": "♀",
+	"ffilig": "ﬃ",
+	"fflig": "ﬀ",
+	"ffllig": "ﬄ",
+	"Ffr": "𝔉",
+	"ffr": "𝔣",
+	"filig": "ﬁ",
+	"FilledSmallSquare": "◼",
+	"FilledVerySmallSquare": "▪",
+	"fjlig": "fj",
+	"flat": "♭",
+	"fllig": "ﬂ",
+	"fltns": "▱",
+	"fnof": "ƒ",
+	"Fopf": "𝔽",
+	"fopf": "𝕗",
+	"forall": "∀",
+	"ForAll": "∀",
+	"fork": "⋔",
+	"forkv": "⫙",
+	"Fouriertrf": "ℱ",
+	"fpartint": "⨍",
+	"frac12": "½",
+	"frac13": "⅓",
+	"frac14": "¼",
+	"frac15": "⅕",
+	"frac16": "⅙",
+	"frac18": "⅛",
+	"frac23": "⅔",
+	"frac25": "⅖",
+	"frac34": "¾",
+	"frac35": "⅗",
+	"frac38": "⅜",
+	"frac45": "⅘",
+	"frac56": "⅚",
+	"frac58": "⅝",
+	"frac78": "⅞",
+	"frasl": "⁄",
+	"frown": "⌢",
+	"fscr": "𝒻",
+	"Fscr": "ℱ",
+	"gacute": "ǵ",
+	"Gamma": "Γ",
+	"gamma": "γ",
+	"Gammad": "Ϝ",
+	"gammad": "ϝ",
+	"gap": "⪆",
+	"Gbreve": "Ğ",
+	"gbreve": "ğ",
+	"Gcedil": "Ģ",
+	"Gcirc": "Ĝ",
+	"gcirc": "ĝ",
+	"Gcy": "Г",
+	"gcy": "г",
+	"Gdot": "Ġ",
+	"gdot": "ġ",
+	"ge": "≥",
+	"gE": "≧",
+	"gEl": "⪌",
+	"gel": "⋛",
+	"geq": "≥",
+	"geqq": "≧",
+	"geqslant": "⩾",
+	"gescc": "⪩",
+	"ges": "⩾",
+	"gesdot": "⪀",
+	"gesdoto": "⪂",
+	"gesdotol": "⪄",
+	"gesl": "⋛︀",
+	"gesles": "⪔",
+	"Gfr": "𝔊",
+	"gfr": "𝔤",
+	"gg": "≫",
+	"Gg": "⋙",
+	"ggg": "⋙",
+	"gimel": "ℷ",
+	"GJcy": "Ѓ",
+	"gjcy": "ѓ",
+	"gla": "⪥",
+	"gl": "≷",
+	"glE": "⪒",
+	"glj": "⪤",
+	"gnap": "⪊",
+	"gnapprox": "⪊",
+	"gne": "⪈",
+	"gnE": "≩",
+	"gneq": "⪈",
+	"gneqq": "≩",
+	"gnsim": "⋧",
+	"Gopf": "𝔾",
+	"gopf": "𝕘",
+	"grave": "`",
+	"GreaterEqual": "≥",
+	"GreaterEqualLess": "⋛",
+	"GreaterFullEqual": "≧",
+	"GreaterGreater": "⪢",
+	"GreaterLess": "≷",
+	"GreaterSlantEqual": "⩾",
+	"GreaterTilde": "≳",
+	"Gscr": "𝒢",
+	"gscr": "ℊ",
+	"gsim": "≳",
+	"gsime": "⪎",
+	"gsiml": "⪐",
+	"gtcc": "⪧",
+	"gtcir": "⩺",
+	"gt": ">",
+	"GT": ">",
+	"Gt": "≫",
+	"gtdot": "⋗",
+	"gtlPar": "⦕",
+	"gtquest": "⩼",
+	"gtrapprox": "⪆",
+	"gtrarr": "⥸",
+	"gtrdot": "⋗",
+	"gtreqless": "⋛",
+	"gtreqqless": "⪌",
+	"gtrless": "≷",
+	"gtrsim": "≳",
+	"gvertneqq": "≩︀",
+	"gvnE": "≩︀",
+	"Hacek": "ˇ",
+	"hairsp": " ",
+	"half": "½",
+	"hamilt": "ℋ",
+	"HARDcy": "Ъ",
+	"hardcy": "ъ",
+	"harrcir": "⥈",
+	"harr": "↔",
+	"hArr": "⇔",
+	"harrw": "↭",
+	"Hat": "^",
+	"hbar": "ℏ",
+	"Hcirc": "Ĥ",
+	"hcirc": "ĥ",
+	"hearts": "♥",
+	"heartsuit": "♥",
+	"hellip": "…",
+	"hercon": "⊹",
+	"hfr": "𝔥",
+	"Hfr": "ℌ",
+	"HilbertSpace": "ℋ",
+	"hksearow": "⤥",
+	"hkswarow": "⤦",
+	"hoarr": "⇿",
+	"homtht": "∻",
+	"hookleftarrow": "↩",
+	"hookrightarrow": "↪",
+	"hopf": "𝕙",
+	"Hopf": "ℍ",
+	"horbar": "―",
+	"HorizontalLine": "─",
+	"hscr": "𝒽",
+	"Hscr": "ℋ",
+	"hslash": "ℏ",
+	"Hstrok": "Ħ",
+	"hstrok": "ħ",
+	"HumpDownHump": "≎",
+	"HumpEqual": "≏",
+	"hybull": "⁃",
+	"hyphen": "‐",
+	"Iacute": "Í",
+	"iacute": "í",
+	"ic": "⁣",
+	"Icirc": "Î",
+	"icirc": "î",
+	"Icy": "И",
+	"icy": "и",
+	"Idot": "İ",
+	"IEcy": "Е",
+	"iecy": "е",
+	"iexcl": "¡",
+	"iff": "⇔",
+	"ifr": "𝔦",
+	"Ifr": "ℑ",
+	"Igrave": "Ì",
+	"igrave": "ì",
+	"ii": "ⅈ",
+	"iiiint": "⨌",
+	"iiint": "∭",
+	"iinfin": "⧜",
+	"iiota": "℩",
+	"IJlig": "Ĳ",
+	"ijlig": "ĳ",
+	"Imacr": "Ī",
+	"imacr": "ī",
+	"image": "ℑ",
+	"ImaginaryI": "ⅈ",
+	"imagline": "ℐ",
+	"imagpart": "ℑ",
+	"imath": "ı",
+	"Im": "ℑ",
+	"imof": "⊷",
+	"imped": "Ƶ",
+	"Implies": "⇒",
+	"incare": "℅",
+	"in": "∈",
+	"infin": "∞",
+	"infintie": "⧝",
+	"inodot": "ı",
+	"intcal": "⊺",
+	"int": "∫",
+	"Int": "∬",
+	"integers": "ℤ",
+	"Integral": "∫",
+	"intercal": "⊺",
+	"Intersection": "⋂",
+	"intlarhk": "⨗",
+	"intprod": "⨼",
+	"InvisibleComma": "⁣",
+	"InvisibleTimes": "⁢",
+	"IOcy": "Ё",
+	"iocy": "ё",
+	"Iogon": "Į",
+	"iogon": "į",
+	"Iopf": "𝕀",
+	"iopf": "𝕚",
+	"Iota": "Ι",
+	"iota": "ι",
+	"iprod": "⨼",
+	"iquest": "¿",
+	"iscr": "𝒾",
+	"Iscr": "ℐ",
+	"isin": "∈",
+	"isindot": "⋵",
+	"isinE": "⋹",
+	"isins": "⋴",
+	"isinsv": "⋳",
+	"isinv": "∈",
+	"it": "⁢",
+	"Itilde": "Ĩ",
+	"itilde": "ĩ",
+	"Iukcy": "І",
+	"iukcy": "і",
+	"Iuml": "Ï",
+	"iuml": "ï",
+	"Jcirc": "Ĵ",
+	"jcirc": "ĵ",
+	"Jcy": "Й",
+	"jcy": "й",
+	"Jfr": "𝔍",
+	"jfr": "𝔧",
+	"jmath": "ȷ",
+	"Jopf": "𝕁",
+	"jopf": "𝕛",
+	"Jscr": "𝒥",
+	"jscr": "𝒿",
+	"Jsercy": "Ј",
+	"jsercy": "ј",
+	"Jukcy": "Є",
+	"jukcy": "є",
+	"Kappa": "Κ",
+	"kappa": "κ",
+	"kappav": "ϰ",
+	"Kcedil": "Ķ",
+	"kcedil": "ķ",
+	"Kcy": "К",
+	"kcy": "к",
+	"Kfr": "𝔎",
+	"kfr": "𝔨",
+	"kgreen": "ĸ",
+	"KHcy": "Х",
+	"khcy": "х",
+	"KJcy": "Ќ",
+	"kjcy": "ќ",
+	"Kopf": "𝕂",
+	"kopf": "𝕜",
+	"Kscr": "𝒦",
+	"kscr": "𝓀",
+	"lAarr": "⇚",
+	"Lacute": "Ĺ",
+	"lacute": "ĺ",
+	"laemptyv": "⦴",
+	"lagran": "ℒ",
+	"Lambda": "Λ",
+	"lambda": "λ",
+	"lang": "⟨",
+	"Lang": "⟪",
+	"langd": "⦑",
+	"langle": "⟨",
+	"lap": "⪅",
+	"Laplacetrf": "ℒ",
+	"laquo": "«",
+	"larrb": "⇤",
+	"larrbfs": "⤟",
+	"larr": "←",
+	"Larr": "↞",
+	"lArr": "⇐",
+	"larrfs": "⤝",
+	"larrhk": "↩",
+	"larrlp": "↫",
+	"larrpl": "⤹",
+	"larrsim": "⥳",
+	"larrtl": "↢",
+	"latail": "⤙",
+	"lAtail": "⤛",
+	"lat": "⪫",
+	"late": "⪭",
+	"lates": "⪭︀",
+	"lbarr": "⤌",
+	"lBarr": "⤎",
+	"lbbrk": "❲",
+	"lbrace": "{",
+	"lbrack": "[",
+	"lbrke": "⦋",
+	"lbrksld": "⦏",
+	"lbrkslu": "⦍",
+	"Lcaron": "Ľ",
+	"lcaron": "ľ",
+	"Lcedil": "Ļ",
+	"lcedil": "ļ",
+	"lceil": "⌈",
+	"lcub": "{",
+	"Lcy": "Л",
+	"lcy": "л",
+	"ldca": "⤶",
+	"ldquo": "“",
+	"ldquor": "„",
+	"ldrdhar": "⥧",
+	"ldrushar": "⥋",
+	"ldsh": "↲",
+	"le": "≤",
+	"lE": "≦",
+	"LeftAngleBracket": "⟨",
+	"LeftArrowBar": "⇤",
+	"leftarrow": "←",
+	"LeftArrow": "←",
+	"Leftarrow": "⇐",
+	"LeftArrowRightArrow": "⇆",
+	"leftarrowtail": "↢",
+	"LeftCeiling": "⌈",
+	"LeftDoubleBracket": "⟦",
+	"LeftDownTeeVector": "⥡",
+	"LeftDownVectorBar": "⥙",
+	"LeftDownVector": "⇃",
+	"LeftFloor": "⌊",
+	"leftharpoondown": "↽",
+	"leftharpoonup": "↼",
+	"leftleftarrows": "⇇",
+	"leftrightarrow": "↔",
+	"LeftRightArrow": "↔",
+	"Leftrightarrow": "⇔",
+	"leftrightarrows": "⇆",
+	"leftrightharpoons": "⇋",
+	"leftrightsquigarrow": "↭",
+	"LeftRightVector": "⥎",
+	"LeftTeeArrow": "↤",
+	"LeftTee": "⊣",
+	"LeftTeeVector": "⥚",
+	"leftthreetimes": "⋋",
+	"LeftTriangleBar": "⧏",
+	"LeftTriangle": "⊲",
+	"LeftTriangleEqual": "⊴",
+	"LeftUpDownVector": "⥑",
+	"LeftUpTeeVector": "⥠",
+	"LeftUpVectorBar": "⥘",
+	"LeftUpVector": "↿",
+	"LeftVectorBar": "⥒",
+	"LeftVector": "↼",
+	"lEg": "⪋",
+	"leg": "⋚",
+	"leq": "≤",
+	"leqq": "≦",
+	"leqslant": "⩽",
+	"lescc": "⪨",
+	"les": "⩽",
+	"lesdot": "⩿",
+	"lesdoto": "⪁",
+	"lesdotor": "⪃",
+	"lesg": "⋚︀",
+	"lesges": "⪓",
+	"lessapprox": "⪅",
+	"lessdot": "⋖",
+	"lesseqgtr": "⋚",
+	"lesseqqgtr": "⪋",
+	"LessEqualGreater": "⋚",
+	"LessFullEqual": "≦",
+	"LessGreater": "≶",
+	"lessgtr": "≶",
+	"LessLess": "⪡",
+	"lesssim": "≲",
+	"LessSlantEqual": "⩽",
+	"LessTilde": "≲",
+	"lfisht": "⥼",
+	"lfloor": "⌊",
+	"Lfr": "𝔏",
+	"lfr": "𝔩",
+	"lg": "≶",
+	"lgE": "⪑",
+	"lHar": "⥢",
+	"lhard": "↽",
+	"lharu": "↼",
+	"lharul": "⥪",
+	"lhblk": "▄",
+	"LJcy": "Љ",
+	"ljcy": "љ",
+	"llarr": "⇇",
+	"ll": "≪",
+	"Ll": "⋘",
+	"llcorner": "⌞",
+	"Lleftarrow": "⇚",
+	"llhard": "⥫",
+	"lltri": "◺",
+	"Lmidot": "Ŀ",
+	"lmidot": "ŀ",
+	"lmoustache": "⎰",
+	"lmoust": "⎰",
+	"lnap": "⪉",
+	"lnapprox": "⪉",
+	"lne": "⪇",
+	"lnE": "≨",
+	"lneq": "⪇",
+	"lneqq": "≨",
+	"lnsim": "⋦",
+	"loang": "⟬",
+	"loarr": "⇽",
+	"lobrk": "⟦",
+	"longleftarrow": "⟵",
+	"LongLeftArrow": "⟵",
+	"Longleftarrow": "⟸",
+	"longleftrightarrow": "⟷",
+	"LongLeftRightArrow": "⟷",
+	"Longleftrightarrow": "⟺",
+	"longmapsto": "⟼",
+	"longrightarrow": "⟶",
+	"LongRightArrow": "⟶",
+	"Longrightarrow": "⟹",
+	"looparrowleft": "↫",
+	"looparrowright": "↬",
+	"lopar": "⦅",
+	"Lopf": "𝕃",
+	"lopf": "𝕝",
+	"loplus": "⨭",
+	"lotimes": "⨴",
+	"lowast": "∗",
+	"lowbar": "_",
+	"LowerLeftArrow": "↙",
+	"LowerRightArrow": "↘",
+	"loz": "◊",
+	"lozenge": "◊",
+	"lozf": "⧫",
+	"lpar": "(",
+	"lparlt": "⦓",
+	"lrarr": "⇆",
+	"lrcorner": "⌟",
+	"lrhar": "⇋",
+	"lrhard": "⥭",
+	"lrm": "‎",
+	"lrtri": "⊿",
+	"lsaquo": "‹",
+	"lscr": "𝓁",
+	"Lscr": "ℒ",
+	"lsh": "↰",
+	"Lsh": "↰",
+	"lsim": "≲",
+	"lsime": "⪍",
+	"lsimg": "⪏",
+	"lsqb": "[",
+	"lsquo": "‘",
+	"lsquor": "‚",
+	"Lstrok": "Ł",
+	"lstrok": "ł",
+	"ltcc": "⪦",
+	"ltcir": "⩹",
+	"lt": "<",
+	"LT": "<",
+	"Lt": "≪",
+	"ltdot": "⋖",
+	"lthree": "⋋",
+	"ltimes": "⋉",
+	"ltlarr": "⥶",
+	"ltquest": "⩻",
+	"ltri": "◃",
+	"ltrie": "⊴",
+	"ltrif": "◂",
+	"ltrPar": "⦖",
+	"lurdshar": "⥊",
+	"luruhar": "⥦",
+	"lvertneqq": "≨︀",
+	"lvnE": "≨︀",
+	"macr": "¯",
+	"male": "♂",
+	"malt": "✠",
+	"maltese": "✠",
+	"Map": "⤅",
+	"map": "↦",
+	"mapsto": "↦",
+	"mapstodown": "↧",
+	"mapstoleft": "↤",
+	"mapstoup": "↥",
+	"marker": "▮",
+	"mcomma": "⨩",
+	"Mcy": "М",
+	"mcy": "м",
+	"mdash": "—",
+	"mDDot": "∺",
+	"measuredangle": "∡",
+	"MediumSpace": " ",
+	"Mellintrf": "ℳ",
+	"Mfr": "𝔐",
+	"mfr": "𝔪",
+	"mho": "℧",
+	"micro": "µ",
+	"midast": "*",
+	"midcir": "⫰",
+	"mid": "∣",
+	"middot": "·",
+	"minusb": "⊟",
+	"minus": "−",
+	"minusd": "∸",
+	"minusdu": "⨪",
+	"MinusPlus": "∓",
+	"mlcp": "⫛",
+	"mldr": "…",
+	"mnplus": "∓",
+	"models": "⊧",
+	"Mopf": "𝕄",
+	"mopf": "𝕞",
+	"mp": "∓",
+	"mscr": "𝓂",
+	"Mscr": "ℳ",
+	"mstpos": "∾",
+	"Mu": "Μ",
+	"mu": "μ",
+	"multimap": "⊸",
+	"mumap": "⊸",
+	"nabla": "∇",
+	"Nacute": "Ń",
+	"nacute": "ń",
+	"nang": "∠⃒",
+	"nap": "≉",
+	"napE": "⩰̸",
+	"napid": "≋̸",
+	"napos": "ŉ",
+	"napprox": "≉",
+	"natural": "♮",
+	"naturals": "ℕ",
+	"natur": "♮",
+	"nbsp": " ",
+	"nbump": "≎̸",
+	"nbumpe": "≏̸",
+	"ncap": "⩃",
+	"Ncaron": "Ň",
+	"ncaron": "ň",
+	"Ncedil": "Ņ",
+	"ncedil": "ņ",
+	"ncong": "≇",
+	"ncongdot": "⩭̸",
+	"ncup": "⩂",
+	"Ncy": "Н",
+	"ncy": "н",
+	"ndash": "–",
+	"nearhk": "⤤",
+	"nearr": "↗",
+	"neArr": "⇗",
+	"nearrow": "↗",
+	"ne": "≠",
+	"nedot": "≐̸",
+	"NegativeMediumSpace": "​",
+	"NegativeThickSpace": "​",
+	"NegativeThinSpace": "​",
+	"NegativeVeryThinSpace": "​",
+	"nequiv": "≢",
+	"nesear": "⤨",
+	"nesim": "≂̸",
+	"NestedGreaterGreater": "≫",
+	"NestedLessLess": "≪",
+	"NewLine": "\n",
+	"nexist": "∄",
+	"nexists": "∄",
+	"Nfr": "𝔑",
+	"nfr": "𝔫",
+	"ngE": "≧̸",
+	"nge": "≱",
+	"ngeq": "≱",
+	"ngeqq": "≧̸",
+	"ngeqslant": "⩾̸",
+	"nges": "⩾̸",
+	"nGg": "⋙̸",
+	"ngsim": "≵",
+	"nGt": "≫⃒",
+	"ngt": "≯",
+	"ngtr": "≯",
+	"nGtv": "≫̸",
+	"nharr": "↮",
+	"nhArr": "⇎",
+	"nhpar": "⫲",
+	"ni": "∋",
+	"nis": "⋼",
+	"nisd": "⋺",
+	"niv": "∋",
+	"NJcy": "Њ",
+	"njcy": "њ",
+	"nlarr": "↚",
+	"nlArr": "⇍",
+	"nldr": "‥",
+	"nlE": "≦̸",
+	"nle": "≰",
+	"nleftarrow": "↚",
+	"nLeftarrow": "⇍",
+	"nleftrightarrow": "↮",
+	"nLeftrightarrow": "⇎",
+	"nleq": "≰",
+	"nleqq": "≦̸",
+	"nleqslant": "⩽̸",
+	"nles": "⩽̸",
+	"nless": "≮",
+	"nLl": "⋘̸",
+	"nlsim": "≴",
+	"nLt": "≪⃒",
+	"nlt": "≮",
+	"nltri": "⋪",
+	"nltrie": "⋬",
+	"nLtv": "≪̸",
+	"nmid": "∤",
+	"NoBreak": "⁠",
+	"NonBreakingSpace": " ",
+	"nopf": "𝕟",
+	"Nopf": "ℕ",
+	"Not": "⫬",
+	"not": "¬",
+	"NotCongruent": "≢",
+	"NotCupCap": "≭",
+	"NotDoubleVerticalBar": "∦",
+	"NotElement": "∉",
+	"NotEqual": "≠",
+	"NotEqualTilde": "≂̸",
+	"NotExists": "∄",
+	"NotGreater": "≯",
+	"NotGreaterEqual": "≱",
+	"NotGreaterFullEqual": "≧̸",
+	"NotGreaterGreater": "≫̸",
+	"NotGreaterLess": "≹",
+	"NotGreaterSlantEqual": "⩾̸",
+	"NotGreaterTilde": "≵",
+	"NotHumpDownHump": "≎̸",
+	"NotHumpEqual": "≏̸",
+	"notin": "∉",
+	"notindot": "⋵̸",
+	"notinE": "⋹̸",
+	"notinva": "∉",
+	"notinvb": "⋷",
+	"notinvc": "⋶",
+	"NotLeftTriangleBar": "⧏̸",
+	"NotLeftTriangle": "⋪",
+	"NotLeftTriangleEqual": "⋬",
+	"NotLess": "≮",
+	"NotLessEqual": "≰",
+	"NotLessGreater": "≸",
+	"NotLessLess": "≪̸",
+	"NotLessSlantEqual": "⩽̸",
+	"NotLessTilde": "≴",
+	"NotNestedGreaterGreater": "⪢̸",
+	"NotNestedLessLess": "⪡̸",
+	"notni": "∌",
+	"notniva": "∌",
+	"notnivb": "⋾",
+	"notnivc": "⋽",
+	"NotPrecedes": "⊀",
+	"NotPrecedesEqual": "⪯̸",
+	"NotPrecedesSlantEqual": "⋠",
+	"NotReverseElement": "∌",
+	"NotRightTriangleBar": "⧐̸",
+	"NotRightTriangle": "⋫",
+	"NotRightTriangleEqual": "⋭",
+	"NotSquareSubset": "⊏̸",
+	"NotSquareSubsetEqual": "⋢",
+	"NotSquareSuperset": "⊐̸",
+	"NotSquareSupersetEqual": "⋣",
+	"NotSubset": "⊂⃒",
+	"NotSubsetEqual": "⊈",
+	"NotSucceeds": "⊁",
+	"NotSucceedsEqual": "⪰̸",
+	"NotSucceedsSlantEqual": "⋡",
+	"NotSucceedsTilde": "≿̸",
+	"NotSuperset": "⊃⃒",
+	"NotSupersetEqual": "⊉",
+	"NotTilde": "≁",
+	"NotTildeEqual": "≄",
+	"NotTildeFullEqual": "≇",
+	"NotTildeTilde": "≉",
+	"NotVerticalBar": "∤",
+	"nparallel": "∦",
+	"npar": "∦",
+	"nparsl": "⫽⃥",
+	"npart": "∂̸",
+	"npolint": "⨔",
+	"npr": "⊀",
+	"nprcue": "⋠",
+	"nprec": "⊀",
+	"npreceq": "⪯̸",
+	"npre": "⪯̸",
+	"nrarrc": "⤳̸",
+	"nrarr": "↛",
+	"nrArr": "⇏",
+	"nrarrw": "↝̸",
+	"nrightarrow": "↛",
+	"nRightarrow": "⇏",
+	"nrtri": "⋫",
+	"nrtrie": "⋭",
+	"nsc": "⊁",
+	"nsccue": "⋡",
+	"nsce": "⪰̸",
+	"Nscr": "𝒩",
+	"nscr": "𝓃",
+	"nshortmid": "∤",
+	"nshortparallel": "∦",
+	"nsim": "≁",
+	"nsime": "≄",
+	"nsimeq": "≄",
+	"nsmid": "∤",
+	"nspar": "∦",
+	"nsqsube": "⋢",
+	"nsqsupe": "⋣",
+	"nsub": "⊄",
+	"nsubE": "⫅̸",
+	"nsube": "⊈",
+	"nsubset": "⊂⃒",
+	"nsubseteq": "⊈",
+	"nsubseteqq": "⫅̸",
+	"nsucc": "⊁",
+	"nsucceq": "⪰̸",
+	"nsup": "⊅",
+	"nsupE": "⫆̸",
+	"nsupe": "⊉",
+	"nsupset": "⊃⃒",
+	"nsupseteq": "⊉",
+	"nsupseteqq": "⫆̸",
+	"ntgl": "≹",
+	"Ntilde": "Ñ",
+	"ntilde": "ñ",
+	"ntlg": "≸",
+	"ntriangleleft": "⋪",
+	"ntrianglelefteq": "⋬",
+	"ntriangleright": "⋫",
+	"ntrianglerighteq": "⋭",
+	"Nu": "Ν",
+	"nu": "ν",
+	"num": "#",
+	"numero": "№",
+	"numsp": " ",
+	"nvap": "≍⃒",
+	"nvdash": "⊬",
+	"nvDash": "⊭",
+	"nVdash": "⊮",
+	"nVDash": "⊯",
+	"nvge": "≥⃒",
+	"nvgt": ">⃒",
+	"nvHarr": "⤄",
+	"nvinfin": "⧞",
+	"nvlArr": "⤂",
+	"nvle": "≤⃒",
+	"nvlt": "<⃒",
+	"nvltrie": "⊴⃒",
+	"nvrArr": "⤃",
+	"nvrtrie": "⊵⃒",
+	"nvsim": "∼⃒",
+	"nwarhk": "⤣",
+	"nwarr": "↖",
+	"nwArr": "⇖",
+	"nwarrow": "↖",
+	"nwnear": "⤧",
+	"Oacute": "Ó",
+	"oacute": "ó",
+	"oast": "⊛",
+	"Ocirc": "Ô",
+	"ocirc": "ô",
+	"ocir": "⊚",
+	"Ocy": "О",
+	"ocy": "о",
+	"odash": "⊝",
+	"Odblac": "Ő",
+	"odblac": "ő",
+	"odiv": "⨸",
+	"odot": "⊙",
+	"odsold": "⦼",
+	"OElig": "Œ",
+	"oelig": "œ",
+	"ofcir": "⦿",
+	"Ofr": "𝔒",
+	"ofr": "𝔬",
+	"ogon": "˛",
+	"Ograve": "Ò",
+	"ograve": "ò",
+	"ogt": "⧁",
+	"ohbar": "⦵",
+	"ohm": "Ω",
+	"oint": "∮",
+	"olarr": "↺",
+	"olcir": "⦾",
+	"olcross": "⦻",
+	"oline": "‾",
+	"olt": "⧀",
+	"Omacr": "Ō",
+	"omacr": "ō",
+	"Omega": "Ω",
+	"omega": "ω",
+	"Omicron": "Ο",
+	"omicron": "ο",
+	"omid": "⦶",
+	"ominus": "⊖",
+	"Oopf": "𝕆",
+	"oopf": "𝕠",
+	"opar": "⦷",
+	"OpenCurlyDoubleQuote": "“",
+	"OpenCurlyQuote": "‘",
+	"operp": "⦹",
+	"oplus": "⊕",
+	"orarr": "↻",
+	"Or": "⩔",
+	"or": "∨",
+	"ord": "⩝",
+	"order": "ℴ",
+	"orderof": "ℴ",
+	"ordf": "ª",
+	"ordm": "º",
+	"origof": "⊶",
+	"oror": "⩖",
+	"orslope": "⩗",
+	"orv": "⩛",
+	"oS": "Ⓢ",
+	"Oscr": "𝒪",
+	"oscr": "ℴ",
+	"Oslash": "Ø",
+	"oslash": "ø",
+	"osol": "⊘",
+	"Otilde": "Õ",
+	"otilde": "õ",
+	"otimesas": "⨶",
+	"Otimes": "⨷",
+	"otimes": "⊗",
+	"Ouml": "Ö",
+	"ouml": "ö",
+	"ovbar": "⌽",
+	"OverBar": "‾",
+	"OverBrace": "⏞",
+	"OverBracket": "⎴",
+	"OverParenthesis": "⏜",
+	"para": "¶",
+	"parallel": "∥",
+	"par": "∥",
+	"parsim": "⫳",
+	"parsl": "⫽",
+	"part": "∂",
+	"PartialD": "∂",
+	"Pcy": "П",
+	"pcy": "п",
+	"percnt": "%",
+	"period": ".",
+	"permil": "‰",
+	"perp": "⊥",
+	"pertenk": "‱",
+	"Pfr": "𝔓",
+	"pfr": "𝔭",
+	"Phi": "Φ",
+	"phi": "φ",
+	"phiv": "ϕ",
+	"phmmat": "ℳ",
+	"phone": "☎",
+	"Pi": "Π",
+	"pi": "π",
+	"pitchfork": "⋔",
+	"piv": "ϖ",
+	"planck": "ℏ",
+	"planckh": "ℎ",
+	"plankv": "ℏ",
+	"plusacir": "⨣",
+	"plusb": "⊞",
+	"pluscir": "⨢",
+	"plus": "+",
+	"plusdo": "∔",
+	"plusdu": "⨥",
+	"pluse": "⩲",
+	"PlusMinus": "±",
+	"plusmn": "±",
+	"plussim": "⨦",
+	"plustwo": "⨧",
+	"pm": "±",
+	"Poincareplane": "ℌ",
+	"pointint": "⨕",
+	"popf": "𝕡",
+	"Popf": "ℙ",
+	"pound": "£",
+	"prap": "⪷",
+	"Pr": "⪻",
+	"pr": "≺",
+	"prcue": "≼",
+	"precapprox": "⪷",
+	"prec": "≺",
+	"preccurlyeq": "≼",
+	"Precedes": "≺",
+	"PrecedesEqual": "⪯",
+	"PrecedesSlantEqual": "≼",
+	"PrecedesTilde": "≾",
+	"preceq": "⪯",
+	"precnapprox": "⪹",
+	"precneqq": "⪵",
+	"precnsim": "⋨",
+	"pre": "⪯",
+	"prE": "⪳",
+	"precsim": "≾",
+	"prime": "′",
+	"Prime": "″",
+	"primes": "ℙ",
+	"prnap": "⪹",
+	"prnE": "⪵",
+	"prnsim": "⋨",
+	"prod": "∏",
+	"Product": "∏",
+	"profalar": "⌮",
+	"profline": "⌒",
+	"profsurf": "⌓",
+	"prop": "∝",
+	"Proportional": "∝",
+	"Proportion": "∷",
+	"propto": "∝",
+	"prsim": "≾",
+	"prurel": "⊰",
+	"Pscr": "𝒫",
+	"pscr": "𝓅",
+	"Psi": "Ψ",
+	"psi": "ψ",
+	"puncsp": " ",
+	"Qfr": "𝔔",
+	"qfr": "𝔮",
+	"qint": "⨌",
+	"qopf": "𝕢",
+	"Qopf": "ℚ",
+	"qprime": "⁗",
+	"Qscr": "𝒬",
+	"qscr": "𝓆",
+	"quaternions": "ℍ",
+	"quatint": "⨖",
+	"quest": "?",
+	"questeq": "≟",
+	"quot": "\"",
+	"QUOT": "\"",
+	"rAarr": "⇛",
+	"race": "∽̱",
+	"Racute": "Ŕ",
+	"racute": "ŕ",
+	"radic": "√",
+	"raemptyv": "⦳",
+	"rang": "⟩",
+	"Rang": "⟫",
+	"rangd": "⦒",
+	"range": "⦥",
+	"rangle": "⟩",
+	"raquo": "»",
+	"rarrap": "⥵",
+	"rarrb": "⇥",
+	"rarrbfs": "⤠",
+	"rarrc": "⤳",
+	"rarr": "→",
+	"Rarr": "↠",
+	"rArr": "⇒",
+	"rarrfs": "⤞",
+	"rarrhk": "↪",
+	"rarrlp": "↬",
+	"rarrpl": "⥅",
+	"rarrsim": "⥴",
+	"Rarrtl": "⤖",
+	"rarrtl": "↣",
+	"rarrw": "↝",
+	"ratail": "⤚",
+	"rAtail": "⤜",
+	"ratio": "∶",
+	"rationals": "ℚ",
+	"rbarr": "⤍",
+	"rBarr": "⤏",
+	"RBarr": "⤐",
+	"rbbrk": "❳",
+	"rbrace": "}",
+	"rbrack": "]",
+	"rbrke": "⦌",
+	"rbrksld": "⦎",
+	"rbrkslu": "⦐",
+	"Rcaron": "Ř",
+	"rcaron": "ř",
+	"Rcedil": "Ŗ",
+	"rcedil": "ŗ",
+	"rceil": "⌉",
+	"rcub": "}",
+	"Rcy": "Р",
+	"rcy": "р",
+	"rdca": "⤷",
+	"rdldhar": "⥩",
+	"rdquo": "”",
+	"rdquor": "”",
+	"rdsh": "↳",
+	"real": "ℜ",
+	"realine": "ℛ",
+	"realpart": "ℜ",
+	"reals": "ℝ",
+	"Re": "ℜ",
+	"rect": "▭",
+	"reg": "®",
+	"REG": "®",
+	"ReverseElement": "∋",
+	"ReverseEquilibrium": "⇋",
+	"ReverseUpEquilibrium": "⥯",
+	"rfisht": "⥽",
+	"rfloor": "⌋",
+	"rfr": "𝔯",
+	"Rfr": "ℜ",
+	"rHar": "⥤",
+	"rhard": "⇁",
+	"rharu": "⇀",
+	"rharul": "⥬",
+	"Rho": "Ρ",
+	"rho": "ρ",
+	"rhov": "ϱ",
+	"RightAngleBracket": "⟩",
+	"RightArrowBar": "⇥",
+	"rightarrow": "→",
+	"RightArrow": "→",
+	"Rightarrow": "⇒",
+	"RightArrowLeftArrow": "⇄",
+	"rightarrowtail": "↣",
+	"RightCeiling": "⌉",
+	"RightDoubleBracket": "⟧",
+	"RightDownTeeVector": "⥝",
+	"RightDownVectorBar": "⥕",
+	"RightDownVector": "⇂",
+	"RightFloor": "⌋",
+	"rightharpoondown": "⇁",
+	"rightharpoonup": "⇀",
+	"rightleftarrows": "⇄",
+	"rightleftharpoons": "⇌",
+	"rightrightarrows": "⇉",
+	"rightsquigarrow": "↝",
+	"RightTeeArrow": "↦",
+	"RightTee": "⊢",
+	"RightTeeVector": "⥛",
+	"rightthreetimes": "⋌",
+	"RightTriangleBar": "⧐",
+	"RightTriangle": "⊳",
+	"RightTriangleEqual": "⊵",
+	"RightUpDownVector": "⥏",
+	"RightUpTeeVector": "⥜",
+	"RightUpVectorBar": "⥔",
+	"RightUpVector": "↾",
+	"RightVectorBar": "⥓",
+	"RightVector": "⇀",
+	"ring": "˚",
+	"risingdotseq": "≓",
+	"rlarr": "⇄",
+	"rlhar": "⇌",
+	"rlm": "‏",
+	"rmoustache": "⎱",
+	"rmoust": "⎱",
+	"rnmid": "⫮",
+	"roang": "⟭",
+	"roarr": "⇾",
+	"robrk": "⟧",
+	"ropar": "⦆",
+	"ropf": "𝕣",
+	"Ropf": "ℝ",
+	"roplus": "⨮",
+	"rotimes": "⨵",
+	"RoundImplies": "⥰",
+	"rpar": ")",
+	"rpargt": "⦔",
+	"rppolint": "⨒",
+	"rrarr": "⇉",
+	"Rrightarrow": "⇛",
+	"rsaquo": "›",
+	"rscr": "𝓇",
+	"Rscr": "ℛ",
+	"rsh": "↱",
+	"Rsh": "↱",
+	"rsqb": "]",
+	"rsquo": "’",
+	"rsquor": "’",
+	"rthree": "⋌",
+	"rtimes": "⋊",
+	"rtri": "▹",
+	"rtrie": "⊵",
+	"rtrif": "▸",
+	"rtriltri": "⧎",
+	"RuleDelayed": "⧴",
+	"ruluhar": "⥨",
+	"rx": "℞",
+	"Sacute": "Ś",
+	"sacute": "ś",
+	"sbquo": "‚",
+	"scap": "⪸",
+	"Scaron": "Š",
+	"scaron": "š",
+	"Sc": "⪼",
+	"sc": "≻",
+	"sccue": "≽",
+	"sce": "⪰",
+	"scE": "⪴",
+	"Scedil": "Ş",
+	"scedil": "ş",
+	"Scirc": "Ŝ",
+	"scirc": "ŝ",
+	"scnap": "⪺",
+	"scnE": "⪶",
+	"scnsim": "⋩",
+	"scpolint": "⨓",
+	"scsim": "≿",
+	"Scy": "С",
+	"scy": "с",
+	"sdotb": "⊡",
+	"sdot": "⋅",
+	"sdote": "⩦",
+	"searhk": "⤥",
+	"searr": "↘",
+	"seArr": "⇘",
+	"searrow": "↘",
+	"sect": "§",
+	"semi": ";",
+	"seswar": "⤩",
+	"setminus": "∖",
+	"setmn": "∖",
+	"sext": "✶",
+	"Sfr": "𝔖",
+	"sfr": "𝔰",
+	"sfrown": "⌢",
+	"sharp": "♯",
+	"SHCHcy": "Щ",
+	"shchcy": "щ",
+	"SHcy": "Ш",
+	"shcy": "ш",
+	"ShortDownArrow": "↓",
+	"ShortLeftArrow": "←",
+	"shortmid": "∣",
+	"shortparallel": "∥",
+	"ShortRightArrow": "→",
+	"ShortUpArrow": "↑",
+	"shy": "­",
+	"Sigma": "Σ",
+	"sigma": "σ",
+	"sigmaf": "ς",
+	"sigmav": "ς",
+	"sim": "∼",
+	"simdot": "⩪",
+	"sime": "≃",
+	"simeq": "≃",
+	"simg": "⪞",
+	"simgE": "⪠",
+	"siml": "⪝",
+	"simlE": "⪟",
+	"simne": "≆",
+	"simplus": "⨤",
+	"simrarr": "⥲",
+	"slarr": "←",
+	"SmallCircle": "∘",
+	"smallsetminus": "∖",
+	"smashp": "⨳",
+	"smeparsl": "⧤",
+	"smid": "∣",
+	"smile": "⌣",
+	"smt": "⪪",
+	"smte": "⪬",
+	"smtes": "⪬︀",
+	"SOFTcy": "Ь",
+	"softcy": "ь",
+	"solbar": "⌿",
+	"solb": "⧄",
+	"sol": "/",
+	"Sopf": "𝕊",
+	"sopf": "𝕤",
+	"spades": "♠",
+	"spadesuit": "♠",
+	"spar": "∥",
+	"sqcap": "⊓",
+	"sqcaps": "⊓︀",
+	"sqcup": "⊔",
+	"sqcups": "⊔︀",
+	"Sqrt": "√",
+	"sqsub": "⊏",
+	"sqsube": "⊑",
+	"sqsubset": "⊏",
+	"sqsubseteq": "⊑",
+	"sqsup": "⊐",
+	"sqsupe": "⊒",
+	"sqsupset": "⊐",
+	"sqsupseteq": "⊒",
+	"square": "□",
+	"Square": "□",
+	"SquareIntersection": "⊓",
+	"SquareSubset": "⊏",
+	"SquareSubsetEqual": "⊑",
+	"SquareSuperset": "⊐",
+	"SquareSupersetEqual": "⊒",
+	"SquareUnion": "⊔",
+	"squarf": "▪",
+	"squ": "□",
+	"squf": "▪",
+	"srarr": "→",
+	"Sscr": "𝒮",
+	"sscr": "𝓈",
+	"ssetmn": "∖",
+	"ssmile": "⌣",
+	"sstarf": "⋆",
+	"Star": "⋆",
+	"star": "☆",
+	"starf": "★",
+	"straightepsilon": "ϵ",
+	"straightphi": "ϕ",
+	"strns": "¯",
+	"sub": "⊂",
+	"Sub": "⋐",
+	"subdot": "⪽",
+	"subE": "⫅",
+	"sube": "⊆",
+	"subedot": "⫃",
+	"submult": "⫁",
+	"subnE": "⫋",
+	"subne": "⊊",
+	"subplus": "⪿",
+	"subrarr": "⥹",
+	"subset": "⊂",
+	"Subset": "⋐",
+	"subseteq": "⊆",
+	"subseteqq": "⫅",
+	"SubsetEqual": "⊆",
+	"subsetneq": "⊊",
+	"subsetneqq": "⫋",
+	"subsim": "⫇",
+	"subsub": "⫕",
+	"subsup": "⫓",
+	"succapprox": "⪸",
+	"succ": "≻",
+	"succcurlyeq": "≽",
+	"Succeeds": "≻",
+	"SucceedsEqual": "⪰",
+	"SucceedsSlantEqual": "≽",
+	"SucceedsTilde": "≿",
+	"succeq": "⪰",
+	"succnapprox": "⪺",
+	"succneqq": "⪶",
+	"succnsim": "⋩",
+	"succsim": "≿",
+	"SuchThat": "∋",
+	"sum": "∑",
+	"Sum": "∑",
+	"sung": "♪",
+	"sup1": "¹",
+	"sup2": "²",
+	"sup3": "³",
+	"sup": "⊃",
+	"Sup": "⋑",
+	"supdot": "⪾",
+	"supdsub": "⫘",
+	"supE": "⫆",
+	"supe": "⊇",
+	"supedot": "⫄",
+	"Superset": "⊃",
+	"SupersetEqual": "⊇",
+	"suphsol": "⟉",
+	"suphsub": "⫗",
+	"suplarr": "⥻",
+	"supmult": "⫂",
+	"supnE": "⫌",
+	"supne": "⊋",
+	"supplus": "⫀",
+	"supset": "⊃",
+	"Supset": "⋑",
+	"supseteq": "⊇",
+	"supseteqq": "⫆",
+	"supsetneq": "⊋",
+	"supsetneqq": "⫌",
+	"supsim": "⫈",
+	"supsub": "⫔",
+	"supsup": "⫖",
+	"swarhk": "⤦",
+	"swarr": "↙",
+	"swArr": "⇙",
+	"swarrow": "↙",
+	"swnwar": "⤪",
+	"szlig": "ß",
+	"Tab": "\t",
+	"target": "⌖",
+	"Tau": "Τ",
+	"tau": "τ",
+	"tbrk": "⎴",
+	"Tcaron": "Ť",
+	"tcaron": "ť",
+	"Tcedil": "Ţ",
+	"tcedil": "ţ",
+	"Tcy": "Т",
+	"tcy": "т",
+	"tdot": "⃛",
+	"telrec": "⌕",
+	"Tfr": "𝔗",
+	"tfr": "𝔱",
+	"there4": "∴",
+	"therefore": "∴",
+	"Therefore": "∴",
+	"Theta": "Θ",
+	"theta": "θ",
+	"thetasym": "ϑ",
+	"thetav": "ϑ",
+	"thickapprox": "≈",
+	"thicksim": "∼",
+	"ThickSpace": "  ",
+	"ThinSpace": " ",
+	"thinsp": " ",
+	"thkap": "≈",
+	"thksim": "∼",
+	"THORN": "Þ",
+	"thorn": "þ",
+	"tilde": "˜",
+	"Tilde": "∼",
+	"TildeEqual": "≃",
+	"TildeFullEqual": "≅",
+	"TildeTilde": "≈",
+	"timesbar": "⨱",
+	"timesb": "⊠",
+	"times": "×",
+	"timesd": "⨰",
+	"tint": "∭",
+	"toea": "⤨",
+	"topbot": "⌶",
+	"topcir": "⫱",
+	"top": "⊤",
+	"Topf": "𝕋",
+	"topf": "𝕥",
+	"topfork": "⫚",
+	"tosa": "⤩",
+	"tprime": "‴",
+	"trade": "™",
+	"TRADE": "™",
+	"triangle": "▵",
+	"triangledown": "▿",
+	"triangleleft": "◃",
+	"trianglelefteq": "⊴",
+	"triangleq": "≜",
+	"triangleright": "▹",
+	"trianglerighteq": "⊵",
+	"tridot": "◬",
+	"trie": "≜",
+	"triminus": "⨺",
+	"TripleDot": "⃛",
+	"triplus": "⨹",
+	"trisb": "⧍",
+	"tritime": "⨻",
+	"trpezium": "⏢",
+	"Tscr": "𝒯",
+	"tscr": "𝓉",
+	"TScy": "Ц",
+	"tscy": "ц",
+	"TSHcy": "Ћ",
+	"tshcy": "ћ",
+	"Tstrok": "Ŧ",
+	"tstrok": "ŧ",
+	"twixt": "≬",
+	"twoheadleftarrow": "↞",
+	"twoheadrightarrow": "↠",
+	"Uacute": "Ú",
+	"uacute": "ú",
+	"uarr": "↑",
+	"Uarr": "↟",
+	"uArr": "⇑",
+	"Uarrocir": "⥉",
+	"Ubrcy": "Ў",
+	"ubrcy": "ў",
+	"Ubreve": "Ŭ",
+	"ubreve": "ŭ",
+	"Ucirc": "Û",
+	"ucirc": "û",
+	"Ucy": "У",
+	"ucy": "у",
+	"udarr": "⇅",
+	"Udblac": "Ű",
+	"udblac": "ű",
+	"udhar": "⥮",
+	"ufisht": "⥾",
+	"Ufr": "𝔘",
+	"ufr": "𝔲",
+	"Ugrave": "Ù",
+	"ugrave": "ù",
+	"uHar": "⥣",
+	"uharl": "↿",
+	"uharr": "↾",
+	"uhblk": "▀",
+	"ulcorn": "⌜",
+	"ulcorner": "⌜",
+	"ulcrop": "⌏",
+	"ultri": "◸",
+	"Umacr": "Ū",
+	"umacr": "ū",
+	"uml": "¨",
+	"UnderBar": "_",
+	"UnderBrace": "⏟",
+	"UnderBracket": "⎵",
+	"UnderParenthesis": "⏝",
+	"Union": "⋃",
+	"UnionPlus": "⊎",
+	"Uogon": "Ų",
+	"uogon": "ų",
+	"Uopf": "𝕌",
+	"uopf": "𝕦",
+	"UpArrowBar": "⤒",
+	"uparrow": "↑",
+	"UpArrow": "↑",
+	"Uparrow": "⇑",
+	"UpArrowDownArrow": "⇅",
+	"updownarrow": "↕",
+	"UpDownArrow": "↕",
+	"Updownarrow": "⇕",
+	"UpEquilibrium": "⥮",
+	"upharpoonleft": "↿",
+	"upharpoonright": "↾",
+	"uplus": "⊎",
+	"UpperLeftArrow": "↖",
+	"UpperRightArrow": "↗",
+	"upsi": "υ",
+	"Upsi": "ϒ",
+	"upsih": "ϒ",
+	"Upsilon": "Υ",
+	"upsilon": "υ",
+	"UpTeeArrow": "↥",
+	"UpTee": "⊥",
+	"upuparrows": "⇈",
+	"urcorn": "⌝",
+	"urcorner": "⌝",
+	"urcrop": "⌎",
+	"Uring": "Ů",
+	"uring": "ů",
+	"urtri": "◹",
+	"Uscr": "𝒰",
+	"uscr": "𝓊",
+	"utdot": "⋰",
+	"Utilde": "Ũ",
+	"utilde": "ũ",
+	"utri": "▵",
+	"utrif": "▴",
+	"uuarr": "⇈",
+	"Uuml": "Ü",
+	"uuml": "ü",
+	"uwangle": "⦧",
+	"vangrt": "⦜",
+	"varepsilon": "ϵ",
+	"varkappa": "ϰ",
+	"varnothing": "∅",
+	"varphi": "ϕ",
+	"varpi": "ϖ",
+	"varpropto": "∝",
+	"varr": "↕",
+	"vArr": "⇕",
+	"varrho": "ϱ",
+	"varsigma": "ς",
+	"varsubsetneq": "⊊︀",
+	"varsubsetneqq": "⫋︀",
+	"varsupsetneq": "⊋︀",
+	"varsupsetneqq": "⫌︀",
+	"vartheta": "ϑ",
+	"vartriangleleft": "⊲",
+	"vartriangleright": "⊳",
+	"vBar": "⫨",
+	"Vbar": "⫫",
+	"vBarv": "⫩",
+	"Vcy": "В",
+	"vcy": "в",
+	"vdash": "⊢",
+	"vDash": "⊨",
+	"Vdash": "⊩",
+	"VDash": "⊫",
+	"Vdashl": "⫦",
+	"veebar": "⊻",
+	"vee": "∨",
+	"Vee": "⋁",
+	"veeeq": "≚",
+	"vellip": "⋮",
+	"verbar": "|",
+	"Verbar": "‖",
+	"vert": "|",
+	"Vert": "‖",
+	"VerticalBar": "∣",
+	"VerticalLine": "|",
+	"VerticalSeparator": "❘",
+	"VerticalTilde": "≀",
+	"VeryThinSpace": " ",
+	"Vfr": "𝔙",
+	"vfr": "𝔳",
+	"vltri": "⊲",
+	"vnsub": "⊂⃒",
+	"vnsup": "⊃⃒",
+	"Vopf": "𝕍",
+	"vopf": "𝕧",
+	"vprop": "∝",
+	"vrtri": "⊳",
+	"Vscr": "𝒱",
+	"vscr": "𝓋",
+	"vsubnE": "⫋︀",
+	"vsubne": "⊊︀",
+	"vsupnE": "⫌︀",
+	"vsupne": "⊋︀",
+	"Vvdash": "⊪",
+	"vzigzag": "⦚",
+	"Wcirc": "Ŵ",
+	"wcirc": "ŵ",
+	"wedbar": "⩟",
+	"wedge": "∧",
+	"Wedge": "⋀",
+	"wedgeq": "≙",
+	"weierp": "℘",
+	"Wfr": "𝔚",
+	"wfr": "𝔴",
+	"Wopf": "𝕎",
+	"wopf": "𝕨",
+	"wp": "℘",
+	"wr": "≀",
+	"wreath": "≀",
+	"Wscr": "𝒲",
+	"wscr": "𝓌",
+	"xcap": "⋂",
+	"xcirc": "◯",
+	"xcup": "⋃",
+	"xdtri": "▽",
+	"Xfr": "𝔛",
+	"xfr": "𝔵",
+	"xharr": "⟷",
+	"xhArr": "⟺",
+	"Xi": "Ξ",
+	"xi": "ξ",
+	"xlarr": "⟵",
+	"xlArr": "⟸",
+	"xmap": "⟼",
+	"xnis": "⋻",
+	"xodot": "⨀",
+	"Xopf": "𝕏",
+	"xopf": "𝕩",
+	"xoplus": "⨁",
+	"xotime": "⨂",
+	"xrarr": "⟶",
+	"xrArr": "⟹",
+	"Xscr": "𝒳",
+	"xscr": "𝓍",
+	"xsqcup": "⨆",
+	"xuplus": "⨄",
+	"xutri": "△",
+	"xvee": "⋁",
+	"xwedge": "⋀",
+	"Yacute": "Ý",
+	"yacute": "ý",
+	"YAcy": "Я",
+	"yacy": "я",
+	"Ycirc": "Ŷ",
+	"ycirc": "ŷ",
+	"Ycy": "Ы",
+	"ycy": "ы",
+	"yen": "¥",
+	"Yfr": "𝔜",
+	"yfr": "𝔶",
+	"YIcy": "Ї",
+	"yicy": "ї",
+	"Yopf": "𝕐",
+	"yopf": "𝕪",
+	"Yscr": "𝒴",
+	"yscr": "𝓎",
+	"YUcy": "Ю",
+	"yucy": "ю",
+	"yuml": "ÿ",
+	"Yuml": "Ÿ",
+	"Zacute": "Ź",
+	"zacute": "ź",
+	"Zcaron": "Ž",
+	"zcaron": "ž",
+	"Zcy": "З",
+	"zcy": "з",
+	"Zdot": "Ż",
+	"zdot": "ż",
+	"zeetrf": "ℨ",
+	"ZeroWidthSpace": "​",
+	"Zeta": "Ζ",
+	"zeta": "ζ",
+	"zfr": "𝔷",
+	"Zfr": "ℨ",
+	"ZHcy": "Ж",
+	"zhcy": "ж",
+	"zigrarr": "⇝",
+	"zopf": "𝕫",
+	"Zopf": "ℤ",
+	"Zscr": "𝒵",
+	"zscr": "𝓏",
+	"zwj": "‍",
+	"zwnj": "‌"
+};
+
+/***/ }),
 /* 178 */,
 /* 179 */,
 /* 180 */
@@ -16164,11 +18576,809 @@ function getHeaderHeight() {
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 198 */,
-/* 199 */,
-/* 200 */,
-/* 201 */,
-/* 202 */,
+/* 198 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * class Ruler
+ *
+ * Helper class, used by [[MarkdownIt#core]], [[MarkdownIt#block]] and
+ * [[MarkdownIt#inline]] to manage sequences of functions (rules):
+ *
+ * - keep rules in defined order
+ * - assign the name to each rule
+ * - enable/disable rules
+ * - add/replace rules
+ * - allow assign rules to additional named chains (in the same)
+ * - cacheing lists of active rules
+ *
+ * You will not need use this class directly until write plugins. For simple
+ * rules control use [[MarkdownIt.disable]], [[MarkdownIt.enable]] and
+ * [[MarkdownIt.use]].
+ **/
+
+
+
+/**
+ * new Ruler()
+ **/
+function Ruler() {
+  // List of added rules. Each element is:
+  //
+  // {
+  //   name: XXX,
+  //   enabled: Boolean,
+  //   fn: Function(),
+  //   alt: [ name2, name3 ]
+  // }
+  //
+  this.__rules__ = [];
+
+  // Cached rule chains.
+  //
+  // First level - chain name, '' for default.
+  // Second level - diginal anchor for fast filtering by charcodes.
+  //
+  this.__cache__ = null;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Helper methods, should not be used directly
+
+
+// Find rule index by name
+//
+Ruler.prototype.__find__ = function (name) {
+  for (var i = 0; i < this.__rules__.length; i++) {
+    if (this.__rules__[i].name === name) {
+      return i;
+    }
+  }
+  return -1;
+};
+
+
+// Build rules lookup cache
+//
+Ruler.prototype.__compile__ = function () {
+  var self = this;
+  var chains = [ '' ];
+
+  // collect unique names
+  self.__rules__.forEach(function (rule) {
+    if (!rule.enabled) { return; }
+
+    rule.alt.forEach(function (altName) {
+      if (chains.indexOf(altName) < 0) {
+        chains.push(altName);
+      }
+    });
+  });
+
+  self.__cache__ = {};
+
+  chains.forEach(function (chain) {
+    self.__cache__[chain] = [];
+    self.__rules__.forEach(function (rule) {
+      if (!rule.enabled) { return; }
+
+      if (chain && rule.alt.indexOf(chain) < 0) { return; }
+
+      self.__cache__[chain].push(rule.fn);
+    });
+  });
+};
+
+
+/**
+ * Ruler.at(name, fn [, options])
+ * - name (String): rule name to replace.
+ * - fn (Function): new rule function.
+ * - options (Object): new rule options (not mandatory).
+ *
+ * Replace rule by name with new function & options. Throws error if name not
+ * found.
+ *
+ * ##### Options:
+ *
+ * - __alt__ - array with names of "alternate" chains.
+ *
+ * ##### Example
+ *
+ * Replace existing typorgapher replacement rule with new one:
+ *
+ * ```javascript
+ * var md = require('markdown-it')();
+ *
+ * md.core.ruler.at('replacements', function replace(state) {
+ *   //...
+ * });
+ * ```
+ **/
+Ruler.prototype.at = function (name, fn, options) {
+  var index = this.__find__(name);
+  var opt = options || {};
+
+  if (index === -1) { throw new Error('Parser rule not found: ' + name); }
+
+  this.__rules__[index].fn = fn;
+  this.__rules__[index].alt = opt.alt || [];
+  this.__cache__ = null;
+};
+
+
+/**
+ * Ruler.before(beforeName, ruleName, fn [, options])
+ * - beforeName (String): new rule will be added before this one.
+ * - ruleName (String): name of added rule.
+ * - fn (Function): rule function.
+ * - options (Object): rule options (not mandatory).
+ *
+ * Add new rule to chain before one with given name. See also
+ * [[Ruler.after]], [[Ruler.push]].
+ *
+ * ##### Options:
+ *
+ * - __alt__ - array with names of "alternate" chains.
+ *
+ * ##### Example
+ *
+ * ```javascript
+ * var md = require('markdown-it')();
+ *
+ * md.block.ruler.before('paragraph', 'my_rule', function replace(state) {
+ *   //...
+ * });
+ * ```
+ **/
+Ruler.prototype.before = function (beforeName, ruleName, fn, options) {
+  var index = this.__find__(beforeName);
+  var opt = options || {};
+
+  if (index === -1) { throw new Error('Parser rule not found: ' + beforeName); }
+
+  this.__rules__.splice(index, 0, {
+    name: ruleName,
+    enabled: true,
+    fn: fn,
+    alt: opt.alt || []
+  });
+
+  this.__cache__ = null;
+};
+
+
+/**
+ * Ruler.after(afterName, ruleName, fn [, options])
+ * - afterName (String): new rule will be added after this one.
+ * - ruleName (String): name of added rule.
+ * - fn (Function): rule function.
+ * - options (Object): rule options (not mandatory).
+ *
+ * Add new rule to chain after one with given name. See also
+ * [[Ruler.before]], [[Ruler.push]].
+ *
+ * ##### Options:
+ *
+ * - __alt__ - array with names of "alternate" chains.
+ *
+ * ##### Example
+ *
+ * ```javascript
+ * var md = require('markdown-it')();
+ *
+ * md.inline.ruler.after('text', 'my_rule', function replace(state) {
+ *   //...
+ * });
+ * ```
+ **/
+Ruler.prototype.after = function (afterName, ruleName, fn, options) {
+  var index = this.__find__(afterName);
+  var opt = options || {};
+
+  if (index === -1) { throw new Error('Parser rule not found: ' + afterName); }
+
+  this.__rules__.splice(index + 1, 0, {
+    name: ruleName,
+    enabled: true,
+    fn: fn,
+    alt: opt.alt || []
+  });
+
+  this.__cache__ = null;
+};
+
+/**
+ * Ruler.push(ruleName, fn [, options])
+ * - ruleName (String): name of added rule.
+ * - fn (Function): rule function.
+ * - options (Object): rule options (not mandatory).
+ *
+ * Push new rule to the end of chain. See also
+ * [[Ruler.before]], [[Ruler.after]].
+ *
+ * ##### Options:
+ *
+ * - __alt__ - array with names of "alternate" chains.
+ *
+ * ##### Example
+ *
+ * ```javascript
+ * var md = require('markdown-it')();
+ *
+ * md.core.ruler.push('my_rule', function replace(state) {
+ *   //...
+ * });
+ * ```
+ **/
+Ruler.prototype.push = function (ruleName, fn, options) {
+  var opt = options || {};
+
+  this.__rules__.push({
+    name: ruleName,
+    enabled: true,
+    fn: fn,
+    alt: opt.alt || []
+  });
+
+  this.__cache__ = null;
+};
+
+
+/**
+ * Ruler.enable(list [, ignoreInvalid]) -> Array
+ * - list (String|Array): list of rule names to enable.
+ * - ignoreInvalid (Boolean): set `true` to ignore errors when rule not found.
+ *
+ * Enable rules with given names. If any rule name not found - throw Error.
+ * Errors can be disabled by second param.
+ *
+ * Returns list of found rule names (if no exception happened).
+ *
+ * See also [[Ruler.disable]], [[Ruler.enableOnly]].
+ **/
+Ruler.prototype.enable = function (list, ignoreInvalid) {
+  if (!Array.isArray(list)) { list = [ list ]; }
+
+  var result = [];
+
+  // Search by name and enable
+  list.forEach(function (name) {
+    var idx = this.__find__(name);
+
+    if (idx < 0) {
+      if (ignoreInvalid) { return; }
+      throw new Error('Rules manager: invalid rule name ' + name);
+    }
+    this.__rules__[idx].enabled = true;
+    result.push(name);
+  }, this);
+
+  this.__cache__ = null;
+  return result;
+};
+
+
+/**
+ * Ruler.enableOnly(list [, ignoreInvalid])
+ * - list (String|Array): list of rule names to enable (whitelist).
+ * - ignoreInvalid (Boolean): set `true` to ignore errors when rule not found.
+ *
+ * Enable rules with given names, and disable everything else. If any rule name
+ * not found - throw Error. Errors can be disabled by second param.
+ *
+ * See also [[Ruler.disable]], [[Ruler.enable]].
+ **/
+Ruler.prototype.enableOnly = function (list, ignoreInvalid) {
+  if (!Array.isArray(list)) { list = [ list ]; }
+
+  this.__rules__.forEach(function (rule) { rule.enabled = false; });
+
+  this.enable(list, ignoreInvalid);
+};
+
+
+/**
+ * Ruler.disable(list [, ignoreInvalid]) -> Array
+ * - list (String|Array): list of rule names to disable.
+ * - ignoreInvalid (Boolean): set `true` to ignore errors when rule not found.
+ *
+ * Disable rules with given names. If any rule name not found - throw Error.
+ * Errors can be disabled by second param.
+ *
+ * Returns list of found rule names (if no exception happened).
+ *
+ * See also [[Ruler.enable]], [[Ruler.enableOnly]].
+ **/
+Ruler.prototype.disable = function (list, ignoreInvalid) {
+  if (!Array.isArray(list)) { list = [ list ]; }
+
+  var result = [];
+
+  // Search by name and disable
+  list.forEach(function (name) {
+    var idx = this.__find__(name);
+
+    if (idx < 0) {
+      if (ignoreInvalid) { return; }
+      throw new Error('Rules manager: invalid rule name ' + name);
+    }
+    this.__rules__[idx].enabled = false;
+    result.push(name);
+  }, this);
+
+  this.__cache__ = null;
+  return result;
+};
+
+
+/**
+ * Ruler.getRules(chainName) -> Array
+ *
+ * Return array of active functions (rules) for given chain name. It analyzes
+ * rules configuration, compiles caches if not exists and returns result.
+ *
+ * Default chain name is `''` (empty string). It can't be skipped. That's
+ * done intentionally, to keep signature monomorphic for high speed.
+ **/
+Ruler.prototype.getRules = function (chainName) {
+  if (this.__cache__ === null) {
+    this.__compile__();
+  }
+
+  // Chain can be empty, if rules disabled. But we still have to return Array.
+  return this.__cache__[chainName] || [];
+};
+
+module.exports = Ruler;
+
+
+/***/ }),
+/* 199 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Token class
+
+
+
+
+/**
+ * class Token
+ **/
+
+/**
+ * new Token(type, tag, nesting)
+ *
+ * Create new token and fill passed properties.
+ **/
+function Token(type, tag, nesting) {
+  /**
+   * Token#type -> String
+   *
+   * Type of the token (string, e.g. "paragraph_open")
+   **/
+  this.type     = type;
+
+  /**
+   * Token#tag -> String
+   *
+   * html tag name, e.g. "p"
+   **/
+  this.tag      = tag;
+
+  /**
+   * Token#attrs -> Array
+   *
+   * Html attributes. Format: `[ [ name1, value1 ], [ name2, value2 ] ]`
+   **/
+  this.attrs    = null;
+
+  /**
+   * Token#map -> Array
+   *
+   * Source map info. Format: `[ line_begin, line_end ]`
+   **/
+  this.map      = null;
+
+  /**
+   * Token#nesting -> Number
+   *
+   * Level change (number in {-1, 0, 1} set), where:
+   *
+   * -  `1` means the tag is opening
+   * -  `0` means the tag is self-closing
+   * - `-1` means the tag is closing
+   **/
+  this.nesting  = nesting;
+
+  /**
+   * Token#level -> Number
+   *
+   * nesting level, the same as `state.level`
+   **/
+  this.level    = 0;
+
+  /**
+   * Token#children -> Array
+   *
+   * An array of child nodes (inline and img tokens)
+   **/
+  this.children = null;
+
+  /**
+   * Token#content -> String
+   *
+   * In a case of self-closing tag (code, html, fence, etc.),
+   * it has contents of this tag.
+   **/
+  this.content  = '';
+
+  /**
+   * Token#markup -> String
+   *
+   * '*' or '_' for emphasis, fence string for fence, etc.
+   **/
+  this.markup   = '';
+
+  /**
+   * Token#info -> String
+   *
+   * fence infostring
+   **/
+  this.info     = '';
+
+  /**
+   * Token#meta -> Object
+   *
+   * A place for plugins to store an arbitrary data
+   **/
+  this.meta     = null;
+
+  /**
+   * Token#block -> Boolean
+   *
+   * True for block-level tokens, false for inline tokens.
+   * Used in renderer to calculate line breaks
+   **/
+  this.block    = false;
+
+  /**
+   * Token#hidden -> Boolean
+   *
+   * If it's true, ignore this element when rendering. Used for tight lists
+   * to hide paragraphs.
+   **/
+  this.hidden   = false;
+}
+
+
+/**
+ * Token.attrIndex(name) -> Number
+ *
+ * Search attribute index by name.
+ **/
+Token.prototype.attrIndex = function attrIndex(name) {
+  var attrs, i, len;
+
+  if (!this.attrs) { return -1; }
+
+  attrs = this.attrs;
+
+  for (i = 0, len = attrs.length; i < len; i++) {
+    if (attrs[i][0] === name) { return i; }
+  }
+  return -1;
+};
+
+
+/**
+ * Token.attrPush(attrData)
+ *
+ * Add `[ name, value ]` attribute to list. Init attrs if necessary
+ **/
+Token.prototype.attrPush = function attrPush(attrData) {
+  if (this.attrs) {
+    this.attrs.push(attrData);
+  } else {
+    this.attrs = [ attrData ];
+  }
+};
+
+
+/**
+ * Token.attrSet(name, value)
+ *
+ * Set `name` attribute to `value`. Override old value if exists.
+ **/
+Token.prototype.attrSet = function attrSet(name, value) {
+  var idx = this.attrIndex(name),
+      attrData = [ name, value ];
+
+  if (idx < 0) {
+    this.attrPush(attrData);
+  } else {
+    this.attrs[idx] = attrData;
+  }
+};
+
+
+/**
+ * Token.attrGet(name)
+ *
+ * Get the value of attribute `name`, or null if it does not exist.
+ **/
+Token.prototype.attrGet = function attrGet(name) {
+  var idx = this.attrIndex(name), value = null;
+  if (idx >= 0) {
+    value = this.attrs[idx][1];
+  }
+  return value;
+};
+
+
+/**
+ * Token.attrJoin(name, value)
+ *
+ * Join value to existing attribute via space. Or create new attribute if not
+ * exists. Useful to operate with token classes.
+ **/
+Token.prototype.attrJoin = function attrJoin(name, value) {
+  var idx = this.attrIndex(name);
+
+  if (idx < 0) {
+    this.attrPush([ name, value ]);
+  } else {
+    this.attrs[idx][1] = this.attrs[idx][1] + ' ' + value;
+  }
+};
+
+
+module.exports = Token;
+
+
+/***/ }),
+/* 200 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+
+
+/* eslint-disable no-bitwise */
+
+var decodeCache = {};
+
+function getDecodeCache(exclude) {
+  var i, ch, cache = decodeCache[exclude];
+  if (cache) { return cache; }
+
+  cache = decodeCache[exclude] = [];
+
+  for (i = 0; i < 128; i++) {
+    ch = String.fromCharCode(i);
+    cache.push(ch);
+  }
+
+  for (i = 0; i < exclude.length; i++) {
+    ch = exclude.charCodeAt(i);
+    cache[ch] = '%' + ('0' + ch.toString(16).toUpperCase()).slice(-2);
+  }
+
+  return cache;
+}
+
+
+// Decode percent-encoded string.
+//
+function decode(string, exclude) {
+  var cache;
+
+  if (typeof exclude !== 'string') {
+    exclude = decode.defaultChars;
+  }
+
+  cache = getDecodeCache(exclude);
+
+  return string.replace(/(%[a-f0-9]{2})+/gi, function(seq) {
+    var i, l, b1, b2, b3, b4, chr,
+        result = '';
+
+    for (i = 0, l = seq.length; i < l; i += 3) {
+      b1 = parseInt(seq.slice(i + 1, i + 3), 16);
+
+      if (b1 < 0x80) {
+        result += cache[b1];
+        continue;
+      }
+
+      if ((b1 & 0xE0) === 0xC0 && (i + 3 < l)) {
+        // 110xxxxx 10xxxxxx
+        b2 = parseInt(seq.slice(i + 4, i + 6), 16);
+
+        if ((b2 & 0xC0) === 0x80) {
+          chr = ((b1 << 6) & 0x7C0) | (b2 & 0x3F);
+
+          if (chr < 0x80) {
+            result += '\ufffd\ufffd';
+          } else {
+            result += String.fromCharCode(chr);
+          }
+
+          i += 3;
+          continue;
+        }
+      }
+
+      if ((b1 & 0xF0) === 0xE0 && (i + 6 < l)) {
+        // 1110xxxx 10xxxxxx 10xxxxxx
+        b2 = parseInt(seq.slice(i + 4, i + 6), 16);
+        b3 = parseInt(seq.slice(i + 7, i + 9), 16);
+
+        if ((b2 & 0xC0) === 0x80 && (b3 & 0xC0) === 0x80) {
+          chr = ((b1 << 12) & 0xF000) | ((b2 << 6) & 0xFC0) | (b3 & 0x3F);
+
+          if (chr < 0x800 || (chr >= 0xD800 && chr <= 0xDFFF)) {
+            result += '\ufffd\ufffd\ufffd';
+          } else {
+            result += String.fromCharCode(chr);
+          }
+
+          i += 6;
+          continue;
+        }
+      }
+
+      if ((b1 & 0xF8) === 0xF0 && (i + 9 < l)) {
+        // 111110xx 10xxxxxx 10xxxxxx 10xxxxxx
+        b2 = parseInt(seq.slice(i + 4, i + 6), 16);
+        b3 = parseInt(seq.slice(i + 7, i + 9), 16);
+        b4 = parseInt(seq.slice(i + 10, i + 12), 16);
+
+        if ((b2 & 0xC0) === 0x80 && (b3 & 0xC0) === 0x80 && (b4 & 0xC0) === 0x80) {
+          chr = ((b1 << 18) & 0x1C0000) | ((b2 << 12) & 0x3F000) | ((b3 << 6) & 0xFC0) | (b4 & 0x3F);
+
+          if (chr < 0x10000 || chr > 0x10FFFF) {
+            result += '\ufffd\ufffd\ufffd\ufffd';
+          } else {
+            chr -= 0x10000;
+            result += String.fromCharCode(0xD800 + (chr >> 10), 0xDC00 + (chr & 0x3FF));
+          }
+
+          i += 9;
+          continue;
+        }
+      }
+
+      result += '\ufffd';
+    }
+
+    return result;
+  });
+}
+
+
+decode.defaultChars   = ';/?:@&=+$,#';
+decode.componentChars = '';
+
+
+module.exports = decode;
+
+
+/***/ }),
+/* 201 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+
+
+var encodeCache = {};
+
+
+// Create a lookup array where anything but characters in `chars` string
+// and alphanumeric chars is percent-encoded.
+//
+function getEncodeCache(exclude) {
+  var i, ch, cache = encodeCache[exclude];
+  if (cache) { return cache; }
+
+  cache = encodeCache[exclude] = [];
+
+  for (i = 0; i < 128; i++) {
+    ch = String.fromCharCode(i);
+
+    if (/^[0-9a-z]$/i.test(ch)) {
+      // always allow unencoded alphanumeric characters
+      cache.push(ch);
+    } else {
+      cache.push('%' + ('0' + i.toString(16).toUpperCase()).slice(-2));
+    }
+  }
+
+  for (i = 0; i < exclude.length; i++) {
+    cache[exclude.charCodeAt(i)] = exclude[i];
+  }
+
+  return cache;
+}
+
+
+// Encode unsafe characters with percent-encoding, skipping already
+// encoded sequences.
+//
+//  - string       - string to encode
+//  - exclude      - list of characters to ignore (in addition to a-zA-Z0-9)
+//  - keepEscaped  - don't encode '%' in a correct escape sequence (default: true)
+//
+function encode(string, exclude, keepEscaped) {
+  var i, l, code, nextCode, cache,
+      result = '';
+
+  if (typeof exclude !== 'string') {
+    // encode(string, keepEscaped)
+    keepEscaped  = exclude;
+    exclude = encode.defaultChars;
+  }
+
+  if (typeof keepEscaped === 'undefined') {
+    keepEscaped = true;
+  }
+
+  cache = getEncodeCache(exclude);
+
+  for (i = 0, l = string.length; i < l; i++) {
+    code = string.charCodeAt(i);
+
+    if (keepEscaped && code === 0x25 /* % */ && i + 2 < l) {
+      if (/^[0-9a-f]{2}$/i.test(string.slice(i + 1, i + 3))) {
+        result += string.slice(i, i + 3);
+        i += 2;
+        continue;
+      }
+    }
+
+    if (code < 128) {
+      result += cache[code];
+      continue;
+    }
+
+    if (code >= 0xD800 && code <= 0xDFFF) {
+      if (code >= 0xD800 && code <= 0xDBFF && i + 1 < l) {
+        nextCode = string.charCodeAt(i + 1);
+        if (nextCode >= 0xDC00 && nextCode <= 0xDFFF) {
+          result += encodeURIComponent(string[i] + string[i + 1]);
+          i++;
+          continue;
+        }
+      }
+      result += '%EF%BF%BD';
+      continue;
+    }
+
+    result += encodeURIComponent(string[i]);
+  }
+
+  return result;
+}
+
+encode.defaultChars   = ";/?:@&=+$,-_.!~*'()#";
+encode.componentChars = "-_.!~*'()";
+
+
+module.exports = encode;
+
+
+/***/ }),
+/* 202 */
+/***/ (function(module, exports) {
+
+module.exports=/[!-#%-\*,-/:;\?@\[-\]_\{\}\xA1\xA7\xAB\xB6\xB7\xBB\xBF\u037E\u0387\u055A-\u055F\u0589\u058A\u05BE\u05C0\u05C3\u05C6\u05F3\u05F4\u0609\u060A\u060C\u060D\u061B\u061E\u061F\u066A-\u066D\u06D4\u0700-\u070D\u07F7-\u07F9\u0830-\u083E\u085E\u0964\u0965\u0970\u0AF0\u0DF4\u0E4F\u0E5A\u0E5B\u0F04-\u0F12\u0F14\u0F3A-\u0F3D\u0F85\u0FD0-\u0FD4\u0FD9\u0FDA\u104A-\u104F\u10FB\u1360-\u1368\u1400\u166D\u166E\u169B\u169C\u16EB-\u16ED\u1735\u1736\u17D4-\u17D6\u17D8-\u17DA\u1800-\u180A\u1944\u1945\u1A1E\u1A1F\u1AA0-\u1AA6\u1AA8-\u1AAD\u1B5A-\u1B60\u1BFC-\u1BFF\u1C3B-\u1C3F\u1C7E\u1C7F\u1CC0-\u1CC7\u1CD3\u2010-\u2027\u2030-\u2043\u2045-\u2051\u2053-\u205E\u207D\u207E\u208D\u208E\u2308-\u230B\u2329\u232A\u2768-\u2775\u27C5\u27C6\u27E6-\u27EF\u2983-\u2998\u29D8-\u29DB\u29FC\u29FD\u2CF9-\u2CFC\u2CFE\u2CFF\u2D70\u2E00-\u2E2E\u2E30-\u2E44\u3001-\u3003\u3008-\u3011\u3014-\u301F\u3030\u303D\u30A0\u30FB\uA4FE\uA4FF\uA60D-\uA60F\uA673\uA67E\uA6F2-\uA6F7\uA874-\uA877\uA8CE\uA8CF\uA8F8-\uA8FA\uA8FC\uA92E\uA92F\uA95F\uA9C1-\uA9CD\uA9DE\uA9DF\uAA5C-\uAA5F\uAADE\uAADF\uAAF0\uAAF1\uABEB\uFD3E\uFD3F\uFE10-\uFE19\uFE30-\uFE52\uFE54-\uFE61\uFE63\uFE68\uFE6A\uFE6B\uFF01-\uFF03\uFF05-\uFF0A\uFF0C-\uFF0F\uFF1A\uFF1B\uFF1F\uFF20\uFF3B-\uFF3D\uFF3F\uFF5B\uFF5D\uFF5F-\uFF65]|\uD800[\uDD00-\uDD02\uDF9F\uDFD0]|\uD801\uDD6F|\uD802[\uDC57\uDD1F\uDD3F\uDE50-\uDE58\uDE7F\uDEF0-\uDEF6\uDF39-\uDF3F\uDF99-\uDF9C]|\uD804[\uDC47-\uDC4D\uDCBB\uDCBC\uDCBE-\uDCC1\uDD40-\uDD43\uDD74\uDD75\uDDC5-\uDDC9\uDDCD\uDDDB\uDDDD-\uDDDF\uDE38-\uDE3D\uDEA9]|\uD805[\uDC4B-\uDC4F\uDC5B\uDC5D\uDCC6\uDDC1-\uDDD7\uDE41-\uDE43\uDE60-\uDE6C\uDF3C-\uDF3E]|\uD807[\uDC41-\uDC45\uDC70\uDC71]|\uD809[\uDC70-\uDC74]|\uD81A[\uDE6E\uDE6F\uDEF5\uDF37-\uDF3B\uDF44]|\uD82F\uDC9F|\uD836[\uDE87-\uDE8B]|\uD83A[\uDD5E\uDD5F]/
+
+/***/ }),
 /* 203 */,
 /* 204 */,
 /* 205 */
@@ -18034,17 +21244,390 @@ var objectKeys = Object.keys || function (obj) {
 
 
 /***/ }),
-/* 234 */,
-/* 235 */,
-/* 236 */,
-/* 237 */,
-/* 238 */,
+/* 234 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// HTML5 entities map: { name -> utf16string }
+//
+
+
+/*eslint quotes:0*/
+module.exports = __webpack_require__(177);
+
+
+/***/ }),
+/* 235 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Regexps to match html elements
+
+
+
+var attr_name     = '[a-zA-Z_:][a-zA-Z0-9:._-]*';
+
+var unquoted      = '[^"\'=<>`\\x00-\\x20]+';
+var single_quoted = "'[^']*'";
+var double_quoted = '"[^"]*"';
+
+var attr_value  = '(?:' + unquoted + '|' + single_quoted + '|' + double_quoted + ')';
+
+var attribute   = '(?:\\s+' + attr_name + '(?:\\s*=\\s*' + attr_value + ')?)';
+
+var open_tag    = '<[A-Za-z][A-Za-z0-9\\-]*' + attribute + '*\\s*\\/?>';
+
+var close_tag   = '<\\/[A-Za-z][A-Za-z0-9\\-]*\\s*>';
+var comment     = '<!---->|<!--(?:-?[^>-])(?:-?[^-])*-->';
+var processing  = '<[?].*?[?]>';
+var declaration = '<![A-Z]+\\s+[^>]*>';
+var cdata       = '<!\\[CDATA\\[[\\s\\S]*?\\]\\]>';
+
+var HTML_TAG_RE = new RegExp('^(?:' + open_tag + '|' + close_tag + '|' + comment +
+                        '|' + processing + '|' + declaration + '|' + cdata + ')');
+var HTML_OPEN_CLOSE_TAG_RE = new RegExp('^(?:' + open_tag + '|' + close_tag + ')');
+
+module.exports.HTML_TAG_RE = HTML_TAG_RE;
+module.exports.HTML_OPEN_CLOSE_TAG_RE = HTML_OPEN_CLOSE_TAG_RE;
+
+
+/***/ }),
+/* 236 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Process *this* and _that_
+//
+
+
+
+// Insert each marker as a separate text token, and add it to delimiter list
+//
+module.exports.tokenize = function emphasis(state, silent) {
+  var i, scanned, token,
+      start = state.pos,
+      marker = state.src.charCodeAt(start);
+
+  if (silent) { return false; }
+
+  if (marker !== 0x5F /* _ */ && marker !== 0x2A /* * */) { return false; }
+
+  scanned = state.scanDelims(state.pos, marker === 0x2A);
+
+  for (i = 0; i < scanned.length; i++) {
+    token         = state.push('text', '', 0);
+    token.content = String.fromCharCode(marker);
+
+    state.delimiters.push({
+      // Char code of the starting marker (number).
+      //
+      marker: marker,
+
+      // Total length of these series of delimiters.
+      //
+      length: scanned.length,
+
+      // An amount of characters before this one that's equivalent to
+      // current one. In plain English: if this delimiter does not open
+      // an emphasis, neither do previous `jump` characters.
+      //
+      // Used to skip sequences like "*****" in one step, for 1st asterisk
+      // value will be 0, for 2nd it's 1 and so on.
+      //
+      jump:   i,
+
+      // A position of the token this delimiter corresponds to.
+      //
+      token:  state.tokens.length - 1,
+
+      // Token level.
+      //
+      level:  state.level,
+
+      // If this delimiter is matched as a valid opener, `end` will be
+      // equal to its position, otherwise it's `-1`.
+      //
+      end:    -1,
+
+      // Boolean flags that determine if this delimiter could open or close
+      // an emphasis.
+      //
+      open:   scanned.can_open,
+      close:  scanned.can_close
+    });
+  }
+
+  state.pos += scanned.length;
+
+  return true;
+};
+
+
+// Walk through delimiter list and replace text tokens with tags
+//
+module.exports.postProcess = function emphasis(state) {
+  var i,
+      startDelim,
+      endDelim,
+      token,
+      ch,
+      isStrong,
+      delimiters = state.delimiters,
+      max = state.delimiters.length;
+
+  for (i = 0; i < max; i++) {
+    startDelim = delimiters[i];
+
+    if (startDelim.marker !== 0x5F/* _ */ && startDelim.marker !== 0x2A/* * */) {
+      continue;
+    }
+
+    // Process only opening markers
+    if (startDelim.end === -1) {
+      continue;
+    }
+
+    endDelim = delimiters[startDelim.end];
+
+    // If the next delimiter has the same marker and is adjacent to this one,
+    // merge those into one strong delimiter.
+    //
+    // `<em><em>whatever</em></em>` -> `<strong>whatever</strong>`
+    //
+    isStrong = i + 1 < max &&
+               delimiters[i + 1].end === startDelim.end - 1 &&
+               delimiters[i + 1].token === startDelim.token + 1 &&
+               delimiters[startDelim.end - 1].token === endDelim.token - 1 &&
+               delimiters[i + 1].marker === startDelim.marker;
+
+    ch = String.fromCharCode(startDelim.marker);
+
+    token         = state.tokens[startDelim.token];
+    token.type    = isStrong ? 'strong_open' : 'em_open';
+    token.tag     = isStrong ? 'strong' : 'em';
+    token.nesting = 1;
+    token.markup  = isStrong ? ch + ch : ch;
+    token.content = '';
+
+    token         = state.tokens[endDelim.token];
+    token.type    = isStrong ? 'strong_close' : 'em_close';
+    token.tag     = isStrong ? 'strong' : 'em';
+    token.nesting = -1;
+    token.markup  = isStrong ? ch + ch : ch;
+    token.content = '';
+
+    if (isStrong) {
+      state.tokens[delimiters[i + 1].token].content = '';
+      state.tokens[delimiters[startDelim.end - 1].token].content = '';
+      i++;
+    }
+  }
+};
+
+
+/***/ }),
+/* 237 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// ~~strike through~~
+//
+
+
+
+// Insert each marker as a separate text token, and add it to delimiter list
+//
+module.exports.tokenize = function strikethrough(state, silent) {
+  var i, scanned, token, len, ch,
+      start = state.pos,
+      marker = state.src.charCodeAt(start);
+
+  if (silent) { return false; }
+
+  if (marker !== 0x7E/* ~ */) { return false; }
+
+  scanned = state.scanDelims(state.pos, true);
+  len = scanned.length;
+  ch = String.fromCharCode(marker);
+
+  if (len < 2) { return false; }
+
+  if (len % 2) {
+    token         = state.push('text', '', 0);
+    token.content = ch;
+    len--;
+  }
+
+  for (i = 0; i < len; i += 2) {
+    token         = state.push('text', '', 0);
+    token.content = ch + ch;
+
+    state.delimiters.push({
+      marker: marker,
+      jump:   i,
+      token:  state.tokens.length - 1,
+      level:  state.level,
+      end:    -1,
+      open:   scanned.can_open,
+      close:  scanned.can_close
+    });
+  }
+
+  state.pos += scanned.length;
+
+  return true;
+};
+
+
+// Walk through delimiter list and replace text tokens with tags
+//
+module.exports.postProcess = function strikethrough(state) {
+  var i, j,
+      startDelim,
+      endDelim,
+      token,
+      loneMarkers = [],
+      delimiters = state.delimiters,
+      max = state.delimiters.length;
+
+  for (i = 0; i < max; i++) {
+    startDelim = delimiters[i];
+
+    if (startDelim.marker !== 0x7E/* ~ */) {
+      continue;
+    }
+
+    if (startDelim.end === -1) {
+      continue;
+    }
+
+    endDelim = delimiters[startDelim.end];
+
+    token         = state.tokens[startDelim.token];
+    token.type    = 's_open';
+    token.tag     = 's';
+    token.nesting = 1;
+    token.markup  = '~~';
+    token.content = '';
+
+    token         = state.tokens[endDelim.token];
+    token.type    = 's_close';
+    token.tag     = 's';
+    token.nesting = -1;
+    token.markup  = '~~';
+    token.content = '';
+
+    if (state.tokens[endDelim.token - 1].type === 'text' &&
+        state.tokens[endDelim.token - 1].content === '~') {
+
+      loneMarkers.push(endDelim.token - 1);
+    }
+  }
+
+  // If a marker sequence has an odd number of characters, it's splitted
+  // like this: `~~~~~` -> `~` + `~~` + `~~`, leaving one marker at the
+  // start of the sequence.
+  //
+  // So, we have to move all those markers after subsequent s_close tags.
+  //
+  while (loneMarkers.length) {
+    i = loneMarkers.pop();
+    j = i + 1;
+
+    while (j < state.tokens.length && state.tokens[j].type === 's_close') {
+      j++;
+    }
+
+    j--;
+
+    if (i !== j) {
+      token = state.tokens[j];
+      state.tokens[j] = state.tokens[i];
+      state.tokens[i] = token;
+    }
+  }
+};
+
+
+/***/ }),
+/* 238 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+
+module.exports.encode = __webpack_require__(201);
+module.exports.decode = __webpack_require__(200);
+module.exports.format = __webpack_require__(585);
+module.exports.parse  = __webpack_require__(586);
+
+
+/***/ }),
 /* 239 */,
-/* 240 */,
-/* 241 */,
-/* 242 */,
+/* 240 */
+/***/ (function(module, exports) {
+
+module.exports=/[\0-\x1F\x7F-\x9F]/
+
+/***/ }),
+/* 241 */
+/***/ (function(module, exports) {
+
+module.exports=/[ \xA0\u1680\u2000-\u200A\u202F\u205F\u3000]/
+
+/***/ }),
+/* 242 */
+/***/ (function(module, exports) {
+
+module.exports=/[\0-\uD7FF\uE000-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]/
+
+/***/ }),
 /* 243 */,
-/* 244 */,
+/* 244 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(506)
+}
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(321),
+  /* template */
+  __webpack_require__(674),
+  /* styles */
+  injectStyle,
+  /* scopeId */
+  "data-v-5b23c1a4",
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/EmailEditor.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] EmailEditor.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5b23c1a4", Component.options)
+  } else {
+    hotAPI.reload("data-v-5b23c1a4", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
 /* 245 */,
 /* 246 */,
 /* 247 */,
@@ -18951,12 +22534,12 @@ function createManageMilestonesCompetencies(el, propsData) {
 			competencies: function competencies(_competencies) {
 				this.orderedCompetencies = _competencies.filter(function (competency) {
 					return competency.order != null;
-				}).sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["m" /* sortPropNumbers */])('order'));
+				}).sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["o" /* sortPropNumbers */])('order'));
 			},
 			milestones: function milestones(_milestones) {
 				this.orderedMilestones = _milestones.filter(function (milestone) {
 					return milestone.order != null;
-				}).sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["m" /* sortPropNumbers */])('order'));
+				}).sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["o" /* sortPropNumbers */])('order'));
 			}
 		},
 
@@ -23823,7 +27406,325 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* 318 */,
 /* 319 */,
 /* 320 */,
-/* 321 */,
+/* 321 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_markdown_it__ = __webpack_require__(540);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_markdown_it___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_markdown_it__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AlertList_vue__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AlertList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AlertList_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__MediumEditor_vue__ = __webpack_require__(605);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__MediumEditor_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__MediumEditor_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ShowHideButton_vue__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ShowHideButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__ShowHideButton_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__ = __webpack_require__(2);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+
+var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	props: {
+		from: {
+			type: String,
+			default: 'admin'
+		},
+		target: {
+			type: String,
+			default: '/emails'
+		},
+
+		title: {
+			type: String,
+			default: 'Email editor'
+		},
+
+		defaultTo: {
+			default: function _default() {
+				return [];
+			}
+		},
+		defaultSubject: {
+			type: String,
+			required: false
+		},
+		defaultBodyMarkdown: {
+			type: String,
+			required: false
+		},
+
+		possibleRecipients: {
+			type: Array,
+			required: false
+		},
+		emailReplacements: {
+			type: Array,
+			required: false
+		},
+		additionalFields: {
+			type: Object,
+			required: false
+		}
+	},
+	data: function data() {
+		return {
+			to: this.defaultTo,
+			subject: this.defaultSubject,
+			body: {
+				markdown: this.defaultBodyMarkdown,
+				html: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["l" /* htmlLabelReplacements */])(md.render(this.defaultBodyMarkdown), this.emailReplacements)
+			},
+			editorType: 'medium',
+
+			show: {
+				recipients: false,
+				possibleRecipients: false
+			},
+
+			alerts: []
+		};
+	},
+
+	computed: {
+		editorTypes: function editorTypes() {
+			return ['medium', 'markdown'];
+		},
+		groupedPossibleRecipients: function groupedPossibleRecipients() {
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["m" /* groupUsers */])(this.possibleRecipients);
+		},
+		toDisplayValue: function toDisplayValue() {
+			if (this.possibleRecipients || Array.isArray(this.to)) return (this.to ? this.to.length : '0') + ' recipients';
+			if (typeof this.to === 'string') return this.to;
+			if (this.to && this.to.full_name && this.to.email) return this.to.full_name + ' <' + this.to.email + '>';
+		},
+		alertTypeClass: function alertTypeClass() {
+			return {
+				'alert-success': this.alert.type === 'success',
+				'alert-info': this.alert.type === 'info',
+				'alert-danger': this.alert.type === 'error'
+			};
+		},
+		defaultBody: function defaultBody() {
+			return {
+				markdown: this.defaultBodyMarkdown,
+				html: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["l" /* htmlLabelReplacements */])(md.render(this.defaultBodyMarkdown), this.emailReplacements)
+			};
+		}
+	},
+	watch: {
+		defaultTo: function defaultTo(_defaultTo) {
+			this.to = _defaultTo;
+		},
+		defaultSubject: function defaultSubject(_defaultSubject) {
+			this.subject = _defaultSubject;
+		},
+		defaultBody: function defaultBody(_defaultBody) {
+			this.body = _defaultBody;
+		}
+	},
+	methods: {
+		getPossibleRecipient: function getPossibleRecipient(id) {
+			return this.possibleRecipients.find(function (user) {
+				return user.id === Number(id);
+			});
+		},
+		getRecipientCompleted: function getRecipientCompleted(id) {
+			var recipient = this.getPossibleRecipient(id);
+			return recipient && recipient.subject_evaluations ? recipient.subject_evaluations.length : 0;
+		},
+		send: function send() {
+			var _this = this;
+
+			// FIXME: numCompleted shouldn't be added here
+
+			var body = {
+				subject: this.subject,
+				body: this.body.html
+			};
+
+			if (Array.isArray(this.to)) body.to = this.to.map(function (id) {
+				return {
+					id: id,
+					numCompleted: _this.getRecipientCompleted(id)
+				};
+			});else if (this.to.id) body.to = {
+				id: this.to.id,
+				numCompleted: this.to.subject_evaluations.length
+			};else if (!Number.isNaN(this.to)) body.to = {
+				id: this.to,
+				numCompleted: this.getRecipientCompleted(this.to)
+			};
+
+			if (this.additionalFields) body = Object.assign(body, this.additionalFields);
+
+			var error = false;
+			if (!body.to || Array.isArray(body.to) && body.to.length === 0) {
+				this.alerts.push({
+					type: 'error',
+					html: 'Please select a recipient.'
+				});
+				error = true;
+			}
+			if (!body.subject) {
+				this.alerts.push({
+					type: 'error',
+					html: 'Please enter a subject.'
+				});
+				error = true;
+			}
+			if (!body.body) {
+				this.alerts.push({
+					type: 'error',
+					html: 'Please enter a message body.'
+				});
+				error = true;
+			}
+			if (error) return;
+
+			fetch(this.target, {
+				method: 'POST',
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["a" /* getFetchHeaders */])(),
+				credentials: 'same-origin',
+				body: JSON.stringify(body)
+			}).then(function (response) {
+				if (response.ok) return response.json();else throw new Error('There was a problem sending the emails');
+			}).then(function (response) {
+				if (response.success) {
+					_this.alerts.push({
+						type: 'success',
+						text: response.success.length + ' emails successfully sent.'
+					});
+					_this.to = _this.to.filter(function (id) {
+						return !response.success.includes(id);
+					});
+				}
+
+				if (response.error && response.error.length > 0) {
+					var userNames = response.error.map(function (id) {
+						return _this.possibleRecipients.find(function (user) {
+							return user.id === Number(id);
+						}).full_name;
+					});
+					_this.alerts.push({
+						type: 'error',
+						html: 'Error sending emails to the following users: <ul>\n\t\t\t\t\t\t\t' + userNames.map(function (name) {
+							return '<li>' + name + '</li>';
+						}).join('') + '\n\t\t\t\t\t\t</ul>'
+					});
+				}
+			}).catch(function (err) {
+				_this.alerts.push({
+					text: err.message,
+					type: 'error'
+				});
+			});
+		},
+
+		ucfirst: __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["d" /* ucfirst */]
+	},
+	components: {
+		AlertList: __WEBPACK_IMPORTED_MODULE_1__AlertList_vue___default.a,
+		MediumEditor: __WEBPACK_IMPORTED_MODULE_2__MediumEditor_vue___default.a,
+		ShowHideButton: __WEBPACK_IMPORTED_MODULE_3__ShowHideButton_vue___default.a
+	}
+});
+
+/***/ }),
 /* 322 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -23994,7 +27895,7 @@ var ajv = new __WEBPACK_IMPORTED_MODULE_2_ajv___default.a({
 
 	methods: {
 		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["d" /* ucfirst */],
-		ucfirstWords: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["l" /* ucfirstWords */],
+		ucfirstWords: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["n" /* ucfirstWords */],
 		formatJson: function formatJson() {
 			if (this.newJsonObject) this.newJson = JSON.stringify(this.newJsonObject, null, 4);
 		},
@@ -24020,10 +27921,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vue_mixins_HasAlerts_js__ = __webpack_require__(175);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ComponentList_vue__ = __webpack_require__(114);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ComponentList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__ComponentList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Alumni_AlumniListItem_vue__ = __webpack_require__(599);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Alumni_AlumniListItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Alumni_AlumniListItem_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_dom_utils_js__ = __webpack_require__(188);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__EmailEditor_vue__ = __webpack_require__(244);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__EmailEditor_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__EmailEditor_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Alumni_AlumniListItem_vue__ = __webpack_require__(599);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Alumni_AlumniListItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__Alumni_AlumniListItem_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_dom_utils_js__ = __webpack_require__(188);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_utils_js__ = __webpack_require__(2);
 //
 //
 //
@@ -24063,6 +27966,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 
@@ -24080,7 +27995,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		return {
 			alumni: [],
 
-			alumniBeingEdited: null
+			alumniBeingEdited: null,
+
+			emailTo: null
 		};
 	},
 	mounted: function mounted() {
@@ -24096,6 +28013,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			return new Map([['graduation_date', function (a, b) {
 				return __WEBPACK_IMPORTED_MODULE_0_moment___default()(a).valueOf() - __WEBPACK_IMPORTED_MODULE_0_moment___default()(b).valueOf();
 			}]]);
+		},
+		emailReplacements: function emailReplacements() {
+			return [];
 		}
 	},
 
@@ -24105,9 +28025,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			fetch('/alumni', {
 				method: 'GET',
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin'
-			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* jsonOrThrow */]).then(function (alumni) {
+			}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["c" /* jsonOrThrow */]).then(function (alumni) {
 				_this.alumni = alumni;
 			}).catch(function (err) {
 				console.error(err);
@@ -24117,12 +28037,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				});
 			});
 		},
+		emailAlum: function emailAlum(alum) {
+			this.emailTo = alum;
+		},
 		editAlum: function editAlum(alum) {
 			this.alumniBeingEdited = alum;
 			this.$router.push('edit');
 			this.$nextTick(function () {
 				$('.edit-alum').velocity('scroll', {
-					offset: -1 * __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_dom_utils_js__["a" /* getHeaderHeight */])()
+					offset: -1 * __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_dom_utils_js__["a" /* getHeaderHeight */])()
 				});
 			});
 		},
@@ -24131,12 +28054,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			fetch('/alumni/' + alum.id, {
 				method: 'POST', // DELETE
-				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* getFetchHeaders */])(),
+				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify({
 					_method: 'DELETE'
 				})
-			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* okOrThrow */]).then(function () {
+			}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["b" /* okOrThrow */]).then(function () {
 				_this2.fetchAlumni();
 			}).catch(function (err) {
 				console.error(err);
@@ -24154,7 +28077,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	components: {
 		ComponentList: __WEBPACK_IMPORTED_MODULE_2__ComponentList_vue___default.a,
-		AlumniListItem: __WEBPACK_IMPORTED_MODULE_3__Alumni_AlumniListItem_vue___default.a
+		EmailEditor: __WEBPACK_IMPORTED_MODULE_3__EmailEditor_vue___default.a,
+		AlumniListItem: __WEBPACK_IMPORTED_MODULE_4__Alumni_AlumniListItem_vue___default.a
 	}
 });
 
@@ -24227,7 +28151,114 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 325 */,
+/* 325 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_medium_editor__ = __webpack_require__(587);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_medium_editor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_medium_editor__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_medium_editor_dist_css_medium_editor_css__ = __webpack_require__(481);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_medium_editor_dist_css_medium_editor_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_medium_editor_dist_css_medium_editor_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_medium_editor_dist_css_themes_bootstrap_css__ = __webpack_require__(482);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_medium_editor_dist_css_themes_bootstrap_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_medium_editor_dist_css_themes_bootstrap_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_lodash_debounce__ = __webpack_require__(536);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_lodash_debounce___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_lodash_debounce__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ReplacementList_vue__ = __webpack_require__(632);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ReplacementList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__ReplacementList_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__ = __webpack_require__(2);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	props: {
+		value: {
+			type: String,
+			required: true
+		},
+		id: {
+			type: String,
+			required: false
+		},
+		replacements: {
+			type: Array,
+			required: false
+		}
+	},
+	data: function data() {
+		return {
+			editor: null
+		};
+	},
+	mounted: function mounted() {
+		var _this = this;
+
+		this.editor = new __WEBPACK_IMPORTED_MODULE_0_medium_editor___default.a(this.$refs.editor, {
+			autoLink: true,
+			toolbar: {
+				buttons: ['bold', 'italic', 'underline', 'anchor', 'orderedlist', 'unorderedlist', 'removeFormat']
+			},
+			paste: {
+				cleanPastedHTML: false
+			}
+		});
+		this.editor.subscribe('editableInput', __WEBPACK_IMPORTED_MODULE_3_lodash_debounce___default()(function () {
+			var html = _this.editor.getContent();
+
+			_this.$emit('input', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["l" /* htmlLabelReplacements */])(html, _this.replacements));
+		}, 500));
+
+		this.$refs.container.querySelector('.medium-editor-element').classList.add('form-control');
+	},
+
+
+	watch: {
+		value: function value(_value) {
+			if (_value !== this.editor.getContent()) {
+				this.editor.saveSelection();
+				this.editor.setContent(_value);
+				this.editor.restoreSelection();
+			}
+		}
+	},
+
+	destroyed: function destroyed() {
+		this.editor.unsubscribe();
+		this.editor.destroy();
+	},
+
+
+	components: {
+		ReplacementList: __WEBPACK_IMPORTED_MODULE_4__ReplacementList_vue___default.a
+	}
+});
+
+/***/ }),
 /* 326 */,
 /* 327 */,
 /* 328 */,
@@ -24422,7 +28453,51 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* 354 */,
 /* 355 */,
 /* 356 */,
-/* 357 */,
+/* 357 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ShowHideButton_vue__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ShowHideButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ShowHideButton_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	props: {
+		replacements: {
+			type: Array,
+			required: true
+		}
+	},
+	data: function data() {
+		return {
+			show: {
+				replacements: false
+			}
+		};
+	},
+
+	components: {
+		ShowHideButton: __WEBPACK_IMPORTED_MODULE_0__ShowHideButton_vue___default.a
+	}
+});
+
+/***/ }),
 /* 358 */,
 /* 359 */,
 /* 360 */,
@@ -24637,10 +28712,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* 478 */,
 /* 479 */,
 /* 480 */,
-/* 481 */,
-/* 482 */,
+/* 481 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 482 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
 /* 483 */,
-/* 484 */,
+/* 484 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
 /* 485 */,
 /* 486 */,
 /* 487 */
@@ -24682,7 +28772,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 /* 505 */,
-/* 506 */,
+/* 506 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
 /* 507 */,
 /* 508 */,
 /* 509 */,
@@ -24710,7 +28805,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 524 */,
+/* 524 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
 /* 525 */,
 /* 526 */,
 /* 527 */,
@@ -25164,60 +29264,14524 @@ module.exports = function (value, replacer, space) {
 /* 531 */,
 /* 532 */,
 /* 533 */,
-/* 534 */,
-/* 535 */,
-/* 536 */,
-/* 537 */,
-/* 538 */,
-/* 539 */,
-/* 540 */,
-/* 541 */,
-/* 542 */,
-/* 543 */,
-/* 544 */,
-/* 545 */,
-/* 546 */,
-/* 547 */,
-/* 548 */,
-/* 549 */,
-/* 550 */,
-/* 551 */,
-/* 552 */,
-/* 553 */,
-/* 554 */,
-/* 555 */,
-/* 556 */,
-/* 557 */,
-/* 558 */,
-/* 559 */,
-/* 560 */,
-/* 561 */,
-/* 562 */,
-/* 563 */,
-/* 564 */,
-/* 565 */,
-/* 566 */,
-/* 567 */,
-/* 568 */,
-/* 569 */,
-/* 570 */,
-/* 571 */,
-/* 572 */,
-/* 573 */,
-/* 574 */,
-/* 575 */,
-/* 576 */,
-/* 577 */,
-/* 578 */,
-/* 579 */,
-/* 580 */,
-/* 581 */,
-/* 582 */,
-/* 583 */,
-/* 584 */,
-/* 585 */,
-/* 586 */,
-/* 587 */,
+/* 534 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Helpers
+
+// Merge objects
+//
+function assign(obj /*from1, from2, from3, ...*/) {
+  var sources = Array.prototype.slice.call(arguments, 1);
+
+  sources.forEach(function (source) {
+    if (!source) { return; }
+
+    Object.keys(source).forEach(function (key) {
+      obj[key] = source[key];
+    });
+  });
+
+  return obj;
+}
+
+function _class(obj) { return Object.prototype.toString.call(obj); }
+function isString(obj) { return _class(obj) === '[object String]'; }
+function isObject(obj) { return _class(obj) === '[object Object]'; }
+function isRegExp(obj) { return _class(obj) === '[object RegExp]'; }
+function isFunction(obj) { return _class(obj) === '[object Function]'; }
+
+
+function escapeRE(str) { return str.replace(/[.?*+^$[\]\\(){}|-]/g, '\\$&'); }
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+var defaultOptions = {
+  fuzzyLink: true,
+  fuzzyEmail: true,
+  fuzzyIP: false
+};
+
+
+function isOptionsObj(obj) {
+  return Object.keys(obj || {}).reduce(function (acc, k) {
+    return acc || defaultOptions.hasOwnProperty(k);
+  }, false);
+}
+
+
+var defaultSchemas = {
+  'http:': {
+    validate: function (text, pos, self) {
+      var tail = text.slice(pos);
+
+      if (!self.re.http) {
+        // compile lazily, because "host"-containing variables can change on tlds update.
+        self.re.http =  new RegExp(
+          '^\\/\\/' + self.re.src_auth + self.re.src_host_port_strict + self.re.src_path, 'i'
+        );
+      }
+      if (self.re.http.test(tail)) {
+        return tail.match(self.re.http)[0].length;
+      }
+      return 0;
+    }
+  },
+  'https:':  'http:',
+  'ftp:':    'http:',
+  '//':      {
+    validate: function (text, pos, self) {
+      var tail = text.slice(pos);
+
+      if (!self.re.no_http) {
+      // compile lazily, because "host"-containing variables can change on tlds update.
+        self.re.no_http =  new RegExp(
+          '^' +
+          self.re.src_auth +
+          // Don't allow single-level domains, because of false positives like '//test'
+          // with code comments
+          '(?:localhost|(?:(?:' + self.re.src_domain + ')\\.)+' + self.re.src_domain_root + ')' +
+          self.re.src_port +
+          self.re.src_host_terminator +
+          self.re.src_path,
+
+          'i'
+        );
+      }
+
+      if (self.re.no_http.test(tail)) {
+        // should not be `://` & `///`, that protects from errors in protocol name
+        if (pos >= 3 && text[pos - 3] === ':') { return 0; }
+        if (pos >= 3 && text[pos - 3] === '/') { return 0; }
+        return tail.match(self.re.no_http)[0].length;
+      }
+      return 0;
+    }
+  },
+  'mailto:': {
+    validate: function (text, pos, self) {
+      var tail = text.slice(pos);
+
+      if (!self.re.mailto) {
+        self.re.mailto =  new RegExp(
+          '^' + self.re.src_email_name + '@' + self.re.src_host_strict, 'i'
+        );
+      }
+      if (self.re.mailto.test(tail)) {
+        return tail.match(self.re.mailto)[0].length;
+      }
+      return 0;
+    }
+  }
+};
+
+/*eslint-disable max-len*/
+
+// RE pattern for 2-character tlds (autogenerated by ./support/tlds_2char_gen.js)
+var tlds_2ch_src_re = 'a[cdefgilmnoqrstuwxz]|b[abdefghijmnorstvwyz]|c[acdfghiklmnoruvwxyz]|d[ejkmoz]|e[cegrstu]|f[ijkmor]|g[abdefghilmnpqrstuwy]|h[kmnrtu]|i[delmnoqrst]|j[emop]|k[eghimnprwyz]|l[abcikrstuvy]|m[acdeghklmnopqrstuvwxyz]|n[acefgilopruz]|om|p[aefghklmnrstwy]|qa|r[eosuw]|s[abcdeghijklmnortuvxyz]|t[cdfghjklmnortvwz]|u[agksyz]|v[aceginu]|w[fs]|y[et]|z[amw]';
+
+// DON'T try to make PRs with changes. Extend TLDs with LinkifyIt.tlds() instead
+var tlds_default = 'biz|com|edu|gov|net|org|pro|web|xxx|aero|asia|coop|info|museum|name|shop|рф'.split('|');
+
+/*eslint-enable max-len*/
+
+////////////////////////////////////////////////////////////////////////////////
+
+function resetScanCache(self) {
+  self.__index__ = -1;
+  self.__text_cache__   = '';
+}
+
+function createValidator(re) {
+  return function (text, pos) {
+    var tail = text.slice(pos);
+
+    if (re.test(tail)) {
+      return tail.match(re)[0].length;
+    }
+    return 0;
+  };
+}
+
+function createNormalizer() {
+  return function (match, self) {
+    self.normalize(match);
+  };
+}
+
+// Schemas compiler. Build regexps.
+//
+function compile(self) {
+
+  // Load & clone RE patterns.
+  var re = self.re = __webpack_require__(535)(self.__opts__);
+
+  // Define dynamic patterns
+  var tlds = self.__tlds__.slice();
+
+  self.onCompile();
+
+  if (!self.__tlds_replaced__) {
+    tlds.push(tlds_2ch_src_re);
+  }
+  tlds.push(re.src_xn);
+
+  re.src_tlds = tlds.join('|');
+
+  function untpl(tpl) { return tpl.replace('%TLDS%', re.src_tlds); }
+
+  re.email_fuzzy      = RegExp(untpl(re.tpl_email_fuzzy), 'i');
+  re.link_fuzzy       = RegExp(untpl(re.tpl_link_fuzzy), 'i');
+  re.link_no_ip_fuzzy = RegExp(untpl(re.tpl_link_no_ip_fuzzy), 'i');
+  re.host_fuzzy_test  = RegExp(untpl(re.tpl_host_fuzzy_test), 'i');
+
+  //
+  // Compile each schema
+  //
+
+  var aliases = [];
+
+  self.__compiled__ = {}; // Reset compiled data
+
+  function schemaError(name, val) {
+    throw new Error('(LinkifyIt) Invalid schema "' + name + '": ' + val);
+  }
+
+  Object.keys(self.__schemas__).forEach(function (name) {
+    var val = self.__schemas__[name];
+
+    // skip disabled methods
+    if (val === null) { return; }
+
+    var compiled = { validate: null, link: null };
+
+    self.__compiled__[name] = compiled;
+
+    if (isObject(val)) {
+      if (isRegExp(val.validate)) {
+        compiled.validate = createValidator(val.validate);
+      } else if (isFunction(val.validate)) {
+        compiled.validate = val.validate;
+      } else {
+        schemaError(name, val);
+      }
+
+      if (isFunction(val.normalize)) {
+        compiled.normalize = val.normalize;
+      } else if (!val.normalize) {
+        compiled.normalize = createNormalizer();
+      } else {
+        schemaError(name, val);
+      }
+
+      return;
+    }
+
+    if (isString(val)) {
+      aliases.push(name);
+      return;
+    }
+
+    schemaError(name, val);
+  });
+
+  //
+  // Compile postponed aliases
+  //
+
+  aliases.forEach(function (alias) {
+    if (!self.__compiled__[self.__schemas__[alias]]) {
+      // Silently fail on missed schemas to avoid errons on disable.
+      // schemaError(alias, self.__schemas__[alias]);
+      return;
+    }
+
+    self.__compiled__[alias].validate =
+      self.__compiled__[self.__schemas__[alias]].validate;
+    self.__compiled__[alias].normalize =
+      self.__compiled__[self.__schemas__[alias]].normalize;
+  });
+
+  //
+  // Fake record for guessed links
+  //
+  self.__compiled__[''] = { validate: null, normalize: createNormalizer() };
+
+  //
+  // Build schema condition
+  //
+  var slist = Object.keys(self.__compiled__)
+                      .filter(function (name) {
+                        // Filter disabled & fake schemas
+                        return name.length > 0 && self.__compiled__[name];
+                      })
+                      .map(escapeRE)
+                      .join('|');
+  // (?!_) cause 1.5x slowdown
+  self.re.schema_test   = RegExp('(^|(?!_)(?:[><\uff5c]|' + re.src_ZPCc + '))(' + slist + ')', 'i');
+  self.re.schema_search = RegExp('(^|(?!_)(?:[><\uff5c]|' + re.src_ZPCc + '))(' + slist + ')', 'ig');
+
+  self.re.pretest       = RegExp(
+                            '(' + self.re.schema_test.source + ')|' +
+                            '(' + self.re.host_fuzzy_test.source + ')|' +
+                            '@',
+                            'i');
+
+  //
+  // Cleanup
+  //
+
+  resetScanCache(self);
+}
+
+/**
+ * class Match
+ *
+ * Match result. Single element of array, returned by [[LinkifyIt#match]]
+ **/
+function Match(self, shift) {
+  var start = self.__index__,
+      end   = self.__last_index__,
+      text  = self.__text_cache__.slice(start, end);
+
+  /**
+   * Match#schema -> String
+   *
+   * Prefix (protocol) for matched string.
+   **/
+  this.schema    = self.__schema__.toLowerCase();
+  /**
+   * Match#index -> Number
+   *
+   * First position of matched string.
+   **/
+  this.index     = start + shift;
+  /**
+   * Match#lastIndex -> Number
+   *
+   * Next position after matched string.
+   **/
+  this.lastIndex = end + shift;
+  /**
+   * Match#raw -> String
+   *
+   * Matched string.
+   **/
+  this.raw       = text;
+  /**
+   * Match#text -> String
+   *
+   * Notmalized text of matched string.
+   **/
+  this.text      = text;
+  /**
+   * Match#url -> String
+   *
+   * Normalized url of matched string.
+   **/
+  this.url       = text;
+}
+
+function createMatch(self, shift) {
+  var match = new Match(self, shift);
+
+  self.__compiled__[match.schema].normalize(match, self);
+
+  return match;
+}
+
+
+/**
+ * class LinkifyIt
+ **/
+
+/**
+ * new LinkifyIt(schemas, options)
+ * - schemas (Object): Optional. Additional schemas to validate (prefix/validator)
+ * - options (Object): { fuzzyLink|fuzzyEmail|fuzzyIP: true|false }
+ *
+ * Creates new linkifier instance with optional additional schemas.
+ * Can be called without `new` keyword for convenience.
+ *
+ * By default understands:
+ *
+ * - `http(s)://...` , `ftp://...`, `mailto:...` & `//...` links
+ * - "fuzzy" links and emails (example.com, foo@bar.com).
+ *
+ * `schemas` is an object, where each key/value describes protocol/rule:
+ *
+ * - __key__ - link prefix (usually, protocol name with `:` at the end, `skype:`
+ *   for example). `linkify-it` makes shure that prefix is not preceeded with
+ *   alphanumeric char and symbols. Only whitespaces and punctuation allowed.
+ * - __value__ - rule to check tail after link prefix
+ *   - _String_ - just alias to existing rule
+ *   - _Object_
+ *     - _validate_ - validator function (should return matched length on success),
+ *       or `RegExp`.
+ *     - _normalize_ - optional function to normalize text & url of matched result
+ *       (for example, for @twitter mentions).
+ *
+ * `options`:
+ *
+ * - __fuzzyLink__ - recognige URL-s without `http(s):` prefix. Default `true`.
+ * - __fuzzyIP__ - allow IPs in fuzzy links above. Can conflict with some texts
+ *   like version numbers. Default `false`.
+ * - __fuzzyEmail__ - recognize emails without `mailto:` prefix.
+ *
+ **/
+function LinkifyIt(schemas, options) {
+  if (!(this instanceof LinkifyIt)) {
+    return new LinkifyIt(schemas, options);
+  }
+
+  if (!options) {
+    if (isOptionsObj(schemas)) {
+      options = schemas;
+      schemas = {};
+    }
+  }
+
+  this.__opts__           = assign({}, defaultOptions, options);
+
+  // Cache last tested result. Used to skip repeating steps on next `match` call.
+  this.__index__          = -1;
+  this.__last_index__     = -1; // Next scan position
+  this.__schema__         = '';
+  this.__text_cache__     = '';
+
+  this.__schemas__        = assign({}, defaultSchemas, schemas);
+  this.__compiled__       = {};
+
+  this.__tlds__           = tlds_default;
+  this.__tlds_replaced__  = false;
+
+  this.re = {};
+
+  compile(this);
+}
+
+
+/** chainable
+ * LinkifyIt#add(schema, definition)
+ * - schema (String): rule name (fixed pattern prefix)
+ * - definition (String|RegExp|Object): schema definition
+ *
+ * Add new rule definition. See constructor description for details.
+ **/
+LinkifyIt.prototype.add = function add(schema, definition) {
+  this.__schemas__[schema] = definition;
+  compile(this);
+  return this;
+};
+
+
+/** chainable
+ * LinkifyIt#set(options)
+ * - options (Object): { fuzzyLink|fuzzyEmail|fuzzyIP: true|false }
+ *
+ * Set recognition options for links without schema.
+ **/
+LinkifyIt.prototype.set = function set(options) {
+  this.__opts__ = assign(this.__opts__, options);
+  return this;
+};
+
+
+/**
+ * LinkifyIt#test(text) -> Boolean
+ *
+ * Searches linkifiable pattern and returns `true` on success or `false` on fail.
+ **/
+LinkifyIt.prototype.test = function test(text) {
+  // Reset scan cache
+  this.__text_cache__ = text;
+  this.__index__      = -1;
+
+  if (!text.length) { return false; }
+
+  var m, ml, me, len, shift, next, re, tld_pos, at_pos;
+
+  // try to scan for link with schema - that's the most simple rule
+  if (this.re.schema_test.test(text)) {
+    re = this.re.schema_search;
+    re.lastIndex = 0;
+    while ((m = re.exec(text)) !== null) {
+      len = this.testSchemaAt(text, m[2], re.lastIndex);
+      if (len) {
+        this.__schema__     = m[2];
+        this.__index__      = m.index + m[1].length;
+        this.__last_index__ = m.index + m[0].length + len;
+        break;
+      }
+    }
+  }
+
+  if (this.__opts__.fuzzyLink && this.__compiled__['http:']) {
+    // guess schemaless links
+    tld_pos = text.search(this.re.host_fuzzy_test);
+    if (tld_pos >= 0) {
+      // if tld is located after found link - no need to check fuzzy pattern
+      if (this.__index__ < 0 || tld_pos < this.__index__) {
+        if ((ml = text.match(this.__opts__.fuzzyIP ? this.re.link_fuzzy : this.re.link_no_ip_fuzzy)) !== null) {
+
+          shift = ml.index + ml[1].length;
+
+          if (this.__index__ < 0 || shift < this.__index__) {
+            this.__schema__     = '';
+            this.__index__      = shift;
+            this.__last_index__ = ml.index + ml[0].length;
+          }
+        }
+      }
+    }
+  }
+
+  if (this.__opts__.fuzzyEmail && this.__compiled__['mailto:']) {
+    // guess schemaless emails
+    at_pos = text.indexOf('@');
+    if (at_pos >= 0) {
+      // We can't skip this check, because this cases are possible:
+      // 192.168.1.1@gmail.com, my.in@example.com
+      if ((me = text.match(this.re.email_fuzzy)) !== null) {
+
+        shift = me.index + me[1].length;
+        next  = me.index + me[0].length;
+
+        if (this.__index__ < 0 || shift < this.__index__ ||
+            (shift === this.__index__ && next > this.__last_index__)) {
+          this.__schema__     = 'mailto:';
+          this.__index__      = shift;
+          this.__last_index__ = next;
+        }
+      }
+    }
+  }
+
+  return this.__index__ >= 0;
+};
+
+
+/**
+ * LinkifyIt#pretest(text) -> Boolean
+ *
+ * Very quick check, that can give false positives. Returns true if link MAY BE
+ * can exists. Can be used for speed optimization, when you need to check that
+ * link NOT exists.
+ **/
+LinkifyIt.prototype.pretest = function pretest(text) {
+  return this.re.pretest.test(text);
+};
+
+
+/**
+ * LinkifyIt#testSchemaAt(text, name, position) -> Number
+ * - text (String): text to scan
+ * - name (String): rule (schema) name
+ * - position (Number): text offset to check from
+ *
+ * Similar to [[LinkifyIt#test]] but checks only specific protocol tail exactly
+ * at given position. Returns length of found pattern (0 on fail).
+ **/
+LinkifyIt.prototype.testSchemaAt = function testSchemaAt(text, schema, pos) {
+  // If not supported schema check requested - terminate
+  if (!this.__compiled__[schema.toLowerCase()]) {
+    return 0;
+  }
+  return this.__compiled__[schema.toLowerCase()].validate(text, pos, this);
+};
+
+
+/**
+ * LinkifyIt#match(text) -> Array|null
+ *
+ * Returns array of found link descriptions or `null` on fail. We strongly
+ * recommend to use [[LinkifyIt#test]] first, for best speed.
+ *
+ * ##### Result match description
+ *
+ * - __schema__ - link schema, can be empty for fuzzy links, or `//` for
+ *   protocol-neutral  links.
+ * - __index__ - offset of matched text
+ * - __lastIndex__ - index of next char after mathch end
+ * - __raw__ - matched text
+ * - __text__ - normalized text
+ * - __url__ - link, generated from matched text
+ **/
+LinkifyIt.prototype.match = function match(text) {
+  var shift = 0, result = [];
+
+  // Try to take previous element from cache, if .test() called before
+  if (this.__index__ >= 0 && this.__text_cache__ === text) {
+    result.push(createMatch(this, shift));
+    shift = this.__last_index__;
+  }
+
+  // Cut head if cache was used
+  var tail = shift ? text.slice(shift) : text;
+
+  // Scan string until end reached
+  while (this.test(tail)) {
+    result.push(createMatch(this, shift));
+
+    tail = tail.slice(this.__last_index__);
+    shift += this.__last_index__;
+  }
+
+  if (result.length) {
+    return result;
+  }
+
+  return null;
+};
+
+
+/** chainable
+ * LinkifyIt#tlds(list [, keepOld]) -> this
+ * - list (Array): list of tlds
+ * - keepOld (Boolean): merge with current list if `true` (`false` by default)
+ *
+ * Load (or merge) new tlds list. Those are user for fuzzy links (without prefix)
+ * to avoid false positives. By default this algorythm used:
+ *
+ * - hostname with any 2-letter root zones are ok.
+ * - biz|com|edu|gov|net|org|pro|web|xxx|aero|asia|coop|info|museum|name|shop|рф
+ *   are ok.
+ * - encoded (`xn--...`) root zones are ok.
+ *
+ * If list is replaced, then exact match for 2-chars root zones will be checked.
+ **/
+LinkifyIt.prototype.tlds = function tlds(list, keepOld) {
+  list = Array.isArray(list) ? list : [ list ];
+
+  if (!keepOld) {
+    this.__tlds__ = list.slice();
+    this.__tlds_replaced__ = true;
+    compile(this);
+    return this;
+  }
+
+  this.__tlds__ = this.__tlds__.concat(list)
+                                  .sort()
+                                  .filter(function (el, idx, arr) {
+                                    return el !== arr[idx - 1];
+                                  })
+                                  .reverse();
+
+  compile(this);
+  return this;
+};
+
+/**
+ * LinkifyIt#normalize(match)
+ *
+ * Default normalizer (if schema does not define it's own).
+ **/
+LinkifyIt.prototype.normalize = function normalize(match) {
+
+  // Do minimal possible changes by default. Need to collect feedback prior
+  // to move forward https://github.com/markdown-it/linkify-it/issues/1
+
+  if (!match.schema) { match.url = 'http://' + match.url; }
+
+  if (match.schema === 'mailto:' && !/^mailto:/i.test(match.url)) {
+    match.url = 'mailto:' + match.url;
+  }
+};
+
+
+/**
+ * LinkifyIt#onCompile()
+ *
+ * Override to modify basic RegExp-s.
+ **/
+LinkifyIt.prototype.onCompile = function onCompile() {
+};
+
+
+module.exports = LinkifyIt;
+
+
+/***/ }),
+/* 535 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+
+module.exports = function (opts) {
+  var re = {};
+
+  // Use direct extract instead of `regenerate` to reduse browserified size
+  re.src_Any = __webpack_require__(242).source;
+  re.src_Cc  = __webpack_require__(240).source;
+  re.src_Z   = __webpack_require__(241).source;
+  re.src_P   = __webpack_require__(202).source;
+
+  // \p{\Z\P\Cc\CF} (white spaces + control + format + punctuation)
+  re.src_ZPCc = [ re.src_Z, re.src_P, re.src_Cc ].join('|');
+
+  // \p{\Z\Cc} (white spaces + control)
+  re.src_ZCc = [ re.src_Z, re.src_Cc ].join('|');
+
+  // Experimental. List of chars, completely prohibited in links
+  // because can separate it from other part of text
+  var text_separators = '[><\uff5c]';
+
+  // All possible word characters (everything without punctuation, spaces & controls)
+  // Defined via punctuation & spaces to save space
+  // Should be something like \p{\L\N\S\M} (\w but without `_`)
+  re.src_pseudo_letter       = '(?:(?!' + text_separators + '|' + re.src_ZPCc + ')' + re.src_Any + ')';
+  // The same as abothe but without [0-9]
+  // var src_pseudo_letter_non_d = '(?:(?![0-9]|' + src_ZPCc + ')' + src_Any + ')';
+
+  ////////////////////////////////////////////////////////////////////////////////
+
+  re.src_ip4 =
+
+    '(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)';
+
+  // Prohibit any of "@/[]()" in user/pass to avoid wrong domain fetch.
+  re.src_auth    = '(?:(?:(?!' + re.src_ZCc + '|[@/\\[\\]()]).)+@)?';
+
+  re.src_port =
+
+    '(?::(?:6(?:[0-4]\\d{3}|5(?:[0-4]\\d{2}|5(?:[0-2]\\d|3[0-5])))|[1-5]?\\d{1,4}))?';
+
+  re.src_host_terminator =
+
+    '(?=$|' + text_separators + '|' + re.src_ZPCc + ')(?!-|_|:\\d|\\.-|\\.(?!$|' + re.src_ZPCc + '))';
+
+  re.src_path =
+
+    '(?:' +
+      '[/?#]' +
+        '(?:' +
+          '(?!' + re.src_ZCc + '|' + text_separators + '|[()[\\]{}.,"\'?!\\-]).|' +
+          '\\[(?:(?!' + re.src_ZCc + '|\\]).)*\\]|' +
+          '\\((?:(?!' + re.src_ZCc + '|[)]).)*\\)|' +
+          '\\{(?:(?!' + re.src_ZCc + '|[}]).)*\\}|' +
+          '\\"(?:(?!' + re.src_ZCc + '|["]).)+\\"|' +
+          "\\'(?:(?!" + re.src_ZCc + "|[']).)+\\'|" +
+          "\\'(?=" + re.src_pseudo_letter + '|[-]).|' +  // allow `I'm_king` if no pair found
+          '\\.{2,3}[a-zA-Z0-9%/]|' + // github has ... in commit range links. Restrict to
+                                     // - english
+                                     // - percent-encoded
+                                     // - parts of file path
+                                     // until more examples found.
+          '\\.(?!' + re.src_ZCc + '|[.]).|' +
+          (opts && opts['---'] ?
+            '\\-(?!--(?:[^-]|$))(?:-*)|' // `---` => long dash, terminate
+          :
+            '\\-+|'
+          ) +
+          '\\,(?!' + re.src_ZCc + ').|' +      // allow `,,,` in paths
+          '\\!(?!' + re.src_ZCc + '|[!]).|' +
+          '\\?(?!' + re.src_ZCc + '|[?]).' +
+        ')+' +
+      '|\\/' +
+    ')?';
+
+  re.src_email_name =
+
+    '[\\-;:&=\\+\\$,\\"\\.a-zA-Z0-9_]+';
+
+  re.src_xn =
+
+    'xn--[a-z0-9\\-]{1,59}';
+
+  // More to read about domain names
+  // http://serverfault.com/questions/638260/
+
+  re.src_domain_root =
+
+    // Allow letters & digits (http://test1)
+    '(?:' +
+      re.src_xn +
+      '|' +
+      re.src_pseudo_letter + '{1,63}' +
+    ')';
+
+  re.src_domain =
+
+    '(?:' +
+      re.src_xn +
+      '|' +
+      '(?:' + re.src_pseudo_letter + ')' +
+      '|' +
+      // don't allow `--` in domain names, because:
+      // - that can conflict with markdown &mdash; / &ndash;
+      // - nobody use those anyway
+      '(?:' + re.src_pseudo_letter + '(?:-(?!-)|' + re.src_pseudo_letter + '){0,61}' + re.src_pseudo_letter + ')' +
+    ')';
+
+  re.src_host =
+
+    '(?:' +
+    // Don't need IP check, because digits are already allowed in normal domain names
+    //   src_ip4 +
+    // '|' +
+      '(?:(?:(?:' + re.src_domain + ')\\.)*' + re.src_domain/*_root*/ + ')' +
+    ')';
+
+  re.tpl_host_fuzzy =
+
+    '(?:' +
+      re.src_ip4 +
+    '|' +
+      '(?:(?:(?:' + re.src_domain + ')\\.)+(?:%TLDS%))' +
+    ')';
+
+  re.tpl_host_no_ip_fuzzy =
+
+    '(?:(?:(?:' + re.src_domain + ')\\.)+(?:%TLDS%))';
+
+  re.src_host_strict =
+
+    re.src_host + re.src_host_terminator;
+
+  re.tpl_host_fuzzy_strict =
+
+    re.tpl_host_fuzzy + re.src_host_terminator;
+
+  re.src_host_port_strict =
+
+    re.src_host + re.src_port + re.src_host_terminator;
+
+  re.tpl_host_port_fuzzy_strict =
+
+    re.tpl_host_fuzzy + re.src_port + re.src_host_terminator;
+
+  re.tpl_host_port_no_ip_fuzzy_strict =
+
+    re.tpl_host_no_ip_fuzzy + re.src_port + re.src_host_terminator;
+
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // Main rules
+
+  // Rude test fuzzy links by host, for quick deny
+  re.tpl_host_fuzzy_test =
+
+    'localhost|www\\.|\\.\\d{1,3}\\.|(?:\\.(?:%TLDS%)(?:' + re.src_ZPCc + '|>|$))';
+
+  re.tpl_email_fuzzy =
+
+      '(^|' + text_separators + '|\\(|' + re.src_ZCc + ')(' + re.src_email_name + '@' + re.tpl_host_fuzzy_strict + ')';
+
+  re.tpl_link_fuzzy =
+      // Fuzzy link can't be prepended with .:/\- and non punctuation.
+      // but can start with > (markdown blockquote)
+      '(^|(?![.:/\\-_@])(?:[$+<=>^`|\uff5c]|' + re.src_ZPCc + '))' +
+      '((?![$+<=>^`|\uff5c])' + re.tpl_host_port_fuzzy_strict + re.src_path + ')';
+
+  re.tpl_link_no_ip_fuzzy =
+      // Fuzzy link can't be prepended with .:/\- and non punctuation.
+      // but can start with > (markdown blockquote)
+      '(^|(?![.:/\\-_@])(?:[$+<=>^`|\uff5c]|' + re.src_ZPCc + '))' +
+      '((?![$+<=>^`|\uff5c])' + re.tpl_host_port_no_ip_fuzzy_strict + re.src_path + ')';
+
+  return re;
+};
+
+
+/***/ }),
+/* 536 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(18),
+    now = __webpack_require__(538),
+    toNumber = __webpack_require__(539);
+
+/** Error message constants. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max,
+    nativeMin = Math.min;
+
+/**
+ * Creates a debounced function that delays invoking `func` until after `wait`
+ * milliseconds have elapsed since the last time the debounced function was
+ * invoked. The debounced function comes with a `cancel` method to cancel
+ * delayed `func` invocations and a `flush` method to immediately invoke them.
+ * Provide `options` to indicate whether `func` should be invoked on the
+ * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
+ * with the last arguments provided to the debounced function. Subsequent
+ * calls to the debounced function return the result of the last `func`
+ * invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the debounced function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+ * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+ *
+ * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+ * for details over the differences between `_.debounce` and `_.throttle`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to debounce.
+ * @param {number} [wait=0] The number of milliseconds to delay.
+ * @param {Object} [options={}] The options object.
+ * @param {boolean} [options.leading=false]
+ *  Specify invoking on the leading edge of the timeout.
+ * @param {number} [options.maxWait]
+ *  The maximum time `func` is allowed to be delayed before it's invoked.
+ * @param {boolean} [options.trailing=true]
+ *  Specify invoking on the trailing edge of the timeout.
+ * @returns {Function} Returns the new debounced function.
+ * @example
+ *
+ * // Avoid costly calculations while the window size is in flux.
+ * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+ *
+ * // Invoke `sendMail` when clicked, debouncing subsequent calls.
+ * jQuery(element).on('click', _.debounce(sendMail, 300, {
+ *   'leading': true,
+ *   'trailing': false
+ * }));
+ *
+ * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
+ * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
+ * var source = new EventSource('/stream');
+ * jQuery(source).on('message', debounced);
+ *
+ * // Cancel the trailing debounced invocation.
+ * jQuery(window).on('popstate', debounced.cancel);
+ */
+function debounce(func, wait, options) {
+  var lastArgs,
+      lastThis,
+      maxWait,
+      result,
+      timerId,
+      lastCallTime,
+      lastInvokeTime = 0,
+      leading = false,
+      maxing = false,
+      trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  wait = toNumber(wait) || 0;
+  if (isObject(options)) {
+    leading = !!options.leading;
+    maxing = 'maxWait' in options;
+    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+
+  function invokeFunc(time) {
+    var args = lastArgs,
+        thisArg = lastThis;
+
+    lastArgs = lastThis = undefined;
+    lastInvokeTime = time;
+    result = func.apply(thisArg, args);
+    return result;
+  }
+
+  function leadingEdge(time) {
+    // Reset any `maxWait` timer.
+    lastInvokeTime = time;
+    // Start the timer for the trailing edge.
+    timerId = setTimeout(timerExpired, wait);
+    // Invoke the leading edge.
+    return leading ? invokeFunc(time) : result;
+  }
+
+  function remainingWait(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime,
+        result = wait - timeSinceLastCall;
+
+    return maxing ? nativeMin(result, maxWait - timeSinceLastInvoke) : result;
+  }
+
+  function shouldInvoke(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime;
+
+    // Either this is the first call, activity has stopped and we're at the
+    // trailing edge, the system time has gone backwards and we're treating
+    // it as the trailing edge, or we've hit the `maxWait` limit.
+    return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
+      (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
+  }
+
+  function timerExpired() {
+    var time = now();
+    if (shouldInvoke(time)) {
+      return trailingEdge(time);
+    }
+    // Restart the timer.
+    timerId = setTimeout(timerExpired, remainingWait(time));
+  }
+
+  function trailingEdge(time) {
+    timerId = undefined;
+
+    // Only invoke if we have `lastArgs` which means `func` has been
+    // debounced at least once.
+    if (trailing && lastArgs) {
+      return invokeFunc(time);
+    }
+    lastArgs = lastThis = undefined;
+    return result;
+  }
+
+  function cancel() {
+    if (timerId !== undefined) {
+      clearTimeout(timerId);
+    }
+    lastInvokeTime = 0;
+    lastArgs = lastCallTime = lastThis = timerId = undefined;
+  }
+
+  function flush() {
+    return timerId === undefined ? result : trailingEdge(now());
+  }
+
+  function debounced() {
+    var time = now(),
+        isInvoking = shouldInvoke(time);
+
+    lastArgs = arguments;
+    lastThis = this;
+    lastCallTime = time;
+
+    if (isInvoking) {
+      if (timerId === undefined) {
+        return leadingEdge(lastCallTime);
+      }
+      if (maxing) {
+        // Handle invocations in a tight loop.
+        timerId = setTimeout(timerExpired, wait);
+        return invokeFunc(lastCallTime);
+      }
+    }
+    if (timerId === undefined) {
+      timerId = setTimeout(timerExpired, wait);
+    }
+    return result;
+  }
+  debounced.cancel = cancel;
+  debounced.flush = flush;
+  return debounced;
+}
+
+module.exports = debounce;
+
+
+/***/ }),
+/* 537 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseGetTag = __webpack_require__(5),
+    isObjectLike = __webpack_require__(6);
+
+/** `Object#toString` result references. */
+var symbolTag = '[object Symbol]';
+
+/**
+ * Checks if `value` is classified as a `Symbol` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+ * @example
+ *
+ * _.isSymbol(Symbol.iterator);
+ * // => true
+ *
+ * _.isSymbol('abc');
+ * // => false
+ */
+function isSymbol(value) {
+  return typeof value == 'symbol' ||
+    (isObjectLike(value) && baseGetTag(value) == symbolTag);
+}
+
+module.exports = isSymbol;
+
+
+/***/ }),
+/* 538 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var root = __webpack_require__(1);
+
+/**
+ * Gets the timestamp of the number of milliseconds that have elapsed since
+ * the Unix epoch (1 January 1970 00:00:00 UTC).
+ *
+ * @static
+ * @memberOf _
+ * @since 2.4.0
+ * @category Date
+ * @returns {number} Returns the timestamp.
+ * @example
+ *
+ * _.defer(function(stamp) {
+ *   console.log(_.now() - stamp);
+ * }, _.now());
+ * // => Logs the number of milliseconds it took for the deferred invocation.
+ */
+var now = function() {
+  return root.Date.now();
+};
+
+module.exports = now;
+
+
+/***/ }),
+/* 539 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(18),
+    isSymbol = __webpack_require__(537);
+
+/** Used as references for various `Number` constants. */
+var NAN = 0 / 0;
+
+/** Used to match leading and trailing whitespace. */
+var reTrim = /^\s+|\s+$/g;
+
+/** Used to detect bad signed hexadecimal string values. */
+var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+
+/** Used to detect binary string values. */
+var reIsBinary = /^0b[01]+$/i;
+
+/** Used to detect octal string values. */
+var reIsOctal = /^0o[0-7]+$/i;
+
+/** Built-in method references without a dependency on `root`. */
+var freeParseInt = parseInt;
+
+/**
+ * Converts `value` to a number.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {number} Returns the number.
+ * @example
+ *
+ * _.toNumber(3.2);
+ * // => 3.2
+ *
+ * _.toNumber(Number.MIN_VALUE);
+ * // => 5e-324
+ *
+ * _.toNumber(Infinity);
+ * // => Infinity
+ *
+ * _.toNumber('3.2');
+ * // => 3.2
+ */
+function toNumber(value) {
+  if (typeof value == 'number') {
+    return value;
+  }
+  if (isSymbol(value)) {
+    return NAN;
+  }
+  if (isObject(value)) {
+    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
+    value = isObject(other) ? (other + '') : other;
+  }
+  if (typeof value != 'string') {
+    return value === 0 ? value : +value;
+  }
+  value = value.replace(reTrim, '');
+  var isBinary = reIsBinary.test(value);
+  return (isBinary || reIsOctal.test(value))
+    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
+    : (reIsBadHex.test(value) ? NAN : +value);
+}
+
+module.exports = toNumber;
+
+
+/***/ }),
+/* 540 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+
+module.exports = __webpack_require__(546);
+
+
+/***/ }),
+/* 541 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// List of valid html blocks names, accorting to commonmark spec
+// http://jgm.github.io/CommonMark/spec.html#html-blocks
+
+
+
+
+module.exports = [
+  'address',
+  'article',
+  'aside',
+  'base',
+  'basefont',
+  'blockquote',
+  'body',
+  'caption',
+  'center',
+  'col',
+  'colgroup',
+  'dd',
+  'details',
+  'dialog',
+  'dir',
+  'div',
+  'dl',
+  'dt',
+  'fieldset',
+  'figcaption',
+  'figure',
+  'footer',
+  'form',
+  'frame',
+  'frameset',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'head',
+  'header',
+  'hr',
+  'html',
+  'iframe',
+  'legend',
+  'li',
+  'link',
+  'main',
+  'menu',
+  'menuitem',
+  'meta',
+  'nav',
+  'noframes',
+  'ol',
+  'optgroup',
+  'option',
+  'p',
+  'param',
+  'pre',
+  'section',
+  'source',
+  'title',
+  'summary',
+  'table',
+  'tbody',
+  'td',
+  'tfoot',
+  'th',
+  'thead',
+  'title',
+  'tr',
+  'track',
+  'ul'
+];
+
+
+/***/ }),
+/* 542 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Just a shortcut for bulk export
+
+
+
+exports.parseLinkLabel       = __webpack_require__(544);
+exports.parseLinkDestination = __webpack_require__(543);
+exports.parseLinkTitle       = __webpack_require__(545);
+
+
+/***/ }),
+/* 543 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Parse link destination
+//
+
+
+
+var isSpace     = __webpack_require__(11).isSpace;
+var unescapeAll = __webpack_require__(11).unescapeAll;
+
+
+module.exports = function parseLinkDestination(str, pos, max) {
+  var code, level,
+      lines = 0,
+      start = pos,
+      result = {
+        ok: false,
+        pos: 0,
+        lines: 0,
+        str: ''
+      };
+
+  if (str.charCodeAt(pos) === 0x3C /* < */) {
+    pos++;
+    while (pos < max) {
+      code = str.charCodeAt(pos);
+      if (code === 0x0A /* \n */ || isSpace(code)) { return result; }
+      if (code === 0x3E /* > */) {
+        result.pos = pos + 1;
+        result.str = unescapeAll(str.slice(start + 1, pos));
+        result.ok = true;
+        return result;
+      }
+      if (code === 0x5C /* \ */ && pos + 1 < max) {
+        pos += 2;
+        continue;
+      }
+
+      pos++;
+    }
+
+    // no closing '>'
+    return result;
+  }
+
+  // this should be ... } else { ... branch
+
+  level = 0;
+  while (pos < max) {
+    code = str.charCodeAt(pos);
+
+    if (code === 0x20) { break; }
+
+    // ascii control characters
+    if (code < 0x20 || code === 0x7F) { break; }
+
+    if (code === 0x5C /* \ */ && pos + 1 < max) {
+      pos += 2;
+      continue;
+    }
+
+    if (code === 0x28 /* ( */) {
+      level++;
+      if (level > 1) { break; }
+    }
+
+    if (code === 0x29 /* ) */) {
+      level--;
+      if (level < 0) { break; }
+    }
+
+    pos++;
+  }
+
+  if (start === pos) { return result; }
+
+  result.str = unescapeAll(str.slice(start, pos));
+  result.lines = lines;
+  result.pos = pos;
+  result.ok = true;
+  return result;
+};
+
+
+/***/ }),
+/* 544 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Parse link label
+//
+// this function assumes that first character ("[") already matches;
+// returns the end of the label
+//
+
+
+module.exports = function parseLinkLabel(state, start, disableNested) {
+  var level, found, marker, prevPos,
+      labelEnd = -1,
+      max = state.posMax,
+      oldPos = state.pos;
+
+  state.pos = start + 1;
+  level = 1;
+
+  while (state.pos < max) {
+    marker = state.src.charCodeAt(state.pos);
+    if (marker === 0x5D /* ] */) {
+      level--;
+      if (level === 0) {
+        found = true;
+        break;
+      }
+    }
+
+    prevPos = state.pos;
+    state.md.inline.skipToken(state);
+    if (marker === 0x5B /* [ */) {
+      if (prevPos === state.pos - 1) {
+        // increase level if we find text `[`, which is not a part of any token
+        level++;
+      } else if (disableNested) {
+        state.pos = oldPos;
+        return -1;
+      }
+    }
+  }
+
+  if (found) {
+    labelEnd = state.pos;
+  }
+
+  // restore old state
+  state.pos = oldPos;
+
+  return labelEnd;
+};
+
+
+/***/ }),
+/* 545 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Parse link title
+//
+
+
+
+var unescapeAll = __webpack_require__(11).unescapeAll;
+
+
+module.exports = function parseLinkTitle(str, pos, max) {
+  var code,
+      marker,
+      lines = 0,
+      start = pos,
+      result = {
+        ok: false,
+        pos: 0,
+        lines: 0,
+        str: ''
+      };
+
+  if (pos >= max) { return result; }
+
+  marker = str.charCodeAt(pos);
+
+  if (marker !== 0x22 /* " */ && marker !== 0x27 /* ' */ && marker !== 0x28 /* ( */) { return result; }
+
+  pos++;
+
+  // if opening marker is "(", switch it to closing marker ")"
+  if (marker === 0x28) { marker = 0x29; }
+
+  while (pos < max) {
+    code = str.charCodeAt(pos);
+    if (code === marker) {
+      result.pos = pos + 1;
+      result.lines = lines;
+      result.str = unescapeAll(str.slice(start + 1, pos));
+      result.ok = true;
+      return result;
+    } else if (code === 0x0A) {
+      lines++;
+    } else if (code === 0x5C /* \ */ && pos + 1 < max) {
+      pos++;
+      if (str.charCodeAt(pos) === 0x0A) {
+        lines++;
+      }
+    }
+
+    pos++;
+  }
+
+  return result;
+};
+
+
+/***/ }),
+/* 546 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Main parser class
+
+
+
+
+var utils        = __webpack_require__(11);
+var helpers      = __webpack_require__(542);
+var Renderer     = __webpack_require__(553);
+var ParserCore   = __webpack_require__(548);
+var ParserBlock  = __webpack_require__(547);
+var ParserInline = __webpack_require__(549);
+var LinkifyIt    = __webpack_require__(534);
+var mdurl        = __webpack_require__(238);
+var punycode     = __webpack_require__(239);
+
+
+var config = {
+  'default': __webpack_require__(551),
+  zero: __webpack_require__(552),
+  commonmark: __webpack_require__(550)
+};
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// This validator can prohibit more than really needed to prevent XSS. It's a
+// tradeoff to keep code simple and to be secure by default.
+//
+// If you need different setup - override validator method as you wish. Or
+// replace it with dummy function and use external sanitizer.
+//
+
+var BAD_PROTO_RE = /^(vbscript|javascript|file|data):/;
+var GOOD_DATA_RE = /^data:image\/(gif|png|jpeg|webp);/;
+
+function validateLink(url) {
+  // url should be normalized at this point, and existing entities are decoded
+  var str = url.trim().toLowerCase();
+
+  return BAD_PROTO_RE.test(str) ? (GOOD_DATA_RE.test(str) ? true : false) : true;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+var RECODE_HOSTNAME_FOR = [ 'http:', 'https:', 'mailto:' ];
+
+function normalizeLink(url) {
+  var parsed = mdurl.parse(url, true);
+
+  if (parsed.hostname) {
+    // Encode hostnames in urls like:
+    // `http://host/`, `https://host/`, `mailto:user@host`, `//host/`
+    //
+    // We don't encode unknown schemas, because it's likely that we encode
+    // something we shouldn't (e.g. `skype:name` treated as `skype:host`)
+    //
+    if (!parsed.protocol || RECODE_HOSTNAME_FOR.indexOf(parsed.protocol) >= 0) {
+      try {
+        parsed.hostname = punycode.toASCII(parsed.hostname);
+      } catch (er) { /**/ }
+    }
+  }
+
+  return mdurl.encode(mdurl.format(parsed));
+}
+
+function normalizeLinkText(url) {
+  var parsed = mdurl.parse(url, true);
+
+  if (parsed.hostname) {
+    // Encode hostnames in urls like:
+    // `http://host/`, `https://host/`, `mailto:user@host`, `//host/`
+    //
+    // We don't encode unknown schemas, because it's likely that we encode
+    // something we shouldn't (e.g. `skype:name` treated as `skype:host`)
+    //
+    if (!parsed.protocol || RECODE_HOSTNAME_FOR.indexOf(parsed.protocol) >= 0) {
+      try {
+        parsed.hostname = punycode.toUnicode(parsed.hostname);
+      } catch (er) { /**/ }
+    }
+  }
+
+  return mdurl.decode(mdurl.format(parsed));
+}
+
+
+/**
+ * class MarkdownIt
+ *
+ * Main parser/renderer class.
+ *
+ * ##### Usage
+ *
+ * ```javascript
+ * // node.js, "classic" way:
+ * var MarkdownIt = require('markdown-it'),
+ *     md = new MarkdownIt();
+ * var result = md.render('# markdown-it rulezz!');
+ *
+ * // node.js, the same, but with sugar:
+ * var md = require('markdown-it')();
+ * var result = md.render('# markdown-it rulezz!');
+ *
+ * // browser without AMD, added to "window" on script load
+ * // Note, there are no dash.
+ * var md = window.markdownit();
+ * var result = md.render('# markdown-it rulezz!');
+ * ```
+ *
+ * Single line rendering, without paragraph wrap:
+ *
+ * ```javascript
+ * var md = require('markdown-it')();
+ * var result = md.renderInline('__markdown-it__ rulezz!');
+ * ```
+ **/
+
+/**
+ * new MarkdownIt([presetName, options])
+ * - presetName (String): optional, `commonmark` / `zero`
+ * - options (Object)
+ *
+ * Creates parser instanse with given config. Can be called without `new`.
+ *
+ * ##### presetName
+ *
+ * MarkdownIt provides named presets as a convenience to quickly
+ * enable/disable active syntax rules and options for common use cases.
+ *
+ * - ["commonmark"](https://github.com/markdown-it/markdown-it/blob/master/lib/presets/commonmark.js) -
+ *   configures parser to strict [CommonMark](http://commonmark.org/) mode.
+ * - [default](https://github.com/markdown-it/markdown-it/blob/master/lib/presets/default.js) -
+ *   similar to GFM, used when no preset name given. Enables all available rules,
+ *   but still without html, typographer & autolinker.
+ * - ["zero"](https://github.com/markdown-it/markdown-it/blob/master/lib/presets/zero.js) -
+ *   all rules disabled. Useful to quickly setup your config via `.enable()`.
+ *   For example, when you need only `bold` and `italic` markup and nothing else.
+ *
+ * ##### options:
+ *
+ * - __html__ - `false`. Set `true` to enable HTML tags in source. Be careful!
+ *   That's not safe! You may need external sanitizer to protect output from XSS.
+ *   It's better to extend features via plugins, instead of enabling HTML.
+ * - __xhtmlOut__ - `false`. Set `true` to add '/' when closing single tags
+ *   (`<br />`). This is needed only for full CommonMark compatibility. In real
+ *   world you will need HTML output.
+ * - __breaks__ - `false`. Set `true` to convert `\n` in paragraphs into `<br>`.
+ * - __langPrefix__ - `language-`. CSS language class prefix for fenced blocks.
+ *   Can be useful for external highlighters.
+ * - __linkify__ - `false`. Set `true` to autoconvert URL-like text to links.
+ * - __typographer__  - `false`. Set `true` to enable [some language-neutral
+ *   replacement](https://github.com/markdown-it/markdown-it/blob/master/lib/rules_core/replacements.js) +
+ *   quotes beautification (smartquotes).
+ * - __quotes__ - `“”‘’`, String or Array. Double + single quotes replacement
+ *   pairs, when typographer enabled and smartquotes on. For example, you can
+ *   use `'«»„“'` for Russian, `'„“‚‘'` for German, and
+ *   `['«\xA0', '\xA0»', '‹\xA0', '\xA0›']` for French (including nbsp).
+ * - __highlight__ - `null`. Highlighter function for fenced code blocks.
+ *   Highlighter `function (str, lang)` should return escaped HTML. It can also
+ *   return empty string if the source was not changed and should be escaped
+ *   externaly. If result starts with <pre... internal wrapper is skipped.
+ *
+ * ##### Example
+ *
+ * ```javascript
+ * // commonmark mode
+ * var md = require('markdown-it')('commonmark');
+ *
+ * // default mode
+ * var md = require('markdown-it')();
+ *
+ * // enable everything
+ * var md = require('markdown-it')({
+ *   html: true,
+ *   linkify: true,
+ *   typographer: true
+ * });
+ * ```
+ *
+ * ##### Syntax highlighting
+ *
+ * ```js
+ * var hljs = require('highlight.js') // https://highlightjs.org/
+ *
+ * var md = require('markdown-it')({
+ *   highlight: function (str, lang) {
+ *     if (lang && hljs.getLanguage(lang)) {
+ *       try {
+ *         return hljs.highlight(lang, str, true).value;
+ *       } catch (__) {}
+ *     }
+ *
+ *     return ''; // use external default escaping
+ *   }
+ * });
+ * ```
+ *
+ * Or with full wrapper override (if you need assign class to `<pre>`):
+ *
+ * ```javascript
+ * var hljs = require('highlight.js') // https://highlightjs.org/
+ *
+ * // Actual default values
+ * var md = require('markdown-it')({
+ *   highlight: function (str, lang) {
+ *     if (lang && hljs.getLanguage(lang)) {
+ *       try {
+ *         return '<pre class="hljs"><code>' +
+ *                hljs.highlight(lang, str, true).value +
+ *                '</code></pre>';
+ *       } catch (__) {}
+ *     }
+ *
+ *     return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
+ *   }
+ * });
+ * ```
+ *
+ **/
+function MarkdownIt(presetName, options) {
+  if (!(this instanceof MarkdownIt)) {
+    return new MarkdownIt(presetName, options);
+  }
+
+  if (!options) {
+    if (!utils.isString(presetName)) {
+      options = presetName || {};
+      presetName = 'default';
+    }
+  }
+
+  /**
+   * MarkdownIt#inline -> ParserInline
+   *
+   * Instance of [[ParserInline]]. You may need it to add new rules when
+   * writing plugins. For simple rules control use [[MarkdownIt.disable]] and
+   * [[MarkdownIt.enable]].
+   **/
+  this.inline = new ParserInline();
+
+  /**
+   * MarkdownIt#block -> ParserBlock
+   *
+   * Instance of [[ParserBlock]]. You may need it to add new rules when
+   * writing plugins. For simple rules control use [[MarkdownIt.disable]] and
+   * [[MarkdownIt.enable]].
+   **/
+  this.block = new ParserBlock();
+
+  /**
+   * MarkdownIt#core -> Core
+   *
+   * Instance of [[Core]] chain executor. You may need it to add new rules when
+   * writing plugins. For simple rules control use [[MarkdownIt.disable]] and
+   * [[MarkdownIt.enable]].
+   **/
+  this.core = new ParserCore();
+
+  /**
+   * MarkdownIt#renderer -> Renderer
+   *
+   * Instance of [[Renderer]]. Use it to modify output look. Or to add rendering
+   * rules for new token types, generated by plugins.
+   *
+   * ##### Example
+   *
+   * ```javascript
+   * var md = require('markdown-it')();
+   *
+   * function myToken(tokens, idx, options, env, self) {
+   *   //...
+   *   return result;
+   * };
+   *
+   * md.renderer.rules['my_token'] = myToken
+   * ```
+   *
+   * See [[Renderer]] docs and [source code](https://github.com/markdown-it/markdown-it/blob/master/lib/renderer.js).
+   **/
+  this.renderer = new Renderer();
+
+  /**
+   * MarkdownIt#linkify -> LinkifyIt
+   *
+   * [linkify-it](https://github.com/markdown-it/linkify-it) instance.
+   * Used by [linkify](https://github.com/markdown-it/markdown-it/blob/master/lib/rules_core/linkify.js)
+   * rule.
+   **/
+  this.linkify = new LinkifyIt();
+
+  /**
+   * MarkdownIt#validateLink(url) -> Boolean
+   *
+   * Link validation function. CommonMark allows too much in links. By default
+   * we disable `javascript:`, `vbscript:`, `file:` schemas, and almost all `data:...` schemas
+   * except some embedded image types.
+   *
+   * You can change this behaviour:
+   *
+   * ```javascript
+   * var md = require('markdown-it')();
+   * // enable everything
+   * md.validateLink = function () { return true; }
+   * ```
+   **/
+  this.validateLink = validateLink;
+
+  /**
+   * MarkdownIt#normalizeLink(url) -> String
+   *
+   * Function used to encode link url to a machine-readable format,
+   * which includes url-encoding, punycode, etc.
+   **/
+  this.normalizeLink = normalizeLink;
+
+  /**
+   * MarkdownIt#normalizeLinkText(url) -> String
+   *
+   * Function used to decode link url to a human-readable format`
+   **/
+  this.normalizeLinkText = normalizeLinkText;
+
+
+  // Expose utils & helpers for easy acces from plugins
+
+  /**
+   * MarkdownIt#utils -> utils
+   *
+   * Assorted utility functions, useful to write plugins. See details
+   * [here](https://github.com/markdown-it/markdown-it/blob/master/lib/common/utils.js).
+   **/
+  this.utils = utils;
+
+  /**
+   * MarkdownIt#helpers -> helpers
+   *
+   * Link components parser functions, useful to write plugins. See details
+   * [here](https://github.com/markdown-it/markdown-it/blob/master/lib/helpers).
+   **/
+  this.helpers = utils.assign({}, helpers);
+
+
+  this.options = {};
+  this.configure(presetName);
+
+  if (options) { this.set(options); }
+}
+
+
+/** chainable
+ * MarkdownIt.set(options)
+ *
+ * Set parser options (in the same format as in constructor). Probably, you
+ * will never need it, but you can change options after constructor call.
+ *
+ * ##### Example
+ *
+ * ```javascript
+ * var md = require('markdown-it')()
+ *             .set({ html: true, breaks: true })
+ *             .set({ typographer, true });
+ * ```
+ *
+ * __Note:__ To achieve the best possible performance, don't modify a
+ * `markdown-it` instance options on the fly. If you need multiple configurations
+ * it's best to create multiple instances and initialize each with separate
+ * config.
+ **/
+MarkdownIt.prototype.set = function (options) {
+  utils.assign(this.options, options);
+  return this;
+};
+
+
+/** chainable, internal
+ * MarkdownIt.configure(presets)
+ *
+ * Batch load of all options and compenent settings. This is internal method,
+ * and you probably will not need it. But if you with - see available presets
+ * and data structure [here](https://github.com/markdown-it/markdown-it/tree/master/lib/presets)
+ *
+ * We strongly recommend to use presets instead of direct config loads. That
+ * will give better compatibility with next versions.
+ **/
+MarkdownIt.prototype.configure = function (presets) {
+  var self = this, presetName;
+
+  if (utils.isString(presets)) {
+    presetName = presets;
+    presets = config[presetName];
+    if (!presets) { throw new Error('Wrong `markdown-it` preset "' + presetName + '", check name'); }
+  }
+
+  if (!presets) { throw new Error('Wrong `markdown-it` preset, can\'t be empty'); }
+
+  if (presets.options) { self.set(presets.options); }
+
+  if (presets.components) {
+    Object.keys(presets.components).forEach(function (name) {
+      if (presets.components[name].rules) {
+        self[name].ruler.enableOnly(presets.components[name].rules);
+      }
+      if (presets.components[name].rules2) {
+        self[name].ruler2.enableOnly(presets.components[name].rules2);
+      }
+    });
+  }
+  return this;
+};
+
+
+/** chainable
+ * MarkdownIt.enable(list, ignoreInvalid)
+ * - list (String|Array): rule name or list of rule names to enable
+ * - ignoreInvalid (Boolean): set `true` to ignore errors when rule not found.
+ *
+ * Enable list or rules. It will automatically find appropriate components,
+ * containing rules with given names. If rule not found, and `ignoreInvalid`
+ * not set - throws exception.
+ *
+ * ##### Example
+ *
+ * ```javascript
+ * var md = require('markdown-it')()
+ *             .enable(['sub', 'sup'])
+ *             .disable('smartquotes');
+ * ```
+ **/
+MarkdownIt.prototype.enable = function (list, ignoreInvalid) {
+  var result = [];
+
+  if (!Array.isArray(list)) { list = [ list ]; }
+
+  [ 'core', 'block', 'inline' ].forEach(function (chain) {
+    result = result.concat(this[chain].ruler.enable(list, true));
+  }, this);
+
+  result = result.concat(this.inline.ruler2.enable(list, true));
+
+  var missed = list.filter(function (name) { return result.indexOf(name) < 0; });
+
+  if (missed.length && !ignoreInvalid) {
+    throw new Error('MarkdownIt. Failed to enable unknown rule(s): ' + missed);
+  }
+
+  return this;
+};
+
+
+/** chainable
+ * MarkdownIt.disable(list, ignoreInvalid)
+ * - list (String|Array): rule name or list of rule names to disable.
+ * - ignoreInvalid (Boolean): set `true` to ignore errors when rule not found.
+ *
+ * The same as [[MarkdownIt.enable]], but turn specified rules off.
+ **/
+MarkdownIt.prototype.disable = function (list, ignoreInvalid) {
+  var result = [];
+
+  if (!Array.isArray(list)) { list = [ list ]; }
+
+  [ 'core', 'block', 'inline' ].forEach(function (chain) {
+    result = result.concat(this[chain].ruler.disable(list, true));
+  }, this);
+
+  result = result.concat(this.inline.ruler2.disable(list, true));
+
+  var missed = list.filter(function (name) { return result.indexOf(name) < 0; });
+
+  if (missed.length && !ignoreInvalid) {
+    throw new Error('MarkdownIt. Failed to disable unknown rule(s): ' + missed);
+  }
+  return this;
+};
+
+
+/** chainable
+ * MarkdownIt.use(plugin, params)
+ *
+ * Load specified plugin with given params into current parser instance.
+ * It's just a sugar to call `plugin(md, params)` with curring.
+ *
+ * ##### Example
+ *
+ * ```javascript
+ * var iterator = require('markdown-it-for-inline');
+ * var md = require('markdown-it')()
+ *             .use(iterator, 'foo_replace', 'text', function (tokens, idx) {
+ *               tokens[idx].content = tokens[idx].content.replace(/foo/g, 'bar');
+ *             });
+ * ```
+ **/
+MarkdownIt.prototype.use = function (plugin /*, params, ... */) {
+  var args = [ this ].concat(Array.prototype.slice.call(arguments, 1));
+  plugin.apply(plugin, args);
+  return this;
+};
+
+
+/** internal
+ * MarkdownIt.parse(src, env) -> Array
+ * - src (String): source string
+ * - env (Object): environment sandbox
+ *
+ * Parse input string and returns list of block tokens (special token type
+ * "inline" will contain list of inline tokens). You should not call this
+ * method directly, until you write custom renderer (for example, to produce
+ * AST).
+ *
+ * `env` is used to pass data between "distributed" rules and return additional
+ * metadata like reference info, needed for the renderer. It also can be used to
+ * inject data in specific cases. Usually, you will be ok to pass `{}`,
+ * and then pass updated object to renderer.
+ **/
+MarkdownIt.prototype.parse = function (src, env) {
+  if (typeof src !== 'string') {
+    throw new Error('Input data should be a String');
+  }
+
+  var state = new this.core.State(src, this, env);
+
+  this.core.process(state);
+
+  return state.tokens;
+};
+
+
+/**
+ * MarkdownIt.render(src [, env]) -> String
+ * - src (String): source string
+ * - env (Object): environment sandbox
+ *
+ * Render markdown string into html. It does all magic for you :).
+ *
+ * `env` can be used to inject additional metadata (`{}` by default).
+ * But you will not need it with high probability. See also comment
+ * in [[MarkdownIt.parse]].
+ **/
+MarkdownIt.prototype.render = function (src, env) {
+  env = env || {};
+
+  return this.renderer.render(this.parse(src, env), this.options, env);
+};
+
+
+/** internal
+ * MarkdownIt.parseInline(src, env) -> Array
+ * - src (String): source string
+ * - env (Object): environment sandbox
+ *
+ * The same as [[MarkdownIt.parse]] but skip all block rules. It returns the
+ * block tokens list with the single `inline` element, containing parsed inline
+ * tokens in `children` property. Also updates `env` object.
+ **/
+MarkdownIt.prototype.parseInline = function (src, env) {
+  var state = new this.core.State(src, this, env);
+
+  state.inlineMode = true;
+  this.core.process(state);
+
+  return state.tokens;
+};
+
+
+/**
+ * MarkdownIt.renderInline(src [, env]) -> String
+ * - src (String): source string
+ * - env (Object): environment sandbox
+ *
+ * Similar to [[MarkdownIt.render]] but for single paragraph content. Result
+ * will NOT be wrapped into `<p>` tags.
+ **/
+MarkdownIt.prototype.renderInline = function (src, env) {
+  env = env || {};
+
+  return this.renderer.render(this.parseInline(src, env), this.options, env);
+};
+
+
+module.exports = MarkdownIt;
+
+
+/***/ }),
+/* 547 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/** internal
+ * class ParserBlock
+ *
+ * Block-level tokenizer.
+ **/
+
+
+
+var Ruler           = __webpack_require__(198);
+
+
+var _rules = [
+  // First 2 params - rule name & source. Secondary array - list of rules,
+  // which can be terminated by this one.
+  [ 'table',      __webpack_require__(565),      [ 'paragraph', 'reference' ] ],
+  [ 'code',       __webpack_require__(555) ],
+  [ 'fence',      __webpack_require__(556),      [ 'paragraph', 'reference', 'blockquote', 'list' ] ],
+  [ 'blockquote', __webpack_require__(554), [ 'paragraph', 'reference', 'list' ] ],
+  [ 'hr',         __webpack_require__(558),         [ 'paragraph', 'reference', 'blockquote', 'list' ] ],
+  [ 'list',       __webpack_require__(561),       [ 'paragraph', 'reference', 'blockquote' ] ],
+  [ 'reference',  __webpack_require__(563) ],
+  [ 'heading',    __webpack_require__(557),    [ 'paragraph', 'reference', 'blockquote' ] ],
+  [ 'lheading',   __webpack_require__(560) ],
+  [ 'html_block', __webpack_require__(559), [ 'paragraph', 'reference', 'blockquote' ] ],
+  [ 'paragraph',  __webpack_require__(562) ]
+];
+
+
+/**
+ * new ParserBlock()
+ **/
+function ParserBlock() {
+  /**
+   * ParserBlock#ruler -> Ruler
+   *
+   * [[Ruler]] instance. Keep configuration of block rules.
+   **/
+  this.ruler = new Ruler();
+
+  for (var i = 0; i < _rules.length; i++) {
+    this.ruler.push(_rules[i][0], _rules[i][1], { alt: (_rules[i][2] || []).slice() });
+  }
+}
+
+
+// Generate tokens for input range
+//
+ParserBlock.prototype.tokenize = function (state, startLine, endLine) {
+  var ok, i,
+      rules = this.ruler.getRules(''),
+      len = rules.length,
+      line = startLine,
+      hasEmptyLines = false,
+      maxNesting = state.md.options.maxNesting;
+
+  while (line < endLine) {
+    state.line = line = state.skipEmptyLines(line);
+    if (line >= endLine) { break; }
+
+    // Termination condition for nested calls.
+    // Nested calls currently used for blockquotes & lists
+    if (state.sCount[line] < state.blkIndent) { break; }
+
+    // If nesting level exceeded - skip tail to the end. That's not ordinary
+    // situation and we should not care about content.
+    if (state.level >= maxNesting) {
+      state.line = endLine;
+      break;
+    }
+
+    // Try all possible rules.
+    // On success, rule should:
+    //
+    // - update `state.line`
+    // - update `state.tokens`
+    // - return true
+
+    for (i = 0; i < len; i++) {
+      ok = rules[i](state, line, endLine, false);
+      if (ok) { break; }
+    }
+
+    // set state.tight iff we had an empty line before current tag
+    // i.e. latest empty line should not count
+    state.tight = !hasEmptyLines;
+
+    // paragraph might "eat" one newline after it in nested lists
+    if (state.isEmpty(state.line - 1)) {
+      hasEmptyLines = true;
+    }
+
+    line = state.line;
+
+    if (line < endLine && state.isEmpty(line)) {
+      hasEmptyLines = true;
+      line++;
+      state.line = line;
+    }
+  }
+};
+
+
+/**
+ * ParserBlock.parse(str, md, env, outTokens)
+ *
+ * Process input string and push block tokens into `outTokens`
+ **/
+ParserBlock.prototype.parse = function (src, md, env, outTokens) {
+  var state;
+
+  if (!src) { return; }
+
+  state = new this.State(src, md, env, outTokens);
+
+  this.tokenize(state, state.line, state.lineMax);
+};
+
+
+ParserBlock.prototype.State = __webpack_require__(564);
+
+
+module.exports = ParserBlock;
+
+
+/***/ }),
+/* 548 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/** internal
+ * class Core
+ *
+ * Top-level rules executor. Glues block/inline parsers and does intermediate
+ * transformations.
+ **/
+
+
+
+var Ruler  = __webpack_require__(198);
+
+
+var _rules = [
+  [ 'normalize',      __webpack_require__(569)      ],
+  [ 'block',          __webpack_require__(566)          ],
+  [ 'inline',         __webpack_require__(567)         ],
+  [ 'linkify',        __webpack_require__(568)        ],
+  [ 'replacements',   __webpack_require__(570)   ],
+  [ 'smartquotes',    __webpack_require__(571)    ]
+];
+
+
+/**
+ * new Core()
+ **/
+function Core() {
+  /**
+   * Core#ruler -> Ruler
+   *
+   * [[Ruler]] instance. Keep configuration of core rules.
+   **/
+  this.ruler = new Ruler();
+
+  for (var i = 0; i < _rules.length; i++) {
+    this.ruler.push(_rules[i][0], _rules[i][1]);
+  }
+}
+
+
+/**
+ * Core.process(state)
+ *
+ * Executes core chain rules.
+ **/
+Core.prototype.process = function (state) {
+  var i, l, rules;
+
+  rules = this.ruler.getRules('');
+
+  for (i = 0, l = rules.length; i < l; i++) {
+    rules[i](state);
+  }
+};
+
+Core.prototype.State = __webpack_require__(572);
+
+
+module.exports = Core;
+
+
+/***/ }),
+/* 549 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/** internal
+ * class ParserInline
+ *
+ * Tokenizes paragraph content.
+ **/
+
+
+
+var Ruler           = __webpack_require__(198);
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Parser rules
+
+var _rules = [
+  [ 'text',            __webpack_require__(583) ],
+  [ 'newline',         __webpack_require__(581) ],
+  [ 'escape',          __webpack_require__(577) ],
+  [ 'backticks',       __webpack_require__(574) ],
+  [ 'strikethrough',   __webpack_require__(237).tokenize ],
+  [ 'emphasis',        __webpack_require__(236).tokenize ],
+  [ 'link',            __webpack_require__(580) ],
+  [ 'image',           __webpack_require__(579) ],
+  [ 'autolink',        __webpack_require__(573) ],
+  [ 'html_inline',     __webpack_require__(578) ],
+  [ 'entity',          __webpack_require__(576) ]
+];
+
+var _rules2 = [
+  [ 'balance_pairs',   __webpack_require__(575) ],
+  [ 'strikethrough',   __webpack_require__(237).postProcess ],
+  [ 'emphasis',        __webpack_require__(236).postProcess ],
+  [ 'text_collapse',   __webpack_require__(584) ]
+];
+
+
+/**
+ * new ParserInline()
+ **/
+function ParserInline() {
+  var i;
+
+  /**
+   * ParserInline#ruler -> Ruler
+   *
+   * [[Ruler]] instance. Keep configuration of inline rules.
+   **/
+  this.ruler = new Ruler();
+
+  for (i = 0; i < _rules.length; i++) {
+    this.ruler.push(_rules[i][0], _rules[i][1]);
+  }
+
+  /**
+   * ParserInline#ruler2 -> Ruler
+   *
+   * [[Ruler]] instance. Second ruler used for post-processing
+   * (e.g. in emphasis-like rules).
+   **/
+  this.ruler2 = new Ruler();
+
+  for (i = 0; i < _rules2.length; i++) {
+    this.ruler2.push(_rules2[i][0], _rules2[i][1]);
+  }
+}
+
+
+// Skip single token by running all rules in validation mode;
+// returns `true` if any rule reported success
+//
+ParserInline.prototype.skipToken = function (state) {
+  var ok, i, pos = state.pos,
+      rules = this.ruler.getRules(''),
+      len = rules.length,
+      maxNesting = state.md.options.maxNesting,
+      cache = state.cache;
+
+
+  if (typeof cache[pos] !== 'undefined') {
+    state.pos = cache[pos];
+    return;
+  }
+
+  if (state.level < maxNesting) {
+    for (i = 0; i < len; i++) {
+      // Increment state.level and decrement it later to limit recursion.
+      // It's harmless to do here, because no tokens are created. But ideally,
+      // we'd need a separate private state variable for this purpose.
+      //
+      state.level++;
+      ok = rules[i](state, true);
+      state.level--;
+
+      if (ok) { break; }
+    }
+  } else {
+    // Too much nesting, just skip until the end of the paragraph.
+    //
+    // NOTE: this will cause links to behave incorrectly in the following case,
+    //       when an amount of `[` is exactly equal to `maxNesting + 1`:
+    //
+    //       [[[[[[[[[[[[[[[[[[[[[foo]()
+    //
+    // TODO: remove this workaround when CM standard will allow nested links
+    //       (we can replace it by preventing links from being parsed in
+    //       validation mode)
+    //
+    state.pos = state.posMax;
+  }
+
+  if (!ok) { state.pos++; }
+  cache[pos] = state.pos;
+};
+
+
+// Generate tokens for input range
+//
+ParserInline.prototype.tokenize = function (state) {
+  var ok, i,
+      rules = this.ruler.getRules(''),
+      len = rules.length,
+      end = state.posMax,
+      maxNesting = state.md.options.maxNesting;
+
+  while (state.pos < end) {
+    // Try all possible rules.
+    // On success, rule should:
+    //
+    // - update `state.pos`
+    // - update `state.tokens`
+    // - return true
+
+    if (state.level < maxNesting) {
+      for (i = 0; i < len; i++) {
+        ok = rules[i](state, false);
+        if (ok) { break; }
+      }
+    }
+
+    if (ok) {
+      if (state.pos >= end) { break; }
+      continue;
+    }
+
+    state.pending += state.src[state.pos++];
+  }
+
+  if (state.pending) {
+    state.pushPending();
+  }
+};
+
+
+/**
+ * ParserInline.parse(str, md, env, outTokens)
+ *
+ * Process input string and push inline tokens into `outTokens`
+ **/
+ParserInline.prototype.parse = function (str, md, env, outTokens) {
+  var i, rules, len;
+  var state = new this.State(str, md, env, outTokens);
+
+  this.tokenize(state);
+
+  rules = this.ruler2.getRules('');
+  len = rules.length;
+
+  for (i = 0; i < len; i++) {
+    rules[i](state);
+  }
+};
+
+
+ParserInline.prototype.State = __webpack_require__(582);
+
+
+module.exports = ParserInline;
+
+
+/***/ }),
+/* 550 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Commonmark default options
+
+
+
+
+module.exports = {
+  options: {
+    html:         true,         // Enable HTML tags in source
+    xhtmlOut:     true,         // Use '/' to close single tags (<br />)
+    breaks:       false,        // Convert '\n' in paragraphs into <br>
+    langPrefix:   'language-',  // CSS language prefix for fenced blocks
+    linkify:      false,        // autoconvert URL-like texts to links
+
+    // Enable some language-neutral replacements + quotes beautification
+    typographer:  false,
+
+    // Double + single quotes replacement pairs, when typographer enabled,
+    // and smartquotes on. Could be either a String or an Array.
+    //
+    // For example, you can use '«»„“' for Russian, '„“‚‘' for German,
+    // and ['«\xA0', '\xA0»', '‹\xA0', '\xA0›'] for French (including nbsp).
+    quotes: '\u201c\u201d\u2018\u2019', /* “”‘’ */
+
+    // Highlighter function. Should return escaped HTML,
+    // or '' if the source string is not changed and should be escaped externaly.
+    // If result starts with <pre... internal wrapper is skipped.
+    //
+    // function (/*str, lang*/) { return ''; }
+    //
+    highlight: null,
+
+    maxNesting:   20            // Internal protection, recursion limit
+  },
+
+  components: {
+
+    core: {
+      rules: [
+        'normalize',
+        'block',
+        'inline'
+      ]
+    },
+
+    block: {
+      rules: [
+        'blockquote',
+        'code',
+        'fence',
+        'heading',
+        'hr',
+        'html_block',
+        'lheading',
+        'list',
+        'reference',
+        'paragraph'
+      ]
+    },
+
+    inline: {
+      rules: [
+        'autolink',
+        'backticks',
+        'emphasis',
+        'entity',
+        'escape',
+        'html_inline',
+        'image',
+        'link',
+        'newline',
+        'text'
+      ],
+      rules2: [
+        'balance_pairs',
+        'emphasis',
+        'text_collapse'
+      ]
+    }
+  }
+};
+
+
+/***/ }),
+/* 551 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// markdown-it default options
+
+
+
+
+module.exports = {
+  options: {
+    html:         false,        // Enable HTML tags in source
+    xhtmlOut:     false,        // Use '/' to close single tags (<br />)
+    breaks:       false,        // Convert '\n' in paragraphs into <br>
+    langPrefix:   'language-',  // CSS language prefix for fenced blocks
+    linkify:      false,        // autoconvert URL-like texts to links
+
+    // Enable some language-neutral replacements + quotes beautification
+    typographer:  false,
+
+    // Double + single quotes replacement pairs, when typographer enabled,
+    // and smartquotes on. Could be either a String or an Array.
+    //
+    // For example, you can use '«»„“' for Russian, '„“‚‘' for German,
+    // and ['«\xA0', '\xA0»', '‹\xA0', '\xA0›'] for French (including nbsp).
+    quotes: '\u201c\u201d\u2018\u2019', /* “”‘’ */
+
+    // Highlighter function. Should return escaped HTML,
+    // or '' if the source string is not changed and should be escaped externaly.
+    // If result starts with <pre... internal wrapper is skipped.
+    //
+    // function (/*str, lang*/) { return ''; }
+    //
+    highlight: null,
+
+    maxNesting:   100            // Internal protection, recursion limit
+  },
+
+  components: {
+
+    core: {},
+    block: {},
+    inline: {}
+  }
+};
+
+
+/***/ }),
+/* 552 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// "Zero" preset, with nothing enabled. Useful for manual configuring of simple
+// modes. For example, to parse bold/italic only.
+
+
+
+
+module.exports = {
+  options: {
+    html:         false,        // Enable HTML tags in source
+    xhtmlOut:     false,        // Use '/' to close single tags (<br />)
+    breaks:       false,        // Convert '\n' in paragraphs into <br>
+    langPrefix:   'language-',  // CSS language prefix for fenced blocks
+    linkify:      false,        // autoconvert URL-like texts to links
+
+    // Enable some language-neutral replacements + quotes beautification
+    typographer:  false,
+
+    // Double + single quotes replacement pairs, when typographer enabled,
+    // and smartquotes on. Could be either a String or an Array.
+    //
+    // For example, you can use '«»„“' for Russian, '„“‚‘' for German,
+    // and ['«\xA0', '\xA0»', '‹\xA0', '\xA0›'] for French (including nbsp).
+    quotes: '\u201c\u201d\u2018\u2019', /* “”‘’ */
+
+    // Highlighter function. Should return escaped HTML,
+    // or '' if the source string is not changed and should be escaped externaly.
+    // If result starts with <pre... internal wrapper is skipped.
+    //
+    // function (/*str, lang*/) { return ''; }
+    //
+    highlight: null,
+
+    maxNesting:   20            // Internal protection, recursion limit
+  },
+
+  components: {
+
+    core: {
+      rules: [
+        'normalize',
+        'block',
+        'inline'
+      ]
+    },
+
+    block: {
+      rules: [
+        'paragraph'
+      ]
+    },
+
+    inline: {
+      rules: [
+        'text'
+      ],
+      rules2: [
+        'balance_pairs',
+        'text_collapse'
+      ]
+    }
+  }
+};
+
+
+/***/ }),
+/* 553 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * class Renderer
+ *
+ * Generates HTML from parsed token stream. Each instance has independent
+ * copy of rules. Those can be rewritten with ease. Also, you can add new
+ * rules if you create plugin and adds new token types.
+ **/
+
+
+
+var assign          = __webpack_require__(11).assign;
+var unescapeAll     = __webpack_require__(11).unescapeAll;
+var escapeHtml      = __webpack_require__(11).escapeHtml;
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+var default_rules = {};
+
+
+default_rules.code_inline = function (tokens, idx, options, env, slf) {
+  var token = tokens[idx];
+
+  return  '<code' + slf.renderAttrs(token) + '>' +
+          escapeHtml(tokens[idx].content) +
+          '</code>';
+};
+
+
+default_rules.code_block = function (tokens, idx, options, env, slf) {
+  var token = tokens[idx];
+
+  return  '<pre' + slf.renderAttrs(token) + '><code>' +
+          escapeHtml(tokens[idx].content) +
+          '</code></pre>\n';
+};
+
+
+default_rules.fence = function (tokens, idx, options, env, slf) {
+  var token = tokens[idx],
+      info = token.info ? unescapeAll(token.info).trim() : '',
+      langName = '',
+      highlighted, i, tmpAttrs, tmpToken;
+
+  if (info) {
+    langName = info.split(/\s+/g)[0];
+  }
+
+  if (options.highlight) {
+    highlighted = options.highlight(token.content, langName) || escapeHtml(token.content);
+  } else {
+    highlighted = escapeHtml(token.content);
+  }
+
+  if (highlighted.indexOf('<pre') === 0) {
+    return highlighted + '\n';
+  }
+
+  // If language exists, inject class gently, without mudofying original token.
+  // May be, one day we will add .clone() for token and simplify this part, but
+  // now we prefer to keep things local.
+  if (info) {
+    i        = token.attrIndex('class');
+    tmpAttrs = token.attrs ? token.attrs.slice() : [];
+
+    if (i < 0) {
+      tmpAttrs.push([ 'class', options.langPrefix + langName ]);
+    } else {
+      tmpAttrs[i][1] += ' ' + options.langPrefix + langName;
+    }
+
+    // Fake token just to render attributes
+    tmpToken = {
+      attrs: tmpAttrs
+    };
+
+    return  '<pre><code' + slf.renderAttrs(tmpToken) + '>'
+          + highlighted
+          + '</code></pre>\n';
+  }
+
+
+  return  '<pre><code' + slf.renderAttrs(token) + '>'
+        + highlighted
+        + '</code></pre>\n';
+};
+
+
+default_rules.image = function (tokens, idx, options, env, slf) {
+  var token = tokens[idx];
+
+  // "alt" attr MUST be set, even if empty. Because it's mandatory and
+  // should be placed on proper position for tests.
+  //
+  // Replace content with actual value
+
+  token.attrs[token.attrIndex('alt')][1] =
+    slf.renderInlineAsText(token.children, options, env);
+
+  return slf.renderToken(tokens, idx, options);
+};
+
+
+default_rules.hardbreak = function (tokens, idx, options /*, env */) {
+  return options.xhtmlOut ? '<br />\n' : '<br>\n';
+};
+default_rules.softbreak = function (tokens, idx, options /*, env */) {
+  return options.breaks ? (options.xhtmlOut ? '<br />\n' : '<br>\n') : '\n';
+};
+
+
+default_rules.text = function (tokens, idx /*, options, env */) {
+  return escapeHtml(tokens[idx].content);
+};
+
+
+default_rules.html_block = function (tokens, idx /*, options, env */) {
+  return tokens[idx].content;
+};
+default_rules.html_inline = function (tokens, idx /*, options, env */) {
+  return tokens[idx].content;
+};
+
+
+/**
+ * new Renderer()
+ *
+ * Creates new [[Renderer]] instance and fill [[Renderer#rules]] with defaults.
+ **/
+function Renderer() {
+
+  /**
+   * Renderer#rules -> Object
+   *
+   * Contains render rules for tokens. Can be updated and extended.
+   *
+   * ##### Example
+   *
+   * ```javascript
+   * var md = require('markdown-it')();
+   *
+   * md.renderer.rules.strong_open  = function () { return '<b>'; };
+   * md.renderer.rules.strong_close = function () { return '</b>'; };
+   *
+   * var result = md.renderInline(...);
+   * ```
+   *
+   * Each rule is called as independed static function with fixed signature:
+   *
+   * ```javascript
+   * function my_token_render(tokens, idx, options, env, renderer) {
+   *   // ...
+   *   return renderedHTML;
+   * }
+   * ```
+   *
+   * See [source code](https://github.com/markdown-it/markdown-it/blob/master/lib/renderer.js)
+   * for more details and examples.
+   **/
+  this.rules = assign({}, default_rules);
+}
+
+
+/**
+ * Renderer.renderAttrs(token) -> String
+ *
+ * Render token attributes to string.
+ **/
+Renderer.prototype.renderAttrs = function renderAttrs(token) {
+  var i, l, result;
+
+  if (!token.attrs) { return ''; }
+
+  result = '';
+
+  for (i = 0, l = token.attrs.length; i < l; i++) {
+    result += ' ' + escapeHtml(token.attrs[i][0]) + '="' + escapeHtml(token.attrs[i][1]) + '"';
+  }
+
+  return result;
+};
+
+
+/**
+ * Renderer.renderToken(tokens, idx, options) -> String
+ * - tokens (Array): list of tokens
+ * - idx (Numbed): token index to render
+ * - options (Object): params of parser instance
+ *
+ * Default token renderer. Can be overriden by custom function
+ * in [[Renderer#rules]].
+ **/
+Renderer.prototype.renderToken = function renderToken(tokens, idx, options) {
+  var nextToken,
+      result = '',
+      needLf = false,
+      token = tokens[idx];
+
+  // Tight list paragraphs
+  if (token.hidden) {
+    return '';
+  }
+
+  // Insert a newline between hidden paragraph and subsequent opening
+  // block-level tag.
+  //
+  // For example, here we should insert a newline before blockquote:
+  //  - a
+  //    >
+  //
+  if (token.block && token.nesting !== -1 && idx && tokens[idx - 1].hidden) {
+    result += '\n';
+  }
+
+  // Add token name, e.g. `<img`
+  result += (token.nesting === -1 ? '</' : '<') + token.tag;
+
+  // Encode attributes, e.g. `<img src="foo"`
+  result += this.renderAttrs(token);
+
+  // Add a slash for self-closing tags, e.g. `<img src="foo" /`
+  if (token.nesting === 0 && options.xhtmlOut) {
+    result += ' /';
+  }
+
+  // Check if we need to add a newline after this tag
+  if (token.block) {
+    needLf = true;
+
+    if (token.nesting === 1) {
+      if (idx + 1 < tokens.length) {
+        nextToken = tokens[idx + 1];
+
+        if (nextToken.type === 'inline' || nextToken.hidden) {
+          // Block-level tag containing an inline tag.
+          //
+          needLf = false;
+
+        } else if (nextToken.nesting === -1 && nextToken.tag === token.tag) {
+          // Opening tag + closing tag of the same type. E.g. `<li></li>`.
+          //
+          needLf = false;
+        }
+      }
+    }
+  }
+
+  result += needLf ? '>\n' : '>';
+
+  return result;
+};
+
+
+/**
+ * Renderer.renderInline(tokens, options, env) -> String
+ * - tokens (Array): list on block tokens to renter
+ * - options (Object): params of parser instance
+ * - env (Object): additional data from parsed input (references, for example)
+ *
+ * The same as [[Renderer.render]], but for single token of `inline` type.
+ **/
+Renderer.prototype.renderInline = function (tokens, options, env) {
+  var type,
+      result = '',
+      rules = this.rules;
+
+  for (var i = 0, len = tokens.length; i < len; i++) {
+    type = tokens[i].type;
+
+    if (typeof rules[type] !== 'undefined') {
+      result += rules[type](tokens, i, options, env, this);
+    } else {
+      result += this.renderToken(tokens, i, options);
+    }
+  }
+
+  return result;
+};
+
+
+/** internal
+ * Renderer.renderInlineAsText(tokens, options, env) -> String
+ * - tokens (Array): list on block tokens to renter
+ * - options (Object): params of parser instance
+ * - env (Object): additional data from parsed input (references, for example)
+ *
+ * Special kludge for image `alt` attributes to conform CommonMark spec.
+ * Don't try to use it! Spec requires to show `alt` content with stripped markup,
+ * instead of simple escaping.
+ **/
+Renderer.prototype.renderInlineAsText = function (tokens, options, env) {
+  var result = '';
+
+  for (var i = 0, len = tokens.length; i < len; i++) {
+    if (tokens[i].type === 'text') {
+      result += tokens[i].content;
+    } else if (tokens[i].type === 'image') {
+      result += this.renderInlineAsText(tokens[i].children, options, env);
+    }
+  }
+
+  return result;
+};
+
+
+/**
+ * Renderer.render(tokens, options, env) -> String
+ * - tokens (Array): list on block tokens to renter
+ * - options (Object): params of parser instance
+ * - env (Object): additional data from parsed input (references, for example)
+ *
+ * Takes token stream and generates HTML. Probably, you will never need to call
+ * this method directly.
+ **/
+Renderer.prototype.render = function (tokens, options, env) {
+  var i, len, type,
+      result = '',
+      rules = this.rules;
+
+  for (i = 0, len = tokens.length; i < len; i++) {
+    type = tokens[i].type;
+
+    if (type === 'inline') {
+      result += this.renderInline(tokens[i].children, options, env);
+    } else if (typeof rules[type] !== 'undefined') {
+      result += rules[tokens[i].type](tokens, i, options, env, this);
+    } else {
+      result += this.renderToken(tokens, i, options, env);
+    }
+  }
+
+  return result;
+};
+
+module.exports = Renderer;
+
+
+/***/ }),
+/* 554 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Block quotes
+
+
+
+var isSpace = __webpack_require__(11).isSpace;
+
+
+module.exports = function blockquote(state, startLine, endLine, silent) {
+  var adjustTab,
+      ch,
+      i,
+      initial,
+      isOutdented,
+      l,
+      lastLineEmpty,
+      lines,
+      nextLine,
+      offset,
+      oldBMarks,
+      oldBSCount,
+      oldIndent,
+      oldParentType,
+      oldSCount,
+      oldTShift,
+      spaceAfterMarker,
+      terminate,
+      terminatorRules,
+      token,
+      oldLineMax = state.lineMax,
+      pos = state.bMarks[startLine] + state.tShift[startLine],
+      max = state.eMarks[startLine];
+
+  // if it's indented more than 3 spaces, it should be a code block
+  if (state.sCount[startLine] - state.blkIndent >= 4) { return false; }
+
+  // check the block quote marker
+  if (state.src.charCodeAt(pos++) !== 0x3E/* > */) { return false; }
+
+  // we know that it's going to be a valid blockquote,
+  // so no point trying to find the end of it in silent mode
+  if (silent) { return true; }
+
+  // skip spaces after ">" and re-calculate offset
+  initial = offset = state.sCount[startLine] + pos - (state.bMarks[startLine] + state.tShift[startLine]);
+
+  // skip one optional space after '>'
+  if (state.src.charCodeAt(pos) === 0x20 /* space */) {
+    // ' >   test '
+    //     ^ -- position start of line here:
+    pos++;
+    initial++;
+    offset++;
+    adjustTab = false;
+    spaceAfterMarker = true;
+  } else if (state.src.charCodeAt(pos) === 0x09 /* tab */) {
+    spaceAfterMarker = true;
+
+    if ((state.bsCount[startLine] + offset) % 4 === 3) {
+      // '  >\t  test '
+      //       ^ -- position start of line here (tab has width===1)
+      pos++;
+      initial++;
+      offset++;
+      adjustTab = false;
+    } else {
+      // ' >\t  test '
+      //    ^ -- position start of line here + shift bsCount slightly
+      //         to make extra space appear
+      adjustTab = true;
+    }
+  } else {
+    spaceAfterMarker = false;
+  }
+
+  oldBMarks = [ state.bMarks[startLine] ];
+  state.bMarks[startLine] = pos;
+
+  while (pos < max) {
+    ch = state.src.charCodeAt(pos);
+
+    if (isSpace(ch)) {
+      if (ch === 0x09) {
+        offset += 4 - (offset + state.bsCount[startLine] + (adjustTab ? 1 : 0)) % 4;
+      } else {
+        offset++;
+      }
+    } else {
+      break;
+    }
+
+    pos++;
+  }
+
+  oldBSCount = [ state.bsCount[startLine] ];
+  state.bsCount[startLine] = state.sCount[startLine] + 1 + (spaceAfterMarker ? 1 : 0);
+
+  lastLineEmpty = pos >= max;
+
+  oldSCount = [ state.sCount[startLine] ];
+  state.sCount[startLine] = offset - initial;
+
+  oldTShift = [ state.tShift[startLine] ];
+  state.tShift[startLine] = pos - state.bMarks[startLine];
+
+  terminatorRules = state.md.block.ruler.getRules('blockquote');
+
+  oldParentType = state.parentType;
+  state.parentType = 'blockquote';
+
+  // Search the end of the block
+  //
+  // Block ends with either:
+  //  1. an empty line outside:
+  //     ```
+  //     > test
+  //
+  //     ```
+  //  2. an empty line inside:
+  //     ```
+  //     >
+  //     test
+  //     ```
+  //  3. another tag:
+  //     ```
+  //     > test
+  //      - - -
+  //     ```
+  for (nextLine = startLine + 1; nextLine < endLine; nextLine++) {
+    // check if it's outdented, i.e. it's inside list item and indented
+    // less than said list item:
+    //
+    // ```
+    // 1. anything
+    //    > current blockquote
+    // 2. checking this line
+    // ```
+    isOutdented = state.sCount[nextLine] < state.blkIndent;
+
+    pos = state.bMarks[nextLine] + state.tShift[nextLine];
+    max = state.eMarks[nextLine];
+
+    if (pos >= max) {
+      // Case 1: line is not inside the blockquote, and this line is empty.
+      break;
+    }
+
+    if (state.src.charCodeAt(pos++) === 0x3E/* > */ && !isOutdented) {
+      // This line is inside the blockquote.
+
+      // skip spaces after ">" and re-calculate offset
+      initial = offset = state.sCount[nextLine] + pos - (state.bMarks[nextLine] + state.tShift[nextLine]);
+
+      // skip one optional space after '>'
+      if (state.src.charCodeAt(pos) === 0x20 /* space */) {
+        // ' >   test '
+        //     ^ -- position start of line here:
+        pos++;
+        initial++;
+        offset++;
+        adjustTab = false;
+        spaceAfterMarker = true;
+      } else if (state.src.charCodeAt(pos) === 0x09 /* tab */) {
+        spaceAfterMarker = true;
+
+        if ((state.bsCount[nextLine] + offset) % 4 === 3) {
+          // '  >\t  test '
+          //       ^ -- position start of line here (tab has width===1)
+          pos++;
+          initial++;
+          offset++;
+          adjustTab = false;
+        } else {
+          // ' >\t  test '
+          //    ^ -- position start of line here + shift bsCount slightly
+          //         to make extra space appear
+          adjustTab = true;
+        }
+      } else {
+        spaceAfterMarker = false;
+      }
+
+      oldBMarks.push(state.bMarks[nextLine]);
+      state.bMarks[nextLine] = pos;
+
+      while (pos < max) {
+        ch = state.src.charCodeAt(pos);
+
+        if (isSpace(ch)) {
+          if (ch === 0x09) {
+            offset += 4 - (offset + state.bsCount[nextLine] + (adjustTab ? 1 : 0)) % 4;
+          } else {
+            offset++;
+          }
+        } else {
+          break;
+        }
+
+        pos++;
+      }
+
+      lastLineEmpty = pos >= max;
+
+      oldBSCount.push(state.bsCount[nextLine]);
+      state.bsCount[nextLine] = state.sCount[nextLine] + 1 + (spaceAfterMarker ? 1 : 0);
+
+      oldSCount.push(state.sCount[nextLine]);
+      state.sCount[nextLine] = offset - initial;
+
+      oldTShift.push(state.tShift[nextLine]);
+      state.tShift[nextLine] = pos - state.bMarks[nextLine];
+      continue;
+    }
+
+    // Case 2: line is not inside the blockquote, and the last line was empty.
+    if (lastLineEmpty) { break; }
+
+    // Case 3: another tag found.
+    terminate = false;
+    for (i = 0, l = terminatorRules.length; i < l; i++) {
+      if (terminatorRules[i](state, nextLine, endLine, true)) {
+        terminate = true;
+        break;
+      }
+    }
+
+    if (terminate) {
+      // Quirk to enforce "hard termination mode" for paragraphs;
+      // normally if you call `tokenize(state, startLine, nextLine)`,
+      // paragraphs will look below nextLine for paragraph continuation,
+      // but if blockquote is terminated by another tag, they shouldn't
+      state.lineMax = nextLine;
+
+      if (state.blkIndent !== 0) {
+        // state.blkIndent was non-zero, we now set it to zero,
+        // so we need to re-calculate all offsets to appear as
+        // if indent wasn't changed
+        oldBMarks.push(state.bMarks[nextLine]);
+        oldBSCount.push(state.bsCount[nextLine]);
+        oldTShift.push(state.tShift[nextLine]);
+        oldSCount.push(state.sCount[nextLine]);
+        state.sCount[nextLine] -= state.blkIndent;
+      }
+
+      break;
+    }
+
+    if (isOutdented) break;
+
+    oldBMarks.push(state.bMarks[nextLine]);
+    oldBSCount.push(state.bsCount[nextLine]);
+    oldTShift.push(state.tShift[nextLine]);
+    oldSCount.push(state.sCount[nextLine]);
+
+    // A negative indentation means that this is a paragraph continuation
+    //
+    state.sCount[nextLine] = -1;
+  }
+
+  oldIndent = state.blkIndent;
+  state.blkIndent = 0;
+
+  token        = state.push('blockquote_open', 'blockquote', 1);
+  token.markup = '>';
+  token.map    = lines = [ startLine, 0 ];
+
+  state.md.block.tokenize(state, startLine, nextLine);
+
+  token        = state.push('blockquote_close', 'blockquote', -1);
+  token.markup = '>';
+
+  state.lineMax = oldLineMax;
+  state.parentType = oldParentType;
+  lines[1] = state.line;
+
+  // Restore original tShift; this might not be necessary since the parser
+  // has already been here, but just to make sure we can do that.
+  for (i = 0; i < oldTShift.length; i++) {
+    state.bMarks[i + startLine] = oldBMarks[i];
+    state.tShift[i + startLine] = oldTShift[i];
+    state.sCount[i + startLine] = oldSCount[i];
+    state.bsCount[i + startLine] = oldBSCount[i];
+  }
+  state.blkIndent = oldIndent;
+
+  return true;
+};
+
+
+/***/ }),
+/* 555 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Code block (4 spaces padded)
+
+
+
+
+module.exports = function code(state, startLine, endLine/*, silent*/) {
+  var nextLine, last, token;
+
+  if (state.sCount[startLine] - state.blkIndent < 4) { return false; }
+
+  last = nextLine = startLine + 1;
+
+  while (nextLine < endLine) {
+    if (state.isEmpty(nextLine)) {
+      nextLine++;
+      continue;
+    }
+
+    if (state.sCount[nextLine] - state.blkIndent >= 4) {
+      nextLine++;
+      last = nextLine;
+      continue;
+    }
+    break;
+  }
+
+  state.line = last;
+
+  token         = state.push('code_block', 'code', 0);
+  token.content = state.getLines(startLine, last, 4 + state.blkIndent, true);
+  token.map     = [ startLine, state.line ];
+
+  return true;
+};
+
+
+/***/ }),
+/* 556 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// fences (``` lang, ~~~ lang)
+
+
+
+
+module.exports = function fence(state, startLine, endLine, silent) {
+  var marker, len, params, nextLine, mem, token, markup,
+      haveEndMarker = false,
+      pos = state.bMarks[startLine] + state.tShift[startLine],
+      max = state.eMarks[startLine];
+
+  // if it's indented more than 3 spaces, it should be a code block
+  if (state.sCount[startLine] - state.blkIndent >= 4) { return false; }
+
+  if (pos + 3 > max) { return false; }
+
+  marker = state.src.charCodeAt(pos);
+
+  if (marker !== 0x7E/* ~ */ && marker !== 0x60 /* ` */) {
+    return false;
+  }
+
+  // scan marker length
+  mem = pos;
+  pos = state.skipChars(pos, marker);
+
+  len = pos - mem;
+
+  if (len < 3) { return false; }
+
+  markup = state.src.slice(mem, pos);
+  params = state.src.slice(pos, max);
+
+  if (params.indexOf(String.fromCharCode(marker)) >= 0) { return false; }
+
+  // Since start is found, we can report success here in validation mode
+  if (silent) { return true; }
+
+  // search end of block
+  nextLine = startLine;
+
+  for (;;) {
+    nextLine++;
+    if (nextLine >= endLine) {
+      // unclosed block should be autoclosed by end of document.
+      // also block seems to be autoclosed by end of parent
+      break;
+    }
+
+    pos = mem = state.bMarks[nextLine] + state.tShift[nextLine];
+    max = state.eMarks[nextLine];
+
+    if (pos < max && state.sCount[nextLine] < state.blkIndent) {
+      // non-empty line with negative indent should stop the list:
+      // - ```
+      //  test
+      break;
+    }
+
+    if (state.src.charCodeAt(pos) !== marker) { continue; }
+
+    if (state.sCount[nextLine] - state.blkIndent >= 4) {
+      // closing fence should be indented less than 4 spaces
+      continue;
+    }
+
+    pos = state.skipChars(pos, marker);
+
+    // closing code fence must be at least as long as the opening one
+    if (pos - mem < len) { continue; }
+
+    // make sure tail has spaces only
+    pos = state.skipSpaces(pos);
+
+    if (pos < max) { continue; }
+
+    haveEndMarker = true;
+    // found!
+    break;
+  }
+
+  // If a fence has heading spaces, they should be removed from its inner block
+  len = state.sCount[startLine];
+
+  state.line = nextLine + (haveEndMarker ? 1 : 0);
+
+  token         = state.push('fence', 'code', 0);
+  token.info    = params;
+  token.content = state.getLines(startLine + 1, nextLine, len, true);
+  token.markup  = markup;
+  token.map     = [ startLine, state.line ];
+
+  return true;
+};
+
+
+/***/ }),
+/* 557 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// heading (#, ##, ...)
+
+
+
+var isSpace = __webpack_require__(11).isSpace;
+
+
+module.exports = function heading(state, startLine, endLine, silent) {
+  var ch, level, tmp, token,
+      pos = state.bMarks[startLine] + state.tShift[startLine],
+      max = state.eMarks[startLine];
+
+  // if it's indented more than 3 spaces, it should be a code block
+  if (state.sCount[startLine] - state.blkIndent >= 4) { return false; }
+
+  ch  = state.src.charCodeAt(pos);
+
+  if (ch !== 0x23/* # */ || pos >= max) { return false; }
+
+  // count heading level
+  level = 1;
+  ch = state.src.charCodeAt(++pos);
+  while (ch === 0x23/* # */ && pos < max && level <= 6) {
+    level++;
+    ch = state.src.charCodeAt(++pos);
+  }
+
+  if (level > 6 || (pos < max && !isSpace(ch))) { return false; }
+
+  if (silent) { return true; }
+
+  // Let's cut tails like '    ###  ' from the end of string
+
+  max = state.skipSpacesBack(max, pos);
+  tmp = state.skipCharsBack(max, 0x23, pos); // #
+  if (tmp > pos && isSpace(state.src.charCodeAt(tmp - 1))) {
+    max = tmp;
+  }
+
+  state.line = startLine + 1;
+
+  token        = state.push('heading_open', 'h' + String(level), 1);
+  token.markup = '########'.slice(0, level);
+  token.map    = [ startLine, state.line ];
+
+  token          = state.push('inline', '', 0);
+  token.content  = state.src.slice(pos, max).trim();
+  token.map      = [ startLine, state.line ];
+  token.children = [];
+
+  token        = state.push('heading_close', 'h' + String(level), -1);
+  token.markup = '########'.slice(0, level);
+
+  return true;
+};
+
+
+/***/ }),
+/* 558 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Horizontal rule
+
+
+
+var isSpace = __webpack_require__(11).isSpace;
+
+
+module.exports = function hr(state, startLine, endLine, silent) {
+  var marker, cnt, ch, token,
+      pos = state.bMarks[startLine] + state.tShift[startLine],
+      max = state.eMarks[startLine];
+
+  // if it's indented more than 3 spaces, it should be a code block
+  if (state.sCount[startLine] - state.blkIndent >= 4) { return false; }
+
+  marker = state.src.charCodeAt(pos++);
+
+  // Check hr marker
+  if (marker !== 0x2A/* * */ &&
+      marker !== 0x2D/* - */ &&
+      marker !== 0x5F/* _ */) {
+    return false;
+  }
+
+  // markers can be mixed with spaces, but there should be at least 3 of them
+
+  cnt = 1;
+  while (pos < max) {
+    ch = state.src.charCodeAt(pos++);
+    if (ch !== marker && !isSpace(ch)) { return false; }
+    if (ch === marker) { cnt++; }
+  }
+
+  if (cnt < 3) { return false; }
+
+  if (silent) { return true; }
+
+  state.line = startLine + 1;
+
+  token        = state.push('hr', 'hr', 0);
+  token.map    = [ startLine, state.line ];
+  token.markup = Array(cnt + 1).join(String.fromCharCode(marker));
+
+  return true;
+};
+
+
+/***/ }),
+/* 559 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// HTML block
+
+
+
+
+var block_names = __webpack_require__(541);
+var HTML_OPEN_CLOSE_TAG_RE = __webpack_require__(235).HTML_OPEN_CLOSE_TAG_RE;
+
+// An array of opening and corresponding closing sequences for html tags,
+// last argument defines whether it can terminate a paragraph or not
+//
+var HTML_SEQUENCES = [
+  [ /^<(script|pre|style)(?=(\s|>|$))/i, /<\/(script|pre|style)>/i, true ],
+  [ /^<!--/,        /-->/,   true ],
+  [ /^<\?/,         /\?>/,   true ],
+  [ /^<![A-Z]/,     />/,     true ],
+  [ /^<!\[CDATA\[/, /\]\]>/, true ],
+  [ new RegExp('^</?(' + block_names.join('|') + ')(?=(\\s|/?>|$))', 'i'), /^$/, true ],
+  [ new RegExp(HTML_OPEN_CLOSE_TAG_RE.source + '\\s*$'),  /^$/, false ]
+];
+
+
+module.exports = function html_block(state, startLine, endLine, silent) {
+  var i, nextLine, token, lineText,
+      pos = state.bMarks[startLine] + state.tShift[startLine],
+      max = state.eMarks[startLine];
+
+  // if it's indented more than 3 spaces, it should be a code block
+  if (state.sCount[startLine] - state.blkIndent >= 4) { return false; }
+
+  if (!state.md.options.html) { return false; }
+
+  if (state.src.charCodeAt(pos) !== 0x3C/* < */) { return false; }
+
+  lineText = state.src.slice(pos, max);
+
+  for (i = 0; i < HTML_SEQUENCES.length; i++) {
+    if (HTML_SEQUENCES[i][0].test(lineText)) { break; }
+  }
+
+  if (i === HTML_SEQUENCES.length) { return false; }
+
+  if (silent) {
+    // true if this sequence can be a terminator, false otherwise
+    return HTML_SEQUENCES[i][2];
+  }
+
+  nextLine = startLine + 1;
+
+  // If we are here - we detected HTML block.
+  // Let's roll down till block end.
+  if (!HTML_SEQUENCES[i][1].test(lineText)) {
+    for (; nextLine < endLine; nextLine++) {
+      if (state.sCount[nextLine] < state.blkIndent) { break; }
+
+      pos = state.bMarks[nextLine] + state.tShift[nextLine];
+      max = state.eMarks[nextLine];
+      lineText = state.src.slice(pos, max);
+
+      if (HTML_SEQUENCES[i][1].test(lineText)) {
+        if (lineText.length !== 0) { nextLine++; }
+        break;
+      }
+    }
+  }
+
+  state.line = nextLine;
+
+  token         = state.push('html_block', '', 0);
+  token.map     = [ startLine, nextLine ];
+  token.content = state.getLines(startLine, nextLine, state.blkIndent, true);
+
+  return true;
+};
+
+
+/***/ }),
+/* 560 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// lheading (---, ===)
+
+
+
+
+module.exports = function lheading(state, startLine, endLine/*, silent*/) {
+  var content, terminate, i, l, token, pos, max, level, marker,
+      nextLine = startLine + 1, oldParentType,
+      terminatorRules = state.md.block.ruler.getRules('paragraph');
+
+  // if it's indented more than 3 spaces, it should be a code block
+  if (state.sCount[startLine] - state.blkIndent >= 4) { return false; }
+
+  oldParentType = state.parentType;
+  state.parentType = 'paragraph'; // use paragraph to match terminatorRules
+
+  // jump line-by-line until empty one or EOF
+  for (; nextLine < endLine && !state.isEmpty(nextLine); nextLine++) {
+    // this would be a code block normally, but after paragraph
+    // it's considered a lazy continuation regardless of what's there
+    if (state.sCount[nextLine] - state.blkIndent > 3) { continue; }
+
+    //
+    // Check for underline in setext header
+    //
+    if (state.sCount[nextLine] >= state.blkIndent) {
+      pos = state.bMarks[nextLine] + state.tShift[nextLine];
+      max = state.eMarks[nextLine];
+
+      if (pos < max) {
+        marker = state.src.charCodeAt(pos);
+
+        if (marker === 0x2D/* - */ || marker === 0x3D/* = */) {
+          pos = state.skipChars(pos, marker);
+          pos = state.skipSpaces(pos);
+
+          if (pos >= max) {
+            level = (marker === 0x3D/* = */ ? 1 : 2);
+            break;
+          }
+        }
+      }
+    }
+
+    // quirk for blockquotes, this line should already be checked by that rule
+    if (state.sCount[nextLine] < 0) { continue; }
+
+    // Some tags can terminate paragraph without empty line.
+    terminate = false;
+    for (i = 0, l = terminatorRules.length; i < l; i++) {
+      if (terminatorRules[i](state, nextLine, endLine, true)) {
+        terminate = true;
+        break;
+      }
+    }
+    if (terminate) { break; }
+  }
+
+  if (!level) {
+    // Didn't find valid underline
+    return false;
+  }
+
+  content = state.getLines(startLine, nextLine, state.blkIndent, false).trim();
+
+  state.line = nextLine + 1;
+
+  token          = state.push('heading_open', 'h' + String(level), 1);
+  token.markup   = String.fromCharCode(marker);
+  token.map      = [ startLine, state.line ];
+
+  token          = state.push('inline', '', 0);
+  token.content  = content;
+  token.map      = [ startLine, state.line - 1 ];
+  token.children = [];
+
+  token          = state.push('heading_close', 'h' + String(level), -1);
+  token.markup   = String.fromCharCode(marker);
+
+  state.parentType = oldParentType;
+
+  return true;
+};
+
+
+/***/ }),
+/* 561 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Lists
+
+
+
+var isSpace = __webpack_require__(11).isSpace;
+
+
+// Search `[-+*][\n ]`, returns next pos arter marker on success
+// or -1 on fail.
+function skipBulletListMarker(state, startLine) {
+  var marker, pos, max, ch;
+
+  pos = state.bMarks[startLine] + state.tShift[startLine];
+  max = state.eMarks[startLine];
+
+  marker = state.src.charCodeAt(pos++);
+  // Check bullet
+  if (marker !== 0x2A/* * */ &&
+      marker !== 0x2D/* - */ &&
+      marker !== 0x2B/* + */) {
+    return -1;
+  }
+
+  if (pos < max) {
+    ch = state.src.charCodeAt(pos);
+
+    if (!isSpace(ch)) {
+      // " -test " - is not a list item
+      return -1;
+    }
+  }
+
+  return pos;
+}
+
+// Search `\d+[.)][\n ]`, returns next pos arter marker on success
+// or -1 on fail.
+function skipOrderedListMarker(state, startLine) {
+  var ch,
+      start = state.bMarks[startLine] + state.tShift[startLine],
+      pos = start,
+      max = state.eMarks[startLine];
+
+  // List marker should have at least 2 chars (digit + dot)
+  if (pos + 1 >= max) { return -1; }
+
+  ch = state.src.charCodeAt(pos++);
+
+  if (ch < 0x30/* 0 */ || ch > 0x39/* 9 */) { return -1; }
+
+  for (;;) {
+    // EOL -> fail
+    if (pos >= max) { return -1; }
+
+    ch = state.src.charCodeAt(pos++);
+
+    if (ch >= 0x30/* 0 */ && ch <= 0x39/* 9 */) {
+
+      // List marker should have no more than 9 digits
+      // (prevents integer overflow in browsers)
+      if (pos - start >= 10) { return -1; }
+
+      continue;
+    }
+
+    // found valid marker
+    if (ch === 0x29/* ) */ || ch === 0x2e/* . */) {
+      break;
+    }
+
+    return -1;
+  }
+
+
+  if (pos < max) {
+    ch = state.src.charCodeAt(pos);
+
+    if (!isSpace(ch)) {
+      // " 1.test " - is not a list item
+      return -1;
+    }
+  }
+  return pos;
+}
+
+function markTightParagraphs(state, idx) {
+  var i, l,
+      level = state.level + 2;
+
+  for (i = idx + 2, l = state.tokens.length - 2; i < l; i++) {
+    if (state.tokens[i].level === level && state.tokens[i].type === 'paragraph_open') {
+      state.tokens[i + 2].hidden = true;
+      state.tokens[i].hidden = true;
+      i += 2;
+    }
+  }
+}
+
+
+module.exports = function list(state, startLine, endLine, silent) {
+  var ch,
+      contentStart,
+      i,
+      indent,
+      indentAfterMarker,
+      initial,
+      isOrdered,
+      itemLines,
+      l,
+      listLines,
+      listTokIdx,
+      markerCharCode,
+      markerValue,
+      max,
+      nextLine,
+      offset,
+      oldIndent,
+      oldLIndent,
+      oldParentType,
+      oldTShift,
+      oldTight,
+      pos,
+      posAfterMarker,
+      prevEmptyEnd,
+      start,
+      terminate,
+      terminatorRules,
+      token,
+      isTerminatingParagraph = false,
+      tight = true;
+
+  // if it's indented more than 3 spaces, it should be a code block
+  if (state.sCount[startLine] - state.blkIndent >= 4) { return false; }
+
+  // limit conditions when list can interrupt
+  // a paragraph (validation mode only)
+  if (silent && state.parentType === 'paragraph') {
+    // Next list item should still terminate previous list item;
+    //
+    // This code can fail if plugins use blkIndent as well as lists,
+    // but I hope the spec gets fixed long before that happens.
+    //
+    if (state.tShift[startLine] >= state.blkIndent) {
+      isTerminatingParagraph = true;
+    }
+  }
+
+  // Detect list type and position after marker
+  if ((posAfterMarker = skipOrderedListMarker(state, startLine)) >= 0) {
+    isOrdered = true;
+    start = state.bMarks[startLine] + state.tShift[startLine];
+    markerValue = Number(state.src.substr(start, posAfterMarker - start - 1));
+
+    // If we're starting a new ordered list right after
+    // a paragraph, it should start with 1.
+    if (isTerminatingParagraph && markerValue !== 1) return false;
+
+  } else if ((posAfterMarker = skipBulletListMarker(state, startLine)) >= 0) {
+    isOrdered = false;
+
+  } else {
+    return false;
+  }
+
+  // If we're starting a new unordered list right after
+  // a paragraph, first line should not be empty.
+  if (isTerminatingParagraph) {
+    if (state.skipSpaces(posAfterMarker) >= state.eMarks[startLine]) return false;
+  }
+
+  // We should terminate list on style change. Remember first one to compare.
+  markerCharCode = state.src.charCodeAt(posAfterMarker - 1);
+
+  // For validation mode we can terminate immediately
+  if (silent) { return true; }
+
+  // Start list
+  listTokIdx = state.tokens.length;
+
+  if (isOrdered) {
+    token       = state.push('ordered_list_open', 'ol', 1);
+    if (markerValue !== 1) {
+      token.attrs = [ [ 'start', markerValue ] ];
+    }
+
+  } else {
+    token       = state.push('bullet_list_open', 'ul', 1);
+  }
+
+  token.map    = listLines = [ startLine, 0 ];
+  token.markup = String.fromCharCode(markerCharCode);
+
+  //
+  // Iterate list items
+  //
+
+  nextLine = startLine;
+  prevEmptyEnd = false;
+  terminatorRules = state.md.block.ruler.getRules('list');
+
+  oldParentType = state.parentType;
+  state.parentType = 'list';
+
+  while (nextLine < endLine) {
+    pos = posAfterMarker;
+    max = state.eMarks[nextLine];
+
+    initial = offset = state.sCount[nextLine] + posAfterMarker - (state.bMarks[startLine] + state.tShift[startLine]);
+
+    while (pos < max) {
+      ch = state.src.charCodeAt(pos);
+
+      if (isSpace(ch)) {
+        if (ch === 0x09) {
+          offset += 4 - (offset + state.bsCount[nextLine]) % 4;
+        } else {
+          offset++;
+        }
+      } else {
+        break;
+      }
+
+      pos++;
+    }
+
+    contentStart = pos;
+
+    if (contentStart >= max) {
+      // trimming space in "-    \n  3" case, indent is 1 here
+      indentAfterMarker = 1;
+    } else {
+      indentAfterMarker = offset - initial;
+    }
+
+    // If we have more than 4 spaces, the indent is 1
+    // (the rest is just indented code block)
+    if (indentAfterMarker > 4) { indentAfterMarker = 1; }
+
+    // "  -  test"
+    //  ^^^^^ - calculating total length of this thing
+    indent = initial + indentAfterMarker;
+
+    // Run subparser & write tokens
+    token        = state.push('list_item_open', 'li', 1);
+    token.markup = String.fromCharCode(markerCharCode);
+    token.map    = itemLines = [ startLine, 0 ];
+
+    oldIndent = state.blkIndent;
+    oldTight = state.tight;
+    oldTShift = state.tShift[startLine];
+    oldLIndent = state.sCount[startLine];
+    state.blkIndent = indent;
+    state.tight = true;
+    state.tShift[startLine] = contentStart - state.bMarks[startLine];
+    state.sCount[startLine] = offset;
+
+    if (contentStart >= max && state.isEmpty(startLine + 1)) {
+      // workaround for this case
+      // (list item is empty, list terminates before "foo"):
+      // ~~~~~~~~
+      //   -
+      //
+      //     foo
+      // ~~~~~~~~
+      state.line = Math.min(state.line + 2, endLine);
+    } else {
+      state.md.block.tokenize(state, startLine, endLine, true);
+    }
+
+    // If any of list item is tight, mark list as tight
+    if (!state.tight || prevEmptyEnd) {
+      tight = false;
+    }
+    // Item become loose if finish with empty line,
+    // but we should filter last element, because it means list finish
+    prevEmptyEnd = (state.line - startLine) > 1 && state.isEmpty(state.line - 1);
+
+    state.blkIndent = oldIndent;
+    state.tShift[startLine] = oldTShift;
+    state.sCount[startLine] = oldLIndent;
+    state.tight = oldTight;
+
+    token        = state.push('list_item_close', 'li', -1);
+    token.markup = String.fromCharCode(markerCharCode);
+
+    nextLine = startLine = state.line;
+    itemLines[1] = nextLine;
+    contentStart = state.bMarks[startLine];
+
+    if (nextLine >= endLine) { break; }
+
+    //
+    // Try to check if list is terminated or continued.
+    //
+    if (state.sCount[nextLine] < state.blkIndent) { break; }
+
+    // fail if terminating block found
+    terminate = false;
+    for (i = 0, l = terminatorRules.length; i < l; i++) {
+      if (terminatorRules[i](state, nextLine, endLine, true)) {
+        terminate = true;
+        break;
+      }
+    }
+    if (terminate) { break; }
+
+    // fail if list has another type
+    if (isOrdered) {
+      posAfterMarker = skipOrderedListMarker(state, nextLine);
+      if (posAfterMarker < 0) { break; }
+    } else {
+      posAfterMarker = skipBulletListMarker(state, nextLine);
+      if (posAfterMarker < 0) { break; }
+    }
+
+    if (markerCharCode !== state.src.charCodeAt(posAfterMarker - 1)) { break; }
+  }
+
+  // Finilize list
+  if (isOrdered) {
+    token = state.push('ordered_list_close', 'ol', -1);
+  } else {
+    token = state.push('bullet_list_close', 'ul', -1);
+  }
+  token.markup = String.fromCharCode(markerCharCode);
+
+  listLines[1] = nextLine;
+  state.line = nextLine;
+
+  state.parentType = oldParentType;
+
+  // mark paragraphs tight if needed
+  if (tight) {
+    markTightParagraphs(state, listTokIdx);
+  }
+
+  return true;
+};
+
+
+/***/ }),
+/* 562 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Paragraph
+
+
+
+
+module.exports = function paragraph(state, startLine/*, endLine*/) {
+  var content, terminate, i, l, token, oldParentType,
+      nextLine = startLine + 1,
+      terminatorRules = state.md.block.ruler.getRules('paragraph'),
+      endLine = state.lineMax;
+
+  oldParentType = state.parentType;
+  state.parentType = 'paragraph';
+
+  // jump line-by-line until empty one or EOF
+  for (; nextLine < endLine && !state.isEmpty(nextLine); nextLine++) {
+    // this would be a code block normally, but after paragraph
+    // it's considered a lazy continuation regardless of what's there
+    if (state.sCount[nextLine] - state.blkIndent > 3) { continue; }
+
+    // quirk for blockquotes, this line should already be checked by that rule
+    if (state.sCount[nextLine] < 0) { continue; }
+
+    // Some tags can terminate paragraph without empty line.
+    terminate = false;
+    for (i = 0, l = terminatorRules.length; i < l; i++) {
+      if (terminatorRules[i](state, nextLine, endLine, true)) {
+        terminate = true;
+        break;
+      }
+    }
+    if (terminate) { break; }
+  }
+
+  content = state.getLines(startLine, nextLine, state.blkIndent, false).trim();
+
+  state.line = nextLine;
+
+  token          = state.push('paragraph_open', 'p', 1);
+  token.map      = [ startLine, state.line ];
+
+  token          = state.push('inline', '', 0);
+  token.content  = content;
+  token.map      = [ startLine, state.line ];
+  token.children = [];
+
+  token          = state.push('paragraph_close', 'p', -1);
+
+  state.parentType = oldParentType;
+
+  return true;
+};
+
+
+/***/ }),
+/* 563 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+
+var normalizeReference   = __webpack_require__(11).normalizeReference;
+var isSpace              = __webpack_require__(11).isSpace;
+
+
+module.exports = function reference(state, startLine, _endLine, silent) {
+  var ch,
+      destEndPos,
+      destEndLineNo,
+      endLine,
+      href,
+      i,
+      l,
+      label,
+      labelEnd,
+      oldParentType,
+      res,
+      start,
+      str,
+      terminate,
+      terminatorRules,
+      title,
+      lines = 0,
+      pos = state.bMarks[startLine] + state.tShift[startLine],
+      max = state.eMarks[startLine],
+      nextLine = startLine + 1;
+
+  // if it's indented more than 3 spaces, it should be a code block
+  if (state.sCount[startLine] - state.blkIndent >= 4) { return false; }
+
+  if (state.src.charCodeAt(pos) !== 0x5B/* [ */) { return false; }
+
+  // Simple check to quickly interrupt scan on [link](url) at the start of line.
+  // Can be useful on practice: https://github.com/markdown-it/markdown-it/issues/54
+  while (++pos < max) {
+    if (state.src.charCodeAt(pos) === 0x5D /* ] */ &&
+        state.src.charCodeAt(pos - 1) !== 0x5C/* \ */) {
+      if (pos + 1 === max) { return false; }
+      if (state.src.charCodeAt(pos + 1) !== 0x3A/* : */) { return false; }
+      break;
+    }
+  }
+
+  endLine = state.lineMax;
+
+  // jump line-by-line until empty one or EOF
+  terminatorRules = state.md.block.ruler.getRules('reference');
+
+  oldParentType = state.parentType;
+  state.parentType = 'reference';
+
+  for (; nextLine < endLine && !state.isEmpty(nextLine); nextLine++) {
+    // this would be a code block normally, but after paragraph
+    // it's considered a lazy continuation regardless of what's there
+    if (state.sCount[nextLine] - state.blkIndent > 3) { continue; }
+
+    // quirk for blockquotes, this line should already be checked by that rule
+    if (state.sCount[nextLine] < 0) { continue; }
+
+    // Some tags can terminate paragraph without empty line.
+    terminate = false;
+    for (i = 0, l = terminatorRules.length; i < l; i++) {
+      if (terminatorRules[i](state, nextLine, endLine, true)) {
+        terminate = true;
+        break;
+      }
+    }
+    if (terminate) { break; }
+  }
+
+  str = state.getLines(startLine, nextLine, state.blkIndent, false).trim();
+  max = str.length;
+
+  for (pos = 1; pos < max; pos++) {
+    ch = str.charCodeAt(pos);
+    if (ch === 0x5B /* [ */) {
+      return false;
+    } else if (ch === 0x5D /* ] */) {
+      labelEnd = pos;
+      break;
+    } else if (ch === 0x0A /* \n */) {
+      lines++;
+    } else if (ch === 0x5C /* \ */) {
+      pos++;
+      if (pos < max && str.charCodeAt(pos) === 0x0A) {
+        lines++;
+      }
+    }
+  }
+
+  if (labelEnd < 0 || str.charCodeAt(labelEnd + 1) !== 0x3A/* : */) { return false; }
+
+  // [label]:   destination   'title'
+  //         ^^^ skip optional whitespace here
+  for (pos = labelEnd + 2; pos < max; pos++) {
+    ch = str.charCodeAt(pos);
+    if (ch === 0x0A) {
+      lines++;
+    } else if (isSpace(ch)) {
+      /*eslint no-empty:0*/
+    } else {
+      break;
+    }
+  }
+
+  // [label]:   destination   'title'
+  //            ^^^^^^^^^^^ parse this
+  res = state.md.helpers.parseLinkDestination(str, pos, max);
+  if (!res.ok) { return false; }
+
+  href = state.md.normalizeLink(res.str);
+  if (!state.md.validateLink(href)) { return false; }
+
+  pos = res.pos;
+  lines += res.lines;
+
+  // save cursor state, we could require to rollback later
+  destEndPos = pos;
+  destEndLineNo = lines;
+
+  // [label]:   destination   'title'
+  //                       ^^^ skipping those spaces
+  start = pos;
+  for (; pos < max; pos++) {
+    ch = str.charCodeAt(pos);
+    if (ch === 0x0A) {
+      lines++;
+    } else if (isSpace(ch)) {
+      /*eslint no-empty:0*/
+    } else {
+      break;
+    }
+  }
+
+  // [label]:   destination   'title'
+  //                          ^^^^^^^ parse this
+  res = state.md.helpers.parseLinkTitle(str, pos, max);
+  if (pos < max && start !== pos && res.ok) {
+    title = res.str;
+    pos = res.pos;
+    lines += res.lines;
+  } else {
+    title = '';
+    pos = destEndPos;
+    lines = destEndLineNo;
+  }
+
+  // skip trailing spaces until the rest of the line
+  while (pos < max) {
+    ch = str.charCodeAt(pos);
+    if (!isSpace(ch)) { break; }
+    pos++;
+  }
+
+  if (pos < max && str.charCodeAt(pos) !== 0x0A) {
+    if (title) {
+      // garbage at the end of the line after title,
+      // but it could still be a valid reference if we roll back
+      title = '';
+      pos = destEndPos;
+      lines = destEndLineNo;
+      while (pos < max) {
+        ch = str.charCodeAt(pos);
+        if (!isSpace(ch)) { break; }
+        pos++;
+      }
+    }
+  }
+
+  if (pos < max && str.charCodeAt(pos) !== 0x0A) {
+    // garbage at the end of the line
+    return false;
+  }
+
+  label = normalizeReference(str.slice(1, labelEnd));
+  if (!label) {
+    // CommonMark 0.20 disallows empty labels
+    return false;
+  }
+
+  // Reference can not terminate anything. This check is for safety only.
+  /*istanbul ignore if*/
+  if (silent) { return true; }
+
+  if (typeof state.env.references === 'undefined') {
+    state.env.references = {};
+  }
+  if (typeof state.env.references[label] === 'undefined') {
+    state.env.references[label] = { title: title, href: href };
+  }
+
+  state.parentType = oldParentType;
+
+  state.line = startLine + lines + 1;
+  return true;
+};
+
+
+/***/ }),
+/* 564 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Parser state class
+
+
+
+var Token = __webpack_require__(199);
+var isSpace = __webpack_require__(11).isSpace;
+
+
+function StateBlock(src, md, env, tokens) {
+  var ch, s, start, pos, len, indent, offset, indent_found;
+
+  this.src = src;
+
+  // link to parser instance
+  this.md     = md;
+
+  this.env = env;
+
+  //
+  // Internal state vartiables
+  //
+
+  this.tokens = tokens;
+
+  this.bMarks = [];  // line begin offsets for fast jumps
+  this.eMarks = [];  // line end offsets for fast jumps
+  this.tShift = [];  // offsets of the first non-space characters (tabs not expanded)
+  this.sCount = [];  // indents for each line (tabs expanded)
+
+  // An amount of virtual spaces (tabs expanded) between beginning
+  // of each line (bMarks) and real beginning of that line.
+  //
+  // It exists only as a hack because blockquotes override bMarks
+  // losing information in the process.
+  //
+  // It's used only when expanding tabs, you can think about it as
+  // an initial tab length, e.g. bsCount=21 applied to string `\t123`
+  // means first tab should be expanded to 4-21%4 === 3 spaces.
+  //
+  this.bsCount = [];
+
+  // block parser variables
+  this.blkIndent  = 0; // required block content indent
+                       // (for example, if we are in list)
+  this.line       = 0; // line index in src
+  this.lineMax    = 0; // lines count
+  this.tight      = false;  // loose/tight mode for lists
+  this.ddIndent   = -1; // indent of the current dd block (-1 if there isn't any)
+
+  // can be 'blockquote', 'list', 'root', 'paragraph' or 'reference'
+  // used in lists to determine if they interrupt a paragraph
+  this.parentType = 'root';
+
+  this.level = 0;
+
+  // renderer
+  this.result = '';
+
+  // Create caches
+  // Generate markers.
+  s = this.src;
+  indent_found = false;
+
+  for (start = pos = indent = offset = 0, len = s.length; pos < len; pos++) {
+    ch = s.charCodeAt(pos);
+
+    if (!indent_found) {
+      if (isSpace(ch)) {
+        indent++;
+
+        if (ch === 0x09) {
+          offset += 4 - offset % 4;
+        } else {
+          offset++;
+        }
+        continue;
+      } else {
+        indent_found = true;
+      }
+    }
+
+    if (ch === 0x0A || pos === len - 1) {
+      if (ch !== 0x0A) { pos++; }
+      this.bMarks.push(start);
+      this.eMarks.push(pos);
+      this.tShift.push(indent);
+      this.sCount.push(offset);
+      this.bsCount.push(0);
+
+      indent_found = false;
+      indent = 0;
+      offset = 0;
+      start = pos + 1;
+    }
+  }
+
+  // Push fake entry to simplify cache bounds checks
+  this.bMarks.push(s.length);
+  this.eMarks.push(s.length);
+  this.tShift.push(0);
+  this.sCount.push(0);
+  this.bsCount.push(0);
+
+  this.lineMax = this.bMarks.length - 1; // don't count last fake line
+}
+
+// Push new token to "stream".
+//
+StateBlock.prototype.push = function (type, tag, nesting) {
+  var token = new Token(type, tag, nesting);
+  token.block = true;
+
+  if (nesting < 0) { this.level--; }
+  token.level = this.level;
+  if (nesting > 0) { this.level++; }
+
+  this.tokens.push(token);
+  return token;
+};
+
+StateBlock.prototype.isEmpty = function isEmpty(line) {
+  return this.bMarks[line] + this.tShift[line] >= this.eMarks[line];
+};
+
+StateBlock.prototype.skipEmptyLines = function skipEmptyLines(from) {
+  for (var max = this.lineMax; from < max; from++) {
+    if (this.bMarks[from] + this.tShift[from] < this.eMarks[from]) {
+      break;
+    }
+  }
+  return from;
+};
+
+// Skip spaces from given position.
+StateBlock.prototype.skipSpaces = function skipSpaces(pos) {
+  var ch;
+
+  for (var max = this.src.length; pos < max; pos++) {
+    ch = this.src.charCodeAt(pos);
+    if (!isSpace(ch)) { break; }
+  }
+  return pos;
+};
+
+// Skip spaces from given position in reverse.
+StateBlock.prototype.skipSpacesBack = function skipSpacesBack(pos, min) {
+  if (pos <= min) { return pos; }
+
+  while (pos > min) {
+    if (!isSpace(this.src.charCodeAt(--pos))) { return pos + 1; }
+  }
+  return pos;
+};
+
+// Skip char codes from given position
+StateBlock.prototype.skipChars = function skipChars(pos, code) {
+  for (var max = this.src.length; pos < max; pos++) {
+    if (this.src.charCodeAt(pos) !== code) { break; }
+  }
+  return pos;
+};
+
+// Skip char codes reverse from given position - 1
+StateBlock.prototype.skipCharsBack = function skipCharsBack(pos, code, min) {
+  if (pos <= min) { return pos; }
+
+  while (pos > min) {
+    if (code !== this.src.charCodeAt(--pos)) { return pos + 1; }
+  }
+  return pos;
+};
+
+// cut lines range from source.
+StateBlock.prototype.getLines = function getLines(begin, end, indent, keepLastLF) {
+  var i, lineIndent, ch, first, last, queue, lineStart,
+      line = begin;
+
+  if (begin >= end) {
+    return '';
+  }
+
+  queue = new Array(end - begin);
+
+  for (i = 0; line < end; line++, i++) {
+    lineIndent = 0;
+    lineStart = first = this.bMarks[line];
+
+    if (line + 1 < end || keepLastLF) {
+      // No need for bounds check because we have fake entry on tail.
+      last = this.eMarks[line] + 1;
+    } else {
+      last = this.eMarks[line];
+    }
+
+    while (first < last && lineIndent < indent) {
+      ch = this.src.charCodeAt(first);
+
+      if (isSpace(ch)) {
+        if (ch === 0x09) {
+          lineIndent += 4 - (lineIndent + this.bsCount[line]) % 4;
+        } else {
+          lineIndent++;
+        }
+      } else if (first - lineStart < this.tShift[line]) {
+        // patched tShift masked characters to look like spaces (blockquotes, list markers)
+        lineIndent++;
+      } else {
+        break;
+      }
+
+      first++;
+    }
+
+    if (lineIndent > indent) {
+      // partially expanding tabs in code blocks, e.g '\t\tfoobar'
+      // with indent=2 becomes '  \tfoobar'
+      queue[i] = new Array(lineIndent - indent + 1).join(' ') + this.src.slice(first, last);
+    } else {
+      queue[i] = this.src.slice(first, last);
+    }
+  }
+
+  return queue.join('');
+};
+
+// re-export Token class to use in block rules
+StateBlock.prototype.Token = Token;
+
+
+module.exports = StateBlock;
+
+
+/***/ }),
+/* 565 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// GFM table, non-standard
+
+
+
+var isSpace = __webpack_require__(11).isSpace;
+
+
+function getLine(state, line) {
+  var pos = state.bMarks[line] + state.blkIndent,
+      max = state.eMarks[line];
+
+  return state.src.substr(pos, max - pos);
+}
+
+function escapedSplit(str) {
+  var result = [],
+      pos = 0,
+      max = str.length,
+      ch,
+      escapes = 0,
+      lastPos = 0,
+      backTicked = false,
+      lastBackTick = 0;
+
+  ch  = str.charCodeAt(pos);
+
+  while (pos < max) {
+    if (ch === 0x60/* ` */) {
+      if (backTicked) {
+        // make \` close code sequence, but not open it;
+        // the reason is: `\` is correct code block
+        backTicked = false;
+        lastBackTick = pos;
+      } else if (escapes % 2 === 0) {
+        backTicked = true;
+        lastBackTick = pos;
+      }
+    } else if (ch === 0x7c/* | */ && (escapes % 2 === 0) && !backTicked) {
+      result.push(str.substring(lastPos, pos));
+      lastPos = pos + 1;
+    }
+
+    if (ch === 0x5c/* \ */) {
+      escapes++;
+    } else {
+      escapes = 0;
+    }
+
+    pos++;
+
+    // If there was an un-closed backtick, go back to just after
+    // the last backtick, but as if it was a normal character
+    if (pos === max && backTicked) {
+      backTicked = false;
+      pos = lastBackTick + 1;
+    }
+
+    ch = str.charCodeAt(pos);
+  }
+
+  result.push(str.substring(lastPos));
+
+  return result;
+}
+
+
+module.exports = function table(state, startLine, endLine, silent) {
+  var ch, lineText, pos, i, nextLine, columns, columnCount, token,
+      aligns, t, tableLines, tbodyLines;
+
+  // should have at least two lines
+  if (startLine + 2 > endLine) { return false; }
+
+  nextLine = startLine + 1;
+
+  if (state.sCount[nextLine] < state.blkIndent) { return false; }
+
+  // if it's indented more than 3 spaces, it should be a code block
+  if (state.sCount[nextLine] - state.blkIndent >= 4) { return false; }
+
+  // first character of the second line should be '|', '-', ':',
+  // and no other characters are allowed but spaces;
+  // basically, this is the equivalent of /^[-:|][-:|\s]*$/ regexp
+
+  pos = state.bMarks[nextLine] + state.tShift[nextLine];
+  if (pos >= state.eMarks[nextLine]) { return false; }
+
+  ch = state.src.charCodeAt(pos++);
+  if (ch !== 0x7C/* | */ && ch !== 0x2D/* - */ && ch !== 0x3A/* : */) { return false; }
+
+  while (pos < state.eMarks[nextLine]) {
+    ch = state.src.charCodeAt(pos);
+
+    if (ch !== 0x7C/* | */ && ch !== 0x2D/* - */ && ch !== 0x3A/* : */ && !isSpace(ch)) { return false; }
+
+    pos++;
+  }
+
+  lineText = getLine(state, startLine + 1);
+
+  columns = lineText.split('|');
+  aligns = [];
+  for (i = 0; i < columns.length; i++) {
+    t = columns[i].trim();
+    if (!t) {
+      // allow empty columns before and after table, but not in between columns;
+      // e.g. allow ` |---| `, disallow ` ---||--- `
+      if (i === 0 || i === columns.length - 1) {
+        continue;
+      } else {
+        return false;
+      }
+    }
+
+    if (!/^:?-+:?$/.test(t)) { return false; }
+    if (t.charCodeAt(t.length - 1) === 0x3A/* : */) {
+      aligns.push(t.charCodeAt(0) === 0x3A/* : */ ? 'center' : 'right');
+    } else if (t.charCodeAt(0) === 0x3A/* : */) {
+      aligns.push('left');
+    } else {
+      aligns.push('');
+    }
+  }
+
+  lineText = getLine(state, startLine).trim();
+  if (lineText.indexOf('|') === -1) { return false; }
+  if (state.sCount[startLine] - state.blkIndent >= 4) { return false; }
+  columns = escapedSplit(lineText.replace(/^\||\|$/g, ''));
+
+  // header row will define an amount of columns in the entire table,
+  // and align row shouldn't be smaller than that (the rest of the rows can)
+  columnCount = columns.length;
+  if (columnCount > aligns.length) { return false; }
+
+  if (silent) { return true; }
+
+  token     = state.push('table_open', 'table', 1);
+  token.map = tableLines = [ startLine, 0 ];
+
+  token     = state.push('thead_open', 'thead', 1);
+  token.map = [ startLine, startLine + 1 ];
+
+  token     = state.push('tr_open', 'tr', 1);
+  token.map = [ startLine, startLine + 1 ];
+
+  for (i = 0; i < columns.length; i++) {
+    token          = state.push('th_open', 'th', 1);
+    token.map      = [ startLine, startLine + 1 ];
+    if (aligns[i]) {
+      token.attrs  = [ [ 'style', 'text-align:' + aligns[i] ] ];
+    }
+
+    token          = state.push('inline', '', 0);
+    token.content  = columns[i].trim();
+    token.map      = [ startLine, startLine + 1 ];
+    token.children = [];
+
+    token          = state.push('th_close', 'th', -1);
+  }
+
+  token     = state.push('tr_close', 'tr', -1);
+  token     = state.push('thead_close', 'thead', -1);
+
+  token     = state.push('tbody_open', 'tbody', 1);
+  token.map = tbodyLines = [ startLine + 2, 0 ];
+
+  for (nextLine = startLine + 2; nextLine < endLine; nextLine++) {
+    if (state.sCount[nextLine] < state.blkIndent) { break; }
+
+    lineText = getLine(state, nextLine).trim();
+    if (lineText.indexOf('|') === -1) { break; }
+    if (state.sCount[nextLine] - state.blkIndent >= 4) { break; }
+    columns = escapedSplit(lineText.replace(/^\||\|$/g, ''));
+
+    token = state.push('tr_open', 'tr', 1);
+    for (i = 0; i < columnCount; i++) {
+      token          = state.push('td_open', 'td', 1);
+      if (aligns[i]) {
+        token.attrs  = [ [ 'style', 'text-align:' + aligns[i] ] ];
+      }
+
+      token          = state.push('inline', '', 0);
+      token.content  = columns[i] ? columns[i].trim() : '';
+      token.children = [];
+
+      token          = state.push('td_close', 'td', -1);
+    }
+    token = state.push('tr_close', 'tr', -1);
+  }
+  token = state.push('tbody_close', 'tbody', -1);
+  token = state.push('table_close', 'table', -1);
+
+  tableLines[1] = tbodyLines[1] = nextLine;
+  state.line = nextLine;
+  return true;
+};
+
+
+/***/ }),
+/* 566 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+
+module.exports = function block(state) {
+  var token;
+
+  if (state.inlineMode) {
+    token          = new state.Token('inline', '', 0);
+    token.content  = state.src;
+    token.map      = [ 0, 1 ];
+    token.children = [];
+    state.tokens.push(token);
+  } else {
+    state.md.block.parse(state.src, state.md, state.env, state.tokens);
+  }
+};
+
+
+/***/ }),
+/* 567 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function inline(state) {
+  var tokens = state.tokens, tok, i, l;
+
+  // Parse inlines
+  for (i = 0, l = tokens.length; i < l; i++) {
+    tok = tokens[i];
+    if (tok.type === 'inline') {
+      state.md.inline.parse(tok.content, state.md, state.env, tok.children);
+    }
+  }
+};
+
+
+/***/ }),
+/* 568 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Replace link-like texts with link nodes.
+//
+// Currently restricted by `md.validateLink()` to http/https/ftp
+//
+
+
+
+var arrayReplaceAt = __webpack_require__(11).arrayReplaceAt;
+
+
+function isLinkOpen(str) {
+  return /^<a[>\s]/i.test(str);
+}
+function isLinkClose(str) {
+  return /^<\/a\s*>/i.test(str);
+}
+
+
+module.exports = function linkify(state) {
+  var i, j, l, tokens, token, currentToken, nodes, ln, text, pos, lastPos,
+      level, htmlLinkLevel, url, fullUrl, urlText,
+      blockTokens = state.tokens,
+      links;
+
+  if (!state.md.options.linkify) { return; }
+
+  for (j = 0, l = blockTokens.length; j < l; j++) {
+    if (blockTokens[j].type !== 'inline' ||
+        !state.md.linkify.pretest(blockTokens[j].content)) {
+      continue;
+    }
+
+    tokens = blockTokens[j].children;
+
+    htmlLinkLevel = 0;
+
+    // We scan from the end, to keep position when new tags added.
+    // Use reversed logic in links start/end match
+    for (i = tokens.length - 1; i >= 0; i--) {
+      currentToken = tokens[i];
+
+      // Skip content of markdown links
+      if (currentToken.type === 'link_close') {
+        i--;
+        while (tokens[i].level !== currentToken.level && tokens[i].type !== 'link_open') {
+          i--;
+        }
+        continue;
+      }
+
+      // Skip content of html tag links
+      if (currentToken.type === 'html_inline') {
+        if (isLinkOpen(currentToken.content) && htmlLinkLevel > 0) {
+          htmlLinkLevel--;
+        }
+        if (isLinkClose(currentToken.content)) {
+          htmlLinkLevel++;
+        }
+      }
+      if (htmlLinkLevel > 0) { continue; }
+
+      if (currentToken.type === 'text' && state.md.linkify.test(currentToken.content)) {
+
+        text = currentToken.content;
+        links = state.md.linkify.match(text);
+
+        // Now split string to nodes
+        nodes = [];
+        level = currentToken.level;
+        lastPos = 0;
+
+        for (ln = 0; ln < links.length; ln++) {
+
+          url = links[ln].url;
+          fullUrl = state.md.normalizeLink(url);
+          if (!state.md.validateLink(fullUrl)) { continue; }
+
+          urlText = links[ln].text;
+
+          // Linkifier might send raw hostnames like "example.com", where url
+          // starts with domain name. So we prepend http:// in those cases,
+          // and remove it afterwards.
+          //
+          if (!links[ln].schema) {
+            urlText = state.md.normalizeLinkText('http://' + urlText).replace(/^http:\/\//, '');
+          } else if (links[ln].schema === 'mailto:' && !/^mailto:/i.test(urlText)) {
+            urlText = state.md.normalizeLinkText('mailto:' + urlText).replace(/^mailto:/, '');
+          } else {
+            urlText = state.md.normalizeLinkText(urlText);
+          }
+
+          pos = links[ln].index;
+
+          if (pos > lastPos) {
+            token         = new state.Token('text', '', 0);
+            token.content = text.slice(lastPos, pos);
+            token.level   = level;
+            nodes.push(token);
+          }
+
+          token         = new state.Token('link_open', 'a', 1);
+          token.attrs   = [ [ 'href', fullUrl ] ];
+          token.level   = level++;
+          token.markup  = 'linkify';
+          token.info    = 'auto';
+          nodes.push(token);
+
+          token         = new state.Token('text', '', 0);
+          token.content = urlText;
+          token.level   = level;
+          nodes.push(token);
+
+          token         = new state.Token('link_close', 'a', -1);
+          token.level   = --level;
+          token.markup  = 'linkify';
+          token.info    = 'auto';
+          nodes.push(token);
+
+          lastPos = links[ln].lastIndex;
+        }
+        if (lastPos < text.length) {
+          token         = new state.Token('text', '', 0);
+          token.content = text.slice(lastPos);
+          token.level   = level;
+          nodes.push(token);
+        }
+
+        // replace current node
+        blockTokens[j].children = tokens = arrayReplaceAt(tokens, i, nodes);
+      }
+    }
+  }
+};
+
+
+/***/ }),
+/* 569 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Normalize input string
+
+
+
+
+var NEWLINES_RE  = /\r[\n\u0085]?|[\u2424\u2028\u0085]/g;
+var NULL_RE      = /\u0000/g;
+
+
+module.exports = function inline(state) {
+  var str;
+
+  // Normalize newlines
+  str = state.src.replace(NEWLINES_RE, '\n');
+
+  // Replace NULL characters
+  str = str.replace(NULL_RE, '\uFFFD');
+
+  state.src = str;
+};
+
+
+/***/ }),
+/* 570 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Simple typographyc replacements
+//
+// (c) (C) → ©
+// (tm) (TM) → ™
+// (r) (R) → ®
+// +- → ±
+// (p) (P) -> §
+// ... → … (also ?.... → ?.., !.... → !..)
+// ???????? → ???, !!!!! → !!!, `,,` → `,`
+// -- → &ndash;, --- → &mdash;
+//
+
+
+// TODO:
+// - fractionals 1/2, 1/4, 3/4 -> ½, ¼, ¾
+// - miltiplication 2 x 4 -> 2 × 4
+
+var RARE_RE = /\+-|\.\.|\?\?\?\?|!!!!|,,|--/;
+
+// Workaround for phantomjs - need regex without /g flag,
+// or root check will fail every second time
+var SCOPED_ABBR_TEST_RE = /\((c|tm|r|p)\)/i;
+
+var SCOPED_ABBR_RE = /\((c|tm|r|p)\)/ig;
+var SCOPED_ABBR = {
+  c: '©',
+  r: '®',
+  p: '§',
+  tm: '™'
+};
+
+function replaceFn(match, name) {
+  return SCOPED_ABBR[name.toLowerCase()];
+}
+
+function replace_scoped(inlineTokens) {
+  var i, token, inside_autolink = 0;
+
+  for (i = inlineTokens.length - 1; i >= 0; i--) {
+    token = inlineTokens[i];
+
+    if (token.type === 'text' && !inside_autolink) {
+      token.content = token.content.replace(SCOPED_ABBR_RE, replaceFn);
+    }
+
+    if (token.type === 'link_open' && token.info === 'auto') {
+      inside_autolink--;
+    }
+
+    if (token.type === 'link_close' && token.info === 'auto') {
+      inside_autolink++;
+    }
+  }
+}
+
+function replace_rare(inlineTokens) {
+  var i, token, inside_autolink = 0;
+
+  for (i = inlineTokens.length - 1; i >= 0; i--) {
+    token = inlineTokens[i];
+
+    if (token.type === 'text' && !inside_autolink) {
+      if (RARE_RE.test(token.content)) {
+        token.content = token.content
+                    .replace(/\+-/g, '±')
+                    // .., ..., ....... -> …
+                    // but ?..... & !..... -> ?.. & !..
+                    .replace(/\.{2,}/g, '…').replace(/([?!])…/g, '$1..')
+                    .replace(/([?!]){4,}/g, '$1$1$1').replace(/,{2,}/g, ',')
+                    // em-dash
+                    .replace(/(^|[^-])---([^-]|$)/mg, '$1\u2014$2')
+                    // en-dash
+                    .replace(/(^|\s)--(\s|$)/mg, '$1\u2013$2')
+                    .replace(/(^|[^-\s])--([^-\s]|$)/mg, '$1\u2013$2');
+      }
+    }
+
+    if (token.type === 'link_open' && token.info === 'auto') {
+      inside_autolink--;
+    }
+
+    if (token.type === 'link_close' && token.info === 'auto') {
+      inside_autolink++;
+    }
+  }
+}
+
+
+module.exports = function replace(state) {
+  var blkIdx;
+
+  if (!state.md.options.typographer) { return; }
+
+  for (blkIdx = state.tokens.length - 1; blkIdx >= 0; blkIdx--) {
+
+    if (state.tokens[blkIdx].type !== 'inline') { continue; }
+
+    if (SCOPED_ABBR_TEST_RE.test(state.tokens[blkIdx].content)) {
+      replace_scoped(state.tokens[blkIdx].children);
+    }
+
+    if (RARE_RE.test(state.tokens[blkIdx].content)) {
+      replace_rare(state.tokens[blkIdx].children);
+    }
+
+  }
+};
+
+
+/***/ }),
+/* 571 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Convert straight quotation marks to typographic ones
+//
+
+
+
+var isWhiteSpace   = __webpack_require__(11).isWhiteSpace;
+var isPunctChar    = __webpack_require__(11).isPunctChar;
+var isMdAsciiPunct = __webpack_require__(11).isMdAsciiPunct;
+
+var QUOTE_TEST_RE = /['"]/;
+var QUOTE_RE = /['"]/g;
+var APOSTROPHE = '\u2019'; /* ’ */
+
+
+function replaceAt(str, index, ch) {
+  return str.substr(0, index) + ch + str.substr(index + 1);
+}
+
+function process_inlines(tokens, state) {
+  var i, token, text, t, pos, max, thisLevel, item, lastChar, nextChar,
+      isLastPunctChar, isNextPunctChar, isLastWhiteSpace, isNextWhiteSpace,
+      canOpen, canClose, j, isSingle, stack, openQuote, closeQuote;
+
+  stack = [];
+
+  for (i = 0; i < tokens.length; i++) {
+    token = tokens[i];
+
+    thisLevel = tokens[i].level;
+
+    for (j = stack.length - 1; j >= 0; j--) {
+      if (stack[j].level <= thisLevel) { break; }
+    }
+    stack.length = j + 1;
+
+    if (token.type !== 'text') { continue; }
+
+    text = token.content;
+    pos = 0;
+    max = text.length;
+
+    /*eslint no-labels:0,block-scoped-var:0*/
+    OUTER:
+    while (pos < max) {
+      QUOTE_RE.lastIndex = pos;
+      t = QUOTE_RE.exec(text);
+      if (!t) { break; }
+
+      canOpen = canClose = true;
+      pos = t.index + 1;
+      isSingle = (t[0] === "'");
+
+      // Find previous character,
+      // default to space if it's the beginning of the line
+      //
+      lastChar = 0x20;
+
+      if (t.index - 1 >= 0) {
+        lastChar = text.charCodeAt(t.index - 1);
+      } else {
+        for (j = i - 1; j >= 0; j--) {
+          if (tokens[j].type !== 'text') { continue; }
+
+          lastChar = tokens[j].content.charCodeAt(tokens[j].content.length - 1);
+          break;
+        }
+      }
+
+      // Find next character,
+      // default to space if it's the end of the line
+      //
+      nextChar = 0x20;
+
+      if (pos < max) {
+        nextChar = text.charCodeAt(pos);
+      } else {
+        for (j = i + 1; j < tokens.length; j++) {
+          if (tokens[j].type !== 'text') { continue; }
+
+          nextChar = tokens[j].content.charCodeAt(0);
+          break;
+        }
+      }
+
+      isLastPunctChar = isMdAsciiPunct(lastChar) || isPunctChar(String.fromCharCode(lastChar));
+      isNextPunctChar = isMdAsciiPunct(nextChar) || isPunctChar(String.fromCharCode(nextChar));
+
+      isLastWhiteSpace = isWhiteSpace(lastChar);
+      isNextWhiteSpace = isWhiteSpace(nextChar);
+
+      if (isNextWhiteSpace) {
+        canOpen = false;
+      } else if (isNextPunctChar) {
+        if (!(isLastWhiteSpace || isLastPunctChar)) {
+          canOpen = false;
+        }
+      }
+
+      if (isLastWhiteSpace) {
+        canClose = false;
+      } else if (isLastPunctChar) {
+        if (!(isNextWhiteSpace || isNextPunctChar)) {
+          canClose = false;
+        }
+      }
+
+      if (nextChar === 0x22 /* " */ && t[0] === '"') {
+        if (lastChar >= 0x30 /* 0 */ && lastChar <= 0x39 /* 9 */) {
+          // special case: 1"" - count first quote as an inch
+          canClose = canOpen = false;
+        }
+      }
+
+      if (canOpen && canClose) {
+        // treat this as the middle of the word
+        canOpen = false;
+        canClose = isNextPunctChar;
+      }
+
+      if (!canOpen && !canClose) {
+        // middle of word
+        if (isSingle) {
+          token.content = replaceAt(token.content, t.index, APOSTROPHE);
+        }
+        continue;
+      }
+
+      if (canClose) {
+        // this could be a closing quote, rewind the stack to get a match
+        for (j = stack.length - 1; j >= 0; j--) {
+          item = stack[j];
+          if (stack[j].level < thisLevel) { break; }
+          if (item.single === isSingle && stack[j].level === thisLevel) {
+            item = stack[j];
+
+            if (isSingle) {
+              openQuote = state.md.options.quotes[2];
+              closeQuote = state.md.options.quotes[3];
+            } else {
+              openQuote = state.md.options.quotes[0];
+              closeQuote = state.md.options.quotes[1];
+            }
+
+            // replace token.content *before* tokens[item.token].content,
+            // because, if they are pointing at the same token, replaceAt
+            // could mess up indices when quote length != 1
+            token.content = replaceAt(token.content, t.index, closeQuote);
+            tokens[item.token].content = replaceAt(
+              tokens[item.token].content, item.pos, openQuote);
+
+            pos += closeQuote.length - 1;
+            if (item.token === i) { pos += openQuote.length - 1; }
+
+            text = token.content;
+            max = text.length;
+
+            stack.length = j;
+            continue OUTER;
+          }
+        }
+      }
+
+      if (canOpen) {
+        stack.push({
+          token: i,
+          pos: t.index,
+          single: isSingle,
+          level: thisLevel
+        });
+      } else if (canClose && isSingle) {
+        token.content = replaceAt(token.content, t.index, APOSTROPHE);
+      }
+    }
+  }
+}
+
+
+module.exports = function smartquotes(state) {
+  /*eslint max-depth:0*/
+  var blkIdx;
+
+  if (!state.md.options.typographer) { return; }
+
+  for (blkIdx = state.tokens.length - 1; blkIdx >= 0; blkIdx--) {
+
+    if (state.tokens[blkIdx].type !== 'inline' ||
+        !QUOTE_TEST_RE.test(state.tokens[blkIdx].content)) {
+      continue;
+    }
+
+    process_inlines(state.tokens[blkIdx].children, state);
+  }
+};
+
+
+/***/ }),
+/* 572 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Core state object
+//
+
+
+var Token = __webpack_require__(199);
+
+
+function StateCore(src, md, env) {
+  this.src = src;
+  this.env = env;
+  this.tokens = [];
+  this.inlineMode = false;
+  this.md = md; // link to parser instance
+}
+
+// re-export Token class to use in core rules
+StateCore.prototype.Token = Token;
+
+
+module.exports = StateCore;
+
+
+/***/ }),
+/* 573 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Process autolinks '<protocol:...>'
+
+
+
+
+/*eslint max-len:0*/
+var EMAIL_RE    = /^<([a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*)>/;
+var AUTOLINK_RE = /^<([a-zA-Z][a-zA-Z0-9+.\-]{1,31}):([^<>\x00-\x20]*)>/;
+
+
+module.exports = function autolink(state, silent) {
+  var tail, linkMatch, emailMatch, url, fullUrl, token,
+      pos = state.pos;
+
+  if (state.src.charCodeAt(pos) !== 0x3C/* < */) { return false; }
+
+  tail = state.src.slice(pos);
+
+  if (tail.indexOf('>') < 0) { return false; }
+
+  if (AUTOLINK_RE.test(tail)) {
+    linkMatch = tail.match(AUTOLINK_RE);
+
+    url = linkMatch[0].slice(1, -1);
+    fullUrl = state.md.normalizeLink(url);
+    if (!state.md.validateLink(fullUrl)) { return false; }
+
+    if (!silent) {
+      token         = state.push('link_open', 'a', 1);
+      token.attrs   = [ [ 'href', fullUrl ] ];
+      token.markup  = 'autolink';
+      token.info    = 'auto';
+
+      token         = state.push('text', '', 0);
+      token.content = state.md.normalizeLinkText(url);
+
+      token         = state.push('link_close', 'a', -1);
+      token.markup  = 'autolink';
+      token.info    = 'auto';
+    }
+
+    state.pos += linkMatch[0].length;
+    return true;
+  }
+
+  if (EMAIL_RE.test(tail)) {
+    emailMatch = tail.match(EMAIL_RE);
+
+    url = emailMatch[0].slice(1, -1);
+    fullUrl = state.md.normalizeLink('mailto:' + url);
+    if (!state.md.validateLink(fullUrl)) { return false; }
+
+    if (!silent) {
+      token         = state.push('link_open', 'a', 1);
+      token.attrs   = [ [ 'href', fullUrl ] ];
+      token.markup  = 'autolink';
+      token.info    = 'auto';
+
+      token         = state.push('text', '', 0);
+      token.content = state.md.normalizeLinkText(url);
+
+      token         = state.push('link_close', 'a', -1);
+      token.markup  = 'autolink';
+      token.info    = 'auto';
+    }
+
+    state.pos += emailMatch[0].length;
+    return true;
+  }
+
+  return false;
+};
+
+
+/***/ }),
+/* 574 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Parse backticks
+
+
+
+module.exports = function backtick(state, silent) {
+  var start, max, marker, matchStart, matchEnd, token,
+      pos = state.pos,
+      ch = state.src.charCodeAt(pos);
+
+  if (ch !== 0x60/* ` */) { return false; }
+
+  start = pos;
+  pos++;
+  max = state.posMax;
+
+  while (pos < max && state.src.charCodeAt(pos) === 0x60/* ` */) { pos++; }
+
+  marker = state.src.slice(start, pos);
+
+  matchStart = matchEnd = pos;
+
+  while ((matchStart = state.src.indexOf('`', matchEnd)) !== -1) {
+    matchEnd = matchStart + 1;
+
+    while (matchEnd < max && state.src.charCodeAt(matchEnd) === 0x60/* ` */) { matchEnd++; }
+
+    if (matchEnd - matchStart === marker.length) {
+      if (!silent) {
+        token         = state.push('code_inline', 'code', 0);
+        token.markup  = marker;
+        token.content = state.src.slice(pos, matchStart)
+                                 .replace(/[ \n]+/g, ' ')
+                                 .trim();
+      }
+      state.pos = matchEnd;
+      return true;
+    }
+  }
+
+  if (!silent) { state.pending += marker; }
+  state.pos += marker.length;
+  return true;
+};
+
+
+/***/ }),
+/* 575 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// For each opening emphasis-like marker find a matching closing one
+//
+
+
+
+module.exports = function link_pairs(state) {
+  var i, j, lastDelim, currDelim,
+      delimiters = state.delimiters,
+      max = state.delimiters.length;
+
+  for (i = 0; i < max; i++) {
+    lastDelim = delimiters[i];
+
+    if (!lastDelim.close) { continue; }
+
+    j = i - lastDelim.jump - 1;
+
+    while (j >= 0) {
+      currDelim = delimiters[j];
+
+      if (currDelim.open &&
+          currDelim.marker === lastDelim.marker &&
+          currDelim.end < 0 &&
+          currDelim.level === lastDelim.level) {
+
+        // typeofs are for backward compatibility with plugins
+        var odd_match = (currDelim.close || lastDelim.open) &&
+                        typeof currDelim.length !== 'undefined' &&
+                        typeof lastDelim.length !== 'undefined' &&
+                        (currDelim.length + lastDelim.length) % 3 === 0;
+
+        if (!odd_match) {
+          lastDelim.jump = i - j;
+          lastDelim.open = false;
+          currDelim.end  = i;
+          currDelim.jump = 0;
+          break;
+        }
+      }
+
+      j -= currDelim.jump + 1;
+    }
+  }
+};
+
+
+/***/ }),
+/* 576 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Process html entity - &#123;, &#xAF;, &quot;, ...
+
+
+
+var entities          = __webpack_require__(234);
+var has               = __webpack_require__(11).has;
+var isValidEntityCode = __webpack_require__(11).isValidEntityCode;
+var fromCodePoint     = __webpack_require__(11).fromCodePoint;
+
+
+var DIGITAL_RE = /^&#((?:x[a-f0-9]{1,8}|[0-9]{1,8}));/i;
+var NAMED_RE   = /^&([a-z][a-z0-9]{1,31});/i;
+
+
+module.exports = function entity(state, silent) {
+  var ch, code, match, pos = state.pos, max = state.posMax;
+
+  if (state.src.charCodeAt(pos) !== 0x26/* & */) { return false; }
+
+  if (pos + 1 < max) {
+    ch = state.src.charCodeAt(pos + 1);
+
+    if (ch === 0x23 /* # */) {
+      match = state.src.slice(pos).match(DIGITAL_RE);
+      if (match) {
+        if (!silent) {
+          code = match[1][0].toLowerCase() === 'x' ? parseInt(match[1].slice(1), 16) : parseInt(match[1], 10);
+          state.pending += isValidEntityCode(code) ? fromCodePoint(code) : fromCodePoint(0xFFFD);
+        }
+        state.pos += match[0].length;
+        return true;
+      }
+    } else {
+      match = state.src.slice(pos).match(NAMED_RE);
+      if (match) {
+        if (has(entities, match[1])) {
+          if (!silent) { state.pending += entities[match[1]]; }
+          state.pos += match[0].length;
+          return true;
+        }
+      }
+    }
+  }
+
+  if (!silent) { state.pending += '&'; }
+  state.pos++;
+  return true;
+};
+
+
+/***/ }),
+/* 577 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Proceess escaped chars and hardbreaks
+
+
+
+var isSpace = __webpack_require__(11).isSpace;
+
+var ESCAPED = [];
+
+for (var i = 0; i < 256; i++) { ESCAPED.push(0); }
+
+'\\!"#$%&\'()*+,./:;<=>?@[]^_`{|}~-'
+  .split('').forEach(function (ch) { ESCAPED[ch.charCodeAt(0)] = 1; });
+
+
+module.exports = function escape(state, silent) {
+  var ch, pos = state.pos, max = state.posMax;
+
+  if (state.src.charCodeAt(pos) !== 0x5C/* \ */) { return false; }
+
+  pos++;
+
+  if (pos < max) {
+    ch = state.src.charCodeAt(pos);
+
+    if (ch < 256 && ESCAPED[ch] !== 0) {
+      if (!silent) { state.pending += state.src[pos]; }
+      state.pos += 2;
+      return true;
+    }
+
+    if (ch === 0x0A) {
+      if (!silent) {
+        state.push('hardbreak', 'br', 0);
+      }
+
+      pos++;
+      // skip leading whitespaces from next line
+      while (pos < max) {
+        ch = state.src.charCodeAt(pos);
+        if (!isSpace(ch)) { break; }
+        pos++;
+      }
+
+      state.pos = pos;
+      return true;
+    }
+  }
+
+  if (!silent) { state.pending += '\\'; }
+  state.pos++;
+  return true;
+};
+
+
+/***/ }),
+/* 578 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Process html tags
+
+
+
+
+var HTML_TAG_RE = __webpack_require__(235).HTML_TAG_RE;
+
+
+function isLetter(ch) {
+  /*eslint no-bitwise:0*/
+  var lc = ch | 0x20; // to lower case
+  return (lc >= 0x61/* a */) && (lc <= 0x7a/* z */);
+}
+
+
+module.exports = function html_inline(state, silent) {
+  var ch, match, max, token,
+      pos = state.pos;
+
+  if (!state.md.options.html) { return false; }
+
+  // Check start
+  max = state.posMax;
+  if (state.src.charCodeAt(pos) !== 0x3C/* < */ ||
+      pos + 2 >= max) {
+    return false;
+  }
+
+  // Quick fail on second char
+  ch = state.src.charCodeAt(pos + 1);
+  if (ch !== 0x21/* ! */ &&
+      ch !== 0x3F/* ? */ &&
+      ch !== 0x2F/* / */ &&
+      !isLetter(ch)) {
+    return false;
+  }
+
+  match = state.src.slice(pos).match(HTML_TAG_RE);
+  if (!match) { return false; }
+
+  if (!silent) {
+    token         = state.push('html_inline', '', 0);
+    token.content = state.src.slice(pos, pos + match[0].length);
+  }
+  state.pos += match[0].length;
+  return true;
+};
+
+
+/***/ }),
+/* 579 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Process ![image](<src> "title")
+
+
+
+var normalizeReference   = __webpack_require__(11).normalizeReference;
+var isSpace              = __webpack_require__(11).isSpace;
+
+
+module.exports = function image(state, silent) {
+  var attrs,
+      code,
+      content,
+      label,
+      labelEnd,
+      labelStart,
+      pos,
+      ref,
+      res,
+      title,
+      token,
+      tokens,
+      start,
+      href = '',
+      oldPos = state.pos,
+      max = state.posMax;
+
+  if (state.src.charCodeAt(state.pos) !== 0x21/* ! */) { return false; }
+  if (state.src.charCodeAt(state.pos + 1) !== 0x5B/* [ */) { return false; }
+
+  labelStart = state.pos + 2;
+  labelEnd = state.md.helpers.parseLinkLabel(state, state.pos + 1, false);
+
+  // parser failed to find ']', so it's not a valid link
+  if (labelEnd < 0) { return false; }
+
+  pos = labelEnd + 1;
+  if (pos < max && state.src.charCodeAt(pos) === 0x28/* ( */) {
+    //
+    // Inline link
+    //
+
+    // [link](  <href>  "title"  )
+    //        ^^ skipping these spaces
+    pos++;
+    for (; pos < max; pos++) {
+      code = state.src.charCodeAt(pos);
+      if (!isSpace(code) && code !== 0x0A) { break; }
+    }
+    if (pos >= max) { return false; }
+
+    // [link](  <href>  "title"  )
+    //          ^^^^^^ parsing link destination
+    start = pos;
+    res = state.md.helpers.parseLinkDestination(state.src, pos, state.posMax);
+    if (res.ok) {
+      href = state.md.normalizeLink(res.str);
+      if (state.md.validateLink(href)) {
+        pos = res.pos;
+      } else {
+        href = '';
+      }
+    }
+
+    // [link](  <href>  "title"  )
+    //                ^^ skipping these spaces
+    start = pos;
+    for (; pos < max; pos++) {
+      code = state.src.charCodeAt(pos);
+      if (!isSpace(code) && code !== 0x0A) { break; }
+    }
+
+    // [link](  <href>  "title"  )
+    //                  ^^^^^^^ parsing link title
+    res = state.md.helpers.parseLinkTitle(state.src, pos, state.posMax);
+    if (pos < max && start !== pos && res.ok) {
+      title = res.str;
+      pos = res.pos;
+
+      // [link](  <href>  "title"  )
+      //                         ^^ skipping these spaces
+      for (; pos < max; pos++) {
+        code = state.src.charCodeAt(pos);
+        if (!isSpace(code) && code !== 0x0A) { break; }
+      }
+    } else {
+      title = '';
+    }
+
+    if (pos >= max || state.src.charCodeAt(pos) !== 0x29/* ) */) {
+      state.pos = oldPos;
+      return false;
+    }
+    pos++;
+  } else {
+    //
+    // Link reference
+    //
+    if (typeof state.env.references === 'undefined') { return false; }
+
+    if (pos < max && state.src.charCodeAt(pos) === 0x5B/* [ */) {
+      start = pos + 1;
+      pos = state.md.helpers.parseLinkLabel(state, pos);
+      if (pos >= 0) {
+        label = state.src.slice(start, pos++);
+      } else {
+        pos = labelEnd + 1;
+      }
+    } else {
+      pos = labelEnd + 1;
+    }
+
+    // covers label === '' and label === undefined
+    // (collapsed reference link and shortcut reference link respectively)
+    if (!label) { label = state.src.slice(labelStart, labelEnd); }
+
+    ref = state.env.references[normalizeReference(label)];
+    if (!ref) {
+      state.pos = oldPos;
+      return false;
+    }
+    href = ref.href;
+    title = ref.title;
+  }
+
+  //
+  // We found the end of the link, and know for a fact it's a valid link;
+  // so all that's left to do is to call tokenizer.
+  //
+  if (!silent) {
+    content = state.src.slice(labelStart, labelEnd);
+
+    state.md.inline.parse(
+      content,
+      state.md,
+      state.env,
+      tokens = []
+    );
+
+    token          = state.push('image', 'img', 0);
+    token.attrs    = attrs = [ [ 'src', href ], [ 'alt', '' ] ];
+    token.children = tokens;
+    token.content  = content;
+
+    if (title) {
+      attrs.push([ 'title', title ]);
+    }
+  }
+
+  state.pos = pos;
+  state.posMax = max;
+  return true;
+};
+
+
+/***/ }),
+/* 580 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Process [link](<to> "stuff")
+
+
+
+var normalizeReference   = __webpack_require__(11).normalizeReference;
+var isSpace              = __webpack_require__(11).isSpace;
+
+
+module.exports = function link(state, silent) {
+  var attrs,
+      code,
+      label,
+      labelEnd,
+      labelStart,
+      pos,
+      res,
+      ref,
+      title,
+      token,
+      href = '',
+      oldPos = state.pos,
+      max = state.posMax,
+      start = state.pos,
+      parseReference = true;
+
+  if (state.src.charCodeAt(state.pos) !== 0x5B/* [ */) { return false; }
+
+  labelStart = state.pos + 1;
+  labelEnd = state.md.helpers.parseLinkLabel(state, state.pos, true);
+
+  // parser failed to find ']', so it's not a valid link
+  if (labelEnd < 0) { return false; }
+
+  pos = labelEnd + 1;
+  if (pos < max && state.src.charCodeAt(pos) === 0x28/* ( */) {
+    //
+    // Inline link
+    //
+
+    // might have found a valid shortcut link, disable reference parsing
+    parseReference = false;
+
+    // [link](  <href>  "title"  )
+    //        ^^ skipping these spaces
+    pos++;
+    for (; pos < max; pos++) {
+      code = state.src.charCodeAt(pos);
+      if (!isSpace(code) && code !== 0x0A) { break; }
+    }
+    if (pos >= max) { return false; }
+
+    // [link](  <href>  "title"  )
+    //          ^^^^^^ parsing link destination
+    start = pos;
+    res = state.md.helpers.parseLinkDestination(state.src, pos, state.posMax);
+    if (res.ok) {
+      href = state.md.normalizeLink(res.str);
+      if (state.md.validateLink(href)) {
+        pos = res.pos;
+      } else {
+        href = '';
+      }
+    }
+
+    // [link](  <href>  "title"  )
+    //                ^^ skipping these spaces
+    start = pos;
+    for (; pos < max; pos++) {
+      code = state.src.charCodeAt(pos);
+      if (!isSpace(code) && code !== 0x0A) { break; }
+    }
+
+    // [link](  <href>  "title"  )
+    //                  ^^^^^^^ parsing link title
+    res = state.md.helpers.parseLinkTitle(state.src, pos, state.posMax);
+    if (pos < max && start !== pos && res.ok) {
+      title = res.str;
+      pos = res.pos;
+
+      // [link](  <href>  "title"  )
+      //                         ^^ skipping these spaces
+      for (; pos < max; pos++) {
+        code = state.src.charCodeAt(pos);
+        if (!isSpace(code) && code !== 0x0A) { break; }
+      }
+    } else {
+      title = '';
+    }
+
+    if (pos >= max || state.src.charCodeAt(pos) !== 0x29/* ) */) {
+      // parsing a valid shortcut link failed, fallback to reference
+      parseReference = true;
+    }
+    pos++;
+  }
+
+  if (parseReference) {
+    //
+    // Link reference
+    //
+    if (typeof state.env.references === 'undefined') { return false; }
+
+    if (pos < max && state.src.charCodeAt(pos) === 0x5B/* [ */) {
+      start = pos + 1;
+      pos = state.md.helpers.parseLinkLabel(state, pos);
+      if (pos >= 0) {
+        label = state.src.slice(start, pos++);
+      } else {
+        pos = labelEnd + 1;
+      }
+    } else {
+      pos = labelEnd + 1;
+    }
+
+    // covers label === '' and label === undefined
+    // (collapsed reference link and shortcut reference link respectively)
+    if (!label) { label = state.src.slice(labelStart, labelEnd); }
+
+    ref = state.env.references[normalizeReference(label)];
+    if (!ref) {
+      state.pos = oldPos;
+      return false;
+    }
+    href = ref.href;
+    title = ref.title;
+  }
+
+  //
+  // We found the end of the link, and know for a fact it's a valid link;
+  // so all that's left to do is to call tokenizer.
+  //
+  if (!silent) {
+    state.pos = labelStart;
+    state.posMax = labelEnd;
+
+    token        = state.push('link_open', 'a', 1);
+    token.attrs  = attrs = [ [ 'href', href ] ];
+    if (title) {
+      attrs.push([ 'title', title ]);
+    }
+
+    state.md.inline.tokenize(state);
+
+    token        = state.push('link_close', 'a', -1);
+  }
+
+  state.pos = pos;
+  state.posMax = max;
+  return true;
+};
+
+
+/***/ }),
+/* 581 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Proceess '\n'
+
+
+
+var isSpace = __webpack_require__(11).isSpace;
+
+
+module.exports = function newline(state, silent) {
+  var pmax, max, pos = state.pos;
+
+  if (state.src.charCodeAt(pos) !== 0x0A/* \n */) { return false; }
+
+  pmax = state.pending.length - 1;
+  max = state.posMax;
+
+  // '  \n' -> hardbreak
+  // Lookup in pending chars is bad practice! Don't copy to other rules!
+  // Pending string is stored in concat mode, indexed lookups will cause
+  // convertion to flat mode.
+  if (!silent) {
+    if (pmax >= 0 && state.pending.charCodeAt(pmax) === 0x20) {
+      if (pmax >= 1 && state.pending.charCodeAt(pmax - 1) === 0x20) {
+        state.pending = state.pending.replace(/ +$/, '');
+        state.push('hardbreak', 'br', 0);
+      } else {
+        state.pending = state.pending.slice(0, -1);
+        state.push('softbreak', 'br', 0);
+      }
+
+    } else {
+      state.push('softbreak', 'br', 0);
+    }
+  }
+
+  pos++;
+
+  // skip heading spaces for next line
+  while (pos < max && isSpace(state.src.charCodeAt(pos))) { pos++; }
+
+  state.pos = pos;
+  return true;
+};
+
+
+/***/ }),
+/* 582 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Inline parser state
+
+
+
+
+var Token          = __webpack_require__(199);
+var isWhiteSpace   = __webpack_require__(11).isWhiteSpace;
+var isPunctChar    = __webpack_require__(11).isPunctChar;
+var isMdAsciiPunct = __webpack_require__(11).isMdAsciiPunct;
+
+
+function StateInline(src, md, env, outTokens) {
+  this.src = src;
+  this.env = env;
+  this.md = md;
+  this.tokens = outTokens;
+
+  this.pos = 0;
+  this.posMax = this.src.length;
+  this.level = 0;
+  this.pending = '';
+  this.pendingLevel = 0;
+
+  this.cache = {};        // Stores { start: end } pairs. Useful for backtrack
+                          // optimization of pairs parse (emphasis, strikes).
+
+  this.delimiters = [];   // Emphasis-like delimiters
+}
+
+
+// Flush pending text
+//
+StateInline.prototype.pushPending = function () {
+  var token = new Token('text', '', 0);
+  token.content = this.pending;
+  token.level = this.pendingLevel;
+  this.tokens.push(token);
+  this.pending = '';
+  return token;
+};
+
+
+// Push new token to "stream".
+// If pending text exists - flush it as text token
+//
+StateInline.prototype.push = function (type, tag, nesting) {
+  if (this.pending) {
+    this.pushPending();
+  }
+
+  var token = new Token(type, tag, nesting);
+
+  if (nesting < 0) { this.level--; }
+  token.level = this.level;
+  if (nesting > 0) { this.level++; }
+
+  this.pendingLevel = this.level;
+  this.tokens.push(token);
+  return token;
+};
+
+
+// Scan a sequence of emphasis-like markers, and determine whether
+// it can start an emphasis sequence or end an emphasis sequence.
+//
+//  - start - position to scan from (it should point at a valid marker);
+//  - canSplitWord - determine if these markers can be found inside a word
+//
+StateInline.prototype.scanDelims = function (start, canSplitWord) {
+  var pos = start, lastChar, nextChar, count, can_open, can_close,
+      isLastWhiteSpace, isLastPunctChar,
+      isNextWhiteSpace, isNextPunctChar,
+      left_flanking = true,
+      right_flanking = true,
+      max = this.posMax,
+      marker = this.src.charCodeAt(start);
+
+  // treat beginning of the line as a whitespace
+  lastChar = start > 0 ? this.src.charCodeAt(start - 1) : 0x20;
+
+  while (pos < max && this.src.charCodeAt(pos) === marker) { pos++; }
+
+  count = pos - start;
+
+  // treat end of the line as a whitespace
+  nextChar = pos < max ? this.src.charCodeAt(pos) : 0x20;
+
+  isLastPunctChar = isMdAsciiPunct(lastChar) || isPunctChar(String.fromCharCode(lastChar));
+  isNextPunctChar = isMdAsciiPunct(nextChar) || isPunctChar(String.fromCharCode(nextChar));
+
+  isLastWhiteSpace = isWhiteSpace(lastChar);
+  isNextWhiteSpace = isWhiteSpace(nextChar);
+
+  if (isNextWhiteSpace) {
+    left_flanking = false;
+  } else if (isNextPunctChar) {
+    if (!(isLastWhiteSpace || isLastPunctChar)) {
+      left_flanking = false;
+    }
+  }
+
+  if (isLastWhiteSpace) {
+    right_flanking = false;
+  } else if (isLastPunctChar) {
+    if (!(isNextWhiteSpace || isNextPunctChar)) {
+      right_flanking = false;
+    }
+  }
+
+  if (!canSplitWord) {
+    can_open  = left_flanking  && (!right_flanking || isLastPunctChar);
+    can_close = right_flanking && (!left_flanking  || isNextPunctChar);
+  } else {
+    can_open  = left_flanking;
+    can_close = right_flanking;
+  }
+
+  return {
+    can_open:  can_open,
+    can_close: can_close,
+    length:    count
+  };
+};
+
+
+// re-export Token class to use in block rules
+StateInline.prototype.Token = Token;
+
+
+module.exports = StateInline;
+
+
+/***/ }),
+/* 583 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Skip text characters for text token, place those to pending buffer
+// and increment current pos
+
+
+
+
+// Rule to skip pure text
+// '{}$%@~+=:' reserved for extentions
+
+// !, ", #, $, %, &, ', (, ), *, +, ,, -, ., /, :, ;, <, =, >, ?, @, [, \, ], ^, _, `, {, |, }, or ~
+
+// !!!! Don't confuse with "Markdown ASCII Punctuation" chars
+// http://spec.commonmark.org/0.15/#ascii-punctuation-character
+function isTerminatorChar(ch) {
+  switch (ch) {
+    case 0x0A/* \n */:
+    case 0x21/* ! */:
+    case 0x23/* # */:
+    case 0x24/* $ */:
+    case 0x25/* % */:
+    case 0x26/* & */:
+    case 0x2A/* * */:
+    case 0x2B/* + */:
+    case 0x2D/* - */:
+    case 0x3A/* : */:
+    case 0x3C/* < */:
+    case 0x3D/* = */:
+    case 0x3E/* > */:
+    case 0x40/* @ */:
+    case 0x5B/* [ */:
+    case 0x5C/* \ */:
+    case 0x5D/* ] */:
+    case 0x5E/* ^ */:
+    case 0x5F/* _ */:
+    case 0x60/* ` */:
+    case 0x7B/* { */:
+    case 0x7D/* } */:
+    case 0x7E/* ~ */:
+      return true;
+    default:
+      return false;
+  }
+}
+
+module.exports = function text(state, silent) {
+  var pos = state.pos;
+
+  while (pos < state.posMax && !isTerminatorChar(state.src.charCodeAt(pos))) {
+    pos++;
+  }
+
+  if (pos === state.pos) { return false; }
+
+  if (!silent) { state.pending += state.src.slice(state.pos, pos); }
+
+  state.pos = pos;
+
+  return true;
+};
+
+// Alternative implementation, for memory.
+//
+// It costs 10% of performance, but allows extend terminators list, if place it
+// to `ParcerInline` property. Probably, will switch to it sometime, such
+// flexibility required.
+
+/*
+var TERMINATOR_RE = /[\n!#$%&*+\-:<=>@[\\\]^_`{}~]/;
+
+module.exports = function text(state, silent) {
+  var pos = state.pos,
+      idx = state.src.slice(pos).search(TERMINATOR_RE);
+
+  // first char is terminator -> empty text
+  if (idx === 0) { return false; }
+
+  // no terminator -> text till end of string
+  if (idx < 0) {
+    if (!silent) { state.pending += state.src.slice(pos); }
+    state.pos = state.src.length;
+    return true;
+  }
+
+  if (!silent) { state.pending += state.src.slice(pos, pos + idx); }
+
+  state.pos += idx;
+
+  return true;
+};*/
+
+
+/***/ }),
+/* 584 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Merge adjacent text nodes into one, and re-calculate all token levels
+//
+
+
+
+module.exports = function text_collapse(state) {
+  var curr, last,
+      level = 0,
+      tokens = state.tokens,
+      max = state.tokens.length;
+
+  for (curr = last = 0; curr < max; curr++) {
+    // re-calculate levels
+    level += tokens[curr].nesting;
+    tokens[curr].level = level;
+
+    if (tokens[curr].type === 'text' &&
+        curr + 1 < max &&
+        tokens[curr + 1].type === 'text') {
+
+      // collapse two adjacent text nodes
+      tokens[curr + 1].content = tokens[curr].content + tokens[curr + 1].content;
+    } else {
+      if (curr !== last) { tokens[last] = tokens[curr]; }
+
+      last++;
+    }
+  }
+
+  if (curr !== last) {
+    tokens.length = last;
+  }
+};
+
+
+/***/ }),
+/* 585 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+
+
+module.exports = function format(url) {
+  var result = '';
+
+  result += url.protocol || '';
+  result += url.slashes ? '//' : '';
+  result += url.auth ? url.auth + '@' : '';
+
+  if (url.hostname && url.hostname.indexOf(':') !== -1) {
+    // ipv6 address
+    result += '[' + url.hostname + ']';
+  } else {
+    result += url.hostname || '';
+  }
+
+  result += url.port ? ':' + url.port : '';
+  result += url.pathname || '';
+  result += url.search || '';
+  result += url.hash || '';
+
+  return result;
+};
+
+
+/***/ }),
+/* 586 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+
+//
+// Changes from joyent/node:
+//
+// 1. No leading slash in paths,
+//    e.g. in `url.parse('http://foo?bar')` pathname is ``, not `/`
+//
+// 2. Backslashes are not replaced with slashes,
+//    so `http:\\example.org\` is treated like a relative path
+//
+// 3. Trailing colon is treated like a part of the path,
+//    i.e. in `http://example.org:foo` pathname is `:foo`
+//
+// 4. Nothing is URL-encoded in the resulting object,
+//    (in joyent/node some chars in auth and paths are encoded)
+//
+// 5. `url.parse()` does not have `parseQueryString` argument
+//
+// 6. Removed extraneous result properties: `host`, `path`, `query`, etc.,
+//    which can be constructed using other parts of the url.
+//
+
+
+function Url() {
+  this.protocol = null;
+  this.slashes = null;
+  this.auth = null;
+  this.port = null;
+  this.hostname = null;
+  this.hash = null;
+  this.search = null;
+  this.pathname = null;
+}
+
+// Reference: RFC 3986, RFC 1808, RFC 2396
+
+// define these here so at least they only have to be
+// compiled once on the first module load.
+var protocolPattern = /^([a-z0-9.+-]+:)/i,
+    portPattern = /:[0-9]*$/,
+
+    // Special case for a simple path URL
+    simplePathPattern = /^(\/\/?(?!\/)[^\?\s]*)(\?[^\s]*)?$/,
+
+    // RFC 2396: characters reserved for delimiting URLs.
+    // We actually just auto-escape these.
+    delims = [ '<', '>', '"', '`', ' ', '\r', '\n', '\t' ],
+
+    // RFC 2396: characters not allowed for various reasons.
+    unwise = [ '{', '}', '|', '\\', '^', '`' ].concat(delims),
+
+    // Allowed by RFCs, but cause of XSS attacks.  Always escape these.
+    autoEscape = [ '\'' ].concat(unwise),
+    // Characters that are never ever allowed in a hostname.
+    // Note that any invalid chars are also handled, but these
+    // are the ones that are *expected* to be seen, so we fast-path
+    // them.
+    nonHostChars = [ '%', '/', '?', ';', '#' ].concat(autoEscape),
+    hostEndingChars = [ '/', '?', '#' ],
+    hostnameMaxLen = 255,
+    hostnamePartPattern = /^[+a-z0-9A-Z_-]{0,63}$/,
+    hostnamePartStart = /^([+a-z0-9A-Z_-]{0,63})(.*)$/,
+    // protocols that can allow "unsafe" and "unwise" chars.
+    /* eslint-disable no-script-url */
+    // protocols that never have a hostname.
+    hostlessProtocol = {
+      'javascript': true,
+      'javascript:': true
+    },
+    // protocols that always contain a // bit.
+    slashedProtocol = {
+      'http': true,
+      'https': true,
+      'ftp': true,
+      'gopher': true,
+      'file': true,
+      'http:': true,
+      'https:': true,
+      'ftp:': true,
+      'gopher:': true,
+      'file:': true
+    };
+    /* eslint-enable no-script-url */
+
+function urlParse(url, slashesDenoteHost) {
+  if (url && url instanceof Url) { return url; }
+
+  var u = new Url();
+  u.parse(url, slashesDenoteHost);
+  return u;
+}
+
+Url.prototype.parse = function(url, slashesDenoteHost) {
+  var i, l, lowerProto, hec, slashes,
+      rest = url;
+
+  // trim before proceeding.
+  // This is to support parse stuff like "  http://foo.com  \n"
+  rest = rest.trim();
+
+  if (!slashesDenoteHost && url.split('#').length === 1) {
+    // Try fast path regexp
+    var simplePath = simplePathPattern.exec(rest);
+    if (simplePath) {
+      this.pathname = simplePath[1];
+      if (simplePath[2]) {
+        this.search = simplePath[2];
+      }
+      return this;
+    }
+  }
+
+  var proto = protocolPattern.exec(rest);
+  if (proto) {
+    proto = proto[0];
+    lowerProto = proto.toLowerCase();
+    this.protocol = proto;
+    rest = rest.substr(proto.length);
+  }
+
+  // figure out if it's got a host
+  // user@server is *always* interpreted as a hostname, and url
+  // resolution will treat //foo/bar as host=foo,path=bar because that's
+  // how the browser resolves relative URLs.
+  if (slashesDenoteHost || proto || rest.match(/^\/\/[^@\/]+@[^@\/]+/)) {
+    slashes = rest.substr(0, 2) === '//';
+    if (slashes && !(proto && hostlessProtocol[proto])) {
+      rest = rest.substr(2);
+      this.slashes = true;
+    }
+  }
+
+  if (!hostlessProtocol[proto] &&
+      (slashes || (proto && !slashedProtocol[proto]))) {
+
+    // there's a hostname.
+    // the first instance of /, ?, ;, or # ends the host.
+    //
+    // If there is an @ in the hostname, then non-host chars *are* allowed
+    // to the left of the last @ sign, unless some host-ending character
+    // comes *before* the @-sign.
+    // URLs are obnoxious.
+    //
+    // ex:
+    // http://a@b@c/ => user:a@b host:c
+    // http://a@b?@c => user:a host:c path:/?@c
+
+    // v0.12 TODO(isaacs): This is not quite how Chrome does things.
+    // Review our test case against browsers more comprehensively.
+
+    // find the first instance of any hostEndingChars
+    var hostEnd = -1;
+    for (i = 0; i < hostEndingChars.length; i++) {
+      hec = rest.indexOf(hostEndingChars[i]);
+      if (hec !== -1 && (hostEnd === -1 || hec < hostEnd)) {
+        hostEnd = hec;
+      }
+    }
+
+    // at this point, either we have an explicit point where the
+    // auth portion cannot go past, or the last @ char is the decider.
+    var auth, atSign;
+    if (hostEnd === -1) {
+      // atSign can be anywhere.
+      atSign = rest.lastIndexOf('@');
+    } else {
+      // atSign must be in auth portion.
+      // http://a@b/c@d => host:b auth:a path:/c@d
+      atSign = rest.lastIndexOf('@', hostEnd);
+    }
+
+    // Now we have a portion which is definitely the auth.
+    // Pull that off.
+    if (atSign !== -1) {
+      auth = rest.slice(0, atSign);
+      rest = rest.slice(atSign + 1);
+      this.auth = auth;
+    }
+
+    // the host is the remaining to the left of the first non-host char
+    hostEnd = -1;
+    for (i = 0; i < nonHostChars.length; i++) {
+      hec = rest.indexOf(nonHostChars[i]);
+      if (hec !== -1 && (hostEnd === -1 || hec < hostEnd)) {
+        hostEnd = hec;
+      }
+    }
+    // if we still have not hit it, then the entire thing is a host.
+    if (hostEnd === -1) {
+      hostEnd = rest.length;
+    }
+
+    if (rest[hostEnd - 1] === ':') { hostEnd--; }
+    var host = rest.slice(0, hostEnd);
+    rest = rest.slice(hostEnd);
+
+    // pull out port.
+    this.parseHost(host);
+
+    // we've indicated that there is a hostname,
+    // so even if it's empty, it has to be present.
+    this.hostname = this.hostname || '';
+
+    // if hostname begins with [ and ends with ]
+    // assume that it's an IPv6 address.
+    var ipv6Hostname = this.hostname[0] === '[' &&
+        this.hostname[this.hostname.length - 1] === ']';
+
+    // validate a little.
+    if (!ipv6Hostname) {
+      var hostparts = this.hostname.split(/\./);
+      for (i = 0, l = hostparts.length; i < l; i++) {
+        var part = hostparts[i];
+        if (!part) { continue; }
+        if (!part.match(hostnamePartPattern)) {
+          var newpart = '';
+          for (var j = 0, k = part.length; j < k; j++) {
+            if (part.charCodeAt(j) > 127) {
+              // we replace non-ASCII char with a temporary placeholder
+              // we need this to make sure size of hostname is not
+              // broken by replacing non-ASCII by nothing
+              newpart += 'x';
+            } else {
+              newpart += part[j];
+            }
+          }
+          // we test again with ASCII char only
+          if (!newpart.match(hostnamePartPattern)) {
+            var validParts = hostparts.slice(0, i);
+            var notHost = hostparts.slice(i + 1);
+            var bit = part.match(hostnamePartStart);
+            if (bit) {
+              validParts.push(bit[1]);
+              notHost.unshift(bit[2]);
+            }
+            if (notHost.length) {
+              rest = notHost.join('.') + rest;
+            }
+            this.hostname = validParts.join('.');
+            break;
+          }
+        }
+      }
+    }
+
+    if (this.hostname.length > hostnameMaxLen) {
+      this.hostname = '';
+    }
+
+    // strip [ and ] from the hostname
+    // the host field still retains them, though
+    if (ipv6Hostname) {
+      this.hostname = this.hostname.substr(1, this.hostname.length - 2);
+    }
+  }
+
+  // chop off from the tail first.
+  var hash = rest.indexOf('#');
+  if (hash !== -1) {
+    // got a fragment string.
+    this.hash = rest.substr(hash);
+    rest = rest.slice(0, hash);
+  }
+  var qm = rest.indexOf('?');
+  if (qm !== -1) {
+    this.search = rest.substr(qm);
+    rest = rest.slice(0, qm);
+  }
+  if (rest) { this.pathname = rest; }
+  if (slashedProtocol[lowerProto] &&
+      this.hostname && !this.pathname) {
+    this.pathname = '';
+  }
+
+  return this;
+};
+
+Url.prototype.parseHost = function(host) {
+  var port = portPattern.exec(host);
+  if (port) {
+    port = port[0];
+    if (port !== ':') {
+      this.port = port.substr(1);
+    }
+    host = host.substr(0, host.length - port.length);
+  }
+  if (host) { this.hostname = host; }
+};
+
+module.exports = urlParse;
+
+
+/***/ }),
+/* 587 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(process) {var __WEBPACK_AMD_DEFINE_RESULT__;/*global self, document, DOMException */
+
+/*! @source http://purl.eligrey.com/github/classList.js/blob/master/classList.js */
+
+// Full polyfill for browsers with no classList support
+if (!("classList" in document.createElement("_"))) {
+  (function (view) {
+
+  "use strict";
+
+  if (!('Element' in view)) return;
+
+  var
+      classListProp = "classList"
+    , protoProp = "prototype"
+    , elemCtrProto = view.Element[protoProp]
+    , objCtr = Object
+    , strTrim = String[protoProp].trim || function () {
+      return this.replace(/^\s+|\s+$/g, "");
+    }
+    , arrIndexOf = Array[protoProp].indexOf || function (item) {
+      var
+          i = 0
+        , len = this.length
+      ;
+      for (; i < len; i++) {
+        if (i in this && this[i] === item) {
+          return i;
+        }
+      }
+      return -1;
+    }
+    // Vendors: please allow content code to instantiate DOMExceptions
+    , DOMEx = function (type, message) {
+      this.name = type;
+      this.code = DOMException[type];
+      this.message = message;
+    }
+    , checkTokenAndGetIndex = function (classList, token) {
+      if (token === "") {
+        throw new DOMEx(
+            "SYNTAX_ERR"
+          , "An invalid or illegal string was specified"
+        );
+      }
+      if (/\s/.test(token)) {
+        throw new DOMEx(
+            "INVALID_CHARACTER_ERR"
+          , "String contains an invalid character"
+        );
+      }
+      return arrIndexOf.call(classList, token);
+    }
+    , ClassList = function (elem) {
+      var
+          trimmedClasses = strTrim.call(elem.getAttribute("class") || "")
+        , classes = trimmedClasses ? trimmedClasses.split(/\s+/) : []
+        , i = 0
+        , len = classes.length
+      ;
+      for (; i < len; i++) {
+        this.push(classes[i]);
+      }
+      this._updateClassName = function () {
+        elem.setAttribute("class", this.toString());
+      };
+    }
+    , classListProto = ClassList[protoProp] = []
+    , classListGetter = function () {
+      return new ClassList(this);
+    }
+  ;
+  // Most DOMException implementations don't allow calling DOMException's toString()
+  // on non-DOMExceptions. Error's toString() is sufficient here.
+  DOMEx[protoProp] = Error[protoProp];
+  classListProto.item = function (i) {
+    return this[i] || null;
+  };
+  classListProto.contains = function (token) {
+    token += "";
+    return checkTokenAndGetIndex(this, token) !== -1;
+  };
+  classListProto.add = function () {
+    var
+        tokens = arguments
+      , i = 0
+      , l = tokens.length
+      , token
+      , updated = false
+    ;
+    do {
+      token = tokens[i] + "";
+      if (checkTokenAndGetIndex(this, token) === -1) {
+        this.push(token);
+        updated = true;
+      }
+    }
+    while (++i < l);
+
+    if (updated) {
+      this._updateClassName();
+    }
+  };
+  classListProto.remove = function () {
+    var
+        tokens = arguments
+      , i = 0
+      , l = tokens.length
+      , token
+      , updated = false
+      , index
+    ;
+    do {
+      token = tokens[i] + "";
+      index = checkTokenAndGetIndex(this, token);
+      while (index !== -1) {
+        this.splice(index, 1);
+        updated = true;
+        index = checkTokenAndGetIndex(this, token);
+      }
+    }
+    while (++i < l);
+
+    if (updated) {
+      this._updateClassName();
+    }
+  };
+  classListProto.toggle = function (token, force) {
+    token += "";
+
+    var
+        result = this.contains(token)
+      , method = result ?
+        force !== true && "remove"
+      :
+        force !== false && "add"
+    ;
+
+    if (method) {
+      this[method](token);
+    }
+
+    if (force === true || force === false) {
+      return force;
+    } else {
+      return !result;
+    }
+  };
+  classListProto.toString = function () {
+    return this.join(" ");
+  };
+
+  if (objCtr.defineProperty) {
+    var classListPropDesc = {
+        get: classListGetter
+      , enumerable: true
+      , configurable: true
+    };
+    try {
+      objCtr.defineProperty(elemCtrProto, classListProp, classListPropDesc);
+    } catch (ex) { // IE 8 doesn't support enumerable:true
+      if (ex.number === -0x7FF5EC54) {
+        classListPropDesc.enumerable = false;
+        objCtr.defineProperty(elemCtrProto, classListProp, classListPropDesc);
+      }
+    }
+  } else if (objCtr[protoProp].__defineGetter__) {
+    elemCtrProto.__defineGetter__(classListProp, classListGetter);
+  }
+
+  }(self));
+}
+
+/* Blob.js
+ * A Blob implementation.
+ * 2014-07-24
+ *
+ * By Eli Grey, http://eligrey.com
+ * By Devin Samarin, https://github.com/dsamarin
+ * License: X11/MIT
+ *   See https://github.com/eligrey/Blob.js/blob/master/LICENSE.md
+ */
+
+/*global self, unescape */
+/*jslint bitwise: true, regexp: true, confusion: true, es5: true, vars: true, white: true,
+  plusplus: true */
+
+/*! @source http://purl.eligrey.com/github/Blob.js/blob/master/Blob.js */
+
+(function (view) {
+  "use strict";
+
+  view.URL = view.URL || view.webkitURL;
+
+  if (view.Blob && view.URL) {
+    try {
+      new Blob;
+      return;
+    } catch (e) {}
+  }
+
+  // Internally we use a BlobBuilder implementation to base Blob off of
+  // in order to support older browsers that only have BlobBuilder
+  var BlobBuilder = view.BlobBuilder || view.WebKitBlobBuilder || view.MozBlobBuilder || (function(view) {
+    var
+        get_class = function(object) {
+        return Object.prototype.toString.call(object).match(/^\[object\s(.*)\]$/)[1];
+      }
+      , FakeBlobBuilder = function BlobBuilder() {
+        this.data = [];
+      }
+      , FakeBlob = function Blob(data, type, encoding) {
+        this.data = data;
+        this.size = data.length;
+        this.type = type;
+        this.encoding = encoding;
+      }
+      , FBB_proto = FakeBlobBuilder.prototype
+      , FB_proto = FakeBlob.prototype
+      , FileReaderSync = view.FileReaderSync
+      , FileException = function(type) {
+        this.code = this[this.name = type];
+      }
+      , file_ex_codes = (
+          "NOT_FOUND_ERR SECURITY_ERR ABORT_ERR NOT_READABLE_ERR ENCODING_ERR "
+        + "NO_MODIFICATION_ALLOWED_ERR INVALID_STATE_ERR SYNTAX_ERR"
+      ).split(" ")
+      , file_ex_code = file_ex_codes.length
+      , real_URL = view.URL || view.webkitURL || view
+      , real_create_object_URL = real_URL.createObjectURL
+      , real_revoke_object_URL = real_URL.revokeObjectURL
+      , URL = real_URL
+      , btoa = view.btoa
+      , atob = view.atob
+
+      , ArrayBuffer = view.ArrayBuffer
+      , Uint8Array = view.Uint8Array
+
+      , origin = /^[\w-]+:\/*\[?[\w\.:-]+\]?(?::[0-9]+)?/
+    ;
+    FakeBlob.fake = FB_proto.fake = true;
+    while (file_ex_code--) {
+      FileException.prototype[file_ex_codes[file_ex_code]] = file_ex_code + 1;
+    }
+    // Polyfill URL
+    if (!real_URL.createObjectURL) {
+      URL = view.URL = function(uri) {
+        var
+            uri_info = document.createElementNS("http://www.w3.org/1999/xhtml", "a")
+          , uri_origin
+        ;
+        uri_info.href = uri;
+        if (!("origin" in uri_info)) {
+          if (uri_info.protocol.toLowerCase() === "data:") {
+            uri_info.origin = null;
+          } else {
+            uri_origin = uri.match(origin);
+            uri_info.origin = uri_origin && uri_origin[1];
+          }
+        }
+        return uri_info;
+      };
+    }
+    URL.createObjectURL = function(blob) {
+      var
+          type = blob.type
+        , data_URI_header
+      ;
+      if (type === null) {
+        type = "application/octet-stream";
+      }
+      if (blob instanceof FakeBlob) {
+        data_URI_header = "data:" + type;
+        if (blob.encoding === "base64") {
+          return data_URI_header + ";base64," + blob.data;
+        } else if (blob.encoding === "URI") {
+          return data_URI_header + "," + decodeURIComponent(blob.data);
+        } if (btoa) {
+          return data_URI_header + ";base64," + btoa(blob.data);
+        } else {
+          return data_URI_header + "," + encodeURIComponent(blob.data);
+        }
+      } else if (real_create_object_URL) {
+        return real_create_object_URL.call(real_URL, blob);
+      }
+    };
+    URL.revokeObjectURL = function(object_URL) {
+      if (object_URL.substring(0, 5) !== "data:" && real_revoke_object_URL) {
+        real_revoke_object_URL.call(real_URL, object_URL);
+      }
+    };
+    FBB_proto.append = function(data/*, endings*/) {
+      var bb = this.data;
+      // decode data to a binary string
+      if (Uint8Array && (data instanceof ArrayBuffer || data instanceof Uint8Array)) {
+        var
+            str = ""
+          , buf = new Uint8Array(data)
+          , i = 0
+          , buf_len = buf.length
+        ;
+        for (; i < buf_len; i++) {
+          str += String.fromCharCode(buf[i]);
+        }
+        bb.push(str);
+      } else if (get_class(data) === "Blob" || get_class(data) === "File") {
+        if (FileReaderSync) {
+          var fr = new FileReaderSync;
+          bb.push(fr.readAsBinaryString(data));
+        } else {
+          // async FileReader won't work as BlobBuilder is sync
+          throw new FileException("NOT_READABLE_ERR");
+        }
+      } else if (data instanceof FakeBlob) {
+        if (data.encoding === "base64" && atob) {
+          bb.push(atob(data.data));
+        } else if (data.encoding === "URI") {
+          bb.push(decodeURIComponent(data.data));
+        } else if (data.encoding === "raw") {
+          bb.push(data.data);
+        }
+      } else {
+        if (typeof data !== "string") {
+          data += ""; // convert unsupported types to strings
+        }
+        // decode UTF-16 to binary string
+        bb.push(unescape(encodeURIComponent(data)));
+      }
+    };
+    FBB_proto.getBlob = function(type) {
+      if (!arguments.length) {
+        type = null;
+      }
+      return new FakeBlob(this.data.join(""), type, "raw");
+    };
+    FBB_proto.toString = function() {
+      return "[object BlobBuilder]";
+    };
+    FB_proto.slice = function(start, end, type) {
+      var args = arguments.length;
+      if (args < 3) {
+        type = null;
+      }
+      return new FakeBlob(
+          this.data.slice(start, args > 1 ? end : this.data.length)
+        , type
+        , this.encoding
+      );
+    };
+    FB_proto.toString = function() {
+      return "[object Blob]";
+    };
+    FB_proto.close = function() {
+      this.size = 0;
+      delete this.data;
+    };
+    return FakeBlobBuilder;
+  }(view));
+
+  view.Blob = function(blobParts, options) {
+    var type = options ? (options.type || "") : "";
+    var builder = new BlobBuilder();
+    if (blobParts) {
+      for (var i = 0, len = blobParts.length; i < len; i++) {
+        if (Uint8Array && blobParts[i] instanceof Uint8Array) {
+          builder.append(blobParts[i].buffer);
+        }
+        else {
+          builder.append(blobParts[i]);
+        }
+      }
+    }
+    var blob = builder.getBlob(type);
+    if (!blob.slice && blob.webkitSlice) {
+      blob.slice = blob.webkitSlice;
+    }
+    return blob;
+  };
+
+  var getPrototypeOf = Object.getPrototypeOf || function(object) {
+    return object.__proto__;
+  };
+  view.Blob.prototype = getPrototypeOf(new view.Blob());
+}(typeof self !== "undefined" && self || typeof window !== "undefined" && window || this.content || this));
+
+(function (root, factory) {
+    'use strict';
+    var isElectron = typeof module === 'object' && typeof process !== 'undefined' && process && process.versions && process.versions.electron;
+    if (!isElectron && typeof module === 'object') {
+        module.exports = factory;
+    } else if (true) {
+        !(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
+            return factory;
+        }.call(exports, __webpack_require__, exports, module),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    } else {
+        root.MediumEditor = factory;
+    }
+}(this, function () {
+
+    'use strict';
+
+function MediumEditor(elements, options) {
+    'use strict';
+    return this.init(elements, options);
+}
+
+MediumEditor.extensions = {};
+/*jshint unused: true */
+(function (window) {
+    'use strict';
+
+    function copyInto(overwrite, dest) {
+        var prop,
+            sources = Array.prototype.slice.call(arguments, 2);
+        dest = dest || {};
+        for (var i = 0; i < sources.length; i++) {
+            var source = sources[i];
+            if (source) {
+                for (prop in source) {
+                    if (source.hasOwnProperty(prop) &&
+                        typeof source[prop] !== 'undefined' &&
+                        (overwrite || dest.hasOwnProperty(prop) === false)) {
+                        dest[prop] = source[prop];
+                    }
+                }
+            }
+        }
+        return dest;
+    }
+
+    // https://developer.mozilla.org/en-US/docs/Web/API/Node/contains
+    // Some browsers (including phantom) don't return true for Node.contains(child)
+    // if child is a text node.  Detect these cases here and use a fallback
+    // for calls to Util.isDescendant()
+    var nodeContainsWorksWithTextNodes = false;
+    try {
+        var testParent = document.createElement('div'),
+            testText = document.createTextNode(' ');
+        testParent.appendChild(testText);
+        nodeContainsWorksWithTextNodes = testParent.contains(testText);
+    } catch (exc) {}
+
+    var Util = {
+
+        // http://stackoverflow.com/questions/17907445/how-to-detect-ie11#comment30165888_17907562
+        // by rg89
+        isIE: ((navigator.appName === 'Microsoft Internet Explorer') || ((navigator.appName === 'Netscape') && (new RegExp('Trident/.*rv:([0-9]{1,}[.0-9]{0,})').exec(navigator.userAgent) !== null))),
+
+        isEdge: (/Edge\/\d+/).exec(navigator.userAgent) !== null,
+
+        // if firefox
+        isFF: (navigator.userAgent.toLowerCase().indexOf('firefox') > -1),
+
+        // http://stackoverflow.com/a/11752084/569101
+        isMac: (window.navigator.platform.toUpperCase().indexOf('MAC') >= 0),
+
+        // https://github.com/jashkenas/underscore
+        // Lonely letter MUST USE the uppercase code
+        keyCode: {
+            BACKSPACE: 8,
+            TAB: 9,
+            ENTER: 13,
+            ESCAPE: 27,
+            SPACE: 32,
+            DELETE: 46,
+            K: 75, // K keycode, and not k
+            M: 77,
+            V: 86
+        },
+
+        /**
+         * Returns true if it's metaKey on Mac, or ctrlKey on non-Mac.
+         * See #591
+         */
+        isMetaCtrlKey: function (event) {
+            if ((Util.isMac && event.metaKey) || (!Util.isMac && event.ctrlKey)) {
+                return true;
+            }
+
+            return false;
+        },
+
+        /**
+         * Returns true if the key associated to the event is inside keys array
+         *
+         * @see : https://github.com/jquery/jquery/blob/0705be475092aede1eddae01319ec931fb9c65fc/src/event.js#L473-L484
+         * @see : http://stackoverflow.com/q/4471582/569101
+         */
+        isKey: function (event, keys) {
+            var keyCode = Util.getKeyCode(event);
+
+            // it's not an array let's just compare strings!
+            if (false === Array.isArray(keys)) {
+                return keyCode === keys;
+            }
+
+            if (-1 === keys.indexOf(keyCode)) {
+                return false;
+            }
+
+            return true;
+        },
+
+        getKeyCode: function (event) {
+            var keyCode = event.which;
+
+            // getting the key code from event
+            if (null === keyCode) {
+                keyCode = event.charCode !== null ? event.charCode : event.keyCode;
+            }
+
+            return keyCode;
+        },
+
+        blockContainerElementNames: [
+            // elements our editor generates
+            'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'pre', 'ul', 'li', 'ol',
+            // all other known block elements
+            'address', 'article', 'aside', 'audio', 'canvas', 'dd', 'dl', 'dt', 'fieldset',
+            'figcaption', 'figure', 'footer', 'form', 'header', 'hgroup', 'main', 'nav',
+            'noscript', 'output', 'section', 'video',
+            'table', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td'
+        ],
+
+        emptyElementNames: ['br', 'col', 'colgroup', 'hr', 'img', 'input', 'source', 'wbr'],
+
+        extend: function extend(/* dest, source1, source2, ...*/) {
+            var args = [true].concat(Array.prototype.slice.call(arguments));
+            return copyInto.apply(this, args);
+        },
+
+        defaults: function defaults(/*dest, source1, source2, ...*/) {
+            var args = [false].concat(Array.prototype.slice.call(arguments));
+            return copyInto.apply(this, args);
+        },
+
+        /*
+         * Create a link around the provided text nodes which must be adjacent to each other and all be
+         * descendants of the same closest block container. If the preconditions are not met, unexpected
+         * behavior will result.
+         */
+        createLink: function (document, textNodes, href, target) {
+            var anchor = document.createElement('a');
+            Util.moveTextRangeIntoElement(textNodes[0], textNodes[textNodes.length - 1], anchor);
+            anchor.setAttribute('href', href);
+            if (target) {
+                anchor.setAttribute('target', target);
+            }
+            return anchor;
+        },
+
+        /*
+         * Given the provided match in the format {start: 1, end: 2} where start and end are indices into the
+         * textContent of the provided element argument, modify the DOM inside element to ensure that the text
+         * identified by the provided match can be returned as text nodes that contain exactly that text, without
+         * any additional text at the beginning or end of the returned array of adjacent text nodes.
+         *
+         * The only DOM manipulation performed by this function is splitting the text nodes, non-text nodes are
+         * not affected in any way.
+         */
+        findOrCreateMatchingTextNodes: function (document, element, match) {
+            var treeWalker = document.createTreeWalker(element, NodeFilter.SHOW_ALL, null, false),
+                matchedNodes = [],
+                currentTextIndex = 0,
+                startReached = false,
+                currentNode = null,
+                newNode = null;
+
+            while ((currentNode = treeWalker.nextNode()) !== null) {
+                if (currentNode.nodeType > 3) {
+                    continue;
+                } else if (currentNode.nodeType === 3) {
+                    if (!startReached && match.start < (currentTextIndex + currentNode.nodeValue.length)) {
+                        startReached = true;
+                        newNode = Util.splitStartNodeIfNeeded(currentNode, match.start, currentTextIndex);
+                    }
+                    if (startReached) {
+                        Util.splitEndNodeIfNeeded(currentNode, newNode, match.end, currentTextIndex);
+                    }
+                    if (startReached && currentTextIndex === match.end) {
+                        break; // Found the node(s) corresponding to the link. Break out and move on to the next.
+                    } else if (startReached && currentTextIndex > (match.end + 1)) {
+                        throw new Error('PerformLinking overshot the target!'); // should never happen...
+                    }
+
+                    if (startReached) {
+                        matchedNodes.push(newNode || currentNode);
+                    }
+
+                    currentTextIndex += currentNode.nodeValue.length;
+                    if (newNode !== null) {
+                        currentTextIndex += newNode.nodeValue.length;
+                        // Skip the newNode as we'll already have pushed it to the matches
+                        treeWalker.nextNode();
+                    }
+                    newNode = null;
+                } else if (currentNode.tagName.toLowerCase() === 'img') {
+                    if (!startReached && (match.start <= currentTextIndex)) {
+                        startReached = true;
+                    }
+                    if (startReached) {
+                        matchedNodes.push(currentNode);
+                    }
+                }
+            }
+            return matchedNodes;
+        },
+
+        /*
+         * Given the provided text node and text coordinates, split the text node if needed to make it align
+         * precisely with the coordinates.
+         *
+         * This function is intended to be called from Util.findOrCreateMatchingTextNodes.
+         */
+        splitStartNodeIfNeeded: function (currentNode, matchStartIndex, currentTextIndex) {
+            if (matchStartIndex !== currentTextIndex) {
+                return currentNode.splitText(matchStartIndex - currentTextIndex);
+            }
+            return null;
+        },
+
+        /*
+         * Given the provided text node and text coordinates, split the text node if needed to make it align
+         * precisely with the coordinates. The newNode argument should from the result of Util.splitStartNodeIfNeeded,
+         * if that function has been called on the same currentNode.
+         *
+         * This function is intended to be called from Util.findOrCreateMatchingTextNodes.
+         */
+        splitEndNodeIfNeeded: function (currentNode, newNode, matchEndIndex, currentTextIndex) {
+            var textIndexOfEndOfFarthestNode,
+                endSplitPoint;
+            textIndexOfEndOfFarthestNode = currentTextIndex + currentNode.nodeValue.length +
+                    (newNode ? newNode.nodeValue.length : 0) - 1;
+            endSplitPoint = matchEndIndex - currentTextIndex -
+                    (newNode ? currentNode.nodeValue.length : 0);
+            if (textIndexOfEndOfFarthestNode >= matchEndIndex &&
+                    currentTextIndex !== textIndexOfEndOfFarthestNode &&
+                    endSplitPoint !== 0) {
+                (newNode || currentNode).splitText(endSplitPoint);
+            }
+        },
+
+        /*
+        * Take an element, and break up all of its text content into unique pieces such that:
+         * 1) All text content of the elements are in separate blocks. No piece of text content should span
+         *    across multiple blocks. This means no element return by this function should have
+         *    any blocks as children.
+         * 2) The union of the textcontent of all of the elements returned here covers all
+         *    of the text within the element.
+         *
+         *
+         * EXAMPLE:
+         * In the event that we have something like:
+         *
+         * <blockquote>
+         *   <p>Some Text</p>
+         *   <ol>
+         *     <li>List Item 1</li>
+         *     <li>List Item 2</li>
+         *   </ol>
+         * </blockquote>
+         *
+         * This function would return these elements as an array:
+         *   [ <p>Some Text</p>, <li>List Item 1</li>, <li>List Item 2</li> ]
+         *
+         * Since the <blockquote> and <ol> elements contain blocks within them they are not returned.
+         * Since the <p> and <li>'s don't contain block elements and cover all the text content of the
+         * <blockquote> container, they are the elements returned.
+         */
+        splitByBlockElements: function (element) {
+            if (element.nodeType !== 3 && element.nodeType !== 1) {
+                return [];
+            }
+
+            var toRet = [],
+                blockElementQuery = MediumEditor.util.blockContainerElementNames.join(',');
+
+            if (element.nodeType === 3 || element.querySelectorAll(blockElementQuery).length === 0) {
+                return [element];
+            }
+
+            for (var i = 0; i < element.childNodes.length; i++) {
+                var child = element.childNodes[i];
+                if (child.nodeType === 3) {
+                    toRet.push(child);
+                } else if (child.nodeType === 1) {
+                    var blockElements = child.querySelectorAll(blockElementQuery);
+                    if (blockElements.length === 0) {
+                        toRet.push(child);
+                    } else {
+                        toRet = toRet.concat(MediumEditor.util.splitByBlockElements(child));
+                    }
+                }
+            }
+
+            return toRet;
+        },
+
+        // Find the next node in the DOM tree that represents any text that is being
+        // displayed directly next to the targetNode (passed as an argument)
+        // Text that appears directly next to the current node can be:
+        //  - A sibling text node
+        //  - A descendant of a sibling element
+        //  - A sibling text node of an ancestor
+        //  - A descendant of a sibling element of an ancestor
+        findAdjacentTextNodeWithContent: function findAdjacentTextNodeWithContent(rootNode, targetNode, ownerDocument) {
+            var pastTarget = false,
+                nextNode,
+                nodeIterator = ownerDocument.createNodeIterator(rootNode, NodeFilter.SHOW_TEXT, null, false);
+
+            // Use a native NodeIterator to iterate over all the text nodes that are descendants
+            // of the rootNode.  Once past the targetNode, choose the first non-empty text node
+            nextNode = nodeIterator.nextNode();
+            while (nextNode) {
+                if (nextNode === targetNode) {
+                    pastTarget = true;
+                } else if (pastTarget) {
+                    if (nextNode.nodeType === 3 && nextNode.nodeValue && nextNode.nodeValue.trim().length > 0) {
+                        break;
+                    }
+                }
+                nextNode = nodeIterator.nextNode();
+            }
+
+            return nextNode;
+        },
+
+        // Find an element's previous sibling within a medium-editor element
+        // If one doesn't exist, find the closest ancestor's previous sibling
+        findPreviousSibling: function (node) {
+            if (!node || Util.isMediumEditorElement(node)) {
+                return false;
+            }
+
+            var previousSibling = node.previousSibling;
+            while (!previousSibling && !Util.isMediumEditorElement(node.parentNode)) {
+                node = node.parentNode;
+                previousSibling = node.previousSibling;
+            }
+
+            return previousSibling;
+        },
+
+        isDescendant: function isDescendant(parent, child, checkEquality) {
+            if (!parent || !child) {
+                return false;
+            }
+            if (parent === child) {
+                return !!checkEquality;
+            }
+            // If parent is not an element, it can't have any descendants
+            if (parent.nodeType !== 1) {
+                return false;
+            }
+            if (nodeContainsWorksWithTextNodes || child.nodeType !== 3) {
+                return parent.contains(child);
+            }
+            var node = child.parentNode;
+            while (node !== null) {
+                if (node === parent) {
+                    return true;
+                }
+                node = node.parentNode;
+            }
+            return false;
+        },
+
+        // https://github.com/jashkenas/underscore
+        isElement: function isElement(obj) {
+            return !!(obj && obj.nodeType === 1);
+        },
+
+        // https://github.com/jashkenas/underscore
+        throttle: function (func, wait) {
+            var THROTTLE_INTERVAL = 50,
+                context,
+                args,
+                result,
+                timeout = null,
+                previous = 0,
+                later = function () {
+                    previous = Date.now();
+                    timeout = null;
+                    result = func.apply(context, args);
+                    if (!timeout) {
+                        context = args = null;
+                    }
+                };
+
+            if (!wait && wait !== 0) {
+                wait = THROTTLE_INTERVAL;
+            }
+
+            return function () {
+                var now = Date.now(),
+                    remaining = wait - (now - previous);
+
+                context = this;
+                args = arguments;
+                if (remaining <= 0 || remaining > wait) {
+                    if (timeout) {
+                        clearTimeout(timeout);
+                        timeout = null;
+                    }
+                    previous = now;
+                    result = func.apply(context, args);
+                    if (!timeout) {
+                        context = args = null;
+                    }
+                } else if (!timeout) {
+                    timeout = setTimeout(later, remaining);
+                }
+                return result;
+            };
+        },
+
+        traverseUp: function (current, testElementFunction) {
+            if (!current) {
+                return false;
+            }
+
+            do {
+                if (current.nodeType === 1) {
+                    if (testElementFunction(current)) {
+                        return current;
+                    }
+                    // do not traverse upwards past the nearest containing editor
+                    if (Util.isMediumEditorElement(current)) {
+                        return false;
+                    }
+                }
+
+                current = current.parentNode;
+            } while (current);
+
+            return false;
+        },
+
+        htmlEntities: function (str) {
+            // converts special characters (like <) into their escaped/encoded values (like &lt;).
+            // This allows you to show to display the string without the browser reading it as HTML.
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        },
+
+        // http://stackoverflow.com/questions/6690752/insert-html-at-caret-in-a-contenteditable-div
+        insertHTMLCommand: function (doc, html) {
+            var selection, range, el, fragment, node, lastNode, toReplace,
+                res = false,
+                ecArgs = ['insertHTML', false, html];
+
+            /* Edge's implementation of insertHTML is just buggy right now:
+             * - Doesn't allow leading white space at the beginning of an element
+             * - Found a case when a <font size="2"> tag was inserted when calling alignCenter inside a blockquote
+             *
+             * There are likely other bugs, these are just the ones we found so far.
+             * For now, let's just use the same fallback we did for IE
+             */
+            if (!MediumEditor.util.isEdge && doc.queryCommandSupported('insertHTML')) {
+                try {
+                    return doc.execCommand.apply(doc, ecArgs);
+                } catch (ignore) {}
+            }
+
+            selection = doc.getSelection();
+            if (selection.rangeCount) {
+                range = selection.getRangeAt(0);
+                toReplace = range.commonAncestorContainer;
+
+                // https://github.com/yabwe/medium-editor/issues/748
+                // If the selection is an empty editor element, create a temporary text node inside of the editor
+                // and select it so that we don't delete the editor element
+                if (Util.isMediumEditorElement(toReplace) && !toReplace.firstChild) {
+                    range.selectNode(toReplace.appendChild(doc.createTextNode('')));
+                } else if ((toReplace.nodeType === 3 && range.startOffset === 0 && range.endOffset === toReplace.nodeValue.length) ||
+                        (toReplace.nodeType !== 3 && toReplace.innerHTML === range.toString())) {
+                    // Ensure range covers maximum amount of nodes as possible
+                    // By moving up the DOM and selecting ancestors whose only child is the range
+                    while (!Util.isMediumEditorElement(toReplace) &&
+                            toReplace.parentNode &&
+                            toReplace.parentNode.childNodes.length === 1 &&
+                            !Util.isMediumEditorElement(toReplace.parentNode)) {
+                        toReplace = toReplace.parentNode;
+                    }
+                    range.selectNode(toReplace);
+                }
+                range.deleteContents();
+
+                el = doc.createElement('div');
+                el.innerHTML = html;
+                fragment = doc.createDocumentFragment();
+                while (el.firstChild) {
+                    node = el.firstChild;
+                    lastNode = fragment.appendChild(node);
+                }
+                range.insertNode(fragment);
+
+                // Preserve the selection:
+                if (lastNode) {
+                    range = range.cloneRange();
+                    range.setStartAfter(lastNode);
+                    range.collapse(true);
+                    MediumEditor.selection.selectRange(doc, range);
+                }
+                res = true;
+            }
+
+            // https://github.com/yabwe/medium-editor/issues/992
+            // If we're monitoring calls to execCommand, notify listeners as if a real call had happened
+            if (doc.execCommand.callListeners) {
+                doc.execCommand.callListeners(ecArgs, res);
+            }
+            return res;
+        },
+
+        execFormatBlock: function (doc, tagName) {
+            // Get the top level block element that contains the selection
+            var blockContainer = Util.getTopBlockContainer(MediumEditor.selection.getSelectionStart(doc)),
+                childNodes;
+
+            // Special handling for blockquote
+            if (tagName === 'blockquote') {
+                if (blockContainer) {
+                    childNodes = Array.prototype.slice.call(blockContainer.childNodes);
+                    // Check if the blockquote has a block element as a child (nested blocks)
+                    if (childNodes.some(function (childNode) {
+                        return Util.isBlockContainer(childNode);
+                    })) {
+                        // FF handles blockquote differently on formatBlock
+                        // allowing nesting, we need to use outdent
+                        // https://developer.mozilla.org/en-US/docs/Rich-Text_Editing_in_Mozilla
+                        return doc.execCommand('outdent', false, null);
+                    }
+                }
+
+                // When IE blockquote needs to be called as indent
+                // http://stackoverflow.com/questions/1816223/rich-text-editor-with-blockquote-function/1821777#1821777
+                if (Util.isIE) {
+                    return doc.execCommand('indent', false, tagName);
+                }
+            }
+
+            // If the blockContainer is already the element type being passed in
+            // treat it as 'undo' formatting and just convert it to a <p>
+            if (blockContainer && tagName === blockContainer.nodeName.toLowerCase()) {
+                tagName = 'p';
+            }
+
+            // When IE we need to add <> to heading elements
+            // http://stackoverflow.com/questions/10741831/execcommand-formatblock-headings-in-ie
+            if (Util.isIE) {
+                tagName = '<' + tagName + '>';
+            }
+
+            // When FF, IE and Edge, we have to handle blockquote node seperately as 'formatblock' does not work.
+            // https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand#Commands
+            if (blockContainer && blockContainer.nodeName.toLowerCase() === 'blockquote') {
+                // For IE, just use outdent
+                if (Util.isIE && tagName === '<p>') {
+                    return doc.execCommand('outdent', false, tagName);
+                }
+
+                // For Firefox and Edge, make sure there's a nested block element before calling outdent
+                if ((Util.isFF || Util.isEdge) && tagName === 'p') {
+                    childNodes = Array.prototype.slice.call(blockContainer.childNodes);
+                    // If there are some non-block elements we need to wrap everything in a <p> before we outdent
+                    if (childNodes.some(function (childNode) {
+                        return !Util.isBlockContainer(childNode);
+                    })) {
+                        doc.execCommand('formatBlock', false, tagName);
+                    }
+                    return doc.execCommand('outdent', false, tagName);
+                }
+            }
+
+            return doc.execCommand('formatBlock', false, tagName);
+        },
+
+        /**
+         * Set target to blank on the given el element
+         *
+         * TODO: not sure if this should be here
+         *
+         * When creating a link (using core -> createLink) the selection returned by Firefox will be the parent of the created link
+         * instead of the created link itself (as it is for Chrome for example), so we retrieve all "a" children to grab the good one by
+         * using `anchorUrl` to ensure that we are adding target="_blank" on the good one.
+         * This isn't a bulletproof solution anyway ..
+         */
+        setTargetBlank: function (el, anchorUrl) {
+            var i, url = anchorUrl || false;
+            if (el.nodeName.toLowerCase() === 'a') {
+                el.target = '_blank';
+            } else {
+                el = el.getElementsByTagName('a');
+
+                for (i = 0; i < el.length; i += 1) {
+                    if (false === url || url === el[i].attributes.href.value) {
+                        el[i].target = '_blank';
+                    }
+                }
+            }
+        },
+
+        /*
+         * this function is called to explicitly remove the target='_blank' as FF holds on to _blank value even
+         * after unchecking the checkbox on anchor form
+         */
+        removeTargetBlank: function (el, anchorUrl) {
+            var i;
+            if (el.nodeName.toLowerCase() === 'a') {
+                el.removeAttribute('target');
+            } else {
+                el = el.getElementsByTagName('a');
+
+                for (i = 0; i < el.length; i += 1) {
+                    if (anchorUrl === el[i].attributes.href.value) {
+                        el[i].removeAttribute('target');
+                    }
+                }
+            }
+        },
+
+        /*
+         * this function adds one or several classes on an a element.
+         * if el parameter is not an a, it will look for a children of el.
+         * if no a children are found, it will look for the a parent.
+         */
+        addClassToAnchors: function (el, buttonClass) {
+            var classes = buttonClass.split(' '),
+                i,
+                j;
+            if (el.nodeName.toLowerCase() === 'a') {
+                for (j = 0; j < classes.length; j += 1) {
+                    el.classList.add(classes[j]);
+                }
+            } else {
+                var aChildren = el.getElementsByTagName('a');
+                if (aChildren.length === 0) {
+                    var parentAnchor = Util.getClosestTag(el, 'a');
+                    el = parentAnchor ? [parentAnchor] : [];
+                } else {
+                    el = aChildren;
+                }
+                for (i = 0; i < el.length; i += 1) {
+                    for (j = 0; j < classes.length; j += 1) {
+                        el[i].classList.add(classes[j]);
+                    }
+                }
+            }
+        },
+
+        isListItem: function (node) {
+            if (!node) {
+                return false;
+            }
+            if (node.nodeName.toLowerCase() === 'li') {
+                return true;
+            }
+
+            var parentNode = node.parentNode,
+                tagName = parentNode.nodeName.toLowerCase();
+            while (tagName === 'li' || (!Util.isBlockContainer(parentNode) && tagName !== 'div')) {
+                if (tagName === 'li') {
+                    return true;
+                }
+                parentNode = parentNode.parentNode;
+                if (parentNode) {
+                    tagName = parentNode.nodeName.toLowerCase();
+                } else {
+                    return false;
+                }
+            }
+            return false;
+        },
+
+        cleanListDOM: function (ownerDocument, element) {
+            if (element.nodeName.toLowerCase() !== 'li') {
+                return;
+            }
+
+            var list = element.parentElement;
+
+            if (list.parentElement.nodeName.toLowerCase() === 'p') { // yes we need to clean up
+                Util.unwrap(list.parentElement, ownerDocument);
+
+                // move cursor at the end of the text inside the list
+                // for some unknown reason, the cursor is moved to end of the "visual" line
+                MediumEditor.selection.moveCursor(ownerDocument, element.firstChild, element.firstChild.textContent.length);
+            }
+        },
+
+        /* splitDOMTree
+         *
+         * Given a root element some descendant element, split the root element
+         * into its own element containing the descendant element and all elements
+         * on the left or right side of the descendant ('right' is default)
+         *
+         * example:
+         *
+         *         <div>
+         *      /    |   \
+         *  <span> <span> <span>
+         *   / \    / \    / \
+         *  1   2  3   4  5   6
+         *
+         *  If I wanted to split this tree given the <div> as the root and "4" as the leaf
+         *  the result would be (the prime ' marks indicates nodes that are created as clones):
+         *
+         *   SPLITTING OFF 'RIGHT' TREE       SPLITTING OFF 'LEFT' TREE
+         *
+         *     <div>            <div>'              <div>'      <div>
+         *      / \              / \                 / \          |
+         * <span> <span>   <span>' <span>       <span> <span>   <span>
+         *   / \    |        |      / \           /\     /\       /\
+         *  1   2   3        4     5   6         1  2   3  4     5  6
+         *
+         *  The above example represents splitting off the 'right' or 'left' part of a tree, where
+         *  the <div>' would be returned as an element not appended to the DOM, and the <div>
+         *  would remain in place where it was
+         *
+        */
+        splitOffDOMTree: function (rootNode, leafNode, splitLeft) {
+            var splitOnNode = leafNode,
+                createdNode = null,
+                splitRight = !splitLeft;
+
+            // loop until we hit the root
+            while (splitOnNode !== rootNode) {
+                var currParent = splitOnNode.parentNode,
+                    newParent = currParent.cloneNode(false),
+                    targetNode = (splitRight ? splitOnNode : currParent.firstChild),
+                    appendLast;
+
+                // Create a new parent element which is a clone of the current parent
+                if (createdNode) {
+                    if (splitRight) {
+                        // If we're splitting right, add previous created element before siblings
+                        newParent.appendChild(createdNode);
+                    } else {
+                        // If we're splitting left, add previous created element last
+                        appendLast = createdNode;
+                    }
+                }
+                createdNode = newParent;
+
+                while (targetNode) {
+                    var sibling = targetNode.nextSibling;
+                    // Special handling for the 'splitNode'
+                    if (targetNode === splitOnNode) {
+                        if (!targetNode.hasChildNodes()) {
+                            targetNode.parentNode.removeChild(targetNode);
+                        } else {
+                            // For the node we're splitting on, if it has children, we need to clone it
+                            // and not just move it
+                            targetNode = targetNode.cloneNode(false);
+                        }
+                        // If the resulting split node has content, add it
+                        if (targetNode.textContent) {
+                            createdNode.appendChild(targetNode);
+                        }
+
+                        targetNode = (splitRight ? sibling : null);
+                    } else {
+                        // For general case, just remove the element and only
+                        // add it to the split tree if it contains something
+                        targetNode.parentNode.removeChild(targetNode);
+                        if (targetNode.hasChildNodes() || targetNode.textContent) {
+                            createdNode.appendChild(targetNode);
+                        }
+
+                        targetNode = sibling;
+                    }
+                }
+
+                // If we had an element we wanted to append at the end, do that now
+                if (appendLast) {
+                    createdNode.appendChild(appendLast);
+                }
+
+                splitOnNode = currParent;
+            }
+
+            return createdNode;
+        },
+
+        moveTextRangeIntoElement: function (startNode, endNode, newElement) {
+            if (!startNode || !endNode) {
+                return false;
+            }
+
+            var rootNode = Util.findCommonRoot(startNode, endNode);
+            if (!rootNode) {
+                return false;
+            }
+
+            if (endNode === startNode) {
+                var temp = startNode.parentNode,
+                    sibling = startNode.nextSibling;
+                temp.removeChild(startNode);
+                newElement.appendChild(startNode);
+                if (sibling) {
+                    temp.insertBefore(newElement, sibling);
+                } else {
+                    temp.appendChild(newElement);
+                }
+                return newElement.hasChildNodes();
+            }
+
+            // create rootChildren array which includes all the children
+            // we care about
+            var rootChildren = [],
+                firstChild,
+                lastChild,
+                nextNode;
+            for (var i = 0; i < rootNode.childNodes.length; i++) {
+                nextNode = rootNode.childNodes[i];
+                if (!firstChild) {
+                    if (Util.isDescendant(nextNode, startNode, true)) {
+                        firstChild = nextNode;
+                    }
+                } else {
+                    if (Util.isDescendant(nextNode, endNode, true)) {
+                        lastChild = nextNode;
+                        break;
+                    } else {
+                        rootChildren.push(nextNode);
+                    }
+                }
+            }
+
+            var afterLast = lastChild.nextSibling,
+                fragment = rootNode.ownerDocument.createDocumentFragment();
+
+            // build up fragment on startNode side of tree
+            if (firstChild === startNode) {
+                firstChild.parentNode.removeChild(firstChild);
+                fragment.appendChild(firstChild);
+            } else {
+                fragment.appendChild(Util.splitOffDOMTree(firstChild, startNode));
+            }
+
+            // add any elements between firstChild & lastChild
+            rootChildren.forEach(function (element) {
+                element.parentNode.removeChild(element);
+                fragment.appendChild(element);
+            });
+
+            // build up fragment on endNode side of the tree
+            if (lastChild === endNode) {
+                lastChild.parentNode.removeChild(lastChild);
+                fragment.appendChild(lastChild);
+            } else {
+                fragment.appendChild(Util.splitOffDOMTree(lastChild, endNode, true));
+            }
+
+            // Add fragment into passed in element
+            newElement.appendChild(fragment);
+
+            if (lastChild.parentNode === rootNode) {
+                // If last child is in the root, insert newElement in front of it
+                rootNode.insertBefore(newElement, lastChild);
+            } else if (afterLast) {
+                // If last child was removed, but it had a sibling, insert in front of it
+                rootNode.insertBefore(newElement, afterLast);
+            } else {
+                // lastChild was removed and was the last actual element just append
+                rootNode.appendChild(newElement);
+            }
+
+            return newElement.hasChildNodes();
+        },
+
+        /* based on http://stackoverflow.com/a/6183069 */
+        depthOfNode: function (inNode) {
+            var theDepth = 0,
+                node = inNode;
+            while (node.parentNode !== null) {
+                node = node.parentNode;
+                theDepth++;
+            }
+            return theDepth;
+        },
+
+        findCommonRoot: function (inNode1, inNode2) {
+            var depth1 = Util.depthOfNode(inNode1),
+                depth2 = Util.depthOfNode(inNode2),
+                node1 = inNode1,
+                node2 = inNode2;
+
+            while (depth1 !== depth2) {
+                if (depth1 > depth2) {
+                    node1 = node1.parentNode;
+                    depth1 -= 1;
+                } else {
+                    node2 = node2.parentNode;
+                    depth2 -= 1;
+                }
+            }
+
+            while (node1 !== node2) {
+                node1 = node1.parentNode;
+                node2 = node2.parentNode;
+            }
+
+            return node1;
+        },
+        /* END - based on http://stackoverflow.com/a/6183069 */
+
+        isElementAtBeginningOfBlock: function (node) {
+            var textVal,
+                sibling;
+            while (!Util.isBlockContainer(node) && !Util.isMediumEditorElement(node)) {
+                sibling = node;
+                while (sibling = sibling.previousSibling) {
+                    textVal = sibling.nodeType === 3 ? sibling.nodeValue : sibling.textContent;
+                    if (textVal.length > 0) {
+                        return false;
+                    }
+                }
+                node = node.parentNode;
+            }
+            return true;
+        },
+
+        isMediumEditorElement: function (element) {
+            return element && element.getAttribute && !!element.getAttribute('data-medium-editor-element');
+        },
+
+        getContainerEditorElement: function (element) {
+            return Util.traverseUp(element, function (node) {
+                return Util.isMediumEditorElement(node);
+            });
+        },
+
+        isBlockContainer: function (element) {
+            return element && element.nodeType !== 3 && Util.blockContainerElementNames.indexOf(element.nodeName.toLowerCase()) !== -1;
+        },
+
+        /* Finds the closest ancestor which is a block container element
+         * If element is within editor element but not within any other block element,
+         * the editor element is returned
+         */
+        getClosestBlockContainer: function (node) {
+            return Util.traverseUp(node, function (node) {
+                return Util.isBlockContainer(node) || Util.isMediumEditorElement(node);
+            });
+        },
+
+        /* Finds highest level ancestor element which is a block container element
+         * If element is within editor element but not within any other block element,
+         * the editor element is returned
+         */
+        getTopBlockContainer: function (element) {
+            var topBlock = Util.isBlockContainer(element) ? element : false;
+            Util.traverseUp(element, function (el) {
+                if (Util.isBlockContainer(el)) {
+                    topBlock = el;
+                }
+                if (!topBlock && Util.isMediumEditorElement(el)) {
+                    topBlock = el;
+                    return true;
+                }
+                return false;
+            });
+            return topBlock;
+        },
+
+        getFirstSelectableLeafNode: function (element) {
+            while (element && element.firstChild) {
+                element = element.firstChild;
+            }
+
+            // We don't want to set the selection to an element that can't have children, this messes up Gecko.
+            element = Util.traverseUp(element, function (el) {
+                return Util.emptyElementNames.indexOf(el.nodeName.toLowerCase()) === -1;
+            });
+            // Selecting at the beginning of a table doesn't work in PhantomJS.
+            if (element.nodeName.toLowerCase() === 'table') {
+                var firstCell = element.querySelector('th, td');
+                if (firstCell) {
+                    element = firstCell;
+                }
+            }
+            return element;
+        },
+
+        // TODO: remove getFirstTextNode AND _getFirstTextNode when jumping in 6.0.0 (no code references)
+        getFirstTextNode: function (element) {
+            Util.warn('getFirstTextNode is deprecated and will be removed in version 6.0.0');
+            return Util._getFirstTextNode(element);
+        },
+
+        _getFirstTextNode: function (element) {
+            if (element.nodeType === 3) {
+                return element;
+            }
+
+            for (var i = 0; i < element.childNodes.length; i++) {
+                var textNode = Util._getFirstTextNode(element.childNodes[i]);
+                if (textNode !== null) {
+                    return textNode;
+                }
+            }
+            return null;
+        },
+
+        ensureUrlHasProtocol: function (url) {
+            if (url.indexOf('://') === -1) {
+                return 'http://' + url;
+            }
+            return url;
+        },
+
+        warn: function () {
+            if (window.console !== undefined && typeof window.console.warn === 'function') {
+                window.console.warn.apply(window.console, arguments);
+            }
+        },
+
+        deprecated: function (oldName, newName, version) {
+            // simple deprecation warning mechanism.
+            var m = oldName + ' is deprecated, please use ' + newName + ' instead.';
+            if (version) {
+                m += ' Will be removed in ' + version;
+            }
+            Util.warn(m);
+        },
+
+        deprecatedMethod: function (oldName, newName, args, version) {
+            // run the replacement and warn when someone calls a deprecated method
+            Util.deprecated(oldName, newName, version);
+            if (typeof this[newName] === 'function') {
+                this[newName].apply(this, args);
+            }
+        },
+
+        cleanupAttrs: function (el, attrs) {
+            attrs.forEach(function (attr) {
+                el.removeAttribute(attr);
+            });
+        },
+
+        cleanupTags: function (el, tags) {
+            if (tags.indexOf(el.nodeName.toLowerCase()) !== -1) {
+                el.parentNode.removeChild(el);
+            }
+        },
+
+        unwrapTags: function (el, tags) {
+            if (tags.indexOf(el.nodeName.toLowerCase()) !== -1) {
+                MediumEditor.util.unwrap(el, document);
+            }
+        },
+
+        // get the closest parent
+        getClosestTag: function (el, tag) {
+            return Util.traverseUp(el, function (element) {
+                return element.nodeName.toLowerCase() === tag.toLowerCase();
+            });
+        },
+
+        unwrap: function (el, doc) {
+            var fragment = doc.createDocumentFragment(),
+                nodes = Array.prototype.slice.call(el.childNodes);
+
+            // cast nodeList to array since appending child
+            // to a different node will alter length of el.childNodes
+            for (var i = 0; i < nodes.length; i++) {
+                fragment.appendChild(nodes[i]);
+            }
+
+            if (fragment.childNodes.length) {
+                el.parentNode.replaceChild(fragment, el);
+            } else {
+                el.parentNode.removeChild(el);
+            }
+        },
+
+        guid: function () {
+            function _s4() {
+                return Math
+                    .floor((1 + Math.random()) * 0x10000)
+                    .toString(16)
+                    .substring(1);
+            }
+
+            return _s4() + _s4() + '-' + _s4() + '-' + _s4() + '-' + _s4() + '-' + _s4() + _s4() + _s4();
+        }
+    };
+
+    MediumEditor.util = Util;
+}(window));
+
+(function () {
+    'use strict';
+
+    var Extension = function (options) {
+        MediumEditor.util.extend(this, options);
+    };
+
+    Extension.extend = function (protoProps) {
+        // magic extender thinger. mostly borrowed from backbone/goog.inherits
+        // place this function on some thing you want extend-able.
+        //
+        // example:
+        //
+        //      function Thing(args){
+        //          this.options = args;
+        //      }
+        //
+        //      Thing.prototype = { foo: "bar" };
+        //      Thing.extend = extenderify;
+        //
+        //      var ThingTwo = Thing.extend({ foo: "baz" });
+        //
+        //      var thingOne = new Thing(); // foo === "bar"
+        //      var thingTwo = new ThingTwo(); // foo === "baz"
+        //
+        //      which seems like some simply shallow copy nonsense
+        //      at first, but a lot more is going on there.
+        //
+        //      passing a `constructor` to the extend props
+        //      will cause the instance to instantiate through that
+        //      instead of the parent's constructor.
+
+        var parent = this,
+            child;
+
+        // The constructor function for the new subclass is either defined by you
+        // (the "constructor" property in your `extend` definition), or defaulted
+        // by us to simply call the parent's constructor.
+
+        if (protoProps && protoProps.hasOwnProperty('constructor')) {
+            child = protoProps.constructor;
+        } else {
+            child = function () {
+                return parent.apply(this, arguments);
+            };
+        }
+
+        // das statics (.extend comes over, so your subclass can have subclasses too)
+        MediumEditor.util.extend(child, parent);
+
+        // Set the prototype chain to inherit from `parent`, without calling
+        // `parent`'s constructor function.
+        var Surrogate = function () {
+            this.constructor = child;
+        };
+        Surrogate.prototype = parent.prototype;
+        child.prototype = new Surrogate();
+
+        if (protoProps) {
+            MediumEditor.util.extend(child.prototype, protoProps);
+        }
+
+        // todo: $super?
+
+        return child;
+    };
+
+    Extension.prototype = {
+        /* init: [function]
+         *
+         * Called by MediumEditor during initialization.
+         * The .base property will already have been set to
+         * current instance of MediumEditor when this is called.
+         * All helper methods will exist as well
+         */
+        init: function () {},
+
+        /* base: [MediumEditor instance]
+         *
+         * If not overriden, this will be set to the current instance
+         * of MediumEditor, before the init method is called
+         */
+        base: undefined,
+
+        /* name: [string]
+         *
+         * 'name' of the extension, used for retrieving the extension.
+         * If not set, MediumEditor will set this to be the key
+         * used when passing the extension into MediumEditor via the
+         * 'extensions' option
+         */
+        name: undefined,
+
+        /* checkState: [function (node)]
+         *
+         * If implemented, this function will be called one or more times
+         * the state of the editor & toolbar are updated.
+         * When the state is updated, the editor does the following:
+         *
+         * 1) Find the parent node containing the current selection
+         * 2) Call checkState on the extension, passing the node as an argument
+         * 3) Get the parent node of the previous node
+         * 4) Repeat steps #2 and #3 until we move outside the parent contenteditable
+         */
+        checkState: undefined,
+
+        /* destroy: [function ()]
+         *
+         * This method should remove any created html, custom event handlers
+         * or any other cleanup tasks that should be performed.
+         * If implemented, this function will be called when MediumEditor's
+         * destroy method has been called.
+         */
+        destroy: undefined,
+
+        /* As alternatives to checkState, these functions provide a more structured
+         * path to updating the state of an extension (usually a button) whenever
+         * the state of the editor & toolbar are updated.
+         */
+
+        /* queryCommandState: [function ()]
+         *
+         * If implemented, this function will be called once on each extension
+         * when the state of the editor/toolbar is being updated.
+         *
+         * If this function returns a non-null value, the extension will
+         * be ignored as the code climbs the dom tree.
+         *
+         * If this function returns true, and the setActive() function is defined
+         * setActive() will be called
+         */
+        queryCommandState: undefined,
+
+        /* isActive: [function ()]
+         *
+         * If implemented, this function will be called when MediumEditor
+         * has determined that this extension is 'active' for the current selection.
+         * This may be called when the editor & toolbar are being updated,
+         * but only if queryCommandState() or isAlreadyApplied() functions
+         * are implemented, and when called, return true.
+         */
+        isActive: undefined,
+
+        /* isAlreadyApplied: [function (node)]
+         *
+         * If implemented, this function is similar to checkState() in
+         * that it will be called repeatedly as MediumEditor moves up
+         * the DOM to update the editor & toolbar after a state change.
+         *
+         * NOTE: This function will NOT be called if checkState() has
+         * been implemented. This function will NOT be called if
+         * queryCommandState() is implemented and returns a non-null
+         * value when called
+         */
+        isAlreadyApplied: undefined,
+
+        /* setActive: [function ()]
+         *
+         * If implemented, this function is called when MediumEditor knows
+         * that this extension is currently enabled.  Currently, this
+         * function is called when updating the editor & toolbar, and
+         * only if queryCommandState() or isAlreadyApplied(node) return
+         * true when called
+         */
+        setActive: undefined,
+
+        /* setInactive: [function ()]
+         *
+         * If implemented, this function is called when MediumEditor knows
+         * that this extension is currently disabled.  Curently, this
+         * is called at the beginning of each state change for
+         * the editor & toolbar. After calling this, MediumEditor
+         * will attempt to update the extension, either via checkState()
+         * or the combination of queryCommandState(), isAlreadyApplied(node),
+         * isActive(), and setActive()
+         */
+        setInactive: undefined,
+
+        /* getInteractionElements: [function ()]
+         *
+         * If the extension renders any elements that the user can interact with,
+         * this method should be implemented and return the root element or an array
+         * containing all of the root elements. MediumEditor will call this function
+         * during interaction to see if the user clicked on something outside of the editor.
+         * The elements are used to check if the target element of a click or
+         * other user event is a descendant of any extension elements.
+         * This way, the editor can also count user interaction within editor elements as
+         * interactions with the editor, and thus not trigger 'blur'
+         */
+        getInteractionElements: undefined,
+
+        /************************ Helpers ************************
+         * The following are helpers that are either set by MediumEditor
+         * during initialization, or are helper methods which either
+         * route calls to the MediumEditor instance or provide common
+         * functionality for all extensions
+         *********************************************************/
+
+        /* window: [Window]
+         *
+         * If not overriden, this will be set to the window object
+         * to be used by MediumEditor and its extensions.  This is
+         * passed via the 'contentWindow' option to MediumEditor
+         * and is the global 'window' object by default
+         */
+        'window': undefined,
+
+        /* document: [Document]
+         *
+         * If not overriden, this will be set to the document object
+         * to be used by MediumEditor and its extensions. This is
+         * passed via the 'ownerDocument' optin to MediumEditor
+         * and is the global 'document' object by default
+         */
+        'document': undefined,
+
+        /* getEditorElements: [function ()]
+         *
+         * Helper function which returns an array containing
+         * all the contenteditable elements for this instance
+         * of MediumEditor
+         */
+        getEditorElements: function () {
+            return this.base.elements;
+        },
+
+        /* getEditorId: [function ()]
+         *
+         * Helper function which returns a unique identifier
+         * for this instance of MediumEditor
+         */
+        getEditorId: function () {
+            return this.base.id;
+        },
+
+        /* getEditorOptions: [function (option)]
+         *
+         * Helper function which returns the value of an option
+         * used to initialize this instance of MediumEditor
+         */
+        getEditorOption: function (option) {
+            return this.base.options[option];
+        }
+    };
+
+    /* List of method names to add to the prototype of Extension
+     * Each of these methods will be defined as helpers that
+     * just call directly into the MediumEditor instance.
+     *
+     * example for 'on' method:
+     * Extension.prototype.on = function () {
+     *     return this.base.on.apply(this.base, arguments);
+     * }
+     */
+    [
+        // general helpers
+        'execAction',
+
+        // event handling
+        'on',
+        'off',
+        'subscribe',
+        'trigger'
+
+    ].forEach(function (helper) {
+        Extension.prototype[helper] = function () {
+            return this.base[helper].apply(this.base, arguments);
+        };
+    });
+
+    MediumEditor.Extension = Extension;
+})();
+
+(function () {
+    'use strict';
+
+    function filterOnlyParentElements(node) {
+        if (MediumEditor.util.isBlockContainer(node)) {
+            return NodeFilter.FILTER_ACCEPT;
+        } else {
+            return NodeFilter.FILTER_SKIP;
+        }
+    }
+
+    var Selection = {
+        findMatchingSelectionParent: function (testElementFunction, contentWindow) {
+            var selection = contentWindow.getSelection(),
+                range,
+                current;
+
+            if (selection.rangeCount === 0) {
+                return false;
+            }
+
+            range = selection.getRangeAt(0);
+            current = range.commonAncestorContainer;
+
+            return MediumEditor.util.traverseUp(current, testElementFunction);
+        },
+
+        getSelectionElement: function (contentWindow) {
+            return this.findMatchingSelectionParent(function (el) {
+                return MediumEditor.util.isMediumEditorElement(el);
+            }, contentWindow);
+        },
+
+        // http://stackoverflow.com/questions/17678843/cant-restore-selection-after-html-modify-even-if-its-the-same-html
+        // Tim Down
+        exportSelection: function (root, doc) {
+            if (!root) {
+                return null;
+            }
+
+            var selectionState = null,
+                selection = doc.getSelection();
+
+            if (selection.rangeCount > 0) {
+                var range = selection.getRangeAt(0),
+                    preSelectionRange = range.cloneRange(),
+                    start;
+
+                preSelectionRange.selectNodeContents(root);
+                preSelectionRange.setEnd(range.startContainer, range.startOffset);
+                start = preSelectionRange.toString().length;
+
+                selectionState = {
+                    start: start,
+                    end: start + range.toString().length
+                };
+
+                // Check to see if the selection starts with any images
+                // if so we need to make sure the the beginning of the selection is
+                // set correctly when importing selection
+                if (this.doesRangeStartWithImages(range, doc)) {
+                    selectionState.startsWithImage = true;
+                }
+
+                // Check to see if the selection has any trailing images
+                // if so, this this means we need to look for them when we import selection
+                var trailingImageCount = this.getTrailingImageCount(root, selectionState, range.endContainer, range.endOffset);
+                if (trailingImageCount) {
+                    selectionState.trailingImageCount = trailingImageCount;
+                }
+
+                // If start = 0 there may still be an empty paragraph before it, but we don't care.
+                if (start !== 0) {
+                    var emptyBlocksIndex = this.getIndexRelativeToAdjacentEmptyBlocks(doc, root, range.startContainer, range.startOffset);
+                    if (emptyBlocksIndex !== -1) {
+                        selectionState.emptyBlocksIndex = emptyBlocksIndex;
+                    }
+                }
+            }
+
+            return selectionState;
+        },
+
+        // http://stackoverflow.com/questions/17678843/cant-restore-selection-after-html-modify-even-if-its-the-same-html
+        // Tim Down
+        //
+        // {object} selectionState - the selection to import
+        // {DOMElement} root - the root element the selection is being restored inside of
+        // {Document} doc - the document to use for managing selection
+        // {boolean} [favorLaterSelectionAnchor] - defaults to false. If true, import the cursor immediately
+        //      subsequent to an anchor tag if it would otherwise be placed right at the trailing edge inside the
+        //      anchor. This cursor positioning, even though visually equivalent to the user, can affect behavior
+        //      in MS IE.
+        importSelection: function (selectionState, root, doc, favorLaterSelectionAnchor) {
+            if (!selectionState || !root) {
+                return;
+            }
+
+            var range = doc.createRange();
+            range.setStart(root, 0);
+            range.collapse(true);
+
+            var node = root,
+                nodeStack = [],
+                charIndex = 0,
+                foundStart = false,
+                foundEnd = false,
+                trailingImageCount = 0,
+                stop = false,
+                nextCharIndex,
+                allowRangeToStartAtEndOfNode = false,
+                lastTextNode = null;
+
+            // When importing selection, the start of the selection may lie at the end of an element
+            // or at the beginning of an element.  Since visually there is no difference between these 2
+            // we will try to move the selection to the beginning of an element since this is generally
+            // what users will expect and it's a more predictable behavior.
+            //
+            // However, there are some specific cases when we don't want to do this:
+            //  1) We're attempting to move the cursor outside of the end of an anchor [favorLaterSelectionAnchor = true]
+            //  2) The selection starts with an image, which is special since an image doesn't have any 'content'
+            //     as far as selection and ranges are concerned
+            //  3) The selection starts after a specified number of empty block elements (selectionState.emptyBlocksIndex)
+            //
+            // For these cases, we want the selection to start at a very specific location, so we should NOT
+            // automatically move the cursor to the beginning of the first actual chunk of text
+            if (favorLaterSelectionAnchor || selectionState.startsWithImage || typeof selectionState.emptyBlocksIndex !== 'undefined') {
+                allowRangeToStartAtEndOfNode = true;
+            }
+
+            while (!stop && node) {
+                // Only iterate over elements and text nodes
+                if (node.nodeType > 3) {
+                    node = nodeStack.pop();
+                    continue;
+                }
+
+                // If we hit a text node, we need to add the amount of characters to the overall count
+                if (node.nodeType === 3 && !foundEnd) {
+                    nextCharIndex = charIndex + node.length;
+                    // Check if we're at or beyond the start of the selection we're importing
+                    if (!foundStart && selectionState.start >= charIndex && selectionState.start <= nextCharIndex) {
+                        // NOTE: We only want to allow a selection to start at the END of an element if
+                        //  allowRangeToStartAtEndOfNode is true
+                        if (allowRangeToStartAtEndOfNode || selectionState.start < nextCharIndex) {
+                            range.setStart(node, selectionState.start - charIndex);
+                            foundStart = true;
+                        }
+                        // We're at the end of a text node where the selection could start but we shouldn't
+                        // make the selection start here because allowRangeToStartAtEndOfNode is false.
+                        // However, we should keep a reference to this node in case there aren't any more
+                        // text nodes after this, so that we have somewhere to import the selection to
+                        else {
+                            lastTextNode = node;
+                        }
+                    }
+                    // We've found the start of the selection, check if we're at or beyond the end of the selection we're importing
+                    if (foundStart && selectionState.end >= charIndex && selectionState.end <= nextCharIndex) {
+                        if (!selectionState.trailingImageCount) {
+                            range.setEnd(node, selectionState.end - charIndex);
+                            stop = true;
+                        } else {
+                            foundEnd = true;
+                        }
+                    }
+                    charIndex = nextCharIndex;
+                } else {
+                    if (selectionState.trailingImageCount && foundEnd) {
+                        if (node.nodeName.toLowerCase() === 'img') {
+                            trailingImageCount++;
+                        }
+                        if (trailingImageCount === selectionState.trailingImageCount) {
+                            // Find which index the image is in its parent's children
+                            var endIndex = 0;
+                            while (node.parentNode.childNodes[endIndex] !== node) {
+                                endIndex++;
+                            }
+                            range.setEnd(node.parentNode, endIndex + 1);
+                            stop = true;
+                        }
+                    }
+
+                    if (!stop && node.nodeType === 1) {
+                        // this is an element
+                        // add all its children to the stack
+                        var i = node.childNodes.length - 1;
+                        while (i >= 0) {
+                            nodeStack.push(node.childNodes[i]);
+                            i -= 1;
+                        }
+                    }
+                }
+
+                if (!stop) {
+                    node = nodeStack.pop();
+                }
+            }
+
+            // If we've gone through the entire text but didn't find the beginning of a text node
+            // to make the selection start at, we should fall back to starting the selection
+            // at the END of the last text node we found
+            if (!foundStart && lastTextNode) {
+                range.setStart(lastTextNode, lastTextNode.length);
+                range.setEnd(lastTextNode, lastTextNode.length);
+            }
+
+            if (typeof selectionState.emptyBlocksIndex !== 'undefined') {
+                range = this.importSelectionMoveCursorPastBlocks(doc, root, selectionState.emptyBlocksIndex, range);
+            }
+
+            // If the selection is right at the ending edge of a link, put it outside the anchor tag instead of inside.
+            if (favorLaterSelectionAnchor) {
+                range = this.importSelectionMoveCursorPastAnchor(selectionState, range);
+            }
+
+            this.selectRange(doc, range);
+        },
+
+        // Utility method called from importSelection only
+        importSelectionMoveCursorPastAnchor: function (selectionState, range) {
+            var nodeInsideAnchorTagFunction = function (node) {
+                return node.nodeName.toLowerCase() === 'a';
+            };
+            if (selectionState.start === selectionState.end &&
+                    range.startContainer.nodeType === 3 &&
+                    range.startOffset === range.startContainer.nodeValue.length &&
+                    MediumEditor.util.traverseUp(range.startContainer, nodeInsideAnchorTagFunction)) {
+                var prevNode = range.startContainer,
+                    currentNode = range.startContainer.parentNode;
+                while (currentNode !== null && currentNode.nodeName.toLowerCase() !== 'a') {
+                    if (currentNode.childNodes[currentNode.childNodes.length - 1] !== prevNode) {
+                        currentNode = null;
+                    } else {
+                        prevNode = currentNode;
+                        currentNode = currentNode.parentNode;
+                    }
+                }
+                if (currentNode !== null && currentNode.nodeName.toLowerCase() === 'a') {
+                    var currentNodeIndex = null;
+                    for (var i = 0; currentNodeIndex === null && i < currentNode.parentNode.childNodes.length; i++) {
+                        if (currentNode.parentNode.childNodes[i] === currentNode) {
+                            currentNodeIndex = i;
+                        }
+                    }
+                    range.setStart(currentNode.parentNode, currentNodeIndex + 1);
+                    range.collapse(true);
+                }
+            }
+            return range;
+        },
+
+        // Uses the emptyBlocksIndex calculated by getIndexRelativeToAdjacentEmptyBlocks
+        // to move the cursor back to the start of the correct paragraph
+        importSelectionMoveCursorPastBlocks: function (doc, root, index, range) {
+            var treeWalker = doc.createTreeWalker(root, NodeFilter.SHOW_ELEMENT, filterOnlyParentElements, false),
+                startContainer = range.startContainer,
+                startBlock,
+                targetNode,
+                currIndex = 0;
+            index = index || 1; // If index is 0, we still want to move to the next block
+
+            // Chrome counts newlines and spaces that separate block elements as actual elements.
+            // If the selection is inside one of these text nodes, and it has a previous sibling
+            // which is a block element, we want the treewalker to start at the previous sibling
+            // and NOT at the parent of the textnode
+            if (startContainer.nodeType === 3 && MediumEditor.util.isBlockContainer(startContainer.previousSibling)) {
+                startBlock = startContainer.previousSibling;
+            } else {
+                startBlock = MediumEditor.util.getClosestBlockContainer(startContainer);
+            }
+
+            // Skip over empty blocks until we hit the block we want the selection to be in
+            while (treeWalker.nextNode()) {
+                if (!targetNode) {
+                    // Loop through all blocks until we hit the starting block element
+                    if (startBlock === treeWalker.currentNode) {
+                        targetNode = treeWalker.currentNode;
+                    }
+                } else {
+                    targetNode = treeWalker.currentNode;
+                    currIndex++;
+                    // We hit the target index, bail
+                    if (currIndex === index) {
+                        break;
+                    }
+                    // If we find a non-empty block, ignore the emptyBlocksIndex and just put selection here
+                    if (targetNode.textContent.length > 0) {
+                        break;
+                    }
+                }
+            }
+
+            if (!targetNode) {
+                targetNode = startBlock;
+            }
+
+            // We're selecting a high-level block node, so make sure the cursor gets moved into the deepest
+            // element at the beginning of the block
+            range.setStart(MediumEditor.util.getFirstSelectableLeafNode(targetNode), 0);
+
+            return range;
+        },
+
+        // Returns -1 unless the cursor is at the beginning of a paragraph/block
+        // If the paragraph/block is preceeded by empty paragraphs/block (with no text)
+        // it will return the number of empty paragraphs before the cursor.
+        // Otherwise, it will return 0, which indicates the cursor is at the beginning
+        // of a paragraph/block, and not at the end of the paragraph/block before it
+        getIndexRelativeToAdjacentEmptyBlocks: function (doc, root, cursorContainer, cursorOffset) {
+            // If there is text in front of the cursor, that means there isn't only empty blocks before it
+            if (cursorContainer.textContent.length > 0 && cursorOffset > 0) {
+                return -1;
+            }
+
+            // Check if the block that contains the cursor has any other text in front of the cursor
+            var node = cursorContainer;
+            if (node.nodeType !== 3) {
+                node = cursorContainer.childNodes[cursorOffset];
+            }
+            if (node) {
+                // The element isn't at the beginning of a block, so it has content before it
+                if (!MediumEditor.util.isElementAtBeginningOfBlock(node)) {
+                    return -1;
+                }
+
+                var previousSibling = MediumEditor.util.findPreviousSibling(node);
+                // If there is no previous sibling, this is the first text element in the editor
+                if (!previousSibling) {
+                    return -1;
+                }
+                // If the previous sibling has text, then there are no empty blocks before this
+                else if (previousSibling.nodeValue) {
+                    return -1;
+                }
+            }
+
+            // Walk over block elements, counting number of empty blocks between last piece of text
+            // and the block the cursor is in
+            var closestBlock = MediumEditor.util.getClosestBlockContainer(cursorContainer),
+                treeWalker = doc.createTreeWalker(root, NodeFilter.SHOW_ELEMENT, filterOnlyParentElements, false),
+                emptyBlocksCount = 0;
+            while (treeWalker.nextNode()) {
+                var blockIsEmpty = treeWalker.currentNode.textContent === '';
+                if (blockIsEmpty || emptyBlocksCount > 0) {
+                    emptyBlocksCount += 1;
+                }
+                if (treeWalker.currentNode === closestBlock) {
+                    return emptyBlocksCount;
+                }
+                if (!blockIsEmpty) {
+                    emptyBlocksCount = 0;
+                }
+            }
+
+            return emptyBlocksCount;
+        },
+
+        // Returns true if the selection range begins with an image tag
+        // Returns false if the range starts with any non empty text nodes
+        doesRangeStartWithImages: function (range, doc) {
+            if (range.startOffset !== 0 || range.startContainer.nodeType !== 1) {
+                return false;
+            }
+
+            if (range.startContainer.nodeName.toLowerCase() === 'img') {
+                return true;
+            }
+
+            var img = range.startContainer.querySelector('img');
+            if (!img) {
+                return false;
+            }
+
+            var treeWalker = doc.createTreeWalker(range.startContainer, NodeFilter.SHOW_ALL, null, false);
+            while (treeWalker.nextNode()) {
+                var next = treeWalker.currentNode;
+                // If we hit the image, then there isn't any text before the image so
+                // the image is at the beginning of the range
+                if (next === img) {
+                    break;
+                }
+                // If we haven't hit the iamge, but found text that contains content
+                // then the range doesn't start with an image
+                if (next.nodeValue) {
+                    return false;
+                }
+            }
+
+            return true;
+        },
+
+        getTrailingImageCount: function (root, selectionState, endContainer, endOffset) {
+            // If the endOffset of a range is 0, the endContainer doesn't contain images
+            // If the endContainer is a text node, there are no trailing images
+            if (endOffset === 0 || endContainer.nodeType !== 1) {
+                return 0;
+            }
+
+            // If the endContainer isn't an image, and doesn't have an image descendants
+            // there are no trailing images
+            if (endContainer.nodeName.toLowerCase() !== 'img' && !endContainer.querySelector('img')) {
+                return 0;
+            }
+
+            var lastNode = endContainer.childNodes[endOffset - 1];
+            while (lastNode.hasChildNodes()) {
+                lastNode = lastNode.lastChild;
+            }
+
+            var node = root,
+                nodeStack = [],
+                charIndex = 0,
+                foundStart = false,
+                foundEnd = false,
+                stop = false,
+                nextCharIndex,
+                trailingImages = 0;
+
+            while (!stop && node) {
+                // Only iterate over elements and text nodes
+                if (node.nodeType > 3) {
+                    node = nodeStack.pop();
+                    continue;
+                }
+
+                if (node.nodeType === 3 && !foundEnd) {
+                    trailingImages = 0;
+                    nextCharIndex = charIndex + node.length;
+                    if (!foundStart && selectionState.start >= charIndex && selectionState.start <= nextCharIndex) {
+                        foundStart = true;
+                    }
+                    if (foundStart && selectionState.end >= charIndex && selectionState.end <= nextCharIndex) {
+                        foundEnd = true;
+                    }
+                    charIndex = nextCharIndex;
+                } else {
+                    if (node.nodeName.toLowerCase() === 'img') {
+                        trailingImages++;
+                    }
+
+                    if (node === lastNode) {
+                        stop = true;
+                    } else if (node.nodeType === 1) {
+                        // this is an element
+                        // add all its children to the stack
+                        var i = node.childNodes.length - 1;
+                        while (i >= 0) {
+                            nodeStack.push(node.childNodes[i]);
+                            i -= 1;
+                        }
+                    }
+                }
+
+                if (!stop) {
+                    node = nodeStack.pop();
+                }
+            }
+
+            return trailingImages;
+        },
+
+        // determine if the current selection contains any 'content'
+        // content being any non-white space text or an image
+        selectionContainsContent: function (doc) {
+            var sel = doc.getSelection();
+
+            // collapsed selection or selection withour range doesn't contain content
+            if (!sel || sel.isCollapsed || !sel.rangeCount) {
+                return false;
+            }
+
+            // if toString() contains any text, the selection contains some content
+            if (sel.toString().trim() !== '') {
+                return true;
+            }
+
+            // if selection contains only image(s), it will return empty for toString()
+            // so check for an image manually
+            var selectionNode = this.getSelectedParentElement(sel.getRangeAt(0));
+            if (selectionNode) {
+                if (selectionNode.nodeName.toLowerCase() === 'img' ||
+                    (selectionNode.nodeType === 1 && selectionNode.querySelector('img'))) {
+                    return true;
+                }
+            }
+
+            return false;
+        },
+
+        selectionInContentEditableFalse: function (contentWindow) {
+            // determine if the current selection is exclusively inside
+            // a contenteditable="false", though treat the case of an
+            // explicit contenteditable="true" inside a "false" as false.
+            var sawtrue,
+                sawfalse = this.findMatchingSelectionParent(function (el) {
+                    var ce = el && el.getAttribute('contenteditable');
+                    if (ce === 'true') {
+                        sawtrue = true;
+                    }
+                    return el.nodeName !== '#text' && ce === 'false';
+                }, contentWindow);
+
+            return !sawtrue && sawfalse;
+        },
+
+        // http://stackoverflow.com/questions/4176923/html-of-selected-text
+        // by Tim Down
+        getSelectionHtml: function getSelectionHtml(doc) {
+            var i,
+                html = '',
+                sel = doc.getSelection(),
+                len,
+                container;
+            if (sel.rangeCount) {
+                container = doc.createElement('div');
+                for (i = 0, len = sel.rangeCount; i < len; i += 1) {
+                    container.appendChild(sel.getRangeAt(i).cloneContents());
+                }
+                html = container.innerHTML;
+            }
+            return html;
+        },
+
+        /**
+         *  Find the caret position within an element irrespective of any inline tags it may contain.
+         *
+         *  @param {DOMElement} An element containing the cursor to find offsets relative to.
+         *  @param {Range} A Range representing cursor position. Will window.getSelection if none is passed.
+         *  @return {Object} 'left' and 'right' attributes contain offsets from begining and end of Element
+         */
+        getCaretOffsets: function getCaretOffsets(element, range) {
+            var preCaretRange, postCaretRange;
+
+            if (!range) {
+                range = window.getSelection().getRangeAt(0);
+            }
+
+            preCaretRange = range.cloneRange();
+            postCaretRange = range.cloneRange();
+
+            preCaretRange.selectNodeContents(element);
+            preCaretRange.setEnd(range.endContainer, range.endOffset);
+
+            postCaretRange.selectNodeContents(element);
+            postCaretRange.setStart(range.endContainer, range.endOffset);
+
+            return {
+                left: preCaretRange.toString().length,
+                right: postCaretRange.toString().length
+            };
+        },
+
+        // http://stackoverflow.com/questions/15867542/range-object-get-selection-parent-node-chrome-vs-firefox
+        rangeSelectsSingleNode: function (range) {
+            var startNode = range.startContainer;
+            return startNode === range.endContainer &&
+                startNode.hasChildNodes() &&
+                range.endOffset === range.startOffset + 1;
+        },
+
+        getSelectedParentElement: function (range) {
+            if (!range) {
+                return null;
+            }
+
+            // Selection encompasses a single element
+            if (this.rangeSelectsSingleNode(range) && range.startContainer.childNodes[range.startOffset].nodeType !== 3) {
+                return range.startContainer.childNodes[range.startOffset];
+            }
+
+            // Selection range starts inside a text node, so get its parent
+            if (range.startContainer.nodeType === 3) {
+                return range.startContainer.parentNode;
+            }
+
+            // Selection starts inside an element
+            return range.startContainer;
+        },
+
+        getSelectedElements: function (doc) {
+            var selection = doc.getSelection(),
+                range,
+                toRet,
+                currNode;
+
+            if (!selection.rangeCount || selection.isCollapsed || !selection.getRangeAt(0).commonAncestorContainer) {
+                return [];
+            }
+
+            range = selection.getRangeAt(0);
+
+            if (range.commonAncestorContainer.nodeType === 3) {
+                toRet = [];
+                currNode = range.commonAncestorContainer;
+                while (currNode.parentNode && currNode.parentNode.childNodes.length === 1) {
+                    toRet.push(currNode.parentNode);
+                    currNode = currNode.parentNode;
+                }
+
+                return toRet;
+            }
+
+            return [].filter.call(range.commonAncestorContainer.getElementsByTagName('*'), function (el) {
+                return (typeof selection.containsNode === 'function') ? selection.containsNode(el, true) : true;
+            });
+        },
+
+        selectNode: function (node, doc) {
+            var range = doc.createRange();
+            range.selectNodeContents(node);
+            this.selectRange(doc, range);
+        },
+
+        select: function (doc, startNode, startOffset, endNode, endOffset) {
+            var range = doc.createRange();
+            range.setStart(startNode, startOffset);
+            if (endNode) {
+                range.setEnd(endNode, endOffset);
+            } else {
+                range.collapse(true);
+            }
+            this.selectRange(doc, range);
+            return range;
+        },
+
+        /**
+         *  Clear the current highlighted selection and set the caret to the start or the end of that prior selection, defaults to end.
+         *
+         *  @param {DomDocument} doc            Current document
+         *  @param {boolean} moveCursorToStart  A boolean representing whether or not to set the caret to the beginning of the prior selection.
+         */
+        clearSelection: function (doc, moveCursorToStart) {
+            if (moveCursorToStart) {
+                doc.getSelection().collapseToStart();
+            } else {
+                doc.getSelection().collapseToEnd();
+            }
+        },
+
+        /**
+         * Move cursor to the given node with the given offset.
+         *
+         * @param  {DomDocument} doc     Current document
+         * @param  {DomElement}  node    Element where to jump
+         * @param  {integer}     offset  Where in the element should we jump, 0 by default
+         */
+        moveCursor: function (doc, node, offset) {
+            this.select(doc, node, offset);
+        },
+
+        getSelectionRange: function (ownerDocument) {
+            var selection = ownerDocument.getSelection();
+            if (selection.rangeCount === 0) {
+                return null;
+            }
+            return selection.getRangeAt(0);
+        },
+
+        selectRange: function (ownerDocument, range) {
+            var selection = ownerDocument.getSelection();
+
+            selection.removeAllRanges();
+            selection.addRange(range);
+        },
+
+        // http://stackoverflow.com/questions/1197401/how-can-i-get-the-element-the-caret-is-in-with-javascript-when-using-contentedi
+        // by You
+        getSelectionStart: function (ownerDocument) {
+            var node = ownerDocument.getSelection().anchorNode,
+                startNode = (node && node.nodeType === 3 ? node.parentNode : node);
+
+            return startNode;
+        }
+    };
+
+    MediumEditor.selection = Selection;
+}());
+
+(function () {
+    'use strict';
+
+    function isElementDescendantOfExtension(extensions, element) {
+        return extensions.some(function (extension) {
+            if (typeof extension.getInteractionElements !== 'function') {
+                return false;
+            }
+
+            var extensionElements = extension.getInteractionElements();
+            if (!extensionElements) {
+                return false;
+            }
+
+            if (!Array.isArray(extensionElements)) {
+                extensionElements = [extensionElements];
+            }
+            return extensionElements.some(function (el) {
+                return MediumEditor.util.isDescendant(el, element, true);
+            });
+        });
+    }
+
+    var Events = function (instance) {
+        this.base = instance;
+        this.options = this.base.options;
+        this.events = [];
+        this.disabledEvents = {};
+        this.customEvents = {};
+        this.listeners = {};
+    };
+
+    Events.prototype = {
+        InputEventOnContenteditableSupported: !MediumEditor.util.isIE && !MediumEditor.util.isEdge,
+
+        // Helpers for event handling
+
+        attachDOMEvent: function (targets, event, listener, useCapture) {
+            var win = this.base.options.contentWindow,
+                doc = this.base.options.ownerDocument;
+
+            targets = MediumEditor.util.isElement(targets) || [win, doc].indexOf(targets) > -1 ? [targets] : targets;
+
+            Array.prototype.forEach.call(targets, function (target) {
+                target.addEventListener(event, listener, useCapture);
+                this.events.push([target, event, listener, useCapture]);
+            }.bind(this));
+        },
+
+        detachDOMEvent: function (targets, event, listener, useCapture) {
+            var index, e,
+                win = this.base.options.contentWindow,
+                doc = this.base.options.ownerDocument;
+
+            if (targets !== null) {
+                targets = MediumEditor.util.isElement(targets) || [win, doc].indexOf(targets) > -1 ? [targets] : targets;
+
+                Array.prototype.forEach.call(targets, function (target) {
+                    index = this.indexOfListener(target, event, listener, useCapture);
+                    if (index !== -1) {
+                        e = this.events.splice(index, 1)[0];
+                        e[0].removeEventListener(e[1], e[2], e[3]);
+                    }
+                }.bind(this));
+            }
+        },
+
+        indexOfListener: function (target, event, listener, useCapture) {
+            var i, n, item;
+            for (i = 0, n = this.events.length; i < n; i = i + 1) {
+                item = this.events[i];
+                if (item[0] === target && item[1] === event && item[2] === listener && item[3] === useCapture) {
+                    return i;
+                }
+            }
+            return -1;
+        },
+
+        detachAllDOMEvents: function () {
+            var e = this.events.pop();
+            while (e) {
+                e[0].removeEventListener(e[1], e[2], e[3]);
+                e = this.events.pop();
+            }
+        },
+
+        detachAllEventsFromElement: function (element) {
+            var filtered = this.events.filter(function (e) {
+                return e && e[0].getAttribute && e[0].getAttribute('medium-editor-index') === element.getAttribute('medium-editor-index');
+            });
+
+            for (var i = 0, len = filtered.length; i < len; i++) {
+                var e = filtered[i];
+                this.detachDOMEvent(e[0], e[1], e[2], e[3]);
+            }
+        },
+
+        // Attach all existing handlers to a new element
+        attachAllEventsToElement: function (element) {
+            if (this.listeners['editableInput']) {
+                this.contentCache[element.getAttribute('medium-editor-index')] = element.innerHTML;
+            }
+
+            if (this.eventsCache) {
+                this.eventsCache.forEach(function (e) {
+                    this.attachDOMEvent(element, e['name'], e['handler'].bind(this));
+                }, this);
+            }
+        },
+
+        enableCustomEvent: function (event) {
+            if (this.disabledEvents[event] !== undefined) {
+                delete this.disabledEvents[event];
+            }
+        },
+
+        disableCustomEvent: function (event) {
+            this.disabledEvents[event] = true;
+        },
+
+        // custom events
+        attachCustomEvent: function (event, listener) {
+            this.setupListener(event);
+            if (!this.customEvents[event]) {
+                this.customEvents[event] = [];
+            }
+            this.customEvents[event].push(listener);
+        },
+
+        detachCustomEvent: function (event, listener) {
+            var index = this.indexOfCustomListener(event, listener);
+            if (index !== -1) {
+                this.customEvents[event].splice(index, 1);
+                // TODO: If array is empty, should detach internal listeners via destroyListener()
+            }
+        },
+
+        indexOfCustomListener: function (event, listener) {
+            if (!this.customEvents[event] || !this.customEvents[event].length) {
+                return -1;
+            }
+
+            return this.customEvents[event].indexOf(listener);
+        },
+
+        detachAllCustomEvents: function () {
+            this.customEvents = {};
+            // TODO: Should detach internal listeners here via destroyListener()
+        },
+
+        triggerCustomEvent: function (name, data, editable) {
+            if (this.customEvents[name] && !this.disabledEvents[name]) {
+                this.customEvents[name].forEach(function (listener) {
+                    listener(data, editable);
+                });
+            }
+        },
+
+        // Cleaning up
+
+        destroy: function () {
+            this.detachAllDOMEvents();
+            this.detachAllCustomEvents();
+            this.detachExecCommand();
+
+            if (this.base.elements) {
+                this.base.elements.forEach(function (element) {
+                    element.removeAttribute('data-medium-focused');
+                });
+            }
+        },
+
+        // Listening to calls to document.execCommand
+
+        // Attach a listener to be notified when document.execCommand is called
+        attachToExecCommand: function () {
+            if (this.execCommandListener) {
+                return;
+            }
+
+            // Store an instance of the listener so:
+            // 1) We only attach to execCommand once
+            // 2) We can remove the listener later
+            this.execCommandListener = function (execInfo) {
+                this.handleDocumentExecCommand(execInfo);
+            }.bind(this);
+
+            // Ensure that execCommand has been wrapped correctly
+            this.wrapExecCommand();
+
+            // Add listener to list of execCommand listeners
+            this.options.ownerDocument.execCommand.listeners.push(this.execCommandListener);
+        },
+
+        // Remove our listener for calls to document.execCommand
+        detachExecCommand: function () {
+            var doc = this.options.ownerDocument;
+            if (!this.execCommandListener || !doc.execCommand.listeners) {
+                return;
+            }
+
+            // Find the index of this listener in the array of listeners so it can be removed
+            var index = doc.execCommand.listeners.indexOf(this.execCommandListener);
+            if (index !== -1) {
+                doc.execCommand.listeners.splice(index, 1);
+            }
+
+            // If the list of listeners is now empty, put execCommand back to its original state
+            if (!doc.execCommand.listeners.length) {
+                this.unwrapExecCommand();
+            }
+        },
+
+        // Wrap document.execCommand in a custom method so we can listen to calls to it
+        wrapExecCommand: function () {
+            var doc = this.options.ownerDocument;
+
+            // Ensure all instance of MediumEditor only wrap execCommand once
+            if (doc.execCommand.listeners) {
+                return;
+            }
+
+            // Helper method to call all listeners to execCommand
+            var callListeners = function (args, result) {
+                if (doc.execCommand.listeners) {
+                    doc.execCommand.listeners.forEach(function (listener) {
+                        listener({
+                            command: args[0],
+                            value: args[2],
+                            args: args,
+                            result: result
+                        });
+                    });
+                }
+            },
+
+                // Create a wrapper method for execCommand which will:
+                // 1) Call document.execCommand with the correct arguments
+                // 2) Loop through any listeners and notify them that execCommand was called
+                //    passing extra info on the call
+                // 3) Return the result
+                wrapper = function () {
+                    var result = doc.execCommand.orig.apply(this, arguments);
+
+                    if (!doc.execCommand.listeners) {
+                        return result;
+                    }
+
+                    var args = Array.prototype.slice.call(arguments);
+                    callListeners(args, result);
+
+                    return result;
+                };
+
+            // Store a reference to the original execCommand
+            wrapper.orig = doc.execCommand;
+
+            // Attach an array for storing listeners
+            wrapper.listeners = [];
+
+            // Helper for notifying listeners
+            wrapper.callListeners = callListeners;
+
+            // Overwrite execCommand
+            doc.execCommand = wrapper;
+        },
+
+        // Revert document.execCommand back to its original self
+        unwrapExecCommand: function () {
+            var doc = this.options.ownerDocument;
+            if (!doc.execCommand.orig) {
+                return;
+            }
+
+            // Use the reference to the original execCommand to revert back
+            doc.execCommand = doc.execCommand.orig;
+        },
+
+        // Listening to browser events to emit events medium-editor cares about
+        setupListener: function (name) {
+            if (this.listeners[name]) {
+                return;
+            }
+
+            switch (name) {
+                case 'externalInteraction':
+                    // Detecting when user has interacted with elements outside of MediumEditor
+                    this.attachDOMEvent(this.options.ownerDocument.body, 'mousedown', this.handleBodyMousedown.bind(this), true);
+                    this.attachDOMEvent(this.options.ownerDocument.body, 'click', this.handleBodyClick.bind(this), true);
+                    this.attachDOMEvent(this.options.ownerDocument.body, 'focus', this.handleBodyFocus.bind(this), true);
+                    break;
+                case 'blur':
+                    // Detecting when focus is lost
+                    this.setupListener('externalInteraction');
+                    break;
+                case 'focus':
+                    // Detecting when focus moves into some part of MediumEditor
+                    this.setupListener('externalInteraction');
+                    break;
+                case 'editableInput':
+                    // setup cache for knowing when the content has changed
+                    this.contentCache = {};
+                    this.base.elements.forEach(function (element) {
+                        this.contentCache[element.getAttribute('medium-editor-index')] = element.innerHTML;
+                    }, this);
+
+                    // Attach to the 'oninput' event, handled correctly by most browsers
+                    if (this.InputEventOnContenteditableSupported) {
+                        this.attachToEachElement('input', this.handleInput);
+                    }
+
+                    // For browsers which don't support the input event on contenteditable (IE)
+                    // we'll attach to 'selectionchange' on the document and 'keypress' on the editables
+                    if (!this.InputEventOnContenteditableSupported) {
+                        this.setupListener('editableKeypress');
+                        this.keypressUpdateInput = true;
+                        this.attachDOMEvent(document, 'selectionchange', this.handleDocumentSelectionChange.bind(this));
+                        // Listen to calls to execCommand
+                        this.attachToExecCommand();
+                    }
+                    break;
+                case 'editableClick':
+                    // Detecting click in the contenteditables
+                    this.attachToEachElement('click', this.handleClick);
+                    break;
+                case 'editableBlur':
+                    // Detecting blur in the contenteditables
+                    this.attachToEachElement('blur', this.handleBlur);
+                    break;
+                case 'editableKeypress':
+                    // Detecting keypress in the contenteditables
+                    this.attachToEachElement('keypress', this.handleKeypress);
+                    break;
+                case 'editableKeyup':
+                    // Detecting keyup in the contenteditables
+                    this.attachToEachElement('keyup', this.handleKeyup);
+                    break;
+                case 'editableKeydown':
+                    // Detecting keydown on the contenteditables
+                    this.attachToEachElement('keydown', this.handleKeydown);
+                    break;
+                case 'editableKeydownSpace':
+                    // Detecting keydown for SPACE on the contenteditables
+                    this.setupListener('editableKeydown');
+                    break;
+                case 'editableKeydownEnter':
+                    // Detecting keydown for ENTER on the contenteditables
+                    this.setupListener('editableKeydown');
+                    break;
+                case 'editableKeydownTab':
+                    // Detecting keydown for TAB on the contenteditable
+                    this.setupListener('editableKeydown');
+                    break;
+                case 'editableKeydownDelete':
+                    // Detecting keydown for DELETE/BACKSPACE on the contenteditables
+                    this.setupListener('editableKeydown');
+                    break;
+                case 'editableMouseover':
+                    // Detecting mouseover on the contenteditables
+                    this.attachToEachElement('mouseover', this.handleMouseover);
+                    break;
+                case 'editableDrag':
+                    // Detecting dragover and dragleave on the contenteditables
+                    this.attachToEachElement('dragover', this.handleDragging);
+                    this.attachToEachElement('dragleave', this.handleDragging);
+                    break;
+                case 'editableDrop':
+                    // Detecting drop on the contenteditables
+                    this.attachToEachElement('drop', this.handleDrop);
+                    break;
+                // TODO: We need to have a custom 'paste' event separate from 'editablePaste'
+                // Need to think about the way to introduce this without breaking folks
+                case 'editablePaste':
+                    // Detecting paste on the contenteditables
+                    this.attachToEachElement('paste', this.handlePaste);
+                    break;
+            }
+            this.listeners[name] = true;
+        },
+
+        attachToEachElement: function (name, handler) {
+            // build our internal cache to know which element got already what handler attached
+            if (!this.eventsCache) {
+                this.eventsCache = [];
+            }
+
+            this.base.elements.forEach(function (element) {
+                this.attachDOMEvent(element, name, handler.bind(this));
+            }, this);
+
+            this.eventsCache.push({ 'name': name, 'handler': handler });
+        },
+
+        cleanupElement: function (element) {
+            var index = element.getAttribute('medium-editor-index');
+            if (index) {
+                this.detachAllEventsFromElement(element);
+                if (this.contentCache) {
+                    delete this.contentCache[index];
+                }
+            }
+        },
+
+        focusElement: function (element) {
+            element.focus();
+            this.updateFocus(element, { target: element, type: 'focus' });
+        },
+
+        updateFocus: function (target, eventObj) {
+            var hadFocus = this.base.getFocusedElement(),
+                toFocus;
+
+            // For clicks, we need to know if the mousedown that caused the click happened inside the existing focused element
+            // or one of the extension elements.  If so, we don't want to focus another element
+            if (hadFocus &&
+                eventObj.type === 'click' &&
+                this.lastMousedownTarget &&
+                (MediumEditor.util.isDescendant(hadFocus, this.lastMousedownTarget, true) ||
+                    isElementDescendantOfExtension(this.base.extensions, this.lastMousedownTarget))) {
+                toFocus = hadFocus;
+            }
+
+            if (!toFocus) {
+                this.base.elements.some(function (element) {
+                    // If the target is part of an editor element, this is the element getting focus
+                    if (!toFocus && (MediumEditor.util.isDescendant(element, target, true))) {
+                        toFocus = element;
+                    }
+
+                    // bail if we found an element that's getting focus
+                    return !!toFocus;
+                }, this);
+            }
+
+            // Check if the target is external (not part of the editor, toolbar, or any other extension)
+            var externalEvent = !MediumEditor.util.isDescendant(hadFocus, target, true) &&
+                !isElementDescendantOfExtension(this.base.extensions, target);
+
+            if (toFocus !== hadFocus) {
+                // If element has focus, and focus is going outside of editor
+                // Don't blur focused element if clicking on editor, toolbar, or anchorpreview
+                if (hadFocus && externalEvent) {
+                    // Trigger blur on the editable that has lost focus
+                    hadFocus.removeAttribute('data-medium-focused');
+                    this.triggerCustomEvent('blur', eventObj, hadFocus);
+                }
+
+                // If focus is going into an editor element
+                if (toFocus) {
+                    // Trigger focus on the editable that now has focus
+                    toFocus.setAttribute('data-medium-focused', true);
+                    this.triggerCustomEvent('focus', eventObj, toFocus);
+                }
+            }
+
+            if (externalEvent) {
+                this.triggerCustomEvent('externalInteraction', eventObj);
+            }
+        },
+
+        updateInput: function (target, eventObj) {
+            if (!this.contentCache) {
+                return;
+            }
+            // An event triggered which signifies that the user may have changed someting
+            // Look in our cache of input for the contenteditables to see if something changed
+            var index = target.getAttribute('medium-editor-index'),
+                html = target.innerHTML;
+
+            if (html !== this.contentCache[index]) {
+                // The content has changed since the last time we checked, fire the event
+                this.triggerCustomEvent('editableInput', eventObj, target);
+            }
+            this.contentCache[index] = html;
+        },
+
+        handleDocumentSelectionChange: function (event) {
+            // When selectionchange fires, target and current target are set
+            // to document, since this is where the event is handled
+            // However, currentTarget will have an 'activeElement' property
+            // which will point to whatever element has focus.
+            if (event.currentTarget && event.currentTarget.activeElement) {
+                var activeElement = event.currentTarget.activeElement,
+                    currentTarget;
+                // We can look at the 'activeElement' to determine if the selectionchange has
+                // happened within a contenteditable owned by this instance of MediumEditor
+                this.base.elements.some(function (element) {
+                    if (MediumEditor.util.isDescendant(element, activeElement, true)) {
+                        currentTarget = element;
+                        return true;
+                    }
+                    return false;
+                }, this);
+
+                // We know selectionchange fired within one of our contenteditables
+                if (currentTarget) {
+                    this.updateInput(currentTarget, { target: activeElement, currentTarget: currentTarget });
+                }
+            }
+        },
+
+        handleDocumentExecCommand: function () {
+            // document.execCommand has been called
+            // If one of our contenteditables currently has focus, we should
+            // attempt to trigger the 'editableInput' event
+            var target = this.base.getFocusedElement();
+            if (target) {
+                this.updateInput(target, { target: target, currentTarget: target });
+            }
+        },
+
+        handleBodyClick: function (event) {
+            this.updateFocus(event.target, event);
+        },
+
+        handleBodyFocus: function (event) {
+            this.updateFocus(event.target, event);
+        },
+
+        handleBodyMousedown: function (event) {
+            this.lastMousedownTarget = event.target;
+        },
+
+        handleInput: function (event) {
+            this.updateInput(event.currentTarget, event);
+        },
+
+        handleClick: function (event) {
+            this.triggerCustomEvent('editableClick', event, event.currentTarget);
+        },
+
+        handleBlur: function (event) {
+            this.triggerCustomEvent('editableBlur', event, event.currentTarget);
+        },
+
+        handleKeypress: function (event) {
+            this.triggerCustomEvent('editableKeypress', event, event.currentTarget);
+
+            // If we're doing manual detection of the editableInput event we need
+            // to check for input changes during 'keypress'
+            if (this.keypressUpdateInput) {
+                var eventObj = { target: event.target, currentTarget: event.currentTarget };
+
+                // In IE, we need to let the rest of the event stack complete before we detect
+                // changes to input, so using setTimeout here
+                setTimeout(function () {
+                    this.updateInput(eventObj.currentTarget, eventObj);
+                }.bind(this), 0);
+            }
+        },
+
+        handleKeyup: function (event) {
+            this.triggerCustomEvent('editableKeyup', event, event.currentTarget);
+        },
+
+        handleMouseover: function (event) {
+            this.triggerCustomEvent('editableMouseover', event, event.currentTarget);
+        },
+
+        handleDragging: function (event) {
+            this.triggerCustomEvent('editableDrag', event, event.currentTarget);
+        },
+
+        handleDrop: function (event) {
+            this.triggerCustomEvent('editableDrop', event, event.currentTarget);
+        },
+
+        handlePaste: function (event) {
+            this.triggerCustomEvent('editablePaste', event, event.currentTarget);
+        },
+
+        handleKeydown: function (event) {
+
+            this.triggerCustomEvent('editableKeydown', event, event.currentTarget);
+
+            if (MediumEditor.util.isKey(event, MediumEditor.util.keyCode.SPACE)) {
+                return this.triggerCustomEvent('editableKeydownSpace', event, event.currentTarget);
+            }
+
+            if (MediumEditor.util.isKey(event, MediumEditor.util.keyCode.ENTER) || (event.ctrlKey && MediumEditor.util.isKey(event, MediumEditor.util.keyCode.M))) {
+                return this.triggerCustomEvent('editableKeydownEnter', event, event.currentTarget);
+            }
+
+            if (MediumEditor.util.isKey(event, MediumEditor.util.keyCode.TAB)) {
+                return this.triggerCustomEvent('editableKeydownTab', event, event.currentTarget);
+            }
+
+            if (MediumEditor.util.isKey(event, [MediumEditor.util.keyCode.DELETE, MediumEditor.util.keyCode.BACKSPACE])) {
+                return this.triggerCustomEvent('editableKeydownDelete', event, event.currentTarget);
+            }
+        }
+    };
+
+    MediumEditor.Events = Events;
+}());
+
+(function () {
+    'use strict';
+
+    var Button = MediumEditor.Extension.extend({
+
+        /* Button Options */
+
+        /* action: [string]
+         * The action argument to pass to MediumEditor.execAction()
+         * when the button is clicked
+         */
+        action: undefined,
+
+        /* aria: [string]
+         * The value to add as the aria-label attribute of the button
+         * element displayed in the toolbar.
+         * This is also used as the tooltip for the button
+         */
+        aria: undefined,
+
+        /* tagNames: [Array]
+         * NOTE: This is not used if useQueryState is set to true.
+         *
+         * Array of element tag names that would indicate that this
+         * button has already been applied. If this action has already
+         * been applied, the button will be displayed as 'active' in the toolbar
+         *
+         * Example:
+         * For 'bold', if the text is ever within a <b> or <strong>
+         * tag that indicates the text is already bold. So the array
+         * of tagNames for bold would be: ['b', 'strong']
+         */
+        tagNames: undefined,
+
+        /* style: [Object]
+         * NOTE: This is not used if useQueryState is set to true.
+         *
+         * A pair of css property & value(s) that indicate that this
+         * button has already been applied. If this action has already
+         * been applied, the button will be displayed as 'active' in the toolbar
+         * Properties of the object:
+         *   prop [String]: name of the css property
+         *   value [String]: value(s) of the css property
+         *                   multiple values can be separated by a '|'
+         *
+         * Example:
+         * For 'bold', if the text is ever within an element with a 'font-weight'
+         * style property set to '700' or 'bold', that indicates the text
+         * is already bold.  So the style object for bold would be:
+         * { prop: 'font-weight', value: '700|bold' }
+         */
+        style: undefined,
+
+        /* useQueryState: [boolean]
+         * Enables/disables whether this button should use the built-in
+         * document.queryCommandState() method to determine whether
+         * the action has already been applied.  If the action has already
+         * been applied, the button will be displayed as 'active' in the toolbar
+         *
+         * Example:
+         * For 'bold', if this is set to true, the code will call:
+         * document.queryCommandState('bold') which will return true if the
+         * browser thinks the text is already bold, and false otherwise
+         */
+        useQueryState: undefined,
+
+        /* contentDefault: [string]
+         * Default innerHTML to put inside the button
+         */
+        contentDefault: undefined,
+
+        /* contentFA: [string]
+         * The innerHTML to use for the content of the button
+         * if the `buttonLabels` option for MediumEditor is set to 'fontawesome'
+         */
+        contentFA: undefined,
+
+        /* classList: [Array]
+         * An array of classNames (strings) to be added to the button
+         */
+        classList: undefined,
+
+        /* attrs: [object]
+         * A set of key-value pairs to add to the button as custom attributes
+         */
+        attrs: undefined,
+
+        // The button constructor can optionally accept the name of a built-in button
+        // (ie 'bold', 'italic', etc.)
+        // When the name of a button is passed, it will initialize itself with the
+        // configuration for that button
+        constructor: function (options) {
+            if (Button.isBuiltInButton(options)) {
+                MediumEditor.Extension.call(this, this.defaults[options]);
+            } else {
+                MediumEditor.Extension.call(this, options);
+            }
+        },
+
+        init: function () {
+            MediumEditor.Extension.prototype.init.apply(this, arguments);
+
+            this.button = this.createButton();
+            this.on(this.button, 'click', this.handleClick.bind(this));
+        },
+
+        /* getButton: [function ()]
+         *
+         * If implemented, this function will be called when
+         * the toolbar is being created.  The DOM Element returned
+         * by this function will be appended to the toolbar along
+         * with any other buttons.
+         */
+        getButton: function () {
+            return this.button;
+        },
+
+        getAction: function () {
+            return (typeof this.action === 'function') ? this.action(this.base.options) : this.action;
+        },
+
+        getAria: function () {
+            return (typeof this.aria === 'function') ? this.aria(this.base.options) : this.aria;
+        },
+
+        getTagNames: function () {
+            return (typeof this.tagNames === 'function') ? this.tagNames(this.base.options) : this.tagNames;
+        },
+
+        createButton: function () {
+            var button = this.document.createElement('button'),
+                content = this.contentDefault,
+                ariaLabel = this.getAria(),
+                buttonLabels = this.getEditorOption('buttonLabels');
+            // Add class names
+            button.classList.add('medium-editor-action');
+            button.classList.add('medium-editor-action-' + this.name);
+            if (this.classList) {
+                this.classList.forEach(function (className) {
+                    button.classList.add(className);
+                });
+            }
+
+            // Add attributes
+            button.setAttribute('data-action', this.getAction());
+            if (ariaLabel) {
+                button.setAttribute('title', ariaLabel);
+                button.setAttribute('aria-label', ariaLabel);
+            }
+            if (this.attrs) {
+                Object.keys(this.attrs).forEach(function (attr) {
+                    button.setAttribute(attr, this.attrs[attr]);
+                }, this);
+            }
+
+            if (buttonLabels === 'fontawesome' && this.contentFA) {
+                content = this.contentFA;
+            }
+            button.innerHTML = content;
+            return button;
+        },
+
+        handleClick: function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            var action = this.getAction();
+
+            if (action) {
+                this.execAction(action);
+            }
+        },
+
+        isActive: function () {
+            return this.button.classList.contains(this.getEditorOption('activeButtonClass'));
+        },
+
+        setInactive: function () {
+            this.button.classList.remove(this.getEditorOption('activeButtonClass'));
+            delete this.knownState;
+        },
+
+        setActive: function () {
+            this.button.classList.add(this.getEditorOption('activeButtonClass'));
+            delete this.knownState;
+        },
+
+        queryCommandState: function () {
+            var queryState = null;
+            if (this.useQueryState) {
+                queryState = this.base.queryCommandState(this.getAction());
+            }
+            return queryState;
+        },
+
+        isAlreadyApplied: function (node) {
+            var isMatch = false,
+                tagNames = this.getTagNames(),
+                styleVals,
+                computedStyle;
+
+            if (this.knownState === false || this.knownState === true) {
+                return this.knownState;
+            }
+
+            if (tagNames && tagNames.length > 0) {
+                isMatch = tagNames.indexOf(node.nodeName.toLowerCase()) !== -1;
+            }
+
+            if (!isMatch && this.style) {
+                styleVals = this.style.value.split('|');
+                computedStyle = this.window.getComputedStyle(node, null).getPropertyValue(this.style.prop);
+                styleVals.forEach(function (val) {
+                    if (!this.knownState) {
+                        isMatch = (computedStyle.indexOf(val) !== -1);
+                        // text-decoration is not inherited by default
+                        // so if the computed style for text-decoration doesn't match
+                        // don't write to knownState so we can fallback to other checks
+                        if (isMatch || this.style.prop !== 'text-decoration') {
+                            this.knownState = isMatch;
+                        }
+                    }
+                }, this);
+            }
+
+            return isMatch;
+        }
+    });
+
+    Button.isBuiltInButton = function (name) {
+        return (typeof name === 'string') && MediumEditor.extensions.button.prototype.defaults.hasOwnProperty(name);
+    };
+
+    MediumEditor.extensions.button = Button;
+}());
+
+(function () {
+    'use strict';
+
+    /* MediumEditor.extensions.button.defaults: [Object]
+     * Set of default config options for all of the built-in MediumEditor buttons
+     */
+    MediumEditor.extensions.button.prototype.defaults = {
+        'bold': {
+            name: 'bold',
+            action: 'bold',
+            aria: 'bold',
+            tagNames: ['b', 'strong'],
+            style: {
+                prop: 'font-weight',
+                value: '700|bold'
+            },
+            useQueryState: true,
+            contentDefault: '<b>B</b>',
+            contentFA: '<i class="fa fa-bold"></i>'
+        },
+        'italic': {
+            name: 'italic',
+            action: 'italic',
+            aria: 'italic',
+            tagNames: ['i', 'em'],
+            style: {
+                prop: 'font-style',
+                value: 'italic'
+            },
+            useQueryState: true,
+            contentDefault: '<b><i>I</i></b>',
+            contentFA: '<i class="fa fa-italic"></i>'
+        },
+        'underline': {
+            name: 'underline',
+            action: 'underline',
+            aria: 'underline',
+            tagNames: ['u'],
+            style: {
+                prop: 'text-decoration',
+                value: 'underline'
+            },
+            useQueryState: true,
+            contentDefault: '<b><u>U</u></b>',
+            contentFA: '<i class="fa fa-underline"></i>'
+        },
+        'strikethrough': {
+            name: 'strikethrough',
+            action: 'strikethrough',
+            aria: 'strike through',
+            tagNames: ['strike'],
+            style: {
+                prop: 'text-decoration',
+                value: 'line-through'
+            },
+            useQueryState: true,
+            contentDefault: '<s>A</s>',
+            contentFA: '<i class="fa fa-strikethrough"></i>'
+        },
+        'superscript': {
+            name: 'superscript',
+            action: 'superscript',
+            aria: 'superscript',
+            tagNames: ['sup'],
+            /* firefox doesn't behave the way we want it to, so we CAN'T use queryCommandState for superscript
+               https://github.com/guardian/scribe/blob/master/BROWSERINCONSISTENCIES.md#documentquerycommandstate */
+            // useQueryState: true
+            contentDefault: '<b>x<sup>1</sup></b>',
+            contentFA: '<i class="fa fa-superscript"></i>'
+        },
+        'subscript': {
+            name: 'subscript',
+            action: 'subscript',
+            aria: 'subscript',
+            tagNames: ['sub'],
+            /* firefox doesn't behave the way we want it to, so we CAN'T use queryCommandState for subscript
+               https://github.com/guardian/scribe/blob/master/BROWSERINCONSISTENCIES.md#documentquerycommandstate */
+            // useQueryState: true
+            contentDefault: '<b>x<sub>1</sub></b>',
+            contentFA: '<i class="fa fa-subscript"></i>'
+        },
+        'image': {
+            name: 'image',
+            action: 'image',
+            aria: 'image',
+            tagNames: ['img'],
+            contentDefault: '<b>image</b>',
+            contentFA: '<i class="fa fa-picture-o"></i>'
+        },
+        'html': {
+            name: 'html',
+            action: 'html',
+            aria: 'evaluate html',
+            tagNames: ['iframe', 'object'],
+            contentDefault: '<b>html</b>',
+            contentFA: '<i class="fa fa-code"></i>'
+        },
+        'orderedlist': {
+            name: 'orderedlist',
+            action: 'insertorderedlist',
+            aria: 'ordered list',
+            tagNames: ['ol'],
+            useQueryState: true,
+            contentDefault: '<b>1.</b>',
+            contentFA: '<i class="fa fa-list-ol"></i>'
+        },
+        'unorderedlist': {
+            name: 'unorderedlist',
+            action: 'insertunorderedlist',
+            aria: 'unordered list',
+            tagNames: ['ul'],
+            useQueryState: true,
+            contentDefault: '<b>&bull;</b>',
+            contentFA: '<i class="fa fa-list-ul"></i>'
+        },
+        'indent': {
+            name: 'indent',
+            action: 'indent',
+            aria: 'indent',
+            tagNames: [],
+            contentDefault: '<b>&rarr;</b>',
+            contentFA: '<i class="fa fa-indent"></i>'
+        },
+        'outdent': {
+            name: 'outdent',
+            action: 'outdent',
+            aria: 'outdent',
+            tagNames: [],
+            contentDefault: '<b>&larr;</b>',
+            contentFA: '<i class="fa fa-outdent"></i>'
+        },
+        'justifyCenter': {
+            name: 'justifyCenter',
+            action: 'justifyCenter',
+            aria: 'center justify',
+            tagNames: [],
+            style: {
+                prop: 'text-align',
+                value: 'center'
+            },
+            contentDefault: '<b>C</b>',
+            contentFA: '<i class="fa fa-align-center"></i>'
+        },
+        'justifyFull': {
+            name: 'justifyFull',
+            action: 'justifyFull',
+            aria: 'full justify',
+            tagNames: [],
+            style: {
+                prop: 'text-align',
+                value: 'justify'
+            },
+            contentDefault: '<b>J</b>',
+            contentFA: '<i class="fa fa-align-justify"></i>'
+        },
+        'justifyLeft': {
+            name: 'justifyLeft',
+            action: 'justifyLeft',
+            aria: 'left justify',
+            tagNames: [],
+            style: {
+                prop: 'text-align',
+                value: 'left'
+            },
+            contentDefault: '<b>L</b>',
+            contentFA: '<i class="fa fa-align-left"></i>'
+        },
+        'justifyRight': {
+            name: 'justifyRight',
+            action: 'justifyRight',
+            aria: 'right justify',
+            tagNames: [],
+            style: {
+                prop: 'text-align',
+                value: 'right'
+            },
+            contentDefault: '<b>R</b>',
+            contentFA: '<i class="fa fa-align-right"></i>'
+        },
+        // Known inline elements that are not removed, or not removed consistantly across browsers:
+        // <span>, <label>, <br>
+        'removeFormat': {
+            name: 'removeFormat',
+            aria: 'remove formatting',
+            action: 'removeFormat',
+            contentDefault: '<b>X</b>',
+            contentFA: '<i class="fa fa-eraser"></i>'
+        },
+
+        /***** Buttons for appending block elements (append-<element> action) *****/
+
+        'quote': {
+            name: 'quote',
+            action: 'append-blockquote',
+            aria: 'blockquote',
+            tagNames: ['blockquote'],
+            contentDefault: '<b>&ldquo;</b>',
+            contentFA: '<i class="fa fa-quote-right"></i>'
+        },
+        'pre': {
+            name: 'pre',
+            action: 'append-pre',
+            aria: 'preformatted text',
+            tagNames: ['pre'],
+            contentDefault: '<b>0101</b>',
+            contentFA: '<i class="fa fa-code fa-lg"></i>'
+        },
+        'h1': {
+            name: 'h1',
+            action: 'append-h1',
+            aria: 'header type one',
+            tagNames: ['h1'],
+            contentDefault: '<b>H1</b>',
+            contentFA: '<i class="fa fa-header"><sup>1</sup>'
+        },
+        'h2': {
+            name: 'h2',
+            action: 'append-h2',
+            aria: 'header type two',
+            tagNames: ['h2'],
+            contentDefault: '<b>H2</b>',
+            contentFA: '<i class="fa fa-header"><sup>2</sup>'
+        },
+        'h3': {
+            name: 'h3',
+            action: 'append-h3',
+            aria: 'header type three',
+            tagNames: ['h3'],
+            contentDefault: '<b>H3</b>',
+            contentFA: '<i class="fa fa-header"><sup>3</sup>'
+        },
+        'h4': {
+            name: 'h4',
+            action: 'append-h4',
+            aria: 'header type four',
+            tagNames: ['h4'],
+            contentDefault: '<b>H4</b>',
+            contentFA: '<i class="fa fa-header"><sup>4</sup>'
+        },
+        'h5': {
+            name: 'h5',
+            action: 'append-h5',
+            aria: 'header type five',
+            tagNames: ['h5'],
+            contentDefault: '<b>H5</b>',
+            contentFA: '<i class="fa fa-header"><sup>5</sup>'
+        },
+        'h6': {
+            name: 'h6',
+            action: 'append-h6',
+            aria: 'header type six',
+            tagNames: ['h6'],
+            contentDefault: '<b>H6</b>',
+            contentFA: '<i class="fa fa-header"><sup>6</sup>'
+        }
+    };
+
+})();
+
+(function () {
+    'use strict';
+
+    /* Base functionality for an extension which will display
+     * a 'form' inside the toolbar
+     */
+    var FormExtension = MediumEditor.extensions.button.extend({
+
+        init: function () {
+            MediumEditor.extensions.button.prototype.init.apply(this, arguments);
+        },
+
+        // default labels for the form buttons
+        formSaveLabel: '&#10003;',
+        formCloseLabel: '&times;',
+
+        /* activeClass: [string]
+         * set class which added to shown form
+         */
+        activeClass: 'medium-editor-toolbar-form-active',
+
+        /* hasForm: [boolean]
+         *
+         * Setting this to true will cause getForm() to be called
+         * when the toolbar is created, so the form can be appended
+         * inside the toolbar container
+         */
+        hasForm: true,
+
+        /* getForm: [function ()]
+         *
+         * When hasForm is true, this function must be implemented
+         * and return a DOM Element which will be appended to
+         * the toolbar container. The form should start hidden, and
+         * the extension can choose when to hide/show it
+         */
+        getForm: function () {},
+
+        /* isDisplayed: [function ()]
+         *
+         * This function should return true/false reflecting
+         * whether the form is currently displayed
+         */
+        isDisplayed: function () {
+            if (this.hasForm) {
+                return this.getForm().classList.contains(this.activeClass);
+            }
+            return false;
+        },
+
+        /* hideForm: [function ()]
+         *
+         * This function should show the form element inside
+         * the toolbar container
+         */
+        showForm: function () {
+            if (this.hasForm) {
+                this.getForm().classList.add(this.activeClass);
+            }
+        },
+
+        /* hideForm: [function ()]
+         *
+         * This function should hide the form element inside
+         * the toolbar container
+         */
+        hideForm: function () {
+            if (this.hasForm) {
+                this.getForm().classList.remove(this.activeClass);
+            }
+        },
+
+        /************************ Helpers ************************
+         * The following are helpers that are either set by MediumEditor
+         * during initialization, or are helper methods which either
+         * route calls to the MediumEditor instance or provide common
+         * functionality for all form extensions
+         *********************************************************/
+
+        /* showToolbarDefaultActions: [function ()]
+         *
+         * Helper method which will turn back the toolbar after canceling
+         * the customized form
+         */
+        showToolbarDefaultActions: function () {
+            var toolbar = this.base.getExtensionByName('toolbar');
+            if (toolbar) {
+                toolbar.showToolbarDefaultActions();
+            }
+        },
+
+        /* hideToolbarDefaultActions: [function ()]
+         *
+         * Helper function which will hide the default contents of the
+         * toolbar, but leave the toolbar container in the same state
+         * to allow a form to display its custom contents inside the toolbar
+         */
+        hideToolbarDefaultActions: function () {
+            var toolbar = this.base.getExtensionByName('toolbar');
+            if (toolbar) {
+                toolbar.hideToolbarDefaultActions();
+            }
+        },
+
+        /* setToolbarPosition: [function ()]
+         *
+         * Helper function which will update the size and position
+         * of the toolbar based on the toolbar content and the current
+         * position of the user's selection
+         */
+        setToolbarPosition: function () {
+            var toolbar = this.base.getExtensionByName('toolbar');
+            if (toolbar) {
+                toolbar.setToolbarPosition();
+            }
+        }
+    });
+
+    MediumEditor.extensions.form = FormExtension;
+})();
+(function () {
+    'use strict';
+
+    var AnchorForm = MediumEditor.extensions.form.extend({
+        /* Anchor Form Options */
+
+        /* customClassOption: [string]  (previously options.anchorButton + options.anchorButtonClass)
+         * Custom class name the user can optionally have added to their created links (ie 'button').
+         * If passed as a non-empty string, a checkbox will be displayed allowing the user to choose
+         * whether to have the class added to the created link or not.
+         */
+        customClassOption: null,
+
+        /* customClassOptionText: [string]
+         * text to be shown in the checkbox when the __customClassOption__ is being used.
+         */
+        customClassOptionText: 'Button',
+
+        /* linkValidation: [boolean]  (previously options.checkLinkFormat)
+         * enables/disables check for common URL protocols on anchor links.
+         */
+        linkValidation: false,
+
+        /* placeholderText: [string]  (previously options.anchorInputPlaceholder)
+         * text to be shown as placeholder of the anchor input.
+         */
+        placeholderText: 'Paste or type a link',
+
+        /* targetCheckbox: [boolean]  (previously options.anchorTarget)
+         * enables/disables displaying a "Open in new window" checkbox, which when checked
+         * changes the `target` attribute of the created link.
+         */
+        targetCheckbox: false,
+
+        /* targetCheckboxText: [string]  (previously options.anchorInputCheckboxLabel)
+         * text to be shown in the checkbox enabled via the __targetCheckbox__ option.
+         */
+        targetCheckboxText: 'Open in new window',
+
+        // Options for the Button base class
+        name: 'anchor',
+        action: 'createLink',
+        aria: 'link',
+        tagNames: ['a'],
+        contentDefault: '<b>#</b>',
+        contentFA: '<i class="fa fa-link"></i>',
+
+        init: function () {
+            MediumEditor.extensions.form.prototype.init.apply(this, arguments);
+
+            this.subscribe('editableKeydown', this.handleKeydown.bind(this));
+        },
+
+        // Called when the button the toolbar is clicked
+        // Overrides ButtonExtension.handleClick
+        handleClick: function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            var range = MediumEditor.selection.getSelectionRange(this.document);
+
+            if (range.startContainer.nodeName.toLowerCase() === 'a' ||
+                range.endContainer.nodeName.toLowerCase() === 'a' ||
+                MediumEditor.util.getClosestTag(MediumEditor.selection.getSelectedParentElement(range), 'a')) {
+                return this.execAction('unlink');
+            }
+
+            if (!this.isDisplayed()) {
+                this.showForm();
+            }
+
+            return false;
+        },
+
+        // Called when user hits the defined shortcut (CTRL / COMMAND + K)
+        handleKeydown: function (event) {
+            if (MediumEditor.util.isKey(event, MediumEditor.util.keyCode.K) && MediumEditor.util.isMetaCtrlKey(event) && !event.shiftKey) {
+                this.handleClick(event);
+            }
+        },
+
+        // Called by medium-editor to append form to the toolbar
+        getForm: function () {
+            if (!this.form) {
+                this.form = this.createForm();
+            }
+            return this.form;
+        },
+
+        getTemplate: function () {
+            var template = [
+                '<input type="text" class="medium-editor-toolbar-input" placeholder="', this.placeholderText, '">'
+            ];
+
+            template.push(
+                '<a href="#" class="medium-editor-toolbar-save">',
+                this.getEditorOption('buttonLabels') === 'fontawesome' ? '<i class="fa fa-check"></i>' : this.formSaveLabel,
+                '</a>'
+            );
+
+            template.push('<a href="#" class="medium-editor-toolbar-close">',
+                this.getEditorOption('buttonLabels') === 'fontawesome' ? '<i class="fa fa-times"></i>' : this.formCloseLabel,
+                '</a>');
+
+            // both of these options are slightly moot with the ability to
+            // override the various form buildup/serialize functions.
+
+            if (this.targetCheckbox) {
+                // fixme: ideally, this targetCheckboxText would be a formLabel too,
+                // figure out how to deprecate? also consider `fa-` icon default implcations.
+                template.push(
+                    '<div class="medium-editor-toolbar-form-row">',
+                    '<input type="checkbox" class="medium-editor-toolbar-anchor-target">',
+                    '<label>',
+                    this.targetCheckboxText,
+                    '</label>',
+                    '</div>'
+                );
+            }
+
+            if (this.customClassOption) {
+                // fixme: expose this `Button` text as a formLabel property, too
+                // and provide similar access to a `fa-` icon default.
+                template.push(
+                    '<div class="medium-editor-toolbar-form-row">',
+                    '<input type="checkbox" class="medium-editor-toolbar-anchor-button">',
+                    '<label>',
+                    this.customClassOptionText,
+                    '</label>',
+                    '</div>'
+                );
+            }
+
+            return template.join('');
+
+        },
+
+        // Used by medium-editor when the default toolbar is to be displayed
+        isDisplayed: function () {
+            return MediumEditor.extensions.form.prototype.isDisplayed.apply(this);
+        },
+
+        hideForm: function () {
+            MediumEditor.extensions.form.prototype.hideForm.apply(this);
+            this.getInput().value = '';
+        },
+
+        showForm: function (opts) {
+            var input = this.getInput(),
+                targetCheckbox = this.getAnchorTargetCheckbox(),
+                buttonCheckbox = this.getAnchorButtonCheckbox();
+
+            opts = opts || { value: '' };
+            // TODO: This is for backwards compatability
+            // We don't need to support the 'string' argument in 6.0.0
+            if (typeof opts === 'string') {
+                opts = {
+                    value: opts
+                };
+            }
+
+            this.base.saveSelection();
+            this.hideToolbarDefaultActions();
+            MediumEditor.extensions.form.prototype.showForm.apply(this);
+            this.setToolbarPosition();
+
+            input.value = opts.value;
+            input.focus();
+
+            // If we have a target checkbox, we want it to be checked/unchecked
+            // based on whether the existing link has target=_blank
+            if (targetCheckbox) {
+                targetCheckbox.checked = opts.target === '_blank';
+            }
+
+            // If we have a custom class checkbox, we want it to be checked/unchecked
+            // based on whether an existing link already has the class
+            if (buttonCheckbox) {
+                var classList = opts.buttonClass ? opts.buttonClass.split(' ') : [];
+                buttonCheckbox.checked = (classList.indexOf(this.customClassOption) !== -1);
+            }
+        },
+
+        // Called by core when tearing down medium-editor (destroy)
+        destroy: function () {
+            if (!this.form) {
+                return false;
+            }
+
+            if (this.form.parentNode) {
+                this.form.parentNode.removeChild(this.form);
+            }
+
+            delete this.form;
+        },
+
+        // core methods
+
+        getFormOpts: function () {
+            // no notion of private functions? wanted `_getFormOpts`
+            var targetCheckbox = this.getAnchorTargetCheckbox(),
+                buttonCheckbox = this.getAnchorButtonCheckbox(),
+                opts = {
+                    value: this.getInput().value.trim()
+                };
+
+            if (this.linkValidation) {
+                opts.value = this.checkLinkFormat(opts.value);
+            }
+
+            opts.target = '_self';
+            if (targetCheckbox && targetCheckbox.checked) {
+                opts.target = '_blank';
+            }
+
+            if (buttonCheckbox && buttonCheckbox.checked) {
+                opts.buttonClass = this.customClassOption;
+            }
+
+            return opts;
+        },
+
+        doFormSave: function () {
+            var opts = this.getFormOpts();
+            this.completeFormSave(opts);
+        },
+
+        completeFormSave: function (opts) {
+            this.base.restoreSelection();
+            this.execAction(this.action, opts);
+            this.base.checkSelection();
+        },
+
+        ensureEncodedUri: function (str) {
+            return str === decodeURI(str) ? encodeURI(str) : str;
+        },
+
+        ensureEncodedUriComponent: function (str) {
+            return str === decodeURIComponent(str) ? encodeURIComponent(str) : str;
+        },
+
+        ensureEncodedParam: function (param) {
+            var split = param.split('='),
+                key = split[0],
+                val = split[1];
+
+            return key + (val === undefined ? '' : '=' + this.ensureEncodedUriComponent(val));
+        },
+
+        ensureEncodedQuery: function (queryString) {
+            return queryString.split('&').map(this.ensureEncodedParam.bind(this)).join('&');
+        },
+
+        checkLinkFormat: function (value) {
+            // Matches any alphabetical characters followed by ://
+            // Matches protocol relative "//"
+            // Matches common external protocols "mailto:" "tel:" "maps:"
+            // Matches relative hash link, begins with "#"
+            var urlSchemeRegex = /^([a-z]+:)?\/\/|^(mailto|tel|maps):|^\#/i,
+                hasScheme = urlSchemeRegex.test(value),
+                scheme = '',
+                // telRegex is a regex for checking if the string is a telephone number
+                telRegex = /^\+?\s?\(?(?:\d\s?\-?\)?){3,20}$/,
+                urlParts = value.match(/^(.*?)(?:\?(.*?))?(?:#(.*))?$/),
+                path = urlParts[1],
+                query = urlParts[2],
+                fragment = urlParts[3];
+
+            if (telRegex.test(value)) {
+                return 'tel:' + value;
+            }
+
+            if (!hasScheme) {
+                var host = path.split('/')[0];
+                // if the host part of the path looks like a hostname
+                if (host.match(/.+(\.|:).+/) || host === 'localhost') {
+                    scheme = 'http://';
+                }
+            }
+
+            return scheme +
+                // Ensure path is encoded
+                this.ensureEncodedUri(path) +
+                // Ensure query is encoded
+                (query === undefined ? '' : '?' + this.ensureEncodedQuery(query)) +
+                // Include fragment unencoded as encodeUriComponent is too
+                // heavy handed for the many characters allowed in a fragment
+                (fragment === undefined ? '' : '#' + fragment);
+        },
+
+        doFormCancel: function () {
+            this.base.restoreSelection();
+            this.base.checkSelection();
+        },
+
+        // form creation and event handling
+        attachFormEvents: function (form) {
+            var close = form.querySelector('.medium-editor-toolbar-close'),
+                save = form.querySelector('.medium-editor-toolbar-save'),
+                input = form.querySelector('.medium-editor-toolbar-input');
+
+            // Handle clicks on the form itself
+            this.on(form, 'click', this.handleFormClick.bind(this));
+
+            // Handle typing in the textbox
+            this.on(input, 'keyup', this.handleTextboxKeyup.bind(this));
+
+            // Handle close button clicks
+            this.on(close, 'click', this.handleCloseClick.bind(this));
+
+            // Handle save button clicks (capture)
+            this.on(save, 'click', this.handleSaveClick.bind(this), true);
+
+        },
+
+        createForm: function () {
+            var doc = this.document,
+                form = doc.createElement('div');
+
+            // Anchor Form (div)
+            form.className = 'medium-editor-toolbar-form';
+            form.id = 'medium-editor-toolbar-form-anchor-' + this.getEditorId();
+            form.innerHTML = this.getTemplate();
+            this.attachFormEvents(form);
+
+            return form;
+        },
+
+        getInput: function () {
+            return this.getForm().querySelector('input.medium-editor-toolbar-input');
+        },
+
+        getAnchorTargetCheckbox: function () {
+            return this.getForm().querySelector('.medium-editor-toolbar-anchor-target');
+        },
+
+        getAnchorButtonCheckbox: function () {
+            return this.getForm().querySelector('.medium-editor-toolbar-anchor-button');
+        },
+
+        handleTextboxKeyup: function (event) {
+            // For ENTER -> create the anchor
+            if (event.keyCode === MediumEditor.util.keyCode.ENTER) {
+                event.preventDefault();
+                this.doFormSave();
+                return;
+            }
+
+            // For ESCAPE -> close the form
+            if (event.keyCode === MediumEditor.util.keyCode.ESCAPE) {
+                event.preventDefault();
+                this.doFormCancel();
+            }
+        },
+
+        handleFormClick: function (event) {
+            // make sure not to hide form when clicking inside the form
+            event.stopPropagation();
+        },
+
+        handleSaveClick: function (event) {
+            // Clicking Save -> create the anchor
+            event.preventDefault();
+            this.doFormSave();
+        },
+
+        handleCloseClick: function (event) {
+            // Click Close -> close the form
+            event.preventDefault();
+            this.doFormCancel();
+        }
+    });
+
+    MediumEditor.extensions.anchor = AnchorForm;
+}());
+
+(function () {
+    'use strict';
+
+    var AnchorPreview = MediumEditor.Extension.extend({
+        name: 'anchor-preview',
+
+        // Anchor Preview Options
+
+        /* hideDelay: [number]  (previously options.anchorPreviewHideDelay)
+         * time in milliseconds to show the anchor tag preview after the mouse has left the anchor tag.
+         */
+        hideDelay: 500,
+
+        /* previewValueSelector: [string]
+         * the default selector to locate where to put the activeAnchor value in the preview
+         */
+        previewValueSelector: 'a',
+
+        /* showWhenToolbarIsVisible: [boolean]
+         * determines whether the anchor tag preview shows up when the toolbar is visible
+         */
+        showWhenToolbarIsVisible: false,
+
+        /* showOnEmptyLinks: [boolean]
+        * determines whether the anchor tag preview shows up on links with href="" or href="#something"
+        */
+        showOnEmptyLinks: true,
+
+        init: function () {
+            this.anchorPreview = this.createPreview();
+
+            this.getEditorOption('elementsContainer').appendChild(this.anchorPreview);
+
+            this.attachToEditables();
+        },
+
+        getInteractionElements: function () {
+            return this.getPreviewElement();
+        },
+
+        // TODO: Remove this function in 6.0.0
+        getPreviewElement: function () {
+            return this.anchorPreview;
+        },
+
+        createPreview: function () {
+            var el = this.document.createElement('div');
+
+            el.id = 'medium-editor-anchor-preview-' + this.getEditorId();
+            el.className = 'medium-editor-anchor-preview';
+            el.innerHTML = this.getTemplate();
+
+            this.on(el, 'click', this.handleClick.bind(this));
+
+            return el;
+        },
+
+        getTemplate: function () {
+            return '<div class="medium-editor-toolbar-anchor-preview" id="medium-editor-toolbar-anchor-preview">' +
+                '    <a class="medium-editor-toolbar-anchor-preview-inner"></a>' +
+                '</div>';
+        },
+
+        destroy: function () {
+            if (this.anchorPreview) {
+                if (this.anchorPreview.parentNode) {
+                    this.anchorPreview.parentNode.removeChild(this.anchorPreview);
+                }
+                delete this.anchorPreview;
+            }
+        },
+
+        hidePreview: function () {
+            if (this.anchorPreview) {
+                this.anchorPreview.classList.remove('medium-editor-anchor-preview-active');
+            }
+            this.activeAnchor = null;
+        },
+
+        showPreview: function (anchorEl) {
+            if (this.anchorPreview.classList.contains('medium-editor-anchor-preview-active') ||
+                    anchorEl.getAttribute('data-disable-preview')) {
+                return true;
+            }
+
+            if (this.previewValueSelector) {
+                this.anchorPreview.querySelector(this.previewValueSelector).textContent = anchorEl.attributes.href.value;
+                this.anchorPreview.querySelector(this.previewValueSelector).href = anchorEl.attributes.href.value;
+            }
+
+            this.anchorPreview.classList.add('medium-toolbar-arrow-over');
+            this.anchorPreview.classList.remove('medium-toolbar-arrow-under');
+
+            if (!this.anchorPreview.classList.contains('medium-editor-anchor-preview-active')) {
+                this.anchorPreview.classList.add('medium-editor-anchor-preview-active');
+            }
+
+            this.activeAnchor = anchorEl;
+
+            this.positionPreview();
+            this.attachPreviewHandlers();
+
+            return this;
+        },
+
+        positionPreview: function (activeAnchor) {
+            activeAnchor = activeAnchor || this.activeAnchor;
+            var containerWidth = this.window.innerWidth,
+                buttonHeight = this.anchorPreview.offsetHeight,
+                boundary = activeAnchor.getBoundingClientRect(),
+                diffLeft = this.diffLeft,
+                diffTop = this.diffTop,
+                elementsContainer = this.getEditorOption('elementsContainer'),
+                elementsContainerAbsolute = ['absolute', 'fixed'].indexOf(window.getComputedStyle(elementsContainer).getPropertyValue('position')) > -1,
+                relativeBoundary = {},
+                halfOffsetWidth, defaultLeft, middleBoundary, elementsContainerBoundary, top;
+
+            halfOffsetWidth = this.anchorPreview.offsetWidth / 2;
+            var toolbarExtension = this.base.getExtensionByName('toolbar');
+            if (toolbarExtension) {
+                diffLeft = toolbarExtension.diffLeft;
+                diffTop = toolbarExtension.diffTop;
+            }
+            defaultLeft = diffLeft - halfOffsetWidth;
+
+            // If container element is absolute / fixed, recalculate boundaries to be relative to the container
+            if (elementsContainerAbsolute) {
+                elementsContainerBoundary = elementsContainer.getBoundingClientRect();
+                ['top', 'left'].forEach(function (key) {
+                    relativeBoundary[key] = boundary[key] - elementsContainerBoundary[key];
+                });
+
+                relativeBoundary.width = boundary.width;
+                relativeBoundary.height = boundary.height;
+                boundary = relativeBoundary;
+
+                containerWidth = elementsContainerBoundary.width;
+
+                // Adjust top position according to container scroll position
+                top = elementsContainer.scrollTop;
+            } else {
+                // Adjust top position according to window scroll position
+                top = this.window.pageYOffset;
+            }
+
+            middleBoundary = boundary.left + boundary.width / 2;
+            top += buttonHeight + boundary.top + boundary.height - diffTop - this.anchorPreview.offsetHeight;
+
+            this.anchorPreview.style.top = Math.round(top) + 'px';
+            this.anchorPreview.style.right = 'initial';
+            if (middleBoundary < halfOffsetWidth) {
+                this.anchorPreview.style.left = defaultLeft + halfOffsetWidth + 'px';
+                this.anchorPreview.style.right = 'initial';
+            } else if ((containerWidth - middleBoundary) < halfOffsetWidth) {
+                this.anchorPreview.style.left = 'auto';
+                this.anchorPreview.style.right = 0;
+            } else {
+                this.anchorPreview.style.left = defaultLeft + middleBoundary + 'px';
+                this.anchorPreview.style.right = 'initial';
+            }
+        },
+
+        attachToEditables: function () {
+            this.subscribe('editableMouseover', this.handleEditableMouseover.bind(this));
+            this.subscribe('positionedToolbar', this.handlePositionedToolbar.bind(this));
+        },
+
+        handlePositionedToolbar: function () {
+            // If the toolbar is visible and positioned, we don't need to hide the preview
+            // when showWhenToolbarIsVisible is true
+            if (!this.showWhenToolbarIsVisible) {
+                this.hidePreview();
+            }
+        },
+
+        handleClick: function (event) {
+            var anchorExtension = this.base.getExtensionByName('anchor'),
+                activeAnchor = this.activeAnchor;
+
+            if (anchorExtension && activeAnchor) {
+                event.preventDefault();
+
+                this.base.selectElement(this.activeAnchor);
+
+                // Using setTimeout + delay because:
+                // We may actually be displaying the anchor form, which should be controlled by delay
+                this.base.delay(function () {
+                    if (activeAnchor) {
+                        var opts = {
+                            value: activeAnchor.attributes.href.value,
+                            target: activeAnchor.getAttribute('target'),
+                            buttonClass: activeAnchor.getAttribute('class')
+                        };
+                        anchorExtension.showForm(opts);
+                        activeAnchor = null;
+                    }
+                }.bind(this));
+            }
+
+            this.hidePreview();
+        },
+
+        handleAnchorMouseout: function () {
+            this.anchorToPreview = null;
+            this.off(this.activeAnchor, 'mouseout', this.instanceHandleAnchorMouseout);
+            this.instanceHandleAnchorMouseout = null;
+        },
+
+        handleEditableMouseover: function (event) {
+            var target = MediumEditor.util.getClosestTag(event.target, 'a');
+
+            if (false === target) {
+                return;
+            }
+
+            // Detect empty href attributes
+            // The browser will make href="" or href="#top"
+            // into absolute urls when accessed as event.target.href, so check the html
+            if (!this.showOnEmptyLinks &&
+                (!/href=["']\S+["']/.test(target.outerHTML) || /href=["']#\S+["']/.test(target.outerHTML))) {
+                return true;
+            }
+
+            // only show when toolbar is not present
+            var toolbar = this.base.getExtensionByName('toolbar');
+            if (!this.showWhenToolbarIsVisible && toolbar && toolbar.isDisplayed && toolbar.isDisplayed()) {
+                return true;
+            }
+
+            // detach handler for other anchor in case we hovered multiple anchors quickly
+            if (this.activeAnchor && this.activeAnchor !== target) {
+                this.detachPreviewHandlers();
+            }
+
+            this.anchorToPreview = target;
+
+            this.instanceHandleAnchorMouseout = this.handleAnchorMouseout.bind(this);
+            this.on(this.anchorToPreview, 'mouseout', this.instanceHandleAnchorMouseout);
+            // Using setTimeout + delay because:
+            // - We're going to show the anchor preview according to the configured delay
+            //   if the mouse has not left the anchor tag in that time
+            this.base.delay(function () {
+                if (this.anchorToPreview) {
+                    this.showPreview(this.anchorToPreview);
+                }
+            }.bind(this));
+        },
+
+        handlePreviewMouseover: function () {
+            this.lastOver = (new Date()).getTime();
+            this.hovering = true;
+        },
+
+        handlePreviewMouseout: function (event) {
+            if (!event.relatedTarget || !/anchor-preview/.test(event.relatedTarget.className)) {
+                this.hovering = false;
+            }
+        },
+
+        updatePreview: function () {
+            if (this.hovering) {
+                return true;
+            }
+            var durr = (new Date()).getTime() - this.lastOver;
+            if (durr > this.hideDelay) {
+                // hide the preview 1/2 second after mouse leaves the link
+                this.detachPreviewHandlers();
+            }
+        },
+
+        detachPreviewHandlers: function () {
+            // cleanup
+            clearInterval(this.intervalTimer);
+            if (this.instanceHandlePreviewMouseover) {
+                this.off(this.anchorPreview, 'mouseover', this.instanceHandlePreviewMouseover);
+                this.off(this.anchorPreview, 'mouseout', this.instanceHandlePreviewMouseout);
+                if (this.activeAnchor) {
+                    this.off(this.activeAnchor, 'mouseover', this.instanceHandlePreviewMouseover);
+                    this.off(this.activeAnchor, 'mouseout', this.instanceHandlePreviewMouseout);
+                }
+            }
+
+            this.hidePreview();
+
+            this.hovering = this.instanceHandlePreviewMouseover = this.instanceHandlePreviewMouseout = null;
+        },
+
+        // TODO: break up method and extract out handlers
+        attachPreviewHandlers: function () {
+            this.lastOver = (new Date()).getTime();
+            this.hovering = true;
+
+            this.instanceHandlePreviewMouseover = this.handlePreviewMouseover.bind(this);
+            this.instanceHandlePreviewMouseout = this.handlePreviewMouseout.bind(this);
+
+            this.intervalTimer = setInterval(this.updatePreview.bind(this), 200);
+
+            this.on(this.anchorPreview, 'mouseover', this.instanceHandlePreviewMouseover);
+            this.on(this.anchorPreview, 'mouseout', this.instanceHandlePreviewMouseout);
+            this.on(this.activeAnchor, 'mouseover', this.instanceHandlePreviewMouseover);
+            this.on(this.activeAnchor, 'mouseout', this.instanceHandlePreviewMouseout);
+        }
+    });
+
+    MediumEditor.extensions.anchorPreview = AnchorPreview;
+}());
+
+(function () {
+    'use strict';
+
+    var WHITESPACE_CHARS,
+        KNOWN_TLDS_FRAGMENT,
+        LINK_REGEXP_TEXT,
+        KNOWN_TLDS_REGEXP,
+        LINK_REGEXP;
+
+    WHITESPACE_CHARS = [' ', '\t', '\n', '\r', '\u00A0', '\u2000', '\u2001', '\u2002', '\u2003',
+                                    '\u2028', '\u2029'];
+    KNOWN_TLDS_FRAGMENT = 'com|net|org|edu|gov|mil|aero|asia|biz|cat|coop|info|int|jobs|mobi|museum|name|post|pro|tel|travel|' +
+        'xxx|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|' +
+        'bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cs|cu|cv|cx|cy|cz|dd|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|' +
+        'fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|' +
+        'is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mm|' +
+        'mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|' +
+        'pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|ja|sk|sl|sm|sn|so|sr|ss|st|su|sv|sx|sy|sz|tc|td|tf|tg|th|' +
+        'tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw';
+
+    LINK_REGEXP_TEXT =
+        '(' +
+        // Version of Gruber URL Regexp optimized for JS: http://stackoverflow.com/a/17733640
+        '((?:(https?://|ftps?://|nntp://)|www\\d{0,3}[.]|[a-z0-9.\\-]+[.](' + KNOWN_TLDS_FRAGMENT + ')\\\/)\\S+(?:[^\\s`!\\[\\]{};:\'\".,?\u00AB\u00BB\u201C\u201D\u2018\u2019]))' +
+        // Addition to above Regexp to support bare domains/one level subdomains with common non-i18n TLDs and without www prefix:
+        ')|(([a-z0-9\\-]+\\.)?[a-z0-9\\-]+\\.(' + KNOWN_TLDS_FRAGMENT + '))';
+
+    KNOWN_TLDS_REGEXP = new RegExp('^(' + KNOWN_TLDS_FRAGMENT + ')$', 'i');
+
+    LINK_REGEXP = new RegExp(LINK_REGEXP_TEXT, 'gi');
+
+    function nodeIsNotInsideAnchorTag(node) {
+        return !MediumEditor.util.getClosestTag(node, 'a');
+    }
+
+    var AutoLink = MediumEditor.Extension.extend({
+        init: function () {
+            MediumEditor.Extension.prototype.init.apply(this, arguments);
+
+            this.disableEventHandling = false;
+            this.subscribe('editableKeypress', this.onKeypress.bind(this));
+            this.subscribe('editableBlur', this.onBlur.bind(this));
+            // MS IE has it's own auto-URL detect feature but ours is better in some ways. Be consistent.
+            this.document.execCommand('AutoUrlDetect', false, false);
+        },
+
+        isLastInstance: function () {
+            var activeInstances = 0;
+            for (var i = 0; i < this.window._mediumEditors.length; i++) {
+                var editor = this.window._mediumEditors[i];
+                if (editor !== null && editor.getExtensionByName('autoLink') !== undefined) {
+                    activeInstances++;
+                }
+            }
+            return activeInstances === 1;
+        },
+
+        destroy: function () {
+            // Turn AutoUrlDetect back on
+            if (this.document.queryCommandSupported('AutoUrlDetect') && this.isLastInstance()) {
+                this.document.execCommand('AutoUrlDetect', false, true);
+            }
+        },
+
+        onBlur: function (blurEvent, editable) {
+            this.performLinking(editable);
+        },
+
+        onKeypress: function (keyPressEvent) {
+            if (this.disableEventHandling) {
+                return;
+            }
+
+            if (MediumEditor.util.isKey(keyPressEvent, [MediumEditor.util.keyCode.SPACE, MediumEditor.util.keyCode.ENTER])) {
+                clearTimeout(this.performLinkingTimeout);
+                // Saving/restoring the selection in the middle of a keypress doesn't work well...
+                this.performLinkingTimeout = setTimeout(function () {
+                    try {
+                        var sel = this.base.exportSelection();
+                        if (this.performLinking(keyPressEvent.target)) {
+                            // pass true for favorLaterSelectionAnchor - this is needed for links at the end of a
+                            // paragraph in MS IE, or MS IE causes the link to be deleted right after adding it.
+                            this.base.importSelection(sel, true);
+                        }
+                    } catch (e) {
+                        if (window.console) {
+                            window.console.error('Failed to perform linking', e);
+                        }
+                        this.disableEventHandling = true;
+                    }
+                }.bind(this), 0);
+            }
+        },
+
+        performLinking: function (contenteditable) {
+            /*
+            Perform linking on blockElement basis, blockElements are HTML elements with text content and without
+            child element.
+
+            Example:
+            - HTML content
+            <blockquote>
+              <p>link.</p>
+              <p>my</p>
+            </blockquote>
+
+            - blockElements
+            [<p>link.</p>, <p>my</p>]
+
+            otherwise the detection can wrongly find the end of one paragraph and the beginning of another paragraph
+            to constitute a link, such as a paragraph ending "link." and the next paragraph beginning with "my" is
+            interpreted into "link.my" and the code tries to create a link across blockElements - which doesn't work
+            and is terrible.
+            (Medium deletes the spaces/returns between P tags so the textContent ends up without paragraph spacing)
+            */
+            var blockElements = MediumEditor.util.splitByBlockElements(contenteditable),
+                documentModified = false;
+            if (blockElements.length === 0) {
+                blockElements = [contenteditable];
+            }
+            for (var i = 0; i < blockElements.length; i++) {
+                documentModified = this.removeObsoleteAutoLinkSpans(blockElements[i]) || documentModified;
+                documentModified = this.performLinkingWithinElement(blockElements[i]) || documentModified;
+            }
+            this.base.events.updateInput(contenteditable, { target: contenteditable, currentTarget: contenteditable });
+            return documentModified;
+        },
+
+        removeObsoleteAutoLinkSpans: function (element) {
+            if (!element || element.nodeType === 3) {
+                return false;
+            }
+
+            var spans = element.querySelectorAll('span[data-auto-link="true"]'),
+                documentModified = false;
+
+            for (var i = 0; i < spans.length; i++) {
+                var textContent = spans[i].textContent;
+                if (textContent.indexOf('://') === -1) {
+                    textContent = MediumEditor.util.ensureUrlHasProtocol(textContent);
+                }
+                if (spans[i].getAttribute('data-href') !== textContent && nodeIsNotInsideAnchorTag(spans[i])) {
+                    documentModified = true;
+                    var trimmedTextContent = textContent.replace(/\s+$/, '');
+                    if (spans[i].getAttribute('data-href') === trimmedTextContent) {
+                        var charactersTrimmed = textContent.length - trimmedTextContent.length,
+                            subtree = MediumEditor.util.splitOffDOMTree(spans[i], this.splitTextBeforeEnd(spans[i], charactersTrimmed));
+                        spans[i].parentNode.insertBefore(subtree, spans[i].nextSibling);
+                    } else {
+                        // Some editing has happened to the span, so just remove it entirely. The user can put it back
+                        // around just the href content if they need to prevent it from linking
+                        MediumEditor.util.unwrap(spans[i], this.document);
+                    }
+                }
+            }
+            return documentModified;
+        },
+
+        splitTextBeforeEnd: function (element, characterCount) {
+            var treeWalker = this.document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false),
+                lastChildNotExhausted = true;
+
+            // Start the tree walker at the last descendant of the span
+            while (lastChildNotExhausted) {
+                lastChildNotExhausted = treeWalker.lastChild() !== null;
+            }
+
+            var currentNode,
+                currentNodeValue,
+                previousNode;
+            while (characterCount > 0 && previousNode !== null) {
+                currentNode = treeWalker.currentNode;
+                currentNodeValue = currentNode.nodeValue;
+                if (currentNodeValue.length > characterCount) {
+                    previousNode = currentNode.splitText(currentNodeValue.length - characterCount);
+                    characterCount = 0;
+                } else {
+                    previousNode = treeWalker.previousNode();
+                    characterCount -= currentNodeValue.length;
+                }
+            }
+            return previousNode;
+        },
+
+        performLinkingWithinElement: function (element) {
+            var matches = this.findLinkableText(element),
+                linkCreated = false;
+
+            for (var matchIndex = 0; matchIndex < matches.length; matchIndex++) {
+                var matchingTextNodes = MediumEditor.util.findOrCreateMatchingTextNodes(this.document, element,
+                        matches[matchIndex]);
+                if (this.shouldNotLink(matchingTextNodes)) {
+                    continue;
+                }
+                this.createAutoLink(matchingTextNodes, matches[matchIndex].href);
+            }
+            return linkCreated;
+        },
+
+        shouldNotLink: function (textNodes) {
+            var shouldNotLink = false;
+            for (var i = 0; i < textNodes.length && shouldNotLink === false; i++) {
+                // Do not link if the text node is either inside an anchor or inside span[data-auto-link]
+                shouldNotLink = !!MediumEditor.util.traverseUp(textNodes[i], function (node) {
+                    return node.nodeName.toLowerCase() === 'a' ||
+                        (node.getAttribute && node.getAttribute('data-auto-link') === 'true');
+                });
+            }
+            return shouldNotLink;
+        },
+
+        findLinkableText: function (contenteditable) {
+            var textContent = contenteditable.textContent,
+                match = null,
+                matches = [];
+
+            while ((match = LINK_REGEXP.exec(textContent)) !== null) {
+                var matchOk = true,
+                    matchEnd = match.index + match[0].length;
+                // If the regexp detected something as a link that has text immediately preceding/following it, bail out.
+                matchOk = (match.index === 0 || WHITESPACE_CHARS.indexOf(textContent[match.index - 1]) !== -1) &&
+                    (matchEnd === textContent.length || WHITESPACE_CHARS.indexOf(textContent[matchEnd]) !== -1);
+                // If the regexp detected a bare domain that doesn't use one of our expected TLDs, bail out.
+                matchOk = matchOk && (match[0].indexOf('/') !== -1 ||
+                    KNOWN_TLDS_REGEXP.test(match[0].split('.').pop().split('?').shift()));
+
+                if (matchOk) {
+                    matches.push({
+                        href: match[0],
+                        start: match.index,
+                        end: matchEnd
+                    });
+                }
+            }
+            return matches;
+        },
+
+        createAutoLink: function (textNodes, href) {
+            href = MediumEditor.util.ensureUrlHasProtocol(href);
+            var anchor = MediumEditor.util.createLink(this.document, textNodes, href, this.getEditorOption('targetBlank') ? '_blank' : null),
+                span = this.document.createElement('span');
+            span.setAttribute('data-auto-link', 'true');
+            span.setAttribute('data-href', href);
+            anchor.insertBefore(span, anchor.firstChild);
+            while (anchor.childNodes.length > 1) {
+                span.appendChild(anchor.childNodes[1]);
+            }
+        }
+
+    });
+
+    MediumEditor.extensions.autoLink = AutoLink;
+}());
+
+(function () {
+    'use strict';
+
+    var CLASS_DRAG_OVER = 'medium-editor-dragover';
+
+    function clearClassNames(element) {
+        var editable = MediumEditor.util.getContainerEditorElement(element),
+            existing = Array.prototype.slice.call(editable.parentElement.querySelectorAll('.' + CLASS_DRAG_OVER));
+
+        existing.forEach(function (el) {
+            el.classList.remove(CLASS_DRAG_OVER);
+        });
+    }
+
+    var FileDragging = MediumEditor.Extension.extend({
+        name: 'fileDragging',
+
+        allowedTypes: ['image'],
+
+        init: function () {
+            MediumEditor.Extension.prototype.init.apply(this, arguments);
+
+            this.subscribe('editableDrag', this.handleDrag.bind(this));
+            this.subscribe('editableDrop', this.handleDrop.bind(this));
+        },
+
+        handleDrag: function (event) {
+            event.preventDefault();
+            event.dataTransfer.dropEffect = 'copy';
+
+            var target = event.target.classList ? event.target : event.target.parentElement;
+
+            // Ensure the class gets removed from anything that had it before
+            clearClassNames(target);
+
+            if (event.type === 'dragover') {
+                target.classList.add(CLASS_DRAG_OVER);
+            }
+        },
+
+        handleDrop: function (event) {
+            // Prevent file from opening in the current window
+            event.preventDefault();
+            event.stopPropagation();
+            // Select the dropping target, and set the selection to the end of the target
+            // https://github.com/yabwe/medium-editor/issues/980
+            this.base.selectElement(event.target);
+            var selection = this.base.exportSelection();
+            selection.start = selection.end;
+            this.base.importSelection(selection);
+            // IE9 does not support the File API, so prevent file from opening in the window
+            // but also don't try to actually get the file
+            if (event.dataTransfer.files) {
+                Array.prototype.slice.call(event.dataTransfer.files).forEach(function (file) {
+                    if (this.isAllowedFile(file)) {
+                        if (file.type.match('image')) {
+                            this.insertImageFile(file);
+                        }
+                    }
+                }, this);
+            }
+
+            // Make sure we remove our class from everything
+            clearClassNames(event.target);
+        },
+
+        isAllowedFile: function (file) {
+            return this.allowedTypes.some(function (fileType) {
+                return !!file.type.match(fileType);
+            });
+        },
+
+        insertImageFile: function (file) {
+            if (typeof FileReader !== 'function') {
+                return;
+            }
+            var fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+
+            // attach the onload event handler, makes it easier to listen in with jasmine
+            fileReader.addEventListener('load', function (e) {
+                var addImageElement = this.document.createElement('img');
+                addImageElement.src = e.target.result;
+                MediumEditor.util.insertHTMLCommand(this.document, addImageElement.outerHTML);
+            }.bind(this));
+        }
+    });
+
+    MediumEditor.extensions.fileDragging = FileDragging;
+}());
+
+(function () {
+    'use strict';
+
+    var KeyboardCommands = MediumEditor.Extension.extend({
+        name: 'keyboard-commands',
+
+        /* KeyboardCommands Options */
+
+        /* commands: [Array]
+         * Array of objects describing each command and the combination of keys that will trigger it
+         * Required for each object:
+         *   command [String] (argument passed to editor.execAction())
+         *   key [String] (keyboard character that triggers this command)
+         *   meta [boolean] (whether the ctrl/meta key has to be active or inactive)
+         *   shift [boolean] (whether the shift key has to be active or inactive)
+         *   alt [boolean] (whether the alt key has to be active or inactive)
+         */
+        commands: [
+            {
+                command: 'bold',
+                key: 'B',
+                meta: true,
+                shift: false,
+                alt: false
+            },
+            {
+                command: 'italic',
+                key: 'I',
+                meta: true,
+                shift: false,
+                alt: false
+            },
+            {
+                command: 'underline',
+                key: 'U',
+                meta: true,
+                shift: false,
+                alt: false
+            }
+        ],
+
+        init: function () {
+            MediumEditor.Extension.prototype.init.apply(this, arguments);
+
+            this.subscribe('editableKeydown', this.handleKeydown.bind(this));
+            this.keys = {};
+            this.commands.forEach(function (command) {
+                var keyCode = command.key.charCodeAt(0);
+                if (!this.keys[keyCode]) {
+                    this.keys[keyCode] = [];
+                }
+                this.keys[keyCode].push(command);
+            }, this);
+        },
+
+        handleKeydown: function (event) {
+            var keyCode = MediumEditor.util.getKeyCode(event);
+            if (!this.keys[keyCode]) {
+                return;
+            }
+
+            var isMeta = MediumEditor.util.isMetaCtrlKey(event),
+                isShift = !!event.shiftKey,
+                isAlt = !!event.altKey;
+
+            this.keys[keyCode].forEach(function (data) {
+                if (data.meta === isMeta &&
+                    data.shift === isShift &&
+                    (data.alt === isAlt ||
+                     undefined === data.alt)) { // TODO deprecated: remove check for undefined === data.alt when jumping to 6.0.0
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    // command can be a function to execute
+                    if (typeof data.command === 'function') {
+                        data.command.apply(this);
+                    }
+                    // command can be false so the shortcut is just disabled
+                    else if (false !== data.command) {
+                        this.execAction(data.command);
+                    }
+                }
+            }, this);
+        }
+    });
+
+    MediumEditor.extensions.keyboardCommands = KeyboardCommands;
+}());
+
+(function () {
+    'use strict';
+
+    var FontNameForm = MediumEditor.extensions.form.extend({
+
+        name: 'fontname',
+        action: 'fontName',
+        aria: 'change font name',
+        contentDefault: '&#xB1;', // ±
+        contentFA: '<i class="fa fa-font"></i>',
+
+        fonts: ['', 'Arial', 'Verdana', 'Times New Roman'],
+
+        init: function () {
+            MediumEditor.extensions.form.prototype.init.apply(this, arguments);
+        },
+
+        // Called when the button the toolbar is clicked
+        // Overrides ButtonExtension.handleClick
+        handleClick: function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (!this.isDisplayed()) {
+                // Get FontName of current selection (convert to string since IE returns this as number)
+                var fontName = this.document.queryCommandValue('fontName') + '';
+                this.showForm(fontName);
+            }
+
+            return false;
+        },
+
+        // Called by medium-editor to append form to the toolbar
+        getForm: function () {
+            if (!this.form) {
+                this.form = this.createForm();
+            }
+            return this.form;
+        },
+
+        // Used by medium-editor when the default toolbar is to be displayed
+        isDisplayed: function () {
+            return this.getForm().style.display === 'block';
+        },
+
+        hideForm: function () {
+            this.getForm().style.display = 'none';
+            this.getSelect().value = '';
+        },
+
+        showForm: function (fontName) {
+            var select = this.getSelect();
+
+            this.base.saveSelection();
+            this.hideToolbarDefaultActions();
+            this.getForm().style.display = 'block';
+            this.setToolbarPosition();
+
+            select.value = fontName || '';
+            select.focus();
+        },
+
+        // Called by core when tearing down medium-editor (destroy)
+        destroy: function () {
+            if (!this.form) {
+                return false;
+            }
+
+            if (this.form.parentNode) {
+                this.form.parentNode.removeChild(this.form);
+            }
+
+            delete this.form;
+        },
+
+        // core methods
+
+        doFormSave: function () {
+            this.base.restoreSelection();
+            this.base.checkSelection();
+        },
+
+        doFormCancel: function () {
+            this.base.restoreSelection();
+            this.clearFontName();
+            this.base.checkSelection();
+        },
+
+        // form creation and event handling
+        createForm: function () {
+            var doc = this.document,
+                form = doc.createElement('div'),
+                select = doc.createElement('select'),
+                close = doc.createElement('a'),
+                save = doc.createElement('a'),
+                option;
+
+            // Font Name Form (div)
+            form.className = 'medium-editor-toolbar-form';
+            form.id = 'medium-editor-toolbar-form-fontname-' + this.getEditorId();
+
+            // Handle clicks on the form itself
+            this.on(form, 'click', this.handleFormClick.bind(this));
+
+            // Add font names
+            for (var i = 0; i<this.fonts.length; i++) {
+                option = doc.createElement('option');
+                option.innerHTML = this.fonts[i];
+                option.value = this.fonts[i];
+                select.appendChild(option);
+            }
+
+            select.className = 'medium-editor-toolbar-select';
+            form.appendChild(select);
+
+            // Handle typing in the textbox
+            this.on(select, 'change', this.handleFontChange.bind(this));
+
+            // Add save buton
+            save.setAttribute('href', '#');
+            save.className = 'medium-editor-toobar-save';
+            save.innerHTML = this.getEditorOption('buttonLabels') === 'fontawesome' ?
+                             '<i class="fa fa-check"></i>' :
+                             '&#10003;';
+            form.appendChild(save);
+
+            // Handle save button clicks (capture)
+            this.on(save, 'click', this.handleSaveClick.bind(this), true);
+
+            // Add close button
+            close.setAttribute('href', '#');
+            close.className = 'medium-editor-toobar-close';
+            close.innerHTML = this.getEditorOption('buttonLabels') === 'fontawesome' ?
+                              '<i class="fa fa-times"></i>' :
+                              '&times;';
+            form.appendChild(close);
+
+            // Handle close button clicks
+            this.on(close, 'click', this.handleCloseClick.bind(this));
+
+            return form;
+        },
+
+        getSelect: function () {
+            return this.getForm().querySelector('select.medium-editor-toolbar-select');
+        },
+
+        clearFontName: function () {
+            MediumEditor.selection.getSelectedElements(this.document).forEach(function (el) {
+                if (el.nodeName.toLowerCase() === 'font' && el.hasAttribute('face')) {
+                    el.removeAttribute('face');
+                }
+            });
+        },
+
+        handleFontChange: function () {
+            var font = this.getSelect().value;
+            if (font === '') {
+                this.clearFontName();
+            } else {
+                this.execAction('fontName', { value: font });
+            }
+        },
+
+        handleFormClick: function (event) {
+            // make sure not to hide form when clicking inside the form
+            event.stopPropagation();
+        },
+
+        handleSaveClick: function (event) {
+            // Clicking Save -> create the font size
+            event.preventDefault();
+            this.doFormSave();
+        },
+
+        handleCloseClick: function (event) {
+            // Click Close -> close the form
+            event.preventDefault();
+            this.doFormCancel();
+        }
+    });
+
+    MediumEditor.extensions.fontName = FontNameForm;
+}());
+
+(function () {
+    'use strict';
+
+    var FontSizeForm = MediumEditor.extensions.form.extend({
+
+        name: 'fontsize',
+        action: 'fontSize',
+        aria: 'increase/decrease font size',
+        contentDefault: '&#xB1;', // ±
+        contentFA: '<i class="fa fa-text-height"></i>',
+
+        init: function () {
+            MediumEditor.extensions.form.prototype.init.apply(this, arguments);
+        },
+
+        // Called when the button the toolbar is clicked
+        // Overrides ButtonExtension.handleClick
+        handleClick: function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (!this.isDisplayed()) {
+                // Get fontsize of current selection (convert to string since IE returns this as number)
+                var fontSize = this.document.queryCommandValue('fontSize') + '';
+                this.showForm(fontSize);
+            }
+
+            return false;
+        },
+
+        // Called by medium-editor to append form to the toolbar
+        getForm: function () {
+            if (!this.form) {
+                this.form = this.createForm();
+            }
+            return this.form;
+        },
+
+        // Used by medium-editor when the default toolbar is to be displayed
+        isDisplayed: function () {
+            return this.getForm().style.display === 'block';
+        },
+
+        hideForm: function () {
+            this.getForm().style.display = 'none';
+            this.getInput().value = '';
+        },
+
+        showForm: function (fontSize) {
+            var input = this.getInput();
+
+            this.base.saveSelection();
+            this.hideToolbarDefaultActions();
+            this.getForm().style.display = 'block';
+            this.setToolbarPosition();
+
+            input.value = fontSize || '';
+            input.focus();
+        },
+
+        // Called by core when tearing down medium-editor (destroy)
+        destroy: function () {
+            if (!this.form) {
+                return false;
+            }
+
+            if (this.form.parentNode) {
+                this.form.parentNode.removeChild(this.form);
+            }
+
+            delete this.form;
+        },
+
+        // core methods
+
+        doFormSave: function () {
+            this.base.restoreSelection();
+            this.base.checkSelection();
+        },
+
+        doFormCancel: function () {
+            this.base.restoreSelection();
+            this.clearFontSize();
+            this.base.checkSelection();
+        },
+
+        // form creation and event handling
+        createForm: function () {
+            var doc = this.document,
+                form = doc.createElement('div'),
+                input = doc.createElement('input'),
+                close = doc.createElement('a'),
+                save = doc.createElement('a');
+
+            // Font Size Form (div)
+            form.className = 'medium-editor-toolbar-form';
+            form.id = 'medium-editor-toolbar-form-fontsize-' + this.getEditorId();
+
+            // Handle clicks on the form itself
+            this.on(form, 'click', this.handleFormClick.bind(this));
+
+            // Add font size slider
+            input.setAttribute('type', 'range');
+            input.setAttribute('min', '1');
+            input.setAttribute('max', '7');
+            input.className = 'medium-editor-toolbar-input';
+            form.appendChild(input);
+
+            // Handle typing in the textbox
+            this.on(input, 'change', this.handleSliderChange.bind(this));
+
+            // Add save buton
+            save.setAttribute('href', '#');
+            save.className = 'medium-editor-toobar-save';
+            save.innerHTML = this.getEditorOption('buttonLabels') === 'fontawesome' ?
+                             '<i class="fa fa-check"></i>' :
+                             '&#10003;';
+            form.appendChild(save);
+
+            // Handle save button clicks (capture)
+            this.on(save, 'click', this.handleSaveClick.bind(this), true);
+
+            // Add close button
+            close.setAttribute('href', '#');
+            close.className = 'medium-editor-toobar-close';
+            close.innerHTML = this.getEditorOption('buttonLabels') === 'fontawesome' ?
+                              '<i class="fa fa-times"></i>' :
+                              '&times;';
+            form.appendChild(close);
+
+            // Handle close button clicks
+            this.on(close, 'click', this.handleCloseClick.bind(this));
+
+            return form;
+        },
+
+        getInput: function () {
+            return this.getForm().querySelector('input.medium-editor-toolbar-input');
+        },
+
+        clearFontSize: function () {
+            MediumEditor.selection.getSelectedElements(this.document).forEach(function (el) {
+                if (el.nodeName.toLowerCase() === 'font' && el.hasAttribute('size')) {
+                    el.removeAttribute('size');
+                }
+            });
+        },
+
+        handleSliderChange: function () {
+            var size = this.getInput().value;
+            if (size === '4') {
+                this.clearFontSize();
+            } else {
+                this.execAction('fontSize', { value: size });
+            }
+        },
+
+        handleFormClick: function (event) {
+            // make sure not to hide form when clicking inside the form
+            event.stopPropagation();
+        },
+
+        handleSaveClick: function (event) {
+            // Clicking Save -> create the font size
+            event.preventDefault();
+            this.doFormSave();
+        },
+
+        handleCloseClick: function (event) {
+            // Click Close -> close the form
+            event.preventDefault();
+            this.doFormCancel();
+        }
+    });
+
+    MediumEditor.extensions.fontSize = FontSizeForm;
+}());
+(function () {
+    'use strict';
+
+    /* Helpers and internal variables that don't need to be members of actual paste handler */
+
+    var pasteBinDefaultContent = '%ME_PASTEBIN%',
+        lastRange = null,
+        keyboardPasteEditable = null,
+        stopProp = function (event) {
+            event.stopPropagation();
+        };
+
+    /*jslint regexp: true*/
+    /*
+        jslint does not allow character negation, because the negation
+        will not match any unicode characters. In the regexes in this
+        block, negation is used specifically to match the end of an html
+        tag, and in fact unicode characters *should* be allowed.
+    */
+    function createReplacements() {
+        return [
+            // Remove anything but the contents within the BODY element
+            [new RegExp(/^[\s\S]*<body[^>]*>\s*|\s*<\/body[^>]*>[\s\S]*$/g), ''],
+
+            // cleanup comments added by Chrome when pasting html
+            [new RegExp(/<!--StartFragment-->|<!--EndFragment-->/g), ''],
+
+            // Trailing BR elements
+            [new RegExp(/<br>$/i), ''],
+
+            // replace two bogus tags that begin pastes from google docs
+            [new RegExp(/<[^>]*docs-internal-guid[^>]*>/gi), ''],
+            [new RegExp(/<\/b>(<br[^>]*>)?$/gi), ''],
+
+             // un-html spaces and newlines inserted by OS X
+            [new RegExp(/<span class="Apple-converted-space">\s+<\/span>/g), ' '],
+            [new RegExp(/<br class="Apple-interchange-newline">/g), '<br>'],
+
+            // replace google docs italics+bold with a span to be replaced once the html is inserted
+            [new RegExp(/<span[^>]*(font-style:italic;font-weight:(bold|700)|font-weight:(bold|700);font-style:italic)[^>]*>/gi), '<span class="replace-with italic bold">'],
+
+            // replace google docs italics with a span to be replaced once the html is inserted
+            [new RegExp(/<span[^>]*font-style:italic[^>]*>/gi), '<span class="replace-with italic">'],
+
+            //[replace google docs bolds with a span to be replaced once the html is inserted
+            [new RegExp(/<span[^>]*font-weight:(bold|700)[^>]*>/gi), '<span class="replace-with bold">'],
+
+             // replace manually entered b/i/a tags with real ones
+            [new RegExp(/&lt;(\/?)(i|b|a)&gt;/gi), '<$1$2>'],
+
+             // replace manually a tags with real ones, converting smart-quotes from google docs
+            [new RegExp(/&lt;a(?:(?!href).)+href=(?:&quot;|&rdquo;|&ldquo;|"|“|”)(((?!&quot;|&rdquo;|&ldquo;|"|“|”).)*)(?:&quot;|&rdquo;|&ldquo;|"|“|”)(?:(?!&gt;).)*&gt;/gi), '<a href="$1">'],
+
+            // Newlines between paragraphs in html have no syntactic value,
+            // but then have a tendency to accidentally become additional paragraphs down the line
+            [new RegExp(/<\/p>\n+/gi), '</p>'],
+            [new RegExp(/\n+<p/gi), '<p'],
+
+            // Microsoft Word makes these odd tags, like <o:p></o:p>
+            [new RegExp(/<\/?o:[a-z]*>/gi), ''],
+
+            // Microsoft Word adds some special elements around list items
+            [new RegExp(/<!\[if !supportLists\]>(((?!<!).)*)<!\[endif]\>/gi), '$1']
+        ];
+    }
+    /*jslint regexp: false*/
+
+    /**
+     * Gets various content types out of the Clipboard API. It will also get the
+     * plain text using older IE and WebKit API.
+     *
+     * @param {event} event Event fired on paste.
+     * @param {win} reference to window
+     * @param {doc} reference to document
+     * @return {Object} Object with mime types and data for those mime types.
+     */
+    function getClipboardContent(event, win, doc) {
+        var dataTransfer = event.clipboardData || win.clipboardData || doc.dataTransfer,
+            data = {};
+
+        if (!dataTransfer) {
+            return data;
+        }
+
+        // Use old WebKit/IE API
+        if (dataTransfer.getData) {
+            var legacyText = dataTransfer.getData('Text');
+            if (legacyText && legacyText.length > 0) {
+                data['text/plain'] = legacyText;
+            }
+        }
+
+        if (dataTransfer.types) {
+            for (var i = 0; i < dataTransfer.types.length; i++) {
+                var contentType = dataTransfer.types[i];
+                data[contentType] = dataTransfer.getData(contentType);
+            }
+        }
+
+        return data;
+    }
+
+    var PasteHandler = MediumEditor.Extension.extend({
+        /* Paste Options */
+
+        /* forcePlainText: [boolean]
+         * Forces pasting as plain text.
+         */
+        forcePlainText: true,
+
+        /* cleanPastedHTML: [boolean]
+         * cleans pasted content from different sources, like google docs etc.
+         */
+        cleanPastedHTML: false,
+
+        /* preCleanReplacements: [Array]
+         * custom pairs (2 element arrays) of RegExp and replacement text to use during past when
+         * __forcePlainText__ or __cleanPastedHTML__ are `true` OR when calling `cleanPaste(text)` helper method.
+         * These replacements are executed before any medium editor defined replacements.
+         */
+        preCleanReplacements: [],
+
+        /* cleanReplacements: [Array]
+         * custom pairs (2 element arrays) of RegExp and replacement text to use during paste when
+         * __forcePlainText__ or __cleanPastedHTML__ are `true` OR when calling `cleanPaste(text)` helper method.
+         * These replacements are executed after any medium editor defined replacements.
+         */
+        cleanReplacements: [],
+
+        /* cleanAttrs:: [Array]
+         * list of element attributes to remove during paste when __cleanPastedHTML__ is `true` or when
+         * calling `cleanPaste(text)` or `pasteHTML(html, options)` helper methods.
+         */
+        cleanAttrs: ['class', 'style', 'dir'],
+
+        /* cleanTags: [Array]
+         * list of element tag names to remove during paste when __cleanPastedHTML__ is `true` or when
+         * calling `cleanPaste(text)` or `pasteHTML(html, options)` helper methods.
+         */
+        cleanTags: ['meta'],
+
+        /* unwrapTags: [Array]
+         * list of element tag names to unwrap (remove the element tag but retain its child elements)
+         * during paste when __cleanPastedHTML__ is `true` or when
+         * calling `cleanPaste(text)` or `pasteHTML(html, options)` helper methods.
+         */
+        unwrapTags: [],
+
+        init: function () {
+            MediumEditor.Extension.prototype.init.apply(this, arguments);
+
+            if (this.forcePlainText || this.cleanPastedHTML) {
+                this.subscribe('editableKeydown', this.handleKeydown.bind(this));
+                // We need access to the full event data in paste
+                // so we can't use the editablePaste event here
+                this.getEditorElements().forEach(function (element) {
+                    this.on(element, 'paste', this.handlePaste.bind(this));
+                }, this);
+                this.subscribe('addElement', this.handleAddElement.bind(this));
+            }
+        },
+
+        handleAddElement: function (event, editable) {
+            this.on(editable, 'paste', this.handlePaste.bind(this));
+        },
+
+        destroy: function () {
+            // Make sure pastebin is destroyed in case it's still around for some reason
+            if (this.forcePlainText || this.cleanPastedHTML) {
+                this.removePasteBin();
+            }
+        },
+
+        handlePaste: function (event, editable) {
+            if (event.defaultPrevented) {
+                return;
+            }
+
+            var clipboardContent = getClipboardContent(event, this.window, this.document),
+                pastedHTML = clipboardContent['text/html'],
+                pastedPlain = clipboardContent['text/plain'];
+
+            if (this.window.clipboardData && event.clipboardData === undefined && !pastedHTML) {
+                // If window.clipboardData exists, but event.clipboardData doesn't exist,
+                // we're probably in IE. IE only has two possibilities for clipboard
+                // data format: 'Text' and 'URL'.
+                //
+                // For IE, we'll fallback to 'Text' for text/html
+                pastedHTML = pastedPlain;
+            }
+
+            if (pastedHTML || pastedPlain) {
+                event.preventDefault();
+
+                this.doPaste(pastedHTML, pastedPlain, editable);
+            }
+        },
+
+        doPaste: function (pastedHTML, pastedPlain, editable) {
+            var paragraphs,
+                html = '',
+                p;
+
+            if (this.cleanPastedHTML && pastedHTML) {
+                return this.cleanPaste(pastedHTML);
+            }
+
+            if (!(this.getEditorOption('disableReturn') || (editable && editable.getAttribute('data-disable-return')))) {
+                paragraphs = pastedPlain.split(/[\r\n]+/g);
+                // If there are no \r\n in data, don't wrap in <p>
+                if (paragraphs.length > 1) {
+                    for (p = 0; p < paragraphs.length; p += 1) {
+                        if (paragraphs[p] !== '') {
+                            html += '<p>' + MediumEditor.util.htmlEntities(paragraphs[p]) + '</p>';
+                        }
+                    }
+                } else {
+                    html = MediumEditor.util.htmlEntities(paragraphs[0]);
+                }
+            } else {
+                html = MediumEditor.util.htmlEntities(pastedPlain);
+            }
+            MediumEditor.util.insertHTMLCommand(this.document, html);
+        },
+
+        handlePasteBinPaste: function (event) {
+            if (event.defaultPrevented) {
+                this.removePasteBin();
+                return;
+            }
+
+            var clipboardContent = getClipboardContent(event, this.window, this.document),
+                pastedHTML = clipboardContent['text/html'],
+                pastedPlain = clipboardContent['text/plain'],
+                editable = keyboardPasteEditable;
+
+            // If we have valid html already, or we're not in cleanPastedHTML mode
+            // we can ignore the paste bin and just paste now
+            if (!this.cleanPastedHTML || pastedHTML) {
+                event.preventDefault();
+                this.removePasteBin();
+                this.doPaste(pastedHTML, pastedPlain, editable);
+
+                // The event handling code listens for paste on the editable element
+                // in order to trigger the editablePaste event.  Since this paste event
+                // is happening on the pastebin, the event handling code never knows about it
+                // So, we have to trigger editablePaste manually
+                this.trigger('editablePaste', { currentTarget: editable, target: editable }, editable);
+                return;
+            }
+
+            // We need to look at the paste bin, so do a setTimeout to let the paste
+            // fall through into the paste bin
+            setTimeout(function () {
+                // Only look for HTML if we're in cleanPastedHTML mode
+                if (this.cleanPastedHTML) {
+                    // If clipboard didn't have HTML, try the paste bin
+                    pastedHTML = this.getPasteBinHtml();
+                }
+
+                // If we needed the paste bin, we're done with it now, remove it
+                this.removePasteBin();
+
+                // Handle the paste with the html from the paste bin
+                this.doPaste(pastedHTML, pastedPlain, editable);
+
+                // The event handling code listens for paste on the editable element
+                // in order to trigger the editablePaste event.  Since this paste event
+                // is happening on the pastebin, the event handling code never knows about it
+                // So, we have to trigger editablePaste manually
+                this.trigger('editablePaste', { currentTarget: editable, target: editable }, editable);
+            }.bind(this), 0);
+        },
+
+        handleKeydown: function (event, editable) {
+            // if it's not Ctrl+V, do nothing
+            if (!(MediumEditor.util.isKey(event, MediumEditor.util.keyCode.V) && MediumEditor.util.isMetaCtrlKey(event))) {
+                return;
+            }
+
+            event.stopImmediatePropagation();
+
+            this.removePasteBin();
+            this.createPasteBin(editable);
+        },
+
+        createPasteBin: function (editable) {
+            var rects,
+                range = MediumEditor.selection.getSelectionRange(this.document),
+                top = this.window.pageYOffset;
+
+            keyboardPasteEditable = editable;
+
+            if (range) {
+                rects = range.getClientRects();
+
+                // on empty line, rects is empty so we grab information from the first container of the range
+                if (rects.length) {
+                    top += rects[0].top;
+                } else {
+                    top += range.startContainer.getBoundingClientRect().top;
+                }
+            }
+
+            lastRange = range;
+
+            var pasteBinElm = this.document.createElement('div');
+            pasteBinElm.id = this.pasteBinId = 'medium-editor-pastebin-' + (+Date.now());
+            pasteBinElm.setAttribute('style', 'border: 1px red solid; position: absolute; top: ' + top + 'px; width: 10px; height: 10px; overflow: hidden; opacity: 0');
+            pasteBinElm.setAttribute('contentEditable', true);
+            pasteBinElm.innerHTML = pasteBinDefaultContent;
+
+            this.document.body.appendChild(pasteBinElm);
+
+            // avoid .focus() to stop other event (actually the paste event)
+            this.on(pasteBinElm, 'focus', stopProp);
+            this.on(pasteBinElm, 'focusin', stopProp);
+            this.on(pasteBinElm, 'focusout', stopProp);
+
+            pasteBinElm.focus();
+
+            MediumEditor.selection.selectNode(pasteBinElm, this.document);
+
+            if (!this.boundHandlePaste) {
+                this.boundHandlePaste = this.handlePasteBinPaste.bind(this);
+            }
+
+            this.on(pasteBinElm, 'paste', this.boundHandlePaste);
+        },
+
+        removePasteBin: function () {
+            if (null !== lastRange) {
+                MediumEditor.selection.selectRange(this.document, lastRange);
+                lastRange = null;
+            }
+
+            if (null !== keyboardPasteEditable) {
+                keyboardPasteEditable = null;
+            }
+
+            var pasteBinElm = this.getPasteBin();
+            if (!pasteBinElm) {
+                return;
+            }
+
+            if (pasteBinElm) {
+                this.off(pasteBinElm, 'focus', stopProp);
+                this.off(pasteBinElm, 'focusin', stopProp);
+                this.off(pasteBinElm, 'focusout', stopProp);
+                this.off(pasteBinElm, 'paste', this.boundHandlePaste);
+                pasteBinElm.parentElement.removeChild(pasteBinElm);
+            }
+        },
+
+        getPasteBin: function () {
+            return this.document.getElementById(this.pasteBinId);
+        },
+
+        getPasteBinHtml: function () {
+            var pasteBinElm = this.getPasteBin();
+
+            if (!pasteBinElm) {
+                return false;
+            }
+
+            // WebKit has a nice bug where it clones the paste bin if you paste from for example notepad
+            // so we need to force plain text mode in this case
+            if (pasteBinElm.firstChild && pasteBinElm.firstChild.id === 'mcepastebin') {
+                return false;
+            }
+
+            var pasteBinHtml = pasteBinElm.innerHTML;
+
+            // If paste bin is empty try using plain text mode
+            // since that is better than nothing right
+            if (!pasteBinHtml || pasteBinHtml === pasteBinDefaultContent) {
+                return false;
+            }
+
+            return pasteBinHtml;
+        },
+
+        cleanPaste: function (text) {
+            var i, elList, tmp, workEl,
+                multiline = /<p|<br|<div/.test(text),
+                replacements = [].concat(
+                    this.preCleanReplacements || [],
+                    createReplacements(),
+                    this.cleanReplacements || []);
+
+            for (i = 0; i < replacements.length; i += 1) {
+                text = text.replace(replacements[i][0], replacements[i][1]);
+            }
+
+            if (!multiline) {
+                return this.pasteHTML(text);
+            }
+
+            // create a temporary div to cleanup block elements
+            tmp = this.document.createElement('div');
+
+            // double br's aren't converted to p tags, but we want paragraphs.
+            tmp.innerHTML = '<p>' + text.split('<br><br>').join('</p><p>') + '</p>';
+
+            // block element cleanup
+            elList = tmp.querySelectorAll('a,p,div,br');
+            for (i = 0; i < elList.length; i += 1) {
+                workEl = elList[i];
+
+                // Microsoft Word replaces some spaces with newlines.
+                // While newlines between block elements are meaningless, newlines within
+                // elements are sometimes actually spaces.
+                workEl.innerHTML = workEl.innerHTML.replace(/\n/gi, ' ');
+
+                switch (workEl.nodeName.toLowerCase()) {
+                    case 'p':
+                    case 'div':
+                        this.filterCommonBlocks(workEl);
+                        break;
+                    case 'br':
+                        this.filterLineBreak(workEl);
+                        break;
+                }
+            }
+
+            this.pasteHTML(tmp.innerHTML);
+        },
+
+        pasteHTML: function (html, options) {
+            options = MediumEditor.util.defaults({}, options, {
+                cleanAttrs: this.cleanAttrs,
+                cleanTags: this.cleanTags,
+                unwrapTags: this.unwrapTags
+            });
+
+            var elList, workEl, i, fragmentBody, pasteBlock = this.document.createDocumentFragment();
+
+            pasteBlock.appendChild(this.document.createElement('body'));
+
+            fragmentBody = pasteBlock.querySelector('body');
+            fragmentBody.innerHTML = html;
+
+            this.cleanupSpans(fragmentBody);
+
+            elList = fragmentBody.querySelectorAll('*');
+            for (i = 0; i < elList.length; i += 1) {
+                workEl = elList[i];
+
+                if ('a' === workEl.nodeName.toLowerCase() && this.getEditorOption('targetBlank')) {
+                    MediumEditor.util.setTargetBlank(workEl);
+                }
+
+                MediumEditor.util.cleanupAttrs(workEl, options.cleanAttrs);
+                MediumEditor.util.cleanupTags(workEl, options.cleanTags);
+                MediumEditor.util.unwrapTags(workEl, options.unwrapTags);
+            }
+
+            MediumEditor.util.insertHTMLCommand(this.document, fragmentBody.innerHTML.replace(/&nbsp;/g, ' '));
+        },
+
+        // TODO (6.0): Make this an internal helper instead of member of paste handler
+        isCommonBlock: function (el) {
+            return (el && (el.nodeName.toLowerCase() === 'p' || el.nodeName.toLowerCase() === 'div'));
+        },
+
+        // TODO (6.0): Make this an internal helper instead of member of paste handler
+        filterCommonBlocks: function (el) {
+            if (/^\s*$/.test(el.textContent) && el.parentNode) {
+                el.parentNode.removeChild(el);
+            }
+        },
+
+        // TODO (6.0): Make this an internal helper instead of member of paste handler
+        filterLineBreak: function (el) {
+            if (this.isCommonBlock(el.previousElementSibling)) {
+                // remove stray br's following common block elements
+                this.removeWithParent(el);
+            } else if (this.isCommonBlock(el.parentNode) && (el.parentNode.firstChild === el || el.parentNode.lastChild === el)) {
+                // remove br's just inside open or close tags of a div/p
+                this.removeWithParent(el);
+            } else if (el.parentNode && el.parentNode.childElementCount === 1 && el.parentNode.textContent === '') {
+                // and br's that are the only child of elements other than div/p
+                this.removeWithParent(el);
+            }
+        },
+
+        // TODO (6.0): Make this an internal helper instead of member of paste handler
+        // remove an element, including its parent, if it is the only element within its parent
+        removeWithParent: function (el) {
+            if (el && el.parentNode) {
+                if (el.parentNode.parentNode && el.parentNode.childElementCount === 1) {
+                    el.parentNode.parentNode.removeChild(el.parentNode);
+                } else {
+                    el.parentNode.removeChild(el);
+                }
+            }
+        },
+
+        // TODO (6.0): Make this an internal helper instead of member of paste handler
+        cleanupSpans: function (containerEl) {
+            var i,
+                el,
+                newEl,
+                spans = containerEl.querySelectorAll('.replace-with'),
+                isCEF = function (el) {
+                    return (el && el.nodeName !== '#text' && el.getAttribute('contenteditable') === 'false');
+                };
+
+            for (i = 0; i < spans.length; i += 1) {
+                el = spans[i];
+                newEl = this.document.createElement(el.classList.contains('bold') ? 'b' : 'i');
+
+                if (el.classList.contains('bold') && el.classList.contains('italic')) {
+                    // add an i tag as well if this has both italics and bold
+                    newEl.innerHTML = '<i>' + el.innerHTML + '</i>';
+                } else {
+                    newEl.innerHTML = el.innerHTML;
+                }
+                el.parentNode.replaceChild(newEl, el);
+            }
+
+            spans = containerEl.querySelectorAll('span');
+            for (i = 0; i < spans.length; i += 1) {
+                el = spans[i];
+
+                // bail if span is in contenteditable = false
+                if (MediumEditor.util.traverseUp(el, isCEF)) {
+                    return false;
+                }
+
+                // remove empty spans, replace others with their contents
+                MediumEditor.util.unwrap(el, this.document);
+            }
+        }
+    });
+
+    MediumEditor.extensions.paste = PasteHandler;
+}());
+
+(function () {
+    'use strict';
+
+    var Placeholder = MediumEditor.Extension.extend({
+        name: 'placeholder',
+
+        /* Placeholder Options */
+
+        /* text: [string]
+         * Text to display in the placeholder
+         */
+        text: 'Type your text',
+
+        /* hideOnClick: [boolean]
+         * Should we hide the placeholder on click (true) or when user starts typing (false)
+         */
+        hideOnClick: true,
+
+        init: function () {
+            MediumEditor.Extension.prototype.init.apply(this, arguments);
+
+            this.initPlaceholders();
+            this.attachEventHandlers();
+        },
+
+        initPlaceholders: function () {
+            this.getEditorElements().forEach(this.initElement, this);
+        },
+
+        handleAddElement: function (event, editable) {
+            this.initElement(editable);
+        },
+
+        initElement: function (el) {
+            if (!el.getAttribute('data-placeholder')) {
+                el.setAttribute('data-placeholder', this.text);
+            }
+            this.updatePlaceholder(el);
+        },
+
+        destroy: function () {
+            this.getEditorElements().forEach(this.cleanupElement, this);
+        },
+
+        handleRemoveElement: function (event, editable) {
+            this.cleanupElement(editable);
+        },
+
+        cleanupElement: function (el) {
+            if (el.getAttribute('data-placeholder') === this.text) {
+                el.removeAttribute('data-placeholder');
+            }
+        },
+
+        showPlaceholder: function (el) {
+            if (el) {
+                // https://github.com/yabwe/medium-editor/issues/234
+                // In firefox, styling the placeholder with an absolutely positioned
+                // pseudo element causes the cursor to appear in a bad location
+                // when the element is completely empty, so apply a different class to
+                // style it with a relatively positioned pseudo element
+                if (MediumEditor.util.isFF && el.childNodes.length === 0) {
+                    el.classList.add('medium-editor-placeholder-relative');
+                    el.classList.remove('medium-editor-placeholder');
+                } else {
+                    el.classList.add('medium-editor-placeholder');
+                    el.classList.remove('medium-editor-placeholder-relative');
+                }
+            }
+        },
+
+        hidePlaceholder: function (el) {
+            if (el) {
+                el.classList.remove('medium-editor-placeholder');
+                el.classList.remove('medium-editor-placeholder-relative');
+            }
+        },
+
+        updatePlaceholder: function (el, dontShow) {
+            // If the element has content, hide the placeholder
+            if (el.querySelector('img, blockquote, ul, ol, table') || (el.textContent.replace(/^\s+|\s+$/g, '') !== '')) {
+                return this.hidePlaceholder(el);
+            }
+
+            if (!dontShow) {
+                this.showPlaceholder(el);
+            }
+        },
+
+        attachEventHandlers: function () {
+            if (this.hideOnClick) {
+                // For the 'hideOnClick' option, the placeholder should always be hidden on focus
+                this.subscribe('focus', this.handleFocus.bind(this));
+            }
+
+            // If the editor has content, it should always hide the placeholder
+            this.subscribe('editableInput', this.handleInput.bind(this));
+
+            // When the editor loses focus, check if the placeholder should be visible
+            this.subscribe('blur', this.handleBlur.bind(this));
+
+            // Need to know when elements are added/removed from the editor
+            this.subscribe('addElement', this.handleAddElement.bind(this));
+            this.subscribe('removeElement', this.handleRemoveElement.bind(this));
+        },
+
+        handleInput: function (event, element) {
+            // If the placeholder should be hidden on focus and the
+            // element has focus, don't show the placeholder
+            var dontShow = this.hideOnClick && (element === this.base.getFocusedElement());
+
+            // Editor's content has changed, check if the placeholder should be hidden
+            this.updatePlaceholder(element, dontShow);
+        },
+
+        handleFocus: function (event, element) {
+            // Editor has focus, hide the placeholder
+            this.hidePlaceholder(element);
+        },
+
+        handleBlur: function (event, element) {
+            // Editor has lost focus, check if the placeholder should be shown
+            this.updatePlaceholder(element);
+        }
+    });
+
+    MediumEditor.extensions.placeholder = Placeholder;
+}());
+
+(function () {
+    'use strict';
+
+    var Toolbar = MediumEditor.Extension.extend({
+        name: 'toolbar',
+
+        /* Toolbar Options */
+
+        /* align: ['left'|'center'|'right']
+         * When the __static__ option is true, this aligns the static toolbar
+         * relative to the medium-editor element.
+         */
+        align: 'center',
+
+        /* allowMultiParagraphSelection: [boolean]
+         * enables/disables whether the toolbar should be displayed when
+         * selecting multiple paragraphs/block elements
+         */
+        allowMultiParagraphSelection: true,
+
+        /* buttons: [Array]
+         * the names of the set of buttons to display on the toolbar.
+         */
+        buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote'],
+
+        /* diffLeft: [Number]
+         * value in pixels to be added to the X axis positioning of the toolbar.
+         */
+        diffLeft: 0,
+
+        /* diffTop: [Number]
+         * value in pixels to be added to the Y axis positioning of the toolbar.
+         */
+        diffTop: -10,
+
+        /* firstButtonClass: [string]
+         * CSS class added to the first button in the toolbar.
+         */
+        firstButtonClass: 'medium-editor-button-first',
+
+        /* lastButtonClass: [string]
+         * CSS class added to the last button in the toolbar.
+         */
+        lastButtonClass: 'medium-editor-button-last',
+
+        /* standardizeSelectionStart: [boolean]
+         * enables/disables standardizing how the beginning of a range is decided
+         * between browsers whenever the selected text is analyzed for updating toolbar buttons status.
+         */
+        standardizeSelectionStart: false,
+
+        /* static: [boolean]
+         * enable/disable the toolbar always displaying in the same location
+         * relative to the medium-editor element.
+         */
+        static: false,
+
+        /* sticky: [boolean]
+         * When the __static__ option is true, this enables/disables the toolbar
+         * "sticking" to the viewport and staying visible on the screen while
+         * the page scrolls.
+         */
+        sticky: false,
+
+        /* stickyTopOffset: [Number]
+         * Value in pixel of the top offset above the toolbar
+         */
+        stickyTopOffset: 0,
+
+        /* updateOnEmptySelection: [boolean]
+         * When the __static__ option is true, this enables/disables updating
+         * the state of the toolbar buttons even when the selection is collapsed
+         * (there is no selection, just a cursor).
+         */
+        updateOnEmptySelection: false,
+
+        /* relativeContainer: [node]
+         * appending the toolbar to a given node instead of body
+         */
+        relativeContainer: null,
+
+        init: function () {
+            MediumEditor.Extension.prototype.init.apply(this, arguments);
+
+            this.initThrottledMethods();
+
+            if (!this.relativeContainer) {
+                this.getEditorOption('elementsContainer').appendChild(this.getToolbarElement());
+            } else {
+                this.relativeContainer.appendChild(this.getToolbarElement());
+            }
+        },
+
+        // Helper method to execute method for every extension, but ignoring the toolbar extension
+        forEachExtension: function (iterator, context) {
+            return this.base.extensions.forEach(function (command) {
+                if (command === this) {
+                    return;
+                }
+                return iterator.apply(context || this, arguments);
+            }, this);
+        },
+
+        // Toolbar creation/deletion
+
+        createToolbar: function () {
+            var toolbar = this.document.createElement('div');
+
+            toolbar.id = 'medium-editor-toolbar-' + this.getEditorId();
+            toolbar.className = 'medium-editor-toolbar';
+
+            if (this.static) {
+                toolbar.className += ' static-toolbar';
+            } else if (this.relativeContainer) {
+                toolbar.className += ' medium-editor-relative-toolbar';
+            } else {
+                toolbar.className += ' medium-editor-stalker-toolbar';
+            }
+
+            toolbar.appendChild(this.createToolbarButtons());
+
+            // Add any forms that extensions may have
+            this.forEachExtension(function (extension) {
+                if (extension.hasForm) {
+                    toolbar.appendChild(extension.getForm());
+                }
+            });
+
+            this.attachEventHandlers();
+
+            return toolbar;
+        },
+
+        createToolbarButtons: function () {
+            var ul = this.document.createElement('ul'),
+                li,
+                btn,
+                buttons,
+                extension,
+                buttonName,
+                buttonOpts;
+
+            ul.id = 'medium-editor-toolbar-actions' + this.getEditorId();
+            ul.className = 'medium-editor-toolbar-actions';
+            ul.style.display = 'block';
+
+            this.buttons.forEach(function (button) {
+                if (typeof button === 'string') {
+                    buttonName = button;
+                    buttonOpts = null;
+                } else {
+                    buttonName = button.name;
+                    buttonOpts = button;
+                }
+
+                // If the button already exists as an extension, it'll be returned
+                // othwerise it'll create the default built-in button
+                extension = this.base.addBuiltInExtension(buttonName, buttonOpts);
+
+                if (extension && typeof extension.getButton === 'function') {
+                    btn = extension.getButton(this.base);
+                    li = this.document.createElement('li');
+                    if (MediumEditor.util.isElement(btn)) {
+                        li.appendChild(btn);
+                    } else {
+                        li.innerHTML = btn;
+                    }
+                    ul.appendChild(li);
+                }
+            }, this);
+
+            buttons = ul.querySelectorAll('button');
+            if (buttons.length > 0) {
+                buttons[0].classList.add(this.firstButtonClass);
+                buttons[buttons.length - 1].classList.add(this.lastButtonClass);
+            }
+
+            return ul;
+        },
+
+        destroy: function () {
+            if (this.toolbar) {
+                if (this.toolbar.parentNode) {
+                    this.toolbar.parentNode.removeChild(this.toolbar);
+                }
+                delete this.toolbar;
+            }
+        },
+
+        // Toolbar accessors
+
+        getInteractionElements: function () {
+            return this.getToolbarElement();
+        },
+
+        getToolbarElement: function () {
+            if (!this.toolbar) {
+                this.toolbar = this.createToolbar();
+            }
+
+            return this.toolbar;
+        },
+
+        getToolbarActionsElement: function () {
+            return this.getToolbarElement().querySelector('.medium-editor-toolbar-actions');
+        },
+
+        // Toolbar event handlers
+
+        initThrottledMethods: function () {
+            // throttledPositionToolbar is throttled because:
+            // - It will be called when the browser is resizing, which can fire many times very quickly
+            // - For some event (like resize) a slight lag in UI responsiveness is OK and provides performance benefits
+            this.throttledPositionToolbar = MediumEditor.util.throttle(function () {
+                if (this.base.isActive) {
+                    this.positionToolbarIfShown();
+                }
+            }.bind(this));
+        },
+
+        attachEventHandlers: function () {
+            // MediumEditor custom events for when user beings and ends interaction with a contenteditable and its elements
+            this.subscribe('blur', this.handleBlur.bind(this));
+            this.subscribe('focus', this.handleFocus.bind(this));
+
+            // Updating the state of the toolbar as things change
+            this.subscribe('editableClick', this.handleEditableClick.bind(this));
+            this.subscribe('editableKeyup', this.handleEditableKeyup.bind(this));
+
+            // Handle mouseup on document for updating the selection in the toolbar
+            this.on(this.document.documentElement, 'mouseup', this.handleDocumentMouseup.bind(this));
+
+            // Add a scroll event for sticky toolbar
+            if (this.static && this.sticky) {
+                // On scroll (capture), re-position the toolbar
+                this.on(this.window, 'scroll', this.handleWindowScroll.bind(this), true);
+            }
+
+            // On resize, re-position the toolbar
+            this.on(this.window, 'resize', this.handleWindowResize.bind(this));
+        },
+
+        handleWindowScroll: function () {
+            this.positionToolbarIfShown();
+        },
+
+        handleWindowResize: function () {
+            this.throttledPositionToolbar();
+        },
+
+        handleDocumentMouseup: function (event) {
+            // Do not trigger checkState when mouseup fires over the toolbar
+            if (event &&
+                    event.target &&
+                    MediumEditor.util.isDescendant(this.getToolbarElement(), event.target)) {
+                return false;
+            }
+            this.checkState();
+        },
+
+        handleEditableClick: function () {
+            // Delay the call to checkState to handle bug where selection is empty
+            // immediately after clicking inside a pre-existing selection
+            setTimeout(function () {
+                this.checkState();
+            }.bind(this), 0);
+        },
+
+        handleEditableKeyup: function () {
+            this.checkState();
+        },
+
+        handleBlur: function () {
+            // Kill any previously delayed calls to hide the toolbar
+            clearTimeout(this.hideTimeout);
+
+            // Blur may fire even if we have a selection, so we want to prevent any delayed showToolbar
+            // calls from happening in this specific case
+            clearTimeout(this.delayShowTimeout);
+
+            // Delay the call to hideToolbar to handle bug with multiple editors on the page at once
+            this.hideTimeout = setTimeout(function () {
+                this.hideToolbar();
+            }.bind(this), 1);
+        },
+
+        handleFocus: function () {
+            this.checkState();
+        },
+
+        // Hiding/showing toolbar
+
+        isDisplayed: function () {
+            return this.getToolbarElement().classList.contains('medium-editor-toolbar-active');
+        },
+
+        showToolbar: function () {
+            clearTimeout(this.hideTimeout);
+            if (!this.isDisplayed()) {
+                this.getToolbarElement().classList.add('medium-editor-toolbar-active');
+                this.trigger('showToolbar', {}, this.base.getFocusedElement());
+            }
+        },
+
+        hideToolbar: function () {
+            if (this.isDisplayed()) {
+                this.getToolbarElement().classList.remove('medium-editor-toolbar-active');
+                this.trigger('hideToolbar', {}, this.base.getFocusedElement());
+            }
+        },
+
+        isToolbarDefaultActionsDisplayed: function () {
+            return this.getToolbarActionsElement().style.display === 'block';
+        },
+
+        hideToolbarDefaultActions: function () {
+            if (this.isToolbarDefaultActionsDisplayed()) {
+                this.getToolbarActionsElement().style.display = 'none';
+            }
+        },
+
+        showToolbarDefaultActions: function () {
+            this.hideExtensionForms();
+
+            if (!this.isToolbarDefaultActionsDisplayed()) {
+                this.getToolbarActionsElement().style.display = 'block';
+            }
+
+            // Using setTimeout + options.delay because:
+            // We will actually be displaying the toolbar, which should be controlled by options.delay
+            this.delayShowTimeout = this.base.delay(function () {
+                this.showToolbar();
+            }.bind(this));
+        },
+
+        hideExtensionForms: function () {
+            // Hide all extension forms
+            this.forEachExtension(function (extension) {
+                if (extension.hasForm && extension.isDisplayed()) {
+                    extension.hideForm();
+                }
+            });
+        },
+
+        // Responding to changes in user selection
+
+        // Checks for existance of multiple block elements in the current selection
+        multipleBlockElementsSelected: function () {
+            var regexEmptyHTMLTags = /<[^\/>][^>]*><\/[^>]+>/gim, // http://stackoverflow.com/questions/3129738/remove-empty-tags-using-regex
+                regexBlockElements = new RegExp('<(' + MediumEditor.util.blockContainerElementNames.join('|') + ')[^>]*>', 'g'),
+                selectionHTML = MediumEditor.selection.getSelectionHtml(this.document).replace(regexEmptyHTMLTags, ''), // Filter out empty blocks from selection
+                hasMultiParagraphs = selectionHTML.match(regexBlockElements); // Find how many block elements are within the html
+
+            return !!hasMultiParagraphs && hasMultiParagraphs.length > 1;
+        },
+
+        modifySelection: function () {
+            var selection = this.window.getSelection(),
+                selectionRange = selection.getRangeAt(0);
+
+            /*
+            * In firefox, there are cases (ie doubleclick of a word) where the selectionRange start
+            * will be at the very end of an element.  In other browsers, the selectionRange start
+            * would instead be at the very beginning of an element that actually has content.
+            * example:
+            *   <span>foo</span><span>bar</span>
+            *
+            * If the text 'bar' is selected, most browsers will have the selectionRange start at the beginning
+            * of the 'bar' span.  However, there are cases where firefox will have the selectionRange start
+            * at the end of the 'foo' span.  The contenteditable behavior will be ok, but if there are any
+            * properties on the 'bar' span, they won't be reflected accurately in the toolbar
+            * (ie 'Bold' button wouldn't be active)
+            *
+            * So, for cases where the selectionRange start is at the end of an element/node, find the next
+            * adjacent text node that actually has content in it, and move the selectionRange start there.
+            */
+            if (this.standardizeSelectionStart &&
+                    selectionRange.startContainer.nodeValue &&
+                    (selectionRange.startOffset === selectionRange.startContainer.nodeValue.length)) {
+                var adjacentNode = MediumEditor.util.findAdjacentTextNodeWithContent(MediumEditor.selection.getSelectionElement(this.window), selectionRange.startContainer, this.document);
+                if (adjacentNode) {
+                    var offset = 0;
+                    while (adjacentNode.nodeValue.substr(offset, 1).trim().length === 0) {
+                        offset = offset + 1;
+                    }
+                    selectionRange = MediumEditor.selection.select(this.document, adjacentNode, offset,
+                        selectionRange.endContainer, selectionRange.endOffset);
+                }
+            }
+        },
+
+        checkState: function () {
+            if (this.base.preventSelectionUpdates) {
+                return;
+            }
+
+            // If no editable has focus OR selection is inside contenteditable = false
+            // hide toolbar
+            if (!this.base.getFocusedElement() ||
+                    MediumEditor.selection.selectionInContentEditableFalse(this.window)) {
+                return this.hideToolbar();
+            }
+
+            // If there's no selection element, selection element doesn't belong to this editor
+            // or toolbar is disabled for this selection element
+            // hide toolbar
+            var selectionElement = MediumEditor.selection.getSelectionElement(this.window);
+            if (!selectionElement ||
+                    this.getEditorElements().indexOf(selectionElement) === -1 ||
+                    selectionElement.getAttribute('data-disable-toolbar')) {
+                return this.hideToolbar();
+            }
+
+            // Now we know there's a focused editable with a selection
+
+            // If the updateOnEmptySelection option is true, show the toolbar
+            if (this.updateOnEmptySelection && this.static) {
+                return this.showAndUpdateToolbar();
+            }
+
+            // If we don't have a 'valid' selection -> hide toolbar
+            if (!MediumEditor.selection.selectionContainsContent(this.document) ||
+                (this.allowMultiParagraphSelection === false && this.multipleBlockElementsSelected())) {
+                return this.hideToolbar();
+            }
+
+            this.showAndUpdateToolbar();
+        },
+
+        // Updating the toolbar
+
+        showAndUpdateToolbar: function () {
+            this.modifySelection();
+            this.setToolbarButtonStates();
+            this.trigger('positionToolbar', {}, this.base.getFocusedElement());
+            this.showToolbarDefaultActions();
+            this.setToolbarPosition();
+        },
+
+        setToolbarButtonStates: function () {
+            this.forEachExtension(function (extension) {
+                if (typeof extension.isActive === 'function' &&
+                    typeof extension.setInactive === 'function') {
+                    extension.setInactive();
+                }
+            });
+
+            this.checkActiveButtons();
+        },
+
+        checkActiveButtons: function () {
+            var manualStateChecks = [],
+                queryState = null,
+                selectionRange = MediumEditor.selection.getSelectionRange(this.document),
+                parentNode,
+                updateExtensionState = function (extension) {
+                    if (typeof extension.checkState === 'function') {
+                        extension.checkState(parentNode);
+                    } else if (typeof extension.isActive === 'function' &&
+                               typeof extension.isAlreadyApplied === 'function' &&
+                               typeof extension.setActive === 'function') {
+                        if (!extension.isActive() && extension.isAlreadyApplied(parentNode)) {
+                            extension.setActive();
+                        }
+                    }
+                };
+
+            if (!selectionRange) {
+                return;
+            }
+
+            // Loop through all extensions
+            this.forEachExtension(function (extension) {
+                // For those extensions where we can use document.queryCommandState(), do so
+                if (typeof extension.queryCommandState === 'function') {
+                    queryState = extension.queryCommandState();
+                    // If queryCommandState returns a valid value, we can trust the browser
+                    // and don't need to do our manual checks
+                    if (queryState !== null) {
+                        if (queryState && typeof extension.setActive === 'function') {
+                            extension.setActive();
+                        }
+                        return;
+                    }
+                }
+                // We can't use queryCommandState for this extension, so add to manualStateChecks
+                manualStateChecks.push(extension);
+            });
+
+            parentNode = MediumEditor.selection.getSelectedParentElement(selectionRange);
+
+            // Make sure the selection parent isn't outside of the contenteditable
+            if (!this.getEditorElements().some(function (element) {
+                    return MediumEditor.util.isDescendant(element, parentNode, true);
+                })) {
+                return;
+            }
+
+            // Climb up the DOM and do manual checks for whether a certain extension is currently enabled for this node
+            while (parentNode) {
+                manualStateChecks.forEach(updateExtensionState);
+
+                // we can abort the search upwards if we leave the contentEditable element
+                if (MediumEditor.util.isMediumEditorElement(parentNode)) {
+                    break;
+                }
+                parentNode = parentNode.parentNode;
+            }
+        },
+
+        // Positioning toolbar
+
+        positionToolbarIfShown: function () {
+            if (this.isDisplayed()) {
+                this.setToolbarPosition();
+            }
+        },
+
+        setToolbarPosition: function () {
+            var container = this.base.getFocusedElement(),
+                selection = this.window.getSelection();
+
+            // If there isn't a valid selection, bail
+            if (!container) {
+                return this;
+            }
+
+            if (this.static || !selection.isCollapsed) {
+                this.showToolbar();
+
+                // we don't need any absolute positioning if relativeContainer is set
+                if (!this.relativeContainer) {
+                    if (this.static) {
+                        this.positionStaticToolbar(container);
+                    } else {
+                        this.positionToolbar(selection);
+                    }
+                }
+
+                this.trigger('positionedToolbar', {}, this.base.getFocusedElement());
+            }
+        },
+
+        positionStaticToolbar: function (container) {
+            // position the toolbar at left 0, so we can get the real width of the toolbar
+            this.getToolbarElement().style.left = '0';
+
+            // document.documentElement for IE 9
+            var scrollTop = (this.document.documentElement && this.document.documentElement.scrollTop) || this.document.body.scrollTop,
+                windowWidth = this.window.innerWidth,
+                toolbarElement = this.getToolbarElement(),
+                containerRect = container.getBoundingClientRect(),
+                containerTop = containerRect.top + scrollTop,
+                containerCenter = (containerRect.left + (containerRect.width / 2)),
+                toolbarHeight = toolbarElement.offsetHeight,
+                toolbarWidth = toolbarElement.offsetWidth,
+                halfOffsetWidth = toolbarWidth / 2,
+                targetLeft;
+
+            if (this.sticky) {
+                // If it's beyond the height of the editor, position it at the bottom of the editor
+                if (scrollTop > (containerTop + container.offsetHeight - toolbarHeight - this.stickyTopOffset)) {
+                    toolbarElement.style.top = (containerTop + container.offsetHeight - toolbarHeight) + 'px';
+                    toolbarElement.classList.remove('medium-editor-sticky-toolbar');
+                // Stick the toolbar to the top of the window
+                } else if (scrollTop > (containerTop - toolbarHeight - this.stickyTopOffset)) {
+                    toolbarElement.classList.add('medium-editor-sticky-toolbar');
+                    toolbarElement.style.top = this.stickyTopOffset + 'px';
+                // Normal static toolbar position
+                } else {
+                    toolbarElement.classList.remove('medium-editor-sticky-toolbar');
+                    toolbarElement.style.top = containerTop - toolbarHeight + 'px';
+                }
+            } else {
+                toolbarElement.style.top = containerTop - toolbarHeight + 'px';
+            }
+
+            switch (this.align) {
+                case 'left':
+                    targetLeft = containerRect.left;
+                    break;
+
+                case 'right':
+                    targetLeft = containerRect.right - toolbarWidth;
+                    break;
+
+                case 'center':
+                    targetLeft = containerCenter - halfOffsetWidth;
+                    break;
+            }
+
+            if (targetLeft < 0) {
+                targetLeft = 0;
+            } else if ((targetLeft + toolbarWidth) > windowWidth) {
+                targetLeft = (windowWidth - Math.ceil(toolbarWidth) - 1);
+            }
+
+            toolbarElement.style.left = targetLeft + 'px';
+        },
+
+        positionToolbar: function (selection) {
+            // position the toolbar at left 0, so we can get the real width of the toolbar
+            this.getToolbarElement().style.left = '0';
+            this.getToolbarElement().style.right = 'initial';
+
+            var range = selection.getRangeAt(0),
+                boundary = range.getBoundingClientRect();
+
+            // Handle selections with just images
+            if (!boundary || ((boundary.height === 0 && boundary.width === 0) && range.startContainer === range.endContainer)) {
+                // If there's a nested image, use that for the bounding rectangle
+                if (range.startContainer.nodeType === 1 && range.startContainer.querySelector('img')) {
+                    boundary = range.startContainer.querySelector('img').getBoundingClientRect();
+                } else {
+                    boundary = range.startContainer.getBoundingClientRect();
+                }
+            }
+
+            var containerWidth = this.window.innerWidth,
+                toolbarElement = this.getToolbarElement(),
+                toolbarHeight = toolbarElement.offsetHeight,
+                toolbarWidth = toolbarElement.offsetWidth,
+                halfOffsetWidth = toolbarWidth / 2,
+                buttonHeight = 50,
+                defaultLeft = this.diffLeft - halfOffsetWidth,
+                elementsContainer = this.getEditorOption('elementsContainer'),
+                elementsContainerAbsolute = ['absolute', 'fixed'].indexOf(window.getComputedStyle(elementsContainer).getPropertyValue('position')) > -1,
+                positions = {},
+                relativeBoundary = {},
+                middleBoundary, elementsContainerBoundary;
+
+            // If container element is absolute / fixed, recalculate boundaries to be relative to the container
+            if (elementsContainerAbsolute) {
+                elementsContainerBoundary = elementsContainer.getBoundingClientRect();
+                ['top', 'left'].forEach(function (key) {
+                    relativeBoundary[key] = boundary[key] - elementsContainerBoundary[key];
+                });
+
+                relativeBoundary.width = boundary.width;
+                relativeBoundary.height = boundary.height;
+                boundary = relativeBoundary;
+
+                containerWidth = elementsContainerBoundary.width;
+
+                // Adjust top position according to container scroll position
+                positions.top = elementsContainer.scrollTop;
+            } else {
+                // Adjust top position according to window scroll position
+                positions.top = this.window.pageYOffset;
+            }
+
+            middleBoundary = boundary.left + boundary.width / 2;
+            positions.top += boundary.top - toolbarHeight;
+
+            if (boundary.top < buttonHeight) {
+                toolbarElement.classList.add('medium-toolbar-arrow-over');
+                toolbarElement.classList.remove('medium-toolbar-arrow-under');
+                positions.top += buttonHeight + boundary.height - this.diffTop;
+            } else {
+                toolbarElement.classList.add('medium-toolbar-arrow-under');
+                toolbarElement.classList.remove('medium-toolbar-arrow-over');
+                positions.top += this.diffTop;
+            }
+
+            if (middleBoundary < halfOffsetWidth) {
+                positions.left = defaultLeft + halfOffsetWidth;
+                positions.right = 'initial';
+            } else if ((containerWidth - middleBoundary) < halfOffsetWidth) {
+                positions.left = 'auto';
+                positions.right = 0;
+            } else {
+                positions.left = defaultLeft + middleBoundary;
+                positions.right = 'initial';
+            }
+
+            ['top', 'left', 'right'].forEach(function (key) {
+                toolbarElement.style[key] = positions[key] + (isNaN(positions[key]) ? '' : 'px');
+            });
+        }
+    });
+
+    MediumEditor.extensions.toolbar = Toolbar;
+}());
+
+(function () {
+    'use strict';
+
+    var ImageDragging = MediumEditor.Extension.extend({
+        init: function () {
+            MediumEditor.Extension.prototype.init.apply(this, arguments);
+
+            this.subscribe('editableDrag', this.handleDrag.bind(this));
+            this.subscribe('editableDrop', this.handleDrop.bind(this));
+        },
+
+        handleDrag: function (event) {
+            var className = 'medium-editor-dragover';
+            event.preventDefault();
+            event.dataTransfer.dropEffect = 'copy';
+
+            if (event.type === 'dragover') {
+                event.target.classList.add(className);
+            } else if (event.type === 'dragleave') {
+                event.target.classList.remove(className);
+            }
+        },
+
+        handleDrop: function (event) {
+            var className = 'medium-editor-dragover',
+                files;
+            event.preventDefault();
+            event.stopPropagation();
+
+            // IE9 does not support the File API, so prevent file from opening in a new window
+            // but also don't try to actually get the file
+            if (event.dataTransfer.files) {
+                files = Array.prototype.slice.call(event.dataTransfer.files, 0);
+                files.some(function (file) {
+                    if (file.type.match('image')) {
+                        var fileReader, id;
+                        fileReader = new FileReader();
+                        fileReader.readAsDataURL(file);
+
+                        id = 'medium-img-' + (+new Date());
+                        MediumEditor.util.insertHTMLCommand(this.document, '<img class="medium-editor-image-loading" id="' + id + '" />');
+
+                        fileReader.onload = function () {
+                            var img = this.document.getElementById(id);
+                            if (img) {
+                                img.removeAttribute('id');
+                                img.removeAttribute('class');
+                                img.src = fileReader.result;
+                            }
+                        }.bind(this);
+                    }
+                }.bind(this));
+            }
+            event.target.classList.remove(className);
+        }
+    });
+
+    MediumEditor.extensions.imageDragging = ImageDragging;
+}());
+
+(function () {
+    'use strict';
+
+    // Event handlers that shouldn't be exposed externally
+
+    function handleDisableExtraSpaces(event) {
+        var node = MediumEditor.selection.getSelectionStart(this.options.ownerDocument),
+            textContent = node.textContent,
+            caretPositions = MediumEditor.selection.getCaretOffsets(node);
+
+        if ((textContent[caretPositions.left - 1] === undefined) || (textContent[caretPositions.left - 1].trim() === '') || (textContent[caretPositions.left] !== undefined && textContent[caretPositions.left].trim() === '')) {
+            event.preventDefault();
+        }
+    }
+
+    function handleDisabledEnterKeydown(event, element) {
+        if (this.options.disableReturn || element.getAttribute('data-disable-return')) {
+            event.preventDefault();
+        } else if (this.options.disableDoubleReturn || element.getAttribute('data-disable-double-return')) {
+            var node = MediumEditor.selection.getSelectionStart(this.options.ownerDocument);
+
+            // if current text selection is empty OR previous sibling text is empty OR it is not a list
+            if ((node && node.textContent.trim() === '' && node.nodeName.toLowerCase() !== 'li') ||
+                (node.previousElementSibling && node.previousElementSibling.nodeName.toLowerCase() !== 'br' &&
+                 node.previousElementSibling.textContent.trim() === '')) {
+                event.preventDefault();
+            }
+        }
+    }
+
+    function handleTabKeydown(event) {
+        // Override tab only for pre nodes
+        var node = MediumEditor.selection.getSelectionStart(this.options.ownerDocument),
+            tag = node && node.nodeName.toLowerCase();
+
+        if (tag === 'pre') {
+            event.preventDefault();
+            MediumEditor.util.insertHTMLCommand(this.options.ownerDocument, '    ');
+        }
+
+        // Tab to indent list structures!
+        if (MediumEditor.util.isListItem(node)) {
+            event.preventDefault();
+
+            // If Shift is down, outdent, otherwise indent
+            if (event.shiftKey) {
+                this.options.ownerDocument.execCommand('outdent', false, null);
+            } else {
+                this.options.ownerDocument.execCommand('indent', false, null);
+            }
+        }
+    }
+
+    function handleBlockDeleteKeydowns(event) {
+        var p, node = MediumEditor.selection.getSelectionStart(this.options.ownerDocument),
+            tagName = node.nodeName.toLowerCase(),
+            isEmpty = /^(\s+|<br\/?>)?$/i,
+            isHeader = /h\d/i;
+
+        if (MediumEditor.util.isKey(event, [MediumEditor.util.keyCode.BACKSPACE, MediumEditor.util.keyCode.ENTER]) &&
+                // has a preceeding sibling
+                node.previousElementSibling &&
+                // in a header
+                isHeader.test(tagName) &&
+                // at the very end of the block
+                MediumEditor.selection.getCaretOffsets(node).left === 0) {
+            if (MediumEditor.util.isKey(event, MediumEditor.util.keyCode.BACKSPACE) && isEmpty.test(node.previousElementSibling.innerHTML)) {
+                // backspacing the begining of a header into an empty previous element will
+                // change the tagName of the current node to prevent one
+                // instead delete previous node and cancel the event.
+                node.previousElementSibling.parentNode.removeChild(node.previousElementSibling);
+                event.preventDefault();
+            } else if (!this.options.disableDoubleReturn && MediumEditor.util.isKey(event, MediumEditor.util.keyCode.ENTER)) {
+                // hitting return in the begining of a header will create empty header elements before the current one
+                // instead, make "<p><br></p>" element, which are what happens if you hit return in an empty paragraph
+                p = this.options.ownerDocument.createElement('p');
+                p.innerHTML = '<br>';
+                node.previousElementSibling.parentNode.insertBefore(p, node);
+                event.preventDefault();
+            }
+        } else if (MediumEditor.util.isKey(event, MediumEditor.util.keyCode.DELETE) &&
+                    // between two sibling elements
+                    node.nextElementSibling &&
+                    node.previousElementSibling &&
+                    // not in a header
+                    !isHeader.test(tagName) &&
+                    // in an empty tag
+                    isEmpty.test(node.innerHTML) &&
+                    // when the next tag *is* a header
+                    isHeader.test(node.nextElementSibling.nodeName.toLowerCase())) {
+            // hitting delete in an empty element preceding a header, ex:
+            //  <p>[CURSOR]</p><h1>Header</h1>
+            // Will cause the h1 to become a paragraph.
+            // Instead, delete the paragraph node and move the cursor to the begining of the h1
+
+            // remove node and move cursor to start of header
+            MediumEditor.selection.moveCursor(this.options.ownerDocument, node.nextElementSibling);
+
+            node.previousElementSibling.parentNode.removeChild(node);
+
+            event.preventDefault();
+        } else if (MediumEditor.util.isKey(event, MediumEditor.util.keyCode.BACKSPACE) &&
+                tagName === 'li' &&
+                // hitting backspace inside an empty li
+                isEmpty.test(node.innerHTML) &&
+                // is first element (no preceeding siblings)
+                !node.previousElementSibling &&
+                // parent also does not have a sibling
+                !node.parentElement.previousElementSibling &&
+                // is not the only li in a list
+                node.nextElementSibling &&
+                node.nextElementSibling.nodeName.toLowerCase() === 'li') {
+            // backspacing in an empty first list element in the first list (with more elements) ex:
+            //  <ul><li>[CURSOR]</li><li>List Item 2</li></ul>
+            // will remove the first <li> but add some extra element before (varies based on browser)
+            // Instead, this will:
+            // 1) remove the list element
+            // 2) create a paragraph before the list
+            // 3) move the cursor into the paragraph
+
+            // create a paragraph before the list
+            p = this.options.ownerDocument.createElement('p');
+            p.innerHTML = '<br>';
+            node.parentElement.parentElement.insertBefore(p, node.parentElement);
+
+            // move the cursor into the new paragraph
+            MediumEditor.selection.moveCursor(this.options.ownerDocument, p);
+
+            // remove the list element
+            node.parentElement.removeChild(node);
+
+            event.preventDefault();
+        } else if (MediumEditor.util.isKey(event, MediumEditor.util.keyCode.BACKSPACE) &&
+                (MediumEditor.util.getClosestTag(node, 'blockquote') !== false) &&
+                MediumEditor.selection.getCaretOffsets(node).left === 0) {
+
+            // when cursor is at the begining of the element and the element is <blockquote>
+            // then pressing backspace key should change the <blockquote> to a <p> tag
+            event.preventDefault();
+            MediumEditor.util.execFormatBlock(this.options.ownerDocument, 'p');
+        } else if (MediumEditor.util.isKey(event, MediumEditor.util.keyCode.ENTER) &&
+                (MediumEditor.util.getClosestTag(node, 'blockquote') !== false) &&
+                MediumEditor.selection.getCaretOffsets(node).right === 0) {
+
+            // when cursor is at the end of <blockquote>,
+            // then pressing enter key should create <p> tag, not <blockquote>
+            p = this.options.ownerDocument.createElement('p');
+            p.innerHTML = '<br>';
+            node.parentElement.insertBefore(p, node.nextSibling);
+
+            // move the cursor into the new paragraph
+            MediumEditor.selection.moveCursor(this.options.ownerDocument, p);
+
+            event.preventDefault();
+        } else if (MediumEditor.util.isKey(event, MediumEditor.util.keyCode.BACKSPACE) &&
+                MediumEditor.util.isMediumEditorElement(node.parentElement) &&
+                !node.previousElementSibling &&
+                node.nextElementSibling &&
+                isEmpty.test(node.innerHTML)) {
+
+            // when cursor is in the first element, it's empty and user presses backspace,
+            // do delete action instead to get rid of the first element and move caret to 2nd
+            event.preventDefault();
+            MediumEditor.selection.moveCursor(this.options.ownerDocument, node.nextSibling);
+            node.parentElement.removeChild(node);
+        }
+    }
+
+    function handleKeyup(event) {
+        var node = MediumEditor.selection.getSelectionStart(this.options.ownerDocument),
+            tagName;
+
+        if (!node) {
+            return;
+        }
+
+        // https://github.com/yabwe/medium-editor/issues/994
+        // Firefox thrown an error when calling `formatBlock` on an empty editable blockContainer that's not a <div>
+        if (MediumEditor.util.isMediumEditorElement(node) && node.children.length === 0 && !MediumEditor.util.isBlockContainer(node)) {
+            this.options.ownerDocument.execCommand('formatBlock', false, 'p');
+        }
+
+        // https://github.com/yabwe/medium-editor/issues/834
+        // https://github.com/yabwe/medium-editor/pull/382
+        // Don't call format block if this is a block element (ie h1, figCaption, etc.)
+        if (MediumEditor.util.isKey(event, MediumEditor.util.keyCode.ENTER) &&
+            !MediumEditor.util.isListItem(node) &&
+            !MediumEditor.util.isBlockContainer(node)) {
+
+            tagName = node.nodeName.toLowerCase();
+            // For anchor tags, unlink
+            if (tagName === 'a') {
+                this.options.ownerDocument.execCommand('unlink', false, null);
+            } else if (!event.shiftKey && !event.ctrlKey) {
+                this.options.ownerDocument.execCommand('formatBlock', false, 'p');
+            }
+        }
+    }
+
+    function handleEditableInput(event, editable) {
+        var textarea = editable.parentNode.querySelector('textarea[medium-editor-textarea-id="' + editable.getAttribute('medium-editor-textarea-id') + '"]');
+        if (textarea) {
+            textarea.value = editable.innerHTML.trim();
+        }
+    }
+
+    // Internal helper methods which shouldn't be exposed externally
+
+    function addToEditors(win) {
+        if (!win._mediumEditors) {
+            // To avoid breaking users who are assuming that the unique id on
+            // medium-editor elements will start at 1, inserting a 'null' in the
+            // array so the unique-id can always map to the index of the editor instance
+            win._mediumEditors = [null];
+        }
+
+        // If this already has a unique id, re-use it
+        if (!this.id) {
+            this.id = win._mediumEditors.length;
+        }
+
+        win._mediumEditors[this.id] = this;
+    }
+
+    function removeFromEditors(win) {
+        if (!win._mediumEditors || !win._mediumEditors[this.id]) {
+            return;
+        }
+
+        /* Setting the instance to null in the array instead of deleting it allows:
+         * 1) Each instance to preserve its own unique-id, even after being destroyed
+         *    and initialized again
+         * 2) The unique-id to always correspond to an index in the array of medium-editor
+         *    instances. Thus, we will be able to look at a contenteditable, and determine
+         *    which instance it belongs to, by indexing into the global array.
+         */
+        win._mediumEditors[this.id] = null;
+    }
+
+    function createElementsArray(selector, doc, filterEditorElements) {
+        var elements = [];
+
+        if (!selector) {
+            selector = [];
+        }
+        // If string, use as query selector
+        if (typeof selector === 'string') {
+            selector = doc.querySelectorAll(selector);
+        }
+        // If element, put into array
+        if (MediumEditor.util.isElement(selector)) {
+            selector = [selector];
+        }
+
+        if (filterEditorElements) {
+            // Remove elements that have already been initialized by the editor
+            // selecotr might not be an array (ie NodeList) so use for loop
+            for (var i = 0; i < selector.length; i++) {
+                var el = selector[i];
+                if (MediumEditor.util.isElement(el) &&
+                    !el.getAttribute('data-medium-editor-element') &&
+                    !el.getAttribute('medium-editor-textarea-id')) {
+                    elements.push(el);
+                }
+            }
+        } else {
+            // Convert NodeList (or other array like object) into an array
+            elements = Array.prototype.slice.apply(selector);
+        }
+
+        return elements;
+    }
+
+    function cleanupTextareaElement(element) {
+        var textarea = element.parentNode.querySelector('textarea[medium-editor-textarea-id="' + element.getAttribute('medium-editor-textarea-id') + '"]');
+        if (textarea) {
+            // Un-hide the textarea
+            textarea.classList.remove('medium-editor-hidden');
+            textarea.removeAttribute('medium-editor-textarea-id');
+        }
+        if (element.parentNode) {
+            element.parentNode.removeChild(element);
+        }
+    }
+
+    function setExtensionDefaults(extension, defaults) {
+        Object.keys(defaults).forEach(function (prop) {
+            if (extension[prop] === undefined) {
+                extension[prop] = defaults[prop];
+            }
+        });
+        return extension;
+    }
+
+    function initExtension(extension, name, instance) {
+        var extensionDefaults = {
+            'window': instance.options.contentWindow,
+            'document': instance.options.ownerDocument,
+            'base': instance
+        };
+
+        // Add default options into the extension
+        extension = setExtensionDefaults(extension, extensionDefaults);
+
+        // Call init on the extension
+        if (typeof extension.init === 'function') {
+            extension.init();
+        }
+
+        // Set extension name (if not already set)
+        if (!extension.name) {
+            extension.name = name;
+        }
+        return extension;
+    }
+
+    function isToolbarEnabled() {
+        // If any of the elements don't have the toolbar disabled
+        // We need a toolbar
+        if (this.elements.every(function (element) {
+                return !!element.getAttribute('data-disable-toolbar');
+            })) {
+            return false;
+        }
+
+        return this.options.toolbar !== false;
+    }
+
+    function isAnchorPreviewEnabled() {
+        // If toolbar is disabled, don't add
+        if (!isToolbarEnabled.call(this)) {
+            return false;
+        }
+
+        return this.options.anchorPreview !== false;
+    }
+
+    function isPlaceholderEnabled() {
+        return this.options.placeholder !== false;
+    }
+
+    function isAutoLinkEnabled() {
+        return this.options.autoLink !== false;
+    }
+
+    function isImageDraggingEnabled() {
+        return this.options.imageDragging !== false;
+    }
+
+    function isKeyboardCommandsEnabled() {
+        return this.options.keyboardCommands !== false;
+    }
+
+    function shouldUseFileDraggingExtension() {
+        // Since the file-dragging extension replaces the image-dragging extension,
+        // we need to check if the user passed an overrided image-dragging extension.
+        // If they have, to avoid breaking users, we won't use file-dragging extension.
+        return !this.options.extensions['imageDragging'];
+    }
+
+    function createContentEditable(textarea) {
+        var div = this.options.ownerDocument.createElement('div'),
+            now = Date.now(),
+            uniqueId = 'medium-editor-' + now,
+            atts = textarea.attributes;
+
+        // Some browsers can move pretty fast, since we're using a timestamp
+        // to make a unique-id, ensure that the id is actually unique on the page
+        while (this.options.ownerDocument.getElementById(uniqueId)) {
+            now++;
+            uniqueId = 'medium-editor-' + now;
+        }
+
+        div.className = textarea.className;
+        div.id = uniqueId;
+        div.innerHTML = textarea.value;
+
+        textarea.setAttribute('medium-editor-textarea-id', uniqueId);
+
+        // re-create all attributes from the textearea to the new created div
+        for (var i = 0, n = atts.length; i < n; i++) {
+            // do not re-create existing attributes
+            if (!div.hasAttribute(atts[i].nodeName)) {
+                div.setAttribute(atts[i].nodeName, atts[i].nodeValue);
+            }
+        }
+
+        // If textarea has a form, listen for reset on the form to clear
+        // the content of the created div
+        if (textarea.form) {
+            this.on(textarea.form, 'reset', function (event) {
+                if (!event.defaultPrevented) {
+                    this.resetContent(this.options.ownerDocument.getElementById(uniqueId));
+                }
+            }.bind(this));
+        }
+
+        textarea.classList.add('medium-editor-hidden');
+        textarea.parentNode.insertBefore(
+            div,
+            textarea
+        );
+
+        return div;
+    }
+
+    function initElement(element, editorId) {
+        if (!element.getAttribute('data-medium-editor-element')) {
+            if (element.nodeName.toLowerCase() === 'textarea') {
+                element = createContentEditable.call(this, element);
+
+                // Make sure we only attach to editableInput once for <textarea> elements
+                if (!this.instanceHandleEditableInput) {
+                    this.instanceHandleEditableInput = handleEditableInput.bind(this);
+                    this.subscribe('editableInput', this.instanceHandleEditableInput);
+                }
+            }
+
+            if (!this.options.disableEditing && !element.getAttribute('data-disable-editing')) {
+                element.setAttribute('contentEditable', true);
+                element.setAttribute('spellcheck', this.options.spellcheck);
+            }
+
+            // Make sure we only attach to editableKeydownEnter once for disable-return options
+            if (!this.instanceHandleEditableKeydownEnter) {
+                if (element.getAttribute('data-disable-return') || element.getAttribute('data-disable-double-return')) {
+                    this.instanceHandleEditableKeydownEnter = handleDisabledEnterKeydown.bind(this);
+                    this.subscribe('editableKeydownEnter', this.instanceHandleEditableKeydownEnter);
+                }
+            }
+
+            // if we're not disabling return, add a handler to help handle cleanup
+            // for certain cases when enter is pressed
+            if (!this.options.disableReturn && !element.getAttribute('data-disable-return')) {
+                this.on(element, 'keyup', handleKeyup.bind(this));
+            }
+
+            var elementId = MediumEditor.util.guid();
+
+            element.setAttribute('data-medium-editor-element', true);
+            element.classList.add('medium-editor-element');
+            element.setAttribute('role', 'textbox');
+            element.setAttribute('aria-multiline', true);
+            element.setAttribute('data-medium-editor-editor-index', editorId);
+            // TODO: Merge data-medium-editor-element and medium-editor-index attributes for 6.0.0
+            // medium-editor-index is not named correctly anymore and can be re-purposed to signify
+            // whether the element has been initialized or not
+            element.setAttribute('medium-editor-index', elementId);
+            initialContent[elementId] = element.innerHTML;
+
+            this.events.attachAllEventsToElement(element);
+        }
+
+        return element;
+    }
+
+    function attachHandlers() {
+        // attach to tabs
+        this.subscribe('editableKeydownTab', handleTabKeydown.bind(this));
+
+        // Bind keys which can create or destroy a block element: backspace, delete, return
+        this.subscribe('editableKeydownDelete', handleBlockDeleteKeydowns.bind(this));
+        this.subscribe('editableKeydownEnter', handleBlockDeleteKeydowns.bind(this));
+
+        // Bind double space event
+        if (this.options.disableExtraSpaces) {
+            this.subscribe('editableKeydownSpace', handleDisableExtraSpaces.bind(this));
+        }
+
+        // Make sure we only attach to editableKeydownEnter once for disable-return options
+        if (!this.instanceHandleEditableKeydownEnter) {
+            // disabling return or double return
+            if (this.options.disableReturn || this.options.disableDoubleReturn) {
+                this.instanceHandleEditableKeydownEnter = handleDisabledEnterKeydown.bind(this);
+                this.subscribe('editableKeydownEnter', this.instanceHandleEditableKeydownEnter);
+            }
+        }
+    }
+
+    function initExtensions() {
+
+        this.extensions = [];
+
+        // Passed in extensions
+        Object.keys(this.options.extensions).forEach(function (name) {
+            // Always save the toolbar extension for last
+            if (name !== 'toolbar' && this.options.extensions[name]) {
+                this.extensions.push(initExtension(this.options.extensions[name], name, this));
+            }
+        }, this);
+
+        // 4 Cases for imageDragging + fileDragging extensons:
+        //
+        // 1. ImageDragging ON + No Custom Image Dragging Extension:
+        //    * Use fileDragging extension (default options)
+        // 2. ImageDragging OFF + No Custom Image Dragging Extension:
+        //    * Use fileDragging extension w/ images turned off
+        // 3. ImageDragging ON + Custom Image Dragging Extension:
+        //    * Don't use fileDragging (could interfere with custom image dragging extension)
+        // 4. ImageDragging OFF + Custom Image Dragging:
+        //    * Don't use fileDragging (could interfere with custom image dragging extension)
+        if (shouldUseFileDraggingExtension.call(this)) {
+            var opts = this.options.fileDragging;
+            if (!opts) {
+                opts = {};
+
+                // Image is in the 'allowedTypes' list by default.
+                // If imageDragging is off override the 'allowedTypes' list with an empty one
+                if (!isImageDraggingEnabled.call(this)) {
+                    opts.allowedTypes = [];
+                }
+            }
+            this.addBuiltInExtension('fileDragging', opts);
+        }
+
+        // Built-in extensions
+        var builtIns = {
+            paste: true,
+            'anchor-preview': isAnchorPreviewEnabled.call(this),
+            autoLink: isAutoLinkEnabled.call(this),
+            keyboardCommands: isKeyboardCommandsEnabled.call(this),
+            placeholder: isPlaceholderEnabled.call(this)
+        };
+        Object.keys(builtIns).forEach(function (name) {
+            if (builtIns[name]) {
+                this.addBuiltInExtension(name);
+            }
+        }, this);
+
+        // Users can pass in a custom toolbar extension
+        // so check for that first and if it's not present
+        // just create the default toolbar
+        var toolbarExtension = this.options.extensions['toolbar'];
+        if (!toolbarExtension && isToolbarEnabled.call(this)) {
+            // Backwards compatability
+            var toolbarOptions = MediumEditor.util.extend({}, this.options.toolbar, {
+                allowMultiParagraphSelection: this.options.allowMultiParagraphSelection // deprecated
+            });
+            toolbarExtension = new MediumEditor.extensions.toolbar(toolbarOptions);
+        }
+
+        // If the toolbar is not disabled, so we actually have an extension
+        // initialize it and add it to the extensions array
+        if (toolbarExtension) {
+            this.extensions.push(initExtension(toolbarExtension, 'toolbar', this));
+        }
+    }
+
+    function mergeOptions(defaults, options) {
+        var deprecatedProperties = [
+            ['allowMultiParagraphSelection', 'toolbar.allowMultiParagraphSelection']
+        ];
+        // warn about using deprecated properties
+        if (options) {
+            deprecatedProperties.forEach(function (pair) {
+                if (options.hasOwnProperty(pair[0]) && options[pair[0]] !== undefined) {
+                    MediumEditor.util.deprecated(pair[0], pair[1], 'v6.0.0');
+                }
+            });
+        }
+
+        return MediumEditor.util.defaults({}, options, defaults);
+    }
+
+    function execActionInternal(action, opts) {
+        /*jslint regexp: true*/
+        var appendAction = /^append-(.+)$/gi,
+            justifyAction = /justify([A-Za-z]*)$/g, /* Detecting if is justifyCenter|Right|Left */
+            match,
+            cmdValueArgument;
+        /*jslint regexp: false*/
+
+        // Actions starting with 'append-' should attempt to format a block of text ('formatBlock') using a specific
+        // type of block element (ie append-blockquote, append-h1, append-pre, etc.)
+        match = appendAction.exec(action);
+        if (match) {
+            return MediumEditor.util.execFormatBlock(this.options.ownerDocument, match[1]);
+        }
+
+        if (action === 'fontSize') {
+            // TODO: Deprecate support for opts.size in 6.0.0
+            if (opts.size) {
+                MediumEditor.util.deprecated('.size option for fontSize command', '.value', '6.0.0');
+            }
+            cmdValueArgument = opts.value || opts.size;
+            return this.options.ownerDocument.execCommand('fontSize', false, cmdValueArgument);
+        }
+
+        if (action === 'fontName') {
+            // TODO: Deprecate support for opts.name in 6.0.0
+            if (opts.name) {
+                MediumEditor.util.deprecated('.name option for fontName command', '.value', '6.0.0');
+            }
+            cmdValueArgument = opts.value || opts.name;
+            return this.options.ownerDocument.execCommand('fontName', false, cmdValueArgument);
+        }
+
+        if (action === 'createLink') {
+            return this.createLink(opts);
+        }
+
+        if (action === 'image') {
+            var src = this.options.contentWindow.getSelection().toString().trim();
+            return this.options.ownerDocument.execCommand('insertImage', false, src);
+        }
+
+        if (action === 'html') {
+            var html = this.options.contentWindow.getSelection().toString().trim();
+            return MediumEditor.util.insertHTMLCommand(this.options.ownerDocument, html);
+        }
+
+        /* Issue: https://github.com/yabwe/medium-editor/issues/595
+         * If the action is to justify the text */
+        if (justifyAction.exec(action)) {
+            var result = this.options.ownerDocument.execCommand(action, false, null),
+                parentNode = MediumEditor.selection.getSelectedParentElement(MediumEditor.selection.getSelectionRange(this.options.ownerDocument));
+            if (parentNode) {
+                cleanupJustifyDivFragments.call(this, MediumEditor.util.getTopBlockContainer(parentNode));
+            }
+
+            return result;
+        }
+
+        cmdValueArgument = opts && opts.value;
+        return this.options.ownerDocument.execCommand(action, false, cmdValueArgument);
+    }
+
+    /* If we've just justified text within a container block
+     * Chrome may have removed <br> elements and instead wrapped lines in <div> elements
+     * with a text-align property.  If so, we want to fix this
+     */
+    function cleanupJustifyDivFragments(blockContainer) {
+        if (!blockContainer) {
+            return;
+        }
+
+        var textAlign,
+            childDivs = Array.prototype.slice.call(blockContainer.childNodes).filter(function (element) {
+                var isDiv = element.nodeName.toLowerCase() === 'div';
+                if (isDiv && !textAlign) {
+                    textAlign = element.style.textAlign;
+                }
+                return isDiv;
+            });
+
+        /* If we found child <div> elements with text-align style attributes
+         * we should fix this by:
+         *
+         * 1) Unwrapping each <div> which has a text-align style
+         * 2) Insert a <br> element after each set of 'unwrapped' div children
+         * 3) Set the text-align style of the parent block element
+         */
+        if (childDivs.length) {
+            // Since we're mucking with the HTML, preserve selection
+            this.saveSelection();
+            childDivs.forEach(function (div) {
+                if (div.style.textAlign === textAlign) {
+                    var lastChild = div.lastChild;
+                    if (lastChild) {
+                        // Instead of a div, extract the child elements and add a <br>
+                        MediumEditor.util.unwrap(div, this.options.ownerDocument);
+                        var br = this.options.ownerDocument.createElement('BR');
+                        lastChild.parentNode.insertBefore(br, lastChild.nextSibling);
+                    }
+                }
+            }, this);
+            blockContainer.style.textAlign = textAlign;
+            // We're done, so restore selection
+            this.restoreSelection();
+        }
+    }
+
+    var initialContent = {};
+
+    MediumEditor.prototype = {
+        // NOT DOCUMENTED - exposed for backwards compatability
+        init: function (elements, options) {
+            this.options = mergeOptions.call(this, this.defaults, options);
+            this.origElements = elements;
+
+            if (!this.options.elementsContainer) {
+                this.options.elementsContainer = this.options.ownerDocument.body;
+            }
+
+            return this.setup();
+        },
+
+        setup: function () {
+            if (this.isActive) {
+                return;
+            }
+
+            addToEditors.call(this, this.options.contentWindow);
+            this.events = new MediumEditor.Events(this);
+            this.elements = [];
+
+            this.addElements(this.origElements);
+
+            if (this.elements.length === 0) {
+                return;
+            }
+
+            this.isActive = true;
+
+            // Call initialization helpers
+            initExtensions.call(this);
+            attachHandlers.call(this);
+        },
+
+        destroy: function () {
+            if (!this.isActive) {
+                return;
+            }
+
+            this.isActive = false;
+
+            this.extensions.forEach(function (extension) {
+                if (typeof extension.destroy === 'function') {
+                    extension.destroy();
+                }
+            }, this);
+
+            this.events.destroy();
+
+            this.elements.forEach(function (element) {
+                // Reset elements content, fix for issue where after editor destroyed the red underlines on spelling errors are left
+                if (this.options.spellcheck) {
+                    element.innerHTML = element.innerHTML;
+                }
+
+                // cleanup extra added attributes
+                element.removeAttribute('contentEditable');
+                element.removeAttribute('spellcheck');
+                element.removeAttribute('data-medium-editor-element');
+                element.classList.remove('medium-editor-element');
+                element.removeAttribute('role');
+                element.removeAttribute('aria-multiline');
+                element.removeAttribute('medium-editor-index');
+                element.removeAttribute('data-medium-editor-editor-index');
+
+                // Remove any elements created for textareas
+                if (element.getAttribute('medium-editor-textarea-id')) {
+                    cleanupTextareaElement(element);
+                }
+            }, this);
+            this.elements = [];
+            this.instanceHandleEditableKeydownEnter = null;
+            this.instanceHandleEditableInput = null;
+
+            removeFromEditors.call(this, this.options.contentWindow);
+        },
+
+        on: function (target, event, listener, useCapture) {
+            this.events.attachDOMEvent(target, event, listener, useCapture);
+
+            return this;
+        },
+
+        off: function (target, event, listener, useCapture) {
+            this.events.detachDOMEvent(target, event, listener, useCapture);
+
+            return this;
+        },
+
+        subscribe: function (event, listener) {
+            this.events.attachCustomEvent(event, listener);
+
+            return this;
+        },
+
+        unsubscribe: function (event, listener) {
+            this.events.detachCustomEvent(event, listener);
+
+            return this;
+        },
+
+        trigger: function (name, data, editable) {
+            this.events.triggerCustomEvent(name, data, editable);
+
+            return this;
+        },
+
+        delay: function (fn) {
+            var self = this;
+            return setTimeout(function () {
+                if (self.isActive) {
+                    fn();
+                }
+            }, this.options.delay);
+        },
+
+        serialize: function () {
+            var i,
+                elementid,
+                content = {},
+                len = this.elements.length;
+
+            for (i = 0; i < len; i += 1) {
+                elementid = (this.elements[i].id !== '') ? this.elements[i].id : 'element-' + i;
+                content[elementid] = {
+                    value: this.elements[i].innerHTML.trim()
+                };
+            }
+            return content;
+        },
+
+        getExtensionByName: function (name) {
+            var extension;
+            if (this.extensions && this.extensions.length) {
+                this.extensions.some(function (ext) {
+                    if (ext.name === name) {
+                        extension = ext;
+                        return true;
+                    }
+                    return false;
+                });
+            }
+            return extension;
+        },
+
+        /**
+         * NOT DOCUMENTED - exposed as a helper for other extensions to use
+         */
+        addBuiltInExtension: function (name, opts) {
+            var extension = this.getExtensionByName(name),
+                merged;
+            if (extension) {
+                return extension;
+            }
+
+            switch (name) {
+                case 'anchor':
+                    merged = MediumEditor.util.extend({}, this.options.anchor, opts);
+                    extension = new MediumEditor.extensions.anchor(merged);
+                    break;
+                case 'anchor-preview':
+                    extension = new MediumEditor.extensions.anchorPreview(this.options.anchorPreview);
+                    break;
+                case 'autoLink':
+                    extension = new MediumEditor.extensions.autoLink();
+                    break;
+                case 'fileDragging':
+                    extension = new MediumEditor.extensions.fileDragging(opts);
+                    break;
+                case 'fontname':
+                    extension = new MediumEditor.extensions.fontName(this.options.fontName);
+                    break;
+                case 'fontsize':
+                    extension = new MediumEditor.extensions.fontSize(opts);
+                    break;
+                case 'keyboardCommands':
+                    extension = new MediumEditor.extensions.keyboardCommands(this.options.keyboardCommands);
+                    break;
+                case 'paste':
+                    extension = new MediumEditor.extensions.paste(this.options.paste);
+                    break;
+                case 'placeholder':
+                    extension = new MediumEditor.extensions.placeholder(this.options.placeholder);
+                    break;
+                default:
+                    // All of the built-in buttons for MediumEditor are extensions
+                    // so check to see if the extension we're creating is a built-in button
+                    if (MediumEditor.extensions.button.isBuiltInButton(name)) {
+                        if (opts) {
+                            merged = MediumEditor.util.defaults({}, opts, MediumEditor.extensions.button.prototype.defaults[name]);
+                            extension = new MediumEditor.extensions.button(merged);
+                        } else {
+                            extension = new MediumEditor.extensions.button(name);
+                        }
+                    }
+            }
+
+            if (extension) {
+                this.extensions.push(initExtension(extension, name, this));
+            }
+
+            return extension;
+        },
+
+        stopSelectionUpdates: function () {
+            this.preventSelectionUpdates = true;
+        },
+
+        startSelectionUpdates: function () {
+            this.preventSelectionUpdates = false;
+        },
+
+        checkSelection: function () {
+            var toolbar = this.getExtensionByName('toolbar');
+            if (toolbar) {
+                toolbar.checkState();
+            }
+            return this;
+        },
+
+        // Wrapper around document.queryCommandState for checking whether an action has already
+        // been applied to the current selection
+        queryCommandState: function (action) {
+            var fullAction = /^full-(.+)$/gi,
+                match,
+                queryState = null;
+
+            // Actions starting with 'full-' need to be modified since this is a medium-editor concept
+            match = fullAction.exec(action);
+            if (match) {
+                action = match[1];
+            }
+
+            try {
+                queryState = this.options.ownerDocument.queryCommandState(action);
+            } catch (exc) {
+                queryState = null;
+            }
+
+            return queryState;
+        },
+
+        execAction: function (action, opts) {
+            /*jslint regexp: true*/
+            var fullAction = /^full-(.+)$/gi,
+                match,
+                result;
+            /*jslint regexp: false*/
+
+            // Actions starting with 'full-' should be applied to to the entire contents of the editable element
+            // (ie full-bold, full-append-pre, etc.)
+            match = fullAction.exec(action);
+            if (match) {
+                // Store the current selection to be restored after applying the action
+                this.saveSelection();
+                // Select all of the contents before calling the action
+                this.selectAllContents();
+                result = execActionInternal.call(this, match[1], opts);
+                // Restore the previous selection
+                this.restoreSelection();
+            } else {
+                result = execActionInternal.call(this, action, opts);
+            }
+
+            // do some DOM clean-up for known browser issues after the action
+            if (action === 'insertunorderedlist' || action === 'insertorderedlist') {
+                MediumEditor.util.cleanListDOM(this.options.ownerDocument, this.getSelectedParentElement());
+            }
+
+            this.checkSelection();
+            return result;
+        },
+
+        getSelectedParentElement: function (range) {
+            if (range === undefined) {
+                range = this.options.contentWindow.getSelection().getRangeAt(0);
+            }
+            return MediumEditor.selection.getSelectedParentElement(range);
+        },
+
+        selectAllContents: function () {
+            var currNode = MediumEditor.selection.getSelectionElement(this.options.contentWindow);
+
+            if (currNode) {
+                // Move to the lowest descendant node that still selects all of the contents
+                while (currNode.children.length === 1) {
+                    currNode = currNode.children[0];
+                }
+
+                this.selectElement(currNode);
+            }
+        },
+
+        selectElement: function (element) {
+            MediumEditor.selection.selectNode(element, this.options.ownerDocument);
+
+            var selElement = MediumEditor.selection.getSelectionElement(this.options.contentWindow);
+            if (selElement) {
+                this.events.focusElement(selElement);
+            }
+        },
+
+        getFocusedElement: function () {
+            var focused;
+            this.elements.some(function (element) {
+                // Find the element that has focus
+                if (!focused && element.getAttribute('data-medium-focused')) {
+                    focused = element;
+                }
+
+                // bail if we found the element that had focus
+                return !!focused;
+            }, this);
+
+            return focused;
+        },
+
+        // Export the state of the selection in respect to one of this
+        // instance of MediumEditor's elements
+        exportSelection: function () {
+            var selectionElement = MediumEditor.selection.getSelectionElement(this.options.contentWindow),
+                editableElementIndex = this.elements.indexOf(selectionElement),
+                selectionState = null;
+
+            if (editableElementIndex >= 0) {
+                selectionState = MediumEditor.selection.exportSelection(selectionElement, this.options.ownerDocument);
+            }
+
+            if (selectionState !== null && editableElementIndex !== 0) {
+                selectionState.editableElementIndex = editableElementIndex;
+            }
+
+            return selectionState;
+        },
+
+        saveSelection: function () {
+            this.selectionState = this.exportSelection();
+        },
+
+        // Restore a selection based on a selectionState returned by a call
+        // to MediumEditor.exportSelection
+        importSelection: function (selectionState, favorLaterSelectionAnchor) {
+            if (!selectionState) {
+                return;
+            }
+
+            var editableElement = this.elements[selectionState.editableElementIndex || 0];
+            MediumEditor.selection.importSelection(selectionState, editableElement, this.options.ownerDocument, favorLaterSelectionAnchor);
+        },
+
+        restoreSelection: function () {
+            this.importSelection(this.selectionState);
+        },
+
+        createLink: function (opts) {
+            var currentEditor = MediumEditor.selection.getSelectionElement(this.options.contentWindow),
+                customEvent = {},
+                targetUrl;
+
+            // Make sure the selection is within an element this editor is tracking
+            if (this.elements.indexOf(currentEditor) === -1) {
+                return;
+            }
+
+            try {
+                this.events.disableCustomEvent('editableInput');
+                // TODO: Deprecate support for opts.url in 6.0.0
+                if (opts.url) {
+                    MediumEditor.util.deprecated('.url option for createLink', '.value', '6.0.0');
+                }
+                targetUrl = opts.url || opts.value;
+                if (targetUrl && targetUrl.trim().length > 0) {
+                    var currentSelection = this.options.contentWindow.getSelection();
+                    if (currentSelection) {
+                        var currRange = currentSelection.getRangeAt(0),
+                            commonAncestorContainer = currRange.commonAncestorContainer,
+                            exportedSelection,
+                            startContainerParentElement,
+                            endContainerParentElement,
+                            textNodes;
+
+                        // If the selection is contained within a single text node
+                        // and the selection starts at the beginning of the text node,
+                        // MSIE still says the startContainer is the parent of the text node.
+                        // If the selection is contained within a single text node, we
+                        // want to just use the default browser 'createLink', so we need
+                        // to account for this case and adjust the commonAncestorContainer accordingly
+                        if (currRange.endContainer.nodeType === 3 &&
+                            currRange.startContainer.nodeType !== 3 &&
+                            currRange.startOffset === 0 &&
+                            currRange.startContainer.firstChild === currRange.endContainer) {
+                            commonAncestorContainer = currRange.endContainer;
+                        }
+
+                        startContainerParentElement = MediumEditor.util.getClosestBlockContainer(currRange.startContainer);
+                        endContainerParentElement = MediumEditor.util.getClosestBlockContainer(currRange.endContainer);
+
+                        // If the selection is not contained within a single text node
+                        // but the selection is contained within the same block element
+                        // we want to make sure we create a single link, and not multiple links
+                        // which can happen with the built in browser functionality
+                        if (commonAncestorContainer.nodeType !== 3 && commonAncestorContainer.textContent.length !== 0 && startContainerParentElement === endContainerParentElement) {
+                            var parentElement = (startContainerParentElement || currentEditor),
+                                fragment = this.options.ownerDocument.createDocumentFragment();
+
+                            // since we are going to create a link from an extracted text,
+                            // be sure that if we are updating a link, we won't let an empty link behind (see #754)
+                            // (Workaroung for Chrome)
+                            this.execAction('unlink');
+
+                            exportedSelection = this.exportSelection();
+                            fragment.appendChild(parentElement.cloneNode(true));
+
+                            if (currentEditor === parentElement) {
+                                // We have to avoid the editor itself being wiped out when it's the only block element,
+                                // as our reference inside this.elements gets detached from the page when insertHTML runs.
+                                // If we just use [parentElement, 0] and [parentElement, parentElement.childNodes.length]
+                                // as the range boundaries, this happens whenever parentElement === currentEditor.
+                                // The tradeoff to this workaround is that a orphaned tag can sometimes be left behind at
+                                // the end of the editor's content.
+                                // In Gecko:
+                                // as an empty <strong></strong> if parentElement.lastChild is a <strong> tag.
+                                // In WebKit:
+                                // an invented <br /> tag at the end in the same situation
+                                MediumEditor.selection.select(
+                                    this.options.ownerDocument,
+                                    parentElement.firstChild,
+                                    0,
+                                    parentElement.lastChild,
+                                    parentElement.lastChild.nodeType === 3 ?
+                                    parentElement.lastChild.nodeValue.length : parentElement.lastChild.childNodes.length
+                                );
+                            } else {
+                                MediumEditor.selection.select(
+                                    this.options.ownerDocument,
+                                    parentElement,
+                                    0,
+                                    parentElement,
+                                    parentElement.childNodes.length
+                                );
+                            }
+
+                            var modifiedExportedSelection = this.exportSelection();
+
+                            textNodes = MediumEditor.util.findOrCreateMatchingTextNodes(
+                                this.options.ownerDocument,
+                                fragment,
+                                {
+                                    start: exportedSelection.start - modifiedExportedSelection.start,
+                                    end: exportedSelection.end - modifiedExportedSelection.start,
+                                    editableElementIndex: exportedSelection.editableElementIndex
+                                }
+                            );
+                            // If textNodes are not present, when changing link on images
+                            // ex: <a><img src="http://image.test.com"></a>, change fragment to currRange.startContainer
+                            // and set textNodes array to [imageElement, imageElement]
+                            if (textNodes.length === 0) {
+                                fragment = this.options.ownerDocument.createDocumentFragment();
+                                fragment.appendChild(commonAncestorContainer.cloneNode(true));
+                                textNodes = [fragment.firstChild.firstChild, fragment.firstChild.lastChild];
+                            }
+
+                            // Creates the link in the document fragment
+                            MediumEditor.util.createLink(this.options.ownerDocument, textNodes, targetUrl.trim());
+
+                            // Chrome trims the leading whitespaces when inserting HTML, which messes up restoring the selection.
+                            var leadingWhitespacesCount = (fragment.firstChild.innerHTML.match(/^\s+/) || [''])[0].length;
+
+                            // Now move the created link back into the original document in a way to preserve undo/redo history
+                            MediumEditor.util.insertHTMLCommand(this.options.ownerDocument, fragment.firstChild.innerHTML.replace(/^\s+/, ''));
+                            exportedSelection.start -= leadingWhitespacesCount;
+                            exportedSelection.end -= leadingWhitespacesCount;
+
+                            this.importSelection(exportedSelection);
+                        } else {
+                            this.options.ownerDocument.execCommand('createLink', false, targetUrl);
+                        }
+
+                        if (this.options.targetBlank || opts.target === '_blank') {
+                            MediumEditor.util.setTargetBlank(MediumEditor.selection.getSelectionStart(this.options.ownerDocument), targetUrl);
+                        } else {
+                            MediumEditor.util.removeTargetBlank(MediumEditor.selection.getSelectionStart(this.options.ownerDocument), targetUrl);
+                        }
+
+                        if (opts.buttonClass) {
+                            MediumEditor.util.addClassToAnchors(MediumEditor.selection.getSelectionStart(this.options.ownerDocument), opts.buttonClass);
+                        }
+                    }
+                }
+                // Fire input event for backwards compatibility if anyone was listening directly to the DOM input event
+                if (this.options.targetBlank || opts.target === '_blank' || opts.buttonClass) {
+                    customEvent = this.options.ownerDocument.createEvent('HTMLEvents');
+                    customEvent.initEvent('input', true, true, this.options.contentWindow);
+                    for (var i = 0, len = this.elements.length; i < len; i += 1) {
+                        this.elements[i].dispatchEvent(customEvent);
+                    }
+                }
+            } finally {
+                this.events.enableCustomEvent('editableInput');
+            }
+            // Fire our custom editableInput event
+            this.events.triggerCustomEvent('editableInput', customEvent, currentEditor);
+        },
+
+        cleanPaste: function (text) {
+            this.getExtensionByName('paste').cleanPaste(text);
+        },
+
+        pasteHTML: function (html, options) {
+            this.getExtensionByName('paste').pasteHTML(html, options);
+        },
+
+        setContent: function (html, index) {
+            index = index || 0;
+
+            if (this.elements[index]) {
+                var target = this.elements[index];
+                target.innerHTML = html;
+                this.checkContentChanged(target);
+            }
+        },
+
+        getContent: function (index) {
+            index = index || 0;
+
+            if (this.elements[index]) {
+                return this.elements[index].innerHTML.trim();
+            }
+            return null;
+        },
+
+        checkContentChanged: function (editable) {
+            editable = editable || MediumEditor.selection.getSelectionElement(this.options.contentWindow);
+            this.events.updateInput(editable, { target: editable, currentTarget: editable });
+        },
+
+        resetContent: function (element) {
+            // For all elements that exist in the this.elements array, we can assume:
+            // - Its initial content has been set in the initialContent object
+            // - It has a medium-editor-index attribute which is the key value in the initialContent object
+
+            if (element) {
+                var index = this.elements.indexOf(element);
+                if (index !== -1) {
+                    this.setContent(initialContent[element.getAttribute('medium-editor-index')], index);
+                }
+                return;
+            }
+
+            this.elements.forEach(function (el, idx) {
+                this.setContent(initialContent[el.getAttribute('medium-editor-index')], idx);
+            }, this);
+        },
+
+        addElements: function (selector) {
+            // Convert elements into an array
+            var elements = createElementsArray(selector, this.options.ownerDocument, true);
+
+            // Do we have elements to add now?
+            if (elements.length === 0) {
+                return false;
+            }
+
+            elements.forEach(function (element) {
+                // Initialize all new elements (we check that in those functions don't worry)
+                element = initElement.call(this, element, this.id);
+
+                // Add new elements to our internal elements array
+                this.elements.push(element);
+
+                // Trigger event so extensions can know when an element has been added
+                this.trigger('addElement', { target: element, currentTarget: element }, element);
+            }, this);
+        },
+
+        removeElements: function (selector) {
+            // Convert elements into an array
+            var elements = createElementsArray(selector, this.options.ownerDocument),
+                toRemove = elements.map(function (el) {
+                    // For textareas, make sure we're looking at the editor div and not the textarea itself
+                    if (el.getAttribute('medium-editor-textarea-id') && el.parentNode) {
+                        return el.parentNode.querySelector('div[medium-editor-textarea-id="' + el.getAttribute('medium-editor-textarea-id') + '"]');
+                    } else {
+                        return el;
+                    }
+                });
+
+            this.elements = this.elements.filter(function (element) {
+                // If this is an element we want to remove
+                if (toRemove.indexOf(element) !== -1) {
+                    this.events.cleanupElement(element);
+                    if (element.getAttribute('medium-editor-textarea-id')) {
+                        cleanupTextareaElement(element);
+                    }
+                    // Trigger event so extensions can clean-up elements that are being removed
+                    this.trigger('removeElement', { target: element, currentTarget: element }, element);
+                    return false;
+                }
+                return true;
+            }, this);
+        }
+    };
+
+    MediumEditor.getEditorFromElement = function (element) {
+        var index = element.getAttribute('data-medium-editor-editor-index'),
+            win = element && element.ownerDocument && (element.ownerDocument.defaultView || element.ownerDocument.parentWindow);
+        if (win && win._mediumEditors && win._mediumEditors[index]) {
+            return win._mediumEditors[index];
+        }
+        return null;
+    };
+}());
+
+(function () {
+    // summary: The default options hash used by the Editor
+
+    MediumEditor.prototype.defaults = {
+        activeButtonClass: 'medium-editor-button-active',
+        buttonLabels: false,
+        delay: 0,
+        disableReturn: false,
+        disableDoubleReturn: false,
+        disableExtraSpaces: false,
+        disableEditing: false,
+        autoLink: false,
+        elementsContainer: false,
+        contentWindow: window,
+        ownerDocument: document,
+        targetBlank: false,
+        extensions: {},
+        spellcheck: true
+    };
+})();
+
+MediumEditor.parseVersionString = function (release) {
+    var split = release.split('-'),
+        version = split[0].split('.'),
+        preRelease = (split.length > 1) ? split[1] : '';
+    return {
+        major: parseInt(version[0], 10),
+        minor: parseInt(version[1], 10),
+        revision: parseInt(version[2], 10),
+        preRelease: preRelease,
+        toString: function () {
+            return [version[0], version[1], version[2]].join('.') + (preRelease ? '-' + preRelease : '');
+        }
+    };
+};
+
+MediumEditor.version = MediumEditor.parseVersionString.call(this, ({
+    // grunt-bump looks for this:
+    'version': '5.23.0'
+}).version);
+
+    return MediumEditor;
+}()));
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(133)))
+
+/***/ }),
 /* 588 */,
 /* 589 */,
 /* 590 */,
@@ -25226,8 +43790,26 @@ module.exports = function (value, replacer, space) {
 /* 593 */,
 /* 594 */,
 /* 595 */,
-/* 596 */,
-/* 597 */,
+/* 596 */
+/***/ (function(module, exports) {
+
+module.exports=/[\xAD\u0600-\u0605\u061C\u06DD\u070F\u08E2\u180E\u200B-\u200F\u202A-\u202E\u2060-\u2064\u2066-\u206F\uFEFF\uFFF9-\uFFFB]|\uD804\uDCBD|\uD82F[\uDCA0-\uDCA3]|\uD834[\uDD73-\uDD7A]|\uDB40[\uDC01\uDC20-\uDC7F]/
+
+/***/ }),
+/* 597 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.Any = __webpack_require__(242);
+exports.Cc  = __webpack_require__(240);
+exports.Cf  = __webpack_require__(596);
+exports.P   = __webpack_require__(202);
+exports.Z   = __webpack_require__(241);
+
+
+/***/ }),
 /* 598 */,
 /* 599 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -25446,7 +44028,50 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 605 */,
+/* 605 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(524)
+}
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(325),
+  /* template */
+  __webpack_require__(693),
+  /* styles */
+  injectStyle,
+  /* scopeId */
+  "data-v-e89af052",
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/MediumEditor.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] MediumEditor.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-e89af052", Component.options)
+  } else {
+    hotAPI.reload("data-v-e89af052", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
 /* 606 */,
 /* 607 */,
 /* 608 */,
@@ -25516,7 +44141,50 @@ module.exports = Component.exports
 /* 629 */,
 /* 630 */,
 /* 631 */,
-/* 632 */,
+/* 632 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(484)
+}
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(357),
+  /* template */
+  __webpack_require__(641),
+  /* styles */
+  injectStyle,
+  /* scopeId */
+  "data-v-0409124b",
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/home/mischka/projects/residentprogram/resources/assets/js/vue-components/ReplacementList.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] ReplacementList.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-0409124b", Component.options)
+  } else {
+    hotAPI.reload("data-v-0409124b", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
 /* 633 */,
 /* 634 */,
 /* 635 */,
@@ -25525,7 +44193,39 @@ module.exports = Component.exports
 /* 638 */,
 /* 639 */,
 /* 640 */,
-/* 641 */,
+/* 641 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('aside', [_c('show-hide-button', {
+    staticClass: "btn btn-default btn-xs",
+    model: {
+      value: (_vm.show.replacements),
+      callback: function($$v) {
+        _vm.show.replacements = $$v
+      },
+      expression: "show.replacements"
+    }
+  }, [_vm._v("\n\t\tReplacements:\n\t")]), _vm._v(" "), _c('ul', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.show.replacements),
+      expression: "show.replacements"
+    }]
+  }, _vm._l((_vm.replacements), function(replacement) {
+    return _c('li', [_vm._v("\n\t\t\t[[" + _vm._s(replacement) + "]]\n\t\t")])
+  }))], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-0409124b", module.exports)
+  }
+}
+
+/***/ }),
 /* 642 */,
 /* 643 */,
 /* 644 */,
@@ -25585,7 +44285,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "reload": _vm.fetchAlumni,
       "close": _vm.handleClose
     }
-  }), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), (_vm.emailTo && (!Array.isArray(_vm.emailTo) || _vm.emailTo.length > 0)) ? _c('div', {
+    staticClass: "container body-block"
+  }, [_c('email-editor', {
+    attrs: {
+      "target": "/alumni/email",
+      "default-to": _vm.emailTo,
+      "defaultBodyMarkdown": "Yo",
+      "email-replacements": _vm.emailReplacements
+    }
+  })], 1) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "container body-block"
   }, [_c('h2', {
     staticClass: "sub-heading"
@@ -25606,6 +44315,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
             "alum": alum
           },
           on: {
+            "email": function($event) {
+              _vm.emailAlum(alum)
+            },
             "edit": function($event) {
               _vm.editAlum(alum)
             },
@@ -26139,7 +44851,209 @@ if (false) {
 /***/ }),
 /* 672 */,
 /* 673 */,
-/* 674 */,
+/* 674 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "panel panel-default"
+  }, [_c('div', {
+    staticClass: "panel-heading"
+  }, [_c('h3', {
+    staticClass: "heading-title"
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.title) + "\n\t\t")])]), _vm._v(" "), _c('div', {
+    staticClass: "panel-body"
+  }, [_c('section', [_c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "email-to"
+    }
+  }, [_vm._v("To")]), _vm._v(" "), _c('div', {
+    staticClass: "input-group"
+  }, [_c('input', {
+    staticClass: "form-control appear-not-readonly",
+    attrs: {
+      "type": "text",
+      "id": "email-to",
+      "readonly": ""
+    },
+    domProps: {
+      "value": _vm.toDisplayValue
+    }
+  }), _vm._v(" "), (Array.isArray(_vm.to) && !_vm.possibleRecipients) ? _c('span', {
+    staticClass: "input-group-btn"
+  }, [_c('button', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.show.recipients = !_vm.show.recipients
+      }
+    }
+  }, [_vm._v("\n\t\t\t\t\t\t\tShow recipients\n\t\t\t\t\t\t\t"), _c('span', {
+    staticClass: "glyphicon glyphicon-triangle-bottom"
+  })])]) : _vm._e(), _vm._v(" "), (_vm.possibleRecipients) ? _c('span', {
+    staticClass: "input-group-btn"
+  }, [_c('show-hide-button', {
+    staticClass: "btn btn-default",
+    model: {
+      value: (_vm.show.possibleRecipients),
+      callback: function($$v) {
+        _vm.show.possibleRecipients = $$v
+      },
+      expression: "show.possibleRecipients"
+    }
+  }, [_vm._v("\n\t\t\t\t\t\t\trecipients\n\t\t\t\t\t\t")])], 1) : _vm._e()]), _vm._v(" "), (Array.isArray(_vm.to) && !_vm.possibleRecipients) ? _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.show.recipients),
+      expression: "show.recipients"
+    }]
+  }, [_c('ul', {
+    staticClass: "list-group"
+  }, _vm._l((_vm.to), function(recipient) {
+    return _c('li', {
+      staticClass: "list-group-item"
+    }, [_vm._v("\n\t\t\t\t\t\t\t" + _vm._s(recipient.full_name || recipient) + "\n\t\t\t\t\t\t")])
+  }))]) : _vm._e(), _vm._v(" "), (_vm.possibleRecipients) ? _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.show.possibleRecipients),
+      expression: "show.possibleRecipients"
+    }]
+  }, [_c('div', {
+    staticClass: "well row"
+  }, [_vm._l((_vm.groupedPossibleRecipients), function(possibleRecipientGroup) {
+    return [(possibleRecipientGroup.children && possibleRecipientGroup.children.length > 0) ? [_c('b', [_vm._v(_vm._s(possibleRecipientGroup.text))]), _vm._v(" "), _c('ul', _vm._l((possibleRecipientGroup.children), function(possibleRecipient) {
+      return _c('li', [_c('label', {
+        class: {
+          'normal-text-label': !_vm.to.includes(possibleRecipient.id)
+        }
+      }, [_c('input', {
+        directives: [{
+          name: "model",
+          rawName: "v-model",
+          value: (_vm.to),
+          expression: "to"
+        }],
+        attrs: {
+          "type": "checkbox"
+        },
+        domProps: {
+          "value": possibleRecipient.id,
+          "checked": Array.isArray(_vm.to) ? _vm._i(_vm.to, possibleRecipient.id) > -1 : (_vm.to)
+        },
+        on: {
+          "__c": function($event) {
+            var $$a = _vm.to,
+              $$el = $event.target,
+              $$c = $$el.checked ? (true) : (false);
+            if (Array.isArray($$a)) {
+              var $$v = possibleRecipient.id,
+                $$i = _vm._i($$a, $$v);
+              if ($$c) {
+                $$i < 0 && (_vm.to = $$a.concat($$v))
+              } else {
+                $$i > -1 && (_vm.to = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+              }
+            } else {
+              _vm.to = $$c
+            }
+          }
+        }
+      }), _vm._v("\n\t\t\t\t\t\t\t\t\t\t\t" + _vm._s(possibleRecipient.text || possibleRecipient) + "\n\t\t\t\t\t\t\t\t\t\t")])])
+    }))] : _vm._e()]
+  })], 2)]) : _vm._e()]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "email-subject"
+    }
+  }, [_vm._v("Subject")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.subject),
+      expression: "subject"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "id": "email-subject"
+    },
+    domProps: {
+      "value": (_vm.subject)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.subject = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "email-body"
+    }
+  }, [_vm._v("Body")]), _vm._v(" "), _c('medium-editor', {
+    attrs: {
+      "id": "email-body",
+      "replacements": _vm.emailReplacements
+    },
+    model: {
+      value: (_vm.body.html),
+      callback: function($$v) {
+        _vm.body.html = $$v
+      },
+      expression: "body.html"
+    }
+  })], 1), _vm._v(" "), (_vm.alerts && _vm.alerts.length > 0) ? _c('alert-list', {
+    model: {
+      value: (_vm.alerts),
+      callback: function($$v) {
+        _vm.alerts = $$v
+      },
+      expression: "alerts"
+    }
+  }) : _vm._e()], 1)]), _vm._v(" "), _c('div', {
+    staticClass: "panel-footer text-right"
+  }, [_c('button', {
+    staticClass: "btn btn-primary",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.send
+    }
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-send"
+  }), _vm._v("\n\t\t\tSend emails\n\t\t")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.$emit('close')
+      }
+    }
+  }, [_vm._v("\n\t\t\tClose\n\t\t")])])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-5b23c1a4", module.exports)
+  }
+}
+
+/***/ }),
 /* 675 */,
 /* 676 */,
 /* 677 */,
@@ -26190,7 +45104,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "click": function($event) {
-        _vm.sendAlumEmail(_vm.alum.id)
+        _vm.$emit('email')
       }
     }
   }, [_c('span', {
@@ -26340,6 +45254,43 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-d93fa1b2", module.exports)
+  }
+}
+
+/***/ }),
+/* 693 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    ref: "container"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('small', {
+    staticClass: "col-md-8"
+  }, [_vm._v("\n\t\t\tSelect some text to show controls.\n\t\t\tCursor position gets a little wonky when a replacement is made,\n\t\t\tsorry about that.\n\t\t")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-4"
+  }, [(_vm.replacements) ? _c('replacement-list', {
+    attrs: {
+      "replacements": _vm.replacements
+    }
+  }) : _vm._e()], 1)])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    ref: "editor",
+    attrs: {
+      "id": _vm.id
+    },
+    domProps: {
+      "innerHTML": _vm._s(_vm.value)
+    }
+  })
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-e89af052", module.exports)
   }
 }
 

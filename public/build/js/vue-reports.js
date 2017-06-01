@@ -4439,9 +4439,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			var rows = this.data.map(function (row) {
 				return row.map(function (cell) {
-					return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["n" /* escapeCsv */])(cell.toString());
+					return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["p" /* escapeCsv */])(cell.toString());
 				}).join(',');
-			}).sort(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["o" /* sortIgnoreCase */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_1__modules_utils_js__["q" /* sortIgnoreCase */]);
 			var table = header.concat(rows);
 			__WEBPACK_IMPORTED_MODULE_0_downloadjs___default()(table.join('\n'), this.exportFilename + '.csv', 'text/csv');
 		}
@@ -4631,7 +4631,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			this.endDate = dates.endDate;
 		},
 
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["p" /* camelCaseToWords */]
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["r" /* camelCaseToWords */]
 	},
 	components: {
 		VueFlatpickr: __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr___default.a
@@ -15914,7 +15914,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 			subject: this.defaultSubject,
 			body: {
 				markdown: this.defaultBodyMarkdown,
-				html: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["t" /* htmlLabelReplacements */])(md.render(this.defaultBodyMarkdown), this.emailReplacements)
+				html: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["l" /* htmlLabelReplacements */])(md.render(this.defaultBodyMarkdown), this.emailReplacements)
 			},
 			editorType: 'medium',
 
@@ -15932,7 +15932,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 			return ['medium', 'markdown'];
 		},
 		groupedPossibleRecipients: function groupedPossibleRecipients() {
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["q" /* groupUsers */])(this.possibleRecipients);
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["m" /* groupUsers */])(this.possibleRecipients);
 		},
 		toDisplayValue: function toDisplayValue() {
 			if (this.possibleRecipients || Array.isArray(this.to)) return (this.to ? this.to.length : '0') + ' recipients';
@@ -15949,7 +15949,7 @@ var md = new __WEBPACK_IMPORTED_MODULE_0_markdown_it___default.a();
 		defaultBody: function defaultBody() {
 			return {
 				markdown: this.defaultBodyMarkdown,
-				html: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["t" /* htmlLabelReplacements */])(md.render(this.defaultBodyMarkdown), this.emailReplacements)
+				html: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["l" /* htmlLabelReplacements */])(md.render(this.defaultBodyMarkdown), this.emailReplacements)
 			};
 		}
 	},
@@ -16154,7 +16154,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		this.editor.subscribe('editableInput', __WEBPACK_IMPORTED_MODULE_3_lodash_debounce___default()(function () {
 			var html = _this.editor.getContent();
 
-			_this.$emit('input', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["t" /* htmlLabelReplacements */])(html, _this.replacements));
+			_this.$emit('input', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["l" /* htmlLabelReplacements */])(html, _this.replacements));
 		}, 500));
 
 		this.$refs.container.querySelector('.medium-editor-element').classList.add('form-control');
@@ -16655,7 +16655,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 	methods: {
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["p" /* camelCaseToWords */],
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["r" /* camelCaseToWords */],
 		ucfirst: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["d" /* ucfirst */]
 	},
 	components: {
@@ -17585,7 +17585,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 	methods: {
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["p" /* camelCaseToWords */],
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["r" /* camelCaseToWords */],
 		snarkdown: __WEBPACK_IMPORTED_MODULE_4_snarkdown__["a" /* default */],
 		ucfirst: __WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["d" /* ucfirst */]
 	},
@@ -18050,7 +18050,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 		}
 	},
 	methods: {
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["p" /* camelCaseToWords */],
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["r" /* camelCaseToWords */],
 		ucfirst: __WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["d" /* ucfirst */],
 		renderDateCell: __WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["l" /* renderDateCell */],
 		saveCharts: function saveCharts() {
@@ -18553,7 +18553,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 	methods: {
-		groupUsers: __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["q" /* groupUsers */]
+		groupUsers: __WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["m" /* groupUsers */]
 	},
 	components: {
 		EvaluationListItem: __WEBPACK_IMPORTED_MODULE_1__EvaluationListItem_vue___default.a,
@@ -18727,7 +18727,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			});
 		},
 
-		groupUsers: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["q" /* groupUsers */]
+		groupUsers: __WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["m" /* groupUsers */]
 	},
 
 	components: {
@@ -18888,14 +18888,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			return ['trainee', 'faculty', 'form', 'needs-evaluations', 'pending-requests'];
 		},
 		groupedUsers: function groupedUsers() {
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["q" /* groupUsers */])(this.users);
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["m" /* groupUsers */])(this.users);
 		}
 	},
 
 	created: function created() {
 		var _this = this;
 
-		__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["s" /* fetchUsers */])().then(function (users) {
+		__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__modules_utils_js__["t" /* fetchUsers */])().then(function (users) {
 			_this.users = users;
 		}).catch(function (err) {
 			console.error(err);
@@ -19229,7 +19229,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 		}
 	},
 	methods: {
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["p" /* camelCaseToWords */],
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["r" /* camelCaseToWords */],
 		exportPdf: function exportPdf() {
 			var _this = this;
 
