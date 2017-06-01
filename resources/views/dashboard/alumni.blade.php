@@ -69,7 +69,7 @@
 				Manage your MCW Anesthesiology Alumni email subscription
 			</router-link>
 
-			<router-link to="/">
+			<router-link to="/" exact>
 				Manage your MCW Anesthesiology Alumni profile
 			</router-link>
 		</div>

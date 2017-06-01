@@ -21,7 +21,7 @@
 			</div>
 			<div class="col-sm-2">
 				<button type="button" class="btn btn-info btn-xs"
-						@click="sendAlumEmail(alum.id)">
+						@click="$emit('email')">
 					<span class="glyphicon glyphicon-send"></span>
 					Email
 				</button>

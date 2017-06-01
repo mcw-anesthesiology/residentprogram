@@ -21,12 +21,22 @@
 			@close="handleClose">
 		</router-view>
 
+		<div v-if="emailTo && (!Array.isArray(emailTo) || emailTo.length > 0)"
+				class="container body-block">
+			<email-editor target="/alumni/email"
+				:default-to="emailTo"
+				defaultBodyMarkdown="Yo"
+				:email-replacements="emailReplacements">
+			</email-editor>
+		</div>
+
 		<div class="container body-block">
 			<h2 class="sub-heading">Alumni</h2>
 			<component-list :items="alumni" :fields="alumniFields"
 					reloadable @reload="fetchAlumni">
 				<template scope="alum">
 					<alumni-list-item :alum="alum"
+						@email="emailAlum(alum)"
 						@edit="editAlum(alum)"
 						@alert="this.alerts.push(arguments[0])"
 						@remove="removeAlum(alum)">
@@ -42,11 +52,13 @@ import moment from 'moment';
 
 import HasAlerts from 'vue-mixins/HasAlerts.js';
 
-import ComponentList from '../ComponentList.vue';
+import ComponentList from 'vue-components/ComponentList.vue';
+import EmailEditor from 'vue-components/EmailEditor.vue';
+
 import AlumniListItem from 'vue-components/Alumni/AlumniListItem.vue';
 
 import { getHeaderHeight } from 'modules/dom-utils.js';
-import { getFetchHeaders, okOrThrow, jsonOrThrow } from '../../modules/utils.js';
+import { getFetchHeaders, okOrThrow, jsonOrThrow } from 'modules/utils.js';
 
 export default {
 	mixins: [
@@ -56,7 +68,9 @@ export default {
 		return {
 			alumni: [],
 
-			alumniBeingEdited: null
+			alumniBeingEdited: null,
+
+			emailTo: null
 		};
 	},
 
@@ -81,6 +95,11 @@ export default {
 					moment(a).valueOf() - moment(b).valueOf()
 				]
 			]);
+		},
+		emailReplacements() {
+			return [
+
+			];
 		}
 	},
 
@@ -99,6 +118,9 @@ export default {
 					html: '<strong>Error:</strong> There was a problem fetching alumni'
 				});
 			});
+		},
+		emailAlum(alum) {
+			this.emailTo = alum;
 		},
 		editAlum(alum) {
 			this.alumniBeingEdited = alum;
@@ -135,6 +157,7 @@ export default {
 
 	components: {
 		ComponentList,
+		EmailEditor,
 		AlumniListItem
 	}
 };
