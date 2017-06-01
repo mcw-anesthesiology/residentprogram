@@ -755,17 +755,6 @@ class MainController extends Controller
         }
     }
 
-    public function alumniSubscription(Request $request, $hash){
-        try {
-            $alum = Alum::where("update_hash", $hash)->firstOrFail();
-            $ADMIN_EMAIL = config("app.admin_email");
-            $data = compact("alum", "ADMIN_EMAIL");
-            return view("dashboard.alumni.subscription", $data)->with("noNavbar", true);
-        } catch(ModelNotFoundException $e){
-            return view("dashboard.alumni.invalid-url")->with("noNavbar", true);
-        }
-    }
-
 	public function caseLog(Request $request){
 		$user = Auth::user();
 		$title = "RAAPS"; // FIXME
@@ -789,14 +778,14 @@ class MainController extends Controller
     public function calendar(Request $request){
         return view("calendar");
     }
-    
+
     public function merit() {
-        
+
         $meritReportTypes = config('constants.MERIT_REPORT_TYPES');
 		$meritReportTypeForms = Setting::get('reportTypeForms');
-		
+
 		$data = compact('meritReportTypes', 'meritReportTypeForms');
-        
+
         return view('merit-report.merit-reports', $data);
     }
 }

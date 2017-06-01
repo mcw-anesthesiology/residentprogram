@@ -21,7 +21,8 @@ module.exports = {
 		'vue-dashboard': './resources/assets/js/vue-constructors/dashboard/index.js',
 		'vue-manage': './resources/assets/js/vue-constructors/manage/index.js',
 		'vue-faculty360': './resources/assets/js/vue-constructors/faculty360/index.js',
-		'vue-merit-reports': './resources/assets/js/vue-constructors/merit-reports/index.js'
+		'vue-merit-reports': './resources/assets/js/vue-constructors/merit-reports/index.js',
+		'vue-alumni': './resources/assets/js/vue-constructors/alumni.js'
 	},
 	output: {
 		path: path.resolve(__dirname, 'public/build/js/'),
@@ -72,7 +73,8 @@ module.exports = {
 				'vue-dashboard',
 				'vue-manage',
 				'vue-faculty360',
-				'vue-merit-reports'
+				'vue-merit-reports',
+				'vue-alumni'
 			]
 		}),
 		new webpack.optimize.CommonsChunkPlugin({

@@ -168,61 +168,61 @@ small[data-v-3c839864] {
 	font-size: 1.25em;
 }
 
-.alum-list-item[data-v-4974faea] {
+.alum-list-item[data-v-8313b90a] {
 	border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 	padding: 5px 0;
 }
-.alum-list-item[data-v-4974faea]:nth-child(even){
+.alum-list-item[data-v-8313b90a]:nth-child(even){
 	background-color: rgba(0, 0, 0, 0.05);
 }
-.alum-list-item .row[data-v-4974faea] {
+.alum-list-item .row[data-v-8313b90a] {
 	margin: 0;
 }
-.alum-list-item img[data-v-4974faea] {
+.alum-list-item img[data-v-8313b90a] {
 	border-radius: 100%;
 	object-fit: cover;
 	object-position: center;
 }
-.graduation-date-cell .full-date[data-v-4974faea] {
+.graduation-date-cell .full-date[data-v-8313b90a] {
 	display: none;
 }
-.graduation-date-cell:hover .short-date[data-v-4974faea] {
+.graduation-date-cell:hover .short-date[data-v-8313b90a] {
 	display: none;
 }
-.graduation-date-cell:hover .full-date[data-v-4974faea] {
+.graduation-date-cell:hover .full-date[data-v-8313b90a] {
 	display: block;
 }
 
-.glyph-container[data-v-3a36c426] {
+.glyph-container[data-v-9ec25dd4] {
 	text-align: center;
 	height: 100%;
 	padding: 20px;
 }
-.glyphicon[data-v-3a36c426] {
+.glyphicon[data-v-9ec25dd4] {
 	vertical-align: middle;
 	font-size: 36px;
 }
-hr[data-v-3a36c426] {
+hr[data-v-9ec25dd4] {
 	margin: 40px;
 }
 
-.import-user-row[data-v-5ccb197e] {
+.import-user-row[data-v-4e330431] {
 	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
-.import-user-row[data-v-5ccb197e]:nth-child(even) {
+.import-user-row[data-v-4e330431]:nth-child(even) {
 	background-color: rgba(0, 0, 0, 0.05);
 }
-.import-user-row .containing-label[data-v-5ccb197e] {
+.import-user-row .containing-label[data-v-4e330431] {
 	padding-top: 5px;
 }
-.user-type-container[data-v-5ccb197e],
-.summary-container[data-v-5ccb197e]{
+.user-type-container[data-v-4e330431],
+.summary-container[data-v-4e330431]{
 	margin-top: 3em;
 }
-.selected-users-panel[data-v-5ccb197e] {
+.selected-users-panel[data-v-4e330431] {
 	margin-top: 1em;
 }
-.selected-users-panel .panel-body[data-v-5ccb197e] {
+.selected-users-panel .panel-body[data-v-4e330431] {
 	max-height: 300px;
 	overflow-y: auto;
 }
