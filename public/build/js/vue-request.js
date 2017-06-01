@@ -6890,11 +6890,11 @@ function createRequest(el, propsData) {
 						},
 						dataSrc: ''
 					},
-					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["g" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, {
+					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["i" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, {
 						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["c" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: null, render: function render(evaluation) {
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["f" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["g" /* createDateTimeCell */] }, { data: null, render: function render(evaluation) {
 							if (evaluation.requested_by_id === _this3.user.id) return '<button class="btn btn-danger btn-xs cancel-eval-button" ' + 'data-id="' + evaluation.id + '"><span class="glyphicon glyphicon-remove"></span> ' + 'Cancel</button>';
 
 							return '';
@@ -6927,11 +6927,11 @@ function createRequest(el, propsData) {
 						},
 						dataSrc: ''
 					},
-					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["g" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, {
+					columns: [{ data: 'url', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["i" /* renderEvaluatorEvalUrl */] }, { data: 'subject.full_name' }, { data: 'form.title' }, {
 						data: null,
-						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["c" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["e" /* createDateTimeCell */] }],
+						render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+						createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+					}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["f" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["g" /* createDateTimeCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["f" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["g" /* createDateTimeCell */] }],
 					order: [[0, 'desc']],
 					createdRow: function createdRow(row) {
 						$(row).addClass('view-evaluation');

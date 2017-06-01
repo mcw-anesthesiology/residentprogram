@@ -16577,7 +16577,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			return data;
 		},
 		tableExportFilename: function tableExportFilename() {
-			var level = this.report.trainingLevel === 'all' ? '' : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_datatable_utils_js__["j" /* renderTrainingLevel */])(this.report.trainingLevel);
+			var level = this.report.trainingLevel === 'all' ? '' : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_datatable_utils_js__["b" /* renderTrainingLevel */])(this.report.trainingLevel);
 			var start = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__modules_date_utils_js__["isoDateString"])(new Date(this.report.startDate.date));
 			var end = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__modules_date_utils_js__["isoDateString"])(new Date(this.report.endDate.date));
 			var now = new Date().toLocaleString();
@@ -17054,9 +17054,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				},
 				columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'evaluator.full_name' }, { data: 'requestor.full_name' }, { data: 'form.title' }, {
 					data: null,
-					render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-					createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["c" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-				}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["k" /* renderDateCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["l" /* createDateCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: 'status', render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["h" /* renderEvaluationStatus */] }],
+					render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+					createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+				}, { data: 'request_date', render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["l" /* renderDateCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["m" /* createDateCell */] }, { data: 'complete_date', render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["f" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["g" /* createDateTimeCell */] }, { data: 'status', render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["j" /* renderEvaluationStatus */] }],
 				order: [[0, 'desc']]
 			};
 		},
@@ -17064,9 +17064,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 			return {
 				columns: [{ data: 'url' }, { data: 'subject.full_name' }, { data: 'evaluator.full_name' }, { data: 'requestor.full_name' }, { data: 'form.title' }, {
 					data: null,
-					render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
-					createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["c" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
-				}, { data: "request_date", render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["k" /* renderDateCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["l" /* createDateCell */] }, { data: "complete_date", render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["d" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["e" /* createDateTimeCell */] }, { data: "status", render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["h" /* renderEvaluationStatus */] }],
+					render: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end'),
+					createdCell: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["e" /* createDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')
+				}, { data: "request_date", render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["l" /* renderDateCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["m" /* createDateCell */] }, { data: "complete_date", render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["f" /* renderDateTimeCell */], createdCell: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["g" /* createDateTimeCell */] }, { data: "status", render: __WEBPACK_IMPORTED_MODULE_12__modules_datatable_utils_js__["j" /* renderEvaluationStatus */] }],
 				order: [[0, 'desc']]
 			};
 		}
@@ -17841,7 +17841,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 		trainingLevelDisplay: function trainingLevelDisplay() {
 			if (this.report.trainingLevel === 'all') return;
 
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["j" /* renderTrainingLevel */])(this.report.trainingLevel);
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["b" /* renderTrainingLevel */])(this.report.trainingLevel);
 		},
 		valueMap: function valueMap() {
 			if (this.report.trainingLevel === 'fellow') return __WEBPACK_IMPORTED_MODULE_8__modules_constants_js__["h" /* FELLOWSHIP_VALUE_MAPS */].get(this.subject.secondary_training_level) || __WEBPACK_IMPORTED_MODULE_8__modules_constants_js__["h" /* FELLOWSHIP_VALUE_MAPS */].get(null);
@@ -17859,13 +17859,13 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 		},
 		evaluationsConfig: function evaluationsConfig() {
 			return {
-				columns: [{ render: __WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["m" /* renderIdToEvalUrl */] }, null, null, null]
+				columns: [{ render: __WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["n" /* renderIdToEvalUrl */] }, null, null, null]
 			};
 		},
 		evaluationsData: function evaluationsData() {
 			try {
 				return this.report.subjectEvaluations[this.subjectId].map(function (request) {
-					return [String(request.evaluation_id), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')(request), request.evaluator_last + ', ' + request.evaluator_first, request.form_title];
+					return [String(request.evaluation_id), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')(request), request.evaluator_last + ', ' + request.evaluator_first, request.form_title];
 				});
 			} catch (err) {
 				return [];
@@ -17924,7 +17924,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 		},
 		commentsConfig: function commentsConfig() {
 			return {
-				columns: [{ render: __WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["m" /* renderIdToEvalUrl */] }, null, null, null, null]
+				columns: [{ render: __WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["n" /* renderIdToEvalUrl */] }, null, null, null, null]
 			};
 		},
 		commentsThead: function commentsThead() {
@@ -17933,7 +17933,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 		commentsData: function commentsData() {
 			try {
 				return this.report.subjectTextResponses[this.subjectId].map(function (response) {
-					return [String(response.evaluation_id), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["b" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')(response), response.last_name + ', ' + response.first_name, response.form_title, response.response];
+					return [String(response.evaluation_id), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["d" /* renderDateRangeCell */])('evaluation_date_start', 'evaluation_date_end')(response), response.last_name + ', ' + response.first_name, response.form_title, response.response];
 				});
 			} catch (err) {
 				return [];
@@ -18044,7 +18044,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 	methods: {
 		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["p" /* camelCaseToWords */],
 		ucfirst: __WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["d" /* ucfirst */],
-		renderDateCell: __WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["k" /* renderDateCell */],
+		renderDateCell: __WEBPACK_IMPORTED_MODULE_10__modules_datatable_utils_js__["l" /* renderDateCell */],
 		saveCharts: function saveCharts() {
 			if (this.$refs.competencyChart && this.$refs.competencyChart.chart) __WEBPACK_IMPORTED_MODULE_1_downloadjs___default()(this.$refs.competencyChart.chart.toBase64Image(), 'Competencies chart - ' + this.report.subjects[this.subjectId] + ' - ' + new Date().toLocaleString() + '.png');
 			if (this.$refs.milestoneChart && this.$refs.milestoneChart.chart) __WEBPACK_IMPORTED_MODULE_1_downloadjs___default()(this.$refs.milestoneChart.chart.toBase64Image(), 'Milestones chart - ' + this.report.subjects[this.subjectId] + ' - ' + new Date().toLocaleString() + '.png');
@@ -18286,7 +18286,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 	methods: {
-		renderEvaluationStatus: __WEBPACK_IMPORTED_MODULE_1__modules_datatable_utils_js__["h" /* renderEvaluationStatus */]
+		renderEvaluationStatus: __WEBPACK_IMPORTED_MODULE_1__modules_datatable_utils_js__["j" /* renderEvaluationStatus */]
 	}
 });
 
@@ -18419,7 +18419,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 	methods: {
-		renderTrainingLevel: __WEBPACK_IMPORTED_MODULE_4__modules_datatable_utils_js__["j" /* renderTrainingLevel */],
+		renderTrainingLevel: __WEBPACK_IMPORTED_MODULE_4__modules_datatable_utils_js__["b" /* renderTrainingLevel */],
 		ucfirst: __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["d" /* ucfirst */]
 	},
 	components: {
@@ -19197,10 +19197,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				scrollCollapse: true,
 				paging: false,
 				columns: [null, {
-					render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["k" /* renderDateCell */],
-					createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["l" /* createDateCell */]
+					render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["l" /* renderDateCell */],
+					createdCell: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["m" /* createDateCell */]
 				}, {
-					render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["m" /* renderIdToEvalUrl */]
+					render: __WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["n" /* renderIdToEvalUrl */]
 				}],
 				fixedHeader: true
 			};
@@ -19239,7 +19239,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 				if (_this.report.trainingLevel) {
 					reportParamHeader.push('Training level');
-					reportParamBody.push(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["j" /* renderTrainingLevel */])(_this.report.trainingLevel));
+					reportParamBody.push(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__modules_datatable_utils_js__["b" /* renderTrainingLevel */])(_this.report.trainingLevel));
 				}
 
 				var content = [{ text: _this.title, style: 'title' }, {

@@ -193,4 +193,38 @@ small[data-v-3c839864] {
 	display: block;
 }
 
+.glyph-container[data-v-3a36c426] {
+	text-align: center;
+	height: 100%;
+	padding: 20px;
+}
+.glyphicon[data-v-3a36c426] {
+	vertical-align: middle;
+	font-size: 36px;
+}
+hr[data-v-3a36c426] {
+	margin: 40px;
+}
+
+.import-user-row[data-v-5ccb197e] {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+.import-user-row[data-v-5ccb197e]:nth-child(even) {
+	background-color: rgba(0, 0, 0, 0.05);
+}
+.import-user-row .containing-label[data-v-5ccb197e] {
+	padding-top: 5px;
+}
+.user-type-container[data-v-5ccb197e],
+.summary-container[data-v-5ccb197e]{
+	margin-top: 3em;
+}
+.selected-users-panel[data-v-5ccb197e] {
+	margin-top: 1em;
+}
+.selected-users-panel .panel-body[data-v-5ccb197e] {
+	max-height: 300px;
+	overflow-y: auto;
+}
+
 /*# sourceMappingURL=vue-manage.css.map*/
