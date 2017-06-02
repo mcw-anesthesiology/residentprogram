@@ -77,6 +77,36 @@
 	</div>
 </div>
 
+<div class="container body-block" v-pre>
+	<div class="row">
+		<h2 class="sub-header">
+			APP evaluation forms
+			<button class="addModal btn btn-success btn-xs" data-toggle="modal"
+					data-target=".bs-add-modal" data-id="Form"
+					id="addBtn">
+				<span class="glyphicon glyphicon-plus"></span>
+				Add new
+			</button>
+		</h2>
+		<div class="table-responsive">
+			<table class="table table-striped forms-table" data-type="app"
+					id="app-forms-table">
+				<thead>
+					<tr>
+						<th>Title</th>
+						<th>Evaluator type</th>
+						<th>Created</th>
+						<th>Status</th>
+						<th>Subject visibility</th>
+						<th>View</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</div>
+
 
 	<!-- Add Modal -->
 	<div class="modal fade bs-add-modal" tabindex="-1" role="dialog" aria-labelledby="modalAdd" aria-hidden="true" id="addModal" v-pre>

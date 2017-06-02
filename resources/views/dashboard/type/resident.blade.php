@@ -12,7 +12,7 @@
 <div class="container body-block">
 	<h2 class="sub-header"><span class="glyphicon glyphicon-inbox"></span> Evaluations To Complete</h2>
 	<evaluation-data-table id="trainee-pending-evaluator-evals-table"
-		range="allTime" :thead="pendingEvaluatorThead" :config="pendingEvaluatorConfig">
+		range="allTime" :thead="pendingEvaluatorThead" :config="pendingEvaluatorConfig"></evaluation-data-table>
 </div>
 @endif
 
@@ -47,7 +47,7 @@
 		var propsData = {
 			user: {!! $user->toJson() !!}
 		};
-		
+
 		createResidentDashboard('main', propsData);
 	</script>
 @endpush

@@ -50,7 +50,6 @@
 					<option value="">All</option>
 					<option>Active</option>
 					<option>Inactive</option>
-					<option>Pending</option>
 				</select>
 			</div>
 			<div class="col-sm-3 pull-right">
@@ -94,7 +93,6 @@
 					<option value="">All</option>
 					<option>Active</option>
 					<option>Inactive</option>
-					<option>Pending</option>
 				</select>
 			</div>
 		</div>
@@ -128,12 +126,59 @@
 					<option value="">All</option>
 					<option>Active</option>
 					<option>Inactive</option>
-					<option>Pending</option>
 				</select>
 			</div>
 		</div>
 		<div class="table-responsive">
 			<table class="table table-striped account-table" data-type="faculty" id="manage-faculty-table" width="100%">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Username</th>
+						<th>Email</th>
+						<th>Status</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div class="container body-block">
+	<div class="row">
+		<h2 class="sub-header" id="app-heading">
+			APP
+			<button class="addUser btn btn-success btn-xs"
+					data-toggle="modal" data-target=".bs-add-modal"
+					data-id="app" id="addBtn">
+				<span class="glyphicon glyphicon-plus"></span>
+				Add new
+			</button>
+		</h2>
+		<div class="row filter-row">
+			<div class="col-xs-1 pull-right refresh-container">
+				<span role="button" title="refresh"
+					class="glyphicon glyphicon-refresh refresh-table-glyph"
+					data-toggle="tooltip" data-table="#manage-app-table">
+				</span>
+			</div>
+			<div class="col-sm-3 pull-right">
+				<label class="containing-label">
+					Status
+					<select class="form-control table-filter-select"
+							id="filter-app-by-status"
+							data-filter-column="3"
+							data-filter-table="#manage-app-table">
+						<option value="">All</option>
+						<option>Active</option>
+						<option>Inactive</option>
+					</select>
+				</label>
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table class="table table-striped account-table" data-type="app" id="manage-app-table" width="100%">
 				<thead>
 					<tr>
 						<th>Name</th>

@@ -69,17 +69,23 @@ export function createRequest(el, propsData){
 					formId: true,
 					evaluationDate: true
 				};
-				
-				if(['resident', 'self'].includes(this.requestType)
-						&& this.user.type === 'resident')
+
+				if (
+					(
+						['resident', 'self'].includes(this.requestType)
+						&& this.user.type === 'resident'
+					)
+					|| this.requestType === 'app' && this.user.type === 'app'
+				)
 					required.subjectId = false;
-				
-				if((this.requestType === 'resident' && this.user.type === 'faculty')
+
+				if ((this.requestType === 'resident' && this.user.type === 'faculty')
 						|| (this.requestType === 'staff' && this.user.type === 'staff')
 						|| (this.requestType === 'faculty' && this.user.type === 'resident')
+						|| (this.requestType === 'app' && this.user.type === 'faculty')
 						|| (this.requestType === 'self'))
 					required.evaluatorId = false;
-					
+
 				return required;
 			},
 			requirementsAreMet(){
@@ -129,10 +135,10 @@ export function createRequest(el, propsData){
 			},
 			evaluationDates(){
 				let form = this.forms.find(form => form.id === Number(this.formId));
-				
+
 				if(!form)
 					return;
-				
+
 				let dates = [];
 				if (form.evaluation_period_type === 'quarter') {
 					dates = [
@@ -144,7 +150,7 @@ export function createRequest(el, propsData){
 					dates = [
 						currentYear()
 					];
-					
+
 					if (moment().month() === 6) // July
 						dates.push(lastYear());
 				}
@@ -161,7 +167,7 @@ export function createRequest(el, propsData){
 					}
 					dates.reverse();
 				}
-				
+
 				return dates;
 			},
 			evaluationDateOptions(){
@@ -305,12 +311,12 @@ export function createRequest(el, propsData){
 
 				if(!options || !this.evaluationDateJson)
 					return;
-				
+
 				if(Array.isArray(this.evaluationDateJson)){
 					let newJson = options.filter(({id}) =>
 						this.evaluationDateJson.includes(id)
 					).map(({id}) => id);
-					
+
 					if(newJson.length !== this.evaluationDateJson.length)
 						this.evaluationDateJson = newJson;
 				}

@@ -17,7 +17,8 @@
 		<li><a href="/request/faculty">Evaluate Faculty</a></li>
 		<li><a href="/dashboard">View Evaluations</a></li>
 	  @elseif($user->isType("faculty"))
-		<li><a href="/request">Create Evaluation</a></li>
+		<li><a href="/request">Trainee Evaluation</a></li>
+		<li><a href="/request/app">APP Evaluation</a></li>
 		<li><a href="/dashboard">View Evaluations</a></li>
 		<li><a href="/dashboard/faculty">View Faculty Evaluations</a></li>
 	  @elseif($user->isType("staff"))
@@ -28,6 +29,7 @@
             <a href="#" data-toggle="dropdown">Request Evaluation<b class="caret"></b></a>
             <ul class="dropdown-menu">
                 <li><a href="/request">Trainee Evaluation</a></li>
+				<li><a href="/request/app">APP Evaluation</a></li>
                 <li><a href="/request/staff">Staff Evaluation</a></li>
                 <li><a href="/request/faculty">Faculty Evaluation</a></li>
                 <li><a href="/request/self">Self Evaluation</a></li>

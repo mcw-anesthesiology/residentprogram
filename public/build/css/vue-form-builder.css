@@ -1,0 +1,50 @@
+
+.alert[data-v-8d03363a] {
+	page-break-inside: avoid;
+}
+
+.form-item[data-v-2c14a78c] {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+.form-item .form-block[data-v-2c14a78c] {
+	flex-grow: 1;
+}
+.custom-options-editor[data-v-2c14a78c] {
+	display: block;
+	margin: 1em auto;
+	font-family: monospace;
+	white-space: pre;
+}
+
+.question-id[data-v-e2c7d180] {
+	font-size: larger;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+.form-builder-question-option[data-v-855ce662] {
+	margin-top: 10px;
+}
+.working-option[data-v-855ce662] {
+	opacity: 0.5;
+}
+.working-option[data-v-855ce662]:hover,
+.working-option.is-focused[data-v-855ce662],
+.working-option[data-v-855ce662]:active {
+	opacity: 1;
+}
+textarea.form-option-description[data-v-855ce662] {
+	resize: vertical;
+	height: 100px;
+}
+
+@media print {
+button[data-v-38459c74] {
+		display: none;
+}
+}
+
+/*# sourceMappingURL=vue-form-builder.css.map*/

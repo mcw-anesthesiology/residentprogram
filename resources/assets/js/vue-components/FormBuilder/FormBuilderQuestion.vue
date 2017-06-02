@@ -49,9 +49,15 @@
 					</div>
 				</div>
 				<div class="col-md-1 labelless-button">
-					<button @click="$emit('remove')" class="form-block-delete btn btn-danger del-btn" type="button">
+					<confirmation-button class="form-block-delete btn"
+							unpressed-class="btn-danger"
+							pressed-class="btn-warning"
+							@click="$emit('remove')">
 						Delete
-					</button>
+						<template slot="pressed">
+							Confirm
+						</template>
+					</confirmation-button>
 				</div>
 				<div class="col-md-1">
 					<label class="containing-label">
@@ -82,7 +88,7 @@
 								@input="$emit('change', {competencies: arguments[0]})" />
 						</label>
 					</div>
-				</div>				
+				</div>
 			</template>
 		</div>
 		<div class="panel-body">
@@ -110,8 +116,10 @@
 
 <script>
 import FormBuilderOption from './FormBuilderOption.vue';
-import SelectTwo from '../SelectTwo.vue';
-import AlertList from '../AlertList.vue';
+
+import AlertList from 'vue-components/AlertList.vue';
+import ConfirmationButton from 'vue-components/ConfirmationButton.vue';
+import SelectTwo from 'vue-components/SelectTwo.vue';
 
 import { STANDARD_OPTIONS } from 'modules/constants.js';
 import { sortSelect2Objects } from 'modules/utils.js';
@@ -174,7 +182,7 @@ export default {
 				value: '',
 				description: ''
 			},
-			
+
 			alerts: []
 		};
 	},
@@ -317,8 +325,9 @@ export default {
 	},
 	components: {
 		FormBuilderOption,
-		SelectTwo,
-		AlertList
+		AlertList,
+		ConfirmationButton,
+		SelectTwo
 	}
 };
 </script>

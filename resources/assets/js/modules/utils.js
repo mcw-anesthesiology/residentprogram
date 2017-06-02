@@ -189,6 +189,10 @@ export function groupUsers(users) {
 			text: 'Staff',
 			children: []
 		},
+		app: {
+			text: 'APP',
+			children: []
+		},
 		inactive: {
 			text: 'Inactive',
 			children: []

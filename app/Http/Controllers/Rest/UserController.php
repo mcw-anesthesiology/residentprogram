@@ -42,10 +42,10 @@ class UserController extends RestController
 
 	protected $model = \App\User::class;
 
-	public function store(Request $request){
-		if(!filter_var($request->input("email"), FILTER_VALIDATE_EMAIL))
+	public function store(Request $request) {
+		if (!filter_var($request->input("email"), FILTER_VALIDATE_EMAIL))
 			throw new \Exception("Email appears invalid");
-		elseif($request->hasFile("photo") && !$request->file("photo")->isValid())
+		elseif ($request->hasFile("photo") && !$request->file("photo")->isValid())
 			throw new \Exception("Problem with photo");
 
 		$password = str_random(12);
@@ -58,53 +58,53 @@ class UserController extends RestController
 		$user->status = $request->input("status", "active");
 		$user->reminder_frequency = $request->input("reminder_frequency", "weekly");
 		$user->notifications = $request->input("notifications", "no");
-		if($request->hasFile("photo") && $request->file("photo")->isValid()){
+		if ($request->hasFile("photo") && $request->file("photo")->isValid()) {
 			$photoExtension = $this->getExtension($request->file("photo"));
 			$photoName = uniqid() . "." . $photoExtension;
 			$request->file("photo")->move(storage_path("app/photos/"), $photoName);
 			$user->photo_path = "photos/".$photoName;
 		}
-		if($request->input("type") == "resident"){
+		if ($request->input("type") == "resident") {
 			$user->type = $request->input("type");
 			$user->training_level = $request->input("training_level");
-		} else if($request->input("type") == "fellow"){
+		} elseif ($request->input("type") == "fellow") {
 			$user->type = "resident";
 			$user->training_level = "fellow";
-		} else{
+		} else {
 			$user->type = $request->input("type");
 		}
 		$user->save();
-		if($request->has("send_email"))
+		if ($request->has("send_email"))
 			$user->sendNewAccountEmail($password);
 
-		if($request->ajax())
+		if ($request->ajax())
 			return "success";
 		else
 			return back();
 	}
 
-	public function update(Request $request, $id){
-		if($request->has("email")
+	public function update(Request $request, $id) {
+		if ($request->has("email")
 				&& !filter_var($request->input("email"), FILTER_VALIDATE_EMAIL))
 			throw new \Exception("Email appears invalid");
-		if($request->hasFile("photo")
+		if ($request->hasFile("photo")
 				&& !$request->file("photo")->isValid())
 			throw new \Exception("Problem with photo");
-		if($request->has("status")
+		if ($request->has("status")
 				&& !in_array($request->input("status"), ["active", "inactive"]))
 			throw new \Exception("Unknown status");
 
 		$user = User::findOrFail($id);
 		$user->update($request->all());
 
-		if($request->hasFile("photo") && $request->file("photo")->isValid()){
+		if ($request->hasFile("photo") && $request->file("photo")->isValid()) {
 			$photoExtension = $this->getExtension($request->file("photo"));
 			$photoName = uniqid() . "." . $photoExtension;
 			$request->file("photo")->move(storage_path("app/photos/"), $photoName);
-			if(!empty($user->photo_path)){
+			if (!empty($user->photo_path)) {
 				try {
 					unlink(storage_path("app/".$user->photo_path));
-				} catch (\Exception $e){
+				} catch (\Exception $e) {
 
 				}
 			}
@@ -113,38 +113,38 @@ class UserController extends RestController
 
 		$user->save();
 
-		if($request->ajax())
+		if ($request->ajax())
 			return "success";
 		else
 			return back();
 	}
 
-	public function password(Request $request, $id){
+	public function password(Request $request, $id) {
 		$user = User::findOrFail($id);
-		if(!$user->resetPassword())
+		if (!$user->resetPassword())
 			throw new \Exception("Failed to reset password");
 
-		if($request->ajax())
+		if ($request->ajax())
 			return "success";
 		else
 			return back();
 	}
 
-	public function welcome(Request $request, $id){
+	public function welcome(Request $request, $id) {
 		$user = User::findOrFail($id);
-		if(!$user->sendNewAccountEmail())
+		if (!$user->sendNewAccountEmail())
 			throw new \Exception("Failed to send welcome email");
 
-		if($request->ajax())
+		if ($request->ajax())
 			return "success";
 		else
 			return back();
 	}
 
-	protected function getExtension($file){
-		if(!empty($file->extension()))
+	protected function getExtension($file) {
+		if (!empty($file->extension()))
 			return $file->extension();
-		elseif(!empty($file->clientExtension()))
+		elseif (!empty($file->clientExtension()))
 			return $file->clientExtension();
 
 		return ".jpg";
