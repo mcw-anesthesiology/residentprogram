@@ -74,6 +74,11 @@ class FormController extends RestController
                 $form->evaluator_type = "faculty";
                 $form->visibility = "visible";
                 break;
+			case 'app':
+				$form->type = 'app';
+				$form->evaluator_type = 'faculty';
+				$form->visibility = 'anonymous';
+				break;
             case "resident":
             default:
                 $form->type = "resident";
@@ -94,7 +99,7 @@ class FormController extends RestController
 				$question->addAttribute('type', $item['questionType']);
 				if ($item['required'])
 					$question->addAttribute('required', 'required');
-				
+
 				$question->addChild('text', htmlspecialchars($item['text']));
 				if($item['weight'])
 					$question->addAttribute('weight', $item['weight']);

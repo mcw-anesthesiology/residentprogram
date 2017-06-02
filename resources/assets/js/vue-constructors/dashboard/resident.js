@@ -1,6 +1,7 @@
 import Vue from 'vue';
 
-import AlertList from 'vue-components/AlertList.vue';
+import HasAlerts from 'vue-mixins/HasAlerts.js';
+
 import EvaluationDataTable from 'vue-components/EvaluationDataTable.vue';
 
 import {
@@ -15,6 +16,9 @@ import {
 export default function createResidentDashboard(el, propsData){
 
 	return new Vue({
+		mixins: [
+			HasAlerts
+		],
 		el,
 		props: {
 			user: {
@@ -23,13 +27,7 @@ export default function createResidentDashboard(el, propsData){
 			}
 		},
 		propsData,
-		
-		data(){
-			return {
-				alerts: []
-			};
-		},
-		
+
 		computed: {
 			pendingSubjectThead(){
 				return [[
@@ -280,7 +278,6 @@ export default function createResidentDashboard(el, propsData){
 			}
 		},
 		components: {
-			AlertList,
 			EvaluationDataTable
 		}
 	});

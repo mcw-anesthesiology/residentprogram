@@ -14,7 +14,7 @@ import {
 } from 'modules/datatable-utils.js';
 
 export default function createAdminDashboard(el, propsData){
-		
+
 	return new Vue({
 		el,
 		props: {
@@ -28,15 +28,15 @@ export default function createAdminDashboard(el, propsData){
 			},
 		},
 		propsData,
-		
+
 		data(){
 			return {
 				flaggedEvals: null,
-				
+
 				alerts: []
 			};
 		},
-		
+
 		mounted(){
 			const flaggedEvalsBody = {
 				with: {
@@ -45,7 +45,7 @@ export default function createAdminDashboard(el, propsData){
 					'evaluation.subject': true
 				}
 			};
-			
+
 			fetch(`/flagged_evaluations?${$.param(flaggedEvalsBody)}`, {
 				method: 'GET',
 				headers: getFetchHeaders(),
@@ -65,13 +65,13 @@ export default function createAdminDashboard(el, propsData){
 				});
 			});
 		},
-		
+
 		updated(){
 			if(this.flaggedEvals && this.flaggedEvals.length > 0){
 				$('.table').on('click', '.remove-flag', event => {
 					event.preventDefault();
 					event.stopPropagation();
-					
+
 					let flaggedEvalId = $(event.target).data('id');
 					fetch(`/flagged_evaluations/${flaggedEvalId}`, {
 						method: 'POST', // DELETE
@@ -102,7 +102,7 @@ export default function createAdminDashboard(el, propsData){
 				});
 			}
 		},
-		
+
 		computed: {
 			flaggedEvalsThead(){
 				return [[
@@ -351,9 +351,65 @@ export default function createAdminDashboard(el, propsData){
 						$(row).addClass('view-evaluation');
 					}
 				};
+			},
+			appEvalThead() {
+				return [[
+					'#',
+					'APP',
+					'Evaluator',
+					'Form',
+					'Evaluation date',
+					'Created',
+					'Completed',
+					'Status'
+				]];
+			},
+			appEvalConfig() {
+				return {
+					ajax: {
+						url: '/evaluations',
+						data: {
+							with: {
+								evaluator: [
+									'full_name'
+								],
+								subject: [
+									'full_name'
+								],
+								form: [
+									'title'
+								]
+							},
+							whereHas: {
+								form: {
+									type: 'app'
+								}
+							}
+						},
+						dataSrc: ''
+					},
+					columns: [
+						{data: 'url'},
+						{data: 'subject.full_name'},
+						{data: 'evaluator.full_name'},
+						{data: 'form.title'},
+						{
+							data: null,
+							render: renderDateRangeCell('evaluation_date_start', 'evaluation_date_end'),
+							createdCell: createDateRangeCell('evaluation_date_start', 'evaluation_date_end')
+						},
+						{data: 'request_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
+						{data: 'complete_date', render: renderDateTimeCell, createdCell: createDateTimeCell},
+						{data: 'status', render: renderEvaluationStatus}
+					],
+					order: [[0, 'desc']],
+					createdRow: function(row){
+						$(row).addClass('view-evaluation');
+					}
+				};
 			}
 		},
-		
+
 		components: {
 			AlertList,
 			DataTable,

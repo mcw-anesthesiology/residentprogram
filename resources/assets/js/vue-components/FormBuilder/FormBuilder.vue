@@ -14,12 +14,10 @@
 					<div class="form-group" v-if="!fixedFormType">
 						<label for="form-type">Form type</label>
 						<select class="form-control input-lg" v-model="formType" id="form-type" name="form_type">
-							<option value="resident">Resident/Intern</option>
-							<option value="self-resident">Resident/Intern (self)</option>
-							<option value="fellow">Fellow</option>
-							<option value="self-fellow">Fellow (self)</option>
-							<option value="faculty">Faculty</option>
-							<option value="staff">Staff</option>
+							<option v-for="(displayText, type) of formTypes"
+									:value="type">
+								{{ displayText }}
+							</option>
 						</select>
 					</div>
 				</div>
@@ -27,9 +25,10 @@
 					<div class="form-group" v-if="!fixedPeriodType">
 						<label for="form-period-type">Evaluation period type</label>
 						<select class="form-control input-lg" v-model="periodType" id="form-period-type">
-							<option value="month">Month</option>
-							<option value="quarter">Quarter</option>
-							<option value="year">Year</option>
+							<option v-for="type of periodTypes"
+									:value="type">
+								{{ ucfirst(type) }}
+							</option>
 						</select>
 					</div>
 				</div>
@@ -115,7 +114,7 @@ import AlertList from '../AlertList.vue';
 import ShowHideButton from '../ShowHideButton.vue';
 import ConfirmationButton from '../ConfirmationButton.vue';
 
-import { fetchMilestoneGroups } from 'modules/utils.js';
+import { ucfirst, fetchMilestoneGroups } from 'modules/utils.js';
 
 export default {
 	props: {
@@ -188,6 +187,24 @@ export default {
 	},
 
 	computed: {
+		formTypes() {
+			return {
+				resident: 'Resident/Intern',
+				'self-resident': 'Resident/Intern (self)',
+				fellow: 'Fellow',
+				'self-fellow': 'Fellow (self)',
+				faculty: 'Faculty',
+				staff: 'Staff',
+				app: 'APP'
+			};
+		},
+		periodTypes() {
+			return [
+				'month',
+				'quarter',
+				'year'
+			];
+		},
 		customOptionsString() {
 			try {
 				return JSON.stringify(this.customOptions, null, 4);
@@ -200,6 +217,7 @@ export default {
 	},
 
 	methods: {
+		ucfirst,
 		addInstruction() {
 			this.items.push({
 				type: 'instruction',
