@@ -75,6 +75,7 @@ class Evaluation extends Model
 
 	protected $appends = ['url'];
 
+	private $showAll = false;
 	private $hashids = false;
 
 	public function getIdAttribute($id) {
@@ -101,7 +102,8 @@ class Evaluation extends Model
 						'ca-2',
 						'ca-3'
 					]))
-				&& Auth::user()->id != $evaluatorId)
+				&& Auth::user()->id != $evaluatorId
+				&& !$this->showAll)
 			return null;
 
 		return $evaluatorId;
@@ -117,7 +119,8 @@ class Evaluation extends Model
 						'ca-2',
 						'ca-3'
 					]))
-				&& Auth::user()->id != $requestedById)
+				&& Auth::user()->id != $requestedById
+				&& $this->showAll)
 			return null;
 
 		return $requestedById;
@@ -199,10 +202,11 @@ class Evaluation extends Model
 		});
 	}
 
-	public function sendNotification($reminder = false, $email) {
+	public function sendNotification($reminder = false) {
 		try {
-			if (empty($email))
-				$email = $this->evaluator->email;
+			$this->showAll = true;
+
+			$email = $this->evaluator->email;
 
 			$data = [
 				'evaluation' => $this
@@ -223,10 +227,15 @@ class Evaluation extends Model
 				$message->replyTo(config('app.admin_email'));
 				$message->subject($emailSubject);
 			});
+
+			$this->showAll = false;
+
 			return true;
 		} catch (\Exception $e) {
 			Log::error('Problem sending notification: ' . $e);
 		}
+
+		$this->showAll = false;
 		return false;
 	}
 
@@ -256,6 +265,12 @@ class Evaluation extends Model
 		}
 
 		return true;
+	}
+
+	public function withoutUserHidden($func) {
+		$this->showAll = true;
+		$func();
+		$this->showAll = false;
 	}
 
 	public function hideFields() {
