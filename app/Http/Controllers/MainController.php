@@ -447,14 +447,14 @@ class MainController extends Controller
     						$eval->sendHashLink();
 
     					if ($user->id != $evaluator) {
-							$evaluator = User::withoutGlobalScopes()->find($evaluator);
+							$evaluatorUser = User::withoutGlobalScopes()->find($evaluator);
 							if (
-								!empty($evaluator)
+								!empty($evaluatorUser)
 								&& (
 									($user->isType('admin') && $request->has('force_notification'))
-									|| $evaluator->notifications == 'yes'
+									|| $evaluatorUser->notifications == 'yes'
 								)
-								&& filter_var($evaluator->email, FILTER_VALIDATE_EMAIL)
+								&& filter_var($evaluatorUser->email, FILTER_VALIDATE_EMAIL)
 							) {
 								$eval->sendNotification();
 							}
