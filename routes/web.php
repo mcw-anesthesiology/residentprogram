@@ -31,8 +31,8 @@ Route::post('evaluation/{id}', 'MainController@saveEvaluation');
 Route::get('evaluate/{hash}', 'MainController@evaluationByHashLink');
 Route::post('evaluate/{hash}', 'MainController@saveEvaluationByHashLink');
 
-Route::get('request/{type?}', 'MainController@request');
-Route::post('request/{type?}', 'MainController@createRequest');
+Route::get('request/{requestType?}', 'MainController@request');
+Route::post('request/{requestType?}', 'MainController@createRequest');
 
 Route::get('profile/{id}', 'MainController@userProfile');
 Route::get('profile/evaluations/{id}/{type?}', 'MainController@profileEvaluations');

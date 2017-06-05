@@ -21,6 +21,8 @@
 		<li><a href="/request/app">APP Evaluation</a></li>
 		<li><a href="/dashboard">View Evaluations</a></li>
 		<li><a href="/dashboard/faculty">View Faculty Evaluations</a></li>
+	  @elseif($user->isType('app'))
+		<li><a href="/request/app">Request evaluation</a></li>
 	  @elseif($user->isType("staff"))
 		<li><a href="/request/staff">Create Evaluation</a></li>
 		<li><a href="/dashboard">View Evaluations</a></li>

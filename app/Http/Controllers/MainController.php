@@ -68,6 +68,45 @@ class MainController extends Controller
 		$this->middleware("case-log.has-access", ["only" => [
             "caseLog"
         ]]);
+
+		$this->middleware(function($request, $next) {
+			try {
+				$user = Auth::user();
+				$requestType = $request->route()->parameters()['requestType'];
+
+				if (!in_array($requestType, [
+					'resident',
+					'faculty',
+					'app',
+					'staff',
+					'self'
+				]))
+					throw new \DomainException("Sorry, {$requestType} is not currently a valid request type");
+
+                if ($requestType == "faculty") {
+                    if ($user->type == "faculty")
+                        throw new \DomainException("Faculty cannot request faculty evaluations");
+                    if (!$request->has("subject_id"))
+                        throw new \DomainException("Please select a faculty to be evaluated");
+                }
+
+				if ($requestType == 'app') {
+					if (!$user->isType(['app', 'faculty', 'admin']))
+						throw new \DomainException('Sorry, you are not currently allowed to create an APP evaluation');
+				}
+
+				return $next($request);
+			} catch (\DomainException $e) {
+				return back()->with('error', $e->getMessage());
+			}
+
+            $adminEmail = config('app.admin_email');
+            return back()->with('error', "There was a problem creating the request. "
+                + "If this continues to happen, please let me know at {$adminEmail}");
+		})->only([
+			'request',
+			'createRequest'
+		]);
     }
 
     public function dashboard() {
@@ -296,8 +335,8 @@ class MainController extends Controller
 					$requestTypeText = "self";
 	                break;
                 case 'app':
-                    $subjects = $apps;
-
+                    if (!$user->isType($subjectTypes))
+                        $subjects = $apps;
 					if (!$user->isType($evaluatorTypes))
 						$evaluators = $faculty;
 
@@ -330,16 +369,13 @@ class MainController extends Controller
 		$user = Auth::user();
 
 		try {
-			if ($requestType == "faculty") {
-				if ($user->type == "faculty")
-					throw new \DomainException("Faculty cannot request faculty evaluations");
-				if (!$request->has("subject_id"))
-					throw new \Exception("Please select a faculty to be evaluated");
-			}
-
-
-			if (in_array($requestType, ["resident", "self"])
-					&& $user->isType("resident")) {
+			if (
+				(
+					in_array($requestType, ["resident", "self"])
+					&& $user->isType("resident")
+				)
+				|| $requestType == 'app' && $user->isType('app')
+			) {
 				$subjects = [$user->id];
 			} else {
 				$subjects = $request->input("subject_id");
@@ -349,11 +385,8 @@ class MainController extends Controller
 
 			if (($requestType == "resident" && $user->isType("faculty"))
 					|| ($requestType == "staff" && $user->isType("staff"))
-					|| ($requestType == "faculty" && $user->isType("resident"))
-					|| ($requestType == 'app' && $user->isType('app'))) {
+					|| ($requestType == "faculty" && $user->isType("resident"))) {
 				$evaluators = [$user->id];
-			} elseif ($requestType == "self") {
-				$evaluators = $subjects;
 			} else {
 				$evaluators = $request->input("evaluator_id");
 				if (!is_array($evaluators))
@@ -376,8 +409,7 @@ class MainController extends Controller
 				$errors .= "Please select a form. ";
 
 			if ($errors)
-				throw new \Exception($errors);
-
+				throw new \DomainException($errors);
 
 			foreach ($evaluators as $evaluator) {
 				if ($requestType == "self")
@@ -412,16 +444,19 @@ class MainController extends Controller
     					if ($user->isType("admin") && $request->has("send_hash"))
     						$eval->sendHashLink();
 
-    					if ($user->id != $eval->evaluator_id
-    						&& (
-    							$request->has("force_notification")
-    							|| $eval->evaluator->notifications == "yes"
-    						)
-    						&& filter_var($eval->evaluator->email, FILTER_VALIDATE_EMAIL)
-    					) {
-                            $eval->sendNotification();
-                        }
-
+    					if ($user->id != $eval->evaluator_id) {
+							$evaluator = User::withoutGlobalScopes()->find($eval->evaluator_id);
+							if (
+								$evaluator
+								&& (
+									$request->has('force_notification')
+									|| $evaluator->notifications == 'yes'
+								)
+								&& filter_var($evaluator->email, FILTER_VALIDATE_EMAIL)
+							) {
+								$eval->sendNotification(false, $evaluator->email);
+							}
+						}
                     }
 				}
 			}
@@ -431,7 +466,7 @@ class MainController extends Controller
                     && $user->id == $eval->evaluator_id)
 	            return redirect("evaluation/".$eval->id);
 
-		} catch(\Exception $e) {
+		} catch(\DomainException $e) {
 			return back()->withInput()->with("error", $e->getMessage());
 		}
 

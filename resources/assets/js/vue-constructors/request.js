@@ -364,7 +364,14 @@ function getRequestType(){
 	paths = paths.filter(path => path.length > 0);
 	let type = paths[paths.length - 1];
 
-	if(['faculty', 'staff', 'self'].includes(type))
+	if(
+		[
+			'faculty',
+			'app',
+			'staff',
+			'self'
+		].includes(type)
+	)
 		return type;
 
 	return 'resident';
