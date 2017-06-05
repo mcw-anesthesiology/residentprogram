@@ -72,7 +72,9 @@ class MainController extends Controller
 		$this->middleware(function($request, $next) {
 			try {
 				$user = Auth::user();
-				$requestType = $request->route()->parameters()['requestType'];
+				$requestType = in_array('requestType', $request->route()->parameters())
+					? $request->route()->parameters()['requestType']
+					: 'resident';
 
 				if (!in_array($requestType, [
 					'resident',
@@ -444,17 +446,17 @@ class MainController extends Controller
     					if ($user->isType("admin") && $request->has("send_hash"))
     						$eval->sendHashLink();
 
-    					if ($user->id != $eval->evaluator_id) {
-							$evaluator = User::withoutGlobalScopes()->find($eval->evaluator_id);
+    					if ($user->id != $evaluator) {
+							$evaluator = User::withoutGlobalScopes()->find($evaluator);
 							if (
-								$evaluator
+								!empty($evaluator)
 								&& (
-									$request->has('force_notification')
+									($user->isType('admin') && $request->has('force_notification'))
 									|| $evaluator->notifications == 'yes'
 								)
 								&& filter_var($evaluator->email, FILTER_VALIDATE_EMAIL)
 							) {
-								$eval->sendNotification(false, $evaluator->email);
+								$eval->sendNotification();
 							}
 						}
                     }
