@@ -77,7 +77,7 @@ class FormController extends RestController
 			case 'app':
 				$form->type = 'app';
 				$form->evaluator_type = 'faculty';
-				$form->visibility = 'anonymous';
+				$form->visibility = 'visible';
 				break;
             case "resident":
             default:

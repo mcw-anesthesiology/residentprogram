@@ -16,7 +16,7 @@ use Mail;
 
 class Evaluation extends Model
 {
-	protected static function boot(){
+	protected static function boot() {
 		parent::boot();
 
 		static::addGlobalScope(new EvaluationScope);
@@ -77,21 +77,21 @@ class Evaluation extends Model
 
 	private $hashids = false;
 
-	public function getIdAttribute($id){
+	public function getIdAttribute($id) {
 		if($this->hashids)
 			return Hashids::encode($id);
 
 		return $id;
 	}
 
-	public function getViewableIdAttribute(){
+	public function getViewableIdAttribute() {
 		if($this->isAnonymousToUser())
 			return Hashids::encode($this->id);
 
 		return $this->id;
 	}
 
-	public function getEvaluatorIdAttribute($evaluatorId){
+	public function getEvaluatorIdAttribute($evaluatorId) {
 		if(Auth::check() && !Auth::user()->isType('admin')
 				&& $this->visibility == 'anonymous'
 				&& !(Auth::user()->usesFeature('RESIDENT_EVALS')
@@ -107,7 +107,7 @@ class Evaluation extends Model
 		return $evaluatorId;
 	}
 
-	public function getRequestedByIdAttribute($requestedById){
+	public function getRequestedByIdAttribute($requestedById) {
 		if(Auth::check() && !Auth::user()->isType('admin')
 				&& $this->visibility == 'anonymous'
 				&& !(Auth::user()->usesFeature('RESIDENT_EVALS')
@@ -123,7 +123,7 @@ class Evaluation extends Model
 		return $requestedById;
 	}
 
-	public function getVisibilityAttribute($visibility){
+	public function getVisibilityAttribute($visibility) {
 		if(empty($this->form))
 			$this->load('form');
 		if(empty($this->form))
@@ -131,39 +131,39 @@ class Evaluation extends Model
 		return empty($visibility) ? $this->form->visibility : $visibility;
 	}
 
-	public function getUrlAttribute(){
+	public function getUrlAttribute() {
 		return "<a href='/evaluation/{$this->id}'>{$this->id}</a>";
 	}
 
-	public function evaluator(){
+	public function evaluator() {
 		return $this->belongsTo('App\User', 'evaluator_id');
 	}
 
-	public function subject(){
+	public function subject() {
 		return $this->belongsTo('App\User', 'subject_id');
 	}
 
-	public function requestor(){
+	public function requestor() {
 		return $this->belongsTo('App\User', 'requested_by_id');
 	}
 
-	public function form(){
+	public function form() {
 		return $this->belongsTo('App\Form');
 	}
 
-	public function responses(){
+	public function responses() {
 		return $this->hasMany('App\Response');
 	}
 
-	public function textResponses(){
+	public function textResponses() {
 		return $this->hasMany('App\TextResponse');
 	}
 
-	public function flag(){
+	public function flag() {
 		return $this->hasOne('App\FlaggedEvaluation');
 	}
 
-	public function isAnonymousToUser(){
+	public function isAnonymousToUser() {
 		return (Auth::check() && !Auth::user()->isType('admin')
 				&& in_array($this->visibility, ['anonymous', 'under faculty threshold'])
 				&& !(Auth::user()->usesFeature('RESIDENT_EVALS')
@@ -177,36 +177,38 @@ class Evaluation extends Model
 				&& Auth::user()->id != $this->evaluator_id);
 	}
 
-	public function scopeNotHidden($query){
+	public function scopeNotHidden($query) {
 		return $query->ofVisibility(['visible', 'anonymous']);
 	}
 
-	public function scopeOfVisibility($query, $visibilities){
+	public function scopeOfVisibility($query, $visibilities) {
 		if(!is_array($visibilities))
 			$visibilities = [$visibilities];
-		return $query->where(function($query) use ($visibilities){
-			$query->whereIn('visibility', $visibilities)->orWhere(function($query) use ($visibilities){
-				$query->whereNull('visibility')->whereHas('form', function($query) use ($visibilities){
+		return $query->where(function($query) use ($visibilities) {
+			$query->whereIn('visibility', $visibilities)->orWhere(function($query) use ($visibilities) {
+				$query->whereNull('visibility')->whereHas('form', function($query) use ($visibilities) {
 					$query->whereIn('visibility', $visibilities);
 				});
 			});
 		});
 	}
-	
+
 	public function scopeOfType($query, $type) {
 		return $query->whereHas('form', function($innerQuery) use ($type) {
 			$innerQuery->where('type', $type);
 		});
 	}
 
-	public function sendNotification($reminder = false){
-		try{
-			$email = $this->evaluator->email;
+	public function sendNotification($reminder = false, $email) {
+		try {
+			if (empty($email))
+				$email = $this->evaluator->email;
+
 			$data = [
 				'evaluation' => $this
 			];
 
-			if($reminder){
+			if($reminder) {
 				$emailView = 'emails.evaluation-reminder';
 				$emailSubject = 'Evaluation Reminder';
 			}
@@ -215,22 +217,21 @@ class Evaluation extends Model
 				$emailSubject = 'Evaluation Request Notification';
 			}
 
-			Mail::send($emailView, $data, function($message) use($email, $emailSubject){
+			Mail::send($emailView, $data, function($message) use($email, $emailSubject) {
 				$message->to($email);
 				$message->from('notifications@residentprogram.com', 'Resident Program Notifications');
 				$message->replyTo(config('app.admin_email'));
 				$message->subject($emailSubject);
 			});
 			return true;
-		}
-		catch (\Exception $e){
-			Log::error('Problem sending notification: '.$e);
+		} catch (\Exception $e) {
+			Log::error('Problem sending notification: ' . $e);
 		}
 		return false;
 	}
 
-	public function sendHashLink(){
-		try{
+	public function sendHashLink() {
+		try {
 			if($this->status != 'pending')
 				throw new \Exception('Evaluation already complete');
 			if(empty($this->completion_hash))
@@ -243,14 +244,13 @@ class Evaluation extends Model
 				'subjectLast' => $this->subject->last_name,
 				'formTitle' => $this->form->title
 			];
-			Mail::send('emails.hash-link', $data, function($message) use($email){
+			Mail::send('emails.hash-link', $data, function($message) use($email) {
 				$message->to($email);
 				$message->from('notifications@residentprogram.com', 'Resident Program Notifications');
 				$message->replyTo(config('app.admin_email'));
 				$message->subject('Evaluation Completion Link');
 			});
-		}
-		catch (\Exception $e){
+		} catch (\Exception $e) {
 			Log::error('Problem sending hash link: ' . $e);
 			throw $e;
 		}
@@ -258,26 +258,26 @@ class Evaluation extends Model
 		return true;
 	}
 
-	public function hideFields(){
+	public function hideFields() {
 		$user = Auth::user();
 		$this->addHidden($this->userHidden);
-		
+
 		if(Auth::user()->usesFeature('RESIDENT_EVALS')
 				&& in_array($this->training_level, [
 					'intern',
 					'ca-1',
 					'ca-2',
 					'ca-3'
-				])){
+				])) {
 			return;
 		}
 
-		if($this->isAnonymousToUser()){
+		if($this->isAnonymousToUser()) {
 			$this->hashids = true;
-			foreach($this->responses as $eval){
+			foreach($this->responses as $eval) {
 				$eval->hashEvaluationId();
 			}
-			foreach($this->textResponses as $eval){
+			foreach($this->textResponses as $eval) {
 				$eval->hashEvaluationId();
 			}
 		}
@@ -295,7 +295,7 @@ class Evaluation extends Model
 
 		if($this->status != 'complete')
 			$this->addHidden(['responses', 'textResponses']);
-			
+
 		return $this;
 	}
 }
