@@ -91,9 +91,8 @@ class MeritReportController extends RestController
 	}
 
 	public function byUser() {
-		return User::whereHas('meritReports', function ($query) {
-			return $query->where('status', '!=', 'pending');
-		})->with('meritReports', 'meritReports.form')->get();
+		return User::whereHas('meritReports')
+			->with('meritReports', 'meritReports.form')->get();
 	}
 
 	public function update(Request $request, $id) {
