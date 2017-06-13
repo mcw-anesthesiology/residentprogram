@@ -20,7 +20,7 @@
 					<label v-for="predefinedRole of predefinedRoles">
 						<input type="radio" :value="predefinedRole"
 							:checked="role === predefinedRole"
-							:readonly="readonly"
+							:disabled="readonly"
 							@change="handleCheck" />
 						{{ kebabCaseToWords(predefinedRole) }}
 					</label>
@@ -28,7 +28,7 @@
 					<label>
 						<input type="radio" :value="otherRole"
 							:checked="role === otherRole"
-							:readonly="readonly"
+							:disabled="readonly"
 							@change="handleCheck" />
 						<input type="text"
 							class="form-control editable-option-text"
@@ -51,6 +51,13 @@ import ListItem from './Item.vue';
 
 import { kebabCaseToWords } from 'modules/utils.js';
 
+const predefinedRoles = [
+	'editor-in-chief',
+	'associate-editor',
+	'executive-editor',
+	'statistical-editor'
+];
+
 export default {
 	extends: ListItem,
 	props: {
@@ -71,18 +78,21 @@ export default {
 	},
 	data() {
 		return {
-			otherRole: ''
+			otherRole: predefinedRoles.includes(this.role)
+				? ''
+				: this.role
 		};
 	},
 
 	computed: {
 		predefinedRoles() {
-			return [
-				'editor-in-chief',
-				'associate-editor',
-				'executive-editor',
-				'statistical-editor'
-			];
+			return predefinedRoles;
+		}
+	},
+
+	watch: {
+		otherRole(otherRole) {
+			this.$emit('input', {role: otherRole});
 		}
 	},
 
