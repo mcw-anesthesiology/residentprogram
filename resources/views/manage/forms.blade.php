@@ -192,22 +192,27 @@
 			var form, option;
 
 			var typeIndeces = {
-				"resident": 0,
-				"fellow": 1,
-				"faculty": 2
+				'resident': 0,
+				'fellow': 1,
+				'faculty': 2,
+				'app': 3
 			};
 
 			var optGroups = [
 				{
-					text: "Resident",
+					text: 'Resident',
 					children: []
 				},
 				{
-					text: "Fellow",
+					text: 'Fellow',
 					children: []
 				},
 				{
-					text: "Faculty",
+					text: 'Faculty',
+					children: []
+				},
+				{
+					text: 'APP',
 					children: []
 				}
 			];
@@ -232,7 +237,7 @@
 				});
 			}
 
-			$("#edit-form-forms-list").select2({
+			$('#edit-form-forms-list').select2({
 				data: optGroups
 			});
 		});

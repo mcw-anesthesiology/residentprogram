@@ -145,13 +145,15 @@ export default {
 	},
 	data(){
 		return {
-			title: '',
-			formType: this.fixedFormType || this.defaultFormType || 'resident',
+			title: this.oldFormContents ? this.oldFormContents.title : '',
+			formType: this.oldFormContents
+				? this.oldFormContents.formType
+				: this.fixedFormType || this.defaultFormType || 'resident',
 			periodType: this.fixedPeriodType || this.defaultPeriodType || 'month',
 			nextQuestionIdNum: 1,
 			groupedMilestones: [],
 			competencies: [],
-			items: [],
+			items: this.oldFormContents ? this.oldFormContents.items : [],
 			customOptions: [],
 
 			show: {
