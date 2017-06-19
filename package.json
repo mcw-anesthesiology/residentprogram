@@ -31,7 +31,7 @@
     "ie >= 9"
   ],
   "devDependencies": {
-    "@jacobmischka/vue-flatpickr": "^2.2.10",
+    "@jacobmischka/vue-flatpickr": "^2.3.0",
     "ajv": "^5.0.1",
     "apply-loader": "^2.0.0",
     "babel-core": "^6.10.4",
@@ -93,5 +93,8 @@
     "webpack-bundle-analyzer": "^2.2.1",
     "webpack-manifest-plugin": "^1.1.0",
     "whatwg-fetch": "^2.0.1"
+  },
+  "dependencies": {
+    "require-dir": "^0.3.2"
   }
 }
