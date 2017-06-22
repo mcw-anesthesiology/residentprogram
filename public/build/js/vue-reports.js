@@ -31680,7 +31680,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(this.dates)
-			}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["c" /* jsonOrThrow */]).then(function (stats) {
+			}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["b" /* jsonOrThrow */]).then(function (stats) {
 				_this.evaluatorStats = stats;
 			}).catch(function (err) {
 				console.error(err);
@@ -31695,7 +31695,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(this.dates)
-			}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["c" /* jsonOrThrow */]).then(function (stats) {
+			}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["b" /* jsonOrThrow */]).then(function (stats) {
 				_this.subjectStats = stats;
 			}).catch(function (err) {
 				console.error(err);
@@ -32099,7 +32099,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 				method: 'GET',
 				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin'
-			}).then(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["c" /* jsonOrThrow */]).then(function (subjectEvals) {
+			}).then(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["b" /* jsonOrThrow */]).then(function (subjectEvals) {
 				_this5.subjectEvals = subjectEvals;
 			}).catch(function (err) {
 				console.error(err);
@@ -34675,7 +34675,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				body: JSON.stringify(Object.assign({}, this.dates, {
 					trainingLevel: this.currentTrainingLevel
 				}))
-			}).then(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["c" /* jsonOrThrow */]).then(function (stats) {
+			}).then(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["b" /* jsonOrThrow */]).then(function (stats) {
 				_this4.subjectStats = stats;
 			}).catch(function (err) {
 				console.error(err);
@@ -34688,7 +34688,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				body: JSON.stringify(Object.assign({}, this.dates, {
 					trainingLevel: this.currentTrainingLevel
 				}))
-			}).then(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["c" /* jsonOrThrow */]).then(function (stats) {
+			}).then(__WEBPACK_IMPORTED_MODULE_9__modules_utils_js__["b" /* jsonOrThrow */]).then(function (stats) {
 				_this4.evaluatorStats = stats;
 			}).catch(function (err) {
 				console.error(err);

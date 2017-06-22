@@ -6453,7 +6453,7 @@ function createFaculty360CreateForm(el) {
 					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["a" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify(form)
-				}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["c" /* jsonOrThrow */]).then(function (response) {
+				}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["b" /* jsonOrThrow */]).then(function (response) {
 					_this.newFormId = response.id;
 					_this.redirectTimeout = window.setTimeout(function () {
 						window.location = '/faculty360/forms/' + response.id + '/view';
@@ -6655,7 +6655,7 @@ function createFaculty360Evaluate(el, propsData) {
 						_method: 'PATCH',
 						contents: form.contents
 					})
-				}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["c" /* jsonOrThrow */]).then(function () {
+				}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["b" /* jsonOrThrow */]).then(function () {
 					_this.alerts.push({
 						type: 'success',
 						text: 'Progress saved successfully!'
@@ -6680,7 +6680,7 @@ function createFaculty360Evaluate(el, propsData) {
 						_method: 'PATCH',
 						contents: form.contents
 					})
-				}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["c" /* jsonOrThrow */]).then(function () {
+				}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["b" /* jsonOrThrow */]).then(function () {
 					_this2.submitSuccessful = true;
 				}).catch(function (err) {
 					console.error(err);

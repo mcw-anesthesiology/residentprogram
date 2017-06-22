@@ -15,35 +15,45 @@ use App\User;
 class AlumController extends RestController
 {
 	public function __construct() {
-		$this->middleware("auth", ["except" => [
-			"updateWithHash", "updateSubscription"
+		$this->middleware('auth', ['except' => [
+			'getByHash',
+			'updateWithHash',
+			'updateSubscription'
 		]]);
-		$this->middleware("type:admin", ["except" => [
-			"updateWithHash", "updateSubscription"
+		$this->middleware('type:admin', ['except' => [
+			'getByHash',
+			'updateWithHash',
+			'updateSubscription'
 		]]);
-		$this->middleware("update.alum", ["only" => [
-			"updateWithHash", "updateSubscription"
+		$this->middleware('update.alum', ['only' => [
+			'getByHash',
+			'updateWithHash',
+			'updateSubscription'
 		]]);
 	}
 
 	protected $relationships = [];
 
 	protected $attributes = [
-		"last_name",
-		"first_name",
-		"email",
-		"address",
-		"address_2",
-		"city",
-		"state",
-		"zip",
-		"country",
-		"employer",
-		"graduation_date",
-		"notes"
+		'last_name',
+		'first_name',
+		'email',
+		'address',
+		'address_2',
+		'city',
+		'state',
+		'zip',
+		'country',
+		'employer',
+		'graduation_date',
+		'notes'
 	];
 
 	protected $model = \App\Alum::class;
+
+	public function getByHash(Request $request, $hash) {
+		return Alum::where("update_hash", $hash)->firstOrFail();
+	}
 
 	public function updateWithHash(Request $request, $hash) {
 		Alum::where("update_hash", $hash)->firstOrFail()->update($request->all());

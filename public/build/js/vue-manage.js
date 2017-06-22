@@ -19181,6 +19181,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		alum: {
 			type: Object,
 			required: false
+		},
+		saveUrl: {
+			type: String,
+			required: true
+		},
+		showClose: {
+			type: Boolean,
+			default: true
 		}
 	},
 	data: function data() {
@@ -19291,20 +19299,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			event.preventDefault();
 
-			var url = this.alum ? '/alumni/' + this.alum.id : '/alumni';
-
 			var body = this.assignProps(this);
 
 			if (this.alum) body._method = 'PATCH';
 
-			fetch(url, {
+			fetch(this.saveUrl, {
 				method: 'POST',
 				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin',
 				body: JSON.stringify(body)
-			}).then(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["b" /* okOrThrow */]).then(function () {
+			}).then(__WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["c" /* okOrThrow */]).then(function () {
 				_this.$emit('reload');
-				_this.$router.go(-1);
 			}).catch(function (err) {
 				console.error(err);
 				_this.$emit('alert', {
@@ -35709,7 +35714,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })])])])]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "btn-lg-submit-container"
-  }, [_c('confirmation-button', {
+  }, [(_vm.showClose) ? _c('confirmation-button', {
     staticClass: "btn btn-lg",
     attrs: {
       "unpressed-class": "btn-default",
@@ -35720,7 +35725,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$emit('close')
       }
     }
-  }, [_vm._v("\n\t\t\t\tCancel\n\t\t\t")]), _vm._v(" "), _c('button', {
+  }, [_vm._v("\n\t\t\t\tCancel\n\t\t\t")]) : _vm._e(), _vm._v(" "), _c('button', {
     staticClass: "btn btn-lg btn-primary",
     attrs: {
       "type": "submit"
@@ -37140,7 +37145,10 @@ function createAlumni(el) {
 		router: new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
 			routes: [{
 				path: '/edit',
-				component: __WEBPACK_IMPORTED_MODULE_3__vue_components_Alumni_Edit_vue___default.a
+				component: __WEBPACK_IMPORTED_MODULE_3__vue_components_Alumni_Edit_vue___default.a,
+				props: {
+					saveUrl: '/alumni'
+				}
 			}, {
 				path: '/import',
 				component: __WEBPACK_IMPORTED_MODULE_4__vue_components_Alumni_Import_vue___default.a
@@ -37390,7 +37398,7 @@ function createManageFaculty360(el) {
 					method: 'GET',
 					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["a" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["c" /* jsonOrThrow */]).then(function (forms) {
+				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["b" /* jsonOrThrow */]).then(function (forms) {
 					_this.forms = forms;
 				}).catch(function (err) {
 					console.error(err);
@@ -37416,7 +37424,7 @@ function createManageFaculty360(el) {
 					method: 'GET',
 					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["a" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["c" /* jsonOrThrow */]).then(function (evals) {
+				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["b" /* jsonOrThrow */]).then(function (evals) {
 					_this2.evaluations = evals;
 				}).catch(function (err) {
 					console.error(err);
@@ -37439,7 +37447,7 @@ function createManageFaculty360(el) {
 						_method: 'PATCH',
 						status: newStatus
 					})
-				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["b" /* okOrThrow */]).then(function () {
+				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["c" /* okOrThrow */]).then(function () {
 					_this3.fetchForms();
 				}).catch(function (err) {
 					console.error(err);
@@ -37464,7 +37472,7 @@ function createManageFaculty360(el) {
 						_method: 'PATCH',
 						status: newStatus
 					})
-				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["b" /* okOrThrow */]).then(function () {
+				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["c" /* okOrThrow */]).then(function () {
 					_this4.fetchEvaluations();
 				}).catch(function (err) {
 					console.error(err);
@@ -37483,7 +37491,7 @@ function createManageFaculty360(el) {
 					method: 'GET',
 					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["a" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["b" /* okOrThrow */]).then(function () {
+				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["c" /* okOrThrow */]).then(function () {
 					_this5.alerts.push({
 						type: 'success',
 						text: 'New link sent successfully!'
@@ -37509,7 +37517,7 @@ function createManageFaculty360(el) {
 					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["a" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify(form)
-				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["c" /* jsonOrThrow */]).then(function () {
+				}).then(__WEBPACK_IMPORTED_MODULE_13__modules_utils_js__["b" /* jsonOrThrow */]).then(function () {
 					_this6.show.createForm = false;
 					_this6.fetchForms();
 				}).catch(function (err) {
@@ -37660,7 +37668,7 @@ function createManageMerit(el, propsData) {
 					method: 'GET',
 					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["a" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["c" /* jsonOrThrow */]).then(function (meritForms) {
+				}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["b" /* jsonOrThrow */]).then(function (meritForms) {
 					_this.meritForms = meritForms;
 				}).catch(function (err) {
 					console.error(err);
@@ -37977,7 +37985,7 @@ function createManageMilestonesCompetencies(el, propsData) {
 					method: 'GET',
 					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* jsonOrThrow */]).then(function (milestones) {
+				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* jsonOrThrow */]).then(function (milestones) {
 					_this.milestones = milestones;
 				}).catch(function (err) {
 					console.error(err);
@@ -38000,7 +38008,7 @@ function createManageMilestonesCompetencies(el, propsData) {
 					method: 'GET',
 					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* jsonOrThrow */]).then(function (competencies) {
+				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* jsonOrThrow */]).then(function (competencies) {
 					_this2.competencies = competencies;
 				}).catch(function (err) {
 					console.error(err);
@@ -38028,7 +38036,7 @@ function createManageMilestonesCompetencies(el, propsData) {
 						_method: 'PATCH',
 						orderMap: orderMap
 					})
-				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* jsonOrThrow */]).then(function (results) {
+				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* jsonOrThrow */]).then(function (results) {
 					if (results.success && results.success.length === _this3.orderedMilestones.length) _this3.milestoneAlerts.push({
 						type: 'success',
 						text: 'All orders saved successfully'
@@ -38064,7 +38072,7 @@ function createManageMilestonesCompetencies(el, propsData) {
 						_method: 'PATCH',
 						orderMap: orderMap
 					})
-				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* jsonOrThrow */]).then(function (results) {
+				}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* jsonOrThrow */]).then(function (results) {
 					if (results.success && results.success.length === _this4.orderedCompetencies.length) _this4.competencyAlerts.push({
 						type: 'success',
 						text: 'All orders saved successfully'
@@ -42695,7 +42703,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				method: 'GET',
 				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin'
-			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* jsonOrThrow */]).then(function (users) {
+			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* jsonOrThrow */]).then(function (users) {
 				_this4.residents = users;
 			}).catch(function (err) {
 				console.error(err);
@@ -42717,7 +42725,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				method: 'GET',
 				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin'
-			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* jsonOrThrow */]).then(function (users) {
+			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* jsonOrThrow */]).then(function (users) {
 				_this5.fellows = users;
 			}).catch(function (err) {
 				console.error(err);
@@ -42738,7 +42746,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				method: 'GET',
 				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin'
-			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* jsonOrThrow */]).then(function (users) {
+			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* jsonOrThrow */]).then(function (users) {
 				_this6.faculty = users;
 			}).catch(function (err) {
 				console.error(err);
@@ -42759,7 +42767,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					users: this.usersToImport,
 					graduation_date: this.graduationDate
 				})
-			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["c" /* jsonOrThrow */]).then(function (response) {
+			}).then(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["b" /* jsonOrThrow */]).then(function (response) {
 				if (response.successes && response.successes.length > 0) {
 					var lis = response.successes.map(function (userId) {
 						var user = _this7.selectedUsers.find(function (user) {
@@ -43086,6 +43094,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -43129,6 +43138,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		emailReplacements: function emailReplacements() {
 			return ['Name', 'Last name', 'Link'];
+		},
+		saveAlumUrl: function saveAlumUrl() {
+			return '/alumni/' + this.alumniBeingEdited.id;
 		}
 	},
 
@@ -43140,7 +43152,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				method: 'GET',
 				headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["a" /* getFetchHeaders */])(),
 				credentials: 'same-origin'
-			}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["c" /* jsonOrThrow */]).then(function (alumni) {
+			}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["b" /* jsonOrThrow */]).then(function (alumni) {
 				_this.alumni = alumni;
 			}).catch(function (err) {
 				console.error(err);
@@ -43180,7 +43192,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				body: JSON.stringify({
 					_method: 'DELETE'
 				})
-			}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["b" /* okOrThrow */]).then(function () {
+			}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["c" /* okOrThrow */]).then(function () {
 				_this2.fetchAlumni();
 			}).catch(function (err) {
 				console.error(err);
@@ -44656,6 +44668,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })], 1), _vm._v(" "), _c('router-view', {
     attrs: {
       "alum": _vm.alumniBeingEdited,
+      "save-url": _vm.saveAlumUrl,
       "manage": ""
     },
     on: {
