@@ -21,7 +21,8 @@
 			<alert-list v-model="alerts"></alert-list>
 		</div>
 
-		<router-view :alum="alumniBeingEdited" manage
+		<router-view :alum="alumniBeingEdited"
+			:save-url="saveAlumUrl" manage
 			@reload="fetchAlumni"
 			@close="handleClose">
 		</router-view>
@@ -119,6 +120,9 @@ information so we can send you newsletters or to manage your alumni subscription
 				'Last name',
 				'Link'
 			];
+		},
+		saveAlumUrl() {
+			return `/alumni/${this.alumniBeingEdited.id}`;
 		}
 	},
 

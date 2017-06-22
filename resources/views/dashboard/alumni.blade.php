@@ -29,26 +29,15 @@
 			height: 50px;
 		}
 
-		.glyph-container {
-			text-align: center;
-			height: 100%;
-			padding: 20px;
-		}
-
-		.glyphicon {
-			vertical-align: middle;
-			font-size: 36px;
-		}
-
-		hr {
-			margin: 40px;
-		}
-
 		.success-lead {
 			padding: 20px;
 		}
 	</style>
 @stop
+
+@push('stylesheets')
+	<link rel="stylesheet" href="{{ elixir('css/vue-alumni.css') }}" />
+@endpush
 
 @section("blockless-body")
 	<div class="container body-block">
@@ -64,20 +53,30 @@
 			<p>
 				You can return to this address to update your info at any time. We'll include it again with most emails, so don't worry about forgetting it.
 			</p>
+		</div>
 
-			<router-link to="subscription">
-				Manage your MCW Anesthesiology Alumni email subscription
-			</router-link>
-
-			<router-link to="/" exact>
-				Manage your MCW Anesthesiology Alumni profile
-			</router-link>
+		<div v-if="!show.edit" v-cloak class="container">
+			<div class="btn-lg-submit-container">
+				<button type="button" class="btn btn-lg btn-primary"
+						@click="show.edit = true">
+					Edit alumni profile
+				</button>
+			</div>
 		</div>
 
 		<alert-list v-model="alerts"></alert-list>
 	</div>
 
-	<router-view></router-view>
+	<edit-alumni v-if="show.edit" :alum="alum" :save-url="editSaveUrl"
+		:show-close="false"
+		@reload="reloadEditAlum">
+	</edit-alumni>
+
+
+	<alumni-subscription :alum="alum" :save-url="subSaveUrl"
+		@reload="reloadAlum"
+		@alert="this.alerts.push">
+	</alumni-subscription>
 @stop
 
 @push('scripts')
@@ -85,7 +84,8 @@
 	<script src="{{ elixir('js/vue-alumni.js') }}"></script>
 	<script>
 		var propsData = {
-			alum: {!! json_encode($alum) !!}
+			defaultAlum: {!! json_encode($alum) !!},
+			hash: {!! json_encode($hash) !!}
 		};
 
 		createAlumni('main', propsData);

@@ -10517,7 +10517,7 @@ function createAdminSupervisorMeritReports(el, propsData) {
 					method: 'GET',
 					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["a" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["c" /* jsonOrThrow */]).then(function (usersWithReports) {
+				}).then(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["b" /* jsonOrThrow */]).then(function (usersWithReports) {
 					_this.usersWithReports = usersWithReports;
 				}).catch(function (err) {
 					console.error(err);
@@ -10534,7 +10534,7 @@ function createAdminSupervisorMeritReports(el, propsData) {
 					method: 'GET',
 					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["a" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["c" /* jsonOrThrow */]).then(function (meritForms) {
+				}).then(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["b" /* jsonOrThrow */]).then(function (meritForms) {
 					_this2.meritForms = meritForms;
 				}).catch(function (err) {
 					console.error(err);
@@ -10693,7 +10693,7 @@ function createFacultyMeritReports(el, propsData) {
 					method: 'GET',
 					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["a" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["c" /* jsonOrThrow */]).then(function (merits) {
+				}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["b" /* jsonOrThrow */]).then(function (merits) {
 					_this3.meritReports = merits;
 				}).catch(function (err) {
 					console.error(err);
@@ -10725,7 +10725,7 @@ function createFacultyMeritReports(el, propsData) {
 					method: 'GET',
 					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["a" /* getFetchHeaders */])(),
 					credentials: 'same-origin'
-				}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["c" /* jsonOrThrow */]).then(function (meritForms) {
+				}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["b" /* jsonOrThrow */]).then(function (meritForms) {
 					_this4.meritForms = meritForms;
 				}).catch(function (err) {
 					console.error(err);
@@ -10759,7 +10759,7 @@ function createFacultyMeritReports(el, propsData) {
 					headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["a" /* getFetchHeaders */])(),
 					credentials: 'same-origin',
 					body: JSON.stringify(meritReport)
-				}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["b" /* okOrThrow */]).then(function () {
+				}).then(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["c" /* okOrThrow */]).then(function () {
 					_this5.meritCompensationReport = null;
 					_this5.fetchPastMeritReports();
 				}).catch(function (err) {
@@ -11546,7 +11546,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				body: JSON.stringify(Object.assign(changes, {
 					_method: 'PATCH'
 				}))
-			}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["b" /* okOrThrow */]).then(function () {
+			}).then(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["c" /* okOrThrow */]).then(function () {
 				_this.$emit('change');
 			}).catch(function (err) {
 				console.error(err);
@@ -11696,7 +11696,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				body: JSON.stringify(Object.assign(changes, {
 					_method: 'PATCH'
 				}))
-			}).then(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["b" /* okOrThrow */]).then(function () {
+			}).then(__WEBPACK_IMPORTED_MODULE_4__modules_utils_js__["c" /* okOrThrow */]).then(function () {
 				_this3.$emit('change');
 			}).catch(function (err) {
 				console.error(err);

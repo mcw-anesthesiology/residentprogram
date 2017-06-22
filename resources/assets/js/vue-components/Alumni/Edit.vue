@@ -175,7 +175,7 @@
 			</div>
 
 			<div class="btn-lg-submit-container">
-				<confirmation-button class="btn btn-lg"
+				<confirmation-button v-if="showClose" class="btn btn-lg"
 						unpressed-class="btn-default"
 						pressed-class="btn-warning"
 						@click="$emit('close')">
@@ -209,6 +209,14 @@ export default {
 		alum: {
 			type: Object,
 			required: false
+		},
+		saveUrl: {
+			type: String,
+			required: true
+		},
+		showClose: {
+			type: Boolean,
+			default: true
 		}
 	},
 	data() {
@@ -296,23 +304,18 @@ export default {
 		saveAlum(event) {
 			event.preventDefault();
 
-			const url = this.alum
-				? `/alumni/${this.alum.id}`
-				: '/alumni';
-
 			const body = this.assignProps(this);
 
 			if (this.alum)
 				body._method = 'PATCH';
 
-			fetch(url, {
+			fetch(this.saveUrl, {
 				method: 'POST',
 				headers: getFetchHeaders(),
 				credentials: 'same-origin',
 				body: JSON.stringify(body)
 			}).then(okOrThrow).then(() => {
 				this.$emit('reload');
-				this.$router.go(-1);
 			}).catch(err => {
 				console.error(err);
 				this.$emit('alert', {

@@ -747,7 +747,7 @@ class MainController extends Controller
         try {
             $alum = Alum::where("update_hash", $hash)->firstOrFail();
             $ADMIN_EMAIL = config("app.admin_email");
-            $data = compact("alum", "ADMIN_EMAIL");
+            $data = compact('hash', "alum", "ADMIN_EMAIL");
             return view("dashboard.alumni", $data)->with(["noNavbar" => true]);
         }
         catch(ModelNotFoundException $e){

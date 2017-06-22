@@ -50,6 +50,7 @@ Route::resource('competencies', 'Rest\CompetencyController', ['only' => [
 ]]);
 
 Route::post('alumni/email', 'Rest\AlumController@sendEmails');
+Route::get('alumni/hash/{hash}', 'Rest\AlumController@getByHash');
 Route::patch('alumni/hash/{hash}', 'Rest\AlumController@updateWithHash');
 Route::patch('alumni/subscription/{hash}/', 'Rest\AlumController@updateSubscription');
 Route::post('alumni/import/users', 'Rest\AlumController@importFromUsers');
