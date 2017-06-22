@@ -10,49 +10,7 @@
 })(this, function(__WEBPACK_EXTERNAL_MODULE_30__) {
 return webpackJsonp([9],{
 
-/***/ 108:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return ADMIN_EMAIL; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return NEW_ITEM_TAG; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UNSEEN_EVALUATION_PRIORITY; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return PLACEHOLDER_USER_IMAGE_PATH; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return STANDARD_OPTIONS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return RESIDENT_VALUE_MAP; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return FELLOWSHIP_VALUE_MAPS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return CHART_TYPES; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return CHART_COLORS; });
-var ADMIN_EMAIL = 'jmischka@mcw.edu';
-
-var NEW_ITEM_TAG = '<span class="label label-primary">NEW</span>';
-
-var UNSEEN_EVALUATION_PRIORITY = 1000000;
-
-var PLACEHOLDER_USER_IMAGE_PATH = '/img/avatar.png';
-
-// FIXME: A lot of these should be configurable and saved instead of hardcoded
-var STANDARD_OPTIONS = {
-	RESIDENT: [{ value: 0, text: 'Not at CBY' }, { value: 1, text: '' }, { value: 2, text: 'CBY' }, { value: 3, text: '' }, { value: 4, text: 'CA-1' }, { value: 5, text: '' }, { value: 6, text: 'CA-2' }, { value: 7, text: '' }, { value: 8, text: 'CA-3' }, { value: 9, text: '' }, { value: 10, text: 'Attending' }],
-	FELLOW: [{ value: 0, text: 'Not at fellowship level' }, { value: 1, text: '' }, { value: 2, text: 'Fellow - 1' }, { value: 3, text: '' }, { value: 4, text: 'Fellow - 2' }, { value: 5, text: '' }, { value: 6, text: 'Fellow - 3' }, { value: 7, text: '' }, { value: 8, text: 'Fellow - 4' }, { value: 9, text: '' }, { value: 10, text: 'Fellow - 5' }],
-	FACULTY: [{ value: 'strongly-disagree', text: 'Strongly Disagree' }, { value: 'disagree', text: 'Disagree' }, { value: 'undecided', text: 'Undecided' }, { value: 'agree', text: 'Agree' }, { value: 'strongly-agree', text: 'Strongly Agree' }, { value: 'n-a', text: 'N/A' }]
-};
-
-var RESIDENT_VALUE_MAP = new Map([[2, 'CBY'], [4, 'CA-1'], [6, 'CA-2'], [8, 'CA-3'], [10, 'Attending']]);
-
-var FELLOWSHIP_VALUE_MAPS = new Map([[null, new Map([[0, 'Not yet at Resident Level'], [1, 'Resident Level'], [2, '1st Quarter Fellow'], [3, 'Mid-year Fellow'], [4, 'Advanced Fellow'], [5, 'Attending']])], ['Critical Care', new Map([[0, 'Unacceptable'], [3, 'Needs Improvement'], [5, 'Meets Expectations'], [7, 'Exceeds Expectations'], [10, 'Outstanding']])], ['Pediatric', new Map([[0, 'Bellow fellow level'], [3, 'Developing, Not consistent'], [5, 'Acceptable, Not yet secure'], [7, 'Secure, Consistent'], [10, 'Outstanding, Autonomous']])], ['Pain', new Map([[0, 'Not yet at Resident Level'], [1, 'Resident Level'], [2, '1st Quarter Fellow'], [3, 'Mid-year Fellow'], [4, 'Advanced Fellow'], [5, 'Attending']])], ['Cardio', new Map([[0, 'Unacceptable'], [3, 'Needs Improvement'], [5, 'Meets Expectations'], [7, 'Exceeds Expectations'], [10, 'Outstanding']])], ['OB', new Map([[0, 'Not at Fellowship Level'], [2, 'Fellow - 1'], [4, 'Fellow - 2'], [6, 'Fellow - 3'], [8, 'Fellow - 4'], [10, 'Fellow - 5']])]]);
-
-var CHART_TYPES = ['line', 'bar', 'horizontalBar', 'radar', 'polarArea', 'pie', 'doughnut', 'bubble'];
-
-var CHART_COLORS = {
-	AVERAGE: '#ffce56',
-	SUBJECT: '#ff6384',
-	OTHER: ['#7fdbff', '#2ecc40', '#ffdc00', '#f012be', '#0074d9', '#01ff70', '#ff851b', '#001f3f', '#3d9970', '#ff4136', '#85144b', '#39cccc', '#b10dc9']
-};
-
-/***/ }),
-
-/***/ 133:
+/***/ 125:
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -243,23 +201,23 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
-/***/ 147:
+/***/ 152:
 /***/ (function(module, exports, __webpack_require__) {
 
 // Thank's IE8 for his funny defineProperty
-module.exports = !__webpack_require__(193)(function(){
+module.exports = !__webpack_require__(209)(function(){
   return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
 });
 
 /***/ }),
 
-/***/ 153:
+/***/ 158:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var uri = __webpack_require__(203);
+var uri = __webpack_require__(277);
 
 var ValidationError = exports.ValidationError = function ValidationError (message, instance, schema, propertyPath, name, argument) {
   if (propertyPath) {
@@ -737,189 +695,11 @@ function academicYearForDate(date) {
 
 /***/ }),
 
-/***/ 176:
+/***/ 190:
 /***/ (function(module, exports) {
 
 var core = module.exports = {version: '2.4.0'};
 if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
-
-/***/ }),
-
-/***/ 190:
-/***/ (function(module, exports) {
-
-module.exports = {
-	"aliceblue": [240, 248, 255],
-	"antiquewhite": [250, 235, 215],
-	"aqua": [0, 255, 255],
-	"aquamarine": [127, 255, 212],
-	"azure": [240, 255, 255],
-	"beige": [245, 245, 220],
-	"bisque": [255, 228, 196],
-	"black": [0, 0, 0],
-	"blanchedalmond": [255, 235, 205],
-	"blue": [0, 0, 255],
-	"blueviolet": [138, 43, 226],
-	"brown": [165, 42, 42],
-	"burlywood": [222, 184, 135],
-	"cadetblue": [95, 158, 160],
-	"chartreuse": [127, 255, 0],
-	"chocolate": [210, 105, 30],
-	"coral": [255, 127, 80],
-	"cornflowerblue": [100, 149, 237],
-	"cornsilk": [255, 248, 220],
-	"crimson": [220, 20, 60],
-	"cyan": [0, 255, 255],
-	"darkblue": [0, 0, 139],
-	"darkcyan": [0, 139, 139],
-	"darkgoldenrod": [184, 134, 11],
-	"darkgray": [169, 169, 169],
-	"darkgreen": [0, 100, 0],
-	"darkgrey": [169, 169, 169],
-	"darkkhaki": [189, 183, 107],
-	"darkmagenta": [139, 0, 139],
-	"darkolivegreen": [85, 107, 47],
-	"darkorange": [255, 140, 0],
-	"darkorchid": [153, 50, 204],
-	"darkred": [139, 0, 0],
-	"darksalmon": [233, 150, 122],
-	"darkseagreen": [143, 188, 143],
-	"darkslateblue": [72, 61, 139],
-	"darkslategray": [47, 79, 79],
-	"darkslategrey": [47, 79, 79],
-	"darkturquoise": [0, 206, 209],
-	"darkviolet": [148, 0, 211],
-	"deeppink": [255, 20, 147],
-	"deepskyblue": [0, 191, 255],
-	"dimgray": [105, 105, 105],
-	"dimgrey": [105, 105, 105],
-	"dodgerblue": [30, 144, 255],
-	"firebrick": [178, 34, 34],
-	"floralwhite": [255, 250, 240],
-	"forestgreen": [34, 139, 34],
-	"fuchsia": [255, 0, 255],
-	"gainsboro": [220, 220, 220],
-	"ghostwhite": [248, 248, 255],
-	"gold": [255, 215, 0],
-	"goldenrod": [218, 165, 32],
-	"gray": [128, 128, 128],
-	"green": [0, 128, 0],
-	"greenyellow": [173, 255, 47],
-	"grey": [128, 128, 128],
-	"honeydew": [240, 255, 240],
-	"hotpink": [255, 105, 180],
-	"indianred": [205, 92, 92],
-	"indigo": [75, 0, 130],
-	"ivory": [255, 255, 240],
-	"khaki": [240, 230, 140],
-	"lavender": [230, 230, 250],
-	"lavenderblush": [255, 240, 245],
-	"lawngreen": [124, 252, 0],
-	"lemonchiffon": [255, 250, 205],
-	"lightblue": [173, 216, 230],
-	"lightcoral": [240, 128, 128],
-	"lightcyan": [224, 255, 255],
-	"lightgoldenrodyellow": [250, 250, 210],
-	"lightgray": [211, 211, 211],
-	"lightgreen": [144, 238, 144],
-	"lightgrey": [211, 211, 211],
-	"lightpink": [255, 182, 193],
-	"lightsalmon": [255, 160, 122],
-	"lightseagreen": [32, 178, 170],
-	"lightskyblue": [135, 206, 250],
-	"lightslategray": [119, 136, 153],
-	"lightslategrey": [119, 136, 153],
-	"lightsteelblue": [176, 196, 222],
-	"lightyellow": [255, 255, 224],
-	"lime": [0, 255, 0],
-	"limegreen": [50, 205, 50],
-	"linen": [250, 240, 230],
-	"magenta": [255, 0, 255],
-	"maroon": [128, 0, 0],
-	"mediumaquamarine": [102, 205, 170],
-	"mediumblue": [0, 0, 205],
-	"mediumorchid": [186, 85, 211],
-	"mediumpurple": [147, 112, 219],
-	"mediumseagreen": [60, 179, 113],
-	"mediumslateblue": [123, 104, 238],
-	"mediumspringgreen": [0, 250, 154],
-	"mediumturquoise": [72, 209, 204],
-	"mediumvioletred": [199, 21, 133],
-	"midnightblue": [25, 25, 112],
-	"mintcream": [245, 255, 250],
-	"mistyrose": [255, 228, 225],
-	"moccasin": [255, 228, 181],
-	"navajowhite": [255, 222, 173],
-	"navy": [0, 0, 128],
-	"oldlace": [253, 245, 230],
-	"olive": [128, 128, 0],
-	"olivedrab": [107, 142, 35],
-	"orange": [255, 165, 0],
-	"orangered": [255, 69, 0],
-	"orchid": [218, 112, 214],
-	"palegoldenrod": [238, 232, 170],
-	"palegreen": [152, 251, 152],
-	"paleturquoise": [175, 238, 238],
-	"palevioletred": [219, 112, 147],
-	"papayawhip": [255, 239, 213],
-	"peachpuff": [255, 218, 185],
-	"peru": [205, 133, 63],
-	"pink": [255, 192, 203],
-	"plum": [221, 160, 221],
-	"powderblue": [176, 224, 230],
-	"purple": [128, 0, 128],
-	"rebeccapurple": [102, 51, 153],
-	"red": [255, 0, 0],
-	"rosybrown": [188, 143, 143],
-	"royalblue": [65, 105, 225],
-	"saddlebrown": [139, 69, 19],
-	"salmon": [250, 128, 114],
-	"sandybrown": [244, 164, 96],
-	"seagreen": [46, 139, 87],
-	"seashell": [255, 245, 238],
-	"sienna": [160, 82, 45],
-	"silver": [192, 192, 192],
-	"skyblue": [135, 206, 235],
-	"slateblue": [106, 90, 205],
-	"slategray": [112, 128, 144],
-	"slategrey": [112, 128, 144],
-	"snow": [255, 250, 250],
-	"springgreen": [0, 255, 127],
-	"steelblue": [70, 130, 180],
-	"tan": [210, 180, 140],
-	"teal": [0, 128, 128],
-	"thistle": [216, 191, 216],
-	"tomato": [255, 99, 71],
-	"turquoise": [64, 224, 208],
-	"violet": [238, 130, 238],
-	"wheat": [245, 222, 179],
-	"white": [255, 255, 255],
-	"whitesmoke": [245, 245, 245],
-	"yellow": [255, 255, 0],
-	"yellowgreen": [154, 205, 50]
-};
-
-/***/ }),
-
-/***/ 193:
-/***/ (function(module, exports) {
-
-module.exports = function(exec){
-  try {
-    return !!exec();
-  } catch(e){
-    return true;
-  }
-};
-
-/***/ }),
-
-/***/ 194:
-/***/ (function(module, exports) {
-
-module.exports = function(it){
-  return typeof it === 'object' ? it !== null : typeof it === 'function';
-};
 
 /***/ }),
 
@@ -956,7 +736,7 @@ module.exports = function(it){
 /* harmony export (immutable) */ __webpack_exports__["j"] = sortPropIgnoreCase;
 /* harmony export (immutable) */ __webpack_exports__["l"] = htmlLabelReplacements;
 /* harmony export (immutable) */ __webpack_exports__["k"] = errorToAlert;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_striptags__ = __webpack_require__(594);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_striptags__ = __webpack_require__(603);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_striptags___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_striptags__);
 
 
@@ -1330,7 +1110,725 @@ function errorToAlert(err) {
 
 /***/ }),
 
-/***/ 203:
+/***/ 206:
+/***/ (function(module, exports) {
+
+module.exports = {
+	"aliceblue": [240, 248, 255],
+	"antiquewhite": [250, 235, 215],
+	"aqua": [0, 255, 255],
+	"aquamarine": [127, 255, 212],
+	"azure": [240, 255, 255],
+	"beige": [245, 245, 220],
+	"bisque": [255, 228, 196],
+	"black": [0, 0, 0],
+	"blanchedalmond": [255, 235, 205],
+	"blue": [0, 0, 255],
+	"blueviolet": [138, 43, 226],
+	"brown": [165, 42, 42],
+	"burlywood": [222, 184, 135],
+	"cadetblue": [95, 158, 160],
+	"chartreuse": [127, 255, 0],
+	"chocolate": [210, 105, 30],
+	"coral": [255, 127, 80],
+	"cornflowerblue": [100, 149, 237],
+	"cornsilk": [255, 248, 220],
+	"crimson": [220, 20, 60],
+	"cyan": [0, 255, 255],
+	"darkblue": [0, 0, 139],
+	"darkcyan": [0, 139, 139],
+	"darkgoldenrod": [184, 134, 11],
+	"darkgray": [169, 169, 169],
+	"darkgreen": [0, 100, 0],
+	"darkgrey": [169, 169, 169],
+	"darkkhaki": [189, 183, 107],
+	"darkmagenta": [139, 0, 139],
+	"darkolivegreen": [85, 107, 47],
+	"darkorange": [255, 140, 0],
+	"darkorchid": [153, 50, 204],
+	"darkred": [139, 0, 0],
+	"darksalmon": [233, 150, 122],
+	"darkseagreen": [143, 188, 143],
+	"darkslateblue": [72, 61, 139],
+	"darkslategray": [47, 79, 79],
+	"darkslategrey": [47, 79, 79],
+	"darkturquoise": [0, 206, 209],
+	"darkviolet": [148, 0, 211],
+	"deeppink": [255, 20, 147],
+	"deepskyblue": [0, 191, 255],
+	"dimgray": [105, 105, 105],
+	"dimgrey": [105, 105, 105],
+	"dodgerblue": [30, 144, 255],
+	"firebrick": [178, 34, 34],
+	"floralwhite": [255, 250, 240],
+	"forestgreen": [34, 139, 34],
+	"fuchsia": [255, 0, 255],
+	"gainsboro": [220, 220, 220],
+	"ghostwhite": [248, 248, 255],
+	"gold": [255, 215, 0],
+	"goldenrod": [218, 165, 32],
+	"gray": [128, 128, 128],
+	"green": [0, 128, 0],
+	"greenyellow": [173, 255, 47],
+	"grey": [128, 128, 128],
+	"honeydew": [240, 255, 240],
+	"hotpink": [255, 105, 180],
+	"indianred": [205, 92, 92],
+	"indigo": [75, 0, 130],
+	"ivory": [255, 255, 240],
+	"khaki": [240, 230, 140],
+	"lavender": [230, 230, 250],
+	"lavenderblush": [255, 240, 245],
+	"lawngreen": [124, 252, 0],
+	"lemonchiffon": [255, 250, 205],
+	"lightblue": [173, 216, 230],
+	"lightcoral": [240, 128, 128],
+	"lightcyan": [224, 255, 255],
+	"lightgoldenrodyellow": [250, 250, 210],
+	"lightgray": [211, 211, 211],
+	"lightgreen": [144, 238, 144],
+	"lightgrey": [211, 211, 211],
+	"lightpink": [255, 182, 193],
+	"lightsalmon": [255, 160, 122],
+	"lightseagreen": [32, 178, 170],
+	"lightskyblue": [135, 206, 250],
+	"lightslategray": [119, 136, 153],
+	"lightslategrey": [119, 136, 153],
+	"lightsteelblue": [176, 196, 222],
+	"lightyellow": [255, 255, 224],
+	"lime": [0, 255, 0],
+	"limegreen": [50, 205, 50],
+	"linen": [250, 240, 230],
+	"magenta": [255, 0, 255],
+	"maroon": [128, 0, 0],
+	"mediumaquamarine": [102, 205, 170],
+	"mediumblue": [0, 0, 205],
+	"mediumorchid": [186, 85, 211],
+	"mediumpurple": [147, 112, 219],
+	"mediumseagreen": [60, 179, 113],
+	"mediumslateblue": [123, 104, 238],
+	"mediumspringgreen": [0, 250, 154],
+	"mediumturquoise": [72, 209, 204],
+	"mediumvioletred": [199, 21, 133],
+	"midnightblue": [25, 25, 112],
+	"mintcream": [245, 255, 250],
+	"mistyrose": [255, 228, 225],
+	"moccasin": [255, 228, 181],
+	"navajowhite": [255, 222, 173],
+	"navy": [0, 0, 128],
+	"oldlace": [253, 245, 230],
+	"olive": [128, 128, 0],
+	"olivedrab": [107, 142, 35],
+	"orange": [255, 165, 0],
+	"orangered": [255, 69, 0],
+	"orchid": [218, 112, 214],
+	"palegoldenrod": [238, 232, 170],
+	"palegreen": [152, 251, 152],
+	"paleturquoise": [175, 238, 238],
+	"palevioletred": [219, 112, 147],
+	"papayawhip": [255, 239, 213],
+	"peachpuff": [255, 218, 185],
+	"peru": [205, 133, 63],
+	"pink": [255, 192, 203],
+	"plum": [221, 160, 221],
+	"powderblue": [176, 224, 230],
+	"purple": [128, 0, 128],
+	"rebeccapurple": [102, 51, 153],
+	"red": [255, 0, 0],
+	"rosybrown": [188, 143, 143],
+	"royalblue": [65, 105, 225],
+	"saddlebrown": [139, 69, 19],
+	"salmon": [250, 128, 114],
+	"sandybrown": [244, 164, 96],
+	"seagreen": [46, 139, 87],
+	"seashell": [255, 245, 238],
+	"sienna": [160, 82, 45],
+	"silver": [192, 192, 192],
+	"skyblue": [135, 206, 235],
+	"slateblue": [106, 90, 205],
+	"slategray": [112, 128, 144],
+	"slategrey": [112, 128, 144],
+	"snow": [255, 250, 250],
+	"springgreen": [0, 255, 127],
+	"steelblue": [70, 130, 180],
+	"tan": [210, 180, 140],
+	"teal": [0, 128, 128],
+	"thistle": [216, 191, 216],
+	"tomato": [255, 99, 71],
+	"turquoise": [64, 224, 208],
+	"violet": [238, 130, 238],
+	"wheat": [245, 222, 179],
+	"white": [255, 255, 255],
+	"whitesmoke": [245, 245, 245],
+	"yellow": [255, 255, 0],
+	"yellowgreen": [154, 205, 50]
+};
+
+/***/ }),
+
+/***/ 209:
+/***/ (function(module, exports) {
+
+module.exports = function(exec){
+  try {
+    return !!exec();
+  } catch(e){
+    return true;
+  }
+};
+
+/***/ }),
+
+/***/ 210:
+/***/ (function(module, exports) {
+
+module.exports = function(it){
+  return typeof it === 'object' ? it !== null : typeof it === 'function';
+};
+
+/***/ }),
+
+/***/ 274:
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/punycode v1.4.1 by @mathias */
+;(function(root) {
+
+	/** Detect free variables */
+	var freeExports = typeof exports == 'object' && exports &&
+		!exports.nodeType && exports;
+	var freeModule = typeof module == 'object' && module &&
+		!module.nodeType && module;
+	var freeGlobal = typeof global == 'object' && global;
+	if (
+		freeGlobal.global === freeGlobal ||
+		freeGlobal.window === freeGlobal ||
+		freeGlobal.self === freeGlobal
+	) {
+		root = freeGlobal;
+	}
+
+	/**
+	 * The `punycode` object.
+	 * @name punycode
+	 * @type Object
+	 */
+	var punycode,
+
+	/** Highest positive signed 32-bit float value */
+	maxInt = 2147483647, // aka. 0x7FFFFFFF or 2^31-1
+
+	/** Bootstring parameters */
+	base = 36,
+	tMin = 1,
+	tMax = 26,
+	skew = 38,
+	damp = 700,
+	initialBias = 72,
+	initialN = 128, // 0x80
+	delimiter = '-', // '\x2D'
+
+	/** Regular expressions */
+	regexPunycode = /^xn--/,
+	regexNonASCII = /[^\x20-\x7E]/, // unprintable ASCII chars + non-ASCII chars
+	regexSeparators = /[\x2E\u3002\uFF0E\uFF61]/g, // RFC 3490 separators
+
+	/** Error messages */
+	errors = {
+		'overflow': 'Overflow: input needs wider integers to process',
+		'not-basic': 'Illegal input >= 0x80 (not a basic code point)',
+		'invalid-input': 'Invalid input'
+	},
+
+	/** Convenience shortcuts */
+	baseMinusTMin = base - tMin,
+	floor = Math.floor,
+	stringFromCharCode = String.fromCharCode,
+
+	/** Temporary variable */
+	key;
+
+	/*--------------------------------------------------------------------------*/
+
+	/**
+	 * A generic error utility function.
+	 * @private
+	 * @param {String} type The error type.
+	 * @returns {Error} Throws a `RangeError` with the applicable error message.
+	 */
+	function error(type) {
+		throw new RangeError(errors[type]);
+	}
+
+	/**
+	 * A generic `Array#map` utility function.
+	 * @private
+	 * @param {Array} array The array to iterate over.
+	 * @param {Function} callback The function that gets called for every array
+	 * item.
+	 * @returns {Array} A new array of values returned by the callback function.
+	 */
+	function map(array, fn) {
+		var length = array.length;
+		var result = [];
+		while (length--) {
+			result[length] = fn(array[length]);
+		}
+		return result;
+	}
+
+	/**
+	 * A simple `Array#map`-like wrapper to work with domain name strings or email
+	 * addresses.
+	 * @private
+	 * @param {String} domain The domain name or email address.
+	 * @param {Function} callback The function that gets called for every
+	 * character.
+	 * @returns {Array} A new string of characters returned by the callback
+	 * function.
+	 */
+	function mapDomain(string, fn) {
+		var parts = string.split('@');
+		var result = '';
+		if (parts.length > 1) {
+			// In email addresses, only the domain name should be punycoded. Leave
+			// the local part (i.e. everything up to `@`) intact.
+			result = parts[0] + '@';
+			string = parts[1];
+		}
+		// Avoid `split(regex)` for IE8 compatibility. See #17.
+		string = string.replace(regexSeparators, '\x2E');
+		var labels = string.split('.');
+		var encoded = map(labels, fn).join('.');
+		return result + encoded;
+	}
+
+	/**
+	 * Creates an array containing the numeric code points of each Unicode
+	 * character in the string. While JavaScript uses UCS-2 internally,
+	 * this function will convert a pair of surrogate halves (each of which
+	 * UCS-2 exposes as separate characters) into a single code point,
+	 * matching UTF-16.
+	 * @see `punycode.ucs2.encode`
+	 * @see <https://mathiasbynens.be/notes/javascript-encoding>
+	 * @memberOf punycode.ucs2
+	 * @name decode
+	 * @param {String} string The Unicode input string (UCS-2).
+	 * @returns {Array} The new array of code points.
+	 */
+	function ucs2decode(string) {
+		var output = [],
+		    counter = 0,
+		    length = string.length,
+		    value,
+		    extra;
+		while (counter < length) {
+			value = string.charCodeAt(counter++);
+			if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
+				// high surrogate, and there is a next character
+				extra = string.charCodeAt(counter++);
+				if ((extra & 0xFC00) == 0xDC00) { // low surrogate
+					output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
+				} else {
+					// unmatched surrogate; only append this code unit, in case the next
+					// code unit is the high surrogate of a surrogate pair
+					output.push(value);
+					counter--;
+				}
+			} else {
+				output.push(value);
+			}
+		}
+		return output;
+	}
+
+	/**
+	 * Creates a string based on an array of numeric code points.
+	 * @see `punycode.ucs2.decode`
+	 * @memberOf punycode.ucs2
+	 * @name encode
+	 * @param {Array} codePoints The array of numeric code points.
+	 * @returns {String} The new Unicode string (UCS-2).
+	 */
+	function ucs2encode(array) {
+		return map(array, function(value) {
+			var output = '';
+			if (value > 0xFFFF) {
+				value -= 0x10000;
+				output += stringFromCharCode(value >>> 10 & 0x3FF | 0xD800);
+				value = 0xDC00 | value & 0x3FF;
+			}
+			output += stringFromCharCode(value);
+			return output;
+		}).join('');
+	}
+
+	/**
+	 * Converts a basic code point into a digit/integer.
+	 * @see `digitToBasic()`
+	 * @private
+	 * @param {Number} codePoint The basic numeric code point value.
+	 * @returns {Number} The numeric value of a basic code point (for use in
+	 * representing integers) in the range `0` to `base - 1`, or `base` if
+	 * the code point does not represent a value.
+	 */
+	function basicToDigit(codePoint) {
+		if (codePoint - 48 < 10) {
+			return codePoint - 22;
+		}
+		if (codePoint - 65 < 26) {
+			return codePoint - 65;
+		}
+		if (codePoint - 97 < 26) {
+			return codePoint - 97;
+		}
+		return base;
+	}
+
+	/**
+	 * Converts a digit/integer into a basic code point.
+	 * @see `basicToDigit()`
+	 * @private
+	 * @param {Number} digit The numeric value of a basic code point.
+	 * @returns {Number} The basic code point whose value (when used for
+	 * representing integers) is `digit`, which needs to be in the range
+	 * `0` to `base - 1`. If `flag` is non-zero, the uppercase form is
+	 * used; else, the lowercase form is used. The behavior is undefined
+	 * if `flag` is non-zero and `digit` has no uppercase form.
+	 */
+	function digitToBasic(digit, flag) {
+		//  0..25 map to ASCII a..z or A..Z
+		// 26..35 map to ASCII 0..9
+		return digit + 22 + 75 * (digit < 26) - ((flag != 0) << 5);
+	}
+
+	/**
+	 * Bias adaptation function as per section 3.4 of RFC 3492.
+	 * https://tools.ietf.org/html/rfc3492#section-3.4
+	 * @private
+	 */
+	function adapt(delta, numPoints, firstTime) {
+		var k = 0;
+		delta = firstTime ? floor(delta / damp) : delta >> 1;
+		delta += floor(delta / numPoints);
+		for (/* no initialization */; delta > baseMinusTMin * tMax >> 1; k += base) {
+			delta = floor(delta / baseMinusTMin);
+		}
+		return floor(k + (baseMinusTMin + 1) * delta / (delta + skew));
+	}
+
+	/**
+	 * Converts a Punycode string of ASCII-only symbols to a string of Unicode
+	 * symbols.
+	 * @memberOf punycode
+	 * @param {String} input The Punycode string of ASCII-only symbols.
+	 * @returns {String} The resulting string of Unicode symbols.
+	 */
+	function decode(input) {
+		// Don't use UCS-2
+		var output = [],
+		    inputLength = input.length,
+		    out,
+		    i = 0,
+		    n = initialN,
+		    bias = initialBias,
+		    basic,
+		    j,
+		    index,
+		    oldi,
+		    w,
+		    k,
+		    digit,
+		    t,
+		    /** Cached calculation results */
+		    baseMinusT;
+
+		// Handle the basic code points: let `basic` be the number of input code
+		// points before the last delimiter, or `0` if there is none, then copy
+		// the first basic code points to the output.
+
+		basic = input.lastIndexOf(delimiter);
+		if (basic < 0) {
+			basic = 0;
+		}
+
+		for (j = 0; j < basic; ++j) {
+			// if it's not a basic code point
+			if (input.charCodeAt(j) >= 0x80) {
+				error('not-basic');
+			}
+			output.push(input.charCodeAt(j));
+		}
+
+		// Main decoding loop: start just after the last delimiter if any basic code
+		// points were copied; start at the beginning otherwise.
+
+		for (index = basic > 0 ? basic + 1 : 0; index < inputLength; /* no final expression */) {
+
+			// `index` is the index of the next character to be consumed.
+			// Decode a generalized variable-length integer into `delta`,
+			// which gets added to `i`. The overflow checking is easier
+			// if we increase `i` as we go, then subtract off its starting
+			// value at the end to obtain `delta`.
+			for (oldi = i, w = 1, k = base; /* no condition */; k += base) {
+
+				if (index >= inputLength) {
+					error('invalid-input');
+				}
+
+				digit = basicToDigit(input.charCodeAt(index++));
+
+				if (digit >= base || digit > floor((maxInt - i) / w)) {
+					error('overflow');
+				}
+
+				i += digit * w;
+				t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
+
+				if (digit < t) {
+					break;
+				}
+
+				baseMinusT = base - t;
+				if (w > floor(maxInt / baseMinusT)) {
+					error('overflow');
+				}
+
+				w *= baseMinusT;
+
+			}
+
+			out = output.length + 1;
+			bias = adapt(i - oldi, out, oldi == 0);
+
+			// `i` was supposed to wrap around from `out` to `0`,
+			// incrementing `n` each time, so we'll fix that now:
+			if (floor(i / out) > maxInt - n) {
+				error('overflow');
+			}
+
+			n += floor(i / out);
+			i %= out;
+
+			// Insert `n` at position `i` of the output
+			output.splice(i++, 0, n);
+
+		}
+
+		return ucs2encode(output);
+	}
+
+	/**
+	 * Converts a string of Unicode symbols (e.g. a domain name label) to a
+	 * Punycode string of ASCII-only symbols.
+	 * @memberOf punycode
+	 * @param {String} input The string of Unicode symbols.
+	 * @returns {String} The resulting Punycode string of ASCII-only symbols.
+	 */
+	function encode(input) {
+		var n,
+		    delta,
+		    handledCPCount,
+		    basicLength,
+		    bias,
+		    j,
+		    m,
+		    q,
+		    k,
+		    t,
+		    currentValue,
+		    output = [],
+		    /** `inputLength` will hold the number of code points in `input`. */
+		    inputLength,
+		    /** Cached calculation results */
+		    handledCPCountPlusOne,
+		    baseMinusT,
+		    qMinusT;
+
+		// Convert the input in UCS-2 to Unicode
+		input = ucs2decode(input);
+
+		// Cache the length
+		inputLength = input.length;
+
+		// Initialize the state
+		n = initialN;
+		delta = 0;
+		bias = initialBias;
+
+		// Handle the basic code points
+		for (j = 0; j < inputLength; ++j) {
+			currentValue = input[j];
+			if (currentValue < 0x80) {
+				output.push(stringFromCharCode(currentValue));
+			}
+		}
+
+		handledCPCount = basicLength = output.length;
+
+		// `handledCPCount` is the number of code points that have been handled;
+		// `basicLength` is the number of basic code points.
+
+		// Finish the basic string - if it is not empty - with a delimiter
+		if (basicLength) {
+			output.push(delimiter);
+		}
+
+		// Main encoding loop:
+		while (handledCPCount < inputLength) {
+
+			// All non-basic code points < n have been handled already. Find the next
+			// larger one:
+			for (m = maxInt, j = 0; j < inputLength; ++j) {
+				currentValue = input[j];
+				if (currentValue >= n && currentValue < m) {
+					m = currentValue;
+				}
+			}
+
+			// Increase `delta` enough to advance the decoder's <n,i> state to <m,0>,
+			// but guard against overflow
+			handledCPCountPlusOne = handledCPCount + 1;
+			if (m - n > floor((maxInt - delta) / handledCPCountPlusOne)) {
+				error('overflow');
+			}
+
+			delta += (m - n) * handledCPCountPlusOne;
+			n = m;
+
+			for (j = 0; j < inputLength; ++j) {
+				currentValue = input[j];
+
+				if (currentValue < n && ++delta > maxInt) {
+					error('overflow');
+				}
+
+				if (currentValue == n) {
+					// Represent delta as a generalized variable-length integer
+					for (q = delta, k = base; /* no condition */; k += base) {
+						t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
+						if (q < t) {
+							break;
+						}
+						qMinusT = q - t;
+						baseMinusT = base - t;
+						output.push(
+							stringFromCharCode(digitToBasic(t + qMinusT % baseMinusT, 0))
+						);
+						q = floor(qMinusT / baseMinusT);
+					}
+
+					output.push(stringFromCharCode(digitToBasic(q, 0)));
+					bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength);
+					delta = 0;
+					++handledCPCount;
+				}
+			}
+
+			++delta;
+			++n;
+
+		}
+		return output.join('');
+	}
+
+	/**
+	 * Converts a Punycode string representing a domain name or an email address
+	 * to Unicode. Only the Punycoded parts of the input will be converted, i.e.
+	 * it doesn't matter if you call it on a string that has already been
+	 * converted to Unicode.
+	 * @memberOf punycode
+	 * @param {String} input The Punycoded domain name or email address to
+	 * convert to Unicode.
+	 * @returns {String} The Unicode representation of the given Punycode
+	 * string.
+	 */
+	function toUnicode(input) {
+		return mapDomain(input, function(string) {
+			return regexPunycode.test(string)
+				? decode(string.slice(4).toLowerCase())
+				: string;
+		});
+	}
+
+	/**
+	 * Converts a Unicode string representing a domain name or an email address to
+	 * Punycode. Only the non-ASCII parts of the domain name will be converted,
+	 * i.e. it doesn't matter if you call it with a domain that's already in
+	 * ASCII.
+	 * @memberOf punycode
+	 * @param {String} input The domain name or email address to convert, as a
+	 * Unicode string.
+	 * @returns {String} The Punycode representation of the given domain name or
+	 * email address.
+	 */
+	function toASCII(input) {
+		return mapDomain(input, function(string) {
+			return regexNonASCII.test(string)
+				? 'xn--' + encode(string)
+				: string;
+		});
+	}
+
+	/*--------------------------------------------------------------------------*/
+
+	/** Define the public API */
+	punycode = {
+		/**
+		 * A string representing the current Punycode.js version number.
+		 * @memberOf punycode
+		 * @type String
+		 */
+		'version': '1.4.1',
+		/**
+		 * An object of methods to convert from JavaScript's internal character
+		 * representation (UCS-2) to Unicode code points, and back.
+		 * @see <https://mathiasbynens.be/notes/javascript-encoding>
+		 * @memberOf punycode
+		 * @type Object
+		 */
+		'ucs2': {
+			'decode': ucs2decode,
+			'encode': ucs2encode
+		},
+		'decode': decode,
+		'encode': encode,
+		'toASCII': toASCII,
+		'toUnicode': toUnicode
+	};
+
+	/** Expose `punycode` */
+	// Some AMD build optimizers, like r.js, check for specific condition patterns
+	// like the following:
+	if (
+		true
+	) {
+		!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
+			return punycode;
+		}.call(exports, __webpack_require__, exports, module),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else if (freeExports && freeModule) {
+		if (module.exports == freeExports) {
+			// in Node.js, io.js, or RingoJS v0.8.0+
+			freeModule.exports = punycode;
+		} else {
+			// in Narwhal or RingoJS v0.7.0-
+			for (key in punycode) {
+				punycode.hasOwnProperty(key) && (freeExports[key] = punycode[key]);
+			}
+		}
+	} else {
+		// in Rhino or a web browser
+		root.punycode = punycode;
+	}
+
+}(this));
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34)(module), __webpack_require__(35)))
+
+/***/ }),
+
+/***/ 277:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1357,8 +1855,8 @@ function errorToAlert(err) {
 
 
 
-var punycode = __webpack_require__(239);
-var util = __webpack_require__(598);
+var punycode = __webpack_require__(274);
+var util = __webpack_require__(605);
 
 exports.parse = urlParse;
 exports.resolve = urlResolve;
@@ -1433,7 +1931,7 @@ var protocolPattern = /^([a-z0-9.+-]+:)/i,
       'gopher:': true,
       'file:': true
     },
-    querystring = __webpack_require__(591);
+    querystring = __webpack_require__(600);
 
 function urlParse(url, parseQueryString, slashesDenoteHost) {
   if (url && util.isObject(url) && url instanceof Url) return url;
@@ -2070,65 +2568,281 @@ Url.prototype.parseHost = function() {
 
 /***/ }),
 
-/***/ 218:
+/***/ 29:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["o"] = unlimitTableEvals;
+/* harmony export (immutable) */ __webpack_exports__["p"] = unlimitRestTableEvals;
+/* harmony export (immutable) */ __webpack_exports__["m"] = createDateCell;
+/* harmony export (immutable) */ __webpack_exports__["g"] = createDateTimeCell;
+/* harmony export (immutable) */ __webpack_exports__["e"] = createDateRangeCell;
+/* harmony export (immutable) */ __webpack_exports__["l"] = renderDateCell;
+/* harmony export (immutable) */ __webpack_exports__["f"] = renderDateTimeCell;
+/* harmony export (immutable) */ __webpack_exports__["d"] = renderDateRangeCell;
+/* harmony export (immutable) */ __webpack_exports__["q"] = renderAccountStatus;
+/* harmony export (immutable) */ __webpack_exports__["r"] = getEvaluationStatusLabelType;
+/* harmony export (immutable) */ __webpack_exports__["a"] = getEvaluationStatusLabel;
+/* harmony export (immutable) */ __webpack_exports__["j"] = renderEvaluationStatus;
+/* harmony export (immutable) */ __webpack_exports__["b"] = renderTrainingLevel;
+/* harmony export (immutable) */ __webpack_exports__["c"] = renderSecondaryTrainingLevel;
+/* harmony export (immutable) */ __webpack_exports__["n"] = renderIdToEvalUrl;
+/* harmony export (immutable) */ __webpack_exports__["h"] = renderSubjectEvalUrl;
+/* harmony export (immutable) */ __webpack_exports__["i"] = renderEvaluatorEvalUrl;
+/* harmony export (immutable) */ __webpack_exports__["s"] = renderNewTag;
+/* harmony export (immutable) */ __webpack_exports__["k"] = renderSubjectCell;
+/* harmony export (immutable) */ __webpack_exports__["t"] = createEditAndDeleteButtons;
+/* harmony export (immutable) */ __webpack_exports__["u"] = getDataAttributes;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_twix__ = __webpack_require__(604);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_twix___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_twix__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants_js__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__date_utils_js__ = __webpack_require__(16);
+
+
+
+
+
+
+
+function unlimitTableEvals() {
+	var dt = this.DataTable({
+		retrieve: true
+	});
+	var url = dt.ajax.url();
+	dt.ajax.url(url.substring(0, url.lastIndexOf('/'))).load().draw();
+}
+
+function unlimitRestTableEvals() {
+	var dt = this.DataTable({
+		retrieve: true
+	});
+	var url = dt.ajax.url();
+	dt.ajax.url(url.substring(0, url.lastIndexOf('?'))).load().draw();
+}
+
+function createDateCell(td, date) {
+	if (date && $(td).text() !== __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).format('ll')) $(td).attr('data-date-value', __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).valueOf()).addClass('table-date-cell');
+}
+
+function createDateTimeCell(td, date) {
+	if (date && $(td).text() !== __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).format('ll LT')) $(td).attr('data-date-value', __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).valueOf()).addClass('table-date-time-cell');
+}
+
+function createDateRangeCell(start, end) {
+	return function (td, obj) {
+		if (start in obj && end in obj) {
+			$(td).attr('data-date-range-value', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__date_utils_js__["renderDateRange"])(obj[start], obj[end], true)).addClass('table-date-range-cell');
+		}
+	};
+}
+
+function renderDateCell(date, type) {
+	if (type === 'sort' || type === 'type') return date ? __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).valueOf() : '';
+
+	return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__date_utils_js__["renderDate"])(date);
+}
+
+function renderDateTimeCell(date, type) {
+	if (type === 'sort' || type === 'type') return date ? __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).valueOf() : '';
+
+	return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__date_utils_js__["renderDateTime"])(date);
+}
+
+function renderDateRangeCell(start, end) {
+	return function (obj, type) {
+		if (type === 'sort' || type === 'type') return start in obj ? __WEBPACK_IMPORTED_MODULE_0_moment___default()(obj[start]).valueOf() : '';
+
+		return start in obj && end in obj ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__date_utils_js__["renderDateRange"])(obj[start], obj[end]) : '';
+	};
+}
+
+function renderAccountStatus(status) {
+	var labelContext = void 0;
+	switch (status) {
+		case 'active':
+			labelContext = 'label-success';
+			break;
+		case 'inactive':
+			labelContext = 'label-danger';
+			break;
+		case 'pending':
+			labelContext = 'label-warning';
+			break;
+		default:
+			labelContext = 'label-default';
+			break;
+	}
+
+	return '<span class="label ' + labelContext + '">' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["d" /* ucfirst */])(status) + '</span>';
+}
+
+function getEvaluationStatusLabelType(status) {
+	switch (status) {
+		case 'complete':
+			return 'success';
+		case 'disabled':
+		case 'canceled by admin':
+		case 'canceled by faculty':
+		case 'canceled by resident':
+		case 'canceled by fellow':
+		case 'canceled by staff':
+			return 'danger';
+		case 'pending':
+			return 'warning';
+		case 'open for editing':
+			return 'info';
+		default:
+			return 'default';
+	}
+}
+
+function getEvaluationStatusLabel(status) {
+	return 'label-' + getEvaluationStatusLabelType(status);
+}
+
+function renderEvaluationStatus(status) {
+	return '<span class="label ' + getEvaluationStatusLabel(status) + '">\n\t\t\t' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["d" /* ucfirst */])(status) + '\n\t\t</span>';
+}
+
+function renderTrainingLevel(trainingLevel) {
+	if (trainingLevel) {
+		if (trainingLevel.indexOf("ca-") > -1) return trainingLevel.toUpperCase();else return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["d" /* ucfirst */])(trainingLevel);
+	}
+
+	return '';
+}
+
+function renderSecondaryTrainingLevel(secondaryTrainingLevel) {
+	if (secondaryTrainingLevel) {
+		var allCaps = ['raaps'];
+		if (allCaps.indexOf(secondaryTrainingLevel) > -1) return secondaryTrainingLevel.toUpperCase();else return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["d" /* ucfirst */])(secondaryTrainingLevel);
+	}
+
+	return '';
+}
+
+function renderIdToEvalUrl(id) {
+	return '<a href="/evaluation/' + id + '">' + id + '</a>';
+}
+
+function renderSubjectEvalUrl(url, type, evaluation) {
+	if (['sort', 'type'].includes(type)) {
+		if (evaluation.seen_by_subject_at) {
+			return evaluation.id;
+		} else {
+			if (typeof evaluation.id === 'number') return evaluation.id * __WEBPACK_IMPORTED_MODULE_2__constants_js__["a" /* UNSEEN_EVALUATION_PRIORITY */];else return '~' + evaluation.id;
+		}
+	}
+
+	if (evaluation.seen_by_subject_at) return url;else return __WEBPACK_IMPORTED_MODULE_2__constants_js__["b" /* NEW_ITEM_TAG */] + ' ' + url;
+}
+
+function renderEvaluatorEvalUrl(url, type, evaluation) {
+	if (['sort', 'type'].includes(type)) {
+		if (evaluation.seen_by_evaluator_at) {
+			return evaluation.id;
+		} else {
+			if (typeof evaluation.id === 'number') return evaluation.id * __WEBPACK_IMPORTED_MODULE_2__constants_js__["a" /* UNSEEN_EVALUATION_PRIORITY */];else return '~' + evaluation.id;
+		}
+	}
+
+	if (evaluation.seen_by_evaluator_at) return url;else return __WEBPACK_IMPORTED_MODULE_2__constants_js__["b" /* NEW_ITEM_TAG */] + ' ' + url;
+}
+
+function renderNewTag(type, evaluation) {
+	if (evaluation.seen_by_evaluator_at) return '';else return __WEBPACK_IMPORTED_MODULE_2__constants_js__["b" /* NEW_ITEM_TAG */];
+}
+
+function renderSubjectCell(name, type, evaluation) {
+	if (type === 'display') return '<a href="/profile/' + evaluation.subject_id + '">' + name + '</a>';
+
+	return name;
+}
+
+function createEditAndDeleteButtons(thing, name) {
+	var dataAttributes = getDataAttributes(thing);
+
+	var editButton = '<button type="button" class="btn btn-xs btn-info edit-' + name + '-button" ' + dataAttributes + '><span class="glyphicon glyphicon-edit"></span> Edit</button>';
+
+	var deleteButton = '<button type="button" class="btn btn-xs btn-danger delete-' + name + '-button" ' + dataAttributes + '><span class="glyphicon glyphicon-remove"></span> Delete</button>';
+
+	return [editButton, deleteButton];
+}
+
+function getDataAttributes(thing) {
+	var excludes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+	var dataAttributes = '';
+	Object.getOwnPropertyNames(thing).forEach(function (propName) {
+		if (!excludes.includes(propName) && thing[propName] != null) dataAttributes += 'data-' + propName + '="' + thing[propName] + '" ';
+	});
+	return dataAttributes;
+}
+
+/***/ }),
+
+/***/ 297:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * @namespace Chart
  */
-var Chart = __webpack_require__(413)();
+var Chart = __webpack_require__(480)();
 
-__webpack_require__(411)(Chart);
-__webpack_require__(425)(Chart);
-__webpack_require__(407)(Chart);
-__webpack_require__(410)(Chart);
-__webpack_require__(415)(Chart);
-__webpack_require__(406)(Chart);
-__webpack_require__(408)(Chart);
-__webpack_require__(409)(Chart);
-__webpack_require__(414)(Chart);
-__webpack_require__(417)(Chart);
-__webpack_require__(418)(Chart);
-__webpack_require__(416)(Chart);
-__webpack_require__(412)(Chart);
-__webpack_require__(419)(Chart);
+__webpack_require__(478)(Chart);
+__webpack_require__(492)(Chart);
+__webpack_require__(474)(Chart);
+__webpack_require__(477)(Chart);
+__webpack_require__(482)(Chart);
+__webpack_require__(473)(Chart);
+__webpack_require__(475)(Chart);
+__webpack_require__(476)(Chart);
+__webpack_require__(481)(Chart);
+__webpack_require__(484)(Chart);
+__webpack_require__(485)(Chart);
+__webpack_require__(483)(Chart);
+__webpack_require__(479)(Chart);
+__webpack_require__(486)(Chart);
 
-__webpack_require__(420)(Chart);
-__webpack_require__(421)(Chart);
-__webpack_require__(422)(Chart);
-__webpack_require__(423)(Chart);
+__webpack_require__(487)(Chart);
+__webpack_require__(488)(Chart);
+__webpack_require__(489)(Chart);
+__webpack_require__(490)(Chart);
 
-__webpack_require__(431)(Chart);
-__webpack_require__(429)(Chart);
-__webpack_require__(430)(Chart);
-__webpack_require__(432)(Chart);
-__webpack_require__(433)(Chart);
-__webpack_require__(434)(Chart);
+__webpack_require__(498)(Chart);
+__webpack_require__(496)(Chart);
+__webpack_require__(497)(Chart);
+__webpack_require__(499)(Chart);
+__webpack_require__(500)(Chart);
+__webpack_require__(501)(Chart);
 
 // Controllers must be loaded after elements
 // See Chart.core.datasetController.dataElementType
-__webpack_require__(400)(Chart);
-__webpack_require__(401)(Chart);
-__webpack_require__(402)(Chart);
-__webpack_require__(403)(Chart);
-__webpack_require__(404)(Chart);
-__webpack_require__(405)(Chart);
+__webpack_require__(467)(Chart);
+__webpack_require__(468)(Chart);
+__webpack_require__(469)(Chart);
+__webpack_require__(470)(Chart);
+__webpack_require__(471)(Chart);
+__webpack_require__(472)(Chart);
 
-__webpack_require__(393)(Chart);
-__webpack_require__(394)(Chart);
-__webpack_require__(395)(Chart);
-__webpack_require__(396)(Chart);
-__webpack_require__(397)(Chart);
-__webpack_require__(398)(Chart);
-__webpack_require__(399)(Chart);
+__webpack_require__(460)(Chart);
+__webpack_require__(461)(Chart);
+__webpack_require__(462)(Chart);
+__webpack_require__(463)(Chart);
+__webpack_require__(464)(Chart);
+__webpack_require__(465)(Chart);
+__webpack_require__(466)(Chart);
 
 // Loading built-it plugins
 var plugins = [];
 
 plugins.push(
-    __webpack_require__(426)(Chart),
-    __webpack_require__(427)(Chart),
-    __webpack_require__(428)(Chart)
+    __webpack_require__(493)(Chart),
+    __webpack_require__(494)(Chart),
+    __webpack_require__(495)(Chart)
 );
 
 Chart.plugins.register(plugins);
@@ -2141,12 +2855,12 @@ if (typeof window !== 'undefined') {
 
 /***/ }),
 
-/***/ 219:
+/***/ 298:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var convert = __webpack_require__(437);
-var string = __webpack_require__(435);
+var convert = __webpack_require__(504);
+var string = __webpack_require__(502);
 
 var Color = function (obj) {
 	if (obj instanceof Color) {
@@ -2633,13 +3347,20 @@ module.exports = Color;
 
 /***/ }),
 
-/***/ 222:
+/***/ 30:
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_30__;
+
+/***/ }),
+
+/***/ 301:
 /***/ (function(module, exports, __webpack_require__) {
 
-var global    = __webpack_require__(223)
-  , core      = __webpack_require__(176)
-  , ctx       = __webpack_require__(455)
-  , hide      = __webpack_require__(459)
+var global    = __webpack_require__(302)
+  , core      = __webpack_require__(190)
+  , ctx       = __webpack_require__(522)
+  , hide      = __webpack_require__(526)
   , PROTOTYPE = 'prototype';
 
 var $export = function(type, name, source){
@@ -2700,7 +3421,7 @@ module.exports = $export;
 
 /***/ }),
 
-/***/ 223:
+/***/ 302:
 /***/ (function(module, exports) {
 
 // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
@@ -2710,24 +3431,24 @@ if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
 
 /***/ }),
 
-/***/ 224:
+/***/ 303:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = !__webpack_require__(147) && !__webpack_require__(193)(function(){
-  return Object.defineProperty(__webpack_require__(457)('div'), 'a', {get: function(){ return 7; }}).a != 7;
+module.exports = !__webpack_require__(152) && !__webpack_require__(209)(function(){
+  return Object.defineProperty(__webpack_require__(524)('div'), 'a', {get: function(){ return 7; }}).a != 7;
 });
 
 /***/ }),
 
-/***/ 225:
+/***/ 304:
 /***/ (function(module, exports, __webpack_require__) {
 
-var anObject       = __webpack_require__(453)
-  , IE8_DOM_DEFINE = __webpack_require__(224)
-  , toPrimitive    = __webpack_require__(228)
+var anObject       = __webpack_require__(520)
+  , IE8_DOM_DEFINE = __webpack_require__(303)
+  , toPrimitive    = __webpack_require__(307)
   , dP             = Object.defineProperty;
 
-exports.f = __webpack_require__(147) ? Object.defineProperty : function defineProperty(O, P, Attributes){
+exports.f = __webpack_require__(152) ? Object.defineProperty : function defineProperty(O, P, Attributes){
   anObject(O);
   P = toPrimitive(P, true);
   anObject(Attributes);
@@ -2741,7 +3462,7 @@ exports.f = __webpack_require__(147) ? Object.defineProperty : function definePr
 
 /***/ }),
 
-/***/ 226:
+/***/ 305:
 /***/ (function(module, exports) {
 
 module.exports = function(bitmap, value){
@@ -2755,23 +3476,23 @@ module.exports = function(bitmap, value){
 
 /***/ }),
 
-/***/ 227:
+/***/ 306:
 /***/ (function(module, exports, __webpack_require__) {
 
 // to indexed object, toObject with fallback for non-array-like ES3 strings
-var IObject = __webpack_require__(460)
-  , defined = __webpack_require__(456);
+var IObject = __webpack_require__(527)
+  , defined = __webpack_require__(523);
 module.exports = function(it){
   return IObject(defined(it));
 };
 
 /***/ }),
 
-/***/ 228:
+/***/ 307:
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.1 ToPrimitive(input [, PreferredType])
-var isObject = __webpack_require__(194);
+var isObject = __webpack_require__(210);
 // instead of the ES6 spec version, we didn't implement @@toPrimitive case
 // and the second argument - flag - preferred type is a string
 module.exports = function(it, S){
@@ -2785,560 +3506,20 @@ module.exports = function(it, S){
 
 /***/ }),
 
-/***/ 239:
+/***/ 321:
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/punycode v1.4.1 by @mathias */
-;(function(root) {
-
-	/** Detect free variables */
-	var freeExports = typeof exports == 'object' && exports &&
-		!exports.nodeType && exports;
-	var freeModule = typeof module == 'object' && module &&
-		!module.nodeType && module;
-	var freeGlobal = typeof global == 'object' && global;
-	if (
-		freeGlobal.global === freeGlobal ||
-		freeGlobal.window === freeGlobal ||
-		freeGlobal.self === freeGlobal
-	) {
-		root = freeGlobal;
-	}
-
-	/**
-	 * The `punycode` object.
-	 * @name punycode
-	 * @type Object
-	 */
-	var punycode,
-
-	/** Highest positive signed 32-bit float value */
-	maxInt = 2147483647, // aka. 0x7FFFFFFF or 2^31-1
-
-	/** Bootstring parameters */
-	base = 36,
-	tMin = 1,
-	tMax = 26,
-	skew = 38,
-	damp = 700,
-	initialBias = 72,
-	initialN = 128, // 0x80
-	delimiter = '-', // '\x2D'
-
-	/** Regular expressions */
-	regexPunycode = /^xn--/,
-	regexNonASCII = /[^\x20-\x7E]/, // unprintable ASCII chars + non-ASCII chars
-	regexSeparators = /[\x2E\u3002\uFF0E\uFF61]/g, // RFC 3490 separators
-
-	/** Error messages */
-	errors = {
-		'overflow': 'Overflow: input needs wider integers to process',
-		'not-basic': 'Illegal input >= 0x80 (not a basic code point)',
-		'invalid-input': 'Invalid input'
-	},
-
-	/** Convenience shortcuts */
-	baseMinusTMin = base - tMin,
-	floor = Math.floor,
-	stringFromCharCode = String.fromCharCode,
-
-	/** Temporary variable */
-	key;
-
-	/*--------------------------------------------------------------------------*/
-
-	/**
-	 * A generic error utility function.
-	 * @private
-	 * @param {String} type The error type.
-	 * @returns {Error} Throws a `RangeError` with the applicable error message.
-	 */
-	function error(type) {
-		throw new RangeError(errors[type]);
-	}
-
-	/**
-	 * A generic `Array#map` utility function.
-	 * @private
-	 * @param {Array} array The array to iterate over.
-	 * @param {Function} callback The function that gets called for every array
-	 * item.
-	 * @returns {Array} A new array of values returned by the callback function.
-	 */
-	function map(array, fn) {
-		var length = array.length;
-		var result = [];
-		while (length--) {
-			result[length] = fn(array[length]);
-		}
-		return result;
-	}
-
-	/**
-	 * A simple `Array#map`-like wrapper to work with domain name strings or email
-	 * addresses.
-	 * @private
-	 * @param {String} domain The domain name or email address.
-	 * @param {Function} callback The function that gets called for every
-	 * character.
-	 * @returns {Array} A new string of characters returned by the callback
-	 * function.
-	 */
-	function mapDomain(string, fn) {
-		var parts = string.split('@');
-		var result = '';
-		if (parts.length > 1) {
-			// In email addresses, only the domain name should be punycoded. Leave
-			// the local part (i.e. everything up to `@`) intact.
-			result = parts[0] + '@';
-			string = parts[1];
-		}
-		// Avoid `split(regex)` for IE8 compatibility. See #17.
-		string = string.replace(regexSeparators, '\x2E');
-		var labels = string.split('.');
-		var encoded = map(labels, fn).join('.');
-		return result + encoded;
-	}
-
-	/**
-	 * Creates an array containing the numeric code points of each Unicode
-	 * character in the string. While JavaScript uses UCS-2 internally,
-	 * this function will convert a pair of surrogate halves (each of which
-	 * UCS-2 exposes as separate characters) into a single code point,
-	 * matching UTF-16.
-	 * @see `punycode.ucs2.encode`
-	 * @see <https://mathiasbynens.be/notes/javascript-encoding>
-	 * @memberOf punycode.ucs2
-	 * @name decode
-	 * @param {String} string The Unicode input string (UCS-2).
-	 * @returns {Array} The new array of code points.
-	 */
-	function ucs2decode(string) {
-		var output = [],
-		    counter = 0,
-		    length = string.length,
-		    value,
-		    extra;
-		while (counter < length) {
-			value = string.charCodeAt(counter++);
-			if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
-				// high surrogate, and there is a next character
-				extra = string.charCodeAt(counter++);
-				if ((extra & 0xFC00) == 0xDC00) { // low surrogate
-					output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
-				} else {
-					// unmatched surrogate; only append this code unit, in case the next
-					// code unit is the high surrogate of a surrogate pair
-					output.push(value);
-					counter--;
-				}
-			} else {
-				output.push(value);
-			}
-		}
-		return output;
-	}
-
-	/**
-	 * Creates a string based on an array of numeric code points.
-	 * @see `punycode.ucs2.decode`
-	 * @memberOf punycode.ucs2
-	 * @name encode
-	 * @param {Array} codePoints The array of numeric code points.
-	 * @returns {String} The new Unicode string (UCS-2).
-	 */
-	function ucs2encode(array) {
-		return map(array, function(value) {
-			var output = '';
-			if (value > 0xFFFF) {
-				value -= 0x10000;
-				output += stringFromCharCode(value >>> 10 & 0x3FF | 0xD800);
-				value = 0xDC00 | value & 0x3FF;
-			}
-			output += stringFromCharCode(value);
-			return output;
-		}).join('');
-	}
-
-	/**
-	 * Converts a basic code point into a digit/integer.
-	 * @see `digitToBasic()`
-	 * @private
-	 * @param {Number} codePoint The basic numeric code point value.
-	 * @returns {Number} The numeric value of a basic code point (for use in
-	 * representing integers) in the range `0` to `base - 1`, or `base` if
-	 * the code point does not represent a value.
-	 */
-	function basicToDigit(codePoint) {
-		if (codePoint - 48 < 10) {
-			return codePoint - 22;
-		}
-		if (codePoint - 65 < 26) {
-			return codePoint - 65;
-		}
-		if (codePoint - 97 < 26) {
-			return codePoint - 97;
-		}
-		return base;
-	}
-
-	/**
-	 * Converts a digit/integer into a basic code point.
-	 * @see `basicToDigit()`
-	 * @private
-	 * @param {Number} digit The numeric value of a basic code point.
-	 * @returns {Number} The basic code point whose value (when used for
-	 * representing integers) is `digit`, which needs to be in the range
-	 * `0` to `base - 1`. If `flag` is non-zero, the uppercase form is
-	 * used; else, the lowercase form is used. The behavior is undefined
-	 * if `flag` is non-zero and `digit` has no uppercase form.
-	 */
-	function digitToBasic(digit, flag) {
-		//  0..25 map to ASCII a..z or A..Z
-		// 26..35 map to ASCII 0..9
-		return digit + 22 + 75 * (digit < 26) - ((flag != 0) << 5);
-	}
-
-	/**
-	 * Bias adaptation function as per section 3.4 of RFC 3492.
-	 * https://tools.ietf.org/html/rfc3492#section-3.4
-	 * @private
-	 */
-	function adapt(delta, numPoints, firstTime) {
-		var k = 0;
-		delta = firstTime ? floor(delta / damp) : delta >> 1;
-		delta += floor(delta / numPoints);
-		for (/* no initialization */; delta > baseMinusTMin * tMax >> 1; k += base) {
-			delta = floor(delta / baseMinusTMin);
-		}
-		return floor(k + (baseMinusTMin + 1) * delta / (delta + skew));
-	}
-
-	/**
-	 * Converts a Punycode string of ASCII-only symbols to a string of Unicode
-	 * symbols.
-	 * @memberOf punycode
-	 * @param {String} input The Punycode string of ASCII-only symbols.
-	 * @returns {String} The resulting string of Unicode symbols.
-	 */
-	function decode(input) {
-		// Don't use UCS-2
-		var output = [],
-		    inputLength = input.length,
-		    out,
-		    i = 0,
-		    n = initialN,
-		    bias = initialBias,
-		    basic,
-		    j,
-		    index,
-		    oldi,
-		    w,
-		    k,
-		    digit,
-		    t,
-		    /** Cached calculation results */
-		    baseMinusT;
-
-		// Handle the basic code points: let `basic` be the number of input code
-		// points before the last delimiter, or `0` if there is none, then copy
-		// the first basic code points to the output.
-
-		basic = input.lastIndexOf(delimiter);
-		if (basic < 0) {
-			basic = 0;
-		}
-
-		for (j = 0; j < basic; ++j) {
-			// if it's not a basic code point
-			if (input.charCodeAt(j) >= 0x80) {
-				error('not-basic');
-			}
-			output.push(input.charCodeAt(j));
-		}
-
-		// Main decoding loop: start just after the last delimiter if any basic code
-		// points were copied; start at the beginning otherwise.
-
-		for (index = basic > 0 ? basic + 1 : 0; index < inputLength; /* no final expression */) {
-
-			// `index` is the index of the next character to be consumed.
-			// Decode a generalized variable-length integer into `delta`,
-			// which gets added to `i`. The overflow checking is easier
-			// if we increase `i` as we go, then subtract off its starting
-			// value at the end to obtain `delta`.
-			for (oldi = i, w = 1, k = base; /* no condition */; k += base) {
-
-				if (index >= inputLength) {
-					error('invalid-input');
-				}
-
-				digit = basicToDigit(input.charCodeAt(index++));
-
-				if (digit >= base || digit > floor((maxInt - i) / w)) {
-					error('overflow');
-				}
-
-				i += digit * w;
-				t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
-
-				if (digit < t) {
-					break;
-				}
-
-				baseMinusT = base - t;
-				if (w > floor(maxInt / baseMinusT)) {
-					error('overflow');
-				}
-
-				w *= baseMinusT;
-
-			}
-
-			out = output.length + 1;
-			bias = adapt(i - oldi, out, oldi == 0);
-
-			// `i` was supposed to wrap around from `out` to `0`,
-			// incrementing `n` each time, so we'll fix that now:
-			if (floor(i / out) > maxInt - n) {
-				error('overflow');
-			}
-
-			n += floor(i / out);
-			i %= out;
-
-			// Insert `n` at position `i` of the output
-			output.splice(i++, 0, n);
-
-		}
-
-		return ucs2encode(output);
-	}
-
-	/**
-	 * Converts a string of Unicode symbols (e.g. a domain name label) to a
-	 * Punycode string of ASCII-only symbols.
-	 * @memberOf punycode
-	 * @param {String} input The string of Unicode symbols.
-	 * @returns {String} The resulting Punycode string of ASCII-only symbols.
-	 */
-	function encode(input) {
-		var n,
-		    delta,
-		    handledCPCount,
-		    basicLength,
-		    bias,
-		    j,
-		    m,
-		    q,
-		    k,
-		    t,
-		    currentValue,
-		    output = [],
-		    /** `inputLength` will hold the number of code points in `input`. */
-		    inputLength,
-		    /** Cached calculation results */
-		    handledCPCountPlusOne,
-		    baseMinusT,
-		    qMinusT;
-
-		// Convert the input in UCS-2 to Unicode
-		input = ucs2decode(input);
-
-		// Cache the length
-		inputLength = input.length;
-
-		// Initialize the state
-		n = initialN;
-		delta = 0;
-		bias = initialBias;
-
-		// Handle the basic code points
-		for (j = 0; j < inputLength; ++j) {
-			currentValue = input[j];
-			if (currentValue < 0x80) {
-				output.push(stringFromCharCode(currentValue));
-			}
-		}
-
-		handledCPCount = basicLength = output.length;
-
-		// `handledCPCount` is the number of code points that have been handled;
-		// `basicLength` is the number of basic code points.
-
-		// Finish the basic string - if it is not empty - with a delimiter
-		if (basicLength) {
-			output.push(delimiter);
-		}
-
-		// Main encoding loop:
-		while (handledCPCount < inputLength) {
-
-			// All non-basic code points < n have been handled already. Find the next
-			// larger one:
-			for (m = maxInt, j = 0; j < inputLength; ++j) {
-				currentValue = input[j];
-				if (currentValue >= n && currentValue < m) {
-					m = currentValue;
-				}
-			}
-
-			// Increase `delta` enough to advance the decoder's <n,i> state to <m,0>,
-			// but guard against overflow
-			handledCPCountPlusOne = handledCPCount + 1;
-			if (m - n > floor((maxInt - delta) / handledCPCountPlusOne)) {
-				error('overflow');
-			}
-
-			delta += (m - n) * handledCPCountPlusOne;
-			n = m;
-
-			for (j = 0; j < inputLength; ++j) {
-				currentValue = input[j];
-
-				if (currentValue < n && ++delta > maxInt) {
-					error('overflow');
-				}
-
-				if (currentValue == n) {
-					// Represent delta as a generalized variable-length integer
-					for (q = delta, k = base; /* no condition */; k += base) {
-						t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
-						if (q < t) {
-							break;
-						}
-						qMinusT = q - t;
-						baseMinusT = base - t;
-						output.push(
-							stringFromCharCode(digitToBasic(t + qMinusT % baseMinusT, 0))
-						);
-						q = floor(qMinusT / baseMinusT);
-					}
-
-					output.push(stringFromCharCode(digitToBasic(q, 0)));
-					bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength);
-					delta = 0;
-					++handledCPCount;
-				}
-			}
-
-			++delta;
-			++n;
-
-		}
-		return output.join('');
-	}
-
-	/**
-	 * Converts a Punycode string representing a domain name or an email address
-	 * to Unicode. Only the Punycoded parts of the input will be converted, i.e.
-	 * it doesn't matter if you call it on a string that has already been
-	 * converted to Unicode.
-	 * @memberOf punycode
-	 * @param {String} input The Punycoded domain name or email address to
-	 * convert to Unicode.
-	 * @returns {String} The Unicode representation of the given Punycode
-	 * string.
-	 */
-	function toUnicode(input) {
-		return mapDomain(input, function(string) {
-			return regexPunycode.test(string)
-				? decode(string.slice(4).toLowerCase())
-				: string;
-		});
-	}
-
-	/**
-	 * Converts a Unicode string representing a domain name or an email address to
-	 * Punycode. Only the non-ASCII parts of the domain name will be converted,
-	 * i.e. it doesn't matter if you call it with a domain that's already in
-	 * ASCII.
-	 * @memberOf punycode
-	 * @param {String} input The domain name or email address to convert, as a
-	 * Unicode string.
-	 * @returns {String} The Punycode representation of the given domain name or
-	 * email address.
-	 */
-	function toASCII(input) {
-		return mapDomain(input, function(string) {
-			return regexNonASCII.test(string)
-				? 'xn--' + encode(string)
-				: string;
-		});
-	}
-
-	/*--------------------------------------------------------------------------*/
-
-	/** Define the public API */
-	punycode = {
-		/**
-		 * A string representing the current Punycode.js version number.
-		 * @memberOf punycode
-		 * @type String
-		 */
-		'version': '1.4.1',
-		/**
-		 * An object of methods to convert from JavaScript's internal character
-		 * representation (UCS-2) to Unicode code points, and back.
-		 * @see <https://mathiasbynens.be/notes/javascript-encoding>
-		 * @memberOf punycode
-		 * @type Object
-		 */
-		'ucs2': {
-			'decode': ucs2decode,
-			'encode': ucs2encode
-		},
-		'decode': decode,
-		'encode': encode,
-		'toASCII': toASCII,
-		'toUnicode': toUnicode
-	};
-
-	/** Expose `punycode` */
-	// Some AMD build optimizers, like r.js, check for specific condition patterns
-	// like the following:
-	if (
-		true
-	) {
-		!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
-			return punycode;
-		}.call(exports, __webpack_require__, exports, module),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else if (freeExports && freeModule) {
-		if (module.exports == freeExports) {
-			// in Node.js, io.js, or RingoJS v0.8.0+
-			freeModule.exports = punycode;
-		} else {
-			// in Narwhal or RingoJS v0.7.0-
-			for (key in punycode) {
-				punycode.hasOwnProperty(key) && (freeExports[key] = punycode[key]);
-			}
-		}
-	} else {
-		// in Rhino or a web browser
-		root.punycode = punycode;
-	}
-
-}(this));
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(33)(module), __webpack_require__(35)))
-
-/***/ }),
-
-/***/ 252:
-/***/ (function(module, exports, __webpack_require__) {
-
-var req = __webpack_require__(466);
+var req = __webpack_require__(533);
 module.exports = (req['default'] || req).apply(req, [])
 
 /***/ }),
 
-/***/ 253:
+/***/ 322:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__case_log_details_schema_js__ = __webpack_require__(375);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__case_log_details_schema_js__ = __webpack_require__(442);
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "caseLogDetailsSchemaIsValid", function() { return __WEBPACK_IMPORTED_MODULE_0__case_log_details_schema_js__["a"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "renderCaseLogDetailsSchema", function() { return __WEBPACK_IMPORTED_MODULE_0__case_log_details_schema_js__["b"]; });
 /* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "generateCaseLogDetailsReport", function() { return __WEBPACK_IMPORTED_MODULE_0__case_log_details_schema_js__["c"]; });
@@ -3402,15 +3583,72 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 274:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ 34:
+/***/ (function(module, exports) {
 
-__webpack_require__(592).polyfill()
+module.exports = function(module) {
+	if(!module.webpackPolyfill) {
+		module.deprecate = function() {};
+		module.paths = [];
+		// module.parent = undefined by default
+		if(!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function() {
+				return module.i;
+			}
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
 
 
 /***/ }),
 
-/***/ 283:
+/***/ 343:
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(601).polyfill()
+
+
+/***/ }),
+
+/***/ 35:
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+
+/***/ 352:
 /***/ (function(module, exports) {
 
 (function(self) {
@@ -3878,287 +4116,49 @@ __webpack_require__(592).polyfill()
 
 /***/ }),
 
-/***/ 29:
+/***/ 41:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["o"] = unlimitTableEvals;
-/* harmony export (immutable) */ __webpack_exports__["p"] = unlimitRestTableEvals;
-/* harmony export (immutable) */ __webpack_exports__["m"] = createDateCell;
-/* harmony export (immutable) */ __webpack_exports__["g"] = createDateTimeCell;
-/* harmony export (immutable) */ __webpack_exports__["e"] = createDateRangeCell;
-/* harmony export (immutable) */ __webpack_exports__["l"] = renderDateCell;
-/* harmony export (immutable) */ __webpack_exports__["f"] = renderDateTimeCell;
-/* harmony export (immutable) */ __webpack_exports__["d"] = renderDateRangeCell;
-/* harmony export (immutable) */ __webpack_exports__["q"] = renderAccountStatus;
-/* harmony export (immutable) */ __webpack_exports__["r"] = getEvaluationStatusLabelType;
-/* harmony export (immutable) */ __webpack_exports__["a"] = getEvaluationStatusLabel;
-/* harmony export (immutable) */ __webpack_exports__["j"] = renderEvaluationStatus;
-/* harmony export (immutable) */ __webpack_exports__["b"] = renderTrainingLevel;
-/* harmony export (immutable) */ __webpack_exports__["c"] = renderSecondaryTrainingLevel;
-/* harmony export (immutable) */ __webpack_exports__["n"] = renderIdToEvalUrl;
-/* harmony export (immutable) */ __webpack_exports__["h"] = renderSubjectEvalUrl;
-/* harmony export (immutable) */ __webpack_exports__["i"] = renderEvaluatorEvalUrl;
-/* harmony export (immutable) */ __webpack_exports__["s"] = renderNewTag;
-/* harmony export (immutable) */ __webpack_exports__["k"] = renderSubjectCell;
-/* harmony export (immutable) */ __webpack_exports__["t"] = createEditAndDeleteButtons;
-/* harmony export (immutable) */ __webpack_exports__["u"] = getDataAttributes;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_twix__ = __webpack_require__(595);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_twix___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_twix__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants_js__ = __webpack_require__(108);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__date_utils_js__ = __webpack_require__(16);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return ADMIN_EMAIL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return NEW_ITEM_TAG; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UNSEEN_EVALUATION_PRIORITY; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return PLACEHOLDER_USER_IMAGE_PATH; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return STANDARD_OPTIONS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return RESIDENT_VALUE_MAP; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return FELLOWSHIP_VALUE_MAPS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return CHART_TYPES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return CHART_COLORS; });
+var ADMIN_EMAIL = 'jmischka@mcw.edu';
 
+var NEW_ITEM_TAG = '<span class="label label-primary">NEW</span>';
 
+var UNSEEN_EVALUATION_PRIORITY = 1000000;
 
+var PLACEHOLDER_USER_IMAGE_PATH = '/img/avatar.png';
 
-
-
-
-function unlimitTableEvals() {
-	var dt = this.DataTable({
-		retrieve: true
-	});
-	var url = dt.ajax.url();
-	dt.ajax.url(url.substring(0, url.lastIndexOf('/'))).load().draw();
-}
-
-function unlimitRestTableEvals() {
-	var dt = this.DataTable({
-		retrieve: true
-	});
-	var url = dt.ajax.url();
-	dt.ajax.url(url.substring(0, url.lastIndexOf('?'))).load().draw();
-}
-
-function createDateCell(td, date) {
-	if (date && $(td).text() !== __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).format('ll')) $(td).attr('data-date-value', __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).valueOf()).addClass('table-date-cell');
-}
-
-function createDateTimeCell(td, date) {
-	if (date && $(td).text() !== __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).format('ll LT')) $(td).attr('data-date-value', __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).valueOf()).addClass('table-date-time-cell');
-}
-
-function createDateRangeCell(start, end) {
-	return function (td, obj) {
-		if (start in obj && end in obj) {
-			$(td).attr('data-date-range-value', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__date_utils_js__["renderDateRange"])(obj[start], obj[end], true)).addClass('table-date-range-cell');
-		}
-	};
-}
-
-function renderDateCell(date, type) {
-	if (type === 'sort' || type === 'type') return date ? __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).valueOf() : '';
-
-	return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__date_utils_js__["renderDate"])(date);
-}
-
-function renderDateTimeCell(date, type) {
-	if (type === 'sort' || type === 'type') return date ? __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).valueOf() : '';
-
-	return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__date_utils_js__["renderDateTime"])(date);
-}
-
-function renderDateRangeCell(start, end) {
-	return function (obj, type) {
-		if (type === 'sort' || type === 'type') return start in obj ? __WEBPACK_IMPORTED_MODULE_0_moment___default()(obj[start]).valueOf() : '';
-
-		return start in obj && end in obj ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__date_utils_js__["renderDateRange"])(obj[start], obj[end]) : '';
-	};
-}
-
-function renderAccountStatus(status) {
-	var labelContext = void 0;
-	switch (status) {
-		case 'active':
-			labelContext = 'label-success';
-			break;
-		case 'inactive':
-			labelContext = 'label-danger';
-			break;
-		case 'pending':
-			labelContext = 'label-warning';
-			break;
-		default:
-			labelContext = 'label-default';
-			break;
-	}
-
-	return '<span class="label ' + labelContext + '">' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["d" /* ucfirst */])(status) + '</span>';
-}
-
-function getEvaluationStatusLabelType(status) {
-	switch (status) {
-		case 'complete':
-			return 'success';
-		case 'disabled':
-		case 'canceled by admin':
-		case 'canceled by faculty':
-		case 'canceled by resident':
-		case 'canceled by fellow':
-		case 'canceled by staff':
-			return 'danger';
-		case 'pending':
-			return 'warning';
-		case 'open for editing':
-			return 'info';
-		default:
-			return 'default';
-	}
-}
-
-function getEvaluationStatusLabel(status) {
-	return 'label-' + getEvaluationStatusLabelType(status);
-}
-
-function renderEvaluationStatus(status) {
-	return '<span class="label ' + getEvaluationStatusLabel(status) + '">\n\t\t\t' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["d" /* ucfirst */])(status) + '\n\t\t</span>';
-}
-
-function renderTrainingLevel(trainingLevel) {
-	if (trainingLevel) {
-		if (trainingLevel.indexOf("ca-") > -1) return trainingLevel.toUpperCase();else return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["d" /* ucfirst */])(trainingLevel);
-	}
-
-	return '';
-}
-
-function renderSecondaryTrainingLevel(secondaryTrainingLevel) {
-	if (secondaryTrainingLevel) {
-		var allCaps = ['raaps'];
-		if (allCaps.indexOf(secondaryTrainingLevel) > -1) return secondaryTrainingLevel.toUpperCase();else return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_js__["d" /* ucfirst */])(secondaryTrainingLevel);
-	}
-
-	return '';
-}
-
-function renderIdToEvalUrl(id) {
-	return '<a href="/evaluation/' + id + '">' + id + '</a>';
-}
-
-function renderSubjectEvalUrl(url, type, evaluation) {
-	if (['sort', 'type'].includes(type)) {
-		if (evaluation.seen_by_subject_at) {
-			return evaluation.id;
-		} else {
-			if (typeof evaluation.id === 'number') return evaluation.id * __WEBPACK_IMPORTED_MODULE_2__constants_js__["a" /* UNSEEN_EVALUATION_PRIORITY */];else return '~' + evaluation.id;
-		}
-	}
-
-	if (evaluation.seen_by_subject_at) return url;else return __WEBPACK_IMPORTED_MODULE_2__constants_js__["b" /* NEW_ITEM_TAG */] + ' ' + url;
-}
-
-function renderEvaluatorEvalUrl(url, type, evaluation) {
-	if (['sort', 'type'].includes(type)) {
-		if (evaluation.seen_by_evaluator_at) {
-			return evaluation.id;
-		} else {
-			if (typeof evaluation.id === 'number') return evaluation.id * __WEBPACK_IMPORTED_MODULE_2__constants_js__["a" /* UNSEEN_EVALUATION_PRIORITY */];else return '~' + evaluation.id;
-		}
-	}
-
-	if (evaluation.seen_by_evaluator_at) return url;else return __WEBPACK_IMPORTED_MODULE_2__constants_js__["b" /* NEW_ITEM_TAG */] + ' ' + url;
-}
-
-function renderNewTag(type, evaluation) {
-	if (evaluation.seen_by_evaluator_at) return '';else return __WEBPACK_IMPORTED_MODULE_2__constants_js__["b" /* NEW_ITEM_TAG */];
-}
-
-function renderSubjectCell(name, type, evaluation) {
-	if (type === 'display') return '<a href="/profile/' + evaluation.subject_id + '">' + name + '</a>';
-
-	return name;
-}
-
-function createEditAndDeleteButtons(thing, name) {
-	var dataAttributes = getDataAttributes(thing);
-
-	var editButton = '<button type="button" class="btn btn-xs btn-info edit-' + name + '-button" ' + dataAttributes + '><span class="glyphicon glyphicon-edit"></span> Edit</button>';
-
-	var deleteButton = '<button type="button" class="btn btn-xs btn-danger delete-' + name + '-button" ' + dataAttributes + '><span class="glyphicon glyphicon-remove"></span> Delete</button>';
-
-	return [editButton, deleteButton];
-}
-
-function getDataAttributes(thing) {
-	var excludes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-
-	var dataAttributes = '';
-	Object.getOwnPropertyNames(thing).forEach(function (propName) {
-		if (!excludes.includes(propName) && thing[propName] != null) dataAttributes += 'data-' + propName + '="' + thing[propName] + '" ';
-	});
-	return dataAttributes;
-}
-
-/***/ }),
-
-/***/ 30:
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE_30__;
-
-/***/ }),
-
-/***/ 33:
-/***/ (function(module, exports) {
-
-module.exports = function(module) {
-	if(!module.webpackPolyfill) {
-		module.deprecate = function() {};
-		module.paths = [];
-		// module.parent = undefined by default
-		if(!module.children) module.children = [];
-		Object.defineProperty(module, "loaded", {
-			enumerable: true,
-			get: function() {
-				return module.l;
-			}
-		});
-		Object.defineProperty(module, "id", {
-			enumerable: true,
-			get: function() {
-				return module.i;
-			}
-		});
-		module.webpackPolyfill = 1;
-	}
-	return module;
+// FIXME: A lot of these should be configurable and saved instead of hardcoded
+var STANDARD_OPTIONS = {
+	RESIDENT: [{ value: 0, text: 'Not at CBY' }, { value: 1, text: '' }, { value: 2, text: 'CBY' }, { value: 3, text: '' }, { value: 4, text: 'CA-1' }, { value: 5, text: '' }, { value: 6, text: 'CA-2' }, { value: 7, text: '' }, { value: 8, text: 'CA-3' }, { value: 9, text: '' }, { value: 10, text: 'Attending' }],
+	FELLOW: [{ value: 0, text: 'Not at fellowship level' }, { value: 1, text: '' }, { value: 2, text: 'Fellow - 1' }, { value: 3, text: '' }, { value: 4, text: 'Fellow - 2' }, { value: 5, text: '' }, { value: 6, text: 'Fellow - 3' }, { value: 7, text: '' }, { value: 8, text: 'Fellow - 4' }, { value: 9, text: '' }, { value: 10, text: 'Fellow - 5' }],
+	FACULTY: [{ value: 'strongly-disagree', text: 'Strongly Disagree' }, { value: 'disagree', text: 'Disagree' }, { value: 'undecided', text: 'Undecided' }, { value: 'agree', text: 'Agree' }, { value: 'strongly-agree', text: 'Strongly Agree' }, { value: 'n-a', text: 'N/A' }]
 };
 
+var RESIDENT_VALUE_MAP = new Map([[2, 'CBY'], [4, 'CA-1'], [6, 'CA-2'], [8, 'CA-3'], [10, 'Attending']]);
+
+var FELLOWSHIP_VALUE_MAPS = new Map([[null, new Map([[0, 'Not yet at Resident Level'], [1, 'Resident Level'], [2, '1st Quarter Fellow'], [3, 'Mid-year Fellow'], [4, 'Advanced Fellow'], [5, 'Attending']])], ['Critical Care', new Map([[0, 'Unacceptable'], [3, 'Needs Improvement'], [5, 'Meets Expectations'], [7, 'Exceeds Expectations'], [10, 'Outstanding']])], ['Pediatric', new Map([[0, 'Bellow fellow level'], [3, 'Developing, Not consistent'], [5, 'Acceptable, Not yet secure'], [7, 'Secure, Consistent'], [10, 'Outstanding, Autonomous']])], ['Pain', new Map([[0, 'Not yet at Resident Level'], [1, 'Resident Level'], [2, '1st Quarter Fellow'], [3, 'Mid-year Fellow'], [4, 'Advanced Fellow'], [5, 'Attending']])], ['Cardio', new Map([[0, 'Unacceptable'], [3, 'Needs Improvement'], [5, 'Meets Expectations'], [7, 'Exceeds Expectations'], [10, 'Outstanding']])], ['OB', new Map([[0, 'Not at Fellowship Level'], [2, 'Fellow - 1'], [4, 'Fellow - 2'], [6, 'Fellow - 3'], [8, 'Fellow - 4'], [10, 'Fellow - 5']])]]);
+
+var CHART_TYPES = ['line', 'bar', 'horizontalBar', 'radar', 'polarArea', 'pie', 'doughnut', 'bubble'];
+
+var CHART_COLORS = {
+	AVERAGE: '#ffce56',
+	SUBJECT: '#ff6384',
+	OTHER: ['#7fdbff', '#2ecc40', '#ffdc00', '#f012be', '#0074d9', '#01ff70', '#ff851b', '#001f3f', '#3d9970', '#ff4136', '#85144b', '#39cccc', '#b10dc9']
+};
 
 /***/ }),
 
-/***/ 35:
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-
-/***/ 375:
+/***/ 442:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4167,11 +4167,11 @@ module.exports = g;
 /* harmony export (immutable) */ __webpack_exports__["c"] = generateCaseLogDetailsReport;
 /* harmony export (immutable) */ __webpack_exports__["d"] = generateCaseLogDetailsReportCharts;
 /* harmony export (immutable) */ __webpack_exports__["e"] = generateCaseLogLocationReportTable;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js__ = __webpack_require__(218);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js__ = __webpack_require__(297);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_chart_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jsonschema__ = __webpack_require__(532);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jsonschema__ = __webpack_require__(595);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jsonschema___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_jsonschema__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__schemas_case_log_details_json__ = __webpack_require__(695);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__schemas_case_log_details_json__ = __webpack_require__(698);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__schemas_case_log_details_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__schemas_case_log_details_json__);
 
 
@@ -4607,21 +4607,21 @@ function generateCaseLogLocationReportTable(report, name, container) {
 
 /***/ }),
 
-/***/ 387:
+/***/ 454:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(450), __esModule: true };
+module.exports = { "default": __webpack_require__(517), __esModule: true };
 
 /***/ }),
 
-/***/ 388:
+/***/ 455:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(451), __esModule: true };
+module.exports = { "default": __webpack_require__(518), __esModule: true };
 
 /***/ }),
 
-/***/ 393:
+/***/ 460:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4640,7 +4640,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 394:
+/***/ 461:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4658,7 +4658,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 395:
+/***/ 462:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4677,7 +4677,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 396:
+/***/ 463:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4696,7 +4696,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 397:
+/***/ 464:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4715,7 +4715,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 398:
+/***/ 465:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4734,7 +4734,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 399:
+/***/ 466:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4789,7 +4789,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 400:
+/***/ 467:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5180,7 +5180,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 401:
+/***/ 468:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5310,7 +5310,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 402:
+/***/ 469:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5621,7 +5621,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 403:
+/***/ 470:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5962,7 +5962,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 404:
+/***/ 471:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6193,7 +6193,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 405:
+/***/ 472:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6368,7 +6368,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 406:
+/***/ 473:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6544,7 +6544,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 407:
+/***/ 474:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6702,7 +6702,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 408:
+/***/ 475:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7561,7 +7561,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 409:
+/***/ 476:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7899,13 +7899,13 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 410:
+/***/ 477:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var color = __webpack_require__(219);
+var color = __webpack_require__(298);
 
 module.exports = function(Chart) {
 
@@ -8026,7 +8026,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 411:
+/***/ 478:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8034,7 +8034,7 @@ module.exports = function(Chart) {
 /* global document: false */
 
 
-var color = __webpack_require__(219);
+var color = __webpack_require__(298);
 
 module.exports = function(Chart) {
 	// Global Chart helpers object for utility methods and classes
@@ -9018,7 +9018,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 412:
+/***/ 479:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9342,7 +9342,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 413:
+/***/ 480:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9406,7 +9406,7 @@ module.exports = function() {
 
 /***/ }),
 
-/***/ 414:
+/***/ 481:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9850,7 +9850,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 415:
+/***/ 482:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10229,7 +10229,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 416:
+/***/ 483:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10994,7 +10994,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 417:
+/***/ 484:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11046,7 +11046,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 418:
+/***/ 485:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11262,7 +11262,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 419:
+/***/ 486:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12208,7 +12208,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 420:
+/***/ 487:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12320,7 +12320,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 421:
+/***/ 488:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12415,7 +12415,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 422:
+/***/ 489:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12523,7 +12523,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 423:
+/***/ 490:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12739,7 +12739,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 424:
+/***/ 491:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13030,7 +13030,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 425:
+/***/ 492:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13038,7 +13038,7 @@ module.exports = function(Chart) {
 
 // By default, select the browser (DOM) platform.
 // @TODO Make possible to select another platform at build time.
-var implementation = __webpack_require__(424);
+var implementation = __webpack_require__(491);
 
 module.exports = function(Chart) {
 	/**
@@ -13107,7 +13107,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 426:
+/***/ 493:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13424,7 +13424,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 427:
+/***/ 494:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13976,7 +13976,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 428:
+/***/ 495:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14210,7 +14210,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 429:
+/***/ 496:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14350,7 +14350,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 430:
+/***/ 497:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14548,7 +14548,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 431:
+/***/ 498:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14662,7 +14662,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 432:
+/***/ 499:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14916,7 +14916,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 433:
+/***/ 500:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15447,7 +15447,7 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 434:
+/***/ 501:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15897,11 +15897,11 @@ module.exports = function(Chart) {
 
 /***/ }),
 
-/***/ 435:
+/***/ 502:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var colorNames = __webpack_require__(190);
+var colorNames = __webpack_require__(206);
 
 module.exports = {
    getRgba: getRgba,
@@ -16125,7 +16125,7 @@ for (var name in colorNames) {
 
 /***/ }),
 
-/***/ 436:
+/***/ 503:
 /***/ (function(module, exports) {
 
 /* MIT license */
@@ -16830,10 +16830,10 @@ for (var key in cssKeywords) {
 
 /***/ }),
 
-/***/ 437:
+/***/ 504:
 /***/ (function(module, exports, __webpack_require__) {
 
-var conversions = __webpack_require__(436);
+var conversions = __webpack_require__(503);
 
 var convert = function() {
    return new Converter();
@@ -16928,29 +16928,29 @@ module.exports = convert;
 
 /***/ }),
 
-/***/ 450:
+/***/ 517:
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(464);
-var $Object = __webpack_require__(176).Object;
+__webpack_require__(531);
+var $Object = __webpack_require__(190).Object;
 module.exports = function defineProperty(it, key, desc){
   return $Object.defineProperty(it, key, desc);
 };
 
 /***/ }),
 
-/***/ 451:
+/***/ 518:
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(465);
-var $Object = __webpack_require__(176).Object;
+__webpack_require__(532);
+var $Object = __webpack_require__(190).Object;
 module.exports = function getOwnPropertyDescriptor(it, key){
   return $Object.getOwnPropertyDescriptor(it, key);
 };
 
 /***/ }),
 
-/***/ 452:
+/***/ 519:
 /***/ (function(module, exports) {
 
 module.exports = function(it){
@@ -16960,10 +16960,10 @@ module.exports = function(it){
 
 /***/ }),
 
-/***/ 453:
+/***/ 520:
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(194);
+var isObject = __webpack_require__(210);
 module.exports = function(it){
   if(!isObject(it))throw TypeError(it + ' is not an object!');
   return it;
@@ -16971,7 +16971,7 @@ module.exports = function(it){
 
 /***/ }),
 
-/***/ 454:
+/***/ 521:
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -16982,11 +16982,11 @@ module.exports = function(it){
 
 /***/ }),
 
-/***/ 455:
+/***/ 522:
 /***/ (function(module, exports, __webpack_require__) {
 
 // optional / simple context binding
-var aFunction = __webpack_require__(452);
+var aFunction = __webpack_require__(519);
 module.exports = function(fn, that, length){
   aFunction(fn);
   if(that === undefined)return fn;
@@ -17008,7 +17008,7 @@ module.exports = function(fn, that, length){
 
 /***/ }),
 
-/***/ 456:
+/***/ 523:
 /***/ (function(module, exports) {
 
 // 7.2.1 RequireObjectCoercible(argument)
@@ -17019,11 +17019,11 @@ module.exports = function(it){
 
 /***/ }),
 
-/***/ 457:
+/***/ 524:
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(194)
-  , document = __webpack_require__(223).document
+var isObject = __webpack_require__(210)
+  , document = __webpack_require__(302).document
   // in old IE typeof document.createElement is 'object'
   , is = isObject(document) && isObject(document.createElement);
 module.exports = function(it){
@@ -17032,7 +17032,7 @@ module.exports = function(it){
 
 /***/ }),
 
-/***/ 458:
+/***/ 525:
 /***/ (function(module, exports) {
 
 var hasOwnProperty = {}.hasOwnProperty;
@@ -17042,12 +17042,12 @@ module.exports = function(it, key){
 
 /***/ }),
 
-/***/ 459:
+/***/ 526:
 /***/ (function(module, exports, __webpack_require__) {
 
-var dP         = __webpack_require__(225)
-  , createDesc = __webpack_require__(226);
-module.exports = __webpack_require__(147) ? function(object, key, value){
+var dP         = __webpack_require__(304)
+  , createDesc = __webpack_require__(305);
+module.exports = __webpack_require__(152) ? function(object, key, value){
   return dP.f(object, key, createDesc(1, value));
 } : function(object, key, value){
   object[key] = value;
@@ -17056,29 +17056,29 @@ module.exports = __webpack_require__(147) ? function(object, key, value){
 
 /***/ }),
 
-/***/ 460:
+/***/ 527:
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
-var cof = __webpack_require__(454);
+var cof = __webpack_require__(521);
 module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
   return cof(it) == 'String' ? it.split('') : Object(it);
 };
 
 /***/ }),
 
-/***/ 461:
+/***/ 528:
 /***/ (function(module, exports, __webpack_require__) {
 
-var pIE            = __webpack_require__(462)
-  , createDesc     = __webpack_require__(226)
-  , toIObject      = __webpack_require__(227)
-  , toPrimitive    = __webpack_require__(228)
-  , has            = __webpack_require__(458)
-  , IE8_DOM_DEFINE = __webpack_require__(224)
+var pIE            = __webpack_require__(529)
+  , createDesc     = __webpack_require__(305)
+  , toIObject      = __webpack_require__(306)
+  , toPrimitive    = __webpack_require__(307)
+  , has            = __webpack_require__(525)
+  , IE8_DOM_DEFINE = __webpack_require__(303)
   , gOPD           = Object.getOwnPropertyDescriptor;
 
-exports.f = __webpack_require__(147) ? gOPD : function getOwnPropertyDescriptor(O, P){
+exports.f = __webpack_require__(152) ? gOPD : function getOwnPropertyDescriptor(O, P){
   O = toIObject(O);
   P = toPrimitive(P, true);
   if(IE8_DOM_DEFINE)try {
@@ -17089,20 +17089,20 @@ exports.f = __webpack_require__(147) ? gOPD : function getOwnPropertyDescriptor(
 
 /***/ }),
 
-/***/ 462:
+/***/ 529:
 /***/ (function(module, exports) {
 
 exports.f = {}.propertyIsEnumerable;
 
 /***/ }),
 
-/***/ 463:
+/***/ 530:
 /***/ (function(module, exports, __webpack_require__) {
 
 // most Object methods by ES6 should accept primitives
-var $export = __webpack_require__(222)
-  , core    = __webpack_require__(176)
-  , fails   = __webpack_require__(193);
+var $export = __webpack_require__(301)
+  , core    = __webpack_require__(190)
+  , fails   = __webpack_require__(209);
 module.exports = function(KEY, exec){
   var fn  = (core.Object || {})[KEY] || Object[KEY]
     , exp = {};
@@ -17112,23 +17112,23 @@ module.exports = function(KEY, exec){
 
 /***/ }),
 
-/***/ 464:
+/***/ 531:
 /***/ (function(module, exports, __webpack_require__) {
 
-var $export = __webpack_require__(222);
+var $export = __webpack_require__(301);
 // 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
-$export($export.S + $export.F * !__webpack_require__(147), 'Object', {defineProperty: __webpack_require__(225).f});
+$export($export.S + $export.F * !__webpack_require__(152), 'Object', {defineProperty: __webpack_require__(304).f});
 
 /***/ }),
 
-/***/ 465:
+/***/ 532:
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
-var toIObject                 = __webpack_require__(227)
-  , $getOwnPropertyDescriptor = __webpack_require__(461).f;
+var toIObject                 = __webpack_require__(306)
+  , $getOwnPropertyDescriptor = __webpack_require__(528).f;
 
-__webpack_require__(463)('getOwnPropertyDescriptor', function(){
+__webpack_require__(530)('getOwnPropertyDescriptor', function(){
   return function getOwnPropertyDescriptor(it, key){
     return $getOwnPropertyDescriptor(toIObject(it), key);
   };
@@ -17136,14 +17136,14 @@ __webpack_require__(463)('getOwnPropertyDescriptor', function(){
 
 /***/ }),
 
-/***/ 466:
+/***/ 533:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_define_property__ = __webpack_require__(387);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_define_property__ = __webpack_require__(454);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_define_property___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_define_property__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_get_own_property_descriptor__ = __webpack_require__(388);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_get_own_property_descriptor__ = __webpack_require__(455);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_get_own_property_descriptor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_get_own_property_descriptor__);
 
 //
@@ -17220,13 +17220,13 @@ function elementDatasetPolyfill() {
 
 /***/ }),
 
-/***/ 531:
+/***/ 594:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var helpers = __webpack_require__(153);
+var helpers = __webpack_require__(158);
 
 /** @type ValidatorResult */
 var ValidatorResult = helpers.ValidatorResult;
@@ -18031,17 +18031,17 @@ module.exports = attribute;
 
 /***/ }),
 
-/***/ 532:
+/***/ 595:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Validator = module.exports.Validator = __webpack_require__(533);
+var Validator = module.exports.Validator = __webpack_require__(596);
 
-module.exports.ValidatorResult = __webpack_require__(153).ValidatorResult;
-module.exports.ValidationError = __webpack_require__(153).ValidationError;
-module.exports.SchemaError = __webpack_require__(153).SchemaError;
+module.exports.ValidatorResult = __webpack_require__(158).ValidatorResult;
+module.exports.ValidationError = __webpack_require__(158).ValidationError;
+module.exports.SchemaError = __webpack_require__(158).SchemaError;
 
 module.exports.validate = function (instance, schema, options) {
   var v = new Validator();
@@ -18051,16 +18051,16 @@ module.exports.validate = function (instance, schema, options) {
 
 /***/ }),
 
-/***/ 533:
+/***/ 596:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var urilib = __webpack_require__(203);
+var urilib = __webpack_require__(277);
 
-var attribute = __webpack_require__(531);
-var helpers = __webpack_require__(153);
+var attribute = __webpack_require__(594);
+var helpers = __webpack_require__(158);
 var ValidatorResult = helpers.ValidatorResult;
 var SchemaError = helpers.SchemaError;
 var SchemaContext = helpers.SchemaContext;
@@ -18393,7 +18393,7 @@ module.exports = Validator;
 
 /***/ }),
 
-/***/ 588:
+/***/ 597:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process) {// Generated by CoffeeScript 1.12.2
@@ -18433,11 +18433,11 @@ module.exports = Validator;
 
 //# sourceMappingURL=performance-now.js.map
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(133)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(125)))
 
 /***/ }),
 
-/***/ 589:
+/***/ 598:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18529,7 +18529,7 @@ var isArray = Array.isArray || function (xs) {
 
 /***/ }),
 
-/***/ 590:
+/***/ 599:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18622,22 +18622,22 @@ var objectKeys = Object.keys || function (obj) {
 
 /***/ }),
 
-/***/ 591:
+/***/ 600:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.decode = exports.parse = __webpack_require__(589);
-exports.encode = exports.stringify = __webpack_require__(590);
+exports.decode = exports.parse = __webpack_require__(598);
+exports.encode = exports.stringify = __webpack_require__(599);
 
 
 /***/ }),
 
-/***/ 592:
+/***/ 601:
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {var now = __webpack_require__(588)
+/* WEBPACK VAR INJECTION */(function(global) {var now = __webpack_require__(597)
   , root = typeof window === 'undefined' ? global : window
   , vendors = ['moz', 'webkit']
   , suffix = 'AnimationFrame'
@@ -18714,7 +18714,7 @@ module.exports.polyfill = function() {
 
 /***/ }),
 
-/***/ 594:
+/***/ 603:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18983,7 +18983,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ 595:
+/***/ 604:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Generated by CoffeeScript 1.10.0
@@ -19666,11 +19666,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 }).call(this);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(33)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34)(module)))
 
 /***/ }),
 
-/***/ 598:
+/***/ 605:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19694,7 +19694,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 695:
+/***/ 698:
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -19832,17 +19832,17 @@ module.exports = {
 
 /***/ }),
 
-/***/ 696:
+/***/ 699:
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(283);
-__webpack_require__(252);
-__webpack_require__(274);
-module.exports = __webpack_require__(253);
+__webpack_require__(352);
+__webpack_require__(321);
+__webpack_require__(343);
+module.exports = __webpack_require__(322);
 
 
 /***/ })
 
-},[696]);
+},[699]);
 });
 //# sourceMappingURL=bundle.js.map

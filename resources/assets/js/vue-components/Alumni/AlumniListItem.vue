@@ -20,7 +20,8 @@
 				<rich-date :date="alum.graduation_date"></rich-date>
 			</div>
 			<div class="col-sm-2">
-				<button type="button" class="btn btn-info btn-xs"
+				<button v-if="alum.email"
+						type="button" class="btn btn-info btn-xs"
 						@click="$emit('email')">
 					<span class="glyphicon glyphicon-send"></span>
 					Email

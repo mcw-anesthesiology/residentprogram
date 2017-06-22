@@ -77,13 +77,11 @@ class AlumController extends RestController
 		$subject = $request->input("subject");
 
 		$updateUrl = url("alum/{$alum->update_hash}");
-		$subUrl = url("alum/{$alum->update_hash}/subscription");
 		$placeholders = [
 			'<span class="label label-info">Name</span>' => $alum->full_name,
 			'<span class="label label-info">First name</span>' => $alum->first_name,
 			'<span class="label label-info">Last name</span>' => $alum->last_name,
-			'<span class="label label-info">Update link</span>' => "<a href='{$updateUrl}'>{$updateUrl}</a>",
-			'<span class="label label-info">Unsub link</span>' => "<a href='{$subUrl}'>Manage your alumni subscription</a>"
+			'<span class="label label-info">Link</span>' => "<a href='{$updateUrl}'>{$updateUrl}</a>"
 		];
 		foreach ($placeholders as $placeholder => $replacement) {
 			$body = str_replace($placeholder, $replacement, $body);
@@ -103,16 +101,20 @@ class AlumController extends RestController
 			return back();
 	}
 
-	public function sendManyEmails(Request $request) {
-		$user = Auth::user();
+	public function sendEmails(Request $request) {
 		$successfulEmails = [];
 		$failedEmails = [];
-		foreach ($request->input("alumni") as $alum) {
+		$alumni = $request->input('to');
+
+		foreach ($alumni as $alum) {
 			try {
 				if ($this->sendEmail($request, $alum["id"]) == "success")
 					$successfulEmails[] = $alum;
 				else
 					$failedEmails[] = $alum;
+
+				if (config('app.env') != 'production')
+					sleep(1);
 			} catch(ModelNotFoundException $e) {
 				Log::error($e);
 				$failedEmails[] = $alum;

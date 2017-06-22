@@ -11,6 +11,11 @@
 					<span class="glyphicon glyphicon-import"></span>
 					Import alumni
 				</router-link>
+				<button type="button" class="btn btn-info btn-sm"
+						@click="emailAllAlumni">
+					<span class="glyphicon glyphicon-send"></span>
+					Send emails
+				</button>
 			</h1>
 
 			<alert-list v-model="alerts"></alert-list>
@@ -25,8 +30,11 @@
 				class="container body-block">
 			<email-editor target="/alumni/email"
 				:default-to="emailTo"
-				defaultBodyMarkdown="Yo"
-				:email-replacements="emailReplacements">
+				default-subject="MCW Anesthesiology alumni"
+				:default-body-markdown="defaultBodyMarkdown"
+				:email-replacements="emailReplacements"
+				:edit-to-on-send="ensureToArray"
+				@close="emailTo = null">
 			</email-editor>
 		</div>
 
@@ -96,9 +104,20 @@ export default {
 				]
 			]);
 		},
+		defaultBodyMarkdown() {
+			return `Hello Dr [[Last name]],
+
+We want to keep in touch with you! Please use the link below to enter your
+information so we can send you newsletters or to manage your alumni subscription!
+
+[[Link]]`;
+
+		},
 		emailReplacements() {
 			return [
-
+				'Name',
+				'Last name',
+				'Link'
 			];
 		}
 	},
@@ -122,6 +141,9 @@ export default {
 		emailAlum(alum) {
 			this.emailTo = alum;
 		},
+		emailAllAlumni() {
+			this.emailTo = this.alumni.filter(alum => alum.email);
+		},
 		editAlum(alum) {
 			this.alumniBeingEdited = alum;
 			this.$router.push('edit');
@@ -130,6 +152,11 @@ export default {
 					offset: -1 * getHeaderHeight()
 				});
 			});
+		},
+		ensureToArray(to) {
+			return Array.isArray(to)
+				? to
+				: [to];
 		},
 		removeAlum(alum) {
 			fetch(`/alumni/${alum.id}`, {
