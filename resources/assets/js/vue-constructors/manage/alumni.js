@@ -14,10 +14,7 @@ export default function createAlumni(el){
 			routes: [
 				{
 					path: '/edit',
-					component: EditAlumni,
-					props: {
-						saveUrl: '/alumni'
-					}
+					component: EditAlumni
 				},
 				{
 					path: '/import',
