@@ -21,6 +21,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
 		\App\Console\Commands\ChangeFacultyEvalDatesToAcademicYear::class,
+		\App\Console\Commands\ExportAlumniToCsv::class,
         \App\Console\Commands\FacultyReminders::class,
 		\App\Console\Commands\ResidentReminders::class,
 		\App\Console\Commands\RunAdvancements::class,
@@ -48,7 +49,7 @@ class Kernel extends ConsoleKernel
 			->weekly()->mondays()->at('08:00')->when(function(){
 	            return (Carbon::now()->weekOfYear % 2);
 	        });
-		
+
 		// Resident reminder emails a week before end of month
 		$schedule->command('send:resident-reminders')
 			->daily()->at('08:30')->when(function(){
