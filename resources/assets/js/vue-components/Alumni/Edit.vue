@@ -42,9 +42,6 @@
 								placeholder="Email"
 								v-model="email" />
 						</label>
-						<small>
-							Not required, but can't send update requests without one
-						</small>
 					</div>
 				</div>
 				<div class="col-md-4 col-sm-4">

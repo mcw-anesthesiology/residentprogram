@@ -23,7 +23,7 @@
 
 		<router-view :alum="alumniBeingEdited"
 			:save-url="saveAlumUrl" manage
-			@reload="fetchAlumni"
+			@reload="reloadAfterEdit"
 			@close="handleClose">
 		</router-view>
 
@@ -122,7 +122,9 @@ information so we can send you newsletters or to manage your alumni subscription
 			];
 		},
 		saveAlumUrl() {
-			return `/alumni/${this.alumniBeingEdited.id}`;
+			return this.alumniBeingEdited
+				? `/alumni/${this.alumniBeingEdited.id}`
+				: '/alumni';
 		}
 	},
 
@@ -141,6 +143,10 @@ information so we can send you newsletters or to manage your alumni subscription
 					html: '<strong>Error:</strong> There was a problem fetching alumni'
 				});
 			});
+		},
+		reloadAfterEdit() {
+			this.handleClose();
+			this.fetchAlumni();
 		},
 		emailAlum(alum) {
 			this.emailTo = alum;
@@ -182,7 +188,7 @@ information so we can send you newsletters or to manage your alumni subscription
 		},
 		handleClose() {
 			this.alumniBeingEdited = null;
-			this.$router.go(-1);
+			this.$router.push('/');
 		}
 	},
 

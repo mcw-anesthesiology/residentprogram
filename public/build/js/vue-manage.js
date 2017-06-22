@@ -19162,9 +19162,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 
 
@@ -35446,7 +35443,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.email = $event.target.value
       }
     }
-  })]), _vm._v(" "), _c('small', [_vm._v("\n\t\t\t\t\t\tNot required, but can't send update requests without one\n\t\t\t\t\t")])])]), _vm._v(" "), _c('div', {
+  })])])]), _vm._v(" "), _c('div', {
     staticClass: "col-md-4 col-sm-4"
   }, [_c('div', {
     staticClass: "form-group"
@@ -37145,10 +37142,7 @@ function createAlumni(el) {
 		router: new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
 			routes: [{
 				path: '/edit',
-				component: __WEBPACK_IMPORTED_MODULE_3__vue_components_Alumni_Edit_vue___default.a,
-				props: {
-					saveUrl: '/alumni'
-				}
+				component: __WEBPACK_IMPORTED_MODULE_3__vue_components_Alumni_Edit_vue___default.a
 			}, {
 				path: '/import',
 				component: __WEBPACK_IMPORTED_MODULE_4__vue_components_Alumni_Import_vue___default.a
@@ -43140,7 +43134,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			return ['Name', 'Last name', 'Link'];
 		},
 		saveAlumUrl: function saveAlumUrl() {
-			return '/alumni/' + this.alumniBeingEdited.id;
+			return this.alumniBeingEdited ? '/alumni/' + this.alumniBeingEdited.id : '/alumni';
 		}
 	},
 
@@ -43161,6 +43155,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					html: '<strong>Error:</strong> There was a problem fetching alumni'
 				});
 			});
+		},
+		reloadAfterEdit: function reloadAfterEdit() {
+			this.handleClose();
+			this.fetchAlumni();
 		},
 		emailAlum: function emailAlum(alum) {
 			this.emailTo = alum;
@@ -43204,7 +43202,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		handleClose: function handleClose() {
 			this.alumniBeingEdited = null;
-			this.$router.go(-1);
+			this.$router.push('/');
 		}
 	},
 
@@ -44672,7 +44670,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "manage": ""
     },
     on: {
-      "reload": _vm.fetchAlumni,
+      "reload": _vm.reloadAfterEdit,
       "close": _vm.handleClose
     }
   }), _vm._v(" "), (_vm.emailTo && (!Array.isArray(_vm.emailTo) || _vm.emailTo.length > 0)) ? _c('div', {
