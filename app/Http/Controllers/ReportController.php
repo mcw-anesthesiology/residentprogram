@@ -88,25 +88,25 @@ class ReportController extends Controller
                     break;
             }
         }
-		
+
 		$times = [];
 		$userStats = [];
-		
+
 		$statsType = ($evaluationType == 'faculty' xor $userType == 'faculty')
 			? 'evaluator'
 			: 'subject';
-			
+
         foreach($users as $user){
-			
+
             try {
 				$requestsQuery = ($statsType == 'evaluator')
 					? $user->evaluatorEvaluations()
 					: $user->subjectEvaluations();
-					
+
 				$completeQuery = ($statsType == 'evaluator')
 					? $user->evaluatorEvaluations()
 					: $user->subjectEvaluations();
-				
+
 				$whereHasFilter = ($evaluationType == 'faculty')
 					? function($query){
 						$query->where('type', 'faculty');
@@ -116,14 +116,14 @@ class ReportController extends Controller
                             ->where("evaluator_type", "faculty");
                     };
 
-				
+
 				if (!empty($startDate)) {
 					$requestsQuery = $requestsQuery->where("request_date", ">=", $startDate);
 					$completeQuery = $completeQuery->where("complete_date", ">=", $startDate);
 				}
 				if (!empty($endDate)) {
 					$requestsQuery = $requestsQuery->where("request_date", "<=", $endDate);
-					$completeQuery = $completeQuery->where("complete_date", "<=", $endDate);					
+					$completeQuery = $completeQuery->where("complete_date", "<=", $endDate);
 				}
 
 
@@ -131,15 +131,15 @@ class ReportController extends Controller
                     ->whereHas("form", $whereHasFilter);
 				$completeQuery = $completeQuery->whereIn("status", ["pending", "complete"])
                     ->whereHas("form", $whereHasFilter);
-					
+
 				$userRequests = $requestsQuery->get();
 				$userCompleted = $completeQuery->get();
-				
+
 				if($userRequests->count() == 0)
 					$noneRequested[] = $user->full_name;
 				if($userCompleted->where("status", "complete")->count() == 0)
 					$noneCompleted[] = $user->full_name;
-					
+
 				$userStats[] = [
                     "id" => $user->id,
                     "name" => $user->full_name,
@@ -148,7 +148,7 @@ class ReportController extends Controller
                     "completed" => $userCompleted->where("status", "complete")->count(),
                     "ratio" => $userRequests->count() == 0 ? 0 : round(($userCompleted->where("status", "complete")->count()/$userRequests->count()) * 100)
                 ];
-                
+
                 if($statsType == 'evaluator'){
                     $time = 0;
 					$timeEvals = $completeQuery->where("status", "complete")->get();
@@ -170,7 +170,7 @@ class ReportController extends Controller
 						];
 					}
                 }
-				
+
 				$eval = $userCompleted->where("status", "complete")
 					->sortByDesc("complete_date")->first();
 				if(!empty($eval))
@@ -187,7 +187,7 @@ class ReportController extends Controller
 			"userStats", "startDate", "endDate");
         if($statsType == 'evaluator')
             $data["averageCompletionTimes"] = $times;
-			
+
 		if(in_array($userType, ['trainee', 'resident']) && $request->has('trainingLevel'))
 			$data['trainingLevel'] = $request->input('trainingLevel');
 
@@ -215,7 +215,7 @@ class ReportController extends Controller
             if($trainingLevel != "all")
                 $query->where("training_level", $trainingLevel);
         };
-		
+
 		$getCompleteEvaluations = function($query)
                 use ($startDate, $endDate, $trainingLevel, $evalThreshold){
             $query->with("evaluator", "requestor", "form")
@@ -269,12 +269,12 @@ class ReportController extends Controller
 		return sqrt(array_sum(array_map(array($this, "sd_square"), $array, array_fill(0,count($array), (array_sum($array) / count($array)) ) ) ) / (count($array)-1) );
 	}
 
-    public function report($startDate, $endDate, $trainingLevel, $currentTrainingLevel = "all", $milestones = [], $reportSubject = null, $graphOption = null, $graphOrientation = null){
+    public function report($startDate, $endDate, $trainingLevel, $currentTrainingLevel = "all", $milestonesFilter = [], $reportSubject = null, $graphOption = null, $graphOrientation = null){
         $startDate = Carbon::parse($startDate);
         $startDate->timezone = "America/Chicago";
         $endDate = Carbon::parse($endDate);
         $endDate->timezone = "America/Chicago";
-		
+
 		$averageMilestone = [];
 		$averageMilestoneDenom = [];
 		$milestoneStd = [];
@@ -298,7 +298,7 @@ class ReportController extends Controller
 		$competencyQuestions = [];
 
 		$subjects = [];
-		
+
 		if($currentTrainingLevel != "all"){
 			$trainingLevelSubjects = User::where("status", "active")
 				->where("type", "resident")
@@ -330,12 +330,12 @@ class ReportController extends Controller
             ->where("evaluations.evaluation_date_start", "<=", $endDate)
 			->where("responses.response", ">=", 0);
 
-        if(!empty($milestones))
-            $query->whereIn("milestones.id", $milestones);
+        if(!empty($milestonesFilter))
+            $query->whereIn("milestones.id", $milestonesFilter);
 
         if($trainingLevel != "all")
             $query->where("evaluations.training_level", $trainingLevel);
-			
+
 		if($currentTrainingLevel != "all"){
 			$query->where("users.type", "resident")
 				->where("users.training_level", $currentTrainingLevel);
@@ -802,7 +802,7 @@ class ReportController extends Controller
 			"averageResponses", "subjectPercentages", "averagePercentages",
 			"questionResponses", "subjectResponseValues", "startDate", "endDate",
 			"formContents", "evaluators", "evaluations");
-			
+
     	return $data;
     }
 
@@ -813,7 +813,7 @@ class ReportController extends Controller
         $endDate = Carbon::parse($request->input('endDate'));
         $endDate->timezone = 'America/Chicago';
         $type = $request->input('type', 'faculty');
-        
+
         return User::where('type', $type)->whereHas('evaluatorEvaluations',
                 function($query) use ($startDate, $endDate){
             $query->where('status', 'pending')
