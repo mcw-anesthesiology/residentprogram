@@ -31,6 +31,8 @@
 				class="container body-block">
 			<email-editor target="/alumni/email"
 				:default-to="emailTo"
+				:possible-recipients="possibleRecipients"
+				:group-recipients="false"
 				default-subject="MCW Anesthesiology alumni"
 				:default-body-markdown="defaultBodyMarkdown"
 				:email-replacements="emailReplacements"
@@ -88,6 +90,9 @@ export default {
 	},
 
 	computed: {
+		possibleRecipients() {
+			return this.alumni.filter(alum => alum.email && !alum.do_not_contact);
+		},
 		alumniFields(){
 			return [
 				'full_name',
@@ -149,10 +154,11 @@ information so we can send you newsletters or to manage your alumni subscription
 			this.fetchAlumni();
 		},
 		emailAlum(alum) {
-			this.emailTo = alum;
+			if (alum.email && !alum.do_not_contact)
+				this.emailTo = [alum];
 		},
 		emailAllAlumni() {
-			this.emailTo = this.alumni.filter(alum => alum.email);
+			this.emailTo = this.alumni.filter(alum => alum.email && !alum.do_not_contact);
 		},
 		editAlum(alum) {
 			this.alumniBeingEdited = alum;
