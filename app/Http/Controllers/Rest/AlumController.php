@@ -80,6 +80,8 @@ class AlumController extends RestController
 		$alum = Alum::findOrFail($id);
 		if (!$alum->email || !filter_var($alum->email, FILTER_VALIDATE_EMAIL))
 			throw new \Swift_TransportException("Invalid or missing email address");
+		if ($alum->do_not_contact)
+			throw new \Exception("Alum requested to not be contacted");
 
 		$alum->generateHash();
 

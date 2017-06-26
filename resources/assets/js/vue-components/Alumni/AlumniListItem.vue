@@ -20,8 +20,9 @@
 				<rich-date :date="alum.graduation_date"></rich-date>
 			</div>
 			<div class="col-sm-2">
-				<button v-if="alum.email"
-						type="button" class="btn btn-info btn-xs"
+				<button type="button" class="btn btn-info btn-xs"
+						:disabled="!alum.email || alum.do_not_contact"
+						title="Alum does not have an email or has requested to not be contacted"
 						@click="$emit('email')">
 					<span class="glyphicon glyphicon-send"></span>
 					Email

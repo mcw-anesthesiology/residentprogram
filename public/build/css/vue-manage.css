@@ -56,6 +56,16 @@ button[data-v-38459c74] {
 }
 }
 
+.svg-icon,
+.svg-icon > svg {
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	stroke-width: 0;
+	stroke: currentColor;
+	fill: currentColor;
+}
+
 .form-horizontal[data-v-7d00f708] {
 	overflow-x: hidden;
 }

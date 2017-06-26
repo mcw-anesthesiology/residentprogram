@@ -40,20 +40,37 @@
 
 					<div v-if="possibleRecipients" v-show="show.possibleRecipients">
 						<div class="well row">
-							<template v-for="possibleRecipientGroup of groupedPossibleRecipients">
-								<template v-if="possibleRecipientGroup.children && possibleRecipientGroup.children.length > 0">
-									<b>{{ possibleRecipientGroup.text }}</b>
-									<ul>
-										<li v-for="possibleRecipient of possibleRecipientGroup.children">
-											<label :class="{'normal-text-label': !to.includes(possibleRecipient.id)}">
-												<input type="checkbox" v-model="to"
-														:value="possibleRecipient.id" />
-												{{ possibleRecipient.text || possibleRecipient }}
-											</label>
-										</li>
-									</ul>
+							<template v-if="groupRecipients">
+								<template v-for="possibleRecipientGroup of groupedPossibleRecipients">
+									<template v-if="possibleRecipientGroup.children && possibleRecipientGroup.children.length > 0">
+										<b>{{ possibleRecipientGroup.text }}</b>
+										<ul>
+											<li v-for="possibleRecipient of possibleRecipientGroup.children">
+												<label :class="{'normal-text-label': !recipientsInclude(possibleRecipient)}">
+													<input type="checkbox" v-model="to"
+															:value="possibleRecipient" />
+													{{ possibleRecipient.text || possibleRecipient }}
+												</label>
+											</li>
+										</ul>
+									</template>
 								</template>
 							</template>
+							<template v-else>
+								<ul>
+									<li v-for="possibleRecipient of possibleRecipients">
+										<label :class="{'normal-text-label': !recipientsInclude(possibleRecipient)}">
+											<input type="checkbox" v-model="to"
+													:value="possibleRecipient" />
+											{{ possibleRecipient.full_name || possible.recipient }}
+										</label>
+									</li>
+								</ul>
+							</template>
+							<button type="button" class="btn btn-xs btn-default"
+									@click="toggleRecipients">
+								Toggle all
+							</button>
 						</div>
 					</div>
 				</div>
@@ -72,10 +89,12 @@
 			</section>
 		</div>
 		<div class="panel-footer text-right">
-			<button type="button" class="btn btn-primary" @click="send">
-				<span class="glyphicon glyphicon-send"></span>
-				Send emails
-			</button>
+			<loading-button loading-class="btn btn-primary" :loading="sendingEmails">
+				<button type="button" class="btn btn-primary" @click="send">
+					<span class="glyphicon glyphicon-send"></span>
+					Send emails
+				</button>
+			</loading-button>
 
 			<button type="button" class="btn btn-default" @click="$emit('close')">
 				Close
@@ -91,6 +110,7 @@ import MarkdownIt from 'markdown-it';
 import AlertList from './AlertList.vue';
 import MediumEditor from './MediumEditor.vue';
 import ShowHideButton from './ShowHideButton.vue';
+import LoadingButton from './LoadingButton.vue';
 
 import {
 	ucfirst,
@@ -137,6 +157,10 @@ export default {
 			type: Array,
 			required: false
 		},
+		groupRecipients: {
+			type: Boolean,
+			default: true
+		},
 		emailReplacements: {
 			type: Array,
 			required: false
@@ -160,6 +184,8 @@ export default {
 					this.emailReplacements)
 			},
 			editorType: 'medium',
+
+			sendingEmails: false,
 
 			show: {
 				recipients: false,
@@ -214,7 +240,22 @@ export default {
 		}
 	},
 	methods: {
+		recipientsInclude(recipient) {
+			if (Array.isArray(this.to)) {
+				return this.to.includes(recipient);
+			} else {
+				return this.to === recipient;
+			}
+		},
+		toggleRecipients() {
+			if (Array.isArray(this.to) && this.to.length === 0)
+				this.to = this.possibleRecipients.slice();
+			else
+				this.to = [];
+		},
 		send(){
+			this.sendingEmails = true;
+
 			let body = {
 				subject: this.subject,
 				body: this.body.html,
@@ -274,7 +315,12 @@ export default {
 
 				if (response.error && response.error.length > 0 && this.possibleRecipients){
 					let userNames = response.error
-						.map(id => this.possibleRecipients.find(user => user.id === Number(id)).full_name);
+						.map(errorRecipient => {
+							let id = (Number.isNaN(errorRecipient))
+								? errorRecipient.id
+								: errorRecipient;
+							return this.possibleRecipients.find(user => user.id === Number(id)).full_name;
+						});
 					this.alerts.push({
 						type: 'error',
 						html: `Error sending emails to the following users: <ul>
@@ -282,11 +328,15 @@ export default {
 						</ul>`
 					});
 				}
+
+				this.sendingEmails = false;
 			}).catch(err => {
+				console.error(err);
 				this.alerts.push({
 					text: err.message,
 					type: 'error'
 				});
+				this.sendingEmails = false;
 			});
 		},
 		ucfirst
@@ -294,7 +344,8 @@ export default {
 	components: {
 		AlertList,
 		MediumEditor,
-		ShowHideButton
+		ShowHideButton,
+		LoadingButton
 	}
 };
 </script>
