@@ -97,6 +97,12 @@ export default {
 		reloadable: {
 			type: Boolean,
 			default: false
+		},
+		sortFunctions: {
+			type: Map,
+			default(){
+				return sortFunctions;
+			}
 		}
 	},
 	data() {

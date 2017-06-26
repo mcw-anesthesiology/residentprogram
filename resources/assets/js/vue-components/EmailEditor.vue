@@ -28,7 +28,7 @@
 							</show-hide-button>
 						</span>
 					</div>
-					
+
 					<div v-if="Array.isArray(to) && !possibleRecipients"
 							v-show="show.recipients">
 						<ul class="list-group">
@@ -37,23 +37,40 @@
 							</li>
 						</ul>
 					</div>
-					
+
 					<div v-if="possibleRecipients" v-show="show.possibleRecipients">
 						<div class="well row">
-							<template v-for="possibleRecipientGroup of groupedPossibleRecipients">
-								<template v-if="possibleRecipientGroup.children && possibleRecipientGroup.children.length > 0">
-									<b>{{ possibleRecipientGroup.text }}</b>
-									<ul>
-										<li v-for="possibleRecipient of possibleRecipientGroup.children">
-											<label :class="{'normal-text-label': !to.includes(possibleRecipient.id)}">
-												<input type="checkbox" v-model="to"
-														:value="possibleRecipient.id" />
-												{{ possibleRecipient.text || possibleRecipient }}
-											</label>
-										</li>
-									</ul>
+							<template v-if="groupRecipients">
+								<template v-for="possibleRecipientGroup of groupedPossibleRecipients">
+									<template v-if="possibleRecipientGroup.children && possibleRecipientGroup.children.length > 0">
+										<b>{{ possibleRecipientGroup.text }}</b>
+										<ul>
+											<li v-for="possibleRecipient of possibleRecipientGroup.children">
+												<label :class="{'normal-text-label': !recipientsInclude(possibleRecipient)}">
+													<input type="checkbox" v-model="to"
+															:value="possibleRecipient" />
+													{{ possibleRecipient.text || possibleRecipient }}
+												</label>
+											</li>
+										</ul>
+									</template>
 								</template>
 							</template>
+							<template v-else>
+								<ul>
+									<li v-for="possibleRecipient of possibleRecipients">
+										<label :class="{'normal-text-label': !recipientsInclude(possibleRecipient)}">
+											<input type="checkbox" v-model="to"
+													:value="possibleRecipient" />
+											{{ possibleRecipient.full_name || possible.recipient }}
+										</label>
+									</li>
+								</ul>
+							</template>
+							<button type="button" class="btn btn-xs btn-default"
+									@click="toggleRecipients">
+								Toggle all
+							</button>
 						</div>
 					</div>
 				</div>
@@ -67,22 +84,24 @@
 					<medium-editor v-model="body.html" id="email-body"
 						:replacements="emailReplacements" />
 				</div>
-				
+
 				<alert-list v-if="alerts && alerts.length > 0" v-model="alerts" />
 			</section>
 		</div>
 		<div class="panel-footer text-right">
-			<button type="button" class="btn btn-primary" @click="send">
-				<span class="glyphicon glyphicon-send"></span>
-				Send emails
-			</button>
-			
+			<loading-button loading-class="btn btn-primary" :loading="sendingEmails">
+				<button type="button" class="btn btn-primary" @click="send">
+					<span class="glyphicon glyphicon-send"></span>
+					Send emails
+				</button>
+			</loading-button>
+
 			<button type="button" class="btn btn-default" @click="$emit('close')">
 				Close
 			</button>
 		</div>
 	</div>
-	
+
 </template>
 
 <script>
@@ -91,6 +110,7 @@ import MarkdownIt from 'markdown-it';
 import AlertList from './AlertList.vue';
 import MediumEditor from './MediumEditor.vue';
 import ShowHideButton from './ShowHideButton.vue';
+import LoadingButton from './LoadingButton.vue';
 
 import {
 	ucfirst,
@@ -100,6 +120,8 @@ import {
 } from 'modules/utils.js';
 
 const md = new MarkdownIt();
+
+// FIXME: Possible recipients with a defaultTo doesn't work
 
 export default {
 	props: {
@@ -111,7 +133,7 @@ export default {
 			type: String,
 			default: '/emails'
 		},
-		
+
 		title: {
 			type: String,
 			default: 'Email editor'
@@ -130,13 +152,21 @@ export default {
 			type: String,
 			required: false
 		},
-		
+
 		possibleRecipients: {
 			type: Array,
 			required: false
 		},
+		groupRecipients: {
+			type: Boolean,
+			default: true
+		},
 		emailReplacements: {
 			type: Array,
+			required: false
+		},
+		editToOnSend: {
+			type: Function,
 			required: false
 		},
 		additionalFields: {
@@ -154,12 +184,14 @@ export default {
 					this.emailReplacements)
 			},
 			editorType: 'medium',
-			
+
+			sendingEmails: false,
+
 			show: {
 				recipients: false,
 				possibleRecipients: false
 			},
-			
+
 			alerts: []
 		};
 	},
@@ -174,11 +206,11 @@ export default {
 			return groupUsers(this.possibleRecipients);
 		},
 		toDisplayValue(){
-			if(this.possibleRecipients || Array.isArray(this.to))
+			if (this.possibleRecipients || Array.isArray(this.to))
 				return `${this.to ? this.to.length : '0'} recipients`;
-			if(typeof this.to === 'string')
+			if (typeof this.to === 'string')
 				return this.to;
-			if(this.to && this.to.full_name && this.to.email)
+			if (this.to && this.to.full_name && this.to.email)
 				return `${this.to.full_name} <${this.to.email}>`;
 		},
 		alertTypeClass(){
@@ -208,91 +240,87 @@ export default {
 		}
 	},
 	methods: {
-		getPossibleRecipient(id){
-			return this.possibleRecipients.find(user => user.id === Number(id));
+		recipientsInclude(recipient) {
+			if (Array.isArray(this.to)) {
+				return this.to.includes(recipient);
+			} else {
+				return this.to === recipient;
+			}
 		},
-		getRecipientCompleted(id){
-			let recipient = this.getPossibleRecipient(id);
-			return recipient && recipient.subject_evaluations
-				? recipient.subject_evaluations.length
-				: 0;
+		toggleRecipients() {
+			if (Array.isArray(this.to) && this.to.length === 0)
+				this.to = this.possibleRecipients.slice();
+			else
+				this.to = [];
 		},
 		send(){
-			// FIXME: numCompleted shouldn't be added here
-			
+			this.sendingEmails = true;
+
 			let body = {
 				subject: this.subject,
-				body: this.body.html
+				body: this.body.html,
+				to: this.editToOnSend
+					? this.editToOnSend(this.to)
+					: this.to
 			};
-			
-			if(Array.isArray(this.to))
-				body.to = this.to.map(id => ({
-					id: id,
-					numCompleted: this.getRecipientCompleted(id)
-				}));
-			else if(this.to.id)
-				body.to = {
-					id: this.to.id,
-					numCompleted: this.to.subject_evaluations.length
-				};
-			else if(!Number.isNaN(this.to))
-				body.to = {
-					id: this.to,
-					numCompleted: this.getRecipientCompleted(this.to)
-				};
 
-			
-			if(this.additionalFields)
+			if (this.additionalFields)
 				body = Object.assign(body, this.additionalFields);
-				
+
 			let error = false;
-			if(!body.to || (Array.isArray(body.to) && body.to.length === 0)){
+			if (!body.to || (Array.isArray(body.to) && body.to.length === 0)){
 				this.alerts.push({
 					type: 'error',
 					html: `Please select a recipient.`
 				});
 				error = true;
 			}
-			if(!body.subject){
+			if (!body.subject){
 				this.alerts.push({
 					type: 'error',
 					html: `Please enter a subject.`
 				});
 				error = true;
 			}
-			if(!body.body){
+			if (!body.body){
 				this.alerts.push({
 					type: 'error',
 					html: `Please enter a message body.`
 				});
 				error = true;
 			}
-			if(error)
+			if (error)
 				return;
-			
+
 			fetch(this.target, {
 				method: 'POST',
 				headers: getFetchHeaders(),
 				credentials: 'same-origin',
 				body: JSON.stringify(body)
 			}).then(response => {
-				if(response.ok)
+				if (response.ok)
 					return response.json();
 				else
 					throw new Error('There was a problem sending the emails');
 			}).then(response => {
-				if(response.success){
+				if (response.success){
 					this.alerts.push({
 						type: 'success',
 						text: `${response.success.length} emails successfully sent.`
 					});
-					this.to = this.to.filter(id => !response.success.includes(id));
+					if (Array.isArray(this.to))
+						this.to = this.to.filter(id => !response.success.includes(id));
 				}
-					
-				
-				if(response.error && response.error.length > 0){
+
+
+				if (response.error && response.error.length > 0 && this.possibleRecipients){
 					let userNames = response.error
-						.map(id => this.possibleRecipients.find(user => user.id === Number(id)).full_name);
+						.map(errorRecipient => {
+							let id = (Number.isNaN(errorRecipient))
+								? errorRecipient.id
+								: errorRecipient;
+							return this.possibleRecipients.find(user => user.id === Number(id)).full_name;
+						});
 					this.alerts.push({
 						type: 'error',
 						html: `Error sending emails to the following users: <ul>
@@ -300,11 +328,15 @@ export default {
 						</ul>`
 					});
 				}
+
+				this.sendingEmails = false;
 			}).catch(err => {
+				console.error(err);
 				this.alerts.push({
 					text: err.message,
 					type: 'error'
 				});
+				this.sendingEmails = false;
 			});
 		},
 		ucfirst
@@ -312,7 +344,8 @@ export default {
 	components: {
 		AlertList,
 		MediumEditor,
-		ShowHideButton
+		ShowHideButton,
+		LoadingButton
 	}
 };
 </script>
@@ -321,7 +354,7 @@ export default {
 	ul {
 		columns: 150px 3;
 	}
-	
+
 	fieldset label {
 		margin: 0 1em;
 	}

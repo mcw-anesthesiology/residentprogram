@@ -1,19 +1,20 @@
 <template>
 	<section>
 		<h2>Needs evaluations</h2>
-		
+
 		<div v-if="show.emailEditor" class="panel panel-default email-editor-container">
 			<div class="panel-body">
 				<email-editor
 					from="reminders"
 					target="/emails/reminders"
 					title="Send reminders"
-					defaultSubject="Please request evaluations!"
-					:defaultTo="selectedUsers"
-					:possibleRecipients="trainees"
-					:defaultBodyMarkdown="markdownTemplates.get(markdownTemplate)"
-					:emailReplacements="emailReplacements"
-					:additionalFields="additionalEmailFields"
+					default-subject="Please request evaluations!"
+					:default-to="selectedUsers"
+					:possible-recipients="trainees"
+					:default-body-markdown="markdownTemplates.get(markdownTemplate)"
+					:email-replacements="emailReplacements"
+					:additional-fields="additionalEmailFields"
+					:edit-to-on-send="addNumCompleted"
 					@close="show.emailEditor = false" />
 				<label class="containing-label">
 					Email template
@@ -26,7 +27,7 @@
 				</label>
 			</div>
 		</div>
-		
+
 		<div v-else class="show-email-button-container">
 			<button type="button" class="btn btn-primary"
 					@click="show.emailEditor = true">
@@ -34,7 +35,7 @@
 				Compose reminders
 			</button>
 		</div>
-		
+
 		<section>
 			<component-list :items="trainees" :fields="traineeFields">
 				<template scope="item">
@@ -42,7 +43,7 @@
 				</template>
 			</component-list>
 		</section>
-		
+
 	</section>
 </template>
 
@@ -133,7 +134,33 @@ Thank you!`
 		}
 	},
 	methods: {
-		groupUsers
+		groupUsers,
+		getPossibleRecipient(id){
+			return this.trainees.find(user => user.id === Number(id));
+		},
+		getRecipientCompleted(id){
+			let recipient = this.getPossibleRecipient(id);
+			return recipient && recipient.subject_evaluations
+				? recipient.subject_evaluations.length
+				: 0;
+		},
+		addNumCompleted(to) {
+			if (Array.isArray(to))
+				return to.map(id => ({
+					id: id,
+					numCompleted: this.getRecipientCompleted(id)
+				}));
+			else if(to.id)
+				return {
+					id: to.id,
+					numCompleted: to.subject_evaluations.length
+				};
+			else if(!Number.isNaN(to))
+				return {
+					id: to,
+					numCompleted: this.getRecipientCompleted(to)
+				};
+		}
 	},
 	components: {
 		EvaluationListItem,
