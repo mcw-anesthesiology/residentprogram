@@ -14,62 +14,74 @@ use App\User;
 
 class AlumController extends RestController
 {
-	public function __construct(){
-		$this->middleware("auth", ["except" => [
-			"updateWithHash", "updateSubscription"
+	public function __construct() {
+		$this->middleware('auth', ['except' => [
+			'getByHash',
+			'updateWithHash',
+			'updateSubscription'
 		]]);
-		$this->middleware("type:admin", ["except" => [
-			"updateWithHash", "updateSubscription"
+		$this->middleware('type:admin', ['except' => [
+			'getByHash',
+			'updateWithHash',
+			'updateSubscription'
 		]]);
-		$this->middleware("update.alum", ["only" => [
-			"updateWithHash", "updateSubscription"
+		$this->middleware('update.alum', ['only' => [
+			'getByHash',
+			'updateWithHash',
+			'updateSubscription'
 		]]);
 	}
 
 	protected $relationships = [];
 
 	protected $attributes = [
-		"last_name",
-		"first_name",
-		"email",
-		"address",
-		"address_2",
-		"city",
-		"state",
-		"zip",
-		"country",
-		"employer",
-		"graduation_date",
-		"notes"
+		'last_name',
+		'first_name',
+		'email',
+		'address',
+		'address_2',
+		'city',
+		'state',
+		'zip',
+		'country',
+		'employer',
+		'graduation_date',
+		'notes'
 	];
 
 	protected $model = \App\Alum::class;
 
-	public function updateWithHash(Request $request, $hash){
+	public function getByHash(Request $request, $hash) {
+		return Alum::where("update_hash", $hash)->firstOrFail();
+	}
+
+	public function updateWithHash(Request $request, $hash) {
 		Alum::where("update_hash", $hash)->firstOrFail()->update($request->all());
 
-		if($request->ajax())
+		if ($request->ajax())
 			return "success";
 		else
 			return back();
 	}
 
-	public function updateSubscription(Request $request, $hash){
+	public function updateSubscription(Request $request, $hash) {
 		$alum = Alum::where("update_hash", $hash)->firstOrFail();
 		$alum->do_not_contact = (bool)$request->input("do_not_contact");
 		$alum->saveOrFail();
 
-		if($request->ajax())
+		if ($request->ajax())
 			return "success";
 		else
 			return back();
 	}
 
-	public function sendEmail(Request $request, $id){
+	public function sendEmail(Request $request, $id) {
 		$user = Auth::user();
 		$alum = Alum::findOrFail($id);
-		if(!$alum->email || !filter_var($alum->email, FILTER_VALIDATE_EMAIL))
+		if (!$alum->email || !filter_var($alum->email, FILTER_VALIDATE_EMAIL))
 			throw new \Swift_TransportException("Invalid or missing email address");
+		if ($alum->do_not_contact)
+			throw new \Exception("Alum requested to not be contacted");
 
 		$alum->generateHash();
 
@@ -77,18 +89,16 @@ class AlumController extends RestController
 		$subject = $request->input("subject");
 
 		$updateUrl = url("alum/{$alum->update_hash}");
-		$subUrl = url("alum/{$alum->update_hash}/subscription");
 		$placeholders = [
 			'<span class="label label-info">Name</span>' => $alum->full_name,
 			'<span class="label label-info">First name</span>' => $alum->first_name,
 			'<span class="label label-info">Last name</span>' => $alum->last_name,
-			'<span class="label label-info">Update link</span>' => "<a href='{$updateUrl}'>{$updateUrl}</a>",
-			'<span class="label label-info">Unsub link</span>' => "<a href='{$subUrl}'>Manage your alumni subscription</a>"
+			'<span class="label label-info">Link</span>' => "<a href='{$updateUrl}'>{$updateUrl}</a>"
 		];
-		foreach($placeholders as $placeholder => $replacement){
+		foreach ($placeholders as $placeholder => $replacement) {
 			$body = str_replace($placeholder, $replacement, $body);
 		}
-		Mail::send([], [], function($message) use ($alum, $user, $body, $subject){
+		Mail::send([], [], function($message) use ($alum, $user, $body, $subject) {
 			$message
 				->from("alumni@residentprogram.com", "MCW Anesthesiology Alumni")
 				->replyTo($user->email)
@@ -97,29 +107,33 @@ class AlumController extends RestController
 				->setBody($body, "text/html");
 		});
 
-		if($request->ajax())
+		if ($request->ajax())
 			return "success";
 		else
 			return back();
 	}
 
-	public function sendManyEmails(Request $request){
-		$user = Auth::user();
+	public function sendEmails(Request $request) {
 		$successfulEmails = [];
 		$failedEmails = [];
-		foreach($request->input("alumni") as $alum){
+		$alumni = $request->input('to');
+
+		foreach ($alumni as $alum) {
 			try {
-				if($this->sendEmail($request, $alum["id"]) == "success")
+				if ($this->sendEmail($request, $alum["id"]) == "success")
 					$successfulEmails[] = $alum;
 				else
 					$failedEmails[] = $alum;
-			} catch(ModelNotFoundException $e){
+
+				if (config('app.env') != 'production')
+					sleep(1);
+			} catch(ModelNotFoundException $e) {
 				Log::error($e);
 				$failedEmails[] = $alum;
-			} catch(\Swift_TransportException $e){
+			} catch(\Swift_TransportException $e) {
 				Log::error($e);
 				$failedEmails[] = $alum;
-			} catch(\Exception $e){
+			} catch(\Exception $e) {
 				Log::error($e);
 				$failedEmails[] = $alum;
 			}
@@ -130,17 +144,20 @@ class AlumController extends RestController
 			"error" => $failedEmails
 		];
 
-		if($request->ajax())
+		if ($request->ajax()) {
+
 			return $response;
-		else {
-			$successfulEmailsEmails = array_map(function($alum){
+		} else {
+			$successfulEmailsEmails = array_map(function($alum) {
 				return $alum["email"];
 			}, $successfulEmails);
 			$successText = "Successfully sent emails to " . join(", ", $successfulEmailsEmails);
-			$failedEmailsEmails = array_map(function($alum){
+
+			$failedEmailsEmails = array_map(function($alum) {
 				return $alum["email"];
 			}, $failedEmails);
 			$errorText = "Unsuccessfully sent emails to " . join(", ", $failedEmailsEmails);
+
 			return back()->with([
 				"success" => $successText,
 				"error" => $errorText
@@ -148,8 +165,8 @@ class AlumController extends RestController
 		}
 	}
 
-	public function importFromUsers(Request $request){
-		if(!$request->has("users"))
+	public function importFromUsers(Request $request) {
+		if (!$request->has("users"))
 			throw new \Exception("No users given");
 
 		$response = [
@@ -158,24 +175,24 @@ class AlumController extends RestController
 			"errors" => []
 		];
 
-		foreach($request->input("users") as $inputUser){
+		foreach ($request->input("users") as $inputUserId) {
 			try {
-				$user = User::findOrFail($inputUser["id"])->toArray();
-				if(empty($user["graduation_date"]) && $request->has("graduation_date"))
+				$user = User::findOrFail($inputUserId)->toArray();
+				if (empty($user["graduation_date"]) && $request->has("graduation_date"))
 					$user["graduation_date"] = $request->input("graduation_date");
 
 				Alum::create($user);
 
-				$response["successes"][] = $inputUser["id"];
-			} catch(ModelNotFoundException $e){
-				$response["notFound"][] = $inputUser["id"];
-			} catch(\Exception $e){
+				$response["successes"][] = $inputUserId;
+			} catch(ModelNotFoundException $e) {
+				$response["notFound"][] = $inputUserId;
+			} catch(\Exception $e) {
 				Log::error("Problem importing alum from users: " . $e);
-				$response["errors"][] = $inputUser["id"];
+				$response["errors"][] = $inputUserId;
 			}
 		}
 
-		if($request->ajax())
+		if ($request->ajax())
 			return $response;
 		else
 			return back() // TODO: Make these readable strings

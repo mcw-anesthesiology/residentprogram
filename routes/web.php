@@ -45,7 +45,6 @@ Route::post('user/notifications', 'MainController@saveUserNotifications');
 Route::get('directory', 'MainController@pagerDirectory');
 
 Route::get('alum/{hash}', 'MainController@alumni');
-Route::get('alum/{hash}/subscription', 'MainController@alumniSubscription');
 
 Route::get('contact', 'MainController@contact');
 Route::post('contact', 'MainController@saveContact');

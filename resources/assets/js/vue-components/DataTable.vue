@@ -1,6 +1,6 @@
 <template>
 	<div class="table-responsive">
-		<div class="refresh-button-container" v-if="config && 'ajax' in config">
+		<div class="refresh-button-container" v-if="reloadable">
 			<button type="button" class="btn btn-default" title="Reload table"
 					@click="reloadTable">
 				<span class="glyphicon glyphicon-refresh"></span>
@@ -62,6 +62,10 @@ export default {
 			required: false
 		},
 		
+		reloader: {
+			type: Function,
+			required: false
+		},
 		exportable: {
 			type: Boolean,
 			default: false
@@ -87,6 +91,9 @@ export default {
 				'table-striped': this.striped,
 				'table-bordered': this.bordered
 			};
+		},
+		reloadable(){
+			return (this.config && 'ajax' in this.config) || this.reloader; 				
 		}
 	},
 	watch: {
@@ -109,9 +116,12 @@ export default {
 	},
 	methods: {
 		reloadTable(){
-			$(this.$refs.table).DataTable({
-				retrieve: true
-			}).ajax.reload(null, false);
+			if(this.reloader)
+				this.reloader();
+			else
+				$(this.$refs.table).DataTable({
+					retrieve: true
+				}).ajax.reload(null, false);
 		},
 		exportCsv(){
 			let header = [];
