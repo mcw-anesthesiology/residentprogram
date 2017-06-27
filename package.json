@@ -31,7 +31,7 @@
     "ie >= 9"
   ],
   "devDependencies": {
-    "@jacobmischka/vue-flatpickr": "^2.3.0",
+    "@jacobmischka/vue-flatpickr": "2.2.11",
     "ajv": "^5.0.1",
     "apply-loader": "^2.0.0",
     "babel-core": "^6.10.4",
