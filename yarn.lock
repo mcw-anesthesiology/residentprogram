@@ -9,11 +9,11 @@
     normalize-path "^2.0.1"
     through2 "^2.0.3"
 
-"@jacobmischka/vue-flatpickr@^2.3.0":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@jacobmischka/vue-flatpickr/-/vue-flatpickr-2.3.0.tgz#2faa6c1dae4c01649a37ebcc2e2559981cd7721f"
+"@jacobmischka/vue-flatpickr@2.2.11":
+  version "2.2.11"
+  resolved "https://registry.yarnpkg.com/@jacobmischka/vue-flatpickr/-/vue-flatpickr-2.2.11.tgz#2cfb4e0741539ae909b3e4ef39b2577fdf04eab0"
   dependencies:
-    flatpickr "^3.0.5-1"
+    flatpickr "^2.3.0-3"
 
 abbrev@1:
   version "1.1.0"
@@ -2512,9 +2512,9 @@ flat-cache@^1.2.1:
     graceful-fs "^4.1.2"
     write "^0.2.1"
 
-flatpickr@^3.0.5-1:
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-3.0.6.tgz#81540f1a0f010fa3b96d929943b6396bbb25b1b6"
+flatpickr@^2.3.0-3:
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-2.6.3.tgz#457357532deb135f3da64b425bf4435737961564"
 
 flatten@^1.0.2:
   version "1.0.2"
