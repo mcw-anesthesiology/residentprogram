@@ -891,8 +891,10 @@
 			ajax: {
 				url: "/advancements",
 				data: {
-					user: true,
-					complete: false
+					complete: false,
+					with: {
+						user: ['full_name']
+					}
 				},
 				dataSrc: ""
 			},
