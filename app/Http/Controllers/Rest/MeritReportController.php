@@ -34,6 +34,7 @@ class MeritReportController extends RestController
 	public function __construct() {
 		$this->middleware('auth');
 		$this->middleware('type:admin')->only('destroy');
+		$this->middleware('shared')->only('printView');
 
 		// Only allow admins and FACULTY_MERIT users to show all by user
 		$this->middleware(function ($request, $next) {
@@ -89,6 +90,25 @@ class MeritReportController extends RestController
 
 			return response('Not allowed.', 403);
 		})->only('update');
+
+		$this->middleware(function ($request, $next) {
+			try {
+				$user = Auth::user();
+				$reportId = $request->route()->parameters()['id'];
+				$report = MeritReport::findOrFail($reportId);
+
+				if (
+					$user->isType('admin')
+					|| $user->usesFeature('FACULTY_EVALS')
+					|| Auth::id() == $report->user_id
+				)
+					return $next($request);
+			} catch (ModelNotFoundException $e) {
+				return resopnse('Not found.', 404);
+			}
+
+			return response('Not allowed.', 403);
+		})->only('printView');
 	}
 
 	public function byUser() {
@@ -123,6 +143,13 @@ class MeritReportController extends RestController
 		return $request->ajax()
 			? 'success'
 			: back();
+	}
+
+	public function printView(Request $request, $id) {
+		$report = MeritReport::findOrFail($id);
+		$data = compact('report');
+
+		return view('merit-report.print-view', $data);
 	}
 
 	protected static function reportIsValid($form) {
