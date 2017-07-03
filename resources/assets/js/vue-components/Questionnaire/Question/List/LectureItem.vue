@@ -3,9 +3,10 @@
 		<div class="form-group" :class="{'has-warning': !title}">
 			<label class="containing-label">
 				Lecture title
-				<input type="text" class="form-control"
+				<textarea class="form-control"
 					:value="title" :readonly="readonly"
-					@input="$emit('input', {title: $event.target.value})" />
+					@input="$emit('input', {title: $event.target.value})">
+				</textarea>
 			</label>
 			<span v-if="!title" class="help-block">
 				Please enter the lecture title or remove this list item
@@ -27,9 +28,10 @@
 				class="form-group" :class="{'has-warning': !audience}">
 			<label class="containing-label">
 				Lecture audience (department, society, group, location, etc.)
-				<input type="text" class="form-control"
+				<textarea class="form-control"
 					:value="audience" :readonly="readonly"
-					@input="$emit('input', {audience: $event.target.value})" />
+					@input="$emit('input', {audience: $event.target.value})">
+				</textarea>
 			</label>
 			<span v-if="!audience" class="help-block">
 				Please enter the lecture audience or remove this list item

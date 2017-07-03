@@ -13,9 +13,10 @@
 			<div class="form-group" :class="{'has-warning': !name}">
 				<label class="containing-label">
 					Committee name
-					<input type="text" class="form-control"
+					<textarea class="form-control"
 						:value="name" :readonly="readonly"
-						@input="$emit('input', {name: $event.target.value})" />
+						@input="$emit('input', {name: $event.target.value})">
+					</textarea>
 				</label>
 				<span v-if="!name" class="help-block">
 					Please enter the committee name or remove this list item

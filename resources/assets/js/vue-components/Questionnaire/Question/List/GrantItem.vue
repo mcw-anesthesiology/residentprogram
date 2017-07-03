@@ -16,9 +16,10 @@
 		<div class="form-group" :class="{'has-warning': !project}">
 			<label class="containing-label">
 				Project
-				<input type="text" class="form-control"
+				<textarea class="form-control"
 					:value="project" :readonly="readonly"
-					@input="$emit('input', {project: $event.target.value})" />
+					@input="$emit('input', {project: $event.target.value})">
+				</textarea>
 			</label>
 
 			<span v-if="!project" class="help-block">
