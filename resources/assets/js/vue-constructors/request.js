@@ -162,6 +162,11 @@ export function createRequest(el, propsData){
 							startDate,
 							endDate
 						});
+
+						// Don't go back an academic year
+						if (startDate.month() === 6) // July
+							break;
+
 						startDate = moment(startDate).subtract(1, 'month');
 						endDate = moment(startDate).endOf('month');
 					}
