@@ -465,3 +465,12 @@ select-two {
 [v-visible\.once] {
 	visibility: hidden;
 }
+
+.tooltip {
+    transition: opacity 0.15s;
+}
+
+.tooltip[aria-hidden="false"] {
+    visibility: visible;
+    opacity: 1;
+}

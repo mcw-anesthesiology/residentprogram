@@ -41,6 +41,9 @@ export default function createFacultyMeritReports(el, propsData) {
 
 				meritReports: null,
 
+				saving: false,
+				savingSuccessful: false,
+
 				alerts: []
 			};
 		},
@@ -170,9 +173,11 @@ export default function createFacultyMeritReports(el, propsData) {
 			handleClose() {
 				this.meritCompensationReport = null;
 			},
-			handleSubmit(meritReport) {
+			handleSubmit(meritReport, closeAfterward = true) {
 				if (this.meritReportReadonly)
 					return;
+
+				this.saving = true;
 
 				const url = meritReport.id
 					? `/merits/${meritReport.id}`
@@ -193,9 +198,14 @@ export default function createFacultyMeritReports(el, propsData) {
 					credentials: 'same-origin',
 					body: JSON.stringify(meritReport)
 				}).then(okOrThrow).then(() => {
-					this.meritCompensationReport = null;
+					if (closeAfterward)
+						this.meritCompensationReport = null;
+					this.savingSuccessful = true;
+					this.saving = false;
 					this.fetchPastMeritReports();
 				}).catch(err => {
+					this.savingSuccessful = false;
+					this.saving = false;
 					console.error(err);
 					this.alerts.push({
 						type: 'error',

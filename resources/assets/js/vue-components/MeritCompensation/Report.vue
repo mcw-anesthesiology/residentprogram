@@ -30,6 +30,49 @@
 			@save="handleSave"
 			@close="handleClose"
 			@submit="handleSubmit" />
+
+		<div v-if="!show.notes && (notes || userIsAdmin)"
+				class="panel panel-default notes-container">
+			<div class="panel-heading">
+				Notes
+			</div>
+			<div class="panel-body">
+				<textarea class="form-control"
+					:value="notes" disabled>
+				</textarea>
+			</div>
+			<div v-if="userIsAdmin" class="panel-footer text-center">
+				<button type="button" class="btn btn-info"
+						@click="show.notes = true">
+					Edit notes
+				</button>
+			</div>
+		</div>
+		<div v-if="show.notes" class="panel panel-default notes-container">
+			<div class="panel-heading">
+				Notes
+			</div>
+			<div class="panel-body">
+				<textarea class="form-control"
+					v-model="inputNotes">
+				</textarea>
+			</div>
+			<div class="panel-footer text-center">
+				<button type="button" class="btn btn-default"
+						@click="show.notes = false">
+					Cancel
+				</button>
+				<loading-button loading-class="btn-primary"
+						tooltip="Saved!"
+						:loading="saving"
+						:successful="savingSuccessful">
+					<button type="button" class="btn btn-primary"
+							@click="handleSaveNotes">
+						Save notes
+					</button>
+				</loading-button>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -39,10 +82,12 @@ import moment from 'moment';
 import MeritCompensationChecklist from './Checklist/Checklist.vue';
 
 import AcademicYearSelector from 'vue-components/AcademicYearSelector.vue';
+import LoadingButton from 'vue-components/LoadingButton.vue';
 import RichDateRange from 'vue-components/RichDateRange.vue';
 
 import { isoDateString } from 'modules/date-utils.js';
 import { getCheckedItemCount } from 'modules/merit-utils.js';
+import { isAdmin } from 'modules/utils.js';
 
 export default {
 	props: {
@@ -66,6 +111,10 @@ export default {
 			type: String,
 			default: 'pending'
 		},
+		notes: {
+			type: String,
+			required: false
+		},
 		title: {
 			type: String,
 			required: true
@@ -73,6 +122,14 @@ export default {
 		user: {
 			type: Object,
 			required: false
+		},
+		saving: {
+			type: Boolean,
+			defaut: false
+		},
+		savingSuccessful: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data() {
@@ -81,11 +138,20 @@ export default {
 				startDate: this.period_start,
 				endDate: this.period_end
 			},
-			checklist: this.report
+			checklist: this.report,
+			inputNotes: this.notes || '',
+			savingNotes: '',
+
+			show: {
+				notes: false
+			}
 		};
 	},
 
 	computed: {
+		userIsAdmin() {
+			return isAdmin(this.user);
+		},
 		readonly() {
 			return ![
 				'pending',
@@ -100,9 +166,24 @@ export default {
 		}
 	},
 
+	watch: {
+		notes(notes) {
+			this.inputNotes = notes;
+		}
+	},
+
 	methods: {
 		handleChecklistInput(checklist) {
 			this.checklist = Object.assign({}, this.checklist, checklist);
+		},
+		handleSaveNotes() {
+			if (!isAdmin(this.user))
+				return;
+
+			this.$emit('save', {
+				id: this.id,
+				notes: this.inputNotes
+			}, false);
 		},
 		handleSave() {
 			this.$emit('save', {
@@ -131,6 +212,7 @@ export default {
 		MeritCompensationChecklist,
 
 		AcademicYearSelector,
+		LoadingButton,
 		RichDateRange
 	}
 };
@@ -143,5 +225,7 @@ export default {
 		display: block;
 	}
 
-
+	.notes-container {
+		margin-top: 2em;
+	}
 </style>

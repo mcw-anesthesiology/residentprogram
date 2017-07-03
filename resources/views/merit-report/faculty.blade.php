@@ -21,6 +21,8 @@
 			v-bind="meritCompensationReport"
 			:title="yearlyFacultyMeritForm.name"
 			:user="user"
+			:saving="saving"
+			:saving-successful="savingSuccessful"
 			@close="handleClose"
 			@save="handleSubmit"
 			@submit="handleSubmit">

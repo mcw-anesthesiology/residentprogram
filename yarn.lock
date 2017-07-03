@@ -4829,6 +4829,10 @@ png-js@>=0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/png-js/-/png-js-0.1.1.tgz#1cc7c212303acabe74263ec3ac78009580242d93"
 
+popper.js@^1.0.2:
+  version "1.10.8"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.10.8.tgz#0fd6343e68aa8c1cc8cfe35e02c673500a1bc609"
+
 postcss-calc@^5.2.0:
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/postcss-calc/-/postcss-calc-5.3.1.tgz#77bae7ca928ad85716e2fda42f261bf7c1d65b5e"
@@ -6187,6 +6191,12 @@ to-fast-properties@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/to-fast-properties/-/to-fast-properties-1.0.3.tgz#b83571fa4d8c25b82e231b06e3a3055de4ca1a47"
 
+tooltip.js@^1.1.2:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/tooltip.js/-/tooltip.js-1.1.4.tgz#17337f22065fc04d4a456429ce122dbf184bd861"
+  dependencies:
+    popper.js "^1.0.2"
+
 tough-cookie@~2.3.0:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/tough-cookie/-/tough-cookie-2.3.2.tgz#f081f76e4c85720e6c37a5faced737150d84072a"
@@ -6368,6 +6378,12 @@ utils-merge@1.0.0:
 uuid@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.1.0.tgz#3dd3d3e790abc24d7b0d3a034ffababe28ebbc04"
+
+v-tooltip@^2.0.0-beta.5:
+  version "2.0.0-beta.5"
+  resolved "https://registry.yarnpkg.com/v-tooltip/-/v-tooltip-2.0.0-beta.5.tgz#0ae08bd16dba3042d4d36173718031d795de244f"
+  dependencies:
+    tooltip.js "^1.1.2"
 
 v8flags@^2.0.2:
   version "2.1.1"
