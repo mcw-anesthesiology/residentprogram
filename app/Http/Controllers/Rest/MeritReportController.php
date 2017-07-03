@@ -25,7 +25,8 @@ class MeritReportController extends RestController
 		'report',
 		'period_start',
 		'period_end',
-		'status'
+		'status',
+		'notes'
 	];
 
 	protected $model = \App\MeritReport::class;
@@ -104,6 +105,12 @@ class MeritReportController extends RestController
 			'old_status' => $report->status,
 			'old_report' => $report->report,
 		];
+
+		$user = Auth::user();
+		if ($user->isType('admin')) {
+			$report->notes = $request->input('notes');
+			$report->save();
+		}
 
 		$report->update($request->all());
 		$report->fresh();

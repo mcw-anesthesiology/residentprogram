@@ -341,3 +341,7 @@ export function errorToAlert(err) {
 		html: `<strong>Error:</strong> ${err.message}`
 	};
 }
+
+export function isAdmin(user) {
+	return (user != null && 'type' in user && user.type === 'admin');
+}

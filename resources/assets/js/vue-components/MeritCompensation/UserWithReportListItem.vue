@@ -24,6 +24,8 @@
 					<merit-report v-bind="viewedReport"
 						:title="viewedReport.form.name"
 						:user="user"
+						:saving="saving"
+						:saving-successful="savingSuccessful"
 						@close="handleReportClose"
 						@save="handleReportSave"
 						@submit="handleReportSubmit" />
@@ -64,7 +66,9 @@ export default {
 	},
 	data() {
 		return {
-			viewedReport: null
+			viewedReport: null,
+			saving: false,
+			savingSuccessful: false
 		};
 	},
 
@@ -82,6 +86,13 @@ export default {
 		}
 	},
 
+	watch: {
+		merit_reports(meritReports) {
+			this.viewedReport = meritReports.find(meritReport =>
+				meritReport.id === this.viewedReport.id);
+		}
+	},
+
 	methods: {
 		handleReportClick(reportId) {
 			this.viewedReport = this.merit_reports.find(meritReport =>
@@ -90,19 +101,22 @@ export default {
 		handleReportClose() {
 			this.viewedReport = null;
 		},
-		handleReportSave(changes) {
+		handleReportSave(changes, closeAfterward = true) {
 			this.updateReport(changes).then(() => {
-				this.viewedReport = null;
+				if (closeAfterward)
+					this.viewedReport = null;
 			});
 		},
-		handleReportSubmit(changes) {
+		handleReportSubmit(changes, closeAfterward = true) {
 			this.updateReport(Object.assign(changes, {
 				status: 'complete'
 			})).then(() => {
-				this.viewedReport = null;
+				if (closeAfterward)
+					this.viewedReport = null;
 			});
 		},
 		updateReport(changes) {
+			this.saving = true;
 			return fetch(`/merits/${changes.id}`, {
 				method: 'POST', // PATCH
 				headers: getFetchHeaders(),
@@ -111,10 +125,14 @@ export default {
 					_method: 'PATCH'
 				}))
 			}).then(okOrThrow).then(() => {
+				this.savingSuccessful = true;
+				this.saving = false;
 				this.$emit('change');
 			}).catch(err => {
+				this.savingSuccessful = false;
+				this.saving = false;
 				console.error(err);
-				this.$emit('alert', {
+				this.alerts.push({
 					type: 'error',
 					html: '<strong>Error:</strong> There was a problem updating the merit report'
 				});
