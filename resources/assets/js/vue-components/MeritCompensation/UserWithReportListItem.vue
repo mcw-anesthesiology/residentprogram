@@ -88,8 +88,9 @@ export default {
 
 	watch: {
 		merit_reports(meritReports) {
-			this.viewedReport = meritReports.find(meritReport =>
-				meritReport.id === this.viewedReport.id);
+			if (this.viewedReport)
+				this.viewedReport = meritReports.find(meritReport =>
+					meritReport.id === this.viewedReport.id);
 		}
 	},
 
