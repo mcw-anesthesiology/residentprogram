@@ -1,3 +1,5 @@
+import { isoDateString, renderDateRange } from './date-utils.js';
+
 export function getCheckedItemCount(report) {
 	if ('type' in report && report.type === 'item')
 		return report.checked ? 1 : 0;
@@ -161,4 +163,81 @@ export function listItemIsValid(listItem) {
 	}
 
 	return true;
+}
+
+export function exportMeritReportPdf(meritReport) {
+	Promise.all([
+		import('pdfmake/build/pdfmake.js'),
+		import('../../vfs_fonts.json')
+	]).then(([pdfmake, vfs]) => {
+		pdfmake.vfs = vfs;
+
+		const filename = `Merit report -- ${meritReport.user.full_name} -- ${isoDateString(meritReport.period_start)} - ${isoDateString(meritReport.period_end)}`;
+
+		let content = [
+			{
+				text: 'Merit report',
+				style: 'h1'
+			},
+			{
+				text: renderDateRange(meritReport.period_start, meritReport.period_end, true),
+				style: 'h2'
+			}
+		];
+
+		let docDefinition = {
+			pageSize: 'LETTER',
+			content,
+			styles: {
+				h1: {
+					bold: true,
+					fontSize: 24,
+					margin: [0, 20, 0, 10]
+				},
+				h2: {
+					bold: true,
+					fontSize: 18,
+					margin: [0, 10, 0, 5]
+				},
+				// Not sure how how this will work
+				// They should get smaller as they get deeper
+				sectionHeading: {
+					fontSize: 16,
+					margin: [0, 6, 0, 3]
+				},
+				tableHeader: {
+					bold: true,
+					fontSize: 14
+				}
+			}
+		};
+
+		pdfmake.createPdf(docDefinition).download(filename);
+	}).catch(err => {
+		console.error(err);
+	});
+
+}
+
+export function renderMeritSectionPdfContent(section) {
+	let content = [];
+
+	if (content.length < 1) {
+		return null;
+	}
+
+	if (section.title) {
+		content.splice(0, 0, {
+			text: section.title,
+			style: 'sectionHeading'
+		});
+	}
+
+	return content;
+}
+
+export function renderMeritItemPdfContent(item) {
+	if (!item.checked) {
+		return null;
+	}
 }

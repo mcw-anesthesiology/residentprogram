@@ -38,7 +38,7 @@
 			</div>
 			<div class="panel-body">
 				<textarea class="form-control"
-					:value="notes" disabled>
+					:value="notes" readonly>
 				</textarea>
 			</div>
 			<div v-if="userIsAdmin" class="panel-footer text-center">
