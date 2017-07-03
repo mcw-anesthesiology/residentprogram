@@ -11,9 +11,10 @@
 		</div>
 		<div class="item-contents">
 			<div :class="{'has-warning': !text}">
-				<input type="text" class="form-control"
+				<textarea class="form-control"
 					:value="text" :readonly="readonly"
-					@input="$emit('input', {text: $event.target.value})" />
+					@input="$emit('input', {text: $event.target.value})">
+				</textarea>
 
 				<span v-if="!text" class="help-block">
 					Please complete or remove this list item

@@ -3,9 +3,10 @@
 		<div class="form-group" :class="{'has-warning': !work}">
 			<label class="containing-label">
 				{{ workLabel }}
-				<input type="text" class="form-control"
+				<textarea class="form-control"
 					:value="work" :readonly="readonly"
-					@input="$emit('input', {work: $event.target.value})" />
+					@input="$emit('input', {work: $event.target.value})">
+				</textarea>
 			</label>
 			<span v-if="!work" class="help-block">
 				Please enter the name of what's being reviewed or remove this list item

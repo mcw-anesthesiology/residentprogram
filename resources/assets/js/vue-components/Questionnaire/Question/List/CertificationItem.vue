@@ -14,9 +14,10 @@
 		<div class="form-group" :class="{'has-warning': !specialty}">
 			<label class="containing-label">
 				Specialty
-				<input type="text" class="form-control"
+				<textarea class="form-control"
 					:value="specialty" :readonly="readonly"
-					@input="$emit('input', {specialty: $event.target.value})" />
+					@input="$emit('input', {specialty: $event.target.value})">
+				</textarea>
 			</label>
 			<span v-if="!specialty" class="help-block">
 				Please enter the certification specialty or remove this list item

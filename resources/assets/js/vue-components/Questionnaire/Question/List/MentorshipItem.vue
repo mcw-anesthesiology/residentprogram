@@ -15,9 +15,10 @@
 				class="form-group" :class="{'has-warning': !subject}">
 			<label class="containing-label">
 				{{ subjectLabel }}
-				<input type="text" class="form-control"
+				<textarea class="form-control"
 					:value="subject" :readonly="readonly"
-					@input="$emit('input', {subject: $event.target.value})" />
+					@input="$emit('input', {subject: $event.target.value})">
+				</textarea>
 			</label>
 			<span v-if="!subject" class="help-block">
 				Please enter the mentorship subject or remove this list item

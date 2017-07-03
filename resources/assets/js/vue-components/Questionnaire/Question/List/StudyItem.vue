@@ -3,9 +3,10 @@
 		<div class="form-group" :class="{'has-warning': !title}">
 			<label class="containing-label">
 				Study title
-				<input type="text" class="form-control"
+				<textarea class="form-control"
 					:value="title" :readonly="readonly"
-					@input="$emit('input', {title: $event.target.value})" />
+					@input="$emit('input', {title: $event.target.value})">
+				</textarea>
 			</label>
 
 			<span v-if="!title" class="help-block">
@@ -15,9 +16,10 @@
 		<div class="form-group" :class="{'has-warning': !role}">
 			<label class="containing-label">
 				Your role in study
-				<input type="text" class="form-control"
+				<textarea class="form-control"
 					:value="role" :readonly="readonly"
-					@input="$emit('input', {role: $event.target.value})" />
+					@input="$emit('input', {role: $event.target.value})">
+				</textarea>
 			</label>
 
 			<span v-if="!role" class="help-block">
