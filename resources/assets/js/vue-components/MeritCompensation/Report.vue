@@ -18,7 +18,7 @@
 			<div class="form-group">
 				<label class="containing-label">
 					Report period
-					<academic-year-selector v-model="dates" />
+					<academic-year-selector v-model="dates" :min-date="lastMonth" />
 				</label>
 			</div>
 		</div>
@@ -34,11 +34,14 @@
 </template>
 
 <script>
+import moment from 'moment';
+
 import MeritCompensationChecklist from './Checklist/Checklist.vue';
 
 import AcademicYearSelector from 'vue-components/AcademicYearSelector.vue';
 import RichDateRange from 'vue-components/RichDateRange.vue';
 
+import { isoDateString } from 'modules/date-utils.js';
 import { getCheckedItemCount } from 'modules/merit-utils.js';
 
 export default {
@@ -91,6 +94,9 @@ export default {
 		},
 		checkedItems() {
 			return getCheckedItemCount(this.report);
+		},
+		lastMonth() {
+			return isoDateString(moment().subtract(1, 'month'));
 		}
 	},
 
