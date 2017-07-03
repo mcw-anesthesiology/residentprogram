@@ -38,21 +38,6 @@
 	<form id="form" role="form" action="#" method="POST" class="form-horizontal"
 			@submit="checkSubmit">
 		<input type="hidden" name="_token" value="{{ csrf_token() }}" />
-	@if(!empty($blocks))
-		<div class="form-group">
-			<div class="col-md-offset-2 col-md-8">
-				<label for="block">Filter by block</label>
-				<select class="form-control" id="block">
-					<option value="0" selected>Select from all {{ $user->isType($evaluatorTypes) ? $subjectTypeTextPlural : $evaluatorTypeText }}</option>
-		@foreach($blocks as $block)
-			@if($block->assignments->contains("user_id", $user->id))
-					<option value="{{ $block->id }}">{{ $block->year }} {{ $block->block_name }}</option>
-			@endif
-		@endforeach
-				</select>
-			</div>
-		</div>
-	@endif
 
 	@if(!empty($subjects))
 		<div class="form-group">
@@ -270,21 +255,6 @@
 		</div>
 	</form>
 
-	@if($user->isType(["resident", "faculty"]))
-</div>
-<div class="container body-block">
-	<h3 class="sub-header">Block information</h3>
-	<p>
-		Selecting a block is used to filter the lists to others who are scheduled
-		in the same locations as you. This filter is not perfect.
-
-		If the doctor you are looking for is missing after selecting a block,
-		or an entire block is missing for you from the list, please select
-		"select from all" for the block.
-
-		You will then be able to select from the entire lists.
-	</p>
-	@endif
 	@if($user->isType("resident") && $requestType == "faculty")
 </div>
 <div class="container body-block">
