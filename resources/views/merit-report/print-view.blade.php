@@ -26,10 +26,8 @@
 			</div>
 		</div>
 
-		<checklist-section v-for="page of meritReport.report.pages"
-			v-bind="page" :page="true" :readonly="true"
-			:user="user">
-		</checklist-section>
+		<print-view-checklist v-bind="meritReport">
+		</print-view-checklist>
 
 		<div v-if="meritReport.notes" v-cloak
 				class="panel panel-default notes-container">

@@ -165,79 +165,228 @@ export function listItemIsValid(listItem) {
 	return true;
 }
 
-export function exportMeritReportPdf(meritReport) {
-	Promise.all([
-		import('pdfmake/build/pdfmake.js'),
-		import('../../vfs_fonts.json')
-	]).then(([pdfmake, vfs]) => {
-		pdfmake.vfs = vfs;
-
-		const filename = `Merit report -- ${meritReport.user.full_name} -- ${isoDateString(meritReport.period_start)} - ${isoDateString(meritReport.period_end)}`;
-
-		let content = [
-			{
-				text: 'Merit report',
-				style: 'h1'
-			},
-			{
-				text: renderDateRange(meritReport.period_start, meritReport.period_end, true),
-				style: 'h2'
-			}
-		];
-
-		let docDefinition = {
-			pageSize: 'LETTER',
-			content,
-			styles: {
-				h1: {
-					bold: true,
-					fontSize: 24,
-					margin: [0, 20, 0, 10]
-				},
-				h2: {
-					bold: true,
-					fontSize: 18,
-					margin: [0, 10, 0, 5]
-				},
-				// Not sure how how this will work
-				// They should get smaller as they get deeper
-				sectionHeading: {
-					fontSize: 16,
-					margin: [0, 6, 0, 3]
-				},
-				tableHeader: {
-					bold: true,
-					fontSize: 14
-				}
-			}
-		};
-
-		pdfmake.createPdf(docDefinition).download(filename);
-	}).catch(err => {
-		console.error(err);
-	});
-
-}
-
-export function renderMeritSectionPdfContent(section) {
-	let content = [];
-
-	if (content.length < 1) {
-		return null;
-	}
-
-	if (section.title) {
-		content.splice(0, 0, {
-			text: section.title,
-			style: 'sectionHeading'
-		});
-	}
-
-	return content;
-}
-
-export function renderMeritItemPdfContent(item) {
-	if (!item.checked) {
-		return null;
-	}
-}
+// export function exportMeritReportPdf(meritReport) {
+// 	Promise.all([
+// 		import('pdfmake/build/pdfmake.js'),
+// 		import('../../vfs_fonts.json')
+// 	]).then(([pdfmake, vfs]) => {
+// 		pdfmake.vfs = vfs;
+//
+// 		const filename = `Merit report -- ${meritReport.user.full_name} -- ${isoDateString(meritReport.period_start)} - ${isoDateString(meritReport.period_end)}`;
+//
+// 		let content = [
+// 			{
+// 				text: 'Merit report',
+// 				style: 'h1'
+// 			},
+// 			{
+// 				text: renderDateRange(meritReport.period_start, meritReport.period_end, true),
+// 				style: 'h2'
+// 			}
+// 		];
+//
+// 		let docDefinition = {
+// 			pageSize: 'LETTER',
+// 			content,
+// 			styles: {
+// 				h1: {
+// 					bold: true,
+// 					fontSize: 24,
+// 					margin: [0, 20, 0, 10]
+// 				},
+// 				h2: {
+// 					bold: true,
+// 					fontSize: 18,
+// 					margin: [0, 10, 0, 5]
+// 				},
+// 				// Not sure how how this will work
+// 				// They should get smaller as they get deeper
+// 				sectionHeading: {
+// 					fontSize: 16,
+// 					margin: [0, 6, 0, 3]
+// 				},
+// 				itemText: {
+// 					fontSize: 14,
+// 					margin: [0, 4, 0, 2]
+// 				},
+// 				tableHeader: {
+// 					bold: true,
+// 					fontSize: 14
+// 				}
+// 			}
+// 		};
+//
+// 		pdfmake.createPdf(docDefinition).download(filename);
+// 	}).catch(err => {
+// 		console.error(err);
+// 	});
+//
+// }
+//
+// export function renderMeritSectionPdfContent(section) {
+// 	let content = [];
+//
+// 	for (let item of section.items) {
+// 		switch (item.type) {
+// 			case 'section':
+// 				content.push(...renderMeritSectionPdfContent(item));
+// 				break;
+// 			case 'item':
+// 				content.push(...renderMeritItemPdfContent(item));
+// 				break;
+// 			default:
+// 				break;
+// 		}
+// 	}
+//
+// 	if (content.length > 0 && section.title) {
+// 		content.unshift({
+// 			text: section.title,
+// 			style: 'sectionHeading'
+// 		});
+// 	}
+//
+// 	return content;
+// }
+//
+// export function renderMeritItemPdfContent(item) {
+// 	let content = [];
+//
+// 	if (item.checked) {
+// 		content.push({
+// 			text: item.text,
+// 			style: 'itemText'
+// 		});
+//
+// 		if (item.questions && item.questions.length > 0) {
+// 			content.push(...item.questions.map(renderMeritQuestionPdfContent));
+// 		}
+// 	}
+//
+// 	return content;
+// }
+//
+// export function renderMeritQuestionPdfContent(question) {
+// 	let body = [];
+//
+// 	switch (question.type) {
+// 		case 'text':
+// 			return renderMeritTextQuestionPdfContent(question);
+// 		case 'number':
+// 			return renderMeritNumberQuestionPdfContent(question);
+// 		case 'checkbox':
+// 			return renderMeritCheckboxQuestionPdfContent(question);
+// 		case 'radio':
+// 			return renderMeritRadioQuestionPdfContent(question);
+// 		case 'list':
+// 			return renderMeritListQuestionPdfContent(question);
+// 	}
+//
+// 	return body.length > 0
+// 		? {
+// 			style: 'questionTable',
+// 			table: {
+// 				body
+// 			}
+// 		}
+// 		: [];
+// }
+//
+// export function renderMeritTextQuestionPdfContent(question) {
+//
+// }
+//
+// export function renderMeritNumberQuestionPdfContent(question) {
+//
+// }
+//
+// export function renderMeritCheckboxQuestionPdfContent(question) {
+//
+// }
+//
+// export function renderMeritRadioQuestionPdfContent(question) {
+//
+// }
+//
+// export function renderMeritListQuestionPdfContent(question) {
+// 	let body = [];
+//
+// 	if (question.items && question.items.length > 0) {
+// 		body.push(...question.items.map(item => {
+// 			switch (item.type) {
+// 				case 'text':
+// 					return renderMeritTextListQuestionPdfContent(item);
+// 				case 'publication':
+// 					return renderMeritPublicationListQuestionPdfContent(item);
+// 				case 'committee':
+// 					return renderMeritCommitteeListQuestionPdfContent(item);
+// 				case 'study':
+// 					return renderMeritStudyListQuestionPdfContent(item);
+// 				case 'grant':
+// 				case 'grantOther':
+// 					return renderMeritGrantListQuestionPdfContent(item);
+// 				case 'certification':
+// 					return renderMeritCertificationListQuestionPdfContent(item);
+// 				case 'editorialBoard':
+// 					return renderMeritEditorialBoardListQuestionPdfContent(item);
+// 				case 'review':
+// 					return renderMeritReviewListQuestionPdfContent(item);
+// 				case 'lecture':
+// 				case 'audienceLecture':
+// 					return renderMeritLectureListQuestionPdfContent(item);
+// 				case 'mentorship':
+// 				case 'subjectMentorship':
+// 					return renderMeritMentorshipListQuestionPdfContent(item);
+// 			}
+// 		}));
+// 	}
+//
+// 	return body.length > 0
+// 		? {
+// 			table: {
+// 				body
+// 			},
+// 			style: 'listItemTable'
+// 		}
+// 		: [];
+// }
+//
+// export function renderMeritTextListQuestionPdfContent(item) {
+//
+// }
+//
+// export function renderMeritPublicationListQuestionPdfContent(item) {
+//
+// }
+//
+// export function renderMeritCommitteeListQuestionPdfContent(item) {
+//
+// }
+//
+// export function renderMeritStudyListQuestionPdfContent(item) {
+//
+// }
+//
+// export function renderMeritGrantListQuestionPdfContent(item) {
+//
+// }
+//
+// export function renderMeritCertificationListQuestionPdfContent(item) {
+//
+// }
+//
+// export function renderMeritEditorialBoardListQuestionPdfContent(item) {
+//
+// }
+//
+// export function renderMeritReviewListQuestionPdfContent(item) {
+//
+// }
+//
+// export function renderMeritLectureListQuestionPdfContent(item) {
+//
+// }
+//
+// export function renderMeritMentorshipListQuestionPdfContent(item) {
+//
+// }

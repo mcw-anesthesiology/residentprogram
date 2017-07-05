@@ -19,16 +19,14 @@ export default {
 			default: false
 		}
 	},
-	
+
 	render(h) {
-		let type;
-		if (this.question.type === 'textarea')
-			type = 'text';
-		else
-			type = this.question.type;
-		
+		let type = (this.question.type === 'textarea')
+			? 'text'
+			: this.question.type;
+
 		let questionComponent = `${type}-question`;
-		
+
 		return h(questionComponent, {
 			props: {
 				readonly: this.readonly,
@@ -41,7 +39,7 @@ export default {
 			}
 		});
 	},
-	
+
 	components: {
 		TextQuestion,
 		NumberQuestion,
