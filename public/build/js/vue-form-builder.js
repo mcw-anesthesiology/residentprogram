@@ -5714,7 +5714,13 @@ if (false) {
 /* 462 */,
 /* 463 */,
 /* 464 */,
-/* 465 */
+/* 465 */,
+/* 466 */,
+/* 467 */,
+/* 468 */,
+/* 469 */,
+/* 470 */,
+/* 471 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5782,6 +5788,6 @@ function createFormBuilder(el, propsData) {
 }
 
 /***/ })
-],[465]);
+],[471]);
 });
 //# sourceMappingURL=vue-form-builder.js.map

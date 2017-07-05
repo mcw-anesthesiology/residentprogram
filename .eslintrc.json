@@ -2,14 +2,22 @@
 	"parser": "babel-eslint",
 	"parserOptions": {
 		"ecmaVersion": 6,
-		"sourceType": "module"
+		"sourceType": "module",
+		"ecmaFeatures": {
+			"modules": true,
+			"jsx": true
+		}
 	},
 	"env": {
 		"browser": true,
 		"es6": true,
 		"jquery": true
 	},
-	"plugins": ["vue", "compat", "import"],
+	"plugins": [
+		"vue",
+		"compat",
+		"import"
+	],
 	"extends": [
 		"eslint:recommended",
 		"plugin:import/errors"
@@ -23,7 +31,8 @@
 		"comma-style": "warn",
 		"comma-spacing": "warn",
 		"key-spacing": "warn",
-		"compat/compat": 2
+		"compat/compat": 2,
+		"vue/jsx-uses-vars": 2
 	},
 	"settings": {
 		"polyfills": [

@@ -1,6 +1,6 @@
 import Vue from 'vue';
 
-import ChecklistSection from 'vue-components/MeritCompensation/Checklist/Section.vue';
+import PrintViewChecklist from 'vue-components/MeritCompensation/Checklist/PrintView/Checklist.vue';
 
 import RichDateRange from 'vue-components/RichDateRange.vue';
 
@@ -34,7 +34,7 @@ export default function createMeritReportPrintView(el, propsData) {
 		},
 
 		components: {
-			ChecklistSection,
+			PrintViewChecklist,
 			RichDateRange
 		}
 	});
