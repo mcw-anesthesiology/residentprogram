@@ -1,5 +1,6 @@
 <script>
 import ValueQuestion from './ValueQuestion.vue';
+import RadioCheckboxQuestion from './RadioCheckboxQuestion.vue';
 import ListQuestion from './List/List.vue';
 
 export default {
@@ -14,17 +15,20 @@ export default {
 	},
 
 	render(h) {
-		let type = (this.question.type === 'list')
-			? 'list'
-			: 'value';
+		let type = 'value';
+			if (this.question.type === 'list')
+				type = 'list';
+			else if (['radio', 'checkbox'].includes(this.question.type))
+				type = 'radio-checkbox';
 
 		return h(`${type}-question`, {
-			...this.question
+			props: this.question
 		});
 	},
 
 	components: {
 		ValueQuestion,
+		RadioCheckboxQuestion,
 		ListQuestion
 	}
 };

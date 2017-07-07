@@ -1,7 +1,7 @@
 <template>
 	<tr>
 		<th>{{ text }}</th>
-		<td v-html="htmlValue"></td>
+		<td>{{ value }}</td>
 	</tr>
 </template>
 
@@ -16,17 +16,28 @@ export default {
 			type: String,
 			default: ''
 		}
-	},
-
-	computed: {
-		// This is potentially dangerous, inserting user input as html
-		htmlValue() {
-			return Array.isArray(this.value)
-				? `<ul>
-					${this.value.map(item => `<li>${item}</li>`)}
-				</ul>`
-				: this.value;
-		}
 	}
 };
 </script>
+
+<style scoped>
+	th, td {
+		padding: 0.5em;
+	}
+
+	th {
+		padding-left: 1em;
+	}
+
+	@media (min-width: 768px) {
+		th {
+			padding-left: 5em;
+		}
+	}
+
+	@media (min-width: 1200px) {
+		th {
+			padding-left: 30vw;
+		}
+	}
+</style>

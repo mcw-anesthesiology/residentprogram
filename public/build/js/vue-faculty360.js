@@ -3971,7 +3971,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		var _this = this;
 
 		if (this.showMilestonesCompetencies) {
-			__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["l" /* fetchMilestoneGroups */])().then(function (milestoneGroups) {
+			__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["m" /* fetchMilestoneGroups */])().then(function (milestoneGroups) {
 				_this.groupedMilestones = milestoneGroups;
 			}).catch(function (err) {
 				console.error(err);
@@ -4571,7 +4571,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					id: competency.id,
 					text: competency.title
 				};
-			}).sort(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["m" /* sortSelect2Objects */]);
+			}).sort(__WEBPACK_IMPORTED_MODULE_5__modules_utils_js__["n" /* sortSelect2Objects */]);
 		}
 	},
 	methods: {
@@ -6552,7 +6552,7 @@ function createFaculty360Request(el, propsData) {
 			},
 			sortedFaculty: function sortedFaculty() {
 				var faculty = this.faculty.slice();
-				faculty.sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["n" /* sortPropIgnoreCase */])('full_name'));
+				faculty.sort(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["o" /* sortPropIgnoreCase */])('full_name'));
 
 				return faculty;
 			}
@@ -6590,7 +6590,7 @@ function createFaculty360Request(el, propsData) {
 					if (response.hash) window.location = '/faculty360/evaluate/' + response.hash;
 				}).catch(function (err) {
 					console.error(err);
-					_this.alerts.push(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["o" /* errorToAlert */])(err));
+					_this.alerts.push(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__modules_utils_js__["p" /* errorToAlert */])(err));
 				});
 			}
 		},
@@ -6615,7 +6615,7 @@ function createFaculty360Request(el, propsData) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_FormReader_FormReader_vue__ = __webpack_require__(187);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vue_components_FormReader_FormReader_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__vue_components_FormReader_FormReader_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_utils_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_evaluation_utils_js__ = __webpack_require__(466);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_evaluation_utils_js__ = __webpack_require__(467);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_constants_js__ = __webpack_require__(47);
 
 
@@ -6911,7 +6911,8 @@ function createFaculty360ViewForm(el, propsData) {
 /* 463 */,
 /* 464 */,
 /* 465 */,
-/* 466 */
+/* 466 */,
+/* 467 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6964,10 +6965,10 @@ function processQuestionTemplates(evaluation, templates) {
 }
 
 /***/ }),
-/* 467 */,
 /* 468 */,
 /* 469 */,
-/* 470 */
+/* 470 */,
+/* 471 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6989,6 +6990,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ })
-],[470]);
+],[471]);
 });
 //# sourceMappingURL=vue-faculty360.js.map
