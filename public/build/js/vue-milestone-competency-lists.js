@@ -89,13 +89,13 @@ module.exports = Component.exports
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(595)
+  __webpack_require__(598)
 }
 var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(421),
   /* template */
-  __webpack_require__(717),
+  __webpack_require__(724),
   /* styles */
   injectStyle,
   /* scopeId */
@@ -249,7 +249,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 475:
+/***/ 476:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -393,14 +393,14 @@ function renderMilestoneCompetencyLists(milestoneQuestions, competencyQuestions)
 
 /***/ }),
 
-/***/ 595:
+/***/ 598:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 717:
+/***/ 724:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -462,6 +462,6 @@ if (false) {
 
 /***/ })
 
-},[475]);
+},[476]);
 });
 //# sourceMappingURL=vue-milestone-competency-lists.js.map

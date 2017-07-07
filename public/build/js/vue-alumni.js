@@ -1049,7 +1049,7 @@ var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(401),
   /* template */
-  __webpack_require__(727),
+  __webpack_require__(734),
   /* styles */
   null,
   /* scopeId */
@@ -1351,7 +1351,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 467:
+/***/ 468:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1484,7 +1484,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 727:
+/***/ 734:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1526,6 +1526,6 @@ if (false) {
 
 /***/ })
 
-},[467]);
+},[468]);
 });
 //# sourceMappingURL=vue-alumni.js.map

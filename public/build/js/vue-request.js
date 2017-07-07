@@ -1319,7 +1319,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			this.endDate = dates.endDate;
 		},
 
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["u" /* camelCaseToWords */]
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["j" /* camelCaseToWords */]
 	},
 	components: {
 		VueFlatpickr: __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr___default.a
@@ -4716,7 +4716,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 477:
+/***/ 478:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4843,10 +4843,10 @@ function createRequest(el, propsData) {
 				});
 			},
 			evaluatorOptions: function evaluatorOptions() {
-				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["r" /* groupUsers */])(this.evaluators[0]);
+				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["s" /* groupUsers */])(this.evaluators[0]);
 			},
 			subjectOptions: function subjectOptions() {
-				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["r" /* groupUsers */])(this.subjects[0]);
+				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__modules_utils_js__["s" /* groupUsers */])(this.subjects[0]);
 			},
 			subjectForms: function subjectForms() {
 				var forms = this.forms;
@@ -6915,6 +6915,6 @@ module.exports = nativeKeys;
 
 /***/ })
 
-},[477]);
+},[478]);
 });
 //# sourceMappingURL=vue-request.js.map

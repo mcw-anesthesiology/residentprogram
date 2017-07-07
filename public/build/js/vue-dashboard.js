@@ -1319,7 +1319,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			this.endDate = dates.endDate;
 		},
 
-		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["u" /* camelCaseToWords */]
+		camelCaseToWords: __WEBPACK_IMPORTED_MODULE_2__modules_utils_js__["j" /* camelCaseToWords */]
 	},
 	components: {
 		VueFlatpickr: __WEBPACK_IMPORTED_MODULE_0__jacobmischka_vue_flatpickr___default.a
@@ -4479,7 +4479,7 @@ var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(398),
   /* template */
-  __webpack_require__(735),
+  __webpack_require__(741),
   /* styles */
   null,
   /* scopeId */
@@ -6538,7 +6538,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 469:
+/***/ 470:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7598,7 +7598,30 @@ module.exports = equalObjects;
 
 /***/ }),
 
-/***/ 735:
+/***/ 74:
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseGetAllKeys = __webpack_require__(61),
+    getSymbols = __webpack_require__(76),
+    keys = __webpack_require__(114);
+
+/**
+ * Creates an array of own enumerable property names and symbols of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names and symbols.
+ */
+function getAllKeys(object) {
+  return baseGetAllKeys(object, keys, getSymbols);
+}
+
+module.exports = getAllKeys;
+
+
+/***/ }),
+
+/***/ 741:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -7639,29 +7662,6 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-cb631b42", module.exports)
   }
 }
-
-/***/ }),
-
-/***/ 74:
-/***/ (function(module, exports, __webpack_require__) {
-
-var baseGetAllKeys = __webpack_require__(61),
-    getSymbols = __webpack_require__(76),
-    keys = __webpack_require__(114);
-
-/**
- * Creates an array of own enumerable property names and symbols of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names and symbols.
- */
-function getAllKeys(object) {
-  return baseGetAllKeys(object, keys, getSymbols);
-}
-
-module.exports = getAllKeys;
-
 
 /***/ }),
 
@@ -8471,6 +8471,6 @@ module.exports = nativeKeys;
 
 /***/ })
 
-},[469]);
+},[470]);
 });
 //# sourceMappingURL=vue-dashboard.js.map

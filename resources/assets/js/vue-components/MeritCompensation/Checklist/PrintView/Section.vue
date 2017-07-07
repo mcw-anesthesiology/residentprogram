@@ -7,32 +7,34 @@ export default {
 	name: 'print-view-checklist-section',
 
 	render() {
-		const PrintViewChecklistSection = 'print-view-checklist-section';
-
 		let items = this.items.filter(item =>
 				item.type === 'section'
 				|| (item.type === 'item' && item.checked)
 			).map(item => {
 			let component;
 
+			let vnodeData = {props: item};
+
 			switch (item.type) {
 				case 'section':
-					component = <PrintViewChecklistSection {...item} />;
+					component = <print-view-checklist-section {...vnodeData} />;
 					break;
 				case 'item':
-					component = <PrintViewChecklistItem {...item} />;
+					component = <PrintViewChecklistItem {...vnodeData} />;
 					break;
 			}
 
 			return (
 				<tr>
-					{component}
+					<td>
+						{component}
+					</td>
 				</tr>
 			);
 		});
 
 		return (
-			<table>
+			<table class="print-view-checklist-section">
 		{
 			this.title && (
 				<thead>
@@ -52,58 +54,38 @@ export default {
 </script>
 
 <style scoped>
+	.print-view-checklist-section thead th,
+	.print-view-checklist-section tbody td {
+		padding: 0.5em 0 0.5em 1em;
+	}
+</style>
+
+<style>
 	@import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed');
 
-	section {
-		font-size: 0.95em;
-		padding: 0 1.5em;
-		margin: 1.5em 0;
-		border-left: 2px solid rgba(0, 0, 0, 0.15);
+	div > .print-view-checklist-section {
+		margin-top: 1.5em;
 	}
 
-	section.page {
-		margin: 0;
-		border: none;
+	.print-view-checklist-section {
+		border-left: none;
 	}
 
-	section h1 {
-		font-size: 1.75em;
+	.print-view-checklist-section .print-view-checklist-section {
+		border-left: 2px solid #dedede;
+	}
+
+	.print-view-checklist-section > thead > tr > th {
 		font-family: 'Roboto', sans-serif;
-		margin: 0 0 1em;
+		color: rgba(0, 0, 0, 0.65);
+		font-size: 2em;
 	}
 
-	section.page > h1 {
-		font-size: 2.5em;
-		font-family: 'Roboto Condensed', sans-serif;
+	.print-view-checklist-section .print-view-checklist-section > thead > tr > th {
+		font-size: 1.75em;
 	}
 
-	@media (min-width: 768px) {
-		section {
-			padding: 0 2.5em;
-			margin: 2.5em 0;
-		}
-
-		section h1 {
-			font-size: 2em;
-		}
-
-		section.page > h1 {
-			font-size: 3em;
-		}
-	}
-
-	@media (min-width: 1200px) {
-		section {
-			padding: 0 4em;
-			margin: 4em 0;
-		}
-
-		section h1 {
-			font-size: 2.25em;
-		}
-
-		section.page > h1 {
-			font-size: 4em;
-		}
+	.print-view-checklist-section .print-view-checklist-section .print-view-checklist-section > thead > tr > th {
+		font-size: 1.5em;
 	}
 </style>
