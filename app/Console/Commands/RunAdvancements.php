@@ -47,10 +47,10 @@ class RunAdvancements extends Command
 			->where("run_at", "<=", Carbon::now())->get();
 
 		$errors = [];
-		foreach($advancements as $advancement){
+		foreach ($advancements as $advancement) {
 			try {
 				$advancement->run();
-			} catch(\Exception $e){
+			} catch(\Exception $e) {
 				Log::error($e);
 				$errors[] = $advancement->id;
 			}

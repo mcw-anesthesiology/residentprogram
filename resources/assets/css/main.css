@@ -453,6 +453,21 @@ label.normal-text-label {
 	font-weight: normal;
 }
 
+.component-list-item {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+	padding: 5px 0;
+}
+
+.component-list-item:nth-child(even) {
+	background-color: rgba(0, 0, 0, 0.05);
+}
+
+.component-list-item small {
+	font-size: 0.75em;
+	color: rgba(0, 0, 0, 0.55);
+	display: block;
+}
+
 select-two {
     overflow: hidden;
 }

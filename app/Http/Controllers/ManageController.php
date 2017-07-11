@@ -414,4 +414,8 @@ class ManageController extends Controller
     public function faculty360() {
         return view('manage.faculty360');
     }
+
+    public function scheduledRequests() {
+        return view('manage.scheduled-requests');
+    }
 }

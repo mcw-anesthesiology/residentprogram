@@ -78,9 +78,8 @@ class Evaluation extends Model
 	private $showAll = false;
 	private $hashids = false;
 
-	public function request($values) {
+	public static function request($values) {
 		$eval = new Evaluation($values);
-
 
 		$eval->training_level = $eval->subject->training_level;
 		$eval->status = 'pending';

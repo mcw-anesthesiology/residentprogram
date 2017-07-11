@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import VueFlatpickr from '@jacobmischka/vue-flatpickr';
 
 import EvaluationDataTable from 'vue-components/EvaluationDataTable.vue';
 import SelectTwo from 'vue-components/SelectTwo.vue';
@@ -8,12 +9,14 @@ import indefinite from 'indefinite';
 
 import { groupUsers, groupForms } from 'modules/utils.js';
 import {
+	isoDateString,
 	isoDateStringObject,
 	renderDateRange,
-	currentQuarter,
-	lastQuarter,
 	currentYear,
-	lastYear
+	lastYear,
+	academicYearForDate,
+	quartersInAcademicYear,
+	monthsInAcademicYear
 } from 'modules/date-utils.js';
 import {
 	renderEvaluatorEvalUrl,
@@ -34,7 +37,7 @@ export function createRequest(el, propsData){
 			forms: Array
 		},
 		propsData,
-		data(){
+		data() {
 			let requestType = getRequestType();
 			return {
 				requestType,
@@ -46,6 +49,9 @@ export function createRequest(el, propsData){
 				sendHash: requestType === 'staff',
 				forceNotification: false,
 				hashExpiresIn: '30',
+
+				schedule: false,
+				requestDate: isoDateString(new Date()),
 
 				allowMultiple: {
 					subjects: false,
@@ -62,7 +68,20 @@ export function createRequest(el, propsData){
 			};
 		},
 		computed: {
-			required(){
+			flatpickrOptions() {
+				let academicYear = academicYearForDate(new Date());
+
+				return {
+					altInput: true,
+					altInputClass: 'form-control appear-not-readonly',
+					enableTime: true,
+					enableSeconds: true,
+					minuteIncrement: 60,
+					minDate: academicYear.startDate,
+					maxDate: academicYear.endDate
+				};
+			},
+			required() {
 				let required = {
 					subjectId: true,
 					evaluatorId: true,
@@ -88,7 +107,7 @@ export function createRequest(el, propsData){
 
 				return required;
 			},
-			requirementsAreMet(){
+			requirementsAreMet() {
 				return !Object.keys(this.required).some(requirement =>
 					this.required[requirement]
 						&& (
@@ -96,7 +115,7 @@ export function createRequest(el, propsData){
 							|| this[requirement].length === 0
 						));
 			},
-			fieldNouns(){
+			fieldNouns() {
 				return {
 					subjectId: 'subject',
 					evaluatorId: 'evaluator',
@@ -104,17 +123,17 @@ export function createRequest(el, propsData){
 					evaluationDate: 'evaluation date'
 				};
 			},
-			subject(){
+			subject() {
 				let subjectId = Number(this.subjectId);
 				return this.subjects[0].find(subject => subject.id === subjectId);
 			},
-			evaluatorOptions(){
+			evaluatorOptions() {
 				return groupUsers(this.evaluators[0]);
 			},
-			subjectOptions(){
+			subjectOptions() {
 				return groupUsers(this.subjects[0]);
 			},
-			subjectForms(){
+			subjectForms() {
 				let forms = this.forms;
 				if(this.subjectId && this.subject && this.subject.type === 'resident'){
 					forms = this.subject.training_level === 'fellow'
@@ -124,58 +143,74 @@ export function createRequest(el, propsData){
 
 				return forms;
 			},
-			formOptions(){
+			formOptions() {
 				return groupForms(this.subjectForms);
 			},
-			evaluationDate(){
+			evaluationDate() {
 				if(this.evaluationDateJson)
 					return Array.isArray(this.evaluationDateJson)
 						? this.evaluationDateJson.map(JSON.parse)
 						: JSON.parse(this.evaluationDateJson);
 			},
-			evaluationDates(){
+			evaluationDates() {
 				let form = this.forms.find(form => form.id === Number(this.formId));
 
 				if(!form)
 					return;
 
 				let dates = [];
-				if (form.evaluation_period_type === 'quarter') {
-					dates = [
-						lastQuarter(),
-						currentQuarter()
-					];
-				}
-				else if (form.evaluation_period_type === 'year') {
-					dates = [
-						currentYear()
-					];
 
-					if (moment().month() === 6) // July
-						dates.push(lastYear());
-				}
-				else {
-					let startDate = moment().startOf('month');
-					let endDate = moment(endDate).endOf('month');
-					for(let i = 0; i < 3; i++){
-						dates.push({
-							startDate,
-							endDate
-						});
-
-						// Don't go back an academic year
-						if (startDate.month() === 6) // July
+				if (this.user.type === 'admin' && this.schedule) {
+					let requestDate = moment(this.requestDate);
+					switch (form.evaluation_period_type) {
+						case 'year':
+							dates = [
+								currentYear()
+							];
 							break;
-
-						startDate = moment(startDate).subtract(1, 'month');
-						endDate = moment(startDate).endOf('month');
+						case 'quarter':
+							dates = quartersInAcademicYear().filter(quarter =>
+								quarter.startDate <= requestDate
+							);
+							break;
+						case 'month':
+						default:
+							dates = monthsInAcademicYear().filter(month =>
+								month.startDate <= requestDate
+							);
 					}
-					dates.reverse();
+				} else {
+					let today = moment();
+					let threeMonthsAgo = moment().subtract(3, 'months');
+					switch (form.evaluation_period_type) {
+						case 'year':
+							dates = [
+								currentYear()
+							];
+
+							if (today.month() === 6 && form.type === 'faculty') {
+								dates.unshift(lastYear());
+							}
+							break;
+						case 'quarter':
+							dates = quartersInAcademicYear().filter(quarter =>
+								quarter.startDate <= today
+									&& quarter.endDate >= threeMonthsAgo
+							);
+							break;
+						case 'month':
+						default:
+							dates = monthsInAcademicYear().filter(month =>
+								month.startDate <= today
+									&& month.endDate >= threeMonthsAgo
+							);
+							break;
+					}
 				}
 
 				return dates;
 			},
-			evaluationDateOptions(){
+			evaluationDateOptions() {
 				if(this.evaluationDates)
 					return this.evaluationDates.map(date => {
 						return {
@@ -184,7 +219,7 @@ export function createRequest(el, propsData){
 						};
 					});
 			},
-			pendingFacultyEvalsThead(){
+			pendingFacultyEvalsThead() {
 				return [[
 					'#',
 					'Faculty',
@@ -194,7 +229,7 @@ export function createRequest(el, propsData){
 					'',
 				]];
 			},
-			pendingFacultyEvalsConfig(){
+			pendingFacultyEvalsConfig() {
 				if(this.user.type !== 'resident' || this.requestType !== 'faculty')
 					return;
 
@@ -241,7 +276,7 @@ export function createRequest(el, propsData){
 					}
 				};
 			},
-			completeFacultyEvalsThead(){
+			completeFacultyEvalsThead() {
 				return [[
 					'#',
 					'Faculty',
@@ -251,7 +286,7 @@ export function createRequest(el, propsData){
 					'Completed'
 				]];
 			},
-			completeFacultyEvalsConfig(){
+			completeFacultyEvalsConfig() {
 				return {
 					ajax: {
 						url: '/evaluations',
@@ -298,16 +333,16 @@ export function createRequest(el, propsData){
 						this[field] = this[field][0];
 				});
 			},
-			subjectId(){
+			subjectId() {
 				this.checkField('subjectId', 'subject');
 			},
-			evaluatorId(){
+			evaluatorId() {
 				this.checkField('evaluatorId', 'evaluator');
 			},
-			formId(){
+			formId() {
 				this.checkField('formId', 'form');
 			},
-			evaluationDate(){
+			evaluationDate() {
 				this.checkField('evaluationDate', 'evaluation date');
 			},
 			evaluationDateOptions(options){
@@ -330,14 +365,14 @@ export function createRequest(el, propsData){
 						this.evaluationDateJson = null;
 				}
 			},
-			formOptions(){
+			formOptions() {
 				let formId = Number(this.formId);
 				if(formId && !this.subjectForms.find(form => form.id === formId))
 					this.formId = null;
 			}
 		},
 		methods: {
-			clearDay(){
+			clearDay() {
 				this.$refs.evaluationDayFlatpickr.fp.clear();
 			},
 			checkField(field, noun){
@@ -358,13 +393,14 @@ export function createRequest(el, propsData){
 			}
 		},
 		components: {
+			VueFlatpickr,
 			EvaluationDataTable,
 			SelectTwo
 		}
 	});
 }
 
-function getRequestType(){
+function getRequestType() {
 	let paths = window.location.pathname.split('/');
 	paths = paths.filter(path => path.length > 0);
 	let type = paths[paths.length - 1];

@@ -3,9 +3,16 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+use App\Evaluation;
+
+use Log;
 
 class ScheduledRequest extends Model
 {
+	use SoftDeletes;
+
     protected $table = 'scheduled_requests';
 
 	protected $casts = [
@@ -18,9 +25,12 @@ class ScheduledRequest extends Model
 
 	protected $dates = [
 		'scheduled_date',
-		'scheduled_for_date',
+		'request_date',
 		'evaluation_date_start',
-		'evaluation_date_end'
+		'evaluation_date_end',
+		'created_at',
+		'updated_at',
+		'deleted_at'
 	];
 
 	protected $fillable = [
@@ -29,7 +39,7 @@ class ScheduledRequest extends Model
 		'subject_id',
 		'requested_by_id',
 		'scheduled_date',
-		'scheduled_for_date',
+		'request_date',
 		'evaluation_date_start',
 		'evaluation_date_end',
 		'schedule_ip',
@@ -54,11 +64,13 @@ class ScheduledRequest extends Model
 
 	public static function schedule($values) {
 		$scheduledRequest = new ScheduledRequest($values);
+		$scheduledRequest->save();
 
 		return $scheduledRequest;
 	}
 
 	public function makeRequest() {
-		$request = App\Evaluation::request($this->toArray());
+		$request = Evaluation::request($this->toArray());
+		$this->delete();
 	}
 }
