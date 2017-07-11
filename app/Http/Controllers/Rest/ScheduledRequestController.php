@@ -32,7 +32,8 @@ class ScheduledRequestController extends RestController
 		'request_type',
 		'send_hash',
 		'hash_expires_in',
-		'force_notification'
+		'force_notification',
+		'request_note'
 	];
 
 	protected $model = \App\ScheduledRequest::class;

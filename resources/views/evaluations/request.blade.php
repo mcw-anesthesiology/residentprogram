@@ -200,7 +200,17 @@
 			</div>
 		</div>
 
-
+		<div class="form-group" v-visible.once="evaluationDateJson">
+			<div class="col-md-offset-2 col-md-8">
+				<label class="containing-label">
+					Request note (optional)
+					<textarea class="form-control" v-model="requestNote"
+						name="request_note"
+						placeholder="Write a little note that will be displayed with your request">
+					</textarea>
+				</label>
+			</div>
+		</div>
 
 	@if($user->isType("admin"))
 		<div class="form-group">

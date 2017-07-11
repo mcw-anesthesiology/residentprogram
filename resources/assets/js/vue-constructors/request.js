@@ -45,6 +45,7 @@ export function createRequest(el, propsData){
 				evaluatorId: null,
 				formId: null,
 				evaluationDateJson: null,
+				requestNote: null,
 
 				sendHash: requestType === 'staff',
 				forceNotification: false,
