@@ -53,6 +53,7 @@
 			<li><a href="/manage/case-logs">Case logs</a></li>
             <li><a href="/manage/merit">Merit</a></li>
 			<li><a href="/manage/faculty360">Faculty 360</a></li>
+			<li><a href="/manage/scheduled-requests">Scheduled Requests</a></li>
 		  </ul>
 		</li>
 	  @endif
