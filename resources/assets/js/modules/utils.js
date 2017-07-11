@@ -1,3 +1,4 @@
+import moment from 'moment';
 import striptags from 'striptags';
 
 export function appendAlert(alertText, parent = '#alert-container', alertType = 'danger', dismissable = true) {
@@ -299,6 +300,18 @@ export function sortNumbers(a, b) {
 
 export function sortPropNumbers(prop) {
 	return (a, b) => sortNumbers(a[prop], b[prop]);
+}
+
+export function sortDates(a, b) {
+	let emptyVal = sortEmptyLast(a, b);
+	if (emptyVal != null)
+		return emptyVal;
+
+	return moment(a) - moment(b);
+}
+
+export function sortPropDates(prop) {
+	return (a, b) => sortDates(a[prop], b[prop]);
 }
 
 export function sortIgnoreCase(a, b) {

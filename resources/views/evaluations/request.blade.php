@@ -21,6 +21,11 @@
 		.explanation-panel {
 			margin: 30px 0;
 		}
+
+		.flatpickr-minute,
+		.flatpickr-second {
+			pointer-events: none;
+		}
 	</style>
 @stop
 
@@ -222,7 +227,8 @@
 								</label>
 							</div>
 							<div class="col-md-6">
-								<label v-show="sendHash" v-cloak>
+								<label v-show="sendHash" v-cloak
+										class="containing-label">
 									Hash expires in
 									<select class="form-control"
 											id="hash-expires-in"
@@ -233,6 +239,25 @@
 										<option value="90">90 days</option>
 										<option value="never">Never expires</option>
 									</select>
+								</label>
+							</div>
+						</div>
+						<div class="admin-panel-group form-horizontal row">
+							<div class="col-md-6">
+								<label>
+									<input type="checkbox" name="schedule"
+										v-model="schedule" />
+									Schedule request
+								</label>
+							</div>
+							<div class="col-md-6">
+								<label v-show="schedule" v-cloak
+										class="containing-label">
+									Schedule request for
+									<vue-flatpickr class="form-control"
+										name="request_date"
+										:options="flatpickrOptions"
+										v-model="requestDate"></vue-flatpickr>
 								</label>
 							</div>
 						</div>

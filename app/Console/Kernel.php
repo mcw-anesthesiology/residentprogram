@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\User;
 
 use Mail;
+use App\Console\Commands\ProcessScheduledRequests;
 use App\Console\Commands\ChangeFacultyEvalDatesToAcademicYear;
 
 class Kernel extends ConsoleKernel
@@ -23,6 +24,7 @@ class Kernel extends ConsoleKernel
 		\App\Console\Commands\ChangeFacultyEvalDatesToAcademicYear::class,
 		\App\Console\Commands\ExportAlumniToCsv::class,
         \App\Console\Commands\FacultyReminders::class,
+		\App\Console\Commands\ProcessScheduledRequests::class,
 		\App\Console\Commands\ResidentReminders::class,
 		\App\Console\Commands\RunAdvancements::class,
 		\App\Console\Commands\ReleaseFacultyEvals::class
@@ -57,8 +59,8 @@ class Kernel extends ConsoleKernel
 				return (($now->daysInMonth - $now->day) == 7);
 			});
 
-		// Run advancements hourly
 		$schedule->command('advancements:run')->hourly();
+		$schedule->command('process:scheduled-requests')->hourly();
 
 		$schedule->command('release:faculty-evals')->daily();
     }

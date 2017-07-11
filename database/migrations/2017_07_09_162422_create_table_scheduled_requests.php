@@ -29,6 +29,7 @@ class CreateTableScheduledRequests extends Migration
 			$table->integer('hash_expires_in');
 			$table->boolean('force_notification');
             $table->timestamps();
+			$table->softDeletes();
         });
     }
 

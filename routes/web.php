@@ -81,6 +81,7 @@ Route::get('manage/user-features', 'ManageController@userFeatures');
 Route::get('manage/case-logs', 'ManageController@caseLogs');
 Route::get('manage/merit', 'ManageController@merit');
 Route::get('manage/faculty360', 'ManageController@faculty360');
+Route::get('manage/scheduled-requests', 'ManageController@scheduledRequests');
 
 Route::get('reports', 'ReportController@reports');
 

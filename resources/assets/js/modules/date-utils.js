@@ -163,3 +163,52 @@ export function academicYearForDate(date) {
 		endDate
 	};
 }
+
+export function quarterForDate(date) {
+	let startDate = moment(date).startOf('month');
+	while (startDate.month() % 3 !== 0)
+		startDate.subtract(1, 'month');
+
+	let endDate = moment(startDate).add(2, 'months').endOf('month');
+
+	return {
+		startDate,
+		endDate
+	};
+}
+
+export function monthForDate(date) {
+	let startDate = moment(date).startOf('month');
+	let endDate = moment(startDate).endOf('month');
+
+	return {
+		startDate,
+		endDate
+	};
+}
+
+export function quartersInAcademicYear() {
+	let academicYear = academicYearForDate(new Date());
+	let date = moment(academicYear.startDate);
+
+	let quarters = [];
+	while (date <= academicYear.endDate) {
+		quarters.push(quarterForDate(date));
+		date.add(3, 'months');
+	}
+
+	return quarters;
+}
+
+export function monthsInAcademicYear() {
+	let academicYear = academicYearForDate(new Date());
+	let date = moment(academicYear.startDate);
+
+	let months = [];
+	while (date <= academicYear.endDate) {
+		months.push(monthForDate(date));
+		date.add(1, 'month');
+	}
+
+	return months;
+}

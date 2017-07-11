@@ -103,3 +103,7 @@ Route::get('faculty360/evaluations/{hash}/send-new', 'Rest\FacultyPeerEvaluation
 Route::resource('faculty360/evaluations', 'Rest\FacultyPeerEvaluationController', ['only' => [
 	'index', 'store', 'show', 'update', 'destroy'
 ]]);
+
+Route::resource('scheduled-requests', 'Rest\ScheduledRequestController', ['only' => [
+	'index', 'show', 'destroy'
+]]);
