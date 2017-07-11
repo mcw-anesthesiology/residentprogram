@@ -45,7 +45,8 @@ class Evaluation extends Model
 		'evaluation_date_end',
 		'archive_date',
 		'request_ip',
-		'complete_ip'
+		'complete_ip',
+		'request_note'
 	];
 
 	protected $dates = [

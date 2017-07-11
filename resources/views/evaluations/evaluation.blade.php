@@ -25,7 +25,7 @@
 		#evaluation-info-table td, #evaluation-info-table th {
 			word-wrap: break-word;
 		}
-		
+
 		.evaluation-date-container {
 			font-size: 1.5em;
 		}
@@ -37,7 +37,19 @@
 		.subject-image img {
 			width: 300px;
 		}
-		
+
+		.request-note-container {
+			padding: 2em;
+		}
+
+		.evaluation-request-note p {
+			white-space: pre;
+			padding: 2em;
+			border-radius: 4px;
+			background-color: rgba(0, 0, 0, 0.05);
+			border: 1px solid rgba(0, 0, 0, 0.1);
+		}
+
 		hr {
 			page-break-before: always;
 		}
@@ -159,8 +171,23 @@
 			</p>
 		</div>
 	@endif
+
+	@if(!empty($evaluation->request_note))
+		<div class="request-note-container">
+			<p>
+				<i>
+					Note from requestor
+					({{ $evaluation->requestor->first_name }} {{$evaluation->requestor->last_name}}):
+				</i>
+			</p>
+
+			<blockquote class="evaluation-request-note">
+				<p>{{ $evaluation->request_note }}</p>
+			</blockquote>
+		</div>
+	@endif
 	</div>
-	
+
 	<div id="form">
 	@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id)
 			<form id="evaluation" role="form" method="post" action="#">
@@ -171,12 +198,12 @@
 					—
 					{{ $evaluation->evaluation_date_end->toFormattedDateString() }}
 				</div>
-				
-				
+
+
 				{!! App\Helpers\FormReader::read($evaluation->form->xml_path) !!}
-				
+
 				<hr />
-				
+
 	@if($evaluation->status != "complete" && $user->id == $evaluation->evaluator_id)
 				<div class="submit-container text-center">
 					<button type="submit" id="complete-form" name="evaluation_id" value="{{ $evaluation->viewable_id }}" class="btn btn-primary btn-lg">Complete evaluation</button>

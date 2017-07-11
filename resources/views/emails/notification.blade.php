@@ -2,6 +2,18 @@
 	.eval-link-container {
 		padding-left: 2em;
 	}
+
+	.request-note-container {
+		padding: 2em;
+	}
+
+	.evaluation-request-note p {
+		white-space: pre;
+		padding: 2em;
+		border-radius: 4px;
+		background-color: rgba(0, 0, 0, 0.05);
+		border: 1px solid rgba(0, 0, 0, 0.1);
+	}
 </style>
 
 <h1>Hello Dr. {{ $evaluation->evaluator->last_name }},</h1>
@@ -16,6 +28,22 @@
 		— {{ $evaluation->form->title }}
 	</a>
 </p>
+
+@if(!empty($evaluation->request_note))
+<div class="request-note-container">
+	<p>
+		<i>
+			Note from requestor
+			({{ $evaluation->requestor->first_name }} {{$evaluation->requestor->last_name}}):
+		</i>
+	</p>
+
+	<blockquote class="evaluation-request-note">
+		<p>{{ $evaluation->request_note }}</p>
+	</blockquote>
+</div>
+@endif
+
 <p>
 	As always, if you have any questions or comments about the system, you can
 	contact me from the <a href="{{ url("/contact") }}">contact page</a>

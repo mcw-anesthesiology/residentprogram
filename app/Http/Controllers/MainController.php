@@ -433,6 +433,7 @@ class MainController extends Controller
 							'evaluation_date_end' => $evaluationDate['endDate'],
 							'request_ip' => $request->ip(),
 							'request_type' => $requestType,
+                            'request_note' => $request->input('request_note'),
 							'send_hash' => ($user->isType('admin') && $request->has('send_hash')),
 							'hash_expires_in' => $request->input('hash_expires_in', 30),
 							'force_notification' => ($user->isType('admin') && $request->has('force_notification'))

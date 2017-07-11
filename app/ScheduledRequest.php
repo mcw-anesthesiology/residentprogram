@@ -43,7 +43,8 @@ class ScheduledRequest extends Model
 		'evaluation_date_start',
 		'evaluation_date_end',
 		'schedule_ip',
-		'request_type'
+		'request_type',
+		'request_note'
 	];
 
 	public function evaluator() {
