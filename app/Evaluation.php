@@ -78,6 +78,42 @@ class Evaluation extends Model
 	private $showAll = false;
 	private $hashids = false;
 
+	public function request($values) {
+		$eval = new Evaluation($values);
+
+
+		$eval->training_level = $eval->subject->training_level;
+		$eval->status = 'pending';
+
+		// Hide faculty evals from their subjects by default
+		if ($values['request_type'] == 'faculty')
+			$eval->visibility = 'under faculty threshold';
+
+		if ($values['send_hash']) {
+			$eval->completion_hash = str_random(40);
+			$hashExpiresIn = $values['hash_expires_in'];
+			$eval->hash_expires = $hashExpiresIn == 'never' ? '9999-12-31' : Carbon::now()->addDays($hashExpiresIn);
+		}
+
+		$eval->save();
+
+		if ($values['send_hash'])
+			$eval->sendHashLink();
+
+		if (Auth::id() != $values['evaluator_id']) {
+			$evaluatorUser = User::withoutGlobalScopes()->find($values['evaluator_id']);
+			if (
+				!empty($evaluatorUser)
+				&& ($values['force_notification'] || $evaluatorUser->notifications == 'yes')
+				&& filter_var($evaluatorUser->email, FILTER_VALIDATE_EMAIL)
+			) {
+				$eval->sendNotification();
+			}
+		}
+
+		return $eval;
+	}
+
 	public function getIdAttribute($id) {
 		if($this->hashids)
 			return Hashids::encode($id);

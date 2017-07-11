@@ -17,6 +17,7 @@ use Log;
 use Mail;
 use Setting;
 use View;
+use App\ScheduledRequest;
 
 use Carbon\Carbon;
 
@@ -413,60 +414,48 @@ class MainController extends Controller
 			if ($errors)
 				throw new \DomainException($errors);
 
+
+
 			foreach ($evaluators as $evaluator) {
 				if ($requestType == "self")
 					$subjects = [$evaluator];
 
 				foreach ($subjects as $subject) {
                     foreach ($evaluationDates as $evaluationDate) {
-    					$eval = new Evaluation();
-    					$eval->form_id = $request->input("form_id");
-    					$eval->requested_by_id = $user->id;
-    					$eval->evaluation_date_start = $evaluationDate['startDate'];
-						$eval->evaluation_date_end = $evaluationDate['endDate'];
-    					$eval->subject_id = $subject;
-    					$eval->evaluator_id = $evaluator;
-    					$eval->training_level = $eval->subject->training_level;
-    					$eval->status = "pending";
-    					$eval->request_date = Carbon::now();
-    					$eval->request_ip = $request->ip();
 
-    					// Hide faculty evals from their subjects by default
-    					if ($requestType == "faculty")
-    						$eval->visibility = "under faculty threshold";
+						$values = [
+							'form_id' => $request->input('form_id'),
+							'evaluator_id' => $evaluator,
+							'subject_id' => $subject,
+							'requested_by_id' => $user->id,
+							'request_date' => Carbon::now(),
+							'evaluation_date_start' => $evaluationDate['startDate'],
+							'evaluation_date_end' => $evaluationDate['endDate'],
+							'request_ip' => $request->ip(),
+							'request_type' => $requestType,
+							'send_hash' => ($user->isType('admin') && $request->has('send_hash')),
+							'hash_expires_in' => $request->input('hash_expires_in', 30),
+							'force_notification' => ($user->isType('admin') && $request->has('force_notification'))
+						];
 
-                        if ($user->isType("admin") && $request->has("send_hash")) {
-    						$eval->completion_hash = str_random(40);
-    						$hashExpiresIn = $request->input("hash_expires_in", 30);
-    						$eval->hash_expires = $hashExpiresIn == "never" ? "9999-12-31" : Carbon::now()->addDays($hashExpiresIn);
-    					}
+						if ($user->isType('admin') && $request->has('schedule')) {
+							$values['request_date'] = $request->input('request_date');
+							$values['scheduled_date'] = Carbon::now();
 
-    					$eval->save();
-
-    					if ($user->isType("admin") && $request->has("send_hash"))
-    						$eval->sendHashLink();
-
-    					if ($user->id != $evaluator) {
-							$evaluatorUser = User::withoutGlobalScopes()->find($evaluator);
-							if (
-								!empty($evaluatorUser)
-								&& (
-									($user->isType('admin') && $request->has('force_notification'))
-									|| $evaluatorUser->notifications == 'yes'
-								)
-								&& filter_var($evaluatorUser->email, FILTER_VALIDATE_EMAIL)
-							) {
-								$eval->sendNotification();
-							}
+							ScheduledRequest::schedule($values);
+						} else {
+							$eval = Evaluation::request($values);
 						}
                     }
 				}
 			}
 
-	        if (count($subjects) == 1 && count($evaluators) == 1
+	        if ((!$request->has('schedule') || !$user->isType('admin'))
+					&& count($subjects) == 1
+					&& count($evaluators) == 1
 					&& count($evaluationDates) == 1
                     && $user->id == $eval->evaluator_id)
-	            return redirect("evaluation/".$eval->id);
+	            return redirect("evaluation/{$eval->id}");
 
 		} catch(\DomainException $e) {
 			return back()->withInput()->with("error", $e->getMessage());
