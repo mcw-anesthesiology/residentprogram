@@ -390,7 +390,7 @@ class MainController extends Controller
 					|| ($requestType == "staff" && $user->isType("staff"))
 					|| ($requestType == "faculty" && $user->isType("resident"))) {
 				$evaluators = [$user->id];
-			} else {
+            } else {
 				$evaluators = $request->input("evaluator_id");
 				if (!is_array($evaluators))
 					$evaluators = [$evaluators];
@@ -416,11 +416,11 @@ class MainController extends Controller
 
 
 
-			foreach ($evaluators as $evaluator) {
+			foreach ($subjects as $subject) {
 				if ($requestType == "self")
-					$subjects = [$evaluator];
+                    $evaluators = [$subject];
 
-				foreach ($subjects as $subject) {
+				foreach ($evaluators as $evaluator) {
                     foreach ($evaluationDates as $evaluationDate) {
 
 						$values = [
